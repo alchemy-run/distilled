@@ -28,6 +28,7 @@ const TELEMETRY = {
   prefix: "Azurelargeinstance",
   service: "Azurelargeinstance",
   labels: "azure",
+  labelNames: { resourceGroupName: "azure.resource_group.name" },
   propagate: "w3c",
 } as const;
 
@@ -46,71 +47,71 @@ export type ErrorDetailDetailsList = Array<ErrorDetail>;
 /** The resource management error additional info. */
 export interface ErrorAdditionalInfo {
   /** The additional info type. */
-  type?: string;
+  type?: string | undefined;
   /** The additional info. */
-  info?: unknown;
+  info?: unknown | undefined;
 }
 /** The error additional info. */
 export type ErrorDetailAdditionalInfoList = Array<ErrorAdditionalInfo>;
 /** The error detail. */
 export interface ErrorDetail {
   /** The error code. */
-  code?: string;
+  code?: string | undefined;
   /** The error message. */
-  message?: string;
+  message?: string | undefined;
   /** The error target. */
-  target?: string;
+  target?: string | undefined;
   /** The error details. */
-  details?: ErrorDetailDetailsList;
+  details?: ErrorDetailDetailsList | undefined;
   /** The error additional info. */
-  additionalInfo?: ErrorDetailAdditionalInfoList;
+  additionalInfo?: ErrorDetailAdditionalInfoList | undefined;
 }
 /** The current status of an async operation. */
 export interface OperationStatusResult {
   /** Fully qualified ID for the async operation. */
-  id?: string;
+  id?: string | undefined;
   /** Fully qualified ID of the resource against which the original async operation was started. */
-  resourceId?: string;
+  resourceId?: string | undefined;
   /** Name of the async operation. */
-  name?: string;
+  name?: string | undefined;
   /** Operation status. */
   status: string;
   /** Percent of the operation that is complete. */
-  percentComplete?: number;
+  percentComplete?: number | undefined;
   /** The start time of the operation. */
-  startTime?: string;
+  startTime?: string | undefined;
   /** The end time of the operation. */
-  endTime?: string;
+  endTime?: string | undefined;
   /** The operations list. */
-  operations?: OperationStatusResultOperationsList;
+  operations?: OperationStatusResultOperationsList | undefined;
   /** If present, details of the operation error. */
-  error?: ErrorDetail;
+  error?: ErrorDetail | undefined;
 }
 /** The operations list. */
 export type AzureLargeInstanceShutdownResponseOperationsList = Array<OperationStatusResult>;
 export interface AzureLargeInstanceShutdownResponse {
   /** Fully qualified ID for the async operation. */
-  id?: string;
+  id?: string | undefined;
   /** Fully qualified ID of the resource against which the original async operation was started. */
-  resourceId?: string;
+  resourceId?: string | undefined;
   /** Name of the async operation. */
-  name?: string;
+  name?: string | undefined;
   /** Operation status. */
   status: string;
   /** Percent of the operation that is complete. */
-  percentComplete?: number;
+  percentComplete?: number | undefined;
   /** The start time of the operation. */
-  startTime?: string;
+  startTime?: string | undefined;
   /** The end time of the operation. */
-  endTime?: string;
+  endTime?: string | undefined;
   /** The operations list. */
-  operations?: AzureLargeInstanceShutdownResponseOperationsList;
+  operations?: AzureLargeInstanceShutdownResponseOperationsList | undefined;
   /** If present, details of the operation error. */
-  error?: ErrorDetail;
+  error?: ErrorDetail | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface GetAzureLargeInstanceRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -127,17 +128,17 @@ export type SystemDataLastModifiedByType = "User" | "Application" | "ManagedIden
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface SystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: SystemDataCreatedByType;
+  createdByType?: SystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: SystemDataLastModifiedByType;
+  lastModifiedByType?: SystemDataLastModifiedByType | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 /** Resource tags. */
 export type GetAzureLargeInstanceResponseTagsMap = { [key: string]: string | undefined };
@@ -193,52 +194,52 @@ export type AzureLargeInstanceSizeNamesEnum =
 /** Specifies the hardware settings for the Azure Large Instance. */
 export interface HardwareProfile {
   /** Name of the hardware type (vendor and/or their product name) */
-  hardwareType?: AzureLargeInstanceHardwareTypeNamesEnum;
+  hardwareType?: AzureLargeInstanceHardwareTypeNamesEnum | undefined;
   /** Specifies the Azure Large Instance SKU. */
-  azureLargeInstanceSize?: AzureLargeInstanceSizeNamesEnum;
+  azureLargeInstanceSize?: AzureLargeInstanceSizeNamesEnum | undefined;
 }
 /** Specifies the disk information fo the Azure Large Instance */
 export interface Disk {
   /** The disk name. */
-  name?: string;
+  name?: string | undefined;
   /** Specifies the size of an empty data disk in gigabytes. */
-  diskSizeGB?: number;
+  diskSizeGB?: number | undefined;
   /** Specifies the logical unit number of the data disk. This value is used to identify data disks within the VM and therefore must be unique for each data disk attached to a VM. */
-  lun?: number;
+  lun?: number | undefined;
 }
 /** Specifies information about the operating system disk used by Azure Large Instance. */
 export type StorageProfileOsDisksList = Array<Disk>;
 /** Specifies the storage settings for the Azure Large Instance disks. */
 export interface StorageProfile {
   /** IP Address to connect to storage. */
-  nfsIpAddress?: string;
+  nfsIpAddress?: string | undefined;
   /** Specifies information about the operating system disk used by Azure Large Instance. */
-  osDisks?: StorageProfileOsDisksList;
+  osDisks?: StorageProfileOsDisksList | undefined;
 }
 /** Specifies the operating system settings for the Azure Large Instance. */
 export interface OsProfile {
   /** Specifies the host OS name of the Azure Large Instance. */
-  computerName?: string;
+  computerName?: string | undefined;
   /** This property allows you to specify the type of the OS. */
-  osType?: string;
+  osType?: string | undefined;
   /** Specifies version of operating system. */
-  version?: string;
+  version?: string | undefined;
   /** Specifies the SSH public key used to access the operating system. */
-  sshPublicKey?: string;
+  sshPublicKey?: string | undefined;
 }
 /** Specifies the IP address of the network interface. */
 export interface IpAddress {
   /** Specifies the IP address of the network interface. */
-  ipAddress?: string;
+  ipAddress?: string | undefined;
 }
 /** Specifies the network interfaces for the Azure Large Instance. */
 export type NetworkProfileNetworkInterfacesList = Array<IpAddress>;
 /** Specifies the network settings for the Azure Large Instance disks. */
 export interface NetworkProfile {
   /** Specifies the network interfaces for the Azure Large Instance. */
-  networkInterfaces?: NetworkProfileNetworkInterfacesList;
+  networkInterfaces?: NetworkProfileNetworkInterfacesList | undefined;
   /** Specifies the circuit id for connecting to express route. */
-  circuitId?: string;
+  circuitId?: string | undefined;
 }
 /** Power states that an Azure Large Instance can be in */
 export type AzureLargeInstancePowerStateEnum =
@@ -261,39 +262,39 @@ export type AzureLargeInstanceProvisioningStatesEnum =
 /** Describes the properties of an Azure Large Instance. */
 export interface AzureLargeInstanceProperties {
   /** Specifies the hardware settings for the Azure Large Instance. */
-  hardwareProfile?: HardwareProfile;
+  hardwareProfile?: HardwareProfile | undefined;
   /** Specifies the storage settings for the Azure Large Instance disks. */
-  storageProfile?: StorageProfile;
+  storageProfile?: StorageProfile | undefined;
   /** Specifies the operating system settings for the Azure Large Instance. */
-  osProfile?: OsProfile;
+  osProfile?: OsProfile | undefined;
   /** Specifies the network settings for the Azure Large Instance. */
-  networkProfile?: NetworkProfile;
+  networkProfile?: NetworkProfile | undefined;
   /** Specifies the Azure Large Instance unique ID. */
-  azureLargeInstanceId?: string;
+  azureLargeInstanceId?: string | undefined;
   /** Resource power state */
-  powerState?: AzureLargeInstancePowerStateEnum;
+  powerState?: AzureLargeInstancePowerStateEnum | undefined;
   /** Resource proximity placement group */
-  proximityPlacementGroup?: string;
+  proximityPlacementGroup?: string | undefined;
   /** Hardware revision of an Azure Large Instance */
-  hwRevision?: string;
+  hwRevision?: string | undefined;
   /** State of provisioning of the AzureLargeInstance */
-  provisioningState?: AzureLargeInstanceProvisioningStatesEnum;
+  provisioningState?: AzureLargeInstanceProvisioningStatesEnum | undefined;
 }
 export interface GetAzureLargeInstanceResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: GetAzureLargeInstanceResponseTagsMap;
+  tags?: GetAzureLargeInstanceResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: AzureLargeInstanceProperties;
+  properties?: AzureLargeInstanceProperties | undefined;
 }
 export interface GetAzureLargeStorageInstanceRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -318,49 +319,49 @@ export type ProvisioningState =
 /** Describes the billing related details of the AzureLargeStorageInstance. */
 export interface StorageBillingProperties {
   /** the billing mode for the storage instance */
-  billingMode?: string;
+  billingMode?: string | undefined;
   /** the SKU type that is provisioned */
-  sku?: string;
+  sku?: string | undefined;
 }
 /** described the storage properties of the azure large storage instance */
 export interface StorageProperties {
   /** State of provisioning of the AzureLargeStorageInstance */
-  provisioningState?: ProvisioningState;
+  provisioningState?: ProvisioningState | undefined;
   /** the offering type for which the resource is getting provisioned */
-  offeringType?: string;
+  offeringType?: string | undefined;
   /** the storage protocol for which the resource is getting provisioned */
-  storageType?: string;
+  storageType?: string | undefined;
   /** the kind of storage instance */
-  generation?: string;
+  generation?: string | undefined;
   /** the hardware type of the storage instance */
-  hardwareType?: AzureLargeInstanceHardwareTypeNamesEnum;
+  hardwareType?: AzureLargeInstanceHardwareTypeNamesEnum | undefined;
   /** the workload for which the resource is getting provisioned */
-  workloadType?: string;
+  workloadType?: string | undefined;
   /** the billing related information for the resource */
-  storageBillingProperties?: StorageBillingProperties;
+  storageBillingProperties?: StorageBillingProperties | undefined;
 }
 /** Describes the properties of an AzureLargeStorageInstance. */
 export interface AzureLargeStorageInstanceProperties {
   /** Specifies the AzureLargeStorageInstance unique ID. */
-  azureLargeStorageInstanceUniqueIdentifier?: string;
+  azureLargeStorageInstanceUniqueIdentifier?: string | undefined;
   /** Specifies the storage properties for the AzureLargeStorage instance. */
-  storageProperties?: StorageProperties;
+  storageProperties?: StorageProperties | undefined;
 }
 export interface GetAzureLargeStorageInstanceResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: GetAzureLargeStorageInstanceResponseTagsMap;
+  tags?: GetAzureLargeStorageInstanceResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: AzureLargeStorageInstanceProperties;
+  properties?: AzureLargeStorageInstanceProperties | undefined;
 }
 export interface ListAzureLargeInstanceByResourceGroupRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -373,19 +374,19 @@ export type AzureLargeInstanceTagsMap = { [key: string]: string | undefined };
 /** Azure Large Instance info on Azure (ARM properties and AzureLargeInstance properties) */
 export interface AzureLargeInstance {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: AzureLargeInstanceTagsMap;
+  tags?: AzureLargeInstanceTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: AzureLargeInstanceProperties;
+  properties?: AzureLargeInstanceProperties | undefined;
 }
 /** The AzureLargeInstance items on this page */
 export type AzureLargeInstanceListResultValueList = Array<AzureLargeInstance>;
@@ -394,7 +395,7 @@ export interface AzureLargeInstanceListResult {
   /** The AzureLargeInstance items on this page */
   value: AzureLargeInstanceListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListAzureLargeInstanceBySubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -411,19 +412,19 @@ export type AzureLargeStorageInstanceTagsMap = { [key: string]: string | undefin
 /** AzureLargeStorageInstance info on Azure (ARM properties and AzureLargeStorageInstance properties) */
 export interface AzureLargeStorageInstance {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: AzureLargeStorageInstanceTagsMap;
+  tags?: AzureLargeStorageInstanceTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: AzureLargeStorageInstanceProperties;
+  properties?: AzureLargeStorageInstanceProperties | undefined;
 }
 /** The AzureLargeStorageInstance items on this page */
 export type AzureLargeStorageInstanceListResultValueList = Array<AzureLargeStorageInstance>;
@@ -432,7 +433,7 @@ export interface AzureLargeStorageInstanceListResult {
   /** The AzureLargeStorageInstance items on this page */
   value: AzureLargeStorageInstanceListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListAzureLargeStorageInstanceBySubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -442,13 +443,13 @@ export interface ListOperationsRequest {}
 /** Localized display information for this particular operation. */
 export interface OperationDisplay {
   /** The localized friendly form of the resource provider name, e.g. "Microsoft Monitoring Insights" or "Microsoft Compute". */
-  provider?: string;
+  provider?: string | undefined;
   /** The localized friendly name of the resource type related to this operation. E.g. "Virtual Machines" or "Job Schedule Collections". */
-  resource?: string;
+  resource?: string | undefined;
   /** The concise, localized friendly name for the operation; suitable for dropdowns. E.g. "Create or Update Virtual Machine", "Restart Virtual Machine". */
-  operation?: string;
+  operation?: string | undefined;
   /** The short, localized friendly description of the operation; suitable for tool tips and detailed views. */
-  description?: string;
+  description?: string | undefined;
 }
 /** The intended executor of the operation; as in Resource Based Access Control (RBAC) and audit logs UX. Default value is "user,system" */
 export type OperationOrigin = "user" | "system" | "user,system";
@@ -457,23 +458,23 @@ export type OperationActionType = "Internal";
 /** Details of a REST API operation, returned from the Resource Provider Operations API */
 export interface Operation {
   /** The name of the operation, as per Resource-Based Access Control (RBAC). Examples: "Microsoft.Compute/virtualMachines/write", "Microsoft.Compute/virtualMachines/capture/action" */
-  name?: string;
+  name?: string | undefined;
   /** Whether the operation applies to data-plane. This is "true" for data-plane operations and "false" for ARM/control-plane operations. */
-  isDataAction?: boolean;
+  isDataAction?: boolean | undefined;
   /** Localized display information for this particular operation. */
-  display?: OperationDisplay;
+  display?: OperationDisplay | undefined;
   /** The intended executor of the operation; as in Resource Based Access Control (RBAC) and audit logs UX. Default value is "user,system" */
-  origin?: OperationOrigin;
+  origin?: OperationOrigin | undefined;
   /** Enum. Indicates the action type. "Internal" refers to actions that are for internal only APIs. */
-  actionType?: OperationActionType;
+  actionType?: OperationActionType | undefined;
 }
 /** List of operations supported by the resource provider */
 export type ListOperationsResponseValueList = Array<Operation>;
 export interface ListOperationsResponse {
   /** List of operations supported by the resource provider */
-  value?: ListOperationsResponseValueList;
+  value?: ListOperationsResponseValueList | undefined;
   /** URL to get the next set of operation list results (if there are any). */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 /** Enum of two possible values to determine if the ALI instance restart operation should forcefully terminate and halt any existing processes that may be running on the server or not. */
 export type AzureLargeInstanceForcePowerState = "active" | "inactive";
@@ -485,33 +486,33 @@ export interface RestartAzureLargeInstanceRequest {
   /** Name of the AzureLargeInstance. */
   azureLargeInstanceName: string;
   /** Whether to force restart by shutting all processes. */
-  forceState?: AzureLargeInstanceForcePowerState | (string & {});
+  forceState?: AzureLargeInstanceForcePowerState | (string & {}) | undefined;
 }
 /** The operations list. */
 export type RestartAzureLargeInstanceResponseOperationsList = Array<OperationStatusResult>;
 export interface RestartAzureLargeInstanceResponse {
   /** Fully qualified ID for the async operation. */
-  id?: string;
+  id?: string | undefined;
   /** Fully qualified ID of the resource against which the original async operation was started. */
-  resourceId?: string;
+  resourceId?: string | undefined;
   /** Name of the async operation. */
-  name?: string;
+  name?: string | undefined;
   /** Operation status. */
   status: string;
   /** Percent of the operation that is complete. */
-  percentComplete?: number;
+  percentComplete?: number | undefined;
   /** The start time of the operation. */
-  startTime?: string;
+  startTime?: string | undefined;
   /** The end time of the operation. */
-  endTime?: string;
+  endTime?: string | undefined;
   /** The operations list. */
-  operations?: RestartAzureLargeInstanceResponseOperationsList;
+  operations?: RestartAzureLargeInstanceResponseOperationsList | undefined;
   /** If present, details of the operation error. */
-  error?: ErrorDetail;
+  error?: ErrorDetail | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface StartAzureLargeInstanceRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -525,27 +526,27 @@ export interface StartAzureLargeInstanceRequest {
 export type StartAzureLargeInstanceResponseOperationsList = Array<OperationStatusResult>;
 export interface StartAzureLargeInstanceResponse {
   /** Fully qualified ID for the async operation. */
-  id?: string;
+  id?: string | undefined;
   /** Fully qualified ID of the resource against which the original async operation was started. */
-  resourceId?: string;
+  resourceId?: string | undefined;
   /** Name of the async operation. */
-  name?: string;
+  name?: string | undefined;
   /** Operation status. */
   status: string;
   /** Percent of the operation that is complete. */
-  percentComplete?: number;
+  percentComplete?: number | undefined;
   /** The start time of the operation. */
-  startTime?: string;
+  startTime?: string | undefined;
   /** The end time of the operation. */
-  endTime?: string;
+  endTime?: string | undefined;
   /** The operations list. */
-  operations?: StartAzureLargeInstanceResponseOperationsList;
+  operations?: StartAzureLargeInstanceResponseOperationsList | undefined;
   /** If present, details of the operation error. */
-  error?: ErrorDetail;
+  error?: ErrorDetail | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Resource tags. */
 export type UpdateAzureLargeInstanceRequestTagsMap = { [key: string]: string | undefined };
@@ -557,25 +558,25 @@ export interface UpdateAzureLargeInstanceRequest {
   /** Name of the AzureLargeInstance. */
   azureLargeInstanceName: string;
   /** Resource tags. */
-  tags?: UpdateAzureLargeInstanceRequestTagsMap;
+  tags?: UpdateAzureLargeInstanceRequestTagsMap | undefined;
 }
 /** Resource tags. */
 export type UpdateAzureLargeInstanceResponseTagsMap = { [key: string]: string | undefined };
 export interface UpdateAzureLargeInstanceResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: UpdateAzureLargeInstanceResponseTagsMap;
+  tags?: UpdateAzureLargeInstanceResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: AzureLargeInstanceProperties;
+  properties?: AzureLargeInstanceProperties | undefined;
 }
 /** Resource tags. */
 export type UpdateAzureLargeStorageInstanceRequestTagsMap = { [key: string]: string | undefined };
@@ -587,25 +588,25 @@ export interface UpdateAzureLargeStorageInstanceRequest {
   /** Name of the AzureLargeStorageInstance. */
   azureLargeStorageInstanceName: string;
   /** Resource tags. */
-  tags?: UpdateAzureLargeStorageInstanceRequestTagsMap;
+  tags?: UpdateAzureLargeStorageInstanceRequestTagsMap | undefined;
 }
 /** Resource tags. */
 export type UpdateAzureLargeStorageInstanceResponseTagsMap = { [key: string]: string | undefined };
 export interface UpdateAzureLargeStorageInstanceResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: UpdateAzureLargeStorageInstanceResponseTagsMap;
+  tags?: UpdateAzureLargeStorageInstanceResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: AzureLargeStorageInstanceProperties;
+  properties?: AzureLargeStorageInstanceProperties | undefined;
 }
 export type AzureLargeInstanceShutdownError = AzureOpError;
 /** The operation to shutdown an Azure Large Instance (only for compute instances) */

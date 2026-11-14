@@ -151,7 +151,7 @@ export interface CreateStoreResponse {
   /** The name of the store. */
   name: string;
   /** Account Identifier. */
-  accountId?: string | null;
+  accountId?: string | null | undefined;
 }
 export type StoresSecretsCreateRequestBodyItemScopesItem =
   | "workers"
@@ -166,12 +166,12 @@ export type StoresSecretsCreateRequestBodyItemScopesList = Array<
 export interface StoresSecretsCreateRequestBodyItem {
   /** The name of the secret. */
   name: string;
-  /** The list of services that can use this secret. */
-  scopes: StoresSecretsCreateRequestBodyItemScopesList;
   /** The value of the secret. Maximum 64 KiB (65,536 bytes). Note that this is 'write only' - the API never returns this value; it exists only to create or modify secrets. */
   value: string;
   /** Freeform text describing the secret. */
-  comment?: string;
+  comment?: string | undefined;
+  /** The list of services that can use this secret. Omit it on create or duplicate to inherit the store's scopes. An empty list lets no service use the secret. */
+  scopes?: StoresSecretsCreateRequestBodyItemScopesList | undefined;
 }
 export type StoresSecretsCreateRequestBodyList = Array<StoresSecretsCreateRequestBodyItem>;
 export interface CreateStoreSecretRequest {
@@ -202,22 +202,22 @@ export interface StoresSecretsCreateResultItem {
   /** Store Identifier. */
   storeId: string;
   /** Freeform text describing the secret. */
-  comment?: string | null;
-  /** The list of services that can use this secret. */
-  scopes?: StoresSecretsCreateResultItemScopesList | null;
+  comment?: string | null | undefined;
+  /** The list of services that can use this secret, or null when the secret inherits its store's scopes. Set it to null in a patch to inherit again. An empty list lets no service use the secret. */
+  scopes?: StoresSecretsCreateResultItemScopesList | null | undefined;
 }
 export type StoresSecretsCreateResultList = Array<StoresSecretsCreateResultItem>;
 export interface CreateStoreSecretResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: StoresSecretsCreateResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export interface DeleteStoreRequest {
   accountId: string;
   storeId: string;
   /** When true, cascade-deletes all secrets in the store before deleting the store itself. Required when deleting a non-empty store. Without this parameter, attempting to delete a non-empty store returns 409. */
-  force?: boolean;
+  force?: boolean | undefined;
 }
 export type DeleteStoreResponse = unknown;
 export interface DeleteStoreSecretRequest {
@@ -242,10 +242,10 @@ export interface DuplicateStoreSecretRequest {
   secretId: string;
   /** The name of the secret. */
   name: string;
-  /** The list of services that can use this secret. */
-  scopes: StoresSecretsDuplicateRequestScopesList;
   /** Freeform text describing the secret. */
-  comment?: string;
+  comment?: string | undefined;
+  /** The list of services that can use this secret. Omit it on create or duplicate to inherit the store's scopes. An empty list lets no service use the secret. */
+  scopes?: StoresSecretsDuplicateRequestScopesList | undefined;
 }
 export type StoresSecretsDuplicateResponseStatus = "pending" | "active" | "deleted";
 export type StoresSecretsDuplicateResponseScopesItem =
@@ -271,9 +271,9 @@ export interface DuplicateStoreSecretResponse {
   /** Store Identifier. */
   storeId: string;
   /** Freeform text describing the secret. */
-  comment?: string | null;
-  /** The list of services that can use this secret. */
-  scopes?: StoresSecretsDuplicateResponseScopesList | null;
+  comment?: string | null | undefined;
+  /** The list of services that can use this secret, or null when the secret inherits its store's scopes. Set it to null in a patch to inherit again. An empty list lets no service use the secret. */
+  scopes?: StoresSecretsDuplicateResponseScopesList | null | undefined;
 }
 export interface GetQuotaRequest {
   accountId: string;
@@ -303,7 +303,7 @@ export interface GetStoreResponse {
   /** The name of the store. */
   name: string;
   /** Account Identifier. */
-  accountId?: string | null;
+  accountId?: string | null | undefined;
 }
 export interface GetStoreSecretRequest {
   accountId: string;
@@ -333,22 +333,22 @@ export interface GetStoreSecretResponse {
   /** Store Identifier. */
   storeId: string;
   /** Freeform text describing the secret. */
-  comment?: string | null;
-  /** The list of services that can use this secret. */
-  scopes?: StoresSecretsGetResponseScopesList | null;
+  comment?: string | null | undefined;
+  /** The list of services that can use this secret, or null when the secret inherits its store's scopes. Set it to null in a patch to inherit again. An empty list lets no service use the secret. */
+  scopes?: StoresSecretsGetResponseScopesList | null | undefined;
 }
 export type StoresListRequestDirection = "asc" | "desc";
 export type StoresListRequestOrder = "name" | "created" | "modified";
 export interface ListStoresRequest {
   accountId: string;
   /** Direction to sort objects. */
-  direction?: StoresListRequestDirection | (string & {});
+  direction?: StoresListRequestDirection | (string & {}) | undefined;
   /** Order stores by values in the given field. */
-  order?: StoresListRequestOrder | (string & {});
+  order?: StoresListRequestOrder | (string & {}) | undefined;
   /** Page number. */
-  page?: number;
+  page?: number | undefined;
   /** Number of objects to return per page. */
-  perPage?: number;
+  perPage?: number | undefined;
 }
 export interface StoresListResultItem {
   /** Store Identifier. */
@@ -360,14 +360,14 @@ export interface StoresListResultItem {
   /** The name of the store. */
   name: string;
   /** Account Identifier. */
-  accountId?: string | null;
+  accountId?: string | null | undefined;
 }
 export type StoresListResultList = Array<StoresListResultItem>;
 export interface ListStoresResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: StoresListResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export type StoresSecretsListRequestDirection = "asc" | "desc";
 export type StoresSecretsListRequestOrder = "name" | "comment" | "created" | "modified" | "status";
@@ -385,17 +385,17 @@ export interface ListStoreSecretsRequest {
   accountId: string;
   storeId: string;
   /** Direction to sort objects. */
-  direction?: StoresSecretsListRequestDirection | (string & {});
+  direction?: StoresSecretsListRequestDirection | (string & {}) | undefined;
   /** Order secrets by values in the given field. */
-  order?: StoresSecretsListRequestOrder | (string & {});
+  order?: StoresSecretsListRequestOrder | (string & {}) | undefined;
   /** Page number. */
-  page?: number;
+  page?: number | undefined;
   /** Number of objects to return per page. */
-  perPage?: number;
+  perPage?: number | undefined;
   /** Only secrets with the given scopes will be returned. */
-  scopes?: StoresSecretsListRequestScopesList;
+  scopes?: StoresSecretsListRequestScopesList | undefined;
   /** Search secrets using a filter string, filtering across name and comment. */
-  search?: string;
+  search?: string | undefined;
 }
 export type StoresSecretsListResultItemStatus = "pending" | "active" | "deleted";
 export type StoresSecretsListResultItemScopesItem =
@@ -419,16 +419,16 @@ export interface StoresSecretsListResultItem {
   /** Store Identifier. */
   storeId: string;
   /** Freeform text describing the secret. */
-  comment?: string | null;
-  /** The list of services that can use this secret. */
-  scopes?: StoresSecretsListResultItemScopesList | null;
+  comment?: string | null | undefined;
+  /** The list of services that can use this secret, or null when the secret inherits its store's scopes. Set it to null in a patch to inherit again. An empty list lets no service use the secret. */
+  scopes?: StoresSecretsListResultItemScopesList | null | undefined;
 }
 export type StoresSecretsListResultList = Array<StoresSecretsListResultItem>;
 export interface ListStoreSecretsResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: StoresSecretsListResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export type StoresSecretsEditRequestScopesItem =
   | "workers"
@@ -445,11 +445,11 @@ export interface PatchStoreSecretRequest {
   storeId: string;
   secretId: string;
   /** Freeform text describing the secret. */
-  comment?: string;
-  /** The list of services that can use this secret. */
-  scopes?: StoresSecretsEditRequestScopesList;
+  comment?: string | undefined;
+  /** The list of services that can use this secret, or null when the secret inherits its store's scopes. Set it to null in a patch to inherit again. An empty list lets no service use the secret. */
+  scopes?: StoresSecretsEditRequestScopesList | undefined;
   /** The value of the secret. Maximum 64 KiB (65,536 bytes). Note that this is 'write only' - the API never returns this value; it exists only to create or modify secrets. */
-  value?: string;
+  value?: string | undefined;
 }
 export type StoresSecretsEditResponseStatus = "pending" | "active" | "deleted";
 export type StoresSecretsEditResponseScopesItem =
@@ -474,9 +474,9 @@ export interface PatchStoreSecretResponse {
   /** Store Identifier. */
   storeId: string;
   /** Freeform text describing the secret. */
-  comment?: string | null;
-  /** The list of services that can use this secret. */
-  scopes?: StoresSecretsEditResponseScopesList | null;
+  comment?: string | null | undefined;
+  /** The list of services that can use this secret, or null when the secret inherits its store's scopes. Set it to null in a patch to inherit again. An empty list lets no service use the secret. */
+  scopes?: StoresSecretsEditResponseScopesList | null | undefined;
 }
 export type BulkDeleteStoreSecretsError =
   | StoreNotFound
@@ -703,7 +703,7 @@ export const getStoreSecret: API.OperationMethod<
 }));
 
 export type ListStoresError = InvalidAccountId | CloudflareOpError;
-/** Lists all the stores in an account. */
+/** Lists account stores from an eventually consistent projection. Returns retryable HTTP 503 until initial backfill completes; empty accounts are ready immediately. */
 export const listStores: API.PaginatedOperationMethod<
   ListStoresRequest,
   ListStoresResponse,
@@ -854,9 +854,9 @@ function __c4(j: number): any {
       return S.suspend(() =>
         S.Struct({
           name: S.String,
-          scopes: __S(20, __c5, 0),
           value: S.String,
           comment: S.optional(S.String),
+          scopes: S.optional(__S(20, __c5, 0)),
         }),
       ).annotate({ identifier: "StoresSecretsCreateRequestBodyItem" });
     case 1:
@@ -960,8 +960,8 @@ function __c9(j: number): any {
           storeId: S.String.pipe(T.Label("store_id")),
           secretId: S.String.pipe(T.Label("secret_id")),
           name: S.String,
-          scopes: __S(20, __c5, 0),
           comment: S.optional(S.String),
+          scopes: S.optional(__S(20, __c5, 0)),
         })
           .pipe(
             T.Http({

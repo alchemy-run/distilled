@@ -1,0 +1,48 @@
+{
+  "description": "Type the missing environment on DictList and DictGetOrCreate: listing or looking up a dict in an environment deleted meanwhile answers gRPC NOT_FOUND `Environment '<name>' not found`, which is more specific than DictNotFound.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.modal.dict#EnvironmentNotFound",
+      "value": {
+        "type": "structure",
+        "members": {
+          "code": {
+            "target": "smithy.api#Integer"
+          },
+          "message": {
+            "target": "smithy.api#String"
+          }
+        },
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#documentation": "The environment doesn't exist (gRPC NOT_FOUND).",
+          "com.modal.protocols#errorMatchers": [
+            {
+              "code": 5,
+              "message": {
+                "includes": "Environment"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.modal.dict#DictList/errors",
+      "value": [
+        {
+          "target": "com.modal.dict#EnvironmentNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.modal.dict#DictGetOrCreate/errors/-",
+      "value": {
+        "target": "com.modal.dict#EnvironmentNotFound"
+      }
+    }
+  ]
+}

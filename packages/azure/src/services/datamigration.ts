@@ -29,6 +29,7 @@ const TELEMETRY = {
   prefix: "Datamigration",
   service: "Datamigration",
   labels: "azure",
+  labelNames: { resourceGroupName: "azure.resource_group.name" },
   propagate: "w3c",
 } as const;
 
@@ -41,7 +42,7 @@ export interface CancelDatabaseMigrationsSqlDbRequest {
   /** The name of the target database. */
   targetDbName: string;
   /** ID tracking migration operation. */
-  migrationOperationId?: string;
+  migrationOperationId?: string | undefined;
 }
 export interface CancelDatabaseMigrationsSqlDbResponse {}
 export interface CancelDatabaseMigrationsSqlMiRequest {
@@ -53,7 +54,7 @@ export interface CancelDatabaseMigrationsSqlMiRequest {
   /** The name of the target database. */
   targetDbName: string;
   /** ID tracking migration operation. */
-  migrationOperationId?: string;
+  migrationOperationId?: string | undefined;
 }
 export interface CancelDatabaseMigrationsSqlMiResponse {}
 export interface CancelDatabaseMigrationsSqlVmRequest {
@@ -65,7 +66,7 @@ export interface CancelDatabaseMigrationsSqlVmRequest {
   /** The name of the target database. */
   targetDbName: string;
   /** ID tracking migration operation. */
-  migrationOperationId?: string;
+  migrationOperationId?: string | undefined;
 }
 export interface CancelDatabaseMigrationsSqlVmResponse {}
 export interface CancelServiceTaskRequest {
@@ -85,17 +86,17 @@ export type SystemDataLastModifiedByType = "User" | "Application" | "ManagedIden
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface SystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: SystemDataCreatedByType;
+  createdByType?: SystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: SystemDataLastModifiedByType;
+  lastModifiedByType?: SystemDataLastModifiedByType | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 /** Task type. */
 export type ProjectTaskPropertiesTaskType =
@@ -142,22 +143,22 @@ export type ODataErrorDetailsList = Array<ODataError>;
 /** Error information in OData format. */
 export interface ODataError {
   /** The machine-readable description of the error, such as 'InvalidRequest' or 'InternalServerError' */
-  code?: string;
+  code?: string | undefined;
   /** The human-readable description of the error */
-  message?: string;
+  message?: string | undefined;
   /** Inner errors that caused this error */
-  details?: ODataErrorDetailsList;
+  details?: ODataErrorDetailsList | undefined;
 }
 /** Inner errors that caused this error */
 export type ProjectTaskPropertiesErrorsItemDetailsList = Array<ODataError>;
 /** Error information in OData format. */
 export interface ProjectTaskPropertiesErrorsItem {
   /** The machine-readable description of the error, such as 'InvalidRequest' or 'InternalServerError' */
-  code?: string;
+  code?: string | undefined;
   /** The human-readable description of the error */
-  message?: string;
+  message?: string | undefined;
   /** Inner errors that caused this error */
-  details?: ProjectTaskPropertiesErrorsItemDetailsList;
+  details?: ProjectTaskPropertiesErrorsItemDetailsList | undefined;
 }
 /** Array of errors. This is ignored if submitted. */
 export type ProjectTaskPropertiesErrorsList = Array<ProjectTaskPropertiesErrorsItem>;
@@ -183,11 +184,11 @@ export type ProjectTaskPropertiesCommandsItemErrorsItemDetailsList = Array<OData
 /** Error information in OData format. */
 export interface ProjectTaskPropertiesCommandsItemErrorsItem {
   /** The machine-readable description of the error, such as 'InvalidRequest' or 'InternalServerError' */
-  code?: string;
+  code?: string | undefined;
   /** The human-readable description of the error */
-  message?: string;
+  message?: string | undefined;
   /** Inner errors that caused this error */
-  details?: ProjectTaskPropertiesCommandsItemErrorsItemDetailsList;
+  details?: ProjectTaskPropertiesCommandsItemErrorsItemDetailsList | undefined;
 }
 /** Array of errors. This is ignored if submitted. */
 export type ProjectTaskPropertiesCommandsItemErrorsList =
@@ -204,9 +205,9 @@ export interface ProjectTaskPropertiesCommandsItem {
   /** Command type. */
   commandType: ProjectTaskPropertiesCommandsItemCommandType;
   /** Array of errors. This is ignored if submitted. */
-  errors?: ProjectTaskPropertiesCommandsItemErrorsList;
+  errors?: ProjectTaskPropertiesCommandsItemErrorsList | undefined;
   /** The state of the command. This is ignored if submitted. */
-  state?: ProjectTaskPropertiesCommandsItemState;
+  state?: ProjectTaskPropertiesCommandsItemState | undefined;
 }
 /** Array of command properties. */
 export type ProjectTaskPropertiesCommandsList = Array<ProjectTaskPropertiesCommandsItem>;
@@ -217,27 +218,27 @@ export interface ProjectTaskProperties {
   /** Task type. */
   taskType: ProjectTaskPropertiesTaskType;
   /** Array of errors. This is ignored if submitted. */
-  errors?: ProjectTaskPropertiesErrorsList;
+  errors?: ProjectTaskPropertiesErrorsList | undefined;
   /** The state of the task. This is ignored if submitted. */
-  state?: ProjectTaskPropertiesState;
+  state?: ProjectTaskPropertiesState | undefined;
   /** Array of command properties. */
-  commands?: ProjectTaskPropertiesCommandsList;
+  commands?: ProjectTaskPropertiesCommandsList | undefined;
   /** Key value pairs of client data to attach meta data information to task */
-  clientData?: ProjectTaskPropertiesClientDataMap;
+  clientData?: ProjectTaskPropertiesClientDataMap | undefined;
 }
 export interface CancelServiceTaskResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** HTTP strong entity tag value. This is ignored if submitted. */
-  etag?: string;
+  etag?: string | undefined;
   /** Custom task properties */
-  properties?: ProjectTaskProperties;
+  properties?: ProjectTaskProperties | undefined;
 }
 export interface CancelTaskRequest {
   /** Subscription ID that identifies an Azure subscription. */
@@ -253,17 +254,17 @@ export interface CancelTaskRequest {
 }
 export interface CancelTaskResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** HTTP strong entity tag value. This is ignored if submitted. */
-  etag?: string;
+  etag?: string | undefined;
   /** Custom task properties */
-  properties?: ProjectTaskProperties;
+  properties?: ProjectTaskProperties | undefined;
 }
 export interface CheckServiceChildrenNameAvailabilityRequest {
   /** Subscription ID that identifies an Azure subscription. */
@@ -273,19 +274,19 @@ export interface CheckServiceChildrenNameAvailabilityRequest {
   /** Name of the service */
   serviceName: string;
   /** The proposed resource name */
-  name?: string;
+  name?: string | undefined;
   /** The resource type chain (e.g. virtualMachines/extensions) */
-  type?: string;
+  type?: string | undefined;
 }
 /** The reason why the name is not available, if nameAvailable is false */
 export type CheckServiceChildrenNameAvailabilityResponseReason = "AlreadyExists" | "Invalid";
 export interface CheckServiceChildrenNameAvailabilityResponse {
   /** If true, the name is valid and available. If false, 'reason' describes why not. */
-  nameAvailable?: boolean;
+  nameAvailable?: boolean | undefined;
   /** The reason why the name is not available, if nameAvailable is false */
-  reason?: CheckServiceChildrenNameAvailabilityResponseReason;
+  reason?: CheckServiceChildrenNameAvailabilityResponseReason | undefined;
   /** The localized reason why the name is not available, if nameAvailable is false */
-  message?: string;
+  message?: string | undefined;
 }
 export interface CheckServiceNameAvailabilityRequest {
   /** Subscription ID that identifies an Azure subscription. */
@@ -293,19 +294,19 @@ export interface CheckServiceNameAvailabilityRequest {
   /** The Azure region of the operation */
   location: string;
   /** The proposed resource name */
-  name?: string;
+  name?: string | undefined;
   /** The resource type chain (e.g. virtualMachines/extensions) */
-  type?: string;
+  type?: string | undefined;
 }
 /** The reason why the name is not available, if nameAvailable is false */
 export type CheckServiceNameAvailabilityResponseReason = "AlreadyExists" | "Invalid";
 export interface CheckServiceNameAvailabilityResponse {
   /** If true, the name is valid and available. If false, 'reason' describes why not. */
-  nameAvailable?: boolean;
+  nameAvailable?: boolean | undefined;
   /** The reason why the name is not available, if nameAvailable is false */
-  reason?: CheckServiceNameAvailabilityResponseReason;
+  reason?: CheckServiceNameAvailabilityResponseReason | undefined;
   /** The localized reason why the name is not available, if nameAvailable is false */
-  message?: string;
+  message?: string | undefined;
 }
 export interface CheckServiceStatusRequest {
   /** Subscription ID that identifies an Azure subscription. */
@@ -319,15 +320,15 @@ export interface CheckServiceStatusRequest {
 export type CheckServiceStatusResponseSupportedTaskTypesList = Array<string>;
 export interface CheckServiceStatusResponse {
   /** The DMS instance agent version */
-  agentVersion?: string;
+  agentVersion?: string | undefined;
   /** Agent Configuration */
-  agentConfiguration?: unknown;
+  agentConfiguration?: unknown | undefined;
   /** The machine-readable status, such as 'Initializing', 'Offline', 'Online', 'Deploying', 'Deleting', 'Stopped', 'Stopping', 'Starting', 'FailedToStart', 'FailedToStop' or 'Failed' */
-  status?: string;
+  status?: string | undefined;
   /** The services virtual machine size, such as 'Standard_D2_v2' */
-  vmSize?: string;
+  vmSize?: string | undefined;
   /** The list of supported task types */
-  supportedTaskTypes?: CheckServiceStatusResponseSupportedTaskTypesList;
+  supportedTaskTypes?: CheckServiceStatusResponseSupportedTaskTypesList | undefined;
 }
 export type DatabaseMigrationPropertiesCosmosDbMongoInputKind =
   | "SqlMi"
@@ -337,28 +338,28 @@ export type DatabaseMigrationPropertiesCosmosDbMongoInputKind =
 /** Mongo Connection */
 export interface MongoConnectionInformation {
   /** Host of mongo connection. */
-  host?: string;
+  host?: string | undefined;
   /** Port of mongo connection. */
-  port?: number;
+  port?: number | undefined;
   /** User name to connect to Mongo. */
-  userName?: string;
+  userName?: string | undefined;
   /** Password to connect to Mongo. */
-  password?: string | Redacted.Redacted<string>;
+  password?: string | Redacted.Redacted<string> | undefined;
   /** Whether to UseSsl or UseTls to connect to Mongo. Default is true. */
-  useSsl?: boolean;
+  useSsl?: boolean | undefined;
   /** ConnectionString to connect to Mongo. */
-  connectionString?: string | Redacted.Redacted<string>;
+  connectionString?: string | Redacted.Redacted<string> | undefined;
 }
 /** Mongo source and target database and collection details. */
 export interface MongoMigrationCollectionInput {
   /** Source database name. */
-  sourceDatabase?: string;
+  sourceDatabase?: string | undefined;
   /** Source collection name. */
-  sourceCollection?: string;
+  sourceCollection?: string | undefined;
   /** Target database name. */
-  targetDatabase?: string;
+  targetDatabase?: string | undefined;
   /** Target collection name. */
-  targetCollection?: string;
+  targetCollection?: string | undefined;
 }
 /** List of Mongo Collections to be migrated. */
 export type DatabaseMigrationPropertiesCosmosDbMongoInputCollectionListList =
@@ -367,19 +368,19 @@ export type DatabaseMigrationPropertiesCosmosDbMongoInputCollectionListList =
 export interface DatabaseMigrationPropertiesCosmosDbMongoInput {
   kind: DatabaseMigrationPropertiesCosmosDbMongoInputKind | (string & {});
   /** Resource Id of the target resource. */
-  scope?: string;
+  scope?: string | undefined;
   /** Resource Id of the Migration Service. */
-  migrationService?: string;
+  migrationService?: string | undefined;
   /** ID for current migration operation. */
-  migrationOperationId?: string;
+  migrationOperationId?: string | undefined;
   /** Error message for migration provisioning failure, if any. */
-  provisioningError?: string;
+  provisioningError?: string | undefined;
   /** Source Mongo connection details. */
-  sourceMongoConnection?: MongoConnectionInformation;
+  sourceMongoConnection?: MongoConnectionInformation | undefined;
   /** Target Cosmos DB Mongo connection details. */
-  targetMongoConnection?: MongoConnectionInformation;
+  targetMongoConnection?: MongoConnectionInformation | undefined;
   /** List of Mongo Collections to be migrated. */
-  collectionList?: DatabaseMigrationPropertiesCosmosDbMongoInputCollectionListList;
+  collectionList?: DatabaseMigrationPropertiesCosmosDbMongoInputCollectionListList | undefined;
 }
 export interface CreateDatabaseMigrationsMongoToCosmosDbRUMongoRequest {
   /** Subscription ID that identifies an Azure subscription. */
@@ -390,7 +391,7 @@ export interface CreateDatabaseMigrationsMongoToCosmosDbRUMongoRequest {
   targetResourceName: string;
   /** Name of the migration. */
   migrationName: string;
-  properties?: DatabaseMigrationPropertiesCosmosDbMongoInput;
+  properties?: DatabaseMigrationPropertiesCosmosDbMongoInput | undefined;
 }
 export type DatabaseMigrationPropertiesCosmosDbMongoKind =
   | "SqlMi"
@@ -407,9 +408,9 @@ export type DatabaseMigrationPropertiesCosmosDbMongoProvisioningState =
 /** Error details */
 export interface ErrorInfo {
   /** Error code. */
-  code?: string;
+  code?: string | undefined;
   /** Error message. */
-  message?: string;
+  message?: string | undefined;
 }
 /** Migration Status */
 export type MongoMigrationProgressDetailsMigrationStatus =
@@ -421,28 +422,28 @@ export type MongoMigrationProgressDetailsMigrationStatus =
 /** Detailed status of collection migration. */
 export interface MongoMigrationProgressDetails {
   /** Migration Status */
-  migrationStatus?: MongoMigrationProgressDetailsMigrationStatus;
+  migrationStatus?: MongoMigrationProgressDetailsMigrationStatus | undefined;
   /** Migration Error */
-  migrationError?: string;
+  migrationError?: string | undefined;
   /** Source Document Count */
-  sourceDocumentCount?: number;
+  sourceDocumentCount?: number | undefined;
   /** Processed Document Count */
-  processedDocumentCount?: number;
+  processedDocumentCount?: number | undefined;
   /** Migration duration */
-  durationInSeconds?: number;
+  durationInSeconds?: number | undefined;
 }
 /** Mongo source and target database and collection details. */
 export interface MongoMigrationCollection {
   /** Source database name. */
-  sourceDatabase?: string;
+  sourceDatabase?: string | undefined;
   /** Source collection name. */
-  sourceCollection?: string;
+  sourceCollection?: string | undefined;
   /** Target database name. */
-  targetDatabase?: string;
+  targetDatabase?: string | undefined;
   /** Target collection name. */
-  targetCollection?: string;
+  targetCollection?: string | undefined;
   /** Detailed migration status. Not included by default. */
-  migrationProgressDetails?: MongoMigrationProgressDetails;
+  migrationProgressDetails?: MongoMigrationProgressDetails | undefined;
 }
 /** List of Mongo Collections to be migrated. */
 export type DatabaseMigrationPropertiesCosmosDbMongoCollectionListList =
@@ -451,40 +452,40 @@ export type DatabaseMigrationPropertiesCosmosDbMongoCollectionListList =
 export interface DatabaseMigrationPropertiesCosmosDbMongo {
   kind: DatabaseMigrationPropertiesCosmosDbMongoKind;
   /** Resource Id of the target resource. */
-  scope?: string;
+  scope?: string | undefined;
   /** Provisioning State of migration. ProvisioningState as Succeeded implies that validations have been performed and migration has started. */
-  provisioningState?: DatabaseMigrationPropertiesCosmosDbMongoProvisioningState;
+  provisioningState?: DatabaseMigrationPropertiesCosmosDbMongoProvisioningState | undefined;
   /** Migration status. */
-  migrationStatus?: string;
+  migrationStatus?: string | undefined;
   /** Database migration start time. */
-  startedOn?: string;
+  startedOn?: string | undefined;
   /** Database migration end time. */
-  endedOn?: string;
+  endedOn?: string | undefined;
   /** Resource Id of the Migration Service. */
-  migrationService?: string;
+  migrationService?: string | undefined;
   /** ID for current migration operation. */
-  migrationOperationId?: string;
+  migrationOperationId?: string | undefined;
   /** Error details in case of migration failure. */
-  migrationFailureError?: ErrorInfo;
+  migrationFailureError?: ErrorInfo | undefined;
   /** Error message for migration provisioning failure, if any. */
-  provisioningError?: string;
+  provisioningError?: string | undefined;
   /** Source Mongo connection details. */
-  sourceMongoConnection?: MongoConnectionInformation;
+  sourceMongoConnection?: MongoConnectionInformation | undefined;
   /** Target Cosmos DB Mongo connection details. */
-  targetMongoConnection?: MongoConnectionInformation;
+  targetMongoConnection?: MongoConnectionInformation | undefined;
   /** List of Mongo Collections to be migrated. */
-  collectionList?: DatabaseMigrationPropertiesCosmosDbMongoCollectionListList;
+  collectionList?: DatabaseMigrationPropertiesCosmosDbMongoCollectionListList | undefined;
 }
 export interface CreateDatabaseMigrationsMongoToCosmosDbRUMongoResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
-  properties?: DatabaseMigrationPropertiesCosmosDbMongo;
+  systemData?: SystemData | undefined;
+  properties?: DatabaseMigrationPropertiesCosmosDbMongo | undefined;
 }
 export interface CreateDatabaseMigrationsMongoToCosmosDbvCoreMongoRequest {
   /** Subscription ID that identifies an Azure subscription. */
@@ -495,18 +496,18 @@ export interface CreateDatabaseMigrationsMongoToCosmosDbvCoreMongoRequest {
   targetResourceName: string;
   /** Name of the migration. */
   migrationName: string;
-  properties?: DatabaseMigrationPropertiesCosmosDbMongoInput;
+  properties?: DatabaseMigrationPropertiesCosmosDbMongoInput | undefined;
 }
 export interface CreateDatabaseMigrationsMongoToCosmosDbvCoreMongoResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
-  properties?: DatabaseMigrationPropertiesCosmosDbMongo;
+  systemData?: SystemData | undefined;
+  properties?: DatabaseMigrationPropertiesCosmosDbMongo | undefined;
 }
 export type DatabaseMigrationPropertiesSqlDbInputKind =
   | "SqlMi"
@@ -516,17 +517,17 @@ export type DatabaseMigrationPropertiesSqlDbInputKind =
 /** Source SQL Connection */
 export interface SqlConnectionInformation {
   /** Data source. */
-  dataSource?: string;
+  dataSource?: string | undefined;
   /** Authentication type. */
-  authentication?: string;
+  authentication?: string | undefined;
   /** User name to connect to source SQL. */
-  userName?: string;
+  userName?: string | undefined;
   /** Password to connect to source SQL. */
-  password?: string | Redacted.Redacted<string>;
+  password?: string | Redacted.Redacted<string> | undefined;
   /** Whether to encrypt connection or not. */
-  encryptConnection?: boolean;
+  encryptConnection?: boolean | undefined;
   /** Whether to trust server certificate or not. */
-  trustServerCertificate?: boolean;
+  trustServerCertificate?: boolean | undefined;
 }
 /** List of tables to copy. */
 export type DatabaseMigrationPropertiesSqlDbInputTableListList = Array<string>;
@@ -534,23 +535,23 @@ export type DatabaseMigrationPropertiesSqlDbInputTableListList = Array<string>;
 export interface DatabaseMigrationPropertiesSqlDbInput {
   kind: DatabaseMigrationPropertiesSqlDbInputKind | (string & {});
   /** Resource Id of the target resource. */
-  scope?: string;
+  scope?: string | undefined;
   /** Resource Id of the Migration Service. */
-  migrationService?: string;
+  migrationService?: string | undefined;
   /** ID for current migration operation. */
-  migrationOperationId?: string;
+  migrationOperationId?: string | undefined;
   /** Error message for migration provisioning failure, if any. */
-  provisioningError?: string;
+  provisioningError?: string | undefined;
   /** Source SQL Server connection details. */
-  sourceSqlConnection?: SqlConnectionInformation;
+  sourceSqlConnection?: SqlConnectionInformation | undefined;
   /** Name of the source database. */
-  sourceDatabaseName?: string;
+  sourceDatabaseName?: string | undefined;
   /** Database collation to be used for the target database. */
-  targetDatabaseCollation?: string;
+  targetDatabaseCollation?: string | undefined;
   /** Target SQL DB connection details. */
-  targetSqlConnection?: SqlConnectionInformation;
+  targetSqlConnection?: SqlConnectionInformation | undefined;
   /** List of tables to copy. */
-  tableList?: DatabaseMigrationPropertiesSqlDbInputTableListList;
+  tableList?: DatabaseMigrationPropertiesSqlDbInputTableListList | undefined;
 }
 export interface DatabaseMigrationsSqlDbCreateOrUpdateRequest {
   /** Subscription ID that identifies an Azure subscription. */
@@ -560,7 +561,7 @@ export interface DatabaseMigrationsSqlDbCreateOrUpdateRequest {
   sqlDbInstanceName: string;
   /** The name of the target database. */
   targetDbName: string;
-  properties?: DatabaseMigrationPropertiesSqlDbInput;
+  properties?: DatabaseMigrationPropertiesSqlDbInput | undefined;
 }
 export type DatabaseMigrationPropertiesSqlDbKind =
   | "SqlMi"
@@ -579,43 +580,43 @@ export type SqlDbMigrationStatusDetailsSqlDataCopyErrorsList = Array<string>;
 /** Details on progress of ADF copy activity */
 export interface CopyProgressDetails {
   /** Table Name */
-  tableName?: string;
+  tableName?: string | undefined;
   /** Status of the Copy activity (InProgress, Succeeded, Failed, Canceled). */
-  status?: string;
+  status?: string | undefined;
   /** Type of parallel copy (Dynamic range, Physical partition, none). */
-  parallelCopyType?: string;
+  parallelCopyType?: string | undefined;
   /** The degree of parallelization. */
-  usedParallelCopies?: number;
+  usedParallelCopies?: number | undefined;
   /** Bytes read */
-  dataRead?: number;
+  dataRead?: number | undefined;
   /** Bytes written */
-  dataWritten?: number;
+  dataWritten?: number | undefined;
   /** Rows read */
-  rowsRead?: number;
+  rowsRead?: number | undefined;
   /** Rows Copied */
-  rowsCopied?: number;
+  rowsCopied?: number | undefined;
   /** Copy Start */
-  copyStart?: string;
+  copyStart?: string | undefined;
   /** Copy throughput in KBps */
-  copyThroughput?: number;
+  copyThroughput?: number | undefined;
   /** Copy Duration in seconds */
-  copyDuration?: number;
+  copyDuration?: number | undefined;
 }
 /** Details on progress of ADF copy activities. */
 export type SqlDbMigrationStatusDetailsListOfCopyProgressDetailsList = Array<CopyProgressDetails>;
 /** Detailed status of current Sql Db migration. */
 export interface SqlDbMigrationStatusDetails {
   /** Current State of Migration. */
-  migrationState?: string;
+  migrationState?: string | undefined;
   /** Sql Data Copy errors, if any. */
-  sqlDataCopyErrors?: SqlDbMigrationStatusDetailsSqlDataCopyErrorsList;
+  sqlDataCopyErrors?: SqlDbMigrationStatusDetailsSqlDataCopyErrorsList | undefined;
   /** Details on progress of ADF copy activities. */
-  listOfCopyProgressDetails?: SqlDbMigrationStatusDetailsListOfCopyProgressDetailsList;
+  listOfCopyProgressDetails?: SqlDbMigrationStatusDetailsListOfCopyProgressDetailsList | undefined;
 }
 /** Offline configuration */
 export interface SqlDbOfflineConfiguration {
   /** Offline migration */
-  offline?: boolean;
+  offline?: boolean | undefined;
 }
 /** List of tables to copy. */
 export type DatabaseMigrationPropertiesSqlDbTableListList = Array<string>;
@@ -623,50 +624,50 @@ export type DatabaseMigrationPropertiesSqlDbTableListList = Array<string>;
 export interface DatabaseMigrationPropertiesSqlDb {
   kind: DatabaseMigrationPropertiesSqlDbKind;
   /** Resource Id of the target resource. */
-  scope?: string;
+  scope?: string | undefined;
   /** Provisioning State of migration. ProvisioningState as Succeeded implies that validations have been performed and migration has started. */
-  provisioningState?: DatabaseMigrationPropertiesSqlDbProvisioningState;
+  provisioningState?: DatabaseMigrationPropertiesSqlDbProvisioningState | undefined;
   /** Migration status. */
-  migrationStatus?: string;
+  migrationStatus?: string | undefined;
   /** Database migration start time. */
-  startedOn?: string;
+  startedOn?: string | undefined;
   /** Database migration end time. */
-  endedOn?: string;
+  endedOn?: string | undefined;
   /** Resource Id of the Migration Service. */
-  migrationService?: string;
+  migrationService?: string | undefined;
   /** ID for current migration operation. */
-  migrationOperationId?: string;
+  migrationOperationId?: string | undefined;
   /** Error details in case of migration failure. */
-  migrationFailureError?: ErrorInfo;
+  migrationFailureError?: ErrorInfo | undefined;
   /** Error message for migration provisioning failure, if any. */
-  provisioningError?: string;
+  provisioningError?: string | undefined;
   /** Source SQL Server connection details. */
-  sourceSqlConnection?: SqlConnectionInformation;
+  sourceSqlConnection?: SqlConnectionInformation | undefined;
   /** Name of the source database. */
-  sourceDatabaseName?: string;
+  sourceDatabaseName?: string | undefined;
   /** Name of the source sql server. */
-  sourceServerName?: string;
+  sourceServerName?: string | undefined;
   /** Database collation to be used for the target database. */
-  targetDatabaseCollation?: string;
+  targetDatabaseCollation?: string | undefined;
   /** Detailed migration status. Not included by default. */
-  migrationStatusDetails?: SqlDbMigrationStatusDetails;
+  migrationStatusDetails?: SqlDbMigrationStatusDetails | undefined;
   /** Target SQL DB connection details. */
-  targetSqlConnection?: SqlConnectionInformation;
+  targetSqlConnection?: SqlConnectionInformation | undefined;
   /** Offline configuration. */
-  offlineConfiguration?: SqlDbOfflineConfiguration;
+  offlineConfiguration?: SqlDbOfflineConfiguration | undefined;
   /** List of tables to copy. */
-  tableList?: DatabaseMigrationPropertiesSqlDbTableListList;
+  tableList?: DatabaseMigrationPropertiesSqlDbTableListList | undefined;
 }
 export interface DatabaseMigrationsSqlDbCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
-  properties?: DatabaseMigrationPropertiesSqlDb;
+  systemData?: SystemData | undefined;
+  properties?: DatabaseMigrationPropertiesSqlDb | undefined;
 }
 export type DatabaseMigrationPropertiesSqlMiInputKind =
   | "SqlMi"
@@ -676,11 +677,11 @@ export type DatabaseMigrationPropertiesSqlMiInputKind =
 /** File share */
 export interface SqlFileShare {
   /** Location as SMB share or local drive where backups are placed. */
-  path?: string;
+  path?: string | undefined;
   /** Username to access the file share location for backups. */
-  username?: string;
+  username?: string | undefined;
   /** Password for username to access file share location. */
-  password?: string | Redacted.Redacted<string>;
+  password?: string | Redacted.Redacted<string> | undefined;
 }
 /** Authentication type used for accessing Azure Blob Storage. */
 export type AzureBlobInputAuthType = "AccountKey" | "ManagedIdentity";
@@ -700,70 +701,70 @@ export type AzureBlobInputIdentityUserAssignedIdentitiesMap = {
 export interface AzureBlobInputIdentity {
   type: ManagedServiceIdentityType | (string & {});
   /** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
-  userAssignedIdentities?: AzureBlobInputIdentityUserAssignedIdentitiesMap;
+  userAssignedIdentities?: AzureBlobInputIdentityUserAssignedIdentitiesMap | undefined;
 }
 /** Azure Blob Details */
 export interface AzureBlobInput {
   /** Authentication type used for accessing Azure Blob Storage. */
-  authType?: AzureBlobInputAuthType | (string & {});
+  authType?: AzureBlobInputAuthType | (string & {}) | undefined;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: AzureBlobInputIdentity;
+  identity?: AzureBlobInputIdentity | undefined;
   /** Resource Id of the storage account where backups are stored. */
-  storageAccountResourceId?: string;
+  storageAccountResourceId?: string | undefined;
   /** Storage Account Key. */
-  accountKey?: string;
+  accountKey?: string | undefined;
   /** Blob container name where backups are stored. */
-  blobContainerName?: string;
+  blobContainerName?: string | undefined;
 }
 /** Source Location details of backups. */
 export interface SourceLocationInput {
   /** Source File share. */
-  fileShare?: SqlFileShare;
+  fileShare?: SqlFileShare | undefined;
   /** Source Azure Blob. */
-  azureBlob?: AzureBlobInput;
+  azureBlob?: AzureBlobInput | undefined;
 }
 /** Target Location details for optional copy of backups */
 export interface TargetLocation {
   /** Resource Id of the storage account copying backups. */
-  storageAccountResourceId?: string;
+  storageAccountResourceId?: string | undefined;
   /** Storage Account Key. */
-  accountKey?: string;
+  accountKey?: string | undefined;
 }
 /** Backup Configuration */
 export interface BackupConfigurationInput {
   /** Source location of backups. */
-  sourceLocation?: SourceLocationInput;
+  sourceLocation?: SourceLocationInput | undefined;
   /** Target location for copying backups. */
-  targetLocation?: TargetLocation;
+  targetLocation?: TargetLocation | undefined;
 }
 /** Offline configuration */
 export interface OfflineConfiguration {
   /** Offline migration */
-  offline?: boolean;
+  offline?: boolean | undefined;
   /** Last backup name for offline migration. This is optional for migrations from file share. If it is not provided, then the service will determine the last backup file name based on latest backup files present in file share. */
-  lastBackupName?: string;
+  lastBackupName?: string | undefined;
 }
 /** Database Migration Resource properties for SQL Managed Instance. */
 export interface DatabaseMigrationPropertiesSqlMiInput {
   kind: DatabaseMigrationPropertiesSqlMiInputKind | (string & {});
   /** Resource Id of the target resource. */
-  scope?: string;
+  scope?: string | undefined;
   /** Resource Id of the Migration Service. */
-  migrationService?: string;
+  migrationService?: string | undefined;
   /** ID for current migration operation. */
-  migrationOperationId?: string;
+  migrationOperationId?: string | undefined;
   /** Error message for migration provisioning failure, if any. */
-  provisioningError?: string;
+  provisioningError?: string | undefined;
   /** Source SQL Server connection details. */
-  sourceSqlConnection?: SqlConnectionInformation;
+  sourceSqlConnection?: SqlConnectionInformation | undefined;
   /** Name of the source database. */
-  sourceDatabaseName?: string;
+  sourceDatabaseName?: string | undefined;
   /** Database collation to be used for the target database. */
-  targetDatabaseCollation?: string;
+  targetDatabaseCollation?: string | undefined;
   /** Backup configuration info. */
-  backupConfiguration?: BackupConfigurationInput;
+  backupConfiguration?: BackupConfigurationInput | undefined;
   /** Offline configuration. */
-  offlineConfiguration?: OfflineConfiguration;
+  offlineConfiguration?: OfflineConfiguration | undefined;
 }
 export interface DatabaseMigrationsSqlMiCreateOrUpdateRequest {
   /** Subscription ID that identifies an Azure subscription. */
@@ -773,7 +774,7 @@ export interface DatabaseMigrationsSqlMiCreateOrUpdateRequest {
   managedInstanceName: string;
   /** The name of the target database. */
   targetDbName: string;
-  properties?: DatabaseMigrationPropertiesSqlMiInput;
+  properties?: DatabaseMigrationPropertiesSqlMiInput | undefined;
 }
 export type DatabaseMigrationPropertiesSqlMiKind =
   | "SqlMi"
@@ -790,21 +791,21 @@ export type DatabaseMigrationPropertiesSqlMiProvisioningState =
 /** Information of backup file */
 export interface SqlBackupFileInfo {
   /** File name. */
-  fileName?: string;
+  fileName?: string | undefined;
   /** Status of the file. (Initial, Uploading, Uploaded, Restoring, Restored or Skipped) */
-  status?: string;
+  status?: string | undefined;
   /** File size in bytes */
-  totalSize?: number;
+  totalSize?: number | undefined;
   /** Bytes read */
-  dataRead?: number;
+  dataRead?: number | undefined;
   /** Bytes written */
-  dataWritten?: number;
+  dataWritten?: number | undefined;
   /** Copy throughput in KBps */
-  copyThroughput?: number;
+  copyThroughput?: number | undefined;
   /** Copy Duration in seconds */
-  copyDuration?: number;
+  copyDuration?: number | undefined;
   /** Media family sequence number */
-  familySequenceNumber?: number;
+  familySequenceNumber?: number | undefined;
 }
 /** List of files in the backup set. */
 export type SqlBackupSetInfoListOfBackupFilesList = Array<SqlBackupFileInfo>;
@@ -813,27 +814,27 @@ export type SqlBackupSetInfoIgnoreReasonsList = Array<string>;
 /** Information of backup set */
 export interface SqlBackupSetInfo {
   /** Backup set id. */
-  backupSetId?: string;
+  backupSetId?: string | undefined;
   /** First LSN of the backup set. */
-  firstLSN?: string;
+  firstLSN?: string | undefined;
   /** Last LSN of the backup set. */
-  lastLSN?: string;
+  lastLSN?: string | undefined;
   /** Backup type. */
-  backupType?: string;
+  backupType?: string | undefined;
   /** List of files in the backup set. */
-  listOfBackupFiles?: SqlBackupSetInfoListOfBackupFilesList;
+  listOfBackupFiles?: SqlBackupSetInfoListOfBackupFilesList | undefined;
   /** Backup start date. */
-  backupStartDate?: string;
+  backupStartDate?: string | undefined;
   /** Backup end time. */
-  backupFinishDate?: string;
+  backupFinishDate?: string | undefined;
   /** Whether this backup set has been restored or not. */
-  isBackupRestored?: boolean;
+  isBackupRestored?: boolean | undefined;
   /** Has Backup Checksums */
-  hasBackupChecksums?: boolean;
+  hasBackupChecksums?: boolean | undefined;
   /** Media family count */
-  familyCount?: number;
+  familyCount?: number | undefined;
   /** The reasons why the backup set is ignored */
-  ignoreReasons?: SqlBackupSetInfoIgnoreReasonsList;
+  ignoreReasons?: SqlBackupSetInfoIgnoreReasonsList | undefined;
 }
 /** Backup sets that are currently active. */
 export type MigrationStatusDetailsActiveBackupSetsList = Array<SqlBackupSetInfo>;
@@ -844,40 +845,40 @@ export type MigrationStatusDetailsFileUploadBlockingErrorsList = Array<string>;
 /** Detailed status of current migration. */
 export interface MigrationStatusDetails {
   /** Current State of Migration. */
-  migrationState?: string;
+  migrationState?: string | undefined;
   /** Details of full backup set. */
-  fullBackupSetInfo?: SqlBackupSetInfo;
+  fullBackupSetInfo?: SqlBackupSetInfo | undefined;
   /** Last applied backup set information. */
-  lastRestoredBackupSetInfo?: SqlBackupSetInfo;
+  lastRestoredBackupSetInfo?: SqlBackupSetInfo | undefined;
   /** Backup sets that are currently active. */
-  activeBackupSets?: MigrationStatusDetailsActiveBackupSetsList;
+  activeBackupSets?: MigrationStatusDetailsActiveBackupSetsList | undefined;
   /** Files that are not valid backup files. */
-  invalidFiles?: MigrationStatusDetailsInvalidFilesList;
+  invalidFiles?: MigrationStatusDetailsInvalidFilesList | undefined;
   /** Name of blob container. */
-  blobContainerName?: string;
+  blobContainerName?: string | undefined;
   /** Whether full backup has been applied to the target database or not. */
-  isFullBackupRestored?: boolean;
+  isFullBackupRestored?: boolean | undefined;
   /** Restore blocking reason, if any */
-  restoreBlockingReason?: string;
+  restoreBlockingReason?: string | undefined;
   /** Complete restore error message, if any */
-  completeRestoreErrorMessage?: string;
+  completeRestoreErrorMessage?: string | undefined;
   /** File upload blocking errors, if any. */
-  fileUploadBlockingErrors?: MigrationStatusDetailsFileUploadBlockingErrorsList;
+  fileUploadBlockingErrors?: MigrationStatusDetailsFileUploadBlockingErrorsList | undefined;
   /** File name that is currently being restored. */
-  currentRestoringFilename?: string;
+  currentRestoringFilename?: string | undefined;
   /** Last restored file name. */
-  lastRestoredFilename?: string;
+  lastRestoredFilename?: string | undefined;
   /** Total pending log backups. */
-  pendingLogBackupsCount?: number;
+  pendingLogBackupsCount?: number | undefined;
 }
 /** Authentication type used for accessing Azure Blob Storage. */
 export type AzureBlobAuthType = "AccountKey" | "ManagedIdentity";
 /** User assigned identity properties */
 export interface UserAssignedIdentity {
   /** The principal ID of the assigned identity. */
-  principalId?: string;
+  principalId?: string | undefined;
   /** The client ID of the assigned identity. */
-  clientId?: string;
+  clientId?: string | undefined;
 }
 /** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
 export type AzureBlobIdentityUserAssignedIdentitiesMap = {
@@ -886,88 +887,88 @@ export type AzureBlobIdentityUserAssignedIdentitiesMap = {
 /** Managed service identity (system assigned and/or user assigned identities) */
 export interface AzureBlobIdentity {
   /** The service principal ID of the system assigned identity. This property will only be provided for a system assigned identity. */
-  principalId?: string;
+  principalId?: string | undefined;
   /** The tenant ID of the system assigned identity. This property will only be provided for a system assigned identity. */
-  tenantId?: string;
+  tenantId?: string | undefined;
   type: ManagedServiceIdentityType;
   /** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
-  userAssignedIdentities?: AzureBlobIdentityUserAssignedIdentitiesMap;
+  userAssignedIdentities?: AzureBlobIdentityUserAssignedIdentitiesMap | undefined;
 }
 /** Azure Blob Details */
 export interface AzureBlob {
   /** Authentication type used for accessing Azure Blob Storage. */
-  authType?: AzureBlobAuthType;
+  authType?: AzureBlobAuthType | undefined;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: AzureBlobIdentity;
+  identity?: AzureBlobIdentity | undefined;
   /** Resource Id of the storage account where backups are stored. */
-  storageAccountResourceId?: string;
+  storageAccountResourceId?: string | undefined;
   /** Storage Account Key. */
-  accountKey?: string;
+  accountKey?: string | undefined;
   /** Blob container name where backups are stored. */
-  blobContainerName?: string;
+  blobContainerName?: string | undefined;
 }
 /** Source Location details of backups. */
 export interface SourceLocation {
   /** Source File share. */
-  fileShare?: SqlFileShare;
+  fileShare?: SqlFileShare | undefined;
   /** Source Azure Blob. */
-  azureBlob?: AzureBlob;
+  azureBlob?: AzureBlob | undefined;
   /** Backup storage Type. */
-  fileStorageType?: string;
+  fileStorageType?: string | undefined;
 }
 /** Backup Configuration */
 export interface BackupConfiguration {
   /** Source location of backups. */
-  sourceLocation?: SourceLocation;
+  sourceLocation?: SourceLocation | undefined;
   /** Target location for copying backups. */
-  targetLocation?: TargetLocation;
+  targetLocation?: TargetLocation | undefined;
 }
 /** Database Migration Resource properties for SQL Managed Instance. */
 export interface DatabaseMigrationPropertiesSqlMi {
   kind: DatabaseMigrationPropertiesSqlMiKind;
   /** Resource Id of the target resource. */
-  scope?: string;
+  scope?: string | undefined;
   /** Provisioning State of migration. ProvisioningState as Succeeded implies that validations have been performed and migration has started. */
-  provisioningState?: DatabaseMigrationPropertiesSqlMiProvisioningState;
+  provisioningState?: DatabaseMigrationPropertiesSqlMiProvisioningState | undefined;
   /** Migration status. */
-  migrationStatus?: string;
+  migrationStatus?: string | undefined;
   /** Database migration start time. */
-  startedOn?: string;
+  startedOn?: string | undefined;
   /** Database migration end time. */
-  endedOn?: string;
+  endedOn?: string | undefined;
   /** Resource Id of the Migration Service. */
-  migrationService?: string;
+  migrationService?: string | undefined;
   /** ID for current migration operation. */
-  migrationOperationId?: string;
+  migrationOperationId?: string | undefined;
   /** Error details in case of migration failure. */
-  migrationFailureError?: ErrorInfo;
+  migrationFailureError?: ErrorInfo | undefined;
   /** Error message for migration provisioning failure, if any. */
-  provisioningError?: string;
+  provisioningError?: string | undefined;
   /** Source SQL Server connection details. */
-  sourceSqlConnection?: SqlConnectionInformation;
+  sourceSqlConnection?: SqlConnectionInformation | undefined;
   /** Name of the source database. */
-  sourceDatabaseName?: string;
+  sourceDatabaseName?: string | undefined;
   /** Name of the source sql server. */
-  sourceServerName?: string;
+  sourceServerName?: string | undefined;
   /** Database collation to be used for the target database. */
-  targetDatabaseCollation?: string;
+  targetDatabaseCollation?: string | undefined;
   /** Detailed migration status. Not included by default. */
-  migrationStatusDetails?: MigrationStatusDetails;
+  migrationStatusDetails?: MigrationStatusDetails | undefined;
   /** Backup configuration info. */
-  backupConfiguration?: BackupConfiguration;
+  backupConfiguration?: BackupConfiguration | undefined;
   /** Offline configuration. */
-  offlineConfiguration?: OfflineConfiguration;
+  offlineConfiguration?: OfflineConfiguration | undefined;
 }
 export interface DatabaseMigrationsSqlMiCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
-  properties?: DatabaseMigrationPropertiesSqlMi;
+  systemData?: SystemData | undefined;
+  properties?: DatabaseMigrationPropertiesSqlMi | undefined;
 }
 export interface DatabaseMigrationsSqlMiCutoverRequest {
   /** Subscription ID that identifies an Azure subscription. */
@@ -978,7 +979,7 @@ export interface DatabaseMigrationsSqlMiCutoverRequest {
   /** The name of the target database. */
   targetDbName: string;
   /** ID tracking migration operation. */
-  migrationOperationId?: string;
+  migrationOperationId?: string | undefined;
 }
 export interface DatabaseMigrationsSqlMiCutoverResponse {}
 export type DatabaseMigrationPropertiesSqlVmInputKind =
@@ -990,23 +991,23 @@ export type DatabaseMigrationPropertiesSqlVmInputKind =
 export interface DatabaseMigrationPropertiesSqlVmInput {
   kind: DatabaseMigrationPropertiesSqlVmInputKind | (string & {});
   /** Resource Id of the target resource. */
-  scope?: string;
+  scope?: string | undefined;
   /** Resource Id of the Migration Service. */
-  migrationService?: string;
+  migrationService?: string | undefined;
   /** ID for current migration operation. */
-  migrationOperationId?: string;
+  migrationOperationId?: string | undefined;
   /** Error message for migration provisioning failure, if any. */
-  provisioningError?: string;
+  provisioningError?: string | undefined;
   /** Source SQL Server connection details. */
-  sourceSqlConnection?: SqlConnectionInformation;
+  sourceSqlConnection?: SqlConnectionInformation | undefined;
   /** Name of the source database. */
-  sourceDatabaseName?: string;
+  sourceDatabaseName?: string | undefined;
   /** Database collation to be used for the target database. */
-  targetDatabaseCollation?: string;
+  targetDatabaseCollation?: string | undefined;
   /** Backup configuration info. */
-  backupConfiguration?: BackupConfigurationInput;
+  backupConfiguration?: BackupConfigurationInput | undefined;
   /** Offline configuration. */
-  offlineConfiguration?: OfflineConfiguration;
+  offlineConfiguration?: OfflineConfiguration | undefined;
 }
 export interface DatabaseMigrationsSqlVmCreateOrUpdateRequest {
   /** Subscription ID that identifies an Azure subscription. */
@@ -1016,7 +1017,7 @@ export interface DatabaseMigrationsSqlVmCreateOrUpdateRequest {
   sqlVirtualMachineName: string;
   /** The name of the target database. */
   targetDbName: string;
-  properties?: DatabaseMigrationPropertiesSqlVmInput;
+  properties?: DatabaseMigrationPropertiesSqlVmInput | undefined;
 }
 export type DatabaseMigrationPropertiesSqlVmKind =
   | "SqlMi"
@@ -1034,48 +1035,48 @@ export type DatabaseMigrationPropertiesSqlVmProvisioningState =
 export interface DatabaseMigrationPropertiesSqlVm {
   kind: DatabaseMigrationPropertiesSqlVmKind;
   /** Resource Id of the target resource. */
-  scope?: string;
+  scope?: string | undefined;
   /** Provisioning State of migration. ProvisioningState as Succeeded implies that validations have been performed and migration has started. */
-  provisioningState?: DatabaseMigrationPropertiesSqlVmProvisioningState;
+  provisioningState?: DatabaseMigrationPropertiesSqlVmProvisioningState | undefined;
   /** Migration status. */
-  migrationStatus?: string;
+  migrationStatus?: string | undefined;
   /** Database migration start time. */
-  startedOn?: string;
+  startedOn?: string | undefined;
   /** Database migration end time. */
-  endedOn?: string;
+  endedOn?: string | undefined;
   /** Resource Id of the Migration Service. */
-  migrationService?: string;
+  migrationService?: string | undefined;
   /** ID for current migration operation. */
-  migrationOperationId?: string;
+  migrationOperationId?: string | undefined;
   /** Error details in case of migration failure. */
-  migrationFailureError?: ErrorInfo;
+  migrationFailureError?: ErrorInfo | undefined;
   /** Error message for migration provisioning failure, if any. */
-  provisioningError?: string;
+  provisioningError?: string | undefined;
   /** Source SQL Server connection details. */
-  sourceSqlConnection?: SqlConnectionInformation;
+  sourceSqlConnection?: SqlConnectionInformation | undefined;
   /** Name of the source database. */
-  sourceDatabaseName?: string;
+  sourceDatabaseName?: string | undefined;
   /** Name of the source sql server. */
-  sourceServerName?: string;
+  sourceServerName?: string | undefined;
   /** Database collation to be used for the target database. */
-  targetDatabaseCollation?: string;
+  targetDatabaseCollation?: string | undefined;
   /** Detailed migration status. Not included by default. */
-  migrationStatusDetails?: MigrationStatusDetails;
+  migrationStatusDetails?: MigrationStatusDetails | undefined;
   /** Backup configuration info. */
-  backupConfiguration?: BackupConfiguration;
+  backupConfiguration?: BackupConfiguration | undefined;
   /** Offline configuration. */
-  offlineConfiguration?: OfflineConfiguration;
+  offlineConfiguration?: OfflineConfiguration | undefined;
 }
 export interface DatabaseMigrationsSqlVmCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
-  properties?: DatabaseMigrationPropertiesSqlVm;
+  systemData?: SystemData | undefined;
+  properties?: DatabaseMigrationPropertiesSqlVm | undefined;
 }
 export interface DatabaseMigrationsSqlVmCutoverRequest {
   /** Subscription ID that identifies an Azure subscription. */
@@ -1086,7 +1087,7 @@ export interface DatabaseMigrationsSqlVmCutoverRequest {
   /** The name of the target database. */
   targetDbName: string;
   /** ID tracking migration operation. */
-  migrationOperationId?: string;
+  migrationOperationId?: string | undefined;
 }
 export interface DatabaseMigrationsSqlVmCutoverResponse {}
 export interface DeleteDatabaseMigrationsMongoToCosmosDbRUMongoRequest {
@@ -1099,10 +1100,10 @@ export interface DeleteDatabaseMigrationsMongoToCosmosDbRUMongoRequest {
   /** Name of the migration. */
   migrationName: string;
   /** Optional force delete boolean. If this is provided as true, migration will be deleted even if active. */
-  force?: boolean;
+  force?: boolean | undefined;
 }
 export interface DeleteDatabaseMigrationsMongoToCosmosDbRUMongoResponse {
-  location?: string;
+  location?: string | undefined;
 }
 export interface DeleteDatabaseMigrationsMongoToCosmosDbvCoreMongoRequest {
   /** Subscription ID that identifies an Azure subscription. */
@@ -1114,10 +1115,10 @@ export interface DeleteDatabaseMigrationsMongoToCosmosDbvCoreMongoRequest {
   /** Name of the migration. */
   migrationName: string;
   /** Optional force delete boolean. If this is provided as true, migration will be deleted even if active. */
-  force?: boolean;
+  force?: boolean | undefined;
 }
 export interface DeleteDatabaseMigrationsMongoToCosmosDbvCoreMongoResponse {
-  location?: string;
+  location?: string | undefined;
 }
 export interface DeleteDatabaseMigrationsSqlDbRequest {
   /** Subscription ID that identifies an Azure subscription. */
@@ -1128,7 +1129,7 @@ export interface DeleteDatabaseMigrationsSqlDbRequest {
   /** The name of the target database. */
   targetDbName: string;
   /** Optional force delete boolean. If this is provided as true, migration will be deleted even if active. */
-  force?: boolean;
+  force?: boolean | undefined;
 }
 export interface DeleteDatabaseMigrationsSqlDbResponse {}
 export interface DeleteDatabaseMigrationsSqlMiRequest {
@@ -1140,18 +1141,18 @@ export interface DeleteDatabaseMigrationsSqlMiRequest {
   /** The name of the target database. */
   targetDbName: string;
   /** Optional force delete boolean. If this is provided as true, migration will be deleted even if active. */
-  force?: boolean;
+  force?: boolean | undefined;
 }
 export interface DeleteDatabaseMigrationsSqlMiResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
-  properties?: DatabaseMigrationPropertiesSqlMi;
+  systemData?: SystemData | undefined;
+  properties?: DatabaseMigrationPropertiesSqlMi | undefined;
 }
 export interface DeleteDatabaseMigrationsSqlVmRequest {
   /** Subscription ID that identifies an Azure subscription. */
@@ -1162,18 +1163,18 @@ export interface DeleteDatabaseMigrationsSqlVmRequest {
   /** The name of the target database. */
   targetDbName: string;
   /** Optional force delete boolean. If this is provided as true, migration will be deleted even if active. */
-  force?: boolean;
+  force?: boolean | undefined;
 }
 export interface DeleteDatabaseMigrationsSqlVmResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
-  properties?: DatabaseMigrationPropertiesSqlVm;
+  systemData?: SystemData | undefined;
+  properties?: DatabaseMigrationPropertiesSqlVm | undefined;
 }
 export interface DeleteFileRequest {
   /** Subscription ID that identifies an Azure subscription. */
@@ -1197,7 +1198,7 @@ export interface DeleteMigrationServiceRequest {
   migrationServiceName: string;
 }
 export interface DeleteMigrationServiceResponse {
-  location?: string;
+  location?: string | undefined;
 }
 export interface DeleteProjectRequest {
   /** Subscription ID that identifies an Azure subscription. */
@@ -1209,7 +1210,7 @@ export interface DeleteProjectRequest {
   /** Name of the project */
   projectName: string;
   /** Delete the resource even if it contains running tasks */
-  deleteRunningTasks?: boolean;
+  deleteRunningTasks?: boolean | undefined;
 }
 export interface DeleteProjectResponse {}
 export interface DeleteServiceRequest {
@@ -1220,7 +1221,7 @@ export interface DeleteServiceRequest {
   /** Name of the service */
   serviceName: string;
   /** Delete the resource even if it contains running tasks */
-  deleteRunningTasks?: boolean;
+  deleteRunningTasks?: boolean | undefined;
 }
 export interface DeleteServiceResponse {}
 export interface DeleteServiceTaskRequest {
@@ -1233,7 +1234,7 @@ export interface DeleteServiceTaskRequest {
   /** Name of the Task */
   taskName: string;
   /** Delete the resource even if it contains running tasks */
-  deleteRunningTasks?: boolean;
+  deleteRunningTasks?: boolean | undefined;
 }
 export interface DeleteServiceTaskResponse {}
 export interface DeleteSqlMigrationServiceRequest {
@@ -1253,16 +1254,16 @@ export interface DeleteSqlMigrationServiceNodeRequest {
   /** Name of the SQL Migration Service. */
   sqlMigrationServiceName: string;
   /** The name of node to delete. */
-  nodeName?: string;
+  nodeName?: string | undefined;
   /** The name of integration runtime. */
-  integrationRuntimeName?: string;
+  integrationRuntimeName?: string | undefined;
 }
 /** Details of node to be deleted. */
 export interface DeleteNode {
   /** The name of node to delete. */
-  nodeName?: string;
+  nodeName?: string | undefined;
   /** The name of integration runtime. */
-  integrationRuntimeName?: string;
+  integrationRuntimeName?: string | undefined;
 }
 export interface DeleteTaskRequest {
   /** Subscription ID that identifies an Azure subscription. */
@@ -1276,17 +1277,17 @@ export interface DeleteTaskRequest {
   /** Name of the Task */
   taskName: string;
   /** Delete the resource even if it contains running tasks */
-  deleteRunningTasks?: boolean;
+  deleteRunningTasks?: boolean | undefined;
 }
 export interface DeleteTaskResponse {}
 /** Base class for file properties. */
 export interface ProjectFilePropertiesInput {
   /** Optional File extension. If submitted it should not have a leading period and must match the extension from filePath. */
-  extension?: string;
+  extension?: string | undefined;
   /** Relative path of this file resource. This property can be set when creating or updating the file resource. */
-  filePath?: string;
+  filePath?: string | undefined;
   /** File content type. This property can be modified to reflect the file content type. */
-  mediaType?: string;
+  mediaType?: string | undefined;
 }
 export interface FilesCreateOrUpdateRequest {
   /** Subscription ID that identifies an Azure subscription. */
@@ -1300,36 +1301,36 @@ export interface FilesCreateOrUpdateRequest {
   /** Name of the File */
   fileName: string;
   /** HTTP strong entity tag value. This is ignored if submitted. */
-  etag?: string;
+  etag?: string | undefined;
   /** Custom file properties */
-  properties?: ProjectFilePropertiesInput;
+  properties?: ProjectFilePropertiesInput | undefined;
 }
 /** Base class for file properties. */
 export interface ProjectFileProperties {
   /** Optional File extension. If submitted it should not have a leading period and must match the extension from filePath. */
-  extension?: string;
+  extension?: string | undefined;
   /** Relative path of this file resource. This property can be set when creating or updating the file resource. */
-  filePath?: string;
+  filePath?: string | undefined;
   /** Modification DateTime. */
-  lastModified?: string;
+  lastModified?: string | undefined;
   /** File content type. This property can be modified to reflect the file content type. */
-  mediaType?: string;
+  mediaType?: string | undefined;
   /** File size. */
-  size?: number;
+  size?: number | undefined;
 }
 export interface FilesCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** HTTP strong entity tag value. This is ignored if submitted. */
-  etag?: string;
+  etag?: string | undefined;
   /** Custom file properties */
-  properties?: ProjectFileProperties;
+  properties?: ProjectFileProperties | undefined;
 }
 export interface GetDatabaseMigrationsMongoToCosmosDbRUMongoRequest {
   /** Subscription ID that identifies an Azure subscription. */
@@ -1343,14 +1344,14 @@ export interface GetDatabaseMigrationsMongoToCosmosDbRUMongoRequest {
 }
 export interface GetDatabaseMigrationsMongoToCosmosDbRUMongoResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
-  properties?: DatabaseMigrationPropertiesCosmosDbMongo;
+  systemData?: SystemData | undefined;
+  properties?: DatabaseMigrationPropertiesCosmosDbMongo | undefined;
 }
 export interface GetDatabaseMigrationsMongoToCosmosDbRUMongoForScopeRequest {
   /** Subscription ID that identifies an Azure subscription. */
@@ -1363,21 +1364,21 @@ export interface GetDatabaseMigrationsMongoToCosmosDbRUMongoForScopeRequest {
 /** Database Migration Resource for Mongo to CosmosDb. */
 export interface DatabaseMigrationCosmosDbMongo {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
-  properties?: DatabaseMigrationPropertiesCosmosDbMongo;
+  systemData?: SystemData | undefined;
+  properties?: DatabaseMigrationPropertiesCosmosDbMongo | undefined;
 }
 export type DatabaseMigrationCosmosDbMongoListResultValueList =
   Array<DatabaseMigrationCosmosDbMongo>;
 /** A list of Database Migrations. */
 export interface DatabaseMigrationCosmosDbMongoListResult {
-  value?: DatabaseMigrationCosmosDbMongoListResultValueList;
-  nextLink?: string;
+  value?: DatabaseMigrationCosmosDbMongoListResultValueList | undefined;
+  nextLink?: string | undefined;
 }
 export interface GetDatabaseMigrationsMongoToCosmosDbvCoreMongoRequest {
   /** Subscription ID that identifies an Azure subscription. */
@@ -1391,14 +1392,14 @@ export interface GetDatabaseMigrationsMongoToCosmosDbvCoreMongoRequest {
 }
 export interface GetDatabaseMigrationsMongoToCosmosDbvCoreMongoResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
-  properties?: DatabaseMigrationPropertiesCosmosDbMongo;
+  systemData?: SystemData | undefined;
+  properties?: DatabaseMigrationPropertiesCosmosDbMongo | undefined;
 }
 export interface GetDatabaseMigrationsMongoToCosmosDbvCoreMongoForScopeRequest {
   /** Subscription ID that identifies an Azure subscription. */
@@ -1417,20 +1418,20 @@ export interface GetDatabaseMigrationsSqlDbRequest {
   /** The name of the target database. */
   targetDbName: string;
   /** Optional migration operation ID. If this is provided, then details of migration operation for that ID are retrieved. If not provided (default), then details related to most recent or current operation are retrieved. */
-  migrationOperationId?: string;
+  migrationOperationId?: string | undefined;
   /** Complete migration details be included in the response. */
-  _expand?: string;
+  _expand?: string | undefined;
 }
 export interface GetDatabaseMigrationsSqlDbResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
-  properties?: DatabaseMigrationPropertiesSqlDb;
+  systemData?: SystemData | undefined;
+  properties?: DatabaseMigrationPropertiesSqlDb | undefined;
 }
 export interface GetDatabaseMigrationsSqlMiRequest {
   /** Subscription ID that identifies an Azure subscription. */
@@ -1441,20 +1442,20 @@ export interface GetDatabaseMigrationsSqlMiRequest {
   /** The name of the target database. */
   targetDbName: string;
   /** Optional migration operation ID. If this is provided, then details of migration operation for that ID are retrieved. If not provided (default), then details related to most recent or current operation are retrieved. */
-  migrationOperationId?: string;
+  migrationOperationId?: string | undefined;
   /** Complete migration details be included in the response. */
-  _expand?: string;
+  _expand?: string | undefined;
 }
 export interface GetDatabaseMigrationsSqlMiResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
-  properties?: DatabaseMigrationPropertiesSqlMi;
+  systemData?: SystemData | undefined;
+  properties?: DatabaseMigrationPropertiesSqlMi | undefined;
 }
 export interface GetDatabaseMigrationsSqlVmRequest {
   /** Subscription ID that identifies an Azure subscription. */
@@ -1465,20 +1466,20 @@ export interface GetDatabaseMigrationsSqlVmRequest {
   /** The name of the target database. */
   targetDbName: string;
   /** Optional migration operation ID. If this is provided, then details of migration operation for that ID are retrieved. If not provided (default), then details related to most recent or current operation are retrieved. */
-  migrationOperationId?: string;
+  migrationOperationId?: string | undefined;
   /** Complete migration details be included in the response. */
-  _expand?: string;
+  _expand?: string | undefined;
 }
 export interface GetDatabaseMigrationsSqlVmResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
-  properties?: DatabaseMigrationPropertiesSqlVm;
+  systemData?: SystemData | undefined;
+  properties?: DatabaseMigrationPropertiesSqlVm | undefined;
 }
 export interface GetFileRequest {
   /** Subscription ID that identifies an Azure subscription. */
@@ -1494,17 +1495,17 @@ export interface GetFileRequest {
 }
 export interface GetFileResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** HTTP strong entity tag value. This is ignored if submitted. */
-  etag?: string;
+  etag?: string | undefined;
   /** Custom file properties */
-  properties?: ProjectFileProperties;
+  properties?: ProjectFileProperties | undefined;
 }
 export interface GetMigrationServiceRequest {
   /** Subscription ID that identifies an Azure subscription. */
@@ -1526,24 +1527,24 @@ export type MigrationServicePropertiesProvisioningState =
 /** The Migration Service properties. */
 export interface MigrationServiceProperties {
   /** Provisioning state to track the async operation status. */
-  provisioningState?: MigrationServicePropertiesProvisioningState;
+  provisioningState?: MigrationServicePropertiesProvisioningState | undefined;
   /** Current state of the Integration runtime. */
-  integrationRuntimeState?: string;
+  integrationRuntimeState?: string | undefined;
 }
 export interface GetMigrationServiceResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: GetMigrationServiceResponseTagsMap;
+  tags?: GetMigrationServiceResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
-  properties?: MigrationServiceProperties;
+  properties?: MigrationServiceProperties | undefined;
 }
 export interface GetProjectRequest {
   /** Subscription ID that identifies an Azure subscription. */
@@ -1562,13 +1563,13 @@ export type ProjectSourcePlatform = "SQL" | "MySQL" | "PostgreSql" | "MongoDb" |
 /** Azure Active Directory Application */
 export interface ProjectPropertiesAzureAuthenticationInfo {
   /** Application ID of the Azure Active Directory Application */
-  applicationId?: string;
+  applicationId?: string | undefined;
   /** Key used to authenticate to the Azure Active Directory Application */
-  appKey?: string;
+  appKey?: string | undefined;
   /** Tenant id of the customer */
-  tenantId?: string;
+  tenantId?: string | undefined;
   /** Ignore checking azure permissions on the AAD app */
-  ignoreAzurePermissions?: boolean;
+  ignoreAzurePermissions?: boolean | undefined;
 }
 /** Target platform of the project */
 export type ProjectTargetPlatform =
@@ -1583,9 +1584,9 @@ export interface ProjectPropertiesSourceConnectionInfo {
   /** Type of connection info */
   type: string;
   /** User name */
-  userName?: string;
+  userName?: string | undefined;
   /** Password credential. */
-  password?: string | Redacted.Redacted<string>;
+  password?: string | Redacted.Redacted<string> | undefined;
 }
 /** Defines the connection properties of a server */
 export type ProjectPropertiesTargetConnectionInfo = ProjectPropertiesSourceConnectionInfo;
@@ -1603,37 +1604,37 @@ export interface ProjectProperties {
   /** Source platform for the project */
   sourcePlatform: ProjectSourcePlatform;
   /** Azure Active Directory Application */
-  azureAuthenticationInfo?: ProjectPropertiesAzureAuthenticationInfo;
+  azureAuthenticationInfo?: ProjectPropertiesAzureAuthenticationInfo | undefined;
   /** Target platform for the project */
   targetPlatform: ProjectTargetPlatform;
   /** UTC Date and time when project was created */
-  creationTime?: string;
+  creationTime?: string | undefined;
   /** Defines the connection properties of a server */
-  sourceConnectionInfo?: ProjectPropertiesSourceConnectionInfo;
+  sourceConnectionInfo?: ProjectPropertiesSourceConnectionInfo | undefined;
   /** Defines the connection properties of a server */
-  targetConnectionInfo?: ProjectPropertiesSourceConnectionInfo;
+  targetConnectionInfo?: ProjectPropertiesSourceConnectionInfo | undefined;
   /** List of DatabaseInfo */
-  databasesInfo?: ProjectPropertiesDatabasesInfoList;
+  databasesInfo?: ProjectPropertiesDatabasesInfoList | undefined;
   /** The project's provisioning state */
-  provisioningState?: ProjectPropertiesProvisioningState;
+  provisioningState?: ProjectPropertiesProvisioningState | undefined;
 }
 export interface GetProjectResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: GetProjectResponseTagsMap;
+  tags?: GetProjectResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Project properties */
-  properties?: ProjectProperties;
+  properties?: ProjectProperties | undefined;
   /** HTTP strong entity tag value. This is ignored if submitted. */
-  etag?: string;
+  etag?: string | undefined;
 }
 export interface GetServiceRequest {
   /** Subscription ID that identifies an Azure subscription. */
@@ -1660,52 +1661,52 @@ export type DataMigrationServicePropertiesProvisioningState =
 /** Properties of the Azure Database Migration Service (classic) instance */
 export interface DataMigrationServiceProperties {
   /** The resource's provisioning state */
-  provisioningState?: DataMigrationServicePropertiesProvisioningState;
+  provisioningState?: DataMigrationServicePropertiesProvisioningState | undefined;
   /** The public key of the service, used to encrypt secrets sent to the service */
-  publicKey?: string;
+  publicKey?: string | undefined;
   /** The ID of the Microsoft.Network/virtualNetworks/subnets resource to which the service should be joined */
-  virtualSubnetId?: string;
+  virtualSubnetId?: string | undefined;
   /** The ID of the Microsoft.Network/networkInterfaces resource which the service have */
-  virtualNicId?: string;
+  virtualNicId?: string | undefined;
   /** The time delay before the service is auto-stopped when idle. */
-  autoStopDelay?: string;
+  autoStopDelay?: string | undefined;
   /** Whether service resources should be deleted when stopped. (Turned on by default) */
-  deleteResourcesOnStop?: boolean;
+  deleteResourcesOnStop?: boolean | undefined;
 }
 /** An Azure SKU instance */
 export interface ServiceSku {
   /** The unique name of the SKU, such as 'P3' */
-  name?: string;
+  name?: string | undefined;
   /** The tier of the SKU, such as 'Basic', 'General Purpose', or 'Business Critical' */
-  tier?: string;
+  tier?: string | undefined;
   /** The SKU family, used when the service has multiple performance classes within a tier, such as 'A', 'D', etc. for virtual machines */
-  family?: string;
+  family?: string | undefined;
   /** The size of the SKU, used when the name alone does not denote a service size or when a SKU has multiple performance classes within a family, e.g. 'A1' for virtual machines */
-  size?: string;
+  size?: string | undefined;
   /** The capacity of the SKU, if it supports scaling */
-  capacity?: number;
+  capacity?: number | undefined;
 }
 export interface GetServiceResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: GetServiceResponseTagsMap;
+  tags?: GetServiceResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** HTTP strong entity tag value. Ignored if submitted */
-  etag?: string;
+  etag?: string | undefined;
   /** The resource kind. Only 'vm' (the default) is supported. */
-  kind?: string;
+  kind?: string | undefined;
   /** Custom service properties */
-  properties?: DataMigrationServiceProperties;
+  properties?: DataMigrationServiceProperties | undefined;
   /** Service SKU */
-  sku?: ServiceSku;
+  sku?: ServiceSku | undefined;
 }
 export interface GetServiceTaskRequest {
   /** Subscription ID that identifies an Azure subscription. */
@@ -1717,21 +1718,21 @@ export interface GetServiceTaskRequest {
   /** Name of the Task */
   taskName: string;
   /** Expand the response */
-  _expand?: string;
+  _expand?: string | undefined;
 }
 export interface GetServiceTaskResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** HTTP strong entity tag value. This is ignored if submitted. */
-  etag?: string;
+  etag?: string | undefined;
   /** Custom task properties */
-  properties?: ProjectTaskProperties;
+  properties?: ProjectTaskProperties | undefined;
 }
 export interface GetSqlMigrationServiceRequest {
   /** Subscription ID that identifies an Azure subscription. */
@@ -1746,24 +1747,24 @@ export type GetSqlMigrationServiceResponseTagsMap = { [key: string]: string | un
 /** The SQL Migration Service properties. */
 export interface SqlMigrationServiceProperties {
   /** Provisioning state to track the async operation status. */
-  provisioningState?: string;
+  provisioningState?: string | undefined;
   /** Current state of the Integration runtime. */
-  integrationRuntimeState?: string;
+  integrationRuntimeState?: string | undefined;
 }
 export interface GetSqlMigrationServiceResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: GetSqlMigrationServiceResponseTagsMap;
+  tags?: GetSqlMigrationServiceResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
-  properties?: SqlMigrationServiceProperties;
+  properties?: SqlMigrationServiceProperties | undefined;
 }
 export interface GetTaskRequest {
   /** Subscription ID that identifies an Azure subscription. */
@@ -1777,21 +1778,21 @@ export interface GetTaskRequest {
   /** Name of the Task */
   taskName: string;
   /** Expand the response */
-  _expand?: string;
+  _expand?: string | undefined;
 }
 export interface GetTaskResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** HTTP strong entity tag value. This is ignored if submitted. */
-  etag?: string;
+  etag?: string | undefined;
   /** Custom task properties */
-  properties?: ProjectTaskProperties;
+  properties?: ProjectTaskProperties | undefined;
 }
 export interface ListFilesRequest {
   /** Subscription ID that identifies an Azure subscription. */
@@ -1806,25 +1807,25 @@ export interface ListFilesRequest {
 /** A file resource */
 export interface ProjectFile {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** HTTP strong entity tag value. This is ignored if submitted. */
-  etag?: string;
+  etag?: string | undefined;
   /** Custom file properties */
-  properties?: ProjectFileProperties;
+  properties?: ProjectFileProperties | undefined;
 }
 /** List of files */
 export type ListFilesResponseValueList = Array<ProjectFile>;
 export interface ListFilesResponse {
   /** List of files */
-  value?: ListFilesResponseValueList;
+  value?: ListFilesResponseValueList | undefined;
   /** URL to load the next page of files */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListMigrationServiceByResourceGroupRequest {
   /** Subscription ID that identifies an Azure subscription. */
@@ -1837,24 +1838,24 @@ export type MigrationServiceTagsMap = { [key: string]: string | undefined };
 /** A Migration Service. */
 export interface MigrationService {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: MigrationServiceTagsMap;
+  tags?: MigrationServiceTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
-  properties?: MigrationServiceProperties;
+  properties?: MigrationServiceProperties | undefined;
 }
 export type MigrationServiceListResultValueList = Array<MigrationService>;
 /** A list of Migration Service. */
 export interface MigrationServiceListResult {
-  value?: MigrationServiceListResultValueList;
-  nextLink?: string;
+  value?: MigrationServiceListResultValueList | undefined;
+  nextLink?: string | undefined;
 }
 export interface ListMigrationServiceBySubscriptionRequest {
   /** Subscription ID that identifies an Azure subscription. */
@@ -1884,64 +1885,64 @@ export type DatabaseMigrationBasePropertiesProvisioningState =
 export interface DatabaseMigrationBaseProperties {
   kind: DatabaseMigrationBasePropertiesKind;
   /** Resource Id of the target resource. */
-  scope?: string;
+  scope?: string | undefined;
   /** Provisioning State of migration. ProvisioningState as Succeeded implies that validations have been performed and migration has started. */
-  provisioningState?: DatabaseMigrationBasePropertiesProvisioningState;
+  provisioningState?: DatabaseMigrationBasePropertiesProvisioningState | undefined;
   /** Migration status. */
-  migrationStatus?: string;
+  migrationStatus?: string | undefined;
   /** Database migration start time. */
-  startedOn?: string;
+  startedOn?: string | undefined;
   /** Database migration end time. */
-  endedOn?: string;
+  endedOn?: string | undefined;
   /** Resource Id of the Migration Service. */
-  migrationService?: string;
+  migrationService?: string | undefined;
   /** ID for current migration operation. */
-  migrationOperationId?: string;
+  migrationOperationId?: string | undefined;
   /** Error details in case of migration failure. */
-  migrationFailureError?: ErrorInfo;
+  migrationFailureError?: ErrorInfo | undefined;
   /** Error message for migration provisioning failure, if any. */
-  provisioningError?: string;
+  provisioningError?: string | undefined;
 }
 /** Database Migration Resource. */
 export interface DatabaseMigrationBase {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
-  properties?: DatabaseMigrationBaseProperties;
+  systemData?: SystemData | undefined;
+  properties?: DatabaseMigrationBaseProperties | undefined;
 }
 export type DatabaseMigrationBaseListResultValueList = Array<DatabaseMigrationBase>;
 /** A list of Database Migrations. */
 export interface DatabaseMigrationBaseListResult {
-  value?: DatabaseMigrationBaseListResultValueList;
-  nextLink?: string;
+  value?: DatabaseMigrationBaseListResultValueList | undefined;
+  nextLink?: string | undefined;
 }
 export interface ListOperationsRequest {}
 export interface OperationsDisplayDefinition {
-  provider?: string;
-  resource?: string;
-  operation?: string;
-  description?: string;
+  provider?: string | undefined;
+  resource?: string | undefined;
+  operation?: string | undefined;
+  description?: string | undefined;
 }
 export type OperationsDefinitionOrigin = "user" | "system";
 export type OperationsDefinitionPropertiesMap = { [key: string]: unknown | undefined };
 export interface OperationsDefinition {
-  name?: string;
+  name?: string | undefined;
   /** Indicates whether the operation is a data action */
-  isDataAction?: boolean;
-  display?: OperationsDisplayDefinition;
-  origin?: OperationsDefinitionOrigin;
-  properties?: OperationsDefinitionPropertiesMap;
+  isDataAction?: boolean | undefined;
+  display?: OperationsDisplayDefinition | undefined;
+  origin?: OperationsDefinitionOrigin | undefined;
+  properties?: OperationsDefinitionPropertiesMap | undefined;
 }
 export type OperationListResultValueList = Array<OperationsDefinition>;
 /** Result of the request to list SQL operations. */
 export interface OperationListResult {
-  value?: OperationListResultValueList;
-  nextLink?: string;
+  value?: OperationListResultValueList | undefined;
+  nextLink?: string | undefined;
 }
 export interface ListProjectsRequest {
   /** Subscription ID that identifies an Azure subscription. */
@@ -1956,29 +1957,29 @@ export type ProjectTagsMap = { [key: string]: string | undefined };
 /** A project resource */
 export interface Project {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: ProjectTagsMap;
+  tags?: ProjectTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Project properties */
-  properties?: ProjectProperties;
+  properties?: ProjectProperties | undefined;
   /** HTTP strong entity tag value. This is ignored if submitted. */
-  etag?: string;
+  etag?: string | undefined;
 }
 /** List of projects */
 export type ListProjectsResponseValueList = Array<Project>;
 export interface ListProjectsResponse {
   /** List of projects */
-  value?: ListProjectsResponseValueList;
+  value?: ListProjectsResponseValueList | undefined;
   /** URL to load the next page of projects */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListResourceSkusSkusRequest {
   /** Subscription ID that identifies an Azure subscription. */
@@ -1989,13 +1990,13 @@ export type ResourceSkuCapacityScaleType = "Automatic" | "Manual" | "None";
 /** Describes scaling information of a SKU. */
 export interface ResourceSkuCapacity {
   /** The minimum capacity. */
-  minimum?: number;
+  minimum?: number | undefined;
   /** The maximum capacity. */
-  maximum?: number;
+  maximum?: number | undefined;
   /** The default capacity. */
-  default?: number;
+  default?: number | undefined;
   /** The scale type applicable to the SKU. */
-  scaleType?: ResourceSkuCapacityScaleType;
+  scaleType?: ResourceSkuCapacityScaleType | undefined;
 }
 /** The set of locations that the SKU is available. */
 export type ResourceSkuLocationsList = Array<string>;
@@ -2004,20 +2005,20 @@ export type ResourceSkuApiVersionsList = Array<string>;
 /** Describes metadata for retrieving price info. */
 export interface ResourceSkuCosts {
   /** Used for querying price from commerce. */
-  meterID?: string;
+  meterID?: string | undefined;
   /** The multiplier is needed to extend the base metered cost. */
-  quantity?: number;
+  quantity?: number | undefined;
   /** An invariant to show the extended unit. */
-  extendedUnit?: string;
+  extendedUnit?: string | undefined;
 }
 /** Metadata for retrieving price info. */
 export type ResourceSkuCostsList = Array<ResourceSkuCosts>;
 /** Describes The SKU capabilities object. */
 export interface ResourceSkuCapabilities {
   /** An invariant to describe the feature. */
-  name?: string;
+  name?: string | undefined;
   /** An invariant if the feature is measured by quantity. */
-  value?: string;
+  value?: string | undefined;
 }
 /** A name value pair to describe the capability. */
 export type ResourceSkuCapabilitiesList = Array<ResourceSkuCapabilities>;
@@ -2030,40 +2031,40 @@ export type ResourceSkuRestrictionsReasonCode = "QuotaId" | "NotAvailableForSubs
 /** Describes scaling information of a SKU. */
 export interface ResourceSkuRestrictions {
   /** The type of restrictions. */
-  type?: ResourceSkuRestrictionsType;
+  type?: ResourceSkuRestrictionsType | undefined;
   /** The value of restrictions. If the restriction type is set to location. This would be different locations where the SKU is restricted. */
-  values?: ResourceSkuRestrictionsValuesList;
+  values?: ResourceSkuRestrictionsValuesList | undefined;
   /** The reason code for restriction. */
-  reasonCode?: ResourceSkuRestrictionsReasonCode;
+  reasonCode?: ResourceSkuRestrictionsReasonCode | undefined;
 }
 /** The restrictions because of which SKU cannot be used. This is empty if there are no restrictions. */
 export type ResourceSkuRestrictionsList = Array<ResourceSkuRestrictions>;
 /** Describes an available DMS (classic) SKU. */
 export interface ResourceSku {
   /** The type of resource the SKU applies to. */
-  resourceType?: string;
+  resourceType?: string | undefined;
   /** The name of SKU. */
-  name?: string;
+  name?: string | undefined;
   /** Specifies the tier of DMS (classic) in a scale set. */
-  tier?: string;
+  tier?: string | undefined;
   /** The Size of the SKU. */
-  size?: string;
+  size?: string | undefined;
   /** The Family of this particular SKU. */
-  family?: string;
+  family?: string | undefined;
   /** The Kind of resources that are supported in this SKU. */
-  kind?: string;
+  kind?: string | undefined;
   /** Not used. */
-  capacity?: ResourceSkuCapacity;
+  capacity?: ResourceSkuCapacity | undefined;
   /** The set of locations that the SKU is available. */
-  locations?: ResourceSkuLocationsList;
+  locations?: ResourceSkuLocationsList | undefined;
   /** The api versions that support this SKU. */
-  apiVersions?: ResourceSkuApiVersionsList;
+  apiVersions?: ResourceSkuApiVersionsList | undefined;
   /** Metadata for retrieving price info. */
-  costs?: ResourceSkuCostsList;
+  costs?: ResourceSkuCostsList | undefined;
   /** A name value pair to describe the capability. */
-  capabilities?: ResourceSkuCapabilitiesList;
+  capabilities?: ResourceSkuCapabilitiesList | undefined;
   /** The restrictions because of which SKU cannot be used. This is empty if there are no restrictions. */
-  restrictions?: ResourceSkuRestrictionsList;
+  restrictions?: ResourceSkuRestrictionsList | undefined;
 }
 /** The list of SKUs available for the subscription. */
 export type ListResourceSkusSkusResponseValueList = Array<ResourceSku>;
@@ -2071,7 +2072,7 @@ export interface ListResourceSkusSkusResponse {
   /** The list of SKUs available for the subscription. */
   value: ListResourceSkusSkusResponseValueList;
   /** The uri to fetch the next page of DMS (classic) SKUs. Call ListNext() with this to fetch the next page of DMS (classic) SKUs. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListServiceByResourceGroupRequest {
   /** Subscription ID that identifies an Azure subscription. */
@@ -2084,33 +2085,33 @@ export type DataMigrationServiceTagsMap = { [key: string]: string | undefined };
 /** An Azure Database Migration Service (classic) resource */
 export interface DataMigrationService {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: DataMigrationServiceTagsMap;
+  tags?: DataMigrationServiceTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** HTTP strong entity tag value. Ignored if submitted */
-  etag?: string;
+  etag?: string | undefined;
   /** The resource kind. Only 'vm' (the default) is supported. */
-  kind?: string;
+  kind?: string | undefined;
   /** Custom service properties */
-  properties?: DataMigrationServiceProperties;
+  properties?: DataMigrationServiceProperties | undefined;
   /** Service SKU */
-  sku?: ServiceSku;
+  sku?: ServiceSku | undefined;
 }
 /** List of services */
 export type ListServiceByResourceGroupResponseValueList = Array<DataMigrationService>;
 export interface ListServiceByResourceGroupResponse {
   /** List of services */
-  value?: ListServiceByResourceGroupResponseValueList;
+  value?: ListServiceByResourceGroupResponseValueList | undefined;
   /** URL to load the next page of services */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListServicesRequest {
   /** Subscription ID that identifies an Azure subscription. */
@@ -2120,9 +2121,9 @@ export interface ListServicesRequest {
 export type ListServicesResponseValueList = Array<DataMigrationService>;
 export interface ListServicesResponse {
   /** List of services */
-  value?: ListServicesResponseValueList;
+  value?: ListServicesResponseValueList | undefined;
   /** URL to load the next page of services */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListServiceSkusRequest {
   /** Subscription ID that identifies an Azure subscription. */
@@ -2135,43 +2136,43 @@ export interface ListServiceSkusRequest {
 /** SKU name, tier, etc. */
 export interface AvailableServiceSkuSku {
   /** The name of the SKU */
-  name?: string;
+  name?: string | undefined;
   /** SKU family */
-  family?: string;
+  family?: string | undefined;
   /** SKU size */
-  size?: string;
+  size?: string | undefined;
   /** The tier of the SKU, such as "Basic", "General Purpose", or "Business Critical" */
-  tier?: string;
+  tier?: string | undefined;
 }
 /** The scalability approach */
 export type AvailableServiceSkuCapacityScaleType = "none" | "manual" | "automatic";
 /** A description of the scaling capacities of the SKU */
 export interface AvailableServiceSkuCapacity {
   /** The minimum capacity, usually 0 or 1. */
-  minimum?: number;
+  minimum?: number | undefined;
   /** The maximum capacity */
-  maximum?: number;
+  maximum?: number | undefined;
   /** The default capacity */
-  default?: number;
+  default?: number | undefined;
   /** The scalability approach */
-  scaleType?: AvailableServiceSkuCapacityScaleType;
+  scaleType?: AvailableServiceSkuCapacityScaleType | undefined;
 }
 /** Describes the available service SKU. */
 export interface AvailableServiceSku {
   /** The resource type, including the provider namespace */
-  resourceType?: string;
+  resourceType?: string | undefined;
   /** SKU name, tier, etc. */
-  sku?: AvailableServiceSkuSku;
+  sku?: AvailableServiceSkuSku | undefined;
   /** A description of the scaling capacities of the SKU */
-  capacity?: AvailableServiceSkuCapacity;
+  capacity?: AvailableServiceSkuCapacity | undefined;
 }
 /** List of service SKUs */
 export type ListServiceSkusResponseValueList = Array<AvailableServiceSku>;
 export interface ListServiceSkusResponse {
   /** List of service SKUs */
-  value?: ListServiceSkusResponseValueList;
+  value?: ListServiceSkusResponseValueList | undefined;
   /** URL to load the next page of service SKUs */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListServiceTasksRequest {
   /** Subscription ID that identifies an Azure subscription. */
@@ -2181,30 +2182,30 @@ export interface ListServiceTasksRequest {
   /** Name of the service */
   serviceName: string;
   /** Filter tasks by task type */
-  taskType?: string;
+  taskType?: string | undefined;
 }
 /** A task resource */
 export interface ProjectTask {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** HTTP strong entity tag value. This is ignored if submitted. */
-  etag?: string;
+  etag?: string | undefined;
   /** Custom task properties */
-  properties?: ProjectTaskProperties;
+  properties?: ProjectTaskProperties | undefined;
 }
 /** List of tasks */
 export type ListServiceTasksResponseValueList = Array<ProjectTask>;
 export interface ListServiceTasksResponse {
   /** List of tasks */
-  value?: ListServiceTasksResponseValueList;
+  value?: ListServiceTasksResponseValueList | undefined;
   /** URL to load the next page of tasks */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListSqlMigrationServiceAuthKeysRequest {
   /** Subscription ID that identifies an Azure subscription. */
@@ -2217,9 +2218,9 @@ export interface ListSqlMigrationServiceAuthKeysRequest {
 /** An authentication key. */
 export interface AuthenticationKeys {
   /** The first authentication key. */
-  authKey1?: string;
+  authKey1?: string | undefined;
   /** The second authentication key. */
-  authKey2?: string;
+  authKey2?: string | undefined;
 }
 export interface ListSqlMigrationServiceByResourceGroupRequest {
   /** Subscription ID that identifies an Azure subscription. */
@@ -2232,24 +2233,24 @@ export type SqlMigrationServiceTagsMap = { [key: string]: string | undefined };
 /** A SQL Migration Service. */
 export interface SqlMigrationService {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: SqlMigrationServiceTagsMap;
+  tags?: SqlMigrationServiceTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
-  properties?: SqlMigrationServiceProperties;
+  properties?: SqlMigrationServiceProperties | undefined;
 }
 export type SqlMigrationListResultValueList = Array<SqlMigrationService>;
 /** A list of SQL Migration Service. */
 export interface SqlMigrationListResult {
-  value?: SqlMigrationListResultValueList;
-  nextLink?: string;
+  value?: SqlMigrationListResultValueList | undefined;
+  nextLink?: string | undefined;
 }
 export interface ListSqlMigrationServiceBySubscriptionRequest {
   /** Subscription ID that identifies an Azure subscription. */
@@ -2275,49 +2276,49 @@ export type DatabaseMigrationPropertiesProvisioningState =
 export interface DatabaseMigrationProperties {
   kind: DatabaseMigrationPropertiesKind;
   /** Resource Id of the target resource. */
-  scope?: string;
+  scope?: string | undefined;
   /** Provisioning State of migration. ProvisioningState as Succeeded implies that validations have been performed and migration has started. */
-  provisioningState?: DatabaseMigrationPropertiesProvisioningState;
+  provisioningState?: DatabaseMigrationPropertiesProvisioningState | undefined;
   /** Migration status. */
-  migrationStatus?: string;
+  migrationStatus?: string | undefined;
   /** Database migration start time. */
-  startedOn?: string;
+  startedOn?: string | undefined;
   /** Database migration end time. */
-  endedOn?: string;
+  endedOn?: string | undefined;
   /** Resource Id of the Migration Service. */
-  migrationService?: string;
+  migrationService?: string | undefined;
   /** ID for current migration operation. */
-  migrationOperationId?: string;
+  migrationOperationId?: string | undefined;
   /** Error details in case of migration failure. */
-  migrationFailureError?: ErrorInfo;
+  migrationFailureError?: ErrorInfo | undefined;
   /** Error message for migration provisioning failure, if any. */
-  provisioningError?: string;
+  provisioningError?: string | undefined;
   /** Source SQL Server connection details. */
-  sourceSqlConnection?: SqlConnectionInformation;
+  sourceSqlConnection?: SqlConnectionInformation | undefined;
   /** Name of the source database. */
-  sourceDatabaseName?: string;
+  sourceDatabaseName?: string | undefined;
   /** Name of the source sql server. */
-  sourceServerName?: string;
+  sourceServerName?: string | undefined;
   /** Database collation to be used for the target database. */
-  targetDatabaseCollation?: string;
+  targetDatabaseCollation?: string | undefined;
 }
 /** Database Migration Resource. */
 export interface DatabaseMigration {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
-  properties?: DatabaseMigrationProperties;
+  systemData?: SystemData | undefined;
+  properties?: DatabaseMigrationProperties | undefined;
 }
 export type DatabaseMigrationListResultValueList = Array<DatabaseMigration>;
 /** A list of Database Migrations. */
 export interface DatabaseMigrationListResult {
-  value?: DatabaseMigrationListResultValueList;
-  nextLink?: string;
+  value?: DatabaseMigrationListResultValueList | undefined;
+  nextLink?: string | undefined;
 }
 export interface ListSqlMigrationServiceMonitoringDataRequest {
   /** Subscription ID that identifies an Azure subscription. */
@@ -2331,32 +2332,32 @@ export interface ListSqlMigrationServiceMonitoringDataRequest {
 export type NodeMonitoringDataAdditionalPropertiesMap = { [key: string]: unknown | undefined };
 export interface NodeMonitoringData {
   /** Unmatched properties from the message are deserialized in this collection. */
-  additionalProperties?: NodeMonitoringDataAdditionalPropertiesMap;
+  additionalProperties?: NodeMonitoringDataAdditionalPropertiesMap | undefined;
   /** Name of the integration runtime node. */
-  nodeName?: string;
+  nodeName?: string | undefined;
   /** Available memory (MB) on the integration runtime node. */
-  availableMemoryInMB?: number;
+  availableMemoryInMB?: number | undefined;
   /** CPU percentage on the integration runtime node. */
-  cpuUtilization?: number;
+  cpuUtilization?: number | undefined;
   /** Maximum concurrent jobs on the integration runtime node. */
-  concurrentJobsLimit?: number;
+  concurrentJobsLimit?: number | undefined;
   /** The number of jobs currently running on the integration runtime node. */
-  concurrentJobsRunning?: number;
+  concurrentJobsRunning?: number | undefined;
   /** The maximum concurrent jobs in this integration runtime. */
-  maxConcurrentJobs?: number;
+  maxConcurrentJobs?: number | undefined;
   /** Sent bytes on the integration runtime node. */
-  sentBytes?: number;
+  sentBytes?: number | undefined;
   /** Received bytes on the integration runtime node. */
-  receivedBytes?: number;
+  receivedBytes?: number | undefined;
 }
 /** Integration Runtime node monitoring data. */
 export type IntegrationRuntimeMonitoringDataNodesList = Array<NodeMonitoringData>;
 /** Integration Runtime Monitoring Data. */
 export interface IntegrationRuntimeMonitoringData {
   /** The name of Integration Runtime. */
-  name?: string;
+  name?: string | undefined;
   /** Integration Runtime node monitoring data. */
-  nodes?: IntegrationRuntimeMonitoringDataNodesList;
+  nodes?: IntegrationRuntimeMonitoringDataNodesList | undefined;
 }
 export interface ListTasksRequest {
   /** Subscription ID that identifies an Azure subscription. */
@@ -2368,15 +2369,15 @@ export interface ListTasksRequest {
   /** Name of the project */
   projectName: string;
   /** Filter tasks by task type */
-  taskType?: string;
+  taskType?: string | undefined;
 }
 /** List of tasks */
 export type ListTasksResponseValueList = Array<ProjectTask>;
 export interface ListTasksResponse {
   /** List of tasks */
-  value?: ListTasksResponseValueList;
+  value?: ListTasksResponseValueList | undefined;
   /** URL to load the next page of tasks */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListUsagesRequest {
   /** Subscription ID that identifies an Azure subscription. */
@@ -2387,30 +2388,30 @@ export interface ListUsagesRequest {
 /** The name of the quota */
 export interface QuotaName {
   /** The localized name of the quota */
-  localizedValue?: string;
+  localizedValue?: string | undefined;
   /** The unlocalized name (or ID) of the quota */
-  value?: string;
+  value?: string | undefined;
 }
 /** Describes a quota for or usage details about a resource */
 export interface Quota {
   /** The current value of the quota. If null or missing, the current value cannot be determined in the context of the request. */
-  currentValue?: number;
+  currentValue?: number | undefined;
   /** The resource ID of the quota object */
-  id?: string;
+  id?: string | undefined;
   /** The maximum value of the quota. If null or missing, the quota has no maximum, in which case it merely tracks usage. */
-  limit?: number;
+  limit?: number | undefined;
   /** The name of the quota */
-  name?: QuotaName;
+  name?: QuotaName | undefined;
   /** The unit for the quota, such as Count, Bytes, BytesPerSecond, etc. */
-  unit?: string;
+  unit?: string | undefined;
 }
 /** List of quotas */
 export type ListUsagesResponseValueList = Array<Quota>;
 export interface ListUsagesResponse {
   /** List of quotas */
-  value?: ListUsagesResponseValueList;
+  value?: ListUsagesResponseValueList | undefined;
   /** URL to load the next page of quotas, or null or missing if this is the last page */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type MigrationServicesCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
@@ -2424,27 +2425,27 @@ export interface MigrationServicesCreateOrUpdateRequest {
   /** Name of the Migration Service. */
   migrationServiceName: string;
   /** Resource tags. */
-  tags?: MigrationServicesCreateOrUpdateRequestTagsMap;
+  tags?: MigrationServicesCreateOrUpdateRequestTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
-  properties?: UserAssignedIdentityInput;
+  properties?: UserAssignedIdentityInput | undefined;
 }
 /** Resource tags. */
 export type MigrationServicesCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
 export interface MigrationServicesCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: MigrationServicesCreateOrUpdateResponseTagsMap;
+  tags?: MigrationServicesCreateOrUpdateResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
-  properties?: MigrationServiceProperties;
+  properties?: MigrationServiceProperties | undefined;
 }
 /** Resource tags. */
 export type ProjectsCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
@@ -2462,15 +2463,15 @@ export interface ProjectPropertiesInput {
   /** Source platform for the project */
   sourcePlatform: ProjectSourcePlatform | (string & {});
   /** Azure Active Directory Application */
-  azureAuthenticationInfo?: ProjectPropertiesAzureAuthenticationInfo;
+  azureAuthenticationInfo?: ProjectPropertiesAzureAuthenticationInfo | undefined;
   /** Target platform for the project */
   targetPlatform: ProjectTargetPlatform | (string & {});
   /** Defines the connection properties of a server */
-  sourceConnectionInfo?: ProjectPropertiesSourceConnectionInfo;
+  sourceConnectionInfo?: ProjectPropertiesSourceConnectionInfo | undefined;
   /** Defines the connection properties of a server */
-  targetConnectionInfo?: ProjectPropertiesSourceConnectionInfo;
+  targetConnectionInfo?: ProjectPropertiesSourceConnectionInfo | undefined;
   /** List of DatabaseInfo */
-  databasesInfo?: ProjectPropertiesInputDatabasesInfoList;
+  databasesInfo?: ProjectPropertiesInputDatabasesInfoList | undefined;
 }
 export interface ProjectsCreateOrUpdateRequest {
   /** Subscription ID that identifies an Azure subscription. */
@@ -2482,33 +2483,33 @@ export interface ProjectsCreateOrUpdateRequest {
   /** Name of the project */
   projectName: string;
   /** Resource tags. */
-  tags?: ProjectsCreateOrUpdateRequestTagsMap;
+  tags?: ProjectsCreateOrUpdateRequestTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Project properties */
-  properties?: ProjectPropertiesInput;
+  properties?: ProjectPropertiesInput | undefined;
   /** HTTP strong entity tag value. This is ignored if submitted. */
-  etag?: string;
+  etag?: string | undefined;
 }
 /** Resource tags. */
 export type ProjectsCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
 export interface ProjectsCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: ProjectsCreateOrUpdateResponseTagsMap;
+  tags?: ProjectsCreateOrUpdateResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Project properties */
-  properties?: ProjectProperties;
+  properties?: ProjectProperties | undefined;
   /** HTTP strong entity tag value. This is ignored if submitted. */
-  etag?: string;
+  etag?: string | undefined;
 }
 export interface ReadFileRequest {
   /** Subscription ID that identifies an Azure subscription. */
@@ -2525,8 +2526,8 @@ export interface ReadFileRequest {
 export type ReadFileResponseHeadersMap = { [key: string]: string | undefined };
 export interface ReadFileResponse {
   /** A URI that can be used to access the file content. */
-  uri?: string;
-  headers?: ReadFileResponseHeadersMap;
+  uri?: string | undefined;
+  headers?: ReadFileResponseHeadersMap | undefined;
 }
 export interface ReadFileWriteRequest {
   /** Subscription ID that identifies an Azure subscription. */
@@ -2543,8 +2544,8 @@ export interface ReadFileWriteRequest {
 export type ReadFileWriteResponseHeadersMap = { [key: string]: string | undefined };
 export interface ReadFileWriteResponse {
   /** A URI that can be used to access the file content. */
-  uri?: string;
-  headers?: ReadFileWriteResponseHeadersMap;
+  uri?: string | undefined;
+  headers?: ReadFileWriteResponseHeadersMap | undefined;
 }
 export interface RegenerateSqlMigrationServiceAuthKeysRequest {
   /** Subscription ID that identifies an Azure subscription. */
@@ -2554,20 +2555,20 @@ export interface RegenerateSqlMigrationServiceAuthKeysRequest {
   /** Name of the SQL Migration Service. */
   sqlMigrationServiceName: string;
   /** The name of authentication key to generate. */
-  keyName?: string;
+  keyName?: string | undefined;
   /** The first authentication key. */
-  authKey1?: string;
+  authKey1?: string | undefined;
   /** The second authentication key. */
-  authKey2?: string;
+  authKey2?: string | undefined;
 }
 /** An authentication key to regenerate. */
 export interface RegenAuthKeys {
   /** The name of authentication key to generate. */
-  keyName?: string;
+  keyName?: string | undefined;
   /** The first authentication key. */
-  authKey1?: string;
+  authKey1?: string | undefined;
   /** The second authentication key. */
-  authKey2?: string;
+  authKey2?: string | undefined;
 }
 export interface RetryDatabaseMigrationsSqlDbRequest {
   /** Subscription ID that identifies an Azure subscription. */
@@ -2578,7 +2579,7 @@ export interface RetryDatabaseMigrationsSqlDbRequest {
   /** The name of the target database. */
   targetDbName: string;
   /** ID tracking migration operation. */
-  migrationOperationId?: string;
+  migrationOperationId?: string | undefined;
 }
 export interface RetryDatabaseMigrationsSqlDbResponse {}
 /** Resource tags. */
@@ -2586,15 +2587,15 @@ export type ServicesCreateOrUpdateRequestTagsMap = { [key: string]: string | und
 /** Properties of the Azure Database Migration Service (classic) instance */
 export interface DataMigrationServicePropertiesInput {
   /** The public key of the service, used to encrypt secrets sent to the service */
-  publicKey?: string;
+  publicKey?: string | undefined;
   /** The ID of the Microsoft.Network/virtualNetworks/subnets resource to which the service should be joined */
-  virtualSubnetId?: string;
+  virtualSubnetId?: string | undefined;
   /** The ID of the Microsoft.Network/networkInterfaces resource which the service have */
-  virtualNicId?: string;
+  virtualNicId?: string | undefined;
   /** The time delay before the service is auto-stopped when idle. */
-  autoStopDelay?: string;
+  autoStopDelay?: string | undefined;
   /** Whether service resources should be deleted when stopped. (Turned on by default) */
-  deleteResourcesOnStop?: boolean;
+  deleteResourcesOnStop?: boolean | undefined;
 }
 export interface ServicesCreateOrUpdateRequest {
   /** Subscription ID that identifies an Azure subscription. */
@@ -2604,41 +2605,41 @@ export interface ServicesCreateOrUpdateRequest {
   /** Name of the service */
   serviceName: string;
   /** Resource tags. */
-  tags?: ServicesCreateOrUpdateRequestTagsMap;
+  tags?: ServicesCreateOrUpdateRequestTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** HTTP strong entity tag value. Ignored if submitted */
-  etag?: string;
+  etag?: string | undefined;
   /** The resource kind. Only 'vm' (the default) is supported. */
-  kind?: string;
+  kind?: string | undefined;
   /** Custom service properties */
-  properties?: DataMigrationServicePropertiesInput;
+  properties?: DataMigrationServicePropertiesInput | undefined;
   /** Service SKU */
-  sku?: ServiceSku;
+  sku?: ServiceSku | undefined;
 }
 /** Resource tags. */
 export type ServicesCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
 export interface ServicesCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: ServicesCreateOrUpdateResponseTagsMap;
+  tags?: ServicesCreateOrUpdateResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** HTTP strong entity tag value. Ignored if submitted */
-  etag?: string;
+  etag?: string | undefined;
   /** The resource kind. Only 'vm' (the default) is supported. */
-  kind?: string;
+  kind?: string | undefined;
   /** Custom service properties */
-  properties?: DataMigrationServiceProperties;
+  properties?: DataMigrationServiceProperties | undefined;
   /** Service SKU */
-  sku?: ServiceSku;
+  sku?: ServiceSku | undefined;
 }
 /** Task type. */
 export type ProjectTaskPropertiesInputTaskType =
@@ -2687,7 +2688,7 @@ export interface ProjectTaskPropertiesInput {
   /** Task type. */
   taskType: ProjectTaskPropertiesInputTaskType | (string & {});
   /** Key value pairs of client data to attach meta data information to task */
-  clientData?: ProjectTaskPropertiesInputClientDataMap;
+  clientData?: ProjectTaskPropertiesInputClientDataMap | undefined;
 }
 export interface ServiceTasksCreateOrUpdateRequest {
   /** Subscription ID that identifies an Azure subscription. */
@@ -2699,23 +2700,23 @@ export interface ServiceTasksCreateOrUpdateRequest {
   /** Name of the Task */
   taskName: string;
   /** HTTP strong entity tag value. This is ignored if submitted. */
-  etag?: string;
+  etag?: string | undefined;
   /** Custom task properties */
-  properties?: ProjectTaskPropertiesInput;
+  properties?: ProjectTaskPropertiesInput | undefined;
 }
 export interface ServiceTasksCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** HTTP strong entity tag value. This is ignored if submitted. */
-  etag?: string;
+  etag?: string | undefined;
   /** Custom task properties */
-  properties?: ProjectTaskProperties;
+  properties?: ProjectTaskProperties | undefined;
 }
 /** Resource tags. */
 export type SqlMigrationServicesCreateOrUpdateRequestTagsMap = {
@@ -2731,10 +2732,10 @@ export interface SqlMigrationServicesCreateOrUpdateRequest {
   /** Name of the SQL Migration Service. */
   sqlMigrationServiceName: string;
   /** Resource tags. */
-  tags?: SqlMigrationServicesCreateOrUpdateRequestTagsMap;
+  tags?: SqlMigrationServicesCreateOrUpdateRequestTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
-  properties?: UserAssignedIdentityInput;
+  properties?: UserAssignedIdentityInput | undefined;
 }
 /** Resource tags. */
 export type SqlMigrationServicesCreateOrUpdateResponseTagsMap = {
@@ -2742,18 +2743,18 @@ export type SqlMigrationServicesCreateOrUpdateResponseTagsMap = {
 };
 export interface SqlMigrationServicesCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: SqlMigrationServicesCreateOrUpdateResponseTagsMap;
+  tags?: SqlMigrationServicesCreateOrUpdateResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
-  properties?: SqlMigrationServiceProperties;
+  properties?: SqlMigrationServiceProperties | undefined;
 }
 export interface StartServiceRequest {
   /** Subscription ID that identifies an Azure subscription. */
@@ -2806,11 +2807,11 @@ export type TasksCommandResponseErrorsItemDetailsList = Array<ODataError>;
 /** Error information in OData format. */
 export interface TasksCommandResponseErrorsItem {
   /** The machine-readable description of the error, such as 'InvalidRequest' or 'InternalServerError' */
-  code?: string;
+  code?: string | undefined;
   /** The human-readable description of the error */
-  message?: string;
+  message?: string | undefined;
   /** Inner errors that caused this error */
-  details?: TasksCommandResponseErrorsItemDetailsList;
+  details?: TasksCommandResponseErrorsItemDetailsList | undefined;
 }
 /** Array of errors. This is ignored if submitted. */
 export type TasksCommandResponseErrorsList = Array<TasksCommandResponseErrorsItem>;
@@ -2820,9 +2821,9 @@ export interface TasksCommandResponse {
   /** Command type. */
   commandType: TasksCommandResponseCommandType;
   /** Array of errors. This is ignored if submitted. */
-  errors?: TasksCommandResponseErrorsList;
+  errors?: TasksCommandResponseErrorsList | undefined;
   /** The state of the command. This is ignored if submitted. */
-  state?: TasksCommandResponseState;
+  state?: TasksCommandResponseState | undefined;
 }
 export interface TasksCreateOrUpdateRequest {
   /** Subscription ID that identifies an Azure subscription. */
@@ -2836,23 +2837,23 @@ export interface TasksCreateOrUpdateRequest {
   /** Name of the Task */
   taskName: string;
   /** HTTP strong entity tag value. This is ignored if submitted. */
-  etag?: string;
+  etag?: string | undefined;
   /** Custom task properties */
-  properties?: ProjectTaskPropertiesInput;
+  properties?: ProjectTaskPropertiesInput | undefined;
 }
 export interface TasksCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** HTTP strong entity tag value. This is ignored if submitted. */
-  etag?: string;
+  etag?: string | undefined;
   /** Custom task properties */
-  properties?: ProjectTaskProperties;
+  properties?: ProjectTaskProperties | undefined;
 }
 export interface UpdateFileRequest {
   /** Subscription ID that identifies an Azure subscription. */
@@ -2866,23 +2867,23 @@ export interface UpdateFileRequest {
   /** Name of the File */
   fileName: string;
   /** HTTP strong entity tag value. This is ignored if submitted. */
-  etag?: string;
+  etag?: string | undefined;
   /** Custom file properties */
-  properties?: ProjectFilePropertiesInput;
+  properties?: ProjectFilePropertiesInput | undefined;
 }
 export interface UpdateFileResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** HTTP strong entity tag value. This is ignored if submitted. */
-  etag?: string;
+  etag?: string | undefined;
   /** Custom file properties */
-  properties?: ProjectFileProperties;
+  properties?: ProjectFileProperties | undefined;
 }
 export type UpdateMigrationServiceRequestTagsMap = { [key: string]: string | undefined };
 export interface UpdateMigrationServiceRequest {
@@ -2892,25 +2893,25 @@ export interface UpdateMigrationServiceRequest {
   resourceGroupName: string;
   /** Name of the Migration Service. */
   migrationServiceName: string;
-  tags?: UpdateMigrationServiceRequestTagsMap;
+  tags?: UpdateMigrationServiceRequestTagsMap | undefined;
 }
 /** Resource tags. */
 export type UpdateMigrationServiceResponseTagsMap = { [key: string]: string | undefined };
 export interface UpdateMigrationServiceResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: UpdateMigrationServiceResponseTagsMap;
+  tags?: UpdateMigrationServiceResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
-  properties?: MigrationServiceProperties;
-  locationHeader?: string;
+  properties?: MigrationServiceProperties | undefined;
+  locationHeader?: string | undefined;
 }
 /** Resource tags. */
 export type UpdateProjectRequestTagsMap = { [key: string]: string | undefined };
@@ -2924,33 +2925,33 @@ export interface UpdateProjectRequest {
   /** Name of the project */
   projectName: string;
   /** Resource tags. */
-  tags?: UpdateProjectRequestTagsMap;
+  tags?: UpdateProjectRequestTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Project properties */
-  properties?: ProjectPropertiesInput;
+  properties?: ProjectPropertiesInput | undefined;
   /** HTTP strong entity tag value. This is ignored if submitted. */
-  etag?: string;
+  etag?: string | undefined;
 }
 /** Resource tags. */
 export type UpdateProjectResponseTagsMap = { [key: string]: string | undefined };
 export interface UpdateProjectResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: UpdateProjectResponseTagsMap;
+  tags?: UpdateProjectResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Project properties */
-  properties?: ProjectProperties;
+  properties?: ProjectProperties | undefined;
   /** HTTP strong entity tag value. This is ignored if submitted. */
-  etag?: string;
+  etag?: string | undefined;
 }
 /** Resource tags. */
 export type UpdateServiceRequestTagsMap = { [key: string]: string | undefined };
@@ -2962,41 +2963,41 @@ export interface UpdateServiceRequest {
   /** Name of the service */
   serviceName: string;
   /** Resource tags. */
-  tags?: UpdateServiceRequestTagsMap;
+  tags?: UpdateServiceRequestTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** HTTP strong entity tag value. Ignored if submitted */
-  etag?: string;
+  etag?: string | undefined;
   /** The resource kind. Only 'vm' (the default) is supported. */
-  kind?: string;
+  kind?: string | undefined;
   /** Custom service properties */
-  properties?: DataMigrationServicePropertiesInput;
+  properties?: DataMigrationServicePropertiesInput | undefined;
   /** Service SKU */
-  sku?: ServiceSku;
+  sku?: ServiceSku | undefined;
 }
 /** Resource tags. */
 export type UpdateServiceResponseTagsMap = { [key: string]: string | undefined };
 export interface UpdateServiceResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: UpdateServiceResponseTagsMap;
+  tags?: UpdateServiceResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** HTTP strong entity tag value. Ignored if submitted */
-  etag?: string;
+  etag?: string | undefined;
   /** The resource kind. Only 'vm' (the default) is supported. */
-  kind?: string;
+  kind?: string | undefined;
   /** Custom service properties */
-  properties?: DataMigrationServiceProperties;
+  properties?: DataMigrationServiceProperties | undefined;
   /** Service SKU */
-  sku?: ServiceSku;
+  sku?: ServiceSku | undefined;
 }
 export interface UpdateServiceTaskRequest {
   /** Subscription ID that identifies an Azure subscription. */
@@ -3008,23 +3009,23 @@ export interface UpdateServiceTaskRequest {
   /** Name of the Task */
   taskName: string;
   /** HTTP strong entity tag value. This is ignored if submitted. */
-  etag?: string;
+  etag?: string | undefined;
   /** Custom task properties */
-  properties?: ProjectTaskPropertiesInput;
+  properties?: ProjectTaskPropertiesInput | undefined;
 }
 export interface UpdateServiceTaskResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** HTTP strong entity tag value. This is ignored if submitted. */
-  etag?: string;
+  etag?: string | undefined;
   /** Custom task properties */
-  properties?: ProjectTaskProperties;
+  properties?: ProjectTaskProperties | undefined;
 }
 export type UpdateSqlMigrationServiceRequestTagsMap = { [key: string]: string | undefined };
 export interface UpdateSqlMigrationServiceRequest {
@@ -3034,24 +3035,24 @@ export interface UpdateSqlMigrationServiceRequest {
   resourceGroupName: string;
   /** Name of the SQL Migration Service. */
   sqlMigrationServiceName: string;
-  tags?: UpdateSqlMigrationServiceRequestTagsMap;
+  tags?: UpdateSqlMigrationServiceRequestTagsMap | undefined;
 }
 /** Resource tags. */
 export type UpdateSqlMigrationServiceResponseTagsMap = { [key: string]: string | undefined };
 export interface UpdateSqlMigrationServiceResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: UpdateSqlMigrationServiceResponseTagsMap;
+  tags?: UpdateSqlMigrationServiceResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
-  properties?: SqlMigrationServiceProperties;
+  properties?: SqlMigrationServiceProperties | undefined;
 }
 export interface UpdateTaskRequest {
   /** Subscription ID that identifies an Azure subscription. */
@@ -3065,23 +3066,23 @@ export interface UpdateTaskRequest {
   /** Name of the Task */
   taskName: string;
   /** HTTP strong entity tag value. This is ignored if submitted. */
-  etag?: string;
+  etag?: string | undefined;
   /** Custom task properties */
-  properties?: ProjectTaskPropertiesInput;
+  properties?: ProjectTaskPropertiesInput | undefined;
 }
 export interface UpdateTaskResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** HTTP strong entity tag value. This is ignored if submitted. */
-  etag?: string;
+  etag?: string | undefined;
   /** Custom task properties */
-  properties?: ProjectTaskProperties;
+  properties?: ProjectTaskProperties | undefined;
 }
 export type CancelDatabaseMigrationsSqlDbError = AzureOpError;
 /** Stop on going migration for the database. */

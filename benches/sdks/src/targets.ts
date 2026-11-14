@@ -309,6 +309,19 @@ export const OVERRIDES: Record<string, Partial<Target> & { module?: string; op?:
     auth: `Credentials.fromAccessToken({ accessToken: Redacted.make("bench-token") })`,
     env: {},
   },
+  "expo-eas": {
+    label: "Eas.me().username",
+    imports: {
+      Credentials: "pkg:credentials",
+      Eas: "pkg:index",
+      Query: "core:query",
+    },
+    auth: `Layer.provideMerge(Eas.GraphQLLive, Credentials.CredentialsFromEnv)`,
+    call: `Query.Query.fn(() => ({ username: Eas.Eas.me().username }))()`,
+    response: json({ data: { me: { username: "bench" } } }),
+    env: { EXPO_TOKEN: "bench-secret" },
+    pinned: true,
+  },
   railway: {
     label: "Railway.me().email",
     imports: {

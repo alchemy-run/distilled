@@ -73,7 +73,7 @@ export interface ImportedMcpServer {
   type: ImportedMcpServerTypeEnum | (string & {});
   name: string;
   url: string;
-  headers?: ImportedMcpServerHeadersList;
+  headers?: ImportedMcpServerHeadersList | undefined;
 }
 /** Local url-based MCP servers from the creating client (PostHog Desktop) to make available inside the cloud sandbox. Header values are treated as credentials: stored encrypted and never returned by the API. */
 export type CreateTasksRunRequestImportedMcpServersList = Array<ImportedMcpServer>;
@@ -121,49 +121,52 @@ export interface CreateTasksRunRequest {
   project_id: string;
   task_id: string;
   /** Local url-based MCP servers from the creating client (PostHog Desktop) to make available inside the cloud sandbox. Header values are treated as credentials: stored encrypted and never returned by the API. */
-  imported_mcp_servers?: CreateTasksRunRequestImportedMcpServersList | null;
+  imported_mcp_servers?: CreateTasksRunRequestImportedMcpServersList | null | undefined;
   /** Names of desktop-only MCP servers the creating client (PostHog Desktop) relays into the cloud sandbox over the durable event/command channel. Names only -- the server configuration (command, env, URL, headers) never crosses the wire. */
-  relayed_mcp_servers?: CreateTasksRunRequestRelayedMcpServersList | null;
+  relayed_mcp_servers?: CreateTasksRunRequestRelayedMcpServersList | null | undefined;
   /** Whether rtk command-output compression is enabled for this run. Omitted or null follows the server-side default (enabled); false opts this run out. */
-  rtk_enabled?: boolean | null;
+  rtk_enabled?: boolean | null | undefined;
   /** Whether the Benjamin-Plus token-efficiency instruction applies to this run. Omitted or null lets the server decide from the feature flag; true or false pins the choice for this run. */
-  benjamin_enabled?: boolean | null;
+  benjamin_enabled?: boolean | null | undefined;
   /** How the Claude runtime pays for model use. 'own-subscription' makes the sandbox request a Claude token from whoever started the run; Desktop relays it interactively and an API key caller relays it unattended. The token is sent in flight and never stored on PostHog servers. Only PostHog Desktop and API keys can select 'own-subscription'; other callers get a 400. If omitted or null, resumed runs keep their billing choice and new runs use the PostHog gateway. * `posthog-gateway` - posthog-gateway * `own-subscription` - own-subscription */
-  claude_model_access?: ModelAccessEnum | (string & {}) | null;
+  claude_model_access?: ModelAccessEnum | (string & {}) | null | undefined;
   /** How the Codex runtime pays for model use. 'own-subscription' makes the sandbox fetch a ChatGPT access token from the PostHog API, refreshed from the ChatGPT account the run owner connected in Desktop settings. If omitted or null, resumed runs keep their billing choice and new runs use the PostHog gateway. * `posthog-gateway` - posthog-gateway * `own-subscription` - own-subscription */
-  codex_model_access?: ModelAccessEnum | (string & {}) | null;
+  codex_model_access?: ModelAccessEnum | (string & {}) | null | undefined;
   /** Execution environment for the new run. Use 'cloud' for remote sandbox runs and 'local' for desktop sessions. * `local` - local * `cloud` - cloud */
-  environment?: RunEnvironmentEnum | (string & {});
+  environment?: RunEnvironmentEnum | (string & {}) | undefined;
   /** Execution mode: 'interactive' for user-connected runs, 'background' for autonomous runs * `interactive` - interactive * `background` - background */
-  mode?: TaskExecutionModeEnum | (string & {});
+  mode?: TaskExecutionModeEnum | (string & {}) | undefined;
   /** Git branch to checkout in the sandbox */
-  branch?: string | null;
+  branch?: string | null | undefined;
   /** Optional sandbox environment to apply for this cloud run. */
-  sandbox_environment_id?: string;
+  sandbox_environment_id?: string | undefined;
   /** Optional custom base image for this cloud run's sandbox (Modal VM runtime only); takes precedence over the environment's image. */
-  custom_image_id?: string;
+  custom_image_id?: string | undefined;
   /** Whether pull requests for this run should be authored by the user or the bot. * `user` - user * `bot` - bot */
-  pr_authorship_mode?: PrAuthorshipModeEnum | (string & {});
+  pr_authorship_mode?: PrAuthorshipModeEnum | (string & {}) | undefined;
   /** When true, the cloud run agent pushes its work and opens a draft pull request on completion without waiting for an explicit ask. */
-  auto_publish?: boolean | null;
+  auto_publish?: boolean | null | undefined;
   /** High-level source that triggered this run, used to distinguish manual and signal-based cloud runs. * `manual` - manual * `signal_report` - signal_report */
-  run_source?: TaskBootstrapRunSourceEnum | (string & {});
+  run_source?: TaskBootstrapRunSourceEnum | (string & {}) | undefined;
   /** Optional signal report identifier when this run was started from Inbox. */
-  signal_report_id?: string;
+  signal_report_id?: string | undefined;
   /** Agent runtime adapter to launch for this run. Use 'claude' for the Claude runtime or 'codex' for the Codex runtime. * `claude` - claude * `codex` - codex */
-  runtime_adapter?: RuntimeAdapterEnum | (string & {});
+  runtime_adapter?: RuntimeAdapterEnum | (string & {}) | undefined;
   /** LLM model identifier to run in the selected runtime. */
-  model?: string;
+  model?: string | undefined;
   /** Reasoning effort to request for models that expose an effort control. * `off` - off * `minimal` - minimal * `low` - low * `medium` - medium * `high` - high * `xhigh` - xhigh * `max` - max * `ultracode` - ultracode */
-  reasoning_effort?: TaskRunReasoningEffortEnum | (string & {});
+  reasoning_effort?: TaskRunReasoningEffortEnum | (string & {}) | undefined;
   /** Context window size for models that support the 1M window. * `200k` - 200k * `1m` - 1m */
-  context_window?: ContextWindowEnum | (string & {});
+  context_window?: ContextWindowEnum | (string & {}) | undefined;
   /** Enable fast mode for models that support it. */
-  fast_mode?: boolean | null;
+  fast_mode?: boolean | null | undefined;
   /** Ephemeral GitHub user token from PostHog Desktop for user-authored cloud pull requests. */
-  github_user_token?: string;
+  github_user_token?: string | undefined;
   /** Initial permission mode for the agent session. Claude runtimes accept PostHog permission presets like 'plan'. Codex runtimes accept native Codex modes like 'plan', 'auto', and 'read-only'. * `default` - default * `acceptEdits` - acceptEdits * `plan` - plan * `bypassPermissions` - bypassPermissions * `auto` - auto * `read-only` - read-only * `full-access` - full-access */
-  initial_permission_mode?: TaskRunBootstrapCreateRequestInitialPermissionModeEnum | (string & {});
+  initial_permission_mode?:
+    | TaskRunBootstrapCreateRequestInitialPermissionModeEnum
+    | (string & {})
+    | undefined;
 }
 /** * `anthropic` - anthropic * `openai` - openai */
 export type TaskRunDetailDTOProviderEnum = "anthropic" | "openai";
@@ -226,31 +229,31 @@ export type TaskRunArtifactMetadata = TaskRunSkillBundleMetadata | TaskRunPostHo
 export type UploadedByEnum = "agent" | "user";
 export interface TaskRunArtifactResponse {
   /** Stable identifier for the artifact within this run */
-  id?: string;
+  id?: string | undefined;
   /** Artifact file name */
-  name?: string;
+  name?: string | undefined;
   /** Artifact classification (plan, context, etc.) */
-  type?: string;
+  type?: string | undefined;
   /** Source of the artifact, such as agent_output or user_attachment */
-  source?: string;
+  source?: string | undefined;
   /** Artifact size in bytes */
-  size?: number;
+  size?: number | undefined;
   /** Optional MIME type */
-  content_type?: string;
+  content_type?: string | undefined;
   /** Structured metadata for a skill bundle or a PostHog object reference. */
-  metadata?: TaskRunArtifactMetadata;
+  metadata?: TaskRunArtifactMetadata | undefined;
   /** S3 object key for file artifacts. Reference artifacts do not have one. */
-  storage_path?: string;
+  storage_path?: string | undefined;
   /** Timestamp when the artifact was uploaded or registered */
-  uploaded_at?: string;
+  uploaded_at?: string | undefined;
   /** Whether the artifact version was uploaded by the task agent or an interactive user. * `agent` - agent * `user` - user */
-  uploaded_by?: UploadedByEnum;
+  uploaded_by?: UploadedByEnum | undefined;
   /** User id for an interactive user upload. Absent for agent uploads and legacy entries. */
-  uploaded_by_user_id?: number;
+  uploaded_by_user_id?: number | undefined;
   /** Timestamp when a user dismissed the artifact. Absent while the artifact is shown. */
-  dismissed_at?: string;
+  dismissed_at?: string | undefined;
   /** Stable download URL for the artifact. Populated on the finalize-upload response so the caller can link to the file; it redirects to a fresh presigned URL on each request and is not persisted on the manifest. */
-  url?: string;
+  url?: string | undefined;
 }
 export type TaskRunDetailDTOArtifactsList = Array<TaskRunArtifactResponse>;
 /** Detail response for a task run. Reads from a frozen ``TaskRunDetailDTO`` produced by the facade mapper (which computes the presigned ``log_url`` and parses ``runtime_adapter`` / ``provider`` / ``model`` / ``reasoning_effort`` off the run state). ``task`` is the parent task id. Reused as the nested ``latest_run`` shape by the task detail response. */
@@ -263,15 +266,15 @@ export interface TaskRunDetailDTO {
   status: string;
   environment: string;
   /** Configured runtime adapter for this run, such as 'claude' or 'codex'. * `claude` - claude * `codex` - codex */
-  runtime_adapter?: RuntimeAdapterEnum | null;
+  runtime_adapter?: RuntimeAdapterEnum | null | undefined;
   /** Configured LLM provider for this run, such as 'anthropic' or 'openai'. * `anthropic` - anthropic * `openai` - openai */
-  provider?: TaskRunDetailDTOProviderEnum | null;
+  provider?: TaskRunDetailDTOProviderEnum | null | undefined;
   /** Configured LLM model identifier for this run. */
-  model?: string | null;
+  model?: string | null | undefined;
   /** Configured reasoning effort for this run when the selected model supports it. * `off` - off * `minimal` - minimal * `low` - low * `medium` - medium * `high` - high * `xhigh` - xhigh * `max` - max * `ultracode` - ultracode */
-  reasoning_effort?: TaskRunReasoningEffortEnum | null;
+  reasoning_effort?: TaskRunReasoningEffortEnum | null | undefined;
   /** Presigned S3 URL for log access (valid for 1 hour). */
-  log_url?: string | null;
+  log_url?: string | null | undefined;
   error_message: string | null;
   output: TaskRunDetailDTOOutputMap | null;
   /** Latest summary for this task, including a summary inherited from an earlier run. */
@@ -280,13 +283,13 @@ export interface TaskRunDetailDTO {
   task_tags: TaskRunDetailDTOTaskTagsList;
   state: TaskRunDetailDTOStateMap;
   artifacts: TaskRunDetailDTOArtifactsList;
-  created_at?: string | null;
-  updated_at?: string | null;
-  completed_at?: string | null;
+  created_at?: string | null | undefined;
+  updated_at?: string | null | undefined;
+  completed_at?: string | null | undefined;
   /** Earliest start time in UTC. Null for runs without a schedule. */
-  scheduled_at?: string | null;
+  scheduled_at?: string | null | undefined;
   /** True when this run's sandbox serves a dev stack preview, so clients can offer the preview link. Open it through the run's `preview/` endpoint, which mints a fresh access token on every request. */
-  preview_available?: boolean;
+  preview_available?: boolean | undefined;
 }
 /** * `orient` - orient * `explore` - explore * `gather` - gather * `produce` - produce * `verify` - verify * `setup_env` - setup_env * `ship` - ship * `wait` - wait * `operate` - operate * `deliver` - deliver */
 export type TaskAnalysisGoalKindEnum =
@@ -334,11 +337,11 @@ export interface CreateTasksRunsAnalysisActivityRequest {
   /** How the activity ended for the agent. * `worked` - worked * `failed` - failed * `abandoned` - abandoned * `unknown` - unknown */
   outcome: TaskAnalysisOutcomeEnum | (string & {});
   /** What stopped the agent, when something did. Omit for healthy work. * `missing_binary` - missing_binary * `missing_package` - missing_package * `service_down` - service_down * `missing_build_artifact` - missing_build_artifact * `missing_credential` - missing_credential * `memory_limit` - memory_limit * `network` - network * `shallow_git` - shallow_git * `tool_error` - tool_error * `tool_syntax` - tool_syntax * `api_error` - api_error * `missing_flag` - missing_flag * `unclear_instructions` - unclear_instructions * `user_redirect` - user_redirect */
-  blocker_kind?: TaskAnalysisBlockerKindEnum | (string & {}) | null;
+  blocker_kind?: TaskAnalysisBlockerKindEnum | (string & {}) | null | undefined;
   /** The exact binary, package, service, file, flag, or error the blocker names. Required with blocker_kind. */
-  blocker_name?: string | null;
+  blocker_name?: string | null | undefined;
   /** The command or step that removed the blocker, when the agent found one. Requires blocker_kind. */
-  repair?: string | null;
+  repair?: string | null | undefined;
   /** One exact quote from the run log inside the activity's line range. */
   evidence: string;
   /** First log line of the activity, 1-based. */
@@ -354,9 +357,9 @@ export interface CreateTasksRunsAnalysisActivityRequest {
   /** Sum of the gaps longer than 4 minutes between those consecutive timestamps. */
   idle_seconds: number;
   /** Command heads run in the activity, in order, adjacent duplicates removed. */
-  commands?: CreateTasksRunsAnalysisActivityRequestCommandsList;
+  commands?: CreateTasksRunsAnalysisActivityRequestCommandsList | undefined;
   /** Skills, AGENTS.md files, templates, and wiki pages the agent read in the activity. */
-  guidance_read?: CreateTasksRunsAnalysisActivityRequestGuidanceReadList;
+  guidance_read?: CreateTasksRunsAnalysisActivityRequestGuidanceReadList | undefined;
 }
 export interface TaskRunAnalysisActivityResponse {
   /** Zero-based position of the stored activity on the run. */
@@ -384,7 +387,7 @@ export interface CreateTasksRunsAppendLogRequest {
   task_id: string;
   id: string;
   /** Array of log entry dictionaries to append */
-  entries?: CreateTasksRunsAppendLogRequestEntriesList;
+  entries?: CreateTasksRunsAppendLogRequestEntriesList | undefined;
 }
 /** * `plan` - plan * `context` - context * `reference` - reference * `output` - output * `artifact` - artifact * `tree_snapshot` - tree_snapshot * `user_attachment` - user_attachment * `skill_bundle` - skill_bundle */
 export type TaskRunArtifactTypeEnum =
@@ -400,19 +403,19 @@ export type TaskRunArtifactTypeEnum =
 export type ContentEncodingEnum = "utf-8" | "base64";
 export interface TaskRunArtifactUpload {
   /** File name to associate with the artifact */
-  name?: string;
+  name?: string | undefined;
   /** Classification for the artifact * `plan` - plan * `context` - context * `reference` - reference * `output` - output * `artifact` - artifact * `tree_snapshot` - tree_snapshot * `user_attachment` - user_attachment * `skill_bundle` - skill_bundle */
-  type?: TaskRunArtifactTypeEnum | (string & {});
+  type?: TaskRunArtifactTypeEnum | (string & {}) | undefined;
   /** Optional source label for the artifact, such as agent_output or user_attachment */
-  source?: string;
+  source?: string | undefined;
   /** Artifact contents encoded according to content_encoding. Artifacts above 14 MB must use prepare_upload instead. */
-  content?: string;
+  content?: string | undefined;
   /** Encoding used for content. Use base64 for binary files and utf-8 for text payloads. * `utf-8` - utf-8 * `base64` - base64 */
-  content_encoding?: ContentEncodingEnum | (string & {});
+  content_encoding?: ContentEncodingEnum | (string & {}) | undefined;
   /** Optional MIME type for the artifact */
-  content_type?: string;
+  content_type?: string | undefined;
   /** Skill bundle metadata, required when the artifact type is skill_bundle. */
-  metadata?: TaskRunSkillBundleMetadata;
+  metadata?: TaskRunSkillBundleMetadata | undefined;
 }
 /** Array of artifacts to upload */
 export type CreateTasksRunsArtifactRequestArtifactsList = Array<TaskRunArtifactUpload>;
@@ -422,13 +425,13 @@ export interface CreateTasksRunsArtifactRequest {
   task_id: string;
   id: string;
   /** Array of artifacts to upload */
-  artifacts?: CreateTasksRunsArtifactRequestArtifactsList;
+  artifacts?: CreateTasksRunsArtifactRequestArtifactsList | undefined;
 }
 /** Updated list of artifacts on the run */
 export type TaskRunArtifactsUploadResponseArtifactsList = Array<TaskRunArtifactResponse>;
 export interface TaskRunArtifactsUploadResponse {
   /** Updated list of artifacts on the run */
-  artifacts?: TaskRunArtifactsUploadResponseArtifactsList;
+  artifacts?: TaskRunArtifactsUploadResponseArtifactsList | undefined;
 }
 /** Manifest ids of the artifacts to update. Pass every version of a file together so the whole file is dismissed rather than a single upload of it. */
 export type CreateTasksRunsArtifactsDismissRequestArtifactIdsList = Array<string>;
@@ -440,7 +443,7 @@ export interface CreateTasksRunsArtifactsDismissRequest {
   /** Manifest ids of the artifacts to update. Pass every version of a file together so the whole file is dismissed rather than a single upload of it. */
   artifact_ids: CreateTasksRunsArtifactsDismissRequestArtifactIdsList;
   /** True to hide the artifacts from clients, false to show them again. */
-  dismissed?: boolean;
+  dismissed?: boolean | undefined;
 }
 /** Updated list of artifacts on the run */
 export type TaskRunArtifactsDismissResponseArtifactsList = Array<TaskRunArtifactResponse>;
@@ -454,13 +457,13 @@ export interface CreateTasksRunsArtifactsPresignRequest {
   task_id: string;
   id: string;
   /** S3 storage path returned in the artifact manifest */
-  storage_path?: string;
+  storage_path?: string | undefined;
 }
 export interface TaskRunArtifactPresignResponse {
   /** Presigned URL for downloading the artifact */
-  url?: string;
+  url?: string | undefined;
   /** URL expiry in seconds */
-  expires_in?: number;
+  expires_in?: number | undefined;
 }
 export interface TaskRunPostHogReference {
   /** Fallback display name for the referenced object. */
@@ -517,47 +520,24 @@ export interface CreateTasksRunsCommandRequest {
   task_id: string;
   id: string;
   /** JSON-RPC version, must be '2.0' * `2.0` - 2.0 */
-  jsonrpc?: JsonrpcEnum | (string & {});
+  jsonrpc?: JsonrpcEnum | (string & {}) | undefined;
   /** Command method to execute on the agent server * `user_message` - user_message * `cancel` - cancel * `close` - close * `permission_response` - permission_response * `set_config_option` - set_config_option * `mcp_response` - mcp_response * `credential_response` - credential_response * `pi/rpc` - pi/rpc * `queue_get` - queue_get * `queue_clear` - queue_clear * `side_question` - side_question */
-  method?: TaskRunCommandRequestMethodEnum | (string & {});
+  method?: TaskRunCommandRequestMethodEnum | (string & {}) | undefined;
   /** Parameters for the command */
-  params?: CreateTasksRunsCommandRequestParamsMap;
+  params?: CreateTasksRunsCommandRequestParamsMap | undefined;
 }
 /** JSON-RPC error details, including failures returned with HTTP 200 */
 export type TaskRunCommandResponseErrorMap = { [key: string]: unknown | undefined };
 /** Response from the agent server command endpoint. */
 export interface TaskRunCommandResponse {
   /** JSON-RPC version */
-  jsonrpc?: string;
+  jsonrpc?: string | undefined;
   /** Request ID echoed back (string or number) */
-  id?: unknown;
+  id?: unknown | undefined;
   /** Command result. Permission responses confirm acceptance only with resolved=true. */
-  result?: unknown;
+  result?: unknown | undefined;
   /** JSON-RPC error details, including failures returned with HTTP 200 */
-  error?: TaskRunCommandResponseErrorMap;
-}
-/** Manifest ids of artifacts on the SENDING run to share (max 10). Each is copied into the target run's own artifact storage; the receiver gets an immutable snapshot. */
-export type CreateTasksRunsPeersMessageRequestArtifactIdsList = Array<string>;
-export interface CreateTasksRunsPeersMessageRequest {
-  /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
-  project_id: string;
-  task_id: string;
-  id: string;
-  target_run_id: string;
-  /** Plain-text message body (max 16000 chars). Delivered to the peer below a server-composed provenance envelope; send short summaries, never raw file dumps -- use artifact_ids for files. */
-  content: string;
-  /** Manifest ids of artifacts on the SENDING run to share (max 10). Each is copied into the target run's own artifact storage; the receiver gets an immutable snapshot. */
-  artifact_ids?: CreateTasksRunsPeersMessageRequestArtifactIdsList;
-}
-/** * `accepted` - accepted * `target_finished` - target_finished * `rejected` - rejected */
-export type ResultEnum = "accepted" | "target_finished" | "rejected";
-export interface TaskRunPeerMessageResponse {
-  /** Send outcome: 'accepted' (queued for delivery -- not a delivery confirmation), 'target_finished' (the peer's workflow is gone), or 'rejected' (throttled or invalid). * `accepted` - accepted * `target_finished` - target_finished * `rejected` - rejected */
-  result: ResultEnum;
-  /** Human-readable explanation of the result. */
-  detail: string;
-  /** Id of the recorded peer message, when one was created for this send. */
-  message_id?: string | null;
+  error?: TaskRunCommandResponseErrorMap | undefined;
 }
 /** Ordered assistant text blocks. When present, the last non-empty entry is posted instead of text. */
 export type CreateTasksRunsRelayMessageRequestTextPartsList = Array<string>;
@@ -567,19 +547,19 @@ export interface CreateTasksRunsRelayMessageRequest {
   task_id: string;
   id: string;
   /** Joined message body. Used when text_parts is absent. */
-  text?: string;
+  text?: string | undefined;
   /** Id of the user message this turn answers, when the agent-server echoes it. */
-  message_id?: string | null;
+  message_id?: string | null | undefined;
   /** Ordered assistant text blocks. When present, the last non-empty entry is posted instead of text. */
-  text_parts?: CreateTasksRunsRelayMessageRequestTextPartsList;
+  text_parts?: CreateTasksRunsRelayMessageRequestTextPartsList | undefined;
   /** AI observability trace id of the turn that wrote this answer, when the sandbox reported one. */
-  trace_id?: string | null;
+  trace_id?: string | null | undefined;
 }
 export interface TaskRunRelayMessageResponse {
   /** Relay status: 'accepted' or 'skipped' */
-  status?: string;
+  status?: string | undefined;
   /** Relay workflow ID when accepted */
-  relay_id?: string;
+  relay_id?: string | undefined;
 }
 export interface CreateTasksRunsSubscriptionTokenRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -587,7 +567,7 @@ export interface CreateTasksRunsSubscriptionTokenRequest {
   task_id: string;
   id: string;
   /** SHA-256 hex digest of the access token Codex rejected. The server refreshes only when this names its current token; otherwise it returns the newer token it already holds. */
-  rejected_access_token_sha256?: string | null;
+  rejected_access_token_sha256?: string | null | undefined;
 }
 export interface TaskRunSubscriptionTokenResponse {
   /** ChatGPT access token for the Codex app-server. It can stay valid for several days. */
@@ -617,6 +597,24 @@ export interface GetTasksRunRequest {
   task_id: string;
   id: string;
 }
+export interface GetTasksRunsArtifactsPreviewRequest {
+  /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
+  project_id: string;
+  task_id: string;
+  id: string;
+  /** Artifact id */
+  artifact_id: string;
+  /** Return a URL whose page runs its scripts. Without it the page renders with scripts off. Refused when scripts_available is false. */
+  scripts?: boolean | undefined;
+  /** Living artifact version */
+  version?: number | undefined;
+}
+export interface TaskRunArtifactPreviewResponse {
+  /** Short-lived URL for the isolated HTML preview */
+  url: string;
+  /** Whether the caller can request a preview that runs scripts. False when whoever wrote this artifact version had limited network access, or when the version has no record of it. */
+  scripts_available: boolean;
+}
 export interface GetTasksRunsConnectionTokenRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
@@ -626,52 +624,24 @@ export interface GetTasksRunsConnectionTokenRequest {
 /** Response containing a JWT token for direct sandbox connection */
 export interface ConnectionTokenResponse {
   /** JWT token for authenticating with the sandbox */
-  token?: string;
+  token?: string | undefined;
 }
+export type GetTasksRunsLogRequestView = "full" | "thread";
 export interface GetTasksRunsLogRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   task_id: string;
   id: string;
+  /** With tail_bytes, end the window before this entry index, so a client can page back through older turns: pass the X-Log-Offset of the oldest page it holds. */
+  before?: number | undefined;
+  /** With tail_bytes, return every entry from this index to the end, with no preamble, so a client that holds the entries before it can catch up after a disconnect: pass the X-Log-Count of its last read. When those entries are too large, the response holds the latest turns as tail_bytes alone returns them, and X-Log-Offset is greater than start. */
+  start?: number | undefined;
+  /** Return only the latest turns of the log: the shortest suffix that starts at a user turn and holds at least this many bytes. The X-Log-Offset and X-Log-Count headers give the index of the first tail entry and the size of the full log. The slice starts with X-Log-Preamble earlier entries that still set run state, such as the run start, usage, mode, commands and open permission requests. X-Log-Turns-Before counts the user turns before the slice, so a client numbers turns the way the full log does. */
+  tail_bytes?: number | undefined;
+  /** 'full' returns every entry as stored. 'thread' drops the duplicate tool response copy in _meta.claudeCode.toolResponse and keeps only its decisionReason and message, for clients that render the conversation. It applies to the full log and to every slice. * `full` - full * `thread` - thread */
+  view?: GetTasksRunsLogRequestView | (string & {}) | undefined;
 }
 export interface GetTasksRunsLogResponse {}
-export interface GetTasksRunsPeerRequest {
-  /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
-  project_id: string;
-  task_id: string;
-  id: string;
-}
-/** One peer agent run visible to the requesting run (agent peer messaging). */
-export interface TaskRunPeer {
-  /** The peer run's id -- the address send_agent_message targets. */
-  run_id: string;
-  /** Id of the peer run's parent task. */
-  task_id: string;
-  /** Title of the peer run's parent task. */
-  task_title: string;
-  /** Email of the user whose task the peer run belongs to. */
-  created_by_email: string | null;
-  /** Agent runtime of the peer run's task (e.g. 'pi'). */
-  runtime: string;
-  /** Model the peer run was started with, when recorded. */
-  model: string | null;
-  /** Repository the peer run works on, or null for repo-less (channel-mode) runs. */
-  repository: string | null;
-  /** Current stage of the peer run (e.g. 'build'). */
-  stage: string | null;
-  /** Run status: 'in_progress' or 'queued' (only these are listed). */
-  status: string;
-  /** Whether the peer accepts messages right now. Only in-progress runs are sendable; a queued run is listed but its workflow may not exist yet. Never infer sendability from status labels. */
-  sendable: boolean;
-  /** ISO-8601 timestamp of the peer run's last update. */
-  updated_at: string | null;
-}
-/** Active agent runs the requesting run may message, most recently updated first. */
-export type TaskRunPeersResponsePeersList = Array<TaskRunPeer>;
-export interface TaskRunPeersResponse {
-  /** Active agent runs the requesting run may message, most recently updated first. */
-  peers: TaskRunPeersResponsePeersList;
-}
 export interface GetTasksRunsPreviewRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
@@ -685,15 +655,15 @@ export interface GetTasksRunsSessionLogRequest {
   task_id: string;
   id: string;
   /** Only return events after this ISO8601 timestamp */
-  after?: string;
+  after?: string | undefined;
   /** Comma-separated list of event types to include */
-  event_types?: string;
+  event_types?: string | undefined;
   /** Comma-separated list of event types to exclude */
-  exclude_types?: string;
+  exclude_types?: string | undefined;
   /** Maximum number of entries to return (default 1000, max 5000) */
-  limit?: number;
+  limit?: number | undefined;
   /** Zero-based offset into the filtered log entries */
-  offset?: number;
+  offset?: number | undefined;
 }
 export interface GetTasksRunsSessionLogResponse {}
 export interface GetTasksRunsStreamRequest {
@@ -702,7 +672,7 @@ export interface GetTasksRunsStreamRequest {
   task_id: string;
   id: string;
   /** Set to `latest` to skip the event backlog and only receive events published after connecting. */
-  start?: string;
+  start?: string | undefined;
 }
 export interface GetTasksRunsStreamResponse {}
 export interface GetTasksRunsStreamTokenRequest {
@@ -711,7 +681,7 @@ export interface GetTasksRunsStreamTokenRequest {
   task_id: string;
   id: string;
   /** Set to true when the client can rebuild the run from its durable log after the agent-proxy reports a trimmed stream cursor. Without it, runs that keep only a short live tail in Redis are read from the Django endpoint, which replays the durable backlog itself. */
-  resync?: boolean;
+  resync?: boolean | undefined;
 }
 /** Response containing a JWT token (and resolved base URL) for reading a task run's live event stream */
 export interface StreamReadTokenResponse {
@@ -739,15 +709,15 @@ export interface ListTasksRunsRequest {
   project_id: string;
   task_id: string;
   /** Number of results to return per page. */
-  limit?: number;
+  limit?: number | undefined;
   /** The initial index from which to return the results. */
-  offset?: number;
+  offset?: number | undefined;
 }
 export type PaginatedTaskRunDetailDTOListResultsList = Array<TaskRunDetailDTO>;
 export interface PaginatedTaskRunDetailDTOList {
   count: number;
-  next?: string | null;
-  previous?: string | null;
+  next?: string | null | undefined;
+  previous?: string | null | undefined;
   results: PaginatedTaskRunDetailDTOListResultsList;
 }
 export interface TasksRunsArtifactsDownloadCreateRequest {
@@ -756,7 +726,7 @@ export interface TasksRunsArtifactsDownloadCreateRequest {
   task_id: string;
   id: string;
   /** S3 storage path returned in the artifact manifest */
-  storage_path?: string;
+  storage_path?: string | undefined;
 }
 export interface TasksRunsArtifactsDownloadCreateResponse {}
 export interface TasksRunsArtifactsDownloadRetrieveRequest {
@@ -770,19 +740,21 @@ export interface TasksRunsArtifactsDownloadRetrieveRequest {
 export interface TasksRunsArtifactsDownloadRetrieveResponse {}
 export interface TaskRunArtifactFinalizeUpload {
   /** Stable identifier returned by the prepare upload endpoint */
-  id?: string;
+  id?: string | undefined;
   /** File name associated with the artifact */
-  name?: string;
+  name?: string | undefined;
   /** Classification for the artifact * `plan` - plan * `context` - context * `reference` - reference * `output` - output * `artifact` - artifact * `tree_snapshot` - tree_snapshot * `user_attachment` - user_attachment * `skill_bundle` - skill_bundle */
-  type?: TaskRunArtifactTypeEnum | (string & {});
+  type?: TaskRunArtifactTypeEnum | (string & {}) | undefined;
   /** Optional source label for the artifact, such as agent_output or user_attachment */
-  source?: string;
+  source?: string | undefined;
   /** S3 object key returned by the prepare step */
-  storage_path?: string;
+  storage_path?: string | undefined;
   /** Optional MIME type recorded for the artifact */
-  content_type?: string;
+  content_type?: string | undefined;
   /** Skill bundle metadata, required when the artifact type is skill_bundle. */
-  metadata?: TaskRunSkillBundleMetadata;
+  metadata?: TaskRunSkillBundleMetadata | undefined;
+  /** ID of the artifact in the same run that this file edits. An HTML edit can run scripts only when its base artifact can. */
+  base_artifact_id?: string | undefined;
 }
 /** Array of uploaded artifacts to finalize */
 export type TasksRunsArtifactsFinalizeUploadCreateRequestArtifactsList =
@@ -793,27 +765,27 @@ export interface TasksRunsArtifactsFinalizeUploadCreateRequest {
   task_id: string;
   id: string;
   /** Array of uploaded artifacts to finalize */
-  artifacts?: TasksRunsArtifactsFinalizeUploadCreateRequestArtifactsList;
+  artifacts?: TasksRunsArtifactsFinalizeUploadCreateRequestArtifactsList | undefined;
 }
 /** Updated list of artifacts on the run */
 export type TaskRunArtifactsFinalizeUploadResponseArtifactsList = Array<TaskRunArtifactResponse>;
 export interface TaskRunArtifactsFinalizeUploadResponse {
   /** Updated list of artifacts on the run */
-  artifacts?: TaskRunArtifactsFinalizeUploadResponseArtifactsList;
+  artifacts?: TaskRunArtifactsFinalizeUploadResponseArtifactsList | undefined;
 }
 export interface TaskRunArtifactPrepareUpload {
   /** File name to associate with the artifact */
-  name?: string;
+  name?: string | undefined;
   /** Classification for the artifact * `plan` - plan * `context` - context * `reference` - reference * `output` - output * `artifact` - artifact * `tree_snapshot` - tree_snapshot * `user_attachment` - user_attachment * `skill_bundle` - skill_bundle */
-  type?: TaskRunArtifactTypeEnum | (string & {});
+  type?: TaskRunArtifactTypeEnum | (string & {}) | undefined;
   /** Optional source label for the artifact, such as agent_output or user_attachment */
-  source?: string;
+  source?: string | undefined;
   /** Expected upload size in bytes (max 31457280 bytes) */
-  size?: number;
+  size?: number | undefined;
   /** Optional MIME type for the artifact upload */
-  content_type?: string;
+  content_type?: string | undefined;
   /** Skill bundle metadata, required when the artifact type is skill_bundle. */
-  metadata?: TaskRunSkillBundleMetadata;
+  metadata?: TaskRunSkillBundleMetadata | undefined;
 }
 /** Array of artifacts to prepare */
 export type TasksRunsArtifactsPrepareUploadCreateRequestArtifactsList =
@@ -824,44 +796,44 @@ export interface TasksRunsArtifactsPrepareUploadCreateRequest {
   task_id: string;
   id: string;
   /** Array of artifacts to prepare */
-  artifacts?: TasksRunsArtifactsPrepareUploadCreateRequestArtifactsList;
+  artifacts?: TasksRunsArtifactsPrepareUploadCreateRequestArtifactsList | undefined;
 }
 /** Form fields that must be submitted verbatim with the file upload */
 export type S3PresignedPostFieldsMap = { [key: string]: string | undefined };
 export interface S3PresignedPost {
   /** Presigned S3 POST URL */
-  url?: string;
+  url?: string | undefined;
   /** Form fields that must be submitted verbatim with the file upload */
-  fields?: S3PresignedPostFieldsMap;
+  fields?: S3PresignedPostFieldsMap | undefined;
 }
 export interface TaskRunArtifactPrepareUploadResponse {
   /** Stable identifier for the prepared artifact within this run */
-  id?: string;
+  id?: string | undefined;
   /** Artifact file name */
-  name?: string;
+  name?: string | undefined;
   /** Artifact classification (plan, context, etc.) */
-  type?: string;
+  type?: string | undefined;
   /** Source of the artifact, such as agent_output or user_attachment */
-  source?: string;
+  source?: string | undefined;
   /** Expected upload size in bytes */
-  size?: number;
+  size?: number | undefined;
   /** Optional MIME type */
-  content_type?: string;
+  content_type?: string | undefined;
   /** Skill bundle metadata, required when the artifact type is skill_bundle. */
-  metadata?: TaskRunSkillBundleMetadata;
+  metadata?: TaskRunSkillBundleMetadata | undefined;
   /** S3 object key reserved for the artifact */
-  storage_path?: string;
+  storage_path?: string | undefined;
   /** Presigned POST expiry in seconds */
-  expires_in?: number;
+  expires_in?: number | undefined;
   /** Presigned S3 POST configuration for uploading the file */
-  presigned_post?: S3PresignedPost;
+  presigned_post?: S3PresignedPost | undefined;
 }
 /** Prepared uploads for the requested artifacts */
 export type TaskRunArtifactsPrepareUploadResponseArtifactsList =
   Array<TaskRunArtifactPrepareUploadResponse>;
 export interface TaskRunArtifactsPrepareUploadResponse {
   /** Prepared uploads for the requested artifacts */
-  artifacts?: TaskRunArtifactsPrepareUploadResponseArtifactsList;
+  artifacts?: TaskRunArtifactsPrepareUploadResponseArtifactsList | undefined;
 }
 export interface TasksRunsCancelCreateRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -869,9 +841,9 @@ export interface TasksRunsCancelCreateRequest {
   task_id: string;
   id: string;
   /** Optional reason for the cancellation, recorded on the run and shown to run watchers. */
-  reason?: string | null;
+  reason?: string | null | undefined;
   /** Cancel only while the run is still a warm sandbox awaiting its first message. A run that has since received one is left alone and returned unchanged. Set this when handing a warm sandbox back, so a release that races a submit cannot stop the run that submit started. */
-  only_if_awaiting_first_message?: boolean;
+  only_if_awaiting_first_message?: boolean | undefined;
 }
 export interface TasksRunsResumeInCloudCreateRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -887,9 +859,9 @@ export interface TasksRunsStartCreateRequest {
   task_id: string;
   id: string;
   /** Initial or follow-up user message to include in the run prompt. */
-  pending_user_message?: string;
+  pending_user_message?: string | undefined;
   /** Identifiers for run artifacts that should be attached to the next user message delivered to the sandbox. */
-  pending_user_artifact_ids?: TasksRunsStartCreateRequestPendingUserArtifactIdsList;
+  pending_user_artifact_ids?: TasksRunsStartCreateRequestPendingUserArtifactIdsList | undefined;
 }
 /** * `acp` - ACP * `pi` - Pi */
 export type TaskRuntimeEnum = "acp" | "pi";
@@ -904,16 +876,18 @@ export interface TaskUserBasicInfo {
   first_name: string;
   last_name: string;
   email: string;
-  is_email_verified?: boolean | null;
-  hedgehog_config?: TaskUserBasicInfoHedgehogConfigMap | null;
-  role_at_organization?: string | null;
+  is_email_verified?: boolean | null | undefined;
+  hedgehog_config?: TaskUserBasicInfoHedgehogConfigMap | null | undefined;
+  role_at_organization?: string | null | undefined;
 }
 export interface SlackThreadReferenceDTO {
   url: string;
   channel: string;
-  created_at?: string | null;
+  created_at?: string | null | undefined;
 }
 export type TaskDetailDTOSlackThreadReferencesList = Array<SlackThreadReferenceDTO>;
+/** * `posthog_desktop` - PostHog Desktop * `posthog_mobile` - PostHog Mobile * `posthog_web` - PostHog Web */
+export type TaskClientProvenanceEnum = "posthog_desktop" | "posthog_mobile" | "posthog_web";
 /** Detail response for a task. Reads from a frozen ``TaskDetailDTO`` produced by the facade. ``github_integration`` / ``github_user_integration`` are integration ids, ``signal_report`` is the report id, and ``latest_run`` nests the run-detail shape. ``created_by`` mirrors core ``UserBasicSerializer``. */
 export interface TaskDetailDTO {
   id: string;
@@ -935,16 +909,18 @@ export interface TaskDetailDTO {
   archived: boolean;
   archived_at: string | null;
   /** Latest run details for this task */
-  latest_run?: TaskRunDetailDTO | null;
-  created_at?: string | null;
-  updated_at?: string | null;
-  last_activity_at?: string | null;
-  created_by?: TaskUserBasicInfo | null;
+  latest_run?: TaskRunDetailDTO | null | undefined;
+  created_at?: string | null | undefined;
+  updated_at?: string | null | undefined;
+  last_activity_at?: string | null | undefined;
+  created_by?: TaskUserBasicInfo | null | undefined;
   ci_prompt: string | null;
-  channel?: string | null;
+  channel?: string | null | undefined;
   slack_thread_references: TaskDetailDTOSlackThreadReferencesList;
   /** Stable key of the server-side flow that created this task, e.g. `desktop_onboarding_session:<user_id>`. Null for tasks people create themselves. */
-  origin_key?: string | null;
+  origin_key?: string | null | undefined;
+  /** First-party PostHog client that created this task. * `posthog_desktop` - PostHog Desktop * `posthog_mobile` - PostHog Mobile * `posthog_web` - PostHog Web */
+  client_provenance?: TaskClientProvenanceEnum | null | undefined;
 }
 /** * `not_started` - not_started * `queued` - queued * `in_progress` - in_progress * `completed` - completed * `failed` - failed * `cancelled` - cancelled */
 export type RunStatusEnum =
@@ -960,27 +936,48 @@ export type UpdateTasksRunsPartialRequestStateMap = { [key: string]: unknown | u
 export type UpdateTasksRunsPartialRequestStateRemoveKeysList = Array<string>;
 /** State keys whose value to append to the list stored at that key, atomically under the row lock. Use instead of sending the whole list back through `state`, which loses concurrent appends to a read-modify-write race. */
 export type UpdateTasksRunsPartialRequestStateAppendMap = { [key: string]: unknown | undefined };
+/** * `agent_reported` - agent_reported * `agent_server_crash` - agent_server_crash * `agent_declined` - agent_declined * `output_parse_failed` - output_parse_failed * `poll_timeout` - poll_timeout * `pi_runtime_error` - pi_runtime_error * `upstream_stream_terminated` - upstream_stream_terminated * `upstream_connection_error` - upstream_connection_error * `upstream_timeout` - upstream_timeout * `upstream_provider_failure` - upstream_provider_failure * `upstream_request_rejected` - upstream_request_rejected * `content_block_rejection` - content_block_rejection * `turn_ended_without_response` - turn_ended_without_response * `subscription_usage_limit` - subscription_usage_limit * `task_spend_limit` - task_spend_limit * `agent_error` - agent_error * `ActiveSessionCapError` - ActiveSessionCapError */
+export type ErrorTypeEnum =
+  | "agent_reported"
+  | "agent_server_crash"
+  | "agent_declined"
+  | "output_parse_failed"
+  | "poll_timeout"
+  | "pi_runtime_error"
+  | "upstream_stream_terminated"
+  | "upstream_connection_error"
+  | "upstream_timeout"
+  | "upstream_provider_failure"
+  | "upstream_request_rejected"
+  | "content_block_rejection"
+  | "turn_ended_without_response"
+  | "subscription_usage_limit"
+  | "task_spend_limit"
+  | "agent_error"
+  | "ActiveSessionCapError";
 export interface UpdateTasksRunsPartialRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   task_id: string;
   id: string;
   /** Current execution status * `not_started` - not_started * `queued` - queued * `in_progress` - in_progress * `completed` - completed * `failed` - failed * `cancelled` - cancelled */
-  status?: RunStatusEnum | (string & {});
+  status?: RunStatusEnum | (string & {}) | undefined;
   /** Git branch name to associate with the task */
-  branch?: string | null;
+  branch?: string | null | undefined;
   /** Current stage of the run (e.g. research, plan, build) */
-  stage?: string | null;
+  stage?: string | null | undefined;
   /** Output from the run */
-  output?: unknown;
+  output?: unknown | undefined;
   /** State of the run */
-  state?: UpdateTasksRunsPartialRequestStateMap;
+  state?: UpdateTasksRunsPartialRequestStateMap | undefined;
   /** State keys to remove atomically before applying any state updates. */
-  state_remove_keys?: UpdateTasksRunsPartialRequestStateRemoveKeysList;
+  state_remove_keys?: UpdateTasksRunsPartialRequestStateRemoveKeysList | undefined;
   /** State keys whose value to append to the list stored at that key, atomically under the row lock. Use instead of sending the whole list back through `state`, which loses concurrent appends to a read-modify-write race. */
-  state_append?: UpdateTasksRunsPartialRequestStateAppendMap;
+  state_append?: UpdateTasksRunsPartialRequestStateAppendMap | undefined;
   /** Error message if execution failed */
-  error_message?: string | null;
+  error_message?: string | null | undefined;
+  /** Why the run failed, set by the caller that marked it failed. * `agent_reported` - agent_reported * `agent_server_crash` - agent_server_crash * `agent_declined` - agent_declined * `output_parse_failed` - output_parse_failed * `poll_timeout` - poll_timeout * `pi_runtime_error` - pi_runtime_error * `upstream_stream_terminated` - upstream_stream_terminated * `upstream_connection_error` - upstream_connection_error * `upstream_timeout` - upstream_timeout * `upstream_provider_failure` - upstream_provider_failure * `upstream_request_rejected` - upstream_request_rejected * `content_block_rejection` - content_block_rejection * `turn_ended_without_response` - turn_ended_without_response * `subscription_usage_limit` - subscription_usage_limit * `task_spend_limit` - task_spend_limit * `agent_error` - agent_error * `ActiveSessionCapError` - ActiveSessionCapError */
+  error_type?: ErrorTypeEnum | (string & {}) | null | undefined;
 }
 export interface UpdateTasksRunsSetOutputPartialRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -988,7 +985,7 @@ export interface UpdateTasksRunsSetOutputPartialRequest {
   task_id: string;
   id: string;
   /** Output data from the run. Validated against the task's json_schema if one is set. */
-  output?: unknown;
+  output?: unknown | undefined;
 }
 /** Complete set of slug tags that replaces the prior tags. The agent chooses the tags. Omit the field to keep the current tags. Send an empty list to remove them. */
 export type UpdateTasksRunsSetSummaryPartialRequestTagsList = Array<string>;
@@ -998,9 +995,9 @@ export interface UpdateTasksRunsSetSummaryPartialRequest {
   task_id: string;
   id: string;
   /** Complete running summary that replaces the prior summary. */
-  summary?: string;
+  summary?: string | undefined;
   /** Complete set of slug tags that replaces the prior tags. The agent chooses the tags. Omit the field to keep the current tags. Send an empty list to remove them. */
-  tags?: UpdateTasksRunsSetSummaryPartialRequestTagsList;
+  tags?: UpdateTasksRunsSetSummaryPartialRequestTagsList | undefined;
 }
 export type CreateTasksRunError = BadRequest | Forbidden | NotFound | PosthogOpError;
 /** Create task run Create a new run for a specific task without starting execution. */
@@ -1010,8 +1007,8 @@ export const createTasksRun: API.OperationMethod<
   CreateTasksRunError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(238, __c29, 6) as any as S.Schema<CreateTasksRunRequest>,
-  output: __S(256, __c32, 0) as any as S.Schema<TaskRunDetailDTO>,
+  input: __S(230, __c28, 6) as any as S.Schema<CreateTasksRunRequest>,
+  output: __S(248, __c31, 0) as any as S.Schema<TaskRunDetailDTO>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -1031,8 +1028,8 @@ export const createTasksRunsAnalysisActivity: API.OperationMethod<
   CreateTasksRunsAnalysisActivityError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(272, __c34, 0) as any as S.Schema<CreateTasksRunsAnalysisActivityRequest>,
-  output: __S(273, __c34, 1) as any as S.Schema<TaskRunAnalysisActivityResponse>,
+  input: __S(264, __c33, 0) as any as S.Schema<CreateTasksRunsAnalysisActivityRequest>,
+  output: __S(265, __c33, 1) as any as S.Schema<TaskRunAnalysisActivityResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -1048,8 +1045,8 @@ export const createTasksRunsAnalyze: API.OperationMethod<
   CreateTasksRunsAnalyzeError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(280, __c35, 0) as any as S.Schema<CreateTasksRunsAnalyzeRequest>,
-  output: __S(281, __c35, 1) as any as S.Schema<TaskRunAnalyzeResponse>,
+  input: __S(272, __c34, 0) as any as S.Schema<CreateTasksRunsAnalyzeRequest>,
+  output: __S(273, __c34, 1) as any as S.Schema<TaskRunAnalyzeResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -1065,8 +1062,8 @@ export const createTasksRunsAppendLog: API.OperationMethod<
   CreateTasksRunsAppendLogError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(289, __c36, 1) as any as S.Schema<CreateTasksRunsAppendLogRequest>,
-  output: __S(256, __c32, 0) as any as S.Schema<TaskRunDetailDTO>,
+  input: __S(281, __c35, 1) as any as S.Schema<CreateTasksRunsAppendLogRequest>,
+  output: __S(248, __c31, 0) as any as S.Schema<TaskRunDetailDTO>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -1082,8 +1079,8 @@ export const createTasksRunsArtifact: API.OperationMethod<
   CreateTasksRunsArtifactError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(298, __c37, 2) as any as S.Schema<CreateTasksRunsArtifactRequest>,
-  output: __S(304, __c38, 0) as any as S.Schema<TaskRunArtifactsUploadResponse>,
+  input: __S(290, __c36, 2) as any as S.Schema<CreateTasksRunsArtifactRequest>,
+  output: __S(296, __c37, 0) as any as S.Schema<TaskRunArtifactsUploadResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -1099,8 +1096,8 @@ export const createTasksRunsArtifactsDismiss: API.OperationMethod<
   CreateTasksRunsArtifactsDismissError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(320, __c40, 0) as any as S.Schema<CreateTasksRunsArtifactsDismissRequest>,
-  output: __S(328, __c41, 0) as any as S.Schema<TaskRunArtifactsDismissResponse>,
+  input: __S(312, __c39, 0) as any as S.Schema<CreateTasksRunsArtifactsDismissRequest>,
+  output: __S(320, __c40, 0) as any as S.Schema<TaskRunArtifactsDismissResponse>,
   errors: [NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -1138,7 +1135,7 @@ export const createTasksRunsArtifactsReference: API.OperationMethod<
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(10, __c1, 2) as any as S.Schema<CreateTasksRunsArtifactsReferenceRequest>,
-  output: __S(328, __c41, 0) as any as S.Schema<TaskRunPostHogReferencesResponse>,
+  output: __S(320, __c40, 0) as any as S.Schema<TaskRunPostHogReferencesResponse>,
   errors: [NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -1155,7 +1152,7 @@ export const createTasksRunsClearConversation: API.OperationMethod<
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(16, __c2, 0) as any as S.Schema<CreateTasksRunsClearConversationRequest>,
-  output: __S(256, __c32, 0) as any as S.Schema<TaskRunDetailDTO>,
+  output: __S(248, __c31, 0) as any as S.Schema<TaskRunDetailDTO>,
   errors: [NotFound, Conflict],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -1185,23 +1182,6 @@ export const createTasksRunsCommand: API.OperationMethod<
   span: "CreateTasksRunsCommand",
 }));
 
-export type CreateTasksRunsPeersMessageError = BadRequest | Forbidden | NotFound | PosthogOpError;
-/** Send a message to a peer agent run Relay a message from this run to a peer agent run. The body is delivered below a server-composed provenance envelope as a queued (non-steer) turn; attachments are copied into the target run's own artifact storage. `accepted` means queued for delivery, never delivered -- the sandbox handoff happens later inside the target's workflow. */
-export const createTasksRunsPeersMessage: API.OperationMethod<
-  CreateTasksRunsPeersMessageRequest,
-  TaskRunPeerMessageResponse,
-  CreateTasksRunsPeersMessageError,
-  PosthogOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(32, __c4, 0) as any as S.Schema<CreateTasksRunsPeersMessageRequest>,
-  output: __S(33, __c4, 1) as any as S.Schema<TaskRunPeerMessageResponse>,
-  errors: [BadRequest, Forbidden, NotFound],
-  protocol: PosthogProtocol,
-  retry: Retry.Retry,
-  telemetry: TELEMETRY,
-  span: "CreateTasksRunsPeersMessage",
-}));
-
 export type CreateTasksRunsRelayMessageError = BadRequest | Forbidden | NotFound | PosthogOpError;
 /** Relay run message to Slack Queue a Slack relay workflow to post a run message into the mapped Slack thread. */
 export const createTasksRunsRelayMessage: API.OperationMethod<
@@ -1210,8 +1190,8 @@ export const createTasksRunsRelayMessage: API.OperationMethod<
   CreateTasksRunsRelayMessageError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(40, __c5, 0) as any as S.Schema<CreateTasksRunsRelayMessageRequest>,
-  output: __S(41, __c5, 1) as any as S.Schema<TaskRunRelayMessageResponse>,
+  input: __S(32, __c4, 0) as any as S.Schema<CreateTasksRunsRelayMessageRequest>,
+  output: __S(33, __c4, 1) as any as S.Schema<TaskRunRelayMessageResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -1232,8 +1212,8 @@ export const createTasksRunsSubscriptionToken: API.OperationMethod<
   CreateTasksRunsSubscriptionTokenError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(48, __c6, 0) as any as S.Schema<CreateTasksRunsSubscriptionTokenRequest>,
-  output: __S(49, __c6, 1) as any as S.Schema<TaskRunSubscriptionTokenResponse>,
+  input: __S(40, __c5, 0) as any as S.Schema<CreateTasksRunsSubscriptionTokenRequest>,
+  output: __S(41, __c5, 1) as any as S.Schema<TaskRunSubscriptionTokenResponse>,
   errors: [BadRequest, Forbidden, NotFound, Conflict],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -1254,8 +1234,8 @@ export const createTasksRunsTaskSessionSync: API.OperationMethod<
   CreateTasksRunsTaskSessionSyncError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(56, __c7, 0) as any as S.Schema<CreateTasksRunsTaskSessionSyncRequest>,
-  output: __S(57, __c7, 1) as any as S.Schema<TaskSessionSyncResponse>,
+  input: __S(48, __c6, 0) as any as S.Schema<CreateTasksRunsTaskSessionSyncRequest>,
+  output: __S(49, __c6, 1) as any as S.Schema<TaskSessionSyncResponse>,
   errors: [BadRequest, Forbidden, NotFound, Conflict],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -1271,13 +1251,30 @@ export const getTasksRun: API.OperationMethod<
   GetTasksRunError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(64, __c8, 0) as any as S.Schema<GetTasksRunRequest>,
-  output: __S(256, __c32, 0) as any as S.Schema<TaskRunDetailDTO>,
+  input: __S(56, __c7, 0) as any as S.Schema<GetTasksRunRequest>,
+  output: __S(248, __c31, 0) as any as S.Schema<TaskRunDetailDTO>,
   errors: [Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetTasksRun",
+}));
+
+export type GetTasksRunsArtifactsPreviewError = BadRequest | Forbidden | NotFound | PosthogOpError;
+/** Open an isolated HTML artifact preview Returns a short-lived URL for one HTML artifact version on the artifact origin. The page runs its scripts only when scripts=true. */
+export const getTasksRunsArtifactsPreview: API.OperationMethod<
+  GetTasksRunsArtifactsPreviewRequest,
+  TaskRunArtifactPreviewResponse,
+  GetTasksRunsArtifactsPreviewError,
+  PosthogOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(64, __c8, 0) as any as S.Schema<GetTasksRunsArtifactsPreviewRequest>,
+  output: __S(65, __c8, 1) as any as S.Schema<TaskRunArtifactPreviewResponse>,
+  errors: [BadRequest, Forbidden, NotFound],
+  protocol: PosthogProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetTasksRunsArtifactsPreview",
 }));
 
 export type GetTasksRunsConnectionTokenError = Forbidden | NotFound | PosthogOpError;
@@ -1298,7 +1295,7 @@ export const getTasksRunsConnectionToken: API.OperationMethod<
 }));
 
 export type GetTasksRunsLogError = Forbidden | NotFound | PosthogOpError;
-/** Get task run logs Fetch the logs for a task run as JSONL. If the run resumes from another (state.resume_from_run_id), each ancestor's log is concatenated first (oldest ancestor -> ... -> this run) so resume consumers see a single continuous history. */
+/** Get task run logs Fetch the logs for a task run as JSONL. If the run resumes from another (state.resume_from_run_id), each ancestor's log is concatenated first (oldest ancestor -> ... -> this run) so resume consumers see a single continuous history. A resumed Pi run includes the earlier runs of its task session the same way, each preceded by a pi_run_started entry that names its run. For a live presence-gated run, the request marks the stream as watched before it reads the log, so events after the snapshot reach the live stream. Pass tail_bytes to read only the latest turns first, add before to page back through older turns, or add start to read every entry after the ones a client holds. X-Log-Origin names the first run of the chain: indexes from responses with different origins do not match. A Pi run returns its full log without the X-Log headers. Pass view=thread to drop the duplicate tool response copy that a rendered conversation does not use. */
 export const getTasksRunsLog: API.OperationMethod<
   GetTasksRunsLogRequest,
   GetTasksRunsLogResponse,
@@ -1314,23 +1311,6 @@ export const getTasksRunsLog: API.OperationMethod<
   span: "GetTasksRunsLog",
 }));
 
-export type GetTasksRunsPeerError = Forbidden | NotFound | PosthogOpError;
-/** List peer agent runs Agent runs this run may send messages to: cloud Pi runs of tasks created by the same user, currently in progress or queued. Discovery and send validation share one visibility policy, so a run can only message what it can list; the per-entry `sendable` flag is the liveness contract. */
-export const getTasksRunsPeer: API.OperationMethod<
-  GetTasksRunsPeerRequest,
-  TaskRunPeersResponse,
-  GetTasksRunsPeerError,
-  PosthogOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(96, __c12, 0) as any as S.Schema<GetTasksRunsPeerRequest>,
-  output: __S(99, __c12, 3) as any as S.Schema<TaskRunPeersResponse>,
-  errors: [Forbidden, NotFound],
-  protocol: PosthogProtocol,
-  retry: Retry.Retry,
-  telemetry: TELEMETRY,
-  span: "GetTasksRunsPeer",
-}));
-
 export type GetTasksRunsPreviewError = Forbidden | NotFound | PosthogOpError;
 /** Open the dev stack preview for a task run Redirects to the PostHog dev stack running inside this run's sandbox. A fresh sandbox access token is minted on every request and carried only in the redirect target, so it is never persisted or returned in a response body. When the run has no preview, or its sandbox has stopped, this renders a short HTML page instead. */
 export const getTasksRunsPreview: API.OperationMethod<
@@ -1339,7 +1319,7 @@ export const getTasksRunsPreview: API.OperationMethod<
   GetTasksRunsPreviewError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(104, __c13, 0) as any as S.Schema<GetTasksRunsPreviewRequest>,
+  input: __S(96, __c12, 0) as any as S.Schema<GetTasksRunsPreviewRequest>,
   output: __S(88, __c11, 0) as any as S.Schema<GetTasksRunsPreviewResponse>,
   errors: [Forbidden, NotFound],
   protocol: PosthogProtocol,
@@ -1356,7 +1336,7 @@ export const getTasksRunsSessionLog: API.OperationMethod<
   GetTasksRunsSessionLogError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(112, __c14, 0) as any as S.Schema<GetTasksRunsSessionLogRequest>,
+  input: __S(104, __c13, 0) as any as S.Schema<GetTasksRunsSessionLogRequest>,
   output: __S(88, __c11, 0) as any as S.Schema<GetTasksRunsSessionLogResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
@@ -1373,7 +1353,7 @@ export const getTasksRunsStream: API.OperationMethod<
   GetTasksRunsStreamError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(120, __c15, 0) as any as S.Schema<GetTasksRunsStreamRequest>,
+  input: __S(112, __c14, 0) as any as S.Schema<GetTasksRunsStreamRequest>,
   output: __S(88, __c11, 0) as any as S.Schema<GetTasksRunsStreamResponse>,
   errors: [Forbidden, NotFound],
   protocol: PosthogProtocol,
@@ -1390,8 +1370,8 @@ export const getTasksRunsStreamToken: API.OperationMethod<
   GetTasksRunsStreamTokenError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(128, __c16, 0) as any as S.Schema<GetTasksRunsStreamTokenRequest>,
-  output: __S(129, __c16, 1) as any as S.Schema<StreamReadTokenResponse>,
+  input: __S(120, __c15, 0) as any as S.Schema<GetTasksRunsStreamTokenRequest>,
+  output: __S(121, __c15, 1) as any as S.Schema<StreamReadTokenResponse>,
   errors: [NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -1407,8 +1387,8 @@ export const getTasksRunsTaskSession: API.OperationMethod<
   GetTasksRunsTaskSessionError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(136, __c17, 0) as any as S.Schema<GetTasksRunsTaskSessionRequest>,
-  output: __S(137, __c17, 1) as any as S.Schema<TaskSessionResponse>,
+  input: __S(128, __c16, 0) as any as S.Schema<GetTasksRunsTaskSessionRequest>,
+  output: __S(129, __c16, 1) as any as S.Schema<TaskSessionResponse>,
   errors: [NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -1424,8 +1404,8 @@ export const listTasksRuns: API.OperationMethod<
   ListTasksRunsError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(144, __c18, 0) as any as S.Schema<ListTasksRunsRequest>,
-  output: __S(146, __c18, 2) as any as S.Schema<PaginatedTaskRunDetailDTOList>,
+  input: __S(136, __c17, 0) as any as S.Schema<ListTasksRunsRequest>,
+  output: __S(138, __c17, 2) as any as S.Schema<PaginatedTaskRunDetailDTOList>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -1445,7 +1425,7 @@ export const tasksRunsArtifactsDownloadCreate: API.OperationMethod<
   TasksRunsArtifactsDownloadCreateError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(152, __c19, 0) as any as S.Schema<TasksRunsArtifactsDownloadCreateRequest>,
+  input: __S(144, __c18, 0) as any as S.Schema<TasksRunsArtifactsDownloadCreateRequest>,
   output: __S(88, __c11, 0) as any as S.Schema<TasksRunsArtifactsDownloadCreateResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
@@ -1462,7 +1442,7 @@ export const tasksRunsArtifactsDownloadRetrieve: API.OperationMethod<
   TasksRunsArtifactsDownloadRetrieveError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(160, __c20, 0) as any as S.Schema<TasksRunsArtifactsDownloadRetrieveRequest>,
+  input: __S(152, __c19, 0) as any as S.Schema<TasksRunsArtifactsDownloadRetrieveRequest>,
   output: __S(88, __c11, 0) as any as S.Schema<TasksRunsArtifactsDownloadRetrieveResponse>,
   errors: [BadRequest, NotFound],
   protocol: PosthogProtocol,
@@ -1483,8 +1463,8 @@ export const tasksRunsArtifactsFinalizeUploadCreate: API.OperationMethod<
   TasksRunsArtifactsFinalizeUploadCreateError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(170, __c21, 2) as any as S.Schema<TasksRunsArtifactsFinalizeUploadCreateRequest>,
-  output: __S(304, __c38, 0) as any as S.Schema<TaskRunArtifactsFinalizeUploadResponse>,
+  input: __S(162, __c20, 2) as any as S.Schema<TasksRunsArtifactsFinalizeUploadCreateRequest>,
+  output: __S(296, __c37, 0) as any as S.Schema<TaskRunArtifactsFinalizeUploadResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -1504,8 +1484,8 @@ export const tasksRunsArtifactsPrepareUploadCreate: API.OperationMethod<
   TasksRunsArtifactsPrepareUploadCreateError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(178, __c22, 2) as any as S.Schema<TasksRunsArtifactsPrepareUploadCreateRequest>,
-  output: __S(183, __c22, 7) as any as S.Schema<TaskRunArtifactsPrepareUploadResponse>,
+  input: __S(170, __c21, 2) as any as S.Schema<TasksRunsArtifactsPrepareUploadCreateRequest>,
+  output: __S(175, __c21, 7) as any as S.Schema<TaskRunArtifactsPrepareUploadResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -1521,8 +1501,8 @@ export const tasksRunsCancelCreate: API.OperationMethod<
   TasksRunsCancelCreateError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(184, __c23, 0) as any as S.Schema<TasksRunsCancelCreateRequest>,
-  output: __S(256, __c32, 0) as any as S.Schema<TaskRunDetailDTO>,
+  input: __S(176, __c22, 0) as any as S.Schema<TasksRunsCancelCreateRequest>,
+  output: __S(248, __c31, 0) as any as S.Schema<TaskRunDetailDTO>,
   errors: [BadRequest, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -1538,8 +1518,8 @@ export const tasksRunsResumeInCloudCreate: API.OperationMethod<
   TasksRunsResumeInCloudCreateError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(192, __c24, 0) as any as S.Schema<TasksRunsResumeInCloudCreateRequest>,
-  output: __S(256, __c32, 0) as any as S.Schema<TaskRunDetailDTO>,
+  input: __S(184, __c23, 0) as any as S.Schema<TasksRunsResumeInCloudCreateRequest>,
+  output: __S(248, __c31, 0) as any as S.Schema<TaskRunDetailDTO>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -1555,8 +1535,8 @@ export const tasksRunsStartCreate: API.OperationMethod<
   TasksRunsStartCreateError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(200, __c25, 0) as any as S.Schema<TasksRunsStartCreateRequest>,
-  output: __S(204, __c25, 4) as any as S.Schema<TaskDetailDTO>,
+  input: __S(192, __c24, 0) as any as S.Schema<TasksRunsStartCreateRequest>,
+  output: __S(196, __c24, 4) as any as S.Schema<TaskDetailDTO>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -1572,8 +1552,8 @@ export const updateTasksRunsPartial: API.OperationMethod<
   UpdateTasksRunsPartialError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(208, __c26, 0) as any as S.Schema<UpdateTasksRunsPartialRequest>,
-  output: __S(256, __c32, 0) as any as S.Schema<TaskRunDetailDTO>,
+  input: __S(200, __c25, 0) as any as S.Schema<UpdateTasksRunsPartialRequest>,
+  output: __S(248, __c31, 0) as any as S.Schema<TaskRunDetailDTO>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -1593,8 +1573,8 @@ export const updateTasksRunsSetOutputPartial: API.OperationMethod<
   UpdateTasksRunsSetOutputPartialError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(216, __c27, 0) as any as S.Schema<UpdateTasksRunsSetOutputPartialRequest>,
-  output: __S(256, __c32, 0) as any as S.Schema<TaskRunDetailDTO>,
+  input: __S(208, __c26, 0) as any as S.Schema<UpdateTasksRunsSetOutputPartialRequest>,
+  output: __S(248, __c31, 0) as any as S.Schema<TaskRunDetailDTO>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -1610,8 +1590,8 @@ export const updateTasksRunsSetSummaryPartial: API.OperationMethod<
   UpdateTasksRunsSetSummaryPartialError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(224, __c28, 0) as any as S.Schema<UpdateTasksRunsSetSummaryPartialRequest>,
-  output: __S(256, __c32, 0) as any as S.Schema<TaskRunDetailDTO>,
+  input: __S(216, __c27, 0) as any as S.Schema<UpdateTasksRunsSetSummaryPartialRequest>,
+  output: __S(248, __c31, 0) as any as S.Schema<TaskRunDetailDTO>,
   errors: [NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -1704,7 +1684,7 @@ function __c3(j: number): any {
           id: S.String.pipe(T.Label()),
           jsonrpc: S.optional(S.String),
           method: S.optional(S.String),
-          params: S.optional(__S(248, __c31, 0)),
+          params: S.optional(__S(240, __c30, 0)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -1719,7 +1699,7 @@ function __c3(j: number): any {
           jsonrpc: S.optional(S.String),
           id: S.optional(S.Unknown),
           result: S.optional(S.Unknown),
-          error: S.optional(__S(248, __c31, 0)),
+          error: S.optional(__S(240, __c30, 0)),
         }),
       ).annotate({ identifier: "TaskRunCommandResponse" });
   }
@@ -1732,38 +1712,9 @@ function __c4(j: number): any {
           project_id: S.String.pipe(T.Label()),
           task_id: S.String.pipe(T.Label()),
           id: S.String.pipe(T.Label()),
-          target_run_id: S.String.pipe(T.Label()),
-          content: S.String,
-          artifact_ids: S.optional(__S(240, __c30, 0)),
-        }).pipe(
-          T.Http({
-            method: "POST",
-            uri: "/api/projects/{project_id}/tasks/{task_id}/runs/{id}/peers/{target_run_id}/message/",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "CreateTasksRunsPeersMessageRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          result: S.String,
-          detail: S.String,
-          message_id: S.optional(S.NullOr(S.String)),
-        }),
-      ).annotate({ identifier: "TaskRunPeerMessageResponse" });
-  }
-}
-function __c5(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          project_id: S.String.pipe(T.Label()),
-          task_id: S.String.pipe(T.Label()),
-          id: S.String.pipe(T.Label()),
           text: S.optional(S.String),
           message_id: S.optional(S.NullOr(S.String)),
-          text_parts: S.optional(__S(240, __c30, 0)),
+          text_parts: S.optional(__S(232, __c29, 0)),
           trace_id: S.optional(S.NullOr(S.String)),
         }).pipe(
           T.Http({
@@ -1782,7 +1733,7 @@ function __c5(j: number): any {
       ).annotate({ identifier: "TaskRunRelayMessageResponse" });
   }
 }
-function __c6(j: number): any {
+function __c5(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1810,7 +1761,7 @@ function __c6(j: number): any {
       ).annotate({ identifier: "TaskRunSubscriptionTokenResponse" });
   }
 }
-function __c7(j: number): any {
+function __c6(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1835,7 +1786,7 @@ function __c7(j: number): any {
       ).annotate({ identifier: "TaskSessionSyncResponse" });
   }
 }
-function __c8(j: number): any {
+function __c7(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1851,6 +1802,34 @@ function __c8(j: number): any {
           }),
         ),
       ).annotate({ identifier: "GetTasksRunRequest" });
+  }
+}
+function __c8(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          project_id: S.String.pipe(T.Label()),
+          task_id: S.String.pipe(T.Label()),
+          id: S.String.pipe(T.Label()),
+          artifact_id: S.String.pipe(T.Label()),
+          scripts: S.optional(S.Boolean.pipe(T.Query())),
+          version: S.optional(S.Number.pipe(T.Query())),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/api/projects/{project_id}/tasks/{task_id}/runs/{id}/artifacts/{artifact_id}/preview/",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "GetTasksRunsArtifactsPreviewRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          url: S.String,
+          scripts_available: S.Boolean,
+        }),
+      ).annotate({ identifier: "TaskRunArtifactPreviewResponse" });
   }
 }
 function __c9(j: number): any {
@@ -1885,6 +1864,10 @@ function __c10(j: number): any {
           project_id: S.String.pipe(T.Label()),
           task_id: S.String.pipe(T.Label()),
           id: S.String.pipe(T.Label()),
+          before: S.optional(S.Number.pipe(T.Query())),
+          start: S.optional(S.Number.pipe(T.Query())),
+          tail_bytes: S.optional(S.Number.pipe(T.Query())),
+          view: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -1912,48 +1895,6 @@ function __c12(j: number): any {
         }).pipe(
           T.Http({
             method: "GET",
-            uri: "/api/projects/{project_id}/tasks/{task_id}/runs/{id}/peers/",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "GetTasksRunsPeerRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          run_id: S.String,
-          task_id: S.String,
-          task_title: S.String,
-          created_by_email: S.NullOr(S.String),
-          runtime: S.String,
-          model: S.NullOr(S.String),
-          repository: S.NullOr(S.String),
-          stage: S.NullOr(S.String),
-          status: S.String,
-          sendable: S.Boolean,
-          updated_at: S.NullOr(S.String),
-        }),
-      ).annotate({ identifier: "TaskRunPeer" });
-    case 2:
-      return S.Array(__S(97, __c12, 1));
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          peers: __S(98, __c12, 2),
-        }),
-      ).annotate({ identifier: "TaskRunPeersResponse" });
-  }
-}
-function __c13(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          project_id: S.String.pipe(T.Label()),
-          task_id: S.String.pipe(T.Label()),
-          id: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "GET",
             uri: "/api/projects/{project_id}/tasks/{task_id}/runs/{id}/preview/",
             code: 200,
           }),
@@ -1961,7 +1902,7 @@ function __c13(j: number): any {
       ).annotate({ identifier: "GetTasksRunsPreviewRequest" });
   }
 }
-function __c14(j: number): any {
+function __c13(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1984,7 +1925,7 @@ function __c14(j: number): any {
       ).annotate({ identifier: "GetTasksRunsSessionLogRequest" });
   }
 }
-function __c15(j: number): any {
+function __c14(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2003,7 +1944,7 @@ function __c15(j: number): any {
       ).annotate({ identifier: "GetTasksRunsStreamRequest" });
   }
 }
-function __c16(j: number): any {
+function __c15(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2029,7 +1970,7 @@ function __c16(j: number): any {
       ).annotate({ identifier: "StreamReadTokenResponse" });
   }
 }
-function __c17(j: number): any {
+function __c16(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2055,7 +1996,7 @@ function __c17(j: number): any {
       ).annotate({ identifier: "TaskSessionResponse" });
   }
 }
-function __c18(j: number): any {
+function __c17(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2073,19 +2014,19 @@ function __c18(j: number): any {
         ),
       ).annotate({ identifier: "ListTasksRunsRequest" });
     case 1:
-      return S.Array(__S(256, __c32, 0));
+      return S.Array(__S(248, __c31, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           count: S.Number,
           next: S.optional(S.NullOr(S.String)),
           previous: S.optional(S.NullOr(S.String)),
-          results: __S(145, __c18, 1),
+          results: __S(137, __c17, 1),
         }),
       ).annotate({ identifier: "PaginatedTaskRunDetailDTOList" });
   }
 }
-function __c19(j: number): any {
+function __c18(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2104,7 +2045,7 @@ function __c19(j: number): any {
       ).annotate({ identifier: "TasksRunsArtifactsDownloadCreateRequest" });
   }
 }
-function __c20(j: number): any {
+function __c19(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2123,7 +2064,7 @@ function __c20(j: number): any {
       ).annotate({ identifier: "TasksRunsArtifactsDownloadRetrieveRequest" });
   }
 }
-function __c21(j: number): any {
+function __c20(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2134,18 +2075,19 @@ function __c21(j: number): any {
           source: S.optional(S.String),
           storage_path: S.optional(S.String),
           content_type: S.optional(S.String),
-          metadata: S.optional(__S(312, __c39, 0)),
+          metadata: S.optional(__S(304, __c38, 0)),
+          base_artifact_id: S.optional(S.String),
         }),
       ).annotate({ identifier: "TaskRunArtifactFinalizeUpload" });
     case 1:
-      return S.Array(__S(168, __c21, 0));
+      return S.Array(__S(160, __c20, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           project_id: S.String.pipe(T.Label()),
           task_id: S.String.pipe(T.Label()),
           id: S.String.pipe(T.Label()),
-          artifacts: S.optional(__S(169, __c21, 1)),
+          artifacts: S.optional(__S(161, __c20, 1)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -2156,7 +2098,7 @@ function __c21(j: number): any {
       ).annotate({ identifier: "TasksRunsArtifactsFinalizeUploadCreateRequest" });
   }
 }
-function __c22(j: number): any {
+function __c21(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2166,18 +2108,18 @@ function __c22(j: number): any {
           source: S.optional(S.String),
           size: S.optional(S.Number),
           content_type: S.optional(S.String),
-          metadata: S.optional(__S(312, __c39, 0)),
+          metadata: S.optional(__S(304, __c38, 0)),
         }),
       ).annotate({ identifier: "TaskRunArtifactPrepareUpload" });
     case 1:
-      return S.Array(__S(176, __c22, 0));
+      return S.Array(__S(168, __c21, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           project_id: S.String.pipe(T.Label()),
           task_id: S.String.pipe(T.Label()),
           id: S.String.pipe(T.Label()),
-          artifacts: S.optional(__S(177, __c22, 1)),
+          artifacts: S.optional(__S(169, __c21, 1)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -2192,7 +2134,7 @@ function __c22(j: number): any {
       return S.suspend(() =>
         S.Struct({
           url: S.optional(S.String),
-          fields: S.optional(__S(179, __c22, 3)),
+          fields: S.optional(__S(171, __c21, 3)),
         }),
       ).annotate({ identifier: "S3PresignedPost" });
     case 5:
@@ -2204,23 +2146,23 @@ function __c22(j: number): any {
           source: S.optional(S.String),
           size: S.optional(S.Number),
           content_type: S.optional(S.String),
-          metadata: S.optional(__S(312, __c39, 0)),
+          metadata: S.optional(__S(304, __c38, 0)),
           storage_path: S.optional(S.String),
           expires_in: S.optional(S.Number),
-          presigned_post: S.optional(__S(180, __c22, 4)),
+          presigned_post: S.optional(__S(172, __c21, 4)),
         }),
       ).annotate({ identifier: "TaskRunArtifactPrepareUploadResponse" });
     case 6:
-      return S.Array(__S(181, __c22, 5));
+      return S.Array(__S(173, __c21, 5));
     case 7:
       return S.suspend(() =>
         S.Struct({
-          artifacts: S.optional(__S(182, __c22, 6)),
+          artifacts: S.optional(__S(174, __c21, 6)),
         }),
       ).annotate({ identifier: "TaskRunArtifactsPrepareUploadResponse" });
   }
 }
-function __c23(j: number): any {
+function __c22(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2240,7 +2182,7 @@ function __c23(j: number): any {
       ).annotate({ identifier: "TasksRunsCancelCreateRequest" });
   }
 }
-function __c24(j: number): any {
+function __c23(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2258,7 +2200,7 @@ function __c24(j: number): any {
       ).annotate({ identifier: "TasksRunsResumeInCloudCreateRequest" });
   }
 }
-function __c25(j: number): any {
+function __c24(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2267,7 +2209,7 @@ function __c25(j: number): any {
           task_id: S.String.pipe(T.Label()),
           id: S.String.pipe(T.Label()),
           pending_user_message: S.optional(S.String),
-          pending_user_artifact_ids: S.optional(__S(240, __c30, 0)),
+          pending_user_artifact_ids: S.optional(__S(232, __c29, 0)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -2286,7 +2228,7 @@ function __c25(j: number): any {
           last_name: S.String,
           email: S.String,
           is_email_verified: S.optional(S.NullOr(S.Boolean)),
-          hedgehog_config: S.optional(S.NullOr(__S(248, __c31, 0))),
+          hedgehog_config: S.optional(S.NullOr(__S(240, __c30, 0))),
           role_at_organization: S.optional(S.NullOr(S.String)),
         }),
       ).annotate({ identifier: "TaskUserBasicInfo" });
@@ -2299,7 +2241,7 @@ function __c25(j: number): any {
         }),
       ).annotate({ identifier: "SlackThreadReferenceDTO" });
     case 3:
-      return S.Array(__S(202, __c25, 2));
+      return S.Array(__S(194, __c24, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
@@ -2312,28 +2254,29 @@ function __c25(j: number): any {
           origin_product: S.String,
           runtime: S.String,
           repository: S.NullOr(S.String),
-          repositories: __S(240, __c30, 0),
+          repositories: __S(232, __c29, 0),
           github_integration: S.NullOr(S.Number),
           github_user_integration: S.NullOr(S.String),
           signal_report: S.NullOr(S.String),
-          json_schema: S.NullOr(__S(248, __c31, 0)),
+          json_schema: S.NullOr(__S(240, __c30, 0)),
           internal: S.Boolean,
           archived: S.Boolean,
           archived_at: S.NullOr(S.String),
-          latest_run: S.optional(S.NullOr(__S(256, __c32, 0))),
+          latest_run: S.optional(S.NullOr(__S(248, __c31, 0))),
           created_at: S.optional(S.NullOr(S.String)),
           updated_at: S.optional(S.NullOr(S.String)),
           last_activity_at: S.optional(S.NullOr(S.String)),
-          created_by: S.optional(S.NullOr(__S(201, __c25, 1))),
+          created_by: S.optional(S.NullOr(__S(193, __c24, 1))),
           ci_prompt: S.NullOr(S.String),
           channel: S.optional(S.NullOr(S.String)),
-          slack_thread_references: __S(203, __c25, 3),
+          slack_thread_references: __S(195, __c24, 3),
           origin_key: S.optional(S.NullOr(S.String)),
+          client_provenance: S.optional(S.NullOr(S.String)),
         }),
       ).annotate({ identifier: "TaskDetailDTO" });
   }
 }
-function __c26(j: number): any {
+function __c25(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2345,10 +2288,11 @@ function __c26(j: number): any {
           branch: S.optional(S.NullOr(S.String)),
           stage: S.optional(S.NullOr(S.String)),
           output: S.optional(S.Unknown),
-          state: S.optional(__S(248, __c31, 0)),
-          state_remove_keys: S.optional(__S(240, __c30, 0)),
-          state_append: S.optional(__S(248, __c31, 0)),
+          state: S.optional(__S(240, __c30, 0)),
+          state_remove_keys: S.optional(__S(232, __c29, 0)),
+          state_append: S.optional(__S(240, __c30, 0)),
           error_message: S.optional(S.NullOr(S.String)),
+          error_type: S.optional(S.NullOr(S.String)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -2359,7 +2303,7 @@ function __c26(j: number): any {
       ).annotate({ identifier: "UpdateTasksRunsPartialRequest" });
   }
 }
-function __c27(j: number): any {
+function __c26(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2378,7 +2322,7 @@ function __c27(j: number): any {
       ).annotate({ identifier: "UpdateTasksRunsSetOutputPartialRequest" });
   }
 }
-function __c28(j: number): any {
+function __c27(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2387,7 +2331,7 @@ function __c28(j: number): any {
           task_id: S.String.pipe(T.Label()),
           id: S.String.pipe(T.Label()),
           summary: S.optional(S.String),
-          tags: S.optional(__S(240, __c30, 0)),
+          tags: S.optional(__S(232, __c29, 0)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -2398,7 +2342,7 @@ function __c28(j: number): any {
       ).annotate({ identifier: "UpdateTasksRunsSetSummaryPartialRequest" });
   }
 }
-function __c29(j: number): any {
+function __c28(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2408,18 +2352,18 @@ function __c29(j: number): any {
         }),
       ).annotate({ identifier: "ImportedMcpServerHeader" });
     case 1:
-      return S.Array(__S(232, __c29, 0));
+      return S.Array(__S(224, __c28, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           type: S.String,
           name: S.String,
           url: S.String,
-          headers: S.optional(__S(233, __c29, 1)),
+          headers: S.optional(__S(225, __c28, 1)),
         }),
       ).annotate({ identifier: "ImportedMcpServer" });
     case 3:
-      return S.Array(__S(234, __c29, 2));
+      return S.Array(__S(226, __c28, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
@@ -2427,14 +2371,14 @@ function __c29(j: number): any {
         }),
       ).annotate({ identifier: "RelayedMcpServer" });
     case 5:
-      return S.Array(__S(236, __c29, 4));
+      return S.Array(__S(228, __c28, 4));
     case 6:
       return S.suspend(() =>
         S.Struct({
           project_id: S.String.pipe(T.Label()),
           task_id: S.String.pipe(T.Label()),
-          imported_mcp_servers: S.optional(S.NullOr(__S(235, __c29, 3))),
-          relayed_mcp_servers: S.optional(S.NullOr(__S(237, __c29, 5))),
+          imported_mcp_servers: S.optional(S.NullOr(__S(227, __c28, 3))),
+          relayed_mcp_servers: S.optional(S.NullOr(__S(229, __c28, 5))),
           rtk_enabled: S.optional(S.NullOr(S.Boolean)),
           benjamin_enabled: S.optional(S.NullOr(S.Boolean)),
           claude_model_access: S.optional(S.NullOr(S.String)),
@@ -2465,19 +2409,19 @@ function __c29(j: number): any {
       ).annotate({ identifier: "CreateTasksRunRequest" });
   }
 }
-function __c30(j: number): any {
+function __c29(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
   }
 }
-function __c31(j: number): any {
+function __c30(j: number): any {
   switch (j) {
     case 0:
       return S.Record(S.String, S.Unknown);
   }
 }
-function __c32(j: number): any {
+function __c31(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2494,11 +2438,11 @@ function __c32(j: number): any {
           reasoning_effort: S.optional(S.NullOr(S.String)),
           log_url: S.optional(S.NullOr(S.String)),
           error_message: S.NullOr(S.String),
-          output: S.NullOr(__S(248, __c31, 0)),
+          output: S.NullOr(__S(240, __c30, 0)),
           task_summary: S.NullOr(S.String),
-          task_tags: __S(240, __c30, 0),
-          state: __S(248, __c31, 0),
-          artifacts: __S(265, __c33, 1),
+          task_tags: __S(232, __c29, 0),
+          state: __S(240, __c30, 0),
+          artifacts: __S(257, __c32, 1),
           created_at: S.optional(S.NullOr(S.String)),
           updated_at: S.optional(S.NullOr(S.String)),
           completed_at: S.optional(S.NullOr(S.String)),
@@ -2508,7 +2452,7 @@ function __c32(j: number): any {
       ).annotate({ identifier: "TaskRunDetailDTO" });
   }
 }
-function __c33(j: number): any {
+function __c32(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2529,10 +2473,10 @@ function __c33(j: number): any {
         }),
       ).annotate({ identifier: "TaskRunArtifactResponse" });
     case 1:
-      return S.Array(__S(264, __c33, 0));
+      return S.Array(__S(256, __c32, 0));
   }
 }
-function __c34(j: number): any {
+function __c33(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2553,8 +2497,8 @@ function __c34(j: number): any {
           failed_calls: S.Number,
           seconds: S.Number,
           idle_seconds: S.Number,
-          commands: S.optional(__S(240, __c30, 0)),
-          guidance_read: S.optional(__S(240, __c30, 0)),
+          commands: S.optional(__S(232, __c29, 0)),
+          guidance_read: S.optional(__S(232, __c29, 0)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -2571,7 +2515,7 @@ function __c34(j: number): any {
       ).annotate({ identifier: "TaskRunAnalysisActivityResponse" });
   }
 }
-function __c35(j: number): any {
+function __c34(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2596,17 +2540,17 @@ function __c35(j: number): any {
       ).annotate({ identifier: "TaskRunAnalyzeResponse" });
   }
 }
-function __c36(j: number): any {
+function __c35(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(248, __c31, 0));
+      return S.Array(__S(240, __c30, 0));
     case 1:
       return S.suspend(() =>
         S.Struct({
           project_id: S.String.pipe(T.Label()),
           task_id: S.String.pipe(T.Label()),
           id: S.String.pipe(T.Label()),
-          entries: S.optional(__S(288, __c36, 0)),
+          entries: S.optional(__S(280, __c35, 0)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -2617,7 +2561,7 @@ function __c36(j: number): any {
       ).annotate({ identifier: "CreateTasksRunsAppendLogRequest" });
   }
 }
-function __c37(j: number): any {
+function __c36(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2628,18 +2572,18 @@ function __c37(j: number): any {
           content: S.optional(S.String),
           content_encoding: S.optional(S.String),
           content_type: S.optional(S.String),
-          metadata: S.optional(__S(312, __c39, 0)),
+          metadata: S.optional(__S(304, __c38, 0)),
         }),
       ).annotate({ identifier: "TaskRunArtifactUpload" });
     case 1:
-      return S.Array(__S(296, __c37, 0));
+      return S.Array(__S(288, __c36, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           project_id: S.String.pipe(T.Label()),
           task_id: S.String.pipe(T.Label()),
           id: S.String.pipe(T.Label()),
-          artifacts: S.optional(__S(297, __c37, 1)),
+          artifacts: S.optional(__S(289, __c36, 1)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -2650,17 +2594,17 @@ function __c37(j: number): any {
       ).annotate({ identifier: "CreateTasksRunsArtifactRequest" });
   }
 }
-function __c38(j: number): any {
+function __c37(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          artifacts: S.optional(__S(265, __c33, 1)),
+          artifacts: S.optional(__S(257, __c32, 1)),
         }),
       ).annotate({ identifier: "TaskRunArtifactsUploadResponse" });
   }
 }
-function __c39(j: number): any {
+function __c38(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2674,7 +2618,7 @@ function __c39(j: number): any {
       ).annotate({ identifier: "TaskRunSkillBundleMetadata" });
   }
 }
-function __c40(j: number): any {
+function __c39(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2682,7 +2626,7 @@ function __c40(j: number): any {
           project_id: S.String.pipe(T.Label()),
           task_id: S.String.pipe(T.Label()),
           id: S.String.pipe(T.Label()),
-          artifact_ids: __S(240, __c30, 0),
+          artifact_ids: __S(232, __c29, 0),
           dismissed: S.optional(S.Boolean),
         }).pipe(
           T.Http({
@@ -2694,12 +2638,12 @@ function __c40(j: number): any {
       ).annotate({ identifier: "CreateTasksRunsArtifactsDismissRequest" });
   }
 }
-function __c41(j: number): any {
+function __c40(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          artifacts: __S(265, __c33, 1),
+          artifacts: __S(257, __c32, 1),
         }),
       ).annotate({ identifier: "TaskRunArtifactsDismissResponse" });
   }

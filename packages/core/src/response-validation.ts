@@ -7,9 +7,10 @@
  *   lenient (default): the response is returned as the protocol read it.
  *                      A body that does not match the declared output type
  *                      (a missing member, a wrong primitive, a non-JSON
- *                      body) still succeeds, except that core's REST
- *                      protocol, Stripe and Fly.io fail a non-JSON body for
- *                      an output with sensitive members in every mode.
+ *                      body) still succeeds, except that a non-JSON body for
+ *                      an output with sensitive members fails in every mode
+ *                      (REST-style protocols through core's `checkSuccess`
+ *                      in `protocol-rest`, plus ZeroSSL and AWS).
  *   additionalProperties: the response is checked against the output
  *                      schema, and a mismatch fails the call with the SDK's
  *                      `<Sdk>ParseError` (AWS: `ParseError`). Keys the
@@ -40,7 +41,7 @@ import * as Context from "effect/Context";
 import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
 import type * as AST from "effect/SchemaAST";
-import { type Decode, decoderFor, type SchemaMismatch } from "./response-validation-strict.ts";
+import { type Decode, decoderFor, SchemaMismatch } from "./response-validation-strict.ts";
 
 export { SchemaMismatch, withholdActual } from "./response-validation-strict.ts";
 
@@ -142,7 +143,9 @@ export const checkResponse = (
   if (mode === "lenient") return undefined;
   const decoderOf = Context.get(context, StrictDecoder);
   if (!decoderOf) {
-    throw new Error(`${mode} response validation needs the ResponseValidation.${mode} layer`);
+    // The mode was set without the layer that brings its decoder: the
+    // response can't be checked, so the call fails as a mismatch.
+    return new SchemaMismatch([], `the ResponseValidation.${mode} layer`, mode);
   }
   return decoderOf(outputAst, mode === "strict")(value);
 };

@@ -29,6 +29,7 @@ const TELEMETRY = {
   prefix: "Resourceconnector",
   service: "Resourceconnector",
   labels: "azure",
+  labelNames: { resourceGroupName: "azure.resource_group.name" },
   propagate: "w3c",
 } as const;
 
@@ -41,25 +42,25 @@ export type Provider = "VMWare" | "HCI" | "SCVMM";
 /** Contains infrastructure information about the Appliance */
 export interface AppliancePropertiesInfrastructureConfig {
   /** Information about the connected appliance. */
-  provider?: Provider | (string & {});
+  provider?: Provider | (string & {}) | undefined;
 }
 /** Properties for an appliance. */
 export interface AppliancePropertiesInput {
   /** Represents a supported Fabric/Infra. (AKSEdge etc...). */
-  distro?: AppliancePropertiesInputDistro | (string & {});
+  distro?: AppliancePropertiesInputDistro | (string & {}) | undefined;
   /** Contains infrastructure information about the Appliance */
-  infrastructureConfig?: AppliancePropertiesInfrastructureConfig;
+  infrastructureConfig?: AppliancePropertiesInfrastructureConfig | undefined;
   /** Certificates pair used to download MSI certificate from HIS. Can only be set once. */
-  publicKey?: string;
+  publicKey?: string | undefined;
   /** Version of the Appliance */
-  version?: string;
+  version?: string | undefined;
 }
 /** The identity type. */
 export type ResourceIdentityType = "SystemAssigned" | "None";
 /** Identity for the resource. */
 export interface IdentityInput {
   /** The identity type. */
-  type?: ResourceIdentityType | (string & {});
+  type?: ResourceIdentityType | (string & {}) | undefined;
 }
 export interface AppliancesCreateOrUpdateRequest {
   /** The ID of the target subscription. */
@@ -69,13 +70,13 @@ export interface AppliancesCreateOrUpdateRequest {
   /** Appliances name. */
   resourceName: string;
   /** Resource tags. */
-  tags?: AppliancesCreateOrUpdateRequestTagsMap;
+  tags?: AppliancesCreateOrUpdateRequestTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The set of properties specific to an Appliance */
-  properties?: AppliancePropertiesInput;
+  properties?: AppliancePropertiesInput | undefined;
   /** Identity for the resource. */
-  identity?: IdentityInput;
+  identity?: IdentityInput | undefined;
 }
 /** The type of identity that created the resource. */
 export type SystemDataCreatedByType = "User" | "Application" | "ManagedIdentity" | "Key";
@@ -84,17 +85,17 @@ export type SystemDataLastModifiedByType = "User" | "Application" | "ManagedIden
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface SystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: SystemDataCreatedByType;
+  createdByType?: SystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: SystemDataLastModifiedByType;
+  lastModifiedByType?: SystemDataLastModifiedByType | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 /** Resource tags. */
 export type AppliancesCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
@@ -137,48 +138,48 @@ export type Status =
 /** Properties for an appliance. */
 export interface ApplianceProperties {
   /** Represents a supported Fabric/Infra. (AKSEdge etc...). */
-  distro?: AppliancePropertiesDistro;
+  distro?: AppliancePropertiesDistro | undefined;
   /** Contains infrastructure information about the Appliance */
-  infrastructureConfig?: AppliancePropertiesInfrastructureConfig;
+  infrastructureConfig?: AppliancePropertiesInfrastructureConfig | undefined;
   /** The current deployment or provisioning state, which only appears in the response. */
-  provisioningState?: string;
+  provisioningState?: string | undefined;
   /** Certificates pair used to download MSI certificate from HIS. Can only be set once. */
-  publicKey?: string;
+  publicKey?: string | undefined;
   /** Appliance's health and state of connection to on-prem. This list of values is not exhaustive. */
-  status?: Status;
+  status?: Status | undefined;
   /** Version of the Appliance */
-  version?: string;
+  version?: string | undefined;
 }
 /** Identity for the resource. */
 export interface Identity {
   /** The principal ID of resource identity. */
-  principalId?: string;
+  principalId?: string | undefined;
   /** The tenant ID of resource. */
-  tenantId?: string;
+  tenantId?: string | undefined;
   /** The identity type. */
-  type?: ResourceIdentityType;
+  type?: ResourceIdentityType | undefined;
 }
 export interface AppliancesCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: AppliancesCreateOrUpdateResponseTagsMap;
+  tags?: AppliancesCreateOrUpdateResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The set of properties specific to an Appliance */
-  properties?: ApplianceProperties;
+  properties?: ApplianceProperties | undefined;
   /** Identity for the resource. */
-  identity?: Identity;
+  identity?: Identity | undefined;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeleteApplianceRequest {
   /** The ID of the target subscription. */
@@ -190,9 +191,9 @@ export interface DeleteApplianceRequest {
 }
 export interface DeleteApplianceResponse {
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface GetApplianceRequest {
   /** The ID of the target subscription. */
@@ -206,21 +207,21 @@ export interface GetApplianceRequest {
 export type GetApplianceResponseTagsMap = { [key: string]: string | undefined };
 export interface GetApplianceResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: GetApplianceResponseTagsMap;
+  tags?: GetApplianceResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The set of properties specific to an Appliance */
-  properties?: ApplianceProperties;
+  properties?: ApplianceProperties | undefined;
   /** Identity for the resource. */
-  identity?: Identity;
+  identity?: Identity | undefined;
 }
 export interface GetApplianceTelemetryConfigRequest {
   /** The ID of the target subscription. */
@@ -229,7 +230,7 @@ export interface GetApplianceTelemetryConfigRequest {
 /** The Get Telemetry Config Result appliance. */
 export interface ApplianceGetTelemetryConfigResult {
   /** Telemetry instrumentation key. */
-  telemetryInstrumentationKey?: string;
+  telemetryInstrumentationKey?: string | undefined;
 }
 export interface GetApplianceUpgradeGraphRequest {
   /** The ID of the target subscription. */
@@ -244,52 +245,52 @@ export interface GetApplianceUpgradeGraphRequest {
 /** The SupportedVersionCatalogVersionData object for appliance. */
 export interface SupportedVersionCatalogVersionData {
   /** The image audience name for the version available for upgrade. */
-  audience?: string;
+  audience?: string | undefined;
   /** The image catalog name for the version available for upgrade. */
-  catalog?: string;
+  catalog?: string | undefined;
   /** The image offer name for the version available for upgrade. */
-  offer?: string;
+  offer?: string | undefined;
   /** The image version for the version available for upgrade. */
-  version?: string;
+  version?: string | undefined;
 }
 /** The SupportedVersionCatalogVersion object for appliance. */
 export interface SupportedVersionCatalogVersion {
   /** The newer supported version catalog version data. */
-  data?: SupportedVersionCatalogVersionData;
+  data?: SupportedVersionCatalogVersionData | undefined;
   /** The catalog version name for the version available for upgrade. */
-  name?: string;
+  name?: string | undefined;
   /** The catalog version namespace for the version available for upgrade. */
-  namespace?: string;
+  namespace?: string | undefined;
 }
 /** The SupportedVersionMetadata object for appliance. */
 export interface SupportedVersionMetadata {
   /** The newer supported version catalog version. */
-  catalogVersion?: SupportedVersionCatalogVersion;
+  catalogVersion?: SupportedVersionCatalogVersion | undefined;
 }
 /** The SupportedVersion object for appliance. */
 export interface SupportedVersion {
   /** This is the metadata of the supported newer version. */
-  metadata?: SupportedVersionMetadata;
+  metadata?: SupportedVersionMetadata | undefined;
   /** The newer version available for upgrade. */
-  version?: string;
+  version?: string | undefined;
 }
 /** This contains the current version and supported upgrade versions. */
 export type UpgradeGraphPropertiesSupportedVersionsList = Array<SupportedVersion>;
 /** The Upgrade Graph Properties for appliance. */
 export interface UpgradeGraphProperties {
   /** The current appliance version */
-  applianceVersion?: string;
+  applianceVersion?: string | undefined;
   /** This contains the current version and supported upgrade versions. */
-  supportedVersions?: UpgradeGraphPropertiesSupportedVersionsList;
+  supportedVersions?: UpgradeGraphPropertiesSupportedVersionsList | undefined;
 }
 /** The Upgrade Graph for appliance. */
 export interface UpgradeGraph {
   /** The appliance resource path */
-  id?: string;
+  id?: string | undefined;
   /** The release train name. */
-  name?: string;
+  name?: string | undefined;
   /** The properties of supported version */
-  properties?: UpgradeGraphProperties;
+  properties?: UpgradeGraphProperties | undefined;
 }
 export interface ListApplianceByResourceGroupRequest {
   /** The ID of the target subscription. */
@@ -302,21 +303,21 @@ export type ApplianceTagsMap = { [key: string]: string | undefined };
 /** Appliances definition. */
 export interface Appliance {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: ApplianceTagsMap;
+  tags?: ApplianceTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The set of properties specific to an Appliance */
-  properties?: ApplianceProperties;
+  properties?: ApplianceProperties | undefined;
   /** Identity for the resource. */
-  identity?: Identity;
+  identity?: Identity | undefined;
 }
 /** The Appliance items on this page */
 export type ApplianceListResultValueList = Array<Appliance>;
@@ -325,7 +326,7 @@ export interface ApplianceListResult {
   /** The Appliance items on this page */
   value: ApplianceListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListApplianceBySubscriptionRequest {
   /** The ID of the target subscription. */
@@ -342,31 +343,31 @@ export interface ListApplianceClusterUserCredentialRequest {
 /** Contains the REP (rendezvous endpoint) and "Listener" access token from notification service (NS). */
 export interface HybridConnectionConfig {
   /** Timestamp when this token will be expired. */
-  expirationTime?: number;
+  expirationTime?: number | undefined;
   /** Name of the connection */
-  hybridConnectionName?: string;
+  hybridConnectionName?: string | undefined;
   /** Name of the notification service. */
-  relay?: string;
+  relay?: string | undefined;
   /** Listener access token */
-  token?: string;
+  token?: string | undefined;
 }
 /** Name which contains the role of the kubeconfig. */
 export type AccessProfileType = "clusterUser" | "clusterCustomerUser";
 /** Cluster User Credential appliance. */
 export interface ApplianceCredentialKubeconfig {
   /** Name which contains the role of the kubeconfig. */
-  name?: AccessProfileType;
+  name?: AccessProfileType | undefined;
   /** Contains the kubeconfig value. */
-  value?: string;
+  value?: string | undefined;
 }
 /** The list of appliance kubeconfigs. */
 export type ApplianceListCredentialResultsKubeconfigsList = Array<ApplianceCredentialKubeconfig>;
 /** The List Cluster User Credential appliance. */
 export interface ApplianceListCredentialResults {
   /** Contains the REP (rendezvous endpoint) and "Listener" access token from notification service (NS). */
-  hybridConnectionConfig?: HybridConnectionConfig;
+  hybridConnectionConfig?: HybridConnectionConfig | undefined;
   /** The list of appliance kubeconfigs. */
-  kubeconfigs?: ApplianceListCredentialResultsKubeconfigsList;
+  kubeconfigs?: ApplianceListCredentialResultsKubeconfigsList | undefined;
 }
 export interface ListApplianceKeysRequest {
   /** The ID of the target subscription. */
@@ -376,12 +377,12 @@ export interface ListApplianceKeysRequest {
   /** Appliances name. */
   resourceName: string;
   /** This sets the type of artifact being returned, when empty no artifact endpoint is returned. */
-  artifactType?: string;
+  artifactType?: string | undefined;
 }
 /** Appliance ArtifactProfile definition. */
 export interface ArtifactProfile {
   /** Endpoint is the URL to upload artifacts to. */
-  endpoint?: string;
+  endpoint?: string | undefined;
 }
 /** Map of artifacts that contains a list of ArtifactProfile used to upload artifacts such as logs. */
 export type ApplianceListKeysResultsArtifactProfilesMap = {
@@ -392,49 +393,49 @@ export type ApplianceListKeysResultsKubeconfigsList = Array<ApplianceCredentialK
 /** Appliance SSHKey definition. */
 export interface SSHKey {
   /** Certificate associated with the public key if the key is signed. */
-  certificate?: string;
+  certificate?: string | undefined;
   /** Certificate creation timestamp (Unix). */
-  creationTimeStamp?: number;
+  creationTimeStamp?: number | undefined;
   /** Certificate expiration timestamp (Unix). */
-  expirationTimeStamp?: number;
+  expirationTimeStamp?: number | undefined;
   /** Private Key. */
-  privateKey?: string | Redacted.Redacted<string>;
+  privateKey?: string | Redacted.Redacted<string> | undefined;
   /** Public Key. */
-  publicKey?: string;
+  publicKey?: string | undefined;
 }
 /** Map of Customer User Public, Private SSH Keys and Certificate when available. */
 export type ApplianceListKeysResultsSshKeysMap = { [key: string]: SSHKey | undefined };
 /** The List Cluster Keys Results appliance. */
 export interface ApplianceListKeysResults {
   /** Map of artifacts that contains a list of ArtifactProfile used to upload artifacts such as logs. */
-  artifactProfiles?: ApplianceListKeysResultsArtifactProfilesMap;
+  artifactProfiles?: ApplianceListKeysResultsArtifactProfilesMap | undefined;
   /** The list of appliance kubeconfigs. */
-  kubeconfigs?: ApplianceListKeysResultsKubeconfigsList;
+  kubeconfigs?: ApplianceListKeysResultsKubeconfigsList | undefined;
   /** Map of Customer User Public, Private SSH Keys and Certificate when available. */
-  sshKeys?: ApplianceListKeysResultsSshKeysMap;
+  sshKeys?: ApplianceListKeysResultsSshKeysMap | undefined;
 }
 export interface ListApplianceOperationsRequest {}
 /** Describes the properties of an Appliances Operation Value Display. */
 export interface ApplianceOperationValueDisplay {
   /** The description of the operation. */
-  description?: string;
+  description?: string | undefined;
   /** The display name of the compute operation. */
-  operation?: string;
+  operation?: string | undefined;
   /** The resource provider for the operation. */
-  provider?: string;
+  provider?: string | undefined;
   /** The display name of the resource the operation applies to. */
-  resource?: string;
+  resource?: string | undefined;
 }
 /** Appliances operation. */
 export interface ApplianceOperation {
   /** Describes the properties of an Appliances Operation Value Display. */
-  display?: ApplianceOperationValueDisplay;
+  display?: ApplianceOperationValueDisplay | undefined;
   /** Is this Operation a data plane operation */
-  isDataAction?: boolean;
+  isDataAction?: boolean | undefined;
   /** The name of the compute operation. */
-  name?: string;
+  name?: string | undefined;
   /** The origin of the compute operation. */
-  origin?: string;
+  origin?: string | undefined;
 }
 /** The ApplianceOperation items on this page */
 export type ApplianceOperationsListValueList = Array<ApplianceOperation>;
@@ -443,7 +444,7 @@ export interface ApplianceOperationsList {
   /** The ApplianceOperation items on this page */
   value: ApplianceOperationsListValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 /** Resource tags */
 export type UpdateApplianceRequestTagsMap = { [key: string]: string | undefined };
@@ -455,27 +456,27 @@ export interface UpdateApplianceRequest {
   /** Appliances name. */
   resourceName: string;
   /** Resource tags */
-  tags?: UpdateApplianceRequestTagsMap;
+  tags?: UpdateApplianceRequestTagsMap | undefined;
 }
 /** Resource tags. */
 export type UpdateApplianceResponseTagsMap = { [key: string]: string | undefined };
 export interface UpdateApplianceResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: UpdateApplianceResponseTagsMap;
+  tags?: UpdateApplianceResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The set of properties specific to an Appliance */
-  properties?: ApplianceProperties;
+  properties?: ApplianceProperties | undefined;
   /** Identity for the resource. */
-  identity?: Identity;
+  identity?: Identity | undefined;
 }
 export type AppliancesCreateOrUpdateError = AzureOpError;
 /** Creates or updates an Appliance. Creates or updates an Appliance in the specified Subscription and Resource Group. */

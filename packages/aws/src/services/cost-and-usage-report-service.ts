@@ -7,6 +7,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
 // Schema table, filled on first reach (see __S at the end).
@@ -125,12 +126,12 @@ export interface DeleteReportDefinitionRequest {
 }
 export type DeleteResponseMessage = string;
 export interface DeleteReportDefinitionResponse {
-  ResponseMessage?: string;
+  ResponseMessage?: string | undefined;
 }
 export type MaxResults = number;
 export interface DescribeReportDefinitionsRequest {
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export type TimeUnit = "HOURLY" | "DAILY" | "MONTHLY" | (string & {});
 export type ReportFormat = "textORcsv" | "Parquet" | (string & {});
@@ -181,8 +182,8 @@ export type BillingViewArn = string;
 export type LastDelivery = string;
 export type LastStatus = "SUCCESS" | "ERROR_PERMISSIONS" | "ERROR_NO_BUCKET" | (string & {});
 export interface ReportStatus {
-  lastDelivery?: string;
-  lastStatus?: LastStatus;
+  lastDelivery?: string | undefined;
+  lastStatus?: LastStatus | undefined;
 }
 export interface ReportDefinition {
   ReportName: string;
@@ -193,16 +194,16 @@ export interface ReportDefinition {
   S3Bucket: string;
   S3Prefix: string;
   S3Region: AWSRegion;
-  AdditionalArtifacts?: AdditionalArtifact[];
-  RefreshClosedReports?: boolean;
-  ReportVersioning?: ReportVersioning;
-  BillingViewArn?: string;
-  ReportStatus?: ReportStatus;
+  AdditionalArtifacts?: AdditionalArtifact[] | undefined;
+  RefreshClosedReports?: boolean | undefined;
+  ReportVersioning?: ReportVersioning | undefined;
+  BillingViewArn?: string | undefined;
+  ReportStatus?: ReportStatus | undefined;
 }
 export type ReportDefinitionList = ReportDefinition[];
 export interface DescribeReportDefinitionsResponse {
-  ReportDefinitions?: ReportDefinition[];
-  NextToken?: string;
+  ReportDefinitions?: ReportDefinition[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListTagsForResourceRequest {
   ReportName: string;
@@ -215,7 +216,7 @@ export interface Tag {
 }
 export type TagList = Tag[];
 export interface ListTagsForResourceResponse {
-  Tags?: Tag[];
+  Tags?: Tag[] | undefined;
 }
 export interface ModifyReportDefinitionRequest {
   ReportName: string;
@@ -224,7 +225,7 @@ export interface ModifyReportDefinitionRequest {
 export interface ModifyReportDefinitionResponse {}
 export interface PutReportDefinitionRequest {
   ReportDefinition: ReportDefinition;
-  Tags?: Tag[];
+  Tags?: Tag[] | undefined;
 }
 export interface PutReportDefinitionResponse {}
 export interface TagResourceRequest {
@@ -248,7 +249,7 @@ export type DeleteReportDefinitionError =
  * deleted.
  */
 export const deleteReportDefinition: API.OperationMethod<
-  DeleteReportDefinitionRequest,
+  DeleteReportDefinitionRequest & RegionInput,
   DeleteReportDefinitionResponse,
   DeleteReportDefinitionError,
   Credentials | HttpClient.HttpClient
@@ -268,7 +269,7 @@ export type DescribeReportDefinitionsError = InternalErrorException | CommonErro
  * Lists the Amazon Web Services Cost and Usage Report available to this account.
  */
 export const describeReportDefinitions: API.PaginatedOperationMethod<
-  DescribeReportDefinitionsRequest,
+  DescribeReportDefinitionsRequest & RegionInput,
   DescribeReportDefinitionsResponse,
   DescribeReportDefinitionsError,
   Credentials | HttpClient.HttpClient,
@@ -298,7 +299,7 @@ export type ListTagsForResourceError =
  * Lists the tags associated with the specified report definition.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -322,7 +323,7 @@ export type ModifyReportDefinitionError =
  * Allows you to programmatically update your report preferences.
  */
 export const modifyReportDefinition: API.OperationMethod<
-  ModifyReportDefinitionRequest,
+  ModifyReportDefinitionRequest & RegionInput,
   ModifyReportDefinitionResponse,
   ModifyReportDefinitionError,
   Credentials | HttpClient.HttpClient
@@ -349,7 +350,7 @@ export type PutReportDefinitionError =
  * Creates a new report using the description that you provide.
  */
 export const putReportDefinition: API.OperationMethod<
-  PutReportDefinitionRequest,
+  PutReportDefinitionRequest & RegionInput,
   PutReportDefinitionResponse,
   PutReportDefinitionError,
   Credentials | HttpClient.HttpClient
@@ -380,7 +381,7 @@ export type TagResourceError =
  * Associates a set of tags with a report definition.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -404,7 +405,7 @@ export type UntagResourceError =
  * Disassociates a set of tags from a report definition.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient

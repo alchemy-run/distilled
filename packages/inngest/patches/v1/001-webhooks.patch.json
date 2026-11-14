@@ -1,0 +1,260 @@
+{
+  "description": "The v1 webhook endpoints. The spec wraps the create body in { data: { id, name, url, transform } } and points every success response at #/components/responses/Webhook as if it were a schema, so the generated client sent the wrong body and decoded unknown. The wire takes the flat Webhook { name, transform } that PUT documents (both required: a transform-only PUT answers 400) and answers { data: { id, name, url, transform, created_at, updated_at } } (a list for GET /v1/webhooks). Live probes against https://api.inngest.com/v1 with a branch-environment signing key on 2026-10-07: GET, PUT and DELETE /v1/webhooks/{id} answer 404 { error: \"Webhook not found\", data: null, status: 404 } for an unknown or deleted id, and 400 { error: \"Invalid webhook ID: <id>\" } for a non-UUID id.",
+  "patches": [
+    {
+      "op": "remove",
+      "path": "/shapes/com.inngest.v1#ListWebhooksResponse"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.inngest.v1#CreateWebhookResponse"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.inngest.v1#GetWebhookResponse"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.inngest.v1#UpdateWebhookResponse"
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.inngest.v1#WebhookListResponse",
+      "before": "com.inngest.v1#ListWebhooks",
+      "value": {
+        "type": "structure",
+        "members": {
+          "data": {
+            "target": "com.inngest.v1#WebhookListResponseDataList",
+            "traits": {
+              "smithy.api#required": {}
+            }
+          }
+        },
+        "traits": {}
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.inngest.v1#WebhookRecord",
+      "before": "com.inngest.v1#ListWebhooks",
+      "value": {
+        "type": "structure",
+        "members": {
+          "id": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#documentation": "Unique identifier of the webhook endpoint",
+              "smithy.api#required": {}
+            }
+          },
+          "name": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#documentation": "A custom descripter for the webhook endpoint",
+              "smithy.api#required": {}
+            }
+          },
+          "url": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#documentation": "Unique URL endpoint",
+              "smithy.api#required": {}
+            }
+          },
+          "transform": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#documentation": "A JavaScript transform function that accepts the inbound request components and returns an object in the Inngest event payload format.",
+              "smithy.api#required": {}
+            }
+          },
+          "created_at": {
+            "target": "smithy.api#String"
+          },
+          "updated_at": {
+            "target": "smithy.api#String"
+          }
+        },
+        "traits": {}
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.inngest.v1#WebhookListResponseDataList",
+      "before": "com.inngest.v1#ListWebhooks",
+      "value": {
+        "type": "list",
+        "member": {
+          "target": "com.inngest.v1#WebhookRecord"
+        },
+        "traits": {}
+      }
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.inngest.v1#ListWebhooks/output/target",
+      "value": "com.inngest.v1#WebhookListResponse"
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.inngest.v1#CreateWebhookRequest",
+      "before": "com.inngest.v1#CreateWebhook",
+      "value": {
+        "type": "structure",
+        "members": {
+          "name": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#documentation": "A custom descripter for the webhook endpoint",
+              "smithy.api#required": {}
+            }
+          },
+          "transform": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#documentation": "A JavaScript transform function that accepts the inbound request components and returns an object in the Inngest event payload format.",
+              "smithy.api#required": {}
+            }
+          }
+        },
+        "traits": {
+          "smithy.api#input": {}
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.inngest.v1#WebhookResponse",
+      "before": "com.inngest.v1#CreateWebhook",
+      "value": {
+        "type": "structure",
+        "members": {
+          "data": {
+            "target": "com.inngest.v1#WebhookRecord",
+            "traits": {
+              "smithy.api#required": {}
+            }
+          }
+        },
+        "traits": {}
+      }
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.inngest.v1#CreateWebhook/input/target",
+      "value": "com.inngest.v1#CreateWebhookRequest"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.inngest.v1#CreateWebhook/output/target",
+      "value": "com.inngest.v1#WebhookResponse"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.inngest.v1#GetWebhook/output/target",
+      "value": "com.inngest.v1#WebhookResponse"
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.inngest.v1#UpdateWebhookRequest/members/name/traits/smithy.api#required",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.inngest.v1#UpdateWebhookRequest/members/transform/traits/smithy.api#required",
+      "value": {}
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.inngest.v1#UpdateWebhook/output/target",
+      "value": "com.inngest.v1#WebhookResponse"
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.inngest.v1#WebhookNotFound",
+      "value": {
+        "type": "structure",
+        "members": {
+          "message": {
+            "target": "smithy.api#String"
+          }
+        },
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 404,
+          "smithy.api#documentation": "No webhook has the given id (HTTP 404 \"Webhook not found\").",
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "status": 404,
+              "message": {
+                "includes": "Webhook not found"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.inngest.v1#InvalidWebhookId",
+      "value": {
+        "type": "structure",
+        "members": {
+          "message": {
+            "target": "smithy.api#String"
+          }
+        },
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 400,
+          "smithy.api#documentation": "The webhook id is not a UUID (HTTP 400 \"Invalid webhook ID\").",
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "status": 400,
+              "message": {
+                "includes": "Invalid webhook ID"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.inngest.v1#GetWebhook/errors",
+      "value": [
+        {
+          "target": "com.inngest.v1#WebhookNotFound"
+        },
+        {
+          "target": "com.inngest.v1#InvalidWebhookId"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.inngest.v1#UpdateWebhook/errors",
+      "value": [
+        {
+          "target": "com.inngest.v1#WebhookNotFound"
+        },
+        {
+          "target": "com.inngest.v1#InvalidWebhookId"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.inngest.v1#DeleteWebhook/errors",
+      "value": [
+        {
+          "target": "com.inngest.v1#WebhookNotFound"
+        },
+        {
+          "target": "com.inngest.v1#InvalidWebhookId"
+        }
+      ]
+    }
+  ]
+}

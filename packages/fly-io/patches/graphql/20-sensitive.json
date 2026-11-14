@@ -1,0 +1,65 @@
+{
+  "description": "The Fly GraphQL schema marks nothing sensitive, so every secret decoded to a plain value that prints and logs. Each field below holds a credential and decodes to Redacted: AddOn.password is the add-on password; AddOn.publicUrl is the connection URL, which embeds the password (redis://default:<password>@...); AddOn.environment is the JSON object of variables Fly sets as secrets on the attached app (Tigris access keys, Redis URL); EnsureDepotRemoteBuilderPayload.buildToken is the single-use token the Depot remote builder authenticates the build with; App.instrumentsKey is the authentication key for the app's instrumentation endpoints; AttachPostgresClusterPayload.connectionString is the Postgres connection string, which embeds the database password; CreateOrganizationPayload.token is an API token for the new organization; DeleteLimitedAccessTokenPayload.token is the deleted token's value; LimitedAccessToken.token is the limited access token; LimitedAccessToken.tokenHeader is the token formatted for an Authorization header; DummyWireGuardPeerPayload.privkey is a WireGuard private key; IssueCertificatePayload.key is the generated private key. The first four were marked in the previous Smithy SDK (patches/addons/sensitive-add-on-secrets.patch.json, patches/builders/sensitive-build-token.patch.json); the rest are reachable now that the SDK covers the whole graph.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/types/AddOn/fields/password/sensitive",
+      "value": true
+    },
+    {
+      "op": "add",
+      "path": "/types/AddOn/fields/publicUrl/sensitive",
+      "value": true
+    },
+    {
+      "op": "add",
+      "path": "/types/AddOn/fields/environment/sensitive",
+      "value": true
+    },
+    {
+      "op": "add",
+      "path": "/types/EnsureDepotRemoteBuilderPayload/fields/buildToken/sensitive",
+      "value": true
+    },
+    {
+      "op": "add",
+      "path": "/types/App/fields/instrumentsKey/sensitive",
+      "value": true
+    },
+    {
+      "op": "add",
+      "path": "/types/AttachPostgresClusterPayload/fields/connectionString/sensitive",
+      "value": true
+    },
+    {
+      "op": "add",
+      "path": "/types/CreateOrganizationPayload/fields/token/sensitive",
+      "value": true
+    },
+    {
+      "op": "add",
+      "path": "/types/DeleteLimitedAccessTokenPayload/fields/token/sensitive",
+      "value": true
+    },
+    {
+      "op": "add",
+      "path": "/types/LimitedAccessToken/fields/token/sensitive",
+      "value": true
+    },
+    {
+      "op": "add",
+      "path": "/types/LimitedAccessToken/fields/tokenHeader/sensitive",
+      "value": true
+    },
+    {
+      "op": "add",
+      "path": "/types/DummyWireGuardPeerPayload/fields/privkey/sensitive",
+      "value": true
+    },
+    {
+      "op": "add",
+      "path": "/types/IssueCertificatePayload/fields/key/sensitive",
+      "value": true
+    }
+  ]
+}

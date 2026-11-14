@@ -28,6 +28,7 @@ const TELEMETRY = {
   prefix: "Streamanalytics",
   service: "Streamanalytics",
   labels: "azure",
+  labelNames: { resourceGroupName: "azure.resource_group.name" },
   propagate: "w3c",
 } as const;
 
@@ -38,9 +39,9 @@ export type ClusterSkuName = "Default";
 /** The SKU of the cluster. This determines the size/capacity of the cluster. Required on PUT (CreateOrUpdate) requests. */
 export interface ClusterSku {
   /** Specifies the SKU name of the cluster. Required on PUT (CreateOrUpdate) requests. */
-  name?: ClusterSkuName | (string & {});
+  name?: ClusterSkuName | (string & {}) | undefined;
   /** Denotes the number of streaming units the cluster can support. Valid values for this property are multiples of 36 with a minimum value of 36 and maximum value of 216. Required on PUT (CreateOrUpdate) requests. */
-  capacity?: number;
+  capacity?: number | undefined;
 }
 /** The properties associated with a Stream Analytics cluster. */
 export interface ClusterPropertiesInput {}
@@ -52,12 +53,12 @@ export interface ClustersCreateOrUpdateRequest {
   /** The name of the cluster. */
   clusterName: string;
   /** Resource tags. */
-  tags?: ClustersCreateOrUpdateRequestTagsMap;
+  tags?: ClustersCreateOrUpdateRequestTagsMap | undefined;
   /** The geo-location where the resource lives */
-  location?: string;
-  sku?: ClusterSku;
+  location?: string | undefined;
+  sku?: ClusterSku | undefined;
   /** The properties associated with a Stream Analytics cluster. */
-  properties?: ClusterPropertiesInput;
+  properties?: ClusterPropertiesInput | undefined;
 }
 /** Resource tags. */
 export type ClustersCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
@@ -66,31 +67,31 @@ export type ClusterProvisioningState = "Succeeded" | "Failed" | "Canceled" | "In
 /** The properties associated with a Stream Analytics cluster. */
 export interface ClusterProperties {
   /** The date this cluster was created. */
-  createdDate?: string;
+  createdDate?: string | undefined;
   /** Unique identifier for the cluster. */
-  clusterId?: string;
-  provisioningState?: ClusterProvisioningState;
+  clusterId?: string | undefined;
+  provisioningState?: ClusterProvisioningState | undefined;
   /** Represents the number of streaming units currently being used on the cluster. */
-  capacityAllocated?: number;
+  capacityAllocated?: number | undefined;
   /** Represents the sum of the SUs of all streaming jobs associated with the cluster. If all of the jobs were running, this would be the capacity allocated. */
-  capacityAssigned?: number;
+  capacityAssigned?: number | undefined;
 }
 export interface ClustersCreateOrUpdateResponse {
   /** Fully qualified resource Id for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. Ex- Microsoft.Compute/virtualMachines or Microsoft.Storage/storageAccounts. */
-  type?: string;
+  type?: string | undefined;
   /** Resource tags. */
-  tags?: ClustersCreateOrUpdateResponseTagsMap;
+  tags?: ClustersCreateOrUpdateResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
-  location?: string;
-  sku?: ClusterSku;
+  location?: string | undefined;
+  sku?: ClusterSku | undefined;
   /** The current entity tag for the cluster. This is an opaque string. You can use it to detect whether the resource has changed between requests. You can also use it in the If-Match or If-None-Match headers for write operations for optimistic concurrency. */
-  etag?: string;
+  etag?: string | undefined;
   /** The properties associated with a Stream Analytics cluster. */
-  properties?: ClusterProperties;
+  properties?: ClusterProperties | undefined;
 }
 export interface DeleteClusterRequest {
   /** The ID of the target subscription. */
@@ -157,33 +158,33 @@ export interface DeleteStreamingJobResponse {}
 /** Describes one input parameter of a function. */
 export interface FunctionInput {
   /** The (Azure Stream Analytics supported) data type of the function input parameter. A list of valid Azure Stream Analytics data types are described at https://msdn.microsoft.com/en-us/library/azure/dn835065.aspx */
-  dataType?: string;
+  dataType?: string | undefined;
   /** A flag indicating if the parameter is a configuration parameter. True if this input parameter is expected to be a constant. Default is false. */
-  isConfigurationParameter?: boolean;
+  isConfigurationParameter?: boolean | undefined;
 }
 export type FunctionConfigurationInputsList = Array<FunctionInput>;
 /** Describes the output of a function. */
 export interface FunctionOutput {
   /** The (Azure Stream Analytics supported) data type of the function output. A list of valid Azure Stream Analytics data types are described at https://msdn.microsoft.com/en-us/library/azure/dn835065.aspx */
-  dataType?: string;
+  dataType?: string | undefined;
 }
 /** The physical binding of the function. For example, in the Azure Machine Learning web service's case, this describes the endpoint. */
 export interface FunctionBinding {
   /** Indicates the function binding type. */
   type: string;
   /** Binding-type-specific properties (e.g. `{ script }` for `Microsoft.StreamAnalytics/JavascriptUdf`). */
-  properties?: unknown;
+  properties?: unknown | undefined;
 }
 export interface FunctionConfiguration {
-  inputs?: FunctionConfigurationInputsList;
-  output?: FunctionOutput;
-  binding?: FunctionBinding;
+  inputs?: FunctionConfigurationInputsList | undefined;
+  output?: FunctionOutput | undefined;
+  binding?: FunctionBinding | undefined;
 }
 /** The properties that are associated with a function. */
 export interface FunctionPropertiesInput {
   /** Indicates the type of function. */
   type: string;
-  properties?: FunctionConfiguration;
+  properties?: FunctionConfiguration | undefined;
 }
 export interface FunctionsCreateOrReplaceRequest {
   /** The ID of the target subscription. */
@@ -195,27 +196,27 @@ export interface FunctionsCreateOrReplaceRequest {
   /** The name of the function. */
   functionName: string;
   /** Resource name */
-  name?: string;
+  name?: string | undefined;
   /** The properties that are associated with a function. */
-  properties?: FunctionPropertiesInput;
+  properties?: FunctionPropertiesInput | undefined;
 }
 /** The properties that are associated with a function. */
 export interface FunctionProperties {
   /** Indicates the type of function. */
   type: string;
   /** The current entity tag for the function. This is an opaque string. You can use it to detect whether the resource has changed between requests. You can also use it in the If-Match or If-None-Match headers for write operations for optimistic concurrency. */
-  etag?: string;
-  properties?: FunctionConfiguration;
+  etag?: string | undefined;
+  properties?: FunctionConfiguration | undefined;
 }
 export interface FunctionsCreateOrReplaceResponse {
   /** Resource Id */
-  id?: string;
+  id?: string | undefined;
   /** Resource name */
-  name?: string;
+  name?: string | undefined;
   /** Resource type */
-  type?: string;
+  type?: string | undefined;
   /** The properties that are associated with a function. */
-  properties?: FunctionProperties;
+  properties?: FunctionProperties | undefined;
 }
 export interface GetClusterRequest {
   /** The ID of the target subscription. */
@@ -229,20 +230,20 @@ export interface GetClusterRequest {
 export type GetClusterResponseTagsMap = { [key: string]: string | undefined };
 export interface GetClusterResponse {
   /** Fully qualified resource Id for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. Ex- Microsoft.Compute/virtualMachines or Microsoft.Storage/storageAccounts. */
-  type?: string;
+  type?: string | undefined;
   /** Resource tags. */
-  tags?: GetClusterResponseTagsMap;
+  tags?: GetClusterResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
-  location?: string;
-  sku?: ClusterSku;
+  location?: string | undefined;
+  sku?: ClusterSku | undefined;
   /** The current entity tag for the cluster. This is an opaque string. You can use it to detect whether the resource has changed between requests. You can also use it in the If-Match or If-None-Match headers for write operations for optimistic concurrency. */
-  etag?: string;
+  etag?: string | undefined;
   /** The properties associated with a Stream Analytics cluster. */
-  properties?: ClusterProperties;
+  properties?: ClusterProperties | undefined;
 }
 export interface GetFunctionRequest {
   /** The ID of the target subscription. */
@@ -256,13 +257,13 @@ export interface GetFunctionRequest {
 }
 export interface GetFunctionResponse {
   /** Resource Id */
-  id?: string;
+  id?: string | undefined;
   /** Resource name */
-  name?: string;
+  name?: string | undefined;
   /** Resource type */
-  type?: string;
+  type?: string | undefined;
   /** The properties that are associated with a function. */
-  properties?: FunctionProperties;
+  properties?: FunctionProperties | undefined;
 }
 export interface GetFunctionDefaultDefinitionRequest {
   /** The ID of the target subscription. */
@@ -278,13 +279,13 @@ export interface GetFunctionDefaultDefinitionRequest {
 }
 export interface GetFunctionDefaultDefinitionResponse {
   /** Resource Id */
-  id?: string;
+  id?: string | undefined;
   /** Resource name */
-  name?: string;
+  name?: string | undefined;
   /** Resource type */
-  type?: string;
+  type?: string | undefined;
   /** The properties that are associated with a function. */
-  properties?: FunctionProperties;
+  properties?: FunctionProperties | undefined;
 }
 export interface GetInputRequest {
   /** The ID of the target subscription. */
@@ -303,23 +304,23 @@ export interface Serialization {
   /** Indicates the type of serialization that the input or output uses. Required on PUT (CreateOrReplace) requests. */
   type: EventSerializationType | (string & {});
   /** Serialization-type-specific properties (e.g. `{ encoding: "UTF8", format: "LineSeparated" }` for Json). */
-  properties?: unknown;
+  properties?: unknown | undefined;
 }
 /** Condition applicable to the resource, or to the job overall, that warrant customer attention. */
 export interface DiagnosticCondition {
   /** The UTC timestamp of when the condition started. Customers should be able to find a corresponding event in the ops log around this time. */
-  since?: string;
+  since?: string | undefined;
   /** The opaque diagnostic code. */
-  code?: string;
+  code?: string | undefined;
   /** The human-readable message describing the condition in detail. Localized in the Accept-Language of the client request. */
-  message?: string;
+  message?: string | undefined;
 }
 /** A collection of zero or more conditions applicable to the resource, or to the job overall, that warrant customer attention. */
 export type DiagnosticsConditionsList = Array<DiagnosticCondition>;
 /** Describes conditions applicable to the Input, Output, or the job overall, that warrant customer attention. */
 export interface Diagnostics {
   /** A collection of zero or more conditions applicable to the resource, or to the job overall, that warrant customer attention. */
-  conditions?: DiagnosticsConditionsList;
+  conditions?: DiagnosticsConditionsList | undefined;
 }
 /** Indicates the type of compression that the input uses. Required on PUT (CreateOrReplace) requests. */
 export type CompressionType = "None" | "GZip" | "Deflate";
@@ -333,27 +334,27 @@ export interface InputProperties {
   /** Indicates whether the input is a source of reference data or stream data. Required on PUT (CreateOrReplace) requests. */
   type: string;
   /** Describes how data from an input is serialized or how data is serialized when written to an output. Required on PUT (CreateOrReplace) requests. */
-  serialization?: Serialization;
+  serialization?: Serialization | undefined;
   /** Describes conditions applicable to the Input, Output, or the job overall, that warrant customer attention. */
-  diagnostics?: Diagnostics;
+  diagnostics?: Diagnostics | undefined;
   /** The current entity tag for the input. This is an opaque string. You can use it to detect whether the resource has changed between requests. You can also use it in the If-Match or If-None-Match headers for write operations for optimistic concurrency. */
-  etag?: string;
+  etag?: string | undefined;
   /** Describes how input data is compressed */
-  compression?: Compression;
+  compression?: Compression | undefined;
   /** partitionKey Describes a key in the input data which is used for partitioning the input data */
-  partitionKey?: string;
+  partitionKey?: string | undefined;
   /** Input data source (polymorphic on `type`, e.g. `Microsoft.Storage/Blob`) with its type-specific `properties`. */
-  datasource?: unknown;
+  datasource?: unknown | undefined;
 }
 export interface GetInputResponse {
   /** Resource Id */
-  id?: string;
+  id?: string | undefined;
   /** Resource name */
-  name?: string;
+  name?: string | undefined;
   /** Resource type */
-  type?: string;
+  type?: string | undefined;
   /** The properties that are associated with an input. Required on PUT (CreateOrReplace) requests. */
-  properties?: InputProperties;
+  properties?: InputProperties | undefined;
 }
 export interface GetOutputRequest {
   /** The ID of the target subscription. */
@@ -370,46 +371,46 @@ export interface OutputDataSource {
   /** Indicates the type of data source output will be written to. Required on PUT (CreateOrReplace) requests. */
   type: string;
   /** Data-source-type-specific properties (e.g. `storageAccounts`, `container`, `pathPattern` for `Microsoft.Storage/Blob`). */
-  properties?: unknown;
+  properties?: unknown | undefined;
 }
 /** Describes how data from an input is serialized or how data is serialized when written to an output. */
 export interface OutputPropertiesSerialization {
   /** Indicates the type of serialization that the input or output uses. Required on PUT (CreateOrReplace) requests. */
   type: EventSerializationType;
   /** Serialization-type-specific properties. */
-  properties?: unknown;
+  properties?: unknown | undefined;
 }
 /** A collection of zero or more conditions applicable to the resource, or to the job overall, that warrant customer attention. */
 export type OutputPropertiesDiagnosticsConditionsList = Array<DiagnosticCondition>;
 /** Describes conditions applicable to the Input, Output, or the job overall, that warrant customer attention. */
 export interface OutputPropertiesDiagnostics {
   /** A collection of zero or more conditions applicable to the resource, or to the job overall, that warrant customer attention. */
-  conditions?: OutputPropertiesDiagnosticsConditionsList;
+  conditions?: OutputPropertiesDiagnosticsConditionsList | undefined;
 }
 /** The properties that are associated with an output. */
 export interface OutputProperties {
   /** Describes the data source that output will be written to. Required on PUT (CreateOrReplace) requests. */
-  datasource?: OutputDataSource;
+  datasource?: OutputDataSource | undefined;
   /** The time frame for filtering Stream Analytics job outputs. */
-  timeWindow?: string;
+  timeWindow?: string | undefined;
   /** The size window to constrain a Stream Analytics output to. */
-  sizeWindow?: number;
+  sizeWindow?: number | undefined;
   /** Describes how data from an input is serialized or how data is serialized when written to an output. */
-  serialization?: OutputPropertiesSerialization;
+  serialization?: OutputPropertiesSerialization | undefined;
   /** Describes conditions applicable to the Input, Output, or the job overall, that warrant customer attention. */
-  diagnostics?: OutputPropertiesDiagnostics;
+  diagnostics?: OutputPropertiesDiagnostics | undefined;
   /** The current entity tag for the output. This is an opaque string. You can use it to detect whether the resource has changed between requests. You can also use it in the If-Match or If-None-Match headers for write operations for optimistic concurrency. */
-  etag?: string;
+  etag?: string | undefined;
 }
 export interface GetOutputResponse {
   /** Resource Id */
-  id?: string;
+  id?: string | undefined;
   /** Resource name */
-  name?: string;
+  name?: string | undefined;
   /** Resource type */
-  type?: string;
+  type?: string | undefined;
   /** The properties that are associated with an output. Required on PUT (CreateOrReplace) requests. */
-  properties?: OutputProperties;
+  properties?: OutputProperties | undefined;
 }
 export interface GetPrivateEndpointRequest {
   /** The ID of the target subscription. */
@@ -426,27 +427,27 @@ export type PrivateLinkServiceConnectionPropertiesGroupIdsList = Array<string>;
 /** A collection of read-only information about the state of the connection to the private remote resource. */
 export interface PrivateLinkConnectionState {
   /** Indicates whether the connection has been Approved/Rejected/Removed by the owner of the remote resource/service. */
-  status?: string;
+  status?: string | undefined;
   /** The reason for approval/rejection of the connection. */
-  description?: string;
+  description?: string | undefined;
   /** A message indicating if changes on the service provider require any updates on the consumer. */
-  actionsRequired?: string;
+  actionsRequired?: string | undefined;
 }
 /** Bag of properties defining a privatelinkServiceConnection. */
 export interface PrivateLinkServiceConnectionProperties {
   /** The resource id of the private link service. Required on PUT (CreateOrUpdate) requests. */
-  privateLinkServiceId?: string;
+  privateLinkServiceId?: string | undefined;
   /** The ID(s) of the group(s) obtained from the remote resource that this private endpoint should connect to. Required on PUT (CreateOrUpdate) requests. */
-  groupIds?: PrivateLinkServiceConnectionPropertiesGroupIdsList;
+  groupIds?: PrivateLinkServiceConnectionPropertiesGroupIdsList | undefined;
   /** A message passed to the owner of the remote resource with this connection request. Restricted to 140 chars. */
-  requestMessage?: string;
+  requestMessage?: string | undefined;
   /** A collection of read-only information about the state of the connection to the private remote resource. */
-  privateLinkServiceConnectionState?: PrivateLinkConnectionState;
+  privateLinkServiceConnectionState?: PrivateLinkConnectionState | undefined;
 }
 /** A grouping of information about the connection to the remote resource. */
 export interface PrivateLinkServiceConnection {
   /** Bag of properties defining a privatelinkServiceConnection. */
-  properties?: PrivateLinkServiceConnectionProperties;
+  properties?: PrivateLinkServiceConnectionProperties | undefined;
 }
 /** A list of connections to the remote resource. Immutable after it is set. */
 export type PrivateEndpointPropertiesManualPrivateLinkServiceConnectionsList =
@@ -454,21 +455,23 @@ export type PrivateEndpointPropertiesManualPrivateLinkServiceConnectionsList =
 /** The properties associated with a private endpoint. */
 export interface PrivateEndpointProperties {
   /** The date when this private endpoint was created. */
-  createdDate?: string;
+  createdDate?: string | undefined;
   /** A list of connections to the remote resource. Immutable after it is set. */
-  manualPrivateLinkServiceConnections?: PrivateEndpointPropertiesManualPrivateLinkServiceConnectionsList;
+  manualPrivateLinkServiceConnections?:
+    | PrivateEndpointPropertiesManualPrivateLinkServiceConnectionsList
+    | undefined;
 }
 export interface GetPrivateEndpointResponse {
   /** Fully qualified resource Id for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. Ex- Microsoft.Compute/virtualMachines or Microsoft.Storage/storageAccounts. */
-  type?: string;
+  type?: string | undefined;
   /** The properties associated with a private endpoint. */
-  properties?: PrivateEndpointProperties;
+  properties?: PrivateEndpointProperties | undefined;
   /** Unique opaque string (generally a GUID) that represents the metadata state of the resource (private endpoint) and changes whenever the resource is updated. Required on PUT (CreateOrUpdate) requests. */
-  etag?: string;
+  etag?: string | undefined;
 }
 export interface GetStreamingJobRequest {
   /** The ID of the target subscription. */
@@ -478,7 +481,7 @@ export interface GetStreamingJobRequest {
   /** The name of the streaming job. */
   jobName: string;
   /** The $expand OData query parameter. This is a comma-separated list of additional streaming job properties to include in the response, beyond the default set returned when this parameter is absent. The default set is all streaming job properties other than 'inputs', 'transformation', 'outputs', and 'functions'. */
-  _expand?: string;
+  _expand?: string | undefined;
 }
 /** Resource tags. */
 export type GetStreamingJobResponseTagsMap = { [key: string]: string | undefined };
@@ -487,7 +490,7 @@ export type SkuName = "Standard";
 /** The properties that are associated with a SKU. */
 export interface Sku {
   /** The name of the SKU. Required on PUT (CreateOrReplace) requests. */
-  name?: SkuName | (string & {});
+  name?: SkuName | (string & {}) | undefined;
 }
 /** Describes the type of the job. Valid modes are `Cloud` and 'Edge'. */
 export type StreamingJobPropertiesJobType = "Cloud" | "Edge";
@@ -502,13 +505,13 @@ export type CompatibilityLevel = "1.0" | "1.2";
 /** An input object, containing all information associated with the named input. All inputs are contained under a streaming job. */
 export interface StreamingJobPropertiesInputsItem {
   /** Resource Id */
-  id?: string;
+  id?: string | undefined;
   /** Resource name */
-  name?: string;
+  name?: string | undefined;
   /** Resource type */
-  type?: string;
+  type?: string | undefined;
   /** The properties that are associated with an input. Required on PUT (CreateOrReplace) requests. */
-  properties?: InputProperties;
+  properties?: InputProperties | undefined;
 }
 /** A list of one or more inputs to the streaming job. The name property for each input is required when specifying this property in a PUT request. This property cannot be modify via a PATCH operation. You must use the PATCH API available for the individual input. */
 export type StreamingJobPropertiesInputsList = Array<StreamingJobPropertiesInputsItem>;
@@ -517,48 +520,48 @@ export type TransformationPropertiesValidStreamingUnitsList = Array<number>;
 /** The properties that are associated with a transformation. */
 export interface TransformationProperties {
   /** Specifies the number of streaming units that the streaming job uses. */
-  streamingUnits?: number;
+  streamingUnits?: number | undefined;
   /** Specifies the valid streaming units a streaming job can scale to. */
-  validStreamingUnits?: TransformationPropertiesValidStreamingUnitsList;
+  validStreamingUnits?: TransformationPropertiesValidStreamingUnitsList | undefined;
   /** Specifies the query that will be run in the streaming job. You can learn more about the Stream Analytics Query Language (SAQL) here: https://msdn.microsoft.com/library/azure/dn834998 . Required on PUT (CreateOrReplace) requests. */
-  query?: string;
+  query?: string | undefined;
   /** The current entity tag for the transformation. This is an opaque string. You can use it to detect whether the resource has changed between requests. You can also use it in the If-Match or If-None-Match headers for write operations for optimistic concurrency. */
-  etag?: string;
+  etag?: string | undefined;
 }
 /** A transformation object, containing all information associated with the named transformation. All transformations are contained under a streaming job. */
 export interface StreamingJobPropertiesTransformation {
   /** Resource Id */
-  id?: string;
+  id?: string | undefined;
   /** Resource name */
-  name?: string;
+  name?: string | undefined;
   /** Resource type */
-  type?: string;
+  type?: string | undefined;
   /** The properties that are associated with a transformation. Required on PUT (CreateOrReplace) requests. */
-  properties?: TransformationProperties;
+  properties?: TransformationProperties | undefined;
 }
 /** An output object, containing all information associated with the named output. All outputs are contained under a streaming job. */
 export interface StreamingJobPropertiesOutputsItem {
   /** Resource Id */
-  id?: string;
+  id?: string | undefined;
   /** Resource name */
-  name?: string;
+  name?: string | undefined;
   /** Resource type */
-  type?: string;
+  type?: string | undefined;
   /** The properties that are associated with an output. Required on PUT (CreateOrReplace) requests. */
-  properties?: OutputProperties;
+  properties?: OutputProperties | undefined;
 }
 /** A list of one or more outputs for the streaming job. The name property for each output is required when specifying this property in a PUT request. This property cannot be modify via a PATCH operation. You must use the PATCH API available for the individual output. */
 export type StreamingJobPropertiesOutputsList = Array<StreamingJobPropertiesOutputsItem>;
 /** A function object, containing all information associated with the named function. All functions are contained under a streaming job. */
 export interface StreamingJobPropertiesFunctionsItem {
   /** Resource Id */
-  id?: string;
+  id?: string | undefined;
   /** Resource name */
-  name?: string;
+  name?: string | undefined;
   /** Resource type */
-  type?: string;
+  type?: string | undefined;
   /** The properties that are associated with a function. */
-  properties?: FunctionProperties;
+  properties?: FunctionProperties | undefined;
 }
 /** A list of one or more functions for the streaming job. The name property for each function is required when specifying this property in a PUT request. This property cannot be modify via a PATCH operation. You must use the PATCH API available for the individual transformation. */
 export type StreamingJobPropertiesFunctionsList = Array<StreamingJobPropertiesFunctionsItem>;
@@ -567,92 +570,92 @@ export type JobStorageAccountAuthenticationMode = "Msi" | "UserToken" | "Connect
 /** The properties that are associated with an Azure Storage account with MSI */
 export interface JobStorageAccount {
   /** The name of the Azure Storage account. Required on PUT (CreateOrReplace) requests. */
-  accountName?: string;
+  accountName?: string | undefined;
   /** The account key for the Azure Storage account. Required on PUT (CreateOrReplace) requests. */
-  accountKey?: string;
+  accountKey?: string | undefined;
   /** Authentication Mode. Valid modes are `ConnectionString`, `Msi` and 'UserToken'. */
-  authenticationMode?: JobStorageAccountAuthenticationMode | (string & {});
+  authenticationMode?: JobStorageAccountAuthenticationMode | (string & {}) | undefined;
 }
 /** Valid values are JobStorageAccount and SystemAccount. If set to JobStorageAccount, this requires the user to also specify jobStorageAccount property. . */
 export type StreamingJobPropertiesContentStoragePolicy = "SystemAccount" | "JobStorageAccount";
 /** The properties associated with a Stream Analytics cluster. */
 export interface ClusterInfo {
   /** The resource id of cluster. */
-  id?: string;
+  id?: string | undefined;
 }
 /** The properties that are associated with a streaming job. */
 export interface StreamingJobProperties {
   /** Describes the SKU of the streaming job. Required on PUT (CreateOrReplace) requests. */
-  sku?: Sku;
+  sku?: Sku | undefined;
   /** A GUID uniquely identifying the streaming job. This GUID is generated upon creation of the streaming job. */
-  jobId?: string;
+  jobId?: string | undefined;
   /** Describes the provisioning status of the streaming job. */
-  provisioningState?: string;
+  provisioningState?: string | undefined;
   /** Describes the state of the streaming job. */
-  jobState?: string;
+  jobState?: string | undefined;
   /** Describes the type of the job. Valid modes are `Cloud` and 'Edge'. */
-  jobType?: StreamingJobPropertiesJobType;
+  jobType?: StreamingJobPropertiesJobType | undefined;
   /** This property should only be utilized when it is desired that the job be started immediately upon creation. Value may be JobStartTime, CustomTime, or LastOutputEventTime to indicate whether the starting point of the output event stream should start whenever the job is started, start at a custom user time stamp specified via the outputStartTime property, or start from the last event output time. */
-  outputStartMode?: OutputStartMode;
+  outputStartMode?: OutputStartMode | undefined;
   /** Value is either an ISO-8601 formatted time stamp that indicates the starting point of the output event stream, or null to indicate that the output event stream will start whenever the streaming job is started. This property must have a value if outputStartMode is set to CustomTime. */
-  outputStartTime?: string;
+  outputStartTime?: string | undefined;
   /** Value is either an ISO-8601 formatted timestamp indicating the last output event time of the streaming job or null indicating that output has not yet been produced. In case of multiple outputs or multiple streams, this shows the latest value in that set. */
-  lastOutputEventTime?: string;
+  lastOutputEventTime?: string | undefined;
   /** Indicates the policy to apply to events that arrive out of order in the input event stream. */
-  eventsOutOfOrderPolicy?: EventsOutOfOrderPolicy;
+  eventsOutOfOrderPolicy?: EventsOutOfOrderPolicy | undefined;
   /** Indicates the policy to apply to events that arrive at the output and cannot be written to the external storage due to being malformed (missing column values, column values of wrong type or size). */
-  outputErrorPolicy?: OutputErrorPolicy;
+  outputErrorPolicy?: OutputErrorPolicy | undefined;
   /** The maximum tolerable delay in seconds where out-of-order events can be adjusted to be back in order. */
-  eventsOutOfOrderMaxDelayInSeconds?: number;
+  eventsOutOfOrderMaxDelayInSeconds?: number | undefined;
   /** The maximum tolerable delay in seconds where events arriving late could be included. Supported range is -1 to 1814399 (20.23:59:59 days) and -1 is used to specify wait indefinitely. If the property is absent, it is interpreted to have a value of -1. */
-  eventsLateArrivalMaxDelayInSeconds?: number;
+  eventsLateArrivalMaxDelayInSeconds?: number | undefined;
   /** The data locale of the stream analytics job. Value should be the name of a supported .NET Culture from the set https://msdn.microsoft.com/en-us/library/system.globalization.culturetypes(v=vs.110).aspx. Defaults to 'en-US' if none specified. */
-  dataLocale?: string;
+  dataLocale?: string | undefined;
   /** Controls certain runtime behaviors of the streaming job. */
-  compatibilityLevel?: CompatibilityLevel;
+  compatibilityLevel?: CompatibilityLevel | undefined;
   /** Value is an ISO-8601 formatted UTC timestamp indicating when the streaming job was created. */
-  createdDate?: string;
+  createdDate?: string | undefined;
   /** A list of one or more inputs to the streaming job. The name property for each input is required when specifying this property in a PUT request. This property cannot be modify via a PATCH operation. You must use the PATCH API available for the individual input. */
-  inputs?: StreamingJobPropertiesInputsList;
+  inputs?: StreamingJobPropertiesInputsList | undefined;
   /** A transformation object, containing all information associated with the named transformation. All transformations are contained under a streaming job. */
-  transformation?: StreamingJobPropertiesTransformation;
+  transformation?: StreamingJobPropertiesTransformation | undefined;
   /** A list of one or more outputs for the streaming job. The name property for each output is required when specifying this property in a PUT request. This property cannot be modify via a PATCH operation. You must use the PATCH API available for the individual output. */
-  outputs?: StreamingJobPropertiesOutputsList;
+  outputs?: StreamingJobPropertiesOutputsList | undefined;
   /** A list of one or more functions for the streaming job. The name property for each function is required when specifying this property in a PUT request. This property cannot be modify via a PATCH operation. You must use the PATCH API available for the individual transformation. */
-  functions?: StreamingJobPropertiesFunctionsList;
+  functions?: StreamingJobPropertiesFunctionsList | undefined;
   /** The current entity tag for the streaming job. This is an opaque string. You can use it to detect whether the resource has changed between requests. You can also use it in the If-Match or If-None-Match headers for write operations for optimistic concurrency. */
-  etag?: string;
+  etag?: string | undefined;
   /** The properties that are associated with an Azure Storage account with MSI */
-  jobStorageAccount?: JobStorageAccount;
+  jobStorageAccount?: JobStorageAccount | undefined;
   /** Valid values are JobStorageAccount and SystemAccount. If set to JobStorageAccount, this requires the user to also specify jobStorageAccount property. . */
-  contentStoragePolicy?: StreamingJobPropertiesContentStoragePolicy;
+  contentStoragePolicy?: StreamingJobPropertiesContentStoragePolicy | undefined;
   /** The cluster which streaming jobs will run on. */
-  cluster?: ClusterInfo;
+  cluster?: ClusterInfo | undefined;
 }
 /** Describes how identity is verified */
 export interface Identity {
   /** The identity tenantId */
-  tenantId?: string;
+  tenantId?: string | undefined;
   /** The identity principal ID */
-  principalId?: string;
+  principalId?: string | undefined;
   /** The identity type */
-  type?: string;
+  type?: string | undefined;
 }
 export interface GetStreamingJobResponse {
   /** Fully qualified resource Id for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. Ex- Microsoft.Compute/virtualMachines or Microsoft.Storage/storageAccounts. */
-  type?: string;
+  type?: string | undefined;
   /** Resource tags. */
-  tags?: GetStreamingJobResponseTagsMap;
+  tags?: GetStreamingJobResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
-  location?: string;
+  location?: string | undefined;
   /** The properties that are associated with a streaming job. Required on PUT (CreateOrReplace) requests. */
-  properties?: StreamingJobProperties;
+  properties?: StreamingJobProperties | undefined;
   /** Describes the system-assigned managed identity assigned to this job that can be used to authenticate with inputs and outputs. */
-  identity?: Identity;
+  identity?: Identity | undefined;
 }
 export interface GetTransformationRequest {
   /** The ID of the target subscription. */
@@ -666,26 +669,26 @@ export interface GetTransformationRequest {
 }
 export interface GetTransformationResponse {
   /** Resource Id */
-  id?: string;
+  id?: string | undefined;
   /** Resource name */
-  name?: string;
+  name?: string | undefined;
   /** Resource type */
-  type?: string;
+  type?: string | undefined;
   /** The properties that are associated with a transformation. Required on PUT (CreateOrReplace) requests. */
-  properties?: TransformationProperties;
+  properties?: TransformationProperties | undefined;
 }
 /** The properties that are associated with an input. */
 export interface InputPropertiesInput {
   /** Indicates whether the input is a source of reference data or stream data. Required on PUT (CreateOrReplace) requests. */
   type: string;
   /** Describes how data from an input is serialized or how data is serialized when written to an output. Required on PUT (CreateOrReplace) requests. */
-  serialization?: Serialization;
+  serialization?: Serialization | undefined;
   /** Describes how input data is compressed */
-  compression?: Compression;
+  compression?: Compression | undefined;
   /** partitionKey Describes a key in the input data which is used for partitioning the input data */
-  partitionKey?: string;
+  partitionKey?: string | undefined;
   /** Input data source (polymorphic on `type`, e.g. `Microsoft.Storage/Blob`) with its type-specific `properties`. */
-  datasource?: unknown;
+  datasource?: unknown | undefined;
 }
 export interface InputsCreateOrReplaceRequest {
   /** The ID of the target subscription. */
@@ -697,19 +700,19 @@ export interface InputsCreateOrReplaceRequest {
   /** The name of the input. */
   inputName: string;
   /** Resource name */
-  name?: string;
+  name?: string | undefined;
   /** The properties that are associated with an input. Required on PUT (CreateOrReplace) requests. */
-  properties?: InputPropertiesInput;
+  properties?: InputPropertiesInput | undefined;
 }
 export interface InputsCreateOrReplaceResponse {
   /** Resource Id */
-  id?: string;
+  id?: string | undefined;
   /** Resource name */
-  name?: string;
+  name?: string | undefined;
   /** Resource type */
-  type?: string;
+  type?: string | undefined;
   /** The properties that are associated with an input. Required on PUT (CreateOrReplace) requests. */
-  properties?: InputProperties;
+  properties?: InputProperties | undefined;
 }
 export interface ListClusterByResourceGroupRequest {
   /** The ID of the target subscription. */
@@ -722,29 +725,29 @@ export type ClusterTagsMap = { [key: string]: string | undefined };
 /** A Stream Analytics Cluster object */
 export interface Cluster {
   /** Fully qualified resource Id for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. Ex- Microsoft.Compute/virtualMachines or Microsoft.Storage/storageAccounts. */
-  type?: string;
+  type?: string | undefined;
   /** Resource tags. */
-  tags?: ClusterTagsMap;
+  tags?: ClusterTagsMap | undefined;
   /** The geo-location where the resource lives */
-  location?: string;
-  sku?: ClusterSku;
+  location?: string | undefined;
+  sku?: ClusterSku | undefined;
   /** The current entity tag for the cluster. This is an opaque string. You can use it to detect whether the resource has changed between requests. You can also use it in the If-Match or If-None-Match headers for write operations for optimistic concurrency. */
-  etag?: string;
+  etag?: string | undefined;
   /** The properties associated with a Stream Analytics cluster. */
-  properties?: ClusterProperties;
+  properties?: ClusterProperties | undefined;
 }
 /** A list of clusters. */
 export type ClusterListResultValueList = Array<Cluster>;
 /** A list of clusters populated by a 'list' operation. */
 export interface ClusterListResult {
   /** A list of clusters. */
-  value?: ClusterListResultValueList;
+  value?: ClusterListResultValueList | undefined;
   /** The URL to fetch the next set of clusters. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListClusterBySubscriptionRequest {
   /** The ID of the target subscription. */
@@ -773,19 +776,19 @@ export type JobState =
 /** A streaming job. */
 export interface ClusterJob {
   /** Resource ID of the streaming job. */
-  id?: string;
+  id?: string | undefined;
   /** The number of streaming units that are used by the streaming job. */
-  streamingUnits?: number;
-  jobState?: JobState;
+  streamingUnits?: number | undefined;
+  jobState?: JobState | undefined;
 }
 /** A list of streaming jobs. */
 export type ClusterJobListResultValueList = Array<ClusterJob>;
 /** A list of streaming jobs. Populated by a List operation. */
 export interface ClusterJobListResult {
   /** A list of streaming jobs. */
-  value?: ClusterJobListResultValueList;
+  value?: ClusterJobListResultValueList | undefined;
   /** The URL to fetch the next set of streaming jobs. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListFunctionByStreamingJobRequest {
   /** The ID of the target subscription. */
@@ -795,7 +798,7 @@ export interface ListFunctionByStreamingJobRequest {
   /** The name of the streaming job. */
   jobName: string;
   /** The $select OData query parameter. This is a comma-separated list of structural properties to include in the response, or "*" to include all properties. By default, all properties are returned except diagnostics. Currently only accepts '*' as a valid value. */
-  _select?: string;
+  _select?: string | undefined;
 }
 /** A function object, containing all information associated with the named function. All functions are contained under a streaming job. */
 export type Function = StreamingJobPropertiesFunctionsItem;
@@ -804,9 +807,9 @@ export type FunctionListResultValueList = Array<StreamingJobPropertiesFunctionsI
 /** Object containing a list of functions under a streaming job. */
 export interface FunctionListResult {
   /** A list of functions under a streaming job. Populated by a 'List' operation. */
-  value?: FunctionListResultValueList;
+  value?: FunctionListResultValueList | undefined;
   /** The link (url) to the next page of results. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListInputByStreamingJobRequest {
   /** The ID of the target subscription. */
@@ -816,7 +819,7 @@ export interface ListInputByStreamingJobRequest {
   /** The name of the streaming job. */
   jobName: string;
   /** The $select OData query parameter. This is a comma-separated list of structural properties to include in the response, or "*" to include all properties. By default, all properties are returned except diagnostics. Currently only accepts '*' as a valid value. */
-  _select?: string;
+  _select?: string | undefined;
 }
 /** An input object, containing all information associated with the named input. All inputs are contained under a streaming job. */
 export type Input = StreamingJobPropertiesInputsItem;
@@ -825,39 +828,39 @@ export type InputListResultValueList = Array<StreamingJobPropertiesInputsItem>;
 /** Object containing a list of inputs under a streaming job. */
 export interface InputListResult {
   /** A list of inputs under a streaming job. Populated by a 'List' operation. */
-  value?: InputListResultValueList;
+  value?: InputListResultValueList | undefined;
   /** The link (url) to the next page of results. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListOperationsRequest {}
 /** Contains the localized display information for this particular operation / action. */
 export interface OperationDisplay {
   /** The localized friendly form of the resource provider name. */
-  provider?: string;
+  provider?: string | undefined;
   /** The localized friendly form of the resource type related to this action/operation. */
-  resource?: string;
+  resource?: string | undefined;
   /** The localized friendly name for the operation. */
-  operation?: string;
+  operation?: string | undefined;
   /** The localized friendly description for the operation. */
-  description?: string;
+  description?: string | undefined;
 }
 /** A Stream Analytics REST API operation */
 export interface Operation {
   /** The name of the operation being performed on this particular object. */
-  name?: string;
+  name?: string | undefined;
   /** Indicates whether the operation is a data action */
-  isDataAction?: boolean;
+  isDataAction?: boolean | undefined;
   /** Contains the localized display information for this particular operation / action. */
-  display?: OperationDisplay;
+  display?: OperationDisplay | undefined;
 }
 /** List of Stream Analytics operations supported by the Microsoft.StreamAnalytics resource provider. */
 export type OperationListResultValueList = Array<Operation>;
 /** Result of the request to list Stream Analytics operations. It contains a list of operations and a URL link to get the next set of results. */
 export interface OperationListResult {
   /** List of Stream Analytics operations supported by the Microsoft.StreamAnalytics resource provider. */
-  value?: OperationListResultValueList;
+  value?: OperationListResultValueList | undefined;
   /** URL to get the next set of operation list results if there are any. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListOutputByStreamingJobRequest {
   /** The ID of the target subscription. */
@@ -867,7 +870,7 @@ export interface ListOutputByStreamingJobRequest {
   /** The name of the streaming job. */
   jobName: string;
   /** The $select OData query parameter. This is a comma-separated list of structural properties to include in the response, or "*" to include all properties. By default, all properties are returned except diagnostics. Currently only accepts '*' as a valid value. */
-  _select?: string;
+  _select?: string | undefined;
 }
 /** An output object, containing all information associated with the named output. All outputs are contained under a streaming job. */
 export type Output = StreamingJobPropertiesOutputsItem;
@@ -876,9 +879,9 @@ export type OutputListResultValueList = Array<StreamingJobPropertiesOutputsItem>
 /** Object containing a list of outputs under a streaming job. */
 export interface OutputListResult {
   /** A list of outputs under a streaming job. Populated by a 'List' operation. */
-  value?: OutputListResultValueList;
+  value?: OutputListResultValueList | undefined;
   /** The link (url) to the next page of results. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListPrivateEndpointByClusterRequest {
   /** The ID of the target subscription. */
@@ -891,24 +894,24 @@ export interface ListPrivateEndpointByClusterRequest {
 /** Complete information about the private endpoint. */
 export interface PrivateEndpoint {
   /** Fully qualified resource Id for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. Ex- Microsoft.Compute/virtualMachines or Microsoft.Storage/storageAccounts. */
-  type?: string;
+  type?: string | undefined;
   /** The properties associated with a private endpoint. */
-  properties?: PrivateEndpointProperties;
+  properties?: PrivateEndpointProperties | undefined;
   /** Unique opaque string (generally a GUID) that represents the metadata state of the resource (private endpoint) and changes whenever the resource is updated. Required on PUT (CreateOrUpdate) requests. */
-  etag?: string;
+  etag?: string | undefined;
 }
 /** A list of private endpoints. */
 export type PrivateEndpointListResultValueList = Array<PrivateEndpoint>;
 /** A list of private endpoints. */
 export interface PrivateEndpointListResult {
   /** A list of private endpoints. */
-  value?: PrivateEndpointListResultValueList;
+  value?: PrivateEndpointListResultValueList | undefined;
   /** The URL to fetch the next set of private endpoints. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListStreamingJobByResourceGroupRequest {
   /** The ID of the target subscription. */
@@ -916,41 +919,41 @@ export interface ListStreamingJobByResourceGroupRequest {
   /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
   /** The $expand OData query parameter. This is a comma-separated list of additional streaming job properties to include in the response, beyond the default set returned when this parameter is absent. The default set is all streaming job properties other than 'inputs', 'transformation', 'outputs', and 'functions'. */
-  _expand?: string;
+  _expand?: string | undefined;
 }
 /** Resource tags. */
 export type StreamingJobTagsMap = { [key: string]: string | undefined };
 /** A streaming job object, containing all information associated with the named streaming job. */
 export interface StreamingJob {
   /** Fully qualified resource Id for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. Ex- Microsoft.Compute/virtualMachines or Microsoft.Storage/storageAccounts. */
-  type?: string;
+  type?: string | undefined;
   /** Resource tags. */
-  tags?: StreamingJobTagsMap;
+  tags?: StreamingJobTagsMap | undefined;
   /** The geo-location where the resource lives */
-  location?: string;
+  location?: string | undefined;
   /** The properties that are associated with a streaming job. Required on PUT (CreateOrReplace) requests. */
-  properties?: StreamingJobProperties;
+  properties?: StreamingJobProperties | undefined;
   /** Describes the system-assigned managed identity assigned to this job that can be used to authenticate with inputs and outputs. */
-  identity?: Identity;
+  identity?: Identity | undefined;
 }
 /** A list of streaming jobs. Populated by a 'List' operation. */
 export type StreamingJobListResultValueList = Array<StreamingJob>;
 /** Object containing a list of streaming jobs. */
 export interface StreamingJobListResult {
   /** A list of streaming jobs. Populated by a 'List' operation. */
-  value?: StreamingJobListResultValueList;
+  value?: StreamingJobListResultValueList | undefined;
   /** The link (url) to the next page of results. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListStreamingJobsRequest {
   /** The ID of the target subscription. */
   subscriptionId: string;
   /** The $expand OData query parameter. This is a comma-separated list of additional streaming job properties to include in the response, beyond the default set returned when this parameter is absent. The default set is all streaming job properties other than 'inputs', 'transformation', 'outputs', and 'functions'. */
-  _expand?: string;
+  _expand?: string | undefined;
 }
 export interface ListSubscriptionQuotasRequest {
   /** The ID of the target subscription. */
@@ -961,49 +964,49 @@ export interface ListSubscriptionQuotasRequest {
 /** Describes the properties of the quota. */
 export interface SubscriptionQuotaProperties {
   /** The max permitted usage of this resource. */
-  maxCount?: number;
+  maxCount?: number | undefined;
   /** The current usage of this resource. */
-  currentCount?: number;
+  currentCount?: number | undefined;
 }
 /** Describes the current quota for the subscription. */
 export interface SubscriptionQuota {
   /** Resource Id */
-  id?: string;
+  id?: string | undefined;
   /** Resource name */
-  name?: string;
+  name?: string | undefined;
   /** Resource type */
-  type?: string;
+  type?: string | undefined;
   /** Describes the properties of the quota. */
-  properties?: SubscriptionQuotaProperties;
+  properties?: SubscriptionQuotaProperties | undefined;
 }
 /** List of quotas for the subscription in a particular region. */
 export type SubscriptionQuotasListResultValueList = Array<SubscriptionQuota>;
 /** Result of the GetQuotas operation. It contains a list of quotas for the subscription in a particular region. */
 export interface SubscriptionQuotasListResult {
   /** List of quotas for the subscription in a particular region. */
-  value?: SubscriptionQuotasListResultValueList;
+  value?: SubscriptionQuotasListResultValueList | undefined;
 }
 /** Describes how data from an input is serialized or how data is serialized when written to an output. */
 export interface OutputPropertiesInputSerialization {
   /** Indicates the type of serialization that the input or output uses. Required on PUT (CreateOrReplace) requests. */
   type: EventSerializationType | (string & {});
   /** Serialization-type-specific properties. */
-  properties?: unknown;
+  properties?: unknown | undefined;
 }
 /** Describes conditions applicable to the Input, Output, or the job overall, that warrant customer attention. */
 export type OutputPropertiesInputDiagnostics = ClusterPropertiesInput;
 /** The properties that are associated with an output. */
 export interface OutputPropertiesInput {
   /** Describes the data source that output will be written to. Required on PUT (CreateOrReplace) requests. */
-  datasource?: OutputDataSource;
+  datasource?: OutputDataSource | undefined;
   /** The time frame for filtering Stream Analytics job outputs. */
-  timeWindow?: string;
+  timeWindow?: string | undefined;
   /** The size window to constrain a Stream Analytics output to. */
-  sizeWindow?: number;
+  sizeWindow?: number | undefined;
   /** Describes how data from an input is serialized or how data is serialized when written to an output. */
-  serialization?: OutputPropertiesInputSerialization;
+  serialization?: OutputPropertiesInputSerialization | undefined;
   /** Describes conditions applicable to the Input, Output, or the job overall, that warrant customer attention. */
-  diagnostics?: ClusterPropertiesInput;
+  diagnostics?: ClusterPropertiesInput | undefined;
 }
 export interface OutputsCreateOrReplaceRequest {
   /** The ID of the target subscription. */
@@ -1015,19 +1018,19 @@ export interface OutputsCreateOrReplaceRequest {
   /** The name of the output. */
   outputName: string;
   /** Resource name */
-  name?: string;
+  name?: string | undefined;
   /** The properties that are associated with an output. Required on PUT (CreateOrReplace) requests. */
-  properties?: OutputPropertiesInput;
+  properties?: OutputPropertiesInput | undefined;
 }
 export interface OutputsCreateOrReplaceResponse {
   /** Resource Id */
-  id?: string;
+  id?: string | undefined;
   /** Resource name */
-  name?: string;
+  name?: string | undefined;
   /** Resource type */
-  type?: string;
+  type?: string | undefined;
   /** The properties that are associated with an output. Required on PUT (CreateOrReplace) requests. */
-  properties?: OutputProperties;
+  properties?: OutputProperties | undefined;
 }
 /** The ID(s) of the group(s) obtained from the remote resource that this private endpoint should connect to. Required on PUT (CreateOrUpdate) requests. */
 export type PrivateLinkServiceConnectionPropertiesInputGroupIdsList = Array<string>;
@@ -1036,16 +1039,16 @@ export type PrivateLinkConnectionStateInput = ClusterPropertiesInput;
 /** Bag of properties defining a privatelinkServiceConnection. */
 export interface PrivateLinkServiceConnectionPropertiesInput {
   /** The resource id of the private link service. Required on PUT (CreateOrUpdate) requests. */
-  privateLinkServiceId?: string;
+  privateLinkServiceId?: string | undefined;
   /** The ID(s) of the group(s) obtained from the remote resource that this private endpoint should connect to. Required on PUT (CreateOrUpdate) requests. */
-  groupIds?: PrivateLinkServiceConnectionPropertiesInputGroupIdsList;
+  groupIds?: PrivateLinkServiceConnectionPropertiesInputGroupIdsList | undefined;
   /** A collection of read-only information about the state of the connection to the private remote resource. */
-  privateLinkServiceConnectionState?: ClusterPropertiesInput;
+  privateLinkServiceConnectionState?: ClusterPropertiesInput | undefined;
 }
 /** A grouping of information about the connection to the remote resource. */
 export interface PrivateLinkServiceConnectionInput {
   /** Bag of properties defining a privatelinkServiceConnection. */
-  properties?: PrivateLinkServiceConnectionPropertiesInput;
+  properties?: PrivateLinkServiceConnectionPropertiesInput | undefined;
 }
 /** A list of connections to the remote resource. Immutable after it is set. */
 export type PrivateEndpointPropertiesInputManualPrivateLinkServiceConnectionsList =
@@ -1053,7 +1056,9 @@ export type PrivateEndpointPropertiesInputManualPrivateLinkServiceConnectionsLis
 /** The properties associated with a private endpoint. */
 export interface PrivateEndpointPropertiesInput {
   /** A list of connections to the remote resource. Immutable after it is set. */
-  manualPrivateLinkServiceConnections?: PrivateEndpointPropertiesInputManualPrivateLinkServiceConnectionsList;
+  manualPrivateLinkServiceConnections?:
+    | PrivateEndpointPropertiesInputManualPrivateLinkServiceConnectionsList
+    | undefined;
 }
 export interface PrivateEndpointsCreateOrUpdateRequest {
   /** The ID of the target subscription. */
@@ -1065,19 +1070,19 @@ export interface PrivateEndpointsCreateOrUpdateRequest {
   /** The name of the private endpoint. */
   privateEndpointName: string;
   /** The properties associated with a private endpoint. */
-  properties?: PrivateEndpointPropertiesInput;
+  properties?: PrivateEndpointPropertiesInput | undefined;
 }
 export interface PrivateEndpointsCreateOrUpdateResponse {
   /** Fully qualified resource Id for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. Ex- Microsoft.Compute/virtualMachines or Microsoft.Storage/storageAccounts. */
-  type?: string;
+  type?: string | undefined;
   /** The properties associated with a private endpoint. */
-  properties?: PrivateEndpointProperties;
+  properties?: PrivateEndpointProperties | undefined;
   /** Unique opaque string (generally a GUID) that represents the metadata state of the resource (private endpoint) and changes whenever the resource is updated. Required on PUT (CreateOrUpdate) requests. */
-  etag?: string;
+  etag?: string | undefined;
 }
 export interface ScaleStreamingJobRequest {
   /** The ID of the target subscription. */
@@ -1087,7 +1092,7 @@ export interface ScaleStreamingJobRequest {
   /** The name of the streaming job. */
   jobName: string;
   /** Specifies the number of streaming units that the streaming job will scale to. */
-  streamingUnits?: number;
+  streamingUnits?: number | undefined;
 }
 export interface ScaleStreamingJobResponse {}
 export interface StartStreamingJobRequest {
@@ -1098,9 +1103,9 @@ export interface StartStreamingJobRequest {
   /** The name of the streaming job. */
   jobName: string;
   /** Value may be JobStartTime, CustomTime, or LastOutputEventTime to indicate whether the starting point of the output event stream should start whenever the job is started, start at a custom user time stamp specified via the outputStartTime property, or start from the last event output time. */
-  outputStartMode?: OutputStartMode | (string & {});
+  outputStartMode?: OutputStartMode | (string & {}) | undefined;
   /** Value is either an ISO-8601 formatted time stamp that indicates the starting point of the output event stream, or null to indicate that the output event stream will start whenever the streaming job is started. This property must have a value if outputStartMode is set to CustomTime. */
-  outputStartTime?: string;
+  outputStartTime?: string | undefined;
 }
 export interface StartStreamingJobResponse {}
 export interface StopStreamingJobRequest {
@@ -1119,9 +1124,9 @@ export type StreamingJobPropertiesInputJobType = "Cloud" | "Edge";
 /** An input object, containing all information associated with the named input. All inputs are contained under a streaming job. */
 export interface StreamingJobPropertiesInputInputsItem {
   /** Resource name */
-  name?: string;
+  name?: string | undefined;
   /** The properties that are associated with an input. Required on PUT (CreateOrReplace) requests. */
-  properties?: InputPropertiesInput;
+  properties?: InputPropertiesInput | undefined;
 }
 /** A list of one or more inputs to the streaming job. The name property for each input is required when specifying this property in a PUT request. This property cannot be modify via a PATCH operation. You must use the PATCH API available for the individual input. */
 export type StreamingJobPropertiesInputInputsList = Array<StreamingJobPropertiesInputInputsItem>;
@@ -1130,34 +1135,34 @@ export type TransformationPropertiesInputValidStreamingUnitsList = Array<number>
 /** The properties that are associated with a transformation. */
 export interface TransformationPropertiesInput {
   /** Specifies the number of streaming units that the streaming job uses. */
-  streamingUnits?: number;
+  streamingUnits?: number | undefined;
   /** Specifies the valid streaming units a streaming job can scale to. */
-  validStreamingUnits?: TransformationPropertiesInputValidStreamingUnitsList;
+  validStreamingUnits?: TransformationPropertiesInputValidStreamingUnitsList | undefined;
   /** Specifies the query that will be run in the streaming job. You can learn more about the Stream Analytics Query Language (SAQL) here: https://msdn.microsoft.com/library/azure/dn834998 . Required on PUT (CreateOrReplace) requests. */
-  query?: string;
+  query?: string | undefined;
 }
 /** A transformation object, containing all information associated with the named transformation. All transformations are contained under a streaming job. */
 export interface StreamingJobPropertiesInputTransformation {
   /** Resource name */
-  name?: string;
+  name?: string | undefined;
   /** The properties that are associated with a transformation. Required on PUT (CreateOrReplace) requests. */
-  properties?: TransformationPropertiesInput;
+  properties?: TransformationPropertiesInput | undefined;
 }
 /** An output object, containing all information associated with the named output. All outputs are contained under a streaming job. */
 export interface StreamingJobPropertiesInputOutputsItem {
   /** Resource name */
-  name?: string;
+  name?: string | undefined;
   /** The properties that are associated with an output. Required on PUT (CreateOrReplace) requests. */
-  properties?: OutputPropertiesInput;
+  properties?: OutputPropertiesInput | undefined;
 }
 /** A list of one or more outputs for the streaming job. The name property for each output is required when specifying this property in a PUT request. This property cannot be modify via a PATCH operation. You must use the PATCH API available for the individual output. */
 export type StreamingJobPropertiesInputOutputsList = Array<StreamingJobPropertiesInputOutputsItem>;
 /** A function object, containing all information associated with the named function. All functions are contained under a streaming job. */
 export interface StreamingJobPropertiesInputFunctionsItem {
   /** Resource name */
-  name?: string;
+  name?: string | undefined;
   /** The properties that are associated with a function. */
-  properties?: FunctionPropertiesInput;
+  properties?: FunctionPropertiesInput | undefined;
 }
 /** A list of one or more functions for the streaming job. The name property for each function is required when specifying this property in a PUT request. This property cannot be modify via a PATCH operation. You must use the PATCH API available for the individual transformation. */
 export type StreamingJobPropertiesInputFunctionsList =
@@ -1167,44 +1172,47 @@ export type StreamingJobPropertiesInputContentStoragePolicy = "SystemAccount" | 
 /** The properties that are associated with a streaming job. */
 export interface StreamingJobPropertiesInput {
   /** Describes the SKU of the streaming job. Required on PUT (CreateOrReplace) requests. */
-  sku?: Sku;
+  sku?: Sku | undefined;
   /** Describes the type of the job. Valid modes are `Cloud` and 'Edge'. */
-  jobType?: StreamingJobPropertiesInputJobType | (string & {});
+  jobType?: StreamingJobPropertiesInputJobType | (string & {}) | undefined;
   /** This property should only be utilized when it is desired that the job be started immediately upon creation. Value may be JobStartTime, CustomTime, or LastOutputEventTime to indicate whether the starting point of the output event stream should start whenever the job is started, start at a custom user time stamp specified via the outputStartTime property, or start from the last event output time. */
-  outputStartMode?: OutputStartMode | (string & {});
+  outputStartMode?: OutputStartMode | (string & {}) | undefined;
   /** Value is either an ISO-8601 formatted time stamp that indicates the starting point of the output event stream, or null to indicate that the output event stream will start whenever the streaming job is started. This property must have a value if outputStartMode is set to CustomTime. */
-  outputStartTime?: string;
+  outputStartTime?: string | undefined;
   /** Indicates the policy to apply to events that arrive out of order in the input event stream. */
-  eventsOutOfOrderPolicy?: EventsOutOfOrderPolicy | (string & {});
+  eventsOutOfOrderPolicy?: EventsOutOfOrderPolicy | (string & {}) | undefined;
   /** Indicates the policy to apply to events that arrive at the output and cannot be written to the external storage due to being malformed (missing column values, column values of wrong type or size). */
-  outputErrorPolicy?: OutputErrorPolicy | (string & {});
+  outputErrorPolicy?: OutputErrorPolicy | (string & {}) | undefined;
   /** The maximum tolerable delay in seconds where out-of-order events can be adjusted to be back in order. */
-  eventsOutOfOrderMaxDelayInSeconds?: number;
+  eventsOutOfOrderMaxDelayInSeconds?: number | undefined;
   /** The maximum tolerable delay in seconds where events arriving late could be included. Supported range is -1 to 1814399 (20.23:59:59 days) and -1 is used to specify wait indefinitely. If the property is absent, it is interpreted to have a value of -1. */
-  eventsLateArrivalMaxDelayInSeconds?: number;
+  eventsLateArrivalMaxDelayInSeconds?: number | undefined;
   /** The data locale of the stream analytics job. Value should be the name of a supported .NET Culture from the set https://msdn.microsoft.com/en-us/library/system.globalization.culturetypes(v=vs.110).aspx. Defaults to 'en-US' if none specified. */
-  dataLocale?: string;
+  dataLocale?: string | undefined;
   /** Controls certain runtime behaviors of the streaming job. */
-  compatibilityLevel?: CompatibilityLevel | (string & {});
+  compatibilityLevel?: CompatibilityLevel | (string & {}) | undefined;
   /** A list of one or more inputs to the streaming job. The name property for each input is required when specifying this property in a PUT request. This property cannot be modify via a PATCH operation. You must use the PATCH API available for the individual input. */
-  inputs?: StreamingJobPropertiesInputInputsList;
+  inputs?: StreamingJobPropertiesInputInputsList | undefined;
   /** A transformation object, containing all information associated with the named transformation. All transformations are contained under a streaming job. */
-  transformation?: StreamingJobPropertiesInputTransformation;
+  transformation?: StreamingJobPropertiesInputTransformation | undefined;
   /** A list of one or more outputs for the streaming job. The name property for each output is required when specifying this property in a PUT request. This property cannot be modify via a PATCH operation. You must use the PATCH API available for the individual output. */
-  outputs?: StreamingJobPropertiesInputOutputsList;
+  outputs?: StreamingJobPropertiesInputOutputsList | undefined;
   /** A list of one or more functions for the streaming job. The name property for each function is required when specifying this property in a PUT request. This property cannot be modify via a PATCH operation. You must use the PATCH API available for the individual transformation. */
-  functions?: StreamingJobPropertiesInputFunctionsList;
+  functions?: StreamingJobPropertiesInputFunctionsList | undefined;
   /** The properties that are associated with an Azure Storage account with MSI */
-  jobStorageAccount?: JobStorageAccount;
+  jobStorageAccount?: JobStorageAccount | undefined;
   /** Valid values are JobStorageAccount and SystemAccount. If set to JobStorageAccount, this requires the user to also specify jobStorageAccount property. . */
-  contentStoragePolicy?: StreamingJobPropertiesInputContentStoragePolicy | (string & {});
+  contentStoragePolicy?:
+    | StreamingJobPropertiesInputContentStoragePolicy
+    | (string & {})
+    | undefined;
   /** The cluster which streaming jobs will run on. */
-  cluster?: ClusterInfo;
+  cluster?: ClusterInfo | undefined;
 }
 /** Describes how identity is verified */
 export interface IdentityInput {
   /** The identity type */
-  type?: string;
+  type?: string | undefined;
 }
 export interface StreamingJobsCreateOrReplaceRequest {
   /** The ID of the target subscription. */
@@ -1214,31 +1222,31 @@ export interface StreamingJobsCreateOrReplaceRequest {
   /** The name of the streaming job. */
   jobName: string;
   /** Resource tags. */
-  tags?: StreamingJobsCreateOrReplaceRequestTagsMap;
+  tags?: StreamingJobsCreateOrReplaceRequestTagsMap | undefined;
   /** The geo-location where the resource lives */
-  location?: string;
+  location?: string | undefined;
   /** The properties that are associated with a streaming job. Required on PUT (CreateOrReplace) requests. */
-  properties?: StreamingJobPropertiesInput;
+  properties?: StreamingJobPropertiesInput | undefined;
   /** Describes the system-assigned managed identity assigned to this job that can be used to authenticate with inputs and outputs. */
-  identity?: IdentityInput;
+  identity?: IdentityInput | undefined;
 }
 /** Resource tags. */
 export type StreamingJobsCreateOrReplaceResponseTagsMap = { [key: string]: string | undefined };
 export interface StreamingJobsCreateOrReplaceResponse {
   /** Fully qualified resource Id for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. Ex- Microsoft.Compute/virtualMachines or Microsoft.Storage/storageAccounts. */
-  type?: string;
+  type?: string | undefined;
   /** Resource tags. */
-  tags?: StreamingJobsCreateOrReplaceResponseTagsMap;
+  tags?: StreamingJobsCreateOrReplaceResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
-  location?: string;
+  location?: string | undefined;
   /** The properties that are associated with a streaming job. Required on PUT (CreateOrReplace) requests. */
-  properties?: StreamingJobProperties;
+  properties?: StreamingJobProperties | undefined;
   /** Describes the system-assigned managed identity assigned to this job that can be used to authenticate with inputs and outputs. */
-  identity?: Identity;
+  identity?: Identity | undefined;
 }
 export interface TestFunctionRequest {
   /** The ID of the target subscription. */
@@ -1250,22 +1258,22 @@ export interface TestFunctionRequest {
   /** The name of the function. */
   functionName: string;
   /** Resource name */
-  name?: string;
+  name?: string | undefined;
   /** The properties that are associated with a function. */
-  properties?: FunctionPropertiesInput;
+  properties?: FunctionPropertiesInput | undefined;
 }
 /** Describes the error that occurred. */
 export interface ErrorResponse {
   /** Error code associated with the error that occurred. */
-  code?: string;
+  code?: string | undefined;
   /** Describes the error in detail. */
-  message?: string;
+  message?: string | undefined;
 }
 export interface TestFunctionResponse {
   /** The status of the test operation. */
-  status?: string;
+  status?: string | undefined;
   /** Describes the error that occurred. */
-  error?: ErrorResponse;
+  error?: ErrorResponse | undefined;
 }
 export interface TestInputRequest {
   /** The ID of the target subscription. */
@@ -1277,16 +1285,16 @@ export interface TestInputRequest {
   /** The name of the input. */
   inputName: string;
   /** Resource name */
-  name?: string;
+  name?: string | undefined;
   /** The properties that are associated with an input. Required on PUT (CreateOrReplace) requests. */
-  properties?: InputPropertiesInput;
+  properties?: InputPropertiesInput | undefined;
 }
 /** Describes the status of the test operation along with error information, if applicable. */
 export interface ResourceTestStatus {
   /** The status of the test operation. */
-  status?: string;
+  status?: string | undefined;
   /** Describes the error that occurred. */
-  error?: ErrorResponse;
+  error?: ErrorResponse | undefined;
 }
 export interface TestOutputRequest {
   /** The ID of the target subscription. */
@@ -1298,15 +1306,15 @@ export interface TestOutputRequest {
   /** The name of the output. */
   outputName: string;
   /** Resource name */
-  name?: string;
+  name?: string | undefined;
   /** The properties that are associated with an output. Required on PUT (CreateOrReplace) requests. */
-  properties?: OutputPropertiesInput;
+  properties?: OutputPropertiesInput | undefined;
 }
 export interface TestOutputResponse {
   /** The status of the test operation. */
-  status?: string;
+  status?: string | undefined;
   /** Describes the error that occurred. */
-  error?: ErrorResponse;
+  error?: ErrorResponse | undefined;
 }
 export interface TransformationsCreateOrReplaceRequest {
   /** The ID of the target subscription. */
@@ -1318,19 +1326,19 @@ export interface TransformationsCreateOrReplaceRequest {
   /** The name of the transformation. */
   transformationName: string;
   /** Resource name */
-  name?: string;
+  name?: string | undefined;
   /** The properties that are associated with a transformation. Required on PUT (CreateOrReplace) requests. */
-  properties?: TransformationPropertiesInput;
+  properties?: TransformationPropertiesInput | undefined;
 }
 export interface TransformationsCreateOrReplaceResponse {
   /** Resource Id */
-  id?: string;
+  id?: string | undefined;
   /** Resource name */
-  name?: string;
+  name?: string | undefined;
   /** Resource type */
-  type?: string;
+  type?: string | undefined;
   /** The properties that are associated with a transformation. Required on PUT (CreateOrReplace) requests. */
-  properties?: TransformationProperties;
+  properties?: TransformationProperties | undefined;
 }
 /** Resource tags. */
 export type UpdateClusterRequestTagsMap = { [key: string]: string | undefined };
@@ -1342,31 +1350,31 @@ export interface UpdateClusterRequest {
   /** The name of the cluster. */
   clusterName: string;
   /** Resource tags. */
-  tags?: UpdateClusterRequestTagsMap;
+  tags?: UpdateClusterRequestTagsMap | undefined;
   /** The geo-location where the resource lives */
-  location?: string;
-  sku?: ClusterSku;
+  location?: string | undefined;
+  sku?: ClusterSku | undefined;
   /** The properties associated with a Stream Analytics cluster. */
-  properties?: ClusterPropertiesInput;
+  properties?: ClusterPropertiesInput | undefined;
 }
 /** Resource tags. */
 export type UpdateClusterResponseTagsMap = { [key: string]: string | undefined };
 export interface UpdateClusterResponse {
   /** Fully qualified resource Id for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. Ex- Microsoft.Compute/virtualMachines or Microsoft.Storage/storageAccounts. */
-  type?: string;
+  type?: string | undefined;
   /** Resource tags. */
-  tags?: UpdateClusterResponseTagsMap;
+  tags?: UpdateClusterResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
-  location?: string;
-  sku?: ClusterSku;
+  location?: string | undefined;
+  sku?: ClusterSku | undefined;
   /** The current entity tag for the cluster. This is an opaque string. You can use it to detect whether the resource has changed between requests. You can also use it in the If-Match or If-None-Match headers for write operations for optimistic concurrency. */
-  etag?: string;
+  etag?: string | undefined;
   /** The properties associated with a Stream Analytics cluster. */
-  properties?: ClusterProperties;
+  properties?: ClusterProperties | undefined;
 }
 export interface UpdateFunctionRequest {
   /** The ID of the target subscription. */
@@ -1378,19 +1386,19 @@ export interface UpdateFunctionRequest {
   /** The name of the function. */
   functionName: string;
   /** Resource name */
-  name?: string;
+  name?: string | undefined;
   /** The properties that are associated with a function. */
-  properties?: FunctionPropertiesInput;
+  properties?: FunctionPropertiesInput | undefined;
 }
 export interface UpdateFunctionResponse {
   /** Resource Id */
-  id?: string;
+  id?: string | undefined;
   /** Resource name */
-  name?: string;
+  name?: string | undefined;
   /** Resource type */
-  type?: string;
+  type?: string | undefined;
   /** The properties that are associated with a function. */
-  properties?: FunctionProperties;
+  properties?: FunctionProperties | undefined;
 }
 export interface UpdateInputRequest {
   /** The ID of the target subscription. */
@@ -1402,19 +1410,19 @@ export interface UpdateInputRequest {
   /** The name of the input. */
   inputName: string;
   /** Resource name */
-  name?: string;
+  name?: string | undefined;
   /** The properties that are associated with an input. Required on PUT (CreateOrReplace) requests. */
-  properties?: InputPropertiesInput;
+  properties?: InputPropertiesInput | undefined;
 }
 export interface UpdateInputResponse {
   /** Resource Id */
-  id?: string;
+  id?: string | undefined;
   /** Resource name */
-  name?: string;
+  name?: string | undefined;
   /** Resource type */
-  type?: string;
+  type?: string | undefined;
   /** The properties that are associated with an input. Required on PUT (CreateOrReplace) requests. */
-  properties?: InputProperties;
+  properties?: InputProperties | undefined;
 }
 export interface UpdateOutputRequest {
   /** The ID of the target subscription. */
@@ -1426,19 +1434,19 @@ export interface UpdateOutputRequest {
   /** The name of the output. */
   outputName: string;
   /** Resource name */
-  name?: string;
+  name?: string | undefined;
   /** The properties that are associated with an output. Required on PUT (CreateOrReplace) requests. */
-  properties?: OutputPropertiesInput;
+  properties?: OutputPropertiesInput | undefined;
 }
 export interface UpdateOutputResponse {
   /** Resource Id */
-  id?: string;
+  id?: string | undefined;
   /** Resource name */
-  name?: string;
+  name?: string | undefined;
   /** Resource type */
-  type?: string;
+  type?: string | undefined;
   /** The properties that are associated with an output. Required on PUT (CreateOrReplace) requests. */
-  properties?: OutputProperties;
+  properties?: OutputProperties | undefined;
 }
 /** Resource tags. */
 export type UpdateStreamingJobRequestTagsMap = { [key: string]: string | undefined };
@@ -1450,31 +1458,31 @@ export interface UpdateStreamingJobRequest {
   /** The name of the streaming job. */
   jobName: string;
   /** Resource tags. */
-  tags?: UpdateStreamingJobRequestTagsMap;
+  tags?: UpdateStreamingJobRequestTagsMap | undefined;
   /** The geo-location where the resource lives */
-  location?: string;
+  location?: string | undefined;
   /** The properties that are associated with a streaming job. Required on PUT (CreateOrReplace) requests. */
-  properties?: StreamingJobPropertiesInput;
+  properties?: StreamingJobPropertiesInput | undefined;
   /** Describes the system-assigned managed identity assigned to this job that can be used to authenticate with inputs and outputs. */
-  identity?: IdentityInput;
+  identity?: IdentityInput | undefined;
 }
 /** Resource tags. */
 export type UpdateStreamingJobResponseTagsMap = { [key: string]: string | undefined };
 export interface UpdateStreamingJobResponse {
   /** Fully qualified resource Id for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. Ex- Microsoft.Compute/virtualMachines or Microsoft.Storage/storageAccounts. */
-  type?: string;
+  type?: string | undefined;
   /** Resource tags. */
-  tags?: UpdateStreamingJobResponseTagsMap;
+  tags?: UpdateStreamingJobResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
-  location?: string;
+  location?: string | undefined;
   /** The properties that are associated with a streaming job. Required on PUT (CreateOrReplace) requests. */
-  properties?: StreamingJobProperties;
+  properties?: StreamingJobProperties | undefined;
   /** Describes the system-assigned managed identity assigned to this job that can be used to authenticate with inputs and outputs. */
-  identity?: Identity;
+  identity?: Identity | undefined;
 }
 export interface UpdateTransformationRequest {
   /** The ID of the target subscription. */
@@ -1486,19 +1494,19 @@ export interface UpdateTransformationRequest {
   /** The name of the transformation. */
   transformationName: string;
   /** Resource name */
-  name?: string;
+  name?: string | undefined;
   /** The properties that are associated with a transformation. Required on PUT (CreateOrReplace) requests. */
-  properties?: TransformationPropertiesInput;
+  properties?: TransformationPropertiesInput | undefined;
 }
 export interface UpdateTransformationResponse {
   /** Resource Id */
-  id?: string;
+  id?: string | undefined;
   /** Resource name */
-  name?: string;
+  name?: string | undefined;
   /** Resource type */
-  type?: string;
+  type?: string | undefined;
   /** The properties that are associated with a transformation. Required on PUT (CreateOrReplace) requests. */
-  properties?: TransformationProperties;
+  properties?: TransformationProperties | undefined;
 }
 export type ClustersCreateOrUpdateError = AzureOpError;
 /** Creates a Stream Analytics Cluster or replaces an already existing cluster. */

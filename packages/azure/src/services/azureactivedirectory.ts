@@ -28,13 +28,14 @@ const TELEMETRY = {
   prefix: "Azureactivedirectory",
   service: "Azureactivedirectory",
   labels: "azure",
+  labelNames: { resourceGroupName: "azure.resource_group.name" },
   propagate: "w3c",
 } as const;
 
 /** Private endpoint object properties. */
 export interface PrivateEndpoint {
   /** Full identifier of the private endpoint resource. */
-  id?: string;
+  id?: string | undefined;
 }
 /** The private endpoint connection status. */
 export type PrivateEndpointServiceConnectionStatus =
@@ -45,27 +46,27 @@ export type PrivateEndpointServiceConnectionStatus =
 /** An object that represents the approval state of the private link connection. */
 export interface PrivateLinkServiceConnectionState {
   /** Indicates whether the connection has been approved, rejected or removed by the given policy owner. */
-  status?: PrivateEndpointServiceConnectionStatus | (string & {});
+  status?: PrivateEndpointServiceConnectionStatus | (string & {}) | undefined;
   /** The reason for approval or rejection. */
-  description?: string;
+  description?: string | undefined;
   /** A message indicating if changes on the service provider require any updates on the consumer. */
-  actionsRequired?: string;
+  actionsRequired?: string | undefined;
 }
 /** Resource tags */
 export type TagsResourceTagsMap = { [key: string]: string | undefined };
 /** A container holding only the Tags for a resource, allowing the user to update the tags on a PrivateLinkConnection instance. */
 export interface TagsResource {
   /** Resource tags */
-  tags?: TagsResourceTagsMap;
+  tags?: TagsResourceTagsMap | undefined;
 }
 /** Properties of the private endpoint connection resource. */
 export interface PrivateEndpointConnectionPropertiesInput {
   /** Properties of the private endpoint object. */
-  privateEndpoint?: PrivateEndpoint;
+  privateEndpoint?: PrivateEndpoint | undefined;
   /** Approval state of the private link connection. */
-  privateLinkServiceConnectionState?: PrivateLinkServiceConnectionState;
+  privateLinkServiceConnectionState?: PrivateLinkServiceConnectionState | undefined;
   /** Updated tag information to set into the PrivateLinkConnection instance. */
-  privateLinkConnectionTags?: TagsResource;
+  privateLinkConnectionTags?: TagsResource | undefined;
 }
 export interface CreatePrivateEndpointConnectionRequest {
   /** Azure subscription ID. */
@@ -77,30 +78,30 @@ export interface CreatePrivateEndpointConnectionRequest {
   /** The PrivateEndpointConnection name. */
   privateEndpointConnectionName: string;
   /** Resource properties. */
-  properties?: PrivateEndpointConnectionPropertiesInput;
+  properties?: PrivateEndpointConnectionPropertiesInput | undefined;
 }
 /** The current provisioning state. */
 export type PrivateEndpointConnectionProvisioningState = "Succeeded" | "Provisioning" | "Failed";
 /** Properties of the private endpoint connection resource. */
 export interface PrivateEndpointConnectionProperties {
   /** Properties of the private endpoint object. */
-  privateEndpoint?: PrivateEndpoint;
+  privateEndpoint?: PrivateEndpoint | undefined;
   /** Approval state of the private link connection. */
-  privateLinkServiceConnectionState?: PrivateLinkServiceConnectionState;
+  privateLinkServiceConnectionState?: PrivateLinkServiceConnectionState | undefined;
   /** Provisioning state of the private endpoint connection. */
-  provisioningState?: PrivateEndpointConnectionProvisioningState;
+  provisioningState?: PrivateEndpointConnectionProvisioningState | undefined;
   /** Updated tag information to set into the PrivateLinkConnection instance. */
-  privateLinkConnectionTags?: TagsResource;
+  privateLinkConnectionTags?: TagsResource | undefined;
 }
 export interface CreatePrivateEndpointConnectionResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Resource properties. */
-  properties?: PrivateEndpointConnectionProperties;
+  properties?: PrivateEndpointConnectionProperties | undefined;
 }
 /** The list of tenantIds. */
 export type CreatePrivateLinkForAzureAdRequestTenantsList = Array<string>;
@@ -114,19 +115,19 @@ export interface CreatePrivateLinkForAzureAdRequest {
   /** The name of the private link policy in Azure AD. */
   policyName: string;
   /** Name of this resource. */
-  name?: string;
+  name?: string | undefined;
   /** Guid of the owner tenant */
-  ownerTenantId?: string;
+  ownerTenantId?: string | undefined;
   /** Flag indicating whether all tenants are allowed */
-  allTenants?: boolean;
+  allTenants?: boolean | undefined;
   /** The list of tenantIds. */
-  tenants?: CreatePrivateLinkForAzureAdRequestTenantsList;
+  tenants?: CreatePrivateLinkForAzureAdRequestTenantsList | undefined;
   /** Name of the private link policy resource */
-  resourceName?: string;
+  resourceName?: string | undefined;
   /** Name of the resource group */
-  resourceGroup?: string;
+  resourceGroup?: string | undefined;
   /** Resource tags. */
-  tags?: CreatePrivateLinkForAzureAdRequestTagsMap;
+  tags?: CreatePrivateLinkForAzureAdRequestTagsMap | undefined;
 }
 /** The list of tenantIds. */
 export type CreatePrivateLinkForAzureAdResponseTenantsList = Array<string>;
@@ -134,25 +135,25 @@ export type CreatePrivateLinkForAzureAdResponseTenantsList = Array<string>;
 export type CreatePrivateLinkForAzureAdResponseTagsMap = { [key: string]: string | undefined };
 export interface CreatePrivateLinkForAzureAdResponse {
   /** String Id used to locate any resource on Azure. */
-  id?: string;
+  id?: string | undefined;
   /** Name of this resource. */
-  name?: string;
+  name?: string | undefined;
   /** Type of this resource. */
-  type?: string;
+  type?: string | undefined;
   /** Guid of the owner tenant */
-  ownerTenantId?: string;
+  ownerTenantId?: string | undefined;
   /** Flag indicating whether all tenants are allowed */
-  allTenants?: boolean;
+  allTenants?: boolean | undefined;
   /** The list of tenantIds. */
-  tenants?: CreatePrivateLinkForAzureAdResponseTenantsList;
+  tenants?: CreatePrivateLinkForAzureAdResponseTenantsList | undefined;
   /** Name of the private link policy resource */
-  resourceName?: string;
+  resourceName?: string | undefined;
   /** Subscription Identifier */
-  subscriptionId?: string;
+  subscriptionId?: string | undefined;
   /** Name of the resource group */
-  resourceGroup?: string;
+  resourceGroup?: string | undefined;
   /** Resource tags. */
-  tags?: CreatePrivateLinkForAzureAdResponseTagsMap;
+  tags?: CreatePrivateLinkForAzureAdResponseTagsMap | undefined;
 }
 export interface DeletePrivateEndpointConnectionRequest {
   /** Azure subscription ID. */
@@ -186,13 +187,13 @@ export interface GetPrivateEndpointConnectionRequest {
 }
 export interface GetPrivateEndpointConnectionResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Resource properties. */
-  properties?: PrivateEndpointConnectionProperties;
+  properties?: PrivateEndpointConnectionProperties | undefined;
 }
 export interface GetPrivateLinkForAzureAdRequest {
   /** Azure subscription ID. */
@@ -208,25 +209,25 @@ export type GetPrivateLinkForAzureAdResponseTenantsList = Array<string>;
 export type GetPrivateLinkForAzureAdResponseTagsMap = { [key: string]: string | undefined };
 export interface GetPrivateLinkForAzureAdResponse {
   /** String Id used to locate any resource on Azure. */
-  id?: string;
+  id?: string | undefined;
   /** Name of this resource. */
-  name?: string;
+  name?: string | undefined;
   /** Type of this resource. */
-  type?: string;
+  type?: string | undefined;
   /** Guid of the owner tenant */
-  ownerTenantId?: string;
+  ownerTenantId?: string | undefined;
   /** Flag indicating whether all tenants are allowed */
-  allTenants?: boolean;
+  allTenants?: boolean | undefined;
   /** The list of tenantIds. */
-  tenants?: GetPrivateLinkForAzureAdResponseTenantsList;
+  tenants?: GetPrivateLinkForAzureAdResponseTenantsList | undefined;
   /** Name of the private link policy resource */
-  resourceName?: string;
+  resourceName?: string | undefined;
   /** Subscription Identifier */
-  subscriptionId?: string;
+  subscriptionId?: string | undefined;
   /** Name of the resource group */
-  resourceGroup?: string;
+  resourceGroup?: string | undefined;
   /** Resource tags. */
-  tags?: GetPrivateLinkForAzureAdResponseTagsMap;
+  tags?: GetPrivateLinkForAzureAdResponseTagsMap | undefined;
 }
 export interface GetPrivateLinkResourceRequest {
   /** Azure subscription ID. */
@@ -243,19 +244,19 @@ export type PrivateLinkResourcePropertiesRequiredMembersList = Array<string>;
 /** Properties of a private link resource. */
 export interface PrivateLinkResourceProperties {
   /** The private link resource group id. */
-  groupId?: string;
+  groupId?: string | undefined;
   /** The private link resource required member names. */
-  requiredMembers?: PrivateLinkResourcePropertiesRequiredMembersList;
+  requiredMembers?: PrivateLinkResourcePropertiesRequiredMembersList | undefined;
 }
 export interface GetPrivateLinkResourceResponse {
   /** The unique resource identifier of the Azure AD PrivateLink Policy. */
-  id?: string;
+  id?: string | undefined;
   /** The name of the Azure AD PrivateLink Policy. */
-  name?: string;
+  name?: string | undefined;
   /** The type of Azure resource. */
-  type?: string;
+  type?: string | undefined;
   /** Resource properties. */
-  properties?: PrivateLinkResourceProperties;
+  properties?: PrivateLinkResourceProperties | undefined;
 }
 export interface ListPrivateEndpointConnectionByPolicyNameRequest {
   /** Azure subscription ID. */
@@ -268,22 +269,22 @@ export interface ListPrivateEndpointConnectionByPolicyNameRequest {
 /** Private endpoint connection resource. */
 export interface PrivateEndpointConnection {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Resource properties. */
-  properties?: PrivateEndpointConnectionProperties;
+  properties?: PrivateEndpointConnectionProperties | undefined;
 }
 /** Array of private link resources */
 export type PrivateEndpointConnectionListResultValueList = Array<PrivateEndpointConnection>;
 /** A list of private link resources */
 export interface PrivateEndpointConnectionListResult {
   /** Array of private link resources */
-  value?: PrivateEndpointConnectionListResultValueList;
+  value?: PrivateEndpointConnectionListResultValueList | undefined;
   /** URL to next page of results */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListPrivateLinkForAzureAdRequest {
   /** Azure subscription ID. */
@@ -298,34 +299,34 @@ export type PrivateLinkPolicyTagsMap = { [key: string]: string | undefined };
 /** PrivateLink Policy configuration object. */
 export interface PrivateLinkPolicy {
   /** String Id used to locate any resource on Azure. */
-  id?: string;
+  id?: string | undefined;
   /** Name of this resource. */
-  name?: string;
+  name?: string | undefined;
   /** Type of this resource. */
-  type?: string;
+  type?: string | undefined;
   /** Guid of the owner tenant */
-  ownerTenantId?: string;
+  ownerTenantId?: string | undefined;
   /** Flag indicating whether all tenants are allowed */
-  allTenants?: boolean;
+  allTenants?: boolean | undefined;
   /** The list of tenantIds. */
-  tenants?: PrivateLinkPolicyTenantsList;
+  tenants?: PrivateLinkPolicyTenantsList | undefined;
   /** Name of the private link policy resource */
-  resourceName?: string;
+  resourceName?: string | undefined;
   /** Subscription Identifier */
-  subscriptionId?: string;
+  subscriptionId?: string | undefined;
   /** Name of the resource group */
-  resourceGroup?: string;
+  resourceGroup?: string | undefined;
   /** Resource tags. */
-  tags?: PrivateLinkPolicyTagsMap;
+  tags?: PrivateLinkPolicyTagsMap | undefined;
 }
 /** Array of private link policies */
 export type PrivateLinkPolicyListResultValueList = Array<PrivateLinkPolicy>;
 /** A list of private link policies */
 export interface PrivateLinkPolicyListResult {
   /** Array of private link policies */
-  value?: PrivateLinkPolicyListResultValueList;
+  value?: PrivateLinkPolicyListResultValueList | undefined;
   /** The link used to get the next page of operations. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListPrivateLinkForAzureAdBySubscriptionRequest {
   /** Azure subscription ID. */
@@ -342,22 +343,22 @@ export interface ListPrivateLinkResourceByPrivateLinkPolicyRequest {
 /** A private link resource */
 export interface PrivateLinkResource {
   /** The unique resource identifier of the Azure AD PrivateLink Policy. */
-  id?: string;
+  id?: string | undefined;
   /** The name of the Azure AD PrivateLink Policy. */
-  name?: string;
+  name?: string | undefined;
   /** The type of Azure resource. */
-  type?: string;
+  type?: string | undefined;
   /** Resource properties. */
-  properties?: PrivateLinkResourceProperties;
+  properties?: PrivateLinkResourceProperties | undefined;
 }
 /** Array of private link resources */
 export type PrivateLinkResourceListResultValueList = Array<PrivateLinkResource>;
 /** A list of private link resources */
 export interface PrivateLinkResourceListResult {
   /** Array of private link resources */
-  value?: PrivateLinkResourceListResultValueList;
+  value?: PrivateLinkResourceListResultValueList | undefined;
   /** The link used to get the next page of operations. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 /** Resource tags to be updated. */
 export type UpdatePrivateLinkForAzureAdRequestTagsMap = { [key: string]: string | undefined };
@@ -369,7 +370,7 @@ export interface UpdatePrivateLinkForAzureAdRequest {
   /** The name of the private link policy in Azure AD. */
   policyName: string;
   /** Resource tags to be updated. */
-  tags?: UpdatePrivateLinkForAzureAdRequestTagsMap;
+  tags?: UpdatePrivateLinkForAzureAdRequestTagsMap | undefined;
 }
 /** The list of tenantIds. */
 export type UpdatePrivateLinkForAzureAdResponseTenantsList = Array<string>;
@@ -377,25 +378,25 @@ export type UpdatePrivateLinkForAzureAdResponseTenantsList = Array<string>;
 export type UpdatePrivateLinkForAzureAdResponseTagsMap = { [key: string]: string | undefined };
 export interface UpdatePrivateLinkForAzureAdResponse {
   /** String Id used to locate any resource on Azure. */
-  id?: string;
+  id?: string | undefined;
   /** Name of this resource. */
-  name?: string;
+  name?: string | undefined;
   /** Type of this resource. */
-  type?: string;
+  type?: string | undefined;
   /** Guid of the owner tenant */
-  ownerTenantId?: string;
+  ownerTenantId?: string | undefined;
   /** Flag indicating whether all tenants are allowed */
-  allTenants?: boolean;
+  allTenants?: boolean | undefined;
   /** The list of tenantIds. */
-  tenants?: UpdatePrivateLinkForAzureAdResponseTenantsList;
+  tenants?: UpdatePrivateLinkForAzureAdResponseTenantsList | undefined;
   /** Name of the private link policy resource */
-  resourceName?: string;
+  resourceName?: string | undefined;
   /** Subscription Identifier */
-  subscriptionId?: string;
+  subscriptionId?: string | undefined;
   /** Name of the resource group */
-  resourceGroup?: string;
+  resourceGroup?: string | undefined;
   /** Resource tags. */
-  tags?: UpdatePrivateLinkForAzureAdResponseTagsMap;
+  tags?: UpdatePrivateLinkForAzureAdResponseTagsMap | undefined;
 }
 export type CreatePrivateEndpointConnectionError = AzureOpError;
 /** Creates specified private endpoint connection associated with the given policy. */

@@ -7,6 +7,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
 // Schema table, filled on first reach (see __S at the end).
@@ -188,9 +189,9 @@ export interface AssociateQAppWithUserInput {
 }
 export interface AssociateQAppWithUserResponse {}
 export interface BatchCreateCategoryInputCategory {
-  id?: string;
+  id?: string | undefined;
   title: string;
-  color?: string;
+  color?: string | undefined;
 }
 export type BatchCreateCategoryInputCategoryList = BatchCreateCategoryInputCategory[];
 export interface BatchCreateCategoryInput {
@@ -207,7 +208,7 @@ export interface BatchDeleteCategoryResponse {}
 export interface CategoryInput {
   id: string;
   title: string;
-  color?: string;
+  color?: string | undefined;
 }
 export type CategoryListInput = CategoryInput[];
 export interface BatchUpdateCategoryInput {
@@ -229,10 +230,10 @@ export interface CreateLibraryItemOutput {
   status: string;
   createdAt: Date;
   createdBy: string;
-  updatedAt?: Date;
-  updatedBy?: string;
+  updatedAt?: Date | undefined;
+  updatedBy?: string | undefined;
   ratingCount: number;
-  isVerified?: boolean;
+  isVerified?: boolean | undefined;
 }
 export type Filename = string;
 export type DocumentScope = "APPLICATION" | "SESSION" | (string & {});
@@ -243,7 +244,7 @@ export interface CreatePresignedUrlInput {
   fileContentsSha256: string;
   fileName: string;
   scope: DocumentScope;
-  sessionId?: string;
+  sessionId?: string | undefined;
 }
 export type PresignedUrlFields = { [key: string]: string | undefined };
 export interface CreatePresignedUrlOutput {
@@ -267,8 +268,8 @@ export interface TextInputCardInput {
   title: string;
   id: string;
   type: CardType;
-  placeholder?: string;
-  defaultValue?: string;
+  placeholder?: string | undefined;
+  defaultValue?: string | undefined;
 }
 export type Prompt = string;
 export type CardOutputSource = "approved-sources" | "llm" | (string & {});
@@ -278,33 +279,53 @@ export type DocumentAttributeStringValue = string;
 export type PlatoString = string;
 export type DocumentAttributeStringListValue = string[];
 export type DocumentAttributeValue =
-  | { stringValue: string; stringListValue?: never; longValue?: never; dateValue?: never }
-  | { stringValue?: never; stringListValue: string[]; longValue?: never; dateValue?: never }
-  | { stringValue?: never; stringListValue?: never; longValue: number; dateValue?: never }
-  | { stringValue?: never; stringListValue?: never; longValue?: never; dateValue: Date };
+  | {
+      stringValue: string;
+      stringListValue?: undefined;
+      longValue?: undefined;
+      dateValue?: undefined;
+    }
+  | {
+      stringValue?: undefined;
+      stringListValue: string[];
+      longValue?: undefined;
+      dateValue?: undefined;
+    }
+  | {
+      stringValue?: undefined;
+      stringListValue?: undefined;
+      longValue: number;
+      dateValue?: undefined;
+    }
+  | {
+      stringValue?: undefined;
+      stringListValue?: undefined;
+      longValue?: undefined;
+      dateValue: Date;
+    };
 export interface DocumentAttribute {
   name: string;
   value: DocumentAttributeValue;
 }
 export interface AttributeFilter {
-  andAllFilters?: AttributeFilter[];
-  orAllFilters?: AttributeFilter[];
-  notFilter?: AttributeFilter;
-  equalsTo?: DocumentAttribute;
-  containsAll?: DocumentAttribute;
-  containsAny?: DocumentAttribute;
-  greaterThan?: DocumentAttribute;
-  greaterThanOrEquals?: DocumentAttribute;
-  lessThan?: DocumentAttribute;
-  lessThanOrEquals?: DocumentAttribute;
+  andAllFilters?: AttributeFilter[] | undefined;
+  orAllFilters?: AttributeFilter[] | undefined;
+  notFilter?: AttributeFilter | undefined;
+  equalsTo?: DocumentAttribute | undefined;
+  containsAll?: DocumentAttribute | undefined;
+  containsAny?: DocumentAttribute | undefined;
+  greaterThan?: DocumentAttribute | undefined;
+  greaterThanOrEquals?: DocumentAttribute | undefined;
+  lessThan?: DocumentAttribute | undefined;
+  lessThanOrEquals?: DocumentAttribute | undefined;
 }
 export interface QQueryCardInput {
   title: string;
   id: string;
   type: CardType;
   prompt: string;
-  outputSource?: CardOutputSource;
-  attributeFilter?: AttributeFilter;
+  outputSource?: CardOutputSource | undefined;
+  attributeFilter?: AttributeFilter | undefined;
 }
 export type PluginId = string;
 export type ActionIdentifier = string;
@@ -314,15 +335,15 @@ export interface QPluginCardInput {
   type: CardType;
   prompt: string;
   pluginId: string;
-  actionIdentifier?: string;
+  actionIdentifier?: string | undefined;
 }
 export interface FileUploadCardInput {
   title: string;
   id: string;
   type: CardType;
-  filename?: string;
-  fileId?: string;
-  allowOverride?: boolean;
+  filename?: string | undefined;
+  fileId?: string | undefined;
+  allowOverride?: boolean | undefined;
 }
 export type FormInputCardMetadataSchema = unknown;
 export interface FormInputCardMetadata {
@@ -334,57 +355,57 @@ export interface FormInputCardInput {
   id: string;
   type: CardType;
   metadata: FormInputCardMetadata;
-  computeMode?: InputCardComputeMode;
+  computeMode?: InputCardComputeMode | undefined;
 }
 export type CardInput =
   | {
       textInput: TextInputCardInput;
-      qQuery?: never;
-      qPlugin?: never;
-      fileUpload?: never;
-      formInput?: never;
+      qQuery?: undefined;
+      qPlugin?: undefined;
+      fileUpload?: undefined;
+      formInput?: undefined;
     }
   | {
-      textInput?: never;
+      textInput?: undefined;
       qQuery: QQueryCardInput;
-      qPlugin?: never;
-      fileUpload?: never;
-      formInput?: never;
+      qPlugin?: undefined;
+      fileUpload?: undefined;
+      formInput?: undefined;
     }
   | {
-      textInput?: never;
-      qQuery?: never;
+      textInput?: undefined;
+      qQuery?: undefined;
       qPlugin: QPluginCardInput;
-      fileUpload?: never;
-      formInput?: never;
+      fileUpload?: undefined;
+      formInput?: undefined;
     }
   | {
-      textInput?: never;
-      qQuery?: never;
-      qPlugin?: never;
+      textInput?: undefined;
+      qQuery?: undefined;
+      qPlugin?: undefined;
       fileUpload: FileUploadCardInput;
-      formInput?: never;
+      formInput?: undefined;
     }
   | {
-      textInput?: never;
-      qQuery?: never;
-      qPlugin?: never;
-      fileUpload?: never;
+      textInput?: undefined;
+      qQuery?: undefined;
+      qPlugin?: undefined;
+      fileUpload?: undefined;
       formInput: FormInputCardInput;
     };
 export type CardList = CardInput[];
 export type InitialPrompt = string;
 export interface AppDefinitionInput {
   cards: CardInput[];
-  initialPrompt?: string;
+  initialPrompt?: string | undefined;
 }
 export type TagMap = { [key: string]: string | undefined };
 export interface CreateQAppInput {
   instanceId: string;
   title: string;
-  description?: string;
+  description?: string | undefined;
   appDefinition: AppDefinitionInput;
-  tags?: { [key: string]: string | undefined };
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export type AppArn = string;
 export type AppStatus = "PUBLISHED" | "DRAFT" | "DELETED" | (string & {});
@@ -399,15 +420,15 @@ export interface CreateQAppOutput {
   appId: string;
   appArn: string;
   title: string;
-  description?: string;
-  initialPrompt?: string;
+  description?: string | undefined;
+  initialPrompt?: string | undefined;
   appVersion: number;
   status: AppStatus;
   createdAt: Date;
   createdBy: string;
   updatedAt: Date;
   updatedBy: string;
-  requiredCapabilities?: AppRequiredCapability[];
+  requiredCapabilities?: AppRequiredCapability[] | undefined;
 }
 export interface DeleteLibraryItemInput {
   instanceId: string;
@@ -426,9 +447,9 @@ export interface DescribeQAppPermissionsInput {
 export type Action = "read" | "write" | (string & {});
 export type UserType = "owner" | "user" | (string & {});
 export interface PrincipalOutput {
-  userId?: string;
-  userType?: UserType;
-  email?: string;
+  userId?: string | undefined;
+  userType?: UserType | undefined;
+  email?: string | undefined;
 }
 export interface PermissionOutput {
   action: Action;
@@ -436,9 +457,9 @@ export interface PermissionOutput {
 }
 export type PermissionsOutputList = PermissionOutput[];
 export interface DescribeQAppPermissionsOutput {
-  resourceArn?: string;
-  appId?: string;
-  permissions?: PermissionOutput[];
+  resourceArn?: string | undefined;
+  appId?: string | undefined;
+  permissions?: PermissionOutput[] | undefined;
 }
 export interface DisassociateLibraryItemReviewInput {
   instanceId: string;
@@ -462,13 +483,13 @@ export interface ExportQAppSessionDataOutput {
 export interface GetLibraryItemInput {
   instanceId: string;
   libraryItemId: string;
-  appId?: string;
+  appId?: string | undefined;
 }
 export interface Category {
   id: string;
   title: string;
-  color?: string;
-  appCount?: number;
+  color?: string | undefined;
+  appCount?: number | undefined;
 }
 export type CategoryList = Category[];
 export interface GetLibraryItemOutput {
@@ -479,17 +500,17 @@ export interface GetLibraryItemOutput {
   status: string;
   createdAt: Date;
   createdBy: string;
-  updatedAt?: Date;
-  updatedBy?: string;
+  updatedAt?: Date | undefined;
+  updatedBy?: string | undefined;
   ratingCount: number;
-  isRatedByUser?: boolean;
-  userCount?: number;
-  isVerified?: boolean;
+  isRatedByUser?: boolean | undefined;
+  userCount?: number | undefined;
+  isVerified?: boolean | undefined;
 }
 export interface GetQAppInput {
   instanceId: string;
   appId: string;
-  appVersion?: number;
+  appVersion?: number | undefined;
 }
 export type DependencyList = string[];
 export interface TextInputCard {
@@ -497,8 +518,8 @@ export interface TextInputCard {
   title: string;
   dependencies: string[];
   type: CardType;
-  placeholder?: string;
-  defaultValue?: string;
+  placeholder?: string | undefined;
+  defaultValue?: string | undefined;
 }
 export type MemoryReferenceList = string[];
 export interface QQueryCard {
@@ -508,8 +529,8 @@ export interface QQueryCard {
   type: CardType;
   prompt: string;
   outputSource: CardOutputSource;
-  attributeFilter?: AttributeFilter;
-  memoryReferences?: string[];
+  attributeFilter?: AttributeFilter | undefined;
+  memoryReferences?: string[] | undefined;
 }
 export type PluginType =
   | "SERVICE_NOW"
@@ -537,16 +558,16 @@ export interface QPluginCard {
   prompt: string;
   pluginType: PluginType;
   pluginId: string;
-  actionIdentifier?: string;
+  actionIdentifier?: string | undefined;
 }
 export interface FileUploadCard {
   id: string;
   title: string;
   dependencies: string[];
   type: CardType;
-  filename?: string;
-  fileId?: string;
-  allowOverride?: boolean;
+  filename?: string | undefined;
+  fileId?: string | undefined;
+  allowOverride?: boolean | undefined;
 }
 export interface FormInputCard {
   id: string;
@@ -554,63 +575,63 @@ export interface FormInputCard {
   dependencies: string[];
   type: CardType;
   metadata: FormInputCardMetadata;
-  computeMode?: InputCardComputeMode;
+  computeMode?: InputCardComputeMode | undefined;
 }
 export type Card =
   | {
       textInput: TextInputCard;
-      qQuery?: never;
-      qPlugin?: never;
-      fileUpload?: never;
-      formInput?: never;
+      qQuery?: undefined;
+      qPlugin?: undefined;
+      fileUpload?: undefined;
+      formInput?: undefined;
     }
   | {
-      textInput?: never;
+      textInput?: undefined;
       qQuery: QQueryCard;
-      qPlugin?: never;
-      fileUpload?: never;
-      formInput?: never;
+      qPlugin?: undefined;
+      fileUpload?: undefined;
+      formInput?: undefined;
     }
   | {
-      textInput?: never;
-      qQuery?: never;
+      textInput?: undefined;
+      qQuery?: undefined;
       qPlugin: QPluginCard;
-      fileUpload?: never;
-      formInput?: never;
+      fileUpload?: undefined;
+      formInput?: undefined;
     }
   | {
-      textInput?: never;
-      qQuery?: never;
-      qPlugin?: never;
+      textInput?: undefined;
+      qQuery?: undefined;
+      qPlugin?: undefined;
       fileUpload: FileUploadCard;
-      formInput?: never;
+      formInput?: undefined;
     }
   | {
-      textInput?: never;
-      qQuery?: never;
-      qPlugin?: never;
-      fileUpload?: never;
+      textInput?: undefined;
+      qQuery?: undefined;
+      qPlugin?: undefined;
+      fileUpload?: undefined;
       formInput: FormInputCard;
     };
 export type CardModelList = Card[];
 export interface AppDefinition {
   appDefinitionVersion: string;
   cards: Card[];
-  canEdit?: boolean;
+  canEdit?: boolean | undefined;
 }
 export interface GetQAppOutput {
   appId: string;
   appArn: string;
   title: string;
-  description?: string;
-  initialPrompt?: string;
+  description?: string | undefined;
+  initialPrompt?: string | undefined;
   appVersion: number;
   status: AppStatus;
   createdAt: Date;
   createdBy: string;
   updatedAt: Date;
   updatedBy: string;
-  requiredCapabilities?: AppRequiredCapability[];
+  requiredCapabilities?: AppRequiredCapability[] | undefined;
   appDefinition: AppDefinition;
 }
 export interface GetQAppSessionInput {
@@ -620,26 +641,26 @@ export interface GetQAppSessionInput {
 export type SessionName = string;
 export type ExecutionStatus = "IN_PROGRESS" | "WAITING" | "COMPLETED" | "ERROR" | (string & {});
 export interface Submission {
-  value?: any;
-  submissionId?: string;
-  timestamp?: Date;
+  value?: any | undefined;
+  submissionId?: string | undefined;
+  timestamp?: Date | undefined;
 }
 export type SubmissionList = Submission[];
 export interface CardStatus {
   currentState: ExecutionStatus;
   currentValue: string;
-  submissions?: Submission[];
+  submissions?: Submission[] | undefined;
 }
 export type CardStatusMap = { [key: string]: CardStatus | undefined };
 export interface GetQAppSessionOutput {
   sessionId: string;
   sessionArn: string;
-  sessionName?: string;
-  appVersion?: number;
-  latestPublishedAppVersion?: number;
+  sessionName?: string | undefined;
+  appVersion?: number | undefined;
+  latestPublishedAppVersion?: number | undefined;
   status: ExecutionStatus;
   cardStatus: { [key: string]: CardStatus | undefined };
-  userIsHost?: boolean;
+  userIsHost?: boolean | undefined;
 }
 export interface GetQAppSessionMetadataInput {
   instanceId: string;
@@ -650,15 +671,15 @@ export type SessionSharingAcceptResponses = boolean;
 export type SessionSharingRevealCards = boolean;
 export interface SessionSharingConfiguration {
   enabled: boolean;
-  acceptResponses?: boolean;
-  revealCards?: boolean;
+  acceptResponses?: boolean | undefined;
+  revealCards?: boolean | undefined;
 }
 export interface GetQAppSessionMetadataOutput {
   sessionId: string;
   sessionArn: string;
-  sessionName?: string;
+  sessionName?: string | undefined;
   sharingConfiguration: SessionSharingConfiguration;
-  sessionOwner?: boolean;
+  sessionOwner?: boolean | undefined;
 }
 export interface ImportDocumentInput {
   instanceId: string;
@@ -667,25 +688,25 @@ export interface ImportDocumentInput {
   fileContentsBase64: string;
   fileName: string;
   scope: DocumentScope;
-  sessionId?: string;
+  sessionId?: string | undefined;
 }
 export interface ImportDocumentOutput {
-  fileId?: string;
+  fileId?: string | undefined;
 }
 export interface ListCategoriesInput {
   instanceId: string;
 }
 export type CategoriesList = Category[];
 export interface ListCategoriesOutput {
-  categories?: Category[];
+  categories?: Category[] | undefined;
 }
 export type PageLimit = number;
 export type PaginationToken = string;
 export interface ListLibraryItemsInput {
   instanceId: string;
-  limit?: number;
-  nextToken?: string;
-  categoryId?: string;
+  limit?: number | undefined;
+  nextToken?: string | undefined;
+  categoryId?: string | undefined;
 }
 export interface LibraryItemMember {
   libraryItemId: string;
@@ -695,37 +716,37 @@ export interface LibraryItemMember {
   status: string;
   createdAt: Date;
   createdBy: string;
-  updatedAt?: Date;
-  updatedBy?: string;
+  updatedAt?: Date | undefined;
+  updatedBy?: string | undefined;
   ratingCount: number;
-  isRatedByUser?: boolean;
-  userCount?: number;
-  isVerified?: boolean;
+  isRatedByUser?: boolean | undefined;
+  userCount?: number | undefined;
+  isVerified?: boolean | undefined;
 }
 export type LibraryItemList = LibraryItemMember[];
 export interface ListLibraryItemsOutput {
-  libraryItems?: LibraryItemMember[];
-  nextToken?: string;
+  libraryItems?: LibraryItemMember[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface ListQAppsInput {
   instanceId: string;
-  limit?: number;
-  nextToken?: string;
+  limit?: number | undefined;
+  nextToken?: string | undefined;
 }
 export interface UserAppItem {
   appId: string;
   appArn: string;
   title: string;
-  description?: string;
+  description?: string | undefined;
   createdAt: Date;
-  canEdit?: boolean;
-  status?: string;
-  isVerified?: boolean;
+  canEdit?: boolean | undefined;
+  status?: string | undefined;
+  isVerified?: boolean | undefined;
 }
 export type UserAppsList = UserAppItem[];
 export interface ListQAppsOutput {
   apps: UserAppItem[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface ListQAppSessionDataInput {
   instanceId: string;
@@ -733,21 +754,21 @@ export interface ListQAppSessionDataInput {
 }
 export type UserId = string;
 export interface User {
-  userId?: string;
+  userId?: string | undefined;
 }
 export interface QAppSessionData {
   cardId: string;
-  value?: any;
+  value?: any | undefined;
   user: User;
-  submissionId?: string;
-  timestamp?: Date;
+  submissionId?: string | undefined;
+  timestamp?: Date | undefined;
 }
 export type QAppSessionDataList = QAppSessionData[];
 export interface ListQAppSessionDataOutput {
   sessionId: string;
   sessionArn: string;
-  sessionData?: QAppSessionData[];
-  nextToken?: string;
+  sessionData?: QAppSessionData[] | undefined;
+  nextToken?: string | undefined;
 }
 export type AmazonResourceName = string;
 export interface ListTagsForResourceRequest {
@@ -757,7 +778,7 @@ export type TagKey = string;
 export type TagValue = string;
 export type Tags = { [key: string]: string | undefined };
 export interface ListTagsForResourceResponse {
-  tags?: { [key: string]: string | undefined };
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export type Sender = "USER" | "SYSTEM" | (string & {});
 export interface ConversationMessage {
@@ -766,15 +787,15 @@ export interface ConversationMessage {
 }
 export type MessageList = ConversationMessage[];
 export type PredictQAppInputOptions =
-  | { conversation: ConversationMessage[]; problemStatement?: never }
-  | { conversation?: never; problemStatement: string };
+  | { conversation: ConversationMessage[]; problemStatement?: undefined }
+  | { conversation?: undefined; problemStatement: string };
 export interface PredictQAppInput {
   instanceId: string;
-  options?: PredictQAppInputOptions;
+  options?: PredictQAppInputOptions | undefined;
 }
 export interface PredictAppDefinition {
   title: string;
-  description?: string;
+  description?: string | undefined;
   appDefinition: AppDefinitionInput;
 }
 export interface PredictQAppOutput {
@@ -789,16 +810,16 @@ export interface SubmissionMutation {
 export interface CardValue {
   cardId: string;
   value: string;
-  submissionMutation?: SubmissionMutation;
+  submissionMutation?: SubmissionMutation | undefined;
 }
 export type CardValueList = CardValue[];
 export interface StartQAppSessionInput {
   instanceId: string;
   appId: string;
   appVersion: number;
-  initialValues?: CardValue[];
-  sessionId?: string;
-  tags?: { [key: string]: string | undefined };
+  initialValues?: CardValue[] | undefined;
+  sessionId?: string | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface StartQAppSessionOutput {
   sessionId: string;
@@ -824,8 +845,8 @@ export type LibraryItemStatus = "PUBLISHED" | "DISABLED" | (string & {});
 export interface UpdateLibraryItemInput {
   instanceId: string;
   libraryItemId: string;
-  status?: LibraryItemStatus;
-  categories?: string[];
+  status?: LibraryItemStatus | undefined;
+  categories?: string[] | undefined;
 }
 export interface UpdateLibraryItemOutput {
   libraryItemId: string;
@@ -835,39 +856,39 @@ export interface UpdateLibraryItemOutput {
   status: string;
   createdAt: Date;
   createdBy: string;
-  updatedAt?: Date;
-  updatedBy?: string;
+  updatedAt?: Date | undefined;
+  updatedBy?: string | undefined;
   ratingCount: number;
-  isRatedByUser?: boolean;
-  userCount?: number;
-  isVerified?: boolean;
+  isRatedByUser?: boolean | undefined;
+  userCount?: number | undefined;
+  isVerified?: boolean | undefined;
 }
 export interface UpdateLibraryItemMetadataInput {
   instanceId: string;
   libraryItemId: string;
-  isVerified?: boolean;
+  isVerified?: boolean | undefined;
 }
 export interface UpdateLibraryItemMetadataResponse {}
 export interface UpdateQAppInput {
   instanceId: string;
   appId: string;
-  title?: string;
-  description?: string;
-  appDefinition?: AppDefinitionInput;
+  title?: string | undefined;
+  description?: string | undefined;
+  appDefinition?: AppDefinitionInput | undefined;
 }
 export interface UpdateQAppOutput {
   appId: string;
   appArn: string;
   title: string;
-  description?: string;
-  initialPrompt?: string;
+  description?: string | undefined;
+  initialPrompt?: string | undefined;
   appVersion: number;
   status: AppStatus;
   createdAt: Date;
   createdBy: string;
   updatedAt: Date;
   updatedBy: string;
-  requiredCapabilities?: AppRequiredCapability[];
+  requiredCapabilities?: AppRequiredCapability[] | undefined;
 }
 export interface PermissionInput {
   action: Action;
@@ -877,18 +898,18 @@ export type PermissionsInputList = PermissionInput[];
 export interface UpdateQAppPermissionsInput {
   instanceId: string;
   appId: string;
-  grantPermissions?: PermissionInput[];
-  revokePermissions?: PermissionInput[];
+  grantPermissions?: PermissionInput[] | undefined;
+  revokePermissions?: PermissionInput[] | undefined;
 }
 export interface UpdateQAppPermissionsOutput {
-  resourceArn?: string;
-  appId?: string;
-  permissions?: PermissionOutput[];
+  resourceArn?: string | undefined;
+  appId?: string | undefined;
+  permissions?: PermissionOutput[] | undefined;
 }
 export interface UpdateQAppSessionInput {
   instanceId: string;
   sessionId: string;
-  values?: CardValue[];
+  values?: CardValue[] | undefined;
 }
 export interface UpdateQAppSessionOutput {
   sessionId: string;
@@ -897,13 +918,13 @@ export interface UpdateQAppSessionOutput {
 export interface UpdateQAppSessionMetadataInput {
   instanceId: string;
   sessionId: string;
-  sessionName?: string;
+  sessionName?: string | undefined;
   sharingConfiguration: SessionSharingConfiguration;
 }
 export interface UpdateQAppSessionMetadataOutput {
   sessionId: string;
   sessionArn: string;
-  sessionName?: string;
+  sessionName?: string | undefined;
   sharingConfiguration: SessionSharingConfiguration;
 }
 export type AssociateLibraryItemReviewError =
@@ -920,7 +941,7 @@ export type AssociateLibraryItemReviewError =
  * Associates a rating or review for a library item with the user submitting the request. This increments the rating count for the specified library item.
  */
 export const associateLibraryItemReview: API.OperationMethod<
-  AssociateLibraryItemReviewInput,
+  AssociateLibraryItemReviewInput & RegionInput,
   AssociateLibraryItemReviewResponse,
   AssociateLibraryItemReviewError,
   Credentials | HttpClient.HttpClient
@@ -957,7 +978,7 @@ export type AssociateQAppWithUserError =
  * This operation creates a link between the user's identity calling the operation and a specific Q App. This is useful to mark the Q App as a *favorite* for the user if the user doesn't own the Amazon Q App so they can still run it and see it in their inventory of Q Apps.
  */
 export const associateQAppWithUser: API.OperationMethod<
-  AssociateQAppWithUserInput,
+  AssociateQAppWithUserInput & RegionInput,
   AssociateQAppWithUserResponse,
   AssociateQAppWithUserError,
   Credentials | HttpClient.HttpClient
@@ -993,7 +1014,7 @@ export type BatchCreateCategoryError =
  * Creates Categories for the Amazon Q Business application environment instance. Web experience users use Categories to tag and filter library items. For more information, see Custom labels for Amazon Q Apps.
  */
 export const batchCreateCategory: API.OperationMethod<
-  BatchCreateCategoryInput,
+  BatchCreateCategoryInput & RegionInput,
   BatchCreateCategoryResponse,
   BatchCreateCategoryError,
   Credentials | HttpClient.HttpClient
@@ -1029,7 +1050,7 @@ export type BatchDeleteCategoryError =
  * Deletes Categories for the Amazon Q Business application environment instance. Web experience users use Categories to tag and filter library items. For more information, see Custom labels for Amazon Q Apps.
  */
 export const batchDeleteCategory: API.OperationMethod<
-  BatchDeleteCategoryInput,
+  BatchDeleteCategoryInput & RegionInput,
   BatchDeleteCategoryResponse,
   BatchDeleteCategoryError,
   Credentials | HttpClient.HttpClient
@@ -1065,7 +1086,7 @@ export type BatchUpdateCategoryError =
  * Updates Categories for the Amazon Q Business application environment instance. Web experience users use Categories to tag and filter library items. For more information, see Custom labels for Amazon Q Apps.
  */
 export const batchUpdateCategory: API.OperationMethod<
-  BatchUpdateCategoryInput,
+  BatchUpdateCategoryInput & RegionInput,
   BatchUpdateCategoryResponse,
   BatchUpdateCategoryError,
   Credentials | HttpClient.HttpClient
@@ -1101,7 +1122,7 @@ export type CreateLibraryItemError =
  * Creates a new library item for an Amazon Q App, allowing it to be discovered and used by other allowed users.
  */
 export const createLibraryItem: API.OperationMethod<
-  CreateLibraryItemInput,
+  CreateLibraryItemInput & RegionInput,
   CreateLibraryItemOutput,
   CreateLibraryItemError,
   Credentials | HttpClient.HttpClient
@@ -1137,7 +1158,7 @@ export type CreatePresignedUrlError =
  * The IAM permissions are derived from the `qapps:ImportDocument` action. For more information on the IAM policy for Amazon Q Apps, see IAM permissions for using Amazon Q Apps.
  */
 export const createPresignedUrl: API.OperationMethod<
-  CreatePresignedUrlInput,
+  CreatePresignedUrlInput & RegionInput,
   CreatePresignedUrlOutput,
   CreatePresignedUrlError,
   Credentials | HttpClient.HttpClient
@@ -1172,7 +1193,7 @@ export type CreateQAppError =
  * Creates a new Amazon Q App based on the provided definition. The Q App definition specifies the cards and flow of the Q App. This operation also calculates the dependencies between the cards by inspecting the references in the prompts.
  */
 export const createQApp: API.OperationMethod<
-  CreateQAppInput,
+  CreateQAppInput & RegionInput,
   CreateQAppOutput,
   CreateQAppError,
   Credentials | HttpClient.HttpClient
@@ -1209,7 +1230,7 @@ export type DeleteLibraryItemError =
  * Deletes a library item for an Amazon Q App, removing it from the library so it can no longer be discovered or used by other users.
  */
 export const deleteLibraryItem: API.OperationMethod<
-  DeleteLibraryItemInput,
+  DeleteLibraryItemInput & RegionInput,
   DeleteLibraryItemResponse,
   DeleteLibraryItemError,
   Credentials | HttpClient.HttpClient
@@ -1244,7 +1265,7 @@ export type DeleteQAppError =
  * Deletes an Amazon Q App owned by the user. If the Q App was previously published to the library, it is also removed from the library.
  */
 export const deleteQApp: API.OperationMethod<
-  DeleteQAppInput,
+  DeleteQAppInput & RegionInput,
   DeleteQAppResponse,
   DeleteQAppError,
   Credentials | HttpClient.HttpClient
@@ -1278,7 +1299,7 @@ export type DescribeQAppPermissionsError =
  * Describes read permissions for a Amazon Q App in Amazon Q Business application environment instance.
  */
 export const describeQAppPermissions: API.OperationMethod<
-  DescribeQAppPermissionsInput,
+  DescribeQAppPermissionsInput & RegionInput,
   DescribeQAppPermissionsOutput,
   DescribeQAppPermissionsError,
   Credentials | HttpClient.HttpClient
@@ -1314,7 +1335,7 @@ export type DisassociateLibraryItemReviewError =
  * Removes a rating or review previously submitted by the user for a library item.
  */
 export const disassociateLibraryItemReview: API.OperationMethod<
-  DisassociateLibraryItemReviewInput,
+  DisassociateLibraryItemReviewInput & RegionInput,
   DisassociateLibraryItemReviewResponse,
   DisassociateLibraryItemReviewError,
   Credentials | HttpClient.HttpClient
@@ -1350,7 +1371,7 @@ export type DisassociateQAppFromUserError =
  * Disassociates a Q App from a user removing the user's access to run the Q App.
  */
 export const disassociateQAppFromUser: API.OperationMethod<
-  DisassociateQAppFromUserInput,
+  DisassociateQAppFromUserInput & RegionInput,
   DisassociateQAppFromUserResponse,
   DisassociateQAppFromUserError,
   Credentials | HttpClient.HttpClient
@@ -1386,7 +1407,7 @@ export type ExportQAppSessionDataError =
  * Exports the collected data of a Q App data collection session.
  */
 export const exportQAppSessionData: API.OperationMethod<
-  ExportQAppSessionDataInput,
+  ExportQAppSessionDataInput & RegionInput,
   ExportQAppSessionDataOutput,
   ExportQAppSessionDataError,
   Credentials | HttpClient.HttpClient
@@ -1422,7 +1443,7 @@ export type GetLibraryItemError =
  * Retrieves details about a library item for an Amazon Q App, including its metadata, categories, ratings, and usage statistics.
  */
 export const getLibraryItem: API.OperationMethod<
-  GetLibraryItemInput,
+  GetLibraryItemInput & RegionInput,
   GetLibraryItemOutput,
   GetLibraryItemError,
   Credentials | HttpClient.HttpClient
@@ -1456,7 +1477,7 @@ export type GetQAppError =
  * Retrieves the full details of an Q App, including its definition specifying the cards and flow.
  */
 export const getQApp: API.OperationMethod<
-  GetQAppInput,
+  GetQAppInput & RegionInput,
   GetQAppOutput,
   GetQAppError,
   Credentials | HttpClient.HttpClient
@@ -1491,7 +1512,7 @@ export type GetQAppSessionError =
  * Retrieves the current state and results for an active session of an Amazon Q App.
  */
 export const getQAppSession: API.OperationMethod<
-  GetQAppSessionInput,
+  GetQAppSessionInput & RegionInput,
   GetQAppSessionOutput,
   GetQAppSessionError,
   Credentials | HttpClient.HttpClient
@@ -1527,7 +1548,7 @@ export type GetQAppSessionMetadataError =
  * Retrieves the current configuration of a Q App session.
  */
 export const getQAppSessionMetadata: API.OperationMethod<
-  GetQAppSessionMetadataInput,
+  GetQAppSessionMetadataInput & RegionInput,
   GetQAppSessionMetadataOutput,
   GetQAppSessionMetadataError,
   Credentials | HttpClient.HttpClient
@@ -1564,7 +1585,7 @@ export type ImportDocumentError =
  * Uploads a file that can then be used either as a default in a `FileUploadCard` from Q App definition or as a file that is used inside a single Q App run. The purpose of the document is determined by a scope parameter that indicates whether it is at the app definition level or at the app session level.
  */
 export const importDocument: API.OperationMethod<
-  ImportDocumentInput,
+  ImportDocumentInput & RegionInput,
   ImportDocumentOutput,
   ImportDocumentError,
   Credentials | HttpClient.HttpClient
@@ -1600,7 +1621,7 @@ export type ListCategoriesError =
  * Lists the categories of a Amazon Q Business application environment instance. For more information, see Custom labels for Amazon Q Apps.
  */
 export const listCategories: API.OperationMethod<
-  ListCategoriesInput,
+  ListCategoriesInput & RegionInput,
   ListCategoriesOutput,
   ListCategoriesError,
   Credentials | HttpClient.HttpClient
@@ -1634,7 +1655,7 @@ export type ListLibraryItemsError =
  * Lists the library items for Amazon Q Apps that are published and available for users in your Amazon Web Services account.
  */
 export const listLibraryItems: API.PaginatedOperationMethod<
-  ListLibraryItemsInput,
+  ListLibraryItemsInput & RegionInput,
   ListLibraryItemsOutput,
   ListLibraryItemsError,
   Credentials | HttpClient.HttpClient,
@@ -1674,7 +1695,7 @@ export type ListQAppsError =
  * Lists the Amazon Q Apps owned by or associated with the user either because they created it or because they used it from the library in the past. The user identity is extracted from the credentials used to invoke this operation..
  */
 export const listQApps: API.PaginatedOperationMethod<
-  ListQAppsInput,
+  ListQAppsInput & RegionInput,
   ListQAppsOutput,
   ListQAppsError,
   Credentials | HttpClient.HttpClient,
@@ -1715,7 +1736,7 @@ export type ListQAppSessionDataError =
  * Lists the collected data of a Q App data collection session.
  */
 export const listQAppSessionData: API.OperationMethod<
-  ListQAppSessionDataInput,
+  ListQAppSessionDataInput & RegionInput,
   ListQAppSessionDataOutput,
   ListQAppSessionDataError,
   Credentials | HttpClient.HttpClient
@@ -1749,7 +1770,7 @@ export type ListTagsForResourceError =
  * Lists the tags associated with an Amazon Q Apps resource.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -1781,7 +1802,7 @@ export type PredictQAppError =
  * Generates an Amazon Q App definition based on either a conversation or a problem statement provided as input.The resulting app definition can be used to call `CreateQApp`. This API doesn't create Amazon Q Apps directly.
  */
 export const predictQApp: API.OperationMethod<
-  PredictQAppInput,
+  PredictQAppInput & RegionInput,
   PredictQAppOutput,
   PredictQAppError,
   Credentials | HttpClient.HttpClient
@@ -1817,7 +1838,7 @@ export type StartQAppSessionError =
  * Each Q App session will be condensed into a single conversation in the web experience.
  */
 export const startQAppSession: API.OperationMethod<
-  StartQAppSessionInput,
+  StartQAppSessionInput & RegionInput,
   StartQAppSessionOutput,
   StartQAppSessionError,
   Credentials | HttpClient.HttpClient
@@ -1853,7 +1874,7 @@ export type StopQAppSessionError =
  * Stops an active session for an Amazon Q App.This deletes all data related to the session and makes it invalid for future uses. The results of the session will be persisted as part of the conversation.
  */
 export const stopQAppSession: API.OperationMethod<
-  StopQAppSessionInput,
+  StopQAppSessionInput & RegionInput,
   StopQAppSessionResponse,
   StopQAppSessionError,
   Credentials | HttpClient.HttpClient
@@ -1888,7 +1909,7 @@ export type TagResourceError =
  * Associates tags with an Amazon Q Apps resource.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -1921,7 +1942,7 @@ export type UntagResourceError =
  * Disassociates tags from an Amazon Q Apps resource.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -1955,7 +1976,7 @@ export type UpdateLibraryItemError =
  * Updates the library item for an Amazon Q App.
  */
 export const updateLibraryItem: API.OperationMethod<
-  UpdateLibraryItemInput,
+  UpdateLibraryItemInput & RegionInput,
   UpdateLibraryItemOutput,
   UpdateLibraryItemError,
   Credentials | HttpClient.HttpClient
@@ -1991,7 +2012,7 @@ export type UpdateLibraryItemMetadataError =
  * Updates the verification status of a library item for an Amazon Q App.
  */
 export const updateLibraryItemMetadata: API.OperationMethod<
-  UpdateLibraryItemMetadataInput,
+  UpdateLibraryItemMetadataInput & RegionInput,
   UpdateLibraryItemMetadataResponse,
   UpdateLibraryItemMetadataError,
   Credentials | HttpClient.HttpClient
@@ -2027,7 +2048,7 @@ export type UpdateQAppError =
  * Updates an existing Amazon Q App, allowing modifications to its title, description, and definition.
  */
 export const updateQApp: API.OperationMethod<
-  UpdateQAppInput,
+  UpdateQAppInput & RegionInput,
   UpdateQAppOutput,
   UpdateQAppError,
   Credentials | HttpClient.HttpClient
@@ -2062,7 +2083,7 @@ export type UpdateQAppPermissionsError =
  * Updates read permissions for a Amazon Q App in Amazon Q Business application environment instance.
  */
 export const updateQAppPermissions: API.OperationMethod<
-  UpdateQAppPermissionsInput,
+  UpdateQAppPermissionsInput & RegionInput,
   UpdateQAppPermissionsOutput,
   UpdateQAppPermissionsError,
   Credentials | HttpClient.HttpClient
@@ -2097,7 +2118,7 @@ export type UpdateQAppSessionError =
  * Updates the session for a given Q App `sessionId`. This is only valid when at least one card of the session is in the `WAITING` state. Data for each `WAITING` card can be provided as input. If inputs are not provided, the call will be accepted but session will not move forward. Inputs for cards that are not in the `WAITING` status will be ignored.
  */
 export const updateQAppSession: API.OperationMethod<
-  UpdateQAppSessionInput,
+  UpdateQAppSessionInput & RegionInput,
   UpdateQAppSessionOutput,
   UpdateQAppSessionError,
   Credentials | HttpClient.HttpClient
@@ -2133,7 +2154,7 @@ export type UpdateQAppSessionMetadataError =
  * Updates the configuration metadata of a session for a given Q App `sessionId`.
  */
 export const updateQAppSessionMetadata: API.OperationMethod<
-  UpdateQAppSessionMetadataInput,
+  UpdateQAppSessionMetadataInput & RegionInput,
   UpdateQAppSessionMetadataOutput,
   UpdateQAppSessionMetadataError,
   Credentials | HttpClient.HttpClient

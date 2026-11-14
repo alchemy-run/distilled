@@ -37,13 +37,13 @@ export interface GetAgentHarnessesResponseHarnessesValue {
   /** Human-readable name of the harness */
   prettyLabel: string;
   /** URL to the harness's code repository */
-  repoUrl?: string;
+  repoUrl?: string | undefined;
   /** URL to the harness's documentation or website */
-  docsUrl?: string;
+  docsUrl?: string | undefined;
   /** Short description of the harness */
-  description?: string;
+  description?: string | undefined;
   /** Environment variable(s) identifying this harness, mapped to the value pattern they must match: "*" (set to any non-empty value), an exact value, or a "<prefix>*" fuzzy match. Detection matches if ANY entry matches. */
-  envVars?: GetAgentHarnessesResponseHarnessesValueEnvVarsMap;
+  envVars?: GetAgentHarnessesResponseHarnessesValueEnvVarsMap | undefined;
 }
 /** Registered harnesses, keyed by id and ordered by detection priority: the first match wins */
 export type GetAgentHarnessesResponseHarnessesMap = {

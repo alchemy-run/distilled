@@ -28,24 +28,25 @@ const TELEMETRY = {
   prefix: "Apicenter",
   service: "Apicenter",
   labels: "azure",
+  labelNames: { resourceGroupName: "azure.resource_group.name" },
   propagate: "w3c",
 } as const;
 
 /** API specification details. */
 export interface ApiDefinitionPropertiesSpecification {
   /** Specification name. */
-  name?: string;
+  name?: string | undefined;
   /** Specification version. */
-  version?: string;
+  version?: string | undefined;
 }
 /** API definition properties entity. */
 export interface ApiDefinitionProperties {
   /** API definition title. */
   title: string;
   /** API definition description. */
-  description?: string;
+  description?: string | undefined;
   /** API specification details. */
-  specification?: ApiDefinitionPropertiesSpecification;
+  specification?: ApiDefinitionPropertiesSpecification | undefined;
 }
 export interface ApiDefinitionsCreateOrUpdateRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -63,7 +64,7 @@ export interface ApiDefinitionsCreateOrUpdateRequest {
   /** The name of the API definition. */
   definitionName: string;
   /** The resource-specific properties for this resource. */
-  properties?: ApiDefinitionProperties;
+  properties?: ApiDefinitionProperties | undefined;
 }
 /** The type of identity that created the resource. */
 export type SystemDataCreatedByType = "User" | "Application" | "ManagedIdentity" | "Key";
@@ -72,29 +73,29 @@ export type SystemDataLastModifiedByType = "User" | "Application" | "ManagedIden
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface SystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: SystemDataCreatedByType;
+  createdByType?: SystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: SystemDataLastModifiedByType;
+  lastModifiedByType?: SystemDataLastModifiedByType | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 export interface ApiDefinitionsCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: ApiDefinitionProperties;
+  properties?: ApiDefinitionProperties | undefined;
 }
 /** The kind of the API */
 export type ApiKind = "rest" | "graphql" | "grpc" | "soap" | "webhook" | "websocket";
@@ -115,9 +116,9 @@ export interface TermsOfService {
 /** Additional, external documentation for the API. */
 export interface ExternalDocumentation {
   /** Title of the documentation. */
-  title?: string;
+  title?: string | undefined;
   /** Description of the documentation. */
-  description?: string;
+  description?: string | undefined;
   /** URL pointing to the documentation. */
   url: string;
 }
@@ -126,22 +127,22 @@ export type ApiPropertiesExternalDocumentationList = Array<ExternalDocumentation
 /** Contact information */
 export interface Contact {
   /** Name of the contact. */
-  name?: string;
+  name?: string | undefined;
   /** URL for the contact. */
-  url?: string;
+  url?: string | undefined;
   /** Email address of the contact. */
-  email?: string;
+  email?: string | undefined;
 }
 /** The set of contacts */
 export type ApiPropertiesContactsList = Array<Contact>;
 /** The license information for the API. */
 export interface License {
   /** Name of the license. */
-  name?: string;
+  name?: string | undefined;
   /** URL pointing to the license details. The URL field is mutually exclusive of the identifier field. */
-  url?: string;
+  url?: string | undefined;
   /** SPDX license information for the API. The identifier field is mutually exclusive of the URL field. */
-  identifier?: string;
+  identifier?: string | undefined;
 }
 /** API properties. */
 export interface ApiProperties {
@@ -150,21 +151,21 @@ export interface ApiProperties {
   /** Kind of API. For example, REST or GraphQL. */
   kind: ApiKind | (string & {});
   /** Description of the API. */
-  description?: string;
+  description?: string | undefined;
   /** Short description of the API. */
-  summary?: string;
+  summary?: string | undefined;
   /** Current lifecycle stage of the API. */
-  lifecycleStage?: LifecycleStage | (string & {});
+  lifecycleStage?: LifecycleStage | (string & {}) | undefined;
   /** Terms of service for the API. */
-  termsOfService?: TermsOfService;
+  termsOfService?: TermsOfService | undefined;
   /** The set of external documentation */
-  externalDocumentation?: ApiPropertiesExternalDocumentationList;
+  externalDocumentation?: ApiPropertiesExternalDocumentationList | undefined;
   /** The set of contacts */
-  contacts?: ApiPropertiesContactsList;
+  contacts?: ApiPropertiesContactsList | undefined;
   /** The license information for the API. */
-  license?: License;
+  license?: License | undefined;
   /** The custom metadata defined for API catalog entities. */
-  customProperties?: unknown;
+  customProperties?: unknown | undefined;
 }
 export interface ApisCreateOrUpdateRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -178,19 +179,19 @@ export interface ApisCreateOrUpdateRequest {
   /** The name of the API. */
   apiName: string;
   /** The resource-specific properties for this resource. */
-  properties?: ApiProperties;
+  properties?: ApiProperties | undefined;
 }
 export interface ApisCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: ApiProperties;
+  properties?: ApiProperties | undefined;
 }
 /** API version properties entity. */
 export interface ApiVersionProperties {
@@ -213,19 +214,19 @@ export interface ApiVersionsCreateOrUpdateRequest {
   /** The name of the API version. */
   versionName: string;
   /** The resource-specific properties for this resource. */
-  properties?: ApiVersionProperties;
+  properties?: ApiVersionProperties | undefined;
 }
 export interface ApiVersionsCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: ApiVersionProperties;
+  properties?: ApiVersionProperties | undefined;
 }
 export interface DeleteApiDefinitionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -338,24 +339,24 @@ export type DeploymentServerRuntimeUriList = Array<string>;
 /** Server */
 export interface DeploymentServer {
   /** Base runtime URLs for this deployment. */
-  runtimeUri?: DeploymentServerRuntimeUriList;
+  runtimeUri?: DeploymentServerRuntimeUriList | undefined;
 }
 /** API deployment entity properties. */
 export interface DeploymentProperties {
   /** API deployment title */
-  title?: string;
+  title?: string | undefined;
   /** Description of the deployment. */
-  description?: string;
+  description?: string | undefined;
   /** API center-scoped environment resource ID. */
-  environmentId?: string;
+  environmentId?: string | undefined;
   /** API center-scoped definition resource ID. */
-  definitionId?: string;
+  definitionId?: string | undefined;
   /** State of API deployment. */
-  state?: DeploymentState | (string & {});
+  state?: DeploymentState | (string & {}) | undefined;
   /** The deployment server */
-  server?: DeploymentServer;
+  server?: DeploymentServer | undefined;
   /** The custom metadata defined for API catalog entities. */
-  customProperties?: unknown;
+  customProperties?: unknown | undefined;
 }
 export interface DeploymentsCreateOrUpdateRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -371,19 +372,19 @@ export interface DeploymentsCreateOrUpdateRequest {
   /** The name of the API deployment. */
   deploymentName: string;
   /** The resource-specific properties for this resource. */
-  properties?: DeploymentProperties;
+  properties?: DeploymentProperties | undefined;
 }
 export interface DeploymentsCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: DeploymentProperties;
+  properties?: DeploymentProperties | undefined;
 }
 /** The kind of environment */
 export type EnvironmentKind = "development" | "testing" | "staging" | "production";
@@ -401,33 +402,33 @@ export type EnvironmentServerManagementPortalUriList = Array<string>;
 /** Server information of the environment. */
 export interface EnvironmentServer {
   /** Type of the server that represents the environment. */
-  type?: EnvironmentServerType | (string & {});
+  type?: EnvironmentServerType | (string & {}) | undefined;
   /** The location of the management portal */
-  managementPortalUri?: EnvironmentServerManagementPortalUriList;
+  managementPortalUri?: EnvironmentServerManagementPortalUriList | undefined;
 }
 /** The location of the development portal */
 export type OnboardingDeveloperPortalUriList = Array<string>;
 /** Onboarding information */
 export interface Onboarding {
   /** Onboarding guide. */
-  instructions?: string;
+  instructions?: string | undefined;
   /** The location of the development portal */
-  developerPortalUri?: OnboardingDeveloperPortalUriList;
+  developerPortalUri?: OnboardingDeveloperPortalUriList | undefined;
 }
 /** Environment properties entity. */
 export interface EnvironmentProperties {
   /** Environment title. */
   title: string;
   /** The environment description. */
-  description?: string;
+  description?: string | undefined;
   /** Environment kind. */
   kind: EnvironmentKind | (string & {});
   /** Server information of the environment. */
-  server?: EnvironmentServer;
+  server?: EnvironmentServer | undefined;
   /** Environment onboarding information */
-  onboarding?: Onboarding;
+  onboarding?: Onboarding | undefined;
   /** The custom metadata defined for API catalog entities. */
-  customProperties?: unknown;
+  customProperties?: unknown | undefined;
 }
 export interface EnvironmentsCreateOrUpdateRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -441,19 +442,19 @@ export interface EnvironmentsCreateOrUpdateRequest {
   /** The name of the environment. */
   environmentName: string;
   /** The resource-specific properties for this resource. */
-  properties?: EnvironmentProperties;
+  properties?: EnvironmentProperties | undefined;
 }
 export interface EnvironmentsCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: EnvironmentProperties;
+  properties?: EnvironmentProperties | undefined;
 }
 export interface ExportApiDefinitionSpecificationRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -476,13 +477,13 @@ export type ApiSpecExportResultFormat = "inline" | "link";
 /** The API specification export result. */
 export interface ApiSpecExportResult {
   /** The format of exported result */
-  format?: ApiSpecExportResultFormat;
+  format?: ApiSpecExportResultFormat | undefined;
   /** The result of the export operation. */
-  value?: string;
+  value?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Assignment entity for Metadata */
 export type MetadataAssignmentEntity = "api" | "environment" | "deployment";
@@ -494,20 +495,20 @@ export interface ExportServiceMetadataSchemaRequest {
   /** The name of Azure API Center service. */
   serviceName: string;
   /** An entity the metadata schema is requested for. */
-  assignedTo?: MetadataAssignmentEntity | (string & {});
+  assignedTo?: MetadataAssignmentEntity | (string & {}) | undefined;
 }
 /** The format for schema export */
 export type MetadataSchemaExportFormat = "inline" | "link";
 /** The metadata schema export result. */
 export interface MetadataSchemaExportResult {
   /** The export format for the schema */
-  format?: MetadataSchemaExportFormat;
+  format?: MetadataSchemaExportFormat | undefined;
   /** The result of the export operation. */
-  value?: string;
+  value?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface GetApiDefinitionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -527,15 +528,15 @@ export interface GetApiDefinitionRequest {
 }
 export interface GetApiDefinitionResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: ApiDefinitionProperties;
+  properties?: ApiDefinitionProperties | undefined;
 }
 export interface GetApisRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -551,15 +552,15 @@ export interface GetApisRequest {
 }
 export interface GetApisResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: ApiProperties;
+  properties?: ApiProperties | undefined;
 }
 export interface GetApiVersionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -577,15 +578,15 @@ export interface GetApiVersionRequest {
 }
 export interface GetApiVersionResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: ApiVersionProperties;
+  properties?: ApiVersionProperties | undefined;
 }
 export interface GetDeploymentRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -603,15 +604,15 @@ export interface GetDeploymentRequest {
 }
 export interface GetDeploymentResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: DeploymentProperties;
+  properties?: DeploymentProperties | undefined;
 }
 export interface GetEnvironmentRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -627,15 +628,15 @@ export interface GetEnvironmentRequest {
 }
 export interface GetEnvironmentResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: EnvironmentProperties;
+  properties?: EnvironmentProperties | undefined;
 }
 export interface GetMetadataSchemaRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -650,11 +651,11 @@ export interface GetMetadataSchemaRequest {
 /** Assignment metadata */
 export interface MetadataAssignment {
   /** The entities this metadata schema component gets applied to. */
-  entity?: MetadataAssignmentEntity | (string & {});
+  entity?: MetadataAssignmentEntity | (string & {}) | undefined;
   /** Required assignment */
-  required?: boolean;
+  required?: boolean | undefined;
   /** Deprecated assignment */
-  deprecated?: boolean;
+  deprecated?: boolean | undefined;
 }
 /** The assignees */
 export type MetadataSchemaPropertiesAssignedToList = Array<MetadataAssignment>;
@@ -663,19 +664,19 @@ export interface MetadataSchemaProperties {
   /** The schema defining the type. */
   schema: string;
   /** The assignees */
-  assignedTo?: MetadataSchemaPropertiesAssignedToList;
+  assignedTo?: MetadataSchemaPropertiesAssignedToList | undefined;
 }
 export interface GetMetadataSchemaResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: MetadataSchemaProperties;
+  properties?: MetadataSchemaProperties | undefined;
 }
 export interface GetServiceRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -692,7 +693,7 @@ export type ProvisioningState = "Succeeded" | "Failed" | "Canceled";
 /** The properties of the service. */
 export interface ServiceProperties {
   /** Provisioning state of the service. */
-  provisioningState?: ProvisioningState;
+  provisioningState?: ProvisioningState | undefined;
 }
 /** The type of managed service identity */
 export type ManagedServiceIdentityType =
@@ -703,38 +704,38 @@ export type ManagedServiceIdentityType =
 /** User assigned identity properties */
 export interface UserAssignedIdentity {
   /** The principal ID of the assigned identity. */
-  principalId?: string;
+  principalId?: string | undefined;
   /** The client ID of the assigned identity. */
-  clientId?: string;
+  clientId?: string | undefined;
 }
 /** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
 export type UserAssignedIdentities = { [key: string]: UserAssignedIdentity | null | undefined };
 /** Managed service identity (system assigned and/or user assigned identities) */
 export interface GetServiceResponseIdentity {
   /** The service principal ID of the system assigned identity. This property will only be provided for a system assigned identity. */
-  principalId?: string;
+  principalId?: string | undefined;
   /** The tenant ID of the system assigned identity. This property will only be provided for a system assigned identity. */
-  tenantId?: string;
+  tenantId?: string | undefined;
   type: ManagedServiceIdentityType;
-  userAssignedIdentities?: UserAssignedIdentities;
+  userAssignedIdentities?: UserAssignedIdentities | undefined;
 }
 export interface GetServiceResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: GetServiceResponseTagsMap;
+  tags?: GetServiceResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: ServiceProperties;
+  properties?: ServiceProperties | undefined;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: GetServiceResponseIdentity;
+  identity?: GetServiceResponseIdentity | undefined;
 }
 export interface GetWorkspaceRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -751,19 +752,19 @@ export interface WorkspaceProperties {
   /** Workspace title. */
   title: string;
   /** Workspace description. */
-  description?: string;
+  description?: string | undefined;
 }
 export interface GetWorkspaceResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: WorkspaceProperties;
+  properties?: WorkspaceProperties | undefined;
 }
 /** Source format for imported Api spec */
 export type ApiSpecImportSourceFormat = "inline" | "link";
@@ -785,17 +786,17 @@ export interface ImportApiDefinitionSpecificationRequest {
   /** The name of the API definition. */
   definitionName: string;
   /** Value of the API specification source. */
-  value?: string;
+  value?: string | undefined;
   /** Format of the API specification source. */
-  format?: ApiSpecImportSourceFormat | (string & {});
+  format?: ApiSpecImportSourceFormat | (string & {}) | undefined;
   /** API specification details. */
-  specification?: ApiDefinitionPropertiesSpecification;
+  specification?: ApiDefinitionPropertiesSpecification | undefined;
 }
 export interface ImportApiDefinitionSpecificationResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface ListApiDefinitionsRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -811,20 +812,20 @@ export interface ListApiDefinitionsRequest {
   /** The name of the API version. */
   versionName: string;
   /** OData filter parameter. */
-  _filter?: string;
+  _filter?: string | undefined;
 }
 /** API definition entity. */
 export interface ApiDefinition {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: ApiDefinitionProperties;
+  properties?: ApiDefinitionProperties | undefined;
 }
 /** The ApiDefinition items on this page */
 export type ApiDefinitionListResultValueList = Array<ApiDefinition>;
@@ -833,7 +834,7 @@ export interface ApiDefinitionListResult {
   /** The ApiDefinition items on this page */
   value: ApiDefinitionListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListApisRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -845,20 +846,20 @@ export interface ListApisRequest {
   /** The name of the workspace. */
   workspaceName: string;
   /** OData filter parameter. */
-  _filter?: string;
+  _filter?: string | undefined;
 }
 /** API entity. */
 export interface Api {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: ApiProperties;
+  properties?: ApiProperties | undefined;
 }
 /** The Api items on this page */
 export type ApiListResultValueList = Array<Api>;
@@ -867,7 +868,7 @@ export interface ApiListResult {
   /** The Api items on this page */
   value: ApiListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListApiVersionsRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -881,20 +882,20 @@ export interface ListApiVersionsRequest {
   /** The name of the API. */
   apiName: string;
   /** OData filter parameter. */
-  _filter?: string;
+  _filter?: string | undefined;
 }
 /** API version entity. */
 export interface ApiVersion {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: ApiVersionProperties;
+  properties?: ApiVersionProperties | undefined;
 }
 /** The ApiVersion items on this page */
 export type ApiVersionListResultValueList = Array<ApiVersion>;
@@ -903,7 +904,7 @@ export interface ApiVersionListResult {
   /** The ApiVersion items on this page */
   value: ApiVersionListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListDeploymentsRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -917,20 +918,20 @@ export interface ListDeploymentsRequest {
   /** The name of the API. */
   apiName: string;
   /** OData filter parameter. */
-  _filter?: string;
+  _filter?: string | undefined;
 }
 /** API deployment entity. */
 export interface Deployment {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: DeploymentProperties;
+  properties?: DeploymentProperties | undefined;
 }
 /** The Deployment items on this page */
 export type DeploymentListResultValueList = Array<Deployment>;
@@ -939,7 +940,7 @@ export interface DeploymentListResult {
   /** The Deployment items on this page */
   value: DeploymentListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListEnvironmentsRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -951,20 +952,20 @@ export interface ListEnvironmentsRequest {
   /** The name of the workspace. */
   workspaceName: string;
   /** OData filter parameter. */
-  _filter?: string;
+  _filter?: string | undefined;
 }
 /** Environment entity. */
 export interface Environment {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: EnvironmentProperties;
+  properties?: EnvironmentProperties | undefined;
 }
 /** The Environment items on this page */
 export type EnvironmentListResultValueList = Array<Environment>;
@@ -973,7 +974,7 @@ export interface EnvironmentListResult {
   /** The Environment items on this page */
   value: EnvironmentListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListMetadataSchemasRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -983,20 +984,20 @@ export interface ListMetadataSchemasRequest {
   /** The name of Azure API Center service. */
   serviceName: string;
   /** OData filter parameter. */
-  _filter?: string;
+  _filter?: string | undefined;
 }
 /** Metadata schema entity. Used to define metadata for the entities in API catalog. */
 export interface MetadataSchema {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: MetadataSchemaProperties;
+  properties?: MetadataSchemaProperties | undefined;
 }
 /** The MetadataSchema items on this page */
 export type MetadataSchemaListResultValueList = Array<MetadataSchema>;
@@ -1005,19 +1006,19 @@ export interface MetadataSchemaListResult {
   /** The MetadataSchema items on this page */
   value: MetadataSchemaListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListOperationsRequest {}
 /** Localized display information for this particular operation. */
 export interface OperationDisplay {
   /** The localized friendly form of the resource provider name, e.g. "Microsoft Monitoring Insights" or "Microsoft Compute". */
-  provider?: string;
+  provider?: string | undefined;
   /** The localized friendly name of the resource type related to this operation. E.g. "Virtual Machines" or "Job Schedule Collections". */
-  resource?: string;
+  resource?: string | undefined;
   /** The concise, localized friendly name for the operation; suitable for dropdowns. E.g. "Create or Update Virtual Machine", "Restart Virtual Machine". */
-  operation?: string;
+  operation?: string | undefined;
   /** The short, localized friendly description of the operation; suitable for tool tips and detailed views. */
-  description?: string;
+  description?: string | undefined;
 }
 /** The intended executor of the operation; as in Resource Based Access Control (RBAC) and audit logs UX. Default value is "user,system" */
 export type OperationOrigin = "user" | "system" | "user,system";
@@ -1026,23 +1027,23 @@ export type OperationActionType = "Internal";
 /** Details of a REST API operation, returned from the Resource Provider Operations API */
 export interface Operation {
   /** The name of the operation, as per Resource-Based Access Control (RBAC). Examples: "Microsoft.Compute/virtualMachines/write", "Microsoft.Compute/virtualMachines/capture/action" */
-  name?: string;
+  name?: string | undefined;
   /** Whether the operation applies to data-plane. This is "true" for data-plane operations and "false" for ARM/control-plane operations. */
-  isDataAction?: boolean;
+  isDataAction?: boolean | undefined;
   /** Localized display information for this particular operation. */
-  display?: OperationDisplay;
+  display?: OperationDisplay | undefined;
   /** The intended executor of the operation; as in Resource Based Access Control (RBAC) and audit logs UX. Default value is "user,system" */
-  origin?: OperationOrigin;
+  origin?: OperationOrigin | undefined;
   /** Enum. Indicates the action type. "Internal" refers to actions that are for internal only APIs. */
-  actionType?: OperationActionType;
+  actionType?: OperationActionType | undefined;
 }
 /** List of operations supported by the resource provider */
 export type ListOperationsResponseValueList = Array<Operation>;
 export interface ListOperationsResponse {
   /** List of operations supported by the resource provider */
-  value?: ListOperationsResponseValueList;
+  value?: ListOperationsResponseValueList | undefined;
   /** URL to get the next set of operation list results (if there are any). */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListServiceByResourceGroupRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1057,21 +1058,21 @@ export type ServiceIdentity = GetServiceResponseIdentity;
 /** The service entity. */
 export interface Service {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: ServiceTagsMap;
+  tags?: ServiceTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: ServiceProperties;
+  properties?: ServiceProperties | undefined;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: GetServiceResponseIdentity;
+  identity?: GetServiceResponseIdentity | undefined;
 }
 /** The Service items on this page */
 export type ServiceListResultValueList = Array<Service>;
@@ -1080,7 +1081,7 @@ export interface ServiceListResult {
   /** The Service items on this page */
   value: ServiceListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListServiceBySubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1094,20 +1095,20 @@ export interface ListWorkspacesRequest {
   /** The name of Azure API Center service. */
   serviceName: string;
   /** OData filter parameter. */
-  _filter?: string;
+  _filter?: string | undefined;
 }
 /** Workspace entity. */
 export interface Workspace {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: WorkspaceProperties;
+  properties?: WorkspaceProperties | undefined;
 }
 /** The Workspace items on this page */
 export type WorkspaceListResultValueList = Array<Workspace>;
@@ -1116,7 +1117,7 @@ export interface WorkspaceListResult {
   /** The Workspace items on this page */
   value: WorkspaceListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface MetadataSchemasCreateOrUpdateRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1128,19 +1129,19 @@ export interface MetadataSchemasCreateOrUpdateRequest {
   /** The name of the metadata schema. */
   metadataSchemaName: string;
   /** The resource-specific properties for this resource. */
-  properties?: MetadataSchemaProperties;
+  properties?: MetadataSchemaProperties | undefined;
 }
 export interface MetadataSchemasCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: MetadataSchemaProperties;
+  properties?: MetadataSchemaProperties | undefined;
 }
 /** Resource tags. */
 export type ServicesCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
@@ -1155,7 +1156,7 @@ export type UserAssignedIdentitiesInput = {
 /** Managed service identity (system assigned and/or user assigned identities) */
 export interface ServicesCreateOrUpdateRequestIdentity {
   type: ManagedServiceIdentityType | (string & {});
-  userAssignedIdentities?: UserAssignedIdentitiesInput;
+  userAssignedIdentities?: UserAssignedIdentitiesInput | undefined;
 }
 export interface ServicesCreateOrUpdateRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1165,13 +1166,13 @@ export interface ServicesCreateOrUpdateRequest {
   /** The name of Azure API Center service. */
   serviceName: string;
   /** Resource tags. */
-  tags?: ServicesCreateOrUpdateRequestTagsMap;
+  tags?: ServicesCreateOrUpdateRequestTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: ServicePropertiesInput;
+  properties?: ServicePropertiesInput | undefined;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: ServicesCreateOrUpdateRequestIdentity;
+  identity?: ServicesCreateOrUpdateRequestIdentity | undefined;
 }
 /** Resource tags. */
 export type ServicesCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
@@ -1179,21 +1180,21 @@ export type ServicesCreateOrUpdateResponseTagsMap = { [key: string]: string | un
 export type ServicesCreateOrUpdateResponseIdentity = GetServiceResponseIdentity;
 export interface ServicesCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: ServicesCreateOrUpdateResponseTagsMap;
+  tags?: ServicesCreateOrUpdateResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: ServiceProperties;
+  properties?: ServiceProperties | undefined;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: GetServiceResponseIdentity;
+  identity?: GetServiceResponseIdentity | undefined;
 }
 /** Managed service identity (system assigned and/or user assigned identities) */
 export type UpdateServiceRequestIdentity = ServicesCreateOrUpdateRequestIdentity;
@@ -1207,9 +1208,9 @@ export interface UpdateServiceRequest {
   /** The name of Azure API Center service. */
   serviceName: string;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: ServicesCreateOrUpdateRequestIdentity;
+  identity?: ServicesCreateOrUpdateRequestIdentity | undefined;
   /** Resource tags. */
-  tags?: UpdateServiceRequestTagsMap;
+  tags?: UpdateServiceRequestTagsMap | undefined;
 }
 /** Resource tags. */
 export type UpdateServiceResponseTagsMap = { [key: string]: string | undefined };
@@ -1217,21 +1218,21 @@ export type UpdateServiceResponseTagsMap = { [key: string]: string | undefined }
 export type UpdateServiceResponseIdentity = GetServiceResponseIdentity;
 export interface UpdateServiceResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: UpdateServiceResponseTagsMap;
+  tags?: UpdateServiceResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: ServiceProperties;
+  properties?: ServiceProperties | undefined;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: GetServiceResponseIdentity;
+  identity?: GetServiceResponseIdentity | undefined;
 }
 export interface WorkspacesCreateOrUpdateRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1243,19 +1244,19 @@ export interface WorkspacesCreateOrUpdateRequest {
   /** The name of the workspace. */
   workspaceName: string;
   /** The resource-specific properties for this resource. */
-  properties?: WorkspaceProperties;
+  properties?: WorkspaceProperties | undefined;
 }
 export interface WorkspacesCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: WorkspaceProperties;
+  properties?: WorkspaceProperties | undefined;
 }
 export type ApiDefinitionsCreateOrUpdateError = AzureOpError;
 /** Creates new or updates existing API definition. */

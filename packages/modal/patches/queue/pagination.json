@@ -1,0 +1,16 @@
+{
+  "description": "Paginate QueueList. Keyset pagination: each request returns objects created before `pagination.createdBefore`, newest first (the official clients page with the last item's `metadata.creationInfo.createdAt`).",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.modal.queue#QueueList/traits/smithy.api#paginated",
+      "value": {
+        "mode": "keyset",
+        "inputToken": "pagination.createdBefore",
+        "outputToken": "metadata.creationInfo.createdAt",
+        "items": "queues",
+        "pageSize": "pagination.maxObjects"
+      }
+    }
+  ]
+}

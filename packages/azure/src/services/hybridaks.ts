@@ -28,6 +28,7 @@ const TELEMETRY = {
   prefix: "Hybridaks",
   service: "Hybridaks",
   labels: "azure",
+  labelNames: { resourceGroupName: "azure.resource_group.name" },
   propagate: "w3c",
 } as const;
 
@@ -42,39 +43,39 @@ export type AgentPoolPropertiesInputNodeTaintsList = Array<string>;
 /** Profile for agent pool properties that can be updated */
 export interface AgentPoolUpdateProfileInput {
   /** Number of nodes in the agent pool. The default value is 1. */
-  count?: number;
+  count?: number | undefined;
   /** The VM sku size of the agent pool node VMs. */
-  vmSize?: string;
+  vmSize?: string | undefined;
 }
 export type AgentPoolPropertiesInputStatusReadyReplicasList = Array<AgentPoolUpdateProfileInput>;
 /** The observed status of the agent pool. */
 export interface AgentPoolPropertiesInputStatus {
   /** Error messages during an agent pool operation or steady state. */
-  errorMessage?: string;
-  readyReplicas?: AgentPoolPropertiesInputStatusReadyReplicasList;
+  errorMessage?: string | undefined;
+  readyReplicas?: AgentPoolPropertiesInputStatusReadyReplicasList | undefined;
 }
 /** Properties of the agent pool resource */
 export interface AgentPoolPropertiesInput {
-  osType?: OSType | (string & {});
-  osSKU?: OSSKU | (string & {});
+  osType?: OSType | (string & {}) | undefined;
+  osSKU?: OSSKU | (string & {}) | undefined;
   /** The node labels to be persisted across all nodes in agent pool. */
-  nodeLabels?: AgentPoolPropertiesInputNodeLabelsMap;
+  nodeLabels?: AgentPoolPropertiesInputNodeLabelsMap | undefined;
   /** Taints added to new nodes during node pool create and scale. For example, key=value:NoSchedule. */
-  nodeTaints?: AgentPoolPropertiesInputNodeTaintsList;
+  nodeTaints?: AgentPoolPropertiesInputNodeTaintsList | undefined;
   /** The maximum number of nodes for auto-scaling */
-  maxCount?: number;
+  maxCount?: number | undefined;
   /** The minimum number of nodes for auto-scaling */
-  minCount?: number;
+  minCount?: number | undefined;
   /** Whether to enable auto-scaler. Default value is false */
-  enableAutoScaling?: boolean;
+  enableAutoScaling?: boolean | undefined;
   /** The maximum number of pods that can run on a node. */
-  maxPods?: number;
+  maxPods?: number | undefined;
   /** Number of nodes in the agent pool. The default value is 1. */
-  count?: number;
+  count?: number | undefined;
   /** The VM sku size of the agent pool node VMs. */
-  vmSize?: string;
+  vmSize?: string | undefined;
   /** The observed status of the agent pool. */
-  status?: AgentPoolPropertiesInputStatus;
+  status?: AgentPoolPropertiesInputStatus | undefined;
 }
 /** Resource tags */
 export type AgentPoolCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
@@ -83,19 +84,19 @@ export type ExtendedLocationType = "CustomLocation";
 /** Extended location pointing to the underlying infrastructure */
 export interface ExtendedLocation {
   /** The extended location type. Allowed value: 'CustomLocation' */
-  type?: ExtendedLocationType | (string & {});
+  type?: ExtendedLocationType | (string & {}) | undefined;
   /** ARM Id of the extended location. */
-  name?: string;
+  name?: string | undefined;
 }
 export interface AgentPoolCreateOrUpdateRequest {
   /** The fully qualified Azure Resource Manager identifier of the connected cluster resource. */
   connectedClusterResourceUri: string;
   /** Parameter for the name of the agent pool in the provisioned cluster. */
   agentPoolName: string;
-  properties?: AgentPoolPropertiesInput;
+  properties?: AgentPoolPropertiesInput | undefined;
   /** Resource tags */
-  tags?: AgentPoolCreateOrUpdateRequestTagsMap;
-  extendedLocation?: ExtendedLocation;
+  tags?: AgentPoolCreateOrUpdateRequestTagsMap | undefined;
+  extendedLocation?: ExtendedLocation | undefined;
 }
 /** The type of identity that created the resource. */
 export type SystemDataCreatedByType = "User" | "Application" | "ManagedIdentity" | "Key";
@@ -104,17 +105,17 @@ export type SystemDataLastModifiedByType = "User" | "Application" | "ManagedIden
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface SystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: SystemDataCreatedByType;
+  createdByType?: SystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: SystemDataLastModifiedByType;
+  lastModifiedByType?: SystemDataLastModifiedByType | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 /** The node labels to be persisted across all nodes in agent pool. */
 export type AgentPoolPropertiesNodeLabelsMap = { [key: string]: string | undefined };
@@ -134,63 +135,63 @@ export type ProvisioningState =
 /** Profile for agent pool properties that can be updated */
 export interface AgentPoolUpdateProfile {
   /** Number of nodes in the agent pool. The default value is 1. */
-  count?: number;
+  count?: number | undefined;
   /** The VM sku size of the agent pool node VMs. */
-  vmSize?: string;
+  vmSize?: string | undefined;
   /** Version of Kubernetes in use by the agent pool. This is inherited from the kubernetesVersion of the provisioned cluster. */
-  kubernetesVersion?: string;
+  kubernetesVersion?: string | undefined;
 }
 export type AgentPoolPropertiesStatusReadyReplicasList = Array<AgentPoolUpdateProfile>;
 /** The observed status of the agent pool. */
 export interface AgentPoolPropertiesStatus {
   /** The current state of the agent pool. */
-  currentState?: ProvisioningState;
+  currentState?: ProvisioningState | undefined;
   /** Error messages during an agent pool operation or steady state. */
-  errorMessage?: string;
-  readyReplicas?: AgentPoolPropertiesStatusReadyReplicasList;
+  errorMessage?: string | undefined;
+  readyReplicas?: AgentPoolPropertiesStatusReadyReplicasList | undefined;
 }
 /** Properties of the agent pool resource */
 export interface AgentPoolProperties {
-  osType?: OSType;
-  osSKU?: OSSKU;
+  osType?: OSType | undefined;
+  osSKU?: OSSKU | undefined;
   /** The node labels to be persisted across all nodes in agent pool. */
-  nodeLabels?: AgentPoolPropertiesNodeLabelsMap;
+  nodeLabels?: AgentPoolPropertiesNodeLabelsMap | undefined;
   /** Taints added to new nodes during node pool create and scale. For example, key=value:NoSchedule. */
-  nodeTaints?: AgentPoolPropertiesNodeTaintsList;
+  nodeTaints?: AgentPoolPropertiesNodeTaintsList | undefined;
   /** The maximum number of nodes for auto-scaling */
-  maxCount?: number;
+  maxCount?: number | undefined;
   /** The minimum number of nodes for auto-scaling */
-  minCount?: number;
+  minCount?: number | undefined;
   /** Whether to enable auto-scaler. Default value is false */
-  enableAutoScaling?: boolean;
+  enableAutoScaling?: boolean | undefined;
   /** The maximum number of pods that can run on a node. */
-  maxPods?: number;
+  maxPods?: number | undefined;
   /** Number of nodes in the agent pool. The default value is 1. */
-  count?: number;
+  count?: number | undefined;
   /** The VM sku size of the agent pool node VMs. */
-  vmSize?: string;
+  vmSize?: string | undefined;
   /** Version of Kubernetes in use by the agent pool. This is inherited from the kubernetesVersion of the provisioned cluster. */
-  kubernetesVersion?: string;
+  kubernetesVersion?: string | undefined;
   /** The status of the latest long running operation for the agent pool. */
-  provisioningState?: ProvisioningState;
+  provisioningState?: ProvisioningState | undefined;
   /** The observed status of the agent pool. */
-  status?: AgentPoolPropertiesStatus;
+  status?: AgentPoolPropertiesStatus | undefined;
 }
 /** Resource tags */
 export type AgentPoolCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
 export interface AgentPoolCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
-  properties?: AgentPoolProperties;
+  systemData?: SystemData | undefined;
+  properties?: AgentPoolProperties | undefined;
   /** Resource tags */
-  tags?: AgentPoolCreateOrUpdateResponseTagsMap;
-  extendedLocation?: ExtendedLocation;
+  tags?: AgentPoolCreateOrUpdateResponseTagsMap | undefined;
+  extendedLocation?: ExtendedLocation | undefined;
 }
 export interface DeleteAgentPoolRequest {
   /** The fully qualified Azure Resource Manager identifier of the connected cluster resource. */
@@ -199,28 +200,28 @@ export interface DeleteAgentPoolRequest {
   agentPoolName: string;
 }
 export interface DeleteAgentPoolResponse {
-  location?: string;
+  location?: string | undefined;
 }
 export interface DeleteHybridIdentityMetadataRequest {
   /** The fully qualified Azure Resource Manager identifier of the connected cluster resource. */
   connectedClusterResourceUri: string;
 }
 export interface DeleteHybridIdentityMetadataResponse {
-  location?: string;
+  location?: string | undefined;
 }
 export interface DeleteKubernetesVersionsRequest {
   /** The fully qualified Azure Resource Manager identifier of the custom location resource. */
   customLocationResourceUri: string;
 }
 export interface DeleteKubernetesVersionsResponse {
-  location?: string;
+  location?: string | undefined;
 }
 export interface DeleteProvisionedClusterInstanceRequest {
   /** The fully qualified Azure Resource Manager identifier of the connected cluster resource. */
   connectedClusterResourceUri: string;
 }
 export interface DeleteProvisionedClusterInstanceResponse {
-  location?: string;
+  location?: string | undefined;
 }
 export interface DeleteVirtualNetworkRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -231,14 +232,14 @@ export interface DeleteVirtualNetworkRequest {
   virtualNetworkName: string;
 }
 export interface DeleteVirtualNetworkResponse {
-  location?: string;
+  location?: string | undefined;
 }
 export interface DeleteVMSkusRequest {
   /** The fully qualified Azure Resource Manager identifier of the custom location resource. */
   customLocationResourceUri: string;
 }
 export interface DeleteVMSkusResponse {
-  location?: string;
+  location?: string | undefined;
 }
 export interface GetAgentPoolRequest {
   /** The fully qualified Azure Resource Manager identifier of the connected cluster resource. */
@@ -250,17 +251,17 @@ export interface GetAgentPoolRequest {
 export type GetAgentPoolResponseTagsMap = { [key: string]: string | undefined };
 export interface GetAgentPoolResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
-  properties?: AgentPoolProperties;
+  systemData?: SystemData | undefined;
+  properties?: AgentPoolProperties | undefined;
   /** Resource tags */
-  tags?: GetAgentPoolResponseTagsMap;
-  extendedLocation?: ExtendedLocation;
+  tags?: GetAgentPoolResponseTagsMap | undefined;
+  extendedLocation?: ExtendedLocation | undefined;
 }
 export interface GetHybridIdentityMetadataRequest {
   /** The fully qualified Azure Resource Manager identifier of the connected cluster resource. */
@@ -269,20 +270,20 @@ export interface GetHybridIdentityMetadataRequest {
 /** Defines the resource properties for the hybrid identity metadata. */
 export interface HybridIdentityMetadataProperties {
   /** Unique id of the parent provisioned cluster resource. */
-  resourceUid?: string;
+  resourceUid?: string | undefined;
   /** Onboarding public key for provisioning the Managed identity for the connected cluster. */
-  publicKey?: string;
-  provisioningState?: ProvisioningState;
+  publicKey?: string | undefined;
+  provisioningState?: ProvisioningState | undefined;
 }
 export interface GetHybridIdentityMetadataResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource properties. */
   properties: HybridIdentityMetadataProperties;
 }
@@ -295,12 +296,12 @@ export type KubernetesVersionReadinessOsType = "Windows" | "Linux";
 /** Indicates whether the kubernetes version image is ready or not */
 export interface KubernetesVersionReadiness {
   /** The particular KubernetesVersion Image OS Type (Linux, Windows) */
-  osType?: KubernetesVersionReadinessOsType;
-  osSku?: OSSKU;
+  osType?: KubernetesVersionReadinessOsType | undefined;
+  osSku?: OSSKU | undefined;
   /** Whether the kubernetes version image is ready or not */
-  ready?: boolean;
+  ready?: boolean | undefined;
   /** The error message for version not being ready */
-  errorMessage?: string;
+  errorMessage?: string | undefined;
 }
 /** Indicates whether the kubernetes version image is ready or not */
 export type KubernetesPatchVersionsReadinessList = Array<KubernetesVersionReadiness>;
@@ -309,9 +310,9 @@ export type KubernetesPatchVersionsUpgradesList = Array<string>;
 /** Kubernetes Patch Version profile */
 export interface KubernetesPatchVersions {
   /** Indicates whether the kubernetes version image is ready or not */
-  readiness?: KubernetesPatchVersionsReadinessList;
+  readiness?: KubernetesPatchVersionsReadinessList | undefined;
   /** Possible upgrade paths for given patch version */
-  upgrades?: KubernetesPatchVersionsUpgradesList;
+  upgrades?: KubernetesPatchVersionsUpgradesList | undefined;
 }
 /** Patch versions of a Kubernetes release */
 export type KubernetesVersionPropertiesPatchVersionsMap = {
@@ -320,30 +321,30 @@ export type KubernetesVersionPropertiesPatchVersionsMap = {
 /** Kubernetes version profile for given major.minor release */
 export interface KubernetesVersionProperties {
   /** major.minor version of Kubernetes release */
-  version?: string;
+  version?: string | undefined;
   /** Whether this version is in preview mode. */
-  isPreview?: boolean;
+  isPreview?: boolean | undefined;
   /** Patch versions of a Kubernetes release */
-  patchVersions?: KubernetesVersionPropertiesPatchVersionsMap;
+  patchVersions?: KubernetesVersionPropertiesPatchVersionsMap | undefined;
 }
 /** List of supported Kubernetes versions */
 export type GetKubernetesVersionsResponsePropertiesValuesList = Array<KubernetesVersionProperties>;
 export interface GetKubernetesVersionsResponseProperties {
-  provisioningState?: ProvisioningState;
+  provisioningState?: ProvisioningState | undefined;
   /** List of supported Kubernetes versions */
-  values?: GetKubernetesVersionsResponsePropertiesValuesList;
+  values?: GetKubernetesVersionsResponsePropertiesValuesList | undefined;
 }
 export interface GetKubernetesVersionsResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
-  extendedLocation?: ExtendedLocation;
-  properties?: GetKubernetesVersionsResponseProperties;
+  systemData?: SystemData | undefined;
+  extendedLocation?: ExtendedLocation | undefined;
+  properties?: GetKubernetesVersionsResponseProperties | undefined;
 }
 export interface GetProvisionedClusterInstanceRequest {
   /** The fully qualified Azure Resource Manager identifier of the connected cluster resource. */
@@ -351,7 +352,7 @@ export interface GetProvisionedClusterInstanceRequest {
 }
 export interface LinuxProfilePropertiesSshPublicKeysItem {
   /** Certificate public key used to authenticate with VMs through SSH. The certificate must be in PEM format with or without headers. */
-  keyData?: string;
+  keyData?: string | undefined;
 }
 /** The list of SSH public keys used to authenticate with VMs. A maximum of 1 key may be specified. */
 export type LinuxProfilePropertiesSshPublicKeysList =
@@ -359,64 +360,64 @@ export type LinuxProfilePropertiesSshPublicKeysList =
 /** SSH configuration for VMs of the provisioned cluster. */
 export interface LinuxProfilePropertiesSsh {
   /** The list of SSH public keys used to authenticate with VMs. A maximum of 1 key may be specified. */
-  publicKeys?: LinuxProfilePropertiesSshPublicKeysList;
+  publicKeys?: LinuxProfilePropertiesSshPublicKeysList | undefined;
 }
 /** SSH profile for control plane and nodepool VMs of the provisioned cluster. */
 export interface LinuxProfileProperties {
   /** SSH configuration for VMs of the provisioned cluster. */
-  ssh?: LinuxProfilePropertiesSsh;
+  ssh?: LinuxProfilePropertiesSsh | undefined;
 }
 /** IP Address of the Kubernetes API server */
 export interface ControlPlaneProfileControlPlaneEndpoint {
   /** IP address of the Kubernetes API server */
-  hostIP?: string;
+  hostIP?: string | undefined;
 }
 /** The properties of the control plane nodes of the provisioned cluster */
 export interface ControlPlaneProfile {
   /** Number of control plane nodes. The default value is 1, and the count should be an odd number */
-  count?: number;
+  count?: number | undefined;
   /** VM sku size of the control plane nodes */
-  vmSize?: string;
+  vmSize?: string | undefined;
   /** IP Address of the Kubernetes API server */
-  controlPlaneEndpoint?: ControlPlaneProfileControlPlaneEndpoint;
+  controlPlaneEndpoint?: ControlPlaneProfileControlPlaneEndpoint | undefined;
 }
 /** Profile of the HA Proxy load balancer. */
 export interface NetworkProfileLoadBalancerProfile {
   /** Number of HA Proxy load balancer VMs. The default value is 0. */
-  count?: number;
+  count?: number | undefined;
 }
 /** Network policy used for building Kubernetes network. Possible values include: 'calico'. */
 export type NetworkProfileNetworkPolicy = "calico";
 /** The network configuration profile for the provisioned cluster. */
 export interface NetworkProfile {
   /** Profile of the HA Proxy load balancer. */
-  loadBalancerProfile?: NetworkProfileLoadBalancerProfile;
+  loadBalancerProfile?: NetworkProfileLoadBalancerProfile | undefined;
   /** Network policy used for building Kubernetes network. Possible values include: 'calico'. */
-  networkPolicy?: NetworkProfileNetworkPolicy | (string & {});
+  networkPolicy?: NetworkProfileNetworkPolicy | (string & {}) | undefined;
   /** A CIDR notation IP Address range from which to assign pod IPs. */
-  podCidr?: string;
+  podCidr?: string | undefined;
 }
 /** SMB CSI Driver settings for the storage profile. */
 export interface StorageProfileSmbCSIDriver {
   /** Indicates whether to enable SMB CSI Driver. The default value is true. */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
 }
 /** NFS CSI Driver settings for the storage profile. */
 export interface StorageProfileNfsCSIDriver {
   /** Indicates whether to enable NFS CSI Driver. The default value is true. */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
 }
 /** The storage configuration profile for the provisioned cluster. */
 export interface StorageProfile {
   /** SMB CSI Driver settings for the storage profile. */
-  smbCsiDriver?: StorageProfileSmbCSIDriver;
+  smbCsiDriver?: StorageProfileSmbCSIDriver | undefined;
   /** NFS CSI Driver settings for the storage profile. */
-  nfsCsiDriver?: StorageProfileNfsCSIDriver;
+  nfsCsiDriver?: StorageProfileNfsCSIDriver | undefined;
 }
 /** The SSH restricted access profile for the VMs in the provisioned cluster. */
 export interface ClusterVMAccessProfile {
   /** IP Address or CIDR for SSH access to VMs in the provisioned cluster */
-  authorizedIPRanges?: string;
+  authorizedIPRanges?: string | undefined;
 }
 /** The node labels to be persisted across all nodes in agent pool. */
 export type NamedAgentPoolProfileNodeLabelsMap = { [key: string]: string | undefined };
@@ -424,28 +425,28 @@ export type NamedAgentPoolProfileNodeLabelsMap = { [key: string]: string | undef
 export type NamedAgentPoolProfileNodeTaintsList = Array<string>;
 /** Profile of the default agent pool along with a name parameter */
 export interface NamedAgentPoolProfile {
-  osType?: OSType;
-  osSKU?: OSSKU;
+  osType?: OSType | undefined;
+  osSKU?: OSSKU | undefined;
   /** The node labels to be persisted across all nodes in agent pool. */
-  nodeLabels?: NamedAgentPoolProfileNodeLabelsMap;
+  nodeLabels?: NamedAgentPoolProfileNodeLabelsMap | undefined;
   /** Taints added to new nodes during node pool create and scale. For example, key=value:NoSchedule. */
-  nodeTaints?: NamedAgentPoolProfileNodeTaintsList;
+  nodeTaints?: NamedAgentPoolProfileNodeTaintsList | undefined;
   /** The maximum number of nodes for auto-scaling */
-  maxCount?: number;
+  maxCount?: number | undefined;
   /** The minimum number of nodes for auto-scaling */
-  minCount?: number;
+  minCount?: number | undefined;
   /** Whether to enable auto-scaler. Default value is false */
-  enableAutoScaling?: boolean;
+  enableAutoScaling?: boolean | undefined;
   /** The maximum number of pods that can run on a node. */
-  maxPods?: number;
+  maxPods?: number | undefined;
   /** Number of nodes in the agent pool. The default value is 1. */
-  count?: number;
+  count?: number | undefined;
   /** The VM sku size of the agent pool node VMs. */
-  vmSize?: string;
+  vmSize?: string | undefined;
   /** Version of Kubernetes in use by the agent pool. This is inherited from the kubernetesVersion of the provisioned cluster. */
-  kubernetesVersion?: string;
+  kubernetesVersion?: string | undefined;
   /** Unique name of the default agent pool in the context of the provisioned cluster. Default value is <clusterName>-nodepool1 */
-  name?: string;
+  name?: string | undefined;
 }
 /** The agent pool properties for the provisioned cluster. */
 export type ProvisionedClusterPropertiesAgentPoolProfilesList = Array<NamedAgentPoolProfile>;
@@ -454,12 +455,12 @@ export type CloudProviderProfileInfraNetworkProfileVnetSubnetIdsList = Array<str
 /** The profile for the infrastructure networks used by the provisioned cluster */
 export interface CloudProviderProfileInfraNetworkProfile {
   /** List of ARM resource Ids (maximum 1) for the infrastructure network object e.g. /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzureStackHCI/logicalNetworks/{logicalNetworkName} */
-  vnetSubnetIds?: CloudProviderProfileInfraNetworkProfileVnetSubnetIdsList;
+  vnetSubnetIds?: CloudProviderProfileInfraNetworkProfileVnetSubnetIdsList | undefined;
 }
 /** The profile for the underlying cloud infrastructure provider for the provisioned cluster. */
 export interface CloudProviderProfile {
   /** The profile for the infrastructure networks used by the provisioned cluster */
-  infraNetworkProfile?: CloudProviderProfileInfraNetworkProfile;
+  infraNetworkProfile?: CloudProviderProfileInfraNetworkProfile | undefined;
 }
 /** Observed phase of the addon or component on the provisioned cluster. Possible values include: 'pending', 'provisioning', 'provisioning {HelmChartInstalled}', 'provisioning {MSICertificateDownloaded}', 'provisioned', 'deleting', 'failed', 'upgrading' */
 export type AddonStatusProfilePhase =
@@ -474,31 +475,34 @@ export type AddonStatusProfilePhase =
 /** The status profile of the addons and other kubernetes components */
 export interface AddonStatusProfile {
   /** Name of the addon or component */
-  name?: string;
+  name?: string | undefined;
   /** Observed phase of the addon or component on the provisioned cluster. Possible values include: 'pending', 'provisioning', 'provisioning {HelmChartInstalled}', 'provisioning {MSICertificateDownloaded}', 'provisioned', 'deleting', 'failed', 'upgrading' */
-  phase?: AddonStatusProfilePhase;
+  phase?: AddonStatusProfilePhase | undefined;
   /** Indicates whether the addon or component is ready */
-  ready?: boolean;
+  ready?: boolean | undefined;
   /** Observed error message from the addon or component */
-  errorMessage?: string;
+  errorMessage?: string | undefined;
 }
 /** The detailed status of the provisioned cluster components including addons. */
 export type ProvisionedClusterPropertiesStatusControlPlaneStatusList = Array<AddonStatusProfile>;
 /** The observed status of the provisioned cluster. */
 export interface ProvisionedClusterPropertiesStatus {
   /** The detailed status of the provisioned cluster components including addons. */
-  controlPlaneStatus?: ProvisionedClusterPropertiesStatusControlPlaneStatusList;
+  controlPlaneStatus?: ProvisionedClusterPropertiesStatusControlPlaneStatusList | undefined;
   /** The current state of the provisioned cluster. */
-  currentState?: ProvisioningState;
+  currentState?: ProvisioningState | undefined;
   /** Error messages during a provisioned cluster operation or steady state. */
-  errorMessage?: string;
+  errorMessage?: string | undefined;
 }
 /** Indicates whether Azure Hybrid Benefit is opted in. Default value is false */
 export type ProvisionedClusterLicenseProfileAzureHybridBenefit = "True" | "False" | "NotApplicable";
 /** The license profile of the provisioned cluster. */
 export interface ProvisionedClusterLicenseProfile {
   /** Indicates whether Azure Hybrid Benefit is opted in. Default value is false */
-  azureHybridBenefit?: ProvisionedClusterLicenseProfileAzureHybridBenefit | (string & {});
+  azureHybridBenefit?:
+    | ProvisionedClusterLicenseProfileAzureHybridBenefit
+    | (string & {})
+    | undefined;
 }
 /** If not specified, the default is 'random'. See [expanders](https://github.com/kubernetes/autoscaler/blob/master/cluster-autoscaler/FAQ.md#what-are-expanders) for more information. */
 export type ProvisionedClusterPropertiesAutoScalerProfileExpander =
@@ -509,78 +513,78 @@ export type ProvisionedClusterPropertiesAutoScalerProfileExpander =
 /** Parameters to be applied to the cluster-autoscaler when auto scaling is enabled for the provisioned cluster. */
 export interface ProvisionedClusterPropertiesAutoScalerProfile {
   /** Valid values are 'true' and 'false' */
-  balance_similar_node_groups?: string;
+  balance_similar_node_groups?: string | undefined;
   /** If not specified, the default is 'random'. See [expanders](https://github.com/kubernetes/autoscaler/blob/master/cluster-autoscaler/FAQ.md#what-are-expanders) for more information. */
-  expander?: ProvisionedClusterPropertiesAutoScalerProfileExpander;
+  expander?: ProvisionedClusterPropertiesAutoScalerProfileExpander | undefined;
   /** The default is 10. */
-  max_empty_bulk_delete?: string;
+  max_empty_bulk_delete?: string | undefined;
   /** The default is 600. */
-  max_graceful_termination_sec?: string;
+  max_graceful_termination_sec?: string | undefined;
   /** The default is '15m'. Values must be an integer followed by an 'm'. No unit of time other than minutes (m) is supported. */
-  max_node_provision_time?: string;
+  max_node_provision_time?: string | undefined;
   /** The default is 45. The maximum is 100 and the minimum is 0. */
-  max_total_unready_percentage?: string;
+  max_total_unready_percentage?: string | undefined;
   /** For scenarios like burst/batch scale where you don't want CA to act before the kubernetes scheduler could schedule all the pods, you can tell CA to ignore unscheduled pods before they're a certain age. The default is '0s'. Values must be an integer followed by a unit ('s' for seconds, 'm' for minutes, 'h' for hours, etc). */
-  new_pod_scale_up_delay?: string;
+  new_pod_scale_up_delay?: string | undefined;
   /** This must be an integer. The default is 3. */
-  ok_total_unready_count?: string;
+  ok_total_unready_count?: string | undefined;
   /** The default is '10'. Values must be an integer number of seconds. */
-  scan_interval?: string;
+  scan_interval?: string | undefined;
   /** The default is '10m'. Values must be an integer followed by an 'm'. No unit of time other than minutes (m) is supported. */
-  scale_down_delay_after_add?: string;
+  scale_down_delay_after_add?: string | undefined;
   /** The default is the scan-interval. Values must be an integer followed by an 'm'. No unit of time other than minutes (m) is supported. */
-  scale_down_delay_after_delete?: string;
+  scale_down_delay_after_delete?: string | undefined;
   /** The default is '3m'. Values must be an integer followed by an 'm'. No unit of time other than minutes (m) is supported. */
-  scale_down_delay_after_failure?: string;
+  scale_down_delay_after_failure?: string | undefined;
   /** The default is '10m'. Values must be an integer followed by an 'm'. No unit of time other than minutes (m) is supported. */
-  scale_down_unneeded_time?: string;
+  scale_down_unneeded_time?: string | undefined;
   /** The default is '20m'. Values must be an integer followed by an 'm'. No unit of time other than minutes (m) is supported. */
-  scale_down_unready_time?: string;
+  scale_down_unready_time?: string | undefined;
   /** The default is '0.5'. */
-  scale_down_utilization_threshold?: string;
+  scale_down_utilization_threshold?: string | undefined;
   /** The default is true. */
-  skip_nodes_with_local_storage?: string;
+  skip_nodes_with_local_storage?: string | undefined;
   /** The default is true. */
-  skip_nodes_with_system_pods?: string;
+  skip_nodes_with_system_pods?: string | undefined;
 }
 /** Properties of the provisioned cluster. */
 export interface ProvisionedClusterProperties {
   /** The profile for Linux VMs in the provisioned cluster. */
-  linuxProfile?: LinuxProfileProperties;
+  linuxProfile?: LinuxProfileProperties | undefined;
   /** The profile for control plane of the provisioned cluster. */
-  controlPlane?: ControlPlaneProfile;
+  controlPlane?: ControlPlaneProfile | undefined;
   /** The version of Kubernetes in use by the provisioned cluster. */
-  kubernetesVersion?: string;
+  kubernetesVersion?: string | undefined;
   /** The network configuration profile for the provisioned cluster. */
-  networkProfile?: NetworkProfile;
+  networkProfile?: NetworkProfile | undefined;
   /** The storage configuration profile for the provisioned cluster. */
-  storageProfile?: StorageProfile;
+  storageProfile?: StorageProfile | undefined;
   /** The SSH restricted access profile for the VMs in the provisioned cluster. */
-  clusterVMAccessProfile?: ClusterVMAccessProfile;
+  clusterVMAccessProfile?: ClusterVMAccessProfile | undefined;
   /** The agent pool properties for the provisioned cluster. */
-  agentPoolProfiles?: ProvisionedClusterPropertiesAgentPoolProfilesList;
+  agentPoolProfiles?: ProvisionedClusterPropertiesAgentPoolProfilesList | undefined;
   /** The profile for the underlying cloud infrastructure provider for the provisioned cluster. */
-  cloudProviderProfile?: CloudProviderProfile;
+  cloudProviderProfile?: CloudProviderProfile | undefined;
   /** The status of the latest long running operation for the provisioned cluster. */
-  provisioningState?: ProvisioningState;
+  provisioningState?: ProvisioningState | undefined;
   /** The observed status of the provisioned cluster. */
-  status?: ProvisionedClusterPropertiesStatus;
+  status?: ProvisionedClusterPropertiesStatus | undefined;
   /** The license profile of the provisioned cluster. */
-  licenseProfile?: ProvisionedClusterLicenseProfile;
+  licenseProfile?: ProvisionedClusterLicenseProfile | undefined;
   /** Parameters to be applied to the cluster-autoscaler when auto scaling is enabled for the provisioned cluster. */
-  autoScalerProfile?: ProvisionedClusterPropertiesAutoScalerProfile;
+  autoScalerProfile?: ProvisionedClusterPropertiesAutoScalerProfile | undefined;
 }
 export interface GetProvisionedClusterInstanceResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
-  properties?: ProvisionedClusterProperties;
-  extendedLocation?: ExtendedLocation;
+  systemData?: SystemData | undefined;
+  properties?: ProvisionedClusterProperties | undefined;
+  extendedLocation?: ExtendedLocation | undefined;
 }
 export interface GetProvisionedClusterInstanceUpgradeProfileRequest {
   /** The fully qualified Azure Resource Manager identifier of the connected cluster resource. */
@@ -589,9 +593,9 @@ export interface GetProvisionedClusterInstanceUpgradeProfileRequest {
 /** The upgrade properties. */
 export interface ProvisionedClusterPoolUpgradeProfileProperties {
   /** The Kubernetes version (major.minor.patch). */
-  kubernetesVersion?: string;
+  kubernetesVersion?: string | undefined;
   /** Whether the Kubernetes version is currently in preview. */
-  isPreview?: boolean;
+  isPreview?: boolean | undefined;
 }
 /** List of available kubernetes versions for upgrade. */
 export type ProvisionedClusterPoolUpgradeProfileUpgradesList =
@@ -599,26 +603,26 @@ export type ProvisionedClusterPoolUpgradeProfileUpgradesList =
 /** The list of available kubernetes versions for upgrade. */
 export interface ProvisionedClusterPoolUpgradeProfile {
   /** The Kubernetes version (major.minor.patch). */
-  kubernetesVersion?: string;
-  osType?: OSType;
+  kubernetesVersion?: string | undefined;
+  osType?: OSType | undefined;
   /** List of available kubernetes versions for upgrade. */
-  upgrades?: ProvisionedClusterPoolUpgradeProfileUpgradesList;
+  upgrades?: ProvisionedClusterPoolUpgradeProfileUpgradesList | undefined;
 }
 /** Control plane and agent pool upgrade profiles. */
 export interface ProvisionedClusterUpgradeProfileProperties {
-  provisioningState?: ProvisioningState;
+  provisioningState?: ProvisioningState | undefined;
   /** The list of available kubernetes version upgrades for the control plane. */
   controlPlaneProfile: ProvisionedClusterPoolUpgradeProfile;
 }
 export interface GetProvisionedClusterInstanceUpgradeProfileResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties of the upgrade profile. */
   properties: ProvisionedClusterUpgradeProfileProperties;
 }
@@ -635,21 +639,21 @@ export type GetVirtualNetworkResponseTagsMap = { [key: string]: string | undefin
 /** Infrastructure network profile for HCI platform */
 export interface VirtualNetworkPropertiesInfraVnetProfileHci {
   /** Group in MOC(Microsoft On-premises Cloud) */
-  mocGroup?: string;
+  mocGroup?: string | undefined;
   /** Location in MOC(Microsoft On-premises Cloud) */
-  mocLocation?: string;
+  mocLocation?: string | undefined;
   /** Virtual Network name in MOC(Microsoft On-premises Cloud) */
-  mocVnetName?: string;
+  mocVnetName?: string | undefined;
 }
 export interface VirtualNetworkPropertiesInfraVnetProfile {
   /** Infrastructure network profile for HCI platform */
-  hci?: VirtualNetworkPropertiesInfraVnetProfileHci;
+  hci?: VirtualNetworkPropertiesInfraVnetProfileHci | undefined;
 }
 export interface VirtualNetworkPropertiesVipPoolItem {
   /** Ending IP address for the IP Pool */
-  endIP?: string;
+  endIP?: string | undefined;
   /** Starting IP address for the IP Pool */
-  startIP?: string;
+  startIP?: string | undefined;
 }
 /** Range of IP Addresses for Kubernetes API Server and services if using HA Proxy load balancer */
 export type VirtualNetworkPropertiesVipPoolList = Array<VirtualNetworkPropertiesVipPoolItem>;
@@ -670,68 +674,68 @@ export type VirtualNetworkPropertiesProvisioningState =
 /** The error if any from the operation. */
 export interface VirtualNetworkPropertiesStatusOperationStatusError {
   /** The error code from the operation. */
-  code?: string;
+  code?: string | undefined;
   /** The error message from the operation. */
-  message?: string;
+  message?: string | undefined;
 }
 /** The detailed status of the long running operation. */
 export interface VirtualNetworkPropertiesStatusOperationStatus {
   /** The error if any from the operation. */
-  error?: VirtualNetworkPropertiesStatusOperationStatusError;
+  error?: VirtualNetworkPropertiesStatusOperationStatusError | undefined;
   /** The identifier of the operation. */
-  operationId?: string;
+  operationId?: string | undefined;
   /** The status of the operation. */
-  status?: string;
+  status?: string | undefined;
 }
 /** Status of the virtual network resource */
 export interface VirtualNetworkPropertiesStatus {
   /** The detailed status of the long running operation. */
-  operationStatus?: VirtualNetworkPropertiesStatusOperationStatus;
+  operationStatus?: VirtualNetworkPropertiesStatusOperationStatus | undefined;
 }
 /** Properties of the virtual network resource */
 export interface VirtualNetworkProperties {
-  infraVnetProfile?: VirtualNetworkPropertiesInfraVnetProfile;
+  infraVnetProfile?: VirtualNetworkPropertiesInfraVnetProfile | undefined;
   /** Range of IP Addresses for Kubernetes API Server and services if using HA Proxy load balancer */
-  vipPool?: VirtualNetworkPropertiesVipPoolList;
+  vipPool?: VirtualNetworkPropertiesVipPoolList | undefined;
   /** Range of IP Addresses for Kubernetes node VMs */
-  vmipPool?: VirtualNetworkPropertiesVmipPoolList;
+  vmipPool?: VirtualNetworkPropertiesVmipPoolList | undefined;
   /** List of DNS server IP Addresses associated with the network */
-  dnsServers?: VirtualNetworkPropertiesDnsServersList;
+  dnsServers?: VirtualNetworkPropertiesDnsServersList | undefined;
   /** IP Address of the Gateway associated with the network */
-  gateway?: string;
+  gateway?: string | undefined;
   /** IP Address Prefix of the network */
-  ipAddressPrefix?: string;
+  ipAddressPrefix?: string | undefined;
   /** VLAN Id used by the network */
-  vlanID?: number;
-  provisioningState?: VirtualNetworkPropertiesProvisioningState;
+  vlanID?: number | undefined;
+  provisioningState?: VirtualNetworkPropertiesProvisioningState | undefined;
   /** Status of the virtual network resource */
-  status?: VirtualNetworkPropertiesStatus;
+  status?: VirtualNetworkPropertiesStatus | undefined;
 }
 /** The extended location type. Allowed value: 'CustomLocation' */
 export type GetVirtualNetworkResponseExtendedLocationType = "CustomLocation";
 /** Extended location pointing to the underlying infrastructure */
 export interface GetVirtualNetworkResponseExtendedLocation {
   /** The extended location type. Allowed value: 'CustomLocation' */
-  type?: GetVirtualNetworkResponseExtendedLocationType;
+  type?: GetVirtualNetworkResponseExtendedLocationType | undefined;
   /** ARM Id of the extended location. */
-  name?: string;
+  name?: string | undefined;
 }
 export interface GetVirtualNetworkResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: GetVirtualNetworkResponseTagsMap;
+  tags?: GetVirtualNetworkResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
-  properties?: VirtualNetworkProperties;
+  properties?: VirtualNetworkProperties | undefined;
   /** Extended location pointing to the underlying infrastructure */
-  extendedLocation?: GetVirtualNetworkResponseExtendedLocation;
+  extendedLocation?: GetVirtualNetworkResponseExtendedLocation | undefined;
 }
 export interface GetVMSkusRequest {
   /** The fully qualified Azure Resource Manager identifier of the custom location resource. */
@@ -740,43 +744,43 @@ export interface GetVMSkusRequest {
 /** Describes the VM SKU capabilities like MemoryGB, vCPUs, etc. */
 export interface VmSkuCapabilities {
   /** Name of the VM SKU capability */
-  name?: string;
+  name?: string | undefined;
   /** Value of the VM SKU capability */
-  value?: string;
+  value?: string | undefined;
 }
 /** The list of name-value pairs to describe VM SKU capabilities like MemoryGB, vCPUs, etc. */
 export type VmSkuPropertiesCapabilitiesList = Array<VmSkuCapabilities>;
 /** The profile for supported VM SKUs */
 export interface VmSkuProperties {
   /** The type of resource the SKU applies to. */
-  resourceType?: string;
+  resourceType?: string | undefined;
   /** The list of name-value pairs to describe VM SKU capabilities like MemoryGB, vCPUs, etc. */
-  capabilities?: VmSkuPropertiesCapabilitiesList;
+  capabilities?: VmSkuPropertiesCapabilitiesList | undefined;
   /** The name of the VM SKU */
-  name?: string;
+  name?: string | undefined;
   /** The tier of the VM SKU */
-  tier?: string;
+  tier?: string | undefined;
   /** The size of the VM SKU */
-  size?: string;
+  size?: string | undefined;
 }
 /** List of supported VM SKUs. */
 export type GetVMSkusResponsePropertiesValuesList = Array<VmSkuProperties>;
 export interface GetVMSkusResponseProperties {
-  provisioningState?: ProvisioningState;
+  provisioningState?: ProvisioningState | undefined;
   /** List of supported VM SKUs. */
-  values?: GetVMSkusResponsePropertiesValuesList;
+  values?: GetVMSkusResponsePropertiesValuesList | undefined;
 }
 export interface GetVMSkusResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
-  extendedLocation?: ExtendedLocation;
-  properties?: GetVMSkusResponseProperties;
+  systemData?: SystemData | undefined;
+  extendedLocation?: ExtendedLocation | undefined;
+  properties?: GetVMSkusResponseProperties | undefined;
 }
 export interface ListAgentPoolByProvisionedClusterRequest {
   /** The fully qualified Azure Resource Manager identifier of the connected cluster resource. */
@@ -787,23 +791,23 @@ export type AgentPoolTagsMap = { [key: string]: string | undefined };
 /** The agentPool resource definition */
 export interface AgentPool {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
-  properties?: AgentPoolProperties;
+  systemData?: SystemData | undefined;
+  properties?: AgentPoolProperties | undefined;
   /** Resource tags */
-  tags?: AgentPoolTagsMap;
-  extendedLocation?: ExtendedLocation;
+  tags?: AgentPoolTagsMap | undefined;
+  extendedLocation?: ExtendedLocation | undefined;
 }
 export type AgentPoolListResultValueList = Array<AgentPool>;
 /** List of all agent pool resources associated with the provisioned cluster. */
 export interface AgentPoolListResult {
-  value?: AgentPoolListResultValueList;
-  nextLink?: string;
+  value?: AgentPoolListResultValueList | undefined;
+  nextLink?: string | undefined;
 }
 export interface ListHybridIdentityMetadataByClusterRequest {
   /** The fully qualified Azure Resource Manager identifier of the connected cluster resource. */
@@ -812,13 +816,13 @@ export interface ListHybridIdentityMetadataByClusterRequest {
 /** Defines the hybridIdentityMetadata. */
 export interface HybridIdentityMetadata {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource properties. */
   properties: HybridIdentityMetadataProperties;
 }
@@ -827,7 +831,7 @@ export type HybridIdentityMetadataListValueList = Array<HybridIdentityMetadata>;
 /** List of hybridIdentityMetadata. */
 export interface HybridIdentityMetadataList {
   /** Url to follow for getting next page of hybridIdentityMetadata. */
-  nextLink?: string;
+  nextLink?: string | undefined;
   /** Array of hybridIdentityMetadata */
   value: HybridIdentityMetadataListValueList;
 }
@@ -838,40 +842,40 @@ export interface ListKubernetesVersionsRequest {
 /** List of supported Kubernetes versions */
 export type KubernetesVersionProfilePropertiesValuesList = Array<KubernetesVersionProperties>;
 export interface KubernetesVersionProfileProperties {
-  provisioningState?: ProvisioningState;
+  provisioningState?: ProvisioningState | undefined;
   /** List of supported Kubernetes versions */
-  values?: KubernetesVersionProfilePropertiesValuesList;
+  values?: KubernetesVersionProfilePropertiesValuesList | undefined;
 }
 /** The supported kubernetes versions. */
 export interface KubernetesVersionProfile {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
-  extendedLocation?: ExtendedLocation;
-  properties?: KubernetesVersionProfileProperties;
+  systemData?: SystemData | undefined;
+  extendedLocation?: ExtendedLocation | undefined;
+  properties?: KubernetesVersionProfileProperties | undefined;
 }
 export type KubernetesVersionProfileListValueList = Array<KubernetesVersionProfile>;
 /** List of supported kubernetes versions. */
 export interface KubernetesVersionProfileList {
-  value?: KubernetesVersionProfileListValueList;
-  nextLink?: string;
+  value?: KubernetesVersionProfileListValueList | undefined;
+  nextLink?: string | undefined;
 }
 export interface ListOperationsRequest {}
 /** Localized display information for this particular operation. */
 export interface OperationDisplay {
   /** The localized friendly form of the resource provider name, e.g. "Microsoft Monitoring Insights" or "Microsoft Compute". */
-  provider?: string;
+  provider?: string | undefined;
   /** The localized friendly name of the resource type related to this operation. E.g. "Virtual Machines" or "Job Schedule Collections". */
-  resource?: string;
+  resource?: string | undefined;
   /** The concise, localized friendly name for the operation; suitable for dropdowns. E.g. "Create or Update Virtual Machine", "Restart Virtual Machine". */
-  operation?: string;
+  operation?: string | undefined;
   /** The short, localized friendly description of the operation; suitable for tool tips and detailed views. */
-  description?: string;
+  description?: string | undefined;
 }
 /** The intended executor of the operation; as in Resource Based Access Control (RBAC) and audit logs UX. Default value is "user,system" */
 export type OperationOrigin = "user" | "system" | "user,system";
@@ -880,57 +884,57 @@ export type OperationActionType = "Internal";
 /** Details of a REST API operation, returned from the Resource Provider Operations API */
 export interface Operation {
   /** The name of the operation, as per Resource-Based Access Control (RBAC). Examples: "Microsoft.Compute/virtualMachines/write", "Microsoft.Compute/virtualMachines/capture/action" */
-  name?: string;
+  name?: string | undefined;
   /** Whether the operation applies to data-plane. This is "true" for data-plane operations and "false" for ARM/control-plane operations. */
-  isDataAction?: boolean;
+  isDataAction?: boolean | undefined;
   /** Localized display information for this particular operation. */
-  display?: OperationDisplay;
+  display?: OperationDisplay | undefined;
   /** The intended executor of the operation; as in Resource Based Access Control (RBAC) and audit logs UX. Default value is "user,system" */
-  origin?: OperationOrigin;
+  origin?: OperationOrigin | undefined;
   /** Enum. Indicates the action type. "Internal" refers to actions that are for internal only APIs. */
-  actionType?: OperationActionType;
+  actionType?: OperationActionType | undefined;
 }
 /** List of operations supported by the resource provider */
 export type ListOperationsResponseValueList = Array<Operation>;
 export interface ListOperationsResponse {
   /** List of operations supported by the resource provider */
-  value?: ListOperationsResponseValueList;
+  value?: ListOperationsResponseValueList | undefined;
   /** URL to get the next set of operation list results (if there are any). */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListProvisionedClusterInstanceAdminKubeconfigRequest {
   /** The fully qualified Azure Resource Manager identifier of the connected cluster resource. */
   connectedClusterResourceUri: string;
 }
 export interface ListCredentialResponseError {
-  code?: string;
-  message?: string;
+  code?: string | undefined;
+  message?: string | undefined;
 }
 /** The credential result response. */
 export interface CredentialResult {
   /** The name of the credential. */
-  name?: string;
+  name?: string | undefined;
   /** Base64-encoded Kubernetes configuration file. */
-  value?: string;
+  value?: string | undefined;
 }
 /** Base64-encoded Kubernetes configuration file. */
 export type ListCredentialResponsePropertiesKubeconfigsList = Array<CredentialResult>;
 export interface ListCredentialResponseProperties {
   /** Base64-encoded Kubernetes configuration file. */
-  kubeconfigs?: ListCredentialResponsePropertiesKubeconfigsList;
+  kubeconfigs?: ListCredentialResponsePropertiesKubeconfigsList | undefined;
 }
 /** The list kubeconfig result response. */
 export interface ListCredentialResponse {
   /** Operation Id */
-  id?: string;
+  id?: string | undefined;
   /** Operation Name */
-  name?: string;
+  name?: string | undefined;
   /** ARM Resource Id of the provisioned cluster instance */
-  resourceId?: string;
-  status?: ProvisioningState;
-  error?: ListCredentialResponseError;
-  properties?: ListCredentialResponseProperties;
-  location?: string;
+  resourceId?: string | undefined;
+  status?: ProvisioningState | undefined;
+  error?: ListCredentialResponseError | undefined;
+  properties?: ListCredentialResponseProperties | undefined;
+  location?: string | undefined;
 }
 export interface ListProvisionedClusterInstancesRequest {
   /** The fully qualified Azure Resource Manager identifier of the connected cluster resource. */
@@ -939,21 +943,21 @@ export interface ListProvisionedClusterInstancesRequest {
 /** The provisioned cluster resource definition. */
 export interface ProvisionedCluster {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
-  properties?: ProvisionedClusterProperties;
-  extendedLocation?: ExtendedLocation;
+  systemData?: SystemData | undefined;
+  properties?: ProvisionedClusterProperties | undefined;
+  extendedLocation?: ExtendedLocation | undefined;
 }
 export type ProvisionedClusterListResultValueList = Array<ProvisionedCluster>;
 /** Lists the ProvisionedClusterInstance resource associated with the ConnectedCluster. */
 export interface ProvisionedClusterListResult {
-  value?: ProvisionedClusterListResultValueList;
-  nextLink?: string;
+  value?: ProvisionedClusterListResultValueList | undefined;
+  nextLink?: string | undefined;
 }
 export interface ListProvisionedClusterInstanceUserKubeconfigRequest {
   /** The fully qualified Azure Resource Manager identifier of the connected cluster resource. */
@@ -972,33 +976,33 @@ export type VirtualNetworkExtendedLocationType = "CustomLocation";
 /** Extended location pointing to the underlying infrastructure */
 export interface VirtualNetworkExtendedLocation {
   /** The extended location type. Allowed value: 'CustomLocation' */
-  type?: VirtualNetworkExtendedLocationType;
+  type?: VirtualNetworkExtendedLocationType | undefined;
   /** ARM Id of the extended location. */
-  name?: string;
+  name?: string | undefined;
 }
 /** The Virtual Network resource definition. */
 export interface VirtualNetwork {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: VirtualNetworkTagsMap;
+  tags?: VirtualNetworkTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
-  properties?: VirtualNetworkProperties;
+  properties?: VirtualNetworkProperties | undefined;
   /** Extended location pointing to the underlying infrastructure */
-  extendedLocation?: VirtualNetworkExtendedLocation;
+  extendedLocation?: VirtualNetworkExtendedLocation | undefined;
 }
 export type VirtualNetworksListResultValueList = Array<VirtualNetwork>;
 /** A list of virtual network resources. */
 export interface VirtualNetworksListResult {
-  value?: VirtualNetworksListResultValueList;
-  nextLink?: string;
+  value?: VirtualNetworksListResultValueList | undefined;
+  nextLink?: string | undefined;
 }
 export interface ListVirtualNetworkBySubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1011,28 +1015,28 @@ export interface ListVMSkusRequest {
 /** List of supported VM SKUs. */
 export type VmSkuProfilePropertiesValuesList = Array<VmSkuProperties>;
 export interface VmSkuProfileProperties {
-  provisioningState?: ProvisioningState;
+  provisioningState?: ProvisioningState | undefined;
   /** List of supported VM SKUs. */
-  values?: VmSkuProfilePropertiesValuesList;
+  values?: VmSkuProfilePropertiesValuesList | undefined;
 }
 /** The list of supported VM SKUs. */
 export interface VmSkuProfile {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
-  extendedLocation?: ExtendedLocation;
-  properties?: VmSkuProfileProperties;
+  systemData?: SystemData | undefined;
+  extendedLocation?: ExtendedLocation | undefined;
+  properties?: VmSkuProfileProperties | undefined;
 }
 export type VmSkuProfileListValueList = Array<VmSkuProfile>;
 /** The list of supported VM SKUs. */
 export interface VmSkuProfileList {
-  value?: VmSkuProfileListValueList;
-  nextLink?: string;
+  value?: VmSkuProfileListValueList | undefined;
+  nextLink?: string | undefined;
 }
 /** The node labels to be persisted across all nodes in agent pool. */
 export type NamedAgentPoolProfileInputNodeLabelsMap = { [key: string]: string | undefined };
@@ -1040,26 +1044,26 @@ export type NamedAgentPoolProfileInputNodeLabelsMap = { [key: string]: string | 
 export type NamedAgentPoolProfileInputNodeTaintsList = Array<string>;
 /** Profile of the default agent pool along with a name parameter */
 export interface NamedAgentPoolProfileInput {
-  osType?: OSType | (string & {});
-  osSKU?: OSSKU | (string & {});
+  osType?: OSType | (string & {}) | undefined;
+  osSKU?: OSSKU | (string & {}) | undefined;
   /** The node labels to be persisted across all nodes in agent pool. */
-  nodeLabels?: NamedAgentPoolProfileInputNodeLabelsMap;
+  nodeLabels?: NamedAgentPoolProfileInputNodeLabelsMap | undefined;
   /** Taints added to new nodes during node pool create and scale. For example, key=value:NoSchedule. */
-  nodeTaints?: NamedAgentPoolProfileInputNodeTaintsList;
+  nodeTaints?: NamedAgentPoolProfileInputNodeTaintsList | undefined;
   /** The maximum number of nodes for auto-scaling */
-  maxCount?: number;
+  maxCount?: number | undefined;
   /** The minimum number of nodes for auto-scaling */
-  minCount?: number;
+  minCount?: number | undefined;
   /** Whether to enable auto-scaler. Default value is false */
-  enableAutoScaling?: boolean;
+  enableAutoScaling?: boolean | undefined;
   /** The maximum number of pods that can run on a node. */
-  maxPods?: number;
+  maxPods?: number | undefined;
   /** Number of nodes in the agent pool. The default value is 1. */
-  count?: number;
+  count?: number | undefined;
   /** The VM sku size of the agent pool node VMs. */
-  vmSize?: string;
+  vmSize?: string | undefined;
   /** Unique name of the default agent pool in the context of the provisioned cluster. Default value is <clusterName>-nodepool1 */
-  name?: string;
+  name?: string | undefined;
 }
 /** The agent pool properties for the provisioned cluster. */
 export type ProvisionedClusterPropertiesInputAgentPoolProfilesList =
@@ -1073,87 +1077,87 @@ export type ProvisionedClusterPropertiesInputAutoScalerProfileExpander =
 /** Parameters to be applied to the cluster-autoscaler when auto scaling is enabled for the provisioned cluster. */
 export interface ProvisionedClusterPropertiesInputAutoScalerProfile {
   /** Valid values are 'true' and 'false' */
-  balance_similar_node_groups?: string;
+  balance_similar_node_groups?: string | undefined;
   /** If not specified, the default is 'random'. See [expanders](https://github.com/kubernetes/autoscaler/blob/master/cluster-autoscaler/FAQ.md#what-are-expanders) for more information. */
-  expander?: ProvisionedClusterPropertiesInputAutoScalerProfileExpander | (string & {});
+  expander?: ProvisionedClusterPropertiesInputAutoScalerProfileExpander | (string & {}) | undefined;
   /** The default is 10. */
-  max_empty_bulk_delete?: string;
+  max_empty_bulk_delete?: string | undefined;
   /** The default is 600. */
-  max_graceful_termination_sec?: string;
+  max_graceful_termination_sec?: string | undefined;
   /** The default is '15m'. Values must be an integer followed by an 'm'. No unit of time other than minutes (m) is supported. */
-  max_node_provision_time?: string;
+  max_node_provision_time?: string | undefined;
   /** The default is 45. The maximum is 100 and the minimum is 0. */
-  max_total_unready_percentage?: string;
+  max_total_unready_percentage?: string | undefined;
   /** For scenarios like burst/batch scale where you don't want CA to act before the kubernetes scheduler could schedule all the pods, you can tell CA to ignore unscheduled pods before they're a certain age. The default is '0s'. Values must be an integer followed by a unit ('s' for seconds, 'm' for minutes, 'h' for hours, etc). */
-  new_pod_scale_up_delay?: string;
+  new_pod_scale_up_delay?: string | undefined;
   /** This must be an integer. The default is 3. */
-  ok_total_unready_count?: string;
+  ok_total_unready_count?: string | undefined;
   /** The default is '10'. Values must be an integer number of seconds. */
-  scan_interval?: string;
+  scan_interval?: string | undefined;
   /** The default is '10m'. Values must be an integer followed by an 'm'. No unit of time other than minutes (m) is supported. */
-  scale_down_delay_after_add?: string;
+  scale_down_delay_after_add?: string | undefined;
   /** The default is the scan-interval. Values must be an integer followed by an 'm'. No unit of time other than minutes (m) is supported. */
-  scale_down_delay_after_delete?: string;
+  scale_down_delay_after_delete?: string | undefined;
   /** The default is '3m'. Values must be an integer followed by an 'm'. No unit of time other than minutes (m) is supported. */
-  scale_down_delay_after_failure?: string;
+  scale_down_delay_after_failure?: string | undefined;
   /** The default is '10m'. Values must be an integer followed by an 'm'. No unit of time other than minutes (m) is supported. */
-  scale_down_unneeded_time?: string;
+  scale_down_unneeded_time?: string | undefined;
   /** The default is '20m'. Values must be an integer followed by an 'm'. No unit of time other than minutes (m) is supported. */
-  scale_down_unready_time?: string;
+  scale_down_unready_time?: string | undefined;
   /** The default is '0.5'. */
-  scale_down_utilization_threshold?: string;
+  scale_down_utilization_threshold?: string | undefined;
   /** The default is true. */
-  skip_nodes_with_local_storage?: string;
+  skip_nodes_with_local_storage?: string | undefined;
   /** The default is true. */
-  skip_nodes_with_system_pods?: string;
+  skip_nodes_with_system_pods?: string | undefined;
 }
 /** Properties of the provisioned cluster. */
 export interface ProvisionedClusterPropertiesInput {
   /** The profile for Linux VMs in the provisioned cluster. */
-  linuxProfile?: LinuxProfileProperties;
+  linuxProfile?: LinuxProfileProperties | undefined;
   /** The profile for control plane of the provisioned cluster. */
-  controlPlane?: ControlPlaneProfile;
+  controlPlane?: ControlPlaneProfile | undefined;
   /** The version of Kubernetes in use by the provisioned cluster. */
-  kubernetesVersion?: string;
+  kubernetesVersion?: string | undefined;
   /** The network configuration profile for the provisioned cluster. */
-  networkProfile?: NetworkProfile;
+  networkProfile?: NetworkProfile | undefined;
   /** The storage configuration profile for the provisioned cluster. */
-  storageProfile?: StorageProfile;
+  storageProfile?: StorageProfile | undefined;
   /** The SSH restricted access profile for the VMs in the provisioned cluster. */
-  clusterVMAccessProfile?: ClusterVMAccessProfile;
+  clusterVMAccessProfile?: ClusterVMAccessProfile | undefined;
   /** The agent pool properties for the provisioned cluster. */
-  agentPoolProfiles?: ProvisionedClusterPropertiesInputAgentPoolProfilesList;
+  agentPoolProfiles?: ProvisionedClusterPropertiesInputAgentPoolProfilesList | undefined;
   /** The profile for the underlying cloud infrastructure provider for the provisioned cluster. */
-  cloudProviderProfile?: CloudProviderProfile;
+  cloudProviderProfile?: CloudProviderProfile | undefined;
   /** The license profile of the provisioned cluster. */
-  licenseProfile?: ProvisionedClusterLicenseProfile;
+  licenseProfile?: ProvisionedClusterLicenseProfile | undefined;
   /** Parameters to be applied to the cluster-autoscaler when auto scaling is enabled for the provisioned cluster. */
-  autoScalerProfile?: ProvisionedClusterPropertiesInputAutoScalerProfile;
+  autoScalerProfile?: ProvisionedClusterPropertiesInputAutoScalerProfile | undefined;
 }
 export interface ProvisionedClusterInstancesCreateOrUpdateRequest {
   /** The fully qualified Azure Resource Manager identifier of the connected cluster resource. */
   connectedClusterResourceUri: string;
-  properties?: ProvisionedClusterPropertiesInput;
-  extendedLocation?: ExtendedLocation;
+  properties?: ProvisionedClusterPropertiesInput | undefined;
+  extendedLocation?: ExtendedLocation | undefined;
 }
 export interface ProvisionedClusterInstancesCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
-  properties?: ProvisionedClusterProperties;
-  extendedLocation?: ExtendedLocation;
+  systemData?: SystemData | undefined;
+  properties?: ProvisionedClusterProperties | undefined;
+  extendedLocation?: ExtendedLocation | undefined;
 }
 /** Defines the resource properties for the hybrid identity metadata. */
 export interface HybridIdentityMetadataPropertiesInput {
   /** Unique id of the parent provisioned cluster resource. */
-  resourceUid?: string;
+  resourceUid?: string | undefined;
   /** Onboarding public key for provisioning the Managed identity for the connected cluster. */
-  publicKey?: string;
+  publicKey?: string | undefined;
 }
 export interface PutHybridIdentityMetadataRequest {
   /** The fully qualified Azure Resource Manager identifier of the connected cluster resource. */
@@ -1163,63 +1167,63 @@ export interface PutHybridIdentityMetadataRequest {
 }
 export interface PutHybridIdentityMetadataResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource properties. */
   properties: HybridIdentityMetadataProperties;
 }
 export interface PutKubernetesVersionsRequest {
   /** The fully qualified Azure Resource Manager identifier of the custom location resource. */
   customLocationResourceUri: string;
-  extendedLocation?: ExtendedLocation;
+  extendedLocation?: ExtendedLocation | undefined;
 }
 /** List of supported Kubernetes versions */
 export type PutKubernetesVersionsResponsePropertiesValuesList = Array<KubernetesVersionProperties>;
 export interface PutKubernetesVersionsResponseProperties {
-  provisioningState?: ProvisioningState;
+  provisioningState?: ProvisioningState | undefined;
   /** List of supported Kubernetes versions */
-  values?: PutKubernetesVersionsResponsePropertiesValuesList;
+  values?: PutKubernetesVersionsResponsePropertiesValuesList | undefined;
 }
 export interface PutKubernetesVersionsResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
-  extendedLocation?: ExtendedLocation;
-  properties?: PutKubernetesVersionsResponseProperties;
+  systemData?: SystemData | undefined;
+  extendedLocation?: ExtendedLocation | undefined;
+  properties?: PutKubernetesVersionsResponseProperties | undefined;
 }
 export interface PutVMSkusRequest {
   /** The fully qualified Azure Resource Manager identifier of the custom location resource. */
   customLocationResourceUri: string;
-  extendedLocation?: ExtendedLocation;
+  extendedLocation?: ExtendedLocation | undefined;
 }
 /** List of supported VM SKUs. */
 export type PutVMSkusResponsePropertiesValuesList = Array<VmSkuProperties>;
 export interface PutVMSkusResponseProperties {
-  provisioningState?: ProvisioningState;
+  provisioningState?: ProvisioningState | undefined;
   /** List of supported VM SKUs. */
-  values?: PutVMSkusResponsePropertiesValuesList;
+  values?: PutVMSkusResponsePropertiesValuesList | undefined;
 }
 export interface PutVMSkusResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
-  extendedLocation?: ExtendedLocation;
-  properties?: PutVMSkusResponseProperties;
+  systemData?: SystemData | undefined;
+  extendedLocation?: ExtendedLocation | undefined;
+  properties?: PutVMSkusResponseProperties | undefined;
 }
 /** Resource tags */
 export type UpdateVirtualNetworkRequestTagsMap = { [key: string]: string | undefined };
@@ -1231,7 +1235,7 @@ export interface UpdateVirtualNetworkRequest {
   /** Parameter for the name of the virtual network */
   virtualNetworkName: string;
   /** Resource tags */
-  tags?: UpdateVirtualNetworkRequestTagsMap;
+  tags?: UpdateVirtualNetworkRequestTagsMap | undefined;
 }
 /** Resource tags. */
 export type UpdateVirtualNetworkResponseTagsMap = { [key: string]: string | undefined };
@@ -1240,26 +1244,26 @@ export type UpdateVirtualNetworkResponseExtendedLocationType = "CustomLocation";
 /** Extended location pointing to the underlying infrastructure */
 export interface UpdateVirtualNetworkResponseExtendedLocation {
   /** The extended location type. Allowed value: 'CustomLocation' */
-  type?: UpdateVirtualNetworkResponseExtendedLocationType;
+  type?: UpdateVirtualNetworkResponseExtendedLocationType | undefined;
   /** ARM Id of the extended location. */
-  name?: string;
+  name?: string | undefined;
 }
 export interface UpdateVirtualNetworkResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: UpdateVirtualNetworkResponseTagsMap;
+  tags?: UpdateVirtualNetworkResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
-  properties?: VirtualNetworkProperties;
+  properties?: VirtualNetworkProperties | undefined;
   /** Extended location pointing to the underlying infrastructure */
-  extendedLocation?: UpdateVirtualNetworkResponseExtendedLocation;
+  extendedLocation?: UpdateVirtualNetworkResponseExtendedLocation | undefined;
 }
 /** Resource tags. */
 export type VirtualNetworksCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
@@ -1278,28 +1282,28 @@ export type VirtualNetworkPropertiesInputVmipPoolList = Array<VirtualNetworkProp
 export type VirtualNetworkPropertiesInputDnsServersList = Array<string>;
 /** Properties of the virtual network resource */
 export interface VirtualNetworkPropertiesInput {
-  infraVnetProfile?: VirtualNetworkPropertiesInfraVnetProfile;
+  infraVnetProfile?: VirtualNetworkPropertiesInfraVnetProfile | undefined;
   /** Range of IP Addresses for Kubernetes API Server and services if using HA Proxy load balancer */
-  vipPool?: VirtualNetworkPropertiesInputVipPoolList;
+  vipPool?: VirtualNetworkPropertiesInputVipPoolList | undefined;
   /** Range of IP Addresses for Kubernetes node VMs */
-  vmipPool?: VirtualNetworkPropertiesInputVmipPoolList;
+  vmipPool?: VirtualNetworkPropertiesInputVmipPoolList | undefined;
   /** List of DNS server IP Addresses associated with the network */
-  dnsServers?: VirtualNetworkPropertiesInputDnsServersList;
+  dnsServers?: VirtualNetworkPropertiesInputDnsServersList | undefined;
   /** IP Address of the Gateway associated with the network */
-  gateway?: string;
+  gateway?: string | undefined;
   /** IP Address Prefix of the network */
-  ipAddressPrefix?: string;
+  ipAddressPrefix?: string | undefined;
   /** VLAN Id used by the network */
-  vlanID?: number;
+  vlanID?: number | undefined;
 }
 /** The extended location type. Allowed value: 'CustomLocation' */
 export type VirtualNetworksCreateOrUpdateRequestExtendedLocationType = "CustomLocation";
 /** Extended location pointing to the underlying infrastructure */
 export interface VirtualNetworksCreateOrUpdateRequestExtendedLocation {
   /** The extended location type. Allowed value: 'CustomLocation' */
-  type?: VirtualNetworksCreateOrUpdateRequestExtendedLocationType | (string & {});
+  type?: VirtualNetworksCreateOrUpdateRequestExtendedLocationType | (string & {}) | undefined;
   /** ARM Id of the extended location. */
-  name?: string;
+  name?: string | undefined;
 }
 export interface VirtualNetworksCreateOrUpdateRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1309,12 +1313,12 @@ export interface VirtualNetworksCreateOrUpdateRequest {
   /** Parameter for the name of the virtual network */
   virtualNetworkName: string;
   /** Resource tags. */
-  tags?: VirtualNetworksCreateOrUpdateRequestTagsMap;
+  tags?: VirtualNetworksCreateOrUpdateRequestTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
-  properties?: VirtualNetworkPropertiesInput;
+  properties?: VirtualNetworkPropertiesInput | undefined;
   /** Extended location pointing to the underlying infrastructure */
-  extendedLocation?: VirtualNetworksCreateOrUpdateRequestExtendedLocation;
+  extendedLocation?: VirtualNetworksCreateOrUpdateRequestExtendedLocation | undefined;
 }
 /** Resource tags. */
 export type VirtualNetworksCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
@@ -1323,26 +1327,26 @@ export type VirtualNetworksCreateOrUpdateResponseExtendedLocationType = "CustomL
 /** Extended location pointing to the underlying infrastructure */
 export interface VirtualNetworksCreateOrUpdateResponseExtendedLocation {
   /** The extended location type. Allowed value: 'CustomLocation' */
-  type?: VirtualNetworksCreateOrUpdateResponseExtendedLocationType;
+  type?: VirtualNetworksCreateOrUpdateResponseExtendedLocationType | undefined;
   /** ARM Id of the extended location. */
-  name?: string;
+  name?: string | undefined;
 }
 export interface VirtualNetworksCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: VirtualNetworksCreateOrUpdateResponseTagsMap;
+  tags?: VirtualNetworksCreateOrUpdateResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
-  properties?: VirtualNetworkProperties;
+  properties?: VirtualNetworkProperties | undefined;
   /** Extended location pointing to the underlying infrastructure */
-  extendedLocation?: VirtualNetworksCreateOrUpdateResponseExtendedLocation;
+  extendedLocation?: VirtualNetworksCreateOrUpdateResponseExtendedLocation | undefined;
 }
 export type AgentPoolCreateOrUpdateError = AzureOpError;
 /** Creates or updates the agent pool in the provisioned cluster Creates or updates the agent pool in the provisioned cluster */

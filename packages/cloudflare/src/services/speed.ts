@@ -102,7 +102,7 @@ export interface CreatePageTestRequest {
   /** A URL. */
   url: string;
   /** A test region. */
-  region?: PagesTestsCreateRequestRegion | (string & {});
+  region?: PagesTestsCreateRequestRegion | (string & {}) | undefined;
 }
 export type PagesTestsCreateResponseDesktopReportDeviceType = "DESKTOP" | "MOBILE";
 export type PagesTestsCreateResponseDesktopReportErrorCode =
@@ -113,37 +113,37 @@ export type PagesTestsCreateResponseDesktopReportErrorCode =
   | "UNKNOWN";
 export interface PagesTestsCreateResponseDesktopReportError {
   /** The error code of the Lighthouse result. */
-  code?: PagesTestsCreateResponseDesktopReportErrorCode | null;
+  code?: PagesTestsCreateResponseDesktopReportErrorCode | null | undefined;
   /** Detailed error message. */
-  detail?: string | null;
+  detail?: string | null | undefined;
   /** The final URL displayed to the user. */
-  finalDisplayedUrl?: string | null;
+  finalDisplayedUrl?: string | null | undefined;
 }
 export type PagesTestsCreateResponseDesktopReportState = "RUNNING" | "COMPLETE" | "FAILED";
 export interface PagesTestsCreateResponseDesktopReport {
   /** Cumulative Layout Shift. */
-  cls?: number | null;
+  cls?: number | null | undefined;
   /** The type of device. */
-  deviceType?: PagesTestsCreateResponseDesktopReportDeviceType | null;
-  error?: PagesTestsCreateResponseDesktopReportError | null;
+  deviceType?: PagesTestsCreateResponseDesktopReportDeviceType | null | undefined;
+  error?: PagesTestsCreateResponseDesktopReportError | null | undefined;
   /** First Contentful Paint. */
-  fcp?: number | null;
+  fcp?: number | null | undefined;
   /** The URL to the full Lighthouse JSON report. */
-  jsonReportUrl?: string | null;
+  jsonReportUrl?: string | null | undefined;
   /** Largest Contentful Paint. */
-  lcp?: number | null;
+  lcp?: number | null | undefined;
   /** The Lighthouse performance score. */
-  performanceScore?: number | null;
+  performanceScore?: number | null | undefined;
   /** Speed Index. */
-  si?: number | null;
+  si?: number | null | undefined;
   /** The state of the Lighthouse report. */
-  state?: PagesTestsCreateResponseDesktopReportState | null;
+  state?: PagesTestsCreateResponseDesktopReportState | null | undefined;
   /** Total Blocking Time. */
-  tbt?: number | null;
+  tbt?: number | null | undefined;
   /** Time To First Byte. */
-  ttfb?: number | null;
+  ttfb?: number | null | undefined;
   /** Time To Interactive. */
-  tti?: number | null;
+  tti?: number | null | undefined;
 }
 export type PagesTestsCreateResponseMobileReportDeviceType = "DESKTOP" | "MOBILE";
 export type PagesTestsCreateResponseMobileReportErrorCode =
@@ -154,37 +154,37 @@ export type PagesTestsCreateResponseMobileReportErrorCode =
   | "UNKNOWN";
 export interface PagesTestsCreateResponseMobileReportError {
   /** The error code of the Lighthouse result. */
-  code?: PagesTestsCreateResponseMobileReportErrorCode | null;
+  code?: PagesTestsCreateResponseMobileReportErrorCode | null | undefined;
   /** Detailed error message. */
-  detail?: string | null;
+  detail?: string | null | undefined;
   /** The final URL displayed to the user. */
-  finalDisplayedUrl?: string | null;
+  finalDisplayedUrl?: string | null | undefined;
 }
 export type PagesTestsCreateResponseMobileReportState = "RUNNING" | "COMPLETE" | "FAILED";
 export interface PagesTestsCreateResponseMobileReport {
   /** Cumulative Layout Shift. */
-  cls?: number | null;
+  cls?: number | null | undefined;
   /** The type of device. */
-  deviceType?: PagesTestsCreateResponseMobileReportDeviceType | null;
-  error?: PagesTestsCreateResponseMobileReportError | null;
+  deviceType?: PagesTestsCreateResponseMobileReportDeviceType | null | undefined;
+  error?: PagesTestsCreateResponseMobileReportError | null | undefined;
   /** First Contentful Paint. */
-  fcp?: number | null;
+  fcp?: number | null | undefined;
   /** The URL to the full Lighthouse JSON report. */
-  jsonReportUrl?: string | null;
+  jsonReportUrl?: string | null | undefined;
   /** Largest Contentful Paint. */
-  lcp?: number | null;
+  lcp?: number | null | undefined;
   /** The Lighthouse performance score. */
-  performanceScore?: number | null;
+  performanceScore?: number | null | undefined;
   /** Speed Index. */
-  si?: number | null;
+  si?: number | null | undefined;
   /** The state of the Lighthouse report. */
-  state?: PagesTestsCreateResponseMobileReportState | null;
+  state?: PagesTestsCreateResponseMobileReportState | null | undefined;
   /** Total Blocking Time. */
-  tbt?: number | null;
+  tbt?: number | null | undefined;
   /** Time To First Byte. */
-  ttfb?: number | null;
+  ttfb?: number | null | undefined;
   /** Time To Interactive. */
-  tti?: number | null;
+  tti?: number | null | undefined;
 }
 export type PagesTestsCreateResponseRegionValue =
   | "asia-east1"
@@ -209,26 +209,26 @@ export type PagesTestsCreateResponseRegionValue =
   | "us-south1"
   | "us-west1";
 export interface PagesTestsCreateResponseRegion {
-  label?: string | null;
+  label?: string | null | undefined;
   /** A test region. */
-  value?: PagesTestsCreateResponseRegionValue | null;
+  value?: PagesTestsCreateResponseRegionValue | null | undefined;
 }
 export type PagesTestsCreateResponseScheduleFrequency = "DAILY" | "WEEKLY";
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface CreatePageTestResponse {
   /** UUID. */
-  id?: string | null;
-  date?: string | null;
+  id?: string | null | undefined;
+  date?: string | null | undefined;
   /** The Lighthouse report. */
-  desktopReport?: PagesTestsCreateResponseDesktopReport | null;
+  desktopReport?: PagesTestsCreateResponseDesktopReport | null | undefined;
   /** The Lighthouse report. */
-  mobileReport?: PagesTestsCreateResponseMobileReport | null;
+  mobileReport?: PagesTestsCreateResponseMobileReport | null | undefined;
   /** A test region with a label. */
-  region?: PagesTestsCreateResponseRegion | null;
+  region?: PagesTestsCreateResponseRegion | null | undefined;
   /** The frequency of the test. */
-  scheduleFrequency?: PagesTestsCreateResponseScheduleFrequency | null;
+  scheduleFrequency?: PagesTestsCreateResponseScheduleFrequency | null | undefined;
   /** A URL. */
-  url?: string | null;
+  url?: string | null | undefined;
 }
 export type ScheduleCreateRequestFrequency = "DAILY" | "WEEKLY";
 export type ScheduleCreateRequestRegion =
@@ -259,9 +259,9 @@ export interface CreateScheduleRequest {
   /** A URL. */
   url: string;
   /** The frequency of the scheduled test. Defaults to WEEKLY for free plans, DAILY for paid plans. */
-  frequency?: ScheduleCreateRequestFrequency | (string & {});
+  frequency?: ScheduleCreateRequestFrequency | (string & {}) | undefined;
   /** A test region. */
-  region?: ScheduleCreateRequestRegion | (string & {});
+  region?: ScheduleCreateRequestRegion | (string & {}) | undefined;
 }
 export type ScheduleCreateResponseScheduleFrequency = "DAILY" | "WEEKLY";
 export type ScheduleCreateResponseScheduleRegion =
@@ -288,11 +288,11 @@ export type ScheduleCreateResponseScheduleRegion =
   | "us-west1";
 export interface ScheduleCreateResponseSchedule {
   /** The frequency of the test. */
-  frequency?: ScheduleCreateResponseScheduleFrequency | null;
+  frequency?: ScheduleCreateResponseScheduleFrequency | null | undefined;
   /** A test region. */
-  region?: ScheduleCreateResponseScheduleRegion | null;
+  region?: ScheduleCreateResponseScheduleRegion | null | undefined;
   /** A URL. */
-  url?: string | null;
+  url?: string | null | undefined;
 }
 export type ScheduleCreateResponseTestDesktopReportDeviceType = "DESKTOP" | "MOBILE";
 export type ScheduleCreateResponseTestDesktopReportErrorCode =
@@ -303,37 +303,37 @@ export type ScheduleCreateResponseTestDesktopReportErrorCode =
   | "UNKNOWN";
 export interface ScheduleCreateResponseTestDesktopReportError {
   /** The error code of the Lighthouse result. */
-  code?: ScheduleCreateResponseTestDesktopReportErrorCode | null;
+  code?: ScheduleCreateResponseTestDesktopReportErrorCode | null | undefined;
   /** Detailed error message. */
-  detail?: string | null;
+  detail?: string | null | undefined;
   /** The final URL displayed to the user. */
-  finalDisplayedUrl?: string | null;
+  finalDisplayedUrl?: string | null | undefined;
 }
 export type ScheduleCreateResponseTestDesktopReportState = "RUNNING" | "COMPLETE" | "FAILED";
 export interface ScheduleCreateResponseTestDesktopReport {
   /** Cumulative Layout Shift. */
-  cls?: number | null;
+  cls?: number | null | undefined;
   /** The type of device. */
-  deviceType?: ScheduleCreateResponseTestDesktopReportDeviceType | null;
-  error?: ScheduleCreateResponseTestDesktopReportError | null;
+  deviceType?: ScheduleCreateResponseTestDesktopReportDeviceType | null | undefined;
+  error?: ScheduleCreateResponseTestDesktopReportError | null | undefined;
   /** First Contentful Paint. */
-  fcp?: number | null;
+  fcp?: number | null | undefined;
   /** The URL to the full Lighthouse JSON report. */
-  jsonReportUrl?: string | null;
+  jsonReportUrl?: string | null | undefined;
   /** Largest Contentful Paint. */
-  lcp?: number | null;
+  lcp?: number | null | undefined;
   /** The Lighthouse performance score. */
-  performanceScore?: number | null;
+  performanceScore?: number | null | undefined;
   /** Speed Index. */
-  si?: number | null;
+  si?: number | null | undefined;
   /** The state of the Lighthouse report. */
-  state?: ScheduleCreateResponseTestDesktopReportState | null;
+  state?: ScheduleCreateResponseTestDesktopReportState | null | undefined;
   /** Total Blocking Time. */
-  tbt?: number | null;
+  tbt?: number | null | undefined;
   /** Time To First Byte. */
-  ttfb?: number | null;
+  ttfb?: number | null | undefined;
   /** Time To Interactive. */
-  tti?: number | null;
+  tti?: number | null | undefined;
 }
 export type ScheduleCreateResponseTestMobileReportDeviceType = "DESKTOP" | "MOBILE";
 export type ScheduleCreateResponseTestMobileReportErrorCode =
@@ -344,37 +344,37 @@ export type ScheduleCreateResponseTestMobileReportErrorCode =
   | "UNKNOWN";
 export interface ScheduleCreateResponseTestMobileReportError {
   /** The error code of the Lighthouse result. */
-  code?: ScheduleCreateResponseTestMobileReportErrorCode | null;
+  code?: ScheduleCreateResponseTestMobileReportErrorCode | null | undefined;
   /** Detailed error message. */
-  detail?: string | null;
+  detail?: string | null | undefined;
   /** The final URL displayed to the user. */
-  finalDisplayedUrl?: string | null;
+  finalDisplayedUrl?: string | null | undefined;
 }
 export type ScheduleCreateResponseTestMobileReportState = "RUNNING" | "COMPLETE" | "FAILED";
 export interface ScheduleCreateResponseTestMobileReport {
   /** Cumulative Layout Shift. */
-  cls?: number | null;
+  cls?: number | null | undefined;
   /** The type of device. */
-  deviceType?: ScheduleCreateResponseTestMobileReportDeviceType | null;
-  error?: ScheduleCreateResponseTestMobileReportError | null;
+  deviceType?: ScheduleCreateResponseTestMobileReportDeviceType | null | undefined;
+  error?: ScheduleCreateResponseTestMobileReportError | null | undefined;
   /** First Contentful Paint. */
-  fcp?: number | null;
+  fcp?: number | null | undefined;
   /** The URL to the full Lighthouse JSON report. */
-  jsonReportUrl?: string | null;
+  jsonReportUrl?: string | null | undefined;
   /** Largest Contentful Paint. */
-  lcp?: number | null;
+  lcp?: number | null | undefined;
   /** The Lighthouse performance score. */
-  performanceScore?: number | null;
+  performanceScore?: number | null | undefined;
   /** Speed Index. */
-  si?: number | null;
+  si?: number | null | undefined;
   /** The state of the Lighthouse report. */
-  state?: ScheduleCreateResponseTestMobileReportState | null;
+  state?: ScheduleCreateResponseTestMobileReportState | null | undefined;
   /** Total Blocking Time. */
-  tbt?: number | null;
+  tbt?: number | null | undefined;
   /** Time To First Byte. */
-  ttfb?: number | null;
+  ttfb?: number | null | undefined;
   /** Time To Interactive. */
-  tti?: number | null;
+  tti?: number | null | undefined;
 }
 export type ScheduleCreateResponseTestRegionValue =
   | "asia-east1"
@@ -399,31 +399,31 @@ export type ScheduleCreateResponseTestRegionValue =
   | "us-south1"
   | "us-west1";
 export interface ScheduleCreateResponseTestRegion {
-  label?: string | null;
+  label?: string | null | undefined;
   /** A test region. */
-  value?: ScheduleCreateResponseTestRegionValue | null;
+  value?: ScheduleCreateResponseTestRegionValue | null | undefined;
 }
 export type ScheduleCreateResponseTestScheduleFrequency = "DAILY" | "WEEKLY";
 export interface ScheduleCreateResponseTest {
   /** UUID. */
-  id?: string | null;
-  date?: string | null;
+  id?: string | null | undefined;
+  date?: string | null | undefined;
   /** The Lighthouse report. */
-  desktopReport?: ScheduleCreateResponseTestDesktopReport | null;
+  desktopReport?: ScheduleCreateResponseTestDesktopReport | null | undefined;
   /** The Lighthouse report. */
-  mobileReport?: ScheduleCreateResponseTestMobileReport | null;
+  mobileReport?: ScheduleCreateResponseTestMobileReport | null | undefined;
   /** A test region with a label. */
-  region?: ScheduleCreateResponseTestRegion | null;
+  region?: ScheduleCreateResponseTestRegion | null | undefined;
   /** The frequency of the test. */
-  scheduleFrequency?: ScheduleCreateResponseTestScheduleFrequency | null;
+  scheduleFrequency?: ScheduleCreateResponseTestScheduleFrequency | null | undefined;
   /** A URL. */
-  url?: string | null;
+  url?: string | null | undefined;
 }
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface CreateScheduleResponse {
   /** The test schedule. */
-  schedule?: ScheduleCreateResponseSchedule | null;
-  test?: ScheduleCreateResponseTest | null;
+  schedule?: ScheduleCreateResponseSchedule | null | undefined;
+  test?: ScheduleCreateResponseTest | null | undefined;
 }
 export type PagesTestsDeleteRequestRegion =
   | "asia-east1"
@@ -453,12 +453,12 @@ export interface DeletePageTestRequest {
   /** A URL. */
   url: string;
   /** A test region. */
-  region?: PagesTestsDeleteRequestRegion | (string & {});
+  region?: PagesTestsDeleteRequestRegion | (string & {}) | undefined;
 }
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface DeletePageTestResponse {
   /** Number of items affected. */
-  count?: number | null;
+  count?: number | null | undefined;
 }
 export type ScheduleDeleteRequestRegion =
   | "asia-east1"
@@ -488,12 +488,12 @@ export interface DeleteScheduleRequest {
   /** A URL. */
   url: string;
   /** A test region. */
-  region?: ScheduleDeleteRequestRegion | (string & {});
+  region?: ScheduleDeleteRequestRegion | (string & {}) | undefined;
 }
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface DeleteScheduleResponse {
   /** Number of items affected. */
-  count?: number | null;
+  count?: number | null | undefined;
 }
 export interface GetPageTestRequest {
   /** Identifier. */
@@ -511,37 +511,37 @@ export type PagesTestsGetResponseDesktopReportErrorCode =
   | "UNKNOWN";
 export interface PagesTestsGetResponseDesktopReportError {
   /** The error code of the Lighthouse result. */
-  code?: PagesTestsGetResponseDesktopReportErrorCode | null;
+  code?: PagesTestsGetResponseDesktopReportErrorCode | null | undefined;
   /** Detailed error message. */
-  detail?: string | null;
+  detail?: string | null | undefined;
   /** The final URL displayed to the user. */
-  finalDisplayedUrl?: string | null;
+  finalDisplayedUrl?: string | null | undefined;
 }
 export type PagesTestsGetResponseDesktopReportState = "RUNNING" | "COMPLETE" | "FAILED";
 export interface PagesTestsGetResponseDesktopReport {
   /** Cumulative Layout Shift. */
-  cls?: number | null;
+  cls?: number | null | undefined;
   /** The type of device. */
-  deviceType?: PagesTestsGetResponseDesktopReportDeviceType | null;
-  error?: PagesTestsGetResponseDesktopReportError | null;
+  deviceType?: PagesTestsGetResponseDesktopReportDeviceType | null | undefined;
+  error?: PagesTestsGetResponseDesktopReportError | null | undefined;
   /** First Contentful Paint. */
-  fcp?: number | null;
+  fcp?: number | null | undefined;
   /** The URL to the full Lighthouse JSON report. */
-  jsonReportUrl?: string | null;
+  jsonReportUrl?: string | null | undefined;
   /** Largest Contentful Paint. */
-  lcp?: number | null;
+  lcp?: number | null | undefined;
   /** The Lighthouse performance score. */
-  performanceScore?: number | null;
+  performanceScore?: number | null | undefined;
   /** Speed Index. */
-  si?: number | null;
+  si?: number | null | undefined;
   /** The state of the Lighthouse report. */
-  state?: PagesTestsGetResponseDesktopReportState | null;
+  state?: PagesTestsGetResponseDesktopReportState | null | undefined;
   /** Total Blocking Time. */
-  tbt?: number | null;
+  tbt?: number | null | undefined;
   /** Time To First Byte. */
-  ttfb?: number | null;
+  ttfb?: number | null | undefined;
   /** Time To Interactive. */
-  tti?: number | null;
+  tti?: number | null | undefined;
 }
 export type PagesTestsGetResponseMobileReportDeviceType = "DESKTOP" | "MOBILE";
 export type PagesTestsGetResponseMobileReportErrorCode =
@@ -552,37 +552,37 @@ export type PagesTestsGetResponseMobileReportErrorCode =
   | "UNKNOWN";
 export interface PagesTestsGetResponseMobileReportError {
   /** The error code of the Lighthouse result. */
-  code?: PagesTestsGetResponseMobileReportErrorCode | null;
+  code?: PagesTestsGetResponseMobileReportErrorCode | null | undefined;
   /** Detailed error message. */
-  detail?: string | null;
+  detail?: string | null | undefined;
   /** The final URL displayed to the user. */
-  finalDisplayedUrl?: string | null;
+  finalDisplayedUrl?: string | null | undefined;
 }
 export type PagesTestsGetResponseMobileReportState = "RUNNING" | "COMPLETE" | "FAILED";
 export interface PagesTestsGetResponseMobileReport {
   /** Cumulative Layout Shift. */
-  cls?: number | null;
+  cls?: number | null | undefined;
   /** The type of device. */
-  deviceType?: PagesTestsGetResponseMobileReportDeviceType | null;
-  error?: PagesTestsGetResponseMobileReportError | null;
+  deviceType?: PagesTestsGetResponseMobileReportDeviceType | null | undefined;
+  error?: PagesTestsGetResponseMobileReportError | null | undefined;
   /** First Contentful Paint. */
-  fcp?: number | null;
+  fcp?: number | null | undefined;
   /** The URL to the full Lighthouse JSON report. */
-  jsonReportUrl?: string | null;
+  jsonReportUrl?: string | null | undefined;
   /** Largest Contentful Paint. */
-  lcp?: number | null;
+  lcp?: number | null | undefined;
   /** The Lighthouse performance score. */
-  performanceScore?: number | null;
+  performanceScore?: number | null | undefined;
   /** Speed Index. */
-  si?: number | null;
+  si?: number | null | undefined;
   /** The state of the Lighthouse report. */
-  state?: PagesTestsGetResponseMobileReportState | null;
+  state?: PagesTestsGetResponseMobileReportState | null | undefined;
   /** Total Blocking Time. */
-  tbt?: number | null;
+  tbt?: number | null | undefined;
   /** Time To First Byte. */
-  ttfb?: number | null;
+  ttfb?: number | null | undefined;
   /** Time To Interactive. */
-  tti?: number | null;
+  tti?: number | null | undefined;
 }
 export type PagesTestsGetResponseRegionValue =
   | "asia-east1"
@@ -607,26 +607,26 @@ export type PagesTestsGetResponseRegionValue =
   | "us-south1"
   | "us-west1";
 export interface PagesTestsGetResponseRegion {
-  label?: string | null;
+  label?: string | null | undefined;
   /** A test region. */
-  value?: PagesTestsGetResponseRegionValue | null;
+  value?: PagesTestsGetResponseRegionValue | null | undefined;
 }
 export type PagesTestsGetResponseScheduleFrequency = "DAILY" | "WEEKLY";
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface GetPageTestResponse {
   /** UUID. */
-  id?: string | null;
-  date?: string | null;
+  id?: string | null | undefined;
+  date?: string | null | undefined;
   /** The Lighthouse report. */
-  desktopReport?: PagesTestsGetResponseDesktopReport | null;
+  desktopReport?: PagesTestsGetResponseDesktopReport | null | undefined;
   /** The Lighthouse report. */
-  mobileReport?: PagesTestsGetResponseMobileReport | null;
+  mobileReport?: PagesTestsGetResponseMobileReport | null | undefined;
   /** A test region with a label. */
-  region?: PagesTestsGetResponseRegion | null;
+  region?: PagesTestsGetResponseRegion | null | undefined;
   /** The frequency of the test. */
-  scheduleFrequency?: PagesTestsGetResponseScheduleFrequency | null;
+  scheduleFrequency?: PagesTestsGetResponseScheduleFrequency | null | undefined;
   /** A URL. */
-  url?: string | null;
+  url?: string | null | undefined;
 }
 export type ScheduleGetRequestRegion =
   | "asia-east1"
@@ -656,7 +656,7 @@ export interface GetScheduleRequest {
   /** A URL. */
   url: string;
   /** A test region. */
-  region?: ScheduleGetRequestRegion | (string & {});
+  region?: ScheduleGetRequestRegion | (string & {}) | undefined;
 }
 export type ScheduleGetResponseFrequency = "DAILY" | "WEEKLY";
 export type ScheduleGetResponseRegion =
@@ -684,25 +684,25 @@ export type ScheduleGetResponseRegion =
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface GetScheduleResponse {
   /** The frequency of the test. */
-  frequency?: ScheduleGetResponseFrequency | null;
+  frequency?: ScheduleGetResponseFrequency | null | undefined;
   /** A test region. */
-  region?: ScheduleGetResponseRegion | null;
+  region?: ScheduleGetResponseRegion | null | undefined;
   /** A URL. */
-  url?: string | null;
+  url?: string | null | undefined;
 }
 export interface ListAvailabilitiesRequest {
   /** Identifier. */
   zoneId: string;
 }
 export interface AvailabilitiesListResponseQuotaQuotasPerPlanValue {
-  business?: number | null;
-  enterprise?: number | null;
-  free?: number | null;
-  pro?: number | null;
+  business?: number | null | undefined;
+  enterprise?: number | null | undefined;
+  free?: number | null | undefined;
+  pro?: number | null | undefined;
 }
 export interface AvailabilitiesListResponseQuotaQuotasPerPlan {
   /** Counts per account plan. */
-  value?: AvailabilitiesListResponseQuotaQuotasPerPlanValue | null;
+  value?: AvailabilitiesListResponseQuotaQuotasPerPlanValue | null | undefined;
 }
 export type AvailabilitiesListResponseQuotaScheduleQuotasPerPlanValue =
   AvailabilitiesListResponseQuotaQuotasPerPlanValue;
@@ -710,15 +710,15 @@ export type AvailabilitiesListResponseQuotaScheduleQuotasPerPlan =
   AvailabilitiesListResponseQuotaQuotasPerPlan;
 export interface AvailabilitiesListResponseQuota {
   /** Cloudflare plan. */
-  plan?: string | null;
+  plan?: string | null | undefined;
   /** The number of tests available per plan. */
-  quotasPerPlan?: AvailabilitiesListResponseQuotaQuotasPerPlan | null;
+  quotasPerPlan?: AvailabilitiesListResponseQuotaQuotasPerPlan | null | undefined;
   /** The number of remaining schedules available. */
-  remainingSchedules?: number | null;
+  remainingSchedules?: number | null | undefined;
   /** The number of remaining tests available. */
-  remainingTests?: number | null;
+  remainingTests?: number | null | undefined;
   /** The number of schedules available per plan. */
-  scheduleQuotasPerPlan?: AvailabilitiesListResponseQuotaQuotasPerPlan | null;
+  scheduleQuotasPerPlan?: AvailabilitiesListResponseQuotaQuotasPerPlan | null | undefined;
 }
 export type AvailabilitiesListResponseRegionsItemValue =
   | "asia-east1"
@@ -743,9 +743,9 @@ export type AvailabilitiesListResponseRegionsItemValue =
   | "us-south1"
   | "us-west1";
 export interface AvailabilitiesListResponseRegionsItem {
-  label?: string | null;
+  label?: string | null | undefined;
   /** A test region. */
-  value?: AvailabilitiesListResponseRegionsItemValue | null;
+  value?: AvailabilitiesListResponseRegionsItemValue | null | undefined;
 }
 export type AvailabilitiesListResponseRegionsList = Array<AvailabilitiesListResponseRegionsItem>;
 export type AvailabilitiesListResponseRegionsPerPlanBusinessItemValue =
@@ -771,9 +771,9 @@ export type AvailabilitiesListResponseRegionsPerPlanBusinessItemValue =
   | "us-south1"
   | "us-west1";
 export interface AvailabilitiesListResponseRegionsPerPlanBusinessItem {
-  label?: string | null;
+  label?: string | null | undefined;
   /** A test region. */
-  value?: AvailabilitiesListResponseRegionsPerPlanBusinessItemValue | null;
+  value?: AvailabilitiesListResponseRegionsPerPlanBusinessItemValue | null | undefined;
 }
 export type AvailabilitiesListResponseRegionsPerPlanBusinessList =
   Array<AvailabilitiesListResponseRegionsPerPlanBusinessItem>;
@@ -800,9 +800,9 @@ export type AvailabilitiesListResponseRegionsPerPlanEnterpriseItemValue =
   | "us-south1"
   | "us-west1";
 export interface AvailabilitiesListResponseRegionsPerPlanEnterpriseItem {
-  label?: string | null;
+  label?: string | null | undefined;
   /** A test region. */
-  value?: AvailabilitiesListResponseRegionsPerPlanEnterpriseItemValue | null;
+  value?: AvailabilitiesListResponseRegionsPerPlanEnterpriseItemValue | null | undefined;
 }
 export type AvailabilitiesListResponseRegionsPerPlanEnterpriseList =
   Array<AvailabilitiesListResponseRegionsPerPlanEnterpriseItem>;
@@ -829,9 +829,9 @@ export type AvailabilitiesListResponseRegionsPerPlanFreeItemValue =
   | "us-south1"
   | "us-west1";
 export interface AvailabilitiesListResponseRegionsPerPlanFreeItem {
-  label?: string | null;
+  label?: string | null | undefined;
   /** A test region. */
-  value?: AvailabilitiesListResponseRegionsPerPlanFreeItemValue | null;
+  value?: AvailabilitiesListResponseRegionsPerPlanFreeItemValue | null | undefined;
 }
 export type AvailabilitiesListResponseRegionsPerPlanFreeList =
   Array<AvailabilitiesListResponseRegionsPerPlanFreeItem>;
@@ -858,24 +858,24 @@ export type AvailabilitiesListResponseRegionsPerPlanProItemValue =
   | "us-south1"
   | "us-west1";
 export interface AvailabilitiesListResponseRegionsPerPlanProItem {
-  label?: string | null;
+  label?: string | null | undefined;
   /** A test region. */
-  value?: AvailabilitiesListResponseRegionsPerPlanProItemValue | null;
+  value?: AvailabilitiesListResponseRegionsPerPlanProItemValue | null | undefined;
 }
 export type AvailabilitiesListResponseRegionsPerPlanProList =
   Array<AvailabilitiesListResponseRegionsPerPlanProItem>;
 export interface AvailabilitiesListResponseRegionsPerPlan {
-  business?: AvailabilitiesListResponseRegionsPerPlanBusinessList | null;
-  enterprise?: AvailabilitiesListResponseRegionsPerPlanEnterpriseList | null;
-  free?: AvailabilitiesListResponseRegionsPerPlanFreeList | null;
-  pro?: AvailabilitiesListResponseRegionsPerPlanProList | null;
+  business?: AvailabilitiesListResponseRegionsPerPlanBusinessList | null | undefined;
+  enterprise?: AvailabilitiesListResponseRegionsPerPlanEnterpriseList | null | undefined;
+  free?: AvailabilitiesListResponseRegionsPerPlanFreeList | null | undefined;
+  pro?: AvailabilitiesListResponseRegionsPerPlanProList | null | undefined;
 }
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface ListAvailabilitiesResponse {
-  quota?: AvailabilitiesListResponseQuota | null;
-  regions?: AvailabilitiesListResponseRegionsList | null;
+  quota?: AvailabilitiesListResponseQuota | null | undefined;
+  regions?: AvailabilitiesListResponseRegionsList | null | undefined;
   /** Available regions. */
-  regionsPerPlan?: AvailabilitiesListResponseRegionsPerPlan | null;
+  regionsPerPlan?: AvailabilitiesListResponseRegionsPerPlan | null | undefined;
 }
 export interface ListPagesRequest {
   /** Identifier. */
@@ -904,9 +904,9 @@ export type PagesListResultItemRegionValue =
   | "us-south1"
   | "us-west1";
 export interface PagesListResultItemRegion {
-  label?: string | null;
+  label?: string | null | undefined;
   /** A test region. */
-  value?: PagesListResultItemRegionValue | null;
+  value?: PagesListResultItemRegionValue | null | undefined;
 }
 export type PagesListResultItemScheduleFrequency = "DAILY" | "WEEKLY";
 export type PagesListResultItemTestsItemDesktopReportDeviceType = "DESKTOP" | "MOBILE";
@@ -918,37 +918,37 @@ export type PagesListResultItemTestsItemDesktopReportErrorCode =
   | "UNKNOWN";
 export interface PagesListResultItemTestsItemDesktopReportError {
   /** The error code of the Lighthouse result. */
-  code?: PagesListResultItemTestsItemDesktopReportErrorCode | null;
+  code?: PagesListResultItemTestsItemDesktopReportErrorCode | null | undefined;
   /** Detailed error message. */
-  detail?: string | null;
+  detail?: string | null | undefined;
   /** The final URL displayed to the user. */
-  finalDisplayedUrl?: string | null;
+  finalDisplayedUrl?: string | null | undefined;
 }
 export type PagesListResultItemTestsItemDesktopReportState = "RUNNING" | "COMPLETE" | "FAILED";
 export interface PagesListResultItemTestsItemDesktopReport {
   /** Cumulative Layout Shift. */
-  cls?: number | null;
+  cls?: number | null | undefined;
   /** The type of device. */
-  deviceType?: PagesListResultItemTestsItemDesktopReportDeviceType | null;
-  error?: PagesListResultItemTestsItemDesktopReportError | null;
+  deviceType?: PagesListResultItemTestsItemDesktopReportDeviceType | null | undefined;
+  error?: PagesListResultItemTestsItemDesktopReportError | null | undefined;
   /** First Contentful Paint. */
-  fcp?: number | null;
+  fcp?: number | null | undefined;
   /** The URL to the full Lighthouse JSON report. */
-  jsonReportUrl?: string | null;
+  jsonReportUrl?: string | null | undefined;
   /** Largest Contentful Paint. */
-  lcp?: number | null;
+  lcp?: number | null | undefined;
   /** The Lighthouse performance score. */
-  performanceScore?: number | null;
+  performanceScore?: number | null | undefined;
   /** Speed Index. */
-  si?: number | null;
+  si?: number | null | undefined;
   /** The state of the Lighthouse report. */
-  state?: PagesListResultItemTestsItemDesktopReportState | null;
+  state?: PagesListResultItemTestsItemDesktopReportState | null | undefined;
   /** Total Blocking Time. */
-  tbt?: number | null;
+  tbt?: number | null | undefined;
   /** Time To First Byte. */
-  ttfb?: number | null;
+  ttfb?: number | null | undefined;
   /** Time To Interactive. */
-  tti?: number | null;
+  tti?: number | null | undefined;
 }
 export type PagesListResultItemTestsItemMobileReportDeviceType = "DESKTOP" | "MOBILE";
 export type PagesListResultItemTestsItemMobileReportErrorCode =
@@ -959,37 +959,37 @@ export type PagesListResultItemTestsItemMobileReportErrorCode =
   | "UNKNOWN";
 export interface PagesListResultItemTestsItemMobileReportError {
   /** The error code of the Lighthouse result. */
-  code?: PagesListResultItemTestsItemMobileReportErrorCode | null;
+  code?: PagesListResultItemTestsItemMobileReportErrorCode | null | undefined;
   /** Detailed error message. */
-  detail?: string | null;
+  detail?: string | null | undefined;
   /** The final URL displayed to the user. */
-  finalDisplayedUrl?: string | null;
+  finalDisplayedUrl?: string | null | undefined;
 }
 export type PagesListResultItemTestsItemMobileReportState = "RUNNING" | "COMPLETE" | "FAILED";
 export interface PagesListResultItemTestsItemMobileReport {
   /** Cumulative Layout Shift. */
-  cls?: number | null;
+  cls?: number | null | undefined;
   /** The type of device. */
-  deviceType?: PagesListResultItemTestsItemMobileReportDeviceType | null;
-  error?: PagesListResultItemTestsItemMobileReportError | null;
+  deviceType?: PagesListResultItemTestsItemMobileReportDeviceType | null | undefined;
+  error?: PagesListResultItemTestsItemMobileReportError | null | undefined;
   /** First Contentful Paint. */
-  fcp?: number | null;
+  fcp?: number | null | undefined;
   /** The URL to the full Lighthouse JSON report. */
-  jsonReportUrl?: string | null;
+  jsonReportUrl?: string | null | undefined;
   /** Largest Contentful Paint. */
-  lcp?: number | null;
+  lcp?: number | null | undefined;
   /** The Lighthouse performance score. */
-  performanceScore?: number | null;
+  performanceScore?: number | null | undefined;
   /** Speed Index. */
-  si?: number | null;
+  si?: number | null | undefined;
   /** The state of the Lighthouse report. */
-  state?: PagesListResultItemTestsItemMobileReportState | null;
+  state?: PagesListResultItemTestsItemMobileReportState | null | undefined;
   /** Total Blocking Time. */
-  tbt?: number | null;
+  tbt?: number | null | undefined;
   /** Time To First Byte. */
-  ttfb?: number | null;
+  ttfb?: number | null | undefined;
   /** Time To Interactive. */
-  tti?: number | null;
+  tti?: number | null | undefined;
 }
 export type PagesListResultItemTestsItemRegionValue =
   | "asia-east1"
@@ -1014,42 +1014,42 @@ export type PagesListResultItemTestsItemRegionValue =
   | "us-south1"
   | "us-west1";
 export interface PagesListResultItemTestsItemRegion {
-  label?: string | null;
+  label?: string | null | undefined;
   /** A test region. */
-  value?: PagesListResultItemTestsItemRegionValue | null;
+  value?: PagesListResultItemTestsItemRegionValue | null | undefined;
 }
 export type PagesListResultItemTestsItemScheduleFrequency = "DAILY" | "WEEKLY";
 export interface PagesListResultItemTestsItem {
   /** UUID. */
-  id?: string | null;
-  date?: string | null;
+  id?: string | null | undefined;
+  date?: string | null | undefined;
   /** The Lighthouse report. */
-  desktopReport?: PagesListResultItemTestsItemDesktopReport | null;
+  desktopReport?: PagesListResultItemTestsItemDesktopReport | null | undefined;
   /** The Lighthouse report. */
-  mobileReport?: PagesListResultItemTestsItemMobileReport | null;
+  mobileReport?: PagesListResultItemTestsItemMobileReport | null | undefined;
   /** A test region with a label. */
-  region?: PagesListResultItemTestsItemRegion | null;
+  region?: PagesListResultItemTestsItemRegion | null | undefined;
   /** The frequency of the test. */
-  scheduleFrequency?: PagesListResultItemTestsItemScheduleFrequency | null;
+  scheduleFrequency?: PagesListResultItemTestsItemScheduleFrequency | null | undefined;
   /** A URL. */
-  url?: string | null;
+  url?: string | null | undefined;
 }
 export type PagesListResultItemTestsList = Array<PagesListResultItemTestsItem>;
 export interface PagesListResultItem {
   /** A test region with a label. */
-  region?: PagesListResultItemRegion | null;
+  region?: PagesListResultItemRegion | null | undefined;
   /** The frequency of the test. */
-  scheduleFrequency?: PagesListResultItemScheduleFrequency | null;
-  tests?: PagesListResultItemTestsList | null;
+  scheduleFrequency?: PagesListResultItemScheduleFrequency | null | undefined;
+  tests?: PagesListResultItemTestsList | null | undefined;
   /** A URL. */
-  url?: string | null;
+  url?: string | null | undefined;
 }
 export type PagesListResultList = Array<PagesListResultItem>;
 export interface ListPagesResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: PagesListResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export type PagesTestsListRequestRegion =
   | "asia-east1"
@@ -1078,10 +1078,10 @@ export interface ListPageTestsRequest {
   zoneId: string;
   /** A URL. */
   url: string;
-  page?: number;
-  perPage?: number;
+  page?: number | undefined;
+  perPage?: number | undefined;
   /** A test region. */
-  region?: PagesTestsListRequestRegion | (string & {});
+  region?: PagesTestsListRequestRegion | (string & {}) | undefined;
 }
 export type PagesTestsListResultItemDesktopReportDeviceType = "DESKTOP" | "MOBILE";
 export type PagesTestsListResultItemDesktopReportErrorCode =
@@ -1092,37 +1092,37 @@ export type PagesTestsListResultItemDesktopReportErrorCode =
   | "UNKNOWN";
 export interface PagesTestsListResultItemDesktopReportError {
   /** The error code of the Lighthouse result. */
-  code?: PagesTestsListResultItemDesktopReportErrorCode | null;
+  code?: PagesTestsListResultItemDesktopReportErrorCode | null | undefined;
   /** Detailed error message. */
-  detail?: string | null;
+  detail?: string | null | undefined;
   /** The final URL displayed to the user. */
-  finalDisplayedUrl?: string | null;
+  finalDisplayedUrl?: string | null | undefined;
 }
 export type PagesTestsListResultItemDesktopReportState = "RUNNING" | "COMPLETE" | "FAILED";
 export interface PagesTestsListResultItemDesktopReport {
   /** Cumulative Layout Shift. */
-  cls?: number | null;
+  cls?: number | null | undefined;
   /** The type of device. */
-  deviceType?: PagesTestsListResultItemDesktopReportDeviceType | null;
-  error?: PagesTestsListResultItemDesktopReportError | null;
+  deviceType?: PagesTestsListResultItemDesktopReportDeviceType | null | undefined;
+  error?: PagesTestsListResultItemDesktopReportError | null | undefined;
   /** First Contentful Paint. */
-  fcp?: number | null;
+  fcp?: number | null | undefined;
   /** The URL to the full Lighthouse JSON report. */
-  jsonReportUrl?: string | null;
+  jsonReportUrl?: string | null | undefined;
   /** Largest Contentful Paint. */
-  lcp?: number | null;
+  lcp?: number | null | undefined;
   /** The Lighthouse performance score. */
-  performanceScore?: number | null;
+  performanceScore?: number | null | undefined;
   /** Speed Index. */
-  si?: number | null;
+  si?: number | null | undefined;
   /** The state of the Lighthouse report. */
-  state?: PagesTestsListResultItemDesktopReportState | null;
+  state?: PagesTestsListResultItemDesktopReportState | null | undefined;
   /** Total Blocking Time. */
-  tbt?: number | null;
+  tbt?: number | null | undefined;
   /** Time To First Byte. */
-  ttfb?: number | null;
+  ttfb?: number | null | undefined;
   /** Time To Interactive. */
-  tti?: number | null;
+  tti?: number | null | undefined;
 }
 export type PagesTestsListResultItemMobileReportDeviceType = "DESKTOP" | "MOBILE";
 export type PagesTestsListResultItemMobileReportErrorCode =
@@ -1133,37 +1133,37 @@ export type PagesTestsListResultItemMobileReportErrorCode =
   | "UNKNOWN";
 export interface PagesTestsListResultItemMobileReportError {
   /** The error code of the Lighthouse result. */
-  code?: PagesTestsListResultItemMobileReportErrorCode | null;
+  code?: PagesTestsListResultItemMobileReportErrorCode | null | undefined;
   /** Detailed error message. */
-  detail?: string | null;
+  detail?: string | null | undefined;
   /** The final URL displayed to the user. */
-  finalDisplayedUrl?: string | null;
+  finalDisplayedUrl?: string | null | undefined;
 }
 export type PagesTestsListResultItemMobileReportState = "RUNNING" | "COMPLETE" | "FAILED";
 export interface PagesTestsListResultItemMobileReport {
   /** Cumulative Layout Shift. */
-  cls?: number | null;
+  cls?: number | null | undefined;
   /** The type of device. */
-  deviceType?: PagesTestsListResultItemMobileReportDeviceType | null;
-  error?: PagesTestsListResultItemMobileReportError | null;
+  deviceType?: PagesTestsListResultItemMobileReportDeviceType | null | undefined;
+  error?: PagesTestsListResultItemMobileReportError | null | undefined;
   /** First Contentful Paint. */
-  fcp?: number | null;
+  fcp?: number | null | undefined;
   /** The URL to the full Lighthouse JSON report. */
-  jsonReportUrl?: string | null;
+  jsonReportUrl?: string | null | undefined;
   /** Largest Contentful Paint. */
-  lcp?: number | null;
+  lcp?: number | null | undefined;
   /** The Lighthouse performance score. */
-  performanceScore?: number | null;
+  performanceScore?: number | null | undefined;
   /** Speed Index. */
-  si?: number | null;
+  si?: number | null | undefined;
   /** The state of the Lighthouse report. */
-  state?: PagesTestsListResultItemMobileReportState | null;
+  state?: PagesTestsListResultItemMobileReportState | null | undefined;
   /** Total Blocking Time. */
-  tbt?: number | null;
+  tbt?: number | null | undefined;
   /** Time To First Byte. */
-  ttfb?: number | null;
+  ttfb?: number | null | undefined;
   /** Time To Interactive. */
-  tti?: number | null;
+  tti?: number | null | undefined;
 }
 export type PagesTestsListResultItemRegionValue =
   | "asia-east1"
@@ -1188,32 +1188,32 @@ export type PagesTestsListResultItemRegionValue =
   | "us-south1"
   | "us-west1";
 export interface PagesTestsListResultItemRegion {
-  label?: string | null;
+  label?: string | null | undefined;
   /** A test region. */
-  value?: PagesTestsListResultItemRegionValue | null;
+  value?: PagesTestsListResultItemRegionValue | null | undefined;
 }
 export type PagesTestsListResultItemScheduleFrequency = "DAILY" | "WEEKLY";
 export interface PagesTestsListResultItem {
   /** UUID. */
-  id?: string | null;
-  date?: string | null;
+  id?: string | null | undefined;
+  date?: string | null | undefined;
   /** The Lighthouse report. */
-  desktopReport?: PagesTestsListResultItemDesktopReport | null;
+  desktopReport?: PagesTestsListResultItemDesktopReport | null | undefined;
   /** The Lighthouse report. */
-  mobileReport?: PagesTestsListResultItemMobileReport | null;
+  mobileReport?: PagesTestsListResultItemMobileReport | null | undefined;
   /** A test region with a label. */
-  region?: PagesTestsListResultItemRegion | null;
+  region?: PagesTestsListResultItemRegion | null | undefined;
   /** The frequency of the test. */
-  scheduleFrequency?: PagesTestsListResultItemScheduleFrequency | null;
+  scheduleFrequency?: PagesTestsListResultItemScheduleFrequency | null | undefined;
   /** A URL. */
-  url?: string | null;
+  url?: string | null | undefined;
 }
 export type PagesTestsListResultList = Array<PagesTestsListResultItem>;
 export interface ListPageTestsResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: PagesTestsListResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export type PagesTrendRequestDeviceType = "DESKTOP" | "MOBILE";
 export type PagesTrendRequestRegion =
@@ -1252,7 +1252,7 @@ export interface TrendPageRequest {
   start: string;
   /** The timezone of the start and end timestamps. */
   tz: string;
-  end?: string;
+  end?: string | undefined;
 }
 export type PagesTrendResponseClsList = Array<number>;
 export type PagesTrendResponseFcpList = Array<number>;
@@ -1265,21 +1265,21 @@ export type PagesTrendResponseTtiList = Array<number>;
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface TrendPageResponse {
   /** Cumulative Layout Shift trend. */
-  cls?: PagesTrendResponseClsList | null;
+  cls?: PagesTrendResponseClsList | null | undefined;
   /** First Contentful Paint trend. */
-  fcp?: PagesTrendResponseFcpList | null;
+  fcp?: PagesTrendResponseFcpList | null | undefined;
   /** Largest Contentful Paint trend. */
-  lcp?: PagesTrendResponseLcpList | null;
+  lcp?: PagesTrendResponseLcpList | null | undefined;
   /** The Lighthouse score trend. */
-  performanceScore?: PagesTrendResponsePerformanceScoreList | null;
+  performanceScore?: PagesTrendResponsePerformanceScoreList | null | undefined;
   /** Speed Index trend. */
-  si?: PagesTrendResponseSiList | null;
+  si?: PagesTrendResponseSiList | null | undefined;
   /** Total Blocking Time trend. */
-  tbt?: PagesTrendResponseTbtList | null;
+  tbt?: PagesTrendResponseTbtList | null | undefined;
   /** Time To First Byte trend. */
-  ttfb?: PagesTrendResponseTtfbList | null;
+  ttfb?: PagesTrendResponseTtfbList | null | undefined;
   /** Time To Interactive trend. */
-  tti?: PagesTrendResponseTtiList | null;
+  tti?: PagesTrendResponseTtiList | null | undefined;
 }
 export type CreatePageTestError = CloudflareOpError;
 /** Starts a test for a specific webpage, in a specific region. */

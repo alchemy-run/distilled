@@ -28,6 +28,7 @@ const TELEMETRY = {
   prefix: "Iotoperations",
   service: "Iotoperations",
   labels: "azure",
+  labelNames: { resourceGroupName: "azure.resource_group.name" },
   propagate: "w3c",
 } as const;
 
@@ -54,9 +55,9 @@ export interface AkriConnectorCreateOrUpdateRequest {
   /** Name of AkriConnector resource. */
   connectorName: string;
   /** The resource-specific properties for this resource. */
-  properties?: AkriConnectorPropertiesInput;
+  properties?: AkriConnectorPropertiesInput | undefined;
   /** Edge location of the resource. */
-  extendedLocation?: ExtendedLocation;
+  extendedLocation?: ExtendedLocation | undefined;
 }
 /** The type of identity that created the resource. */
 export type SystemDataCreatedByType = "User" | "Application" | "ManagedIdentity" | "Key";
@@ -65,17 +66,17 @@ export type SystemDataLastModifiedByType = "User" | "Application" | "ManagedIden
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface SystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: SystemDataCreatedByType;
+  createdByType?: SystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: SystemDataLastModifiedByType;
+  lastModifiedByType?: SystemDataLastModifiedByType | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 /** The enum defining status of resource. */
 export type ProvisioningState =
@@ -100,20 +101,20 @@ export type ResourceHealthState = "Available" | "Degraded" | "Unavailable" | "Un
 /** Represents the health state of a resource. */
 export interface ResourceHealthStatus {
   /** The high-level health status of the resource. */
-  status?: ResourceHealthState;
+  status?: ResourceHealthState | undefined;
   /** The timestamp (RFC3339) when the health status last changed. */
-  lastTransitionTime?: string;
+  lastTransitionTime?: string | undefined;
   /** The timestamp (RFC3339) when the health status was last updated, even if the status did not change. */
-  lastUpdateTime?: string;
+  lastUpdateTime?: string | undefined;
   /** A human-readable message describing the last transition. */
-  message?: string;
+  message?: string | undefined;
   /** Unique, CamelCase reason code describing the cause of the last health state transition. */
-  reasonCode?: string;
+  reasonCode?: string | undefined;
 }
 /** AkriConnector status. */
 export interface AkriConnectorStatus {
   /** The health state of the AkriConnector. */
-  healthState?: ResourceHealthStatus;
+  healthState?: ResourceHealthStatus | undefined;
 }
 /** The health state of the resource. */
 export type AkriConnectorPropertiesHealthState =
@@ -124,38 +125,38 @@ export type AkriConnectorPropertiesHealthState =
 /** AkriConnector properties. */
 export interface AkriConnectorProperties {
   /** The status of the last operation. */
-  provisioningState?: ProvisioningState;
+  provisioningState?: ProvisioningState | undefined;
   /** The allocated devices for the connector. */
-  allocatedDevices?: AkriConnectorPropertiesAllocatedDevicesList;
+  allocatedDevices?: AkriConnectorPropertiesAllocatedDevicesList | undefined;
   /** The status for the connector. */
-  status?: AkriConnectorStatus;
+  status?: AkriConnectorStatus | undefined;
   /** The health state of the resource. */
-  healthState?: AkriConnectorPropertiesHealthState;
+  healthState?: AkriConnectorPropertiesHealthState | undefined;
 }
 export interface AkriConnectorCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: AkriConnectorProperties;
+  properties?: AkriConnectorProperties | undefined;
   /** Edge location of the resource. */
-  extendedLocation?: ExtendedLocation;
+  extendedLocation?: ExtendedLocation | undefined;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** AkriConnectorTemplateAioMetadata properties. */
 export interface AkriConnectorTemplateAioMetadata {
   /** The minimum version of AIO required for the connector. */
-  aioMinVersion?: string;
+  aioMinVersion?: string | undefined;
   /** The maximum version of AIO required for the connector. */
-  aioMaxVersion?: string;
+  aioMaxVersion?: string | undefined;
 }
 /** Runtime configuration types. */
 export type AkriConnectorTemplateRuntimeConfigurationType = "ManagedConfiguration";
@@ -164,12 +165,12 @@ export interface AkriConnectorTemplateRuntimeConfiguration {
   /** Runtime configuration type for the Connector template. */
   runtimeConfigurationType: AkriConnectorTemplateRuntimeConfigurationType | (string & {});
   /** The managed configuration settings. Only for `ManagedConfiguration` (polymorphic subtype `AkriConnectorTemplateManagedConfiguration`). */
-  managedConfigurationSettings?: unknown;
+  managedConfigurationSettings?: unknown | undefined;
 }
 /** AkriConnectorsDiagnostic Log properties. */
 export interface AkriConnectorsDiagnosticsLogs {
   /** The log level. Examples - 'debug', 'info', 'warn', 'error', 'trace'. */
-  level?: string;
+  level?: string | undefined;
 }
 /** AkriConnectorTemplateDiagnostics properties. */
 export interface AkriConnectorTemplateDiagnostics {
@@ -179,11 +180,11 @@ export interface AkriConnectorTemplateDiagnostics {
 /** AkriConnectorTemplateDeviceInboundEndpointType properties. */
 export interface AkriConnectorTemplateDeviceInboundEndpointType {
   /** The display name of the device inbound endpoint. */
-  displayName?: string;
+  displayName?: string | undefined;
   /** The type of the device inbound endpoint. */
   endpointType: string;
   /** The version of the device inbound endpoint. */
-  version?: string;
+  version?: string | undefined;
 }
 /** Device inbound endpoint types. */
 export type AkriConnectorTemplatePropertiesInputDeviceInboundEndpointTypesList =
@@ -195,7 +196,7 @@ export interface AkriConnectorsMqttAuthentication {
   /** The authentication method for the MQTT connection. */
   method: AkriConnectorsMqttAuthenticationMethod | (string & {});
   /** The service account token for the MQTT connection. Only for `ServiceAccountToken` (polymorphic subtype `AkriConnectorsServiceAccountAuthentication`). */
-  serviceAccountTokenSettings?: unknown;
+  serviceAccountTokenSettings?: unknown | undefined;
 }
 /** Mqtt protocol types. */
 export type AkriConnectorsMqttProtocolType = "Mqtt";
@@ -204,41 +205,41 @@ export type TlsPropertiesMode = "Enabled" | "Disabled";
 /** Tls properties */
 export interface TlsProperties {
   /** Mode for TLS. */
-  mode?: TlsPropertiesMode | (string & {});
+  mode?: TlsPropertiesMode | (string & {}) | undefined;
   /** Trusted CA certificate config map. */
-  trustedCaCertificateConfigMapRef?: string;
+  trustedCaCertificateConfigMapRef?: string | undefined;
 }
 /** AkriConnectorsMqttConnectionConfiguration properties. */
 export interface AkriConnectorsMqttConnectionConfiguration {
   /** Authentication properties. */
-  authentication?: AkriConnectorsMqttAuthentication;
+  authentication?: AkriConnectorsMqttAuthentication | undefined;
   /** Host of the Broker in the form of <hostname>:<port>. */
-  host?: string;
+  host?: string | undefined;
   /** The protocol to use for the connection. Currently only `mqtt` is supported. */
-  protocol?: AkriConnectorsMqttProtocolType | (string & {});
+  protocol?: AkriConnectorsMqttProtocolType | (string & {}) | undefined;
   /** KeepAlive for connection in seconds. */
-  keepAliveSeconds?: number;
+  keepAliveSeconds?: number | undefined;
   /** The max number of messages to keep in flight. For subscribe, this is the receive maximum. For publish, this is the maximum number of messages to send before waiting for an ack. */
-  maxInflightMessages?: number;
+  maxInflightMessages?: number | undefined;
   /** Session expiry in seconds. */
-  sessionExpirySeconds?: number;
+  sessionExpirySeconds?: number | undefined;
   /** TLS configuration. */
-  tls?: TlsProperties;
+  tls?: TlsProperties | undefined;
 }
 /** AkriConnectorTemplate properties. */
 export interface AkriConnectorTemplatePropertiesInput {
   /** Metadata about AIO. */
-  aioMetadata?: AkriConnectorTemplateAioMetadata;
+  aioMetadata?: AkriConnectorTemplateAioMetadata | undefined;
   /** The runtime configuration for the Connector template. */
   runtimeConfiguration: AkriConnectorTemplateRuntimeConfiguration;
   /** Diagnostics settings for the Connector template. */
-  diagnostics?: AkriConnectorTemplateDiagnostics;
+  diagnostics?: AkriConnectorTemplateDiagnostics | undefined;
   /** Device inbound endpoint types. */
   deviceInboundEndpointTypes: AkriConnectorTemplatePropertiesInputDeviceInboundEndpointTypesList;
   /** Mqtt connection configuration settings. */
-  mqttConnectionConfiguration?: AkriConnectorsMqttConnectionConfiguration;
+  mqttConnectionConfiguration?: AkriConnectorsMqttConnectionConfiguration | undefined;
   /** A reference to a connector metadata document reference in a container registry. */
-  connectorMetadataRef?: string;
+  connectorMetadataRef?: string | undefined;
 }
 export interface AkriConnectorTemplateCreateOrUpdateRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -250,9 +251,9 @@ export interface AkriConnectorTemplateCreateOrUpdateRequest {
   /** Name of AkriConnectorTemplate resource. */
   akriConnectorTemplateName: string;
   /** The resource-specific properties for this resource. */
-  properties?: AkriConnectorTemplatePropertiesInput;
+  properties?: AkriConnectorTemplatePropertiesInput | undefined;
   /** Edge location of the resource. */
-  extendedLocation?: ExtendedLocation;
+  extendedLocation?: ExtendedLocation | undefined;
 }
 /** Device inbound endpoint types. */
 export type AkriConnectorTemplatePropertiesDeviceInboundEndpointTypesList =
@@ -266,39 +267,39 @@ export type AkriConnectorTemplatePropertiesHealthState =
 /** AkriConnectorTemplate properties. */
 export interface AkriConnectorTemplateProperties {
   /** The status of the last operation. */
-  provisioningState?: ProvisioningState;
+  provisioningState?: ProvisioningState | undefined;
   /** Metadata about AIO. */
-  aioMetadata?: AkriConnectorTemplateAioMetadata;
+  aioMetadata?: AkriConnectorTemplateAioMetadata | undefined;
   /** The runtime configuration for the Connector template. */
   runtimeConfiguration: AkriConnectorTemplateRuntimeConfiguration;
   /** Diagnostics settings for the Connector template. */
-  diagnostics?: AkriConnectorTemplateDiagnostics;
+  diagnostics?: AkriConnectorTemplateDiagnostics | undefined;
   /** Device inbound endpoint types. */
   deviceInboundEndpointTypes: AkriConnectorTemplatePropertiesDeviceInboundEndpointTypesList;
   /** Mqtt connection configuration settings. */
-  mqttConnectionConfiguration?: AkriConnectorsMqttConnectionConfiguration;
+  mqttConnectionConfiguration?: AkriConnectorsMqttConnectionConfiguration | undefined;
   /** A reference to a connector metadata document reference in a container registry. */
-  connectorMetadataRef?: string;
+  connectorMetadataRef?: string | undefined;
   /** The health state of the resource. */
-  healthState?: AkriConnectorTemplatePropertiesHealthState;
+  healthState?: AkriConnectorTemplatePropertiesHealthState | undefined;
 }
 export interface AkriConnectorTemplateCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: AkriConnectorTemplateProperties;
+  properties?: AkriConnectorTemplateProperties | undefined;
   /** Edge location of the resource. */
-  extendedLocation?: ExtendedLocation;
+  extendedLocation?: ExtendedLocation | undefined;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** AkriService properties. */
 export type AkriServicePropertiesInput = AkriConnectorPropertiesInput;
@@ -312,39 +313,39 @@ export interface AkriServiceCreateOrUpdateRequest {
   /** Name of AkriService resource. */
   akriServiceName: string;
   /** The resource-specific properties for this resource. */
-  properties?: AkriConnectorPropertiesInput;
+  properties?: AkriConnectorPropertiesInput | undefined;
   /** Edge location of the resource. */
-  extendedLocation?: ExtendedLocation;
+  extendedLocation?: ExtendedLocation | undefined;
 }
 /** AkriService status. */
 export interface AkriServiceStatus {
   /** The health state of the AkriService. */
-  healthState?: ResourceHealthStatus;
+  healthState?: ResourceHealthStatus | undefined;
 }
 /** AkriService properties. */
 export interface AkriServiceProperties {
   /** The status of the last operation. */
-  provisioningState?: ProvisioningState;
+  provisioningState?: ProvisioningState | undefined;
   /** The status for the service. */
-  status?: AkriServiceStatus;
+  status?: AkriServiceStatus | undefined;
 }
 export interface AkriServiceCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: AkriServiceProperties;
+  properties?: AkriServiceProperties | undefined;
   /** Edge location of the resource. */
-  extendedLocation?: ExtendedLocation;
+  extendedLocation?: ExtendedLocation | undefined;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Broker Authentication Mode */
 export type BrokerAuthenticationMethod = "Custom" | "ServiceAccountToken" | "X509";
@@ -363,13 +364,13 @@ export type BrokerAuthenticatorMethodCustomHeadersMap = { [key: string]: string 
 /** Custom method for BrokerAuthentication */
 export interface BrokerAuthenticatorMethodCustom {
   /** Optional authentication needed for authenticating with the custom authentication server. */
-  auth?: BrokerAuthenticatorCustomAuth;
+  auth?: BrokerAuthenticatorCustomAuth | undefined;
   /** Optional CA certificate for validating the custom authentication server's certificate. */
-  caCertConfigMap?: string;
+  caCertConfigMap?: string | undefined;
   /** Endpoint of the custom authentication server. Must be an HTTPS endpoint. */
   endpoint: string;
   /** Additional HTTP headers to pass to the custom authentication server. */
-  headers?: BrokerAuthenticatorMethodCustomHeadersMap;
+  headers?: BrokerAuthenticatorMethodCustomHeadersMap | undefined;
 }
 /** List of allowed audience. */
 export type BrokerAuthenticatorMethodSatAudiencesList = Array<string>;
@@ -398,22 +399,22 @@ export type BrokerAuthenticatorValidationMethods = "None" | "AzureDeviceRegistry
 /** X509 for BrokerAuthentication. */
 export interface BrokerAuthenticatorMethodX509 {
   /** X509 authorization attributes properties. */
-  authorizationAttributes?: BrokerAuthenticatorMethodX509AuthorizationAttributesMap;
+  authorizationAttributes?: BrokerAuthenticatorMethodX509AuthorizationAttributesMap | undefined;
   /** Name of the trusted client ca cert resource. */
-  trustedClientCaCert?: string;
+  trustedClientCaCert?: string | undefined;
   /** X509 authentication attributes properties. */
-  additionalValidation?: BrokerAuthenticatorValidationMethods | (string & {});
+  additionalValidation?: BrokerAuthenticatorValidationMethods | (string & {}) | undefined;
 }
 /** Set of broker authentication policies. Only one method is supported for each entry. */
 export interface BrokerAuthenticatorMethods {
   /** Custom authentication configuration. */
   method: BrokerAuthenticationMethod | (string & {});
   /** Custom authentication configuration. */
-  customSettings?: BrokerAuthenticatorMethodCustom;
+  customSettings?: BrokerAuthenticatorMethodCustom | undefined;
   /** ServiceAccountToken authentication configuration. */
-  serviceAccountTokenSettings?: BrokerAuthenticatorMethodSat;
+  serviceAccountTokenSettings?: BrokerAuthenticatorMethodSat | undefined;
   /** X.509 authentication configuration. */
-  x509Settings?: BrokerAuthenticatorMethodX509;
+  x509Settings?: BrokerAuthenticatorMethodX509 | undefined;
 }
 /** Defines a set of Broker authentication methods to be used on `BrokerListeners`. For each array element one authenticator type supported. */
 export type BrokerAuthenticationPropertiesInputAuthenticationMethodsList =
@@ -435,9 +436,9 @@ export interface BrokerAuthenticationCreateOrUpdateRequest {
   /** Name of Instance broker authentication resource */
   authenticationName: string;
   /** The resource-specific properties for this resource. */
-  properties?: BrokerAuthenticationPropertiesInput;
+  properties?: BrokerAuthenticationPropertiesInput | undefined;
   /** Edge location of the resource. */
-  extendedLocation?: ExtendedLocation;
+  extendedLocation?: ExtendedLocation | undefined;
 }
 /** Defines a set of Broker authentication methods to be used on `BrokerListeners`. For each array element one authenticator type supported. */
 export type BrokerAuthenticationPropertiesAuthenticationMethodsList =
@@ -453,27 +454,27 @@ export interface BrokerAuthenticationProperties {
   /** Defines a set of Broker authentication methods to be used on `BrokerListeners`. For each array element one authenticator type supported. */
   authenticationMethods: BrokerAuthenticationPropertiesAuthenticationMethodsList;
   /** The status of the last operation. */
-  provisioningState?: ProvisioningState;
+  provisioningState?: ProvisioningState | undefined;
   /** The health state of the resource. */
-  healthState?: BrokerAuthenticationPropertiesHealthState;
+  healthState?: BrokerAuthenticationPropertiesHealthState | undefined;
 }
 export interface BrokerAuthenticationCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: BrokerAuthenticationProperties;
+  properties?: BrokerAuthenticationProperties | undefined;
   /** Edge location of the resource. */
-  extendedLocation?: ExtendedLocation;
+  extendedLocation?: ExtendedLocation | undefined;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Enable caching of the authorization rules. */
 export type AuthorizationConfigCache = "Enabled" | "Disabled";
@@ -488,9 +489,9 @@ export interface BrokerResourceRule {
   /** Give access for a Broker method (i.e., Connect, Subscribe, or Publish). */
   method: BrokerResourceDefinitionMethods | (string & {});
   /** A list of client IDs that match the clients. The client IDs are case-sensitive and must match the client IDs provided by the clients during connection. This subfield may be set if the method is Connect. */
-  clientIds?: BrokerResourceRuleClientIdsList;
+  clientIds?: BrokerResourceRuleClientIdsList | undefined;
   /** A list of topics or topic patterns that match the topics that the clients can publish or subscribe to. This subfield is required if the method is Publish or Subscribe. */
-  topics?: BrokerResourceRuleTopicsList;
+  topics?: BrokerResourceRuleTopicsList | undefined;
 }
 /** Give access to Broker methods and topics. */
 export type AuthorizationRuleBrokerResourcesList = Array<BrokerResourceRule>;
@@ -504,11 +505,11 @@ export type PrincipalDefinitionUsernamesList = Array<string>;
 /** PrincipalDefinition properties of Rule */
 export interface PrincipalDefinition {
   /** A list of key-value pairs that match the attributes of the clients. The attributes are case-sensitive and must match the attributes provided by the clients during authentication. */
-  attributes?: PrincipalDefinitionAttributesList;
+  attributes?: PrincipalDefinitionAttributesList | undefined;
   /** A list of client IDs that match the clients. The client IDs are case-sensitive and must match the client IDs provided by the clients during connection. */
-  clientIds?: PrincipalDefinitionClientIdsList;
+  clientIds?: PrincipalDefinitionClientIdsList | undefined;
   /** A list of usernames that match the clients. The usernames are case-sensitive and must match the usernames provided by the clients during authentication. */
-  usernames?: PrincipalDefinitionUsernamesList;
+  usernames?: PrincipalDefinitionUsernamesList | undefined;
 }
 /** StateStoreResourceKeyTypes properties */
 export type StateStoreResourceKeyTypes = "Pattern" | "String" | "Binary";
@@ -534,16 +535,16 @@ export interface AuthorizationRule {
   /** Give access to clients based on the following properties. */
   principals: PrincipalDefinition;
   /** Give access to state store resources. */
-  stateStoreResources?: AuthorizationRuleStateStoreResourcesList;
+  stateStoreResources?: AuthorizationRuleStateStoreResourcesList | undefined;
 }
 /** The authorization rules to follow. If no rule is set, but Authorization Resource is used that would mean DenyAll. */
 export type AuthorizationConfigRulesList = Array<AuthorizationRule>;
 /** Broker AuthorizationConfig properties */
 export interface AuthorizationConfig {
   /** Enable caching of the authorization rules. */
-  cache?: AuthorizationConfigCache | (string & {});
+  cache?: AuthorizationConfigCache | (string & {}) | undefined;
   /** The authorization rules to follow. If no rule is set, but Authorization Resource is used that would mean DenyAll. */
-  rules?: AuthorizationConfigRulesList;
+  rules?: AuthorizationConfigRulesList | undefined;
 }
 /** BrokerAuthorization Resource properties */
 export interface BrokerAuthorizationPropertiesInput {
@@ -562,9 +563,9 @@ export interface BrokerAuthorizationCreateOrUpdateRequest {
   /** Name of Instance broker authorization resource */
   authorizationName: string;
   /** The resource-specific properties for this resource. */
-  properties?: BrokerAuthorizationPropertiesInput;
+  properties?: BrokerAuthorizationPropertiesInput | undefined;
   /** Edge location of the resource. */
-  extendedLocation?: ExtendedLocation;
+  extendedLocation?: ExtendedLocation | undefined;
 }
 /** The health state of the resource. */
 export type BrokerAuthorizationPropertiesHealthState =
@@ -577,51 +578,51 @@ export interface BrokerAuthorizationProperties {
   /** The list of authorization policies supported by the Authorization Resource. */
   authorizationPolicies: AuthorizationConfig;
   /** The status of the last operation. */
-  provisioningState?: ProvisioningState;
+  provisioningState?: ProvisioningState | undefined;
   /** The health state of the resource. */
-  healthState?: BrokerAuthorizationPropertiesHealthState;
+  healthState?: BrokerAuthorizationPropertiesHealthState | undefined;
 }
 export interface BrokerAuthorizationCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: BrokerAuthorizationProperties;
+  properties?: BrokerAuthorizationProperties | undefined;
   /** Edge location of the resource. */
-  extendedLocation?: ExtendedLocation;
+  extendedLocation?: ExtendedLocation | undefined;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** The strategy to use for dropping messages from the queue. */
 export type SubscriberQueueLimitStrategy = "None" | "DropOldest";
 /** The settings of Subscriber Queue Limit. */
 export interface SubscriberQueueLimit {
   /** The maximum length of the queue before messages start getting dropped. */
-  length?: number;
+  length?: number | undefined;
   /** The strategy to use for dropping messages from the queue. */
-  strategy?: SubscriberQueueLimitStrategy | (string & {});
+  strategy?: SubscriberQueueLimitStrategy | (string & {}) | undefined;
 }
 /** The settings of Client Config. */
 export interface ClientConfig {
   /** Upper bound of Session Expiry Interval, in seconds. */
-  maxSessionExpirySeconds?: number;
+  maxSessionExpirySeconds?: number | undefined;
   /** Upper bound of Message Expiry Interval, in seconds. */
-  maxMessageExpirySeconds?: number;
+  maxMessageExpirySeconds?: number | undefined;
   /** Max message size for a packet in Bytes. */
-  maxPacketSizeBytes?: number;
+  maxPacketSizeBytes?: number | undefined;
   /** The limit on the number of queued messages for a subscriber. */
-  subscriberQueueLimit?: SubscriberQueueLimit;
+  subscriberQueueLimit?: SubscriberQueueLimit | undefined;
   /** Upper bound of Receive Maximum that a client can request in the CONNECT packet. */
-  maxReceiveMaximum?: number;
+  maxReceiveMaximum?: number | undefined;
   /** Upper bound of a client's Keep Alive, in seconds. */
-  maxKeepAliveSeconds?: number;
+  maxKeepAliveSeconds?: number | undefined;
 }
 /** The setting to enable or disable encryption of internal Traffic. */
 export type AdvancedSettingsEncryptInternalTraffic = "Enabled" | "Disabled";
@@ -655,11 +656,11 @@ export interface CertManagerCertOptions {
 /** Broker Advanced Settings */
 export interface AdvancedSettings {
   /** Configurations related to All Clients. */
-  clients?: ClientConfig;
+  clients?: ClientConfig | undefined;
   /** The setting to enable or disable encryption of internal Traffic. */
-  encryptInternalTraffic?: AdvancedSettingsEncryptInternalTraffic | (string & {});
+  encryptInternalTraffic?: AdvancedSettingsEncryptInternalTraffic | (string & {}) | undefined;
   /** Certificate rotation and private key configuration. */
-  internalCerts?: CertManagerCertOptions;
+  internalCerts?: CertManagerCertOptions | undefined;
 }
 /** Desired properties of the backend instances of the broker */
 export interface BackendChain {
@@ -668,14 +669,14 @@ export interface BackendChain {
   /** The desired numbers of backend replicas (pods) in a physical partition. */
   redundancyFactor: number;
   /** Number of logical backend workers per replica (pod). */
-  workers?: number;
+  workers?: number | undefined;
 }
 /** The desired properties of the frontend instances of the Broker */
 export interface Frontend {
   /** The desired number of frontend instances (pods). */
   replicas: number;
   /** Number of logical frontend workers per instance (pod). */
-  workers?: number;
+  workers?: number | undefined;
 }
 /** Cardinality properties */
 export interface Cardinality {
@@ -689,18 +690,18 @@ export type DiagnosticsLogs = AkriConnectorsDiagnosticsLogs;
 /** Diagnostic Metrics properties */
 export interface Metrics {
   /** The prometheus port to expose the metrics. */
-  prometheusPort?: number;
+  prometheusPort?: number | undefined;
 }
 /** The toggle to enable/disable self check. */
 export type SelfCheckMode = "Enabled" | "Disabled";
 /** Broker Diagnostic Self check properties */
 export interface SelfCheck {
   /** The toggle to enable/disable self check. */
-  mode?: SelfCheckMode | (string & {});
+  mode?: SelfCheckMode | (string & {}) | undefined;
   /** The self check interval. */
-  intervalSeconds?: number;
+  intervalSeconds?: number | undefined;
   /** The timeout for self check. */
-  timeoutSeconds?: number;
+  timeoutSeconds?: number | undefined;
 }
 /** The toggle to enable/disable traces. */
 export type TracesMode = "Enabled" | "Disabled";
@@ -709,38 +710,38 @@ export type SelfTracingMode = "Enabled" | "Disabled";
 /** Diagnostic Self tracing properties */
 export interface SelfTracing {
   /** The toggle to enable/disable self tracing. */
-  mode?: SelfTracingMode | (string & {});
+  mode?: SelfTracingMode | (string & {}) | undefined;
   /** The self tracing interval. */
-  intervalSeconds?: number;
+  intervalSeconds?: number | undefined;
 }
 /** Broker Diagnostic Trace properties */
 export interface Traces {
   /** The toggle to enable/disable traces. */
-  mode?: TracesMode | (string & {});
+  mode?: TracesMode | (string & {}) | undefined;
   /** The cache size in megabytes. */
-  cacheSizeMegabytes?: number;
+  cacheSizeMegabytes?: number | undefined;
   /** The self tracing properties. */
-  selfTracing?: SelfTracing;
+  selfTracing?: SelfTracing | undefined;
   /** The span channel capacity. */
-  spanChannelCapacity?: number;
+  spanChannelCapacity?: number | undefined;
 }
 /** Broker Diagnostic Setting properties */
 export interface BrokerDiagnostics {
   /** Diagnostic log settings for the resource. */
-  logs?: AkriConnectorsDiagnosticsLogs;
+  logs?: AkriConnectorsDiagnosticsLogs | undefined;
   /** The metrics settings for the resource. */
-  metrics?: Metrics;
+  metrics?: Metrics | undefined;
   /** The self check properties. */
-  selfCheck?: SelfCheck;
+  selfCheck?: SelfCheck | undefined;
   /** The trace properties. */
-  traces?: Traces;
+  traces?: Traces | undefined;
 }
 /** AccessModes contains the desired access modes the volume should have. More info: https://kubernetes.io/docs/concepts/storage/persistent-volumes#access-modes-1 */
 export type VolumeClaimSpecAccessModesList = Array<string>;
 /** Kubernetes reference */
 export interface LocalKubernetesReference {
   /** APIGroup is the group for the resource being referenced. If APIGroup is not specified, the specified Kind must be in the core API group. For any other third-party types, APIGroup is required. */
-  apiGroup?: string;
+  apiGroup?: string | undefined;
   /** Kind is the type of resource being referenced */
   kind: string;
   /** Name is the name of resource being referenced */
@@ -749,13 +750,13 @@ export interface LocalKubernetesReference {
 /** Kubernetes reference */
 export interface KubernetesReference {
   /** APIGroup is the group for the resource being referenced. If APIGroup is not specified, the specified Kind must be in the core API group. For any other third-party types, APIGroup is required. */
-  apiGroup?: string;
+  apiGroup?: string | undefined;
   /** Kind is the type of resource being referenced */
   kind: string;
   /** Name is the name of resource being referenced */
   name: string;
   /** Namespace is the namespace of the resource being referenced. This field is required when the resource has a namespace. */
-  namespace?: string;
+  namespace?: string | undefined;
 }
 /** Limits describes the maximum amount of compute resources allowed. More info: https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/ */
 export type VolumeClaimResourceRequirementsLimitsMap = { [key: string]: string | undefined };
@@ -772,11 +773,11 @@ export type VolumeClaimResourceRequirementsClaimsList =
 /** VolumeClaimResourceRequirements properties */
 export interface VolumeClaimResourceRequirements {
   /** Limits describes the maximum amount of compute resources allowed. More info: https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/ */
-  limits?: VolumeClaimResourceRequirementsLimitsMap;
+  limits?: VolumeClaimResourceRequirementsLimitsMap | undefined;
   /** Requests describes the minimum amount of compute resources required. If Requests is omitted for a container, it defaults to Limits if that is explicitly specified, otherwise to an implementation-defined value. More info: https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/ */
-  requests?: VolumeClaimResourceRequirementsRequestsMap;
+  requests?: VolumeClaimResourceRequirementsRequestsMap | undefined;
   /** Claims lists the names of resources, defined in spec.resourceClaims, that are used by this container. This is an alpha field and requires enabling the DynamicResourceAllocation feature gate. This field is immutable. It can only be set for containers. */
-  claims?: VolumeClaimResourceRequirementsClaimsList;
+  claims?: VolumeClaimResourceRequirementsClaimsList | undefined;
 }
 /** Valid operators are In, NotIn, Exists and DoesNotExist. */
 export type OperatorValues = "In" | "NotIn" | "Exists" | "DoesNotExist";
@@ -789,7 +790,7 @@ export interface VolumeClaimSpecSelectorMatchExpressions {
   /** operator represents a key's relationship to a set of values. Valid operators are In, NotIn, Exists and DoesNotExist. */
   operator: OperatorValues | (string & {});
   /** values is an array of string values. If the operator is In or NotIn, the values array must be non-empty. If the operator is Exists or DoesNotExist, the values array must be empty. This array is replaced during a strategic merge patch. */
-  values?: VolumeClaimSpecSelectorMatchExpressionsValuesList;
+  values?: VolumeClaimSpecSelectorMatchExpressionsValuesList | undefined;
 }
 /** MatchExpressions is a list of label selector requirements. The requirements are ANDed. */
 export type VolumeClaimSpecSelectorMatchExpressionsList =
@@ -799,44 +800,44 @@ export type VolumeClaimSpecSelectorMatchLabelsMap = { [key: string]: string | un
 /** VolumeClaimSpecSelector properties */
 export interface VolumeClaimSpecSelector {
   /** MatchExpressions is a list of label selector requirements. The requirements are ANDed. */
-  matchExpressions?: VolumeClaimSpecSelectorMatchExpressionsList;
+  matchExpressions?: VolumeClaimSpecSelectorMatchExpressionsList | undefined;
   /** MatchLabels is a map of {key,value} pairs. A single {key,value} in the matchLabels map is equivalent to an element of matchExpressions, whose key field is "key", the operator is "In", and the values array contains only "value". The requirements are ANDed. */
-  matchLabels?: VolumeClaimSpecSelectorMatchLabelsMap;
+  matchLabels?: VolumeClaimSpecSelectorMatchLabelsMap | undefined;
 }
 /** VolumeClaimSpec properties */
 export interface VolumeClaimSpec {
   /** VolumeName is the binding reference to the PersistentVolume backing this claim. */
-  volumeName?: string;
+  volumeName?: string | undefined;
   /** volumeMode defines what type of volume is required by the claim. Value of Filesystem is implied when not included in claim spec. This is a beta feature. */
-  volumeMode?: string;
+  volumeMode?: string | undefined;
   /** Name of the StorageClass required by the claim. More info: https://kubernetes.io/docs/concepts/storage/persistent-volumes#class-1 */
-  storageClassName?: string;
+  storageClassName?: string | undefined;
   /** AccessModes contains the desired access modes the volume should have. More info: https://kubernetes.io/docs/concepts/storage/persistent-volumes#access-modes-1 */
-  accessModes?: VolumeClaimSpecAccessModesList;
+  accessModes?: VolumeClaimSpecAccessModesList | undefined;
   /** This field can be used to specify either: * An existing VolumeSnapshot object (snapshot.storage.k8s.io/VolumeSnapshot) * An existing PVC (PersistentVolumeClaim) If the provisioner or an external controller can support the specified data source, it will create a new volume based on the contents of the specified data source. If the AnyVolumeDataSource feature gate is enabled, this field will always have the same contents as the DataSourceRef field. */
-  dataSource?: LocalKubernetesReference;
+  dataSource?: LocalKubernetesReference | undefined;
   /** Specifies the object from which to populate the volume with data, if a non-empty volume is desired. This may be any local object from a non-empty API group (non core object) or a PersistentVolumeClaim object. When this field is specified, volume binding will only succeed if the type of the specified object matches some installed volume populator or dynamic provisioner. This field will replace the functionality of the DataSource field and as such if both fields are non-empty, they must have the same value. For backwards compatibility, both fields (DataSource and DataSourceRef) will be set to the same value automatically if one of them is empty and the other is non-empty. There are two important differences between DataSource and DataSourceRef: * While DataSource only allows two specific types of objects, DataSourceRef allows any non-core object, as well as PersistentVolumeClaim objects. * While DataSource ignores disallowed values (dropping them), DataSourceRef preserves all values, and generates an error if a disallowed value is specified. (Beta) Using this field requires the AnyVolumeDataSource feature gate to be enabled. */
-  dataSourceRef?: KubernetesReference;
+  dataSourceRef?: KubernetesReference | undefined;
   /** Resources represents the minimum resources the volume should have. If RecoverVolumeExpansionFailure feature is enabled users are allowed to specify resource requirements that are lower than previous value but must still be higher than capacity recorded in the status field of the claim. More info: https://kubernetes.io/docs/concepts/storage/persistent-volumes#resources */
-  resources?: VolumeClaimResourceRequirements;
+  resources?: VolumeClaimResourceRequirements | undefined;
   /** A label query over volumes to consider for binding. */
-  selector?: VolumeClaimSpecSelector;
+  selector?: VolumeClaimSpecSelector | undefined;
 }
 /** DiskBackedMessageBuffer properties */
 export interface DiskBackedMessageBuffer {
   /** The max size of the message buffer on disk. If a PVC template is specified using one of ephemeralVolumeClaimSpec or persistentVolumeClaimSpec, then this size is used as the request and limit sizes of that template. If neither ephemeralVolumeClaimSpec nor persistentVolumeClaimSpec are specified, then an emptyDir volume is mounted with this size as its limit. See <https://kubernetes.io/docs/concepts/storage/volumes/#emptydir> for details. */
   maxSize: string;
   /** Use the specified persistent volume claim template to mount a "generic ephemeral volume" for the message buffer. See <https://kubernetes.io/docs/concepts/storage/ephemeral-volumes/#generic-ephemeral-volumes> for details. */
-  ephemeralVolumeClaimSpec?: VolumeClaimSpec;
+  ephemeralVolumeClaimSpec?: VolumeClaimSpec | undefined;
   /** Use the specified persistent volume claim template to mount a persistent volume for the message buffer. */
-  persistentVolumeClaimSpec?: VolumeClaimSpec;
+  persistentVolumeClaimSpec?: VolumeClaimSpec | undefined;
 }
 /** The toggle to enable/disable cpu resource limits. */
 export type GenerateResourceLimitsCpu = "Enabled" | "Disabled";
 /** GenerateResourceLimits properties */
 export interface GenerateResourceLimits {
   /** The toggle to enable/disable cpu resource limits. */
-  cpu?: GenerateResourceLimitsCpu | (string & {});
+  cpu?: GenerateResourceLimitsCpu | (string & {}) | undefined;
 }
 /** Handling of high-priority messages during backpressure state. */
 export type HighPriorityMessagesBackpressureHandling = "Accept" | "Reject";
@@ -849,21 +850,21 @@ export interface BrokerRetainMessagesPolicy {
   /** 'All' to persist all retain messages, 'None' to not persist any, 'Custom' to persist only the specified topics. */
   mode: BrokerPersistencePolicyMode | (string & {});
   /** Settings for the policy. Only for `Custom` (polymorphic subtype `BrokerRetainMessagesCustomPolicy`). */
-  retainSettings?: unknown;
+  retainSettings?: unknown | undefined;
 }
 /** Broker State Store Policy. */
 export interface BrokerStateStorePolicy {
   /** 'All' to persist all keys, 'None' to not persist any, 'Custom' to persist only the specified keys. */
   mode: BrokerPersistencePolicyMode | (string & {});
   /** Settings for the policy. Only for `Custom` (polymorphic subtype `BrokerStateStoreCustomPolicy`). */
-  stateStoreSettings?: unknown;
+  stateStoreSettings?: unknown | undefined;
 }
 /** Broker Subscriber Queue Policy properties. */
 export interface BrokerSubscriberQueuePolicy {
   /** 'All' to persist all subscriber queues, 'None' to not persist any, 'Custom' to persist only the specified queues. */
   mode: BrokerPersistencePolicyMode | (string & {});
   /** Custom policy, required if mode is Custom. Subscriber queues from all groups are persisted to disk (logical OR). Only for `Custom` (polymorphic subtype `BrokerSubscriberQueueCustomPolicy`). */
-  subscriberQueueSettings?: unknown;
+  subscriberQueueSettings?: unknown | undefined;
 }
 /** Mode properties */
 export type OperationalMode = "Enabled" | "Disabled";
@@ -877,36 +878,37 @@ export interface BrokerPersistence {
   /** The max size of the message buffer on disk. If a PVC template is specified using persistentVolumeClaimSpec Then this size is used as the request and limit sizes of that template. If a PVC template isn't specified Then local-path provisioner is requested with this size limit. Required. */
   maxSize: string;
   /** Use the specified persistent volume claim template to mount a persistent volume. Same object as in diskBackedMessageBuffer, but with a limitation that access modes field must be set to `ReadWriteOncePod`. If unset, a default PVC with default properties will be used. Among other things this PVC will use the cluster default storage class, which may or may not be using a local path provisioner. User is opting in to sub-optimal behavior if they leave this unset or set it without the storage class field, and their cluster default is not a local path class. */
-  persistentVolumeClaimSpec?: VolumeClaimSpec;
+  persistentVolumeClaimSpec?: VolumeClaimSpec | undefined;
   /** Controls which topic's retained messages should be persisted to disk. */
-  retain?: BrokerRetainMessagesPolicy;
+  retain?: BrokerRetainMessagesPolicy | undefined;
   /** Controls which keys should be persisted to disk for the state store. */
-  stateStore?: BrokerStateStorePolicy;
+  stateStore?: BrokerStateStorePolicy | undefined;
   /** Controls which subscriber message queues should be persisted to disk. Important: to facilitate reconnection, session state metadata are ALWAYS written to disk if any persistence setting is specified, even if this section isn't set. */
-  subscriberQueue?: BrokerSubscriberQueuePolicy;
+  subscriberQueue?: BrokerSubscriberQueuePolicy | undefined;
   /** Controls settings related to encryption of the persistence database. Optional, defaults to enabling encryption. */
-  encryption?: BrokerPersistenceEncryption;
+  encryption?: BrokerPersistenceEncryption | undefined;
 }
 /** Broker Resource properties */
 export interface BrokerPropertiesInput {
   /** Advanced settings of Broker. */
-  advanced?: AdvancedSettings;
+  advanced?: AdvancedSettings | undefined;
   /** The cardinality details of the broker. */
-  cardinality?: Cardinality;
+  cardinality?: Cardinality | undefined;
   /** Spec defines the desired identities of Broker diagnostics settings. */
-  diagnostics?: BrokerDiagnostics;
+  diagnostics?: BrokerDiagnostics | undefined;
   /** Settings of Disk Backed Message Buffer. */
-  diskBackedMessageBuffer?: DiskBackedMessageBuffer;
+  diskBackedMessageBuffer?: DiskBackedMessageBuffer | undefined;
   /** This setting controls whether Kubernetes CPU resource limits are requested. Increasing the number of replicas or workers proportionally increases the amount of CPU resources requested. If this setting is enabled and there are insufficient CPU resources, an error will be emitted. */
-  generateResourceLimits?: GenerateResourceLimits;
+  generateResourceLimits?: GenerateResourceLimits | undefined;
   /** Handling of high-priority messages in the event that regular-priority messages are being backpressured. When set to "Accept", the broker continues to accept high-priority messages even while regular-priority messages are rejected due to backpressure. When set to "Reject", backpressure also affects high-priority messages. Defaults to "Accept". */
   highPriorityMessagesBackpressureHandling?:
     | HighPriorityMessagesBackpressureHandling
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** Memory profile of Broker. */
-  memoryProfile?: BrokerPropertiesInputMemoryProfile | (string & {});
+  memoryProfile?: BrokerPropertiesInputMemoryProfile | (string & {}) | undefined;
   /** The persistence settings of the Broker. */
-  persistence?: BrokerPersistence;
+  persistence?: BrokerPersistence | undefined;
 }
 export interface BrokerCreateOrUpdateRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -918,61 +920,61 @@ export interface BrokerCreateOrUpdateRequest {
   /** Name of broker. */
   brokerName: string;
   /** The resource-specific properties for this resource. */
-  properties?: BrokerPropertiesInput;
+  properties?: BrokerPropertiesInput | undefined;
   /** Edge location of the resource. */
-  extendedLocation?: ExtendedLocation;
+  extendedLocation?: ExtendedLocation | undefined;
 }
 /** Memory profile of Broker. */
 export type BrokerPropertiesMemoryProfile = "Tiny" | "Low" | "Medium" | "High";
 /** BrokerStatus status. */
 export interface BrokerStatus {
   /** The health state of the Broker. */
-  healthState?: ResourceHealthStatus;
+  healthState?: ResourceHealthStatus | undefined;
 }
 /** The health state of the resource. */
 export type BrokerPropertiesHealthState = "Available" | "Degraded" | "Unavailable" | "Unknown";
 /** Broker Resource properties */
 export interface BrokerProperties {
   /** Advanced settings of Broker. */
-  advanced?: AdvancedSettings;
+  advanced?: AdvancedSettings | undefined;
   /** The cardinality details of the broker. */
-  cardinality?: Cardinality;
+  cardinality?: Cardinality | undefined;
   /** Spec defines the desired identities of Broker diagnostics settings. */
-  diagnostics?: BrokerDiagnostics;
+  diagnostics?: BrokerDiagnostics | undefined;
   /** Settings of Disk Backed Message Buffer. */
-  diskBackedMessageBuffer?: DiskBackedMessageBuffer;
+  diskBackedMessageBuffer?: DiskBackedMessageBuffer | undefined;
   /** This setting controls whether Kubernetes CPU resource limits are requested. Increasing the number of replicas or workers proportionally increases the amount of CPU resources requested. If this setting is enabled and there are insufficient CPU resources, an error will be emitted. */
-  generateResourceLimits?: GenerateResourceLimits;
+  generateResourceLimits?: GenerateResourceLimits | undefined;
   /** Handling of high-priority messages in the event that regular-priority messages are being backpressured. When set to "Accept", the broker continues to accept high-priority messages even while regular-priority messages are rejected due to backpressure. When set to "Reject", backpressure also affects high-priority messages. Defaults to "Accept". */
-  highPriorityMessagesBackpressureHandling?: HighPriorityMessagesBackpressureHandling;
+  highPriorityMessagesBackpressureHandling?: HighPriorityMessagesBackpressureHandling | undefined;
   /** Memory profile of Broker. */
-  memoryProfile?: BrokerPropertiesMemoryProfile;
+  memoryProfile?: BrokerPropertiesMemoryProfile | undefined;
   /** The persistence settings of the Broker. */
-  persistence?: BrokerPersistence;
+  persistence?: BrokerPersistence | undefined;
   /** The status of the last operation. */
-  provisioningState?: ProvisioningState;
+  provisioningState?: ProvisioningState | undefined;
   /** The status for the broker. */
-  status?: BrokerStatus;
+  status?: BrokerStatus | undefined;
   /** The health state of the resource. */
-  healthState?: BrokerPropertiesHealthState;
+  healthState?: BrokerPropertiesHealthState | undefined;
 }
 export interface BrokerCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: BrokerProperties;
+  properties?: BrokerProperties | undefined;
   /** Edge location of the resource. */
-  extendedLocation?: ExtendedLocation;
+  extendedLocation?: ExtendedLocation | undefined;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Protocol to use for client connections. */
 export type ListenerPortProtocol = "Mqtt" | "WebSockets";
@@ -983,7 +985,7 @@ export type CertManagerIssuerKind = "Issuer" | "ClusterIssuer";
 /** Cert-Manager issuerRef properties */
 export interface CertManagerIssuerRef {
   /** group of issuer. */
-  group?: string;
+  group?: string | undefined;
   /** kind of issuer (Issuer or ClusterIssuer). */
   kind: CertManagerIssuerKind | (string & {});
   /** name of issuer. */
@@ -1003,41 +1005,41 @@ export interface SanForCert {
 /** Automatic TLS server certificate management with cert-manager */
 export interface CertManagerCertificateSpec {
   /** Lifetime of certificate. Must be specified using a Go time.Duration format (h|m|s). E.g. 240h for 240 hours and 45m for 45 minutes. */
-  duration?: string;
+  duration?: string | undefined;
   /** Secret for storing server certificate. Any existing data will be overwritten. This is a reference to the secret through an identifying name, not the secret itself. */
-  secretName?: string;
+  secretName?: string | undefined;
   /** When to begin renewing certificate. Must be specified using a Go time.Duration format (h|m|s). E.g. 240h for 240 hours and 45m for 45 minutes. */
-  renewBefore?: string;
+  renewBefore?: string | undefined;
   /** cert-manager issuerRef. */
   issuerRef: CertManagerIssuerRef;
   /** Type of certificate private key. */
-  privateKey?: CertManagerPrivateKey;
+  privateKey?: CertManagerPrivateKey | undefined;
   /** Additional Subject Alternative Names (SANs) to include in the certificate. */
-  san?: SanForCert;
+  san?: SanForCert | undefined;
 }
 /** Collection of different TLS types, NOTE- Enum at a time only one of them needs to be supported */
 export interface TlsCertMethod {
   /** Mode of TLS server certificate management. */
   mode: TlsCertMethodMode | (string & {});
   /** Option 1 - Automatic TLS server certificate management with cert-manager. */
-  certManagerCertificateSpec?: CertManagerCertificateSpec;
+  certManagerCertificateSpec?: CertManagerCertificateSpec | undefined;
   /** Option 2 - Manual TLS server certificate management through a defined secret. */
-  manual?: X509ManualCertificate;
+  manual?: X509ManualCertificate | undefined;
 }
 /** Defines a TCP port on which a `BrokerListener` listens. */
 export interface ListenerPort {
   /** Reference to client authentication settings. Omit to disable authentication. */
-  authenticationRef?: string;
+  authenticationRef?: string | undefined;
   /** Reference to client authorization settings. Omit to disable authorization. */
-  authorizationRef?: string;
+  authorizationRef?: string | undefined;
   /** Kubernetes node port. Only relevant when this port is associated with a `NodePort` listener. */
-  nodePort?: number;
+  nodePort?: number | undefined;
   /** TCP port for accepting client connections. */
   port: number;
   /** Protocol to use for client connections. */
-  protocol?: ListenerPortProtocol | (string & {});
+  protocol?: ListenerPortProtocol | (string & {}) | undefined;
   /** TLS server certificate settings for this port. Omit to disable TLS. */
-  tls?: TlsCertMethod;
+  tls?: TlsCertMethod | undefined;
 }
 /** Ports on which this listener accepts client connections. */
 export type BrokerListenerPropertiesInputPortsList = Array<ListenerPort>;
@@ -1046,11 +1048,11 @@ export type BrokerListenerPropertiesInputServiceType = "ClusterIp" | "LoadBalanc
 /** Defines a Broker listener. A listener is a collection of ports on which the broker accepts connections from clients. */
 export interface BrokerListenerPropertiesInput {
   /** Kubernetes Service name of this listener. */
-  serviceName?: string;
+  serviceName?: string | undefined;
   /** Ports on which this listener accepts client connections. */
   ports: BrokerListenerPropertiesInputPortsList;
   /** Kubernetes Service type of this listener. */
-  serviceType?: BrokerListenerPropertiesInputServiceType | (string & {});
+  serviceType?: BrokerListenerPropertiesInputServiceType | (string & {}) | undefined;
 }
 export interface BrokerListenerCreateOrUpdateRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1064,9 +1066,9 @@ export interface BrokerListenerCreateOrUpdateRequest {
   /** Name of Instance broker listener resource */
   listenerName: string;
   /** The resource-specific properties for this resource. */
-  properties?: BrokerListenerPropertiesInput;
+  properties?: BrokerListenerPropertiesInput | undefined;
   /** Edge location of the resource. */
-  extendedLocation?: ExtendedLocation;
+  extendedLocation?: ExtendedLocation | undefined;
 }
 /** Ports on which this listener accepts client connections. */
 export type BrokerListenerPropertiesPortsList = Array<ListenerPort>;
@@ -1081,33 +1083,33 @@ export type BrokerListenerPropertiesHealthState =
 /** Defines a Broker listener. A listener is a collection of ports on which the broker accepts connections from clients. */
 export interface BrokerListenerProperties {
   /** Kubernetes Service name of this listener. */
-  serviceName?: string;
+  serviceName?: string | undefined;
   /** Ports on which this listener accepts client connections. */
   ports: BrokerListenerPropertiesPortsList;
   /** Kubernetes Service type of this listener. */
-  serviceType?: BrokerListenerPropertiesServiceType;
+  serviceType?: BrokerListenerPropertiesServiceType | undefined;
   /** The status of the last operation. */
-  provisioningState?: ProvisioningState;
+  provisioningState?: ProvisioningState | undefined;
   /** The health state of the resource. */
-  healthState?: BrokerListenerPropertiesHealthState;
+  healthState?: BrokerListenerPropertiesHealthState | undefined;
 }
 export interface BrokerListenerCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: BrokerListenerProperties;
+  properties?: BrokerListenerProperties | undefined;
   /** Edge location of the resource. */
-  extendedLocation?: ExtendedLocation;
+  extendedLocation?: ExtendedLocation | undefined;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Mode for Dataflow. Optional; defaults to Enabled. */
 export type DataflowPropertiesInputMode = "Enabled" | "Disabled";
@@ -1122,11 +1124,14 @@ export interface DataflowSourceOperationSettings {
   /** Reference to the Dataflow Endpoint resource. Can only be of Broker and Kafka type. */
   endpointRef: string;
   /** Reference to the resource in Azure Device Registry where the data in the endpoint originates from. */
-  assetRef?: string;
+  assetRef?: string | undefined;
   /** Content is a JSON Schema. Allowed: JSON Schema/draft-7. */
-  serializationFormat?: DataflowSourceOperationSettingsSerializationFormat | (string & {});
+  serializationFormat?:
+    | DataflowSourceOperationSettingsSerializationFormat
+    | (string & {})
+    | undefined;
   /** Schema CR reference. Data will be deserialized according to the schema, and dropped if it doesn't match. */
-  schemaRef?: string;
+  schemaRef?: string | undefined;
   /** List of source locations. Can be Broker or Kafka topics. Supports wildcards # and +. */
   dataSources: DataflowSourceOperationSettingsDataSourcesList;
 }
@@ -1139,13 +1144,13 @@ export interface DataflowBuiltInTransformationDataset {
   /** The key of the dataset. */
   key: string;
   /** A user provided optional description of the dataset. */
-  description?: string;
+  description?: string | undefined;
   /** The reference to the schema that describes the dataset. Allowed: JSON Schema/draft-7. */
-  schemaRef?: string;
+  schemaRef?: string | undefined;
   /** List of fields for enriching from the Broker State Store. */
   inputs: DataflowBuiltInTransformationDatasetInputsList;
   /** Condition to enrich data from Broker State Store. Example: $1 < 0 || $1 > $2 (Assuming inputs section $1 and $2 are provided) */
-  expression?: string;
+  expression?: string | undefined;
 }
 /** Enrich data from Broker State Store. Dataset references a key in Broker State Store. */
 export type DataflowBuiltInTransformationSettingsDatasetsList =
@@ -1157,9 +1162,9 @@ export type DataflowBuiltInTransformationFilterInputsList = Array<string>;
 /** Dataflow BuiltIn Transformation filter properties */
 export interface DataflowBuiltInTransformationFilter {
   /** The type of dataflow operation. */
-  type?: DataflowBuiltInTransformationFilterType | (string & {});
+  type?: DataflowBuiltInTransformationFilterType | (string & {}) | undefined;
   /** A user provided optional description of the filter. */
-  description?: string;
+  description?: string | undefined;
   /** List of fields for filtering in JSON path expression. */
   inputs: DataflowBuiltInTransformationFilterInputsList;
   /** Condition to filter data. Can reference input fields with {n} where n is the index of the input field starting from 1. Example: $1 < 0 || $1 > $2 (Assuming inputs section $1 and $2 are provided) */
@@ -1180,13 +1185,13 @@ export type DataflowBuiltInTransformationMapInputsList = Array<string>;
 /** Dataflow BuiltIn Transformation map properties */
 export interface DataflowBuiltInTransformationMap {
   /** Type of transformation. */
-  type?: DataflowMappingType | (string & {});
+  type?: DataflowMappingType | (string & {}) | undefined;
   /** A user provided optional description of the mapping function. */
-  description?: string;
+  description?: string | undefined;
   /** List of fields for mapping in JSON path expression. */
   inputs: DataflowBuiltInTransformationMapInputsList;
   /** Modify the inputs field(s) to the final output field. Example: $1 * 2.2 (Assuming inputs section $1 is provided) */
-  expression?: string;
+  expression?: string | undefined;
   /** Where and how the input fields to be organized in the output record. */
   output: string;
 }
@@ -1195,15 +1200,18 @@ export type DataflowBuiltInTransformationSettingsMapList = Array<DataflowBuiltIn
 /** Dataflow BuiltIn Transformation properties */
 export interface DataflowBuiltInTransformationSettings {
   /** Serialization format. Optional; defaults to JSON. Allowed value JSON Schema/draft-7, Parquet. Default: Json */
-  serializationFormat?: DataflowBuiltInTransformationSettingsSerializationFormat | (string & {});
+  serializationFormat?:
+    | DataflowBuiltInTransformationSettingsSerializationFormat
+    | (string & {})
+    | undefined;
   /** Reference to the schema that describes the output of the transformation. */
-  schemaRef?: string;
+  schemaRef?: string | undefined;
   /** Enrich data from Broker State Store. Dataset references a key in Broker State Store. */
-  datasets?: DataflowBuiltInTransformationSettingsDatasetsList;
+  datasets?: DataflowBuiltInTransformationSettingsDatasetsList | undefined;
   /** Filters input record or datapoints based on condition. */
-  filter?: DataflowBuiltInTransformationSettingsFilterList;
+  filter?: DataflowBuiltInTransformationSettingsFilterList | undefined;
   /** Maps input to output message. */
-  map?: DataflowBuiltInTransformationSettingsMapList;
+  map?: DataflowBuiltInTransformationSettingsMapList | undefined;
 }
 /** Dataflow Destination Header Action Types */
 export type DataflowHeaderActionType = "AddIfNotPresent" | "Remove" | "AddOrReplace";
@@ -1212,9 +1220,9 @@ export interface DataflowDestinationHeaderAction {
   /** The type of header operation to perform. */
   actionType: DataflowHeaderActionType | (string & {});
   /** The name of the header to add. Only for `AddIfNotPresent` (polymorphic subtype `DataflowDestinationAddIfNotPresentHeaderAction`). */
-  key?: string;
+  key?: string | undefined;
   /** The value of the header to add. Only for `AddIfNotPresent` (polymorphic subtype `DataflowDestinationAddIfNotPresentHeaderAction`). */
-  value?: string;
+  value?: string | undefined;
 }
 /** Headers for the output data. */
 export type DataflowDestinationOperationSettingsHeadersList =
@@ -1226,29 +1234,29 @@ export interface DataflowDestinationOperationSettings {
   /** Destination location, can be a topic or table name. Supports dynamic values with $topic, $systemProperties, $userProperties, $payload, $context, and $subscription. */
   dataDestination: string;
   /** Headers for the output data. */
-  headers?: DataflowDestinationOperationSettingsHeadersList;
+  headers?: DataflowDestinationOperationSettingsHeadersList | undefined;
 }
 /** Dataflow Operation properties. NOTE - One only method is allowed to be used for one entry. */
 export interface DataflowOperation {
   /** Type of operation. */
   operationType: OperationType | (string & {});
   /** Optional user provided name of the transformation. */
-  name?: string;
+  name?: string | undefined;
   /** Source configuration. */
-  sourceSettings?: DataflowSourceOperationSettings;
+  sourceSettings?: DataflowSourceOperationSettings | undefined;
   /** Built In Transformation configuration. */
-  builtInTransformationSettings?: DataflowBuiltInTransformationSettings;
+  builtInTransformationSettings?: DataflowBuiltInTransformationSettings | undefined;
   /** Destination configuration. */
-  destinationSettings?: DataflowDestinationOperationSettings;
+  destinationSettings?: DataflowDestinationOperationSettings | undefined;
 }
 /** List of operations including source and destination references as well as transformation. */
 export type DataflowPropertiesInputOperationsList = Array<DataflowOperation>;
 /** Dataflow Resource properties */
 export interface DataflowPropertiesInput {
   /** Mode for Dataflow. Optional; defaults to Enabled. */
-  mode?: DataflowPropertiesInputMode | (string & {});
+  mode?: DataflowPropertiesInputMode | (string & {}) | undefined;
   /** Disk persistence mode. */
-  requestDiskPersistence?: OperationalMode | (string & {});
+  requestDiskPersistence?: OperationalMode | (string & {}) | undefined;
   /** List of operations including source and destination references as well as transformation. */
   operations: DataflowPropertiesInputOperationsList;
 }
@@ -1264,9 +1272,9 @@ export interface DataflowCreateOrUpdateRequest {
   /** Name of Instance dataflowProfile dataflow resource */
   dataflowName: string;
   /** The resource-specific properties for this resource. */
-  properties?: DataflowPropertiesInput;
+  properties?: DataflowPropertiesInput | undefined;
   /** Edge location of the resource. */
-  extendedLocation?: ExtendedLocation;
+  extendedLocation?: ExtendedLocation | undefined;
 }
 /** Mode for Dataflow. Optional; defaults to Enabled. */
 export type DataflowPropertiesMode = "Enabled" | "Disabled";
@@ -1275,42 +1283,42 @@ export type DataflowPropertiesOperationsList = Array<DataflowOperation>;
 /** DataflowStatus status. */
 export interface DataflowStatus {
   /** The health state of the Dataflow. */
-  healthState?: ResourceHealthStatus;
+  healthState?: ResourceHealthStatus | undefined;
 }
 /** The health state of the resource. */
 export type DataflowPropertiesHealthState = "Available" | "Degraded" | "Unavailable" | "Unknown";
 /** Dataflow Resource properties */
 export interface DataflowProperties {
   /** Mode for Dataflow. Optional; defaults to Enabled. */
-  mode?: DataflowPropertiesMode;
+  mode?: DataflowPropertiesMode | undefined;
   /** Disk persistence mode. */
-  requestDiskPersistence?: OperationalMode;
+  requestDiskPersistence?: OperationalMode | undefined;
   /** List of operations including source and destination references as well as transformation. */
   operations: DataflowPropertiesOperationsList;
   /** The status of the last operation. */
-  provisioningState?: ProvisioningState;
+  provisioningState?: ProvisioningState | undefined;
   /** The status for the dataflow. */
-  status?: DataflowStatus;
+  status?: DataflowStatus | undefined;
   /** The health state of the resource. */
-  healthState?: DataflowPropertiesHealthState;
+  healthState?: DataflowPropertiesHealthState | undefined;
 }
 export interface DataflowCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: DataflowProperties;
+  properties?: DataflowProperties | undefined;
   /** Edge location of the resource. */
-  extendedLocation?: ExtendedLocation;
+  extendedLocation?: ExtendedLocation | undefined;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** DataflowEndpoint Type properties */
 export type EndpointType =
@@ -1334,14 +1342,14 @@ export type ManagedIdentityMethod = "SystemAssignedManagedIdentity" | "UserAssig
 /** DataflowEndpoint Authentication SystemAssignedManagedIdentity properties */
 export interface DataflowEndpointAuthenticationSystemAssignedManagedIdentity {
   /** Audience of the service to authenticate against. Optional; defaults to the audience for Service host configuration. */
-  audience?: string;
+  audience?: string | undefined;
 }
 /** DataflowEndpoint Authentication UserAssignedManagedIdentity properties */
 export interface DataflowEndpointAuthenticationUserAssignedManagedIdentity {
   /** Client ID for the user-assigned managed identity. */
   clientId: string;
   /** Resource identifier (application ID URI) of the resource, affixed with the .default suffix. */
-  scope?: string;
+  scope?: string | undefined;
   /** Tenant ID. */
   tenantId: string;
 }
@@ -1350,16 +1358,20 @@ export interface DataflowEndpointDataExplorerAuthentication {
   /** Mode of Authentication. */
   method: ManagedIdentityMethod | (string & {});
   /** System-assigned managed identity authentication. */
-  systemAssignedManagedIdentitySettings?: DataflowEndpointAuthenticationSystemAssignedManagedIdentity;
+  systemAssignedManagedIdentitySettings?:
+    | DataflowEndpointAuthenticationSystemAssignedManagedIdentity
+    | undefined;
   /** User-assigned managed identity authentication. */
-  userAssignedManagedIdentitySettings?: DataflowEndpointAuthenticationUserAssignedManagedIdentity;
+  userAssignedManagedIdentitySettings?:
+    | DataflowEndpointAuthenticationUserAssignedManagedIdentity
+    | undefined;
 }
 /** Batching configuration */
 export interface BatchingConfiguration {
   /** Batching latency in seconds. */
-  latencySeconds?: number;
+  latencySeconds?: number | undefined;
   /** Maximum number of messages in a batch. */
-  maxMessages?: number;
+  maxMessages?: number | undefined;
 }
 /** Azure Data Explorer endpoint properties */
 export interface DataflowEndpointDataExplorer {
@@ -1370,7 +1382,7 @@ export interface DataflowEndpointDataExplorer {
   /** Host of the Azure Data Explorer in the form of <cluster>.<region>.kusto.windows.net (Azure Public) or <cluster>.<region>.kusto.usgovcloudapi.net (Azure US Government). This will be validated by the regex `.*\.*\.kusto\.(windows\.net|usgovcloudapi\.net)`. */
   host: string;
   /** Azure Data Explorer endpoint batching configuration. */
-  batching?: BatchingConfiguration;
+  batching?: BatchingConfiguration | undefined;
 }
 /** DataflowEndpoint Data Lake Storage Authentication Method properties */
 export type DataLakeStorageAuthMethod =
@@ -1387,11 +1399,15 @@ export interface DataflowEndpointDataLakeStorageAuthentication {
   /** Mode of Authentication. */
   method: DataLakeStorageAuthMethod | (string & {});
   /** SAS token authentication. */
-  accessTokenSettings?: DataflowEndpointAuthenticationAccessToken;
+  accessTokenSettings?: DataflowEndpointAuthenticationAccessToken | undefined;
   /** System-assigned managed identity authentication. */
-  systemAssignedManagedIdentitySettings?: DataflowEndpointAuthenticationSystemAssignedManagedIdentity;
+  systemAssignedManagedIdentitySettings?:
+    | DataflowEndpointAuthenticationSystemAssignedManagedIdentity
+    | undefined;
   /** User-assigned managed identity authentication. */
-  userAssignedManagedIdentitySettings?: DataflowEndpointAuthenticationUserAssignedManagedIdentity;
+  userAssignedManagedIdentitySettings?:
+    | DataflowEndpointAuthenticationUserAssignedManagedIdentity
+    | undefined;
 }
 /** Azure Data Lake endpoint properties */
 export interface DataflowEndpointDataLakeStorage {
@@ -1400,7 +1416,7 @@ export interface DataflowEndpointDataLakeStorage {
   /** Host of the Azure Data Lake in the form of <account>.blob.core.windows.net (Azure Public) or <account>.blob.core.usgovcloudapi.net (Azure US Government). This will be validated by the regex `.*\.blob\.core\.(windows\.net|usgovcloudapi\.net)`. */
   host: string;
   /** Azure Data Lake endpoint batching configuration. */
-  batching?: BatchingConfiguration;
+  batching?: BatchingConfiguration | undefined;
 }
 /** Microsoft Fabric endpoint. Authentication properties. NOTE - Only one method is supported for one entry */
 export type DataflowEndpointFabricOneLakeAuthentication =
@@ -1425,7 +1441,7 @@ export interface DataflowEndpointFabricOneLake {
   /** Host of the Microsoft Fabric in the form of https://<host>.fabric.microsoft.com (Azure Public) or https://<host>.fabric.microsoft.us (Azure US Government). This will be validated by the regex `.*\.fabric\.microsoft\.(com|us)`. */
   host: string;
   /** Batching configuration. */
-  batching?: BatchingConfiguration;
+  batching?: BatchingConfiguration | undefined;
 }
 /** DataflowEndpoint Kafka Authentication Method properties */
 export type KafkaAuthMethod =
@@ -1453,26 +1469,30 @@ export interface DataflowEndpointKafkaAuthentication {
   /** Mode of Authentication. */
   method: KafkaAuthMethod | (string & {});
   /** System-assigned managed identity authentication. */
-  systemAssignedManagedIdentitySettings?: DataflowEndpointAuthenticationSystemAssignedManagedIdentity;
+  systemAssignedManagedIdentitySettings?:
+    | DataflowEndpointAuthenticationSystemAssignedManagedIdentity
+    | undefined;
   /** User-assigned managed identity authentication. */
-  userAssignedManagedIdentitySettings?: DataflowEndpointAuthenticationUserAssignedManagedIdentity;
+  userAssignedManagedIdentitySettings?:
+    | DataflowEndpointAuthenticationUserAssignedManagedIdentity
+    | undefined;
   /** SASL authentication. */
-  saslSettings?: DataflowEndpointAuthenticationSasl;
+  saslSettings?: DataflowEndpointAuthenticationSasl | undefined;
   /** X.509 certificate authentication. */
-  x509CertificateSettings?: DataflowEndpointAuthenticationX509;
+  x509CertificateSettings?: DataflowEndpointAuthenticationX509 | undefined;
 }
 /** Mode for batching. */
 export type DataflowEndpointKafkaBatchingMode = "Enabled" | "Disabled";
 /** Kafka endpoint Batching properties */
 export interface DataflowEndpointKafkaBatching {
   /** Mode for batching. */
-  mode?: DataflowEndpointKafkaBatchingMode | (string & {});
+  mode?: DataflowEndpointKafkaBatchingMode | (string & {}) | undefined;
   /** Batching latency in milliseconds. */
-  latencyMs?: number;
+  latencyMs?: number | undefined;
   /** Maximum number of bytes in a batch. */
-  maxBytes?: number;
+  maxBytes?: number | undefined;
   /** Maximum number of messages in a batch. */
-  maxMessages?: number;
+  maxMessages?: number | undefined;
 }
 /** Copy Broker properties. No effect if the endpoint is used as a source or if the dataflow doesn't have an Broker source. */
 export type DataflowEndpointKafkaCopyMqttProperties = "Enabled" | "Disabled";
@@ -1489,23 +1509,23 @@ export interface DataflowEndpointKafka {
   /** Authentication configuration. NOTE - only authentication property is allowed per entry. */
   authentication: DataflowEndpointKafkaAuthentication;
   /** Consumer group ID. */
-  consumerGroupId?: string;
+  consumerGroupId?: string | undefined;
   /** Kafka endpoint host. */
   host: string;
   /** Batching configuration. */
-  batching?: DataflowEndpointKafkaBatching;
+  batching?: DataflowEndpointKafkaBatching | undefined;
   /** Copy Broker properties. No effect if the endpoint is used as a source or if the dataflow doesn't have an Broker source. */
-  copyMqttProperties?: DataflowEndpointKafkaCopyMqttProperties | (string & {});
+  copyMqttProperties?: DataflowEndpointKafkaCopyMqttProperties | (string & {}) | undefined;
   /** Compression. Can be none, gzip, lz4, or snappy. No effect if the endpoint is used as a source. */
-  compression?: DataflowEndpointKafkaCompression | (string & {});
+  compression?: DataflowEndpointKafkaCompression | (string & {}) | undefined;
   /** Kafka acks. Can be all, one, or zero. No effect if the endpoint is used as a source. */
-  kafkaAcks?: DataflowEndpointKafkaKafkaAcks | (string & {});
+  kafkaAcks?: DataflowEndpointKafkaKafkaAcks | (string & {}) | undefined;
   /** Partition handling strategy. Can be default or static. No effect if the endpoint is used as a source. */
-  partitionStrategy?: DataflowEndpointKafkaPartitionStrategy | (string & {});
+  partitionStrategy?: DataflowEndpointKafkaPartitionStrategy | (string & {}) | undefined;
   /** TLS configuration. */
-  tls?: TlsProperties;
+  tls?: TlsProperties | undefined;
   /** Cloud event mapping config. */
-  cloudEventAttributes?: CloudEventAttributeType | (string & {});
+  cloudEventAttributes?: CloudEventAttributeType | (string & {}) | undefined;
 }
 /** Local persistent volume endpoint properties */
 export interface DataflowEndpointLocalStorage {
@@ -1529,13 +1549,17 @@ export interface DataflowEndpointMqttAuthentication {
   /** Mode of Authentication. */
   method: MqttAuthMethod | (string & {});
   /** System-assigned managed identity authentication. */
-  systemAssignedManagedIdentitySettings?: DataflowEndpointAuthenticationSystemAssignedManagedIdentity;
+  systemAssignedManagedIdentitySettings?:
+    | DataflowEndpointAuthenticationSystemAssignedManagedIdentity
+    | undefined;
   /** User-assigned managed identity authentication. */
-  userAssignedManagedIdentitySettings?: DataflowEndpointAuthenticationUserAssignedManagedIdentity;
+  userAssignedManagedIdentitySettings?:
+    | DataflowEndpointAuthenticationUserAssignedManagedIdentity
+    | undefined;
   /** Kubernetes service account token authentication. Default audience if not set is aio-internal */
-  serviceAccountTokenSettings?: DataflowEndpointAuthenticationServiceAccountToken;
+  serviceAccountTokenSettings?: DataflowEndpointAuthenticationServiceAccountToken | undefined;
   /** X.509 certificate authentication. */
-  x509CertificateSettings?: DataflowEndpointAuthenticationX509;
+  x509CertificateSettings?: DataflowEndpointAuthenticationX509 | undefined;
 }
 /** Enable or disable websockets. */
 export type DataflowEndpointMqttProtocol = "Mqtt" | "WebSockets";
@@ -1546,25 +1570,25 @@ export interface DataflowEndpointMqtt {
   /** authentication properties. DEFAULT: kubernetes.audience=aio-internal. NOTE - Enum field only property is allowed */
   authentication: DataflowEndpointMqttAuthentication;
   /** Client ID prefix. Client ID generated by the dataflow is <prefix>-TBD. Optional; no prefix if omitted. */
-  clientIdPrefix?: string;
+  clientIdPrefix?: string | undefined;
   /** Host of the Broker in the form of <hostname>:<port>. Optional; connects to Broker if omitted. */
-  host?: string;
+  host?: string | undefined;
   /** Enable or disable websockets. */
-  protocol?: DataflowEndpointMqttProtocol | (string & {});
+  protocol?: DataflowEndpointMqttProtocol | (string & {}) | undefined;
   /** Broker KeepAlive for connection in seconds. */
-  keepAliveSeconds?: number;
+  keepAliveSeconds?: number | undefined;
   /** Whether or not to keep the retain setting. */
-  retain?: DataflowEndpointMqttRetain | (string & {});
+  retain?: DataflowEndpointMqttRetain | (string & {}) | undefined;
   /** The max number of messages to keep in flight. For subscribe, this is the receive maximum. For publish, this is the maximum number of messages to send before waiting for an ack. */
-  maxInflightMessages?: number;
+  maxInflightMessages?: number | undefined;
   /** Qos for Broker connection. */
-  qos?: number;
+  qos?: number | undefined;
   /** Session expiry in seconds. */
-  sessionExpirySeconds?: number;
+  sessionExpirySeconds?: number | undefined;
   /** TLS configuration. */
-  tls?: TlsProperties;
+  tls?: TlsProperties | undefined;
   /** Cloud event mapping config. */
-  cloudEventAttributes?: CloudEventAttributeType | (string & {});
+  cloudEventAttributes?: CloudEventAttributeType | (string & {}) | undefined;
 }
 /** Dataflow OpenTelemetry authentication method values. */
 export type DataflowOpenTelemetryAuthenticationMethod =
@@ -1576,20 +1600,20 @@ export interface DataflowOpenTelemetryAuthentication {
   /** The authentication method. */
   method: DataflowOpenTelemetryAuthenticationMethod | (string & {});
   /** Settings for the anonymous connection Only for `Anonymous` (polymorphic subtype `DataflowOpenTelemetryAnonymousAuthentication`). */
-  anonymousSettings?: unknown;
+  anonymousSettings?: unknown | undefined;
   /** Kubernetes service account token authentication. Only for `ServiceAccountToken` (polymorphic subtype `DataflowOpenTelemetryServiceAccountAuthentication`). */
-  serviceAccountTokenSettings?: DataflowEndpointAuthenticationServiceAccountToken;
+  serviceAccountTokenSettings?: DataflowEndpointAuthenticationServiceAccountToken | undefined;
   /** X.509 certificate authentication settings. Only for `X509Certificate` (polymorphic subtype `DataflowOpenTelemetryX509CertificateAuthentication`). */
-  x509CertificateSettings?: DataflowEndpointAuthenticationX509;
+  x509CertificateSettings?: DataflowEndpointAuthenticationX509 | undefined;
 }
 /** OpenTelemetry endpoint properties. */
 export interface DataflowEndpointOpenTelemetry {
   /** Host of the OpenTelemetry in the form of <host>:<port>. */
   host: string;
   /** Batching configuration. */
-  batching?: BatchingConfiguration;
+  batching?: BatchingConfiguration | undefined;
   /** TLS configuration. */
-  tls?: TlsProperties;
+  tls?: TlsProperties | undefined;
   /** Authentication properties for OpenTelemetry endpoints */
   authentication: DataflowOpenTelemetryAuthentication;
 }
@@ -1598,21 +1622,21 @@ export interface DataflowEndpointPropertiesInput {
   /** Endpoint Type. */
   endpointType: EndpointType | (string & {});
   /** The type of the Kafka host. E.g FabricRT, EventGrid. */
-  hostType?: DataflowEndpointHostType | (string & {});
+  hostType?: DataflowEndpointHostType | (string & {}) | undefined;
   /** Azure Data Explorer endpoint. */
-  dataExplorerSettings?: DataflowEndpointDataExplorer;
+  dataExplorerSettings?: DataflowEndpointDataExplorer | undefined;
   /** Azure Data Lake endpoint. */
-  dataLakeStorageSettings?: DataflowEndpointDataLakeStorage;
+  dataLakeStorageSettings?: DataflowEndpointDataLakeStorage | undefined;
   /** Microsoft Fabric endpoint. */
-  fabricOneLakeSettings?: DataflowEndpointFabricOneLake;
+  fabricOneLakeSettings?: DataflowEndpointFabricOneLake | undefined;
   /** Kafka endpoint. */
-  kafkaSettings?: DataflowEndpointKafka;
+  kafkaSettings?: DataflowEndpointKafka | undefined;
   /** Local persistent volume endpoint. */
-  localStorageSettings?: DataflowEndpointLocalStorage;
+  localStorageSettings?: DataflowEndpointLocalStorage | undefined;
   /** Broker endpoint. */
-  mqttSettings?: DataflowEndpointMqtt;
+  mqttSettings?: DataflowEndpointMqtt | undefined;
   /** OpenTelemetry endpoint. */
-  openTelemetrySettings?: DataflowEndpointOpenTelemetry;
+  openTelemetrySettings?: DataflowEndpointOpenTelemetry | undefined;
 }
 export interface DataflowEndpointCreateOrUpdateRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1624,9 +1648,9 @@ export interface DataflowEndpointCreateOrUpdateRequest {
   /** Name of Instance dataflowEndpoint resource */
   dataflowEndpointName: string;
   /** The resource-specific properties for this resource. */
-  properties?: DataflowEndpointPropertiesInput;
+  properties?: DataflowEndpointPropertiesInput | undefined;
   /** Edge location of the resource. */
-  extendedLocation?: ExtendedLocation;
+  extendedLocation?: ExtendedLocation | undefined;
 }
 /** The health state of the resource. */
 export type DataflowEndpointPropertiesHealthState =
@@ -1639,43 +1663,43 @@ export interface DataflowEndpointProperties {
   /** Endpoint Type. */
   endpointType: EndpointType;
   /** The type of the Kafka host. E.g FabricRT, EventGrid. */
-  hostType?: DataflowEndpointHostType;
+  hostType?: DataflowEndpointHostType | undefined;
   /** Azure Data Explorer endpoint. */
-  dataExplorerSettings?: DataflowEndpointDataExplorer;
+  dataExplorerSettings?: DataflowEndpointDataExplorer | undefined;
   /** Azure Data Lake endpoint. */
-  dataLakeStorageSettings?: DataflowEndpointDataLakeStorage;
+  dataLakeStorageSettings?: DataflowEndpointDataLakeStorage | undefined;
   /** Microsoft Fabric endpoint. */
-  fabricOneLakeSettings?: DataflowEndpointFabricOneLake;
+  fabricOneLakeSettings?: DataflowEndpointFabricOneLake | undefined;
   /** Kafka endpoint. */
-  kafkaSettings?: DataflowEndpointKafka;
+  kafkaSettings?: DataflowEndpointKafka | undefined;
   /** Local persistent volume endpoint. */
-  localStorageSettings?: DataflowEndpointLocalStorage;
+  localStorageSettings?: DataflowEndpointLocalStorage | undefined;
   /** Broker endpoint. */
-  mqttSettings?: DataflowEndpointMqtt;
+  mqttSettings?: DataflowEndpointMqtt | undefined;
   /** OpenTelemetry endpoint. */
-  openTelemetrySettings?: DataflowEndpointOpenTelemetry;
+  openTelemetrySettings?: DataflowEndpointOpenTelemetry | undefined;
   /** The status of the last operation. */
-  provisioningState?: ProvisioningState;
+  provisioningState?: ProvisioningState | undefined;
   /** The health state of the resource. */
-  healthState?: DataflowEndpointPropertiesHealthState;
+  healthState?: DataflowEndpointPropertiesHealthState | undefined;
 }
 export interface DataflowEndpointCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: DataflowEndpointProperties;
+  properties?: DataflowEndpointProperties | undefined;
   /** Edge location of the resource. */
-  extendedLocation?: ExtendedLocation;
+  extendedLocation?: ExtendedLocation | undefined;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** The mode of the dataflow graph. */
 export type DataflowGraphPropertiesInputMode = "Enabled" | "Disabled";
@@ -1688,11 +1712,11 @@ export interface DataflowGraphNode {
   /** Type of the node. */
   nodeType: DataflowGraphNodeType | (string & {});
   /** Destination configuration. Only for `Destination` (polymorphic subtype `DataflowGraphDestinationNode`). */
-  destinationSettings?: unknown;
+  destinationSettings?: unknown | undefined;
   /** Graph configuration. Only for `Graph` (polymorphic subtype `DataflowGraphGraphNode`). */
-  graphSettings?: unknown;
+  graphSettings?: unknown | undefined;
   /** Source configuration. Only for `Source` (polymorphic subtype `DataflowGraphSourceNode`). */
-  sourceSettings?: unknown;
+  sourceSettings?: unknown | undefined;
 }
 /** List of nodes in the dataflow graph. */
 export type DataflowGraphPropertiesInputNodesList = Array<DataflowGraphNode>;
@@ -1705,16 +1729,19 @@ export type DataflowGraphConnectionSchemaSerializationFormat =
 /** DataflowGraph connection node output schema settings. */
 export interface DataflowGraphConnectionSchemaSettings {
   /** Output serialization format. */
-  serializationFormat?: DataflowGraphConnectionSchemaSerializationFormat | (string & {});
+  serializationFormat?:
+    | DataflowGraphConnectionSchemaSerializationFormat
+    | (string & {})
+    | undefined;
   /** Reference to the schema that describes the output of the transformation. */
-  schemaRef?: string;
+  schemaRef?: string | undefined;
 }
 /** DataflowGraph DataflowGraphNode Connection Input. */
 export interface DataflowGraphConnectionInput {
   /** Name of the input node. */
   name: string;
   /** Schema settings for the input node. */
-  schema?: DataflowGraphConnectionSchemaSettings;
+  schema?: DataflowGraphConnectionSchemaSettings | undefined;
 }
 /** DataflowGraph DataflowGraphNode Connection Output. */
 export interface DataflowGraphConnectionOutput {
@@ -1733,9 +1760,9 @@ export type DataflowGraphPropertiesInputNodeConnectionsList = Array<DataflowGrap
 /** DataflowGraph properties. */
 export interface DataflowGraphPropertiesInput {
   /** The mode of the dataflow graph. */
-  mode?: DataflowGraphPropertiesInputMode | (string & {});
+  mode?: DataflowGraphPropertiesInputMode | (string & {}) | undefined;
   /** Disk persistence mode. */
-  requestDiskPersistence?: OperationalMode | (string & {});
+  requestDiskPersistence?: OperationalMode | (string & {}) | undefined;
   /** List of nodes in the dataflow graph. */
   nodes: DataflowGraphPropertiesInputNodesList;
   /** List of connections between nodes in the dataflow graph. */
@@ -1753,9 +1780,9 @@ export interface DataflowGraphCreateOrUpdateRequest {
   /** Name of Instance dataflowEndpoint resource. */
   dataflowGraphName: string;
   /** The resource-specific properties for this resource. */
-  properties?: DataflowGraphPropertiesInput;
+  properties?: DataflowGraphPropertiesInput | undefined;
   /** Edge location of the resource. */
-  extendedLocation?: ExtendedLocation;
+  extendedLocation?: ExtendedLocation | undefined;
 }
 /** The mode of the dataflow graph. */
 export type DataflowGraphPropertiesMode = "Enabled" | "Disabled";
@@ -1766,7 +1793,7 @@ export type DataflowGraphPropertiesNodeConnectionsList = Array<DataflowGraphNode
 /** DataflowGraph status. */
 export interface DataflowGraphStatus {
   /** The health state of the DataflowGraph. */
-  healthState?: ResourceHealthStatus;
+  healthState?: ResourceHealthStatus | undefined;
 }
 /** The health state of the resource. */
 export type DataflowGraphPropertiesHealthState =
@@ -1777,51 +1804,51 @@ export type DataflowGraphPropertiesHealthState =
 /** DataflowGraph properties. */
 export interface DataflowGraphProperties {
   /** The mode of the dataflow graph. */
-  mode?: DataflowGraphPropertiesMode;
+  mode?: DataflowGraphPropertiesMode | undefined;
   /** Disk persistence mode. */
-  requestDiskPersistence?: OperationalMode;
+  requestDiskPersistence?: OperationalMode | undefined;
   /** List of nodes in the dataflow graph. */
   nodes: DataflowGraphPropertiesNodesList;
   /** List of connections between nodes in the dataflow graph. */
   nodeConnections: DataflowGraphPropertiesNodeConnectionsList;
   /** The provisioning state of the dataflow graph. */
-  provisioningState?: ProvisioningState;
+  provisioningState?: ProvisioningState | undefined;
   /** The status for the dataflow graph. */
-  status?: DataflowGraphStatus;
+  status?: DataflowGraphStatus | undefined;
   /** The health state of the resource. */
-  healthState?: DataflowGraphPropertiesHealthState;
+  healthState?: DataflowGraphPropertiesHealthState | undefined;
 }
 export interface DataflowGraphCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: DataflowGraphProperties;
+  properties?: DataflowGraphProperties | undefined;
   /** Edge location of the resource. */
-  extendedLocation?: ExtendedLocation;
+  extendedLocation?: ExtendedLocation | undefined;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** DataflowProfile Diagnostics properties */
 export interface ProfileDiagnostics {
   /** Diagnostic log settings for the resource. */
-  logs?: AkriConnectorsDiagnosticsLogs;
+  logs?: AkriConnectorsDiagnosticsLogs | undefined;
   /** The metrics settings for the resource. */
-  metrics?: Metrics;
+  metrics?: Metrics | undefined;
 }
 /** DataflowProfile Resource properties */
 export interface DataflowProfilePropertiesInput {
   /** Spec defines the desired identities of NBC diagnostics settings. */
-  diagnostics?: ProfileDiagnostics;
+  diagnostics?: ProfileDiagnostics | undefined;
   /** To manually scale the dataflow profile, specify the maximum number of instances you want to run. */
-  instanceCount?: number;
+  instanceCount?: number | undefined;
 }
 export interface DataflowProfileCreateOrUpdateRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1833,14 +1860,14 @@ export interface DataflowProfileCreateOrUpdateRequest {
   /** Name of Instance dataflowProfile resource */
   dataflowProfileName: string;
   /** The resource-specific properties for this resource. */
-  properties?: DataflowProfilePropertiesInput;
+  properties?: DataflowProfilePropertiesInput | undefined;
   /** Edge location of the resource. */
-  extendedLocation?: ExtendedLocation;
+  extendedLocation?: ExtendedLocation | undefined;
 }
 /** DataflowProfile status. */
 export interface DataflowProfileStatus {
   /** The health state of the DataflowProfile. */
-  healthState?: ResourceHealthStatus;
+  healthState?: ResourceHealthStatus | undefined;
 }
 /** The health state of the resource. */
 export type DataflowProfilePropertiesHealthState =
@@ -1851,33 +1878,33 @@ export type DataflowProfilePropertiesHealthState =
 /** DataflowProfile Resource properties */
 export interface DataflowProfileProperties {
   /** Spec defines the desired identities of NBC diagnostics settings. */
-  diagnostics?: ProfileDiagnostics;
+  diagnostics?: ProfileDiagnostics | undefined;
   /** To manually scale the dataflow profile, specify the maximum number of instances you want to run. */
-  instanceCount?: number;
+  instanceCount?: number | undefined;
   /** The status of the last operation. */
-  provisioningState?: ProvisioningState;
+  provisioningState?: ProvisioningState | undefined;
   /** The status for the dataflow profile. */
-  status?: DataflowProfileStatus;
+  status?: DataflowProfileStatus | undefined;
   /** The health state of the resource. */
-  healthState?: DataflowProfilePropertiesHealthState;
+  healthState?: DataflowProfilePropertiesHealthState | undefined;
 }
 export interface DataflowProfileCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: DataflowProfileProperties;
+  properties?: DataflowProfileProperties | undefined;
   /** Edge location of the resource. */
-  extendedLocation?: ExtendedLocation;
+  extendedLocation?: ExtendedLocation | undefined;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeleteAkriConnectorRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1893,9 +1920,9 @@ export interface DeleteAkriConnectorRequest {
 }
 export interface DeleteAkriConnectorResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeleteAkriConnectorTemplateRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1909,9 +1936,9 @@ export interface DeleteAkriConnectorTemplateRequest {
 }
 export interface DeleteAkriConnectorTemplateResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeleteAkriServiceRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1925,9 +1952,9 @@ export interface DeleteAkriServiceRequest {
 }
 export interface DeleteAkriServiceResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeleteBrokerRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1941,9 +1968,9 @@ export interface DeleteBrokerRequest {
 }
 export interface DeleteBrokerResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeleteBrokerAuthenticationRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1959,9 +1986,9 @@ export interface DeleteBrokerAuthenticationRequest {
 }
 export interface DeleteBrokerAuthenticationResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeleteBrokerAuthorizationRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1977,9 +2004,9 @@ export interface DeleteBrokerAuthorizationRequest {
 }
 export interface DeleteBrokerAuthorizationResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeleteBrokerListenerRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1995,9 +2022,9 @@ export interface DeleteBrokerListenerRequest {
 }
 export interface DeleteBrokerListenerResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeleteDataflowRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2013,9 +2040,9 @@ export interface DeleteDataflowRequest {
 }
 export interface DeleteDataflowResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeleteDataflowEndpointRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2029,9 +2056,9 @@ export interface DeleteDataflowEndpointRequest {
 }
 export interface DeleteDataflowEndpointResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeleteDataflowGraphRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2047,9 +2074,9 @@ export interface DeleteDataflowGraphRequest {
 }
 export interface DeleteDataflowGraphResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeleteDataflowProfileRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2063,9 +2090,9 @@ export interface DeleteDataflowProfileRequest {
 }
 export interface DeleteDataflowProfileResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeleteInstanceRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2077,9 +2104,9 @@ export interface DeleteInstanceRequest {
 }
 export interface DeleteInstanceResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeleteRegistryEndpointRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2093,9 +2120,9 @@ export interface DeleteRegistryEndpointRequest {
 }
 export interface DeleteRegistryEndpointResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface GetAkriConnectorRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2111,17 +2138,17 @@ export interface GetAkriConnectorRequest {
 }
 export interface GetAkriConnectorResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: AkriConnectorProperties;
+  properties?: AkriConnectorProperties | undefined;
   /** Edge location of the resource. */
-  extendedLocation?: ExtendedLocation;
+  extendedLocation?: ExtendedLocation | undefined;
 }
 export interface GetAkriConnectorTemplateRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2135,17 +2162,17 @@ export interface GetAkriConnectorTemplateRequest {
 }
 export interface GetAkriConnectorTemplateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: AkriConnectorTemplateProperties;
+  properties?: AkriConnectorTemplateProperties | undefined;
   /** Edge location of the resource. */
-  extendedLocation?: ExtendedLocation;
+  extendedLocation?: ExtendedLocation | undefined;
 }
 export interface GetAkriServiceRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2159,17 +2186,17 @@ export interface GetAkriServiceRequest {
 }
 export interface GetAkriServiceResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: AkriServiceProperties;
+  properties?: AkriServiceProperties | undefined;
   /** Edge location of the resource. */
-  extendedLocation?: ExtendedLocation;
+  extendedLocation?: ExtendedLocation | undefined;
 }
 export interface GetBrokerRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2183,17 +2210,17 @@ export interface GetBrokerRequest {
 }
 export interface GetBrokerResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: BrokerProperties;
+  properties?: BrokerProperties | undefined;
   /** Edge location of the resource. */
-  extendedLocation?: ExtendedLocation;
+  extendedLocation?: ExtendedLocation | undefined;
 }
 export interface GetBrokerAuthenticationRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2209,17 +2236,17 @@ export interface GetBrokerAuthenticationRequest {
 }
 export interface GetBrokerAuthenticationResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: BrokerAuthenticationProperties;
+  properties?: BrokerAuthenticationProperties | undefined;
   /** Edge location of the resource. */
-  extendedLocation?: ExtendedLocation;
+  extendedLocation?: ExtendedLocation | undefined;
 }
 export interface GetBrokerAuthorizationRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2235,17 +2262,17 @@ export interface GetBrokerAuthorizationRequest {
 }
 export interface GetBrokerAuthorizationResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: BrokerAuthorizationProperties;
+  properties?: BrokerAuthorizationProperties | undefined;
   /** Edge location of the resource. */
-  extendedLocation?: ExtendedLocation;
+  extendedLocation?: ExtendedLocation | undefined;
 }
 export interface GetBrokerListenerRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2261,17 +2288,17 @@ export interface GetBrokerListenerRequest {
 }
 export interface GetBrokerListenerResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: BrokerListenerProperties;
+  properties?: BrokerListenerProperties | undefined;
   /** Edge location of the resource. */
-  extendedLocation?: ExtendedLocation;
+  extendedLocation?: ExtendedLocation | undefined;
 }
 export interface GetDataflowRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2287,17 +2314,17 @@ export interface GetDataflowRequest {
 }
 export interface GetDataflowResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: DataflowProperties;
+  properties?: DataflowProperties | undefined;
   /** Edge location of the resource. */
-  extendedLocation?: ExtendedLocation;
+  extendedLocation?: ExtendedLocation | undefined;
 }
 export interface GetDataflowEndpointRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2311,17 +2338,17 @@ export interface GetDataflowEndpointRequest {
 }
 export interface GetDataflowEndpointResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: DataflowEndpointProperties;
+  properties?: DataflowEndpointProperties | undefined;
   /** Edge location of the resource. */
-  extendedLocation?: ExtendedLocation;
+  extendedLocation?: ExtendedLocation | undefined;
 }
 export interface GetDataflowGraphRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2337,17 +2364,17 @@ export interface GetDataflowGraphRequest {
 }
 export interface GetDataflowGraphResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: DataflowGraphProperties;
+  properties?: DataflowGraphProperties | undefined;
   /** Edge location of the resource. */
-  extendedLocation?: ExtendedLocation;
+  extendedLocation?: ExtendedLocation | undefined;
 }
 export interface GetDataflowProfileRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2361,17 +2388,17 @@ export interface GetDataflowProfileRequest {
 }
 export interface GetDataflowProfileResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: DataflowProfileProperties;
+  properties?: DataflowProfileProperties | undefined;
   /** Edge location of the resource. */
-  extendedLocation?: ExtendedLocation;
+  extendedLocation?: ExtendedLocation | undefined;
 }
 export interface GetInstanceRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2402,9 +2429,9 @@ export type InstanceFeatureSettingsMap = {
 /** The features of the AIO Instance. */
 export interface InstanceFeature {
   /** The state of the feature. */
-  mode?: InstanceFeatureMode | (string & {});
+  mode?: InstanceFeatureMode | (string & {}) | undefined;
   /** The settings of the feature. */
-  settings?: InstanceFeatureSettingsMap;
+  settings?: InstanceFeatureSettingsMap | undefined;
 }
 /** The features of the AIO Instance. */
 export type InstancePropertiesFeaturesMap = { [key: string]: InstanceFeature | undefined };
@@ -2418,21 +2445,21 @@ export type InstancePropertiesHealthState = "Available" | "Degraded" | "Unavaila
 /** The properties of the Instance resource. */
 export interface InstanceProperties {
   /** Detailed description of the Instance. */
-  description?: string;
+  description?: string | undefined;
   /** The status of the last operation. */
-  provisioningState?: ProvisioningState;
+  provisioningState?: ProvisioningState | undefined;
   /** The Azure IoT Operations version. */
-  version?: string;
+  version?: string | undefined;
   /** The reference to the Schema Registry for this AIO Instance. */
   schemaRegistryRef: SchemaRegistryRef;
   /** The reference to the AIO Secret provider class. */
-  defaultSecretProviderClassRef?: SecretProviderClassRef;
+  defaultSecretProviderClassRef?: SecretProviderClassRef | undefined;
   /** The features of the AIO Instance. */
-  features?: InstancePropertiesFeaturesMap;
+  features?: InstancePropertiesFeaturesMap | undefined;
   /** The Azure Device Registry Namespace used by Assets, Discovered Assets and devices */
-  adrNamespaceRef?: AzureDeviceRegistryNamespaceRef;
+  adrNamespaceRef?: AzureDeviceRegistryNamespaceRef | undefined;
   /** The health state of the resource. */
-  healthState?: InstancePropertiesHealthState;
+  healthState?: InstancePropertiesHealthState | undefined;
 }
 /** Type of managed service identity (where both SystemAssigned and UserAssigned types are allowed). */
 export type ManagedServiceIdentityType =
@@ -2443,20 +2470,20 @@ export type ManagedServiceIdentityType =
 /** User assigned identity properties */
 export interface UserAssignedIdentity {
   /** The principal ID of the assigned identity. */
-  principalId?: string;
+  principalId?: string | undefined;
   /** The client ID of the assigned identity. */
-  clientId?: string;
+  clientId?: string | undefined;
 }
 /** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
 export type UserAssignedIdentities = { [key: string]: UserAssignedIdentity | null | undefined };
 /** Managed service identity (system assigned and/or user assigned identities) */
 export interface GetInstanceResponseIdentity {
   /** The service principal ID of the system assigned identity. This property will only be provided for a system assigned identity. */
-  principalId?: string;
+  principalId?: string | undefined;
   /** The tenant ID of the system assigned identity. This property will only be provided for a system assigned identity. */
-  tenantId?: string;
+  tenantId?: string | undefined;
   type: ManagedServiceIdentityType;
-  userAssignedIdentities?: UserAssignedIdentities;
+  userAssignedIdentities?: UserAssignedIdentities | undefined;
 }
 /** The set of supported SKU names for an AIO Instance. */
 export type InstanceSkuName = "Essentials" | "Standard";
@@ -2467,25 +2494,25 @@ export interface InstanceSku {
 }
 export interface GetInstanceResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: GetInstanceResponseTagsMap;
+  tags?: GetInstanceResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: InstanceProperties;
+  properties?: InstanceProperties | undefined;
   /** Edge location of the resource. */
   extendedLocation: ExtendedLocation;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: GetInstanceResponseIdentity;
+  identity?: GetInstanceResponseIdentity | undefined;
   /** The billing SKU for the AIO Instance. Defaults to Standard. */
-  sku?: InstanceSku;
+  sku?: InstanceSku | undefined;
 }
 export interface GetRegistryEndpointRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2508,13 +2535,13 @@ export interface RegistryEndpointAuthentication {
   /** The authentication method. */
   method: RegistryEndpointAuthenticationMethod | (string & {});
   /** Anonymous authentication properties Only for `Anonymous` (polymorphic subtype `RegistryEndpointAnonymousAuthentication`). */
-  anonymousSettings?: unknown;
+  anonymousSettings?: unknown | undefined;
   /** Artifact Pull Secret authentication properties Only for `ArtifactPullSecret` (polymorphic subtype `RegistryEndpointArtifactPullSecretAuthentication`). */
-  artifactPullSecretSettings?: unknown;
+  artifactPullSecretSettings?: unknown | undefined;
   /** System assigned managed identity properties Only for `SystemAssignedManagedIdentity` (polymorphic subtype `RegistryEndpointSystemAssignedIdentityAuthentication`). */
-  systemAssignedManagedIdentitySettings?: unknown;
+  systemAssignedManagedIdentitySettings?: unknown | undefined;
   /** User assigned managed identity properties Only for `UserAssignedManagedIdentity` (polymorphic subtype `RegistryEndpointUserAssignedIdentityAuthentication`). */
-  userAssignedManagedIdentitySettings?: unknown;
+  userAssignedManagedIdentitySettings?: unknown | undefined;
 }
 /** The health state of the resource. */
 export type RegistryEndpointPropertiesHealthState =
@@ -2529,9 +2556,9 @@ export interface RegistryEndpointTrustedSigningKey {
   /** The trust type for the registry endpoint. */
   type: RegistryEndpointTrustedSigningKeyType | (string & {});
   /** The name of the configmap. Only for `ConfigMap` (polymorphic subtype `RegistryEndpointTrustedSigningKeyConfigMap`). */
-  configMapRef?: string;
+  configMapRef?: string | undefined;
   /** The name of the secret. Only for `Secret` (polymorphic subtype `RegistryEndpointTrustedSigningKeySecret`). */
-  secretRef?: string;
+  secretRef?: string | undefined;
 }
 /** The signing certificate authorities used by artifacts in the registry endpoint */
 export type RegistryEndpointPropertiesCodeSigningCasList = Array<RegistryEndpointTrustedSigningKey>;
@@ -2542,25 +2569,25 @@ export interface RegistryEndpointProperties {
   /** The authentication settings for the Azure Container Registry. */
   authentication: RegistryEndpointAuthentication;
   /** The status of the last operation. */
-  provisioningState?: ProvisioningState;
+  provisioningState?: ProvisioningState | undefined;
   /** The health state of the resource. */
-  healthState?: RegistryEndpointPropertiesHealthState;
+  healthState?: RegistryEndpointPropertiesHealthState | undefined;
   /** The signing certificate authorities used by artifacts in the registry endpoint */
-  codeSigningCas?: RegistryEndpointPropertiesCodeSigningCasList;
+  codeSigningCas?: RegistryEndpointPropertiesCodeSigningCasList | undefined;
 }
 export interface GetRegistryEndpointResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: RegistryEndpointProperties;
+  properties?: RegistryEndpointProperties | undefined;
   /** Edge location of the resource. */
-  extendedLocation?: ExtendedLocation;
+  extendedLocation?: ExtendedLocation | undefined;
 }
 /** Resource tags. */
 export type InstanceCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
@@ -2569,15 +2596,15 @@ export type InstancePropertiesInputFeaturesMap = { [key: string]: InstanceFeatur
 /** The properties of the Instance resource. */
 export interface InstancePropertiesInput {
   /** Detailed description of the Instance. */
-  description?: string;
+  description?: string | undefined;
   /** The reference to the Schema Registry for this AIO Instance. */
   schemaRegistryRef: SchemaRegistryRef;
   /** The reference to the AIO Secret provider class. */
-  defaultSecretProviderClassRef?: SecretProviderClassRef;
+  defaultSecretProviderClassRef?: SecretProviderClassRef | undefined;
   /** The features of the AIO Instance. */
-  features?: InstancePropertiesInputFeaturesMap;
+  features?: InstancePropertiesInputFeaturesMap | undefined;
   /** The Azure Device Registry Namespace used by Assets, Discovered Assets and devices */
-  adrNamespaceRef?: AzureDeviceRegistryNamespaceRef;
+  adrNamespaceRef?: AzureDeviceRegistryNamespaceRef | undefined;
 }
 /** User assigned identity properties */
 export type UserAssignedIdentityInput = AkriConnectorPropertiesInput;
@@ -2588,7 +2615,7 @@ export type UserAssignedIdentitiesInput = {
 /** Managed service identity (system assigned and/or user assigned identities) */
 export interface InstanceCreateOrUpdateRequestIdentity {
   type: ManagedServiceIdentityType | (string & {});
-  userAssignedIdentities?: UserAssignedIdentitiesInput;
+  userAssignedIdentities?: UserAssignedIdentitiesInput | undefined;
 }
 export interface InstanceCreateOrUpdateRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2598,17 +2625,17 @@ export interface InstanceCreateOrUpdateRequest {
   /** Name of instance. */
   instanceName: string;
   /** Resource tags. */
-  tags?: InstanceCreateOrUpdateRequestTagsMap;
+  tags?: InstanceCreateOrUpdateRequestTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: InstancePropertiesInput;
+  properties?: InstancePropertiesInput | undefined;
   /** Edge location of the resource. */
   extendedLocation: ExtendedLocation;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: InstanceCreateOrUpdateRequestIdentity;
+  identity?: InstanceCreateOrUpdateRequestIdentity | undefined;
   /** The billing SKU for the AIO Instance. Defaults to Standard. */
-  sku?: InstanceSku;
+  sku?: InstanceSku | undefined;
 }
 /** Resource tags. */
 export type InstanceCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
@@ -2616,29 +2643,29 @@ export type InstanceCreateOrUpdateResponseTagsMap = { [key: string]: string | un
 export type InstanceCreateOrUpdateResponseIdentity = GetInstanceResponseIdentity;
 export interface InstanceCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: InstanceCreateOrUpdateResponseTagsMap;
+  tags?: InstanceCreateOrUpdateResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: InstanceProperties;
+  properties?: InstanceProperties | undefined;
   /** Edge location of the resource. */
   extendedLocation: ExtendedLocation;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: GetInstanceResponseIdentity;
+  identity?: GetInstanceResponseIdentity | undefined;
   /** The billing SKU for the AIO Instance. Defaults to Standard. */
-  sku?: InstanceSku;
+  sku?: InstanceSku | undefined;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface ListAkriConnectorByTemplateRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2653,17 +2680,17 @@ export interface ListAkriConnectorByTemplateRequest {
 /** AkriConnector resource. */
 export interface AkriConnectorResource {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: AkriConnectorProperties;
+  properties?: AkriConnectorProperties | undefined;
   /** Edge location of the resource. */
-  extendedLocation?: ExtendedLocation;
+  extendedLocation?: ExtendedLocation | undefined;
 }
 /** The AkriConnectorResource items on this page */
 export type AkriConnectorResourceListResultValueList = Array<AkriConnectorResource>;
@@ -2672,7 +2699,7 @@ export interface AkriConnectorResourceListResult {
   /** The AkriConnectorResource items on this page */
   value: AkriConnectorResourceListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListAkriConnectorTemplateByInstanceResourceRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2685,17 +2712,17 @@ export interface ListAkriConnectorTemplateByInstanceResourceRequest {
 /** AkriConnectorTemplate resource. */
 export interface AkriConnectorTemplateResource {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: AkriConnectorTemplateProperties;
+  properties?: AkriConnectorTemplateProperties | undefined;
   /** Edge location of the resource. */
-  extendedLocation?: ExtendedLocation;
+  extendedLocation?: ExtendedLocation | undefined;
 }
 /** The AkriConnectorTemplateResource items on this page */
 export type AkriConnectorTemplateResourceListResultValueList = Array<AkriConnectorTemplateResource>;
@@ -2704,7 +2731,7 @@ export interface AkriConnectorTemplateResourceListResult {
   /** The AkriConnectorTemplateResource items on this page */
   value: AkriConnectorTemplateResourceListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListAkriServiceByInstanceResourceRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2717,17 +2744,17 @@ export interface ListAkriServiceByInstanceResourceRequest {
 /** AkriService resource. */
 export interface AkriServiceResource {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: AkriServiceProperties;
+  properties?: AkriServiceProperties | undefined;
   /** Edge location of the resource. */
-  extendedLocation?: ExtendedLocation;
+  extendedLocation?: ExtendedLocation | undefined;
 }
 /** The AkriServiceResource items on this page */
 export type AkriServiceResourceListResultValueList = Array<AkriServiceResource>;
@@ -2736,7 +2763,7 @@ export interface AkriServiceResourceListResult {
   /** The AkriServiceResource items on this page */
   value: AkriServiceResourceListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListBrokerAuthenticationByResourceGroupRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2751,17 +2778,17 @@ export interface ListBrokerAuthenticationByResourceGroupRequest {
 /** Instance broker authentication resource */
 export interface BrokerAuthenticationResource {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: BrokerAuthenticationProperties;
+  properties?: BrokerAuthenticationProperties | undefined;
   /** Edge location of the resource. */
-  extendedLocation?: ExtendedLocation;
+  extendedLocation?: ExtendedLocation | undefined;
 }
 /** The BrokerAuthenticationResource items on this page */
 export type BrokerAuthenticationResourceListResultValueList = Array<BrokerAuthenticationResource>;
@@ -2770,7 +2797,7 @@ export interface BrokerAuthenticationResourceListResult {
   /** The BrokerAuthenticationResource items on this page */
   value: BrokerAuthenticationResourceListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListBrokerAuthorizationByResourceGroupRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2785,17 +2812,17 @@ export interface ListBrokerAuthorizationByResourceGroupRequest {
 /** Instance broker authorizations resource */
 export interface BrokerAuthorizationResource {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: BrokerAuthorizationProperties;
+  properties?: BrokerAuthorizationProperties | undefined;
   /** Edge location of the resource. */
-  extendedLocation?: ExtendedLocation;
+  extendedLocation?: ExtendedLocation | undefined;
 }
 /** The BrokerAuthorizationResource items on this page */
 export type BrokerAuthorizationResourceListResultValueList = Array<BrokerAuthorizationResource>;
@@ -2804,7 +2831,7 @@ export interface BrokerAuthorizationResourceListResult {
   /** The BrokerAuthorizationResource items on this page */
   value: BrokerAuthorizationResourceListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListBrokerByResourceGroupRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2817,17 +2844,17 @@ export interface ListBrokerByResourceGroupRequest {
 /** Instance broker resource */
 export interface BrokerResource {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: BrokerProperties;
+  properties?: BrokerProperties | undefined;
   /** Edge location of the resource. */
-  extendedLocation?: ExtendedLocation;
+  extendedLocation?: ExtendedLocation | undefined;
 }
 /** The BrokerResource items on this page */
 export type BrokerResourceListResultValueList = Array<BrokerResource>;
@@ -2836,7 +2863,7 @@ export interface BrokerResourceListResult {
   /** The BrokerResource items on this page */
   value: BrokerResourceListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListBrokerListenerByResourceGroupRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2851,17 +2878,17 @@ export interface ListBrokerListenerByResourceGroupRequest {
 /** Instance broker resource */
 export interface BrokerListenerResource {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: BrokerListenerProperties;
+  properties?: BrokerListenerProperties | undefined;
   /** Edge location of the resource. */
-  extendedLocation?: ExtendedLocation;
+  extendedLocation?: ExtendedLocation | undefined;
 }
 /** The BrokerListenerResource items on this page */
 export type BrokerListenerResourceListResultValueList = Array<BrokerListenerResource>;
@@ -2870,7 +2897,7 @@ export interface BrokerListenerResourceListResult {
   /** The BrokerListenerResource items on this page */
   value: BrokerListenerResourceListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListDataflowByProfileResourceRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2885,17 +2912,17 @@ export interface ListDataflowByProfileResourceRequest {
 /** Instance dataflowProfile dataflow resource */
 export interface DataflowResource {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: DataflowProperties;
+  properties?: DataflowProperties | undefined;
   /** Edge location of the resource. */
-  extendedLocation?: ExtendedLocation;
+  extendedLocation?: ExtendedLocation | undefined;
 }
 /** The DataflowResource items on this page */
 export type DataflowResourceListResultValueList = Array<DataflowResource>;
@@ -2904,7 +2931,7 @@ export interface DataflowResourceListResult {
   /** The DataflowResource items on this page */
   value: DataflowResourceListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListDataflowEndpointByResourceGroupRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2917,17 +2944,17 @@ export interface ListDataflowEndpointByResourceGroupRequest {
 /** Instance dataflowEndpoint resource */
 export interface DataflowEndpointResource {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: DataflowEndpointProperties;
+  properties?: DataflowEndpointProperties | undefined;
   /** Edge location of the resource. */
-  extendedLocation?: ExtendedLocation;
+  extendedLocation?: ExtendedLocation | undefined;
 }
 /** The DataflowEndpointResource items on this page */
 export type DataflowEndpointResourceListResultValueList = Array<DataflowEndpointResource>;
@@ -2936,7 +2963,7 @@ export interface DataflowEndpointResourceListResult {
   /** The DataflowEndpointResource items on this page */
   value: DataflowEndpointResourceListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListDataflowGraphByDataflowProfileRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2951,17 +2978,17 @@ export interface ListDataflowGraphByDataflowProfileRequest {
 /** Instance dataflowEndpoint resource. */
 export interface DataflowGraphResource {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: DataflowGraphProperties;
+  properties?: DataflowGraphProperties | undefined;
   /** Edge location of the resource. */
-  extendedLocation?: ExtendedLocation;
+  extendedLocation?: ExtendedLocation | undefined;
 }
 /** The DataflowGraphResource items on this page */
 export type DataflowGraphResourceListResultValueList = Array<DataflowGraphResource>;
@@ -2970,7 +2997,7 @@ export interface DataflowGraphResourceListResult {
   /** The DataflowGraphResource items on this page */
   value: DataflowGraphResourceListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListDataflowProfileByResourceGroupRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2983,17 +3010,17 @@ export interface ListDataflowProfileByResourceGroupRequest {
 /** Instance dataflowProfile resource */
 export interface DataflowProfileResource {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: DataflowProfileProperties;
+  properties?: DataflowProfileProperties | undefined;
   /** Edge location of the resource. */
-  extendedLocation?: ExtendedLocation;
+  extendedLocation?: ExtendedLocation | undefined;
 }
 /** The DataflowProfileResource items on this page */
 export type DataflowProfileResourceListResultValueList = Array<DataflowProfileResource>;
@@ -3002,7 +3029,7 @@ export interface DataflowProfileResourceListResult {
   /** The DataflowProfileResource items on this page */
   value: DataflowProfileResourceListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListInstanceByResourceGroupRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -3017,25 +3044,25 @@ export type InstanceResourceIdentity = GetInstanceResponseIdentity;
 /** A Instance resource is a logical container for a set of child resources. */
 export interface InstanceResource {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: InstanceResourceTagsMap;
+  tags?: InstanceResourceTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: InstanceProperties;
+  properties?: InstanceProperties | undefined;
   /** Edge location of the resource. */
   extendedLocation: ExtendedLocation;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: GetInstanceResponseIdentity;
+  identity?: GetInstanceResponseIdentity | undefined;
   /** The billing SKU for the AIO Instance. Defaults to Standard. */
-  sku?: InstanceSku;
+  sku?: InstanceSku | undefined;
 }
 /** The InstanceResource items on this page */
 export type InstanceResourceListResultValueList = Array<InstanceResource>;
@@ -3044,7 +3071,7 @@ export interface InstanceResourceListResult {
   /** The InstanceResource items on this page */
   value: InstanceResourceListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListInstanceBySubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -3054,13 +3081,13 @@ export interface ListOperationsRequest {}
 /** Localized display information for this particular operation. */
 export interface OperationDisplay {
   /** The localized friendly form of the resource provider name, e.g. "Microsoft Monitoring Insights" or "Microsoft Compute". */
-  provider?: string;
+  provider?: string | undefined;
   /** The localized friendly name of the resource type related to this operation. E.g. "Virtual Machines" or "Job Schedule Collections". */
-  resource?: string;
+  resource?: string | undefined;
   /** The concise, localized friendly name for the operation; suitable for dropdowns. E.g. "Create or Update Virtual Machine", "Restart Virtual Machine". */
-  operation?: string;
+  operation?: string | undefined;
   /** The short, localized friendly description of the operation; suitable for tool tips and detailed views. */
-  description?: string;
+  description?: string | undefined;
 }
 /** The intended executor of the operation; as in Resource Based Access Control (RBAC) and audit logs UX. Default value is "user,system" */
 export type OperationOrigin = "user" | "system" | "user,system";
@@ -3069,23 +3096,23 @@ export type OperationActionType = "Internal";
 /** Details of a REST API operation, returned from the Resource Provider Operations API */
 export interface Operation {
   /** The name of the operation, as per Resource-Based Access Control (RBAC). Examples: "Microsoft.Compute/virtualMachines/write", "Microsoft.Compute/virtualMachines/capture/action" */
-  name?: string;
+  name?: string | undefined;
   /** Whether the operation applies to data-plane. This is "true" for data-plane operations and "false" for ARM/control-plane operations. */
-  isDataAction?: boolean;
+  isDataAction?: boolean | undefined;
   /** Localized display information for this particular operation. */
-  display?: OperationDisplay;
+  display?: OperationDisplay | undefined;
   /** The intended executor of the operation; as in Resource Based Access Control (RBAC) and audit logs UX. Default value is "user,system" */
-  origin?: OperationOrigin;
+  origin?: OperationOrigin | undefined;
   /** Enum. Indicates the action type. "Internal" refers to actions that are for internal only APIs. */
-  actionType?: OperationActionType;
+  actionType?: OperationActionType | undefined;
 }
 /** List of operations supported by the resource provider */
 export type ListOperationsResponseValueList = Array<Operation>;
 export interface ListOperationsResponse {
   /** List of operations supported by the resource provider */
-  value?: ListOperationsResponseValueList;
+  value?: ListOperationsResponseValueList | undefined;
   /** URL to get the next set of operation list results (if there are any). */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListRegistryEndpointByInstanceResourceRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -3098,17 +3125,17 @@ export interface ListRegistryEndpointByInstanceResourceRequest {
 /** RegistryEndpoint resource */
 export interface RegistryEndpointResource {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: RegistryEndpointProperties;
+  properties?: RegistryEndpointProperties | undefined;
   /** Edge location of the resource. */
-  extendedLocation?: ExtendedLocation;
+  extendedLocation?: ExtendedLocation | undefined;
 }
 /** The RegistryEndpointResource items on this page */
 export type RegistryEndpointResourceListResultValueList = Array<RegistryEndpointResource>;
@@ -3117,7 +3144,7 @@ export interface RegistryEndpointResourceListResult {
   /** The RegistryEndpointResource items on this page */
   value: RegistryEndpointResourceListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 /** The signing certificate authorities used by artifacts in the registry endpoint */
 export type RegistryEndpointPropertiesInputCodeSigningCasList =
@@ -3129,7 +3156,7 @@ export interface RegistryEndpointPropertiesInput {
   /** The authentication settings for the Azure Container Registry. */
   authentication: RegistryEndpointAuthentication;
   /** The signing certificate authorities used by artifacts in the registry endpoint */
-  codeSigningCas?: RegistryEndpointPropertiesInputCodeSigningCasList;
+  codeSigningCas?: RegistryEndpointPropertiesInputCodeSigningCasList | undefined;
 }
 export interface RegistryEndpointCreateOrUpdateRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -3141,27 +3168,27 @@ export interface RegistryEndpointCreateOrUpdateRequest {
   /** Name of RegistryEndpoint resource */
   registryEndpointName: string;
   /** The resource-specific properties for this resource. */
-  properties?: RegistryEndpointPropertiesInput;
+  properties?: RegistryEndpointPropertiesInput | undefined;
   /** Edge location of the resource. */
-  extendedLocation?: ExtendedLocation;
+  extendedLocation?: ExtendedLocation | undefined;
 }
 export interface RegistryEndpointCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: RegistryEndpointProperties;
+  properties?: RegistryEndpointProperties | undefined;
   /** Edge location of the resource. */
-  extendedLocation?: ExtendedLocation;
+  extendedLocation?: ExtendedLocation | undefined;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Resource tags. */
 export type UpdateInstanceRequestTagsMap = { [key: string]: string | undefined };
@@ -3175,9 +3202,9 @@ export interface UpdateInstanceRequest {
   /** Name of instance. */
   instanceName: string;
   /** Resource tags. */
-  tags?: UpdateInstanceRequestTagsMap;
+  tags?: UpdateInstanceRequestTagsMap | undefined;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: InstanceCreateOrUpdateRequestIdentity;
+  identity?: InstanceCreateOrUpdateRequestIdentity | undefined;
 }
 /** Resource tags. */
 export type UpdateInstanceResponseTagsMap = { [key: string]: string | undefined };
@@ -3185,25 +3212,25 @@ export type UpdateInstanceResponseTagsMap = { [key: string]: string | undefined 
 export type UpdateInstanceResponseIdentity = GetInstanceResponseIdentity;
 export interface UpdateInstanceResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: UpdateInstanceResponseTagsMap;
+  tags?: UpdateInstanceResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: InstanceProperties;
+  properties?: InstanceProperties | undefined;
   /** Edge location of the resource. */
   extendedLocation: ExtendedLocation;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: GetInstanceResponseIdentity;
+  identity?: GetInstanceResponseIdentity | undefined;
   /** The billing SKU for the AIO Instance. Defaults to Standard. */
-  sku?: InstanceSku;
+  sku?: InstanceSku | undefined;
 }
 export type AkriConnectorCreateOrUpdateError = AzureOpError;
 /** Create a AkriConnectorResource */

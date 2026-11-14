@@ -1,0 +1,60 @@
+{
+  "description": "Type the managed-API-keys gate. Calling the API key endpoints with an API key needs Daytona's \"Managed API keys\" feature, which Daytona enables per organization on request (https://www.daytona.io/docs/en/api-keys/); otherwise the API answers HTTP 403 \"Managing API keys with an API key is not enabled for this organization\" (observed live 2026-11-03 on POST and GET /api-keys).",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.daytona.api_keys#ManagedApiKeysNotEnabled",
+      "value": {
+        "type": "structure",
+        "members": {
+          "message": {
+            "target": "smithy.api#String"
+          }
+        },
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 403,
+          "smithy.api#documentation": "Managing API keys with an API key (the manage:api_keys permission) is not enabled for this organization; Daytona enables it on request. Sign in as a user instead (HTTP 403).",
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "status": 403,
+              "message": {
+                "includes": "Managing API keys with an API key is not enabled"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.daytona.api_keys#ListApiKeys/errors",
+      "value": [
+        {
+          "target": "com.daytona.api_keys#ManagedApiKeysNotEnabled"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.daytona.api_keys#CreateApiKey/errors/-",
+      "value": {
+        "target": "com.daytona.api_keys#ManagedApiKeysNotEnabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.daytona.api_keys#GetApiKey/errors/-",
+      "value": {
+        "target": "com.daytona.api_keys#ManagedApiKeysNotEnabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.daytona.api_keys#DeleteApiKey/errors/-",
+      "value": {
+        "target": "com.daytona.api_keys#ManagedApiKeysNotEnabled"
+      }
+    }
+  ]
+}

@@ -6,6 +6,7 @@ import type * as HttpClient from "effect/http/HttpClient";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
 // Schema table, filled on first reach (see __S at the end).
@@ -124,7 +125,7 @@ export interface CreateHapgRequest {
 }
 export type HapgArn = string;
 export interface CreateHapgResponse {
-  HapgArn?: string;
+  HapgArn?: string | undefined;
 }
 export type SubnetId = string;
 export type SshKey = string;
@@ -136,26 +137,26 @@ export type ClientToken = string;
 export interface CreateHsmRequest {
   SubnetId: string;
   SshKey: string;
-  EniIp?: string;
+  EniIp?: string | undefined;
   IamRoleArn: string;
-  ExternalId?: string;
+  ExternalId?: string | undefined;
   SubscriptionType: SubscriptionType;
-  ClientToken?: string;
-  SyslogIp?: string;
+  ClientToken?: string | undefined;
+  SyslogIp?: string | undefined;
 }
 export type HsmArn = string;
 export interface CreateHsmResponse {
-  HsmArn?: string;
+  HsmArn?: string | undefined;
 }
 export type ClientLabel = string;
 export type Certificate = string;
 export interface CreateLunaClientRequest {
-  Label?: string;
+  Label?: string | undefined;
   Certificate: string;
 }
 export type ClientArn = string;
 export interface CreateLunaClientResponse {
-  ClientArn?: string;
+  ClientArn?: string | undefined;
 }
 export interface DeleteHapgRequest {
   HapgArn: string;
@@ -183,20 +184,20 @@ export type PartitionSerial = string;
 export type PartitionSerialList = string[];
 export type CloudHsmObjectState = "READY" | "UPDATING" | "DEGRADED" | (string & {});
 export interface DescribeHapgResponse {
-  HapgArn?: string;
-  HapgSerial?: string;
-  HsmsLastActionFailed?: string[];
-  HsmsPendingDeletion?: string[];
-  HsmsPendingRegistration?: string[];
-  Label?: string;
-  LastModifiedTimestamp?: string;
-  PartitionSerialList?: string[];
-  State?: CloudHsmObjectState;
+  HapgArn?: string | undefined;
+  HapgSerial?: string | undefined;
+  HsmsLastActionFailed?: string[] | undefined;
+  HsmsPendingDeletion?: string[] | undefined;
+  HsmsPendingRegistration?: string[] | undefined;
+  Label?: string | undefined;
+  LastModifiedTimestamp?: string | undefined;
+  PartitionSerialList?: string[] | undefined;
+  State?: CloudHsmObjectState | undefined;
 }
 export type HsmSerialNumber = string;
 export interface DescribeHsmRequest {
-  HsmArn?: string;
-  HsmSerialNumber?: string;
+  HsmArn?: string | undefined;
+  HsmSerialNumber?: string | undefined;
 }
 export type HsmStatus =
   | "PENDING"
@@ -213,39 +214,39 @@ export type VpcId = string;
 export type PartitionArn = string;
 export type PartitionList = string[];
 export interface DescribeHsmResponse {
-  HsmArn?: string;
-  Status?: HsmStatus;
-  StatusDetails?: string;
-  AvailabilityZone?: string;
-  EniId?: string;
-  EniIp?: string;
-  SubscriptionType?: SubscriptionType;
-  SubscriptionStartDate?: string;
-  SubscriptionEndDate?: string;
-  VpcId?: string;
-  SubnetId?: string;
-  IamRoleArn?: string;
-  SerialNumber?: string;
-  VendorName?: string;
-  HsmType?: string;
-  SoftwareVersion?: string;
-  SshPublicKey?: string;
-  SshKeyLastUpdated?: string;
-  ServerCertUri?: string;
-  ServerCertLastUpdated?: string;
-  Partitions?: string[];
+  HsmArn?: string | undefined;
+  Status?: HsmStatus | undefined;
+  StatusDetails?: string | undefined;
+  AvailabilityZone?: string | undefined;
+  EniId?: string | undefined;
+  EniIp?: string | undefined;
+  SubscriptionType?: SubscriptionType | undefined;
+  SubscriptionStartDate?: string | undefined;
+  SubscriptionEndDate?: string | undefined;
+  VpcId?: string | undefined;
+  SubnetId?: string | undefined;
+  IamRoleArn?: string | undefined;
+  SerialNumber?: string | undefined;
+  VendorName?: string | undefined;
+  HsmType?: string | undefined;
+  SoftwareVersion?: string | undefined;
+  SshPublicKey?: string | undefined;
+  SshKeyLastUpdated?: string | undefined;
+  ServerCertUri?: string | undefined;
+  ServerCertLastUpdated?: string | undefined;
+  Partitions?: string[] | undefined;
 }
 export type CertificateFingerprint = string;
 export interface DescribeLunaClientRequest {
-  ClientArn?: string;
-  CertificateFingerprint?: string;
+  ClientArn?: string | undefined;
+  CertificateFingerprint?: string | undefined;
 }
 export interface DescribeLunaClientResponse {
-  ClientArn?: string;
-  Certificate?: string;
-  CertificateFingerprint?: string;
-  LastModifiedTimestamp?: string;
-  Label?: string;
+  ClientArn?: string | undefined;
+  Certificate?: string | undefined;
+  CertificateFingerprint?: string | undefined;
+  LastModifiedTimestamp?: string | undefined;
+  Label?: string | undefined;
 }
 export type ClientVersion = "5.1" | "5.3" | (string & {});
 export type HapgList = string[];
@@ -255,37 +256,37 @@ export interface GetConfigRequest {
   HapgList: string[];
 }
 export interface GetConfigResponse {
-  ConfigType?: string;
-  ConfigFile?: string;
-  ConfigCred?: string;
+  ConfigType?: string | undefined;
+  ConfigFile?: string | undefined;
+  ConfigCred?: string | undefined;
 }
 export interface ListAvailableZonesRequest {}
 export type AZList = string[];
 export interface ListAvailableZonesResponse {
-  AZList?: string[];
+  AZList?: string[] | undefined;
 }
 export type PaginationToken = string;
 export interface ListHapgsRequest {
-  NextToken?: string;
+  NextToken?: string | undefined;
 }
 export interface ListHapgsResponse {
   HapgList: string[];
-  NextToken?: string;
+  NextToken?: string | undefined;
 }
 export interface ListHsmsRequest {
-  NextToken?: string;
+  NextToken?: string | undefined;
 }
 export interface ListHsmsResponse {
-  HsmList?: string[];
-  NextToken?: string;
+  HsmList?: string[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListLunaClientsRequest {
-  NextToken?: string;
+  NextToken?: string | undefined;
 }
 export type ClientList = string[];
 export interface ListLunaClientsResponse {
   ClientList: string[];
-  NextToken?: string;
+  NextToken?: string | undefined;
 }
 export interface ListTagsForResourceRequest {
   ResourceArn: string;
@@ -295,29 +296,29 @@ export interface ListTagsForResourceResponse {
 }
 export interface ModifyHapgRequest {
   HapgArn: string;
-  Label?: string;
-  PartitionSerialList?: string[];
+  Label?: string | undefined;
+  PartitionSerialList?: string[] | undefined;
 }
 export interface ModifyHapgResponse {
-  HapgArn?: string;
+  HapgArn?: string | undefined;
 }
 export interface ModifyHsmRequest {
   HsmArn: string;
-  SubnetId?: string;
-  EniIp?: string;
-  IamRoleArn?: string;
-  ExternalId?: string;
-  SyslogIp?: string;
+  SubnetId?: string | undefined;
+  EniIp?: string | undefined;
+  IamRoleArn?: string | undefined;
+  ExternalId?: string | undefined;
+  SyslogIp?: string | undefined;
 }
 export interface ModifyHsmResponse {
-  HsmArn?: string;
+  HsmArn?: string | undefined;
 }
 export interface ModifyLunaClientRequest {
   ClientArn: string;
   Certificate: string;
 }
 export interface ModifyLunaClientResponse {
-  ClientArn?: string;
+  ClientArn?: string | undefined;
 }
 export type TagKeyList = string[];
 export interface RemoveTagsFromResourceRequest {
@@ -350,7 +351,7 @@ export type AddTagsToResourceError =
  * resource.
  */
 export const addTagsToResource: API.OperationMethod<
-  AddTagsToResourceRequest,
+  AddTagsToResourceRequest & RegionInput,
   AddTagsToResourceResponse,
   AddTagsToResourceError,
   Credentials | HttpClient.HttpClient
@@ -386,7 +387,7 @@ export type CreateHapgError =
  * group of partitions that spans multiple physical HSMs.
  */
 export const createHapg: API.OperationMethod<
-  CreateHapgRequest,
+  CreateHapgRequest & RegionInput,
   CreateHapgResponse,
   CreateHapgError,
   Credentials | HttpClient.HttpClient
@@ -430,7 +431,7 @@ export type CreateHsmError =
  * initialized when the status changes to `RUNNING`.
  */
 export const createHsm: API.OperationMethod<
-  CreateHsmRequest,
+  CreateHsmRequest & RegionInput,
   CreateHsmResponse,
   CreateHsmError,
   Credentials | HttpClient.HttpClient
@@ -465,7 +466,7 @@ export type CreateLunaClientError =
  * Creates an HSM client.
  */
 export const createLunaClient: API.OperationMethod<
-  CreateLunaClientRequest,
+  CreateLunaClientRequest & RegionInput,
   CreateLunaClientResponse,
   CreateLunaClientError,
   Credentials | HttpClient.HttpClient
@@ -500,7 +501,7 @@ export type DeleteHapgError =
  * Deletes a high-availability partition group.
  */
 export const deleteHapg: API.OperationMethod<
-  DeleteHapgRequest,
+  DeleteHapgRequest & RegionInput,
   DeleteHapgResponse,
   DeleteHapgError,
   Credentials | HttpClient.HttpClient
@@ -536,7 +537,7 @@ export type DeleteHsmError =
  * cannot be recovered.
  */
 export const deleteHsm: API.OperationMethod<
-  DeleteHsmRequest,
+  DeleteHsmRequest & RegionInput,
   DeleteHsmResponse,
   DeleteHsmError,
   Credentials | HttpClient.HttpClient
@@ -571,7 +572,7 @@ export type DeleteLunaClientError =
  * Deletes a client.
  */
 export const deleteLunaClient: API.OperationMethod<
-  DeleteLunaClientRequest,
+  DeleteLunaClientRequest & RegionInput,
   DeleteLunaClientResponse,
   DeleteLunaClientError,
   Credentials | HttpClient.HttpClient
@@ -606,7 +607,7 @@ export type DescribeHapgError =
  * Retrieves information about a high-availability partition group.
  */
 export const describeHapg: API.OperationMethod<
-  DescribeHapgRequest,
+  DescribeHapgRequest & RegionInput,
   DescribeHapgResponse,
   DescribeHapgError,
   Credentials | HttpClient.HttpClient
@@ -642,7 +643,7 @@ export type DescribeHsmError =
  * number.
  */
 export const describeHsm: API.OperationMethod<
-  DescribeHsmRequest,
+  DescribeHsmRequest & RegionInput,
   DescribeHsmResponse,
   DescribeHsmError,
   Credentials | HttpClient.HttpClient
@@ -677,7 +678,7 @@ export type DescribeLunaClientError =
  * Retrieves information about an HSM client.
  */
 export const describeLunaClient: API.OperationMethod<
-  DescribeLunaClientRequest,
+  DescribeLunaClientRequest & RegionInput,
   DescribeLunaClientResponse,
   DescribeLunaClientError,
   Credentials | HttpClient.HttpClient
@@ -713,7 +714,7 @@ export type GetConfigError =
  * groups the client is associated with.
  */
 export const getConfig: API.OperationMethod<
-  GetConfigRequest,
+  GetConfigRequest & RegionInput,
   GetConfigResponse,
   GetConfigError,
   Credentials | HttpClient.HttpClient
@@ -748,7 +749,7 @@ export type ListAvailableZonesError =
  * Lists the Availability Zones that have available AWS CloudHSM capacity.
  */
 export const listAvailableZones: API.OperationMethod<
-  ListAvailableZonesRequest,
+  ListAvailableZonesRequest & RegionInput,
   ListAvailableZonesResponse,
   ListAvailableZonesError,
   Credentials | HttpClient.HttpClient
@@ -788,7 +789,7 @@ export type ListHapgsError =
  * items.
  */
 export const listHapgs: API.OperationMethod<
-  ListHapgsRequest,
+  ListHapgsRequest & RegionInput,
   ListHapgsResponse,
   ListHapgsError,
   Credentials | HttpClient.HttpClient
@@ -829,7 +830,7 @@ export type ListHsmsError =
  * items.
  */
 export const listHsms: API.OperationMethod<
-  ListHsmsRequest,
+  ListHsmsRequest & RegionInput,
   ListHsmsResponse,
   ListHsmsError,
   Credentials | HttpClient.HttpClient
@@ -869,7 +870,7 @@ export type ListLunaClientsError =
  * of items.
  */
 export const listLunaClients: API.OperationMethod<
-  ListLunaClientsRequest,
+  ListLunaClientsRequest & RegionInput,
   ListLunaClientsResponse,
   ListLunaClientsError,
   Credentials | HttpClient.HttpClient
@@ -904,7 +905,7 @@ export type ListTagsForResourceError =
  * Returns a list of all tags for the specified AWS CloudHSM resource.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -939,7 +940,7 @@ export type ModifyHapgError =
  * Modifies an existing high-availability partition group.
  */
 export const modifyHapg: API.OperationMethod<
-  ModifyHapgRequest,
+  ModifyHapgRequest & RegionInput,
   ModifyHapgResponse,
   ModifyHapgError,
   Credentials | HttpClient.HttpClient
@@ -979,7 +980,7 @@ export type ModifyHsmError =
  * operation during a maintenance window.
  */
 export const modifyHsm: API.OperationMethod<
-  ModifyHsmRequest,
+  ModifyHsmRequest & RegionInput,
   ModifyHsmResponse,
   ModifyHsmError,
   Credentials | HttpClient.HttpClient
@@ -1013,7 +1014,7 @@ export type ModifyLunaClientError = CloudHsmServiceException | CommonErrors;
  * client's HSMs.
  */
 export const modifyLunaClient: API.OperationMethod<
-  ModifyLunaClientRequest,
+  ModifyLunaClientRequest & RegionInput,
   ModifyLunaClientResponse,
   ModifyLunaClientError,
   Credentials | HttpClient.HttpClient
@@ -1051,7 +1052,7 @@ export type RemoveTagsFromResourceError =
  * value for an existing tag, use AddTagsToResource.
  */
 export const removeTagsFromResource: API.OperationMethod<
-  RemoveTagsFromResourceRequest,
+  RemoveTagsFromResourceRequest & RegionInput,
   RemoveTagsFromResourceResponse,
   RemoveTagsFromResourceError,
   Credentials | HttpClient.HttpClient

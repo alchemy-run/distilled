@@ -53,7 +53,7 @@ export interface GetConfigResponse {
   /** Specify the Google Tag Manager container or measurement ID (e.g. GTM-XXXXXXX or G-XXXXXXXXXX). */
   measurementId: string;
   /** Set up the associated Google Tag on the zone automatically when enabled. */
-  setUpTag?: boolean | null;
+  setUpTag?: boolean | null | undefined;
 }
 export interface PutConfigRequest {
   /** Identifier. */
@@ -67,7 +67,7 @@ export interface PutConfigRequest {
   /** Specify the Google Tag Manager container or measurement ID (e.g. GTM-XXXXXXX or G-XXXXXXXXXX). */
   measurementId: string;
   /** Set up the associated Google Tag on the zone automatically when enabled. */
-  setUpTag?: boolean;
+  setUpTag?: boolean | undefined;
 }
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface PutConfigResponse {
@@ -80,7 +80,7 @@ export interface PutConfigResponse {
   /** Specify the Google Tag Manager container or measurement ID (e.g. GTM-XXXXXXX or G-XXXXXXXXXX). */
   measurementId: string;
   /** Set up the associated Google Tag on the zone automatically when enabled. */
-  setUpTag?: boolean | null;
+  setUpTag?: boolean | null | undefined;
 }
 export type GetConfigError = Forbidden | CloudflareOpError;
 /** Gets the Google Tag Gateway configuration for a zone. */

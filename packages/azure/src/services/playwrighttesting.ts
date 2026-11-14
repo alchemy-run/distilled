@@ -28,6 +28,7 @@ const TELEMETRY = {
   prefix: "Playwrighttesting",
   service: "Playwrighttesting",
   labels: "azure",
+  labelNames: { resourceGroupName: "azure.resource_group.name" },
   propagate: "w3c",
 } as const;
 
@@ -44,13 +45,13 @@ export type AccountPropertiesInputLocalAuth = "Enabled" | "Disabled";
 /** Account resource properties. */
 export interface AccountPropertiesInput {
   /** This property sets the connection region for Playwright client workers to cloud-hosted browsers. If enabled, workers connect to browsers in the closest Azure region, ensuring lower latency. If disabled, workers connect to browsers in the Azure region in which the workspace was initially created. */
-  regionalAffinity?: AccountPropertiesInputRegionalAffinity | (string & {});
+  regionalAffinity?: AccountPropertiesInputRegionalAffinity | (string & {}) | undefined;
   /** When enabled, Playwright client workers can connect to cloud-hosted browsers. This can increase the number of parallel workers for a test run, significantly minimizing test completion durations. */
-  scalableExecution?: AccountPropertiesInputScalableExecution | (string & {});
+  scalableExecution?: AccountPropertiesInputScalableExecution | (string & {}) | undefined;
   /** When enabled, this feature allows the workspace to upload and display test results, including artifacts like traces and screenshots, in the Playwright portal. This enables faster and more efficient troubleshooting. */
-  reporting?: AccountPropertiesInputReporting | (string & {});
+  reporting?: AccountPropertiesInputReporting | (string & {}) | undefined;
   /** When enabled, this feature allows the workspace to use local auth (through service access token) for executing operations. */
-  localAuth?: AccountPropertiesInputLocalAuth | (string & {});
+  localAuth?: AccountPropertiesInputLocalAuth | (string & {}) | undefined;
 }
 export interface AccountsCreateOrUpdateRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -60,11 +61,11 @@ export interface AccountsCreateOrUpdateRequest {
   /** Name of account. */
   accountName: string;
   /** Resource tags. */
-  tags?: AccountsCreateOrUpdateRequestTagsMap;
+  tags?: AccountsCreateOrUpdateRequestTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: AccountPropertiesInput;
+  properties?: AccountPropertiesInput | undefined;
 }
 /** The type of identity that created the resource. */
 export type SystemDataCreatedByType = "User" | "Application" | "ManagedIdentity" | "Key";
@@ -73,17 +74,17 @@ export type SystemDataLastModifiedByType = "User" | "Application" | "ManagedIden
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface SystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: SystemDataCreatedByType;
+  createdByType?: SystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: SystemDataLastModifiedByType;
+  lastModifiedByType?: SystemDataLastModifiedByType | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 /** Resource tags. */
 export type AccountsCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
@@ -106,53 +107,53 @@ export type ProvisioningState =
 /** Account resource properties. */
 export interface AccountProperties {
   /** The Playwright testing dashboard URI for the account resource. */
-  dashboardUri?: string;
+  dashboardUri?: string | undefined;
   /** This property sets the connection region for Playwright client workers to cloud-hosted browsers. If enabled, workers connect to browsers in the closest Azure region, ensuring lower latency. If disabled, workers connect to browsers in the Azure region in which the workspace was initially created. */
-  regionalAffinity?: AccountPropertiesRegionalAffinity;
+  regionalAffinity?: AccountPropertiesRegionalAffinity | undefined;
   /** When enabled, Playwright client workers can connect to cloud-hosted browsers. This can increase the number of parallel workers for a test run, significantly minimizing test completion durations. */
-  scalableExecution?: AccountPropertiesScalableExecution;
+  scalableExecution?: AccountPropertiesScalableExecution | undefined;
   /** When enabled, this feature allows the workspace to upload and display test results, including artifacts like traces and screenshots, in the Playwright portal. This enables faster and more efficient troubleshooting. */
-  reporting?: AccountPropertiesReporting;
+  reporting?: AccountPropertiesReporting | undefined;
   /** When enabled, this feature allows the workspace to use local auth (through service access token) for executing operations. */
-  localAuth?: AccountPropertiesLocalAuth;
+  localAuth?: AccountPropertiesLocalAuth | undefined;
   /** The status of the last operation. */
-  provisioningState?: ProvisioningState;
+  provisioningState?: ProvisioningState | undefined;
 }
 export interface AccountsCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: AccountsCreateOrUpdateResponseTagsMap;
+  tags?: AccountsCreateOrUpdateResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: AccountProperties;
+  properties?: AccountProperties | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface CheckAccountNameAvailabilityRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
   /** The name of the resource for which availability needs to be checked. */
-  name?: string;
+  name?: string | undefined;
   /** The resource type. */
-  type?: string;
+  type?: string | undefined;
 }
 /** The reason why the given name is not available. */
 export type CheckAccountNameAvailabilityResponseReason = "Invalid" | "AlreadyExists";
 export interface CheckAccountNameAvailabilityResponse {
   /** Indicates if the resource name is available. */
-  nameAvailable?: boolean;
+  nameAvailable?: boolean | undefined;
   /** The reason why the given name is not available. */
-  reason?: CheckAccountNameAvailabilityResponseReason;
+  reason?: CheckAccountNameAvailabilityResponseReason | undefined;
   /** Detailed reason why the given name is available. */
-  message?: string;
+  message?: string | undefined;
 }
 export interface DeleteAccountRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -164,9 +165,9 @@ export interface DeleteAccountRequest {
 }
 export interface DeleteAccountResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface GetAccountRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -180,19 +181,19 @@ export interface GetAccountRequest {
 export type GetAccountResponseTagsMap = { [key: string]: string | undefined };
 export interface GetAccountResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: GetAccountResponseTagsMap;
+  tags?: GetAccountResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: AccountProperties;
+  properties?: AccountProperties | undefined;
 }
 export type GetAccountQuotasRequestQuotaName = "ScalableExecution" | "Reporting";
 export interface GetAccountQuotasRequest {
@@ -221,21 +222,21 @@ export interface AccountFreeTrialProperties {
 /** The Playwright service account quota resource properties. */
 export interface AccountQuotaProperties {
   /** The Playwright service account quota resource free-trial properties. */
-  freeTrial?: AccountFreeTrialProperties;
+  freeTrial?: AccountFreeTrialProperties | undefined;
   /** The status of the last operation. */
-  provisioningState?: ProvisioningState;
+  provisioningState?: ProvisioningState | undefined;
 }
 export interface GetAccountQuotasResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: AccountQuotaProperties;
+  properties?: AccountQuotaProperties | undefined;
 }
 export type GetQuotasRequestQuotaName = "ScalableExecution" | "Reporting";
 export interface GetQuotasRequest {
@@ -264,23 +265,23 @@ export type OfferingType =
 /** The subscription quota resource properties. */
 export interface QuotaProperties {
   /** The subscription quota resource free-trial properties. */
-  freeTrial?: FreeTrialProperties;
+  freeTrial?: FreeTrialProperties | undefined;
   /** Indicates the offering type for the subscription. */
-  offeringType?: OfferingType;
+  offeringType?: OfferingType | undefined;
   /** The status of the last operation. */
-  provisioningState?: ProvisioningState;
+  provisioningState?: ProvisioningState | undefined;
 }
 export interface GetQuotasResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: QuotaProperties;
+  properties?: QuotaProperties | undefined;
 }
 export interface ListAccountByResourceGroupRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -293,19 +294,19 @@ export type AccountTagsMap = { [key: string]: string | undefined };
 /** A Playwright service account resource. */
 export interface Account {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: AccountTagsMap;
+  tags?: AccountTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: AccountProperties;
+  properties?: AccountProperties | undefined;
 }
 /** The Account items on this page */
 export type AccountListResultValueList = Array<Account>;
@@ -314,7 +315,7 @@ export interface AccountListResult {
   /** The Account items on this page */
   value: AccountListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListAccountBySubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -331,15 +332,15 @@ export interface ListAccountQuotasByAccountRequest {
 /** A quota resource for a Playwright service account. */
 export interface AccountQuota {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: AccountQuotaProperties;
+  properties?: AccountQuotaProperties | undefined;
 }
 /** The AccountQuota items on this page */
 export type AccountQuotaListResultValueList = Array<AccountQuota>;
@@ -348,19 +349,19 @@ export interface AccountQuotaListResult {
   /** The AccountQuota items on this page */
   value: AccountQuotaListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListOperationsRequest {}
 /** Localized display information for this particular operation. */
 export interface OperationDisplay {
   /** The localized friendly form of the resource provider name, e.g. "Microsoft Monitoring Insights" or "Microsoft Compute". */
-  provider?: string;
+  provider?: string | undefined;
   /** The localized friendly name of the resource type related to this operation. E.g. "Virtual Machines" or "Job Schedule Collections". */
-  resource?: string;
+  resource?: string | undefined;
   /** The concise, localized friendly name for the operation; suitable for dropdowns. E.g. "Create or Update Virtual Machine", "Restart Virtual Machine". */
-  operation?: string;
+  operation?: string | undefined;
   /** The short, localized friendly description of the operation; suitable for tool tips and detailed views. */
-  description?: string;
+  description?: string | undefined;
 }
 /** The intended executor of the operation; as in Resource Based Access Control (RBAC) and audit logs UX. Default value is "user,system" */
 export type OperationOrigin = "user" | "system" | "user,system";
@@ -369,23 +370,23 @@ export type OperationActionType = "Internal";
 /** Details of a REST API operation, returned from the Resource Provider Operations API */
 export interface Operation {
   /** The name of the operation, as per Resource-Based Access Control (RBAC). Examples: "Microsoft.Compute/virtualMachines/write", "Microsoft.Compute/virtualMachines/capture/action" */
-  name?: string;
+  name?: string | undefined;
   /** Whether the operation applies to data-plane. This is "true" for data-plane operations and "false" for ARM/control-plane operations. */
-  isDataAction?: boolean;
+  isDataAction?: boolean | undefined;
   /** Localized display information for this particular operation. */
-  display?: OperationDisplay;
+  display?: OperationDisplay | undefined;
   /** The intended executor of the operation; as in Resource Based Access Control (RBAC) and audit logs UX. Default value is "user,system" */
-  origin?: OperationOrigin;
+  origin?: OperationOrigin | undefined;
   /** Enum. Indicates the action type. "Internal" refers to actions that are for internal only APIs. */
-  actionType?: OperationActionType;
+  actionType?: OperationActionType | undefined;
 }
 /** List of operations supported by the resource provider */
 export type ListOperationsResponseValueList = Array<Operation>;
 export interface ListOperationsResponse {
   /** List of operations supported by the resource provider */
-  value?: ListOperationsResponseValueList;
+  value?: ListOperationsResponseValueList | undefined;
   /** URL to get the next set of operation list results (if there are any). */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListQuotasBySubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -396,15 +397,15 @@ export interface ListQuotasBySubscriptionRequest {
 /** A subscription quota resource. */
 export interface Quota {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: QuotaProperties;
+  properties?: QuotaProperties | undefined;
 }
 /** The Quota items on this page */
 export type QuotaListResultValueList = Array<Quota>;
@@ -413,7 +414,7 @@ export interface QuotaListResult {
   /** The Quota items on this page */
   value: QuotaListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type UpdateAccountRequestTagsMap = { [key: string]: string | undefined };
@@ -422,13 +423,13 @@ export type EnablementStatus = "Enabled" | "Disabled";
 /** The updatable properties of the Account. */
 export interface AccountUpdateProperties {
   /** This property sets the connection region for Playwright client workers to cloud-hosted browsers. If enabled, workers connect to browsers in the closest Azure region, ensuring lower latency. If disabled, workers connect to browsers in the Azure region in which the workspace was initially created. */
-  regionalAffinity?: EnablementStatus | (string & {});
+  regionalAffinity?: EnablementStatus | (string & {}) | undefined;
   /** When enabled, Playwright client workers can connect to cloud-hosted browsers. This can increase the number of parallel workers for a test run, significantly minimizing test completion durations. */
-  scalableExecution?: EnablementStatus | (string & {});
+  scalableExecution?: EnablementStatus | (string & {}) | undefined;
   /** When enabled, this feature allows the workspace to upload and display test results, including artifacts like traces and screenshots, in the Playwright portal. This enables faster and more efficient troubleshooting. */
-  reporting?: EnablementStatus | (string & {});
+  reporting?: EnablementStatus | (string & {}) | undefined;
   /** When enabled, this feature allows the workspace to use local auth (through service access token) for executing operations. */
-  localAuth?: EnablementStatus | (string & {});
+  localAuth?: EnablementStatus | (string & {}) | undefined;
 }
 export interface UpdateAccountRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -438,27 +439,27 @@ export interface UpdateAccountRequest {
   /** Name of account. */
   accountName: string;
   /** Resource tags. */
-  tags?: UpdateAccountRequestTagsMap;
+  tags?: UpdateAccountRequestTagsMap | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: AccountUpdateProperties;
+  properties?: AccountUpdateProperties | undefined;
 }
 /** Resource tags. */
 export type UpdateAccountResponseTagsMap = { [key: string]: string | undefined };
 export interface UpdateAccountResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: UpdateAccountResponseTagsMap;
+  tags?: UpdateAccountResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: AccountProperties;
+  properties?: AccountProperties | undefined;
 }
 export type AccountsCreateOrUpdateError = AzureOpError;
 /** Create a Account */

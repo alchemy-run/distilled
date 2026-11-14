@@ -28,6 +28,7 @@ const TELEMETRY = {
   prefix: "Attestation",
   service: "Attestation",
   labels: "azure",
+  labelNames: { resourceGroupName: "azure.resource_group.name" },
   propagate: "w3c",
 } as const;
 
@@ -39,45 +40,45 @@ export type AttestationServiceCreationSpecificParamsPublicNetworkAccess = "Enabl
 export type JsonWebKeyX5cList = Array<string>;
 export interface JsonWebKey {
   /** The "alg" (algorithm) parameter identifies the algorithm intended for use with the key. The values used should either be registered in the IANA "JSON Web Signature and Encryption Algorithms" registry established by [JWA] or be a value that contains a Collision- Resistant Name. */
-  alg?: string;
+  alg?: string | undefined;
   /** The "crv" (curve) parameter identifies the curve type */
-  crv?: string;
+  crv?: string | undefined;
   /** RSA private exponent or ECC private key */
-  d?: string;
+  d?: string | undefined;
   /** RSA Private Key Parameter */
-  dp?: string;
+  dp?: string | undefined;
   /** RSA Private Key Parameter */
-  dq?: string;
+  dq?: string | undefined;
   /** RSA public exponent, in Base64 */
-  e?: string;
+  e?: string | undefined;
   /** Symmetric key */
-  k?: string;
+  k?: string | undefined;
   /** The "kid" (key ID) parameter is used to match a specific key. This is used, for instance, to choose among a set of keys within a JWK Set during key rollover. The structure of the "kid" value is unspecified. When "kid" values are used within a JWK Set, different keys within the JWK Set SHOULD use distinct "kid" values. (One example in which different keys might use the same "kid" value is if they have different "kty" (key type) values but are considered to be equivalent alternatives by the application using them.) The "kid" value is a case-sensitive string. */
-  kid?: string;
+  kid?: string | undefined;
   /** The "kty" (key type) parameter identifies the cryptographic algorithm family used with the key, such as "RSA" or "EC". "kty" values should either be registered in the IANA "JSON Web Key Types" registry established by [JWA] or be a value that contains a Collision- Resistant Name. The "kty" value is a case-sensitive string. */
   kty: string;
   /** RSA modulus, in Base64 */
-  n?: string;
+  n?: string | undefined;
   /** RSA secret prime */
-  p?: string;
+  p?: string | undefined;
   /** RSA secret prime, with p < q */
-  q?: string;
+  q?: string | undefined;
   /** RSA Private Key Parameter */
-  qi?: string;
+  qi?: string | undefined;
   /** Use ("public key use") identifies the intended use of the public key. The "use" parameter is employed to indicate whether a public key is used for encrypting data or verifying the signature on data. Values are commonly "sig" (signature) or "enc" (encryption). */
-  use?: string;
+  use?: string | undefined;
   /** X coordinate for the Elliptic Curve point */
-  x?: string;
+  x?: string | undefined;
   /** The "x5c" (X.509 certificate chain) parameter contains a chain of one or more PKIX certificates [RFC5280]. The certificate chain is represented as a JSON array of certificate value strings. Each string in the array is a base64-encoded (Section 4 of [RFC4648] -- not base64url-encoded) DER [ITU.X690.1994] PKIX certificate value. The PKIX certificate containing the key value MUST be the first certificate. */
-  x5c?: JsonWebKeyX5cList;
+  x5c?: JsonWebKeyX5cList | undefined;
   /** Y coordinate for the Elliptic Curve point */
-  y?: string;
+  y?: string | undefined;
 }
 /** The value of the "keys" parameter is an array of JWK values. By default, the order of the JWK values within the array does not imply an order of preference among them, although applications of JWK Sets can choose to assign a meaning to the order for their purposes, if desired. */
 export type JsonWebKeySetKeysList = Array<JsonWebKey>;
 export interface JsonWebKeySet {
   /** The value of the "keys" parameter is an array of JWK values. By default, the order of the JWK values within the array does not imply an order of preference among them, although applications of JWK Sets can choose to assign a meaning to the order for their purposes, if desired. */
-  keys?: JsonWebKeySetKeysList;
+  keys?: JsonWebKeySetKeysList | undefined;
 }
 /** The setting that controls whether authentication is enabled or disabled for TPM Attestation REST APIs. */
 export type AttestationServiceCreationSpecificParamsTpmAttestationAuthentication =
@@ -86,13 +87,17 @@ export type AttestationServiceCreationSpecificParamsTpmAttestationAuthentication
 /** Client supplied parameters used to create a new attestation provider. */
 export interface AttestationServiceCreationSpecificParams {
   /** Controls whether traffic from the public network is allowed to access the Attestation Provider APIs. */
-  publicNetworkAccess?: AttestationServiceCreationSpecificParamsPublicNetworkAccess | (string & {});
+  publicNetworkAccess?:
+    | AttestationServiceCreationSpecificParamsPublicNetworkAccess
+    | (string & {})
+    | undefined;
   /** JSON Web Key Set defining a set of X.509 Certificates that will represent the parent certificate for the signing certificate used for policy operations */
-  policySigningCertificates?: JsonWebKeySet;
+  policySigningCertificates?: JsonWebKeySet | undefined;
   /** The setting that controls whether authentication is enabled or disabled for TPM Attestation REST APIs. */
   tpmAttestationAuthentication?:
     | AttestationServiceCreationSpecificParamsTpmAttestationAuthentication
-    | (string & {});
+    | (string & {})
+    | undefined;
 }
 export interface CreateAttestationProviderRequest {
   /** The ID of the target subscription. */
@@ -104,7 +109,7 @@ export interface CreateAttestationProviderRequest {
   /** The supported Azure location where the attestation provider should be created. */
   location: string;
   /** The tags that will be assigned to the attestation provider. */
-  tags?: CreateAttestationProviderRequestTagsMap;
+  tags?: CreateAttestationProviderRequestTagsMap | undefined;
   /** Properties of the attestation provider */
   properties: AttestationServiceCreationSpecificParams;
 }
@@ -115,17 +120,17 @@ export type SystemDataLastModifiedByType = "User" | "Application" | "ManagedIden
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface SystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: SystemDataCreatedByType;
+  createdByType?: SystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: SystemDataLastModifiedByType;
+  lastModifiedByType?: SystemDataLastModifiedByType | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 /** Resource tags. */
 export type CreateAttestationProviderResponseTagsMap = { [key: string]: string | undefined };
@@ -136,18 +141,18 @@ export type StatusResultPublicNetworkAccess = "Enabled" | "Disabled";
 /** The Private Endpoint resource. */
 export interface PrivateEndpoint {
   /** The ARM identifier for Private Endpoint */
-  id?: string;
+  id?: string | undefined;
 }
 /** The private endpoint connection status. */
 export type PrivateEndpointServiceConnectionStatus = "Pending" | "Approved" | "Rejected";
 /** A collection of information about the state of the connection between service consumer and provider. */
 export interface PrivateLinkServiceConnectionState {
   /** Indicates whether the connection has been Approved/Rejected/Removed by the owner of the service. */
-  status?: PrivateEndpointServiceConnectionStatus | (string & {});
+  status?: PrivateEndpointServiceConnectionStatus | (string & {}) | undefined;
   /** The reason for approval/rejection of the connection. */
-  description?: string;
+  description?: string | undefined;
   /** A message indicating if changes on the service provider require any updates on the consumer. */
-  actionsRequired?: string;
+  actionsRequired?: string | undefined;
 }
 /** The current provisioning state. */
 export type PrivateEndpointConnectionProvisioningState =
@@ -158,24 +163,24 @@ export type PrivateEndpointConnectionProvisioningState =
 /** Properties of the PrivateEndpointConnectProperties. */
 export interface PrivateEndpointConnectionProperties {
   /** The resource of private end point. */
-  privateEndpoint?: PrivateEndpoint;
+  privateEndpoint?: PrivateEndpoint | undefined;
   /** A collection of information about the state of the connection between service consumer and provider. */
   privateLinkServiceConnectionState: PrivateLinkServiceConnectionState;
   /** The provisioning state of the private endpoint connection resource. */
-  provisioningState?: PrivateEndpointConnectionProvisioningState;
+  provisioningState?: PrivateEndpointConnectionProvisioningState | undefined;
 }
 /** The Private Endpoint Connection resource. */
 export interface StatusResultPrivateEndpointConnectionsItem {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource properties. */
-  properties?: PrivateEndpointConnectionProperties;
+  properties?: PrivateEndpointConnectionProperties | undefined;
 }
 /** List of private endpoint connections associated with the attestation provider. */
 export type StatusResultPrivateEndpointConnectionsList =
@@ -185,43 +190,43 @@ export type StatusResultTpmAttestationAuthentication = "Enabled" | "Disabled";
 /** Status of attestation service. */
 export interface StatusResult {
   /** Trust model for the attestation provider. */
-  trustModel?: string;
+  trustModel?: string | undefined;
   /** Status of attestation service. */
-  status?: AttestationServiceStatus;
+  status?: AttestationServiceStatus | undefined;
   /** Gets the uri of attestation service */
-  attestUri?: string;
+  attestUri?: string | undefined;
   /** Controls whether traffic from the public network is allowed to access the Attestation Provider APIs. */
-  publicNetworkAccess?: StatusResultPublicNetworkAccess;
+  publicNetworkAccess?: StatusResultPublicNetworkAccess | undefined;
   /** List of private endpoint connections associated with the attestation provider. */
-  privateEndpointConnections?: StatusResultPrivateEndpointConnectionsList;
+  privateEndpointConnections?: StatusResultPrivateEndpointConnectionsList | undefined;
   /** The setting that controls whether authentication is enabled or disabled for TPM Attestation REST APIs. */
-  tpmAttestationAuthentication?: StatusResultTpmAttestationAuthentication;
+  tpmAttestationAuthentication?: StatusResultTpmAttestationAuthentication | undefined;
 }
 export interface CreateAttestationProviderResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: CreateAttestationProviderResponseTagsMap;
+  tags?: CreateAttestationProviderResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Describes Attestation service status. */
-  properties?: StatusResult;
+  properties?: StatusResult | undefined;
 }
 /** The Private Endpoint resource. */
 export interface PrivateEndpointInput {
   /** The ARM identifier for Private Endpoint. */
-  id?: string;
+  id?: string | undefined;
 }
 /** Properties of the PrivateEndpointConnectProperties. */
 export interface PrivateEndpointConnectionPropertiesInput {
   /** The resource of private end point. */
-  privateEndpoint?: PrivateEndpointInput;
+  privateEndpoint?: PrivateEndpointInput | undefined;
   /** A collection of information about the state of the connection between service consumer and provider. */
   privateLinkServiceConnectionState: PrivateLinkServiceConnectionState;
 }
@@ -235,21 +240,21 @@ export interface CreatePrivateEndpointConnectionRequest {
   /** The name of the private endpoint connection associated with the Azure resource */
   privateEndpointConnectionName: string;
   /** Resource properties. */
-  properties?: PrivateEndpointConnectionPropertiesInput;
+  properties?: PrivateEndpointConnectionPropertiesInput | undefined;
   /** Fully qualified ARM resource ID of the private endpoint connection. Required by the service. */
-  id?: string;
+  id?: string | undefined;
 }
 export interface CreatePrivateEndpointConnectionResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource properties. */
-  properties?: PrivateEndpointConnectionProperties;
+  properties?: PrivateEndpointConnectionProperties | undefined;
 }
 export interface DeleteAttestationProviderRequest {
   /** The ID of the target subscription. */
@@ -283,19 +288,19 @@ export interface GetAttestationProviderRequest {
 export type GetAttestationProviderResponseTagsMap = { [key: string]: string | undefined };
 export interface GetAttestationProviderResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: GetAttestationProviderResponseTagsMap;
+  tags?: GetAttestationProviderResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Describes Attestation service status. */
-  properties?: StatusResult;
+  properties?: StatusResult | undefined;
 }
 export interface GetAttestationProviderDefaultByLocationRequest {
   /** The ID of the target subscription. */
@@ -309,19 +314,19 @@ export type GetAttestationProviderDefaultByLocationResponseTagsMap = {
 };
 export interface GetAttestationProviderDefaultByLocationResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: GetAttestationProviderDefaultByLocationResponseTagsMap;
+  tags?: GetAttestationProviderDefaultByLocationResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Describes Attestation service status. */
-  properties?: StatusResult;
+  properties?: StatusResult | undefined;
 }
 export interface GetPrivateEndpointConnectionRequest {
   /** The ID of the target subscription. */
@@ -335,15 +340,15 @@ export interface GetPrivateEndpointConnectionRequest {
 }
 export interface GetPrivateEndpointConnectionResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource properties. */
-  properties?: PrivateEndpointConnectionProperties;
+  properties?: PrivateEndpointConnectionProperties | undefined;
 }
 export interface ListAttestationProviderByResourceGroupRequest {
   /** The ID of the target subscription. */
@@ -366,45 +371,45 @@ export type AttestationProviderListResultSystemDataLastModifiedByType =
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface AttestationProviderListResultSystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: AttestationProviderListResultSystemDataCreatedByType;
+  createdByType?: AttestationProviderListResultSystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: AttestationProviderListResultSystemDataLastModifiedByType;
+  lastModifiedByType?: AttestationProviderListResultSystemDataLastModifiedByType | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 /** Resource tags. */
 export type AttestationProviderTagsMap = { [key: string]: string | undefined };
 /** Attestation service response message. */
 export interface AttestationProvider {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: AttestationProviderTagsMap;
+  tags?: AttestationProviderTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Describes Attestation service status. */
-  properties?: StatusResult;
+  properties?: StatusResult | undefined;
 }
 /** Attestation Provider array. */
 export type AttestationProviderListResultValueList = Array<AttestationProvider>;
 /** Attestation Providers List. */
 export interface AttestationProviderListResult {
   /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: AttestationProviderListResultSystemData;
+  systemData?: AttestationProviderListResultSystemData | undefined;
   /** Attestation Provider array. */
-  value?: AttestationProviderListResultValueList;
+  value?: AttestationProviderListResultValueList | undefined;
 }
 export interface ListAttestationProviderDefaultRequest {
   /** The ID of the target subscription. */
@@ -430,65 +435,65 @@ export type OperationListSystemDataLastModifiedByType =
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface OperationListSystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: OperationListSystemDataCreatedByType;
+  createdByType?: OperationListSystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: OperationListSystemDataLastModifiedByType;
+  lastModifiedByType?: OperationListSystemDataLastModifiedByType | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 /** Display object with properties of the operation. */
 export interface OperationsDisplayDefinition {
   /** Resource provider of the operation. */
-  provider?: string;
+  provider?: string | undefined;
   /** Resource for the operation. */
-  resource?: string;
+  resource?: string | undefined;
   /** Short description of the operation. */
-  operation?: string;
+  operation?: string | undefined;
   /** Description of the operation. */
-  description?: string;
+  description?: string | undefined;
 }
 /** Specifications of the Log for Microsoft Azure Attestation */
 export interface LogSpecification {
   /** Name of the log */
-  name?: string;
+  name?: string | undefined;
   /** Localized friendly display name of the log */
-  displayName?: string;
+  displayName?: string | undefined;
 }
 /** Specifications of the Log for Microsoft Azure Attestation */
 export type ServiceSpecificationLogSpecificationsList = Array<LogSpecification>;
 /** Service specification payload */
 export interface ServiceSpecification {
   /** Specifications of the Log for Microsoft Azure Attestation */
-  logSpecifications?: ServiceSpecificationLogSpecificationsList;
+  logSpecifications?: ServiceSpecificationLogSpecificationsList | undefined;
 }
 /** Extra Operation properties */
 export interface OperationProperties {
   /** Service specifications of the operation */
-  serviceSpecification?: ServiceSpecification;
+  serviceSpecification?: ServiceSpecification | undefined;
 }
 /** Definition object with the name and properties of an operation. */
 export interface OperationsDefinition {
   /** Name of the operation. */
-  name?: string;
+  name?: string | undefined;
   /** Display object with properties of the operation. */
-  display?: OperationsDisplayDefinition;
+  display?: OperationsDisplayDefinition | undefined;
   /** Properties of the operation */
-  properties?: OperationProperties;
+  properties?: OperationProperties | undefined;
 }
 /** List of supported operations. */
 export type OperationListValueList = Array<OperationsDefinition>;
 /** List of supported operations. */
 export interface OperationList {
   /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: OperationListSystemData;
+  systemData?: OperationListSystemData | undefined;
   /** List of supported operations. */
-  value?: OperationListValueList;
+  value?: OperationListValueList | undefined;
 }
 export interface ListPrivateEndpointConnectionsRequest {
   /** The ID of the target subscription. */
@@ -509,7 +514,7 @@ export interface PrivateEndpointConnectionListResult {
   /** The PrivateEndpointConnection items on this page */
   value: PrivateEndpointConnectionListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListPrivateLinkResourceByProviderRequest {
   /** The ID of the target subscription. */
@@ -526,24 +531,24 @@ export type PrivateLinkResourcePropertiesRequiredZoneNamesList = Array<string>;
 /** Properties of a private link resource. */
 export interface PrivateLinkResourceProperties {
   /** The private link resource group id. */
-  groupId?: string;
+  groupId?: string | undefined;
   /** The private link resource required member names. */
-  requiredMembers?: PrivateLinkResourcePropertiesRequiredMembersList;
+  requiredMembers?: PrivateLinkResourcePropertiesRequiredMembersList | undefined;
   /** The private link resource Private link DNS zone name. */
-  requiredZoneNames?: PrivateLinkResourcePropertiesRequiredZoneNamesList;
+  requiredZoneNames?: PrivateLinkResourcePropertiesRequiredZoneNamesList | undefined;
 }
 /** A private link resource */
 export interface PrivateLinkResourceListResultValueItem {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource properties. */
-  properties?: PrivateLinkResourceProperties;
+  properties?: PrivateLinkResourceProperties | undefined;
 }
 /** The PrivateLinkResource items on this page */
 export type PrivateLinkResourceListResultValueList = Array<PrivateLinkResourceListResultValueItem>;
@@ -552,7 +557,7 @@ export interface PrivateLinkResourceListResult {
   /** The PrivateLinkResource items on this page */
   value: PrivateLinkResourceListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 /** The tags that will be assigned to the attestation provider. */
 export type UpdateAttestationProviderRequestTagsMap = { [key: string]: string | undefined };
@@ -565,11 +570,15 @@ export type AttestationServicePatchSpecificParamsTpmAttestationAuthentication =
 /** Client supplied parameters used to patch an existing attestation provider. */
 export interface AttestationServicePatchSpecificParams {
   /** Controls whether traffic from the public network is allowed to access the Attestation Provider APIs. */
-  publicNetworkAccess?: AttestationServicePatchSpecificParamsPublicNetworkAccess | (string & {});
+  publicNetworkAccess?:
+    | AttestationServicePatchSpecificParamsPublicNetworkAccess
+    | (string & {})
+    | undefined;
   /** The setting that controls whether authentication is enabled or disabled for TPM Attestation REST APIs. */
   tpmAttestationAuthentication?:
     | AttestationServicePatchSpecificParamsTpmAttestationAuthentication
-    | (string & {});
+    | (string & {})
+    | undefined;
 }
 export interface UpdateAttestationProviderRequest {
   /** The ID of the target subscription. */
@@ -579,27 +588,27 @@ export interface UpdateAttestationProviderRequest {
   /** Name of the attestation provider. */
   providerName: string;
   /** The tags that will be assigned to the attestation provider. */
-  tags?: UpdateAttestationProviderRequestTagsMap;
+  tags?: UpdateAttestationProviderRequestTagsMap | undefined;
   /** Properties of the attestation provider */
-  properties?: AttestationServicePatchSpecificParams;
+  properties?: AttestationServicePatchSpecificParams | undefined;
 }
 /** Resource tags. */
 export type UpdateAttestationProviderResponseTagsMap = { [key: string]: string | undefined };
 export interface UpdateAttestationProviderResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: UpdateAttestationProviderResponseTagsMap;
+  tags?: UpdateAttestationProviderResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Describes Attestation service status. */
-  properties?: StatusResult;
+  properties?: StatusResult | undefined;
 }
 export type CreateAttestationProviderError = AzureOpError;
 /** Creates or updates an Attestation Provider. */

@@ -1,0 +1,15 @@
+{
+  "description": "ApiKeyPostResponse.keySecret is the generated API key secret, returned once by POST /v1/organizations/{organizationId}/keys ('Generated key secret. Provided only if there was no hashData in the request.'), and ApiKeyHashData.keySecretHash is the SHA-256 of a caller-chosen secret sent in its place. Neither carries a sensitive mark (the converter's patterns do not match `keySecret`), so the secret surfaced as a plain string. Source: the OpenAPI document served at https://api.clickhouse.cloud/v1 (2026-11-11).",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.clickhouse.cloud.api_keys#ApiKeyPostResponse/members/keySecret/traits/smithy.api#sensitive",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.clickhouse.cloud.api_keys#ApiKeyHashData/members/keySecretHash/traits/smithy.api#sensitive",
+      "value": {}
+    }
+  ]
+}

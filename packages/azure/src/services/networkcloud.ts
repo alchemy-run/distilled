@@ -29,6 +29,7 @@ const TELEMETRY = {
   prefix: "Networkcloud",
   service: "Networkcloud",
   labels: "azure",
+  labelNames: { resourceGroupName: "azure.resource_group.name" },
   propagate: "w3c",
 } as const;
 
@@ -47,13 +48,13 @@ export type AccessBridgeSecurityRuleIpv6AddressesList = Array<string>;
 /** AccessBridgeSecurityRule captures an individual access rule enforced by the bridge. */
 export interface AccessBridgeSecurityRule {
   /** The user provided value describing this rule. */
-  description?: string;
+  description?: string | undefined;
   /** The direction of allowed network traffic based on the rule. */
   direction: SecurityRuleDirection | (string & {});
   /** The set of IPv4 addresses permitted as the source or destination of the security rule. For as single address, utilize a /32 (CIDR notation). One or both Ipv4Addresses and Ipv6Addresses must be specified. Example formats: 10.10.10.10-10.10.10.20 or 10.10.10.10/24. */
-  ipv4Addresses?: AccessBridgeSecurityRuleIpv4AddressesList;
+  ipv4Addresses?: AccessBridgeSecurityRuleIpv4AddressesList | undefined;
   /** The set of IPv6 addresses permitted as the source or destination of the security rule. For as single address, utilize a /128 (CIDR notation). One or both Ipv4Addresses and Ipv6Addresses must be specified. Example formats: 2001:db8:abcd::1-2001:db8:abcd::ff or 2001:db8:abcd::1/64. */
-  ipv6Addresses?: AccessBridgeSecurityRuleIpv6AddressesList;
+  ipv6Addresses?: AccessBridgeSecurityRuleIpv6AddressesList | undefined;
   /** The source or destination port or port range. Example 24562 or 24562-24570. */
   port: string;
 }
@@ -62,13 +63,13 @@ export type AccessBridgePropertiesInputSecurityRulesList = Array<AccessBridgeSec
 /** AccessBridgeProperties captures the input and status for an access bridge. */
 export interface AccessBridgePropertiesInput {
   /** The IPv4 subnet from which the access bridge allocates an address. This subnet must be part of the internal network specified by networkId. */
-  ipv4ConnectedPrefix?: string;
+  ipv4ConnectedPrefix?: string | undefined;
   /** The IPv6 subnet from which the access bridge allocates an address. This subnet must be part of the internal network specified by networkId. */
-  ipv6ConnectedPrefix?: string;
+  ipv6ConnectedPrefix?: string | undefined;
   /** The resource ID of the internal network in a layer 3 isolation domain containing the IP subnets to use. */
   networkId: string;
   /** The list of security rules enforced by the access bridge. */
-  securityRules?: AccessBridgePropertiesInputSecurityRulesList;
+  securityRules?: AccessBridgePropertiesInputSecurityRulesList | undefined;
 }
 /** The supported ExtendedLocation types. */
 export type AzureResourceManagerCommonTypesExtendedLocationType = "EdgeZone" | "CustomLocation";
@@ -87,7 +88,7 @@ export interface AccessBridgesCreateOrUpdateRequest {
   /** The name of the access bridge. */
   accessBridgeName: AccessBridgesCreateOrUpdateRequestAccessBridgeName | (string & {});
   /** Resource tags. */
-  tags?: AccessBridgesCreateOrUpdateRequestTagsMap;
+  tags?: AccessBridgesCreateOrUpdateRequestTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The list of the resource properties. */
@@ -102,17 +103,17 @@ export type SystemDataLastModifiedByType = "User" | "Application" | "ManagedIden
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface SystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: SystemDataCreatedByType;
+  createdByType?: SystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: SystemDataLastModifiedByType;
+  lastModifiedByType?: SystemDataLastModifiedByType | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 /** Resource tags. */
 export type AccessBridgesCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
@@ -123,13 +124,13 @@ export type AccessBridgeDetailedStatus = "Running" | "Degraded" | "Failed";
 /** AccessBridgeEndpoint describes a single advertised service endpoint. */
 export interface AccessBridgeEndpoint {
   /** The fully qualified domain name used to describe the certificate name for the endpoint. */
-  fqdn?: string;
+  fqdn?: string | undefined;
   /** The IPv4 address associated with the endpoint. */
-  ipv4Address?: string;
+  ipv4Address?: string | undefined;
   /** The IPv6 address associated with the endpoint. */
-  ipv6Address?: string;
+  ipv6Address?: string | undefined;
   /** The name that identifies the type of endpoint (for example VIP or host). */
-  name?: string;
+  name?: string | undefined;
 }
 /** The observed endpoints that clients should use to reach the access bridge. */
 export type AccessBridgePropertiesEndpointsList = Array<AccessBridgeEndpoint>;
@@ -145,45 +146,45 @@ export type AccessBridgeProvisioningState =
 /** AccessBridgeProperties captures the input and status for an access bridge. */
 export interface AccessBridgeProperties {
   /** The IPv4 subnet from which the access bridge allocates an address. This subnet must be part of the internal network specified by networkId. */
-  ipv4ConnectedPrefix?: string;
+  ipv4ConnectedPrefix?: string | undefined;
   /** The IPv6 subnet from which the access bridge allocates an address. This subnet must be part of the internal network specified by networkId. */
-  ipv6ConnectedPrefix?: string;
+  ipv6ConnectedPrefix?: string | undefined;
   /** The resource ID of the internal network in a layer 3 isolation domain containing the IP subnets to use. */
   networkId: string;
   /** The list of security rules enforced by the access bridge. */
-  securityRules?: AccessBridgePropertiesSecurityRulesList;
+  securityRules?: AccessBridgePropertiesSecurityRulesList | undefined;
   /** The detailed status reported by the access bridge. */
-  detailedStatus?: AccessBridgeDetailedStatus;
+  detailedStatus?: AccessBridgeDetailedStatus | undefined;
   /** The descriptive message that accompanies the detailed status. */
-  detailedStatusMessage?: string;
+  detailedStatusMessage?: string | undefined;
   /** The observed endpoints that clients should use to reach the access bridge. */
-  endpoints?: AccessBridgePropertiesEndpointsList;
+  endpoints?: AccessBridgePropertiesEndpointsList | undefined;
   /** The protocol advertised by the access bridge endpoints. */
-  protocol?: TransportProtocol;
+  protocol?: TransportProtocol | undefined;
   /** The provisioning state of the access bridge. */
-  provisioningState?: AccessBridgeProvisioningState;
+  provisioningState?: AccessBridgeProvisioningState | undefined;
 }
 export interface AccessBridgesCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: AccessBridgesCreateOrUpdateResponseTagsMap;
+  tags?: AccessBridgesCreateOrUpdateResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The list of the resource properties. */
   properties: AccessBridgeProperties;
   /** "If etag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields.") */
-  etag?: string;
+  etag?: string | undefined;
   /** The extended location of the resource. This property is required when creating the resource. */
   extendedLocation: AzureResourceManagerCommonTypesExtendedLocation;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
 }
 /** Resource tags. */
 export type AgentPoolsCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
@@ -197,9 +198,9 @@ export type AdministratorConfigurationSshPublicKeysList = Array<SshPublicKey>;
 /** AdministratorConfiguration represents the administrative credentials that will be applied to the control plane and agent pool nodes in Kubernetes clusters. */
 export interface AdministratorConfiguration {
   /** The user name for the administrator that will be applied to the operating systems that run Kubernetes nodes. If not supplied, a user name will be chosen by the service. */
-  adminUsername?: string;
+  adminUsername?: string | undefined;
   /** The SSH configuration for the operating systems that run the nodes in the Kubernetes cluster. In some cases, specification of public keys may be required to produce a working environment. */
-  sshPublicKeys?: AdministratorConfigurationSshPublicKeysList;
+  sshPublicKeys?: AdministratorConfigurationSshPublicKeysList | undefined;
 }
 /** The size of the hugepages to allocate. */
 export type AgentOptionsHugepagesSize = "2M" | "1G";
@@ -208,7 +209,7 @@ export interface AgentOptions {
   /** The number of hugepages to allocate. */
   hugepagesCount: number;
   /** The size of the hugepages to allocate. */
-  hugepagesSize?: AgentOptionsHugepagesSize | (string & {});
+  hugepagesSize?: AgentOptionsHugepagesSize | (string & {}) | undefined;
 }
 /** The indicator of how this network will be utilized by the Kubernetes cluster. */
 export type L2NetworkAttachmentConfigurationPluginType =
@@ -222,7 +223,7 @@ export interface L2NetworkAttachmentConfiguration {
   /** The resource ID of the network that is being configured for attachment. */
   networkId: string;
   /** The indicator of how this network will be utilized by the Kubernetes cluster. */
-  pluginType?: L2NetworkAttachmentConfigurationPluginType | (string & {});
+  pluginType?: L2NetworkAttachmentConfigurationPluginType | (string & {}) | undefined;
 }
 /** The list of Layer 2 Networks and related configuration for attachment. */
 export type AttachedNetworkConfigurationL2NetworksList = Array<L2NetworkAttachmentConfiguration>;
@@ -238,11 +239,11 @@ export type L3NetworkAttachmentConfigurationPluginType =
 /** L3NetworkAttachmentConfiguration represents the configuration of the attachment of a Layer 3 network. */
 export interface L3NetworkAttachmentConfiguration {
   /** The indication of whether this network will or will not perform IP address management and allocate IP addresses when attached. */
-  ipamEnabled?: L3NetworkAttachmentConfigurationIpamEnabled | (string & {});
+  ipamEnabled?: L3NetworkAttachmentConfigurationIpamEnabled | (string & {}) | undefined;
   /** The resource ID of the network that is being configured for attachment. */
   networkId: string;
   /** The indicator of how this network will be utilized by the Kubernetes cluster. */
-  pluginType?: L3NetworkAttachmentConfigurationPluginType | (string & {});
+  pluginType?: L3NetworkAttachmentConfigurationPluginType | (string & {}) | undefined;
 }
 /** The list of Layer 3 Networks and related configuration for attachment. */
 export type AttachedNetworkConfigurationL3NetworksList = Array<L3NetworkAttachmentConfiguration>;
@@ -258,7 +259,7 @@ export interface TrunkedNetworkAttachmentConfiguration {
   /** The resource ID of the network that is being configured for attachment. */
   networkId: string;
   /** The indicator of how this network will be utilized by the Kubernetes cluster. */
-  pluginType?: TrunkedNetworkAttachmentConfigurationPluginType | (string & {});
+  pluginType?: TrunkedNetworkAttachmentConfigurationPluginType | (string & {}) | undefined;
 }
 /** The list of Trunked Networks and related configuration for attachment. */
 export type AttachedNetworkConfigurationTrunkedNetworksList =
@@ -266,11 +267,11 @@ export type AttachedNetworkConfigurationTrunkedNetworksList =
 /** AttachedNetworkConfiguration represents the set of workload networks to attach to a resource. */
 export interface AttachedNetworkConfiguration {
   /** The list of Layer 2 Networks and related configuration for attachment. */
-  l2Networks?: AttachedNetworkConfigurationL2NetworksList;
+  l2Networks?: AttachedNetworkConfigurationL2NetworksList | undefined;
   /** The list of Layer 3 Networks and related configuration for attachment. */
-  l3Networks?: AttachedNetworkConfigurationL3NetworksList;
+  l3Networks?: AttachedNetworkConfigurationL3NetworksList | undefined;
   /** The list of Trunked Networks and related configuration for attachment. */
-  trunkedNetworks?: AttachedNetworkConfigurationTrunkedNetworksList;
+  trunkedNetworks?: AttachedNetworkConfigurationTrunkedNetworksList | undefined;
 }
 /** The list of availability zones of the Network Cloud cluster used for the provisioning of nodes in this agent pool. If not specified, all availability zones will be used. */
 export type AgentPoolPropertiesInputAvailabilityZonesList = Array<string>;
@@ -290,32 +291,32 @@ export type AgentPoolPropertiesInputTaintsList = Array<KubernetesLabel>;
 /** AgentPoolUpgradeSettings specifies the upgrade settings for an agent pool. */
 export interface AgentPoolUpgradeSettings {
   /** The maximum time in seconds that is allowed for a node drain to complete before proceeding with the upgrade of the agent pool. If not specified during creation, a value of 1800 seconds is used. */
-  drainTimeout?: number;
+  drainTimeout?: number | undefined;
   /** The maximum number or percentage of nodes that are surged during upgrade. This can either be set to an integer (e.g. '5') or a percentage (e.g. '50%'). If a percentage is specified, it is the percentage of the total agent pool size at the time of the upgrade. For percentages, fractional nodes are rounded up. If not specified during creation, a value of 1 is used. One of MaxSurge and MaxUnavailable must be greater than 0. */
-  maxSurge?: string;
+  maxSurge?: string | undefined;
   /** The maximum number or percentage of nodes that can be unavailable during upgrade. This can either be set to an integer (e.g. '5') or a percentage (e.g. '50%'). If a percentage is specified, it is the percentage of the total agent pool size at the time of the upgrade. For percentages, fractional nodes are rounded up. If not specified during creation, a value of 0 is used. One of MaxSurge and MaxUnavailable must be greater than 0. */
-  maxUnavailable?: string;
+  maxUnavailable?: string | undefined;
 }
 /** AgentPoolProperties represents the properties of the Kubernetes cluster agent pool. */
 export interface AgentPoolPropertiesInput {
   /** The administrator credentials to be used for the nodes in this agent pool. */
-  administratorConfiguration?: AdministratorConfiguration;
+  administratorConfiguration?: AdministratorConfiguration | undefined;
   /** The configurations that will be applied to each agent in this agent pool. */
-  agentOptions?: AgentOptions;
+  agentOptions?: AgentOptions | undefined;
   /** The configuration of networks being attached to the agent pool for use by the workloads that run on this Kubernetes cluster. */
-  attachedNetworkConfiguration?: AttachedNetworkConfiguration;
+  attachedNetworkConfiguration?: AttachedNetworkConfiguration | undefined;
   /** The list of availability zones of the Network Cloud cluster used for the provisioning of nodes in this agent pool. If not specified, all availability zones will be used. */
-  availabilityZones?: AgentPoolPropertiesInputAvailabilityZonesList;
+  availabilityZones?: AgentPoolPropertiesInputAvailabilityZonesList | undefined;
   /** The number of virtual machines that use this configuration. */
   count: number;
   /** The labels applied to the nodes in this agent pool. */
-  labels?: AgentPoolPropertiesInputLabelsList;
+  labels?: AgentPoolPropertiesInputLabelsList | undefined;
   /** The selection of how this agent pool is utilized, either as a system pool or a user pool. System pools run the features and critical services for the Kubernetes Cluster, while user pools are dedicated to user workloads. Every Kubernetes cluster must contain at least one system node pool with at least one node. */
   mode: AgentPoolMode | (string & {});
   /** The taints applied to the nodes in this agent pool. */
-  taints?: AgentPoolPropertiesInputTaintsList;
+  taints?: AgentPoolPropertiesInputTaintsList | undefined;
   /** The configuration of the agent pool. */
-  upgradeSettings?: AgentPoolUpgradeSettings;
+  upgradeSettings?: AgentPoolUpgradeSettings | undefined;
   /** The name of the VM SKU that determines the size of resources allocated for node VMs. */
   vmSkuName: string;
 }
@@ -329,13 +330,13 @@ export interface AgentPoolsCreateOrUpdateRequest {
   /** The name of the Kubernetes cluster agent pool. */
   agentPoolName: string;
   /** Resource tags. */
-  tags?: AgentPoolsCreateOrUpdateRequestTagsMap;
+  tags?: AgentPoolsCreateOrUpdateRequestTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The list of the resource properties. */
   properties: AgentPoolPropertiesInput;
   /** The extended location of the resource. */
-  extendedLocation?: AzureResourceManagerCommonTypesExtendedLocation;
+  extendedLocation?: AzureResourceManagerCommonTypesExtendedLocation | undefined;
 }
 /** Resource tags. */
 export type AgentPoolsCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
@@ -359,55 +360,55 @@ export type AgentPoolProvisioningState =
 /** AgentPoolProperties represents the properties of the Kubernetes cluster agent pool. */
 export interface AgentPoolProperties {
   /** The administrator credentials to be used for the nodes in this agent pool. */
-  administratorConfiguration?: AdministratorConfiguration;
+  administratorConfiguration?: AdministratorConfiguration | undefined;
   /** The configurations that will be applied to each agent in this agent pool. */
-  agentOptions?: AgentOptions;
+  agentOptions?: AgentOptions | undefined;
   /** The configuration of networks being attached to the agent pool for use by the workloads that run on this Kubernetes cluster. */
-  attachedNetworkConfiguration?: AttachedNetworkConfiguration;
+  attachedNetworkConfiguration?: AttachedNetworkConfiguration | undefined;
   /** The list of availability zones of the Network Cloud cluster used for the provisioning of nodes in this agent pool. If not specified, all availability zones will be used. */
-  availabilityZones?: AgentPoolPropertiesAvailabilityZonesList;
+  availabilityZones?: AgentPoolPropertiesAvailabilityZonesList | undefined;
   /** The number of virtual machines that use this configuration. */
   count: number;
   /** The labels applied to the nodes in this agent pool. */
-  labels?: AgentPoolPropertiesLabelsList;
+  labels?: AgentPoolPropertiesLabelsList | undefined;
   /** The selection of how this agent pool is utilized, either as a system pool or a user pool. System pools run the features and critical services for the Kubernetes Cluster, while user pools are dedicated to user workloads. Every Kubernetes cluster must contain at least one system node pool with at least one node. */
   mode: AgentPoolMode;
   /** The taints applied to the nodes in this agent pool. */
-  taints?: AgentPoolPropertiesTaintsList;
+  taints?: AgentPoolPropertiesTaintsList | undefined;
   /** The configuration of the agent pool. */
-  upgradeSettings?: AgentPoolUpgradeSettings;
+  upgradeSettings?: AgentPoolUpgradeSettings | undefined;
   /** The name of the VM SKU that determines the size of resources allocated for node VMs. */
   vmSkuName: string;
   /** The current status of the agent pool. */
-  detailedStatus?: AgentPoolDetailedStatus;
+  detailedStatus?: AgentPoolDetailedStatus | undefined;
   /** The descriptive message about the current detailed status. */
-  detailedStatusMessage?: string;
+  detailedStatusMessage?: string | undefined;
   /** The Kubernetes version running in this agent pool. */
-  kubernetesVersion?: string;
+  kubernetesVersion?: string | undefined;
   /** The provisioning state of the agent pool. */
-  provisioningState?: AgentPoolProvisioningState;
+  provisioningState?: AgentPoolProvisioningState | undefined;
 }
 export interface AgentPoolsCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: AgentPoolsCreateOrUpdateResponseTagsMap;
+  tags?: AgentPoolsCreateOrUpdateResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The list of the resource properties. */
   properties: AgentPoolProperties;
   /** "If etag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields.") */
-  etag?: string;
+  etag?: string | undefined;
   /** The extended location of the resource. */
-  extendedLocation?: AzureResourceManagerCommonTypesExtendedLocation;
+  extendedLocation?: AzureResourceManagerCommonTypesExtendedLocation | undefined;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
 }
 /** The indicator of which relay type the machine should be assigned to use. Platform indicates the use of a platform-dedicated relay. Public indicates the use of the standard public relay for Arc services. */
 export type AssignVirtualMachineRelayRequestRelayType = "Platform" | "Public";
@@ -421,13 +422,13 @@ export interface AssignVirtualMachineRelayRequest {
   /** The resourceId of the Microsoft.HybridCompute machine resource to assign relay usage. */
   machineId: string;
   /** The indicator of which relay type the machine should be assigned to use. Platform indicates the use of a platform-dedicated relay. Public indicates the use of the standard public relay for Arc services. */
-  relayType?: AssignVirtualMachineRelayRequestRelayType | (string & {});
+  relayType?: AssignVirtualMachineRelayRequestRelayType | (string & {}) | undefined;
 }
 export interface AssignVirtualMachineRelayResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Resource tags. */
 export type BareMetalMachineKeySetsCreateOrUpdateRequestTagsMap = {
@@ -442,11 +443,11 @@ export interface KeySetUser {
   /** The user name that will be used for access. */
   azureUserName: string;
   /** The free-form description for this user. */
-  description?: string;
+  description?: string | undefined;
   /** The SSH public key that will be provisioned for user access. The user is expected to have the corresponding SSH private key for logging in. */
   sshPublicKey: SshPublicKey;
   /** The user principal name (email format) used to validate this user's group membership. */
-  userPrincipalName?: string;
+  userPrincipalName?: string | undefined;
 }
 /** The unique list of permitted users. */
 export type BareMetalMachineKeySetPropertiesInputUserListList = Array<KeySetUser>;
@@ -459,11 +460,11 @@ export interface BareMetalMachineKeySetPropertiesInput {
   /** The list of IP addresses of jump hosts with management network access from which a login will be allowed for the users. */
   jumpHostsAllowed: BareMetalMachineKeySetPropertiesInputJumpHostsAllowedList;
   /** The name of the group that users will be assigned to on the operating system of the machines. */
-  osGroupName?: string;
+  osGroupName?: string | undefined;
   /** The access level allowed for the users in this key set. */
   privilegeLevel: BareMetalMachineKeySetPrivilegeLevel | (string & {});
   /** The name of the access level to apply when the privilege level is set to Other. */
-  privilegeLevelName?: string;
+  privilegeLevelName?: string | undefined;
   /** The unique list of permitted users. */
   userList: BareMetalMachineKeySetPropertiesInputUserListList;
 }
@@ -477,7 +478,7 @@ export interface BareMetalMachineKeySetsCreateOrUpdateRequest {
   /** The name of the bare metal machine key set. */
   bareMetalMachineKeySetName: string;
   /** Resource tags. */
-  tags?: BareMetalMachineKeySetsCreateOrUpdateRequestTagsMap;
+  tags?: BareMetalMachineKeySetsCreateOrUpdateRequestTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The list of the resource properties. */
@@ -504,11 +505,11 @@ export type BareMetalMachineKeySetUserSetupStatus = "Active" | "Invalid";
 /** KeySetUserStatus represents the status of the key set user. */
 export interface KeySetUserStatus {
   /** The user name that will be used for access. */
-  azureUserName?: string;
+  azureUserName?: string | undefined;
   /** The indicator of whether the user is currently deployed for access. */
-  status?: BareMetalMachineKeySetUserSetupStatus;
+  status?: BareMetalMachineKeySetUserSetupStatus | undefined;
   /** The additional information describing the current status of this user, if any available. */
-  statusMessage?: string;
+  statusMessage?: string | undefined;
 }
 /** The status evaluation of each user. */
 export type BareMetalMachineKeySetPropertiesUserListStatusList = Array<KeySetUserStatus>;
@@ -528,45 +529,45 @@ export interface BareMetalMachineKeySetProperties {
   /** The list of IP addresses of jump hosts with management network access from which a login will be allowed for the users. */
   jumpHostsAllowed: BareMetalMachineKeySetPropertiesJumpHostsAllowedList;
   /** The name of the group that users will be assigned to on the operating system of the machines. */
-  osGroupName?: string;
+  osGroupName?: string | undefined;
   /** The access level allowed for the users in this key set. */
   privilegeLevel: BareMetalMachineKeySetPrivilegeLevel;
   /** The name of the access level to apply when the privilege level is set to Other. */
-  privilegeLevelName?: string;
+  privilegeLevelName?: string | undefined;
   /** The unique list of permitted users. */
   userList: BareMetalMachineKeySetPropertiesUserListList;
   /** The more detailed status of the key set. */
-  detailedStatus?: BareMetalMachineKeySetDetailedStatus;
+  detailedStatus?: BareMetalMachineKeySetDetailedStatus | undefined;
   /** The descriptive message about the current detailed status. */
-  detailedStatusMessage?: string;
+  detailedStatusMessage?: string | undefined;
   /** The last time this key set was validated. */
-  lastValidation?: string;
+  lastValidation?: string | undefined;
   /** The status evaluation of each user. */
-  userListStatus?: BareMetalMachineKeySetPropertiesUserListStatusList;
+  userListStatus?: BareMetalMachineKeySetPropertiesUserListStatusList | undefined;
   /** The provisioning state of the bare metal machine key set. */
-  provisioningState?: BareMetalMachineKeySetProvisioningState;
+  provisioningState?: BareMetalMachineKeySetProvisioningState | undefined;
 }
 export interface BareMetalMachineKeySetsCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: BareMetalMachineKeySetsCreateOrUpdateResponseTagsMap;
+  tags?: BareMetalMachineKeySetsCreateOrUpdateResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The list of the resource properties. */
   properties: BareMetalMachineKeySetProperties;
   /** "If etag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields.") */
-  etag?: string;
+  etag?: string | undefined;
   /** The extended location of the resource. This property is required when creating the resource. */
   extendedLocation: AzureResourceManagerCommonTypesExtendedLocation;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
 }
 /** Resource tags. */
 export type BareMetalMachinesCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
@@ -600,7 +601,7 @@ export interface BareMetalMachinePropertiesInput {
   /** The serial number of the bare metal machine. */
   serialNumber: string;
   /** The cluster version that has been applied to this machine during deployment or a version update. */
-  machineClusterVersion?: string;
+  machineClusterVersion?: string | undefined;
 }
 export interface BareMetalMachinesCreateOrUpdateRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -610,7 +611,7 @@ export interface BareMetalMachinesCreateOrUpdateRequest {
   /** The name of the bare metal machine. */
   bareMetalMachineName: string;
   /** Resource tags. */
-  tags?: BareMetalMachinesCreateOrUpdateRequestTagsMap;
+  tags?: BareMetalMachinesCreateOrUpdateRequestTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The list of the resource properties. */
@@ -627,34 +628,34 @@ export type StepStateStatus = "Completed" | "InProgress" | "Failed" | "NotStarte
 /** StepState represents the state of a step in an action. */
 export interface StepState {
   /** The timestamp for when processing of the step reached its terminal state, in ISO 8601 format. */
-  endTime?: string;
+  endTime?: string | undefined;
   /** The message providing additional context for the status value. May be empty, or contain diagnostic information in the case of a failure. */
-  message?: string;
+  message?: string | undefined;
   /** The timestamp for when processing of the step began, in ISO 8601 format. */
-  startTime?: string;
+  startTime?: string | undefined;
   /** The status of the step. A value of Completed or Failed indicates a terminal state for the step. */
-  status?: StepStateStatus;
+  status?: StepStateStatus | undefined;
   /** The name for the step. */
-  stepName?: string;
+  stepName?: string | undefined;
 }
 /** The ordered list of the individual steps which make up the action. */
 export type ActionStateStepStatesList = Array<StepState>;
 /** ActionState represents the state of an action taken against a resource. This can be used to represent both explicitly and implicitly defined action types. */
 export interface ActionState {
   /** The representation of the action for which this is a status. Matches ARM resource action format when the action is an ARM-based action. */
-  actionType?: string;
+  actionType?: string | undefined;
   /** The correlation ID for the original action request. Omitted if there is no related correlation ID. */
-  correlationId?: string;
+  correlationId?: string | undefined;
   /** The timestamp of when the action reached its final, terminal state. Uses ISO 8601 format. */
-  endTime?: string;
+  endTime?: string | undefined;
   /** The description providing additional context for the status value. May be empty or contain guidance in the case of a failure. */
-  message?: string;
+  message?: string | undefined;
   /** The timestamp of when the action began, in ISO 8601 format. */
-  startTime?: string;
+  startTime?: string | undefined;
   /** The status of the action. */
-  status?: ActionStateStatus;
+  status?: ActionStateStatus | undefined;
   /** The ordered list of the individual steps which make up the action. */
-  stepStates?: ActionStateStepStatesList;
+  stepStates?: ActionStateStepStatesList | undefined;
 }
 /** The current state of any in progress or completed actions. The most recent known instance of each action type is shown. */
 export type BareMetalMachinePropertiesActionStatesList = Array<ActionState>;
@@ -663,9 +664,9 @@ export type BareMetalMachinePropertiesAssociatedResourceIdsList = Array<string>;
 /** CertificateInfo represents the non-private information of an X.509 Certificate. */
 export interface CertificateInfo {
   /** The hash value of the X.509 Certificate. */
-  hash?: string;
+  hash?: string | undefined;
   /** The textual value of the X.509 Certificate. */
-  value?: string;
+  value?: string | undefined;
 }
 /** The cordon status of the bare metal machine. */
 export type BareMetalMachineCordonStatus = "Cordoned" | "Uncordoned";
@@ -680,55 +681,55 @@ export type BareMetalMachineDetailedStatus =
 /** HardwareInventoryNetworkInterface represents the network interface details as part of a hardware inventory. */
 export interface HardwareInventoryNetworkInterface {
   /** The current status of the link. */
-  linkStatus?: string;
+  linkStatus?: string | undefined;
   /** The MAC address associated with this interface. */
-  macAddress?: string;
+  macAddress?: string | undefined;
   /** The name of the interface. */
-  name?: string;
+  name?: string | undefined;
   /** The resource ID of the network interface for the port on the switch that this machine's interface is connected to. */
-  networkInterfaceId?: string;
+  networkInterfaceId?: string | undefined;
 }
 /** The list of network interfaces and associated details for the bare metal machine. */
 export type HardwareInventoryInterfacesList = Array<HardwareInventoryNetworkInterface>;
 /** Type Deprecated. Will be removed in an upcoming version. LldpNeighbor represents the details about the device connected to the NIC. */
 export interface LldpNeighbor {
   /** The descriptive information about the port on the connected device. */
-  portDescription?: string;
+  portDescription?: string | undefined;
   /** The system-assigned name of the port on the connected device. */
-  portName?: string;
+  portName?: string | undefined;
   /** The descriptive information about the connected device. */
-  systemDescription?: string;
+  systemDescription?: string | undefined;
   /** The system-assigned name of the connected device. */
-  systemName?: string;
+  systemName?: string | undefined;
 }
 /** Type Deprecated. Will be removed in an upcoming version. Nic represents the network interface card details. */
 export interface Nic {
   /** The information about the device connected to this NIC. */
-  lldpNeighbor?: LldpNeighbor;
+  lldpNeighbor?: LldpNeighbor | undefined;
   /** The MAC address associated with this NIC. */
-  macAddress?: string;
+  macAddress?: string | undefined;
   /** The name of the NIC/interface. */
-  name?: string;
+  name?: string | undefined;
 }
 /** Field Deprecated. Will be removed in an upcoming version. The list of network interface cards and associated details for the bare metal machine. */
 export type HardwareInventoryNicsList = Array<Nic>;
 /** HardwareInventory represents the hardware configuration of this machine as exposed to the customer, including information acquired from the model/sku information and from the ironic inspector. */
 export interface HardwareInventory {
   /** Freeform data extracted from the environment about this machine. This information varies depending on the specific hardware and configuration. */
-  additionalHostInformation?: string;
+  additionalHostInformation?: string | undefined;
   /** The list of network interfaces and associated details for the bare metal machine. */
-  interfaces?: HardwareInventoryInterfacesList;
+  interfaces?: HardwareInventoryInterfacesList | undefined;
   /** Field Deprecated. Will be removed in an upcoming version. The list of network interface cards and associated details for the bare metal machine. */
-  nics?: HardwareInventoryNicsList;
+  nics?: HardwareInventoryNicsList | undefined;
 }
 /** The outcome of the hardware validation. */
 export type BareMetalMachineHardwareValidationResult = "Pass" | "Fail";
 /** HardwareValidationStatus represents the latest hardware validation details performed for this bare metal machine. */
 export interface HardwareValidationStatus {
   /** The timestamp of the hardware validation execution. */
-  lastValidationTime?: string;
+  lastValidationTime?: string | undefined;
   /** The outcome of the hardware validation. */
-  result?: BareMetalMachineHardwareValidationResult;
+  result?: BareMetalMachineHardwareValidationResult | undefined;
 }
 /** Field Deprecated. These fields will be empty/omitted. The list of the resource IDs for the HybridAksClusters that have nodes hosted on this bare metal machine. */
 export type BareMetalMachinePropertiesHybridAksClustersAssociatedIdsList = Array<string>;
@@ -741,9 +742,9 @@ export type BareMetalMachineMonitoringConfigurationStatusMetricsLevel = "Default
 /** BareMetalMachineMonitoringConfigurationStatus represents the monitoring configuration status of the bare metal machine. */
 export interface BareMetalMachineMonitoringConfigurationStatus {
   /** The log level for the monitoring configuration status of the bare metal machine. */
-  logLevel?: BareMetalMachineMonitoringConfigurationStatusLogLevel;
+  logLevel?: BareMetalMachineMonitoringConfigurationStatusLogLevel | undefined;
   /** The metrics level for the monitoring configuration status of the bare metal machine. */
-  metricsLevel?: BareMetalMachineMonitoringConfigurationStatusMetricsLevel;
+  metricsLevel?: BareMetalMachineMonitoringConfigurationStatusMetricsLevel | undefined;
 }
 /** The power state derived from the baseboard management controller. */
 export type BareMetalMachinePowerState = "On" | "Off";
@@ -767,49 +768,49 @@ export type RuntimeProtectionEnforcementLevel =
 /** RuntimeProtectionStatus represents the runtime protection status of the bare metal machine. */
 export interface RuntimeProtectionStatus {
   /** The runtime protection agent health status. */
-  agentHealthStatus?: RuntimeProtectionAgentHealthStatus;
+  agentHealthStatus?: RuntimeProtectionAgentHealthStatus | undefined;
   /** The runtime protection agent health status issues, if present. */
-  agentHealthStatusIssues?: RuntimeProtectionStatusAgentHealthStatusIssuesList;
+  agentHealthStatusIssues?: RuntimeProtectionStatusAgentHealthStatusIssuesList | undefined;
   /** The runtime protection agent license status. */
-  agentLicenseStatus?: RuntimeProtectionAgentLicenseStatus;
+  agentLicenseStatus?: RuntimeProtectionAgentLicenseStatus | undefined;
   /** The definition update mode for runtime protection. */
-  definitionUpdateMode?: RuntimeProtectionDefinitionUpdateMode;
+  definitionUpdateMode?: RuntimeProtectionDefinitionUpdateMode | undefined;
   /** The timestamp when the malware definitions were last updated. */
-  definitionsLastUpdated?: string;
+  definitionsLastUpdated?: string | undefined;
   /** The version of the malware definitions. */
-  definitionsVersion?: string;
+  definitionsVersion?: string | undefined;
   /** The enforcement level set for the runtime protection on the bare metal machine. */
-  enforcementLevel?: RuntimeProtectionEnforcementLevel;
+  enforcementLevel?: RuntimeProtectionEnforcementLevel | undefined;
   /** The timestamp of the most recently completed scan, or empty if there has never been a scan. */
-  scanCompletedTime?: string;
+  scanCompletedTime?: string | undefined;
   /** The timestamp of the most recently scheduled scan, or empty if no scan has been scheduled. */
-  scanScheduledTime?: string;
+  scanScheduledTime?: string | undefined;
   /** The timestamp of the most recently started scan, or empty if there has never been a scan. */
-  scanStartedTime?: string;
+  scanStartedTime?: string | undefined;
 }
 /** SecretArchiveReference represents the reference to a secret in a key vault. */
 export interface SecretArchiveReference {
   /** The resource ID of the key vault containing the secret. */
-  keyVaultId?: string;
+  keyVaultId?: string | undefined;
   /** The URI of the key containing the secret. */
-  keyVaultUri?: string;
+  keyVaultUri?: string | undefined;
   /** The name of the secret in the key vault. */
-  secretName?: string;
+  secretName?: string | undefined;
   /** The version of the secret in the key vault. */
-  secretVersion?: string;
+  secretVersion?: string | undefined;
 }
 /** SecretRotationStatus represents the status of a secret rotation. */
 export interface SecretRotationStatus {
   /** The maximum number of days the secret may be used before it must be changed. */
-  expirePeriodDays?: number;
+  expirePeriodDays?: number | undefined;
   /** The date and time when the secret was last changed. */
-  lastRotationTime?: string;
+  lastRotationTime?: string | undefined;
   /** The number of days a secret exists before rotations will be attempted. */
-  rotationPeriodDays?: number;
+  rotationPeriodDays?: number | undefined;
   /** The reference to the secret in a key vault. */
-  secretArchiveReference?: SecretArchiveReference;
+  secretArchiveReference?: SecretArchiveReference | undefined;
   /** The type name used to identify the purpose of the secret. */
-  secretType?: string;
+  secretType?: string | undefined;
 }
 /** The list of statuses that represent secret rotation activity. */
 export type BareMetalMachinePropertiesSecretRotationStatusList = Array<SecretRotationStatus>;
@@ -845,81 +846,85 @@ export interface BareMetalMachineProperties {
   /** The serial number of the bare metal machine. */
   serialNumber: string;
   /** The current state of any in progress or completed actions. The most recent known instance of each action type is shown. */
-  actionStates?: BareMetalMachinePropertiesActionStatesList;
+  actionStates?: BareMetalMachinePropertiesActionStatesList | undefined;
   /** The list of resource IDs for the other Microsoft.NetworkCloud resources that have attached this network. */
-  associatedResourceIds?: BareMetalMachinePropertiesAssociatedResourceIdsList;
+  associatedResourceIds?: BareMetalMachinePropertiesAssociatedResourceIdsList | undefined;
   /** The IPv4 address of the BMC interface for the bare metal machine. */
-  bmcIpv4Address?: string;
+  bmcIpv4Address?: string | undefined;
   /** The IPv6 address of the BMC interface for the bare metal machine. */
-  bmcIpv6Address?: string;
+  bmcIpv6Address?: string | undefined;
   /** The CA certificate information issued by the platform for connecting to TLS interfaces for the bare metal machine. Callers add this certificate to the trusted CA store on the Kubernetes control plane nodes to allow secure communication with the bare metal machine. */
-  caCertificate?: CertificateInfo;
+  caCertificate?: CertificateInfo | undefined;
   /** The resource ID of the cluster this bare metal machine is associated with. */
-  clusterId?: string;
+  clusterId?: string | undefined;
   /** The cordon status of the bare metal machine. */
-  cordonStatus?: BareMetalMachineCordonStatus;
+  cordonStatus?: BareMetalMachineCordonStatus | undefined;
   /** The more detailed status of the bare metal machine. */
-  detailedStatus?: BareMetalMachineDetailedStatus;
+  detailedStatus?: BareMetalMachineDetailedStatus | undefined;
   /** The descriptive message about the current detailed status. */
-  detailedStatusMessage?: string;
+  detailedStatusMessage?: string | undefined;
   /** The hardware inventory, including information acquired from the model/sku information and from the ironic inspector. */
-  hardwareInventory?: HardwareInventory;
+  hardwareInventory?: HardwareInventory | undefined;
   /** The details of the latest hardware validation performed for this bare metal machine. */
-  hardwareValidationStatus?: HardwareValidationStatus;
+  hardwareValidationStatus?: HardwareValidationStatus | undefined;
   /** Field Deprecated. These fields will be empty/omitted. The list of the resource IDs for the HybridAksClusters that have nodes hosted on this bare metal machine. */
-  hybridAksClustersAssociatedIds?: BareMetalMachinePropertiesHybridAksClustersAssociatedIdsList;
+  hybridAksClustersAssociatedIds?:
+    | BareMetalMachinePropertiesHybridAksClustersAssociatedIdsList
+    | undefined;
   /** The name of this machine represented by the host object in the Cluster's Kubernetes control plane. */
-  kubernetesNodeName?: string;
+  kubernetesNodeName?: string | undefined;
   /** The version of Kubernetes running on this machine. */
-  kubernetesVersion?: string;
+  kubernetesVersion?: string | undefined;
   /** The cluster version that has been applied to this machine during deployment or a version update. */
-  machineClusterVersion?: string;
+  machineClusterVersion?: string | undefined;
   /** The list of roles that are assigned to the cluster node running on this machine. */
-  machineRoles?: BareMetalMachinePropertiesMachineRolesList;
+  machineRoles?: BareMetalMachinePropertiesMachineRolesList | undefined;
   /** The monitoring configuration status of the bare metal machine. */
-  monitoringConfigurationStatus?: BareMetalMachineMonitoringConfigurationStatus;
+  monitoringConfigurationStatus?: BareMetalMachineMonitoringConfigurationStatus | undefined;
   /** The IPv4 address that is assigned to the bare metal machine during the cluster deployment. */
-  oamIpv4Address?: string;
+  oamIpv4Address?: string | undefined;
   /** The IPv6 address that is assigned to the bare metal machine during the cluster deployment. */
-  oamIpv6Address?: string;
+  oamIpv6Address?: string | undefined;
   /** The image that is currently provisioned to the OS disk. */
-  osImage?: string;
+  osImage?: string | undefined;
   /** The power state derived from the baseboard management controller. */
-  powerState?: BareMetalMachinePowerState;
+  powerState?: BareMetalMachinePowerState | undefined;
   /** The indicator of whether the bare metal machine is ready to receive workloads. */
-  readyState?: BareMetalMachineReadyState;
+  readyState?: BareMetalMachineReadyState | undefined;
   /** The runtime protection status of the bare metal machine. */
-  runtimeProtectionStatus?: RuntimeProtectionStatus;
+  runtimeProtectionStatus?: RuntimeProtectionStatus | undefined;
   /** The list of statuses that represent secret rotation activity. */
-  secretRotationStatus?: BareMetalMachinePropertiesSecretRotationStatusList;
+  secretRotationStatus?: BareMetalMachinePropertiesSecretRotationStatusList | undefined;
   /** The discovered value of the machine's service tag. */
-  serviceTag?: string;
+  serviceTag?: string | undefined;
   /** Field Deprecated. These fields will be empty/omitted. The list of the resource IDs for the VirtualMachines that are hosted on this bare metal machine. */
-  virtualMachinesAssociatedIds?: BareMetalMachinePropertiesVirtualMachinesAssociatedIdsList;
+  virtualMachinesAssociatedIds?:
+    | BareMetalMachinePropertiesVirtualMachinesAssociatedIdsList
+    | undefined;
   /** The provisioning state of the bare metal machine. */
-  provisioningState?: BareMetalMachineProvisioningState;
+  provisioningState?: BareMetalMachineProvisioningState | undefined;
 }
 export interface BareMetalMachinesCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: BareMetalMachinesCreateOrUpdateResponseTagsMap;
+  tags?: BareMetalMachinesCreateOrUpdateResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The list of the resource properties. */
   properties: BareMetalMachineProperties;
   /** "If etag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields.") */
-  etag?: string;
+  etag?: string | undefined;
   /** The extended location of the resource. This property is required when creating the resource. */
   extendedLocation: AzureResourceManagerCommonTypesExtendedLocation;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
 }
 /** The indicator of whether to skip the graceful OS shutdown and power off the bare metal machine immediately. */
 export type BareMetalMachinesPowerOffRequestSkipShutdown = "True" | "False";
@@ -931,13 +936,13 @@ export interface BareMetalMachinesPowerOffRequest {
   /** The name of the bare metal machine. */
   bareMetalMachineName: string;
   /** The indicator of whether to skip the graceful OS shutdown and power off the bare metal machine immediately. */
-  skipShutdown?: BareMetalMachinesPowerOffRequestSkipShutdown | (string & {});
+  skipShutdown?: BareMetalMachinesPowerOffRequestSkipShutdown | (string & {}) | undefined;
 }
 export interface BareMetalMachinesPowerOffResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** The safeguard mode to use for the reimage action, where None indicates to bypass safeguards and All indicates to utilize all safeguards. */
 export type BareMetalMachineReimageSafeguardMode = "All" | "None";
@@ -949,20 +954,20 @@ export interface BareMetalMachinesReimageRequest {
   /** The name of the bare metal machine. */
   bareMetalMachineName: string;
   /** The safeguard mode to use for the reimage action, where None indicates to bypass safeguards and All indicates to utilize all safeguards. If not specified, the default is All. */
-  safeguardMode?: BareMetalMachineReimageSafeguardMode | (string & {});
+  safeguardMode?: BareMetalMachineReimageSafeguardMode | (string & {}) | undefined;
 }
 export interface BareMetalMachinesReimageResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** The list of string arguments that will be passed to the script in order as separate arguments. */
 export type BareMetalMachineCommandSpecificationArgumentsList = Array<string>;
 /** BareMetalMachineCommandSpecification represents the command and optional arguments to exercise against the bare metal machine. */
 export interface BareMetalMachineCommandSpecification {
   /** The list of string arguments that will be passed to the script in order as separate arguments. */
-  arguments?: BareMetalMachineCommandSpecificationArgumentsList;
+  arguments?: BareMetalMachineCommandSpecificationArgumentsList | undefined;
   /** The command to execute against the bare metal machine. */
   command: string;
 }
@@ -983,9 +988,9 @@ export interface BareMetalMachinesRunReadCommandsRequest {
 }
 export interface BareMetalMachinesRunReadCommandsResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Resource tags. */
 export type BmcKeySetsCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
@@ -1014,7 +1019,7 @@ export interface BmcKeySetsCreateOrUpdateRequest {
   /** The name of the baseboard management controller key set. */
   bmcKeySetName: string;
   /** Resource tags. */
-  tags?: BmcKeySetsCreateOrUpdateRequestTagsMap;
+  tags?: BmcKeySetsCreateOrUpdateRequestTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The list of the resource properties. */
@@ -1048,37 +1053,37 @@ export interface BmcKeySetProperties {
   /** The unique list of permitted users. */
   userList: BmcKeySetPropertiesUserListList;
   /** The more detailed status of the key set. */
-  detailedStatus?: BmcKeySetDetailedStatus;
+  detailedStatus?: BmcKeySetDetailedStatus | undefined;
   /** The descriptive message about the current detailed status. */
-  detailedStatusMessage?: string;
+  detailedStatusMessage?: string | undefined;
   /** The last time this key set was validated. */
-  lastValidation?: string;
+  lastValidation?: string | undefined;
   /** The status evaluation of each user. */
-  userListStatus?: BmcKeySetPropertiesUserListStatusList;
+  userListStatus?: BmcKeySetPropertiesUserListStatusList | undefined;
   /** The provisioning state of the baseboard management controller key set. */
-  provisioningState?: BmcKeySetProvisioningState;
+  provisioningState?: BmcKeySetProvisioningState | undefined;
 }
 export interface BmcKeySetsCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: BmcKeySetsCreateOrUpdateResponseTagsMap;
+  tags?: BmcKeySetsCreateOrUpdateResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The list of the resource properties. */
   properties: BmcKeySetProperties;
   /** "If etag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields.") */
-  etag?: string;
+  etag?: string | undefined;
   /** The extended location of the resource. This property is required when creating the resource. */
   extendedLocation: AzureResourceManagerCommonTypesExtendedLocation;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
 }
 /** Resource tags. */
 export type CloudServicesNetworksCreateOrUpdateRequestTagsMap = {
@@ -1089,7 +1094,7 @@ export interface EndpointDependency {
   /** The domain name of the dependency. */
   domainName: string;
   /** The port of this endpoint. */
-  port?: number;
+  port?: number | undefined;
 }
 /** The list of endpoint dependencies. */
 export type EgressEndpointEndpointsList = Array<EndpointDependency>;
@@ -1110,22 +1115,25 @@ export type CloudServicesNetworkStorageOptionsMode = "None" | "Standard";
 /** CloudServicesNetworkStorageOptions represents the storage options for the cloud services network. */
 export interface CloudServicesNetworkStorageOptions {
   /** The indicator to enable shared storage on the cloud services network. If not specified, the allocation will align with the standard storage enablement. */
-  mode?: CloudServicesNetworkStorageOptionsMode | (string & {});
+  mode?: CloudServicesNetworkStorageOptionsMode | (string & {}) | undefined;
   /** The requested storage allocation for the volume in Mebibytes. */
-  sizeMiB?: number;
+  sizeMiB?: number | undefined;
   /** The resource ID of the storage appliance that hosts the storage. */
-  storageApplianceId?: string;
+  storageApplianceId?: string | undefined;
 }
 /** CloudServicesNetworkProperties represents properties of the cloud services network. */
 export interface CloudServicesNetworkPropertiesInput {
   /** The list of egress endpoints. This allows for connection from a Hybrid AKS cluster to the specified endpoint. */
-  additionalEgressEndpoints?: CloudServicesNetworkPropertiesInputAdditionalEgressEndpointsList;
+  additionalEgressEndpoints?:
+    | CloudServicesNetworkPropertiesInputAdditionalEgressEndpointsList
+    | undefined;
   /** The indicator of whether the platform default endpoints are allowed for the egress traffic. */
   enableDefaultEgressEndpoints?:
     | CloudServicesNetworkPropertiesInputEnableDefaultEgressEndpoints
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** The storage options for the cloud services network. */
-  storageOptions?: CloudServicesNetworkStorageOptions;
+  storageOptions?: CloudServicesNetworkStorageOptions | undefined;
 }
 export interface CloudServicesNetworksCreateOrUpdateRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1135,11 +1143,11 @@ export interface CloudServicesNetworksCreateOrUpdateRequest {
   /** The name of the cloud services network. */
   cloudServicesNetworkName: string;
   /** Resource tags. */
-  tags?: CloudServicesNetworksCreateOrUpdateRequestTagsMap;
+  tags?: CloudServicesNetworksCreateOrUpdateRequestTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The list of the resource properties. */
-  properties?: CloudServicesNetworkPropertiesInput;
+  properties?: CloudServicesNetworkPropertiesInput | undefined;
   /** The extended location of the resource. This property is required when creating the resource. */
   extendedLocation: AzureResourceManagerCommonTypesExtendedLocation;
 }
@@ -1172,15 +1180,15 @@ export type CloudServicesNetworkStorageStatusStatus =
 /** CloudServicesNetworkStorageStatus represents the storage status of the cloud services network. */
 export interface CloudServicesNetworkStorageStatus {
   /** The indicator of if shared storage is enabled on the cloud services network. */
-  mode?: CloudServicesNetworkStorageMode;
+  mode?: CloudServicesNetworkStorageMode | undefined;
   /** The size in Mebibytes of the storage allocation. */
-  sizeMiB?: number;
+  sizeMiB?: number | undefined;
   /** The status of the storage allocation for the cloud services network. */
-  status?: CloudServicesNetworkStorageStatusStatus;
+  status?: CloudServicesNetworkStorageStatusStatus | undefined;
   /** The description for the status of the shared storage. */
-  statusMessage?: string;
+  statusMessage?: string | undefined;
   /** The resource ID of the volume created to host the shared storage. */
-  volumeId?: string;
+  volumeId?: string | undefined;
 }
 /** Field Deprecated. These fields will be empty/omitted. The list of virtual machine resource IDs, excluding any Hybrid AKS virtual machines, that are currently using this cloud services network. */
 export type CloudServicesNetworkPropertiesVirtualMachinesAssociatedIdsList = Array<string>;
@@ -1194,53 +1202,61 @@ export type CloudServicesNetworkProvisioningState =
 /** CloudServicesNetworkProperties represents properties of the cloud services network. */
 export interface CloudServicesNetworkProperties {
   /** The list of egress endpoints. This allows for connection from a Hybrid AKS cluster to the specified endpoint. */
-  additionalEgressEndpoints?: CloudServicesNetworkPropertiesAdditionalEgressEndpointsList;
+  additionalEgressEndpoints?:
+    | CloudServicesNetworkPropertiesAdditionalEgressEndpointsList
+    | undefined;
   /** The indicator of whether the platform default endpoints are allowed for the egress traffic. */
-  enableDefaultEgressEndpoints?: CloudServicesNetworkPropertiesEnableDefaultEgressEndpoints;
+  enableDefaultEgressEndpoints?:
+    | CloudServicesNetworkPropertiesEnableDefaultEgressEndpoints
+    | undefined;
   /** The storage options for the cloud services network. */
-  storageOptions?: CloudServicesNetworkStorageOptions;
+  storageOptions?: CloudServicesNetworkStorageOptions | undefined;
   /** The list of resource IDs for the other Microsoft.NetworkCloud resources that have attached this network. */
-  associatedResourceIds?: CloudServicesNetworkPropertiesAssociatedResourceIdsList;
+  associatedResourceIds?: CloudServicesNetworkPropertiesAssociatedResourceIdsList | undefined;
   /** The resource ID of the Network Cloud cluster this cloud services network is associated with. */
-  clusterId?: string;
+  clusterId?: string | undefined;
   /** The more detailed status of the cloud services network. */
-  detailedStatus?: CloudServicesNetworkDetailedStatus;
+  detailedStatus?: CloudServicesNetworkDetailedStatus | undefined;
   /** The descriptive message about the current detailed status. */
-  detailedStatusMessage?: string;
+  detailedStatusMessage?: string | undefined;
   /** The full list of additional and default egress endpoints that are currently enabled. */
-  enabledEgressEndpoints?: CloudServicesNetworkPropertiesEnabledEgressEndpointsList;
+  enabledEgressEndpoints?: CloudServicesNetworkPropertiesEnabledEgressEndpointsList | undefined;
   /** Field Deprecated. These fields will be empty/omitted. The list of Hybrid AKS cluster resource IDs that are associated with this cloud services network. */
-  hybridAksClustersAssociatedIds?: CloudServicesNetworkPropertiesHybridAksClustersAssociatedIdsList;
+  hybridAksClustersAssociatedIds?:
+    | CloudServicesNetworkPropertiesHybridAksClustersAssociatedIdsList
+    | undefined;
   /** The name of the interface that will be present in the virtual machine to represent this network. */
-  interfaceName?: string;
+  interfaceName?: string | undefined;
   /** The storage status for the cloud services network. */
-  storageStatus?: CloudServicesNetworkStorageStatus;
+  storageStatus?: CloudServicesNetworkStorageStatus | undefined;
   /** Field Deprecated. These fields will be empty/omitted. The list of virtual machine resource IDs, excluding any Hybrid AKS virtual machines, that are currently using this cloud services network. */
-  virtualMachinesAssociatedIds?: CloudServicesNetworkPropertiesVirtualMachinesAssociatedIdsList;
+  virtualMachinesAssociatedIds?:
+    | CloudServicesNetworkPropertiesVirtualMachinesAssociatedIdsList
+    | undefined;
   /** The provisioning state of the cloud services network. */
-  provisioningState?: CloudServicesNetworkProvisioningState;
+  provisioningState?: CloudServicesNetworkProvisioningState | undefined;
 }
 export interface CloudServicesNetworksCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: CloudServicesNetworksCreateOrUpdateResponseTagsMap;
+  tags?: CloudServicesNetworksCreateOrUpdateResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The list of the resource properties. */
-  properties?: CloudServicesNetworkProperties;
+  properties?: CloudServicesNetworkProperties | undefined;
   /** "If etag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields.") */
-  etag?: string;
+  etag?: string | undefined;
   /** The extended location of the resource. This property is required when creating the resource. */
   extendedLocation: AzureResourceManagerCommonTypesExtendedLocation;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
 }
 /** Resource tags. */
 export type ClusterManagersCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
@@ -1249,22 +1265,22 @@ export type ClusterManagerPropertiesInputAvailabilityZonesList = Array<string>;
 /** ManagedResourceGroupConfiguration represents the configuration of the resource group managed by Azure. */
 export interface ManagedResourceGroupConfiguration {
   /** The location of the managed resource group. If not specified, the location of the parent resource is chosen. */
-  location?: string;
+  location?: string | undefined;
   /** The name for the managed resource group. If not specified, the unique name is automatically generated. */
-  name?: string;
+  name?: string | undefined;
 }
 /** ClusterManagerProperties represents the properties of a cluster manager. */
 export interface ClusterManagerPropertiesInput {
   /** The resource ID of the Log Analytics workspace that is used for the logs collection. */
-  analyticsWorkspaceId?: string;
+  analyticsWorkspaceId?: string | undefined;
   /** The Azure availability zones within the region that will be used to support the cluster manager resource. */
-  availabilityZones?: ClusterManagerPropertiesInputAvailabilityZonesList;
+  availabilityZones?: ClusterManagerPropertiesInputAvailabilityZonesList | undefined;
   /** The resource ID of the fabric controller that has one to one mapping with the cluster manager. */
   fabricControllerId: string;
   /** The configuration of the managed resource group associated with the resource. */
-  managedResourceGroupConfiguration?: ManagedResourceGroupConfiguration;
+  managedResourceGroupConfiguration?: ManagedResourceGroupConfiguration | undefined;
   /** The size of the Azure virtual machines to use for hosting the cluster manager resource. */
-  vmSize?: string;
+  vmSize?: string | undefined;
 }
 /** Type of managed service identity (where both SystemAssigned and UserAssigned types are allowed). */
 export type ManagedServiceIdentityType =
@@ -1282,7 +1298,9 @@ export type ClusterManagersCreateOrUpdateRequestIdentityUserAssignedIdentitiesMa
 export interface ClusterManagersCreateOrUpdateRequestIdentity {
   type: ManagedServiceIdentityType | (string & {});
   /** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
-  userAssignedIdentities?: ClusterManagersCreateOrUpdateRequestIdentityUserAssignedIdentitiesMap;
+  userAssignedIdentities?:
+    | ClusterManagersCreateOrUpdateRequestIdentityUserAssignedIdentitiesMap
+    | undefined;
 }
 /** The type (kind) of the cluster. When specified, the value must exactly match the kind configured on the cluster manager that manages the cluster. If omitted, the service will default the value to the kind value of the cluster manager. */
 export type DeploymentType = "Nexus" | "AzureLocal";
@@ -1294,15 +1312,15 @@ export interface ClusterManagersCreateOrUpdateRequest {
   /** The name of the cluster manager. */
   clusterManagerName: string;
   /** Resource tags. */
-  tags?: ClusterManagersCreateOrUpdateRequestTagsMap;
+  tags?: ClusterManagersCreateOrUpdateRequestTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The list of the resource properties. */
   properties: ClusterManagerPropertiesInput;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: ClusterManagersCreateOrUpdateRequestIdentity;
+  identity?: ClusterManagersCreateOrUpdateRequestIdentity | undefined;
   /** The kind of the cluster manager. */
-  kind?: DeploymentType | (string & {});
+  kind?: DeploymentType | (string & {}) | undefined;
 }
 /** Resource tags. */
 export type ClusterManagersCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
@@ -1311,9 +1329,9 @@ export type ClusterManagerPropertiesAvailabilityZonesList = Array<string>;
 /** ClusterAvailableVersion represents the cluster version that the cluster manager can be asked to create and manage. */
 export interface ClusterAvailableVersion {
   /** The last date the version of the platform is supported. */
-  supportExpiryDate?: string;
+  supportExpiryDate?: string | undefined;
   /** The version of the cluster to be deployed. */
-  targetClusterVersion?: string;
+  targetClusterVersion?: string | undefined;
 }
 /** The list of the cluster versions the manager supports. It is used as input in clusterVersion property of a cluster resource. */
 export type ClusterManagerPropertiesClusterVersionsList = Array<ClusterAvailableVersion>;
@@ -1336,39 +1354,39 @@ export type ClusterManagerProvisioningState =
 /** ClusterManagerRelayConfiguration represents the relay configuration for the cluster manager. */
 export interface ClusterManagerRelayConfiguration {
   /** The resource ID of the Azure relay namespace managed by the cluster manager. */
-  relayNamespaceId?: string;
+  relayNamespaceId?: string | undefined;
 }
 /** ClusterManagerProperties represents the properties of a cluster manager. */
 export interface ClusterManagerProperties {
   /** The resource ID of the Log Analytics workspace that is used for the logs collection. */
-  analyticsWorkspaceId?: string;
+  analyticsWorkspaceId?: string | undefined;
   /** The Azure availability zones within the region that will be used to support the cluster manager resource. */
-  availabilityZones?: ClusterManagerPropertiesAvailabilityZonesList;
+  availabilityZones?: ClusterManagerPropertiesAvailabilityZonesList | undefined;
   /** The list of the cluster versions the manager supports. It is used as input in clusterVersion property of a cluster resource. */
-  clusterVersions?: ClusterManagerPropertiesClusterVersionsList;
+  clusterVersions?: ClusterManagerPropertiesClusterVersionsList | undefined;
   /** The detailed status that provides additional information about the cluster manager. */
-  detailedStatus?: ClusterManagerDetailedStatus;
+  detailedStatus?: ClusterManagerDetailedStatus | undefined;
   /** The descriptive message about the current detailed status. */
-  detailedStatusMessage?: string;
+  detailedStatusMessage?: string | undefined;
   /** The resource ID of the fabric controller that has one to one mapping with the cluster manager. */
   fabricControllerId: string;
   /** The configuration of the managed resource group associated with the resource. */
-  managedResourceGroupConfiguration?: ManagedResourceGroupConfiguration;
+  managedResourceGroupConfiguration?: ManagedResourceGroupConfiguration | undefined;
   /** The extended location (custom location) that represents the cluster manager's control plane location. This extended location is used when creating cluster and rack manifest resources. */
-  managerExtendedLocation?: AzureResourceManagerCommonTypesExtendedLocation;
+  managerExtendedLocation?: AzureResourceManagerCommonTypesExtendedLocation | undefined;
   /** The provisioning state of the cluster manager. */
-  provisioningState?: ClusterManagerProvisioningState;
+  provisioningState?: ClusterManagerProvisioningState | undefined;
   /** The relay configuration for the cluster manager. */
-  relayConfiguration?: ClusterManagerRelayConfiguration;
+  relayConfiguration?: ClusterManagerRelayConfiguration | undefined;
   /** The size of the Azure virtual machines to use for hosting the cluster manager resource. */
-  vmSize?: string;
+  vmSize?: string | undefined;
 }
 /** User assigned identity properties */
 export interface UserAssignedIdentity {
   /** The principal ID of the assigned identity. */
-  principalId?: string;
+  principalId?: string | undefined;
   /** The client ID of the assigned identity. */
-  clientId?: string;
+  clientId?: string | undefined;
 }
 /** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
 export type ClusterManagersCreateOrUpdateResponseIdentityUserAssignedIdentitiesMap = {
@@ -1377,36 +1395,38 @@ export type ClusterManagersCreateOrUpdateResponseIdentityUserAssignedIdentitiesM
 /** Managed service identity (system assigned and/or user assigned identities) */
 export interface ClusterManagersCreateOrUpdateResponseIdentity {
   /** The service principal ID of the system assigned identity. This property will only be provided for a system assigned identity. */
-  principalId?: string;
+  principalId?: string | undefined;
   /** The tenant ID of the system assigned identity. This property will only be provided for a system assigned identity. */
-  tenantId?: string;
+  tenantId?: string | undefined;
   type: ManagedServiceIdentityType;
   /** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
-  userAssignedIdentities?: ClusterManagersCreateOrUpdateResponseIdentityUserAssignedIdentitiesMap;
+  userAssignedIdentities?:
+    | ClusterManagersCreateOrUpdateResponseIdentityUserAssignedIdentitiesMap
+    | undefined;
 }
 export interface ClusterManagersCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: ClusterManagersCreateOrUpdateResponseTagsMap;
+  tags?: ClusterManagersCreateOrUpdateResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The list of the resource properties. */
   properties: ClusterManagerProperties;
   /** "If etag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields.") */
-  etag?: string;
+  etag?: string | undefined;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: ClusterManagersCreateOrUpdateResponseIdentity;
+  identity?: ClusterManagersCreateOrUpdateResponseIdentity | undefined;
   /** The kind of the cluster manager. */
-  kind?: DeploymentType;
+  kind?: DeploymentType | undefined;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
 }
 /** The mode by which the cluster will target the next grouping of servers to continue the update. */
 export type ClustersContinueUpdateVersionRequestMachineGroupTargetingMode = "AlphaByRack";
@@ -1422,15 +1442,16 @@ export interface ClustersContinueUpdateVersionRequest {
   /** The mode by which the cluster will target the next grouping of servers to continue the update. */
   machineGroupTargetingMode?:
     | ClustersContinueUpdateVersionRequestMachineGroupTargetingMode
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** Specifies how safeguards are applied during the continue update version operation. Use All to run all pre-operation validation checks. Use None to bypass safeguards. If not specified, the default is All. */
-  safeguardMode?: ClusterContinueUpdateVersionSafeguardMode | (string & {});
+  safeguardMode?: ClusterContinueUpdateVersionSafeguardMode | (string & {}) | undefined;
 }
 export interface ClustersContinueUpdateVersionResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Resource tags. */
 export type ClustersCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
@@ -1443,9 +1464,9 @@ export interface BareMetalMachineConfigurationDataInput {
   /** The MAC address associated with the PXE NIC card. */
   bootMacAddress: string;
   /** The free-form additional information about the machine, e.g. an asset tag. */
-  machineDetails?: string;
+  machineDetails?: string | undefined;
   /** The user-provided name for the bare metal machine created from this specification. If not provided, the machine name will be generated programmatically. */
-  machineName?: string;
+  machineName?: string | undefined;
   /** The slot the physical machine is in the rack based on the BOM configuration. */
   rackSlot: number;
   /** The serial number of the machine. Hardware suppliers may use an alternate value. For example, service tag. */
@@ -1463,7 +1484,7 @@ export interface StorageApplianceConfigurationData {
   /** The serial number of the appliance. */
   serialNumber: string;
   /** The user-provided name for the storage appliance that will be created from this specification. */
-  storageApplianceName?: string;
+  storageApplianceName?: string | undefined;
 }
 /** The list of storage appliance configuration data for this rack. */
 export type RackDefinitionInputStorageApplianceConfigurationDataList =
@@ -1471,35 +1492,39 @@ export type RackDefinitionInputStorageApplianceConfigurationDataList =
 /** RackDefinition represents details regarding the rack. */
 export interface RackDefinitionInput {
   /** The zone name used for this rack when created. Availability zones are used for workload placement. */
-  availabilityZone?: string;
+  availabilityZone?: string | undefined;
   /** The unordered list of bare metal machine configuration. */
-  bareMetalMachineConfigurationData?: RackDefinitionInputBareMetalMachineConfigurationDataList;
+  bareMetalMachineConfigurationData?:
+    | RackDefinitionInputBareMetalMachineConfigurationDataList
+    | undefined;
   /** The resource ID of the network rack that matches this rack definition. */
   networkRackId: string;
   /** The free-form description of the rack's location. */
-  rackLocation?: string;
+  rackLocation?: string | undefined;
   /** The unique identifier for the rack within Network Cloud cluster. An alternate unique alphanumeric value other than a serial number may be provided if desired. */
   rackSerialNumber: string;
   /** The resource ID of the sku for the rack being added. */
   rackSkuId: string;
   /** The list of storage appliance configuration data for this rack. */
-  storageApplianceConfigurationData?: RackDefinitionInputStorageApplianceConfigurationDataList;
+  storageApplianceConfigurationData?:
+    | RackDefinitionInputStorageApplianceConfigurationDataList
+    | undefined;
 }
 /** The type of managed identity that is being selected. */
 export type ManagedServiceIdentitySelectorType = "SystemAssignedIdentity" | "UserAssignedIdentity";
 /** IdentitySelector represents the selection of a managed identity for use. */
 export interface IdentitySelector {
   /** The type of managed identity that is being selected. */
-  identityType?: ManagedServiceIdentitySelectorType | (string & {});
+  identityType?: ManagedServiceIdentitySelectorType | (string & {}) | undefined;
   /** The user assigned managed identity resource ID to use. Mutually exclusive with a system assigned identity type. */
-  userAssignedIdentityResourceId?: string;
+  userAssignedIdentityResourceId?: string | undefined;
 }
 /** AnalyticsOutputSettings represents the settings for the log analytics workspace used for output of logs from this cluster. */
 export interface AnalyticsOutputSettings {
   /** The resource ID of the analytics workspace that is to be used by the specified identity. */
-  analyticsWorkspaceId?: string;
+  analyticsWorkspaceId?: string | undefined;
   /** The selection of the managed identity to use with this analytics workspace. The identity type must be either system assigned or user assigned. */
-  associatedIdentity?: IdentitySelector;
+  associatedIdentity?: IdentitySelector | undefined;
 }
 /** ServicePrincipalInformation represents the details of the service principal to be used by the cluster during Arc Appliance installation. */
 export interface ServicePrincipalInformation {
@@ -1525,22 +1550,22 @@ export type CommandOutputType =
 /** CommandOutputOverride represents an overridden value for the command output settings. */
 export interface CommandOutputOverride {
   /** The selection of the managed identity to use with this storage account container. The identity type must be either system assigned or user assigned. */
-  associatedIdentity?: IdentitySelector;
+  associatedIdentity?: IdentitySelector | undefined;
   /** The type of command output for the override. */
-  commandOutputType?: CommandOutputType | (string & {});
+  commandOutputType?: CommandOutputType | (string & {}) | undefined;
   /** The URL of the storage account container that is to be used by the specified identities. */
-  containerUrl?: string;
+  containerUrl?: string | undefined;
 }
 /** The list of optional overrides allowing for association of storage containers and identities to specific types of command output. If a type is not overridden, the default identity and storage container will be utilized. */
 export type CommandOutputSettingsOverridesList = Array<CommandOutputOverride>;
 /** CommandOutputSettings represents the settings for commands run within the cluster such as bare metal machine run read-only commands. */
 export interface CommandOutputSettings {
   /** The selection of the managed identity to use with this storage account container. The identity type must be either system assigned or user assigned. */
-  associatedIdentity?: IdentitySelector;
+  associatedIdentity?: IdentitySelector | undefined;
   /** The URL of the storage account container that is to be used by the specified identities. */
-  containerUrl?: string;
+  containerUrl?: string | undefined;
   /** The list of optional overrides allowing for association of storage containers and identities to specific types of command output. If a type is not overridden, the default identity and storage container will be utilized. */
-  overrides?: CommandOutputSettingsOverridesList;
+  overrides?: CommandOutputSettingsOverridesList | undefined;
 }
 /** Selection of how the type evaluation is applied to the cluster calculation. */
 export type ValidationThresholdGrouping = "PerCluster" | "PerRack";
@@ -1569,9 +1594,12 @@ export type RuntimeProtectionConfigurationEnforcementLevel =
 /** RuntimeProtectionConfiguration represents the runtime protection configuration for the cluster. */
 export interface RuntimeProtectionConfiguration {
   /** The definition update mode for runtime protection. */
-  definitionUpdateMode?: RuntimeProtectionConfigurationDefinitionUpdateMode | (string & {});
+  definitionUpdateMode?:
+    | RuntimeProtectionConfigurationDefinitionUpdateMode
+    | (string & {})
+    | undefined;
   /** The mode of operation for runtime protection. */
-  enforcementLevel?: RuntimeProtectionConfigurationEnforcementLevel | (string & {});
+  enforcementLevel?: RuntimeProtectionConfigurationEnforcementLevel | (string & {}) | undefined;
 }
 /** The indicator if the specified key vault should be used to archive the secrets of the cluster. */
 export type ClusterSecretArchiveUseKeyVault = "True" | "False";
@@ -1580,21 +1608,21 @@ export interface ClusterSecretArchive {
   /** The resource ID of the key vault to archive the secrets of the cluster. */
   keyVaultId: string;
   /** The indicator if the specified key vault should be used to archive the secrets of the cluster. */
-  useKeyVault?: ClusterSecretArchiveUseKeyVault | (string & {});
+  useKeyVault?: ClusterSecretArchiveUseKeyVault | (string & {}) | undefined;
 }
 /** SecretArchiveSettings represents the settings for the secret archive used to hold credentials for the cluster. */
 export interface SecretArchiveSettings {
   /** The selection of the managed identity to use with this vault URI. The identity type must be either system assigned or user assigned. */
-  associatedIdentity?: IdentitySelector;
+  associatedIdentity?: IdentitySelector | undefined;
   /** The URI of the secret archive endpoint. The URI must use the `https://` scheme. */
-  vaultUri?: string;
+  vaultUri?: string | undefined;
 }
 /** The strategy for updating the cluster. */
 export type ClusterUpdateStrategyType = "Rack" | "PauseAfterRack";
 /** ClusterUpdateStrategy represents the strategy for updating the cluster. */
 export interface ClusterUpdateStrategy {
   /** The maximum number of worker nodes that can be offline within the increment of update, e.g., rack-by-rack. Limited by the maximum number of machines in the increment. Defaults to the whole increment size. */
-  maxUnavailable?: number;
+  maxUnavailable?: number | undefined;
   /** The strategy for updating the cluster. */
   strategyType: ClusterUpdateStrategyType | (string & {});
   /** Selection of how the threshold should be evaluated. */
@@ -1602,51 +1630,51 @@ export interface ClusterUpdateStrategy {
   /** The numeric threshold value. */
   thresholdValue: number;
   /** The time to wait between the increments of update defined by the strategy. */
-  waitTimeMinutes?: number;
+  waitTimeMinutes?: number | undefined;
 }
 /** The mode selection for container vulnerability scanning. */
 export type VulnerabilityScanningSettingsContainerScan = "Disabled" | "Enabled";
 /** VulnerabilityScanningSettings represents the settings for how security vulnerability scanning is applied to the cluster. */
 export interface VulnerabilityScanningSettings {
   /** The mode selection for container vulnerability scanning. */
-  containerScan?: VulnerabilityScanningSettingsContainerScan | (string & {});
+  containerScan?: VulnerabilityScanningSettingsContainerScan | (string & {}) | undefined;
 }
 /** ClusterProperties represents the properties of a cluster. */
 export interface ClusterPropertiesInput {
   /** The rack definition that is intended to reflect only a single rack in a single rack cluster, or an aggregator rack in a multi-rack cluster. */
   aggregatorOrSingleRackDefinition: RackDefinitionInput;
   /** The settings for the log analytics workspace used for output of logs from this cluster. */
-  analyticsOutputSettings?: AnalyticsOutputSettings;
+  analyticsOutputSettings?: AnalyticsOutputSettings | undefined;
   /** Field Deprecated. The resource ID of the Log Analytics Workspace that will be used for storing relevant logs. */
-  analyticsWorkspaceId?: string;
+  analyticsWorkspaceId?: string | undefined;
   /** The customer-provided location information to identify where the cluster resides. */
-  clusterLocation?: string;
+  clusterLocation?: string | undefined;
   /** Field Deprecated: Use managed identity to provide cluster privileges. The service principal to be used by the cluster during Arc Appliance installation. */
-  clusterServicePrincipal?: ServicePrincipalInformation;
+  clusterServicePrincipal?: ServicePrincipalInformation | undefined;
   /** The type of rack configuration for the cluster. */
   clusterType: ClusterType | (string & {});
   /** The current runtime version of the cluster. */
   clusterVersion: string;
   /** The settings for commands run in this cluster, such as bare metal machine run read only commands and data extracts. */
-  commandOutputSettings?: CommandOutputSettings;
+  commandOutputSettings?: CommandOutputSettings | undefined;
   /** The validation threshold indicating the allowable failures of compute machines during environment validation and deployment. */
-  computeDeploymentThreshold?: ValidationThreshold;
+  computeDeploymentThreshold?: ValidationThreshold | undefined;
   /** The list of rack definitions for the compute racks in a multi-rack cluster, or an empty list in a single-rack cluster. */
-  computeRackDefinitions?: ClusterPropertiesInputComputeRackDefinitionsList;
+  computeRackDefinitions?: ClusterPropertiesInputComputeRackDefinitionsList | undefined;
   /** The configuration of the managed resource group associated with the resource. */
-  managedResourceGroupConfiguration?: ManagedResourceGroupConfiguration;
+  managedResourceGroupConfiguration?: ManagedResourceGroupConfiguration | undefined;
   /** The resource ID of the Network Fabric associated with the cluster. */
   networkFabricId: string;
   /** The settings for cluster runtime protection. */
-  runtimeProtectionConfiguration?: RuntimeProtectionConfiguration;
+  runtimeProtectionConfiguration?: RuntimeProtectionConfiguration | undefined;
   /** The configuration for use of a key vault to store secrets for later retrieval by the operator. */
-  secretArchive?: ClusterSecretArchive;
+  secretArchive?: ClusterSecretArchive | undefined;
   /** The settings for the secret archive used to hold credentials for the cluster. */
-  secretArchiveSettings?: SecretArchiveSettings;
+  secretArchiveSettings?: SecretArchiveSettings | undefined;
   /** The strategy for updating the cluster. */
-  updateStrategy?: ClusterUpdateStrategy;
+  updateStrategy?: ClusterUpdateStrategy | undefined;
   /** The settings for how security vulnerability scanning is applied to the cluster. */
-  vulnerabilityScanningSettings?: VulnerabilityScanningSettings;
+  vulnerabilityScanningSettings?: VulnerabilityScanningSettings | undefined;
 }
 /** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
 export type ClustersCreateOrUpdateRequestIdentityUserAssignedIdentitiesMap = {
@@ -1656,7 +1684,9 @@ export type ClustersCreateOrUpdateRequestIdentityUserAssignedIdentitiesMap = {
 export interface ClustersCreateOrUpdateRequestIdentity {
   type: ManagedServiceIdentityType | (string & {});
   /** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
-  userAssignedIdentities?: ClustersCreateOrUpdateRequestIdentityUserAssignedIdentitiesMap;
+  userAssignedIdentities?:
+    | ClustersCreateOrUpdateRequestIdentityUserAssignedIdentitiesMap
+    | undefined;
 }
 export interface ClustersCreateOrUpdateRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1666,7 +1696,7 @@ export interface ClustersCreateOrUpdateRequest {
   /** The name of the cluster. */
   clusterName: string;
   /** Resource tags. */
-  tags?: ClustersCreateOrUpdateRequestTagsMap;
+  tags?: ClustersCreateOrUpdateRequestTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The list of the resource properties. */
@@ -1674,16 +1704,16 @@ export interface ClustersCreateOrUpdateRequest {
   /** The extended location of the resource. This property is required when creating the resource. */
   extendedLocation: AzureResourceManagerCommonTypesExtendedLocation;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: ClustersCreateOrUpdateRequestIdentity;
+  identity?: ClustersCreateOrUpdateRequestIdentity | undefined;
   /** The type (kind) of the cluster. When specified, the value must exactly match the kind configured on the cluster manager that manages the cluster. If omitted, the service will default the value to the kind value of the cluster manager. */
-  kind?: DeploymentType | (string & {});
+  kind?: DeploymentType | (string & {}) | undefined;
 }
 /** Resource tags. */
 export type ClustersCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
 /** BareMetalMachineConfigurationData represents configuration for the bare metal machine. */
 export interface BareMetalMachineConfigurationData {
   /** The connection string for the baseboard management controller including IP address and protocol. */
-  bmcConnectionString?: string;
+  bmcConnectionString?: string | undefined;
   /** The credentials of the baseboard management controller on this bare metal machine. The password field is expected to be an Azure Key Vault key URL. Until the cluster is converted to utilize managed identity by setting the secret archive settings, the actual password value should be provided instead. */
   bmcCredentials: AdministrativeCredentials;
   /** The MAC address of the BMC for this machine. */
@@ -1691,9 +1721,9 @@ export interface BareMetalMachineConfigurationData {
   /** The MAC address associated with the PXE NIC card. */
   bootMacAddress: string;
   /** The free-form additional information about the machine, e.g. an asset tag. */
-  machineDetails?: string;
+  machineDetails?: string | undefined;
   /** The user-provided name for the bare metal machine created from this specification. If not provided, the machine name will be generated programmatically. */
-  machineName?: string;
+  machineName?: string | undefined;
   /** The slot the physical machine is in the rack based on the BOM configuration. */
   rackSlot: number;
   /** The serial number of the machine. Hardware suppliers may use an alternate value. For example, service tag. */
@@ -1708,19 +1738,23 @@ export type RackDefinitionStorageApplianceConfigurationDataList =
 /** RackDefinition represents details regarding the rack. */
 export interface RackDefinition {
   /** The zone name used for this rack when created. Availability zones are used for workload placement. */
-  availabilityZone?: string;
+  availabilityZone?: string | undefined;
   /** The unordered list of bare metal machine configuration. */
-  bareMetalMachineConfigurationData?: RackDefinitionBareMetalMachineConfigurationDataList;
+  bareMetalMachineConfigurationData?:
+    | RackDefinitionBareMetalMachineConfigurationDataList
+    | undefined;
   /** The resource ID of the network rack that matches this rack definition. */
   networkRackId: string;
   /** The free-form description of the rack's location. */
-  rackLocation?: string;
+  rackLocation?: string | undefined;
   /** The unique identifier for the rack within Network Cloud cluster. An alternate unique alphanumeric value other than a serial number may be provided if desired. */
   rackSerialNumber: string;
   /** The resource ID of the sku for the rack being added. */
   rackSkuId: string;
   /** The list of storage appliance configuration data for this rack. */
-  storageApplianceConfigurationData?: RackDefinitionStorageApplianceConfigurationDataList;
+  storageApplianceConfigurationData?:
+    | RackDefinitionStorageApplianceConfigurationDataList
+    | undefined;
 }
 /** The list of rack definitions for the compute racks in a multi-rack cluster, or an empty list in a single-rack cluster. */
 export type ClusterPropertiesComputeRackDefinitionsList = Array<RackDefinition>;
@@ -1733,38 +1767,38 @@ export type WorkloadImpact = "True" | "False";
 /** ClusterAvailableUpgradeVersion represents the various cluster upgrade parameters. */
 export interface ClusterAvailableUpgradeVersion {
   /** The indicator of whether the control plane will be impacted during the upgrade. */
-  controlImpact?: ControlImpact;
+  controlImpact?: ControlImpact | undefined;
   /** The expected duration needed for this upgrade. */
-  expectedDuration?: string;
+  expectedDuration?: string | undefined;
   /** The impact description including the specific details and release notes. */
-  impactDescription?: string;
+  impactDescription?: string | undefined;
   /** The last date the version of the platform is supported. */
-  supportExpiryDate?: string;
+  supportExpiryDate?: string | undefined;
   /** The target version this cluster will be upgraded to. */
-  targetClusterVersion?: string;
+  targetClusterVersion?: string | undefined;
   /** The indicator of whether the workload will be impacted during the upgrade. */
-  workloadImpact?: WorkloadImpact;
+  workloadImpact?: WorkloadImpact | undefined;
 }
 /** The list of cluster runtime version upgrades available for this cluster. */
 export type ClusterPropertiesAvailableUpgradeVersionsList = Array<ClusterAvailableUpgradeVersion>;
 /** ClusterCapacity represents various details regarding compute capacity. */
 export interface ClusterCapacity {
   /** The remaining appliance-based storage in GB available for workload use. Measured in gibibytes. */
-  availableApplianceStorageGB?: number;
+  availableApplianceStorageGB?: number | undefined;
   /** The remaining number of cores that are available in this cluster for workload use. */
-  availableCoreCount?: number;
+  availableCoreCount?: number | undefined;
   /** The remaining machine or host-based storage in GB available for workload use. Measured in gibibytes. */
-  availableHostStorageGB?: number;
+  availableHostStorageGB?: number | undefined;
   /** The remaining memory in GB that are available in this cluster for workload use. Measured in gibibytes. */
-  availableMemoryGB?: number;
+  availableMemoryGB?: number | undefined;
   /** The total appliance-based storage in GB supported by this cluster for workload use. Measured in gibibytes. */
-  totalApplianceStorageGB?: number;
+  totalApplianceStorageGB?: number | undefined;
   /** The total number of cores that are supported by this cluster for workload use. */
-  totalCoreCount?: number;
+  totalCoreCount?: number | undefined;
   /** The total machine or host-based storage in GB supported by this cluster for workload use. Measured in gibibytes. */
-  totalHostStorageGB?: number;
+  totalHostStorageGB?: number | undefined;
   /** The total memory supported by this cluster for workload use. Measured in gibibytes. */
-  totalMemoryGB?: number;
+  totalMemoryGB?: number | undefined;
 }
 /** The latest heartbeat status between the cluster manager and the cluster. */
 export type ClusterConnectionStatus = "Connected" | "Disconnected" | "Timeout" | "Undefined";
@@ -1798,69 +1832,69 @@ export interface ClusterProperties {
   /** The rack definition that is intended to reflect only a single rack in a single rack cluster, or an aggregator rack in a multi-rack cluster. */
   aggregatorOrSingleRackDefinition: RackDefinition;
   /** The settings for the log analytics workspace used for output of logs from this cluster. */
-  analyticsOutputSettings?: AnalyticsOutputSettings;
+  analyticsOutputSettings?: AnalyticsOutputSettings | undefined;
   /** Field Deprecated. The resource ID of the Log Analytics Workspace that will be used for storing relevant logs. */
-  analyticsWorkspaceId?: string;
+  analyticsWorkspaceId?: string | undefined;
   /** The customer-provided location information to identify where the cluster resides. */
-  clusterLocation?: string;
+  clusterLocation?: string | undefined;
   /** Field Deprecated: Use managed identity to provide cluster privileges. The service principal to be used by the cluster during Arc Appliance installation. */
-  clusterServicePrincipal?: ServicePrincipalInformation;
+  clusterServicePrincipal?: ServicePrincipalInformation | undefined;
   /** The type of rack configuration for the cluster. */
   clusterType: ClusterType;
   /** The current runtime version of the cluster. */
   clusterVersion: string;
   /** The settings for commands run in this cluster, such as bare metal machine run read only commands and data extracts. */
-  commandOutputSettings?: CommandOutputSettings;
+  commandOutputSettings?: CommandOutputSettings | undefined;
   /** The validation threshold indicating the allowable failures of compute machines during environment validation and deployment. */
-  computeDeploymentThreshold?: ValidationThreshold;
+  computeDeploymentThreshold?: ValidationThreshold | undefined;
   /** The list of rack definitions for the compute racks in a multi-rack cluster, or an empty list in a single-rack cluster. */
-  computeRackDefinitions?: ClusterPropertiesComputeRackDefinitionsList;
+  computeRackDefinitions?: ClusterPropertiesComputeRackDefinitionsList | undefined;
   /** The configuration of the managed resource group associated with the resource. */
-  managedResourceGroupConfiguration?: ManagedResourceGroupConfiguration;
+  managedResourceGroupConfiguration?: ManagedResourceGroupConfiguration | undefined;
   /** The resource ID of the Network Fabric associated with the cluster. */
   networkFabricId: string;
   /** The settings for cluster runtime protection. */
-  runtimeProtectionConfiguration?: RuntimeProtectionConfiguration;
+  runtimeProtectionConfiguration?: RuntimeProtectionConfiguration | undefined;
   /** The configuration for use of a key vault to store secrets for later retrieval by the operator. */
-  secretArchive?: ClusterSecretArchive;
+  secretArchive?: ClusterSecretArchive | undefined;
   /** The settings for the secret archive used to hold credentials for the cluster. */
-  secretArchiveSettings?: SecretArchiveSettings;
+  secretArchiveSettings?: SecretArchiveSettings | undefined;
   /** The strategy for updating the cluster. */
-  updateStrategy?: ClusterUpdateStrategy;
+  updateStrategy?: ClusterUpdateStrategy | undefined;
   /** The settings for how security vulnerability scanning is applied to the cluster. */
-  vulnerabilityScanningSettings?: VulnerabilityScanningSettings;
+  vulnerabilityScanningSettings?: VulnerabilityScanningSettings | undefined;
   /** The current state of any in progress or completed actions. The most recent known instance of each action type is shown. */
-  actionStates?: ClusterPropertiesActionStatesList;
+  actionStates?: ClusterPropertiesActionStatesList | undefined;
   /** The list of cluster runtime version upgrades available for this cluster. */
-  availableUpgradeVersions?: ClusterPropertiesAvailableUpgradeVersionsList;
+  availableUpgradeVersions?: ClusterPropertiesAvailableUpgradeVersionsList | undefined;
   /** The capacity supported by this cluster. */
-  clusterCapacity?: ClusterCapacity;
+  clusterCapacity?: ClusterCapacity | undefined;
   /** The latest heartbeat status between the cluster manager and the cluster. */
-  clusterConnectionStatus?: ClusterConnectionStatus;
+  clusterConnectionStatus?: ClusterConnectionStatus | undefined;
   /** The extended location (custom location) that represents the cluster's control plane location. This extended location is used to route the requests of child objects of the cluster that are handled by the platform operator. */
-  clusterExtendedLocation?: AzureResourceManagerCommonTypesExtendedLocation;
+  clusterExtendedLocation?: AzureResourceManagerCommonTypesExtendedLocation | undefined;
   /** The latest connectivity status between cluster manager and the cluster. */
-  clusterManagerConnectionStatus?: ClusterManagerConnectionStatus;
+  clusterManagerConnectionStatus?: ClusterManagerConnectionStatus | undefined;
   /** The resource ID of the cluster manager that manages this cluster. This is set by the Cluster Manager when the cluster is created. */
-  clusterManagerId?: string;
+  clusterManagerId?: string | undefined;
   /** The current detailed status of the cluster. */
-  detailedStatus?: ClusterDetailedStatus;
+  detailedStatus?: ClusterDetailedStatus | undefined;
   /** The descriptive message about the detailed status. */
-  detailedStatusMessage?: string;
+  detailedStatusMessage?: string | undefined;
   /** Field Deprecated. This field will not be populated in an upcoming version. The extended location (custom location) that represents the Hybrid AKS control plane location. This extended location is used when creating provisioned clusters (Hybrid AKS clusters). */
-  hybridAksExtendedLocation?: AzureResourceManagerCommonTypesExtendedLocation;
+  hybridAksExtendedLocation?: AzureResourceManagerCommonTypesExtendedLocation | undefined;
   /** The date and time of the end of the last successful version update for the cluster. */
-  lastSuccessfulVersionUpdateTime?: string;
+  lastSuccessfulVersionUpdateTime?: string | undefined;
   /** The list of credentials that are managed for the cluster and can be rotated on-demand. */
-  managedCredentials?: ClusterPropertiesManagedCredentialsList;
+  managedCredentials?: ClusterPropertiesManagedCredentialsList | undefined;
   /** The count of Manual Action Taken (MAT) events that have not been validated. */
-  manualActionCount?: number;
+  manualActionCount?: number | undefined;
   /** The support end date of the runtime version of the cluster. */
-  supportExpiryDate?: string;
+  supportExpiryDate?: string | undefined;
   /** The list of workload resource IDs that are hosted within this cluster. */
-  workloadResourceIds?: ClusterPropertiesWorkloadResourceIdsList;
+  workloadResourceIds?: ClusterPropertiesWorkloadResourceIdsList | undefined;
   /** The provisioning state of the cluster. */
-  provisioningState?: ClusterProvisioningState;
+  provisioningState?: ClusterProvisioningState | undefined;
 }
 /** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
 export type ClustersCreateOrUpdateResponseIdentityUserAssignedIdentitiesMap = {
@@ -1869,38 +1903,40 @@ export type ClustersCreateOrUpdateResponseIdentityUserAssignedIdentitiesMap = {
 /** Managed service identity (system assigned and/or user assigned identities) */
 export interface ClustersCreateOrUpdateResponseIdentity {
   /** The service principal ID of the system assigned identity. This property will only be provided for a system assigned identity. */
-  principalId?: string;
+  principalId?: string | undefined;
   /** The tenant ID of the system assigned identity. This property will only be provided for a system assigned identity. */
-  tenantId?: string;
+  tenantId?: string | undefined;
   type: ManagedServiceIdentityType;
   /** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
-  userAssignedIdentities?: ClustersCreateOrUpdateResponseIdentityUserAssignedIdentitiesMap;
+  userAssignedIdentities?:
+    | ClustersCreateOrUpdateResponseIdentityUserAssignedIdentitiesMap
+    | undefined;
 }
 export interface ClustersCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: ClustersCreateOrUpdateResponseTagsMap;
+  tags?: ClustersCreateOrUpdateResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The list of the resource properties. */
   properties: ClusterProperties;
   /** "If etag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields.") */
-  etag?: string;
+  etag?: string | undefined;
   /** The extended location of the resource. This property is required when creating the resource. */
   extendedLocation: AzureResourceManagerCommonTypesExtendedLocation;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: ClustersCreateOrUpdateResponseIdentity;
+  identity?: ClustersCreateOrUpdateResponseIdentity | undefined;
   /** The type (kind) of the cluster. When specified, the value must exactly match the kind configured on the cluster manager that manages the cluster. If omitted, the service will default the value to the kind value of the cluster manager. */
-  kind?: DeploymentType;
+  kind?: DeploymentType | undefined;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
 }
 /** Additional actions supplement the default non-disruptive cluster inspection. Additional actions may be disallowed if the cluster is in a deployed and running state. */
 export type ClusterInspectAdditionalAction = "ResetHardware";
@@ -1915,9 +1951,9 @@ export type FilterDevicesRackNamesList = Array<string>;
 /** FilterDevices defines the filtered target of the inspection. */
 export interface FilterDevices {
   /** The list of bare metal machine names to include in the inspection. */
-  bareMetalMachineNames?: FilterDevicesBareMetalMachineNamesList;
+  bareMetalMachineNames?: FilterDevicesBareMetalMachineNamesList | undefined;
   /** The list of rack names to include in the inspection. */
-  rackNames?: FilterDevicesRackNamesList;
+  rackNames?: FilterDevicesRackNamesList | undefined;
 }
 export interface ClustersInspectRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1927,15 +1963,15 @@ export interface ClustersInspectRequest {
   /** The name of the cluster. */
   clusterName: string;
   /** Additional actions supplement the default non-disruptive cluster inspection. Additional actions may be disallowed if the cluster is in a deployed and running state. */
-  additionalActions?: ClustersInspectRequestAdditionalActionsList;
+  additionalActions?: ClustersInspectRequestAdditionalActionsList | undefined;
   /** Indicates which devices are included in the inspection. By default, all devices that can be targeted will be included in the inspection. */
-  filterDevices?: FilterDevices;
+  filterDevices?: FilterDevices | undefined;
 }
 export interface ClustersInspectResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** The choice of if the scan operation should run the scan. */
 export type ClustersScanRuntimeRequestScanActivity = "Scan" | "Skip";
@@ -1947,13 +1983,13 @@ export interface ClustersScanRuntimeRequest {
   /** The name of the cluster. */
   clusterName: string;
   /** The choice of if the scan operation should run the scan. */
-  scanActivity?: ClustersScanRuntimeRequestScanActivity | (string & {});
+  scanActivity?: ClustersScanRuntimeRequestScanActivity | (string & {}) | undefined;
 }
 export interface ClustersScanRuntimeResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Resource tags. */
 export type ConsolesCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
@@ -1964,7 +2000,7 @@ export interface ConsolePropertiesInput {
   /** The indicator of whether the console access is enabled. */
   enabled: ConsoleEnabled | (string & {});
   /** The date and time after which the key will be disallowed access. */
-  expiration?: string;
+  expiration?: string | undefined;
   /** The SSH public key that will be provisioned for user access. The user is expected to have the corresponding SSH private key for logging in. */
   sshPublicKey: SshPublicKey;
 }
@@ -1978,7 +2014,7 @@ export interface ConsolesCreateOrUpdateRequest {
   /** The name of the virtual machine console. */
   consoleName: string;
   /** Resource tags. */
-  tags?: ConsolesCreateOrUpdateRequestTagsMap;
+  tags?: ConsolesCreateOrUpdateRequestTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The list of the resource properties. */
@@ -2002,41 +2038,41 @@ export interface ConsoleProperties {
   /** The indicator of whether the console access is enabled. */
   enabled: ConsoleEnabled;
   /** The date and time after which the key will be disallowed access. */
-  expiration?: string;
+  expiration?: string | undefined;
   /** The SSH public key that will be provisioned for user access. The user is expected to have the corresponding SSH private key for logging in. */
   sshPublicKey: SshPublicKey;
   /** The more detailed status of the console. */
-  detailedStatus?: ConsoleDetailedStatus;
+  detailedStatus?: ConsoleDetailedStatus | undefined;
   /** The descriptive message about the current detailed status. */
-  detailedStatusMessage?: string;
+  detailedStatusMessage?: string | undefined;
   /** The resource ID of the private link service that is used to provide virtual machine console access. */
-  privateLinkServiceId?: string;
+  privateLinkServiceId?: string | undefined;
   /** The unique identifier for the virtual machine that is used to access the console. */
-  virtualMachineAccessId?: string;
+  virtualMachineAccessId?: string | undefined;
   /** The provisioning state of the virtual machine console. */
-  provisioningState?: ConsoleProvisioningState;
+  provisioningState?: ConsoleProvisioningState | undefined;
 }
 export interface ConsolesCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: ConsolesCreateOrUpdateResponseTagsMap;
+  tags?: ConsolesCreateOrUpdateResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The list of the resource properties. */
   properties: ConsoleProperties;
   /** "If etag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields.") */
-  etag?: string;
+  etag?: string | undefined;
   /** The extended location of the resource. This property is required when creating the resource. */
   extendedLocation: AzureResourceManagerCommonTypesExtendedLocation;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
 }
 /** The indicator of whether to evacuate the node workload when the bare metal machine is cordoned. */
 export type CordonBareMetalMachineRequestEvacuate = "True" | "False";
@@ -2048,13 +2084,13 @@ export interface CordonBareMetalMachineRequest {
   /** The name of the bare metal machine. */
   bareMetalMachineName: string;
   /** The indicator of whether to evacuate the node workload when the bare metal machine is cordoned. */
-  evacuate?: CordonBareMetalMachineRequestEvacuate | (string & {});
+  evacuate?: CordonBareMetalMachineRequestEvacuate | (string & {}) | undefined;
 }
 export interface CordonBareMetalMachineResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export type DeleteAccessBridgeRequestAccessBridgeName =
   | "Bastion"
@@ -2070,7 +2106,7 @@ export interface DeleteAccessBridgeRequest {
 }
 export interface DeleteAccessBridgeResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
 }
 export interface DeleteAgentPoolRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2084,7 +2120,7 @@ export interface DeleteAgentPoolRequest {
 }
 export interface DeleteAgentPoolResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
 }
 export interface DeleteBareMetalMachineRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2096,7 +2132,7 @@ export interface DeleteBareMetalMachineRequest {
 }
 export interface DeleteBareMetalMachineResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
 }
 export interface DeleteBareMetalMachineKeySetRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2110,7 +2146,7 @@ export interface DeleteBareMetalMachineKeySetRequest {
 }
 export interface DeleteBareMetalMachineKeySetResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
 }
 export interface DeleteBmcKeySetRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2124,7 +2160,7 @@ export interface DeleteBmcKeySetRequest {
 }
 export interface DeleteBmcKeySetResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
 }
 export interface DeleteCloudServicesNetworkRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2136,7 +2172,7 @@ export interface DeleteCloudServicesNetworkRequest {
 }
 export interface DeleteCloudServicesNetworkResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
 }
 export interface DeleteClusterRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2148,7 +2184,7 @@ export interface DeleteClusterRequest {
 }
 export interface DeleteClusterResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
 }
 export interface DeleteClusterManagerRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2160,7 +2196,7 @@ export interface DeleteClusterManagerRequest {
 }
 export interface DeleteClusterManagerResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
 }
 export interface DeleteConsoleRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2174,7 +2210,7 @@ export interface DeleteConsoleRequest {
 }
 export interface DeleteConsoleResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
 }
 export interface DeleteKubernetesClusterRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2186,7 +2222,7 @@ export interface DeleteKubernetesClusterRequest {
 }
 export interface DeleteKubernetesClusterResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
 }
 export interface DeleteKubernetesClusterFeatureRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2200,7 +2236,7 @@ export interface DeleteKubernetesClusterFeatureRequest {
 }
 export interface DeleteKubernetesClusterFeatureResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
 }
 export interface DeleteKubernetesVersionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2212,7 +2248,7 @@ export interface DeleteKubernetesVersionRequest {
 }
 export interface DeleteKubernetesVersionResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
 }
 export interface DeleteL2NetworkRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2224,7 +2260,7 @@ export interface DeleteL2NetworkRequest {
 }
 export interface DeleteL2NetworkResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
 }
 export interface DeleteL3NetworkRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2236,7 +2272,7 @@ export interface DeleteL3NetworkRequest {
 }
 export interface DeleteL3NetworkResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
 }
 export interface DeleteMetricsConfigurationRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2250,7 +2286,7 @@ export interface DeleteMetricsConfigurationRequest {
 }
 export interface DeleteMetricsConfigurationResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
 }
 export interface DeleteRackRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2262,7 +2298,7 @@ export interface DeleteRackRequest {
 }
 export interface DeleteRackResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
 }
 export interface DeleteStorageApplianceRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2274,7 +2310,7 @@ export interface DeleteStorageApplianceRequest {
 }
 export interface DeleteStorageApplianceResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
 }
 export interface DeleteTrunkedNetworkRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2286,7 +2322,7 @@ export interface DeleteTrunkedNetworkRequest {
 }
 export interface DeleteTrunkedNetworkResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
 }
 export interface DeleteVirtualMachineRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2298,7 +2334,7 @@ export interface DeleteVirtualMachineRequest {
 }
 export interface DeleteVirtualMachineResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
 }
 export interface DeleteVolumeRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2310,7 +2346,7 @@ export interface DeleteVolumeRequest {
 }
 export interface DeleteVolumeResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
 }
 /** The names of bare metal machines in the cluster that should be skipped during environment validation. */
 export type DeployClusterRequestSkipValidationsForMachinesList = Array<string>;
@@ -2322,13 +2358,13 @@ export interface DeployClusterRequest {
   /** The name of the cluster. */
   clusterName: string;
   /** The names of bare metal machines in the cluster that should be skipped during environment validation. */
-  skipValidationsForMachines?: DeployClusterRequestSkipValidationsForMachinesList;
+  skipValidationsForMachines?: DeployClusterRequestSkipValidationsForMachinesList | undefined;
 }
 export interface DeployClusterResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DisableStorageApplianceRemoteVendorManagementRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2340,9 +2376,9 @@ export interface DisableStorageApplianceRemoteVendorManagementRequest {
 }
 export interface DisableStorageApplianceRemoteVendorManagementResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Field Deprecated. This field is not used and will be rejected if provided. The list of IPv4 subnets (in CIDR format), IPv6 subnets (in CIDR format), or hostnames that the storage appliance needs accessible in order to turn on the remote vendor management. */
 export type EnableStorageApplianceRemoteVendorManagementRequestSupportEndpointsList = Array<string>;
@@ -2354,13 +2390,15 @@ export interface EnableStorageApplianceRemoteVendorManagementRequest {
   /** The name of the storage appliance. */
   storageApplianceName: string;
   /** Field Deprecated. This field is not used and will be rejected if provided. The list of IPv4 subnets (in CIDR format), IPv6 subnets (in CIDR format), or hostnames that the storage appliance needs accessible in order to turn on the remote vendor management. */
-  supportEndpoints?: EnableStorageApplianceRemoteVendorManagementRequestSupportEndpointsList;
+  supportEndpoints?:
+    | EnableStorageApplianceRemoteVendorManagementRequestSupportEndpointsList
+    | undefined;
 }
 export interface EnableStorageApplianceRemoteVendorManagementResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export type GetAccessBridgeRequestAccessBridgeName =
   | "Bastion"
@@ -2378,21 +2416,21 @@ export interface GetAccessBridgeRequest {
 export type GetAccessBridgeResponseTagsMap = { [key: string]: string | undefined };
 export interface GetAccessBridgeResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: GetAccessBridgeResponseTagsMap;
+  tags?: GetAccessBridgeResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The list of the resource properties. */
   properties: AccessBridgeProperties;
   /** "If etag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields.") */
-  etag?: string;
+  etag?: string | undefined;
   /** The extended location of the resource. This property is required when creating the resource. */
   extendedLocation: AzureResourceManagerCommonTypesExtendedLocation;
 }
@@ -2410,23 +2448,23 @@ export interface GetAgentPoolRequest {
 export type GetAgentPoolResponseTagsMap = { [key: string]: string | undefined };
 export interface GetAgentPoolResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: GetAgentPoolResponseTagsMap;
+  tags?: GetAgentPoolResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The list of the resource properties. */
   properties: AgentPoolProperties;
   /** "If etag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields.") */
-  etag?: string;
+  etag?: string | undefined;
   /** The extended location of the resource. */
-  extendedLocation?: AzureResourceManagerCommonTypesExtendedLocation;
+  extendedLocation?: AzureResourceManagerCommonTypesExtendedLocation | undefined;
 }
 export interface GetBareMetalMachineRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2440,21 +2478,21 @@ export interface GetBareMetalMachineRequest {
 export type GetBareMetalMachineResponseTagsMap = { [key: string]: string | undefined };
 export interface GetBareMetalMachineResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: GetBareMetalMachineResponseTagsMap;
+  tags?: GetBareMetalMachineResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The list of the resource properties. */
   properties: BareMetalMachineProperties;
   /** "If etag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields.") */
-  etag?: string;
+  etag?: string | undefined;
   /** The extended location of the resource. This property is required when creating the resource. */
   extendedLocation: AzureResourceManagerCommonTypesExtendedLocation;
 }
@@ -2472,21 +2510,21 @@ export interface GetBareMetalMachineKeySetRequest {
 export type GetBareMetalMachineKeySetResponseTagsMap = { [key: string]: string | undefined };
 export interface GetBareMetalMachineKeySetResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: GetBareMetalMachineKeySetResponseTagsMap;
+  tags?: GetBareMetalMachineKeySetResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The list of the resource properties. */
   properties: BareMetalMachineKeySetProperties;
   /** "If etag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields.") */
-  etag?: string;
+  etag?: string | undefined;
   /** The extended location of the resource. This property is required when creating the resource. */
   extendedLocation: AzureResourceManagerCommonTypesExtendedLocation;
 }
@@ -2504,21 +2542,21 @@ export interface GetBmcKeySetRequest {
 export type GetBmcKeySetResponseTagsMap = { [key: string]: string | undefined };
 export interface GetBmcKeySetResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: GetBmcKeySetResponseTagsMap;
+  tags?: GetBmcKeySetResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The list of the resource properties. */
   properties: BmcKeySetProperties;
   /** "If etag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields.") */
-  etag?: string;
+  etag?: string | undefined;
   /** The extended location of the resource. This property is required when creating the resource. */
   extendedLocation: AzureResourceManagerCommonTypesExtendedLocation;
 }
@@ -2534,21 +2572,21 @@ export interface GetCloudServicesNetworkRequest {
 export type GetCloudServicesNetworkResponseTagsMap = { [key: string]: string | undefined };
 export interface GetCloudServicesNetworkResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: GetCloudServicesNetworkResponseTagsMap;
+  tags?: GetCloudServicesNetworkResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The list of the resource properties. */
-  properties?: CloudServicesNetworkProperties;
+  properties?: CloudServicesNetworkProperties | undefined;
   /** "If etag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields.") */
-  etag?: string;
+  etag?: string | undefined;
   /** The extended location of the resource. This property is required when creating the resource. */
   extendedLocation: AzureResourceManagerCommonTypesExtendedLocation;
 }
@@ -2569,36 +2607,36 @@ export type GetClusterResponseIdentityUserAssignedIdentitiesMap = {
 /** Managed service identity (system assigned and/or user assigned identities) */
 export interface GetClusterResponseIdentity {
   /** The service principal ID of the system assigned identity. This property will only be provided for a system assigned identity. */
-  principalId?: string;
+  principalId?: string | undefined;
   /** The tenant ID of the system assigned identity. This property will only be provided for a system assigned identity. */
-  tenantId?: string;
+  tenantId?: string | undefined;
   type: ManagedServiceIdentityType;
   /** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
-  userAssignedIdentities?: GetClusterResponseIdentityUserAssignedIdentitiesMap;
+  userAssignedIdentities?: GetClusterResponseIdentityUserAssignedIdentitiesMap | undefined;
 }
 export interface GetClusterResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: GetClusterResponseTagsMap;
+  tags?: GetClusterResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The list of the resource properties. */
   properties: ClusterProperties;
   /** "If etag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields.") */
-  etag?: string;
+  etag?: string | undefined;
   /** The extended location of the resource. This property is required when creating the resource. */
   extendedLocation: AzureResourceManagerCommonTypesExtendedLocation;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: GetClusterResponseIdentity;
+  identity?: GetClusterResponseIdentity | undefined;
   /** The type (kind) of the cluster. When specified, the value must exactly match the kind configured on the cluster manager that manages the cluster. If omitted, the service will default the value to the kind value of the cluster manager. */
-  kind?: DeploymentType;
+  kind?: DeploymentType | undefined;
 }
 export interface GetClusterManagerRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2617,34 +2655,34 @@ export type GetClusterManagerResponseIdentityUserAssignedIdentitiesMap = {
 /** Managed service identity (system assigned and/or user assigned identities) */
 export interface GetClusterManagerResponseIdentity {
   /** The service principal ID of the system assigned identity. This property will only be provided for a system assigned identity. */
-  principalId?: string;
+  principalId?: string | undefined;
   /** The tenant ID of the system assigned identity. This property will only be provided for a system assigned identity. */
-  tenantId?: string;
+  tenantId?: string | undefined;
   type: ManagedServiceIdentityType;
   /** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
-  userAssignedIdentities?: GetClusterManagerResponseIdentityUserAssignedIdentitiesMap;
+  userAssignedIdentities?: GetClusterManagerResponseIdentityUserAssignedIdentitiesMap | undefined;
 }
 export interface GetClusterManagerResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: GetClusterManagerResponseTagsMap;
+  tags?: GetClusterManagerResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The list of the resource properties. */
   properties: ClusterManagerProperties;
   /** "If etag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields.") */
-  etag?: string;
+  etag?: string | undefined;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: GetClusterManagerResponseIdentity;
+  identity?: GetClusterManagerResponseIdentity | undefined;
   /** The kind of the cluster manager. */
-  kind?: DeploymentType;
+  kind?: DeploymentType | undefined;
 }
 export interface GetConsoleRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2660,21 +2698,21 @@ export interface GetConsoleRequest {
 export type GetConsoleResponseTagsMap = { [key: string]: string | undefined };
 export interface GetConsoleResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: GetConsoleResponseTagsMap;
+  tags?: GetConsoleResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The list of the resource properties. */
   properties: ConsoleProperties;
   /** "If etag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields.") */
-  etag?: string;
+  etag?: string | undefined;
   /** The extended location of the resource. This property is required when creating the resource. */
   extendedLocation: AzureResourceManagerCommonTypesExtendedLocation;
 }
@@ -2700,9 +2738,9 @@ export type ControlPlaneNodeConfigurationAvailabilityZonesList = Array<string>;
 /** ControlPlaneNodeConfiguration represents the selection of virtual machines and size of the control plane for a Kubernetes cluster. */
 export interface ControlPlaneNodeConfiguration {
   /** The administrator credentials to be used for the nodes in the control plane. */
-  administratorConfiguration?: AdministratorConfiguration;
+  administratorConfiguration?: AdministratorConfiguration | undefined;
   /** The list of availability zones of the Network Cloud cluster to be used for the provisioning of nodes in the control plane. If not specified, all availability zones will be used. */
-  availabilityZones?: ControlPlaneNodeConfigurationAvailabilityZonesList;
+  availabilityZones?: ControlPlaneNodeConfigurationAvailabilityZonesList | undefined;
   /** The number of virtual machines that use this configuration. */
   count: number;
   /** The name of the VM SKU supplied during creation. */
@@ -2717,23 +2755,23 @@ export type InitialAgentPoolConfigurationTaintsList = Array<KubernetesLabel>;
 /** InitialAgentPoolConfiguration specifies the configuration of a pool of virtual machines that are initially defined with a Kubernetes cluster. */
 export interface InitialAgentPoolConfiguration {
   /** The administrator credentials to be used for the nodes in this agent pool. */
-  administratorConfiguration?: AdministratorConfiguration;
+  administratorConfiguration?: AdministratorConfiguration | undefined;
   /** The configurations that will be applied to each agent in this agent pool. */
-  agentOptions?: AgentOptions;
+  agentOptions?: AgentOptions | undefined;
   /** The configuration of networks being attached to the agent pool for use by the workloads that run on this Kubernetes cluster. */
-  attachedNetworkConfiguration?: AttachedNetworkConfiguration;
+  attachedNetworkConfiguration?: AttachedNetworkConfiguration | undefined;
   /** The list of availability zones of the Network Cloud cluster used for the provisioning of nodes in this agent pool. If not specified, all availability zones will be used. */
-  availabilityZones?: InitialAgentPoolConfigurationAvailabilityZonesList;
+  availabilityZones?: InitialAgentPoolConfigurationAvailabilityZonesList | undefined;
   /** The number of virtual machines that use this configuration. */
   count: number;
   /** The labels applied to the nodes in this agent pool. */
-  labels?: InitialAgentPoolConfigurationLabelsList;
+  labels?: InitialAgentPoolConfigurationLabelsList | undefined;
   /** The selection of how this agent pool is utilized, either as a system pool or a user pool. System pools run the features and critical services for the Kubernetes Cluster, while user pools are dedicated to user workloads. Every Kubernetes cluster must contain at least one system node pool with at least one node. */
   mode: AgentPoolMode | (string & {});
   /** The taints applied to the nodes in this agent pool. */
-  taints?: InitialAgentPoolConfigurationTaintsList;
+  taints?: InitialAgentPoolConfigurationTaintsList | undefined;
   /** The configuration of the agent pool. */
-  upgradeSettings?: AgentPoolUpgradeSettings;
+  upgradeSettings?: AgentPoolUpgradeSettings | undefined;
   /** The name of the VM SKU that determines the size of resources allocated for node VMs. */
   vmSkuName: string;
   /** The name that will be used for the agent pool resource representing this agent pool. */
@@ -2753,13 +2791,13 @@ export type BgpAdvertisementPeersList = Array<string>;
 /** BgpAdvertisement represents the association of IP address pools to the communities and peers. */
 export interface BgpAdvertisement {
   /** The indicator of if this advertisement is also made to the network fabric associated with the Network Cloud Cluster. This field is ignored if fabricPeeringEnabled is set to False. */
-  advertiseToFabric?: BgpAdvertisementAdvertiseToFabric | (string & {});
+  advertiseToFabric?: BgpAdvertisementAdvertiseToFabric | (string & {}) | undefined;
   /** The names of the BGP communities to be associated with the announcement, utilizing a BGP community string in 1234:1234 format. */
-  communities?: BgpAdvertisementCommunitiesList;
+  communities?: BgpAdvertisementCommunitiesList | undefined;
   /** The names of the IP address pools associated with this announcement. */
   ipAddressPools: BgpAdvertisementIpAddressPoolsList;
   /** The names of the BGP peers to limit this advertisement to. If no values are specified, all BGP peers will receive this advertisement. */
-  peers?: BgpAdvertisementPeersList;
+  peers?: BgpAdvertisementPeersList | undefined;
 }
 /** The association of IP address pools to the communities and peers, allowing for announcement of IPs. */
 export type BgpServiceLoadBalancerConfigurationBgpAdvertisementsList = Array<BgpAdvertisement>;
@@ -2770,25 +2808,25 @@ export type ServiceLoadBalancerBgpPeerBgpMultiHop = "True" | "False";
 /** ServiceLoadBalancerBgpPeer represents the configuration of the BGP service load balancer for the Kubernetes cluster. */
 export interface ServiceLoadBalancerBgpPeer {
   /** The indicator of BFD enablement for this BgpPeer. */
-  bfdEnabled?: ServiceLoadBalancerBgpPeerBfdEnabled | (string & {});
+  bfdEnabled?: ServiceLoadBalancerBgpPeerBfdEnabled | (string & {}) | undefined;
   /** The indicator to enable multi-hop peering support. */
-  bgpMultiHop?: ServiceLoadBalancerBgpPeerBgpMultiHop | (string & {});
+  bgpMultiHop?: ServiceLoadBalancerBgpPeerBgpMultiHop | (string & {}) | undefined;
   /** Field Deprecated. The field was previously optional, now it will have no defined behavior and will be ignored. The requested BGP hold time value. This field uses ISO 8601 duration format, for example P1H. */
-  holdTime?: string;
+  holdTime?: string | undefined;
   /** Field Deprecated. The field was previously optional, now it will have no defined behavior and will be ignored. The requested BGP keepalive time value. This field uses ISO 8601 duration format, for example P1H. */
-  keepAliveTime?: string;
+  keepAliveTime?: string | undefined;
   /** The autonomous system number used for the local end of the BGP session. */
-  myAsn?: number;
+  myAsn?: number | undefined;
   /** The name used to identify this BGP peer for association with a BGP advertisement. */
   name: string;
   /** The authentication password for routers enforcing TCP MD5 authenticated sessions. */
-  password?: string | Redacted.Redacted<string>;
+  password?: string | Redacted.Redacted<string> | undefined;
   /** The IPv4 or IPv6 address used to connect this BGP session. */
   peerAddress: string;
   /** The autonomous system number expected from the remote end of the BGP session. */
   peerAsn: number;
   /** The port used to connect this BGP session. */
-  peerPort?: number;
+  peerPort?: number | undefined;
 }
 /** The list of additional BgpPeer entities that the Kubernetes cluster will peer with. All peering must be explicitly defined. */
 export type BgpServiceLoadBalancerConfigurationBgpPeersList = Array<ServiceLoadBalancerBgpPeer>;
@@ -2805,31 +2843,34 @@ export interface IpAddressPool {
   /** The list of IP address ranges. Each range can be a either a subnet in CIDR format or an explicit start-end range of IP addresses. For a BGP service load balancer configuration, only CIDR format is supported and excludes /32 (IPv4) and /128 (IPv6) prefixes. */
   addresses: IpAddressPoolAddressesList;
   /** The indicator to determine if automatic allocation from the pool should occur. */
-  autoAssign?: IpAddressPoolAutoAssign | (string & {});
+  autoAssign?: IpAddressPoolAutoAssign | (string & {}) | undefined;
   /** The name used to identify this IP address pool for association with a BGP advertisement. */
   name: string;
   /** The indicator to prevent the use of IP addresses ending with .0 and .255 for this pool. Enabling this option will only use IP addresses between .1 and .254 inclusive. */
-  onlyUseHostIps?: IpAddressPoolOnlyUseHostIps | (string & {});
+  onlyUseHostIps?: IpAddressPoolOnlyUseHostIps | (string & {}) | undefined;
 }
 /** The list of pools of IP addresses that can be allocated to load balancer services. */
 export type BgpServiceLoadBalancerConfigurationIpAddressPoolsList = Array<IpAddressPool>;
 /** BgpServiceLoadBalancerConfiguration represents the configuration of a BGP service load balancer. */
 export interface BgpServiceLoadBalancerConfiguration {
   /** The association of IP address pools to the communities and peers, allowing for announcement of IPs. */
-  bgpAdvertisements?: BgpServiceLoadBalancerConfigurationBgpAdvertisementsList;
+  bgpAdvertisements?: BgpServiceLoadBalancerConfigurationBgpAdvertisementsList | undefined;
   /** The list of additional BgpPeer entities that the Kubernetes cluster will peer with. All peering must be explicitly defined. */
-  bgpPeers?: BgpServiceLoadBalancerConfigurationBgpPeersList;
+  bgpPeers?: BgpServiceLoadBalancerConfigurationBgpPeersList | undefined;
   /** The indicator to specify if the load balancer peers with the network fabric. */
-  fabricPeeringEnabled?: BgpServiceLoadBalancerConfigurationFabricPeeringEnabled | (string & {});
+  fabricPeeringEnabled?:
+    | BgpServiceLoadBalancerConfigurationFabricPeeringEnabled
+    | (string & {})
+    | undefined;
   /** The list of pools of IP addresses that can be allocated to load balancer services. */
-  ipAddressPools?: BgpServiceLoadBalancerConfigurationIpAddressPoolsList;
+  ipAddressPools?: BgpServiceLoadBalancerConfigurationIpAddressPoolsList | undefined;
 }
 /** The list of pools of IP addresses that can be allocated to load balancer services. */
 export type L2ServiceLoadBalancerConfigurationIpAddressPoolsList = Array<IpAddressPool>;
 /** L2ServiceLoadBalancerConfiguration represents the configuration of a layer 2 service load balancer. */
 export interface L2ServiceLoadBalancerConfiguration {
   /** The list of pools of IP addresses that can be allocated to load balancer services. */
-  ipAddressPools?: L2ServiceLoadBalancerConfigurationIpAddressPoolsList;
+  ipAddressPools?: L2ServiceLoadBalancerConfigurationIpAddressPoolsList | undefined;
 }
 /** The CIDR notation IP ranges from which to assign pod IPs. One IPv4 CIDR is expected for single-stack networking. Two CIDRs, one for each IP family (IPv4/IPv6), is expected for dual-stack networking. */
 export type NetworkConfigurationPodCidrsList = Array<string>;
@@ -2838,21 +2879,21 @@ export type NetworkConfigurationServiceCidrsList = Array<string>;
 /** NetworkConfiguration specifies the Kubernetes cluster network related configuration. */
 export interface NetworkConfiguration {
   /** The configuration of networks being attached to the cluster for use by the workloads that run on this Kubernetes cluster. */
-  attachedNetworkConfiguration?: AttachedNetworkConfiguration;
+  attachedNetworkConfiguration?: AttachedNetworkConfiguration | undefined;
   /** The configuration of the BGP service load balancer for this Kubernetes cluster. A maximum of one service load balancer may be specified, either Layer 2 or BGP. */
-  bgpServiceLoadBalancerConfiguration?: BgpServiceLoadBalancerConfiguration;
+  bgpServiceLoadBalancerConfiguration?: BgpServiceLoadBalancerConfiguration | undefined;
   /** The resource ID of the associated Cloud Services network. */
   cloudServicesNetworkId: string;
   /** The resource ID of the Layer 3 network that is used for creation of the Container Networking Interface network. */
   cniNetworkId: string;
   /** The IP address assigned to the Kubernetes DNS service. It must be within the Kubernetes service address range specified in service CIDR. */
-  dnsServiceIp?: string;
+  dnsServiceIp?: string | undefined;
   /** The configuration of the Layer 2 service load balancer for this Kubernetes cluster. A maximum of one service load balancer may be specified, either Layer 2 or BGP. */
-  l2ServiceLoadBalancerConfiguration?: L2ServiceLoadBalancerConfiguration;
+  l2ServiceLoadBalancerConfiguration?: L2ServiceLoadBalancerConfiguration | undefined;
   /** The CIDR notation IP ranges from which to assign pod IPs. One IPv4 CIDR is expected for single-stack networking. Two CIDRs, one for each IP family (IPv4/IPv6), is expected for dual-stack networking. */
-  podCidrs?: NetworkConfigurationPodCidrsList;
+  podCidrs?: NetworkConfigurationPodCidrsList | undefined;
   /** The CIDR notation IP ranges from which to assign service IPs. One IPv4 CIDR is expected for single-stack networking. Two CIDRs, one for each IP family (IPv4/IPv6), is expected for dual-stack networking. */
-  serviceCidrs?: NetworkConfigurationServiceCidrsList;
+  serviceCidrs?: NetworkConfigurationServiceCidrsList | undefined;
 }
 /** The full list of network resource IDs that are attached to this cluster, including those attached only to specific agent pools. */
 export type KubernetesClusterPropertiesAttachedNetworkIdsList = Array<string>;
@@ -2861,9 +2902,9 @@ export type AvailabilityLifecycle = "Preview" | "GenerallyAvailable";
 /** AvailableUpgrade represents an upgrade available for a Kubernetes cluster. */
 export interface AvailableUpgrade {
   /** The version lifecycle indicator. */
-  availabilityLifecycle?: AvailabilityLifecycle;
+  availabilityLifecycle?: AvailabilityLifecycle | undefined;
   /** The version available for upgrading. */
-  version?: string;
+  version?: string | undefined;
 }
 /** The list of versions that this Kubernetes cluster can be upgraded to. */
 export type KubernetesClusterPropertiesAvailableUpgradesList = Array<AvailableUpgrade>;
@@ -2874,13 +2915,13 @@ export type FeatureDetailedStatus = "Running" | "Failed" | "Unknown";
 /** FeatureStatus contains information regarding a Kubernetes cluster feature. */
 export interface FeatureStatus {
   /** The status representing the state of this feature. */
-  detailedStatus?: FeatureDetailedStatus;
+  detailedStatus?: FeatureDetailedStatus | undefined;
   /** The descriptive message about the current detailed status. */
-  detailedStatusMessage?: string;
+  detailedStatusMessage?: string | undefined;
   /** The name of the feature. */
-  name?: string;
+  name?: string | undefined;
   /** The version of the feature. */
-  version?: string;
+  version?: string | undefined;
 }
 /** The current feature settings. */
 export type KubernetesClusterPropertiesFeatureStatusesList = Array<FeatureStatus>;
@@ -2905,17 +2946,17 @@ export interface NetworkAttachment {
   /** The resource ID of the associated network attached to the virtual machine. It can be one of cloudServicesNetwork, l3Network, l2Network or trunkedNetwork resources. */
   attachedNetworkId: string;
   /** The indicator of whether this is the default gateway. Only one of the attached networks (including the CloudServicesNetwork attachment) for a single machine may be specified as True. */
-  defaultGateway?: DefaultGateway;
+  defaultGateway?: DefaultGateway | undefined;
   /** The IP allocation mechanism for the virtual machine. Dynamic and Static are only valid for l3Network which may also specify Disabled. Otherwise, Disabled is the only permitted value. */
   ipAllocationMethod: VirtualMachineIPAllocationMethod;
   /** The IPv4 address of the virtual machine. This field is used only if the attached network has IPAllocationType of IPV4 or DualStack. If IPAllocationMethod is: Static - this field must contain a user specified IPv4 address from within the subnet specified in the attached network. Dynamic - this field is read-only, but will be populated with an address from within the subnet specified in the attached network. Disabled - this field will be empty. */
-  ipv4Address?: string;
+  ipv4Address?: string | undefined;
   /** The IPv6 address of the virtual machine. This field is used only if the attached network has IPAllocationType of IPV6 or DualStack. If IPAllocationMethod is: Static - this field must contain an IPv6 address range from within the range specified in the attached network. Dynamic - this field is read-only, but will be populated with an range from within the subnet specified in the attached network. Disabled - this field will be empty. */
-  ipv6Address?: string;
+  ipv6Address?: string | undefined;
   /** The MAC address of the interface for the virtual machine that corresponds to this network attachment. */
-  macAddress?: string;
+  macAddress?: string | undefined;
   /** The associated network's interface name. If specified, the network attachment name has a maximum length of 15 characters and must be unique to this virtual machine. If the user doesn't specify this value, the default interface name of the network resource will be used. For a CloudServicesNetwork resource, this name will be ignored. */
-  networkAttachmentName?: string;
+  networkAttachmentName?: string | undefined;
 }
 /** The NetworkAttachments made to this node. */
 export type KubernetesClusterNodeNetworkAttachmentsList = Array<NetworkAttachment>;
@@ -2928,41 +2969,41 @@ export type KubernetesClusterNodeTaintsList = Array<KubernetesLabel>;
 /** KubernetesClusterNode represents the details of a node in a Kubernetes cluster. */
 export interface KubernetesClusterNode {
   /** The resource ID of the agent pool that this node belongs to. This value is not represented on control plane nodes. */
-  agentPoolId?: string;
+  agentPoolId?: string | undefined;
   /** The availability zone this node is running within. */
-  availabilityZone?: string;
+  availabilityZone?: string | undefined;
   /** The resource ID of the bare metal machine that hosts this node. */
-  bareMetalMachineId?: string;
+  bareMetalMachineId?: string | undefined;
   /** The number of CPU cores configured for this node, derived from the VM SKU specified. */
-  cpuCores?: number;
+  cpuCores?: number | undefined;
   /** The detailed state of this node. */
-  detailedStatus?: KubernetesClusterNodeDetailedStatus;
+  detailedStatus?: KubernetesClusterNodeDetailedStatus | undefined;
   /** The descriptive message about the current detailed status. */
-  detailedStatusMessage?: string;
+  detailedStatusMessage?: string | undefined;
   /** The size of the disk configured for this node. Allocations are measured in gibibytes. */
-  diskSizeGB?: number;
+  diskSizeGB?: number | undefined;
   /** The machine image used to deploy this node. */
-  image?: string;
+  image?: string | undefined;
   /** The currently running version of Kubernetes and bundled features running on this node. */
-  kubernetesVersion?: string;
+  kubernetesVersion?: string | undefined;
   /** The list of labels on this node that have been assigned to the agent pool containing this node. */
-  labels?: KubernetesClusterNodeLabelsList;
+  labels?: KubernetesClusterNodeLabelsList | undefined;
   /** The amount of memory configured for this node, derived from the vm SKU specified. Allocations are measured in gibibytes. */
-  memorySizeGB?: number;
+  memorySizeGB?: number | undefined;
   /** The mode of the agent pool containing this node. Not applicable for control plane nodes. */
-  mode?: AgentPoolMode;
+  mode?: AgentPoolMode | undefined;
   /** The name of this node, as realized in the Kubernetes cluster. */
-  name?: string;
+  name?: string | undefined;
   /** The NetworkAttachments made to this node. */
-  networkAttachments?: KubernetesClusterNodeNetworkAttachmentsList;
+  networkAttachments?: KubernetesClusterNodeNetworkAttachmentsList | undefined;
   /** The power state of this node. */
-  powerState?: KubernetesNodePowerState;
+  powerState?: KubernetesNodePowerState | undefined;
   /** The role of this node in the cluster. */
-  role?: KubernetesNodeRole;
+  role?: KubernetesNodeRole | undefined;
   /** The list of taints that have been assigned to the agent pool containing this node. */
-  taints?: KubernetesClusterNodeTaintsList;
+  taints?: KubernetesClusterNodeTaintsList | undefined;
   /** The VM SKU name that was used to create this cluster node. */
-  vmSkuName?: string;
+  vmSkuName?: string | undefined;
 }
 /** The details of the nodes in this cluster. */
 export type KubernetesClusterPropertiesNodesList = Array<KubernetesClusterNode>;
@@ -2979,9 +3020,9 @@ export type KubernetesClusterProvisioningState =
 /** KubernetesClusterProperties represents the properties of Kubernetes cluster resource. */
 export interface KubernetesClusterProperties {
   /** The Azure Active Directory Integration properties. */
-  aadConfiguration?: AadConfiguration;
+  aadConfiguration?: AadConfiguration | undefined;
   /** The administrative credentials that will be applied to the control plane and agent pool nodes that do not specify their own values. */
-  administratorConfiguration?: AdministratorConfiguration;
+  administratorConfiguration?: AdministratorConfiguration | undefined;
   /** The defining characteristics of the control plane for this Kubernetes Cluster. */
   controlPlaneNodeConfiguration: ControlPlaneNodeConfiguration;
   /** The agent pools that are created with this Kubernetes cluster for running critical system services and workloads. This data in this field is only used during creation, and the field will be empty following the creation of the Kubernetes Cluster. After creation, the management of agent pools is done using the agentPools sub-resource. */
@@ -2989,47 +3030,47 @@ export interface KubernetesClusterProperties {
   /** The Kubernetes version for this cluster. */
   kubernetesVersion: string;
   /** The configuration of the managed resource group associated with the resource. */
-  managedResourceGroupConfiguration?: ManagedResourceGroupConfiguration;
+  managedResourceGroupConfiguration?: ManagedResourceGroupConfiguration | undefined;
   /** The configuration of the Kubernetes cluster networking, including the attachment of networks that span the cluster. */
   networkConfiguration: NetworkConfiguration;
   /** The full list of network resource IDs that are attached to this cluster, including those attached only to specific agent pools. */
-  attachedNetworkIds?: KubernetesClusterPropertiesAttachedNetworkIdsList;
+  attachedNetworkIds?: KubernetesClusterPropertiesAttachedNetworkIdsList | undefined;
   /** The list of versions that this Kubernetes cluster can be upgraded to. */
-  availableUpgrades?: KubernetesClusterPropertiesAvailableUpgradesList;
+  availableUpgrades?: KubernetesClusterPropertiesAvailableUpgradesList | undefined;
   /** The resource ID of the Network Cloud cluster. */
-  clusterId?: string;
+  clusterId?: string | undefined;
   /** The resource ID of the connected cluster set up when this Kubernetes cluster is created. */
-  connectedClusterId?: string;
+  connectedClusterId?: string | undefined;
   /** The current running version of Kubernetes on the control plane. */
-  controlPlaneKubernetesVersion?: string;
+  controlPlaneKubernetesVersion?: string | undefined;
   /** The current status of the Kubernetes cluster. */
-  detailedStatus?: KubernetesClusterDetailedStatus;
+  detailedStatus?: KubernetesClusterDetailedStatus | undefined;
   /** The descriptive message about the current detailed status. */
-  detailedStatusMessage?: string;
+  detailedStatusMessage?: string | undefined;
   /** The current feature settings. */
-  featureStatuses?: KubernetesClusterPropertiesFeatureStatusesList;
+  featureStatuses?: KubernetesClusterPropertiesFeatureStatusesList | undefined;
   /** The details of the nodes in this cluster. */
-  nodes?: KubernetesClusterPropertiesNodesList;
+  nodes?: KubernetesClusterPropertiesNodesList | undefined;
   /** The provisioning state of the Kubernetes cluster resource. */
-  provisioningState?: KubernetesClusterProvisioningState;
+  provisioningState?: KubernetesClusterProvisioningState | undefined;
 }
 export interface GetKubernetesClusterResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: GetKubernetesClusterResponseTagsMap;
+  tags?: GetKubernetesClusterResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The list of the resource properties. */
   properties: KubernetesClusterProperties;
   /** "If etag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields.") */
-  etag?: string;
+  etag?: string | undefined;
   /** The extended location of the resource. This property is required when creating the resource. */
   extendedLocation: AzureResourceManagerCommonTypesExtendedLocation;
 }
@@ -3071,37 +3112,37 @@ export type KubernetesClusterFeatureProvisioningState =
 /** KubernetesClusterFeatureProperties represents the properties of a Kubernetes cluster feature. */
 export interface KubernetesClusterFeatureProperties {
   /** The configured options for the feature. */
-  options?: KubernetesClusterFeaturePropertiesOptionsList;
+  options?: KubernetesClusterFeaturePropertiesOptionsList | undefined;
   /** The lifecycle indicator of the feature. */
-  availabilityLifecycle?: KubernetesClusterFeatureAvailabilityLifecycle;
+  availabilityLifecycle?: KubernetesClusterFeatureAvailabilityLifecycle | undefined;
   /** The detailed status of the feature. */
-  detailedStatus?: KubernetesClusterFeatureDetailedStatus;
+  detailedStatus?: KubernetesClusterFeatureDetailedStatus | undefined;
   /** The descriptive message for the detailed status of the feature. */
-  detailedStatusMessage?: string;
+  detailedStatusMessage?: string | undefined;
   /** The indicator of if the feature is required or optional. Optional features may be deleted by the user, while required features are managed with the kubernetes cluster lifecycle. */
-  required?: KubernetesClusterFeatureRequired;
+  required?: KubernetesClusterFeatureRequired | undefined;
   /** The version of the feature. */
-  version?: string;
+  version?: string | undefined;
   /** The provisioning state of the Kubernetes cluster feature. */
-  provisioningState?: KubernetesClusterFeatureProvisioningState;
+  provisioningState?: KubernetesClusterFeatureProvisioningState | undefined;
 }
 export interface GetKubernetesClusterFeatureResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: GetKubernetesClusterFeatureResponseTagsMap;
+  tags?: GetKubernetesClusterFeatureResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The list of the resource properties. */
-  properties?: KubernetesClusterFeatureProperties;
+  properties?: KubernetesClusterFeatureProperties | undefined;
   /** "If etag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields.") */
-  etag?: string;
+  etag?: string | undefined;
 }
 export interface GetKubernetesVersionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -3116,9 +3157,9 @@ export type GetKubernetesVersionResponseTagsMap = { [key: string]: string | unde
 /** KubernetesVersionValue describes a specific Kubernetes version that can be deployed. */
 export interface KubernetesVersionValue {
   /** Additional description for the Kubernetes version. */
-  description?: string;
+  description?: string | undefined;
   /** The Kubernetes version identifier. */
-  version?: string;
+  version?: string | undefined;
 }
 /** The list of available Kubernetes versions. */
 export type KubernetesVersionPropertiesValuesList = Array<KubernetesVersionValue>;
@@ -3127,27 +3168,27 @@ export type KubernetesVersionProvisioningState = "Accepted" | "Canceled" | "Fail
 /** KubernetesVersionProperties contains the read-only properties describing available versions. */
 export interface KubernetesVersionProperties {
   /** The list of available Kubernetes versions. */
-  values?: KubernetesVersionPropertiesValuesList;
+  values?: KubernetesVersionPropertiesValuesList | undefined;
   /** The provisioning state of the Kubernetes version resource. */
-  provisioningState?: KubernetesVersionProvisioningState;
+  provisioningState?: KubernetesVersionProvisioningState | undefined;
 }
 export interface GetKubernetesVersionResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: GetKubernetesVersionResponseTagsMap;
+  tags?: GetKubernetesVersionResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The list of the resource properties. */
   properties: KubernetesVersionProperties;
   /** "If etag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields.") */
-  etag?: string;
+  etag?: string | undefined;
   /** The extended location of the resource. This property is required when creating the resource. */
   extendedLocation: AzureResourceManagerCommonTypesExtendedLocation;
 }
@@ -3181,43 +3222,45 @@ export type L2NetworkProvisioningState =
 /** L2NetworkProperties represents properties of the L2 network. */
 export interface L2NetworkProperties {
   /** Field Deprecated. The field was previously optional, now it will have no defined behavior and will be ignored. The network plugin type for Hybrid AKS. */
-  hybridAksPluginType?: L2NetworkPropertiesHybridAksPluginType;
+  hybridAksPluginType?: L2NetworkPropertiesHybridAksPluginType | undefined;
   /** The default interface name for this L2 network in the virtual machine. This name can be overridden by the name supplied in the network attachment configuration of that virtual machine. */
-  interfaceName?: string;
+  interfaceName?: string | undefined;
   /** The resource ID of the Network Fabric l2IsolationDomain. */
   l2IsolationDomainId: string;
   /** The list of resource IDs for the other Microsoft.NetworkCloud resources that have attached this network. */
-  associatedResourceIds?: L2NetworkPropertiesAssociatedResourceIdsList;
+  associatedResourceIds?: L2NetworkPropertiesAssociatedResourceIdsList | undefined;
   /** The resource ID of the Network Cloud cluster this L2 network is associated with. */
-  clusterId?: string;
+  clusterId?: string | undefined;
   /** The more detailed status of the L2 network. */
-  detailedStatus?: L2NetworkDetailedStatus;
+  detailedStatus?: L2NetworkDetailedStatus | undefined;
   /** The descriptive message about the current detailed status. */
-  detailedStatusMessage?: string;
+  detailedStatusMessage?: string | undefined;
   /** Field Deprecated. These fields will be empty/omitted. The list of Hybrid AKS cluster resource ID(s) that are associated with this L2 network. */
-  hybridAksClustersAssociatedIds?: L2NetworkPropertiesHybridAksClustersAssociatedIdsList;
+  hybridAksClustersAssociatedIds?:
+    | L2NetworkPropertiesHybridAksClustersAssociatedIdsList
+    | undefined;
   /** Field Deprecated. These fields will be empty/omitted. The list of virtual machine resource ID(s), excluding any Hybrid AKS virtual machines, that are currently using this L2 network. */
-  virtualMachinesAssociatedIds?: L2NetworkPropertiesVirtualMachinesAssociatedIdsList;
+  virtualMachinesAssociatedIds?: L2NetworkPropertiesVirtualMachinesAssociatedIdsList | undefined;
   /** The provisioning state of the L2 network. */
-  provisioningState?: L2NetworkProvisioningState;
+  provisioningState?: L2NetworkProvisioningState | undefined;
 }
 export interface GetL2NetworkResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: GetL2NetworkResponseTagsMap;
+  tags?: GetL2NetworkResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The list of the resource properties. */
   properties: L2NetworkProperties;
   /** "If etag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields.") */
-  etag?: string;
+  etag?: string | undefined;
   /** The extended location of the resource. This property is required when creating the resource. */
   extendedLocation: AzureResourceManagerCommonTypesExtendedLocation;
 }
@@ -3255,53 +3298,55 @@ export type L3NetworkProvisioningState =
 /** L3NetworkProperties represents properties of the L3 network. */
 export interface L3NetworkProperties {
   /** Field Deprecated. The field was previously optional, now it will have no defined behavior and will be ignored. The indicator of whether or not to disable IPAM allocation on the network attachment definition injected into the Hybrid AKS Cluster. */
-  hybridAksIpamEnabled?: L3NetworkPropertiesHybridAksIpamEnabled;
+  hybridAksIpamEnabled?: L3NetworkPropertiesHybridAksIpamEnabled | undefined;
   /** Field Deprecated. The field was previously optional, now it will have no defined behavior and will be ignored. The network plugin type for Hybrid AKS. */
-  hybridAksPluginType?: L3NetworkPropertiesHybridAksPluginType;
+  hybridAksPluginType?: L3NetworkPropertiesHybridAksPluginType | undefined;
   /** The default interface name for this L3 network in the virtual machine. This name can be overridden by the name supplied in the network attachment configuration of that virtual machine. */
-  interfaceName?: string;
+  interfaceName?: string | undefined;
   /** The type of the IP address allocation, defaulted to "DualStack". */
-  ipAllocationType?: L3NetworkPropertiesIpAllocationType;
+  ipAllocationType?: L3NetworkPropertiesIpAllocationType | undefined;
   /** The IPV4 prefix (CIDR) assigned to this L3 network. Required when the IP allocation type is IPV4 or DualStack. */
-  ipv4ConnectedPrefix?: string;
+  ipv4ConnectedPrefix?: string | undefined;
   /** The IPV6 prefix (CIDR) assigned to this L3 network. Required when the IP allocation type is IPV6 or DualStack. */
-  ipv6ConnectedPrefix?: string;
+  ipv6ConnectedPrefix?: string | undefined;
   /** The resource ID of the Network Fabric l3IsolationDomain. */
   l3IsolationDomainId: string;
   /** The VLAN from the l3IsolationDomain that is used for this network. */
   vlan: number;
   /** The list of resource IDs for the other Microsoft.NetworkCloud resources that have attached this network. */
-  associatedResourceIds?: L3NetworkPropertiesAssociatedResourceIdsList;
+  associatedResourceIds?: L3NetworkPropertiesAssociatedResourceIdsList | undefined;
   /** The resource ID of the Network Cloud cluster this L3 network is associated with. */
-  clusterId?: string;
+  clusterId?: string | undefined;
   /** The more detailed status of the L3 network. */
-  detailedStatus?: L3NetworkDetailedStatus;
+  detailedStatus?: L3NetworkDetailedStatus | undefined;
   /** The descriptive message about the current detailed status. */
-  detailedStatusMessage?: string;
+  detailedStatusMessage?: string | undefined;
   /** Field Deprecated. These fields will be empty/omitted. The list of Hybrid AKS cluster resource IDs that are associated with this L3 network. */
-  hybridAksClustersAssociatedIds?: L3NetworkPropertiesHybridAksClustersAssociatedIdsList;
+  hybridAksClustersAssociatedIds?:
+    | L3NetworkPropertiesHybridAksClustersAssociatedIdsList
+    | undefined;
   /** Field Deprecated. These fields will be empty/omitted. The list of virtual machine resource IDs, excluding any Hybrid AKS virtual machines, that are currently using this L3 network. */
-  virtualMachinesAssociatedIds?: L3NetworkPropertiesVirtualMachinesAssociatedIdsList;
+  virtualMachinesAssociatedIds?: L3NetworkPropertiesVirtualMachinesAssociatedIdsList | undefined;
   /** The provisioning state of the L3 network. */
-  provisioningState?: L3NetworkProvisioningState;
+  provisioningState?: L3NetworkProvisioningState | undefined;
 }
 export interface GetL3NetworkResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: GetL3NetworkResponseTagsMap;
+  tags?: GetL3NetworkResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The list of the resource properties. */
   properties: L3NetworkProperties;
   /** "If etag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields.") */
-  etag?: string;
+  etag?: string | undefined;
   /** The extended location of the resource. This property is required when creating the resource. */
   extendedLocation: AzureResourceManagerCommonTypesExtendedLocation;
 }
@@ -3333,35 +3378,35 @@ export type ClusterMetricsConfigurationProvisioningState =
 /** ClusterMetricsConfigurationProperties represents the properties of metrics configuration for the cluster. */
 export interface ClusterMetricsConfigurationProperties {
   /** The list of metric names that have been chosen to be enabled in addition to the core set of enabled metrics. */
-  enabledMetrics?: ClusterMetricsConfigurationPropertiesEnabledMetricsList;
+  enabledMetrics?: ClusterMetricsConfigurationPropertiesEnabledMetricsList | undefined;
   /** The interval in minutes by which metrics will be collected. */
   collectionInterval: number;
   /** The more detailed status of the metrics configuration. */
-  detailedStatus?: ClusterMetricsConfigurationDetailedStatus;
+  detailedStatus?: ClusterMetricsConfigurationDetailedStatus | undefined;
   /** The descriptive message about the current detailed status. */
-  detailedStatusMessage?: string;
+  detailedStatusMessage?: string | undefined;
   /** The list of metrics that are available for the cluster but disabled at the moment. */
-  disabledMetrics?: ClusterMetricsConfigurationPropertiesDisabledMetricsList;
+  disabledMetrics?: ClusterMetricsConfigurationPropertiesDisabledMetricsList | undefined;
   /** The provisioning state of the metrics configuration. */
-  provisioningState?: ClusterMetricsConfigurationProvisioningState;
+  provisioningState?: ClusterMetricsConfigurationProvisioningState | undefined;
 }
 export interface GetMetricsConfigurationResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: GetMetricsConfigurationResponseTagsMap;
+  tags?: GetMetricsConfigurationResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The list of the resource properties. */
   properties: ClusterMetricsConfigurationProperties;
   /** "If etag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields.") */
-  etag?: string;
+  etag?: string | undefined;
   /** The extended location of the resource. This property is required when creating the resource. */
   extendedLocation: AzureResourceManagerCommonTypesExtendedLocation;
 }
@@ -3395,31 +3440,31 @@ export interface RackProperties {
   /** The SKU for the rack. */
   rackSkuId: string;
   /** The resource ID of the cluster the rack is created for. This value is set when the rack is created by the cluster. */
-  clusterId?: string;
+  clusterId?: string | undefined;
   /** The more detailed status of the rack. */
-  detailedStatus?: RackDetailedStatus;
+  detailedStatus?: RackDetailedStatus | undefined;
   /** The descriptive message about the current detailed status. */
-  detailedStatusMessage?: string;
+  detailedStatusMessage?: string | undefined;
   /** The provisioning state of the rack resource. */
-  provisioningState?: RackProvisioningState;
+  provisioningState?: RackProvisioningState | undefined;
 }
 export interface GetRackResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: GetRackResponseTagsMap;
+  tags?: GetRackResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The list of the resource properties. */
   properties: RackProperties;
   /** "If etag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields.") */
-  etag?: string;
+  etag?: string | undefined;
   /** The extended location of the resource. This property is required when creating the resource. */
   extendedLocation: AzureResourceManagerCommonTypesExtendedLocation;
 }
@@ -3438,11 +3483,11 @@ export type DiskType = "HDD" | "SSD";
 /** MachineDisk represents the properties of the disk. */
 export interface MachineDisk {
   /** The maximum amount of storage. Measured in gibibytes. */
-  capacityGB?: number;
+  capacityGB?: number | undefined;
   /** The connection type of the rack SKU resource. */
-  connection?: MachineSkuDiskConnectionType;
+  connection?: MachineSkuDiskConnectionType | undefined;
   /** The disk type of rack SKU resource. */
-  type?: DiskType;
+  type?: DiskType | undefined;
 }
 /** The list of disks. */
 export type MachineSkuPropertiesDisksList = Array<MachineDisk>;
@@ -3451,53 +3496,53 @@ export type DeviceConnectionType = "PCI";
 /** NetworkInterface represents properties of the network interface. */
 export interface NetworkInterface {
   /** The partial address of Peripheral Component Interconnect (PCI). */
-  address?: string;
+  address?: string | undefined;
   /** The connection type of the device. */
-  deviceConnectionType?: DeviceConnectionType;
+  deviceConnectionType?: DeviceConnectionType | undefined;
   /** The model name of the device. */
-  model?: string;
+  model?: string | undefined;
   /** The physical slot for this device. */
-  physicalSlot?: number;
+  physicalSlot?: number | undefined;
   /** The number of ports on the device. */
-  portCount?: number;
+  portCount?: number | undefined;
   /** The maximum amount of data in gigabits that the line card transmits through a port at any given second. */
-  portSpeed?: number;
+  portSpeed?: number | undefined;
   /** The vendor name of the device. */
-  vendor?: string;
+  vendor?: string | undefined;
 }
 /** The list of network interfaces. */
 export type MachineSkuPropertiesNetworkInterfacesList = Array<NetworkInterface>;
 /** MachineSkuProperties represents the properties of the machine SKU. */
 export interface MachineSkuProperties {
   /** The type of bootstrap protocol used. */
-  bootstrapProtocol?: BootstrapProtocol;
+  bootstrapProtocol?: BootstrapProtocol | undefined;
   /** The count of CPU cores for this machine. */
-  cpuCores?: number;
+  cpuCores?: number | undefined;
   /** The count of CPU sockets for this machine. */
-  cpuSockets?: number;
+  cpuSockets?: number | undefined;
   /** The list of disks. */
-  disks?: MachineSkuPropertiesDisksList;
+  disks?: MachineSkuPropertiesDisksList | undefined;
   /** The generation of the architecture. */
-  generation?: string;
+  generation?: string | undefined;
   /** The hardware version of the machine. */
-  hardwareVersion?: string;
+  hardwareVersion?: string | undefined;
   /** The maximum amount of memory. Measured in gibibytes. */
-  memoryCapacityGB?: number;
+  memoryCapacityGB?: number | undefined;
   /** The model of the machine. */
-  model?: string;
+  model?: string | undefined;
   /** The list of network interfaces. */
-  networkInterfaces?: MachineSkuPropertiesNetworkInterfacesList;
+  networkInterfaces?: MachineSkuPropertiesNetworkInterfacesList | undefined;
   /** The count of SMT and physical core threads for this machine. */
-  totalThreads?: number;
+  totalThreads?: number | undefined;
   /** The make of the machine. */
-  vendor?: string;
+  vendor?: string | undefined;
 }
 /** MachineSkuSlot represents a single SKU and rack slot associated with the machine. */
 export interface MachineSkuSlot {
   /** The list of the resource properties. */
-  properties?: MachineSkuProperties;
+  properties?: MachineSkuProperties | undefined;
   /** The position in the rack for the machine. */
-  rackSlot?: number;
+  rackSlot?: number | undefined;
 }
 /** The list of machine SKUs and associated rack slot for the compute-dedicated machines in this rack model. */
 export type RackSkuPropertiesComputeMachinesList = Array<MachineSkuSlot>;
@@ -3510,16 +3555,16 @@ export type RackSkuType = "Aggregator" | "Compute" | "Single";
 /** StorageApplianceSkuProperties represents the properties of the storage appliance SKU. */
 export interface StorageApplianceSkuProperties {
   /** The maximum capacity of the storage appliance. Measured in gibibytes. */
-  capacityGB?: number;
+  capacityGB?: number | undefined;
   /** The model of the storage appliance. */
-  model?: string;
+  model?: string | undefined;
 }
 /** StorageApplianceSkuSlot represents the single SKU and rack slot associated with the storage appliance. */
 export interface StorageApplianceSkuSlot {
   /** The list of the resource properties. */
-  properties?: StorageApplianceSkuProperties;
+  properties?: StorageApplianceSkuProperties | undefined;
   /** The position in the rack for the storage appliance. */
-  rackSlot?: number;
+  rackSlot?: number | undefined;
 }
 /** The list of appliance SKUs and associated rack slot for the storage appliance(s) in this rack model. */
 export type RackSkuPropertiesStorageAppliancesList = Array<StorageApplianceSkuSlot>;
@@ -3528,33 +3573,33 @@ export type RackSkuPropertiesSupportedRackSkuIdsList = Array<string>;
 /** RackSkuProperties represents the properties of compute-related hardware for a rack. This supports both aggregator and compute racks. */
 export interface RackSkuProperties {
   /** The list of machine SKUs and associated rack slot for the compute-dedicated machines in this rack model. */
-  computeMachines?: RackSkuPropertiesComputeMachinesList;
+  computeMachines?: RackSkuPropertiesComputeMachinesList | undefined;
   /** The list of machine SKUs and associated rack slot for the control-plane dedicated machines in this rack model. */
-  controllerMachines?: RackSkuPropertiesControllerMachinesList;
+  controllerMachines?: RackSkuPropertiesControllerMachinesList | undefined;
   /** The deployment type supported by the rack SKU. */
-  deploymentType?: DeploymentType;
+  deploymentType?: DeploymentType | undefined;
   /** The free-form text describing the rack. */
-  description?: string;
+  description?: string | undefined;
   /** The maximum number of compute racks supported by an aggregator rack. 0 if this is a compute rack or a rack for a single rack cluster(rackType="Single"). */
-  maxClusterSlots?: number;
+  maxClusterSlots?: number | undefined;
   /** The provisioning state of the rack SKU resource. */
-  provisioningState?: RackSkuProvisioningState;
+  provisioningState?: RackSkuProvisioningState | undefined;
   /** The type of the rack. */
-  rackType?: RackSkuType;
+  rackType?: RackSkuType | undefined;
   /** The list of appliance SKUs and associated rack slot for the storage appliance(s) in this rack model. */
-  storageAppliances?: RackSkuPropertiesStorageAppliancesList;
+  storageAppliances?: RackSkuPropertiesStorageAppliancesList | undefined;
   /** The list of supported SKUs if the rack is an aggregator. */
-  supportedRackSkuIds?: RackSkuPropertiesSupportedRackSkuIdsList;
+  supportedRackSkuIds?: RackSkuPropertiesSupportedRackSkuIdsList | undefined;
 }
 export interface GetRackSkusResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The list of the resource properties. */
   properties: RackSkuProperties;
 }
@@ -3573,9 +3618,9 @@ export type StorageApplianceDetailedStatus = "Available" | "Degraded" | "Error" 
 /** StorageApplianceExpansionShelf represents an expansion shelf connected to a storage appliance. */
 export interface StorageApplianceExpansionShelf {
   /** The model of the expansion shelf. */
-  model?: string;
+  model?: string | undefined;
   /** The version of the expansion shelf. */
-  version?: string;
+  version?: string | undefined;
 }
 /** The list of expansion shelves connected to the storage appliance. */
 export type StorageAppliancePropertiesExpansionShelvesList = Array<StorageApplianceExpansionShelf>;
@@ -3586,9 +3631,9 @@ export type StorageApplianceMonitoringConfigurationStatusMetricsLevel = "Default
 /** The monitoring configuration status of the storage appliance. */
 export interface StorageApplianceMonitoringConfigurationStatus {
   /** The log level for the monitoring configuration status of the storage appliance. */
-  logLevel?: StorageApplianceMonitoringConfigurationStatusLogLevel;
+  logLevel?: StorageApplianceMonitoringConfigurationStatusLogLevel | undefined;
   /** The metrics level for the monitoring configuration status of the storage appliance. */
-  metricsLevel?: StorageApplianceMonitoringConfigurationStatusMetricsLevel;
+  metricsLevel?: StorageApplianceMonitoringConfigurationStatusMetricsLevel | undefined;
 }
 /** The indicator of whether the storage appliance supports remote vendor management. */
 export type RemoteVendorManagementFeature = "Supported" | "Unsupported";
@@ -3616,55 +3661,55 @@ export interface StorageApplianceProperties {
   /** The SKU for the storage appliance. */
   storageApplianceSkuId: string;
   /** The CA certificate information issued by the platform for connecting to TLS interfaces for the storage appliance. Callers add this certificate to their trusted CA store to allow secure communication with the storage appliance. */
-  caCertificate?: CertificateInfo;
+  caCertificate?: CertificateInfo | undefined;
   /** The total capacity of the storage appliance. Measured in GiB. */
-  capacity?: number;
+  capacity?: number | undefined;
   /** The amount of storage consumed. Measured in GiB. */
-  capacityUsed?: number;
+  capacityUsed?: number | undefined;
   /** The resource ID of the cluster this storage appliance is associated with. */
-  clusterId?: string;
+  clusterId?: string | undefined;
   /** The detailed status of the storage appliance. */
-  detailedStatus?: StorageApplianceDetailedStatus;
+  detailedStatus?: StorageApplianceDetailedStatus | undefined;
   /** The descriptive message about the current detailed status. */
-  detailedStatusMessage?: string;
+  detailedStatusMessage?: string | undefined;
   /** The list of expansion shelves connected to the storage appliance. */
-  expansionShelves?: StorageAppliancePropertiesExpansionShelvesList;
+  expansionShelves?: StorageAppliancePropertiesExpansionShelvesList | undefined;
   /** The endpoint for the management interface of the storage appliance. */
-  managementIpv4Address?: string;
+  managementIpv4Address?: string | undefined;
   /** The manufacturer of the storage appliance. */
-  manufacturer?: string;
+  manufacturer?: string | undefined;
   /** The model of the storage appliance. */
-  model?: string;
+  model?: string | undefined;
   /** The monitoring configuration status of the storage appliance. */
-  monitoringConfigurationStatus?: StorageApplianceMonitoringConfigurationStatus;
+  monitoringConfigurationStatus?: StorageApplianceMonitoringConfigurationStatus | undefined;
   /** The indicator of whether the storage appliance supports remote vendor management. */
-  remoteVendorManagementFeature?: RemoteVendorManagementFeature;
+  remoteVendorManagementFeature?: RemoteVendorManagementFeature | undefined;
   /** The indicator of whether the remote vendor management feature is enabled or disabled, or unsupported if it is an unsupported feature. */
-  remoteVendorManagementStatus?: RemoteVendorManagementStatus;
+  remoteVendorManagementStatus?: RemoteVendorManagementStatus | undefined;
   /** The list of statuses that represent secret rotation activity. */
-  secretRotationStatus?: StorageAppliancePropertiesSecretRotationStatusList;
+  secretRotationStatus?: StorageAppliancePropertiesSecretRotationStatusList | undefined;
   /** The version of the storage appliance. */
-  version?: string;
+  version?: string | undefined;
   /** The provisioning state of the storage appliance. */
-  provisioningState?: StorageApplianceProvisioningState;
+  provisioningState?: StorageApplianceProvisioningState | undefined;
 }
 export interface GetStorageApplianceResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: GetStorageApplianceResponseTagsMap;
+  tags?: GetStorageApplianceResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The list of the resource properties. */
   properties: StorageApplianceProperties;
   /** "If etag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields.") */
-  etag?: string;
+  etag?: string | undefined;
   /** The extended location of the resource. This property is required when creating the resource. */
   extendedLocation: AzureResourceManagerCommonTypesExtendedLocation;
 }
@@ -3702,45 +3747,49 @@ export type TrunkedNetworkProvisioningState =
 /** TrunkedNetworkProperties represents properties of the trunked network. */
 export interface TrunkedNetworkProperties {
   /** Field Deprecated. The field was previously optional, now it will have no defined behavior and will be ignored. The network plugin type for Hybrid AKS. */
-  hybridAksPluginType?: TrunkedNetworkPropertiesHybridAksPluginType;
+  hybridAksPluginType?: TrunkedNetworkPropertiesHybridAksPluginType | undefined;
   /** The default interface name for this trunked network in the virtual machine. This name can be overridden by the name supplied in the network attachment configuration of that virtual machine. */
-  interfaceName?: string;
+  interfaceName?: string | undefined;
   /** The list of resource IDs representing the Network Fabric isolation domains. It can be any combination of l2IsolationDomain and l3IsolationDomain resources. */
   isolationDomainIds: TrunkedNetworkPropertiesIsolationDomainIdsList;
   /** The list of vlans that are selected from the isolation domains for trunking. */
   vlans: TrunkedNetworkPropertiesVlansList;
   /** The list of resource IDs for the other Microsoft.NetworkCloud resources that have attached this network. */
-  associatedResourceIds?: TrunkedNetworkPropertiesAssociatedResourceIdsList;
+  associatedResourceIds?: TrunkedNetworkPropertiesAssociatedResourceIdsList | undefined;
   /** The resource ID of the Network Cloud cluster this trunked network is associated with. */
-  clusterId?: string;
+  clusterId?: string | undefined;
   /** The more detailed status of the trunked network. */
-  detailedStatus?: TrunkedNetworkDetailedStatus;
+  detailedStatus?: TrunkedNetworkDetailedStatus | undefined;
   /** The descriptive message about the current detailed status. */
-  detailedStatusMessage?: string;
+  detailedStatusMessage?: string | undefined;
   /** Field Deprecated. These fields will be empty/omitted. The list of Hybrid AKS cluster resource IDs that are associated with this trunked network. */
-  hybridAksClustersAssociatedIds?: TrunkedNetworkPropertiesHybridAksClustersAssociatedIdsList;
+  hybridAksClustersAssociatedIds?:
+    | TrunkedNetworkPropertiesHybridAksClustersAssociatedIdsList
+    | undefined;
   /** Field Deprecated. These fields will be empty/omitted. The list of virtual machine resource IDs, excluding any Hybrid AKS virtual machines, that are currently using this trunked network. */
-  virtualMachinesAssociatedIds?: TrunkedNetworkPropertiesVirtualMachinesAssociatedIdsList;
+  virtualMachinesAssociatedIds?:
+    | TrunkedNetworkPropertiesVirtualMachinesAssociatedIdsList
+    | undefined;
   /** The provisioning state of the trunked network. */
-  provisioningState?: TrunkedNetworkProvisioningState;
+  provisioningState?: TrunkedNetworkProvisioningState | undefined;
 }
 export interface GetTrunkedNetworkResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: GetTrunkedNetworkResponseTagsMap;
+  tags?: GetTrunkedNetworkResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The list of the resource properties. */
   properties: TrunkedNetworkProperties;
   /** "If etag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields.") */
-  etag?: string;
+  etag?: string | undefined;
   /** The extended location of the resource. This property is required when creating the resource. */
   extendedLocation: AzureResourceManagerCommonTypesExtendedLocation;
 }
@@ -3788,9 +3837,9 @@ export type OsDiskDeleteOption = "Delete";
 /** OsDisk represents configuration of the boot disk. */
 export interface OsDisk {
   /** The strategy for creating the OS disk. */
-  createOption?: OsDiskCreateOption | (string & {});
+  createOption?: OsDiskCreateOption | (string & {}) | undefined;
   /** The strategy for deleting the OS disk. */
-  deleteOption?: OsDiskDeleteOption | (string & {});
+  deleteOption?: OsDiskDeleteOption | (string & {}) | undefined;
   /** The size of the disk. Required if the createOption is Ephemeral. Allocations are measured in gibibytes. */
   diskSizeGB: number;
 }
@@ -3801,7 +3850,7 @@ export interface StorageProfile {
   /** The disk to use with this virtual machine. */
   osDisk: OsDisk;
   /** The resource IDs of volumes that are requested to be attached to the virtual machine. */
-  volumeAttachments?: StorageProfileVolumeAttachmentsList;
+  volumeAttachments?: StorageProfileVolumeAttachmentsList | undefined;
 }
 /** Field Deprecated, use virtualizationModel instead. The type of the virtio interface. */
 export type VirtualMachinePropertiesVirtioInterface = "Modern" | "Transitional";
@@ -3842,57 +3891,57 @@ export interface VirtualMachineProperties {
   /** The name of the administrator to which the ssh public keys will be added into the authorized keys. */
   adminUsername: string;
   /** Selects the boot method for the virtual machine. */
-  bootMethod?: VirtualMachinePropertiesBootMethod;
+  bootMethod?: VirtualMachinePropertiesBootMethod | undefined;
   /** The cloud service network that provides platform-level services for the virtual machine. */
   cloudServicesNetworkAttachment: NetworkAttachment;
   /** The number of CPU cores in the virtual machine. */
   cpuCores: number;
   /** Field Deprecated, the value will be ignored if provided. The indicator of whether one of the specified CPU cores is isolated to run the emulator thread for this virtual machine. */
-  isolateEmulatorThread?: VirtualMachinePropertiesIsolateEmulatorThread;
+  isolateEmulatorThread?: VirtualMachinePropertiesIsolateEmulatorThread | undefined;
   /** The memory size of the virtual machine. Allocations are measured in gibibytes. */
   memorySizeGB: number;
   /** The list of network attachments to the virtual machine. */
-  networkAttachments?: VirtualMachinePropertiesNetworkAttachmentsList;
+  networkAttachments?: VirtualMachinePropertiesNetworkAttachmentsList | undefined;
   /** Field Deprecated: The Base64 encoded cloud-init network data. The networkDataContent property will be used in preference to this property. */
-  networkData?: string;
+  networkData?: string | undefined;
   /** The Base64 encoded cloud-init network data. */
-  networkDataContent?: string;
+  networkDataContent?: string | undefined;
   /** The scheduling hints for the virtual machine. */
-  placementHints?: VirtualMachinePropertiesPlacementHintsList;
+  placementHints?: VirtualMachinePropertiesPlacementHintsList | undefined;
   /** The list of ssh public keys. Each key will be added to the virtual machine using the cloud-init ssh_authorized_keys mechanism for the adminUsername. */
-  sshPublicKeys?: VirtualMachinePropertiesSshPublicKeysList;
+  sshPublicKeys?: VirtualMachinePropertiesSshPublicKeysList | undefined;
   /** The storage profile that specifies size and other parameters about the disks related to the virtual machine. */
   storageProfile: StorageProfile;
   /** Field Deprecated: The Base64 encoded cloud-init user data. The userDataContent property will be used in preference to this property. */
-  userData?: string;
+  userData?: string | undefined;
   /** The Base64 encoded cloud-init user data. */
-  userDataContent?: string;
+  userDataContent?: string | undefined;
   /** Field Deprecated, use virtualizationModel instead. The type of the virtio interface. */
-  virtioInterface?: VirtualMachinePropertiesVirtioInterface;
+  virtioInterface?: VirtualMachinePropertiesVirtioInterface | undefined;
   /** The type of the device model to use. */
-  vmDeviceModel?: VirtualMachinePropertiesVmDeviceModel;
+  vmDeviceModel?: VirtualMachinePropertiesVmDeviceModel | undefined;
   /** The virtual machine image that is currently provisioned to the OS disk, using the full url and tag notation used to pull the image. */
   vmImage: string;
   /** The credentials used to login to the image repository that has access to the specified image. */
-  vmImageRepositoryCredentials?: ImageRepositoryCredentials;
+  vmImageRepositoryCredentials?: ImageRepositoryCredentials | undefined;
   /** The cluster availability zone containing this virtual machine. */
-  availabilityZone?: string;
+  availabilityZone?: string | undefined;
   /** The resource ID of the bare metal machine that hosts the virtual machine. */
-  bareMetalMachineId?: string;
+  bareMetalMachineId?: string | undefined;
   /** The resource ID of the cluster the virtual machine is created for. */
-  clusterId?: string;
+  clusterId?: string | undefined;
   /** The extended location to use for creation of a VM console resource. */
-  consoleExtendedLocation?: AzureResourceManagerCommonTypesExtendedLocation;
+  consoleExtendedLocation?: AzureResourceManagerCommonTypesExtendedLocation | undefined;
   /** The more detailed status of the virtual machine. */
-  detailedStatus?: VirtualMachineDetailedStatus;
+  detailedStatus?: VirtualMachineDetailedStatus | undefined;
   /** The descriptive message about the current detailed status. */
-  detailedStatusMessage?: string;
+  detailedStatusMessage?: string | undefined;
   /** The power state of the virtual machine. */
-  powerState?: VirtualMachinePowerState;
+  powerState?: VirtualMachinePowerState | undefined;
   /** The resource IDs of volumes that are attached to the virtual machine. */
-  volumes?: VirtualMachinePropertiesVolumesList;
+  volumes?: VirtualMachinePropertiesVolumesList | undefined;
   /** The provisioning state of the virtual machine. */
-  provisioningState?: VirtualMachineProvisioningState;
+  provisioningState?: VirtualMachineProvisioningState | undefined;
 }
 /** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
 export type GetVirtualMachineResponseIdentityUserAssignedIdentitiesMap = {
@@ -3901,34 +3950,34 @@ export type GetVirtualMachineResponseIdentityUserAssignedIdentitiesMap = {
 /** Managed service identity (system assigned and/or user assigned identities) */
 export interface GetVirtualMachineResponseIdentity {
   /** The service principal ID of the system assigned identity. This property will only be provided for a system assigned identity. */
-  principalId?: string;
+  principalId?: string | undefined;
   /** The tenant ID of the system assigned identity. This property will only be provided for a system assigned identity. */
-  tenantId?: string;
+  tenantId?: string | undefined;
   type: ManagedServiceIdentityType;
   /** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
-  userAssignedIdentities?: GetVirtualMachineResponseIdentityUserAssignedIdentitiesMap;
+  userAssignedIdentities?: GetVirtualMachineResponseIdentityUserAssignedIdentitiesMap | undefined;
 }
 export interface GetVirtualMachineResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: GetVirtualMachineResponseTagsMap;
+  tags?: GetVirtualMachineResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The list of the resource properties. */
   properties: VirtualMachineProperties;
   /** "If etag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields.") */
-  etag?: string;
+  etag?: string | undefined;
   /** The extended location of the resource. This property is required when creating the resource. */
   extendedLocation: AzureResourceManagerCommonTypesExtendedLocation;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: GetVirtualMachineResponseIdentity;
+  identity?: GetVirtualMachineResponseIdentity | undefined;
 }
 export interface GetVolumeRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -3956,39 +4005,39 @@ export interface VolumeProperties {
   /** The requested storage allocation for the volume in Mebibytes. */
   sizeMiB: number;
   /** The resource ID of the storage appliance that hosts the volume. */
-  storageApplianceId?: string;
+  storageApplianceId?: string | undefined;
   /** The allocated size of the volume in Mebibytes. */
-  allocatedSizeMiB?: number;
+  allocatedSizeMiB?: number | undefined;
   /** The assigned resource ID of the storage appliance that hosts the volume. */
-  assignedStorageApplianceId?: string;
+  assignedStorageApplianceId?: string | undefined;
   /** The list of resource IDs that attach the volume. It may include virtual machines and Hybrid AKS clusters. */
-  attachedTo?: VolumePropertiesAttachedToList;
+  attachedTo?: VolumePropertiesAttachedToList | undefined;
   /** The more detailed status of the volume. */
-  detailedStatus?: VolumeDetailedStatus;
+  detailedStatus?: VolumeDetailedStatus | undefined;
   /** The descriptive message about the current detailed status. */
-  detailedStatusMessage?: string;
+  detailedStatusMessage?: string | undefined;
   /** The unique identifier of the volume. */
-  serialNumber?: string;
+  serialNumber?: string | undefined;
   /** The provisioning state of the volume. */
-  provisioningState?: VolumeProvisioningState;
+  provisioningState?: VolumeProvisioningState | undefined;
 }
 export interface GetVolumeResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: GetVolumeResponseTagsMap;
+  tags?: GetVolumeResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The list of the resource properties. */
   properties: VolumeProperties;
   /** "If etag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields.") */
-  etag?: string;
+  etag?: string | undefined;
   /** The extended location of the resource. This property is required when creating the resource. */
   extendedLocation: AzureResourceManagerCommonTypesExtendedLocation;
 }
@@ -4001,7 +4050,7 @@ export type KubernetesClusterFeaturePropertiesInputOptionsList = Array<StringKey
 /** KubernetesClusterFeatureProperties represents the properties of a Kubernetes cluster feature. */
 export interface KubernetesClusterFeaturePropertiesInput {
   /** The configured options for the feature. */
-  options?: KubernetesClusterFeaturePropertiesInputOptionsList;
+  options?: KubernetesClusterFeaturePropertiesInputOptionsList | undefined;
 }
 export interface KubernetesClusterFeaturesCreateOrUpdateRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -4013,11 +4062,11 @@ export interface KubernetesClusterFeaturesCreateOrUpdateRequest {
   /** The name of the feature. */
   featureName: string;
   /** Resource tags. */
-  tags?: KubernetesClusterFeaturesCreateOrUpdateRequestTagsMap;
+  tags?: KubernetesClusterFeaturesCreateOrUpdateRequestTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The list of the resource properties. */
-  properties?: KubernetesClusterFeaturePropertiesInput;
+  properties?: KubernetesClusterFeaturePropertiesInput | undefined;
 }
 /** Resource tags. */
 export type KubernetesClusterFeaturesCreateOrUpdateResponseTagsMap = {
@@ -4025,23 +4074,23 @@ export type KubernetesClusterFeaturesCreateOrUpdateResponseTagsMap = {
 };
 export interface KubernetesClusterFeaturesCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: KubernetesClusterFeaturesCreateOrUpdateResponseTagsMap;
+  tags?: KubernetesClusterFeaturesCreateOrUpdateResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The list of the resource properties. */
-  properties?: KubernetesClusterFeatureProperties;
+  properties?: KubernetesClusterFeatureProperties | undefined;
   /** "If etag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields.") */
-  etag?: string;
+  etag?: string | undefined;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
 }
 /** Resource tags. */
 export type KubernetesClustersCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
@@ -4051,9 +4100,9 @@ export type KubernetesClusterPropertiesInputInitialAgentPoolConfigurationsList =
 /** KubernetesClusterProperties represents the properties of Kubernetes cluster resource. */
 export interface KubernetesClusterPropertiesInput {
   /** The Azure Active Directory Integration properties. */
-  aadConfiguration?: AadConfiguration;
+  aadConfiguration?: AadConfiguration | undefined;
   /** The administrative credentials that will be applied to the control plane and agent pool nodes that do not specify their own values. */
-  administratorConfiguration?: AdministratorConfiguration;
+  administratorConfiguration?: AdministratorConfiguration | undefined;
   /** The defining characteristics of the control plane for this Kubernetes Cluster. */
   controlPlaneNodeConfiguration: ControlPlaneNodeConfiguration;
   /** The agent pools that are created with this Kubernetes cluster for running critical system services and workloads. This data in this field is only used during creation, and the field will be empty following the creation of the Kubernetes Cluster. After creation, the management of agent pools is done using the agentPools sub-resource. */
@@ -4061,7 +4110,7 @@ export interface KubernetesClusterPropertiesInput {
   /** The Kubernetes version for this cluster. */
   kubernetesVersion: string;
   /** The configuration of the managed resource group associated with the resource. */
-  managedResourceGroupConfiguration?: ManagedResourceGroupConfiguration;
+  managedResourceGroupConfiguration?: ManagedResourceGroupConfiguration | undefined;
   /** The configuration of the Kubernetes cluster networking, including the attachment of networks that span the cluster. */
   networkConfiguration: NetworkConfiguration;
 }
@@ -4073,7 +4122,7 @@ export interface KubernetesClustersCreateOrUpdateRequest {
   /** The name of the Kubernetes cluster. */
   kubernetesClusterName: string;
   /** Resource tags. */
-  tags?: KubernetesClustersCreateOrUpdateRequestTagsMap;
+  tags?: KubernetesClustersCreateOrUpdateRequestTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The list of the resource properties. */
@@ -4085,25 +4134,25 @@ export interface KubernetesClustersCreateOrUpdateRequest {
 export type KubernetesClustersCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
 export interface KubernetesClustersCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: KubernetesClustersCreateOrUpdateResponseTagsMap;
+  tags?: KubernetesClustersCreateOrUpdateResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The list of the resource properties. */
   properties: KubernetesClusterProperties;
   /** "If etag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields.") */
-  etag?: string;
+  etag?: string | undefined;
   /** The extended location of the resource. This property is required when creating the resource. */
   extendedLocation: AzureResourceManagerCommonTypesExtendedLocation;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
 }
 /** Resource tags. */
 export type KubernetesVersionsCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
@@ -4117,7 +4166,7 @@ export interface KubernetesVersionsCreateOrUpdateRequest {
   /** The name of the Kubernetes version resource. */
   kubernetesVersionName: string;
   /** Resource tags. */
-  tags?: KubernetesVersionsCreateOrUpdateRequestTagsMap;
+  tags?: KubernetesVersionsCreateOrUpdateRequestTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The list of the resource properties. */
@@ -4129,25 +4178,25 @@ export interface KubernetesVersionsCreateOrUpdateRequest {
 export type KubernetesVersionsCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
 export interface KubernetesVersionsCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: KubernetesVersionsCreateOrUpdateResponseTagsMap;
+  tags?: KubernetesVersionsCreateOrUpdateResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The list of the resource properties. */
   properties: KubernetesVersionProperties;
   /** "If etag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields.") */
-  etag?: string;
+  etag?: string | undefined;
   /** The extended location of the resource. This property is required when creating the resource. */
   extendedLocation: AzureResourceManagerCommonTypesExtendedLocation;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
 }
 /** Resource tags. */
 export type L2NetworksCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
@@ -4156,9 +4205,9 @@ export type L2NetworkPropertiesInputHybridAksPluginType = "DPDK" | "SRIOV" | "OS
 /** L2NetworkProperties represents properties of the L2 network. */
 export interface L2NetworkPropertiesInput {
   /** Field Deprecated. The field was previously optional, now it will have no defined behavior and will be ignored. The network plugin type for Hybrid AKS. */
-  hybridAksPluginType?: L2NetworkPropertiesInputHybridAksPluginType | (string & {});
+  hybridAksPluginType?: L2NetworkPropertiesInputHybridAksPluginType | (string & {}) | undefined;
   /** The default interface name for this L2 network in the virtual machine. This name can be overridden by the name supplied in the network attachment configuration of that virtual machine. */
-  interfaceName?: string;
+  interfaceName?: string | undefined;
   /** The resource ID of the Network Fabric l2IsolationDomain. */
   l2IsolationDomainId: string;
 }
@@ -4170,7 +4219,7 @@ export interface L2NetworksCreateOrUpdateRequest {
   /** The name of the L2 network. */
   l2NetworkName: string;
   /** Resource tags. */
-  tags?: L2NetworksCreateOrUpdateRequestTagsMap;
+  tags?: L2NetworksCreateOrUpdateRequestTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The list of the resource properties. */
@@ -4182,25 +4231,25 @@ export interface L2NetworksCreateOrUpdateRequest {
 export type L2NetworksCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
 export interface L2NetworksCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: L2NetworksCreateOrUpdateResponseTagsMap;
+  tags?: L2NetworksCreateOrUpdateResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The list of the resource properties. */
   properties: L2NetworkProperties;
   /** "If etag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields.") */
-  etag?: string;
+  etag?: string | undefined;
   /** The extended location of the resource. This property is required when creating the resource. */
   extendedLocation: AzureResourceManagerCommonTypesExtendedLocation;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
 }
 /** Resource tags. */
 export type L3NetworksCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
@@ -4213,17 +4262,17 @@ export type L3NetworkPropertiesInputIpAllocationType = "IPV4" | "IPV6" | "DualSt
 /** L3NetworkProperties represents properties of the L3 network. */
 export interface L3NetworkPropertiesInput {
   /** Field Deprecated. The field was previously optional, now it will have no defined behavior and will be ignored. The indicator of whether or not to disable IPAM allocation on the network attachment definition injected into the Hybrid AKS Cluster. */
-  hybridAksIpamEnabled?: L3NetworkPropertiesInputHybridAksIpamEnabled | (string & {});
+  hybridAksIpamEnabled?: L3NetworkPropertiesInputHybridAksIpamEnabled | (string & {}) | undefined;
   /** Field Deprecated. The field was previously optional, now it will have no defined behavior and will be ignored. The network plugin type for Hybrid AKS. */
-  hybridAksPluginType?: L3NetworkPropertiesInputHybridAksPluginType | (string & {});
+  hybridAksPluginType?: L3NetworkPropertiesInputHybridAksPluginType | (string & {}) | undefined;
   /** The default interface name for this L3 network in the virtual machine. This name can be overridden by the name supplied in the network attachment configuration of that virtual machine. */
-  interfaceName?: string;
+  interfaceName?: string | undefined;
   /** The type of the IP address allocation, defaulted to "DualStack". */
-  ipAllocationType?: L3NetworkPropertiesInputIpAllocationType | (string & {});
+  ipAllocationType?: L3NetworkPropertiesInputIpAllocationType | (string & {}) | undefined;
   /** The IPV4 prefix (CIDR) assigned to this L3 network. Required when the IP allocation type is IPV4 or DualStack. */
-  ipv4ConnectedPrefix?: string;
+  ipv4ConnectedPrefix?: string | undefined;
   /** The IPV6 prefix (CIDR) assigned to this L3 network. Required when the IP allocation type is IPV6 or DualStack. */
-  ipv6ConnectedPrefix?: string;
+  ipv6ConnectedPrefix?: string | undefined;
   /** The resource ID of the Network Fabric l3IsolationDomain. */
   l3IsolationDomainId: string;
   /** The VLAN from the l3IsolationDomain that is used for this network. */
@@ -4237,7 +4286,7 @@ export interface L3NetworksCreateOrUpdateRequest {
   /** The name of the L3 network. */
   l3NetworkName: string;
   /** Resource tags. */
-  tags?: L3NetworksCreateOrUpdateRequestTagsMap;
+  tags?: L3NetworksCreateOrUpdateRequestTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The list of the resource properties. */
@@ -4249,25 +4298,25 @@ export interface L3NetworksCreateOrUpdateRequest {
 export type L3NetworksCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
 export interface L3NetworksCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: L3NetworksCreateOrUpdateResponseTagsMap;
+  tags?: L3NetworksCreateOrUpdateResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The list of the resource properties. */
   properties: L3NetworkProperties;
   /** "If etag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields.") */
-  etag?: string;
+  etag?: string | undefined;
   /** The extended location of the resource. This property is required when creating the resource. */
   extendedLocation: AzureResourceManagerCommonTypesExtendedLocation;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
 }
 export interface ListAccessBridgeByResourceGroupRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -4275,30 +4324,30 @@ export interface ListAccessBridgeByResourceGroupRequest {
   /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
   /** The maximum number of resources to return from the operation. Example: '$top=10'. */
-  _top?: number;
+  _top?: number | undefined;
   /** The opaque token that the server returns to indicate where to continue listing resources from. This is used for paging through large result sets. */
-  _skipToken?: string;
+  _skipToken?: string | undefined;
 }
 /** Resource tags. */
 export type AccessBridgeTagsMap = { [key: string]: string | undefined };
 /** AccessBridge represents a managed access bridge resource. */
 export interface AccessBridge {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: AccessBridgeTagsMap;
+  tags?: AccessBridgeTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The list of the resource properties. */
   properties: AccessBridgeProperties;
   /** "If etag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields.") */
-  etag?: string;
+  etag?: string | undefined;
   /** The extended location of the resource. This property is required when creating the resource. */
   extendedLocation: AzureResourceManagerCommonTypesExtendedLocation;
 }
@@ -4309,15 +4358,15 @@ export interface AccessBridgeList {
   /** The AccessBridge items on this page */
   value: AccessBridgeListValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListAccessBridgeBySubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
   /** The maximum number of resources to return from the operation. Example: '$top=10'. */
-  _top?: number;
+  _top?: number | undefined;
   /** The opaque token that the server returns to indicate where to continue listing resources from. This is used for paging through large result sets. */
-  _skipToken?: string;
+  _skipToken?: string | undefined;
 }
 export interface ListAgentPoolByKubernetesClusterRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -4327,32 +4376,32 @@ export interface ListAgentPoolByKubernetesClusterRequest {
   /** The name of the Kubernetes cluster. */
   kubernetesClusterName: string;
   /** The maximum number of resources to return from the operation. Example: '$top=10'. */
-  _top?: number;
+  _top?: number | undefined;
   /** The opaque token that the server returns to indicate where to continue listing resources from. This is used for paging through large result sets. */
-  _skipToken?: string;
+  _skipToken?: string | undefined;
 }
 /** Resource tags. */
 export type AgentPoolTagsMap = { [key: string]: string | undefined };
 /** AgentPool represents the agent pool of Kubernetes cluster. */
 export interface AgentPool {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: AgentPoolTagsMap;
+  tags?: AgentPoolTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The list of the resource properties. */
   properties: AgentPoolProperties;
   /** "If etag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields.") */
-  etag?: string;
+  etag?: string | undefined;
   /** The extended location of the resource. */
-  extendedLocation?: AzureResourceManagerCommonTypesExtendedLocation;
+  extendedLocation?: AzureResourceManagerCommonTypesExtendedLocation | undefined;
 }
 /** The AgentPool items on this page */
 export type AgentPoolListValueList = Array<AgentPool>;
@@ -4361,7 +4410,7 @@ export interface AgentPoolList {
   /** The AgentPool items on this page */
   value: AgentPoolListValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListBareMetalMachineByResourceGroupRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -4369,30 +4418,30 @@ export interface ListBareMetalMachineByResourceGroupRequest {
   /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
   /** The maximum number of resources to return from the operation. Example: '$top=10'. */
-  _top?: number;
+  _top?: number | undefined;
   /** The opaque token that the server returns to indicate where to continue listing resources from. This is used for paging through large result sets. */
-  _skipToken?: string;
+  _skipToken?: string | undefined;
 }
 /** Resource tags. */
 export type BareMetalMachineTagsMap = { [key: string]: string | undefined };
 /** BareMetalMachine represents the physical machine in the rack. */
 export interface BareMetalMachine {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: BareMetalMachineTagsMap;
+  tags?: BareMetalMachineTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The list of the resource properties. */
   properties: BareMetalMachineProperties;
   /** "If etag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields.") */
-  etag?: string;
+  etag?: string | undefined;
   /** The extended location of the resource. This property is required when creating the resource. */
   extendedLocation: AzureResourceManagerCommonTypesExtendedLocation;
 }
@@ -4403,15 +4452,15 @@ export interface BareMetalMachineList {
   /** The BareMetalMachine items on this page */
   value: BareMetalMachineListValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListBareMetalMachineBySubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
   /** The maximum number of resources to return from the operation. Example: '$top=10'. */
-  _top?: number;
+  _top?: number | undefined;
   /** The opaque token that the server returns to indicate where to continue listing resources from. This is used for paging through large result sets. */
-  _skipToken?: string;
+  _skipToken?: string | undefined;
 }
 export interface ListBareMetalMachineKeySetByClusterRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -4421,30 +4470,30 @@ export interface ListBareMetalMachineKeySetByClusterRequest {
   /** The name of the cluster. */
   clusterName: string;
   /** The maximum number of resources to return from the operation. Example: '$top=10'. */
-  _top?: number;
+  _top?: number | undefined;
   /** The opaque token that the server returns to indicate where to continue listing resources from. This is used for paging through large result sets. */
-  _skipToken?: string;
+  _skipToken?: string | undefined;
 }
 /** Resource tags. */
 export type BareMetalMachineKeySetTagsMap = { [key: string]: string | undefined };
 /** BareMetalMachineKeySet represents the bare metal machine key set. */
 export interface BareMetalMachineKeySet {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: BareMetalMachineKeySetTagsMap;
+  tags?: BareMetalMachineKeySetTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The list of the resource properties. */
   properties: BareMetalMachineKeySetProperties;
   /** "If etag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields.") */
-  etag?: string;
+  etag?: string | undefined;
   /** The extended location of the resource. This property is required when creating the resource. */
   extendedLocation: AzureResourceManagerCommonTypesExtendedLocation;
 }
@@ -4455,7 +4504,7 @@ export interface BareMetalMachineKeySetList {
   /** The BareMetalMachineKeySet items on this page */
   value: BareMetalMachineKeySetListValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListBmcKeySetByClusterRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -4465,30 +4514,30 @@ export interface ListBmcKeySetByClusterRequest {
   /** The name of the cluster. */
   clusterName: string;
   /** The maximum number of resources to return from the operation. Example: '$top=10'. */
-  _top?: number;
+  _top?: number | undefined;
   /** The opaque token that the server returns to indicate where to continue listing resources from. This is used for paging through large result sets. */
-  _skipToken?: string;
+  _skipToken?: string | undefined;
 }
 /** Resource tags. */
 export type BmcKeySetTagsMap = { [key: string]: string | undefined };
 /** BmcKeySet represents the baseboard management controller key set. */
 export interface BmcKeySet {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: BmcKeySetTagsMap;
+  tags?: BmcKeySetTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The list of the resource properties. */
   properties: BmcKeySetProperties;
   /** "If etag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields.") */
-  etag?: string;
+  etag?: string | undefined;
   /** The extended location of the resource. This property is required when creating the resource. */
   extendedLocation: AzureResourceManagerCommonTypesExtendedLocation;
 }
@@ -4499,7 +4548,7 @@ export interface BmcKeySetList {
   /** The BmcKeySet items on this page */
   value: BmcKeySetListValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListCloudServicesNetworkByResourceGroupRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -4507,30 +4556,30 @@ export interface ListCloudServicesNetworkByResourceGroupRequest {
   /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
   /** The maximum number of resources to return from the operation. Example: '$top=10'. */
-  _top?: number;
+  _top?: number | undefined;
   /** The opaque token that the server returns to indicate where to continue listing resources from. This is used for paging through large result sets. */
-  _skipToken?: string;
+  _skipToken?: string | undefined;
 }
 /** Resource tags. */
 export type CloudServicesNetworkTagsMap = { [key: string]: string | undefined };
 /** Upon creation, the additional services that are provided by the platform will be allocated and represented in the status of this resource. All resources associated with this cloud services network will be part of the same layer 2 (L2) isolation domain. At least one service network must be created but may be reused across many virtual machines and/or Hybrid AKS clusters. */
 export interface CloudServicesNetwork {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: CloudServicesNetworkTagsMap;
+  tags?: CloudServicesNetworkTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The list of the resource properties. */
-  properties?: CloudServicesNetworkProperties;
+  properties?: CloudServicesNetworkProperties | undefined;
   /** "If etag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields.") */
-  etag?: string;
+  etag?: string | undefined;
   /** The extended location of the resource. This property is required when creating the resource. */
   extendedLocation: AzureResourceManagerCommonTypesExtendedLocation;
 }
@@ -4541,15 +4590,15 @@ export interface CloudServicesNetworkList {
   /** The CloudServicesNetwork items on this page */
   value: CloudServicesNetworkListValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListCloudServicesNetworkBySubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
   /** The maximum number of resources to return from the operation. Example: '$top=10'. */
-  _top?: number;
+  _top?: number | undefined;
   /** The opaque token that the server returns to indicate where to continue listing resources from. This is used for paging through large result sets. */
-  _skipToken?: string;
+  _skipToken?: string | undefined;
 }
 export interface ListClusterByResourceGroupRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -4557,9 +4606,9 @@ export interface ListClusterByResourceGroupRequest {
   /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
   /** The maximum number of resources to return from the operation. Example: '$top=10'. */
-  _top?: number;
+  _top?: number | undefined;
   /** The opaque token that the server returns to indicate where to continue listing resources from. This is used for paging through large result sets. */
-  _skipToken?: string;
+  _skipToken?: string | undefined;
 }
 /** Resource tags. */
 export type ClusterTagsMap = { [key: string]: string | undefined };
@@ -4570,37 +4619,37 @@ export type ClusterIdentityUserAssignedIdentitiesMap = {
 /** Managed service identity (system assigned and/or user assigned identities) */
 export interface ClusterIdentity {
   /** The service principal ID of the system assigned identity. This property will only be provided for a system assigned identity. */
-  principalId?: string;
+  principalId?: string | undefined;
   /** The tenant ID of the system assigned identity. This property will only be provided for a system assigned identity. */
-  tenantId?: string;
+  tenantId?: string | undefined;
   type: ManagedServiceIdentityType;
   /** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
-  userAssignedIdentities?: ClusterIdentityUserAssignedIdentitiesMap;
+  userAssignedIdentities?: ClusterIdentityUserAssignedIdentitiesMap | undefined;
 }
 /** Cluster represents the on-premises Network Cloud cluster. */
 export interface Cluster {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: ClusterTagsMap;
+  tags?: ClusterTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The list of the resource properties. */
   properties: ClusterProperties;
   /** "If etag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields.") */
-  etag?: string;
+  etag?: string | undefined;
   /** The extended location of the resource. This property is required when creating the resource. */
   extendedLocation: AzureResourceManagerCommonTypesExtendedLocation;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: ClusterIdentity;
+  identity?: ClusterIdentity | undefined;
   /** The type (kind) of the cluster. When specified, the value must exactly match the kind configured on the cluster manager that manages the cluster. If omitted, the service will default the value to the kind value of the cluster manager. */
-  kind?: DeploymentType;
+  kind?: DeploymentType | undefined;
 }
 /** The Cluster items on this page */
 export type ClusterListValueList = Array<Cluster>;
@@ -4609,15 +4658,15 @@ export interface ClusterList {
   /** The Cluster items on this page */
   value: ClusterListValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListClusterBySubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
   /** The maximum number of resources to return from the operation. Example: '$top=10'. */
-  _top?: number;
+  _top?: number | undefined;
   /** The opaque token that the server returns to indicate where to continue listing resources from. This is used for paging through large result sets. */
-  _skipToken?: string;
+  _skipToken?: string | undefined;
 }
 export interface ListClusterManagerByResourceGroupRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -4625,9 +4674,9 @@ export interface ListClusterManagerByResourceGroupRequest {
   /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
   /** The maximum number of resources to return from the operation. Example: '$top=10'. */
-  _top?: number;
+  _top?: number | undefined;
   /** The opaque token that the server returns to indicate where to continue listing resources from. This is used for paging through large result sets. */
-  _skipToken?: string;
+  _skipToken?: string | undefined;
 }
 /** Resource tags. */
 export type ClusterManagerTagsMap = { [key: string]: string | undefined };
@@ -4638,35 +4687,35 @@ export type ClusterManagerIdentityUserAssignedIdentitiesMap = {
 /** Managed service identity (system assigned and/or user assigned identities) */
 export interface ClusterManagerIdentity {
   /** The service principal ID of the system assigned identity. This property will only be provided for a system assigned identity. */
-  principalId?: string;
+  principalId?: string | undefined;
   /** The tenant ID of the system assigned identity. This property will only be provided for a system assigned identity. */
-  tenantId?: string;
+  tenantId?: string | undefined;
   type: ManagedServiceIdentityType;
   /** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
-  userAssignedIdentities?: ClusterManagerIdentityUserAssignedIdentitiesMap;
+  userAssignedIdentities?: ClusterManagerIdentityUserAssignedIdentitiesMap | undefined;
 }
 /** ClusterManager represents a control-plane to manage one or more on-premises clusters. */
 export interface ClusterManager {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: ClusterManagerTagsMap;
+  tags?: ClusterManagerTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The list of the resource properties. */
   properties: ClusterManagerProperties;
   /** "If etag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields.") */
-  etag?: string;
+  etag?: string | undefined;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: ClusterManagerIdentity;
+  identity?: ClusterManagerIdentity | undefined;
   /** The kind of the cluster manager. */
-  kind?: DeploymentType;
+  kind?: DeploymentType | undefined;
 }
 /** The ClusterManager items on this page */
 export type ClusterManagerListValueList = Array<ClusterManager>;
@@ -4675,15 +4724,15 @@ export interface ClusterManagerList {
   /** The ClusterManager items on this page */
   value: ClusterManagerListValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListClusterManagerBySubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
   /** The maximum number of resources to return from the operation. Example: '$top=10'. */
-  _top?: number;
+  _top?: number | undefined;
   /** The opaque token that the server returns to indicate where to continue listing resources from. This is used for paging through large result sets. */
-  _skipToken?: string;
+  _skipToken?: string | undefined;
 }
 export interface ListConsoleByVirtualMachineRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -4693,30 +4742,30 @@ export interface ListConsoleByVirtualMachineRequest {
   /** The name of the virtual machine. */
   virtualMachineName: string;
   /** The maximum number of resources to return from the operation. Example: '$top=10'. */
-  _top?: number;
+  _top?: number | undefined;
   /** The opaque token that the server returns to indicate where to continue listing resources from. This is used for paging through large result sets. */
-  _skipToken?: string;
+  _skipToken?: string | undefined;
 }
 /** Resource tags. */
 export type ConsoleTagsMap = { [key: string]: string | undefined };
 /** Console represents the console of an on-premises Network Cloud virtual machine. */
 export interface Console {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: ConsoleTagsMap;
+  tags?: ConsoleTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The list of the resource properties. */
   properties: ConsoleProperties;
   /** "If etag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields.") */
-  etag?: string;
+  etag?: string | undefined;
   /** The extended location of the resource. This property is required when creating the resource. */
   extendedLocation: AzureResourceManagerCommonTypesExtendedLocation;
 }
@@ -4727,7 +4776,7 @@ export interface ConsoleList {
   /** The Console items on this page */
   value: ConsoleListValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListKubernetesClusterByResourceGroupRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -4735,30 +4784,30 @@ export interface ListKubernetesClusterByResourceGroupRequest {
   /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
   /** The maximum number of resources to return from the operation. Example: '$top=10'. */
-  _top?: number;
+  _top?: number | undefined;
   /** The opaque token that the server returns to indicate where to continue listing resources from. This is used for paging through large result sets. */
-  _skipToken?: string;
+  _skipToken?: string | undefined;
 }
 /** Resource tags. */
 export type KubernetesClusterTagsMap = { [key: string]: string | undefined };
 /** KubernetesCluster represents the Kubernetes cluster hosted on Network Cloud. */
 export interface KubernetesCluster {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: KubernetesClusterTagsMap;
+  tags?: KubernetesClusterTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The list of the resource properties. */
   properties: KubernetesClusterProperties;
   /** "If etag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields.") */
-  etag?: string;
+  etag?: string | undefined;
   /** The extended location of the resource. This property is required when creating the resource. */
   extendedLocation: AzureResourceManagerCommonTypesExtendedLocation;
 }
@@ -4769,15 +4818,15 @@ export interface KubernetesClusterList {
   /** The KubernetesCluster items on this page */
   value: KubernetesClusterListValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListKubernetesClusterBySubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
   /** The maximum number of resources to return from the operation. Example: '$top=10'. */
-  _top?: number;
+  _top?: number | undefined;
   /** The opaque token that the server returns to indicate where to continue listing resources from. This is used for paging through large result sets. */
-  _skipToken?: string;
+  _skipToken?: string | undefined;
 }
 export interface ListKubernetesClusterFeatureByKubernetesClusterRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -4787,30 +4836,30 @@ export interface ListKubernetesClusterFeatureByKubernetesClusterRequest {
   /** The name of the Kubernetes cluster. */
   kubernetesClusterName: string;
   /** The maximum number of resources to return from the operation. Example: '$top=10'. */
-  _top?: number;
+  _top?: number | undefined;
   /** The opaque token that the server returns to indicate where to continue listing resources from. This is used for paging through large result sets. */
-  _skipToken?: string;
+  _skipToken?: string | undefined;
 }
 /** Resource tags. */
 export type KubernetesClusterFeatureTagsMap = { [key: string]: string | undefined };
 /** KubernetesClusterFeature represents the feature of a Kubernetes cluster. */
 export interface KubernetesClusterFeature {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: KubernetesClusterFeatureTagsMap;
+  tags?: KubernetesClusterFeatureTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The list of the resource properties. */
-  properties?: KubernetesClusterFeatureProperties;
+  properties?: KubernetesClusterFeatureProperties | undefined;
   /** "If etag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields.") */
-  etag?: string;
+  etag?: string | undefined;
 }
 /** The KubernetesClusterFeature items on this page */
 export type KubernetesClusterFeatureListValueList = Array<KubernetesClusterFeature>;
@@ -4819,7 +4868,7 @@ export interface KubernetesClusterFeatureList {
   /** The KubernetesClusterFeature items on this page */
   value: KubernetesClusterFeatureListValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListKubernetesVersionByResourceGroupRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -4827,30 +4876,30 @@ export interface ListKubernetesVersionByResourceGroupRequest {
   /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
   /** The maximum number of resources to return from the operation. Example: '$top=10'. */
-  _top?: number;
+  _top?: number | undefined;
   /** The opaque token that the server returns to indicate where to continue listing resources from. This is used for paging through large result sets. */
-  _skipToken?: string;
+  _skipToken?: string | undefined;
 }
 /** Resource tags. */
 export type KubernetesVersionTagsMap = { [key: string]: string | undefined };
 /** KubernetesVersion represents the available Kubernetes versions for a cluster. */
 export interface KubernetesVersion {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: KubernetesVersionTagsMap;
+  tags?: KubernetesVersionTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The list of the resource properties. */
   properties: KubernetesVersionProperties;
   /** "If etag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields.") */
-  etag?: string;
+  etag?: string | undefined;
   /** The extended location of the resource. This property is required when creating the resource. */
   extendedLocation: AzureResourceManagerCommonTypesExtendedLocation;
 }
@@ -4861,15 +4910,15 @@ export interface KubernetesVersionList {
   /** The KubernetesVersion items on this page */
   value: KubernetesVersionListValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListKubernetesVersionBySubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
   /** The maximum number of resources to return from the operation. Example: '$top=10'. */
-  _top?: number;
+  _top?: number | undefined;
   /** The opaque token that the server returns to indicate where to continue listing resources from. This is used for paging through large result sets. */
-  _skipToken?: string;
+  _skipToken?: string | undefined;
 }
 export interface ListL2NetworkByResourceGroupRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -4877,30 +4926,30 @@ export interface ListL2NetworkByResourceGroupRequest {
   /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
   /** The maximum number of resources to return from the operation. Example: '$top=10'. */
-  _top?: number;
+  _top?: number | undefined;
   /** The opaque token that the server returns to indicate where to continue listing resources from. This is used for paging through large result sets. */
-  _skipToken?: string;
+  _skipToken?: string | undefined;
 }
 /** Resource tags. */
 export type L2NetworkTagsMap = { [key: string]: string | undefined };
 /** L2Network represents a network that utilizes a single isolation domain set up for layer-2 resources. */
 export interface L2Network {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: L2NetworkTagsMap;
+  tags?: L2NetworkTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The list of the resource properties. */
   properties: L2NetworkProperties;
   /** "If etag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields.") */
-  etag?: string;
+  etag?: string | undefined;
   /** The extended location of the resource. This property is required when creating the resource. */
   extendedLocation: AzureResourceManagerCommonTypesExtendedLocation;
 }
@@ -4911,15 +4960,15 @@ export interface L2NetworkList {
   /** The L2Network items on this page */
   value: L2NetworkListValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListL2NetworkBySubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
   /** The maximum number of resources to return from the operation. Example: '$top=10'. */
-  _top?: number;
+  _top?: number | undefined;
   /** The opaque token that the server returns to indicate where to continue listing resources from. This is used for paging through large result sets. */
-  _skipToken?: string;
+  _skipToken?: string | undefined;
 }
 export interface ListL3NetworkByResourceGroupRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -4927,30 +4976,30 @@ export interface ListL3NetworkByResourceGroupRequest {
   /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
   /** The maximum number of resources to return from the operation. Example: '$top=10'. */
-  _top?: number;
+  _top?: number | undefined;
   /** The opaque token that the server returns to indicate where to continue listing resources from. This is used for paging through large result sets. */
-  _skipToken?: string;
+  _skipToken?: string | undefined;
 }
 /** Resource tags. */
 export type L3NetworkTagsMap = { [key: string]: string | undefined };
 /** L3Network represents a network that utilizes a single isolation domain set up for layer-3 resources. */
 export interface L3Network {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: L3NetworkTagsMap;
+  tags?: L3NetworkTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The list of the resource properties. */
   properties: L3NetworkProperties;
   /** "If etag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields.") */
-  etag?: string;
+  etag?: string | undefined;
   /** The extended location of the resource. This property is required when creating the resource. */
   extendedLocation: AzureResourceManagerCommonTypesExtendedLocation;
 }
@@ -4961,15 +5010,15 @@ export interface L3NetworkList {
   /** The L3Network items on this page */
   value: L3NetworkListValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListL3NetworkBySubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
   /** The maximum number of resources to return from the operation. Example: '$top=10'. */
-  _top?: number;
+  _top?: number | undefined;
   /** The opaque token that the server returns to indicate where to continue listing resources from. This is used for paging through large result sets. */
-  _skipToken?: string;
+  _skipToken?: string | undefined;
 }
 export interface ListMetricsConfigurationByClusterRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -4979,30 +5028,30 @@ export interface ListMetricsConfigurationByClusterRequest {
   /** The name of the cluster. */
   clusterName: string;
   /** The maximum number of resources to return from the operation. Example: '$top=10'. */
-  _top?: number;
+  _top?: number | undefined;
   /** The opaque token that the server returns to indicate where to continue listing resources from. This is used for paging through large result sets. */
-  _skipToken?: string;
+  _skipToken?: string | undefined;
 }
 /** Resource tags. */
 export type ClusterMetricsConfigurationTagsMap = { [key: string]: string | undefined };
 /** ClusterMetricsConfiguration represents the metrics configuration of an on-premises Network Cloud cluster. */
 export interface ClusterMetricsConfiguration {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: ClusterMetricsConfigurationTagsMap;
+  tags?: ClusterMetricsConfigurationTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The list of the resource properties. */
   properties: ClusterMetricsConfigurationProperties;
   /** "If etag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields.") */
-  etag?: string;
+  etag?: string | undefined;
   /** The extended location of the resource. This property is required when creating the resource. */
   extendedLocation: AzureResourceManagerCommonTypesExtendedLocation;
 }
@@ -5013,19 +5062,19 @@ export interface ClusterMetricsConfigurationList {
   /** The ClusterMetricsConfiguration items on this page */
   value: ClusterMetricsConfigurationListValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListOperationsRequest {}
 /** Localized display information for this particular operation. */
 export interface OperationDisplay {
   /** The localized friendly form of the resource provider name, e.g. "Microsoft Monitoring Insights" or "Microsoft Compute". */
-  provider?: string;
+  provider?: string | undefined;
   /** The localized friendly name of the resource type related to this operation. E.g. "Virtual Machines" or "Job Schedule Collections". */
-  resource?: string;
+  resource?: string | undefined;
   /** The concise, localized friendly name for the operation; suitable for dropdowns. E.g. "Create or Update Virtual Machine", "Restart Virtual Machine". */
-  operation?: string;
+  operation?: string | undefined;
   /** The short, localized friendly description of the operation; suitable for tool tips and detailed views. */
-  description?: string;
+  description?: string | undefined;
 }
 /** The intended executor of the operation; as in Resource Based Access Control (RBAC) and audit logs UX. Default value is "user,system" */
 export type OperationOrigin = "user" | "system" | "user,system";
@@ -5034,23 +5083,23 @@ export type OperationActionType = "Internal";
 /** Details of a REST API operation, returned from the Resource Provider Operations API */
 export interface Operation {
   /** The name of the operation, as per Resource-Based Access Control (RBAC). Examples: "Microsoft.Compute/virtualMachines/write", "Microsoft.Compute/virtualMachines/capture/action" */
-  name?: string;
+  name?: string | undefined;
   /** Whether the operation applies to data-plane. This is "true" for data-plane operations and "false" for ARM/control-plane operations. */
-  isDataAction?: boolean;
+  isDataAction?: boolean | undefined;
   /** Localized display information for this particular operation. */
-  display?: OperationDisplay;
+  display?: OperationDisplay | undefined;
   /** The intended executor of the operation; as in Resource Based Access Control (RBAC) and audit logs UX. Default value is "user,system" */
-  origin?: OperationOrigin;
+  origin?: OperationOrigin | undefined;
   /** Enum. Indicates the action type. "Internal" refers to actions that are for internal only APIs. */
-  actionType?: OperationActionType;
+  actionType?: OperationActionType | undefined;
 }
 /** List of operations supported by the resource provider */
 export type ListOperationsResponseValueList = Array<Operation>;
 export interface ListOperationsResponse {
   /** List of operations supported by the resource provider */
-  value?: ListOperationsResponseValueList;
+  value?: ListOperationsResponseValueList | undefined;
   /** URL to get the next set of operation list results (if there are any). */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListRackByResourceGroupRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -5058,30 +5107,30 @@ export interface ListRackByResourceGroupRequest {
   /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
   /** The maximum number of resources to return from the operation. Example: '$top=10'. */
-  _top?: number;
+  _top?: number | undefined;
   /** The opaque token that the server returns to indicate where to continue listing resources from. This is used for paging through large result sets. */
-  _skipToken?: string;
+  _skipToken?: string | undefined;
 }
 /** Resource tags. */
 export type RackTagsMap = { [key: string]: string | undefined };
 /** Rack represents the hardware of the rack and is dependent upon the cluster for lifecycle. */
 export interface Rack {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: RackTagsMap;
+  tags?: RackTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The list of the resource properties. */
   properties: RackProperties;
   /** "If etag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields.") */
-  etag?: string;
+  etag?: string | undefined;
   /** The extended location of the resource. This property is required when creating the resource. */
   extendedLocation: AzureResourceManagerCommonTypesExtendedLocation;
 }
@@ -5092,15 +5141,15 @@ export interface RackList {
   /** The Rack items on this page */
   value: RackListValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListRackBySubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
   /** The maximum number of resources to return from the operation. Example: '$top=10'. */
-  _top?: number;
+  _top?: number | undefined;
   /** The opaque token that the server returns to indicate where to continue listing resources from. This is used for paging through large result sets. */
-  _skipToken?: string;
+  _skipToken?: string | undefined;
 }
 export interface ListRackSkusBySubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -5109,13 +5158,13 @@ export interface ListRackSkusBySubscriptionRequest {
 /** RackSku represents the SKU information of the rack. */
 export interface RackSku {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The list of the resource properties. */
   properties: RackSkuProperties;
 }
@@ -5126,7 +5175,7 @@ export interface RackSkuList {
   /** The RackSku items on this page */
   value: RackSkuListValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListStorageApplianceByResourceGroupRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -5134,30 +5183,30 @@ export interface ListStorageApplianceByResourceGroupRequest {
   /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
   /** The maximum number of resources to return from the operation. Example: '$top=10'. */
-  _top?: number;
+  _top?: number | undefined;
   /** The opaque token that the server returns to indicate where to continue listing resources from. This is used for paging through large result sets. */
-  _skipToken?: string;
+  _skipToken?: string | undefined;
 }
 /** Resource tags. */
 export type StorageApplianceTagsMap = { [key: string]: string | undefined };
 /** StorageAppliance represents on-premises Network Cloud storage appliance. */
 export interface StorageAppliance {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: StorageApplianceTagsMap;
+  tags?: StorageApplianceTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The list of the resource properties. */
   properties: StorageApplianceProperties;
   /** "If etag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields.") */
-  etag?: string;
+  etag?: string | undefined;
   /** The extended location of the resource. This property is required when creating the resource. */
   extendedLocation: AzureResourceManagerCommonTypesExtendedLocation;
 }
@@ -5168,15 +5217,15 @@ export interface StorageApplianceList {
   /** The StorageAppliance items on this page */
   value: StorageApplianceListValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListStorageApplianceBySubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
   /** The maximum number of resources to return from the operation. Example: '$top=10'. */
-  _top?: number;
+  _top?: number | undefined;
   /** The opaque token that the server returns to indicate where to continue listing resources from. This is used for paging through large result sets. */
-  _skipToken?: string;
+  _skipToken?: string | undefined;
 }
 export interface ListTrunkedNetworkByResourceGroupRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -5184,30 +5233,30 @@ export interface ListTrunkedNetworkByResourceGroupRequest {
   /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
   /** The maximum number of resources to return from the operation. Example: '$top=10'. */
-  _top?: number;
+  _top?: number | undefined;
   /** The opaque token that the server returns to indicate where to continue listing resources from. This is used for paging through large result sets. */
-  _skipToken?: string;
+  _skipToken?: string | undefined;
 }
 /** Resource tags. */
 export type TrunkedNetworkTagsMap = { [key: string]: string | undefined };
 /** TrunkedNetwork represents a network that utilizes multiple isolation domains and specified VLANs to create a trunked network. */
 export interface TrunkedNetwork {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: TrunkedNetworkTagsMap;
+  tags?: TrunkedNetworkTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The list of the resource properties. */
   properties: TrunkedNetworkProperties;
   /** "If etag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields.") */
-  etag?: string;
+  etag?: string | undefined;
   /** The extended location of the resource. This property is required when creating the resource. */
   extendedLocation: AzureResourceManagerCommonTypesExtendedLocation;
 }
@@ -5218,15 +5267,15 @@ export interface TrunkedNetworkList {
   /** The TrunkedNetwork items on this page */
   value: TrunkedNetworkListValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListTrunkedNetworkBySubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
   /** The maximum number of resources to return from the operation. Example: '$top=10'. */
-  _top?: number;
+  _top?: number | undefined;
   /** The opaque token that the server returns to indicate where to continue listing resources from. This is used for paging through large result sets. */
-  _skipToken?: string;
+  _skipToken?: string | undefined;
 }
 export interface ListVirtualMachineByResourceGroupRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -5234,9 +5283,9 @@ export interface ListVirtualMachineByResourceGroupRequest {
   /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
   /** The maximum number of resources to return from the operation. Example: '$top=10'. */
-  _top?: number;
+  _top?: number | undefined;
   /** The opaque token that the server returns to indicate where to continue listing resources from. This is used for paging through large result sets. */
-  _skipToken?: string;
+  _skipToken?: string | undefined;
 }
 /** Resource tags. */
 export type VirtualMachineTagsMap = { [key: string]: string | undefined };
@@ -5247,35 +5296,35 @@ export type VirtualMachineIdentityUserAssignedIdentitiesMap = {
 /** Managed service identity (system assigned and/or user assigned identities) */
 export interface VirtualMachineIdentity {
   /** The service principal ID of the system assigned identity. This property will only be provided for a system assigned identity. */
-  principalId?: string;
+  principalId?: string | undefined;
   /** The tenant ID of the system assigned identity. This property will only be provided for a system assigned identity. */
-  tenantId?: string;
+  tenantId?: string | undefined;
   type: ManagedServiceIdentityType;
   /** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
-  userAssignedIdentities?: VirtualMachineIdentityUserAssignedIdentitiesMap;
+  userAssignedIdentities?: VirtualMachineIdentityUserAssignedIdentitiesMap | undefined;
 }
 /** VirtualMachine represents the on-premises Network Cloud virtual machine. */
 export interface VirtualMachine {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: VirtualMachineTagsMap;
+  tags?: VirtualMachineTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The list of the resource properties. */
   properties: VirtualMachineProperties;
   /** "If etag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields.") */
-  etag?: string;
+  etag?: string | undefined;
   /** The extended location of the resource. This property is required when creating the resource. */
   extendedLocation: AzureResourceManagerCommonTypesExtendedLocation;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: VirtualMachineIdentity;
+  identity?: VirtualMachineIdentity | undefined;
 }
 /** The VirtualMachine items on this page */
 export type VirtualMachineListValueList = Array<VirtualMachine>;
@@ -5284,15 +5333,15 @@ export interface VirtualMachineList {
   /** The VirtualMachine items on this page */
   value: VirtualMachineListValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListVirtualMachineBySubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
   /** The maximum number of resources to return from the operation. Example: '$top=10'. */
-  _top?: number;
+  _top?: number | undefined;
   /** The opaque token that the server returns to indicate where to continue listing resources from. This is used for paging through large result sets. */
-  _skipToken?: string;
+  _skipToken?: string | undefined;
 }
 export interface ListVolumeByResourceGroupRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -5300,30 +5349,30 @@ export interface ListVolumeByResourceGroupRequest {
   /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
   /** The maximum number of resources to return from the operation. Example: '$top=10'. */
-  _top?: number;
+  _top?: number | undefined;
   /** The opaque token that the server returns to indicate where to continue listing resources from. This is used for paging through large result sets. */
-  _skipToken?: string;
+  _skipToken?: string | undefined;
 }
 /** Resource tags. */
 export type VolumeTagsMap = { [key: string]: string | undefined };
 /** Volume represents storage made available for use by resources running on the cluster. */
 export interface Volume {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: VolumeTagsMap;
+  tags?: VolumeTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The list of the resource properties. */
   properties: VolumeProperties;
   /** "If etag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields.") */
-  etag?: string;
+  etag?: string | undefined;
   /** The extended location of the resource. This property is required when creating the resource. */
   extendedLocation: AzureResourceManagerCommonTypesExtendedLocation;
 }
@@ -5334,15 +5383,15 @@ export interface VolumeList {
   /** The Volume items on this page */
   value: VolumeListValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListVolumeBySubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
   /** The maximum number of resources to return from the operation. Example: '$top=10'. */
-  _top?: number;
+  _top?: number | undefined;
   /** The opaque token that the server returns to indicate where to continue listing resources from. This is used for paging through large result sets. */
-  _skipToken?: string;
+  _skipToken?: string | undefined;
 }
 /** Resource tags. */
 export type MetricsConfigurationsCreateOrUpdateRequestTagsMap = {
@@ -5353,7 +5402,7 @@ export type ClusterMetricsConfigurationPropertiesInputEnabledMetricsList = Array
 /** ClusterMetricsConfigurationProperties represents the properties of metrics configuration for the cluster. */
 export interface ClusterMetricsConfigurationPropertiesInput {
   /** The list of metric names that have been chosen to be enabled in addition to the core set of enabled metrics. */
-  enabledMetrics?: ClusterMetricsConfigurationPropertiesInputEnabledMetricsList;
+  enabledMetrics?: ClusterMetricsConfigurationPropertiesInputEnabledMetricsList | undefined;
   /** The interval in minutes by which metrics will be collected. */
   collectionInterval: number;
 }
@@ -5367,7 +5416,7 @@ export interface MetricsConfigurationsCreateOrUpdateRequest {
   /** The name of the metrics configuration for the cluster. */
   metricsConfigurationName: string;
   /** Resource tags. */
-  tags?: MetricsConfigurationsCreateOrUpdateRequestTagsMap;
+  tags?: MetricsConfigurationsCreateOrUpdateRequestTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The list of the resource properties. */
@@ -5381,25 +5430,25 @@ export type MetricsConfigurationsCreateOrUpdateResponseTagsMap = {
 };
 export interface MetricsConfigurationsCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: MetricsConfigurationsCreateOrUpdateResponseTagsMap;
+  tags?: MetricsConfigurationsCreateOrUpdateResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The list of the resource properties. */
   properties: ClusterMetricsConfigurationProperties;
   /** "If etag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields.") */
-  etag?: string;
+  etag?: string | undefined;
   /** The extended location of the resource. This property is required when creating the resource. */
   extendedLocation: AzureResourceManagerCommonTypesExtendedLocation;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
 }
 /** Resource tags. */
 export type RacksCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
@@ -5422,7 +5471,7 @@ export interface RacksCreateOrUpdateRequest {
   /** The name of the rack. */
   rackName: string;
   /** Resource tags. */
-  tags?: RacksCreateOrUpdateRequestTagsMap;
+  tags?: RacksCreateOrUpdateRequestTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The list of the resource properties. */
@@ -5434,25 +5483,25 @@ export interface RacksCreateOrUpdateRequest {
 export type RacksCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
 export interface RacksCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: RacksCreateOrUpdateResponseTagsMap;
+  tags?: RacksCreateOrUpdateResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The list of the resource properties. */
   properties: RackProperties;
   /** "If etag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields.") */
-  etag?: string;
+  etag?: string | undefined;
   /** The extended location of the resource. This property is required when creating the resource. */
   extendedLocation: AzureResourceManagerCommonTypesExtendedLocation;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
 }
 /** The safeguard mode to use for the replace action, where None indicates to bypass safeguards and All indicates to utilize all safeguards. */
 export type ReplaceBareMetalMachineRequestSafeguardMode = "All" | "None";
@@ -5466,25 +5515,25 @@ export interface ReplaceBareMetalMachineRequest {
   /** The name of the bare metal machine. */
   bareMetalMachineName: string;
   /** The credentials of the baseboard management controller on this bare metal machine. The password field is expected to be an Azure Key Vault key URL. Until the cluster is converted to utilize managed identity by setting the secret archive settings, the actual password value should be provided instead. */
-  bmcCredentials?: AdministrativeCredentials;
+  bmcCredentials?: AdministrativeCredentials | undefined;
   /** The MAC address of the BMC device. */
-  bmcMacAddress?: string;
+  bmcMacAddress?: string | undefined;
   /** The MAC address of a NIC connected to the PXE network. */
-  bootMacAddress?: string;
+  bootMacAddress?: string | undefined;
   /** The OS-level hostname assigned to this machine. */
-  machineName?: string;
+  machineName?: string | undefined;
   /** The safeguard mode to use for the replace action, where None indicates to bypass safeguards and All indicates to utilize all safeguards. */
-  safeguardMode?: ReplaceBareMetalMachineRequestSafeguardMode | (string & {});
+  safeguardMode?: ReplaceBareMetalMachineRequestSafeguardMode | (string & {}) | undefined;
   /** The serial number of the bare metal machine. */
-  serialNumber?: string;
+  serialNumber?: string | undefined;
   /** The indicator of whether to bypass clearing storage while replacing a bare metal machine. */
-  storagePolicy?: ReplaceBareMetalMachineRequestStoragePolicy | (string & {});
+  storagePolicy?: ReplaceBareMetalMachineRequestStoragePolicy | (string & {}) | undefined;
 }
 export interface ReplaceBareMetalMachineResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface RestartBareMetalMachineRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -5496,9 +5545,9 @@ export interface RestartBareMetalMachineRequest {
 }
 export interface RestartBareMetalMachineResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface RestartKubernetesClusterNodeRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -5512,9 +5561,9 @@ export interface RestartKubernetesClusterNodeRequest {
 }
 export interface RestartKubernetesClusterNodeResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface RestartVirtualMachineRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -5526,9 +5575,9 @@ export interface RestartVirtualMachineRequest {
 }
 export interface RestartVirtualMachineResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** The list of credential names for the credentials to rotate. */
 export type RotateClusterCredentialRequestCredentialsList = Array<string>;
@@ -5544,9 +5593,9 @@ export interface RotateClusterCredentialRequest {
 }
 export interface RotateClusterCredentialResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** The list of string arguments that will be passed to the script in order as separate arguments. */
 export type RunBareMetalMachineCommandRequestArgumentsList = Array<string>;
@@ -5558,7 +5607,7 @@ export interface RunBareMetalMachineCommandRequest {
   /** The name of the bare metal machine. */
   bareMetalMachineName: string;
   /** The list of string arguments that will be passed to the script in order as separate arguments. */
-  arguments?: RunBareMetalMachineCommandRequestArgumentsList;
+  arguments?: RunBareMetalMachineCommandRequestArgumentsList | undefined;
   /** The maximum time the script is allowed to run. If the execution time exceeds the maximum, the script will be stopped, any output produced until then will be captured, and the exit code matching a timeout will be returned (252). */
   limitTimeSeconds: number;
   /** The base64 encoded script to execute on the bare metal machine. */
@@ -5566,9 +5615,9 @@ export interface RunBareMetalMachineCommandRequest {
 }
 export interface RunBareMetalMachineCommandResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** The list of curated data extraction commands to be executed directly against the target machine. */
 export type RunBareMetalMachineDataExtractsRequestCommandsList =
@@ -5587,9 +5636,9 @@ export interface RunBareMetalMachineDataExtractsRequest {
 }
 export interface RunBareMetalMachineDataExtractsResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** The list of curated data extraction commands to be executed directly against the target machine. */
 export type RunBareMetalMachineDataExtractsRestrictedRequestCommandsList =
@@ -5608,9 +5657,9 @@ export interface RunBareMetalMachineDataExtractsRestrictedRequest {
 }
 export interface RunBareMetalMachineDataExtractsRestrictedResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface StartBareMetalMachineRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -5622,9 +5671,9 @@ export interface StartBareMetalMachineRequest {
 }
 export interface StartBareMetalMachineResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface StartVirtualMachineRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -5636,9 +5685,9 @@ export interface StartVirtualMachineRequest {
 }
 export interface StartVirtualMachineResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Resource tags. */
 export type StorageAppliancesCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
@@ -5663,7 +5712,7 @@ export interface StorageAppliancesCreateOrUpdateRequest {
   /** The name of the storage appliance. */
   storageApplianceName: string;
   /** Resource tags. */
-  tags?: StorageAppliancesCreateOrUpdateRequestTagsMap;
+  tags?: StorageAppliancesCreateOrUpdateRequestTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The list of the resource properties. */
@@ -5675,32 +5724,32 @@ export interface StorageAppliancesCreateOrUpdateRequest {
 export type StorageAppliancesCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
 export interface StorageAppliancesCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: StorageAppliancesCreateOrUpdateResponseTagsMap;
+  tags?: StorageAppliancesCreateOrUpdateResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The list of the resource properties. */
   properties: StorageApplianceProperties;
   /** "If etag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields.") */
-  etag?: string;
+  etag?: string | undefined;
   /** The extended location of the resource. This property is required when creating the resource. */
   extendedLocation: AzureResourceManagerCommonTypesExtendedLocation;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
 }
 /** The list of strings that will be passed to the script in order as separate arguments. */
 export type StorageApplianceCommandSpecificationArgumentsList = Array<string>;
 /** StorageApplianceCommandSpecification represents the command and optional arguments to run. */
 export interface StorageApplianceCommandSpecification {
   /** The list of strings that will be passed to the script in order as separate arguments. */
-  arguments?: StorageApplianceCommandSpecificationArgumentsList;
+  arguments?: StorageApplianceCommandSpecificationArgumentsList | undefined;
   /** The command to execute. */
   command: string;
 }
@@ -5721,9 +5770,9 @@ export interface StorageAppliancesRunReadCommandsRequest {
 }
 export interface StorageAppliancesRunReadCommandsResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Resource tags. */
 export type TrunkedNetworksCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
@@ -5736,9 +5785,12 @@ export type TrunkedNetworkPropertiesInputVlansList = Array<number>;
 /** TrunkedNetworkProperties represents properties of the trunked network. */
 export interface TrunkedNetworkPropertiesInput {
   /** Field Deprecated. The field was previously optional, now it will have no defined behavior and will be ignored. The network plugin type for Hybrid AKS. */
-  hybridAksPluginType?: TrunkedNetworkPropertiesInputHybridAksPluginType | (string & {});
+  hybridAksPluginType?:
+    | TrunkedNetworkPropertiesInputHybridAksPluginType
+    | (string & {})
+    | undefined;
   /** The default interface name for this trunked network in the virtual machine. This name can be overridden by the name supplied in the network attachment configuration of that virtual machine. */
-  interfaceName?: string;
+  interfaceName?: string | undefined;
   /** The list of resource IDs representing the Network Fabric isolation domains. It can be any combination of l2IsolationDomain and l3IsolationDomain resources. */
   isolationDomainIds: TrunkedNetworkPropertiesInputIsolationDomainIdsList;
   /** The list of vlans that are selected from the isolation domains for trunking. */
@@ -5752,7 +5804,7 @@ export interface TrunkedNetworksCreateOrUpdateRequest {
   /** The name of the trunked network. */
   trunkedNetworkName: string;
   /** Resource tags. */
-  tags?: TrunkedNetworksCreateOrUpdateRequestTagsMap;
+  tags?: TrunkedNetworksCreateOrUpdateRequestTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The list of the resource properties. */
@@ -5764,25 +5816,25 @@ export interface TrunkedNetworksCreateOrUpdateRequest {
 export type TrunkedNetworksCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
 export interface TrunkedNetworksCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: TrunkedNetworksCreateOrUpdateResponseTagsMap;
+  tags?: TrunkedNetworksCreateOrUpdateResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The list of the resource properties. */
   properties: TrunkedNetworkProperties;
   /** "If etag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields.") */
-  etag?: string;
+  etag?: string | undefined;
   /** The extended location of the resource. This property is required when creating the resource. */
   extendedLocation: AzureResourceManagerCommonTypesExtendedLocation;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
 }
 export interface UncordonBareMetalMachineRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -5794,9 +5846,9 @@ export interface UncordonBareMetalMachineRequest {
 }
 export interface UncordonBareMetalMachineResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export type UpdateAccessBridgeRequestAccessBridgeName =
   | "Bastion"
@@ -5807,7 +5859,7 @@ export type AccessBridgePatchPropertiesSecurityRulesList = Array<AccessBridgeSec
 /** AccessBridgePatchProperties identifies the mutable properties for patch operations. */
 export interface AccessBridgePatchProperties {
   /** The list of security rules enforced by the access bridge. */
-  securityRules?: AccessBridgePatchPropertiesSecurityRulesList;
+  securityRules?: AccessBridgePatchPropertiesSecurityRulesList | undefined;
 }
 /** Resource tags. */
 export type UpdateAccessBridgeRequestTagsMap = { [key: string]: string | undefined };
@@ -5819,51 +5871,51 @@ export interface UpdateAccessBridgeRequest {
   /** The name of the access bridge. */
   accessBridgeName: UpdateAccessBridgeRequestAccessBridgeName | (string & {});
   /** The list of the resource properties. */
-  properties?: AccessBridgePatchProperties;
+  properties?: AccessBridgePatchProperties | undefined;
   /** Resource tags. */
-  tags?: UpdateAccessBridgeRequestTagsMap;
+  tags?: UpdateAccessBridgeRequestTagsMap | undefined;
 }
 /** Resource tags. */
 export type UpdateAccessBridgeResponseTagsMap = { [key: string]: string | undefined };
 export interface UpdateAccessBridgeResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: UpdateAccessBridgeResponseTagsMap;
+  tags?: UpdateAccessBridgeResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The list of the resource properties. */
   properties: AccessBridgeProperties;
   /** "If etag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields.") */
-  etag?: string;
+  etag?: string | undefined;
   /** The extended location of the resource. This property is required when creating the resource. */
   extendedLocation: AzureResourceManagerCommonTypesExtendedLocation;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  locationHeader?: string;
+  locationHeader?: string | undefined;
 }
 /** SshPublicKey represents the public key used to authenticate with a resource through SSH. */
 export type NodePoolAdministratorConfigurationPatchSshPublicKeysList = Array<SshPublicKey>;
 /** NodePoolAdministratorConfigurationPatch represents the patching capabilities for the administrator configuration. */
 export interface NodePoolAdministratorConfigurationPatch {
   /** SshPublicKey represents the public key used to authenticate with a resource through SSH. */
-  sshPublicKeys?: NodePoolAdministratorConfigurationPatchSshPublicKeysList;
+  sshPublicKeys?: NodePoolAdministratorConfigurationPatchSshPublicKeysList | undefined;
 }
 /** AgentPoolPatchProperties represents the properties of an agent pool that can be modified. */
 export interface AgentPoolPatchProperties {
   /** The configuration of administrator credentials for the control plane nodes. */
-  administratorConfiguration?: NodePoolAdministratorConfigurationPatch;
+  administratorConfiguration?: NodePoolAdministratorConfigurationPatch | undefined;
   /** The number of virtual machines that use this configuration. */
-  count?: number;
+  count?: number | undefined;
   /** The configuration of the agent pool. */
-  upgradeSettings?: AgentPoolUpgradeSettings;
+  upgradeSettings?: AgentPoolUpgradeSettings | undefined;
 }
 /** Resource tags. */
 export type UpdateAgentPoolRequestTagsMap = { [key: string]: string | undefined };
@@ -5877,40 +5929,40 @@ export interface UpdateAgentPoolRequest {
   /** The name of the Kubernetes cluster agent pool. */
   agentPoolName: string;
   /** The list of the resource properties. */
-  properties?: AgentPoolPatchProperties;
+  properties?: AgentPoolPatchProperties | undefined;
   /** Resource tags. */
-  tags?: UpdateAgentPoolRequestTagsMap;
+  tags?: UpdateAgentPoolRequestTagsMap | undefined;
 }
 /** Resource tags. */
 export type UpdateAgentPoolResponseTagsMap = { [key: string]: string | undefined };
 export interface UpdateAgentPoolResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: UpdateAgentPoolResponseTagsMap;
+  tags?: UpdateAgentPoolResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The list of the resource properties. */
   properties: AgentPoolProperties;
   /** "If etag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields.") */
-  etag?: string;
+  etag?: string | undefined;
   /** The extended location of the resource. */
-  extendedLocation?: AzureResourceManagerCommonTypesExtendedLocation;
+  extendedLocation?: AzureResourceManagerCommonTypesExtendedLocation | undefined;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  locationHeader?: string;
+  locationHeader?: string | undefined;
 }
 /** BareMetalMachinePatchProperties represents the properties of the bare metal machine that can be patched. */
 export interface BareMetalMachinePatchProperties {
   /** The details provided by the customer during the creation of rack manifests that allows for custom data to be associated with this machine. */
-  machineDetails?: string;
+  machineDetails?: string | undefined;
 }
 /** Resource tags. */
 export type UpdateBareMetalMachineRequestTagsMap = { [key: string]: string | undefined };
@@ -5922,35 +5974,35 @@ export interface UpdateBareMetalMachineRequest {
   /** The name of the bare metal machine. */
   bareMetalMachineName: string;
   /** The list of the resource properties. */
-  properties?: BareMetalMachinePatchProperties;
+  properties?: BareMetalMachinePatchProperties | undefined;
   /** Resource tags. */
-  tags?: UpdateBareMetalMachineRequestTagsMap;
+  tags?: UpdateBareMetalMachineRequestTagsMap | undefined;
 }
 /** Resource tags. */
 export type UpdateBareMetalMachineResponseTagsMap = { [key: string]: string | undefined };
 export interface UpdateBareMetalMachineResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: UpdateBareMetalMachineResponseTagsMap;
+  tags?: UpdateBareMetalMachineResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The list of the resource properties. */
   properties: BareMetalMachineProperties;
   /** "If etag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields.") */
-  etag?: string;
+  etag?: string | undefined;
   /** The extended location of the resource. This property is required when creating the resource. */
   extendedLocation: AzureResourceManagerCommonTypesExtendedLocation;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  locationHeader?: string;
+  locationHeader?: string | undefined;
 }
 /** The list of IP addresses of jump hosts with management network access from which a login will be allowed for the users. */
 export type BareMetalMachineKeySetPatchPropertiesJumpHostsAllowedList = Array<string>;
@@ -5959,11 +6011,11 @@ export type BareMetalMachineKeySetPatchPropertiesUserListList = Array<KeySetUser
 /** BareMetalMachineKeySetPatchProperties represents the properties of bare metal machine key set that can be patched. */
 export interface BareMetalMachineKeySetPatchProperties {
   /** The date and time after which the users in this key set will be removed from the bare metal machines. */
-  expiration?: string;
+  expiration?: string | undefined;
   /** The list of IP addresses of jump hosts with management network access from which a login will be allowed for the users. */
-  jumpHostsAllowed?: BareMetalMachineKeySetPatchPropertiesJumpHostsAllowedList;
+  jumpHostsAllowed?: BareMetalMachineKeySetPatchPropertiesJumpHostsAllowedList | undefined;
   /** The unique list of permitted users. */
-  userList?: BareMetalMachineKeySetPatchPropertiesUserListList;
+  userList?: BareMetalMachineKeySetPatchPropertiesUserListList | undefined;
 }
 /** Resource tags. */
 export type UpdateBareMetalMachineKeySetRequestTagsMap = { [key: string]: string | undefined };
@@ -5977,44 +6029,44 @@ export interface UpdateBareMetalMachineKeySetRequest {
   /** The name of the bare metal machine key set. */
   bareMetalMachineKeySetName: string;
   /** The list of the resource properties. */
-  properties?: BareMetalMachineKeySetPatchProperties;
+  properties?: BareMetalMachineKeySetPatchProperties | undefined;
   /** Resource tags. */
-  tags?: UpdateBareMetalMachineKeySetRequestTagsMap;
+  tags?: UpdateBareMetalMachineKeySetRequestTagsMap | undefined;
 }
 /** Resource tags. */
 export type UpdateBareMetalMachineKeySetResponseTagsMap = { [key: string]: string | undefined };
 export interface UpdateBareMetalMachineKeySetResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: UpdateBareMetalMachineKeySetResponseTagsMap;
+  tags?: UpdateBareMetalMachineKeySetResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The list of the resource properties. */
   properties: BareMetalMachineKeySetProperties;
   /** "If etag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields.") */
-  etag?: string;
+  etag?: string | undefined;
   /** The extended location of the resource. This property is required when creating the resource. */
   extendedLocation: AzureResourceManagerCommonTypesExtendedLocation;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  locationHeader?: string;
+  locationHeader?: string | undefined;
 }
 /** The unique list of permitted users. */
 export type BmcKeySetPatchPropertiesUserListList = Array<KeySetUser>;
 /** BmcKeySetPatchProperties represents the properties of baseboard management controller key set that are patchable. */
 export interface BmcKeySetPatchProperties {
   /** The date and time after which the users in this key set will be removed from the baseboard management controllers. */
-  expiration?: string;
+  expiration?: string | undefined;
   /** The unique list of permitted users. */
-  userList?: BmcKeySetPatchPropertiesUserListList;
+  userList?: BmcKeySetPatchPropertiesUserListList | undefined;
 }
 /** Resource tags. */
 export type UpdateBmcKeySetRequestTagsMap = { [key: string]: string | undefined };
@@ -6028,35 +6080,35 @@ export interface UpdateBmcKeySetRequest {
   /** The name of the baseboard management controller key set. */
   bmcKeySetName: string;
   /** The list of the resource properties. */
-  properties?: BmcKeySetPatchProperties;
+  properties?: BmcKeySetPatchProperties | undefined;
   /** Resource tags. */
-  tags?: UpdateBmcKeySetRequestTagsMap;
+  tags?: UpdateBmcKeySetRequestTagsMap | undefined;
 }
 /** Resource tags. */
 export type UpdateBmcKeySetResponseTagsMap = { [key: string]: string | undefined };
 export interface UpdateBmcKeySetResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: UpdateBmcKeySetResponseTagsMap;
+  tags?: UpdateBmcKeySetResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The list of the resource properties. */
   properties: BmcKeySetProperties;
   /** "If etag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields.") */
-  etag?: string;
+  etag?: string | undefined;
   /** The extended location of the resource. This property is required when creating the resource. */
   extendedLocation: AzureResourceManagerCommonTypesExtendedLocation;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  locationHeader?: string;
+  locationHeader?: string | undefined;
 }
 /** The list of egress endpoints. This allows for connection from a Hybrid AKS cluster to the specified endpoint. */
 export type CloudServicesNetworkPatchPropertiesAdditionalEgressEndpointsList =
@@ -6066,20 +6118,25 @@ export type CloudServicesNetworkEnableDefaultEgressEndpoints = "True" | "False";
 /** CloudServicesNetworkStorageOptionsPatch represents the patchable storage options for the cloud services network. */
 export interface CloudServicesNetworkStorageOptionsPatch {
   /** The indicator to enable shared storage on the cloud services network. */
-  mode?: CloudServicesNetworkStorageMode | (string & {});
+  mode?: CloudServicesNetworkStorageMode | (string & {}) | undefined;
   /** The requested storage allocation for the volume in Mebibytes. */
-  sizeMiB?: number;
+  sizeMiB?: number | undefined;
   /** The resource ID of the storage appliance that hosts the storage. */
-  storageApplianceId?: string;
+  storageApplianceId?: string | undefined;
 }
 /** CloudServicesNetworkPatchProperties represents the properties of the cloud services network that can be updated using a patch request. */
 export interface CloudServicesNetworkPatchProperties {
   /** The list of egress endpoints. This allows for connection from a Hybrid AKS cluster to the specified endpoint. */
-  additionalEgressEndpoints?: CloudServicesNetworkPatchPropertiesAdditionalEgressEndpointsList;
+  additionalEgressEndpoints?:
+    | CloudServicesNetworkPatchPropertiesAdditionalEgressEndpointsList
+    | undefined;
   /** The indicator of whether the platform default endpoints are allowed for the egress traffic. */
-  enableDefaultEgressEndpoints?: CloudServicesNetworkEnableDefaultEgressEndpoints | (string & {});
+  enableDefaultEgressEndpoints?:
+    | CloudServicesNetworkEnableDefaultEgressEndpoints
+    | (string & {})
+    | undefined;
   /** The storage options for the cloud services network. */
-  storageOptions?: CloudServicesNetworkStorageOptionsPatch;
+  storageOptions?: CloudServicesNetworkStorageOptionsPatch | undefined;
 }
 /** Resource tags. */
 export type UpdateCloudServicesNetworkRequestTagsMap = { [key: string]: string | undefined };
@@ -6091,35 +6148,35 @@ export interface UpdateCloudServicesNetworkRequest {
   /** The name of the cloud services network. */
   cloudServicesNetworkName: string;
   /** The list of the resource properties. */
-  properties?: CloudServicesNetworkPatchProperties;
+  properties?: CloudServicesNetworkPatchProperties | undefined;
   /** Resource tags. */
-  tags?: UpdateCloudServicesNetworkRequestTagsMap;
+  tags?: UpdateCloudServicesNetworkRequestTagsMap | undefined;
 }
 /** Resource tags. */
 export type UpdateCloudServicesNetworkResponseTagsMap = { [key: string]: string | undefined };
 export interface UpdateCloudServicesNetworkResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: UpdateCloudServicesNetworkResponseTagsMap;
+  tags?: UpdateCloudServicesNetworkResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The list of the resource properties. */
-  properties?: CloudServicesNetworkProperties;
+  properties?: CloudServicesNetworkProperties | undefined;
   /** "If etag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields.") */
-  etag?: string;
+  etag?: string | undefined;
   /** The extended location of the resource. This property is required when creating the resource. */
   extendedLocation: AzureResourceManagerCommonTypesExtendedLocation;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  locationHeader?: string;
+  locationHeader?: string | undefined;
 }
 /** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
 export type UpdateClusterRequestIdentityUserAssignedIdentitiesMap = {
@@ -6129,31 +6186,31 @@ export type UpdateClusterRequestIdentityUserAssignedIdentitiesMap = {
 export interface UpdateClusterRequestIdentity {
   type: ManagedServiceIdentityType | (string & {});
   /** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
-  userAssignedIdentities?: UpdateClusterRequestIdentityUserAssignedIdentitiesMap;
+  userAssignedIdentities?: UpdateClusterRequestIdentityUserAssignedIdentitiesMap | undefined;
 }
 /** AdministrativeCredentialsPatch represents the admin credentials for the device requiring password-based authentication. */
 export interface AdministrativeCredentialsPatch {
   /** The password of the administrator of the device used during initialization. */
-  password?: string | Redacted.Redacted<string>;
+  password?: string | Redacted.Redacted<string> | undefined;
   /** The username of the administrator of the device used during initialization. */
-  username?: string;
+  username?: string | undefined;
 }
 /** BareMetalMachineConfigurationDataPatch represents configuration for the bare metal machine for patch operations. */
 export interface BareMetalMachineConfigurationDataPatchInput {
   /** The credentials of the baseboard management controller on this bare metal machine. The password field is expected to be an Azure Key Vault key URL. Until the cluster is converted to utilize managed identity by setting the secret archive settings, the actual password value should be provided instead. */
-  bmcCredentials?: AdministrativeCredentialsPatch;
+  bmcCredentials?: AdministrativeCredentialsPatch | undefined;
   /** The MAC address of the BMC for this machine. */
-  bmcMacAddress?: string;
+  bmcMacAddress?: string | undefined;
   /** The MAC address associated with the PXE NIC card. */
-  bootMacAddress?: string;
+  bootMacAddress?: string | undefined;
   /** The free-form additional information about the machine, e.g. an asset tag. */
-  machineDetails?: string;
+  machineDetails?: string | undefined;
   /** The user-provided name for the bare metal machine created from this specification. If not provided, the machine name will be generated programmatically. */
-  machineName?: string;
+  machineName?: string | undefined;
   /** The slot the physical machine is in the rack based on the BOM configuration. */
-  rackSlot?: number;
+  rackSlot?: number | undefined;
   /** The serial number of the machine. Hardware suppliers may use an alternate value. For example, service tag. */
-  serialNumber?: string;
+  serialNumber?: string | undefined;
 }
 /** The unordered list of bare metal machine configuration. */
 export type RackDefinitionPatchInputBareMetalMachineConfigurationDataList =
@@ -6161,13 +6218,13 @@ export type RackDefinitionPatchInputBareMetalMachineConfigurationDataList =
 /** StorageApplianceConfigurationDataPatch represents configuration for the storage application for patch operations. */
 export interface StorageApplianceConfigurationDataPatch {
   /** The credentials of the administrative interface on this storage appliance. The password field is expected to be an Azure Key Vault key URL. Until the cluster is converted to utilize managed identity by setting the secret archive settings, the actual password value should be provided instead. */
-  adminCredentials?: AdministrativeCredentialsPatch;
+  adminCredentials?: AdministrativeCredentialsPatch | undefined;
   /** The slot that storage appliance is in the rack based on the BOM configuration. */
-  rackSlot?: number;
+  rackSlot?: number | undefined;
   /** The serial number of the appliance. */
-  serialNumber?: string;
+  serialNumber?: string | undefined;
   /** The user-provided name for the storage appliance that will be created from this specification. */
-  storageApplianceName?: string;
+  storageApplianceName?: string | undefined;
 }
 /** The list of storage appliance configuration data for this rack. */
 export type RackDefinitionPatchInputStorageApplianceConfigurationDataList =
@@ -6175,104 +6232,108 @@ export type RackDefinitionPatchInputStorageApplianceConfigurationDataList =
 /** RackDefinitionPatch represents details regarding the rack for patch operations. */
 export interface RackDefinitionPatchInput {
   /** The zone name used for this rack when created. Availability zones are used for workload placement. */
-  availabilityZone?: string;
+  availabilityZone?: string | undefined;
   /** The unordered list of bare metal machine configuration. */
-  bareMetalMachineConfigurationData?: RackDefinitionPatchInputBareMetalMachineConfigurationDataList;
+  bareMetalMachineConfigurationData?:
+    | RackDefinitionPatchInputBareMetalMachineConfigurationDataList
+    | undefined;
   /** The resource ID of the network rack that matches this rack definition. */
-  networkRackId?: string;
+  networkRackId?: string | undefined;
   /** The free-form description of the rack's location. */
-  rackLocation?: string;
+  rackLocation?: string | undefined;
   /** The unique identifier for the rack within Network Cloud cluster. An alternate unique alphanumeric value other than a serial number may be provided if desired. */
-  rackSerialNumber?: string;
+  rackSerialNumber?: string | undefined;
   /** The resource ID of the sku for the rack being added. */
-  rackSkuId?: string;
+  rackSkuId?: string | undefined;
   /** The list of storage appliance configuration data for this rack. */
-  storageApplianceConfigurationData?: RackDefinitionPatchInputStorageApplianceConfigurationDataList;
+  storageApplianceConfigurationData?:
+    | RackDefinitionPatchInputStorageApplianceConfigurationDataList
+    | undefined;
 }
 /** ServicePrincipalInformationPatch represents the details of the service principal to be used by the cluster during Arc Appliance installation for patch operations. */
 export interface ServicePrincipalInformationPatch {
   /** The application ID, also known as client ID, of the service principal. */
-  applicationId?: string;
+  applicationId?: string | undefined;
   /** The password of the service principal. */
-  password?: string | Redacted.Redacted<string>;
+  password?: string | Redacted.Redacted<string> | undefined;
   /** The principal ID, also known as the object ID, of the service principal. */
-  principalId?: string;
+  principalId?: string | undefined;
   /** The tenant ID, also known as the directory ID, of the tenant in which the service principal is created. */
-  tenantId?: string;
+  tenantId?: string | undefined;
 }
 /** ValidationThresholdPatch indicates allowed machine and node hardware and deployment failures for patch operations. */
 export interface ValidationThresholdPatch {
   /** Selection of how the type evaluation is applied to the cluster calculation. */
-  grouping?: ValidationThresholdGrouping | (string & {});
+  grouping?: ValidationThresholdGrouping | (string & {}) | undefined;
   /** Selection of how the threshold should be evaluated. */
-  type?: ValidationThresholdType | (string & {});
+  type?: ValidationThresholdType | (string & {}) | undefined;
   /** The numeric threshold value. */
-  value?: number;
+  value?: number | undefined;
 }
 /** The list of rack definitions for the compute racks in a multi-rack cluster, or an empty list in a single-rack cluster. */
 export type ClusterPatchPropertiesInputComputeRackDefinitionsList = Array<RackDefinitionPatchInput>;
 /** RuntimeProtectionConfigurationPatch represents the runtime protection configuration for the cluster for patch operations. */
 export interface RuntimeProtectionConfigurationPatch {
   /** The definition update mode for runtime protection. */
-  definitionUpdateMode?: RuntimeProtectionDefinitionUpdateMode | (string & {});
+  definitionUpdateMode?: RuntimeProtectionDefinitionUpdateMode | (string & {}) | undefined;
   /** The mode of operation for runtime protection. */
-  enforcementLevel?: RuntimeProtectionEnforcementLevel | (string & {});
+  enforcementLevel?: RuntimeProtectionEnforcementLevel | (string & {}) | undefined;
 }
 /** The indicator if the specified key vault should be used to archive the secrets of the cluster. */
 export type ClusterSecretArchiveEnabled = "True" | "False";
 /** ClusterSecretArchivePatch configures the key vault to archive the secrets of the cluster for later retrieval for patch operations. */
 export interface ClusterSecretArchivePatch {
   /** The resource ID of the key vault to archive the secrets of the cluster. */
-  keyVaultId?: string;
+  keyVaultId?: string | undefined;
   /** The indicator if the specified key vault should be used to archive the secrets of the cluster. */
-  useKeyVault?: ClusterSecretArchiveEnabled | (string & {});
+  useKeyVault?: ClusterSecretArchiveEnabled | (string & {}) | undefined;
 }
 /** ClusterUpdateStrategyPatch represents the strategy for updating the cluster for patch operations. */
 export interface ClusterUpdateStrategyPatch {
   /** The maximum number of worker nodes that can be offline within the increment of update, e.g., rack-by-rack. Limited by the maximum number of machines in the increment. Defaults to the whole increment size. */
-  maxUnavailable?: number;
+  maxUnavailable?: number | undefined;
   /** The strategy for updating the cluster. */
-  strategyType?: ClusterUpdateStrategyType | (string & {});
+  strategyType?: ClusterUpdateStrategyType | (string & {}) | undefined;
   /** Selection of how the threshold should be evaluated. */
-  thresholdType?: ValidationThresholdType | (string & {});
+  thresholdType?: ValidationThresholdType | (string & {}) | undefined;
   /** The numeric threshold value. */
-  thresholdValue?: number;
+  thresholdValue?: number | undefined;
   /** The time to wait between the increments of update defined by the strategy. */
-  waitTimeMinutes?: number;
+  waitTimeMinutes?: number | undefined;
 }
 /** The mode selection for container vulnerability scanning. */
 export type VulnerabilityScanningSettingsContainerScan2 = "Disabled" | "Enabled";
 /** VulnerabilityScanningSettingsPatch represents the settings for how security vulnerability scanning is applied to the cluster. */
 export interface VulnerabilityScanningSettingsPatch {
   /** The mode selection for container vulnerability scanning. */
-  containerScan?: VulnerabilityScanningSettingsContainerScan2 | (string & {});
+  containerScan?: VulnerabilityScanningSettingsContainerScan2 | (string & {}) | undefined;
 }
 /** ClusterPatchProperties represents the properties of the cluster for patching. */
 export interface ClusterPatchPropertiesInput {
   /** The rack definition that is intended to reflect only a single rack in a single rack cluster, or an aggregator rack in a multi-rack cluster. */
-  aggregatorOrSingleRackDefinition?: RackDefinitionPatchInput;
+  aggregatorOrSingleRackDefinition?: RackDefinitionPatchInput | undefined;
   /** The settings for the log analytics workspace used for output of logs from this cluster. */
-  analyticsOutputSettings?: AnalyticsOutputSettings;
+  analyticsOutputSettings?: AnalyticsOutputSettings | undefined;
   /** The customer-provided location information to identify where the cluster resides. */
-  clusterLocation?: string;
+  clusterLocation?: string | undefined;
   /** Field Deprecated: Use managed identity to provide cluster privileges. The service principal to be used by the cluster during Arc Appliance installation. */
-  clusterServicePrincipal?: ServicePrincipalInformationPatch;
+  clusterServicePrincipal?: ServicePrincipalInformationPatch | undefined;
   /** The settings for commands run in this cluster, such as bare metal machine run read only commands and data extracts. */
-  commandOutputSettings?: CommandOutputSettings;
+  commandOutputSettings?: CommandOutputSettings | undefined;
   /** The validation threshold indicating the allowable failures of compute machines during environment validation and deployment. */
-  computeDeploymentThreshold?: ValidationThresholdPatch;
+  computeDeploymentThreshold?: ValidationThresholdPatch | undefined;
   /** The list of rack definitions for the compute racks in a multi-rack cluster, or an empty list in a single-rack cluster. */
-  computeRackDefinitions?: ClusterPatchPropertiesInputComputeRackDefinitionsList;
+  computeRackDefinitions?: ClusterPatchPropertiesInputComputeRackDefinitionsList | undefined;
   /** The settings for cluster runtime protection. */
-  runtimeProtectionConfiguration?: RuntimeProtectionConfigurationPatch;
+  runtimeProtectionConfiguration?: RuntimeProtectionConfigurationPatch | undefined;
   /** The configuration for use of a key vault to store secrets for later retrieval by the operator. */
-  secretArchive?: ClusterSecretArchivePatch;
+  secretArchive?: ClusterSecretArchivePatch | undefined;
   /** The settings for the secret archive used to hold credentials for the cluster. */
-  secretArchiveSettings?: SecretArchiveSettings;
+  secretArchiveSettings?: SecretArchiveSettings | undefined;
   /** The strategy for updating the cluster. */
-  updateStrategy?: ClusterUpdateStrategyPatch;
+  updateStrategy?: ClusterUpdateStrategyPatch | undefined;
   /** The settings for how security vulnerability scanning is applied to the cluster. */
-  vulnerabilityScanningSettings?: VulnerabilityScanningSettingsPatch;
+  vulnerabilityScanningSettings?: VulnerabilityScanningSettingsPatch | undefined;
 }
 /** Resource tags. */
 export type UpdateClusterRequestTagsMap = { [key: string]: string | undefined };
@@ -6284,11 +6345,11 @@ export interface UpdateClusterRequest {
   /** The name of the cluster. */
   clusterName: string;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: UpdateClusterRequestIdentity;
+  identity?: UpdateClusterRequestIdentity | undefined;
   /** The list of the resource properties. */
-  properties?: ClusterPatchPropertiesInput;
+  properties?: ClusterPatchPropertiesInput | undefined;
   /** Resource tags. */
-  tags?: UpdateClusterRequestTagsMap;
+  tags?: UpdateClusterRequestTagsMap | undefined;
 }
 /** Resource tags. */
 export type UpdateClusterResponseTagsMap = { [key: string]: string | undefined };
@@ -6299,40 +6360,40 @@ export type UpdateClusterResponseIdentityUserAssignedIdentitiesMap = {
 /** Managed service identity (system assigned and/or user assigned identities) */
 export interface UpdateClusterResponseIdentity {
   /** The service principal ID of the system assigned identity. This property will only be provided for a system assigned identity. */
-  principalId?: string;
+  principalId?: string | undefined;
   /** The tenant ID of the system assigned identity. This property will only be provided for a system assigned identity. */
-  tenantId?: string;
+  tenantId?: string | undefined;
   type: ManagedServiceIdentityType;
   /** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
-  userAssignedIdentities?: UpdateClusterResponseIdentityUserAssignedIdentitiesMap;
+  userAssignedIdentities?: UpdateClusterResponseIdentityUserAssignedIdentitiesMap | undefined;
 }
 export interface UpdateClusterResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: UpdateClusterResponseTagsMap;
+  tags?: UpdateClusterResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The list of the resource properties. */
   properties: ClusterProperties;
   /** "If etag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields.") */
-  etag?: string;
+  etag?: string | undefined;
   /** The extended location of the resource. This property is required when creating the resource. */
   extendedLocation: AzureResourceManagerCommonTypesExtendedLocation;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: UpdateClusterResponseIdentity;
+  identity?: UpdateClusterResponseIdentity | undefined;
   /** The type (kind) of the cluster. When specified, the value must exactly match the kind configured on the cluster manager that manages the cluster. If omitted, the service will default the value to the kind value of the cluster manager. */
-  kind?: DeploymentType;
+  kind?: DeploymentType | undefined;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  locationHeader?: string;
+  locationHeader?: string | undefined;
 }
 /** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
 export type UpdateClusterManagerRequestIdentityUserAssignedIdentitiesMap = {
@@ -6342,7 +6403,7 @@ export type UpdateClusterManagerRequestIdentityUserAssignedIdentitiesMap = {
 export interface UpdateClusterManagerRequestIdentity {
   type: ManagedServiceIdentityType | (string & {});
   /** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
-  userAssignedIdentities?: UpdateClusterManagerRequestIdentityUserAssignedIdentitiesMap;
+  userAssignedIdentities?: UpdateClusterManagerRequestIdentityUserAssignedIdentitiesMap | undefined;
 }
 /** Resource tags. */
 export type UpdateClusterManagerRequestTagsMap = { [key: string]: string | undefined };
@@ -6354,9 +6415,9 @@ export interface UpdateClusterManagerRequest {
   /** The name of the cluster manager. */
   clusterManagerName: string;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: UpdateClusterManagerRequestIdentity;
+  identity?: UpdateClusterManagerRequestIdentity | undefined;
   /** Resource tags. */
-  tags?: UpdateClusterManagerRequestTagsMap;
+  tags?: UpdateClusterManagerRequestTagsMap | undefined;
 }
 /** Resource tags. */
 export type UpdateClusterManagerResponseTagsMap = { [key: string]: string | undefined };
@@ -6367,34 +6428,36 @@ export type UpdateClusterManagerResponseIdentityUserAssignedIdentitiesMap = {
 /** Managed service identity (system assigned and/or user assigned identities) */
 export interface UpdateClusterManagerResponseIdentity {
   /** The service principal ID of the system assigned identity. This property will only be provided for a system assigned identity. */
-  principalId?: string;
+  principalId?: string | undefined;
   /** The tenant ID of the system assigned identity. This property will only be provided for a system assigned identity. */
-  tenantId?: string;
+  tenantId?: string | undefined;
   type: ManagedServiceIdentityType;
   /** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
-  userAssignedIdentities?: UpdateClusterManagerResponseIdentityUserAssignedIdentitiesMap;
+  userAssignedIdentities?:
+    | UpdateClusterManagerResponseIdentityUserAssignedIdentitiesMap
+    | undefined;
 }
 export interface UpdateClusterManagerResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: UpdateClusterManagerResponseTagsMap;
+  tags?: UpdateClusterManagerResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The list of the resource properties. */
   properties: ClusterManagerProperties;
   /** "If etag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields.") */
-  etag?: string;
+  etag?: string | undefined;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: UpdateClusterManagerResponseIdentity;
+  identity?: UpdateClusterManagerResponseIdentity | undefined;
   /** The kind of the cluster manager. */
-  kind?: DeploymentType;
+  kind?: DeploymentType | undefined;
 }
 /** The state to set for the private endpoint connection. */
 export type RelayPrivateEndpointConnectionState = "Approved" | "Rejected";
@@ -6408,15 +6471,15 @@ export interface UpdateClusterManagerRelayPrivateEndpointConnectionRequest {
   /** The state to set for the private endpoint connection. */
   connectionState: RelayPrivateEndpointConnectionState | (string & {});
   /** The description to associate with the private endpoint connection. */
-  description?: string;
+  description?: string | undefined;
   /** The resource ID of private endpoint to be permitted or denied connection to the relay namespace. */
   privateEndpointResourceId: string;
 }
 export interface UpdateClusterManagerRelayPrivateEndpointConnectionResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** ClusterUpdateVersionSafeguardMode represents the mode of the cluster update safeguards. */
 export type ClusterUpdateVersionSafeguardMode = "All" | "None";
@@ -6428,29 +6491,29 @@ export interface UpdateClusterVersionRequest {
   /** The name of the cluster. */
   clusterName: string;
   /** Specifies how safeguards are applied during the update version operation. Use All to run all pre-operation validation checks. Use None to bypass safeguards. If not specified, the default is All. */
-  safeguardMode?: ClusterUpdateVersionSafeguardMode | (string & {});
+  safeguardMode?: ClusterUpdateVersionSafeguardMode | (string & {}) | undefined;
   /** The version to be applied to the cluster during update. */
   targetClusterVersion: string;
 }
 export interface UpdateClusterVersionResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** SshPublicKeyPatch represents the public key used to authenticate with a resource through SSH. */
 export interface SshPublicKeyPatch {
   /** The SSH public key data. */
-  keyData?: string;
+  keyData?: string | undefined;
 }
 /** ConsolePatchProperties represents the properties of the virtual machine console that can be patched. */
 export interface ConsolePatchProperties {
   /** The indicator of whether the console access is enabled. */
-  enabled?: ConsoleEnabled | (string & {});
+  enabled?: ConsoleEnabled | (string & {}) | undefined;
   /** The date and time after which the key will be disallowed access. */
-  expiration?: string;
+  expiration?: string | undefined;
   /** The SSH public key that will be provisioned for user access. The user is expected to have the corresponding SSH private key for logging in. */
-  sshPublicKey?: SshPublicKeyPatch;
+  sshPublicKey?: SshPublicKeyPatch | undefined;
 }
 /** Resource tags. */
 export type UpdateConsoleRequestTagsMap = { [key: string]: string | undefined };
@@ -6464,58 +6527,58 @@ export interface UpdateConsoleRequest {
   /** The name of the virtual machine console. */
   consoleName: string;
   /** The list of the resource properties. */
-  properties?: ConsolePatchProperties;
+  properties?: ConsolePatchProperties | undefined;
   /** Resource tags. */
-  tags?: UpdateConsoleRequestTagsMap;
+  tags?: UpdateConsoleRequestTagsMap | undefined;
 }
 /** Resource tags. */
 export type UpdateConsoleResponseTagsMap = { [key: string]: string | undefined };
 export interface UpdateConsoleResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: UpdateConsoleResponseTagsMap;
+  tags?: UpdateConsoleResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The list of the resource properties. */
   properties: ConsoleProperties;
   /** "If etag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields.") */
-  etag?: string;
+  etag?: string | undefined;
   /** The extended location of the resource. This property is required when creating the resource. */
   extendedLocation: AzureResourceManagerCommonTypesExtendedLocation;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  locationHeader?: string;
+  locationHeader?: string | undefined;
 }
 /** SshPublicKey represents the public key used to authenticate with a resource through SSH. */
 export type AdministratorConfigurationPatchSshPublicKeysList = Array<SshPublicKey>;
 /** AdministratorConfigurationPatch represents the patching capabilities for the administrator configuration. */
 export interface AdministratorConfigurationPatch {
   /** SshPublicKey represents the public key used to authenticate with a resource through SSH. */
-  sshPublicKeys?: AdministratorConfigurationPatchSshPublicKeysList;
+  sshPublicKeys?: AdministratorConfigurationPatchSshPublicKeysList | undefined;
 }
 /** ControlPlaneNodePatchConfiguration represents the properties of the control plane that can be patched for this Kubernetes cluster. */
 export interface ControlPlaneNodePatchConfiguration {
   /** The configuration of administrator credentials for the control plane nodes. */
-  administratorConfiguration?: AdministratorConfigurationPatch;
+  administratorConfiguration?: AdministratorConfigurationPatch | undefined;
   /** The number of virtual machines that use this configuration. */
-  count?: number;
+  count?: number | undefined;
 }
 /** KubernetesClusterPatchProperties represents the properties of the Kubernetes cluster that can be patched. */
 export interface KubernetesClusterPatchProperties {
   /** The configuration of the default administrator credentials. */
-  administratorConfiguration?: AdministratorConfigurationPatch;
+  administratorConfiguration?: AdministratorConfigurationPatch | undefined;
   /** The defining characteristics of the control plane that can be patched for this Kubernetes cluster. */
-  controlPlaneNodeConfiguration?: ControlPlaneNodePatchConfiguration;
+  controlPlaneNodeConfiguration?: ControlPlaneNodePatchConfiguration | undefined;
   /** The Kubernetes version for this cluster. */
-  kubernetesVersion?: string;
+  kubernetesVersion?: string | undefined;
 }
 /** Resource tags. */
 export type UpdateKubernetesClusterRequestTagsMap = { [key: string]: string | undefined };
@@ -6527,42 +6590,42 @@ export interface UpdateKubernetesClusterRequest {
   /** The name of the Kubernetes cluster. */
   kubernetesClusterName: string;
   /** The list of the resource properties. */
-  properties?: KubernetesClusterPatchProperties;
+  properties?: KubernetesClusterPatchProperties | undefined;
   /** Resource tags. */
-  tags?: UpdateKubernetesClusterRequestTagsMap;
+  tags?: UpdateKubernetesClusterRequestTagsMap | undefined;
 }
 /** Resource tags. */
 export type UpdateKubernetesClusterResponseTagsMap = { [key: string]: string | undefined };
 export interface UpdateKubernetesClusterResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: UpdateKubernetesClusterResponseTagsMap;
+  tags?: UpdateKubernetesClusterResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The list of the resource properties. */
   properties: KubernetesClusterProperties;
   /** "If etag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields.") */
-  etag?: string;
+  etag?: string | undefined;
   /** The extended location of the resource. This property is required when creating the resource. */
   extendedLocation: AzureResourceManagerCommonTypesExtendedLocation;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  locationHeader?: string;
+  locationHeader?: string | undefined;
 }
 /** The configured options for the feature. */
 export type KubernetesClusterFeaturePatchPropertiesOptionsList = Array<StringKeyValuePair>;
 /** KubernetesClusterFeaturePatchProperties represents the Kubernetes cluster feature properties for patching. */
 export interface KubernetesClusterFeaturePatchProperties {
   /** The configured options for the feature. */
-  options?: KubernetesClusterFeaturePatchPropertiesOptionsList;
+  options?: KubernetesClusterFeaturePatchPropertiesOptionsList | undefined;
 }
 /** Resource tags. */
 export type UpdateKubernetesClusterFeatureRequestTagsMap = { [key: string]: string | undefined };
@@ -6576,33 +6639,33 @@ export interface UpdateKubernetesClusterFeatureRequest {
   /** The name of the feature. */
   featureName: string;
   /** The list of the resource properties. */
-  properties?: KubernetesClusterFeaturePatchProperties;
+  properties?: KubernetesClusterFeaturePatchProperties | undefined;
   /** Resource tags. */
-  tags?: UpdateKubernetesClusterFeatureRequestTagsMap;
+  tags?: UpdateKubernetesClusterFeatureRequestTagsMap | undefined;
 }
 /** Resource tags. */
 export type UpdateKubernetesClusterFeatureResponseTagsMap = { [key: string]: string | undefined };
 export interface UpdateKubernetesClusterFeatureResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: UpdateKubernetesClusterFeatureResponseTagsMap;
+  tags?: UpdateKubernetesClusterFeatureResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The list of the resource properties. */
-  properties?: KubernetesClusterFeatureProperties;
+  properties?: KubernetesClusterFeatureProperties | undefined;
   /** "If etag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields.") */
-  etag?: string;
+  etag?: string | undefined;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  locationHeader?: string;
+  locationHeader?: string | undefined;
 }
 /** Resource tags. */
 export type UpdateKubernetesVersionRequestTagsMap = { [key: string]: string | undefined };
@@ -6614,33 +6677,33 @@ export interface UpdateKubernetesVersionRequest {
   /** The name of the Kubernetes version resource. */
   kubernetesVersionName: string;
   /** Resource tags. */
-  tags?: UpdateKubernetesVersionRequestTagsMap;
+  tags?: UpdateKubernetesVersionRequestTagsMap | undefined;
 }
 /** Resource tags. */
 export type UpdateKubernetesVersionResponseTagsMap = { [key: string]: string | undefined };
 export interface UpdateKubernetesVersionResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: UpdateKubernetesVersionResponseTagsMap;
+  tags?: UpdateKubernetesVersionResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The list of the resource properties. */
   properties: KubernetesVersionProperties;
   /** "If etag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields.") */
-  etag?: string;
+  etag?: string | undefined;
   /** The extended location of the resource. This property is required when creating the resource. */
   extendedLocation: AzureResourceManagerCommonTypesExtendedLocation;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  locationHeader?: string;
+  locationHeader?: string | undefined;
 }
 /** Resource tags. */
 export type UpdateL2NetworkRequestTagsMap = { [key: string]: string | undefined };
@@ -6652,27 +6715,27 @@ export interface UpdateL2NetworkRequest {
   /** The name of the L2 network. */
   l2NetworkName: string;
   /** Resource tags. */
-  tags?: UpdateL2NetworkRequestTagsMap;
+  tags?: UpdateL2NetworkRequestTagsMap | undefined;
 }
 /** Resource tags. */
 export type UpdateL2NetworkResponseTagsMap = { [key: string]: string | undefined };
 export interface UpdateL2NetworkResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: UpdateL2NetworkResponseTagsMap;
+  tags?: UpdateL2NetworkResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The list of the resource properties. */
   properties: L2NetworkProperties;
   /** "If etag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields.") */
-  etag?: string;
+  etag?: string | undefined;
   /** The extended location of the resource. This property is required when creating the resource. */
   extendedLocation: AzureResourceManagerCommonTypesExtendedLocation;
 }
@@ -6686,27 +6749,27 @@ export interface UpdateL3NetworkRequest {
   /** The name of the L3 network. */
   l3NetworkName: string;
   /** Resource tags. */
-  tags?: UpdateL3NetworkRequestTagsMap;
+  tags?: UpdateL3NetworkRequestTagsMap | undefined;
 }
 /** Resource tags. */
 export type UpdateL3NetworkResponseTagsMap = { [key: string]: string | undefined };
 export interface UpdateL3NetworkResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: UpdateL3NetworkResponseTagsMap;
+  tags?: UpdateL3NetworkResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The list of the resource properties. */
   properties: L3NetworkProperties;
   /** "If etag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields.") */
-  etag?: string;
+  etag?: string | undefined;
   /** The extended location of the resource. This property is required when creating the resource. */
   extendedLocation: AzureResourceManagerCommonTypesExtendedLocation;
 }
@@ -6715,9 +6778,9 @@ export type ClusterMetricsConfigurationPatchPropertiesEnabledMetricsList = Array
 /** ClusterMetricsConfigurationPatchProperties represents the properties of metrics configuration for the cluster for patching. */
 export interface ClusterMetricsConfigurationPatchProperties {
   /** The interval in minutes by which metrics will be collected. */
-  collectionInterval?: number;
+  collectionInterval?: number | undefined;
   /** The list of metric names that have been chosen to be enabled in addition to the core set of enabled metrics. */
-  enabledMetrics?: ClusterMetricsConfigurationPatchPropertiesEnabledMetricsList;
+  enabledMetrics?: ClusterMetricsConfigurationPatchPropertiesEnabledMetricsList | undefined;
 }
 /** Resource tags. */
 export type UpdateMetricsConfigurationRequestTagsMap = { [key: string]: string | undefined };
@@ -6731,42 +6794,42 @@ export interface UpdateMetricsConfigurationRequest {
   /** The name of the metrics configuration for the cluster. */
   metricsConfigurationName: string;
   /** The list of the resource properties. */
-  properties?: ClusterMetricsConfigurationPatchProperties;
+  properties?: ClusterMetricsConfigurationPatchProperties | undefined;
   /** Resource tags. */
-  tags?: UpdateMetricsConfigurationRequestTagsMap;
+  tags?: UpdateMetricsConfigurationRequestTagsMap | undefined;
 }
 /** Resource tags. */
 export type UpdateMetricsConfigurationResponseTagsMap = { [key: string]: string | undefined };
 export interface UpdateMetricsConfigurationResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: UpdateMetricsConfigurationResponseTagsMap;
+  tags?: UpdateMetricsConfigurationResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The list of the resource properties. */
   properties: ClusterMetricsConfigurationProperties;
   /** "If etag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields.") */
-  etag?: string;
+  etag?: string | undefined;
   /** The extended location of the resource. This property is required when creating the resource. */
   extendedLocation: AzureResourceManagerCommonTypesExtendedLocation;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  locationHeader?: string;
+  locationHeader?: string | undefined;
 }
 /** RacksPatchProperties represents the properties of the rack during patching. */
 export interface RacksPatchProperties {
   /** The free-form description of the rack location. (e.g. "DTN Datacenter, Floor 3, Isle 9, Rack 2B") */
-  rackLocation?: string;
+  rackLocation?: string | undefined;
   /** The globally unique identifier for the rack. */
-  rackSerialNumber?: string;
+  rackSerialNumber?: string | undefined;
 }
 /** Resource tags. */
 export type UpdateRackRequestTagsMap = { [key: string]: string | undefined };
@@ -6778,40 +6841,40 @@ export interface UpdateRackRequest {
   /** The name of the rack. */
   rackName: string;
   /** The list of the resource properties. */
-  properties?: RacksPatchProperties;
+  properties?: RacksPatchProperties | undefined;
   /** Resource tags. */
-  tags?: UpdateRackRequestTagsMap;
+  tags?: UpdateRackRequestTagsMap | undefined;
 }
 /** Resource tags. */
 export type UpdateRackResponseTagsMap = { [key: string]: string | undefined };
 export interface UpdateRackResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: UpdateRackResponseTagsMap;
+  tags?: UpdateRackResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The list of the resource properties. */
   properties: RackProperties;
   /** "If etag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields.") */
-  etag?: string;
+  etag?: string | undefined;
   /** The extended location of the resource. This property is required when creating the resource. */
   extendedLocation: AzureResourceManagerCommonTypesExtendedLocation;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  locationHeader?: string;
+  locationHeader?: string | undefined;
 }
 /** StorageAppliancePatchProperties represents the properties of the storage appliance that can be patched. */
 export interface StorageAppliancePatchProperties {
   /** The serial number for the storage appliance. */
-  serialNumber?: string;
+  serialNumber?: string | undefined;
 }
 /** Resource tags. */
 export type UpdateStorageApplianceRequestTagsMap = { [key: string]: string | undefined };
@@ -6823,35 +6886,35 @@ export interface UpdateStorageApplianceRequest {
   /** The name of the storage appliance. */
   storageApplianceName: string;
   /** The list of the resource properties. */
-  properties?: StorageAppliancePatchProperties;
+  properties?: StorageAppliancePatchProperties | undefined;
   /** Resource tags. */
-  tags?: UpdateStorageApplianceRequestTagsMap;
+  tags?: UpdateStorageApplianceRequestTagsMap | undefined;
 }
 /** Resource tags. */
 export type UpdateStorageApplianceResponseTagsMap = { [key: string]: string | undefined };
 export interface UpdateStorageApplianceResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: UpdateStorageApplianceResponseTagsMap;
+  tags?: UpdateStorageApplianceResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The list of the resource properties. */
   properties: StorageApplianceProperties;
   /** "If etag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields.") */
-  etag?: string;
+  etag?: string | undefined;
   /** The extended location of the resource. This property is required when creating the resource. */
   extendedLocation: AzureResourceManagerCommonTypesExtendedLocation;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  locationHeader?: string;
+  locationHeader?: string | undefined;
 }
 /** Resource tags. */
 export type UpdateTrunkedNetworkRequestTagsMap = { [key: string]: string | undefined };
@@ -6863,27 +6926,27 @@ export interface UpdateTrunkedNetworkRequest {
   /** The name of the trunked network. */
   trunkedNetworkName: string;
   /** Resource tags. */
-  tags?: UpdateTrunkedNetworkRequestTagsMap;
+  tags?: UpdateTrunkedNetworkRequestTagsMap | undefined;
 }
 /** Resource tags. */
 export type UpdateTrunkedNetworkResponseTagsMap = { [key: string]: string | undefined };
 export interface UpdateTrunkedNetworkResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: UpdateTrunkedNetworkResponseTagsMap;
+  tags?: UpdateTrunkedNetworkResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The list of the resource properties. */
   properties: TrunkedNetworkProperties;
   /** "If etag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields.") */
-  etag?: string;
+  etag?: string | undefined;
   /** The extended location of the resource. This property is required when creating the resource. */
   extendedLocation: AzureResourceManagerCommonTypesExtendedLocation;
 }
@@ -6895,21 +6958,21 @@ export type UpdateVirtualMachineRequestIdentityUserAssignedIdentitiesMap = {
 export interface UpdateVirtualMachineRequestIdentity {
   type: ManagedServiceIdentityType | (string & {});
   /** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
-  userAssignedIdentities?: UpdateVirtualMachineRequestIdentityUserAssignedIdentitiesMap;
+  userAssignedIdentities?: UpdateVirtualMachineRequestIdentityUserAssignedIdentitiesMap | undefined;
 }
 /** ImageRepositoryCredentialsPatch represents the credentials used to login to the image repository for patch operations. */
 export interface ImageRepositoryCredentialsPatch {
   /** The password or token used to access an image in the target repository. */
-  password?: string | Redacted.Redacted<string>;
+  password?: string | Redacted.Redacted<string> | undefined;
   /** The URL of the authentication server used to validate the repository credentials. */
-  registryUrl?: string;
+  registryUrl?: string | undefined;
   /** The username used to access an image in the target repository. */
-  username?: string;
+  username?: string | undefined;
 }
 /** VirtualMachinePatchProperties represents the properties of the virtual machine that can be patched. */
 export interface VirtualMachinePatchProperties {
   /** The credentials used to login to the image repository that has access to the specified image. */
-  vmImageRepositoryCredentials?: ImageRepositoryCredentialsPatch;
+  vmImageRepositoryCredentials?: ImageRepositoryCredentialsPatch | undefined;
 }
 /** Resource tags. */
 export type UpdateVirtualMachineRequestTagsMap = { [key: string]: string | undefined };
@@ -6921,11 +6984,11 @@ export interface UpdateVirtualMachineRequest {
   /** The name of the virtual machine. */
   virtualMachineName: string;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: UpdateVirtualMachineRequestIdentity;
+  identity?: UpdateVirtualMachineRequestIdentity | undefined;
   /** The list of the resource properties. */
-  properties?: VirtualMachinePatchProperties;
+  properties?: VirtualMachinePatchProperties | undefined;
   /** Resource tags. */
-  tags?: UpdateVirtualMachineRequestTagsMap;
+  tags?: UpdateVirtualMachineRequestTagsMap | undefined;
 }
 /** Resource tags. */
 export type UpdateVirtualMachineResponseTagsMap = { [key: string]: string | undefined };
@@ -6936,38 +6999,40 @@ export type UpdateVirtualMachineResponseIdentityUserAssignedIdentitiesMap = {
 /** Managed service identity (system assigned and/or user assigned identities) */
 export interface UpdateVirtualMachineResponseIdentity {
   /** The service principal ID of the system assigned identity. This property will only be provided for a system assigned identity. */
-  principalId?: string;
+  principalId?: string | undefined;
   /** The tenant ID of the system assigned identity. This property will only be provided for a system assigned identity. */
-  tenantId?: string;
+  tenantId?: string | undefined;
   type: ManagedServiceIdentityType;
   /** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
-  userAssignedIdentities?: UpdateVirtualMachineResponseIdentityUserAssignedIdentitiesMap;
+  userAssignedIdentities?:
+    | UpdateVirtualMachineResponseIdentityUserAssignedIdentitiesMap
+    | undefined;
 }
 export interface UpdateVirtualMachineResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: UpdateVirtualMachineResponseTagsMap;
+  tags?: UpdateVirtualMachineResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The list of the resource properties. */
   properties: VirtualMachineProperties;
   /** "If etag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields.") */
-  etag?: string;
+  etag?: string | undefined;
   /** The extended location of the resource. This property is required when creating the resource. */
   extendedLocation: AzureResourceManagerCommonTypesExtendedLocation;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: UpdateVirtualMachineResponseIdentity;
+  identity?: UpdateVirtualMachineResponseIdentity | undefined;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  locationHeader?: string;
+  locationHeader?: string | undefined;
 }
 /** Resource tags. */
 export type UpdateVolumeRequestTagsMap = { [key: string]: string | undefined };
@@ -6979,27 +7044,27 @@ export interface UpdateVolumeRequest {
   /** The name of the volume. */
   volumeName: string;
   /** Resource tags. */
-  tags?: UpdateVolumeRequestTagsMap;
+  tags?: UpdateVolumeRequestTagsMap | undefined;
 }
 /** Resource tags. */
 export type UpdateVolumeResponseTagsMap = { [key: string]: string | undefined };
 export interface UpdateVolumeResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: UpdateVolumeResponseTagsMap;
+  tags?: UpdateVolumeResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The list of the resource properties. */
   properties: VolumeProperties;
   /** "If etag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields.") */
-  etag?: string;
+  etag?: string | undefined;
   /** The extended location of the resource. This property is required when creating the resource. */
   extendedLocation: AzureResourceManagerCommonTypesExtendedLocation;
 }
@@ -7012,15 +7077,15 @@ export interface NetworkAttachmentInput {
   /** The resource ID of the associated network attached to the virtual machine. It can be one of cloudServicesNetwork, l3Network, l2Network or trunkedNetwork resources. */
   attachedNetworkId: string;
   /** The indicator of whether this is the default gateway. Only one of the attached networks (including the CloudServicesNetwork attachment) for a single machine may be specified as True. */
-  defaultGateway?: DefaultGateway | (string & {});
+  defaultGateway?: DefaultGateway | (string & {}) | undefined;
   /** The IP allocation mechanism for the virtual machine. Dynamic and Static are only valid for l3Network which may also specify Disabled. Otherwise, Disabled is the only permitted value. */
   ipAllocationMethod: VirtualMachineIPAllocationMethod | (string & {});
   /** The IPv4 address of the virtual machine. This field is used only if the attached network has IPAllocationType of IPV4 or DualStack. If IPAllocationMethod is: Static - this field must contain a user specified IPv4 address from within the subnet specified in the attached network. Dynamic - this field is read-only, but will be populated with an address from within the subnet specified in the attached network. Disabled - this field will be empty. */
-  ipv4Address?: string;
+  ipv4Address?: string | undefined;
   /** The IPv6 address of the virtual machine. This field is used only if the attached network has IPAllocationType of IPV6 or DualStack. If IPAllocationMethod is: Static - this field must contain an IPv6 address range from within the range specified in the attached network. Dynamic - this field is read-only, but will be populated with an range from within the subnet specified in the attached network. Disabled - this field will be empty. */
-  ipv6Address?: string;
+  ipv6Address?: string | undefined;
   /** The associated network's interface name. If specified, the network attachment name has a maximum length of 15 characters and must be unique to this virtual machine. If the user doesn't specify this value, the default interface name of the network resource will be used. For a CloudServicesNetwork resource, this name will be ignored. */
-  networkAttachmentName?: string;
+  networkAttachmentName?: string | undefined;
 }
 /** Field Deprecated, the value will be ignored if provided. The indicator of whether one of the specified CPU cores is isolated to run the emulator thread for this virtual machine. */
 export type VirtualMachinePropertiesInputIsolateEmulatorThread = "False" | "True";
@@ -7039,41 +7104,44 @@ export interface VirtualMachinePropertiesInput {
   /** The name of the administrator to which the ssh public keys will be added into the authorized keys. */
   adminUsername: string;
   /** Selects the boot method for the virtual machine. */
-  bootMethod?: VirtualMachinePropertiesInputBootMethod | (string & {});
+  bootMethod?: VirtualMachinePropertiesInputBootMethod | (string & {}) | undefined;
   /** The cloud service network that provides platform-level services for the virtual machine. */
   cloudServicesNetworkAttachment: NetworkAttachmentInput;
   /** The number of CPU cores in the virtual machine. */
   cpuCores: number;
   /** Field Deprecated, the value will be ignored if provided. The indicator of whether one of the specified CPU cores is isolated to run the emulator thread for this virtual machine. */
-  isolateEmulatorThread?: VirtualMachinePropertiesInputIsolateEmulatorThread | (string & {});
+  isolateEmulatorThread?:
+    | VirtualMachinePropertiesInputIsolateEmulatorThread
+    | (string & {})
+    | undefined;
   /** The memory size of the virtual machine. Allocations are measured in gibibytes. */
   memorySizeGB: number;
   /** The list of network attachments to the virtual machine. */
-  networkAttachments?: VirtualMachinePropertiesInputNetworkAttachmentsList;
+  networkAttachments?: VirtualMachinePropertiesInputNetworkAttachmentsList | undefined;
   /** Field Deprecated: The Base64 encoded cloud-init network data. The networkDataContent property will be used in preference to this property. */
-  networkData?: string;
+  networkData?: string | undefined;
   /** The Base64 encoded cloud-init network data. */
-  networkDataContent?: string;
+  networkDataContent?: string | undefined;
   /** The scheduling hints for the virtual machine. */
-  placementHints?: VirtualMachinePropertiesInputPlacementHintsList;
+  placementHints?: VirtualMachinePropertiesInputPlacementHintsList | undefined;
   /** The list of ssh public keys. Each key will be added to the virtual machine using the cloud-init ssh_authorized_keys mechanism for the adminUsername. */
-  sshPublicKeys?: VirtualMachinePropertiesInputSshPublicKeysList;
+  sshPublicKeys?: VirtualMachinePropertiesInputSshPublicKeysList | undefined;
   /** The storage profile that specifies size and other parameters about the disks related to the virtual machine. */
   storageProfile: StorageProfile;
   /** Field Deprecated: The Base64 encoded cloud-init user data. The userDataContent property will be used in preference to this property. */
-  userData?: string;
+  userData?: string | undefined;
   /** The Base64 encoded cloud-init user data. */
-  userDataContent?: string;
+  userDataContent?: string | undefined;
   /** Field Deprecated, use virtualizationModel instead. The type of the virtio interface. */
-  virtioInterface?: VirtualMachinePropertiesInputVirtioInterface | (string & {});
+  virtioInterface?: VirtualMachinePropertiesInputVirtioInterface | (string & {}) | undefined;
   /** The type of the device model to use. */
-  vmDeviceModel?: VirtualMachinePropertiesInputVmDeviceModel | (string & {});
+  vmDeviceModel?: VirtualMachinePropertiesInputVmDeviceModel | (string & {}) | undefined;
   /** The virtual machine image that is currently provisioned to the OS disk, using the full url and tag notation used to pull the image. */
   vmImage: string;
   /** The credentials used to login to the image repository that has access to the specified image. */
-  vmImageRepositoryCredentials?: ImageRepositoryCredentials;
+  vmImageRepositoryCredentials?: ImageRepositoryCredentials | undefined;
   /** The extended location to use for creation of a VM console resource. */
-  consoleExtendedLocation?: AzureResourceManagerCommonTypesExtendedLocation;
+  consoleExtendedLocation?: AzureResourceManagerCommonTypesExtendedLocation | undefined;
 }
 /** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
 export type VirtualMachinesCreateOrUpdateRequestIdentityUserAssignedIdentitiesMap = {
@@ -7083,7 +7151,9 @@ export type VirtualMachinesCreateOrUpdateRequestIdentityUserAssignedIdentitiesMa
 export interface VirtualMachinesCreateOrUpdateRequestIdentity {
   type: ManagedServiceIdentityType | (string & {});
   /** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
-  userAssignedIdentities?: VirtualMachinesCreateOrUpdateRequestIdentityUserAssignedIdentitiesMap;
+  userAssignedIdentities?:
+    | VirtualMachinesCreateOrUpdateRequestIdentityUserAssignedIdentitiesMap
+    | undefined;
 }
 export interface VirtualMachinesCreateOrUpdateRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -7093,7 +7163,7 @@ export interface VirtualMachinesCreateOrUpdateRequest {
   /** The name of the virtual machine. */
   virtualMachineName: string;
   /** Resource tags. */
-  tags?: VirtualMachinesCreateOrUpdateRequestTagsMap;
+  tags?: VirtualMachinesCreateOrUpdateRequestTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The list of the resource properties. */
@@ -7101,7 +7171,7 @@ export interface VirtualMachinesCreateOrUpdateRequest {
   /** The extended location of the resource. This property is required when creating the resource. */
   extendedLocation: AzureResourceManagerCommonTypesExtendedLocation;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: VirtualMachinesCreateOrUpdateRequestIdentity;
+  identity?: VirtualMachinesCreateOrUpdateRequestIdentity | undefined;
 }
 /** Resource tags. */
 export type VirtualMachinesCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
@@ -7112,36 +7182,38 @@ export type VirtualMachinesCreateOrUpdateResponseIdentityUserAssignedIdentitiesM
 /** Managed service identity (system assigned and/or user assigned identities) */
 export interface VirtualMachinesCreateOrUpdateResponseIdentity {
   /** The service principal ID of the system assigned identity. This property will only be provided for a system assigned identity. */
-  principalId?: string;
+  principalId?: string | undefined;
   /** The tenant ID of the system assigned identity. This property will only be provided for a system assigned identity. */
-  tenantId?: string;
+  tenantId?: string | undefined;
   type: ManagedServiceIdentityType;
   /** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
-  userAssignedIdentities?: VirtualMachinesCreateOrUpdateResponseIdentityUserAssignedIdentitiesMap;
+  userAssignedIdentities?:
+    | VirtualMachinesCreateOrUpdateResponseIdentityUserAssignedIdentitiesMap
+    | undefined;
 }
 export interface VirtualMachinesCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: VirtualMachinesCreateOrUpdateResponseTagsMap;
+  tags?: VirtualMachinesCreateOrUpdateResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The list of the resource properties. */
   properties: VirtualMachineProperties;
   /** "If etag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields.") */
-  etag?: string;
+  etag?: string | undefined;
   /** The extended location of the resource. This property is required when creating the resource. */
   extendedLocation: AzureResourceManagerCommonTypesExtendedLocation;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: VirtualMachinesCreateOrUpdateResponseIdentity;
+  identity?: VirtualMachinesCreateOrUpdateResponseIdentity | undefined;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
 }
 /** The indicator of whether to skip the graceful OS shutdown and power off the virtual machine immediately. */
 export type VirtualMachinesPowerOffRequestSkipShutdown = "True" | "False";
@@ -7153,13 +7225,13 @@ export interface VirtualMachinesPowerOffRequest {
   /** The name of the virtual machine. */
   virtualMachineName: string;
   /** The indicator of whether to skip the graceful OS shutdown and power off the virtual machine immediately. */
-  skipShutdown?: VirtualMachinesPowerOffRequestSkipShutdown | (string & {});
+  skipShutdown?: VirtualMachinesPowerOffRequestSkipShutdown | (string & {}) | undefined;
 }
 export interface VirtualMachinesPowerOffResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface VirtualMachinesReimageRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -7171,9 +7243,9 @@ export interface VirtualMachinesReimageRequest {
 }
 export interface VirtualMachinesReimageResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Resource tags. */
 export type VolumesCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
@@ -7182,7 +7254,7 @@ export interface VolumePropertiesInput {
   /** The requested storage allocation for the volume in Mebibytes. */
   sizeMiB: number;
   /** The resource ID of the storage appliance that hosts the volume. */
-  storageApplianceId?: string;
+  storageApplianceId?: string | undefined;
 }
 export interface VolumesCreateOrUpdateRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -7192,7 +7264,7 @@ export interface VolumesCreateOrUpdateRequest {
   /** The name of the volume. */
   volumeName: string;
   /** Resource tags. */
-  tags?: VolumesCreateOrUpdateRequestTagsMap;
+  tags?: VolumesCreateOrUpdateRequestTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The list of the resource properties. */
@@ -7204,25 +7276,25 @@ export interface VolumesCreateOrUpdateRequest {
 export type VolumesCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
 export interface VolumesCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: VolumesCreateOrUpdateResponseTagsMap;
+  tags?: VolumesCreateOrUpdateResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The list of the resource properties. */
   properties: VolumeProperties;
   /** "If etag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields.") */
-  etag?: string;
+  etag?: string | undefined;
   /** The extended location of the resource. This property is required when creating the resource. */
   extendedLocation: AzureResourceManagerCommonTypesExtendedLocation;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
 }
 export type AccessBridgesCreateOrUpdateError = AzureOpError;
 /** Create a new access bridge or update the properties of the existing access bridge. */

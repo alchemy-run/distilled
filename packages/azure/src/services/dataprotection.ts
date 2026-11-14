@@ -28,12 +28,13 @@ const TELEMETRY = {
   prefix: "Dataprotection",
   service: "Dataprotection",
   labels: "azure",
+  labelNames: { resourceGroupName: "azure.resource_group.name" },
   propagate: "w3c",
 } as const;
 
 /** Adhoc backup trigger option */
 export interface AdhocBackupTriggerOption {
-  retentionTagOverride?: string;
+  retentionTagOverride?: string | undefined;
 }
 /** Adhoc backup rules */
 export interface AdHocBackupRuleOptions {
@@ -57,11 +58,11 @@ export interface BackupInstancesAdhocBackupResponse {
   /** This property will be used as the discriminator for deciding the specific types in the polymorphic chain of types. */
   objectType: string;
   /** Name or Arm Id of the job created for this operation. */
-  jobId?: string;
+  jobId?: string | undefined;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
 }
 /** Type of the specific object - used for deserializing */
 export type ResourcePropertiesObjectType = "DefaultResourceProperties";
@@ -73,40 +74,40 @@ export interface BaseResourceProperties {
 /** Datasource to be backed up */
 export interface Datasource {
   /** DatasourceType of the resource. */
-  datasourceType?: string;
+  datasourceType?: string | undefined;
   /** Type of Datasource object, used to initialize the right inherited type */
-  objectType?: string;
+  objectType?: string | undefined;
   /** Full ARM ID of the resource. For azure resources, this is ARM ID. For non azure resources, this will be the ID created by backup service via Fabric/Vault. */
   resourceID: string;
   /** Location of datasource. */
-  resourceLocation?: string;
+  resourceLocation?: string | undefined;
   /** Unique identifier of the resource in the context of parent. */
-  resourceName?: string;
+  resourceName?: string | undefined;
   /** Resource Type of Datasource. */
-  resourceType?: string;
+  resourceType?: string | undefined;
   /** Uri of the resource. */
-  resourceUri?: string;
+  resourceUri?: string | undefined;
   /** Properties specific to data source */
-  resourceProperties?: BaseResourceProperties;
+  resourceProperties?: BaseResourceProperties | undefined;
 }
 /** DatasourceSet details of datasource to be backed up */
 export interface DatasourceSet {
   /** DatasourceType of the resource. */
-  datasourceType?: string;
+  datasourceType?: string | undefined;
   /** Type of Datasource object, used to initialize the right inherited type */
-  objectType?: string;
+  objectType?: string | undefined;
   /** Full ARM ID of the resource. For azure resources, this is ARM ID. For non azure resources, this will be the ID created by backup service via Fabric/Vault. */
   resourceID: string;
   /** Location of datasource. */
-  resourceLocation?: string;
+  resourceLocation?: string | undefined;
   /** Unique identifier of the resource in the context of parent. */
-  resourceName?: string;
+  resourceName?: string | undefined;
   /** Resource Type of Datasource. */
-  resourceType?: string;
+  resourceType?: string | undefined;
   /** Uri of the resource. */
-  resourceUri?: string;
+  resourceUri?: string | undefined;
   /** Properties specific to data source set */
-  resourceProperties?: BaseResourceProperties;
+  resourceProperties?: BaseResourceProperties | undefined;
 }
 /** type of datastore; Operational/Vault/Archive */
 export type DataStoreTypes = "OperationalStore" | "VaultStore" | "ArchiveStore";
@@ -117,7 +118,7 @@ export interface DataStoreParameters {
   /** type of datastore; Operational/Vault/Archive */
   dataStoreType: DataStoreTypes | (string & {});
   /** Snapshot resource group URI (AzureOperationalStoreParameters). */
-  resourceGroupId?: string;
+  resourceGroupId?: string | undefined;
 }
 /** Gets or sets the DataStore Parameters */
 export type PolicyParametersDataStoreParametersListList = Array<DataStoreParameters>;
@@ -126,24 +127,24 @@ export interface BackupDatasourceParameters {
   /** Type of the specific object - used for deserializing */
   objectType: string;
   /** Blob containers to back up (BlobBackupDatasourceParameters / AdlsBlobBackupDatasourceParameters). */
-  containersList?: unknown;
+  containersList?: unknown | undefined;
   /** Secret store resource (SecretStoreBasedAuthCredentials). */
-  secretStoreResource?: unknown;
+  secretStoreResource?: unknown | undefined;
 }
 /** Gets or sets the Backup Data Source Parameters */
 export type PolicyParametersBackupDatasourceParametersListList = Array<BackupDatasourceParameters>;
 /** Parameters in Policy */
 export interface PolicyParameters {
   /** Gets or sets the DataStore Parameters */
-  dataStoreParametersList?: PolicyParametersDataStoreParametersListList;
+  dataStoreParametersList?: PolicyParametersDataStoreParametersListList | undefined;
   /** Gets or sets the Backup Data Source Parameters */
-  backupDatasourceParametersList?: PolicyParametersBackupDatasourceParametersListList;
+  backupDatasourceParametersList?: PolicyParametersBackupDatasourceParametersListList | undefined;
 }
 /** Policy Info in backupInstance */
 export interface PolicyInfoInput {
   policyId: string;
   /** Policy parameters for the backup instance */
-  policyParameters?: PolicyParameters;
+  policyParameters?: PolicyParameters | undefined;
 }
 /** ResourceGuardOperationRequests on which LAC check will be performed */
 export type BackupInstanceInputResourceGuardOperationRequestsList = Array<string>;
@@ -156,28 +157,30 @@ export interface AuthCredentials {
 export type ValidationType = "ShallowValidation" | "DeepValidation";
 export interface IdentityDetails {
   /** Specifies if the BI is protected by System Identity. */
-  useSystemAssignedIdentity?: boolean;
+  useSystemAssignedIdentity?: boolean | undefined;
   /** ARM URL for User Assigned Identity. */
-  userAssignedIdentityArmUrl?: string;
+  userAssignedIdentityArmUrl?: string | undefined;
 }
 /** Backup Instance */
 export interface BackupInstanceInput {
   /** Gets or sets the Backup Instance friendly name. */
-  friendlyName?: string;
+  friendlyName?: string | undefined;
   /** Gets or sets the data source information. */
   dataSourceInfo: Datasource;
   /** Gets or sets the data source set information. */
-  dataSourceSetInfo?: DatasourceSet;
+  dataSourceSetInfo?: DatasourceSet | undefined;
   /** Gets or sets the policy information. */
   policyInfo: PolicyInfoInput;
   /** ResourceGuardOperationRequests on which LAC check will be performed */
-  resourceGuardOperationRequests?: BackupInstanceInputResourceGuardOperationRequestsList;
+  resourceGuardOperationRequests?:
+    | BackupInstanceInputResourceGuardOperationRequestsList
+    | undefined;
   /** Credentials to use to authenticate with data source provider. */
-  datasourceAuthCredentials?: AuthCredentials;
+  datasourceAuthCredentials?: AuthCredentials | undefined;
   /** Specifies the type of validation. In case of DeepValidation, all validations from /validateForBackup API will run again. */
-  validationType?: ValidationType | (string & {});
+  validationType?: ValidationType | (string & {}) | undefined;
   /** Contains information of the Identity Details for the BI. If it is null, default will be considered as System Assigned. */
-  identityDetails?: IdentityDetails;
+  identityDetails?: IdentityDetails | undefined;
   objectType: string;
 }
 /** Proxy Resource tags. */
@@ -192,9 +195,9 @@ export interface BackupInstancesCreateOrUpdateRequest {
   /** The name of the BackupInstanceResource */
   backupInstanceName: string;
   /** BackupInstanceResource properties */
-  properties?: BackupInstanceInput;
+  properties?: BackupInstanceInput | undefined;
   /** Proxy Resource tags. */
-  tags?: BackupInstancesCreateOrUpdateRequestTagsMap;
+  tags?: BackupInstancesCreateOrUpdateRequestTagsMap | undefined;
 }
 /** The type of identity that created the resource. */
 export type SystemDataCreatedByType = "User" | "Application" | "ManagedIdentity" | "Key";
@@ -203,24 +206,24 @@ export type SystemDataLastModifiedByType = "User" | "Application" | "ManagedIden
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface SystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: SystemDataCreatedByType;
+  createdByType?: SystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: SystemDataLastModifiedByType;
+  lastModifiedByType?: SystemDataLastModifiedByType | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 /** Policy Info in backupInstance */
 export interface PolicyInfo {
   policyId: string;
-  policyVersion?: string;
+  policyVersion?: string | undefined;
   /** Policy parameters for the backup instance */
-  policyParameters?: PolicyParameters;
+  policyParameters?: PolicyParameters | undefined;
 }
 /** ResourceGuardOperationRequests on which LAC check will be performed */
 export type BackupInstanceResourceGuardOperationRequestsList = Array<string>;
@@ -231,11 +234,11 @@ export type InnerErrorAdditionalInfoMap = { [key: string]: string | undefined };
 /** Inner Error */
 export interface InnerError {
   /** Any Key value pairs that can be provided to the client for additional verbose information. */
-  additionalInfo?: InnerErrorAdditionalInfoMap;
+  additionalInfo?: InnerErrorAdditionalInfoMap | undefined;
   /** Unique code for this error */
-  code?: string;
+  code?: string | undefined;
   /** Child Inner Error, to allow Nesting. */
-  embeddedInnerError?: InnerError;
+  embeddedInnerError?: InnerError | undefined;
 }
 /** Any key value pairs that can be injected inside error object */
 export type UserFacingErrorPropertiesMap = { [key: string]: string | undefined };
@@ -244,22 +247,22 @@ export type UserFacingErrorRecommendedActionList = Array<string>;
 /** Error object used by layers that have access to localized content, and propagate that to user */
 export interface UserFacingError {
   /** Unique code for this error */
-  code?: string;
+  code?: string | undefined;
   /** Additional related Errors */
-  details?: UserFacingErrorDetailsList;
+  details?: UserFacingErrorDetailsList | undefined;
   /** Inner Error */
-  innerError?: InnerError;
+  innerError?: InnerError | undefined;
   /** Whether the operation will be retryable or not */
-  isRetryable?: boolean;
+  isRetryable?: boolean | undefined;
   /** Whether the operation is due to a user error or service error */
-  isUserError?: boolean;
+  isUserError?: boolean | undefined;
   /** Any key value pairs that can be injected inside error object */
-  properties?: UserFacingErrorPropertiesMap;
-  message?: string;
+  properties?: UserFacingErrorPropertiesMap | undefined;
+  message?: string | undefined;
   /** RecommendedAction U+FFFD localized. */
-  recommendedAction?: UserFacingErrorRecommendedActionList;
+  recommendedAction?: UserFacingErrorRecommendedActionList | undefined;
   /** Target of the error. */
-  target?: string;
+  target?: string | undefined;
 }
 /** Specifies the protection status of the resource */
 export type Status =
@@ -272,9 +275,9 @@ export type Status =
 /** Protection status details */
 export interface ProtectionStatusDetails {
   /** Specifies the protection status error of the resource */
-  errorDetails?: UserFacingError;
+  errorDetails?: UserFacingError | undefined;
   /** Specifies the protection status of the resource */
-  status?: Status;
+  status?: Status | undefined;
 }
 /** Specifies the current protection state of the resource */
 export type CurrentProtectionState =
@@ -293,52 +296,52 @@ export type CurrentProtectionState =
 /** Backup Instance */
 export interface BackupInstance {
   /** Gets or sets the Backup Instance friendly name. */
-  friendlyName?: string;
+  friendlyName?: string | undefined;
   /** Gets or sets the data source information. */
   dataSourceInfo: Datasource;
   /** Gets or sets the data source set information. */
-  dataSourceSetInfo?: DatasourceSet;
+  dataSourceSetInfo?: DatasourceSet | undefined;
   /** Gets or sets the policy information. */
   policyInfo: PolicyInfo;
   /** ResourceGuardOperationRequests on which LAC check will be performed */
-  resourceGuardOperationRequests?: BackupInstanceResourceGuardOperationRequestsList;
+  resourceGuardOperationRequests?: BackupInstanceResourceGuardOperationRequestsList | undefined;
   /** Specifies the protection status of the resource */
-  protectionStatus?: ProtectionStatusDetails;
+  protectionStatus?: ProtectionStatusDetails | undefined;
   /** Specifies the current protection state of the resource */
-  currentProtectionState?: CurrentProtectionState;
+  currentProtectionState?: CurrentProtectionState | undefined;
   /** Specifies the protection error of the resource */
-  protectionErrorDetails?: UserFacingError;
+  protectionErrorDetails?: UserFacingError | undefined;
   /** Specifies the provisioning state of the resource i.e. provisioning/updating/Succeeded/Failed */
-  provisioningState?: string;
+  provisioningState?: string | undefined;
   /** Credentials to use to authenticate with data source provider. */
-  datasourceAuthCredentials?: AuthCredentials;
+  datasourceAuthCredentials?: AuthCredentials | undefined;
   /** Specifies the type of validation. In case of DeepValidation, all validations from /validateForBackup API will run again. */
-  validationType?: ValidationType;
+  validationType?: ValidationType | undefined;
   /** Contains information of the Identity Details for the BI. If it is null, default will be considered as System Assigned. */
-  identityDetails?: IdentityDetails;
+  identityDetails?: IdentityDetails | undefined;
   objectType: string;
 }
 /** Proxy Resource tags. */
 export type BackupInstancesCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
 export interface BackupInstancesCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** BackupInstanceResource properties */
-  properties?: BackupInstance;
+  properties?: BackupInstance | undefined;
   /** Proxy Resource tags. */
-  tags?: BackupInstancesCreateOrUpdateResponseTagsMap;
+  tags?: BackupInstancesCreateOrUpdateResponseTagsMap | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
 }
 /** Recovery Option */
 export type RecoveryOption = "FailIfExists";
@@ -349,7 +352,7 @@ export interface RestoreTargetInfoBase {
   /** Recovery Option */
   recoveryOption: RecoveryOption | (string & {});
   /** Target Restore region */
-  restoreLocation?: string;
+  restoreLocation?: string | undefined;
 }
 /** Gets or sets the type of the source data store. */
 export type SourceDataStoreType =
@@ -367,11 +370,13 @@ export interface AzureBackupRestoreRequest {
   /** Gets or sets the type of the source data store. */
   sourceDataStoreType: SourceDataStoreType | (string & {});
   /** Fully qualified Azure Resource Manager ID of the datasource which is being recovered. */
-  sourceResourceId?: string;
+  sourceResourceId?: string | undefined;
   /** ResourceGuardOperationRequests on which LAC check will be performed */
-  resourceGuardOperationRequests?: AzureBackupRestoreRequestResourceGuardOperationRequestsList;
+  resourceGuardOperationRequests?:
+    | AzureBackupRestoreRequestResourceGuardOperationRequestsList
+    | undefined;
   /** Contains information of the Identity Details for the BI. If it is null, default will be considered as System Assigned. */
-  identityDetails?: IdentityDetails;
+  identityDetails?: IdentityDetails | undefined;
 }
 /** Cross Region Restore details */
 export interface CrossRegionRestoreDetails {
@@ -394,11 +399,11 @@ export interface BackupInstancesTriggerCrossRegionRestoreResponse {
   /** This property will be used as the discriminator for deciding the specific types in the polymorphic chain of types. */
   objectType: string;
   /** Name or Arm Id of the job created for this operation. */
-  jobId?: string;
+  jobId?: string | undefined;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
 }
 /** ResourceGuardOperationRequests on which LAC check will be performed */
 export type BackupInstancesTriggerRestoreRequestResourceGuardOperationRequestsList = Array<string>;
@@ -417,21 +422,23 @@ export interface BackupInstancesTriggerRestoreRequest {
   /** Gets or sets the type of the source data store. */
   sourceDataStoreType: SourceDataStoreType | (string & {});
   /** Fully qualified Azure Resource Manager ID of the datasource which is being recovered. */
-  sourceResourceId?: string;
+  sourceResourceId?: string | undefined;
   /** ResourceGuardOperationRequests on which LAC check will be performed */
-  resourceGuardOperationRequests?: BackupInstancesTriggerRestoreRequestResourceGuardOperationRequestsList;
+  resourceGuardOperationRequests?:
+    | BackupInstancesTriggerRestoreRequestResourceGuardOperationRequestsList
+    | undefined;
   /** Contains information of the Identity Details for the BI. If it is null, default will be considered as System Assigned. */
-  identityDetails?: IdentityDetails;
+  identityDetails?: IdentityDetails | undefined;
 }
 export interface BackupInstancesTriggerRestoreResponse {
   /** This property will be used as the discriminator for deciding the specific types in the polymorphic chain of types. */
   objectType: string;
   /** Name or Arm Id of the job created for this operation. */
-  jobId?: string;
+  jobId?: string | undefined;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
 }
 export interface BackupInstancesValidateCrossRegionRestoreRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -449,11 +456,11 @@ export interface BackupInstancesValidateCrossRegionRestoreResponse {
   /** This property will be used as the discriminator for deciding the specific types in the polymorphic chain of types. */
   objectType: string;
   /** Name or Arm Id of the job created for this operation. */
-  jobId?: string;
+  jobId?: string | undefined;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
 }
 export interface BackupInstancesValidateForModifyBackupRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -469,9 +476,9 @@ export interface BackupInstancesValidateForModifyBackupRequest {
 }
 export interface BackupInstancesValidateForModifyBackupResponse {
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
 }
 export interface BackupInstancesValidateForRestoreRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -489,11 +496,11 @@ export interface BackupInstancesValidateForRestoreResponse {
   /** This property will be used as the discriminator for deciding the specific types in the polymorphic chain of types. */
   objectType: string;
   /** Name or Arm Id of the job created for this operation. */
-  jobId?: string;
+  jobId?: string | undefined;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
 }
 /** Type of datasource for the backup management */
 export type BaseBackupPolicyDatasourceTypesList = Array<string>;
@@ -503,7 +510,7 @@ export interface BaseBackupPolicy {
   datasourceTypes: BaseBackupPolicyDatasourceTypesList;
   objectType: string;
   /** Policy rules (`AzureBackupRule` / `AzureRetentionRule`) of a `BackupPolicy`. */
-  policyRules?: unknown;
+  policyRules?: unknown | undefined;
 }
 export interface BackupPoliciesCreateOrUpdateRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -514,46 +521,46 @@ export interface BackupPoliciesCreateOrUpdateRequest {
   vaultName: string;
   backupPolicyName: string;
   /** BaseBackupPolicyResource properties */
-  properties?: BaseBackupPolicy;
+  properties?: BaseBackupPolicy | undefined;
 }
 export interface BackupPoliciesCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** BaseBackupPolicyResource properties */
-  properties?: BaseBackupPolicy;
+  properties?: BaseBackupPolicy | undefined;
 }
 /** Resource tags. */
 export type BackupVaultsCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
 export type AlertsState = "Enabled" | "Disabled";
 /** Settings for Azure Monitor based alerts */
 export interface AzureMonitorAlertSettings {
-  alertsForAllJobFailures?: AlertsState | (string & {});
+  alertsForAllJobFailures?: AlertsState | (string & {}) | undefined;
 }
 /** Monitoring Settings */
 export interface MonitoringSettings {
   /** Settings for Azure Monitor based alerts */
-  azureMonitorAlertSettings?: AzureMonitorAlertSettings;
+  azureMonitorAlertSettings?: AzureMonitorAlertSettings | undefined;
 }
 export type GranularityLevel = "VaultLevel" | "ProtectedItemLevel" | "ProtectedItemWithParentTag";
 /** Cost Management Settings of the vault */
 export interface CostManagementSettings {
   /** Settings for granularity level */
-  granularityLevel?: GranularityLevel | (string & {});
+  granularityLevel?: GranularityLevel | (string & {}) | undefined;
 }
 /** State of soft delete */
 export type SoftDeleteState = "Off" | "On" | "AlwaysOn";
 /** Soft delete related settings */
 export interface SoftDeleteSettings {
   /** State of soft delete */
-  state?: SoftDeleteState | (string & {});
+  state?: SoftDeleteState | (string & {}) | undefined;
   /** Soft delete retention duration */
-  retentionDurationInDays?: number;
+  retentionDurationInDays?: number | undefined;
 }
 /** Immutability state */
 export type ImmutabilityState = "Disabled" | "Unlocked" | "Locked";
@@ -562,54 +569,54 @@ export type ImmutabilityType = "AsPerPolicy" | "TimeBased";
 /** Immutability configuration containing type and duration. */
 export interface ImmutabilityConfiguration {
   /** Type of immutability. Supported values: AsPerPolicy or TimeBased. */
-  type?: ImmutabilityType | (string & {});
+  type?: ImmutabilityType | (string & {}) | undefined;
   /** Duration in days for time-based immutability. Required when type is TimeBased. Must be null when type is AsPerPolicy. */
-  durationInDays?: number;
+  durationInDays?: number | undefined;
 }
 /** Immutability Settings at vault level */
 export interface ImmutabilitySettings {
   /** Immutability state */
-  state?: ImmutabilityState | (string & {});
+  state?: ImmutabilityState | (string & {}) | undefined;
   /** Immutability configuration containing type and duration. */
-  configuration?: ImmutabilityConfiguration;
+  configuration?: ImmutabilityConfiguration | undefined;
 }
 /** Encryption state of the Backup Vault. */
 export type EncryptionState = "Enabled" | "Disabled" | "Inconsistent";
 /** The properties of the Key Vault which hosts CMK */
 export interface CmkKeyVaultProperties {
   /** The key uri of the Customer Managed Key */
-  keyUri?: string;
+  keyUri?: string | undefined;
 }
 /** The identity type. 'SystemAssigned' and 'UserAssigned' are mutually exclusive. 'SystemAssigned' will use implicitly created managed identity. */
 export type IdentityType = "SystemAssigned" | "UserAssigned";
 /** The details of the managed identity used for CMK */
 export interface CmkKekIdentity {
   /** The identity type. 'SystemAssigned' and 'UserAssigned' are mutually exclusive. 'SystemAssigned' will use implicitly created managed identity. */
-  identityType?: IdentityType | (string & {});
+  identityType?: IdentityType | (string & {}) | undefined;
   /** The managed identity to be used which has access permissions to the Key Vault. Provide a value here in case identity types: 'UserAssigned' only. */
-  identityId?: string;
+  identityId?: string | undefined;
 }
 /** Enabling/Disabling the Double Encryption state */
 export type InfrastructureEncryptionState = "Enabled" | "Disabled";
 /** Customer Managed Key details of the resource. */
 export interface EncryptionSettings {
   /** Encryption state of the Backup Vault. */
-  state?: EncryptionState | (string & {});
+  state?: EncryptionState | (string & {}) | undefined;
   /** The properties of the Key Vault which hosts CMK */
-  keyVaultProperties?: CmkKeyVaultProperties;
+  keyVaultProperties?: CmkKeyVaultProperties | undefined;
   /** The details of the managed identity used for CMK */
-  kekIdentity?: CmkKekIdentity;
+  kekIdentity?: CmkKekIdentity | undefined;
   /** Enabling/Disabling the Double Encryption state */
-  infrastructureEncryption?: InfrastructureEncryptionState | (string & {});
+  infrastructureEncryption?: InfrastructureEncryptionState | (string & {}) | undefined;
 }
 /** Class containing security settings of vault */
 export interface SecuritySettings {
   /** Soft delete related settings */
-  softDeleteSettings?: SoftDeleteSettings;
+  softDeleteSettings?: SoftDeleteSettings | undefined;
   /** Immutability Settings at vault level */
-  immutabilitySettings?: ImmutabilitySettings;
+  immutabilitySettings?: ImmutabilitySettings | undefined;
   /** Customer Managed Key details of the resource. */
-  encryptionSettings?: EncryptionSettings;
+  encryptionSettings?: EncryptionSettings | undefined;
 }
 /** Gets or sets the type of the datastore. */
 export type StorageSettingStoreTypes = "ArchiveStore" | "OperationalStore" | "VaultStore";
@@ -618,9 +625,9 @@ export type StorageSettingTypes = "GeoRedundant" | "LocallyRedundant" | "ZoneRed
 /** Storage setting */
 export interface StorageSetting {
   /** Gets or sets the type of the datastore. */
-  datastoreType?: StorageSettingStoreTypes | (string & {});
+  datastoreType?: StorageSettingStoreTypes | (string & {}) | undefined;
   /** Gets or sets the type. */
-  type?: StorageSettingTypes | (string & {});
+  type?: StorageSettingTypes | (string & {}) | undefined;
 }
 /** Storage Settings */
 export type BackupVaultInputStorageSettingsList = Array<StorageSetting>;
@@ -629,19 +636,19 @@ export type CrossSubscriptionRestoreState = "Disabled" | "PermanentlyDisabled" |
 /** CrossSubscriptionRestore Settings */
 export interface CrossSubscriptionRestoreSettings {
   /** CrossSubscriptionRestore state */
-  state?: CrossSubscriptionRestoreState | (string & {});
+  state?: CrossSubscriptionRestoreState | (string & {}) | undefined;
 }
 /** CrossRegionRestore state */
 export type CrossRegionRestoreState = "Disabled" | "Enabled";
 export interface CrossRegionRestoreSettings {
   /** CrossRegionRestore state */
-  state?: CrossRegionRestoreState | (string & {});
+  state?: CrossRegionRestoreState | (string & {}) | undefined;
 }
 /** Class containing feature settings of vault */
 export interface FeatureSettings {
   /** CrossSubscriptionRestore Settings */
-  crossSubscriptionRestoreSettings?: CrossSubscriptionRestoreSettings;
-  crossRegionRestoreSettings?: CrossRegionRestoreSettings;
+  crossSubscriptionRestoreSettings?: CrossSubscriptionRestoreSettings | undefined;
+  crossRegionRestoreSettings?: CrossRegionRestoreSettings | undefined;
 }
 /** ResourceGuardOperationRequests on which LAC check will be performed */
 export type BackupVaultInputResourceGuardOperationRequestsList = Array<string>;
@@ -650,19 +657,19 @@ export type BackupVaultInputReplicatedRegionsList = Array<string>;
 /** Backup Vault */
 export interface BackupVaultInput {
   /** Monitoring Settings */
-  monitoringSettings?: MonitoringSettings;
+  monitoringSettings?: MonitoringSettings | undefined;
   /** Cost Management Settings of the vault */
-  costManagementSettings?: CostManagementSettings;
+  costManagementSettings?: CostManagementSettings | undefined;
   /** Security Settings */
-  securitySettings?: SecuritySettings;
+  securitySettings?: SecuritySettings | undefined;
   /** Storage Settings */
-  storageSettings?: BackupVaultInputStorageSettingsList;
+  storageSettings?: BackupVaultInputStorageSettingsList | undefined;
   /** Feature Settings */
-  featureSettings?: FeatureSettings;
+  featureSettings?: FeatureSettings | undefined;
   /** ResourceGuardOperationRequests on which LAC check will be performed */
-  resourceGuardOperationRequests?: BackupVaultInputResourceGuardOperationRequestsList;
+  resourceGuardOperationRequests?: BackupVaultInputResourceGuardOperationRequestsList | undefined;
   /** List of replicated regions for Backup Vault */
-  replicatedRegions?: BackupVaultInputReplicatedRegionsList;
+  replicatedRegions?: BackupVaultInputReplicatedRegionsList | undefined;
 }
 /** User assigned identity properties */
 export interface DppIdentityDetailsInputUserAssignedIdentitiesValue {}
@@ -673,9 +680,9 @@ export type DppIdentityDetailsInputUserAssignedIdentitiesMap = {
 /** Identity details */
 export interface DppIdentityDetailsInput {
   /** The identityType which can be either SystemAssigned, UserAssigned, 'SystemAssigned,UserAssigned' or None */
-  type?: string;
+  type?: string | undefined;
   /** Gets or sets the user assigned identities. */
-  userAssignedIdentities?: DppIdentityDetailsInputUserAssignedIdentitiesMap;
+  userAssignedIdentities?: DppIdentityDetailsInputUserAssignedIdentitiesMap | undefined;
 }
 export interface BackupVaultsCreateOrUpdateRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -685,15 +692,15 @@ export interface BackupVaultsCreateOrUpdateRequest {
   /** The name of the BackupVaultResource */
   vaultName: string;
   /** Resource tags. */
-  tags?: BackupVaultsCreateOrUpdateRequestTagsMap;
+  tags?: BackupVaultsCreateOrUpdateRequestTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** BackupVaultResource properties */
   properties: BackupVaultInput;
   /** Input Managed Identity Details */
-  identity?: DppIdentityDetailsInput;
+  identity?: DppIdentityDetailsInput | undefined;
   /** Optional ETag. */
-  eTag?: string;
+  eTag?: string | undefined;
 }
 /** Resource tags. */
 export type BackupVaultsCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
@@ -714,15 +721,15 @@ export type ResourceMoveState =
 /** ResourceMoveDetails will be returned in response to GetResource call from ARM */
 export interface ResourceMoveDetails {
   /** CorrelationId of latest ResourceMove operation attempted */
-  operationId?: string;
+  operationId?: string | undefined;
   /** Start time in UTC of latest ResourceMove operation attempted. ISO 8601 format. */
-  startTimeUtc?: string;
+  startTimeUtc?: string | undefined;
   /** Completion time in UTC of latest ResourceMove operation attempted. ISO 8601 format. */
-  completionTimeUtc?: string;
+  completionTimeUtc?: string | undefined;
   /** ARM resource path of source resource */
-  sourceResourcePath?: string;
+  sourceResourcePath?: string | undefined;
   /** ARM resource path of target resource used in latest ResourceMove operation */
-  targetResourcePath?: string;
+  targetResourcePath?: string | undefined;
 }
 /** Storage Settings */
 export type BackupVaultStorageSettingsList = Array<StorageSetting>;
@@ -737,38 +744,38 @@ export type BackupVaultReplicatedRegionsList = Array<string>;
 /** Backup Vault */
 export interface BackupVault {
   /** Monitoring Settings */
-  monitoringSettings?: MonitoringSettings;
+  monitoringSettings?: MonitoringSettings | undefined;
   /** Cost Management Settings of the vault */
-  costManagementSettings?: CostManagementSettings;
+  costManagementSettings?: CostManagementSettings | undefined;
   /** Provisioning state of the BackupVault resource */
-  provisioningState?: ProvisioningState;
+  provisioningState?: ProvisioningState | undefined;
   /** Resource move state for backup vault */
-  resourceMoveState?: ResourceMoveState;
+  resourceMoveState?: ResourceMoveState | undefined;
   /** Resource move details for backup vault */
-  resourceMoveDetails?: ResourceMoveDetails;
+  resourceMoveDetails?: ResourceMoveDetails | undefined;
   /** Security Settings */
-  securitySettings?: SecuritySettings;
+  securitySettings?: SecuritySettings | undefined;
   /** Storage Settings */
-  storageSettings?: BackupVaultStorageSettingsList;
+  storageSettings?: BackupVaultStorageSettingsList | undefined;
   /** Is vault protected by resource guard */
-  isVaultProtectedByResourceGuard?: boolean;
+  isVaultProtectedByResourceGuard?: boolean | undefined;
   /** Feature Settings */
-  featureSettings?: FeatureSettings;
+  featureSettings?: FeatureSettings | undefined;
   /** Secure Score of Backup Vault */
-  secureScore?: SecureScoreLevel;
+  secureScore?: SecureScoreLevel | undefined;
   /** Security Level of Backup Vault */
-  bcdrSecurityLevel?: BCDRSecurityLevel;
+  bcdrSecurityLevel?: BCDRSecurityLevel | undefined;
   /** ResourceGuardOperationRequests on which LAC check will be performed */
-  resourceGuardOperationRequests?: BackupVaultResourceGuardOperationRequestsList;
+  resourceGuardOperationRequests?: BackupVaultResourceGuardOperationRequestsList | undefined;
   /** List of replicated regions for Backup Vault */
-  replicatedRegions?: BackupVaultReplicatedRegionsList;
+  replicatedRegions?: BackupVaultReplicatedRegionsList | undefined;
 }
 /** User assigned identity properties */
 export interface DppIdentityDetailsUserAssignedIdentitiesValue {
   /** The principal ID of the assigned identity. */
-  principalId?: string;
+  principalId?: string | undefined;
   /** The client ID of the assigned identity. */
-  clientId?: string;
+  clientId?: string | undefined;
 }
 /** Gets or sets the user assigned identities. */
 export type DppIdentityDetailsUserAssignedIdentitiesMap = {
@@ -777,37 +784,37 @@ export type DppIdentityDetailsUserAssignedIdentitiesMap = {
 /** Identity details */
 export interface DppIdentityDetails {
   /** The object ID of the service principal object for the managed identity that is used to grant role-based access to an Azure resource. */
-  principalId?: string;
+  principalId?: string | undefined;
   /** A Globally Unique Identifier (GUID) that represents the Azure AD tenant where the resource is now a member. */
-  tenantId?: string;
+  tenantId?: string | undefined;
   /** The identityType which can be either SystemAssigned, UserAssigned, 'SystemAssigned,UserAssigned' or None */
-  type?: string;
+  type?: string | undefined;
   /** Gets or sets the user assigned identities. */
-  userAssignedIdentities?: DppIdentityDetailsUserAssignedIdentitiesMap;
+  userAssignedIdentities?: DppIdentityDetailsUserAssignedIdentitiesMap | undefined;
 }
 export interface BackupVaultsCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: BackupVaultsCreateOrUpdateResponseTagsMap;
+  tags?: BackupVaultsCreateOrUpdateResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** BackupVaultResource properties */
   properties: BackupVault;
   /** Input Managed Identity Details */
-  identity?: DppIdentityDetails;
+  identity?: DppIdentityDetails | undefined;
   /** Optional ETag. */
-  eTag?: string;
+  eTag?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  locationHeader?: string;
+  locationHeader?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface CheckBackupVaultNameAvailabilityRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -817,18 +824,18 @@ export interface CheckBackupVaultNameAvailabilityRequest {
   /** The name of the Azure region. */
   location: string;
   /** Resource name for which availability needs to be checked */
-  name?: string;
+  name?: string | undefined;
   /** Describes the Resource type: Microsoft.DataProtection/BackupVaults */
-  type?: string;
+  type?: string | undefined;
 }
 /** CheckNameAvailability Result */
 export interface CheckNameAvailabilityResult {
   /** Gets or sets the message. */
-  message?: string;
+  message?: string | undefined;
   /** Gets or sets a value indicating whether [name available]. */
-  nameAvailable?: boolean;
+  nameAvailable?: boolean | undefined;
   /** Gets or sets the reason. */
-  reason?: string;
+  reason?: string | undefined;
 }
 export interface CheckDataProtectionFeatureSupportRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -855,9 +862,9 @@ export interface DeleteBackupInstanceRequest {
 }
 export interface DeleteBackupInstanceResponse {
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
 }
 export interface DeleteBackupPolicyRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -879,9 +886,9 @@ export interface DeleteBackupVaultRequest {
 }
 export interface DeleteBackupVaultResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeleteDppResourceGuardProxyRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -905,17 +912,19 @@ export interface DeleteResourceGuardRequest {
 export interface DeleteResourceGuardResponse {}
 /** VaultCritical Operation protected by a resource guard */
 export interface ResourceGuardOperationDetail {
-  vaultCriticalOperation?: string;
-  defaultResourceRequest?: string;
+  vaultCriticalOperation?: string | undefined;
+  defaultResourceRequest?: string | undefined;
 }
 export type ResourceGuardProxyBaseResourceGuardOperationDetailsList =
   Array<ResourceGuardOperationDetail>;
 /** ResourceGuardProxyBase object, used in ResourceGuardProxyBaseResource */
 export interface ResourceGuardProxyBase {
-  resourceGuardResourceId?: string;
-  resourceGuardOperationDetails?: ResourceGuardProxyBaseResourceGuardOperationDetailsList;
-  lastUpdatedTime?: string;
-  description?: string;
+  resourceGuardResourceId?: string | undefined;
+  resourceGuardOperationDetails?:
+    | ResourceGuardProxyBaseResourceGuardOperationDetailsList
+    | undefined;
+  lastUpdatedTime?: string | undefined;
+  description?: string | undefined;
 }
 export interface DppResourceGuardProxyCreateOrUpdateRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -927,19 +936,19 @@ export interface DppResourceGuardProxyCreateOrUpdateRequest {
   /** name of the resource guard proxy */
   resourceGuardProxyName: string;
   /** ResourceGuardProxyBaseResource properties */
-  properties?: ResourceGuardProxyBase;
+  properties?: ResourceGuardProxyBase | undefined;
 }
 export interface DppResourceGuardProxyCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** ResourceGuardProxyBaseResource properties */
-  properties?: ResourceGuardProxyBase;
+  properties?: ResourceGuardProxyBase | undefined;
 }
 /** ResourceGuardOperationRequests on which LAC check will be performed */
 export type DppResourceGuardProxyUnlockDeleteRequestResourceGuardOperationRequestsList =
@@ -954,13 +963,15 @@ export interface DppResourceGuardProxyUnlockDeleteRequest {
   /** name of the resource guard proxy */
   resourceGuardProxyName: string;
   /** ResourceGuardOperationRequests on which LAC check will be performed */
-  resourceGuardOperationRequests?: DppResourceGuardProxyUnlockDeleteRequestResourceGuardOperationRequestsList;
-  resourceToBeDeleted?: string;
+  resourceGuardOperationRequests?:
+    | DppResourceGuardProxyUnlockDeleteRequestResourceGuardOperationRequestsList
+    | undefined;
+  resourceToBeDeleted?: string | undefined;
 }
 /** Response of Unlock Delete API. */
 export interface UnlockDeleteResponse {
   /** This is the time when unlock delete privileges will get expired. */
-  unlockDeleteExpiryTime?: string;
+  unlockDeleteExpiryTime?: string | undefined;
 }
 export interface GetBackupInstanceRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -976,17 +987,17 @@ export interface GetBackupInstanceRequest {
 export type GetBackupInstanceResponseTagsMap = { [key: string]: string | undefined };
 export interface GetBackupInstanceResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** BackupInstanceResource properties */
-  properties?: BackupInstance;
+  properties?: BackupInstance | undefined;
   /** Proxy Resource tags. */
-  tags?: GetBackupInstanceResponseTagsMap;
+  tags?: GetBackupInstanceResponseTagsMap | undefined;
 }
 export interface GetBackupInstanceBackupInstanceOperationResultRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1006,17 +1017,17 @@ export type GetBackupInstanceBackupInstanceOperationResultResponseTagsMap = {
 };
 export interface GetBackupInstanceBackupInstanceOperationResultResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** BackupInstanceResource properties */
-  properties?: BackupInstance;
+  properties?: BackupInstance | undefined;
   /** Proxy Resource tags. */
-  tags?: GetBackupInstanceBackupInstanceOperationResultResponseTagsMap;
+  tags?: GetBackupInstanceBackupInstanceOperationResultResponseTagsMap | undefined;
 }
 export interface GetBackupPolicyRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1029,15 +1040,15 @@ export interface GetBackupPolicyRequest {
 }
 export interface GetBackupPolicyResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** BaseBackupPolicyResource properties */
-  properties?: BaseBackupPolicy;
+  properties?: BaseBackupPolicy | undefined;
 }
 export interface GetBackupVaultRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1051,23 +1062,23 @@ export interface GetBackupVaultRequest {
 export type GetBackupVaultResponseTagsMap = { [key: string]: string | undefined };
 export interface GetBackupVaultResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: GetBackupVaultResponseTagsMap;
+  tags?: GetBackupVaultResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** BackupVaultResource properties */
   properties: BackupVault;
   /** Input Managed Identity Details */
-  identity?: DppIdentityDetails;
+  identity?: DppIdentityDetails | undefined;
   /** Optional ETag. */
-  eTag?: string;
+  eTag?: string | undefined;
 }
 export interface GetBackupVaultInResourceGroupRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1080,31 +1091,31 @@ export type BackupVaultResourceTagsMap = { [key: string]: string | undefined };
 /** Backup Vault Resource */
 export interface BackupVaultResource {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: BackupVaultResourceTagsMap;
+  tags?: BackupVaultResourceTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** BackupVaultResource properties */
   properties: BackupVault;
   /** Input Managed Identity Details */
-  identity?: DppIdentityDetails;
+  identity?: DppIdentityDetails | undefined;
   /** Optional ETag. */
-  eTag?: string;
+  eTag?: string | undefined;
 }
 /** List of resources. */
 export type GetBackupVaultInResourceGroupResponseValueList = Array<BackupVaultResource>;
 export interface GetBackupVaultInResourceGroupResponse {
   /** The uri to fetch the next page of resources. Call ListNext() fetches next page of resources. */
-  nextLink?: string;
+  nextLink?: string | undefined;
   /** List of resources. */
-  value?: GetBackupVaultInResourceGroupResponseValueList;
+  value?: GetBackupVaultInResourceGroupResponseValueList | undefined;
 }
 export interface GetBackupVaultInSubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1114,9 +1125,9 @@ export interface GetBackupVaultInSubscriptionRequest {
 export type GetBackupVaultInSubscriptionResponseValueList = Array<BackupVaultResource>;
 export interface GetBackupVaultInSubscriptionResponse {
   /** The uri to fetch the next page of resources. Call ListNext() fetches next page of resources. */
-  nextLink?: string;
+  nextLink?: string | undefined;
   /** List of resources. */
-  value?: GetBackupVaultInSubscriptionResponseValueList;
+  value?: GetBackupVaultInSubscriptionResponseValueList | undefined;
 }
 export interface GetBackupVaultOperationResultRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1132,26 +1143,26 @@ export interface GetBackupVaultOperationResultRequest {
 export type GetBackupVaultOperationResultResponseTagsMap = { [key: string]: string | undefined };
 export interface GetBackupVaultOperationResultResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: GetBackupVaultOperationResultResponseTagsMap;
+  tags?: GetBackupVaultOperationResultResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** BackupVaultResource properties */
   properties: BackupVault;
   /** Input Managed Identity Details */
-  identity?: DppIdentityDetails;
+  identity?: DppIdentityDetails | undefined;
   /** Optional ETag. */
-  eTag?: string;
-  azureAsyncOperation?: string;
-  locationHeader?: string;
-  retryAfter?: number;
+  eTag?: string | undefined;
+  azureAsyncOperation?: string | undefined;
+  locationHeader?: string | undefined;
+  retryAfter?: number | undefined;
 }
 export interface GetDeletedBackupInstanceRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1168,55 +1179,57 @@ export type DeletedBackupInstanceResourceGuardOperationRequestsList = Array<stri
 /** Deletion Info */
 export interface DeletionInfo {
   /** Specifies time of deletion */
-  deletionTime?: string;
+  deletionTime?: string | undefined;
   /** Specifies billing end date */
-  billingEndDate?: string;
+  billingEndDate?: string | undefined;
   /** Specifies purge time */
-  scheduledPurgeTime?: string;
+  scheduledPurgeTime?: string | undefined;
   /** Delete activity ID for troubleshooting purpose */
-  deleteActivityID?: string;
+  deleteActivityID?: string | undefined;
 }
 /** Deleted Backup Instance */
 export interface DeletedBackupInstance {
   /** Gets or sets the Backup Instance friendly name. */
-  friendlyName?: string;
+  friendlyName?: string | undefined;
   /** Gets or sets the data source information. */
   dataSourceInfo: Datasource;
   /** Gets or sets the data source set information. */
-  dataSourceSetInfo?: DatasourceSet;
+  dataSourceSetInfo?: DatasourceSet | undefined;
   /** Gets or sets the policy information. */
   policyInfo: PolicyInfo;
   /** ResourceGuardOperationRequests on which LAC check will be performed */
-  resourceGuardOperationRequests?: DeletedBackupInstanceResourceGuardOperationRequestsList;
+  resourceGuardOperationRequests?:
+    | DeletedBackupInstanceResourceGuardOperationRequestsList
+    | undefined;
   /** Specifies the protection status of the resource */
-  protectionStatus?: ProtectionStatusDetails;
+  protectionStatus?: ProtectionStatusDetails | undefined;
   /** Specifies the current protection state of the resource */
-  currentProtectionState?: CurrentProtectionState;
+  currentProtectionState?: CurrentProtectionState | undefined;
   /** Specifies the protection error of the resource */
-  protectionErrorDetails?: UserFacingError;
+  protectionErrorDetails?: UserFacingError | undefined;
   /** Specifies the provisioning state of the resource i.e. provisioning/updating/Succeeded/Failed */
-  provisioningState?: string;
+  provisioningState?: string | undefined;
   /** Credentials to use to authenticate with data source provider. */
-  datasourceAuthCredentials?: AuthCredentials;
+  datasourceAuthCredentials?: AuthCredentials | undefined;
   /** Specifies the type of validation. In case of DeepValidation, all validations from /validateForBackup API will run again. */
-  validationType?: ValidationType;
+  validationType?: ValidationType | undefined;
   /** Contains information of the Identity Details for the BI. If it is null, default will be considered as System Assigned. */
-  identityDetails?: IdentityDetails;
+  identityDetails?: IdentityDetails | undefined;
   objectType: string;
   /** Deletion info of Backup Instance */
-  deletionInfo?: DeletionInfo;
+  deletionInfo?: DeletionInfo | undefined;
 }
 export interface GetDeletedBackupInstanceResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** DeletedBackupInstanceResource properties */
-  properties?: DeletedBackupInstance;
+  properties?: DeletedBackupInstance | undefined;
 }
 export interface GetDeletedBackupVaultRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1235,40 +1248,40 @@ export type DeletedBackupVaultReplicatedRegionsList = Array<string>;
 /** Deletion info for a tracked resource (Backup Vault) */
 export interface ResourceDeletionInfo {
   /** Specifies time of deletion for the tracked resource (Backup Vault) */
-  deletionTime?: string;
+  deletionTime?: string | undefined;
   /** Specifies the scheduled purge time for the tracked resource (Backup Vault) */
-  scheduledPurgeTime?: string;
+  scheduledPurgeTime?: string | undefined;
   /** Delete activity ID for troubleshooting the deletion of the tracked resource */
-  deleteActivityId?: string;
+  deleteActivityId?: string | undefined;
 }
 /** Deleted Backup Vault - uses composition with BackupVault and additional deletion metadata */
 export interface DeletedBackupVault {
   /** Monitoring Settings */
-  monitoringSettings?: MonitoringSettings;
+  monitoringSettings?: MonitoringSettings | undefined;
   /** Cost Management Settings of the vault */
-  costManagementSettings?: CostManagementSettings;
+  costManagementSettings?: CostManagementSettings | undefined;
   /** Provisioning state of the BackupVault resource */
-  provisioningState?: ProvisioningState;
+  provisioningState?: ProvisioningState | undefined;
   /** Resource move state for backup vault */
-  resourceMoveState?: ResourceMoveState;
+  resourceMoveState?: ResourceMoveState | undefined;
   /** Resource move details for backup vault */
-  resourceMoveDetails?: ResourceMoveDetails;
+  resourceMoveDetails?: ResourceMoveDetails | undefined;
   /** Security Settings */
-  securitySettings?: SecuritySettings;
+  securitySettings?: SecuritySettings | undefined;
   /** Storage Settings */
-  storageSettings?: DeletedBackupVaultStorageSettingsList;
+  storageSettings?: DeletedBackupVaultStorageSettingsList | undefined;
   /** Is vault protected by resource guard */
-  isVaultProtectedByResourceGuard?: boolean;
+  isVaultProtectedByResourceGuard?: boolean | undefined;
   /** Feature Settings */
-  featureSettings?: FeatureSettings;
+  featureSettings?: FeatureSettings | undefined;
   /** Secure Score of Backup Vault */
-  secureScore?: SecureScoreLevel;
+  secureScore?: SecureScoreLevel | undefined;
   /** Security Level of Backup Vault */
-  bcdrSecurityLevel?: BCDRSecurityLevel;
+  bcdrSecurityLevel?: BCDRSecurityLevel | undefined;
   /** ResourceGuardOperationRequests on which LAC check will be performed */
-  resourceGuardOperationRequests?: DeletedBackupVaultResourceGuardOperationRequestsList;
+  resourceGuardOperationRequests?: DeletedBackupVaultResourceGuardOperationRequestsList | undefined;
   /** List of replicated regions for Backup Vault */
-  replicatedRegions?: DeletedBackupVaultReplicatedRegionsList;
+  replicatedRegions?: DeletedBackupVaultReplicatedRegionsList | undefined;
   /** Resource Id of the original backup vault */
   originalBackupVaultId: string;
   /** Resource name of the original backup vault */
@@ -1280,15 +1293,15 @@ export interface DeletedBackupVault {
 }
 export interface GetDeletedBackupVaultResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: DeletedBackupVault;
+  properties?: DeletedBackupVault | undefined;
 }
 export interface GetDppResourceGuardProxyRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1302,15 +1315,15 @@ export interface GetDppResourceGuardProxyRequest {
 }
 export interface GetDppResourceGuardProxyResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** ResourceGuardProxyBaseResource properties */
-  properties?: ResourceGuardProxyBase;
+  properties?: ResourceGuardProxyBase | undefined;
 }
 export interface GetExportJobsOperationResultRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1325,13 +1338,13 @@ export interface GetExportJobsOperationResultRequest {
 /** The result for export jobs containing blob details. */
 export interface ExportJobsResult {
   /** URL of the blob into which the serialized string of list of jobs is exported. */
-  blobUrl?: string;
+  blobUrl?: string | undefined;
   /** SAS key to access the blob. */
-  blobSasKey?: string;
+  blobSasKey?: string | undefined;
   /** URL of the blob into which the ExcelFile is uploaded. */
-  excelFileBlobUrl?: string;
+  excelFileBlobUrl?: string | undefined;
   /** SAS key to access the ExcelFile blob. */
-  excelFileBlobSasKey?: string;
+  excelFileBlobSasKey?: string | undefined;
 }
 export interface GetFetchCrossRegionRestoreJobRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1349,21 +1362,21 @@ export type AzureBackupJobErrorDetailsList = Array<UserFacingError>;
 /** Job's Additional Details */
 export type JobExtendedInfoAdditionalDetailsMap = { [key: string]: string | undefined };
 export interface RestoreJobRecoveryPointDetails {
-  recoveryPointID?: string;
-  recoveryPointTime?: string;
+  recoveryPointID?: string | undefined;
+  recoveryPointTime?: string | undefined;
 }
 /** Additional details of Sub Tasks */
 export type JobSubTaskAdditionalDetailsMap = { [key: string]: string | undefined };
 /** Details of Job's Sub Task */
 export interface JobSubTask {
   /** Additional details of Sub Tasks */
-  additionalDetails?: JobSubTaskAdditionalDetailsMap;
+  additionalDetails?: JobSubTaskAdditionalDetailsMap | undefined;
   /** Task Id of the Sub Task */
   taskId: number;
   /** Name of the Sub Task */
   taskName: string;
   /** Progress of the Sub Task */
-  taskProgress?: string;
+  taskProgress?: string | undefined;
   /** Status of the Sub Task */
   taskStatus: string;
 }
@@ -1372,7 +1385,7 @@ export type JobExtendedInfoSubTasksList = Array<JobSubTask>;
 /** Warning object used by layers that have access to localized content, and propagate that to user */
 export interface UserFacingWarningDetail {
   /** Name of resource for which warning is raised. */
-  resourceName?: string;
+  resourceName?: string | undefined;
   /** Error details for the warning. */
   warning: UserFacingError;
 }
@@ -1381,21 +1394,21 @@ export type JobExtendedInfoWarningDetailsList = Array<UserFacingWarningDetail>;
 /** Extended Information about the job */
 export interface JobExtendedInfo {
   /** Job's Additional Details */
-  additionalDetails?: JobExtendedInfoAdditionalDetailsMap;
+  additionalDetails?: JobExtendedInfoAdditionalDetailsMap | undefined;
   /** State of the Backup Instance */
-  backupInstanceState?: string;
+  backupInstanceState?: string | undefined;
   /** Number of bytes transferred */
-  dataTransferredInBytes?: number;
+  dataTransferredInBytes?: number | undefined;
   /** Destination where restore is done */
-  recoveryDestination?: string;
+  recoveryDestination?: string | undefined;
   /** Details of the Source Recovery Point */
-  sourceRecoverPoint?: RestoreJobRecoveryPointDetails;
+  sourceRecoverPoint?: RestoreJobRecoveryPointDetails | undefined;
   /** List of Sub Tasks of the job */
-  subTasks?: JobExtendedInfoSubTasksList;
+  subTasks?: JobExtendedInfoSubTasksList | undefined;
   /** Details of the Target Recovery Point */
-  targetRecoverPoint?: RestoreJobRecoveryPointDetails;
+  targetRecoverPoint?: RestoreJobRecoveryPointDetails | undefined;
   /** A List, detailing the warnings related to the job */
-  warningDetails?: JobExtendedInfoWarningDetailsList;
+  warningDetails?: JobExtendedInfoWarningDetailsList | undefined;
 }
 /** List of supported actions */
 export type AzureBackupJobSupportedActionsList = Array<string>;
@@ -1406,7 +1419,7 @@ export interface AzureBackupJob {
   /** Name of the Backup Instance */
   backupInstanceFriendlyName: string;
   /** ARM ID of the Backup Instance */
-  backupInstanceId?: string;
+  backupInstanceId?: string | undefined;
   /** ARM ID of the DataSource */
   dataSourceId: string;
   /** Location of the DataSource */
@@ -1414,17 +1427,17 @@ export interface AzureBackupJob {
   /** User Friendly Name of the DataSource */
   dataSourceName: string;
   /** Data Source Set Name of the DataSource */
-  dataSourceSetName?: string;
+  dataSourceSetName?: string | undefined;
   /** Type of DataSource */
   dataSourceType: string;
   /** Total run time of the job. ISO 8601 format. */
-  duration?: string;
+  duration?: string | undefined;
   /** EndTime of the job(in UTC) */
-  endTime?: string;
+  endTime?: string | undefined;
   /** A List, detailing the errors related to the job */
-  errorDetails?: AzureBackupJobErrorDetailsList;
+  errorDetails?: AzureBackupJobErrorDetailsList | undefined;
   /** Extended Information about the job */
-  extendedInfo?: JobExtendedInfo;
+  extendedInfo?: JobExtendedInfo | undefined;
   /** Indicated that whether the job is adhoc(true) or scheduled(false) */
   isUserTriggered: boolean;
   /** It indicates the type of Job i.e. Backup:full/log/diff ;Restore:ALR/OLR; Tiering:Backup/Archive ; Management:ConfigureProtection/UnConfigure */
@@ -1432,17 +1445,17 @@ export interface AzureBackupJob {
   /** It indicates the type of Job i.e. Backup/Restore/Tiering/Management */
   operationCategory: string;
   /** ARM ID of the policy */
-  policyId?: string;
+  policyId?: string | undefined;
   /** Name of the policy */
-  policyName?: string;
+  policyName?: string | undefined;
   /** Indicated whether progress is enabled for the job */
   progressEnabled: boolean;
   /** Url which contains job's progress */
-  progressUrl?: string;
+  progressUrl?: string | undefined;
   /** Priority to be used for rehydration */
-  rehydrationPriority?: string;
+  rehydrationPriority?: string | undefined;
   /** It indicates the sub type of operation i.e. in case of Restore it can be ALR/OLR */
-  restoreType?: string;
+  restoreType?: string | undefined;
   /** Resource Group Name of the Datasource */
   sourceResourceGroup: string;
   /** SubscriptionId corresponding to the DataSource */
@@ -1457,21 +1470,21 @@ export interface AzureBackupJob {
   supportedActions: AzureBackupJobSupportedActionsList;
   /** Name of the vault */
   vaultName: string;
-  etag?: string;
-  sourceDataStoreName?: string;
-  destinationDataStoreName?: string;
+  etag?: string | undefined;
+  sourceDataStoreName?: string | undefined;
+  destinationDataStoreName?: string | undefined;
 }
 export interface GetFetchCrossRegionRestoreJobResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** AzureBackupJobResource properties */
-  properties?: AzureBackupJob;
+  properties?: AzureBackupJob | undefined;
 }
 export interface GetJobRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1485,15 +1498,15 @@ export interface GetJobRequest {
 }
 export interface GetJobResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** AzureBackupJobResource properties */
-  properties?: AzureBackupJob;
+  properties?: AzureBackupJob | undefined;
 }
 export interface GetOperationResultRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1506,10 +1519,10 @@ export interface GetOperationResultResponse {
   /** This property will be used as the discriminator for deciding the specific types in the polymorphic chain of types. */
   objectType: string;
   /** Name or Arm Id of the job created for this operation. */
-  jobId?: string;
-  azureAsyncOperation?: string;
-  location?: string;
-  retryAfter?: number;
+  jobId?: string | undefined;
+  azureAsyncOperation?: string | undefined;
+  location?: string | undefined;
+  retryAfter?: number | undefined;
 }
 export interface GetOperationStatusRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1521,9 +1534,9 @@ export interface GetOperationStatusRequest {
 /** The resource management error additional info. */
 export interface ErrorAdditionalInfoItem {
   /** The additional info type. */
-  type?: string;
+  type?: string | undefined;
   /** The additional info. */
-  info?: unknown;
+  info?: unknown | undefined;
 }
 /** The error additional info. */
 export type ErrorAdditionalInfoList = Array<ErrorAdditionalInfoItem>;
@@ -1532,15 +1545,15 @@ export type ErrorDetailsList = Array<Error>;
 /** The resource management error response. */
 export interface Error {
   /** The error additional info. */
-  additionalInfo?: ErrorAdditionalInfoList;
+  additionalInfo?: ErrorAdditionalInfoList | undefined;
   /** The error code. */
-  code?: string;
+  code?: string | undefined;
   /** The error details. */
-  details?: ErrorDetailsList;
+  details?: ErrorDetailsList | undefined;
   /** The error message. */
-  message?: string;
+  message?: string | undefined;
   /** The error target. */
-  target?: string;
+  target?: string | undefined;
 }
 /** Operation Extended Info */
 export interface OperationExtendedInfo {
@@ -1550,18 +1563,18 @@ export interface OperationExtendedInfo {
 /** Operation Resource */
 export interface OperationResource {
   /** End time of the operation */
-  endTime?: string;
+  endTime?: string | undefined;
   /** Required if status == failed or status == canceled. This is the OData v4 error format, used by the RPC and will go into the v2.2 Azure REST API guidelines. The full set of optional properties (e.g. inner errors / details) can be found in the `Error Response` section. */
-  error?: Error;
+  error?: Error | undefined;
   /** It should match what is used to GET the operation result */
-  id?: string;
+  id?: string | undefined;
   /** It must match the last segment of the `id` field, and will typically be a GUID / system generated value. */
-  name?: string;
+  name?: string | undefined;
   /** End time of the operation */
-  properties?: OperationExtendedInfo;
+  properties?: OperationExtendedInfo | undefined;
   /** Start time of the operation */
-  startTime?: string;
-  status?: string;
+  startTime?: string | undefined;
+  status?: string | undefined;
 }
 export interface GetOperationStatusBackupVaultContextRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1596,15 +1609,15 @@ export interface AzureBackupRecoveryPoint {
 }
 export interface GetRecoveryPointResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** AzureBackupRecoveryPointResource properties */
-  properties?: AzureBackupRecoveryPoint;
+  properties?: AzureBackupRecoveryPoint | undefined;
 }
 export interface GetResourceGuardRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1619,9 +1632,9 @@ export type GetResourceGuardResponseTagsMap = { [key: string]: string | undefine
 /** This class contains all the details about a critical operation. */
 export interface ResourceGuardOperation {
   /** Name of the critical operation. */
-  vaultCriticalOperation?: string;
+  vaultCriticalOperation?: string | undefined;
   /** Type of resource request. */
-  requestResourceType?: string;
+  requestResourceType?: string | undefined;
 }
 /** {readonly} List of operation details those are protected by the ResourceGuard resource */
 export type ResourceGuardResourceGuardOperationsList = Array<ResourceGuardOperation>;
@@ -1629,33 +1642,35 @@ export type ResourceGuardResourceGuardOperationsList = Array<ResourceGuardOperat
 export type ResourceGuardVaultCriticalOperationExclusionListList = Array<string>;
 export interface ResourceGuard {
   /** Provisioning state of the BackupVault resource */
-  provisioningState?: ProvisioningState;
+  provisioningState?: ProvisioningState | undefined;
   /** This flag indicates whether auto approval is allowed or not. */
-  allowAutoApprovals?: boolean;
+  allowAutoApprovals?: boolean | undefined;
   /** {readonly} List of operation details those are protected by the ResourceGuard resource */
-  resourceGuardOperations?: ResourceGuardResourceGuardOperationsList;
+  resourceGuardOperations?: ResourceGuardResourceGuardOperationsList | undefined;
   /** List of critical operations which are not protected by this resourceGuard */
-  vaultCriticalOperationExclusionList?: ResourceGuardVaultCriticalOperationExclusionListList;
+  vaultCriticalOperationExclusionList?:
+    | ResourceGuardVaultCriticalOperationExclusionListList
+    | undefined;
   /** Description about the pre-req steps to perform all the critical operations. */
-  description?: string;
+  description?: string | undefined;
 }
 export interface GetResourceGuardResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: GetResourceGuardResponseTagsMap;
+  tags?: GetResourceGuardResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** ResourceGuardResource properties */
-  properties?: ResourceGuard;
+  properties?: ResourceGuard | undefined;
   /** Optional ETag. */
-  eTag?: string;
+  eTag?: string | undefined;
 }
 export interface GetResourceGuardBackupSecurityPINRequestsObjectsRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1668,13 +1683,13 @@ export interface GetResourceGuardBackupSecurityPINRequestsObjectsRequest {
 /** Common fields that are returned in the response for all Azure Resource Manager resources */
 export interface Resource {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
 }
 /** The DppBaseResource items on this page */
 export type DppBaseResourceListValueList = Array<Resource>;
@@ -1683,7 +1698,7 @@ export interface DppBaseResourceList {
   /** The DppBaseResource items on this page */
   value: DppBaseResourceListValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface GetResourceGuardDefaultBackupSecurityPINRequestsObjectRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1697,13 +1712,13 @@ export interface GetResourceGuardDefaultBackupSecurityPINRequestsObjectRequest {
 }
 export interface GetResourceGuardDefaultBackupSecurityPINRequestsObjectResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
 }
 export interface GetResourceGuardResourcesInResourceGroupRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1716,30 +1731,30 @@ export type ResourceGuardResourceTagsMap = { [key: string]: string | undefined }
 /** Concrete tracked resource types can be created by aliasing this type using a specific property type. */
 export interface ResourceGuardResource {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: ResourceGuardResourceTagsMap;
+  tags?: ResourceGuardResourceTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** ResourceGuardResource properties */
-  properties?: ResourceGuard;
+  properties?: ResourceGuard | undefined;
   /** Optional ETag. */
-  eTag?: string;
+  eTag?: string | undefined;
 }
 /** List of resources. */
 export type GetResourceGuardResourcesInResourceGroupResponseValueList =
   Array<ResourceGuardResource>;
 export interface GetResourceGuardResourcesInResourceGroupResponse {
   /** The uri to fetch the next page of resources. Call ListNext() fetches next page of resources. */
-  nextLink?: string;
+  nextLink?: string | undefined;
   /** List of resources. */
-  value?: GetResourceGuardResourcesInResourceGroupResponseValueList;
+  value?: GetResourceGuardResourcesInResourceGroupResponseValueList | undefined;
 }
 export interface GetResourceGuardResourcesInSubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1749,9 +1764,9 @@ export interface GetResourceGuardResourcesInSubscriptionRequest {
 export type GetResourceGuardResourcesInSubscriptionResponseValueList = Array<ResourceGuardResource>;
 export interface GetResourceGuardResourcesInSubscriptionResponse {
   /** The uri to fetch the next page of resources. Call ListNext() fetches next page of resources. */
-  nextLink?: string;
+  nextLink?: string | undefined;
   /** List of resources. */
-  value?: GetResourceGuardResourcesInSubscriptionResponseValueList;
+  value?: GetResourceGuardResourcesInSubscriptionResponseValueList | undefined;
 }
 export interface ListBackupInstancesRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1766,25 +1781,25 @@ export type BackupInstanceResourceTagsMap = { [key: string]: string | undefined 
 /** BackupInstance Resource */
 export interface BackupInstanceResource {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** BackupInstanceResource properties */
-  properties?: BackupInstance;
+  properties?: BackupInstance | undefined;
   /** Proxy Resource tags. */
-  tags?: BackupInstanceResourceTagsMap;
+  tags?: BackupInstanceResourceTagsMap | undefined;
 }
 /** List of resources. */
 export type ListBackupInstancesResponseValueList = Array<BackupInstanceResource>;
 export interface ListBackupInstancesResponse {
   /** The uri to fetch the next page of resources. Call ListNext() fetches next page of resources. */
-  nextLink?: string;
+  nextLink?: string | undefined;
   /** List of resources. */
-  value?: ListBackupInstancesResponseValueList;
+  value?: ListBackupInstancesResponseValueList | undefined;
 }
 export interface ListBackupInstancesExtensionRoutingRequest {
   /** ARM path of the resource to be protected using Microsoft.DataProtection */
@@ -1794,9 +1809,9 @@ export interface ListBackupInstancesExtensionRoutingRequest {
 export type ListBackupInstancesExtensionRoutingResponseValueList = Array<BackupInstanceResource>;
 export interface ListBackupInstancesExtensionRoutingResponse {
   /** The uri to fetch the next page of resources. Call ListNext() fetches next page of resources. */
-  nextLink?: string;
+  nextLink?: string | undefined;
   /** List of resources. */
-  value?: ListBackupInstancesExtensionRoutingResponseValueList;
+  value?: ListBackupInstancesExtensionRoutingResponseValueList | undefined;
 }
 export interface ListBackupPoliciesRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1809,35 +1824,35 @@ export interface ListBackupPoliciesRequest {
 /** BaseBackupPolicy resource */
 export interface BaseBackupPolicyResource {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** BaseBackupPolicyResource properties */
-  properties?: BaseBackupPolicy;
+  properties?: BaseBackupPolicy | undefined;
 }
 /** List of resources. */
 export type ListBackupPoliciesResponseValueList = Array<BaseBackupPolicyResource>;
 export interface ListBackupPoliciesResponse {
   /** The uri to fetch the next page of resources. Call ListNext() fetches next page of resources. */
-  nextLink?: string;
+  nextLink?: string | undefined;
   /** List of resources. */
-  value?: ListBackupPoliciesResponseValueList;
+  value?: ListBackupPoliciesResponseValueList | undefined;
 }
 export interface ListDataProtectionOperationsRequest {}
 /** Localized display information for this particular operation. */
 export interface OperationDisplay {
   /** The localized friendly form of the resource provider name, e.g. "Microsoft Monitoring Insights" or "Microsoft Compute". */
-  provider?: string;
+  provider?: string | undefined;
   /** The localized friendly name of the resource type related to this operation. E.g. "Virtual Machines" or "Job Schedule Collections". */
-  resource?: string;
+  resource?: string | undefined;
   /** The concise, localized friendly name for the operation; suitable for dropdowns. E.g. "Create or Update Virtual Machine", "Restart Virtual Machine". */
-  operation?: string;
+  operation?: string | undefined;
   /** The short, localized friendly description of the operation; suitable for tool tips and detailed views. */
-  description?: string;
+  description?: string | undefined;
 }
 /** The intended executor of the operation; as in Resource Based Access Control (RBAC) and audit logs UX. Default value is "user,system" */
 export type OperationOrigin = "user" | "system" | "user,system";
@@ -1846,23 +1861,23 @@ export type OperationActionType = "Internal";
 /** Details of a REST API operation, returned from the Resource Provider Operations API */
 export interface Operation {
   /** The name of the operation, as per Resource-Based Access Control (RBAC). Examples: "Microsoft.Compute/virtualMachines/write", "Microsoft.Compute/virtualMachines/capture/action" */
-  name?: string;
+  name?: string | undefined;
   /** Whether the operation applies to data-plane. This is "true" for data-plane operations and "false" for ARM/control-plane operations. */
-  isDataAction?: boolean;
+  isDataAction?: boolean | undefined;
   /** Localized display information for this particular operation. */
-  display?: OperationDisplay;
+  display?: OperationDisplay | undefined;
   /** The intended executor of the operation; as in Resource Based Access Control (RBAC) and audit logs UX. Default value is "user,system" */
-  origin?: OperationOrigin;
+  origin?: OperationOrigin | undefined;
   /** Enum. Indicates the action type. "Internal" refers to actions that are for internal only APIs. */
-  actionType?: OperationActionType;
+  actionType?: OperationActionType | undefined;
 }
 /** List of operations supported by the resource provider */
 export type ListDataProtectionOperationsResponseValueList = Array<Operation>;
 export interface ListDataProtectionOperationsResponse {
   /** List of operations supported by the resource provider */
-  value?: ListDataProtectionOperationsResponseValueList;
+  value?: ListDataProtectionOperationsResponseValueList | undefined;
   /** URL to get the next set of operation list results (if there are any). */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListDeletedBackupInstancesRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1875,23 +1890,23 @@ export interface ListDeletedBackupInstancesRequest {
 /** Deleted Backup Instance */
 export interface DeletedBackupInstanceResource {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** DeletedBackupInstanceResource properties */
-  properties?: DeletedBackupInstance;
+  properties?: DeletedBackupInstance | undefined;
 }
 /** List of resources. */
 export type ListDeletedBackupInstancesResponseValueList = Array<DeletedBackupInstanceResource>;
 export interface ListDeletedBackupInstancesResponse {
   /** The uri to fetch the next page of resources. Call ListNext() fetches next page of resources. */
-  nextLink?: string;
+  nextLink?: string | undefined;
   /** List of resources. */
-  value?: ListDeletedBackupInstancesResponseValueList;
+  value?: ListDeletedBackupInstancesResponseValueList | undefined;
 }
 export interface ListDeletedBackupVaultByLocationRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1902,15 +1917,15 @@ export interface ListDeletedBackupVaultByLocationRequest {
 /** Deleted Backup Vault Resource (available from version 2025-09-01) */
 export interface DeletedBackupVaultResource {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: DeletedBackupVault;
+  properties?: DeletedBackupVault | undefined;
 }
 /** The DeletedBackupVaultResource items on this page */
 export type DeletedBackupVaultResourceListResultValueList = Array<DeletedBackupVaultResource>;
@@ -1919,7 +1934,7 @@ export interface DeletedBackupVaultResourceListResult {
   /** The DeletedBackupVaultResource items on this page */
   value: DeletedBackupVaultResourceListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListDppResourceGuardProxyRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1932,23 +1947,23 @@ export interface ListDppResourceGuardProxyRequest {
 /** ResourceGuardProxyBaseResource object, used for response and request bodies for ResourceGuardProxy APIs */
 export interface ResourceGuardProxyBaseResource {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** ResourceGuardProxyBaseResource properties */
-  properties?: ResourceGuardProxyBase;
+  properties?: ResourceGuardProxyBase | undefined;
 }
 /** List of resources. */
 export type ListDppResourceGuardProxyResponseValueList = Array<ResourceGuardProxyBaseResource>;
 export interface ListDppResourceGuardProxyResponse {
   /** The uri to fetch the next page of resources. Call ListNext() fetches next page of resources. */
-  nextLink?: string;
+  nextLink?: string | undefined;
   /** List of resources. */
-  value?: ListDppResourceGuardProxyResponseValueList;
+  value?: ListDppResourceGuardProxyResponseValueList | undefined;
 }
 export interface ListFetchCrossRegionRestoreJobsRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1958,30 +1973,30 @@ export interface ListFetchCrossRegionRestoreJobsRequest {
   /** The name of the Azure region. */
   location: string;
   /** OData filter options. */
-  _filter?: string;
+  _filter?: string | undefined;
   sourceRegion: string;
   sourceBackupVaultId: string;
 }
 /** AzureBackup Job Resource Class */
 export interface AzureBackupJobResource {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** AzureBackupJobResource properties */
-  properties?: AzureBackupJob;
+  properties?: AzureBackupJob | undefined;
 }
 /** List of resources. */
 export type ListFetchCrossRegionRestoreJobsResponseValueList = Array<AzureBackupJobResource>;
 export interface ListFetchCrossRegionRestoreJobsResponse {
   /** The uri to fetch the next page of resources. Call ListNext() fetches next page of resources. */
-  nextLink?: string;
+  nextLink?: string | undefined;
   /** List of resources. */
-  value?: ListFetchCrossRegionRestoreJobsResponseValueList;
+  value?: ListFetchCrossRegionRestoreJobsResponseValueList | undefined;
 }
 export interface ListFetchSecondaryRecoveryPointsRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1991,35 +2006,35 @@ export interface ListFetchSecondaryRecoveryPointsRequest {
   /** The name of the Azure region. */
   location: string;
   /** OData filter options. */
-  _filter?: string;
+  _filter?: string | undefined;
   /** skipToken Filter. */
-  _skipToken?: string;
+  _skipToken?: string | undefined;
   /** Source region in which BackupInstance is located */
-  sourceRegion?: string;
+  sourceRegion?: string | undefined;
   /** ARM Path of BackupInstance */
-  sourceBackupInstanceId?: string;
+  sourceBackupInstanceId?: string | undefined;
 }
 /** Azure backup recoveryPoint resource */
 export interface AzureBackupRecoveryPointResource {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** AzureBackupRecoveryPointResource properties */
-  properties?: AzureBackupRecoveryPoint;
+  properties?: AzureBackupRecoveryPoint | undefined;
 }
 /** List of resources. */
 export type ListFetchSecondaryRecoveryPointsResponseValueList =
   Array<AzureBackupRecoveryPointResource>;
 export interface ListFetchSecondaryRecoveryPointsResponse {
   /** The uri to fetch the next page of resources. Call ListNext() fetches next page of resources. */
-  nextLink?: string;
+  nextLink?: string | undefined;
   /** List of resources. */
-  value?: ListFetchSecondaryRecoveryPointsResponseValueList;
+  value?: ListFetchSecondaryRecoveryPointsResponseValueList | undefined;
 }
 export interface ListJobsRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2033,9 +2048,9 @@ export interface ListJobsRequest {
 export type ListJobsResponseValueList = Array<AzureBackupJobResource>;
 export interface ListJobsResponse {
   /** The uri to fetch the next page of resources. Call ListNext() fetches next page of resources. */
-  nextLink?: string;
+  nextLink?: string | undefined;
   /** List of resources. */
-  value?: ListJobsResponseValueList;
+  value?: ListJobsResponseValueList | undefined;
 }
 export interface ListRecoveryPointsRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2047,17 +2062,17 @@ export interface ListRecoveryPointsRequest {
   /** The name of the backup instance. */
   backupInstanceName: string;
   /** OData filter options. */
-  _filter?: string;
+  _filter?: string | undefined;
   /** skipToken Filter. */
-  _skipToken?: string;
+  _skipToken?: string | undefined;
 }
 /** List of resources. */
 export type ListRecoveryPointsResponseValueList = Array<AzureBackupRecoveryPointResource>;
 export interface ListRecoveryPointsResponse {
   /** The uri to fetch the next page of resources. Call ListNext() fetches next page of resources. */
-  nextLink?: string;
+  nextLink?: string | undefined;
   /** List of resources. */
-  value?: ListRecoveryPointsResponseValueList;
+  value?: ListRecoveryPointsResponseValueList | undefined;
 }
 /** Resource Guard tags. */
 export type PatchResourceGuardRequestTagsMap = { [key: string]: string | undefined };
@@ -2069,27 +2084,27 @@ export interface PatchResourceGuardRequest {
   /** The name of ResourceGuard */
   resourceGuardsName: string;
   /** Resource Guard tags. */
-  tags?: PatchResourceGuardRequestTagsMap;
+  tags?: PatchResourceGuardRequestTagsMap | undefined;
 }
 /** Resource tags. */
 export type PatchResourceGuardResponseTagsMap = { [key: string]: string | undefined };
 export interface PatchResourceGuardResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: PatchResourceGuardResponseTagsMap;
+  tags?: PatchResourceGuardResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** ResourceGuardResource properties */
-  properties?: ResourceGuard;
+  properties?: ResourceGuard | undefined;
   /** Optional ETag. */
-  eTag?: string;
+  eTag?: string | undefined;
 }
 /** Resource tags. */
 export type PutResourceGuardRequestTagsMap = { [key: string]: string | undefined };
@@ -2097,7 +2112,9 @@ export type PutResourceGuardRequestTagsMap = { [key: string]: string | undefined
 export type ResourceGuardInputVaultCriticalOperationExclusionListList = Array<string>;
 export interface ResourceGuardInput {
   /** List of critical operations which are not protected by this resourceGuard */
-  vaultCriticalOperationExclusionList?: ResourceGuardInputVaultCriticalOperationExclusionListList;
+  vaultCriticalOperationExclusionList?:
+    | ResourceGuardInputVaultCriticalOperationExclusionListList
+    | undefined;
 }
 export interface PutResourceGuardRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2107,33 +2124,33 @@ export interface PutResourceGuardRequest {
   /** The name of ResourceGuard */
   resourceGuardsName: string;
   /** Resource tags. */
-  tags?: PutResourceGuardRequestTagsMap;
+  tags?: PutResourceGuardRequestTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** ResourceGuardResource properties */
-  properties?: ResourceGuardInput;
+  properties?: ResourceGuardInput | undefined;
   /** Optional ETag. */
-  eTag?: string;
+  eTag?: string | undefined;
 }
 /** Resource tags. */
 export type PutResourceGuardResponseTagsMap = { [key: string]: string | undefined };
 export interface PutResourceGuardResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: PutResourceGuardResponseTagsMap;
+  tags?: PutResourceGuardResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** ResourceGuardResource properties */
-  properties?: ResourceGuard;
+  properties?: ResourceGuard | undefined;
   /** Optional ETag. */
-  eTag?: string;
+  eTag?: string | undefined;
 }
 export interface ResourceGuardsGetDefaultDeleteProtectedItemRequestsObjectRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2147,13 +2164,13 @@ export interface ResourceGuardsGetDefaultDeleteProtectedItemRequestsObjectReques
 }
 export interface ResourceGuardsGetDefaultDeleteProtectedItemRequestsObjectResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
 }
 export interface ResourceGuardsGetDefaultDeleteResourceGuardProxyRequestsObjectRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2167,13 +2184,13 @@ export interface ResourceGuardsGetDefaultDeleteResourceGuardProxyRequestsObjectR
 }
 export interface ResourceGuardsGetDefaultDeleteResourceGuardProxyRequestsObjectResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
 }
 export interface ResourceGuardsGetDefaultDisableSoftDeleteRequestsObjectRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2187,13 +2204,13 @@ export interface ResourceGuardsGetDefaultDisableSoftDeleteRequestsObjectRequest 
 }
 export interface ResourceGuardsGetDefaultDisableSoftDeleteRequestsObjectResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
 }
 export interface ResourceGuardsGetDefaultUpdateProtectedItemRequestsObjectRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2207,13 +2224,13 @@ export interface ResourceGuardsGetDefaultUpdateProtectedItemRequestsObjectReques
 }
 export interface ResourceGuardsGetDefaultUpdateProtectedItemRequestsObjectResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
 }
 export interface ResourceGuardsGetDefaultUpdateProtectionPolicyRequestsObjectRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2227,13 +2244,13 @@ export interface ResourceGuardsGetDefaultUpdateProtectionPolicyRequestsObjectReq
 }
 export interface ResourceGuardsGetDefaultUpdateProtectionPolicyRequestsObjectResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
 }
 export interface ResourceGuardsGetDeleteProtectedItemRequestsObjectsRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2289,9 +2306,9 @@ export interface RestorableTimeRangesFindRequest {
   /** Gets or sets the type of the source data store. */
   sourceDataStoreType: RestoreSourceDataStoreType | (string & {});
   /** Start time for the List Restore Ranges request. ISO 8601 format. */
-  startTime?: string;
+  startTime?: string | undefined;
   /** End time for the List Restore Ranges request. ISO 8601 format. */
-  endTime?: string;
+  endTime?: string | undefined;
 }
 /** The type of identity that created the resource. */
 export type RestorableTimeRangesFindResponseSystemDataCreatedByType =
@@ -2308,24 +2325,24 @@ export type RestorableTimeRangesFindResponseSystemDataLastModifiedByType =
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface RestorableTimeRangesFindResponseSystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: RestorableTimeRangesFindResponseSystemDataCreatedByType;
+  createdByType?: RestorableTimeRangesFindResponseSystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: RestorableTimeRangesFindResponseSystemDataLastModifiedByType;
+  lastModifiedByType?: RestorableTimeRangesFindResponseSystemDataLastModifiedByType | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 export interface RestorableTimeRange {
   /** Start time for the available restore range */
   startTime: string;
   /** End time for the available restore range */
   endTime: string;
-  objectType?: string;
+  objectType?: string | undefined;
 }
 /** Returns the Restore Ranges available on the Backup Instance. */
 export type AzureBackupFindRestorableTimeRangesResponseRestorableTimeRangesList =
@@ -2333,20 +2350,22 @@ export type AzureBackupFindRestorableTimeRangesResponseRestorableTimeRangesList 
 /** List Restore Ranges Response */
 export interface AzureBackupFindRestorableTimeRangesResponse {
   /** Returns the Restore Ranges available on the Backup Instance. */
-  restorableTimeRanges?: AzureBackupFindRestorableTimeRangesResponseRestorableTimeRangesList;
-  objectType?: string;
+  restorableTimeRanges?:
+    | AzureBackupFindRestorableTimeRangesResponseRestorableTimeRangesList
+    | undefined;
+  objectType?: string | undefined;
 }
 export interface RestorableTimeRangesFindResponse {
   /** Resource Id represents the complete path to the resource. */
-  id?: string;
+  id?: string | undefined;
   /** Resource name associated with the resource. */
-  name?: string;
+  name?: string | undefined;
   /** Resource type represents the complete path of the form Namespace/ResourceType/ResourceType/... */
-  type?: string;
+  type?: string | undefined;
   /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: RestorableTimeRangesFindResponseSystemData;
+  systemData?: RestorableTimeRangesFindResponseSystemData | undefined;
   /** AzureBackupFindRestorableTimeRangesResponseResource properties */
-  properties?: AzureBackupFindRestorableTimeRangesResponse;
+  properties?: AzureBackupFindRestorableTimeRangesResponse | undefined;
 }
 export interface ResumeBackupInstanceBackupsRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2360,9 +2379,9 @@ export interface ResumeBackupInstanceBackupsRequest {
 }
 export interface ResumeBackupInstanceBackupsResponse {
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
 }
 export interface ResumeBackupInstanceProtectionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2376,9 +2395,9 @@ export interface ResumeBackupInstanceProtectionRequest {
 }
 export interface ResumeBackupInstanceProtectionResponse {
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
 }
 /** ResourceGuardOperationRequests on which LAC check will be performed */
 export type StopBackupInstanceProtectionRequestResourceGuardOperationRequestsList = Array<string>;
@@ -2392,13 +2411,15 @@ export interface StopBackupInstanceProtectionRequest {
   /** The name of the BackupInstanceResource */
   backupInstanceName: string;
   /** ResourceGuardOperationRequests on which LAC check will be performed */
-  resourceGuardOperationRequests?: StopBackupInstanceProtectionRequestResourceGuardOperationRequestsList;
+  resourceGuardOperationRequests?:
+    | StopBackupInstanceProtectionRequestResourceGuardOperationRequestsList
+    | undefined;
 }
 export interface StopBackupInstanceProtectionResponse {
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
 }
 /** ResourceGuardOperationRequests on which LAC check will be performed */
 export type SuspendBackupInstanceBackupsRequestResourceGuardOperationRequestsList = Array<string>;
@@ -2412,13 +2433,15 @@ export interface SuspendBackupInstanceBackupsRequest {
   /** The name of the BackupInstanceResource */
   backupInstanceName: string;
   /** ResourceGuardOperationRequests on which LAC check will be performed */
-  resourceGuardOperationRequests?: SuspendBackupInstanceBackupsRequestResourceGuardOperationRequestsList;
+  resourceGuardOperationRequests?:
+    | SuspendBackupInstanceBackupsRequestResourceGuardOperationRequestsList
+    | undefined;
 }
 export interface SuspendBackupInstanceBackupsResponse {
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
 }
 /** Field indicating sync type e.g. to sync only in case of failure or in all cases */
 export type SyncType = "Default" | "ForceResync";
@@ -2432,13 +2455,13 @@ export interface SyncBackupInstanceBackupInstanceRequest {
   /** The name of the BackupInstanceResource */
   backupInstanceName: string;
   /** Field indicating sync type e.g. to sync only in case of failure or in all cases */
-  syncType?: SyncType | (string & {});
+  syncType?: SyncType | (string & {}) | undefined;
 }
 export interface SyncBackupInstanceBackupInstanceResponse {
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
 }
 /** Priority to be used for rehydration. Values High or Standard */
 export type RehydrationPriority = "Invalid" | "High" | "Standard";
@@ -2454,15 +2477,15 @@ export interface TriggerBackupInstanceRehydrateRequest {
   /** Id of the recovery point to be recovered */
   recoveryPointId: string;
   /** Priority to be used for rehydration. Values High or Standard */
-  rehydrationPriority?: RehydrationPriority | (string & {});
+  rehydrationPriority?: RehydrationPriority | (string & {}) | undefined;
   /** Retention duration in ISO 8601 format i.e P10D . */
   rehydrationRetentionDuration: string;
 }
 export interface TriggerBackupInstanceRehydrateResponse {
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
 }
 export interface TriggerExportJobRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2474,7 +2497,7 @@ export interface TriggerExportJobRequest {
 }
 export interface TriggerExportJobResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
 }
 export interface UndeleteDeletedBackupInstanceRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2488,24 +2511,26 @@ export interface UndeleteDeletedBackupInstanceRequest {
 }
 export interface UndeleteDeletedBackupInstanceResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** ResourceGuardOperationRequests on which LAC check will be performed */
 export type PatchBackupVaultInputResourceGuardOperationRequestsList = Array<string>;
 /** Backup Vault Contract for Patch Backup Vault API. */
 export interface PatchBackupVaultInput {
   /** Monitoring Settings */
-  monitoringSettings?: MonitoringSettings;
+  monitoringSettings?: MonitoringSettings | undefined;
   /** Security Settings */
-  securitySettings?: SecuritySettings;
+  securitySettings?: SecuritySettings | undefined;
   /** Feature Settings */
-  featureSettings?: FeatureSettings;
+  featureSettings?: FeatureSettings | undefined;
   /** Cost Management Settings of the vault */
-  costManagementSettings?: CostManagementSettings;
+  costManagementSettings?: CostManagementSettings | undefined;
   /** ResourceGuardOperationRequests on which LAC check will be performed */
-  resourceGuardOperationRequests?: PatchBackupVaultInputResourceGuardOperationRequestsList;
+  resourceGuardOperationRequests?:
+    | PatchBackupVaultInputResourceGuardOperationRequestsList
+    | undefined;
 }
 /** Resource tags. */
 export type UpdateBackupVaultRequestTagsMap = { [key: string]: string | undefined };
@@ -2517,37 +2542,37 @@ export interface UpdateBackupVaultRequest {
   /** The name of the BackupVaultResource */
   vaultName: string;
   /** Input Managed Identity Details */
-  identity?: DppIdentityDetailsInput;
+  identity?: DppIdentityDetailsInput | undefined;
   /** Resource properties. */
-  properties?: PatchBackupVaultInput;
+  properties?: PatchBackupVaultInput | undefined;
   /** Resource tags. */
-  tags?: UpdateBackupVaultRequestTagsMap;
+  tags?: UpdateBackupVaultRequestTagsMap | undefined;
 }
 /** Resource tags. */
 export type UpdateBackupVaultResponseTagsMap = { [key: string]: string | undefined };
 export interface UpdateBackupVaultResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: UpdateBackupVaultResponseTagsMap;
+  tags?: UpdateBackupVaultResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** BackupVaultResource properties */
   properties: BackupVault;
   /** Input Managed Identity Details */
-  identity?: DppIdentityDetails;
+  identity?: DppIdentityDetails | undefined;
   /** Optional ETag. */
-  eTag?: string;
+  eTag?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  locationHeader?: string;
+  locationHeader?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface ValidateBackupInstanceForBackupRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2563,11 +2588,11 @@ export interface ValidateBackupInstanceForBackupResponse {
   /** This property will be used as the discriminator for deciding the specific types in the polymorphic chain of types. */
   objectType: string;
   /** Name or Arm Id of the job created for this operation. */
-  jobId?: string;
+  jobId?: string | undefined;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
 }
 export type BackupInstancesAdhocBackupError = AzureOpError;
 /** Trigger adhoc backup */

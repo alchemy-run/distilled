@@ -96,10 +96,10 @@ export interface GetDmMemberRequest {
   id: string;
 }
 export interface ListDmMemberRequest {
-  after?: string;
-  before?: string;
-  first?: number;
-  last?: number;
+  after?: string | undefined;
+  before?: string | undefined;
+  first?: number | undefined;
+  last?: number | undefined;
   channel_id: string;
 }
 /** A user's membership record in a messaging channel, including notification preferences and read state. */
@@ -138,9 +138,9 @@ export interface UpdateDmMemberRequest {
   /** The unique identifier of the DM channel member to update. */
   id: string;
   /** The notification setting for this member, controlling how they receive alerts for new messages in this channel. */
-  notification_preference?: DmsFeedMemberNotificationPreferences | (string & {}) | null;
+  notification_preference?: DmsFeedMemberNotificationPreferences | (string & {}) | null | undefined;
   /** The membership status for this member in the DM channel. */
-  status?: DmsFeedMemberStatuses | (string & {}) | null;
+  status?: DmsFeedMemberStatuses | (string & {}) | null | undefined;
 }
 export type CreateDmMemberError =
   | BadRequest

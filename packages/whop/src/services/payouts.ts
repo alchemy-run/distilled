@@ -65,11 +65,11 @@ export interface CancelPayoutRequest {
   /** Payout ID, prefixed `wdrl_`, or the `cofr_` payout request ID returned by `POST /payouts` -- both cancel the same payout. */
   id: string;
   /** Owning account ID, prefixed `biz_`. Provide exactly one of `account_id` or `user_id`. */
-  account_id?: string;
+  account_id?: string | undefined;
   /** Owning user ID, prefixed `user_`. Provide exactly one of `account_id` or `user_id`. */
-  user_id?: string;
+  user_id?: string | undefined;
   /** A unique key that makes this request safe to retry. See [Idempotent requests](https://docs.whop.com/developer/api/idempotency). */
-  idempotency_key?: string;
+  idempotency_key?: string | undefined;
 }
 /** Why the payout ended without paying, or why it reversed after settlement. Present on failed, canceled, denied, and reversed payouts; `null` otherwise. */
 export interface CancelPayoutResponseFailure {
@@ -183,31 +183,31 @@ export type CreatePayoutRequestMetadataMap = { [key: string]: string | undefined
 export type CreatePayoutRequestSpeed = "standard" | "instant";
 export interface CreatePayoutRequest {
   /** Account to pay out from, prefixed `biz_`. Provide exactly one of `account_id` or `user_id`. */
-  account_id?: string;
+  account_id?: string | undefined;
   /** Set to `true` to continue when the destination bank could not confirm the payout method account holder's name, or `false` to have the payout refused in that case so the account holder can correct the name or link their bank first. Omitting the field skips the warning gate -- a client that cannot show the warning keeps its pre-gate behavior. */
-  acknowledge_bank_warning?: boolean;
+  acknowledge_bank_warning?: boolean | undefined;
   /** The amount to pay out in the specified currency. */
   amount: number;
   /** The currency to pay out. Balances are held per currency and the payout draws only from the balance in this currency, so match the currency the funds arrived in -- for example `cad` for an account funded by CAD transfers. When omitted, uses `usd` if that balance can cover a withdrawal, otherwise the account's only other funded currency. */
-  currency?: string;
+  currency?: string | undefined;
   /** Key-value data to attach to the payout, echoed on every read and in webhook payloads. At most 50 keys, key names up to 40 characters, string values up to 500 characters. Never store secrets or regulated personal data here -- webhook bodies are retained for delivery inspection. */
-  metadata?: CreatePayoutRequestMetadataMap;
+  metadata?: CreatePayoutRequestMetadataMap | undefined;
   /** Free-form notes to attach to the payout, with a maximum of 255 characters. Omit or pass `null` for no notes. */
-  notes?: string | null;
+  notes?: string | null | undefined;
   /** The saved payout method to deliver to (a potk_ identifier). */
   payout_method_id: string;
   /** Whether the parent platform covers the payout fee instead of the account being paid out. Omit to use the platform's configured fee coverage policy; pass `false` to opt out of it. `true` is only accepted for accounts that belong to a platform, and requires the platform's policy to cover this payout method's category or a caller authorized to manage the platform's child account fees. */
-  platform_covers_fees?: boolean;
+  platform_covers_fees?: boolean | undefined;
   /** The server-signed quote_token returned by POST /payouts/quotes. Send it when the ledger account's payout_quote_required is true. A business with quote enforcement on refuses a payout without it with the invalid_payout_quote error type. When provided, Whop will not commit a provider payout below the destination amount the quote showed. */
-  quote_token?: string;
+  quote_token?: string | undefined;
   /** How fast the funds should arrive. `instant` is only accepted when the account and payout method are eligible; otherwise the payout is rejected. */
-  speed?: CreatePayoutRequestSpeed | (string & {});
+  speed?: CreatePayoutRequestSpeed | (string & {}) | undefined;
   /** Text that appears on the recipient's bank statement. Must be 5-22 alphanumeric characters (A-Z, a-z, 0-9). Without a `quote_token`, omit or pass `null` to use the default descriptor. With a `quote_token`, set this value when creating the quote; the payout request may omit it but cannot add or change it. */
-  statement_descriptor?: string | null;
+  statement_descriptor?: string | null | undefined;
   /** User to pay out from, prefixed `user_`. Provide exactly one of `account_id` or `user_id`. */
-  user_id?: string;
+  user_id?: string | undefined;
   /** A unique key that makes this request safe to retry. See [Idempotent requests](https://docs.whop.com/developer/api/idempotency). */
-  idempotency_key?: string;
+  idempotency_key?: string | undefined;
 }
 /** Why the payout ended without paying, or why it reversed after settlement. Present on failed, canceled, denied, and reversed payouts; `null` otherwise. */
 export type CreatePayoutResponseFailure = CancelPayoutResponseFailure;
@@ -312,21 +312,21 @@ export interface CreatePayoutResponse {
 export type CreatePayoutMethodRequestFieldsMap = { [key: string]: string | undefined };
 export interface CreatePayoutMethodRequest {
   /** The account to add the payout method for, prefixed `biz_`. Provide this or `user_id`. */
-  account_id?: string;
+  account_id?: string | undefined;
   /** Currency the supported payout method delivers payouts in. */
-  destination_currency?: string;
+  destination_currency?: string | undefined;
   /** The supported payout method's required field values, keyed by field id -- list them with `GET /payouts/supported_methods?supported_payout_method_id=...`. Field ids are stable `fld_` identifiers you may hardcode; they never change for a given field. A Basis Theory token id may be passed in place of a raw value. For a U.S. bank routing-number field, a raw nine-digit value must also pass the ABA checksum. A validation failure returns the method's full required_fields schema alongside the error. Required whenever the account details are supplied directly. */
-  fields?: CreatePayoutMethodRequestFieldsMap;
+  fields?: CreatePayoutMethodRequestFieldsMap | undefined;
   /** Whether to make this the account's default payout method. */
-  is_default?: boolean;
+  is_default?: boolean | undefined;
   /** A label for the payout method, unique per destination. */
-  nickname?: string;
+  nickname?: string | undefined;
   /** The supported payout method to save (a podst_ identifier from a previous listing). */
   supported_payout_method_id: string;
   /** The user to add the payout method for, prefixed `user_`. Provide this or `account_id`. */
-  user_id?: string;
+  user_id?: string | undefined;
   /** A unique key that makes this request safe to retry. See [Idempotent requests](https://docs.whop.com/developer/api/idempotency). */
-  idempotency_key?: string;
+  idempotency_key?: string | undefined;
 }
 /** Lifecycle trust state: `checking` (verification still running), `verified` (bank confirmed ownership or a payout already completed to it), `no_data` (verification unavailable or bank returned no ownership data), `warning` (bank could not confirm the destination's owner), `broken` (payouts failed with a permanent account error), `null` (never checked). */
 export type CreatePayoutMethodResponseBankVerificationState =
@@ -351,14 +351,14 @@ export type CreatePayoutMethodResponseSupportedPayoutMethodDeliveryType =
   | "unknown";
 export interface CreatePayoutMethodResponseSupportedPayoutMethod {
   /** ISO 3166-1 alpha-3 country the destination pays out to. */
-  country_code?: string | null;
+  country_code?: string | null | undefined;
   /** How funds are delivered. */
   delivery_type: CreatePayoutMethodResponseSupportedPayoutMethodDeliveryType;
   icon_url: string | null;
   name: string | null;
   supports_instant_delivery: boolean;
   /** Whether the payer can link this method by signing in to their bank instead of typing account details. */
-  supports_plaid?: boolean;
+  supports_plaid?: boolean | undefined;
   supports_standard_delivery: boolean;
 }
 /** Why this method is unavailable: `destination_retired` means the payout provider stopped offering the destination. Whop may automatically remap an eligible method that was not linked through Plaid to a compatible replacement; otherwise, the account owner must re-add it. `null` means no unavailability reason is known. */
@@ -367,7 +367,7 @@ export interface CreatePayoutMethodResponse {
   /** Masked identifier for the destination. */
   account_reference: string | null;
   /** Lifecycle trust state: `checking` (verification still running), `verified` (bank confirmed ownership or a payout already completed to it), `no_data` (verification unavailable or bank returned no ownership data), `warning` (bank could not confirm the destination's owner), `broken` (payouts failed with a permanent account error), `null` (never checked). */
-  bank_verification_state?: CreatePayoutMethodResponseBankVerificationState | null;
+  bank_verification_state?: CreatePayoutMethodResponseBankVerificationState | null | undefined;
   created_at: string;
   destination_currency: string;
   /** Null on create. List payout methods to retrieve arrival estimates. */
@@ -378,14 +378,14 @@ export interface CreatePayoutMethodResponse {
   id: string;
   institution_name: string | null;
   /** Whether this method is a copy of one saved on another of the payer's accounts. */
-  is_clone?: boolean;
+  is_clone?: boolean | undefined;
   is_default: boolean;
   /** When the most recent completed payout was delivered to this method, as an ISO 8601 timestamp. `null` when nothing has been paid out to it yet. */
   last_paid_out_at: string | null;
   /** Whether the payer added this method by signing in to their bank rather than typing account details. */
-  linked_via_plaid?: boolean;
+  linked_via_plaid?: boolean | undefined;
   /** Whether the bank sign-in behind this method has expired and must be redone before it counts as linked. */
-  needs_plaid_reconnect?: boolean;
+  needs_plaid_reconnect?: boolean | undefined;
   /** User-defined label for the payout method. */
   nickname: string | null;
   object: CreatePayoutMethodResponseObject;
@@ -404,21 +404,21 @@ export interface CreatePayoutMethodResponse {
 export type CreatePayoutQuoteRequestSpeed = "standard" | "instant";
 export interface CreatePayoutQuoteRequest {
   /** Account to pay out from, prefixed `biz_`. Provide exactly one of `account_id` or `user_id`. */
-  account_id?: string;
+  account_id?: string | undefined;
   /** The amount to pay out in the specified currency. */
   amount: number;
   /** The currency to pay out. When omitted, uses `usd` if that balance can cover a withdrawal, otherwise the account's only other funded currency. */
-  currency?: string;
+  currency?: string | undefined;
   /** The saved payout method to quote (a potk_ identifier). */
   payout_method_id: string;
   /** Whether the parent platform covers the payout fee instead of the account being paid out. */
-  platform_covers_fees?: boolean;
+  platform_covers_fees?: boolean | undefined;
   /** How fast the funds should arrive. */
-  speed?: CreatePayoutQuoteRequestSpeed | (string & {});
+  speed?: CreatePayoutQuoteRequestSpeed | (string & {}) | undefined;
   /** Text that appears on the recipient's bank statement. Must be 5-22 alphanumeric characters (A-Z, a-z, 0-9). Omit or pass `null` to use the default descriptor. */
-  statement_descriptor?: string | null;
+  statement_descriptor?: string | null | undefined;
   /** User to pay out from, prefixed `user_`. Provide exactly one of `account_id` or `user_id`. */
-  user_id?: string;
+  user_id?: string | undefined;
   /** A unique key that makes this quote request safe to retry. */
   idempotency_key: string;
 }
@@ -466,9 +466,9 @@ export interface GetPayoutRequest {
   /** Payout ID, prefixed `wdrl_` for a payout returned by `GET /payouts` or `cofr_` for the payout request returned by `POST /payouts`. */
   id: string;
   /** Owning account ID, prefixed `biz_`. Provide exactly one of `account_id` or `user_id`. */
-  account_id?: string;
+  account_id?: string | undefined;
   /** Owning user ID, prefixed `user_`. Provide exactly one of `account_id` or `user_id`. */
-  user_id?: string;
+  user_id?: string | undefined;
 }
 /** Why the payout ended without paying, or why it reversed after settlement. Present on failed, canceled, denied, and reversed payouts; `null` otherwise. */
 export type GetPayoutResponseFailure = CancelPayoutResponseFailure;
@@ -572,25 +572,25 @@ export interface GetPayoutResponse {
 export type ListPayoutMethodsRequestStatus = "created" | "active" | "broken";
 export interface ListPayoutMethodsRequest {
   /** The owning account ID (a biz_ identifier). Provide this or user_id. */
-  account_id?: string;
+  account_id?: string | undefined;
   /** The owning user ID (a user_ identifier). Provide this or account_id. */
-  user_id?: string;
+  user_id?: string | undefined;
   /** Optional status filter. `created` means saved but unused, `active` means a payout through it succeeded, `broken` means the last payout failed and the method needs fixing. */
-  status?: ListPayoutMethodsRequestStatus | (string & {});
+  status?: ListPayoutMethodsRequestStatus | (string & {}) | undefined;
   /** Optional payout amount in whole currency units, for example `250.00`. When provided, each method includes a quote with the estimated fee, amount received, and delivery date for that amount. */
-  amount?: number;
+  amount?: number | undefined;
   /** Currency code of the amount, for example `usd`. Only meaningful with amount or include_limits. */
-  currency?: string;
+  currency?: string | undefined;
   /** When true, the response also carries limits -- the live per-speed payout caps the account's payout requests are validated against, in the requested currency. Requires the payout:withdrawal:read scope. */
-  include_limits?: boolean;
+  include_limits?: boolean | undefined;
   /** Number of results to return from the start of the range. */
-  first?: number;
+  first?: number | undefined;
   /** Return results after this cursor. Use `page_info.end_cursor` from the previous response to fetch the next page. */
-  after?: string;
+  after?: string | undefined;
   /** Number of results to return from the end of the range. */
-  last?: number;
+  last?: number | undefined;
   /** Return results before this cursor. Use `page_info.start_cursor` from the previous response to fetch the previous page. */
-  before?: string;
+  before?: string | undefined;
 }
 /** Lifecycle trust state: `checking` (verification still running), `verified` (bank confirmed ownership or a payout already completed to it), `no_data` (verification unavailable or bank returned no ownership data), `warning` (bank could not confirm the destination's owner), `broken` (payouts failed with a permanent account error), `null` (never checked). */
 export type ListPayoutMethodsResponseDataItemBankVerificationState =
@@ -784,7 +784,7 @@ export interface ListPayoutMethodsResponsePageInfo {
 export interface ListPayoutMethodsResponse {
   data: ListPayoutMethodsResponseDataList;
   /** The live per-speed payout caps for the account in the requested currency -- the numbers a payout request is validated against at submit time, so clients can cap an amount input at a value the request will accept. Only present when include_limits is true. */
-  limits?: ListPayoutMethodsResponseLimits;
+  limits?: ListPayoutMethodsResponseLimits | undefined;
   page_info: ListPayoutMethodsResponsePageInfo;
 }
 export type ListPayoutsRequestStatus =
@@ -799,29 +799,29 @@ export type ListPayoutsRequestStatus =
 export type ListPayoutsRequestSource = "api" | "dashboard" | "automatic";
 export interface ListPayoutsRequest {
   /** The owning account ID (a biz_ identifier). Provide this or user_id. */
-  account_id?: string;
+  account_id?: string | undefined;
   /** The owning user ID (a user_ identifier). Provide this or account_id. */
-  user_id?: string;
+  user_id?: string | undefined;
   /** Optional currency code filter, for example `usd`. */
-  currency?: string;
+  currency?: string | undefined;
   /** Filter to payouts whose `status` reads this word, matching exactly what this version displays -- `reversed` finds settled payouts the bank later returned. Requires Api-Version-Date 2026-08-21 or later. */
-  status?: ListPayoutsRequestStatus | (string & {});
+  status?: ListPayoutsRequestStatus | (string & {}) | undefined;
   /** Filter by how the payout was created. Payouts created before source tracking or through internal tooling carry no source and never match. */
-  source?: ListPayoutsRequestSource | (string & {});
+  source?: ListPayoutsRequestSource | (string & {}) | undefined;
   /** Filter to payouts sent to one saved payout method (a pytk_ identifier). An unknown id matches nothing. */
-  payout_method_id?: string;
+  payout_method_id?: string | undefined;
   /** Only payouts created before this ISO 8601 time (exclusive). */
-  created_before?: string;
+  created_before?: string | undefined;
   /** Only payouts created at or after this ISO 8601 time (inclusive). */
-  created_after?: string;
+  created_after?: string | undefined;
   /** Number of results to return from the start of the range. */
-  first?: number;
+  first?: number | undefined;
   /** Return results after this cursor. Use `page_info.end_cursor` from the previous response to fetch the next page. */
-  after?: string;
+  after?: string | undefined;
   /** Number of results to return from the end of the range. */
-  last?: number;
+  last?: number | undefined;
   /** Return results before this cursor. Use `page_info.start_cursor` from the previous response to fetch the previous page. */
-  before?: string;
+  before?: string | undefined;
 }
 /** Why the payout ended without paying, or why it reversed after settlement. Present on failed, canceled, denied, and reversed payouts; `null` otherwise. */
 export type ListPayoutsResponseDataItemFailure = CancelPayoutResponseFailure;
@@ -930,27 +930,27 @@ export interface ListPayoutsResponse {
 }
 export interface ListSupportedPayoutMethodsRequest {
   /** The owning account ID (a biz_ identifier). Provide this or user_id. */
-  account_id?: string;
+  account_id?: string | undefined;
   /** The owning user ID (a user_ identifier). Provide this or account_id. */
-  user_id?: string;
+  user_id?: string | undefined;
   /** ISO 3166-1 alpha-2 country code for the bank account or wallet, such as `US`. Defaults to the country of supported_payout_method_id when one is given, otherwise the payout account's country. */
-  country?: string;
+  country?: string | undefined;
   /** Optional payout amount in whole currency units, for example `250.00`. When provided, each destination includes per-currency fee and delivery quotes. */
-  amount?: number;
+  amount?: number | undefined;
   /** Currency code of the amount, for example `usd`. Only meaningful with amount. */
-  currency?: string;
+  currency?: string | undefined;
   /** Narrows the list to one supported payout method (a podst_ identifier) and includes the required_fields needed to save it as a payout method. */
-  supported_payout_method_id?: string;
+  supported_payout_method_id?: string | undefined;
   /** Currency the supported payout method would deliver payouts in. Only meaningful with supported_payout_method_id; required fields vary by destination currency. */
-  destination_currency?: string;
+  destination_currency?: string | undefined;
   /** Number of results to return from the start of the range. */
-  first?: number;
+  first?: number | undefined;
   /** Return results after this cursor. Use `page_info.end_cursor` from the previous response to fetch the next page. */
-  after?: string;
+  after?: string | undefined;
   /** Number of results to return from the end of the range. */
-  last?: number;
+  last?: number | undefined;
   /** Return results before this cursor. Use `page_info.start_cursor` from the previous response to fetch the previous page. */
-  before?: string;
+  before?: string | undefined;
 }
 /** How funds are delivered, for example `bank_deposit`. */
 export type ListSupportedPayoutMethodsResponseDataItemDeliveryType =
@@ -1048,9 +1048,9 @@ export interface UpdatePayoutMethodRequest {
   /** Payout method ID, prefixed `potk_`. */
   id: string;
   /** Set to `true` to make this the account's default payout method. `false` is not accepted. */
-  is_default?: boolean;
+  is_default?: boolean | undefined;
   /** New label for the payout method, with at least one non-whitespace character and a maximum of 100 characters. */
-  nickname?: string;
+  nickname?: string | undefined;
 }
 /** Lifecycle trust state: `checking` (verification still running), `verified` (bank confirmed ownership or a payout already completed to it), `no_data` (verification unavailable or bank returned no ownership data), `warning` (bank could not confirm the destination's owner), `broken` (payouts failed with a permanent account error), `null` (never checked). */
 export type UpdatePayoutMethodResponseBankVerificationState =

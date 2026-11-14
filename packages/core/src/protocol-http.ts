@@ -13,13 +13,15 @@ import * as HttpClientRequest from "effect/http/HttpClientRequest";
  * {@link matchTypedError}).
  */
 import type * as AST from "effect/SchemaAST";
-import { getAnn, getProps } from "./annotations.ts";
-import { debugHttp } from "./debug.ts";
-import { InvalidInput } from "./errors.ts";
+import { getAnn, getProps, resolveNode } from "./annotations.ts";
+import * as Category from "./category.ts";
 import { isOpaqueValue } from "./plain-values.ts";
+import * as Schema from "./schema-lite-typed.ts";
+import { SdkError } from "./sdk-error.ts";
 import { restoreStack, suppressStack } from "./telemetry.ts";
 import {
   bodySymbol,
+  commaDelimitedSymbol,
   deepQuerySymbol,
   formDataFileSymbol,
   getErrorMatchers,
@@ -32,7 +34,6 @@ import {
   querySymbol,
   stringEncodedSymbol,
   unionCasesSymbol,
-  verbatimSymbol,
   type ErrorMatcher,
   type ErrorTextMatcher,
   type HttpTrait,
@@ -42,7 +43,7 @@ import {
 
 //#region AST helpers (survive S.optional / Suspend / transforms)
 
-export { getAnn, getProps } from "./annotations.ts";
+export { getAnn, getProps, resolveNode } from "./annotations.ts";
 
 export const getPropAnn = (prop: AST.PropertySignature, symbol: symbol): unknown =>
   getAnn(prop.type, symbol);
@@ -53,21 +54,6 @@ export const nameOf = (prop: AST.PropertySignature, symbol: symbol): string => {
   return typeof v === "string" ? v : String(prop.name);
 };
 
-/** Resolve wrappers to the real node: Suspend, encoding, optional/null unions. */
-export const resolveNode = (ast: AST.AST): AST.AST => {
-  if (ast._tag === "Suspend") return resolveNode(ast.thunk());
-  if (ast.encoding && ast.encoding.length > 0) return resolveNode(ast.encoding[0]!.to);
-  if (ast._tag === "Union") {
-    const real = (ast as AST.Union).types.filter(
-      (t) =>
-        t._tag !== "Undefined" &&
-        t._tag !== "Null" &&
-        !(t._tag === "Literal" && (t as any).literal === null),
-    );
-    if (real.length === 1) return resolveNode(real[0]!);
-  }
-  return ast;
-};
 //#endregion
 
 //#region Response headers on outputs
@@ -137,20 +123,6 @@ export { isOpaqueValue };
  * may list several wire spellings; encode uses the first (canonical) one and
  * decode maps every listed spelling back to the TS name.
  */
-const dictionaryRenames = (
-  dict: KeyDictionaryEntries,
-  direction: "encode" | "decode",
-): Record<string, string> =>
-  direction === "decode"
-    ? Object.fromEntries(
-        Object.entries(dict).flatMap(([ts, wire]) =>
-          typeof wire === "string" ? [[wire, ts] as const] : wire.map((w) => [w, ts] as const),
-        ),
-      )
-    : Object.fromEntries(
-        Object.entries(dict).map(([ts, wire]) => [ts, typeof wire === "string" ? wire : wire[0]!]),
-      );
-
 export const mapKeysByDictionary = (
   dict: KeyDictionaryEntries,
   value: unknown,
@@ -162,7 +134,19 @@ export const mapKeysByDictionary = (
   if (Array.isArray(value)) {
     return value.map((v) => mapKeysByDictionary(dict, v, direction));
   }
-  const rename = dictionaryRenames(dict, direction);
+  const rename: Record<string, string> =
+    direction === "decode"
+      ? Object.fromEntries(
+          Object.entries(dict).flatMap(([ts, wire]) =>
+            typeof wire === "string" ? [[wire, ts] as const] : wire.map((w) => [w, ts] as const),
+          ),
+        )
+      : Object.fromEntries(
+          Object.entries(dict).map(([ts, wire]) => [
+            ts,
+            typeof wire === "string" ? wire : wire[0]!,
+          ]),
+        );
   const out: Record<string, unknown> = {};
   for (const [k, v] of Object.entries(value as Record<string, unknown>)) {
     if (v === undefined) continue;
@@ -263,36 +247,26 @@ export const mapKeys = (
   // active case is the one that best EXPLAINS the value: most present,
   // non-null keys covered, minus present keys the case cannot explain (ties
   // break by coverage, then declaration order).
-  //
-  // Encode takes this path only for a union declaring verbatim members:
-  // the case it picks says which members keep their keys.
   const unionCases = getAnn(ast, unionCasesSymbol) as
     | {
         readonly cases: ReadonlyArray<ReadonlyArray<string>>;
         readonly discriminator?: UnionDiscriminator;
-        readonly verbatim?: ReadonlyArray<ReadonlyArray<string>>;
       }
     | undefined;
-  if (
-    unionCases &&
-    (direction === "decode" || unionCases.verbatim !== undefined) &&
-    !Array.isArray(value)
-  ) {
-    // Top-level keys in TS names, values still as given.
-    const rename = dict ? dictionaryRenames(dict, direction) : {};
-    const obj: Record<string, unknown> = {};
-    for (const [k, v] of Object.entries(value as Record<string, unknown>)) {
-      obj[direction === "decode" ? (rename[k] ?? k) : k] = v;
-    }
+  if (unionCases && direction === "decode" && !Array.isArray(value)) {
+    const obj = (dict ? mapKeysByDictionary(dict, value, "decode") : value) as Record<
+      string,
+      unknown
+    >;
     const present = Object.keys(obj).filter((k) => obj[k] !== undefined && obj[k] !== null);
     const disc = unionCases.discriminator;
     const tag = disc ? obj[disc.key] : undefined;
     const tagged = typeof tag === "string" ? disc!.values.indexOf(tag) : -1;
-    let best: { index: number; score: number; matched: number } | undefined;
+    let best: { keys: ReadonlyArray<string>; score: number; matched: number } | undefined;
     if (tagged >= 0) {
-      best = { index: tagged, score: 0, matched: 0 };
+      best = { keys: unionCases.cases[tagged]!, score: 0, matched: 0 };
     } else {
-      unionCases.cases.forEach((keys, index) => {
+      for (const keys of unionCases.cases) {
         const set = new Set(keys);
         let matched = 0;
         let excess = 0;
@@ -305,24 +279,16 @@ export const mapKeys = (
           matched > 0 &&
           (!best || score > best.score || (score === best.score && matched > best.matched))
         ) {
-          best = { index, score, matched };
+          best = { keys, score, matched };
         }
-      });
-    }
-    const verbatim = new Set(best ? (unionCases.verbatim?.[best.index] ?? []) : []);
-    const mapValue = (k: string, v: unknown) =>
-      verbatim.has(k) || !dict ? v : mapKeysByDictionary(dict, v, direction);
-    const out: Record<string, unknown> = {};
-    if (direction === "encode") {
-      for (const [k, v] of Object.entries(obj)) {
-        if (v !== undefined) out[rename[k] ?? k] = mapValue(k, v);
-      }
-    } else {
-      for (const k of best ? unionCases.cases[best.index]! : Object.keys(obj)) {
-        out[k] = mapValue(k, obj[k]);
       }
     }
-    return out;
+    if (best) {
+      const out: Record<string, unknown> = {};
+      for (const k of best.keys) out[k] = obj[k];
+      return out;
+    }
+    return obj;
   }
 
   const node = resolveNode(ast);
@@ -391,9 +357,8 @@ export const mapKeys = (
       // A `StringEncoded()` member nested in a body struct (e.g. Azure's
       // `hardwareProfile.dynamicMemoryEnabled`) stringifies here -- the
       // top-level pass in `buildRequest` only sees the outermost member.
-      out[to] = hasPropAnn(p, verbatimSymbol)
-        ? v
-        : direction === "encode" && hasPropAnn(p, stringEncodedSymbol)
+      out[to] =
+        direction === "encode" && hasPropAnn(p, stringEncodedSymbol)
           ? stringEncode(v)
           : mapKeys(p.type, v, direction, dict);
     }
@@ -465,6 +430,24 @@ export interface BuildRequestOptions {
    * Defaults to the key verbatim.
    */
   readonly unknownKeyToWire?: (key: string) => string;
+  /**
+   * Send `{}` on a method that takes a body even when the input declares no
+   * body members. Connect unary RPCs (E2B's envd) POST JSON for every call,
+   * and refuse a bodyless one with 415.
+   */
+  readonly emptyJsonBody?: boolean;
+  /**
+   * How a query member spells a nested object or an array.
+   *
+   * - `"dotted"` (default): `created.gte=1`; an array repeats the key
+   *   (`expand=a&expand=b`).
+   * - `"brackets"`: `created[gte]=1`; an array indexes the key
+   *   (`expand[0]=a&expand[1]=b`), the same rule as form-urlencoded bodies.
+   *   Stripe needs this: its v2 API refuses `key[]` and repeated keys.
+   *
+   * `T.CommaDelimited` and `T.DeepQuery` members keep their own spelling.
+   */
+  readonly queryStyle?: "dotted" | "brackets";
 }
 
 /**
@@ -520,6 +503,8 @@ interface MemberPlan {
   /** `{name+}` placeholder. */
   readonly greedy: boolean;
   readonly stringEncoded: boolean;
+  /** A list query member sent as one comma-separated parameter. */
+  readonly commaDelimited: boolean;
   /** `mapKeys(type, value, "encode", rootDict)` returns the value unchanged. */
   readonly verbatim: boolean;
 }
@@ -536,12 +521,12 @@ interface RequestPlan {
 
 const plans = /*@__PURE__*/ new WeakMap<AST.AST, RequestPlan>();
 
-const planFor = (inputAst: AST.AST): RequestPlan => {
+const planFor = (inputAst: AST.AST): RequestPlan | SdkError => {
   let plan = plans.get(inputAst);
   if (plan !== undefined) return plan;
   const http = getAnn(inputAst, httpSymbol) as HttpTrait | undefined;
   if (!http) {
-    throw new Error("operation input is missing the Http() trait");
+    return new SdkError({ message: "operation input is missing the Http() trait" });
   }
   const rootDict = getAnn(inputAst, keyDictionarySymbol) as KeyDictionaryEntries | undefined;
   const members: MemberPlan[] = [];
@@ -584,9 +569,8 @@ const planFor = (inputAst: AST.AST): RequestPlan => {
       preserve: typeof preserve === "string" ? preserve : undefined,
       greedy,
       stringEncoded: hasPropAnn(prop, stringEncodedSymbol),
-      verbatim:
-        hasPropAnn(prop, verbatimSymbol) ||
-        (rootDict === undefined && mapsVerbatim(prop.type, "encode")),
+      commaDelimited: hasPropAnn(prop, commaDelimitedSymbol),
+      verbatim: rootDict === undefined && mapsVerbatim(prop.type, "encode"),
     });
   }
   plan = { http, rootDict, members, known, hasBodyMembers };
@@ -614,6 +598,17 @@ export const makeRequest = (
     Headers.fromInput(headers),
     HttpBody.empty,
   );
+
+/**
+ * The input cannot be sent: a path label whose value would address another
+ * resource (`.` or `..`, which the URL parser resolves to the parent path).
+ * Raised before anything is sent.
+ */
+export class InvalidInput
+  extends /*@__PURE__*/ Schema.TaggedError<InvalidInput>()("InvalidInput", {
+    member: Schema.String,
+    message: Schema.String,
+  }).pipe(Category.withBadRequestError) {}
 
 /**
  * The refusal for a path label value that would address another resource,
@@ -650,14 +645,16 @@ export const invalidLabel = (
  *
  * Fails with {@link InvalidInput}, before anything is sent, when a label is
  * `.` or `..` (for a greedy `{name+}` label, when any of its segments is).
- * Throws when the input schema is missing the `Http()` trait -- a codegen
- * bug, which the calling protocol's Effect surfaces as a defect.
+ * Fails with {@link SdkError} when the input schema is missing the `Http()`
+ * trait (a codegen bug the generator refuses).
  */
 export const buildRequest = (
   options: BuildRequestOptions,
-): Effect.Effect<HttpClientRequest.HttpClientRequest, InvalidInput> => {
+): Effect.Effect<HttpClientRequest.HttpClientRequest, InvalidInput | SdkError> => {
   const request = requestOrInvalid(options);
-  return request instanceof InvalidInput ? Effect.fail(request) : Effect.succeed(request);
+  return request instanceof InvalidInput || request instanceof SdkError
+    ? Effect.fail(request)
+    : Effect.succeed(request);
 };
 
 const requestOrInvalid = ({
@@ -667,9 +664,12 @@ const requestOrInvalid = ({
   headers: baseHeaders,
   mapMemberHeader,
   unknownKeyToWire,
-}: BuildRequestOptions): HttpClientRequest.HttpClientRequest | InvalidInput => {
+  emptyJsonBody,
+  queryStyle,
+}: BuildRequestOptions): HttpClientRequest.HttpClientRequest | InvalidInput | SdkError => {
   const inputObj = (input ?? {}) as Record<string, unknown>;
   const plan = planFor(inputAst);
+  if (plan instanceof SdkError) return plan;
   const { http, rootDict, members, known } = plan;
   let hasBodyMembers = plan.hasBodyMembers;
 
@@ -713,7 +713,14 @@ const requestOrInvalid = ({
         break;
       }
       case "query":
-        appendQuery((query ??= new URLSearchParams()), m.name, value);
+        if (m.commaDelimited && Array.isArray(value)) {
+          (query ??= new URLSearchParams()).append(m.name, value.map(String).join(","));
+        } else if (queryStyle === "brackets") {
+          query ??= new URLSearchParams();
+          for (const [k, v] of flattenToFormPairs({ [m.name]: value })) query.append(k, v);
+        } else {
+          appendQuery((query ??= new URLSearchParams()), m.name, value);
+        }
         break;
       case "deepQuery": {
         // Deep-object query member (T.DeepQuery): a nested struct expands into
@@ -771,9 +778,6 @@ const requestOrInvalid = ({
 
   const qs = query === undefined ? "" : query.toString();
   const url = qs ? `${baseUrl}${uri}?${qs}` : `${baseUrl}${uri}`;
-  if (debugHttp()) {
-    console.error(`[distilled] -> ${http.method} ${http.uri}`);
-  }
 
   const request = makeRequest(http.method, url, headers);
   const bodied = !BODYLESS.has(http.method);
@@ -838,7 +842,8 @@ const requestOrInvalid = ({
     // Binary payloads (Blob / ArrayBuffer / Uint8Array) send verbatim
     // (raw object uploads). With a bodyMediaType, the member is a
     // preserialized payload (string / bytes) sent verbatim; otherwise it's
-    // JSON.
+    // JSON, under the Content-Type member when set (e.g. Kubernetes'
+    // application/merge-patch+json).
     //
     // `setBody` overwrites the Content-Type header with the body's media
     // type (and removes it when that is undefined), so the body carries the
@@ -860,7 +865,7 @@ const requestOrInvalid = ({
           : HttpBody.uint8Array(rawBody as Uint8Array, mediaType),
       );
     }
-    return HttpClientRequest.setBody(request, HttpBody.jsonUnsafe(rawBody));
+    return HttpClientRequest.setBody(request, HttpBody.jsonUnsafe(rawBody, memberContentType));
   }
   if (
     // A GET/HEAD sends a body only when body members actually carry values.
@@ -873,11 +878,13 @@ const requestOrInvalid = ({
     // The `{}`-when-empty rule below stays limited to methods that expect a
     // body, so a bodyless method with nothing set still sends nothing.
     bodyKeys > 0 ||
-    (hasBodyMembers && bodied && http.method !== "DELETE")
+    ((hasBodyMembers || emptyJsonBody === true) && bodied && http.method !== "DELETE")
   ) {
     // Send `{}` rather than no body when the schema declares body members --
-    // some endpoints reject a missing JSON body outright.
-    return HttpClientRequest.setBody(request, HttpBody.jsonUnsafe(body));
+    // some endpoints reject a missing JSON body outright. A Content-Type
+    // member names the JSON media type, as for a whole body above (a
+    // Kubernetes merge patch is `application/merge-patch+json`).
+    return HttpClientRequest.setBody(request, HttpBody.jsonUnsafe(body, memberContentType));
   }
   return request;
 };

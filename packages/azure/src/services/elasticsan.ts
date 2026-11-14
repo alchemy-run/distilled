@@ -28,6 +28,7 @@ const TELEMETRY = {
   prefix: "Elasticsan",
   service: "Elasticsan",
   labels: "azure",
+  labelNames: { resourceGroupName: "azure.resource_group.name" },
   propagate: "w3c",
 } as const;
 
@@ -42,7 +43,7 @@ export interface Sku {
   /** The sku name. */
   name: SkuName | (string & {});
   /** The sku tier. */
-  tier?: SkuTier | (string & {});
+  tier?: SkuTier | (string & {}) | undefined;
 }
 /** Logical zone for Elastic San resource; example: ["1"]. */
 export type ElasticSanPropertiesInputAvailabilityZonesList = Array<string>;
@@ -53,33 +54,33 @@ export type AutoScalePolicyEnforcement = "None" | "Enabled" | "Disabled";
 /** Scale up properties on Elastic San Appliance. */
 export interface ScaleUpProperties {
   /** Unused size on Elastic San appliance in TiB. */
-  unusedSizeTiB?: number;
+  unusedSizeTiB?: number | undefined;
   /** Unit to increase Capacity Unit on Elastic San appliance in TiB. */
-  increaseCapacityUnitByTiB?: number;
+  increaseCapacityUnitByTiB?: number | undefined;
   /** Maximum scale up size on Elastic San appliance in TiB. */
-  capacityUnitScaleUpLimitTiB?: number;
+  capacityUnitScaleUpLimitTiB?: number | undefined;
   /** Enable or Disable scale up setting on Elastic San Appliance. */
-  autoScalePolicyEnforcement?: AutoScalePolicyEnforcement | (string & {});
+  autoScalePolicyEnforcement?: AutoScalePolicyEnforcement | (string & {}) | undefined;
 }
 /** The auto scale settings on Elastic San Appliance. */
 export interface AutoScaleProperties {
   /** Scale up settings on Elastic San Appliance. */
-  scaleUpProperties?: ScaleUpProperties;
+  scaleUpProperties?: ScaleUpProperties | undefined;
 }
 /** Elastic San response properties. */
 export interface ElasticSanPropertiesInput {
   /** resource sku */
   sku: Sku;
   /** Logical zone for Elastic San resource; example: ["1"]. */
-  availabilityZones?: ElasticSanPropertiesInputAvailabilityZonesList;
+  availabilityZones?: ElasticSanPropertiesInputAvailabilityZonesList | undefined;
   /** Base size of the Elastic San appliance in TiB. */
   baseSizeTiB: number;
   /** Extended size of the Elastic San appliance in TiB. */
   extendedCapacitySizeTiB: number;
   /** Allow or disallow public network access to ElasticSan. Value is optional but if passed in, must be 'Enabled' or 'Disabled'. */
-  publicNetworkAccess?: PublicNetworkAccess | (string & {});
+  publicNetworkAccess?: PublicNetworkAccess | (string & {}) | undefined;
   /** Auto Scale Properties for Elastic San Appliance. */
-  autoScaleProperties?: AutoScaleProperties;
+  autoScaleProperties?: AutoScaleProperties | undefined;
 }
 export interface CreateElasticSanRequest {
   /** The ID of the target subscription. */
@@ -89,7 +90,7 @@ export interface CreateElasticSanRequest {
   /** The name of the ElasticSan. */
   elasticSanName: string;
   /** Resource tags. */
-  tags?: CreateElasticSanRequestTagsMap;
+  tags?: CreateElasticSanRequestTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Properties of ElasticSan. */
@@ -102,17 +103,17 @@ export type SystemDataLastModifiedByType = "User" | "Application" | "ManagedIden
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface SystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: SystemDataCreatedByType;
+  createdByType?: SystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: SystemDataLastModifiedByType;
+  lastModifiedByType?: SystemDataLastModifiedByType | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 /** Resource tags. */
 export type CreateElasticSanResponseTagsMap = { [key: string]: string | undefined };
@@ -133,42 +134,42 @@ export type ProvisioningStates =
 /** Response for PrivateEndpoint */
 export interface PrivateEndpoint {
   /** The ARM identifier for Private Endpoint */
-  id?: string;
+  id?: string | undefined;
 }
 /** The private endpoint connection status. */
 export type PrivateEndpointServiceConnectionStatus = "Pending" | "Approved" | "Failed" | "Rejected";
 /** Response for Private Link Service Connection state */
 export interface PrivateLinkServiceConnectionState {
   /** Indicates whether the connection has been Approved/Rejected/Removed by the owner of the service. */
-  status?: PrivateEndpointServiceConnectionStatus | (string & {});
+  status?: PrivateEndpointServiceConnectionStatus | (string & {}) | undefined;
   /** The reason for approval/rejection of the connection. */
-  description?: string;
+  description?: string | undefined;
   /** A message indicating if changes on the service provider require any updates on the consumer. */
-  actionsRequired?: string;
+  actionsRequired?: string | undefined;
 }
 /** List of resources private endpoint is mapped */
 export type PrivateEndpointConnectionPropertiesGroupIdsList = Array<string>;
 /** Response for PrivateEndpoint connection properties */
 export interface PrivateEndpointConnectionProperties {
   /** Provisioning State of Private Endpoint connection resource */
-  provisioningState?: ProvisioningStates;
+  provisioningState?: ProvisioningStates | undefined;
   /** Private Endpoint resource */
-  privateEndpoint?: PrivateEndpoint;
+  privateEndpoint?: PrivateEndpoint | undefined;
   /** Private Link Service Connection State. */
   privateLinkServiceConnectionState: PrivateLinkServiceConnectionState;
   /** List of resources private endpoint is mapped */
-  groupIds?: PrivateEndpointConnectionPropertiesGroupIdsList;
+  groupIds?: PrivateEndpointConnectionPropertiesGroupIdsList | undefined;
 }
 /** Response for PrivateEndpoint Connection object */
 export interface PrivateEndpointConnection {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Private Endpoint Connection Properties. */
   properties: PrivateEndpointConnectionProperties;
 }
@@ -179,49 +180,49 @@ export interface ElasticSanProperties {
   /** resource sku */
   sku: Sku;
   /** Logical zone for Elastic San resource; example: ["1"]. */
-  availabilityZones?: ElasticSanPropertiesAvailabilityZonesList;
+  availabilityZones?: ElasticSanPropertiesAvailabilityZonesList | undefined;
   /** State of the operation on the resource. */
-  provisioningState?: ProvisioningStates;
+  provisioningState?: ProvisioningStates | undefined;
   /** Base size of the Elastic San appliance in TiB. */
   baseSizeTiB: number;
   /** Extended size of the Elastic San appliance in TiB. */
   extendedCapacitySizeTiB: number;
   /** Total size of the provisioned Volumes in GiB. */
-  totalVolumeSizeGiB?: number;
+  totalVolumeSizeGiB?: number | undefined;
   /** Total number of volume groups in this Elastic San appliance. */
-  volumeGroupCount?: number;
+  volumeGroupCount?: number | undefined;
   /** Total Provisioned IOPS of the Elastic San appliance. */
-  totalIops?: number;
+  totalIops?: number | undefined;
   /** Total Provisioned MBps Elastic San appliance. */
-  totalMBps?: number;
+  totalMBps?: number | undefined;
   /** Total size of the Elastic San appliance in TB. */
-  totalSizeTiB?: number;
+  totalSizeTiB?: number | undefined;
   /** The list of Private Endpoint Connections. */
-  privateEndpointConnections?: ElasticSanPropertiesPrivateEndpointConnectionsList;
+  privateEndpointConnections?: ElasticSanPropertiesPrivateEndpointConnectionsList | undefined;
   /** Allow or disallow public network access to ElasticSan. Value is optional but if passed in, must be 'Enabled' or 'Disabled'. */
-  publicNetworkAccess?: PublicNetworkAccess;
+  publicNetworkAccess?: PublicNetworkAccess | undefined;
   /** Auto Scale Properties for Elastic San Appliance. */
-  autoScaleProperties?: AutoScaleProperties;
+  autoScaleProperties?: AutoScaleProperties | undefined;
 }
 export interface CreateElasticSanResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: CreateElasticSanResponseTagsMap;
+  tags?: CreateElasticSanResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Properties of ElasticSan. */
   properties: ElasticSanProperties;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  locationHeader?: string;
+  locationHeader?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Response for PrivateEndpoint */
 export interface PrivateEndpointInput {}
@@ -230,11 +231,11 @@ export type PrivateEndpointConnectionPropertiesInputGroupIdsList = Array<string>
 /** Response for PrivateEndpoint connection properties */
 export interface PrivateEndpointConnectionPropertiesInput {
   /** Private Endpoint resource */
-  privateEndpoint?: PrivateEndpointInput;
+  privateEndpoint?: PrivateEndpointInput | undefined;
   /** Private Link Service Connection State. */
   privateLinkServiceConnectionState: PrivateLinkServiceConnectionState;
   /** List of resources private endpoint is mapped */
-  groupIds?: PrivateEndpointConnectionPropertiesInputGroupIdsList;
+  groupIds?: PrivateEndpointConnectionPropertiesInputGroupIdsList | undefined;
 }
 export interface CreatePrivateEndpointConnectionRequest {
   /** The ID of the target subscription. */
@@ -250,19 +251,19 @@ export interface CreatePrivateEndpointConnectionRequest {
 }
 export interface CreatePrivateEndpointConnectionResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Private Endpoint Connection Properties. */
   properties: PrivateEndpointConnectionProperties;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** This enumerates the possible sources of a volume creation. */
 export type VolumeCreateOption =
@@ -274,23 +275,23 @@ export type VolumeCreateOption =
 /** Data source used when creating the volume. */
 export interface SourceCreationData {
   /** This enumerates the possible sources of a volume creation. */
-  createSource?: VolumeCreateOption | (string & {});
+  createSource?: VolumeCreateOption | (string & {}) | undefined;
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  sourceId?: string;
+  sourceId?: string | undefined;
 }
 /** Parent resource information. */
 export interface ManagedByInfo {
   /** Resource ID of the resource managing the volume, this is a restricted field and can only be set for internal use. */
-  resourceId?: string;
+  resourceId?: string | undefined;
 }
 /** Volume response properties. */
 export interface VolumePropertiesInput {
   /** State of the operation on the resource. */
-  creationData?: SourceCreationData;
+  creationData?: SourceCreationData | undefined;
   /** Volume size. */
   sizeGiB: number;
   /** Parent resource information. */
-  managedBy?: ManagedByInfo;
+  managedBy?: ManagedByInfo | undefined;
 }
 export interface CreateVolumeRequest {
   /** The ID of the target subscription. */
@@ -319,46 +320,46 @@ export type OperationalStatus =
 /** Iscsi target information */
 export interface IscsiTargetInfo {
   /** iSCSI Target IQN (iSCSI Qualified Name); example: "iqn.2005-03.org.iscsi:server". */
-  targetIqn?: string;
+  targetIqn?: string | undefined;
   /** iSCSI Target Portal Host Name */
-  targetPortalHostname?: string;
+  targetPortalHostname?: string | undefined;
   /** iSCSI Target Portal Port */
-  targetPortalPort?: number;
+  targetPortalPort?: number | undefined;
   /** State of the operation on the resource. */
-  provisioningState?: ProvisioningStates;
+  provisioningState?: ProvisioningStates | undefined;
   /** Operational status of the iSCSI Target. */
-  status?: OperationalStatus;
+  status?: OperationalStatus | undefined;
 }
 /** Volume response properties. */
 export interface VolumeProperties {
   /** Unique Id of the volume in GUID format */
-  volumeId?: string;
+  volumeId?: string | undefined;
   /** State of the operation on the resource. */
-  creationData?: SourceCreationData;
+  creationData?: SourceCreationData | undefined;
   /** Volume size. */
   sizeGiB: number;
   /** Storage target information */
-  storageTarget?: IscsiTargetInfo;
+  storageTarget?: IscsiTargetInfo | undefined;
   /** Parent resource information. */
-  managedBy?: ManagedByInfo;
+  managedBy?: ManagedByInfo | undefined;
   /** State of the operation on the resource. */
-  provisioningState?: ProvisioningStates;
+  provisioningState?: ProvisioningStates | undefined;
 }
 export interface CreateVolumeResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Properties of Volume. */
   properties: VolumeProperties;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** The identity type. */
 export type IdentityType = "None" | "SystemAssigned" | "UserAssigned";
@@ -373,7 +374,7 @@ export interface IdentityInput {
   /** The identity type. */
   type: IdentityType | (string & {});
   /** Gets or sets a list of key value pairs that describe the set of User Assigned identities that will be used with this volume group. The key is the ARM resource identifier of the identity. */
-  userAssignedIdentities?: IdentityInputUserAssignedIdentitiesMap;
+  userAssignedIdentities?: IdentityInputUserAssignedIdentitiesMap | undefined;
 }
 /** Storage Target type. */
 export type StorageTargetType = "Iscsi" | "None";
@@ -384,23 +385,23 @@ export type EncryptionType =
 /** Properties of key vault. */
 export interface KeyVaultPropertiesInput {
   /** The name of KeyVault key. */
-  keyName?: string;
+  keyName?: string | undefined;
   /** The version of KeyVault key. */
-  keyVersion?: string;
+  keyVersion?: string | undefined;
   /** The Uri of KeyVault. */
-  keyVaultUri?: string;
+  keyVaultUri?: string | undefined;
 }
 /** Encryption identity for the volume group. */
 export interface EncryptionIdentity {
   /** Resource identifier of the UserAssigned identity to be associated with server-side encryption on the volume group. */
-  userAssignedIdentity?: string;
+  userAssignedIdentity?: string | undefined;
 }
 /** The encryption settings on the volume group. */
 export interface EncryptionPropertiesInput {
   /** Properties provided by key vault. */
-  keyVaultProperties?: KeyVaultPropertiesInput;
+  keyVaultProperties?: KeyVaultPropertiesInput | undefined;
   /** The identity to be used with service-side encryption at rest. */
-  identity?: EncryptionIdentity;
+  identity?: EncryptionIdentity | undefined;
 }
 /** The action of virtual network rule. */
 export type VirtualNetworkRuleAction = "Allow";
@@ -409,27 +410,27 @@ export interface VirtualNetworkRule {
   /** Resource ID of a subnet, for example: /subscriptions/{subscriptionId}/resourceGroups/{groupName}/providers/Microsoft.Network/virtualNetworks/{vnetName}/subnets/{subnetName}. */
   id: string;
   /** The action of virtual network rule. */
-  action?: VirtualNetworkRuleAction | (string & {});
+  action?: VirtualNetworkRuleAction | (string & {}) | undefined;
 }
 /** The list of virtual network rules. */
 export type NetworkRuleSetVirtualNetworkRulesList = Array<VirtualNetworkRule>;
 /** A set of rules governing the network accessibility. */
 export interface NetworkRuleSet {
   /** The list of virtual network rules. */
-  virtualNetworkRules?: NetworkRuleSetVirtualNetworkRulesList;
+  virtualNetworkRules?: NetworkRuleSetVirtualNetworkRulesList | undefined;
 }
 /** VolumeGroup response properties. */
 export interface VolumeGroupPropertiesInput {
   /** Type of storage target */
-  protocolType?: StorageTargetType | (string & {});
+  protocolType?: StorageTargetType | (string & {}) | undefined;
   /** Type of encryption */
-  encryption?: EncryptionType | (string & {});
+  encryption?: EncryptionType | (string & {}) | undefined;
   /** Encryption Properties describing Key Vault and Identity information */
-  encryptionProperties?: EncryptionPropertiesInput;
+  encryptionProperties?: EncryptionPropertiesInput | undefined;
   /** A collection of rules governing the accessibility from specific network locations. */
-  networkAcls?: NetworkRuleSet;
+  networkAcls?: NetworkRuleSet | undefined;
   /** A boolean indicating whether or not Data Integrity Check is enabled */
-  enforceDataIntegrityCheckForIscsi?: boolean;
+  enforceDataIntegrityCheckForIscsi?: boolean | undefined;
 }
 export interface CreateVolumeGroupRequest {
   /** The ID of the target subscription. */
@@ -441,88 +442,88 @@ export interface CreateVolumeGroupRequest {
   /** The name of the VolumeGroup. */
   volumeGroupName: string;
   /** The identity of the resource. */
-  identity?: IdentityInput;
+  identity?: IdentityInput | undefined;
   /** Properties of VolumeGroup. */
-  properties?: VolumeGroupPropertiesInput;
+  properties?: VolumeGroupPropertiesInput | undefined;
 }
 /** UserAssignedIdentity for the resource. */
 export interface UserAssignedIdentity {
   /** The principal ID of the identity. */
-  principalId?: string;
+  principalId?: string | undefined;
   /** The client ID of the identity. */
-  clientId?: string;
+  clientId?: string | undefined;
 }
 /** Gets or sets a list of key value pairs that describe the set of User Assigned identities that will be used with this volume group. The key is the ARM resource identifier of the identity. */
 export type IdentityUserAssignedIdentitiesMap = { [key: string]: UserAssignedIdentity | undefined };
 /** Identity for the resource. */
 export interface Identity {
   /** The principal ID of resource identity. */
-  principalId?: string;
+  principalId?: string | undefined;
   /** The tenant ID of resource. */
-  tenantId?: string;
+  tenantId?: string | undefined;
   /** The identity type. */
   type: IdentityType;
   /** Gets or sets a list of key value pairs that describe the set of User Assigned identities that will be used with this volume group. The key is the ARM resource identifier of the identity. */
-  userAssignedIdentities?: IdentityUserAssignedIdentitiesMap;
+  userAssignedIdentities?: IdentityUserAssignedIdentitiesMap | undefined;
 }
 /** Properties of key vault. */
 export interface KeyVaultProperties {
   /** The name of KeyVault key. */
-  keyName?: string;
+  keyName?: string | undefined;
   /** The version of KeyVault key. */
-  keyVersion?: string;
+  keyVersion?: string | undefined;
   /** The Uri of KeyVault. */
-  keyVaultUri?: string;
+  keyVaultUri?: string | undefined;
   /** The object identifier of the current versioned Key Vault Key in use. */
-  currentVersionedKeyIdentifier?: string;
+  currentVersionedKeyIdentifier?: string | undefined;
   /** Timestamp of last rotation of the Key Vault Key. */
-  lastKeyRotationTimestamp?: string;
+  lastKeyRotationTimestamp?: string | undefined;
   /** This is a read only property that represents the expiration time of the current version of the customer managed key used for encryption. */
-  currentVersionedKeyExpirationTimestamp?: string;
+  currentVersionedKeyExpirationTimestamp?: string | undefined;
 }
 /** The encryption settings on the volume group. */
 export interface EncryptionProperties {
   /** Properties provided by key vault. */
-  keyVaultProperties?: KeyVaultProperties;
+  keyVaultProperties?: KeyVaultProperties | undefined;
   /** The identity to be used with service-side encryption at rest. */
-  identity?: EncryptionIdentity;
+  identity?: EncryptionIdentity | undefined;
 }
 /** The list of Private Endpoint Connections. */
 export type VolumeGroupPropertiesPrivateEndpointConnectionsList = Array<PrivateEndpointConnection>;
 /** VolumeGroup response properties. */
 export interface VolumeGroupProperties {
   /** State of the operation on the resource. */
-  provisioningState?: ProvisioningStates;
+  provisioningState?: ProvisioningStates | undefined;
   /** Type of storage target */
-  protocolType?: StorageTargetType;
+  protocolType?: StorageTargetType | undefined;
   /** Type of encryption */
-  encryption?: EncryptionType;
+  encryption?: EncryptionType | undefined;
   /** Encryption Properties describing Key Vault and Identity information */
-  encryptionProperties?: EncryptionProperties;
+  encryptionProperties?: EncryptionProperties | undefined;
   /** A collection of rules governing the accessibility from specific network locations. */
-  networkAcls?: NetworkRuleSet;
+  networkAcls?: NetworkRuleSet | undefined;
   /** The list of Private Endpoint Connections. */
-  privateEndpointConnections?: VolumeGroupPropertiesPrivateEndpointConnectionsList;
+  privateEndpointConnections?: VolumeGroupPropertiesPrivateEndpointConnectionsList | undefined;
   /** A boolean indicating whether or not Data Integrity Check is enabled */
-  enforceDataIntegrityCheckForIscsi?: boolean;
+  enforceDataIntegrityCheckForIscsi?: boolean | undefined;
 }
 export interface CreateVolumeGroupResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The identity of the resource. */
-  identity?: Identity;
+  identity?: Identity | undefined;
   /** Properties of VolumeGroup. */
-  properties?: VolumeGroupProperties;
+  properties?: VolumeGroupProperties | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Data used when creating a volume snapshot. */
 export interface SnapshotCreationData {
@@ -553,27 +554,27 @@ export interface SnapshotProperties {
   /** Data used when creating a volume snapshot. */
   creationData: SnapshotCreationData;
   /** State of the operation on the resource. */
-  provisioningState?: ProvisioningStates;
+  provisioningState?: ProvisioningStates | undefined;
   /** Size of Source Volume */
-  sourceVolumeSizeGiB?: number;
+  sourceVolumeSizeGiB?: number | undefined;
   /** Source Volume Name of a snapshot */
-  volumeName?: string;
+  volumeName?: string | undefined;
 }
 export interface CreateVolumeSnapshotResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Properties of Volume Snapshot. */
   properties: SnapshotProperties;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeleteElasticSanRequest {
   /** The ID of the target subscription. */
@@ -585,9 +586,9 @@ export interface DeleteElasticSanRequest {
 }
 export interface DeleteElasticSanResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeletePrivateEndpointConnectionRequest {
   /** The ID of the target subscription. */
@@ -601,9 +602,9 @@ export interface DeletePrivateEndpointConnectionRequest {
 }
 export interface DeletePrivateEndpointConnectionResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeleteVolumeRequest {
   /** The ID of the target subscription. */
@@ -617,15 +618,15 @@ export interface DeleteVolumeRequest {
   /** The name of the Volume. */
   volumeName: string;
   /** Optional, used to delete snapshots under volume. Allowed value are only true or false. Default value is false. */
-  xMsDeleteSnapshots?: string;
+  xMsDeleteSnapshots?: string | undefined;
   /** Optional, used to delete volume if active sessions present. Allowed value are only true or false. Default value is false. */
-  xMsForceDelete?: string;
+  xMsForceDelete?: string | undefined;
 }
 export interface DeleteVolumeResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeleteVolumeGroupRequest {
   /** The ID of the target subscription. */
@@ -639,9 +640,9 @@ export interface DeleteVolumeGroupRequest {
 }
 export interface DeleteVolumeGroupResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeleteVolumeSnapshotRequest {
   /** The ID of the target subscription. */
@@ -657,9 +658,9 @@ export interface DeleteVolumeSnapshotRequest {
 }
 export interface DeleteVolumeSnapshotResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface GetElasticSanRequest {
   /** The ID of the target subscription. */
@@ -673,15 +674,15 @@ export interface GetElasticSanRequest {
 export type GetElasticSanResponseTagsMap = { [key: string]: string | undefined };
 export interface GetElasticSanResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: GetElasticSanResponseTagsMap;
+  tags?: GetElasticSanResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Properties of ElasticSan. */
@@ -699,13 +700,13 @@ export interface GetPrivateEndpointConnectionRequest {
 }
 export interface GetPrivateEndpointConnectionResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Private Endpoint Connection Properties. */
   properties: PrivateEndpointConnectionProperties;
 }
@@ -723,13 +724,13 @@ export interface GetVolumeRequest {
 }
 export interface GetVolumeResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Properties of Volume. */
   properties: VolumeProperties;
 }
@@ -745,17 +746,17 @@ export interface GetVolumeGroupRequest {
 }
 export interface GetVolumeGroupResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The identity of the resource. */
-  identity?: Identity;
+  identity?: Identity | undefined;
   /** Properties of VolumeGroup. */
-  properties?: VolumeGroupProperties;
+  properties?: VolumeGroupProperties | undefined;
 }
 export interface GetVolumeSnapshotRequest {
   /** The ID of the target subscription. */
@@ -771,13 +772,13 @@ export interface GetVolumeSnapshotRequest {
 }
 export interface GetVolumeSnapshotResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Properties of Volume Snapshot. */
   properties: SnapshotProperties;
 }
@@ -792,15 +793,15 @@ export type ElasticSanTagsMap = { [key: string]: string | undefined };
 /** Response for ElasticSan request. */
 export interface ElasticSan {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: ElasticSanTagsMap;
+  tags?: ElasticSanTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Properties of ElasticSan. */
@@ -813,7 +814,7 @@ export interface ElasticSanList {
   /** The ElasticSan items on this page */
   value: ElasticSanListValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListElasticSanBySubscriptionRequest {
   /** The ID of the target subscription. */
@@ -823,13 +824,13 @@ export interface ListOperationsRequest {}
 /** Localized display information for this particular operation. */
 export interface OperationDisplay {
   /** The localized friendly form of the resource provider name, e.g. "Microsoft Monitoring Insights" or "Microsoft Compute". */
-  provider?: string;
+  provider?: string | undefined;
   /** The localized friendly name of the resource type related to this operation. E.g. "Virtual Machines" or "Job Schedule Collections". */
-  resource?: string;
+  resource?: string | undefined;
   /** The concise, localized friendly name for the operation; suitable for dropdowns. E.g. "Create or Update Virtual Machine", "Restart Virtual Machine". */
-  operation?: string;
+  operation?: string | undefined;
   /** The short, localized friendly description of the operation; suitable for tool tips and detailed views. */
-  description?: string;
+  description?: string | undefined;
 }
 /** The intended executor of the operation; as in Resource Based Access Control (RBAC) and audit logs UX. Default value is "user,system" */
 export type OperationOrigin = "user" | "system" | "user,system";
@@ -838,23 +839,23 @@ export type OperationActionType = "Internal";
 /** Details of a REST API operation, returned from the Resource Provider Operations API */
 export interface Operation {
   /** The name of the operation, as per Resource-Based Access Control (RBAC). Examples: "Microsoft.Compute/virtualMachines/write", "Microsoft.Compute/virtualMachines/capture/action" */
-  name?: string;
+  name?: string | undefined;
   /** Whether the operation applies to data-plane. This is "true" for data-plane operations and "false" for ARM/control-plane operations. */
-  isDataAction?: boolean;
+  isDataAction?: boolean | undefined;
   /** Localized display information for this particular operation. */
-  display?: OperationDisplay;
+  display?: OperationDisplay | undefined;
   /** The intended executor of the operation; as in Resource Based Access Control (RBAC) and audit logs UX. Default value is "user,system" */
-  origin?: OperationOrigin;
+  origin?: OperationOrigin | undefined;
   /** Enum. Indicates the action type. "Internal" refers to actions that are for internal only APIs. */
-  actionType?: OperationActionType;
+  actionType?: OperationActionType | undefined;
 }
 /** List of operations supported by the resource provider */
 export type ListOperationsResponseValueList = Array<Operation>;
 export interface ListOperationsResponse {
   /** List of operations supported by the resource provider */
-  value?: ListOperationsResponseValueList;
+  value?: ListOperationsResponseValueList | undefined;
   /** URL to get the next set of operation list results (if there are any). */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListPrivateEndpointConnectionsRequest {
   /** The ID of the target subscription. */
@@ -871,7 +872,7 @@ export interface PrivateEndpointConnectionListResult {
   /** The PrivateEndpointConnection items on this page */
   value: PrivateEndpointConnectionListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListPrivateLinkResourceByElasticSanRequest {
   /** The ID of the target subscription. */
@@ -888,24 +889,24 @@ export type PrivateLinkResourcePropertiesRequiredZoneNamesList = Array<string>;
 /** Properties of a private link resource. */
 export interface PrivateLinkResourceProperties {
   /** The private link resource group id. */
-  groupId?: string;
+  groupId?: string | undefined;
   /** The private link resource required member names. */
-  requiredMembers?: PrivateLinkResourcePropertiesRequiredMembersList;
+  requiredMembers?: PrivateLinkResourcePropertiesRequiredMembersList | undefined;
   /** The private link resource Private link DNS zone name. */
-  requiredZoneNames?: PrivateLinkResourcePropertiesRequiredZoneNamesList;
+  requiredZoneNames?: PrivateLinkResourcePropertiesRequiredZoneNamesList | undefined;
 }
 /** A private link resource */
 export interface PrivateLinkResource {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource properties. */
-  properties?: PrivateLinkResourceProperties;
+  properties?: PrivateLinkResourceProperties | undefined;
 }
 /** Array of private link resources */
 export type PrivateLinkResourceListResultValueList = Array<PrivateLinkResource>;
@@ -914,13 +915,13 @@ export interface PrivateLinkResourceListResult {
   /** Array of private link resources */
   value: PrivateLinkResourceListResultValueList;
   /** URI to fetch the next section of the paginated response. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListSkusRequest {
   /** The ID of the target subscription. */
   subscriptionId: string;
   /** Specify $filter='location eq <location>' to filter on location. */
-  _filter?: string;
+  _filter?: string | undefined;
 }
 /** The set of locations that the SKU is available. This will be supported and registered Azure Geo Regions (e.g. West US, East US, Southeast Asia, etc.). */
 export type SkuInformationLocationsList = Array<string>;
@@ -929,18 +930,18 @@ export type SkuLocationInfoZonesList = Array<string>;
 /** The location info. */
 export interface SkuLocationInfo {
   /** The location. */
-  location?: string;
+  location?: string | undefined;
   /** The zones. */
-  zones?: SkuLocationInfoZonesList;
+  zones?: SkuLocationInfoZonesList | undefined;
 }
 /** Availability of the SKU for the location/zone */
 export type SkuInformationLocationInfoList = Array<SkuLocationInfo>;
 /** The capability information in the specified SKU. */
 export interface SKUCapability {
   /** The name of capability. */
-  name?: string;
+  name?: string | undefined;
   /** A string value to indicate states of given capability. */
-  value?: string;
+  value?: string | undefined;
 }
 /** The capability information in the specified SKU. */
 export type SkuInformationCapabilitiesList = Array<SKUCapability>;
@@ -949,15 +950,15 @@ export interface SkuInformation {
   /** Sku Name */
   name: SkuName;
   /** Sku Tier */
-  tier?: SkuTier;
+  tier?: SkuTier | undefined;
   /** The type of the resource. */
-  resourceType?: string;
+  resourceType?: string | undefined;
   /** The set of locations that the SKU is available. This will be supported and registered Azure Geo Regions (e.g. West US, East US, Southeast Asia, etc.). */
-  locations?: SkuInformationLocationsList;
+  locations?: SkuInformationLocationsList | undefined;
   /** Availability of the SKU for the location/zone */
-  locationInfo?: SkuInformationLocationInfoList;
+  locationInfo?: SkuInformationLocationInfoList | undefined;
   /** The capability information in the specified SKU. */
-  capabilities?: SkuInformationCapabilitiesList;
+  capabilities?: SkuInformationCapabilitiesList | undefined;
 }
 /** The SkuInformation items on this page */
 export type SkuInformationListValueList = Array<SkuInformation>;
@@ -966,7 +967,7 @@ export interface SkuInformationList {
   /** The SkuInformation items on this page */
   value: SkuInformationListValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListVolumeByVolumeGroupRequest {
   /** The ID of the target subscription. */
@@ -981,13 +982,13 @@ export interface ListVolumeByVolumeGroupRequest {
 /** Response for Volume request. */
 export interface Volume {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Properties of Volume. */
   properties: VolumeProperties;
 }
@@ -998,7 +999,7 @@ export interface VolumeList {
   /** The Volume items on this page */
   value: VolumeListValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListVolumeGroupByElasticSanRequest {
   /** The ID of the target subscription. */
@@ -1011,17 +1012,17 @@ export interface ListVolumeGroupByElasticSanRequest {
 /** Response for Volume Group request. */
 export interface VolumeGroup {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The identity of the resource. */
-  identity?: Identity;
+  identity?: Identity | undefined;
   /** Properties of VolumeGroup. */
-  properties?: VolumeGroupProperties;
+  properties?: VolumeGroupProperties | undefined;
 }
 /** The VolumeGroup items on this page */
 export type VolumeGroupListValueList = Array<VolumeGroup>;
@@ -1030,7 +1031,7 @@ export interface VolumeGroupList {
   /** The VolumeGroup items on this page */
   value: VolumeGroupListValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListVolumeSnapshotByVolumeGroupRequest {
   /** The ID of the target subscription. */
@@ -1042,18 +1043,18 @@ export interface ListVolumeSnapshotByVolumeGroupRequest {
   /** The name of the VolumeGroup. */
   volumeGroupName: string;
   /** Specify $filter='volumeName eq <volume name>' to filter on volume. */
-  _filter?: string;
+  _filter?: string | undefined;
 }
 /** Response for Volume Snapshot request. */
 export interface Snapshot {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Properties of Volume Snapshot. */
   properties: SnapshotProperties;
 }
@@ -1064,7 +1065,7 @@ export interface SnapshotList {
   /** The Snapshot items on this page */
   value: SnapshotListValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 /** array of DiskSnapshot ARM IDs */
 export type RestoreVolumesPreRequestDiskSnapshotIdsList = Array<string>;
@@ -1083,22 +1084,22 @@ export interface RestoreVolumesPreRequest {
 /** response object for pre validation api */
 export interface PreValidationResponse {
   /** a status value indicating success or failure of validation */
-  validationStatus?: string;
+  validationStatus?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Elastic San update properties. */
 export interface ElasticSanUpdateProperties {
   /** Base size of the Elastic San appliance in TiB. */
-  baseSizeTiB?: number;
+  baseSizeTiB?: number | undefined;
   /** Extended size of the Elastic San appliance in TiB. */
-  extendedCapacitySizeTiB?: number;
+  extendedCapacitySizeTiB?: number | undefined;
   /** Allow or disallow public network access to ElasticSan Account. Value is optional but if passed in, must be 'Enabled' or 'Disabled'. */
-  publicNetworkAccess?: PublicNetworkAccess | (string & {});
+  publicNetworkAccess?: PublicNetworkAccess | (string & {}) | undefined;
   /** Auto Scale Properties for Elastic San Appliance. */
-  autoScaleProperties?: AutoScaleProperties;
+  autoScaleProperties?: AutoScaleProperties | undefined;
 }
 /** Update tags */
 export type UpdateElasticSanRequestTagsMap = { [key: string]: string | undefined };
@@ -1110,38 +1111,38 @@ export interface UpdateElasticSanRequest {
   /** The name of the ElasticSan. */
   elasticSanName: string;
   /** Properties of ElasticSan. */
-  properties?: ElasticSanUpdateProperties;
+  properties?: ElasticSanUpdateProperties | undefined;
   /** Update tags */
-  tags?: UpdateElasticSanRequestTagsMap;
+  tags?: UpdateElasticSanRequestTagsMap | undefined;
 }
 /** Resource tags. */
 export type UpdateElasticSanResponseTagsMap = { [key: string]: string | undefined };
 export interface UpdateElasticSanResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: UpdateElasticSanResponseTagsMap;
+  tags?: UpdateElasticSanResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Properties of ElasticSan. */
   properties: ElasticSanProperties;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  locationHeader?: string;
+  locationHeader?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Volume response properties. */
 export interface VolumeUpdateProperties {
   /** Volume size. */
-  sizeGiB?: number;
+  sizeGiB?: number | undefined;
   /** Parent resource information. */
-  managedBy?: ManagedByInfo;
+  managedBy?: ManagedByInfo | undefined;
 }
 export interface UpdateVolumeRequest {
   /** The ID of the target subscription. */
@@ -1155,23 +1156,23 @@ export interface UpdateVolumeRequest {
   /** The name of the Volume. */
   volumeName: string;
   /** Properties of Volume. */
-  properties?: VolumeUpdateProperties;
+  properties?: VolumeUpdateProperties | undefined;
 }
 export interface UpdateVolumeResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Properties of Volume. */
   properties: VolumeProperties;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** VolumeGroup response properties. */
 export type VolumeGroupUpdatePropertiesInput = VolumeGroupPropertiesInput;
@@ -1185,27 +1186,27 @@ export interface UpdateVolumeGroupRequest {
   /** The name of the VolumeGroup. */
   volumeGroupName: string;
   /** The identity of the resource. */
-  identity?: IdentityInput;
+  identity?: IdentityInput | undefined;
   /** Properties of VolumeGroup. */
-  properties?: VolumeGroupPropertiesInput;
+  properties?: VolumeGroupPropertiesInput | undefined;
 }
 export interface UpdateVolumeGroupResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The identity of the resource. */
-  identity?: Identity;
+  identity?: Identity | undefined;
   /** Properties of VolumeGroup. */
-  properties?: VolumeGroupProperties;
+  properties?: VolumeGroupProperties | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** array of volume names */
 export type VolumesPreBackupRequestVolumeNamesList = Array<string>;

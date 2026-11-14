@@ -196,19 +196,13 @@ for (const slug of [...tagBuckets.keys()].sort()) {
     skipDeprecated: true,
     // Only the `Accept` headers added above: the spec declares no others.
     headerParams: true,
-    statusToErrorClass: {
-      // The converter's defaults …
-      "400": "BadRequest",
-      "403": "Forbidden",
-      "404": "NotFound",
-      "409": "Conflict",
-      "422": "UnprocessableEntity",
-      // … plus the one GitHub adds to the common vocabulary: 410 for
-      // resources that existed and no longer serve (issues disabled on a
-      // repo, a migration archive that has been deleted).
-      "410": "Gone",
-    },
-    // 401/429/500/503 ride the common GithubOpError union.
+    // No per-operation status errors. The protocol decodes every status
+    // through one map (src/protocol.ts) whatever the operation's spec entry
+    // declares, so a declared list would type some operations narrower than
+    // what they fail with: `git.getCommit` declares 404/409, yet a malformed
+    // SHA answers 422. Every status error rides `GithubOpError` instead, as
+    // the one class per tag in src/errors.ts.
+    statusToErrorClass: {},
   });
   const opCount = Object.values(model.shapes).filter((s: any) => s.type === "operation").length;
   if (opCount === 0) continue; // all-deprecated bucket

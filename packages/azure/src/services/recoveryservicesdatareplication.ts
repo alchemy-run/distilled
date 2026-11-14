@@ -28,6 +28,7 @@ const TELEMETRY = {
   prefix: "Recoveryservicesdatareplication",
   service: "Recoveryservicesdatareplication",
   labels: "azure",
+  labelNames: { resourceGroupName: "azure.resource_group.name" },
   propagate: "w3c",
 } as const;
 
@@ -38,9 +39,9 @@ export interface EmailConfigurationModelPropertiesInput {
   /** Gets or sets a value indicating whether to send email to subscription administrator. */
   sendToOwners: boolean;
   /** Gets or sets the custom email address for sending emails. */
-  customEmailAddresses?: EmailConfigurationModelPropertiesInputCustomEmailAddressesList;
+  customEmailAddresses?: EmailConfigurationModelPropertiesInputCustomEmailAddressesList | undefined;
   /** Gets or sets the locale for the email notification. */
-  locale?: string;
+  locale?: string | undefined;
 }
 export interface CreateEmailConfigurationRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -52,7 +53,7 @@ export interface CreateEmailConfigurationRequest {
   /** The email configuration name. */
   emailConfigurationName: string;
   /** The resource-specific properties for this resource. */
-  properties?: EmailConfigurationModelPropertiesInput;
+  properties?: EmailConfigurationModelPropertiesInput | undefined;
 }
 /** The type of identity that created the resource. */
 export type SystemDataCreatedByType = "User" | "Application" | "ManagedIdentity" | "Key";
@@ -61,17 +62,17 @@ export type SystemDataLastModifiedByType = "User" | "Application" | "ManagedIden
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface SystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: SystemDataCreatedByType;
+  createdByType?: SystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: SystemDataLastModifiedByType;
+  lastModifiedByType?: SystemDataLastModifiedByType | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 /** Gets or sets the custom email address for sending emails. */
 export type EmailConfigurationModelPropertiesCustomEmailAddressesList = Array<string>;
@@ -89,23 +90,23 @@ export interface EmailConfigurationModelProperties {
   /** Gets or sets a value indicating whether to send email to subscription administrator. */
   sendToOwners: boolean;
   /** Gets or sets the custom email address for sending emails. */
-  customEmailAddresses?: EmailConfigurationModelPropertiesCustomEmailAddressesList;
+  customEmailAddresses?: EmailConfigurationModelPropertiesCustomEmailAddressesList | undefined;
   /** Gets or sets the locale for the email notification. */
-  locale?: string;
+  locale?: string | undefined;
   /** Gets or sets the provisioning state of the email configuration. */
-  provisioningState?: ProvisioningState;
+  provisioningState?: ProvisioningState | undefined;
 }
 export interface CreateEmailConfigurationResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: EmailConfigurationModelProperties;
+  properties?: EmailConfigurationModelProperties | undefined;
 }
 /** Resource tags. */
 export type CreateFabricRequestTagsMap = { [key: string]: string | undefined };
@@ -122,11 +123,11 @@ export interface CreateFabricRequest {
   /** The fabric name. */
   fabricName: string;
   /** Resource tags. */
-  tags?: CreateFabricRequestTagsMap;
+  tags?: CreateFabricRequestTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: FabricModelPropertiesInput;
+  properties?: FabricModelPropertiesInput | undefined;
 }
 /** Resource tags. */
 export type CreateFabricResponseTagsMap = { [key: string]: string | undefined };
@@ -137,97 +138,97 @@ export type HealthErrorModelAffectedResourceCorrelationIdsList = Array<string>;
 /** Inner health error model. */
 export interface InnerHealthErrorModel {
   /** Gets or sets the error code. */
-  code?: string;
+  code?: string | undefined;
   /** Gets or sets the health category. */
-  healthCategory?: string;
+  healthCategory?: string | undefined;
   /** Gets or sets the error category. */
-  category?: string;
+  category?: string | undefined;
   /** Gets or sets the error severity. */
-  severity?: string;
+  severity?: string | undefined;
   /** Gets or sets the error source. */
-  source?: string;
+  source?: string | undefined;
   /** Gets or sets the error creation time. */
-  creationTime?: string;
+  creationTime?: string | undefined;
   /** Gets or sets a value indicating whether the error is customer resolvable. */
-  isCustomerResolvable?: boolean;
+  isCustomerResolvable?: boolean | undefined;
   /** Gets or sets the error summary. */
-  summary?: string;
+  summary?: string | undefined;
   /** Gets or sets the error message. */
-  message?: string;
+  message?: string | undefined;
   /** Gets or sets possible causes of the error. */
-  causes?: string;
+  causes?: string | undefined;
   /** Gets or sets recommended action to resolve the error. */
-  recommendation?: string;
+  recommendation?: string | undefined;
 }
 /** Gets or sets a list of child health errors associated with this error. */
 export type HealthErrorModelChildErrorsList = Array<InnerHealthErrorModel>;
 /** Health error model. */
 export interface HealthErrorModel {
   /** Gets or sets the type of affected resource type. */
-  affectedResourceType?: string;
+  affectedResourceType?: string | undefined;
   /** Gets or sets the list of affected resource correlation Ids. This can be used to uniquely identify the count of items affected by a specific category and severity as well as count of item affected by an specific issue. */
-  affectedResourceCorrelationIds?: HealthErrorModelAffectedResourceCorrelationIdsList;
+  affectedResourceCorrelationIds?: HealthErrorModelAffectedResourceCorrelationIdsList | undefined;
   /** Gets or sets a list of child health errors associated with this error. */
-  childErrors?: HealthErrorModelChildErrorsList;
+  childErrors?: HealthErrorModelChildErrorsList | undefined;
   /** Gets or sets the error code. */
-  code?: string;
+  code?: string | undefined;
   /** Gets or sets the health category. */
-  healthCategory?: string;
+  healthCategory?: string | undefined;
   /** Gets or sets the error category. */
-  category?: string;
+  category?: string | undefined;
   /** Gets or sets the error severity. */
-  severity?: string;
+  severity?: string | undefined;
   /** Gets or sets the error source. */
-  source?: string;
+  source?: string | undefined;
   /** Gets or sets the error creation time. */
-  creationTime?: string;
+  creationTime?: string | undefined;
   /** Gets or sets a value indicating whether the error is customer resolvable. */
-  isCustomerResolvable?: boolean;
+  isCustomerResolvable?: boolean | undefined;
   /** Gets or sets the error summary. */
-  summary?: string;
+  summary?: string | undefined;
   /** Gets or sets the error message. */
-  message?: string;
+  message?: string | undefined;
   /** Gets or sets possible causes of the error. */
-  causes?: string;
+  causes?: string | undefined;
   /** Gets or sets recommended action to resolve the error. */
-  recommendation?: string;
+  recommendation?: string | undefined;
 }
 /** Gets or sets the list of health errors. */
 export type FabricModelPropertiesHealthErrorsList = Array<HealthErrorModel>;
 /** Fabric model properties. */
 export interface FabricModelProperties {
   /** Gets or sets the provisioning state of the fabric. */
-  provisioningState?: ProvisioningState;
+  provisioningState?: ProvisioningState | undefined;
   /** Gets or sets the service endpoint. */
-  serviceEndpoint?: string;
+  serviceEndpoint?: string | undefined;
   /** Gets or sets the service resource Id. */
-  serviceResourceId?: string;
+  serviceResourceId?: string | undefined;
   /** Gets or sets the fabric health. */
-  health?: HealthStatus;
+  health?: HealthStatus | undefined;
   /** Gets or sets the list of health errors. */
-  healthErrors?: FabricModelPropertiesHealthErrorsList;
+  healthErrors?: FabricModelPropertiesHealthErrorsList | undefined;
   /** Fabric model custom properties. Polymorphic on `instanceType` (HyperVMigrate, VMwareMigrate, AzStackHCI). */
   customProperties: unknown;
 }
 export interface CreateFabricResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: CreateFabricResponseTagsMap;
+  tags?: CreateFabricResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: FabricModelProperties;
+  properties?: FabricModelProperties | undefined;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Identity model. */
 export interface IdentityModel {
@@ -265,14 +266,14 @@ export interface CreateFabricAgentRequest {
   /** The fabric agent name. */
   fabricAgentName: string;
   /** The resource-specific properties for this resource. */
-  properties?: FabricAgentModelPropertiesInput;
+  properties?: FabricAgentModelPropertiesInput | undefined;
 }
 /** Gets or sets the list of health errors. */
 export type FabricAgentModelPropertiesHealthErrorsList = Array<HealthErrorModel>;
 /** Fabric agent model properties. */
 export interface FabricAgentModelProperties {
   /** Gets or sets the fabric agent correlation Id. */
-  correlationId?: string;
+  correlationId?: string | undefined;
   /** Gets or sets the machine Id where fabric agent is running. */
   machineId: string;
   /** Gets or sets the machine name where fabric agent is running. */
@@ -282,33 +283,33 @@ export interface FabricAgentModelProperties {
   /** Identity model. */
   resourceAccessIdentity: IdentityModel;
   /** Gets or sets a value indicating whether the fabric agent is responsive. */
-  isResponsive?: boolean;
+  isResponsive?: boolean | undefined;
   /** Gets or sets the time when last heartbeat was sent by the fabric agent. */
-  lastHeartbeat?: string;
+  lastHeartbeat?: string | undefined;
   /** Gets or sets the fabric agent version. */
-  versionNumber?: string;
+  versionNumber?: string | undefined;
   /** Gets or sets the provisioning state of the fabric agent. */
-  provisioningState?: ProvisioningState;
+  provisioningState?: ProvisioningState | undefined;
   /** Gets or sets the list of health errors. */
-  healthErrors?: FabricAgentModelPropertiesHealthErrorsList;
+  healthErrors?: FabricAgentModelPropertiesHealthErrorsList | undefined;
   /** Fabric agent model custom properties. Polymorphic on `instanceType` (VMware). */
   customProperties: unknown;
 }
 export interface CreateFabricAgentResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: FabricAgentModelProperties;
+  properties?: FabricAgentModelProperties | undefined;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Policy model properties. */
 export interface PolicyModelPropertiesInput {
@@ -325,30 +326,30 @@ export interface CreatePolicyRequest {
   /** The policy name. */
   policyName: string;
   /** The resource-specific properties for this resource. */
-  properties?: PolicyModelPropertiesInput;
+  properties?: PolicyModelPropertiesInput | undefined;
 }
 /** Policy model properties. */
 export interface PolicyModelProperties {
   /** Gets or sets the provisioning state of the policy. */
-  provisioningState?: ProvisioningState;
+  provisioningState?: ProvisioningState | undefined;
   /** Policy model custom properties. Polymorphic on `instanceType` (HyperVToAzStackHCI, VMwareToAzStackHCI). */
   customProperties: unknown;
 }
 export interface CreatePolicyResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: PolicyModelProperties;
+  properties?: PolicyModelProperties | undefined;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Protected item model properties. */
 export interface ProtectedItemModelPropertiesInput {
@@ -369,7 +370,7 @@ export interface CreateProtectedItemRequest {
   /** The protected item name. */
   protectedItemName: string;
   /** The resource-specific properties for this resource. */
-  properties?: ProtectedItemModelPropertiesInput;
+  properties?: ProtectedItemModelPropertiesInput | undefined;
 }
 /** Gets or sets the protection state. */
 export type ProtectionState =
@@ -445,19 +446,19 @@ export type ResynchronizationState =
 /** Protected item job properties. */
 export interface ProtectedItemJobProperties {
   /** Gets or sets protection scenario name. */
-  scenarioName?: string;
+  scenarioName?: string | undefined;
   /** Gets or sets job Id. */
-  id?: string;
+  id?: string | undefined;
   /** Gets or sets job name. */
-  name?: string;
+  name?: string | undefined;
   /** Gets or sets the job friendly display name. */
-  displayName?: string;
+  displayName?: string | undefined;
   /** Gets or sets job state. */
-  state?: string;
+  state?: string | undefined;
   /** Gets or sets start time of the job. */
-  startTime?: string;
+  startTime?: string | undefined;
   /** Gets or sets end time of the job. */
-  endTime?: string;
+  endTime?: string | undefined;
 }
 /** Gets or sets the allowed scenarios on the protected item. */
 export type ProtectedItemModelPropertiesAllowedJobsList = Array<string>;
@@ -470,75 +471,75 @@ export interface ProtectedItemModelProperties {
   /** Gets or sets the replication extension name. */
   replicationExtensionName: string;
   /** Gets or sets the protected item correlation Id. */
-  correlationId?: string;
+  correlationId?: string | undefined;
   /** Gets or sets the provisioning state of the fabric agent. */
-  provisioningState?: ProvisioningState;
+  provisioningState?: ProvisioningState | undefined;
   /** Gets or sets the protection state. */
-  protectionState?: ProtectionState;
+  protectionState?: ProtectionState | undefined;
   /** Gets or sets the protection state description. */
-  protectionStateDescription?: string;
+  protectionStateDescription?: string | undefined;
   /** Gets or sets the test failover state. */
-  testFailoverState?: TestFailoverState;
+  testFailoverState?: TestFailoverState | undefined;
   /** Gets or sets the Test failover state description. */
-  testFailoverStateDescription?: string;
+  testFailoverStateDescription?: string | undefined;
   /** Gets or sets the resynchronization state. */
-  resynchronizationState?: ResynchronizationState;
+  resynchronizationState?: ResynchronizationState | undefined;
   /** Gets or sets the fabric object Id. */
-  fabricObjectId?: string;
+  fabricObjectId?: string | undefined;
   /** Gets or sets the fabric object name. */
-  fabricObjectName?: string;
+  fabricObjectName?: string | undefined;
   /** Gets or sets the source fabric provider Id. */
-  sourceFabricProviderId?: string;
+  sourceFabricProviderId?: string | undefined;
   /** Gets or sets the target fabric provider Id. */
-  targetFabricProviderId?: string;
+  targetFabricProviderId?: string | undefined;
   /** Gets or sets the fabric Id. */
-  fabricId?: string;
+  fabricId?: string | undefined;
   /** Gets or sets the target fabric Id. */
-  targetFabricId?: string;
+  targetFabricId?: string | undefined;
   /** Gets or sets the fabric agent Id. */
-  fabricAgentId?: string;
+  fabricAgentId?: string | undefined;
   /** Gets or sets the target fabric agent Id. */
-  targetFabricAgentId?: string;
+  targetFabricAgentId?: string | undefined;
   /** Gets or sets a value indicating whether resynchronization is required or not. */
-  resyncRequired?: boolean;
+  resyncRequired?: boolean | undefined;
   /** Gets or sets the Last successful planned failover time. */
-  lastSuccessfulPlannedFailoverTime?: string;
+  lastSuccessfulPlannedFailoverTime?: string | undefined;
   /** Gets or sets the Last successful unplanned failover time. */
-  lastSuccessfulUnplannedFailoverTime?: string;
+  lastSuccessfulUnplannedFailoverTime?: string | undefined;
   /** Gets or sets the Last successful test failover time. */
-  lastSuccessfulTestFailoverTime?: string;
+  lastSuccessfulTestFailoverTime?: string | undefined;
   /** Gets or sets the current scenario. */
-  currentJob?: ProtectedItemJobProperties;
+  currentJob?: ProtectedItemJobProperties | undefined;
   /** Gets or sets the allowed scenarios on the protected item. */
-  allowedJobs?: ProtectedItemModelPropertiesAllowedJobsList;
+  allowedJobs?: ProtectedItemModelPropertiesAllowedJobsList | undefined;
   /** Gets or sets the last failed enabled protection job. */
-  lastFailedEnableProtectionJob?: ProtectedItemJobProperties;
+  lastFailedEnableProtectionJob?: ProtectedItemJobProperties | undefined;
   /** Gets or sets the last failed planned failover job. */
-  lastFailedPlannedFailoverJob?: ProtectedItemJobProperties;
+  lastFailedPlannedFailoverJob?: ProtectedItemJobProperties | undefined;
   /** Gets or sets the last test failover job. */
-  lastTestFailoverJob?: ProtectedItemJobProperties;
+  lastTestFailoverJob?: ProtectedItemJobProperties | undefined;
   /** Gets or sets protected item replication health. */
-  replicationHealth?: HealthStatus;
+  replicationHealth?: HealthStatus | undefined;
   /** Gets or sets the list of health errors. */
-  healthErrors?: ProtectedItemModelPropertiesHealthErrorsList;
+  healthErrors?: ProtectedItemModelPropertiesHealthErrorsList | undefined;
   /** Protected item model custom properties. Polymorphic on `instanceType` (HyperVToAzStackHCI, VMwareToAzStackHCI). */
   customProperties: unknown;
 }
 export interface CreateProtectedItemResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: ProtectedItemModelProperties;
+  properties?: ProtectedItemModelProperties | undefined;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Replication extension model properties. */
 export interface ReplicationExtensionModelPropertiesInput {
@@ -555,30 +556,30 @@ export interface CreateReplicationExtensionRequest {
   /** The replication extension name. */
   replicationExtensionName: string;
   /** The resource-specific properties for this resource. */
-  properties?: ReplicationExtensionModelPropertiesInput;
+  properties?: ReplicationExtensionModelPropertiesInput | undefined;
 }
 /** Replication extension model properties. */
 export interface ReplicationExtensionModelProperties {
   /** Gets or sets the provisioning state of the replication extension. */
-  provisioningState?: ProvisioningState;
+  provisioningState?: ProvisioningState | undefined;
   /** Replication extension model custom properties. Polymorphic on `instanceType` (HyperVToAzStackHCI, VMwareToAzStackHCI). */
   customProperties: unknown;
 }
 export interface CreateReplicationExtensionResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: ReplicationExtensionModelProperties;
+  properties?: ReplicationExtensionModelProperties | undefined;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Resource tags. */
 export type CreateVaultRequestTagsMap = { [key: string]: string | undefined };
@@ -589,9 +590,9 @@ export type PublicNetworkAccess = "Enabled" | "Disabled";
 /** Vault properties. */
 export interface VaultModelPropertiesInput {
   /** Gets or sets the type of vault. */
-  vaultType?: ReplicationVaultType | (string & {});
+  vaultType?: ReplicationVaultType | (string & {}) | undefined;
   /** Property to enable or disable resource provider inbound network traffic from public clients. */
-  publicNetworkAccess?: PublicNetworkAccess | (string & {});
+  publicNetworkAccess?: PublicNetworkAccess | (string & {}) | undefined;
 }
 /** Type of managed service identity (where both SystemAssigned and UserAssigned types are allowed). */
 export type ManagedServiceIdentityType =
@@ -609,7 +610,7 @@ export type CreateVaultRequestIdentityUserAssignedIdentitiesMap = {
 export interface CreateVaultRequestIdentity {
   type: ManagedServiceIdentityType | (string & {});
   /** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
-  userAssignedIdentities?: CreateVaultRequestIdentityUserAssignedIdentitiesMap;
+  userAssignedIdentities?: CreateVaultRequestIdentityUserAssignedIdentitiesMap | undefined;
 }
 export interface CreateVaultRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -619,13 +620,13 @@ export interface CreateVaultRequest {
   /** The vault name. */
   vaultName: string;
   /** Resource tags. */
-  tags?: CreateVaultRequestTagsMap;
+  tags?: CreateVaultRequestTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: VaultModelPropertiesInput;
+  properties?: VaultModelPropertiesInput | undefined;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: CreateVaultRequestIdentity;
+  identity?: CreateVaultRequestIdentity | undefined;
 }
 /** Resource tags. */
 export type CreateVaultResponseTagsMap = { [key: string]: string | undefined };
@@ -640,64 +641,64 @@ export type VaultPrivateEndpointState =
 /** Represent private Endpoint network resource that is linked to the Private Endpoint connection. */
 export interface PrivateEndpoint {
   /** Gets or sets the id. */
-  id?: string;
+  id?: string | undefined;
 }
 /** Gets or sets the status. */
 export type PrivateEndpointConnectionStatus = "Approved" | "Disconnected" | "Pending" | "Rejected";
 /** Represents Private link service connection state. */
 export interface PrivateLinkServiceConnectionState {
   /** Gets or sets the status. */
-  status?: PrivateEndpointConnectionStatus | (string & {});
+  status?: PrivateEndpointConnectionStatus | (string & {}) | undefined;
   /** Gets or sets description. */
-  description?: string;
+  description?: string | undefined;
   /** Gets or sets actions required. */
-  actionsRequired?: string;
+  actionsRequired?: string | undefined;
 }
 /** Represents Private endpoint connection response properties. */
 export interface PrivateEndpointConnectionResponseProperties {
   /** Gets or sets provisioning state of the private endpoint connection. */
-  provisioningState?: ProvisioningState;
+  provisioningState?: ProvisioningState | undefined;
   /** Represent private Endpoint network resource that is linked to the Private Endpoint connection. */
-  privateEndpoint?: PrivateEndpoint;
+  privateEndpoint?: PrivateEndpoint | undefined;
   /** Represents Private link service connection state. */
-  privateLinkServiceConnectionState?: PrivateLinkServiceConnectionState;
+  privateLinkServiceConnectionState?: PrivateLinkServiceConnectionState | undefined;
 }
 /** Represents private endpoint connection. */
 export interface PrivateEndpointConnection {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: PrivateEndpointConnectionResponseProperties;
+  properties?: PrivateEndpointConnectionResponseProperties | undefined;
 }
 /** List of private endpoint connection. */
 export type VaultModelPropertiesPrivateEndpointConnectionsList = Array<PrivateEndpointConnection>;
 /** Vault properties. */
 export interface VaultModelProperties {
   /** Gets or sets the provisioning state of the vault. */
-  provisioningState?: ProvisioningState;
+  provisioningState?: ProvisioningState | undefined;
   /** Gets or sets the service resource Id. */
-  serviceResourceId?: string;
+  serviceResourceId?: string | undefined;
   /** Gets or sets the type of vault. */
-  vaultType?: ReplicationVaultType;
+  vaultType?: ReplicationVaultType | undefined;
   /** Private endpoint state for the vault. */
-  privateEndpointState?: VaultPrivateEndpointState;
+  privateEndpointState?: VaultPrivateEndpointState | undefined;
   /** Property to enable or disable resource provider inbound network traffic from public clients. */
-  publicNetworkAccess?: PublicNetworkAccess;
+  publicNetworkAccess?: PublicNetworkAccess | undefined;
   /** List of private endpoint connection. */
-  privateEndpointConnections?: VaultModelPropertiesPrivateEndpointConnectionsList;
+  privateEndpointConnections?: VaultModelPropertiesPrivateEndpointConnectionsList | undefined;
 }
 /** User assigned identity properties */
 export interface UserAssignedIdentity {
   /** The principal ID of the assigned identity. */
-  principalId?: string;
+  principalId?: string | undefined;
   /** The client ID of the assigned identity. */
-  clientId?: string;
+  clientId?: string | undefined;
 }
 /** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
 export type CreateVaultResponseIdentityUserAssignedIdentitiesMap = {
@@ -706,34 +707,34 @@ export type CreateVaultResponseIdentityUserAssignedIdentitiesMap = {
 /** Managed service identity (system assigned and/or user assigned identities) */
 export interface CreateVaultResponseIdentity {
   /** The service principal ID of the system assigned identity. This property will only be provided for a system assigned identity. */
-  principalId?: string;
+  principalId?: string | undefined;
   /** The tenant ID of the system assigned identity. This property will only be provided for a system assigned identity. */
-  tenantId?: string;
+  tenantId?: string | undefined;
   type: ManagedServiceIdentityType;
   /** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
-  userAssignedIdentities?: CreateVaultResponseIdentityUserAssignedIdentitiesMap;
+  userAssignedIdentities?: CreateVaultResponseIdentityUserAssignedIdentitiesMap | undefined;
 }
 export interface CreateVaultResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: CreateVaultResponseTagsMap;
+  tags?: CreateVaultResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: VaultModelProperties;
+  properties?: VaultModelProperties | undefined;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: CreateVaultResponseIdentity;
+  identity?: CreateVaultResponseIdentity | undefined;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeleteFabricRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -745,9 +746,9 @@ export interface DeleteFabricRequest {
 }
 export interface DeleteFabricResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeleteFabricAgentRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -761,9 +762,9 @@ export interface DeleteFabricAgentRequest {
 }
 export interface DeleteFabricAgentResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeletePolicyRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -777,9 +778,9 @@ export interface DeletePolicyRequest {
 }
 export interface DeletePolicyResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeletePrivateEndpointConnectionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -793,9 +794,9 @@ export interface DeletePrivateEndpointConnectionRequest {
 }
 export interface DeletePrivateEndpointConnectionResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeleteProtectedItemRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -807,13 +808,13 @@ export interface DeleteProtectedItemRequest {
   /** The protected item name. */
   protectedItemName: string;
   /** A flag indicating whether to do force delete or not. */
-  forceDelete?: boolean;
+  forceDelete?: boolean | undefined;
 }
 export interface DeleteProtectedItemResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeleteReplicationExtensionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -827,9 +828,9 @@ export interface DeleteReplicationExtensionRequest {
 }
 export interface DeleteReplicationExtensionResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeleteVaultRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -841,9 +842,9 @@ export interface DeleteVaultRequest {
 }
 export interface DeleteVaultResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface GetEmailConfigurationRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -857,15 +858,15 @@ export interface GetEmailConfigurationRequest {
 }
 export interface GetEmailConfigurationResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: EmailConfigurationModelProperties;
+  properties?: EmailConfigurationModelProperties | undefined;
 }
 export interface GetEventRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -887,39 +888,39 @@ export interface EventModelCustomProperties {
 /** Event model properties. */
 export interface EventModelProperties {
   /** Gets or sets the resource type. */
-  resourceType?: string;
+  resourceType?: string | undefined;
   /** Gets or sets the resource name. */
-  resourceName?: string;
+  resourceName?: string | undefined;
   /** Gets or sets the event type. */
-  eventType?: string;
+  eventType?: string | undefined;
   /** Gets or sets the event name. */
-  eventName?: string;
+  eventName?: string | undefined;
   /** Gets or sets the time at which the event occurred at source. */
-  timeOfOccurrence?: string;
+  timeOfOccurrence?: string | undefined;
   /** Gets or sets the event severity. */
-  severity?: string;
+  severity?: string | undefined;
   /** Gets or sets the event description. */
-  description?: string;
+  description?: string | undefined;
   /** Gets or sets the event correlation Id. */
-  correlationId?: string;
+  correlationId?: string | undefined;
   /** Gets or sets the errors associated with this event. */
-  healthErrors?: EventModelPropertiesHealthErrorsList;
+  healthErrors?: EventModelPropertiesHealthErrorsList | undefined;
   /** Event model custom properties. */
   customProperties: EventModelCustomProperties;
   /** Gets or sets the provisioning state of the event. */
-  provisioningState?: ProvisioningState;
+  provisioningState?: ProvisioningState | undefined;
 }
 export interface GetEventResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: EventModelProperties;
+  properties?: EventModelProperties | undefined;
 }
 export interface GetFabricRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -933,19 +934,19 @@ export interface GetFabricRequest {
 export type GetFabricResponseTagsMap = { [key: string]: string | undefined };
 export interface GetFabricResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: GetFabricResponseTagsMap;
+  tags?: GetFabricResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: FabricModelProperties;
+  properties?: FabricModelProperties | undefined;
 }
 export interface GetFabricAgentRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -959,15 +960,15 @@ export interface GetFabricAgentRequest {
 }
 export interface GetFabricAgentResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: FabricAgentModelProperties;
+  properties?: FabricAgentModelProperties | undefined;
 }
 export interface GetJobRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1012,51 +1013,51 @@ export interface TaskModelCustomProperties {
 /** Job model. */
 export interface JobModel {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: JobModelProperties;
+  properties?: JobModelProperties | undefined;
 }
 /** Gets or sets the list of children job models. */
 export type TaskModelChildrenJobsList = Array<JobModel>;
 /** Task model. */
 export interface TaskModel {
   /** Gets or sets the task name. */
-  taskName?: string;
+  taskName?: string | undefined;
   /** Gets or sets the task state. */
-  state?: TaskState;
+  state?: TaskState | undefined;
   /** Gets or sets the start time. */
-  startTime?: string;
+  startTime?: string | undefined;
   /** Gets or sets the end time. */
-  endTime?: string;
+  endTime?: string | undefined;
   /** Task model custom properties. */
-  customProperties?: TaskModelCustomProperties;
+  customProperties?: TaskModelCustomProperties | undefined;
   /** Gets or sets the list of children job models. */
-  childrenJobs?: TaskModelChildrenJobsList;
+  childrenJobs?: TaskModelChildrenJobsList | undefined;
 }
 /** Gets or sets the list of tasks. */
 export type JobModelPropertiesTasksList = Array<TaskModel>;
 /** Error model. */
 export interface ErrorModel {
   /** Gets or sets the error code. */
-  code?: string;
+  code?: string | undefined;
   /** Gets or sets the error type. */
-  type?: string;
+  type?: string | undefined;
   /** Gets or sets the error severity. */
-  severity?: string;
+  severity?: string | undefined;
   /** Gets or sets the creation time of error. */
-  creationTime?: string;
+  creationTime?: string | undefined;
   /** Gets or sets the error message. */
-  message?: string;
+  message?: string | undefined;
   /** Gets or sets the possible causes of error. */
-  causes?: string;
+  causes?: string | undefined;
   /** Gets or sets the recommended action to resolve error. */
-  recommendation?: string;
+  recommendation?: string | undefined;
 }
 /** Gets or sets the list of errors. */
 export type JobModelPropertiesErrorsList = Array<ErrorModel>;
@@ -1065,67 +1066,67 @@ export type AffectedObjectDetailsType = "object";
 /** Details of the affected object. */
 export interface AffectedObjectDetails {
   /** Description of the affected object details. */
-  description?: string;
+  description?: string | undefined;
   /** Type of the affected object details. */
-  type?: AffectedObjectDetailsType;
+  type?: AffectedObjectDetailsType | undefined;
 }
 /** Job model custom properties. */
 export interface JobModelCustomProperties {
   /** Discriminator property for JobModelCustomProperties. */
   instanceType: string;
   /** Gets or sets any custom properties of the affected object. */
-  affectedObjectDetails?: AffectedObjectDetails;
+  affectedObjectDetails?: AffectedObjectDetails | undefined;
 }
 /** Job model properties. */
 export interface JobModelProperties {
   /** Gets or sets the friendly display name. */
-  displayName?: string;
+  displayName?: string | undefined;
   /** Gets or sets the job state. */
-  state?: JobState;
+  state?: JobState | undefined;
   /** Gets or sets the start time. */
-  startTime?: string;
+  startTime?: string | undefined;
   /** Gets or sets the end time. */
-  endTime?: string;
+  endTime?: string | undefined;
   /** Gets or sets the affected object Id. */
-  objectId?: string;
+  objectId?: string | undefined;
   /** Gets or sets the affected object name. */
-  objectName?: string;
+  objectName?: string | undefined;
   /** Gets or sets the affected object internal Id. */
-  objectInternalId?: string;
+  objectInternalId?: string | undefined;
   /** Gets or sets the affected object internal name. */
-  objectInternalName?: string;
+  objectInternalName?: string | undefined;
   /** Gets or sets the object type. */
-  objectType?: JobObjectType;
+  objectType?: JobObjectType | undefined;
   /** Gets or sets the replication provider. */
-  replicationProviderId?: string;
+  replicationProviderId?: string | undefined;
   /** Gets or sets the source fabric provider. */
-  sourceFabricProviderId?: string;
+  sourceFabricProviderId?: string | undefined;
   /** Gets or sets the target fabric provider. */
-  targetFabricProviderId?: string;
+  targetFabricProviderId?: string | undefined;
   /** Gets or sets the list of allowed actions on the job. */
-  allowedActions?: JobModelPropertiesAllowedActionsList;
+  allowedActions?: JobModelPropertiesAllowedActionsList | undefined;
   /** Gets or sets the job activity id. */
-  activityId?: string;
+  activityId?: string | undefined;
   /** Gets or sets the list of tasks. */
-  tasks?: JobModelPropertiesTasksList;
+  tasks?: JobModelPropertiesTasksList | undefined;
   /** Gets or sets the list of errors. */
-  errors?: JobModelPropertiesErrorsList;
+  errors?: JobModelPropertiesErrorsList | undefined;
   /** Job model custom properties. */
   customProperties: JobModelCustomProperties;
   /** Gets or sets the provisioning state of the job. */
-  provisioningState?: ProvisioningState;
+  provisioningState?: ProvisioningState | undefined;
 }
 export interface GetJobResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: JobModelProperties;
+  properties?: JobModelProperties | undefined;
 }
 export interface GetLocationBasedOperationResultRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1140,15 +1141,15 @@ export interface GetLocationBasedOperationResultRequest {
 /** Defines the operation status. */
 export interface OperationStatus {
   /** Gets or sets the Id. */
-  id?: string;
+  id?: string | undefined;
   /** Gets or sets the operation name. */
-  name?: string;
+  name?: string | undefined;
   /** Gets or sets the status of the operation. ARM expects the terminal status to be one of Succeeded/ Failed/ Canceled. All other values imply that the operation is still running. */
-  status?: string;
+  status?: string | undefined;
   /** Gets or sets the start time. */
-  startTime?: string;
+  startTime?: string | undefined;
   /** Gets or sets the end time. */
-  endTime?: string;
+  endTime?: string | undefined;
 }
 export interface GetOperationResultRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1170,15 +1171,15 @@ export interface GetPolicyRequest {
 }
 export interface GetPolicyResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: PolicyModelProperties;
+  properties?: PolicyModelProperties | undefined;
 }
 export interface GetPrivateEndpointConnectionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1192,15 +1193,15 @@ export interface GetPrivateEndpointConnectionRequest {
 }
 export interface GetPrivateEndpointConnectionResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: PrivateEndpointConnectionResponseProperties;
+  properties?: PrivateEndpointConnectionResponseProperties | undefined;
 }
 export interface GetPrivateLinkResourceRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1219,25 +1220,25 @@ export type PrivateLinkResourcePropertiesRequiredZoneNamesList = Array<string>;
 /** Represents private link resource properties. */
 export interface PrivateLinkResourceProperties {
   /** Gets or sets the group id. */
-  groupId?: string;
+  groupId?: string | undefined;
   /** Gets or sets the required member. This translates to how many Private IPs should be created for each privately linkable resource. */
-  requiredMembers?: PrivateLinkResourcePropertiesRequiredMembersList;
+  requiredMembers?: PrivateLinkResourcePropertiesRequiredMembersList | undefined;
   /** Gets or sets the private DNS zone names. */
-  requiredZoneNames?: PrivateLinkResourcePropertiesRequiredZoneNamesList;
+  requiredZoneNames?: PrivateLinkResourcePropertiesRequiredZoneNamesList | undefined;
   /** Gets or sets the provisioning state of the private link resource. */
-  provisioningState?: ProvisioningState;
+  provisioningState?: ProvisioningState | undefined;
 }
 export interface GetPrivateLinkResourceResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: PrivateLinkResourceProperties;
+  properties?: PrivateLinkResourceProperties | undefined;
 }
 export interface GetProtectedItemRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1251,15 +1252,15 @@ export interface GetProtectedItemRequest {
 }
 export interface GetProtectedItemResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: ProtectedItemModelProperties;
+  properties?: ProtectedItemModelProperties | undefined;
 }
 export interface GetRecoveryPointRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1289,19 +1290,19 @@ export interface RecoveryPointModelProperties {
   /** Recovery point model custom properties. */
   customProperties: RecoveryPointModelCustomProperties;
   /** Gets or sets the provisioning state of the recovery point item. */
-  provisioningState?: ProvisioningState;
+  provisioningState?: ProvisioningState | undefined;
 }
 export interface GetRecoveryPointResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: RecoveryPointModelProperties;
+  properties?: RecoveryPointModelProperties | undefined;
 }
 export interface GetReplicationExtensionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1315,15 +1316,15 @@ export interface GetReplicationExtensionRequest {
 }
 export interface GetReplicationExtensionResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: ReplicationExtensionModelProperties;
+  properties?: ReplicationExtensionModelProperties | undefined;
 }
 export interface GetVaultRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1342,30 +1343,30 @@ export type GetVaultResponseIdentityUserAssignedIdentitiesMap = {
 /** Managed service identity (system assigned and/or user assigned identities) */
 export interface GetVaultResponseIdentity {
   /** The service principal ID of the system assigned identity. This property will only be provided for a system assigned identity. */
-  principalId?: string;
+  principalId?: string | undefined;
   /** The tenant ID of the system assigned identity. This property will only be provided for a system assigned identity. */
-  tenantId?: string;
+  tenantId?: string | undefined;
   type: ManagedServiceIdentityType;
   /** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
-  userAssignedIdentities?: GetVaultResponseIdentityUserAssignedIdentitiesMap;
+  userAssignedIdentities?: GetVaultResponseIdentityUserAssignedIdentitiesMap | undefined;
 }
 export interface GetVaultResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: GetVaultResponseTagsMap;
+  tags?: GetVaultResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: VaultModelProperties;
+  properties?: VaultModelProperties | undefined;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: GetVaultResponseIdentity;
+  identity?: GetVaultResponseIdentity | undefined;
 }
 export interface ListEmailConfigurationRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1378,15 +1379,15 @@ export interface ListEmailConfigurationRequest {
 /** Email configuration model. */
 export interface EmailConfigurationModel {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: EmailConfigurationModelProperties;
+  properties?: EmailConfigurationModelProperties | undefined;
 }
 /** The EmailConfigurationModel items on this page */
 export type EmailConfigurationModelListResultValueList = Array<EmailConfigurationModel>;
@@ -1395,7 +1396,7 @@ export interface EmailConfigurationModelListResult {
   /** The EmailConfigurationModel items on this page */
   value: EmailConfigurationModelListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListEventRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1405,24 +1406,24 @@ export interface ListEventRequest {
   /** The vault name. */
   vaultName: string;
   /** OData options. */
-  odataOptions?: string;
+  odataOptions?: string | undefined;
   /** Continuation token. */
-  continuationToken?: string;
+  continuationToken?: string | undefined;
   /** Page size. */
-  pageSize?: number;
+  pageSize?: number | undefined;
 }
 /** Event model. */
 export interface EventModel {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: EventModelProperties;
+  properties?: EventModelProperties | undefined;
 }
 /** The EventModel items on this page */
 export type EventModelListResultValueList = Array<EventModel>;
@@ -1431,7 +1432,7 @@ export interface EventModelListResult {
   /** The EventModel items on this page */
   value: EventModelListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListFabricRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1439,26 +1440,26 @@ export interface ListFabricRequest {
   /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
   /** Continuation token from the previous call. */
-  continuationToken?: string;
+  continuationToken?: string | undefined;
 }
 /** Resource tags. */
 export type FabricModelTagsMap = { [key: string]: string | undefined };
 /** Fabric model. */
 export interface FabricModel {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: FabricModelTagsMap;
+  tags?: FabricModelTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: FabricModelProperties;
+  properties?: FabricModelProperties | undefined;
 }
 /** The FabricModel items on this page */
 export type FabricModelListResultValueList = Array<FabricModel>;
@@ -1467,7 +1468,7 @@ export interface FabricModelListResult {
   /** The FabricModel items on this page */
   value: FabricModelListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListFabricAgentRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1480,15 +1481,15 @@ export interface ListFabricAgentRequest {
 /** Fabric agent model. */
 export interface FabricAgentModel {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: FabricAgentModelProperties;
+  properties?: FabricAgentModelProperties | undefined;
 }
 /** The FabricAgentModel items on this page */
 export type FabricAgentModelListResultValueList = Array<FabricAgentModel>;
@@ -1497,7 +1498,7 @@ export interface FabricAgentModelListResult {
   /** The FabricAgentModel items on this page */
   value: FabricAgentModelListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListFabricBySubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1511,11 +1512,11 @@ export interface ListJobRequest {
   /** The vault name. */
   vaultName: string;
   /** OData options. */
-  odataOptions?: string;
+  odataOptions?: string | undefined;
   /** Continuation token. */
-  continuationToken?: string;
+  continuationToken?: string | undefined;
   /** Page size. */
-  pageSize?: number;
+  pageSize?: number | undefined;
 }
 /** The JobModel items on this page */
 export type JobModelListResultValueList = Array<JobModel>;
@@ -1524,19 +1525,19 @@ export interface JobModelListResult {
   /** The JobModel items on this page */
   value: JobModelListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListOperationsRequest {}
 /** Localized display information for this particular operation. */
 export interface OperationDisplay {
   /** The localized friendly form of the resource provider name, e.g. "Microsoft Monitoring Insights" or "Microsoft Compute". */
-  provider?: string;
+  provider?: string | undefined;
   /** The localized friendly name of the resource type related to this operation. E.g. "Virtual Machines" or "Job Schedule Collections". */
-  resource?: string;
+  resource?: string | undefined;
   /** The concise, localized friendly name for the operation; suitable for dropdowns. E.g. "Create or Update Virtual Machine", "Restart Virtual Machine". */
-  operation?: string;
+  operation?: string | undefined;
   /** The short, localized friendly description of the operation; suitable for tool tips and detailed views. */
-  description?: string;
+  description?: string | undefined;
 }
 /** The intended executor of the operation; as in Resource Based Access Control (RBAC) and audit logs UX. Default value is "user,system" */
 export type OperationOrigin = "user" | "system" | "user,system";
@@ -1545,23 +1546,23 @@ export type OperationActionType = "Internal";
 /** Details of a REST API operation, returned from the Resource Provider Operations API */
 export interface Operation {
   /** The name of the operation, as per Resource-Based Access Control (RBAC). Examples: "Microsoft.Compute/virtualMachines/write", "Microsoft.Compute/virtualMachines/capture/action" */
-  name?: string;
+  name?: string | undefined;
   /** Whether the operation applies to data-plane. This is "true" for data-plane operations and "false" for ARM/control-plane operations. */
-  isDataAction?: boolean;
+  isDataAction?: boolean | undefined;
   /** Localized display information for this particular operation. */
-  display?: OperationDisplay;
+  display?: OperationDisplay | undefined;
   /** The intended executor of the operation; as in Resource Based Access Control (RBAC) and audit logs UX. Default value is "user,system" */
-  origin?: OperationOrigin;
+  origin?: OperationOrigin | undefined;
   /** Enum. Indicates the action type. "Internal" refers to actions that are for internal only APIs. */
-  actionType?: OperationActionType;
+  actionType?: OperationActionType | undefined;
 }
 /** List of operations supported by the resource provider */
 export type ListOperationsResponseValueList = Array<Operation>;
 export interface ListOperationsResponse {
   /** List of operations supported by the resource provider */
-  value?: ListOperationsResponseValueList;
+  value?: ListOperationsResponseValueList | undefined;
   /** URL to get the next set of operation list results (if there are any). */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListPolicyRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1574,15 +1575,15 @@ export interface ListPolicyRequest {
 /** Policy model. */
 export interface PolicyModel {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: PolicyModelProperties;
+  properties?: PolicyModelProperties | undefined;
 }
 /** The PolicyModel items on this page */
 export type PolicyModelListResultValueList = Array<PolicyModel>;
@@ -1591,7 +1592,7 @@ export interface PolicyModelListResult {
   /** The PolicyModel items on this page */
   value: PolicyModelListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListPrivateEndpointConnectionsRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1608,7 +1609,7 @@ export interface PrivateEndpointConnectionListResult {
   /** The PrivateEndpointConnection items on this page */
   value: PrivateEndpointConnectionListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListPrivateLinkResourcesRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1621,15 +1622,15 @@ export interface ListPrivateLinkResourcesRequest {
 /** Represents private link resource. */
 export interface PrivateLinkResource {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: PrivateLinkResourceProperties;
+  properties?: PrivateLinkResourceProperties | undefined;
 }
 /** The PrivateLinkResource items on this page */
 export type PrivateLinkResourceListResultValueList = Array<PrivateLinkResource>;
@@ -1638,7 +1639,7 @@ export interface PrivateLinkResourceListResult {
   /** The PrivateLinkResource items on this page */
   value: PrivateLinkResourceListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListProtectedItemRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1648,24 +1649,24 @@ export interface ListProtectedItemRequest {
   /** The vault name. */
   vaultName: string;
   /** OData options. */
-  odataOptions?: string;
+  odataOptions?: string | undefined;
   /** Continuation token. */
-  continuationToken?: string;
+  continuationToken?: string | undefined;
   /** Page size. */
-  pageSize?: number;
+  pageSize?: number | undefined;
 }
 /** Protected item model. */
 export interface ProtectedItemModel {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: ProtectedItemModelProperties;
+  properties?: ProtectedItemModelProperties | undefined;
 }
 /** The ProtectedItemModel items on this page */
 export type ProtectedItemModelListResultValueList = Array<ProtectedItemModel>;
@@ -1674,7 +1675,7 @@ export interface ProtectedItemModelListResult {
   /** The ProtectedItemModel items on this page */
   value: ProtectedItemModelListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListRecoveryPointRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1689,15 +1690,15 @@ export interface ListRecoveryPointRequest {
 /** Recovery point model. */
 export interface RecoveryPointModel {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: RecoveryPointModelProperties;
+  properties?: RecoveryPointModelProperties | undefined;
 }
 /** The RecoveryPointModel items on this page */
 export type RecoveryPointModelListResultValueList = Array<RecoveryPointModel>;
@@ -1706,7 +1707,7 @@ export interface RecoveryPointModelListResult {
   /** The RecoveryPointModel items on this page */
   value: RecoveryPointModelListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListReplicationExtensionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1719,15 +1720,15 @@ export interface ListReplicationExtensionRequest {
 /** Replication extension model. */
 export interface ReplicationExtensionModel {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: ReplicationExtensionModelProperties;
+  properties?: ReplicationExtensionModelProperties | undefined;
 }
 /** The ReplicationExtensionModel items on this page */
 export type ReplicationExtensionModelListResultValueList = Array<ReplicationExtensionModel>;
@@ -1736,7 +1737,7 @@ export interface ReplicationExtensionModelListResult {
   /** The ReplicationExtensionModel items on this page */
   value: ReplicationExtensionModelListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListVaultRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1744,7 +1745,7 @@ export interface ListVaultRequest {
   /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
   /** Continuation token from the previous call. */
-  continuationToken?: string;
+  continuationToken?: string | undefined;
 }
 /** Resource tags. */
 export type VaultModelTagsMap = { [key: string]: string | undefined };
@@ -1755,31 +1756,31 @@ export type VaultModelIdentityUserAssignedIdentitiesMap = {
 /** Managed service identity (system assigned and/or user assigned identities) */
 export interface VaultModelIdentity {
   /** The service principal ID of the system assigned identity. This property will only be provided for a system assigned identity. */
-  principalId?: string;
+  principalId?: string | undefined;
   /** The tenant ID of the system assigned identity. This property will only be provided for a system assigned identity. */
-  tenantId?: string;
+  tenantId?: string | undefined;
   type: ManagedServiceIdentityType;
   /** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
-  userAssignedIdentities?: VaultModelIdentityUserAssignedIdentitiesMap;
+  userAssignedIdentities?: VaultModelIdentityUserAssignedIdentitiesMap | undefined;
 }
 /** Vault model. */
 export interface VaultModel {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: VaultModelTagsMap;
+  tags?: VaultModelTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: VaultModelProperties;
+  properties?: VaultModelProperties | undefined;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: VaultModelIdentity;
+  identity?: VaultModelIdentity | undefined;
 }
 /** The VaultModel items on this page */
 export type VaultModelListResultValueList = Array<VaultModel>;
@@ -1788,7 +1789,7 @@ export interface VaultModelListResult {
   /** The VaultModel items on this page */
   value: VaultModelListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListVaultBySubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1800,31 +1801,31 @@ export interface PostCheckNameAvailabilityRequest {
   /** The name of the Azure region. */
   location: string;
   /** Gets or sets the resource name. */
-  name?: string;
+  name?: string | undefined;
   /** Gets or sets the resource type. */
-  type?: string;
+  type?: string | undefined;
 }
 /** Check name availability response model. */
 export interface CheckNameAvailabilityResponseModel {
   /** Gets or sets a value indicating whether resource name is available or not. */
-  nameAvailable?: boolean;
+  nameAvailable?: boolean | undefined;
   /** Gets or sets the reason for resource name unavailability. */
-  reason?: string;
+  reason?: string | undefined;
   /** Gets or sets the message for resource name unavailability. */
-  message?: string;
+  message?: string | undefined;
 }
 /** Deployment preflight resource. */
 export interface DeploymentPreflightResource {
   /** Gets or sets the resource name. */
-  name?: string;
+  name?: string | undefined;
   /** Gets or sets the resource type. */
-  type?: string;
+  type?: string | undefined;
   /** Gets or sets the location of the resource. */
-  location?: string;
+  location?: string | undefined;
   /** Gets or sets the Api version. */
-  apiVersion?: string;
+  apiVersion?: string | undefined;
   /** Gets or sets the properties of the resource. */
-  properties?: unknown;
+  properties?: unknown | undefined;
 }
 /** Gets or sets the list of resources. */
 export type PostDeploymentPreflightRequestResourcesList = Array<DeploymentPreflightResource>;
@@ -1836,14 +1837,14 @@ export interface PostDeploymentPreflightRequest {
   /** Deployment Id. */
   deploymentId: string;
   /** Gets or sets the list of resources. */
-  resources?: PostDeploymentPreflightRequestResourcesList;
+  resources?: PostDeploymentPreflightRequestResourcesList | undefined;
 }
 /** Gets or sets the list of resources. */
 export type DeploymentPreflightModelResourcesList = Array<DeploymentPreflightResource>;
 /** Deployment preflight model. */
 export interface DeploymentPreflightModel {
   /** Gets or sets the list of resources. */
-  resources?: DeploymentPreflightModelResourcesList;
+  resources?: DeploymentPreflightModelResourcesList | undefined;
 }
 /** Planned failover model custom properties. */
 export interface PlannedFailoverModelCustomProperties {
@@ -1872,9 +1873,9 @@ export interface PlannedFailoverModel {
   /** Planned failover model properties. */
   properties: PlannedFailoverModelProperties;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Gets or sets the resource tags. */
 export type UpdateFabricRequestTagsMap = { [key: string]: string | undefined };
@@ -1886,38 +1887,38 @@ export interface UpdateFabricRequest {
   /** The fabric name. */
   fabricName: string;
   /** Gets or sets the resource tags. */
-  tags?: UpdateFabricRequestTagsMap;
+  tags?: UpdateFabricRequestTagsMap | undefined;
   /** Fabric model properties. */
-  properties?: FabricModelPropertiesInput;
+  properties?: FabricModelPropertiesInput | undefined;
 }
 /** Resource tags. */
 export type UpdateFabricResponseTagsMap = { [key: string]: string | undefined };
 export interface UpdateFabricResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: UpdateFabricResponseTagsMap;
+  tags?: UpdateFabricResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: FabricModelProperties;
+  properties?: FabricModelProperties | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  locationHeader?: string;
+  locationHeader?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Represents Private endpoint connection response properties. */
 export interface PrivateEndpointConnectionResponsePropertiesInput {
   /** Represent private Endpoint network resource that is linked to the Private Endpoint connection. */
-  privateEndpoint?: PrivateEndpoint;
+  privateEndpoint?: PrivateEndpoint | undefined;
   /** Represents Private link service connection state. */
-  privateLinkServiceConnectionState?: PrivateLinkServiceConnectionState;
+  privateLinkServiceConnectionState?: PrivateLinkServiceConnectionState | undefined;
 }
 export interface UpdatePrivateEndpointConnectionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1929,24 +1930,24 @@ export interface UpdatePrivateEndpointConnectionRequest {
   /** The private endpoint connection name. */
   privateEndpointConnectionName: string;
   /** The resource-specific properties for this resource. */
-  properties?: PrivateEndpointConnectionResponsePropertiesInput;
+  properties?: PrivateEndpointConnectionResponsePropertiesInput | undefined;
 }
 export interface UpdatePrivateEndpointConnectionResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: PrivateEndpointConnectionResponseProperties;
+  properties?: PrivateEndpointConnectionResponseProperties | undefined;
 }
 /** Protected item model properties update. */
 export interface ProtectedItemModelPropertiesUpdate {
   /** Protected item model custom properties. Polymorphic on `instanceType` (HyperVToAzStackHCI, VMwareToAzStackHCI). */
-  customProperties?: unknown;
+  customProperties?: unknown | undefined;
 }
 export interface UpdateProtectedItemRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1958,23 +1959,23 @@ export interface UpdateProtectedItemRequest {
   /** The protected item name. */
   protectedItemName: string;
   /** Protected item model properties. */
-  properties?: ProtectedItemModelPropertiesUpdate;
+  properties?: ProtectedItemModelPropertiesUpdate | undefined;
 }
 export interface UpdateProtectedItemResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: ProtectedItemModelProperties;
+  properties?: ProtectedItemModelProperties | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Gets or sets the resource tags. */
 export type UpdateVaultRequestTagsMap = { [key: string]: string | undefined };
@@ -1993,11 +1994,11 @@ export interface UpdateVaultRequest {
   /** The vault name. */
   vaultName: string;
   /** Gets or sets the resource tags. */
-  tags?: UpdateVaultRequestTagsMap;
+  tags?: UpdateVaultRequestTagsMap | undefined;
   /** Vault properties. */
-  properties?: VaultModelPropertiesInput;
+  properties?: VaultModelPropertiesInput | undefined;
   /** Vault identity. */
-  identity?: VaultIdentityModelInput;
+  identity?: VaultIdentityModelInput | undefined;
 }
 /** Resource tags. */
 export type UpdateVaultResponseTagsMap = { [key: string]: string | undefined };
@@ -2008,34 +2009,34 @@ export type UpdateVaultResponseIdentityUserAssignedIdentitiesMap = {
 /** Managed service identity (system assigned and/or user assigned identities) */
 export interface UpdateVaultResponseIdentity {
   /** The service principal ID of the system assigned identity. This property will only be provided for a system assigned identity. */
-  principalId?: string;
+  principalId?: string | undefined;
   /** The tenant ID of the system assigned identity. This property will only be provided for a system assigned identity. */
-  tenantId?: string;
+  tenantId?: string | undefined;
   type: ManagedServiceIdentityType;
   /** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
-  userAssignedIdentities?: UpdateVaultResponseIdentityUserAssignedIdentitiesMap;
+  userAssignedIdentities?: UpdateVaultResponseIdentityUserAssignedIdentitiesMap | undefined;
 }
 export interface UpdateVaultResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: UpdateVaultResponseTagsMap;
+  tags?: UpdateVaultResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: VaultModelProperties;
+  properties?: VaultModelProperties | undefined;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: UpdateVaultResponseIdentity;
+  identity?: UpdateVaultResponseIdentity | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  locationHeader?: string;
+  locationHeader?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export type CreateEmailConfigurationError = AzureOpError;
 /** Creates an alert configuration setting for the given vault. */

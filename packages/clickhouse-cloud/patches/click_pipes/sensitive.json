@@ -1,0 +1,20 @@
+{
+  "description": "ClickPipes GCS and Pub/Sub sources take a GCP service account JSON key: ClickPipePostObjectStorageSource.serviceAccountKey and ClickPipePatchObjectStorageSource.serviceAccountKey ('Base64-encoded GCP service account JSON key') and ServiceAccount.serviceAccountFile ('Google Cloud service account JSON key file content, base64 encoded'). A service account key is a private key; none of the three carries a sensitive mark. Source: the OpenAPI document served at https://api.clickhouse.cloud/v1 (2026-11-11).",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.clickhouse.cloud.click_pipes#ClickPipePostObjectStorageSource/members/serviceAccountKey/traits/smithy.api#sensitive",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.clickhouse.cloud.click_pipes#ClickPipePatchObjectStorageSource/members/serviceAccountKey/traits/smithy.api#sensitive",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.clickhouse.cloud.click_pipes#ServiceAccount/members/serviceAccountFile/traits/smithy.api#sensitive",
+      "value": {}
+    }
+  ]
+}

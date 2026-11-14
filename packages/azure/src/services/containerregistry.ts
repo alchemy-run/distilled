@@ -29,6 +29,7 @@ const TELEMETRY = {
   prefix: "Containerregistry",
   service: "Containerregistry",
   labels: "azure",
+  labelNames: { resourceGroupName: "azure.resource_group.name" },
   propagate: "w3c",
 } as const;
 
@@ -56,20 +57,20 @@ export interface CheckRegistryNameAvailabilityRequest {
 /** The result of a request to check the availability of a container registry name. */
 export interface RegistryNameStatus {
   /** The value that indicates whether the name is available. */
-  nameAvailable?: boolean;
+  nameAvailable?: boolean | undefined;
   /** If any, the reason that the name is not available. */
-  reason?: string;
+  reason?: string | undefined;
   /** If any, the error message that provides more detail for the reason that the name is not available. */
-  message?: string;
+  message?: string | undefined;
 }
 /** The properties of a cache rule. */
 export interface CacheRulePropertiesInput {
   /** The ARM resource ID of the credential store which is associated with the cache rule. */
-  credentialSetResourceId?: string;
+  credentialSetResourceId?: string | undefined;
   /** Source repository pulled from upstream. */
-  sourceRepository?: string;
+  sourceRepository?: string | undefined;
   /** Target repository specified in docker pull command. Eg: docker pull myregistry.azurecr.io/{targetRepository}:{tag} */
-  targetRepository?: string;
+  targetRepository?: string | undefined;
 }
 export interface CreateCacheRuleRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -81,7 +82,7 @@ export interface CreateCacheRuleRequest {
   /** The name of the cache rule. */
   cacheRuleName: string;
   /** The properties of the cache rule. */
-  properties?: CacheRulePropertiesInput;
+  properties?: CacheRulePropertiesInput | undefined;
 }
 /** The type of identity that created the resource. */
 export type SystemDataCreatedByType = "User" | "Application" | "ManagedIdentity" | "Key";
@@ -90,17 +91,17 @@ export type SystemDataLastModifiedByType = "User" | "Application" | "ManagedIden
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface SystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: SystemDataCreatedByType;
+  createdByType?: SystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: SystemDataLastModifiedByType;
+  lastModifiedByType?: SystemDataLastModifiedByType | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 /** The provisioning state of the archive at the time the operation was called. */
 export type ProvisioningState =
@@ -113,31 +114,31 @@ export type ProvisioningState =
 /** The properties of a cache rule. */
 export interface CacheRuleProperties {
   /** The ARM resource ID of the credential store which is associated with the cache rule. */
-  credentialSetResourceId?: string;
+  credentialSetResourceId?: string | undefined;
   /** Source repository pulled from upstream. */
-  sourceRepository?: string;
+  sourceRepository?: string | undefined;
   /** Target repository specified in docker pull command. Eg: docker pull myregistry.azurecr.io/{targetRepository}:{tag} */
-  targetRepository?: string;
+  targetRepository?: string | undefined;
   /** The creation date of the cache rule. */
-  creationDate?: string;
+  creationDate?: string | undefined;
   /** Provisioning state of the resource. */
-  provisioningState?: ProvisioningState;
+  provisioningState?: ProvisioningState | undefined;
 }
 export interface CreateCacheRuleResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties of the cache rule. */
-  properties?: CacheRuleProperties;
+  properties?: CacheRuleProperties | undefined;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** The mode of the connected registry resource that indicates the permissions of the registry. */
 export type ConnectedRegistryMode = "ReadWrite" | "ReadOnly" | "Registry" | "Mirror";
@@ -146,16 +147,16 @@ export interface SyncPropertiesInput {
   /** The resource ID of the ACR token used to authenticate the connected registry to its parent during sync. */
   tokenId: string;
   /** The cron expression indicating the schedule that the connected registry will sync with its parent. */
-  schedule?: string;
+  schedule?: string | undefined;
   /** The time window during which sync is enabled for each schedule occurrence. Specify the duration using the format P[n]Y[n]M[n]DT[n]H[n]M[n]S as per ISO8601. */
-  syncWindow?: string;
+  syncWindow?: string | undefined;
   /** The period of time for which a message is available to sync before it is expired. Specify the duration using the format P[n]Y[n]M[n]DT[n]H[n]M[n]S as per ISO8601. */
   messageTtl: string;
 }
 /** The properties of the connected registry parent. */
 export interface ParentPropertiesInput {
   /** The resource ID of the parent to which the connected registry will be associated. */
-  id?: string;
+  id?: string | undefined;
   /** The sync properties of the connected registry with its parent. */
   syncProperties: SyncPropertiesInput;
 }
@@ -170,18 +171,18 @@ export type LoggingPropertiesAuditLogStatus = "Enabled" | "Disabled";
 /** The logging properties of the connected registry. */
 export interface LoggingProperties {
   /** The verbosity of logs persisted on the connected registry. */
-  logLevel?: LoggingPropertiesLogLevel | (string & {});
+  logLevel?: LoggingPropertiesLogLevel | (string & {}) | undefined;
   /** Indicates whether audit logs are enabled on the connected registry. */
-  auditLogStatus?: LoggingPropertiesAuditLogStatus | (string & {});
+  auditLogStatus?: LoggingPropertiesAuditLogStatus | (string & {}) | undefined;
 }
 /** The list of notifications subscription information for the connected registry. */
 export type ConnectedRegistryPropertiesInputNotificationsListList = Array<string>;
 /** The garbage collection properties of the connected registry. */
 export interface GarbageCollectionProperties {
   /** Indicates whether garbage collection is enabled for the connected registry. */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** The cron expression indicating the schedule that the connected registry will run garbage collection. */
-  schedule?: string;
+  schedule?: string | undefined;
 }
 /** The properties of a connected registry. */
 export interface ConnectedRegistryPropertiesInput {
@@ -190,15 +191,15 @@ export interface ConnectedRegistryPropertiesInput {
   /** The parent of the connected registry. */
   parent: ParentPropertiesInput;
   /** The list of the ACR token resource IDs used to authenticate clients to the connected registry. */
-  clientTokenIds?: ConnectedRegistryPropertiesInputClientTokenIdsList;
+  clientTokenIds?: ConnectedRegistryPropertiesInputClientTokenIdsList | undefined;
   /** The login server properties of the connected registry. */
-  loginServer?: LoginServerPropertiesInput;
+  loginServer?: LoginServerPropertiesInput | undefined;
   /** The logging properties of the connected registry. */
-  logging?: LoggingProperties;
+  logging?: LoggingProperties | undefined;
   /** The list of notifications subscription information for the connected registry. */
-  notificationsList?: ConnectedRegistryPropertiesInputNotificationsListList;
+  notificationsList?: ConnectedRegistryPropertiesInputNotificationsListList | undefined;
   /** The garbage collection properties of the connected registry. */
-  garbageCollection?: GarbageCollectionProperties;
+  garbageCollection?: GarbageCollectionProperties | undefined;
 }
 export interface CreateConnectedRegistryRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -210,7 +211,7 @@ export interface CreateConnectedRegistryRequest {
   /** The name of the connected registry. */
   connectedRegistryName: string;
   /** The properties of the connected registry. */
-  properties?: ConnectedRegistryPropertiesInput;
+  properties?: ConnectedRegistryPropertiesInput | undefined;
 }
 /** The current connection state of the connected registry. */
 export type ConnectionState = "Online" | "Offline" | "Syncing" | "Unhealthy";
@@ -219,27 +220,27 @@ export type ActivationStatus = "Active" | "Inactive";
 /** The activation properties of the connected registry. */
 export interface ActivationProperties {
   /** The activation status of the connected registry. */
-  status?: ActivationStatus;
+  status?: ActivationStatus | undefined;
 }
 /** The sync properties of the connected registry with its parent. */
 export interface SyncProperties {
   /** The resource ID of the ACR token used to authenticate the connected registry to its parent during sync. */
   tokenId: string;
   /** The cron expression indicating the schedule that the connected registry will sync with its parent. */
-  schedule?: string;
+  schedule?: string | undefined;
   /** The time window during which sync is enabled for each schedule occurrence. Specify the duration using the format P[n]Y[n]M[n]DT[n]H[n]M[n]S as per ISO8601. */
-  syncWindow?: string;
+  syncWindow?: string | undefined;
   /** The period of time for which a message is available to sync before it is expired. Specify the duration using the format P[n]Y[n]M[n]DT[n]H[n]M[n]S as per ISO8601. */
   messageTtl: string;
   /** The last time a sync occurred between the connected registry and its parent. */
-  lastSyncTime?: string;
+  lastSyncTime?: string | undefined;
   /** The gateway endpoint used by the connected registry to communicate with its parent. */
-  gatewayEndpoint?: string;
+  gatewayEndpoint?: string | undefined;
 }
 /** The properties of the connected registry parent. */
 export interface ParentProperties {
   /** The resource ID of the parent to which the connected registry will be associated. */
-  id?: string;
+  id?: string | undefined;
   /** The sync properties of the connected registry with its parent. */
   syncProperties: SyncProperties;
 }
@@ -252,36 +253,36 @@ export type CertificateType = "LocalDirectory";
 /** The TLS certificate properties of the connected registry login server. */
 export interface TlsCertificateProperties {
   /** The type of certificate location. */
-  type?: CertificateType;
+  type?: CertificateType | undefined;
   /** Indicates the location of the certificates. */
-  location?: string;
+  location?: string | undefined;
 }
 /** The TLS properties of the connected registry login server. */
 export interface TlsProperties {
   /** Indicates whether HTTPS is enabled for the login server. */
-  status?: TlsStatus;
+  status?: TlsStatus | undefined;
   /** The certificate used to configure HTTPS for the login server. */
-  certificate?: TlsCertificateProperties;
+  certificate?: TlsCertificateProperties | undefined;
 }
 /** The login server properties of the connected registry. */
 export interface LoginServerProperties {
   /** The host of the connected registry. Can be FQDN or IP. */
-  host?: string;
+  host?: string | undefined;
   /** The TLS properties of the connected registry login server. */
-  tls?: TlsProperties;
+  tls?: TlsProperties | undefined;
 }
 /** The status detail properties of the connected registry. */
 export interface StatusDetailProperties {
   /** The component of the connected registry corresponding to the status. */
-  type?: string;
+  type?: string | undefined;
   /** The HTTP status code. */
-  code?: string;
+  code?: string | undefined;
   /** The description of the status. */
-  description?: string;
+  description?: string | undefined;
   /** The timestamp of the status. */
-  timestamp?: string;
+  timestamp?: string | undefined;
   /** The correlation ID of the status. */
-  correlationId?: string;
+  correlationId?: string | undefined;
 }
 /** The list of current statuses of the connected registry. */
 export type ConnectedRegistryPropertiesStatusDetailsList = Array<StatusDetailProperties>;
@@ -290,47 +291,47 @@ export type ConnectedRegistryPropertiesNotificationsListList = Array<string>;
 /** The properties of a connected registry. */
 export interface ConnectedRegistryProperties {
   /** Provisioning state of the resource. */
-  provisioningState?: ProvisioningState;
+  provisioningState?: ProvisioningState | undefined;
   /** The mode of the connected registry resource that indicates the permissions of the registry. */
   mode: ConnectedRegistryMode;
   /** The current version of ACR runtime on the connected registry. */
-  version?: string;
+  version?: string | undefined;
   /** The current connection state of the connected registry. */
-  connectionState?: ConnectionState;
+  connectionState?: ConnectionState | undefined;
   /** The last activity time of the connected registry. */
-  lastActivityTime?: string;
+  lastActivityTime?: string | undefined;
   /** The activation properties of the connected registry. */
-  activation?: ActivationProperties;
+  activation?: ActivationProperties | undefined;
   /** The parent of the connected registry. */
   parent: ParentProperties;
   /** The list of the ACR token resource IDs used to authenticate clients to the connected registry. */
-  clientTokenIds?: ConnectedRegistryPropertiesClientTokenIdsList;
+  clientTokenIds?: ConnectedRegistryPropertiesClientTokenIdsList | undefined;
   /** The login server properties of the connected registry. */
-  loginServer?: LoginServerProperties;
+  loginServer?: LoginServerProperties | undefined;
   /** The logging properties of the connected registry. */
-  logging?: LoggingProperties;
+  logging?: LoggingProperties | undefined;
   /** The list of current statuses of the connected registry. */
-  statusDetails?: ConnectedRegistryPropertiesStatusDetailsList;
+  statusDetails?: ConnectedRegistryPropertiesStatusDetailsList | undefined;
   /** The list of notifications subscription information for the connected registry. */
-  notificationsList?: ConnectedRegistryPropertiesNotificationsListList;
+  notificationsList?: ConnectedRegistryPropertiesNotificationsListList | undefined;
   /** The garbage collection properties of the connected registry. */
-  garbageCollection?: GarbageCollectionProperties;
+  garbageCollection?: GarbageCollectionProperties | undefined;
 }
 export interface CreateConnectedRegistryResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties of the connected registry. */
-  properties?: ConnectedRegistryProperties;
+  properties?: ConnectedRegistryProperties | undefined;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** The name of the credential. */
 export type CredentialName = "Credential1";
@@ -339,31 +340,31 @@ export type CredentialHealthStatus = "Healthy" | "Unhealthy";
 /** The health of the auth credential. */
 export interface CredentialHealth {
   /** The health status of credential. */
-  status?: CredentialHealthStatus | (string & {});
+  status?: CredentialHealthStatus | (string & {}) | undefined;
   /** Error code representing the health check error. */
-  errorCode?: string;
+  errorCode?: string | undefined;
   /** Descriptive message representing the health check error. */
-  errorMessage?: string;
+  errorMessage?: string | undefined;
 }
 /** Authentication credential stored for an upstream. */
 export interface AuthCredential {
   /** The name of the credential. */
-  name?: CredentialName | (string & {});
+  name?: CredentialName | (string & {}) | undefined;
   /** KeyVault Secret URI for accessing the username. */
-  usernameSecretIdentifier?: string;
+  usernameSecretIdentifier?: string | undefined;
   /** KeyVault Secret URI for accessing the password. */
-  passwordSecretIdentifier?: string | Redacted.Redacted<string>;
+  passwordSecretIdentifier?: string | Redacted.Redacted<string> | undefined;
   /** This provides data pertaining to the health of the auth credential. */
-  credentialHealth?: CredentialHealth;
+  credentialHealth?: CredentialHealth | undefined;
 }
 /** List of authentication credentials stored for an upstream. Usually consists of a primary and an optional secondary credential. */
 export type CredentialSetPropertiesInputAuthCredentialsList = Array<AuthCredential>;
 /** The properties of a credential set resource. */
 export interface CredentialSetPropertiesInput {
   /** The credentials are stored for this upstream or login server. */
-  loginServer?: string;
+  loginServer?: string | undefined;
   /** List of authentication credentials stored for an upstream. Usually consists of a primary and an optional secondary credential. */
-  authCredentials?: CredentialSetPropertiesInputAuthCredentialsList;
+  authCredentials?: CredentialSetPropertiesInputAuthCredentialsList | undefined;
 }
 /** The identity type. */
 export type ResourceIdentityType =
@@ -379,9 +380,9 @@ export type IdentityPropertiesInputUserAssignedIdentitiesMap = {
 /** Managed identity for the resource. */
 export interface IdentityPropertiesInput {
   /** The identity type. */
-  type?: ResourceIdentityType | (string & {});
+  type?: ResourceIdentityType | (string & {}) | undefined;
   /** The list of user identities associated with the resource. The user identity dictionary key references will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/ providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'. */
-  userAssignedIdentities?: IdentityPropertiesInputUserAssignedIdentitiesMap;
+  userAssignedIdentities?: IdentityPropertiesInputUserAssignedIdentitiesMap | undefined;
 }
 export interface CreateCredentialSetRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -393,28 +394,28 @@ export interface CreateCredentialSetRequest {
   /** The name of the credential set. */
   credentialSetName: string;
   /** The properties of the credential set. */
-  properties?: CredentialSetPropertiesInput;
+  properties?: CredentialSetPropertiesInput | undefined;
   /** Identities associated with the resource. This is used to access the KeyVault secrets. */
-  identity?: IdentityPropertiesInput;
+  identity?: IdentityPropertiesInput | undefined;
 }
 /** List of authentication credentials stored for an upstream. Usually consists of a primary and an optional secondary credential. */
 export type CredentialSetPropertiesAuthCredentialsList = Array<AuthCredential>;
 /** The properties of a credential set resource. */
 export interface CredentialSetProperties {
   /** The credentials are stored for this upstream or login server. */
-  loginServer?: string;
+  loginServer?: string | undefined;
   /** List of authentication credentials stored for an upstream. Usually consists of a primary and an optional secondary credential. */
-  authCredentials?: CredentialSetPropertiesAuthCredentialsList;
+  authCredentials?: CredentialSetPropertiesAuthCredentialsList | undefined;
   /** The creation date of credential store resource. */
-  creationDate?: string;
+  creationDate?: string | undefined;
   /** Provisioning state of the resource. */
-  provisioningState?: ProvisioningState;
+  provisioningState?: ProvisioningState | undefined;
 }
 export interface UserIdentityProperties {
   /** The principal id of user assigned identity. */
-  principalId?: string;
+  principalId?: string | undefined;
   /** The client id of user assigned identity. */
-  clientId?: string;
+  clientId?: string | undefined;
 }
 /** The list of user identities associated with the resource. The user identity dictionary key references will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/ providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'. */
 export type IdentityPropertiesUserAssignedIdentitiesMap = {
@@ -423,31 +424,31 @@ export type IdentityPropertiesUserAssignedIdentitiesMap = {
 /** Managed identity for the resource. */
 export interface IdentityProperties {
   /** The principal ID of resource identity. */
-  principalId?: string;
+  principalId?: string | undefined;
   /** The tenant ID of resource. */
-  tenantId?: string;
+  tenantId?: string | undefined;
   /** The identity type. */
-  type?: ResourceIdentityType;
+  type?: ResourceIdentityType | undefined;
   /** The list of user identities associated with the resource. The user identity dictionary key references will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/ providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'. */
-  userAssignedIdentities?: IdentityPropertiesUserAssignedIdentitiesMap;
+  userAssignedIdentities?: IdentityPropertiesUserAssignedIdentitiesMap | undefined;
 }
 export interface CreateCredentialSetResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties of the credential set. */
-  properties?: CredentialSetProperties;
+  properties?: CredentialSetProperties | undefined;
   /** Identities associated with the resource. This is used to access the KeyVault secrets. */
-  identity?: IdentityProperties;
+  identity?: IdentityProperties | undefined;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Resource tags. */
 export type CreateRegistryRequestTagsMap = { [key: string]: string | undefined };
@@ -458,7 +459,7 @@ export type IPRuleAction = "Allow";
 /** IP rule with specific IP or IP range in CIDR format. */
 export interface IPRule {
   /** The action of IP ACL rule. */
-  action?: IPRuleAction | (string & {});
+  action?: IPRuleAction | (string & {}) | undefined;
   /** Specifies the IP or IP range in CIDR format. Only IPV4 address is allowed. */
   value: string;
 }
@@ -469,14 +470,14 @@ export interface NetworkRuleSet {
   /** The default action of allow or deny when no other rules match. */
   defaultAction: NetworkRuleSetDefaultAction | (string & {});
   /** The IP ACL rules. */
-  ipRules?: NetworkRuleSetIpRulesList;
+  ipRules?: NetworkRuleSetIpRulesList | undefined;
 }
 /** The value that indicates whether the policy is enabled or not. */
 export type QuarantinePolicyStatus = "enabled" | "disabled";
 /** The quarantine policy for a container registry. */
 export interface QuarantinePolicy {
   /** The value that indicates whether the policy is enabled or not. */
-  status?: QuarantinePolicyStatus | (string & {});
+  status?: QuarantinePolicyStatus | (string & {}) | undefined;
 }
 /** The type of trust policy. */
 export type TrustPolicyType = "Notary";
@@ -485,59 +486,59 @@ export type TrustPolicyStatus = "enabled" | "disabled";
 /** The content trust policy for a container registry. */
 export interface TrustPolicy {
   /** The type of trust policy. */
-  type?: TrustPolicyType | (string & {});
+  type?: TrustPolicyType | (string & {}) | undefined;
   /** The value that indicates whether the policy is enabled or not. */
-  status?: TrustPolicyStatus | (string & {});
+  status?: TrustPolicyStatus | (string & {}) | undefined;
 }
 /** The value that indicates whether the policy is enabled or not. */
 export type RetentionPolicyInputStatus = "enabled" | "disabled";
 /** The retention policy for a container registry. */
 export interface RetentionPolicyInput {
   /** The number of days to retain an untagged manifest after which it gets purged. */
-  days?: number;
+  days?: number | undefined;
   /** The value that indicates whether the policy is enabled or not. */
-  status?: RetentionPolicyInputStatus | (string & {});
+  status?: RetentionPolicyInputStatus | (string & {}) | undefined;
 }
 /** The value that indicates whether the policy is enabled or not. */
 export type ExportPolicyStatus = "enabled" | "disabled";
 /** The export policy for a container registry. */
 export interface ExportPolicy {
   /** The value that indicates whether the policy is enabled or not. */
-  status?: ExportPolicyStatus | (string & {});
+  status?: ExportPolicyStatus | (string & {}) | undefined;
 }
 /** The value that indicates whether the policy is enabled or not. */
 export type AzureADAuthenticationAsArmPolicyStatus = "enabled" | "disabled";
 /** The policy for using Azure Resource Manager audience token for a container registry. */
 export interface AzureADAuthenticationAsArmPolicy {
   /** The value that indicates whether the policy is enabled or not. */
-  status?: AzureADAuthenticationAsArmPolicyStatus | (string & {});
+  status?: AzureADAuthenticationAsArmPolicyStatus | (string & {}) | undefined;
 }
 /** The policies for a container registry. */
 export interface PoliciesInput {
   /** The quarantine policy for a container registry. */
-  quarantinePolicy?: QuarantinePolicy;
+  quarantinePolicy?: QuarantinePolicy | undefined;
   /** The content trust policy for a container registry. */
-  trustPolicy?: TrustPolicy;
+  trustPolicy?: TrustPolicy | undefined;
   /** The retention policy for a container registry. */
-  retentionPolicy?: RetentionPolicyInput;
+  retentionPolicy?: RetentionPolicyInput | undefined;
   /** The export policy for a container registry. */
-  exportPolicy?: ExportPolicy;
+  exportPolicy?: ExportPolicy | undefined;
   /** The policy for using Azure Resource Manager audience token for a container registry. */
-  azureADAuthenticationAsArmPolicy?: AzureADAuthenticationAsArmPolicy;
+  azureADAuthenticationAsArmPolicy?: AzureADAuthenticationAsArmPolicy | undefined;
 }
 /** Indicates whether or not the encryption is enabled for container registry. */
 export type EncryptionStatus = "enabled" | "disabled";
 export interface KeyVaultPropertiesInput {
   /** Key vault uri to access the encryption key. */
-  keyIdentifier?: string;
+  keyIdentifier?: string | undefined;
   /** The client id of the identity which will be used to access key vault. */
-  identity?: string;
+  identity?: string | undefined;
 }
 export interface EncryptionPropertyInput {
   /** Indicates whether or not the encryption is enabled for container registry. */
-  status?: EncryptionStatus | (string & {});
+  status?: EncryptionStatus | (string & {}) | undefined;
   /** Key vault properties. */
-  keyVaultProperties?: KeyVaultPropertiesInput;
+  keyVaultProperties?: KeyVaultPropertiesInput | undefined;
 }
 /** Whether or not public network access is allowed for the container registry. */
 export type RegistryPropertiesInputPublicNetworkAccess = "Enabled" | "Disabled";
@@ -552,27 +553,30 @@ export type RegistryPropertiesInputRoleAssignmentMode =
 /** The properties of a container registry. */
 export interface RegistryPropertiesInput {
   /** The value that indicates whether the admin user is enabled. */
-  adminUserEnabled?: boolean;
+  adminUserEnabled?: boolean | undefined;
   /** The network rule set for a container registry. */
-  networkRuleSet?: NetworkRuleSet;
+  networkRuleSet?: NetworkRuleSet | undefined;
   /** The policies for a container registry. */
-  policies?: PoliciesInput;
+  policies?: PoliciesInput | undefined;
   /** The encryption settings of container registry. */
-  encryption?: EncryptionPropertyInput;
+  encryption?: EncryptionPropertyInput | undefined;
   /** Enable a single data endpoint per region for serving data. */
-  dataEndpointEnabled?: boolean;
+  dataEndpointEnabled?: boolean | undefined;
   /** Whether or not public network access is allowed for the container registry. */
-  publicNetworkAccess?: RegistryPropertiesInputPublicNetworkAccess | (string & {});
+  publicNetworkAccess?: RegistryPropertiesInputPublicNetworkAccess | (string & {}) | undefined;
   /** Whether to allow trusted Azure services to access a network restricted registry. */
-  networkRuleBypassOptions?: RegistryPropertiesInputNetworkRuleBypassOptions | (string & {});
+  networkRuleBypassOptions?:
+    | RegistryPropertiesInputNetworkRuleBypassOptions
+    | (string & {})
+    | undefined;
   /** Whether or not Tasks allowed to bypass the network rules for this container registry. */
-  networkRuleBypassAllowedForTasks?: boolean;
+  networkRuleBypassAllowedForTasks?: boolean | undefined;
   /** Whether or not zone redundancy is enabled for this container registry */
-  zoneRedundancy?: RegistryPropertiesInputZoneRedundancy | (string & {});
+  zoneRedundancy?: RegistryPropertiesInputZoneRedundancy | (string & {}) | undefined;
   /** Enables registry-wide pull from unauthenticated clients. */
-  anonymousPullEnabled?: boolean;
+  anonymousPullEnabled?: boolean | undefined;
   /** Determines registry role assignment mode. */
-  roleAssignmentMode?: RegistryPropertiesInputRoleAssignmentMode | (string & {});
+  roleAssignmentMode?: RegistryPropertiesInputRoleAssignmentMode | (string & {}) | undefined;
 }
 /** The SKU name of the container registry. Required for registry creation. */
 export type SkuName = "Classic" | "Basic" | "Standard" | "Premium";
@@ -583,7 +587,7 @@ export interface Sku {
   /** The SKU name of the container registry. Required for registry creation. */
   name: SkuName | (string & {});
   /** The SKU tier based on the SKU name. */
-  tier?: SkuTier | (string & {});
+  tier?: SkuTier | (string & {}) | undefined;
 }
 export interface CreateRegistryRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -593,75 +597,75 @@ export interface CreateRegistryRequest {
   /** The name of the container registry. */
   registryName: string;
   /** Resource tags. */
-  tags?: CreateRegistryRequestTagsMap;
+  tags?: CreateRegistryRequestTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The properties of the container registry. */
-  properties?: RegistryPropertiesInput;
+  properties?: RegistryPropertiesInput | undefined;
   /** The SKU of the container registry. */
   sku: Sku;
   /** The identity of the container registry. */
-  identity?: IdentityPropertiesInput;
+  identity?: IdentityPropertiesInput | undefined;
 }
 /** Resource tags. */
 export type CreateRegistryResponseTagsMap = { [key: string]: string | undefined };
 /** The status of an Azure resource at the time the operation was called. */
 export interface Status {
   /** The short label for the status. */
-  displayStatus?: string;
+  displayStatus?: string | undefined;
   /** The detailed message for the status, including alerts and error messages. */
-  message?: string;
+  message?: string | undefined;
   /** The timestamp when the status was changed to the current value. */
-  timestamp?: string;
+  timestamp?: string | undefined;
 }
 /** The value that indicates whether the policy is enabled or not. */
 export type RetentionPolicyStatus = "enabled" | "disabled";
 /** The retention policy for a container registry. */
 export interface RetentionPolicy {
   /** The number of days to retain an untagged manifest after which it gets purged. */
-  days?: number;
+  days?: number | undefined;
   /** The timestamp when the policy was last updated. */
-  lastUpdatedTime?: string;
+  lastUpdatedTime?: string | undefined;
   /** The value that indicates whether the policy is enabled or not. */
-  status?: RetentionPolicyStatus;
+  status?: RetentionPolicyStatus | undefined;
 }
 /** The policies for a container registry. */
 export interface Policies {
   /** The quarantine policy for a container registry. */
-  quarantinePolicy?: QuarantinePolicy;
+  quarantinePolicy?: QuarantinePolicy | undefined;
   /** The content trust policy for a container registry. */
-  trustPolicy?: TrustPolicy;
+  trustPolicy?: TrustPolicy | undefined;
   /** The retention policy for a container registry. */
-  retentionPolicy?: RetentionPolicy;
+  retentionPolicy?: RetentionPolicy | undefined;
   /** The export policy for a container registry. */
-  exportPolicy?: ExportPolicy;
+  exportPolicy?: ExportPolicy | undefined;
   /** The policy for using Azure Resource Manager audience token for a container registry. */
-  azureADAuthenticationAsArmPolicy?: AzureADAuthenticationAsArmPolicy;
+  azureADAuthenticationAsArmPolicy?: AzureADAuthenticationAsArmPolicy | undefined;
 }
 export interface KeyVaultProperties {
   /** Key vault uri to access the encryption key. */
-  keyIdentifier?: string;
+  keyIdentifier?: string | undefined;
   /** The fully qualified key identifier that includes the version of the key that is actually used for encryption. */
-  versionedKeyIdentifier?: string;
+  versionedKeyIdentifier?: string | undefined;
   /** The client id of the identity which will be used to access key vault. */
-  identity?: string;
+  identity?: string | undefined;
   /** Auto key rotation status for a CMK enabled registry. */
-  keyRotationEnabled?: boolean;
+  keyRotationEnabled?: boolean | undefined;
   /** Timestamp of the last successful key rotation. */
-  lastKeyRotationTimestamp?: string;
+  lastKeyRotationTimestamp?: string | undefined;
 }
 export interface EncryptionProperty {
   /** Indicates whether or not the encryption is enabled for container registry. */
-  status?: EncryptionStatus;
+  status?: EncryptionStatus | undefined;
   /** Key vault properties. */
-  keyVaultProperties?: KeyVaultProperties;
+  keyVaultProperties?: KeyVaultProperties | undefined;
 }
 /** List of host names that will serve data when dataEndpointEnabled is true. */
 export type RegistryPropertiesDataEndpointHostNamesList = Array<string>;
 /** The Private Endpoint resource. */
 export interface PrivateEndpoint {
   /** This is private endpoint resource created with Microsoft.Network resource provider. */
-  id?: string;
+  id?: string | undefined;
 }
 /** The private link service connection status. */
 export type ConnectionStatus = "Approved" | "Pending" | "Rejected" | "Disconnected";
@@ -670,33 +674,33 @@ export type ActionsRequired = "None" | "Recreate";
 /** The state of a private link service connection. */
 export interface PrivateLinkServiceConnectionState {
   /** The private link service connection status. */
-  status?: ConnectionStatus | (string & {});
+  status?: ConnectionStatus | (string & {}) | undefined;
   /** The description for connection status. For example if connection is rejected it can indicate reason for rejection. */
-  description?: string;
+  description?: string | undefined;
   /** A message indicating if changes on the service provider require any updates on the consumer. */
-  actionsRequired?: ActionsRequired | (string & {});
+  actionsRequired?: ActionsRequired | (string & {}) | undefined;
 }
 /** The properties of a private endpoint connection. */
 export interface PrivateEndpointConnectionProperties {
   /** The resource of private endpoint. */
-  privateEndpoint?: PrivateEndpoint;
+  privateEndpoint?: PrivateEndpoint | undefined;
   /** A collection of information about the state of the connection between service consumer and provider. */
-  privateLinkServiceConnectionState?: PrivateLinkServiceConnectionState;
+  privateLinkServiceConnectionState?: PrivateLinkServiceConnectionState | undefined;
   /** The provisioning state of private endpoint connection resource. */
-  provisioningState?: ProvisioningState | (string & {});
+  provisioningState?: ProvisioningState | (string & {}) | undefined;
 }
 /** An object that represents a private endpoint connection for a container registry. */
 export interface PrivateEndpointConnection {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties of a private endpoint connection. */
-  properties?: PrivateEndpointConnectionProperties;
+  properties?: PrivateEndpointConnectionProperties | undefined;
 }
 /** List of private endpoint connections for a container registry. */
 export type RegistryPropertiesPrivateEndpointConnectionsList = Array<PrivateEndpointConnection>;
@@ -713,63 +717,63 @@ export type RegistryPropertiesRoleAssignmentMode =
 /** The properties of a container registry. */
 export interface RegistryProperties {
   /** The URL that can be used to log into the container registry. */
-  loginServer?: string;
+  loginServer?: string | undefined;
   /** The creation date of the container registry in ISO8601 format. */
-  creationDate?: string;
+  creationDate?: string | undefined;
   /** The provisioning state of the container registry at the time the operation was called. */
-  provisioningState?: ProvisioningState;
+  provisioningState?: ProvisioningState | undefined;
   /** The status of the container registry at the time the operation was called. */
-  status?: Status;
+  status?: Status | undefined;
   /** The value that indicates whether the admin user is enabled. */
-  adminUserEnabled?: boolean;
+  adminUserEnabled?: boolean | undefined;
   /** The network rule set for a container registry. */
-  networkRuleSet?: NetworkRuleSet;
+  networkRuleSet?: NetworkRuleSet | undefined;
   /** The policies for a container registry. */
-  policies?: Policies;
+  policies?: Policies | undefined;
   /** The encryption settings of container registry. */
-  encryption?: EncryptionProperty;
+  encryption?: EncryptionProperty | undefined;
   /** Enable a single data endpoint per region for serving data. */
-  dataEndpointEnabled?: boolean;
+  dataEndpointEnabled?: boolean | undefined;
   /** List of host names that will serve data when dataEndpointEnabled is true. */
-  dataEndpointHostNames?: RegistryPropertiesDataEndpointHostNamesList;
+  dataEndpointHostNames?: RegistryPropertiesDataEndpointHostNamesList | undefined;
   /** List of private endpoint connections for a container registry. */
-  privateEndpointConnections?: RegistryPropertiesPrivateEndpointConnectionsList;
+  privateEndpointConnections?: RegistryPropertiesPrivateEndpointConnectionsList | undefined;
   /** Whether or not public network access is allowed for the container registry. */
-  publicNetworkAccess?: RegistryPropertiesPublicNetworkAccess;
+  publicNetworkAccess?: RegistryPropertiesPublicNetworkAccess | undefined;
   /** Whether to allow trusted Azure services to access a network restricted registry. */
-  networkRuleBypassOptions?: RegistryPropertiesNetworkRuleBypassOptions;
+  networkRuleBypassOptions?: RegistryPropertiesNetworkRuleBypassOptions | undefined;
   /** Whether or not Tasks allowed to bypass the network rules for this container registry. */
-  networkRuleBypassAllowedForTasks?: boolean;
+  networkRuleBypassAllowedForTasks?: boolean | undefined;
   /** Whether or not zone redundancy is enabled for this container registry */
-  zoneRedundancy?: RegistryPropertiesZoneRedundancy;
+  zoneRedundancy?: RegistryPropertiesZoneRedundancy | undefined;
   /** Enables registry-wide pull from unauthenticated clients. */
-  anonymousPullEnabled?: boolean;
+  anonymousPullEnabled?: boolean | undefined;
   /** Determines registry role assignment mode. */
-  roleAssignmentMode?: RegistryPropertiesRoleAssignmentMode;
+  roleAssignmentMode?: RegistryPropertiesRoleAssignmentMode | undefined;
 }
 export interface CreateRegistryResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: CreateRegistryResponseTagsMap;
+  tags?: CreateRegistryResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The properties of the container registry. */
-  properties?: RegistryProperties;
+  properties?: RegistryProperties | undefined;
   /** The SKU of the container registry. */
   sku: Sku;
   /** The identity of the container registry. */
-  identity?: IdentityProperties;
+  identity?: IdentityProperties | undefined;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Resource tags. */
 export type CreateReplicationRequestTagsMap = { [key: string]: string | undefined };
@@ -778,9 +782,9 @@ export type ReplicationPropertiesInputZoneRedundancy = "Enabled" | "Disabled";
 /** The properties of a replication. */
 export interface ReplicationPropertiesInput {
   /** Specifies whether the replication's regional endpoint is enabled. Requests will not be routed to a replication whose regional endpoint is disabled, however its data will continue to be synced with other replications. */
-  regionEndpointEnabled?: boolean;
+  regionEndpointEnabled?: boolean | undefined;
   /** Whether or not zone redundancy is enabled for this container registry replication */
-  zoneRedundancy?: ReplicationPropertiesInputZoneRedundancy | (string & {});
+  zoneRedundancy?: ReplicationPropertiesInputZoneRedundancy | (string & {}) | undefined;
 }
 export interface CreateReplicationRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -792,11 +796,11 @@ export interface CreateReplicationRequest {
   /** The name of the replication. */
   replicationName: string;
   /** Resource tags. */
-  tags?: CreateReplicationRequestTagsMap;
+  tags?: CreateReplicationRequestTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The properties of the replication. */
-  properties?: ReplicationPropertiesInput;
+  properties?: ReplicationPropertiesInput | undefined;
 }
 /** Resource tags. */
 export type CreateReplicationResponseTagsMap = { [key: string]: string | undefined };
@@ -805,40 +809,40 @@ export type ReplicationPropertiesZoneRedundancy = "Enabled" | "Disabled";
 /** The properties of a replication. */
 export interface ReplicationProperties {
   /** The provisioning state of the replication at the time the operation was called. */
-  provisioningState?: ProvisioningState;
+  provisioningState?: ProvisioningState | undefined;
   /** The status of the replication at the time the operation was called. */
-  status?: Status;
+  status?: Status | undefined;
   /** Specifies whether the replication's regional endpoint is enabled. Requests will not be routed to a replication whose regional endpoint is disabled, however its data will continue to be synced with other replications. */
-  regionEndpointEnabled?: boolean;
+  regionEndpointEnabled?: boolean | undefined;
   /** Whether or not zone redundancy is enabled for this container registry replication */
-  zoneRedundancy?: ReplicationPropertiesZoneRedundancy;
+  zoneRedundancy?: ReplicationPropertiesZoneRedundancy | undefined;
 }
 export interface CreateReplicationResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: CreateReplicationResponseTagsMap;
+  tags?: CreateReplicationResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The properties of the replication. */
-  properties?: ReplicationProperties;
+  properties?: ReplicationProperties | undefined;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** The list of scoped permissions for registry artifacts. E.g. repositories/repository-name/content/read, repositories/repository-name/metadata/write */
 export type ScopeMapPropertiesInputActionsList = Array<string>;
 /** The properties of a scope map. */
 export interface ScopeMapPropertiesInput {
   /** The user friendly description of the scope map. */
-  description?: string;
+  description?: string | undefined;
   /** The list of scoped permissions for registry artifacts. E.g. repositories/repository-name/content/read, repositories/repository-name/metadata/write */
   actions: ScopeMapPropertiesInputActionsList;
 }
@@ -852,38 +856,38 @@ export interface CreateScopeMapRequest {
   /** The name of the scope map. */
   scopeMapName: string;
   /** The properties of the scope map. */
-  properties?: ScopeMapPropertiesInput;
+  properties?: ScopeMapPropertiesInput | undefined;
 }
 /** The list of scoped permissions for registry artifacts. E.g. repositories/repository-name/content/read, repositories/repository-name/metadata/write */
 export type ScopeMapPropertiesActionsList = Array<string>;
 /** The properties of a scope map. */
 export interface ScopeMapProperties {
   /** The user friendly description of the scope map. */
-  description?: string;
+  description?: string | undefined;
   /** The type of the scope map. E.g. BuildIn scope map. */
-  type?: string;
+  type?: string | undefined;
   /** The creation date of scope map. */
-  creationDate?: string;
+  creationDate?: string | undefined;
   /** Provisioning state of the resource. */
-  provisioningState?: ProvisioningState;
+  provisioningState?: ProvisioningState | undefined;
   /** The list of scoped permissions for registry artifacts. E.g. repositories/repository-name/content/read, repositories/repository-name/metadata/write */
   actions: ScopeMapPropertiesActionsList;
 }
 export interface CreateScopeMapResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties of the scope map. */
-  properties?: ScopeMapProperties;
+  properties?: ScopeMapProperties | undefined;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** The tags of the resource. */
 export type CreateTaskRequestTagsMap = { [key: string]: string | undefined };
@@ -900,13 +904,13 @@ export type IdentityPropertiesUserAssignedIdentitiesMap_2 = {
 /** Managed identity for the resource. */
 export interface IdentityProperties_2 {
   /** The principal ID of resource identity. */
-  principalId?: string;
+  principalId?: string | undefined;
   /** The tenant ID of resource. */
-  tenantId?: string;
+  tenantId?: string | undefined;
   /** The identity type. */
-  type?: IdentityPropertiesType | (string & {});
+  type?: IdentityPropertiesType | (string & {}) | undefined;
   /** The list of user identities associated with the resource. The user identity dictionary key references will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/ providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'. */
-  userAssignedIdentities?: IdentityPropertiesUserAssignedIdentitiesMap_2;
+  userAssignedIdentities?: IdentityPropertiesUserAssignedIdentitiesMap_2 | undefined;
 }
 /** The current status of task. */
 export type TaskPropertiesInputStatus = "Disabled" | "Enabled";
@@ -921,14 +925,14 @@ export interface PlatformProperties {
   /** The operating system type required for the run. */
   os: PlatformPropertiesOs | (string & {});
   /** The OS architecture. */
-  architecture?: PlatformPropertiesArchitecture | (string & {});
+  architecture?: PlatformPropertiesArchitecture | (string & {}) | undefined;
   /** Variant of the CPU. */
-  variant?: PlatformPropertiesVariant | (string & {});
+  variant?: PlatformPropertiesVariant | (string & {}) | undefined;
 }
 /** The properties that determine the run agent configuration. */
 export interface AgentProperties {
   /** The CPU configuration in terms of number of cores required for the run. */
-  cpu?: number;
+  cpu?: number | undefined;
 }
 /** The type of the step. */
 export type TaskStepPropertiesInputType = "Docker" | "FileTask" | "EncodedTask";
@@ -937,31 +941,31 @@ export interface TaskStepPropertiesInput {
   /** The type of the step. */
   type: TaskStepPropertiesInputType | (string & {});
   /** The URL(absolute or relative) of the source context for the task step. */
-  contextPath?: string;
+  contextPath?: string | undefined;
   /** The token (git PAT or SAS token of storage account blob) associated with the context for a step. */
-  contextAccessToken?: string;
+  contextAccessToken?: string | undefined;
   /** Docker step: Docker file path relative to the source context. */
-  dockerFilePath?: string;
+  dockerFilePath?: string | undefined;
   /** Docker step: fully qualified image names including the repository and tag. */
-  imageNames?: unknown;
+  imageNames?: unknown | undefined;
   /** Docker step: whether the image built should be pushed to the registry. */
-  isPushEnabled?: boolean;
+  isPushEnabled?: boolean | undefined;
   /** Docker step: whether the image cache is disabled. */
-  noCache?: boolean;
+  noCache?: boolean | undefined;
   /** Docker step: the name of the target build stage. */
-  target?: string;
+  target?: string | undefined;
   /** Docker step: build arguments ({ name, value, isSecret }[]). */
-  arguments?: unknown;
+  arguments?: unknown | undefined;
   /** FileTask step: task template/definition file path relative to the source context. */
-  taskFilePath?: string;
+  taskFilePath?: string | undefined;
   /** FileTask step: task values/parameters file path relative to the source context. */
-  valuesFilePath?: string;
+  valuesFilePath?: string | undefined;
   /** EncodedTask step: base64 encoded value of the template/definition file content. */
-  encodedTaskContent?: string;
+  encodedTaskContent?: string | undefined;
   /** EncodedTask step: base64 encoded value of the parameters/values file content. */
-  encodedValuesContent?: string;
+  encodedValuesContent?: string | undefined;
   /** FileTask/EncodedTask step: values to override ({ name, value, isSecret }[]). */
-  values?: unknown;
+  values?: unknown | undefined;
 }
 /** The current status of trigger. */
 export type TimerTriggerStatus = "Disabled" | "Enabled";
@@ -970,7 +974,7 @@ export interface TimerTrigger {
   /** The CRON expression for the task schedule */
   schedule: string;
   /** The current status of trigger. */
-  status?: TimerTriggerStatus | (string & {});
+  status?: TimerTriggerStatus | (string & {}) | undefined;
   /** The name of the trigger. */
   name: string;
 }
@@ -987,11 +991,11 @@ export interface AuthInfo {
   /** The access token used to access the source control provider. */
   token: string;
   /** The refresh token used to refresh the access token. */
-  refreshToken?: string | Redacted.Redacted<string>;
+  refreshToken?: string | Redacted.Redacted<string> | undefined;
   /** The scope of the access token. */
-  scope?: string;
+  scope?: string | undefined;
   /** Time in seconds that the token remains valid */
-  expiresIn?: number;
+  expiresIn?: number | undefined;
 }
 /** The properties of the source code repository. */
 export interface SourceProperties {
@@ -1000,9 +1004,9 @@ export interface SourceProperties {
   /** The full URL to the source code repository */
   repositoryUrl: string;
   /** The branch name of the source code. */
-  branch?: string;
+  branch?: string | undefined;
   /** The authorization properties for accessing the source code repository and to set up webhooks for notifications. */
-  sourceControlAuthProperties?: AuthInfo;
+  sourceControlAuthProperties?: AuthInfo | undefined;
 }
 export type SourceTriggerSourceTriggerEventsItem = "commit" | "pullrequest";
 /** The source event corresponding to the trigger. */
@@ -1018,7 +1022,7 @@ export interface SourceTrigger {
   /** The source event corresponding to the trigger. */
   sourceTriggerEvents: SourceTriggerSourceTriggerEventsList;
   /** The current status of trigger. */
-  status?: SourceTriggerStatus | (string & {});
+  status?: SourceTriggerStatus | (string & {}) | undefined;
   /** The name of the trigger. */
   name: string;
 }
@@ -1033,43 +1037,43 @@ export interface BaseImageTrigger {
   /** The type of the auto trigger for base image dependency updates. */
   baseImageTriggerType: BaseImageTriggerBaseImageTriggerType | (string & {});
   /** The current status of trigger. */
-  status?: BaseImageTriggerStatus | (string & {});
+  status?: BaseImageTriggerStatus | (string & {}) | undefined;
   /** The name of the trigger. */
   name: string;
 }
 /** The properties of a trigger. */
 export interface TriggerProperties {
   /** The collection of timer triggers. */
-  timerTriggers?: TriggerPropertiesTimerTriggersList;
+  timerTriggers?: TriggerPropertiesTimerTriggersList | undefined;
   /** The collection of triggers based on source code repository. */
-  sourceTriggers?: TriggerPropertiesSourceTriggersList;
+  sourceTriggers?: TriggerPropertiesSourceTriggersList | undefined;
   /** The trigger based on base image dependencies. */
-  baseImageTrigger?: BaseImageTrigger;
+  baseImageTrigger?: BaseImageTrigger | undefined;
 }
 /** The authentication mode which determines the source registry login scope. The credentials for the source registry will be generated using the given scope. These credentials will be used to login to the source registry during the run. */
 export type SourceRegistryCredentialsLoginMode = "None" | "Default";
 /** Describes the credential parameters for accessing the source registry. */
 export interface SourceRegistryCredentials {
   /** The authentication mode which determines the source registry login scope. The credentials for the source registry will be generated using the given scope. These credentials will be used to login to the source registry during the run. */
-  loginMode?: SourceRegistryCredentialsLoginMode | (string & {});
+  loginMode?: SourceRegistryCredentialsLoginMode | (string & {}) | undefined;
 }
 /** The type of the secret object which determines how the value of the secret object has to be interpreted. */
 export type SecretObjectType = "Opaque" | "Vaultsecret";
 /** Describes the properties of a secret object value. */
 export interface SecretObject {
   /** The value of the secret. The format of this value will be determined based on the type of the secret object. If the type is Opaque, the value will be used as is without any modification. */
-  value?: string;
+  value?: string | undefined;
   /** The type of the secret object which determines how the value of the secret object has to be interpreted. */
-  type?: SecretObjectType | (string & {});
+  type?: SecretObjectType | (string & {}) | undefined;
 }
 /** Describes the credentials that will be used to access a custom registry during a run. */
 export interface CustomRegistryCredentials {
   /** The username for logging into the custom registry. */
-  userName?: SecretObject;
+  userName?: SecretObject | undefined;
   /** The password for logging into the custom registry. The password is a secret object that allows multiple ways of providing the value for it. */
-  password?: SecretObject;
+  password?: SecretObject | undefined;
   /** Indicates the managed identity assigned to the custom credential. If a user-assigned identity this value is the Client ID. If a system-assigned identity, the value will be `system`. In the case of a system-assigned identity, the Client ID will be determined by the runner. This identity may be used to authenticate to key vault to retrieve credentials or it may be the only source of authentication used for accessing the registry. */
-  identity?: string;
+  identity?: string | undefined;
 }
 /** Describes the credential parameters for accessing other custom registries. The key for the dictionary item will be the registry login server (myregistry.azurecr.io) and the value of the item will be the registry credentials for accessing the registry. */
 export type CredentialsCustomRegistriesMap = {
@@ -1078,26 +1082,26 @@ export type CredentialsCustomRegistriesMap = {
 /** The parameters that describes a set of credentials that will be used when a run is invoked. */
 export interface Credentials {
   /** Describes the credential parameters for accessing the source registry. */
-  sourceRegistry?: SourceRegistryCredentials;
+  sourceRegistry?: SourceRegistryCredentials | undefined;
   /** Describes the credential parameters for accessing other custom registries. The key for the dictionary item will be the registry login server (myregistry.azurecr.io) and the value of the item will be the registry credentials for accessing the registry. */
-  customRegistries?: CredentialsCustomRegistriesMap;
+  customRegistries?: CredentialsCustomRegistriesMap | undefined;
 }
 /** The properties of a task. */
 export interface TaskPropertiesInput {
   /** The current status of task. */
-  status?: TaskPropertiesInputStatus | (string & {});
+  status?: TaskPropertiesInputStatus | (string & {}) | undefined;
   /** The platform properties against which the run has to happen. */
   platform: PlatformProperties;
   /** The machine configuration of the run agent. */
-  agentConfiguration?: AgentProperties;
+  agentConfiguration?: AgentProperties | undefined;
   /** Run timeout in seconds. */
-  timeout?: number;
+  timeout?: number | undefined;
   /** The properties of a task step. */
   step: TaskStepPropertiesInput;
   /** The properties that describe all triggers for the task. */
-  trigger?: TriggerProperties;
+  trigger?: TriggerProperties | undefined;
   /** The properties that describes a set of credentials that will be used when this run is invoked. */
-  credentials?: Credentials;
+  credentials?: Credentials | undefined;
 }
 export interface CreateTaskRequest {
   /** The Microsoft Azure subscription ID. */
@@ -1111,11 +1115,11 @@ export interface CreateTaskRequest {
   /** The location of the resource. This cannot be changed after the resource is created. */
   location: string;
   /** The tags of the resource. */
-  tags?: CreateTaskRequestTagsMap;
+  tags?: CreateTaskRequestTagsMap | undefined;
   /** Identity for the resource. */
-  identity?: IdentityProperties_2;
+  identity?: IdentityProperties_2 | undefined;
   /** The properties of a task. */
-  properties?: TaskPropertiesInput;
+  properties?: TaskPropertiesInput | undefined;
 }
 /** The tags of the resource. */
 export type CreateTaskResponseTagsMap = { [key: string]: string | undefined };
@@ -1136,15 +1140,15 @@ export type BaseImageDependencyType = "BuildTime" | "RunTime";
 /** Properties that describe a base image dependency. */
 export interface BaseImageDependency {
   /** The type of the base image dependency. */
-  type?: BaseImageDependencyType;
+  type?: BaseImageDependencyType | undefined;
   /** The registry login server. */
-  registry?: string;
+  registry?: string | undefined;
   /** The repository name. */
-  repository?: string;
+  repository?: string | undefined;
   /** The tag name. */
-  tag?: string;
+  tag?: string | undefined;
   /** The sha256-based digest of the image manifest. */
-  digest?: string;
+  digest?: string | undefined;
 }
 /** List of base image dependencies for a step. */
 export type TaskStepPropertiesBaseImageDependenciesList = Array<BaseImageDependency>;
@@ -1153,81 +1157,81 @@ export interface TaskStepProperties {
   /** The type of the step. */
   type: TaskStepPropertiesType;
   /** List of base image dependencies for a step. */
-  baseImageDependencies?: TaskStepPropertiesBaseImageDependenciesList;
+  baseImageDependencies?: TaskStepPropertiesBaseImageDependenciesList | undefined;
   /** The URL(absolute or relative) of the source context for the task step. */
-  contextPath?: string;
+  contextPath?: string | undefined;
   /** The token (git PAT or SAS token of storage account blob) associated with the context for a step. */
-  contextAccessToken?: string;
+  contextAccessToken?: string | undefined;
   /** Docker step: Docker file path relative to the source context. */
-  dockerFilePath?: string;
+  dockerFilePath?: string | undefined;
   /** Docker step: fully qualified image names including the repository and tag. */
-  imageNames?: unknown;
+  imageNames?: unknown | undefined;
   /** Docker step: whether the image built should be pushed to the registry. */
-  isPushEnabled?: boolean;
+  isPushEnabled?: boolean | undefined;
   /** Docker step: whether the image cache is disabled. */
-  noCache?: boolean;
+  noCache?: boolean | undefined;
   /** Docker step: the name of the target build stage. */
-  target?: string;
+  target?: string | undefined;
   /** Docker step: build arguments ({ name, value, isSecret }[]). */
-  arguments?: unknown;
+  arguments?: unknown | undefined;
   /** FileTask step: task template/definition file path relative to the source context. */
-  taskFilePath?: string;
+  taskFilePath?: string | undefined;
   /** FileTask step: task values/parameters file path relative to the source context. */
-  valuesFilePath?: string;
+  valuesFilePath?: string | undefined;
   /** EncodedTask step: base64 encoded value of the template/definition file content. */
-  encodedTaskContent?: string;
+  encodedTaskContent?: string | undefined;
   /** EncodedTask step: base64 encoded value of the parameters/values file content. */
-  encodedValuesContent?: string;
+  encodedValuesContent?: string | undefined;
   /** FileTask/EncodedTask step: values to override ({ name, value, isSecret }[]). */
-  values?: unknown;
+  values?: unknown | undefined;
 }
 /** The properties of a task. */
 export interface TaskProperties {
   /** The provisioning state of the task. */
-  provisioningState?: TaskPropertiesProvisioningState;
+  provisioningState?: TaskPropertiesProvisioningState | undefined;
   /** The creation date of task. */
-  creationDate?: string;
+  creationDate?: string | undefined;
   /** The current status of task. */
-  status?: TaskPropertiesStatus;
+  status?: TaskPropertiesStatus | undefined;
   /** The platform properties against which the run has to happen. */
   platform: PlatformProperties;
   /** The machine configuration of the run agent. */
-  agentConfiguration?: AgentProperties;
+  agentConfiguration?: AgentProperties | undefined;
   /** Run timeout in seconds. */
-  timeout?: number;
+  timeout?: number | undefined;
   /** The properties of a task step. */
   step: TaskStepProperties;
   /** The properties that describe all triggers for the task. */
-  trigger?: TriggerProperties;
+  trigger?: TriggerProperties | undefined;
   /** The properties that describes a set of credentials that will be used when this run is invoked. */
-  credentials?: Credentials;
+  credentials?: Credentials | undefined;
 }
 export interface CreateTaskResponse {
   /** The resource ID. */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource. */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. */
-  type?: string;
+  type?: string | undefined;
   /** The location of the resource. This cannot be changed after the resource is created. */
   location: string;
   /** The tags of the resource. */
-  tags?: CreateTaskResponseTagsMap;
+  tags?: CreateTaskResponseTagsMap | undefined;
   /** Identity for the resource. */
-  identity?: IdentityProperties_2;
+  identity?: IdentityProperties_2 | undefined;
   /** The properties of a task. */
-  properties?: TaskProperties;
+  properties?: TaskProperties | undefined;
 }
 export type TokenCertificateName = "certificate1" | "certificate2";
 /** The properties of a certificate used for authenticating a token. */
 export interface TokenCertificate {
-  name?: TokenCertificateName | (string & {});
+  name?: TokenCertificateName | (string & {}) | undefined;
   /** The expiry datetime of the certificate. */
-  expiry?: string;
+  expiry?: string | undefined;
   /** The thumbprint of the certificate. */
-  thumbprint?: string;
+  thumbprint?: string | undefined;
   /** Base 64 encoded string of the public certificate1 in PEM format that will be used for authenticating the token. */
-  encodedPemCertificate?: string;
+  encodedPemCertificate?: string | undefined;
 }
 export type TokenCredentialsPropertiesInputCertificatesList = Array<TokenCertificate>;
 /** The password name "password1" or "password2" */
@@ -1235,28 +1239,28 @@ export type TokenPasswordName = "password1" | "password2";
 /** The password that will be used for authenticating the token of a container registry. */
 export interface TokenPasswordInput {
   /** The creation datetime of the password. */
-  creationTime?: string;
+  creationTime?: string | undefined;
   /** The expiry datetime of the password. */
-  expiry?: string;
+  expiry?: string | undefined;
   /** The password name "password1" or "password2" */
-  name?: TokenPasswordName | (string & {});
+  name?: TokenPasswordName | (string & {}) | undefined;
 }
 export type TokenCredentialsPropertiesInputPasswordsList = Array<TokenPasswordInput>;
 /** The properties of the credentials that can be used for authenticating the token. */
 export interface TokenCredentialsPropertiesInput {
-  certificates?: TokenCredentialsPropertiesInputCertificatesList;
-  passwords?: TokenCredentialsPropertiesInputPasswordsList;
+  certificates?: TokenCredentialsPropertiesInputCertificatesList | undefined;
+  passwords?: TokenCredentialsPropertiesInputPasswordsList | undefined;
 }
 /** The status of the token example enabled or disabled. */
 export type TokenStatus = "enabled" | "disabled";
 /** The properties of a token. */
 export interface TokenPropertiesInput {
   /** The resource ID of the scope map to which the token will be associated with. */
-  scopeMapId?: string;
+  scopeMapId?: string | undefined;
   /** The credentials that can be used for authenticating the token. */
-  credentials?: TokenCredentialsPropertiesInput;
+  credentials?: TokenCredentialsPropertiesInput | undefined;
   /** The status of the token example enabled or disabled. */
-  status?: TokenStatus | (string & {});
+  status?: TokenStatus | (string & {}) | undefined;
 }
 export interface CreateTokenRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1268,54 +1272,54 @@ export interface CreateTokenRequest {
   /** The name of the token. */
   tokenName: string;
   /** The properties of the token. */
-  properties?: TokenPropertiesInput;
+  properties?: TokenPropertiesInput | undefined;
 }
 export type TokenCredentialsPropertiesCertificatesList = Array<TokenCertificate>;
 /** The password that will be used for authenticating the token of a container registry. */
 export interface TokenPassword {
   /** The creation datetime of the password. */
-  creationTime?: string;
+  creationTime?: string | undefined;
   /** The expiry datetime of the password. */
-  expiry?: string;
+  expiry?: string | undefined;
   /** The password name "password1" or "password2" */
-  name?: TokenPasswordName;
+  name?: TokenPasswordName | undefined;
   /** The password value. */
-  value?: string;
+  value?: string | undefined;
 }
 export type TokenCredentialsPropertiesPasswordsList = Array<TokenPassword>;
 /** The properties of the credentials that can be used for authenticating the token. */
 export interface TokenCredentialsProperties {
-  certificates?: TokenCredentialsPropertiesCertificatesList;
-  passwords?: TokenCredentialsPropertiesPasswordsList;
+  certificates?: TokenCredentialsPropertiesCertificatesList | undefined;
+  passwords?: TokenCredentialsPropertiesPasswordsList | undefined;
 }
 /** The properties of a token. */
 export interface TokenProperties {
   /** The creation date of scope map. */
-  creationDate?: string;
+  creationDate?: string | undefined;
   /** Provisioning state of the resource. */
-  provisioningState?: ProvisioningState;
+  provisioningState?: ProvisioningState | undefined;
   /** The resource ID of the scope map to which the token will be associated with. */
-  scopeMapId?: string;
+  scopeMapId?: string | undefined;
   /** The credentials that can be used for authenticating the token. */
-  credentials?: TokenCredentialsProperties;
+  credentials?: TokenCredentialsProperties | undefined;
   /** The status of the token example enabled or disabled. */
-  status?: TokenStatus;
+  status?: TokenStatus | undefined;
 }
 export interface CreateTokenResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties of the token. */
-  properties?: TokenProperties;
+  properties?: TokenProperties | undefined;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** The tags for the webhook. */
 export type CreateWebhookRequestTagsMap = { [key: string]: string | undefined };
@@ -1333,11 +1337,11 @@ export interface WebhookPropertiesCreateParameters {
   /** The service URI for the webhook to post notifications. */
   serviceUri: string;
   /** Custom headers that will be added to the webhook notifications. */
-  customHeaders?: WebhookPropertiesCreateParametersCustomHeadersMap;
+  customHeaders?: WebhookPropertiesCreateParametersCustomHeadersMap | undefined;
   /** The status of the webhook at the time the operation was called. */
-  status?: WebhookStatus | (string & {});
+  status?: WebhookStatus | (string & {}) | undefined;
   /** The scope of repositories where the event can be triggered. For example, 'foo:*' means events for all tags under repository 'foo'. 'foo:bar' means events for 'foo:bar' only. 'foo' is equivalent to 'foo:latest'. Empty means all events. */
-  scope?: string;
+  scope?: string | undefined;
   /** The list of actions that trigger the webhook to post notifications. */
   actions: WebhookPropertiesCreateParametersActionsList;
 }
@@ -1351,11 +1355,11 @@ export interface CreateWebhookRequest {
   /** The name of the webhook. */
   webhookName: string;
   /** The tags for the webhook. */
-  tags?: CreateWebhookRequestTagsMap;
+  tags?: CreateWebhookRequestTagsMap | undefined;
   /** The location of the webhook. This cannot be changed after the resource is created. */
   location: string;
   /** The properties that the webhook will be created with. */
-  properties?: WebhookPropertiesCreateParameters;
+  properties?: WebhookPropertiesCreateParameters | undefined;
 }
 /** Resource tags. */
 export type CreateWebhookResponseTagsMap = { [key: string]: string | undefined };
@@ -1364,33 +1368,33 @@ export type WebhookPropertiesActionsList = Array<WebhookAction>;
 /** The properties of a webhook. */
 export interface WebhookProperties {
   /** The status of the webhook at the time the operation was called. */
-  status?: WebhookStatus;
+  status?: WebhookStatus | undefined;
   /** The scope of repositories where the event can be triggered. For example, 'foo:*' means events for all tags under repository 'foo'. 'foo:bar' means events for 'foo:bar' only. 'foo' is equivalent to 'foo:latest'. Empty means all events. */
-  scope?: string;
+  scope?: string | undefined;
   /** The list of actions that trigger the webhook to post notifications. */
   actions: WebhookPropertiesActionsList;
   /** The provisioning state of the webhook at the time the operation was called. */
-  provisioningState?: ProvisioningState;
+  provisioningState?: ProvisioningState | undefined;
 }
 export interface CreateWebhookResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: CreateWebhookResponseTagsMap;
+  tags?: CreateWebhookResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The properties of the webhook. */
-  properties?: WebhookProperties;
+  properties?: WebhookProperties | undefined;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeactivateConnectedRegistryRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1404,9 +1408,9 @@ export interface DeactivateConnectedRegistryRequest {
 }
 export interface DeactivateConnectedRegistryResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeleteCacheRuleRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1420,9 +1424,9 @@ export interface DeleteCacheRuleRequest {
 }
 export interface DeleteCacheRuleResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeleteConnectedRegistryRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1436,9 +1440,9 @@ export interface DeleteConnectedRegistryRequest {
 }
 export interface DeleteConnectedRegistryResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeleteCredentialSetRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1452,9 +1456,9 @@ export interface DeleteCredentialSetRequest {
 }
 export interface DeleteCredentialSetResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeletePrivateEndpointConnectionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1468,9 +1472,9 @@ export interface DeletePrivateEndpointConnectionRequest {
 }
 export interface DeletePrivateEndpointConnectionResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeleteRegistryRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1482,9 +1486,9 @@ export interface DeleteRegistryRequest {
 }
 export interface DeleteRegistryResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeleteReplicationRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1498,9 +1502,9 @@ export interface DeleteReplicationRequest {
 }
 export interface DeleteReplicationResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeleteScopeMapRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1514,9 +1518,9 @@ export interface DeleteScopeMapRequest {
 }
 export interface DeleteScopeMapResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeleteTaskRequest {
   /** The Microsoft Azure subscription ID. */
@@ -1541,9 +1545,9 @@ export interface DeleteTokenRequest {
 }
 export interface DeleteTokenResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeleteWebhookRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1557,9 +1561,9 @@ export interface DeleteWebhookRequest {
 }
 export interface DeleteWebhookResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface GenerateRegistryCredentialsRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1569,24 +1573,24 @@ export interface GenerateRegistryCredentialsRequest {
   /** The name of the container registry. */
   registryName: string;
   /** The resource ID of the token for which credentials have to be generated. */
-  tokenId?: string;
+  tokenId?: string | undefined;
   /** The expiry date of the generated credentials after which the credentials become invalid. */
-  expiry?: string;
+  expiry?: string | undefined;
   /** Specifies name of the password which should be regenerated if any -- password1 or password2. */
-  name?: TokenPasswordName | (string & {});
+  name?: TokenPasswordName | (string & {}) | undefined;
 }
 /** The list of passwords for a container registry. */
 export type GenerateCredentialsResultPasswordsList = Array<TokenPassword>;
 /** The response from the GenerateCredentials operation. */
 export interface GenerateCredentialsResult {
   /** The username for a container registry. */
-  username?: string;
+  username?: string | undefined;
   /** The list of passwords for a container registry. */
-  passwords?: GenerateCredentialsResultPasswordsList;
+  passwords?: GenerateCredentialsResultPasswordsList | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface GetCacheRuleRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1600,15 +1604,15 @@ export interface GetCacheRuleRequest {
 }
 export interface GetCacheRuleResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties of the cache rule. */
-  properties?: CacheRuleProperties;
+  properties?: CacheRuleProperties | undefined;
 }
 export interface GetConnectedRegistryRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1622,15 +1626,15 @@ export interface GetConnectedRegistryRequest {
 }
 export interface GetConnectedRegistryResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties of the connected registry. */
-  properties?: ConnectedRegistryProperties;
+  properties?: ConnectedRegistryProperties | undefined;
 }
 export interface GetCredentialSetRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1644,17 +1648,17 @@ export interface GetCredentialSetRequest {
 }
 export interface GetCredentialSetResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties of the credential set. */
-  properties?: CredentialSetProperties;
+  properties?: CredentialSetProperties | undefined;
   /** Identities associated with the resource. This is used to access the KeyVault secrets. */
-  identity?: IdentityProperties;
+  identity?: IdentityProperties | undefined;
 }
 export interface GetPrivateEndpointConnectionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1668,15 +1672,15 @@ export interface GetPrivateEndpointConnectionRequest {
 }
 export interface GetPrivateEndpointConnectionResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties of a private endpoint connection. */
-  properties?: PrivateEndpointConnectionProperties;
+  properties?: PrivateEndpointConnectionProperties | undefined;
 }
 export interface GetRegistryRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1690,23 +1694,23 @@ export interface GetRegistryRequest {
 export type GetRegistryResponseTagsMap = { [key: string]: string | undefined };
 export interface GetRegistryResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: GetRegistryResponseTagsMap;
+  tags?: GetRegistryResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The properties of the container registry. */
-  properties?: RegistryProperties;
+  properties?: RegistryProperties | undefined;
   /** The SKU of the container registry. */
   sku: Sku;
   /** The identity of the container registry. */
-  identity?: IdentityProperties;
+  identity?: IdentityProperties | undefined;
 }
 export interface GetRegistryPrivateLinkResourceRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1725,23 +1729,23 @@ export type PrivateLinkResourcePropertiesRequiredZoneNamesList = Array<string>;
 /** Properties of a private link resource. */
 export interface PrivateLinkResourceProperties {
   /** The private link resource group id. */
-  groupId?: string;
+  groupId?: string | undefined;
   /** The private link resource required member names. */
-  requiredMembers?: PrivateLinkResourcePropertiesRequiredMembersList;
+  requiredMembers?: PrivateLinkResourcePropertiesRequiredMembersList | undefined;
   /** The private link resource private link DNS zone name. */
-  requiredZoneNames?: PrivateLinkResourcePropertiesRequiredZoneNamesList;
+  requiredZoneNames?: PrivateLinkResourcePropertiesRequiredZoneNamesList | undefined;
 }
 export interface GetRegistryPrivateLinkResourceResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource properties. */
-  properties?: PrivateLinkResourceProperties;
+  properties?: PrivateLinkResourceProperties | undefined;
 }
 export interface GetReplicationRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1757,19 +1761,19 @@ export interface GetReplicationRequest {
 export type GetReplicationResponseTagsMap = { [key: string]: string | undefined };
 export interface GetReplicationResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: GetReplicationResponseTagsMap;
+  tags?: GetReplicationResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The properties of the replication. */
-  properties?: ReplicationProperties;
+  properties?: ReplicationProperties | undefined;
 }
 export interface GetRunRequest {
   /** The Microsoft Azure subscription ID. */
@@ -1796,13 +1800,13 @@ export type RunPropertiesRunType = "QuickBuild" | "QuickRun" | "AutoBuild" | "Au
 /** Properties for a registry image. */
 export interface ImageDescriptor {
   /** The registry login server. */
-  registry?: string;
+  registry?: string | undefined;
   /** The repository name. */
-  repository?: string;
+  repository?: string | undefined;
   /** The tag name. */
-  tag?: string;
+  tag?: string | undefined;
   /** The sha256-based digest of the image manifest. */
-  digest?: string;
+  digest?: string | undefined;
 }
 /** The list of all images that were generated from the run. This is applicable if the run generates base image dependencies. */
 export type RunPropertiesOutputImagesList = Array<ImageDescriptor>;
@@ -1811,28 +1815,28 @@ export type ImageUpdateTriggerImagesList = Array<ImageDescriptor>;
 /** The image update trigger that caused a build. */
 export interface ImageUpdateTrigger {
   /** The unique ID of the trigger. */
-  id?: string;
+  id?: string | undefined;
   /** The timestamp when the image update happened. */
-  timestamp?: string;
+  timestamp?: string | undefined;
   /** The list of image updates that caused the build. */
-  images?: ImageUpdateTriggerImagesList;
+  images?: ImageUpdateTriggerImagesList | undefined;
 }
 /** The source trigger that caused a run. */
 export interface SourceTriggerDescriptor {
   /** The unique ID of the trigger. */
-  id?: string;
+  id?: string | undefined;
   /** The event type of the trigger. */
-  eventType?: string;
+  eventType?: string | undefined;
   /** The unique ID that identifies a commit. */
-  commitId?: string;
+  commitId?: string | undefined;
   /** The unique ID that identifies pull request. */
-  pullRequestId?: string;
+  pullRequestId?: string | undefined;
   /** The repository URL. */
-  repositoryUrl?: string;
+  repositoryUrl?: string | undefined;
   /** The branch name in the repository. */
-  branchName?: string;
+  branchName?: string | undefined;
   /** The source control provider type. */
-  providerType?: string;
+  providerType?: string | undefined;
 }
 /** The list of custom registries that were logged in during this run. */
 export type RunPropertiesCustomRegistriesList = Array<string>;
@@ -1846,60 +1850,60 @@ export type RunPropertiesProvisioningState =
   | "Canceled";
 export interface TimerTriggerDescriptor {
   /** The timer trigger name that caused the run. */
-  timerTriggerName?: string;
+  timerTriggerName?: string | undefined;
   /** The occurrence that triggered the run. */
-  scheduleOccurrence?: string;
+  scheduleOccurrence?: string | undefined;
 }
 /** The properties for a run. */
 export interface RunProperties {
   /** The unique identifier for the run. */
-  runId?: string;
+  runId?: string | undefined;
   /** The current status of the run. */
-  status?: RunPropertiesStatus;
+  status?: RunPropertiesStatus | undefined;
   /** The last updated time for the run. */
-  lastUpdatedTime?: string;
+  lastUpdatedTime?: string | undefined;
   /** The type of run. */
-  runType?: RunPropertiesRunType;
+  runType?: RunPropertiesRunType | undefined;
   /** The time the run was scheduled. */
-  createTime?: string;
+  createTime?: string | undefined;
   /** The time the run started. */
-  startTime?: string;
+  startTime?: string | undefined;
   /** The time the run finished. */
-  finishTime?: string;
+  finishTime?: string | undefined;
   /** The list of all images that were generated from the run. This is applicable if the run generates base image dependencies. */
-  outputImages?: RunPropertiesOutputImagesList;
+  outputImages?: RunPropertiesOutputImagesList | undefined;
   /** The task against which run was scheduled. */
-  task?: string;
+  task?: string | undefined;
   /** The image update trigger that caused the run. This is applicable if the task has base image trigger configured. */
-  imageUpdateTrigger?: ImageUpdateTrigger;
+  imageUpdateTrigger?: ImageUpdateTrigger | undefined;
   /** The source trigger that caused the run. */
-  sourceTrigger?: SourceTriggerDescriptor;
+  sourceTrigger?: SourceTriggerDescriptor | undefined;
   /** The platform properties against which the run will happen. */
-  platform?: PlatformProperties;
+  platform?: PlatformProperties | undefined;
   /** The machine configuration of the run agent. */
-  agentConfiguration?: AgentProperties;
+  agentConfiguration?: AgentProperties | undefined;
   /** The scope of the credentials that were used to login to the source registry during this run. */
-  sourceRegistryAuth?: string;
+  sourceRegistryAuth?: string | undefined;
   /** The list of custom registries that were logged in during this run. */
-  customRegistries?: RunPropertiesCustomRegistriesList;
+  customRegistries?: RunPropertiesCustomRegistriesList | undefined;
   /** The error message received from backend systems after the run is scheduled. */
-  runErrorMessage?: string;
+  runErrorMessage?: string | undefined;
   /** The provisioning state of a run. */
-  provisioningState?: RunPropertiesProvisioningState;
+  provisioningState?: RunPropertiesProvisioningState | undefined;
   /** The value that indicates whether archiving is enabled or not. */
-  isArchiveEnabled?: boolean;
+  isArchiveEnabled?: boolean | undefined;
   /** The timer trigger that caused the run. */
-  timerTrigger?: TimerTriggerDescriptor;
+  timerTrigger?: TimerTriggerDescriptor | undefined;
 }
 export interface GetRunResponse {
   /** The resource ID. */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource. */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. */
-  type?: string;
+  type?: string | undefined;
   /** The properties of a run. */
-  properties?: RunProperties;
+  properties?: RunProperties | undefined;
 }
 export interface GetRunLogSasUrlRequest {
   /** The Microsoft Azure subscription ID. */
@@ -1914,7 +1918,7 @@ export interface GetRunLogSasUrlRequest {
 /** The result of get log link operation. */
 export interface RunGetLogResult {
   /** The link to logs for a run on a azure container registry. */
-  logLink?: string;
+  logLink?: string | undefined;
 }
 export interface GetScopeMapRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1928,15 +1932,15 @@ export interface GetScopeMapRequest {
 }
 export interface GetScopeMapResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties of the scope map. */
-  properties?: ScopeMapProperties;
+  properties?: ScopeMapProperties | undefined;
 }
 export interface GetTaskRequest {
   /** The Microsoft Azure subscription ID. */
@@ -1952,19 +1956,19 @@ export interface GetTaskRequest {
 export type GetTaskResponseTagsMap = { [key: string]: string | undefined };
 export interface GetTaskResponse {
   /** The resource ID. */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource. */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. */
-  type?: string;
+  type?: string | undefined;
   /** The location of the resource. This cannot be changed after the resource is created. */
   location: string;
   /** The tags of the resource. */
-  tags?: GetTaskResponseTagsMap;
+  tags?: GetTaskResponseTagsMap | undefined;
   /** Identity for the resource. */
-  identity?: IdentityProperties_2;
+  identity?: IdentityProperties_2 | undefined;
   /** The properties of a task. */
-  properties?: TaskProperties;
+  properties?: TaskProperties | undefined;
 }
 export interface GetTaskDetailsRequest {
   /** The Microsoft Azure subscription ID. */
@@ -1980,19 +1984,19 @@ export interface GetTaskDetailsRequest {
 export type GetTaskDetailsResponseTagsMap = { [key: string]: string | undefined };
 export interface GetTaskDetailsResponse {
   /** The resource ID. */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource. */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. */
-  type?: string;
+  type?: string | undefined;
   /** The location of the resource. This cannot be changed after the resource is created. */
   location: string;
   /** The tags of the resource. */
-  tags?: GetTaskDetailsResponseTagsMap;
+  tags?: GetTaskDetailsResponseTagsMap | undefined;
   /** Identity for the resource. */
-  identity?: IdentityProperties_2;
+  identity?: IdentityProperties_2 | undefined;
   /** The properties of a task. */
-  properties?: TaskProperties;
+  properties?: TaskProperties | undefined;
 }
 export interface GetTokenRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2006,15 +2010,15 @@ export interface GetTokenRequest {
 }
 export interface GetTokenResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties of the token. */
-  properties?: TokenProperties;
+  properties?: TokenProperties | undefined;
 }
 export interface GetWebhookRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2030,19 +2034,19 @@ export interface GetWebhookRequest {
 export type GetWebhookResponseTagsMap = { [key: string]: string | undefined };
 export interface GetWebhookResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: GetWebhookResponseTagsMap;
+  tags?: GetWebhookResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The properties of the webhook. */
-  properties?: WebhookProperties;
+  properties?: WebhookProperties | undefined;
 }
 export interface GetWebhookCallbackConfigRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2061,21 +2065,21 @@ export interface CallbackConfig {
   /** The service URI for the webhook to post notifications. */
   serviceUri: string;
   /** Custom headers that will be added to the webhook notifications. */
-  customHeaders?: CallbackConfigCustomHeadersMap;
+  customHeaders?: CallbackConfigCustomHeadersMap | undefined;
 }
 export interface ImportSourceCredentials {
   /** The username to authenticate with the source registry. */
-  username?: string;
+  username?: string | undefined;
   /** The password used to authenticate with the source registry. */
   password: string | Redacted.Redacted<string>;
 }
 export interface ImportSource {
   /** The resource identifier of the source Azure Container Registry. */
-  resourceId?: string;
+  resourceId?: string | undefined;
   /** The address of the source registry (e.g. 'mcr.microsoft.com'). */
-  registryUri?: string;
+  registryUri?: string | undefined;
   /** Credentials used when importing from a registry uri. */
-  credentials?: ImportSourceCredentials;
+  credentials?: ImportSourceCredentials | undefined;
   /** Repository name of the source image. Specify an image by repository ('hello-world'). This will use the 'latest' tag. Specify an image by tag ('hello-world:latest'). Specify an image by sha256-based manifest digest ('hello-world@sha256:abc123'). */
   sourceImage: string;
 }
@@ -2095,17 +2099,17 @@ export interface ImportRegistryImageRequest {
   /** The source of the image. */
   source: ImportSource;
   /** List of strings of the form repo[:tag]. When tag is omitted the source will be used (or 'latest' if source tag is also omitted). */
-  targetTags?: ImportRegistryImageRequestTargetTagsList;
+  targetTags?: ImportRegistryImageRequestTargetTagsList | undefined;
   /** List of strings of repository names to do a manifest only copy. No tag will be created. */
-  untaggedTargetRepositories?: ImportRegistryImageRequestUntaggedTargetRepositoriesList;
+  untaggedTargetRepositories?: ImportRegistryImageRequestUntaggedTargetRepositoriesList | undefined;
   /** When Force, any existing target tags will be overwritten. When NoForce, any existing target tags will fail the operation before any copying begins. */
-  mode?: ImportRegistryImageRequestMode | (string & {});
+  mode?: ImportRegistryImageRequestMode | (string & {}) | undefined;
 }
 export interface ImportRegistryImageResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface ListCacheRulesRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2118,24 +2122,24 @@ export interface ListCacheRulesRequest {
 /** An object that represents a cache rule for a container registry. */
 export interface CacheRule {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties of the cache rule. */
-  properties?: CacheRuleProperties;
+  properties?: CacheRuleProperties | undefined;
 }
 /** The list of cache rules. Since this list may be incomplete, the nextLink field should be used to request the next list of cache rules. */
 export type CacheRulesListResultValueList = Array<CacheRule>;
 /** The result of a request to list cache rules for a container registry. */
 export interface CacheRulesListResult {
   /** The list of cache rules. Since this list may be incomplete, the nextLink field should be used to request the next list of cache rules. */
-  value?: CacheRulesListResultValueList;
+  value?: CacheRulesListResultValueList | undefined;
   /** The URI that can be used to request the next list of cache rules. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListConnectedRegistriesRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2145,29 +2149,29 @@ export interface ListConnectedRegistriesRequest {
   /** The name of the container registry. */
   registryName: string;
   /** An OData filter expression that describes a subset of connectedRegistries to return. The parameters that can be filtered are parent.id (the resource id of the connectedRegistry parent), mode, and connectionState. The supported operator is eq. */
-  _filter?: string;
+  _filter?: string | undefined;
 }
 /** An object that represents a connected registry for a container registry. */
 export interface ConnectedRegistry {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties of the connected registry. */
-  properties?: ConnectedRegistryProperties;
+  properties?: ConnectedRegistryProperties | undefined;
 }
 /** The list of connected registries. Since this list may be incomplete, the nextLink field should be used to request the next list of connected registries. */
 export type ConnectedRegistryListResultValueList = Array<ConnectedRegistry>;
 /** The result of a request to list connected registries for a container registry. */
 export interface ConnectedRegistryListResult {
   /** The list of connected registries. Since this list may be incomplete, the nextLink field should be used to request the next list of connected registries. */
-  value?: ConnectedRegistryListResultValueList;
+  value?: ConnectedRegistryListResultValueList | undefined;
   /** The URI that can be used to request the next list of connected registries. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListCredentialSetsRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2180,53 +2184,53 @@ export interface ListCredentialSetsRequest {
 /** An object that represents a credential set resource for a container registry. */
 export interface CredentialSet {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties of the credential set. */
-  properties?: CredentialSetProperties;
+  properties?: CredentialSetProperties | undefined;
   /** Identities associated with the resource. This is used to access the KeyVault secrets. */
-  identity?: IdentityProperties;
+  identity?: IdentityProperties | undefined;
 }
 /** The list of credential sets. Since this list may be incomplete, the nextLink field should be used to request the next list of credential sets. */
 export type CredentialSetListResultValueList = Array<CredentialSet>;
 /** The result of a request to list credential sets for a container registry. */
 export interface CredentialSetListResult {
   /** The list of credential sets. Since this list may be incomplete, the nextLink field should be used to request the next list of credential sets. */
-  value?: CredentialSetListResultValueList;
+  value?: CredentialSetListResultValueList | undefined;
   /** The URI that can be used to request the next list of credential sets. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListOperationsRequest {}
 /** The display information for a container registry operation. */
 export interface OperationDisplayDefinition {
   /** The resource provider name: Microsoft.ContainerRegistry. */
-  provider?: string;
+  provider?: string | undefined;
   /** The resource on which the operation is performed. */
-  resource?: string;
+  resource?: string | undefined;
   /** The operation that users can perform. */
-  operation?: string;
+  operation?: string | undefined;
   /** The description for the operation. */
-  description?: string;
+  description?: string | undefined;
 }
 /** The definition of Azure Monitoring metric. */
 export interface OperationMetricSpecificationDefinition {
   /** Metric name. */
-  name?: string;
+  name?: string | undefined;
   /** Metric display name. */
-  displayName?: string;
+  displayName?: string | undefined;
   /** Metric description. */
-  displayDescription?: string;
+  displayDescription?: string | undefined;
   /** Metric unit. */
-  unit?: string;
+  unit?: string | undefined;
   /** Metric aggregation type. */
-  aggregationType?: string;
+  aggregationType?: string | undefined;
   /** Internal metric name. */
-  internalMetricName?: string;
+  internalMetricName?: string | undefined;
 }
 /** A list of Azure Monitoring metrics definition. */
 export type OperationServiceSpecificationDefinitionMetricSpecificationsList =
@@ -2234,11 +2238,11 @@ export type OperationServiceSpecificationDefinitionMetricSpecificationsList =
 /** The definition of Azure Monitoring log. */
 export interface OperationLogSpecificationDefinition {
   /** Log name. */
-  name?: string;
+  name?: string | undefined;
   /** Log display name. */
-  displayName?: string;
+  displayName?: string | undefined;
   /** Log blob duration. */
-  blobDuration?: string;
+  blobDuration?: string | undefined;
 }
 /** A list of Azure Monitoring log definitions. */
 export type OperationServiceSpecificationDefinitionLogSpecificationsList =
@@ -2246,36 +2250,38 @@ export type OperationServiceSpecificationDefinitionLogSpecificationsList =
 /** The definition of Azure Monitoring list. */
 export interface OperationServiceSpecificationDefinition {
   /** A list of Azure Monitoring metrics definition. */
-  metricSpecifications?: OperationServiceSpecificationDefinitionMetricSpecificationsList;
+  metricSpecifications?:
+    | OperationServiceSpecificationDefinitionMetricSpecificationsList
+    | undefined;
   /** A list of Azure Monitoring log definitions. */
-  logSpecifications?: OperationServiceSpecificationDefinitionLogSpecificationsList;
+  logSpecifications?: OperationServiceSpecificationDefinitionLogSpecificationsList | undefined;
 }
 /** The definition of Azure Monitoring properties. */
 export interface OperationPropertiesDefinition {
   /** The definition of Azure Monitoring service. */
-  serviceSpecification?: OperationServiceSpecificationDefinition;
+  serviceSpecification?: OperationServiceSpecificationDefinition | undefined;
 }
 /** The definition of a container registry operation. */
 export interface OperationDefinition {
   /** The origin information of the container registry operation. */
-  origin?: string;
+  origin?: string | undefined;
   /** Operation name: {provider}/{resource}/{operation}. */
-  name?: string;
+  name?: string | undefined;
   /** The display information for the container registry operation. */
-  display?: OperationDisplayDefinition;
+  display?: OperationDisplayDefinition | undefined;
   /** The properties information for the container registry operation. */
-  properties?: OperationPropertiesDefinition;
+  properties?: OperationPropertiesDefinition | undefined;
   /** This property indicates if the operation is an action or a data action ref: https://docs.microsoft.com/en-us/azure/role-based-access-control/role-definitions#management-and-data-operations */
-  isDataAction?: boolean;
+  isDataAction?: boolean | undefined;
 }
 /** The list of container registry operations. Since this list may be incomplete, the nextLink field should be used to request the next list of operations. */
 export type OperationListResultValueList = Array<OperationDefinition>;
 /** The result of a request to list container registry operations. */
 export interface OperationListResult {
   /** The list of container registry operations. Since this list may be incomplete, the nextLink field should be used to request the next list of operations. */
-  value?: OperationListResultValueList;
+  value?: OperationListResultValueList | undefined;
   /** The URI that can be used to request the next list of container registry operations. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListPrivateEndpointConnectionsRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2290,9 +2296,9 @@ export type PrivateEndpointConnectionListResultValueList = Array<PrivateEndpoint
 /** The result of a request to list private endpoint connections for a container registry. */
 export interface PrivateEndpointConnectionListResult {
   /** The list of private endpoint connections. Since this list may be incomplete, the nextLink field should be used to request the next list of private endpoint connections. */
-  value?: PrivateEndpointConnectionListResultValueList;
+  value?: PrivateEndpointConnectionListResultValueList | undefined;
   /** The URI that can be used to request the next list of private endpoint connections. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListRegistriesRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2303,32 +2309,32 @@ export type RegistryTagsMap = { [key: string]: string | undefined };
 /** An object that represents a container registry. */
 export interface Registry {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: RegistryTagsMap;
+  tags?: RegistryTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The properties of the container registry. */
-  properties?: RegistryProperties;
+  properties?: RegistryProperties | undefined;
   /** The SKU of the container registry. */
   sku: Sku;
   /** The identity of the container registry. */
-  identity?: IdentityProperties;
+  identity?: IdentityProperties | undefined;
 }
 /** The list of container registries. Since this list may be incomplete, the nextLink field should be used to request the next list of container registries. */
 export type RegistryListResultValueList = Array<Registry>;
 /** The result of a request to list container registries. */
 export interface RegistryListResult {
   /** The list of container registries. Since this list may be incomplete, the nextLink field should be used to request the next list of container registries. */
-  value?: RegistryListResultValueList;
+  value?: RegistryListResultValueList | undefined;
   /** The URI that can be used to request the next list of container registries. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListRegistryByResourceGroupRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2349,18 +2355,18 @@ export type PasswordName = "password" | "password2";
 /** The login password for the container registry. */
 export interface RegistryPassword {
   /** The password name. */
-  name?: PasswordName;
+  name?: PasswordName | undefined;
   /** The password value. */
-  value?: string;
+  value?: string | undefined;
 }
 /** The list of passwords for a container registry. */
 export type RegistryListCredentialsResultPasswordsList = Array<RegistryPassword>;
 /** The response from the ListCredentials operation. */
 export interface RegistryListCredentialsResult {
   /** The username for a container registry. */
-  username?: string;
+  username?: string | undefined;
   /** The list of passwords for a container registry. */
-  passwords?: RegistryListCredentialsResultPasswordsList;
+  passwords?: RegistryListCredentialsResultPasswordsList | undefined;
 }
 export interface ListRegistryPrivateLinkResourcesRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2373,24 +2379,24 @@ export interface ListRegistryPrivateLinkResourcesRequest {
 /** A private link resource. */
 export interface PrivateLinkResourceListResultValueItem {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource properties. */
-  properties?: PrivateLinkResourceProperties;
+  properties?: PrivateLinkResourceProperties | undefined;
 }
 /** The list of private link resources. Since this list may be incomplete, the nextLink field should be used to request the next list of private link resources. */
 export type PrivateLinkResourceListResultValueList = Array<PrivateLinkResourceListResultValueItem>;
 /** The result of a request to list private link resources for a container registry. */
 export interface PrivateLinkResourceListResult {
   /** The list of private link resources. Since this list may be incomplete, the nextLink field should be used to request the next list of private link resources. */
-  value?: PrivateLinkResourceListResultValueList;
+  value?: PrivateLinkResourceListResultValueList | undefined;
   /** The URI that can be used to request the next list of private link resources. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListRegistryUsagesRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2405,20 +2411,20 @@ export type RegistryUsageUnit = "Count" | "Bytes";
 /** The quota usage for a container registry. */
 export interface RegistryUsage {
   /** The name of the usage. */
-  name?: string;
+  name?: string | undefined;
   /** The limit of the usage. */
-  limit?: number;
+  limit?: number | undefined;
   /** The current value of the usage. */
-  currentValue?: number;
+  currentValue?: number | undefined;
   /** The unit of measurement. */
-  unit?: RegistryUsageUnit;
+  unit?: RegistryUsageUnit | undefined;
 }
 /** The list of container registry quota usages. */
 export type RegistryUsageListResultValueList = Array<RegistryUsage>;
 /** The result of a request to get container registry quota usages. */
 export interface RegistryUsageListResult {
   /** The list of container registry quota usages. */
-  value?: RegistryUsageListResultValueList;
+  value?: RegistryUsageListResultValueList | undefined;
 }
 export interface ListReplicationsRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2433,28 +2439,28 @@ export type ReplicationTagsMap = { [key: string]: string | undefined };
 /** An object that represents a replication for a container registry. */
 export interface Replication {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: ReplicationTagsMap;
+  tags?: ReplicationTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The properties of the replication. */
-  properties?: ReplicationProperties;
+  properties?: ReplicationProperties | undefined;
 }
 /** The list of replications. Since this list may be incomplete, the nextLink field should be used to request the next list of replications. */
 export type ReplicationListResultValueList = Array<Replication>;
 /** The result of a request to list replications for a container registry. */
 export interface ReplicationListResult {
   /** The list of replications. Since this list may be incomplete, the nextLink field should be used to request the next list of replications. */
-  value?: ReplicationListResultValueList;
+  value?: ReplicationListResultValueList | undefined;
   /** The URI that can be used to request the next list of replications. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListRunsRequest {
   /** The Microsoft Azure subscription ID. */
@@ -2464,29 +2470,29 @@ export interface ListRunsRequest {
   /** The name of the container registry. */
   registryName: string;
   /** The runs filter to apply on the operation. Arithmetic operators are not supported. The allowed string function is 'contains'. All logical operators except 'Not', 'Has', 'All' are allowed. */
-  _filter?: string;
+  _filter?: string | undefined;
   /** $top is supported for get list of runs, which limits the maximum number of runs to return. */
-  _top?: number;
+  _top?: number | undefined;
 }
 /** Run resource properties */
 export interface Run {
   /** The resource ID. */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource. */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. */
-  type?: string;
+  type?: string | undefined;
   /** The properties of a run. */
-  properties?: RunProperties;
+  properties?: RunProperties | undefined;
 }
 /** The collection value. */
 export type RunListResultValueList = Array<Run>;
 /** Collection of runs. */
 export interface RunListResult {
   /** The collection value. */
-  value?: RunListResultValueList;
+  value?: RunListResultValueList | undefined;
   /** The URI that can be used to request the next set of paged results. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListScopeMapsRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2499,24 +2505,24 @@ export interface ListScopeMapsRequest {
 /** An object that represents a scope map for a container registry. */
 export interface ScopeMap {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties of the scope map. */
-  properties?: ScopeMapProperties;
+  properties?: ScopeMapProperties | undefined;
 }
 /** The list of scope maps. Since this list may be incomplete, the nextLink field should be used to request the next list of scope maps. */
 export type ScopeMapListResultValueList = Array<ScopeMap>;
 /** The result of a request to list scope maps for a container registry. */
 export interface ScopeMapListResult {
   /** The list of scope maps. Since this list may be incomplete, the nextLink field should be used to request the next list of scope maps. */
-  value?: ScopeMapListResultValueList;
+  value?: ScopeMapListResultValueList | undefined;
   /** The URI that can be used to request the next list of scope maps. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListTasksRequest {
   /** The Microsoft Azure subscription ID. */
@@ -2531,28 +2537,28 @@ export type TaskTagsMap = { [key: string]: string | undefined };
 /** The task that has the ARM resource and task properties. The task will have all information to schedule a run against it. */
 export interface Task {
   /** The resource ID. */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource. */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. */
-  type?: string;
+  type?: string | undefined;
   /** The location of the resource. This cannot be changed after the resource is created. */
   location: string;
   /** The tags of the resource. */
-  tags?: TaskTagsMap;
+  tags?: TaskTagsMap | undefined;
   /** Identity for the resource. */
-  identity?: IdentityProperties_2;
+  identity?: IdentityProperties_2 | undefined;
   /** The properties of a task. */
-  properties?: TaskProperties;
+  properties?: TaskProperties | undefined;
 }
 /** The collection value. */
 export type TaskListResultValueList = Array<Task>;
 /** The collection of tasks. */
 export interface TaskListResult {
   /** The collection value. */
-  value?: TaskListResultValueList;
+  value?: TaskListResultValueList | undefined;
   /** The URI that can be used to request the next set of paged results. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListTokensRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2565,24 +2571,24 @@ export interface ListTokensRequest {
 /** An object that represents a token for a container registry. */
 export interface Token {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties of the token. */
-  properties?: TokenProperties;
+  properties?: TokenProperties | undefined;
 }
 /** The list of tokens. Since this list may be incomplete, the nextLink field should be used to request the next list of tokens. */
 export type TokenListResultValueList = Array<Token>;
 /** The result of a request to list tokens for a container registry. */
 export interface TokenListResult {
   /** The list of tokens. Since this list may be incomplete, the nextLink field should be used to request the next list of tokens. */
-  value?: TokenListResultValueList;
+  value?: TokenListResultValueList | undefined;
   /** The URI that can be used to request the next list of tokens. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListWebhookEventsRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2597,113 +2603,113 @@ export interface ListWebhookEventsRequest {
 /** The target of the event. */
 export interface Target {
   /** The MIME type of the referenced object. */
-  mediaType?: string;
+  mediaType?: string | undefined;
   /** The number of bytes of the content. Same as Length field. */
-  size?: number;
+  size?: number | undefined;
   /** The digest of the content, as defined by the Registry V2 HTTP API Specification. */
-  digest?: string;
+  digest?: string | undefined;
   /** The number of bytes of the content. Same as Size field. */
-  length?: number;
+  length?: number | undefined;
   /** The repository name. */
-  repository?: string;
+  repository?: string | undefined;
   /** The direct URL to the content. */
-  url?: string;
+  url?: string | undefined;
   /** The tag name. */
-  tag?: string;
+  tag?: string | undefined;
   /** The name of the artifact. */
-  name?: string;
+  name?: string | undefined;
   /** The version of the artifact. */
-  version?: string;
+  version?: string | undefined;
 }
 /** The request that generated the event. */
 export interface Request {
   /** The ID of the request that initiated the event. */
-  id?: string;
+  id?: string | undefined;
   /** The IP or hostname and possibly port of the client connection that initiated the event. This is the RemoteAddr from the standard http request. */
-  addr?: string;
+  addr?: string | undefined;
   /** The externally accessible hostname of the registry instance, as specified by the http host header on incoming requests. */
-  host?: string;
+  host?: string | undefined;
   /** The request method that generated the event. */
-  method?: string;
+  method?: string | undefined;
   /** The user agent header of the request. */
-  useragent?: string;
+  useragent?: string | undefined;
 }
 /** The agent that initiated the event. For most situations, this could be from the authorization context of the request. */
 export interface Actor {
   /** The subject or username associated with the request context that generated the event. */
-  name?: string;
+  name?: string | undefined;
 }
 /** The registry node that generated the event. Put differently, while the actor initiates the event, the source generates it. */
 export interface Source {
   /** The IP or hostname and the port of the registry node that generated the event. Generally, this will be resolved by os.Hostname() along with the running port. */
-  addr?: string;
+  addr?: string | undefined;
   /** The running instance of an application. Changes after each restart. */
-  instanceID?: string;
+  instanceID?: string | undefined;
 }
 /** The content of the event request message. */
 export interface EventContent {
   /** The event ID. */
-  id?: string;
+  id?: string | undefined;
   /** The time at which the event occurred. */
-  timestamp?: string;
+  timestamp?: string | undefined;
   /** The action that encompasses the provided event. */
-  action?: string;
+  action?: string | undefined;
   /** The target of the event. */
-  target?: Target;
+  target?: Target | undefined;
   /** The request that generated the event. */
-  request?: Request;
+  request?: Request | undefined;
   /** The agent that initiated the event. For most situations, this could be from the authorization context of the request. */
-  actor?: Actor;
+  actor?: Actor | undefined;
   /** The registry node that generated the event. Put differently, while the actor initiates the event, the source generates it. */
-  source?: Source;
+  source?: Source | undefined;
 }
 /** The headers of the event request message. */
 export type EventRequestMessageHeadersMap = { [key: string]: string | undefined };
 /** The event request message sent to the service URI. */
 export interface EventRequestMessage {
   /** The content of the event request message. */
-  content?: EventContent;
+  content?: EventContent | undefined;
   /** The headers of the event request message. */
-  headers?: EventRequestMessageHeadersMap;
+  headers?: EventRequestMessageHeadersMap | undefined;
   /** The HTTP method used to send the event request message. */
-  method?: string;
+  method?: string | undefined;
   /** The URI used to send the event request message. */
-  requestUri?: string;
+  requestUri?: string | undefined;
   /** The HTTP message version. */
-  version?: string;
+  version?: string | undefined;
 }
 /** The headers of the event response message. */
 export type EventResponseMessageHeadersMap = { [key: string]: string | undefined };
 /** The event response message received from the service URI. */
 export interface EventResponseMessage {
   /** The content of the event response message. */
-  content?: string;
+  content?: string | undefined;
   /** The headers of the event response message. */
-  headers?: EventResponseMessageHeadersMap;
+  headers?: EventResponseMessageHeadersMap | undefined;
   /** The reason phrase of the event response message. */
-  reasonPhrase?: string;
+  reasonPhrase?: string | undefined;
   /** The status code of the event response message. */
-  statusCode?: string;
+  statusCode?: string | undefined;
   /** The HTTP message version. */
-  version?: string;
+  version?: string | undefined;
 }
 /** The event for a webhook. */
 export interface Event {
   /** The event ID. */
-  id?: string;
+  id?: string | undefined;
   /** The event request message sent to the service URI. */
-  eventRequestMessage?: EventRequestMessage;
+  eventRequestMessage?: EventRequestMessage | undefined;
   /** The event response message received from the service URI. */
-  eventResponseMessage?: EventResponseMessage;
+  eventResponseMessage?: EventResponseMessage | undefined;
 }
 /** The list of events. Since this list may be incomplete, the nextLink field should be used to request the next list of events. */
 export type EventListResultValueList = Array<Event>;
 /** The result of a request to list events for a webhook. */
 export interface EventListResult {
   /** The list of events. Since this list may be incomplete, the nextLink field should be used to request the next list of events. */
-  value?: EventListResultValueList;
+  value?: EventListResultValueList | undefined;
   /** The URI that can be used to request the next list of events. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListWebhooksRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2718,28 +2724,28 @@ export type WebhookTagsMap = { [key: string]: string | undefined };
 /** An object that represents a webhook for a container registry. */
 export interface Webhook {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: WebhookTagsMap;
+  tags?: WebhookTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The properties of the webhook. */
-  properties?: WebhookProperties;
+  properties?: WebhookProperties | undefined;
 }
 /** The list of webhooks. Since this list may be incomplete, the nextLink field should be used to request the next list of webhooks. */
 export type WebhookListResultValueList = Array<Webhook>;
 /** The result of a request to list webhooks for a container registry. */
 export interface WebhookListResult {
   /** The list of webhooks. Since this list may be incomplete, the nextLink field should be used to request the next list of webhooks. */
-  value?: WebhookListResultValueList;
+  value?: WebhookListResultValueList | undefined;
   /** The URI that can be used to request the next list of webhooks. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface PingWebhookRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2754,7 +2760,7 @@ export interface PingWebhookRequest {
 /** The basic information of an event. */
 export interface EventInfo {
   /** The event ID. */
-  id?: string;
+  id?: string | undefined;
 }
 export interface PrivateEndpointConnectionsCreateOrUpdateRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2766,23 +2772,23 @@ export interface PrivateEndpointConnectionsCreateOrUpdateRequest {
   /** The name of the private endpoint connection. */
   privateEndpointConnectionName: string;
   /** The properties of a private endpoint connection. */
-  properties?: PrivateEndpointConnectionProperties;
+  properties?: PrivateEndpointConnectionProperties | undefined;
 }
 export interface PrivateEndpointConnectionsCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties of a private endpoint connection. */
-  properties?: PrivateEndpointConnectionProperties;
+  properties?: PrivateEndpointConnectionProperties | undefined;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface RegenerateRegistryCredentialRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2805,9 +2811,9 @@ export interface RegistriesGetBuildSourceUploadUrlRequest {
 /** The properties of a response to source upload request. */
 export interface SourceUploadDefinition {
   /** The URL where the client can upload the source. */
-  uploadUrl?: string;
+  uploadUrl?: string | undefined;
   /** The relative path to the source. This is used to submit the subsequent queue build request. */
-  relativePath?: string;
+  relativePath?: string | undefined;
 }
 export interface RunRegistriesScheduleRequest {
   /** The Microsoft Azure subscription ID. */
@@ -2819,22 +2825,22 @@ export interface RunRegistriesScheduleRequest {
   /** The type of the run request. */
   type: string;
   /** The value that indicates whether archiving is enabled for the run or not. */
-  isArchiveEnabled?: boolean;
+  isArchiveEnabled?: boolean | undefined;
 }
 export interface RunRegistriesScheduleResponse {
   /** The resource ID. */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource. */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. */
-  type?: string;
+  type?: string | undefined;
   /** The properties of a run. */
-  properties?: RunProperties;
+  properties?: RunProperties | undefined;
 }
 /** The parameters for updating cache rule properties. */
 export interface CacheRuleUpdateProperties {
   /** The ARM resource ID of the credential store which is associated with the Cache rule. */
-  credentialSetResourceId?: string;
+  credentialSetResourceId?: string | undefined;
 }
 export interface UpdateCacheRuleRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2846,32 +2852,32 @@ export interface UpdateCacheRuleRequest {
   /** The name of the cache rule. */
   cacheRuleName: string;
   /** The properties of the cache rule update parameters. */
-  properties?: CacheRuleUpdateProperties;
+  properties?: CacheRuleUpdateProperties | undefined;
 }
 export interface UpdateCacheRuleResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties of the cache rule. */
-  properties?: CacheRuleProperties;
+  properties?: CacheRuleProperties | undefined;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** The parameters for updating the sync properties of the connected registry with its parent. */
 export interface SyncUpdateProperties {
   /** The cron expression indicating the schedule that the connected registry will sync with its parent. */
-  schedule?: string;
+  schedule?: string | undefined;
   /** The time window during which sync is enabled for each schedule occurrence. Specify the duration using the format P[n]Y[n]M[n]DT[n]H[n]M[n]S as per ISO8601. */
-  syncWindow?: string;
+  syncWindow?: string | undefined;
   /** The period of time for which a message is available to sync before it is expired. Specify the duration using the format P[n]Y[n]M[n]DT[n]H[n]M[n]S as per ISO8601. */
-  messageTtl?: string;
+  messageTtl?: string | undefined;
 }
 /** The list of the ACR token resource IDs used to authenticate clients to the connected registry. */
 export type ConnectedRegistryUpdatePropertiesClientTokenIdsList = Array<string>;
@@ -2880,15 +2886,15 @@ export type ConnectedRegistryUpdatePropertiesNotificationsListList = Array<strin
 /** The parameters for updating token properties. */
 export interface ConnectedRegistryUpdateProperties {
   /** The sync properties of the connected registry with its parent. */
-  syncProperties?: SyncUpdateProperties;
+  syncProperties?: SyncUpdateProperties | undefined;
   /** The logging properties of the connected registry. */
-  logging?: LoggingProperties;
+  logging?: LoggingProperties | undefined;
   /** The list of the ACR token resource IDs used to authenticate clients to the connected registry. */
-  clientTokenIds?: ConnectedRegistryUpdatePropertiesClientTokenIdsList;
+  clientTokenIds?: ConnectedRegistryUpdatePropertiesClientTokenIdsList | undefined;
   /** The list of notifications subscription information for the connected registry. */
-  notificationsList?: ConnectedRegistryUpdatePropertiesNotificationsListList;
+  notificationsList?: ConnectedRegistryUpdatePropertiesNotificationsListList | undefined;
   /** The garbage collection properties of the connected registry. */
-  garbageCollection?: GarbageCollectionProperties;
+  garbageCollection?: GarbageCollectionProperties | undefined;
 }
 export interface UpdateConnectedRegistryRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2900,30 +2906,30 @@ export interface UpdateConnectedRegistryRequest {
   /** The name of the connected registry. */
   connectedRegistryName: string;
   /** The properties of the connected registry update parameters. */
-  properties?: ConnectedRegistryUpdateProperties;
+  properties?: ConnectedRegistryUpdateProperties | undefined;
 }
 export interface UpdateConnectedRegistryResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties of the connected registry. */
-  properties?: ConnectedRegistryProperties;
+  properties?: ConnectedRegistryProperties | undefined;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** List of authentication credentials stored for an upstream. Usually consists of a primary and an optional secondary credential. */
 export type CredentialSetUpdatePropertiesAuthCredentialsList = Array<AuthCredential>;
 /** The parameters for updating credential set properties. */
 export interface CredentialSetUpdateProperties {
   /** List of authentication credentials stored for an upstream. Usually consists of a primary and an optional secondary credential. */
-  authCredentials?: CredentialSetUpdatePropertiesAuthCredentialsList;
+  authCredentials?: CredentialSetUpdatePropertiesAuthCredentialsList | undefined;
 }
 export interface UpdateCredentialSetRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2935,27 +2941,27 @@ export interface UpdateCredentialSetRequest {
   /** The name of the credential set. */
   credentialSetName: string;
   /** The properties of the credential set update parameters */
-  properties?: CredentialSetUpdateProperties;
+  properties?: CredentialSetUpdateProperties | undefined;
   /** Identities associated with the resource. This is used to access the KeyVault secrets. */
-  identity?: IdentityPropertiesInput;
+  identity?: IdentityPropertiesInput | undefined;
 }
 export interface UpdateCredentialSetResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties of the credential set. */
-  properties?: CredentialSetProperties;
+  properties?: CredentialSetProperties | undefined;
   /** Identities associated with the resource. This is used to access the KeyVault secrets. */
-  identity?: IdentityProperties;
+  identity?: IdentityProperties | undefined;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** The tags for the container registry. */
 export type UpdateRegistryRequestTagsMap = { [key: string]: string | undefined };
@@ -2970,27 +2976,28 @@ export type RoleAssignmentMode = "AbacRepositoryPermissions" | "LegacyRegistryPe
 /** The parameters for updating the properties of a container registry. */
 export interface RegistryPropertiesUpdateParametersInput {
   /** The value that indicates whether the admin user is enabled. */
-  adminUserEnabled?: boolean;
+  adminUserEnabled?: boolean | undefined;
   /** The network rule set for a container registry. */
-  networkRuleSet?: NetworkRuleSet;
+  networkRuleSet?: NetworkRuleSet | undefined;
   /** The policies for a container registry. */
-  policies?: PoliciesInput;
+  policies?: PoliciesInput | undefined;
   /** The encryption settings of container registry. */
-  encryption?: EncryptionPropertyInput;
+  encryption?: EncryptionPropertyInput | undefined;
   /** Enable a single data endpoint per region for serving data. */
-  dataEndpointEnabled?: boolean;
+  dataEndpointEnabled?: boolean | undefined;
   /** Whether or not public network access is allowed for the container registry. */
-  publicNetworkAccess?: PublicNetworkAccess | (string & {});
+  publicNetworkAccess?: PublicNetworkAccess | (string & {}) | undefined;
   /** Whether to allow trusted Azure services to access a network restricted registry. */
   networkRuleBypassOptions?:
     | RegistryPropertiesUpdateParametersInputNetworkRuleBypassOptions
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** Whether to allow ACR Tasks service to access a network restricted registry. */
-  networkRuleBypassAllowedForTasks?: boolean;
+  networkRuleBypassAllowedForTasks?: boolean | undefined;
   /** Enables registry-wide pull from unauthenticated clients. */
-  anonymousPullEnabled?: boolean;
+  anonymousPullEnabled?: boolean | undefined;
   /** Determines registry role assignment mode. */
-  roleAssignmentMode?: RoleAssignmentMode | (string & {});
+  roleAssignmentMode?: RoleAssignmentMode | (string & {}) | undefined;
 }
 export interface UpdateRegistryRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -3000,45 +3007,45 @@ export interface UpdateRegistryRequest {
   /** The name of the container registry. */
   registryName: string;
   /** The identity of the container registry. */
-  identity?: IdentityPropertiesInput;
+  identity?: IdentityPropertiesInput | undefined;
   /** The tags for the container registry. */
-  tags?: UpdateRegistryRequestTagsMap;
+  tags?: UpdateRegistryRequestTagsMap | undefined;
   /** The SKU of the container registry. */
-  sku?: Sku;
+  sku?: Sku | undefined;
   /** The properties that the container registry will be updated with. */
-  properties?: RegistryPropertiesUpdateParametersInput;
+  properties?: RegistryPropertiesUpdateParametersInput | undefined;
 }
 /** Resource tags. */
 export type UpdateRegistryResponseTagsMap = { [key: string]: string | undefined };
 export interface UpdateRegistryResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: UpdateRegistryResponseTagsMap;
+  tags?: UpdateRegistryResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The properties of the container registry. */
-  properties?: RegistryProperties;
+  properties?: RegistryProperties | undefined;
   /** The SKU of the container registry. */
   sku: Sku;
   /** The identity of the container registry. */
-  identity?: IdentityProperties;
+  identity?: IdentityProperties | undefined;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** The tags for the replication. */
 export type UpdateReplicationRequestTagsMap = { [key: string]: string | undefined };
 export interface ReplicationUpdateParametersProperties {
   /** Specifies whether the replication's regional endpoint is enabled. Requests will not be routed to a replication whose regional endpoint is disabled, however its data will continue to be synced with other replications. */
-  regionEndpointEnabled?: boolean;
+  regionEndpointEnabled?: boolean | undefined;
 }
 export interface UpdateReplicationRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -3050,31 +3057,31 @@ export interface UpdateReplicationRequest {
   /** The name of the replication. */
   replicationName: string;
   /** The tags for the replication. */
-  tags?: UpdateReplicationRequestTagsMap;
+  tags?: UpdateReplicationRequestTagsMap | undefined;
   /** The parameters for updating a replication's properties */
-  properties?: ReplicationUpdateParametersProperties;
+  properties?: ReplicationUpdateParametersProperties | undefined;
 }
 /** Resource tags. */
 export type UpdateReplicationResponseTagsMap = { [key: string]: string | undefined };
 export interface UpdateReplicationResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: UpdateReplicationResponseTagsMap;
+  tags?: UpdateReplicationResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The properties of the replication. */
-  properties?: ReplicationProperties;
+  properties?: ReplicationProperties | undefined;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface UpdateRunRequest {
   /** The Microsoft Azure subscription ID. */
@@ -3086,26 +3093,26 @@ export interface UpdateRunRequest {
   /** The run ID. */
   runId: string;
   /** The value that indicates whether archiving is enabled or not. */
-  isArchiveEnabled?: boolean;
+  isArchiveEnabled?: boolean | undefined;
 }
 export interface UpdateRunResponse {
   /** The resource ID. */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource. */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. */
-  type?: string;
+  type?: string | undefined;
   /** The properties of a run. */
-  properties?: RunProperties;
+  properties?: RunProperties | undefined;
 }
 /** The list of scope permissions for registry artifacts. E.g. repositories/repository-name/pull, repositories/repository-name/delete */
 export type ScopeMapPropertiesUpdateParametersActionsList = Array<string>;
 /** The update parameters for scope map properties. */
 export interface ScopeMapPropertiesUpdateParameters {
   /** The user friendly description of the scope map. */
-  description?: string;
+  description?: string | undefined;
   /** The list of scope permissions for registry artifacts. E.g. repositories/repository-name/pull, repositories/repository-name/delete */
-  actions?: ScopeMapPropertiesUpdateParametersActionsList;
+  actions?: ScopeMapPropertiesUpdateParametersActionsList | undefined;
 }
 export interface UpdateScopeMapRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -3117,23 +3124,23 @@ export interface UpdateScopeMapRequest {
   /** The name of the scope map. */
   scopeMapName: string;
   /** The update parameters for scope map properties. */
-  properties?: ScopeMapPropertiesUpdateParameters;
+  properties?: ScopeMapPropertiesUpdateParameters | undefined;
 }
 export interface UpdateScopeMapResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties of the scope map. */
-  properties?: ScopeMapProperties;
+  properties?: ScopeMapProperties | undefined;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** The current status of task. */
 export type TaskPropertiesUpdateParametersStatus = "Disabled" | "Enabled";
@@ -3146,11 +3153,11 @@ export type PlatformUpdateParametersVariant = "v6" | "v7" | "v8";
 /** The properties for updating the platform configuration. */
 export interface PlatformUpdateParameters {
   /** The operating system type required for the run. */
-  os?: PlatformUpdateParametersOs | (string & {});
+  os?: PlatformUpdateParametersOs | (string & {}) | undefined;
   /** The OS architecture. */
-  architecture?: PlatformUpdateParametersArchitecture | (string & {});
+  architecture?: PlatformUpdateParametersArchitecture | (string & {}) | undefined;
   /** Variant of the CPU. */
-  variant?: PlatformUpdateParametersVariant | (string & {});
+  variant?: PlatformUpdateParametersVariant | (string & {}) | undefined;
 }
 /** The type of the step. */
 export type TaskStepUpdateParametersType = "Docker" | "FileTask" | "EncodedTask";
@@ -3159,40 +3166,40 @@ export interface TaskStepUpdateParameters {
   /** The type of the step. */
   type: TaskStepUpdateParametersType | (string & {});
   /** The URL(absolute or relative) of the source context for the task step. */
-  contextPath?: string;
+  contextPath?: string | undefined;
   /** The token (git PAT or SAS token of storage account blob) associated with the context for a step. */
-  contextAccessToken?: string;
+  contextAccessToken?: string | undefined;
   /** Docker step: Docker file path relative to the source context. */
-  dockerFilePath?: string;
+  dockerFilePath?: string | undefined;
   /** Docker step: fully qualified image names including the repository and tag. */
-  imageNames?: unknown;
+  imageNames?: unknown | undefined;
   /** Docker step: whether the image built should be pushed to the registry. */
-  isPushEnabled?: boolean;
+  isPushEnabled?: boolean | undefined;
   /** Docker step: whether the image cache is disabled. */
-  noCache?: boolean;
+  noCache?: boolean | undefined;
   /** Docker step: the name of the target build stage. */
-  target?: string;
+  target?: string | undefined;
   /** Docker step: build arguments ({ name, value, isSecret }[]). */
-  arguments?: unknown;
+  arguments?: unknown | undefined;
   /** FileTask step: task template/definition file path relative to the source context. */
-  taskFilePath?: string;
+  taskFilePath?: string | undefined;
   /** FileTask step: task values/parameters file path relative to the source context. */
-  valuesFilePath?: string;
+  valuesFilePath?: string | undefined;
   /** EncodedTask step: base64 encoded value of the template/definition file content. */
-  encodedTaskContent?: string;
+  encodedTaskContent?: string | undefined;
   /** EncodedTask step: base64 encoded value of the parameters/values file content. */
-  encodedValuesContent?: string;
+  encodedValuesContent?: string | undefined;
   /** FileTask/EncodedTask step: values to override ({ name, value, isSecret }[]). */
-  values?: unknown;
+  values?: unknown | undefined;
 }
 /** The current status of trigger. */
 export type TimerTriggerUpdateParametersStatus = "Disabled" | "Enabled";
 /** The properties for updating a timer trigger. */
 export interface TimerTriggerUpdateParameters {
   /** The CRON expression for the task schedule */
-  schedule?: string;
+  schedule?: string | undefined;
   /** The current status of trigger. */
-  status?: TimerTriggerUpdateParametersStatus | (string & {});
+  status?: TimerTriggerUpdateParametersStatus | (string & {}) | undefined;
   /** The name of the trigger. */
   name: string;
 }
@@ -3205,26 +3212,26 @@ export type AuthInfoUpdateParametersTokenType = "PAT" | "OAuth";
 /** The authorization properties for accessing the source code repository. */
 export interface AuthInfoUpdateParameters {
   /** The type of Auth token. */
-  tokenType?: AuthInfoUpdateParametersTokenType | (string & {});
+  tokenType?: AuthInfoUpdateParametersTokenType | (string & {}) | undefined;
   /** The access token used to access the source control provider. */
-  token?: string;
+  token?: string | undefined;
   /** The refresh token used to refresh the access token. */
-  refreshToken?: string | Redacted.Redacted<string>;
+  refreshToken?: string | Redacted.Redacted<string> | undefined;
   /** The scope of the access token. */
-  scope?: string;
+  scope?: string | undefined;
   /** Time in seconds that the token remains valid */
-  expiresIn?: number;
+  expiresIn?: number | undefined;
 }
 /** The properties for updating the source code repository. */
 export interface SourceUpdateParameters {
   /** The type of source control service. */
-  sourceControlType?: SourceUpdateParametersSourceControlType | (string & {});
+  sourceControlType?: SourceUpdateParametersSourceControlType | (string & {}) | undefined;
   /** The full URL to the source code repository */
-  repositoryUrl?: string;
+  repositoryUrl?: string | undefined;
   /** The branch name of the source code. */
-  branch?: string;
+  branch?: string | undefined;
   /** The authorization properties for accessing the source code repository and to set up webhooks for notifications. */
-  sourceControlAuthProperties?: AuthInfoUpdateParameters;
+  sourceControlAuthProperties?: AuthInfoUpdateParameters | undefined;
 }
 export type SourceTriggerUpdateParametersSourceTriggerEventsItem = "commit" | "pullrequest";
 /** The source event corresponding to the trigger. */
@@ -3236,11 +3243,11 @@ export type SourceTriggerUpdateParametersStatus = "Disabled" | "Enabled";
 /** The properties for updating a source based trigger. */
 export interface SourceTriggerUpdateParameters {
   /** The properties that describes the source(code) for the task. */
-  sourceRepository?: SourceUpdateParameters;
+  sourceRepository?: SourceUpdateParameters | undefined;
   /** The source event corresponding to the trigger. */
-  sourceTriggerEvents?: SourceTriggerUpdateParametersSourceTriggerEventsList;
+  sourceTriggerEvents?: SourceTriggerUpdateParametersSourceTriggerEventsList | undefined;
   /** The current status of trigger. */
-  status?: SourceTriggerUpdateParametersStatus | (string & {});
+  status?: SourceTriggerUpdateParametersStatus | (string & {}) | undefined;
   /** The name of the trigger. */
   name: string;
 }
@@ -3253,37 +3260,40 @@ export type BaseImageTriggerUpdateParametersStatus = "Disabled" | "Enabled";
 /** The properties for updating base image dependency trigger. */
 export interface BaseImageTriggerUpdateParameters {
   /** The type of the auto trigger for base image dependency updates. */
-  baseImageTriggerType?: BaseImageTriggerUpdateParametersBaseImageTriggerType | (string & {});
+  baseImageTriggerType?:
+    | BaseImageTriggerUpdateParametersBaseImageTriggerType
+    | (string & {})
+    | undefined;
   /** The current status of trigger. */
-  status?: BaseImageTriggerUpdateParametersStatus | (string & {});
+  status?: BaseImageTriggerUpdateParametersStatus | (string & {}) | undefined;
   /** The name of the trigger. */
   name: string;
 }
 /** The properties for updating triggers. */
 export interface TriggerUpdateParameters {
   /** The collection of timer triggers. */
-  timerTriggers?: TriggerUpdateParametersTimerTriggersList;
+  timerTriggers?: TriggerUpdateParametersTimerTriggersList | undefined;
   /** The collection of triggers based on source code repository. */
-  sourceTriggers?: TriggerUpdateParametersSourceTriggersList;
+  sourceTriggers?: TriggerUpdateParametersSourceTriggersList | undefined;
   /** The trigger based on base image dependencies. */
-  baseImageTrigger?: BaseImageTriggerUpdateParameters;
+  baseImageTrigger?: BaseImageTriggerUpdateParameters | undefined;
 }
 /** The properties for updating a task. */
 export interface TaskPropertiesUpdateParameters {
   /** The current status of task. */
-  status?: TaskPropertiesUpdateParametersStatus | (string & {});
+  status?: TaskPropertiesUpdateParametersStatus | (string & {}) | undefined;
   /** The platform properties against which the run has to happen. */
-  platform?: PlatformUpdateParameters;
+  platform?: PlatformUpdateParameters | undefined;
   /** The machine configuration of the run agent. */
-  agentConfiguration?: AgentProperties;
+  agentConfiguration?: AgentProperties | undefined;
   /** Run timeout in seconds. */
-  timeout?: number;
+  timeout?: number | undefined;
   /** The properties for updating a task step. */
-  step?: TaskStepUpdateParameters;
+  step?: TaskStepUpdateParameters | undefined;
   /** The properties for updating trigger properties. */
-  trigger?: TriggerUpdateParameters;
+  trigger?: TriggerUpdateParameters | undefined;
   /** The parameters that describes a set of credentials that will be used when this run is invoked. */
-  credentials?: Credentials;
+  credentials?: Credentials | undefined;
 }
 /** The ARM resource tags. */
 export type UpdateTaskRequestTagsMap = { [key: string]: string | undefined };
@@ -3297,38 +3307,38 @@ export interface UpdateTaskRequest {
   /** The name of the container registry task. */
   taskName: string;
   /** Identity for the resource. */
-  identity?: IdentityProperties_2;
+  identity?: IdentityProperties_2 | undefined;
   /** The properties for updating a task. */
-  properties?: TaskPropertiesUpdateParameters;
+  properties?: TaskPropertiesUpdateParameters | undefined;
   /** The ARM resource tags. */
-  tags?: UpdateTaskRequestTagsMap;
+  tags?: UpdateTaskRequestTagsMap | undefined;
 }
 /** The tags of the resource. */
 export type UpdateTaskResponseTagsMap = { [key: string]: string | undefined };
 export interface UpdateTaskResponse {
   /** The resource ID. */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource. */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. */
-  type?: string;
+  type?: string | undefined;
   /** The location of the resource. This cannot be changed after the resource is created. */
   location: string;
   /** The tags of the resource. */
-  tags?: UpdateTaskResponseTagsMap;
+  tags?: UpdateTaskResponseTagsMap | undefined;
   /** Identity for the resource. */
-  identity?: IdentityProperties_2;
+  identity?: IdentityProperties_2 | undefined;
   /** The properties of a task. */
-  properties?: TaskProperties;
+  properties?: TaskProperties | undefined;
 }
 /** The parameters for updating token properties. */
 export interface TokenUpdatePropertiesInput {
   /** The resource ID of the scope map to which the token will be associated with. */
-  scopeMapId?: string;
+  scopeMapId?: string | undefined;
   /** The status of the token example enabled or disabled. */
-  status?: TokenStatus | (string & {});
+  status?: TokenStatus | (string & {}) | undefined;
   /** The credentials that can be used for authenticating the token. */
-  credentials?: TokenCredentialsPropertiesInput;
+  credentials?: TokenCredentialsPropertiesInput | undefined;
 }
 export interface UpdateTokenRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -3340,23 +3350,23 @@ export interface UpdateTokenRequest {
   /** The name of the token. */
   tokenName: string;
   /** The properties of the token update parameters. */
-  properties?: TokenUpdatePropertiesInput;
+  properties?: TokenUpdatePropertiesInput | undefined;
 }
 export interface UpdateTokenResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties of the token. */
-  properties?: TokenProperties;
+  properties?: TokenProperties | undefined;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** The tags for the webhook. */
 export type UpdateWebhookRequestTagsMap = { [key: string]: string | undefined };
@@ -3369,15 +3379,15 @@ export type WebhookPropertiesUpdateParametersActionsList = Array<WebhookAction |
 /** The parameters for updating the properties of a webhook. */
 export interface WebhookPropertiesUpdateParameters {
   /** The service URI for the webhook to post notifications. */
-  serviceUri?: string;
+  serviceUri?: string | undefined;
   /** Custom headers that will be added to the webhook notifications. */
-  customHeaders?: WebhookPropertiesUpdateParametersCustomHeadersMap;
+  customHeaders?: WebhookPropertiesUpdateParametersCustomHeadersMap | undefined;
   /** The status of the webhook at the time the operation was called. */
-  status?: WebhookStatus | (string & {});
+  status?: WebhookStatus | (string & {}) | undefined;
   /** The scope of repositories where the event can be triggered. For example, 'foo:*' means events for all tags under repository 'foo'. 'foo:bar' means events for 'foo:bar' only. 'foo' is equivalent to 'foo:latest'. Empty means all events. */
-  scope?: string;
+  scope?: string | undefined;
   /** The list of actions that trigger the webhook to post notifications. */
-  actions?: WebhookPropertiesUpdateParametersActionsList;
+  actions?: WebhookPropertiesUpdateParametersActionsList | undefined;
 }
 export interface UpdateWebhookRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -3389,31 +3399,31 @@ export interface UpdateWebhookRequest {
   /** The name of the webhook. */
   webhookName: string;
   /** The tags for the webhook. */
-  tags?: UpdateWebhookRequestTagsMap;
+  tags?: UpdateWebhookRequestTagsMap | undefined;
   /** The properties that the webhook will be updated with. */
-  properties?: WebhookPropertiesUpdateParameters;
+  properties?: WebhookPropertiesUpdateParameters | undefined;
 }
 /** Resource tags. */
 export type UpdateWebhookResponseTagsMap = { [key: string]: string | undefined };
 export interface UpdateWebhookResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: UpdateWebhookResponseTagsMap;
+  tags?: UpdateWebhookResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The properties of the webhook. */
-  properties?: WebhookProperties;
+  properties?: WebhookProperties | undefined;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export type CancelRunError = AzureOpError;
 /** Cancel an existing run. */

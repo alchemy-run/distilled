@@ -64,15 +64,15 @@ export class UnprocessableEntity
 export interface DeletePaymentMethodRequest {
   /** The unique identifier of the payment method to delete. */
   id: string;
-  member_id?: string;
-  account_id?: string;
+  member_id?: string | undefined;
+  account_id?: string | undefined;
 }
 export type DeletePaymentMethodResponse = boolean;
 export interface GetPaymentMethodRequest {
   /** The unique identifier of the payment method. */
   id: string;
-  member_id?: string;
-  account_id?: string;
+  member_id?: string | undefined;
+  account_id?: string | undefined;
 }
 /** The colorway for dark surfaces. */
 export interface PaymentMethodCase0IconsCardDark {
@@ -522,22 +522,22 @@ export type ListPaymentMethodRequestCardBrandsList = Array<CardBrands | (string 
 /** Only return cards funded this way. A card whose funding could not be determined is excluded, and payment methods that are not cards are unaffected. */
 export type ListPaymentMethodRequestCardFundingTypesList = Array<CardFundingTypes | (string & {})>;
 export interface ListPaymentMethodRequest {
-  after?: string;
-  before?: string;
-  first?: number;
-  last?: number;
-  member_id?: string;
-  direction?: Direction | (string & {});
-  created_before?: string;
-  created_after?: string;
-  future_usage?: FutureUsageTypes | (string & {});
-  payment_method_types?: ListPaymentMethodRequestPaymentMethodTypesList;
-  card_brands?: ListPaymentMethodRequestCardBrandsList;
-  card_funding_types?: ListPaymentMethodRequestCardFundingTypesList;
-  has_payer_document?: boolean;
-  expired?: boolean;
-  broken?: boolean;
-  account_id?: string;
+  after?: string | undefined;
+  before?: string | undefined;
+  first?: number | undefined;
+  last?: number | undefined;
+  member_id?: string | undefined;
+  direction?: Direction | (string & {}) | undefined;
+  created_before?: string | undefined;
+  created_after?: string | undefined;
+  future_usage?: FutureUsageTypes | (string & {}) | undefined;
+  payment_method_types?: ListPaymentMethodRequestPaymentMethodTypesList | undefined;
+  card_brands?: ListPaymentMethodRequestCardBrandsList | undefined;
+  card_funding_types?: ListPaymentMethodRequestCardFundingTypesList | undefined;
+  has_payer_document?: boolean | undefined;
+  expired?: boolean | undefined;
+  broken?: boolean | undefined;
+  account_id?: string | undefined;
 }
 /** The colorway for dark surfaces. */
 export type PaymentMethodListItemCase0IconsCardDark = PaymentMethodCase0IconsCardDark;

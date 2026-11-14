@@ -28,6 +28,7 @@ const TELEMETRY = {
   prefix: "Powerbidedicated",
   service: "Powerbidedicated",
   labels: "azure",
+  labelNames: { resourceGroupName: "azure.resource_group.name" },
   propagate: "w3c",
 } as const;
 
@@ -37,18 +38,18 @@ export interface CheckCapacityNameAvailabilityRequest {
   /** The name of Azure region. */
   location: string;
   /** Name for checking availability. */
-  name?: string;
+  name?: string | undefined;
   /** The resource type of PowerBI dedicated. */
-  type?: string;
+  type?: string | undefined;
 }
 /** The checking result of capacity name availability. */
 export interface CheckCapacityNameAvailabilityResult {
   /** Indicator of availability of the capacity name. */
-  nameAvailable?: boolean;
+  nameAvailable?: boolean | undefined;
   /** The reason of unavailability. */
-  reason?: string;
+  reason?: string | undefined;
   /** The detailed message of the request unavailability. */
-  message?: string;
+  message?: string | undefined;
 }
 /** Resource tags. */
 export type CreateAutoScaleVCoreRequestTagsMap = { [key: string]: string | undefined };
@@ -57,11 +58,11 @@ export type VCoreProvisioningState = "Succeeded";
 /** Properties of an auto scale v-core resource. */
 export interface AutoScaleVCoreProperties {
   /** The maximum capacity of an auto scale v-core resource. */
-  capacityLimit?: number;
+  capacityLimit?: number | undefined;
   /** The object ID of the capacity resource associated with the auto scale v-core resource. */
-  capacityObjectId?: string;
+  capacityObjectId?: string | undefined;
   /** The current deployment state of an auto scale v-core resource. The provisioningState is to indicate states for resource provisioning. */
-  provisioningState?: VCoreProvisioningState | (string & {});
+  provisioningState?: VCoreProvisioningState | (string & {}) | undefined;
 }
 /** The name of the Azure pricing tier to which the SKU applies. */
 export type VCoreSkuTier = "AutoScale";
@@ -70,9 +71,9 @@ export interface AutoScaleVCoreSku {
   /** Name of the SKU level. */
   name: string;
   /** The name of the Azure pricing tier to which the SKU applies. */
-  tier?: VCoreSkuTier | (string & {});
+  tier?: VCoreSkuTier | (string & {}) | undefined;
   /** The capacity of an auto scale v-core resource. */
-  capacity?: number;
+  capacity?: number | undefined;
 }
 export interface CreateAutoScaleVCoreRequest {
   /** The ID of the target subscription. */
@@ -82,11 +83,11 @@ export interface CreateAutoScaleVCoreRequest {
   /** The name of the auto scale v-core. It must be a minimum of 3 characters, and a maximum of 63. */
   vcoreName: string;
   /** Resource tags. */
-  tags?: CreateAutoScaleVCoreRequestTagsMap;
+  tags?: CreateAutoScaleVCoreRequestTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Properties of an auto scale v-core resource. */
-  properties?: AutoScaleVCoreProperties;
+  properties?: AutoScaleVCoreProperties | undefined;
   /** The SKU of the auto scale v-core resource. */
   sku: AutoScaleVCoreSku;
 }
@@ -97,35 +98,35 @@ export type SystemDataLastModifiedByType = "User" | "Application" | "ManagedIden
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface SystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: SystemDataCreatedByType;
+  createdByType?: SystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: SystemDataLastModifiedByType;
+  lastModifiedByType?: SystemDataLastModifiedByType | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 /** Resource tags. */
 export type CreateAutoScaleVCoreResponseTagsMap = { [key: string]: string | undefined };
 export interface CreateAutoScaleVCoreResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: CreateAutoScaleVCoreResponseTagsMap;
+  tags?: CreateAutoScaleVCoreResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Properties of an auto scale v-core resource. */
-  properties?: AutoScaleVCoreProperties;
+  properties?: AutoScaleVCoreProperties | undefined;
   /** The SKU of the auto scale v-core resource. */
   sku: AutoScaleVCoreSku;
 }
@@ -136,16 +137,16 @@ export type DedicatedCapacityAdministratorsMembersList = Array<string>;
 /** An array of administrator user identities */
 export interface DedicatedCapacityAdministrators {
   /** An array of administrator user identities. */
-  members?: DedicatedCapacityAdministratorsMembersList;
+  members?: DedicatedCapacityAdministratorsMembersList | undefined;
 }
 /** Specifies the generation of the Power BI Embedded capacity. If no value is specified, the default value 'Gen2' is used. [Learn More](https://docs.microsoft.com/power-bi/developer/embedded/power-bi-embedded-generation-2) */
 export type Mode = "Gen1" | "Gen2";
 /** Properties of Dedicated Capacity resource. */
 export interface DedicatedCapacityPropertiesInput {
   /** A collection of Dedicated capacity administrators */
-  administration?: DedicatedCapacityAdministrators;
+  administration?: DedicatedCapacityAdministrators | undefined;
   /** Specifies the generation of the Power BI Embedded capacity. If no value is specified, the default value 'Gen2' is used. [Learn More](https://docs.microsoft.com/power-bi/developer/embedded/power-bi-embedded-generation-2) */
-  mode?: Mode | (string & {});
+  mode?: Mode | (string & {}) | undefined;
 }
 /** The name of the Azure pricing tier to which the SKU applies. */
 export type CapacitySkuTier = "PBIE_Azure" | "Premium" | "AutoPremiumHost";
@@ -154,9 +155,9 @@ export interface CapacitySku {
   /** Name of the SKU level. */
   name: string;
   /** The name of the Azure pricing tier to which the SKU applies. */
-  tier?: CapacitySkuTier | (string & {});
+  tier?: CapacitySkuTier | (string & {}) | undefined;
   /** The capacity of the SKU. */
-  capacity?: number;
+  capacity?: number | undefined;
 }
 export interface CreateCapacityRequest {
   /** The ID of the target subscription. */
@@ -166,11 +167,11 @@ export interface CreateCapacityRequest {
   /** The name of the dedicated capacity. It must be a minimum of 3 characters, and a maximum of 63. */
   dedicatedCapacityName: string;
   /** Resource tags. */
-  tags?: CreateCapacityRequestTagsMap;
+  tags?: CreateCapacityRequestTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Properties of the provision operation request. */
-  properties?: DedicatedCapacityPropertiesInput;
+  properties?: DedicatedCapacityPropertiesInput | undefined;
   /** The SKU of the PowerBI Dedicated capacity resource. */
   sku: CapacitySku;
 }
@@ -207,39 +208,39 @@ export type CapacityProvisioningState =
 /** Properties of Dedicated Capacity resource. */
 export interface DedicatedCapacityProperties {
   /** A collection of Dedicated capacity administrators */
-  administration?: DedicatedCapacityAdministrators;
+  administration?: DedicatedCapacityAdministrators | undefined;
   /** Specifies the generation of the Power BI Embedded capacity. If no value is specified, the default value 'Gen2' is used. [Learn More](https://docs.microsoft.com/power-bi/developer/embedded/power-bi-embedded-generation-2) */
-  mode?: Mode;
+  mode?: Mode | undefined;
   /** Tenant ID for the capacity. Used for creating Pro Plus capacity. */
-  tenantId?: string;
+  tenantId?: string | undefined;
   /** Capacity name */
-  friendlyName?: string;
+  friendlyName?: string | undefined;
   /** The current state of PowerBI Dedicated resource. The state is to indicate more states outside of resource provisioning. */
-  state?: State;
+  state?: State | undefined;
   /** The current deployment state of PowerBI Dedicated resource. The provisioningState is to indicate states for resource provisioning. */
-  provisioningState?: CapacityProvisioningState;
+  provisioningState?: CapacityProvisioningState | undefined;
 }
 export interface CreateCapacityResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: CreateCapacityResponseTagsMap;
+  tags?: CreateCapacityResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Properties of the provision operation request. */
-  properties?: DedicatedCapacityProperties;
+  properties?: DedicatedCapacityProperties | undefined;
   /** The SKU of the PowerBI Dedicated capacity resource. */
   sku: CapacitySku;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  locationHeader?: string;
+  locationHeader?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeleteAutoScaleVCoreRequest {
   /** The ID of the target subscription. */
@@ -260,9 +261,9 @@ export interface DeleteCapacityRequest {
 }
 export interface DeleteCapacityResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface GetAutoScaleVCoreRequest {
   /** The ID of the target subscription. */
@@ -276,19 +277,19 @@ export interface GetAutoScaleVCoreRequest {
 export type GetAutoScaleVCoreResponseTagsMap = { [key: string]: string | undefined };
 export interface GetAutoScaleVCoreResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: GetAutoScaleVCoreResponseTagsMap;
+  tags?: GetAutoScaleVCoreResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Properties of an auto scale v-core resource. */
-  properties?: AutoScaleVCoreProperties;
+  properties?: AutoScaleVCoreProperties | undefined;
   /** The SKU of the auto scale v-core resource. */
   sku: AutoScaleVCoreSku;
 }
@@ -304,19 +305,19 @@ export interface GetCapacityDetailsRequest {
 export type GetCapacityDetailsResponseTagsMap = { [key: string]: string | undefined };
 export interface GetCapacityDetailsResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: GetCapacityDetailsResponseTagsMap;
+  tags?: GetCapacityDetailsResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Properties of the provision operation request. */
-  properties?: DedicatedCapacityProperties;
+  properties?: DedicatedCapacityProperties | undefined;
   /** The SKU of the PowerBI Dedicated capacity resource. */
   sku: CapacitySku;
 }
@@ -331,19 +332,19 @@ export type AutoScaleVCoreTagsMap = { [key: string]: string | undefined };
 /** Represents an instance of an auto scale v-core resource. */
 export interface AutoScaleVCore {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: AutoScaleVCoreTagsMap;
+  tags?: AutoScaleVCoreTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Properties of an auto scale v-core resource. */
-  properties?: AutoScaleVCoreProperties;
+  properties?: AutoScaleVCoreProperties | undefined;
   /** The SKU of the auto scale v-core resource. */
   sku: AutoScaleVCoreSku;
 }
@@ -353,7 +354,7 @@ export type AutoScaleVCoreListResultValueList = Array<AutoScaleVCore>;
 export interface AutoScaleVCoreListResult {
   /** An array of auto scale v-core resources. */
   value: AutoScaleVCoreListResultValueList;
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListAutoScaleVCoreBySubscriptionRequest {
   /** The ID of the target subscription. */
@@ -368,19 +369,19 @@ export type DedicatedCapacityTagsMap = { [key: string]: string | undefined };
 /** Represents an instance of a Dedicated Capacity resource. */
 export interface DedicatedCapacity {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: DedicatedCapacityTagsMap;
+  tags?: DedicatedCapacityTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Properties of the provision operation request. */
-  properties?: DedicatedCapacityProperties;
+  properties?: DedicatedCapacityProperties | undefined;
   /** The SKU of the PowerBI Dedicated capacity resource. */
   sku: CapacitySku;
 }
@@ -391,7 +392,7 @@ export interface DedicatedCapacities {
   /** An array of Dedicated capacities resources. */
   value: DedicatedCapacitiesValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListCapacityByResourceGroupRequest {
   /** The ID of the target subscription. */
@@ -408,7 +409,7 @@ export type SkuEnumerationForNewResourceResultValueList = Array<CapacitySku>;
 /** An object that represents enumerating SKUs for new resources */
 export interface SkuEnumerationForNewResourceResult {
   /** The collection of available SKUs for new resources */
-  value?: SkuEnumerationForNewResourceResultValueList;
+  value?: SkuEnumerationForNewResourceResultValueList | undefined;
 }
 export interface ListCapacitySkusForCapacityRequest {
   /** The ID of the target subscription. */
@@ -421,98 +422,98 @@ export interface ListCapacitySkusForCapacityRequest {
 /** An object that represents SKU details for existing resources */
 export interface SkuDetailsForExistingResource {
   /** The resource type */
-  resourceType?: string;
+  resourceType?: string | undefined;
   /** The SKU in SKU details for existing resources. */
-  sku?: CapacitySku;
+  sku?: CapacitySku | undefined;
 }
 /** The collection of available SKUs for existing resources */
 export type SkuEnumerationForExistingResourceResultValueList = Array<SkuDetailsForExistingResource>;
 /** An object that represents enumerating SKUs for existing resources */
 export interface SkuEnumerationForExistingResourceResult {
   /** The collection of available SKUs for existing resources */
-  value?: SkuEnumerationForExistingResourceResultValueList;
+  value?: SkuEnumerationForExistingResourceResultValueList | undefined;
 }
 export interface ListOperationsRequest {}
 /** The object that represents the operation. */
 export interface OperationDisplay {
   /** Service provider: Microsoft.PowerBIDedicated. */
-  provider?: string;
+  provider?: string | undefined;
   /** Resource on which the operation is performed: capacity, etc. */
-  resource?: string;
+  resource?: string | undefined;
   /** Operation type: create, update, delete, etc. */
-  operation?: string;
+  operation?: string | undefined;
   /** Localized description of the operation. */
-  description?: string;
+  description?: string | undefined;
 }
 export interface MetricSpecificationDimensionsItem {
   /** Dimension of the metric */
-  name?: string;
+  name?: string | undefined;
   /** Localizable dimension of the metric */
-  displayName?: string;
+  displayName?: string | undefined;
 }
 /** For describing multi dimensional metrics */
 export type MetricSpecificationDimensionsList = Array<MetricSpecificationDimensionsItem>;
 /** Metric specification for exposing performance metrics to shoebox. */
 export interface MetricSpecification {
   /** Metric name */
-  name?: string;
+  name?: string | undefined;
   /** Localizable metric name */
-  displayName?: string;
+  displayName?: string | undefined;
   /** Localizable description of metric */
-  displayDescription?: string;
+  displayDescription?: string | undefined;
   /** Unit for the metric */
-  unit?: string;
+  unit?: string | undefined;
   /** Aggregation type for the metric */
-  aggregationType?: string;
+  aggregationType?: string | undefined;
   /** Pattern used to filter the metric */
-  metricFilterPattern?: string;
+  metricFilterPattern?: string | undefined;
   /** For describing multi dimensional metrics */
-  dimensions?: MetricSpecificationDimensionsList;
+  dimensions?: MetricSpecificationDimensionsList | undefined;
 }
 /** Metric specifications for exposing performance metrics to shoebox. */
 export type ServiceSpecificationMetricSpecificationsList = Array<MetricSpecification>;
 /** Log specification for exposing diagnostic logs to shoebox. */
 export interface LogSpecification {
   /** Name of the log */
-  name?: string;
+  name?: string | undefined;
   /** Localizable name of the log */
-  displayName?: string;
+  displayName?: string | undefined;
   /** Blob duration for the log */
-  blobDuration?: string;
+  blobDuration?: string | undefined;
 }
 /** Log specifications for exposing diagnostic logs to shoebox. */
 export type ServiceSpecificationLogSpecificationsList = Array<LogSpecification>;
 /** Service specification for exposing performance metrics to shoebox. */
 export interface ServiceSpecification {
   /** Metric specifications for exposing performance metrics to shoebox. */
-  metricSpecifications?: ServiceSpecificationMetricSpecificationsList;
+  metricSpecifications?: ServiceSpecificationMetricSpecificationsList | undefined;
   /** Log specifications for exposing diagnostic logs to shoebox. */
-  logSpecifications?: ServiceSpecificationLogSpecificationsList;
+  logSpecifications?: ServiceSpecificationLogSpecificationsList | undefined;
 }
 /** Additional properties to expose performance metrics to shoebox. */
 export interface OperationProperties {
   /** Service specification for exposing performance metrics to shoebox. */
-  serviceSpecification?: ServiceSpecification;
+  serviceSpecification?: ServiceSpecification | undefined;
 }
 /** Capacities REST API operation. */
 export interface Operation {
   /** Operation name: {provider}/{resource}/{operation}. */
-  name?: string;
+  name?: string | undefined;
   /** The object that represents the operation. */
-  display?: OperationDisplay;
+  display?: OperationDisplay | undefined;
   /** Origin of the operation. */
-  origin?: string;
+  origin?: string | undefined;
   /** Additional properties to expose performance metrics to shoebox. */
-  properties?: OperationProperties;
+  properties?: OperationProperties | undefined;
 }
 /** List of capacities supported by the Microsoft.PowerBIDedicated resource provider. */
 export type OperationListResultValueList = Array<Operation>;
 /** Result listing capacities. It contains a list of operations and a URL link to get the next set of results. */
 export interface OperationListResult {
   /** List of capacities supported by the Microsoft.PowerBIDedicated resource provider. */
-  value?: OperationListResultValueList;
+  value?: OperationListResultValueList | undefined;
   /** URL to get the next set of operation list results if there are any. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ResumeCapacityRequest {
   /** The ID of the target subscription. */
@@ -524,9 +525,9 @@ export interface ResumeCapacityRequest {
 }
 export interface ResumeCapacityResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface SuspendCapacityRequest {
   /** The ID of the target subscription. */
@@ -538,16 +539,16 @@ export interface SuspendCapacityRequest {
 }
 export interface SuspendCapacityResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Key-value pairs of additional provisioning properties. */
 export type UpdateAutoScaleVCoreRequestTagsMap = { [key: string]: string | undefined };
 /** An object that represents a set of mutable auto scale v-core resource properties. */
 export interface AutoScaleVCoreMutableProperties {
   /** The maximum capacity of an auto scale v-core resource. */
-  capacityLimit?: number;
+  capacityLimit?: number | undefined;
 }
 export interface UpdateAutoScaleVCoreRequest {
   /** The ID of the target subscription. */
@@ -557,29 +558,29 @@ export interface UpdateAutoScaleVCoreRequest {
   /** The name of the auto scale v-core. It must be a minimum of 3 characters, and a maximum of 63. */
   vcoreName: string;
   /** The SKU of the auto scale v-core resource. */
-  sku?: AutoScaleVCoreSku;
+  sku?: AutoScaleVCoreSku | undefined;
   /** Key-value pairs of additional provisioning properties. */
-  tags?: UpdateAutoScaleVCoreRequestTagsMap;
+  tags?: UpdateAutoScaleVCoreRequestTagsMap | undefined;
   /** Properties of the update operation request. */
-  properties?: AutoScaleVCoreMutableProperties;
+  properties?: AutoScaleVCoreMutableProperties | undefined;
 }
 /** Resource tags. */
 export type UpdateAutoScaleVCoreResponseTagsMap = { [key: string]: string | undefined };
 export interface UpdateAutoScaleVCoreResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: UpdateAutoScaleVCoreResponseTagsMap;
+  tags?: UpdateAutoScaleVCoreResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Properties of an auto scale v-core resource. */
-  properties?: AutoScaleVCoreProperties;
+  properties?: AutoScaleVCoreProperties | undefined;
   /** The SKU of the auto scale v-core resource. */
   sku: AutoScaleVCoreSku;
 }
@@ -595,35 +596,35 @@ export interface UpdateCapacityRequest {
   /** The name of the dedicated capacity. It must be a minimum of 3 characters, and a maximum of 63. */
   dedicatedCapacityName: string;
   /** The SKU of the Dedicated capacity resource. */
-  sku?: CapacitySku;
+  sku?: CapacitySku | undefined;
   /** Key-value pairs of additional provisioning properties. */
-  tags?: UpdateCapacityRequestTagsMap;
+  tags?: UpdateCapacityRequestTagsMap | undefined;
   /** Properties of the provision operation request. */
-  properties?: DedicatedCapacityPropertiesInput;
+  properties?: DedicatedCapacityPropertiesInput | undefined;
 }
 /** Resource tags. */
 export type UpdateCapacityResponseTagsMap = { [key: string]: string | undefined };
 export interface UpdateCapacityResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: UpdateCapacityResponseTagsMap;
+  tags?: UpdateCapacityResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Properties of the provision operation request. */
-  properties?: DedicatedCapacityProperties;
+  properties?: DedicatedCapacityProperties | undefined;
   /** The SKU of the PowerBI Dedicated capacity resource. */
   sku: CapacitySku;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  locationHeader?: string;
+  locationHeader?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export type CheckCapacityNameAvailabilityError = AzureOpError;
 /** Check the name availability in the target location. */

@@ -28,6 +28,7 @@ const TELEMETRY = {
   prefix: "Dnsresolver",
   service: "Dnsresolver",
   labels: "azure",
+  labelNames: { resourceGroupName: "azure.resource_group.name" },
   propagate: "w3c",
 } as const;
 
@@ -57,17 +58,17 @@ export type SystemDataLastModifiedByType = "User" | "Application" | "ManagedIden
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface SystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: SystemDataCreatedByType;
+  createdByType?: SystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: SystemDataLastModifiedByType;
+  lastModifiedByType?: SystemDataLastModifiedByType | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 /** Resource tags. */
 export type BulkDnsResolverDomainListResponseTagsMap = { [key: string]: string | undefined };
@@ -84,35 +85,35 @@ export type ProvisioningState =
 /** Represents the properties of a DNS resolver domain list. */
 export interface DnsResolverDomainListProperties {
   /** The domains in the domain list. Will be null if user is using large domain list. */
-  domains?: DnsResolverDomainListPropertiesDomainsList;
+  domains?: DnsResolverDomainListPropertiesDomainsList | undefined;
   /** The URL for bulk upload or download for domain lists containing larger set of domains. This will be populated if domains is empty or null. */
-  domainsUrl?: string;
+  domainsUrl?: string | undefined;
   /** The current provisioning state of the DNS resolver domain list. This is a read-only property and any attempt to set this value will be ignored. */
-  provisioningState?: ProvisioningState;
+  provisioningState?: ProvisioningState | undefined;
   /** The resourceGuid property of the DNS resolver domain list resource. */
-  resourceGuid?: string;
+  resourceGuid?: string | undefined;
 }
 export interface BulkDnsResolverDomainListResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: BulkDnsResolverDomainListResponseTagsMap;
+  tags?: BulkDnsResolverDomainListResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Properties of the DNS resolver domain list. */
-  properties?: DnsResolverDomainListProperties;
+  properties?: DnsResolverDomainListProperties | undefined;
   /** "If etag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields.") */
-  etag?: string;
+  etag?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  locationHeader?: string;
+  locationHeader?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeleteDnsForwardingRulesetRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -124,9 +125,9 @@ export interface DeleteDnsForwardingRulesetRequest {
 }
 export interface DeleteDnsForwardingRulesetResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeleteDnsResolverRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -138,9 +139,9 @@ export interface DeleteDnsResolverRequest {
 }
 export interface DeleteDnsResolverResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeleteDnsResolverDomainListRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -152,9 +153,9 @@ export interface DeleteDnsResolverDomainListRequest {
 }
 export interface DeleteDnsResolverDomainListResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeleteDnsResolverPolicyRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -166,9 +167,9 @@ export interface DeleteDnsResolverPolicyRequest {
 }
 export interface DeleteDnsResolverPolicyResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeleteDnsResolverPolicyVirtualNetworkLinkRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -182,9 +183,9 @@ export interface DeleteDnsResolverPolicyVirtualNetworkLinkRequest {
 }
 export interface DeleteDnsResolverPolicyVirtualNetworkLinkResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeleteDnsSecurityRuleRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -198,9 +199,9 @@ export interface DeleteDnsSecurityRuleRequest {
 }
 export interface DeleteDnsSecurityRuleResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeleteForwardingRuleRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -225,9 +226,9 @@ export interface DeleteInboundEndpointRequest {
 }
 export interface DeleteInboundEndpointResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeleteOutboundEndpointRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -241,9 +242,9 @@ export interface DeleteOutboundEndpointRequest {
 }
 export interface DeleteOutboundEndpointResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeleteVirtualNetworkLinkRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -257,9 +258,9 @@ export interface DeleteVirtualNetworkLinkRequest {
 }
 export interface DeleteVirtualNetworkLinkResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Resource tags. */
 export type DnsForwardingRulesetsCreateOrUpdateRequestTagsMap = {
@@ -286,7 +287,7 @@ export interface DnsForwardingRulesetsCreateOrUpdateRequest {
   /** The name of the DNS forwarding ruleset. */
   dnsForwardingRulesetName: string;
   /** Resource tags. */
-  tags?: DnsForwardingRulesetsCreateOrUpdateRequestTagsMap;
+  tags?: DnsForwardingRulesetsCreateOrUpdateRequestTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Properties of the DNS forwarding ruleset. */
@@ -303,31 +304,31 @@ export interface DnsForwardingRulesetProperties {
   /** The reference to the DNS resolver outbound endpoints that are used to route DNS queries matching the forwarding rules in the ruleset to the target DNS servers. */
   dnsResolverOutboundEndpoints: DnsForwardingRulesetPropertiesDnsResolverOutboundEndpointsList;
   /** The current provisioning state of the DNS forwarding ruleset. This is a read-only property and any attempt to set this value will be ignored. */
-  provisioningState?: ProvisioningState;
+  provisioningState?: ProvisioningState | undefined;
   /** The resourceGuid for the DNS forwarding ruleset. */
-  resourceGuid?: string;
+  resourceGuid?: string | undefined;
 }
 export interface DnsForwardingRulesetsCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: DnsForwardingRulesetsCreateOrUpdateResponseTagsMap;
+  tags?: DnsForwardingRulesetsCreateOrUpdateResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Properties of the DNS forwarding ruleset. */
   properties: DnsForwardingRulesetProperties;
   /** "If etag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields.") */
-  etag?: string;
+  etag?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  locationHeader?: string;
+  locationHeader?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Resource tags. */
 export type DnsResolverDomainListsCreateOrUpdateRequestTagsMap = {
@@ -338,7 +339,7 @@ export type DnsResolverDomainListPropertiesInputDomainsList = Array<string>;
 /** Represents the properties of a DNS resolver domain list. */
 export interface DnsResolverDomainListPropertiesInput {
   /** The domains in the domain list. Will be null if user is using large domain list. */
-  domains?: DnsResolverDomainListPropertiesInputDomainsList;
+  domains?: DnsResolverDomainListPropertiesInputDomainsList | undefined;
 }
 export interface DnsResolverDomainListsCreateOrUpdateRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -348,11 +349,11 @@ export interface DnsResolverDomainListsCreateOrUpdateRequest {
   /** The name of the DNS resolver domain list. */
   dnsResolverDomainListName: string;
   /** Resource tags. */
-  tags?: DnsResolverDomainListsCreateOrUpdateRequestTagsMap;
+  tags?: DnsResolverDomainListsCreateOrUpdateRequestTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Properties of the DNS resolver domain list. */
-  properties?: DnsResolverDomainListPropertiesInput;
+  properties?: DnsResolverDomainListPropertiesInput | undefined;
 }
 /** Resource tags. */
 export type DnsResolverDomainListsCreateOrUpdateResponseTagsMap = {
@@ -360,25 +361,25 @@ export type DnsResolverDomainListsCreateOrUpdateResponseTagsMap = {
 };
 export interface DnsResolverDomainListsCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: DnsResolverDomainListsCreateOrUpdateResponseTagsMap;
+  tags?: DnsResolverDomainListsCreateOrUpdateResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Properties of the DNS resolver domain list. */
-  properties?: DnsResolverDomainListProperties;
+  properties?: DnsResolverDomainListProperties | undefined;
   /** "If etag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields.") */
-  etag?: string;
+  etag?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  locationHeader?: string;
+  locationHeader?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Resource tags. */
 export type DnsResolverPoliciesCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
@@ -392,11 +393,11 @@ export interface DnsResolverPoliciesCreateOrUpdateRequest {
   /** The name of the DNS resolver policy. */
   dnsResolverPolicyName: string;
   /** Resource tags. */
-  tags?: DnsResolverPoliciesCreateOrUpdateRequestTagsMap;
+  tags?: DnsResolverPoliciesCreateOrUpdateRequestTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Properties of the DNS resolver policy. */
-  properties?: DnsResolverPolicyPropertiesInput;
+  properties?: DnsResolverPolicyPropertiesInput | undefined;
 }
 /** Resource tags. */
 export type DnsResolverPoliciesCreateOrUpdateResponseTagsMap = {
@@ -405,31 +406,31 @@ export type DnsResolverPoliciesCreateOrUpdateResponseTagsMap = {
 /** Represents the properties of a DNS resolver policy. */
 export interface DnsResolverPolicyProperties {
   /** The current provisioning state of the DNS resolver policy. This is a read-only property and any attempt to set this value will be ignored. */
-  provisioningState?: ProvisioningState;
+  provisioningState?: ProvisioningState | undefined;
   /** The resourceGuid property of the DNS resolver policy resource. */
-  resourceGuid?: string;
+  resourceGuid?: string | undefined;
 }
 export interface DnsResolverPoliciesCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: DnsResolverPoliciesCreateOrUpdateResponseTagsMap;
+  tags?: DnsResolverPoliciesCreateOrUpdateResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Properties of the DNS resolver policy. */
-  properties?: DnsResolverPolicyProperties;
+  properties?: DnsResolverPolicyProperties | undefined;
   /** "If etag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields.") */
-  etag?: string;
+  etag?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  locationHeader?: string;
+  locationHeader?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Resource tags. */
 export type DnsResolverPolicyVirtualNetworkLinksCreateOrUpdateRequestTagsMap = {
@@ -440,7 +441,7 @@ export interface DnsResolverPolicyVirtualNetworkLinkProperties {
   /** The reference to the virtual network. This cannot be changed after creation. */
   virtualNetwork: SubResource;
   /** The current provisioning state of the DNS resolver policy virtual network link. This is a read-only property and any attempt to set this value will be ignored. */
-  provisioningState?: ProvisioningState | (string & {});
+  provisioningState?: ProvisioningState | (string & {}) | undefined;
 }
 export interface DnsResolverPolicyVirtualNetworkLinksCreateOrUpdateRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -452,7 +453,7 @@ export interface DnsResolverPolicyVirtualNetworkLinksCreateOrUpdateRequest {
   /** The name of the DNS resolver policy virtual network link for the DNS resolver policy. */
   dnsResolverPolicyVirtualNetworkLinkName: string;
   /** Resource tags. */
-  tags?: DnsResolverPolicyVirtualNetworkLinksCreateOrUpdateRequestTagsMap;
+  tags?: DnsResolverPolicyVirtualNetworkLinksCreateOrUpdateRequestTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Properties of the DNS resolver policy virtual network link. */
@@ -464,25 +465,25 @@ export type DnsResolverPolicyVirtualNetworkLinksCreateOrUpdateResponseTagsMap = 
 };
 export interface DnsResolverPolicyVirtualNetworkLinksCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: DnsResolverPolicyVirtualNetworkLinksCreateOrUpdateResponseTagsMap;
+  tags?: DnsResolverPolicyVirtualNetworkLinksCreateOrUpdateResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Properties of the DNS resolver policy virtual network link. */
   properties: DnsResolverPolicyVirtualNetworkLinkProperties;
   /** "If etag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields.") */
-  etag?: string;
+  etag?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  locationHeader?: string;
+  locationHeader?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Resource tags. */
 export type DnsResolversCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
@@ -499,7 +500,7 @@ export interface DnsResolversCreateOrUpdateRequest {
   /** The name of the DNS resolver. */
   dnsResolverName: string;
   /** Resource tags. */
-  tags?: DnsResolversCreateOrUpdateRequestTagsMap;
+  tags?: DnsResolversCreateOrUpdateRequestTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Properties of the DNS resolver. */
@@ -514,33 +515,33 @@ export interface DnsResolverProperties {
   /** The reference to the virtual network. This cannot be changed after creation. */
   virtualNetwork: SubResource;
   /** The current status of the DNS resolver. This is a read-only property and any attempt to set this value will be ignored. */
-  dnsResolverState?: DnsResolverState;
+  dnsResolverState?: DnsResolverState | undefined;
   /** The current provisioning state of the DNS resolver. This is a read-only property and any attempt to set this value will be ignored. */
-  provisioningState?: ProvisioningState;
+  provisioningState?: ProvisioningState | undefined;
   /** The resourceGuid property of the DNS resolver resource. */
-  resourceGuid?: string;
+  resourceGuid?: string | undefined;
 }
 export interface DnsResolversCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: DnsResolversCreateOrUpdateResponseTagsMap;
+  tags?: DnsResolversCreateOrUpdateResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Properties of the DNS resolver. */
   properties: DnsResolverProperties;
   /** "If etag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields.") */
-  etag?: string;
+  etag?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  locationHeader?: string;
+  locationHeader?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Resource tags. */
 export type DnsSecurityRulesCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
@@ -549,7 +550,7 @@ export type ActionType = "Allow" | "Alert" | "Block";
 /** The action to take on DNS requests that match the DNS security rule. */
 export interface DnsSecurityRuleAction {
   /** The type of action to take. */
-  actionType?: ActionType | (string & {});
+  actionType?: ActionType | (string & {}) | undefined;
 }
 /** DNS resolver policy domains lists that the DNS security rule applies to. */
 export type DnsSecurityRulePropertiesDnsResolverDomainListsList = Array<SubResource>;
@@ -564,9 +565,9 @@ export interface DnsSecurityRuleProperties {
   /** DNS resolver policy domains lists that the DNS security rule applies to. */
   dnsResolverDomainLists: DnsSecurityRulePropertiesDnsResolverDomainListsList;
   /** The state of DNS security rule. */
-  dnsSecurityRuleState?: DnsSecurityRuleState | (string & {});
+  dnsSecurityRuleState?: DnsSecurityRuleState | (string & {}) | undefined;
   /** The current provisioning state of the DNS security rule. This is a read-only property and any attempt to set this value will be ignored. */
-  provisioningState?: ProvisioningState | (string & {});
+  provisioningState?: ProvisioningState | (string & {}) | undefined;
 }
 export interface DnsSecurityRulesCreateOrUpdateRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -578,7 +579,7 @@ export interface DnsSecurityRulesCreateOrUpdateRequest {
   /** The name of the DNS security rule. */
   dnsSecurityRuleName: string;
   /** Resource tags. */
-  tags?: DnsSecurityRulesCreateOrUpdateRequestTagsMap;
+  tags?: DnsSecurityRulesCreateOrUpdateRequestTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Properties of the DNS security rule. */
@@ -588,32 +589,32 @@ export interface DnsSecurityRulesCreateOrUpdateRequest {
 export type DnsSecurityRulesCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
 export interface DnsSecurityRulesCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: DnsSecurityRulesCreateOrUpdateResponseTagsMap;
+  tags?: DnsSecurityRulesCreateOrUpdateResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Properties of the DNS security rule. */
   properties: DnsSecurityRuleProperties;
   /** "If etag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields.") */
-  etag?: string;
+  etag?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  locationHeader?: string;
+  locationHeader?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Describes a server to forward the DNS queries to. */
 export interface TargetDnsServer {
   /** DNS server IP address. */
   ipAddress: string;
   /** DNS server port. */
-  port?: number;
+  port?: number | undefined;
 }
 /** DNS servers to forward the DNS query to. */
 export type ForwardingRulePropertiesTargetDnsServersList = Array<TargetDnsServer>;
@@ -628,11 +629,11 @@ export interface ForwardingRuleProperties {
   /** DNS servers to forward the DNS query to. */
   targetDnsServers: ForwardingRulePropertiesTargetDnsServersList;
   /** Metadata attached to the forwarding rule. */
-  metadata?: ForwardingRulePropertiesMetadataMap;
+  metadata?: ForwardingRulePropertiesMetadataMap | undefined;
   /** The state of forwarding rule. */
-  forwardingRuleState?: ForwardingRuleState | (string & {});
+  forwardingRuleState?: ForwardingRuleState | (string & {}) | undefined;
   /** The current provisioning state of the forwarding rule. This is a read-only property and any attempt to set this value will be ignored. */
-  provisioningState?: ProvisioningState | (string & {});
+  provisioningState?: ProvisioningState | (string & {}) | undefined;
 }
 export interface ForwardingRulesCreateOrUpdateRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -648,17 +649,17 @@ export interface ForwardingRulesCreateOrUpdateRequest {
 }
 export interface ForwardingRulesCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Properties of the forwarding rule. */
   properties: ForwardingRuleProperties;
   /** "If etag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields.") */
-  etag?: string;
+  etag?: string | undefined;
 }
 export interface GetDnsForwardingRulesetRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -672,21 +673,21 @@ export interface GetDnsForwardingRulesetRequest {
 export type GetDnsForwardingRulesetResponseTagsMap = { [key: string]: string | undefined };
 export interface GetDnsForwardingRulesetResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: GetDnsForwardingRulesetResponseTagsMap;
+  tags?: GetDnsForwardingRulesetResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Properties of the DNS forwarding ruleset. */
   properties: DnsForwardingRulesetProperties;
   /** "If etag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields.") */
-  etag?: string;
+  etag?: string | undefined;
 }
 export interface GetDnsResolverRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -700,21 +701,21 @@ export interface GetDnsResolverRequest {
 export type GetDnsResolverResponseTagsMap = { [key: string]: string | undefined };
 export interface GetDnsResolverResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: GetDnsResolverResponseTagsMap;
+  tags?: GetDnsResolverResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Properties of the DNS resolver. */
   properties: DnsResolverProperties;
   /** "If etag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields.") */
-  etag?: string;
+  etag?: string | undefined;
 }
 export interface GetDnsResolverDomainListRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -728,21 +729,21 @@ export interface GetDnsResolverDomainListRequest {
 export type GetDnsResolverDomainListResponseTagsMap = { [key: string]: string | undefined };
 export interface GetDnsResolverDomainListResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: GetDnsResolverDomainListResponseTagsMap;
+  tags?: GetDnsResolverDomainListResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Properties of the DNS resolver domain list. */
-  properties?: DnsResolverDomainListProperties;
+  properties?: DnsResolverDomainListProperties | undefined;
   /** "If etag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields.") */
-  etag?: string;
+  etag?: string | undefined;
 }
 export interface GetDnsResolverPolicyRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -756,21 +757,21 @@ export interface GetDnsResolverPolicyRequest {
 export type GetDnsResolverPolicyResponseTagsMap = { [key: string]: string | undefined };
 export interface GetDnsResolverPolicyResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: GetDnsResolverPolicyResponseTagsMap;
+  tags?: GetDnsResolverPolicyResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Properties of the DNS resolver policy. */
-  properties?: DnsResolverPolicyProperties;
+  properties?: DnsResolverPolicyProperties | undefined;
   /** "If etag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields.") */
-  etag?: string;
+  etag?: string | undefined;
 }
 export interface GetDnsResolverPolicyVirtualNetworkLinkRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -788,21 +789,21 @@ export type GetDnsResolverPolicyVirtualNetworkLinkResponseTagsMap = {
 };
 export interface GetDnsResolverPolicyVirtualNetworkLinkResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: GetDnsResolverPolicyVirtualNetworkLinkResponseTagsMap;
+  tags?: GetDnsResolverPolicyVirtualNetworkLinkResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Properties of the DNS resolver policy virtual network link. */
   properties: DnsResolverPolicyVirtualNetworkLinkProperties;
   /** "If etag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields.") */
-  etag?: string;
+  etag?: string | undefined;
 }
 export interface GetDnsSecurityRuleRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -818,21 +819,21 @@ export interface GetDnsSecurityRuleRequest {
 export type GetDnsSecurityRuleResponseTagsMap = { [key: string]: string | undefined };
 export interface GetDnsSecurityRuleResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: GetDnsSecurityRuleResponseTagsMap;
+  tags?: GetDnsSecurityRuleResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Properties of the DNS security rule. */
   properties: DnsSecurityRuleProperties;
   /** "If etag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields.") */
-  etag?: string;
+  etag?: string | undefined;
 }
 export interface GetForwardingRuleRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -846,17 +847,17 @@ export interface GetForwardingRuleRequest {
 }
 export interface GetForwardingRuleResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Properties of the forwarding rule. */
   properties: ForwardingRuleProperties;
   /** "If etag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields.") */
-  etag?: string;
+  etag?: string | undefined;
 }
 export interface GetInboundEndpointRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -877,9 +878,9 @@ export interface IpConfiguration {
   /** The reference to the subnet bound to the IP configuration. */
   subnet: SubResource;
   /** Private IP address of the IP configuration. */
-  privateIpAddress?: string;
+  privateIpAddress?: string | undefined;
   /** Private IP address allocation method. */
-  privateIpAllocationMethod?: IpConfigurationPrivateIpAllocationMethod | (string & {});
+  privateIpAllocationMethod?: IpConfigurationPrivateIpAllocationMethod | (string & {}) | undefined;
 }
 /** IP configurations for the inbound endpoint. */
 export type InboundEndpointPropertiesIpConfigurationsList = Array<IpConfiguration>;
@@ -888,27 +889,27 @@ export interface InboundEndpointProperties {
   /** IP configurations for the inbound endpoint. */
   ipConfigurations: InboundEndpointPropertiesIpConfigurationsList;
   /** The current provisioning state of the inbound endpoint. This is a read-only property and any attempt to set this value will be ignored. */
-  provisioningState?: ProvisioningState;
+  provisioningState?: ProvisioningState | undefined;
   /** The resourceGuid property of the inbound endpoint resource. */
-  resourceGuid?: string;
+  resourceGuid?: string | undefined;
 }
 export interface GetInboundEndpointResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: GetInboundEndpointResponseTagsMap;
+  tags?: GetInboundEndpointResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Properties of the inbound endpoint. */
   properties: InboundEndpointProperties;
   /** "If etag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields.") */
-  etag?: string;
+  etag?: string | undefined;
 }
 export interface GetOutboundEndpointRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -927,27 +928,27 @@ export interface OutboundEndpointProperties {
   /** The reference to the subnet used for the outbound endpoint. */
   subnet: SubResource;
   /** The current provisioning state of the outbound endpoint. This is a read-only property and any attempt to set this value will be ignored. */
-  provisioningState?: ProvisioningState;
+  provisioningState?: ProvisioningState | undefined;
   /** The resourceGuid property of the outbound endpoint resource. */
-  resourceGuid?: string;
+  resourceGuid?: string | undefined;
 }
 export interface GetOutboundEndpointResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: GetOutboundEndpointResponseTagsMap;
+  tags?: GetOutboundEndpointResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Properties of the outbound endpoint. */
   properties: OutboundEndpointProperties;
   /** "If etag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields.") */
-  etag?: string;
+  etag?: string | undefined;
 }
 export interface GetVirtualNetworkLinkRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -966,23 +967,23 @@ export interface VirtualNetworkLinkProperties {
   /** The reference to the virtual network. This cannot be changed after creation. */
   virtualNetwork: SubResource;
   /** Metadata attached to the virtual network link. */
-  metadata?: VirtualNetworkLinkPropertiesMetadataMap;
+  metadata?: VirtualNetworkLinkPropertiesMetadataMap | undefined;
   /** The current provisioning state of the virtual network link. This is a read-only property and any attempt to set this value will be ignored. */
-  provisioningState?: ProvisioningState | (string & {});
+  provisioningState?: ProvisioningState | (string & {}) | undefined;
 }
 export interface GetVirtualNetworkLinkResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Properties of the virtual network link. */
   properties: VirtualNetworkLinkProperties;
   /** "If etag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields.") */
-  etag?: string;
+  etag?: string | undefined;
 }
 /** Resource tags. */
 export type InboundEndpointsCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
@@ -1003,7 +1004,7 @@ export interface InboundEndpointsCreateOrUpdateRequest {
   /** The name of the inbound endpoint for the DNS resolver. */
   inboundEndpointName: string;
   /** Resource tags. */
-  tags?: InboundEndpointsCreateOrUpdateRequestTagsMap;
+  tags?: InboundEndpointsCreateOrUpdateRequestTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Properties of the inbound endpoint. */
@@ -1013,25 +1014,25 @@ export interface InboundEndpointsCreateOrUpdateRequest {
 export type InboundEndpointsCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
 export interface InboundEndpointsCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: InboundEndpointsCreateOrUpdateResponseTagsMap;
+  tags?: InboundEndpointsCreateOrUpdateResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Properties of the inbound endpoint. */
   properties: InboundEndpointProperties;
   /** "If etag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields.") */
-  etag?: string;
+  etag?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  locationHeader?: string;
+  locationHeader?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface ListDnsForwardingRulesetByResourceGroupRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1039,28 +1040,28 @@ export interface ListDnsForwardingRulesetByResourceGroupRequest {
   /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
   /** The maximum number of results to return. If not specified, returns up to 100 results. */
-  _top?: number;
+  _top?: number | undefined;
 }
 /** Resource tags. */
 export type DnsForwardingRulesetTagsMap = { [key: string]: string | undefined };
 /** Describes a DNS forwarding ruleset. */
 export interface DnsForwardingRuleset {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: DnsForwardingRulesetTagsMap;
+  tags?: DnsForwardingRulesetTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Properties of the DNS forwarding ruleset. */
   properties: DnsForwardingRulesetProperties;
   /** "If etag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields.") */
-  etag?: string;
+  etag?: string | undefined;
 }
 /** The DnsForwardingRuleset items on this page */
 export type DnsForwardingRulesetListResultValueList = Array<DnsForwardingRuleset>;
@@ -1069,7 +1070,7 @@ export interface DnsForwardingRulesetListResult {
   /** The DnsForwardingRuleset items on this page */
   value: DnsForwardingRulesetListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListDnsForwardingRulesetByVirtualNetworkRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1079,19 +1080,19 @@ export interface ListDnsForwardingRulesetByVirtualNetworkRequest {
   /** The name of the VirtualNetwork */
   virtualNetworkName: string;
   /** The maximum number of results to return. If not specified, returns up to 100 results. */
-  _top?: number;
+  _top?: number | undefined;
 }
 /** The reference to the virtual network link that associates between the DNS forwarding ruleset and virtual network. */
 export interface VirtualNetworkLinkSubResourceProperties {
   /** The reference to the virtual network link. */
-  virtualNetworkLink?: SubResource;
+  virtualNetworkLink?: SubResource | undefined;
 }
 /** Reference to DNS forwarding ruleset and associated virtual network link. */
 export interface VirtualNetworkDnsForwardingRuleset {
   /** DNS Forwarding Ruleset Resource ID. */
-  id?: string;
+  id?: string | undefined;
   /** Properties of the virtual network link sub-resource reference. */
-  properties?: VirtualNetworkLinkSubResourceProperties;
+  properties?: VirtualNetworkLinkSubResourceProperties | undefined;
 }
 /** The VirtualNetworkDnsForwardingRuleset items on this page */
 export type VirtualNetworkDnsForwardingRulesetListResultValueList =
@@ -1101,13 +1102,13 @@ export interface VirtualNetworkDnsForwardingRulesetListResult {
   /** The VirtualNetworkDnsForwardingRuleset items on this page */
   value: VirtualNetworkDnsForwardingRulesetListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListDnsForwardingRulesetsRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
   /** The maximum number of results to return. If not specified, returns up to 100 results. */
-  _top?: number;
+  _top?: number | undefined;
 }
 export interface ListDnsResolverByResourceGroupRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1115,28 +1116,28 @@ export interface ListDnsResolverByResourceGroupRequest {
   /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
   /** The maximum number of results to return. If not specified, returns up to 100 results. */
-  _top?: number;
+  _top?: number | undefined;
 }
 /** Resource tags. */
 export type DnsResolverTagsMap = { [key: string]: string | undefined };
 /** Describes a DNS resolver. */
 export interface DnsResolver {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: DnsResolverTagsMap;
+  tags?: DnsResolverTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Properties of the DNS resolver. */
   properties: DnsResolverProperties;
   /** "If etag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields.") */
-  etag?: string;
+  etag?: string | undefined;
 }
 /** The DnsResolver items on this page */
 export type DnsResolverListResultValueList = Array<DnsResolver>;
@@ -1145,7 +1146,7 @@ export interface DnsResolverListResult {
   /** The DnsResolver items on this page */
   value: DnsResolverListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListDnsResolverByVirtualNetworkRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1155,7 +1156,7 @@ export interface ListDnsResolverByVirtualNetworkRequest {
   /** The name of the VirtualNetwork */
   virtualNetworkName: string;
   /** The maximum number of results to return. If not specified, returns up to 100 results. */
-  _top?: number;
+  _top?: number | undefined;
 }
 /** The SubResource items on this page */
 export type SubResourceListResultValueList = Array<SubResource>;
@@ -1164,7 +1165,7 @@ export interface SubResourceListResult {
   /** The SubResource items on this page */
   value: SubResourceListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListDnsResolverDomainListByResourceGroupRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1172,28 +1173,28 @@ export interface ListDnsResolverDomainListByResourceGroupRequest {
   /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
   /** The maximum number of results to return. If not specified, returns up to 100 results. */
-  _top?: number;
+  _top?: number | undefined;
 }
 /** Resource tags. */
 export type DnsResolverDomainListTagsMap = { [key: string]: string | undefined };
 /** Describes a DNS resolver domain list. */
 export interface DnsResolverDomainList {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: DnsResolverDomainListTagsMap;
+  tags?: DnsResolverDomainListTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Properties of the DNS resolver domain list. */
-  properties?: DnsResolverDomainListProperties;
+  properties?: DnsResolverDomainListProperties | undefined;
   /** "If etag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields.") */
-  etag?: string;
+  etag?: string | undefined;
 }
 /** The DnsResolverDomainList items on this page */
 export type DnsResolverDomainListListResultValueList = Array<DnsResolverDomainList>;
@@ -1202,40 +1203,40 @@ export interface DnsResolverDomainListListResult {
   /** The DnsResolverDomainList items on this page */
   value: DnsResolverDomainListListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListDnsResolverDomainListsRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
   /** The maximum number of results to return. If not specified, returns up to 100 results. */
-  _top?: number;
+  _top?: number | undefined;
 }
 export interface ListDnsResolverPoliciesRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
   /** The maximum number of results to return. If not specified, returns up to 100 results. */
-  _top?: number;
+  _top?: number | undefined;
 }
 /** Resource tags. */
 export type DnsResolverPolicyTagsMap = { [key: string]: string | undefined };
 /** Describes a DNS resolver policy. */
 export interface DnsResolverPolicy {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: DnsResolverPolicyTagsMap;
+  tags?: DnsResolverPolicyTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Properties of the DNS resolver policy. */
-  properties?: DnsResolverPolicyProperties;
+  properties?: DnsResolverPolicyProperties | undefined;
   /** "If etag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields.") */
-  etag?: string;
+  etag?: string | undefined;
 }
 /** The DnsResolverPolicy items on this page */
 export type DnsResolverPolicyListResultValueList = Array<DnsResolverPolicy>;
@@ -1244,7 +1245,7 @@ export interface DnsResolverPolicyListResult {
   /** The DnsResolverPolicy items on this page */
   value: DnsResolverPolicyListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListDnsResolverPolicyByResourceGroupRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1252,7 +1253,7 @@ export interface ListDnsResolverPolicyByResourceGroupRequest {
   /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
   /** The maximum number of results to return. If not specified, returns up to 100 results. */
-  _top?: number;
+  _top?: number | undefined;
 }
 export interface ListDnsResolverPolicyByVirtualNetworkRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1270,28 +1271,28 @@ export interface ListDnsResolverPolicyVirtualNetworkLinksRequest {
   /** The name of the DNS resolver policy. */
   dnsResolverPolicyName: string;
   /** The maximum number of results to return. If not specified, returns up to 100 results. */
-  _top?: number;
+  _top?: number | undefined;
 }
 /** Resource tags. */
 export type DnsResolverPolicyVirtualNetworkLinkTagsMap = { [key: string]: string | undefined };
 /** Describes a DNS resolver policy virtual network link. */
 export interface DnsResolverPolicyVirtualNetworkLink {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: DnsResolverPolicyVirtualNetworkLinkTagsMap;
+  tags?: DnsResolverPolicyVirtualNetworkLinkTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Properties of the DNS resolver policy virtual network link. */
   properties: DnsResolverPolicyVirtualNetworkLinkProperties;
   /** "If etag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields.") */
-  etag?: string;
+  etag?: string | undefined;
 }
 /** The DnsResolverPolicyVirtualNetworkLink items on this page */
 export type DnsResolverPolicyVirtualNetworkLinkListResultValueList =
@@ -1301,13 +1302,13 @@ export interface DnsResolverPolicyVirtualNetworkLinkListResult {
   /** The DnsResolverPolicyVirtualNetworkLink items on this page */
   value: DnsResolverPolicyVirtualNetworkLinkListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListDnsResolversRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
   /** The maximum number of results to return. If not specified, returns up to 100 results. */
-  _top?: number;
+  _top?: number | undefined;
 }
 export interface ListDnsSecurityRulesRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1317,28 +1318,28 @@ export interface ListDnsSecurityRulesRequest {
   /** The name of the DNS resolver policy. */
   dnsResolverPolicyName: string;
   /** The maximum number of results to return. If not specified, returns up to 100 results. */
-  _top?: number;
+  _top?: number | undefined;
 }
 /** Resource tags. */
 export type DnsSecurityRuleTagsMap = { [key: string]: string | undefined };
 /** Describes a DNS security rule. */
 export interface DnsSecurityRule {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: DnsSecurityRuleTagsMap;
+  tags?: DnsSecurityRuleTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Properties of the DNS security rule. */
   properties: DnsSecurityRuleProperties;
   /** "If etag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields.") */
-  etag?: string;
+  etag?: string | undefined;
 }
 /** The DnsSecurityRule items on this page */
 export type DnsSecurityRuleListResultValueList = Array<DnsSecurityRule>;
@@ -1347,7 +1348,7 @@ export interface DnsSecurityRuleListResult {
   /** The DnsSecurityRule items on this page */
   value: DnsSecurityRuleListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListForwardingRulesRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1357,22 +1358,22 @@ export interface ListForwardingRulesRequest {
   /** The name of the DNS forwarding ruleset. */
   dnsForwardingRulesetName: string;
   /** The maximum number of results to return. If not specified, returns up to 100 results. */
-  _top?: number;
+  _top?: number | undefined;
 }
 /** Describes a forwarding rule within a DNS forwarding ruleset. */
 export interface ForwardingRule {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Properties of the forwarding rule. */
   properties: ForwardingRuleProperties;
   /** "If etag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields.") */
-  etag?: string;
+  etag?: string | undefined;
 }
 /** The ForwardingRule items on this page */
 export type ForwardingRuleListResultValueList = Array<ForwardingRule>;
@@ -1381,7 +1382,7 @@ export interface ForwardingRuleListResult {
   /** The ForwardingRule items on this page */
   value: ForwardingRuleListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListInboundEndpointsRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1391,28 +1392,28 @@ export interface ListInboundEndpointsRequest {
   /** The name of the DNS resolver. */
   dnsResolverName: string;
   /** The maximum number of results to return. If not specified, returns up to 100 results. */
-  _top?: number;
+  _top?: number | undefined;
 }
 /** Resource tags. */
 export type InboundEndpointTagsMap = { [key: string]: string | undefined };
 /** Describes an inbound endpoint for a DNS resolver. */
 export interface InboundEndpoint {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: InboundEndpointTagsMap;
+  tags?: InboundEndpointTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Properties of the inbound endpoint. */
   properties: InboundEndpointProperties;
   /** "If etag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields.") */
-  etag?: string;
+  etag?: string | undefined;
 }
 /** The InboundEndpoint items on this page */
 export type InboundEndpointListResultValueList = Array<InboundEndpoint>;
@@ -1421,7 +1422,7 @@ export interface InboundEndpointListResult {
   /** The InboundEndpoint items on this page */
   value: InboundEndpointListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListOutboundEndpointsRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1431,28 +1432,28 @@ export interface ListOutboundEndpointsRequest {
   /** The name of the DNS resolver. */
   dnsResolverName: string;
   /** The maximum number of results to return. If not specified, returns up to 100 results. */
-  _top?: number;
+  _top?: number | undefined;
 }
 /** Resource tags. */
 export type OutboundEndpointTagsMap = { [key: string]: string | undefined };
 /** Describes an outbound endpoint for a DNS resolver. */
 export interface OutboundEndpoint {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: OutboundEndpointTagsMap;
+  tags?: OutboundEndpointTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Properties of the outbound endpoint. */
   properties: OutboundEndpointProperties;
   /** "If etag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields.") */
-  etag?: string;
+  etag?: string | undefined;
 }
 /** The OutboundEndpoint items on this page */
 export type OutboundEndpointListResultValueList = Array<OutboundEndpoint>;
@@ -1461,7 +1462,7 @@ export interface OutboundEndpointListResult {
   /** The OutboundEndpoint items on this page */
   value: OutboundEndpointListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListVirtualNetworkLinksRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1471,22 +1472,22 @@ export interface ListVirtualNetworkLinksRequest {
   /** The name of the DNS forwarding ruleset. */
   dnsForwardingRulesetName: string;
   /** The maximum number of results to return. If not specified, returns up to 100 results. */
-  _top?: number;
+  _top?: number | undefined;
 }
 /** Describes a virtual network link. */
 export interface VirtualNetworkLink {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Properties of the virtual network link. */
   properties: VirtualNetworkLinkProperties;
   /** "If etag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields.") */
-  etag?: string;
+  etag?: string | undefined;
 }
 /** The VirtualNetworkLink items on this page */
 export type VirtualNetworkLinkListResultValueList = Array<VirtualNetworkLink>;
@@ -1495,7 +1496,7 @@ export interface VirtualNetworkLinkListResult {
   /** The VirtualNetworkLink items on this page */
   value: VirtualNetworkLinkListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type OutboundEndpointsCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
@@ -1514,7 +1515,7 @@ export interface OutboundEndpointsCreateOrUpdateRequest {
   /** The name of the outbound endpoint for the DNS resolver. */
   outboundEndpointName: string;
   /** Resource tags. */
-  tags?: OutboundEndpointsCreateOrUpdateRequestTagsMap;
+  tags?: OutboundEndpointsCreateOrUpdateRequestTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Properties of the outbound endpoint. */
@@ -1524,25 +1525,25 @@ export interface OutboundEndpointsCreateOrUpdateRequest {
 export type OutboundEndpointsCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
 export interface OutboundEndpointsCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: OutboundEndpointsCreateOrUpdateResponseTagsMap;
+  tags?: OutboundEndpointsCreateOrUpdateResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Properties of the outbound endpoint. */
   properties: OutboundEndpointProperties;
   /** "If etag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields.") */
-  etag?: string;
+  etag?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  locationHeader?: string;
+  locationHeader?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** The reference to the DNS resolver outbound endpoints that are used to route DNS queries matching the forwarding rules in the ruleset to the target DNS servers. */
 export type UpdateDnsForwardingRulesetRequestDnsResolverOutboundEndpointsList = Array<SubResource>;
@@ -1556,33 +1557,35 @@ export interface UpdateDnsForwardingRulesetRequest {
   /** The name of the DNS forwarding ruleset. */
   dnsForwardingRulesetName: string;
   /** The reference to the DNS resolver outbound endpoints that are used to route DNS queries matching the forwarding rules in the ruleset to the target DNS servers. */
-  dnsResolverOutboundEndpoints?: UpdateDnsForwardingRulesetRequestDnsResolverOutboundEndpointsList;
+  dnsResolverOutboundEndpoints?:
+    | UpdateDnsForwardingRulesetRequestDnsResolverOutboundEndpointsList
+    | undefined;
   /** Tags for DNS Resolver. */
-  tags?: UpdateDnsForwardingRulesetRequestTagsMap;
+  tags?: UpdateDnsForwardingRulesetRequestTagsMap | undefined;
 }
 /** Resource tags. */
 export type UpdateDnsForwardingRulesetResponseTagsMap = { [key: string]: string | undefined };
 export interface UpdateDnsForwardingRulesetResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: UpdateDnsForwardingRulesetResponseTagsMap;
+  tags?: UpdateDnsForwardingRulesetResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Properties of the DNS forwarding ruleset. */
   properties: DnsForwardingRulesetProperties;
   /** "If etag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields.") */
-  etag?: string;
+  etag?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  locationHeader?: string;
+  locationHeader?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Tags for DNS Resolver. */
 export type UpdateDnsResolverRequestTagsMap = { [key: string]: string | undefined };
@@ -1594,38 +1597,38 @@ export interface UpdateDnsResolverRequest {
   /** The name of the DNS resolver. */
   dnsResolverName: string;
   /** Tags for DNS Resolver. */
-  tags?: UpdateDnsResolverRequestTagsMap;
+  tags?: UpdateDnsResolverRequestTagsMap | undefined;
 }
 /** Resource tags. */
 export type UpdateDnsResolverResponseTagsMap = { [key: string]: string | undefined };
 export interface UpdateDnsResolverResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: UpdateDnsResolverResponseTagsMap;
+  tags?: UpdateDnsResolverResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Properties of the DNS resolver. */
   properties: DnsResolverProperties;
   /** "If etag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields.") */
-  etag?: string;
+  etag?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  locationHeader?: string;
+  locationHeader?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** The domains in the domain list. */
 export type DnsResolverDomainListPatchPropertiesDomainsList = Array<string>;
 /** Represents the updatable properties of a DNS resolver domain list. */
 export interface DnsResolverDomainListPatchProperties {
   /** The domains in the domain list. */
-  domains?: DnsResolverDomainListPatchPropertiesDomainsList;
+  domains?: DnsResolverDomainListPatchPropertiesDomainsList | undefined;
 }
 /** Tags for DNS resolver domain list. */
 export type UpdateDnsResolverDomainListRequestTagsMap = { [key: string]: string | undefined };
@@ -1637,33 +1640,33 @@ export interface UpdateDnsResolverDomainListRequest {
   /** The name of the DNS resolver domain list. */
   dnsResolverDomainListName: string;
   /** Updatable properties of the DNS resolver domain list. */
-  properties?: DnsResolverDomainListPatchProperties;
+  properties?: DnsResolverDomainListPatchProperties | undefined;
   /** Tags for DNS resolver domain list. */
-  tags?: UpdateDnsResolverDomainListRequestTagsMap;
+  tags?: UpdateDnsResolverDomainListRequestTagsMap | undefined;
 }
 /** Resource tags. */
 export type UpdateDnsResolverDomainListResponseTagsMap = { [key: string]: string | undefined };
 export interface UpdateDnsResolverDomainListResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: UpdateDnsResolverDomainListResponseTagsMap;
+  tags?: UpdateDnsResolverDomainListResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Properties of the DNS resolver domain list. */
-  properties?: DnsResolverDomainListProperties;
+  properties?: DnsResolverDomainListProperties | undefined;
   /** "If etag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields.") */
-  etag?: string;
+  etag?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  locationHeader?: string;
+  locationHeader?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Tags for DNS resolver policy. */
 export type UpdateDnsResolverPolicyRequestTagsMap = { [key: string]: string | undefined };
@@ -1675,31 +1678,31 @@ export interface UpdateDnsResolverPolicyRequest {
   /** The name of the DNS resolver policy. */
   dnsResolverPolicyName: string;
   /** Tags for DNS resolver policy. */
-  tags?: UpdateDnsResolverPolicyRequestTagsMap;
+  tags?: UpdateDnsResolverPolicyRequestTagsMap | undefined;
 }
 /** Resource tags. */
 export type UpdateDnsResolverPolicyResponseTagsMap = { [key: string]: string | undefined };
 export interface UpdateDnsResolverPolicyResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: UpdateDnsResolverPolicyResponseTagsMap;
+  tags?: UpdateDnsResolverPolicyResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Properties of the DNS resolver policy. */
-  properties?: DnsResolverPolicyProperties;
+  properties?: DnsResolverPolicyProperties | undefined;
   /** "If etag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields.") */
-  etag?: string;
+  etag?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  locationHeader?: string;
+  locationHeader?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Tags for the DNS resolver policy virtual network link. */
 export type UpdateDnsResolverPolicyVirtualNetworkLinkRequestTagsMap = {
@@ -1715,7 +1718,7 @@ export interface UpdateDnsResolverPolicyVirtualNetworkLinkRequest {
   /** The name of the DNS resolver policy virtual network link for the DNS resolver policy. */
   dnsResolverPolicyVirtualNetworkLinkName: string;
   /** Tags for the DNS resolver policy virtual network link. */
-  tags?: UpdateDnsResolverPolicyVirtualNetworkLinkRequestTagsMap;
+  tags?: UpdateDnsResolverPolicyVirtualNetworkLinkRequestTagsMap | undefined;
 }
 /** Resource tags. */
 export type UpdateDnsResolverPolicyVirtualNetworkLinkResponseTagsMap = {
@@ -1723,38 +1726,38 @@ export type UpdateDnsResolverPolicyVirtualNetworkLinkResponseTagsMap = {
 };
 export interface UpdateDnsResolverPolicyVirtualNetworkLinkResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: UpdateDnsResolverPolicyVirtualNetworkLinkResponseTagsMap;
+  tags?: UpdateDnsResolverPolicyVirtualNetworkLinkResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Properties of the DNS resolver policy virtual network link. */
   properties: DnsResolverPolicyVirtualNetworkLinkProperties;
   /** "If etag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields.") */
-  etag?: string;
+  etag?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  locationHeader?: string;
+  locationHeader?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** DNS resolver policy domains lists that the DNS security rule applies to. */
 export type DnsSecurityRulePatchPropertiesDnsResolverDomainListsList = Array<SubResource>;
 /** Represents the updatable properties of a DNS security rule. */
 export interface DnsSecurityRulePatchProperties {
   /** The action to take on DNS requests that match the DNS security rule. */
-  action?: DnsSecurityRuleAction;
+  action?: DnsSecurityRuleAction | undefined;
   /** DNS resolver policy domains lists that the DNS security rule applies to. */
-  dnsResolverDomainLists?: DnsSecurityRulePatchPropertiesDnsResolverDomainListsList;
+  dnsResolverDomainLists?: DnsSecurityRulePatchPropertiesDnsResolverDomainListsList | undefined;
   /** The state of DNS security rule. */
-  dnsSecurityRuleState?: DnsSecurityRuleState | (string & {});
+  dnsSecurityRuleState?: DnsSecurityRuleState | (string & {}) | undefined;
   /** The priority of the DNS security rule. */
-  priority?: number;
+  priority?: number | undefined;
 }
 /** Tags for DNS security rule. */
 export type UpdateDnsSecurityRuleRequestTagsMap = { [key: string]: string | undefined };
@@ -1768,33 +1771,33 @@ export interface UpdateDnsSecurityRuleRequest {
   /** The name of the DNS security rule. */
   dnsSecurityRuleName: string;
   /** Updatable properties of the DNS security rule. */
-  properties?: DnsSecurityRulePatchProperties;
+  properties?: DnsSecurityRulePatchProperties | undefined;
   /** Tags for DNS security rule. */
-  tags?: UpdateDnsSecurityRuleRequestTagsMap;
+  tags?: UpdateDnsSecurityRuleRequestTagsMap | undefined;
 }
 /** Resource tags. */
 export type UpdateDnsSecurityRuleResponseTagsMap = { [key: string]: string | undefined };
 export interface UpdateDnsSecurityRuleResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: UpdateDnsSecurityRuleResponseTagsMap;
+  tags?: UpdateDnsSecurityRuleResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Properties of the DNS security rule. */
   properties: DnsSecurityRuleProperties;
   /** "If etag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields.") */
-  etag?: string;
+  etag?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  locationHeader?: string;
+  locationHeader?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** DNS servers to forward the DNS query to. */
 export type ForwardingRulePatchPropertiesTargetDnsServersList = Array<TargetDnsServer>;
@@ -1805,11 +1808,14 @@ export type ForwardingRulePatchPropertiesForwardingRuleState = "Enabled" | "Disa
 /** Represents the updatable properties of a forwarding rule within a DNS forwarding ruleset. */
 export interface ForwardingRulePatchProperties {
   /** DNS servers to forward the DNS query to. */
-  targetDnsServers?: ForwardingRulePatchPropertiesTargetDnsServersList;
+  targetDnsServers?: ForwardingRulePatchPropertiesTargetDnsServersList | undefined;
   /** Metadata attached to the forwarding rule. */
-  metadata?: ForwardingRulePatchPropertiesMetadataMap;
+  metadata?: ForwardingRulePatchPropertiesMetadataMap | undefined;
   /** The state of forwarding rule. */
-  forwardingRuleState?: ForwardingRulePatchPropertiesForwardingRuleState | (string & {});
+  forwardingRuleState?:
+    | ForwardingRulePatchPropertiesForwardingRuleState
+    | (string & {})
+    | undefined;
 }
 export interface UpdateForwardingRuleRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1821,21 +1827,21 @@ export interface UpdateForwardingRuleRequest {
   /** The name of the forwarding rule. */
   forwardingRuleName: string;
   /** Updatable properties of the forwarding rule. */
-  properties?: ForwardingRulePatchProperties;
+  properties?: ForwardingRulePatchProperties | undefined;
 }
 export interface UpdateForwardingRuleResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Properties of the forwarding rule. */
   properties: ForwardingRuleProperties;
   /** "If etag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields.") */
-  etag?: string;
+  etag?: string | undefined;
 }
 /** Tags for inbound endpoint. */
 export type UpdateInboundEndpointRequestTagsMap = { [key: string]: string | undefined };
@@ -1849,31 +1855,31 @@ export interface UpdateInboundEndpointRequest {
   /** The name of the inbound endpoint for the DNS resolver. */
   inboundEndpointName: string;
   /** Tags for inbound endpoint. */
-  tags?: UpdateInboundEndpointRequestTagsMap;
+  tags?: UpdateInboundEndpointRequestTagsMap | undefined;
 }
 /** Resource tags. */
 export type UpdateInboundEndpointResponseTagsMap = { [key: string]: string | undefined };
 export interface UpdateInboundEndpointResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: UpdateInboundEndpointResponseTagsMap;
+  tags?: UpdateInboundEndpointResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Properties of the inbound endpoint. */
   properties: InboundEndpointProperties;
   /** "If etag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields.") */
-  etag?: string;
+  etag?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  locationHeader?: string;
+  locationHeader?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Tags for outbound endpoint. */
 export type UpdateOutboundEndpointRequestTagsMap = { [key: string]: string | undefined };
@@ -1887,38 +1893,38 @@ export interface UpdateOutboundEndpointRequest {
   /** The name of the outbound endpoint for the DNS resolver. */
   outboundEndpointName: string;
   /** Tags for outbound endpoint. */
-  tags?: UpdateOutboundEndpointRequestTagsMap;
+  tags?: UpdateOutboundEndpointRequestTagsMap | undefined;
 }
 /** Resource tags. */
 export type UpdateOutboundEndpointResponseTagsMap = { [key: string]: string | undefined };
 export interface UpdateOutboundEndpointResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: UpdateOutboundEndpointResponseTagsMap;
+  tags?: UpdateOutboundEndpointResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Properties of the outbound endpoint. */
   properties: OutboundEndpointProperties;
   /** "If etag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields.") */
-  etag?: string;
+  etag?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  locationHeader?: string;
+  locationHeader?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Metadata attached to the virtual network link. */
 export type VirtualNetworkLinkPatchPropertiesMetadataMap = { [key: string]: string | undefined };
 /** Represents the updatable properties of the virtual network link. */
 export interface VirtualNetworkLinkPatchProperties {
   /** Metadata attached to the virtual network link. */
-  metadata?: VirtualNetworkLinkPatchPropertiesMetadataMap;
+  metadata?: VirtualNetworkLinkPatchPropertiesMetadataMap | undefined;
 }
 export interface UpdateVirtualNetworkLinkRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1930,25 +1936,25 @@ export interface UpdateVirtualNetworkLinkRequest {
   /** The name of the virtual network link. */
   virtualNetworkLinkName: string;
   /** Updatable properties of the virtual network link. */
-  properties?: VirtualNetworkLinkPatchProperties;
+  properties?: VirtualNetworkLinkPatchProperties | undefined;
 }
 export interface UpdateVirtualNetworkLinkResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Properties of the virtual network link. */
   properties: VirtualNetworkLinkProperties;
   /** "If etag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields.") */
-  etag?: string;
+  etag?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface VirtualNetworkLinksCreateOrUpdateRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1964,21 +1970,21 @@ export interface VirtualNetworkLinksCreateOrUpdateRequest {
 }
 export interface VirtualNetworkLinksCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Properties of the virtual network link. */
   properties: VirtualNetworkLinkProperties;
   /** "If etag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields.") */
-  etag?: string;
+  etag?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export type BulkDnsResolverDomainListError = AzureOpError;
 /** Uploads or downloads the list of domains for a DNS Resolver Domain List from a storage link. */

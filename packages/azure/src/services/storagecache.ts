@@ -29,6 +29,7 @@ const TELEMETRY = {
   prefix: "Storagecache",
   service: "Storagecache",
   labels: "azure",
+  labelNames: { resourceGroupName: "azure.resource_group.name" },
   propagate: "w3c",
 } as const;
 
@@ -46,7 +47,7 @@ export type AmlFilesystemsCreateOrUpdateRequestTagsMap = { [key: string]: string
 /** Describes a resource Id to source key vault. */
 export interface KeyVaultKeyReferenceSourceVault {
   /** Resource Id. */
-  id?: string;
+  id?: string | undefined;
 }
 /** Describes a reference to key vault key. */
 export interface KeyVaultKeyReference {
@@ -58,7 +59,7 @@ export interface KeyVaultKeyReference {
 /** AML file system encryption settings. */
 export interface AmlFilesystemEncryptionSettings {
   /** Specifies the location of the encryption key in Key Vault. */
-  keyEncryptionKey?: KeyVaultKeyReference;
+  keyEncryptionKey?: KeyVaultKeyReference | undefined;
 }
 /** Day of the week on which the maintenance window will occur. */
 export type MaintenanceDayOfWeekType =
@@ -72,9 +73,9 @@ export type MaintenanceDayOfWeekType =
 /** Start time of a 30-minute weekly maintenance window. */
 export interface AmlFilesystemPropertiesMaintenanceWindow {
   /** Day of the week on which the maintenance window will occur. */
-  dayOfWeek?: MaintenanceDayOfWeekType | (string & {});
+  dayOfWeek?: MaintenanceDayOfWeekType | (string & {}) | undefined;
   /** The time of day (in UTC) to start the maintenance window. */
-  timeOfDayUTC?: string;
+  timeOfDayUTC?: string | undefined;
 }
 /** Only blobs in the non-logging container that start with one of the paths/prefixes in this array get imported into the cluster namespace. This is only used during initial creation of the AML file system and has '/' as the default value. It automatically creates an import job resource that can be deleted. */
 export type AmlFilesystemHsmSettingsImportPrefixesInitialList = Array<string>;
@@ -85,27 +86,27 @@ export interface AmlFilesystemHsmSettings {
   /** Resource ID of storage container used for logging events and errors. Must be a separate container in the same storage account as the hydration and archive container. The resource provider must have permission to create SAS tokens on the storage account. */
   loggingContainer: string;
   /** Only blobs in the non-logging container that start with this path/prefix get imported into the cluster namespace. This is only used during initial creation of the AML file system. It automatically creates an import job resource that can be deleted. */
-  importPrefix?: string;
+  importPrefix?: string | undefined;
   /** Only blobs in the non-logging container that start with one of the paths/prefixes in this array get imported into the cluster namespace. This is only used during initial creation of the AML file system and has '/' as the default value. It automatically creates an import job resource that can be deleted. */
-  importPrefixesInitial?: AmlFilesystemHsmSettingsImportPrefixesInitialList;
+  importPrefixesInitial?: AmlFilesystemHsmSettingsImportPrefixesInitialList | undefined;
 }
 /** Hydration and archive settings and status */
 export interface AmlFilesystemPropertiesHsmInput {
   /** Specifies HSM settings of the AML file system. */
-  settings?: AmlFilesystemHsmSettings;
+  settings?: AmlFilesystemHsmSettings | undefined;
 }
 /** Squash mode of the AML file system. 'All': User and Group IDs on files will be squashed to the provided values for all users on non-trusted systems. 'RootOnly': User and Group IDs on files will be squashed to provided values for solely the root user on non-trusted systems. 'None': No squashing of User and Group IDs is performed for any users on any systems. */
 export type AmlFilesystemSquashMode = "None" | "RootOnly" | "All";
 /** AML file system squash settings. */
 export interface AmlFilesystemRootSquashSettingsInput {
   /** Squash mode of the AML file system. 'All': User and Group IDs on files will be squashed to the provided values for all users on non-trusted systems. 'RootOnly': User and Group IDs on files will be squashed to provided values for solely the root user on non-trusted systems. 'None': No squashing of User and Group IDs is performed for any users on any systems. */
-  mode?: AmlFilesystemSquashMode | (string & {});
+  mode?: AmlFilesystemSquashMode | (string & {}) | undefined;
   /** Semicolon separated NID IP Address list(s) to be added to the TrustedSystems. */
-  noSquashNidLists?: string;
+  noSquashNidLists?: string | undefined;
   /** User ID to squash to. */
-  squashUID?: number;
+  squashUID?: number | undefined;
   /** Group ID to squash to. */
-  squashGID?: number;
+  squashGID?: number | undefined;
 }
 /** Properties of the AML file system. */
 export interface AmlFilesystemPropertiesInput {
@@ -114,13 +115,13 @@ export interface AmlFilesystemPropertiesInput {
   /** Subnet used for managing the AML file system and for client-facing operations. This subnet should have at least a /24 subnet mask within the VNET's address space. */
   filesystemSubnet: string;
   /** Specifies encryption settings of the AML file system. */
-  encryptionSettings?: AmlFilesystemEncryptionSettings;
+  encryptionSettings?: AmlFilesystemEncryptionSettings | undefined;
   /** Start time of a 30-minute weekly maintenance window. */
   maintenanceWindow: AmlFilesystemPropertiesMaintenanceWindow;
   /** Hydration and archive settings and status */
-  hsm?: AmlFilesystemPropertiesHsmInput;
+  hsm?: AmlFilesystemPropertiesHsmInput | undefined;
   /** Specifies root squash settings of the AML file system. */
-  rootSquashSettings?: AmlFilesystemRootSquashSettingsInput;
+  rootSquashSettings?: AmlFilesystemRootSquashSettingsInput | undefined;
 }
 /** The type of identity used for the resource. */
 export type AmlFilesystemIdentityType = "UserAssigned" | "None";
@@ -133,14 +134,14 @@ export type AmlFilesystemIdentityInputUserAssignedIdentitiesMap = {
 /** Managed Identity properties. */
 export interface AmlFilesystemIdentityInput {
   /** The type of identity used for the resource. */
-  type?: AmlFilesystemIdentityType | (string & {});
+  type?: AmlFilesystemIdentityType | (string & {}) | undefined;
   /** A dictionary where each key is a user assigned identity resource ID, and each key's value is an empty dictionary. */
-  userAssignedIdentities?: AmlFilesystemIdentityInputUserAssignedIdentitiesMap;
+  userAssignedIdentities?: AmlFilesystemIdentityInputUserAssignedIdentitiesMap | undefined;
 }
 /** SKU for the resource. */
 export interface SkuName {
   /** SKU name for this resource. */
-  name?: string;
+  name?: string | undefined;
 }
 /** The availability zones. */
 export type AmlFilesystemsCreateOrUpdateRequestZonesList = Array<string>;
@@ -152,17 +153,17 @@ export interface AmlFilesystemsCreateOrUpdateRequest {
   /** Name for the AML file system. Allows alphanumerics, underscores, and hyphens. Start and end with alphanumeric. */
   amlFilesystemName: string;
   /** Resource tags. */
-  tags?: AmlFilesystemsCreateOrUpdateRequestTagsMap;
+  tags?: AmlFilesystemsCreateOrUpdateRequestTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Properties of the AML file system. */
-  properties?: AmlFilesystemPropertiesInput;
+  properties?: AmlFilesystemPropertiesInput | undefined;
   /** The managed identity used by the AML file system, if configured. */
-  identity?: AmlFilesystemIdentityInput;
+  identity?: AmlFilesystemIdentityInput | undefined;
   /** SKU for the resource. */
-  sku?: SkuName;
+  sku?: SkuName | undefined;
   /** The availability zones. */
-  zones?: AmlFilesystemsCreateOrUpdateRequestZonesList;
+  zones?: AmlFilesystemsCreateOrUpdateRequestZonesList | undefined;
 }
 /** The type of identity that created the resource. */
 export type SystemDataCreatedByType = "User" | "Application" | "ManagedIdentity" | "Key";
@@ -171,17 +172,17 @@ export type SystemDataLastModifiedByType = "User" | "Application" | "ManagedIden
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface SystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: SystemDataCreatedByType;
+  createdByType?: SystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: SystemDataLastModifiedByType;
+  lastModifiedByType?: SystemDataLastModifiedByType | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 /** Resource tags. */
 export type AmlFilesystemsCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
@@ -196,11 +197,11 @@ export type AmlFilesystemHealthStateType =
 /** An indication of AML file system health. Gives more information about health than just that related to provisioning. */
 export interface AmlFilesystemHealth {
   /** List of AML file system health states. */
-  state?: AmlFilesystemHealthStateType;
+  state?: AmlFilesystemHealthStateType | undefined;
   /** Server-defined error code for the AML file system health */
-  statusCode?: string;
+  statusCode?: string | undefined;
   /** Describes the health state. */
-  statusDescription?: string;
+  statusDescription?: string | undefined;
 }
 /** ARM provisioning state. */
 export type AmlFilesystemProvisioningStateType =
@@ -213,22 +214,22 @@ export type AmlFilesystemProvisioningStateType =
 /** AML file system container storage interface information */
 export interface AmlFilesystemContainerStorageInterface {
   /** Recommended AKS Persistent Volume Claim for the CSI driver, in Base64 encoded YAML */
-  persistentVolumeClaim?: string;
+  persistentVolumeClaim?: string | undefined;
   /** Recommended AKS Persistent Volume for the CSI driver, in Base64 encoded YAML */
-  persistentVolume?: string;
+  persistentVolume?: string | undefined;
   /** Recommended AKS Storage Class for the CSI driver, in Base64 encoded YAML */
-  storageClass?: string;
+  storageClass?: string | undefined;
 }
 /** AML file system client information */
 export interface AmlFilesystemClientInfo {
   /** The IPv4 address used by clients to mount the AML file system's Lustre Management Service (MGS). */
-  mgsAddress?: string;
+  mgsAddress?: string | undefined;
   /** Recommended command to mount the AML file system */
-  mountCommand?: string;
+  mountCommand?: string | undefined;
   /** The version of Lustre running in the AML file system */
-  lustreVersion?: string;
+  lustreVersion?: string | undefined;
   /** Container Storage Interface information for the AML file system. */
-  containerStorageInterface?: AmlFilesystemContainerStorageInterface;
+  containerStorageInterface?: AmlFilesystemContainerStorageInterface | undefined;
 }
 /** The state of the archive operation */
 export type ArchiveStatusType =
@@ -243,80 +244,80 @@ export type ArchiveStatusType =
 /** The status of the archive */
 export interface AmlFilesystemArchiveStatus {
   /** The state of the archive operation */
-  state?: ArchiveStatusType;
+  state?: ArchiveStatusType | undefined;
   /** The time of the last completed archive operation */
-  lastCompletionTime?: string;
+  lastCompletionTime?: string | undefined;
   /** The time the latest archive operation started */
-  lastStartedTime?: string;
+  lastStartedTime?: string | undefined;
   /** The completion percentage of the archive operation */
-  percentComplete?: number;
+  percentComplete?: number | undefined;
   /** Server-defined error code for the archive operation */
-  errorCode?: string;
+  errorCode?: string | undefined;
   /** Server-defined error message for the archive operation */
-  errorMessage?: string;
+  errorMessage?: string | undefined;
 }
 /** Information about the AML file system archive */
 export interface AmlFilesystemArchive {
   /** Lustre file system path to archive relative to the file system root. Specify '/' to archive all modified data. */
-  filesystemPath?: string;
+  filesystemPath?: string | undefined;
   /** The status of the archive */
-  status?: AmlFilesystemArchiveStatus;
+  status?: AmlFilesystemArchiveStatus | undefined;
 }
 /** Archive status */
 export type AmlFilesystemPropertiesHsmArchiveStatusList = Array<AmlFilesystemArchive>;
 /** Hydration and archive settings and status */
 export interface AmlFilesystemPropertiesHsm {
   /** Specifies HSM settings of the AML file system. */
-  settings?: AmlFilesystemHsmSettings;
+  settings?: AmlFilesystemHsmSettings | undefined;
   /** Archive status */
-  archiveStatus?: AmlFilesystemPropertiesHsmArchiveStatusList;
+  archiveStatus?: AmlFilesystemPropertiesHsmArchiveStatusList | undefined;
 }
 /** AML file system squash settings. */
 export interface AmlFilesystemRootSquashSettings {
   /** Squash mode of the AML file system. 'All': User and Group IDs on files will be squashed to the provided values for all users on non-trusted systems. 'RootOnly': User and Group IDs on files will be squashed to provided values for solely the root user on non-trusted systems. 'None': No squashing of User and Group IDs is performed for any users on any systems. */
-  mode?: AmlFilesystemSquashMode;
+  mode?: AmlFilesystemSquashMode | undefined;
   /** Semicolon separated NID IP Address list(s) to be added to the TrustedSystems. */
-  noSquashNidLists?: string;
+  noSquashNidLists?: string | undefined;
   /** User ID to squash to. */
-  squashUID?: number;
+  squashUID?: number | undefined;
   /** Group ID to squash to. */
-  squashGID?: number;
+  squashGID?: number | undefined;
   /** AML file system squash status. */
-  status?: string;
+  status?: string | undefined;
 }
 /** Properties of the AML file system. */
 export interface AmlFilesystemProperties {
   /** The size of the AML file system, in TiB. This might be rounded up. */
   storageCapacityTiB: number;
   /** The current storage capacity of the AML file system, in TiB. This reflects the actual capacity including any expansions. */
-  currentStorageCapacityTiB?: number;
+  currentStorageCapacityTiB?: number | undefined;
   /** The unique identifier of the AML file system cluster. */
-  clusterUuid?: string;
+  clusterUuid?: string | undefined;
   /** Health of the AML file system. */
-  health?: AmlFilesystemHealth;
+  health?: AmlFilesystemHealth | undefined;
   /** ARM provisioning state. */
-  provisioningState?: AmlFilesystemProvisioningStateType;
+  provisioningState?: AmlFilesystemProvisioningStateType | undefined;
   /** Subnet used for managing the AML file system and for client-facing operations. This subnet should have at least a /24 subnet mask within the VNET's address space. */
   filesystemSubnet: string;
   /** Client information for the AML file system. */
-  clientInfo?: AmlFilesystemClientInfo;
+  clientInfo?: AmlFilesystemClientInfo | undefined;
   /** Throughput provisioned in MB per sec, calculated as storageCapacityTiB * per-unit storage throughput */
-  throughputProvisionedMBps?: number;
+  throughputProvisionedMBps?: number | undefined;
   /** Specifies encryption settings of the AML file system. */
-  encryptionSettings?: AmlFilesystemEncryptionSettings;
+  encryptionSettings?: AmlFilesystemEncryptionSettings | undefined;
   /** Start time of a 30-minute weekly maintenance window. */
   maintenanceWindow: AmlFilesystemPropertiesMaintenanceWindow;
   /** Hydration and archive settings and status */
-  hsm?: AmlFilesystemPropertiesHsm;
+  hsm?: AmlFilesystemPropertiesHsm | undefined;
   /** Specifies root squash settings of the AML file system. */
-  rootSquashSettings?: AmlFilesystemRootSquashSettings;
+  rootSquashSettings?: AmlFilesystemRootSquashSettings | undefined;
 }
 /** User-assigned identity properties. */
 export interface UserAssignedIdentitiesValue {
   /** The principal ID of the user-assigned identity. */
-  principalId?: string;
+  principalId?: string | undefined;
   /** The client ID of the user-assigned identity. */
-  clientId?: string;
+  clientId?: string | undefined;
 }
 /** A dictionary where each key is a user assigned identity resource ID, and each key's value is an empty dictionary. */
 export type AmlFilesystemIdentityUserAssignedIdentitiesMap = {
@@ -325,41 +326,41 @@ export type AmlFilesystemIdentityUserAssignedIdentitiesMap = {
 /** Managed Identity properties. */
 export interface AmlFilesystemIdentity {
   /** The principal ID for the user-assigned identity of the resource. */
-  principalId?: string;
+  principalId?: string | undefined;
   /** The tenant ID associated with the resource. */
-  tenantId?: string;
+  tenantId?: string | undefined;
   /** The type of identity used for the resource. */
-  type?: AmlFilesystemIdentityType;
+  type?: AmlFilesystemIdentityType | undefined;
   /** A dictionary where each key is a user assigned identity resource ID, and each key's value is an empty dictionary. */
-  userAssignedIdentities?: AmlFilesystemIdentityUserAssignedIdentitiesMap;
+  userAssignedIdentities?: AmlFilesystemIdentityUserAssignedIdentitiesMap | undefined;
 }
 /** The availability zones. */
 export type AmlFilesystemsCreateOrUpdateResponseZonesList = Array<string>;
 export interface AmlFilesystemsCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: AmlFilesystemsCreateOrUpdateResponseTagsMap;
+  tags?: AmlFilesystemsCreateOrUpdateResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Properties of the AML file system. */
-  properties?: AmlFilesystemProperties;
+  properties?: AmlFilesystemProperties | undefined;
   /** The managed identity used by the AML file system, if configured. */
-  identity?: AmlFilesystemIdentity;
+  identity?: AmlFilesystemIdentity | undefined;
   /** SKU for the resource. */
-  sku?: SkuName;
+  sku?: SkuName | undefined;
   /** The availability zones. */
-  zones?: AmlFilesystemsCreateOrUpdateResponseZonesList;
+  zones?: AmlFilesystemsCreateOrUpdateResponseZonesList | undefined;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface ArchiveAmlFilesystemRequest {
   /** The ID of the target subscription. */
@@ -369,7 +370,7 @@ export interface ArchiveAmlFilesystemRequest {
   /** Name for the AML file system. Allows alphanumerics, underscores, and hyphens. Start and end with alphanumeric. */
   amlFilesystemName: string;
   /** Lustre file system path to archive relative to the file system root. Specify '/' to archive all modified data. */
-  filesystemPath?: string;
+  filesystemPath?: string | undefined;
 }
 export interface ArchiveAmlFilesystemResponse {}
 /** Resource tags. */
@@ -381,9 +382,9 @@ export type AutoExportJobPropertiesInputAutoExportPrefixesList = Array<string>;
 /** Properties of the auto export job. */
 export interface AutoExportJobPropertiesInput {
   /** The administrative status of the auto export job. Possible values: 'Enable', 'Disable'. Passing in a value of 'Disable' will disable the current active auto export job. By default it is set to 'Enable'. */
-  adminStatus?: AutoExportJobPropertiesInputAdminStatus | (string & {});
+  adminStatus?: AutoExportJobPropertiesInputAdminStatus | (string & {}) | undefined;
   /** An array of blob paths/prefixes that get auto exported to the cluster namespace. It has '/' as the default value. Number of maximum allowed paths for now is 1. */
-  autoExportPrefixes?: AutoExportJobPropertiesInputAutoExportPrefixesList;
+  autoExportPrefixes?: AutoExportJobPropertiesInputAutoExportPrefixesList | undefined;
 }
 export interface AutoExportJobsCreateOrUpdateRequest {
   /** The ID of the target subscription. */
@@ -395,11 +396,11 @@ export interface AutoExportJobsCreateOrUpdateRequest {
   /** Name for the auto export job. Allows alphanumerics, underscores, and hyphens. Start and end with alphanumeric. */
   autoExportJobName: string;
   /** Resource tags. */
-  tags?: AutoExportJobsCreateOrUpdateRequestTagsMap;
+  tags?: AutoExportJobsCreateOrUpdateRequestTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Properties of the auto export job. */
-  properties?: AutoExportJobPropertiesInput;
+  properties?: AutoExportJobPropertiesInput | undefined;
 }
 /** Resource tags. */
 export type AutoExportJobsCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
@@ -425,66 +426,66 @@ export type AutoExportStatusType =
 /** The status of the auto export */
 export interface AutoExportJobPropertiesStatus {
   /** The operational state of auto export. InProgress indicates the export is running. Disabling indicates the user has requested to disable the export but the disabling is still in progress. Disabled indicates auto export has been disabled. DisableFailed indicates the disabling has failed. Failed means the export was unable to continue, due to a fatal error. */
-  state?: AutoExportStatusType;
+  state?: AutoExportStatusType | undefined;
   /** Server-defined status code for auto export job. */
-  statusCode?: string;
+  statusCode?: string | undefined;
   /** Server-defined status message for auto export job. */
-  statusMessage?: string;
+  statusMessage?: string | undefined;
   /** Total files exported since the start of the export. This is accumulative, some files may be counted repeatedly. */
-  totalFilesExported?: number;
+  totalFilesExported?: number | undefined;
   /** Total data (in MiB) exported since the start of the export. This is accumulative, some files may be counted repeatedly. */
-  totalMiBExported?: number;
+  totalMiBExported?: number | undefined;
   /** Total files failed to be export since the last successfully completed iteration. This is accumulative, some files may be counted repeatedly. */
-  totalFilesFailed?: number;
+  totalFilesFailed?: number | undefined;
   /** Number of iterations completed since the start of the export. */
-  exportIterationCount?: number;
+  exportIterationCount?: number | undefined;
   /** Time (in UTC) of the last successfully completed export iteration. Look at logging container for details. */
-  lastSuccessfulIterationCompletionTimeUTC?: string;
+  lastSuccessfulIterationCompletionTimeUTC?: string | undefined;
   /** Files discovered for export in current iteration. It may increase while more export items are found. */
-  currentIterationFilesDiscovered?: number;
+  currentIterationFilesDiscovered?: number | undefined;
   /** Data (in MiB) discovered for export in current iteration. It may increase while more export items are found. */
-  currentIterationMiBDiscovered?: number;
+  currentIterationMiBDiscovered?: number | undefined;
   /** Files that have been exported in current iteration. */
-  currentIterationFilesExported?: number;
+  currentIterationFilesExported?: number | undefined;
   /** Data (in MiB) that have been exported in current iteration. */
-  currentIterationMiBExported?: number;
+  currentIterationMiBExported?: number | undefined;
   /** Files failed to export in current iteration. */
-  currentIterationFilesFailed?: number;
+  currentIterationFilesFailed?: number | undefined;
   /** The time (in UTC) the latest auto export job started. */
-  lastStartedTimeUTC?: string;
+  lastStartedTimeUTC?: string | undefined;
   /** The time (in UTC) of the last completed auto export job. */
-  lastCompletionTimeUTC?: string;
+  lastCompletionTimeUTC?: string | undefined;
 }
 /** Properties of the auto export job. */
 export interface AutoExportJobProperties {
   /** ARM provisioning state. */
-  provisioningState?: AutoExportJobProvisioningStateType;
+  provisioningState?: AutoExportJobProvisioningStateType | undefined;
   /** The administrative status of the auto export job. Possible values: 'Enable', 'Disable'. Passing in a value of 'Disable' will disable the current active auto export job. By default it is set to 'Enable'. */
-  adminStatus?: AutoExportJobPropertiesAdminStatus;
+  adminStatus?: AutoExportJobPropertiesAdminStatus | undefined;
   /** An array of blob paths/prefixes that get auto exported to the cluster namespace. It has '/' as the default value. Number of maximum allowed paths for now is 1. */
-  autoExportPrefixes?: AutoExportJobPropertiesAutoExportPrefixesList;
+  autoExportPrefixes?: AutoExportJobPropertiesAutoExportPrefixesList | undefined;
   /** The status of the auto export */
-  status?: AutoExportJobPropertiesStatus;
+  status?: AutoExportJobPropertiesStatus | undefined;
 }
 export interface AutoExportJobsCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: AutoExportJobsCreateOrUpdateResponseTagsMap;
+  tags?: AutoExportJobsCreateOrUpdateResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Properties of the auto export job. */
-  properties?: AutoExportJobProperties;
+  properties?: AutoExportJobProperties | undefined;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Resource tags. */
 export type AutoImportJobsCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
@@ -501,15 +502,18 @@ export type AutoImportJobPropertiesInputConflictResolutionMode =
 /** Properties of the auto import job. */
 export interface AutoImportJobPropertiesInput {
   /** The administrative status of the auto import job. Possible values: 'Enable', 'Disable'. Passing in a value of 'Disable' will disable the current active auto import job. By default it is set to 'Enable'. */
-  adminStatus?: AutoImportJobPropertiesInputAdminStatus | (string & {});
+  adminStatus?: AutoImportJobPropertiesInputAdminStatus | (string & {}) | undefined;
   /** An array of blob paths/prefixes that get auto imported to the cluster namespace. It has '/' as the default value. Number of maximum allowed paths is 100. */
-  autoImportPrefixes?: AutoImportJobPropertiesInputAutoImportPrefixesList;
+  autoImportPrefixes?: AutoImportJobPropertiesInputAutoImportPrefixesList | undefined;
   /** How the auto import job will handle conflicts. For example, if the auto import job is trying to bring in a directory, but a file is at that path, how it handles it. Fail indicates that the auto import job should stop immediately and not do anything with the conflict. Skip indicates that it should pass over the conflict. OverwriteIfDirty causes the auto import job to delete and re-import the file or directory if it is a conflicting type, is dirty, or is currently released. OverwriteAlways extends OverwriteIfDirty to include releasing files that had been restored but were not dirty. Please reference https://learn.microsoft.com/en-us/azure/azure-managed-lustre/blob-integration#conflict-resolution-mode for a thorough explanation of these resolution modes. */
-  conflictResolutionMode?: AutoImportJobPropertiesInputConflictResolutionMode | (string & {});
+  conflictResolutionMode?:
+    | AutoImportJobPropertiesInputConflictResolutionMode
+    | (string & {})
+    | undefined;
   /** Whether or not to enable deletions during auto import. This only affects overwrite-dirty. */
-  enableDeletions?: boolean;
+  enableDeletions?: boolean | undefined;
   /** Total non-conflict-oriented errors (e.g., OS errors) Import will tolerate before exiting with failure. -1 means infinite. 0 means exit immediately on any error. */
-  maximumErrors?: number;
+  maximumErrors?: number | undefined;
 }
 export interface AutoImportJobsCreateOrUpdateRequest {
   /** The ID of the target subscription. */
@@ -521,11 +525,11 @@ export interface AutoImportJobsCreateOrUpdateRequest {
   /** Name for the auto import job. Allows alphanumerics, underscores, and hyphens. Start and end with alphanumeric. */
   autoImportJobName: string;
   /** Resource tags. */
-  tags?: AutoImportJobsCreateOrUpdateRequestTagsMap;
+  tags?: AutoImportJobsCreateOrUpdateRequestTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Properties of the auto import job. */
-  properties?: AutoImportJobPropertiesInput;
+  properties?: AutoImportJobPropertiesInput | undefined;
 }
 /** Resource tags. */
 export type AutoImportJobsCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
@@ -552,138 +556,138 @@ export type AutoImportJobState = "InProgress" | "Failed" | "Disabling" | "Disabl
 /** The storage account blob change feed status of the auto import job. */
 export interface AutoImportJobPropertiesStatusBlobSyncEvents {
   /** Number of files imported during auto import. */
-  importedFiles?: number;
+  importedFiles?: number | undefined;
   /** Number of directories imported during auto import. */
-  importedDirectories?: number;
+  importedDirectories?: number | undefined;
   /** Number of symlinks imported during auto import. */
-  importedSymlinks?: number;
+  importedSymlinks?: number | undefined;
   /** Number of preexisting files during auto import. */
-  preexistingFiles?: number;
+  preexistingFiles?: number | undefined;
   /** Number of preexisting directories during auto import. */
-  preexistingDirectories?: number;
+  preexistingDirectories?: number | undefined;
   /** Number of preexisting symlinks during auto import. */
-  preexistingSymlinks?: number;
+  preexistingSymlinks?: number | undefined;
   /** Total number of blobs imported during auto import. */
-  totalBlobsImported?: number;
+  totalBlobsImported?: number | undefined;
   /** Rate of blob import per second during auto import. */
-  rateOfBlobImport?: number;
+  rateOfBlobImport?: number | undefined;
   /** Total errors encountered during auto import. */
-  totalErrors?: number;
+  totalErrors?: number | undefined;
   /** Total conflicts encountered during auto import. */
-  totalConflicts?: number;
+  totalConflicts?: number | undefined;
   /** Number of deletions during auto import. */
-  deletions?: number;
+  deletions?: number | undefined;
   /** Date and time of the last Change Feed event consumed. */
-  lastChangeFeedEventConsumedTime?: string;
+  lastChangeFeedEventConsumedTime?: string | undefined;
   /** Date and time when last fully synchronized. */
-  lastTimeFullySynchronized?: string;
+  lastTimeFullySynchronized?: string | undefined;
 }
 /** The status of the auto import job. */
 export interface AutoImportJobPropertiesStatus {
   /** The state of the auto import operation. */
-  state?: AutoImportJobState;
+  state?: AutoImportJobState | undefined;
   /** Server-defined status code for auto import job. */
-  statusCode?: string;
+  statusCode?: string | undefined;
   /** Server-defined status message for auto import job. */
-  statusMessage?: string;
+  statusMessage?: string | undefined;
   /** Date and time of when the currently running full scan began. */
-  scanStartTime?: string;
+  scanStartTime?: string | undefined;
   /** Date and time of when the full scan ended. */
-  scanEndTime?: string;
+  scanEndTime?: string | undefined;
   /** Total number of blobs walked during full scan. */
-  totalBlobsWalked?: number;
+  totalBlobsWalked?: number | undefined;
   /** Rate of blobs walked during full scan. */
-  rateOfBlobWalk?: number;
+  rateOfBlobWalk?: number | undefined;
   /** Total number of blobs imported during full scan. */
-  totalBlobsImported?: number;
+  totalBlobsImported?: number | undefined;
   /** Rate of blob import during full scan. */
-  rateOfBlobImport?: number;
+  rateOfBlobImport?: number | undefined;
   /** Number of files imported during full scan. */
-  importedFiles?: number;
+  importedFiles?: number | undefined;
   /** Number of directories imported during full scan. */
-  importedDirectories?: number;
+  importedDirectories?: number | undefined;
   /** Number of symlinks imported during full scan. */
-  importedSymlinks?: number;
+  importedSymlinks?: number | undefined;
   /** Number of preexisting files during full scan. */
-  preexistingFiles?: number;
+  preexistingFiles?: number | undefined;
   /** Number of preexisting directories during full scan. */
-  preexistingDirectories?: number;
+  preexistingDirectories?: number | undefined;
   /** Number of preexisting symlinks during full scan. */
-  preexistingSymlinks?: number;
+  preexistingSymlinks?: number | undefined;
   /** Total errors encountered during full scan. */
-  totalErrors?: number;
+  totalErrors?: number | undefined;
   /** Total conflicts encountered during full scan. */
-  totalConflicts?: number;
+  totalConflicts?: number | undefined;
   /** The storage account blob change feed status of the auto import job. */
-  blobSyncEvents?: AutoImportJobPropertiesStatusBlobSyncEvents;
+  blobSyncEvents?: AutoImportJobPropertiesStatusBlobSyncEvents | undefined;
   /** The time (in UTC) the latest auto import job started. */
-  lastStartedTimeUTC?: string;
+  lastStartedTimeUTC?: string | undefined;
   /** The time (in UTC) of the last completed auto import job. */
-  lastCompletionTimeUTC?: string;
+  lastCompletionTimeUTC?: string | undefined;
 }
 /** Properties of the auto import job. */
 export interface AutoImportJobProperties {
   /** ARM provisioning state. */
-  provisioningState?: AutoImportJobPropertiesProvisioningState;
+  provisioningState?: AutoImportJobPropertiesProvisioningState | undefined;
   /** The administrative status of the auto import job. Possible values: 'Enable', 'Disable'. Passing in a value of 'Disable' will disable the current active auto import job. By default it is set to 'Enable'. */
-  adminStatus?: AutoImportJobPropertiesAdminStatus;
+  adminStatus?: AutoImportJobPropertiesAdminStatus | undefined;
   /** An array of blob paths/prefixes that get auto imported to the cluster namespace. It has '/' as the default value. Number of maximum allowed paths is 100. */
-  autoImportPrefixes?: AutoImportJobPropertiesAutoImportPrefixesList;
+  autoImportPrefixes?: AutoImportJobPropertiesAutoImportPrefixesList | undefined;
   /** How the auto import job will handle conflicts. For example, if the auto import job is trying to bring in a directory, but a file is at that path, how it handles it. Fail indicates that the auto import job should stop immediately and not do anything with the conflict. Skip indicates that it should pass over the conflict. OverwriteIfDirty causes the auto import job to delete and re-import the file or directory if it is a conflicting type, is dirty, or is currently released. OverwriteAlways extends OverwriteIfDirty to include releasing files that had been restored but were not dirty. Please reference https://learn.microsoft.com/en-us/azure/azure-managed-lustre/blob-integration#conflict-resolution-mode for a thorough explanation of these resolution modes. */
-  conflictResolutionMode?: AutoImportJobPropertiesConflictResolutionMode;
+  conflictResolutionMode?: AutoImportJobPropertiesConflictResolutionMode | undefined;
   /** Whether or not to enable deletions during auto import. This only affects overwrite-dirty. */
-  enableDeletions?: boolean;
+  enableDeletions?: boolean | undefined;
   /** Total non-conflict-oriented errors (e.g., OS errors) Import will tolerate before exiting with failure. -1 means infinite. 0 means exit immediately on any error. */
-  maximumErrors?: number;
+  maximumErrors?: number | undefined;
   /** The status of the auto import job. */
-  status?: AutoImportJobPropertiesStatus;
+  status?: AutoImportJobPropertiesStatus | undefined;
 }
 export interface AutoImportJobsCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: AutoImportJobsCreateOrUpdateResponseTagsMap;
+  tags?: AutoImportJobsCreateOrUpdateResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Properties of the auto import job. */
-  properties?: AutoImportJobProperties;
+  properties?: AutoImportJobProperties | undefined;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Cache Upgrade Settings. */
 export interface CacheUpgradeSettings {
   /** True if the user chooses to select an installation time between now and firmwareUpdateDeadline. Else the firmware will automatically be installed after firmwareUpdateDeadline if not triggered earlier via the upgrade operation. */
-  upgradeScheduleEnabled?: boolean;
+  upgradeScheduleEnabled?: boolean | undefined;
   /** When upgradeScheduleEnabled is true, this field holds the user-chosen upgrade time. At the user-chosen time, the firmware update will automatically be installed on the cache. */
-  scheduledTime?: string;
+  scheduledTime?: string | undefined;
 }
 /** DNS servers for the cache to use. It will be set from the network configuration if no value is provided. */
 export type CacheNetworkSettingsInputDnsServersList = Array<string>;
 /** Cache network settings. */
 export interface CacheNetworkSettingsInput {
   /** The IPv4 maximum transmission unit configured for the subnet. */
-  mtu?: number;
+  mtu?: number | undefined;
   /** DNS servers for the cache to use. It will be set from the network configuration if no value is provided. */
-  dnsServers?: CacheNetworkSettingsInputDnsServersList;
+  dnsServers?: CacheNetworkSettingsInputDnsServersList | undefined;
   /** DNS search domain */
-  dnsSearchDomain?: string;
+  dnsSearchDomain?: string | undefined;
   /** NTP server IP Address or FQDN for the cache to use. The default is time.windows.com. */
-  ntpServer?: string;
+  ntpServer?: string | undefined;
 }
 /** Cache encryption settings. */
 export interface CacheEncryptionSettings {
   /** Specifies the location of the key encryption key in key vault. */
-  keyEncryptionKey?: KeyVaultKeyReference;
+  keyEncryptionKey?: KeyVaultKeyReference | undefined;
   /** Specifies whether the service will automatically rotate to the newest version of the key in the key vault. */
-  rotationToLatestKeyVersionEnabled?: boolean;
+  rotationToLatestKeyVersionEnabled?: boolean | undefined;
 }
 /** Scope for this rule. The scope and filter determine which clients match the rule. */
 export type NfsAccessRuleScope = "default" | "network" | "host";
@@ -694,19 +698,19 @@ export interface NfsAccessRule {
   /** Scope for this rule. The scope and filter determine which clients match the rule. */
   scope: NfsAccessRuleScope | (string & {});
   /** Filter applied to the scope for this rule. The filter's format depends on its scope. 'default' scope matches all clients and has no filter value. 'network' scope takes a filter in CIDR format (for example, 10.99.1.0/24). 'host' takes an IP address or fully qualified domain name as filter. If a client does not match any filter rule and there is no default rule, access is denied. */
-  filter?: string;
+  filter?: string | undefined;
   /** Access allowed by this rule. */
   access: NfsAccessRuleAccess | (string & {});
   /** Allow SUID semantics. */
-  suid?: boolean;
+  suid?: boolean | undefined;
   /** For the default policy, allow access to subdirectories under the root export. If this is set to no, clients can only mount the path '/'. If set to yes, clients can mount a deeper path, like '/a/b'. */
-  submountAccess?: boolean;
+  submountAccess?: boolean | undefined;
   /** Map root accesses to anonymousUID and anonymousGID. */
-  rootSquash?: boolean;
+  rootSquash?: boolean | undefined;
   /** UID value that replaces 0 when rootSquash is true. 65534 will be used if not provided. */
-  anonymousUID?: string;
+  anonymousUID?: string | undefined;
   /** GID value that replaces 0 when rootSquash is true. This will use the value of anonymousUID if not provided. */
-  anonymousGID?: string;
+  anonymousGID?: string | undefined;
 }
 /** The set of rules describing client accesses allowed under this policy. */
 export type NfsAccessPolicyAccessRulesList = Array<NfsAccessRule>;
@@ -722,7 +726,7 @@ export type CacheSecuritySettingsAccessPoliciesList = Array<NfsAccessPolicy>;
 /** Cache security settings. */
 export interface CacheSecuritySettings {
   /** NFS access policies defined for this cache. */
-  accessPolicies?: CacheSecuritySettingsAccessPoliciesList;
+  accessPolicies?: CacheSecuritySettingsAccessPoliciesList | undefined;
 }
 /** True if the HPC Cache is joined to the Active Directory domain. */
 export type DomainJoinedType = "Yes" | "No" | "Error";
@@ -731,14 +735,14 @@ export interface CacheActiveDirectorySettingsCredentials {
   /** Username of the Active Directory domain administrator. This value is stored encrypted and not returned on response. */
   username: string;
   /** Plain text password of the Active Directory domain administrator. This value is stored encrypted and not returned on response. */
-  password?: string | Redacted.Redacted<string>;
+  password?: string | Redacted.Redacted<string> | undefined;
 }
 /** Active Directory settings used to join a cache to a domain. */
 export interface CacheActiveDirectorySettings {
   /** Primary DNS IP address used to resolve the Active Directory domain controller's fully qualified domain name. */
   primaryDnsIpAddress: string;
   /** Secondary DNS IP address used to resolve the Active Directory domain controller's fully qualified domain name. */
-  secondaryDnsIpAddress?: string;
+  secondaryDnsIpAddress?: string | undefined;
   /** The fully qualified domain name of the Active Directory domain controller. */
   domainName: string;
   /** The Active Directory domain's NetBIOS name. */
@@ -746,9 +750,9 @@ export interface CacheActiveDirectorySettings {
   /** The NetBIOS name to assign to the HPC Cache when it joins the Active Directory domain as a server. Length must 1-15 characters from the class [-0-9a-zA-Z]. */
   cacheNetBiosName: string;
   /** True if the HPC Cache is joined to the Active Directory domain. */
-  domainJoined?: DomainJoinedType | (string & {});
+  domainJoined?: DomainJoinedType | (string & {}) | undefined;
   /** Active Directory admin credentials used to join the HPC Cache to a domain. */
-  credentials?: CacheActiveDirectorySettingsCredentials;
+  credentials?: CacheActiveDirectorySettingsCredentials | undefined;
 }
 /** This setting determines how the cache gets username and group names for clients. */
 export type CacheUsernameDownloadSettingsUsernameSource = "AD" | "LDAP" | "File" | "None";
@@ -757,43 +761,43 @@ export type UsernameDownloadedType = "Yes" | "No" | "Error";
 /** When present, these are the credentials for the secure LDAP connection. */
 export interface CacheUsernameDownloadSettingsCredentials {
   /** The Bind Distinguished Name identity to be used in the secure LDAP connection. This value is stored encrypted and not returned on response. */
-  bindDn?: string;
+  bindDn?: string | undefined;
   /** The Bind password to be used in the secure LDAP connection. This value is stored encrypted and not returned on response. */
-  bindPassword?: string | Redacted.Redacted<string>;
+  bindPassword?: string | Redacted.Redacted<string> | undefined;
 }
 /** Settings for Extended Groups username and group download. */
 export interface CacheUsernameDownloadSettings {
   /** Whether or not Extended Groups is enabled. */
-  extendedGroups?: boolean;
+  extendedGroups?: boolean | undefined;
   /** This setting determines how the cache gets username and group names for clients. */
-  usernameSource?: CacheUsernameDownloadSettingsUsernameSource | (string & {});
+  usernameSource?: CacheUsernameDownloadSettingsUsernameSource | (string & {}) | undefined;
   /** The URI of the file containing group information (in /etc/group file format). This field must be populated when 'usernameSource' is set to 'File'. */
-  groupFileURI?: string;
+  groupFileURI?: string | undefined;
   /** The URI of the file containing user information (in /etc/passwd file format). This field must be populated when 'usernameSource' is set to 'File'. */
-  userFileURI?: string;
+  userFileURI?: string | undefined;
   /** The fully qualified domain name or IP address of the LDAP server to use. */
-  ldapServer?: string;
+  ldapServer?: string | undefined;
   /** The base distinguished name for the LDAP domain. */
-  ldapBaseDN?: string;
+  ldapBaseDN?: string | undefined;
   /** Whether or not the LDAP connection should be encrypted. */
-  encryptLdapConnection?: boolean;
+  encryptLdapConnection?: boolean | undefined;
   /** Determines if the certificates must be validated by a certificate authority. When true, caCertificateURI must be provided. */
-  requireValidCertificate?: boolean;
+  requireValidCertificate?: boolean | undefined;
   /** Determines if the certificate should be automatically downloaded. This applies to 'caCertificateURI' only if 'requireValidCertificate' is true. */
-  autoDownloadCertificate?: boolean;
+  autoDownloadCertificate?: boolean | undefined;
   /** The URI of the CA certificate to validate the LDAP secure connection. This field must be populated when 'requireValidCertificate' is set to true. */
-  caCertificateURI?: string;
+  caCertificateURI?: string | undefined;
   /** Indicates whether or not the HPC Cache has performed the username download successfully. */
-  usernameDownloaded?: UsernameDownloadedType | (string & {});
+  usernameDownloaded?: UsernameDownloadedType | (string & {}) | undefined;
   /** When present, these are the credentials for the secure LDAP connection. */
-  credentials?: CacheUsernameDownloadSettingsCredentials;
+  credentials?: CacheUsernameDownloadSettingsCredentials | undefined;
 }
 /** Cache Directory Services settings. */
 export interface CacheDirectorySettings {
   /** Specifies settings for joining the HPC Cache to an Active Directory domain. */
-  activeDirectory?: CacheActiveDirectorySettings;
+  activeDirectory?: CacheActiveDirectorySettings | undefined;
   /** Specifies settings for Extended Groups. Extended Groups allows users to be members of more than 16 groups. */
-  usernameDownload?: CacheUsernameDownloadSettings;
+  usernameDownload?: CacheUsernameDownloadSettings | undefined;
 }
 /** Availability zones for resources. This field should only contain a single element in the array. */
 export type CachePropertiesInputZonesList = Array<string>;
@@ -809,23 +813,23 @@ export type CachePropertiesInputPrimingJobsList = Array<PrimingJobInput>;
 /** Properties of the cache. */
 export interface CachePropertiesInput {
   /** The size of this Cache, in GB. */
-  cacheSizeGB?: number;
+  cacheSizeGB?: number | undefined;
   /** Subnet used for the cache. */
-  subnet?: string;
+  subnet?: string | undefined;
   /** Upgrade settings of the cache. */
-  upgradeSettings?: CacheUpgradeSettings;
+  upgradeSettings?: CacheUpgradeSettings | undefined;
   /** Specifies network settings of the cache. */
-  networkSettings?: CacheNetworkSettingsInput;
+  networkSettings?: CacheNetworkSettingsInput | undefined;
   /** Specifies encryption settings of the cache. */
-  encryptionSettings?: CacheEncryptionSettings;
+  encryptionSettings?: CacheEncryptionSettings | undefined;
   /** Specifies security settings of the cache. */
-  securitySettings?: CacheSecuritySettings;
+  securitySettings?: CacheSecuritySettings | undefined;
   /** Specifies Directory Services settings of the cache. */
-  directoryServicesSettings?: CacheDirectorySettings;
+  directoryServicesSettings?: CacheDirectorySettings | undefined;
   /** Availability zones for resources. This field should only contain a single element in the array. */
-  zones?: CachePropertiesInputZonesList;
+  zones?: CachePropertiesInputZonesList | undefined;
   /** Specifies the priming jobs defined in the cache. */
-  primingJobs?: CachePropertiesInputPrimingJobsList;
+  primingJobs?: CachePropertiesInputPrimingJobsList | undefined;
 }
 /** Resource tags. */
 export type CachesCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
@@ -842,14 +846,14 @@ export type CacheIdentityInputUserAssignedIdentitiesMap = {
 /** Cache identity properties. */
 export interface CacheIdentityInput {
   /** The type of identity used for the cache */
-  type?: CacheIdentityType | (string & {});
+  type?: CacheIdentityType | (string & {}) | undefined;
   /** A dictionary where each key is a user assigned identity resource ID, and each key's value is an empty dictionary. */
-  userAssignedIdentities?: CacheIdentityInputUserAssignedIdentitiesMap;
+  userAssignedIdentities?: CacheIdentityInputUserAssignedIdentitiesMap | undefined;
 }
 /** SKU for the cache. */
 export interface CacheSku {
   /** SKU name for this cache. */
-  name?: string;
+  name?: string | undefined;
 }
 export interface CachesCreateOrUpdateRequest {
   /** The ID of the target subscription. */
@@ -859,15 +863,15 @@ export interface CachesCreateOrUpdateRequest {
   /** Name of cache. Length of name must not be greater than 80 and chars must be from the [-0-9a-zA-Z_] char class. */
   cacheName: string;
   /** Properties of the cache. */
-  properties?: CachePropertiesInput;
+  properties?: CachePropertiesInput | undefined;
   /** Resource tags. */
-  tags?: CachesCreateOrUpdateRequestTagsMap;
+  tags?: CachesCreateOrUpdateRequestTagsMap | undefined;
   /** Region name string. */
-  location?: string;
+  location?: string | undefined;
   /** The identity of the cache, if configured. */
-  identity?: CacheIdentityInput;
+  identity?: CacheIdentityInput | undefined;
   /** SKU for the cache. */
-  sku?: CacheSku;
+  sku?: CacheSku | undefined;
 }
 /** List of cache health states. Down is when the cluster is not responding. Degraded is when its functioning but has some alerts. Transitioning when it is creating or deleting. Unknown will be returned in old api versions when a new value is added in future versions. WaitingForKey is when the create is waiting for the system assigned identity to be given access to the encryption key in the encryption settings. */
 export type HealthStateType =
@@ -886,20 +890,20 @@ export type HealthStateType =
 /** Outstanding conditions that will need to be resolved. */
 export interface Condition {
   /** The time when the condition was raised. */
-  timestamp?: string;
+  timestamp?: string | undefined;
   /** The issue requiring attention. */
-  message?: string;
+  message?: string | undefined;
 }
 /** Outstanding conditions that need to be investigated and resolved. */
 export type CacheHealthConditionsList = Array<Condition>;
 /** An indication of cache health. Gives more information about health than just that related to provisioning. */
 export interface CacheHealth {
   /** List of cache health states. Down is when the cluster is not responding. Degraded is when its functioning but has some alerts. Transitioning when it is creating or deleting. Unknown will be returned in old api versions when a new value is added in future versions. WaitingForKey is when the create is waiting for the system assigned identity to be given access to the encryption key in the encryption settings. */
-  state?: HealthStateType;
+  state?: HealthStateType | undefined;
   /** Describes explanation of state. */
-  statusDescription?: string;
+  statusDescription?: string | undefined;
   /** Outstanding conditions that need to be investigated and resolved. */
-  conditions?: CacheHealthConditionsList;
+  conditions?: CacheHealthConditionsList | undefined;
 }
 /** Array of IPv4 addresses that can be used by clients mounting this cache. */
 export type CachePropertiesMountAddressesList = Array<string>;
@@ -916,15 +920,15 @@ export type FirmwareStatusType = "available" | "unavailable";
 /** Properties describing the software upgrade state of the cache. */
 export interface CacheUpgradeStatus {
   /** Version string of the firmware currently installed on this cache. */
-  currentFirmwareVersion?: string;
+  currentFirmwareVersion?: string | undefined;
   /** True if there is a firmware update ready to install on this cache. The firmware will automatically be installed after firmwareUpdateDeadline if not triggered earlier via the upgrade operation. */
-  firmwareUpdateStatus?: FirmwareStatusType;
+  firmwareUpdateStatus?: FirmwareStatusType | undefined;
   /** Time at which the pending firmware update will automatically be installed on the cache. */
-  firmwareUpdateDeadline?: string;
+  firmwareUpdateDeadline?: string | undefined;
   /** Time of the last successful firmware update. */
-  lastFirmwareUpdate?: string;
+  lastFirmwareUpdate?: string | undefined;
   /** When firmwareUpdateAvailable is true, this field holds the version string for the update. */
-  pendingFirmwareVersion?: string;
+  pendingFirmwareVersion?: string | undefined;
 }
 /** Array of additional IP addresses used by this cache. */
 export type CacheNetworkSettingsUtilityAddressesList = Array<string>;
@@ -933,15 +937,15 @@ export type CacheNetworkSettingsDnsServersList = Array<string>;
 /** Cache network settings. */
 export interface CacheNetworkSettings {
   /** The IPv4 maximum transmission unit configured for the subnet. */
-  mtu?: number;
+  mtu?: number | undefined;
   /** Array of additional IP addresses used by this cache. */
-  utilityAddresses?: CacheNetworkSettingsUtilityAddressesList;
+  utilityAddresses?: CacheNetworkSettingsUtilityAddressesList | undefined;
   /** DNS servers for the cache to use. It will be set from the network configuration if no value is provided. */
-  dnsServers?: CacheNetworkSettingsDnsServersList;
+  dnsServers?: CacheNetworkSettingsDnsServersList | undefined;
   /** DNS search domain */
-  dnsSearchDomain?: string;
+  dnsSearchDomain?: string | undefined;
   /** NTP server IP Address or FQDN for the cache to use. The default is time.windows.com. */
-  ntpServer?: string;
+  ntpServer?: string | undefined;
 }
 /** Availability zones for resources. This field should only contain a single element in the array. */
 export type CachePropertiesZonesList = Array<string>;
@@ -954,57 +958,57 @@ export interface PrimingJob {
   /** The URL for the priming manifest file to download. This file must be readable from the HPC Cache. When the file is in Azure blob storage the URL should include a Shared Access Signature (SAS) granting read permissions on the blob. */
   primingManifestUrl: string;
   /** The unique identifier of the priming job. */
-  primingJobId?: string;
+  primingJobId?: string | undefined;
   /** The state of the priming operation. */
-  primingJobState?: PrimingJobState;
+  primingJobState?: PrimingJobState | undefined;
   /** The status code of the priming job. */
-  primingJobStatus?: string;
+  primingJobStatus?: string | undefined;
   /** The job details or error information if any. */
-  primingJobDetails?: string;
+  primingJobDetails?: string | undefined;
   /** The current progress of the priming job, as a percentage. */
-  primingJobPercentComplete?: number;
+  primingJobPercentComplete?: number | undefined;
 }
 /** Specifies the priming jobs defined in the cache. */
 export type CachePropertiesPrimingJobsList = Array<PrimingJob>;
 /** Storage Target space allocation properties. */
 export interface StorageTargetSpaceAllocation {
   /** Name of the storage target. */
-  name?: string;
+  name?: string | undefined;
   /** The percentage of cache space allocated for this storage target */
-  allocationPercentage?: number;
+  allocationPercentage?: number | undefined;
 }
 /** Specifies the space allocation percentage for each storage target in the cache. */
 export type CachePropertiesSpaceAllocationList = Array<StorageTargetSpaceAllocation>;
 /** Properties of the cache. */
 export interface CacheProperties {
   /** The size of this Cache, in GB. */
-  cacheSizeGB?: number;
+  cacheSizeGB?: number | undefined;
   /** Health of the cache. */
-  health?: CacheHealth;
+  health?: CacheHealth | undefined;
   /** Array of IPv4 addresses that can be used by clients mounting this cache. */
-  mountAddresses?: CachePropertiesMountAddressesList;
+  mountAddresses?: CachePropertiesMountAddressesList | undefined;
   /** ARM provisioning state, see https://github.com/Azure/azure-resource-manager-rpc/blob/master/v1.0/Addendum.md#provisioningstate-property */
-  provisioningState?: ProvisioningStateType;
+  provisioningState?: ProvisioningStateType | undefined;
   /** Subnet used for the cache. */
-  subnet?: string;
+  subnet?: string | undefined;
   /** Upgrade status of the cache. */
-  upgradeStatus?: CacheUpgradeStatus;
+  upgradeStatus?: CacheUpgradeStatus | undefined;
   /** Upgrade settings of the cache. */
-  upgradeSettings?: CacheUpgradeSettings;
+  upgradeSettings?: CacheUpgradeSettings | undefined;
   /** Specifies network settings of the cache. */
-  networkSettings?: CacheNetworkSettings;
+  networkSettings?: CacheNetworkSettings | undefined;
   /** Specifies encryption settings of the cache. */
-  encryptionSettings?: CacheEncryptionSettings;
+  encryptionSettings?: CacheEncryptionSettings | undefined;
   /** Specifies security settings of the cache. */
-  securitySettings?: CacheSecuritySettings;
+  securitySettings?: CacheSecuritySettings | undefined;
   /** Specifies Directory Services settings of the cache. */
-  directoryServicesSettings?: CacheDirectorySettings;
+  directoryServicesSettings?: CacheDirectorySettings | undefined;
   /** Availability zones for resources. This field should only contain a single element in the array. */
-  zones?: CachePropertiesZonesList;
+  zones?: CachePropertiesZonesList | undefined;
   /** Specifies the priming jobs defined in the cache. */
-  primingJobs?: CachePropertiesPrimingJobsList;
+  primingJobs?: CachePropertiesPrimingJobsList | undefined;
   /** Specifies the space allocation percentage for each storage target in the cache. */
-  spaceAllocation?: CachePropertiesSpaceAllocationList;
+  spaceAllocation?: CachePropertiesSpaceAllocationList | undefined;
 }
 /** Resource tags. */
 export type CachesCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
@@ -1015,37 +1019,37 @@ export type CacheIdentityUserAssignedIdentitiesMap = {
 /** Cache identity properties. */
 export interface CacheIdentity {
   /** The principal ID for the system-assigned identity of the cache. */
-  principalId?: string;
+  principalId?: string | undefined;
   /** The tenant ID associated with the cache. */
-  tenantId?: string;
+  tenantId?: string | undefined;
   /** The type of identity used for the cache */
-  type?: CacheIdentityType;
+  type?: CacheIdentityType | undefined;
   /** A dictionary where each key is a user assigned identity resource ID, and each key's value is an empty dictionary. */
-  userAssignedIdentities?: CacheIdentityUserAssignedIdentitiesMap;
+  userAssignedIdentities?: CacheIdentityUserAssignedIdentitiesMap | undefined;
 }
 export interface CachesCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Properties of the cache. */
-  properties?: CacheProperties;
+  properties?: CacheProperties | undefined;
   /** Resource tags. */
-  tags?: CachesCreateOrUpdateResponseTagsMap;
+  tags?: CachesCreateOrUpdateResponseTagsMap | undefined;
   /** Region name string. */
-  location?: string;
+  location?: string | undefined;
   /** The identity of the cache, if configured. */
-  identity?: CacheIdentity;
+  identity?: CacheIdentity | undefined;
   /** SKU for the cache. */
-  sku?: CacheSku;
+  sku?: CacheSku | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  locationHeader?: string;
+  locationHeader?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface CachesDebugInfoRequest {
   /** The ID of the target subscription. */
@@ -1057,11 +1061,11 @@ export interface CachesDebugInfoRequest {
 }
 export interface CachesDebugInfoResponse {
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export type CachesSpaceAllocationRequestBodyList = Array<StorageTargetSpaceAllocation>;
 export interface CachesSpaceAllocationRequest {
@@ -1071,15 +1075,15 @@ export interface CachesSpaceAllocationRequest {
   resourceGroupName: string;
   /** Name of cache. Length of name must not be greater than 80 and chars must be from the [-0-9a-zA-Z_] char class. */
   cacheName: string;
-  body?: CachesSpaceAllocationRequestBodyList;
+  body?: CachesSpaceAllocationRequestBodyList | undefined;
 }
 export interface CachesSpaceAllocationResponse {
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface CachesUpgradeFirmwareRequest {
   /** The ID of the target subscription. */
@@ -1091,23 +1095,23 @@ export interface CachesUpgradeFirmwareRequest {
 }
 export interface CachesUpgradeFirmwareResponse {
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface CheckAmlFSSubnetsRequest {
   /** The ID of the target subscription. */
   subscriptionId: string;
   /** Subnet used for managing the AML file system and for client-facing operations. This subnet should have at least a /24 subnet mask within the VNET's address space. */
-  filesystemSubnet?: string;
+  filesystemSubnet?: string | undefined;
   /** The size of the AML file system, in TiB. */
-  storageCapacityTiB?: number;
+  storageCapacityTiB?: number | undefined;
   /** SKU for the resource. */
-  sku?: SkuName;
+  sku?: SkuName | undefined;
   /** Region that the AML file system will be created in. */
-  location?: string;
+  location?: string | undefined;
 }
 export interface CheckAmlFSSubnetsResponse {}
 export interface DeleteAmlFilesystemRequest {
@@ -1120,11 +1124,11 @@ export interface DeleteAmlFilesystemRequest {
 }
 export interface DeleteAmlFilesystemResponse {
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeleteAutoExportJobRequest {
   /** The ID of the target subscription. */
@@ -1138,11 +1142,11 @@ export interface DeleteAutoExportJobRequest {
 }
 export interface DeleteAutoExportJobResponse {
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeleteAutoImportJobRequest {
   /** The ID of the target subscription. */
@@ -1156,11 +1160,11 @@ export interface DeleteAutoImportJobRequest {
 }
 export interface DeleteAutoImportJobResponse {
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeleteCachRequest {
   /** The ID of the target subscription. */
@@ -1172,11 +1176,11 @@ export interface DeleteCachRequest {
 }
 export interface DeleteCachResponse {
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeleteExpansionJobRequest {
   /** The ID of the target subscription. */
@@ -1190,11 +1194,11 @@ export interface DeleteExpansionJobRequest {
 }
 export interface DeleteExpansionJobResponse {
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeleteImportJobRequest {
   /** The ID of the target subscription. */
@@ -1208,11 +1212,11 @@ export interface DeleteImportJobRequest {
 }
 export interface DeleteImportJobResponse {
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeleteRebalanceJobRequest {
   /** The ID of the target subscription. */
@@ -1226,11 +1230,11 @@ export interface DeleteRebalanceJobRequest {
 }
 export interface DeleteRebalanceJobResponse {
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeleteStorageTargetRequest {
   /** The ID of the target subscription. */
@@ -1242,24 +1246,24 @@ export interface DeleteStorageTargetRequest {
   /** Name of Storage Target. */
   storageTargetName: string;
   /** Boolean value requesting the force delete operation for a storage target. Force delete discards unwritten-data in the cache instead of flushing it to back-end storage. */
-  force?: string;
+  force?: string | undefined;
 }
 export interface DeleteStorageTargetResponse {
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Resource tags. */
 export type ExpansionJobsCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
 /** Properties of the expansion job. */
 export interface ExpansionJobPropertiesInput {
   /** The new storage capacity in TiB for the AML file system after expansion. This must be a multiple of the Sku step size, and greater than the current storage capacity of the AML file system. */
-  newStorageCapacityTiB?: number;
+  newStorageCapacityTiB?: number | undefined;
   /** When true, expansion creates a RebalanceJob after completing. Optional, defaults to true. */
-  runRebalanceJob?: boolean;
+  runRebalanceJob?: boolean | undefined;
 }
 export interface ExpansionJobsCreateOrUpdateRequest {
   /** The ID of the target subscription. */
@@ -1271,11 +1275,11 @@ export interface ExpansionJobsCreateOrUpdateRequest {
   /** Name for the expansion job. Allows alphanumerics, underscores, and hyphens. Start and end with alphanumeric. */
   expansionJobName: string;
   /** Resource tags. */
-  tags?: ExpansionJobsCreateOrUpdateRequestTagsMap;
+  tags?: ExpansionJobsCreateOrUpdateRequestTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Properties of the expansion job. */
-  properties?: ExpansionJobPropertiesInput;
+  properties?: ExpansionJobPropertiesInput | undefined;
 }
 /** Resource tags. */
 export type ExpansionJobsCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
@@ -1297,52 +1301,52 @@ export type ExpansionJobStatusType =
 /** The status of the expansion job. */
 export interface ExpansionJobPropertiesStatus {
   /** The operational state of the expansion job. InProgress indicates the expansion is still running. Completed indicates expansion finished successfully. Failed means the expansion was unable to complete due to a fatal error. Deleting indicates the expansion is being rolled back. */
-  state?: ExpansionJobStatusType;
+  state?: ExpansionJobStatusType | undefined;
   /** Server-defined status code for expansion job. */
-  statusCode?: string;
+  statusCode?: string | undefined;
   /** Server-defined status message for expansion job. */
-  statusMessage?: string;
+  statusMessage?: string | undefined;
   /** The percentage of expansion job completion. */
-  percentComplete?: number;
+  percentComplete?: number | undefined;
   /** The time (in UTC) the expansion job started. */
-  startTimeUTC?: string;
+  startTimeUTC?: string | undefined;
   /** The time (in UTC) when the expansion job completed. Only populated when job reaches a terminal state. */
-  completionTimeUTC?: string;
+  completionTimeUTC?: string | undefined;
 }
 /** Properties of the expansion job. */
 export interface ExpansionJobProperties {
   /** ARM provisioning state, see https://github.com/Azure/azure-resource-manager-rpc/blob/master/v1.0/Addendum.md#provisioningstate-property */
-  provisioningState?: ExpansionJobPropertiesProvisioningState;
+  provisioningState?: ExpansionJobPropertiesProvisioningState | undefined;
   /** The new storage capacity in TiB for the AML file system after expansion. This must be a multiple of the Sku step size, and greater than the current storage capacity of the AML file system. */
-  newStorageCapacityTiB?: number;
+  newStorageCapacityTiB?: number | undefined;
   /** The status of the expansion job. */
-  status?: ExpansionJobPropertiesStatus;
+  status?: ExpansionJobPropertiesStatus | undefined;
   /** When true, expansion creates a RebalanceJob after completing. Optional, defaults to true. */
-  runRebalanceJob?: boolean;
+  runRebalanceJob?: boolean | undefined;
   /** Fully qualified ARM resource ID of the child rebalance job created by this expansion. Populated after RebalanceJob is created. */
-  rebalanceJobId?: string;
+  rebalanceJobId?: string | undefined;
 }
 export interface ExpansionJobsCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: ExpansionJobsCreateOrUpdateResponseTagsMap;
+  tags?: ExpansionJobsCreateOrUpdateResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Properties of the expansion job. */
-  properties?: ExpansionJobProperties;
+  properties?: ExpansionJobProperties | undefined;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  locationHeader?: string;
+  locationHeader?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface FlushCachRequest {
   /** The ID of the target subscription. */
@@ -1354,11 +1358,11 @@ export interface FlushCachRequest {
 }
 export interface FlushCachResponse {
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface FlushStorageTargetRequest {
   /** The ID of the target subscription. */
@@ -1372,11 +1376,11 @@ export interface FlushStorageTargetRequest {
 }
 export interface FlushStorageTargetResponse {
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface GetAmlFilesystemRequest {
   /** The ID of the target subscription. */
@@ -1392,25 +1396,25 @@ export type GetAmlFilesystemResponseTagsMap = { [key: string]: string | undefine
 export type GetAmlFilesystemResponseZonesList = Array<string>;
 export interface GetAmlFilesystemResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: GetAmlFilesystemResponseTagsMap;
+  tags?: GetAmlFilesystemResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Properties of the AML file system. */
-  properties?: AmlFilesystemProperties;
+  properties?: AmlFilesystemProperties | undefined;
   /** The managed identity used by the AML file system, if configured. */
-  identity?: AmlFilesystemIdentity;
+  identity?: AmlFilesystemIdentity | undefined;
   /** SKU for the resource. */
-  sku?: SkuName;
+  sku?: SkuName | undefined;
   /** The availability zones. */
-  zones?: GetAmlFilesystemResponseZonesList;
+  zones?: GetAmlFilesystemResponseZonesList | undefined;
 }
 export interface GetAscOperationRequest {
   /** The ID of the target subscription. */
@@ -1423,33 +1427,33 @@ export interface GetAscOperationRequest {
 /** Describes the format of Error response. */
 export interface AscOperationErrorResponse {
   /** Error code */
-  code?: string;
+  code?: string | undefined;
   /** Error message indicating why the operation failed. */
-  message?: string;
+  message?: string | undefined;
 }
 /** Additional operation-specific output. */
 export type AscOperationPropertiesOutputMap = { [key: string]: unknown | undefined };
 /** Additional operation-specific output. */
 export interface AscOperationProperties {
   /** Additional operation-specific output. */
-  output?: AscOperationPropertiesOutputMap;
+  output?: AscOperationPropertiesOutputMap | undefined;
 }
 /** The status of operation. */
 export interface AscOperation {
   /** The operation Id. */
-  id?: string;
+  id?: string | undefined;
   /** The operation name. */
-  name?: string;
+  name?: string | undefined;
   /** The start time of the operation. */
-  startTime?: string;
+  startTime?: string | undefined;
   /** The end time of the operation. */
-  endTime?: string;
+  endTime?: string | undefined;
   /** The status of the operation. */
-  status?: string;
+  status?: string | undefined;
   /** The error detail of the operation if any. */
-  error?: AscOperationErrorResponse;
+  error?: AscOperationErrorResponse | undefined;
   /** Additional operation-specific properties */
-  properties?: AscOperationProperties;
+  properties?: AscOperationProperties | undefined;
 }
 export interface GetAutoExportJobRequest {
   /** The ID of the target subscription. */
@@ -1465,19 +1469,19 @@ export interface GetAutoExportJobRequest {
 export type GetAutoExportJobResponseTagsMap = { [key: string]: string | undefined };
 export interface GetAutoExportJobResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: GetAutoExportJobResponseTagsMap;
+  tags?: GetAutoExportJobResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Properties of the auto export job. */
-  properties?: AutoExportJobProperties;
+  properties?: AutoExportJobProperties | undefined;
 }
 export interface GetAutoImportJobRequest {
   /** The ID of the target subscription. */
@@ -1493,19 +1497,19 @@ export interface GetAutoImportJobRequest {
 export type GetAutoImportJobResponseTagsMap = { [key: string]: string | undefined };
 export interface GetAutoImportJobResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: GetAutoImportJobResponseTagsMap;
+  tags?: GetAutoImportJobResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Properties of the auto import job. */
-  properties?: AutoImportJobProperties;
+  properties?: AutoImportJobProperties | undefined;
 }
 export interface GetCachRequest {
   /** The ID of the target subscription. */
@@ -1519,23 +1523,23 @@ export interface GetCachRequest {
 export type GetCachResponseTagsMap = { [key: string]: string | undefined };
 export interface GetCachResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Properties of the cache. */
-  properties?: CacheProperties;
+  properties?: CacheProperties | undefined;
   /** Resource tags. */
-  tags?: GetCachResponseTagsMap;
+  tags?: GetCachResponseTagsMap | undefined;
   /** Region name string. */
-  location?: string;
+  location?: string | undefined;
   /** The identity of the cache, if configured. */
-  identity?: CacheIdentity;
+  identity?: CacheIdentity | undefined;
   /** SKU for the cache. */
-  sku?: CacheSku;
+  sku?: CacheSku | undefined;
 }
 export interface GetExpansionJobRequest {
   /** The ID of the target subscription. */
@@ -1551,19 +1555,19 @@ export interface GetExpansionJobRequest {
 export type GetExpansionJobResponseTagsMap = { [key: string]: string | undefined };
 export interface GetExpansionJobResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: GetExpansionJobResponseTagsMap;
+  tags?: GetExpansionJobResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Properties of the expansion job. */
-  properties?: ExpansionJobProperties;
+  properties?: ExpansionJobProperties | undefined;
 }
 export interface GetImportJobRequest {
   /** The ID of the target subscription. */
@@ -1606,68 +1610,68 @@ export type ImportStatusType =
 /** The status of the import */
 export interface ImportJobPropertiesStatus {
   /** The operational state of the import job. InProgress indicates the import is still running. Canceled indicates it has been canceled by the user. Completed indicates import finished, successfully importing all discovered blobs into the Lustre namespace. CompletedPartial indicates the import finished but some blobs either were found to be conflicting and could not be imported or other errors were encountered. Failed means the import was unable to complete due to a fatal error. */
-  state?: ImportStatusType;
+  state?: ImportStatusType | undefined;
   /** The status message of the import job. */
-  statusMessage?: string;
+  statusMessage?: string | undefined;
   /** The total blob objects walked. */
-  totalBlobsWalked?: number;
+  totalBlobsWalked?: number | undefined;
   /** A recent and frequently updated rate of blobs walked per second. */
-  blobsWalkedPerSecond?: number;
+  blobsWalkedPerSecond?: number | undefined;
   /** The total blobs that have been imported since import began. */
-  totalBlobsImported?: number;
+  totalBlobsImported?: number | undefined;
   /** New or modified files that have been imported into the filesystem. */
-  importedFiles?: number;
+  importedFiles?: number | undefined;
   /** New or modified directories that have been imported into the filesystem. */
-  importedDirectories?: number;
+  importedDirectories?: number | undefined;
   /** Newly added symbolic links into the filesystem. */
-  importedSymlinks?: number;
+  importedSymlinks?: number | undefined;
   /** Files that already exist in the filesystem and have not been modified. */
-  preexistingFiles?: number;
+  preexistingFiles?: number | undefined;
   /** Directories that already exist in the filesystem and have not been modified. */
-  preexistingDirectories?: number;
+  preexistingDirectories?: number | undefined;
   /** Symbolic links that already exist in the filesystem and have not been modified. */
-  preexistingSymlinks?: number;
+  preexistingSymlinks?: number | undefined;
   /** A recent and frequently updated rate of total files, directories, and symlinks imported per second. */
-  blobsImportedPerSecond?: number;
+  blobsImportedPerSecond?: number | undefined;
   /** The time (in UTC) of the last completed import job. */
-  lastCompletionTime?: string;
+  lastCompletionTime?: string | undefined;
   /** The time (in UTC) the latest import job started. */
-  lastStartedTime?: string;
+  lastStartedTime?: string | undefined;
   /** Number of errors in the import job. */
-  totalErrors?: number;
+  totalErrors?: number | undefined;
   /** Number of conflicts in the import job. */
-  totalConflicts?: number;
+  totalConflicts?: number | undefined;
 }
 /** Properties of the import job. */
 export interface ImportJobProperties {
   /** ARM provisioning state. */
-  provisioningState?: ImportJobProvisioningStateType;
+  provisioningState?: ImportJobProvisioningStateType | undefined;
   /** The administrative status of the import job. Possible values: 'Active', 'Cancel'. Passing in a value of 'Cancel' will cancel the current active import job. By default it is set to 'Active'. */
-  adminStatus?: ImportJobPropertiesAdminStatus;
+  adminStatus?: ImportJobPropertiesAdminStatus | undefined;
   /** An array of blob paths/prefixes that get imported into the cluster namespace. It has '/' as the default value. */
-  importPrefixes?: ImportJobPropertiesImportPrefixesList;
+  importPrefixes?: ImportJobPropertiesImportPrefixesList | undefined;
   /** How the import job will handle conflicts. For example, if the import job is trying to bring in a directory, but a file is at that path, how it handles it. Fail indicates that the import job should stop immediately and not do anything with the conflict. Skip indicates that it should pass over the conflict. OverwriteIfDirty causes the import job to delete and re-import the file or directory if it is a conflicting type, is dirty, or was not previously imported. OverwriteAlways extends OverwriteIfDirty to include releasing files that had been restored but were not dirty. Please reference https://learn.microsoft.com/en-us/azure/azure-managed-lustre/ for a thorough explanation of these resolution modes. */
-  conflictResolutionMode?: ImportJobPropertiesConflictResolutionMode;
+  conflictResolutionMode?: ImportJobPropertiesConflictResolutionMode | undefined;
   /** Total non-conflict oriented errors the import job will tolerate before exiting with failure. -1 means infinite. 0 means exit immediately and is the default. */
-  maximumErrors?: number;
+  maximumErrors?: number | undefined;
   /** The status of the import */
-  status?: ImportJobPropertiesStatus;
+  status?: ImportJobPropertiesStatus | undefined;
 }
 export interface GetImportJobResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: GetImportJobResponseTagsMap;
+  tags?: GetImportJobResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Properties of the import job. */
-  properties?: ImportJobProperties;
+  properties?: ImportJobProperties | undefined;
 }
 export interface GetRebalanceJobRequest {
   /** The ID of the target subscription. */
@@ -1701,71 +1705,71 @@ export type RebalanceJobStatusType =
 /** The status of the rebalance job. */
 export interface RebalanceJobPropertiesStatus {
   /** The operational state of the rebalance job. InProgress indicates the rebalance is running on the cluster. Cancelling indicates a cancel has been requested. Canceled indicates the rebalance was cancelled. Completed indicates the rebalance finished successfully. Failed indicates the rebalance was unable to complete due to a fatal error. Deleting indicates the job is being cleaned up during deletion. RollingBack indicates the orchestrator is rolling back provisioned resources after a failure. */
-  state?: RebalanceJobStatusType;
+  state?: RebalanceJobStatusType | undefined;
   /** Server-defined status code for rebalance job. */
-  statusCode?: string;
+  statusCode?: string | undefined;
   /** Server-defined status message for rebalance job. */
-  statusMessage?: string;
+  statusMessage?: string | undefined;
   /** The percentage of rebalance job completion. */
-  percentComplete?: number;
+  percentComplete?: number | undefined;
   /** The balance percentage (0-100). Represents cumulative progress since the rebalance started. Reported in periodic rebalance status updates. Resets to 0 if the rebalancer node restarts. */
-  balancePercent?: number;
+  balancePercent?: number | undefined;
   /** Estimated remaining time in seconds. Omitted during initial assessment before the rebalancer has enough data to estimate. */
-  estimatedRemainingSeconds?: number;
+  estimatedRemainingSeconds?: number | undefined;
   /** Total number of files migrated since the rebalance started. Counts OST-phase (data) work items. Reported in periodic rebalance status updates. Resets to 0 if the rebalancer node restarts. */
-  filesMigrated?: number;
+  filesMigrated?: number | undefined;
   /** Total number of directories migrated since the rebalance started. Counts MDT-phase (metadata) work items, reported separately from filesMigrated (OST-phase data migrations). Reported in periodic rebalance status updates. Resets to 0 if the rebalancer node restarts. */
-  dirsMigrated?: number;
+  dirsMigrated?: number | undefined;
   /** Total number of bytes moved since the rebalance started. Reported in periodic rebalance status updates. Resets to 0 if the rebalancer node restarts. */
-  bytesMoved?: number;
+  bytesMoved?: number | undefined;
   /** Average files moved per second over the most recent reporting interval. */
-  filesMovedPerSecond?: number;
+  filesMovedPerSecond?: number | undefined;
   /** Average throughput in mebibytes per second (1024x1024 bytes per second) over the most recent reporting interval. */
-  throughputMiBps?: number;
+  throughputMiBps?: number | undefined;
   /** Total cumulative non-skip errors since the rebalance started. Reported in periodic rebalance status updates. Resets to 0 if the rebalancer node restarts. */
-  totalErrors?: number;
+  totalErrors?: number | undefined;
   /** Total cumulative benign skips since the rebalance started: files intentionally not migrated (for example, a lost migration lease or a stale layout), as distinct from the hard failures counted in totalErrors. Reported in periodic rebalance status updates. Resets to 0 if the rebalancer node restarts. */
-  totalSkipped?: number;
+  totalSkipped?: number | undefined;
   /** The time (in UTC) the rebalance job started. */
-  startTimeUTC?: string;
+  startTimeUTC?: string | undefined;
   /** The time (in UTC) when the rebalance job completed. Only populated when the job reaches a terminal state (Completed, Failed, or Canceled). */
-  completionTimeUTC?: string;
+  completionTimeUTC?: string | undefined;
 }
 /** Properties of the rebalance job. */
 export interface RebalanceJobProperties {
   /** ARM provisioning state, see https://github.com/Azure/azure-resource-manager-rpc/blob/master/v1.0/Addendum.md#provisioningstate-property */
-  provisioningState?: RebalanceJobPropertiesProvisioningState;
+  provisioningState?: RebalanceJobPropertiesProvisioningState | undefined;
   /** The current administrative status of the rebalance job. 'Active' indicates the job is running normally; 'Cancel' indicates cancellation has been requested. */
-  adminStatus?: RebalanceJobAdminStatus;
+  adminStatus?: RebalanceJobAdminStatus | undefined;
   /** Fully qualified ARM resource ID of the parent expansion job that initiated this rebalance. Populated when the rebalance was created as part of an expansion. */
-  expansionJobId?: string;
+  expansionJobId?: string | undefined;
   /** The status of the rebalance job. */
-  status?: RebalanceJobPropertiesStatus;
+  status?: RebalanceJobPropertiesStatus | undefined;
 }
 export interface GetRebalanceJobResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Properties of the rebalance job. */
-  properties?: RebalanceJobProperties;
+  properties?: RebalanceJobProperties | undefined;
 }
 export interface GetRequiredAmlFSSubnetsSizeRequest {
   /** The ID of the target subscription. */
   subscriptionId: string;
   /** The size of the AML file system, in TiB. */
-  storageCapacityTiB?: number;
+  storageCapacityTiB?: number | undefined;
   /** SKU for the resource. */
-  sku?: SkuName;
+  sku?: SkuName | undefined;
 }
 /** Information about the number of available IP addresses that are required for the AML file system. */
 export interface RequiredAmlFilesystemSubnetsSize {
   /** The number of available IP addresses that are required for the AML file system. */
-  filesystemSubnetSize?: number;
+  filesystemSubnetSize?: number | undefined;
 }
 export interface GetStorageTargetRequest {
   /** The ID of the target subscription. */
@@ -1780,13 +1784,13 @@ export interface GetStorageTargetRequest {
 /** A namespace junction. */
 export interface NamespaceJunction {
   /** Namespace path on a cache for a Storage Target. */
-  namespacePath?: string;
+  namespacePath?: string | undefined;
   /** Path in Storage Target to which namespacePath points. */
-  targetPath?: string;
+  targetPath?: string | undefined;
   /** NFS export where targetPath exists. */
-  nfsExport?: string;
+  nfsExport?: string | undefined;
   /** Name of the access policy applied to this junction. */
-  nfsAccessPolicy?: string;
+  nfsAccessPolicy?: string | undefined;
 }
 /** List of cache namespace junctions to target for namespace associations. */
 export type StorageTargetPropertiesJunctionsList = Array<NamespaceJunction>;
@@ -1797,71 +1801,71 @@ export type OperationalStateType = "Ready" | "Busy" | "Suspended" | "Flushing";
 /** Properties pertaining to the Nfs3Target */
 export interface Nfs3Target {
   /** IP address or host name of an NFSv3 host (e.g., 10.0.44.44). */
-  target?: string;
+  target?: string | undefined;
   /** Identifies the StorageCache usage model to be used for this storage target. */
-  usageModel?: string;
+  usageModel?: string | undefined;
   /** Amount of time (in seconds) the cache waits before it checks the back-end storage for file updates. */
-  verificationTimer?: number;
+  verificationTimer?: number | undefined;
   /** Amount of time (in seconds) the cache waits after the last file change before it copies the changed file to back-end storage. */
-  writeBackTimer?: number;
+  writeBackTimer?: number | undefined;
 }
 /** Properties pertaining to the ClfsTarget */
 export interface ClfsTarget {
   /** Resource ID of storage container. */
-  target?: string;
+  target?: string | undefined;
 }
 /** Dictionary of string->string pairs containing information about the Storage Target. */
 export type UnknownTargetAttributesMap = { [key: string]: string | undefined };
 /** Properties pertaining to the UnknownTarget */
 export interface UnknownTarget {
   /** Dictionary of string->string pairs containing information about the Storage Target. */
-  attributes?: UnknownTargetAttributesMap;
+  attributes?: UnknownTargetAttributesMap | undefined;
 }
 /** Properties pertaining to the BlobNfsTarget. */
 export interface BlobNfsTarget {
   /** Resource ID of the storage container. */
-  target?: string;
+  target?: string | undefined;
   /** Identifies the StorageCache usage model to be used for this storage target. */
-  usageModel?: string;
+  usageModel?: string | undefined;
   /** Amount of time (in seconds) the cache waits before it checks the back-end storage for file updates. */
-  verificationTimer?: number;
+  verificationTimer?: number | undefined;
   /** Amount of time (in seconds) the cache waits after the last file change before it copies the changed file to back-end storage. */
-  writeBackTimer?: number;
+  writeBackTimer?: number | undefined;
 }
 /** Properties of the Storage Target. */
 export interface StorageTargetProperties {
   /** List of cache namespace junctions to target for namespace associations. */
-  junctions?: StorageTargetPropertiesJunctionsList;
+  junctions?: StorageTargetPropertiesJunctionsList | undefined;
   /** Type of the Storage Target. */
   targetType: StorageTargetType;
   /** ARM provisioning state, see https://github.com/Azure/azure-resource-manager-rpc/blob/master/v1.0/Addendum.md#provisioningstate-property */
-  provisioningState?: ProvisioningStateType;
+  provisioningState?: ProvisioningStateType | undefined;
   /** Storage target operational state. */
-  state?: OperationalStateType;
+  state?: OperationalStateType | undefined;
   /** Properties when targetType is nfs3. */
-  nfs3?: Nfs3Target;
+  nfs3?: Nfs3Target | undefined;
   /** Properties when targetType is clfs. */
-  clfs?: ClfsTarget;
+  clfs?: ClfsTarget | undefined;
   /** Properties when targetType is unknown. */
-  unknown?: UnknownTarget;
+  unknown?: UnknownTarget | undefined;
   /** Properties when targetType is blobNfs. */
-  blobNfs?: BlobNfsTarget;
+  blobNfs?: BlobNfsTarget | undefined;
   /** The percentage of cache space allocated for this storage target */
-  allocationPercentage?: number;
+  allocationPercentage?: number | undefined;
 }
 export interface GetStorageTargetResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** StorageTarget properties */
-  properties?: StorageTargetProperties;
+  properties?: StorageTargetProperties | undefined;
   /** Region name string. */
-  location?: string;
+  location?: string | undefined;
 }
 /** Resource tags. */
 export type ImportJobsCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
@@ -1878,13 +1882,16 @@ export type ImportJobPropertiesInputConflictResolutionMode =
 /** Properties of the import job. */
 export interface ImportJobPropertiesInput {
   /** The administrative status of the import job. Possible values: 'Active', 'Cancel'. Passing in a value of 'Cancel' will cancel the current active import job. By default it is set to 'Active'. */
-  adminStatus?: ImportJobPropertiesInputAdminStatus | (string & {});
+  adminStatus?: ImportJobPropertiesInputAdminStatus | (string & {}) | undefined;
   /** An array of blob paths/prefixes that get imported into the cluster namespace. It has '/' as the default value. */
-  importPrefixes?: ImportJobPropertiesInputImportPrefixesList;
+  importPrefixes?: ImportJobPropertiesInputImportPrefixesList | undefined;
   /** How the import job will handle conflicts. For example, if the import job is trying to bring in a directory, but a file is at that path, how it handles it. Fail indicates that the import job should stop immediately and not do anything with the conflict. Skip indicates that it should pass over the conflict. OverwriteIfDirty causes the import job to delete and re-import the file or directory if it is a conflicting type, is dirty, or was not previously imported. OverwriteAlways extends OverwriteIfDirty to include releasing files that had been restored but were not dirty. Please reference https://learn.microsoft.com/en-us/azure/azure-managed-lustre/ for a thorough explanation of these resolution modes. */
-  conflictResolutionMode?: ImportJobPropertiesInputConflictResolutionMode | (string & {});
+  conflictResolutionMode?:
+    | ImportJobPropertiesInputConflictResolutionMode
+    | (string & {})
+    | undefined;
   /** Total non-conflict oriented errors the import job will tolerate before exiting with failure. -1 means infinite. 0 means exit immediately and is the default. */
-  maximumErrors?: number;
+  maximumErrors?: number | undefined;
 }
 export interface ImportJobsCreateOrUpdateRequest {
   /** The ID of the target subscription. */
@@ -1896,33 +1903,33 @@ export interface ImportJobsCreateOrUpdateRequest {
   /** Name for the import job. Allows alphanumerics, underscores, and hyphens. Start and end with alphanumeric. */
   importJobName: string;
   /** Resource tags. */
-  tags?: ImportJobsCreateOrUpdateRequestTagsMap;
+  tags?: ImportJobsCreateOrUpdateRequestTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Properties of the import job. */
-  properties?: ImportJobPropertiesInput;
+  properties?: ImportJobPropertiesInput | undefined;
 }
 /** Resource tags. */
 export type ImportJobsCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
 export interface ImportJobsCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: ImportJobsCreateOrUpdateResponseTagsMap;
+  tags?: ImportJobsCreateOrUpdateResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Properties of the import job. */
-  properties?: ImportJobProperties;
+  properties?: ImportJobProperties | undefined;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface InvalidateStorageTargetRequest {
   /** The ID of the target subscription. */
@@ -1936,11 +1943,11 @@ export interface InvalidateStorageTargetRequest {
 }
 export interface InvalidateStorageTargetResponse {
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface ListAmlFilesystemByResourceGroupRequest {
   /** The ID of the target subscription. */
@@ -1955,34 +1962,34 @@ export type AmlFilesystemZonesList = Array<string>;
 /** An AML file system instance. Follows Azure Resource Manager standards: https://github.com/Azure/azure-resource-manager-rpc/blob/master/v1.0/resource-api-reference.md */
 export interface AmlFilesystem {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: AmlFilesystemTagsMap;
+  tags?: AmlFilesystemTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Properties of the AML file system. */
-  properties?: AmlFilesystemProperties;
+  properties?: AmlFilesystemProperties | undefined;
   /** The managed identity used by the AML file system, if configured. */
-  identity?: AmlFilesystemIdentity;
+  identity?: AmlFilesystemIdentity | undefined;
   /** SKU for the resource. */
-  sku?: SkuName;
+  sku?: SkuName | undefined;
   /** The availability zones. */
-  zones?: AmlFilesystemZonesList;
+  zones?: AmlFilesystemZonesList | undefined;
 }
 /** List of AML file systems. */
 export type AmlFilesystemsListResultValueList = Array<AmlFilesystem>;
 /** Result of the request to list AML file systems. It contains a list of AML file systems and a URL link to get the next set of results. */
 export interface AmlFilesystemsListResult {
   /** List of AML file systems. */
-  value?: AmlFilesystemsListResultValueList;
+  value?: AmlFilesystemsListResultValueList | undefined;
   /** URL to get the next set of AML file system list results, if there are any. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListAmlFilesystemsRequest {
   /** The ID of the target subscription. */
@@ -1997,29 +2004,29 @@ export interface ListAscUsagesRequest {
 /** Naming information for this resource type. */
 export interface ResourceUsageName {
   /** Canonical name for this resource type. */
-  value?: string;
+  value?: string | undefined;
   /** Localized name for this resource type. */
-  localizedValue?: string;
+  localizedValue?: string | undefined;
 }
 /** The usage and limit (quota) for a resource. */
 export interface ResourceUsage {
   /** The limit (quota) for this resource. */
-  limit?: number;
+  limit?: number | undefined;
   /** Unit that the limit and usages are expressed in, such as 'Count'. */
-  unit?: string;
+  unit?: string | undefined;
   /** The current usage of this resource. */
-  currentValue?: number;
+  currentValue?: number | undefined;
   /** Naming information for this resource type. */
-  name?: ResourceUsageName;
+  name?: ResourceUsageName | undefined;
 }
 /** List of usages and limits for resources controlled by the Microsoft.StorageCache resource provider. */
 export type ResourceUsagesListResultValueList = Array<ResourceUsage>;
 /** Result of the request to list resource usages. It contains a list of resource usages & limits and a URL link to get the next set of results. */
 export interface ResourceUsagesListResult {
   /** List of usages and limits for resources controlled by the Microsoft.StorageCache resource provider. */
-  value?: ResourceUsagesListResultValueList;
+  value?: ResourceUsagesListResultValueList | undefined;
   /** URL to get the next set of resource usage list results if there are any. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListAutoExportJobByAmlFilesystemRequest {
   /** The ID of the target subscription. */
@@ -2034,28 +2041,28 @@ export type AutoExportJobTagsMap = { [key: string]: string | undefined };
 /** An auto export job instance. Follows Azure Resource Manager standards: https://github.com/Azure/azure-resource-manager-rpc/blob/master/v1.0/resource-api-reference.md */
 export interface AutoExportJob {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: AutoExportJobTagsMap;
+  tags?: AutoExportJobTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Properties of the auto export job. */
-  properties?: AutoExportJobProperties;
+  properties?: AutoExportJobProperties | undefined;
 }
 /** List of auto export jobs. */
 export type AutoExportJobsListResultValueList = Array<AutoExportJob>;
 /** Result of the request to list auto export jobs. It contains a list of auto export jobs and a URL link to get the next set of results. */
 export interface AutoExportJobsListResult {
   /** List of auto export jobs. */
-  value?: AutoExportJobsListResultValueList;
+  value?: AutoExportJobsListResultValueList | undefined;
   /** URL to get the next set of auto export job list results, if there are any. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListAutoImportJobByAmlFilesystemRequest {
   /** The ID of the target subscription. */
@@ -2070,28 +2077,28 @@ export type AutoImportJobTagsMap = { [key: string]: string | undefined };
 /** An auto import job instance. Follows Azure Resource Manager standards: https://github.com/Azure/azure-resource-manager-rpc/blob/master/v1.0/resource-api-reference.md */
 export interface AutoImportJob {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: AutoImportJobTagsMap;
+  tags?: AutoImportJobTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Properties of the auto import job. */
-  properties?: AutoImportJobProperties;
+  properties?: AutoImportJobProperties | undefined;
 }
 /** List of auto import jobs. */
 export type AutoImportJobsListResultValueList = Array<AutoImportJob>;
 /** Result of the request to list auto import jobs. It contains a list of auto import jobs and a URL link to get the next set of results. */
 export interface AutoImportJobsListResult {
   /** List of auto import jobs. */
-  value?: AutoImportJobsListResultValueList;
+  value?: AutoImportJobsListResultValueList | undefined;
   /** URL to get the next set of auto import job list results, if there are any. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListCachByResourceGroupRequest {
   /** The ID of the target subscription. */
@@ -2104,32 +2111,32 @@ export type CacheTagsMap = { [key: string]: string | undefined };
 /** A cache instance. Follows Azure Resource Manager standards: https://github.com/Azure/azure-resource-manager-rpc/blob/master/v1.0/resource-api-reference.md */
 export interface Cache {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Properties of the cache. */
-  properties?: CacheProperties;
+  properties?: CacheProperties | undefined;
   /** Resource tags. */
-  tags?: CacheTagsMap;
+  tags?: CacheTagsMap | undefined;
   /** Region name string. */
-  location?: string;
+  location?: string | undefined;
   /** The identity of the cache, if configured. */
-  identity?: CacheIdentity;
+  identity?: CacheIdentity | undefined;
   /** SKU for the cache. */
-  sku?: CacheSku;
+  sku?: CacheSku | undefined;
 }
 /** List of caches. */
 export type CachesListResultValueList = Array<Cache>;
 /** Result of the request to list caches. It contains a list of caches and a URL link to get the next set of results. */
 export interface CachesListResult {
   /** List of caches. */
-  value?: CachesListResultValueList;
+  value?: CachesListResultValueList | undefined;
   /** URL to get the next set of cache list results, if there are any. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListCachesRequest {
   /** The ID of the target subscription. */
@@ -2148,28 +2155,28 @@ export type ExpansionJobTagsMap = { [key: string]: string | undefined };
 /** An expansion job instance. Follows Azure Resource Manager standards: https://github.com/Azure/azure-resource-manager-rpc/blob/master/v1.0/resource-api-reference.md */
 export interface ExpansionJob {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: ExpansionJobTagsMap;
+  tags?: ExpansionJobTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Properties of the expansion job. */
-  properties?: ExpansionJobProperties;
+  properties?: ExpansionJobProperties | undefined;
 }
 /** List of expansion jobs. */
 export type ExpansionJobsListResultValueList = Array<ExpansionJob>;
 /** Result of the request to list expansion jobs. It contains a list of expansion jobs and a URL link to get the next set of results. */
 export interface ExpansionJobsListResult {
   /** List of expansion jobs. */
-  value?: ExpansionJobsListResultValueList;
+  value?: ExpansionJobsListResultValueList | undefined;
   /** URL to get the next set of expansion job list results, if there are any. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListImportJobByAmlFilesystemRequest {
   /** The ID of the target subscription. */
@@ -2184,40 +2191,40 @@ export type ImportJobTagsMap = { [key: string]: string | undefined };
 /** An import job instance. Follows Azure Resource Manager standards: https://github.com/Azure/azure-resource-manager-rpc/blob/master/v1.0/resource-api-reference.md */
 export interface ImportJob {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: ImportJobTagsMap;
+  tags?: ImportJobTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Properties of the import job. */
-  properties?: ImportJobProperties;
+  properties?: ImportJobProperties | undefined;
 }
 /** List of import jobs. */
 export type ImportJobsListResultValueList = Array<ImportJob>;
 /** Result of the request to list import jobs. It contains a list of import jobs and a URL link to get the next set of results. */
 export interface ImportJobsListResult {
   /** List of import jobs. */
-  value?: ImportJobsListResultValueList;
+  value?: ImportJobsListResultValueList | undefined;
   /** URL to get the next set of import job list results, if there are any. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListOperationsRequest {}
 /** The object that represents the operation. */
 export interface ApiOperationDisplay {
   /** Operation type: Read, write, delete, etc. */
-  operation?: string;
+  operation?: string | undefined;
   /** Service provider: Microsoft.StorageCache */
-  provider?: string;
+  provider?: string | undefined;
   /** Resource on which the operation is performed: Cache, etc. */
-  resource?: string;
+  resource?: string | undefined;
   /** The description of the operation */
-  description?: string;
+  description?: string | undefined;
 }
 /** Metric aggregation type. */
 export type MetricAggregationType =
@@ -2233,34 +2240,34 @@ export type MetricSpecificationSupportedAggregationTypesList = Array<MetricAggre
 /** Specifications of the Dimension of metrics. */
 export interface MetricDimension {
   /** Name of the dimension */
-  name?: string;
+  name?: string | undefined;
   /** Localized friendly display name of the dimension */
-  displayName?: string;
+  displayName?: string | undefined;
   /** Internal name of the dimension. */
-  internalName?: string;
+  internalName?: string | undefined;
   /** To be exported to shoe box. */
-  toBeExportedForShoebox?: boolean;
+  toBeExportedForShoebox?: boolean | undefined;
 }
 /** Dimensions of the metric */
 export type MetricSpecificationDimensionsList = Array<MetricDimension>;
 /** Details about operation related to metrics. */
 export interface MetricSpecification {
   /** The name of the metric. */
-  name?: string;
+  name?: string | undefined;
   /** Localized display name of the metric. */
-  displayName?: string;
+  displayName?: string | undefined;
   /** The description of the metric. */
-  displayDescription?: string;
+  displayDescription?: string | undefined;
   /** The unit that the metric is measured in. */
-  unit?: string;
+  unit?: string | undefined;
   /** The type of metric aggregation. */
-  aggregationType?: string;
+  aggregationType?: string | undefined;
   /** Support metric aggregation type. */
-  supportedAggregationTypes?: MetricSpecificationSupportedAggregationTypesList;
+  supportedAggregationTypes?: MetricSpecificationSupportedAggregationTypesList | undefined;
   /** Type of metrics. */
-  metricClass?: string;
+  metricClass?: string | undefined;
   /** Dimensions of the metric */
-  dimensions?: MetricSpecificationDimensionsList;
+  dimensions?: MetricSpecificationDimensionsList | undefined;
 }
 /** Details about operations related to metrics. */
 export type ApiOperationPropertiesServiceSpecificationMetricSpecificationsList =
@@ -2268,9 +2275,9 @@ export type ApiOperationPropertiesServiceSpecificationMetricSpecificationsList =
 /** Details about operation related to logs. */
 export interface LogSpecification {
   /** The name of the log. */
-  name?: string;
+  name?: string | undefined;
   /** Localized display name of the log. */
-  displayName?: string;
+  displayName?: string | undefined;
 }
 /** Details about operations related to logs. */
 export type ApiOperationPropertiesServiceSpecificationLogSpecificationsList =
@@ -2278,36 +2285,38 @@ export type ApiOperationPropertiesServiceSpecificationLogSpecificationsList =
 /** Specification of the all the metrics provided for a resource type. */
 export interface ApiOperationPropertiesServiceSpecification {
   /** Details about operations related to metrics. */
-  metricSpecifications?: ApiOperationPropertiesServiceSpecificationMetricSpecificationsList;
+  metricSpecifications?:
+    | ApiOperationPropertiesServiceSpecificationMetricSpecificationsList
+    | undefined;
   /** Details about operations related to logs. */
-  logSpecifications?: ApiOperationPropertiesServiceSpecificationLogSpecificationsList;
+  logSpecifications?: ApiOperationPropertiesServiceSpecificationLogSpecificationsList | undefined;
 }
 /** Additional details about an operation. */
 export interface ApiOperationProperties {
   /** Specification of the all the metrics provided for a resource type. */
-  serviceSpecification?: ApiOperationPropertiesServiceSpecification;
+  serviceSpecification?: ApiOperationPropertiesServiceSpecification | undefined;
 }
 /** REST API operation description: see https://github.com/Azure/azure-rest-api-specs/blob/master/documentation/openapi-authoring-automated-guidelines.md#r3023-operationsapiimplementation */
 export interface ApiOperation {
   /** The object that represents the operation. */
-  display?: ApiOperationDisplay;
+  display?: ApiOperationDisplay | undefined;
   /** Origin of the operation. */
-  origin?: string;
+  origin?: string | undefined;
   /** The flag that indicates whether the operation applies to data plane. */
-  isDataAction?: boolean;
+  isDataAction?: boolean | undefined;
   /** Operation name: {provider}/{resource}/{operation} */
-  name?: string;
+  name?: string | undefined;
   /** Additional details about an operation. */
-  properties?: ApiOperationProperties;
+  properties?: ApiOperationProperties | undefined;
 }
 /** List of Resource Provider operations supported by the Microsoft.StorageCache resource provider. */
 export type ApiOperationListResultValueList = Array<ApiOperation>;
 /** Result of the request to list Resource Provider operations. It contains a list of operations and a URL link to get the next set of results. */
 export interface ApiOperationListResult {
   /** List of Resource Provider operations supported by the Microsoft.StorageCache resource provider. */
-  value?: ApiOperationListResultValueList;
+  value?: ApiOperationListResultValueList | undefined;
   /** URL to get the next set of operation list results if there are any. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListRebalanceJobByAmlFilesystemRequest {
   /** The ID of the target subscription. */
@@ -2320,24 +2329,24 @@ export interface ListRebalanceJobByAmlFilesystemRequest {
 /** A rebalance job instance. Rebalances OST data across storage targets after a cluster expansion. Follows Azure Resource Manager standards: https://github.com/Azure/azure-resource-manager-rpc/blob/master/v1.0/resource-api-reference.md */
 export interface RebalanceJob {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Properties of the rebalance job. */
-  properties?: RebalanceJobProperties;
+  properties?: RebalanceJobProperties | undefined;
 }
 /** List of rebalance jobs. */
 export type RebalanceJobsListResultValueList = Array<RebalanceJob>;
 /** Result of the request to list rebalance jobs. It contains a list of rebalance jobs and a URL link to get the next set of results. */
 export interface RebalanceJobsListResult {
   /** List of rebalance jobs. */
-  value?: RebalanceJobsListResultValueList;
+  value?: RebalanceJobsListResultValueList | undefined;
   /** URL to get the next set of rebalance job list results, if there are any. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListSkusRequest {
   /** The ID of the target subscription. */
@@ -2346,9 +2355,9 @@ export interface ListSkusRequest {
 /** A resource SKU capability. */
 export interface ResourceSkuCapabilities {
   /** Name of a capability, such as ops/sec. */
-  name?: string;
+  name?: string | undefined;
   /** Quantity, if the capability is measured by quantity. */
-  value?: string;
+  value?: string | undefined;
 }
 /** A list of capabilities of this SKU, such as throughput or ops/sec. */
 export type ResourceSkuCapabilitiesList = Array<ResourceSkuCapabilities>;
@@ -2359,9 +2368,9 @@ export type ResourceSkuLocationInfoZonesList = Array<string>;
 /** Resource SKU location information. */
 export interface ResourceSkuLocationInfo {
   /** Location where this SKU is available. */
-  location?: string;
+  location?: string | undefined;
   /** Zones if any. */
-  zones?: ResourceSkuLocationInfoZonesList;
+  zones?: ResourceSkuLocationInfoZonesList | undefined;
 }
 /** The set of locations where the SKU is available. */
 export type ResourceSkuLocationInfoList = Array<ResourceSkuLocationInfo>;
@@ -2372,37 +2381,37 @@ export type ReasonCode = "QuotaId" | "NotAvailableForSubscription";
 /** The restrictions preventing this SKU from being used. */
 export interface Restriction {
   /** The type of restrictions. In this version, the only possible value for this is location. */
-  type?: string;
+  type?: string | undefined;
   /** The value of restrictions. If the restriction type is set to location, then this would be the different locations where the SKU is restricted. */
-  values?: RestrictionValuesList;
+  values?: RestrictionValuesList | undefined;
   /** The reason for the restriction. As of now this can be "QuotaId" or "NotAvailableForSubscription". "QuotaId" is set when the SKU has requiredQuotas parameter as the subscription does not belong to that quota. "NotAvailableForSubscription" is related to capacity at the datacenter. */
-  reasonCode?: ReasonCode;
+  reasonCode?: ReasonCode | undefined;
 }
 /** The restrictions preventing this SKU from being used. This is empty if there are no restrictions. */
 export type ResourceSkuRestrictionsList = Array<Restriction>;
 /** A resource SKU. */
 export interface ResourceSku {
   /** The type of resource the SKU applies to. */
-  resourceType?: string;
+  resourceType?: string | undefined;
   /** A list of capabilities of this SKU, such as throughput or ops/sec. */
-  capabilities?: ResourceSkuCapabilitiesList;
+  capabilities?: ResourceSkuCapabilitiesList | undefined;
   /** The set of locations where the SKU is available. This is the supported and registered Azure Geo Regions (e.g., West US, East US, Southeast Asia, etc.). */
-  locations?: ResourceSkuLocationsList;
+  locations?: ResourceSkuLocationsList | undefined;
   /** The set of locations where the SKU is available. */
-  locationInfo?: ResourceSkuLocationInfoList;
+  locationInfo?: ResourceSkuLocationInfoList | undefined;
   /** The name of this SKU. */
-  name?: string;
+  name?: string | undefined;
   /** The restrictions preventing this SKU from being used. This is empty if there are no restrictions. */
-  restrictions?: ResourceSkuRestrictionsList;
+  restrictions?: ResourceSkuRestrictionsList | undefined;
 }
 /** The list of SKUs available for the subscription. */
 export type ResourceSkusResultValueList = Array<ResourceSku>;
 /** The response from the List Cache SKUs operation. */
 export interface ResourceSkusResult {
   /** The list of SKUs available for the subscription. */
-  value?: ResourceSkusResultValueList;
+  value?: ResourceSkusResultValueList | undefined;
   /** The URI to fetch the next page of cache SKUs. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListStorageTargetByCacheRequest {
   /** The ID of the target subscription. */
@@ -2415,26 +2424,26 @@ export interface ListStorageTargetByCacheRequest {
 /** Type of the Storage Target. */
 export interface StorageTarget {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** StorageTarget properties */
-  properties?: StorageTargetProperties;
+  properties?: StorageTargetProperties | undefined;
   /** Region name string. */
-  location?: string;
+  location?: string | undefined;
 }
 /** The list of Storage Targets defined for the cache. */
 export type StorageTargetsResultValueList = Array<StorageTarget>;
 /** A list of Storage Targets. */
 export interface StorageTargetsResult {
   /** The list of Storage Targets defined for the cache. */
-  value?: StorageTargetsResultValueList;
+  value?: StorageTargetsResultValueList | undefined;
   /** The URI to fetch the next page of Storage Targets. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListUsageModelsRequest {
   /** The ID of the target subscription. */
@@ -2443,25 +2452,25 @@ export interface ListUsageModelsRequest {
 /** Localized information describing this usage model. */
 export interface UsageModelDisplay {
   /** String to display for this usage model. */
-  description?: string;
+  description?: string | undefined;
 }
 /** A usage model. */
 export interface UsageModel {
   /** Localized information describing this usage model. */
-  display?: UsageModelDisplay;
+  display?: UsageModelDisplay | undefined;
   /** Non-localized keyword name for this usage model. */
-  modelName?: string;
+  modelName?: string | undefined;
   /** The type of Storage Target to which this model is applicable (only nfs3 as of this version). */
-  targetType?: string;
+  targetType?: string | undefined;
 }
 /** The list of usage models available for the subscription. */
 export type UsageModelsResultValueList = Array<UsageModel>;
 /** A list of cache usage models. */
 export interface UsageModelsResult {
   /** The list of usage models available for the subscription. */
-  value?: UsageModelsResultValueList;
+  value?: UsageModelsResultValueList | undefined;
   /** The URI to fetch the next page of cache usage models. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface PauseCachPrimingJobRequest {
   /** The ID of the target subscription. */
@@ -2475,11 +2484,11 @@ export interface PauseCachPrimingJobRequest {
 }
 export interface PauseCachPrimingJobResponse {
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface RefreshStorageTargetsDnsRequest {
   /** The ID of the target subscription. */
@@ -2493,11 +2502,11 @@ export interface RefreshStorageTargetsDnsRequest {
 }
 export interface RefreshStorageTargetsDnsResponse {
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface RestoreStorageTargetDefaultsRequest {
   /** The ID of the target subscription. */
@@ -2511,11 +2520,11 @@ export interface RestoreStorageTargetDefaultsRequest {
 }
 export interface RestoreStorageTargetDefaultsResponse {
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface ResumeCachPrimingJobRequest {
   /** The ID of the target subscription. */
@@ -2529,11 +2538,11 @@ export interface ResumeCachPrimingJobRequest {
 }
 export interface ResumeCachPrimingJobResponse {
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface ResumeStorageTargetRequest {
   /** The ID of the target subscription. */
@@ -2547,11 +2556,11 @@ export interface ResumeStorageTargetRequest {
 }
 export interface ResumeStorageTargetResponse {
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface StartCachRequest {
   /** The ID of the target subscription. */
@@ -2563,11 +2572,11 @@ export interface StartCachRequest {
 }
 export interface StartCachResponse {
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface StartCachPrimingJobRequest {
   /** The ID of the target subscription. */
@@ -2583,11 +2592,11 @@ export interface StartCachPrimingJobRequest {
 }
 export interface StartCachPrimingJobResponse {
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface StopCachRequest {
   /** The ID of the target subscription. */
@@ -2599,11 +2608,11 @@ export interface StopCachRequest {
 }
 export interface StopCachResponse {
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface StopCachPrimingJobRequest {
   /** The ID of the target subscription. */
@@ -2617,30 +2626,30 @@ export interface StopCachPrimingJobRequest {
 }
 export interface StopCachPrimingJobResponse {
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** List of cache namespace junctions to target for namespace associations. */
 export type StorageTargetPropertiesInputJunctionsList = Array<NamespaceJunction>;
 /** Properties of the Storage Target. */
 export interface StorageTargetPropertiesInput {
   /** List of cache namespace junctions to target for namespace associations. */
-  junctions?: StorageTargetPropertiesInputJunctionsList;
+  junctions?: StorageTargetPropertiesInputJunctionsList | undefined;
   /** Type of the Storage Target. */
   targetType: StorageTargetType | (string & {});
   /** Storage target operational state. */
-  state?: OperationalStateType | (string & {});
+  state?: OperationalStateType | (string & {}) | undefined;
   /** Properties when targetType is nfs3. */
-  nfs3?: Nfs3Target;
+  nfs3?: Nfs3Target | undefined;
   /** Properties when targetType is clfs. */
-  clfs?: ClfsTarget;
+  clfs?: ClfsTarget | undefined;
   /** Properties when targetType is unknown. */
-  unknown?: UnknownTarget;
+  unknown?: UnknownTarget | undefined;
   /** Properties when targetType is blobNfs. */
-  blobNfs?: BlobNfsTarget;
+  blobNfs?: BlobNfsTarget | undefined;
 }
 export interface StorageTargetsCreateOrUpdateRequest {
   /** The ID of the target subscription. */
@@ -2652,25 +2661,25 @@ export interface StorageTargetsCreateOrUpdateRequest {
   /** Name of Storage Target. */
   storageTargetName: string;
   /** StorageTarget properties */
-  properties?: StorageTargetPropertiesInput;
+  properties?: StorageTargetPropertiesInput | undefined;
 }
 export interface StorageTargetsCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** StorageTarget properties */
-  properties?: StorageTargetProperties;
+  properties?: StorageTargetProperties | undefined;
   /** Region name string. */
-  location?: string;
+  location?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  locationHeader?: string;
+  locationHeader?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface SuspendStorageTargetRequest {
   /** The ID of the target subscription. */
@@ -2684,11 +2693,11 @@ export interface SuspendStorageTargetRequest {
 }
 export interface SuspendStorageTargetResponse {
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Resource tags. */
 export type UpdateAmlFilesystemRequestTagsMap = { [key: string]: string | undefined };
@@ -2698,11 +2707,11 @@ export type AmlFilesystemUpdatePropertiesMaintenanceWindow =
 /** Properties of the AML file system. */
 export interface AmlFilesystemUpdatePropertiesInput {
   /** Specifies encryption settings of the AML file system. */
-  encryptionSettings?: AmlFilesystemEncryptionSettings;
+  encryptionSettings?: AmlFilesystemEncryptionSettings | undefined;
   /** Start time of a 30-minute weekly maintenance window. */
-  maintenanceWindow?: AmlFilesystemPropertiesMaintenanceWindow;
+  maintenanceWindow?: AmlFilesystemPropertiesMaintenanceWindow | undefined;
   /** Specifies root squash settings of the AML file system. */
-  rootSquashSettings?: AmlFilesystemRootSquashSettingsInput;
+  rootSquashSettings?: AmlFilesystemRootSquashSettingsInput | undefined;
 }
 export interface UpdateAmlFilesystemRequest {
   /** The ID of the target subscription. */
@@ -2712,9 +2721,9 @@ export interface UpdateAmlFilesystemRequest {
   /** Name for the AML file system. Allows alphanumerics, underscores, and hyphens. Start and end with alphanumeric. */
   amlFilesystemName: string;
   /** Resource tags. */
-  tags?: UpdateAmlFilesystemRequestTagsMap;
+  tags?: UpdateAmlFilesystemRequestTagsMap | undefined;
   /** Properties of the AML file system. */
-  properties?: AmlFilesystemUpdatePropertiesInput;
+  properties?: AmlFilesystemUpdatePropertiesInput | undefined;
 }
 /** Resource tags. */
 export type UpdateAmlFilesystemResponseTagsMap = { [key: string]: string | undefined };
@@ -2722,31 +2731,31 @@ export type UpdateAmlFilesystemResponseTagsMap = { [key: string]: string | undef
 export type UpdateAmlFilesystemResponseZonesList = Array<string>;
 export interface UpdateAmlFilesystemResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: UpdateAmlFilesystemResponseTagsMap;
+  tags?: UpdateAmlFilesystemResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Properties of the AML file system. */
-  properties?: AmlFilesystemProperties;
+  properties?: AmlFilesystemProperties | undefined;
   /** The managed identity used by the AML file system, if configured. */
-  identity?: AmlFilesystemIdentity;
+  identity?: AmlFilesystemIdentity | undefined;
   /** SKU for the resource. */
-  sku?: SkuName;
+  sku?: SkuName | undefined;
   /** The availability zones. */
-  zones?: UpdateAmlFilesystemResponseZonesList;
+  zones?: UpdateAmlFilesystemResponseZonesList | undefined;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  locationHeader?: string;
+  locationHeader?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Resource tags. */
 export type UpdateAutoExportJobRequestTagsMap = { [key: string]: string | undefined };
@@ -2755,7 +2764,7 @@ export type AutoExportJobAdminStatus = "Enable" | "Disable";
 /** Properties for updating an auto export job. */
 export interface AutoExportJobUpdateProperties {
   /** The administrative status of the auto export job. Possible values: 'Enable', 'Disable'. Passing in a value of 'Disable' will disable the current active auto export job. By default it is set to 'Enable'. */
-  adminStatus?: AutoExportJobAdminStatus | (string & {});
+  adminStatus?: AutoExportJobAdminStatus | (string & {}) | undefined;
 }
 export interface UpdateAutoExportJobRequest {
   /** The ID of the target subscription. */
@@ -2767,32 +2776,32 @@ export interface UpdateAutoExportJobRequest {
   /** Name for the auto export job. Allows alphanumerics, underscores, and hyphens. Start and end with alphanumeric. */
   autoExportJobName: string;
   /** Resource tags. */
-  tags?: UpdateAutoExportJobRequestTagsMap;
-  properties?: AutoExportJobUpdateProperties;
+  tags?: UpdateAutoExportJobRequestTagsMap | undefined;
+  properties?: AutoExportJobUpdateProperties | undefined;
 }
 /** Resource tags. */
 export type UpdateAutoExportJobResponseTagsMap = { [key: string]: string | undefined };
 export interface UpdateAutoExportJobResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: UpdateAutoExportJobResponseTagsMap;
+  tags?: UpdateAutoExportJobResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Properties of the auto export job. */
-  properties?: AutoExportJobProperties;
+  properties?: AutoExportJobProperties | undefined;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  locationHeader?: string;
+  locationHeader?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Resource tags. */
 export type UpdateAutoImportJobRequestTagsMap = { [key: string]: string | undefined };
@@ -2801,7 +2810,7 @@ export type AutoImportJobUpdatePropertiesAdminStatus = "Enable" | "Disable";
 /** Properties for updating an auto import job. */
 export interface AutoImportJobUpdateProperties {
   /** The administrative status of the auto import job. Possible values: 'Enable', 'Disable'. Passing in a value of 'Disable' will disable the current active auto import job. By default it is set to 'Enable'. */
-  adminStatus?: AutoImportJobUpdatePropertiesAdminStatus | (string & {});
+  adminStatus?: AutoImportJobUpdatePropertiesAdminStatus | (string & {}) | undefined;
 }
 export interface UpdateAutoImportJobRequest {
   /** The ID of the target subscription. */
@@ -2813,32 +2822,32 @@ export interface UpdateAutoImportJobRequest {
   /** Name for the auto import job. Allows alphanumerics, underscores, and hyphens. Start and end with alphanumeric. */
   autoImportJobName: string;
   /** Resource tags. */
-  tags?: UpdateAutoImportJobRequestTagsMap;
-  properties?: AutoImportJobUpdateProperties;
+  tags?: UpdateAutoImportJobRequestTagsMap | undefined;
+  properties?: AutoImportJobUpdateProperties | undefined;
 }
 /** Resource tags. */
 export type UpdateAutoImportJobResponseTagsMap = { [key: string]: string | undefined };
 export interface UpdateAutoImportJobResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: UpdateAutoImportJobResponseTagsMap;
+  tags?: UpdateAutoImportJobResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Properties of the auto import job. */
-  properties?: AutoImportJobProperties;
+  properties?: AutoImportJobProperties | undefined;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  locationHeader?: string;
+  locationHeader?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Resource tags. */
 export type UpdateCachRequestTagsMap = { [key: string]: string | undefined };
@@ -2850,43 +2859,43 @@ export interface UpdateCachRequest {
   /** Name of cache. Length of name must not be greater than 80 and chars must be from the [-0-9a-zA-Z_] char class. */
   cacheName: string;
   /** Properties of the cache. */
-  properties?: CachePropertiesInput;
+  properties?: CachePropertiesInput | undefined;
   /** Resource tags. */
-  tags?: UpdateCachRequestTagsMap;
+  tags?: UpdateCachRequestTagsMap | undefined;
   /** Region name string. */
-  location?: string;
+  location?: string | undefined;
   /** The identity of the cache, if configured. */
-  identity?: CacheIdentityInput;
+  identity?: CacheIdentityInput | undefined;
   /** SKU for the cache. */
-  sku?: CacheSku;
+  sku?: CacheSku | undefined;
 }
 /** Resource tags. */
 export type UpdateCachResponseTagsMap = { [key: string]: string | undefined };
 export interface UpdateCachResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Properties of the cache. */
-  properties?: CacheProperties;
+  properties?: CacheProperties | undefined;
   /** Resource tags. */
-  tags?: UpdateCachResponseTagsMap;
+  tags?: UpdateCachResponseTagsMap | undefined;
   /** Region name string. */
-  location?: string;
+  location?: string | undefined;
   /** The identity of the cache, if configured. */
-  identity?: CacheIdentity;
+  identity?: CacheIdentity | undefined;
   /** SKU for the cache. */
-  sku?: CacheSku;
+  sku?: CacheSku | undefined;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  locationHeader?: string;
+  locationHeader?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Resource tags. */
 export type UpdateExpansionJobRequestTagsMap = { [key: string]: string | undefined };
@@ -2900,31 +2909,31 @@ export interface UpdateExpansionJobRequest {
   /** Name for the expansion job. Allows alphanumerics, underscores, and hyphens. Start and end with alphanumeric. */
   expansionJobName: string;
   /** Resource tags. */
-  tags?: UpdateExpansionJobRequestTagsMap;
+  tags?: UpdateExpansionJobRequestTagsMap | undefined;
 }
 /** Resource tags. */
 export type UpdateExpansionJobResponseTagsMap = { [key: string]: string | undefined };
 export interface UpdateExpansionJobResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: UpdateExpansionJobResponseTagsMap;
+  tags?: UpdateExpansionJobResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Properties of the expansion job. */
-  properties?: ExpansionJobProperties;
+  properties?: ExpansionJobProperties | undefined;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  locationHeader?: string;
+  locationHeader?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Resource tags. */
 export type UpdateImportJobRequestTagsMap = { [key: string]: string | undefined };
@@ -2933,7 +2942,7 @@ export type ImportJobAdminStatus = "Active" | "Cancel";
 /** Properties for updating an import job. */
 export interface ImportJobUpdateProperties {
   /** The administrative status of the import job. Possible values: 'Active', 'Cancel'. Passing in a value of 'Cancel' will cancel the current active import job. */
-  adminStatus?: ImportJobAdminStatus | (string & {});
+  adminStatus?: ImportJobAdminStatus | (string & {}) | undefined;
 }
 export interface UpdateImportJobRequest {
   /** The ID of the target subscription. */
@@ -2945,37 +2954,37 @@ export interface UpdateImportJobRequest {
   /** Name for the import job. Allows alphanumerics, underscores, and hyphens. Start and end with alphanumeric. */
   importJobName: string;
   /** Resource tags. */
-  tags?: UpdateImportJobRequestTagsMap;
-  properties?: ImportJobUpdateProperties;
+  tags?: UpdateImportJobRequestTagsMap | undefined;
+  properties?: ImportJobUpdateProperties | undefined;
 }
 /** Resource tags. */
 export type UpdateImportJobResponseTagsMap = { [key: string]: string | undefined };
 export interface UpdateImportJobResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: UpdateImportJobResponseTagsMap;
+  tags?: UpdateImportJobResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Properties of the import job. */
-  properties?: ImportJobProperties;
+  properties?: ImportJobProperties | undefined;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  locationHeader?: string;
+  locationHeader?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Properties for updating a rebalance job. */
 export interface RebalanceJobUpdateProperties {
   /** The administrative status of the rebalance job. Passing in a value of 'Cancel' will cancel the current active rebalance job. */
-  adminStatus?: RebalanceJobAdminStatus | (string & {});
+  adminStatus?: RebalanceJobAdminStatus | (string & {}) | undefined;
 }
 export interface UpdateRebalanceJobRequest {
   /** The ID of the target subscription. */
@@ -2987,25 +2996,25 @@ export interface UpdateRebalanceJobRequest {
   /** Name for the rebalance job. Allows alphanumerics, underscores, and hyphens. Start and end with alphanumeric. */
   rebalanceJobName: string;
   /** Properties for the rebalance job update. */
-  properties?: RebalanceJobUpdateProperties;
+  properties?: RebalanceJobUpdateProperties | undefined;
 }
 export interface UpdateRebalanceJobResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Properties of the rebalance job. */
-  properties?: RebalanceJobProperties;
+  properties?: RebalanceJobProperties | undefined;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export type AmlFilesystemsCancelArchiveError = AzureOpError;
 /** Cancel archiving data from the AML file system. */

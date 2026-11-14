@@ -89,10 +89,28 @@ export interface CloseCasesRequest {
   /** Required. The name of the case to close. */
   name: string;
   /** Request body */
-  body?: CloseCaseRequest;
+  body?: CloseCaseRequest | undefined;
 }
 export type StringList = Array<string>;
 export type CasePriorityEnum = "PRIORITY_UNSPECIFIED" | "P0" | "P1" | "P2" | "P3" | "P4";
+/** A Case Classification represents the topic that a case is about. It's very important to use accurate classifications, because they're used to route your cases to specialists who can help you. A classification always has an ID that is its unique identifier. A valid ID is required when creating a case. */
+export interface CaseClassification {
+  /** The unique ID for a classification. Must be specified for case creation. To retrieve valid classification IDs for case creation, use `caseClassifications.search`. Classification IDs returned by `caseClassifications.search` are guaranteed to be valid for at least 6 months. If a given classification is deactiveated, it will immediately stop being returned. After 6 months, `case.create` requests using the classification ID will fail. */
+  id?: string | undefined;
+  /** A display name for the classification. The display name is not static and can change. To uniquely and consistently identify classifications, use the `CaseClassification.id` field. */
+  displayName?: string | undefined;
+}
+/** An Actor represents an entity that performed an action. For example, an actor could be a user who posted a comment on a support case, a user who uploaded an attachment, or a service account that created a support case. */
+export interface Actor {
+  /** Output only. Whether the actor is a Google support actor. */
+  googleSupport?: boolean | undefined;
+  /** The email address of the actor. If not provided, it is inferred from the credentials supplied during case creation. When a name is provided, an email must also be provided. If the user is a Google Support agent, this is obfuscated. This field is deprecated. Use `username` instead. */
+  email?: string | undefined;
+  /** The name to display for the actor. If not provided, it is inferred from credentials supplied during case creation. When an email is provided, a display name must also be provided. This will be obfuscated if the user is a Google Support agent. */
+  displayName?: string | undefined;
+  /** Output only. The username of the actor. It may look like an email or other format provided by the identity provider. If not provided, it is inferred from the credentials supplied. When a name is provided, a username must also be provided. If the user is a Google Support agent, this will not be set. */
+  username?: string | undefined;
+}
 export type CaseStateEnum =
   | "STATE_UNSPECIFIED"
   | "NEW"
@@ -100,81 +118,59 @@ export type CaseStateEnum =
   | "ACTION_REQUIRED"
   | "SOLUTION_PROVIDED"
   | "CLOSED";
-/** A Case Classification represents the topic that a case is about. It's very important to use accurate classifications, because they're used to route your cases to specialists who can help you. A classification always has an ID that is its unique identifier. A valid ID is required when creating a case. */
-export interface CaseClassification {
-  /** The unique ID for a classification. Must be specified for case creation. To retrieve valid classification IDs for case creation, use `caseClassifications.search`. Classification IDs returned by `caseClassifications.search` are guaranteed to be valid for at least 6 months. If a given classification is deactiveated, it will immediately stop being returned. After 6 months, `case.create` requests using the classification ID will fail. */
-  id?: string;
-  /** A display name for the classification. The display name is not static and can change. To uniquely and consistently identify classifications, use the `CaseClassification.id` field. */
-  displayName?: string;
-}
-/** An Actor represents an entity that performed an action. For example, an actor could be a user who posted a comment on a support case, a user who uploaded an attachment, or a service account that created a support case. */
-export interface Actor {
-  /** Output only. The username of the actor. It may look like an email or other format provided by the identity provider. If not provided, it is inferred from the credentials supplied. When a name is provided, a username must also be provided. If the user is a Google Support agent, this will not be set. */
-  username?: string;
-  /** The email address of the actor. If not provided, it is inferred from the credentials supplied during case creation. When a name is provided, an email must also be provided. If the user is a Google Support agent, this is obfuscated. This field is deprecated. Use `username` instead. */
-  email?: string;
-  /** The name to display for the actor. If not provided, it is inferred from credentials supplied during case creation. When an email is provided, a display name must also be provided. This will be obfuscated if the user is a Google Support agent. */
-  displayName?: string;
-  /** Output only. Whether the actor is a Google support actor. */
-  googleSupport?: boolean;
-}
 /** A Case is an object that contains the details of a support case. It contains fields for the time it was created, its priority, its classification, and more. Cases can also have comments and attachments that get added over time. A case is parented by a Google Cloud organization or project. Organizations are identified by a number, so the name of a case parented by an organization would look like this: ``` organizations/123/cases/456 ``` Projects have two unique identifiers, an ID and a number, and they look like this: ``` projects/abc/cases/456 ``` ``` projects/123/cases/456 ``` You can use either of them when calling the API. To learn more about project identifiers, see [AIP-2510](https://google.aip.dev/cloud/2510). */
 export interface Case {
   /** The email addresses to receive updates on this case. */
-  subscriberEmailAddresses?: StringList;
-  /** Output only. The time this case was last updated. */
-  updateTime?: string;
-  /** Output only. The time this case was created. */
-  createTime?: string;
-  /** Whether the case is currently escalated. */
-  escalated?: boolean;
-  /** The short summary of the issue reported in this case. */
-  displayName?: string;
-  /** A user-supplied email address to send case update notifications for. This field must be set when the request is authenticated using a Workforce Identity Federation (BYOID) flow and must not be set otherwise. When unset, the contact email is inferred from the authenticated user's credentials. If you use a service account to create the case and its inferred email address cannot receive emails, you should add appropriate contact emails in the `subscriber_email_addresses` field. */
-  contactEmail?: string;
-  /** The priority of this case. */
-  priority?: CasePriorityEnum | (string & {});
-  /** Whether this case was created for internal API testing and should not be acted on by the support team. */
-  testCase?: boolean;
-  /** The language the user has requested to receive support in. This should be a BCP 47 language code (e.g., `"en"`, `"zh-CN"`, `"zh-TW"`, `"ja"`, `"ko"`). If no language or an unsupported language is specified, this field defaults to English (en). Language selection during case creation may affect your available support options. For a list of supported languages and their support working hours, see: https://cloud.google.com/support/docs/language-working-hours */
-  languageCode?: string;
-  /** Output only. The current status of the support case. */
-  state?: CaseStateEnum | (string & {});
-  /** The issue classification applicable to this case. */
-  classification?: CaseClassification;
-  /** Identifier. The resource name for the case. */
-  name?: string;
-  /** The timezone of the user who created the support case. It should be in a format IANA recognizes: https://www.iana.org/time-zones. There is no additional validation done by the API. */
-  timeZone?: string;
+  subscriberEmailAddresses?: StringList | undefined;
   /** A broad description of the issue. */
-  description?: string;
+  description?: string | undefined;
+  /** The priority of this case. */
+  priority?: CasePriorityEnum | (string & {}) | undefined;
+  /** The language the user has requested to receive support in. This should be a BCP 47 language code (e.g., `"en"`, `"zh-CN"`, `"zh-TW"`, `"ja"`, `"ko"`). If no language or an unsupported language is specified, this field defaults to English (en). Language selection during case creation may affect your available support options. For a list of supported languages and their support working hours, see: https://cloud.google.com/support/docs/language-working-hours */
+  languageCode?: string | undefined;
+  /** The timezone of the user who created the support case. It should be in a format IANA recognizes: https://www.iana.org/time-zones. There is no additional validation done by the API. */
+  timeZone?: string | undefined;
+  /** The issue classification applicable to this case. */
+  classification?: CaseClassification | undefined;
+  /** Whether this case was created for internal API testing and should not be acted on by the support team. */
+  testCase?: boolean | undefined;
+  /** Output only. The time this case was last updated. */
+  updateTime?: string | undefined;
+  /** A user-supplied email address to send case update notifications for. This field must be set when the request is authenticated using a Workforce Identity Federation (BYOID) flow and must not be set otherwise. When unset, the contact email is inferred from the authenticated user's credentials. If you use a service account to create the case and its inferred email address cannot receive emails, you should add appropriate contact emails in the `subscriber_email_addresses` field. */
+  contactEmail?: string | undefined;
+  /** The short summary of the issue reported in this case. */
+  displayName?: string | undefined;
   /** The user who created the case. This field is ignored on input. Note: The name and email will be obfuscated if the case was created by Google Support. */
-  creator?: Actor;
+  creator?: Actor | undefined;
+  /** Identifier. The resource name for the case. */
+  name?: string | undefined;
+  /** Output only. The time this case was created. */
+  createTime?: string | undefined;
+  /** Output only. The current status of the support case. */
+  state?: CaseStateEnum | (string & {}) | undefined;
+  /** Whether the case is currently escalated. */
+  escalated?: boolean | undefined;
 }
-export interface CreateCasesRequest {
+export interface CreateCasesRequest extends Case {
   /** Required. The name of the parent under which the case should be created. */
   parent: string;
-  /** Request body */
-  body?: Case;
 }
 /** A comment associated with a support case. Case comments are the primary way for Google Support to communicate with a user who has opened a case. When a user responds to Google Support, the user's responses also appear as comments. */
 export interface Comment {
-  /** Output only. The time when the comment was created. */
-  createTime?: string;
-  /** Output only. DEPRECATED. DO NOT USE. A duplicate of the `body` field. This field is only present for legacy reasons. */
-  plainTextBody?: string;
-  /** Output only. Identifier. The resource name of the comment. */
-  name?: string;
-  /** Output only. The user or Google Support agent who created the comment. */
-  creator?: Actor;
   /** The full comment body. Maximum of 12800 characters. */
-  body?: string;
+  body?: string | undefined;
+  /** Output only. The user or Google Support agent who created the comment. */
+  creator?: Actor | undefined;
+  /** Output only. The time when the comment was created. */
+  createTime?: string | undefined;
+  /** Output only. Identifier. The resource name of the comment. */
+  name?: string | undefined;
+  /** Output only. DEPRECATED. DO NOT USE. A duplicate of the `body` field. This field is only present for legacy reasons. */
+  plainTextBody?: string | undefined;
 }
-export interface CreateCasesCommentsRequest {
+export interface CreateCasesCommentsRequest extends Comment {
   /** Required. The name of the case to which the comment should be added. */
   parent: string;
-  /** Request body */
-  body?: Comment;
 }
 export type SupportEventSubscriptionFailureReasonEnum =
   | "FAILURE_REASON_UNSPECIFIED"
@@ -188,28 +184,26 @@ export type SupportEventSubscriptionStateEnum =
   | "DELETED";
 /** A support event subscription. You can also manage support event subscriptions using other tools: * [`gcloud support support-event-subscriptions`](/sdk/gcloud/reference/support/support-event-subscriptions) (or [`gcloud beta`](/sdk/gcloud/reference/beta/support/support-event-subscriptions) for beta) * [Terraform `google_cloud_support_support_event_subscription`](https://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/cloud_support_support_event_subscription) (or [google-beta provider](https://registry.terraform.io/providers/hashicorp/google-beta/latest/docs/resources/cloud_support_support_event_subscription) for beta) */
 export interface SupportEventSubscription {
-  /** Required. The name of the Pub/Sub topic to publish notifications to. Format: projects/{project}/topics/{topic} */
-  pubSubTopic?: string;
   /** Output only. The time at which the subscription will be purged. */
-  purgeTime?: string;
-  /** Output only. Reason why subscription is failing. State of subscription must be FAILING in order for this to have a value. */
-  failureReason?: SupportEventSubscriptionFailureReasonEnum | (string & {});
-  /** Output only. The time at which the subscription was deleted. */
-  deleteTime?: string;
+  purgeTime?: string | undefined;
   /** Output only. The time at which the subscription was last updated. */
-  updateTime?: string;
-  /** Output only. The state of the subscription. */
-  state?: SupportEventSubscriptionStateEnum | (string & {});
-  /** Output only. The time at which the subscription was created. */
-  createTime?: string;
+  updateTime?: string | undefined;
+  /** Output only. Reason why subscription is failing. State of subscription must be FAILING in order for this to have a value. */
+  failureReason?: SupportEventSubscriptionFailureReasonEnum | (string & {}) | undefined;
+  /** Required. The name of the Pub/Sub topic to publish notifications to. Format: projects/{project}/topics/{topic} */
+  pubSubTopic?: string | undefined;
   /** Identifier. The resource name of the support event subscription. */
-  name?: string;
+  name?: string | undefined;
+  /** Output only. The time at which the subscription was deleted. */
+  deleteTime?: string | undefined;
+  /** Output only. The time at which the subscription was created. */
+  createTime?: string | undefined;
+  /** Output only. The state of the subscription. */
+  state?: SupportEventSubscriptionStateEnum | (string & {}) | undefined;
 }
-export interface CreateOrganizationsSupportEventSubscriptionsRequest {
+export interface CreateOrganizationsSupportEventSubscriptionsRequest extends SupportEventSubscription {
   /** Required. The parent resource name where the support event subscription will be created. Format: organizations/{organization_id} */
   parent: string;
-  /** Request body */
-  body?: SupportEventSubscription;
 }
 export interface DeleteOrganizationsSupportEventSubscriptionsRequest {
   /** Required. The name of the support event subscription to delete. Format: organizations/{organization_id}/supportEventSubscriptions/{subscription_id} */
@@ -218,6 +212,70 @@ export interface DeleteOrganizationsSupportEventSubscriptionsRequest {
 export interface DownloadMediaRequest {
   /** The name of the file attachment to download. */
   name: string;
+}
+/** # gdata.* are outside protos with mising documentation */
+export interface Blobstore2Info {
+  /** # gdata.* are outside protos with mising documentation */
+  downloadReadHandle?: string | undefined;
+  /** # gdata.* are outside protos with mising documentation */
+  blobGeneration?: string | undefined;
+  /** # gdata.* are outside protos with mising documentation */
+  downloadExternalReadToken?: string | undefined;
+  /** # gdata.* are outside protos with mising documentation */
+  readToken?: string | undefined;
+  /** # gdata.* are outside protos with mising documentation */
+  uploadMetadataContainer?: string | undefined;
+  /** # gdata.* are outside protos with mising documentation */
+  uploadFragmentListCreationInfo?: string | undefined;
+  /** # gdata.* are outside protos with mising documentation */
+  blobId?: string | undefined;
+}
+/** # gdata.* are outside protos with mising documentation */
+export interface ObjectId {
+  /** # gdata.* are outside protos with mising documentation */
+  bucketName?: string | undefined;
+  /** # gdata.* are outside protos with mising documentation */
+  generation?: string | undefined;
+  /** # gdata.* are outside protos with mising documentation */
+  objectName?: string | undefined;
+}
+export type CompositeMediaReferenceTypeEnum =
+  | "PATH"
+  | "BLOB_REF"
+  | "INLINE"
+  | "BIGSTORE_REF"
+  | "COSMO_BINARY_REFERENCE";
+/** # gdata.* are outside protos with mising documentation */
+export interface CompositeMedia {
+  /** # gdata.* are outside protos with mising documentation */
+  blobstore2Info?: Blobstore2Info | undefined;
+  /** # gdata.* are outside protos with mising documentation */
+  blobRef?: string | undefined;
+  /** # gdata.* are outside protos with mising documentation */
+  objectId?: ObjectId | undefined;
+  /** # gdata.* are outside protos with mising documentation */
+  sha1Hash?: string | undefined;
+  /** # gdata.* are outside protos with mising documentation */
+  path?: string | undefined;
+  /** # gdata.* are outside protos with mising documentation */
+  length?: string | undefined;
+  /** # gdata.* are outside protos with mising documentation */
+  referenceType?: CompositeMediaReferenceTypeEnum | undefined;
+  /** # gdata.* are outside protos with mising documentation */
+  crc32cHash?: number | undefined;
+  /** # gdata.* are outside protos with mising documentation */
+  md5Hash?: string | undefined;
+  /** # gdata.* are outside protos with mising documentation */
+  cosmoBinaryReference?: string | undefined;
+  /** # gdata.* are outside protos with mising documentation */
+  inline?: string | undefined;
+}
+/** # gdata.* are outside protos with mising documentation */
+export interface DiffUploadResponse {
+  /** # gdata.* are outside protos with mising documentation */
+  objectVersion?: string | undefined;
+  /** # gdata.* are outside protos with mising documentation */
+  originalObject?: CompositeMedia | undefined;
 }
 export type MediaReferenceTypeEnum =
   | "PATH"
@@ -234,192 +292,128 @@ export type MediaReferenceTypeEnum =
   | "COSMO_BINARY_REFERENCE"
   | "ARBITRARY_BYTES";
 /** # gdata.* are outside protos with mising documentation */
-export interface DiffVersionResponse {
+export interface ContentTypeInfo {
   /** # gdata.* are outside protos with mising documentation */
-  objectVersion?: string;
+  fromBytes?: string | undefined;
   /** # gdata.* are outside protos with mising documentation */
-  objectSizeBytes?: string;
-}
-/** # gdata.* are outside protos with mising documentation */
-export interface ObjectId {
+  fusionIdDetectionMetadata?: string | undefined;
   /** # gdata.* are outside protos with mising documentation */
-  objectName?: string;
+  fromFusionId?: string | undefined;
   /** # gdata.* are outside protos with mising documentation */
-  generation?: string;
+  bestGuess?: string | undefined;
   /** # gdata.* are outside protos with mising documentation */
-  bucketName?: string;
-}
-/** # gdata.* are outside protos with mising documentation */
-export interface Blobstore2Info {
+  fromUrlPath?: string | undefined;
   /** # gdata.* are outside protos with mising documentation */
-  downloadReadHandle?: string;
+  fromHeader?: string | undefined;
   /** # gdata.* are outside protos with mising documentation */
-  blobGeneration?: string;
-  /** # gdata.* are outside protos with mising documentation */
-  uploadMetadataContainer?: string;
-  /** # gdata.* are outside protos with mising documentation */
-  blobId?: string;
-  /** # gdata.* are outside protos with mising documentation */
-  readToken?: string;
-  /** # gdata.* are outside protos with mising documentation */
-  downloadExternalReadToken?: string;
-  /** # gdata.* are outside protos with mising documentation */
-  uploadFragmentListCreationInfo?: string;
-}
-export type CompositeMediaReferenceTypeEnum =
-  | "PATH"
-  | "BLOB_REF"
-  | "INLINE"
-  | "BIGSTORE_REF"
-  | "COSMO_BINARY_REFERENCE";
-/** # gdata.* are outside protos with mising documentation */
-export interface CompositeMedia {
-  /** # gdata.* are outside protos with mising documentation */
-  crc32cHash?: number;
-  /** # gdata.* are outside protos with mising documentation */
-  length?: string;
-  /** # gdata.* are outside protos with mising documentation */
-  inline?: string;
-  /** # gdata.* are outside protos with mising documentation */
-  objectId?: ObjectId;
-  /** # gdata.* are outside protos with mising documentation */
-  path?: string;
-  /** # gdata.* are outside protos with mising documentation */
-  blobstore2Info?: Blobstore2Info;
-  /** # gdata.* are outside protos with mising documentation */
-  sha1Hash?: string;
-  /** # gdata.* are outside protos with mising documentation */
-  cosmoBinaryReference?: string;
-  /** # gdata.* are outside protos with mising documentation */
-  md5Hash?: string;
-  /** # gdata.* are outside protos with mising documentation */
-  referenceType?: CompositeMediaReferenceTypeEnum;
-  /** # gdata.* are outside protos with mising documentation */
-  blobRef?: string;
+  fromFileName?: string | undefined;
 }
 /** # gdata.* are outside protos with mising documentation */
 export interface DiffDownloadResponse {
   /** # gdata.* are outside protos with mising documentation */
-  objectLocation?: CompositeMedia;
-}
-export type CompositeMediaList = Array<CompositeMedia>;
-/** # gdata.* are outside protos with mising documentation */
-export interface DiffChecksumsResponse {
-  /** # gdata.* are outside protos with mising documentation */
-  objectVersion?: string;
-  /** # gdata.* are outside protos with mising documentation */
-  objectLocation?: CompositeMedia;
-  /** # gdata.* are outside protos with mising documentation */
-  chunkSizeBytes?: string;
-  /** # gdata.* are outside protos with mising documentation */
-  objectSizeBytes?: string;
-  /** # gdata.* are outside protos with mising documentation */
-  checksumsLocation?: CompositeMedia;
+  objectLocation?: CompositeMedia | undefined;
 }
 /** # gdata.* are outside protos with mising documentation */
-export interface DiffUploadRequest {
+export interface DiffVersionResponse {
   /** # gdata.* are outside protos with mising documentation */
-  checksumsInfo?: CompositeMedia;
+  objectSizeBytes?: string | undefined;
   /** # gdata.* are outside protos with mising documentation */
-  objectVersion?: string;
-  /** # gdata.* are outside protos with mising documentation */
-  objectInfo?: CompositeMedia;
-}
-/** # gdata.* are outside protos with mising documentation */
-export interface DiffUploadResponse {
-  /** # gdata.* are outside protos with mising documentation */
-  originalObject?: CompositeMedia;
-  /** # gdata.* are outside protos with mising documentation */
-  objectVersion?: string;
-}
-/** # gdata.* are outside protos with mising documentation */
-export interface ContentTypeInfo {
-  /** # gdata.* are outside protos with mising documentation */
-  fromFileName?: string;
-  /** # gdata.* are outside protos with mising documentation */
-  fromFusionId?: string;
-  /** # gdata.* are outside protos with mising documentation */
-  fromBytes?: string;
-  /** # gdata.* are outside protos with mising documentation */
-  fromHeader?: string;
-  /** # gdata.* are outside protos with mising documentation */
-  bestGuess?: string;
-  /** # gdata.* are outside protos with mising documentation */
-  fusionIdDetectionMetadata?: string;
-  /** # gdata.* are outside protos with mising documentation */
-  fromUrlPath?: string;
+  objectVersion?: string | undefined;
 }
 /** # gdata.* are outside protos with mising documentation */
 export interface DownloadParameters {
   /** # gdata.* are outside protos with mising documentation */
-  allowGzipCompression?: boolean;
+  allowGzipCompression?: boolean | undefined;
   /** # gdata.* are outside protos with mising documentation */
-  ignoreRange?: boolean;
+  ignoreRange?: boolean | undefined;
+}
+export type CompositeMediaList = Array<CompositeMedia>;
+/** # gdata.* are outside protos with mising documentation */
+export interface DiffUploadRequest {
+  /** # gdata.* are outside protos with mising documentation */
+  objectInfo?: CompositeMedia | undefined;
+  /** # gdata.* are outside protos with mising documentation */
+  objectVersion?: string | undefined;
+  /** # gdata.* are outside protos with mising documentation */
+  checksumsInfo?: CompositeMedia | undefined;
+}
+/** # gdata.* are outside protos with mising documentation */
+export interface DiffChecksumsResponse {
+  /** # gdata.* are outside protos with mising documentation */
+  chunkSizeBytes?: string | undefined;
+  /** # gdata.* are outside protos with mising documentation */
+  checksumsLocation?: CompositeMedia | undefined;
+  /** # gdata.* are outside protos with mising documentation */
+  objectSizeBytes?: string | undefined;
+  /** # gdata.* are outside protos with mising documentation */
+  objectVersion?: string | undefined;
+  /** # gdata.* are outside protos with mising documentation */
+  objectLocation?: CompositeMedia | undefined;
 }
 /** # gdata.* are outside protos with mising documentation */
 export interface Media {
   /** # gdata.* are outside protos with mising documentation */
-  inline?: string;
+  blobstore2Info?: Blobstore2Info | undefined;
   /** # gdata.* are outside protos with mising documentation */
-  sha512Hash?: string;
+  length?: string | undefined;
   /** # gdata.* are outside protos with mising documentation */
-  sha1Hash?: string;
+  inline?: string | undefined;
   /** # gdata.* are outside protos with mising documentation */
-  isPotentialRetry?: boolean;
+  algorithm?: string | undefined;
   /** # gdata.* are outside protos with mising documentation */
-  sha256Hash?: string;
+  diffUploadResponse?: DiffUploadResponse | undefined;
   /** # gdata.* are outside protos with mising documentation */
-  referenceType?: MediaReferenceTypeEnum;
+  referenceType?: MediaReferenceTypeEnum | undefined;
   /** # gdata.* are outside protos with mising documentation */
-  algorithm?: string;
+  contentTypeInfo?: ContentTypeInfo | undefined;
   /** # gdata.* are outside protos with mising documentation */
-  path?: string;
+  diffDownloadResponse?: DiffDownloadResponse | undefined;
   /** # gdata.* are outside protos with mising documentation */
-  hashVerified?: boolean;
+  mediaId?: string | undefined;
   /** # gdata.* are outside protos with mising documentation */
-  token?: string;
+  hashVerified?: boolean | undefined;
   /** # gdata.* are outside protos with mising documentation */
-  length?: string;
+  isPotentialRetry?: boolean | undefined;
   /** # gdata.* are outside protos with mising documentation */
-  diffVersionResponse?: DiffVersionResponse;
+  path?: string | undefined;
   /** # gdata.* are outside protos with mising documentation */
-  objectId?: ObjectId;
+  diffVersionResponse?: DiffVersionResponse | undefined;
   /** # gdata.* are outside protos with mising documentation */
-  mediaId?: string;
+  sha512Hash?: string | undefined;
   /** # gdata.* are outside protos with mising documentation */
-  diffDownloadResponse?: DiffDownloadResponse;
+  filename?: string | undefined;
   /** # gdata.* are outside protos with mising documentation */
-  compositeMedia?: CompositeMediaList;
+  sha256Hash?: string | undefined;
   /** # gdata.* are outside protos with mising documentation */
-  diffChecksumsResponse?: DiffChecksumsResponse;
+  blobRef?: string | undefined;
   /** # gdata.* are outside protos with mising documentation */
-  hash?: string;
+  bigstoreObjectRef?: string | undefined;
   /** # gdata.* are outside protos with mising documentation */
-  diffUploadRequest?: DiffUploadRequest;
+  downloadParameters?: DownloadParameters | undefined;
   /** # gdata.* are outside protos with mising documentation */
-  md5Hash?: string;
+  cosmoBinaryReference?: string | undefined;
   /** # gdata.* are outside protos with mising documentation */
-  diffUploadResponse?: DiffUploadResponse;
+  sha1Hash?: string | undefined;
   /** # gdata.* are outside protos with mising documentation */
-  timestamp?: string;
+  compositeMedia?: CompositeMediaList | undefined;
   /** # gdata.* are outside protos with mising documentation */
-  contentTypeInfo?: ContentTypeInfo;
+  contentType?: string | undefined;
   /** # gdata.* are outside protos with mising documentation */
-  contentType?: string;
+  timestamp?: string | undefined;
   /** # gdata.* are outside protos with mising documentation */
-  crc32cHash?: number;
+  crc32cHash?: number | undefined;
   /** # gdata.* are outside protos with mising documentation */
-  bigstoreObjectRef?: string;
+  hash?: string | undefined;
   /** # gdata.* are outside protos with mising documentation */
-  blobstore2Info?: Blobstore2Info;
+  diffUploadRequest?: DiffUploadRequest | undefined;
   /** # gdata.* are outside protos with mising documentation */
-  cosmoBinaryReference?: string;
+  diffChecksumsResponse?: DiffChecksumsResponse | undefined;
   /** # gdata.* are outside protos with mising documentation */
-  filename?: string;
+  token?: string | undefined;
   /** # gdata.* are outside protos with mising documentation */
-  blobRef?: string;
+  md5Hash?: string | undefined;
   /** # gdata.* are outside protos with mising documentation */
-  downloadParameters?: DownloadParameters;
+  objectId?: ObjectId | undefined;
 }
 export type EscalationReasonEnum =
   | "REASON_UNSPECIFIED"
@@ -429,20 +423,18 @@ export type EscalationReasonEnum =
 /** An escalation of a support case. */
 export interface Escalation {
   /** Required. The reason why the Case is being escalated. */
-  reason?: EscalationReasonEnum | (string & {});
+  reason?: EscalationReasonEnum | (string & {}) | undefined;
   /** Required. A free text description to accompany the `reason` field above. Provides additional context on why the case is being escalated. */
-  justification?: string;
+  justification?: string | undefined;
 }
 /** The request message for the EscalateCase endpoint. */
 export interface EscalateCaseRequest {
   /** The escalation information to be sent with the escalation request. */
-  escalation?: Escalation;
+  escalation?: Escalation | undefined;
 }
-export interface EscalateCasesRequest {
+export interface EscalateCasesRequest extends EscalateCaseRequest {
   /** Required. The name of the case to be escalated. */
   name: string;
-  /** Request body */
-  body?: EscalateCaseRequest;
 }
 /** Request message for ExpungeSupportEventSubscription. */
 export type ExpungeSupportEventSubscriptionRequest = CloseCaseRequest;
@@ -450,7 +442,7 @@ export interface ExpungeOrganizationsSupportEventSubscriptionsRequest {
   /** Required. The name of the support event subscription to expunge. Format: organizations/{organization_id}/supportEventSubscriptions/{subscription_id} */
   name: string;
   /** Request body */
-  body?: CloseCaseRequest;
+  body?: CloseCaseRequest | undefined;
 }
 /** A generic empty message that you can re-use to avoid defining duplicated empty messages in your APIs. A typical example is to use it as the request or the response type of an API method. For instance: service Foo { rpc Bar(google.protobuf.Empty) returns (google.protobuf.Empty); } */
 export interface Empty {}
@@ -464,18 +456,18 @@ export interface GetCasesAttachmentsRequest {
 }
 /** An Attachment contains metadata about a file that was uploaded to a case - it is NOT a file itself. That being said, the name of an Attachment object can be used to download its accompanying file through the `media.download` endpoint. While attachments can be uploaded in the console at the same time as a comment, they're associated on a "case" level, not a "comment" level. */
 export interface Attachment {
-  /** Output only. The user who uploaded the attachment. Note, the name and email will be obfuscated if the attachment was uploaded by Google support. */
-  creator?: Actor;
-  /** Output only. The size of the attachment in bytes. */
-  sizeBytes?: string;
   /** Output only. Identifier. The resource name of the attachment. */
-  name?: string;
+  name?: string | undefined;
+  /** Output only. The size of the attachment in bytes. */
+  sizeBytes?: string | undefined;
   /** The filename of the attachment (e.g. `"graph.jpg"`). */
-  filename?: string;
-  /** Output only. The time at which the attachment was created. */
-  createTime?: string;
+  filename?: string | undefined;
   /** Output only. The MIME type of the attachment (e.g. text/plain). */
-  mimeType?: string;
+  mimeType?: string | undefined;
+  /** Output only. The user who uploaded the attachment. Note, the name and email will be obfuscated if the attachment was uploaded by Google support. */
+  creator?: Actor | undefined;
+  /** Output only. The time at which the attachment was created. */
+  createTime?: string | undefined;
 }
 export interface GetCasesCommentsRequest {
   /** Required. The name of the comment to retrieve. */
@@ -489,25 +481,25 @@ export interface ListCasesRequest {
   /** Required. The name of a parent to list cases under. */
   parent: string;
   /** The maximum number of cases fetched with each request. Defaults to 10. */
-  pageSize?: number;
-  /** A token identifying the page of results to return. If unspecified, the first page is retrieved. */
-  pageToken?: string;
+  pageSize?: number | undefined;
   /** An expression used to filter cases. If it's an empty string, then no filtering happens. Otherwise, the endpoint returns the cases that match the filter. Expressions use the following fields separated by `AND` and specified with `=`: - `state`: Can be `OPEN` or `CLOSED`. - `priority`: Can be `P0`, `P1`, `P2`, `P3`, or `P4`. You can specify multiple values for priority using the `OR` operator. For example, `priority=P1 OR priority=P2`. - `creator.email`: The email address of the case creator. EXAMPLES: - `state=CLOSED` - `state=OPEN AND creator.email="tester@example.com"` - `state=OPEN AND (priority=P0 OR priority=P1)` */
-  filter?: string;
+  filter?: string | undefined;
+  /** A token identifying the page of results to return. If unspecified, the first page is retrieved. */
+  pageToken?: string | undefined;
 }
 export type CaseList = Array<Case>;
 /** The response message for the ListCases endpoint. */
 export interface ListCasesResponse {
-  /** The list of cases associated with the parent after any filters have been applied. */
-  cases?: CaseList;
   /** A token to retrieve the next page of results. Set this in the `page_token` field of subsequent `cases.list` requests. If unspecified, there are no more results to retrieve. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
+  /** The list of cases associated with the parent after any filters have been applied. */
+  cases?: CaseList | undefined;
 }
 export interface ListCasesAttachmentsRequest {
-  /** The maximum number of attachments fetched with each request. If not provided, the default is 10. The maximum page size that will be returned is 100. The size of each page can be smaller than the requested page size and can include zero. For example, you could request 100 attachments on one page, receive 0, and then on the next page, receive 90. */
-  pageSize?: number;
   /** A token identifying the page of results to return. If unspecified, the first page is retrieved. */
-  pageToken?: string;
+  pageToken?: string | undefined;
+  /** The maximum number of attachments fetched with each request. If not provided, the default is 10. The maximum page size that will be returned is 100. The size of each page can be smaller than the requested page size and can include zero. For example, you could request 100 attachments on one page, receive 0, and then on the next page, receive 90. */
+  pageSize?: number | undefined;
   /** Required. The name of the case for which attachments should be listed. */
   parent: string;
 }
@@ -515,94 +507,93 @@ export type AttachmentList = Array<Attachment>;
 /** The response message for the ListAttachments endpoint. */
 export interface ListAttachmentsResponse {
   /** A token to retrieve the next page of results. Set this in the `page_token` field of subsequent `cases.attachments.list` requests. If unspecified, there are no more results to retrieve. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
   /** The list of attachments associated with a case. */
-  attachments?: AttachmentList;
+  attachments?: AttachmentList | undefined;
 }
 export interface ListCasesCommentsRequest {
+  /** A token identifying the page of results to return. If unspecified, the first page is returned. */
+  pageToken?: string | undefined;
   /** Required. The name of the case for which to list comments. */
   parent: string;
-  /** A token identifying the page of results to return. If unspecified, the first page is returned. */
-  pageToken?: string;
   /** The maximum number of comments to fetch. Defaults to 10. */
-  pageSize?: number;
+  pageSize?: number | undefined;
 }
 export type CommentList = Array<Comment>;
 /** The response message for the ListComments endpoint. */
 export interface ListCommentsResponse {
   /** List of the comments associated with the case. */
-  comments?: CommentList;
+  comments?: CommentList | undefined;
   /** A token to retrieve the next page of results. Set this in the `page_token` field of subsequent `cases.comments.list` requests. If unspecified, there are no more results to retrieve. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
 }
 export interface ListOrganizationsSupportEventSubscriptionsRequest {
-  /** Optional. Filter expression based on AIP-160. Supported fields: - pub_sub_topic - state Examples: - `pub_sub_topic="projects/example-project/topics/example-topic"` - `state=WORKING` - `pub_sub_topic="projects/example-project/topics/example-topic" AND state=WORKING` */
-  filter?: string;
   /** Optional. The maximum number of support event subscriptions to return. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Required. The fully qualified name of the Cloud resource to list support event subscriptions under. Format: organizations/{organization_id} */
   parent: string;
-  /** Optional. Whether to show deleted subscriptions. By default, deleted subscriptions are not returned. */
-  showDeleted?: boolean;
   /** Optional. A token identifying the page of results to return. If unspecified, the first page is retrieved. When paginating, all other parameters provided to `ListSupportEventSubscriptions` must match the call that provided the page token. */
-  pageToken?: string;
+  pageToken?: string | undefined;
+  /** Optional. Filter expression based on AIP-160. Supported fields: - pub_sub_topic - state Examples: - `pub_sub_topic="projects/example-project/topics/example-topic"` - `state=WORKING` - `pub_sub_topic="projects/example-project/topics/example-topic" AND state=WORKING` */
+  filter?: string | undefined;
+  /** Optional. Whether to show deleted subscriptions. By default, deleted subscriptions are not returned. */
+  showDeleted?: boolean | undefined;
 }
 export type SupportEventSubscriptionList = Array<SupportEventSubscription>;
 /** Response message for ListSupportEventSubscriptions. */
 export interface ListSupportEventSubscriptionsResponse {
   /** The support event subscriptions. */
-  supportEventSubscriptions?: SupportEventSubscriptionList;
+  supportEventSubscriptions?: SupportEventSubscriptionList | undefined;
   /** A token, which can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
 }
-export interface PatchCasesRequest {
-  /** A list of attributes of the case that should be updated. Supported values are `priority`, `display_name`, and `subscriber_email_addresses`. If no fields are specified, all supported fields are updated. Be careful - if you do not provide a field mask, then you might accidentally clear some fields. For example, if you leave the field mask empty and do not provide a value for `subscriber_email_addresses`, then `subscriber_email_addresses` is updated to empty. */
-  updateMask?: string;
+export interface PatchCasesRequest extends Omit<Case, "name"> {
   /** Identifier. The resource name for the case. */
   name: string;
-  /** Request body */
-  body?: Case;
+  /** A list of attributes of the case that should be updated. Supported values are `priority`, `display_name`, and `subscriber_email_addresses`. If no fields are specified, all supported fields are updated. Be careful - if you do not provide a field mask, then you might accidentally clear some fields. For example, if you leave the field mask empty and do not provide a value for `subscriber_email_addresses`, then `subscriber_email_addresses` is updated to empty. */
+  updateMask?: string | undefined;
 }
-export interface PatchOrganizationsSupportEventSubscriptionsRequest {
+export interface PatchOrganizationsSupportEventSubscriptionsRequest extends Omit<
+  SupportEventSubscription,
+  "name"
+> {
+  /** Optional. The list of fields to update. The only supported value is pub_sub_topic. */
+  updateMask?: string | undefined;
   /** Identifier. The resource name of the support event subscription. */
   name: string;
-  /** Optional. The list of fields to update. The only supported value is pub_sub_topic. */
-  updateMask?: string;
-  /** Request body */
-  body?: SupportEventSubscription;
 }
 export interface SearchCaseClassificationsRequest {
-  /** The maximum number of classifications fetched with each request. */
-  pageSize?: number;
   /** A token identifying the page of results to return. If unspecified, the first page is retrieved. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** An expression used to filter case classifications. If it's an empty string, then no filtering happens. Otherwise, case classifications will be returned that match the filter. */
-  query?: string;
+  query?: string | undefined;
+  /** The maximum number of classifications fetched with each request. */
+  pageSize?: number | undefined;
 }
 export type CaseClassificationList = Array<CaseClassification>;
 /** The response message for SearchCaseClassifications endpoint. */
 export interface SearchCaseClassificationsResponse {
   /** The classifications retrieved. */
-  caseClassifications?: CaseClassificationList;
+  caseClassifications?: CaseClassificationList | undefined;
   /** A token to retrieve the next page of results. Set this in the `page_token` field of subsequent `caseClassifications.list` requests. If unspecified, there are no more results to retrieve. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
 }
 export interface SearchCasesRequest {
-  /** A token identifying the page of results to return. If unspecified, the first page is retrieved. */
-  pageToken?: string;
   /** An expression used to filter cases. Expressions use the following fields separated by `AND` and specified with `=`: - `state`: Can be `OPEN` or `CLOSED`. - `priority`: Can be `P0`, `P1`, `P2`, `P3`, or `P4`. You can specify multiple values for priority using the `OR` operator. For example, `priority=P1 OR priority=P2`. - `creator.email`: The email address of the case creator. To search across `displayName`, `description`, and comments, use a global restriction with no keyword or operator. For example, `"my search"`. To search only cases updated after a certain date, use `update_time` restricted with that particular date, time, and timezone in ISO datetime format. For example, `update_time>"2020-01-01T00:00:00-05:00"`. `update_time` only supports the greater than operator (`>`). If you are using the `v2` version of the API, you must specify the case parent in the `parent` field. If you provide an empty `query`, all cases under the parent resource will be returned. If you are using the `v2beta` version of the API, you must specify the case parent in the `query` field using one of the two fields below, which are only available for `v2beta`. The `parent` field will be ignored. - `organization`: An organization name in the form `organizations/`. - `project`: A project name in the form `projects/`. Examples: For `v2`: - `state=CLOSED` - `state=OPEN AND creator.email="tester@example.com"` - `state=OPEN AND (priority=P0 OR priority=P1)` - `update_time>"2020-01-01T00:00:00-05:00"` For `v2beta`: - `organization="organizations/123456789"` - `project="projects/my-project-id"` - `project="projects/123456789"` - `organization="organizations/123456789" AND state=CLOSED` - `project="projects/my-project-id" AND creator.email="tester@example.com"` - `project="projects/my-project-id" AND (priority=P0 OR priority=P1)` */
-  query?: string;
+  query?: string | undefined;
   /** The name of the parent resource to search for cases under. */
   parent: string;
   /** The maximum number of cases fetched with each request. The default page size is 10. */
-  pageSize?: number;
+  pageSize?: number | undefined;
+  /** A token identifying the page of results to return. If unspecified, the first page is retrieved. */
+  pageToken?: string | undefined;
 }
 /** The response message for the SearchCases endpoint. */
 export interface SearchCasesResponse {
   /** A token to retrieve the next page of results. Set this in the `page_token` field of subsequent `cases.search` requests. If unspecified, there are no more results to retrieve. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
   /** The list of cases associated with the parent after any filters have been applied. */
-  cases?: CaseList;
+  cases?: CaseList | undefined;
 }
 /** Request message for UndeleteSupportEventSubscription. */
 export type UndeleteSupportEventSubscriptionRequest = CloseCaseRequest;
@@ -610,18 +601,16 @@ export interface UndeleteOrganizationsSupportEventSubscriptionsRequest {
   /** Required. The name of the support event subscription to undelete. Format: organizations/{organization_id}/supportEventSubscriptions/{subscription_id} */
   name: string;
   /** Request body */
-  body?: CloseCaseRequest;
+  body?: CloseCaseRequest | undefined;
 }
 /** The request message for the CreateAttachment endpoint. */
 export interface CreateAttachmentRequest {
   /** Required. The attachment to be created. */
-  attachment?: Attachment;
+  attachment?: Attachment | undefined;
 }
-export interface UploadMediaRequest {
+export interface UploadMediaRequest extends CreateAttachmentRequest {
   /** Required. The name of the case or Cloud resource to which the attachment should be attached. */
   parent: string;
-  /** Request body */
-  body?: CreateAttachmentRequest;
 }
 export type CloseCasesError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
 /** Close a case. EXAMPLES: cURL: ```shell case="projects/some-project/cases/43595344" curl \ --request POST \ --header "Authorization: Bearer $(gcloud auth print-access-token)" \ "https://cloudsupport.googleapis.com/v2/$case:close" ``` Python: ```python import googleapiclient.discovery api_version = "v2" supportApiService = googleapiclient.discovery.build( serviceName="cloudsupport", version=api_version, discoveryServiceUrl=f"https://cloudsupport.googleapis.com/$discovery/rest?version={api_version}", ) request = supportApiService.cases().close( name="projects/some-project/cases/43595344" ) print(request.execute()) ``` */
@@ -848,7 +837,7 @@ export const listCases: API.PaginatedOperationMethod<
   ListCasesResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(112, __c7, 0) as any as S.Schema<ListCasesRequest>,
-  output: __S(113, __c7, 1) as any as S.Schema<ListCasesResponse>,
+  output: __S(129, __c8, 1) as any as S.Schema<ListCasesResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -982,7 +971,7 @@ export const searchCases: API.PaginatedOperationMethod<
   SearchCasesResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(240, __c15, 0) as any as S.Schema<SearchCasesRequest>,
-  output: __S(241, __c15, 1) as any as S.Schema<SearchCasesResponse>,
+  output: __S(129, __c8, 1) as any as S.Schema<SearchCasesResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1052,10 +1041,12 @@ function __c0(j: number): any {
       ).annotate({ identifier: "EscalateCaseRequest" });
     case 2:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(1, __c0, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1, __c0, 1),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+name}:escalate",
@@ -1119,12 +1110,12 @@ function __c4(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          creator: S.optional(__S(352, __c22, 0)),
-          sizeBytes: S.optional(S.String),
           name: S.optional(S.String),
+          sizeBytes: S.optional(S.String),
           filename: S.optional(S.String),
-          createTime: S.optional(S.String),
           mimeType: S.optional(S.String),
+          creator: S.optional(__S(352, __c22, 0)),
+          createTime: S.optional(S.String),
         }),
       ).annotate({ identifier: "Attachment" });
   }
@@ -1168,8 +1159,8 @@ function __c7(j: number): any {
         S.Struct({
           parent: S.String.pipe(T.Label()),
           pageSize: S.optional(S.Number.pipe(T.Query())),
-          pageToken: S.optional(S.String.pipe(T.Query())),
           filter: S.optional(S.String.pipe(T.Query())),
+          pageToken: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -1178,19 +1169,19 @@ function __c7(j: number): any {
           }),
         ),
       ).annotate({ identifier: "ListCasesRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          cases: S.optional(__S(128, __c8, 0)),
-          nextPageToken: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "ListCasesResponse" });
   }
 }
 function __c8(j: number): any {
   switch (j) {
     case 0:
       return S.Array(__S(337, __c21, 1));
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          nextPageToken: S.optional(S.String),
+          cases: S.optional(__S(128, __c8, 0)),
+        }),
+      ).annotate({ identifier: "ListCasesResponse" });
   }
 }
 function __c9(j: number): any {
@@ -1198,8 +1189,8 @@ function __c9(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          pageSize: S.optional(S.Number.pipe(T.Query())),
           pageToken: S.optional(S.String.pipe(T.Query())),
+          pageSize: S.optional(S.Number.pipe(T.Query())),
           parent: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
@@ -1225,8 +1216,8 @@ function __c10(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          parent: S.String.pipe(T.Label()),
           pageToken: S.optional(S.String.pipe(T.Query())),
+          parent: S.String.pipe(T.Label()),
           pageSize: S.optional(S.Number.pipe(T.Query())),
         }).pipe(
           T.Http({
@@ -1252,11 +1243,11 @@ function __c11(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          filter: S.optional(S.String.pipe(T.Query())),
           pageSize: S.optional(S.Number.pipe(T.Query())),
           parent: S.String.pipe(T.Label()),
-          showDeleted: S.optional(S.Boolean.pipe(T.Query())),
           pageToken: S.optional(S.String.pipe(T.Query())),
+          filter: S.optional(S.String.pipe(T.Query())),
+          showDeleted: S.optional(S.Boolean.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -1280,11 +1271,13 @@ function __c12(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(337, __c21, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(337, __c21, 1),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v2/{+name}",
@@ -1298,11 +1291,13 @@ function __c13(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(432, __c27, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(432, __c27, 0),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v2/{+name}",
@@ -1317,9 +1312,9 @@ function __c14(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          pageSize: S.optional(S.Number.pipe(T.Query())),
           pageToken: S.optional(S.String.pipe(T.Query())),
           query: S.optional(S.String.pipe(T.Query())),
+          pageSize: S.optional(S.Number.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -1344,10 +1339,10 @@ function __c15(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          pageToken: S.optional(S.String.pipe(T.Query())),
           query: S.optional(S.String.pipe(T.Query())),
           parent: S.String.pipe(T.Label()),
           pageSize: S.optional(S.Number.pipe(T.Query())),
+          pageToken: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -1356,13 +1351,6 @@ function __c15(j: number): any {
           }),
         ),
       ).annotate({ identifier: "SearchCasesRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          nextPageToken: S.optional(S.String),
-          cases: S.optional(__S(128, __c8, 0)),
-        }),
-      ).annotate({ identifier: "SearchCasesResponse" });
   }
 }
 function __c16(j: number): any {
@@ -1392,10 +1380,12 @@ function __c17(j: number): any {
       ).annotate({ identifier: "CreateAttachmentRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(272, __c17, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(272, __c17, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+parent}/attachments",
@@ -1447,20 +1437,20 @@ function __c21(j: number): any {
       return S.suspend(() =>
         S.Struct({
           subscriberEmailAddresses: S.optional(__S(336, __c21, 0)),
-          updateTime: S.optional(S.String),
-          createTime: S.optional(S.String),
-          escalated: S.optional(S.Boolean),
-          displayName: S.optional(S.String),
-          contactEmail: S.optional(S.String),
-          priority: S.optional(S.String),
-          testCase: S.optional(S.Boolean),
-          languageCode: S.optional(S.String),
-          state: S.optional(S.String),
-          classification: S.optional(__S(320, __c20, 0)),
-          name: S.optional(S.String),
-          timeZone: S.optional(S.String),
           description: S.optional(S.String),
+          priority: S.optional(S.String),
+          languageCode: S.optional(S.String),
+          timeZone: S.optional(S.String),
+          classification: S.optional(__S(320, __c20, 0)),
+          testCase: S.optional(S.Boolean),
+          updateTime: S.optional(S.String),
+          contactEmail: S.optional(S.String),
+          displayName: S.optional(S.String),
           creator: S.optional(__S(352, __c22, 0)),
+          name: S.optional(S.String),
+          createTime: S.optional(S.String),
+          state: S.optional(S.String),
+          escalated: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "Case" });
   }
@@ -1470,10 +1460,10 @@ function __c22(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          username: S.optional(S.String),
+          googleSupport: S.optional(S.Boolean),
           email: S.optional(S.String),
           displayName: S.optional(S.String),
-          googleSupport: S.optional(S.Boolean),
+          username: S.optional(S.String),
         }),
       ).annotate({ identifier: "Actor" });
   }
@@ -1482,10 +1472,12 @@ function __c23(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(337, __c21, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(337, __c21, 1),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+parent}/cases",
@@ -1499,10 +1491,12 @@ function __c24(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(400, __c25, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(400, __c25, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+parent}/comments",
@@ -1517,11 +1511,11 @@ function __c25(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          createTime: S.optional(S.String),
-          plainTextBody: S.optional(S.String),
-          name: S.optional(S.String),
-          creator: S.optional(__S(352, __c22, 0)),
           body: S.optional(S.String),
+          creator: S.optional(__S(352, __c22, 0)),
+          createTime: S.optional(S.String),
+          name: S.optional(S.String),
+          plainTextBody: S.optional(S.String),
         }),
       ).annotate({ identifier: "Comment" });
   }
@@ -1530,10 +1524,12 @@ function __c26(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(432, __c27, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(432, __c27, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+parent}/supportEventSubscriptions",
@@ -1548,14 +1544,14 @@ function __c27(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          pubSubTopic: S.optional(S.String),
           purgeTime: S.optional(S.String),
-          failureReason: S.optional(S.String),
-          deleteTime: S.optional(S.String),
           updateTime: S.optional(S.String),
-          state: S.optional(S.String),
-          createTime: S.optional(S.String),
+          failureReason: S.optional(S.String),
+          pubSubTopic: S.optional(S.String),
           name: S.optional(S.String),
+          deleteTime: S.optional(S.String),
+          createTime: S.optional(S.String),
+          state: S.optional(S.String),
         }),
       ).annotate({ identifier: "SupportEventSubscription" });
   }
@@ -1593,132 +1589,132 @@ function __c29(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          objectVersion: S.optional(S.String),
-          objectSizeBytes: S.optional(S.String),
+          downloadReadHandle: S.optional(S.String),
+          blobGeneration: S.optional(S.String),
+          downloadExternalReadToken: S.optional(S.String),
+          readToken: S.optional(S.String),
+          uploadMetadataContainer: S.optional(S.String),
+          uploadFragmentListCreationInfo: S.optional(S.String),
+          blobId: S.optional(S.String),
         }),
-      ).annotate({ identifier: "DiffVersionResponse" });
+      ).annotate({ identifier: "Blobstore2Info" });
     case 2:
       return S.suspend(() =>
         S.Struct({
-          objectName: S.optional(S.String),
-          generation: S.optional(S.String),
           bucketName: S.optional(S.String),
+          generation: S.optional(S.String),
+          objectName: S.optional(S.String),
         }),
       ).annotate({ identifier: "ObjectId" });
     case 3:
       return S.suspend(() =>
         S.Struct({
-          downloadReadHandle: S.optional(S.String),
-          blobGeneration: S.optional(S.String),
-          uploadMetadataContainer: S.optional(S.String),
-          blobId: S.optional(S.String),
-          readToken: S.optional(S.String),
-          downloadExternalReadToken: S.optional(S.String),
-          uploadFragmentListCreationInfo: S.optional(S.String),
+          blobstore2Info: S.optional(__S(465, __c29, 1)),
+          blobRef: S.optional(S.String),
+          objectId: S.optional(__S(466, __c29, 2)),
+          sha1Hash: S.optional(S.String),
+          path: S.optional(S.String),
+          length: S.optional(S.String),
+          referenceType: S.optional(S.String),
+          crc32cHash: S.optional(S.Number),
+          md5Hash: S.optional(S.String),
+          cosmoBinaryReference: S.optional(S.String),
+          inline: S.optional(S.String),
         }),
-      ).annotate({ identifier: "Blobstore2Info" });
+      ).annotate({ identifier: "CompositeMedia" });
     case 4:
       return S.suspend(() =>
         S.Struct({
-          crc32cHash: S.optional(S.Number),
-          length: S.optional(S.String),
-          inline: S.optional(S.String),
-          objectId: S.optional(__S(466, __c29, 2)),
-          path: S.optional(S.String),
-          blobstore2Info: S.optional(__S(467, __c29, 3)),
-          sha1Hash: S.optional(S.String),
-          cosmoBinaryReference: S.optional(S.String),
-          md5Hash: S.optional(S.String),
-          referenceType: S.optional(S.String),
-          blobRef: S.optional(S.String),
+          objectVersion: S.optional(S.String),
+          originalObject: S.optional(__S(467, __c29, 3)),
         }),
-      ).annotate({ identifier: "CompositeMedia" });
+      ).annotate({ identifier: "DiffUploadResponse" });
     case 5:
       return S.suspend(() =>
         S.Struct({
-          objectLocation: S.optional(__S(468, __c29, 4)),
+          fromBytes: S.optional(S.String),
+          fusionIdDetectionMetadata: S.optional(S.String),
+          fromFusionId: S.optional(S.String),
+          bestGuess: S.optional(S.String),
+          fromUrlPath: S.optional(S.String),
+          fromHeader: S.optional(S.String),
+          fromFileName: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ContentTypeInfo" });
+    case 6:
+      return S.suspend(() =>
+        S.Struct({
+          objectLocation: S.optional(__S(467, __c29, 3)),
         }),
       ).annotate({ identifier: "DiffDownloadResponse" });
-    case 6:
-      return S.Array(__S(468, __c29, 4));
     case 7:
       return S.suspend(() =>
         S.Struct({
-          objectVersion: S.optional(S.String),
-          objectLocation: S.optional(__S(468, __c29, 4)),
-          chunkSizeBytes: S.optional(S.String),
           objectSizeBytes: S.optional(S.String),
-          checksumsLocation: S.optional(__S(468, __c29, 4)),
+          objectVersion: S.optional(S.String),
         }),
-      ).annotate({ identifier: "DiffChecksumsResponse" });
+      ).annotate({ identifier: "DiffVersionResponse" });
     case 8:
-      return S.suspend(() =>
-        S.Struct({
-          checksumsInfo: S.optional(__S(468, __c29, 4)),
-          objectVersion: S.optional(S.String),
-          objectInfo: S.optional(__S(468, __c29, 4)),
-        }),
-      ).annotate({ identifier: "DiffUploadRequest" });
-    case 9:
-      return S.suspend(() =>
-        S.Struct({
-          originalObject: S.optional(__S(468, __c29, 4)),
-          objectVersion: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "DiffUploadResponse" });
-    case 10:
-      return S.suspend(() =>
-        S.Struct({
-          fromFileName: S.optional(S.String),
-          fromFusionId: S.optional(S.String),
-          fromBytes: S.optional(S.String),
-          fromHeader: S.optional(S.String),
-          bestGuess: S.optional(S.String),
-          fusionIdDetectionMetadata: S.optional(S.String),
-          fromUrlPath: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "ContentTypeInfo" });
-    case 11:
       return S.suspend(() =>
         S.Struct({
           allowGzipCompression: S.optional(S.Boolean),
           ignoreRange: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "DownloadParameters" });
+    case 9:
+      return S.Array(__S(467, __c29, 3));
+    case 10:
+      return S.suspend(() =>
+        S.Struct({
+          objectInfo: S.optional(__S(467, __c29, 3)),
+          objectVersion: S.optional(S.String),
+          checksumsInfo: S.optional(__S(467, __c29, 3)),
+        }),
+      ).annotate({ identifier: "DiffUploadRequest" });
+    case 11:
+      return S.suspend(() =>
+        S.Struct({
+          chunkSizeBytes: S.optional(S.String),
+          checksumsLocation: S.optional(__S(467, __c29, 3)),
+          objectSizeBytes: S.optional(S.String),
+          objectVersion: S.optional(S.String),
+          objectLocation: S.optional(__S(467, __c29, 3)),
+        }),
+      ).annotate({ identifier: "DiffChecksumsResponse" });
     case 12:
       return S.suspend(() =>
         S.Struct({
-          inline: S.optional(S.String),
-          sha512Hash: S.optional(S.String),
-          sha1Hash: S.optional(S.String),
-          isPotentialRetry: S.optional(S.Boolean),
-          sha256Hash: S.optional(S.String),
-          referenceType: S.optional(S.String),
-          algorithm: S.optional(S.String),
-          path: S.optional(S.String),
-          hashVerified: S.optional(S.Boolean),
-          token: S.optional(S.String),
+          blobstore2Info: S.optional(__S(465, __c29, 1)),
           length: S.optional(S.String),
-          diffVersionResponse: S.optional(__S(465, __c29, 1)),
-          objectId: S.optional(__S(466, __c29, 2)),
+          inline: S.optional(S.String),
+          algorithm: S.optional(S.String),
+          diffUploadResponse: S.optional(__S(468, __c29, 4)),
+          referenceType: S.optional(S.String),
+          contentTypeInfo: S.optional(__S(469, __c29, 5)),
+          diffDownloadResponse: S.optional(__S(470, __c29, 6)),
           mediaId: S.optional(S.String),
-          diffDownloadResponse: S.optional(__S(469, __c29, 5)),
-          compositeMedia: S.optional(__S(470, __c29, 6)),
-          diffChecksumsResponse: S.optional(__S(471, __c29, 7)),
-          hash: S.optional(S.String),
-          diffUploadRequest: S.optional(__S(472, __c29, 8)),
-          md5Hash: S.optional(S.String),
-          diffUploadResponse: S.optional(__S(473, __c29, 9)),
-          timestamp: S.optional(S.String),
-          contentTypeInfo: S.optional(__S(474, __c29, 10)),
-          contentType: S.optional(S.String),
-          crc32cHash: S.optional(S.Number),
-          bigstoreObjectRef: S.optional(S.String),
-          blobstore2Info: S.optional(__S(467, __c29, 3)),
-          cosmoBinaryReference: S.optional(S.String),
+          hashVerified: S.optional(S.Boolean),
+          isPotentialRetry: S.optional(S.Boolean),
+          path: S.optional(S.String),
+          diffVersionResponse: S.optional(__S(471, __c29, 7)),
+          sha512Hash: S.optional(S.String),
           filename: S.optional(S.String),
+          sha256Hash: S.optional(S.String),
           blobRef: S.optional(S.String),
-          downloadParameters: S.optional(__S(475, __c29, 11)),
+          bigstoreObjectRef: S.optional(S.String),
+          downloadParameters: S.optional(__S(472, __c29, 8)),
+          cosmoBinaryReference: S.optional(S.String),
+          sha1Hash: S.optional(S.String),
+          compositeMedia: S.optional(__S(473, __c29, 9)),
+          contentType: S.optional(S.String),
+          timestamp: S.optional(S.String),
+          crc32cHash: S.optional(S.Number),
+          hash: S.optional(S.String),
+          diffUploadRequest: S.optional(__S(474, __c29, 10)),
+          diffChecksumsResponse: S.optional(__S(475, __c29, 11)),
+          token: S.optional(S.String),
+          md5Hash: S.optional(S.String),
+          objectId: S.optional(__S(466, __c29, 2)),
         }),
       ).annotate({ identifier: "Media" });
   }

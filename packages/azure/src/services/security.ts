@@ -43,9 +43,9 @@ export interface DataScannersCreateOrUpdateRequest {
   /** The name of the data scanner. */
   scannerName: string;
   /** Data scanner resource properties. */
-  properties?: unknown;
+  properties?: unknown | undefined;
   /** Managed service identity (either system assigned, or none) */
-  identity?: DataScannersCreateOrUpdateRequestIdentity;
+  identity?: DataScannersCreateOrUpdateRequestIdentity | undefined;
 }
 /** The type of identity that created the resource. */
 export type SystemDataCreatedByType = "User" | "Application" | "ManagedIdentity" | "Key";
@@ -54,39 +54,39 @@ export type SystemDataLastModifiedByType = "User" | "Application" | "ManagedIden
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface SystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: SystemDataCreatedByType;
+  createdByType?: SystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: SystemDataLastModifiedByType;
+  lastModifiedByType?: SystemDataLastModifiedByType | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 /** Managed service identity (either system assigned, or none) */
 export interface DataScannersCreateOrUpdateResponseIdentity {
   /** The service principal ID of the system assigned identity. This property will only be provided for a system assigned identity. */
-  principalId?: string;
+  principalId?: string | undefined;
   /** The tenant ID of the system assigned identity. This property will only be provided for a system assigned identity. */
-  tenantId?: string;
+  tenantId?: string | undefined;
   type: SystemAssignedServiceIdentityType;
 }
 export interface DataScannersCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Data scanner resource properties. */
-  properties?: unknown;
+  properties?: unknown | undefined;
   /** Managed service identity (either system assigned, or none) */
-  identity?: DataScannersCreateOrUpdateResponseIdentity;
+  identity?: DataScannersCreateOrUpdateResponseIdentity | undefined;
 }
 export interface DeleteDataScannerRequest {
   /** The scope of the data scanner. Valid scopes are a subscription (format: 'subscriptions/{subscriptionId}') or a resource group (format: 'subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}'). */
@@ -105,17 +105,17 @@ export interface GetDataScannerRequest {
 export type GetDataScannerResponseIdentity = DataScannersCreateOrUpdateResponseIdentity;
 export interface GetDataScannerResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Data scanner resource properties. */
-  properties?: unknown;
+  properties?: unknown | undefined;
   /** Managed service identity (either system assigned, or none) */
-  identity?: DataScannersCreateOrUpdateResponseIdentity;
+  identity?: DataScannersCreateOrUpdateResponseIdentity | undefined;
 }
 export interface ListDataScannersRequest {
   /** The scope of the data scanner. Valid scopes are a subscription (format: 'subscriptions/{subscriptionId}') or a resource group (format: 'subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}'). */
@@ -126,17 +126,17 @@ export type DataScannerIdentity = DataScannersCreateOrUpdateResponseIdentity;
 /** The data scanner resource used by Defender for Storage to scan data for malware and sensitive data discovery. */
 export interface DataScanner {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Data scanner resource properties. */
-  properties?: unknown;
+  properties?: unknown | undefined;
   /** Managed service identity (either system assigned, or none) */
-  identity?: DataScannersCreateOrUpdateResponseIdentity;
+  identity?: DataScannersCreateOrUpdateResponseIdentity | undefined;
 }
 /** The list of data scanner resources. */
 export type DataScannerListValueList = Array<DataScanner>;
@@ -145,7 +145,7 @@ export interface DataScannerList {
   /** The list of data scanner resources. */
   value: DataScannerListValueList;
   /** The URI to fetch the next page. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export type DataScannersCreateOrUpdateError = AzureOpError;
 /** Creates or updates a data scanner resource for the specified scope. */

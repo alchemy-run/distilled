@@ -39,7 +39,7 @@ export interface BlockTelephonyLineRequest {
   billingAccount: string;
   serviceName: string;
   /** The block mode : outgoing, incoming, both (default: both) */
-  mode?: TelephonyLineBlockingMode | (string & {});
+  mode?: TelephonyLineBlockingMode | (string & {}) | undefined;
 }
 export interface BlockTelephonyLineResponse {}
 export interface CancelTelephonyLineConvertToNumberRequest {
@@ -61,7 +61,7 @@ export interface CancelTelephonyPortabilityRequest {
   /** The ID of the portability */
   id: number;
   /** The cancellation reason */
-  reason?: string;
+  reason?: string | undefined;
 }
 export interface CancelTelephonyPortabilityResponse {}
 export interface CancelTelephonyProcedureRequest {
@@ -108,14 +108,14 @@ export type TelephonyOfferTaskTypeEnum = "line" | "offer" | "option" | "phone";
 /** Operation on a telephony offer */
 export interface TelephonyOfferTask {
   /** Actual action that will be executed */
-  action?: TelephonyOfferTaskActionEnum;
+  action?: TelephonyOfferTaskActionEnum | undefined;
   /** Planned execution date */
-  executionDate?: string;
+  executionDate?: string | undefined;
   /** Current status of the task */
-  status?: TelephonyTaskStatusEnum;
-  taskId?: number;
+  status?: TelephonyTaskStatusEnum | undefined;
+  taskId?: number | undefined;
   /** Type of operation that will be executed */
-  type?: TelephonyOfferTaskTypeEnum;
+  type?: TelephonyOfferTaskTypeEnum | undefined;
 }
 export interface ConvertTelephonyNumberToLineRequest {
   /** The name of your billingAccount */
@@ -138,21 +138,21 @@ export interface CreateTelephonyAbbreviatedNumberRequest {
 /** Abbreviated number */
 export interface TelephonyAbbreviatedNumberGroup {
   /** The abbreviated number which must start with "7" and must have a length of 3 or 4 digits */
-  abbreviatedNumber?: number;
+  abbreviatedNumber?: number | undefined;
   /** The destination of the abbreviated number */
-  destinationNumber?: string;
-  name?: string;
-  surname?: string;
+  destinationNumber?: string | undefined;
+  name?: string | undefined;
+  surname?: string | undefined;
 }
 export interface CreateTelephonyAliasChangeContactRequest {
   /** Your line number */
   serviceName: string;
   /** The contact to set as admin contact */
-  contactAdmin?: string;
+  contactAdmin?: string | undefined;
   /** The contact to set as billing contact */
-  contactBilling?: string;
+  contactBilling?: string | undefined;
   /** The contact to set as tech contact */
-  contactTech?: string;
+  contactTech?: string | undefined;
 }
 export type CreateTelephonyAliasChangeContactResponseBodyList = Array<number>;
 export type CreateTelephonyAliasChangeContactResponse =
@@ -175,11 +175,11 @@ export interface CreateTelephonyChangeContactRequest {
   /** The name of your billingAccount */
   billingAccount: string;
   /** The contact to set as admin contact */
-  contactAdmin?: string;
+  contactAdmin?: string | undefined;
   /** The contact to set as billing contact */
-  contactBilling?: string;
+  contactBilling?: string | undefined;
   /** The contact to set as tech contact */
-  contactTech?: string;
+  contactTech?: string | undefined;
 }
 export type CreateTelephonyChangeContactResponseBodyList = Array<number>;
 export type CreateTelephonyChangeContactResponse = CreateTelephonyChangeContactResponseBodyList;
@@ -193,15 +193,15 @@ export interface CreateTelephonyConferenceAnnounceUploadRequest {
 /** Operation on a telephony service */
 export interface TelephonyTask {
   /** Action associated with the task */
-  action?: string;
+  action?: string | undefined;
   /** Potential failure reason of the task */
-  message?: string | null;
+  message?: string | null | undefined;
   /** Object potentially created at the end of the task */
-  objectCreated?: string | null;
-  serviceType?: string;
+  objectCreated?: string | null | undefined;
+  serviceType?: string | undefined;
   /** Status of the task */
-  status?: TelephonyTaskStatusEnum;
-  taskId?: number;
+  status?: TelephonyTaskStatusEnum | undefined;
+  taskId?: number | undefined;
 }
 export interface CreateTelephonyConferenceParticipantDeafRequest {
   /** The name of your billingAccount */
@@ -238,7 +238,7 @@ export interface CreateTelephonyConferenceRoomRequest {
   billingAccount: string;
   serviceName: string;
   /** The room number (a random number will be generated if not specified) */
-  roomNumber?: number;
+  roomNumber?: number | undefined;
 }
 /** Available language for your conference */
 export type TelephonyConferenceLanguageEnum = "de" | "en" | "es" | "fr" | "it";
@@ -247,33 +247,33 @@ export type TelephonyConferenceReportStatusEnum = "customer" | "none" | "other";
 /** Conference room */
 export interface TelephonyConferenceRoom {
   /** Whether announce file is played before entrance */
-  announceFile?: boolean;
+  announceFile?: boolean | undefined;
   /** The announce file name */
-  announceFilename?: string | null;
+  announceFilename?: string | null | undefined;
   /** The announce sound id */
-  announceSoundId?: number | null;
+  announceSoundId?: number | null | undefined;
   /** Whether anonymous participants are allowed */
-  anonymousRejection?: boolean;
+  anonymousRejection?: boolean | undefined;
   /** Whether participants enter conference room muted */
-  enterMuted?: boolean;
+  enterMuted?: boolean | undefined;
   /** The events channel hash */
-  eventsChannel?: string;
+  eventsChannel?: string | undefined;
   /** The expiration date of the conference room. */
-  expirationDate?: string | null;
+  expirationDate?: string | null | undefined;
   /** The conference sounds language */
-  language?: TelephonyConferenceLanguageEnum;
+  language?: TelephonyConferenceLanguageEnum | undefined;
   /** The conference pin number */
-  pin?: string;
+  pin?: string | undefined;
   /** Whether conference is recorded */
-  recordStatus?: boolean;
+  recordStatus?: boolean | undefined;
   /** The email address to send conference report to */
-  reportEmail?: string | null;
+  reportEmail?: string | null | undefined;
   /** The status of the reporting */
-  reportStatus?: TelephonyConferenceReportStatusEnum;
+  reportStatus?: TelephonyConferenceReportStatusEnum | undefined;
   /** The conference room number */
-  roomNumber?: number;
+  roomNumber?: number | undefined;
   /** True if you want to receive a white-labelled mail report of your conference */
-  whiteLabelReport?: boolean;
+  whiteLabelReport?: boolean | undefined;
 }
 export interface CreateTelephonyConferenceRoomParticipantDeafRequest {
   /** The name of your billingAccount */
@@ -327,11 +327,11 @@ export interface CreateTelephonyConferenceRoomWebAccessRequest {
 /** List public web access of your conference */
 export interface TelephonyConferenceWebAccess {
   /** The id of the conference web access */
-  id?: number;
+  id?: number | undefined;
   /** The type of the conference web access : read or write */
-  type?: TelephonyConferenceWebAccessTypeEnum;
+  type?: TelephonyConferenceWebAccessTypeEnum | undefined;
   /** The URL of the conference web access */
-  url?: string;
+  url?: string | undefined;
 }
 export interface CreateTelephonyConferenceWebAccessRequest {
   /** The name of your billingAccount */
@@ -354,7 +354,7 @@ export interface CreateTelephonyEasyHuntingHuntingAgentRequest {
   billingAccount: string;
   serviceName: string;
   /** The agent's description */
-  description?: string;
+  description?: string | undefined;
   /** The number of the agent */
   number: string;
   /** The maximum of simultaneous calls that the agent will receive from the hunting */
@@ -370,23 +370,23 @@ export interface CreateTelephonyEasyHuntingHuntingAgentRequest {
 export type TelephonyOvhPabxHuntingAgentTypeEnum = "external" | "internal";
 /** Calls agent */
 export interface TelephonyOvhPabxHuntingAgent {
-  agentId?: number;
+  agentId?: number | undefined;
   /** The id of the current break status of the agent */
-  breakStatus?: number | null;
+  breakStatus?: number | null | undefined;
   /** The agent's description */
-  description?: string | null;
+  description?: string | null | undefined;
   /** The number of the agent */
-  number?: string;
+  number?: string | undefined;
   /** The maximum of simultaneous calls that the agent will receive from the hunting */
-  simultaneousLines?: number;
+  simultaneousLines?: number | undefined;
   /** The current status of the agent */
-  status?: TelephonyOvhPabxHuntingAgentStatusEnum;
+  status?: TelephonyOvhPabxHuntingAgentStatusEnum | undefined;
   /** The waiting timeout (in seconds) before hangup an assigned called */
-  timeout?: number;
+  timeout?: number | undefined;
   /** The agent's type */
-  type?: TelephonyOvhPabxHuntingAgentTypeEnum;
+  type?: TelephonyOvhPabxHuntingAgentTypeEnum | undefined;
   /** The wrap up time (in seconds) after the calls */
-  wrapUpTime?: number;
+  wrapUpTime?: number | undefined;
 }
 export interface CreateTelephonyEasyHuntingHuntingAgentBannerAccessRequest {
   /** The name of your billingAccount */
@@ -397,10 +397,10 @@ export interface CreateTelephonyEasyHuntingHuntingAgentBannerAccessRequest {
 /** The web access for your cloudpabx */
 export interface TelephonyBannerAccess {
   /** The creation date of this access */
-  creationDate?: string;
-  id?: number;
+  creationDate?: string | undefined;
+  id?: number | undefined;
   /** The url of the web access */
-  url?: string;
+  url?: string | undefined;
 }
 export interface CreateTelephonyEasyHuntingHuntingAgentCallEavesdropRequest {
   /** The name of your billingAccount */
@@ -482,31 +482,31 @@ export interface CreateTelephonyEasyHuntingHuntingAgentQueueRequest {
 }
 /** Agent assigned to a queue */
 export interface TelephonyOvhPabxHuntingAgentQueue {
-  agentId?: number;
+  agentId?: number | undefined;
   /** The position in the queue */
-  position?: number;
-  queueId?: number;
+  position?: number | undefined;
+  queueId?: number | undefined;
 }
 export interface CreateTelephonyEasyHuntingHuntingCustomStatusRequest {
   /** The name of your billingAccount */
   billingAccount: string;
   serviceName: string;
   /** The color (in hexadecimal) of the status that will be displayed on agent banner web application */
-  color?: string;
+  color?: string | undefined;
   /** A short description of the status */
-  description?: string;
+  description?: string | undefined;
   /** The name of the status (Pause, Mission, etc...) */
   name: string;
 }
 /** Custom statuses of your callcenter agents */
 export interface TelephonyOvhPabxCustomStatus {
   /** The color (in hexadecimal) of the status that will be displayed on agent banner web application */
-  color?: string | null;
+  color?: string | null | undefined;
   /** A short description of the status */
-  description?: string | null;
-  id?: number;
+  description?: string | null | undefined;
+  id?: number | undefined;
   /** The name of the status (Pause, Mission, etc...) */
-  name?: string;
+  name?: string | undefined;
 }
 export interface CreateTelephonyEasyHuntingHuntingEventTokenRequest {
   /** The name of your billingAccount */
@@ -546,29 +546,35 @@ export interface CreateTelephonyEasyHuntingHuntingQueueRequest {
   billingAccount: string;
   serviceName: string;
   /** Action executed when there is no member in queue */
-  actionOnClosure?: TelephonyOvhPabxQueueActionEnum | (string & {});
+  actionOnClosure?: TelephonyOvhPabxQueueActionEnum | (string & {}) | undefined;
   /** The additionnal parameter of the on closure action */
-  actionOnClosureParam?: string;
+  actionOnClosureParam?: string | undefined;
   /** Action executed when caller enters a full queue */
-  actionOnOverflow?: TelephonyOvhPabxQueueActionEnum | (string & {});
+  actionOnOverflow?: TelephonyOvhPabxQueueActionEnum | (string & {}) | undefined;
   /** The additionnal parameter of the overflow action */
-  actionOnOverflowParam?: string;
+  actionOnOverflowParam?: string | undefined;
   /** Allow the caller to disable call record by pressing a key */
-  askForRecordDisabling?: boolean;
+  askForRecordDisabling?: boolean | undefined;
   /** The name of the queue */
-  description?: string;
+  description?: string | undefined;
   /** The maximum of people waiting in the queue */
-  maxMember?: number;
+  maxMember?: number | undefined;
   /** The maximum waiting time (in seconds) in the queue */
-  maxWaitTime?: number;
+  maxWaitTime?: number | undefined;
   /** Enable record on calls in queue */
-  record?: boolean;
+  record?: boolean | undefined;
   /** Key to press to disable record */
-  recordDisablingDigit?: TelephonyOvhPabxHuntingQueueRecordDisablingDigitEnum | (number & {});
+  recordDisablingDigit?:
+    | TelephonyOvhPabxHuntingQueueRecordDisablingDigitEnum
+    | (number & {})
+    | undefined;
   /** Language of the sound played to the caller to inform that he can disable record */
-  recordDisablingLanguage?: TelephonyOvhPabxHuntingQueueRecordDisablingLanguageEnum | (string & {});
+  recordDisablingLanguage?:
+    | TelephonyOvhPabxHuntingQueueRecordDisablingLanguageEnum
+    | (string & {})
+    | undefined;
   /** The id of the OvhPabxSound played to caller when on hold */
-  soundOnHold?: number;
+  soundOnHold?: number | undefined;
   /** The calls dispatching strategy */
   strategy: TelephonyOvhPabxHuntingQueueStrategyEnum | (string & {});
 }
@@ -589,36 +595,39 @@ export type TelephonyOvhPabxIvrMenuKeyEnum =
 /** Calls queue */
 export interface TelephonyOvhPabxHuntingQueue {
   /** Action executed when there is no member in queue */
-  actionOnClosure?: TelephonyOvhPabxQueueActionEnum | null;
+  actionOnClosure?: TelephonyOvhPabxQueueActionEnum | null | undefined;
   /** The additionnal parameter of the on closure action */
-  actionOnClosureParam?: string | null;
+  actionOnClosureParam?: string | null | undefined;
   /** Action executed when caller enters a full queue */
-  actionOnOverflow?: TelephonyOvhPabxQueueActionEnum | null;
+  actionOnOverflow?: TelephonyOvhPabxQueueActionEnum | null | undefined;
   /** The additionnal parameter of the overflow action */
-  actionOnOverflowParam?: string | null;
+  actionOnOverflowParam?: string | null | undefined;
   /** Allow the caller to disable call record by pressing a key */
-  askForRecordDisabling?: boolean | null;
+  askForRecordDisabling?: boolean | null | undefined;
   /** The key that tells the IVR that digit-entry is finished. Also used as a "repeat" key in the menus when no input is expected. */
-  confirmKey?: TelephonyOvhPabxIvrMenuKeyEnum | null;
+  confirmKey?: TelephonyOvhPabxIvrMenuKeyEnum | null | undefined;
   /** The name of the queue */
-  description?: string | null;
+  description?: string | null | undefined;
   /** Follow the calls forwarding */
-  followCallForwards?: boolean | null;
+  followCallForwards?: boolean | null | undefined;
   /** The maximum of people waiting in the queue */
-  maxMember?: number;
+  maxMember?: number | undefined;
   /** The maximum waiting time (in seconds) in the queue */
-  maxWaitTime?: number;
-  queueId?: number;
+  maxWaitTime?: number | undefined;
+  queueId?: number | undefined;
   /** Enable record on calls in queue */
-  record?: boolean | null;
+  record?: boolean | null | undefined;
   /** Key to press to disable record */
-  recordDisablingDigit?: TelephonyOvhPabxHuntingQueueRecordDisablingDigitEnum | null;
+  recordDisablingDigit?: TelephonyOvhPabxHuntingQueueRecordDisablingDigitEnum | null | undefined;
   /** Language of the sound played to the caller to inform that he can disable record */
-  recordDisablingLanguage?: TelephonyOvhPabxHuntingQueueRecordDisablingLanguageEnum | null;
+  recordDisablingLanguage?:
+    | TelephonyOvhPabxHuntingQueueRecordDisablingLanguageEnum
+    | null
+    | undefined;
   /** The id of the OvhPabxSound played to caller when on hold */
-  soundOnHold?: number | null;
+  soundOnHold?: number | null | undefined;
   /** The calls dispatching strategy */
-  strategy?: TelephonyOvhPabxHuntingQueueStrategyEnum;
+  strategy?: TelephonyOvhPabxHuntingQueueStrategyEnum | undefined;
 }
 export interface CreateTelephonyEasyHuntingHuntingQueueAgentRequest {
   /** The name of your billingAccount */
@@ -687,31 +696,31 @@ export interface CreateTelephonyEasyHuntingScreenListConditionConditionRequest {
   billingAccount: string;
   serviceName: string;
   /** Add a screenlist based on the presented caller number */
-  callerIdNumber?: string;
+  callerIdNumber?: string | undefined;
   /** Add a screenlist based on the destination number */
-  destinationNumber?: string;
+  destinationNumber?: string | undefined;
   /** Type of screenlist */
   screenListType: TelephonyOvhPabxDialplanExtensionConditionScreenListTypeEnum | (string & {});
 }
 /** Screenlist condition */
 export interface TelephonyEasyHuntingScreenListsConditions {
   /** Screenlist based on the presented caller number */
-  callerIdNumber?: string | null;
-  conditionId?: number;
+  callerIdNumber?: string | null | undefined;
+  conditionId?: number | undefined;
   /** Screenlist based on the destination number */
-  destinationNumber?: string | null;
+  destinationNumber?: string | null | undefined;
   /** Type of screenlist */
-  screenListType?: TelephonyOvhPabxDialplanExtensionConditionScreenListTypeEnum;
+  screenListType?: TelephonyOvhPabxDialplanExtensionConditionScreenListTypeEnum | undefined;
 }
 export interface CreateTelephonyEasyHuntingSoundUploadRequest {
   /** The name of your billingAccount */
   billingAccount: string;
   serviceName: string;
   /** ID of the /me/document file you want to import */
-  documentId?: string;
-  name?: string;
+  documentId?: string | undefined;
+  name?: string | undefined;
   /** URL of the file you want to import (instead of /me/document ID) */
-  url?: string;
+  url?: string | undefined;
 }
 /** Policy of the time condition */
 export type TelephonyTimeConditionsPolicyEnum = "available" | "slot1" | "slot2" | "slot3";
@@ -739,15 +748,15 @@ export interface CreateTelephonyEasyHuntingTimeConditionConditionRequest {
 }
 /** Easy hunting time conditions */
 export interface TelephonyEasyHuntingTimeConditions {
-  conditionId?: number;
+  conditionId?: number | undefined;
   /** The policy of time condition */
-  policy?: TelephonyTimeConditionsPolicyEnum;
+  policy?: TelephonyTimeConditionsPolicyEnum | undefined;
   /** The time of the day when the extension will start to be executed */
-  timeFrom?: string;
+  timeFrom?: string | undefined;
   /** The time of the day when the extension will stop to be executed */
-  timeTo?: string;
+  timeTo?: string | undefined;
   /** The day of the week when the extension will be executed */
-  weekDay?: TelephonyOvhPabxDialplanExtensionConditionTimeWeekDayEnum;
+  weekDay?: TelephonyOvhPabxDialplanExtensionConditionTimeWeekDayEnum | undefined;
 }
 export interface CreateTelephonyEventTokenRequest {
   /** The name of your billingAccount */
@@ -771,40 +780,40 @@ export interface CreateTelephonyFaxCampaignRequest {
   /** The id of the /me/document pdf you want to send */
   documentId: string;
   /** The quality of the fax you want to send */
-  faxQuality?: TelephonyFaxQualityEnum | (string & {});
+  faxQuality?: TelephonyFaxQualityEnum | (string & {}) | undefined;
   /** The name of the fax campaign */
   name: string;
   /** If recipientsType is set to document, the id of the document containing the recipients phone numbers */
-  recipientsDocId?: string;
+  recipientsDocId?: string | undefined;
   /** If recipientsType is set to list, the list of recipients phone numbers */
-  recipientsList?: CreateTelephonyFaxCampaignRequestRecipientsListList;
+  recipientsList?: CreateTelephonyFaxCampaignRequestRecipientsListList | undefined;
   /** Method to set the campaign recipient */
   recipientsType: TelephonyFaxCampaignRecipientsTypeEnum | (string & {});
   /** Sending date of the campaign (when sendType is scheduled) */
-  sendDate?: string;
+  sendDate?: string | undefined;
   /** Sending type of the campaign */
   sendType: TelephonyFaxCampaignSendTypeEnum | (string & {});
 }
 /** Fax campaigns */
 export interface TelephonyFaxCampaign {
   /** The count of failed faxes in the campaign */
-  countFailed?: number;
+  countFailed?: number | undefined;
   /** The count of success faxes in the campaign */
-  countSuccess?: number;
+  countSuccess?: number | undefined;
   /** The total count of faxes in the campaign */
-  countTotal?: number;
+  countTotal?: number | undefined;
   /** The end date of the fax campaign */
-  dateEnd?: string | null;
+  dateEnd?: string | null | undefined;
   /** The start date of the fax campaign */
-  dateStart?: string | null;
+  dateStart?: string | null | undefined;
   /** The id of the fax campaign */
-  id?: number;
+  id?: number | undefined;
   /** The name of the fax campaign */
-  name?: string;
+  name?: string | undefined;
   /** The reference of the fax campaign */
-  reference?: string;
+  reference?: string | undefined;
   /** The status of the fax campaign */
-  status?: string;
+  status?: string | undefined;
 }
 /** List of numbers not allowed to send a fax */
 export type CreateTelephonyFaxScreenListRequestBlacklistedNumbersList = Array<string>;
@@ -821,15 +830,15 @@ export interface CreateTelephonyFaxScreenListRequest {
   billingAccount: string;
   serviceName: string;
   /** List of numbers not allowed to send a fax */
-  blacklistedNumbers?: CreateTelephonyFaxScreenListRequestBlacklistedNumbersList;
+  blacklistedNumbers?: CreateTelephonyFaxScreenListRequestBlacklistedNumbersList | undefined;
   /** List of logins (TSI or ID) not allowed to send a fax */
-  blacklistedTSI?: CreateTelephonyFaxScreenListRequestBlacklistedTSIList;
+  blacklistedTSI?: CreateTelephonyFaxScreenListRequestBlacklistedTSIList | undefined;
   /** Which list is active (blackist, whitelist or none) */
-  filteringList?: TelephonyFaxScreenListTypeEnum | (string & {});
+  filteringList?: TelephonyFaxScreenListTypeEnum | (string & {}) | undefined;
   /** List of numbers allowed to send a fax */
-  whitelistedNumbers?: CreateTelephonyFaxScreenListRequestWhitelistedNumbersList;
+  whitelistedNumbers?: CreateTelephonyFaxScreenListRequestWhitelistedNumbersList | undefined;
   /** List of logins (TSI or ID) allowed to send a fax */
-  whitelistedTSI?: CreateTelephonyFaxScreenListRequestWhitelistedTSIList;
+  whitelistedTSI?: CreateTelephonyFaxScreenListRequestWhitelistedTSIList | undefined;
 }
 /** List of numbers not allowed to send a fax */
 export type TelephonyFaxScreenBlacklistedNumbersList = Array<string>;
@@ -842,34 +851,34 @@ export type TelephonyFaxScreenWhitelistedTSIList = Array<string>;
 /** Fax ScreenLists */
 export interface TelephonyFaxScreen {
   /** List of numbers not allowed to send a fax */
-  blacklistedNumbers?: TelephonyFaxScreenBlacklistedNumbersList | null;
+  blacklistedNumbers?: TelephonyFaxScreenBlacklistedNumbersList | null | undefined;
   /** List of logins (TSI or ID) not allowed to send a fax */
-  blacklistedTSI?: TelephonyFaxScreenBlacklistedTSIList | null;
+  blacklistedTSI?: TelephonyFaxScreenBlacklistedTSIList | null | undefined;
   /** Number of the fax service */
-  callNumber?: string;
+  callNumber?: string | undefined;
   /** Country code of the fax service */
-  countryCode?: string;
+  countryCode?: string | undefined;
   /** Which list is active (blackist, whitelist or none) */
-  filteringList?: TelephonyFaxScreenListTypeEnum | null;
-  serviceName?: string;
+  filteringList?: TelephonyFaxScreenListTypeEnum | null | undefined;
+  serviceName?: string | undefined;
   /** List of numbers allowed to send a fax */
-  whitelistedNumbers?: TelephonyFaxScreenWhitelistedNumbersList | null;
+  whitelistedNumbers?: TelephonyFaxScreenWhitelistedNumbersList | null | undefined;
   /** List of logins (TSI or ID) allowed to send a fax */
-  whitelistedTSI?: TelephonyFaxScreenWhitelistedTSIList | null;
+  whitelistedTSI?: TelephonyFaxScreenWhitelistedTSIList | null | undefined;
 }
 export interface CreateTelephonyFaxSettingsChangePasswordRequest {
   /** The name of your billingAccount */
   billingAccount: string;
   serviceName: string;
   /** The password, if not specified, a random password will be generated */
-  password?: string | Redacted.Redacted<string>;
+  password?: string | Redacted.Redacted<string> | undefined;
 }
 export type CreateTelephonyFaxSettingsChangePasswordResponse = string;
 export interface CreateTelephonyHistoryRepaymentConsumptionRequest {
   /** The name of your billingAccount */
   billingAccount: string;
   /** The number of the bill */
-  billingNumber?: string;
+  billingNumber?: string | undefined;
 }
 export type OrderCurrencyCodeEnum =
   | "AUD"
@@ -889,22 +898,22 @@ export type OrderCurrencyCodeEnum =
   | "points";
 /** Price with it's currency and textual representation */
 export interface OrderPrice {
-  currencyCode?: OrderCurrencyCodeEnum | (string & {});
-  text?: string;
-  value?: number;
+  currencyCode?: OrderCurrencyCodeEnum | (string & {}) | undefined;
+  text?: string | undefined;
+  value?: number | undefined;
 }
 /** Billing progress status */
 export type TelephonyBillStatusEnum = "doing" | "done" | "error" | "todo";
 /** Previous repayment bill */
 export interface TelephonyHistoryRepaymentConsumption {
   /** the number of the bill */
-  billingNumber?: string;
+  billingNumber?: string | undefined;
   /** date of the bill */
-  date?: string;
+  date?: string | undefined;
   /** the amout which is repayed */
-  price?: OrderPrice;
+  price?: OrderPrice | undefined;
   /** status of the bill */
-  status?: TelephonyBillStatusEnum;
+  status?: TelephonyBillStatusEnum | undefined;
 }
 export interface CreateTelephonyLineAbbreviatedNumberRequest {
   /** The name of your billingAccount */
@@ -920,11 +929,11 @@ export interface CreateTelephonyLineAbbreviatedNumberRequest {
 /** Abbreviated number */
 export interface TelephonyAbbreviatedNumber {
   /** The abbreviated number which must start with "2" and must have a length of 3 or 4 digits */
-  abbreviatedNumber?: number;
+  abbreviatedNumber?: number | undefined;
   /** The destination of the abbreviated number */
-  destinationNumber?: string;
-  name?: string;
-  surname?: string;
+  destinationNumber?: string | undefined;
+  name?: string | undefined;
+  surname?: string | undefined;
 }
 /** Action for list antihack */
 export type TelephonyAntihackActionEnum =
@@ -939,7 +948,7 @@ export interface CreateTelephonyLineAntihackRequest {
   /** Type of action */
   action: TelephonyAntihackActionEnum | (string & {});
   /** Number or short number restricted */
-  restricted?: string;
+  restricted?: string | undefined;
 }
 export interface CreateTelephonyLineAntihackResponse {}
 export interface CreateTelephonyLineAssociateDeviceRequest {
@@ -947,11 +956,11 @@ export interface CreateTelephonyLineAssociateDeviceRequest {
   billingAccount: string;
   serviceName: string;
   /** The public phone IP address allowed to get phone's configuration */
-  ipAddress?: string;
+  ipAddress?: string | undefined;
   /** The mac address of the device you want to associate to the line (format: AABBCCDDEEFF) */
   macAddress: string;
   /** The slot or line position on the device (from 1 to N. N is the maximum number of lines/slots available on the device) */
-  slot?: number;
+  slot?: number | undefined;
 }
 export interface CreateTelephonyLineAssociateDeviceResponse {}
 /** Types of dialplan available for callsGenerator. */
@@ -964,32 +973,32 @@ export interface CreateTelephonyLineAutomaticCallRequest {
   billingAccount: string;
   serviceName: string;
   /** Number to call if transfer in dialplan selected */
-  bridgeNumberDialplan?: string;
+  bridgeNumberDialplan?: string | undefined;
   /** Number to call */
   calledNumber: string;
   /** Optional, number where the call come from */
-  callingNumber?: string;
+  callingNumber?: string | undefined;
   /** Dialplan used for the call */
   dialplan: TelephonyCallsGeneratorDialplanEnum | (string & {});
   /** For anonymous call */
   isAnonymous: boolean;
   /** Name of the audioFile (if needed) with extention. This audio file must have been upload previously */
-  playbackAudioFileDialplan?: string;
+  playbackAudioFileDialplan?: string | undefined;
   /** Timeout (in seconds). Default is 20 seconds */
-  timeout?: number;
+  timeout?: number | undefined;
   /** Text to read if TTS on dialplan selected */
-  ttsTextDialplan?: string;
+  ttsTextDialplan?: string | undefined;
 }
 export type CreateTelephonyLineAutomaticCallResponse = string;
 export interface CreateTelephonyLineChangeContactRequest {
   /** Your line number */
   serviceName: string;
   /** The contact to set as admin contact */
-  contactAdmin?: string;
+  contactAdmin?: string | undefined;
   /** The contact to set as billing contact */
-  contactBilling?: string;
+  contactBilling?: string | undefined;
   /** The contact to set as tech contact */
-  contactTech?: string;
+  contactTech?: string | undefined;
 }
 export type CreateTelephonyLineChangeContactResponseBodyList = Array<number>;
 export type CreateTelephonyLineChangeContactResponse =
@@ -999,7 +1008,7 @@ export interface CreateTelephonyLineChangePasswordRequest {
   billingAccount: string;
   serviceName: string;
   /** The password */
-  password?: string | Redacted.Redacted<string>;
+  password?: string | Redacted.Redacted<string> | undefined;
 }
 export interface CreateTelephonyLineChangePasswordResponse {}
 export interface CreateTelephonyLineClick2CallRequest {
@@ -1007,9 +1016,9 @@ export interface CreateTelephonyLineClick2CallRequest {
   billingAccount: string;
   serviceName: string;
   calledNumber: string;
-  callingNumber?: string;
+  callingNumber?: string | undefined;
   /** Activate the calling number in intercom mode automatically (pick up and speaker automatic activation). */
-  intercom?: boolean;
+  intercom?: boolean | undefined;
 }
 export interface CreateTelephonyLineClick2CallResponse {}
 export interface CreateTelephonyLineClick2CallUserRequest {
@@ -1039,7 +1048,7 @@ export interface CreateTelephonyLineClick2CallUserClick2CallRequest {
   /** Id of the object */
   id: number;
   calledNumber: string;
-  callingNumber?: string;
+  callingNumber?: string | undefined;
 }
 export interface CreateTelephonyLineClick2CallUserClick2CallResponse {}
 export interface CreateTelephonyLineDissociateDeviceRequest {
@@ -1047,15 +1056,15 @@ export interface CreateTelephonyLineDissociateDeviceRequest {
   billingAccount: string;
   serviceName: string;
   /** The public phone IP address allowed to get phone's configuration */
-  ipAddress?: string;
+  ipAddress?: string | undefined;
   /** The mac address of the device you want to dissociate from the line (format: AABBCCDDEEFF) */
   macAddress: string;
 }
 export interface CreateTelephonyLineDissociateDeviceResponse {}
 /** Key and value, with proper key strings */
 export interface ComplexTypeSafeKeyValueString {
-  key?: string;
-  value?: string;
+  key?: string | undefined;
+  value?: string | undefined;
 }
 /** Name value pairs of provisioning options */
 export type CreateTelephonyLinePhoneChangePhoneConfigurationRequestNewConfigurationsList =
@@ -1065,9 +1074,11 @@ export interface CreateTelephonyLinePhoneChangePhoneConfigurationRequest {
   billingAccount: string;
   serviceName: string;
   /** Automatically reboot phone when applying the configuration */
-  autoReboot?: boolean;
+  autoReboot?: boolean | undefined;
   /** Name value pairs of provisioning options */
-  newConfigurations?: CreateTelephonyLinePhoneChangePhoneConfigurationRequestNewConfigurationsList;
+  newConfigurations?:
+    | CreateTelephonyLinePhoneChangePhoneConfigurationRequestNewConfigurationsList
+    | undefined;
 }
 export interface CreateTelephonyLinePhoneChangePhoneConfigurationResponse {}
 export interface CreateTelephonyLinePhonePhonebookRequest {
@@ -1087,17 +1098,17 @@ export interface CreateTelephonyLinePhonePhonebookPhonebookContactRequest {
   /** Group name of the phonebook */
   group: string;
   /** Home mobile phone number of the contact */
-  homeMobile?: string;
+  homeMobile?: string | undefined;
   /** Home landline phone number of the contact */
-  homePhone?: string;
+  homePhone?: string | undefined;
   /** Name of the contact */
   name: string;
   /** Contact surname */
   surname: string;
   /** Mobile phone office number of the contact */
-  workMobile?: string;
+  workMobile?: string | undefined;
   /** Landline phone office number of the contact */
-  workPhone?: string;
+  workPhone?: string | undefined;
 }
 export type CreateTelephonyLinePhonePhonebookPhonebookContactResponse = number;
 /** Return merchandise authorisation type */
@@ -1109,18 +1120,18 @@ export interface CreateTelephonyLinePhoneRmaRequest {
   billingAccount: string;
   serviceName: string;
   /** Use /supply/mondialRelay entry point to specify a relay point and ignore shipping contact address information entry. */
-  mondialRelayId?: string;
+  mondialRelayId?: string | undefined;
   /** New merchandise brand in case of exchange */
-  newMerchandise?: string;
+  newMerchandise?: string | undefined;
   /** Shipping contact information id from /me entry point */
-  shippingContactId?: number;
+  shippingContactId?: number | undefined;
   /** Typology process of merchandise return */
   type: TelephonyRmaPublicTypeEnum | (string & {});
 }
 /** Post-creation return information structure */
 export interface TelephonyRmaReturn {
   /** Voucher reference identifier of the return merchandise authorisation */
-  id?: string;
+  id?: string | undefined;
 }
 /** Types of return merchandise authorisation you can change to */
 export type TelephonyRmaChangeTypeEnum = "resiliate" | "toSip";
@@ -1139,12 +1150,12 @@ export interface CreateTelephonyLineSoftphoneTokenRequest {
   billingAccount: string;
   serviceName: string;
   /** Email to receive the generated provisioning token */
-  email?: string;
+  email?: string | undefined;
 }
 /** Softphone provisioning token */
 export interface TelephonySoftphoneToken {
   /** Provisioning token used to register device */
-  token?: string;
+  token?: string | undefined;
 }
 /** Tones type */
 export type TelephonyTonesTypeEnum = "callWaiting" | "endCall" | "onHold" | "ringback";
@@ -1153,10 +1164,10 @@ export interface CreateTelephonyLineToneToneUploadRequest {
   billingAccount: string;
   serviceName: string;
   /** ID of the /me/document file you want to import */
-  documentId?: string;
+  documentId?: string | undefined;
   type: TelephonyTonesTypeEnum | (string & {});
   /** URL of the file you want to import (instead of /me/document ID) */
-  url?: string;
+  url?: string | undefined;
 }
 export interface CreateTelephonyLineTrafficExtractRequest {
   /** The name of your billingAccount */
@@ -1170,17 +1181,17 @@ export interface CreateTelephonyLineTrafficExtractRequest {
 /** Traffic extracts (SIP) of your line */
 export interface TelephonyTrafficExtract {
   /** The start date of the traffic extract */
-  dateEnd?: string;
+  dateEnd?: string | undefined;
   /** The start date of the traffic extract */
-  dateStart?: string;
+  dateStart?: string | undefined;
   /** The PCAP file size of the traffic extract */
-  fileSize?: number;
+  fileSize?: number | undefined;
   /** The PCAP URL of the traffic extract */
-  fileUrl?: string;
+  fileUrl?: string | undefined;
   /** The id of the traffic extract */
-  id?: number;
+  id?: number | undefined;
   /** The status of the extract */
-  status?: TelephonyTaskStatusEnum;
+  status?: TelephonyTaskStatusEnum | undefined;
 }
 /** All existing types of line or alias */
 export type TelephonyTypeEnum =
@@ -1224,20 +1235,20 @@ export interface CreateTelephonyOutplanNotificationRequest {
   /** The blocking type of the associate lines */
   block: TelephonyOutplanNotificationBlockEnum | (string & {});
   /** Override the nichandle email for this notification */
-  notifyEmail?: string;
+  notifyEmail?: string | undefined;
   /** The notification percentage of maximum outplan */
   percentage: number;
 }
 /** The outplan notifications configured for your billing account */
 export interface TelephonyConsumptionThreshold {
   /** The blocking type of the associate lines */
-  block?: TelephonyOutplanNotificationBlockEnum;
+  block?: TelephonyOutplanNotificationBlockEnum | undefined;
   /** The id of the notification */
-  id?: number;
+  id?: number | undefined;
   /** Override the nichandle email for this notification */
-  notifyEmail?: string;
+  notifyEmail?: string | undefined;
   /** The notification percentage of maximum outplan */
-  percentage?: number;
+  percentage?: number | undefined;
 }
 /** Displayed number */
 export type TelephonyOvhPabxDialplanNumberPresentationEnum = "alias" | "both" | "caller";
@@ -1257,15 +1268,15 @@ export interface CreateTelephonyOvhPabxDialplanRequest {
 /** Dialplan */
 export interface TelephonyOvhPabxDialplan {
   /** Reject (hangup) anonymous calls */
-  anonymousRejection?: boolean;
-  dialplanId?: number;
-  lastUpdate?: string;
+  anonymousRejection?: boolean | undefined;
+  dialplanId?: number | undefined;
+  lastUpdate?: string | undefined;
   /** The dialplan name */
-  name?: string;
+  name?: string | undefined;
   /** The presented number when bridging calls */
-  showCallerNumber?: TelephonyOvhPabxDialplanNumberPresentationEnum;
+  showCallerNumber?: TelephonyOvhPabxDialplanNumberPresentationEnum | undefined;
   /** The timeout (in seconds) when bridging calls */
-  transferTimeout?: number;
+  transferTimeout?: number | undefined;
 }
 /** Scheculer category */
 export type TelephonySchedulerCategoryEnum =
@@ -1283,21 +1294,24 @@ export interface CreateTelephonyOvhPabxDialplanExtensionRequest {
   /** The position of the extension in the dialplan (the extensions are executed following this order) */
   position: number;
   /** Additionnal conditions will be used from this chosen scheduler category */
-  schedulerCategory?: TelephonySchedulerCategoryEnum | (string & {});
+  schedulerCategory?: TelephonySchedulerCategoryEnum | (string & {}) | undefined;
   /** The type of the screenlist */
-  screenListType?: TelephonyOvhPabxDialplanExtensionConditionScreenListTypeEnum | (string & {});
+  screenListType?:
+    | TelephonyOvhPabxDialplanExtensionConditionScreenListTypeEnum
+    | (string & {})
+    | undefined;
 }
 /** Dialplan extension */
 export interface TelephonyOvhPabxDialplanExtension {
   /** True if the extension is enabled */
-  enabled?: boolean;
-  extensionId?: number;
+  enabled?: boolean | undefined;
+  extensionId?: number | undefined;
   /** The position of the extension in the dialplan (the extensions are executed following this order) */
-  position?: number;
+  position?: number | undefined;
   /** Additionnal conditions are used from this chosen scheduler category */
-  schedulerCategory?: TelephonySchedulerCategoryEnum | null;
+  schedulerCategory?: TelephonySchedulerCategoryEnum | null | undefined;
   /** The type of the screenlist */
-  screenListType?: TelephonyOvhPabxDialplanExtensionConditionScreenListTypeEnum | null;
+  screenListType?: TelephonyOvhPabxDialplanExtensionConditionScreenListTypeEnum | null | undefined;
 }
 export interface CreateTelephonyOvhPabxDialplanExtensionConditionScreenListRequest {
   /** The name of your billingAccount */
@@ -1306,21 +1320,24 @@ export interface CreateTelephonyOvhPabxDialplanExtensionConditionScreenListReque
   dialplanId: number;
   extensionId: number;
   /** Add a screenlist based on the presented caller number */
-  callerIdNumber?: string;
+  callerIdNumber?: string | undefined;
   /** Add a screenlist based on the destination number */
-  destinationNumber?: string;
+  destinationNumber?: string | undefined;
   /** Type of screenlist */
-  screenListType?: TelephonyOvhPabxDialplanExtensionConditionScreenListTypeEnum | (string & {});
+  screenListType?:
+    | TelephonyOvhPabxDialplanExtensionConditionScreenListTypeEnum
+    | (string & {})
+    | undefined;
 }
 /** Screenlist condition */
 export interface TelephonyOvhPabxDialplanExtensionConditionScreenList {
   /** Screenlist based on the presented caller number */
-  callerIdNumber?: string | null;
-  conditionId?: number;
+  callerIdNumber?: string | null | undefined;
+  conditionId?: number | undefined;
   /** Screenlist based on the destination number */
-  destinationNumber?: string | null;
+  destinationNumber?: string | null | undefined;
   /** Type of screenlist */
-  screenListType?: TelephonyOvhPabxDialplanExtensionConditionScreenListTypeEnum | null;
+  screenListType?: TelephonyOvhPabxDialplanExtensionConditionScreenListTypeEnum | null | undefined;
 }
 export interface CreateTelephonyOvhPabxDialplanExtensionConditionTimeRequest {
   /** The name of your billingAccount */
@@ -1337,13 +1354,13 @@ export interface CreateTelephonyOvhPabxDialplanExtensionConditionTimeRequest {
 }
 /** Time condition */
 export interface TelephonyOvhPabxDialplanExtensionConditionTime {
-  conditionId?: number;
+  conditionId?: number | undefined;
   /** The time of the day when the extension will start to be executed */
-  timeFrom?: string;
+  timeFrom?: string | undefined;
   /** The time of the day when the extension will stop to be executed */
-  timeTo?: string;
+  timeTo?: string | undefined;
   /** The day of the week when the extension will be executed */
-  weekDay?: TelephonyOvhPabxDialplanExtensionConditionTimeWeekDayEnum;
+  weekDay?: TelephonyOvhPabxDialplanExtensionConditionTimeWeekDayEnum | undefined;
 }
 /** Dialplan rule action */
 export type TelephonyOvhPabxDialplanExtensionRuleActionEnum =
@@ -1367,7 +1384,7 @@ export interface CreateTelephonyOvhPabxDialplanExtensionRuleRequest {
   /** The action made by the rule */
   action: TelephonyOvhPabxDialplanExtensionRuleActionEnum | (string & {});
   /** The parameter of the chosen action */
-  actionParam?: string;
+  actionParam?: string | undefined;
   /** If true, the rule will be executed only when the result of the conditions is false */
   negativeAction: boolean;
   /** The position of the rule in the extension (the rules are executed following this order) */
@@ -1376,21 +1393,21 @@ export interface CreateTelephonyOvhPabxDialplanExtensionRuleRequest {
 /** Dialplan rule */
 export interface TelephonyOvhPabxDialplanExtensionRule {
   /** The action made by the rule */
-  action?: TelephonyOvhPabxDialplanExtensionRuleActionEnum;
+  action?: TelephonyOvhPabxDialplanExtensionRuleActionEnum | undefined;
   /** The parameter of the chosen action */
-  actionParam?: string | null;
+  actionParam?: string | null | undefined;
   /** If true, the rule will be executed only when the result of the conditions is false */
-  negativeAction?: boolean;
+  negativeAction?: boolean | undefined;
   /** The position of the rule in the extension (the rules are executed following this order) */
-  position?: number;
-  ruleId?: number;
+  position?: number | undefined;
+  ruleId?: number | undefined;
 }
 export interface CreateTelephonyOvhPabxHuntingAgentRequest {
   /** The name of your billingAccount */
   billingAccount: string;
   serviceName: string;
   /** The agent's description */
-  description?: string;
+  description?: string | undefined;
   /** The number of the agent */
   number: string;
   /** The maximum of simultaneous calls that the agent will receive from the hunting */
@@ -1480,9 +1497,9 @@ export interface CreateTelephonyOvhPabxHuntingCustomStatusRequest {
   billingAccount: string;
   serviceName: string;
   /** The color (in hexadecimal) of the status that will be displayed on agent banner web application */
-  color?: string;
+  color?: string | undefined;
   /** A short description of the status */
-  description?: string;
+  description?: string | undefined;
   /** The name of the status (Pause, Mission, etc...) */
   name: string;
 }
@@ -1499,29 +1516,35 @@ export interface CreateTelephonyOvhPabxHuntingQueueRequest {
   billingAccount: string;
   serviceName: string;
   /** Action executed when there is no member in queue */
-  actionOnClosure?: TelephonyOvhPabxQueueActionEnum | (string & {});
+  actionOnClosure?: TelephonyOvhPabxQueueActionEnum | (string & {}) | undefined;
   /** The additionnal parameter of the on closure action */
-  actionOnClosureParam?: string;
+  actionOnClosureParam?: string | undefined;
   /** Action executed when caller enters a full queue */
-  actionOnOverflow?: TelephonyOvhPabxQueueActionEnum | (string & {});
+  actionOnOverflow?: TelephonyOvhPabxQueueActionEnum | (string & {}) | undefined;
   /** The additionnal parameter of the overflow action */
-  actionOnOverflowParam?: string;
+  actionOnOverflowParam?: string | undefined;
   /** Allow the caller to disable call record by pressing a key */
-  askForRecordDisabling?: boolean;
+  askForRecordDisabling?: boolean | undefined;
   /** The name of the queue */
-  description?: string;
+  description?: string | undefined;
   /** The maximum of people waiting in the queue */
-  maxMember?: number;
+  maxMember?: number | undefined;
   /** The maximum waiting time (in seconds) in the queue */
-  maxWaitTime?: number;
+  maxWaitTime?: number | undefined;
   /** Enable record on calls in queue */
-  record?: boolean;
+  record?: boolean | undefined;
   /** Key to press to disable record */
-  recordDisablingDigit?: TelephonyOvhPabxHuntingQueueRecordDisablingDigitEnum | (number & {});
+  recordDisablingDigit?:
+    | TelephonyOvhPabxHuntingQueueRecordDisablingDigitEnum
+    | (number & {})
+    | undefined;
   /** Language of the sound played to the caller to inform that he can disable record */
-  recordDisablingLanguage?: TelephonyOvhPabxHuntingQueueRecordDisablingLanguageEnum | (string & {});
+  recordDisablingLanguage?:
+    | TelephonyOvhPabxHuntingQueueRecordDisablingLanguageEnum
+    | (string & {})
+    | undefined;
   /** The id of the OvhPabxSound played to caller when on hold */
-  soundOnHold?: number;
+  soundOnHold?: number | undefined;
   /** The calls dispatching strategy */
   strategy: TelephonyOvhPabxHuntingQueueStrategyEnum | (string & {});
 }
@@ -1586,37 +1609,37 @@ export interface CreateTelephonyOvhPabxMenuRequest {
   billingAccount: string;
   serviceName: string;
   /** The id of the OvhPabxSound played to greet */
-  greetSound?: number;
+  greetSound?: number | undefined;
   /** The text to speech sound played to greet */
-  greetSoundTts?: number;
+  greetSoundTts?: number | undefined;
   /** The timeout in milliseconds before considering the DTMF entry as done */
-  interDigitTimeout?: number;
+  interDigitTimeout?: number | undefined;
   /** The id of the OvhPabxSound played when the caller uses an invalid DTMF */
-  invalidSound?: number;
+  invalidSound?: number | undefined;
   /** The text to speech sound played when the caller uses an invalid DTMF */
-  invalidSoundTts?: number;
+  invalidSoundTts?: number | undefined;
   /** The name of the menu */
   name: string;
   /** The timeout in milliseconds before ending the menu when no DTMF is received */
-  timeout?: number;
+  timeout?: number | undefined;
 }
 /** IVR Menu */
 export interface TelephonyOvhPabxMenu {
   /** The id of the OvhPabxSound played to greet */
-  greetSound?: number | null;
+  greetSound?: number | null | undefined;
   /** The text to speech sound played to greet */
-  greetSoundTts?: number | null;
+  greetSoundTts?: number | null | undefined;
   /** The timeout in milliseconds before considering the DTMF entry as done */
-  interDigitTimeout?: number;
+  interDigitTimeout?: number | undefined;
   /** The id of the OvhPabxSound played when the caller uses an invalid DTMF */
-  invalidSound?: number | null;
+  invalidSound?: number | null | undefined;
   /** The text to speech sound played when the caller uses an invalid DTMF */
-  invalidSoundTts?: number | null;
-  menuId?: number;
+  invalidSoundTts?: number | null | undefined;
+  menuId?: number | undefined;
   /** The name of the menu */
-  name?: string;
+  name?: string | undefined;
   /** The timeout in milliseconds before ending the menu when no DTMF is received */
-  timeout?: number;
+  timeout?: number | undefined;
 }
 /** IVR menu action */
 export type TelephonyOvhPabxIvrMenuEntryActionEnum =
@@ -1637,7 +1660,7 @@ export interface CreateTelephonyOvhPabxMenuEntryRequest {
   /** The action triggered by the DTMF */
   action: TelephonyOvhPabxIvrMenuEntryActionEnum | (string & {});
   /** The additionnal parameter of the action */
-  actionParam?: string;
+  actionParam?: string | undefined;
   /** The DTMF that triggers the action */
   dtmf: string;
   /** The position of the entry in the menu */
@@ -1646,25 +1669,25 @@ export interface CreateTelephonyOvhPabxMenuEntryRequest {
 /** IVR menu entry */
 export interface TelephonyOvhPabxMenuEntry {
   /** The action triggered by the DTMF */
-  action?: TelephonyOvhPabxIvrMenuEntryActionEnum;
+  action?: TelephonyOvhPabxIvrMenuEntryActionEnum | undefined;
   /** The additionnal parameter of the action */
-  actionParam?: string;
+  actionParam?: string | undefined;
   /** The DTMF that triggers the action */
-  dtmf?: string;
-  entryId?: number;
+  dtmf?: string | undefined;
+  entryId?: number | undefined;
   /** The position of the entry in the menu */
-  position?: number;
+  position?: number | undefined;
 }
 export interface CreateTelephonyOvhPabxSoundUploadRequest {
   /** The name of your billingAccount */
   billingAccount: string;
   serviceName: string;
   /** ID of the /me/document file you want to import */
-  documentId?: string;
+  documentId?: string | undefined;
   /** The name you want to give to your file */
-  name?: string;
+  name?: string | undefined;
   /** URL of the file you want to import (instead of /me/document ID) */
-  url?: string;
+  url?: string | undefined;
 }
 /** Voice to use for your text to speech */
 export type TelephonyOvhPabxTtsVoiceEnum = "Bruce" | "Helene" | "Jenny" | "Loic";
@@ -1673,7 +1696,7 @@ export interface CreateTelephonyOvhPabxTtsRequest {
   billingAccount: string;
   serviceName: string;
   text: string;
-  voice?: TelephonyOvhPabxTtsVoiceEnum | (string & {});
+  voice?: TelephonyOvhPabxTtsVoiceEnum | (string & {}) | undefined;
 }
 export interface CreateTelephonyOvhPabxTtsResponse {}
 export interface CreateTelephonyPhonebookRequest {
@@ -1691,17 +1714,17 @@ export interface CreateTelephonyPhonebookPhonebookContactRequest {
   /** Group name of the phonebook */
   group: string;
   /** Home mobile phone number of the contact */
-  homeMobile?: string;
+  homeMobile?: string | undefined;
   /** Home landline phone number of the contact */
-  homePhone?: string;
+  homePhone?: string | undefined;
   /** Name of the contact */
   name: string;
   /** Contact surname */
   surname: string;
   /** Mobile phone office number of the contact */
-  workMobile?: string;
+  workMobile?: string | undefined;
   /** Landline phone office number of the contact */
-  workPhone?: string;
+  workPhone?: string | undefined;
 }
 export type CreateTelephonyPhonebookPhonebookContactResponse = number;
 export interface CreateTelephonyPortabilityChangeDateRequest {
@@ -1719,24 +1742,24 @@ export interface CreateTelephonyPortabilityDocumentRequest {
   /** The ID of the portability */
   id: number;
   /** Description of the document */
-  description?: string;
+  description?: string | undefined;
   /** Document's name */
   name: string;
 }
 /** Document linked to a portability */
 export interface TelephonyPortabilityDocument {
   /** Description of the document */
-  description?: string | null;
+  description?: string | null | undefined;
   /** Identifier of the document */
-  documentId?: number;
+  documentId?: number | undefined;
   /** URL to get document */
-  getUrl?: string;
+  getUrl?: string | undefined;
   /** Name of the document */
-  name?: string;
+  name?: string | undefined;
   /** URL to upload document */
-  putUrl?: string | null;
+  putUrl?: string | null | undefined;
   /** Document size (in bytes) */
-  size?: number;
+  size?: number | undefined;
 }
 /** List of parameters to use to fix error */
 export type CreateTelephonyPortabilityRelaunchRequestParametersList =
@@ -1752,15 +1775,15 @@ export interface CreateTelephonyPortabilityRelaunchRequest {
 export interface CreateTelephonyPortabilityRelaunchResponse {}
 export interface CreateTelephonyProcedureRequest {
   /** Account's BIC */
-  bic?: string;
+  bic?: string | undefined;
   /** Account's IBAN */
-  iban?: string;
+  iban?: string | undefined;
   /** Account owner's address */
-  ownerAddress?: string;
+  ownerAddress?: string | undefined;
   /** Account owner's name */
-  ownerName?: string;
+  ownerName?: string | undefined;
   /** The ID of your registered SEPA account payment mean. */
-  paymentMeanID?: number;
+  paymentMeanID?: number | undefined;
 }
 /** Telephony procedure status */
 export type TelephonyProcedureStatusEnum =
@@ -1772,15 +1795,15 @@ export type TelephonyProcedureStatusEnum =
 /** Procedure linked to your account */
 export interface TelephonyProcedure {
   /** The date at which the procedure was closed. */
-  finishDate?: string | null;
+  finishDate?: string | null | undefined;
   /** Procedure ID */
-  id?: number;
+  id?: number | undefined;
   /** The URL of the procedure document. */
-  pdfUrl?: string;
+  pdfUrl?: string | undefined;
   /** The date at which the procedure was opened. */
-  requestDate?: string;
+  requestDate?: string | undefined;
   /** The current status of the procedure. */
-  status?: TelephonyProcedureStatusEnum;
+  status?: TelephonyProcedureStatusEnum | undefined;
 }
 export interface CreateTelephonyRedirectChangeDestinationRequest {
   /** The name of your billingAccount */
@@ -1799,21 +1822,21 @@ export interface CreateTelephonyRsvaScheduleRateCodeRequest {
 /** Detailed informations related to this number */
 export interface TelephonyDetailedRateCodeInformation {
   /** Cancelable datetime deadline for the new scheduled rateCode */
-  cancelLimitDatetime?: string | null;
+  cancelLimitDatetime?: string | null | undefined;
   /** Effective datetime */
-  effectiveDatetime?: string | null;
+  effectiveDatetime?: string | null | undefined;
   /** Price per call */
-  pricePerCallWithoutTax?: OrderPrice;
+  pricePerCallWithoutTax?: OrderPrice | undefined;
   /** Price in minute */
-  pricePerMinuteWithoutTax?: OrderPrice;
+  pricePerMinuteWithoutTax?: OrderPrice | undefined;
   /** Scheduled rate code */
-  rateCode?: string;
+  rateCode?: string | undefined;
   /** Repayment per call */
-  repaymentPricePerCallWithoutTax?: OrderPrice;
+  repaymentPricePerCallWithoutTax?: OrderPrice | undefined;
   /** Repayment per minute */
-  repaymentPricePerMinuteWithoutTax?: OrderPrice;
+  repaymentPricePerMinuteWithoutTax?: OrderPrice | undefined;
   /** Fees concerning rateCode update */
-  updateRateCodePriceWithoutTax?: OrderPrice | null;
+  updateRateCodePriceWithoutTax?: OrderPrice | null | undefined;
 }
 export interface CreateTelephonySchedulerEventRequest {
   /** The name of your billingAccount */
@@ -1826,11 +1849,11 @@ export interface CreateTelephonySchedulerEventRequest {
   /** The beginning date of the event */
   dateStart: string;
   /** The descritpion of the event */
-  description?: string;
+  description?: string | undefined;
   /** The title of the event */
   title: string;
   /** The unique ICS event identifier */
-  uid?: string;
+  uid?: string | undefined;
 }
 export interface CreateTelephonySchedulerEventResponse {}
 /** Nature of screen list */
@@ -1851,7 +1874,7 @@ export interface CreateTelephonyScreenScreenListRequest {
   billingAccount: string;
   serviceName: string;
   /** The callNumber of the generic screen list */
-  callNumber?: string;
+  callNumber?: string | undefined;
   /** The nature of the generic screen list */
   nature: TelephonyScreenListNatureEnum | (string & {});
   /** The type of the generic screen list */
@@ -1884,26 +1907,26 @@ export interface CreateTelephonyServiceOfferChangeRequest {
 export interface CreateTelephonyServiceOfferChangeResponse {}
 export interface CreateTelephonySoundRequest {
   /** Sound description */
-  description?: string;
+  description?: string | undefined;
   /** Sound filename */
   filename: string;
 }
 /** Sounds attached to this telephony account */
 export interface TelephonySound {
   /** Sound creation date */
-  creationDate?: string;
+  creationDate?: string | undefined;
   /** Sound description */
-  description?: string | null;
+  description?: string | null | undefined;
   /** Sound filename */
-  filename?: string;
+  filename?: string | undefined;
   /** URL to get sound file */
-  getUrl?: string;
+  getUrl?: string | undefined;
   /** Sound ID */
-  id?: number;
+  id?: number | undefined;
   /** URL to upload sound file */
-  putUrl?: string | null;
+  putUrl?: string | null | undefined;
   /** Sound file size (in bytes) */
-  size?: number;
+  size?: number | undefined;
 }
 /** Day of the time condition */
 export type TelephonyTimeConditionsDayEnum =
@@ -1930,22 +1953,22 @@ export interface CreateTelephonyTimeConditionConditionRequest {
 }
 /** Time conditions */
 export interface TelephonyTimeCondition {
-  day?: TelephonyTimeConditionsDayEnum;
-  hourBegin?: string;
-  hourEnd?: string;
-  id?: number;
-  policy?: TelephonyTimeConditionsPolicyEnum;
-  status?: string;
+  day?: TelephonyTimeConditionsDayEnum | undefined;
+  hourBegin?: string | undefined;
+  hourEnd?: string | undefined;
+  id?: number | undefined;
+  policy?: TelephonyTimeConditionsPolicyEnum | undefined;
+  status?: string | undefined;
 }
 export interface CreateTelephonyTrunkChangeContactRequest {
   /** Your trunk number */
   serviceName: string;
   /** The contact to set as admin contact */
-  contactAdmin?: string;
+  contactAdmin?: string | undefined;
   /** The contact to set as billing contact */
-  contactBilling?: string;
+  contactBilling?: string | undefined;
   /** The contact to set as tech contact */
-  contactTech?: string;
+  contactTech?: string | undefined;
 }
 export type CreateTelephonyTrunkChangeContactResponseBodyList = Array<number>;
 export type CreateTelephonyTrunkChangeContactResponse =
@@ -1956,7 +1979,7 @@ export interface CreateTelephonyTrunkExternalDisplayedNumberRequest {
   /** Name of the service */
   serviceName: string;
   /** External displayed number auto-validation. Only available for partner. Must be owner of the number. */
-  autoValidation?: boolean;
+  autoValidation?: boolean | undefined;
   /** External displayed number to create, in international format */
   number: string;
 }
@@ -1969,13 +1992,13 @@ export type TelephonyTrunkExternalDisplayedNumberStatusEnum =
 /** External displayed number linked to a trunk */
 export interface TelephonyTrunkExternalDisplayedNumber {
   /** Creation date */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** External displayed number linked to a trunk */
-  number?: string;
+  number?: string | undefined;
   /** Validation status */
-  status?: TelephonyTrunkExternalDisplayedNumberStatusEnum;
+  status?: TelephonyTrunkExternalDisplayedNumberStatusEnum | undefined;
   /** Validation date */
-  validatedAt?: string | null;
+  validatedAt?: string | null | undefined;
 }
 /** Folder type */
 export type TelephonyVoicemailMessageFolderGreetingEnum = "busy" | "greet" | "temp" | "unavail";
@@ -2015,9 +2038,9 @@ export interface CreateTelephonyVxmlSettingsLogRequest {
 /** Temporary url informations */
 export interface TelephonyTemporaryLogsLink {
   /** Temporary url expiration date */
-  expirationDate?: string;
+  expirationDate?: string | undefined;
   /** Temporary url */
-  url?: string;
+  url?: string | undefined;
 }
 /** Termination reason */
 export type TelephonyTerminationReasonEnum =
@@ -2033,7 +2056,7 @@ export interface DeleteTelephonyRequest {
   /** The name of your billingAccount */
   billingAccount: string;
   /** Termination reason details */
-  details?: string;
+  details?: string | undefined;
   /** Termination reason */
   reason: TelephonyTerminationReasonEnum | (string & {});
 }
@@ -2433,7 +2456,7 @@ export interface DeleteTelephonyServiceRequest {
   billingAccount: string;
   serviceName: string;
   /** Termination reason details */
-  details?: string;
+  details?: string | undefined;
   /** Termination reason */
   reason: TelephonyTerminationReasonEnum | (string & {});
 }
@@ -2521,26 +2544,26 @@ export interface FetchTelephonyServiceDirectoryEntrepriseInformationsRequest {
 /** Task informations about an entreprise */
 export interface TelephonyEntrepriseNumberInformations {
   /** Address of the entreprise */
-  address?: string | null;
+  address?: string | null | undefined;
   /** Entreprise's category code for directory services */
-  ape?: string | null;
+  ape?: string | null | undefined;
   /** Brand of the entreprise */
-  brand?: string | null;
+  brand?: string | null | undefined;
   /** Entreprise number */
-  entrepriseNumber?: string;
+  entrepriseNumber?: string | undefined;
   /** Is this a valid entreprise number? */
-  isValid?: boolean;
+  isValid?: boolean | undefined;
   /** Name of the entreprise */
-  name?: string;
+  name?: string | undefined;
   /** Short version of the entreprise number (FR only) */
-  siren?: string | null;
+  siren?: string | null | undefined;
 }
 /** Task about getting entreprise informations */
 export interface TelephonyEntrepriseNumberInformationsTask {
   /** Informations about the enterprise */
-  informations?: TelephonyEntrepriseNumberInformations;
+  informations?: TelephonyEntrepriseNumberInformations | undefined;
   /** Task status */
-  status?: TelephonyTaskStatusEnum;
+  status?: TelephonyTaskStatusEnum | undefined;
 }
 export interface GenerateTelephonyResellerPanelPasswordRequest {}
 export interface GenerateTelephonyResellerPanelPasswordResponse {}
@@ -2553,42 +2576,42 @@ export type IamResourceMetadataTagsMap = { [key: string]: string | undefined };
 /** IAM resource metadata embedded in services models */
 export interface IamResourceMetadata {
   /** Resource display name */
-  displayName?: string | null;
+  displayName?: string | null | undefined;
   /** Unique identifier of the resource */
-  id?: string;
+  id?: string | undefined;
   /** Resource tags. Tags that were internally computed are prefixed with ovh: */
-  tags?: IamResourceMetadataTagsMap | null;
+  tags?: IamResourceMetadataTagsMap | null | undefined;
   /** Unique resource name used in policies */
-  urn?: string;
+  urn?: string | undefined;
 }
 /** Status of billing account */
 export type TelephonyBillingAccountStatusEnum = "closed" | "deleted" | "enabled" | "expired";
 /** Billing Account */
 export interface TelephonyBillingAccountWithIAM {
   /** Allowed outplan */
-  allowedOutplan?: OrderPrice;
+  allowedOutplan?: OrderPrice | undefined;
   /** Name of the billing account */
-  billingAccount?: string;
+  billingAccount?: string | undefined;
   /** Allowed threshold credit */
-  creditThreshold?: OrderPrice;
+  creditThreshold?: OrderPrice | undefined;
   /** Current outplan */
-  currentOutplan?: OrderPrice;
+  currentOutplan?: OrderPrice | undefined;
   /** Description of the billing account */
-  description?: string;
+  description?: string | undefined;
   /** Check if the billing account contains at least one special number */
-  hasSpecialNumbers?: boolean;
+  hasSpecialNumbers?: boolean | undefined;
   /** Hide called numbers in end-of-month call details CSV */
-  hiddenExternalNumber?: boolean;
+  hiddenExternalNumber?: boolean | undefined;
   /** IAM resource metadata */
-  iam?: IamResourceMetadata | null;
+  iam?: IamResourceMetadata | null | undefined;
   /** Override number display for calls between services of your billing account */
-  overrideDisplayedNumber?: boolean;
+  overrideDisplayedNumber?: boolean | undefined;
   /** Security deposit amount */
-  securityDeposit?: OrderPrice;
+  securityDeposit?: OrderPrice | undefined;
   /** Current status of billing account */
-  status?: TelephonyBillingAccountStatusEnum;
+  status?: TelephonyBillingAccountStatusEnum | undefined;
   /** Is the billing account trusted */
-  trusted?: boolean;
+  trusted?: boolean | undefined;
 }
 export interface GetTelephonyAbbreviatedNumberRequest {
   /** The name of your billingAccount */
@@ -2603,8 +2626,8 @@ export interface GetTelephonyAliasRequest {
 /** Telephony service */
 export interface TelephonyTelephonyGenericServiceWithIAM {
   /** IAM resource metadata */
-  iam?: IamResourceMetadata | null;
-  serviceName?: string;
+  iam?: IamResourceMetadata | null | undefined;
+  serviceName?: string | undefined;
 }
 export interface GetTelephonyAliasServiceInfosRequest {
   /** Your line number */
@@ -2615,15 +2638,15 @@ export type ServicesServicePossibleRenewPeriodList = Array<number>;
 /** Map a possible renew for a specific service */
 export interface ServiceRenewType {
   /** The service is automatically renewed */
-  automatic?: boolean;
+  automatic?: boolean | undefined;
   /** The service will be deleted at expiration */
-  deleteAtExpiration?: boolean;
+  deleteAtExpiration?: boolean | undefined;
   /** The service forced to be renewed */
-  forced?: boolean;
+  forced?: boolean | undefined;
   /** The service needs to be manually renewed and paid */
-  manualPayment?: boolean | null;
+  manualPayment?: boolean | null | undefined;
   /** period of renew in month */
-  period?: number | null;
+  period?: number | null | undefined;
 }
 /** Detailed renewal type of a service */
 export type ServiceRenewalTypeEnum =
@@ -2645,21 +2668,21 @@ export type ServiceStateEnum =
 /** Details about a Service */
 export interface ServicesService {
   /** Indicates that the service can be set up to be deleted at expiration */
-  canDeleteAtExpiration?: boolean;
-  contactAdmin?: string;
-  contactBilling?: string;
-  contactTech?: string;
-  creation?: string;
-  domain?: string;
-  engagedUpTo?: string | null;
-  expiration?: string;
+  canDeleteAtExpiration?: boolean | undefined;
+  contactAdmin?: string | undefined;
+  contactBilling?: string | undefined;
+  contactTech?: string | undefined;
+  creation?: string | undefined;
+  domain?: string | undefined;
+  engagedUpTo?: string | null | undefined;
+  expiration?: string | undefined;
   /** All the possible renew period of your service in month */
-  possibleRenewPeriod?: ServicesServicePossibleRenewPeriodList | null;
+  possibleRenewPeriod?: ServicesServicePossibleRenewPeriodList | null | undefined;
   /** Way of handling the renew */
-  renew?: ServiceRenewType | null;
-  renewalType?: ServiceRenewalTypeEnum;
-  serviceId?: number;
-  status?: ServiceStateEnum;
+  renew?: ServiceRenewType | null | undefined;
+  renewalType?: ServiceRenewalTypeEnum | undefined;
+  serviceId?: number | undefined;
+  status?: ServiceStateEnum | undefined;
 }
 export interface GetTelephonyBillingAccountSiteRequest {
   /** The name of your billingAccount */
@@ -2675,31 +2698,31 @@ export interface GetTelephonyCarrierSipRequest {
 export type TelephonyTypeServiceEnum = "alias" | "line";
 /** CarrierSip */
 export interface TelephonyCarrierSip {
-  description?: string;
-  serviceName?: string;
-  serviceType?: TelephonyTypeServiceEnum;
+  description?: string | undefined;
+  serviceName?: string | undefined;
+  serviceType?: TelephonyTypeServiceEnum | undefined;
 }
 export interface GetTelephonyCarrierSipCdrsRequest {
   /** The name of your billingAccount */
   billingAccount: string;
   serviceName: string;
   /** The month you want to extract (format: YYYY-MM). Current month if not specified. */
-  month?: string;
+  month?: string | undefined;
 }
 /** Document linked to a telephony service */
 export interface TelephonyDocument {
   /** Description of the document */
-  description?: string | null;
+  description?: string | null | undefined;
   /** Identifier of the document */
-  id?: string;
+  id?: string | undefined;
   /** Name of the document */
-  name?: string;
+  name?: string | undefined;
   /** Document size (in bytes) */
-  size?: number;
+  size?: number | undefined;
   /** URL to get document */
-  url?: string;
+  url?: string | undefined;
   /** Document validation date */
-  validationDate?: string | null;
+  validationDate?: string | null | undefined;
 }
 export interface GetTelephonyCarrierSipEndpointRequest {
   /** The name of your billingAccount */
@@ -2713,19 +2736,19 @@ export type TelephonyCarrierSipEndpointProtocolEnum = "tcp" | "tls" | "udp";
 /** Carrier SIP Endpoints */
 export interface TelephonyCarrierSipCustomerEndpoint {
   /** Should we send incoming calls to this endpoint */
-  enableIncomingCalls?: boolean;
+  enableIncomingCalls?: boolean | undefined;
   /** SIP Endpoint id */
-  id?: number;
+  id?: number | undefined;
   /** SIP Endpoint IP */
-  ip?: string;
+  ip?: string | undefined;
   /** SIP Endpoint port */
-  port?: number;
+  port?: number | undefined;
   /** SIP Endpoint priority (DNS SRV) */
-  priority?: number;
+  priority?: number | undefined;
   /** The protocol of the endpoint (udp/tcp/tls) */
-  protocol?: TelephonyCarrierSipEndpointProtocolEnum;
+  protocol?: TelephonyCarrierSipEndpointProtocolEnum | undefined;
   /** SIP Endpoint weight (DNS SRV) */
-  weight?: number;
+  weight?: number | undefined;
 }
 export interface GetTelephonyCarrierSipSettingsRequest {
   /** The name of your billingAccount */
@@ -2735,11 +2758,11 @@ export interface GetTelephonyCarrierSipSettingsRequest {
 /** Carrier SIP Properties */
 export interface TelephonyCarrierSipDetails {
   /** The carrier SIP trunk description */
-  description?: string;
+  description?: string | undefined;
   /** The maximum call establishments per second on your carrier sip service */
-  maxCallsPerSecond?: number;
+  maxCallsPerSecond?: number | undefined;
   /** The maximum concurrent calls on your carrier sip service */
-  maxConcurrentCalls?: number;
+  maxConcurrentCalls?: number | undefined;
 }
 export interface GetTelephonyCarrierSipVnoRequest {
   /** The name of your billingAccount */
@@ -2751,9 +2774,9 @@ export interface GetTelephonyCarrierSipVnoRequest {
 /** Carrier SIP VNO mandate */
 export interface TelephonyCarrierSipVnoMandate {
   /** Date at which the associated ranges will be routed. */
-  applicationDate?: string;
+  applicationDate?: string | undefined;
   /** The reference written on your VNO contract. */
-  contractReference?: string;
+  contractReference?: string | undefined;
 }
 export interface GetTelephonyCarrierSipVnoRangeRequest {
   /** The name of your billingAccount */
@@ -2767,9 +2790,9 @@ export interface GetTelephonyCarrierSipVnoRangeRequest {
 /** Carrier SIP VNO range */
 export interface TelephonyCarrierSipVnoRange {
   /** The carrier SIP trunk description. */
-  description?: string;
+  description?: string | undefined;
   /** The phone range prefix. */
-  prefix?: string;
+  prefix?: string | undefined;
 }
 export interface GetTelephonyConferenceRequest {
   /** The name of your billingAccount */
@@ -2779,10 +2802,10 @@ export interface GetTelephonyConferenceRequest {
 export type TelephonyConferenceOffersList = Array<string>;
 /** Conference */
 export interface TelephonyConference {
-  description?: string;
-  offers?: TelephonyConferenceOffersList;
-  serviceName?: string;
-  serviceType?: TelephonyTypeServiceEnum;
+  description?: string | undefined;
+  offers?: TelephonyConferenceOffersList | undefined;
+  serviceName?: string | undefined;
+  serviceType?: TelephonyTypeServiceEnum | undefined;
 }
 export interface GetTelephonyConferenceHistoryRequest {
   /** The name of your billingAccount */
@@ -2794,32 +2817,32 @@ export interface GetTelephonyConferenceHistoryRequest {
 /** Event of a conference (participant left/join) */
 export interface TelephonyConferenceHistoryEvent {
   /** The caller id of the participant */
-  callerid?: string;
+  callerid?: string | undefined;
   /** The date of the conference event */
-  date?: string;
+  date?: string | undefined;
   /** The nature of the event : left/join */
-  type?: string;
+  type?: string | undefined;
 }
 /** The events of the conference (participants joining/left) */
 export type TelephonyConferenceHistoryEventsList = Array<TelephonyConferenceHistoryEvent>;
 /** List past conferences on your number */
 export interface TelephonyConferenceHistory {
   /** The count of connections to the conference */
-  countConnections?: number;
+  countConnections?: number | undefined;
   /** The count of unique participants of the conference */
-  countParticipants?: number;
+  countParticipants?: number | undefined;
   /** The date the conference began */
-  dateBegin?: string;
+  dateBegin?: string | undefined;
   /** The date the conference end */
-  dateEnd?: string;
+  dateEnd?: string | undefined;
   /** The duration of the conference in seconds */
-  duration?: number;
+  duration?: number | undefined;
   /** The events of the conference (participants joining/left) */
-  events?: TelephonyConferenceHistoryEventsList;
+  events?: TelephonyConferenceHistoryEventsList | undefined;
   /** The id of the conference history */
-  id?: number;
+  id?: number | undefined;
   /** The audio record url if you set recording */
-  recordUrl?: string | null;
+  recordUrl?: string | null | undefined;
 }
 export interface GetTelephonyConferenceInformationsRequest {
   /** The name of your billingAccount */
@@ -2829,11 +2852,11 @@ export interface GetTelephonyConferenceInformationsRequest {
 /** Conference realtime informations structure */
 export interface TelephonyConferenceInformations {
   /** The date when the conference began */
-  dateStart?: string;
+  dateStart?: string | undefined;
   /** Whether or not the conference room is locked */
-  locked?: boolean;
+  locked?: boolean | undefined;
   /** The current participants count in your conference room */
-  membersCount?: number;
+  membersCount?: number | undefined;
 }
 export interface GetTelephonyConferenceParticipantRequest {
   /** The name of your billingAccount */
@@ -2845,23 +2868,23 @@ export interface GetTelephonyConferenceParticipantRequest {
 /** Conference service */
 export interface TelephonyConferenceParticipants {
   /** The arrival datetime of the participant in the conference. */
-  arrivalDateTime?: string;
+  arrivalDateTime?: string | undefined;
   /** The caller name of the participant */
-  callerName?: string;
+  callerName?: string | undefined;
   /** The caller number of the participant */
-  callerNumber?: string;
+  callerNumber?: string | undefined;
   /** The current level of the participant audio transmission */
-  energy?: number;
+  energy?: number | undefined;
   /** Whether the participant is active in the room */
-  floor?: boolean;
+  floor?: boolean | undefined;
   /** Whether the participant can hear the conference */
-  hear?: boolean;
+  hear?: boolean | undefined;
   /** The id of the participant */
-  id?: number;
+  id?: number | undefined;
   /** Whether the participant can talk in the conference */
-  speak?: boolean;
+  speak?: boolean | undefined;
   /** Whether the participant is talking */
-  talking?: boolean;
+  talking?: boolean | undefined;
 }
 export interface GetTelephonyConferenceRoomRequest {
   /** The name of your billingAccount */
@@ -2896,11 +2919,11 @@ export interface GetTelephonyConferenceRoomsStatsRequest {
 /** Get realtime statistics about all rooms of your conference number */
 export interface TelephonyConferenceRoomsStatistics {
   /** The total numbers of rooms currently active in the conference number */
-  activeRoomsCount?: number;
+  activeRoomsCount?: number | undefined;
   /** The total number of unique participants in the conference number (aggregated from all rooms) */
-  participantsCount?: number;
+  participantsCount?: number | undefined;
   /** The number of rooms available in the conference number */
-  roomsCount?: number;
+  roomsCount?: number | undefined;
 }
 export interface GetTelephonyConferenceRoomWebAccessRequest {
   /** The name of your billingAccount */
@@ -2919,31 +2942,31 @@ export interface GetTelephonyConferenceSettingsRequest {
 /** Conference properties */
 export interface TelephonyConferenceProperties {
   /** Whether announce file is played before entrance */
-  announceFile?: boolean;
+  announceFile?: boolean | undefined;
   /** The announce file name */
-  announceFilename?: string | null;
+  announceFilename?: string | null | undefined;
   /** The announce sound id */
-  announceSoundId?: number | null;
+  announceSoundId?: number | null | undefined;
   /** Whether anonymous participants are allowed */
-  anonymousRejection?: boolean;
+  anonymousRejection?: boolean | undefined;
   /** Whether participants enter conference room muted */
-  enterMuted?: boolean;
+  enterMuted?: boolean | undefined;
   /** The events channel hash */
-  eventsChannel?: string;
+  eventsChannel?: string | undefined;
   /** The conference sounds language */
-  language?: TelephonyConferenceLanguageEnum;
+  language?: TelephonyConferenceLanguageEnum | undefined;
   /** The conference pin number */
-  pin?: string;
+  pin?: string | undefined;
   /** Whether conference is recorded */
-  recordStatus?: boolean;
+  recordStatus?: boolean | undefined;
   /** The email address to send conference report to */
-  reportEmail?: string | null;
+  reportEmail?: string | null | undefined;
   /** The status of the reporting */
-  reportStatus?: TelephonyConferenceReportStatusEnum;
+  reportStatus?: TelephonyConferenceReportStatusEnum | undefined;
   /** The conference room number */
-  roomNumber?: number;
+  roomNumber?: number | undefined;
   /** True if you want to receive a white-labelled mail report of your conference */
-  whiteLabelReport?: boolean;
+  whiteLabelReport?: boolean | undefined;
 }
 export interface GetTelephonyConferenceWebAccessRequest {
   /** The name of your billingAccount */
@@ -2959,11 +2982,11 @@ export interface GetTelephonyDdiRequest {
 }
 /** DDI (direct dial-in) service */
 export interface TelephonyDdi {
-  description?: string;
-  destination?: string | null;
-  featureType?: TelephonyTypeEnum;
-  serviceName?: string;
-  serviceType?: TelephonyTypeServiceEnum;
+  description?: string | undefined;
+  destination?: string | null | undefined;
+  featureType?: TelephonyTypeEnum | undefined;
+  serviceName?: string | undefined;
+  serviceType?: TelephonyTypeServiceEnum | undefined;
 }
 export interface GetTelephonyEasyHuntingRequest {
   /** The name of your billingAccount */
@@ -2973,34 +2996,34 @@ export interface GetTelephonyEasyHuntingRequest {
 /** OVH easy calls queues */
 export interface TelephonyEasyHunting {
   /** Reject (hangup) anonymous calls */
-  anonymousRejection?: boolean;
+  anonymousRejection?: boolean | undefined;
   /** Description of the service */
-  description?: string;
+  description?: string | undefined;
   /** Feature of the service */
-  featureType?: TelephonyTypeEnum;
+  featureType?: TelephonyTypeEnum | undefined;
   /** Does the service have extended CCS options enabled? */
-  isCCS?: boolean;
+  isCCS?: boolean | undefined;
   /** Max wait time when caller is in queue (in seconds) */
-  maxWaitTime?: number;
+  maxWaitTime?: number | undefined;
   /** Max number of callers in queue */
-  queueSize?: number;
-  serviceName?: string;
+  queueSize?: number | undefined;
+  serviceName?: string | undefined;
   /** General type of the service */
-  serviceType?: TelephonyTypeServiceEnum;
+  serviceType?: TelephonyTypeServiceEnum | undefined;
   /** The presented number when bridging calls */
-  showCallerNumber?: TelephonyOvhPabxDialplanNumberPresentationEnum;
+  showCallerNumber?: TelephonyOvhPabxDialplanNumberPresentationEnum | undefined;
   /** Enable/Disable the status change IVR on your callcenter. The IVR is enabled by default. */
-  statusIvrEnabled?: boolean;
+  statusIvrEnabled?: boolean | undefined;
   /** The calls dispatching strategy */
-  strategy?: TelephonyOvhPabxHuntingQueueStrategyEnum;
+  strategy?: TelephonyOvhPabxHuntingQueueStrategyEnum | undefined;
   /** Tone played just before call is hang up */
-  toneOnClosing?: number | null;
+  toneOnClosing?: number | null | undefined;
   /** Tone played when caller is put on hold */
-  toneOnHold?: number | null;
+  toneOnHold?: number | null | undefined;
   /** Tone played when call is picked up */
-  toneOnOpening?: number | null;
+  toneOnOpening?: number | null | undefined;
   /** The voicemail used by the EasyPABX */
-  voicemail?: string | null;
+  voicemail?: string | null | undefined;
 }
 export interface GetTelephonyEasyHuntingHuntingRequest {
   /** The name of your billingAccount */
@@ -3010,13 +3033,13 @@ export interface GetTelephonyEasyHuntingHuntingRequest {
 /** PABX Hunting */
 export interface TelephonyOvhPabxHunting {
   /** The templated url of your CRM, opened by the banner application of your cloudpabx */
-  crmUrlTemplate?: string | null;
+  crmUrlTemplate?: string | null | undefined;
   /** Enable G729 codec on your callcenter */
-  g729?: boolean | null;
+  g729?: boolean | null | undefined;
   /** The name of your callcenter offer */
-  name?: string;
+  name?: string | undefined;
   /** Enable/Disable the status change IVR on your callcenter. The IVR is enabled by default. */
-  statusIvrEnabled?: boolean;
+  statusIvrEnabled?: boolean | undefined;
 }
 export interface GetTelephonyEasyHuntingHuntingAgentRequest {
   /** The name of your billingAccount */
@@ -3043,26 +3066,26 @@ export type TelephonyOvhPabxHuntingLiveCallsStateEnum = "Answered" | "Waiting";
 /** Live statistics of the queue */
 export interface TelephonyOvhPabxHuntingQueueLiveCalls {
   /** Name or number of the agent who answered the call */
-  agent?: string;
+  agent?: string | undefined;
   /** Answer date of the call */
-  answered?: string | null;
+  answered?: string | null | undefined;
   /** Begin date of the call */
-  begin?: string;
+  begin?: string | undefined;
   /** Name of the caller (or anonymous if unknown) */
-  callerIdName?: string;
+  callerIdName?: string | undefined;
   /** Phone number of the caller (or anonymous if unknown) */
-  callerIdNumber?: string;
+  callerIdNumber?: string | undefined;
   /** Phone number called (in case of an outgoing call) */
-  destinationNumber?: string;
+  destinationNumber?: string | undefined;
   /** End date of the call */
-  end?: string | null;
-  id?: number;
+  end?: string | null | undefined;
+  id?: number | undefined;
   /** Whether or not the call is on hold */
-  onHold?: boolean | null;
+  onHold?: boolean | null | undefined;
   /** Name of the queue of the call */
-  queue?: string;
+  queue?: string | undefined;
   /** Current state of the call */
-  state?: TelephonyOvhPabxHuntingLiveCallsStateEnum;
+  state?: TelephonyOvhPabxHuntingLiveCallsStateEnum | undefined;
 }
 export interface GetTelephonyEasyHuntingHuntingAgentEventTokenRequest {
   /** The name of your billingAccount */
@@ -3072,7 +3095,7 @@ export interface GetTelephonyEasyHuntingHuntingAgentEventTokenRequest {
 }
 /** Token associated to the service for live event */
 export interface TelephonyEventToken {
-  token?: string;
+  token?: string | undefined;
 }
 export interface GetTelephonyEasyHuntingHuntingAgentLiveStatusRequest {
   /** The name of your billingAccount */
@@ -3090,13 +3113,13 @@ export type TelephonyOvhPabxHuntingLiveAgentStatusEnum =
 /** Live statistics of the queue */
 export interface TelephonyOvhPabxHuntingAgentLiveStatus {
   /** The number of calls this agent took on the current day */
-  answeredCalls?: number;
+  answeredCalls?: number | undefined;
   /** Last status change date */
-  lastStatusChange?: string;
+  lastStatusChange?: string | undefined;
   /** Current status of the agent */
-  status?: TelephonyOvhPabxHuntingLiveAgentStatusEnum;
+  status?: TelephonyOvhPabxHuntingLiveAgentStatusEnum | undefined;
   /** The total duration in seconds of the calls this agent took on the current day */
-  totalCallDuration?: number;
+  totalCallDuration?: number | undefined;
 }
 export interface GetTelephonyEasyHuntingHuntingAgentQueueRequest {
   /** The name of your billingAccount */
@@ -3160,17 +3183,17 @@ export interface GetTelephonyEasyHuntingHuntingQueueLiveStatisticsRequest {
 /** Live statistics of the queue */
 export interface TelephonyOvhPabxHuntingQueueLiveStatistics {
   /** Total of calls answered */
-  callsAnswered?: number;
+  callsAnswered?: number | undefined;
   /** Total of calls lost */
-  callsLost?: number;
+  callsLost?: number | undefined;
   /** Total of calls */
-  callsTotal?: number;
+  callsTotal?: number | undefined;
   /** Last reset datetime of queue's statistics */
-  lastReset?: string;
+  lastReset?: string | undefined;
   /** Total call duration in seconds */
-  totalCallDuration?: number;
+  totalCallDuration?: number | undefined;
   /** Total waiting duration in seconds */
-  totalWaitingDuration?: number;
+  totalWaitingDuration?: number | undefined;
 }
 export interface GetTelephonyEasyHuntingRecordRequest {
   /** The name of your billingAccount */
@@ -3181,22 +3204,22 @@ export interface GetTelephonyEasyHuntingRecordRequest {
 /** The PABX records */
 export interface TelephonyOvhPabxRecord {
   /** The agent number of the recorded call */
-  agent?: string | null;
+  agent?: string | null | undefined;
   /** The end date of the recorded call */
-  callEnd?: string | null;
+  callEnd?: string | null | undefined;
   /** The begin date of the recorded call */
-  callStart?: string;
+  callStart?: string | undefined;
   /** The caller name of the recorded call */
-  callerIdName?: string;
+  callerIdName?: string | undefined;
   /** The caller number of the recorded call */
-  callerIdNumber?: string;
+  callerIdNumber?: string | undefined;
   /** The destination number of the recorded call */
-  destinationNumber?: string | null;
+  destinationNumber?: string | null | undefined;
   /** The duration in seconds of the recorded call */
-  duration?: number;
+  duration?: number | undefined;
   /** The record sound url */
-  fileUrl?: string;
-  id?: number;
+  fileUrl?: string | undefined;
+  id?: number | undefined;
 }
 export interface GetTelephonyEasyHuntingScreenListConditionConditionRequest {
   /** The name of your billingAccount */
@@ -3216,7 +3239,7 @@ export type TelephonyEasyHuntingScreenListsConditionsStatusEnum =
   | "incomingWhiteList";
 /** Easy hunting screen lists conditions options */
 export interface TelephonyEasyHuntingScreenListsConditionsSettings {
-  status?: TelephonyEasyHuntingScreenListsConditionsStatusEnum;
+  status?: TelephonyEasyHuntingScreenListsConditionsStatusEnum | undefined;
 }
 export interface GetTelephonyEasyHuntingSoundRequest {
   /** The name of your billingAccount */
@@ -3227,8 +3250,8 @@ export interface GetTelephonyEasyHuntingSoundRequest {
 /** The PABX sounds */
 export interface TelephonyOvhPabxSound {
   /** The sound filename */
-  name?: string;
-  soundId?: number;
+  name?: string | undefined;
+  soundId?: number | undefined;
 }
 export interface GetTelephonyEasyHuntingTimeConditionConditionRequest {
   /** The name of your billingAccount */
@@ -3246,23 +3269,23 @@ export type TelephonyTimeConditionsSettingsForwardTypeEnum = "number" | "voicema
 /** Easy hunting time conditions options */
 export interface TelephonyEasyHuntingTimeConditionsSettings {
   /** Status of time conditions */
-  enable?: boolean;
+  enable?: boolean | undefined;
   /** Number associated to the first slot action */
-  slot1Number?: string | null;
+  slot1Number?: string | null | undefined;
   /** Action type executed when the first slot is used */
-  slot1Type?: TelephonyTimeConditionsSettingsForwardTypeEnum | null;
+  slot1Type?: TelephonyTimeConditionsSettingsForwardTypeEnum | null | undefined;
   /** Number associated to the second slot action */
-  slot2Number?: string | null;
+  slot2Number?: string | null | undefined;
   /** Action type executed when the second slot is used */
-  slot2Type?: TelephonyTimeConditionsSettingsForwardTypeEnum | null;
+  slot2Type?: TelephonyTimeConditionsSettingsForwardTypeEnum | null | undefined;
   /** Number associated to the third slot action */
-  slot3Number?: string | null;
+  slot3Number?: string | null | undefined;
   /** Action type executed when the third slot is used */
-  slot3Type?: TelephonyTimeConditionsSettingsForwardTypeEnum | null;
+  slot3Type?: TelephonyTimeConditionsSettingsForwardTypeEnum | null | undefined;
   /** Number associated to the unavailable slot action */
-  unavailableNumber?: string | null;
+  unavailableNumber?: string | null | undefined;
   /** Action type executed when the unavailable slot is used */
-  unavailableType?: TelephonyTimeConditionsSettingsForwardTypeEnum | null;
+  unavailableType?: TelephonyTimeConditionsSettingsForwardTypeEnum | null | undefined;
 }
 export interface GetTelephonyEventTokenRequest {
   /** The name of your billingAccount */
@@ -3278,25 +3301,25 @@ export type TelephonyLineNotificationsLogsFrequencyEnum = "Never" | "Once a day"
 /** Error logging notifications options */
 export interface TelephonyLineNotificationsLogsOptions {
   /** Email address where to send notifications */
-  email?: string | null;
+  email?: string | null | undefined;
   /** Frequency at which the notifications will be send */
-  frequency?: TelephonyLineNotificationsLogsFrequencyEnum | (string & {}) | null;
+  frequency?: TelephonyLineNotificationsLogsFrequencyEnum | (string & {}) | null | undefined;
   /** Send a blank notification if there is no diagnosticReports entries for the period */
-  sendIfNull?: boolean | null;
+  sendIfNull?: boolean | null | undefined;
 }
 export interface TelephonyLineNotificationsOptions {
   /** Error logging notifications options */
-  logs?: TelephonyLineNotificationsLogsOptions | null;
+  logs?: TelephonyLineNotificationsLogsOptions | null | undefined;
 }
 export type TelephonyFaxOffersList = Array<string>;
 /** Fax service */
 export interface TelephonyFax {
-  description?: string;
+  description?: string | undefined;
   /** Send notifications about Line's diagnosticReports */
-  notifications?: TelephonyLineNotificationsOptions | null;
-  offers?: TelephonyFaxOffersList;
-  serviceName?: string;
-  serviceType?: TelephonyTypeServiceEnum;
+  notifications?: TelephonyLineNotificationsOptions | null | undefined;
+  offers?: TelephonyFaxOffersList | undefined;
+  serviceName?: string | undefined;
+  serviceType?: TelephonyTypeServiceEnum | undefined;
 }
 export interface GetTelephonyFaxCampaignRequest {
   /** The name of your billingAccount */
@@ -3322,18 +3345,18 @@ export type TelephonyFaxMailFormatEnum = "html" | "text";
 export type TelephonyFaxPropertiesRedirectionEmailList = Array<string>;
 /** Fax properties */
 export interface TelephonyFaxProperties {
-  callNumber?: string;
-  countryCode?: string;
-  faxMaxCall?: TelephonyFaxSendingTries;
-  faxQuality?: TelephonyFaxQualityEnum;
-  faxTagLine?: string;
-  fromEmail?: string;
-  fromName?: string;
-  mailFormat?: TelephonyFaxMailFormatEnum;
-  receiver?: string;
-  redirectionEmail?: TelephonyFaxPropertiesRedirectionEmailList;
-  rejectAnonymous?: boolean;
-  sender?: string;
+  callNumber?: string | undefined;
+  countryCode?: string | undefined;
+  faxMaxCall?: TelephonyFaxSendingTries | undefined;
+  faxQuality?: TelephonyFaxQualityEnum | undefined;
+  faxTagLine?: string | undefined;
+  fromEmail?: string | undefined;
+  fromName?: string | undefined;
+  mailFormat?: TelephonyFaxMailFormatEnum | undefined;
+  receiver?: string | undefined;
+  redirectionEmail?: TelephonyFaxPropertiesRedirectionEmailList | undefined;
+  rejectAnonymous?: boolean | undefined;
+  sender?: string | undefined;
 }
 export interface GetTelephonyHasSpecialNumbersRequest {
   /** The name of your billingAccount */
@@ -3347,10 +3370,10 @@ export interface GetTelephonyHistoryConsumptionRequest {
 }
 /** Previous billed consumptions */
 export interface TelephonyHistoryConsumption {
-  date?: string;
-  price?: OrderPrice;
-  priceOutplan?: OrderPrice;
-  status?: TelephonyBillStatusEnum;
+  date?: string | undefined;
+  price?: OrderPrice | undefined;
+  priceOutplan?: OrderPrice | undefined;
+  status?: TelephonyBillStatusEnum | undefined;
 }
 /** Document suffix */
 export type TelephonyBillDocument = "csv" | "pdf" | "received.csv" | "xml";
@@ -3365,10 +3388,10 @@ export interface GetTelephonyHistoryConsumptionFileRequest {
 export type TelephonyPcsFileStatusEnum = "doing" | "done" | "error" | "todo";
 /** Telephony API related file hosted */
 export interface TelephonyPcsFile {
-  filename?: string;
-  status?: TelephonyPcsFileStatusEnum;
-  url?: string;
-  urlExpirationDatetime?: string;
+  filename?: string | undefined;
+  status?: TelephonyPcsFileStatusEnum | undefined;
+  url?: string | undefined;
+  urlExpirationDatetime?: string | undefined;
 }
 export interface GetTelephonyHistoryRepaymentConsumptionRequest {
   /** The name of your billingAccount */
@@ -3391,11 +3414,11 @@ export interface GetTelephonyHistoryTollfreeConsumptionRequest {
 /** Previous tollfree bill */
 export interface TelephonyHistoryTollfreeConsumption {
   /** date of the bill */
-  date?: string;
+  date?: string | undefined;
   /** the amount which is paid by the called number */
-  price?: OrderPrice;
+  price?: OrderPrice | undefined;
   /** status of the bill */
-  status?: TelephonyBillStatusEnum;
+  status?: TelephonyBillStatusEnum | undefined;
 }
 export interface GetTelephonyHistoryTollfreeConsumptionDocumentRequest {
   /** The name of your billingAccount */
@@ -3497,33 +3520,33 @@ export type TelephonyCallsGeneratorHangupCauseEnum =
 /** Automatic Call made by Call Generator on this line */
 export interface TelephonyCallsGenerated {
   /** answer date */
-  answerDatetime?: string | null;
+  answerDatetime?: string | null | undefined;
   /** Application and dialplan running for call */
-  application?: string | null;
+  application?: string | null | undefined;
   /** end status of application */
-  applicationResult?: string | null;
+  applicationResult?: string | null | undefined;
   /** billingNumber (service used) */
-  billingNumber?: string;
+  billingNumber?: string | undefined;
   /** creation date of the call */
-  callCreatedDatetime?: string | null;
+  callCreatedDatetime?: string | null | undefined;
   /** call duration on seconds */
-  callDuration?: number | null;
+  callDuration?: number | null | undefined;
   /** number called */
-  callee?: string | null;
+  callee?: string | null | undefined;
   /** number where the call come from */
-  caller?: string | null;
+  caller?: string | null | undefined;
   /** DTMF received during the call separate by commas */
-  dtmf?: string | null;
+  dtmf?: string | null | undefined;
   /** hangup cause */
-  hangupCause?: TelephonyCallsGeneratorHangupCauseEnum | null;
+  hangupCause?: TelephonyCallsGeneratorHangupCauseEnum | null | undefined;
   /** hangup date */
-  hangupDatetime?: string | null;
+  hangupDatetime?: string | null | undefined;
   /** Generated call identifier */
-  identifier?: string;
+  identifier?: string | undefined;
   /** original call uuid if it's a transfer */
-  transferFrom?: string | null;
+  transferFrom?: string | null | undefined;
   /** unique call id */
-  uuid?: string;
+  uuid?: string | undefined;
 }
 export interface GetTelephonyLineByServiceNameRequest {
   /** The name of your billingAccount */
@@ -3533,34 +3556,34 @@ export interface GetTelephonyLineByServiceNameRequest {
 /** Informations related to a line offer */
 export interface TelephonyLineOffer {
   /** The offer description */
-  description?: string;
+  description?: string | undefined;
   /** The offer name */
-  name?: string;
+  name?: string | undefined;
   /** Offer price per month */
-  price?: OrderPrice | null;
+  price?: OrderPrice | null | undefined;
 }
 /** The line offers (Deprecated, prefer "name" in getPublicOffer) */
 export type TelephonyLineOffersList = Array<string>;
 /** Line service */
 export interface TelephonyLine {
   /** Ability to manage SIP password on this service */
-  canChangePassword?: boolean;
-  description?: string;
+  canChangePassword?: boolean | undefined;
+  description?: string | undefined;
   /** The position of the line when attached to a device (0 if the line is not attached to a device) */
-  deviceSlot?: number;
+  deviceSlot?: number | undefined;
   /** The line offers */
-  getPublicOffer?: TelephonyLineOffer;
+  getPublicOffer?: TelephonyLineOffer | undefined;
   /** The infrastructure where is configured the line */
-  infrastructure?: string;
+  infrastructure?: string | undefined;
   /** Is this line attached to a phone that belongs to another line? */
-  isAttachedToOtherLinesPhone?: boolean;
+  isAttachedToOtherLinesPhone?: boolean | undefined;
   /** Send notifications about Line's diagnosticReports */
-  notifications?: TelephonyLineNotificationsOptions | null;
+  notifications?: TelephonyLineNotificationsOptions | null | undefined;
   /** The line offers (Deprecated, prefer "name" in getPublicOffer) */
-  offers?: TelephonyLineOffersList;
-  serviceName?: string;
-  serviceType?: TelephonyTypeServiceEnum;
-  simultaneousLines?: number;
+  offers?: TelephonyLineOffersList | undefined;
+  serviceName?: string | undefined;
+  serviceType?: TelephonyTypeServiceEnum | undefined;
+  simultaneousLines?: number | undefined;
 }
 export interface GetTelephonyLineClick2CallUserRequest {
   /** The name of your billingAccount */
@@ -3572,11 +3595,11 @@ export interface GetTelephonyLineClick2CallUserRequest {
 /** User of the click 2 call */
 export interface TelephonyClick2CallUser {
   /** Date when user was created */
-  creationDateTime?: string;
+  creationDateTime?: string | undefined;
   /** Contact identifier */
-  id?: number;
+  id?: number | undefined;
   /** login of the click 2 call user */
-  login?: string;
+  login?: string | undefined;
 }
 export interface GetTelephonyLineEventRequest {
   /** The name of your billingAccount */
@@ -3600,21 +3623,21 @@ export type TelephonyRealtimeEventProtocol = "mgcp" | "sip";
 /** Events triggered by the line */
 export interface TelephonyEvent {
   /** Called referer, could be the msisdn or the label name */
-  calledIdentifier?: string;
+  calledIdentifier?: string | undefined;
   /** Calling referer, could be the msisdn or the label name */
-  callingIdentifier?: string;
+  callingIdentifier?: string | undefined;
   /** Datetime call establishment */
-  dateTime?: string;
+  dateTime?: string | undefined;
   /** Incoming or outgoing call */
-  direction?: TelephonyRealtimeEventDirection;
+  direction?: TelephonyRealtimeEventDirection | undefined;
   /** Duration of the call */
-  duration?: number;
+  duration?: number | undefined;
   /** Type of event */
-  eventType?: TelephonyRealtimeEventType;
+  eventType?: TelephonyRealtimeEventType | undefined;
   /** Uniq identifier of the call */
-  id?: string;
+  id?: string | undefined;
   /** Protocol (mgcp or sip) */
-  protocol?: TelephonyRealtimeEventProtocol;
+  protocol?: TelephonyRealtimeEventProtocol | undefined;
 }
 export interface GetTelephonyLineMaximumAvailableSimultaneousLinesRequest {
   /** The name of your billingAccount */
@@ -3655,75 +3678,75 @@ export type TelephonyLineOptionLanguageEnum =
   | "Spanish";
 /** Line options */
 export interface TelephonyLineOptions {
-  absentSubscriber?: boolean;
+  absentSubscriber?: boolean | undefined;
   /** Reject anonymous calls */
-  anonymousCallRejection?: boolean;
+  anonymousCallRejection?: boolean | undefined;
   /** Whether or not the line has restriction on incoming calls */
-  callRestrictionIncoming?: boolean;
+  callRestrictionIncoming?: boolean | undefined;
   /** Whether or not the line has restriction on outgoing calls */
-  callRestrictionOutgoing?: boolean;
+  callRestrictionOutgoing?: boolean | undefined;
   /** If the line receives a new call and the line is already in communication, this new call is dispatched once the current call is completed */
-  callWaiting?: boolean;
+  callWaiting?: boolean | undefined;
   /** Codecs preferences */
-  codecs?: string;
+  codecs?: string | undefined;
   /** The default voicemail of the line. It can be the voicemail of any line of your account. */
-  defaultVoicemail?: string;
-  displayNumber?: string;
-  doNotDisturb?: boolean;
+  defaultVoicemail?: string | undefined;
+  displayNumber?: string | undefined;
+  doNotDisturb?: boolean | undefined;
   /** The domain to configure in your SIP client. */
-  domain?: string;
+  domain?: string | undefined;
   /** Enable calls forward when the line is unavailable */
-  forwardBackup?: boolean;
+  forwardBackup?: boolean | undefined;
   /** Nature of the forward when the line is unavailable */
-  forwardBackupNature?: TelephonyLineOptionForwardNatureTypeEnum;
+  forwardBackupNature?: TelephonyLineOptionForwardNatureTypeEnum | undefined;
   /** Destination of the forward when the line is unavailable */
-  forwardBackupNumber?: string;
+  forwardBackupNumber?: string | undefined;
   /** Enable calls forward when the line is busy */
-  forwardBusy?: boolean;
+  forwardBusy?: boolean | undefined;
   /** Nature of the forward when the line is busy */
-  forwardBusyNature?: TelephonyLineOptionForwardNatureTypeEnum;
+  forwardBusyNature?: TelephonyLineOptionForwardNatureTypeEnum | undefined;
   /** Destination of the forward when the line is busy */
-  forwardBusyNumber?: string;
+  forwardBusyNumber?: string | undefined;
   /** Enable calls forward on no-reply */
-  forwardNoReply?: boolean;
+  forwardNoReply?: boolean | undefined;
   /** Delay before forward on no-reply */
-  forwardNoReplyDelay?: number;
+  forwardNoReplyDelay?: number | undefined;
   /** Nature of the forward on no-reply */
-  forwardNoReplyNature?: TelephonyLineOptionForwardNatureTypeEnum;
+  forwardNoReplyNature?: TelephonyLineOptionForwardNatureTypeEnum | undefined;
   /** Destination of the forward on no-reply */
-  forwardNoReplyNumber?: string;
+  forwardNoReplyNumber?: string | undefined;
   /** Enable unconditional calls forward */
-  forwardUnconditional?: boolean;
+  forwardUnconditional?: boolean | undefined;
   /** Nature of the unconditional forward */
-  forwardUnconditionalNature?: TelephonyLineOptionForwardNatureTypeEnum;
+  forwardUnconditionalNature?: TelephonyLineOptionForwardNatureTypeEnum | undefined;
   /** Destination of the unconditional forward */
-  forwardUnconditionalNumber?: string;
+  forwardUnconditionalNumber?: string | undefined;
   /** Do not display your number */
-  identificationRestriction?: boolean;
+  identificationRestriction?: boolean | undefined;
   /** Intercom mode: takes automatically the call with the loudspeaker */
-  intercom?: TelephonyLineOptionIntercomEnum;
+  intercom?: TelephonyLineOptionIntercomEnum | undefined;
   /** The ip restrictions of your line */
-  ipRestrictions?: TelephonyLineOptionsIpRestrictionsList;
+  ipRestrictions?: TelephonyLineOptionsIpRestrictionsList | undefined;
   /** Language of the line */
-  language?: TelephonyLineOptionLanguageEnum;
+  language?: TelephonyLineOptionLanguageEnum | undefined;
   /** Disallow outgoing calls */
-  lockOutCall?: boolean;
+  lockOutCall?: boolean | undefined;
   /** Disallow outgoing calls password */
-  lockOutCallPassword?: string | Redacted.Redacted<string> | null;
+  lockOutCallPassword?: string | Redacted.Redacted<string> | null | undefined;
   /** The outbound proxy to configure in your SIP client. */
-  proxy?: string;
+  proxy?: string | undefined;
   /** Enable or disable record of outgoing calls */
-  recordOutgoingCallsBeta?: boolean;
+  recordOutgoingCallsBeta?: boolean | undefined;
   /** Sound ID of on-call-waiting tone */
-  toneOnCallWaitingSoundId?: number | null;
+  toneOnCallWaitingSoundId?: number | null | undefined;
   /** Sound ID of on-hold tone */
-  toneOnHoldSoundId?: number | null;
+  toneOnHoldSoundId?: number | null | undefined;
   /** Sound ID of ringback tone */
-  toneRingbackSoundId?: number | null;
+  toneRingbackSoundId?: number | null | undefined;
   /** Voicemail number to dial from any other line */
-  voicemailExternalNumber?: string;
+  voicemailExternalNumber?: string | undefined;
   /** Voicemail short number to dial from the line */
-  voicemailInternalNumber?: string;
+  voicemailInternalNumber?: string | undefined;
 }
 export interface GetTelephonyLinePhoneRequest {
   /** The name of your billingAccount */
@@ -3736,8 +3759,8 @@ export type TelephonyPhoneConfigurationPropertyEnumList = Array<string>;
 export type TelephonyPhoneConfigurationLevelEnum = "admin" | "expert";
 /** Start and end points (inclusive) of a range */
 export interface ComplexTypeRangeLong {
-  from?: number;
-  to?: number;
+  from?: number | undefined;
+  to?: number | undefined;
 }
 /** Phone configuration type enum */
 export type TelephonyPhoneConfigurationTypeEnum =
@@ -3750,25 +3773,25 @@ export type TelephonyPhoneConfigurationTypeEnum =
 /** Phone configuration property */
 export interface TelephonyPhoneConfigurationProperty {
   /** Default property value */
-  default?: string | null;
+  default?: string | null | undefined;
   /** Property description */
-  description?: string | null;
+  description?: string | null | undefined;
   /** Property value possibilities */
-  enum?: TelephonyPhoneConfigurationPropertyEnumList | null;
+  enum?: TelephonyPhoneConfigurationPropertyEnumList | null | undefined;
   /** The property group */
-  group?: string | null;
+  group?: string | null | undefined;
   /** Provisioning level */
-  level?: TelephonyPhoneConfigurationLevelEnum | null;
+  level?: TelephonyPhoneConfigurationLevelEnum | null | undefined;
   /** Max string chars */
-  maxlength?: number | null;
+  maxlength?: number | null | undefined;
   /** The property name */
-  name?: string | null;
+  name?: string | null | undefined;
   /** Range property value */
-  rangeValue?: ComplexTypeRangeLong | null;
+  rangeValue?: ComplexTypeRangeLong | null | undefined;
   /** Provisioning type */
-  type?: TelephonyPhoneConfigurationTypeEnum | null;
+  type?: TelephonyPhoneConfigurationTypeEnum | null | undefined;
   /** Current property value */
-  value?: string | null;
+  value?: string | null | undefined;
 }
 /** Current phone properties */
 export type TelephonyPhonePhoneConfigurationList = Array<TelephonyPhoneConfigurationProperty>;
@@ -3777,23 +3800,23 @@ export type TelephonyProtocolEnum = "mgcp" | "sip";
 /** Plug & Phone */
 export interface TelephonyPhone {
   /** Brand name */
-  brand?: string;
+  brand?: string | undefined;
   /** The phone description */
-  description?: string;
+  description?: string | undefined;
   /** Mac Address */
-  macAddress?: string;
+  macAddress?: string | undefined;
   /** Maximum simultaneous calls managed by the phone */
-  maxSimultaneousCalls?: number;
+  maxSimultaneousCalls?: number | undefined;
   /** Maximum number of lines managed by a phone */
-  maxline?: number;
+  maxline?: number | undefined;
   /** The ip restriction of your MGCP phone */
-  mgcpIpRestriction?: string | null;
+  mgcpIpRestriction?: string | null | undefined;
   /** Current phone properties */
-  phoneConfiguration?: TelephonyPhonePhoneConfigurationList;
+  phoneConfiguration?: TelephonyPhonePhoneConfigurationList | undefined;
   /** Phone protocol */
-  protocol?: TelephonyProtocolEnum;
+  protocol?: TelephonyProtocolEnum | undefined;
   /** The phone user password */
-  userPassword?: string | Redacted.Redacted<string> | null;
+  userPassword?: string | Redacted.Redacted<string> | null | undefined;
 }
 export interface GetTelephonyLinePhoneAdminCredentialsRequest {
   /** The name of your billingAccount */
@@ -3803,9 +3826,9 @@ export interface GetTelephonyLinePhoneAdminCredentialsRequest {
 /** Credentials to access the web interface of the phone */
 export interface TelephonyPhoneCredentials {
   /** Username to access the web interface of the phone */
-  login?: string | null;
+  login?: string | null | undefined;
   /** Password to access the web interface of the phone */
-  password?: string | Redacted.Redacted<string>;
+  password?: string | Redacted.Redacted<string> | undefined;
 }
 export interface GetTelephonyLinePhoneFunctionKeyRequest {
   /** The name of your billingAccount */
@@ -3817,17 +3840,17 @@ export interface GetTelephonyLinePhoneFunctionKeyRequest {
 /** Plug & Phone function key */
 export interface TelephonyFunctionKey {
   /** The default function used by the key */
-  default?: string | null;
+  default?: string | null | undefined;
   /** The function active on the key */
-  function?: string | null;
+  function?: string | null | undefined;
   /** The number of the function key */
-  keyNum?: number;
+  keyNum?: number | undefined;
   /** The key label */
-  label?: string;
+  label?: string | undefined;
   /** The function parameter */
-  parameter?: string | null;
+  parameter?: string | null | undefined;
   /** The key type */
-  type?: string;
+  type?: string | undefined;
 }
 export interface GetTelephonyLinePhonePhonebookRequest {
   /** The name of your billingAccount */
@@ -3839,13 +3862,13 @@ export interface GetTelephonyLinePhonePhonebookRequest {
 /** Phone book */
 export interface TelephonyPhonebook {
   /** Identifier of the phonebook */
-  bookKey?: string;
+  bookKey?: string | undefined;
   /** Set if phonebook is readonly */
-  isReadonly?: boolean;
+  isReadonly?: boolean | undefined;
   /** Phonebook name */
-  name?: string;
+  name?: string | undefined;
   /** Phone key identifier between the phone and phonebooks */
-  phoneKey?: string;
+  phoneKey?: string | undefined;
 }
 /** Export file format */
 export type TelephonyContactsExportFormatsEnum = "csv";
@@ -3870,21 +3893,21 @@ export interface GetTelephonyLinePhonePhonebookPhonebookContactRequest {
 /** Phone book contact */
 export interface TelephonyPhonebookContact {
   /** Group name of the phonebook */
-  group?: string;
+  group?: string | undefined;
   /** Home mobile phone number of the contact */
-  homeMobile?: string | null;
+  homeMobile?: string | null | undefined;
   /** Home landline phone number of the contact */
-  homePhone?: string | null;
+  homePhone?: string | null | undefined;
   /** Contact identifier */
-  id?: number;
+  id?: number | undefined;
   /** Contact name */
-  name?: string;
+  name?: string | undefined;
   /** Contact surname */
-  surname?: string;
+  surname?: string | undefined;
   /** Mobile phone office number of the contact */
-  workMobile?: string | null;
+  workMobile?: string | null | undefined;
   /** Landline phone office number of the contact */
-  workPhone?: string | null;
+  workPhone?: string | null | undefined;
 }
 export interface GetTelephonyLinePhoneRmaRequest {
   /** The name of your billingAccount */
@@ -4162,22 +4185,22 @@ export type CoreTypesCountryEnum =
 /** Contact informations structure */
 export interface TelephonyContact {
   /** Contact address */
-  address?: string | null;
+  address?: string | null | undefined;
   /** Contact city */
-  city?: string | null;
+  city?: string | null | undefined;
   /** Contact country */
-  country?: CoreTypesCountryEnum | (string & {}) | null;
-  email?: string | null;
+  country?: CoreTypesCountryEnum | (string & {}) | null | undefined;
+  email?: string | null | undefined;
   /** Contact firstname */
-  firstname?: string | null;
+  firstname?: string | null | undefined;
   /** Contact name */
-  name?: string | null;
+  name?: string | null | undefined;
   /** Contact organisation */
-  organisation?: string | null;
+  organisation?: string | null | undefined;
   /** Contact phone */
-  phone?: string | null;
+  phone?: string | null | undefined;
   /** Contact zip */
-  zip?: string | null;
+  zip?: string | null | undefined;
 }
 /** Return merchandise authorisation step */
 export type TelephonyRmaStatusEnum = "closed" | "open" | "received";
@@ -4195,15 +4218,15 @@ export type TelephonyRmaStepStatusEnum = "done" | "todo";
 /** Informations related to the current RMA step status */
 export interface TelephonyRmaStep {
   /** A brief description of the step */
-  description?: string;
+  description?: string | undefined;
   /** The date when this step was done */
-  doneDate?: string | null;
+  doneDate?: string | null | undefined;
   /** Additional informations about the step */
-  infos?: string | null;
+  infos?: string | null | undefined;
   /** The name of the RMA step */
-  name?: TelephonyRmaStepNameEnum;
+  name?: TelephonyRmaStepNameEnum | undefined;
   /** Status of the step */
-  status?: TelephonyRmaStepStatusEnum;
+  status?: TelephonyRmaStepStatusEnum | undefined;
 }
 /** Indicates the current status of the RMA with a list of steps */
 export type TelephonyRmaStepsList = Array<TelephonyRmaStep>;
@@ -4223,33 +4246,33 @@ export type TelephonyRmaTypeEnum =
 /** Current Return Merchandise Authorisation */
 export interface TelephonyRma {
   /** Is the RMA cancellable? */
-  cancellable?: boolean;
+  cancellable?: boolean | undefined;
   /** Creation datetime of the return merchandise authorisation ticket */
-  creationDatetime?: string;
+  creationDatetime?: string | undefined;
   /** Merchandise reference */
-  equipmentReference?: string;
+  equipmentReference?: string | undefined;
   /** Return merchandise authorisation identifier */
-  id?: string;
+  id?: string | undefined;
   /** New merchandise brand in case of exchange */
-  newMerchandise?: string | null;
+  newMerchandise?: string | null | undefined;
   /** Offer type of the new merchandise in case of exchange */
-  offerTypeNew?: TelephonyRmaOfferTypeEnum | null;
+  offerTypeNew?: TelephonyRmaOfferTypeEnum | null | undefined;
   /** Offer type of the return merchandise */
-  offerTypeOld?: TelephonyRmaOfferTypeEnum;
+  offerTypeOld?: TelephonyRmaOfferTypeEnum | undefined;
   /** Process determined for merchandise returned */
-  process?: TelephonyRmaReplaceTypeEnum;
+  process?: TelephonyRmaReplaceTypeEnum | undefined;
   /** Reception datetime of the return merchandise authorisation ticket */
-  receptionDatetime?: string | null;
+  receptionDatetime?: string | null | undefined;
   /** Contact information related to the delivery shipping in case of exchange */
-  shippingContact?: TelephonyContact;
+  shippingContact?: TelephonyContact | undefined;
   /** Return merchandise authorisation step */
-  status?: TelephonyRmaStatusEnum;
+  status?: TelephonyRmaStatusEnum | undefined;
   /** Indicates the current status of the RMA with a list of steps */
-  steps?: TelephonyRmaStepsList;
+  steps?: TelephonyRmaStepsList | undefined;
   /** Termination datetime of the return merchandise authorisation ticket */
-  terminationDatetime?: string | null;
+  terminationDatetime?: string | null | undefined;
   /** Typology process of merchandise return */
-  type?: TelephonyRmaTypeEnum;
+  type?: TelephonyRmaTypeEnum | undefined;
 }
 export interface GetTelephonyLinePhoneSupportsPhonebookRequest {
   /** The name of your billingAccount */
@@ -4276,15 +4299,15 @@ export interface GetTelephonyLineSimultaneousChannelsDetailsRequest {
 /** Details about simultaneous channels of this line */
 export interface TelephonySimultaneousChannelsDetails {
   /** Basic quantity of simultaneous channels included in the line. */
-  basic?: number;
+  basic?: number | undefined;
   /** Current quantity of simultaneous channels. */
-  current?: number;
+  current?: number | undefined;
   /** Extra quantity of simultaneous channels added to the line. */
-  extra?: number;
+  extra?: number | undefined;
   /** Maximum quantity of simultaneous channels the line can have. */
-  maximum?: number;
+  maximum?: number | undefined;
   /** Quantity of simultaneous channels going to be deleted at the end of the billing cycle. */
-  toBeDeleted?: number;
+  toBeDeleted?: number | undefined;
 }
 export interface GetTelephonyLineSoftphoneBetaRequest {
   /** The name of your billingAccount */
@@ -4318,11 +4341,11 @@ export type TelephonySoftphoneInfrastructureEnum = "LEGACY" | "NOWI";
 /** Softphone status */
 export interface TelephonySoftphoneStatus {
   /** Line beta softphone activation status */
-  activation?: boolean;
+  activation?: boolean | undefined;
   /** Line eligibility to softphone */
-  eligibility?: boolean;
+  eligibility?: boolean | undefined;
   /** Line infrastructure */
-  infrastructure?: TelephonySoftphoneInfrastructureEnum;
+  infrastructure?: TelephonySoftphoneInfrastructureEnum | undefined;
 }
 export interface GetTelephonyLineSoftphoneThemeRequest {
   /** The name of your billingAccount */
@@ -4332,9 +4355,9 @@ export interface GetTelephonyLineSoftphoneThemeRequest {
 /** Softphone theme information */
 export interface TelephonySoftphoneTheme {
   /** Theme main color code */
-  color?: string;
+  color?: string | undefined;
   /** Theme ID */
-  themeId?: number;
+  themeId?: number | undefined;
 }
 export interface GetTelephonyLineTonesRequest {
   /** The name of your billingAccount */
@@ -4348,13 +4371,13 @@ export type TelephonyTonesOnHoldEnum = "Custom sound" | "None" | "Predefined 1" 
 /** Line tones */
 export interface TelephonyTones {
   /** Tone played when caller is waiting in queue */
-  callWaiting?: TelephonyTonesEnum;
+  callWaiting?: TelephonyTonesEnum | undefined;
   /** Tone played when callee is ending call */
-  endCall?: TelephonyTonesEnum;
+  endCall?: TelephonyTonesEnum | undefined;
   /** Tone played when caller is put on hold */
-  onHold?: TelephonyTonesOnHoldEnum;
+  onHold?: TelephonyTonesOnHoldEnum | undefined;
   /** Ringback tone */
-  ringback?: TelephonyTonesEnum;
+  ringback?: TelephonyTonesEnum | undefined;
 }
 export interface GetTelephonyLineTrafficExtractRequest {
   /** The name of your billingAccount */
@@ -4372,14 +4395,14 @@ export interface GetTelephonyNumberRequest {
 /** Additional number */
 export interface TelephonyNumber {
   /** Description of the service */
-  description?: string;
+  description?: string | undefined;
   /** Feature enabled on the number */
-  featureType?: TelephonyTypeEnum;
+  featureType?: TelephonyTypeEnum | undefined;
   /** Parent of the service (if it is part of a pool) */
-  partOfPool?: string | null;
+  partOfPool?: string | null | undefined;
   /** Name of the service */
-  serviceName?: string;
-  serviceType?: TelephonyTypeServiceEnum;
+  serviceName?: string | undefined;
+  serviceType?: TelephonyTypeServiceEnum | undefined;
 }
 export interface GetTelephonyOfferTaskRequest {
   /** The name of your billingAccount */
@@ -4400,14 +4423,14 @@ export interface GetTelephonyOvhPabxRequest {
 /** OVH calls queues and OVH IVRs (Interactive Voice Response) */
 export interface TelephonyOvhPabx {
   /** Description of the service */
-  description?: string;
+  description?: string | undefined;
   /** Feature of the service */
-  featureType?: TelephonyTypeEnum;
+  featureType?: TelephonyTypeEnum | undefined;
   /** Does the service have extended CCS options enabled? */
-  isCCS?: boolean;
-  serviceName?: string;
+  isCCS?: boolean | undefined;
+  serviceName?: string | undefined;
   /** General type of the service */
-  serviceType?: TelephonyTypeServiceEnum;
+  serviceType?: TelephonyTypeServiceEnum | undefined;
 }
 export interface GetTelephonyOvhPabxDialplanRequest {
   /** The name of your billingAccount */
@@ -4575,11 +4598,11 @@ export interface GetTelephonyOvhPabxTtsRequest {
 }
 /** The PABX Text To Speech sounds */
 export interface TelephonyOvhPabxTts {
-  id?: number;
+  id?: number | undefined;
   /** The text that will be played */
-  text?: string;
+  text?: string | undefined;
   /** The voice used to say text */
-  voice?: TelephonyOvhPabxTtsVoiceEnum;
+  voice?: TelephonyOvhPabxTtsVoiceEnum | undefined;
 }
 export interface GetTelephonyPhonebookRequest {
   /** The name of your billingAccount */
@@ -4590,9 +4613,9 @@ export interface GetTelephonyPhonebookRequest {
 /** Phone book on group */
 export interface TelephonyPhonebookMaster {
   /** Identifier of the phonebook */
-  bookKey?: string;
+  bookKey?: string | undefined;
   /** Phone book name */
-  name?: string;
+  name?: string | undefined;
 }
 export interface GetTelephonyPhonebookExportRequest {
   /** The name of your billingAccount */
@@ -4619,25 +4642,25 @@ export interface GetTelephonyPortabilityRequest {
 /** Customer informations about a portability */
 export interface TelephonyPortabilityCustomerInfos {
   /** Building of the customer's address */
-  building?: string | null;
+  building?: string | null | undefined;
   /** City of the customer's address */
-  city?: string;
+  city?: string | undefined;
   /** Door of the customer's address */
-  door?: string | null;
+  door?: string | null | undefined;
   /** Floor of the customer's address */
-  floor?: string | null;
+  floor?: string | null | undefined;
   /** Name of the customer */
-  name?: string;
+  name?: string | undefined;
   /** SIRET of the customer */
-  siret?: string | null;
+  siret?: string | null | undefined;
   /** Stair of the customer's address */
-  stair?: string | null;
+  stair?: string | null | undefined;
   /** Street name of the customer's address */
-  streetName?: string;
+  streetName?: string | undefined;
   /** Street number of the customer's address */
-  streetNumber?: string;
+  streetNumber?: string | undefined;
   /** ZIP code of the customer's address */
-  zip?: string;
+  zip?: string | undefined;
 }
 /** Codes representing the error in current portability */
 export type TelephonyPortabilityErrorCodesList = Array<string>;
@@ -4648,31 +4671,31 @@ export type TelephonyPortabilityCountryEnum = "belgium" | "france" | "switzerlan
 /** Portability informations */
 export interface TelephonyPortability {
   /** The billing account where the numbers will be inserted */
-  billingAccount?: string;
+  billingAccount?: string | undefined;
   /** The portability's creation date */
-  creationDate?: string;
+  creationDate?: string | undefined;
   /** Customer informations about this portability */
-  customerInfos?: TelephonyPortabilityCustomerInfos;
+  customerInfos?: TelephonyPortabilityCustomerInfos | undefined;
   /** The date when the portability will be done and when numbers will be ported */
-  desiredExecutionDate?: string | null;
+  desiredExecutionDate?: string | null | undefined;
   /** Indicates that portability is in error */
-  error?: boolean;
+  error?: boolean | undefined;
   /** Codes representing the error in current portability */
-  errorCodes?: TelephonyPortabilityErrorCodesList;
+  errorCodes?: TelephonyPortabilityErrorCodesList | undefined;
   /** The ID of the portability */
-  id?: number;
+  id?: number | undefined;
   /** Show the redirection that will be configured when the portability will be done */
-  lineToRedirectTo?: string | null;
+  lineToRedirectTo?: string | null | undefined;
   /** The list of numbers that is going to be ported */
-  numbersList?: TelephonyPortabilityNumbersListList;
+  numbersList?: TelephonyPortabilityNumbersListList | undefined;
   /** The operator that currently holds the numbers */
-  operator?: string;
+  operator?: string | undefined;
   /** The ID of the portability order */
-  orderId?: number;
+  orderId?: number | undefined;
   /** Country that defines the portability kind */
-  portabilityCountry?: TelephonyPortabilityCountryEnum;
+  portabilityCountry?: TelephonyPortabilityCountryEnum | undefined;
   /** RIO of the portability (France only) */
-  rio?: string | null;
+  rio?: string | null | undefined;
 }
 export interface GetTelephonyPortabilityCanBeCancelledRequest {
   /** The name of your billingAccount */
@@ -4716,11 +4739,11 @@ export interface GetTelephonyRedirectRequest {
 }
 /** Redirect service */
 export interface TelephonyRedirect {
-  description?: string;
-  destination?: string | null;
-  featureType?: TelephonyTypeEnum;
-  serviceName?: string;
-  serviceType?: TelephonyTypeServiceEnum;
+  description?: string | undefined;
+  destination?: string | null | undefined;
+  featureType?: TelephonyTypeEnum | undefined;
+  serviceName?: string | undefined;
+  serviceType?: TelephonyTypeServiceEnum | undefined;
 }
 export interface GetTelephonyResellerPanelStatusRequest {}
 /** Status of password update */
@@ -4728,9 +4751,9 @@ export type TelephonyResellerPanelPasswordUpdateStatusEnum = "doing" | "done" | 
 /** Describe the status of the reseller panel, if it is activated and if there is a password update ongoing */
 export interface TelephonyResellerPanelStatus {
   /** Whether the reseller panel is enabled or not */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** Password update task status */
-  passwordUpdateStatus?: TelephonyResellerPanelPasswordUpdateStatusEnum | null;
+  passwordUpdateStatus?: TelephonyResellerPanelPasswordUpdateStatusEnum | null | undefined;
 }
 export interface GetTelephonyRsvaRequest {
   /** The name of your billingAccount */
@@ -4751,8 +4774,8 @@ export type TelephonyPortabilitySpecialNumberCategoryEnum =
   | "relationship";
 /** French value added services subject to the RSVA reform (Référentiel des numéros SVA) */
 export interface TelephonyRsva {
-  serviceName?: string;
-  typology?: TelephonyPortabilitySpecialNumberCategoryEnum | null;
+  serviceName?: string | undefined;
+  typology?: TelephonyPortabilitySpecialNumberCategoryEnum | null | undefined;
 }
 export interface GetTelephonyRsvaCurrentRateCodeRequest {
   /** The name of your billingAccount */
@@ -4779,8 +4802,8 @@ export type TelephonyTimeZone =
   | "Europe/Zurich";
 /** Scheduler capable services */
 export interface TelephonyScheduler {
-  serviceName?: string;
-  timeZone?: TelephonyTimeZone;
+  serviceName?: string | undefined;
+  timeZone?: TelephonyTimeZone | undefined;
 }
 export interface GetTelephonySchedulerEventRequest {
   /** The name of your billingAccount */
@@ -4792,15 +4815,15 @@ export interface GetTelephonySchedulerEventRequest {
 /** Scheduled event */
 export interface TelephonySchedulerEvent {
   /** The category of the event */
-  categories?: TelephonySchedulerCategoryEnum;
+  categories?: TelephonySchedulerCategoryEnum | undefined;
   /** The ending date of the event */
-  dateEnd?: string;
+  dateEnd?: string | undefined;
   /** The beginning date of the event */
-  dateStart?: string;
-  description?: string | null;
-  title?: string;
+  dateStart?: string | undefined;
+  description?: string | null | undefined;
+  title?: string | undefined;
   /** The unique ICS event identifier */
-  uid?: string;
+  uid?: string | undefined;
 }
 export interface GetTelephonyScreenRequest {
   /** The name of your billingAccount */
@@ -4811,9 +4834,9 @@ export interface GetTelephonyScreenRequest {
 export type TelephonyScreenListChoosingEnum = "blacklist" | "disabled" | "whitelist";
 /** ScreenList capable services */
 export interface TelephonyScreen {
-  incomingScreenList?: TelephonyScreenListChoosingEnum;
-  outgoingScreenList?: TelephonyScreenListChoosingEnum;
-  serviceName?: string;
+  incomingScreenList?: TelephonyScreenListChoosingEnum | undefined;
+  outgoingScreenList?: TelephonyScreenListChoosingEnum | undefined;
+  serviceName?: string | undefined;
 }
 export interface GetTelephonyScreenScreenListRequest {
   /** The name of your billingAccount */
@@ -4824,11 +4847,11 @@ export interface GetTelephonyScreenScreenListRequest {
 }
 /** Screen list */
 export interface TelephonyScreenList {
-  callNumber?: string;
-  id?: number;
-  nature?: TelephonyScreenListNatureEnum;
-  status?: string;
-  type?: TelephonyScreenListTypeEnum;
+  callNumber?: string | undefined;
+  id?: number | undefined;
+  nature?: TelephonyScreenListNatureEnum | undefined;
+  status?: string | undefined;
+  type?: TelephonyScreenListTypeEnum | undefined;
 }
 export interface GetTelephonyServiceRequest {
   /** The name of your billingAccount */
@@ -4846,26 +4869,26 @@ export type TelephonyTelephonyServicePropertiesList = Array<TelephonyPropertyEnu
 /** Telephony service */
 export interface TelephonyTelephonyService {
   /** MAC address of the associated device if there is one. */
-  associatedDeviceMac?: string | null;
+  associatedDeviceMac?: string | null | undefined;
   /** The country of the number */
-  country?: TelephonyServiceNumberCountryEnum;
+  country?: TelephonyServiceNumberCountryEnum | undefined;
   /** The country code of the number */
-  countryCode?: TelephonyNumberCountryCodeEnum;
+  countryCode?: TelephonyNumberCountryCodeEnum | undefined;
   /** Current outplan */
-  currentOutplan?: OrderPrice;
-  description?: string;
-  featureType?: TelephonyTypeEnum;
+  currentOutplan?: OrderPrice | undefined;
+  description?: string | undefined;
+  featureType?: TelephonyTypeEnum | undefined;
   /** The service offers */
-  getPublicOffer?: TelephonyLineOffer;
+  getPublicOffer?: TelephonyLineOffer | undefined;
   /** Does this service have fax capabilities? */
-  hasFaxCapabilities?: boolean;
-  offers?: TelephonyTelephonyServiceOffersList;
-  properties?: TelephonyTelephonyServicePropertiesList;
+  hasFaxCapabilities?: boolean | undefined;
+  offers?: TelephonyTelephonyServiceOffersList | undefined;
+  properties?: TelephonyTelephonyServicePropertiesList | undefined;
   /** The identifier to use to port the number */
-  rio?: string;
-  serviceName?: string;
-  serviceType?: TelephonyTypeServiceEnum;
-  simultaneousLines?: number;
+  rio?: string | undefined;
+  serviceName?: string | undefined;
+  serviceType?: TelephonyTypeServiceEnum | undefined;
+  simultaneousLines?: number | undefined;
 }
 export interface GetTelephonyServiceDirectoryRequest {
   /** The name of your billingAccount */
@@ -4876,44 +4899,44 @@ export interface GetTelephonyServiceDirectoryRequest {
 export type NichandleGenderEnum = "female" | "male";
 /** Directory Informations */
 export interface TelephonyDirectoryInfo {
-  PJSocialNomination?: string;
-  address?: string;
-  addressExtra?: string;
-  ape?: string;
-  areaCode?: number;
-  birthDate?: string | null;
-  cedex?: string;
-  city?: string;
-  country?: string;
-  directoryServiceCode?: string;
-  displayFirstName?: boolean;
-  displayMarketingDirectory?: boolean;
-  displayOnlyCity?: boolean;
-  displaySearchReverse?: boolean;
-  displayUniversalDirectory?: boolean;
-  email?: string;
-  firstName?: string;
-  gender?: NichandleGenderEnum | null;
-  inseeCode?: number;
-  legalForm?: string;
-  lineDescription?: string;
-  modificationDate?: string;
-  modificationType?: string;
-  name?: string;
-  number?: string;
-  occupation?: string;
-  postBox?: string;
-  postCode?: string;
-  receivePJDirectory?: boolean;
-  siret?: string;
-  socialNomination?: string;
-  socialNominationExtra?: string;
-  status?: string;
-  urbanDistrict?: string;
-  wayName?: string;
-  wayNumber?: string;
-  wayNumberExtra?: string;
-  wayType?: string;
+  PJSocialNomination?: string | undefined;
+  address?: string | undefined;
+  addressExtra?: string | undefined;
+  ape?: string | undefined;
+  areaCode?: number | undefined;
+  birthDate?: string | null | undefined;
+  cedex?: string | undefined;
+  city?: string | undefined;
+  country?: string | undefined;
+  directoryServiceCode?: string | undefined;
+  displayFirstName?: boolean | undefined;
+  displayMarketingDirectory?: boolean | undefined;
+  displayOnlyCity?: boolean | undefined;
+  displaySearchReverse?: boolean | undefined;
+  displayUniversalDirectory?: boolean | undefined;
+  email?: string | undefined;
+  firstName?: string | undefined;
+  gender?: NichandleGenderEnum | null | undefined;
+  inseeCode?: number | undefined;
+  legalForm?: string | undefined;
+  lineDescription?: string | undefined;
+  modificationDate?: string | undefined;
+  modificationType?: string | undefined;
+  name?: string | undefined;
+  number?: string | undefined;
+  occupation?: string | undefined;
+  postBox?: string | undefined;
+  postCode?: string | undefined;
+  receivePJDirectory?: boolean | undefined;
+  siret?: string | undefined;
+  socialNomination?: string | undefined;
+  socialNominationExtra?: string | undefined;
+  status?: string | undefined;
+  urbanDistrict?: string | undefined;
+  wayName?: string | undefined;
+  wayNumber?: string | undefined;
+  wayNumberExtra?: string | undefined;
+  wayType?: string | undefined;
 }
 export interface GetTelephonyServiceEventCallbackRequest {
   /** The name of your billingAccount */
@@ -4923,9 +4946,9 @@ export interface GetTelephonyServiceEventCallbackRequest {
 /** Callback url for each event */
 export interface TelephonyEventCallback {
   /** Email notification address in case of url calling failure */
-  emailError?: string | null;
+  emailError?: string | null | undefined;
   /** Url called for each event */
-  url?: string | null;
+  url?: string | null | undefined;
 }
 export interface GetTelephonyServiceEventTokenRequest {
   /** The name of your billingAccount */
@@ -4942,13 +4965,13 @@ export interface GetTelephonyServiceFaxConsumptionRequest {
 export type TelephonyFaxConsumptionWayTypeEnum = "received" | "sent";
 /** Fax delivery record */
 export interface TelephonyFaxConsumption {
-  called?: string | null;
-  calling?: string | null;
-  consumptionId?: number;
-  creationDatetime?: string;
-  pages?: number;
-  priceWithoutTax?: OrderPrice;
-  wayType?: TelephonyFaxConsumptionWayTypeEnum;
+  called?: string | null | undefined;
+  calling?: string | null | undefined;
+  consumptionId?: number | undefined;
+  creationDatetime?: string | undefined;
+  pages?: number | undefined;
+  priceWithoutTax?: OrderPrice | undefined;
+  wayType?: TelephonyFaxConsumptionWayTypeEnum | undefined;
 }
 export interface GetTelephonyServiceInfosRequest {
   /** The name of your billingAccount */
@@ -4962,7 +4985,7 @@ export interface GetTelephonyServiceOfferChangeRequest {
 /** Offer change */
 export interface TelephonyOfferChange {
   /** The current offer will be replace by this one on the next renew. */
-  offer?: string;
+  offer?: string | undefined;
 }
 export interface GetTelephonyServiceOfferTaskRequest {
   /** The name of your billingAccount */
@@ -4984,21 +5007,21 @@ export type TelephonyVoiceConsumptionPlanTypeEnum = "outplan" | "priceplan";
 export type TelephonyVoiceConsumptionWayTypeEnum = "incoming" | "outgoing" | "transfer";
 /** Call delivery record of the previous month */
 export interface TelephonyPreviousVoiceConsumption {
-  called?: string | null;
-  calling?: string | null;
-  consumptionId?: number;
+  called?: string | null | undefined;
+  calling?: string | null | undefined;
+  consumptionId?: number | undefined;
   /** Country suffix destination */
-  countrySuffix?: string;
-  creationDatetime?: string;
+  countrySuffix?: string | undefined;
+  creationDatetime?: string | undefined;
   /** Description of the destination */
-  designation?: string;
-  destinationType?: TelephonyVoiceConsumptionDestinationTypeEnum;
-  duration?: number;
+  designation?: string | undefined;
+  destinationType?: TelephonyVoiceConsumptionDestinationTypeEnum | undefined;
+  duration?: number | undefined;
   /** Information about hangup cause */
-  hangupNature?: string | null;
-  planType?: TelephonyVoiceConsumptionPlanTypeEnum;
-  priceWithoutTax?: OrderPrice;
-  wayType?: TelephonyVoiceConsumptionWayTypeEnum;
+  hangupNature?: string | null | undefined;
+  planType?: TelephonyVoiceConsumptionPlanTypeEnum | undefined;
+  priceWithoutTax?: OrderPrice | undefined;
+  wayType?: TelephonyVoiceConsumptionWayTypeEnum | undefined;
 }
 export interface GetTelephonyServiceRepaymentConsumptionRequest {
   /** The name of your billingAccount */
@@ -5009,21 +5032,21 @@ export interface GetTelephonyServiceRepaymentConsumptionRequest {
 /** Call which are repayable */
 export interface TelephonyRepaymentConsumption {
   /** Called number of the call */
-  called?: string | null;
+  called?: string | null | undefined;
   /** Calling number of the call */
-  calling?: string | null;
-  consumptionId?: number;
+  calling?: string | null | undefined;
+  consumptionId?: number | undefined;
   /** the Datetime of the start of the call */
-  creationDatetime?: string | null;
-  dialed?: string | null;
+  creationDatetime?: string | null | undefined;
+  dialed?: string | null | undefined;
   /** Duration of the call */
-  duration?: number | null;
+  duration?: number | null | undefined;
   /** Calling number's operator */
-  operator?: string | null;
+  operator?: string | null | undefined;
   /** Price repayed with the call */
-  price?: number | null;
+  price?: number | null | undefined;
   /** Is the call repayable right now */
-  repayable?: boolean | null;
+  repayable?: boolean | null | undefined;
 }
 export interface GetTelephonyServiceTaskRequest {
   /** The name of your billingAccount */
@@ -5039,28 +5062,28 @@ export interface GetTelephonyServiceVoiceConsumptionRequest {
 }
 /** Call delivery record */
 export interface TelephonyVoiceConsumption {
-  called?: string | null;
-  calling?: string | null;
-  consumptionId?: number;
+  called?: string | null | undefined;
+  calling?: string | null | undefined;
+  consumptionId?: number | undefined;
   /** Country suffix destination */
-  countrySuffix?: string;
-  creationDatetime?: string;
+  countrySuffix?: string | undefined;
+  creationDatetime?: string | undefined;
   /** Description of the destination */
-  designation?: string;
-  destinationType?: TelephonyVoiceConsumptionDestinationTypeEnum;
-  dialed?: string | null;
-  duration?: number;
+  designation?: string | undefined;
+  destinationType?: TelephonyVoiceConsumptionDestinationTypeEnum | undefined;
+  dialed?: string | null | undefined;
+  duration?: number | undefined;
   /** Information about hangup cause */
-  hangupNature?: string | null;
-  planType?: TelephonyVoiceConsumptionPlanTypeEnum;
-  priceWithoutTax?: OrderPrice;
-  wayType?: TelephonyVoiceConsumptionWayTypeEnum;
+  hangupNature?: string | null | undefined;
+  planType?: TelephonyVoiceConsumptionPlanTypeEnum | undefined;
+  priceWithoutTax?: OrderPrice | undefined;
+  wayType?: TelephonyVoiceConsumptionWayTypeEnum | undefined;
 }
 export interface GetTelephonySoftphoneBetaEligibilityRequest {}
 /** Softphone beta eligibility */
 export interface TelephonySoftphoneBetaEligibility {
   /** Whether the account is eligible to the Softphone beta offer */
-  eligibility?: boolean;
+  eligibility?: boolean | undefined;
 }
 export interface GetTelephonySoftphoneLogoRequest {
   /** The name of your billingAccount */
@@ -5070,13 +5093,13 @@ export interface GetTelephonySoftphoneStoreLinksRequest {}
 /** Softphone application stores links */
 export interface TelephonySoftphoneStoreLinks {
   /** Android application store link */
-  android?: string;
+  android?: string | undefined;
   /** iOS application store link */
-  ios?: string;
+  ios?: string | undefined;
   /** MacOS application store link */
-  macos?: string;
+  macos?: string | undefined;
   /** Windows application store link */
-  windows?: string;
+  windows?: string | undefined;
 }
 export interface GetTelephonySoftphoneThemeRequest {
   /** Theme ID */
@@ -5097,13 +5120,13 @@ export interface GetTelephonySpareRequest {
 /** Spare properties */
 export interface SpareTelephonyTelephonySpareWithIAM {
   /** Phone brand model */
-  brand?: string;
+  brand?: string | undefined;
   /** IAM resource metadata */
-  iam?: IamResourceMetadata | null;
+  iam?: IamResourceMetadata | null | undefined;
   /** Mac address */
-  macAddress?: string;
+  macAddress?: string | undefined;
   /** Phone protocol */
-  protocol?: TelephonyProtocolEnum;
+  protocol?: TelephonyProtocolEnum | undefined;
 }
 export interface GetTelephonySpareServiceInfosRequest {
   /** The internal name of your spare */
@@ -5121,7 +5144,7 @@ export interface GetTelephonyTimeConditionRequest {
 }
 /** Time conditions capable services */
 export interface TelephonyGenericScreen {
-  serviceName?: string;
+  serviceName?: string | undefined;
 }
 export interface GetTelephonyTimeConditionConditionRequest {
   /** The name of your billingAccount */
@@ -5162,25 +5185,25 @@ export type TelephonyTimeConditionsTimeoutEnum =
 /** Time conditions options */
 export interface TelephonyTimeConditionOptions {
   /** Number associated to the first slot action */
-  slot1Number?: string;
+  slot1Number?: string | undefined;
   /** Action type executed when the first slot is used */
-  slot1Type?: TelephonyTimeConditionsSlotTypeEnum;
+  slot1Type?: TelephonyTimeConditionsSlotTypeEnum | undefined;
   /** Number associated to the second slot action */
-  slot2Number?: string;
+  slot2Number?: string | undefined;
   /** Action type executed when the second slot is used */
-  slot2Type?: TelephonyTimeConditionsSlotTypeEnum;
+  slot2Type?: TelephonyTimeConditionsSlotTypeEnum | undefined;
   /** Number associated to the third slot action */
-  slot3Number?: string;
+  slot3Number?: string | undefined;
   /** Action type executed when the third slot is used */
-  slot3Type?: TelephonyTimeConditionsSlotTypeEnum;
+  slot3Type?: TelephonyTimeConditionsSlotTypeEnum | undefined;
   /** Status of time conditions */
-  status?: TelephonyTimeConditionsGlobalStatusEnum;
+  status?: TelephonyTimeConditionsGlobalStatusEnum | undefined;
   /** Timeout value of the time condition */
-  timeout?: TelephonyTimeConditionsTimeoutEnum | null;
+  timeout?: TelephonyTimeConditionsTimeoutEnum | null | undefined;
   /** Number associated to the unavailable slot action */
-  unavailableNumber?: string;
+  unavailableNumber?: string | undefined;
   /** Action type executed when the unavailable slot is used */
-  unavailableType?: TelephonyTimeConditionsSlotTypeEnum;
+  unavailableType?: TelephonyTimeConditionsSlotTypeEnum | undefined;
 }
 export interface GetTelephonyTrunkRequest {
   /** Your trunk number */
@@ -5195,11 +5218,11 @@ export interface GetTelephonyTrunkByServiceNameRequest {
 /** Trunk service */
 export interface TelephonyTrunk {
   /** Description of the service */
-  description?: string;
+  description?: string | undefined;
   /** Name of the service */
-  serviceName?: string;
+  serviceName?: string | undefined;
   /** Type of the service */
-  serviceType?: TelephonyTypeServiceEnum;
+  serviceType?: TelephonyTypeServiceEnum | undefined;
 }
 export interface GetTelephonyTrunkExternalDisplayedNumberRequest {
   /** The name of your billingAccount */
@@ -5221,10 +5244,10 @@ export interface GetTelephonyVoicemailRequest {
 export type TelephonyVoicemailOffersList = Array<string>;
 /** Voicemail service */
 export interface TelephonyVoicemail {
-  description?: string;
-  offers?: TelephonyVoicemailOffersList;
-  serviceName?: string;
-  serviceType?: TelephonyTypeServiceEnum;
+  description?: string | undefined;
+  offers?: TelephonyVoicemailOffersList | undefined;
+  serviceName?: string | undefined;
+  serviceType?: TelephonyTypeServiceEnum | undefined;
 }
 export interface GetTelephonyVoicemailDirectoryRequest {
   /** The name of your billingAccount */
@@ -5244,17 +5267,17 @@ export type TelephonyVoicemailMessageFolderDirectoryEnum =
 /** Voicemail message */
 export interface TelephonyVoicemailMessages {
   /** Callee number in international format */
-  callee?: string;
+  callee?: string | undefined;
   /** Caller number in international format */
-  caller?: string;
+  caller?: string | undefined;
   /** Message datetime creation */
-  creationDatetime?: string;
+  creationDatetime?: string | undefined;
   /** Voicemessage directory */
-  dir?: TelephonyVoicemailMessageFolderDirectoryEnum;
+  dir?: TelephonyVoicemailMessageFolderDirectoryEnum | undefined;
   /** Message duration (in seconds) */
-  duration?: number;
+  duration?: number | undefined;
   /** Uniq voicemail message identifier */
-  id?: number;
+  id?: number | undefined;
 }
 /** Voicemail audio format */
 export type TelephonyServiceVoicemailAudioFormatEnum =
@@ -5271,7 +5294,7 @@ export interface GetTelephonyVoicemailDirectoryDownloadRequest {
   /** Id of the object */
   id: number;
   /** File format wanted */
-  format?: TelephonyServiceVoicemailAudioFormatEnum | (string & {});
+  format?: TelephonyServiceVoicemailAudioFormatEnum | (string & {}) | undefined;
 }
 export interface GetTelephonyVoicemailGreetingRequest {
   /** The name of your billingAccount */
@@ -5283,11 +5306,11 @@ export interface GetTelephonyVoicemailGreetingRequest {
 /** Voicemail greeting */
 export interface TelephonyVoicemailGreetings {
   /** Callee number in international format */
-  callee?: string;
+  callee?: string | undefined;
   /** Customized greeting voicemail directory */
-  dir?: TelephonyVoicemailMessageFolderGreetingEnum;
+  dir?: TelephonyVoicemailMessageFolderGreetingEnum | undefined;
   /** Uniq customized greeting identifier */
-  id?: number;
+  id?: number | undefined;
 }
 export interface GetTelephonyVoicemailGreetingDownloadRequest {
   /** The name of your billingAccount */
@@ -5296,7 +5319,7 @@ export interface GetTelephonyVoicemailGreetingDownloadRequest {
   /** Id of the object */
   id: number;
   /** File format wanted */
-  format?: TelephonyServiceVoicemailAudioFormatEnum | (string & {});
+  format?: TelephonyServiceVoicemailAudioFormatEnum | (string & {}) | undefined;
 }
 export interface GetTelephonyVoicemailSettingsRequest {
   /** The name of your billingAccount */
@@ -5309,8 +5332,8 @@ export type TelephonyVoicemailGreetingEnum = "default" | "full" | "short";
 export type TelephonyServiceVoicemailMailOptionEnum = "attachment" | "simple";
 /** Voicemail configuration */
 export interface TelephonyServiceVoicemailNotifications {
-  email?: string;
-  type?: TelephonyServiceVoicemailMailOptionEnum | (string & {});
+  email?: string | undefined;
+  type?: TelephonyServiceVoicemailMailOptionEnum | (string & {}) | undefined;
 }
 /** Email addresses to notify when a new voicemail is left */
 export type TelephonyVoicemailPropertiesRedirectionEmailsList =
@@ -5318,35 +5341,35 @@ export type TelephonyVoicemailPropertiesRedirectionEmailsList =
 /** Voicemail Properties */
 export interface TelephonyVoicemailProperties {
   /** Name of the voicemail panel announce file */
-  annouceMessage?: string;
+  annouceMessage?: string | undefined;
   /** Format of the voicemail audio file attached to emails */
-  audioFormat?: TelephonyServiceVoicemailAudioFormatEnum;
+  audioFormat?: TelephonyServiceVoicemailAudioFormatEnum | undefined;
   /** Don't allow callers to leave voicemails */
-  doNotRecord?: boolean;
+  doNotRecord?: boolean | undefined;
   /** Force password request to access the voicemail panel */
-  forcePassword?: boolean;
+  forcePassword?: boolean | undefined;
   /** Email address from which emails will be sent */
-  fromEmail?: string;
+  fromEmail?: string | undefined;
   /** Name from which emails will be sent */
-  fromName?: string;
+  fromName?: string | undefined;
   /** Sound ID of the long greeeting */
-  fullGreetingSoundId?: number | null;
+  fullGreetingSoundId?: number | null | undefined;
   /** Type of the greeting to play */
-  greetingType?: TelephonyVoicemailGreetingEnum;
+  greetingType?: TelephonyVoicemailGreetingEnum | undefined;
   /** Current voicemail version */
-  isNewVersion?: boolean;
+  isNewVersion?: boolean | undefined;
   /** Don't delete voicemails after they've been sent by email */
-  keepMessage?: boolean;
+  keepMessage?: boolean | undefined;
   /** Email addresses to notify when a new voicemail is left */
-  redirectionEmails?: TelephonyVoicemailPropertiesRedirectionEmailsList;
+  redirectionEmails?: TelephonyVoicemailPropertiesRedirectionEmailsList | undefined;
   /** Sound ID of the short greeting played before an automated message */
-  shortGreetingSoundId?: number | null;
+  shortGreetingSoundId?: number | null | undefined;
   /** Play the temporary greeting instead of the regular one */
-  temporaryGreetingActivated?: boolean;
+  temporaryGreetingActivated?: boolean | undefined;
   /** Sound ID of the temporary greeeting */
-  temporaryGreetingSoundId?: number | null;
+  temporaryGreetingSoundId?: number | null | undefined;
   /** Quantity of unread voicemails */
-  unreadMessages?: number;
+  unreadMessages?: number | undefined;
 }
 export interface GetTelephonyVoicemailSettingsRoutingRequest {
   /** The name of your billingAccount */
@@ -5362,9 +5385,9 @@ export interface GetTelephonyVoicemailSettingsVoicemailNumbersRequest {
 /** Internal and external numbers for voicemail service */
 export interface TelephonyVoicemailNumbers {
   /** The external voicemail number */
-  external?: string;
+  external?: string | undefined;
   /** The internal voicemail number */
-  internal?: string;
+  internal?: string | undefined;
 }
 export interface GetTelephonyVxmlRequest {
   /** The name of your billingAccount */
@@ -5374,10 +5397,10 @@ export interface GetTelephonyVxmlRequest {
 export type TelephonyVxmlOffersList = Array<string>;
 /** Vxml services */
 export interface TelephonyVxml {
-  description?: string;
-  offers?: TelephonyVxmlOffersList;
-  serviceName?: string;
-  serviceType?: TelephonyTypeServiceEnum;
+  description?: string | undefined;
+  offers?: TelephonyVxmlOffersList | undefined;
+  serviceName?: string | undefined;
+  serviceType?: TelephonyTypeServiceEnum | undefined;
 }
 export interface GetTelephonyVxmlSettingsRequest {
   /** The name of your billingAccount */
@@ -5386,8 +5409,8 @@ export interface GetTelephonyVxmlSettingsRequest {
 }
 /** Vxml Properties */
 export interface TelephonyVxmlProperties {
-  url?: string;
-  urlRecord?: string;
+  url?: string | undefined;
+  urlRecord?: string | undefined;
 }
 export interface ImportTelephonyLinePhonePhonebookRequest {
   /** The name of your billingAccount */
@@ -5421,7 +5444,7 @@ export type ListTelephonyRequestIamTagsMap = {
 };
 export interface ListTelephonyRequest {
   /** Filter resources on IAM tags */
-  iamTags?: ListTelephonyRequestIamTagsMap;
+  iamTags?: ListTelephonyRequestIamTagsMap | undefined;
 }
 export type ListTelephonyResponseBodyList = Array<string>;
 export type ListTelephonyResponse = ListTelephonyResponseBodyList;
@@ -5433,20 +5456,20 @@ export type ListTelephonyAbbreviatedNumberResponseBodyList = Array<number>;
 export type ListTelephonyAbbreviatedNumberResponse = ListTelephonyAbbreviatedNumberResponseBodyList;
 export interface ListTelephonyAccessoriesRequest {
   /** Phone brand */
-  brand?: string;
+  brand?: string | undefined;
   /** The country */
   country: TelephonyServiceNumberCountryEnum | (string & {});
 }
 /** Informations related to a line offer */
 export interface TelephonyAccessoryOffer {
   /** The accessory description */
-  description?: string | null;
+  description?: string | null | undefined;
   /** The accessory name */
-  name?: string;
+  name?: string | undefined;
   /** Accessory price */
-  price?: OrderPrice;
+  price?: OrderPrice | undefined;
   /** An URL to accessory details */
-  url?: string | null;
+  url?: string | null | undefined;
 }
 export type ListTelephonyAccessoriesResponseBodyList = Array<TelephonyAccessoryOffer>;
 export type ListTelephonyAccessoriesResponse = ListTelephonyAccessoriesResponseBodyList;
@@ -5456,7 +5479,7 @@ export type ListTelephonyAliasesRequestIamTagsMap = {
 };
 export interface ListTelephonyAliasesRequest {
   /** Filter resources on IAM tags */
-  iamTags?: ListTelephonyAliasesRequestIamTagsMap;
+  iamTags?: ListTelephonyAliasesRequestIamTagsMap | undefined;
 }
 export type ListTelephonyAliasesResponseBodyList = Array<string>;
 export type ListTelephonyAliasesResponse = ListTelephonyAliasesResponseBodyList;
@@ -5484,13 +5507,13 @@ export interface ListTelephonyAvailableDefaultSipDomainsRequest {
 export type TelephonyDefaultSipDomainsListList = Array<string>;
 export interface TelephonyDefaultSipDomains {
   /** Country */
-  country?: TelephonyServiceNumberCountryEnum;
+  country?: TelephonyServiceNumberCountryEnum | undefined;
   /** Current SIP domain */
-  currentDomain?: string;
+  currentDomain?: string | undefined;
   /** List of available SIP domains */
-  list?: TelephonyDefaultSipDomainsListList;
+  list?: TelephonyDefaultSipDomainsListList | undefined;
   /** Type of the VoIP product concerned */
-  productType?: TelephonySipDomainProductTypeEnum;
+  productType?: TelephonySipDomainProductTypeEnum | undefined;
 }
 export type ListTelephonyAvailableDefaultSipDomainsResponseBodyList =
   Array<TelephonyDefaultSipDomains>;
@@ -5514,18 +5537,18 @@ export type TelephonyCarrierSipClusterZoneRegionEnum = "rbx" | "sbg";
 /** The information about a carrier sip cluster zone */
 export interface TelephonyCarrierSipClusterZone {
   /** The list of media (RTP) ips of this zone */
-  mediaIps?: TelephonyCarrierSipClusterZoneMediaIpsList;
+  mediaIps?: TelephonyCarrierSipClusterZoneMediaIpsList | undefined;
   /** The region of the cluster (rbx, sbg,...) */
-  region?: TelephonyCarrierSipClusterZoneRegionEnum;
+  region?: TelephonyCarrierSipClusterZoneRegionEnum | undefined;
 }
 /** The availability zones of the cluster */
 export type TelephonyCarrierSipClusterInfoZonesList = Array<TelephonyCarrierSipClusterZone>;
 /** The information about the Carrier SIP cluster attached to your service */
 export interface TelephonyCarrierSipClusterInfo {
   /** The name of the cluster */
-  name?: string;
+  name?: string | undefined;
   /** The availability zones of the cluster */
-  zones?: TelephonyCarrierSipClusterInfoZonesList;
+  zones?: TelephonyCarrierSipClusterInfoZonesList | undefined;
 }
 export interface ListTelephonyCarrierSipEndpointsRequest {
   /** The name of your billingAccount */
@@ -5563,9 +5586,9 @@ export interface ListTelephonyConferenceHistoriesRequest {
   billingAccount: string;
   serviceName: string;
   /** Filter the value of dateBegin property (>=) */
-  dateBegin_from?: string;
+  dateBegin_from?: string | undefined;
   /** Filter the value of dateBegin property (<=) */
-  dateBegin_to?: string;
+  dateBegin_to?: string | undefined;
 }
 export type ListTelephonyConferenceHistoriesResponseBodyList = Array<number>;
 export type ListTelephonyConferenceHistoriesResponse =
@@ -5585,9 +5608,9 @@ export interface ListTelephonyConferenceRoomHistoriesRequest {
   /** The conference room number */
   roomNumber: number;
   /** Filter the value of dateBegin property (>=) */
-  dateBegin_from?: string;
+  dateBegin_from?: string | undefined;
   /** Filter the value of dateBegin property (<=) */
-  dateBegin_to?: string;
+  dateBegin_to?: string | undefined;
 }
 export type ListTelephonyConferenceRoomHistoriesResponseBodyList = Array<number>;
 export type ListTelephonyConferenceRoomHistoriesResponse =
@@ -5654,11 +5677,11 @@ export interface ListTelephonyDirectoryCitiesRequest {
 /** Represents a city */
 export interface TelephonyCity {
   /** The identifier of the city */
-  administrationCode?: string | null;
+  administrationCode?: string | null | undefined;
   /** The name of the city */
-  name?: string;
+  name?: string | undefined;
   /** The zip code of the city */
-  zipCode?: string;
+  zipCode?: string | undefined;
 }
 export type ListTelephonyDirectoryCitiesResponseBodyList = Array<TelephonyCity>;
 export type ListTelephonyDirectoryCitiesResponse = ListTelephonyDirectoryCitiesResponseBodyList;
@@ -5741,7 +5764,10 @@ export interface ListTelephonyEasyHuntingScreenListConditionConditionsRequest {
   billingAccount: string;
   serviceName: string;
   /** Filter the value of screenListType property (=) */
-  screenListType?: TelephonyOvhPabxDialplanExtensionConditionScreenListTypeEnum | (string & {});
+  screenListType?:
+    | TelephonyOvhPabxDialplanExtensionConditionScreenListTypeEnum
+    | (string & {})
+    | undefined;
 }
 export type ListTelephonyEasyHuntingScreenListConditionConditionsResponseBodyList = Array<number>;
 export type ListTelephonyEasyHuntingScreenListConditionConditionsResponse =
@@ -5758,7 +5784,7 @@ export interface ListTelephonyEasyHuntingTimeConditionConditionsRequest {
   billingAccount: string;
   serviceName: string;
   /** Filter the value of policy property (=) */
-  policy?: TelephonyTimeConditionsPolicyEnum | (string & {});
+  policy?: TelephonyTimeConditionsPolicyEnum | (string & {}) | undefined;
 }
 export type ListTelephonyEasyHuntingTimeConditionConditionsResponseBodyList = Array<number>;
 export type ListTelephonyEasyHuntingTimeConditionConditionsResponse =
@@ -5781,9 +5807,9 @@ export type TelephonyFaxCampaignDetailSuccessList = Array<string>;
 export type TelephonyFaxCampaignDetailTodoList = Array<string>;
 /** Detail of a fax campaign */
 export interface TelephonyFaxCampaignDetail {
-  failed?: TelephonyFaxCampaignDetailFailedList;
-  success?: TelephonyFaxCampaignDetailSuccessList;
-  todo?: TelephonyFaxCampaignDetailTodoList;
+  failed?: TelephonyFaxCampaignDetailFailedList | undefined;
+  success?: TelephonyFaxCampaignDetailSuccessList | undefined;
+  todo?: TelephonyFaxCampaignDetailTodoList | undefined;
 }
 export interface ListTelephonyFaxCampaignsRequest {
   /** The name of your billingAccount */
@@ -5879,8 +5905,8 @@ export interface ListTelephonyLineIpsRequest {
 }
 /** A ip value associated to a datetime */
 export interface TelephonyDatetimeAndIpvalue {
-  datetime?: string;
-  ip?: string | null;
+  datetime?: string | undefined;
+  ip?: string | null | undefined;
 }
 export type ListTelephonyLineIpsResponseBodyList = Array<TelephonyDatetimeAndIpvalue>;
 export type ListTelephonyLineIpsResponse = ListTelephonyLineIpsResponseBodyList;
@@ -5892,19 +5918,19 @@ export interface ListTelephonyLineLastRegistrationsRequest {
 /** Informations about a SIP registration (i.e. IP, port, User-Agent...) */
 export interface TelephonyRegistrationInformations {
   /** SIP registration's date */
-  datetime?: string;
+  datetime?: string | undefined;
   /** SIP registration's domain */
-  domain?: string | null;
+  domain?: string | null | undefined;
   /** SIP registration's IP */
-  ip?: string;
+  ip?: string | undefined;
   /** SIP registration's local device IP */
-  localIp?: string | null;
+  localIp?: string | null | undefined;
   /** SIP registration's local device port */
-  localPort?: number | null;
+  localPort?: number | null | undefined;
   /** SIP registration's port */
-  port?: number | null;
+  port?: number | null | undefined;
   /** SIP registration's User-Agent */
-  userAgent?: string | null;
+  userAgent?: string | null | undefined;
 }
 export type ListTelephonyLineLastRegistrationsResponseBodyList =
   Array<TelephonyRegistrationInformations>;
@@ -5918,9 +5944,9 @@ export interface ListTelephonyLineListAssociablePhonesRequest {
 /** Current lines configured on the phone */
 export interface TelephonyLinePhoneAssociableConfiguredLines {
   /** The line description */
-  description?: string;
+  description?: string | undefined;
   /** Service name of the line */
-  serviceName?: string;
+  serviceName?: string | undefined;
 }
 /** Current lines configured on the phone */
 export type TelephonyLinePhoneAssociableAssociatedLinesList =
@@ -5928,13 +5954,13 @@ export type TelephonyLinePhoneAssociableAssociatedLinesList =
 /** Informations related to associable phone capabilities */
 export interface TelephonyLinePhoneAssociable {
   /** Current lines configured on the phone */
-  associatedLines?: TelephonyLinePhoneAssociableAssociatedLinesList;
+  associatedLines?: TelephonyLinePhoneAssociableAssociatedLinesList | undefined;
   /** Brand name of the phone */
-  brand?: string;
+  brand?: string | undefined;
   /** Maximum quantity of lines managed by the phone */
-  maxLines?: number;
+  maxLines?: number | undefined;
   /** Phone protocol */
-  protocol?: TelephonyProtocolEnum;
+  protocol?: TelephonyProtocolEnum | undefined;
 }
 export type ListTelephonyLineListAssociablePhonesResponseBodyList =
   Array<TelephonyLinePhoneAssociable>;
@@ -5949,19 +5975,19 @@ export interface ListTelephonyLineOfferPhonesRequest {
 /** Informations related to phone capabilities */
 export interface TelephonyLinePhone {
   /** Brand name of the phone */
-  brand?: string;
+  brand?: string | undefined;
   /** The phone description */
-  description?: string;
+  description?: string | undefined;
   /** Setup fees */
-  fees?: OrderPrice | null;
+  fees?: OrderPrice | null | undefined;
   /** Maximum number of lines managed by a phone */
-  maxline?: number;
+  maxline?: number | undefined;
   /** Type of purchase */
-  offerType?: TelephonyRmaOfferTypeEnum;
+  offerType?: TelephonyRmaOfferTypeEnum | undefined;
   /** Telephony price */
-  price?: OrderPrice;
+  price?: OrderPrice | undefined;
   /** Phone protocol */
-  protocol?: TelephonyProtocolEnum;
+  protocol?: TelephonyProtocolEnum | undefined;
 }
 export type ListTelephonyLineOfferPhonesResponseBodyList = Array<TelephonyLinePhone>;
 export type ListTelephonyLineOfferPhonesResponse = ListTelephonyLineOfferPhonesResponseBodyList;
@@ -6005,13 +6031,13 @@ export interface ListTelephonyLinePhoneMerchandiseAvailableRequest {
 /** Informations related to a telephone offer */
 export interface TelephonyHardwareOffer {
   /** The telephony description */
-  description?: string | null;
+  description?: string | null | undefined;
   /** The telephony name */
-  name?: string;
+  name?: string | undefined;
   /** Telephony price */
-  price?: OrderPrice;
+  price?: OrderPrice | undefined;
   /** An URL to telephony details */
-  url?: string | null;
+  url?: string | null | undefined;
 }
 export type ListTelephonyLinePhoneMerchandiseAvailableResponseBodyList =
   Array<TelephonyHardwareOffer>;
@@ -6055,7 +6081,7 @@ export type ListTelephonyLinesRequestIamTagsMap = {
 };
 export interface ListTelephonyLinesRequest {
   /** Filter resources on IAM tags */
-  iamTags?: ListTelephonyLinesRequestIamTagsMap;
+  iamTags?: ListTelephonyLinesRequestIamTagsMap | undefined;
 }
 export type ListTelephonyLinesResponseBodyList = Array<string>;
 export type ListTelephonyLinesResponse = ListTelephonyLinesResponseBodyList;
@@ -6067,15 +6093,15 @@ export interface ListTelephonyLineSoftphoneDevicesRequest {
 /** List of softphone devices */
 export interface TelephonySoftphoneDevices {
   /** Device ID */
-  id?: string;
+  id?: string | undefined;
   /** Device name */
-  name?: string;
+  name?: string | undefined;
   /** Device operating system */
-  os?: string;
+  os?: string | undefined;
   /** Last device register date */
-  updateTime?: string;
+  updateTime?: string | undefined;
   /** Device user agent */
-  userAgent?: string;
+  userAgent?: string | undefined;
 }
 export type ListTelephonyLineSoftphoneDevicesResponseBodyList = Array<TelephonySoftphoneDevices>;
 export type ListTelephonyLineSoftphoneDevicesResponse =
@@ -6102,9 +6128,9 @@ export interface ListTelephonyNumberConvertToLineAvailableOffersRequest {
 }
 /** A contract */
 export interface OrderContract {
-  content?: string;
-  name?: string;
-  url?: string;
+  content?: string | undefined;
+  name?: string | undefined;
+  url?: string | undefined;
 }
 /** Informations related to a line contracts */
 export type TelephonyLineOffersAndContractsContractsList = Array<OrderContract>;
@@ -6113,13 +6139,13 @@ export type TelephonyLineOffersAndContractsOffersList = Array<TelephonyLineOffer
 /** Informations related to a line offer */
 export interface TelephonyLineOffersAndContracts {
   /** Informations related to a line contracts */
-  contracts?: TelephonyLineOffersAndContractsContractsList;
+  contracts?: TelephonyLineOffersAndContractsContractsList | undefined;
   /** Informations related to a line offer */
-  offers?: TelephonyLineOffersAndContractsOffersList;
+  offers?: TelephonyLineOffersAndContractsOffersList | undefined;
 }
 export interface ListTelephonyNumberDetailedZonesRequest {
   /** Enter a part of a city name or a zip for specific zne returns */
-  axiom?: string;
+  axiom?: string | undefined;
   /** The country */
   country: TelephonyNumberCountryEnum | (string & {});
 }
@@ -6136,25 +6162,25 @@ export type TelephonyNumberDetailedZoneZneListList = Array<string>;
 /** A geographic zone from a country */
 export interface TelephonyNumberDetailedZone {
   /** The searched value */
-  askedCity?: string | null;
+  askedCity?: string | null | undefined;
   /** The city of the zone */
-  city?: string;
+  city?: string | undefined;
   /** The country of the zone */
-  country?: TelephonyNumberCountryEnum;
+  country?: TelephonyNumberCountryEnum | undefined;
   /** The number's range of this zone, in international format */
-  internationalNumber?: string;
+  internationalNumber?: string | undefined;
   /** The criteria that matched the searched value */
-  matchingCriteria?: TelephonyNumberDetailedZoneMatchingCriteriaEnum | null;
+  matchingCriteria?: TelephonyNumberDetailedZoneMatchingCriteriaEnum | null | undefined;
   /** The number's range of this zone */
-  number?: string;
+  number?: string | undefined;
   /** The country code of the number's range */
-  prefix?: TelephonyNumberCountryCodeEnum;
+  prefix?: TelephonyNumberCountryCodeEnum | undefined;
   /** The type of number's range of this zone */
-  type?: TelephonyNumberDetailedZoneTypeEnum;
+  type?: TelephonyNumberDetailedZoneTypeEnum | undefined;
   /** The zip code of the zone */
-  zipCode?: string | null;
+  zipCode?: string | null | undefined;
   /** The list of ZNE of this zone */
-  zneList?: TelephonyNumberDetailedZoneZneListList;
+  zneList?: TelephonyNumberDetailedZoneZneListList | undefined;
 }
 export type ListTelephonyNumberDetailedZonesResponseBodyList = Array<TelephonyNumberDetailedZone>;
 export type ListTelephonyNumberDetailedZonesResponse =
@@ -6171,25 +6197,25 @@ export interface ListTelephonyNumberSpecificNumbersRequest {
   /** The country */
   country: TelephonyNumberCountryEnum | (string & {});
   /** The range (special number) */
-  range?: string;
+  range?: string | undefined;
   /** The type of number */
   type: TelephonyNumberTypeEnum | (string & {});
   /** The zone (geographic number) */
-  zone?: string;
+  zone?: string | undefined;
 }
 /** Specific number available */
 export interface TelephonySpecificNumber {
   /** Set if number is premium */
-  isPremium?: boolean;
+  isPremium?: boolean | undefined;
   /** The number */
-  number?: string;
+  number?: string | undefined;
 }
 export type ListTelephonyNumberSpecificNumbersResponseBodyList = Array<TelephonySpecificNumber>;
 export type ListTelephonyNumberSpecificNumbersResponse =
   ListTelephonyNumberSpecificNumbersResponseBodyList;
 export interface ListTelephonyNumberZonesRequest {
   /** Enter a part of a city name or a zip for specific zne returns */
-  axiom?: string;
+  axiom?: string | undefined;
   /** The country */
   country: TelephonyNumberCountryEnum | (string & {});
 }
@@ -6199,11 +6225,11 @@ export interface ListTelephonyOfferTaskRequest {
   /** The name of your billingAccount */
   billingAccount: string;
   /** Filter the value of action property (=) */
-  action?: TelephonyOfferTaskActionEnum | (string & {});
+  action?: TelephonyOfferTaskActionEnum | (string & {}) | undefined;
   /** Filter the value of status property (=) */
-  status?: TelephonyTaskStatusEnum | (string & {});
+  status?: TelephonyTaskStatusEnum | (string & {}) | undefined;
   /** Filter the value of type property (=) */
-  type?: TelephonyOfferTaskTypeEnum | (string & {});
+  type?: TelephonyOfferTaskTypeEnum | (string & {}) | undefined;
 }
 export type ListTelephonyOfferTaskResponseBodyList = Array<number>;
 export type ListTelephonyOfferTaskResponse = ListTelephonyOfferTaskResponseBodyList;
@@ -6214,9 +6240,9 @@ export interface ListTelephonyOldPhoneRequest {
 /** Informations related to phone */
 export interface TelephonyOldPhone {
   /** Mac address of the phone */
-  mac?: string;
+  mac?: string | undefined;
   /** Model of the phone */
-  model?: string;
+  model?: string | undefined;
 }
 export type ListTelephonyOldPhoneResponseBodyList = Array<TelephonyOldPhone>;
 export type ListTelephonyOldPhoneResponse = ListTelephonyOldPhoneResponseBodyList;
@@ -6419,9 +6445,13 @@ export type TelephonyPortabilityFixErrorPossibleParametersOptionalParametersList
 /** Possible parameters to provide to fix portability errors */
 export interface TelephonyPortabilityFixErrorPossibleParameters {
   /** Mandatory parameter list */
-  mandatoryParameters?: TelephonyPortabilityFixErrorPossibleParametersMandatoryParametersList;
+  mandatoryParameters?:
+    | TelephonyPortabilityFixErrorPossibleParametersMandatoryParametersList
+    | undefined;
   /** Optional parameter list */
-  optionalParameters?: TelephonyPortabilityFixErrorPossibleParametersOptionalParametersList;
+  optionalParameters?:
+    | TelephonyPortabilityFixErrorPossibleParametersOptionalParametersList
+    | undefined;
 }
 export interface ListTelephonyPortabilityStatusRequest {
   /** The name of your billingAccount */
@@ -6434,18 +6464,18 @@ export type TelephonyPortabilityStepDurationUnitEnum = "NA" | "day" | "hour" | "
 /** Represent the delay between two portability steps */
 export interface TelephonyPortabilityStepDuration {
   /** The quantity of delay */
-  quantity?: number;
+  quantity?: number | undefined;
   /** The delay's unit */
-  unit?: TelephonyPortabilityStepDurationUnitEnum;
+  unit?: TelephonyPortabilityStepDurationUnitEnum | undefined;
 }
 /** Additional informations about the portability step */
 export interface TelephonyPortabilityStepInfos {
   /** The last portability due date that has been proposed */
-  lastProposedDate?: string | null;
+  lastProposedDate?: string | null | undefined;
   /** If the step status is "error", it is the reason */
-  reason?: string | null;
+  reason?: string | null | undefined;
   /** A code representing the reason */
-  reasonType?: string | null;
+  reasonType?: string | null | undefined;
 }
 /** List of possible step name */
 export type TelephonyPortabilityStepNameEnum =
@@ -6475,17 +6505,17 @@ export type TelephonyPortabilityStepStatusEnum =
 /** A step in the portability process */
 export interface TelephonyPortabilityStep {
   /** A brief description of the step */
-  description?: string | null;
+  description?: string | null | undefined;
   /** The date when this step was done */
-  doneDate?: string | null;
+  doneDate?: string | null | undefined;
   /** The theoric delay between the previous step's done date and this step's done date */
-  duration?: TelephonyPortabilityStepDuration;
+  duration?: TelephonyPortabilityStepDuration | undefined;
   /** Additional informations about the step */
-  infos?: TelephonyPortabilityStepInfos | null;
+  infos?: TelephonyPortabilityStepInfos | null | undefined;
   /** The name of the portability step */
-  name?: TelephonyPortabilityStepNameEnum;
+  name?: TelephonyPortabilityStepNameEnum | undefined;
   /** Indicates if the step is to do, currently doing or done */
-  status?: TelephonyPortabilityStepStatusEnum;
+  status?: TelephonyPortabilityStepStatusEnum | undefined;
 }
 export type ListTelephonyPortabilityStatusResponseBodyList = Array<TelephonyPortabilityStep>;
 export type ListTelephonyPortabilityStatusResponse = ListTelephonyPortabilityStatusResponseBodyList;
@@ -6512,11 +6542,11 @@ export interface ListTelephonyRsvaAllowedRateCodesRequest {
 /** Informations related to the rate code */
 export interface TelephonyRateCodeInformation {
   /** The Rsva rate code */
-  code?: string;
+  code?: string | undefined;
   /** Price per call */
-  pricePerCallWithoutTax?: OrderPrice;
+  pricePerCallWithoutTax?: OrderPrice | undefined;
   /** Price per minute */
-  pricePerMinuteWithoutTax?: OrderPrice;
+  pricePerMinuteWithoutTax?: OrderPrice | undefined;
 }
 export type ListTelephonyRsvaAllowedRateCodesResponseBodyList = Array<TelephonyRateCodeInformation>;
 export type ListTelephonyRsvaAllowedRateCodesResponse =
@@ -6532,15 +6562,15 @@ export interface ListTelephonySchedulerEventsRequest {
   billingAccount: string;
   serviceName: string;
   /** Filter the value of categories property (=) */
-  categories?: TelephonySchedulerCategoryEnum | (string & {});
+  categories?: TelephonySchedulerCategoryEnum | (string & {}) | undefined;
   /** Filter the value of dateEnd property (>=) */
-  dateEnd_from?: string;
+  dateEnd_from?: string | undefined;
   /** Filter the value of dateEnd property (<=) */
-  dateEnd_to?: string;
+  dateEnd_to?: string | undefined;
   /** Filter the value of dateStart property (>=) */
-  dateStart_from?: string;
+  dateStart_from?: string | undefined;
   /** Filter the value of dateStart property (<=) */
-  dateStart_to?: string;
+  dateStart_to?: string | undefined;
 }
 export type ListTelephonySchedulerEventsResponseBodyList = Array<string>;
 export type ListTelephonySchedulerEventsResponse = ListTelephonySchedulerEventsResponseBodyList;
@@ -6566,11 +6596,11 @@ export type TelephonyTelephonySearchServiceTypeEnum = "alias" | "line" | "trunk"
 /** Informations related to a telephony service */
 export interface TelephonyTelephonySearchService {
   /** The billing account of the service */
-  billingAccount?: string | null;
+  billingAccount?: string | null | undefined;
   /** The service domain */
-  domain?: string;
+  domain?: string | undefined;
   /** The offer description */
-  type?: TelephonyTelephonySearchServiceTypeEnum;
+  type?: TelephonyTelephonySearchServiceTypeEnum | undefined;
 }
 export type ListTelephonySearchServicesResponseBodyList = Array<TelephonyTelephonySearchService>;
 export type ListTelephonySearchServicesResponse = ListTelephonySearchServicesResponseBodyList;
@@ -6588,11 +6618,11 @@ export interface ListTelephonyServiceDirectoryGetDirectoryServiceCodeRequest {
 }
 /** Directory Informations */
 export interface TelephonyDirectoryHeadingPJ {
-  apeCode?: string;
-  apeDescription?: string;
-  directoryServiceCode?: number;
-  directoryServiceDescription?: string;
-  notification?: string;
+  apeCode?: string | undefined;
+  apeDescription?: string | undefined;
+  directoryServiceCode?: number | undefined;
+  directoryServiceDescription?: string | undefined;
+  notification?: string | undefined;
 }
 export type ListTelephonyServiceDirectoryGetDirectoryServiceCodeResponseBodyList =
   Array<TelephonyDirectoryHeadingPJ>;
@@ -6605,8 +6635,8 @@ export interface ListTelephonyServiceDirectoryGetWayTypesRequest {
 }
 /** Directory way type */
 export interface TelephonyDirectoryWayType {
-  abbreviatedName?: string;
-  wayName?: string;
+  abbreviatedName?: string | undefined;
+  wayName?: string | undefined;
 }
 export type ListTelephonyServiceDirectoryGetWayTypesResponseBodyList =
   Array<TelephonyDirectoryWayType>;
@@ -6617,11 +6647,11 @@ export interface ListTelephonyServiceFaxConsumptionRequest {
   billingAccount: string;
   serviceName: string;
   /** Filter the value of creationDatetime property (>=) */
-  creationDatetime_from?: string;
+  creationDatetime_from?: string | undefined;
   /** Filter the value of creationDatetime property (<=) */
-  creationDatetime_to?: string;
+  creationDatetime_to?: string | undefined;
   /** Filter the value of wayType property (=) */
-  wayType?: TelephonyFaxConsumptionWayTypeEnum | (string & {});
+  wayType?: TelephonyFaxConsumptionWayTypeEnum | (string & {}) | undefined;
 }
 export type ListTelephonyServiceFaxConsumptionResponseBodyList = Array<number>;
 export type ListTelephonyServiceFaxConsumptionResponse =
@@ -6639,11 +6669,11 @@ export interface ListTelephonyServiceOfferTaskRequest {
   billingAccount: string;
   serviceName: string;
   /** Filter the value of action property (=) */
-  action?: TelephonyOfferTaskActionEnum | (string & {});
+  action?: TelephonyOfferTaskActionEnum | (string & {}) | undefined;
   /** Filter the value of status property (=) */
-  status?: TelephonyTaskStatusEnum | (string & {});
+  status?: TelephonyTaskStatusEnum | (string & {}) | undefined;
   /** Filter the value of type property (=) */
-  type?: TelephonyOfferTaskTypeEnum | (string & {});
+  type?: TelephonyOfferTaskTypeEnum | (string & {}) | undefined;
 }
 export type ListTelephonyServiceOfferTaskResponseBodyList = Array<number>;
 export type ListTelephonyServiceOfferTaskResponse = ListTelephonyServiceOfferTaskResponseBodyList;
@@ -6652,15 +6682,15 @@ export interface ListTelephonyServicePreviousVoiceConsumptionRequest {
   billingAccount: string;
   serviceName: string;
   /** Filter the value of creationDatetime property (>=) */
-  creationDatetime_from?: string;
+  creationDatetime_from?: string | undefined;
   /** Filter the value of creationDatetime property (<=) */
-  creationDatetime_to?: string;
+  creationDatetime_to?: string | undefined;
   /** Filter the value of destinationType property (=) */
-  destinationType?: TelephonyVoiceConsumptionDestinationTypeEnum | (string & {});
+  destinationType?: TelephonyVoiceConsumptionDestinationTypeEnum | (string & {}) | undefined;
   /** Filter the value of planType property (=) */
-  planType?: TelephonyVoiceConsumptionPlanTypeEnum | (string & {});
+  planType?: TelephonyVoiceConsumptionPlanTypeEnum | (string & {}) | undefined;
   /** Filter the value of wayType property (=) */
-  wayType?: TelephonyVoiceConsumptionWayTypeEnum | (string & {});
+  wayType?: TelephonyVoiceConsumptionWayTypeEnum | (string & {}) | undefined;
 }
 export type ListTelephonyServicePreviousVoiceConsumptionResponseBodyList = Array<number>;
 export type ListTelephonyServicePreviousVoiceConsumptionResponse =
@@ -6670,9 +6700,9 @@ export interface ListTelephonyServiceRepaymentConsumptionRequest {
   billingAccount: string;
   serviceName: string;
   /** Filter the value of creationDatetime property (>=) */
-  creationDatetime_from?: string;
+  creationDatetime_from?: string | undefined;
   /** Filter the value of creationDatetime property (<=) */
-  creationDatetime_to?: string;
+  creationDatetime_to?: string | undefined;
 }
 export type ListTelephonyServiceRepaymentConsumptionResponseBodyList = Array<number>;
 export type ListTelephonyServiceRepaymentConsumptionResponse =
@@ -6682,11 +6712,11 @@ export interface ListTelephonyServiceTaskRequest {
   billingAccount: string;
   serviceName: string;
   /** Filter the value of action property (=) */
-  action?: string;
+  action?: string | undefined;
   /** Filter the value of serviceType property (=) */
-  serviceType?: string;
+  serviceType?: string | undefined;
   /** Filter the value of status property (=) */
-  status?: TelephonyTaskStatusEnum | (string & {});
+  status?: TelephonyTaskStatusEnum | (string & {}) | undefined;
 }
 export type ListTelephonyServiceTaskResponseBodyList = Array<number>;
 export type ListTelephonyServiceTaskResponse = ListTelephonyServiceTaskResponseBodyList;
@@ -6695,15 +6725,15 @@ export interface ListTelephonyServiceVoiceConsumptionRequest {
   billingAccount: string;
   serviceName: string;
   /** Filter the value of creationDatetime property (>=) */
-  creationDatetime_from?: string;
+  creationDatetime_from?: string | undefined;
   /** Filter the value of creationDatetime property (<=) */
-  creationDatetime_to?: string;
+  creationDatetime_to?: string | undefined;
   /** Filter the value of destinationType property (=) */
-  destinationType?: TelephonyVoiceConsumptionDestinationTypeEnum | (string & {});
+  destinationType?: TelephonyVoiceConsumptionDestinationTypeEnum | (string & {}) | undefined;
   /** Filter the value of planType property (=) */
-  planType?: TelephonyVoiceConsumptionPlanTypeEnum | (string & {});
+  planType?: TelephonyVoiceConsumptionPlanTypeEnum | (string & {}) | undefined;
   /** Filter the value of wayType property (=) */
-  wayType?: TelephonyVoiceConsumptionWayTypeEnum | (string & {});
+  wayType?: TelephonyVoiceConsumptionWayTypeEnum | (string & {}) | undefined;
 }
 export type ListTelephonyServiceVoiceConsumptionResponseBodyList = Array<number>;
 export type ListTelephonyServiceVoiceConsumptionResponse =
@@ -6720,7 +6750,7 @@ export type ListTelephonySpareRequestIamTagsMap = {
 };
 export interface ListTelephonySpareRequest {
   /** Filter resources on IAM tags */
-  iamTags?: ListTelephonySpareRequestIamTagsMap;
+  iamTags?: ListTelephonySpareRequestIamTagsMap | undefined;
 }
 export type ListTelephonySpareResponseBodyList = Array<string>;
 export type ListTelephonySpareResponse = ListTelephonySpareResponseBodyList;
@@ -6738,11 +6768,11 @@ export interface ListTelephonyTaskRequest {
   /** The name of your billingAccount */
   billingAccount: string;
   /** Filter the value of action property (=) */
-  action?: string;
+  action?: string | undefined;
   /** Filter the value of serviceType property (=) */
-  serviceType?: string;
+  serviceType?: string | undefined;
   /** Filter the value of status property (=) */
-  status?: TelephonyTaskStatusEnum | (string & {});
+  status?: TelephonyTaskStatusEnum | (string & {}) | undefined;
 }
 export type ListTelephonyTaskResponseBodyList = Array<number>;
 export type ListTelephonyTaskResponse = ListTelephonyTaskResponseBodyList;
@@ -6777,11 +6807,11 @@ export interface ListTelephonyTrunkChannelsPacksRepartitionRequest {
 /** Details for a channels pack */
 export interface TelephonyTrunkSimultaneousPack {
   /** The number of channels included in the pack */
-  channels?: number;
+  channels?: number | undefined;
   /** The quantity of packs present in the combination */
-  quantity?: number;
+  quantity?: number | undefined;
   /** The unit price of the channels pack */
-  unitPrice?: OrderPrice;
+  unitPrice?: OrderPrice | undefined;
 }
 /** The repartition of the packs */
 export type TelephonyTrunkSimultaneousPacksRepartitionPacksRepartitionList =
@@ -6789,11 +6819,11 @@ export type TelephonyTrunkSimultaneousPacksRepartitionPacksRepartitionList =
 /** Repartition of simultaneous channels packs for a trunk */
 export interface TelephonyTrunkSimultaneousPacksRepartition {
   /** The optimized quantity of channels to order */
-  optimizedChannelsQuantity?: number;
+  optimizedChannelsQuantity?: number | undefined;
   /** The repartition of the packs */
-  packsRepartition?: TelephonyTrunkSimultaneousPacksRepartitionPacksRepartitionList;
+  packsRepartition?: TelephonyTrunkSimultaneousPacksRepartitionPacksRepartitionList | undefined;
   /** The total price of the channels packs combination */
-  totalPrice?: OrderPrice;
+  totalPrice?: OrderPrice | undefined;
 }
 export interface ListTelephonyTrunkExternalDisplayedNumberRequest {
   /** The name of your billingAccount */
@@ -6810,7 +6840,7 @@ export type ListTelephonyTrunksRequestIamTagsMap = {
 };
 export interface ListTelephonyTrunksRequest {
   /** Filter resources on IAM tags */
-  iamTags?: ListTelephonyTrunksRequestIamTagsMap;
+  iamTags?: ListTelephonyTrunksRequestIamTagsMap | undefined;
 }
 export type ListTelephonyTrunksResponseBodyList = Array<string>;
 export type ListTelephonyTrunksResponse = ListTelephonyTrunksResponseBodyList;
@@ -6825,7 +6855,7 @@ export interface ListTelephonyVoicemailDirectoriesRequest {
   billingAccount: string;
   serviceName: string;
   /** Filter the value of dir property (=) */
-  dir?: TelephonyVoicemailMessageFolderDirectoryEnum | (string & {});
+  dir?: TelephonyVoicemailMessageFolderDirectoryEnum | (string & {}) | undefined;
 }
 export type ListTelephonyVoicemailDirectoriesResponseBodyList = Array<number>;
 export type ListTelephonyVoicemailDirectoriesResponse =
@@ -6835,7 +6865,7 @@ export interface ListTelephonyVoicemailGreetingsRequest {
   billingAccount: string;
   serviceName: string;
   /** Filter the value of dir property (=) */
-  dir?: TelephonyVoicemailMessageFolderGreetingEnum | (string & {});
+  dir?: TelephonyVoicemailMessageFolderGreetingEnum | (string & {}) | undefined;
 }
 export type ListTelephonyVoicemailGreetingsResponseBodyList = Array<number>;
 export type ListTelephonyVoicemailGreetingsResponse =
@@ -6904,13 +6934,13 @@ export interface PutTelephonyRequest {
   /** The name of your billingAccount */
   billingAccount: string;
   /** Allowed threshold credit */
-  creditThreshold?: OrderPrice;
+  creditThreshold?: OrderPrice | undefined;
   /** Description of the billing account */
-  description?: string;
+  description?: string | undefined;
   /** Hide called numbers in end-of-month call details CSV */
-  hiddenExternalNumber?: boolean;
+  hiddenExternalNumber?: boolean | undefined;
   /** Override number display for calls between services of your billing account */
-  overrideDisplayedNumber?: boolean;
+  overrideDisplayedNumber?: boolean | undefined;
 }
 export interface PutTelephonyResponse {}
 export interface PutTelephonyAbbreviatedNumberRequest {
@@ -6919,16 +6949,16 @@ export interface PutTelephonyAbbreviatedNumberRequest {
   /** The abbreviated number which must start with "7" and must have a length of 3 or 4 digits */
   abbreviatedNumber: number;
   /** The destination of the abbreviated number */
-  destinationNumber?: string;
-  name?: string;
-  surname?: string;
+  destinationNumber?: string | undefined;
+  name?: string | undefined;
+  surname?: string | undefined;
 }
 export interface PutTelephonyAbbreviatedNumberResponse {}
 export interface PutTelephonyAliasServiceInfosRequest {
   /** Your line number */
   serviceName: string;
   /** Way of handling the renew */
-  renew?: ServiceRenewType | null;
+  renew?: ServiceRenewType | null | undefined;
 }
 export interface PutTelephonyAliasServiceInfosResponse {}
 export interface PutTelephonyCarrierSipSettingsRequest {
@@ -6936,7 +6966,7 @@ export interface PutTelephonyCarrierSipSettingsRequest {
   billingAccount: string;
   serviceName: string;
   /** The carrier SIP trunk description */
-  description?: string;
+  description?: string | undefined;
 }
 export interface PutTelephonyCarrierSipSettingsResponse {}
 export interface PutTelephonyCarrierSipVnoRangeRequest {
@@ -6948,7 +6978,7 @@ export interface PutTelephonyCarrierSipVnoRangeRequest {
   /** The phone range prefix. */
   prefix: string;
   /** The carrier SIP trunk description. */
-  description?: string;
+  description?: string | undefined;
 }
 export interface PutTelephonyCarrierSipVnoRangeResponse {}
 export interface PutTelephonyConferenceRoomRequest {
@@ -6958,27 +6988,27 @@ export interface PutTelephonyConferenceRoomRequest {
   /** The conference room number */
   roomNumber: number;
   /** Whether announce file is played before entrance */
-  announceFile?: boolean;
+  announceFile?: boolean | undefined;
   /** The announce sound id */
-  announceSoundId?: number | null;
+  announceSoundId?: number | null | undefined;
   /** Whether anonymous participants are allowed */
-  anonymousRejection?: boolean;
+  anonymousRejection?: boolean | undefined;
   /** Whether participants enter conference room muted */
-  enterMuted?: boolean;
+  enterMuted?: boolean | undefined;
   /** The expiration date of the conference room. */
-  expirationDate?: string | null;
+  expirationDate?: string | null | undefined;
   /** The conference sounds language */
-  language?: TelephonyConferenceLanguageEnum | (string & {});
+  language?: TelephonyConferenceLanguageEnum | (string & {}) | undefined;
   /** The conference pin number */
-  pin?: string;
+  pin?: string | undefined;
   /** Whether conference is recorded */
-  recordStatus?: boolean;
+  recordStatus?: boolean | undefined;
   /** The email address to send conference report to */
-  reportEmail?: string | null;
+  reportEmail?: string | null | undefined;
   /** The status of the reporting */
-  reportStatus?: TelephonyConferenceReportStatusEnum | (string & {});
+  reportStatus?: TelephonyConferenceReportStatusEnum | (string & {}) | undefined;
   /** True if you want to receive a white-labelled mail report of your conference */
-  whiteLabelReport?: boolean;
+  whiteLabelReport?: boolean | undefined;
 }
 export interface PutTelephonyConferenceRoomResponse {}
 export interface PutTelephonyConferenceSettingsRequest {
@@ -6986,32 +7016,32 @@ export interface PutTelephonyConferenceSettingsRequest {
   billingAccount: string;
   serviceName: string;
   /** Whether announce file is played before entrance */
-  announceFile?: boolean;
+  announceFile?: boolean | undefined;
   /** The announce sound id */
-  announceSoundId?: number | null;
+  announceSoundId?: number | null | undefined;
   /** Whether anonymous participants are allowed */
-  anonymousRejection?: boolean;
+  anonymousRejection?: boolean | undefined;
   /** Whether participants enter conference room muted */
-  enterMuted?: boolean;
+  enterMuted?: boolean | undefined;
   /** The conference sounds language */
-  language?: TelephonyConferenceLanguageEnum | (string & {});
+  language?: TelephonyConferenceLanguageEnum | (string & {}) | undefined;
   /** The conference pin number */
-  pin?: string;
+  pin?: string | undefined;
   /** Whether conference is recorded */
-  recordStatus?: boolean;
+  recordStatus?: boolean | undefined;
   /** The email address to send conference report to */
-  reportEmail?: string | null;
+  reportEmail?: string | null | undefined;
   /** The status of the reporting */
-  reportStatus?: TelephonyConferenceReportStatusEnum | (string & {});
+  reportStatus?: TelephonyConferenceReportStatusEnum | (string & {}) | undefined;
   /** True if you want to receive a white-labelled mail report of your conference */
-  whiteLabelReport?: boolean;
+  whiteLabelReport?: boolean | undefined;
 }
 export interface PutTelephonyConferenceSettingsResponse {}
 export interface PutTelephonyDdiRequest {
   /** The name of your billingAccount */
   billingAccount: string;
   serviceName: string;
-  description?: string;
+  description?: string | undefined;
 }
 export interface PutTelephonyDdiResponse {}
 export interface PutTelephonyEasyHuntingRequest {
@@ -7019,27 +7049,27 @@ export interface PutTelephonyEasyHuntingRequest {
   billingAccount: string;
   serviceName: string;
   /** Reject (hangup) anonymous calls */
-  anonymousRejection?: boolean;
+  anonymousRejection?: boolean | undefined;
   /** Description of the service */
-  description?: string;
+  description?: string | undefined;
   /** Max wait time when caller is in queue (in seconds) */
-  maxWaitTime?: number;
+  maxWaitTime?: number | undefined;
   /** Max number of callers in queue */
-  queueSize?: number;
+  queueSize?: number | undefined;
   /** The presented number when bridging calls */
-  showCallerNumber?: TelephonyOvhPabxDialplanNumberPresentationEnum | (string & {});
+  showCallerNumber?: TelephonyOvhPabxDialplanNumberPresentationEnum | (string & {}) | undefined;
   /** Enable/Disable the status change IVR on your callcenter. The IVR is enabled by default. */
-  statusIvrEnabled?: boolean;
+  statusIvrEnabled?: boolean | undefined;
   /** The calls dispatching strategy */
-  strategy?: TelephonyOvhPabxHuntingQueueStrategyEnum | (string & {});
+  strategy?: TelephonyOvhPabxHuntingQueueStrategyEnum | (string & {}) | undefined;
   /** Tone played just before call is hang up */
-  toneOnClosing?: number | null;
+  toneOnClosing?: number | null | undefined;
   /** Tone played when caller is put on hold */
-  toneOnHold?: number | null;
+  toneOnHold?: number | null | undefined;
   /** Tone played when call is picked up */
-  toneOnOpening?: number | null;
+  toneOnOpening?: number | null | undefined;
   /** The voicemail used by the EasyPABX */
-  voicemail?: string | null;
+  voicemail?: string | null | undefined;
 }
 export interface PutTelephonyEasyHuntingResponse {}
 export interface PutTelephonyEasyHuntingHuntingRequest {
@@ -7047,11 +7077,11 @@ export interface PutTelephonyEasyHuntingHuntingRequest {
   billingAccount: string;
   serviceName: string;
   /** The templated url of your CRM, opened by the banner application of your cloudpabx */
-  crmUrlTemplate?: string | null;
+  crmUrlTemplate?: string | null | undefined;
   /** Enable G729 codec on your callcenter */
-  g729?: boolean | null;
+  g729?: boolean | null | undefined;
   /** Enable/Disable the status change IVR on your callcenter. The IVR is enabled by default. */
-  statusIvrEnabled?: boolean;
+  statusIvrEnabled?: boolean | undefined;
 }
 export interface PutTelephonyEasyHuntingHuntingResponse {}
 export interface PutTelephonyEasyHuntingHuntingAgentRequest {
@@ -7060,19 +7090,19 @@ export interface PutTelephonyEasyHuntingHuntingAgentRequest {
   serviceName: string;
   agentId: number;
   /** The id of the current break status of the agent */
-  breakStatus?: number | null;
+  breakStatus?: number | null | undefined;
   /** The agent's description */
-  description?: string | null;
+  description?: string | null | undefined;
   /** The number of the agent */
-  number?: string;
+  number?: string | undefined;
   /** The maximum of simultaneous calls that the agent will receive from the hunting */
-  simultaneousLines?: number;
+  simultaneousLines?: number | undefined;
   /** The current status of the agent */
-  status?: TelephonyOvhPabxHuntingAgentStatusEnum | (string & {});
+  status?: TelephonyOvhPabxHuntingAgentStatusEnum | (string & {}) | undefined;
   /** The waiting timeout (in seconds) before hangup an assigned called */
-  timeout?: number;
+  timeout?: number | undefined;
   /** The wrap up time (in seconds) after the calls */
-  wrapUpTime?: number;
+  wrapUpTime?: number | undefined;
 }
 export interface PutTelephonyEasyHuntingHuntingAgentResponse {}
 export interface PutTelephonyEasyHuntingHuntingAgentQueueRequest {
@@ -7082,7 +7112,7 @@ export interface PutTelephonyEasyHuntingHuntingAgentQueueRequest {
   agentId: number;
   queueId: number;
   /** The position in the queue */
-  position?: number;
+  position?: number | undefined;
 }
 export interface PutTelephonyEasyHuntingHuntingAgentQueueResponse {}
 export interface PutTelephonyEasyHuntingHuntingQueueRequest {
@@ -7091,41 +7121,43 @@ export interface PutTelephonyEasyHuntingHuntingQueueRequest {
   serviceName: string;
   queueId: number;
   /** Action executed when there is no member in queue */
-  actionOnClosure?: TelephonyOvhPabxQueueActionEnum | (string & {}) | null;
+  actionOnClosure?: TelephonyOvhPabxQueueActionEnum | (string & {}) | null | undefined;
   /** The additionnal parameter of the on closure action */
-  actionOnClosureParam?: string | null;
+  actionOnClosureParam?: string | null | undefined;
   /** Action executed when caller enters a full queue */
-  actionOnOverflow?: TelephonyOvhPabxQueueActionEnum | (string & {}) | null;
+  actionOnOverflow?: TelephonyOvhPabxQueueActionEnum | (string & {}) | null | undefined;
   /** The additionnal parameter of the overflow action */
-  actionOnOverflowParam?: string | null;
+  actionOnOverflowParam?: string | null | undefined;
   /** Allow the caller to disable call record by pressing a key */
-  askForRecordDisabling?: boolean | null;
+  askForRecordDisabling?: boolean | null | undefined;
   /** The key that tells the IVR that digit-entry is finished. Also used as a "repeat" key in the menus when no input is expected. */
-  confirmKey?: TelephonyOvhPabxIvrMenuKeyEnum | (string & {}) | null;
+  confirmKey?: TelephonyOvhPabxIvrMenuKeyEnum | (string & {}) | null | undefined;
   /** The name of the queue */
-  description?: string | null;
+  description?: string | null | undefined;
   /** Follow the calls forwarding */
-  followCallForwards?: boolean | null;
+  followCallForwards?: boolean | null | undefined;
   /** The maximum of people waiting in the queue */
-  maxMember?: number;
+  maxMember?: number | undefined;
   /** The maximum waiting time (in seconds) in the queue */
-  maxWaitTime?: number;
+  maxWaitTime?: number | undefined;
   /** Enable record on calls in queue */
-  record?: boolean | null;
+  record?: boolean | null | undefined;
   /** Key to press to disable record */
   recordDisablingDigit?:
     | TelephonyOvhPabxHuntingQueueRecordDisablingDigitEnum
     | (number & {})
-    | null;
+    | null
+    | undefined;
   /** Language of the sound played to the caller to inform that he can disable record */
   recordDisablingLanguage?:
     | TelephonyOvhPabxHuntingQueueRecordDisablingLanguageEnum
     | (string & {})
-    | null;
+    | null
+    | undefined;
   /** The id of the OvhPabxSound played to caller when on hold */
-  soundOnHold?: number | null;
+  soundOnHold?: number | null | undefined;
   /** The calls dispatching strategy */
-  strategy?: TelephonyOvhPabxHuntingQueueStrategyEnum | (string & {});
+  strategy?: TelephonyOvhPabxHuntingQueueStrategyEnum | (string & {}) | undefined;
 }
 export interface PutTelephonyEasyHuntingHuntingQueueResponse {}
 export interface PutTelephonyEasyHuntingHuntingQueueAgentRequest {
@@ -7135,7 +7167,7 @@ export interface PutTelephonyEasyHuntingHuntingQueueAgentRequest {
   queueId: number;
   agentId: number;
   /** The position in the queue */
-  position?: number;
+  position?: number | undefined;
 }
 export interface PutTelephonyEasyHuntingHuntingQueueAgentResponse {}
 export interface PutTelephonyEasyHuntingScreenListConditionConditionRequest {
@@ -7144,16 +7176,16 @@ export interface PutTelephonyEasyHuntingScreenListConditionConditionRequest {
   serviceName: string;
   conditionId: number;
   /** Screenlist based on the presented caller number */
-  callerIdNumber?: string | null;
+  callerIdNumber?: string | null | undefined;
   /** Screenlist based on the destination number */
-  destinationNumber?: string | null;
+  destinationNumber?: string | null | undefined;
 }
 export interface PutTelephonyEasyHuntingScreenListConditionConditionResponse {}
 export interface PutTelephonyEasyHuntingScreenListConditionsRequest {
   /** The name of your billingAccount */
   billingAccount: string;
   serviceName: string;
-  status?: TelephonyEasyHuntingScreenListsConditionsStatusEnum | (string & {});
+  status?: TelephonyEasyHuntingScreenListsConditionsStatusEnum | (string & {}) | undefined;
 }
 export interface PutTelephonyEasyHuntingScreenListConditionsResponse {}
 export interface PutTelephonyEasyHuntingTimeConditionConditionRequest {
@@ -7162,13 +7194,13 @@ export interface PutTelephonyEasyHuntingTimeConditionConditionRequest {
   serviceName: string;
   conditionId: number;
   /** The policy of time condition */
-  policy?: TelephonyTimeConditionsPolicyEnum | (string & {});
+  policy?: TelephonyTimeConditionsPolicyEnum | (string & {}) | undefined;
   /** The time of the day when the extension will start to be executed */
-  timeFrom?: string;
+  timeFrom?: string | undefined;
   /** The time of the day when the extension will stop to be executed */
-  timeTo?: string;
+  timeTo?: string | undefined;
   /** The day of the week when the extension will be executed */
-  weekDay?: TelephonyOvhPabxDialplanExtensionConditionTimeWeekDayEnum | (string & {});
+  weekDay?: TelephonyOvhPabxDialplanExtensionConditionTimeWeekDayEnum | (string & {}) | undefined;
 }
 export interface PutTelephonyEasyHuntingTimeConditionConditionResponse {}
 export interface PutTelephonyEasyHuntingTimeConditionsRequest {
@@ -7176,32 +7208,36 @@ export interface PutTelephonyEasyHuntingTimeConditionsRequest {
   billingAccount: string;
   serviceName: string;
   /** Status of time conditions */
-  enable?: boolean;
+  enable?: boolean | undefined;
   /** Number associated to the first slot action */
-  slot1Number?: string | null;
+  slot1Number?: string | null | undefined;
   /** Action type executed when the first slot is used */
-  slot1Type?: TelephonyTimeConditionsSettingsForwardTypeEnum | (string & {}) | null;
+  slot1Type?: TelephonyTimeConditionsSettingsForwardTypeEnum | (string & {}) | null | undefined;
   /** Number associated to the second slot action */
-  slot2Number?: string | null;
+  slot2Number?: string | null | undefined;
   /** Action type executed when the second slot is used */
-  slot2Type?: TelephonyTimeConditionsSettingsForwardTypeEnum | (string & {}) | null;
+  slot2Type?: TelephonyTimeConditionsSettingsForwardTypeEnum | (string & {}) | null | undefined;
   /** Number associated to the third slot action */
-  slot3Number?: string | null;
+  slot3Number?: string | null | undefined;
   /** Action type executed when the third slot is used */
-  slot3Type?: TelephonyTimeConditionsSettingsForwardTypeEnum | (string & {}) | null;
+  slot3Type?: TelephonyTimeConditionsSettingsForwardTypeEnum | (string & {}) | null | undefined;
   /** Number associated to the unavailable slot action */
-  unavailableNumber?: string | null;
+  unavailableNumber?: string | null | undefined;
   /** Action type executed when the unavailable slot is used */
-  unavailableType?: TelephonyTimeConditionsSettingsForwardTypeEnum | (string & {}) | null;
+  unavailableType?:
+    | TelephonyTimeConditionsSettingsForwardTypeEnum
+    | (string & {})
+    | null
+    | undefined;
 }
 export interface PutTelephonyEasyHuntingTimeConditionsResponse {}
 export interface PutTelephonyFaxRequest {
   /** The name of your billingAccount */
   billingAccount: string;
   serviceName: string;
-  description?: string;
+  description?: string | undefined;
   /** Send notifications about Line's diagnosticReports */
-  notifications?: TelephonyLineNotificationsOptions | null;
+  notifications?: TelephonyLineNotificationsOptions | null | undefined;
 }
 export interface PutTelephonyFaxResponse {}
 /** List of numbers not allowed to send a fax */
@@ -7217,13 +7253,13 @@ export interface PutTelephonyFaxScreenListsRequest {
   billingAccount: string;
   serviceName: string;
   /** List of numbers not allowed to send a fax */
-  blacklistedNumbers?: PutTelephonyFaxScreenListsRequestBlacklistedNumbersList | null;
+  blacklistedNumbers?: PutTelephonyFaxScreenListsRequestBlacklistedNumbersList | null | undefined;
   /** List of logins (TSI or ID) not allowed to send a fax */
-  blacklistedTSI?: PutTelephonyFaxScreenListsRequestBlacklistedTSIList | null;
+  blacklistedTSI?: PutTelephonyFaxScreenListsRequestBlacklistedTSIList | null | undefined;
   /** List of numbers allowed to send a fax */
-  whitelistedNumbers?: PutTelephonyFaxScreenListsRequestWhitelistedNumbersList | null;
+  whitelistedNumbers?: PutTelephonyFaxScreenListsRequestWhitelistedNumbersList | null | undefined;
   /** List of logins (TSI or ID) allowed to send a fax */
-  whitelistedTSI?: PutTelephonyFaxScreenListsRequestWhitelistedTSIList | null;
+  whitelistedTSI?: PutTelephonyFaxScreenListsRequestWhitelistedTSIList | null | undefined;
 }
 export interface PutTelephonyFaxScreenListsResponse {}
 export type PutTelephonyFaxSettingsRequestRedirectionEmailList = Array<string>;
@@ -7231,25 +7267,25 @@ export interface PutTelephonyFaxSettingsRequest {
   /** The name of your billingAccount */
   billingAccount: string;
   serviceName: string;
-  faxMaxCall?: TelephonyFaxSendingTries | (number & {});
-  faxQuality?: TelephonyFaxQualityEnum | (string & {});
-  faxTagLine?: string;
-  fromEmail?: string;
-  fromName?: string;
-  mailFormat?: TelephonyFaxMailFormatEnum | (string & {});
-  receiver?: string;
-  redirectionEmail?: PutTelephonyFaxSettingsRequestRedirectionEmailList;
-  rejectAnonymous?: boolean;
-  sender?: string;
+  faxMaxCall?: TelephonyFaxSendingTries | (number & {}) | undefined;
+  faxQuality?: TelephonyFaxQualityEnum | (string & {}) | undefined;
+  faxTagLine?: string | undefined;
+  fromEmail?: string | undefined;
+  fromName?: string | undefined;
+  mailFormat?: TelephonyFaxMailFormatEnum | (string & {}) | undefined;
+  receiver?: string | undefined;
+  redirectionEmail?: PutTelephonyFaxSettingsRequestRedirectionEmailList | undefined;
+  rejectAnonymous?: boolean | undefined;
+  sender?: string | undefined;
 }
 export interface PutTelephonyFaxSettingsResponse {}
 export interface PutTelephonyLineRequest {
   /** The name of your billingAccount */
   billingAccount: string;
   serviceName: string;
-  description?: string;
+  description?: string | undefined;
   /** Send notifications about Line's diagnosticReports */
-  notifications?: TelephonyLineNotificationsOptions | null;
+  notifications?: TelephonyLineNotificationsOptions | null | undefined;
 }
 export interface PutTelephonyLineResponse {}
 export interface PutTelephonyLineAbbreviatedNumberRequest {
@@ -7259,9 +7295,9 @@ export interface PutTelephonyLineAbbreviatedNumberRequest {
   /** The abbreviated number which must start with "2" and must have a length of 3 or 4 digits */
   abbreviatedNumber: number;
   /** The destination of the abbreviated number */
-  destinationNumber?: string;
-  name?: string;
-  surname?: string;
+  destinationNumber?: string | undefined;
+  name?: string | undefined;
+  surname?: string | undefined;
 }
 export interface PutTelephonyLineAbbreviatedNumberResponse {}
 /** The ip restrictions of your line */
@@ -7270,69 +7306,69 @@ export interface PutTelephonyLineOptionsRequest {
   /** The name of your billingAccount */
   billingAccount: string;
   serviceName: string;
-  absentSubscriber?: boolean;
+  absentSubscriber?: boolean | undefined;
   /** Reject anonymous calls */
-  anonymousCallRejection?: boolean;
+  anonymousCallRejection?: boolean | undefined;
   /** Whether or not the line has restriction on incoming calls */
-  callRestrictionIncoming?: boolean;
+  callRestrictionIncoming?: boolean | undefined;
   /** Whether or not the line has restriction on outgoing calls */
-  callRestrictionOutgoing?: boolean;
+  callRestrictionOutgoing?: boolean | undefined;
   /** If the line receives a new call and the line is already in communication, this new call is dispatched once the current call is completed */
-  callWaiting?: boolean;
+  callWaiting?: boolean | undefined;
   /** Codecs preferences */
-  codecs?: string;
+  codecs?: string | undefined;
   /** The default voicemail of the line. It can be the voicemail of any line of your account. */
-  defaultVoicemail?: string;
-  displayNumber?: string;
-  doNotDisturb?: boolean;
+  defaultVoicemail?: string | undefined;
+  displayNumber?: string | undefined;
+  doNotDisturb?: boolean | undefined;
   /** The domain to configure in your SIP client. */
-  domain?: string;
+  domain?: string | undefined;
   /** Enable calls forward when the line is unavailable */
-  forwardBackup?: boolean;
+  forwardBackup?: boolean | undefined;
   /** Nature of the forward when the line is unavailable */
-  forwardBackupNature?: TelephonyLineOptionForwardNatureTypeEnum | (string & {});
+  forwardBackupNature?: TelephonyLineOptionForwardNatureTypeEnum | (string & {}) | undefined;
   /** Destination of the forward when the line is unavailable */
-  forwardBackupNumber?: string;
+  forwardBackupNumber?: string | undefined;
   /** Enable calls forward when the line is busy */
-  forwardBusy?: boolean;
+  forwardBusy?: boolean | undefined;
   /** Nature of the forward when the line is busy */
-  forwardBusyNature?: TelephonyLineOptionForwardNatureTypeEnum | (string & {});
+  forwardBusyNature?: TelephonyLineOptionForwardNatureTypeEnum | (string & {}) | undefined;
   /** Destination of the forward when the line is busy */
-  forwardBusyNumber?: string;
+  forwardBusyNumber?: string | undefined;
   /** Enable calls forward on no-reply */
-  forwardNoReply?: boolean;
+  forwardNoReply?: boolean | undefined;
   /** Delay before forward on no-reply */
-  forwardNoReplyDelay?: number;
+  forwardNoReplyDelay?: number | undefined;
   /** Nature of the forward on no-reply */
-  forwardNoReplyNature?: TelephonyLineOptionForwardNatureTypeEnum | (string & {});
+  forwardNoReplyNature?: TelephonyLineOptionForwardNatureTypeEnum | (string & {}) | undefined;
   /** Destination of the forward on no-reply */
-  forwardNoReplyNumber?: string;
+  forwardNoReplyNumber?: string | undefined;
   /** Enable unconditional calls forward */
-  forwardUnconditional?: boolean;
+  forwardUnconditional?: boolean | undefined;
   /** Nature of the unconditional forward */
-  forwardUnconditionalNature?: TelephonyLineOptionForwardNatureTypeEnum | (string & {});
+  forwardUnconditionalNature?: TelephonyLineOptionForwardNatureTypeEnum | (string & {}) | undefined;
   /** Destination of the unconditional forward */
-  forwardUnconditionalNumber?: string;
+  forwardUnconditionalNumber?: string | undefined;
   /** Do not display your number */
-  identificationRestriction?: boolean;
+  identificationRestriction?: boolean | undefined;
   /** Intercom mode: takes automatically the call with the loudspeaker */
-  intercom?: TelephonyLineOptionIntercomEnum | (string & {});
+  intercom?: TelephonyLineOptionIntercomEnum | (string & {}) | undefined;
   /** The ip restrictions of your line */
-  ipRestrictions?: PutTelephonyLineOptionsRequestIpRestrictionsList;
+  ipRestrictions?: PutTelephonyLineOptionsRequestIpRestrictionsList | undefined;
   /** Language of the line */
-  language?: TelephonyLineOptionLanguageEnum | (string & {});
+  language?: TelephonyLineOptionLanguageEnum | (string & {}) | undefined;
   /** Disallow outgoing calls */
-  lockOutCall?: boolean;
+  lockOutCall?: boolean | undefined;
   /** Disallow outgoing calls password */
-  lockOutCallPassword?: string | Redacted.Redacted<string> | null;
+  lockOutCallPassword?: string | Redacted.Redacted<string> | null | undefined;
   /** Enable or disable record of outgoing calls */
-  recordOutgoingCallsBeta?: boolean;
+  recordOutgoingCallsBeta?: boolean | undefined;
   /** Sound ID of on-call-waiting tone */
-  toneOnCallWaitingSoundId?: number | null;
+  toneOnCallWaitingSoundId?: number | null | undefined;
   /** Sound ID of on-hold tone */
-  toneOnHoldSoundId?: number | null;
+  toneOnHoldSoundId?: number | null | undefined;
   /** Sound ID of ringback tone */
-  toneRingbackSoundId?: number | null;
+  toneRingbackSoundId?: number | null | undefined;
 }
 export interface PutTelephonyLineOptionsResponse {}
 export interface PutTelephonyLinePhoneRequest {
@@ -7340,7 +7376,7 @@ export interface PutTelephonyLinePhoneRequest {
   billingAccount: string;
   serviceName: string;
   /** The ip restriction of your MGCP phone */
-  mgcpIpRestriction?: string | null;
+  mgcpIpRestriction?: string | null | undefined;
 }
 export interface PutTelephonyLinePhoneResponse {}
 export interface PutTelephonyLinePhoneFunctionKeyRequest {
@@ -7350,9 +7386,9 @@ export interface PutTelephonyLinePhoneFunctionKeyRequest {
   /** The number of the function key */
   keyNum: number;
   /** The function active on the key */
-  function?: string | null;
+  function?: string | null | undefined;
   /** The function parameter */
-  parameter?: string | null;
+  parameter?: string | null | undefined;
 }
 export interface PutTelephonyLinePhoneFunctionKeyResponse {}
 export interface PutTelephonyLinePhonePhonebookRequest {
@@ -7362,9 +7398,9 @@ export interface PutTelephonyLinePhonePhonebookRequest {
   /** Identifier of the phonebook */
   bookKey: string;
   /** Set if phonebook is readonly */
-  isReadonly?: boolean;
+  isReadonly?: boolean | undefined;
   /** Phonebook name */
-  name?: string;
+  name?: string | undefined;
 }
 export interface PutTelephonyLinePhonePhonebookResponse {}
 export interface PutTelephonyLinePhonePhonebookPhonebookContactRequest {
@@ -7376,19 +7412,19 @@ export interface PutTelephonyLinePhonePhonebookPhonebookContactRequest {
   /** Contact identifier */
   id: number;
   /** Group name of the phonebook */
-  group?: string;
+  group?: string | undefined;
   /** Home mobile phone number of the contact */
-  homeMobile?: string | null;
+  homeMobile?: string | null | undefined;
   /** Home landline phone number of the contact */
-  homePhone?: string | null;
+  homePhone?: string | null | undefined;
   /** Contact name */
-  name?: string;
+  name?: string | undefined;
   /** Contact surname */
-  surname?: string;
+  surname?: string | undefined;
   /** Mobile phone office number of the contact */
-  workMobile?: string | null;
+  workMobile?: string | null | undefined;
   /** Landline phone office number of the contact */
-  workPhone?: string | null;
+  workPhone?: string | null | undefined;
 }
 export interface PutTelephonyLinePhonePhonebookPhonebookContactResponse {}
 export interface PutTelephonyLinePhoneRmaRequest {
@@ -7398,16 +7434,16 @@ export interface PutTelephonyLinePhoneRmaRequest {
   /** Return merchandise authorisation identifier */
   id: string;
   /** Process determined for merchandise returned */
-  process?: TelephonyRmaReplaceTypeEnum | (string & {});
+  process?: TelephonyRmaReplaceTypeEnum | (string & {}) | undefined;
   /** Contact information related to the delivery shipping in case of exchange */
-  shippingContact?: TelephonyContact;
+  shippingContact?: TelephonyContact | undefined;
 }
 export interface PutTelephonyLinePhoneRmaResponse {}
 export interface PutTelephonyLineServiceInfosRequest {
   /** Your line number */
   serviceName: string;
   /** Way of handling the renew */
-  renew?: ServiceRenewType | null;
+  renew?: ServiceRenewType | null | undefined;
 }
 export interface PutTelephonyLineServiceInfosResponse {}
 export interface PutTelephonyLineSoftphoneBetaRequest {
@@ -7438,13 +7474,13 @@ export interface PutTelephonyLineTonesRequest {
   billingAccount: string;
   serviceName: string;
   /** Tone played when caller is waiting in queue */
-  callWaiting?: TelephonyTonesEnum | (string & {});
+  callWaiting?: TelephonyTonesEnum | (string & {}) | undefined;
   /** Tone played when callee is ending call */
-  endCall?: TelephonyTonesEnum | (string & {});
+  endCall?: TelephonyTonesEnum | (string & {}) | undefined;
   /** Tone played when caller is put on hold */
-  onHold?: TelephonyTonesOnHoldEnum | (string & {});
+  onHold?: TelephonyTonesOnHoldEnum | (string & {}) | undefined;
   /** Ringback tone */
-  ringback?: TelephonyTonesEnum | (string & {});
+  ringback?: TelephonyTonesEnum | (string & {}) | undefined;
 }
 export interface PutTelephonyLineTonesResponse {}
 export interface PutTelephonyNumberRequest {
@@ -7453,7 +7489,7 @@ export interface PutTelephonyNumberRequest {
   /** Name of the service */
   serviceName: string;
   /** Description of the service */
-  description?: string;
+  description?: string | undefined;
 }
 export interface PutTelephonyNumberResponse {}
 export interface PutTelephonyOfferTaskRequest {
@@ -7461,7 +7497,7 @@ export interface PutTelephonyOfferTaskRequest {
   billingAccount: string;
   taskId: number;
   /** Planned execution date */
-  executionDate?: string;
+  executionDate?: string | undefined;
 }
 export interface PutTelephonyOfferTaskResponse {}
 export interface PutTelephonyOvhPabxRequest {
@@ -7469,7 +7505,7 @@ export interface PutTelephonyOvhPabxRequest {
   billingAccount: string;
   serviceName: string;
   /** Description of the service */
-  description?: string;
+  description?: string | undefined;
 }
 export interface PutTelephonyOvhPabxResponse {}
 export interface PutTelephonyOvhPabxDialplanRequest {
@@ -7478,13 +7514,13 @@ export interface PutTelephonyOvhPabxDialplanRequest {
   serviceName: string;
   dialplanId: number;
   /** Reject (hangup) anonymous calls */
-  anonymousRejection?: boolean;
+  anonymousRejection?: boolean | undefined;
   /** The dialplan name */
-  name?: string;
+  name?: string | undefined;
   /** The presented number when bridging calls */
-  showCallerNumber?: TelephonyOvhPabxDialplanNumberPresentationEnum | (string & {});
+  showCallerNumber?: TelephonyOvhPabxDialplanNumberPresentationEnum | (string & {}) | undefined;
   /** The timeout (in seconds) when bridging calls */
-  transferTimeout?: number;
+  transferTimeout?: number | undefined;
 }
 export interface PutTelephonyOvhPabxDialplanResponse {}
 export interface PutTelephonyOvhPabxDialplanExtensionRequest {
@@ -7494,16 +7530,17 @@ export interface PutTelephonyOvhPabxDialplanExtensionRequest {
   dialplanId: number;
   extensionId: number;
   /** True if the extension is enabled */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** The position of the extension in the dialplan (the extensions are executed following this order) */
-  position?: number;
+  position?: number | undefined;
   /** Additionnal conditions are used from this chosen scheduler category */
-  schedulerCategory?: TelephonySchedulerCategoryEnum | (string & {}) | null;
+  schedulerCategory?: TelephonySchedulerCategoryEnum | (string & {}) | null | undefined;
   /** The type of the screenlist */
   screenListType?:
     | TelephonyOvhPabxDialplanExtensionConditionScreenListTypeEnum
     | (string & {})
-    | null;
+    | null
+    | undefined;
 }
 export interface PutTelephonyOvhPabxDialplanExtensionResponse {}
 export interface PutTelephonyOvhPabxDialplanExtensionConditionTimeRequest {
@@ -7514,11 +7551,11 @@ export interface PutTelephonyOvhPabxDialplanExtensionConditionTimeRequest {
   extensionId: number;
   conditionId: number;
   /** The time of the day when the extension will start to be executed */
-  timeFrom?: string;
+  timeFrom?: string | undefined;
   /** The time of the day when the extension will stop to be executed */
-  timeTo?: string;
+  timeTo?: string | undefined;
   /** The day of the week when the extension will be executed */
-  weekDay?: TelephonyOvhPabxDialplanExtensionConditionTimeWeekDayEnum | (string & {});
+  weekDay?: TelephonyOvhPabxDialplanExtensionConditionTimeWeekDayEnum | (string & {}) | undefined;
 }
 export interface PutTelephonyOvhPabxDialplanExtensionConditionTimeResponse {}
 export interface PutTelephonyOvhPabxDialplanExtensionRuleRequest {
@@ -7529,13 +7566,13 @@ export interface PutTelephonyOvhPabxDialplanExtensionRuleRequest {
   extensionId: number;
   ruleId: number;
   /** The action made by the rule */
-  action?: TelephonyOvhPabxDialplanExtensionRuleActionEnum | (string & {});
+  action?: TelephonyOvhPabxDialplanExtensionRuleActionEnum | (string & {}) | undefined;
   /** The parameter of the chosen action */
-  actionParam?: string | null;
+  actionParam?: string | null | undefined;
   /** If true, the rule will be executed only when the result of the conditions is false */
-  negativeAction?: boolean;
+  negativeAction?: boolean | undefined;
   /** The position of the rule in the extension (the rules are executed following this order) */
-  position?: number;
+  position?: number | undefined;
 }
 export interface PutTelephonyOvhPabxDialplanExtensionRuleResponse {}
 export interface PutTelephonyOvhPabxHuntingRequest {
@@ -7543,11 +7580,11 @@ export interface PutTelephonyOvhPabxHuntingRequest {
   billingAccount: string;
   serviceName: string;
   /** The templated url of your CRM, opened by the banner application of your cloudpabx */
-  crmUrlTemplate?: string | null;
+  crmUrlTemplate?: string | null | undefined;
   /** Enable G729 codec on your callcenter */
-  g729?: boolean | null;
+  g729?: boolean | null | undefined;
   /** Enable/Disable the status change IVR on your callcenter. The IVR is enabled by default. */
-  statusIvrEnabled?: boolean;
+  statusIvrEnabled?: boolean | undefined;
 }
 export interface PutTelephonyOvhPabxHuntingResponse {}
 export interface PutTelephonyOvhPabxHuntingAgentRequest {
@@ -7556,19 +7593,19 @@ export interface PutTelephonyOvhPabxHuntingAgentRequest {
   serviceName: string;
   agentId: number;
   /** The id of the current break status of the agent */
-  breakStatus?: number | null;
+  breakStatus?: number | null | undefined;
   /** The agent's description */
-  description?: string | null;
+  description?: string | null | undefined;
   /** The number of the agent */
-  number?: string;
+  number?: string | undefined;
   /** The maximum of simultaneous calls that the agent will receive from the hunting */
-  simultaneousLines?: number;
+  simultaneousLines?: number | undefined;
   /** The current status of the agent */
-  status?: TelephonyOvhPabxHuntingAgentStatusEnum | (string & {});
+  status?: TelephonyOvhPabxHuntingAgentStatusEnum | (string & {}) | undefined;
   /** The waiting timeout (in seconds) before hangup an assigned called */
-  timeout?: number;
+  timeout?: number | undefined;
   /** The wrap up time (in seconds) after the calls */
-  wrapUpTime?: number;
+  wrapUpTime?: number | undefined;
 }
 export interface PutTelephonyOvhPabxHuntingAgentResponse {}
 export interface PutTelephonyOvhPabxHuntingAgentQueueRequest {
@@ -7578,7 +7615,7 @@ export interface PutTelephonyOvhPabxHuntingAgentQueueRequest {
   agentId: number;
   queueId: number;
   /** The position in the queue */
-  position?: number;
+  position?: number | undefined;
 }
 export interface PutTelephonyOvhPabxHuntingAgentQueueResponse {}
 export interface PutTelephonyOvhPabxHuntingQueueRequest {
@@ -7587,41 +7624,43 @@ export interface PutTelephonyOvhPabxHuntingQueueRequest {
   serviceName: string;
   queueId: number;
   /** Action executed when there is no member in queue */
-  actionOnClosure?: TelephonyOvhPabxQueueActionEnum | (string & {}) | null;
+  actionOnClosure?: TelephonyOvhPabxQueueActionEnum | (string & {}) | null | undefined;
   /** The additionnal parameter of the on closure action */
-  actionOnClosureParam?: string | null;
+  actionOnClosureParam?: string | null | undefined;
   /** Action executed when caller enters a full queue */
-  actionOnOverflow?: TelephonyOvhPabxQueueActionEnum | (string & {}) | null;
+  actionOnOverflow?: TelephonyOvhPabxQueueActionEnum | (string & {}) | null | undefined;
   /** The additionnal parameter of the overflow action */
-  actionOnOverflowParam?: string | null;
+  actionOnOverflowParam?: string | null | undefined;
   /** Allow the caller to disable call record by pressing a key */
-  askForRecordDisabling?: boolean | null;
+  askForRecordDisabling?: boolean | null | undefined;
   /** The key that tells the IVR that digit-entry is finished. Also used as a "repeat" key in the menus when no input is expected. */
-  confirmKey?: TelephonyOvhPabxIvrMenuKeyEnum | (string & {}) | null;
+  confirmKey?: TelephonyOvhPabxIvrMenuKeyEnum | (string & {}) | null | undefined;
   /** The name of the queue */
-  description?: string | null;
+  description?: string | null | undefined;
   /** Follow the calls forwarding */
-  followCallForwards?: boolean | null;
+  followCallForwards?: boolean | null | undefined;
   /** The maximum of people waiting in the queue */
-  maxMember?: number;
+  maxMember?: number | undefined;
   /** The maximum waiting time (in seconds) in the queue */
-  maxWaitTime?: number;
+  maxWaitTime?: number | undefined;
   /** Enable record on calls in queue */
-  record?: boolean | null;
+  record?: boolean | null | undefined;
   /** Key to press to disable record */
   recordDisablingDigit?:
     | TelephonyOvhPabxHuntingQueueRecordDisablingDigitEnum
     | (number & {})
-    | null;
+    | null
+    | undefined;
   /** Language of the sound played to the caller to inform that he can disable record */
   recordDisablingLanguage?:
     | TelephonyOvhPabxHuntingQueueRecordDisablingLanguageEnum
     | (string & {})
-    | null;
+    | null
+    | undefined;
   /** The id of the OvhPabxSound played to caller when on hold */
-  soundOnHold?: number | null;
+  soundOnHold?: number | null | undefined;
   /** The calls dispatching strategy */
-  strategy?: TelephonyOvhPabxHuntingQueueStrategyEnum | (string & {});
+  strategy?: TelephonyOvhPabxHuntingQueueStrategyEnum | (string & {}) | undefined;
 }
 export interface PutTelephonyOvhPabxHuntingQueueResponse {}
 export interface PutTelephonyOvhPabxHuntingQueueAgentRequest {
@@ -7631,7 +7670,7 @@ export interface PutTelephonyOvhPabxHuntingQueueAgentRequest {
   queueId: number;
   agentId: number;
   /** The position in the queue */
-  position?: number;
+  position?: number | undefined;
 }
 export interface PutTelephonyOvhPabxHuntingQueueAgentResponse {}
 export interface PutTelephonyOvhPabxMenuRequest {
@@ -7640,19 +7679,19 @@ export interface PutTelephonyOvhPabxMenuRequest {
   serviceName: string;
   menuId: number;
   /** The id of the OvhPabxSound played to greet */
-  greetSound?: number | null;
+  greetSound?: number | null | undefined;
   /** The text to speech sound played to greet */
-  greetSoundTts?: number | null;
+  greetSoundTts?: number | null | undefined;
   /** The timeout in milliseconds before considering the DTMF entry as done */
-  interDigitTimeout?: number;
+  interDigitTimeout?: number | undefined;
   /** The id of the OvhPabxSound played when the caller uses an invalid DTMF */
-  invalidSound?: number | null;
+  invalidSound?: number | null | undefined;
   /** The text to speech sound played when the caller uses an invalid DTMF */
-  invalidSoundTts?: number | null;
+  invalidSoundTts?: number | null | undefined;
   /** The name of the menu */
-  name?: string;
+  name?: string | undefined;
   /** The timeout in milliseconds before ending the menu when no DTMF is received */
-  timeout?: number;
+  timeout?: number | undefined;
 }
 export interface PutTelephonyOvhPabxMenuResponse {}
 export interface PutTelephonyOvhPabxMenuEntryRequest {
@@ -7662,11 +7701,11 @@ export interface PutTelephonyOvhPabxMenuEntryRequest {
   menuId: number;
   entryId: number;
   /** The action triggered by the DTMF */
-  action?: TelephonyOvhPabxIvrMenuEntryActionEnum | (string & {});
+  action?: TelephonyOvhPabxIvrMenuEntryActionEnum | (string & {}) | undefined;
   /** The additionnal parameter of the action */
-  actionParam?: string;
+  actionParam?: string | undefined;
   /** The DTMF that triggers the action */
-  dtmf?: string;
+  dtmf?: string | undefined;
 }
 export interface PutTelephonyOvhPabxMenuEntryResponse {}
 export interface PutTelephonyOvhPabxTtsRequest {
@@ -7675,9 +7714,9 @@ export interface PutTelephonyOvhPabxTtsRequest {
   serviceName: string;
   id: number;
   /** The text that will be played */
-  text?: string;
+  text?: string | undefined;
   /** The voice used to say text */
-  voice?: TelephonyOvhPabxTtsVoiceEnum | (string & {});
+  voice?: TelephonyOvhPabxTtsVoiceEnum | (string & {}) | undefined;
 }
 export interface PutTelephonyOvhPabxTtsResponse {}
 export interface PutTelephonyPhonebookRequest {
@@ -7686,7 +7725,7 @@ export interface PutTelephonyPhonebookRequest {
   /** Identifier of the phonebook */
   bookKey: string;
   /** Phone book name */
-  name?: string;
+  name?: string | undefined;
 }
 export interface PutTelephonyPhonebookResponse {}
 export interface PutTelephonyPhonebookPhonebookContactRequest {
@@ -7697,19 +7736,19 @@ export interface PutTelephonyPhonebookPhonebookContactRequest {
   /** Contact identifier */
   id: number;
   /** Group name of the phonebook */
-  group?: string;
+  group?: string | undefined;
   /** Home mobile phone number of the contact */
-  homeMobile?: string | null;
+  homeMobile?: string | null | undefined;
   /** Home landline phone number of the contact */
-  homePhone?: string | null;
+  homePhone?: string | null | undefined;
   /** Contact name */
-  name?: string;
+  name?: string | undefined;
   /** Contact surname */
-  surname?: string;
+  surname?: string | undefined;
   /** Mobile phone office number of the contact */
-  workMobile?: string | null;
+  workMobile?: string | null | undefined;
   /** Landline phone office number of the contact */
-  workPhone?: string | null;
+  workPhone?: string | null | undefined;
 }
 export interface PutTelephonyPhonebookPhonebookContactResponse {}
 export interface PutTelephonyPortabilityDocumentRequest {
@@ -7720,30 +7759,30 @@ export interface PutTelephonyPortabilityDocumentRequest {
   /** Identifier of the document */
   documentId: number;
   /** Description of the document */
-  description?: string | null;
+  description?: string | null | undefined;
   /** Name of the document */
-  name?: string;
+  name?: string | undefined;
 }
 export interface PutTelephonyPortabilityDocumentResponse {}
 export interface PutTelephonyRedirectRequest {
   /** The name of your billingAccount */
   billingAccount: string;
   serviceName: string;
-  description?: string;
+  description?: string | undefined;
 }
 export interface PutTelephonyRedirectResponse {}
 export interface PutTelephonyRsvaRequest {
   /** The name of your billingAccount */
   billingAccount: string;
   serviceName: string;
-  typology?: TelephonyPortabilitySpecialNumberCategoryEnum | (string & {}) | null;
+  typology?: TelephonyPortabilitySpecialNumberCategoryEnum | (string & {}) | null | undefined;
 }
 export interface PutTelephonyRsvaResponse {}
 export interface PutTelephonySchedulerRequest {
   /** The name of your billingAccount */
   billingAccount: string;
   serviceName: string;
-  timeZone?: TelephonyTimeZone | (string & {});
+  timeZone?: TelephonyTimeZone | (string & {}) | undefined;
 }
 export interface PutTelephonySchedulerResponse {}
 export interface PutTelephonySchedulerEventRequest {
@@ -7753,66 +7792,66 @@ export interface PutTelephonySchedulerEventRequest {
   /** The unique ICS event identifier */
   uid: string;
   /** The category of the event */
-  categories?: TelephonySchedulerCategoryEnum | (string & {});
+  categories?: TelephonySchedulerCategoryEnum | (string & {}) | undefined;
   /** The ending date of the event */
-  dateEnd?: string;
+  dateEnd?: string | undefined;
   /** The beginning date of the event */
-  dateStart?: string;
-  description?: string | null;
-  title?: string;
+  dateStart?: string | undefined;
+  description?: string | null | undefined;
+  title?: string | undefined;
 }
 export interface PutTelephonySchedulerEventResponse {}
 export interface PutTelephonyScreenRequest {
   /** The name of your billingAccount */
   billingAccount: string;
   serviceName: string;
-  incomingScreenList?: TelephonyScreenListChoosingEnum | (string & {});
-  outgoingScreenList?: TelephonyScreenListChoosingEnum | (string & {});
+  incomingScreenList?: TelephonyScreenListChoosingEnum | (string & {}) | undefined;
+  outgoingScreenList?: TelephonyScreenListChoosingEnum | (string & {}) | undefined;
 }
 export interface PutTelephonyScreenResponse {}
 export interface PutTelephonyServiceRequest {
   /** The name of your billingAccount */
   billingAccount: string;
   serviceName: string;
-  description?: string;
+  description?: string | undefined;
 }
 export interface PutTelephonyServiceResponse {}
 export interface PutTelephonyServiceDirectoryRequest {
   /** The name of your billingAccount */
   billingAccount: string;
   serviceName: string;
-  PJSocialNomination?: string;
-  address?: string;
-  addressExtra?: string;
-  ape?: string;
-  birthDate?: string | null;
-  cedex?: string;
-  city?: string;
-  country?: string;
-  directoryServiceCode?: string;
-  displayFirstName?: boolean;
-  displayMarketingDirectory?: boolean;
-  displayOnlyCity?: boolean;
-  displaySearchReverse?: boolean;
-  displayUniversalDirectory?: boolean;
-  email?: string;
-  firstName?: string;
-  gender?: NichandleGenderEnum | (string & {}) | null;
-  legalForm?: string;
-  lineDescription?: string;
-  name?: string;
-  occupation?: string;
-  postBox?: string;
-  postCode?: string;
-  receivePJDirectory?: boolean;
-  siret?: string;
-  socialNomination?: string;
-  socialNominationExtra?: string;
-  urbanDistrict?: string;
-  wayName?: string;
-  wayNumber?: string;
-  wayNumberExtra?: string;
-  wayType?: string;
+  PJSocialNomination?: string | undefined;
+  address?: string | undefined;
+  addressExtra?: string | undefined;
+  ape?: string | undefined;
+  birthDate?: string | null | undefined;
+  cedex?: string | undefined;
+  city?: string | undefined;
+  country?: string | undefined;
+  directoryServiceCode?: string | undefined;
+  displayFirstName?: boolean | undefined;
+  displayMarketingDirectory?: boolean | undefined;
+  displayOnlyCity?: boolean | undefined;
+  displaySearchReverse?: boolean | undefined;
+  displayUniversalDirectory?: boolean | undefined;
+  email?: string | undefined;
+  firstName?: string | undefined;
+  gender?: NichandleGenderEnum | (string & {}) | null | undefined;
+  legalForm?: string | undefined;
+  lineDescription?: string | undefined;
+  name?: string | undefined;
+  occupation?: string | undefined;
+  postBox?: string | undefined;
+  postCode?: string | undefined;
+  receivePJDirectory?: boolean | undefined;
+  siret?: string | undefined;
+  socialNomination?: string | undefined;
+  socialNominationExtra?: string | undefined;
+  urbanDistrict?: string | undefined;
+  wayName?: string | undefined;
+  wayNumber?: string | undefined;
+  wayNumberExtra?: string | undefined;
+  wayType?: string | undefined;
 }
 export interface PutTelephonyServiceDirectoryResponse {}
 export interface PutTelephonyServiceEventCallbackRequest {
@@ -7820,16 +7859,16 @@ export interface PutTelephonyServiceEventCallbackRequest {
   billingAccount: string;
   serviceName: string;
   /** Email notification address in case of url calling failure */
-  emailError?: string | null;
+  emailError?: string | null | undefined;
   /** Url called for each event */
-  url?: string | null;
+  url?: string | null | undefined;
 }
 export interface PutTelephonyServiceEventCallbackResponse {}
 export interface PutTelephonyServiceInfosRequest {
   /** The name of your billingAccount */
   billingAccount: string;
   /** Way of handling the renew */
-  renew?: ServiceRenewType | null;
+  renew?: ServiceRenewType | null | undefined;
 }
 export interface PutTelephonyServiceInfosResponse {}
 export interface PutTelephonyServiceOfferTaskRequest {
@@ -7838,7 +7877,7 @@ export interface PutTelephonyServiceOfferTaskRequest {
   serviceName: string;
   taskId: number;
   /** Planned execution date */
-  executionDate?: string;
+  executionDate?: string | undefined;
 }
 export interface PutTelephonyServiceOfferTaskResponse {}
 export interface PutTelephonySoftphoneLogoRequest {
@@ -7859,16 +7898,16 @@ export interface PutTelephonySoundRequest {
   /** Sound ID */
   id: number;
   /** Sound description */
-  description?: string | null;
+  description?: string | null | undefined;
   /** Sound filename */
-  filename?: string;
+  filename?: string | undefined;
 }
 export interface PutTelephonySoundResponse {}
 export interface PutTelephonySpareServiceInfosRequest {
   /** The internal name of your spare */
   spare: string;
   /** Way of handling the renew */
-  renew?: ServiceRenewType | null;
+  renew?: ServiceRenewType | null | undefined;
 }
 export interface PutTelephonySpareServiceInfosResponse {}
 export interface PutTelephonyTimeConditionConditionRequest {
@@ -7877,11 +7916,11 @@ export interface PutTelephonyTimeConditionConditionRequest {
   serviceName: string;
   /** Id of the object */
   id: number;
-  day?: TelephonyTimeConditionsDayEnum | (string & {});
-  hourBegin?: string;
-  hourEnd?: string;
-  policy?: TelephonyTimeConditionsPolicyEnum | (string & {});
-  status?: string;
+  day?: TelephonyTimeConditionsDayEnum | (string & {}) | undefined;
+  hourBegin?: string | undefined;
+  hourEnd?: string | undefined;
+  policy?: TelephonyTimeConditionsPolicyEnum | (string & {}) | undefined;
+  status?: string | undefined;
 }
 export interface PutTelephonyTimeConditionConditionResponse {}
 export interface PutTelephonyTimeConditionOptionsRequest {
@@ -7889,39 +7928,39 @@ export interface PutTelephonyTimeConditionOptionsRequest {
   billingAccount: string;
   serviceName: string;
   /** Number associated to the first slot action */
-  slot1Number?: string;
+  slot1Number?: string | undefined;
   /** Action type executed when the first slot is used */
-  slot1Type?: TelephonyTimeConditionsSlotTypeEnum | (string & {});
+  slot1Type?: TelephonyTimeConditionsSlotTypeEnum | (string & {}) | undefined;
   /** Number associated to the second slot action */
-  slot2Number?: string;
+  slot2Number?: string | undefined;
   /** Action type executed when the second slot is used */
-  slot2Type?: TelephonyTimeConditionsSlotTypeEnum | (string & {});
+  slot2Type?: TelephonyTimeConditionsSlotTypeEnum | (string & {}) | undefined;
   /** Number associated to the third slot action */
-  slot3Number?: string;
+  slot3Number?: string | undefined;
   /** Action type executed when the third slot is used */
-  slot3Type?: TelephonyTimeConditionsSlotTypeEnum | (string & {});
+  slot3Type?: TelephonyTimeConditionsSlotTypeEnum | (string & {}) | undefined;
   /** Status of time conditions */
-  status?: TelephonyTimeConditionsGlobalStatusEnum | (string & {});
+  status?: TelephonyTimeConditionsGlobalStatusEnum | (string & {}) | undefined;
   /** Timeout value of the time condition */
-  timeout?: TelephonyTimeConditionsTimeoutEnum | (number & {}) | null;
+  timeout?: TelephonyTimeConditionsTimeoutEnum | (number & {}) | null | undefined;
   /** Number associated to the unavailable slot action */
-  unavailableNumber?: string;
+  unavailableNumber?: string | undefined;
   /** Action type executed when the unavailable slot is used */
-  unavailableType?: TelephonyTimeConditionsSlotTypeEnum | (string & {});
+  unavailableType?: TelephonyTimeConditionsSlotTypeEnum | (string & {}) | undefined;
 }
 export interface PutTelephonyTimeConditionOptionsResponse {}
 export interface PutTelephonyTrunkServiceInfosRequest {
   /** Your trunk number */
   serviceName: string;
   /** Way of handling the renew */
-  renew?: ServiceRenewType | null;
+  renew?: ServiceRenewType | null | undefined;
 }
 export interface PutTelephonyTrunkServiceInfosResponse {}
 export interface PutTelephonyVoicemailRequest {
   /** The name of your billingAccount */
   billingAccount: string;
   serviceName: string;
-  description?: string;
+  description?: string | undefined;
 }
 export interface PutTelephonyVoicemailResponse {}
 /** Email addresses to notify when a new voicemail is left */
@@ -7932,37 +7971,37 @@ export interface PutTelephonyVoicemailSettingsRequest {
   billingAccount: string;
   serviceName: string;
   /** Format of the voicemail audio file attached to emails */
-  audioFormat?: TelephonyServiceVoicemailAudioFormatEnum | (string & {});
+  audioFormat?: TelephonyServiceVoicemailAudioFormatEnum | (string & {}) | undefined;
   /** Don't allow callers to leave voicemails */
-  doNotRecord?: boolean;
+  doNotRecord?: boolean | undefined;
   /** Force password request to access the voicemail panel */
-  forcePassword?: boolean;
+  forcePassword?: boolean | undefined;
   /** Email address from which emails will be sent */
-  fromEmail?: string;
+  fromEmail?: string | undefined;
   /** Name from which emails will be sent */
-  fromName?: string;
+  fromName?: string | undefined;
   /** Sound ID of the long greeeting */
-  fullGreetingSoundId?: number | null;
+  fullGreetingSoundId?: number | null | undefined;
   /** Type of the greeting to play */
-  greetingType?: TelephonyVoicemailGreetingEnum | (string & {});
+  greetingType?: TelephonyVoicemailGreetingEnum | (string & {}) | undefined;
   /** Don't delete voicemails after they've been sent by email */
-  keepMessage?: boolean;
+  keepMessage?: boolean | undefined;
   /** Email addresses to notify when a new voicemail is left */
-  redirectionEmails?: PutTelephonyVoicemailSettingsRequestRedirectionEmailsList;
+  redirectionEmails?: PutTelephonyVoicemailSettingsRequestRedirectionEmailsList | undefined;
   /** Sound ID of the short greeting played before an automated message */
-  shortGreetingSoundId?: number | null;
+  shortGreetingSoundId?: number | null | undefined;
   /** Play the temporary greeting instead of the regular one */
-  temporaryGreetingActivated?: boolean;
+  temporaryGreetingActivated?: boolean | undefined;
   /** Sound ID of the temporary greeeting */
-  temporaryGreetingSoundId?: number | null;
+  temporaryGreetingSoundId?: number | null | undefined;
 }
 export interface PutTelephonyVoicemailSettingsResponse {}
 export interface PutTelephonyVxmlSettingsRequest {
   /** The name of your billingAccount */
   billingAccount: string;
   serviceName: string;
-  url?: string;
-  urlRecord?: string;
+  url?: string | undefined;
+  urlRecord?: string | undefined;
 }
 export interface PutTelephonyVxmlSettingsResponse {}
 export interface RebootTelephonyLinePhoneRequest {
@@ -8003,13 +8042,13 @@ export interface ResetTelephonyFaxScreenListRequest {
   billingAccount: string;
   serviceName: string;
   /** List of black numbers */
-  blacklistedNumbers?: boolean;
+  blacklistedNumbers?: boolean | undefined;
   /** List of black login (TSI or ID) */
-  blacklistedTSI?: boolean;
+  blacklistedTSI?: boolean | undefined;
   /** List of white numbers */
-  whitelistedNumbers?: boolean;
+  whitelistedNumbers?: boolean | undefined;
   /** List of white login (TSI or ID) */
-  whitelistedTSI?: boolean;
+  whitelistedTSI?: boolean | undefined;
 }
 export interface ResetTelephonyFaxScreenListResponse {}
 export interface ResetTelephonyLinePhoneConfigRequest {
@@ -8022,20 +8061,20 @@ export interface ResetTelephonyLinePhoneConfigRequest {
 /** Relevant informations about reset code */
 export interface TelephonyResetPhoneCodeInfo {
   /** Activation code */
-  activationCode?: string | null;
+  activationCode?: string | null | undefined;
   /** Key book url */
-  keyBook?: string | null;
+  keyBook?: string | null | undefined;
   /** Server url */
-  serverURL?: string | null;
+  serverURL?: string | null | undefined;
 }
 /** How the phone had been reset */
 export type TelephonyResetPhoneMethodEnum = "code" | "http";
 /** Relevant informations of the phone reset */
 export interface TelephonyResetPhoneInfo {
   /** Reset code informations */
-  resetCodeInfo?: TelephonyResetPhoneCodeInfo | null;
+  resetCodeInfo?: TelephonyResetPhoneCodeInfo | null | undefined;
   /** Which way had been used to reset the phone */
-  resetPhoneMethod?: TelephonyResetPhoneMethodEnum;
+  resetPhoneMethod?: TelephonyResetPhoneMethodEnum | undefined;
 }
 /** List of recipients of your fax */
 export type SendTelephonyFaxSettingsFaxRequestRecipientsList = Array<string>;
@@ -8044,7 +8083,7 @@ export interface SendTelephonyFaxSettingsFaxRequest {
   billingAccount: string;
   serviceName: string;
   /** If you want to schedule your fax later, you can specify a date */
-  dateSchedule?: string;
+  dateSchedule?: string | undefined;
   /** Url of the pdf document you want to send */
   pdfUrl: string;
   /** List of recipients of your fax */
@@ -8169,9 +8208,9 @@ export interface ValidateTelephonyTrunkExternalDisplayedNumberRequest {
 /** Trunk external displayed number validation */
 export interface TelephonyTrunkExternalDisplayedNumberValidation {
   /** telephony.Task id of the validation phone call */
-  phoneCallTaskId?: number;
+  phoneCallTaskId?: number | undefined;
   /** Validation code to type during phone call */
-  validationCode?: string;
+  validationCode?: string | undefined;
 }
 export type ActivateTelephonyLineNewPhoneError = OvhOpError;
 /** Allow to activate new phone, in case of phone switch */

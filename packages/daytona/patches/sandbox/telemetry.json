@@ -1,0 +1,58 @@
+{
+  "description": "Type the disabled sandbox telemetry endpoints. Observed live 2026-11-04 on Daytona Cloud v0.229.2: GET /sandbox/{id}/telemetry/{logs,metrics,traces} answer 403 \"Telemetry endpoints are disabled when Analytics API is configured\", for API keys and user sessions alike; Daytona Cloud serves sandbox telemetry from the Analytics API.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.daytona.sandbox#TelemetryEndpointsDisabled",
+      "value": {
+        "type": "structure",
+        "members": {
+          "message": {
+            "target": "smithy.api#String"
+          }
+        },
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 403,
+          "smithy.api#documentation": "The deployment serves sandbox telemetry through its Analytics API instead (the telemetry module); these endpoints answer 403.",
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "status": 403,
+              "message": {
+                "includes": "Telemetry endpoints are disabled"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.daytona.sandbox#GetSandboxLogs/errors/-",
+      "value": {
+        "target": "com.daytona.sandbox#TelemetryEndpointsDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.daytona.sandbox#GetSandboxMetrics/errors/-",
+      "value": {
+        "target": "com.daytona.sandbox#TelemetryEndpointsDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.daytona.sandbox#GetSandboxTraces/errors/-",
+      "value": {
+        "target": "com.daytona.sandbox#TelemetryEndpointsDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.daytona.sandbox#GetSandboxTraceSpans/errors/-",
+      "value": {
+        "target": "com.daytona.sandbox#TelemetryEndpointsDisabled"
+      }
+    }
+  ]
+}

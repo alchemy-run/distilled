@@ -29,6 +29,7 @@ const TELEMETRY = {
   prefix: "Cognitiveservices",
   service: "Cognitiveservices",
   labels: "azure",
+  labelNames: { resourceGroupName: "azure.resource_group.name" },
   propagate: "w3c",
 } as const;
 
@@ -45,23 +46,29 @@ export type CapabilityHostPropertiesInputThreadStorageConnectionsList = Array<st
 export type CapabilityHostPropertiesInputVectorStoreConnectionsList = Array<string>;
 export interface CapabilityHostPropertiesInput {
   /** The asset description text. */
-  description?: string | null;
+  description?: string | null | undefined;
   /** Tag dictionary. Tags can be added, removed, and updated. */
-  tags?: CapabilityHostPropertiesInputTagsMap | null;
+  tags?: CapabilityHostPropertiesInputTagsMap | null | undefined;
   /** List of AI services connections. */
-  aiServicesConnections?: CapabilityHostPropertiesInputAiServicesConnectionsList | null;
+  aiServicesConnections?: CapabilityHostPropertiesInputAiServicesConnectionsList | null | undefined;
   /** Kind of this capability host. */
-  capabilityHostKind?: CapabilityHostKind | (string & {});
+  capabilityHostKind?: CapabilityHostKind | (string & {}) | undefined;
   /** Customer subnet info to help set up this capability host. */
-  customerSubnet?: string | null;
+  customerSubnet?: string | null | undefined;
   /** List of connection names from those available in the account or project to be used as a storage resource. */
-  storageConnections?: CapabilityHostPropertiesInputStorageConnectionsList | null;
+  storageConnections?: CapabilityHostPropertiesInputStorageConnectionsList | null | undefined;
   /** List of connection names from those available in the account or project to be used for Thread storage. */
-  threadStorageConnections?: CapabilityHostPropertiesInputThreadStorageConnectionsList | null;
+  threadStorageConnections?:
+    | CapabilityHostPropertiesInputThreadStorageConnectionsList
+    | null
+    | undefined;
   /** List of connection names from those available in the account or project to be used for vector database (e.g. CosmosDB). */
-  vectorStoreConnections?: CapabilityHostPropertiesInputVectorStoreConnectionsList | null;
+  vectorStoreConnections?:
+    | CapabilityHostPropertiesInputVectorStoreConnectionsList
+    | null
+    | undefined;
   /** Whether public hosting environment is enabled for the capability host */
-  enablePublicHostingEnvironment?: boolean;
+  enablePublicHostingEnvironment?: boolean | undefined;
 }
 export interface AccountCapabilityHostsCreateOrUpdateRequest {
   /** The ID of the target subscription. */
@@ -82,17 +89,17 @@ export type SystemDataLastModifiedByType = "User" | "Application" | "ManagedIden
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface SystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: SystemDataCreatedByType;
+  createdByType?: SystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: SystemDataLastModifiedByType;
+  lastModifiedByType?: SystemDataLastModifiedByType | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 /** Tag dictionary. Tags can be added, removed, and updated. */
 export type CapabilityHostPropertiesTagsMap = { [key: string]: string | undefined };
@@ -114,52 +121,55 @@ export type CapabilityHostPropertiesThreadStorageConnectionsList = Array<string>
 export type CapabilityHostPropertiesVectorStoreConnectionsList = Array<string>;
 export interface CapabilityHostProperties {
   /** The asset description text. */
-  description?: string | null;
+  description?: string | null | undefined;
   /** Tag dictionary. Tags can be added, removed, and updated. */
-  tags?: CapabilityHostPropertiesTagsMap | null;
+  tags?: CapabilityHostPropertiesTagsMap | null | undefined;
   /** List of AI services connections. */
-  aiServicesConnections?: CapabilityHostPropertiesAiServicesConnectionsList | null;
+  aiServicesConnections?: CapabilityHostPropertiesAiServicesConnectionsList | null | undefined;
   /** Kind of this capability host. */
-  capabilityHostKind?: CapabilityHostKind;
+  capabilityHostKind?: CapabilityHostKind | undefined;
   /** Customer subnet info to help set up this capability host. */
-  customerSubnet?: string | null;
+  customerSubnet?: string | null | undefined;
   /** Provisioning state for the CapabilityHost. */
-  provisioningState?: CapabilityHostProvisioningState;
+  provisioningState?: CapabilityHostProvisioningState | undefined;
   /** List of connection names from those available in the account or project to be used as a storage resource. */
-  storageConnections?: CapabilityHostPropertiesStorageConnectionsList | null;
+  storageConnections?: CapabilityHostPropertiesStorageConnectionsList | null | undefined;
   /** List of connection names from those available in the account or project to be used for Thread storage. */
-  threadStorageConnections?: CapabilityHostPropertiesThreadStorageConnectionsList | null;
+  threadStorageConnections?:
+    | CapabilityHostPropertiesThreadStorageConnectionsList
+    | null
+    | undefined;
   /** List of connection names from those available in the account or project to be used for vector database (e.g. CosmosDB). */
-  vectorStoreConnections?: CapabilityHostPropertiesVectorStoreConnectionsList | null;
+  vectorStoreConnections?: CapabilityHostPropertiesVectorStoreConnectionsList | null | undefined;
   /** Whether public hosting environment is enabled for the capability host */
-  enablePublicHostingEnvironment?: boolean;
+  enablePublicHostingEnvironment?: boolean | undefined;
 }
 export interface AccountCapabilityHostsCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** [Required] Additional attributes of the entity. */
   properties: CapabilityHostProperties;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
 }
 /** RAI Custom Blocklist Item properties. */
 export interface RaiBlocklistItemProperties {
   /** Pattern to match against. */
-  pattern?: string;
+  pattern?: string | undefined;
   /** If the pattern is a regex pattern. */
-  isRegex?: boolean;
+  isRegex?: boolean | undefined;
 }
 /** The Cognitive Services RaiBlocklist Item request body. */
 export interface RaiBlocklistItemBulkRequest {
-  name?: string;
+  name?: string | undefined;
   /** Properties of Cognitive Services RaiBlocklist Item. */
-  properties?: RaiBlocklistItemProperties;
+  properties?: RaiBlocklistItemProperties | undefined;
 }
 /** The list of Cognitive Services RaiBlocklist Items for batch add. */
 export type RaiBlocklistItemsBulkAddRequest = Array<RaiBlocklistItemBulkRequest>;
@@ -177,34 +187,34 @@ export interface AddRaiBlocklistItemBatchRequest {
 /** RAI Custom Blocklist properties. */
 export interface RaiBlocklistProperties {
   /** Description of the block list. */
-  description?: string;
+  description?: string | undefined;
 }
 /** Resource tags. */
 export type AddRaiBlocklistItemBatchResponseTagsMap = { [key: string]: string | undefined };
 export interface AddRaiBlocklistItemBatchResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Properties of Cognitive Services RaiBlocklist. */
-  properties?: RaiBlocklistProperties;
+  properties?: RaiBlocklistProperties | undefined;
   /** Resource Etag. */
-  etag?: string;
+  etag?: string | undefined;
   /** Resource tags. */
-  tags?: AddRaiBlocklistItemBatchResponseTagsMap;
+  tags?: AddRaiBlocklistItemBatchResponseTagsMap | undefined;
 }
 /** Tag dictionary. Tags can be added, removed, and updated. */
 export type AgenticApplicationPropertiesInputTagsMap = { [key: string]: string | undefined };
 /** Type modeling a reference to a version of an agent definition. */
 export interface AgentReferenceProperties {
   /** Gets the agent's unique identifier within the organization (subscription). */
-  agentId?: string | null;
+  agentId?: string | null | undefined;
   /** Gets the agent's name (unique within the project/app). */
-  agentName?: string | null;
+  agentName?: string | null | undefined;
 }
 /** The list of agent definitions comprising this application, returned as references to the objects under the parent project; use this to obtain a flat list of all agent-version pairs represented by this application. */
 export type AgenticApplicationPropertiesInputAgentsList = Array<AgentReferenceProperties>;
@@ -225,7 +235,7 @@ export interface AssignedIdentityInput {
   /** The tenant ID of the identity. */
   tenantId: string;
   /** The subject of this identity assignment. */
-  subject?: string | null;
+  subject?: string | null | undefined;
 }
 /** Authorization scheme type. */
 export type BuiltInAuthorizationScheme = "Default" | "OrganizationScope" | "Channels" | "Custom";
@@ -239,43 +249,43 @@ export type TrafficRoutingProtocol = "FixedRatio";
 /** Represents a rule for routing traffic to a specific deployment. */
 export interface TrafficRoutingRule {
   /** The identifier of this traffic routing rule. */
-  ruleId?: string | null;
+  ruleId?: string | null | undefined;
   /** A user-provided description for this traffic routing rule. */
-  description?: string | null;
+  description?: string | null | undefined;
   /** The unique identifier of the deployment to which traffic is routed by this rule. */
-  deploymentId?: string | null;
+  deploymentId?: string | null | undefined;
   /** Gets or sets the percentage of traffic allocated to this instance. */
-  trafficPercentage?: number;
+  trafficPercentage?: number | undefined;
 }
 /** Gets or sets the collection of traffic routing rules. */
 export type ApplicationTrafficRoutingPolicyRulesList = Array<TrafficRoutingRule>;
 /** Type representing an application traffic policy as a property of an agentic application. */
 export interface ApplicationTrafficRoutingPolicy {
   /** Methodology used to route traffic to the application's deployments. */
-  protocol?: TrafficRoutingProtocol | (string & {});
+  protocol?: TrafficRoutingProtocol | (string & {}) | undefined;
   /** Gets or sets the collection of traffic routing rules. */
-  rules?: ApplicationTrafficRoutingPolicyRulesList | null;
+  rules?: ApplicationTrafficRoutingPolicyRulesList | null | undefined;
 }
 /** Resource type representing an agentic application as a management construct. */
 export interface AgenticApplicationPropertiesInput {
   /** The asset description text. */
-  description?: string | null;
+  description?: string | null | undefined;
   /** Tag dictionary. Tags can be added, removed, and updated. */
-  tags?: AgenticApplicationPropertiesInputTagsMap | null;
+  tags?: AgenticApplicationPropertiesInputTagsMap | null | undefined;
   /** The display name of the application. */
-  displayName?: string | null;
+  displayName?: string | null | undefined;
   /** The application's dedicated invocation endpoint. */
-  baseUrl?: string | null;
+  baseUrl?: string | null | undefined;
   /** The list of agent definitions comprising this application, returned as references to the objects under the parent project; use this to obtain a flat list of all agent-version pairs represented by this application. */
-  agents?: AgenticApplicationPropertiesInputAgentsList | null;
+  agents?: AgenticApplicationPropertiesInputAgentsList | null | undefined;
   /** The EntraId Agentic Blueprint of the application. */
-  agentIdentityBlueprint?: AssignedIdentityInput | null;
+  agentIdentityBlueprint?: AssignedIdentityInput | null | undefined;
   /** The (default) agent instance identity of the application. */
-  defaultInstanceIdentity?: AssignedIdentityInput | null;
+  defaultInstanceIdentity?: AssignedIdentityInput | null | undefined;
   /** Gets or sets the authorization policy associated with this agentic application instance. */
-  authorizationPolicy?: ApplicationAuthorizationPolicy | null;
+  authorizationPolicy?: ApplicationAuthorizationPolicy | null | undefined;
   /** Gets or sets the traffic routing policy for the application's deployments. */
-  trafficRoutingPolicy?: ApplicationTrafficRoutingPolicy | null;
+  trafficRoutingPolicy?: ApplicationTrafficRoutingPolicy | null | undefined;
 }
 export interface AgentApplicationsCreateOrUpdateRequest {
   /** The ID of the target subscription. */
@@ -316,9 +326,9 @@ export interface AssignedIdentity {
   /** The tenant ID of the identity. */
   tenantId: string;
   /** The subject of this identity assignment. */
-  subject?: string | null;
+  subject?: string | null | undefined;
   /** Represents the provisioning state of an identity resource. */
-  provisioningState?: IdentityProvisioningState;
+  provisioningState?: IdentityProvisioningState | undefined;
 }
 /** Provisioning state of an agentic application. */
 export type AgenticApplicationProvisioningState =
@@ -331,43 +341,43 @@ export type AgenticApplicationProvisioningState =
 /** Resource type representing an agentic application as a management construct. */
 export interface AgenticApplicationProperties {
   /** The asset description text. */
-  description?: string | null;
+  description?: string | null | undefined;
   /** Tag dictionary. Tags can be added, removed, and updated. */
-  tags?: AgenticApplicationPropertiesTagsMap | null;
+  tags?: AgenticApplicationPropertiesTagsMap | null | undefined;
   /** The display name of the application. */
-  displayName?: string | null;
+  displayName?: string | null | undefined;
   /** The application's dedicated invocation endpoint. */
-  baseUrl?: string | null;
+  baseUrl?: string | null | undefined;
   /** The list of agent definitions comprising this application, returned as references to the objects under the parent project; use this to obtain a flat list of all agent-version pairs represented by this application. */
-  agents?: AgenticApplicationPropertiesAgentsList | null;
+  agents?: AgenticApplicationPropertiesAgentsList | null | undefined;
   /** The EntraId Agentic Blueprint of the application. */
-  agentIdentityBlueprint?: AssignedIdentity | null;
+  agentIdentityBlueprint?: AssignedIdentity | null | undefined;
   /** The (default) agent instance identity of the application. */
-  defaultInstanceIdentity?: AssignedIdentity | null;
+  defaultInstanceIdentity?: AssignedIdentity | null | undefined;
   /** Gets or sets the authorization policy associated with this agentic application instance. */
-  authorizationPolicy?: ApplicationAuthorizationPolicy | null;
+  authorizationPolicy?: ApplicationAuthorizationPolicy | null | undefined;
   /** Gets or sets the traffic routing policy for the application's deployments. */
-  trafficRoutingPolicy?: ApplicationTrafficRoutingPolicy | null;
+  trafficRoutingPolicy?: ApplicationTrafficRoutingPolicy | null | undefined;
   /** Provisioning state of the application. */
-  provisioningState?: AgenticApplicationProvisioningState;
+  provisioningState?: AgenticApplicationProvisioningState | undefined;
   /** Enabledstate of the application. */
-  isEnabled?: boolean;
+  isEnabled?: boolean | undefined;
 }
 export interface AgentApplicationsCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** [Required] Additional attributes of the entity. */
   properties: AgenticApplicationProperties;
   /** URI to poll for asynchronous operation status. */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
 }
 /** Tag dictionary. Tags can be added, removed, and updated. */
 export type AgentDeploymentPropertiesInputTagsMap = { [key: string]: string | undefined };
@@ -386,20 +396,20 @@ export type AgentProtocol = "Agent" | "A2A" | "Responses";
 /** Type modeling the protocol and version used by an agent/exposed by a deployment. */
 export interface AgentProtocolVersion {
   /** The protocol used by the agent/exposed by a deployment. */
-  protocol?: AgentProtocol | (string & {});
+  protocol?: AgentProtocol | (string & {}) | undefined;
   /** The version of the protocol. */
-  version?: string | null;
+  version?: string | null | undefined;
 }
 /** Gets or sets the supported protocol types and versions exposed by this deployment. */
 export type AgentDeploymentPropertiesInputProtocolsList = Array<AgentProtocolVersion>;
 /** Type modeling a reference to a version of an agent definition. */
 export interface VersionedAgentReference {
   /** Gets the agent's unique identifier within the organization (subscription). */
-  agentId?: string | null;
+  agentId?: string | null | undefined;
   /** Gets the agent's name (unique within the project/app). */
-  agentName?: string | null;
+  agentName?: string | null | undefined;
   /** Gets the agent's version (unique for each agent lineage). */
-  agentVersion?: string | null;
+  agentVersion?: string | null | undefined;
 }
 /** Returns a flat list of agent:version deployed in this deployment. */
 export type AgentDeploymentPropertiesInputAgentsList = Array<VersionedAgentReference>;
@@ -408,19 +418,19 @@ export type AgentDeploymentType = "Managed" | "Hosted" | "Custom";
 /** Type representing an agent deployment as a management construct. */
 export interface AgentDeploymentPropertiesInput {
   /** The asset description text. */
-  description?: string | null;
+  description?: string | null | undefined;
   /** Tag dictionary. Tags can be added, removed, and updated. */
-  tags?: AgentDeploymentPropertiesInputTagsMap | null;
+  tags?: AgentDeploymentPropertiesInputTagsMap | null | undefined;
   /** Gets or sets the display name of the deployment. */
-  displayName?: string | null;
+  displayName?: string | null | undefined;
   /** Gets or sets the unique identifier of the deployment. */
-  deploymentId?: string | null;
+  deploymentId?: string | null | undefined;
   /** Gets or sets the current operational state of the deployment (and, intrinsically, of the comprising agents). */
-  state?: AgentDeploymentState | (string & {}) | null;
+  state?: AgentDeploymentState | (string & {}) | null | undefined;
   /** Gets or sets the supported protocol types and versions exposed by this deployment. */
-  protocols?: AgentDeploymentPropertiesInputProtocolsList | null;
+  protocols?: AgentDeploymentPropertiesInputProtocolsList | null | undefined;
   /** Returns a flat list of agent:version deployed in this deployment. */
-  agents?: AgentDeploymentPropertiesInputAgentsList | null;
+  agents?: AgentDeploymentPropertiesInputAgentsList | null | undefined;
   /** Gets or sets the type of deployment for the agent. */
   deploymentType: AgentDeploymentType | (string & {});
 }
@@ -457,68 +467,68 @@ export type AgentDeploymentProvisioningState =
 /** Type representing an agent deployment as a management construct. */
 export interface AgentDeploymentProperties {
   /** The asset description text. */
-  description?: string | null;
+  description?: string | null | undefined;
   /** Tag dictionary. Tags can be added, removed, and updated. */
-  tags?: AgentDeploymentPropertiesTagsMap | null;
+  tags?: AgentDeploymentPropertiesTagsMap | null | undefined;
   /** Gets or sets the display name of the deployment. */
-  displayName?: string | null;
+  displayName?: string | null | undefined;
   /** Gets or sets the unique identifier of the deployment. */
-  deploymentId?: string | null;
+  deploymentId?: string | null | undefined;
   /** Gets or sets the current operational state of the deployment (and, intrinsically, of the comprising agents). */
-  state?: AgentDeploymentState | null;
+  state?: AgentDeploymentState | null | undefined;
   /** Gets or sets the supported protocol types and versions exposed by this deployment. */
-  protocols?: AgentDeploymentPropertiesProtocolsList | null;
+  protocols?: AgentDeploymentPropertiesProtocolsList | null | undefined;
   /** Returns a flat list of agent:version deployed in this deployment. */
-  agents?: AgentDeploymentPropertiesAgentsList | null;
+  agents?: AgentDeploymentPropertiesAgentsList | null | undefined;
   /** Gets or sets the type of deployment for the agent. */
   deploymentType: AgentDeploymentType;
   /** Gets or sets the provisioning state of the agent deployment. */
-  provisioningState?: AgentDeploymentProvisioningState;
+  provisioningState?: AgentDeploymentProvisioningState | undefined;
 }
 export interface AgentDeploymentsCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** [Required] Additional attributes of the entity. */
   properties: AgentDeploymentProperties;
   /** URI to poll for asynchronous operation status. */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
 }
 /** Properties of Cognitive Services account deployment model. */
 export interface DeploymentModel {
   /** Deployment model publisher. */
-  publisher?: string;
+  publisher?: string | undefined;
   /** Deployment model format. */
-  format?: string;
+  format?: string | undefined;
   /** Deployment model name. */
-  name?: string;
+  name?: string | undefined;
   /** Optional. Deployment model version. If version is not specified, a default version will be assigned. The default version is different for different models and might change when there is new version available for a model. Default version for a model could be found from list models API. */
-  version?: string;
+  version?: string | undefined;
   /** Optional. Deployment model source ARM resource ID. */
-  source?: string;
+  source?: string | undefined;
   /** Optional. Source of the model, another Microsoft.CognitiveServices accounts ARM resource ID. */
-  sourceAccount?: string;
+  sourceAccount?: string | undefined;
 }
 /** Dictionary, Model Capacity Calculator Workload Parameters. */
 export interface ModelCapacityCalculatorWorkloadRequestParam {
   /** Average prompt tokens. */
-  avgPromptTokens?: number;
+  avgPromptTokens?: number | undefined;
   /** Average generated tokens. */
-  avgGeneratedTokens?: number;
+  avgGeneratedTokens?: number | undefined;
 }
 /** Model Capacity Calculator Workload. */
 export interface ModelCapacityCalculatorWorkload {
   /** Request per minute. */
-  requestPerMinute?: number;
+  requestPerMinute?: number | undefined;
   /** Dictionary, Model Capacity Calculator Workload Parameters. */
-  requestParameters?: ModelCapacityCalculatorWorkloadRequestParam;
+  requestParameters?: ModelCapacityCalculatorWorkloadRequestParam | undefined;
 }
 /** List of Model Capacity Calculator Workload. */
 export type CalculateModelCapacityRequestWorkloadsList = Array<ModelCapacityCalculatorWorkload>;
@@ -526,24 +536,24 @@ export interface CalculateModelCapacityRequest {
   /** The ID of the target subscription. */
   subscriptionId: string;
   /** Properties of Cognitive Services account deployment model. */
-  model?: DeploymentModel;
+  model?: DeploymentModel | undefined;
   /** The name of SKU. */
-  skuName?: string;
+  skuName?: string | undefined;
   /** List of Model Capacity Calculator Workload. */
-  workloads?: CalculateModelCapacityRequestWorkloadsList;
+  workloads?: CalculateModelCapacityRequestWorkloadsList | undefined;
 }
 /** Model Estimated Capacity. */
 export interface CalculateModelCapacityResultEstimatedCapacity {
-  value?: number;
-  deployableValue?: number;
+  value?: number | undefined;
+  deployableValue?: number | undefined;
 }
 /** Calculate Model Capacity result. */
 export interface CalculateModelCapacityResult {
   /** Properties of Cognitive Services account deployment model. */
-  model?: DeploymentModel;
-  skuName?: string;
+  model?: DeploymentModel | undefined;
+  skuName?: string | undefined;
   /** Model Estimated Capacity. */
-  estimatedCapacity?: CalculateModelCapacityResultEstimatedCapacity;
+  estimatedCapacity?: CalculateModelCapacityResultEstimatedCapacity | undefined;
 }
 export interface CheckDomainAvailabilityRequest {
   /** The ID of the target subscription. */
@@ -553,20 +563,20 @@ export interface CheckDomainAvailabilityRequest {
   /** The Type of the resource. */
   type: string;
   /** The kind (type) of cognitive service account. */
-  kind?: string;
+  kind?: string | undefined;
 }
 /** Domain availability. */
 export interface DomainAvailability {
   /** Indicates the given SKU is available or not. */
-  isSubdomainAvailable?: boolean;
+  isSubdomainAvailable?: boolean | undefined;
   /** Reason why the SKU is not available. */
-  reason?: string;
+  reason?: string | undefined;
   /** The subdomain name to use. */
-  subdomainName?: string;
+  subdomainName?: string | undefined;
   /** The Type of the resource. */
-  type?: string;
+  type?: string | undefined;
   /** The kind (type) of cognitive service account. */
-  kind?: string;
+  kind?: string | undefined;
 }
 /** The SKU of the resource. */
 export type CheckSkuAvailabilityRequestSkusList = Array<string>;
@@ -585,24 +595,24 @@ export interface CheckSkuAvailabilityRequest {
 /** SKU availability. */
 export interface SkuAvailability {
   /** The kind (type) of cognitive service account. */
-  kind?: string;
+  kind?: string | undefined;
   /** The Type of the resource. */
-  type?: string;
+  type?: string | undefined;
   /** The name of SKU. */
-  skuName?: string;
+  skuName?: string | undefined;
   /** Indicates the given SKU is available or not. */
-  skuAvailable?: boolean;
+  skuAvailable?: boolean | undefined;
   /** Reason why the SKU is not available. */
-  reason?: string;
+  reason?: string | undefined;
   /** Additional error message. */
-  message?: string;
+  message?: string | undefined;
 }
 /** Check SKU availability result list. */
 export type SkuAvailabilityListResultValueList = Array<SkuAvailability>;
 /** Check SKU availability result list. */
 export interface SkuAvailabilityListResult {
   /** Check SKU availability result list. */
-  value?: SkuAvailabilityListResultValueList;
+  value?: SkuAvailabilityListResultValueList | undefined;
 }
 /** Account hosting model. */
 export type HostingModel =
@@ -613,24 +623,24 @@ export type HostingModel =
 /** Cognitive Services account commitment period. */
 export interface CommitmentPeriodInput {
   /** Commitment period commitment tier. */
-  tier?: string;
+  tier?: string | undefined;
   /** Commitment period commitment count. */
-  count?: number;
+  count?: number | undefined;
 }
 /** Properties of Cognitive Services account commitment plan. */
 export interface CommitmentPlanPropertiesInput {
   /** Commitment plan guid. */
-  commitmentPlanGuid?: string;
+  commitmentPlanGuid?: string | undefined;
   /** Account hosting model. */
-  hostingModel?: HostingModel | (string & {});
+  hostingModel?: HostingModel | (string & {}) | undefined;
   /** Commitment plan type. */
-  planType?: string;
+  planType?: string | undefined;
   /** Cognitive Services account commitment period. */
-  current?: CommitmentPeriodInput;
+  current?: CommitmentPeriodInput | undefined;
   /** AutoRenew commitment plan. */
-  autoRenew?: boolean;
+  autoRenew?: boolean | undefined;
   /** Cognitive Services account commitment period. */
-  next?: CommitmentPeriodInput;
+  next?: CommitmentPeriodInput | undefined;
 }
 /** Resource tags. */
 export type CommitmentPlansCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
@@ -641,13 +651,13 @@ export interface Sku {
   /** The name of the SKU. Ex - P3. It is typically a letter+number code */
   name: string;
   /** This field is required to be implemented by the Resource Provider if the service has more than one tier, but is not required on a PUT. */
-  tier?: SkuTier | (string & {});
+  tier?: SkuTier | (string & {}) | undefined;
   /** The SKU size. When the name field is the combination of tier and some other value, this would be the standalone code. */
-  size?: string;
+  size?: string | undefined;
   /** If the service has different generations of hardware, for the same SKU, then that can be captured here. */
-  family?: string;
+  family?: string | undefined;
   /** If the SKU supports scale out/in then the capacity integer should be included. If scale out/in is not possible for the resource this may be omitted. */
-  capacity?: number;
+  capacity?: number | undefined;
 }
 export interface CommitmentPlansCreateOrUpdateRequest {
   /** The ID of the target subscription. */
@@ -659,15 +669,15 @@ export interface CommitmentPlansCreateOrUpdateRequest {
   /** The name of the commitmentPlan associated with the Cognitive Services Account */
   commitmentPlanName: string;
   /** Properties of Cognitive Services account commitment plan. */
-  properties?: CommitmentPlanPropertiesInput;
+  properties?: CommitmentPlanPropertiesInput | undefined;
   /** Resource tags. */
-  tags?: CommitmentPlansCreateOrUpdateRequestTagsMap;
+  tags?: CommitmentPlansCreateOrUpdateRequestTagsMap | undefined;
   /** The geo-location where the resource lives */
-  location?: string;
+  location?: string | undefined;
   /** The kind (type) of cognitive service account. */
-  kind?: string;
+  kind?: string | undefined;
   /** The resource model definition representing SKU */
-  sku?: Sku;
+  sku?: Sku | undefined;
 }
 /** Gets the status of the resource at the time the operation was called. */
 export type CommitmentPlanProvisioningState =
@@ -681,74 +691,74 @@ export type CommitmentPlanProvisioningState =
 /** Cognitive Services account commitment quota. */
 export interface CommitmentQuota {
   /** Commitment quota quantity. */
-  quantity?: number;
+  quantity?: number | undefined;
   /** Commitment quota unit. */
-  unit?: string;
+  unit?: string | undefined;
 }
 /** Cognitive Services account commitment period. */
 export interface CommitmentPeriod {
   /** Commitment period commitment tier. */
-  tier?: string;
+  tier?: string | undefined;
   /** Commitment period commitment count. */
-  count?: number;
+  count?: number | undefined;
   /** Cognitive Services account commitment quota. */
-  quota?: CommitmentQuota;
+  quota?: CommitmentQuota | undefined;
   /** Commitment period start date. */
-  startDate?: string;
+  startDate?: string | undefined;
   /** Commitment period end date. */
-  endDate?: string;
+  endDate?: string | undefined;
 }
 /** The list of ProvisioningIssue. */
 export type CommitmentPlanPropertiesProvisioningIssuesList = Array<string>;
 /** Properties of Cognitive Services account commitment plan. */
 export interface CommitmentPlanProperties {
   /** Gets the status of the resource at the time the operation was called. */
-  provisioningState?: CommitmentPlanProvisioningState;
+  provisioningState?: CommitmentPlanProvisioningState | undefined;
   /** Commitment plan guid. */
-  commitmentPlanGuid?: string;
+  commitmentPlanGuid?: string | undefined;
   /** Account hosting model. */
-  hostingModel?: HostingModel;
+  hostingModel?: HostingModel | undefined;
   /** Commitment plan type. */
-  planType?: string;
+  planType?: string | undefined;
   /** Cognitive Services account commitment period. */
-  current?: CommitmentPeriod;
+  current?: CommitmentPeriod | undefined;
   /** AutoRenew commitment plan. */
-  autoRenew?: boolean;
+  autoRenew?: boolean | undefined;
   /** Cognitive Services account commitment period. */
-  next?: CommitmentPeriod;
+  next?: CommitmentPeriod | undefined;
   /** Cognitive Services account commitment period. */
-  last?: CommitmentPeriod;
+  last?: CommitmentPeriod | undefined;
   /** The list of ProvisioningIssue. */
-  provisioningIssues?: CommitmentPlanPropertiesProvisioningIssuesList;
+  provisioningIssues?: CommitmentPlanPropertiesProvisioningIssuesList | undefined;
 }
 /** Resource tags. */
 export type CommitmentPlansCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
 export interface CommitmentPlansCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Properties of Cognitive Services account commitment plan. */
-  properties?: CommitmentPlanProperties;
+  properties?: CommitmentPlanProperties | undefined;
   /** Resource tags. */
-  tags?: CommitmentPlansCreateOrUpdateResponseTagsMap;
+  tags?: CommitmentPlansCreateOrUpdateResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
-  location?: string;
+  location?: string | undefined;
   /** Resource Etag. */
-  etag?: string;
+  etag?: string | undefined;
   /** The kind (type) of cognitive service account. */
-  kind?: string;
+  kind?: string | undefined;
   /** The resource model definition representing SKU */
-  sku?: Sku;
+  sku?: Sku | undefined;
 }
 /** The commitment plan account association properties. */
 export interface CommitmentPlanAccountAssociationProperties {
   /** The Azure resource id of the account. */
-  accountId?: string;
+  accountId?: string | undefined;
 }
 /** Resource tags. */
 export type CommitmentPlansCreateOrUpdateAssociationRequestTagsMap = {
@@ -764,9 +774,9 @@ export interface CommitmentPlansCreateOrUpdateAssociationRequest {
   /** The name of the commitment plan association with the Cognitive Services Account */
   commitmentPlanAssociationName: string;
   /** Properties of Cognitive Services account commitment plan association. */
-  properties?: CommitmentPlanAccountAssociationProperties;
+  properties?: CommitmentPlanAccountAssociationProperties | undefined;
   /** Resource tags. */
-  tags?: CommitmentPlansCreateOrUpdateAssociationRequestTagsMap;
+  tags?: CommitmentPlansCreateOrUpdateAssociationRequestTagsMap | undefined;
 }
 /** Resource tags. */
 export type CommitmentPlansCreateOrUpdateAssociationResponseTagsMap = {
@@ -774,23 +784,23 @@ export type CommitmentPlansCreateOrUpdateAssociationResponseTagsMap = {
 };
 export interface CommitmentPlansCreateOrUpdateAssociationResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Properties of Cognitive Services account commitment plan association. */
-  properties?: CommitmentPlanAccountAssociationProperties;
+  properties?: CommitmentPlanAccountAssociationProperties | undefined;
   /** Resource Etag. */
-  etag?: string;
+  etag?: string | undefined;
   /** Resource tags. */
-  tags?: CommitmentPlansCreateOrUpdateAssociationResponseTagsMap;
+  tags?: CommitmentPlansCreateOrUpdateAssociationResponseTagsMap | undefined;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Resource tags. */
 export type CommitmentPlansCreateOrUpdatePlanRequestTagsMap = { [key: string]: string | undefined };
@@ -802,15 +812,15 @@ export interface CommitmentPlansCreateOrUpdatePlanRequest {
   /** The name of the commitmentPlan associated with the Cognitive Services Account */
   commitmentPlanName: string;
   /** Properties of Cognitive Services account commitment plan. */
-  properties?: CommitmentPlanPropertiesInput;
+  properties?: CommitmentPlanPropertiesInput | undefined;
   /** Resource tags. */
-  tags?: CommitmentPlansCreateOrUpdatePlanRequestTagsMap;
+  tags?: CommitmentPlansCreateOrUpdatePlanRequestTagsMap | undefined;
   /** The geo-location where the resource lives */
-  location?: string;
+  location?: string | undefined;
   /** The kind (type) of cognitive service account. */
-  kind?: string;
+  kind?: string | undefined;
   /** The resource model definition representing SKU */
-  sku?: Sku;
+  sku?: Sku | undefined;
 }
 /** Resource tags. */
 export type CommitmentPlansCreateOrUpdatePlanResponseTagsMap = {
@@ -818,29 +828,29 @@ export type CommitmentPlansCreateOrUpdatePlanResponseTagsMap = {
 };
 export interface CommitmentPlansCreateOrUpdatePlanResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Properties of Cognitive Services account commitment plan. */
-  properties?: CommitmentPlanProperties;
+  properties?: CommitmentPlanProperties | undefined;
   /** Resource tags. */
-  tags?: CommitmentPlansCreateOrUpdatePlanResponseTagsMap;
+  tags?: CommitmentPlansCreateOrUpdatePlanResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
-  location?: string;
+  location?: string | undefined;
   /** Resource Etag. */
-  etag?: string;
+  etag?: string | undefined;
   /** The kind (type) of cognitive service account. */
-  kind?: string;
+  kind?: string | undefined;
   /** The resource model definition representing SKU */
-  sku?: Sku;
+  sku?: Sku | undefined;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** The default action when no rule from ipRules and from virtualNetworkRules match. This is only used after the bypass property has been evaluated. */
 export type NetworkRuleAction = "Allow" | "Deny";
@@ -858,81 +868,81 @@ export interface VirtualNetworkRule {
   /** Full resource id of a vnet subnet, such as '/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/test-vnet/subnets/subnet1'. */
   id: string;
   /** Gets the state of virtual network rule. */
-  state?: string;
+  state?: string | undefined;
   /** Ignore missing vnet service endpoint or not. */
-  ignoreMissingVnetServiceEndpoint?: boolean;
+  ignoreMissingVnetServiceEndpoint?: boolean | undefined;
 }
 /** The list of virtual network rules. */
 export type NetworkRuleSetVirtualNetworkRulesList = Array<VirtualNetworkRule>;
 /** A set of rules governing the network accessibility. */
 export interface NetworkRuleSet {
   /** The default action when no rule from ipRules and from virtualNetworkRules match. This is only used after the bypass property has been evaluated. */
-  defaultAction?: NetworkRuleAction | (string & {});
+  defaultAction?: NetworkRuleAction | (string & {}) | undefined;
   /** Setting for trusted services. */
-  bypass?: ByPassSelection | (string & {});
+  bypass?: ByPassSelection | (string & {}) | undefined;
   /** The list of IP address rules. */
-  ipRules?: NetworkRuleSetIpRulesList;
+  ipRules?: NetworkRuleSetIpRulesList | undefined;
   /** The list of virtual network rules. */
-  virtualNetworkRules?: NetworkRuleSetVirtualNetworkRulesList;
+  virtualNetworkRules?: NetworkRuleSetVirtualNetworkRulesList | undefined;
 }
 /** Properties to configure keyVault Properties */
 export interface KeyVaultProperties {
   /** Name of the Key from KeyVault */
-  keyName?: string;
+  keyName?: string | undefined;
   /** Version of the Key from KeyVault */
-  keyVersion?: string;
+  keyVersion?: string | undefined;
   /** Uri of KeyVault */
-  keyVaultUri?: string;
-  identityClientId?: string;
+  keyVaultUri?: string | undefined;
+  identityClientId?: string | undefined;
 }
 /** Enumerates the possible value of keySource for Encryption */
 export type EncryptionKeySource = "Microsoft.CognitiveServices" | "Microsoft.KeyVault";
 /** Properties to configure Encryption */
 export interface Encryption {
   /** Properties of KeyVault */
-  keyVaultProperties?: KeyVaultProperties;
+  keyVaultProperties?: KeyVaultProperties | undefined;
   /** Enumerates the possible value of keySource for Encryption */
-  keySource?: EncryptionKeySource | (string & {});
+  keySource?: EncryptionKeySource | (string & {}) | undefined;
 }
 /** The user owned storage for Cognitive Services account. */
 export interface UserOwnedStorage {
   /** Full resource id of a Microsoft.Storage resource. */
-  resourceId?: string;
-  identityClientId?: string;
+  resourceId?: string | undefined;
+  identityClientId?: string | undefined;
 }
 /** The storage accounts for this resource. */
 export type AccountPropertiesInputUserOwnedStorageList = Array<UserOwnedStorage>;
 /** The user owned AML account for Cognitive Services account. */
 export interface UserOwnedAmlWorkspace {
   /** Full resource id of a AML account resource. */
-  resourceId?: string;
+  resourceId?: string | undefined;
   /** Identity Client id of a AML account resource. */
-  identityClientId?: string;
+  identityClientId?: string | undefined;
 }
 /** Whether or not public endpoint access is allowed for this account. */
 export type PublicNetworkAccess = "Enabled" | "Disabled";
 /** The api properties for special APIs. */
 export interface ApiProperties {
   /** (QnAMaker Only) The runtime endpoint of QnAMaker. */
-  qnaRuntimeEndpoint?: string;
+  qnaRuntimeEndpoint?: string | undefined;
   /** (QnAMaker Only) The Azure Search endpoint key of QnAMaker. */
-  qnaAzureSearchEndpointKey?: string;
+  qnaAzureSearchEndpointKey?: string | undefined;
   /** (QnAMaker Only) The Azure Search endpoint id of QnAMaker. */
-  qnaAzureSearchEndpointId?: string;
+  qnaAzureSearchEndpointId?: string | undefined;
   /** (Bing Search Only) The flag to enable statistics of Bing Search. */
-  statisticsEnabled?: boolean;
+  statisticsEnabled?: boolean | undefined;
   /** (Personalization Only) The flag to enable statistics of Bing Search. */
-  eventHubConnectionString?: string;
+  eventHubConnectionString?: string | undefined;
   /** (Personalization Only) The storage account connection string. */
-  storageAccountConnectionString?: string;
+  storageAccountConnectionString?: string | undefined;
   /** (Metrics Advisor Only) The Azure AD Client Id (Application Id). */
-  aadClientId?: string;
+  aadClientId?: string | undefined;
   /** (Metrics Advisor Only) The Azure AD Tenant Id. */
-  aadTenantId?: string;
+  aadTenantId?: string | undefined;
   /** (Metrics Advisor Only) The super user of Metrics Advisor. */
-  superUser?: string;
+  superUser?: string | undefined;
   /** (Metrics Advisor Only) The website name of Metrics Advisor. */
-  websiteName?: string;
+  websiteName?: string | undefined;
   [key: string]: unknown;
 }
 export type AccountPropertiesInputAllowedFqdnListList = Array<string>;
@@ -941,36 +951,36 @@ export type RoutingMethods = "Priority" | "Weighted" | "Performance";
 /** The call rate limit Cognitive Services account. */
 export interface RegionSetting {
   /** Name of the region. */
-  name?: string;
+  name?: string | undefined;
   /** A value for priority or weighted routing methods. */
-  value?: number;
+  value?: number | undefined;
   /** Maps the region to the regional custom subdomain. */
-  customsubdomain?: string;
+  customsubdomain?: string | undefined;
 }
 export type MultiRegionSettingsRegionsList = Array<RegionSetting>;
 /** The multiregion settings Cognitive Services account. */
 export interface MultiRegionSettings {
   /** Multiregion routing methods. */
-  routingMethod?: RoutingMethods | (string & {});
-  regions?: MultiRegionSettingsRegionsList;
+  routingMethod?: RoutingMethods | (string & {}) | undefined;
+  regions?: MultiRegionSettingsRegionsList | undefined;
 }
 /** Cognitive Services Rai Monitor Config. */
 export interface RaiMonitorConfig {
   /** The storage resource Id. */
-  adxStorageResourceId?: string;
+  adxStorageResourceId?: string | undefined;
   /** The identity client Id to access the storage. */
-  identityClientId?: string;
+  identityClientId?: string | undefined;
 }
 /** Specifies what features in AI Foundry network injection applies to. Currently only supports 'agent' for agent scenarios. 'none' means no network injection. */
 export type ScenarioType = "none" | "agent";
 /** Specifies in AI Foundry where virtual network injection occurs to secure scenarios like Agents entirely within the user's private network, eliminating public internet exposure while maintaining control over network configurations and resources. */
 export interface NetworkInjection {
   /** Specifies what features in AI Foundry network injection applies to. Currently only supports 'agent' for agent scenarios. 'none' means no network injection. */
-  scenario?: ScenarioType | (string & {});
+  scenario?: ScenarioType | (string & {}) | undefined;
   /** Specify the subnet for which your Agent Client is injected into. */
-  subnetArmId?: string;
+  subnetArmId?: string | undefined;
   /** Boolean to enable Microsoft Managed Network for subnet delegation */
-  useMicrosoftManagedNetwork?: boolean;
+  useMicrosoftManagedNetwork?: boolean | undefined;
 }
 export type AccountPropertiesInputNetworkInjectionsList = Array<NetworkInjection>;
 /** Specifies the projects, by project name, that are associated with this resource. */
@@ -978,42 +988,42 @@ export type AccountPropertiesInputAssociatedProjectsList = Array<string>;
 /** Properties of Cognitive Services account. */
 export interface AccountPropertiesInput {
   /** Resource migration token. */
-  migrationToken?: string;
+  migrationToken?: string | undefined;
   /** Optional subdomain name used for token-based authentication. */
-  customSubDomainName?: string;
+  customSubDomainName?: string | undefined;
   /** A collection of rules governing the accessibility from specific network locations. */
-  networkAcls?: NetworkRuleSet;
+  networkAcls?: NetworkRuleSet | undefined;
   /** The encryption properties for this resource. */
-  encryption?: Encryption;
+  encryption?: Encryption | undefined;
   /** The storage accounts for this resource. */
-  userOwnedStorage?: AccountPropertiesInputUserOwnedStorageList;
+  userOwnedStorage?: AccountPropertiesInputUserOwnedStorageList | undefined;
   /** The user owned AML account properties. */
-  amlWorkspace?: UserOwnedAmlWorkspace;
+  amlWorkspace?: UserOwnedAmlWorkspace | undefined;
   /** Whether or not public endpoint access is allowed for this account. */
-  publicNetworkAccess?: PublicNetworkAccess | (string & {});
+  publicNetworkAccess?: PublicNetworkAccess | (string & {}) | undefined;
   /** The api properties for special APIs. */
-  apiProperties?: ApiProperties;
+  apiProperties?: ApiProperties | undefined;
   /** The flag to enable dynamic throttling. */
-  dynamicThrottlingEnabled?: boolean;
+  dynamicThrottlingEnabled?: boolean | undefined;
   /** The flag to disable stored completions. */
-  storedCompletionsDisabled?: boolean;
+  storedCompletionsDisabled?: boolean | undefined;
   /** Specifies whether A365 logging is enabled. Defaults to true. Set to false to opt out. */
-  a365LoggingEnabled?: boolean;
-  restrictOutboundNetworkAccess?: boolean;
-  allowedFqdnList?: AccountPropertiesInputAllowedFqdnListList;
-  disableLocalAuth?: boolean;
-  restore?: boolean;
+  a365LoggingEnabled?: boolean | undefined;
+  restrictOutboundNetworkAccess?: boolean | undefined;
+  allowedFqdnList?: AccountPropertiesInputAllowedFqdnListList | undefined;
+  disableLocalAuth?: boolean | undefined;
+  restore?: boolean | undefined;
   /** The multiregion settings of Cognitive Services account. */
-  locations?: MultiRegionSettings;
+  locations?: MultiRegionSettings | undefined;
   /** Cognitive Services Rai Monitor Config. */
-  raiMonitorConfig?: RaiMonitorConfig;
-  networkInjections?: AccountPropertiesInputNetworkInjectionsList;
+  raiMonitorConfig?: RaiMonitorConfig | undefined;
+  networkInjections?: AccountPropertiesInputNetworkInjectionsList | undefined;
   /** Specifies whether this resource support project management as child resources, used as containers for access management, data isolation and cost in AI Foundry. */
-  allowProjectManagement?: boolean;
+  allowProjectManagement?: boolean | undefined;
   /** Specifies the project, by project name, that is targeted when data plane endpoints are called without a project parameter. */
-  defaultProject?: string;
+  defaultProject?: string | undefined;
   /** Specifies the projects, by project name, that are associated with this resource. */
-  associatedProjects?: AccountPropertiesInputAssociatedProjectsList;
+  associatedProjects?: AccountPropertiesInputAssociatedProjectsList | undefined;
 }
 /** Resource tags. */
 export type CreateAccountRequestTagsMap = { [key: string]: string | undefined };
@@ -1032,9 +1042,9 @@ export type IdentityInputUserAssignedIdentitiesMap = {
 /** Identity for the resource. */
 export interface IdentityInput {
   /** The identity type. */
-  type?: ResourceIdentityType | (string & {});
+  type?: ResourceIdentityType | (string & {}) | undefined;
   /** The list of user assigned identities associated with the resource. The user identity dictionary key references will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName} */
-  userAssignedIdentities?: IdentityInputUserAssignedIdentitiesMap;
+  userAssignedIdentities?: IdentityInputUserAssignedIdentitiesMap | undefined;
 }
 export interface CreateAccountRequest {
   /** The ID of the target subscription. */
@@ -1044,17 +1054,17 @@ export interface CreateAccountRequest {
   /** The name of Cognitive Services account. */
   accountName: string;
   /** Properties of Cognitive Services account. */
-  properties?: AccountPropertiesInput;
+  properties?: AccountPropertiesInput | undefined;
   /** Resource tags. */
-  tags?: CreateAccountRequestTagsMap;
+  tags?: CreateAccountRequestTagsMap | undefined;
   /** The geo-location where the resource lives */
-  location?: string;
+  location?: string | undefined;
   /** The kind (type) of cognitive service account. */
-  kind?: string;
+  kind?: string | undefined;
   /** The resource model definition representing SKU */
-  sku?: Sku;
+  sku?: Sku | undefined;
   /** Identity for the resource. */
-  identity?: IdentityInput;
+  identity?: IdentityInput | undefined;
 }
 /** Gets the status of the cognitive services account at the time the operation was called. */
 export type ProvisioningState =
@@ -1069,38 +1079,38 @@ export type ProvisioningState =
 /** SkuCapability indicates the capability of a certain feature. */
 export interface SkuCapability {
   /** The name of the SkuCapability. */
-  name?: string;
+  name?: string | undefined;
   /** The value of the SkuCapability. */
-  value?: string;
+  value?: string | undefined;
 }
 /** Gets the capabilities of the cognitive services account. Each item indicates the capability of a specific feature. The values are read-only and for reference only. */
 export type AccountPropertiesCapabilitiesList = Array<SkuCapability>;
 /** Sku change info of account. */
 export interface SkuChangeInfo {
   /** Gets the count of downgrades. */
-  countOfDowngrades?: number;
+  countOfDowngrades?: number | undefined;
   /** Gets the count of upgrades after downgrades. */
-  countOfUpgradesAfterDowngrades?: number;
+  countOfUpgradesAfterDowngrades?: number | undefined;
   /** Gets the last change date. */
-  lastChangeDate?: string;
+  lastChangeDate?: string | undefined;
 }
 /** The storage accounts for this resource. */
 export type AccountPropertiesUserOwnedStorageList = Array<UserOwnedStorage>;
 /** The Private Endpoint resource. */
 export interface PrivateEndpointConnectionPropertiesPrivateEndpoint {
   /** The ARM identifier for Private Endpoint */
-  id?: string;
+  id?: string | undefined;
 }
 /** The private endpoint connection status. */
 export type PrivateEndpointServiceConnectionStatus = "Pending" | "Approved" | "Rejected";
 /** A collection of information about the state of the connection between service consumer and provider. */
 export interface PrivateEndpointConnectionPropertiesPrivateLinkServiceConnectionState {
   /** Indicates whether the connection has been Approved/Rejected/Removed by the owner of the service. */
-  status?: PrivateEndpointServiceConnectionStatus;
+  status?: PrivateEndpointServiceConnectionStatus | undefined;
   /** The reason for approval/rejection of the connection. */
-  description?: string;
+  description?: string | undefined;
   /** A message indicating if changes on the service provider require any updates on the consumer. */
-  actionsRequired?: string;
+  actionsRequired?: string | undefined;
 }
 /** The current provisioning state. */
 export type PrivateEndpointConnectionPropertiesProvisioningState =
@@ -1113,60 +1123,60 @@ export type PrivateEndpointConnectionPropertiesGroupIdsList = Array<string>;
 /** Properties of the PrivateEndpointConnectProperties. */
 export interface PrivateEndpointConnectionProperties {
   /** The Private Endpoint resource. */
-  privateEndpoint?: PrivateEndpointConnectionPropertiesPrivateEndpoint;
+  privateEndpoint?: PrivateEndpointConnectionPropertiesPrivateEndpoint | undefined;
   /** A collection of information about the state of the connection between service consumer and provider. */
   privateLinkServiceConnectionState: PrivateEndpointConnectionPropertiesPrivateLinkServiceConnectionState;
   /** The current provisioning state. */
-  provisioningState?: PrivateEndpointConnectionPropertiesProvisioningState;
+  provisioningState?: PrivateEndpointConnectionPropertiesProvisioningState | undefined;
   /** The private link resource group ids. */
-  groupIds?: PrivateEndpointConnectionPropertiesGroupIdsList;
+  groupIds?: PrivateEndpointConnectionPropertiesGroupIdsList | undefined;
 }
 /** The Private Endpoint Connection resource. */
 export interface PrivateEndpointConnection {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource properties. */
-  properties?: PrivateEndpointConnectionProperties;
+  properties?: PrivateEndpointConnectionProperties | undefined;
   /** Resource Etag. */
-  etag?: string;
+  etag?: string | undefined;
   /** The location of the private endpoint connection */
-  location?: string;
+  location?: string | undefined;
 }
 /** The private endpoint connection associated with the Cognitive Services account. */
 export type AccountPropertiesPrivateEndpointConnectionsList = Array<PrivateEndpointConnection>;
 export interface RequestMatchPattern {
-  path?: string;
-  method?: string;
+  path?: string | undefined;
+  method?: string | undefined;
 }
 export type ThrottlingRuleMatchPatternsList = Array<RequestMatchPattern>;
 export interface ThrottlingRule {
-  key?: string;
-  renewalPeriod?: number;
-  count?: number;
-  minCount?: number;
-  dynamicThrottlingEnabled?: boolean;
-  matchPatterns?: ThrottlingRuleMatchPatternsList;
+  key?: string | undefined;
+  renewalPeriod?: number | undefined;
+  count?: number | undefined;
+  minCount?: number | undefined;
+  dynamicThrottlingEnabled?: boolean | undefined;
+  matchPatterns?: ThrottlingRuleMatchPatternsList | undefined;
 }
 export type CallRateLimitRulesList = Array<ThrottlingRule>;
 /** The call rate limit Cognitive Services account. */
 export interface CallRateLimit {
   /** The count value of Call Rate Limit. */
-  count?: number;
+  count?: number | undefined;
   /** The renewal period in seconds of Call Rate Limit. */
-  renewalPeriod?: number;
-  rules?: CallRateLimitRulesList;
+  renewalPeriod?: number | undefined;
+  rules?: CallRateLimitRulesList | undefined;
 }
 export type QuotaLimitRulesList = Array<ThrottlingRule>;
 export interface QuotaLimit {
-  count?: number;
-  renewalPeriod?: number;
-  rules?: QuotaLimitRulesList;
+  count?: number | undefined;
+  renewalPeriod?: number | undefined;
+  rules?: QuotaLimitRulesList | undefined;
 }
 export type AccountPropertiesAllowedFqdnListList = Array<string>;
 /** Dictionary of <string> */
@@ -1174,9 +1184,9 @@ export type AccountPropertiesEndpointsMap = { [key: string]: string | undefined 
 /** The commitment plan association. */
 export interface CommitmentPlanAssociation {
   /** The Azure resource id of the commitment plan. */
-  commitmentPlanId?: string;
+  commitmentPlanId?: string | undefined;
   /** The location of of the commitment plan. */
-  commitmentPlanLocation?: string;
+  commitmentPlanLocation?: string | undefined;
 }
 /** The commitment plan associations of Cognitive Services account. */
 export type AccountPropertiesCommitmentPlanAssociationsList = Array<CommitmentPlanAssociation>;
@@ -1185,11 +1195,11 @@ export type AbusePenaltyAction = "Throttle" | "Block";
 /** The abuse penalty. */
 export interface AbusePenalty {
   /** The action of AbusePenalty. */
-  action?: AbusePenaltyAction;
+  action?: AbusePenaltyAction | undefined;
   /** The percentage of rate limit. */
-  rateLimitPercentage?: number;
+  rateLimitPercentage?: number | undefined;
   /** The datetime of expiration of the AbusePenalty. */
-  expiration?: string;
+  expiration?: string | undefined;
 }
 export type AccountPropertiesNetworkInjectionsList = Array<NetworkInjection>;
 /** Specifies the projects, by project name, that are associated with this resource. */
@@ -1197,121 +1207,121 @@ export type AccountPropertiesAssociatedProjectsList = Array<string>;
 /** Properties of Cognitive Services account. */
 export interface AccountProperties {
   /** Gets the status of the cognitive services account at the time the operation was called. */
-  provisioningState?: ProvisioningState;
+  provisioningState?: ProvisioningState | undefined;
   /** Endpoint of the created account. */
-  endpoint?: string;
+  endpoint?: string | undefined;
   /** The internal identifier (deprecated, do not use this property). */
-  internalId?: string;
+  internalId?: string | undefined;
   /** Gets the capabilities of the cognitive services account. Each item indicates the capability of a specific feature. The values are read-only and for reference only. */
-  capabilities?: AccountPropertiesCapabilitiesList;
+  capabilities?: AccountPropertiesCapabilitiesList | undefined;
   /** If the resource is migrated from an existing key. */
-  isMigrated?: boolean;
+  isMigrated?: boolean | undefined;
   /** Resource migration token. */
-  migrationToken?: string;
+  migrationToken?: string | undefined;
   /** Sku change info of account. */
-  skuChangeInfo?: SkuChangeInfo;
+  skuChangeInfo?: SkuChangeInfo | undefined;
   /** Optional subdomain name used for token-based authentication. */
-  customSubDomainName?: string;
+  customSubDomainName?: string | undefined;
   /** A collection of rules governing the accessibility from specific network locations. */
-  networkAcls?: NetworkRuleSet;
+  networkAcls?: NetworkRuleSet | undefined;
   /** The encryption properties for this resource. */
-  encryption?: Encryption;
+  encryption?: Encryption | undefined;
   /** The storage accounts for this resource. */
-  userOwnedStorage?: AccountPropertiesUserOwnedStorageList;
+  userOwnedStorage?: AccountPropertiesUserOwnedStorageList | undefined;
   /** The user owned AML account properties. */
-  amlWorkspace?: UserOwnedAmlWorkspace;
+  amlWorkspace?: UserOwnedAmlWorkspace | undefined;
   /** The private endpoint connection associated with the Cognitive Services account. */
-  privateEndpointConnections?: AccountPropertiesPrivateEndpointConnectionsList;
+  privateEndpointConnections?: AccountPropertiesPrivateEndpointConnectionsList | undefined;
   /** Whether or not public endpoint access is allowed for this account. */
-  publicNetworkAccess?: PublicNetworkAccess;
+  publicNetworkAccess?: PublicNetworkAccess | undefined;
   /** The api properties for special APIs. */
-  apiProperties?: ApiProperties;
+  apiProperties?: ApiProperties | undefined;
   /** Gets the date of cognitive services account creation. */
-  dateCreated?: string;
+  dateCreated?: string | undefined;
   /** The call rate limit Cognitive Services account. */
-  callRateLimit?: CallRateLimit;
+  callRateLimit?: CallRateLimit | undefined;
   /** The flag to enable dynamic throttling. */
-  dynamicThrottlingEnabled?: boolean;
+  dynamicThrottlingEnabled?: boolean | undefined;
   /** The flag to disable stored completions. */
-  storedCompletionsDisabled?: boolean;
+  storedCompletionsDisabled?: boolean | undefined;
   /** Specifies whether A365 logging is enabled. Defaults to true. Set to false to opt out. */
-  a365LoggingEnabled?: boolean;
-  quotaLimit?: QuotaLimit;
-  restrictOutboundNetworkAccess?: boolean;
-  allowedFqdnList?: AccountPropertiesAllowedFqdnListList;
-  disableLocalAuth?: boolean;
+  a365LoggingEnabled?: boolean | undefined;
+  quotaLimit?: QuotaLimit | undefined;
+  restrictOutboundNetworkAccess?: boolean | undefined;
+  allowedFqdnList?: AccountPropertiesAllowedFqdnListList | undefined;
+  disableLocalAuth?: boolean | undefined;
   /** Dictionary of <string> */
-  endpoints?: AccountPropertiesEndpointsMap;
-  restore?: boolean;
+  endpoints?: AccountPropertiesEndpointsMap | undefined;
+  restore?: boolean | undefined;
   /** The deletion date, only available for deleted account. */
-  deletionDate?: string;
+  deletionDate?: string | undefined;
   /** The scheduled purge date, only available for deleted account. */
-  scheduledPurgeDate?: string;
+  scheduledPurgeDate?: string | undefined;
   /** The multiregion settings of Cognitive Services account. */
-  locations?: MultiRegionSettings;
+  locations?: MultiRegionSettings | undefined;
   /** The commitment plan associations of Cognitive Services account. */
-  commitmentPlanAssociations?: AccountPropertiesCommitmentPlanAssociationsList;
+  commitmentPlanAssociations?: AccountPropertiesCommitmentPlanAssociationsList | undefined;
   /** The abuse penalty. */
-  abusePenalty?: AbusePenalty;
+  abusePenalty?: AbusePenalty | undefined;
   /** Cognitive Services Rai Monitor Config. */
-  raiMonitorConfig?: RaiMonitorConfig;
-  networkInjections?: AccountPropertiesNetworkInjectionsList;
+  raiMonitorConfig?: RaiMonitorConfig | undefined;
+  networkInjections?: AccountPropertiesNetworkInjectionsList | undefined;
   /** Specifies whether this resource support project management as child resources, used as containers for access management, data isolation and cost in AI Foundry. */
-  allowProjectManagement?: boolean;
+  allowProjectManagement?: boolean | undefined;
   /** Specifies the project, by project name, that is targeted when data plane endpoints are called without a project parameter. */
-  defaultProject?: string;
+  defaultProject?: string | undefined;
   /** Specifies the projects, by project name, that are associated with this resource. */
-  associatedProjects?: AccountPropertiesAssociatedProjectsList;
+  associatedProjects?: AccountPropertiesAssociatedProjectsList | undefined;
 }
 /** Resource tags. */
 export type CreateAccountResponseTagsMap = { [key: string]: string | undefined };
 /** User-assigned managed identity. */
 export interface UserAssignedIdentity {
   /** Azure Active Directory principal ID associated with this Identity. */
-  principalId?: string;
+  principalId?: string | undefined;
   /** Client App Id associated with this identity. */
-  clientId?: string;
+  clientId?: string | undefined;
 }
 /** The list of user assigned identities associated with the resource. The user identity dictionary key references will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName} */
 export type IdentityUserAssignedIdentitiesMap = { [key: string]: UserAssignedIdentity | undefined };
 /** Identity for the resource. */
 export interface Identity {
   /** The identity type. */
-  type?: ResourceIdentityType;
+  type?: ResourceIdentityType | undefined;
   /** The tenant ID of resource. */
-  tenantId?: string;
+  tenantId?: string | undefined;
   /** The principal ID of resource identity. */
-  principalId?: string;
+  principalId?: string | undefined;
   /** The list of user assigned identities associated with the resource. The user identity dictionary key references will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName} */
-  userAssignedIdentities?: IdentityUserAssignedIdentitiesMap;
+  userAssignedIdentities?: IdentityUserAssignedIdentitiesMap | undefined;
 }
 export interface CreateAccountResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Properties of Cognitive Services account. */
-  properties?: AccountProperties;
+  properties?: AccountProperties | undefined;
   /** Resource tags. */
-  tags?: CreateAccountResponseTagsMap;
+  tags?: CreateAccountResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
-  location?: string;
+  location?: string | undefined;
   /** Resource Etag. */
-  etag?: string;
+  etag?: string | undefined;
   /** The kind (type) of cognitive service account. */
-  kind?: string;
+  kind?: string | undefined;
   /** The resource model definition representing SKU */
-  sku?: Sku;
+  sku?: Sku | undefined;
   /** Identity for the resource. */
-  identity?: Identity;
+  identity?: Identity | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  locationHeader?: string;
+  locationHeader?: string | undefined;
 }
 /** Authentication type of the connection target */
 export type ConnectionAuthType =
@@ -1466,23 +1476,23 @@ export interface ConnectionPropertiesV2Input {
   /** Authentication type of the connection target */
   authType: ConnectionAuthType | (string & {});
   /** Category of the connection */
-  category?: ConnectionCategory | (string & {});
+  category?: ConnectionCategory | (string & {}) | undefined;
   /** Provides the error message if the connection fails */
-  error?: string;
-  expiryTime?: string;
-  isSharedToAll?: boolean;
+  error?: string | undefined;
+  expiryTime?: string | undefined;
+  isSharedToAll?: boolean | undefined;
   /** Store user metadata for this connection */
-  metadata?: ConnectionPropertiesV2InputMetadataMap;
+  metadata?: ConnectionPropertiesV2InputMetadataMap | undefined;
   /** Specifies how private endpoints are used with this connection: 'Required', 'NotRequired', or 'NotApplicable'. */
-  peRequirement?: ManagedPERequirement | (string & {});
+  peRequirement?: ManagedPERequirement | (string & {}) | undefined;
   /** Specifies the status of private endpoints for this connection: 'Inactive', 'Active', or 'NotApplicable'. */
-  peStatus?: ManagedPEStatus | (string & {});
-  sharedUserList?: ConnectionPropertiesV2InputSharedUserListList;
+  peStatus?: ManagedPEStatus | (string & {}) | undefined;
+  sharedUserList?: ConnectionPropertiesV2InputSharedUserListList | undefined;
   /** The connection URL to be used. */
-  target?: string;
-  useWorkspaceManagedIdentity?: boolean;
+  target?: string | undefined;
+  useWorkspaceManagedIdentity?: boolean | undefined;
   /** Auth-type-specific credentials (polymorphic on `authType`), e.g. `{ key }` for ApiKey or `{ keys: {...} }` for CustomKeys. Write-only. */
-  credentials?: unknown;
+  credentials?: unknown | undefined;
 }
 export interface CreateAccountConnectionRequest {
   /** The ID of the target subscription. */
@@ -1513,44 +1523,44 @@ export interface ConnectionPropertiesV2 {
   /** Authentication type of the connection target */
   authType: ConnectionAuthType;
   /** Category of the connection */
-  category?: ConnectionCategory;
+  category?: ConnectionCategory | undefined;
   /** A type definition that refers the id to an Azure Resource Manager resource. */
-  createdByWorkspaceArmId?: string;
+  createdByWorkspaceArmId?: string | undefined;
   /** Provides the error message if the connection fails */
-  error?: string;
-  expiryTime?: string;
+  error?: string | undefined;
+  expiryTime?: string | undefined;
   /** Group based on connection category */
-  group?: ConnectionGroup;
-  isSharedToAll?: boolean;
+  group?: ConnectionGroup | undefined;
+  isSharedToAll?: boolean | undefined;
   /** Store user metadata for this connection */
-  metadata?: ConnectionPropertiesV2MetadataMap;
+  metadata?: ConnectionPropertiesV2MetadataMap | undefined;
   /** Specifies how private endpoints are used with this connection: 'Required', 'NotRequired', or 'NotApplicable'. */
-  peRequirement?: ManagedPERequirement;
+  peRequirement?: ManagedPERequirement | undefined;
   /** Specifies the status of private endpoints for this connection: 'Inactive', 'Active', or 'NotApplicable'. */
-  peStatus?: ManagedPEStatus;
-  sharedUserList?: ConnectionPropertiesV2SharedUserListList;
+  peStatus?: ManagedPEStatus | undefined;
+  sharedUserList?: ConnectionPropertiesV2SharedUserListList | undefined;
   /** The connection URL to be used. */
-  target?: string;
-  useWorkspaceManagedIdentity?: boolean;
+  target?: string | undefined;
+  useWorkspaceManagedIdentity?: boolean | undefined;
 }
 export interface CreateAccountConnectionResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Connection property base schema. */
   properties: ConnectionPropertiesV2;
 }
 /** Properties of Cognitive Services Project'. */
 export interface ProjectPropertiesInput {
   /** The display name of the Cognitive Services Project. */
-  displayName?: string;
+  displayName?: string | undefined;
   /** The description of the Cognitive Services Project. */
-  description?: string;
+  description?: string | undefined;
 }
 /** Resource tags. */
 export type CreateProjectRequestTagsMap = { [key: string]: string | undefined };
@@ -1564,54 +1574,54 @@ export interface CreateProjectRequest {
   /** The name of Cognitive Services account's project. */
   projectName: string;
   /** Properties of Cognitive Services project. */
-  properties?: ProjectPropertiesInput;
+  properties?: ProjectPropertiesInput | undefined;
   /** Resource tags. */
-  tags?: CreateProjectRequestTagsMap;
+  tags?: CreateProjectRequestTagsMap | undefined;
   /** The geo-location where the resource lives */
-  location?: string;
+  location?: string | undefined;
   /** Identity for the resource. */
-  identity?: IdentityInput;
+  identity?: IdentityInput | undefined;
 }
 /** The list of endpoint for this Cognitive Services Project. */
 export type ProjectPropertiesEndpointsMap = { [key: string]: string | undefined };
 /** Properties of Cognitive Services Project'. */
 export interface ProjectProperties {
   /** Gets the status of the cognitive services project at the time the operation was called. */
-  provisioningState?: ProvisioningState;
+  provisioningState?: ProvisioningState | undefined;
   /** The display name of the Cognitive Services Project. */
-  displayName?: string;
+  displayName?: string | undefined;
   /** The description of the Cognitive Services Project. */
-  description?: string;
+  description?: string | undefined;
   /** The list of endpoint for this Cognitive Services Project. */
-  endpoints?: ProjectPropertiesEndpointsMap;
+  endpoints?: ProjectPropertiesEndpointsMap | undefined;
   /** Indicates whether the project is the default project for the account. */
-  isDefault?: boolean;
+  isDefault?: boolean | undefined;
 }
 /** Resource tags. */
 export type CreateProjectResponseTagsMap = { [key: string]: string | undefined };
 export interface CreateProjectResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Properties of Cognitive Services project. */
-  properties?: ProjectProperties;
+  properties?: ProjectProperties | undefined;
   /** Resource tags. */
-  tags?: CreateProjectResponseTagsMap;
+  tags?: CreateProjectResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
-  location?: string;
+  location?: string | undefined;
   /** Resource Etag. */
-  etag?: string;
+  etag?: string | undefined;
   /** Identity for the resource. */
-  identity?: Identity;
+  identity?: Identity | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  locationHeader?: string;
+  locationHeader?: string | undefined;
 }
 export interface CreateProjectConnectionRequest {
   /** The ID of the target subscription. */
@@ -1629,13 +1639,13 @@ export interface CreateProjectConnectionRequest {
 }
 export interface CreateProjectConnectionResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Connection property base schema. */
   properties: ConnectionPropertiesV2;
 }
@@ -1644,7 +1654,7 @@ export type DefenderForAISettingState = "Disabled" | "Enabled";
 /** The Defender for AI resource properties. */
 export interface DefenderForAISettingProperties {
   /** Defender for AI state on the AI resource. */
-  state?: DefenderForAISettingState | (string & {});
+  state?: DefenderForAISettingState | (string & {}) | undefined;
 }
 /** Resource tags. */
 export type DefenderForAISettingsCreateOrUpdateRequestTagsMap = {
@@ -1660,9 +1670,9 @@ export interface DefenderForAISettingsCreateOrUpdateRequest {
   /** The name of the defender for AI setting. */
   defenderForAISettingName: string;
   /** The Defender for AI resource properties. */
-  properties?: DefenderForAISettingProperties;
+  properties?: DefenderForAISettingProperties | undefined;
   /** Resource tags. */
-  tags?: DefenderForAISettingsCreateOrUpdateRequestTagsMap;
+  tags?: DefenderForAISettingsCreateOrUpdateRequestTagsMap | undefined;
 }
 /** Resource tags. */
 export type DefenderForAISettingsCreateOrUpdateResponseTagsMap = {
@@ -1670,19 +1680,19 @@ export type DefenderForAISettingsCreateOrUpdateResponseTagsMap = {
 };
 export interface DefenderForAISettingsCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The Defender for AI resource properties. */
-  properties?: DefenderForAISettingProperties;
+  properties?: DefenderForAISettingProperties | undefined;
   /** Resource Etag. */
-  etag?: string;
+  etag?: string | undefined;
   /** Resource tags. */
-  tags?: DefenderForAISettingsCreateOrUpdateResponseTagsMap;
+  tags?: DefenderForAISettingsCreateOrUpdateResponseTagsMap | undefined;
 }
 export interface DeleteAccountRequest {
   /** The ID of the target subscription. */
@@ -1694,9 +1704,9 @@ export interface DeleteAccountRequest {
 }
 export interface DeleteAccountResponse {
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
 }
 export interface DeleteAccountCapabilityHostRequest {
   /** The ID of the target subscription. */
@@ -1710,7 +1720,7 @@ export interface DeleteAccountCapabilityHostRequest {
 }
 export interface DeleteAccountCapabilityHostResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
 }
 export interface DeleteAccountConnectionRequest {
   /** The ID of the target subscription. */
@@ -1737,9 +1747,9 @@ export interface DeleteAgentApplicationRequest {
 }
 export interface DeleteAgentApplicationResponse {
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
 }
 export interface DeleteAgentDeploymentRequest {
   /** The ID of the target subscription. */
@@ -1757,9 +1767,9 @@ export interface DeleteAgentDeploymentRequest {
 }
 export interface DeleteAgentDeploymentResponse {
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
 }
 export interface DeleteCommitmentPlanRequest {
   /** The ID of the target subscription. */
@@ -1773,9 +1783,9 @@ export interface DeleteCommitmentPlanRequest {
 }
 export interface DeleteCommitmentPlanResponse {
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
 }
 export interface DeleteCommitmentPlanAssociationRequest {
   /** The ID of the target subscription. */
@@ -1789,9 +1799,9 @@ export interface DeleteCommitmentPlanAssociationRequest {
 }
 export interface DeleteCommitmentPlanAssociationResponse {
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
 }
 export interface DeleteCommitmentPlanPlanRequest {
   /** The ID of the target subscription. */
@@ -1803,9 +1813,9 @@ export interface DeleteCommitmentPlanPlanRequest {
 }
 export interface DeleteCommitmentPlanPlanResponse {
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
 }
 export interface DeleteDeploymentRequest {
   /** The ID of the target subscription. */
@@ -1819,9 +1829,9 @@ export interface DeleteDeploymentRequest {
 }
 export interface DeleteDeploymentResponse {
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
 }
 export interface DeleteEncryptionScopeRequest {
   /** The ID of the target subscription. */
@@ -1835,9 +1845,9 @@ export interface DeleteEncryptionScopeRequest {
 }
 export interface DeleteEncryptionScopeResponse {
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
 }
 export interface DeleteManagedNetworkSettingsRequest {
   /** The ID of the target subscription. */
@@ -1851,9 +1861,9 @@ export interface DeleteManagedNetworkSettingsRequest {
 }
 export interface DeleteManagedNetworkSettingsResponse {
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
 }
 export interface DeleteOutboundRuleRequest {
   /** The ID of the target subscription. */
@@ -1869,9 +1879,9 @@ export interface DeleteOutboundRuleRequest {
 }
 export interface DeleteOutboundRuleResponse {
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
 }
 export interface DeletePrivateEndpointConnectionRequest {
   /** The ID of the target subscription. */
@@ -1885,9 +1895,9 @@ export interface DeletePrivateEndpointConnectionRequest {
 }
 export interface DeletePrivateEndpointConnectionResponse {
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
 }
 export interface DeleteProjectRequest {
   /** The ID of the target subscription. */
@@ -1901,9 +1911,9 @@ export interface DeleteProjectRequest {
 }
 export interface DeleteProjectResponse {
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
 }
 export interface DeleteProjectCapabilityHostRequest {
   /** The ID of the target subscription. */
@@ -1919,7 +1929,7 @@ export interface DeleteProjectCapabilityHostRequest {
 }
 export interface DeleteProjectCapabilityHostResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
 }
 export interface DeleteProjectConnectionRequest {
   /** The ID of the target subscription. */
@@ -1946,9 +1956,9 @@ export interface DeleteRaiBlocklistRequest {
 }
 export interface DeleteRaiBlocklistResponse {
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
 }
 export interface DeleteRaiBlocklistItemRequest {
   /** The ID of the target subscription. */
@@ -1964,9 +1974,9 @@ export interface DeleteRaiBlocklistItemRequest {
 }
 export interface DeleteRaiBlocklistItemResponse {
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
 }
 /** The list of Cognitive Services RaiBlocklist Items Names. */
 export type RaiBlocklistItemsBulkDeleteRequest = Array<string>;
@@ -1990,9 +2000,9 @@ export interface DeleteRaiExternalSafetyProviderRequest {
 }
 export interface DeleteRaiExternalSafetyProviderResponse {
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
 }
 export interface DeleteRaiPolicyRequest {
   /** The ID of the target subscription. */
@@ -2006,9 +2016,9 @@ export interface DeleteRaiPolicyRequest {
 }
 export interface DeleteRaiPolicyResponse {
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
 }
 export interface DeleteRaiToolLabelRequest {
   /** The ID of the target subscription. */
@@ -2022,9 +2032,9 @@ export interface DeleteRaiToolLabelRequest {
 }
 export interface DeleteRaiToolLabelResponse {
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
 }
 export interface DeleteRaiTopicRequest {
   /** The ID of the target subscription. */
@@ -2038,9 +2048,9 @@ export interface DeleteRaiTopicRequest {
 }
 export interface DeleteRaiTopicResponse {
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
 }
 export interface DeleteSubscriptionRaiPolicyRequest {
   /** The ID of the target subscription. */
@@ -2050,18 +2060,18 @@ export interface DeleteSubscriptionRaiPolicyRequest {
 }
 export interface DeleteSubscriptionRaiPolicyResponse {
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
 }
 /** Deployment scale type. */
 export type DeploymentScaleType = "Standard" | "Manual";
 /** Properties of Cognitive Services account deployment model. (Deprecated, please use Deployment.sku instead.) */
 export interface DeploymentScaleSettingsInput {
   /** Deployment scale type. */
-  scaleType?: DeploymentScaleType | (string & {});
+  scaleType?: DeploymentScaleType | (string & {}) | undefined;
   /** Deployment capacity. */
-  capacity?: number;
+  capacity?: number | undefined;
 }
 /** Deployment model version upgrade option. */
 export type DeploymentModelVersionUpgradeOption =
@@ -2071,9 +2081,9 @@ export type DeploymentModelVersionUpgradeOption =
 /** Internal use only. */
 export interface DeploymentCapacitySettings {
   /** The designated capacity. */
-  designatedCapacity?: number;
+  designatedCapacity?: number | undefined;
   /** The priority of this capacity setting. */
-  priority?: number;
+  priority?: number | undefined;
 }
 /** The service tier for the deployment. Determines the pricing and performance level for request processing. Use 'Default' for standard pricing or 'Priority' for higher-priority processing with premium pricing. Note: Pause operations are only supported on Standard, DataZoneStandard, and GlobalStandard SKUs. */
 export type ServiceTier = "Default" | "Priority";
@@ -2086,36 +2096,36 @@ export type DeploymentRoutingModelsList = Array<DeploymentModel>;
 /** Routing configuration for the model-router deployment. Specifies how requests are routed across multiple models. */
 export interface DeploymentRouting {
   /** The model-router routing mode that determines how requests are distributed across models. */
-  mode?: DeploymentRoutingMode | (string & {});
+  mode?: DeploymentRoutingMode | (string & {}) | undefined;
   /** Optional. The list of model-router supported models that the model router can use to route requests across. If not specified, the model router will route to all available models specified in the model-router version. */
-  models?: DeploymentRoutingModelsList;
+  models?: DeploymentRoutingModelsList | undefined;
 }
 /** Properties of Cognitive Services account deployment. */
 export interface DeploymentPropertiesInput {
   /** Properties of Cognitive Services account deployment model. */
-  model?: DeploymentModel;
+  model?: DeploymentModel | undefined;
   /** The resource ID of the context cache container associated with this deployment. */
-  contextCacheContainerId?: string;
+  contextCacheContainerId?: string | undefined;
   /** Properties of Cognitive Services account deployment model. (Deprecated, please use Deployment.sku instead.) */
-  scaleSettings?: DeploymentScaleSettingsInput;
+  scaleSettings?: DeploymentScaleSettingsInput | undefined;
   /** The name of RAI policy. */
-  raiPolicyName?: string;
+  raiPolicyName?: string | undefined;
   /** Deployment model version upgrade option. */
-  versionUpgradeOption?: DeploymentModelVersionUpgradeOption | (string & {});
+  versionUpgradeOption?: DeploymentModelVersionUpgradeOption | (string & {}) | undefined;
   /** The current capacity. */
-  currentCapacity?: number;
+  currentCapacity?: number | undefined;
   /** Internal use only. */
-  capacitySettings?: DeploymentCapacitySettings;
+  capacitySettings?: DeploymentCapacitySettings | undefined;
   /** The name of parent deployment. */
-  parentDeploymentName?: string;
+  parentDeploymentName?: string | undefined;
   /** Specifies the deployment name that should serve requests when the request would have otherwise been throttled due to reaching current deployment throughput limit. */
-  spilloverDeploymentName?: string;
+  spilloverDeploymentName?: string | undefined;
   /** The service tier for the deployment. Determines the pricing and performance level for request processing. Use 'Default' for standard pricing or 'Priority' for higher-priority processing with premium pricing. Note: Pause operations are only supported on Standard, DataZoneStandard, and GlobalStandard SKUs. */
-  serviceTier?: ServiceTier | (string & {}) | null;
+  serviceTier?: ServiceTier | (string & {}) | null | undefined;
   /** The state of the deployment. Controls whether the deployment is accepting inference requests. Use 'Running' for active deployments that process requests, or 'Paused' to temporarily stop inference while preserving the deployment configuration. */
-  deploymentState?: DeploymentState | (string & {}) | null;
+  deploymentState?: DeploymentState | (string & {}) | null | undefined;
   /** Routing configuration for the model-router deployment. This property is only applicable when the deployed model is 'model-router' version 2025-11-18 or later. Allows you to select the models subset for routing and the routing mode (balanced, quality, cost) for routing across all supported models or the model subset. */
-  routing?: DeploymentRouting;
+  routing?: DeploymentRouting | undefined;
 }
 /** Resource tags. */
 export type DeploymentsCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
@@ -2129,11 +2139,11 @@ export interface DeploymentsCreateOrUpdateRequest {
   /** The name of the deployment associated with the Cognitive Services Account */
   deploymentName: string;
   /** Properties of Cognitive Services account deployment. */
-  properties?: DeploymentPropertiesInput;
+  properties?: DeploymentPropertiesInput | undefined;
   /** The resource model definition representing SKU */
-  sku?: Sku;
+  sku?: Sku | undefined;
   /** Resource tags. */
-  tags?: DeploymentsCreateOrUpdateRequestTagsMap;
+  tags?: DeploymentsCreateOrUpdateRequestTagsMap | undefined;
 }
 /** Gets the status of the resource at the time the operation was called. */
 export type DeploymentProvisioningState =
@@ -2148,11 +2158,11 @@ export type DeploymentProvisioningState =
 /** Properties of Cognitive Services account deployment model. (Deprecated, please use Deployment.sku instead.) */
 export interface DeploymentScaleSettings {
   /** Deployment scale type. */
-  scaleType?: DeploymentScaleType;
+  scaleType?: DeploymentScaleType | undefined;
   /** Deployment capacity. */
-  capacity?: number;
+  capacity?: number | undefined;
   /** Deployment active capacity. This value might be different from `capacity` if customer recently updated `capacity`. */
-  activeCapacity?: number;
+  activeCapacity?: number | undefined;
 }
 /** The capabilities. */
 export type DeploymentPropertiesCapabilitiesMap = { [key: string]: string | undefined };
@@ -2160,62 +2170,62 @@ export type DeploymentPropertiesRateLimitsList = Array<ThrottlingRule>;
 /** Properties of Cognitive Services account deployment. */
 export interface DeploymentProperties {
   /** Gets the status of the resource at the time the operation was called. */
-  provisioningState?: DeploymentProvisioningState;
+  provisioningState?: DeploymentProvisioningState | undefined;
   /** Properties of Cognitive Services account deployment model. */
-  model?: DeploymentModel;
+  model?: DeploymentModel | undefined;
   /** The resource ID of the context cache container associated with this deployment. */
-  contextCacheContainerId?: string;
+  contextCacheContainerId?: string | undefined;
   /** Properties of Cognitive Services account deployment model. (Deprecated, please use Deployment.sku instead.) */
-  scaleSettings?: DeploymentScaleSettings;
+  scaleSettings?: DeploymentScaleSettings | undefined;
   /** The capabilities. */
-  capabilities?: DeploymentPropertiesCapabilitiesMap;
+  capabilities?: DeploymentPropertiesCapabilitiesMap | undefined;
   /** The name of RAI policy. */
-  raiPolicyName?: string;
+  raiPolicyName?: string | undefined;
   /** The call rate limit Cognitive Services account. */
-  callRateLimit?: CallRateLimit;
-  rateLimits?: DeploymentPropertiesRateLimitsList;
+  callRateLimit?: CallRateLimit | undefined;
+  rateLimits?: DeploymentPropertiesRateLimitsList | undefined;
   /** Deployment model version upgrade option. */
-  versionUpgradeOption?: DeploymentModelVersionUpgradeOption;
+  versionUpgradeOption?: DeploymentModelVersionUpgradeOption | undefined;
   /** If the dynamic throttling is enabled. */
-  dynamicThrottlingEnabled?: boolean;
+  dynamicThrottlingEnabled?: boolean | undefined;
   /** The current capacity. */
-  currentCapacity?: number;
+  currentCapacity?: number | undefined;
   /** Internal use only. */
-  capacitySettings?: DeploymentCapacitySettings;
+  capacitySettings?: DeploymentCapacitySettings | undefined;
   /** The name of parent deployment. */
-  parentDeploymentName?: string;
+  parentDeploymentName?: string | undefined;
   /** Specifies the deployment name that should serve requests when the request would have otherwise been throttled due to reaching current deployment throughput limit. */
-  spilloverDeploymentName?: string;
+  spilloverDeploymentName?: string | undefined;
   /** The service tier for the deployment. Determines the pricing and performance level for request processing. Use 'Default' for standard pricing or 'Priority' for higher-priority processing with premium pricing. Note: Pause operations are only supported on Standard, DataZoneStandard, and GlobalStandard SKUs. */
-  serviceTier?: ServiceTier | null;
+  serviceTier?: ServiceTier | null | undefined;
   /** The state of the deployment. Controls whether the deployment is accepting inference requests. Use 'Running' for active deployments that process requests, or 'Paused' to temporarily stop inference while preserving the deployment configuration. */
-  deploymentState?: DeploymentState | null;
+  deploymentState?: DeploymentState | null | undefined;
   /** Routing configuration for the model-router deployment. This property is only applicable when the deployed model is 'model-router' version 2025-11-18 or later. Allows you to select the models subset for routing and the routing mode (balanced, quality, cost) for routing across all supported models or the model subset. */
-  routing?: DeploymentRouting;
+  routing?: DeploymentRouting | undefined;
 }
 /** Resource tags. */
 export type DeploymentsCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
 export interface DeploymentsCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Properties of Cognitive Services account deployment. */
-  properties?: DeploymentProperties;
+  properties?: DeploymentProperties | undefined;
   /** The resource model definition representing SKU */
-  sku?: Sku;
+  sku?: Sku | undefined;
   /** Resource Etag. */
-  etag?: string;
+  etag?: string | undefined;
   /** Resource tags. */
-  tags?: DeploymentsCreateOrUpdateResponseTagsMap;
+  tags?: DeploymentsCreateOrUpdateResponseTagsMap | undefined;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DisableAgentApplicationRequest {
   /** The ID of the target subscription. */
@@ -2252,11 +2262,11 @@ export type EncryptionScopeState = "Disabled" | "Enabled";
 /** Properties to EncryptionScope */
 export interface EncryptionScopePropertiesInput {
   /** Properties of KeyVault */
-  keyVaultProperties?: KeyVaultProperties;
+  keyVaultProperties?: KeyVaultProperties | undefined;
   /** Enumerates the possible value of keySource for Encryption */
-  keySource?: EncryptionScopePropertiesInputKeySource | (string & {});
+  keySource?: EncryptionScopePropertiesInputKeySource | (string & {}) | undefined;
   /** The encryptionScope state. */
-  state?: EncryptionScopeState | (string & {});
+  state?: EncryptionScopeState | (string & {}) | undefined;
 }
 /** Resource tags. */
 export type EncryptionScopesCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
@@ -2270,9 +2280,9 @@ export interface EncryptionScopesCreateOrUpdateRequest {
   /** The name of the encryptionScope associated with the Cognitive Services Account */
   encryptionScopeName: string;
   /** Properties of Cognitive Services EncryptionScope. */
-  properties?: EncryptionScopePropertiesInput;
+  properties?: EncryptionScopePropertiesInput | undefined;
   /** Resource tags. */
-  tags?: EncryptionScopesCreateOrUpdateRequestTagsMap;
+  tags?: EncryptionScopesCreateOrUpdateRequestTagsMap | undefined;
 }
 /** Enumerates the possible value of keySource for Encryption */
 export type EncryptionScopePropertiesKeySource =
@@ -2290,31 +2300,31 @@ export type EncryptionScopeProvisioningState =
 /** Properties to EncryptionScope */
 export interface EncryptionScopeProperties {
   /** Properties of KeyVault */
-  keyVaultProperties?: KeyVaultProperties;
+  keyVaultProperties?: KeyVaultProperties | undefined;
   /** Enumerates the possible value of keySource for Encryption */
-  keySource?: EncryptionScopePropertiesKeySource;
+  keySource?: EncryptionScopePropertiesKeySource | undefined;
   /** Gets the status of the resource at the time the operation was called. */
-  provisioningState?: EncryptionScopeProvisioningState;
+  provisioningState?: EncryptionScopeProvisioningState | undefined;
   /** The encryptionScope state. */
-  state?: EncryptionScopeState;
+  state?: EncryptionScopeState | undefined;
 }
 /** Resource tags. */
 export type EncryptionScopesCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
 export interface EncryptionScopesCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Properties of Cognitive Services EncryptionScope. */
-  properties?: EncryptionScopeProperties;
+  properties?: EncryptionScopeProperties | undefined;
   /** Resource Etag. */
-  etag?: string;
+  etag?: string | undefined;
   /** Resource tags. */
-  tags?: EncryptionScopesCreateOrUpdateResponseTagsMap;
+  tags?: EncryptionScopesCreateOrUpdateResponseTagsMap | undefined;
 }
 export interface GetAccountRequest {
   /** The ID of the target subscription. */
@@ -2328,27 +2338,27 @@ export interface GetAccountRequest {
 export type GetAccountResponseTagsMap = { [key: string]: string | undefined };
 export interface GetAccountResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Properties of Cognitive Services account. */
-  properties?: AccountProperties;
+  properties?: AccountProperties | undefined;
   /** Resource tags. */
-  tags?: GetAccountResponseTagsMap;
+  tags?: GetAccountResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
-  location?: string;
+  location?: string | undefined;
   /** Resource Etag. */
-  etag?: string;
+  etag?: string | undefined;
   /** The kind (type) of cognitive service account. */
-  kind?: string;
+  kind?: string | undefined;
   /** The resource model definition representing SKU */
-  sku?: Sku;
+  sku?: Sku | undefined;
   /** Identity for the resource. */
-  identity?: Identity;
+  identity?: Identity | undefined;
 }
 export interface GetAccountCapabilityHostRequest {
   /** The ID of the target subscription. */
@@ -2362,13 +2372,13 @@ export interface GetAccountCapabilityHostRequest {
 }
 export interface GetAccountCapabilityHostResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** [Required] Additional attributes of the entity. */
   properties: CapabilityHostProperties;
 }
@@ -2384,13 +2394,13 @@ export interface GetAccountConnectionRequest {
 }
 export interface GetAccountConnectionResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Connection property base schema. */
   properties: ConnectionPropertiesV2;
 }
@@ -2408,13 +2418,13 @@ export interface GetAgentApplicationRequest {
 }
 export interface GetAgentApplicationResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** [Required] Additional attributes of the entity. */
   properties: AgenticApplicationProperties;
 }
@@ -2434,13 +2444,13 @@ export interface GetAgentDeploymentRequest {
 }
 export interface GetAgentDeploymentResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** [Required] Additional attributes of the entity. */
   properties: AgentDeploymentProperties;
 }
@@ -2458,25 +2468,25 @@ export interface GetCommitmentPlanRequest {
 export type GetCommitmentPlanResponseTagsMap = { [key: string]: string | undefined };
 export interface GetCommitmentPlanResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Properties of Cognitive Services account commitment plan. */
-  properties?: CommitmentPlanProperties;
+  properties?: CommitmentPlanProperties | undefined;
   /** Resource tags. */
-  tags?: GetCommitmentPlanResponseTagsMap;
+  tags?: GetCommitmentPlanResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
-  location?: string;
+  location?: string | undefined;
   /** Resource Etag. */
-  etag?: string;
+  etag?: string | undefined;
   /** The kind (type) of cognitive service account. */
-  kind?: string;
+  kind?: string | undefined;
   /** The resource model definition representing SKU */
-  sku?: Sku;
+  sku?: Sku | undefined;
 }
 export interface GetCommitmentPlanAssociationRequest {
   /** The ID of the target subscription. */
@@ -2492,19 +2502,19 @@ export interface GetCommitmentPlanAssociationRequest {
 export type GetCommitmentPlanAssociationResponseTagsMap = { [key: string]: string | undefined };
 export interface GetCommitmentPlanAssociationResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Properties of Cognitive Services account commitment plan association. */
-  properties?: CommitmentPlanAccountAssociationProperties;
+  properties?: CommitmentPlanAccountAssociationProperties | undefined;
   /** Resource Etag. */
-  etag?: string;
+  etag?: string | undefined;
   /** Resource tags. */
-  tags?: GetCommitmentPlanAssociationResponseTagsMap;
+  tags?: GetCommitmentPlanAssociationResponseTagsMap | undefined;
 }
 export interface GetCommitmentPlanPlanRequest {
   /** The ID of the target subscription. */
@@ -2518,25 +2528,25 @@ export interface GetCommitmentPlanPlanRequest {
 export type GetCommitmentPlanPlanResponseTagsMap = { [key: string]: string | undefined };
 export interface GetCommitmentPlanPlanResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Properties of Cognitive Services account commitment plan. */
-  properties?: CommitmentPlanProperties;
+  properties?: CommitmentPlanProperties | undefined;
   /** Resource tags. */
-  tags?: GetCommitmentPlanPlanResponseTagsMap;
+  tags?: GetCommitmentPlanPlanResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
-  location?: string;
+  location?: string | undefined;
   /** Resource Etag. */
-  etag?: string;
+  etag?: string | undefined;
   /** The kind (type) of cognitive service account. */
-  kind?: string;
+  kind?: string | undefined;
   /** The resource model definition representing SKU */
-  sku?: Sku;
+  sku?: Sku | undefined;
 }
 export interface GetDefenderForAISettingsRequest {
   /** The ID of the target subscription. */
@@ -2552,19 +2562,19 @@ export interface GetDefenderForAISettingsRequest {
 export type GetDefenderForAISettingsResponseTagsMap = { [key: string]: string | undefined };
 export interface GetDefenderForAISettingsResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The Defender for AI resource properties. */
-  properties?: DefenderForAISettingProperties;
+  properties?: DefenderForAISettingProperties | undefined;
   /** Resource Etag. */
-  etag?: string;
+  etag?: string | undefined;
   /** Resource tags. */
-  tags?: GetDefenderForAISettingsResponseTagsMap;
+  tags?: GetDefenderForAISettingsResponseTagsMap | undefined;
 }
 export interface GetDeletedAccountRequest {
   /** The ID of the target subscription. */
@@ -2580,27 +2590,27 @@ export interface GetDeletedAccountRequest {
 export type GetDeletedAccountResponseTagsMap = { [key: string]: string | undefined };
 export interface GetDeletedAccountResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Properties of Cognitive Services account. */
-  properties?: AccountProperties;
+  properties?: AccountProperties | undefined;
   /** Resource tags. */
-  tags?: GetDeletedAccountResponseTagsMap;
+  tags?: GetDeletedAccountResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
-  location?: string;
+  location?: string | undefined;
   /** Resource Etag. */
-  etag?: string;
+  etag?: string | undefined;
   /** The kind (type) of cognitive service account. */
-  kind?: string;
+  kind?: string | undefined;
   /** The resource model definition representing SKU */
-  sku?: Sku;
+  sku?: Sku | undefined;
   /** Identity for the resource. */
-  identity?: Identity;
+  identity?: Identity | undefined;
 }
 export interface GetDeploymentRequest {
   /** The ID of the target subscription. */
@@ -2616,21 +2626,21 @@ export interface GetDeploymentRequest {
 export type GetDeploymentResponseTagsMap = { [key: string]: string | undefined };
 export interface GetDeploymentResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Properties of Cognitive Services account deployment. */
-  properties?: DeploymentProperties;
+  properties?: DeploymentProperties | undefined;
   /** The resource model definition representing SKU */
-  sku?: Sku;
+  sku?: Sku | undefined;
   /** Resource Etag. */
-  etag?: string;
+  etag?: string | undefined;
   /** Resource tags. */
-  tags?: GetDeploymentResponseTagsMap;
+  tags?: GetDeploymentResponseTagsMap | undefined;
 }
 export interface GetEncryptionScopeRequest {
   /** The ID of the target subscription. */
@@ -2646,19 +2656,19 @@ export interface GetEncryptionScopeRequest {
 export type GetEncryptionScopeResponseTagsMap = { [key: string]: string | undefined };
 export interface GetEncryptionScopeResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Properties of Cognitive Services EncryptionScope. */
-  properties?: EncryptionScopeProperties;
+  properties?: EncryptionScopeProperties | undefined;
   /** Resource Etag. */
-  etag?: string;
+  etag?: string | undefined;
   /** Resource tags. */
-  tags?: GetEncryptionScopeResponseTagsMap;
+  tags?: GetEncryptionScopeResponseTagsMap | undefined;
 }
 export interface GetManagedNetworkSettingsRequest {
   /** The ID of the target subscription. */
@@ -2682,16 +2692,16 @@ export type OutboundRuleParentRuleNamesList = Array<string>;
 /** Outbound Rule for the managed network of a cognitive services account. */
 export interface OutboundRule {
   /** Category of a managed network Outbound Rule of a cognitive services account. */
-  category?: RuleCategory;
+  category?: RuleCategory | undefined;
   /** Type of a managed network Outbound Rule of a cognitive services account. */
-  status?: RuleStatus;
+  status?: RuleStatus | undefined;
   /** Type of a managed network Outbound Rule of a cognitive services account. */
   type: RuleType;
   /** Error information about an outbound rule of a cognitive services account if RuleStatus is failed. */
-  errorInformation?: string;
-  parentRuleNames?: OutboundRuleParentRuleNamesList;
+  errorInformation?: string | undefined;
+  parentRuleNames?: OutboundRuleParentRuleNamesList | undefined;
   /** Rule destination (polymorphic on `type`). */
-  destination?: unknown;
+  destination?: unknown | undefined;
 }
 /** Dictionary of <OutboundRule> */
 export type ManagedNetworkSettingsExOutboundRulesMap = { [key: string]: OutboundRule | undefined };
@@ -2700,7 +2710,7 @@ export type ManagedNetworkStatus = "Inactive" | "Active";
 /** Status of the Provisioning for the managed network of a cognitive services account. */
 export interface ManagedNetworkProvisionStatus {
   /** Status for the managed network of a cognitive services account. */
-  status?: ManagedNetworkStatus | (string & {});
+  status?: ManagedNetworkStatus | (string & {}) | undefined;
 }
 /** Firewall Sku used for FQDN Rules */
 export type FirewallSku = "Standard" | "Basic";
@@ -2716,40 +2726,40 @@ export type ManagedNetworkProvisioningState =
 export type ManagedNetworkSettingsExChangeableIsolationModesList = Array<IsolationMode>;
 export interface ManagedNetworkSettingsEx {
   /** Isolation mode for the managed network of a cognitive services account. */
-  isolationMode?: IsolationMode;
-  networkId?: string;
+  isolationMode?: IsolationMode | undefined;
+  networkId?: string | undefined;
   /** Dictionary of <OutboundRule> */
-  outboundRules?: ManagedNetworkSettingsExOutboundRulesMap | null;
+  outboundRules?: ManagedNetworkSettingsExOutboundRulesMap | null | undefined;
   /** Status of the Provisioning for the managed network of a cognitive services account. */
-  status?: ManagedNetworkProvisionStatus;
+  status?: ManagedNetworkProvisionStatus | undefined;
   /** Firewall Sku used for FQDN Rules */
-  firewallSku?: FirewallSku;
+  firewallSku?: FirewallSku | undefined;
   /** The Kind of the managed network. Users can switch from V1 to V2 for granular access controls, but cannot switch back to V1 once V2 is enabled. */
-  managedNetworkKind?: ManagedNetworkKind;
+  managedNetworkKind?: ManagedNetworkKind | undefined;
   /** Public IP address assigned to the Azure Firewall. */
-  firewallPublicIpAddress?: string | null;
+  firewallPublicIpAddress?: string | null | undefined;
   /** The provisioning state of the managed network settings. */
-  provisioningState?: ManagedNetworkProvisioningState;
-  changeableIsolationModes?: ManagedNetworkSettingsExChangeableIsolationModesList;
+  provisioningState?: ManagedNetworkProvisioningState | undefined;
+  changeableIsolationModes?: ManagedNetworkSettingsExChangeableIsolationModesList | undefined;
 }
 /** The properties of the managed network settings of a cognitive services account. */
 export interface ManagedNetworkSettingsProperties {
   /** Managed Network settings for a cognitive services account. */
-  managedNetwork?: ManagedNetworkSettingsEx;
+  managedNetwork?: ManagedNetworkSettingsEx | undefined;
   /** The current deployment state of the managed network resource. The provisioningState is to indicate states for resource provisioning. */
-  provisioningState?: ManagedNetworkProvisioningState;
+  provisioningState?: ManagedNetworkProvisioningState | undefined;
 }
 export interface GetManagedNetworkSettingsResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties of the managed network settings of a cognitive services account. */
-  properties?: ManagedNetworkSettingsProperties;
+  properties?: ManagedNetworkSettingsProperties | undefined;
 }
 export interface GetNetworkSecurityPerimeterConfigurationRequest {
   /** The ID of the target subscription. */
@@ -2770,7 +2780,7 @@ export type NetworkSecurityPerimeterAccessRulePropertiesAddressPrefixesList = Ar
 /** Subscription for inbound rule */
 export interface NetworkSecurityPerimeterAccessRulePropertiesSubscriptionsItem {
   /** Fully qualified identifier of subscription */
-  id?: string;
+  id?: string | undefined;
 }
 /** Subscriptions for inbound rules */
 export type NetworkSecurityPerimeterAccessRulePropertiesSubscriptionsList =
@@ -2778,11 +2788,11 @@ export type NetworkSecurityPerimeterAccessRulePropertiesSubscriptionsList =
 /** Information about a linked Network Security Perimeter */
 export interface NetworkSecurityPerimeter {
   /** Fully qualified identifier of the resource */
-  id?: string;
+  id?: string | undefined;
   /** Guid of the resource */
-  perimeterGuid?: string;
+  perimeterGuid?: string | undefined;
   /** Location of the resource */
-  location?: string;
+  location?: string | undefined;
 }
 /** NetworkSecurityPerimeters for inbound rules */
 export type NetworkSecurityPerimeterAccessRulePropertiesNetworkSecurityPerimetersList =
@@ -2793,22 +2803,26 @@ export type NetworkSecurityPerimeterAccessRulePropertiesFullyQualifiedDomainName
 /** The Properties of Network Security Perimeter Rule */
 export interface NetworkSecurityPerimeterAccessRuleProperties {
   /** Direction of Access Rule */
-  direction?: NspAccessRuleDirection;
+  direction?: NspAccessRuleDirection | undefined;
   /** Address prefixes for inbound rules */
-  addressPrefixes?: NetworkSecurityPerimeterAccessRulePropertiesAddressPrefixesList;
+  addressPrefixes?: NetworkSecurityPerimeterAccessRulePropertiesAddressPrefixesList | undefined;
   /** Subscriptions for inbound rules */
-  subscriptions?: NetworkSecurityPerimeterAccessRulePropertiesSubscriptionsList;
+  subscriptions?: NetworkSecurityPerimeterAccessRulePropertiesSubscriptionsList | undefined;
   /** NetworkSecurityPerimeters for inbound rules */
-  networkSecurityPerimeters?: NetworkSecurityPerimeterAccessRulePropertiesNetworkSecurityPerimetersList;
+  networkSecurityPerimeters?:
+    | NetworkSecurityPerimeterAccessRulePropertiesNetworkSecurityPerimetersList
+    | undefined;
   /** Fully qualified domain name for outbound rules */
-  fullyQualifiedDomainNames?: NetworkSecurityPerimeterAccessRulePropertiesFullyQualifiedDomainNamesList;
+  fullyQualifiedDomainNames?:
+    | NetworkSecurityPerimeterAccessRulePropertiesFullyQualifiedDomainNamesList
+    | undefined;
 }
 /** Network Security Perimeter Access Rule */
 export interface NetworkSecurityPerimeterAccessRule {
   /** Network Security Perimeter Access Rule Name */
-  name?: string;
+  name?: string | undefined;
   /** Properties of Network Security Perimeter Access Rule */
-  properties?: NetworkSecurityPerimeterAccessRuleProperties;
+  properties?: NetworkSecurityPerimeterAccessRuleProperties | undefined;
 }
 /** Optional array, suggested access rules */
 export type ProvisioningIssuePropertiesSuggestedAccessRulesList =
@@ -2816,21 +2830,21 @@ export type ProvisioningIssuePropertiesSuggestedAccessRulesList =
 /** Properties of Provisioning Issue */
 export interface ProvisioningIssueProperties {
   /** Type of Issue */
-  issueType?: string;
+  issueType?: string | undefined;
   /** Severity of the issue */
-  severity?: string;
+  severity?: string | undefined;
   /** Description of the issue */
-  description?: string;
+  description?: string | undefined;
   /** IDs of resources that can be associated to the same perimeter to remediate the issue. */
-  suggestedResourceIds?: ProvisioningIssuePropertiesSuggestedResourceIdsList;
+  suggestedResourceIds?: ProvisioningIssuePropertiesSuggestedResourceIdsList | undefined;
   /** Optional array, suggested access rules */
-  suggestedAccessRules?: ProvisioningIssuePropertiesSuggestedAccessRulesList;
+  suggestedAccessRules?: ProvisioningIssuePropertiesSuggestedAccessRulesList | undefined;
 }
 export interface ProvisioningIssue {
   /** Name of the NSP provisioning issue */
-  name?: string;
+  name?: string | undefined;
   /** Properties of Provisioning Issue */
-  properties?: ProvisioningIssueProperties;
+  properties?: ProvisioningIssueProperties | undefined;
 }
 /** List of Provisioning Issues */
 export type NetworkSecurityPerimeterConfigurationPropertiesProvisioningIssuesList =
@@ -2838,9 +2852,9 @@ export type NetworkSecurityPerimeterConfigurationPropertiesProvisioningIssuesLis
 /** Network Security Perimeter Configuration Association Information */
 export interface NetworkSecurityPerimeterConfigurationAssociationInfo {
   /** Name of the resource association */
-  name?: string;
+  name?: string | undefined;
   /** Access Mode of the resource association */
-  accessMode?: string;
+  accessMode?: string | undefined;
 }
 export type NetworkSecurityPerimeterProfileInfoAccessRulesList =
   Array<NetworkSecurityPerimeterAccessRule>;
@@ -2849,39 +2863,41 @@ export type NetworkSecurityPerimeterProfileInfoEnabledLogCategoriesList = Array<
 /** Network Security Perimeter Profile Information */
 export interface NetworkSecurityPerimeterProfileInfo {
   /** Name of the resource profile */
-  name?: string;
+  name?: string | undefined;
   /** Access rules version of the resource profile */
-  accessRulesVersion?: number;
-  accessRules?: NetworkSecurityPerimeterProfileInfoAccessRulesList;
+  accessRulesVersion?: number | undefined;
+  accessRules?: NetworkSecurityPerimeterProfileInfoAccessRulesList | undefined;
   /** Current diagnostic settings version */
-  diagnosticSettingsVersion?: number;
+  diagnosticSettingsVersion?: number | undefined;
   /** List of enabled log categories */
-  enabledLogCategories?: NetworkSecurityPerimeterProfileInfoEnabledLogCategoriesList;
+  enabledLogCategories?: NetworkSecurityPerimeterProfileInfoEnabledLogCategoriesList | undefined;
 }
 /** The properties of an NSP Configuration. */
 export interface NetworkSecurityPerimeterConfigurationProperties {
   /** Provisioning state of NetworkSecurityPerimeter configuration */
-  provisioningState?: string;
+  provisioningState?: string | undefined;
   /** List of Provisioning Issues */
-  provisioningIssues?: NetworkSecurityPerimeterConfigurationPropertiesProvisioningIssuesList;
+  provisioningIssues?:
+    | NetworkSecurityPerimeterConfigurationPropertiesProvisioningIssuesList
+    | undefined;
   /** Information about a linked Network Security Perimeter */
-  networkSecurityPerimeter?: NetworkSecurityPerimeter;
+  networkSecurityPerimeter?: NetworkSecurityPerimeter | undefined;
   /** Network Security Perimeter Configuration Association Information */
-  resourceAssociation?: NetworkSecurityPerimeterConfigurationAssociationInfo;
+  resourceAssociation?: NetworkSecurityPerimeterConfigurationAssociationInfo | undefined;
   /** Network Security Perimeter Profile Information */
-  profile?: NetworkSecurityPerimeterProfileInfo;
+  profile?: NetworkSecurityPerimeterProfileInfo | undefined;
 }
 export interface GetNetworkSecurityPerimeterConfigurationResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** NSP Configuration properties. */
-  properties?: NetworkSecurityPerimeterConfigurationProperties;
+  properties?: NetworkSecurityPerimeterConfigurationProperties | undefined;
 }
 export interface GetOutboundRuleRequest {
   /** The ID of the target subscription. */
@@ -2897,13 +2913,13 @@ export interface GetOutboundRuleRequest {
 }
 export interface GetOutboundRuleResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Outbound Rule for the managed network of a cognitive services account. */
   properties: OutboundRule;
 }
@@ -2919,19 +2935,19 @@ export interface GetPrivateEndpointConnectionRequest {
 }
 export interface GetPrivateEndpointConnectionResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource properties. */
-  properties?: PrivateEndpointConnectionProperties;
+  properties?: PrivateEndpointConnectionProperties | undefined;
   /** Resource Etag. */
-  etag?: string;
+  etag?: string | undefined;
   /** The location of the private endpoint connection */
-  location?: string;
+  location?: string | undefined;
 }
 export interface GetProjectRequest {
   /** The ID of the target subscription. */
@@ -2947,23 +2963,23 @@ export interface GetProjectRequest {
 export type GetProjectResponseTagsMap = { [key: string]: string | undefined };
 export interface GetProjectResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Properties of Cognitive Services project. */
-  properties?: ProjectProperties;
+  properties?: ProjectProperties | undefined;
   /** Resource tags. */
-  tags?: GetProjectResponseTagsMap;
+  tags?: GetProjectResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
-  location?: string;
+  location?: string | undefined;
   /** Resource Etag. */
-  etag?: string;
+  etag?: string | undefined;
   /** Identity for the resource. */
-  identity?: Identity;
+  identity?: Identity | undefined;
 }
 export interface GetProjectCapabilityHostRequest {
   /** The ID of the target subscription. */
@@ -2987,25 +3003,34 @@ export type ProjectCapabilityHostPropertiesStorageConnectionsList = Array<string
 export type ProjectCapabilityHostPropertiesThreadStorageConnectionsList = Array<string>;
 export interface ProjectCapabilityHostProperties {
   /** List of AI services connections. */
-  aiServicesConnections?: ProjectCapabilityHostPropertiesAiServicesConnectionsList | null;
+  aiServicesConnections?:
+    | ProjectCapabilityHostPropertiesAiServicesConnectionsList
+    | null
+    | undefined;
   /** List of connection names from those available in the account or project to be used for vector database (e.g. CosmosDB). */
-  vectorStoreConnections?: ProjectCapabilityHostPropertiesVectorStoreConnectionsList | null;
+  vectorStoreConnections?:
+    | ProjectCapabilityHostPropertiesVectorStoreConnectionsList
+    | null
+    | undefined;
   /** List of connection names from those available in the account or project to be used as a storage resource. */
-  storageConnections?: ProjectCapabilityHostPropertiesStorageConnectionsList | null;
+  storageConnections?: ProjectCapabilityHostPropertiesStorageConnectionsList | null | undefined;
   /** List of connection names from those available in the account or project to be used for Thread storage. */
-  threadStorageConnections?: ProjectCapabilityHostPropertiesThreadStorageConnectionsList | null;
+  threadStorageConnections?:
+    | ProjectCapabilityHostPropertiesThreadStorageConnectionsList
+    | null
+    | undefined;
   /** Provisioning state for the CapabilityHost. */
-  provisioningState?: CapabilityHostProvisioningState;
+  provisioningState?: CapabilityHostProvisioningState | undefined;
 }
 export interface GetProjectCapabilityHostResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** [Required] Additional attributes of the entity. */
   properties: ProjectCapabilityHostProperties;
 }
@@ -3023,13 +3048,13 @@ export interface GetProjectConnectionRequest {
 }
 export interface GetProjectConnectionResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Connection property base schema. */
   properties: ConnectionPropertiesV2;
 }
@@ -3046,36 +3071,36 @@ export type UpgradeAvailabilityStatus = "Available" | "NotAvailable";
 /** Information about the quota tier upgrade eligibility for the subscription. */
 export interface QuotaTierUpgradeEligibilityInfo {
   /** Name of the next quota tier for the subscription. */
-  nextTierName?: string | null;
+  nextTierName?: string | null | undefined;
   /** Specifies whether an upgrade to the next quota tier is available. */
-  upgradeAvailabilityStatus?: UpgradeAvailabilityStatus;
+  upgradeAvailabilityStatus?: UpgradeAvailabilityStatus | undefined;
   /** The date after which the current tier will be upgraded to the next tier if the TierUpgradePolicy is "OnceUpgradeIsAvailable" (UTC). */
-  upgradeApplicableDate?: string | null;
+  upgradeApplicableDate?: string | null | undefined;
   /** Reason in case the subscription is not eligible for upgrade to the next tier. */
-  upgradeUnavailabilityReason?: string | null;
+  upgradeUnavailabilityReason?: string | null | undefined;
 }
 /** Properties of Quota Tier resource'. */
 export interface QuotaTierProperties {
   /** Name of the current quota tier for the subscription. */
-  currentTierName?: string;
+  currentTierName?: string | undefined;
   /** Gets the tier upgrade policy for the subscription. */
-  tierUpgradePolicy?: TierUpgradePolicy;
+  tierUpgradePolicy?: TierUpgradePolicy | undefined;
   /** The date on which the current tier was assigned to the subscription (UTC). */
-  assignmentDate?: string;
+  assignmentDate?: string | undefined;
   /** Information about the quota tier upgrade eligibility for the subscription. */
-  tierUpgradeEligibilityInfo?: QuotaTierUpgradeEligibilityInfo | null;
+  tierUpgradeEligibilityInfo?: QuotaTierUpgradeEligibilityInfo | null | undefined;
 }
 export interface GetQuotaTierResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Properties of quota tier resource. */
-  properties?: QuotaTierProperties;
+  properties?: QuotaTierProperties | undefined;
 }
 export interface GetRaiBlocklistRequest {
   /** The ID of the target subscription. */
@@ -3091,19 +3116,19 @@ export interface GetRaiBlocklistRequest {
 export type GetRaiBlocklistResponseTagsMap = { [key: string]: string | undefined };
 export interface GetRaiBlocklistResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Properties of Cognitive Services RaiBlocklist. */
-  properties?: RaiBlocklistProperties;
+  properties?: RaiBlocklistProperties | undefined;
   /** Resource Etag. */
-  etag?: string;
+  etag?: string | undefined;
   /** Resource tags. */
-  tags?: GetRaiBlocklistResponseTagsMap;
+  tags?: GetRaiBlocklistResponseTagsMap | undefined;
 }
 export interface GetRaiBlocklistItemRequest {
   /** The ID of the target subscription. */
@@ -3121,19 +3146,19 @@ export interface GetRaiBlocklistItemRequest {
 export type GetRaiBlocklistItemResponseTagsMap = { [key: string]: string | undefined };
 export interface GetRaiBlocklistItemResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Properties of Cognitive Services RaiBlocklist Item. */
-  properties?: RaiBlocklistItemProperties;
+  properties?: RaiBlocklistItemProperties | undefined;
   /** Resource Etag. */
-  etag?: string;
+  etag?: string | undefined;
   /** Resource tags. */
-  tags?: GetRaiBlocklistItemResponseTagsMap;
+  tags?: GetRaiBlocklistItemResponseTagsMap | undefined;
 }
 export interface GetRaiContentFilterRequest {
   /** The ID of the target subscription. */
@@ -3154,23 +3179,23 @@ export type RaiPolicyContentSource =
 /** Azure OpenAI Content Filter Properties. */
 export interface RaiContentFilterProperties {
   /** Name of Content Filter. */
-  name?: string;
+  name?: string | undefined;
   /** If the Content Filter has multi severity levels(Low, Medium, or High). */
-  isMultiLevelFilter?: boolean;
+  isMultiLevelFilter?: boolean | undefined;
   /** Content source to apply the Content Filters. */
-  source?: RaiPolicyContentSource;
+  source?: RaiPolicyContentSource | undefined;
 }
 export interface GetRaiContentFilterResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Azure OpenAI Content Filter Properties. */
-  properties?: RaiContentFilterProperties;
+  properties?: RaiContentFilterProperties | undefined;
 }
 export interface GetRaiExternalSafetyProviderRequest {
   /** The ID of the target subscription. */
@@ -3181,41 +3206,41 @@ export interface GetRaiExternalSafetyProviderRequest {
 /** RAI External SafetyProvider schema properties. */
 export interface RaiExternalSafetyProviderSchemaProperties {
   /** The unique identifier of the safety provider. */
-  providerId?: string;
+  providerId?: string | undefined;
   /** Name of the safety provider. */
-  providerName?: string;
+  providerName?: string | undefined;
   /** Safety provider mode sync/async. */
-  mode?: string;
+  mode?: string | undefined;
   /** Webhook URL for the safety provider. */
-  url?: string;
+  url?: string | undefined;
   /** The name of the secret in Key Vault that contains the api key to access the webhook. */
-  secretName?: string;
+  secretName?: string | undefined;
   /** The managed identity to access the Key Vault. */
-  managedIdentity?: string;
+  managedIdentity?: string | undefined;
   /** The Key Vault URI that contains the api key for safety provider urls. */
-  keyVaultUri?: string;
+  keyVaultUri?: string | undefined;
   /** Creation time of the safety provider. */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** Last modified time of the safety provider. */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 /** Resource tags. */
 export type GetRaiExternalSafetyProviderResponseTagsMap = { [key: string]: string | undefined };
 export interface GetRaiExternalSafetyProviderResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Properties of Cognitive Services Rai External Safety provider. */
-  properties?: RaiExternalSafetyProviderSchemaProperties;
+  properties?: RaiExternalSafetyProviderSchemaProperties | undefined;
   /** Resource Etag. */
-  etag?: string;
+  etag?: string | undefined;
   /** Resource tags. */
-  tags?: GetRaiExternalSafetyProviderResponseTagsMap;
+  tags?: GetRaiExternalSafetyProviderResponseTagsMap | undefined;
 }
 export interface GetRaiPolicyRequest {
   /** The ID of the target subscription. */
@@ -3238,39 +3263,39 @@ export type RaiActionType = "None" | "BLOCKING" | "ANNOTATING" | "HITL" | "RETRY
 /** Azure OpenAI Content Filter. */
 export interface RaiPolicyContentFilter {
   /** Name of ContentFilter. */
-  name?: string;
+  name?: string | undefined;
   /** If the ContentFilter is enabled. */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** Level at which content is filtered. */
-  severityThreshold?: ContentLevel | (string & {});
+  severityThreshold?: ContentLevel | (string & {}) | undefined;
   /** If blocking would occur. */
-  blocking?: boolean;
+  blocking?: boolean | undefined;
   /** Content source to apply the Content Filters. */
-  source?: RaiPolicyContentSource | (string & {});
+  source?: RaiPolicyContentSource | (string & {}) | undefined;
   /** The action types to apply to the content filters */
-  action?: RaiActionType | (string & {});
+  action?: RaiActionType | (string & {}) | undefined;
 }
 /** The list of Content Filters. */
 export type RaiPolicyPropertiesContentFiltersList = Array<RaiPolicyContentFilter>;
 /** Gets or sets the source to which filter applies. */
 export interface CustomBlocklistConfig {
   /** Name of ContentFilter. */
-  blocklistName?: string;
+  blocklistName?: string | undefined;
   /** If blocking would occur. */
-  blocking?: boolean;
+  blocking?: boolean | undefined;
   /** Content source to apply the Content Filters. */
-  source?: RaiPolicyContentSource | (string & {});
+  source?: RaiPolicyContentSource | (string & {}) | undefined;
 }
 /** The list of custom Blocklist. */
 export type RaiPolicyPropertiesCustomBlocklistsList = Array<CustomBlocklistConfig>;
 /** Gets or sets the source to which safety providers applies. */
 export interface SafetyProviderConfig {
   /** Name of RAI Safety Provider. */
-  safetyProviderName?: string;
+  safetyProviderName?: string | undefined;
   /** If blocking would occur. */
-  blocking?: boolean;
+  blocking?: boolean | undefined;
   /** Content source to apply the Content Filters. */
-  source?: RaiPolicyContentSource | (string & {});
+  source?: RaiPolicyContentSource | (string & {}) | undefined;
 }
 /** The list of Safety Providers. */
 export type RaiPolicyPropertiesSafetyProvidersList = Array<SafetyProviderConfig>;
@@ -3283,9 +3308,9 @@ export type RaiEgressRuleType = "Fqdn";
 /** The match criteria for an egress rule. If both host and path are omitted, the rule matches all traffic. Host uses DNS wildcard syntax (e.g., "\*.openai.com" matches "api.openai.com"). Path uses URI prefix matching with an asterisk as a single-segment wildcard. For example, "/v1/\*" matches "/v1/chat". */
 export interface RaiEgressRuleMatch {
   /** Host pattern to match using DNS wildcard syntax (e.g., "\*.openai.com"). A leading "\*." matches any subdomain. Omit to match all hosts. */
-  host?: string;
+  host?: string | undefined;
   /** Path pattern to match using URI prefix matching. An asterisk serves as a single-segment wildcard. For example, "/v1/\*" matches "/v1/chat". Omit to match all paths. */
-  path?: string;
+  path?: string | undefined;
 }
 /** The kind of action an egress rule takes when it matches. */
 export type RaiEgressRuleActionType = "Allow" | "Deny" | "Transform" | "Rewrite";
@@ -3296,23 +3321,23 @@ export interface RaiEgressSecretRef {
   /** Identifier of the secret to inject. */
   secretId: string;
   /** Optional key within the secret. */
-  secretKey?: string | Redacted.Redacted<string>;
+  secretKey?: string | Redacted.Redacted<string> | undefined;
   /** Optional format for the resolved value; "{value}" is the placeholder, e.g. "Bearer {value}". */
-  format?: string;
+  format?: string | undefined;
 }
 /** A reference to a managed-identity token used as a header value. */
 export interface RaiEgressManagedIdentityRef {
   /** The resource/audience the token is requested for. */
   resource: string;
   /** Optional format for the resolved token; "{value}" is the placeholder, e.g. "Bearer {value}". */
-  format?: string;
+  format?: string | undefined;
 }
 /** A dynamic source for a header value. Exactly one of secretRef or managedIdentityRef must be set. */
 export interface RaiEgressHeaderValueRef {
   /** Resolve the value from a stored secret. */
-  secretRef?: RaiEgressSecretRef;
+  secretRef?: RaiEgressSecretRef | undefined;
   /** Resolve the value from a managed-identity token. */
-  managedIdentityRef?: RaiEgressManagedIdentityRef;
+  managedIdentityRef?: RaiEgressManagedIdentityRef | undefined;
 }
 /** A header transformation applied to matched traffic. For Set or Insert operations, exactly one of value or valueRef must be provided. For Remove operations, neither value nor valueRef should be set. */
 export interface RaiEgressHeaderTransform {
@@ -3321,9 +3346,9 @@ export interface RaiEgressHeaderTransform {
   /** The HTTP header name (e.g., "Authorization", "X-Custom-Auth"). */
   name: string;
   /** A static header value. Write-only: accepted on create/update, never returned on read. If omitted on update, the existing value is preserved. Use this for non-sensitive values; for credentials, use valueRef instead. */
-  value?: string;
+  value?: string | undefined;
   /** A dynamic header value resolved at request time from a secret or managed identity. */
-  valueRef?: RaiEgressHeaderValueRef;
+  valueRef?: RaiEgressHeaderValueRef | undefined;
 }
 /** Header transforms to apply. Required for Transform; optional for Rewrite; not allowed for Allow or Deny. */
 export type RaiEgressRuleActionHeadersList = Array<RaiEgressHeaderTransform>;
@@ -3332,31 +3357,31 @@ export type RaiEgressScheme = "http" | "https";
 /** Where a Rewrite action sends matched traffic. At least one field must be set; omitted fields retain the original request values. This constraint is enforced by the server (400 Bad Request if all fields are omitted). */
 export interface RaiEgressRewriteTarget {
   /** Target scheme. Original scheme is kept if omitted. */
-  scheme?: RaiEgressScheme | (string & {});
+  scheme?: RaiEgressScheme | (string & {}) | undefined;
   /** Target host. Original host is kept if omitted. */
-  host?: string;
+  host?: string | undefined;
   /** Target path (literal string). Original path (and query) is kept if omitted. */
-  path?: string;
+  path?: string | undefined;
 }
 /** The action an egress rule takes when it matches. - Allow/Deny: no additional fields needed; headers and rewrite must not be set. - Transform: headers is required with at least one entry; rewrite must not be set. - Rewrite: rewrite is required with at least one of scheme/host/path; headers is optional for injecting headers alongside the redirect. */
 export interface RaiEgressRuleAction {
   /** The kind of action. */
   actionType: RaiEgressRuleActionType | (string & {});
   /** Header transforms to apply. Required for Transform; optional for Rewrite; not allowed for Allow or Deny. */
-  headers?: RaiEgressRuleActionHeadersList;
+  headers?: RaiEgressRuleActionHeadersList | undefined;
   /** Destination override. Required for Rewrite; not allowed otherwise. */
-  rewrite?: RaiEgressRewriteTarget;
+  rewrite?: RaiEgressRewriteTarget | undefined;
 }
 /** A single egress rule. Rules are evaluated in order; first match wins. */
 export interface RaiEgressRule {
   /** Name of the rule. Must be unique within the policy. */
   name: string;
   /** Description of the rule. */
-  description?: string;
+  description?: string | undefined;
   /** The type of rule (e.g., Fqdn). Determines how match criteria are interpreted. */
   ruleType: RaiEgressRuleType | (string & {});
   /** The match criteria for this rule. */
-  match?: RaiEgressRuleMatch;
+  match?: RaiEgressRuleMatch | undefined;
   /** The action to take when this rule matches, including the action type and any type-specific configuration (headers for Transform, rewrite target for Rewrite). */
   action: RaiEgressRuleAction;
 }
@@ -3365,48 +3390,48 @@ export type RaiEgressPolicyConfigRulesList = Array<RaiEgressRule>;
 /** Egress (outbound network) policy configuration nested within an RAI policy. Controls which external endpoints sandboxed agents can reach and what transformations (header injection, URL rewrite) are applied to matching traffic. */
 export interface RaiEgressPolicyConfig {
   /** The enforcement mode for egress rules. If omitted on create, the server defaults to Enforced. On subsequent GET requests, the server always returns the effective mode. */
-  mode?: RaiEgressMode | (string & {});
+  mode?: RaiEgressMode | (string & {}) | undefined;
   /** The default action when no user-defined rules match. Deny blocks unmatched traffic; Allow permits it. Transform and Rewrite rules are always applied to their matched traffic regardless of this setting -- defaultAction only governs traffic that does not match any rule. If omitted on create, the server defaults to Deny (fail-closed). On subsequent GET requests, the server always returns the effective value. */
-  defaultAction?: RaiEgressDefaultAction | (string & {});
+  defaultAction?: RaiEgressDefaultAction | (string & {}) | undefined;
   /** Description of the egress policy. */
-  description?: string;
+  description?: string | undefined;
   /** Ordered list of egress rules. First matching rule wins. Rules are evaluated in declaration order; the first rule whose match criteria are satisfied determines the action taken on the request. */
-  rules?: RaiEgressPolicyConfigRulesList;
+  rules?: RaiEgressPolicyConfigRulesList | undefined;
 }
 /** Azure OpenAI Content Filters properties. */
 export interface RaiPolicyProperties {
   /** Content Filters policy type. */
-  type?: RaiPolicyType | (string & {});
+  type?: RaiPolicyType | (string & {}) | undefined;
   /** Rai policy mode. The enum value mapping is as below: Default = 0, Deferred=1, Blocking=2, Asynchronous_filter =3. Please use 'Asynchronous_filter' after 2025-06-01. It is the same as 'Deferred' in previous version. */
-  mode?: RaiPolicyMode | (string & {});
+  mode?: RaiPolicyMode | (string & {}) | undefined;
   /** Name of Rai policy. */
-  basePolicyName?: string;
+  basePolicyName?: string | undefined;
   /** The list of Content Filters. */
-  contentFilters?: RaiPolicyPropertiesContentFiltersList;
+  contentFilters?: RaiPolicyPropertiesContentFiltersList | undefined;
   /** The list of custom Blocklist. */
-  customBlocklists?: RaiPolicyPropertiesCustomBlocklistsList;
+  customBlocklists?: RaiPolicyPropertiesCustomBlocklistsList | undefined;
   /** The list of Safety Providers. */
-  safetyProviders?: RaiPolicyPropertiesSafetyProvidersList;
+  safetyProviders?: RaiPolicyPropertiesSafetyProvidersList | undefined;
   /** Egress (outbound network) policy controlling which external endpoints sandboxed agents can reach. Includes rules with Allow/Deny/Transform/Rewrite actions. */
-  egressPolicy?: RaiEgressPolicyConfig;
+  egressPolicy?: RaiEgressPolicyConfig | undefined;
 }
 /** Resource tags. */
 export type GetRaiPolicyResponseTagsMap = { [key: string]: string | undefined };
 export interface GetRaiPolicyResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Properties of Cognitive Services RaiPolicy. */
-  properties?: RaiPolicyProperties;
+  properties?: RaiPolicyProperties | undefined;
   /** Resource Etag. */
-  etag?: string;
+  etag?: string | undefined;
   /** Resource tags. */
-  tags?: GetRaiPolicyResponseTagsMap;
+  tags?: GetRaiPolicyResponseTagsMap | undefined;
 }
 export interface GetRaiToolLabelRequest {
   /** The ID of the target subscription. */
@@ -3425,7 +3450,7 @@ export type RaiToolLabelPropertiesAccountScopeLabelValuesMap = {
 /** Account-level tool label definition. */
 export interface RaiToolLabelPropertiesAccountScope {
   /** Dictionary of label key-value pairs for the account scope. */
-  labelValues?: RaiToolLabelPropertiesAccountScopeLabelValuesMap;
+  labelValues?: RaiToolLabelPropertiesAccountScopeLabelValuesMap | undefined;
 }
 /** Dictionary of label key-value pairs for the project scope. */
 export type RaiToolLabelPropertiesProjectScopesItemLabelValuesMap = {
@@ -3445,27 +3470,27 @@ export interface RaiToolLabelProperties {
   /** The unique tool connection name, e.g., 'Web_Search'. */
   toolConnectionName: string;
   /** Account-level tool label definition. */
-  accountScope?: RaiToolLabelPropertiesAccountScope;
+  accountScope?: RaiToolLabelPropertiesAccountScope | undefined;
   /** List of project-level tool label definitions. */
-  projectScopes?: RaiToolLabelPropertiesProjectScopesList;
+  projectScopes?: RaiToolLabelPropertiesProjectScopesList | undefined;
 }
 /** Resource tags. */
 export type GetRaiToolLabelResponseTagsMap = { [key: string]: string | undefined };
 export interface GetRaiToolLabelResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Properties of the RAI Tool Label. */
-  properties?: RaiToolLabelProperties;
+  properties?: RaiToolLabelProperties | undefined;
   /** Resource Etag. */
-  etag?: string;
+  etag?: string | undefined;
   /** Resource tags. */
-  tags?: GetRaiToolLabelResponseTagsMap;
+  tags?: GetRaiToolLabelResponseTagsMap | undefined;
 }
 export interface GetRaiTopicRequest {
   /** The ID of the target subscription. */
@@ -3480,39 +3505,39 @@ export interface GetRaiTopicRequest {
 /** RAI Custom Topic properties. */
 export interface RaiTopicProperties {
   /** The unique identifier of the custom topic. */
-  topicId?: string;
+  topicId?: string | undefined;
   /** The name of the custom topic. */
-  topicName?: string;
+  topicName?: string | undefined;
   /** Description of the custom topic. */
-  description?: string;
+  description?: string | undefined;
   /** Sample blob url for the custom topic. */
-  sampleBlobUrl?: string;
+  sampleBlobUrl?: string | undefined;
   /** Status of the custom topic. */
-  status?: string;
+  status?: string | undefined;
   /** Failed reason if the status is Failed. */
-  failedReason?: string;
+  failedReason?: string | undefined;
   /** Creation time of the custom topic. */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** Last modified time of the custom topic. */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 /** Resource tags. */
 export type GetRaiTopicResponseTagsMap = { [key: string]: string | undefined };
 export interface GetRaiTopicResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Properties of Cognitive Services Rai Topic. */
-  properties?: RaiTopicProperties;
+  properties?: RaiTopicProperties | undefined;
   /** Resource Etag. */
-  etag?: string;
+  etag?: string | undefined;
   /** Resource tags. */
-  tags?: GetRaiTopicResponseTagsMap;
+  tags?: GetRaiTopicResponseTagsMap | undefined;
 }
 export interface GetSubscriptionRaiPolicyRequest {
   /** The ID of the target subscription. */
@@ -3524,19 +3549,19 @@ export interface GetSubscriptionRaiPolicyRequest {
 export type GetSubscriptionRaiPolicyResponseTagsMap = { [key: string]: string | undefined };
 export interface GetSubscriptionRaiPolicyResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Properties of Cognitive Services RaiPolicy. */
-  properties?: RaiPolicyProperties;
+  properties?: RaiPolicyProperties | undefined;
   /** Resource Etag. */
-  etag?: string;
+  etag?: string | undefined;
   /** Resource tags. */
-  tags?: GetSubscriptionRaiPolicyResponseTagsMap;
+  tags?: GetSubscriptionRaiPolicyResponseTagsMap | undefined;
 }
 export interface ListAccountByResourceGroupRequest {
   /** The ID of the target subscription. */
@@ -3549,36 +3574,36 @@ export type AccountTagsMap = { [key: string]: string | undefined };
 /** Cognitive Services account is an Azure resource representing the provisioned account, it's type, location and SKU. */
 export interface Account {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Properties of Cognitive Services account. */
-  properties?: AccountProperties;
+  properties?: AccountProperties | undefined;
   /** Resource tags. */
-  tags?: AccountTagsMap;
+  tags?: AccountTagsMap | undefined;
   /** The geo-location where the resource lives */
-  location?: string;
+  location?: string | undefined;
   /** Resource Etag. */
-  etag?: string;
+  etag?: string | undefined;
   /** The kind (type) of cognitive service account. */
-  kind?: string;
+  kind?: string | undefined;
   /** The resource model definition representing SKU */
-  sku?: Sku;
+  sku?: Sku | undefined;
   /** Identity for the resource. */
-  identity?: Identity;
+  identity?: Identity | undefined;
 }
 /** Gets the list of Cognitive Services accounts and their properties. */
 export type AccountListResultValueList = Array<Account>;
 /** The list of cognitive services accounts operation response. */
 export interface AccountListResult {
   /** The link used to get the next page of accounts. */
-  nextLink?: string;
+  nextLink?: string | undefined;
   /** Gets the list of Cognitive Services accounts and their properties. */
-  value?: AccountListResultValueList;
+  value?: AccountListResultValueList | undefined;
 }
 export interface ListAccountCapabilityHostsRequest {
   /** The ID of the target subscription. */
@@ -3591,13 +3616,13 @@ export interface ListAccountCapabilityHostsRequest {
 /** Azure Resource Manager resource envelope. */
 export interface CapabilityHost {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** [Required] Additional attributes of the entity. */
   properties: CapabilityHostProperties;
 }
@@ -3606,9 +3631,9 @@ export type CapabilityHostResourceArmPaginatedResultValueList = Array<Capability
 /** A paginated list of Capability Host entities. */
 export interface CapabilityHostResourceArmPaginatedResult {
   /** The link to the next page of Capability Host objects. If null, there are no additional pages. */
-  nextLink?: string | null;
+  nextLink?: string | null | undefined;
   /** An array of objects of type Capability Host. */
-  value?: CapabilityHostResourceArmPaginatedResultValueList;
+  value?: CapabilityHostResourceArmPaginatedResultValueList | undefined;
 }
 export interface ListAccountConnectionsRequest {
   /** The ID of the target subscription. */
@@ -3618,30 +3643,30 @@ export interface ListAccountConnectionsRequest {
   /** The name of Cognitive Services account. */
   accountName: string;
   /** Target of the connection. */
-  target?: string;
+  target?: string | undefined;
   /** Category of the connection. */
-  category?: string;
+  category?: string | undefined;
   /** query parameter that indicates if get connection call should return both connections and datastores */
-  includeAll?: boolean;
+  includeAll?: boolean | undefined;
 }
 /** Connection base resource schema. */
 export interface ConnectionPropertiesV2BasicResource {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Connection property base schema. */
   properties: ConnectionPropertiesV2;
 }
 export type ConnectionPropertiesV2BasicResourceArmPaginatedResultValueList =
   Array<ConnectionPropertiesV2BasicResource>;
 export interface ConnectionPropertiesV2BasicResourceArmPaginatedResult {
-  nextLink?: string;
-  value?: ConnectionPropertiesV2BasicResourceArmPaginatedResultValueList;
+  nextLink?: string | undefined;
+  value?: ConnectionPropertiesV2BasicResourceArmPaginatedResultValueList | undefined;
 }
 export interface ListAccountKeysRequest {
   /** The ID of the target subscription. */
@@ -3654,9 +3679,9 @@ export interface ListAccountKeysRequest {
 /** The access keys for the cognitive services account. */
 export interface ApiKeys {
   /** Gets the value of key 1. */
-  key1?: string;
+  key1?: string | undefined;
   /** Gets the value of key 2. */
-  key2?: string;
+  key2?: string | undefined;
 }
 export interface ListAccountModelsRequest {
   /** The ID of the target subscription. */
@@ -3671,39 +3696,39 @@ export type CapacityConfigAllowedValuesList = Array<number>;
 /** The capacity configuration. */
 export interface CapacityConfig {
   /** The minimum capacity. */
-  minimum?: number;
+  minimum?: number | undefined;
   /** The maximum capacity. */
-  maximum?: number;
+  maximum?: number | undefined;
   /** The minimal incremental between allowed values for capacity. */
-  step?: number;
+  step?: number | undefined;
   /** The default capacity. */
-  default?: number;
+  default?: number | undefined;
   /** The array of allowed values for capacity. */
-  allowedValues?: CapacityConfigAllowedValuesList;
+  allowedValues?: CapacityConfigAllowedValuesList | undefined;
 }
 /** The list of rateLimit. */
 export type ModelSkuRateLimitsList = Array<CallRateLimit>;
 export interface BillingMeterInfo {
-  name?: string;
-  meterId?: string;
-  unit?: string;
+  name?: string | undefined;
+  meterId?: string | undefined;
+  unit?: string | undefined;
 }
 /** The list of billing meter info. */
 export type ModelSkuCostList = Array<BillingMeterInfo>;
 /** Describes an available Cognitive Services Model SKU. */
 export interface ModelSku {
   /** The name of the model SKU. */
-  name?: string;
+  name?: string | undefined;
   /** The usage name of the model SKU. */
-  usageName?: string;
+  usageName?: string | undefined;
   /** The datetime of deprecation of the model SKU. */
-  deprecationDate?: string;
+  deprecationDate?: string | undefined;
   /** The capacity configuration. */
-  capacity?: CapacityConfig;
+  capacity?: CapacityConfig | undefined;
   /** The list of rateLimit. */
-  rateLimits?: ModelSkuRateLimitsList;
+  rateLimits?: ModelSkuRateLimitsList | undefined;
   /** The list of billing meter info. */
-  cost?: ModelSkuCostList;
+  cost?: ModelSkuCostList | undefined;
 }
 /** The list of Model Sku. */
 export type AccountModelSkusList = Array<ModelSku>;
@@ -3716,22 +3741,22 @@ export type DeprecationStatus = "Planned" | "Tentative";
 /** Cognitive Services account ModelDeprecationInfo. */
 export interface ModelDeprecationInfo {
   /** The datetime of deprecation of the fineTune Model. */
-  fineTune?: string;
+  fineTune?: string | undefined;
   /** The datetime of deprecation of the inference Model. */
-  inference?: string;
+  inference?: string | undefined;
   /** Indicates whether the deprecation date is a confirmed planned end-of-life date or an estimated deprecation date. When 'Planned', the deprecation date represents a confirmed and communicated model end-of-life date. When 'Tentative', the deprecation date is an estimated timeline that may be subject to change. */
-  deprecationStatus?: DeprecationStatus;
+  deprecationStatus?: DeprecationStatus | undefined;
 }
 /** Configuration for model replacement. */
 export interface ReplacementConfig {
   /** The name of the replacement model. */
-  targetModelName?: string;
+  targetModelName?: string | undefined;
   /** The version of the replacement model. */
-  targetModelVersion?: string;
+  targetModelVersion?: string | undefined;
   /** The date when automatic upgrade should start. This applies to deployments with the OnceNewDefaultVersionAvailable upgrade option. */
-  autoUpgradeStartDate?: string;
+  autoUpgradeStartDate?: string | undefined;
   /** The number of days before deprecation date to trigger upgrade. This applies to deployments with the OnceCurrentVersionExpired upgrade option. */
-  upgradeOnExpiryLeadTimeDays?: number;
+  upgradeOnExpiryLeadTimeDays?: number | undefined;
 }
 /** Model lifecycle status. */
 export type ModelLifecycleStatus =
@@ -3756,65 +3781,65 @@ export type AccountModelSystemDataLastModifiedByType =
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface AccountModelSystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: AccountModelSystemDataCreatedByType;
+  createdByType?: AccountModelSystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: AccountModelSystemDataLastModifiedByType;
+  lastModifiedByType?: AccountModelSystemDataLastModifiedByType | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 /** Cognitive Services account Model. */
 export interface AccountModel {
   /** Deployment model publisher. */
-  publisher?: string;
+  publisher?: string | undefined;
   /** Deployment model format. */
-  format?: string;
+  format?: string | undefined;
   /** Deployment model name. */
-  name?: string;
+  name?: string | undefined;
   /** Optional. Deployment model version. If version is not specified, a default version will be assigned. The default version is different for different models and might change when there is new version available for a model. Default version for a model could be found from list models API. */
-  version?: string;
+  version?: string | undefined;
   /** Optional. Deployment model source ARM resource ID. */
-  source?: string;
+  source?: string | undefined;
   /** Optional. Source of the model, another Microsoft.CognitiveServices accounts ARM resource ID. */
-  sourceAccount?: string;
+  sourceAccount?: string | undefined;
   /** The call rate limit Cognitive Services account. */
-  callRateLimit?: CallRateLimit;
+  callRateLimit?: CallRateLimit | undefined;
   /** Properties of Cognitive Services account deployment model. */
-  baseModel?: DeploymentModel;
+  baseModel?: DeploymentModel | undefined;
   /** If the model is default version. */
-  isDefaultVersion?: boolean;
+  isDefaultVersion?: boolean | undefined;
   /** The list of Model Sku. */
-  skus?: AccountModelSkusList;
+  skus?: AccountModelSkusList | undefined;
   /** The max capacity. */
-  maxCapacity?: number;
+  maxCapacity?: number | undefined;
   /** The capabilities. */
-  capabilities?: AccountModelCapabilitiesMap;
+  capabilities?: AccountModelCapabilitiesMap | undefined;
   /** The capabilities for finetune models. */
-  finetuneCapabilities?: AccountModelFinetuneCapabilitiesMap;
+  finetuneCapabilities?: AccountModelFinetuneCapabilitiesMap | undefined;
   /** Cognitive Services account ModelDeprecationInfo. */
-  deprecation?: ModelDeprecationInfo;
+  deprecation?: ModelDeprecationInfo | undefined;
   /** Configuration for model replacement. */
-  replacementConfig?: ReplacementConfig;
+  replacementConfig?: ReplacementConfig | undefined;
   /** Asset identifier for the model in the model catalog. */
-  modelCatalogAssetId?: string;
+  modelCatalogAssetId?: string | undefined;
   /** Model lifecycle status. */
-  lifecycleStatus?: ModelLifecycleStatus;
+  lifecycleStatus?: ModelLifecycleStatus | undefined;
   /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: AccountModelSystemData;
+  systemData?: AccountModelSystemData | undefined;
 }
 /** Gets the list of Cognitive Services accounts Model and their properties. */
 export type AccountModelListResultValueList = Array<AccountModel>;
 /** The list of cognitive services accounts operation response. */
 export interface AccountModelListResult {
   /** The link used to get the next page of Model. */
-  nextLink?: string;
+  nextLink?: string | undefined;
   /** Gets the list of Cognitive Services accounts Model and their properties. */
-  value?: AccountModelListResultValueList;
+  value?: AccountModelListResultValueList | undefined;
 }
 export interface ListAccountsRequest {
   /** The ID of the target subscription. */
@@ -3831,16 +3856,16 @@ export interface ListAccountSkusRequest {
 /** Cognitive Services resource type and SKU. */
 export interface AccountSku {
   /** Resource Namespace and Type */
-  resourceType?: string;
+  resourceType?: string | undefined;
   /** The SKU of Cognitive Services account. */
-  sku?: Sku;
+  sku?: Sku | undefined;
 }
 /** Gets the list of Cognitive Services accounts and their properties. */
 export type AccountSkuListResultValueList = Array<AccountSku>;
 /** The list of cognitive services accounts operation response. */
 export interface AccountSkuListResult {
   /** Gets the list of Cognitive Services accounts and their properties. */
-  value?: AccountSkuListResultValueList;
+  value?: AccountSkuListResultValueList | undefined;
 }
 export interface ListAccountUsagesRequest {
   /** The ID of the target subscription. */
@@ -3850,7 +3875,7 @@ export interface ListAccountUsagesRequest {
   /** The name of Cognitive Services account. */
   accountName: string;
   /** An OData filter expression that describes a subset of usages to return. The supported parameter is name.value (name of the metric, can have an or of multiple names). */
-  _filter?: string;
+  _filter?: string | undefined;
 }
 /** The unit of the metric. */
 export type UnitType =
@@ -3864,9 +3889,9 @@ export type UnitType =
 /** A metric name. */
 export interface MetricName {
   /** The name of the metric. */
-  value?: string;
+  value?: string | undefined;
   /** The friendly name of the metric. */
-  localizedValue?: string;
+  localizedValue?: string | undefined;
 }
 /** Cognitive Services account quota usage status. */
 export type QuotaUsageStatus = "Included" | "Blocked" | "InOverage" | "Unknown";
@@ -3875,32 +3900,32 @@ export type QuotaScopeType = "Regional" | "Global" | "DataZone" | "Classic";
 /** The usage data for a usage request. */
 export interface Usage {
   /** The unit of the metric. */
-  unit?: UnitType;
+  unit?: UnitType | undefined;
   /** The name information for the metric. */
-  name?: MetricName;
+  name?: MetricName | undefined;
   /** The quota period used to summarize the usage values. */
-  quotaPeriod?: string;
+  quotaPeriod?: string | undefined;
   /** Maximum value for this metric. */
-  limit?: number;
+  limit?: number | undefined;
   /** Current value for this metric. */
-  currentValue?: number;
+  currentValue?: number | undefined;
   /** Next reset time for current quota. */
-  nextResetTime?: string;
+  nextResetTime?: string | undefined;
   /** Cognitive Services account quota usage status. */
-  status?: QuotaUsageStatus;
+  status?: QuotaUsageStatus | undefined;
   /** The scope type of the quota usage. */
-  scopeType?: QuotaScopeType | null;
+  scopeType?: QuotaScopeType | null | undefined;
   /** The scope identifier of the quota usage. */
-  scopeId?: string | null;
+  scopeId?: string | null | undefined;
 }
 /** The list of usages for Cognitive Service account. */
 export type UsageListResultValueList = Array<Usage>;
 /** The response to a list usage request. */
 export interface UsageListResult {
   /** The link used to get the next page of Usages. */
-  nextLink?: string;
+  nextLink?: string | undefined;
   /** The list of usages for Cognitive Service account. */
-  value?: UsageListResultValueList;
+  value?: UsageListResultValueList | undefined;
 }
 export interface ListAgentApplicationAgentsRequest {
   /** The ID of the target subscription. */
@@ -3917,13 +3942,13 @@ export interface ListAgentApplicationAgentsRequest {
 /** Agent Reference resource */
 export interface AgentReference {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** [Required] Additional attributes of the entity. */
   properties: AgentReferenceProperties;
 }
@@ -3932,9 +3957,9 @@ export type AgentReferenceResourceArmPaginatedResultValueList = Array<AgentRefer
 /** A paginated list of Agent Reference entities. */
 export interface AgentReferenceResourceArmPaginatedResult {
   /** The link to the next page of Agent Reference objects. If null, there are no additional pages. */
-  nextLink?: string | null;
+  nextLink?: string | null | undefined;
   /** An array of objects of type Agent Reference. */
-  value?: AgentReferenceResourceArmPaginatedResultValueList | null;
+  value?: AgentReferenceResourceArmPaginatedResultValueList | null | undefined;
 }
 export type ListAgentApplicationsRequestNamesList = Array<string>;
 export interface ListAgentApplicationsRequest {
@@ -3947,30 +3972,30 @@ export interface ListAgentApplicationsRequest {
   /** The name of Cognitive Services account's project. */
   projectName: string;
   /** Number of agent applications to be retrieved in a page of results. */
-  count?: number;
+  count?: number | undefined;
   /** Number of agent applications to skip. */
-  _skip?: number;
+  _skip?: number | undefined;
   /** Continuation token for pagination. */
-  _skipToken?: string;
+  _skipToken?: string | undefined;
   /** Names of agent applications to retrieve. */
-  names?: ListAgentApplicationsRequestNamesList;
+  names?: ListAgentApplicationsRequestNamesList | undefined;
   /** Search text for filtering agent applications. */
-  searchText?: string;
+  searchText?: string | undefined;
   /** Field to order by. */
-  orderBy?: string;
+  orderBy?: string | undefined;
   /** Whether to order in ascending order. */
-  orderByAsc?: boolean;
+  orderByAsc?: boolean | undefined;
 }
 /** Agent Application resource */
 export interface AgentApplication {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** [Required] Additional attributes of the entity. */
   properties: AgenticApplicationProperties;
 }
@@ -3979,9 +4004,9 @@ export type AgentApplicationResourceArmPaginatedResultValueList = Array<AgentApp
 /** A paginated list of Agent Application entities. */
 export interface AgentApplicationResourceArmPaginatedResult {
   /** The link to the next page of Agent Application objects. If null, there are no additional pages. */
-  nextLink?: string | null;
+  nextLink?: string | null | undefined;
   /** An array of objects of type Agent Application. */
-  value?: AgentApplicationResourceArmPaginatedResultValueList;
+  value?: AgentApplicationResourceArmPaginatedResultValueList | undefined;
 }
 export type ListAgentDeploymentsRequestNamesList = Array<string>;
 export interface ListAgentDeploymentsRequest {
@@ -3996,26 +4021,26 @@ export interface ListAgentDeploymentsRequest {
   /** The name of the application associated with the Cognitive Services Account */
   appName: string;
   /** Number of agent deployments to be retrieved in a page of results. */
-  count?: number;
+  count?: number | undefined;
   /** Continuation token for pagination. */
-  _skipToken?: string;
+  _skipToken?: string | undefined;
   /** Names of agent deployments to retrieve. */
-  names?: ListAgentDeploymentsRequestNamesList;
+  names?: ListAgentDeploymentsRequestNamesList | undefined;
   /** Field to order by. */
-  orderBy?: string;
+  orderBy?: string | undefined;
   /** Whether to order in ascending order. */
-  orderByAsc?: boolean;
+  orderByAsc?: boolean | undefined;
 }
 /** Agent Deployment resource */
 export interface AgentDeployment {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** [Required] Additional attributes of the entity. */
   properties: AgentDeploymentProperties;
 }
@@ -4024,9 +4049,9 @@ export type AgentDeploymentResourceArmPaginatedResultValueList = Array<AgentDepl
 /** A paginated list of Agent Deployment entities. */
 export interface AgentDeploymentResourceArmPaginatedResult {
   /** The link to the next page of Agent Deployment objects. If null, there are no additional pages. */
-  nextLink?: string | null;
+  nextLink?: string | null | undefined;
   /** An array of objects of type Agent Deployment. */
-  value?: AgentDeploymentResourceArmPaginatedResultValueList;
+  value?: AgentDeploymentResourceArmPaginatedResultValueList | undefined;
 }
 export interface ListCommitmentPlanAssociationsRequest {
   /** The ID of the target subscription. */
@@ -4041,19 +4066,19 @@ export type CommitmentPlanAccountAssociationTagsMap = { [key: string]: string | 
 /** The commitment plan association. */
 export interface CommitmentPlanAccountAssociation {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Properties of Cognitive Services account commitment plan association. */
-  properties?: CommitmentPlanAccountAssociationProperties;
+  properties?: CommitmentPlanAccountAssociationProperties | undefined;
   /** Resource Etag. */
-  etag?: string;
+  etag?: string | undefined;
   /** Resource tags. */
-  tags?: CommitmentPlanAccountAssociationTagsMap;
+  tags?: CommitmentPlanAccountAssociationTagsMap | undefined;
 }
 /** Gets the list of Cognitive Services Commitment Plan Account Association and their properties. */
 export type CommitmentPlanAccountAssociationListResultValueList =
@@ -4061,9 +4086,9 @@ export type CommitmentPlanAccountAssociationListResultValueList =
 /** The list of cognitive services Commitment Plan Account Association operation response. */
 export interface CommitmentPlanAccountAssociationListResult {
   /** The link used to get the next page of Commitment Plan Account Association. */
-  nextLink?: string;
+  nextLink?: string | undefined;
   /** Gets the list of Cognitive Services Commitment Plan Account Association and their properties. */
-  value?: CommitmentPlanAccountAssociationListResultValueList;
+  value?: CommitmentPlanAccountAssociationListResultValueList | undefined;
 }
 export interface ListCommitmentPlanPlansByResourceGroupRequest {
   /** The ID of the target subscription. */
@@ -4076,34 +4101,34 @@ export type CommitmentPlanTagsMap = { [key: string]: string | undefined };
 /** Cognitive Services account commitment plan. */
 export interface CommitmentPlan {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Properties of Cognitive Services account commitment plan. */
-  properties?: CommitmentPlanProperties;
+  properties?: CommitmentPlanProperties | undefined;
   /** Resource tags. */
-  tags?: CommitmentPlanTagsMap;
+  tags?: CommitmentPlanTagsMap | undefined;
   /** The geo-location where the resource lives */
-  location?: string;
+  location?: string | undefined;
   /** Resource Etag. */
-  etag?: string;
+  etag?: string | undefined;
   /** The kind (type) of cognitive service account. */
-  kind?: string;
+  kind?: string | undefined;
   /** The resource model definition representing SKU */
-  sku?: Sku;
+  sku?: Sku | undefined;
 }
 /** Gets the list of Cognitive Services accounts CommitmentPlan and their properties. */
 export type CommitmentPlanListResultValueList = Array<CommitmentPlan>;
 /** The list of cognitive services accounts operation response. */
 export interface CommitmentPlanListResult {
   /** The link used to get the next page of CommitmentPlan. */
-  nextLink?: string;
+  nextLink?: string | undefined;
   /** Gets the list of Cognitive Services accounts CommitmentPlan and their properties. */
-  value?: CommitmentPlanListResultValueList;
+  value?: CommitmentPlanListResultValueList | undefined;
 }
 export interface ListCommitmentPlanPlansBySubscriptionRequest {
   /** The ID of the target subscription. */
@@ -4126,37 +4151,37 @@ export interface ListCommitmentTiersRequest {
 /** Cognitive Services account commitment cost. */
 export interface CommitmentCost {
   /** Commitment meter Id. */
-  commitmentMeterId?: string;
+  commitmentMeterId?: string | undefined;
   /** Overage meter Id. */
-  overageMeterId?: string;
+  overageMeterId?: string | undefined;
 }
 /** Cognitive Services account commitment tier. */
 export interface CommitmentTier {
   /** The kind (type) of cognitive service account. */
-  kind?: string;
+  kind?: string | undefined;
   /** The name of the SKU. Ex - P3. It is typically a letter+number code */
-  skuName?: string;
+  skuName?: string | undefined;
   /** Account hosting model. */
-  hostingModel?: HostingModel;
+  hostingModel?: HostingModel | undefined;
   /** Commitment plan type. */
-  planType?: string;
+  planType?: string | undefined;
   /** Commitment period commitment tier. */
-  tier?: string;
+  tier?: string | undefined;
   /** Commitment period commitment max count. */
-  maxCount?: number;
+  maxCount?: number | undefined;
   /** Cognitive Services account commitment quota. */
-  quota?: CommitmentQuota;
+  quota?: CommitmentQuota | undefined;
   /** Cognitive Services account commitment cost. */
-  cost?: CommitmentCost;
+  cost?: CommitmentCost | undefined;
 }
 /** Gets the list of Cognitive Services accounts CommitmentTier and their properties. */
 export type CommitmentTierListResultValueList = Array<CommitmentTier>;
 /** The list of cognitive services accounts operation response. */
 export interface CommitmentTierListResult {
   /** The link used to get the next page of CommitmentTier. */
-  nextLink?: string;
+  nextLink?: string | undefined;
   /** Gets the list of Cognitive Services accounts CommitmentTier and their properties. */
-  value?: CommitmentTierListResultValueList;
+  value?: CommitmentTierListResultValueList | undefined;
 }
 export interface ListDefenderForAISettingsRequest {
   /** The ID of the target subscription. */
@@ -4171,28 +4196,28 @@ export type DefenderForAISettingTagsMap = { [key: string]: string | undefined };
 /** The Defender for AI resource. */
 export interface DefenderForAISetting {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The Defender for AI resource properties. */
-  properties?: DefenderForAISettingProperties;
+  properties?: DefenderForAISettingProperties | undefined;
   /** Resource Etag. */
-  etag?: string;
+  etag?: string | undefined;
   /** Resource tags. */
-  tags?: DefenderForAISettingTagsMap;
+  tags?: DefenderForAISettingTagsMap | undefined;
 }
 /** The list of Defender for AI Settings. */
 export type DefenderForAISettingResultValueList = Array<DefenderForAISetting>;
 /** The list of cognitive services Defender for AI Settings. */
 export interface DefenderForAISettingResult {
   /** The link used to get the next page of Defender for AI Settings. */
-  nextLink?: string;
+  nextLink?: string | undefined;
   /** The list of Defender for AI Settings. */
-  value?: DefenderForAISettingResultValueList;
+  value?: DefenderForAISettingResultValueList | undefined;
 }
 export interface ListDeletedAccountsRequest {
   /** The ID of the target subscription. */
@@ -4211,30 +4236,30 @@ export type DeploymentTagsMap = { [key: string]: string | undefined };
 /** Cognitive Services account deployment. */
 export interface Deployment {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Properties of Cognitive Services account deployment. */
-  properties?: DeploymentProperties;
+  properties?: DeploymentProperties | undefined;
   /** The resource model definition representing SKU */
-  sku?: Sku;
+  sku?: Sku | undefined;
   /** Resource Etag. */
-  etag?: string;
+  etag?: string | undefined;
   /** Resource tags. */
-  tags?: DeploymentTagsMap;
+  tags?: DeploymentTagsMap | undefined;
 }
 /** Gets the list of Cognitive Services accounts Deployment and their properties. */
 export type DeploymentListResultValueList = Array<Deployment>;
 /** The list of cognitive services accounts operation response. */
 export interface DeploymentListResult {
   /** The link used to get the next page of Deployment. */
-  nextLink?: string;
+  nextLink?: string | undefined;
   /** Gets the list of Cognitive Services accounts Deployment and their properties. */
-  value?: DeploymentListResultValueList;
+  value?: DeploymentListResultValueList | undefined;
 }
 export interface ListDeploymentSkusRequest {
   /** The ID of the target subscription. */
@@ -4249,20 +4274,20 @@ export interface ListDeploymentSkusRequest {
 /** Properties of Cognitive Services account resource sku resource properties. */
 export interface SkuResource {
   /** The resource type name. */
-  resourceType?: string;
+  resourceType?: string | undefined;
   /** The resource model definition representing SKU */
-  sku?: Sku;
+  sku?: Sku | undefined;
   /** The capacity configuration. */
-  capacity?: CapacityConfig;
+  capacity?: CapacityConfig | undefined;
 }
 /** Gets the list of Cognitive Services accounts deployment skus. */
 export type DeploymentSkuListResultValueList = Array<SkuResource>;
 /** The list of cognitive services accounts operation response. */
 export interface DeploymentSkuListResult {
   /** The link used to get the next page of deployment skus. */
-  nextLink?: string;
+  nextLink?: string | undefined;
   /** Gets the list of Cognitive Services accounts deployment skus. */
-  value?: DeploymentSkuListResultValueList;
+  value?: DeploymentSkuListResultValueList | undefined;
 }
 export interface ListEncryptionScopesRequest {
   /** The ID of the target subscription. */
@@ -4277,28 +4302,28 @@ export type EncryptionScopeTagsMap = { [key: string]: string | undefined };
 /** Cognitive Services EncryptionScope */
 export interface EncryptionScope {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Properties of Cognitive Services EncryptionScope. */
-  properties?: EncryptionScopeProperties;
+  properties?: EncryptionScopeProperties | undefined;
   /** Resource Etag. */
-  etag?: string;
+  etag?: string | undefined;
   /** Resource tags. */
-  tags?: EncryptionScopeTagsMap;
+  tags?: EncryptionScopeTagsMap | undefined;
 }
 /** The list of EncryptionScope. */
 export type EncryptionScopeListResultValueList = Array<EncryptionScope>;
 /** The list of cognitive services EncryptionScopes. */
 export interface EncryptionScopeListResult {
   /** The link used to get the next page of EncryptionScope. */
-  nextLink?: string;
+  nextLink?: string | undefined;
   /** The list of EncryptionScope. */
-  value?: EncryptionScopeListResultValueList;
+  value?: EncryptionScopeListResultValueList | undefined;
 }
 export interface ListLocationBasedModelCapacitiesRequest {
   /** The ID of the target subscription. */
@@ -4315,39 +4340,39 @@ export interface ListLocationBasedModelCapacitiesRequest {
 /** Cognitive Services account ModelSkuCapacity. */
 export interface ModelSkuCapacityProperties {
   /** Properties of Cognitive Services account deployment model. */
-  model?: DeploymentModel;
-  skuName?: string;
+  model?: DeploymentModel | undefined;
+  skuName?: string | undefined;
   /** The available capacity for deployment with this model and sku. */
-  availableCapacity?: number;
+  availableCapacity?: number | undefined;
   /** The available capacity for deployment with a fine-tune version of this model and sku. */
-  availableFinetuneCapacity?: number;
+  availableFinetuneCapacity?: number | undefined;
   /** The scope identifier for model SKU capacity. */
-  scopeId?: string | null;
+  scopeId?: string | null | undefined;
   /** The scope type for model SKU capacity. */
-  scopeType?: QuotaScopeType | null;
+  scopeType?: QuotaScopeType | null | undefined;
 }
 export interface ModelCapacityListResultValueItem {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The location of the Model Sku Capacity. */
-  location?: string;
+  location?: string | undefined;
   /** Cognitive Services account ModelSkuCapacity. */
-  properties?: ModelSkuCapacityProperties;
+  properties?: ModelSkuCapacityProperties | undefined;
 }
 /** Gets the list of Cognitive Services accounts ModelSkuCapacity. */
 export type ModelCapacityListResultValueList = Array<ModelCapacityListResultValueItem>;
 /** The list of cognitive services accounts operation response. */
 export interface ModelCapacityListResult {
   /** The link used to get the next page of ModelSkuCapacity. */
-  nextLink?: string;
+  nextLink?: string | undefined;
   /** Gets the list of Cognitive Services accounts ModelSkuCapacity. */
-  value?: ModelCapacityListResultValueList;
+  value?: ModelCapacityListResultValueList | undefined;
 }
 export interface ListManagedNetworkSettingsRequest {
   /** The ID of the target subscription. */
@@ -4360,15 +4385,15 @@ export interface ListManagedNetworkSettingsRequest {
 /** Concrete proxy resource types can be created by aliasing this type using a specific property type. */
 export interface ManagedNetworkSettingsPropertiesBasicResource {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties of the managed network settings of a cognitive services account. */
-  properties?: ManagedNetworkSettingsProperties;
+  properties?: ManagedNetworkSettingsProperties | undefined;
 }
 /** The list of managed network settings of an account. Since this list may be incomplete, the nextLink field should be used to request the next list of cognitive services accounts. */
 export type ManagedNetworkListResultValueList =
@@ -4376,9 +4401,9 @@ export type ManagedNetworkListResultValueList =
 /** List of managed networks of a cognitive services account. */
 export interface ManagedNetworkListResult {
   /** The link to the next page constructed using the continuationToken. If null, there are no additional pages. */
-  nextLink?: string;
+  nextLink?: string | undefined;
   /** The list of managed network settings of an account. Since this list may be incomplete, the nextLink field should be used to request the next list of cognitive services accounts. */
-  value?: ManagedNetworkListResultValueList;
+  value?: ManagedNetworkListResultValueList | undefined;
 }
 export interface ListModelCapacitiesRequest {
   /** The ID of the target subscription. */
@@ -4399,22 +4424,22 @@ export interface ListModelsRequest {
 /** Cognitive Services Model. */
 export interface Model {
   /** Cognitive Services account Model. */
-  model?: AccountModel;
+  model?: AccountModel | undefined;
   /** The kind (type) of cognitive service account. */
-  kind?: string;
+  kind?: string | undefined;
   /** The name of SKU. */
-  skuName?: string;
+  skuName?: string | undefined;
   /** The description of the model. */
-  description?: string;
+  description?: string | undefined;
 }
 /** Gets the list of Cognitive Services accounts Model and their properties. */
 export type ModelListResultValueList = Array<Model>;
 /** The list of cognitive services models. */
 export interface ModelListResult {
   /** The link used to get the next page of Model. */
-  nextLink?: string;
+  nextLink?: string | undefined;
   /** Gets the list of Cognitive Services accounts Model and their properties. */
-  value?: ModelListResultValueList;
+  value?: ModelListResultValueList | undefined;
 }
 export interface ListNetworkSecurityPerimeterConfigurationsRequest {
   /** The ID of the target subscription. */
@@ -4427,15 +4452,15 @@ export interface ListNetworkSecurityPerimeterConfigurationsRequest {
 /** NSP Configuration for an Cognitive Services account. */
 export interface NetworkSecurityPerimeterConfiguration {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** NSP Configuration properties. */
-  properties?: NetworkSecurityPerimeterConfigurationProperties;
+  properties?: NetworkSecurityPerimeterConfigurationProperties | undefined;
 }
 /** Array of NSP configurations List Result for an Cognitive Services account. */
 export type NetworkSecurityPerimeterConfigurationListValueList =
@@ -4443,21 +4468,21 @@ export type NetworkSecurityPerimeterConfigurationListValueList =
 /** A list of NSP configurations for an Cognitive Services account. */
 export interface NetworkSecurityPerimeterConfigurationList {
   /** Array of NSP configurations List Result for an Cognitive Services account. */
-  value?: NetworkSecurityPerimeterConfigurationListValueList;
+  value?: NetworkSecurityPerimeterConfigurationListValueList | undefined;
   /** Link to retrieve next page of results. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListOperationsRequest {}
 /** Localized display information for this particular operation. */
 export interface OperationDisplay {
   /** The localized friendly form of the resource provider name, e.g. "Microsoft Monitoring Insights" or "Microsoft Compute". */
-  provider?: string;
+  provider?: string | undefined;
   /** The localized friendly name of the resource type related to this operation. E.g. "Virtual Machines" or "Job Schedule Collections". */
-  resource?: string;
+  resource?: string | undefined;
   /** The concise, localized friendly name for the operation; suitable for dropdowns. E.g. "Create or Update Virtual Machine", "Restart Virtual Machine". */
-  operation?: string;
+  operation?: string | undefined;
   /** The short, localized friendly description of the operation; suitable for tool tips and detailed views. */
-  description?: string;
+  description?: string | undefined;
 }
 /** The intended executor of the operation; as in Resource Based Access Control (RBAC) and audit logs UX. Default value is "user,system" */
 export type OperationOrigin = "user" | "system" | "user,system";
@@ -4466,23 +4491,23 @@ export type OperationActionType = "Internal";
 /** Details of a REST API operation, returned from the Resource Provider Operations API */
 export interface Operation {
   /** The name of the operation, as per Resource-Based Access Control (RBAC). Examples: "Microsoft.Compute/virtualMachines/write", "Microsoft.Compute/virtualMachines/capture/action" */
-  name?: string;
+  name?: string | undefined;
   /** Whether the operation applies to data-plane. This is "true" for data-plane operations and "false" for ARM/control-plane operations. */
-  isDataAction?: boolean;
+  isDataAction?: boolean | undefined;
   /** Localized display information for this particular operation. */
-  display?: OperationDisplay;
+  display?: OperationDisplay | undefined;
   /** The intended executor of the operation; as in Resource Based Access Control (RBAC) and audit logs UX. Default value is "user,system" */
-  origin?: OperationOrigin;
+  origin?: OperationOrigin | undefined;
   /** Enum. Indicates the action type. "Internal" refers to actions that are for internal only APIs. */
-  actionType?: OperationActionType;
+  actionType?: OperationActionType | undefined;
 }
 /** List of operations supported by the resource provider */
 export type ListOperationsResponseValueList = Array<Operation>;
 export interface ListOperationsResponse {
   /** List of operations supported by the resource provider */
-  value?: ListOperationsResponseValueList;
+  value?: ListOperationsResponseValueList | undefined;
   /** URL to get the next set of operation list results (if there are any). */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListOutboundRuleRequest {
   /** The ID of the target subscription. */
@@ -4497,13 +4522,13 @@ export interface ListOutboundRuleRequest {
 /** Concrete proxy resource types can be created by aliasing this type using a specific property type. */
 export interface OutboundRuleBasicResource {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Outbound Rule for the managed network of a cognitive services account. */
   properties: OutboundRule;
 }
@@ -4512,9 +4537,9 @@ export type OutboundRuleListResultValueList = Array<OutboundRuleBasicResource>;
 /** List of outbound rules for the managed network of a cognitive services account. */
 export interface OutboundRuleListResult {
   /** The link to the next page constructed using the continuationToken. If null, there are no additional pages. */
-  nextLink?: string;
+  nextLink?: string | undefined;
   /** The list of cognitive services accounts. Since this list may be incomplete, the nextLink field should be used to request the next list of cognitive services accounts. */
-  value?: OutboundRuleListResultValueList;
+  value?: OutboundRuleListResultValueList | undefined;
 }
 export interface ListPrivateEndpointConnectionsRequest {
   /** The ID of the target subscription. */
@@ -4529,7 +4554,7 @@ export type PrivateEndpointConnectionListResultValueList = Array<PrivateEndpoint
 /** A list of private endpoint connections */
 export interface PrivateEndpointConnectionListResult {
   /** Array of private endpoint connections */
-  value?: PrivateEndpointConnectionListResultValueList;
+  value?: PrivateEndpointConnectionListResultValueList | undefined;
 }
 export interface ListPrivateLinkResourcesRequest {
   /** The ID of the target subscription. */
@@ -4546,33 +4571,33 @@ export type PrivateLinkResourcePropertiesRequiredZoneNamesList = Array<string>;
 /** Properties of a private link resource. */
 export interface PrivateLinkResourceProperties {
   /** The private link resource group id. */
-  groupId?: string;
+  groupId?: string | undefined;
   /** The private link resource required member names. */
-  requiredMembers?: PrivateLinkResourcePropertiesRequiredMembersList;
+  requiredMembers?: PrivateLinkResourcePropertiesRequiredMembersList | undefined;
   /** The private link resource Private link DNS zone name. */
-  requiredZoneNames?: PrivateLinkResourcePropertiesRequiredZoneNamesList;
+  requiredZoneNames?: PrivateLinkResourcePropertiesRequiredZoneNamesList | undefined;
   /** The private link resource display name. */
-  displayName?: string;
+  displayName?: string | undefined;
 }
 /** A private link resource */
 export interface PrivateLinkResource {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource properties. */
-  properties?: PrivateLinkResourceProperties;
+  properties?: PrivateLinkResourceProperties | undefined;
 }
 /** Array of private link resources */
 export type PrivateLinkResourceListResultValueList = Array<PrivateLinkResource>;
 /** A list of private link resources */
 export interface PrivateLinkResourceListResult {
   /** Array of private link resources */
-  value?: PrivateLinkResourceListResultValueList;
+  value?: PrivateLinkResourceListResultValueList | undefined;
 }
 export interface ListProjectCapabilityHostsRequest {
   /** The ID of the target subscription. */
@@ -4587,13 +4612,13 @@ export interface ListProjectCapabilityHostsRequest {
 /** Azure Resource Manager resource envelope for Project CapabilityHost. */
 export interface ProjectCapabilityHost {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** [Required] Additional attributes of the entity. */
   properties: ProjectCapabilityHostProperties;
 }
@@ -4602,9 +4627,9 @@ export type ProjectCapabilityHostResourceArmPaginatedResultValueList = Array<Pro
 /** A paginated list of Project Capability Host entities. */
 export interface ProjectCapabilityHostResourceArmPaginatedResult {
   /** The link to the next page of Project Capability Host objects. If null, there are no additional pages. */
-  nextLink?: string | null;
+  nextLink?: string | null | undefined;
   /** An array of objects of type Project Capability Host. */
-  value?: ProjectCapabilityHostResourceArmPaginatedResultValueList;
+  value?: ProjectCapabilityHostResourceArmPaginatedResultValueList | undefined;
 }
 export interface ListProjectConnectionsRequest {
   /** The ID of the target subscription. */
@@ -4616,11 +4641,11 @@ export interface ListProjectConnectionsRequest {
   /** The name of Cognitive Services account's project. */
   projectName: string;
   /** Target of the connection. */
-  target?: string;
+  target?: string | undefined;
   /** Category of the connection. */
-  category?: string;
+  category?: string | undefined;
   /** query parameter that indicates if get connection call should return both connections and datastores */
-  includeAll?: boolean;
+  includeAll?: boolean | undefined;
 }
 export interface ListProjectsRequest {
   /** The ID of the target subscription. */
@@ -4635,32 +4660,32 @@ export type ProjectTagsMap = { [key: string]: string | undefined };
 /** Cognitive Services project is an Azure resource representing the provisioned account's project, it's type, location and SKU. */
 export interface Project {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Properties of Cognitive Services project. */
-  properties?: ProjectProperties;
+  properties?: ProjectProperties | undefined;
   /** Resource tags. */
-  tags?: ProjectTagsMap;
+  tags?: ProjectTagsMap | undefined;
   /** The geo-location where the resource lives */
-  location?: string;
+  location?: string | undefined;
   /** Resource Etag. */
-  etag?: string;
+  etag?: string | undefined;
   /** Identity for the resource. */
-  identity?: Identity;
+  identity?: Identity | undefined;
 }
 /** Gets the list of Cognitive Services projects and their properties. */
 export type ProjectListResultValueList = Array<Project>;
 /** The list of cognitive services projects operation response. */
 export interface ProjectListResult {
   /** The link used to get the next page of projects. */
-  nextLink?: string;
+  nextLink?: string | undefined;
   /** Gets the list of Cognitive Services projects and their properties. */
-  value?: ProjectListResultValueList;
+  value?: ProjectListResultValueList | undefined;
 }
 export interface ListQuotaTierBySubscriptionRequest {
   /** The ID of the target subscription. */
@@ -4669,24 +4694,24 @@ export interface ListQuotaTierBySubscriptionRequest {
 /** The quota tier information for the subscription */
 export interface QuotaTier {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Properties of quota tier resource. */
-  properties?: QuotaTierProperties;
+  properties?: QuotaTierProperties | undefined;
 }
 /** Gets the list of Quota Tiers and their properties. */
 export type QuotaTierListResultValueList = Array<QuotaTier>;
 /** The list of Quota Tiers response. */
 export interface QuotaTierListResult {
   /** The link used to get the next page of quota tiers. */
-  nextLink?: string;
+  nextLink?: string | undefined;
   /** Gets the list of Quota Tiers and their properties. */
-  value?: QuotaTierListResultValueList;
+  value?: QuotaTierListResultValueList | undefined;
 }
 export interface ListRaiBlocklistItemsRequest {
   /** The ID of the target subscription. */
@@ -4703,28 +4728,28 @@ export type RaiBlocklistItemTagsMap = { [key: string]: string | undefined };
 /** Cognitive Services RaiBlocklist Item. */
 export interface RaiBlocklistItem {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Properties of Cognitive Services RaiBlocklist Item. */
-  properties?: RaiBlocklistItemProperties;
+  properties?: RaiBlocklistItemProperties | undefined;
   /** Resource Etag. */
-  etag?: string;
+  etag?: string | undefined;
   /** Resource tags. */
-  tags?: RaiBlocklistItemTagsMap;
+  tags?: RaiBlocklistItemTagsMap | undefined;
 }
 /** The list of RaiBlocklistItems. */
 export type RaiBlockListItemsResultValueList = Array<RaiBlocklistItem>;
 /** The list of cognitive services RAI Blocklist Items. */
 export interface RaiBlockListItemsResult {
   /** The link used to get the next page of RaiBlocklistItems. */
-  nextLink?: string;
+  nextLink?: string | undefined;
   /** The list of RaiBlocklistItems. */
-  value?: RaiBlockListItemsResultValueList;
+  value?: RaiBlockListItemsResultValueList | undefined;
 }
 export interface ListRaiBlocklistsRequest {
   /** The ID of the target subscription. */
@@ -4739,28 +4764,28 @@ export type RaiBlocklistTagsMap = { [key: string]: string | undefined };
 /** Cognitive Services RaiBlocklist. */
 export interface RaiBlocklist {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Properties of Cognitive Services RaiBlocklist. */
-  properties?: RaiBlocklistProperties;
+  properties?: RaiBlocklistProperties | undefined;
   /** Resource Etag. */
-  etag?: string;
+  etag?: string | undefined;
   /** Resource tags. */
-  tags?: RaiBlocklistTagsMap;
+  tags?: RaiBlocklistTagsMap | undefined;
 }
 /** The list of RaiBlocklist. */
 export type RaiBlockListResultValueList = Array<RaiBlocklist>;
 /** The list of cognitive services RAI Blocklists. */
 export interface RaiBlockListResult {
   /** The link used to get the next page of RaiBlocklists. */
-  nextLink?: string;
+  nextLink?: string | undefined;
   /** The list of RaiBlocklist. */
-  value?: RaiBlockListResultValueList;
+  value?: RaiBlockListResultValueList | undefined;
 }
 export interface ListRaiContentFiltersRequest {
   /** The ID of the target subscription. */
@@ -4771,24 +4796,24 @@ export interface ListRaiContentFiltersRequest {
 /** Azure OpenAI Content Filter. */
 export interface RaiContentFilter {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Azure OpenAI Content Filter Properties. */
-  properties?: RaiContentFilterProperties;
+  properties?: RaiContentFilterProperties | undefined;
 }
 /** The list of RaiContentFilter. */
 export type RaiContentFilterListResultValueList = Array<RaiContentFilter>;
 /** The list of Content Filters. */
 export interface RaiContentFilterListResult {
   /** The link used to get the next page of Content Filters. */
-  nextLink?: string;
+  nextLink?: string | undefined;
   /** The list of RaiContentFilter. */
-  value?: RaiContentFilterListResultValueList;
+  value?: RaiContentFilterListResultValueList | undefined;
 }
 export interface ListRaiExternalSafetyProvidersRequest {
   /** The ID of the target subscription. */
@@ -4799,28 +4824,28 @@ export type RaiExternalSafetyProviderSchemaTagsMap = { [key: string]: string | u
 /** Cognitive Services Rai External Safety provider Schema. */
 export interface RaiExternalSafetyProviderSchema {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Properties of Cognitive Services Rai External Safety provider. */
-  properties?: RaiExternalSafetyProviderSchemaProperties;
+  properties?: RaiExternalSafetyProviderSchemaProperties | undefined;
   /** Resource Etag. */
-  etag?: string;
+  etag?: string | undefined;
   /** Resource tags. */
-  tags?: RaiExternalSafetyProviderSchemaTagsMap;
+  tags?: RaiExternalSafetyProviderSchemaTagsMap | undefined;
 }
 /** The list of RaiExternalSafetyProvider. */
 export type RaiExternalSafetyProviderResultValueList = Array<RaiExternalSafetyProviderSchema>;
 /** The list of cognitive services RAI External Safety Providers. */
 export interface RaiExternalSafetyProviderResult {
   /** The link used to get the next page of Rai External Safety Provider. */
-  nextLink?: string;
+  nextLink?: string | undefined;
   /** The list of RaiExternalSafetyProvider. */
-  value?: RaiExternalSafetyProviderResultValueList;
+  value?: RaiExternalSafetyProviderResultValueList | undefined;
 }
 export interface ListRaiPoliciesRequest {
   /** The ID of the target subscription. */
@@ -4835,28 +4860,28 @@ export type RaiPolicyTagsMap = { [key: string]: string | undefined };
 /** Cognitive Services RaiPolicy. */
 export interface RaiPolicy {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Properties of Cognitive Services RaiPolicy. */
-  properties?: RaiPolicyProperties;
+  properties?: RaiPolicyProperties | undefined;
   /** Resource Etag. */
-  etag?: string;
+  etag?: string | undefined;
   /** Resource tags. */
-  tags?: RaiPolicyTagsMap;
+  tags?: RaiPolicyTagsMap | undefined;
 }
 /** The list of RaiPolicy. */
 export type RaiPolicyListResultValueList = Array<RaiPolicy>;
 /** The list of cognitive services RaiPolicies. */
 export interface RaiPolicyListResult {
   /** The link used to get the next page of RaiPolicy. */
-  nextLink?: string;
+  nextLink?: string | undefined;
   /** The list of RaiPolicy. */
-  value?: RaiPolicyListResultValueList;
+  value?: RaiPolicyListResultValueList | undefined;
 }
 export interface ListRaiToolLabelsRequest {
   /** The ID of the target subscription. */
@@ -4871,28 +4896,28 @@ export type RaiToolLabelTagsMap = { [key: string]: string | undefined };
 /** Cognitive Services RAI Tool Label resource. */
 export interface RaiToolLabel {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Properties of the RAI Tool Label. */
-  properties?: RaiToolLabelProperties;
+  properties?: RaiToolLabelProperties | undefined;
   /** Resource Etag. */
-  etag?: string;
+  etag?: string | undefined;
   /** Resource tags. */
-  tags?: RaiToolLabelTagsMap;
+  tags?: RaiToolLabelTagsMap | undefined;
 }
 /** The list of RAI Tool Labels. */
 export type RaiToolLabelResultValueList = Array<RaiToolLabel>;
 /** The list of Cognitive Services RAI Tool Labels. */
 export interface RaiToolLabelResult {
   /** The link used to get the next page of RaiToolLabels. */
-  nextLink?: string;
+  nextLink?: string | undefined;
   /** The list of RAI Tool Labels. */
-  value?: RaiToolLabelResultValueList;
+  value?: RaiToolLabelResultValueList | undefined;
 }
 export interface ListRaiTopicsRequest {
   /** The ID of the target subscription. */
@@ -4907,28 +4932,28 @@ export type RaiTopicTagsMap = { [key: string]: string | undefined };
 /** Cognitive Services Rai Topic. */
 export interface RaiTopic {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Properties of Cognitive Services Rai Topic. */
-  properties?: RaiTopicProperties;
+  properties?: RaiTopicProperties | undefined;
   /** Resource Etag. */
-  etag?: string;
+  etag?: string | undefined;
   /** Resource tags. */
-  tags?: RaiTopicTagsMap;
+  tags?: RaiTopicTagsMap | undefined;
 }
 /** The list of RaiTopic. */
 export type RaiTopicResultValueList = Array<RaiTopic>;
 /** The list of cognitive services RAI Topics. */
 export interface RaiTopicResult {
   /** The link used to get the next page of RaiTopics. */
-  nextLink?: string;
+  nextLink?: string | undefined;
   /** The list of RaiTopic. */
-  value?: RaiTopicResultValueList;
+  value?: RaiTopicResultValueList | undefined;
 }
 export interface ListResourceSkusRequest {
   /** The ID of the target subscription. */
@@ -4946,39 +4971,39 @@ export type ResourceSkuRestrictionInfoLocationsList = Array<string>;
 export type ResourceSkuRestrictionInfoZonesList = Array<string>;
 export interface ResourceSkuRestrictionInfo {
   /** Locations where the SKU is restricted */
-  locations?: ResourceSkuRestrictionInfoLocationsList;
+  locations?: ResourceSkuRestrictionInfoLocationsList | undefined;
   /** List of availability zones where the SKU is restricted. */
-  zones?: ResourceSkuRestrictionInfoZonesList;
+  zones?: ResourceSkuRestrictionInfoZonesList | undefined;
 }
 /** The reason for restriction. */
 export type ResourceSkuRestrictionsReasonCode = "QuotaId" | "NotAvailableForSubscription";
 /** Describes restrictions of a SKU. */
 export interface ResourceSkuRestrictions {
   /** The type of restrictions. */
-  type?: ResourceSkuRestrictionsType;
+  type?: ResourceSkuRestrictionsType | undefined;
   /** The value of restrictions. If the restriction type is set to location. This would be different locations where the SKU is restricted. */
-  values?: ResourceSkuRestrictionsValuesList;
+  values?: ResourceSkuRestrictionsValuesList | undefined;
   /** The information about the restriction where the SKU cannot be used. */
-  restrictionInfo?: ResourceSkuRestrictionInfo;
+  restrictionInfo?: ResourceSkuRestrictionInfo | undefined;
   /** The reason for restriction. */
-  reasonCode?: ResourceSkuRestrictionsReasonCode;
+  reasonCode?: ResourceSkuRestrictionsReasonCode | undefined;
 }
 /** The restrictions because of which SKU cannot be used. This is empty if there are no restrictions. */
 export type ResourceSkuRestrictionsList = Array<ResourceSkuRestrictions>;
 /** Describes an available Cognitive Services SKU. */
 export interface ResourceSku {
   /** The type of resource the SKU applies to. */
-  resourceType?: string;
+  resourceType?: string | undefined;
   /** The name of SKU. */
-  name?: string;
+  name?: string | undefined;
   /** Specifies the tier of Cognitive Services account. */
-  tier?: string;
+  tier?: string | undefined;
   /** The Kind of resources that are supported in this SKU. */
-  kind?: string;
+  kind?: string | undefined;
   /** The set of locations that the SKU is available. */
-  locations?: ResourceSkuLocationsList;
+  locations?: ResourceSkuLocationsList | undefined;
   /** The restrictions because of which SKU cannot be used. This is empty if there are no restrictions. */
-  restrictions?: ResourceSkuRestrictionsList;
+  restrictions?: ResourceSkuRestrictionsList | undefined;
 }
 /** The ResourceSku items on this page */
 export type ResourceSkuListResultValueList = Array<ResourceSku>;
@@ -4987,7 +5012,7 @@ export interface ResourceSkuListResult {
   /** The ResourceSku items on this page */
   value: ResourceSkuListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListUsagesRequest {
   /** The ID of the target subscription. */
@@ -4995,7 +5020,7 @@ export interface ListUsagesRequest {
   /** The name of Azure region. */
   location: string;
   /** An OData filter expression that describes a subset of usages to return. The supported parameter is name.value (name of the metric, can have an or of multiple names). */
-  _filter?: string;
+  _filter?: string | undefined;
 }
 export interface NetworkSecurityPerimeterConfigurationsReconcileRequest {
   /** The ID of the target subscription. */
@@ -5009,30 +5034,30 @@ export interface NetworkSecurityPerimeterConfigurationsReconcileRequest {
 }
 export interface NetworkSecurityPerimeterConfigurationsReconcileResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** NSP Configuration properties. */
-  properties?: NetworkSecurityPerimeterConfigurationProperties;
+  properties?: NetworkSecurityPerimeterConfigurationProperties | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
 }
 /** Outbound Rule for the managed network of a cognitive services account. */
 export interface OutboundRuleInput {
   /** Category of a managed network Outbound Rule of a cognitive services account. */
-  category?: RuleCategory | (string & {});
+  category?: RuleCategory | (string & {}) | undefined;
   /** Type of a managed network Outbound Rule of a cognitive services account. */
-  status?: RuleStatus | (string & {});
+  status?: RuleStatus | (string & {}) | undefined;
   /** Type of a managed network Outbound Rule of a cognitive services account. */
   type: RuleType | (string & {});
   /** Rule destination (polymorphic on `type`): an FQDN string, a `{ serviceResourceId, subresourceTarget }` private endpoint target, or a `{ serviceTag, protocol, portRanges, action }` service tag. */
-  destination?: unknown;
+  destination?: unknown | undefined;
 }
 export interface OutboundRuleCreateOrUpdateRequest {
   /** The ID of the target subscription. */
@@ -5050,19 +5075,19 @@ export interface OutboundRuleCreateOrUpdateRequest {
 }
 export interface OutboundRuleCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Outbound Rule for the managed network of a cognitive services account. */
   properties: OutboundRule;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
 }
 /** Dictionary of <OutboundRule> */
 export type ManagedNetworkSettingsExInputOutboundRulesMap = {
@@ -5070,20 +5095,20 @@ export type ManagedNetworkSettingsExInputOutboundRulesMap = {
 };
 export interface ManagedNetworkSettingsExInput {
   /** Isolation mode for the managed network of a cognitive services account. */
-  isolationMode?: IsolationMode | (string & {});
+  isolationMode?: IsolationMode | (string & {}) | undefined;
   /** Dictionary of <OutboundRule> */
-  outboundRules?: ManagedNetworkSettingsExInputOutboundRulesMap | null;
+  outboundRules?: ManagedNetworkSettingsExInputOutboundRulesMap | null | undefined;
   /** Status of the Provisioning for the managed network of a cognitive services account. */
-  status?: ManagedNetworkProvisionStatus;
+  status?: ManagedNetworkProvisionStatus | undefined;
   /** Firewall Sku used for FQDN Rules */
-  firewallSku?: FirewallSku | (string & {});
+  firewallSku?: FirewallSku | (string & {}) | undefined;
   /** The Kind of the managed network. Users can switch from V1 to V2 for granular access controls, but cannot switch back to V1 once V2 is enabled. */
-  managedNetworkKind?: ManagedNetworkKind | (string & {});
+  managedNetworkKind?: ManagedNetworkKind | (string & {}) | undefined;
 }
 /** The properties of the managed network settings of a cognitive services account. */
 export interface ManagedNetworkSettingsPropertiesInput {
   /** Managed Network settings for a cognitive services account. */
-  managedNetwork?: ManagedNetworkSettingsExInput;
+  managedNetwork?: ManagedNetworkSettingsExInput | undefined;
 }
 export interface PatchManagedNetworkSettingsRequest {
   /** The ID of the target subscription. */
@@ -5095,23 +5120,23 @@ export interface PatchManagedNetworkSettingsRequest {
   /** Name of the managedNetwork associated with the cognitive services account. Only 'default' is supported. */
   managedNetworkName: string;
   /** The properties of the managed network settings of a cognitive services account. */
-  properties?: ManagedNetworkSettingsPropertiesInput;
+  properties?: ManagedNetworkSettingsPropertiesInput | undefined;
 }
 export interface PatchManagedNetworkSettingsResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties of the managed network settings of a cognitive services account. */
-  properties?: ManagedNetworkSettingsProperties;
+  properties?: ManagedNetworkSettingsProperties | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
 }
 export interface PauseDeploymentRequest {
   /** The ID of the target subscription. */
@@ -5127,21 +5152,21 @@ export interface PauseDeploymentRequest {
 export type PauseDeploymentResponseTagsMap = { [key: string]: string | undefined };
 export interface PauseDeploymentResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Properties of Cognitive Services account deployment. */
-  properties?: DeploymentProperties;
+  properties?: DeploymentProperties | undefined;
   /** The resource model definition representing SKU */
-  sku?: Sku;
+  sku?: Sku | undefined;
   /** Resource Etag. */
-  etag?: string;
+  etag?: string | undefined;
   /** Resource tags. */
-  tags?: PauseDeploymentResponseTagsMap;
+  tags?: PauseDeploymentResponseTagsMap | undefined;
 }
 /** Dictionary of <OutboundRule> */
 export type ManagedNetworkSettingsInputOutboundRulesMap = {
@@ -5150,15 +5175,15 @@ export type ManagedNetworkSettingsInputOutboundRulesMap = {
 /** Managed Network settings for a cognitive services account. */
 export interface ManagedNetworkSettingsInput {
   /** Isolation mode for the managed network of a cognitive services account. */
-  isolationMode?: IsolationMode | (string & {});
+  isolationMode?: IsolationMode | (string & {}) | undefined;
   /** Dictionary of <OutboundRule> */
-  outboundRules?: ManagedNetworkSettingsInputOutboundRulesMap | null;
+  outboundRules?: ManagedNetworkSettingsInputOutboundRulesMap | null | undefined;
   /** Status of the Provisioning for the managed network of a cognitive services account. */
-  status?: ManagedNetworkProvisionStatus;
+  status?: ManagedNetworkProvisionStatus | undefined;
   /** Firewall Sku used for FQDN Rules */
-  firewallSku?: FirewallSku | (string & {});
+  firewallSku?: FirewallSku | (string & {}) | undefined;
   /** The Kind of the managed network. Users can switch from V1 to V2 for granular access controls, but cannot switch back to V1 once V2 is enabled. */
-  managedNetworkKind?: ManagedNetworkKind | (string & {});
+  managedNetworkKind?: ManagedNetworkKind | (string & {}) | undefined;
 }
 export interface PostOutboundRuleRequest {
   /** The ID of the target subscription. */
@@ -5170,40 +5195,40 @@ export interface PostOutboundRuleRequest {
   /** Name of the managedNetwork associated with the cognitive services account. Only 'default' is supported. */
   managedNetworkName: string;
   /** Managed Network settings for a cognitive services account. */
-  properties?: ManagedNetworkSettingsInput;
+  properties?: ManagedNetworkSettingsInput | undefined;
 }
 /** List of outbound rules for the managed network of a cognitive services account. */
 export interface PostOutboundRuleResponse {
   /** The link to the next page constructed using the continuationToken. If null, there are no additional pages. */
-  nextLink?: string;
+  nextLink?: string | undefined;
   /** The list of cognitive services accounts. Since this list may be incomplete, the nextLink field should be used to request the next list of cognitive services accounts. */
-  value?: OutboundRuleListResultValueList;
+  value?: OutboundRuleListResultValueList | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
 }
 /** The Private Endpoint resource. */
 export type PrivateEndpointConnectionPropertiesInputPrivateEndpoint = UserAssignedIdentityInput;
 /** A collection of information about the state of the connection between service consumer and provider. */
 export interface PrivateEndpointConnectionPropertiesInputPrivateLinkServiceConnectionState {
   /** Indicates whether the connection has been Approved/Rejected/Removed by the owner of the service. */
-  status?: PrivateEndpointServiceConnectionStatus | (string & {});
+  status?: PrivateEndpointServiceConnectionStatus | (string & {}) | undefined;
   /** The reason for approval/rejection of the connection. */
-  description?: string;
+  description?: string | undefined;
   /** A message indicating if changes on the service provider require any updates on the consumer. */
-  actionsRequired?: string;
+  actionsRequired?: string | undefined;
 }
 /** The private link resource group ids. */
 export type PrivateEndpointConnectionPropertiesInputGroupIdsList = Array<string>;
 /** Properties of the PrivateEndpointConnectProperties. */
 export interface PrivateEndpointConnectionPropertiesInput {
   /** The Private Endpoint resource. */
-  privateEndpoint?: UserAssignedIdentityInput;
+  privateEndpoint?: UserAssignedIdentityInput | undefined;
   /** A collection of information about the state of the connection between service consumer and provider. */
   privateLinkServiceConnectionState: PrivateEndpointConnectionPropertiesInputPrivateLinkServiceConnectionState;
   /** The private link resource group ids. */
-  groupIds?: PrivateEndpointConnectionPropertiesInputGroupIdsList;
+  groupIds?: PrivateEndpointConnectionPropertiesInputGroupIdsList | undefined;
 }
 export interface PrivateEndpointConnectionsCreateOrUpdateRequest {
   /** The ID of the target subscription. */
@@ -5215,29 +5240,29 @@ export interface PrivateEndpointConnectionsCreateOrUpdateRequest {
   /** The name of the private endpoint connection associated with the Cognitive Services Account */
   privateEndpointConnectionName: string;
   /** Resource properties. */
-  properties?: PrivateEndpointConnectionPropertiesInput;
+  properties?: PrivateEndpointConnectionPropertiesInput | undefined;
   /** The location of the private endpoint connection */
-  location?: string;
+  location?: string | undefined;
 }
 export interface PrivateEndpointConnectionsCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource properties. */
-  properties?: PrivateEndpointConnectionProperties;
+  properties?: PrivateEndpointConnectionProperties | undefined;
   /** Resource Etag. */
-  etag?: string;
+  etag?: string | undefined;
   /** The location of the private endpoint connection */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  locationHeader?: string;
+  locationHeader?: string | undefined;
 }
 /** List of AI services connections. */
 export type ProjectCapabilityHostPropertiesInputAiServicesConnectionsList = Array<string>;
@@ -5249,13 +5274,25 @@ export type ProjectCapabilityHostPropertiesInputStorageConnectionsList = Array<s
 export type ProjectCapabilityHostPropertiesInputThreadStorageConnectionsList = Array<string>;
 export interface ProjectCapabilityHostPropertiesInput {
   /** List of AI services connections. */
-  aiServicesConnections?: ProjectCapabilityHostPropertiesInputAiServicesConnectionsList | null;
+  aiServicesConnections?:
+    | ProjectCapabilityHostPropertiesInputAiServicesConnectionsList
+    | null
+    | undefined;
   /** List of connection names from those available in the account or project to be used for vector database (e.g. CosmosDB). */
-  vectorStoreConnections?: ProjectCapabilityHostPropertiesInputVectorStoreConnectionsList | null;
+  vectorStoreConnections?:
+    | ProjectCapabilityHostPropertiesInputVectorStoreConnectionsList
+    | null
+    | undefined;
   /** List of connection names from those available in the account or project to be used as a storage resource. */
-  storageConnections?: ProjectCapabilityHostPropertiesInputStorageConnectionsList | null;
+  storageConnections?:
+    | ProjectCapabilityHostPropertiesInputStorageConnectionsList
+    | null
+    | undefined;
   /** List of connection names from those available in the account or project to be used for Thread storage. */
-  threadStorageConnections?: ProjectCapabilityHostPropertiesInputThreadStorageConnectionsList | null;
+  threadStorageConnections?:
+    | ProjectCapabilityHostPropertiesInputThreadStorageConnectionsList
+    | null
+    | undefined;
 }
 export interface ProjectCapabilityHostsCreateOrUpdateRequest {
   /** The ID of the target subscription. */
@@ -5273,17 +5310,17 @@ export interface ProjectCapabilityHostsCreateOrUpdateRequest {
 }
 export interface ProjectCapabilityHostsCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** [Required] Additional attributes of the entity. */
   properties: ProjectCapabilityHostProperties;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
 }
 export interface ProvisionManagedNetworkProvisionManagedNetworkRequest {
   /** The ID of the target subscription. */
@@ -5298,11 +5335,11 @@ export interface ProvisionManagedNetworkProvisionManagedNetworkRequest {
 /** Status of the Provisioning for the managed network of a cognitive services account. */
 export interface ProvisionManagedNetworkProvisionManagedNetworkResponse {
   /** Status for the managed network of a cognitive services account. */
-  status?: ManagedNetworkStatus;
+  status?: ManagedNetworkStatus | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
 }
 export interface PurgeDeletedAccountRequest {
   /** The ID of the target subscription. */
@@ -5316,9 +5353,9 @@ export interface PurgeDeletedAccountRequest {
 }
 export interface PurgeDeletedAccountResponse {
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
 }
 export interface PutManagedNetworkSettingsRequest {
   /** The ID of the target subscription. */
@@ -5330,28 +5367,28 @@ export interface PutManagedNetworkSettingsRequest {
   /** Name of the managedNetwork associated with the cognitive services account. Only 'default' is supported. */
   managedNetworkName: string;
   /** The properties of the managed network settings of a cognitive services account. */
-  properties?: ManagedNetworkSettingsPropertiesInput;
+  properties?: ManagedNetworkSettingsPropertiesInput | undefined;
 }
 export interface PutManagedNetworkSettingsResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties of the managed network settings of a cognitive services account. */
-  properties?: ManagedNetworkSettingsProperties;
+  properties?: ManagedNetworkSettingsProperties | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
 }
 /** Properties of Quota Tier resource'. */
 export interface QuotaTierPropertiesInput {
   /** Gets the tier upgrade policy for the subscription. */
-  tierUpgradePolicy?: TierUpgradePolicy | (string & {});
+  tierUpgradePolicy?: TierUpgradePolicy | (string & {}) | undefined;
 }
 export interface QuotaTiersCreateOrUpdateRequest {
   /** The ID of the target subscription. */
@@ -5359,19 +5396,19 @@ export interface QuotaTiersCreateOrUpdateRequest {
   /** Default parameter. Leave the value as default. */
   default: string;
   /** Properties of quota tier resource. */
-  properties?: QuotaTierPropertiesInput;
+  properties?: QuotaTierPropertiesInput | undefined;
 }
 export interface QuotaTiersCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Properties of quota tier resource. */
-  properties?: QuotaTierProperties;
+  properties?: QuotaTierProperties | undefined;
 }
 /** Resource tags. */
 export type RaiBlocklistItemsCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
@@ -5387,27 +5424,27 @@ export interface RaiBlocklistItemsCreateOrUpdateRequest {
   /** The name of the RaiBlocklist Item associated with the custom blocklist */
   raiBlocklistItemName: string;
   /** Properties of Cognitive Services RaiBlocklist Item. */
-  properties?: RaiBlocklistItemProperties;
+  properties?: RaiBlocklistItemProperties | undefined;
   /** Resource tags. */
-  tags?: RaiBlocklistItemsCreateOrUpdateRequestTagsMap;
+  tags?: RaiBlocklistItemsCreateOrUpdateRequestTagsMap | undefined;
 }
 /** Resource tags. */
 export type RaiBlocklistItemsCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
 export interface RaiBlocklistItemsCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Properties of Cognitive Services RaiBlocklist Item. */
-  properties?: RaiBlocklistItemProperties;
+  properties?: RaiBlocklistItemProperties | undefined;
   /** Resource Etag. */
-  etag?: string;
+  etag?: string | undefined;
   /** Resource tags. */
-  tags?: RaiBlocklistItemsCreateOrUpdateResponseTagsMap;
+  tags?: RaiBlocklistItemsCreateOrUpdateResponseTagsMap | undefined;
 }
 /** Resource tags. */
 export type RaiBlocklistsCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
@@ -5421,44 +5458,44 @@ export interface RaiBlocklistsCreateOrUpdateRequest {
   /** The name of the RaiBlocklist associated with the Cognitive Services Account */
   raiBlocklistName: string;
   /** Properties of Cognitive Services RaiBlocklist. */
-  properties?: RaiBlocklistProperties;
+  properties?: RaiBlocklistProperties | undefined;
   /** Resource tags. */
-  tags?: RaiBlocklistsCreateOrUpdateRequestTagsMap;
+  tags?: RaiBlocklistsCreateOrUpdateRequestTagsMap | undefined;
 }
 /** Resource tags. */
 export type RaiBlocklistsCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
 export interface RaiBlocklistsCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Properties of Cognitive Services RaiBlocklist. */
-  properties?: RaiBlocklistProperties;
+  properties?: RaiBlocklistProperties | undefined;
   /** Resource Etag. */
-  etag?: string;
+  etag?: string | undefined;
   /** Resource tags. */
-  tags?: RaiBlocklistsCreateOrUpdateResponseTagsMap;
+  tags?: RaiBlocklistsCreateOrUpdateResponseTagsMap | undefined;
 }
 /** RAI External SafetyProvider schema properties. */
 export interface RaiExternalSafetyProviderSchemaPropertiesInput {
   /** The unique identifier of the safety provider. */
-  providerId?: string;
+  providerId?: string | undefined;
   /** Name of the safety provider. */
-  providerName?: string;
+  providerName?: string | undefined;
   /** Safety provider mode sync/async. */
-  mode?: string;
+  mode?: string | undefined;
   /** Webhook URL for the safety provider. */
-  url?: string;
+  url?: string | undefined;
   /** The name of the secret in Key Vault that contains the api key to access the webhook. */
-  secretName?: string;
+  secretName?: string | undefined;
   /** The managed identity to access the Key Vault. */
-  managedIdentity?: string;
+  managedIdentity?: string | undefined;
   /** The Key Vault URI that contains the api key for safety provider urls. */
-  keyVaultUri?: string;
+  keyVaultUri?: string | undefined;
 }
 export interface RaiExternalSafetyProviderCreateOrUpdateRequest {
   /** The ID of the target subscription. */
@@ -5466,7 +5503,7 @@ export interface RaiExternalSafetyProviderCreateOrUpdateRequest {
   /** The name of the Rai External Safety Provider associated with the Cognitive Services Account */
   safetyProviderName: string;
   /** Properties of Cognitive Services Rai External Safety provider. */
-  properties?: RaiExternalSafetyProviderSchemaPropertiesInput;
+  properties?: RaiExternalSafetyProviderSchemaPropertiesInput | undefined;
 }
 /** Resource tags. */
 export type RaiExternalSafetyProviderCreateOrUpdateResponseTagsMap = {
@@ -5474,19 +5511,19 @@ export type RaiExternalSafetyProviderCreateOrUpdateResponseTagsMap = {
 };
 export interface RaiExternalSafetyProviderCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Properties of Cognitive Services Rai External Safety provider. */
-  properties?: RaiExternalSafetyProviderSchemaProperties;
+  properties?: RaiExternalSafetyProviderSchemaProperties | undefined;
   /** Resource Etag. */
-  etag?: string;
+  etag?: string | undefined;
   /** Resource tags. */
-  tags?: RaiExternalSafetyProviderCreateOrUpdateResponseTagsMap;
+  tags?: RaiExternalSafetyProviderCreateOrUpdateResponseTagsMap | undefined;
 }
 /** Resource tags. */
 export type RaiPoliciesCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
@@ -5500,27 +5537,27 @@ export interface RaiPoliciesCreateOrUpdateRequest {
   /** The name of the RaiPolicy associated with the Cognitive Services Account */
   raiPolicyName: string;
   /** Properties of Cognitive Services RaiPolicy. */
-  properties?: RaiPolicyProperties;
+  properties?: RaiPolicyProperties | undefined;
   /** Resource tags. */
-  tags?: RaiPoliciesCreateOrUpdateRequestTagsMap;
+  tags?: RaiPoliciesCreateOrUpdateRequestTagsMap | undefined;
 }
 /** Resource tags. */
 export type RaiPoliciesCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
 export interface RaiPoliciesCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Properties of Cognitive Services RaiPolicy. */
-  properties?: RaiPolicyProperties;
+  properties?: RaiPolicyProperties | undefined;
   /** Resource Etag. */
-  etag?: string;
+  etag?: string | undefined;
   /** Resource tags. */
-  tags?: RaiPoliciesCreateOrUpdateResponseTagsMap;
+  tags?: RaiPoliciesCreateOrUpdateResponseTagsMap | undefined;
 }
 /** Resource tags. */
 export type RaiToolLabelsCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
@@ -5534,27 +5571,27 @@ export interface RaiToolLabelsCreateOrUpdateRequest {
   /** The name of the Rai Tool Label */
   raiToolConnectionName: string;
   /** Properties of the RAI Tool Label. */
-  properties?: RaiToolLabelProperties;
+  properties?: RaiToolLabelProperties | undefined;
   /** Resource tags. */
-  tags?: RaiToolLabelsCreateOrUpdateRequestTagsMap;
+  tags?: RaiToolLabelsCreateOrUpdateRequestTagsMap | undefined;
 }
 /** Resource tags. */
 export type RaiToolLabelsCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
 export interface RaiToolLabelsCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Properties of the RAI Tool Label. */
-  properties?: RaiToolLabelProperties;
+  properties?: RaiToolLabelProperties | undefined;
   /** Resource Etag. */
-  etag?: string;
+  etag?: string | undefined;
   /** Resource tags. */
-  tags?: RaiToolLabelsCreateOrUpdateResponseTagsMap;
+  tags?: RaiToolLabelsCreateOrUpdateResponseTagsMap | undefined;
 }
 /** Resource tags. */
 export type RaiTopicsCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
@@ -5568,27 +5605,27 @@ export interface RaiTopicsCreateOrUpdateRequest {
   /** The name of the Rai Topic associated with the Cognitive Services Account */
   raiTopicName: string;
   /** Properties of Cognitive Services Rai Topic. */
-  properties?: RaiTopicProperties;
+  properties?: RaiTopicProperties | undefined;
   /** Resource tags. */
-  tags?: RaiTopicsCreateOrUpdateRequestTagsMap;
+  tags?: RaiTopicsCreateOrUpdateRequestTagsMap | undefined;
 }
 /** Resource tags. */
 export type RaiTopicsCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
 export interface RaiTopicsCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Properties of Cognitive Services Rai Topic. */
-  properties?: RaiTopicProperties;
+  properties?: RaiTopicProperties | undefined;
   /** Resource Etag. */
-  etag?: string;
+  etag?: string | undefined;
   /** Resource tags. */
-  tags?: RaiTopicsCreateOrUpdateResponseTagsMap;
+  tags?: RaiTopicsCreateOrUpdateResponseTagsMap | undefined;
 }
 /** key name to generate (Key1|Key2) */
 export type KeyName = "Key1" | "Key2";
@@ -5616,21 +5653,21 @@ export interface ResumeDeploymentRequest {
 export type ResumeDeploymentResponseTagsMap = { [key: string]: string | undefined };
 export interface ResumeDeploymentResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Properties of Cognitive Services account deployment. */
-  properties?: DeploymentProperties;
+  properties?: DeploymentProperties | undefined;
   /** The resource model definition representing SKU */
-  sku?: Sku;
+  sku?: Sku | undefined;
   /** Resource Etag. */
-  etag?: string;
+  etag?: string | undefined;
   /** Resource tags. */
-  tags?: ResumeDeploymentResponseTagsMap;
+  tags?: ResumeDeploymentResponseTagsMap | undefined;
 }
 export interface StartAgentDeploymentRequest {
   /** The ID of the target subscription. */
@@ -5672,9 +5709,9 @@ export interface SubscriptionRaiPolicyCreateOrUpdateRequest {
   /** The name of the RaiPolicy associated with the Cognitive Services Account */
   raiPolicyName: string;
   /** Properties of Cognitive Services RaiPolicy. */
-  properties?: RaiPolicyProperties;
+  properties?: RaiPolicyProperties | undefined;
   /** Resource tags. */
-  tags?: SubscriptionRaiPolicyCreateOrUpdateRequestTagsMap;
+  tags?: SubscriptionRaiPolicyCreateOrUpdateRequestTagsMap | undefined;
 }
 /** Resource tags. */
 export type SubscriptionRaiPolicyCreateOrUpdateResponseTagsMap = {
@@ -5682,19 +5719,19 @@ export type SubscriptionRaiPolicyCreateOrUpdateResponseTagsMap = {
 };
 export interface SubscriptionRaiPolicyCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Properties of Cognitive Services RaiPolicy. */
-  properties?: RaiPolicyProperties;
+  properties?: RaiPolicyProperties | undefined;
   /** Resource Etag. */
-  etag?: string;
+  etag?: string | undefined;
   /** Resource tags. */
-  tags?: SubscriptionRaiPolicyCreateOrUpdateResponseTagsMap;
+  tags?: SubscriptionRaiPolicyCreateOrUpdateResponseTagsMap | undefined;
 }
 export interface TestRaiExternalSafetyProviderCreateOrUpdateRequest {
   /** The ID of the target subscription. */
@@ -5706,7 +5743,7 @@ export interface TestRaiExternalSafetyProviderCreateOrUpdateRequest {
   /** The name of the Rai External Safety Provider associated with the Cognitive Services Account */
   safetyProviderName: string;
   /** Properties of Cognitive Services Rai External Safety provider. */
-  properties?: RaiExternalSafetyProviderSchemaPropertiesInput;
+  properties?: RaiExternalSafetyProviderSchemaPropertiesInput | undefined;
 }
 /** Resource tags. */
 export type TestRaiExternalSafetyProviderCreateOrUpdateResponseTagsMap = {
@@ -5714,19 +5751,19 @@ export type TestRaiExternalSafetyProviderCreateOrUpdateResponseTagsMap = {
 };
 export interface TestRaiExternalSafetyProviderCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Properties of Cognitive Services Rai External Safety provider. */
-  properties?: RaiExternalSafetyProviderSchemaProperties;
+  properties?: RaiExternalSafetyProviderSchemaProperties | undefined;
   /** Resource Etag. */
-  etag?: string;
+  etag?: string | undefined;
   /** Resource tags. */
-  tags?: TestRaiExternalSafetyProviderCreateOrUpdateResponseTagsMap;
+  tags?: TestRaiExternalSafetyProviderCreateOrUpdateResponseTagsMap | undefined;
 }
 /** Resource tags. */
 export type UpdateAccountRequestTagsMap = { [key: string]: string | undefined };
@@ -5738,47 +5775,47 @@ export interface UpdateAccountRequest {
   /** The name of Cognitive Services account. */
   accountName: string;
   /** Properties of Cognitive Services account. */
-  properties?: AccountPropertiesInput;
+  properties?: AccountPropertiesInput | undefined;
   /** Resource tags. */
-  tags?: UpdateAccountRequestTagsMap;
+  tags?: UpdateAccountRequestTagsMap | undefined;
   /** The geo-location where the resource lives */
-  location?: string;
+  location?: string | undefined;
   /** The kind (type) of cognitive service account. */
-  kind?: string;
+  kind?: string | undefined;
   /** The resource model definition representing SKU */
-  sku?: Sku;
+  sku?: Sku | undefined;
   /** Identity for the resource. */
-  identity?: IdentityInput;
+  identity?: IdentityInput | undefined;
 }
 /** Resource tags. */
 export type UpdateAccountResponseTagsMap = { [key: string]: string | undefined };
 export interface UpdateAccountResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Properties of Cognitive Services account. */
-  properties?: AccountProperties;
+  properties?: AccountProperties | undefined;
   /** Resource tags. */
-  tags?: UpdateAccountResponseTagsMap;
+  tags?: UpdateAccountResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
-  location?: string;
+  location?: string | undefined;
   /** Resource Etag. */
-  etag?: string;
+  etag?: string | undefined;
   /** The kind (type) of cognitive service account. */
-  kind?: string;
+  kind?: string | undefined;
   /** The resource model definition representing SKU */
-  sku?: Sku;
+  sku?: Sku | undefined;
   /** Identity for the resource. */
-  identity?: Identity;
+  identity?: Identity | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  locationHeader?: string;
+  locationHeader?: string | undefined;
 }
 export interface UpdateAccountConnectionRequest {
   /** The ID of the target subscription. */
@@ -5790,17 +5827,17 @@ export interface UpdateAccountConnectionRequest {
   /** Friendly name of the connection */
   connectionName: string;
   /** The properties that the Cognitive services connection will be updated with. */
-  properties?: ConnectionPropertiesV2Input;
+  properties?: ConnectionPropertiesV2Input | undefined;
 }
 export interface UpdateAccountConnectionResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Connection property base schema. */
   properties: ConnectionPropertiesV2;
 }
@@ -5814,37 +5851,37 @@ export interface UpdateCommitmentPlanPlanRequest {
   /** The name of the commitmentPlan associated with the Cognitive Services Account */
   commitmentPlanName: string;
   /** Resource tags. */
-  tags?: UpdateCommitmentPlanPlanRequestTagsMap;
+  tags?: UpdateCommitmentPlanPlanRequestTagsMap | undefined;
   /** The resource model definition representing SKU */
-  sku?: Sku;
+  sku?: Sku | undefined;
 }
 /** Resource tags. */
 export type UpdateCommitmentPlanPlanResponseTagsMap = { [key: string]: string | undefined };
 export interface UpdateCommitmentPlanPlanResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Properties of Cognitive Services account commitment plan. */
-  properties?: CommitmentPlanProperties;
+  properties?: CommitmentPlanProperties | undefined;
   /** Resource tags. */
-  tags?: UpdateCommitmentPlanPlanResponseTagsMap;
+  tags?: UpdateCommitmentPlanPlanResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
-  location?: string;
+  location?: string | undefined;
   /** Resource Etag. */
-  etag?: string;
+  etag?: string | undefined;
   /** The kind (type) of cognitive service account. */
-  kind?: string;
+  kind?: string | undefined;
   /** The resource model definition representing SKU */
-  sku?: Sku;
+  sku?: Sku | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  locationHeader?: string;
+  locationHeader?: string | undefined;
 }
 /** Resource tags. */
 export type UpdateDefenderForAISettingsRequestTagsMap = { [key: string]: string | undefined };
@@ -5858,27 +5895,27 @@ export interface UpdateDefenderForAISettingsRequest {
   /** The name of the defender for AI setting. */
   defenderForAISettingName: string;
   /** The Defender for AI resource properties. */
-  properties?: DefenderForAISettingProperties;
+  properties?: DefenderForAISettingProperties | undefined;
   /** Resource tags. */
-  tags?: UpdateDefenderForAISettingsRequestTagsMap;
+  tags?: UpdateDefenderForAISettingsRequestTagsMap | undefined;
 }
 /** Resource tags. */
 export type UpdateDefenderForAISettingsResponseTagsMap = { [key: string]: string | undefined };
 export interface UpdateDefenderForAISettingsResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The Defender for AI resource properties. */
-  properties?: DefenderForAISettingProperties;
+  properties?: DefenderForAISettingProperties | undefined;
   /** Resource Etag. */
-  etag?: string;
+  etag?: string | undefined;
   /** Resource tags. */
-  tags?: UpdateDefenderForAISettingsResponseTagsMap;
+  tags?: UpdateDefenderForAISettingsResponseTagsMap | undefined;
 }
 /** Resource tags. */
 export type UpdateDeploymentRequestTagsMap = { [key: string]: string | undefined };
@@ -5892,33 +5929,33 @@ export interface UpdateDeploymentRequest {
   /** The name of the deployment associated with the Cognitive Services Account */
   deploymentName: string;
   /** Resource tags. */
-  tags?: UpdateDeploymentRequestTagsMap;
+  tags?: UpdateDeploymentRequestTagsMap | undefined;
   /** The resource model definition representing SKU */
-  sku?: Sku;
+  sku?: Sku | undefined;
 }
 /** Resource tags. */
 export type UpdateDeploymentResponseTagsMap = { [key: string]: string | undefined };
 export interface UpdateDeploymentResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Properties of Cognitive Services account deployment. */
-  properties?: DeploymentProperties;
+  properties?: DeploymentProperties | undefined;
   /** The resource model definition representing SKU */
-  sku?: Sku;
+  sku?: Sku | undefined;
   /** Resource Etag. */
-  etag?: string;
+  etag?: string | undefined;
   /** Resource tags. */
-  tags?: UpdateDeploymentResponseTagsMap;
+  tags?: UpdateDeploymentResponseTagsMap | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
 }
 /** Resource tags. */
 export type UpdateProjectRequestTagsMap = { [key: string]: string | undefined };
@@ -5932,37 +5969,37 @@ export interface UpdateProjectRequest {
   /** The name of Cognitive Services account's project. */
   projectName: string;
   /** Properties of Cognitive Services project. */
-  properties?: ProjectPropertiesInput;
+  properties?: ProjectPropertiesInput | undefined;
   /** Resource tags. */
-  tags?: UpdateProjectRequestTagsMap;
+  tags?: UpdateProjectRequestTagsMap | undefined;
   /** The geo-location where the resource lives */
-  location?: string;
+  location?: string | undefined;
   /** Identity for the resource. */
-  identity?: IdentityInput;
+  identity?: IdentityInput | undefined;
 }
 /** Resource tags. */
 export type UpdateProjectResponseTagsMap = { [key: string]: string | undefined };
 export interface UpdateProjectResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Properties of Cognitive Services project. */
-  properties?: ProjectProperties;
+  properties?: ProjectProperties | undefined;
   /** Resource tags. */
-  tags?: UpdateProjectResponseTagsMap;
+  tags?: UpdateProjectResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
-  location?: string;
+  location?: string | undefined;
   /** Resource Etag. */
-  etag?: string;
+  etag?: string | undefined;
   /** Identity for the resource. */
-  identity?: Identity;
+  identity?: Identity | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  locationHeader?: string;
+  locationHeader?: string | undefined;
 }
 export interface UpdateProjectConnectionRequest {
   /** The ID of the target subscription. */
@@ -5976,17 +6013,17 @@ export interface UpdateProjectConnectionRequest {
   /** Friendly name of the connection */
   connectionName: string;
   /** The properties that the Cognitive services connection will be updated with. */
-  properties?: ConnectionPropertiesV2Input;
+  properties?: ConnectionPropertiesV2Input | undefined;
 }
 export interface UpdateProjectConnectionResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Connection property base schema. */
   properties: ConnectionPropertiesV2;
 }
@@ -5996,19 +6033,19 @@ export interface UpdateQuotaTierRequest {
   /** Default parameter. Leave the value as default. */
   default: string;
   /** Properties of quota tier resource. */
-  properties?: QuotaTierPropertiesInput;
+  properties?: QuotaTierPropertiesInput | undefined;
 }
 export interface UpdateQuotaTierResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Properties of quota tier resource. */
-  properties?: QuotaTierProperties;
+  properties?: QuotaTierProperties | undefined;
 }
 export type AccountCapabilityHostsCreateOrUpdateError = AzureOpError;
 /** Create or update account capabilityHost. Create or update account capabilityHost. */

@@ -1,0 +1,68 @@
+{
+  "description": "GET /accounts/{account_id}/containers/me is not in the API reference. Wrangler calls it as AccountService.getMe (https://github.com/cloudflare/workers-sdk/blob/main/packages/containers-shared/src/client/services/AccountService.ts) to read the account's containers settings; the SDK has exposed it as getContainerIdentity with an untyped result.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.containers#GetContainerIdentityRequest",
+      "value": {
+        "type": "structure",
+        "members": {
+          "account_id": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#httpLabel": {},
+              "smithy.api#required": {}
+            }
+          }
+        },
+        "traits": {
+          "smithy.api#input": {}
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.containers#GetContainerIdentityResponse",
+      "value": {
+        "type": "structure",
+        "members": {
+          "result": {
+            "target": "smithy.api#Document",
+            "traits": {
+              "com.cloudflare.protocols#envelopePayload": {}
+            }
+          }
+        },
+        "traits": {
+          "smithy.api#output": {}
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.containers#GetContainerIdentity",
+      "value": {
+        "type": "operation",
+        "input": {
+          "target": "com.cloudflare.containers#GetContainerIdentityRequest"
+        },
+        "output": {
+          "target": "com.cloudflare.containers#GetContainerIdentityResponse"
+        },
+        "errors": [
+          {
+            "target": "com.cloudflare.containers#InvalidRoute"
+          }
+        ],
+        "traits": {
+          "smithy.api#http": {
+            "method": "GET",
+            "uri": "/accounts/{account_id}/containers/me",
+            "code": 200
+          },
+          "smithy.api#readonly": {}
+        }
+      }
+    }
+  ]
+}

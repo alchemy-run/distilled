@@ -67,6 +67,29 @@ describe("StringEncoded members", () => {
   });
 });
 
+describe("empty JSON bodies", () => {
+  const Empty = S.Struct({}).pipe(T.Http({ method: "POST", uri: "/rpc.Service/List" }));
+  const build = (emptyJsonBody?: boolean) =>
+    Effect.runSync(
+      buildRequest({
+        input: {},
+        inputAst: Empty.ast,
+        baseUrl: "https://example.test",
+        ...(emptyJsonBody === undefined ? {} : { emptyJsonBody }),
+      }),
+    );
+
+  test("a POST with no body members sends no body by default", () => {
+    expect(build().body._tag).toBe("Empty");
+  });
+
+  test("emptyJsonBody sends {} as JSON", () => {
+    const body = build(true).body as { readonly _tag: string; readonly body?: Uint8Array };
+    expect(body._tag).toBe("Uint8Array");
+    expect(new TextDecoder().decode(body.body)).toBe("{}");
+  });
+});
+
 describe("URI label encoding", () => {
   const input = (preserve?: string) =>
     S.Struct({
@@ -145,7 +168,7 @@ describe("dot-segment labels", () => {
     for (const id of [".", ".."]) {
       const error = Effect.runSync(Effect.flip(request(id)));
       expect(error).toBeInstanceOf(InvalidInput);
-      expect(error.member).toBe("id");
+      expect((error as InvalidInput).member).toBe("id");
     }
   });
 
@@ -260,6 +283,35 @@ describe("sensitive union responses", () => {
   });
 });
 
+describe("sensitive untyped members", () => {
+  const schema = S.Struct({
+    environment: S.NullOr(S.Unknown).pipe(SensitiveValue()),
+    config: S.NullOr(
+      S.Struct({ name: S.String, secret: S.NullOr(S.String).pipe(SensitiveValue()) }),
+    ).pipe(SensitiveValue()),
+  });
+
+  test("an untyped object is redacted whole; a typed struct is walked", () => {
+    const environment = { AWS_ACCESS_KEY_ID: "fixture-id", AWS_SECRET_ACCESS_KEY: "fixture-key" };
+    const wrapped = wrapSensitive(schema.ast, {
+      environment,
+      config: { name: "files", secret: "fixture-secret" },
+    }) as any;
+    expect(Redacted.isRedacted(wrapped.environment)).toBe(true);
+    expect(Redacted.value(wrapped.environment)).toEqual(environment);
+    expect(wrapped.config).toEqual({ name: "files", secret: Redacted.make("fixture-secret") });
+    expect(String(wrapped.environment)).not.toContain("fixture-key");
+    expect(wrapSensitive(schema.ast, wrapped)).toEqual(wrapped);
+  });
+
+  test("null stays null", () => {
+    expect(wrapSensitive(schema.ast, { environment: null, config: null })).toEqual({
+      environment: null,
+      config: null,
+    });
+  });
+});
+
 describe("UnionCases decoding", () => {
   const cases = [
     ["id", "type", "zoneName"],
@@ -307,87 +359,6 @@ describe("UnionCases decoding", () => {
       id: "1",
       type: "account",
       accountName: "acct-a",
-    });
-  });
-});
-
-describe("Verbatim members", () => {
-  const dict = { className: "class_name", scriptName: "script_name" };
-  const content = { className: "kept", nested: { scriptName: "kept" } };
-
-  /** Worker-binding shaped: a service case with props, a durable object case without. */
-  const bindings = S.Unknown.pipe(
-    T.UnionCases(
-      [
-        ["name", "service", "props", "type"],
-        ["name", "className", "scriptName", "type"],
-      ],
-      { key: "type", values: ["service", "durable_object_namespace"] },
-      [["props"], []],
-    ),
-  );
-
-  test("a union case's verbatim member keeps its keys on encode", () => {
-    expect(
-      mapKeys(
-        bindings.ast,
-        { type: "service", name: "A", service: "s", props: content },
-        "encode",
-        dict,
-      ),
-    ).toEqual({ type: "service", name: "A", service: "s", props: content });
-  });
-
-  test("a case without verbatim members still renames through the dictionary", () => {
-    expect(
-      mapKeys(
-        bindings.ast,
-        { type: "durable_object_namespace", name: "B", className: "C", scriptName: "w" },
-        "encode",
-        dict,
-      ),
-    ).toEqual({ type: "durable_object_namespace", name: "B", class_name: "C", script_name: "w" });
-  });
-
-  test("a union case's verbatim member keeps its keys on decode", () => {
-    const wireContent = { class_name: "kept", nested: { script_name: "kept" } };
-    expect(
-      mapKeys(
-        bindings.ast,
-        { type: "service", name: "A", service: "s", props: wireContent, class_name: null },
-        "decode",
-        dict,
-      ),
-    ).toEqual({ type: "service", name: "A", service: "s", props: wireContent });
-  });
-
-  test("a struct member keeps its keys while its siblings rename", () => {
-    const struct = S.Struct({
-      props: S.optional(S.Unknown.pipe(T.Verbatim())),
-      other: S.optional(S.Unknown),
-    });
-    expect(mapKeys(struct.ast, { props: content, other: content }, "encode", dict)).toEqual({
-      props: content,
-      other: { class_name: "kept", nested: { script_name: "kept" } },
-    });
-  });
-
-  test("a top-level request member is sent as written under a root dictionary", () => {
-    const input = S.Struct({
-      props: S.optional(S.Unknown.pipe(T.Body("props"), T.Verbatim())),
-      other: S.optional(S.Unknown.pipe(T.Body("other"))),
-    }).pipe(T.Http({ method: "POST", uri: "/things" }), T.KeyDictionary(dict));
-    const request = Effect.runSync(
-      buildRequest({
-        input: { props: content, other: content },
-        inputAst: input.ast,
-        baseUrl: "https://example.test",
-      }),
-    );
-    const body = request.body as { readonly body?: string };
-    expect(JSON.parse(body.body ?? "{}")).toEqual({
-      props: content,
-      other: { class_name: "kept", nested: { script_name: "kept" } },
     });
   });
 });

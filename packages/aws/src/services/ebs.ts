@@ -8,6 +8,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
 import * as T from "../traits.ts";
@@ -179,13 +180,13 @@ export type ChecksumAggregationMethod = "LINEAR" | (string & {});
 export interface CompleteSnapshotRequest {
   SnapshotId: string;
   ChangedBlocksCount: number;
-  Checksum?: string;
-  ChecksumAlgorithm?: ChecksumAlgorithm;
-  ChecksumAggregationMethod?: ChecksumAggregationMethod;
+  Checksum?: string | undefined;
+  ChecksumAlgorithm?: ChecksumAlgorithm | undefined;
+  ChecksumAggregationMethod?: ChecksumAggregationMethod | undefined;
 }
 export type Status = "completed" | "pending" | "error" | (string & {});
 export interface CompleteSnapshotResponse {
-  Status?: Status;
+  Status?: Status | undefined;
 }
 export type BlockIndex = number;
 export type BlockToken = string;
@@ -196,52 +197,52 @@ export interface GetSnapshotBlockRequest {
 }
 export type DataLength = number;
 export interface GetSnapshotBlockResponse {
-  DataLength?: number;
-  BlockData?: T.StreamingOutputBody;
-  Checksum?: string;
-  ChecksumAlgorithm?: ChecksumAlgorithm;
+  DataLength?: number | undefined;
+  BlockData?: T.StreamingOutputBody | undefined;
+  Checksum?: string | undefined;
+  ChecksumAlgorithm?: ChecksumAlgorithm | undefined;
 }
 export type PageToken = string;
 export type MaxResults = number;
 export interface ListChangedBlocksRequest {
-  FirstSnapshotId?: string;
+  FirstSnapshotId?: string | undefined;
   SecondSnapshotId: string;
-  NextToken?: string;
-  MaxResults?: number;
-  StartingBlockIndex?: number;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
+  StartingBlockIndex?: number | undefined;
 }
 export interface ChangedBlock {
-  BlockIndex?: number;
-  FirstBlockToken?: string;
-  SecondBlockToken?: string;
+  BlockIndex?: number | undefined;
+  FirstBlockToken?: string | undefined;
+  SecondBlockToken?: string | undefined;
 }
 export type ChangedBlocks = ChangedBlock[];
 export type VolumeSize = number;
 export type BlockSize = number;
 export interface ListChangedBlocksResponse {
-  ChangedBlocks?: ChangedBlock[];
-  ExpiryTime?: Date;
-  VolumeSize?: number;
-  BlockSize?: number;
-  NextToken?: string;
+  ChangedBlocks?: ChangedBlock[] | undefined;
+  ExpiryTime?: Date | undefined;
+  VolumeSize?: number | undefined;
+  BlockSize?: number | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListSnapshotBlocksRequest {
   SnapshotId: string;
-  NextToken?: string;
-  MaxResults?: number;
-  StartingBlockIndex?: number;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
+  StartingBlockIndex?: number | undefined;
 }
 export interface Block {
-  BlockIndex?: number;
-  BlockToken?: string;
+  BlockIndex?: number | undefined;
+  BlockToken?: string | undefined;
 }
 export type Blocks = Block[];
 export interface ListSnapshotBlocksResponse {
-  Blocks?: Block[];
-  ExpiryTime?: Date;
-  VolumeSize?: number;
-  BlockSize?: number;
-  NextToken?: string;
+  Blocks?: Block[] | undefined;
+  ExpiryTime?: Date | undefined;
+  VolumeSize?: number | undefined;
+  BlockSize?: number | undefined;
+  NextToken?: string | undefined;
 }
 export type Progress = number;
 export interface PutSnapshotBlockRequest {
@@ -249,19 +250,19 @@ export interface PutSnapshotBlockRequest {
   BlockIndex: number;
   BlockData: T.StreamingInputBody;
   DataLength: number;
-  Progress?: number;
+  Progress?: number | undefined;
   Checksum: string;
   ChecksumAlgorithm: ChecksumAlgorithm;
 }
 export interface PutSnapshotBlockResponse {
-  Checksum?: string;
-  ChecksumAlgorithm?: ChecksumAlgorithm;
+  Checksum?: string | undefined;
+  ChecksumAlgorithm?: ChecksumAlgorithm | undefined;
 }
 export type TagKey = string;
 export type TagValue = string;
 export interface Tag {
-  Key?: string;
-  Value?: string;
+  Key?: string | undefined;
+  Value?: string | undefined;
 }
 export type Tags = Tag[];
 export type Description = string;
@@ -270,28 +271,28 @@ export type KmsKeyArn = string | redacted.Redacted<string>;
 export type Timeout = number;
 export interface StartSnapshotRequest {
   VolumeSize: number;
-  ParentSnapshotId?: string;
-  Tags?: Tag[];
-  Description?: string;
-  ClientToken?: string;
-  Encrypted?: boolean;
-  KmsKeyArn?: string | redacted.Redacted<string>;
-  Timeout?: number;
+  ParentSnapshotId?: string | undefined;
+  Tags?: Tag[] | undefined;
+  Description?: string | undefined;
+  ClientToken?: string | undefined;
+  Encrypted?: boolean | undefined;
+  KmsKeyArn?: string | redacted.Redacted<string> | undefined;
+  Timeout?: number | undefined;
 }
 export type OwnerId = string;
 export type SSEType = "sse-ebs" | "sse-kms" | "none" | (string & {});
 export interface StartSnapshotResponse {
-  Description?: string;
-  SnapshotId?: string;
-  OwnerId?: string;
-  Status?: Status;
-  StartTime?: Date;
-  VolumeSize?: number;
-  BlockSize?: number;
-  Tags?: Tag[];
-  ParentSnapshotId?: string;
-  KmsKeyArn?: string | redacted.Redacted<string>;
-  SseType?: SSEType;
+  Description?: string | undefined;
+  SnapshotId?: string | undefined;
+  OwnerId?: string | undefined;
+  Status?: Status | undefined;
+  StartTime?: Date | undefined;
+  VolumeSize?: number | undefined;
+  BlockSize?: number | undefined;
+  Tags?: Tag[] | undefined;
+  ParentSnapshotId?: string | undefined;
+  KmsKeyArn?: string | redacted.Redacted<string> | undefined;
+  SseType?: SSEType | undefined;
 }
 export type ErrorMessage = string;
 export type AccessDeniedExceptionReason =
@@ -349,7 +350,7 @@ export type CompleteSnapshotError =
  * *Amazon Elastic Compute Cloud User Guide*.
  */
 export const completeSnapshot: API.OperationMethod<
-  CompleteSnapshotRequest,
+  CompleteSnapshotRequest & RegionInput,
   CompleteSnapshotResponse,
   CompleteSnapshotError,
   Credentials | HttpClient.HttpClient
@@ -389,7 +390,7 @@ export type GetSnapshotBlockError =
  * *Amazon Elastic Compute Cloud User Guide*.
  */
 export const getSnapshotBlock: API.OperationMethod<
-  GetSnapshotBlockRequest,
+  GetSnapshotBlockRequest & RegionInput,
   GetSnapshotBlockResponse,
   GetSnapshotBlockError,
   Credentials | HttpClient.HttpClient
@@ -429,7 +430,7 @@ export type ListChangedBlocksError =
  * *Amazon Elastic Compute Cloud User Guide*.
  */
 export const listChangedBlocks: API.PaginatedOperationMethod<
-  ListChangedBlocksRequest,
+  ListChangedBlocksRequest & RegionInput,
   ListChangedBlocksResponse,
   ListChangedBlocksError,
   Credentials | HttpClient.HttpClient,
@@ -474,7 +475,7 @@ export type ListSnapshotBlocksError =
  * *Amazon Elastic Compute Cloud User Guide*.
  */
 export const listSnapshotBlocks: API.PaginatedOperationMethod<
-  ListSnapshotBlocksRequest,
+  ListSnapshotBlocksRequest & RegionInput,
   ListSnapshotBlocksResponse,
   ListSnapshotBlocksError,
   Credentials | HttpClient.HttpClient,
@@ -524,7 +525,7 @@ export type PutSnapshotBlockError =
  * *Amazon Elastic Compute Cloud User Guide*.
  */
 export const putSnapshotBlock: API.OperationMethod<
-  PutSnapshotBlockRequest,
+  PutSnapshotBlockRequest & RegionInput,
   PutSnapshotBlockResponse,
   PutSnapshotBlockError,
   Credentials | HttpClient.HttpClient
@@ -570,7 +571,7 @@ export type StartSnapshotError =
  * *Amazon Elastic Compute Cloud User Guide*.
  */
 export const startSnapshot: API.OperationMethod<
-  StartSnapshotRequest,
+  StartSnapshotRequest & RegionInput,
   StartSnapshotResponse,
   StartSnapshotError,
   Credentials | HttpClient.HttpClient

@@ -1,0 +1,10 @@
+{
+  "description": "ClickHouse's spec marks no response member required, so ClickPipe.id is optional, and a caller must handle a createClickPipe answer without the new pipe's ID. It is always present: Alchemy's ClickHouse Cloud provider created a ClickPipe, waited on it, renamed it and deleted it by the `id` createClickPipe returned (live, 2026-11-12), and ClickHouse's Terraform provider (ClickHouse/terraform-provider-clickhouse at 66ecf4fa, internal/api) waits on and stores that `id` right after the create. Marking ClickPipe.id required lets callers read the ID without checking for undefined.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.clickhouse.cloud.click_pipes#ClickPipe/members/id/traits/smithy.api#required",
+      "value": {}
+    }
+  ]
+}

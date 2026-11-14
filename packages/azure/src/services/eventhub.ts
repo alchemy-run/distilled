@@ -28,6 +28,7 @@ const TELEMETRY = {
   prefix: "Eventhub",
   service: "Eventhub",
   labels: "azure",
+  labelNames: { resourceGroupName: "azure.resource_group.name" },
   propagate: "w3c",
 } as const;
 
@@ -40,19 +41,19 @@ export interface ApplicationGroupPolicy {
   /** Application Group Policy types */
   type: ApplicationGroupPolicyType | (string & {});
   /** ThrottlingPolicy: the threshold limit above which the application group will be throttled. Rate limit is always per second. */
-  rateLimitThreshold?: number;
+  rateLimitThreshold?: number | undefined;
   /** ThrottlingPolicy: metric to throttle on (IncomingBytes, OutgoingBytes, IncomingMessages, OutgoingMessages). */
-  metricId?: string;
+  metricId?: string | undefined;
 }
 /** List of group policies that define the behavior of application group. The policies can support resource governance scenarios such as limiting ingress or egress traffic. */
 export type ApplicationGroupPropertiesPoliciesList = Array<ApplicationGroupPolicy>;
 export interface ApplicationGroupProperties {
   /** Determines if Application Group is allowed to create connection with namespace or not. Once the isEnabled is set to false, all the existing connections of application group gets dropped and no new connections will be allowed */
-  isEnabled?: boolean;
+  isEnabled?: boolean | undefined;
   /** The Unique identifier for application group.Supports SAS(SASKeyName=KeyName) or AAD(AADAppID=Guid) */
   clientAppGroupIdentifier: string;
   /** List of group policies that define the behavior of application group. The policies can support resource governance scenarios such as limiting ingress or egress traffic. */
-  policies?: ApplicationGroupPropertiesPoliciesList;
+  policies?: ApplicationGroupPropertiesPoliciesList | undefined;
 }
 export interface ApplicationGroupCreateOrUpdateApplicationGroupRequest {
   /** The ID of the target subscription. */
@@ -63,7 +64,7 @@ export interface ApplicationGroupCreateOrUpdateApplicationGroupRequest {
   namespaceName: string;
   /** The Application Group name */
   applicationGroupName: string;
-  properties?: ApplicationGroupProperties;
+  properties?: ApplicationGroupProperties | undefined;
 }
 /** The type of identity that created the resource. */
 export type SystemDataCreatedByType = "User" | "Application" | "ManagedIdentity" | "Key";
@@ -72,30 +73,30 @@ export type SystemDataLastModifiedByType = "User" | "Application" | "ManagedIden
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface SystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: SystemDataCreatedByType;
+  createdByType?: SystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: SystemDataLastModifiedByType;
+  lastModifiedByType?: SystemDataLastModifiedByType | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 export interface ApplicationGroupCreateOrUpdateApplicationGroupResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
-  properties?: ApplicationGroupProperties;
+  systemData?: SystemData | undefined;
+  properties?: ApplicationGroupProperties | undefined;
   /** The geo-location where the resource lives */
-  location?: string;
+  location?: string | undefined;
 }
 export interface CheckDisasterRecoveryConfigNameAvailabilityRequest {
   /** The ID of the target subscription. */
@@ -118,11 +119,11 @@ export type UnavailableReason =
 /** The Result of the CheckNameAvailability operation */
 export interface CheckNameAvailabilityResult {
   /** The detailed info regarding the reason associated with the Namespace. */
-  message?: string;
+  message?: string | undefined;
   /** Value indicating Namespace is availability, true if the Namespace is available; otherwise, false. */
-  nameAvailable?: boolean;
+  nameAvailable?: boolean | undefined;
   /** The reason for unavailability of a Namespace. */
-  reason?: UnavailableReason;
+  reason?: UnavailableReason | undefined;
 }
 export interface CheckNamespaceNameAvailabilityRequest {
   /** The ID of the target subscription. */
@@ -134,18 +135,18 @@ export interface CheckNamespaceNameAvailabilityRequest {
 export type Mode = "Disabled" | "Enabled";
 export interface ConfidentialCompute {
   /** Setting to Enable or Disable Confidential Compute */
-  mode?: Mode | (string & {});
+  mode?: Mode | (string & {}) | undefined;
 }
 export interface PlatformCapabilities {
-  confidentialCompute?: ConfidentialCompute;
+  confidentialCompute?: ConfidentialCompute | undefined;
 }
 /** Event Hubs Cluster properties supplied in responses in List or Get operations. */
 export interface ClusterPropertiesInput {
   /** A value that indicates whether Scaling is Supported. */
-  supportsScaling?: boolean;
-  platformCapabilities?: PlatformCapabilities;
+  supportsScaling?: boolean | undefined;
+  platformCapabilities?: PlatformCapabilities | undefined;
   /** A value that indicates whether the cluster is zone redundant. */
-  zoneRedundant?: boolean;
+  zoneRedundant?: boolean | undefined;
 }
 /** Name of this SKU. */
 export type ClusterSkuName = "Dedicated";
@@ -154,7 +155,7 @@ export interface ClusterSku {
   /** Name of this SKU. */
   name: ClusterSkuName | (string & {});
   /** The quantity of Event Hubs Cluster Capacity Units contained in this cluster. */
-  capacity?: number;
+  capacity?: number | undefined;
 }
 /** Resource tags. */
 export type ClustersCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
@@ -166,13 +167,13 @@ export interface ClustersCreateOrUpdateRequest {
   /** The name of the Event Hubs Cluster. */
   clusterName: string;
   /** Event Hubs Cluster properties supplied in responses in List or Get operations. */
-  properties?: ClusterPropertiesInput;
+  properties?: ClusterPropertiesInput | undefined;
   /** Properties of the cluster SKU. */
-  sku?: ClusterSku;
+  sku?: ClusterSku | undefined;
   /** Resource location. */
-  location?: string;
+  location?: string | undefined;
   /** Resource tags. */
-  tags?: ClustersCreateOrUpdateRequestTagsMap;
+  tags?: ClustersCreateOrUpdateRequestTagsMap | undefined;
 }
 /** Provisioning state of the Cluster. */
 export type ProvisioningState =
@@ -187,49 +188,49 @@ export type ProvisioningState =
 /** Event Hubs Cluster properties supplied in responses in List or Get operations. */
 export interface ClusterProperties {
   /** The UTC time when the Event Hubs Cluster was created. */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** Provisioning state of the Cluster. */
-  provisioningState?: ProvisioningState;
+  provisioningState?: ProvisioningState | undefined;
   /** The UTC time when the Event Hubs Cluster was last updated. */
-  updatedAt?: string;
+  updatedAt?: string | undefined;
   /** The metric ID of the cluster resource. Provided by the service and not modifiable by the user. */
-  metricId?: string;
+  metricId?: string | undefined;
   /** Status of the Cluster resource */
-  status?: string;
+  status?: string | undefined;
   /** A value that indicates whether Scaling is Supported. */
-  supportsScaling?: boolean;
-  platformCapabilities?: PlatformCapabilities;
+  supportsScaling?: boolean | undefined;
+  platformCapabilities?: PlatformCapabilities | undefined;
   /** A value that indicates whether the cluster is zone redundant. */
-  zoneRedundant?: boolean;
+  zoneRedundant?: boolean | undefined;
 }
 /** Resource tags. */
 export type ClustersCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
 export interface ClustersCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Event Hubs Cluster properties supplied in responses in List or Get operations. */
-  properties?: ClusterProperties;
+  properties?: ClusterProperties | undefined;
   /** Properties of the cluster SKU. */
-  sku?: ClusterSku;
+  sku?: ClusterSku | undefined;
   /** Resource location. */
-  location?: string;
+  location?: string | undefined;
   /** Resource tags. */
-  tags?: ClustersCreateOrUpdateResponseTagsMap;
+  tags?: ClustersCreateOrUpdateResponseTagsMap | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  locationHeader?: string;
+  locationHeader?: string | undefined;
 }
 /** Single item in List or Get Consumer group operation */
 export interface ConsumerGroupPropertiesInput {
   /** User Metadata is a placeholder to store user-defined string data with maximum length 1024. e.g. it can be used to store descriptive data, such as list of teams and their contact information also user-defined configuration settings can be stored. */
-  userMetadata?: string;
+  userMetadata?: string | undefined;
 }
 export interface ConsumerGroupsCreateOrUpdateRequest {
   /** The ID of the target subscription. */
@@ -243,30 +244,30 @@ export interface ConsumerGroupsCreateOrUpdateRequest {
   /** The consumer group name */
   consumerGroupName: string;
   /** Single item in List or Get Consumer group operation */
-  properties?: ConsumerGroupPropertiesInput;
+  properties?: ConsumerGroupPropertiesInput | undefined;
 }
 /** Single item in List or Get Consumer group operation */
 export interface ConsumerGroupProperties {
   /** Exact time the message was created. */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The exact time the message was updated. */
-  updatedAt?: string;
+  updatedAt?: string | undefined;
   /** User Metadata is a placeholder to store user-defined string data with maximum length 1024. e.g. it can be used to store descriptive data, such as list of teams and their contact information also user-defined configuration settings can be stored. */
-  userMetadata?: string;
+  userMetadata?: string | undefined;
 }
 export interface ConsumerGroupsCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Single item in List or Get Consumer group operation */
-  properties?: ConsumerGroupProperties;
+  properties?: ConsumerGroupProperties | undefined;
   /** The geo-location where the resource lives */
-  location?: string;
+  location?: string | undefined;
 }
 export interface DeleteApplicationGroupRequest {
   /** The ID of the target subscription. */
@@ -289,9 +290,9 @@ export interface DeleteClusterRequest {
 }
 export interface DeleteClusterResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeleteConsumerGroupRequest {
   /** The ID of the target subscription. */
@@ -351,9 +352,9 @@ export interface DeleteNamespaceRequest {
 }
 export interface DeleteNamespaceResponse {
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeleteNamespaceAuthorizationRuleRequest {
   /** The ID of the target subscription. */
@@ -378,9 +379,9 @@ export interface DeletePrivateEndpointConnectionRequest {
 }
 export interface DeletePrivateEndpointConnectionResponse {
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeleteSchemaRegistryRequest {
   /** The ID of the target subscription. */
@@ -407,9 +408,9 @@ export interface DisasterRecoveryConfigsBreakPairingResponse {}
 /** Properties required to the Create Or Update Alias(Disaster Recovery configurations) */
 export interface ArmDisasterRecoveryPropertiesInput {
   /** ARM Id of the Primary/Secondary eventhub namespace name, which is part of GEO DR pairing */
-  partnerNamespace?: string;
+  partnerNamespace?: string | undefined;
   /** Alternate name specified when alias and namespace names are same. */
-  alternateName?: string;
+  alternateName?: string | undefined;
 }
 export interface DisasterRecoveryConfigsCreateOrUpdateRequest {
   /** The ID of the target subscription. */
@@ -421,7 +422,7 @@ export interface DisasterRecoveryConfigsCreateOrUpdateRequest {
   /** The Disaster Recovery configuration name */
   alias: string;
   /** Properties required to the Create Or Update Alias(Disaster Recovery configurations) */
-  properties?: ArmDisasterRecoveryPropertiesInput;
+  properties?: ArmDisasterRecoveryPropertiesInput | undefined;
 }
 /** Provisioning state of the Alias(Disaster Recovery configuration) - possible values 'Accepted' or 'Succeeded' or 'Failed' */
 export type ProvisioningStateDR = "Accepted" | "Succeeded" | "Failed";
@@ -430,29 +431,29 @@ export type RoleDisasterRecovery = "Primary" | "PrimaryNotReplicating" | "Second
 /** Properties required to the Create Or Update Alias(Disaster Recovery configurations) */
 export interface ArmDisasterRecoveryProperties {
   /** Provisioning state of the Alias(Disaster Recovery configuration) - possible values 'Accepted' or 'Succeeded' or 'Failed' */
-  provisioningState?: ProvisioningStateDR;
+  provisioningState?: ProvisioningStateDR | undefined;
   /** ARM Id of the Primary/Secondary eventhub namespace name, which is part of GEO DR pairing */
-  partnerNamespace?: string;
+  partnerNamespace?: string | undefined;
   /** Alternate name specified when alias and namespace names are same. */
-  alternateName?: string;
+  alternateName?: string | undefined;
   /** role of namespace in GEO DR - possible values 'Primary' or 'PrimaryNotReplicating' or 'Secondary' */
-  role?: RoleDisasterRecovery;
+  role?: RoleDisasterRecovery | undefined;
   /** Number of entities pending to be replicated. */
-  pendingReplicationOperationsCount?: number;
+  pendingReplicationOperationsCount?: number | undefined;
 }
 export interface DisasterRecoveryConfigsCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Properties required to the Create Or Update Alias(Disaster Recovery configurations) */
-  properties?: ArmDisasterRecoveryProperties;
+  properties?: ArmDisasterRecoveryProperties | undefined;
   /** The geo-location where the resource lives */
-  location?: string;
+  location?: string | undefined;
 }
 export interface DisasterRecoveryConfigsFailOverRequest {
   /** The ID of the target subscription. */
@@ -483,85 +484,85 @@ export type CaptureIdentityType = "SystemAssigned" | "UserAssigned";
 /** A value that indicates whether capture description is enabled. */
 export interface CaptureIdentity {
   /** Type of Azure Active Directory Managed Identity. */
-  type?: CaptureIdentityType | (string & {});
+  type?: CaptureIdentityType | (string & {}) | undefined;
   /** ARM ID of Managed User Identity. This property is required is the type is UserAssignedIdentity. If type is SystemAssigned, then the System Assigned Identity Associated with the namespace will be used. */
-  userAssignedIdentity?: string;
+  userAssignedIdentity?: string | undefined;
 }
 /** Properties describing the storage account, blob container and archive name format for capture destination */
 export interface DestinationProperties {
   /** Resource id of the storage account to be used to create the blobs */
-  storageAccountResourceId?: string;
+  storageAccountResourceId?: string | undefined;
   /** Blob container Name */
-  blobContainer?: string;
+  blobContainer?: string | undefined;
   /** Blob naming convention for archive, e.g. {Namespace}/{EventHub}/{PartitionId}/{Year}/{Month}/{Day}/{Hour}/{Minute}/{Second}. Here all the parameters (Namespace,EventHub .. etc) are mandatory irrespective of order */
-  archiveNameFormat?: string;
+  archiveNameFormat?: string | undefined;
   /** Subscription Id of Azure Data Lake Store */
-  dataLakeSubscriptionId?: string;
+  dataLakeSubscriptionId?: string | undefined;
   /** The Azure Data Lake Store name for the captured events */
-  dataLakeAccountName?: string;
+  dataLakeAccountName?: string | undefined;
   /** The destination folder path for the captured events */
-  dataLakeFolderPath?: string;
+  dataLakeFolderPath?: string | undefined;
 }
 /** Capture storage details for capture description */
 export interface Destination {
   /** Name for capture destination */
-  name?: string;
+  name?: string | undefined;
   /** A value that indicates whether capture description is enabled. */
-  identity?: CaptureIdentity;
+  identity?: CaptureIdentity | undefined;
   /** Properties describing the storage account, blob container and archive name format for capture destination */
-  properties?: DestinationProperties;
+  properties?: DestinationProperties | undefined;
 }
 /** Properties to configure capture description for eventhub */
 export interface CaptureDescription {
   /** A value that indicates whether capture description is enabled. */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** Enumerates the possible values for the encoding format of capture description. Note: 'AvroDeflate' will be deprecated in New API Version */
-  encoding?: EncodingCaptureDescription | (string & {});
+  encoding?: EncodingCaptureDescription | (string & {}) | undefined;
   /** The time window allows you to set the frequency with which the capture to Azure Blobs will happen, value should between 60 to 900 seconds */
-  intervalInSeconds?: number;
+  intervalInSeconds?: number | undefined;
   /** The size window defines the amount of data built up in your Event Hub before an capture operation, value should be between 10485760 to 524288000 bytes */
-  sizeLimitInBytes?: number;
+  sizeLimitInBytes?: number | undefined;
   /** Properties of Destination where capture will be stored. (Storage Account, Blob Names) */
-  destination?: Destination;
+  destination?: Destination | undefined;
   /** A value that indicates whether to Skip Empty Archives */
-  skipEmptyArchives?: boolean;
+  skipEmptyArchives?: boolean | undefined;
 }
 /** Enumerates the possible values for cleanup policy */
 export type CleanupPolicyRetentionDescription = "Delete" | "Compact" | "DeleteOrCompact";
 /** Properties to configure retention settings for the eventhub */
 export interface RetentionDescription {
   /** Enumerates the possible values for cleanup policy */
-  cleanupPolicy?: CleanupPolicyRetentionDescription | (string & {});
+  cleanupPolicy?: CleanupPolicyRetentionDescription | (string & {}) | undefined;
   /** Number of hours to retain the events for this Event Hub. This should be positive value upto namespace SKU max. -1 is a special case where retention time is infinite, but the size of an entity is restricted and its size depends on namespace SKU type. */
-  retentionTimeInHours?: number;
+  retentionTimeInHours?: number | undefined;
   /** The minimum time a message will remain ineligible for compaction in the log. This value is used when cleanupPolicy is Compact or DeleteOrCompact. */
-  minCompactionLagTimeInMinutes?: number;
+  minCompactionLagTimeInMinutes?: number | undefined;
   /** Number of hours to retain the tombstone markers of a compacted Event Hub. This value is used when cleanupPolicy is Compact or DeleteOrCompact. Consumer must complete reading the tombstone marker within this specified amount of time if consumer begins from starting offset to ensure they get a valid snapshot for the specific key described by the tombstone marker within the compacted Event Hub */
-  tombstoneRetentionTimeInHours?: number;
+  tombstoneRetentionTimeInHours?: number | undefined;
 }
 /** Denotes the type of timestamp the message will hold.Two types of timestamp types - "AppendTime" and "CreateTime". AppendTime refers the time in which message got appended inside broker log. CreateTime refers to the time in which the message was generated on source side and producers can set this timestamp while sending the message. Default value is AppendTime. If you are using AMQP protocol, CreateTime equals AppendTime and its behavior remains the same. */
 export type TimestampType = "LogAppend" | "Create";
 /** Properties of MessageTimestamp Description */
 export interface MessageTimestampDescription {
   /** Denotes the type of timestamp the message will hold.Two types of timestamp types - "AppendTime" and "CreateTime". AppendTime refers the time in which message got appended inside broker log. CreateTime refers to the time in which the message was generated on source side and producers can set this timestamp while sending the message. Default value is AppendTime. If you are using AMQP protocol, CreateTime equals AppendTime and its behavior remains the same. */
-  timestampType?: TimestampType | (string & {});
+  timestampType?: TimestampType | (string & {}) | undefined;
 }
 /** Properties supplied to the Create Or Update Event Hub operation. */
 export interface EventhubPropertiesInput {
   /** Number of days to retain the events for this Event Hub, value should be 1 to 7 days */
-  messageRetentionInDays?: number;
+  messageRetentionInDays?: number | undefined;
   /** Number of partitions created for the Event Hub, allowed values are from 1 to 32 partitions. */
-  partitionCount?: number;
+  partitionCount?: number | undefined;
   /** Enumerates the possible values for the status of the Event Hub. */
-  status?: EntityStatus | (string & {});
+  status?: EntityStatus | (string & {}) | undefined;
   /** Properties of capture description */
-  captureDescription?: CaptureDescription;
+  captureDescription?: CaptureDescription | undefined;
   /** Event Hub retention settings */
-  retentionDescription?: RetentionDescription;
+  retentionDescription?: RetentionDescription | undefined;
   /** Properties of MessageTimestamp Description */
-  messageTimestampDescription?: MessageTimestampDescription;
+  messageTimestampDescription?: MessageTimestampDescription | undefined;
   /** Gets and Sets Metadata of User. */
-  userMetadata?: string;
+  userMetadata?: string | undefined;
 }
 export interface EventHubsCreateOrUpdateRequest {
   /** The ID of the target subscription. */
@@ -573,48 +574,48 @@ export interface EventHubsCreateOrUpdateRequest {
   /** The Event Hub name */
   eventHubName: string;
   /** Properties supplied to the Create Or Update Event Hub operation. */
-  properties?: EventhubPropertiesInput;
+  properties?: EventhubPropertiesInput | undefined;
 }
 /** Current number of shards on the Event Hub. */
 export type EventhubPropertiesPartitionIdsList = Array<string>;
 /** Properties supplied to the Create Or Update Event Hub operation. */
 export interface EventhubProperties {
   /** Current number of shards on the Event Hub. */
-  partitionIds?: EventhubPropertiesPartitionIdsList;
+  partitionIds?: EventhubPropertiesPartitionIdsList | undefined;
   /** Exact time the Event Hub was created. */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The exact time the message was updated. */
-  updatedAt?: string;
+  updatedAt?: string | undefined;
   /** Number of days to retain the events for this Event Hub, value should be 1 to 7 days */
-  messageRetentionInDays?: number;
+  messageRetentionInDays?: number | undefined;
   /** Number of partitions created for the Event Hub, allowed values are from 1 to 32 partitions. */
-  partitionCount?: number;
+  partitionCount?: number | undefined;
   /** Enumerates the possible values for the status of the Event Hub. */
-  status?: EntityStatus;
+  status?: EntityStatus | undefined;
   /** Properties of capture description */
-  captureDescription?: CaptureDescription;
+  captureDescription?: CaptureDescription | undefined;
   /** Event Hub retention settings */
-  retentionDescription?: RetentionDescription;
+  retentionDescription?: RetentionDescription | undefined;
   /** Properties of MessageTimestamp Description */
-  messageTimestampDescription?: MessageTimestampDescription;
+  messageTimestampDescription?: MessageTimestampDescription | undefined;
   /** Denotes the unique identifier for event hub and is generated by service while creating topic. This identifier can be used in kafka runtime apis wherever a UUID is required e.g Fetch & Delete Topic. This identifier is not supported in AMQP runtime operations yet. */
-  identifier?: string;
+  identifier?: string | undefined;
   /** Gets and Sets Metadata of User. */
-  userMetadata?: string;
+  userMetadata?: string | undefined;
 }
 export interface EventHubsCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Properties supplied to the Create Or Update Event Hub operation. */
-  properties?: EventhubProperties;
+  properties?: EventhubProperties | undefined;
   /** The geo-location where the resource lives */
-  location?: string;
+  location?: string | undefined;
 }
 export type AccessRights = "Manage" | "Send" | "Listen";
 /** The rights associated with the rule. */
@@ -636,21 +637,21 @@ export interface EventHubsCreateOrUpdateAuthorizationRuleRequest {
   /** The authorization rule name. */
   authorizationRuleName: string;
   /** Properties supplied to create or update AuthorizationRule */
-  properties?: AuthorizationRuleProperties;
+  properties?: AuthorizationRuleProperties | undefined;
 }
 export interface EventHubsCreateOrUpdateAuthorizationRuleResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Properties supplied to create or update AuthorizationRule */
-  properties?: AuthorizationRuleProperties;
+  properties?: AuthorizationRuleProperties | undefined;
   /** The geo-location where the resource lives */
-  location?: string;
+  location?: string | undefined;
 }
 export interface GetApplicationGroupRequest {
   /** The ID of the target subscription. */
@@ -664,16 +665,16 @@ export interface GetApplicationGroupRequest {
 }
 export interface GetApplicationGroupResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
-  properties?: ApplicationGroupProperties;
+  systemData?: SystemData | undefined;
+  properties?: ApplicationGroupProperties | undefined;
   /** The geo-location where the resource lives */
-  location?: string;
+  location?: string | undefined;
 }
 export interface GetClusterRequest {
   /** The ID of the target subscription. */
@@ -687,21 +688,21 @@ export interface GetClusterRequest {
 export type GetClusterResponseTagsMap = { [key: string]: string | undefined };
 export interface GetClusterResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Event Hubs Cluster properties supplied in responses in List or Get operations. */
-  properties?: ClusterProperties;
+  properties?: ClusterProperties | undefined;
   /** Properties of the cluster SKU. */
-  sku?: ClusterSku;
+  sku?: ClusterSku | undefined;
   /** Resource location. */
-  location?: string;
+  location?: string | undefined;
   /** Resource tags. */
-  tags?: GetClusterResponseTagsMap;
+  tags?: GetClusterResponseTagsMap | undefined;
 }
 export interface GetConfigurationRequest {
   /** The ID of the target subscription. */
@@ -716,7 +717,7 @@ export type ClusterQuotaConfigurationPropertiesSettingsMap = { [key: string]: st
 /** Contains all settings for the cluster. */
 export interface ClusterQuotaConfigurationProperties {
   /** All possible Cluster settings - a collection of key/value paired settings which apply to quotas and configurations imposed on the cluster. */
-  settings?: ClusterQuotaConfigurationPropertiesSettingsMap;
+  settings?: ClusterQuotaConfigurationPropertiesSettingsMap | undefined;
 }
 export interface GetConsumerGroupRequest {
   /** The ID of the target subscription. */
@@ -732,17 +733,17 @@ export interface GetConsumerGroupRequest {
 }
 export interface GetConsumerGroupResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Single item in List or Get Consumer group operation */
-  properties?: ConsumerGroupProperties;
+  properties?: ConsumerGroupProperties | undefined;
   /** The geo-location where the resource lives */
-  location?: string;
+  location?: string | undefined;
 }
 export interface GetDisasterRecoveryConfigRequest {
   /** The ID of the target subscription. */
@@ -756,17 +757,17 @@ export interface GetDisasterRecoveryConfigRequest {
 }
 export interface GetDisasterRecoveryConfigResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Properties required to the Create Or Update Alias(Disaster Recovery configurations) */
-  properties?: ArmDisasterRecoveryProperties;
+  properties?: ArmDisasterRecoveryProperties | undefined;
   /** The geo-location where the resource lives */
-  location?: string;
+  location?: string | undefined;
 }
 export interface GetDisasterRecoveryConfigAuthorizationRuleRequest {
   /** The ID of the target subscription. */
@@ -782,17 +783,17 @@ export interface GetDisasterRecoveryConfigAuthorizationRuleRequest {
 }
 export interface GetDisasterRecoveryConfigAuthorizationRuleResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Properties supplied to create or update AuthorizationRule */
-  properties?: AuthorizationRuleProperties;
+  properties?: AuthorizationRuleProperties | undefined;
   /** The geo-location where the resource lives */
-  location?: string;
+  location?: string | undefined;
 }
 export interface GetEventHubRequest {
   /** The ID of the target subscription. */
@@ -806,17 +807,17 @@ export interface GetEventHubRequest {
 }
 export interface GetEventHubResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Properties supplied to the Create Or Update Event Hub operation. */
-  properties?: EventhubProperties;
+  properties?: EventhubProperties | undefined;
   /** The geo-location where the resource lives */
-  location?: string;
+  location?: string | undefined;
 }
 export interface GetEventHubAuthorizationRuleRequest {
   /** The ID of the target subscription. */
@@ -832,17 +833,17 @@ export interface GetEventHubAuthorizationRuleRequest {
 }
 export interface GetEventHubAuthorizationRuleResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Properties supplied to create or update AuthorizationRule */
-  properties?: AuthorizationRuleProperties;
+  properties?: AuthorizationRuleProperties | undefined;
   /** The geo-location where the resource lives */
-  location?: string;
+  location?: string | undefined;
 }
 export interface GetNamespaceRequest {
   /** The ID of the target subscription. */
@@ -861,17 +862,17 @@ export type EHNamespacePropertiesPublicNetworkAccess =
   | "SecuredByPerimeter";
 export interface UserAssignedIdentityProperties {
   /** ARM ID of user Identity selected for encryption */
-  userAssignedIdentity?: string;
+  userAssignedIdentity?: string | undefined;
 }
 /** Properties to configure keyVault Properties */
 export interface KeyVaultProperties {
   /** Name of the Key from KeyVault */
-  keyName?: string;
+  keyName?: string | undefined;
   /** Uri of KeyVault */
-  keyVaultUri?: string;
+  keyVaultUri?: string | undefined;
   /** Key Version */
-  keyVersion?: string;
-  identity?: UserAssignedIdentityProperties;
+  keyVersion?: string | undefined;
+  identity?: UserAssignedIdentityProperties | undefined;
 }
 /** Properties of KeyVault */
 export type EncryptionKeyVaultPropertiesList = Array<KeyVaultProperties>;
@@ -880,25 +881,25 @@ export type EncryptionKeySource = "Microsoft.KeyVault";
 /** Properties to configure Encryption */
 export interface Encryption {
   /** Properties of KeyVault */
-  keyVaultProperties?: EncryptionKeyVaultPropertiesList;
+  keyVaultProperties?: EncryptionKeyVaultPropertiesList | undefined;
   /** Enumerates the possible value of keySource for Encryption */
-  keySource?: EncryptionKeySource | (string & {});
+  keySource?: EncryptionKeySource | (string & {}) | undefined;
   /** Enable Infrastructure Encryption (Double Encryption) */
-  requireInfrastructureEncryption?: boolean;
+  requireInfrastructureEncryption?: boolean | undefined;
 }
 /** PrivateEndpoint information. */
 export interface PrivateEndpoint {
   /** The ARM identifier for Private Endpoint. */
-  id?: string;
+  id?: string | undefined;
 }
 /** Status of the connection. */
 export type PrivateLinkConnectionStatus = "Pending" | "Approved" | "Rejected" | "Disconnected";
 /** ConnectionState information. */
 export interface ConnectionState {
   /** Status of the connection. */
-  status?: PrivateLinkConnectionStatus | (string & {});
+  status?: PrivateLinkConnectionStatus | (string & {}) | undefined;
   /** Description of the connection state. */
-  description?: string;
+  description?: string | undefined;
 }
 /** Provisioning state of the Private Endpoint Connection. */
 export type EndPointProvisioningState =
@@ -911,26 +912,26 @@ export type EndPointProvisioningState =
 /** Properties of the private endpoint connection resource. */
 export interface PrivateEndpointConnectionProperties {
   /** The Private Endpoint resource for this Connection. */
-  privateEndpoint?: PrivateEndpoint;
+  privateEndpoint?: PrivateEndpoint | undefined;
   /** Details about the state of the connection. */
-  privateLinkServiceConnectionState?: ConnectionState;
+  privateLinkServiceConnectionState?: ConnectionState | undefined;
   /** Provisioning state of the Private Endpoint Connection. */
-  provisioningState?: EndPointProvisioningState | (string & {});
+  provisioningState?: EndPointProvisioningState | (string & {}) | undefined;
 }
 /** Properties of the PrivateEndpointConnection. */
 export interface PrivateEndpointConnection {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Properties of the PrivateEndpointConnection. */
-  properties?: PrivateEndpointConnectionProperties;
+  properties?: PrivateEndpointConnectionProperties | undefined;
   /** The geo-location where the resource lives */
-  location?: string;
+  location?: string | undefined;
 }
 /** List of private endpoint connections. */
 export type EHNamespacePropertiesPrivateEndpointConnectionsList = Array<PrivateEndpointConnection>;
@@ -939,66 +940,66 @@ export type GeoDRRoleType = "Primary" | "Secondary";
 /** Namespace replication properties */
 export interface NamespaceReplicaLocation {
   /** Azure regions where a replica of the namespace is maintained */
-  locationName?: string;
+  locationName?: string | undefined;
   /** GeoDR Role Types */
-  roleType?: GeoDRRoleType;
+  roleType?: GeoDRRoleType | undefined;
   /** state of Namespace replica. */
-  replicaState?: string;
+  replicaState?: string | undefined;
   /** Optional property that denotes the ARM ID of the Cluster. This is required, if a namespace replica should be placed in a Dedicated Event Hub Cluster */
-  clusterArmId?: string;
+  clusterArmId?: string | undefined;
 }
 /** A list of regions where replicas of the namespace are maintained. */
 export type GeoDataReplicationPropertiesLocationsList = Array<NamespaceReplicaLocation>;
 /** GeoDR Replication properties */
 export interface GeoDataReplicationProperties {
   /** The maximum acceptable lag for data replication operations from the primary replica to a quorum of secondary replicas. When the lag exceeds the configured amount, operations on the primary replica will be failed. The allowed values are 0 and 5 minutes to 1 day. */
-  maxReplicationLagDurationInSeconds?: number;
+  maxReplicationLagDurationInSeconds?: number | undefined;
   /** A list of regions where replicas of the namespace are maintained. */
-  locations?: GeoDataReplicationPropertiesLocationsList;
+  locations?: GeoDataReplicationPropertiesLocationsList | undefined;
 }
 /** The IP address type for the namespace. Determines whether the namespace supports IPv4 only or both IPv4 and IPv6 (dual stack). */
 export type IpAddressType = "IPv4" | "DualStack";
 /** Namespace properties supplied for create namespace operation. */
 export interface EHNamespaceProperties {
   /** The minimum TLS version for the cluster to support, e.g. '1.2' */
-  minimumTlsVersion?: TlsVersion;
+  minimumTlsVersion?: TlsVersion | undefined;
   /** Provisioning state of the Namespace. */
-  provisioningState?: string;
+  provisioningState?: string | undefined;
   /** Status of the Namespace. */
-  status?: string;
+  status?: string | undefined;
   /** The time the Namespace was created. */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The time the Namespace was updated. */
-  updatedAt?: string;
+  updatedAt?: string | undefined;
   /** Endpoint you can use to perform Service Bus operations. */
-  serviceBusEndpoint?: string;
+  serviceBusEndpoint?: string | undefined;
   /** Cluster ARM ID of the Namespace. */
-  clusterArmId?: string;
+  clusterArmId?: string | undefined;
   /** Identifier for Azure Insights metrics. */
-  metricId?: string;
+  metricId?: string | undefined;
   /** Value that indicates whether AutoInflate is enabled for eventhub namespace. */
-  isAutoInflateEnabled?: boolean;
+  isAutoInflateEnabled?: boolean | undefined;
   /** This determines if traffic is allowed over public network. By default it is enabled. */
-  publicNetworkAccess?: EHNamespacePropertiesPublicNetworkAccess;
+  publicNetworkAccess?: EHNamespacePropertiesPublicNetworkAccess | undefined;
   /** Upper limit of throughput units when AutoInflate is enabled, value should be within 0 to 20 throughput units. ( '0' if AutoInflateEnabled = true) */
-  maximumThroughputUnits?: number;
+  maximumThroughputUnits?: number | undefined;
   /** Value that indicates whether Kafka is enabled for eventhub namespace. */
-  kafkaEnabled?: boolean;
+  kafkaEnabled?: boolean | undefined;
   /** Enabling this property creates a Standard Event Hubs Namespace in regions supported availability zones. */
-  zoneRedundant?: boolean;
+  zoneRedundant?: boolean | undefined;
   /** Properties of BYOK Encryption description */
-  encryption?: Encryption;
+  encryption?: Encryption | undefined;
   /** List of private endpoint connections. */
-  privateEndpointConnections?: EHNamespacePropertiesPrivateEndpointConnectionsList;
+  privateEndpointConnections?: EHNamespacePropertiesPrivateEndpointConnectionsList | undefined;
   /** This property disables SAS authentication for the Event Hubs namespace. */
-  disableLocalAuth?: boolean;
+  disableLocalAuth?: boolean | undefined;
   /** Alternate name specified when alias and namespace names are same. */
-  alternateName?: string;
-  platformCapabilities?: PlatformCapabilities;
+  alternateName?: string | undefined;
+  platformCapabilities?: PlatformCapabilities | undefined;
   /** Geo Data Replication settings for the namespace */
-  geoDataReplication?: GeoDataReplicationProperties;
+  geoDataReplication?: GeoDataReplicationProperties | undefined;
   /** The IP address type for the namespace. Determines whether the namespace supports IPv4 only or both IPv4 and IPv6 (dual stack). */
-  ipAddressType?: IpAddressType;
+  ipAddressType?: IpAddressType | undefined;
 }
 /** Name of this SKU. */
 export type SkuName = "Basic" | "Standard" | "Premium";
@@ -1009,9 +1010,9 @@ export interface Sku {
   /** Name of this SKU. */
   name: SkuName | (string & {});
   /** The billing tier of this particular SKU. */
-  tier?: SkuTier | (string & {});
+  tier?: SkuTier | (string & {}) | undefined;
   /** The Event Hubs throughput units for Basic or Standard tiers, where value should be 0 to 20 throughput units. The Event Hubs premium units for Premium tier, where value should be 0 to 10 premium units. */
-  capacity?: number;
+  capacity?: number | undefined;
 }
 /** Type of managed service identity. */
 export type ManagedServiceIdentityType =
@@ -1022,44 +1023,44 @@ export type ManagedServiceIdentityType =
 /** Recognized Dictionary value. */
 export interface UserAssignedIdentity {
   /** Principal Id of user assigned identity */
-  principalId?: string;
+  principalId?: string | undefined;
   /** Client Id of user assigned identity */
-  clientId?: string;
+  clientId?: string | undefined;
 }
 /** Properties for User Assigned Identities */
 export type IdentityUserAssignedIdentitiesMap = { [key: string]: UserAssignedIdentity | undefined };
 /** Properties to configure Identity for Bring your Own Keys */
 export interface Identity {
   /** ObjectId from the KeyVault */
-  principalId?: string;
+  principalId?: string | undefined;
   /** TenantId from the KeyVault */
-  tenantId?: string;
+  tenantId?: string | undefined;
   /** Type of managed service identity. */
-  type?: ManagedServiceIdentityType;
+  type?: ManagedServiceIdentityType | undefined;
   /** Properties for User Assigned Identities */
-  userAssignedIdentities?: IdentityUserAssignedIdentitiesMap;
+  userAssignedIdentities?: IdentityUserAssignedIdentitiesMap | undefined;
 }
 /** Resource tags. */
 export type GetNamespaceResponseTagsMap = { [key: string]: string | undefined };
 export interface GetNamespaceResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Namespace properties supplied for create namespace operation. */
-  properties?: EHNamespaceProperties;
+  properties?: EHNamespaceProperties | undefined;
   /** Properties of sku resource */
-  sku?: Sku;
+  sku?: Sku | undefined;
   /** Properties of BYOK Identity description */
-  identity?: Identity;
+  identity?: Identity | undefined;
   /** Resource location. */
-  location?: string;
+  location?: string | undefined;
   /** Resource tags. */
-  tags?: GetNamespaceResponseTagsMap;
+  tags?: GetNamespaceResponseTagsMap | undefined;
 }
 export interface GetNamespaceAuthorizationRuleRequest {
   /** The ID of the target subscription. */
@@ -1073,17 +1074,17 @@ export interface GetNamespaceAuthorizationRuleRequest {
 }
 export interface GetNamespaceAuthorizationRuleResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Properties supplied to create or update AuthorizationRule */
-  properties?: AuthorizationRuleProperties;
+  properties?: AuthorizationRuleProperties | undefined;
   /** The geo-location where the resource lives */
-  location?: string;
+  location?: string | undefined;
 }
 export interface GetNamespaceNetworkRuleSetRequest {
   /** The ID of the target subscription. */
@@ -1098,14 +1099,14 @@ export type DefaultAction = "Allow" | "Deny";
 /** Properties supplied for Subnet */
 export interface Subnet {
   /** Resource ID of Virtual Network Subnet */
-  id?: string;
+  id?: string | undefined;
 }
 /** The response from the List namespace operation. */
 export interface NWRuleSetVirtualNetworkRules {
   /** Subnet properties */
-  subnet?: Subnet;
+  subnet?: Subnet | undefined;
   /** Value that indicates whether to ignore missing Vnet Service Endpoint */
-  ignoreMissingVnetServiceEndpoint?: boolean;
+  ignoreMissingVnetServiceEndpoint?: boolean | undefined;
 }
 /** List VirtualNetwork Rules */
 export type NetworkRuleSetPropertiesVirtualNetworkRulesList = Array<NWRuleSetVirtualNetworkRules>;
@@ -1114,9 +1115,9 @@ export type NetworkRuleIPAction = "Allow";
 /** The response from the List namespace operation. */
 export interface NWRuleSetIpRules {
   /** IP Mask */
-  ipMask?: string;
+  ipMask?: string | undefined;
   /** The IP Filter Action */
-  action?: NetworkRuleIPAction | (string & {});
+  action?: NetworkRuleIPAction | (string & {}) | undefined;
 }
 /** List of IpRules */
 export type NetworkRuleSetPropertiesIpRulesList = Array<NWRuleSetIpRules>;
@@ -1128,29 +1129,29 @@ export type NetworkRuleSetPropertiesPublicNetworkAccess =
 /** NetworkRuleSet properties */
 export interface NetworkRuleSetProperties {
   /** Value that indicates whether Trusted Service Access is Enabled or not. */
-  trustedServiceAccessEnabled?: boolean;
+  trustedServiceAccessEnabled?: boolean | undefined;
   /** Default Action for Network Rule Set */
-  defaultAction?: DefaultAction | (string & {});
+  defaultAction?: DefaultAction | (string & {}) | undefined;
   /** List VirtualNetwork Rules */
-  virtualNetworkRules?: NetworkRuleSetPropertiesVirtualNetworkRulesList;
+  virtualNetworkRules?: NetworkRuleSetPropertiesVirtualNetworkRulesList | undefined;
   /** List of IpRules */
-  ipRules?: NetworkRuleSetPropertiesIpRulesList;
+  ipRules?: NetworkRuleSetPropertiesIpRulesList | undefined;
   /** This determines if traffic is allowed over public network. By default it is enabled. If value is SecuredByPerimeter then Inbound and Outbound communication is controlled by the network security perimeter and profile's access rules. */
-  publicNetworkAccess?: NetworkRuleSetPropertiesPublicNetworkAccess | (string & {});
+  publicNetworkAccess?: NetworkRuleSetPropertiesPublicNetworkAccess | (string & {}) | undefined;
 }
 export interface GetNamespaceNetworkRuleSetResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** NetworkRuleSet properties */
-  properties?: NetworkRuleSetProperties;
+  properties?: NetworkRuleSetProperties | undefined;
   /** The geo-location where the resource lives */
-  location?: string;
+  location?: string | undefined;
 }
 export interface GetNetworkSecurityPerimeterConfigurationResourceAssociationNameRequest {
   /** The ID of the target subscription. */
@@ -1178,16 +1179,16 @@ export type NetworkSecurityPerimeterConfigurationProvisioningState =
 /** Properties of Provisioning Issue */
 export interface ProvisioningIssueProperties {
   /** Type of Issue */
-  issueType?: string;
+  issueType?: string | undefined;
   /** Description of the issue */
-  description?: string;
+  description?: string | undefined;
 }
 /** Describes Provisioning issue for given NetworkSecurityPerimeterConfiguration */
 export interface ProvisioningIssue {
   /** Name of the issue */
-  name?: string;
+  name?: string | undefined;
   /** Properties of Provisioning Issue */
-  properties?: ProvisioningIssueProperties;
+  properties?: ProvisioningIssueProperties | undefined;
 }
 /** List of Provisioning Issues if any */
 export type NetworkSecurityPerimeterConfigurationPropertiesProvisioningIssuesList =
@@ -1195,11 +1196,11 @@ export type NetworkSecurityPerimeterConfigurationPropertiesProvisioningIssuesLis
 /** NetworkSecurityPerimeter related information */
 export interface NetworkSecurityPerimeter {
   /** Fully qualified identifier of the resource */
-  id?: string;
+  id?: string | undefined;
   /** Guid of the resource */
-  perimeterGuid?: string;
+  perimeterGuid?: string | undefined;
   /** Location of the resource */
-  location?: string;
+  location?: string | undefined;
 }
 /** Access Mode of the resource association */
 export type ResourceAssociationAccessMode =
@@ -1211,9 +1212,9 @@ export type ResourceAssociationAccessMode =
 /** Information about resource association */
 export interface NetworkSecurityPerimeterConfigurationPropertiesResourceAssociation {
   /** Name of the resource association */
-  name?: string;
+  name?: string | undefined;
   /** Access Mode of the resource association */
-  accessMode?: ResourceAssociationAccessMode;
+  accessMode?: ResourceAssociationAccessMode | undefined;
 }
 /** Direction of Access Rule */
 export type NspAccessRuleDirection = "Inbound" | "Outbound";
@@ -1222,7 +1223,7 @@ export type NspAccessRulePropertiesAddressPrefixesList = Array<string>;
 /** Subscription for inbound rule */
 export interface NspAccessRulePropertiesSubscriptionsItem {
   /** Fully qualified identifier of subscription */
-  id?: string;
+  id?: string | undefined;
 }
 /** Subscriptions for inbound rules */
 export type NspAccessRulePropertiesSubscriptionsList =
@@ -1234,26 +1235,26 @@ export type NspAccessRulePropertiesFullyQualifiedDomainNamesList = Array<string>
 /** Properties of Access Rule */
 export interface NspAccessRuleProperties {
   /** Direction of Access Rule */
-  direction?: NspAccessRuleDirection;
+  direction?: NspAccessRuleDirection | undefined;
   /** Address prefixes in the CIDR format for inbound rules */
-  addressPrefixes?: NspAccessRulePropertiesAddressPrefixesList;
+  addressPrefixes?: NspAccessRulePropertiesAddressPrefixesList | undefined;
   /** Subscriptions for inbound rules */
-  subscriptions?: NspAccessRulePropertiesSubscriptionsList;
+  subscriptions?: NspAccessRulePropertiesSubscriptionsList | undefined;
   /** NetworkSecurityPerimeters for inbound rules */
-  networkSecurityPerimeters?: NspAccessRulePropertiesNetworkSecurityPerimetersList;
+  networkSecurityPerimeters?: NspAccessRulePropertiesNetworkSecurityPerimetersList | undefined;
   /** FQDN for outbound rules */
-  fullyQualifiedDomainNames?: NspAccessRulePropertiesFullyQualifiedDomainNamesList;
+  fullyQualifiedDomainNames?: NspAccessRulePropertiesFullyQualifiedDomainNamesList | undefined;
 }
 /** Information of Access Rule in Network Profile */
 export interface NspAccessRule {
   /** Fully qualified identifier of the resource */
-  id?: string;
+  id?: string | undefined;
   /** Name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** Type of the resource */
-  type?: string;
+  type?: string | undefined;
   /** Properties of Access Rule */
-  properties?: NspAccessRuleProperties;
+  properties?: NspAccessRuleProperties | undefined;
 }
 /** List of Access Rules */
 export type NetworkSecurityPerimeterConfigurationPropertiesProfileAccessRulesList =
@@ -1261,48 +1262,54 @@ export type NetworkSecurityPerimeterConfigurationPropertiesProfileAccessRulesLis
 /** Information about current network profile */
 export interface NetworkSecurityPerimeterConfigurationPropertiesProfile {
   /** Name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** Current access rules version */
-  accessRulesVersion?: string;
+  accessRulesVersion?: string | undefined;
   /** List of Access Rules */
-  accessRules?: NetworkSecurityPerimeterConfigurationPropertiesProfileAccessRulesList;
+  accessRules?: NetworkSecurityPerimeterConfigurationPropertiesProfileAccessRulesList | undefined;
 }
 /** Indicates that the NSP controls related to backing association are only applicable to a specific feature in backing resource's data plane. */
 export type NetworkSecurityPerimeterConfigurationPropertiesApplicableFeaturesList = Array<string>;
 /** Properties of NetworkSecurityPerimeterConfiguration */
 export interface NetworkSecurityPerimeterConfigurationProperties {
   /** Provisioning state of NetworkSecurityPerimeter configuration propagation */
-  provisioningState?: NetworkSecurityPerimeterConfigurationProvisioningState;
+  provisioningState?: NetworkSecurityPerimeterConfigurationProvisioningState | undefined;
   /** List of Provisioning Issues if any */
-  provisioningIssues?: NetworkSecurityPerimeterConfigurationPropertiesProvisioningIssuesList;
+  provisioningIssues?:
+    | NetworkSecurityPerimeterConfigurationPropertiesProvisioningIssuesList
+    | undefined;
   /** NetworkSecurityPerimeter related information */
-  networkSecurityPerimeter?: NetworkSecurityPerimeter;
+  networkSecurityPerimeter?: NetworkSecurityPerimeter | undefined;
   /** Information about resource association */
-  resourceAssociation?: NetworkSecurityPerimeterConfigurationPropertiesResourceAssociation;
+  resourceAssociation?:
+    | NetworkSecurityPerimeterConfigurationPropertiesResourceAssociation
+    | undefined;
   /** Information about current network profile */
-  profile?: NetworkSecurityPerimeterConfigurationPropertiesProfile;
+  profile?: NetworkSecurityPerimeterConfigurationPropertiesProfile | undefined;
   /** True if the EventHub namespace is backed by another Azure resource and not visible to end users. */
-  isBackingResource?: boolean;
+  isBackingResource?: boolean | undefined;
   /** Indicates that the NSP controls related to backing association are only applicable to a specific feature in backing resource's data plane. */
-  applicableFeatures?: NetworkSecurityPerimeterConfigurationPropertiesApplicableFeaturesList;
+  applicableFeatures?:
+    | NetworkSecurityPerimeterConfigurationPropertiesApplicableFeaturesList
+    | undefined;
   /** Source Resource Association name */
-  parentAssociationName?: string;
+  parentAssociationName?: string | undefined;
   /** ARM Id of source resource */
-  sourceResourceId?: string;
+  sourceResourceId?: string | undefined;
 }
 export interface GetNetworkSecurityPerimeterConfigurationResourceAssociationNameResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Properties of the Network Security Perimeter Configuration */
-  properties?: NetworkSecurityPerimeterConfigurationProperties;
+  properties?: NetworkSecurityPerimeterConfigurationProperties | undefined;
   /** The geo-location where the resource lives */
-  location?: string;
+  location?: string | undefined;
 }
 export interface GetPrivateEndpointConnectionRequest {
   /** The ID of the target subscription. */
@@ -1316,17 +1323,17 @@ export interface GetPrivateEndpointConnectionRequest {
 }
 export interface GetPrivateEndpointConnectionResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Properties of the PrivateEndpointConnection. */
-  properties?: PrivateEndpointConnectionProperties;
+  properties?: PrivateEndpointConnectionProperties | undefined;
   /** The geo-location where the resource lives */
-  location?: string;
+  location?: string | undefined;
 }
 export interface GetPrivateLinkResourceRequest {
   /** The ID of the target subscription. */
@@ -1343,22 +1350,22 @@ export type PrivateLinkResourcePropertiesRequiredZoneNamesList = Array<string>;
 /** Properties of PrivateLinkResource */
 export interface PrivateLinkResourceProperties {
   /** The private link resource group id. */
-  groupId?: string;
+  groupId?: string | undefined;
   /** The private link resource required member names. */
-  requiredMembers?: PrivateLinkResourcePropertiesRequiredMembersList;
+  requiredMembers?: PrivateLinkResourcePropertiesRequiredMembersList | undefined;
   /** The private link resource Private link DNS zone name. */
-  requiredZoneNames?: PrivateLinkResourcePropertiesRequiredZoneNamesList;
+  requiredZoneNames?: PrivateLinkResourcePropertiesRequiredZoneNamesList | undefined;
 }
 /** Information of the private link resource. */
 export interface PrivateLinkResource {
   /** Properties of the private link resource. */
-  properties?: PrivateLinkResourceProperties;
+  properties?: PrivateLinkResourceProperties | undefined;
   /** Fully qualified identifier of the resource. */
-  id?: string;
+  id?: string | undefined;
   /** Name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** Type of the resource */
-  type?: string;
+  type?: string | undefined;
 }
 /** The PrivateLinkResource items on this page */
 export type PrivateLinkResourcesListResultValueList = Array<PrivateLinkResource>;
@@ -1367,7 +1374,7 @@ export interface PrivateLinkResourcesListResult {
   /** The PrivateLinkResource items on this page */
   value: PrivateLinkResourcesListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface GetSchemaRegistryRequest {
   /** The ID of the target subscription. */
@@ -1385,28 +1392,28 @@ export type SchemaCompatibility = "None" | "Backward" | "Forward";
 export type SchemaType = "Unknown" | "Avro" | "ProtoBuf" | "Json";
 export interface SchemaGroupProperties {
   /** Exact time the Schema Group was updated */
-  updatedAtUtc?: string;
+  updatedAtUtc?: string | undefined;
   /** Exact time the Schema Group was created. */
-  createdAtUtc?: string;
+  createdAtUtc?: string | undefined;
   /** The ETag value. */
-  eTag?: string;
+  eTag?: string | undefined;
   /** dictionary object for SchemaGroup group properties */
-  groupProperties?: SchemaGroupPropertiesGroupPropertiesMap;
-  schemaCompatibility?: SchemaCompatibility;
-  schemaType?: SchemaType;
+  groupProperties?: SchemaGroupPropertiesGroupPropertiesMap | undefined;
+  schemaCompatibility?: SchemaCompatibility | undefined;
+  schemaType?: SchemaType | undefined;
 }
 export interface GetSchemaRegistryResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
-  properties?: SchemaGroupProperties;
+  systemData?: SystemData | undefined;
+  properties?: SchemaGroupProperties | undefined;
   /** The geo-location where the resource lives */
-  location?: string;
+  location?: string | undefined;
 }
 export interface ListApplicationGroupByNamespaceRequest {
   /** The ID of the target subscription. */
@@ -1419,16 +1426,16 @@ export interface ListApplicationGroupByNamespaceRequest {
 /** The Application Group object */
 export interface ApplicationGroup {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
-  properties?: ApplicationGroupProperties;
+  systemData?: SystemData | undefined;
+  properties?: ApplicationGroupProperties | undefined;
   /** The geo-location where the resource lives */
-  location?: string;
+  location?: string | undefined;
 }
 /** The ApplicationGroup items on this page */
 export type ApplicationGroupListResultValueList = Array<ApplicationGroup>;
@@ -1437,7 +1444,7 @@ export interface ApplicationGroupListResult {
   /** The ApplicationGroup items on this page */
   value: ApplicationGroupListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListClusterAvailableClusterRegionRequest {
   /** The ID of the target subscription. */
@@ -1446,14 +1453,14 @@ export interface ListClusterAvailableClusterRegionRequest {
 /** Pre-provisioned and readily available Event Hubs Cluster count per region. */
 export interface AvailableCluster {
   /** Location fo the Available Cluster */
-  location?: string;
+  location?: string | undefined;
 }
 /** The count of readily available and pre-provisioned Event Hubs Clusters per region. */
 export type AvailableClustersListValueList = Array<AvailableCluster>;
 /** The response of the List Available Clusters operation. */
 export interface AvailableClustersList {
   /** The count of readily available and pre-provisioned Event Hubs Clusters per region. */
-  value?: AvailableClustersListValueList;
+  value?: AvailableClustersListValueList | undefined;
 }
 export interface ListClusterByResourceGroupRequest {
   /** The ID of the target subscription. */
@@ -1466,21 +1473,21 @@ export type ClusterTagsMap = { [key: string]: string | undefined };
 /** Single Event Hubs Cluster resource in List or Get operations. */
 export interface Cluster {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Event Hubs Cluster properties supplied in responses in List or Get operations. */
-  properties?: ClusterProperties;
+  properties?: ClusterProperties | undefined;
   /** Properties of the cluster SKU. */
-  sku?: ClusterSku;
+  sku?: ClusterSku | undefined;
   /** Resource location. */
-  location?: string;
+  location?: string | undefined;
   /** Resource tags. */
-  tags?: ClusterTagsMap;
+  tags?: ClusterTagsMap | undefined;
 }
 /** The Cluster items on this page */
 export type ClusterListResultValueList = Array<Cluster>;
@@ -1489,7 +1496,7 @@ export interface ClusterListResult {
   /** The Cluster items on this page */
   value: ClusterListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListClusterBySubscriptionRequest {
   /** The ID of the target subscription. */
@@ -1506,14 +1513,14 @@ export interface ListClusterNamespacesRequest {
 /** The full ARM ID of an Event Hubs Namespace */
 export interface EHNamespaceIdContainer {
   /** id parameter */
-  id?: string;
+  id?: string | undefined;
 }
 /** Result of the List Namespace IDs operation */
 export type EHNamespaceIdListResultValueList = Array<EHNamespaceIdContainer>;
 /** The response of the List Namespace IDs operation */
 export interface EHNamespaceIdListResult {
   /** Result of the List Namespace IDs operation */
-  value?: EHNamespaceIdListResultValueList;
+  value?: EHNamespaceIdListResultValueList | undefined;
 }
 export interface ListConsumerGroupByEventHubRequest {
   /** The ID of the target subscription. */
@@ -1525,24 +1532,24 @@ export interface ListConsumerGroupByEventHubRequest {
   /** The Event Hub name */
   eventHubName: string;
   /** Skip is only used if a previous operation returned a partial result. If a previous response contains a nextLink element, the value of the nextLink element will include a skip parameter that specifies a starting point to use for subsequent calls. */
-  _skip?: number;
+  _skip?: number | undefined;
   /** May be used to limit the number of results to the most recent N usageDetails. */
-  _top?: number;
+  _top?: number | undefined;
 }
 /** Single item in List or Get Consumer group operation */
 export interface ConsumerGroup {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Single item in List or Get Consumer group operation */
-  properties?: ConsumerGroupProperties;
+  properties?: ConsumerGroupProperties | undefined;
   /** The geo-location where the resource lives */
-  location?: string;
+  location?: string | undefined;
 }
 /** The ConsumerGroup items on this page */
 export type ConsumerGroupListResultValueList = Array<ConsumerGroup>;
@@ -1551,7 +1558,7 @@ export interface ConsumerGroupListResult {
   /** The ConsumerGroup items on this page */
   value: ConsumerGroupListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListDisasterRecoveryConfigAuthorizationRulesRequest {
   /** The ID of the target subscription. */
@@ -1566,17 +1573,17 @@ export interface ListDisasterRecoveryConfigAuthorizationRulesRequest {
 /** Single item in a List or Get AuthorizationRule operation */
 export interface AuthorizationRule {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Properties supplied to create or update AuthorizationRule */
-  properties?: AuthorizationRuleProperties;
+  properties?: AuthorizationRuleProperties | undefined;
   /** The geo-location where the resource lives */
-  location?: string;
+  location?: string | undefined;
 }
 /** The AuthorizationRule items on this page */
 export type AuthorizationRuleListResultValueList = Array<AuthorizationRule>;
@@ -1585,7 +1592,7 @@ export interface AuthorizationRuleListResult {
   /** The AuthorizationRule items on this page */
   value: AuthorizationRuleListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListDisasterRecoveryConfigKeysRequest {
   /** The ID of the target subscription. */
@@ -1602,19 +1609,19 @@ export interface ListDisasterRecoveryConfigKeysRequest {
 /** Namespace/EventHub Connection String */
 export interface AccessKeys {
   /** Primary connection string of the created namespace AuthorizationRule. */
-  primaryConnectionString?: string;
+  primaryConnectionString?: string | undefined;
   /** Secondary connection string of the created namespace AuthorizationRule. */
-  secondaryConnectionString?: string;
+  secondaryConnectionString?: string | undefined;
   /** Primary connection string of the alias if GEO DR is enabled */
-  aliasPrimaryConnectionString?: string;
+  aliasPrimaryConnectionString?: string | undefined;
   /** Secondary connection string of the alias if GEO DR is enabled */
-  aliasSecondaryConnectionString?: string;
+  aliasSecondaryConnectionString?: string | undefined;
   /** A base64-encoded 256-bit primary key for signing and validating the SAS token. */
-  primaryKey?: string;
+  primaryKey?: string | undefined;
   /** A base64-encoded 256-bit primary key for signing and validating the SAS token. */
-  secondaryKey?: string;
+  secondaryKey?: string | undefined;
   /** A string that describes the AuthorizationRule. */
-  keyName?: string;
+  keyName?: string | undefined;
 }
 export interface ListDisasterRecoveryConfigsRequest {
   /** The ID of the target subscription. */
@@ -1627,17 +1634,17 @@ export interface ListDisasterRecoveryConfigsRequest {
 /** Single item in List or Get Alias(Disaster Recovery configuration) operation */
 export interface ArmDisasterRecovery {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Properties required to the Create Or Update Alias(Disaster Recovery configurations) */
-  properties?: ArmDisasterRecoveryProperties;
+  properties?: ArmDisasterRecoveryProperties | undefined;
   /** The geo-location where the resource lives */
-  location?: string;
+  location?: string | undefined;
 }
 /** The ArmDisasterRecovery items on this page */
 export type ArmDisasterRecoveryListResultValueList = Array<ArmDisasterRecovery>;
@@ -1646,7 +1653,7 @@ export interface ArmDisasterRecoveryListResult {
   /** The ArmDisasterRecovery items on this page */
   value: ArmDisasterRecoveryListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListEventHubAuthorizationRulesRequest {
   /** The ID of the target subscription. */
@@ -1666,24 +1673,24 @@ export interface ListEventHubByNamespaceRequest {
   /** The Namespace name */
   namespaceName: string;
   /** Skip is only used if a previous operation returned a partial result. If a previous response contains a nextLink element, the value of the nextLink element will include a skip parameter that specifies a starting point to use for subsequent calls. */
-  _skip?: number;
+  _skip?: number | undefined;
   /** May be used to limit the number of results to the most recent N usageDetails. */
-  _top?: number;
+  _top?: number | undefined;
 }
 /** Single item in List or Get Event Hub operation */
 export interface Eventhub2 {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Properties supplied to the Create Or Update Event Hub operation. */
-  properties?: EventhubProperties;
+  properties?: EventhubProperties | undefined;
   /** The geo-location where the resource lives */
-  location?: string;
+  location?: string | undefined;
 }
 /** The Eventhub items on this page */
 export type EventHubListResultValueList = Array<Eventhub2>;
@@ -1692,7 +1699,7 @@ export interface EventHubListResult {
   /** The Eventhub items on this page */
   value: EventHubListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListEventHubKeysRequest {
   /** The ID of the target subscription. */
@@ -1725,23 +1732,23 @@ export type EHNamespaceTagsMap = { [key: string]: string | undefined };
 /** Single Namespace item in List or Get Operation */
 export interface EHNamespace {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Namespace properties supplied for create namespace operation. */
-  properties?: EHNamespaceProperties;
+  properties?: EHNamespaceProperties | undefined;
   /** Properties of sku resource */
-  sku?: Sku;
+  sku?: Sku | undefined;
   /** Properties of BYOK Identity description */
-  identity?: Identity;
+  identity?: Identity | undefined;
   /** Resource location. */
-  location?: string;
+  location?: string | undefined;
   /** Resource tags. */
-  tags?: EHNamespaceTagsMap;
+  tags?: EHNamespaceTagsMap | undefined;
 }
 /** The EHNamespace items on this page */
 export type EHNamespaceListResultValueList = Array<EHNamespace>;
@@ -1750,7 +1757,7 @@ export interface EHNamespaceListResult {
   /** The EHNamespace items on this page */
   value: EHNamespaceListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListNamespaceKeysRequest {
   /** The ID of the target subscription. */
@@ -1773,17 +1780,17 @@ export interface ListNamespaceNetworkRuleSetRequest {
 /** Description of topic resource. */
 export interface NetworkRuleSet {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** NetworkRuleSet properties */
-  properties?: NetworkRuleSetProperties;
+  properties?: NetworkRuleSetProperties | undefined;
   /** The geo-location where the resource lives */
-  location?: string;
+  location?: string | undefined;
 }
 /** The NetworkRuleSet items on this page */
 export type NetworkRuleSetListResultValueList = Array<NetworkRuleSet>;
@@ -1792,7 +1799,7 @@ export interface NetworkRuleSetListResult {
   /** The NetworkRuleSet items on this page */
   value: NetworkRuleSetListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListNamespacesRequest {
   /** The ID of the target subscription. */
@@ -1809,17 +1816,17 @@ export interface ListNetworkSecurityPerimeterConfigurationRequest {
 /** Network Security Perimeter related configurations of a given namespace */
 export interface NetworkSecurityPerimeterConfiguration {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Properties of the Network Security Perimeter Configuration */
-  properties?: NetworkSecurityPerimeterConfigurationProperties;
+  properties?: NetworkSecurityPerimeterConfigurationProperties | undefined;
   /** The geo-location where the resource lives */
-  location?: string;
+  location?: string | undefined;
 }
 /** A collection of NetworkSecurityPerimeterConfigurations */
 export type NetworkSecurityPerimeterConfigurationListValueList =
@@ -1827,32 +1834,32 @@ export type NetworkSecurityPerimeterConfigurationListValueList =
 /** Result of the List NetworkSecurityPerimeterConfiguration operation. */
 export interface NetworkSecurityPerimeterConfigurationList {
   /** A collection of NetworkSecurityPerimeterConfigurations */
-  value?: NetworkSecurityPerimeterConfigurationListValueList;
+  value?: NetworkSecurityPerimeterConfigurationListValueList | undefined;
 }
 export interface ListOperationsRequest {}
 /** Operation display payload */
 export interface OperationDisplay {
   /** Resource provider of the operation */
-  provider?: string;
+  provider?: string | undefined;
   /** Resource of the operation */
-  resource?: string;
+  resource?: string | undefined;
   /** Localized friendly name for the operation */
-  operation?: string;
+  operation?: string | undefined;
   /** Localized friendly description for the operation */
-  description?: string;
+  description?: string | undefined;
 }
 /** A Event Hub REST API operation */
 export interface Operation {
   /** Operation name: {provider}/{resource}/{operation} */
-  name?: string;
+  name?: string | undefined;
   /** Indicates whether the operation is a data action */
-  isDataAction?: boolean;
+  isDataAction?: boolean | undefined;
   /** Display of the operation */
-  display?: OperationDisplay;
+  display?: OperationDisplay | undefined;
   /** Origin of the operation */
-  origin?: string;
+  origin?: string | undefined;
   /** Properties of the operation */
-  properties?: unknown;
+  properties?: unknown | undefined;
 }
 /** The Operation items on this page */
 export type OperationListResultValueList = Array<Operation>;
@@ -1861,7 +1868,7 @@ export interface OperationListResult {
   /** The Operation items on this page */
   value: OperationListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListPrivateEndpointConnectionsRequest {
   /** The ID of the target subscription. */
@@ -1878,7 +1885,7 @@ export interface PrivateEndpointConnectionListResult {
   /** The PrivateEndpointConnection items on this page */
   value: PrivateEndpointConnectionListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListSchemaRegistryByNamespaceRequest {
   /** The ID of the target subscription. */
@@ -1888,23 +1895,23 @@ export interface ListSchemaRegistryByNamespaceRequest {
   /** The Namespace name */
   namespaceName: string;
   /** Skip is only used if a previous operation returned a partial result. If a previous response contains a nextLink element, the value of the nextLink element will include a skip parameter that specifies a starting point to use for subsequent calls. */
-  _skip?: number;
+  _skip?: number | undefined;
   /** May be used to limit the number of results to the most recent N usageDetails. */
-  _top?: number;
+  _top?: number | undefined;
 }
 /** Single item in List or Get Schema Group operation */
 export interface SchemaGroup {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
-  properties?: SchemaGroupProperties;
+  systemData?: SystemData | undefined;
+  properties?: SchemaGroupProperties | undefined;
   /** The geo-location where the resource lives */
-  location?: string;
+  location?: string | undefined;
 }
 /** The SchemaGroup items on this page */
 export type SchemaGroupListResultValueList = Array<SchemaGroup>;
@@ -1913,7 +1920,7 @@ export interface SchemaGroupListResult {
   /** The SchemaGroup items on this page */
   value: SchemaGroupListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 /** This determines if traffic is allowed over public network. By default it is enabled. */
 export type EHNamespacePropertiesInputPublicNetworkAccess =
@@ -1923,7 +1930,7 @@ export type EHNamespacePropertiesInputPublicNetworkAccess =
 /** Properties of the PrivateEndpointConnection. */
 export interface PrivateEndpointConnectionInput {
   /** Properties of the PrivateEndpointConnection. */
-  properties?: PrivateEndpointConnectionProperties;
+  properties?: PrivateEndpointConnectionProperties | undefined;
 }
 /** List of private endpoint connections. */
 export type EHNamespacePropertiesInputPrivateEndpointConnectionsList =
@@ -1931,50 +1938,50 @@ export type EHNamespacePropertiesInputPrivateEndpointConnectionsList =
 /** Namespace replication properties */
 export interface NamespaceReplicaLocationInput {
   /** Azure regions where a replica of the namespace is maintained */
-  locationName?: string;
+  locationName?: string | undefined;
   /** GeoDR Role Types */
-  roleType?: GeoDRRoleType | (string & {});
+  roleType?: GeoDRRoleType | (string & {}) | undefined;
   /** Optional property that denotes the ARM ID of the Cluster. This is required, if a namespace replica should be placed in a Dedicated Event Hub Cluster */
-  clusterArmId?: string;
+  clusterArmId?: string | undefined;
 }
 /** A list of regions where replicas of the namespace are maintained. */
 export type GeoDataReplicationPropertiesInputLocationsList = Array<NamespaceReplicaLocationInput>;
 /** GeoDR Replication properties */
 export interface GeoDataReplicationPropertiesInput {
   /** The maximum acceptable lag for data replication operations from the primary replica to a quorum of secondary replicas. When the lag exceeds the configured amount, operations on the primary replica will be failed. The allowed values are 0 and 5 minutes to 1 day. */
-  maxReplicationLagDurationInSeconds?: number;
+  maxReplicationLagDurationInSeconds?: number | undefined;
   /** A list of regions where replicas of the namespace are maintained. */
-  locations?: GeoDataReplicationPropertiesInputLocationsList;
+  locations?: GeoDataReplicationPropertiesInputLocationsList | undefined;
 }
 /** Namespace properties supplied for create namespace operation. */
 export interface EHNamespacePropertiesInput {
   /** The minimum TLS version for the cluster to support, e.g. '1.2' */
-  minimumTlsVersion?: TlsVersion | (string & {});
+  minimumTlsVersion?: TlsVersion | (string & {}) | undefined;
   /** Cluster ARM ID of the Namespace. */
-  clusterArmId?: string;
+  clusterArmId?: string | undefined;
   /** Value that indicates whether AutoInflate is enabled for eventhub namespace. */
-  isAutoInflateEnabled?: boolean;
+  isAutoInflateEnabled?: boolean | undefined;
   /** This determines if traffic is allowed over public network. By default it is enabled. */
-  publicNetworkAccess?: EHNamespacePropertiesInputPublicNetworkAccess | (string & {});
+  publicNetworkAccess?: EHNamespacePropertiesInputPublicNetworkAccess | (string & {}) | undefined;
   /** Upper limit of throughput units when AutoInflate is enabled, value should be within 0 to 20 throughput units. ( '0' if AutoInflateEnabled = true) */
-  maximumThroughputUnits?: number;
+  maximumThroughputUnits?: number | undefined;
   /** Value that indicates whether Kafka is enabled for eventhub namespace. */
-  kafkaEnabled?: boolean;
+  kafkaEnabled?: boolean | undefined;
   /** Enabling this property creates a Standard Event Hubs Namespace in regions supported availability zones. */
-  zoneRedundant?: boolean;
+  zoneRedundant?: boolean | undefined;
   /** Properties of BYOK Encryption description */
-  encryption?: Encryption;
+  encryption?: Encryption | undefined;
   /** List of private endpoint connections. */
-  privateEndpointConnections?: EHNamespacePropertiesInputPrivateEndpointConnectionsList;
+  privateEndpointConnections?: EHNamespacePropertiesInputPrivateEndpointConnectionsList | undefined;
   /** This property disables SAS authentication for the Event Hubs namespace. */
-  disableLocalAuth?: boolean;
+  disableLocalAuth?: boolean | undefined;
   /** Alternate name specified when alias and namespace names are same. */
-  alternateName?: string;
-  platformCapabilities?: PlatformCapabilities;
+  alternateName?: string | undefined;
+  platformCapabilities?: PlatformCapabilities | undefined;
   /** Geo Data Replication settings for the namespace */
-  geoDataReplication?: GeoDataReplicationPropertiesInput;
+  geoDataReplication?: GeoDataReplicationPropertiesInput | undefined;
   /** The IP address type for the namespace. Determines whether the namespace supports IPv4 only or both IPv4 and IPv6 (dual stack). */
-  ipAddressType?: IpAddressType | (string & {});
+  ipAddressType?: IpAddressType | (string & {}) | undefined;
 }
 /** Recognized Dictionary value. */
 export interface UserAssignedIdentityInput {}
@@ -1985,9 +1992,9 @@ export type IdentityInputUserAssignedIdentitiesMap = {
 /** Properties to configure Identity for Bring your Own Keys */
 export interface IdentityInput {
   /** Type of managed service identity. */
-  type?: ManagedServiceIdentityType | (string & {});
+  type?: ManagedServiceIdentityType | (string & {}) | undefined;
   /** Properties for User Assigned Identities */
-  userAssignedIdentities?: IdentityInputUserAssignedIdentitiesMap;
+  userAssignedIdentities?: IdentityInputUserAssignedIdentitiesMap | undefined;
 }
 /** Resource tags. */
 export type NamespacesCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
@@ -1999,43 +2006,43 @@ export interface NamespacesCreateOrUpdateRequest {
   /** The Namespace name */
   namespaceName: string;
   /** Namespace properties supplied for create namespace operation. */
-  properties?: EHNamespacePropertiesInput;
+  properties?: EHNamespacePropertiesInput | undefined;
   /** Properties of sku resource */
-  sku?: Sku;
+  sku?: Sku | undefined;
   /** Properties of BYOK Identity description */
-  identity?: IdentityInput;
+  identity?: IdentityInput | undefined;
   /** Resource location. */
-  location?: string;
+  location?: string | undefined;
   /** Resource tags. */
-  tags?: NamespacesCreateOrUpdateRequestTagsMap;
+  tags?: NamespacesCreateOrUpdateRequestTagsMap | undefined;
 }
 /** Resource tags. */
 export type NamespacesCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
 export interface NamespacesCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Namespace properties supplied for create namespace operation. */
-  properties?: EHNamespaceProperties;
+  properties?: EHNamespaceProperties | undefined;
   /** Properties of sku resource */
-  sku?: Sku;
+  sku?: Sku | undefined;
   /** Properties of BYOK Identity description */
-  identity?: Identity;
+  identity?: Identity | undefined;
   /** Resource location. */
-  location?: string;
+  location?: string | undefined;
   /** Resource tags. */
-  tags?: NamespacesCreateOrUpdateResponseTagsMap;
+  tags?: NamespacesCreateOrUpdateResponseTagsMap | undefined;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  locationHeader?: string;
+  locationHeader?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface NamespacesCreateOrUpdateAuthorizationRuleRequest {
   /** The ID of the target subscription. */
@@ -2047,21 +2054,21 @@ export interface NamespacesCreateOrUpdateAuthorizationRuleRequest {
   /** The authorization rule name. */
   authorizationRuleName: string;
   /** Properties supplied to create or update AuthorizationRule */
-  properties?: AuthorizationRuleProperties;
+  properties?: AuthorizationRuleProperties | undefined;
 }
 export interface NamespacesCreateOrUpdateAuthorizationRuleResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Properties supplied to create or update AuthorizationRule */
-  properties?: AuthorizationRuleProperties;
+  properties?: AuthorizationRuleProperties | undefined;
   /** The geo-location where the resource lives */
-  location?: string;
+  location?: string | undefined;
 }
 export interface NamespacesCreateOrUpdateNetworkRuleSetRequest {
   /** The ID of the target subscription. */
@@ -2071,27 +2078,27 @@ export interface NamespacesCreateOrUpdateNetworkRuleSetRequest {
   /** The Namespace name */
   namespaceName: string;
   /** NetworkRuleSet properties */
-  properties?: NetworkRuleSetProperties;
+  properties?: NetworkRuleSetProperties | undefined;
 }
 export interface NamespacesCreateOrUpdateNetworkRuleSetResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** NetworkRuleSet properties */
-  properties?: NetworkRuleSetProperties;
+  properties?: NetworkRuleSetProperties | undefined;
   /** The geo-location where the resource lives */
-  location?: string;
+  location?: string | undefined;
 }
 export interface FailOverProperties {
   /** Query parameter for the new primary location after failover. */
-  primaryLocation?: string;
+  primaryLocation?: string | undefined;
   /** If Force is false then graceful failover is attempted after ensuring no data loss. If Force flag is set to true, Forced failover is attempted with possible data loss. */
-  force?: boolean;
+  force?: boolean | undefined;
 }
 export interface NamespacesFailoverRequest {
   /** The ID of the target subscription. */
@@ -2100,15 +2107,15 @@ export interface NamespacesFailoverRequest {
   resourceGroupName: string;
   /** The Namespace name */
   namespaceName: string;
-  properties?: FailOverProperties;
+  properties?: FailOverProperties | undefined;
 }
 export interface NamespacesFailoverResponse {
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface NetworkSecurityPerimeterConfigurationsCreateOrUpdateRequest {
   /** The ID of the target subscription. */
@@ -2122,9 +2129,9 @@ export interface NetworkSecurityPerimeterConfigurationsCreateOrUpdateRequest {
 }
 export interface NetworkSecurityPerimeterConfigurationsCreateOrUpdateResponse {
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** All possible Cluster settings - a collection of key/value paired settings which apply to quotas and configurations imposed on the cluster. */
 export type PatchConfigurationRequestSettingsMap = { [key: string]: string | undefined };
@@ -2136,7 +2143,7 @@ export interface PatchConfigurationRequest {
   /** The name of the Event Hubs Cluster. */
   clusterName: string;
   /** All possible Cluster settings - a collection of key/value paired settings which apply to quotas and configurations imposed on the cluster. */
-  settings?: PatchConfigurationRequestSettingsMap;
+  settings?: PatchConfigurationRequestSettingsMap | undefined;
 }
 export interface PrivateEndpointConnectionsCreateOrUpdateRequest {
   /** The ID of the target subscription. */
@@ -2148,21 +2155,21 @@ export interface PrivateEndpointConnectionsCreateOrUpdateRequest {
   /** The PrivateEndpointConnection name */
   privateEndpointConnectionName: string;
   /** Properties of the PrivateEndpointConnection. */
-  properties?: PrivateEndpointConnectionProperties;
+  properties?: PrivateEndpointConnectionProperties | undefined;
 }
 export interface PrivateEndpointConnectionsCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Properties of the PrivateEndpointConnection. */
-  properties?: PrivateEndpointConnectionProperties;
+  properties?: PrivateEndpointConnectionProperties | undefined;
   /** The geo-location where the resource lives */
-  location?: string;
+  location?: string | undefined;
 }
 /** The access key to regenerate. */
 export type KeyType = "PrimaryKey" | "SecondaryKey";
@@ -2180,7 +2187,7 @@ export interface RegenerateEventHubKeysRequest {
   /** The access key to regenerate. */
   keyType: KeyType | (string & {});
   /** Optional, if the key value provided, is set for KeyType or autogenerated Key value set for keyType */
-  key?: string;
+  key?: string | undefined;
 }
 export interface RegenerateNamespaceKeysRequest {
   /** The ID of the target subscription. */
@@ -2194,15 +2201,15 @@ export interface RegenerateNamespaceKeysRequest {
   /** The access key to regenerate. */
   keyType: KeyType | (string & {});
   /** Optional, if the key value provided, is set for KeyType or autogenerated Key value set for keyType */
-  key?: string;
+  key?: string | undefined;
 }
 /** dictionary object for SchemaGroup group properties */
 export type SchemaGroupPropertiesInputGroupPropertiesMap = { [key: string]: string | undefined };
 export interface SchemaGroupPropertiesInput {
   /** dictionary object for SchemaGroup group properties */
-  groupProperties?: SchemaGroupPropertiesInputGroupPropertiesMap;
-  schemaCompatibility?: SchemaCompatibility | (string & {});
-  schemaType?: SchemaType | (string & {});
+  groupProperties?: SchemaGroupPropertiesInputGroupPropertiesMap | undefined;
+  schemaCompatibility?: SchemaCompatibility | (string & {}) | undefined;
+  schemaType?: SchemaType | (string & {}) | undefined;
 }
 export interface SchemaRegistryCreateOrUpdateRequest {
   /** The ID of the target subscription. */
@@ -2213,20 +2220,20 @@ export interface SchemaRegistryCreateOrUpdateRequest {
   namespaceName: string;
   /** The Schema Group name */
   schemaGroupName: string;
-  properties?: SchemaGroupPropertiesInput;
+  properties?: SchemaGroupPropertiesInput | undefined;
 }
 export interface SchemaRegistryCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
-  properties?: SchemaGroupProperties;
+  systemData?: SystemData | undefined;
+  properties?: SchemaGroupProperties | undefined;
   /** The geo-location where the resource lives */
-  location?: string;
+  location?: string | undefined;
 }
 /** Resource tags. */
 export type UpdateClusterRequestTagsMap = { [key: string]: string | undefined };
@@ -2238,37 +2245,37 @@ export interface UpdateClusterRequest {
   /** The name of the Event Hubs Cluster. */
   clusterName: string;
   /** Event Hubs Cluster properties supplied in responses in List or Get operations. */
-  properties?: ClusterPropertiesInput;
+  properties?: ClusterPropertiesInput | undefined;
   /** Properties of the cluster SKU. */
-  sku?: ClusterSku;
+  sku?: ClusterSku | undefined;
   /** Resource location. */
-  location?: string;
+  location?: string | undefined;
   /** Resource tags. */
-  tags?: UpdateClusterRequestTagsMap;
+  tags?: UpdateClusterRequestTagsMap | undefined;
 }
 /** Resource tags. */
 export type UpdateClusterResponseTagsMap = { [key: string]: string | undefined };
 export interface UpdateClusterResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Event Hubs Cluster properties supplied in responses in List or Get operations. */
-  properties?: ClusterProperties;
+  properties?: ClusterProperties | undefined;
   /** Properties of the cluster SKU. */
-  sku?: ClusterSku;
+  sku?: ClusterSku | undefined;
   /** Resource location. */
-  location?: string;
+  location?: string | undefined;
   /** Resource tags. */
-  tags?: UpdateClusterResponseTagsMap;
+  tags?: UpdateClusterResponseTagsMap | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  locationHeader?: string;
+  locationHeader?: string | undefined;
 }
 /** Resource tags. */
 export type UpdateNamespaceRequestTagsMap = { [key: string]: string | undefined };
@@ -2280,37 +2287,37 @@ export interface UpdateNamespaceRequest {
   /** The Namespace name */
   namespaceName: string;
   /** Namespace properties supplied for create namespace operation. */
-  properties?: EHNamespacePropertiesInput;
+  properties?: EHNamespacePropertiesInput | undefined;
   /** Properties of sku resource */
-  sku?: Sku;
+  sku?: Sku | undefined;
   /** Properties of BYOK Identity description */
-  identity?: IdentityInput;
+  identity?: IdentityInput | undefined;
   /** Resource location. */
-  location?: string;
+  location?: string | undefined;
   /** Resource tags. */
-  tags?: UpdateNamespaceRequestTagsMap;
+  tags?: UpdateNamespaceRequestTagsMap | undefined;
 }
 /** Resource tags. */
 export type UpdateNamespaceResponseTagsMap = { [key: string]: string | undefined };
 export interface UpdateNamespaceResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Namespace properties supplied for create namespace operation. */
-  properties?: EHNamespaceProperties;
+  properties?: EHNamespaceProperties | undefined;
   /** Properties of sku resource */
-  sku?: Sku;
+  sku?: Sku | undefined;
   /** Properties of BYOK Identity description */
-  identity?: Identity;
+  identity?: Identity | undefined;
   /** Resource location. */
-  location?: string;
+  location?: string | undefined;
   /** Resource tags. */
-  tags?: UpdateNamespaceResponseTagsMap;
+  tags?: UpdateNamespaceResponseTagsMap | undefined;
 }
 export type ApplicationGroupCreateOrUpdateApplicationGroupError = AzureOpError;
 /** Creates or updates an ApplicationGroup for a Namespace. */

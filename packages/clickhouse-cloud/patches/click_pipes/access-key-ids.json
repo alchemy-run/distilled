@@ -1,0 +1,9 @@
+{
+  "description": "The converter marks every member named like an access key sensitive, which catches `MskIamUser.accessKeyId`, the IAM credentials of the MSK, Kinesis and S3 ClickPipes sources. The spec describes it as 'IAM access key ID.': the public half of the key pair, an identifier like a key ID, while its secret (`secretKey`, 'IAM secret key.') stays sensitive. IDs stay plain strings (distilled-sdk skill, Credentials). Source: the OpenAPI document served at https://api.clickhouse.cloud/v1 (2026-11-11).",
+  "patches": [
+    {
+      "op": "remove",
+      "path": "/shapes/com.clickhouse.cloud.click_pipes#MskIamUser/members/accessKeyId/traits/smithy.api#sensitive"
+    }
+  ]
+}

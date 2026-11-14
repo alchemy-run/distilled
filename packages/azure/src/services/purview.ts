@@ -28,6 +28,7 @@ const TELEMETRY = {
   prefix: "Purview",
   service: "Purview",
   labels: "azure",
+  labelNames: { resourceGroupName: "azure.resource_group.name" },
   propagate: "w3c",
 } as const;
 
@@ -42,9 +43,9 @@ export type IdentityInputUserAssignedIdentitiesMap = {
 /** The Managed Identity of the resource */
 export interface IdentityInput {
   /** Identity Type */
-  type?: IdentityInputType | (string & {});
+  type?: IdentityInputType | (string & {}) | undefined;
   /** User Assigned Identities */
-  userAssignedIdentities?: IdentityInputUserAssignedIdentitiesMap;
+  userAssignedIdentities?: IdentityInputUserAssignedIdentitiesMap | undefined;
 }
 /** Tags on the azure resource. */
 export type AccountsCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
@@ -62,17 +63,18 @@ export type AccountPropertiesInputPublicNetworkAccess = "NotSpecified" | "Enable
 /** The account properties */
 export interface AccountPropertiesInput {
   /** Cloud connectors. External cloud identifier used as part of scanning configuration. */
-  cloudConnectors?: UserAssignedIdentityInput;
+  cloudConnectors?: UserAssignedIdentityInput | undefined;
   /** Gets or sets the state of managed eventhub. If enabled managed eventhub will be created, if disabled the managed eventhub will be removed. */
-  managedEventHubState?: AccountPropertiesInputManagedEventHubState | (string & {});
+  managedEventHubState?: AccountPropertiesInputManagedEventHubState | (string & {}) | undefined;
   /** Gets or sets the managed resource group name */
-  managedResourceGroupName?: string;
+  managedResourceGroupName?: string | undefined;
   /** Gets or sets the public network access for managed resources. */
   managedResourcesPublicNetworkAccess?:
     | AccountPropertiesInputManagedResourcesPublicNetworkAccess
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** Gets or sets the public network access. */
-  publicNetworkAccess?: AccountPropertiesInputPublicNetworkAccess | (string & {});
+  publicNetworkAccess?: AccountPropertiesInputPublicNetworkAccess | (string & {}) | undefined;
 }
 export interface AccountsCreateOrUpdateRequest {
   /** The subscription identifier */
@@ -82,35 +84,35 @@ export interface AccountsCreateOrUpdateRequest {
   /** The name of the account. */
   accountName: string;
   /** Identity Info on the tracked resource */
-  identity?: IdentityInput;
+  identity?: IdentityInput | undefined;
   /** Gets or sets the location. */
-  location?: string;
+  location?: string | undefined;
   /** Tags on the azure resource. */
-  tags?: AccountsCreateOrUpdateRequestTagsMap;
+  tags?: AccountsCreateOrUpdateRequestTagsMap | undefined;
   /** Gets or sets the properties. */
-  properties?: AccountPropertiesInput;
+  properties?: AccountPropertiesInput | undefined;
 }
 /** Identity Type */
 export type IdentityType = "None" | "SystemAssigned" | "UserAssigned";
 /** Uses client ID and Principal ID */
 export interface UserAssignedIdentity {
   /** Gets or Sets Client ID */
-  clientId?: string;
+  clientId?: string | undefined;
   /** Gets or Sets Principal ID */
-  principalId?: string;
+  principalId?: string | undefined;
 }
 /** User Assigned Identities */
 export type IdentityUserAssignedIdentitiesMap = { [key: string]: UserAssignedIdentity | undefined };
 /** The Managed Identity of the resource */
 export interface Identity {
   /** Service principal object Id */
-  principalId?: string;
+  principalId?: string | undefined;
   /** Tenant Id */
-  tenantId?: string;
+  tenantId?: string | undefined;
   /** Identity Type */
-  type?: IdentityType;
+  type?: IdentityType | undefined;
   /** User Assigned Identities */
-  userAssignedIdentities?: IdentityUserAssignedIdentitiesMap;
+  userAssignedIdentities?: IdentityUserAssignedIdentitiesMap | undefined;
 }
 /** The type of identity that created the resource. */
 export type SystemDataCreatedByType = "User" | "Application" | "ManagedIdentity" | "Key";
@@ -119,17 +121,17 @@ export type SystemDataLastModifiedByType = "User" | "Application" | "ManagedIden
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface SystemData {
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: SystemDataCreatedByType;
+  createdByType?: SystemDataCreatedByType | undefined;
   /** The timestamp of the last modification the resource (UTC). */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: SystemDataLastModifiedByType;
+  lastModifiedByType?: SystemDataLastModifiedByType | undefined;
 }
 /** Tags on the azure resource. */
 export type AccountsCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
@@ -150,45 +152,45 @@ export type ErrorModelDetailsList = Array<ErrorModel>;
 /** Default error model */
 export interface ErrorModel {
   /** Gets or sets the code. */
-  code?: string;
+  code?: string | undefined;
   /** Gets or sets the details. */
-  details?: ErrorModelDetailsList;
+  details?: ErrorModelDetailsList | undefined;
   /** Gets or sets the messages. */
-  message?: string;
+  message?: string | undefined;
   /** Gets or sets the target. */
-  target?: string;
+  target?: string | undefined;
 }
 /** The account status. */
 export interface AccountStatus {
   /** Gets the account status code. */
-  accountProvisioningState?: AccountStatusAccountProvisioningState;
+  accountProvisioningState?: AccountStatusAccountProvisioningState | undefined;
   /** Gets the account error details. */
-  errorDetails?: ErrorModel;
+  errorDetails?: ErrorModel | undefined;
 }
 /** External Cloud Service connectors */
 export interface CloudConnectors {
   /** AWS external identifier. Configured in AWS to allow use of the role arn used for scanning */
-  awsExternalId?: string;
+  awsExternalId?: string | undefined;
 }
 /** The account endpoints */
 export interface AccountEndpoints {
   /** Gets the catalog endpoint. */
-  catalog?: string;
+  catalog?: string | undefined;
   /** Gets the guardian endpoint. */
-  guardian?: string;
+  guardian?: string | undefined;
   /** Gets the scan endpoint. */
-  scan?: string;
+  scan?: string | undefined;
 }
 /** Gets or sets the state of managed eventhub. If enabled managed eventhub will be created, if disabled the managed eventhub will be removed. */
 export type AccountPropertiesManagedEventHubState = "NotSpecified" | "Disabled" | "Enabled";
 /** The managed resources in customer subscription. */
 export interface ManagedResources {
   /** Gets the managed event hub namespace resource identifier. */
-  eventHubNamespace?: string;
+  eventHubNamespace?: string | undefined;
   /** Gets the managed resource group resource identifier. This resource group will host resource dependencies for the account. */
-  resourceGroup?: string;
+  resourceGroup?: string | undefined;
   /** Gets the managed storage account resource identifier. */
-  storageAccount?: string;
+  storageAccount?: string | undefined;
 }
 /** Gets or sets the public network access for managed resources. */
 export type AccountPropertiesManagedResourcesPublicNetworkAccess =
@@ -198,7 +200,7 @@ export type AccountPropertiesManagedResourcesPublicNetworkAccess =
 /** A private endpoint class. */
 export interface PrivateEndpoint {
   /** The private endpoint identifier. */
-  id?: string;
+  id?: string | undefined;
 }
 /** The status. */
 export type PrivateLinkServiceConnectionStateStatus =
@@ -210,33 +212,33 @@ export type PrivateLinkServiceConnectionStateStatus =
 /** The private link service connection state. */
 export interface PrivateLinkServiceConnectionState {
   /** The required actions. */
-  actionsRequired?: string;
+  actionsRequired?: string | undefined;
   /** The description. */
-  description?: string;
+  description?: string | undefined;
   /** The status. */
-  status?: PrivateLinkServiceConnectionStateStatus | (string & {});
+  status?: PrivateLinkServiceConnectionStateStatus | (string & {}) | undefined;
 }
 /** A private endpoint connection properties class. */
 export interface PrivateEndpointConnectionProperties {
   /** The private endpoint information. */
-  privateEndpoint?: PrivateEndpoint;
+  privateEndpoint?: PrivateEndpoint | undefined;
   /** The private link service connection state. */
-  privateLinkServiceConnectionState?: PrivateLinkServiceConnectionState;
+  privateLinkServiceConnectionState?: PrivateLinkServiceConnectionState | undefined;
   /** The provisioning state. */
-  provisioningState?: string;
+  provisioningState?: string | undefined;
 }
 /** A private endpoint connection class. */
 export interface PrivateEndpointConnection {
   /** Gets or sets the identifier. */
-  id?: string;
+  id?: string | undefined;
   /** Gets or sets the name. */
-  name?: string;
+  name?: string | undefined;
   /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Gets or sets the type. */
-  type?: string;
+  type?: string | undefined;
   /** The connection identifier. */
-  properties?: PrivateEndpointConnectionProperties;
+  properties?: PrivateEndpointConnectionProperties | undefined;
 }
 /** Gets the private endpoint connections information. */
 export type AccountPropertiesPrivateEndpointConnectionsList = Array<PrivateEndpointConnection>;
@@ -256,62 +258,64 @@ export type AccountPropertiesPublicNetworkAccess = "NotSpecified" | "Enabled" | 
 /** The account properties */
 export interface AccountProperties {
   /** Gets or sets the status of the account. */
-  accountStatus?: AccountStatus;
+  accountStatus?: AccountStatus | undefined;
   /** Cloud connectors. External cloud identifier used as part of scanning configuration. */
-  cloudConnectors?: CloudConnectors;
+  cloudConnectors?: CloudConnectors | undefined;
   /** Gets the time at which the entity was created. */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** Gets the creator of the entity. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** Gets the creators of the entity's object id. */
-  createdByObjectId?: string;
+  createdByObjectId?: string | undefined;
   /** The URIs that are the public endpoints of the account. */
-  endpoints?: AccountEndpoints;
+  endpoints?: AccountEndpoints | undefined;
   /** Gets or sets the friendly name. */
-  friendlyName?: string;
+  friendlyName?: string | undefined;
   /** Gets or sets the state of managed eventhub. If enabled managed eventhub will be created, if disabled the managed eventhub will be removed. */
-  managedEventHubState?: AccountPropertiesManagedEventHubState;
+  managedEventHubState?: AccountPropertiesManagedEventHubState | undefined;
   /** Gets or sets the managed resource group name */
-  managedResourceGroupName?: string;
+  managedResourceGroupName?: string | undefined;
   /** Gets the resource identifiers of the managed resources. */
-  managedResources?: ManagedResources;
+  managedResources?: ManagedResources | undefined;
   /** Gets or sets the public network access for managed resources. */
-  managedResourcesPublicNetworkAccess?: AccountPropertiesManagedResourcesPublicNetworkAccess;
+  managedResourcesPublicNetworkAccess?:
+    | AccountPropertiesManagedResourcesPublicNetworkAccess
+    | undefined;
   /** Gets the private endpoint connections information. */
-  privateEndpointConnections?: AccountPropertiesPrivateEndpointConnectionsList;
+  privateEndpointConnections?: AccountPropertiesPrivateEndpointConnectionsList | undefined;
   /** Gets or sets the state of the provisioning. */
-  provisioningState?: AccountPropertiesProvisioningState;
+  provisioningState?: AccountPropertiesProvisioningState | undefined;
   /** Gets or sets the public network access. */
-  publicNetworkAccess?: AccountPropertiesPublicNetworkAccess;
+  publicNetworkAccess?: AccountPropertiesPublicNetworkAccess | undefined;
 }
 /** Gets or sets the sku name. */
 export type AccountSkuName = "Standard";
 /** The Sku */
 export interface AccountSku {
   /** Gets or sets the sku capacity. */
-  capacity?: number;
+  capacity?: number | undefined;
   /** Gets or sets the sku name. */
-  name?: AccountSkuName;
+  name?: AccountSkuName | undefined;
 }
 export interface AccountsCreateOrUpdateResponse {
   /** Gets or sets the identifier. */
-  id?: string;
+  id?: string | undefined;
   /** Identity Info on the tracked resource */
-  identity?: Identity;
+  identity?: Identity | undefined;
   /** Gets or sets the location. */
-  location?: string;
+  location?: string | undefined;
   /** Gets or sets the name. */
-  name?: string;
+  name?: string | undefined;
   /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Tags on the azure resource. */
-  tags?: AccountsCreateOrUpdateResponseTagsMap;
+  tags?: AccountsCreateOrUpdateResponseTagsMap | undefined;
   /** Gets or sets the type. */
-  type?: string;
+  type?: string | undefined;
   /** Gets or sets the properties. */
-  properties?: AccountProperties;
+  properties?: AccountProperties | undefined;
   /** Gets or sets the Sku. */
-  sku?: AccountSku;
+  sku?: AccountSku | undefined;
 }
 export interface AddAccountRootCollectionAdminRequest {
   /** The subscription identifier */
@@ -321,27 +325,27 @@ export interface AddAccountRootCollectionAdminRequest {
   /** The name of the account. */
   accountName: string;
   /** Gets or sets the object identifier of the admin. */
-  objectId?: string;
+  objectId?: string | undefined;
 }
 export interface AddAccountRootCollectionAdminResponse {}
 export interface CheckAccountNameAvailabilityRequest {
   /** The subscription identifier */
   subscriptionId: string;
   /** Resource name to verify for availability */
-  name?: string;
+  name?: string | undefined;
   /** Fully qualified resource type which includes provider namespace */
-  type?: string;
+  type?: string | undefined;
 }
 /** The reason the name is not available. */
 export type CheckNameAvailabilityResultReason = "Invalid" | "AlreadyExists";
 /** The response payload for CheckNameAvailability API */
 export interface CheckNameAvailabilityResult {
   /** Error message */
-  message?: string;
+  message?: string | undefined;
   /** Indicates if name is valid and available. */
-  nameAvailable?: boolean;
+  nameAvailable?: boolean | undefined;
   /** The reason the name is not available. */
-  reason?: CheckNameAvailabilityResultReason;
+  reason?: CheckNameAvailabilityResultReason | undefined;
 }
 export interface DeleteAccountRequest {
   /** The subscription identifier */
@@ -386,23 +390,23 @@ export interface GetAccountRequest {
 export type GetAccountResponseTagsMap = { [key: string]: string | undefined };
 export interface GetAccountResponse {
   /** Gets or sets the identifier. */
-  id?: string;
+  id?: string | undefined;
   /** Identity Info on the tracked resource */
-  identity?: Identity;
+  identity?: Identity | undefined;
   /** Gets or sets the location. */
-  location?: string;
+  location?: string | undefined;
   /** Gets or sets the name. */
-  name?: string;
+  name?: string | undefined;
   /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Tags on the azure resource. */
-  tags?: GetAccountResponseTagsMap;
+  tags?: GetAccountResponseTagsMap | undefined;
   /** Gets or sets the type. */
-  type?: string;
+  type?: string | undefined;
   /** Gets or sets the properties. */
-  properties?: AccountProperties;
+  properties?: AccountProperties | undefined;
   /** Gets or sets the Sku. */
-  sku?: AccountSku;
+  sku?: AccountSku | undefined;
 }
 export type GetDefaultAccountRequestScopeType = "Tenant" | "Subscription";
 export interface GetDefaultAccountRequest {
@@ -411,24 +415,24 @@ export interface GetDefaultAccountRequest {
   /** The scope for the default account. */
   scopeType: GetDefaultAccountRequestScopeType | (string & {});
   /** The Id of the scope object, for example if the scope is "Subscription" then it is the ID of that subscription. */
-  scope?: string;
+  scope?: string | undefined;
 }
 /** The scope where the default account is set. */
 export type DefaultAccountPayloadScopeType = "Tenant" | "Subscription";
 /** Payload to get and set the default account in the given scope */
 export interface DefaultAccountPayload {
   /** The name of the account that is set as the default. */
-  accountName?: string;
+  accountName?: string | undefined;
   /** The resource group name of the account that is set as the default. */
-  resourceGroupName?: string;
+  resourceGroupName?: string | undefined;
   /** The scope object ID. For example, sub ID or tenant ID. */
-  scope?: string;
+  scope?: string | undefined;
   /** The scope tenant in which the default account is set. */
-  scopeTenantId?: string;
+  scopeTenantId?: string | undefined;
   /** The scope where the default account is set. */
-  scopeType?: DefaultAccountPayloadScopeType;
+  scopeType?: DefaultAccountPayloadScopeType | undefined;
   /** The subscription ID of the account that is set as the default. */
-  subscriptionId?: string;
+  subscriptionId?: string | undefined;
 }
 /** Set of features */
 export type GetFeaturesAccountRequestFeaturesList = Array<string>;
@@ -440,14 +444,14 @@ export interface GetFeaturesAccountRequest {
   /** The name of the account. */
   accountName: string;
   /** Set of features */
-  features?: GetFeaturesAccountRequestFeaturesList;
+  features?: GetFeaturesAccountRequestFeaturesList | undefined;
 }
 /** Features with enabled status */
 export type BatchFeatureStatusFeaturesMap = { [key: string]: boolean | undefined };
 /** List of features with enabled status */
 export interface BatchFeatureStatus {
   /** Features with enabled status */
-  features?: BatchFeatureStatusFeaturesMap;
+  features?: BatchFeatureStatusFeaturesMap | undefined;
 }
 /** Set of features */
 export type GetFeaturesSubscriptionRequestFeaturesList = Array<string>;
@@ -457,7 +461,7 @@ export interface GetFeaturesSubscriptionRequest {
   /** Location of feature. */
   locations: string;
   /** Set of features */
-  features?: GetFeaturesSubscriptionRequestFeaturesList;
+  features?: GetFeaturesSubscriptionRequestFeaturesList | undefined;
 }
 export interface GetKafkaConfigurationRequest {
   /** The subscription identifier */
@@ -474,9 +478,9 @@ export type CredentialsType = "None" | "SystemAssigned" | "UserAssigned";
 /** Credentials to access the event streaming service attached to the purview account. */
 export interface Credentials {
   /** Identity identifier for UserAssign type. */
-  identityId?: string;
+  identityId?: string | undefined;
   /** Identity Type. */
-  type?: CredentialsType | (string & {});
+  type?: CredentialsType | (string & {}) | undefined;
 }
 /** The event hub type. */
 export type KafkaConfigurationPropertiesEventHubType = "Notification" | "Hook";
@@ -487,30 +491,30 @@ export type KafkaConfigurationPropertiesEventStreamingType = "None" | "Managed" 
 /** The kafka configuration properties of the event streaming service attached to the Purview account for kafka notifications. */
 export interface KafkaConfigurationProperties {
   /** Consumer group for hook event hub. */
-  consumerGroup?: string;
+  consumerGroup?: string | undefined;
   /** Credentials to access event hub. */
-  credentials?: Credentials;
-  eventHubResourceId?: string;
+  credentials?: Credentials | undefined;
+  eventHubResourceId?: string | undefined;
   /** The event hub type. */
-  eventHubType?: KafkaConfigurationPropertiesEventHubType | (string & {});
+  eventHubType?: KafkaConfigurationPropertiesEventHubType | (string & {}) | undefined;
   /** The state of the event streaming service */
-  eventStreamingState?: KafkaConfigurationPropertiesEventStreamingState | (string & {});
+  eventStreamingState?: KafkaConfigurationPropertiesEventStreamingState | (string & {}) | undefined;
   /** The event streaming service type */
-  eventStreamingType?: KafkaConfigurationPropertiesEventStreamingType | (string & {});
+  eventStreamingType?: KafkaConfigurationPropertiesEventStreamingType | (string & {}) | undefined;
   /** Optional partition Id for notification event hub. If not set, all partitions will be leveraged. */
-  eventHubPartitionId?: string;
+  eventHubPartitionId?: string | undefined;
 }
 export interface GetKafkaConfigurationResponse {
   /** Gets or sets the identifier. */
-  id?: string;
+  id?: string | undefined;
   /** Gets or sets the name. */
-  name?: string;
+  name?: string | undefined;
   /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Gets or sets the type. */
-  type?: string;
+  type?: string | undefined;
   /** Gets or sets the kafka configuration properties. */
-  properties?: KafkaConfigurationProperties;
+  properties?: KafkaConfigurationProperties | undefined;
 }
 export interface GetPrivateEndpointConnectionRequest {
   /** The subscription identifier */
@@ -524,15 +528,15 @@ export interface GetPrivateEndpointConnectionRequest {
 }
 export interface GetPrivateEndpointConnectionResponse {
   /** Gets or sets the identifier. */
-  id?: string;
+  id?: string | undefined;
   /** Gets or sets the name. */
-  name?: string;
+  name?: string | undefined;
   /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Gets or sets the type. */
-  type?: string;
+  type?: string | undefined;
   /** The connection identifier. */
-  properties?: PrivateEndpointConnectionProperties;
+  properties?: PrivateEndpointConnectionProperties | undefined;
 }
 export interface GetPrivateLinkResourceByGroupIdRequest {
   /** The subscription identifier */
@@ -551,58 +555,58 @@ export type PrivateLinkResourcePropertiesRequiredZoneNamesList = Array<string>;
 /** A privately linkable resource properties. */
 export interface PrivateLinkResourceProperties {
   /** The private link resource group identifier. */
-  groupId?: string;
+  groupId?: string | undefined;
   /** This translates to how many Private IPs should be created for each privately linkable resource. */
-  requiredMembers?: PrivateLinkResourcePropertiesRequiredMembersList;
+  requiredMembers?: PrivateLinkResourcePropertiesRequiredMembersList | undefined;
   /** The required zone names for private link resource. */
-  requiredZoneNames?: PrivateLinkResourcePropertiesRequiredZoneNamesList;
+  requiredZoneNames?: PrivateLinkResourcePropertiesRequiredZoneNamesList | undefined;
 }
 /** A privately linkable resource. */
 export interface PrivateLinkResource {
   /** The private link resource identifier. */
-  id?: string;
+  id?: string | undefined;
   /** The private link resource name. */
-  name?: string;
+  name?: string | undefined;
   /** The private link resource properties. */
-  properties?: PrivateLinkResourceProperties;
+  properties?: PrivateLinkResourceProperties | undefined;
   /** The private link resource type. */
-  type?: string;
+  type?: string | undefined;
 }
 export interface GetUsageRequest {
   /** The subscription identifier */
   subscriptionId: string;
   /** The region. */
   location: string;
-  _filter?: string;
+  _filter?: string | undefined;
 }
 /** Quota name */
 export interface QuotaName {
   /** Gets or sets the localized name value. */
-  localizedValue?: string;
+  localizedValue?: string | undefined;
   /** Gets or sets the name value. */
-  value?: string;
+  value?: string | undefined;
 }
 /** Response for usage information */
 export interface Usage {
   /** Current usage quota value */
-  currentValue?: number;
+  currentValue?: number | undefined;
   /** Fully qualified ARM resource Id */
-  id?: string;
+  id?: string | undefined;
   /** Usage quota limit */
-  limit?: number;
+  limit?: number | undefined;
   /** Quota name */
-  name?: QuotaName;
+  name?: QuotaName | undefined;
   /** Quota usage unit. */
-  unit?: string;
+  unit?: string | undefined;
 }
 /** Collection of usage values. */
 export type UsageListValueList = Array<Usage>;
 /** Response for usage get request */
 export interface UsageList {
   /** Collection of usage values. */
-  value?: UsageListValueList;
+  value?: UsageListValueList | undefined;
   /** The Url of next result page. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface KafkaConfigurationsCreateOrUpdateRequest {
   /** The subscription identifier */
@@ -614,19 +618,19 @@ export interface KafkaConfigurationsCreateOrUpdateRequest {
   /** The kafka configuration name. */
   kafkaConfigurationName: string;
   /** Gets or sets the kafka configuration properties. */
-  properties?: KafkaConfigurationProperties;
+  properties?: KafkaConfigurationProperties | undefined;
 }
 export interface KafkaConfigurationsCreateOrUpdateResponse {
   /** Gets or sets the identifier. */
-  id?: string;
+  id?: string | undefined;
   /** Gets or sets the name. */
-  name?: string;
+  name?: string | undefined;
   /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Gets or sets the type. */
-  type?: string;
+  type?: string | undefined;
   /** Gets or sets the kafka configuration properties. */
-  properties?: KafkaConfigurationProperties;
+  properties?: KafkaConfigurationProperties | undefined;
 }
 export interface ListAccountByResourceGroupRequest {
   /** The subscription identifier */
@@ -634,39 +638,39 @@ export interface ListAccountByResourceGroupRequest {
   /** The resource group name. */
   resourceGroupName: string;
   /** The skip token. */
-  _skipToken?: string;
+  _skipToken?: string | undefined;
 }
 /** Tags on the azure resource. */
 export type AccountTagsMap = { [key: string]: string | undefined };
 /** Account resource */
 export interface Account {
   /** Gets or sets the identifier. */
-  id?: string;
+  id?: string | undefined;
   /** Identity Info on the tracked resource */
-  identity?: Identity;
+  identity?: Identity | undefined;
   /** Gets or sets the location. */
-  location?: string;
+  location?: string | undefined;
   /** Gets or sets the name. */
-  name?: string;
+  name?: string | undefined;
   /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Tags on the azure resource. */
-  tags?: AccountTagsMap;
+  tags?: AccountTagsMap | undefined;
   /** Gets or sets the type. */
-  type?: string;
+  type?: string | undefined;
   /** Gets or sets the properties. */
-  properties?: AccountProperties;
+  properties?: AccountProperties | undefined;
   /** Gets or sets the Sku. */
-  sku?: AccountSku;
+  sku?: AccountSku | undefined;
 }
 /** Collection of items of type results. */
 export type AccountListValueList = Array<Account>;
 /** Paged list of Account resources */
 export interface AccountList {
   /** Total item count. */
-  count?: number;
+  count?: number | undefined;
   /** The Url of next result page. */
-  nextLink?: string;
+  nextLink?: string | undefined;
   /** Collection of items of type results. */
   value: AccountListValueList;
 }
@@ -674,7 +678,7 @@ export interface ListAccountBySubscriptionRequest {
   /** The subscription identifier */
   subscriptionId: string;
   /** The skip token. */
-  _skipToken?: string;
+  _skipToken?: string | undefined;
 }
 export interface ListAccountKeysRequest {
   /** The subscription identifier */
@@ -687,9 +691,9 @@ export interface ListAccountKeysRequest {
 /** The Account access keys. */
 export interface AccessKeys {
   /** Gets or sets the primary connection string. */
-  atlasKafkaPrimaryEndpoint?: string;
+  atlasKafkaPrimaryEndpoint?: string | undefined;
   /** Gets or sets the secondary connection string. */
-  atlasKafkaSecondaryEndpoint?: string;
+  atlasKafkaSecondaryEndpoint?: string | undefined;
 }
 export interface ListKafkaConfigurationByAccountRequest {
   /** The subscription identifier */
@@ -699,27 +703,27 @@ export interface ListKafkaConfigurationByAccountRequest {
   /** The name of the account. */
   accountName: string;
   /** The skip token. */
-  _skipToken?: string;
+  _skipToken?: string | undefined;
 }
 /** The configuration of the event streaming service resource attached to the Purview account for kafka notifications. */
 export interface KafkaConfiguration {
   /** Gets or sets the identifier. */
-  id?: string;
+  id?: string | undefined;
   /** Gets or sets the name. */
-  name?: string;
+  name?: string | undefined;
   /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Gets or sets the type. */
-  type?: string;
+  type?: string | undefined;
   /** Gets or sets the kafka configuration properties. */
-  properties?: KafkaConfigurationProperties;
+  properties?: KafkaConfigurationProperties | undefined;
 }
 /** Collection of items of type results. */
 export type KafkaConfigurationListValueList = Array<KafkaConfiguration>;
 /** Paged list of kafka configuration resources */
 export interface KafkaConfigurationList {
   /** The Url of next result page. */
-  nextLink?: string;
+  nextLink?: string | undefined;
   /** Collection of items of type results. */
   value: KafkaConfigurationListValueList;
 }
@@ -727,22 +731,22 @@ export interface ListOperationsRequest {}
 /** The response model for get operation properties */
 export interface OperationDisplay {
   /** Description of the operation for display purposes */
-  description?: string;
+  description?: string | undefined;
   /** Name of the operation for display purposes */
-  operation?: string;
+  operation?: string | undefined;
   /** Name of the provider for display purposes */
-  provider?: string;
+  provider?: string | undefined;
   /** Name of the resource type for display purposes */
-  resource?: string;
+  resource?: string | undefined;
 }
 /** log specifications for operation api */
 export interface OperationMetaLogSpecification {
   /** blob duration of the log */
-  blobDuration?: string;
+  blobDuration?: string | undefined;
   /** localized name of the log category */
-  displayName?: string;
+  displayName?: string | undefined;
   /** name of the log category */
-  name?: string;
+  name?: string | undefined;
 }
 /** log specifications for the operation */
 export type OperationMetaServiceSpecificationLogSpecificationsList =
@@ -750,11 +754,11 @@ export type OperationMetaServiceSpecificationLogSpecificationsList =
 /** properties for dimension */
 export interface DimensionProperties {
   /** localized display name of the dimension to customer */
-  displayName?: string;
+  displayName?: string | undefined;
   /** dimension name */
-  name?: string;
+  name?: string | undefined;
   /** flag indicating whether this dimension should be included to the customer in Azure Monitor logs (aka Shoebox) */
-  toBeExportedForCustomer?: boolean;
+  toBeExportedForCustomer?: boolean | undefined;
 }
 /** properties for dimension */
 export type OperationMetaMetricSpecificationDimensionsList = Array<DimensionProperties>;
@@ -765,29 +769,31 @@ export type OperationMetaMetricSpecificationSupportedTimeGrainTypesList = Array<
 /** metric specifications for the operation */
 export interface OperationMetaMetricSpecification {
   /** aggregation type of metric */
-  aggregationType?: string;
+  aggregationType?: string | undefined;
   /** properties for dimension */
-  dimensions?: OperationMetaMetricSpecificationDimensionsList;
+  dimensions?: OperationMetaMetricSpecificationDimensionsList | undefined;
   /** description of the metric */
-  displayDescription?: string;
+  displayDescription?: string | undefined;
   /** localized name of the metric */
-  displayName?: string;
+  displayName?: string | undefined;
   /** enable regional mdm account */
-  enableRegionalMdmAccount?: string;
+  enableRegionalMdmAccount?: string | undefined;
   /** internal metric name */
-  internalMetricName?: string;
+  internalMetricName?: string | undefined;
   /** name of the metric */
-  name?: string;
+  name?: string | undefined;
   /** dimension name use to replace resource id if specified */
-  resourceIdDimensionNameOverride?: string;
+  resourceIdDimensionNameOverride?: string | undefined;
   /** Metric namespace. Only set the namespace if different from the default value, leaving it empty makes it use the value from the ARM manifest. */
-  sourceMdmNamespace?: string;
+  sourceMdmNamespace?: string | undefined;
   /** supported aggregation types */
-  supportedAggregationTypes?: OperationMetaMetricSpecificationSupportedAggregationTypesList;
+  supportedAggregationTypes?:
+    | OperationMetaMetricSpecificationSupportedAggregationTypesList
+    | undefined;
   /** supported time grain types */
-  supportedTimeGrainTypes?: OperationMetaMetricSpecificationSupportedTimeGrainTypesList;
+  supportedTimeGrainTypes?: OperationMetaMetricSpecificationSupportedTimeGrainTypesList | undefined;
   /** units for the metric */
-  unit?: string;
+  unit?: string | undefined;
 }
 /** metric specifications for the operation */
 export type OperationMetaServiceSpecificationMetricSpecificationsList =
@@ -795,34 +801,34 @@ export type OperationMetaServiceSpecificationMetricSpecificationsList =
 /** The operation meta service specification */
 export interface OperationMetaServiceSpecification {
   /** log specifications for the operation */
-  logSpecifications?: OperationMetaServiceSpecificationLogSpecificationsList;
+  logSpecifications?: OperationMetaServiceSpecificationLogSpecificationsList | undefined;
   /** metric specifications for the operation */
-  metricSpecifications?: OperationMetaServiceSpecificationMetricSpecificationsList;
+  metricSpecifications?: OperationMetaServiceSpecificationMetricSpecificationsList | undefined;
 }
 /** properties on meta info */
 export interface OperationProperties {
   /** meta service specification */
-  serviceSpecification?: OperationMetaServiceSpecification;
+  serviceSpecification?: OperationMetaServiceSpecification | undefined;
 }
 /** Operation resource */
 export interface Operation {
   /** Properties on the operation */
-  display?: OperationDisplay;
+  display?: OperationDisplay | undefined;
   /** Whether operation is a data action */
-  isDataAction?: boolean;
+  isDataAction?: boolean | undefined;
   /** Operation name for display purposes */
-  name?: string;
+  name?: string | undefined;
   /** origin of the operation */
-  origin?: string;
+  origin?: string | undefined;
   /** properties for the operation meta info */
-  properties?: OperationProperties;
+  properties?: OperationProperties | undefined;
 }
 /** Collection of items of type results. */
 export type OperationListValueList = Array<Operation>;
 /** Paged list of operation resources */
 export interface OperationList {
   /** The Url of next result page. */
-  nextLink?: string;
+  nextLink?: string | undefined;
   /** Collection of items of type results. */
   value: OperationListValueList;
 }
@@ -834,14 +840,14 @@ export interface ListPrivateEndpointConnectionByAccountRequest {
   /** The name of the account. */
   accountName: string;
   /** The skip token. */
-  _skipToken?: string;
+  _skipToken?: string | undefined;
 }
 /** Collection of items of type results. */
 export type PrivateEndpointConnectionListValueList = Array<PrivateEndpointConnection>;
 /** Paged list of private endpoint connections */
 export interface PrivateEndpointConnectionList {
   /** The Url of next result page. */
-  nextLink?: string;
+  nextLink?: string | undefined;
   /** Collection of items of type results. */
   value: PrivateEndpointConnectionListValueList;
 }
@@ -858,16 +864,16 @@ export type PrivateLinkResourceListValueList = Array<PrivateLinkResource>;
 /** Paged list of private link resources */
 export interface PrivateLinkResourceList {
   /** The Url of next result page. */
-  nextLink?: string;
+  nextLink?: string | undefined;
   /** Collection of items of type results. */
   value: PrivateLinkResourceListValueList;
 }
 /** A private endpoint connection properties class. */
 export interface PrivateEndpointConnectionPropertiesInput {
   /** The private endpoint information. */
-  privateEndpoint?: PrivateEndpoint;
+  privateEndpoint?: PrivateEndpoint | undefined;
   /** The private link service connection state. */
-  privateLinkServiceConnectionState?: PrivateLinkServiceConnectionState;
+  privateLinkServiceConnectionState?: PrivateLinkServiceConnectionState | undefined;
 }
 export interface PrivateEndpointConnectionsCreateOrUpdateRequest {
   /** The subscription identifier */
@@ -879,19 +885,19 @@ export interface PrivateEndpointConnectionsCreateOrUpdateRequest {
   /** Name of the private endpoint connection. */
   privateEndpointConnectionName: string;
   /** The connection identifier. */
-  properties?: PrivateEndpointConnectionPropertiesInput;
+  properties?: PrivateEndpointConnectionPropertiesInput | undefined;
 }
 export interface PrivateEndpointConnectionsCreateOrUpdateResponse {
   /** Gets or sets the identifier. */
-  id?: string;
+  id?: string | undefined;
   /** Gets or sets the name. */
-  name?: string;
+  name?: string | undefined;
   /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Gets or sets the type. */
-  type?: string;
+  type?: string | undefined;
   /** The connection identifier. */
-  properties?: PrivateEndpointConnectionProperties;
+  properties?: PrivateEndpointConnectionProperties | undefined;
 }
 export type RemoveDefaultAccountRequestScopeType = "Tenant" | "Subscription";
 export interface RemoveDefaultAccountRequest {
@@ -900,24 +906,24 @@ export interface RemoveDefaultAccountRequest {
   /** The scope for the default account. */
   scopeType: RemoveDefaultAccountRequestScopeType | (string & {});
   /** The Id of the scope object, for example if the scope is "Subscription" then it is the ID of that subscription. */
-  scope?: string;
+  scope?: string | undefined;
 }
 export interface RemoveDefaultAccountResponse {}
 /** The scope where the default account is set. */
 export type SetDefaultAccountRequestScopeType = "Tenant" | "Subscription";
 export interface SetDefaultAccountRequest {
   /** The name of the account that is set as the default. */
-  accountName?: string;
+  accountName?: string | undefined;
   /** The resource group name of the account that is set as the default. */
-  resourceGroupName?: string;
+  resourceGroupName?: string | undefined;
   /** The scope object ID. For example, sub ID or tenant ID. */
-  scope?: string;
+  scope?: string | undefined;
   /** The scope tenant in which the default account is set. */
-  scopeTenantId?: string;
+  scopeTenantId?: string | undefined;
   /** The scope where the default account is set. */
-  scopeType?: SetDefaultAccountRequestScopeType | (string & {});
+  scopeType?: SetDefaultAccountRequestScopeType | (string & {}) | undefined;
   /** The subscription ID of the account that is set as the default. */
-  subscriptionId?: string;
+  subscriptionId?: string | undefined;
 }
 /** Tags on the azure resource. */
 export type UpdateAccountRequestTagsMap = { [key: string]: string | undefined };
@@ -929,33 +935,33 @@ export interface UpdateAccountRequest {
   /** The name of the account. */
   accountName: string;
   /** Identity related info to add/remove userAssignedIdentities. */
-  identity?: IdentityInput;
+  identity?: IdentityInput | undefined;
   /** The account properties. */
-  properties?: AccountPropertiesInput;
+  properties?: AccountPropertiesInput | undefined;
   /** Tags on the azure resource. */
-  tags?: UpdateAccountRequestTagsMap;
+  tags?: UpdateAccountRequestTagsMap | undefined;
 }
 /** Tags on the azure resource. */
 export type UpdateAccountResponseTagsMap = { [key: string]: string | undefined };
 export interface UpdateAccountResponse {
   /** Gets or sets the identifier. */
-  id?: string;
+  id?: string | undefined;
   /** Identity Info on the tracked resource */
-  identity?: Identity;
+  identity?: Identity | undefined;
   /** Gets or sets the location. */
-  location?: string;
+  location?: string | undefined;
   /** Gets or sets the name. */
-  name?: string;
+  name?: string | undefined;
   /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Tags on the azure resource. */
-  tags?: UpdateAccountResponseTagsMap;
+  tags?: UpdateAccountResponseTagsMap | undefined;
   /** Gets or sets the type. */
-  type?: string;
+  type?: string | undefined;
   /** Gets or sets the properties. */
-  properties?: AccountProperties;
+  properties?: AccountProperties | undefined;
   /** Gets or sets the Sku. */
-  sku?: AccountSku;
+  sku?: AccountSku | undefined;
 }
 export type AccountsCreateOrUpdateError = AzureOpError;
 /** Create or update an account resource Creates or updates an account */

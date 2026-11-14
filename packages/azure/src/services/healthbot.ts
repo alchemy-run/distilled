@@ -28,6 +28,7 @@ const TELEMETRY = {
   prefix: "Healthbot",
   service: "Healthbot",
   labels: "azure",
+  labelNames: { resourceGroupName: "azure.resource_group.name" },
   propagate: "w3c",
 } as const;
 
@@ -38,16 +39,16 @@ export interface KeyVaultProperties {
   /** The name of the key vault key. */
   keyName: string;
   /** The version of the key vault key. */
-  keyVersion?: string;
+  keyVersion?: string | undefined;
   /** The Uri of the key vault. */
   keyVaultUri: string;
   /** The user assigned identity (ARM resource id) that has access to the key. */
-  userIdentity?: string;
+  userIdentity?: string | undefined;
 }
 /** The properties of a Azure Health Bot. The Health Bot Service is a cloud platform that empowers developers in Healthcare organizations to build and deploy their compliant, AI-powered virtual health assistants and health bots, that help them improve processes and reduce costs. */
 export interface HealthBotPropertiesInput {
   /** KeyVault properties for the resource encryption. */
-  keyVaultProperties?: KeyVaultProperties;
+  keyVaultProperties?: KeyVaultProperties | undefined;
 }
 /** The name of the Azure Health Bot SKU */
 export type SkuName = "F0" | "C0" | "PES" | "C1";
@@ -71,9 +72,9 @@ export type IdentityInputUserAssignedIdentitiesMap = {
 /** Identity for the resource. */
 export interface IdentityInput {
   /** The identity type. The type 'SystemAssigned, UserAssigned' includes both an implicitly created identity and a set of user assigned identities. The type 'None' will remove any identities from the Azure Health Bot */
-  type?: ResourceIdentityType | (string & {});
+  type?: ResourceIdentityType | (string & {}) | undefined;
   /** The list of user identities associated with the resource. The user identity dictionary key references will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'. */
-  userAssignedIdentities?: IdentityInputUserAssignedIdentitiesMap;
+  userAssignedIdentities?: IdentityInputUserAssignedIdentitiesMap | undefined;
 }
 export interface CreateBotRequest {
   /** The ID of the target subscription. */
@@ -83,15 +84,15 @@ export interface CreateBotRequest {
   /** The name of the Bot resource. */
   botName: string;
   /** Resource tags. */
-  tags?: CreateBotRequestTagsMap;
+  tags?: CreateBotRequestTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The set of properties specific to Azure Health Bot resource. */
-  properties?: HealthBotPropertiesInput;
+  properties?: HealthBotPropertiesInput | undefined;
   /** SKU of the Azure Health Bot. */
   sku: Sku;
   /** The identity of the Azure Health Bot. */
-  identity?: IdentityInput;
+  identity?: IdentityInput | undefined;
 }
 /** The type of identity that created the resource. */
 export type SystemDataCreatedByType = "User" | "Application" | "ManagedIdentity" | "Key";
@@ -100,74 +101,74 @@ export type SystemDataLastModifiedByType = "User" | "Application" | "ManagedIden
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface SystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: SystemDataCreatedByType;
+  createdByType?: SystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: SystemDataLastModifiedByType;
+  lastModifiedByType?: SystemDataLastModifiedByType | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 /** Resource tags. */
 export type CreateBotResponseTagsMap = { [key: string]: string | undefined };
 /** The properties of a Azure Health Bot. The Health Bot Service is a cloud platform that empowers developers in Healthcare organizations to build and deploy their compliant, AI-powered virtual health assistants and health bots, that help them improve processes and reduce costs. */
 export interface HealthBotProperties {
   /** The provisioning state of the Azure Health Bot resource. */
-  provisioningState?: string;
+  provisioningState?: string | undefined;
   /** The link. */
-  botManagementPortalLink?: string;
+  botManagementPortalLink?: string | undefined;
   /** KeyVault properties for the resource encryption. */
-  keyVaultProperties?: KeyVaultProperties;
+  keyVaultProperties?: KeyVaultProperties | undefined;
   /** The access control method for the Azure Health Bot resource. */
-  accessControlMethod?: string;
+  accessControlMethod?: string | undefined;
 }
 /** The details of the user assigned managed identity used by the Video Analyzer resource. */
 export interface UserAssignedIdentity {
   /** The principal ID of user assigned identity. */
-  principalId?: string;
+  principalId?: string | undefined;
   /** The client ID of user assigned identity. */
-  clientId?: string;
+  clientId?: string | undefined;
 }
 /** The list of user identities associated with the resource. The user identity dictionary key references will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'. */
 export type IdentityUserAssignedIdentitiesMap = { [key: string]: UserAssignedIdentity | undefined };
 /** Identity for the resource. */
 export interface Identity {
   /** The principal ID of resource identity. This property will only be provided for a system assigned identity. */
-  principalId?: string;
+  principalId?: string | undefined;
   /** The tenant ID of resource. This property will only be provided for a system assigned identity. */
-  tenantId?: string;
+  tenantId?: string | undefined;
   /** The identity type. The type 'SystemAssigned, UserAssigned' includes both an implicitly created identity and a set of user assigned identities. The type 'None' will remove any identities from the Azure Health Bot */
-  type?: ResourceIdentityType;
+  type?: ResourceIdentityType | undefined;
   /** The list of user identities associated with the resource. The user identity dictionary key references will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'. */
-  userAssignedIdentities?: IdentityUserAssignedIdentitiesMap;
+  userAssignedIdentities?: IdentityUserAssignedIdentitiesMap | undefined;
 }
 export interface CreateBotResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: CreateBotResponseTagsMap;
+  tags?: CreateBotResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The set of properties specific to Azure Health Bot resource. */
-  properties?: HealthBotProperties;
+  properties?: HealthBotProperties | undefined;
   /** SKU of the Azure Health Bot. */
   sku: Sku;
   /** The identity of the Azure Health Bot. */
-  identity?: Identity;
+  identity?: Identity | undefined;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeleteBotRequest {
   /** The ID of the target subscription. */
@@ -179,7 +180,7 @@ export interface DeleteBotRequest {
 }
 export interface DeleteBotResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
 }
 export interface GetBotRequest {
   /** The ID of the target subscription. */
@@ -193,23 +194,23 @@ export interface GetBotRequest {
 export type GetBotResponseTagsMap = { [key: string]: string | undefined };
 export interface GetBotResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: GetBotResponseTagsMap;
+  tags?: GetBotResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The set of properties specific to Azure Health Bot resource. */
-  properties?: HealthBotProperties;
+  properties?: HealthBotProperties | undefined;
   /** SKU of the Azure Health Bot. */
   sku: Sku;
   /** The identity of the Azure Health Bot. */
-  identity?: Identity;
+  identity?: Identity | undefined;
 }
 export interface ListBotByResourceGroupRequest {
   /** The ID of the target subscription. */
@@ -222,23 +223,23 @@ export type HealthBotTagsMap = { [key: string]: string | undefined };
 /** Azure Health Bot resource definition */
 export interface HealthBot {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: HealthBotTagsMap;
+  tags?: HealthBotTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The set of properties specific to Azure Health Bot resource. */
-  properties?: HealthBotProperties;
+  properties?: HealthBotProperties | undefined;
   /** SKU of the Azure Health Bot. */
   sku: Sku;
   /** The identity of the Azure Health Bot. */
-  identity?: Identity;
+  identity?: Identity | undefined;
 }
 /** The HealthBot items on this page */
 export type BotResponseListValueList = Array<HealthBot>;
@@ -247,7 +248,7 @@ export interface BotResponseList {
   /** The HealthBot items on this page */
   value: BotResponseListValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListBotsRequest {
   /** The ID of the target subscription. */
@@ -264,41 +265,41 @@ export interface ListBotSecretsRequest {
 /** An entry of HealthBotKeysResponse */
 export interface HealthBotKey {
   /** The name of the key. */
-  keyName?: string;
+  keyName?: string | undefined;
   /** The value of the key. */
-  value?: string;
+  value?: string | undefined;
 }
 /** Array of Azure Health Bot Secrets. */
 export type HealthBotKeysResponseSecretsList = Array<HealthBotKey>;
 /** Health Bot Keys Response. */
 export interface HealthBotKeysResponse {
   /** Array of Azure Health Bot Secrets. */
-  secrets?: HealthBotKeysResponseSecretsList;
+  secrets?: HealthBotKeysResponseSecretsList | undefined;
 }
 export interface ListOperationsRequest {}
 /** Operation display payload */
 export interface OperationDisplay {
   /** Resource provider of the operation */
-  provider?: string;
+  provider?: string | undefined;
   /** Resource of the operation */
-  resource?: string;
+  resource?: string | undefined;
   /** Localized friendly name for the operation */
-  operation?: string;
+  operation?: string | undefined;
   /** Localized friendly description for the operation */
-  description?: string;
+  description?: string | undefined;
 }
 /** Operation detail payload */
 export interface OperationDetail {
   /** Name of the operation */
-  name?: string;
+  name?: string | undefined;
   /** Indicates whether the operation is a data action */
-  isDataAction?: boolean;
+  isDataAction?: boolean | undefined;
   /** Display of the operation */
-  display?: OperationDisplay;
+  display?: OperationDisplay | undefined;
   /** Origin of the operation */
-  origin?: string;
+  origin?: string | undefined;
   /** Additional properties. */
-  properties?: unknown;
+  properties?: unknown | undefined;
 }
 /** Collection of available operation details. */
 export type AvailableOperationsValueList = Array<OperationDetail>;
@@ -307,7 +308,7 @@ export interface AvailableOperations {
   /** Collection of available operation details. */
   value: AvailableOperationsValueList;
   /** URL client should use to fetch the next page (per server side paging). It's null for now, added for future use. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface RegenerateBotApiJwtSecretRequest {
   /** The ID of the target subscription. */
@@ -327,40 +328,40 @@ export interface UpdateBotRequest {
   /** The name of the Bot resource. */
   botName: string;
   /** Properties of Azure Health Bot. */
-  properties?: HealthBotPropertiesInput;
+  properties?: HealthBotPropertiesInput | undefined;
   /** Tags for a Azure Health Bot. */
-  tags?: UpdateBotRequestTagsMap;
+  tags?: UpdateBotRequestTagsMap | undefined;
   /** SKU of the Azure Health Bot. */
-  sku?: Sku;
+  sku?: Sku | undefined;
   /** The identity of the Azure Health Bot. */
-  identity?: IdentityInput;
-  location?: string;
+  identity?: IdentityInput | undefined;
+  location?: string | undefined;
 }
 /** Resource tags. */
 export type UpdateBotResponseTagsMap = { [key: string]: string | undefined };
 export interface UpdateBotResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: UpdateBotResponseTagsMap;
+  tags?: UpdateBotResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The set of properties specific to Azure Health Bot resource. */
-  properties?: HealthBotProperties;
+  properties?: HealthBotProperties | undefined;
   /** SKU of the Azure Health Bot. */
   sku: Sku;
   /** The identity of the Azure Health Bot. */
-  identity?: Identity;
+  identity?: Identity | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  locationHeader?: string;
+  locationHeader?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export type CreateBotError = AzureOpError;
 /** Create a new Azure Health Bot. */

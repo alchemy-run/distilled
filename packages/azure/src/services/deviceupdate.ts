@@ -29,6 +29,7 @@ const TELEMETRY = {
   prefix: "Deviceupdate",
   service: "Deviceupdate",
   labels: "azure",
+  labelNames: { resourceGroupName: "azure.resource_group.name" },
   propagate: "w3c",
 } as const;
 
@@ -36,19 +37,19 @@ export interface CheckNameAvailabilityRequest {
   /** The Azure subscription ID. */
   subscriptionId: string;
   /** The name of the resource for which availability needs to be checked. */
-  name?: string;
+  name?: string | undefined;
   /** The resource type. */
-  type?: string;
+  type?: string | undefined;
 }
 /** The reason why the given name is not available. */
 export type CheckNameAvailabilityResponseReason = "Invalid" | "AlreadyExists";
 export interface CheckNameAvailabilityResponse {
   /** Indicates if the resource name is available. */
-  nameAvailable?: boolean;
+  nameAvailable?: boolean | undefined;
   /** The reason why the given name is not available. */
-  reason?: CheckNameAvailabilityResponseReason;
+  reason?: CheckNameAvailabilityResponseReason | undefined;
   /** Detailed reason why the given name is available. */
-  message?: string;
+  message?: string | undefined;
 }
 /** Resource tags. */
 export type CreateAccountRequestTagsMap = { [key: string]: string | undefined };
@@ -61,22 +62,22 @@ export type PrivateEndpointServiceConnectionStatus = "Pending" | "Approved" | "R
 /** A collection of information about the state of the connection between service consumer and provider. */
 export interface PrivateLinkServiceConnectionState {
   /** Indicates whether the connection has been Approved/Rejected/Removed by the owner of the service. */
-  status?: PrivateEndpointServiceConnectionStatus | (string & {});
+  status?: PrivateEndpointServiceConnectionStatus | (string & {}) | undefined;
   /** The reason for approval/rejection of the connection. */
-  description?: string;
+  description?: string | undefined;
   /** A message indicating if changes on the service provider require any updates on the consumer. */
-  actionsRequired?: string;
+  actionsRequired?: string | undefined;
 }
 /** Array of group IDs. */
 export type PrivateEndpointConnectionPropertiesInputGroupIdsList = Array<string>;
 /** Properties of the PrivateEndpointConnectProperties. */
 export interface PrivateEndpointConnectionPropertiesInput {
   /** The resource of private end point. */
-  privateEndpoint?: PrivateEndpointInput;
+  privateEndpoint?: PrivateEndpointInput | undefined;
   /** A collection of information about the state of the connection between service consumer and provider. */
   privateLinkServiceConnectionState: PrivateLinkServiceConnectionState;
   /** Array of group IDs. */
-  groupIds?: PrivateEndpointConnectionPropertiesInputGroupIdsList;
+  groupIds?: PrivateEndpointConnectionPropertiesInputGroupIdsList | undefined;
 }
 /** The Private Endpoint Connection resource. */
 export interface CreateAccountRequestPropertiesPrivateEndpointConnectionsItem {
@@ -91,20 +92,25 @@ export type CreateAccountRequestPropertiesSku = "Free" | "Standard";
 /** The CMK encryption settings on the Device Update account. */
 export interface Encryption {
   /** The URI of the key vault */
-  keyVaultKeyUri?: string;
+  keyVaultKeyUri?: string | undefined;
   /** The full resourceId of the user assigned identity to be used for key vault access. Identity has to be also assigned to the Account */
-  userAssignedIdentity?: string;
+  userAssignedIdentity?: string | undefined;
 }
 /** Device Update account properties. */
 export interface CreateAccountRequestProperties {
   /** Whether or not public network access is allowed for the account. */
-  publicNetworkAccess?: CreateAccountRequestPropertiesPublicNetworkAccess | (string & {});
+  publicNetworkAccess?:
+    | CreateAccountRequestPropertiesPublicNetworkAccess
+    | (string & {})
+    | undefined;
   /** List of private endpoint connections associated with the account. */
-  privateEndpointConnections?: CreateAccountRequestPropertiesPrivateEndpointConnectionsList;
+  privateEndpointConnections?:
+    | CreateAccountRequestPropertiesPrivateEndpointConnectionsList
+    | undefined;
   /** Device Update Sku */
-  sku?: CreateAccountRequestPropertiesSku | (string & {});
+  sku?: CreateAccountRequestPropertiesSku | (string & {}) | undefined;
   /** CMK encryption at rest properties */
-  encryption?: Encryption;
+  encryption?: Encryption | undefined;
 }
 /** Type of managed service identity (where both SystemAssigned and UserAssigned types are allowed). */
 export type ManagedServiceIdentityType =
@@ -119,7 +125,7 @@ export type UserAssignedIdentitiesInput = { [key: string]: PrivateEndpointInput 
 /** Managed service identity (system assigned and/or user assigned identities) */
 export interface CreateAccountRequestIdentity {
   type: ManagedServiceIdentityType | (string & {});
-  userAssignedIdentities?: UserAssignedIdentitiesInput | null;
+  userAssignedIdentities?: UserAssignedIdentitiesInput | null | undefined;
 }
 export interface CreateAccountRequest {
   /** The Azure subscription ID. */
@@ -129,13 +135,13 @@ export interface CreateAccountRequest {
   /** Account name. */
   accountName: string;
   /** Resource tags. */
-  tags?: CreateAccountRequestTagsMap;
+  tags?: CreateAccountRequestTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Device Update account properties. */
-  properties?: CreateAccountRequestProperties;
+  properties?: CreateAccountRequestProperties | undefined;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: CreateAccountRequestIdentity;
+  identity?: CreateAccountRequestIdentity | undefined;
 }
 /** The type of identity that created the resource. */
 export type SystemDataCreatedByType = "User" | "Application" | "ManagedIdentity" | "Key";
@@ -144,17 +150,17 @@ export type SystemDataLastModifiedByType = "User" | "Application" | "ManagedIden
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface SystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: SystemDataCreatedByType;
+  createdByType?: SystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: SystemDataLastModifiedByType;
+  lastModifiedByType?: SystemDataLastModifiedByType | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 /** Resource tags. */
 export type CreateAccountResponseTagsMap = { [key: string]: string | undefined };
@@ -171,7 +177,7 @@ export type CreateAccountResponsePropertiesPublicNetworkAccess = "Enabled" | "Di
 /** The Private Endpoint resource. */
 export interface PrivateEndpoint {
   /** The ARM identifier for Private Endpoint */
-  id?: string;
+  id?: string | undefined;
 }
 /** Array of group IDs. */
 export type PrivateEndpointConnectionPropertiesGroupIdsList = Array<string>;
@@ -184,24 +190,24 @@ export type PrivateEndpointConnectionProvisioningState =
 /** Properties of the PrivateEndpointConnectProperties. */
 export interface PrivateEndpointConnectionProperties {
   /** The resource of private end point. */
-  privateEndpoint?: PrivateEndpoint;
+  privateEndpoint?: PrivateEndpoint | undefined;
   /** A collection of information about the state of the connection between service consumer and provider. */
   privateLinkServiceConnectionState: PrivateLinkServiceConnectionState;
   /** Array of group IDs. */
-  groupIds?: PrivateEndpointConnectionPropertiesGroupIdsList;
+  groupIds?: PrivateEndpointConnectionPropertiesGroupIdsList | undefined;
   /** The provisioning state of the private endpoint connection resource. */
-  provisioningState?: PrivateEndpointConnectionProvisioningState;
+  provisioningState?: PrivateEndpointConnectionProvisioningState | undefined;
 }
 /** The Private Endpoint Connection resource. */
 export interface CreateAccountResponsePropertiesPrivateEndpointConnectionsItem {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource properties. */
   properties: PrivateEndpointConnectionProperties;
 }
@@ -213,64 +219,66 @@ export type CreateAccountResponsePropertiesSku = "Free" | "Standard";
 /** Whether the location is primary or failover */
 export type LocationRole = "Primary" | "Failover";
 export interface Location {
-  name?: string;
+  name?: string | undefined;
   /** Whether the location is primary or failover */
-  role?: LocationRole;
+  role?: LocationRole | undefined;
 }
 /** Device Update account primary and failover location details */
 export type CreateAccountResponsePropertiesLocationsList = Array<Location>;
 /** Device Update account properties. */
 export interface CreateAccountResponseProperties {
   /** Provisioning state. */
-  provisioningState?: CreateAccountResponsePropertiesProvisioningState;
+  provisioningState?: CreateAccountResponsePropertiesProvisioningState | undefined;
   /** API host name. */
-  hostName?: string;
+  hostName?: string | undefined;
   /** Whether or not public network access is allowed for the account. */
-  publicNetworkAccess?: CreateAccountResponsePropertiesPublicNetworkAccess;
+  publicNetworkAccess?: CreateAccountResponsePropertiesPublicNetworkAccess | undefined;
   /** List of private endpoint connections associated with the account. */
-  privateEndpointConnections?: CreateAccountResponsePropertiesPrivateEndpointConnectionsList;
+  privateEndpointConnections?:
+    | CreateAccountResponsePropertiesPrivateEndpointConnectionsList
+    | undefined;
   /** Device Update Sku */
-  sku?: CreateAccountResponsePropertiesSku;
+  sku?: CreateAccountResponsePropertiesSku | undefined;
   /** CMK encryption at rest properties */
-  encryption?: Encryption;
+  encryption?: Encryption | undefined;
   /** Device Update account primary and failover location details */
-  locations?: CreateAccountResponsePropertiesLocationsList;
+  locations?: CreateAccountResponsePropertiesLocationsList | undefined;
 }
 /** User assigned identity properties */
 export interface UserAssignedIdentity {
   /** The principal ID of the assigned identity. */
-  principalId?: string;
+  principalId?: string | undefined;
   /** The client ID of the assigned identity. */
-  clientId?: string;
+  clientId?: string | undefined;
 }
 /** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
 export type UserAssignedIdentities = { [key: string]: UserAssignedIdentity | undefined };
 /** Managed service identity (system assigned and/or user assigned identities) */
 export interface CreateAccountResponseIdentity {
   /** The service principal ID of the system assigned identity. This property will only be provided for a system assigned identity. */
-  principalId?: string;
+  principalId?: string | undefined;
   /** The tenant ID of the system assigned identity. This property will only be provided for a system assigned identity. */
-  tenantId?: string;
+  tenantId?: string | undefined;
   type: ManagedServiceIdentityType;
-  userAssignedIdentities?: UserAssignedIdentities | null;
+  userAssignedIdentities?: UserAssignedIdentities | null | undefined;
 }
 export interface CreateAccountResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: CreateAccountResponseTagsMap;
+  tags?: CreateAccountResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Device Update account properties. */
-  properties?: CreateAccountResponseProperties;
+  properties?: CreateAccountResponseProperties | undefined;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: CreateAccountResponseIdentity;
+  identity?: CreateAccountResponseIdentity | undefined;
 }
 /** Resource tags. */
 export type CreateInstanceRequestTagsMap = { [key: string]: string | undefined };
@@ -288,17 +296,17 @@ export interface DiagnosticStorageProperties {
   /** Authentication Type */
   authenticationType: DiagnosticStoragePropertiesAuthenticationType | (string & {});
   /** ConnectionString of the diagnostic storage account */
-  connectionString?: string | Redacted.Redacted<string>;
+  connectionString?: string | Redacted.Redacted<string> | undefined;
   /** ResourceId of the diagnostic storage account */
   resourceId: string;
 }
 /** Device Update instance properties. */
 export interface CreateInstanceRequestProperties {
   /** List of IoT Hubs associated with the account. */
-  iotHubs?: CreateInstanceRequestPropertiesIotHubsList;
+  iotHubs?: CreateInstanceRequestPropertiesIotHubsList | undefined;
   /** Enables or Disables the diagnostic logs collection */
-  enableDiagnostics?: boolean;
-  diagnosticStorageProperties?: DiagnosticStorageProperties;
+  enableDiagnostics?: boolean | undefined;
+  diagnosticStorageProperties?: DiagnosticStorageProperties | undefined;
 }
 export interface CreateInstanceRequest {
   /** The Azure subscription ID. */
@@ -310,7 +318,7 @@ export interface CreateInstanceRequest {
   /** Instance name. */
   instanceName: string;
   /** Resource tags. */
-  tags?: CreateInstanceRequestTagsMap;
+  tags?: CreateInstanceRequestTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Device Update instance properties. */
@@ -331,26 +339,26 @@ export type CreateInstanceResponsePropertiesIotHubsList = Array<IotHubSettings>;
 /** Device Update instance properties. */
 export interface CreateInstanceResponseProperties {
   /** Provisioning state. */
-  provisioningState?: CreateInstanceResponsePropertiesProvisioningState;
+  provisioningState?: CreateInstanceResponsePropertiesProvisioningState | undefined;
   /** Parent Device Update Account name which Instance belongs to. */
-  accountName?: string;
+  accountName?: string | undefined;
   /** List of IoT Hubs associated with the account. */
-  iotHubs?: CreateInstanceResponsePropertiesIotHubsList;
+  iotHubs?: CreateInstanceResponsePropertiesIotHubsList | undefined;
   /** Enables or Disables the diagnostic logs collection */
-  enableDiagnostics?: boolean;
-  diagnosticStorageProperties?: DiagnosticStorageProperties;
+  enableDiagnostics?: boolean | undefined;
+  diagnosticStorageProperties?: DiagnosticStorageProperties | undefined;
 }
 export interface CreateInstanceResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: CreateInstanceResponseTagsMap;
+  tags?: CreateInstanceResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Device Update instance properties. */
@@ -366,7 +374,7 @@ export interface DeleteAccountRequest {
 }
 export interface DeleteAccountResponse {
   /** Operation Status Location URI */
-  location?: string;
+  location?: string | undefined;
 }
 export interface DeleteInstanceRequest {
   /** The Azure subscription ID. */
@@ -380,7 +388,7 @@ export interface DeleteInstanceRequest {
 }
 export interface DeleteInstanceResponse {
   /** Operation Status Location URI */
-  location?: string;
+  location?: string | undefined;
 }
 export interface DeletePrivateEndpointConnectionRequest {
   /** The Azure subscription ID. */
@@ -394,7 +402,7 @@ export interface DeletePrivateEndpointConnectionRequest {
 }
 export interface DeletePrivateEndpointConnectionResponse {
   /** Operation Status Location URI */
-  location?: string;
+  location?: string | undefined;
 }
 export interface DeletePrivateEndpointConnectionProxyRequest {
   /** The Azure subscription ID. */
@@ -408,7 +416,7 @@ export interface DeletePrivateEndpointConnectionProxyRequest {
 }
 export interface DeletePrivateEndpointConnectionProxyResponse {
   /** Operation Status Location URI */
-  location?: string;
+  location?: string | undefined;
 }
 export interface GetAccountRequest {
   /** The Azure subscription ID. */
@@ -443,39 +451,41 @@ export type GetAccountResponsePropertiesLocationsList = Array<Location>;
 /** Device Update account properties. */
 export interface GetAccountResponseProperties {
   /** Provisioning state. */
-  provisioningState?: GetAccountResponsePropertiesProvisioningState;
+  provisioningState?: GetAccountResponsePropertiesProvisioningState | undefined;
   /** API host name. */
-  hostName?: string;
+  hostName?: string | undefined;
   /** Whether or not public network access is allowed for the account. */
-  publicNetworkAccess?: GetAccountResponsePropertiesPublicNetworkAccess;
+  publicNetworkAccess?: GetAccountResponsePropertiesPublicNetworkAccess | undefined;
   /** List of private endpoint connections associated with the account. */
-  privateEndpointConnections?: GetAccountResponsePropertiesPrivateEndpointConnectionsList;
+  privateEndpointConnections?:
+    | GetAccountResponsePropertiesPrivateEndpointConnectionsList
+    | undefined;
   /** Device Update Sku */
-  sku?: GetAccountResponsePropertiesSku;
+  sku?: GetAccountResponsePropertiesSku | undefined;
   /** CMK encryption at rest properties */
-  encryption?: Encryption;
+  encryption?: Encryption | undefined;
   /** Device Update account primary and failover location details */
-  locations?: GetAccountResponsePropertiesLocationsList;
+  locations?: GetAccountResponsePropertiesLocationsList | undefined;
 }
 /** Managed service identity (system assigned and/or user assigned identities) */
 export type GetAccountResponseIdentity = CreateAccountResponseIdentity;
 export interface GetAccountResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: GetAccountResponseTagsMap;
+  tags?: GetAccountResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Device Update account properties. */
-  properties?: GetAccountResponseProperties;
+  properties?: GetAccountResponseProperties | undefined;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: CreateAccountResponseIdentity;
+  identity?: CreateAccountResponseIdentity | undefined;
 }
 export interface GetInstanceRequest {
   /** The Azure subscription ID. */
@@ -502,26 +512,26 @@ export type GetInstanceResponsePropertiesIotHubsList = Array<IotHubSettings>;
 /** Device Update instance properties. */
 export interface GetInstanceResponseProperties {
   /** Provisioning state. */
-  provisioningState?: GetInstanceResponsePropertiesProvisioningState;
+  provisioningState?: GetInstanceResponsePropertiesProvisioningState | undefined;
   /** Parent Device Update Account name which Instance belongs to. */
-  accountName?: string;
+  accountName?: string | undefined;
   /** List of IoT Hubs associated with the account. */
-  iotHubs?: GetInstanceResponsePropertiesIotHubsList;
+  iotHubs?: GetInstanceResponsePropertiesIotHubsList | undefined;
   /** Enables or Disables the diagnostic logs collection */
-  enableDiagnostics?: boolean;
-  diagnosticStorageProperties?: DiagnosticStorageProperties;
+  enableDiagnostics?: boolean | undefined;
+  diagnosticStorageProperties?: DiagnosticStorageProperties | undefined;
 }
 export interface GetInstanceResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: GetInstanceResponseTagsMap;
+  tags?: GetInstanceResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Device Update instance properties. */
@@ -539,13 +549,13 @@ export interface GetPrivateEndpointConnectionRequest {
 }
 export interface GetPrivateEndpointConnectionResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource properties. */
   properties: PrivateEndpointConnectionProperties;
 }
@@ -564,11 +574,11 @@ export type PrivateLinkServiceConnectionGroupIdsList = Array<string>;
 /** Private link service connection details. */
 export interface PrivateLinkServiceConnection {
   /** Private link service connection name. */
-  name?: string;
+  name?: string | undefined;
   /** List of group IDs. */
-  groupIds?: PrivateLinkServiceConnectionGroupIdsList;
+  groupIds?: PrivateLinkServiceConnectionGroupIdsList | undefined;
   /** Request message. */
-  requestMessage?: string;
+  requestMessage?: string | undefined;
 }
 /** List of private link service connections that need manual approval. */
 export type RemotePrivateEndpointManualPrivateLinkServiceConnectionsList =
@@ -579,33 +589,33 @@ export type RemotePrivateEndpointPrivateLinkServiceConnectionsList =
 /** A collection of information about the state of the connection between service consumer and provider. */
 export interface PrivateLinkServiceProxyRemotePrivateLinkServiceConnectionState {
   /** Indicates whether the connection has been Approved/Rejected/Removed by the owner of the service. */
-  status?: PrivateEndpointServiceConnectionStatus;
+  status?: PrivateEndpointServiceConnectionStatus | undefined;
   /** The reason for approval/rejection of the connection. */
-  description?: string;
+  description?: string | undefined;
   /** A message indicating if changes on the service provider require any updates on the consumer. */
-  actionsRequired?: string;
+  actionsRequired?: string | undefined;
 }
 /** Remote private endpoint connection details. */
 export interface RemotePrivateEndpointConnection {
   /** Remote private endpoint connection ID. */
-  id?: string;
+  id?: string | undefined;
 }
 /** List of customer visible FQDNs. */
 export type GroupConnectivityInformationCustomerVisibleFqdnsList = Array<string>;
 /** Group connectivity details. */
 export interface GroupConnectivityInformation {
   /** Group ID. */
-  groupId?: string;
+  groupId?: string | undefined;
   /** Member name. */
-  memberName?: string;
+  memberName?: string | undefined;
   /** List of customer visible FQDNs. */
-  customerVisibleFqdns?: GroupConnectivityInformationCustomerVisibleFqdnsList;
+  customerVisibleFqdns?: GroupConnectivityInformationCustomerVisibleFqdnsList | undefined;
   /** Internal FQDN. */
-  internalFqdn?: string;
+  internalFqdn?: string | undefined;
   /** Redirect map ID. */
-  redirectMapId?: string;
+  redirectMapId?: string | undefined;
   /** PrivateLinkService ARM region. */
-  privateLinkServiceArmRegion?: string;
+  privateLinkServiceArmRegion?: string | undefined;
 }
 /** Group connectivity information. */
 export type PrivateLinkServiceProxyGroupConnectivityInformationList =
@@ -613,51 +623,59 @@ export type PrivateLinkServiceProxyGroupConnectivityInformationList =
 /** Private link service proxy details. */
 export interface PrivateLinkServiceProxy {
   /** NRP resource ID. */
-  id?: string;
+  id?: string | undefined;
   /** A collection of information about the state of the connection between service consumer and provider. */
-  remotePrivateLinkServiceConnectionState?: PrivateLinkServiceProxyRemotePrivateLinkServiceConnectionState;
+  remotePrivateLinkServiceConnectionState?:
+    | PrivateLinkServiceProxyRemotePrivateLinkServiceConnectionState
+    | undefined;
   /** Remote private endpoint connection details. */
-  remotePrivateEndpointConnection?: RemotePrivateEndpointConnection;
+  remotePrivateEndpointConnection?: RemotePrivateEndpointConnection | undefined;
   /** Group connectivity information. */
-  groupConnectivityInformation?: PrivateLinkServiceProxyGroupConnectivityInformationList;
+  groupConnectivityInformation?:
+    | PrivateLinkServiceProxyGroupConnectivityInformationList
+    | undefined;
 }
 /** List of private link service proxies. */
 export type RemotePrivateEndpointPrivateLinkServiceProxiesList = Array<PrivateLinkServiceProxy>;
 /** Private endpoint connection proxy object properties. */
 export interface ConnectionDetails {
   /** Connection details ID. */
-  id?: string;
+  id?: string | undefined;
   /** Private IP address. */
-  privateIpAddress?: string;
+  privateIpAddress?: string | undefined;
   /** Link ID. */
-  linkIdentifier?: string;
+  linkIdentifier?: string | undefined;
   /** Group ID. */
-  groupId?: string;
+  groupId?: string | undefined;
   /** Member name. */
-  memberName?: string;
+  memberName?: string | undefined;
 }
 /** List of connection details. */
 export type RemotePrivateEndpointConnectionDetailsList = Array<ConnectionDetails>;
 /** Remote private endpoint details. */
 export interface RemotePrivateEndpoint {
   /** Remote endpoint resource ID. */
-  id?: string;
+  id?: string | undefined;
   /** ARM location of the remote private endpoint. */
-  location?: string;
+  location?: string | undefined;
   /** Original subscription ID needed by Microsoft.Network. */
-  immutableSubscriptionId?: string;
+  immutableSubscriptionId?: string | undefined;
   /** Original resource ID needed by Microsoft.Network. */
-  immutableResourceId?: string;
+  immutableResourceId?: string | undefined;
   /** Virtual network traffic tag. */
-  vnetTrafficTag?: string;
+  vnetTrafficTag?: string | undefined;
   /** List of private link service connections that need manual approval. */
-  manualPrivateLinkServiceConnections?: RemotePrivateEndpointManualPrivateLinkServiceConnectionsList;
+  manualPrivateLinkServiceConnections?:
+    | RemotePrivateEndpointManualPrivateLinkServiceConnectionsList
+    | undefined;
   /** List of automatically approved private link service connections. */
-  privateLinkServiceConnections?: RemotePrivateEndpointPrivateLinkServiceConnectionsList;
+  privateLinkServiceConnections?:
+    | RemotePrivateEndpointPrivateLinkServiceConnectionsList
+    | undefined;
   /** List of private link service proxies. */
-  privateLinkServiceProxies?: RemotePrivateEndpointPrivateLinkServiceProxiesList;
+  privateLinkServiceProxies?: RemotePrivateEndpointPrivateLinkServiceProxiesList | undefined;
   /** List of connection details. */
-  connectionDetails?: RemotePrivateEndpointConnectionDetailsList;
+  connectionDetails?: RemotePrivateEndpointConnectionDetailsList | undefined;
 }
 /** The current provisioning state. */
 export type PrivateEndpointConnectionProxyProvisioningState =
@@ -668,25 +686,25 @@ export type PrivateEndpointConnectionProxyProvisioningState =
 /** Private endpoint connection proxy object property bag. */
 export interface GetPrivateEndpointConnectionProxyResponseProperties {
   /** The provisioning state of the private endpoint connection proxy resource. */
-  provisioningState?: PrivateEndpointConnectionProxyProvisioningState;
+  provisioningState?: PrivateEndpointConnectionProxyProvisioningState | undefined;
 }
 export interface GetPrivateEndpointConnectionProxyResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** ETag from NRP. */
-  eTag?: string;
+  eTag?: string | undefined;
   /** Remote private endpoint details. */
-  remotePrivateEndpoint?: RemotePrivateEndpoint;
+  remotePrivateEndpoint?: RemotePrivateEndpoint | undefined;
   /** Operation status. */
-  status?: string;
+  status?: string | undefined;
   /** Private endpoint connection proxy object property bag. */
-  properties?: GetPrivateEndpointConnectionProxyResponseProperties;
+  properties?: GetPrivateEndpointConnectionProxyResponseProperties | undefined;
 }
 export interface GetPrivateLinkResourceRequest {
   /** The Azure subscription ID. */
@@ -707,23 +725,23 @@ export type GroupInformationPropertiesProvisioningState = "Succeeded" | "Failed"
 /** The properties for a group information object */
 export interface GroupInformationProperties {
   /** The private link resource group id. */
-  groupId?: string;
+  groupId?: string | undefined;
   /** The private link resource required member names. */
-  requiredMembers?: GroupInformationPropertiesRequiredMembersList;
+  requiredMembers?: GroupInformationPropertiesRequiredMembersList | undefined;
   /** The private link resource Private link DNS zone name. */
-  requiredZoneNames?: GroupInformationPropertiesRequiredZoneNamesList;
+  requiredZoneNames?: GroupInformationPropertiesRequiredZoneNamesList | undefined;
   /** The provisioning state of private link group ID. */
-  provisioningState?: GroupInformationPropertiesProvisioningState;
+  provisioningState?: GroupInformationPropertiesProvisioningState | undefined;
 }
 export interface GetPrivateLinkResourceResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties for a group information object */
   properties: GroupInformationProperties;
 }
@@ -758,49 +776,49 @@ export type AccountPropertiesLocationsList = Array<Location>;
 /** Device Update account properties. */
 export interface AccountProperties {
   /** Provisioning state. */
-  provisioningState?: AccountPropertiesProvisioningState;
+  provisioningState?: AccountPropertiesProvisioningState | undefined;
   /** API host name. */
-  hostName?: string;
+  hostName?: string | undefined;
   /** Whether or not public network access is allowed for the account. */
-  publicNetworkAccess?: AccountPropertiesPublicNetworkAccess;
+  publicNetworkAccess?: AccountPropertiesPublicNetworkAccess | undefined;
   /** List of private endpoint connections associated with the account. */
-  privateEndpointConnections?: AccountPropertiesPrivateEndpointConnectionsList;
+  privateEndpointConnections?: AccountPropertiesPrivateEndpointConnectionsList | undefined;
   /** Device Update Sku */
-  sku?: AccountPropertiesSku;
+  sku?: AccountPropertiesSku | undefined;
   /** CMK encryption at rest properties */
-  encryption?: Encryption;
+  encryption?: Encryption | undefined;
   /** Device Update account primary and failover location details */
-  locations?: AccountPropertiesLocationsList;
+  locations?: AccountPropertiesLocationsList | undefined;
 }
 /** Managed service identity (system assigned and/or user assigned identities) */
 export type AccountIdentity = CreateAccountResponseIdentity;
 /** Device Update account details. */
 export interface Account {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: AccountTagsMap;
+  tags?: AccountTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Device Update account properties. */
-  properties?: AccountProperties;
+  properties?: AccountProperties | undefined;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: CreateAccountResponseIdentity;
+  identity?: CreateAccountResponseIdentity | undefined;
 }
 /** List of Accounts. */
 export type AccountListValueList = Array<Account>;
 /** List of Accounts. */
 export interface AccountList {
   /** The link used to get the next page of Accounts list. */
-  nextLink?: string;
+  nextLink?: string | undefined;
   /** List of Accounts. */
-  value?: AccountListValueList;
+  value?: AccountListValueList | undefined;
 }
 export interface ListAccountBySubscriptionRequest {
   /** The Azure subscription ID. */
@@ -829,27 +847,27 @@ export type InstancePropertiesIotHubsList = Array<IotHubSettings>;
 /** Device Update instance properties. */
 export interface InstanceProperties {
   /** Provisioning state. */
-  provisioningState?: InstancePropertiesProvisioningState;
+  provisioningState?: InstancePropertiesProvisioningState | undefined;
   /** Parent Device Update Account name which Instance belongs to. */
-  accountName?: string;
+  accountName?: string | undefined;
   /** List of IoT Hubs associated with the account. */
-  iotHubs?: InstancePropertiesIotHubsList;
+  iotHubs?: InstancePropertiesIotHubsList | undefined;
   /** Enables or Disables the diagnostic logs collection */
-  enableDiagnostics?: boolean;
-  diagnosticStorageProperties?: DiagnosticStorageProperties;
+  enableDiagnostics?: boolean | undefined;
+  diagnosticStorageProperties?: DiagnosticStorageProperties | undefined;
 }
 /** Device Update instance details. */
 export interface Instance {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: InstanceTagsMap;
+  tags?: InstanceTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Device Update instance properties. */
@@ -860,21 +878,21 @@ export type InstanceListValueList = Array<Instance>;
 /** List of Instances. */
 export interface InstanceList {
   /** The link used to get the next page of Instances list. */
-  nextLink?: string;
+  nextLink?: string | undefined;
   /** List of Instances. */
-  value?: InstanceListValueList;
+  value?: InstanceListValueList | undefined;
 }
 export interface ListOperationsRequest {}
 /** Localized display information for this particular operation. */
 export interface OperationDisplay {
   /** The localized friendly form of the resource provider name, e.g. "Microsoft Monitoring Insights" or "Microsoft Compute". */
-  provider?: string;
+  provider?: string | undefined;
   /** The localized friendly name of the resource type related to this operation. E.g. "Virtual Machines" or "Job Schedule Collections". */
-  resource?: string;
+  resource?: string | undefined;
   /** The concise, localized friendly name for the operation; suitable for dropdowns. E.g. "Create or Update Virtual Machine", "Restart Virtual Machine". */
-  operation?: string;
+  operation?: string | undefined;
   /** The short, localized friendly description of the operation; suitable for tool tips and detailed views. */
-  description?: string;
+  description?: string | undefined;
 }
 /** The intended executor of the operation; as in Resource Based Access Control (RBAC) and audit logs UX. Default value is "user,system" */
 export type OperationOrigin = "user" | "system" | "user,system";
@@ -883,23 +901,23 @@ export type OperationActionType = "Internal";
 /** Details of a REST API operation, returned from the Resource Provider Operations API */
 export interface Operation {
   /** The name of the operation, as per Resource-Based Access Control (RBAC). Examples: "Microsoft.Compute/virtualMachines/write", "Microsoft.Compute/virtualMachines/capture/action" */
-  name?: string;
+  name?: string | undefined;
   /** Whether the operation applies to data-plane. This is "true" for data-plane operations and "false" for ARM/control-plane operations. */
-  isDataAction?: boolean;
+  isDataAction?: boolean | undefined;
   /** Localized display information for this particular operation. */
-  display?: OperationDisplay;
+  display?: OperationDisplay | undefined;
   /** The intended executor of the operation; as in Resource Based Access Control (RBAC) and audit logs UX. Default value is "user,system" */
-  origin?: OperationOrigin;
+  origin?: OperationOrigin | undefined;
   /** Enum. Indicates the action type. "Internal" refers to actions that are for internal only APIs. */
-  actionType?: OperationActionType;
+  actionType?: OperationActionType | undefined;
 }
 /** List of operations supported by the resource provider */
 export type ListOperationsResponseValueList = Array<Operation>;
 export interface ListOperationsResponse {
   /** List of operations supported by the resource provider */
-  value?: ListOperationsResponseValueList;
+  value?: ListOperationsResponseValueList | undefined;
   /** URL to get the next set of operation list results (if there are any). */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListPrivateEndpointConnectionByAccountRequest {
   /** The Azure subscription ID. */
@@ -917,7 +935,7 @@ export type ListPrivateEndpointConnectionByAccountResponseValueList =
   Array<CreateAccountResponsePropertiesPrivateEndpointConnectionsItem>;
 export interface ListPrivateEndpointConnectionByAccountResponse {
   /** Array of private endpoint connections */
-  value?: ListPrivateEndpointConnectionByAccountResponseValueList;
+  value?: ListPrivateEndpointConnectionByAccountResponseValueList | undefined;
 }
 export interface ListPrivateEndpointConnectionProxyByAccountRequest {
   /** The Azure subscription ID. */
@@ -933,21 +951,21 @@ export type PrivateEndpointConnectionProxyProperties =
 /** Private endpoint connection proxy details. */
 export interface PrivateEndpointConnectionProxy {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** ETag from NRP. */
-  eTag?: string;
+  eTag?: string | undefined;
   /** Remote private endpoint details. */
-  remotePrivateEndpoint?: RemotePrivateEndpoint;
+  remotePrivateEndpoint?: RemotePrivateEndpoint | undefined;
   /** Operation status. */
-  status?: string;
+  status?: string | undefined;
   /** Private endpoint connection proxy object property bag. */
-  properties?: GetPrivateEndpointConnectionProxyResponseProperties;
+  properties?: GetPrivateEndpointConnectionProxyResponseProperties | undefined;
 }
 /** The list of available private endpoint connection proxies for an Account */
 export type PrivateEndpointConnectionProxyListResultValueList =
@@ -955,9 +973,9 @@ export type PrivateEndpointConnectionProxyListResultValueList =
 /** The available private endpoint connection proxies for an Account (not to be used by anyone, here because of ARM requirements) */
 export interface PrivateEndpointConnectionProxyListResult {
   /** The list of available private endpoint connection proxies for an Account */
-  value?: PrivateEndpointConnectionProxyListResultValueList;
+  value?: PrivateEndpointConnectionProxyListResultValueList | undefined;
   /** The URI that can be used to request the next list of private endpoint connection proxies. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListPrivateLinkResourceByAccountRequest {
   /** The Azure subscription ID. */
@@ -970,13 +988,13 @@ export interface ListPrivateLinkResourceByAccountRequest {
 /** The group information for creating a private endpoint on an Account */
 export interface GroupInformation {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties for a group information object */
   properties: GroupInformationProperties;
 }
@@ -985,9 +1003,9 @@ export type PrivateLinkResourceListResultValueList = Array<GroupInformation>;
 /** The available private link resources for an Account */
 export interface PrivateLinkResourceListResult {
   /** The list of available private link resources for an Account */
-  value?: PrivateLinkResourceListResultValueList;
+  value?: PrivateLinkResourceListResultValueList | undefined;
   /** The URI that can be used to request the next list of private link resources. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 /** List of private link service connections that need manual approval. */
 export type RemotePrivateEndpointInputManualPrivateLinkServiceConnectionsList =
@@ -1005,11 +1023,11 @@ export type GroupConnectivityInformationInputCustomerVisibleFqdnsList = Array<st
 /** Group connectivity details. */
 export interface GroupConnectivityInformationInput {
   /** List of customer visible FQDNs. */
-  customerVisibleFqdns?: GroupConnectivityInformationInputCustomerVisibleFqdnsList;
+  customerVisibleFqdns?: GroupConnectivityInformationInputCustomerVisibleFqdnsList | undefined;
   /** Redirect map ID. */
-  redirectMapId?: string;
+  redirectMapId?: string | undefined;
   /** PrivateLinkService ARM region. */
-  privateLinkServiceArmRegion?: string;
+  privateLinkServiceArmRegion?: string | undefined;
 }
 /** Group connectivity information. */
 export type PrivateLinkServiceProxyInputGroupConnectivityInformationList =
@@ -1017,13 +1035,15 @@ export type PrivateLinkServiceProxyInputGroupConnectivityInformationList =
 /** Private link service proxy details. */
 export interface PrivateLinkServiceProxyInput {
   /** NRP resource ID. */
-  id?: string;
+  id?: string | undefined;
   /** A collection of information about the state of the connection between service consumer and provider. */
-  remotePrivateLinkServiceConnectionState?: PrivateLinkServiceConnectionState;
+  remotePrivateLinkServiceConnectionState?: PrivateLinkServiceConnectionState | undefined;
   /** Remote private endpoint connection details. */
-  remotePrivateEndpointConnection?: PrivateEndpointInput;
+  remotePrivateEndpointConnection?: PrivateEndpointInput | undefined;
   /** Group connectivity information. */
-  groupConnectivityInformation?: PrivateLinkServiceProxyInputGroupConnectivityInformationList;
+  groupConnectivityInformation?:
+    | PrivateLinkServiceProxyInputGroupConnectivityInformationList
+    | undefined;
 }
 /** List of private link service proxies. */
 export type RemotePrivateEndpointInputPrivateLinkServiceProxiesList =
@@ -1035,23 +1055,27 @@ export type RemotePrivateEndpointInputConnectionDetailsList = Array<PrivateEndpo
 /** Remote private endpoint details. */
 export interface RemotePrivateEndpointInput {
   /** Remote endpoint resource ID. */
-  id?: string;
+  id?: string | undefined;
   /** ARM location of the remote private endpoint. */
-  location?: string;
+  location?: string | undefined;
   /** Original subscription ID needed by Microsoft.Network. */
-  immutableSubscriptionId?: string;
+  immutableSubscriptionId?: string | undefined;
   /** Original resource ID needed by Microsoft.Network. */
-  immutableResourceId?: string;
+  immutableResourceId?: string | undefined;
   /** Virtual network traffic tag. */
-  vnetTrafficTag?: string;
+  vnetTrafficTag?: string | undefined;
   /** List of private link service connections that need manual approval. */
-  manualPrivateLinkServiceConnections?: RemotePrivateEndpointInputManualPrivateLinkServiceConnectionsList;
+  manualPrivateLinkServiceConnections?:
+    | RemotePrivateEndpointInputManualPrivateLinkServiceConnectionsList
+    | undefined;
   /** List of automatically approved private link service connections. */
-  privateLinkServiceConnections?: RemotePrivateEndpointInputPrivateLinkServiceConnectionsList;
+  privateLinkServiceConnections?:
+    | RemotePrivateEndpointInputPrivateLinkServiceConnectionsList
+    | undefined;
   /** List of private link service proxies. */
-  privateLinkServiceProxies?: RemotePrivateEndpointInputPrivateLinkServiceProxiesList;
+  privateLinkServiceProxies?: RemotePrivateEndpointInputPrivateLinkServiceProxiesList | undefined;
   /** List of connection details. */
-  connectionDetails?: RemotePrivateEndpointInputConnectionDetailsList;
+  connectionDetails?: RemotePrivateEndpointInputConnectionDetailsList | undefined;
 }
 /** Private endpoint connection proxy object property bag. */
 export type PrivateEndpointConnectionProxiesCreateOrUpdateRequestProperties = PrivateEndpointInput;
@@ -1065,32 +1089,32 @@ export interface PrivateEndpointConnectionProxiesCreateOrUpdateRequest {
   /** The ID of the private endpoint connection proxy object. */
   privateEndpointConnectionProxyId: string;
   /** Remote private endpoint details. */
-  remotePrivateEndpoint?: RemotePrivateEndpointInput;
+  remotePrivateEndpoint?: RemotePrivateEndpointInput | undefined;
   /** Operation status. */
-  status?: string;
+  status?: string | undefined;
   /** Private endpoint connection proxy object property bag. */
-  properties?: PrivateEndpointInput;
+  properties?: PrivateEndpointInput | undefined;
 }
 /** Private endpoint connection proxy object property bag. */
 export type PrivateEndpointConnectionProxiesCreateOrUpdateResponseProperties =
   GetPrivateEndpointConnectionProxyResponseProperties;
 export interface PrivateEndpointConnectionProxiesCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** ETag from NRP. */
-  eTag?: string;
+  eTag?: string | undefined;
   /** Remote private endpoint details. */
-  remotePrivateEndpoint?: RemotePrivateEndpoint;
+  remotePrivateEndpoint?: RemotePrivateEndpoint | undefined;
   /** Operation status. */
-  status?: string;
+  status?: string | undefined;
   /** Private endpoint connection proxy object property bag. */
-  properties?: GetPrivateEndpointConnectionProxyResponseProperties;
+  properties?: GetPrivateEndpointConnectionProxyResponseProperties | undefined;
 }
 export interface PrivateEndpointConnectionsCreateOrUpdateRequest {
   /** The Azure subscription ID. */
@@ -1106,13 +1130,13 @@ export interface PrivateEndpointConnectionsCreateOrUpdateRequest {
 }
 export interface PrivateEndpointConnectionsCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource properties. */
   properties: PrivateEndpointConnectionProperties;
 }
@@ -1128,11 +1152,11 @@ export interface UpdateAccountRequest {
   /** Account name. */
   accountName: string;
   /** List of key value pairs that describe the resource. This will overwrite the existing tags. */
-  tags?: UpdateAccountRequestTagsMap;
+  tags?: UpdateAccountRequestTagsMap | undefined;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: CreateAccountRequestIdentity;
+  identity?: CreateAccountRequestIdentity | undefined;
   /** The geo-location where the resource lives */
-  location?: string;
+  location?: string | undefined;
 }
 /** Resource tags. */
 export type UpdateAccountResponseTagsMap = { [key: string]: string | undefined };
@@ -1159,39 +1183,41 @@ export type UpdateAccountResponsePropertiesLocationsList = Array<Location>;
 /** Device Update account properties. */
 export interface UpdateAccountResponseProperties {
   /** Provisioning state. */
-  provisioningState?: UpdateAccountResponsePropertiesProvisioningState;
+  provisioningState?: UpdateAccountResponsePropertiesProvisioningState | undefined;
   /** API host name. */
-  hostName?: string;
+  hostName?: string | undefined;
   /** Whether or not public network access is allowed for the account. */
-  publicNetworkAccess?: UpdateAccountResponsePropertiesPublicNetworkAccess;
+  publicNetworkAccess?: UpdateAccountResponsePropertiesPublicNetworkAccess | undefined;
   /** List of private endpoint connections associated with the account. */
-  privateEndpointConnections?: UpdateAccountResponsePropertiesPrivateEndpointConnectionsList;
+  privateEndpointConnections?:
+    | UpdateAccountResponsePropertiesPrivateEndpointConnectionsList
+    | undefined;
   /** Device Update Sku */
-  sku?: UpdateAccountResponsePropertiesSku;
+  sku?: UpdateAccountResponsePropertiesSku | undefined;
   /** CMK encryption at rest properties */
-  encryption?: Encryption;
+  encryption?: Encryption | undefined;
   /** Device Update account primary and failover location details */
-  locations?: UpdateAccountResponsePropertiesLocationsList;
+  locations?: UpdateAccountResponsePropertiesLocationsList | undefined;
 }
 /** Managed service identity (system assigned and/or user assigned identities) */
 export type UpdateAccountResponseIdentity = CreateAccountResponseIdentity;
 export interface UpdateAccountResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: UpdateAccountResponseTagsMap;
+  tags?: UpdateAccountResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Device Update account properties. */
-  properties?: UpdateAccountResponseProperties;
+  properties?: UpdateAccountResponseProperties | undefined;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: CreateAccountResponseIdentity;
+  identity?: CreateAccountResponseIdentity | undefined;
 }
 /** List of key value pairs that describe the resource. This will overwrite the existing tags. */
 export type UpdateInstanceRequestTagsMap = { [key: string]: string | undefined };
@@ -1205,7 +1231,7 @@ export interface UpdateInstanceRequest {
   /** Instance name. */
   instanceName: string;
   /** List of key value pairs that describe the resource. This will overwrite the existing tags. */
-  tags?: UpdateInstanceRequestTagsMap;
+  tags?: UpdateInstanceRequestTagsMap | undefined;
 }
 /** Resource tags. */
 export type UpdateInstanceResponseTagsMap = { [key: string]: string | undefined };
@@ -1222,26 +1248,26 @@ export type UpdateInstanceResponsePropertiesIotHubsList = Array<IotHubSettings>;
 /** Device Update instance properties. */
 export interface UpdateInstanceResponseProperties {
   /** Provisioning state. */
-  provisioningState?: UpdateInstanceResponsePropertiesProvisioningState;
+  provisioningState?: UpdateInstanceResponsePropertiesProvisioningState | undefined;
   /** Parent Device Update Account name which Instance belongs to. */
-  accountName?: string;
+  accountName?: string | undefined;
   /** List of IoT Hubs associated with the account. */
-  iotHubs?: UpdateInstanceResponsePropertiesIotHubsList;
+  iotHubs?: UpdateInstanceResponsePropertiesIotHubsList | undefined;
   /** Enables or Disables the diagnostic logs collection */
-  enableDiagnostics?: boolean;
-  diagnosticStorageProperties?: DiagnosticStorageProperties;
+  enableDiagnostics?: boolean | undefined;
+  diagnosticStorageProperties?: DiagnosticStorageProperties | undefined;
 }
 export interface UpdateInstanceResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: UpdateInstanceResponseTagsMap;
+  tags?: UpdateInstanceResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Device Update instance properties. */
@@ -1257,15 +1283,15 @@ export interface UpdatePrivateEndpointConnectionProxyPrivateEndpointPropertiesRe
   /** The ID of the private endpoint connection proxy object. */
   privateEndpointConnectionProxyId: string;
   /** Remote endpoint resource ID. */
-  id?: string;
+  id?: string | undefined;
   /** ARM location of the remote private endpoint. */
-  location?: string;
+  location?: string | undefined;
   /** Original subscription ID needed by Microsoft.Network. */
-  immutableSubscriptionId?: string;
+  immutableSubscriptionId?: string | undefined;
   /** Original resource ID needed by Microsoft.Network. */
-  immutableResourceId?: string;
+  immutableResourceId?: string | undefined;
   /** Virtual network traffic tag. */
-  vnetTrafficTag?: string;
+  vnetTrafficTag?: string | undefined;
 }
 export interface UpdatePrivateEndpointConnectionProxyPrivateEndpointPropertiesResponse {}
 /** Private endpoint connection proxy object property bag. */
@@ -1280,11 +1306,11 @@ export interface ValidatePrivateEndpointConnectionProxyRequest {
   /** The ID of the private endpoint connection proxy object. */
   privateEndpointConnectionProxyId: string;
   /** Remote private endpoint details. */
-  remotePrivateEndpoint?: RemotePrivateEndpointInput;
+  remotePrivateEndpoint?: RemotePrivateEndpointInput | undefined;
   /** Operation status. */
-  status?: string;
+  status?: string | undefined;
   /** Private endpoint connection proxy object property bag. */
-  properties?: PrivateEndpointInput;
+  properties?: PrivateEndpointInput | undefined;
 }
 export interface ValidatePrivateEndpointConnectionProxyResponse {}
 export type CheckNameAvailabilityError = AzureOpError;

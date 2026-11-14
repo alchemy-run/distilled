@@ -196,6 +196,29 @@ export const StructWithRest = (struct: Lite, records: ReadonlyArray<Lite>): Lite
 
 const resolveObjects = (n: Node): Node => (n._tag === "Suspend" ? resolveObjects(n.thunk!()) : n);
 
+/**
+ * `struct`'s members, then the members of `base` (a struct, possibly
+ * suspended) that `struct` does not declare. An operation input that inlines
+ * its request body is the body struct extended with the path and query
+ * members, without a second copy of every body field. Resolves `base`, so
+ * call it inside the input's `suspend`.
+ */
+export const Extend = (base: Lite, struct: Lite): Lite => {
+  const own = resolveObjects(astOf(struct));
+  const names = new Set((own.propertySignatures ?? []).map((p) => p.name));
+  const inherited = resolveObjects(astOf(base)).propertySignatures ?? [];
+  return make(
+    node({
+      _tag: "Objects",
+      propertySignatures: [
+        ...(own.propertySignatures ?? []),
+        ...inherited.filter((p) => !names.has(p.name)),
+      ],
+      indexSignatures: own.indexSignatures ?? [],
+    }),
+  );
+};
+
 /** A lazily resolved schema; `.ast` is a Suspend node whose thunk resolves the target. */
 export const suspend = (f: () => Lite): Lite => {
   let resolved: Node | undefined;
@@ -516,7 +539,12 @@ export const toEffect = (S: EffectSchemaApi, ast: Node): unknown => {
       case "Objects": {
         const props = n.propertySignatures ?? [];
         const records = (n.indexSignatures ?? []).map((i) =>
-          S.Record(build(i.parameter), build(i.type)),
+          S.Record(
+            build(i.parameter),
+            i.type._tag === "Union" && i.type.context?.isOptional
+              ? S.Union([build(i.type.types![0]!), S.Undefined])
+              : build(i.type),
+          ),
         );
         if (props.length === 0 && records.length === 1) {
           out = records[0];

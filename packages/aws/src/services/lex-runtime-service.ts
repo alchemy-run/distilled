@@ -8,6 +8,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
 import * as T from "../traits.ts";
@@ -185,17 +186,17 @@ export interface DeleteSessionRequest {
   userId: string;
 }
 export interface DeleteSessionResponse {
-  botName?: string;
-  botAlias?: string;
-  userId?: string;
-  sessionId?: string;
+  botName?: string | undefined;
+  botAlias?: string | undefined;
+  userId?: string | undefined;
+  sessionId?: string | undefined;
 }
 export type IntentSummaryCheckpointLabel = string;
 export interface GetSessionRequest {
   botName: string;
   botAlias: string;
   userId: string;
-  checkpointLabelFilter?: string;
+  checkpointLabelFilter?: string | undefined;
 }
 export type IntentName = string;
 export type StringMap = { [key: string]: string | undefined };
@@ -209,13 +210,13 @@ export type DialogActionType =
   | (string & {});
 export type FulfillmentState = "Fulfilled" | "Failed" | "ReadyForFulfillment" | (string & {});
 export interface IntentSummary {
-  intentName?: string;
-  checkpointLabel?: string;
-  slots?: { [key: string]: string | undefined };
-  confirmationStatus?: ConfirmationStatus;
+  intentName?: string | undefined;
+  checkpointLabel?: string | undefined;
+  slots?: { [key: string]: string | undefined } | undefined;
+  confirmationStatus?: ConfirmationStatus | undefined;
   dialogActionType: DialogActionType;
-  fulfillmentState?: FulfillmentState;
-  slotToElicit?: string;
+  fulfillmentState?: FulfillmentState | undefined;
+  slotToElicit?: string | undefined;
 }
 export type IntentSummaryList = IntentSummary[];
 export type Text = string | redacted.Redacted<string>;
@@ -227,19 +228,19 @@ export type MessageFormatType =
   | (string & {});
 export interface DialogAction {
   type: DialogActionType;
-  intentName?: string;
-  slots?: { [key: string]: string | undefined };
-  slotToElicit?: string;
-  fulfillmentState?: FulfillmentState;
-  message?: string | redacted.Redacted<string>;
-  messageFormat?: MessageFormatType;
+  intentName?: string | undefined;
+  slots?: { [key: string]: string | undefined } | undefined;
+  slotToElicit?: string | undefined;
+  fulfillmentState?: FulfillmentState | undefined;
+  message?: string | redacted.Redacted<string> | undefined;
+  messageFormat?: MessageFormatType | undefined;
 }
 export type ActiveContextName = string;
 export type ActiveContextTimeToLiveInSeconds = number;
 export type ActiveContextTurnsToLive = number;
 export interface ActiveContextTimeToLive {
-  timeToLiveInSeconds?: number;
-  turnsToLive?: number;
+  timeToLiveInSeconds?: number | undefined;
+  turnsToLive?: number | undefined;
 }
 export type ParameterName = string;
 export type ActiveContextParametersMap = {
@@ -252,11 +253,11 @@ export interface ActiveContext {
 }
 export type ActiveContextsList = ActiveContext[];
 export interface GetSessionResponse {
-  recentIntentSummaryView?: IntentSummary[];
-  sessionAttributes?: { [key: string]: string | undefined };
-  sessionId?: string;
-  dialogAction?: DialogAction;
-  activeContexts?: ActiveContext[];
+  recentIntentSummaryView?: IntentSummary[] | undefined;
+  sessionAttributes?: { [key: string]: string | undefined } | undefined;
+  sessionId?: string | undefined;
+  dialogAction?: DialogAction | undefined;
+  activeContexts?: ActiveContext[] | undefined;
 }
 export type SynthesizedJsonAttributesString = string | redacted.Redacted<string>;
 export type HttpContentType = string;
@@ -266,12 +267,12 @@ export interface PostContentRequest {
   botName: string;
   botAlias: string;
   userId: string;
-  sessionAttributes?: string | redacted.Redacted<string>;
-  requestAttributes?: string | redacted.Redacted<string>;
+  sessionAttributes?: string | redacted.Redacted<string> | undefined;
+  requestAttributes?: string | redacted.Redacted<string> | undefined;
   contentType: string;
-  accept?: string;
+  accept?: string | undefined;
   inputStream: T.StreamingInputBody;
-  activeContexts?: string | redacted.Redacted<string>;
+  activeContexts?: string | redacted.Redacted<string> | undefined;
 }
 export type SynthesizedJsonString = string;
 export type SensitiveString = string | redacted.Redacted<string>;
@@ -286,48 +287,48 @@ export type DialogState =
 export type SensitiveStringUnbounded = string | redacted.Redacted<string>;
 export type BotVersion = string;
 export interface PostContentResponse {
-  contentType?: string;
-  intentName?: string;
-  nluIntentConfidence?: string;
-  alternativeIntents?: string;
-  slots?: string;
-  sessionAttributes?: string;
-  sentimentResponse?: string;
-  message?: string | redacted.Redacted<string>;
-  encodedMessage?: string | redacted.Redacted<string>;
-  messageFormat?: MessageFormatType;
-  dialogState?: DialogState;
-  slotToElicit?: string;
-  inputTranscript?: string;
-  encodedInputTranscript?: string | redacted.Redacted<string>;
-  audioStream?: T.StreamingOutputBody;
-  botVersion?: string;
-  sessionId?: string;
-  activeContexts?: string | redacted.Redacted<string>;
+  contentType?: string | undefined;
+  intentName?: string | undefined;
+  nluIntentConfidence?: string | undefined;
+  alternativeIntents?: string | undefined;
+  slots?: string | undefined;
+  sessionAttributes?: string | undefined;
+  sentimentResponse?: string | undefined;
+  message?: string | redacted.Redacted<string> | undefined;
+  encodedMessage?: string | redacted.Redacted<string> | undefined;
+  messageFormat?: MessageFormatType | undefined;
+  dialogState?: DialogState | undefined;
+  slotToElicit?: string | undefined;
+  inputTranscript?: string | undefined;
+  encodedInputTranscript?: string | redacted.Redacted<string> | undefined;
+  audioStream?: T.StreamingOutputBody | undefined;
+  botVersion?: string | undefined;
+  sessionId?: string | undefined;
+  activeContexts?: string | redacted.Redacted<string> | undefined;
 }
 export interface PostTextRequest {
   botName: string;
   botAlias: string;
   userId: string;
-  sessionAttributes?: { [key: string]: string | undefined };
-  requestAttributes?: { [key: string]: string | undefined };
+  sessionAttributes?: { [key: string]: string | undefined } | undefined;
+  requestAttributes?: { [key: string]: string | undefined } | undefined;
   inputText: string | redacted.Redacted<string>;
-  activeContexts?: ActiveContext[];
+  activeContexts?: ActiveContext[] | undefined;
 }
 export interface IntentConfidence {
-  score?: number;
+  score?: number | undefined;
 }
 export interface PredictedIntent {
-  intentName?: string;
-  nluIntentConfidence?: IntentConfidence;
-  slots?: { [key: string]: string | undefined };
+  intentName?: string | undefined;
+  nluIntentConfidence?: IntentConfidence | undefined;
+  slots?: { [key: string]: string | undefined } | undefined;
 }
 export type IntentList = PredictedIntent[];
 export type SentimentLabel = string;
 export type SentimentScore = string;
 export interface SentimentResponse {
-  sentimentLabel?: string;
-  sentimentScore?: string;
+  sentimentLabel?: string | undefined;
+  sentimentScore?: string | undefined;
 }
 export type ContentType = "application/vnd.amazonaws.card.generic" | (string & {});
 export type StringWithLength = string;
@@ -340,57 +341,57 @@ export interface Button {
 }
 export type ListOfButtons = Button[];
 export interface GenericAttachment {
-  title?: string;
-  subTitle?: string;
-  attachmentLinkUrl?: string;
-  imageUrl?: string;
-  buttons?: Button[];
+  title?: string | undefined;
+  subTitle?: string | undefined;
+  attachmentLinkUrl?: string | undefined;
+  imageUrl?: string | undefined;
+  buttons?: Button[] | undefined;
 }
 export type GenericAttachmentList = GenericAttachment[];
 export interface ResponseCard {
-  version?: string;
-  contentType?: ContentType;
-  genericAttachments?: GenericAttachment[];
+  version?: string | undefined;
+  contentType?: ContentType | undefined;
+  genericAttachments?: GenericAttachment[] | undefined;
 }
 export interface PostTextResponse {
-  intentName?: string;
-  nluIntentConfidence?: IntentConfidence;
-  alternativeIntents?: PredictedIntent[];
-  slots?: { [key: string]: string | undefined };
-  sessionAttributes?: { [key: string]: string | undefined };
-  message?: string | redacted.Redacted<string>;
-  sentimentResponse?: SentimentResponse;
-  messageFormat?: MessageFormatType;
-  dialogState?: DialogState;
-  slotToElicit?: string;
-  responseCard?: ResponseCard;
-  sessionId?: string;
-  botVersion?: string;
-  activeContexts?: ActiveContext[];
+  intentName?: string | undefined;
+  nluIntentConfidence?: IntentConfidence | undefined;
+  alternativeIntents?: PredictedIntent[] | undefined;
+  slots?: { [key: string]: string | undefined } | undefined;
+  sessionAttributes?: { [key: string]: string | undefined } | undefined;
+  message?: string | redacted.Redacted<string> | undefined;
+  sentimentResponse?: SentimentResponse | undefined;
+  messageFormat?: MessageFormatType | undefined;
+  dialogState?: DialogState | undefined;
+  slotToElicit?: string | undefined;
+  responseCard?: ResponseCard | undefined;
+  sessionId?: string | undefined;
+  botVersion?: string | undefined;
+  activeContexts?: ActiveContext[] | undefined;
 }
 export interface PutSessionRequest {
   botName: string;
   botAlias: string;
   userId: string;
-  sessionAttributes?: { [key: string]: string | undefined };
-  dialogAction?: DialogAction;
-  recentIntentSummaryView?: IntentSummary[];
-  accept?: string;
-  activeContexts?: ActiveContext[];
+  sessionAttributes?: { [key: string]: string | undefined } | undefined;
+  dialogAction?: DialogAction | undefined;
+  recentIntentSummaryView?: IntentSummary[] | undefined;
+  accept?: string | undefined;
+  activeContexts?: ActiveContext[] | undefined;
 }
 export interface PutSessionResponse {
-  contentType?: string;
-  intentName?: string;
-  slots?: string;
-  sessionAttributes?: string;
-  message?: string | redacted.Redacted<string>;
-  encodedMessage?: string | redacted.Redacted<string>;
-  messageFormat?: MessageFormatType;
-  dialogState?: DialogState;
-  slotToElicit?: string;
-  audioStream?: T.StreamingOutputBody;
-  sessionId?: string;
-  activeContexts?: string | redacted.Redacted<string>;
+  contentType?: string | undefined;
+  intentName?: string | undefined;
+  slots?: string | undefined;
+  sessionAttributes?: string | undefined;
+  message?: string | redacted.Redacted<string> | undefined;
+  encodedMessage?: string | redacted.Redacted<string> | undefined;
+  messageFormat?: MessageFormatType | undefined;
+  dialogState?: DialogState | undefined;
+  slotToElicit?: string | undefined;
+  audioStream?: T.StreamingOutputBody | undefined;
+  sessionId?: string | undefined;
+  activeContexts?: string | redacted.Redacted<string> | undefined;
 }
 export type ErrorMessage = string;
 export type DeleteSessionError =
@@ -404,7 +405,7 @@ export type DeleteSessionError =
  * Removes session information for a specified bot, alias, and user ID.
  */
 export const deleteSession: API.OperationMethod<
-  DeleteSessionRequest,
+  DeleteSessionRequest & RegionInput,
   DeleteSessionResponse,
   DeleteSessionError,
   Credentials | HttpClient.HttpClient
@@ -436,7 +437,7 @@ export type GetSessionError =
  * ID.
  */
 export const getSession: API.OperationMethod<
-  GetSessionRequest,
+  GetSessionRequest & RegionInput,
   GetSessionResponse,
   GetSessionError,
   Credentials | HttpClient.HttpClient
@@ -531,7 +532,7 @@ export type PostContentError =
  * Conversation Context.
  */
 export const postContent: API.OperationMethod<
-  PostContentRequest,
+  PostContentRequest & RegionInput,
   PostContentResponse,
   PostContentError,
   Credentials | HttpClient.HttpClient
@@ -627,7 +628,7 @@ export type PostTextError =
  * Conversation Context.
  */
 export const postText: API.OperationMethod<
-  PostTextRequest,
+  PostTextRequest & RegionInput,
   PostTextResponse,
   PostTextError,
   Credentials | HttpClient.HttpClient
@@ -670,7 +671,7 @@ export type PutSessionError =
  * Sessions.
  */
 export const putSession: API.OperationMethod<
-  PutSessionRequest,
+  PutSessionRequest & RegionInput,
   PutSessionResponse,
   PutSessionError,
   Credentials | HttpClient.HttpClient

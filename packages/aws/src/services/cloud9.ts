@@ -7,6 +7,7 @@ import type * as redacted from "effect/Redacted";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
 import * as T from "../traits.ts";
@@ -160,20 +161,20 @@ export type TagList = Tag[];
 export type ConnectionType = "CONNECT_SSH" | "CONNECT_SSM" | (string & {});
 export interface CreateEnvironmentEC2Request {
   name: string;
-  description?: string | redacted.Redacted<string>;
-  clientRequestToken?: string;
+  description?: string | redacted.Redacted<string> | undefined;
+  clientRequestToken?: string | undefined;
   instanceType: string;
-  subnetId?: string;
+  subnetId?: string | undefined;
   imageId: string;
-  automaticStopTimeMinutes?: number;
-  ownerArn?: string;
-  tags?: Tag[];
-  connectionType?: ConnectionType;
-  dryRun?: boolean;
+  automaticStopTimeMinutes?: number | undefined;
+  ownerArn?: string | undefined;
+  tags?: Tag[] | undefined;
+  connectionType?: ConnectionType | undefined;
+  dryRun?: boolean | undefined;
 }
 export type EnvironmentId = string;
 export interface CreateEnvironmentEC2Result {
-  environmentId?: string;
+  environmentId?: string | undefined;
 }
 export type MemberPermissions = "read-write" | "read-only" | (string & {});
 export interface CreateEnvironmentMembershipRequest {
@@ -187,7 +188,7 @@ export interface EnvironmentMember {
   userId: string;
   userArn: string;
   environmentId: string;
-  lastAccess?: Date;
+  lastAccess?: Date | undefined;
 }
 export interface CreateEnvironmentMembershipResult {
   membership: EnvironmentMember;
@@ -204,16 +205,16 @@ export interface DeleteEnvironmentMembershipResult {}
 export type PermissionsList = Permissions[];
 export type MaxResults = number;
 export interface DescribeEnvironmentMembershipsRequest {
-  userArn?: string;
-  environmentId?: string;
-  permissions?: Permissions[];
-  nextToken?: string;
-  maxResults?: number;
+  userArn?: string | undefined;
+  environmentId?: string | undefined;
+  permissions?: Permissions[] | undefined;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export type EnvironmentMembersList = EnvironmentMember[];
 export interface DescribeEnvironmentMembershipsResult {
-  memberships?: EnvironmentMember[];
-  nextToken?: string;
+  memberships?: EnvironmentMember[] | undefined;
+  nextToken?: string | undefined;
 }
 export type BoundedEnvironmentIdList = string[];
 export interface DescribeEnvironmentsRequest {
@@ -228,9 +229,9 @@ export type EnvironmentLifecycleStatus =
   | "DELETE_FAILED"
   | (string & {});
 export interface EnvironmentLifecycle {
-  status?: EnvironmentLifecycleStatus;
-  reason?: string;
-  failureResource?: string;
+  status?: EnvironmentLifecycleStatus | undefined;
+  reason?: string | undefined;
+  failureResource?: string | undefined;
 }
 export type ManagedCredentialsStatus =
   | "ENABLED_ON_CREATE"
@@ -246,19 +247,19 @@ export type ManagedCredentialsStatus =
   | "FAILED_REMOVAL_BY_OWNER"
   | (string & {});
 export interface Environment {
-  id?: string;
-  name?: string;
-  description?: string | redacted.Redacted<string>;
+  id?: string | undefined;
+  name?: string | undefined;
+  description?: string | redacted.Redacted<string> | undefined;
   type: EnvironmentType;
-  connectionType?: ConnectionType;
+  connectionType?: ConnectionType | undefined;
   arn: string;
   ownerArn: string;
-  lifecycle?: EnvironmentLifecycle;
-  managedCredentialsStatus?: ManagedCredentialsStatus;
+  lifecycle?: EnvironmentLifecycle | undefined;
+  managedCredentialsStatus?: ManagedCredentialsStatus | undefined;
 }
 export type EnvironmentList = Environment[];
 export interface DescribeEnvironmentsResult {
-  environments?: Environment[];
+  environments?: Environment[] | undefined;
 }
 export interface DescribeEnvironmentStatusRequest {
   environmentId: string;
@@ -277,20 +278,20 @@ export interface DescribeEnvironmentStatusResult {
   message: string;
 }
 export interface ListEnvironmentsRequest {
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export type EnvironmentIdList = string[];
 export interface ListEnvironmentsResult {
-  nextToken?: string;
-  environmentIds?: string[];
+  nextToken?: string | undefined;
+  environmentIds?: string[] | undefined;
 }
 export type EnvironmentArn = string;
 export interface ListTagsForResourceRequest {
   ResourceARN: string;
 }
 export interface ListTagsForResourceResponse {
-  Tags?: Tag[];
+  Tags?: Tag[] | undefined;
 }
 export interface TagResourceRequest {
   ResourceARN: string;
@@ -306,9 +307,9 @@ export interface UntagResourceResponse {}
 export type ManagedCredentialsAction = "ENABLE" | "DISABLE" | (string & {});
 export interface UpdateEnvironmentRequest {
   environmentId: string;
-  name?: string;
-  description?: string | redacted.Redacted<string>;
-  managedCredentialsAction?: ManagedCredentialsAction;
+  name?: string | undefined;
+  description?: string | redacted.Redacted<string> | undefined;
+  managedCredentialsAction?: ManagedCredentialsAction | undefined;
 }
 export interface UpdateEnvironmentResult {}
 export interface UpdateEnvironmentMembershipRequest {
@@ -317,7 +318,7 @@ export interface UpdateEnvironmentMembershipRequest {
   permissions: MemberPermissions;
 }
 export interface UpdateEnvironmentMembershipResult {
-  membership?: EnvironmentMember;
+  membership?: EnvironmentMember | undefined;
 }
 export type CreateEnvironmentEC2Error =
   | BadRequestException
@@ -337,7 +338,7 @@ export type CreateEnvironmentEC2Error =
  * Learn more"
  */
 export const createEnvironmentEC2: API.OperationMethod<
-  CreateEnvironmentEC2Request,
+  CreateEnvironmentEC2Request & RegionInput,
   CreateEnvironmentEC2Result,
   CreateEnvironmentEC2Error,
   Credentials | HttpClient.HttpClient
@@ -377,7 +378,7 @@ export type CreateEnvironmentMembershipError =
  * Learn more"
  */
 export const createEnvironmentMembership: API.OperationMethod<
-  CreateEnvironmentMembershipRequest,
+  CreateEnvironmentMembershipRequest & RegionInput,
   CreateEnvironmentMembershipResult,
   CreateEnvironmentMembershipError,
   Credentials | HttpClient.HttpClient
@@ -418,7 +419,7 @@ export type DeleteEnvironmentError =
  * Learn more"
  */
 export const deleteEnvironment: API.OperationMethod<
-  DeleteEnvironmentRequest,
+  DeleteEnvironmentRequest & RegionInput,
   DeleteEnvironmentResult,
   DeleteEnvironmentError,
   Credentials | HttpClient.HttpClient
@@ -458,7 +459,7 @@ export type DeleteEnvironmentMembershipError =
  * Learn more"
  */
 export const deleteEnvironmentMembership: API.OperationMethod<
-  DeleteEnvironmentMembershipRequest,
+  DeleteEnvironmentMembershipRequest & RegionInput,
   DeleteEnvironmentMembershipResult,
   DeleteEnvironmentMembershipError,
   Credentials | HttpClient.HttpClient
@@ -498,7 +499,7 @@ export type DescribeEnvironmentMembershipsError =
  * Learn more"
  */
 export const describeEnvironmentMemberships: API.PaginatedOperationMethod<
-  DescribeEnvironmentMembershipsRequest,
+  DescribeEnvironmentMembershipsRequest & RegionInput,
   DescribeEnvironmentMembershipsResult,
   DescribeEnvironmentMembershipsError,
   Credentials | HttpClient.HttpClient,
@@ -544,7 +545,7 @@ export type DescribeEnvironmentsError =
  * Learn more"
  */
 export const describeEnvironments: API.OperationMethod<
-  DescribeEnvironmentsRequest,
+  DescribeEnvironmentsRequest & RegionInput,
   DescribeEnvironmentsResult,
   DescribeEnvironmentsError,
   Credentials | HttpClient.HttpClient
@@ -584,7 +585,7 @@ export type DescribeEnvironmentStatusError =
  * Learn more"
  */
 export const describeEnvironmentStatus: API.OperationMethod<
-  DescribeEnvironmentStatusRequest,
+  DescribeEnvironmentStatusRequest & RegionInput,
   DescribeEnvironmentStatusResult,
   DescribeEnvironmentStatusError,
   Credentials | HttpClient.HttpClient
@@ -628,7 +629,7 @@ export type ListEnvironmentsError =
  * Learn more"
  */
 export const listEnvironments: API.PaginatedOperationMethod<
-  ListEnvironmentsRequest,
+  ListEnvironmentsRequest & RegionInput,
   ListEnvironmentsResult,
   ListEnvironmentsError,
   Credentials | HttpClient.HttpClient,
@@ -670,7 +671,7 @@ export type ListTagsForResourceError =
  * Learn more"
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -702,7 +703,7 @@ export type TagResourceError =
  * automatically propagated to underlying resources.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -736,7 +737,7 @@ export type UntagResourceError =
  * Learn more"
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -773,7 +774,7 @@ export type UpdateEnvironmentError =
  * Learn more"
  */
 export const updateEnvironment: API.OperationMethod<
-  UpdateEnvironmentRequest,
+  UpdateEnvironmentRequest & RegionInput,
   UpdateEnvironmentResult,
   UpdateEnvironmentError,
   Credentials | HttpClient.HttpClient
@@ -814,7 +815,7 @@ export type UpdateEnvironmentMembershipError =
  * Learn more"
  */
 export const updateEnvironmentMembership: API.OperationMethod<
-  UpdateEnvironmentMembershipRequest,
+  UpdateEnvironmentMembershipRequest & RegionInput,
   UpdateEnvironmentMembershipResult,
   UpdateEnvironmentMembershipError,
   Credentials | HttpClient.HttpClient

@@ -74,7 +74,7 @@ export class UnprocessableEntity
 export type CloneInstanceRequestRegion = "eu01" | "eu02";
 export interface CloneInstanceOverrides {
   class: string;
-  name?: string;
+  name?: string | undefined;
   size: number;
 }
 export interface CloneInstanceRequest {
@@ -99,7 +99,7 @@ export interface CreateDatabaseRequest {
   /** The ID of the instance. */
   instanceId: string;
   name: string;
-  owner?: string;
+  owner?: string | undefined;
 }
 export interface CreateDatabaseResponse {
   id: number;
@@ -119,11 +119,11 @@ export interface InstanceEncryption {
 export type Labels = { [key: string]: string | null | undefined };
 /** The access scope of the instance. It defines if the instance is public or airgapped. U+26A0 **Note:** "SNA" value for the "network.accessScope" field is only permitted for enabled accounts. If your account does not have access, the request will be rejected. */
 export type InstanceNetworkAccessScope = "PUBLIC" | "SNA";
-/** List of IPV4 cidr. */
+/** List of IPv4 CIDR addresses. */
 export type Acl = Array<string>;
 /** The access configuration of the instance */
 export interface InstanceNetworkCreate {
-  accessScope?: InstanceNetworkAccessScope | (string & {});
+  accessScope?: InstanceNetworkAccessScope | (string & {}) | undefined;
   acl: Acl;
 }
 /** The object containing information about the storage size and class. */
@@ -137,9 +137,9 @@ export interface CreateInstanceRequest {
   /** The region which should be addressed */
   region: CreateInstanceRequestRegion | (string & {});
   backupSchedule: string;
-  encryption?: InstanceEncryption;
+  encryption?: InstanceEncryption | undefined;
   flavorId: string;
-  labels?: Labels;
+  labels?: Labels | undefined;
   name: string;
   network: InstanceNetworkCreate;
   retentionDays: number | null;
@@ -161,7 +161,7 @@ export interface CreateUserRequest {
   instanceId: string;
   name: string;
   /** A list containing the user roles for the instance. Please refer to the List Roles endpoint for a list of all available Roles. */
-  roles?: CreateUserRequestRolesList;
+  roles?: CreateUserRequestRolesList | undefined;
 }
 export interface CreateUserResponse {
   id: number;
@@ -260,26 +260,26 @@ export interface InstanceConnectionInfo {
 }
 /** The access configuration of the instance */
 export interface InstanceNetwork {
-  accessScope?: InstanceNetworkAccessScope;
+  accessScope?: InstanceNetworkAccessScope | undefined;
   acl: Acl;
-  instanceAddress?: string;
-  routerAddress?: string;
+  instanceAddress?: string | undefined;
+  routerAddress?: string | undefined;
 }
 /** The current state of the instance. */
 export type State = "READY" | "PENDING" | "PROGRESSING" | "FAILURE" | "UNKNOWN" | "TERMINATING";
 /** The object containing information about the storage size and class. */
 export interface Storage {
-  class?: string;
-  size?: number;
+  class?: string | undefined;
+  size?: number | undefined;
 }
 export interface GetInstanceResponse {
   backupSchedule: string;
   connectionInfo: InstanceConnectionInfo;
-  encryption?: InstanceEncryption;
+  encryption?: InstanceEncryption | undefined;
   flavorId: string;
   id: string;
   isDeletable: boolean;
-  labels?: Labels;
+  labels?: Labels | undefined;
   name: string;
   network: InstanceNetwork;
   retentionDays: number | null;
@@ -329,11 +329,11 @@ export interface ListBackupsRequest {
   /** The ID of the instance. */
   instanceId: string;
   /** Number of the page of items list to be returned. */
-  page?: number;
+  page?: number | undefined;
   /** Number of items to be returned on each page. */
-  size?: number;
+  size?: number | undefined;
   /** Sorting of the backups to be returned on each page. */
-  sort?: BackupSort | (string & {});
+  sort?: BackupSort | (string & {}) | undefined;
 }
 /** The list containing the information about the backups. */
 export type ListBackupsResponseBackupsList = Array<BackupData>;
@@ -382,11 +382,11 @@ export interface ListDatabasesRequest {
   /** The ID of the instance. */
   instanceId: string;
   /** Number of the page of items list to be returned. */
-  page?: number;
+  page?: number | undefined;
   /** Number of items to be returned on each page. */
-  size?: number;
+  size?: number | undefined;
   /** Sorting of the databases to be returned on each page. */
-  sort?: DatabaseSort | (string & {});
+  sort?: DatabaseSort | (string & {}) | undefined;
 }
 export interface ListDatabase {
   id: number;
@@ -424,11 +424,11 @@ export interface ListFlavorsRequest {
   /** The region which should be addressed */
   region: ListFlavorsRequestRegion | (string & {});
   /** Number of the page of items list to be returned. */
-  page?: number;
+  page?: number | undefined;
   /** Number of items to be returned on each page. */
-  size?: number;
+  size?: number | undefined;
   /** Sorting of the flavors to be returned on each page. */
-  sort?: FlavorSort | (string & {});
+  sort?: FlavorSort | (string & {}) | undefined;
 }
 /** a storageClass defines how efficient the storage can work */
 export interface FlavorStorageClassesStorageClass {
@@ -436,7 +436,7 @@ export interface FlavorStorageClassesStorageClass {
   maxIoPerSec: number;
   maxThroughInMb: number;
 }
-/** maximum storage which can be ordered for the flavor in Gigabyte. */
+/** The storage classes available for the flavor. */
 export type FlavorStorageClasses = Array<FlavorStorageClassesStorageClass>;
 /** The flavor of the instance containing the technical features. */
 export interface ListFlavors {
@@ -472,17 +472,21 @@ export interface ListInstancesRequest {
   /** The region which should be addressed */
   region: ListInstancesRequestRegion | (string & {});
   /** Number of the page of items list to be returned. */
-  page?: number;
+  page?: number | undefined;
   /** Number of items to be returned on each page. */
-  size?: number;
+  size?: number | undefined;
   /** Sorting of the items to be returned on each page. */
-  sort?: InstanceSort | (string & {});
+  sort?: InstanceSort | (string & {}) | undefined;
 }
 export interface ListInstance {
+  created?: string | undefined;
+  flavorId?: string | undefined;
   id: string;
   isDeletable: boolean;
   name: string;
   state: State;
+  storage?: Storage | undefined;
+  version?: string | undefined;
 }
 /** List of owned instances and their current state. */
 export type ListInstancesResponseInstancesList = Array<ListInstance>;
@@ -516,11 +520,11 @@ export interface ListUsersRequest {
   /** The ID of the instance. */
   instanceId: string;
   /** Number of the page of items list to be returned. */
-  page?: number;
+  page?: number | undefined;
   /** Number of items to be returned on each page. */
-  size?: number;
+  size?: number | undefined;
   /** Sorting of the users to be returned on each page. */
-  sort?: UserSort | (string & {});
+  sort?: UserSort | (string & {}) | undefined;
 }
 export interface ListUser {
   id: number;
@@ -543,11 +547,11 @@ export interface ListVersionsRequest {
 }
 /** The version of the postgres instance and more details. */
 export interface Version {
-  /** Flag if the version is a beta version. If set the version may contain bugs and is not fully tested. */
+  /** Flag indicating whether the version is a beta version. Beta versions may contain bugs and are not fully tested. */
   beta: boolean;
-  /** Timestamp in RFC3339 format which says when the version will no longer be supported by STACKIT. */
+  /** Timestamp in RFC3339 format indicating when the version will no longer be supported by STACKIT. */
   deprecated: string;
-  /** Flag if the version is recommend by the STACKIT Team. */
+  /** Flag indicating whether the version is recommended by the STACKIT Team. */
   recommend: boolean;
   /** The postgres version used for the instance. */
   version: string;
@@ -568,20 +572,20 @@ export interface PartialUpdateDatabaseRequest {
   instanceId: string;
   /** The ID of the database. */
   databaseId: number;
-  name?: string;
-  owner?: string;
+  name?: string | undefined;
+  owner?: string | undefined;
 }
 export interface PartialUpdateDatabaseResponse {}
 export type PartialUpdateInstanceRequestRegion = "eu01" | "eu02";
-/** List of IPV4 cidr. */
+/** List of IPv4 CIDR addresses. */
 export type AclOpt = Array<string>;
 /** The access configuration of the instance */
 export interface InstanceNetworkOpt {
-  acl?: AclOpt;
+  acl?: AclOpt | undefined;
 }
 /** The object containing information about the storage size and class. */
 export interface StorageUpdate {
-  size?: number;
+  size?: number | undefined;
 }
 export interface PartialUpdateInstanceRequest {
   /** The STACKIT project ID. */
@@ -590,14 +594,14 @@ export interface PartialUpdateInstanceRequest {
   region: PartialUpdateInstanceRequestRegion | (string & {});
   /** The ID of the instance. */
   instanceId: string;
-  backupSchedule?: string;
-  flavorId?: string;
-  labels?: Labels;
-  name?: string;
-  network?: InstanceNetworkOpt;
-  retentionDays?: number;
-  storage?: StorageUpdate;
-  version?: string;
+  backupSchedule?: string | undefined;
+  flavorId?: string | undefined;
+  labels?: Labels | undefined;
+  name?: string | undefined;
+  network?: InstanceNetworkOpt | undefined;
+  retentionDays?: number | undefined;
+  storage?: StorageUpdate | undefined;
+  version?: string | undefined;
 }
 export interface PartialUpdateInstanceResponse {}
 export type PartialUpdateUserRequestRegion = "eu01" | "eu02";
@@ -612,9 +616,9 @@ export interface PartialUpdateUserRequest {
   instanceId: string;
   /** The ID of the user. */
   userId: number;
-  name?: string;
+  name?: string | undefined;
   /** A list containing the user roles for the instance. Please refer to the List Roles endpoint for a list of all available Roles. */
-  roles?: PartialUpdateUserRequestRolesList;
+  roles?: PartialUpdateUserRequestRolesList | undefined;
 }
 export interface PartialUpdateUserResponse {}
 export type ResetUserPasswordRequestRegion = "eu01" | "eu02";
@@ -661,7 +665,7 @@ export interface UpdateInstanceRequest {
   instanceId: string;
   backupSchedule: string;
   flavorId: string;
-  labels?: Labels;
+  labels?: Labels | undefined;
   name: string;
   network: InstanceNetworkUpdate;
   retentionDays: number | null;
@@ -694,7 +698,7 @@ export interface UpdateUserRequest {
   instanceId: string;
   /** The ID of the user. */
   userId: number;
-  name?: string;
+  name?: string | undefined;
   /** A list containing the user roles for the instance. Please refer to the List Roles endpoint for a list of all available Roles. */
   roles: UpdateUserRequestRolesList;
 }
@@ -713,8 +717,8 @@ export const cloneInstance: API.OperationMethod<
   CloneInstanceError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(209, __c26, 1) as any as S.Schema<CloneInstanceRequest>,
-  output: __S(216, __c27, 0) as any as S.Schema<CloneInstanceResponse>,
+  input: __S(217, __c27, 1) as any as S.Schema<CloneInstanceRequest>,
+  output: __S(224, __c28, 0) as any as S.Schema<CloneInstanceResponse>,
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -736,8 +740,8 @@ export const createDatabase: API.OperationMethod<
   CreateDatabaseError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(224, __c28, 0) as any as S.Schema<CreateDatabaseRequest>,
-  output: __S(225, __c28, 1) as any as S.Schema<CreateDatabaseResponse>,
+  input: __S(232, __c29, 0) as any as S.Schema<CreateDatabaseRequest>,
+  output: __S(233, __c29, 1) as any as S.Schema<CreateDatabaseResponse>,
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -758,8 +762,8 @@ export const createInstance: API.OperationMethod<
   CreateInstanceError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(234, __c29, 2) as any as S.Schema<CreateInstanceRequest>,
-  output: __S(216, __c27, 0) as any as S.Schema<CreateInstanceResponse>,
+  input: __S(242, __c30, 2) as any as S.Schema<CreateInstanceRequest>,
+  output: __S(224, __c28, 0) as any as S.Schema<CreateInstanceResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -781,8 +785,8 @@ export const createUser: API.OperationMethod<
   CreateUserError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(264, __c33, 0) as any as S.Schema<CreateUserRequest>,
-  output: __S(265, __c33, 1) as any as S.Schema<CreateUserResponse>,
+  input: __S(272, __c34, 0) as any as S.Schema<CreateUserRequest>,
+  output: __S(273, __c34, 1) as any as S.Schema<CreateUserResponse>,
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -790,7 +794,7 @@ export const createUser: API.OperationMethod<
   span: "CreateUser",
 }));
 
-export type DeleteDatabaseError = BadRequest | Forbidden | NotFound | StackitOpError;
+export type DeleteDatabaseError = BadRequest | Forbidden | NotFound | Conflict | StackitOpError;
 /** Delete Database Delete database for an instance. */
 export const deleteDatabase: API.OperationMethod<
   DeleteDatabaseRequest,
@@ -798,9 +802,9 @@ export const deleteDatabase: API.OperationMethod<
   DeleteDatabaseError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(272, __c34, 0) as any as S.Schema<DeleteDatabaseRequest>,
-  output: __S(280, __c35, 0) as any as S.Schema<DeleteDatabaseResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
+  input: __S(280, __c35, 0) as any as S.Schema<DeleteDatabaseRequest>,
+  output: __S(288, __c36, 0) as any as S.Schema<DeleteDatabaseResponse>,
+  errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -816,7 +820,7 @@ export const deleteInstance: API.OperationMethod<
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(0, __c0, 0) as any as S.Schema<DeleteInstanceRequest>,
-  output: __S(280, __c35, 0) as any as S.Schema<DeleteInstanceResponse>,
+  output: __S(288, __c36, 0) as any as S.Schema<DeleteInstanceResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -825,7 +829,7 @@ export const deleteInstance: API.OperationMethod<
 }));
 
 export type DeleteUserError = BadRequest | Forbidden | NotFound | Conflict | StackitOpError;
-/** Delete User Delete an user from a specific instance. */
+/** Delete User Delete a user from a specific instance. */
 export const deleteUser: API.OperationMethod<
   DeleteUserRequest,
   DeleteUserResponse,
@@ -833,7 +837,7 @@ export const deleteUser: API.OperationMethod<
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8, __c1, 0) as any as S.Schema<DeleteUserRequest>,
-  output: __S(280, __c35, 0) as any as S.Schema<DeleteUserResponse>,
+  output: __S(288, __c36, 0) as any as S.Schema<DeleteUserResponse>,
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -884,7 +888,7 @@ export const getInstance: API.OperationMethod<
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(48, __c6, 0) as any as S.Schema<GetInstanceRequest>,
-  output: __S(53, __c6, 5) as any as S.Schema<GetInstanceResponse>,
+  output: __S(52, __c6, 4) as any as S.Schema<GetInstanceResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -900,8 +904,8 @@ export const getUser: API.OperationMethod<
   GetUserError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(56, __c7, 0) as any as S.Schema<GetUserRequest>,
-  output: __S(57, __c7, 1) as any as S.Schema<GetUserResponse>,
+  input: __S(64, __c8, 0) as any as S.Schema<GetUserRequest>,
+  output: __S(65, __c8, 1) as any as S.Schema<GetUserResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -910,15 +914,15 @@ export const getUser: API.OperationMethod<
 }));
 
 export type ListBackupsError = BadRequest | Forbidden | NotFound | StackitOpError;
-/** List backups List all backups which are available for a specific instance. */
+/** List Backups List all backups which are available for a specific instance. */
 export const listBackups: API.OperationMethod<
   ListBackupsRequest,
   ListBackupsResponse,
   ListBackupsError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(64, __c8, 0) as any as S.Schema<ListBackupsRequest>,
-  output: __S(66, __c8, 2) as any as S.Schema<ListBackupsResponse>,
+  input: __S(72, __c9, 0) as any as S.Schema<ListBackupsRequest>,
+  output: __S(74, __c9, 2) as any as S.Schema<ListBackupsResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -934,8 +938,8 @@ export const listCollations: API.OperationMethod<
   ListCollationsError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(80, __c10, 0) as any as S.Schema<ListCollationsRequest>,
-  output: __S(81, __c10, 1) as any as S.Schema<ListCollationsResponse>,
+  input: __S(88, __c11, 0) as any as S.Schema<ListCollationsRequest>,
+  output: __S(89, __c11, 1) as any as S.Schema<ListCollationsResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -951,8 +955,8 @@ export const listDatabases: API.OperationMethod<
   ListDatabasesError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(88, __c11, 0) as any as S.Schema<ListDatabasesRequest>,
-  output: __S(90, __c11, 2) as any as S.Schema<ListDatabasesResponse>,
+  input: __S(96, __c12, 0) as any as S.Schema<ListDatabasesRequest>,
+  output: __S(98, __c12, 2) as any as S.Schema<ListDatabasesResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -968,8 +972,8 @@ export const listFlavors2: API.OperationMethod<
   ListFlavors2Error,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(96, __c12, 0) as any as S.Schema<ListFlavorsRequest>,
-  output: __S(101, __c12, 5) as any as S.Schema<ListFlavorsResponse>,
+  input: __S(104, __c13, 0) as any as S.Schema<ListFlavorsRequest>,
+  output: __S(109, __c13, 5) as any as S.Schema<ListFlavorsResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -985,8 +989,8 @@ export const listInstances: API.OperationMethod<
   ListInstancesError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(104, __c13, 0) as any as S.Schema<ListInstancesRequest>,
-  output: __S(107, __c13, 3) as any as S.Schema<ListInstancesResponse>,
+  input: __S(112, __c14, 0) as any as S.Schema<ListInstancesRequest>,
+  output: __S(115, __c14, 3) as any as S.Schema<ListInstancesResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -1002,8 +1006,8 @@ export const listRoles: API.OperationMethod<
   ListRolesError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(112, __c14, 0) as any as S.Schema<ListRolesRequest>,
-  output: __S(113, __c14, 1) as any as S.Schema<ListRolesResponse>,
+  input: __S(120, __c15, 0) as any as S.Schema<ListRolesRequest>,
+  output: __S(121, __c15, 1) as any as S.Schema<ListRolesResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -1019,8 +1023,8 @@ export const listUsers: API.OperationMethod<
   ListUsersError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(120, __c15, 0) as any as S.Schema<ListUsersRequest>,
-  output: __S(123, __c15, 3) as any as S.Schema<ListUsersResponse>,
+  input: __S(128, __c16, 0) as any as S.Schema<ListUsersRequest>,
+  output: __S(131, __c16, 3) as any as S.Schema<ListUsersResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -1036,8 +1040,8 @@ export const listVersions: API.OperationMethod<
   ListVersionsError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(128, __c16, 0) as any as S.Schema<ListVersionsRequest>,
-  output: __S(131, __c16, 3) as any as S.Schema<ListVersionsResponse>,
+  input: __S(136, __c17, 0) as any as S.Schema<ListVersionsRequest>,
+  output: __S(139, __c17, 3) as any as S.Schema<ListVersionsResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -1058,8 +1062,8 @@ export const partialUpdateDatabase: API.OperationMethod<
   PartialUpdateDatabaseError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(136, __c17, 0) as any as S.Schema<PartialUpdateDatabaseRequest>,
-  output: __S(280, __c35, 0) as any as S.Schema<PartialUpdateDatabaseResponse>,
+  input: __S(144, __c18, 0) as any as S.Schema<PartialUpdateDatabaseRequest>,
+  output: __S(288, __c36, 0) as any as S.Schema<PartialUpdateDatabaseResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -1080,8 +1084,8 @@ export const partialUpdateInstance: API.OperationMethod<
   PartialUpdateInstanceError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(145, __c18, 1) as any as S.Schema<PartialUpdateInstanceRequest>,
-  output: __S(280, __c35, 0) as any as S.Schema<PartialUpdateInstanceResponse>,
+  input: __S(153, __c19, 1) as any as S.Schema<PartialUpdateInstanceRequest>,
+  output: __S(288, __c36, 0) as any as S.Schema<PartialUpdateInstanceResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -1095,15 +1099,15 @@ export type PartialUpdateUserError =
   | NotFound
   | UnprocessableEntity
   | StackitOpError;
-/** Update User Partially Update an user partially for an instance. */
+/** Update User Partially Update a user partially for an instance. */
 export const partialUpdateUser: API.OperationMethod<
   PartialUpdateUserRequest,
   PartialUpdateUserResponse,
   PartialUpdateUserError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(160, __c20, 0) as any as S.Schema<PartialUpdateUserRequest>,
-  output: __S(280, __c35, 0) as any as S.Schema<PartialUpdateUserResponse>,
+  input: __S(168, __c21, 0) as any as S.Schema<PartialUpdateUserRequest>,
+  output: __S(288, __c36, 0) as any as S.Schema<PartialUpdateUserResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -1117,15 +1121,15 @@ export type ResetUserPasswordError =
   | NotFound
   | UnprocessableEntity
   | StackitOpError;
-/** Reset User Reset an user from an specific instance. */
+/** Reset User Reset a user from a specific instance. */
 export const resetUserPassword: API.OperationMethod<
   ResetUserPasswordRequest,
   ResetUserPasswordResponse,
   ResetUserPasswordError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(168, __c21, 0) as any as S.Schema<ResetUserPasswordRequest>,
-  output: __S(169, __c21, 1) as any as S.Schema<ResetUserPasswordResponse>,
+  input: __S(176, __c22, 0) as any as S.Schema<ResetUserPasswordRequest>,
+  output: __S(177, __c22, 1) as any as S.Schema<ResetUserPasswordResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -1146,8 +1150,8 @@ export const updateDatabase: API.OperationMethod<
   UpdateDatabaseError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(176, __c22, 0) as any as S.Schema<UpdateDatabaseRequest>,
-  output: __S(280, __c35, 0) as any as S.Schema<UpdateDatabaseResponse>,
+  input: __S(184, __c23, 0) as any as S.Schema<UpdateDatabaseRequest>,
+  output: __S(288, __c36, 0) as any as S.Schema<UpdateDatabaseResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -1168,8 +1172,8 @@ export const updateInstance: API.OperationMethod<
   UpdateInstanceError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(185, __c23, 1) as any as S.Schema<UpdateInstanceRequest>,
-  output: __S(280, __c35, 0) as any as S.Schema<UpdateInstanceResponse>,
+  input: __S(193, __c24, 1) as any as S.Schema<UpdateInstanceRequest>,
+  output: __S(288, __c36, 0) as any as S.Schema<UpdateInstanceResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -1190,8 +1194,8 @@ export const updateInstanceProtection: API.OperationMethod<
   UpdateInstanceProtectionError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(192, __c24, 0) as any as S.Schema<UpdateInstanceProtectionRequest>,
-  output: __S(193, __c24, 1) as any as S.Schema<UpdateInstanceProtectionResponse>,
+  input: __S(200, __c25, 0) as any as S.Schema<UpdateInstanceProtectionRequest>,
+  output: __S(201, __c25, 1) as any as S.Schema<UpdateInstanceProtectionResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -1212,8 +1216,8 @@ export const updateUser: API.OperationMethod<
   UpdateUserError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(200, __c25, 0) as any as S.Schema<UpdateUserRequest>,
-  output: __S(280, __c35, 0) as any as S.Schema<UpdateUserResponse>,
+  input: __S(208, __c26, 0) as any as S.Schema<UpdateUserRequest>,
+  output: __S(288, __c36, 0) as any as S.Schema<UpdateUserResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -1362,7 +1366,7 @@ function __c6(j: number): any {
       return S.suspend(() =>
         S.Struct({
           accessScope: S.optional(S.String),
-          acl: __S(256, __c32, 0),
+          acl: __S(264, __c33, 0),
           instanceAddress: S.optional(S.String),
           routerAddress: S.optional(S.String),
         }),
@@ -1370,31 +1374,35 @@ function __c6(j: number): any {
     case 4:
       return S.suspend(() =>
         S.Struct({
-          class: S.optional(S.String),
-          size: S.optional(S.Number),
-        }),
-      ).annotate({ identifier: "Storage" });
-    case 5:
-      return S.suspend(() =>
-        S.Struct({
           backupSchedule: S.String,
           connectionInfo: __S(50, __c6, 2),
-          encryption: S.optional(__S(240, __c30, 0)),
+          encryption: S.optional(__S(248, __c31, 0)),
           flavorId: S.String,
           id: S.String,
           isDeletable: S.Boolean,
-          labels: S.optional(__S(248, __c31, 0)),
+          labels: S.optional(__S(256, __c32, 0)),
           name: S.String,
           network: __S(51, __c6, 3),
           retentionDays: S.NullOr(S.Number),
           state: S.String,
-          storage: __S(52, __c6, 4),
+          storage: __S(56, __c7, 0),
           version: S.String,
         }),
       ).annotate({ identifier: "GetInstanceResponse" });
   }
 }
 function __c7(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          class: S.optional(S.String),
+          size: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "Storage" });
+  }
+}
+function __c8(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1417,13 +1425,13 @@ function __c7(j: number): any {
         S.Struct({
           id: S.Number,
           name: S.String,
-          roles: __S(256, __c32, 0),
+          roles: __S(264, __c33, 0),
           state: S.String,
         }),
       ).annotate({ identifier: "GetUserResponse" });
   }
 }
-function __c8(j: number): any {
+function __c9(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1448,13 +1456,13 @@ function __c8(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          backups: __S(65, __c8, 1),
-          pagination: __S(72, __c9, 0),
+          backups: __S(73, __c9, 1),
+          pagination: __S(80, __c10, 0),
         }),
       ).annotate({ identifier: "ListBackupsResponse" });
   }
 }
-function __c9(j: number): any {
+function __c10(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1468,7 +1476,7 @@ function __c9(j: number): any {
       ).annotate({ identifier: "Pagination" });
   }
 }
-function __c10(j: number): any {
+function __c11(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1488,12 +1496,12 @@ function __c10(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          collations: __S(256, __c32, 0),
+          collations: __S(264, __c33, 0),
         }),
       ).annotate({ identifier: "ListCollationsResponse" });
   }
 }
-function __c11(j: number): any {
+function __c12(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1518,13 +1526,13 @@ function __c11(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          databases: __S(89, __c11, 1),
-          pagination: __S(72, __c9, 0),
+          databases: __S(97, __c12, 1),
+          pagination: __S(80, __c10, 0),
         }),
       ).annotate({ identifier: "ListDatabasesResponse" });
   }
 }
-function __c12(j: number): any {
+function __c13(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1552,7 +1560,7 @@ function __c12(j: number): any {
         }),
       ).annotate({ identifier: "FlavorStorageClassesStorageClass" });
     case 2:
-      return S.Array(__S(97, __c12, 1));
+      return S.Array(__S(105, __c13, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -1563,21 +1571,21 @@ function __c12(j: number): any {
           memory: S.Number,
           minGB: S.Number,
           nodeType: S.String,
-          storageClasses: __S(98, __c12, 2),
+          storageClasses: __S(106, __c13, 2),
         }),
       ).annotate({ identifier: "ListFlavors" });
     case 4:
-      return S.Array(__S(99, __c12, 3));
+      return S.Array(__S(107, __c13, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
-          flavors: __S(100, __c12, 4),
-          pagination: __S(72, __c9, 0),
+          flavors: __S(108, __c13, 4),
+          pagination: __S(80, __c10, 0),
         }),
       ).annotate({ identifier: "ListFlavorsResponse" });
   }
 }
-function __c13(j: number): any {
+function __c14(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1599,24 +1607,28 @@ function __c13(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
+          created: S.optional(S.String),
+          flavorId: S.optional(S.String),
           id: S.String,
           isDeletable: S.Boolean,
           name: S.String,
           state: S.String,
+          storage: S.optional(__S(56, __c7, 0)),
+          version: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListInstance" });
     case 2:
-      return S.Array(__S(105, __c13, 1));
+      return S.Array(__S(113, __c14, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          instances: __S(106, __c13, 2),
-          pagination: __S(72, __c9, 0),
+          instances: __S(114, __c14, 2),
+          pagination: __S(80, __c10, 0),
         }),
       ).annotate({ identifier: "ListInstancesResponse" });
   }
 }
-function __c14(j: number): any {
+function __c15(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1636,12 +1648,12 @@ function __c14(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          roles: __S(256, __c32, 0),
+          roles: __S(264, __c33, 0),
         }),
       ).annotate({ identifier: "ListRolesResponse" });
   }
 }
-function __c15(j: number): any {
+function __c16(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1670,17 +1682,17 @@ function __c15(j: number): any {
         }),
       ).annotate({ identifier: "ListUser" });
     case 2:
-      return S.Array(__S(121, __c15, 1));
+      return S.Array(__S(129, __c16, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          pagination: __S(72, __c9, 0),
-          users: __S(122, __c15, 2),
+          pagination: __S(80, __c10, 0),
+          users: __S(130, __c16, 2),
         }),
       ).annotate({ identifier: "ListUsersResponse" });
   }
 }
-function __c16(j: number): any {
+function __c17(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1706,16 +1718,16 @@ function __c16(j: number): any {
         }),
       ).annotate({ identifier: "Version" });
     case 2:
-      return S.Array(__S(129, __c16, 1));
+      return S.Array(__S(137, __c17, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          versions: __S(130, __c16, 2),
+          versions: __S(138, __c17, 2),
         }),
       ).annotate({ identifier: "ListVersionsResponse" });
   }
 }
-function __c17(j: number): any {
+function __c18(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1737,12 +1749,12 @@ function __c17(j: number): any {
       ).annotate({ identifier: "PartialUpdateDatabaseRequest" });
   }
 }
-function __c18(j: number): any {
+function __c19(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          acl: S.optional(__S(256, __c32, 0)),
+          acl: S.optional(__S(264, __c33, 0)),
         }),
       ).annotate({ identifier: "InstanceNetworkOpt" });
     case 1:
@@ -1753,11 +1765,11 @@ function __c18(j: number): any {
           instanceId: S.String.pipe(T.Label()),
           backupSchedule: S.optional(S.String),
           flavorId: S.optional(S.String),
-          labels: S.optional(__S(248, __c31, 0)),
+          labels: S.optional(__S(256, __c32, 0)),
           name: S.optional(S.String),
-          network: S.optional(__S(144, __c18, 0)),
+          network: S.optional(__S(152, __c19, 0)),
           retentionDays: S.optional(S.Number),
-          storage: S.optional(__S(152, __c19, 0)),
+          storage: S.optional(__S(160, __c20, 0)),
           version: S.optional(S.String),
         }).pipe(
           T.Http({
@@ -1770,7 +1782,7 @@ function __c18(j: number): any {
       ).annotate({ identifier: "PartialUpdateInstanceRequest" });
   }
 }
-function __c19(j: number): any {
+function __c20(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1780,7 +1792,7 @@ function __c19(j: number): any {
       ).annotate({ identifier: "StorageUpdate" });
   }
 }
-function __c20(j: number): any {
+function __c21(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1790,7 +1802,7 @@ function __c20(j: number): any {
           instanceId: S.String.pipe(T.Label()),
           userId: S.Number.pipe(T.Label()),
           name: S.optional(S.String),
-          roles: S.optional(__S(256, __c32, 0)),
+          roles: S.optional(__S(264, __c33, 0)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -1802,7 +1814,7 @@ function __c20(j: number): any {
       ).annotate({ identifier: "PartialUpdateUserRequest" });
   }
 }
-function __c21(j: number): any {
+function __c22(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1830,7 +1842,7 @@ function __c21(j: number): any {
       ).annotate({ identifier: "ResetUserPasswordResponse" });
   }
 }
-function __c22(j: number): any {
+function __c23(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1852,12 +1864,12 @@ function __c22(j: number): any {
       ).annotate({ identifier: "UpdateDatabaseRequest" });
   }
 }
-function __c23(j: number): any {
+function __c24(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          acl: __S(256, __c32, 0),
+          acl: __S(264, __c33, 0),
         }),
       ).annotate({ identifier: "InstanceNetworkUpdate" });
     case 1:
@@ -1868,11 +1880,11 @@ function __c23(j: number): any {
           instanceId: S.String.pipe(T.Label()),
           backupSchedule: S.String,
           flavorId: S.String,
-          labels: S.optional(__S(248, __c31, 0)),
+          labels: S.optional(__S(256, __c32, 0)),
           name: S.String,
-          network: __S(184, __c23, 0),
+          network: __S(192, __c24, 0),
           retentionDays: S.NullOr(S.Number),
-          storage: __S(152, __c19, 0),
+          storage: __S(160, __c20, 0),
           version: S.String,
         }).pipe(
           T.Http({
@@ -1885,7 +1897,7 @@ function __c23(j: number): any {
       ).annotate({ identifier: "UpdateInstanceRequest" });
   }
 }
-function __c24(j: number): any {
+function __c25(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1911,7 +1923,7 @@ function __c24(j: number): any {
       ).annotate({ identifier: "UpdateInstanceProtectionResponse" });
   }
 }
-function __c25(j: number): any {
+function __c26(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1921,7 +1933,7 @@ function __c25(j: number): any {
           instanceId: S.String.pipe(T.Label()),
           userId: S.Number.pipe(T.Label()),
           name: S.optional(S.String),
-          roles: __S(256, __c32, 0),
+          roles: __S(264, __c33, 0),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -1933,7 +1945,7 @@ function __c25(j: number): any {
       ).annotate({ identifier: "UpdateUserRequest" });
   }
 }
-function __c26(j: number): any {
+function __c27(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1949,7 +1961,7 @@ function __c26(j: number): any {
           projectId: S.String.pipe(T.Label()),
           region: S.String.pipe(T.Label()),
           instanceId: S.String.pipe(T.Label()),
-          instanceOverrides: __S(208, __c26, 0),
+          instanceOverrides: __S(216, __c27, 0),
           pointInTime: S.String,
         }).pipe(
           T.Http({
@@ -1962,7 +1974,7 @@ function __c26(j: number): any {
       ).annotate({ identifier: "CloneInstanceRequest" });
   }
 }
-function __c27(j: number): any {
+function __c28(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1972,7 +1984,7 @@ function __c27(j: number): any {
       ).annotate({ identifier: "CloneInstanceResponse" });
   }
 }
-function __c28(j: number): any {
+function __c29(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1999,13 +2011,13 @@ function __c28(j: number): any {
       ).annotate({ identifier: "CreateDatabaseResponse" });
   }
 }
-function __c29(j: number): any {
+function __c30(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           accessScope: S.optional(S.String),
-          acl: __S(256, __c32, 0),
+          acl: __S(264, __c33, 0),
         }),
       ).annotate({ identifier: "InstanceNetworkCreate" });
     case 1:
@@ -2021,13 +2033,13 @@ function __c29(j: number): any {
           projectId: S.String.pipe(T.Label()),
           region: S.String.pipe(T.Label()),
           backupSchedule: S.String,
-          encryption: S.optional(__S(240, __c30, 0)),
+          encryption: S.optional(__S(248, __c31, 0)),
           flavorId: S.String,
-          labels: S.optional(__S(248, __c31, 0)),
+          labels: S.optional(__S(256, __c32, 0)),
           name: S.String,
-          network: __S(232, __c29, 0),
+          network: __S(240, __c30, 0),
           retentionDays: S.NullOr(S.Number),
-          storage: __S(233, __c29, 1),
+          storage: __S(241, __c30, 1),
           version: S.String,
         }).pipe(
           T.Http({
@@ -2040,7 +2052,7 @@ function __c29(j: number): any {
       ).annotate({ identifier: "CreateInstanceRequest" });
   }
 }
-function __c30(j: number): any {
+function __c31(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2053,19 +2065,19 @@ function __c30(j: number): any {
       ).annotate({ identifier: "InstanceEncryption" });
   }
 }
-function __c31(j: number): any {
+function __c32(j: number): any {
   switch (j) {
     case 0:
       return S.Record(S.String, /*@__PURE__*/ S.NullOr(S.String));
   }
 }
-function __c32(j: number): any {
+function __c33(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
   }
 }
-function __c33(j: number): any {
+function __c34(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2074,7 +2086,7 @@ function __c33(j: number): any {
           region: S.String.pipe(T.Label()),
           instanceId: S.String.pipe(T.Label()),
           name: S.String,
-          roles: S.optional(__S(256, __c32, 0)),
+          roles: S.optional(__S(264, __c33, 0)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -2095,7 +2107,7 @@ function __c33(j: number): any {
       ).annotate({ identifier: "CreateUserResponse" });
   }
 }
-function __c34(j: number): any {
+function __c35(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2115,7 +2127,7 @@ function __c34(j: number): any {
       ).annotate({ identifier: "DeleteDatabaseRequest" });
   }
 }
-function __c35(j: number): any {
+function __c36(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({})).annotate({ identifier: "DeleteDatabaseResponse" });

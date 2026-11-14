@@ -28,6 +28,7 @@ const TELEMETRY = {
   prefix: "Servicenetworking",
   service: "Servicenetworking",
   labels: "azure",
+  labelNames: { resourceGroupName: "azure.resource_group.name" },
   propagate: "w3c",
 } as const;
 
@@ -47,7 +48,7 @@ export interface AssociationPropertiesInput {
   /** Association Type */
   associationType: AssociationType | (string & {});
   /** Association Subnet */
-  subnet?: AssociationSubnet;
+  subnet?: AssociationSubnet | undefined;
 }
 export interface AssociationsInterfaceCreateOrUpdateRequest {
   /** The ID of the target subscription. */
@@ -59,11 +60,11 @@ export interface AssociationsInterfaceCreateOrUpdateRequest {
   /** Name of Association */
   associationName: string;
   /** Resource tags. */
-  tags?: AssociationsInterfaceCreateOrUpdateRequestTagsMap;
+  tags?: AssociationsInterfaceCreateOrUpdateRequestTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: AssociationPropertiesInput;
+  properties?: AssociationPropertiesInput | undefined;
 }
 /** The type of identity that created the resource. */
 export type SystemDataCreatedByType = "User" | "Application" | "ManagedIdentity" | "Key";
@@ -72,17 +73,17 @@ export type SystemDataLastModifiedByType = "User" | "Application" | "ManagedIden
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface SystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: SystemDataCreatedByType;
+  createdByType?: SystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: SystemDataLastModifiedByType;
+  lastModifiedByType?: SystemDataLastModifiedByType | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 /** Resource tags. */
 export type AssociationsInterfaceCreateOrUpdateResponseTagsMap = {
@@ -102,27 +103,27 @@ export interface AssociationProperties {
   /** Association Type */
   associationType: AssociationType;
   /** Association Subnet */
-  subnet?: AssociationSubnet;
+  subnet?: AssociationSubnet | undefined;
   /** Provisioning State of Traffic Controller Association Resource */
-  provisioningState?: ProvisioningState;
+  provisioningState?: ProvisioningState | undefined;
 }
 export interface AssociationsInterfaceCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: AssociationsInterfaceCreateOrUpdateResponseTagsMap;
+  tags?: AssociationsInterfaceCreateOrUpdateResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: AssociationProperties;
+  properties?: AssociationProperties | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeleteAssociationsInterfaceRequest {
   /** The ID of the target subscription. */
@@ -136,9 +137,9 @@ export interface DeleteAssociationsInterfaceRequest {
 }
 export interface DeleteAssociationsInterfaceResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeleteFrontendsInterfaceRequest {
   /** The ID of the target subscription. */
@@ -152,9 +153,9 @@ export interface DeleteFrontendsInterfaceRequest {
 }
 export interface DeleteFrontendsInterfaceResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeletePrivateEndpointConnectionsInterfaceRequest {
   /** The ID of the target subscription. */
@@ -168,9 +169,9 @@ export interface DeletePrivateEndpointConnectionsInterfaceRequest {
 }
 export interface DeletePrivateEndpointConnectionsInterfaceResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeleteSecurityPoliciesInterfaceRequest {
   /** The ID of the target subscription. */
@@ -184,9 +185,9 @@ export interface DeleteSecurityPoliciesInterfaceRequest {
 }
 export interface DeleteSecurityPoliciesInterfaceResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeleteTrafficControllerInterfaceRequest {
   /** The ID of the target subscription. */
@@ -198,9 +199,9 @@ export interface DeleteTrafficControllerInterfaceRequest {
 }
 export interface DeleteTrafficControllerInterfaceResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Resource tags. */
 export type FrontendsInterfaceCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
@@ -224,18 +225,18 @@ export interface IpAccessRulesSecurityPolicy {
 /** SecurityPolicyConfigurations Subresource of Traffic Controller. */
 export interface SecurityPolicyConfigurations {
   /** Contains reference to a WAF-type security policy. */
-  wafSecurityPolicy?: WafSecurityPolicy;
+  wafSecurityPolicy?: WafSecurityPolicy | undefined;
   /** Contains reference to a IpAccessRules-type security policy. */
-  ipAccessRulesSecurityPolicy?: IpAccessRulesSecurityPolicy;
+  ipAccessRulesSecurityPolicy?: IpAccessRulesSecurityPolicy | undefined;
 }
 /** Frontend Properties. */
 export interface FrontendPropertiesInput {
   /** Whether public network access is allowed for the frontend. Enabled indicates a public frontend; Disabled indicates a private frontend. */
-  publicNetworkAccess?: PublicNetworkAccess | (string & {});
+  publicNetworkAccess?: PublicNetworkAccess | (string & {}) | undefined;
   /** Reference to an Association resource that contains the subnet where the private frontend should be deployed. */
-  association?: FrontendAssociation;
+  association?: FrontendAssociation | undefined;
   /** Frontend Security Policy Configuration */
-  securityPolicyConfigurations?: SecurityPolicyConfigurations;
+  securityPolicyConfigurations?: SecurityPolicyConfigurations | undefined;
 }
 export interface FrontendsInterfaceCreateOrUpdateRequest {
   /** The ID of the target subscription. */
@@ -247,44 +248,44 @@ export interface FrontendsInterfaceCreateOrUpdateRequest {
   /** Frontends */
   frontendName: string;
   /** Resource tags. */
-  tags?: FrontendsInterfaceCreateOrUpdateRequestTagsMap;
+  tags?: FrontendsInterfaceCreateOrUpdateRequestTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: FrontendPropertiesInput;
+  properties?: FrontendPropertiesInput | undefined;
 }
 /** Resource tags. */
 export type FrontendsInterfaceCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
 /** Frontend Properties. */
 export interface FrontendProperties {
   /** The Fully Qualified Domain Name of the DNS record associated to a Traffic Controller frontend. */
-  fqdn?: string;
+  fqdn?: string | undefined;
   /** Whether public network access is allowed for the frontend. Enabled indicates a public frontend; Disabled indicates a private frontend. */
-  publicNetworkAccess?: PublicNetworkAccess;
+  publicNetworkAccess?: PublicNetworkAccess | undefined;
   /** Reference to an Association resource that contains the subnet where the private frontend should be deployed. */
-  association?: FrontendAssociation;
+  association?: FrontendAssociation | undefined;
   /** Frontend Security Policy Configuration */
-  securityPolicyConfigurations?: SecurityPolicyConfigurations;
+  securityPolicyConfigurations?: SecurityPolicyConfigurations | undefined;
   /** Provisioning State of Traffic Controller Frontend Resource */
-  provisioningState?: ProvisioningState;
+  provisioningState?: ProvisioningState | undefined;
 }
 export interface FrontendsInterfaceCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: FrontendsInterfaceCreateOrUpdateResponseTagsMap;
+  tags?: FrontendsInterfaceCreateOrUpdateResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: FrontendProperties;
+  properties?: FrontendProperties | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface GetAssociationsInterfaceRequest {
   /** The ID of the target subscription. */
@@ -300,19 +301,19 @@ export interface GetAssociationsInterfaceRequest {
 export type GetAssociationsInterfaceResponseTagsMap = { [key: string]: string | undefined };
 export interface GetAssociationsInterfaceResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: GetAssociationsInterfaceResponseTagsMap;
+  tags?: GetAssociationsInterfaceResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: AssociationProperties;
+  properties?: AssociationProperties | undefined;
 }
 export interface GetFrontendsInterfaceRequest {
   /** The ID of the target subscription. */
@@ -328,19 +329,19 @@ export interface GetFrontendsInterfaceRequest {
 export type GetFrontendsInterfaceResponseTagsMap = { [key: string]: string | undefined };
 export interface GetFrontendsInterfaceResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: GetFrontendsInterfaceResponseTagsMap;
+  tags?: GetFrontendsInterfaceResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: FrontendProperties;
+  properties?: FrontendProperties | undefined;
 }
 export interface GetPrivateEndpointConnectionsInterfaceRequest {
   /** The ID of the target subscription. */
@@ -355,7 +356,7 @@ export interface GetPrivateEndpointConnectionsInterfaceRequest {
 /** Reference to a private endpoint resource. */
 export interface PrivateEndpointReference {
   /** Resource ID of the private endpoint. */
-  id?: string;
+  id?: string | undefined;
 }
 /** The private endpoint connection status. */
 export type PrivateLinkServiceConnectionStatus =
@@ -366,32 +367,32 @@ export type PrivateLinkServiceConnectionStatus =
 /** The state of a private link service connection. */
 export interface PrivateLinkServiceConnectionState {
   /** Indicates whether the connection has been Approved/Rejected/Removed by the owner of the service. */
-  status?: PrivateLinkServiceConnectionStatus | (string & {});
+  status?: PrivateLinkServiceConnectionStatus | (string & {}) | undefined;
   /** The reason for approval/rejection of the connection. */
-  description?: string;
+  description?: string | undefined;
   /** A message indicating if changes on the service provider require any updates on the consumer. */
-  actionsRequired?: string;
+  actionsRequired?: string | undefined;
 }
 /** Properties of a Private Endpoint Connection. */
 export interface PrivateEndpointConnectionProperties {
   /** The private endpoint resource. */
-  privateEndpoint?: PrivateEndpointReference;
+  privateEndpoint?: PrivateEndpointReference | undefined;
   /** The connection state of the private endpoint connection. */
   privateLinkServiceConnectionState: PrivateLinkServiceConnectionState;
   /** Provisioning state of the private endpoint connection. */
-  provisioningState?: ProvisioningState;
+  provisioningState?: ProvisioningState | undefined;
 }
 export interface GetPrivateEndpointConnectionsInterfaceResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: PrivateEndpointConnectionProperties;
+  properties?: PrivateEndpointConnectionProperties | undefined;
 }
 export interface GetPrivateLinkResourcesInterfaceRequest {
   /** The ID of the target subscription. */
@@ -410,25 +411,25 @@ export type PrivateLinkResourcePropertiesRequiredZoneNamesList = Array<string>;
 /** Properties of a private link resource. */
 export interface PrivateLinkResourceProperties {
   /** The private link resource group ID. */
-  groupId?: string;
+  groupId?: string | undefined;
   /** The private link resource required member names. */
-  requiredMembers?: PrivateLinkResourcePropertiesRequiredMembersList;
+  requiredMembers?: PrivateLinkResourcePropertiesRequiredMembersList | undefined;
   /** The private link resource private DNS zone names. */
-  requiredZoneNames?: PrivateLinkResourcePropertiesRequiredZoneNamesList;
+  requiredZoneNames?: PrivateLinkResourcePropertiesRequiredZoneNamesList | undefined;
   /** The status of the last operation. */
-  provisioningState?: ProvisioningState;
+  provisioningState?: ProvisioningState | undefined;
 }
 export interface GetPrivateLinkResourcesInterfaceResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: PrivateLinkResourceProperties;
+  properties?: PrivateLinkResourceProperties | undefined;
 }
 export interface GetSecurityPoliciesInterfaceRequest {
   /** The ID of the target subscription. */
@@ -469,34 +470,34 @@ export type IpAccessRulesPolicyRulesList = Array<IpAccessRule>;
 /** Ip Access Policy */
 export interface IpAccessRulesPolicy {
   /** Ip Access Policy Rules List */
-  rules?: IpAccessRulesPolicyRulesList;
+  rules?: IpAccessRulesPolicyRulesList | undefined;
 }
 /** SecurityPolicy Properties. */
 export interface SecurityPolicyProperties {
   /** Type of the Traffic Controller Security Policy */
-  policyType?: PolicyType;
+  policyType?: PolicyType | undefined;
   /** Web Application Firewall Policy of the Traffic Controller Security Policy. Single Security Policy can have only one policy type set. */
-  wafPolicy?: WafPolicy;
+  wafPolicy?: WafPolicy | undefined;
   /** Ip Access Policy of the Traffic Controller Security Policy. Single Security Policy can have only one policy type set. */
-  ipAccessRulesPolicy?: IpAccessRulesPolicy;
+  ipAccessRulesPolicy?: IpAccessRulesPolicy | undefined;
   /** Provisioning State of Traffic Controller SecurityPolicy Resource */
-  provisioningState?: ProvisioningState;
+  provisioningState?: ProvisioningState | undefined;
 }
 export interface GetSecurityPoliciesInterfaceResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: GetSecurityPoliciesInterfaceResponseTagsMap;
+  tags?: GetSecurityPoliciesInterfaceResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: SecurityPolicyProperties;
+  properties?: SecurityPolicyProperties | undefined;
 }
 export interface GetTrafficControllerInterfaceRequest {
   /** The ID of the target subscription. */
@@ -526,35 +527,37 @@ export type TrafficControllerPropertiesPrivateEndpointConnectionsList = Array<Re
 /** Traffic Controller Properties. */
 export interface TrafficControllerProperties {
   /** Configuration Endpoints. */
-  configurationEndpoints?: TrafficControllerPropertiesConfigurationEndpointsList;
+  configurationEndpoints?: TrafficControllerPropertiesConfigurationEndpointsList | undefined;
   /** Frontends References List */
-  frontends?: TrafficControllerPropertiesFrontendsList;
+  frontends?: TrafficControllerPropertiesFrontendsList | undefined;
   /** Associations References List */
-  associations?: TrafficControllerPropertiesAssociationsList;
+  associations?: TrafficControllerPropertiesAssociationsList | undefined;
   /** Security Policies References List */
-  securityPolicies?: TrafficControllerPropertiesSecurityPoliciesList;
+  securityPolicies?: TrafficControllerPropertiesSecurityPoliciesList | undefined;
   /** Private Endpoint Connections List */
-  privateEndpointConnections?: TrafficControllerPropertiesPrivateEndpointConnectionsList;
+  privateEndpointConnections?:
+    | TrafficControllerPropertiesPrivateEndpointConnectionsList
+    | undefined;
   /** Security Policy Configuration */
-  securityPolicyConfigurations?: SecurityPolicyConfigurations;
+  securityPolicyConfigurations?: SecurityPolicyConfigurations | undefined;
   /** The status of the last operation. */
-  provisioningState?: ProvisioningState;
+  provisioningState?: ProvisioningState | undefined;
 }
 export interface GetTrafficControllerInterfaceResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: GetTrafficControllerInterfaceResponseTagsMap;
+  tags?: GetTrafficControllerInterfaceResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: TrafficControllerProperties;
+  properties?: TrafficControllerProperties | undefined;
 }
 export interface ListAssociationsInterfaceByTrafficControllerRequest {
   /** The ID of the target subscription. */
@@ -569,19 +572,19 @@ export type AssociationTagsMap = { [key: string]: string | undefined };
 /** Association Subresource of Traffic Controller */
 export interface Association {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: AssociationTagsMap;
+  tags?: AssociationTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: AssociationProperties;
+  properties?: AssociationProperties | undefined;
 }
 /** The Association items on this page */
 export type AssociationListResultValueList = Array<Association>;
@@ -590,7 +593,7 @@ export interface AssociationListResult {
   /** The Association items on this page */
   value: AssociationListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListFrontendsInterfaceByTrafficControllerRequest {
   /** The ID of the target subscription. */
@@ -605,19 +608,19 @@ export type FrontendTagsMap = { [key: string]: string | undefined };
 /** Frontend Sub Resource of Traffic Controller. */
 export interface Frontend {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: FrontendTagsMap;
+  tags?: FrontendTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: FrontendProperties;
+  properties?: FrontendProperties | undefined;
 }
 /** The Frontend items on this page */
 export type FrontendListResultValueList = Array<Frontend>;
@@ -626,19 +629,19 @@ export interface FrontendListResult {
   /** The Frontend items on this page */
   value: FrontendListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListOperationsRequest {}
 /** Localized display information for this particular operation. */
 export interface OperationDisplay {
   /** The localized friendly form of the resource provider name, e.g. "Microsoft Monitoring Insights" or "Microsoft Compute". */
-  provider?: string;
+  provider?: string | undefined;
   /** The localized friendly name of the resource type related to this operation. E.g. "Virtual Machines" or "Job Schedule Collections". */
-  resource?: string;
+  resource?: string | undefined;
   /** The concise, localized friendly name for the operation; suitable for dropdowns. E.g. "Create or Update Virtual Machine", "Restart Virtual Machine". */
-  operation?: string;
+  operation?: string | undefined;
   /** The short, localized friendly description of the operation; suitable for tool tips and detailed views. */
-  description?: string;
+  description?: string | undefined;
 }
 /** The intended executor of the operation; as in Resource Based Access Control (RBAC) and audit logs UX. Default value is "user,system" */
 export type OperationOrigin = "user" | "system" | "user,system";
@@ -647,23 +650,23 @@ export type OperationActionType = "Internal";
 /** Details of a REST API operation, returned from the Resource Provider Operations API */
 export interface Operation {
   /** The name of the operation, as per Resource-Based Access Control (RBAC). Examples: "Microsoft.Compute/virtualMachines/write", "Microsoft.Compute/virtualMachines/capture/action" */
-  name?: string;
+  name?: string | undefined;
   /** Whether the operation applies to data-plane. This is "true" for data-plane operations and "false" for ARM/control-plane operations. */
-  isDataAction?: boolean;
+  isDataAction?: boolean | undefined;
   /** Localized display information for this particular operation. */
-  display?: OperationDisplay;
+  display?: OperationDisplay | undefined;
   /** The intended executor of the operation; as in Resource Based Access Control (RBAC) and audit logs UX. Default value is "user,system" */
-  origin?: OperationOrigin;
+  origin?: OperationOrigin | undefined;
   /** Enum. Indicates the action type. "Internal" refers to actions that are for internal only APIs. */
-  actionType?: OperationActionType;
+  actionType?: OperationActionType | undefined;
 }
 /** List of operations supported by the resource provider */
 export type ListOperationsResponseValueList = Array<Operation>;
 export interface ListOperationsResponse {
   /** List of operations supported by the resource provider */
-  value?: ListOperationsResponseValueList;
+  value?: ListOperationsResponseValueList | undefined;
   /** URL to get the next set of operation list results (if there are any). */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListPrivateEndpointConnectionsInterfaceByTrafficControllerRequest {
   /** The ID of the target subscription. */
@@ -676,15 +679,15 @@ export interface ListPrivateEndpointConnectionsInterfaceByTrafficControllerReque
 /** Private Endpoint Connection resource of Traffic Controller. */
 export interface PrivateEndpointConnection {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: PrivateEndpointConnectionProperties;
+  properties?: PrivateEndpointConnectionProperties | undefined;
 }
 /** The PrivateEndpointConnection items on this page */
 export type PrivateEndpointConnectionListResultValueList = Array<PrivateEndpointConnection>;
@@ -693,7 +696,7 @@ export interface PrivateEndpointConnectionListResult {
   /** The PrivateEndpointConnection items on this page */
   value: PrivateEndpointConnectionListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListPrivateLinkResourcesInterfaceByTrafficControllerRequest {
   /** The ID of the target subscription. */
@@ -706,15 +709,15 @@ export interface ListPrivateLinkResourcesInterfaceByTrafficControllerRequest {
 /** A private link resource. */
 export interface PrivateLinkResource {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: PrivateLinkResourceProperties;
+  properties?: PrivateLinkResourceProperties | undefined;
 }
 /** The PrivateLinkResource items on this page */
 export type PrivateLinkResourceListResultValueList = Array<PrivateLinkResource>;
@@ -723,7 +726,7 @@ export interface PrivateLinkResourceListResult {
   /** The PrivateLinkResource items on this page */
   value: PrivateLinkResourceListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListSecurityPoliciesInterfaceByTrafficControllerRequest {
   /** The ID of the target subscription. */
@@ -738,19 +741,19 @@ export type SecurityPolicyTagsMap = { [key: string]: string | undefined };
 /** SecurityPolicy Subresource of Traffic Controller. */
 export interface SecurityPolicy {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: SecurityPolicyTagsMap;
+  tags?: SecurityPolicyTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: SecurityPolicyProperties;
+  properties?: SecurityPolicyProperties | undefined;
 }
 /** The SecurityPolicy items on this page */
 export type SecurityPolicyListResultValueList = Array<SecurityPolicy>;
@@ -759,7 +762,7 @@ export interface SecurityPolicyListResult {
   /** The SecurityPolicy items on this page */
   value: SecurityPolicyListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListTrafficControllerInterfaceByResourceGroupRequest {
   /** The ID of the target subscription. */
@@ -772,19 +775,19 @@ export type TrafficControllerTagsMap = { [key: string]: string | undefined };
 /** Concrete tracked resource types can be created by aliasing this type using a specific property type. */
 export interface TrafficController {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: TrafficControllerTagsMap;
+  tags?: TrafficControllerTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: TrafficControllerProperties;
+  properties?: TrafficControllerProperties | undefined;
 }
 /** The TrafficController items on this page */
 export type TrafficControllerListResultValueList = Array<TrafficController>;
@@ -793,7 +796,7 @@ export interface TrafficControllerListResult {
   /** The TrafficController items on this page */
   value: TrafficControllerListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListTrafficControllerInterfaceBySubscriptionRequest {
   /** The ID of the target subscription. */
@@ -806,9 +809,9 @@ export type SecurityPoliciesInterfaceCreateOrUpdateRequestTagsMap = {
 /** SecurityPolicy Properties. */
 export interface SecurityPolicyPropertiesInput {
   /** Web Application Firewall Policy of the Traffic Controller Security Policy. Single Security Policy can have only one policy type set. */
-  wafPolicy?: WafPolicy;
+  wafPolicy?: WafPolicy | undefined;
   /** Ip Access Policy of the Traffic Controller Security Policy. Single Security Policy can have only one policy type set. */
-  ipAccessRulesPolicy?: IpAccessRulesPolicy;
+  ipAccessRulesPolicy?: IpAccessRulesPolicy | undefined;
 }
 export interface SecurityPoliciesInterfaceCreateOrUpdateRequest {
   /** The ID of the target subscription. */
@@ -820,11 +823,11 @@ export interface SecurityPoliciesInterfaceCreateOrUpdateRequest {
   /** SecurityPolicy */
   securityPolicyName: string;
   /** Resource tags. */
-  tags?: SecurityPoliciesInterfaceCreateOrUpdateRequestTagsMap;
+  tags?: SecurityPoliciesInterfaceCreateOrUpdateRequestTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: SecurityPolicyPropertiesInput;
+  properties?: SecurityPolicyPropertiesInput | undefined;
 }
 /** Resource tags. */
 export type SecurityPoliciesInterfaceCreateOrUpdateResponseTagsMap = {
@@ -832,21 +835,21 @@ export type SecurityPoliciesInterfaceCreateOrUpdateResponseTagsMap = {
 };
 export interface SecurityPoliciesInterfaceCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: SecurityPoliciesInterfaceCreateOrUpdateResponseTagsMap;
+  tags?: SecurityPoliciesInterfaceCreateOrUpdateResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: SecurityPolicyProperties;
+  properties?: SecurityPolicyProperties | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Resource tags. */
 export type TrafficControllerInterfaceCreateOrUpdateRequestTagsMap = {
@@ -855,7 +858,7 @@ export type TrafficControllerInterfaceCreateOrUpdateRequestTagsMap = {
 /** Traffic Controller Properties. */
 export interface TrafficControllerPropertiesInput {
   /** Security Policy Configuration */
-  securityPolicyConfigurations?: SecurityPolicyConfigurations;
+  securityPolicyConfigurations?: SecurityPolicyConfigurations | undefined;
 }
 export interface TrafficControllerInterfaceCreateOrUpdateRequest {
   /** The ID of the target subscription. */
@@ -865,11 +868,11 @@ export interface TrafficControllerInterfaceCreateOrUpdateRequest {
   /** traffic controller name for path */
   trafficControllerName: string;
   /** Resource tags. */
-  tags?: TrafficControllerInterfaceCreateOrUpdateRequestTagsMap;
+  tags?: TrafficControllerInterfaceCreateOrUpdateRequestTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: TrafficControllerPropertiesInput;
+  properties?: TrafficControllerPropertiesInput | undefined;
 }
 /** Resource tags. */
 export type TrafficControllerInterfaceCreateOrUpdateResponseTagsMap = {
@@ -877,35 +880,35 @@ export type TrafficControllerInterfaceCreateOrUpdateResponseTagsMap = {
 };
 export interface TrafficControllerInterfaceCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: TrafficControllerInterfaceCreateOrUpdateResponseTagsMap;
+  tags?: TrafficControllerInterfaceCreateOrUpdateResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: TrafficControllerProperties;
+  properties?: TrafficControllerProperties | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Resource tags. */
 export type UpdateAssociationsInterfaceRequestTagsMap = { [key: string]: string | undefined };
 /** Association Subnet. */
 export interface AssociationSubnetUpdate {
   /** Association ID. */
-  id?: string;
+  id?: string | undefined;
 }
 /** The updatable properties of the Association. */
 export interface AssociationUpdateProperties {
   /** Association Type */
-  associationType?: AssociationType | (string & {});
+  associationType?: AssociationType | (string & {}) | undefined;
   /** Association Subnet */
-  subnet?: AssociationSubnetUpdate;
+  subnet?: AssociationSubnetUpdate | undefined;
 }
 export interface UpdateAssociationsInterfaceRequest {
   /** The ID of the target subscription. */
@@ -917,60 +920,60 @@ export interface UpdateAssociationsInterfaceRequest {
   /** Name of Association */
   associationName: string;
   /** Resource tags. */
-  tags?: UpdateAssociationsInterfaceRequestTagsMap;
+  tags?: UpdateAssociationsInterfaceRequestTagsMap | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: AssociationUpdateProperties;
+  properties?: AssociationUpdateProperties | undefined;
 }
 /** Resource tags. */
 export type UpdateAssociationsInterfaceResponseTagsMap = { [key: string]: string | undefined };
 export interface UpdateAssociationsInterfaceResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: UpdateAssociationsInterfaceResponseTagsMap;
+  tags?: UpdateAssociationsInterfaceResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: AssociationProperties;
+  properties?: AssociationProperties | undefined;
 }
 /** Resource tags. */
 export type UpdateFrontendsInterfaceRequestTagsMap = { [key: string]: string | undefined };
 /** Reference to an Association resource. */
 export interface FrontendAssociationUpdate {
   /** Resource ID of the Association. */
-  id?: string;
+  id?: string | undefined;
 }
 /** Web Application Firewall Security Policy */
 export interface WafSecurityPolicyUpdate {
   /** Resource ID of the Waf Security Policy */
-  id?: string;
+  id?: string | undefined;
 }
 /** IpAccessRules Security Policy */
 export interface IpAccessRulesSecurityPolicyUpdate {
   /** Resource ID of the Ip Access Rules Security Policy */
-  id?: string;
+  id?: string | undefined;
 }
 /** SecurityPolicyConfigurations Subresource of Traffic Controller. */
 export interface SecurityPolicyConfigurationsUpdate {
   /** Contains reference to a WAF-type security policy. */
-  wafSecurityPolicy?: WafSecurityPolicyUpdate;
+  wafSecurityPolicy?: WafSecurityPolicyUpdate | undefined;
   /** Contains reference to a IpAccessRules-type security policy. */
-  ipAccessRulesSecurityPolicy?: IpAccessRulesSecurityPolicyUpdate;
+  ipAccessRulesSecurityPolicy?: IpAccessRulesSecurityPolicyUpdate | undefined;
 }
 /** The updatable properties of the Frontend. */
 export interface FrontendUpdateProperties {
   /** Whether public network access is allowed for the frontend. Enabled indicates a public frontend; Disabled indicates a private frontend. */
-  publicNetworkAccess?: PublicNetworkAccess | (string & {});
+  publicNetworkAccess?: PublicNetworkAccess | (string & {}) | undefined;
   /** Reference to an Association resource that contains the subnet where the private frontend should be deployed. */
-  association?: FrontendAssociationUpdate;
+  association?: FrontendAssociationUpdate | undefined;
   /** Frontend Security Policy Configuration */
-  securityPolicyConfigurations?: SecurityPolicyConfigurationsUpdate;
+  securityPolicyConfigurations?: SecurityPolicyConfigurationsUpdate | undefined;
 }
 export interface UpdateFrontendsInterfaceRequest {
   /** The ID of the target subscription. */
@@ -982,27 +985,27 @@ export interface UpdateFrontendsInterfaceRequest {
   /** Frontends */
   frontendName: string;
   /** Resource tags. */
-  tags?: UpdateFrontendsInterfaceRequestTagsMap;
+  tags?: UpdateFrontendsInterfaceRequestTagsMap | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: FrontendUpdateProperties;
+  properties?: FrontendUpdateProperties | undefined;
 }
 /** Resource tags. */
 export type UpdateFrontendsInterfaceResponseTagsMap = { [key: string]: string | undefined };
 export interface UpdateFrontendsInterfaceResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: UpdateFrontendsInterfaceResponseTagsMap;
+  tags?: UpdateFrontendsInterfaceResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: FrontendProperties;
+  properties?: FrontendProperties | undefined;
 }
 /** Properties of a Private Endpoint Connection. */
 export interface PrivateEndpointConnectionPropertiesInput {
@@ -1019,37 +1022,37 @@ export interface UpdatePrivateEndpointConnectionsInterfaceRequest {
   /** Private Endpoint Connection */
   privateEndpointConnectionName: string;
   /** The resource-specific properties for this resource. */
-  properties?: PrivateEndpointConnectionPropertiesInput;
+  properties?: PrivateEndpointConnectionPropertiesInput | undefined;
 }
 export interface UpdatePrivateEndpointConnectionsInterfaceResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: PrivateEndpointConnectionProperties;
+  properties?: PrivateEndpointConnectionProperties | undefined;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Resource tags. */
 export type UpdateSecurityPoliciesInterfaceRequestTagsMap = { [key: string]: string | undefined };
 /** Web Application Firewall Policy */
 export interface WafPolicyUpdate {
   /** Resource ID of the WAF */
-  id?: string;
+  id?: string | undefined;
 }
 /** The updatable properties of the SecurityPolicy. */
 export interface SecurityPolicyUpdateProperties {
   /** Web Application Firewall Policy of the Traffic Controller Security Policy. Single Security Policy can have only one policy type set. */
-  wafPolicy?: WafPolicyUpdate;
+  wafPolicy?: WafPolicyUpdate | undefined;
   /** Ip Access Policy of the Traffic Controller Security Policy. Single Security Policy can have only one policy type set. */
-  ipAccessRulesPolicy?: IpAccessRulesPolicy;
+  ipAccessRulesPolicy?: IpAccessRulesPolicy | undefined;
 }
 export interface UpdateSecurityPoliciesInterfaceRequest {
   /** The ID of the target subscription. */
@@ -1061,34 +1064,34 @@ export interface UpdateSecurityPoliciesInterfaceRequest {
   /** SecurityPolicy */
   securityPolicyName: string;
   /** Resource tags. */
-  tags?: UpdateSecurityPoliciesInterfaceRequestTagsMap;
+  tags?: UpdateSecurityPoliciesInterfaceRequestTagsMap | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: SecurityPolicyUpdateProperties;
+  properties?: SecurityPolicyUpdateProperties | undefined;
 }
 /** Resource tags. */
 export type UpdateSecurityPoliciesInterfaceResponseTagsMap = { [key: string]: string | undefined };
 export interface UpdateSecurityPoliciesInterfaceResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: UpdateSecurityPoliciesInterfaceResponseTagsMap;
+  tags?: UpdateSecurityPoliciesInterfaceResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: SecurityPolicyProperties;
+  properties?: SecurityPolicyProperties | undefined;
 }
 /** Resource tags. */
 export type UpdateTrafficControllerInterfaceRequestTagsMap = { [key: string]: string | undefined };
 /** The updatable properties of the TrafficController. */
 export interface TrafficControllerUpdateProperties {
   /** Security Policy Configuration */
-  securityPolicyConfigurations?: SecurityPolicyConfigurationsUpdate;
+  securityPolicyConfigurations?: SecurityPolicyConfigurationsUpdate | undefined;
 }
 export interface UpdateTrafficControllerInterfaceRequest {
   /** The ID of the target subscription. */
@@ -1098,27 +1101,27 @@ export interface UpdateTrafficControllerInterfaceRequest {
   /** traffic controller name for path */
   trafficControllerName: string;
   /** Resource tags. */
-  tags?: UpdateTrafficControllerInterfaceRequestTagsMap;
+  tags?: UpdateTrafficControllerInterfaceRequestTagsMap | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: TrafficControllerUpdateProperties;
+  properties?: TrafficControllerUpdateProperties | undefined;
 }
 /** Resource tags. */
 export type UpdateTrafficControllerInterfaceResponseTagsMap = { [key: string]: string | undefined };
 export interface UpdateTrafficControllerInterfaceResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: UpdateTrafficControllerInterfaceResponseTagsMap;
+  tags?: UpdateTrafficControllerInterfaceResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: TrafficControllerProperties;
+  properties?: TrafficControllerProperties | undefined;
 }
 export type AssociationsInterfaceCreateOrUpdateError = AzureOpError;
 /** Create a Association */

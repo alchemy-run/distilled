@@ -29,30 +29,31 @@ const TELEMETRY = {
   prefix: "Sqlvirtualmachine",
   service: "Sqlvirtualmachine",
   labels: "azure",
+  labelNames: { resourceGroupName: "azure.resource_group.name" },
   propagate: "w3c",
 } as const;
 
 /** A private IP address bound to the availability group listener. */
 export interface PrivateIPAddress {
   /** Private IP address bound to the availability group listener. */
-  ipAddress?: string;
+  ipAddress?: string | undefined;
   /** Subnet used to include private IP. */
-  subnetResourceId?: string;
+  subnetResourceId?: string | undefined;
 }
 /** List of the SQL virtual machine instance resource id's that are enrolled into the availability group listener. */
 export type LoadBalancerConfigurationSqlVirtualMachineInstancesList = Array<string>;
 /** A load balancer configuration for an availability group listener. */
 export interface LoadBalancerConfiguration {
   /** Private IP address. */
-  privateIpAddress?: PrivateIPAddress;
+  privateIpAddress?: PrivateIPAddress | undefined;
   /** Resource id of the public IP. */
-  publicIpAddressResourceId?: string;
+  publicIpAddressResourceId?: string | undefined;
   /** Resource id of the load balancer. */
-  loadBalancerResourceId?: string;
+  loadBalancerResourceId?: string | undefined;
   /** Probe port. */
-  probePort?: number;
+  probePort?: number | undefined;
   /** List of the SQL virtual machine instance resource id's that are enrolled into the availability group listener. */
-  sqlVirtualMachineInstances?: LoadBalancerConfigurationSqlVirtualMachineInstancesList;
+  sqlVirtualMachineInstances?: LoadBalancerConfigurationSqlVirtualMachineInstancesList | undefined;
 }
 /** List of load balancer configurations for an availability group listener. */
 export type AvailabilityGroupListenerPropertiesInputLoadBalancerConfigurationsList =
@@ -78,37 +79,41 @@ export type ReadableSecondary = "No" | "All" | "Read_Only";
 /** Availability group replica configuration. */
 export interface AgReplica {
   /** Sql VirtualMachine Instance Id. */
-  sqlVirtualMachineInstanceId?: string;
+  sqlVirtualMachineInstanceId?: string | undefined;
   /** Replica Role in availability group. */
-  role?: Role | (string & {});
+  role?: Role | (string & {}) | undefined;
   /** Replica commit mode in availability group. */
-  commit?: Commit | (string & {});
+  commit?: Commit | (string & {}) | undefined;
   /** Replica failover mode in availability group. */
-  failover?: Failover | (string & {});
+  failover?: Failover | (string & {}) | undefined;
   /** Replica readable secondary mode in availability group. */
-  readableSecondary?: ReadableSecondary | (string & {});
+  readableSecondary?: ReadableSecondary | (string & {}) | undefined;
 }
 /** Replica configurations. */
 export type AgConfigurationReplicasList = Array<AgReplica>;
 /** Availability group configuration. */
 export interface AgConfiguration {
   /** Replica configurations. */
-  replicas?: AgConfigurationReplicasList;
+  replicas?: AgConfigurationReplicasList | undefined;
 }
 /** The properties of an availability group listener. */
 export interface AvailabilityGroupListenerPropertiesInput {
   /** Name of the availability group. */
-  availabilityGroupName?: string;
+  availabilityGroupName?: string | undefined;
   /** List of load balancer configurations for an availability group listener. */
-  loadBalancerConfigurations?: AvailabilityGroupListenerPropertiesInputLoadBalancerConfigurationsList;
+  loadBalancerConfigurations?:
+    | AvailabilityGroupListenerPropertiesInputLoadBalancerConfigurationsList
+    | undefined;
   /** List of multi subnet IP configurations for an AG listener. */
-  multiSubnetIpConfigurations?: AvailabilityGroupListenerPropertiesInputMultiSubnetIpConfigurationsList;
+  multiSubnetIpConfigurations?:
+    | AvailabilityGroupListenerPropertiesInputMultiSubnetIpConfigurationsList
+    | undefined;
   /** Create a default availability group if it does not exist. */
-  createDefaultAvailabilityGroupIfNotExist?: boolean;
+  createDefaultAvailabilityGroupIfNotExist?: boolean | undefined;
   /** Listener port. */
-  port?: number;
+  port?: number | undefined;
   /** Availability Group configuration. */
-  availabilityGroupConfiguration?: AgConfiguration;
+  availabilityGroupConfiguration?: AgConfiguration | undefined;
 }
 export interface AvailabilityGroupListenersCreateOrUpdateRequest {
   /** The ID of the target subscription. */
@@ -120,7 +125,7 @@ export interface AvailabilityGroupListenersCreateOrUpdateRequest {
   /** Name of the availability group listener. */
   availabilityGroupListenerName: string;
   /** Resource properties. */
-  properties?: AvailabilityGroupListenerPropertiesInput;
+  properties?: AvailabilityGroupListenerPropertiesInput | undefined;
 }
 /** The type of identity that created the resource. */
 export type SystemDataCreatedByType = "User" | "Application" | "ManagedIdentity" | "Key";
@@ -129,17 +134,17 @@ export type SystemDataLastModifiedByType = "User" | "Application" | "ManagedIden
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface SystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: SystemDataCreatedByType;
+  createdByType?: SystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: SystemDataLastModifiedByType;
+  lastModifiedByType?: SystemDataLastModifiedByType | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 /** List of load balancer configurations for an availability group listener. */
 export type AvailabilityGroupListenerPropertiesLoadBalancerConfigurationsList =
@@ -150,35 +155,39 @@ export type AvailabilityGroupListenerPropertiesMultiSubnetIpConfigurationsList =
 /** The properties of an availability group listener. */
 export interface AvailabilityGroupListenerProperties {
   /** Provisioning state to track the async operation status. */
-  provisioningState?: string;
+  provisioningState?: string | undefined;
   /** Name of the availability group. */
-  availabilityGroupName?: string;
+  availabilityGroupName?: string | undefined;
   /** List of load balancer configurations for an availability group listener. */
-  loadBalancerConfigurations?: AvailabilityGroupListenerPropertiesLoadBalancerConfigurationsList;
+  loadBalancerConfigurations?:
+    | AvailabilityGroupListenerPropertiesLoadBalancerConfigurationsList
+    | undefined;
   /** List of multi subnet IP configurations for an AG listener. */
-  multiSubnetIpConfigurations?: AvailabilityGroupListenerPropertiesMultiSubnetIpConfigurationsList;
+  multiSubnetIpConfigurations?:
+    | AvailabilityGroupListenerPropertiesMultiSubnetIpConfigurationsList
+    | undefined;
   /** Create a default availability group if it does not exist. */
-  createDefaultAvailabilityGroupIfNotExist?: boolean;
+  createDefaultAvailabilityGroupIfNotExist?: boolean | undefined;
   /** Listener port. */
-  port?: number;
+  port?: number | undefined;
   /** Availability Group configuration. */
-  availabilityGroupConfiguration?: AgConfiguration;
+  availabilityGroupConfiguration?: AgConfiguration | undefined;
 }
 export interface AvailabilityGroupListenersCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource properties. */
-  properties?: AvailabilityGroupListenerProperties;
+  properties?: AvailabilityGroupListenerProperties | undefined;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeleteAvailabilityGroupListenerRequest {
   /** The ID of the target subscription. */
@@ -192,9 +201,9 @@ export interface DeleteAvailabilityGroupListenerRequest {
 }
 export interface DeleteAvailabilityGroupListenerResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeleteSqlVirtualMachineRequest {
   /** The ID of the target subscription. */
@@ -206,9 +215,9 @@ export interface DeleteSqlVirtualMachineRequest {
 }
 export interface DeleteSqlVirtualMachineResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeleteSqlVirtualMachineGroupRequest {
   /** The ID of the target subscription. */
@@ -220,9 +229,9 @@ export interface DeleteSqlVirtualMachineGroupRequest {
 }
 export interface DeleteSqlVirtualMachineGroupResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface FetchSqlVirtualMachineDCAssessmentRequest {
   /** The ID of the target subscription. */
@@ -232,13 +241,13 @@ export interface FetchSqlVirtualMachineDCAssessmentRequest {
   /** Name of the SQL virtual machine. */
   sqlVirtualMachineName: string;
   /** Boolean to run disk config Assessment. Use false to fetch past Assessment. */
-  runDiskConfigRules?: boolean;
+  runDiskConfigRules?: boolean | undefined;
 }
 export interface FetchSqlVirtualMachineDCAssessmentResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface GetAvailabilityGroupListenerRequest {
   /** The ID of the target subscription. */
@@ -250,19 +259,19 @@ export interface GetAvailabilityGroupListenerRequest {
   /** Name of the availability group listener. */
   availabilityGroupListenerName: string;
   /** The child resources to include in the response. */
-  _expand?: string;
+  _expand?: string | undefined;
 }
 export interface GetAvailabilityGroupListenerResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource properties. */
-  properties?: AvailabilityGroupListenerProperties;
+  properties?: AvailabilityGroupListenerProperties | undefined;
 }
 export interface GetSqlVirtualMachineRequest {
   /** The ID of the target subscription. */
@@ -272,7 +281,7 @@ export interface GetSqlVirtualMachineRequest {
   /** Name of the SQL virtual machine. */
   sqlVirtualMachineName: string;
   /** The child resources to include in the response. */
-  _expand?: string;
+  _expand?: string | undefined;
 }
 /** Resource tags. */
 export type GetSqlVirtualMachineResponseTagsMap = { [key: string]: string | undefined };
@@ -287,11 +296,11 @@ export type SqlImageSku = "Developer" | "Express" | "Standard" | "Enterprise" | 
 /** Domain credentials for setting up Windows Server Failover Cluster for SQL availability group. */
 export interface WsfcDomainCredentials {
   /** Cluster bootstrap account password. */
-  clusterBootstrapAccountPassword?: string | Redacted.Redacted<string>;
+  clusterBootstrapAccountPassword?: string | Redacted.Redacted<string> | undefined;
   /** Cluster operator account password. */
-  clusterOperatorAccountPassword?: string | Redacted.Redacted<string>;
+  clusterOperatorAccountPassword?: string | Redacted.Redacted<string> | undefined;
   /** SQL service account password. */
-  sqlServiceAccountPassword?: string | Redacted.Redacted<string>;
+  sqlServiceAccountPassword?: string | Redacted.Redacted<string> | undefined;
 }
 /** Day of week to apply the patch on. */
 export type DayOfWeek =
@@ -308,15 +317,15 @@ export type AutoPatchingSettingsAdditionalVmPatch = "NotSet" | "MicrosoftUpdate"
 /** Set a patching window during which Windows and SQL patches will be applied. */
 export interface AutoPatchingSettings {
   /** Enable or disable autopatching on SQL virtual machine. */
-  enable?: boolean;
+  enable?: boolean | undefined;
   /** Day of week to apply the patch on. */
-  dayOfWeek?: DayOfWeek | (string & {});
+  dayOfWeek?: DayOfWeek | (string & {}) | undefined;
   /** Hour of the day when patching is initiated. Local VM time. */
-  maintenanceWindowStartingHour?: number;
+  maintenanceWindowStartingHour?: number | undefined;
   /** Duration of patching. */
-  maintenanceWindowDuration?: number;
+  maintenanceWindowDuration?: number | undefined;
   /** Additional Patch to be enable or enabled on the SQL Virtual Machine. */
-  additionalVmPatch?: AutoPatchingSettingsAdditionalVmPatch | (string & {});
+  additionalVmPatch?: AutoPatchingSettingsAdditionalVmPatch | (string & {}) | undefined;
 }
 /** Backup schedule type. */
 export type BackupScheduleType = "Manual" | "Automated";
@@ -335,201 +344,201 @@ export type AutoBackupSettingsDaysOfWeekList = Array<AutoBackupDaysOfWeek | (str
 /** Configure backups for databases in your SQL virtual machine. */
 export interface AutoBackupSettings {
   /** Enable or disable autobackup on SQL virtual machine. */
-  enable?: boolean;
+  enable?: boolean | undefined;
   /** Enable or disable encryption for backup on SQL virtual machine. */
-  enableEncryption?: boolean;
+  enableEncryption?: boolean | undefined;
   /** Retention period of backup: 1-90 days. */
-  retentionPeriod?: number;
+  retentionPeriod?: number | undefined;
   /** Storage account url where backup will be taken to. */
-  storageAccountUrl?: string;
+  storageAccountUrl?: string | undefined;
   /** Storage container name where backup will be taken to. */
-  storageContainerName?: string;
+  storageContainerName?: string | undefined;
   /** Storage account key where backup will be taken to. */
-  storageAccessKey?: string;
+  storageAccessKey?: string | undefined;
   /** Password for encryption on backup. */
-  password?: string | Redacted.Redacted<string>;
+  password?: string | Redacted.Redacted<string> | undefined;
   /** Include or exclude system databases from auto backup. */
-  backupSystemDbs?: boolean;
+  backupSystemDbs?: boolean | undefined;
   /** Backup schedule type. */
-  backupScheduleType?: BackupScheduleType | (string & {});
+  backupScheduleType?: BackupScheduleType | (string & {}) | undefined;
   /** Frequency of full backups. In both cases, full backups begin during the next scheduled time window. */
-  fullBackupFrequency?: FullBackupFrequencyType | (string & {});
+  fullBackupFrequency?: FullBackupFrequencyType | (string & {}) | undefined;
   /** Days of the week for the backups when FullBackupFrequency is set to Weekly. */
-  daysOfWeek?: AutoBackupSettingsDaysOfWeekList;
+  daysOfWeek?: AutoBackupSettingsDaysOfWeekList | undefined;
   /** Start time of a given day during which full backups can take place. 0-23 hours. */
-  fullBackupStartTime?: number;
+  fullBackupStartTime?: number | undefined;
   /** Duration of the time window of a given day during which full backups can take place. 1-23 hours. */
-  fullBackupWindowHours?: number;
+  fullBackupWindowHours?: number | undefined;
   /** Frequency of log backups. 5-60 minutes. */
-  logBackupFrequency?: number;
+  logBackupFrequency?: number | undefined;
 }
 /** Configure your SQL virtual machine to be able to connect to the Azure Key Vault service. */
 export interface KeyVaultCredentialSettings {
   /** Enable or disable key vault credential setting. */
-  enable?: boolean;
+  enable?: boolean | undefined;
   /** Credential name. */
-  credentialName?: string;
+  credentialName?: string | undefined;
   /** Azure Key Vault url. */
-  azureKeyVaultUrl?: string;
+  azureKeyVaultUrl?: string | undefined;
   /** Service principal name to access key vault. */
-  servicePrincipalName?: string;
+  servicePrincipalName?: string | undefined;
   /** Service principal name secret to access key vault. */
-  servicePrincipalSecret?: string;
+  servicePrincipalSecret?: string | undefined;
 }
 /** SQL Server connectivity option. */
 export type ConnectivityType = "LOCAL" | "PRIVATE" | "PUBLIC";
 /** Set the access level and network port settings for SQL Server. */
 export interface SqlConnectivityUpdateSettings {
   /** SQL Server connectivity option. */
-  connectivityType?: ConnectivityType | (string & {});
+  connectivityType?: ConnectivityType | (string & {}) | undefined;
   /** SQL Server port. */
-  port?: number;
+  port?: number | undefined;
   /** SQL Server sysadmin login to create. */
-  sqlAuthUpdateUserName?: string;
+  sqlAuthUpdateUserName?: string | undefined;
   /** SQL Server sysadmin login password. */
-  sqlAuthUpdatePassword?: string | Redacted.Redacted<string>;
+  sqlAuthUpdatePassword?: string | Redacted.Redacted<string> | undefined;
 }
 /** SQL Server workload type. */
 export type SqlWorkloadType = "GENERAL" | "OLTP" | "DW";
 /** Set workload type to optimize storage for SQL Server. */
 export interface SqlWorkloadTypeUpdateSettings {
   /** SQL Server workload type. */
-  sqlWorkloadType?: SqlWorkloadType | (string & {});
+  sqlWorkloadType?: SqlWorkloadType | (string & {}) | undefined;
 }
 /** Disk configuration to apply to SQL Server. */
 export type DiskConfigurationType = "NEW" | "EXTEND" | "ADD";
 /** Set disk storage settings for SQL Server. */
 export interface SqlStorageUpdateSettings {
   /** Virtual machine disk count. */
-  diskCount?: number;
+  diskCount?: number | undefined;
   /** Device id of the first disk to be updated. */
-  startingDeviceId?: number;
+  startingDeviceId?: number | undefined;
   /** Disk configuration to apply to SQL Server. */
-  diskConfigurationType?: DiskConfigurationType | (string & {});
+  diskConfigurationType?: DiskConfigurationType | (string & {}) | undefined;
 }
 /** Additional SQL Server feature settings. */
 export interface AdditionalFeaturesServerConfigurations {
   /** Enable or disable R services (SQL 2016 onwards). */
-  isRServicesEnabled?: boolean;
+  isRServicesEnabled?: boolean | undefined;
 }
 /** Set the server/instance-level settings for SQL Server. */
 export interface SQLInstanceSettings {
   /** SQL Server Collation. */
-  collation?: string;
+  collation?: string | undefined;
   /** SQL Server MAXDOP. */
-  maxDop?: number;
+  maxDop?: number | undefined;
   /** SQL Server Optimize for Adhoc workloads. */
-  isOptimizeForAdHocWorkloadsEnabled?: boolean;
+  isOptimizeForAdHocWorkloadsEnabled?: boolean | undefined;
   /** SQL Server minimum memory. */
-  minServerMemoryMB?: number;
+  minServerMemoryMB?: number | undefined;
   /** SQL Server maximum memory. */
-  maxServerMemoryMB?: number;
+  maxServerMemoryMB?: number | undefined;
   /** SQL Server LPIM. */
-  isLpimEnabled?: boolean;
+  isLpimEnabled?: boolean | undefined;
   /** SQL Server IFI. */
-  isIfiEnabled?: boolean;
+  isIfiEnabled?: boolean | undefined;
 }
 /** Enable AAD authentication for SQL VM. */
 export interface AADAuthenticationSettings {
   /** The client Id of the Managed Identity to query Microsoft Graph API. An empty string must be used for the system assigned Managed Identity */
-  clientId?: string;
+  clientId?: string | undefined;
 }
 /** Set the connectivity, storage and workload settings. */
 export interface ServerConfigurationsManagementSettings {
   /** SQL connectivity type settings. */
-  sqlConnectivityUpdateSettings?: SqlConnectivityUpdateSettings;
+  sqlConnectivityUpdateSettings?: SqlConnectivityUpdateSettings | undefined;
   /** SQL workload type settings. */
-  sqlWorkloadTypeUpdateSettings?: SqlWorkloadTypeUpdateSettings;
+  sqlWorkloadTypeUpdateSettings?: SqlWorkloadTypeUpdateSettings | undefined;
   /** SQL storage update settings. */
-  sqlStorageUpdateSettings?: SqlStorageUpdateSettings;
+  sqlStorageUpdateSettings?: SqlStorageUpdateSettings | undefined;
   /** Additional SQL feature settings. */
-  additionalFeaturesServerConfigurations?: AdditionalFeaturesServerConfigurations;
+  additionalFeaturesServerConfigurations?: AdditionalFeaturesServerConfigurations | undefined;
   /** SQL Instance settings. */
-  sqlInstanceSettings?: SQLInstanceSettings;
+  sqlInstanceSettings?: SQLInstanceSettings | undefined;
   /** Azure AD authentication Settings. */
-  azureAdAuthenticationSettings?: AADAuthenticationSettings;
+  azureAdAuthenticationSettings?: AADAuthenticationSettings | undefined;
 }
 /** Logical Unit Numbers for the disks. */
 export type SQLStorageSettingsLunsList = Array<number>;
 /** Set disk storage settings for SQL Server. */
 export interface SQLStorageSettings {
   /** Logical Unit Numbers for the disks. */
-  luns?: SQLStorageSettingsLunsList;
+  luns?: SQLStorageSettingsLunsList | undefined;
   /** SQL Server default file path */
-  defaultFilePath?: string;
+  defaultFilePath?: string | undefined;
   /** Use storage pool to build a drive if true or not provided */
-  useStoragePool?: boolean;
+  useStoragePool?: boolean | undefined;
 }
 /** Logical Unit Numbers for the disks. */
 export type SQLTempDbSettingsLunsList = Array<number>;
 /** Set tempDb storage settings for SQL Server. */
 export interface SQLTempDbSettings {
   /** SQL Server tempdb data file size */
-  dataFileSize?: number;
+  dataFileSize?: number | undefined;
   /** SQL Server tempdb data file autoGrowth size */
-  dataGrowth?: number;
+  dataGrowth?: number | undefined;
   /** SQL Server tempdb log file size */
-  logFileSize?: number;
+  logFileSize?: number | undefined;
   /** SQL Server tempdb log file autoGrowth size */
-  logGrowth?: number;
+  logGrowth?: number | undefined;
   /** SQL Server tempdb data file count */
-  dataFileCount?: number;
+  dataFileCount?: number | undefined;
   /** SQL Server tempdb persist folder choice */
-  persistFolder?: boolean;
+  persistFolder?: boolean | undefined;
   /** SQL Server tempdb persist folder location */
-  persistFolderPath?: string;
+  persistFolderPath?: string | undefined;
   /** Logical Unit Numbers for the disks. */
-  luns?: SQLTempDbSettingsLunsList;
+  luns?: SQLTempDbSettingsLunsList | undefined;
   /** SQL Server default file path */
-  defaultFilePath?: string;
+  defaultFilePath?: string | undefined;
   /** Use storage pool to build a drive if true or not provided */
-  useStoragePool?: boolean;
+  useStoragePool?: boolean | undefined;
 }
 /** Storage workload type. */
 export type StorageWorkloadType = "GENERAL" | "OLTP" | "DW";
 /** Storage Configurations for SQL Data, Log and TempDb. */
 export interface StorageConfigurationSettings {
   /** SQL Server Data Storage Settings. */
-  sqlDataSettings?: SQLStorageSettings;
+  sqlDataSettings?: SQLStorageSettings | undefined;
   /** SQL Server Log Storage Settings. */
-  sqlLogSettings?: SQLStorageSettings;
+  sqlLogSettings?: SQLStorageSettings | undefined;
   /** SQL Server TempDb Storage Settings. */
-  sqlTempDbSettings?: SQLTempDbSettings;
+  sqlTempDbSettings?: SQLTempDbSettings | undefined;
   /** SQL Server SystemDb Storage on DataPool if true. */
-  sqlSystemDbOnDataDisk?: boolean;
+  sqlSystemDbOnDataDisk?: boolean | undefined;
   /** Disk configuration to apply to SQL Server. */
-  diskConfigurationType?: DiskConfigurationType | (string & {});
+  diskConfigurationType?: DiskConfigurationType | (string & {}) | undefined;
   /** Storage workload type. */
-  storageWorkloadType?: StorageWorkloadType | (string & {});
+  storageWorkloadType?: StorageWorkloadType | (string & {}) | undefined;
   /** Enable SQL IaaS Agent storage configuration blade in Azure Portal. */
-  enableStorageConfigBlade?: boolean;
+  enableStorageConfigBlade?: boolean | undefined;
 }
 /** SQL VM troubleshooting scenario. */
 export type TroubleshootingStatusTroubleshootingScenario = "UnhealthyReplica";
 /** SQL VM Troubleshoot UnhealthyReplica scenario information. */
 export interface UnhealthyReplicaInfo {
   /** The name of the availability group */
-  availabilityGroupName?: string;
+  availabilityGroupName?: string | undefined;
 }
 /** SQL VM Troubleshooting additional properties. */
 export interface TroubleshootingAdditionalProperties {
   /** The unhealthy replica information */
-  unhealthyReplicaInfo?: UnhealthyReplicaInfo;
+  unhealthyReplicaInfo?: UnhealthyReplicaInfo | undefined;
 }
 /** Status of last troubleshooting operation on this SQL VM */
 export interface TroubleshootingStatus {
   /** Root cause of the issue */
-  rootCause?: string;
+  rootCause?: string | undefined;
   /** Last troubleshooting trigger time in UTC timezone */
-  lastTriggerTimeUtc?: string;
+  lastTriggerTimeUtc?: string | undefined;
   /** Start time in UTC timezone. */
-  startTimeUtc?: string;
+  startTimeUtc?: string | undefined;
   /** End time in UTC timezone. */
-  endTimeUtc?: string;
+  endTimeUtc?: string | undefined;
   /** SQL VM troubleshooting scenario. */
-  troubleshootingScenario?: TroubleshootingStatusTroubleshootingScenario;
+  troubleshootingScenario?: TroubleshootingStatusTroubleshootingScenario | undefined;
   /** Troubleshooting properties */
-  properties?: TroubleshootingAdditionalProperties;
+  properties?: TroubleshootingAdditionalProperties | undefined;
 }
 /** Day of the week to run assessment. */
 export type AssessmentDayOfWeek =
@@ -543,24 +552,24 @@ export type AssessmentDayOfWeek =
 /** Set assessment schedule for SQL Server. */
 export interface Schedule {
   /** Enable or disable assessment schedule on SQL virtual machine. */
-  enable?: boolean;
+  enable?: boolean | undefined;
   /** Number of weeks to schedule between 2 assessment runs. Takes value from 1-6 */
-  weeklyInterval?: number;
+  weeklyInterval?: number | undefined;
   /** Occurrence of the DayOfWeek day within a month to schedule assessment. Takes values: 1,2,3,4 and -1. Use -1 for last DayOfWeek day of the month */
-  monthlyOccurrence?: number;
+  monthlyOccurrence?: number | undefined;
   /** Day of the week to run assessment. */
-  dayOfWeek?: AssessmentDayOfWeek | (string & {});
+  dayOfWeek?: AssessmentDayOfWeek | (string & {}) | undefined;
   /** Time of the day in HH:mm format. Eg. 17:30 */
-  startTime?: string;
+  startTime?: string | undefined;
 }
 /** Configure SQL best practices Assessment for databases in your SQL virtual machine. */
 export interface AssessmentSettings {
   /** Enable or disable SQL best practices Assessment feature on SQL virtual machine. */
-  enable?: boolean;
+  enable?: boolean | undefined;
   /** Run SQL best practices Assessment immediately on SQL virtual machine. */
-  runImmediately?: boolean;
+  runImmediately?: boolean | undefined;
   /** Schedule for SQL best practices Assessment. */
-  schedule?: Schedule;
+  schedule?: Schedule | undefined;
 }
 /** Additional VM Patching solution enabled on the Virtual Machine */
 export type AdditionalOsPatch = "WU" | "WUMU" | "WSUS";
@@ -569,56 +578,56 @@ export type VmIdentityType = "None" | "SystemAssigned" | "UserAssigned";
 /** Virtual Machine Identity details used for Sql IaaS extension configurations. */
 export interface VirtualMachineIdentity {
   /** Identity type of the virtual machine. Specify None to opt-out of Managed Identities. */
-  type?: VmIdentityType | (string & {});
+  type?: VmIdentityType | (string & {}) | undefined;
   /** ARM Resource Id of the identity. Only required when UserAssigned identity is selected. */
-  resourceId?: string;
+  resourceId?: string | undefined;
 }
 /** Operating System of the current SQL Virtual Machine. */
 export type OsType = "Windows" | "Linux";
 /** The SQL virtual machine properties. */
 export interface SqlVirtualMachineProperties {
   /** ARM Resource id of underlying virtual machine created from SQL marketplace image. */
-  virtualMachineResourceId?: string;
+  virtualMachineResourceId?: string | undefined;
   /** Provisioning state to track the async operation status. */
-  provisioningState?: string;
+  provisioningState?: string | undefined;
   /** SQL image offer. Examples include SQL2016-WS2016, SQL2017-WS2016. */
-  sqlImageOffer?: string;
+  sqlImageOffer?: string | undefined;
   /** SQL Server license type. */
-  sqlServerLicenseType?: SqlServerLicenseType;
+  sqlServerLicenseType?: SqlServerLicenseType | undefined;
   /** SQL Server Management type. NOTE: This parameter is not used anymore. API will automatically detect the Sql Management, refrain from using it. */
-  sqlManagement?: SqlManagementMode;
+  sqlManagement?: SqlManagementMode | undefined;
   /** SQL IaaS Agent least privilege mode. */
-  leastPrivilegeMode?: SqlVirtualMachinePropertiesLeastPrivilegeMode;
+  leastPrivilegeMode?: SqlVirtualMachinePropertiesLeastPrivilegeMode | undefined;
   /** SQL Server edition type. */
-  sqlImageSku?: SqlImageSku;
+  sqlImageSku?: SqlImageSku | undefined;
   /** ARM resource id of the SQL virtual machine group this SQL virtual machine is or will be part of. */
-  sqlVirtualMachineGroupResourceId?: string;
+  sqlVirtualMachineGroupResourceId?: string | undefined;
   /** Domain credentials for setting up Windows Server Failover Cluster for SQL availability group. */
-  wsfcDomainCredentials?: WsfcDomainCredentials;
+  wsfcDomainCredentials?: WsfcDomainCredentials | undefined;
   /** Domain credentials for setting up Windows Server Failover Cluster for SQL availability group. */
-  wsfcStaticIp?: string;
+  wsfcStaticIp?: string | undefined;
   /** Auto patching settings for applying critical security updates to SQL virtual machine. */
-  autoPatchingSettings?: AutoPatchingSettings;
+  autoPatchingSettings?: AutoPatchingSettings | undefined;
   /** Auto backup settings for SQL Server. */
-  autoBackupSettings?: AutoBackupSettings;
+  autoBackupSettings?: AutoBackupSettings | undefined;
   /** Key vault credential settings. */
-  keyVaultCredentialSettings?: KeyVaultCredentialSettings;
+  keyVaultCredentialSettings?: KeyVaultCredentialSettings | undefined;
   /** SQL Server configuration management settings. */
-  serverConfigurationsManagementSettings?: ServerConfigurationsManagementSettings;
+  serverConfigurationsManagementSettings?: ServerConfigurationsManagementSettings | undefined;
   /** Storage Configuration Settings. */
-  storageConfigurationSettings?: StorageConfigurationSettings;
+  storageConfigurationSettings?: StorageConfigurationSettings | undefined;
   /** Troubleshooting status */
-  troubleshootingStatus?: TroubleshootingStatus;
+  troubleshootingStatus?: TroubleshootingStatus | undefined;
   /** SQL best practices Assessment Settings. */
-  assessmentSettings?: AssessmentSettings;
+  assessmentSettings?: AssessmentSettings | undefined;
   /** Enable automatic upgrade of Sql IaaS extension Agent. */
-  enableAutomaticUpgrade?: boolean;
+  enableAutomaticUpgrade?: boolean | undefined;
   /** Additional VM Patching solution enabled on the Virtual Machine */
-  additionalVmPatch?: AdditionalOsPatch;
+  additionalVmPatch?: AdditionalOsPatch | undefined;
   /** Virtual Machine Identity details used for Sql IaaS extension configurations. */
-  virtualMachineIdentitySettings?: VirtualMachineIdentity;
+  virtualMachineIdentitySettings?: VirtualMachineIdentity | undefined;
   /** Operating System of the current SQL Virtual Machine. */
-  osType?: OsType;
+  osType?: OsType | undefined;
 }
 /** The identity type. Set this to 'SystemAssigned' in order to automatically create and assign an Azure Active Directory principal for the resource. */
 export type IdentityType =
@@ -629,29 +638,29 @@ export type IdentityType =
 /** Azure Active Directory identity configuration for a resource. */
 export interface ResourceIdentity {
   /** The Azure Active Directory principal id. */
-  principalId?: string;
+  principalId?: string | undefined;
   /** The identity type. Set this to 'SystemAssigned' in order to automatically create and assign an Azure Active Directory principal for the resource. */
-  type?: IdentityType;
+  type?: IdentityType | undefined;
   /** The Azure Active Directory tenant id. */
-  tenantId?: string;
+  tenantId?: string | undefined;
 }
 export interface GetSqlVirtualMachineResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: GetSqlVirtualMachineResponseTagsMap;
+  tags?: GetSqlVirtualMachineResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Resource properties. */
-  properties?: SqlVirtualMachineProperties;
+  properties?: SqlVirtualMachineProperties | undefined;
   /** DO NOT USE. This value will be deprecated. Azure Active Directory identity of the server. */
-  identity?: ResourceIdentity;
+  identity?: ResourceIdentity | undefined;
 }
 export interface GetSqlVirtualMachineGroupRequest {
   /** The ID of the target subscription. */
@@ -676,58 +685,58 @@ export type ClusterSubnetType = "SingleSubnet" | "MultiSubnet";
 /** Active Directory account details to operate Windows Server Failover Cluster. */
 export interface WsfcDomainProfile {
   /** Fully qualified name of the domain. */
-  domainFqdn?: string;
+  domainFqdn?: string | undefined;
   /** Organizational Unit path in which the nodes and cluster will be present. */
-  ouPath?: string;
+  ouPath?: string | undefined;
   /** Account name used for creating cluster (at minimum needs permissions to 'Create Computer Objects' in domain). */
-  clusterBootstrapAccount?: string;
+  clusterBootstrapAccount?: string | undefined;
   /** Account name used for operating cluster i.e. will be part of administrators group on all the participating virtual machines in the cluster. */
-  clusterOperatorAccount?: string;
+  clusterOperatorAccount?: string | undefined;
   /** Account name under which SQL service will run on all participating SQL virtual machines in the cluster. */
-  sqlServiceAccount?: string;
+  sqlServiceAccount?: string | undefined;
   /** The flag to check if SQL service account is GMSA. */
-  isSqlServiceAccountGmsa?: boolean;
+  isSqlServiceAccountGmsa?: boolean | undefined;
   /** Optional path for fileshare witness. */
-  fileShareWitnessPath?: string;
+  fileShareWitnessPath?: string | undefined;
   /** Fully qualified ARM resource id of the witness storage account. */
-  storageAccountUrl?: string;
+  storageAccountUrl?: string | undefined;
   /** Primary key of the witness storage account. */
-  storageAccountPrimaryKey?: string;
+  storageAccountPrimaryKey?: string | undefined;
   /** Cluster subnet type. */
-  clusterSubnetType?: ClusterSubnetType | (string & {});
+  clusterSubnetType?: ClusterSubnetType | (string & {}) | undefined;
 }
 /** The properties of a SQL virtual machine group. */
 export interface SqlVirtualMachineGroupProperties {
   /** Provisioning state to track the async operation status. */
-  provisioningState?: string;
+  provisioningState?: string | undefined;
   /** SQL image offer. Examples may include SQL2016-WS2016, SQL2017-WS2016. */
-  sqlImageOffer?: string;
+  sqlImageOffer?: string | undefined;
   /** SQL image sku. */
-  sqlImageSku?: SqlVmGroupImageSku;
+  sqlImageSku?: SqlVmGroupImageSku | undefined;
   /** Scale type. */
-  scaleType?: ScaleType;
+  scaleType?: ScaleType | undefined;
   /** Type of cluster manager: Windows Server Failover Cluster (WSFC), implied by the scale type of the group and the OS type. */
-  clusterManagerType?: ClusterManagerType;
+  clusterManagerType?: ClusterManagerType | undefined;
   /** Cluster type. */
-  clusterConfiguration?: ClusterConfiguration;
+  clusterConfiguration?: ClusterConfiguration | undefined;
   /** Cluster Active Directory domain profile. */
-  wsfcDomainProfile?: WsfcDomainProfile;
+  wsfcDomainProfile?: WsfcDomainProfile | undefined;
 }
 export interface GetSqlVirtualMachineGroupResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: GetSqlVirtualMachineGroupResponseTagsMap;
+  tags?: GetSqlVirtualMachineGroupResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Resource properties. */
-  properties?: SqlVirtualMachineGroupProperties;
+  properties?: SqlVirtualMachineGroupProperties | undefined;
 }
 export interface ListAvailabilityGroupListenerByGroupRequest {
   /** The ID of the target subscription. */
@@ -740,15 +749,15 @@ export interface ListAvailabilityGroupListenerByGroupRequest {
 /** A SQL Server availability group listener. */
 export interface AvailabilityGroupListener {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource properties. */
-  properties?: AvailabilityGroupListenerProperties;
+  properties?: AvailabilityGroupListenerProperties | undefined;
 }
 /** The AvailabilityGroupListener items on this page */
 export type AvailabilityGroupListenerListResultValueList = Array<AvailabilityGroupListener>;
@@ -757,19 +766,19 @@ export interface AvailabilityGroupListenerListResult {
   /** The AvailabilityGroupListener items on this page */
   value: AvailabilityGroupListenerListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListOperationsRequest {}
 /** Display metadata associated with the operation. */
 export interface OperationDisplay {
   /** The localized friendly form of the resource provider name, e.g. "Microsoft Monitoring Insights" or "Microsoft Compute". */
-  provider?: string;
+  provider?: string | undefined;
   /** The localized friendly name of the resource type related to this operation. E.g. "Virtual Machines" or "Job Schedule Collections". */
-  resource?: string;
+  resource?: string | undefined;
   /** The concise, localized friendly name for the operation; suitable for dropdowns. E.g. "Create or Update Virtual Machine", "Restart Virtual Machine". */
-  operation?: string;
+  operation?: string | undefined;
   /** The short, localized friendly description of the operation; suitable for tool tips and detailed views. */
-  description?: string;
+  description?: string | undefined;
 }
 /** The intended executor of the operation. */
 export type OperationOrigin = "user" | "system";
@@ -778,13 +787,13 @@ export type OperationPropertiesMap = { [key: string]: unknown | undefined };
 /** Result of the request to list SQL operations. */
 export interface Operation {
   /** The name of the operation being performed on this particular object." */
-  name?: string;
+  name?: string | undefined;
   /** he localized display information for this particular operation / action. */
-  display?: OperationDisplay;
+  display?: OperationDisplay | undefined;
   /** The intended executor of the operation." */
-  origin?: OperationOrigin;
+  origin?: OperationOrigin | undefined;
   /** Additional descriptions for the operation. */
-  properties?: OperationPropertiesMap;
+  properties?: OperationPropertiesMap | undefined;
 }
 /** The Operation items on this page */
 export type OperationListResultValueList = Array<Operation>;
@@ -793,7 +802,7 @@ export interface OperationListResult {
   /** The Operation items on this page */
   value: OperationListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListSqlVirtualMachineByResourceGroupRequest {
   /** The ID of the target subscription. */
@@ -806,21 +815,21 @@ export type SqlVirtualMachineTagsMap = { [key: string]: string | undefined };
 /** A SQL virtual machine. */
 export interface SqlVirtualMachine {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: SqlVirtualMachineTagsMap;
+  tags?: SqlVirtualMachineTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Resource properties. */
-  properties?: SqlVirtualMachineProperties;
+  properties?: SqlVirtualMachineProperties | undefined;
   /** DO NOT USE. This value will be deprecated. Azure Active Directory identity of the server. */
-  identity?: ResourceIdentity;
+  identity?: ResourceIdentity | undefined;
 }
 /** The SqlVirtualMachine items on this page */
 export type SqlVirtualMachineListResultValueList = Array<SqlVirtualMachine>;
@@ -829,7 +838,7 @@ export interface SqlVirtualMachineListResult {
   /** The SqlVirtualMachine items on this page */
   value: SqlVirtualMachineListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListSqlVirtualMachineBySqlVmGroupRequest {
   /** The ID of the target subscription. */
@@ -850,19 +859,19 @@ export type SqlVirtualMachineGroupTagsMap = { [key: string]: string | undefined 
 /** A SQL virtual machine group. */
 export interface SqlVirtualMachineGroup {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: SqlVirtualMachineGroupTagsMap;
+  tags?: SqlVirtualMachineGroupTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Resource properties. */
-  properties?: SqlVirtualMachineGroupProperties;
+  properties?: SqlVirtualMachineGroupProperties | undefined;
 }
 /** The SqlVirtualMachineGroup items on this page */
 export type SqlVirtualMachineGroupListResultValueList = Array<SqlVirtualMachineGroup>;
@@ -871,7 +880,7 @@ export interface SqlVirtualMachineGroupListResult {
   /** The SqlVirtualMachineGroup items on this page */
   value: SqlVirtualMachineGroupListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListSqlVirtualMachineGroupsRequest {
   /** The ID of the target subscription. */
@@ -891,9 +900,9 @@ export interface RedeploySqlVirtualMachineRequest {
 }
 export interface RedeploySqlVirtualMachineResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Resource tags. */
 export type SqlVirtualMachineGroupsCreateOrUpdateRequestTagsMap = {
@@ -902,11 +911,11 @@ export type SqlVirtualMachineGroupsCreateOrUpdateRequestTagsMap = {
 /** The properties of a SQL virtual machine group. */
 export interface SqlVirtualMachineGroupPropertiesInput {
   /** SQL image offer. Examples may include SQL2016-WS2016, SQL2017-WS2016. */
-  sqlImageOffer?: string;
+  sqlImageOffer?: string | undefined;
   /** SQL image sku. */
-  sqlImageSku?: SqlVmGroupImageSku | (string & {});
+  sqlImageSku?: SqlVmGroupImageSku | (string & {}) | undefined;
   /** Cluster Active Directory domain profile. */
-  wsfcDomainProfile?: WsfcDomainProfile;
+  wsfcDomainProfile?: WsfcDomainProfile | undefined;
 }
 export interface SqlVirtualMachineGroupsCreateOrUpdateRequest {
   /** The ID of the target subscription. */
@@ -916,11 +925,11 @@ export interface SqlVirtualMachineGroupsCreateOrUpdateRequest {
   /** Name of the SQL virtual machine group. */
   sqlVirtualMachineGroupName: string;
   /** Resource tags. */
-  tags?: SqlVirtualMachineGroupsCreateOrUpdateRequestTagsMap;
+  tags?: SqlVirtualMachineGroupsCreateOrUpdateRequestTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Resource properties. */
-  properties?: SqlVirtualMachineGroupPropertiesInput;
+  properties?: SqlVirtualMachineGroupPropertiesInput | undefined;
 }
 /** Resource tags. */
 export type SqlVirtualMachineGroupsCreateOrUpdateResponseTagsMap = {
@@ -928,23 +937,23 @@ export type SqlVirtualMachineGroupsCreateOrUpdateResponseTagsMap = {
 };
 export interface SqlVirtualMachineGroupsCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: SqlVirtualMachineGroupsCreateOrUpdateResponseTagsMap;
+  tags?: SqlVirtualMachineGroupsCreateOrUpdateResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Resource properties. */
-  properties?: SqlVirtualMachineGroupProperties;
+  properties?: SqlVirtualMachineGroupProperties | undefined;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Resource tags. */
 export type SqlVirtualMachinesCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
@@ -953,44 +962,47 @@ export type SqlVirtualMachinePropertiesInputLeastPrivilegeMode = "Enabled" | "No
 /** The SQL virtual machine properties. */
 export interface SqlVirtualMachinePropertiesInput {
   /** ARM Resource id of underlying virtual machine created from SQL marketplace image. */
-  virtualMachineResourceId?: string;
+  virtualMachineResourceId?: string | undefined;
   /** SQL image offer. Examples include SQL2016-WS2016, SQL2017-WS2016. */
-  sqlImageOffer?: string;
+  sqlImageOffer?: string | undefined;
   /** SQL Server license type. */
-  sqlServerLicenseType?: SqlServerLicenseType | (string & {});
+  sqlServerLicenseType?: SqlServerLicenseType | (string & {}) | undefined;
   /** SQL Server Management type. NOTE: This parameter is not used anymore. API will automatically detect the Sql Management, refrain from using it. */
-  sqlManagement?: SqlManagementMode | (string & {});
+  sqlManagement?: SqlManagementMode | (string & {}) | undefined;
   /** SQL IaaS Agent least privilege mode. */
-  leastPrivilegeMode?: SqlVirtualMachinePropertiesInputLeastPrivilegeMode | (string & {});
+  leastPrivilegeMode?:
+    | SqlVirtualMachinePropertiesInputLeastPrivilegeMode
+    | (string & {})
+    | undefined;
   /** SQL Server edition type. */
-  sqlImageSku?: SqlImageSku | (string & {});
+  sqlImageSku?: SqlImageSku | (string & {}) | undefined;
   /** ARM resource id of the SQL virtual machine group this SQL virtual machine is or will be part of. */
-  sqlVirtualMachineGroupResourceId?: string;
+  sqlVirtualMachineGroupResourceId?: string | undefined;
   /** Domain credentials for setting up Windows Server Failover Cluster for SQL availability group. */
-  wsfcDomainCredentials?: WsfcDomainCredentials;
+  wsfcDomainCredentials?: WsfcDomainCredentials | undefined;
   /** Domain credentials for setting up Windows Server Failover Cluster for SQL availability group. */
-  wsfcStaticIp?: string;
+  wsfcStaticIp?: string | undefined;
   /** Auto patching settings for applying critical security updates to SQL virtual machine. */
-  autoPatchingSettings?: AutoPatchingSettings;
+  autoPatchingSettings?: AutoPatchingSettings | undefined;
   /** Auto backup settings for SQL Server. */
-  autoBackupSettings?: AutoBackupSettings;
+  autoBackupSettings?: AutoBackupSettings | undefined;
   /** Key vault credential settings. */
-  keyVaultCredentialSettings?: KeyVaultCredentialSettings;
+  keyVaultCredentialSettings?: KeyVaultCredentialSettings | undefined;
   /** SQL Server configuration management settings. */
-  serverConfigurationsManagementSettings?: ServerConfigurationsManagementSettings;
+  serverConfigurationsManagementSettings?: ServerConfigurationsManagementSettings | undefined;
   /** Storage Configuration Settings. */
-  storageConfigurationSettings?: StorageConfigurationSettings;
+  storageConfigurationSettings?: StorageConfigurationSettings | undefined;
   /** SQL best practices Assessment Settings. */
-  assessmentSettings?: AssessmentSettings;
+  assessmentSettings?: AssessmentSettings | undefined;
   /** Enable automatic upgrade of Sql IaaS extension Agent. */
-  enableAutomaticUpgrade?: boolean;
+  enableAutomaticUpgrade?: boolean | undefined;
   /** Virtual Machine Identity details used for Sql IaaS extension configurations. */
-  virtualMachineIdentitySettings?: VirtualMachineIdentity;
+  virtualMachineIdentitySettings?: VirtualMachineIdentity | undefined;
 }
 /** Azure Active Directory identity configuration for a resource. */
 export interface ResourceIdentityInput {
   /** The identity type. Set this to 'SystemAssigned' in order to automatically create and assign an Azure Active Directory principal for the resource. */
-  type?: IdentityType | (string & {});
+  type?: IdentityType | (string & {}) | undefined;
 }
 export interface SqlVirtualMachinesCreateOrUpdateRequest {
   /** The ID of the target subscription. */
@@ -1000,37 +1012,37 @@ export interface SqlVirtualMachinesCreateOrUpdateRequest {
   /** Name of the SQL virtual machine. */
   sqlVirtualMachineName: string;
   /** Resource tags. */
-  tags?: SqlVirtualMachinesCreateOrUpdateRequestTagsMap;
+  tags?: SqlVirtualMachinesCreateOrUpdateRequestTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Resource properties. */
-  properties?: SqlVirtualMachinePropertiesInput;
+  properties?: SqlVirtualMachinePropertiesInput | undefined;
   /** DO NOT USE. This value will be deprecated. Azure Active Directory identity of the server. */
-  identity?: ResourceIdentityInput;
+  identity?: ResourceIdentityInput | undefined;
 }
 /** Resource tags. */
 export type SqlVirtualMachinesCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
 export interface SqlVirtualMachinesCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: SqlVirtualMachinesCreateOrUpdateResponseTagsMap;
+  tags?: SqlVirtualMachinesCreateOrUpdateResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Resource properties. */
-  properties?: SqlVirtualMachineProperties;
+  properties?: SqlVirtualMachineProperties | undefined;
   /** DO NOT USE. This value will be deprecated. Azure Active Directory identity of the server. */
-  identity?: ResourceIdentity;
+  identity?: ResourceIdentity | undefined;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** SQL VM troubleshooting scenario. */
 export type SqlVirtualMachineTroubleshootTroubleshootRequestTroubleshootingScenario =
@@ -1043,34 +1055,35 @@ export interface SqlVirtualMachineTroubleshootTroubleshootRequest {
   /** Name of the SQL virtual machine. */
   sqlVirtualMachineName: string;
   /** Start time in UTC timezone. */
-  startTimeUtc?: string;
+  startTimeUtc?: string | undefined;
   /** End time in UTC timezone. */
-  endTimeUtc?: string;
+  endTimeUtc?: string | undefined;
   /** SQL VM troubleshooting scenario. */
   troubleshootingScenario?:
     | SqlVirtualMachineTroubleshootTroubleshootRequestTroubleshootingScenario
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** Troubleshooting properties */
-  properties?: TroubleshootingAdditionalProperties;
+  properties?: TroubleshootingAdditionalProperties | undefined;
 }
 /** SQL VM troubleshooting scenario. */
 export type SqlVmTroubleshootingTroubleshootingScenario = "UnhealthyReplica";
 /** Details required for SQL VM troubleshooting */
 export interface SqlVmTroubleshooting {
   /** Start time in UTC timezone. */
-  startTimeUtc?: string;
+  startTimeUtc?: string | undefined;
   /** End time in UTC timezone. */
-  endTimeUtc?: string;
+  endTimeUtc?: string | undefined;
   /** SQL VM troubleshooting scenario. */
-  troubleshootingScenario?: SqlVmTroubleshootingTroubleshootingScenario;
+  troubleshootingScenario?: SqlVmTroubleshootingTroubleshootingScenario | undefined;
   /** Troubleshooting properties */
-  properties?: TroubleshootingAdditionalProperties;
+  properties?: TroubleshootingAdditionalProperties | undefined;
   /** Virtual machine resource id for response. */
-  virtualMachineResourceId?: string;
+  virtualMachineResourceId?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface StartSqlVirtualMachineAssessmentRequest {
   /** The ID of the target subscription. */
@@ -1082,9 +1095,9 @@ export interface StartSqlVirtualMachineAssessmentRequest {
 }
 export interface StartSqlVirtualMachineAssessmentResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Resource tags. */
 export type UpdateSqlVirtualMachineRequestTagsMap = { [key: string]: string | undefined };
@@ -1096,29 +1109,29 @@ export interface UpdateSqlVirtualMachineRequest {
   /** Name of the SQL virtual machine. */
   sqlVirtualMachineName: string;
   /** Resource tags. */
-  tags?: UpdateSqlVirtualMachineRequestTagsMap;
+  tags?: UpdateSqlVirtualMachineRequestTagsMap | undefined;
 }
 /** Resource tags. */
 export type UpdateSqlVirtualMachineResponseTagsMap = { [key: string]: string | undefined };
 export interface UpdateSqlVirtualMachineResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: UpdateSqlVirtualMachineResponseTagsMap;
+  tags?: UpdateSqlVirtualMachineResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Resource properties. */
-  properties?: SqlVirtualMachineProperties;
+  properties?: SqlVirtualMachineProperties | undefined;
   /** DO NOT USE. This value will be deprecated. Azure Active Directory identity of the server. */
-  identity?: ResourceIdentity;
+  identity?: ResourceIdentity | undefined;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
 }
 /** Resource tags. */
 export type UpdateSqlVirtualMachineGroupRequestTagsMap = { [key: string]: string | undefined };
@@ -1130,27 +1143,27 @@ export interface UpdateSqlVirtualMachineGroupRequest {
   /** Name of the SQL virtual machine group. */
   sqlVirtualMachineGroupName: string;
   /** Resource tags. */
-  tags?: UpdateSqlVirtualMachineGroupRequestTagsMap;
+  tags?: UpdateSqlVirtualMachineGroupRequestTagsMap | undefined;
 }
 /** Resource tags. */
 export type UpdateSqlVirtualMachineGroupResponseTagsMap = { [key: string]: string | undefined };
 export interface UpdateSqlVirtualMachineGroupResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: UpdateSqlVirtualMachineGroupResponseTagsMap;
+  tags?: UpdateSqlVirtualMachineGroupResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Resource properties. */
-  properties?: SqlVirtualMachineGroupProperties;
+  properties?: SqlVirtualMachineGroupProperties | undefined;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
 }
 export type AvailabilityGroupListenersCreateOrUpdateError = AzureOpError;
 /** Creates or updates an availability group listener. */

@@ -1,5 +1,4 @@
 import * as API from "@distilled.cloud/core/api";
-import { debugHttp } from "@distilled.cloud/core/debug";
 import {
   type ConfigError,
   HTTP_STATUS_MAP,
@@ -14,9 +13,9 @@ import {
   responseHeaderMembers,
   withResponseHeaders,
 } from "@distilled.cloud/core/protocol-http";
-import { unwrapRedactedDeep, wrapSensitive } from "@distilled.cloud/core/protocol-rest";
-import { validateResponse } from "@distilled.cloud/core/response-validation";
+import { unwrapRedactedDeep, validateSuccess } from "@distilled.cloud/core/protocol-rest";
 import { parseRetryAfterForStatus } from "@distilled.cloud/core/retry-after";
+import type { SdkError } from "@distilled.cloud/core/sdk-error";
 import { httpSymbol } from "@distilled.cloud/core/trait";
 /**
  * AzureProtocol -- hand-written.
@@ -78,7 +77,8 @@ export type AzureOpError =
   | AzureParseError
   | ConfigError
   | HttpClientError.HttpClientError
-  | InvalidInput;
+  | InvalidInput
+  | SdkError;
 
 /** Context (requirements) shared by every generated Azure operation. */
 export type AzureOpContext = Credentials | HttpClient.HttpClient;
@@ -205,9 +205,6 @@ const decode = ({
   Effect.gen(function* () {
     // Read as text and parse tolerantly -- error pages are often non-JSON.
     const text = (yield* response.text.pipe(Effect.catch(fail))) ?? "";
-    if (debugHttp()) {
-      console.error(`[distilled] <- ${response.status} ${text.slice(0, 400)}`);
-    }
     let json: unknown;
     let nonJson = false;
     if (text.trim().length > 0) {
@@ -279,6 +276,7 @@ const decode = ({
       // 4. Unknown Azure error.
       return yield* fail(
         new UnknownAzureError({
+          status,
           code: arm?.code,
           message: arm?.message,
           target: arm?.target,
@@ -295,18 +293,22 @@ const decode = ({
     // the body verbatim (mapKeys handles arrays/scalars structurally either
     // way). Strict mode (core/response-validation) checks the mapped body
     // against the output schema. Sensitive members are delivered as
-    // `Redacted`.
-    const body: unknown = nonJson ? text : (json ?? {});
-    const mapped = yield* validateResponse(
+    // `Redacted`, and parse errors withhold a body that can hold a secret
+    // (core `validateSuccess`).
+    const body: unknown = nonJson ? text : json === undefined ? {} : json;
+    return yield* validateSuccess(
       outputAst,
-      withResponseHeaders(
-        responseHeaderMembers(outputAst),
-        mapKeys(outputAst, body, "decode"),
-        headers,
-      ),
-      (cause) => new AzureParseError({ body: nonJson ? text : json, cause }),
+      {
+        value: withResponseHeaders(
+          responseHeaderMembers(outputAst),
+          mapKeys(outputAst, body, "decode"),
+          headers,
+        ),
+        body: nonJson ? text : json,
+        nonJson,
+      },
+      (info) => new AzureParseError(info),
     ).pipe(Effect.catch(fail));
-    return wrapSensitive(outputAst, mapped);
   });
 
 export const AzureProtocol: Layer.Layer<API.Protocol> = /*@__PURE__*/ Layer.succeed(

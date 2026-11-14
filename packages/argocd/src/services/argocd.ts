@@ -31,211 +31,211 @@ export interface AccountServiceCanIRequest {
   subresource: string;
 }
 export interface AccountCanIResponse {
-  value?: string;
+  value?: string | undefined;
 }
 export interface ApplicationServiceManagedResourcesRequest {
   applicationName: string;
-  namespace?: string;
-  name?: string;
-  version?: string;
-  group?: string;
-  kind?: string;
-  appNamespace?: string;
-  project?: string;
+  namespace?: string | undefined;
+  name?: string | undefined;
+  version?: string | undefined;
+  group?: string | undefined;
+  kind?: string | undefined;
+  appNamespace?: string | undefined;
+  project?: string | undefined;
 }
 /** ResourceDiff holds the diff between a live and target resource object in Argo CD. It is used to compare the desired state (from Git/Helm) with the actual state in the cluster. */
 export interface V1alpha1ResourceDiff {
   /** Diff contains the JSON patch representing the difference between the live and target resource. Deprecated: Use NormalizedLiveState and PredictedLiveState instead to compute differences. */
-  diff?: string;
+  diff?: string | undefined;
   /** Group represents the API group of the resource (e.g., "apps" for Deployments). */
-  group?: string;
+  group?: string | undefined;
   /** Hook indicates whether this resource is a hook resource (e.g., pre-sync or post-sync hooks). */
-  hook?: boolean;
+  hook?: boolean | undefined;
   /** Kind represents the Kubernetes resource kind (e.g., "Deployment", "Service"). */
-  kind?: string;
+  kind?: string | undefined;
   /** LiveState contains the JSON-serialized resource manifest of the resource currently running in the cluster. */
-  liveState?: string;
+  liveState?: string | undefined;
   /** Modified indicates whether the live resource has changes compared to the target resource. */
-  modified?: boolean;
+  modified?: boolean | undefined;
   /** Name is the name of the resource. */
-  name?: string;
+  name?: string | undefined;
   /** Namespace specifies the namespace where the resource exists. */
-  namespace?: string;
+  namespace?: string | undefined;
   /** NormalizedLiveState contains the JSON-serialized live resource state after applying normalizations. Normalizations may include ignoring irrelevant fields like timestamps or defaults applied by Kubernetes. */
-  normalizedLiveState?: string;
+  normalizedLiveState?: string | undefined;
   /** PredictedLiveState contains the JSON-serialized resource state that Argo CD predicts based on the combination of the normalized live state and the desired target state. */
-  predictedLiveState?: string;
+  predictedLiveState?: string | undefined;
   /** ResourceVersion is the Kubernetes resource version, which helps in tracking changes. */
-  resourceVersion?: string;
+  resourceVersion?: string | undefined;
   /** TargetState contains the JSON-serialized resource manifest as defined in the Git/Helm repository. */
-  targetState?: string;
+  targetState?: string | undefined;
 }
 export type ApplicationManagedResourcesResponseItemsList = Array<V1alpha1ResourceDiff>;
 export interface ApplicationManagedResourcesResponse {
-  items?: ApplicationManagedResourcesResponseItemsList;
+  items?: ApplicationManagedResourcesResponseItemsList | undefined;
 }
 export interface ApplicationServicePodLogsRequest {
   name: string;
   podName: string;
-  namespace?: string;
-  container?: string;
-  sinceSeconds?: string;
+  namespace?: string | undefined;
+  container?: string | undefined;
+  sinceSeconds?: string | undefined;
   /** Represents seconds of UTC time since Unix epoch 1970-01-01T00:00:00Z. Must be from 0001-01-01T00:00:00Z to 9999-12-31T23:59:59Z inclusive. */
-  sinceTime_seconds?: string;
+  sinceTime_seconds?: string | undefined;
   /** Non-negative fractions of a second at nanosecond resolution. Negative second values with fractions must still have non-negative nanos values that count forward in time. Must be from 0 to 999,999,999 inclusive. This field may be limited in precision depending on context. */
-  sinceTime_nanos?: number;
-  tailLines?: string;
-  follow?: boolean;
-  untilTime?: string;
-  filter?: string;
-  kind?: string;
-  group?: string;
-  resourceName?: string;
-  previous?: boolean;
-  appNamespace?: string;
-  project?: string;
-  matchCase?: boolean;
+  sinceTime_nanos?: number | undefined;
+  tailLines?: string | undefined;
+  follow?: boolean | undefined;
+  untilTime?: string | undefined;
+  filter?: string | undefined;
+  kind?: string | undefined;
+  group?: string | undefined;
+  resourceName?: string | undefined;
+  previous?: boolean | undefined;
+  appNamespace?: string | undefined;
+  project?: string | undefined;
+  matchCase?: boolean | undefined;
 }
 export interface ProtobufAny {
-  type_url?: string;
-  value?: string;
+  type_url?: string | undefined;
+  value?: string | undefined;
 }
 export type RuntimeStreamErrorDetailsList = Array<ProtobufAny>;
 export interface RuntimeStreamError {
-  details?: RuntimeStreamErrorDetailsList;
-  grpc_code?: number;
-  http_code?: number;
-  http_status?: string;
-  message?: string;
+  details?: RuntimeStreamErrorDetailsList | undefined;
+  grpc_code?: number | undefined;
+  http_code?: number | undefined;
+  http_status?: string | undefined;
+  message?: string | undefined;
 }
 export interface ApplicationLogEntry {
-  content?: string;
-  last?: boolean;
-  podName?: string;
-  timeStamp?: string;
-  timeStampStr?: string;
+  content?: string | undefined;
+  last?: boolean | undefined;
+  podName?: string | undefined;
+  timeStamp?: string | undefined;
+  timeStampStr?: string | undefined;
 }
 export interface ApplicationServicePodLogsResponse {
-  error?: RuntimeStreamError;
-  result?: ApplicationLogEntry;
+  error?: RuntimeStreamError | undefined;
+  result?: ApplicationLogEntry | undefined;
 }
 export interface ApplicationServicePodLogs2Request {
   name: string;
-  namespace?: string;
-  podName?: string;
-  container?: string;
-  sinceSeconds?: string;
+  namespace?: string | undefined;
+  podName?: string | undefined;
+  container?: string | undefined;
+  sinceSeconds?: string | undefined;
   /** Represents seconds of UTC time since Unix epoch 1970-01-01T00:00:00Z. Must be from 0001-01-01T00:00:00Z to 9999-12-31T23:59:59Z inclusive. */
-  sinceTime_seconds?: string;
+  sinceTime_seconds?: string | undefined;
   /** Non-negative fractions of a second at nanosecond resolution. Negative second values with fractions must still have non-negative nanos values that count forward in time. Must be from 0 to 999,999,999 inclusive. This field may be limited in precision depending on context. */
-  sinceTime_nanos?: number;
-  tailLines?: string;
-  follow?: boolean;
-  untilTime?: string;
-  filter?: string;
-  kind?: string;
-  group?: string;
-  resourceName?: string;
-  previous?: boolean;
-  appNamespace?: string;
-  project?: string;
-  matchCase?: boolean;
+  sinceTime_nanos?: number | undefined;
+  tailLines?: string | undefined;
+  follow?: boolean | undefined;
+  untilTime?: string | undefined;
+  filter?: string | undefined;
+  kind?: string | undefined;
+  group?: string | undefined;
+  resourceName?: string | undefined;
+  previous?: boolean | undefined;
+  appNamespace?: string | undefined;
+  project?: string | undefined;
+  matchCase?: boolean | undefined;
 }
 export interface ApplicationServicePodLogs2Response {
-  error?: RuntimeStreamError;
-  result?: ApplicationLogEntry;
+  error?: RuntimeStreamError | undefined;
+  result?: ApplicationLogEntry | undefined;
 }
 export interface ApplicationServiceResourceTreeRequest {
   applicationName: string;
-  namespace?: string;
-  name?: string;
-  version?: string;
-  group?: string;
-  kind?: string;
-  appNamespace?: string;
-  project?: string;
+  namespace?: string | undefined;
+  name?: string | undefined;
+  version?: string | undefined;
+  group?: string | undefined;
+  kind?: string | undefined;
+  appNamespace?: string | undefined;
+  project?: string | undefined;
 }
 /** Labels holds the labels attached to the host. */
 export type V1alpha1HostInfoLabelsMap = { [key: string]: string | undefined };
 /** HostResourceInfo represents resource usage details for a specific resource type on a host. */
 export interface V1alpha1HostResourceInfo {
   /** Capacity represents the total available capacity of this resource on the host. */
-  capacity?: number;
+  capacity?: number | undefined;
   /** RequestedByApp indicates the total amount of this resource requested by the application running on the host. */
-  requestedByApp?: number;
+  requestedByApp?: number | undefined;
   /** RequestedByNeighbors indicates the total amount of this resource requested by other workloads on the same host. */
-  requestedByNeighbors?: number;
+  requestedByNeighbors?: number | undefined;
   /** ResourceName specifies the type of resource (e.g., CPU, memory, storage). */
-  resourceName?: string;
+  resourceName?: string | undefined;
 }
 /** ResourcesInfo provides a list of resource usage details for different resource types on this host. */
 export type V1alpha1HostInfoResourcesInfoList = Array<V1alpha1HostResourceInfo>;
 /** NodeSwapStatus represents swap memory information. */
 export interface V1NodeSwapStatus {
-  capacity?: number;
+  capacity?: number | undefined;
 }
 /** NodeSystemInfo is a set of ids/uuids to uniquely identify the node. */
 export interface V1NodeSystemInfo {
-  architecture?: string;
+  architecture?: string | undefined;
   /** Boot ID reported by the node. */
-  bootID?: string;
+  bootID?: string | undefined;
   /** ContainerRuntime Version reported by the node through runtime remote API (e.g. containerd://1.4.2). */
-  containerRuntimeVersion?: string;
+  containerRuntimeVersion?: string | undefined;
   /** Kernel Version reported by the node from 'uname -r' (e.g. 3.16.0-0.bpo.4-amd64). */
-  kernelVersion?: string;
+  kernelVersion?: string | undefined;
   /** Deprecated: KubeProxy Version reported by the node. */
-  kubeProxyVersion?: string;
+  kubeProxyVersion?: string | undefined;
   /** Kubelet Version reported by the node. */
-  kubeletVersion?: string;
-  machineID?: string;
-  operatingSystem?: string;
+  kubeletVersion?: string | undefined;
+  machineID?: string | undefined;
+  operatingSystem?: string | undefined;
   /** OS Image reported by the node from /etc/os-release (e.g. Debian GNU/Linux 7 (wheezy)). */
-  osImage?: string;
-  runningInUserNamespace?: boolean;
-  swap?: V1NodeSwapStatus;
-  systemUUID?: string;
+  osImage?: string | undefined;
+  runningInUserNamespace?: boolean | undefined;
+  swap?: V1NodeSwapStatus | undefined;
+  systemUUID?: string | undefined;
 }
 /** HostInfo holds metadata and resource usage metrics for a specific host in the cluster. */
 export interface V1alpha1HostInfo {
   /** Labels holds the labels attached to the host. */
-  labels?: V1alpha1HostInfoLabelsMap;
+  labels?: V1alpha1HostInfoLabelsMap | undefined;
   /** Name is the hostname or node name in the Kubernetes cluster. */
-  name?: string;
+  name?: string | undefined;
   /** ResourcesInfo provides a list of resource usage details for different resource types on this host. */
-  resourcesInfo?: V1alpha1HostInfoResourcesInfoList;
-  systemInfo?: V1NodeSystemInfo;
+  resourcesInfo?: V1alpha1HostInfoResourcesInfoList | undefined;
+  systemInfo?: V1NodeSystemInfo | undefined;
 }
 /** Hosts provides a list of Kubernetes nodes that are running pods related to the application. */
 export type V1alpha1ApplicationTreeHostsList = Array<V1alpha1HostInfo>;
 export interface V1alpha1HealthStatus {
-  lastTransitionTime?: string;
-  message?: string;
-  status?: string;
+  lastTransitionTime?: string | undefined;
+  message?: string | undefined;
+  status?: string | undefined;
 }
 /** Images lists container images associated with the resource. This is primarily useful for pods and other workload resources. */
 export type V1alpha1ResourceNodeImagesList = Array<string>;
 export interface V1alpha1InfoItem {
   /** Name is a human readable title for this piece of information. */
-  name?: string;
+  name?: string | undefined;
   /** Value is human readable content. */
-  value?: string;
+  value?: string | undefined;
 }
 /** Info provides additional metadata or annotations about the resource. */
 export type V1alpha1ResourceNodeInfoList = Array<V1alpha1InfoItem>;
 /** ExternalURLs holds a list of URLs that should be accessible externally. This field is typically populated for Ingress resources based on their hostname rules. */
 export type V1alpha1ResourceNetworkingInfoExternalURLsList = Array<string>;
 export interface V1PortStatus {
-  error?: string;
-  port?: number;
-  protocol?: string;
+  error?: string | undefined;
+  port?: number | undefined;
+  protocol?: string | undefined;
 }
 export type V1LoadBalancerIngressPortsList = Array<V1PortStatus>;
 /** LoadBalancerIngress represents the status of a load-balancer ingress point: traffic intended for the service should be sent to an ingress point. */
 export interface V1LoadBalancerIngress {
-  hostname?: string;
-  ip?: string;
-  ipMode?: string;
-  ports?: V1LoadBalancerIngressPortsList;
+  hostname?: string | undefined;
+  ip?: string | undefined;
+  ipMode?: string | undefined;
+  ports?: V1LoadBalancerIngressPortsList | undefined;
 }
 /** Ingress provides information about external access points (e.g., load balancer ingress) for this resource. */
 export type V1alpha1ResourceNetworkingInfoIngressList = Array<V1LoadBalancerIngress>;
@@ -244,49 +244,49 @@ export type V1alpha1ResourceNetworkingInfoLabelsMap = { [key: string]: string | 
 /** TargetLabels represents labels associated with the target resources that this resource communicates with. */
 export type V1alpha1ResourceNetworkingInfoTargetLabelsMap = { [key: string]: string | undefined };
 export interface V1alpha1ResourceRef {
-  group?: string;
-  kind?: string;
-  name?: string;
-  namespace?: string;
-  uid?: string;
-  version?: string;
+  group?: string | undefined;
+  kind?: string | undefined;
+  name?: string | undefined;
+  namespace?: string | undefined;
+  uid?: string | undefined;
+  version?: string | undefined;
 }
 /** TargetRefs contains references to other resources that this resource interacts with, such as Services or Pods. */
 export type V1alpha1ResourceNetworkingInfoTargetRefsList = Array<V1alpha1ResourceRef>;
 /** ResourceNetworkingInfo holds networking-related information for a resource. */
 export interface V1alpha1ResourceNetworkingInfo {
   /** ExternalURLs holds a list of URLs that should be accessible externally. This field is typically populated for Ingress resources based on their hostname rules. */
-  externalURLs?: V1alpha1ResourceNetworkingInfoExternalURLsList;
+  externalURLs?: V1alpha1ResourceNetworkingInfoExternalURLsList | undefined;
   /** Ingress provides information about external access points (e.g., load balancer ingress) for this resource. */
-  ingress?: V1alpha1ResourceNetworkingInfoIngressList;
+  ingress?: V1alpha1ResourceNetworkingInfoIngressList | undefined;
   /** Labels holds the labels associated with this networking resource. */
-  labels?: V1alpha1ResourceNetworkingInfoLabelsMap;
+  labels?: V1alpha1ResourceNetworkingInfoLabelsMap | undefined;
   /** TargetLabels represents labels associated with the target resources that this resource communicates with. */
-  targetLabels?: V1alpha1ResourceNetworkingInfoTargetLabelsMap;
+  targetLabels?: V1alpha1ResourceNetworkingInfoTargetLabelsMap | undefined;
   /** TargetRefs contains references to other resources that this resource interacts with, such as Services or Pods. */
-  targetRefs?: V1alpha1ResourceNetworkingInfoTargetRefsList;
+  targetRefs?: V1alpha1ResourceNetworkingInfoTargetRefsList | undefined;
 }
 /** ParentRefs lists the parent resources that reference this resource. This helps in understanding ownership and hierarchical relationships. */
 export type V1alpha1ResourceNodeParentRefsList = Array<V1alpha1ResourceRef>;
 /** ResourceNode contains information about a live Kubernetes resource and its relationships with other resources. */
 export interface V1alpha1ResourceNode {
-  group?: string;
-  kind?: string;
-  name?: string;
-  namespace?: string;
-  uid?: string;
-  version?: string;
-  createdAt?: string;
-  health?: V1alpha1HealthStatus;
+  group?: string | undefined;
+  kind?: string | undefined;
+  name?: string | undefined;
+  namespace?: string | undefined;
+  uid?: string | undefined;
+  version?: string | undefined;
+  createdAt?: string | undefined;
+  health?: V1alpha1HealthStatus | undefined;
   /** Images lists container images associated with the resource. This is primarily useful for pods and other workload resources. */
-  images?: V1alpha1ResourceNodeImagesList;
+  images?: V1alpha1ResourceNodeImagesList | undefined;
   /** Info provides additional metadata or annotations about the resource. */
-  info?: V1alpha1ResourceNodeInfoList;
-  networkingInfo?: V1alpha1ResourceNetworkingInfo;
+  info?: V1alpha1ResourceNodeInfoList | undefined;
+  networkingInfo?: V1alpha1ResourceNetworkingInfo | undefined;
   /** ParentRefs lists the parent resources that reference this resource. This helps in understanding ownership and hierarchical relationships. */
-  parentRefs?: V1alpha1ResourceNodeParentRefsList;
+  parentRefs?: V1alpha1ResourceNodeParentRefsList | undefined;
   /** ResourceVersion indicates the version of the resource, used to track changes. */
-  resourceVersion?: string;
+  resourceVersion?: string | undefined;
 }
 /** Nodes contains a list of resources that are either directly managed by the application or are children of directly managed resources. */
 export type V1alpha1ApplicationTreeNodesList = Array<V1alpha1ResourceNode>;
@@ -295,13 +295,13 @@ export type V1alpha1ApplicationTreeOrphanedNodesList = Array<V1alpha1ResourceNod
 /** ApplicationTree represents the hierarchical structure of resources associated with an Argo CD application. */
 export interface V1alpha1ApplicationTree {
   /** Hosts provides a list of Kubernetes nodes that are running pods related to the application. */
-  hosts?: V1alpha1ApplicationTreeHostsList;
+  hosts?: V1alpha1ApplicationTreeHostsList | undefined;
   /** Nodes contains a list of resources that are either directly managed by the application or are children of directly managed resources. */
-  nodes?: V1alpha1ApplicationTreeNodesList;
+  nodes?: V1alpha1ApplicationTreeNodesList | undefined;
   /** OrphanedNodes contains resources that exist in the same namespace as the application but are not managed by it. This list is populated only if orphaned resource tracking is enabled in the application's project settings. */
-  orphanedNodes?: V1alpha1ApplicationTreeOrphanedNodesList;
+  orphanedNodes?: V1alpha1ApplicationTreeOrphanedNodesList | undefined;
   /** ShardsCount represents the total number of shards the application tree is split into. This is used to distribute resource processing across multiple shards. */
-  shardsCount?: number;
+  shardsCount?: number | undefined;
 }
 export interface ApplicationServiceRevisionChartDetailsRequest {
   /** the application's name */
@@ -309,18 +309,18 @@ export interface ApplicationServiceRevisionChartDetailsRequest {
   /** the revision of the app */
   revision: string;
   /** the application's namespace. */
-  appNamespace?: string;
-  project?: string;
+  appNamespace?: string | undefined;
+  project?: string | undefined;
   /** source index (for multi source apps). */
-  sourceIndex?: number;
+  sourceIndex?: number | undefined;
   /** versionId from historical data (for multi source apps). */
-  versionId?: number;
+  versionId?: number | undefined;
 }
 export type V1alpha1ChartDetailsMaintainersList = Array<string>;
 export interface V1alpha1ChartDetails {
-  description?: string;
-  home?: string;
-  maintainers?: V1alpha1ChartDetailsMaintainersList;
+  description?: string | undefined;
+  home?: string | undefined;
+  maintainers?: V1alpha1ChartDetailsMaintainersList | undefined;
 }
 export interface ApplicationServiceRevisionMetadataRequest {
   /** the application's name */
@@ -328,31 +328,31 @@ export interface ApplicationServiceRevisionMetadataRequest {
   /** the revision of the app */
   revision: string;
   /** the application's namespace. */
-  appNamespace?: string;
-  project?: string;
+  appNamespace?: string | undefined;
+  project?: string | undefined;
   /** source index (for multi source apps). */
-  sourceIndex?: number;
+  sourceIndex?: number | undefined;
   /** versionId from historical data (for multi source apps). */
-  versionId?: number;
+  versionId?: number | undefined;
 }
 /** CommitMetadata contains metadata about a commit that is related in some way to another commit. */
 export interface V1alpha1CommitMetadata {
   /** Author is the author of the commit, i.e. `git show -s --format=%an <%ae>`. Must be formatted according to RFC 5322 (mail.Address.String()). Comes from the Argocd-reference-commit-author trailer. */
-  author?: string;
+  author?: string | undefined;
   /** Body is the commit message body minus the subject line, i.e. `git show -s --format=%b`. Comes from the Argocd-reference-commit-body trailer. */
-  body?: string;
+  body?: string | undefined;
   /** Date is the date of the commit, formatted as by `git show -s --format=%aI` (RFC 3339). It can also be an empty string if the date is unknown. Comes from the Argocd-reference-commit-date trailer. */
-  date?: string;
+  date?: string | undefined;
   /** RepoURL is the URL of the repository where the commit is located. Comes from the Argocd-reference-commit-repourl trailer. This value is not validated and should not be used to construct UI links unless it is properly validated and/or sanitized first. */
-  repoUrl?: string;
+  repoUrl?: string | undefined;
   /** SHA is the commit hash. Comes from the Argocd-reference-commit-sha trailer. */
-  sha?: string;
+  sha?: string | undefined;
   /** Subject is the commit message subject line, i.e. `git show -s --format=%s`. Comes from the Argocd-reference-commit-subject trailer. */
-  subject?: string;
+  subject?: string | undefined;
 }
 /** RevisionReference contains a reference to a some information that is related in some way to another commit. For now, it supports only references to a commit. In the future, it may support other types of references. */
 export interface V1alpha1RevisionReference {
-  commit?: V1alpha1CommitMetadata;
+  commit?: V1alpha1CommitMetadata | undefined;
 }
 /** References contains references to information that's related to this commit in some way. */
 export type V1alpha1RevisionMetadataReferencesList = Array<V1alpha1RevisionReference>;
@@ -360,9 +360,9 @@ export type V1alpha1RevisionMetadataReferencesList = Array<V1alpha1RevisionRefer
 export type V1alpha1SourceIntegrityCheckResultItemProblemsList = Array<string>;
 export interface V1alpha1SourceIntegrityCheckResultItem {
   /** Name of the check that is human-understandable pointing out to the kind of verification performed. */
-  name?: string;
+  name?: string | undefined;
   /** Problems is a list of messages explaining why the check failed. Empty list means the check has succeeded. */
-  problems?: V1alpha1SourceIntegrityCheckResultItemProblemsList;
+  problems?: V1alpha1SourceIntegrityCheckResultItemProblemsList | undefined;
 }
 /** Checks holds a list of checks performed, with their eventual problems. If a check is not specified here, it means it was not performed. */
 export type V1alpha1SourceIntegrityCheckResultChecksList =
@@ -370,29 +370,29 @@ export type V1alpha1SourceIntegrityCheckResultChecksList =
 /** SourceIntegrityCheckResult represents a conclusion of the SourceIntegrity evaluation. Each check performed on a source(es), holds a check item representing all checks performed. */
 export interface V1alpha1SourceIntegrityCheckResult {
   /** Checks holds a list of checks performed, with their eventual problems. If a check is not specified here, it means it was not performed. */
-  checks?: V1alpha1SourceIntegrityCheckResultChecksList;
+  checks?: V1alpha1SourceIntegrityCheckResultChecksList | undefined;
 }
 export type V1alpha1RevisionMetadataTagsList = Array<string>;
 /** RevisionMetadata contains metadata for a specific revision in a Git repository. This field is used by the Source Hydrator feature which may be removed in the future. */
 export interface V1alpha1RevisionMetadata {
-  author?: string;
-  date?: string;
+  author?: string | undefined;
+  date?: string | undefined;
   /** Message contains the message associated with the revision, most likely the commit message. */
-  message?: string;
+  message?: string | undefined;
   /** References contains references to information that's related to this commit in some way. */
-  references?: V1alpha1RevisionMetadataReferencesList;
+  references?: V1alpha1RevisionMetadataReferencesList | undefined;
   /** SignatureInfo contains a hint on the signer if the revision was signed with GPG, and signature verification is enabled. Deprecated: Use SourceIntegrityResult for more detailed information. SignatureInfo will be removed with the next major version. */
-  signatureInfo?: string;
-  sourceIntegrityResult?: V1alpha1SourceIntegrityCheckResult;
-  tags?: V1alpha1RevisionMetadataTagsList;
+  signatureInfo?: string | undefined;
+  sourceIntegrityResult?: V1alpha1SourceIntegrityCheckResult | undefined;
+  tags?: V1alpha1RevisionMetadataTagsList | undefined;
 }
 export interface ApplicationServiceRollbackRequest {
   name: string;
-  appNamespace?: string;
-  dryRun?: boolean;
-  id?: number;
-  project?: string;
-  prune?: boolean;
+  appNamespace?: string | undefined;
+  dryRun?: boolean | undefined;
+  id?: number | undefined;
+  project?: string | undefined;
+  prune?: boolean | undefined;
 }
 export type V1ObjectMetaAnnotationsMap = { [key: string]: string | undefined };
 export type V1ObjectMetaFinalizersList = Array<string>;
@@ -400,147 +400,147 @@ export type V1ObjectMetaLabelsMap = { [key: string]: string | undefined };
 /** FieldsV1 stores a set of fields in a data structure like a Trie, in JSON format. Each key is either a '.' representing the field itself, and will always map to an empty set, or a string representing a sub-field or item. The string will follow one of these four formats: 'f:<name>', where <name> is the name of a field in a struct, or key in a map 'v:<value>', where <value> is the exact json formatted value of a list item 'i:<index>', where <index> is position of a item in a list 'k:<keys>', where <keys> is a map of a list item's key fields to their unique values If a key maps to an empty Fields value, the field that key represents is part of the set. The exact format is defined in sigs.k8s.io/structured-merge-diff +k8s:deepcopy-gen=false +protobuf.options.marshal=false +protobuf.options.(gogoproto.goproto_stringer)=false */
 export interface V1FieldsV1 {
   /** Raw is the underlying serialization of this object. Deprecated: Direct access to this field is deprecated. Use GetRawBytes, GetRawString, SetRawBytes, SetRawString, GetRawReader, NewFieldsV1 instead. */
-  Raw?: string;
+  Raw?: string | undefined;
 }
 /** ManagedFieldsEntry is a workflow-id, a FieldSet and the group version of the resource that the fieldset applies to. */
 export interface V1ManagedFieldsEntry {
   /** APIVersion defines the version of this resource that this field set applies to. The format is "group/version" just like the top-level APIVersion field. It is necessary to track the version of a field set because it cannot be automatically converted. */
-  apiVersion?: string;
-  fieldsType?: string;
-  fieldsV1?: V1FieldsV1;
+  apiVersion?: string | undefined;
+  fieldsType?: string | undefined;
+  fieldsV1?: V1FieldsV1 | undefined;
   /** Manager is an identifier of the workflow managing these fields. */
-  manager?: string;
-  operation?: string;
+  manager?: string | undefined;
+  operation?: string | undefined;
   /** Subresource is the name of the subresource used to update that object, or empty string if the object was updated through the main resource. The value of this field is used to distinguish between managers, even if they share the same name. For example, a status update will be distinct from a regular update using the same manager name. Note that the APIVersion field is not related to the Subresource field and it always corresponds to the version of the main resource. */
-  subresource?: string;
-  time?: string;
+  subresource?: string | undefined;
+  time?: string | undefined;
 }
 /** ManagedFields maps workflow-id and version to the set of fields that are managed by that workflow. This is mostly for internal housekeeping, and users typically shouldn't need to set or understand this field. A workflow can be the user's name, a controller's name, or the name of a specific apply path like "ci-cd". The set of fields is always in the version that the workflow used when modifying the object. +optional +listType=atomic +k8s:alpha(since: "1.37")=+k8s:optional */
 export type V1ObjectMetaManagedFieldsList = Array<V1ManagedFieldsEntry>;
 export interface V1OwnerReference {
-  apiVersion?: string;
-  blockOwnerDeletion?: boolean;
-  controller?: boolean;
-  kind?: string;
-  name?: string;
-  uid?: string;
+  apiVersion?: string | undefined;
+  blockOwnerDeletion?: boolean | undefined;
+  controller?: boolean | undefined;
+  kind?: string | undefined;
+  name?: string | undefined;
+  uid?: string | undefined;
 }
 export type V1ObjectMetaOwnerReferencesList = Array<V1OwnerReference>;
 /** ObjectMeta is metadata that all persisted resources must have, which includes all objects users must create. */
 export interface V1ObjectMeta {
-  annotations?: V1ObjectMetaAnnotationsMap;
-  creationTimestamp?: string;
-  deletionGracePeriodSeconds?: number;
-  deletionTimestamp?: string;
-  finalizers?: V1ObjectMetaFinalizersList;
+  annotations?: V1ObjectMetaAnnotationsMap | undefined;
+  creationTimestamp?: string | undefined;
+  deletionGracePeriodSeconds?: number | undefined;
+  deletionTimestamp?: string | undefined;
+  finalizers?: V1ObjectMetaFinalizersList | undefined;
   /** GenerateName is an optional prefix, used by the server, to generate a unique name ONLY IF the Name field has not been provided. If this field is used, the name returned to the client will be different than the name passed. This value will also be combined with a unique suffix. The provided value has the same validation rules as the Name field, and may be truncated by the length of the suffix required to make the value unique on the server. If this field is specified and the generated name exists, the server will return a 409. Applied only if Name is not specified. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#idempotency +optional */
-  generateName?: string;
-  generation?: number;
-  labels?: V1ObjectMetaLabelsMap;
+  generateName?: string | undefined;
+  generation?: number | undefined;
+  labels?: V1ObjectMetaLabelsMap | undefined;
   /** ManagedFields maps workflow-id and version to the set of fields that are managed by that workflow. This is mostly for internal housekeeping, and users typically shouldn't need to set or understand this field. A workflow can be the user's name, a controller's name, or the name of a specific apply path like "ci-cd". The set of fields is always in the version that the workflow used when modifying the object. +optional +listType=atomic +k8s:alpha(since: "1.37")=+k8s:optional */
-  managedFields?: V1ObjectMetaManagedFieldsList;
-  name?: string;
+  managedFields?: V1ObjectMetaManagedFieldsList | undefined;
+  name?: string | undefined;
   /** Namespace defines the space within which each name must be unique. An empty namespace is equivalent to the "default" namespace, but "default" is the canonical representation. Not all objects are required to be scoped to a namespace - the value of this field for those objects will be empty. Must be a DNS_LABEL. Cannot be updated. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/namespaces +optional */
-  namespace?: string;
-  ownerReferences?: V1ObjectMetaOwnerReferencesList;
+  namespace?: string | undefined;
+  ownerReferences?: V1ObjectMetaOwnerReferencesList | undefined;
   /** An opaque value that represents the internal version of this object that can be used by clients to determine when objects have changed. May be used for optimistic concurrency, change detection, and the watch operation on a resource or set of resources. Clients must treat these values as opaque and passed unmodified back to the server. They may only be valid for a particular resource or set of resources. Populated by the system. Read-only. Value must be treated as opaque by clients and . More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#concurrency-control-and-consistency +optional */
-  resourceVersion?: string;
-  selfLink?: string;
+  resourceVersion?: string | undefined;
+  selfLink?: string | undefined;
   /** UID is the unique in time and space value for this object. It is typically generated by the server on successful creation of a resource and is not allowed to change on PUT operations. Populated by the system. Read-only. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names#uids +optional +k8s:alpha(since: "1.37")=+k8s:optional +k8s:alpha(since: "1.37")=+k8s:immutable */
-  uid?: string;
+  uid?: string | undefined;
 }
 export interface V1alpha1Info {
-  name?: string;
-  value?: string;
+  name?: string | undefined;
+  value?: string | undefined;
 }
 export type V1alpha1OperationInfoList = Array<V1alpha1Info>;
 export interface V1alpha1OperationInitiator {
   /** Automated is set to true if operation was initiated automatically by the application controller. */
-  automated?: boolean;
-  username?: string;
+  automated?: boolean | undefined;
+  username?: string | undefined;
 }
 export interface V1alpha1Backoff {
-  duration?: string;
-  factor?: number;
-  maxDuration?: string;
+  duration?: string | undefined;
+  factor?: number | undefined;
+  maxDuration?: string | undefined;
 }
 export interface V1alpha1RetryStrategy {
-  backoff?: V1alpha1Backoff;
+  backoff?: V1alpha1Backoff | undefined;
   /** Limit is the maximum number of attempts for retrying a failed sync. If set to 0, no retries will be performed. */
-  limit?: number;
-  refresh?: boolean;
+  limit?: number | undefined;
+  refresh?: boolean | undefined;
 }
 export type V1alpha1SyncOperationManifestsList = Array<string>;
 /** SyncOperationResource contains resources to sync. */
 export interface V1alpha1SyncOperationResource {
-  group?: string;
-  kind?: string;
-  name?: string;
-  namespace?: string;
+  group?: string | undefined;
+  kind?: string | undefined;
+  name?: string | undefined;
+  namespace?: string | undefined;
 }
 export type V1alpha1SyncOperationResourcesList = Array<V1alpha1SyncOperationResource>;
 /** Revisions is the list of revision (Git) or chart version (Helm) which to sync each source in sources field for the application to If omitted, will use the revision specified in app spec. */
 export type V1alpha1SyncOperationRevisionsList = Array<string>;
 export interface V1alpha1JsonnetVar {
-  code?: boolean;
-  name?: string;
-  value?: string;
+  code?: boolean | undefined;
+  name?: string | undefined;
+  value?: string | undefined;
 }
 export type V1alpha1ApplicationSourceJsonnetExtVarsList = Array<V1alpha1JsonnetVar>;
 export type V1alpha1ApplicationSourceJsonnetLibsList = Array<string>;
 export type V1alpha1ApplicationSourceJsonnetTlasList = Array<V1alpha1JsonnetVar>;
 export interface V1alpha1ApplicationSourceJsonnet {
-  extVars?: V1alpha1ApplicationSourceJsonnetExtVarsList;
-  libs?: V1alpha1ApplicationSourceJsonnetLibsList;
-  tlas?: V1alpha1ApplicationSourceJsonnetTlasList;
+  extVars?: V1alpha1ApplicationSourceJsonnetExtVarsList | undefined;
+  libs?: V1alpha1ApplicationSourceJsonnetLibsList | undefined;
+  tlas?: V1alpha1ApplicationSourceJsonnetTlasList | undefined;
 }
 export interface V1alpha1ApplicationSourceDirectory {
   /** DisableExtensionFilter controls whether the built-in file-extension filter is skipped during manifest generation. When false (the default), only files with a .yaml, .yml, .json, or .jsonnet extension are considered as potential manifests. Set it to true to disable the filter so that files with custom extensions (e.g. *.yaml.sealed) can be matched by the include/exclude glob patterns instead. */
-  disableExtensionFilter?: boolean;
-  exclude?: string;
-  include?: string;
-  jsonnet?: V1alpha1ApplicationSourceJsonnet;
-  recurse?: boolean;
+  disableExtensionFilter?: boolean | undefined;
+  exclude?: string | undefined;
+  include?: string | undefined;
+  jsonnet?: V1alpha1ApplicationSourceJsonnet | undefined;
+  recurse?: boolean | undefined;
 }
 /** APIVersions specifies the Kubernetes resource API versions to pass to Helm when templating manifests. By default, Argo CD uses the API versions of the target cluster. The format is [group/]version/kind. */
 export type V1alpha1ApplicationSourceHelmApiVersionsList = Array<string>;
 export interface V1alpha1HelmFileParameter {
-  name?: string;
-  path?: string;
+  name?: string | undefined;
+  path?: string | undefined;
 }
 export type V1alpha1ApplicationSourceHelmFileParametersList = Array<V1alpha1HelmFileParameter>;
 export interface V1alpha1HelmParameter {
-  forceString?: boolean;
-  name?: string;
-  value?: string;
+  forceString?: boolean | undefined;
+  name?: string | undefined;
+  value?: string | undefined;
 }
 export type V1alpha1ApplicationSourceHelmParametersList = Array<V1alpha1HelmParameter>;
 export type V1alpha1ApplicationSourceHelmValueFilesList = Array<string>;
 /** RawExtension is used to hold extensions in external versions. To use this, make a field which has RawExtension as its type in your external, versioned struct, and Object in your internal struct. You also need to register your various plugin types. // Internal package: type MyAPIObject struct { runtime.TypeMeta `json:""` MyPlugin runtime.Object `json:"myPlugin"` } type PluginA struct { AOption string `json:"aOption"` } // External package: type MyAPIObject struct { runtime.TypeMeta `json:""` MyPlugin runtime.RawExtension `json:"myPlugin"` } type PluginA struct { AOption string `json:"aOption"` } // On the wire, the JSON will look something like this: { "kind":"MyAPIObject", "apiVersion":"v1", "myPlugin": { "kind":"PluginA", "aOption":"foo", }, } So what happens? Decode first uses json or yaml to unmarshal the serialized data into your external MyAPIObject. That causes the raw JSON to be stored, but not unpacked. The next step is to copy (using pkg/conversion) into the internal struct. The runtime package's DefaultScheme has conversion functions installed which will unpack the JSON stored in RawExtension, turning it into the correct object type, and storing it in the Object. (TODO: In the case where the object is of an unknown type, a runtime.Unknown object will be created and stored.) +k8s:deepcopy-gen=true +protobuf=true +k8s:openapi-gen=true */
 export interface RuntimeRawExtension {
   /** Raw is the underlying serialization of this object. TODO: Determine how to detect ContentType and ContentEncoding of 'Raw' data. */
-  raw?: string;
+  raw?: string | undefined;
 }
 export interface V1alpha1ApplicationSourceHelm {
   /** APIVersions specifies the Kubernetes resource API versions to pass to Helm when templating manifests. By default, Argo CD uses the API versions of the target cluster. The format is [group/]version/kind. */
-  apiVersions?: V1alpha1ApplicationSourceHelmApiVersionsList;
-  fileParameters?: V1alpha1ApplicationSourceHelmFileParametersList;
-  ignoreMissingValueFiles?: boolean;
+  apiVersions?: V1alpha1ApplicationSourceHelmApiVersionsList | undefined;
+  fileParameters?: V1alpha1ApplicationSourceHelmFileParametersList | undefined;
+  ignoreMissingValueFiles?: boolean | undefined;
   /** KubeVersion specifies the Kubernetes API version to pass to Helm when templating manifests. By default, Argo CD uses the Kubernetes version of the target cluster. */
-  kubeVersion?: string;
+  kubeVersion?: string | undefined;
   /** Namespace is an optional namespace to template with. If left empty, defaults to the app's destination namespace. */
-  namespace?: string;
-  parameters?: V1alpha1ApplicationSourceHelmParametersList;
-  passCredentials?: boolean;
-  releaseName?: string;
-  skipCrds?: boolean;
-  skipSchemaValidation?: boolean;
+  namespace?: string | undefined;
+  parameters?: V1alpha1ApplicationSourceHelmParametersList | undefined;
+  passCredentials?: boolean | undefined;
+  releaseName?: string | undefined;
+  skipCrds?: boolean | undefined;
+  skipSchemaValidation?: boolean | undefined;
   /** SkipTests skips test manifest installation step (Helm's --skip-tests). */
-  skipTests?: boolean;
-  valueFiles?: V1alpha1ApplicationSourceHelmValueFilesList;
-  values?: string;
-  valuesObject?: RuntimeRawExtension;
-  version?: string;
+  skipTests?: boolean | undefined;
+  valueFiles?: V1alpha1ApplicationSourceHelmValueFilesList | undefined;
+  values?: string | undefined;
+  valuesObject?: RuntimeRawExtension | undefined;
+  version?: string | undefined;
 }
 /** APIVersions specifies the Kubernetes resource API versions to pass to Helm when templating manifests. By default, Argo CD uses the API versions of the target cluster. The format is [group/]version/kind. */
 export type V1alpha1ApplicationSourceKustomizeApiVersionsList = Array<string>;
@@ -554,59 +554,59 @@ export type V1alpha1ApplicationSourceKustomizeComponentsList = Array<string>;
 export type V1alpha1ApplicationSourceKustomizeImagesList = Array<string>;
 export type V1alpha1KustomizePatchOptionsMap = { [key: string]: boolean | undefined };
 export interface V1alpha1KustomizeGvk {
-  group?: string;
-  kind?: string;
-  version?: string;
+  group?: string | undefined;
+  kind?: string | undefined;
+  version?: string | undefined;
 }
 export interface V1alpha1KustomizeResId {
-  gvk?: V1alpha1KustomizeGvk;
-  name?: string;
-  namespace?: string;
+  gvk?: V1alpha1KustomizeGvk | undefined;
+  name?: string | undefined;
+  namespace?: string | undefined;
 }
 export interface V1alpha1KustomizeSelector {
-  annotationSelector?: string;
-  labelSelector?: string;
-  resId?: V1alpha1KustomizeResId;
+  annotationSelector?: string | undefined;
+  labelSelector?: string | undefined;
+  resId?: V1alpha1KustomizeResId | undefined;
 }
 export interface V1alpha1KustomizePatch {
-  options?: V1alpha1KustomizePatchOptionsMap;
-  patch?: string;
-  path?: string;
-  target?: V1alpha1KustomizeSelector;
+  options?: V1alpha1KustomizePatchOptionsMap | undefined;
+  patch?: string | undefined;
+  path?: string | undefined;
+  target?: V1alpha1KustomizeSelector | undefined;
 }
 export type V1alpha1ApplicationSourceKustomizePatchesList = Array<V1alpha1KustomizePatch>;
 /** +protobuf=true +protobuf.options.(gogoproto.goproto_stringer)=false +k8s:openapi-gen=true +k8s:openapi-model-package=io.k8s.apimachinery.pkg.util.intstr */
 export interface IntstrIntOrString {
-  intVal?: number;
-  strVal?: string;
-  type?: number;
+  intVal?: number | undefined;
+  strVal?: string | undefined;
+  type?: number | undefined;
 }
 export interface V1alpha1KustomizeReplica {
-  count?: IntstrIntOrString;
-  name?: string;
+  count?: IntstrIntOrString | undefined;
+  name?: string | undefined;
 }
 export type V1alpha1ApplicationSourceKustomizeReplicasList = Array<V1alpha1KustomizeReplica>;
 export interface V1alpha1ApplicationSourceKustomize {
   /** APIVersions specifies the Kubernetes resource API versions to pass to Helm when templating manifests. By default, Argo CD uses the API versions of the target cluster. The format is [group/]version/kind. */
-  apiVersions?: V1alpha1ApplicationSourceKustomizeApiVersionsList;
-  commonAnnotations?: V1alpha1ApplicationSourceKustomizeCommonAnnotationsMap;
-  commonAnnotationsEnvsubst?: boolean;
-  commonLabels?: V1alpha1ApplicationSourceKustomizeCommonLabelsMap;
-  components?: V1alpha1ApplicationSourceKustomizeComponentsList;
-  forceCommonAnnotations?: boolean;
-  forceCommonLabels?: boolean;
-  ignoreMissingComponents?: boolean;
-  images?: V1alpha1ApplicationSourceKustomizeImagesList;
+  apiVersions?: V1alpha1ApplicationSourceKustomizeApiVersionsList | undefined;
+  commonAnnotations?: V1alpha1ApplicationSourceKustomizeCommonAnnotationsMap | undefined;
+  commonAnnotationsEnvsubst?: boolean | undefined;
+  commonLabels?: V1alpha1ApplicationSourceKustomizeCommonLabelsMap | undefined;
+  components?: V1alpha1ApplicationSourceKustomizeComponentsList | undefined;
+  forceCommonAnnotations?: boolean | undefined;
+  forceCommonLabels?: boolean | undefined;
+  ignoreMissingComponents?: boolean | undefined;
+  images?: V1alpha1ApplicationSourceKustomizeImagesList | undefined;
   /** KubeVersion specifies the Kubernetes API version to pass to Helm when templating manifests. By default, Argo CD uses the Kubernetes version of the target cluster. */
-  kubeVersion?: string;
-  labelIncludeTemplates?: boolean;
-  labelWithoutSelector?: boolean;
-  namePrefix?: string;
-  nameSuffix?: string;
-  namespace?: string;
-  patches?: V1alpha1ApplicationSourceKustomizePatchesList;
-  replicas?: V1alpha1ApplicationSourceKustomizeReplicasList;
-  version?: string;
+  kubeVersion?: string | undefined;
+  labelIncludeTemplates?: boolean | undefined;
+  labelWithoutSelector?: boolean | undefined;
+  namePrefix?: string | undefined;
+  nameSuffix?: string | undefined;
+  namespace?: string | undefined;
+  patches?: V1alpha1ApplicationSourceKustomizePatchesList | undefined;
+  replicas?: V1alpha1ApplicationSourceKustomizeReplicasList | undefined;
+  version?: string | undefined;
 }
 export type Applicationv1alpha1EnvEntry = V1alpha1Info;
 export type V1alpha1ApplicationSourcePluginEnvList = Array<V1alpha1Info>;
@@ -616,261 +616,268 @@ export type V1alpha1ApplicationSourcePluginParameterArrayList = Array<string>;
 export type V1alpha1ApplicationSourcePluginParameterMapMap = { [key: string]: string | undefined };
 export interface V1alpha1ApplicationSourcePluginParameter {
   /** Array is the value of an array type parameter. */
-  array?: V1alpha1ApplicationSourcePluginParameterArrayList;
+  array?: V1alpha1ApplicationSourcePluginParameterArrayList | undefined;
   /** Map is the value of a map type parameter. */
-  map?: V1alpha1ApplicationSourcePluginParameterMapMap;
+  map?: V1alpha1ApplicationSourcePluginParameterMapMap | undefined;
   /** Name is the name identifying a parameter. */
-  name?: string;
+  name?: string | undefined;
   /** String_ is the value of a string type parameter. */
-  string?: string;
+  string?: string | undefined;
 }
 export type V1alpha1ApplicationSourcePluginParametersList =
   Array<V1alpha1ApplicationSourcePluginParameter>;
 export interface V1alpha1ApplicationSourcePlugin {
-  env?: V1alpha1ApplicationSourcePluginEnvList;
-  name?: string;
-  parameters?: V1alpha1ApplicationSourcePluginParametersList;
+  env?: V1alpha1ApplicationSourcePluginEnvList | undefined;
+  name?: string | undefined;
+  parameters?: V1alpha1ApplicationSourcePluginParametersList | undefined;
 }
 export interface V1alpha1ApplicationSource {
   /** Chart is a Helm chart name, and must be specified for applications sourced from a Helm repo. */
-  chart?: string;
-  directory?: V1alpha1ApplicationSourceDirectory;
-  helm?: V1alpha1ApplicationSourceHelm;
-  kustomize?: V1alpha1ApplicationSourceKustomize;
+  chart?: string | undefined;
+  directory?: V1alpha1ApplicationSourceDirectory | undefined;
+  helm?: V1alpha1ApplicationSourceHelm | undefined;
+  kustomize?: V1alpha1ApplicationSourceKustomize | undefined;
   /** Name is used to refer to a source and is displayed in the UI. It is used in multi-source Applications. */
-  name?: string;
+  name?: string | undefined;
   /** Path is a directory path within the Git repository, and is only valid for applications sourced from Git. */
-  path?: string;
-  plugin?: V1alpha1ApplicationSourcePlugin;
+  path?: string | undefined;
+  plugin?: V1alpha1ApplicationSourcePlugin | undefined;
   /** Ref is reference to another source within sources field. This field will not be used if used with a `source` tag. */
-  ref?: string;
-  repoURL?: string;
+  ref?: string | undefined;
+  repoURL?: string | undefined;
   /** TagPrefix filters git tags to only those with this prefix before evaluating targetRevision as a semver constraint. The prefix is stripped from tag names before comparison and re-added to the resolved version. For example, with tagPrefix "component-b/" and targetRevision "1.0.*", tags like "component-b/1.0.0" and "component-b/1.0.1" are candidates, and the constraint resolves to "component-b/1.0.1". */
-  tagPrefix?: string;
+  tagPrefix?: string | undefined;
   /** TargetRevision defines the revision of the source to sync the application to. In case of Git, this can be commit, tag, or branch. If omitted, will equal to HEAD. In case of Helm, this is a semver tag for the Chart's version. */
-  targetRevision?: string;
+  targetRevision?: string | undefined;
 }
 export type V1alpha1SyncOperationSourcesList = Array<V1alpha1ApplicationSource>;
 export type V1alpha1SyncOperationSyncOptionsList = Array<string>;
 export interface V1alpha1SyncStrategyApply {
   /** Force indicates whether or not to supply the --force flag to `kubectl apply`. The --force flag deletes and re-create the resource, when PATCH encounters conflict and has retried for 5 times. */
-  force?: boolean;
+  force?: boolean | undefined;
 }
 /** SyncStrategyHook will perform a sync using hooks annotations. If no hook annotation is specified falls back to `kubectl apply`. */
 export interface V1alpha1SyncStrategyHook {
-  syncStrategyApply?: V1alpha1SyncStrategyApply;
+  syncStrategyApply?: V1alpha1SyncStrategyApply | undefined;
 }
 export interface V1alpha1SyncStrategy {
-  apply?: V1alpha1SyncStrategyApply;
-  hook?: V1alpha1SyncStrategyHook;
+  apply?: V1alpha1SyncStrategyApply | undefined;
+  hook?: V1alpha1SyncStrategyHook | undefined;
 }
 /** SyncOperation contains details about a sync operation. */
 export interface V1alpha1SyncOperation {
-  autoHealAttemptsCount?: number;
-  dryRun?: boolean;
-  manifests?: V1alpha1SyncOperationManifestsList;
-  prune?: boolean;
-  resources?: V1alpha1SyncOperationResourcesList;
+  autoHealAttemptsCount?: number | undefined;
+  dryRun?: boolean | undefined;
+  manifests?: V1alpha1SyncOperationManifestsList | undefined;
+  prune?: boolean | undefined;
+  resources?: V1alpha1SyncOperationResourcesList | undefined;
   /** Revision is the revision (Git) or chart version (Helm) which to sync the application to If omitted, will use the revision specified in app spec. */
-  revision?: string;
+  revision?: string | undefined;
   /** Revisions is the list of revision (Git) or chart version (Helm) which to sync each source in sources field for the application to If omitted, will use the revision specified in app spec. */
-  revisions?: V1alpha1SyncOperationRevisionsList;
-  source?: V1alpha1ApplicationSource;
-  sources?: V1alpha1SyncOperationSourcesList;
-  syncOptions?: V1alpha1SyncOperationSyncOptionsList;
-  syncStrategy?: V1alpha1SyncStrategy;
+  revisions?: V1alpha1SyncOperationRevisionsList | undefined;
+  source?: V1alpha1ApplicationSource | undefined;
+  sources?: V1alpha1SyncOperationSourcesList | undefined;
+  syncOptions?: V1alpha1SyncOperationSyncOptionsList | undefined;
+  syncStrategy?: V1alpha1SyncStrategy | undefined;
 }
 export interface V1alpha1Operation {
-  info?: V1alpha1OperationInfoList;
-  initiatedBy?: V1alpha1OperationInitiator;
-  retry?: V1alpha1RetryStrategy;
-  sync?: V1alpha1SyncOperation;
+  info?: V1alpha1OperationInfoList | undefined;
+  initiatedBy?: V1alpha1OperationInitiator | undefined;
+  retry?: V1alpha1RetryStrategy | undefined;
+  sync?: V1alpha1SyncOperation | undefined;
 }
 export interface V1alpha1ApplicationDestination {
   /** Name is an alternate way of specifying the target cluster by its symbolic name. This must be set if Server is not set. */
-  name?: string;
-  namespace?: string;
+  name?: string | undefined;
+  namespace?: string | undefined;
   /** Server specifies the URL of the target cluster's Kubernetes control plane API. This must be set if Name is not set. */
-  server?: string;
+  server?: string | undefined;
 }
 export type V1alpha1ResourceIgnoreDifferencesJqPathExpressionsList = Array<string>;
 export type V1alpha1ResourceIgnoreDifferencesJsonPointersList = Array<string>;
 export type V1alpha1ResourceIgnoreDifferencesManagedFieldsManagersList = Array<string>;
 /** ResourceIgnoreDifferences contains resource filter and list of json paths which should be ignored during comparison with live state. */
 export interface V1alpha1ResourceIgnoreDifferences {
-  group?: string;
-  jqPathExpressions?: V1alpha1ResourceIgnoreDifferencesJqPathExpressionsList;
-  jsonPointers?: V1alpha1ResourceIgnoreDifferencesJsonPointersList;
-  kind?: string;
-  managedFieldsManagers?: V1alpha1ResourceIgnoreDifferencesManagedFieldsManagersList;
-  name?: string;
-  namespace?: string;
+  group?: string | undefined;
+  jqPathExpressions?: V1alpha1ResourceIgnoreDifferencesJqPathExpressionsList | undefined;
+  jsonPointers?: V1alpha1ResourceIgnoreDifferencesJsonPointersList | undefined;
+  kind?: string | undefined;
+  managedFieldsManagers?: V1alpha1ResourceIgnoreDifferencesManagedFieldsManagersList | undefined;
+  name?: string | undefined;
+  namespace?: string | undefined;
 }
 export type V1alpha1ApplicationSpecIgnoreDifferencesList = Array<V1alpha1ResourceIgnoreDifferences>;
 export type V1alpha1ApplicationSpecInfoList = Array<V1alpha1Info>;
 /** DrySource specifies a location for dry "don't repeat yourself" manifest source information. */
 export interface V1alpha1DrySource {
-  directory?: V1alpha1ApplicationSourceDirectory;
-  helm?: V1alpha1ApplicationSourceHelm;
-  kustomize?: V1alpha1ApplicationSourceKustomize;
-  path?: string;
-  plugin?: V1alpha1ApplicationSourcePlugin;
-  repoURL?: string;
-  targetRevision?: string;
+  directory?: V1alpha1ApplicationSourceDirectory | undefined;
+  helm?: V1alpha1ApplicationSourceHelm | undefined;
+  kustomize?: V1alpha1ApplicationSourceKustomize | undefined;
+  path?: string | undefined;
+  plugin?: V1alpha1ApplicationSourcePlugin | undefined;
+  repoURL?: string | undefined;
+  targetRevision?: string | undefined;
 }
 /** HydrateTo specifies a branch to which hydrated manifests should be pushed as a "staging area" before being moved to the SyncSource. The repository and path are inherited from SyncSource. */
 export interface V1alpha1HydrateTo {
-  targetBranch?: string;
+  targetBranch?: string | undefined;
 }
 /** SyncSource specifies a location from which hydrated manifests may be synced. If RepoURL is not set, it is assumed to be the same as the associated DrySource config in the SourceHydrator. */
 export interface V1alpha1SyncSource {
   /** Path is a directory path within the git repository where hydrated manifests should be committed to and synced from. The Path should never point to the root of the repo. If hydrateTo is set, this is just the path from which hydrated manifests will be synced. +kubebuilder:validation:Required +kubebuilder:validation:MinLength=1 +kubebuilder:validation:Pattern=`^.{2,}|[^./]$` */
-  path?: string;
+  path?: string | undefined;
   /** RepoURL is the URL to the git repository that contains the hydrated manifests. If not set, defaults to the DrySource.RepoURL. */
-  repoURL?: string;
+  repoURL?: string | undefined;
   /** TargetBranch is the branch from which hydrated manifests will be synced. If HydrateTo is not set, this is also the branch to which hydrated manifests are committed. */
-  targetBranch?: string;
+  targetBranch?: string | undefined;
 }
 /** SourceHydrator specifies a dry "don't repeat yourself" source for manifests, a sync source from which to sync hydrated manifests, and an optional hydrateTo location to act as a "staging" aread for hydrated manifests. */
 export interface V1alpha1SourceHydrator {
-  drySource?: V1alpha1DrySource;
-  hydrateTo?: V1alpha1HydrateTo;
-  syncSource?: V1alpha1SyncSource;
+  drySource?: V1alpha1DrySource | undefined;
+  hydrateTo?: V1alpha1HydrateTo | undefined;
+  syncSource?: V1alpha1SyncSource | undefined;
 }
 export type V1alpha1ApplicationSpecSourcesList = Array<V1alpha1ApplicationSource>;
 export interface V1alpha1SyncPolicyAutomated {
-  allowEmpty?: boolean;
-  enabled?: boolean;
-  prune?: boolean;
-  selfHeal?: boolean;
+  allowEmpty?: boolean | undefined;
+  enabled?: boolean | undefined;
+  prune?: boolean | undefined;
+  selfHeal?: boolean | undefined;
 }
 export type V1alpha1ManagedNamespaceMetadataAnnotationsMap = { [key: string]: string | undefined };
 export type V1alpha1ManagedNamespaceMetadataLabelsMap = { [key: string]: string | undefined };
 export interface V1alpha1ManagedNamespaceMetadata {
-  annotations?: V1alpha1ManagedNamespaceMetadataAnnotationsMap;
-  labels?: V1alpha1ManagedNamespaceMetadataLabelsMap;
+  annotations?: V1alpha1ManagedNamespaceMetadataAnnotationsMap | undefined;
+  labels?: V1alpha1ManagedNamespaceMetadataLabelsMap | undefined;
+}
+export interface V1alpha1SyncPolicyManualDefaults {
+  applyOnly?: boolean | undefined;
+  dryRun?: boolean | undefined;
+  force?: boolean | undefined;
+  prune?: boolean | undefined;
 }
 export type V1alpha1SyncPolicySyncOptionsList = Array<string>;
 export interface V1alpha1SyncPolicy {
-  automated?: V1alpha1SyncPolicyAutomated;
-  managedNamespaceMetadata?: V1alpha1ManagedNamespaceMetadata;
-  retry?: V1alpha1RetryStrategy;
-  syncOptions?: V1alpha1SyncPolicySyncOptionsList;
+  automated?: V1alpha1SyncPolicyAutomated | undefined;
+  managedNamespaceMetadata?: V1alpha1ManagedNamespaceMetadata | undefined;
+  manualDefaults?: V1alpha1SyncPolicyManualDefaults | undefined;
+  retry?: V1alpha1RetryStrategy | undefined;
+  syncOptions?: V1alpha1SyncPolicySyncOptionsList | undefined;
 }
 /** ApplicationSpec represents desired application state. Contains link to repository with application definition and additional parameters link definition revision. */
 export interface V1alpha1ApplicationSpec {
-  destination?: V1alpha1ApplicationDestination;
-  ignoreDifferences?: V1alpha1ApplicationSpecIgnoreDifferencesList;
-  info?: V1alpha1ApplicationSpecInfoList;
+  destination?: V1alpha1ApplicationDestination | undefined;
+  ignoreDifferences?: V1alpha1ApplicationSpecIgnoreDifferencesList | undefined;
+  info?: V1alpha1ApplicationSpecInfoList | undefined;
   /** Project is a reference to the project this application belongs to. The empty string means that application belongs to the 'default' project. */
-  project?: string;
+  project?: string | undefined;
   /** RevisionHistoryLimit limits the number of items kept in the application's revision history, which is used for informational purposes as well as for rollbacks to previous versions. This should only be changed in exceptional circumstances. Setting to zero will store no history. This will reduce storage used. Increasing will increase the space used to store the history, so we do not recommend increasing it. Default is 10. */
-  revisionHistoryLimit?: number;
-  source?: V1alpha1ApplicationSource;
-  sourceHydrator?: V1alpha1SourceHydrator;
-  sources?: V1alpha1ApplicationSpecSourcesList;
-  syncPolicy?: V1alpha1SyncPolicy;
+  revisionHistoryLimit?: number | undefined;
+  source?: V1alpha1ApplicationSource | undefined;
+  sourceHydrator?: V1alpha1SourceHydrator | undefined;
+  sources?: V1alpha1ApplicationSpecSourcesList | undefined;
+  syncPolicy?: V1alpha1SyncPolicy | undefined;
 }
 export interface V1alpha1ApplicationCondition {
-  lastTransitionTime?: string;
-  message?: string;
-  type?: string;
+  lastTransitionTime?: string | undefined;
+  message?: string | undefined;
+  type?: string | undefined;
 }
 export type V1alpha1ApplicationStatusConditionsList = Array<V1alpha1ApplicationCondition>;
 export type V1alpha1AppHealthStatus = V1alpha1HealthStatus;
 export type V1alpha1RevisionHistoryRevisionsList = Array<string>;
 export type V1alpha1RevisionHistorySourcesList = Array<V1alpha1ApplicationSource>;
 export interface V1alpha1RevisionHistory {
-  deployStartedAt?: string;
-  deployedAt?: string;
-  id?: number;
-  initiatedBy?: V1alpha1OperationInitiator;
-  revision?: string;
-  revisions?: V1alpha1RevisionHistoryRevisionsList;
-  source?: V1alpha1ApplicationSource;
-  sources?: V1alpha1RevisionHistorySourcesList;
+  deployStartedAt?: string | undefined;
+  deployedAt?: string | undefined;
+  id?: number | undefined;
+  initiatedBy?: V1alpha1OperationInitiator | undefined;
+  revision?: string | undefined;
+  revisions?: V1alpha1RevisionHistoryRevisionsList | undefined;
+  source?: V1alpha1ApplicationSource | undefined;
+  sources?: V1alpha1RevisionHistorySourcesList | undefined;
 }
 export type V1alpha1ApplicationStatusHistoryList = Array<V1alpha1RevisionHistory>;
 export type V1alpha1ResourceResultImagesList = Array<string>;
 export interface V1alpha1ResourceResult {
-  group?: string;
+  group?: string | undefined;
   /** HookPhase contains the state of any operation associated with this resource OR hook This can also contain values for non-hook resources. */
-  hookPhase?: string;
-  hookType?: string;
-  images?: V1alpha1ResourceResultImagesList;
-  kind?: string;
-  message?: string;
-  name?: string;
-  namespace?: string;
-  status?: string;
-  syncPhase?: string;
-  version?: string;
+  hookPhase?: string | undefined;
+  hookType?: string | undefined;
+  images?: V1alpha1ResourceResultImagesList | undefined;
+  kind?: string | undefined;
+  message?: string | undefined;
+  name?: string | undefined;
+  namespace?: string | undefined;
+  status?: string | undefined;
+  syncPhase?: string | undefined;
+  version?: string | undefined;
 }
 export type V1alpha1SyncOperationResultResourcesList = Array<V1alpha1ResourceResult>;
 export type V1alpha1SyncOperationResultRevisionsList = Array<string>;
 export type V1alpha1SyncOperationResultSourcesList = Array<V1alpha1ApplicationSource>;
 export interface V1alpha1SyncOperationResult {
-  managedNamespaceMetadata?: V1alpha1ManagedNamespaceMetadata;
-  resources?: V1alpha1SyncOperationResultResourcesList;
-  revision?: string;
-  revisions?: V1alpha1SyncOperationResultRevisionsList;
-  source?: V1alpha1ApplicationSource;
-  sources?: V1alpha1SyncOperationResultSourcesList;
+  managedNamespaceMetadata?: V1alpha1ManagedNamespaceMetadata | undefined;
+  resources?: V1alpha1SyncOperationResultResourcesList | undefined;
+  revision?: string | undefined;
+  revisions?: V1alpha1SyncOperationResultRevisionsList | undefined;
+  source?: V1alpha1ApplicationSource | undefined;
+  sources?: V1alpha1SyncOperationResultSourcesList | undefined;
 }
 export interface V1alpha1OperationState {
-  finishedAt?: string;
+  finishedAt?: string | undefined;
   /** Message holds any pertinent messages when attempting to perform operation (typically errors). */
-  message?: string;
-  operation?: V1alpha1Operation;
-  phase?: string;
-  retryCount?: number;
-  startedAt?: string;
-  syncResult?: V1alpha1SyncOperationResult;
+  message?: string | undefined;
+  operation?: V1alpha1Operation | undefined;
+  phase?: string | undefined;
+  retryCount?: number | undefined;
+  startedAt?: string | undefined;
+  syncResult?: V1alpha1SyncOperationResult | undefined;
 }
 /** ResourceStatus holds the current synchronization and health status of a Kubernetes resource. */
 export interface Applicationv1alpha1ResourceStatus {
   /** Group represents the API group of the resource (e.g., "apps" for Deployments). */
-  group?: string;
-  health?: V1alpha1HealthStatus;
+  group?: string | undefined;
+  health?: V1alpha1HealthStatus | undefined;
   /** Hook is true if the resource is used as a lifecycle hook in an Argo CD application. */
-  hook?: boolean;
+  hook?: boolean | undefined;
   /** Kind specifies the type of the resource (e.g., "Deployment", "Service"). */
-  kind?: string;
+  kind?: string | undefined;
   /** Name is the unique name of the resource within the namespace. */
-  name?: string;
+  name?: string | undefined;
   /** Namespace defines the Kubernetes namespace where the resource is located. */
-  namespace?: string;
+  namespace?: string | undefined;
   /** RequiresDeletionConfirmation is true if the resource requires explicit user confirmation before deletion. */
-  requiresDeletionConfirmation?: boolean;
+  requiresDeletionConfirmation?: boolean | undefined;
   /** RequiresPruning is true if the resource needs to be pruned (deleted) as part of synchronization. */
-  requiresPruning?: boolean;
+  requiresPruning?: boolean | undefined;
   /** Status represents the synchronization state of the resource (e.g., Synced, OutOfSync). */
-  status?: string;
+  status?: string | undefined;
   /** SyncWave determines the order in which resources are applied during a sync operation. Lower values are applied first. */
-  syncWave?: number;
+  syncWave?: number | undefined;
   /** Version indicates the API version of the resource (e.g., "v1", "v1beta1"). */
-  version?: string;
+  version?: string | undefined;
 }
 export type V1alpha1ApplicationStatusResourcesList = Array<Applicationv1alpha1ResourceStatus>;
 export interface V1alpha1HydrateOperation {
-  drySHA?: string;
-  finishedAt?: string;
-  hydratedSHA?: string;
-  message?: string;
-  phase?: string;
-  sourceHydrator?: V1alpha1SourceHydrator;
-  startedAt?: string;
+  drySHA?: string | undefined;
+  finishedAt?: string | undefined;
+  hydratedSHA?: string | undefined;
+  message?: string | undefined;
+  phase?: string | undefined;
+  sourceHydrator?: V1alpha1SourceHydrator | undefined;
+  startedAt?: string | undefined;
 }
 export interface V1alpha1SuccessfulHydrateOperation {
-  drySHA?: string;
-  hydratedSHA?: string;
-  sourceHydrator?: V1alpha1SourceHydrator;
+  drySHA?: string | undefined;
+  hydratedSHA?: string | undefined;
+  sourceHydrator?: V1alpha1SourceHydrator | undefined;
 }
 export interface V1alpha1SourceHydratorStatus {
-  currentOperation?: V1alpha1HydrateOperation;
+  currentOperation?: V1alpha1HydrateOperation | undefined;
   /** LastComparedDryRevision holds the resolved revision from the most recent dry source comparison. This is updated on every evaluation, even when hydration is skipped due to no changes. */
-  lastComparedDryRevision?: string;
-  lastSuccessfulOperation?: V1alpha1SuccessfulHydrateOperation;
+  lastComparedDryRevision?: string | undefined;
+  lastSuccessfulOperation?: V1alpha1SuccessfulHydrateOperation | undefined;
 }
 export type V1alpha1ApplicationStatusSourceTypesList = Array<string>;
 /** ExternalURLs holds all external URLs of application child resources. */
@@ -879,100 +886,100 @@ export type V1alpha1ApplicationSummaryExternalURLsList = Array<string>;
 export type V1alpha1ApplicationSummaryImagesList = Array<string>;
 export interface V1alpha1ApplicationSummary {
   /** ExternalURLs holds all external URLs of application child resources. */
-  externalURLs?: V1alpha1ApplicationSummaryExternalURLsList;
+  externalURLs?: V1alpha1ApplicationSummaryExternalURLsList | undefined;
   /** Images holds all images of application child resources. */
-  images?: V1alpha1ApplicationSummaryImagesList;
+  images?: V1alpha1ApplicationSummaryImagesList | undefined;
   /** IsAppOfApps holds true if the application has any application for child resource. */
-  isAppOfApps?: boolean;
+  isAppOfApps?: boolean | undefined;
 }
 export type V1alpha1ComparedToIgnoreDifferencesList = Array<V1alpha1ResourceIgnoreDifferences>;
 export type V1alpha1ComparedToSourcesList = Array<V1alpha1ApplicationSource>;
 export interface V1alpha1ComparedTo {
-  destination?: V1alpha1ApplicationDestination;
-  ignoreDifferences?: V1alpha1ComparedToIgnoreDifferencesList;
-  source?: V1alpha1ApplicationSource;
-  sources?: V1alpha1ComparedToSourcesList;
+  destination?: V1alpha1ApplicationDestination | undefined;
+  ignoreDifferences?: V1alpha1ComparedToIgnoreDifferencesList | undefined;
+  source?: V1alpha1ApplicationSource | undefined;
+  sources?: V1alpha1ComparedToSourcesList | undefined;
 }
 export type V1alpha1SyncStatusRevisionsList = Array<string>;
 export interface V1alpha1SyncStatus {
-  comparedTo?: V1alpha1ComparedTo;
-  revision?: string;
-  revisions?: V1alpha1SyncStatusRevisionsList;
-  status?: string;
+  comparedTo?: V1alpha1ComparedTo | undefined;
+  revision?: string | undefined;
+  revisions?: V1alpha1SyncStatusRevisionsList | undefined;
+  status?: string | undefined;
 }
 export interface V1alpha1ApplicationStatus {
-  conditions?: V1alpha1ApplicationStatusConditionsList;
-  controllerNamespace?: string;
-  health?: V1alpha1HealthStatus;
-  history?: V1alpha1ApplicationStatusHistoryList;
-  observedAt?: string;
-  operationState?: V1alpha1OperationState;
-  reconciledAt?: string;
-  resourceHealthSource?: string;
-  resources?: V1alpha1ApplicationStatusResourcesList;
-  sourceHydrator?: V1alpha1SourceHydratorStatus;
-  sourceType?: string;
-  sourceTypes?: V1alpha1ApplicationStatusSourceTypesList;
-  summary?: V1alpha1ApplicationSummary;
-  sync?: V1alpha1SyncStatus;
+  conditions?: V1alpha1ApplicationStatusConditionsList | undefined;
+  controllerNamespace?: string | undefined;
+  health?: V1alpha1HealthStatus | undefined;
+  history?: V1alpha1ApplicationStatusHistoryList | undefined;
+  observedAt?: string | undefined;
+  operationState?: V1alpha1OperationState | undefined;
+  reconciledAt?: string | undefined;
+  resourceHealthSource?: string | undefined;
+  resources?: V1alpha1ApplicationStatusResourcesList | undefined;
+  sourceHydrator?: V1alpha1SourceHydratorStatus | undefined;
+  sourceType?: string | undefined;
+  sourceTypes?: V1alpha1ApplicationStatusSourceTypesList | undefined;
+  summary?: V1alpha1ApplicationSummary | undefined;
+  sync?: V1alpha1SyncStatus | undefined;
 }
 export interface V1alpha1Application {
-  metadata?: V1ObjectMeta;
-  operation?: V1alpha1Operation;
-  spec?: V1alpha1ApplicationSpec;
-  status?: V1alpha1ApplicationStatus;
+  metadata?: V1ObjectMeta | undefined;
+  operation?: V1alpha1Operation | undefined;
+  spec?: V1alpha1ApplicationSpec | undefined;
+  status?: V1alpha1ApplicationStatus | undefined;
 }
 export type ApplicationServiceServerSideDiffRequestTargetManifestsList = Array<string>;
 export interface ApplicationServiceServerSideDiffRequest {
   appName: string;
-  appNamespace?: string;
-  project?: string;
-  targetManifests?: ApplicationServiceServerSideDiffRequestTargetManifestsList;
+  appNamespace?: string | undefined;
+  project?: string | undefined;
+  targetManifests?: ApplicationServiceServerSideDiffRequestTargetManifestsList | undefined;
 }
 export type ApplicationApplicationServerSideDiffResponseItemsList = Array<V1alpha1ResourceDiff>;
 export interface ApplicationApplicationServerSideDiffResponse {
-  items?: ApplicationApplicationServerSideDiffResponseItemsList;
-  modified?: boolean;
+  items?: ApplicationApplicationServerSideDiffResponseItemsList | undefined;
+  modified?: boolean | undefined;
 }
 export interface ApplicationSetServiceResourceTreeRequest {
   name: string;
   /** The application set namespace. Default empty is argocd control plane namespace. */
-  appsetNamespace?: string;
+  appsetNamespace?: string | undefined;
 }
 export type V1alpha1ApplicationSetTreeNodesList = Array<V1alpha1ResourceNode>;
 export interface V1alpha1ApplicationSetTree {
-  nodes?: V1alpha1ApplicationSetTreeNodesList;
+  nodes?: V1alpha1ApplicationSetTreeNodesList | undefined;
 }
 export interface CreateAccountServiceTokenRequest {
   name: string;
-  expiresIn?: number;
-  id?: string;
+  expiresIn?: number | undefined;
+  id?: string | undefined;
 }
 export interface AccountCreateTokenResponse {
-  token?: string;
+  token?: string | undefined;
 }
 export interface CreateApplicationServiceRequest {
-  upsert?: boolean;
-  validate?: boolean;
-  metadata?: V1ObjectMeta;
-  operation?: V1alpha1Operation;
-  spec?: V1alpha1ApplicationSpec;
-  status?: V1alpha1ApplicationStatus;
+  upsert?: boolean | undefined;
+  validate?: boolean | undefined;
+  metadata?: V1ObjectMeta | undefined;
+  operation?: V1alpha1Operation | undefined;
+  spec?: V1alpha1ApplicationSpec | undefined;
+  status?: V1alpha1ApplicationStatus | undefined;
 }
 export type V1LabelSelectorRequirementValuesList = Array<string>;
 /** A label selector requirement is a selector that contains values, a key, and an operator that relates the key and values. */
 export interface V1LabelSelectorRequirement {
   /** key is the label key that the selector applies to. */
-  key?: string;
+  key?: string | undefined;
   /** operator represents a key's relationship to a set of values. Valid operators are In, NotIn, Exists and DoesNotExist. */
-  operator?: string;
-  values?: V1LabelSelectorRequirementValuesList;
+  operator?: string | undefined;
+  values?: V1LabelSelectorRequirementValuesList | undefined;
 }
 export type V1LabelSelectorMatchExpressionsList = Array<V1LabelSelectorRequirement>;
 export type V1LabelSelectorMatchLabelsMap = { [key: string]: string | undefined };
 export interface V1LabelSelector {
-  matchExpressions?: V1LabelSelectorMatchExpressionsList;
-  matchLabels?: V1LabelSelectorMatchLabelsMap;
+  matchExpressions?: V1LabelSelectorMatchExpressionsList | undefined;
+  matchLabels?: V1LabelSelectorMatchLabelsMap | undefined;
 }
 export type V1alpha1ApplicationSetTemplateMetaAnnotationsMap = {
   [key: string]: string | undefined;
@@ -980,61 +987,61 @@ export type V1alpha1ApplicationSetTemplateMetaAnnotationsMap = {
 export type V1alpha1ApplicationSetTemplateMetaFinalizersList = Array<string>;
 export type V1alpha1ApplicationSetTemplateMetaLabelsMap = { [key: string]: string | undefined };
 export interface V1alpha1ApplicationSetTemplateMeta {
-  annotations?: V1alpha1ApplicationSetTemplateMetaAnnotationsMap;
-  finalizers?: V1alpha1ApplicationSetTemplateMetaFinalizersList;
-  labels?: V1alpha1ApplicationSetTemplateMetaLabelsMap;
-  name?: string;
-  namespace?: string;
+  annotations?: V1alpha1ApplicationSetTemplateMetaAnnotationsMap | undefined;
+  finalizers?: V1alpha1ApplicationSetTemplateMetaFinalizersList | undefined;
+  labels?: V1alpha1ApplicationSetTemplateMetaLabelsMap | undefined;
+  name?: string | undefined;
+  namespace?: string | undefined;
 }
 export interface V1alpha1ApplicationSetTemplate {
-  metadata?: V1alpha1ApplicationSetTemplateMeta;
-  spec?: V1alpha1ApplicationSpec;
+  metadata?: V1alpha1ApplicationSetTemplateMeta | undefined;
+  spec?: V1alpha1ApplicationSpec | undefined;
 }
 export type V1alpha1DuckTypeGeneratorValuesMap = { [key: string]: string | undefined };
 /** DuckType defines a generator to match against clusters registered with ArgoCD. */
 export interface V1alpha1DuckTypeGenerator {
-  configMapRef?: string;
-  labelSelector?: V1LabelSelector;
-  name?: string;
-  requeueAfterSeconds?: number;
-  template?: V1alpha1ApplicationSetTemplate;
-  values?: V1alpha1DuckTypeGeneratorValuesMap;
+  configMapRef?: string | undefined;
+  labelSelector?: V1LabelSelector | undefined;
+  name?: string | undefined;
+  requeueAfterSeconds?: number | undefined;
+  template?: V1alpha1ApplicationSetTemplate | undefined;
+  values?: V1alpha1DuckTypeGeneratorValuesMap | undefined;
 }
 export type V1alpha1ClusterGeneratorValuesMap = { [key: string]: string | undefined };
 /** ClusterGenerator defines a generator to match against clusters registered with ArgoCD. */
 export interface V1alpha1ClusterGenerator {
-  flatList?: boolean;
-  selector?: V1LabelSelector;
-  template?: V1alpha1ApplicationSetTemplate;
-  values?: V1alpha1ClusterGeneratorValuesMap;
+  flatList?: boolean | undefined;
+  selector?: V1LabelSelector | undefined;
+  template?: V1alpha1ApplicationSetTemplate | undefined;
+  values?: V1alpha1ClusterGeneratorValuesMap | undefined;
 }
 export interface V1alpha1GitDirectoryGeneratorItem {
-  exclude?: boolean;
-  path?: string;
+  exclude?: boolean | undefined;
+  path?: string | undefined;
 }
 export type V1alpha1GitGeneratorDirectoriesList = Array<V1alpha1GitDirectoryGeneratorItem>;
 export type V1alpha1GitFileGeneratorItem = V1alpha1GitDirectoryGeneratorItem;
 export type V1alpha1GitGeneratorFilesList = Array<V1alpha1GitDirectoryGeneratorItem>;
 export type V1alpha1GitGeneratorValuesMap = { [key: string]: string | undefined };
 export interface V1alpha1GitGenerator {
-  directories?: V1alpha1GitGeneratorDirectoriesList;
-  files?: V1alpha1GitGeneratorFilesList;
-  pathParamPrefix?: string;
-  repoURL?: string;
-  requeueAfterSeconds?: number;
-  revision?: string;
-  template?: V1alpha1ApplicationSetTemplate;
-  values?: V1alpha1GitGeneratorValuesMap;
+  directories?: V1alpha1GitGeneratorDirectoriesList | undefined;
+  files?: V1alpha1GitGeneratorFilesList | undefined;
+  pathParamPrefix?: string | undefined;
+  repoURL?: string | undefined;
+  requeueAfterSeconds?: number | undefined;
+  revision?: string | undefined;
+  template?: V1alpha1ApplicationSetTemplate | undefined;
+  values?: V1alpha1GitGeneratorValuesMap | undefined;
 }
 /** JSON represents any valid JSON value. These types are supported: bool, int64, float64, string, []interface{}, map[string]interface{} and nil. */
 export interface V1JSON {
-  raw?: string;
+  raw?: string | undefined;
 }
 export type V1alpha1ListGeneratorElementsList = Array<V1JSON>;
 export interface V1alpha1ListGenerator {
-  elements?: V1alpha1ListGeneratorElementsList;
-  elementsYaml?: string;
-  template?: V1alpha1ApplicationSetTemplate;
+  elements?: V1alpha1ListGeneratorElementsList | undefined;
+  elementsYaml?: string | undefined;
+  template?: V1alpha1ApplicationSetTemplate | undefined;
 }
 export type V1alpha1OciDirectoryGeneratorItem = V1alpha1GitDirectoryGeneratorItem;
 export type V1alpha1OciGeneratorDirectoriesList = Array<V1alpha1GitDirectoryGeneratorItem>;
@@ -1042,210 +1049,218 @@ export type V1alpha1OciFileGeneratorItem = V1alpha1GitDirectoryGeneratorItem;
 export type V1alpha1OciGeneratorFilesList = Array<V1alpha1GitDirectoryGeneratorItem>;
 export type V1alpha1OciGeneratorValuesMap = { [key: string]: string | undefined };
 export interface V1alpha1OciGenerator {
-  directories?: V1alpha1OciGeneratorDirectoriesList;
-  files?: V1alpha1OciGeneratorFilesList;
-  pathParamPrefix?: string;
-  repoURL?: string;
-  requeueAfterSeconds?: number;
-  revision?: string;
-  template?: V1alpha1ApplicationSetTemplate;
-  values?: V1alpha1OciGeneratorValuesMap;
+  directories?: V1alpha1OciGeneratorDirectoriesList | undefined;
+  files?: V1alpha1OciGeneratorFilesList | undefined;
+  pathParamPrefix?: string | undefined;
+  repoURL?: string | undefined;
+  requeueAfterSeconds?: number | undefined;
+  revision?: string | undefined;
+  template?: V1alpha1ApplicationSetTemplate | undefined;
+  values?: V1alpha1OciGeneratorValuesMap | undefined;
 }
 export interface V1alpha1PluginConfigMapRef {
-  name?: string;
+  name?: string | undefined;
 }
 /** Parameters contains the information to pass to the plugin. It is a map. The keys must be strings, and the values can be any type. */
 export type V1alpha1PluginInputParametersMap = { [key: string]: V1JSON | undefined };
 export interface V1alpha1PluginInput {
   /** Parameters contains the information to pass to the plugin. It is a map. The keys must be strings, and the values can be any type. */
-  parameters?: V1alpha1PluginInputParametersMap;
+  parameters?: V1alpha1PluginInputParametersMap | undefined;
 }
 /** Values contains key/value pairs which are passed directly as parameters to the template. These values will not be sent as parameters to the plugin. */
 export type V1alpha1PluginGeneratorValuesMap = { [key: string]: string | undefined };
 /** PluginGenerator defines connection info specific to Plugin. */
 export interface V1alpha1PluginGenerator {
-  configMapRef?: V1alpha1PluginConfigMapRef;
-  input?: V1alpha1PluginInput;
+  configMapRef?: V1alpha1PluginConfigMapRef | undefined;
+  input?: V1alpha1PluginInput | undefined;
   /** RequeueAfterSeconds determines how long the ApplicationSet controller will wait before reconciling the ApplicationSet again. */
-  requeueAfterSeconds?: number;
-  template?: V1alpha1ApplicationSetTemplate;
+  requeueAfterSeconds?: number | undefined;
+  template?: V1alpha1ApplicationSetTemplate | undefined;
   /** Values contains key/value pairs which are passed directly as parameters to the template. These values will not be sent as parameters to the plugin. */
-  values?: V1alpha1PluginGeneratorValuesMap;
+  values?: V1alpha1PluginGeneratorValuesMap | undefined;
 }
+export type V1alpha1PullRequestGeneratorAzureDevOpsExcludedLabelsList = Array<string>;
 export type V1alpha1PullRequestGeneratorAzureDevOpsLabelsList = Array<string>;
 /** SecretRef struct for a reference to a secret key. */
 export interface V1alpha1SecretRef {
-  key?: string;
-  secretName?: string;
+  key?: string | undefined;
+  secretName?: string | undefined;
 }
 /** PullRequestGeneratorAzureDevOps defines connection info specific to AzureDevOps. */
 export interface V1alpha1PullRequestGeneratorAzureDevOps {
   /** The Azure DevOps API URL to talk to. If blank, use https://dev.azure.com/. */
-  api?: string;
-  labels?: V1alpha1PullRequestGeneratorAzureDevOpsLabelsList;
+  api?: string | undefined;
+  excludedLabels?: V1alpha1PullRequestGeneratorAzureDevOpsExcludedLabelsList | undefined;
+  labels?: V1alpha1PullRequestGeneratorAzureDevOpsLabelsList | undefined;
   /** Azure DevOps org to scan. Required. */
-  organization?: string;
+  organization?: string | undefined;
   /** Azure DevOps project name to scan. Required. */
-  project?: string;
+  project?: string | undefined;
   /** Azure DevOps repo name to scan. Required. */
-  repo?: string;
-  tokenRef?: V1alpha1SecretRef;
+  repo?: string | undefined;
+  tokenRef?: V1alpha1SecretRef | undefined;
 }
 /** BasicAuthBitbucketServer defines the username/(password or personal access token) for Basic auth. */
 export interface V1alpha1BasicAuthBitbucketServer {
-  passwordRef?: V1alpha1SecretRef;
-  username?: string;
+  passwordRef?: V1alpha1SecretRef | undefined;
+  username?: string | undefined;
 }
 /** BearerTokenBitbucketCloud defines the Bearer token for BitBucket AppToken auth. */
 export interface V1alpha1BearerTokenBitbucketCloud {
-  tokenRef?: V1alpha1SecretRef;
+  tokenRef?: V1alpha1SecretRef | undefined;
 }
 /** PullRequestGeneratorBitbucket defines connection info specific to Bitbucket. */
 export interface V1alpha1PullRequestGeneratorBitbucket {
   /** The Bitbucket REST API URL to talk to. If blank, uses https://api.bitbucket.org/2.0. */
-  api?: string;
-  basicAuth?: V1alpha1BasicAuthBitbucketServer;
-  bearerToken?: V1alpha1BearerTokenBitbucketCloud;
+  api?: string | undefined;
+  basicAuth?: V1alpha1BasicAuthBitbucketServer | undefined;
+  bearerToken?: V1alpha1BearerTokenBitbucketCloud | undefined;
   /** Workspace to scan. Required. */
-  owner?: string;
+  owner?: string | undefined;
   /** Repo name to scan. Required. */
-  repo?: string;
+  repo?: string | undefined;
 }
 /** BearerTokenBitbucket defines the Bearer token for BitBucket AppToken auth. */
 export type V1alpha1BearerTokenBitbucket = V1alpha1BearerTokenBitbucketCloud;
 /** ConfigMapKeyRef struct for a reference to a configmap key. */
 export interface V1alpha1ConfigMapKeyRef {
-  configMapName?: string;
-  key?: string;
+  configMapName?: string | undefined;
+  key?: string | undefined;
 }
 /** PullRequestGeneratorBitbucketServer defines connection info specific to BitbucketServer. */
 export interface V1alpha1PullRequestGeneratorBitbucketServer {
   /** The Bitbucket REST API URL to talk to e.g. https://bitbucket.org/rest Required. */
-  api?: string;
-  basicAuth?: V1alpha1BasicAuthBitbucketServer;
-  bearerToken?: V1alpha1BearerTokenBitbucketCloud;
-  caRef?: V1alpha1ConfigMapKeyRef;
-  insecure?: boolean;
+  api?: string | undefined;
+  basicAuth?: V1alpha1BasicAuthBitbucketServer | undefined;
+  bearerToken?: V1alpha1BearerTokenBitbucketCloud | undefined;
+  caRef?: V1alpha1ConfigMapKeyRef | undefined;
+  insecure?: boolean | undefined;
   /** Project to scan. Required. */
-  project?: string;
+  project?: string | undefined;
   /** Repo name to scan. Required. */
-  repo?: string;
+  repo?: string | undefined;
 }
 /** PullRequestGeneratorFilter is a single pull request filter. If multiple filter types are set on a single struct, they will be AND'd together. All filters must pass for a pull request to be included. */
 export interface V1alpha1PullRequestGeneratorFilter {
-  branchMatch?: string;
-  targetBranchMatch?: string;
-  titleMatch?: string;
+  branchMatch?: string | undefined;
+  targetBranchMatch?: string | undefined;
+  titleMatch?: string | undefined;
 }
 /** Filters for which pull requests should be considered. */
 export type V1alpha1PullRequestGeneratorFiltersList = Array<V1alpha1PullRequestGeneratorFilter>;
+export type V1alpha1PullRequestGeneratorGiteaExcludedLabelsList = Array<string>;
 export type V1alpha1PullRequestGeneratorGiteaLabelsList = Array<string>;
 /** PullRequestGeneratorGitea defines connection info specific to Gitea. */
 export interface V1alpha1PullRequestGeneratorGitea {
-  api?: string;
+  api?: string | undefined;
+  excludedLabels?: V1alpha1PullRequestGeneratorGiteaExcludedLabelsList | undefined;
   /** Allow insecure tls, for self-signed certificates; default: false. */
-  insecure?: boolean;
-  labels?: V1alpha1PullRequestGeneratorGiteaLabelsList;
+  insecure?: boolean | undefined;
+  labels?: V1alpha1PullRequestGeneratorGiteaLabelsList | undefined;
   /** Gitea org or user to scan. Required. */
-  owner?: string;
+  owner?: string | undefined;
   /** Gitea repo name to scan. Required. */
-  repo?: string;
-  tokenRef?: V1alpha1SecretRef;
+  repo?: string | undefined;
+  tokenRef?: V1alpha1SecretRef | undefined;
 }
+export type V1alpha1PullRequestGeneratorGithubExcludedLabelsList = Array<string>;
 export type V1alpha1PullRequestGeneratorGithubLabelsList = Array<string>;
 /** PullRequestGeneratorGithub defines connection info specific to GitHub. */
 export interface V1alpha1PullRequestGeneratorGithub {
   /** The GitHub API URL to talk to. If blank, use https://api.github.com/. */
-  api?: string;
+  api?: string | undefined;
   /** AppSecretName is a reference to a GitHub App repo-creds secret with permission to access pull requests. */
-  appSecretName?: string;
-  labels?: V1alpha1PullRequestGeneratorGithubLabelsList;
+  appSecretName?: string | undefined;
+  excludedLabels?: V1alpha1PullRequestGeneratorGithubExcludedLabelsList | undefined;
+  labels?: V1alpha1PullRequestGeneratorGithubLabelsList | undefined;
   /** GitHub org or user to scan. Required. */
-  owner?: string;
+  owner?: string | undefined;
   /** GitHub repo name to scan. Required. */
-  repo?: string;
-  tokenRef?: V1alpha1SecretRef;
+  repo?: string | undefined;
+  tokenRef?: V1alpha1SecretRef | undefined;
 }
+export type V1alpha1PullRequestGeneratorGitLabExcludedLabelsList = Array<string>;
 export type V1alpha1PullRequestGeneratorGitLabLabelsList = Array<string>;
 /** PullRequestGeneratorGitLab defines connection info specific to GitLab. */
 export interface V1alpha1PullRequestGeneratorGitLab {
   /** The GitLab API URL to talk to. If blank, uses https://gitlab.com/. */
-  api?: string;
-  caRef?: V1alpha1ConfigMapKeyRef;
-  insecure?: boolean;
-  labels?: V1alpha1PullRequestGeneratorGitLabLabelsList;
+  api?: string | undefined;
+  caRef?: V1alpha1ConfigMapKeyRef | undefined;
+  excludedLabels?: V1alpha1PullRequestGeneratorGitLabExcludedLabelsList | undefined;
+  insecure?: boolean | undefined;
+  labels?: V1alpha1PullRequestGeneratorGitLabLabelsList | undefined;
   /** GitLab project to scan. Required. */
-  project?: string;
+  project?: string | undefined;
   /** PullRequestState is an additional MRs filter to get only those with a certain state. Default: "" (all states). Valid values: opened, closed, merged, locked". */
-  pullRequestState?: string;
-  tokenRef?: V1alpha1SecretRef;
+  pullRequestState?: string | undefined;
+  tokenRef?: V1alpha1SecretRef | undefined;
 }
 export type V1alpha1PullRequestGeneratorValuesMap = { [key: string]: string | undefined };
 /** PullRequestGenerator defines a generator that scrapes a PullRequest API to find candidate pull requests. */
 export interface V1alpha1PullRequestGenerator {
-  azuredevops?: V1alpha1PullRequestGeneratorAzureDevOps;
-  bitbucket?: V1alpha1PullRequestGeneratorBitbucket;
-  bitbucketServer?: V1alpha1PullRequestGeneratorBitbucketServer;
+  azuredevops?: V1alpha1PullRequestGeneratorAzureDevOps | undefined;
+  bitbucket?: V1alpha1PullRequestGeneratorBitbucket | undefined;
+  bitbucketServer?: V1alpha1PullRequestGeneratorBitbucketServer | undefined;
   /** ContinueOnRepoNotFoundError is a flag to continue the ApplicationSet Pull Request generator parameters generation even if the repository is not found. */
-  continueOnRepoNotFoundError?: boolean;
+  continueOnRepoNotFoundError?: boolean | undefined;
   /** Filters for which pull requests should be considered. */
-  filters?: V1alpha1PullRequestGeneratorFiltersList;
-  gitea?: V1alpha1PullRequestGeneratorGitea;
-  github?: V1alpha1PullRequestGeneratorGithub;
-  gitlab?: V1alpha1PullRequestGeneratorGitLab;
+  filters?: V1alpha1PullRequestGeneratorFiltersList | undefined;
+  gitea?: V1alpha1PullRequestGeneratorGitea | undefined;
+  github?: V1alpha1PullRequestGeneratorGithub | undefined;
+  gitlab?: V1alpha1PullRequestGeneratorGitLab | undefined;
   /** Standard parameters. */
-  requeueAfterSeconds?: number;
-  template?: V1alpha1ApplicationSetTemplate;
-  values?: V1alpha1PullRequestGeneratorValuesMap;
+  requeueAfterSeconds?: number | undefined;
+  template?: V1alpha1ApplicationSetTemplate | undefined;
+  values?: V1alpha1PullRequestGeneratorValuesMap | undefined;
 }
 export interface V1alpha1TagFilter {
-  key?: string;
-  value?: string;
+  key?: string | undefined;
+  value?: string | undefined;
 }
 export type V1alpha1SCMProviderGeneratorAWSCodeCommitTagFiltersList = Array<V1alpha1TagFilter>;
 /** SCMProviderGeneratorAWSCodeCommit defines connection info specific to AWS CodeCommit. */
 export interface V1alpha1SCMProviderGeneratorAWSCodeCommit {
   /** Scan all branches instead of just the default branch. */
-  allBranches?: boolean;
+  allBranches?: boolean | undefined;
   /** Region provides the AWS region to discover repos. if not provided, AppSet controller will infer the current region from environment. */
-  region?: string;
+  region?: string | undefined;
   /** Role provides the AWS IAM role to assume, for cross-account repo discovery if not provided, AppSet controller will use its pod/node identity to discover. */
-  role?: string;
-  tagFilters?: V1alpha1SCMProviderGeneratorAWSCodeCommitTagFiltersList;
+  role?: string | undefined;
+  tagFilters?: V1alpha1SCMProviderGeneratorAWSCodeCommitTagFiltersList | undefined;
 }
 /** SCMProviderGeneratorAzureDevOps defines connection info specific to Azure DevOps. */
 export interface V1alpha1SCMProviderGeneratorAzureDevOps {
-  accessTokenRef?: V1alpha1SecretRef;
+  accessTokenRef?: V1alpha1SecretRef | undefined;
   /** Scan all branches instead of just the default branch. */
-  allBranches?: boolean;
+  allBranches?: boolean | undefined;
   /** The URL to Azure DevOps. If blank, use https://dev.azure.com. */
-  api?: string;
+  api?: string | undefined;
   /** Azure Devops organization. Required. E.g. "my-organization". */
-  organization?: string;
+  organization?: string | undefined;
   /** Azure Devops team project. Required. E.g. "my-team". */
-  teamProject?: string;
+  teamProject?: string | undefined;
 }
 /** SCMProviderGeneratorBitbucket defines connection info specific to Bitbucket Cloud (API version 2). */
 export interface V1alpha1SCMProviderGeneratorBitbucket {
   /** Scan all branches instead of just the main branch. */
-  allBranches?: boolean;
-  appPasswordRef?: V1alpha1SecretRef;
+  allBranches?: boolean | undefined;
+  appPasswordRef?: V1alpha1SecretRef | undefined;
   /** Bitbucket workspace to scan. Required. */
-  owner?: string;
-  user?: string;
+  owner?: string | undefined;
+  user?: string | undefined;
 }
 /** SCMProviderGeneratorBitbucketServer defines connection info specific to Bitbucket Server. */
 export interface V1alpha1SCMProviderGeneratorBitbucketServer {
   /** Scan all branches instead of just the default branch. */
-  allBranches?: boolean;
+  allBranches?: boolean | undefined;
   /** The Bitbucket Server REST API URL to talk to. Required. */
-  api?: string;
-  basicAuth?: V1alpha1BasicAuthBitbucketServer;
-  bearerToken?: V1alpha1BearerTokenBitbucketCloud;
-  caRef?: V1alpha1ConfigMapKeyRef;
-  insecure?: boolean;
+  api?: string | undefined;
+  basicAuth?: V1alpha1BasicAuthBitbucketServer | undefined;
+  bearerToken?: V1alpha1BearerTokenBitbucketCloud | undefined;
+  caRef?: V1alpha1ConfigMapKeyRef | undefined;
+  insecure?: boolean | undefined;
   /** Project to scan. Required. */
-  project?: string;
+  project?: string | undefined;
 }
 /** An array of paths, all of which must not exist. */
 export type V1alpha1SCMProviderGeneratorFilterPathsDoNotExistList = Array<string>;
@@ -1254,123 +1269,123 @@ export type V1alpha1SCMProviderGeneratorFilterPathsExistList = Array<string>;
 /** SCMProviderGeneratorFilter is a single repository filter. If multiple filter types are set on a single struct, they will be AND'd together. All filters must pass for a repo to be included. */
 export interface V1alpha1SCMProviderGeneratorFilter {
   /** A regex which must match the branch name. */
-  branchMatch?: string;
+  branchMatch?: string | undefined;
   /** A regex which must match at least one label. */
-  labelMatch?: string;
+  labelMatch?: string | undefined;
   /** An array of paths, all of which must not exist. */
-  pathsDoNotExist?: V1alpha1SCMProviderGeneratorFilterPathsDoNotExistList;
+  pathsDoNotExist?: V1alpha1SCMProviderGeneratorFilterPathsDoNotExistList | undefined;
   /** An array of paths, all of which must exist. */
-  pathsExist?: V1alpha1SCMProviderGeneratorFilterPathsExistList;
+  pathsExist?: V1alpha1SCMProviderGeneratorFilterPathsExistList | undefined;
   /** A regex for repo names. */
-  repositoryMatch?: string;
+  repositoryMatch?: string | undefined;
 }
 /** Filters for which repos should be considered. */
 export type V1alpha1SCMProviderGeneratorFiltersList = Array<V1alpha1SCMProviderGeneratorFilter>;
 /** SCMProviderGeneratorGitea defines a connection info specific to Gitea. */
 export interface V1alpha1SCMProviderGeneratorGitea {
   /** Scan all branches instead of just the default branch. */
-  allBranches?: boolean;
+  allBranches?: boolean | undefined;
   /** The Gitea URL to talk to. For example https://gitea.mydomain.com/. */
-  api?: string;
+  api?: string | undefined;
   /** Exclude repositories that are archived. */
-  excludeArchivedRepos?: boolean;
-  insecure?: boolean;
+  excludeArchivedRepos?: boolean | undefined;
+  insecure?: boolean | undefined;
   /** Gitea organization or user to scan. Required. */
-  owner?: string;
-  tokenRef?: V1alpha1SecretRef;
+  owner?: string | undefined;
+  tokenRef?: V1alpha1SecretRef | undefined;
 }
 /** SCMProviderGeneratorGithub defines connection info specific to GitHub. */
 export interface V1alpha1SCMProviderGeneratorGithub {
   /** Scan all branches instead of just the default branch. */
-  allBranches?: boolean;
+  allBranches?: boolean | undefined;
   /** The GitHub API URL to talk to. If blank, use https://api.github.com/. */
-  api?: string;
+  api?: string | undefined;
   /** AppSecretName is a reference to a GitHub App repo-creds secret. */
-  appSecretName?: string;
+  appSecretName?: string | undefined;
   /** Exclude repositories that are archived. */
-  excludeArchivedRepos?: boolean;
+  excludeArchivedRepos?: boolean | undefined;
   /** GitHub org to scan. Required. */
-  organization?: string;
-  tokenRef?: V1alpha1SecretRef;
+  organization?: string | undefined;
+  tokenRef?: V1alpha1SecretRef | undefined;
 }
 /** SCMProviderGeneratorGitlab defines connection info specific to Gitlab. */
 export interface V1alpha1SCMProviderGeneratorGitlab {
   /** Scan all branches instead of just the default branch. */
-  allBranches?: boolean;
+  allBranches?: boolean | undefined;
   /** The Gitlab API URL to talk to. */
-  api?: string;
-  caRef?: V1alpha1ConfigMapKeyRef;
+  api?: string | undefined;
+  caRef?: V1alpha1ConfigMapKeyRef | undefined;
   /** Gitlab group to scan. Required. You can use either the project id (recommended) or the full namespaced path. */
-  group?: string;
+  group?: string | undefined;
   /** Include repositories that are archived. */
-  includeArchivedRepos?: boolean;
-  includeSharedProjects?: boolean;
-  includeSubgroups?: boolean;
-  insecure?: boolean;
-  tokenRef?: V1alpha1SecretRef;
+  includeArchivedRepos?: boolean | undefined;
+  includeSharedProjects?: boolean | undefined;
+  includeSubgroups?: boolean | undefined;
+  insecure?: boolean | undefined;
+  tokenRef?: V1alpha1SecretRef | undefined;
   /** Filter repos list based on Gitlab Topic. */
-  topic?: string;
+  topic?: string | undefined;
 }
 export type V1alpha1SCMProviderGeneratorValuesMap = { [key: string]: string | undefined };
 /** SCMProviderGenerator defines a generator that scrapes a SCMaaS API to find candidate repos. */
 export interface V1alpha1SCMProviderGenerator {
-  awsCodeCommit?: V1alpha1SCMProviderGeneratorAWSCodeCommit;
-  azureDevOps?: V1alpha1SCMProviderGeneratorAzureDevOps;
-  bitbucket?: V1alpha1SCMProviderGeneratorBitbucket;
-  bitbucketServer?: V1alpha1SCMProviderGeneratorBitbucketServer;
+  awsCodeCommit?: V1alpha1SCMProviderGeneratorAWSCodeCommit | undefined;
+  azureDevOps?: V1alpha1SCMProviderGeneratorAzureDevOps | undefined;
+  bitbucket?: V1alpha1SCMProviderGeneratorBitbucket | undefined;
+  bitbucketServer?: V1alpha1SCMProviderGeneratorBitbucketServer | undefined;
   /** Which protocol to use for the SCM URL. Default is provider-specific but ssh if possible. Not all providers necessarily support all protocols. */
-  cloneProtocol?: string;
+  cloneProtocol?: string | undefined;
   /** Filters for which repos should be considered. */
-  filters?: V1alpha1SCMProviderGeneratorFiltersList;
-  gitea?: V1alpha1SCMProviderGeneratorGitea;
-  github?: V1alpha1SCMProviderGeneratorGithub;
-  gitlab?: V1alpha1SCMProviderGeneratorGitlab;
+  filters?: V1alpha1SCMProviderGeneratorFiltersList | undefined;
+  gitea?: V1alpha1SCMProviderGeneratorGitea | undefined;
+  github?: V1alpha1SCMProviderGeneratorGithub | undefined;
+  gitlab?: V1alpha1SCMProviderGeneratorGitlab | undefined;
   /** Standard parameters. */
-  requeueAfterSeconds?: number;
-  template?: V1alpha1ApplicationSetTemplate;
-  values?: V1alpha1SCMProviderGeneratorValuesMap;
+  requeueAfterSeconds?: number | undefined;
+  template?: V1alpha1ApplicationSetTemplate | undefined;
+  values?: V1alpha1SCMProviderGeneratorValuesMap | undefined;
 }
 /** ApplicationSetNestedGenerator represents a generator nested within a combination-type generator (MatrixGenerator or MergeGenerator). */
 export interface V1alpha1ApplicationSetNestedGenerator {
-  clusterDecisionResource?: V1alpha1DuckTypeGenerator;
-  clusters?: V1alpha1ClusterGenerator;
-  git?: V1alpha1GitGenerator;
-  list?: V1alpha1ListGenerator;
-  matrix?: V1JSON;
-  merge?: V1JSON;
-  oci?: V1alpha1OciGenerator;
-  plugin?: V1alpha1PluginGenerator;
-  pullRequest?: V1alpha1PullRequestGenerator;
-  scmProvider?: V1alpha1SCMProviderGenerator;
-  selector?: V1LabelSelector;
+  clusterDecisionResource?: V1alpha1DuckTypeGenerator | undefined;
+  clusters?: V1alpha1ClusterGenerator | undefined;
+  git?: V1alpha1GitGenerator | undefined;
+  list?: V1alpha1ListGenerator | undefined;
+  matrix?: V1JSON | undefined;
+  merge?: V1JSON | undefined;
+  oci?: V1alpha1OciGenerator | undefined;
+  plugin?: V1alpha1PluginGenerator | undefined;
+  pullRequest?: V1alpha1PullRequestGenerator | undefined;
+  scmProvider?: V1alpha1SCMProviderGenerator | undefined;
+  selector?: V1LabelSelector | undefined;
 }
 export type V1alpha1MatrixGeneratorGeneratorsList = Array<V1alpha1ApplicationSetNestedGenerator>;
 /** MatrixGenerator generates the cartesian product of two sets of parameters. The parameters are defined by two nested generators. */
 export interface V1alpha1MatrixGenerator {
-  generators?: V1alpha1MatrixGeneratorGeneratorsList;
-  template?: V1alpha1ApplicationSetTemplate;
+  generators?: V1alpha1MatrixGeneratorGeneratorsList | undefined;
+  template?: V1alpha1ApplicationSetTemplate | undefined;
 }
 export type V1alpha1MergeGeneratorGeneratorsList = Array<V1alpha1ApplicationSetNestedGenerator>;
 export type V1alpha1MergeGeneratorMergeKeysList = Array<string>;
 /** MergeGenerator merges the output of two or more generators. Where the values for all specified merge keys are equal between two sets of generated parameters, the parameter sets will be merged with the parameters from the latter generator taking precedence. Parameter sets with merge keys not present in the base generator's params will be ignored. For example, if the first generator produced [{a: '1', b: '2'}, {c: '1', d: '1'}] and the second generator produced [{'a': 'override'}], the united parameters for merge keys = ['a'] would be [{a: 'override', b: '1'}, {c: '1', d: '1'}]. MergeGenerator supports template overriding. If a MergeGenerator is one of multiple top-level generators, its template will be merged with the top-level generator before the parameters are applied. */
 export interface V1alpha1MergeGenerator {
-  generators?: V1alpha1MergeGeneratorGeneratorsList;
-  mergeKeys?: V1alpha1MergeGeneratorMergeKeysList;
-  template?: V1alpha1ApplicationSetTemplate;
+  generators?: V1alpha1MergeGeneratorGeneratorsList | undefined;
+  mergeKeys?: V1alpha1MergeGeneratorMergeKeysList | undefined;
+  template?: V1alpha1ApplicationSetTemplate | undefined;
 }
 /** ApplicationSetGenerator represents a generator at the top level of an ApplicationSet. */
 export interface V1alpha1ApplicationSetGenerator {
-  clusterDecisionResource?: V1alpha1DuckTypeGenerator;
-  clusters?: V1alpha1ClusterGenerator;
-  git?: V1alpha1GitGenerator;
-  list?: V1alpha1ListGenerator;
-  matrix?: V1alpha1MatrixGenerator;
-  merge?: V1alpha1MergeGenerator;
-  oci?: V1alpha1OciGenerator;
-  plugin?: V1alpha1PluginGenerator;
-  pullRequest?: V1alpha1PullRequestGenerator;
-  scmProvider?: V1alpha1SCMProviderGenerator;
-  selector?: V1LabelSelector;
+  clusterDecisionResource?: V1alpha1DuckTypeGenerator | undefined;
+  clusters?: V1alpha1ClusterGenerator | undefined;
+  git?: V1alpha1GitGenerator | undefined;
+  list?: V1alpha1ListGenerator | undefined;
+  matrix?: V1alpha1MatrixGenerator | undefined;
+  merge?: V1alpha1MergeGenerator | undefined;
+  oci?: V1alpha1OciGenerator | undefined;
+  plugin?: V1alpha1PluginGenerator | undefined;
+  pullRequest?: V1alpha1PullRequestGenerator | undefined;
+  scmProvider?: V1alpha1SCMProviderGenerator | undefined;
+  selector?: V1LabelSelector | undefined;
 }
 export type V1alpha1ApplicationSetSpecGeneratorsList = Array<V1alpha1ApplicationSetGenerator>;
 export type V1alpha1ApplicationSetSpecGoTemplateOptionsList = Array<string>;
@@ -1381,282 +1396,286 @@ export type V1alpha1ApplicationSetResourceIgnoreDifferencesJsonPointersList = Ar
 /** ApplicationSetResourceIgnoreDifferences configures how the ApplicationSet controller will ignore differences in live applications when applying changes from generated applications. */
 export interface V1alpha1ApplicationSetResourceIgnoreDifferences {
   /** JQPathExpressions is a list of JQ path expressions to fields to ignore differences for. */
-  jqPathExpressions?: V1alpha1ApplicationSetResourceIgnoreDifferencesJqPathExpressionsList;
+  jqPathExpressions?:
+    | V1alpha1ApplicationSetResourceIgnoreDifferencesJqPathExpressionsList
+    | undefined;
   /** JSONPointers is a list of JSON pointers to fields to ignore differences for. */
-  jsonPointers?: V1alpha1ApplicationSetResourceIgnoreDifferencesJsonPointersList;
+  jsonPointers?: V1alpha1ApplicationSetResourceIgnoreDifferencesJsonPointersList | undefined;
   /** Name is the name of the application to ignore differences for. If not specified, the rule applies to all applications. */
-  name?: string;
+  name?: string | undefined;
 }
 export type V1alpha1ApplicationSetSpecIgnoreApplicationDifferencesList =
   Array<V1alpha1ApplicationSetResourceIgnoreDifferences>;
 export type V1alpha1ApplicationPreservedFieldsAnnotationsList = Array<string>;
 export type V1alpha1ApplicationPreservedFieldsLabelsList = Array<string>;
 export interface V1alpha1ApplicationPreservedFields {
-  annotations?: V1alpha1ApplicationPreservedFieldsAnnotationsList;
-  labels?: V1alpha1ApplicationPreservedFieldsLabelsList;
+  annotations?: V1alpha1ApplicationPreservedFieldsAnnotationsList | undefined;
+  labels?: V1alpha1ApplicationPreservedFieldsLabelsList | undefined;
 }
 export type V1alpha1ApplicationMatchExpressionValuesList = Array<string>;
 export interface V1alpha1ApplicationMatchExpression {
-  key?: string;
-  operator?: string;
-  values?: V1alpha1ApplicationMatchExpressionValuesList;
+  key?: string | undefined;
+  operator?: string | undefined;
+  values?: V1alpha1ApplicationMatchExpressionValuesList | undefined;
 }
 export type V1alpha1ApplicationSetRolloutStepMatchExpressionsList =
   Array<V1alpha1ApplicationMatchExpression>;
 export interface V1alpha1ApplicationSetRolloutStep {
-  matchExpressions?: V1alpha1ApplicationSetRolloutStepMatchExpressionsList;
-  maxUpdate?: IntstrIntOrString;
+  matchExpressions?: V1alpha1ApplicationSetRolloutStepMatchExpressionsList | undefined;
+  maxUpdate?: IntstrIntOrString | undefined;
 }
 export type V1alpha1ApplicationSetRolloutStrategyStepsList =
   Array<V1alpha1ApplicationSetRolloutStep>;
 export interface V1alpha1ApplicationSetRolloutStrategy {
-  steps?: V1alpha1ApplicationSetRolloutStrategyStepsList;
+  steps?: V1alpha1ApplicationSetRolloutStrategyStepsList | undefined;
 }
 /** ApplicationSetStrategy configures how generated Applications are updated in sequence. */
 export interface V1alpha1ApplicationSetStrategy {
-  deletionOrder?: string;
-  rollingSync?: V1alpha1ApplicationSetRolloutStrategy;
-  type?: string;
+  deletionOrder?: string | undefined;
+  rollingSync?: V1alpha1ApplicationSetRolloutStrategy | undefined;
+  type?: string | undefined;
 }
 /** ApplicationSetSyncPolicy configures how generated Applications will relate to their ApplicationSet. */
 export interface V1alpha1ApplicationSetSyncPolicy {
-  applicationsSync?: string;
+  applicationsSync?: string | undefined;
   /** PreserveResourcesOnDeletion will preserve resources on deletion. If PreserveResourcesOnDeletion is set to true, these Applications will not be deleted. */
-  preserveResourcesOnDeletion?: boolean;
+  preserveResourcesOnDeletion?: boolean | undefined;
 }
 /** ApplicationSetSpec represents a class of application set state. */
 export interface V1alpha1ApplicationSetSpec {
   /** ApplyNestedSelectors enables selectors defined within the generators of two level-nested matrix or merge generators. Deprecated: This field is ignored, and the behavior is always enabled. The field will be removed in a future version of the ApplicationSet CRD. */
-  applyNestedSelectors?: boolean;
-  generators?: V1alpha1ApplicationSetSpecGeneratorsList;
-  goTemplate?: boolean;
-  goTemplateOptions?: V1alpha1ApplicationSetSpecGoTemplateOptionsList;
-  ignoreApplicationDifferences?: V1alpha1ApplicationSetSpecIgnoreApplicationDifferencesList;
-  preservedFields?: V1alpha1ApplicationPreservedFields;
-  strategy?: V1alpha1ApplicationSetStrategy;
-  syncPolicy?: V1alpha1ApplicationSetSyncPolicy;
-  template?: V1alpha1ApplicationSetTemplate;
-  templatePatch?: string;
+  applyNestedSelectors?: boolean | undefined;
+  generators?: V1alpha1ApplicationSetSpecGeneratorsList | undefined;
+  goTemplate?: boolean | undefined;
+  goTemplateOptions?: V1alpha1ApplicationSetSpecGoTemplateOptionsList | undefined;
+  ignoreApplicationDifferences?:
+    | V1alpha1ApplicationSetSpecIgnoreApplicationDifferencesList
+    | undefined;
+  preservedFields?: V1alpha1ApplicationPreservedFields | undefined;
+  strategy?: V1alpha1ApplicationSetStrategy | undefined;
+  syncPolicy?: V1alpha1ApplicationSetSyncPolicy | undefined;
+  template?: V1alpha1ApplicationSetTemplate | undefined;
+  templatePatch?: string | undefined;
 }
 /** TargetRevision tracks the desired revisions the Application should be synced to. */
 export type V1alpha1ApplicationSetApplicationStatusTargetrevisionsList = Array<string>;
 export interface V1alpha1ApplicationSetApplicationStatus {
-  application?: string;
-  lastTransitionTime?: string;
-  message?: string;
-  status?: string;
-  step?: string;
+  application?: string | undefined;
+  lastTransitionTime?: string | undefined;
+  message?: string | undefined;
+  status?: string | undefined;
+  step?: string | undefined;
   /** TargetRevision tracks the desired revisions the Application should be synced to. */
-  targetrevisions?: V1alpha1ApplicationSetApplicationStatusTargetrevisionsList;
+  targetrevisions?: V1alpha1ApplicationSetApplicationStatusTargetrevisionsList | undefined;
 }
 export type V1alpha1ApplicationSetStatusApplicationStatusList =
   Array<V1alpha1ApplicationSetApplicationStatus>;
 export interface V1alpha1ApplicationSetCondition {
-  lastTransitionTime?: string;
-  message?: string;
-  reason?: string;
-  status?: string;
-  type?: string;
+  lastTransitionTime?: string | undefined;
+  message?: string | undefined;
+  reason?: string | undefined;
+  status?: string | undefined;
+  type?: string | undefined;
 }
 export type V1alpha1ApplicationSetStatusConditionsList = Array<V1alpha1ApplicationSetCondition>;
 /** Resources is a list of Applications resources managed by this application set. */
 export type V1alpha1ApplicationSetStatusResourcesList = Array<Applicationv1alpha1ResourceStatus>;
 export interface V1alpha1ApplicationSetStatus {
-  applicationStatus?: V1alpha1ApplicationSetStatusApplicationStatusList;
-  conditions?: V1alpha1ApplicationSetStatusConditionsList;
-  health?: V1alpha1HealthStatus;
+  applicationStatus?: V1alpha1ApplicationSetStatusApplicationStatusList | undefined;
+  conditions?: V1alpha1ApplicationSetStatusConditionsList | undefined;
+  health?: V1alpha1HealthStatus | undefined;
   /** Resources is a list of Applications resources managed by this application set. */
-  resources?: V1alpha1ApplicationSetStatusResourcesList;
+  resources?: V1alpha1ApplicationSetStatusResourcesList | undefined;
   /** ResourcesCount is the total number of resources managed by this application set. The count may be higher than actual number of items in the Resources field when the number of managed resources exceeds the limit imposed by the controller (to avoid making the status field too large). */
-  resourcesCount?: number;
+  resourcesCount?: number | undefined;
 }
 export interface CreateApplicationSetServiceRequest {
-  upsert?: boolean;
-  dryRun?: boolean;
-  metadata?: V1ObjectMeta;
-  spec?: V1alpha1ApplicationSetSpec;
-  status?: V1alpha1ApplicationSetStatus;
+  upsert?: boolean | undefined;
+  dryRun?: boolean | undefined;
+  metadata?: V1ObjectMeta | undefined;
+  spec?: V1alpha1ApplicationSetSpec | undefined;
+  status?: V1alpha1ApplicationSetStatus | undefined;
 }
 export interface V1alpha1ApplicationSet {
-  metadata?: V1ObjectMeta;
-  spec?: V1alpha1ApplicationSetSpec;
-  status?: V1alpha1ApplicationSetStatus;
+  metadata?: V1ObjectMeta | undefined;
+  spec?: V1alpha1ApplicationSetSpec | undefined;
+  status?: V1alpha1ApplicationSetStatus | undefined;
 }
 export interface V1alpha1RepositoryCertificate {
-  certData?: string;
-  certInfo?: string;
-  certSubType?: string;
-  certType?: string;
-  serverName?: string;
+  certData?: string | undefined;
+  certInfo?: string | undefined;
+  certSubType?: string | undefined;
+  certType?: string | undefined;
+  serverName?: string | undefined;
 }
 export type CreateCertificateServiceCertificateRequestItemsList =
   Array<V1alpha1RepositoryCertificate>;
 /** ShardInfo describes the shard selector that was applied to produce a list response. Its presence on a list response indicates the list is a filtered subset. */
 export interface V1ShardInfo {
-  selector?: string;
+  selector?: string | undefined;
 }
 /** ListMeta describes metadata that synthetic resources must have, including lists and various status objects. A resource may have only one of {ObjectMeta, ListMeta}. */
 export interface V1ListMeta {
   /** continue may be set if the user set a limit on the number of items returned, and indicates that the server has more data available. The value is opaque and may be used to issue another request to the endpoint that served this list to retrieve the next set of available objects. Continuing a consistent list may not be possible if the server configuration has changed or more than a few minutes have passed. The resourceVersion field returned when using this continue value will be identical to the value in the first response, unless you have received this token from an error message. */
-  continue?: string;
-  remainingItemCount?: number;
-  resourceVersion?: string;
-  selfLink?: string;
-  shardInfo?: V1ShardInfo;
+  continue?: string | undefined;
+  remainingItemCount?: number | undefined;
+  resourceVersion?: string | undefined;
+  selfLink?: string | undefined;
+  shardInfo?: V1ShardInfo | undefined;
 }
 export interface CreateCertificateServiceCertificateRequest {
   /** Whether to upsert already existing certificates. */
-  upsert?: boolean;
-  items?: CreateCertificateServiceCertificateRequestItemsList;
-  metadata?: V1ListMeta;
+  upsert?: boolean | undefined;
+  items?: CreateCertificateServiceCertificateRequestItemsList | undefined;
+  metadata?: V1ListMeta | undefined;
 }
 export type V1alpha1RepositoryCertificateListItemsList = Array<V1alpha1RepositoryCertificate>;
 export interface V1alpha1RepositoryCertificateList {
-  items?: V1alpha1RepositoryCertificateListItemsList;
-  metadata?: V1ListMeta;
+  items?: V1alpha1RepositoryCertificateListItemsList | undefined;
+  metadata?: V1ListMeta | undefined;
 }
 export type CreateClusterServiceRequestAnnotationsMap = { [key: string]: string | undefined };
 export interface V1alpha1AWSAuthConfig {
-  clusterName?: string;
+  clusterName?: string | undefined;
   /** Profile contains optional role ARN. If set then AWS IAM Authenticator uses the profile to perform cluster operations instead of the default AWS credential provider chain. */
-  profile?: string;
+  profile?: string | undefined;
   /** RoleARN contains optional role ARN. If set then AWS IAM Authenticator assume a role to perform cluster operations instead of the default AWS credential provider chain. */
-  roleARN?: string;
+  roleARN?: string | undefined;
 }
 export type V1alpha1ExecProviderConfigArgsList = Array<string>;
 export type V1alpha1ExecProviderConfigEnvMap = { [key: string]: string | undefined };
 export interface V1alpha1ExecProviderConfig {
-  apiVersion?: string;
-  args?: V1alpha1ExecProviderConfigArgsList;
-  command?: string;
-  config?: RuntimeRawExtension;
-  env?: V1alpha1ExecProviderConfigEnvMap;
-  installHint?: string;
-  provideClusterInfo?: boolean;
+  apiVersion?: string | undefined;
+  args?: V1alpha1ExecProviderConfigArgsList | undefined;
+  command?: string | undefined;
+  config?: RuntimeRawExtension | undefined;
+  env?: V1alpha1ExecProviderConfigEnvMap | undefined;
+  installHint?: string | undefined;
+  provideClusterInfo?: boolean | undefined;
 }
 export interface V1alpha1TLSClientConfig {
-  caData?: string;
-  certData?: string;
+  caData?: string | undefined;
+  certData?: string | undefined;
   /** Insecure specifies that the server should be accessed without verifying the TLS certificate. For testing only. */
-  insecure?: boolean;
-  keyData?: string;
+  insecure?: boolean | undefined;
+  keyData?: string | undefined;
   /** ServerName is passed to the server for SNI and is used in the client to check server certificates against. If ServerName is empty, the hostname used to contact the server is used. */
-  serverName?: string;
+  serverName?: string | undefined;
 }
 /** ClusterConfig is the configuration attributes. This structure is subset of the go-client rest.Config with annotations added for marshalling. */
 export interface V1alpha1ClusterConfig {
-  awsAuthConfig?: V1alpha1AWSAuthConfig;
+  awsAuthConfig?: V1alpha1AWSAuthConfig | undefined;
   /** Server requires Bearer authentication. This client will not attempt to use refresh tokens for an OAuth2 flow. TODO: demonstrate an OAuth2 compatible client. */
-  bearerToken?: string;
+  bearerToken?: string | undefined;
   /** Burst allows extra queries to accumulate for a rapid burst of requests to this cluster. */
-  burst?: number;
+  burst?: number | undefined;
   /** DisableCompression bypasses automatic GZip compression requests to the server. */
-  disableCompression?: boolean;
-  execProviderConfig?: V1alpha1ExecProviderConfig;
-  password?: string | Redacted.Redacted<string>;
-  proxyUrl?: string;
+  disableCompression?: boolean | undefined;
+  execProviderConfig?: V1alpha1ExecProviderConfig | undefined;
+  password?: string | Redacted.Redacted<string> | undefined;
+  proxyUrl?: string | undefined;
   /** QPS controls the number of queries per second allowed for this cluster. */
-  qps?: number;
-  tlsClientConfig?: V1alpha1TLSClientConfig;
-  username?: string;
+  qps?: number | undefined;
+  tlsClientConfig?: V1alpha1TLSClientConfig | undefined;
+  username?: string | undefined;
 }
 export interface V1alpha1ConnectionState {
-  attemptedAt?: string;
-  message?: string;
-  status?: string;
+  attemptedAt?: string | undefined;
+  message?: string | undefined;
+  status?: string | undefined;
 }
 export type V1alpha1ClusterInfoApiVersionsList = Array<string>;
 export interface V1alpha1ClusterCacheInfo {
-  apisCount?: number;
-  lastCacheSyncTime?: string;
-  resourcesCount?: number;
+  apisCount?: number | undefined;
+  lastCacheSyncTime?: string | undefined;
+  resourcesCount?: number | undefined;
 }
 export interface V1alpha1ClusterInfo {
-  apiVersions?: V1alpha1ClusterInfoApiVersionsList;
-  applicationsCount?: number;
-  cacheInfo?: V1alpha1ClusterCacheInfo;
-  connectionState?: V1alpha1ConnectionState;
-  serverVersion?: string;
+  apiVersions?: V1alpha1ClusterInfoApiVersionsList | undefined;
+  applicationsCount?: number | undefined;
+  cacheInfo?: V1alpha1ClusterCacheInfo | undefined;
+  connectionState?: V1alpha1ConnectionState | undefined;
+  serverVersion?: string | undefined;
 }
 export type CreateClusterServiceRequestLabelsMap = { [key: string]: string | undefined };
 /** Holds list of namespaces which are accessible in that cluster. Cluster level resources will be ignored if namespace list is not empty. */
 export type CreateClusterServiceRequestNamespacesList = Array<string>;
 export interface CreateClusterServiceRequest {
-  upsert?: boolean;
-  annotations?: CreateClusterServiceRequestAnnotationsMap;
+  upsert?: boolean | undefined;
+  annotations?: CreateClusterServiceRequestAnnotationsMap | undefined;
   /** Indicates if cluster level resources should be managed. This setting is used only if cluster is connected in a namespaced mode. */
-  clusterResources?: boolean;
-  config?: V1alpha1ClusterConfig;
-  configHash?: string;
-  connectionState?: V1alpha1ConnectionState;
-  info?: V1alpha1ClusterInfo;
-  labels?: CreateClusterServiceRequestLabelsMap;
-  name?: string;
+  clusterResources?: boolean | undefined;
+  config?: V1alpha1ClusterConfig | undefined;
+  configHash?: string | undefined;
+  connectionState?: V1alpha1ConnectionState | undefined;
+  info?: V1alpha1ClusterInfo | undefined;
+  labels?: CreateClusterServiceRequestLabelsMap | undefined;
+  name?: string | undefined;
   /** Holds list of namespaces which are accessible in that cluster. Cluster level resources will be ignored if namespace list is not empty. */
-  namespaces?: CreateClusterServiceRequestNamespacesList;
-  project?: string;
-  refreshRequestedAt?: string;
-  server?: string;
-  serverVersion?: string;
+  namespaces?: CreateClusterServiceRequestNamespacesList | undefined;
+  project?: string | undefined;
+  refreshRequestedAt?: string | undefined;
+  server?: string | undefined;
+  serverVersion?: string | undefined;
   /** Shard contains optional shard number. Calculated on the fly by the application controller if not specified. */
-  shard?: number;
+  shard?: number | undefined;
 }
 export type V1alpha1ClusterAnnotationsMap = { [key: string]: string | undefined };
 export type V1alpha1ClusterLabelsMap = { [key: string]: string | undefined };
 /** Holds list of namespaces which are accessible in that cluster. Cluster level resources will be ignored if namespace list is not empty. */
 export type V1alpha1ClusterNamespacesList = Array<string>;
 export interface V1alpha1Cluster {
-  annotations?: V1alpha1ClusterAnnotationsMap;
+  annotations?: V1alpha1ClusterAnnotationsMap | undefined;
   /** Indicates if cluster level resources should be managed. This setting is used only if cluster is connected in a namespaced mode. */
-  clusterResources?: boolean;
-  config?: V1alpha1ClusterConfig;
-  configHash?: string;
-  connectionState?: V1alpha1ConnectionState;
-  info?: V1alpha1ClusterInfo;
-  labels?: V1alpha1ClusterLabelsMap;
-  name?: string;
+  clusterResources?: boolean | undefined;
+  config?: V1alpha1ClusterConfig | undefined;
+  configHash?: string | undefined;
+  connectionState?: V1alpha1ConnectionState | undefined;
+  info?: V1alpha1ClusterInfo | undefined;
+  labels?: V1alpha1ClusterLabelsMap | undefined;
+  name?: string | undefined;
   /** Holds list of namespaces which are accessible in that cluster. Cluster level resources will be ignored if namespace list is not empty. */
-  namespaces?: V1alpha1ClusterNamespacesList;
-  project?: string;
-  refreshRequestedAt?: string;
-  server?: string;
-  serverVersion?: string;
+  namespaces?: V1alpha1ClusterNamespacesList | undefined;
+  project?: string | undefined;
+  refreshRequestedAt?: string | undefined;
+  server?: string | undefined;
+  serverVersion?: string | undefined;
   /** Shard contains optional shard number. Calculated on the fly by the application controller if not specified. */
-  shard?: number;
+  shard?: number | undefined;
 }
 export interface CreateGPGKeyServiceRequest {
   /** Whether to upsert already existing public keys. */
-  upsert?: boolean;
-  fingerprint?: string;
-  keyData?: string;
-  keyID?: string;
-  owner?: string;
-  subType?: string;
-  trust?: string;
+  upsert?: boolean | undefined;
+  fingerprint?: string | undefined;
+  keyData?: string | undefined;
+  keyID?: string | undefined;
+  owner?: string | undefined;
+  subType?: string | undefined;
+  trust?: string | undefined;
 }
 export interface V1alpha1GnuPGPublicKey {
-  fingerprint?: string;
-  keyData?: string;
-  keyID?: string;
-  owner?: string;
-  subType?: string;
-  trust?: string;
+  fingerprint?: string | undefined;
+  keyData?: string | undefined;
+  keyID?: string | undefined;
+  owner?: string | undefined;
+  subType?: string | undefined;
+  trust?: string | undefined;
 }
 export type V1alpha1GnuPGPublicKeyListItemsList = Array<V1alpha1GnuPGPublicKey>;
 export interface V1alpha1GnuPGPublicKeyList {
-  items?: V1alpha1GnuPGPublicKeyListItemsList;
-  metadata?: V1ListMeta;
+  items?: V1alpha1GnuPGPublicKeyListItemsList | undefined;
+  metadata?: V1ListMeta | undefined;
 }
 export type GpgkeyGnuPGPublicKeyCreateResponseSkippedList = Array<string>;
 export interface GpgkeyGnuPGPublicKeyCreateResponse {
-  created?: V1alpha1GnuPGPublicKeyList;
-  skipped?: GpgkeyGnuPGPublicKeyCreateResponseSkippedList;
+  created?: V1alpha1GnuPGPublicKeyList | undefined;
+  skipped?: GpgkeyGnuPGPublicKeyCreateResponseSkippedList | undefined;
 }
 export interface V1alpha1ClusterResourceRestrictionItem {
-  group?: string;
-  kind?: string;
+  group?: string | undefined;
+  kind?: string | undefined;
   /** Name is the name of the restricted resource. Glob patterns using Go's filepath.Match syntax are supported. Unlike the group and kind fields, if no name is specified, all resources of the specified group/kind are matched. */
-  name?: string;
+  name?: string | undefined;
 }
 export type V1alpha1AppProjectSpecClusterResourceBlacklistList =
   Array<V1alpha1ClusterResourceRestrictionItem>;
@@ -1664,11 +1683,11 @@ export type V1alpha1AppProjectSpecClusterResourceWhitelistList =
   Array<V1alpha1ClusterResourceRestrictionItem>;
 /** ApplicationDestinationServiceAccount holds information about the service account to be impersonated for the application sync operation. */
 export interface V1alpha1ApplicationDestinationServiceAccount {
-  defaultServiceAccount?: string;
+  defaultServiceAccount?: string | undefined;
   /** Namespace specifies the target namespace for the application's resources. */
-  namespace?: string;
+  namespace?: string | undefined;
   /** Server specifies the URL of the target cluster's Kubernetes control plane API. */
-  server?: string;
+  server?: string | undefined;
 }
 /** DestinationServiceAccounts holds information about the service accounts to be impersonated for the application sync operation for each destination. */
 export type V1alpha1AppProjectSpecDestinationServiceAccountsList =
@@ -1676,40 +1695,40 @@ export type V1alpha1AppProjectSpecDestinationServiceAccountsList =
 export type V1alpha1AppProjectSpecDestinationsList = Array<V1alpha1ApplicationDestination>;
 /** +protobuf.options.(gogoproto.goproto_stringer)=false */
 export interface V1GroupKind {
-  group?: string;
-  kind?: string;
+  group?: string | undefined;
+  kind?: string | undefined;
 }
 export type V1alpha1AppProjectSpecNamespaceResourceBlacklistList = Array<V1GroupKind>;
 export type V1alpha1AppProjectSpecNamespaceResourceWhitelistList = Array<V1GroupKind>;
 export interface V1alpha1OrphanedResourceKey {
-  group?: string;
-  kind?: string;
-  name?: string;
+  group?: string | undefined;
+  kind?: string | undefined;
+  name?: string | undefined;
 }
 export type V1alpha1OrphanedResourcesMonitorSettingsIgnoreList = Array<V1alpha1OrphanedResourceKey>;
 export interface V1alpha1OrphanedResourcesMonitorSettings {
-  ignore?: V1alpha1OrphanedResourcesMonitorSettingsIgnoreList;
-  warn?: boolean;
+  ignore?: V1alpha1OrphanedResourcesMonitorSettingsIgnoreList | undefined;
+  warn?: boolean | undefined;
 }
 export type V1alpha1ProjectRoleGroupsList = Array<string>;
 export interface V1alpha1JWTToken {
-  exp?: number;
-  iat?: number;
-  id?: string;
+  exp?: number | undefined;
+  iat?: number | undefined;
+  id?: string | undefined;
 }
 export type V1alpha1ProjectRoleJwtTokensList = Array<V1alpha1JWTToken>;
 export type V1alpha1ProjectRolePoliciesList = Array<string>;
 export interface V1alpha1ProjectRole {
-  description?: string;
-  groups?: V1alpha1ProjectRoleGroupsList;
-  jwtTokens?: V1alpha1ProjectRoleJwtTokensList;
-  name?: string;
-  policies?: V1alpha1ProjectRolePoliciesList;
+  description?: string | undefined;
+  groups?: V1alpha1ProjectRoleGroupsList | undefined;
+  jwtTokens?: V1alpha1ProjectRoleJwtTokensList | undefined;
+  name?: string | undefined;
+  policies?: V1alpha1ProjectRolePoliciesList | undefined;
 }
 export type V1alpha1AppProjectSpecRolesList = Array<V1alpha1ProjectRole>;
 /** Deprecated: Use SourceIntegrity instead. SignatureKeys will be removed with the next major version. */
 export interface V1alpha1SignatureKey {
-  keyID?: string;
+  keyID?: string | undefined;
 }
 /** Deprecated: Use SourceIntegrity instead. SignatureKeys will be removed with the next major version. */
 export type V1alpha1AppProjectSpecSignatureKeysList = Array<V1alpha1SignatureKey>;
@@ -1718,24 +1737,24 @@ export type V1alpha1SourceIntegrityGitPolicyGPGKeysList = Array<string>;
 /** SourceIntegrityGitPolicyGPG verifies that the commit(s) are both correctly signed by a key in the repo-server keyring, and that they are signed by one of the key listed in Keys. This policy can be deactivated through the ARGOCD_GPG_ENABLED environment variable. Note the listing of problematic commits/signatures reported when "strict" mode validation fails may not be complete. This means that a user that has addressed all problems reported by source integrity check can run into further problematic signatures on a subsequent attempt. That happens namely when history contains seal commits signed with gpg keys that are in the keyring, but not listed in Keys. */
 export interface V1alpha1SourceIntegrityGitPolicyGPG {
   /** List of key IDs to trust. The keys need to be in the repository server keyring. */
-  keys?: V1alpha1SourceIntegrityGitPolicyGPGKeysList;
-  mode?: string;
+  keys?: V1alpha1SourceIntegrityGitPolicyGPGKeysList | undefined;
+  mode?: string | undefined;
 }
 export interface V1alpha1SourceIntegrityGitPolicyRepo {
   /** URL specifier, glob. */
-  url?: string;
+  url?: string | undefined;
 }
 export type V1alpha1SourceIntegrityGitPolicyReposList = Array<V1alpha1SourceIntegrityGitPolicyRepo>;
 export interface V1alpha1SourceIntegrityGitPolicy {
-  gpg?: V1alpha1SourceIntegrityGitPolicyGPG;
-  repos?: V1alpha1SourceIntegrityGitPolicyReposList;
+  gpg?: V1alpha1SourceIntegrityGitPolicyGPG | undefined;
+  repos?: V1alpha1SourceIntegrityGitPolicyReposList | undefined;
 }
 export type V1alpha1SourceIntegrityGitPoliciesList = Array<V1alpha1SourceIntegrityGitPolicy>;
 export interface V1alpha1SourceIntegrityGit {
-  policies?: V1alpha1SourceIntegrityGitPoliciesList;
+  policies?: V1alpha1SourceIntegrityGitPoliciesList | undefined;
 }
 export interface V1alpha1SourceIntegrity {
-  git?: V1alpha1SourceIntegrityGit;
+  git?: V1alpha1SourceIntegrityGit | undefined;
 }
 export type V1alpha1AppProjectSpecSourceNamespacesList = Array<string>;
 export type V1alpha1AppProjectSpecSourceReposList = Array<string>;
@@ -1743,289 +1762,289 @@ export type V1alpha1InlineSyncWindowApplicationsList = Array<string>;
 export type V1alpha1InlineSyncWindowClustersList = Array<string>;
 export type V1alpha1InlineSyncWindowNamespacesList = Array<string>;
 export interface V1alpha1InlineSyncWindow {
-  andOperator?: boolean;
-  applications?: V1alpha1InlineSyncWindowApplicationsList;
-  clusters?: V1alpha1InlineSyncWindowClustersList;
-  description?: string;
-  duration?: string;
-  kind?: string;
-  manualSync?: boolean;
-  namespaces?: V1alpha1InlineSyncWindowNamespacesList;
-  schedule?: string;
-  syncOverrun?: boolean;
-  timeZone?: string;
+  andOperator?: boolean | undefined;
+  applications?: V1alpha1InlineSyncWindowApplicationsList | undefined;
+  clusters?: V1alpha1InlineSyncWindowClustersList | undefined;
+  description?: string | undefined;
+  duration?: string | undefined;
+  kind?: string | undefined;
+  manualSync?: boolean | undefined;
+  namespaces?: V1alpha1InlineSyncWindowNamespacesList | undefined;
+  schedule?: string | undefined;
+  syncOverrun?: boolean | undefined;
+  timeZone?: string | undefined;
 }
 export type V1alpha1AppProjectSpecSyncWindowsList = Array<V1alpha1InlineSyncWindow>;
 export interface V1alpha1AppProjectSpec {
-  clusterResourceBlacklist?: V1alpha1AppProjectSpecClusterResourceBlacklistList;
-  clusterResourceWhitelist?: V1alpha1AppProjectSpecClusterResourceWhitelistList;
-  description?: string;
+  clusterResourceBlacklist?: V1alpha1AppProjectSpecClusterResourceBlacklistList | undefined;
+  clusterResourceWhitelist?: V1alpha1AppProjectSpecClusterResourceWhitelistList | undefined;
+  description?: string | undefined;
   /** DestinationServiceAccounts holds information about the service accounts to be impersonated for the application sync operation for each destination. */
-  destinationServiceAccounts?: V1alpha1AppProjectSpecDestinationServiceAccountsList;
-  destinations?: V1alpha1AppProjectSpecDestinationsList;
-  namespaceResourceBlacklist?: V1alpha1AppProjectSpecNamespaceResourceBlacklistList;
-  namespaceResourceWhitelist?: V1alpha1AppProjectSpecNamespaceResourceWhitelistList;
-  orphanedResources?: V1alpha1OrphanedResourcesMonitorSettings;
-  permitOnlyProjectScopedClusters?: boolean;
-  roles?: V1alpha1AppProjectSpecRolesList;
+  destinationServiceAccounts?: V1alpha1AppProjectSpecDestinationServiceAccountsList | undefined;
+  destinations?: V1alpha1AppProjectSpecDestinationsList | undefined;
+  namespaceResourceBlacklist?: V1alpha1AppProjectSpecNamespaceResourceBlacklistList | undefined;
+  namespaceResourceWhitelist?: V1alpha1AppProjectSpecNamespaceResourceWhitelistList | undefined;
+  orphanedResources?: V1alpha1OrphanedResourcesMonitorSettings | undefined;
+  permitOnlyProjectScopedClusters?: boolean | undefined;
+  roles?: V1alpha1AppProjectSpecRolesList | undefined;
   /** Deprecated: Use SourceIntegrity instead. SignatureKeys will be removed with the next major version. */
-  signatureKeys?: V1alpha1AppProjectSpecSignatureKeysList;
-  sourceIntegrity?: V1alpha1SourceIntegrity;
-  sourceNamespaces?: V1alpha1AppProjectSpecSourceNamespacesList;
-  sourceRepos?: V1alpha1AppProjectSpecSourceReposList;
-  syncWindows?: V1alpha1AppProjectSpecSyncWindowsList;
+  signatureKeys?: V1alpha1AppProjectSpecSignatureKeysList | undefined;
+  sourceIntegrity?: V1alpha1SourceIntegrity | undefined;
+  sourceNamespaces?: V1alpha1AppProjectSpecSourceNamespacesList | undefined;
+  sourceRepos?: V1alpha1AppProjectSpecSourceReposList | undefined;
+  syncWindows?: V1alpha1AppProjectSpecSyncWindowsList | undefined;
 }
 export type V1alpha1JWTTokensItemsList = Array<V1alpha1JWTToken>;
 export interface V1alpha1JWTTokens {
-  items?: V1alpha1JWTTokensItemsList;
+  items?: V1alpha1JWTTokensItemsList | undefined;
 }
 export type V1alpha1AppProjectStatusJwtTokensByRoleMap = {
   [key: string]: V1alpha1JWTTokens | undefined;
 };
 export interface V1alpha1AppProjectStatus {
-  jwtTokensByRole?: V1alpha1AppProjectStatusJwtTokensByRoleMap;
+  jwtTokensByRole?: V1alpha1AppProjectStatusJwtTokensByRoleMap | undefined;
 }
 export interface V1alpha1AppProject {
-  metadata?: V1ObjectMeta;
-  spec?: V1alpha1AppProjectSpec;
-  status?: V1alpha1AppProjectStatus;
+  metadata?: V1ObjectMeta | undefined;
+  spec?: V1alpha1AppProjectSpec | undefined;
+  status?: V1alpha1AppProjectStatus | undefined;
 }
 export interface CreateProjectServiceRequest {
-  project?: V1alpha1AppProject;
-  upsert?: boolean;
+  project?: V1alpha1AppProject | undefined;
+  upsert?: boolean | undefined;
 }
 export interface CreateProjectServiceTokenRequest {
   project: string;
   role: string;
-  description?: string;
-  expiresIn?: number;
-  id?: string;
+  description?: string | undefined;
+  expiresIn?: number | undefined;
+  id?: string | undefined;
 }
 /** ProjectTokenResponse wraps the created token or returns an empty string if deleted. */
 export interface ProjectProjectTokenResponse {
-  token?: string;
+  token?: string | undefined;
 }
 export interface CreateRepoCredsServiceRepositoryCredentialsRequest {
   /** Whether to create in upsert mode. */
-  upsert?: boolean;
-  azureActiveDirectoryEndpoint?: string;
-  azureServicePrincipalClientId?: string;
-  azureServicePrincipalClientSecret?: string;
-  azureServicePrincipalTenantId?: string;
-  bearerToken?: string;
-  enableOCI?: boolean;
-  forceHttpBasicAuth?: boolean;
-  gcpServiceAccountKey?: string;
-  githubAppEnterpriseBaseUrl?: string;
-  githubAppID?: number;
-  githubAppInstallationID?: number;
-  githubAppPrivateKey?: string;
+  upsert?: boolean | undefined;
+  azureActiveDirectoryEndpoint?: string | undefined;
+  azureServicePrincipalClientId?: string | undefined;
+  azureServicePrincipalClientSecret?: string | undefined;
+  azureServicePrincipalTenantId?: string | undefined;
+  bearerToken?: string | undefined;
+  enableOCI?: boolean | undefined;
+  forceHttpBasicAuth?: boolean | undefined;
+  gcpServiceAccountKey?: string | undefined;
+  githubAppEnterpriseBaseUrl?: string | undefined;
+  githubAppID?: number | undefined;
+  githubAppInstallationID?: number | undefined;
+  githubAppPrivateKey?: string | undefined;
   /** InsecureOCIForceHttp specifies whether the connection to the repository uses TLS at _all_. If true, no TLS. This flag is applicable for OCI repos only. */
-  insecureOCIForceHttp?: boolean;
-  noProxy?: string;
-  password?: string | Redacted.Redacted<string>;
-  proxy?: string;
-  sshPrivateKey?: string;
-  tlsClientCertData?: string;
-  tlsClientCertKey?: string;
+  insecureOCIForceHttp?: boolean | undefined;
+  noProxy?: string | undefined;
+  password?: string | Redacted.Redacted<string> | undefined;
+  proxy?: string | undefined;
+  sshPrivateKey?: string | undefined;
+  tlsClientCertData?: string | undefined;
+  tlsClientCertKey?: string | undefined;
   /** Type specifies the type of the repoCreds. Can be either "git", "helm" or "oci". "git" is assumed if empty or absent. */
-  type?: string;
-  url?: string;
-  useAzureWorkloadIdentity?: boolean;
-  username?: string;
+  type?: string | undefined;
+  url?: string | undefined;
+  useAzureWorkloadIdentity?: boolean | undefined;
+  username?: string | undefined;
 }
 export interface V1alpha1RepoCreds {
-  azureActiveDirectoryEndpoint?: string;
-  azureServicePrincipalClientId?: string;
-  azureServicePrincipalClientSecret?: string;
-  azureServicePrincipalTenantId?: string;
-  bearerToken?: string;
-  enableOCI?: boolean;
-  forceHttpBasicAuth?: boolean;
-  gcpServiceAccountKey?: string;
-  githubAppEnterpriseBaseUrl?: string;
-  githubAppID?: number;
-  githubAppInstallationID?: number;
-  githubAppPrivateKey?: string;
+  azureActiveDirectoryEndpoint?: string | undefined;
+  azureServicePrincipalClientId?: string | undefined;
+  azureServicePrincipalClientSecret?: string | undefined;
+  azureServicePrincipalTenantId?: string | undefined;
+  bearerToken?: string | undefined;
+  enableOCI?: boolean | undefined;
+  forceHttpBasicAuth?: boolean | undefined;
+  gcpServiceAccountKey?: string | undefined;
+  githubAppEnterpriseBaseUrl?: string | undefined;
+  githubAppID?: number | undefined;
+  githubAppInstallationID?: number | undefined;
+  githubAppPrivateKey?: string | undefined;
   /** InsecureOCIForceHttp specifies whether the connection to the repository uses TLS at _all_. If true, no TLS. This flag is applicable for OCI repos only. */
-  insecureOCIForceHttp?: boolean;
-  noProxy?: string;
-  password?: string | Redacted.Redacted<string>;
-  proxy?: string;
-  sshPrivateKey?: string;
-  tlsClientCertData?: string;
-  tlsClientCertKey?: string;
+  insecureOCIForceHttp?: boolean | undefined;
+  noProxy?: string | undefined;
+  password?: string | Redacted.Redacted<string> | undefined;
+  proxy?: string | undefined;
+  sshPrivateKey?: string | undefined;
+  tlsClientCertData?: string | undefined;
+  tlsClientCertKey?: string | undefined;
   /** Type specifies the type of the repoCreds. Can be either "git", "helm" or "oci". "git" is assumed if empty or absent. */
-  type?: string;
-  url?: string;
-  useAzureWorkloadIdentity?: boolean;
-  username?: string;
+  type?: string | undefined;
+  url?: string | undefined;
+  useAzureWorkloadIdentity?: boolean | undefined;
+  username?: string | undefined;
 }
 export interface CreateRepoCredsServiceWriteRepositoryCredentialsRequest {
   /** Whether to create in upsert mode. */
-  upsert?: boolean;
-  azureActiveDirectoryEndpoint?: string;
-  azureServicePrincipalClientId?: string;
-  azureServicePrincipalClientSecret?: string;
-  azureServicePrincipalTenantId?: string;
-  bearerToken?: string;
-  enableOCI?: boolean;
-  forceHttpBasicAuth?: boolean;
-  gcpServiceAccountKey?: string;
-  githubAppEnterpriseBaseUrl?: string;
-  githubAppID?: number;
-  githubAppInstallationID?: number;
-  githubAppPrivateKey?: string;
+  upsert?: boolean | undefined;
+  azureActiveDirectoryEndpoint?: string | undefined;
+  azureServicePrincipalClientId?: string | undefined;
+  azureServicePrincipalClientSecret?: string | undefined;
+  azureServicePrincipalTenantId?: string | undefined;
+  bearerToken?: string | undefined;
+  enableOCI?: boolean | undefined;
+  forceHttpBasicAuth?: boolean | undefined;
+  gcpServiceAccountKey?: string | undefined;
+  githubAppEnterpriseBaseUrl?: string | undefined;
+  githubAppID?: number | undefined;
+  githubAppInstallationID?: number | undefined;
+  githubAppPrivateKey?: string | undefined;
   /** InsecureOCIForceHttp specifies whether the connection to the repository uses TLS at _all_. If true, no TLS. This flag is applicable for OCI repos only. */
-  insecureOCIForceHttp?: boolean;
-  noProxy?: string;
-  password?: string | Redacted.Redacted<string>;
-  proxy?: string;
-  sshPrivateKey?: string;
-  tlsClientCertData?: string;
-  tlsClientCertKey?: string;
+  insecureOCIForceHttp?: boolean | undefined;
+  noProxy?: string | undefined;
+  password?: string | Redacted.Redacted<string> | undefined;
+  proxy?: string | undefined;
+  sshPrivateKey?: string | undefined;
+  tlsClientCertData?: string | undefined;
+  tlsClientCertKey?: string | undefined;
   /** Type specifies the type of the repoCreds. Can be either "git", "helm" or "oci". "git" is assumed if empty or absent. */
-  type?: string;
-  url?: string;
-  useAzureWorkloadIdentity?: boolean;
-  username?: string;
+  type?: string | undefined;
+  url?: string | undefined;
+  useAzureWorkloadIdentity?: boolean | undefined;
+  username?: string | undefined;
 }
 export interface CreateRepositoryServiceRepositoryRequest {
   /** Whether to create in upsert mode. */
-  upsert?: boolean;
+  upsert?: boolean | undefined;
   /** Whether to operate on credential set instead of repository. */
-  credsOnly?: boolean;
-  azureActiveDirectoryEndpoint?: string;
-  azureServicePrincipalClientId?: string;
-  azureServicePrincipalClientSecret?: string;
-  azureServicePrincipalTenantId?: string;
-  bearerToken?: string;
-  connectionState?: V1alpha1ConnectionState;
+  credsOnly?: boolean | undefined;
+  azureActiveDirectoryEndpoint?: string | undefined;
+  azureServicePrincipalClientId?: string | undefined;
+  azureServicePrincipalClientSecret?: string | undefined;
+  azureServicePrincipalTenantId?: string | undefined;
+  bearerToken?: string | undefined;
+  connectionState?: V1alpha1ConnectionState | undefined;
   /** Depth specifies the depth for shallow clones. A value of 0 or omitting the field indicates a full clone. */
-  depth?: number;
+  depth?: number | undefined;
   /** EnableLFS specifies whether git-lfs support should be enabled for this repo. Only valid for Git repositories. */
-  enableLfs?: boolean;
-  enableOCI?: boolean;
-  forceHttpBasicAuth?: boolean;
-  gcpServiceAccountKey?: string;
-  githubAppEnterpriseBaseUrl?: string;
-  githubAppID?: number;
-  githubAppInstallationID?: number;
-  githubAppPrivateKey?: string;
-  inheritedCreds?: boolean;
-  insecure?: boolean;
-  insecureIgnoreHostKey?: boolean;
+  enableLfs?: boolean | undefined;
+  enableOCI?: boolean | undefined;
+  forceHttpBasicAuth?: boolean | undefined;
+  gcpServiceAccountKey?: string | undefined;
+  githubAppEnterpriseBaseUrl?: string | undefined;
+  githubAppID?: number | undefined;
+  githubAppInstallationID?: number | undefined;
+  githubAppPrivateKey?: string | undefined;
+  inheritedCreds?: boolean | undefined;
+  insecure?: boolean | undefined;
+  insecureIgnoreHostKey?: boolean | undefined;
   /** InsecureOCIForceHttp specifies whether the connection to the repository uses TLS at _all_. If true, no TLS. This flag is applicable for OCI repos only. */
-  insecureOCIForceHttp?: boolean;
-  name?: string;
-  noProxy?: string;
-  password?: string | Redacted.Redacted<string>;
-  project?: string;
-  proxy?: string;
-  repo?: string;
+  insecureOCIForceHttp?: boolean | undefined;
+  name?: string | undefined;
+  noProxy?: string | undefined;
+  password?: string | Redacted.Redacted<string> | undefined;
+  project?: string | undefined;
+  proxy?: string | undefined;
+  repo?: string | undefined;
   /** SSHPrivateKey contains the PEM data for authenticating at the repo server. Only used with Git repos. */
-  sshPrivateKey?: string;
-  tlsClientCertData?: string;
-  tlsClientCertKey?: string;
+  sshPrivateKey?: string | undefined;
+  tlsClientCertData?: string | undefined;
+  tlsClientCertKey?: string | undefined;
   /** Type specifies the type of the repo. Can be either "git" or "helm. "git" is assumed if empty or absent. */
-  type?: string;
-  useAzureWorkloadIdentity?: boolean;
-  username?: string;
+  type?: string | undefined;
+  useAzureWorkloadIdentity?: boolean | undefined;
+  username?: string | undefined;
   /** WebhookManifestCacheWarmDisabled disables manifest cache warming during webhook processing for this repository. When set, webhook handlers will only trigger reconciliation for affected applications and skip Redis cache operations for unaffected ones. Recommended for large monorepos with plain YAML manifests. */
-  webhookManifestCacheWarmDisabled?: boolean;
+  webhookManifestCacheWarmDisabled?: boolean | undefined;
 }
 export interface V1alpha1Repository {
-  azureActiveDirectoryEndpoint?: string;
-  azureServicePrincipalClientId?: string;
-  azureServicePrincipalClientSecret?: string;
-  azureServicePrincipalTenantId?: string;
-  bearerToken?: string;
-  connectionState?: V1alpha1ConnectionState;
+  azureActiveDirectoryEndpoint?: string | undefined;
+  azureServicePrincipalClientId?: string | undefined;
+  azureServicePrincipalClientSecret?: string | undefined;
+  azureServicePrincipalTenantId?: string | undefined;
+  bearerToken?: string | undefined;
+  connectionState?: V1alpha1ConnectionState | undefined;
   /** Depth specifies the depth for shallow clones. A value of 0 or omitting the field indicates a full clone. */
-  depth?: number;
+  depth?: number | undefined;
   /** EnableLFS specifies whether git-lfs support should be enabled for this repo. Only valid for Git repositories. */
-  enableLfs?: boolean;
-  enableOCI?: boolean;
-  forceHttpBasicAuth?: boolean;
-  gcpServiceAccountKey?: string;
-  githubAppEnterpriseBaseUrl?: string;
-  githubAppID?: number;
-  githubAppInstallationID?: number;
-  githubAppPrivateKey?: string;
-  inheritedCreds?: boolean;
-  insecure?: boolean;
-  insecureIgnoreHostKey?: boolean;
+  enableLfs?: boolean | undefined;
+  enableOCI?: boolean | undefined;
+  forceHttpBasicAuth?: boolean | undefined;
+  gcpServiceAccountKey?: string | undefined;
+  githubAppEnterpriseBaseUrl?: string | undefined;
+  githubAppID?: number | undefined;
+  githubAppInstallationID?: number | undefined;
+  githubAppPrivateKey?: string | undefined;
+  inheritedCreds?: boolean | undefined;
+  insecure?: boolean | undefined;
+  insecureIgnoreHostKey?: boolean | undefined;
   /** InsecureOCIForceHttp specifies whether the connection to the repository uses TLS at _all_. If true, no TLS. This flag is applicable for OCI repos only. */
-  insecureOCIForceHttp?: boolean;
-  name?: string;
-  noProxy?: string;
-  password?: string | Redacted.Redacted<string>;
-  project?: string;
-  proxy?: string;
-  repo?: string;
+  insecureOCIForceHttp?: boolean | undefined;
+  name?: string | undefined;
+  noProxy?: string | undefined;
+  password?: string | Redacted.Redacted<string> | undefined;
+  project?: string | undefined;
+  proxy?: string | undefined;
+  repo?: string | undefined;
   /** SSHPrivateKey contains the PEM data for authenticating at the repo server. Only used with Git repos. */
-  sshPrivateKey?: string;
-  tlsClientCertData?: string;
-  tlsClientCertKey?: string;
+  sshPrivateKey?: string | undefined;
+  tlsClientCertData?: string | undefined;
+  tlsClientCertKey?: string | undefined;
   /** Type specifies the type of the repo. Can be either "git" or "helm. "git" is assumed if empty or absent. */
-  type?: string;
-  useAzureWorkloadIdentity?: boolean;
-  username?: string;
+  type?: string | undefined;
+  useAzureWorkloadIdentity?: boolean | undefined;
+  username?: string | undefined;
   /** WebhookManifestCacheWarmDisabled disables manifest cache warming during webhook processing for this repository. When set, webhook handlers will only trigger reconciliation for affected applications and skip Redis cache operations for unaffected ones. Recommended for large monorepos with plain YAML manifests. */
-  webhookManifestCacheWarmDisabled?: boolean;
+  webhookManifestCacheWarmDisabled?: boolean | undefined;
 }
 export interface CreateRepositoryServiceWriteRepositoryRequest {
   /** Whether to create in upsert mode. */
-  upsert?: boolean;
+  upsert?: boolean | undefined;
   /** Whether to operate on credential set instead of repository. */
-  credsOnly?: boolean;
-  azureActiveDirectoryEndpoint?: string;
-  azureServicePrincipalClientId?: string;
-  azureServicePrincipalClientSecret?: string;
-  azureServicePrincipalTenantId?: string;
-  bearerToken?: string;
-  connectionState?: V1alpha1ConnectionState;
+  credsOnly?: boolean | undefined;
+  azureActiveDirectoryEndpoint?: string | undefined;
+  azureServicePrincipalClientId?: string | undefined;
+  azureServicePrincipalClientSecret?: string | undefined;
+  azureServicePrincipalTenantId?: string | undefined;
+  bearerToken?: string | undefined;
+  connectionState?: V1alpha1ConnectionState | undefined;
   /** Depth specifies the depth for shallow clones. A value of 0 or omitting the field indicates a full clone. */
-  depth?: number;
+  depth?: number | undefined;
   /** EnableLFS specifies whether git-lfs support should be enabled for this repo. Only valid for Git repositories. */
-  enableLfs?: boolean;
-  enableOCI?: boolean;
-  forceHttpBasicAuth?: boolean;
-  gcpServiceAccountKey?: string;
-  githubAppEnterpriseBaseUrl?: string;
-  githubAppID?: number;
-  githubAppInstallationID?: number;
-  githubAppPrivateKey?: string;
-  inheritedCreds?: boolean;
-  insecure?: boolean;
-  insecureIgnoreHostKey?: boolean;
+  enableLfs?: boolean | undefined;
+  enableOCI?: boolean | undefined;
+  forceHttpBasicAuth?: boolean | undefined;
+  gcpServiceAccountKey?: string | undefined;
+  githubAppEnterpriseBaseUrl?: string | undefined;
+  githubAppID?: number | undefined;
+  githubAppInstallationID?: number | undefined;
+  githubAppPrivateKey?: string | undefined;
+  inheritedCreds?: boolean | undefined;
+  insecure?: boolean | undefined;
+  insecureIgnoreHostKey?: boolean | undefined;
   /** InsecureOCIForceHttp specifies whether the connection to the repository uses TLS at _all_. If true, no TLS. This flag is applicable for OCI repos only. */
-  insecureOCIForceHttp?: boolean;
-  name?: string;
-  noProxy?: string;
-  password?: string | Redacted.Redacted<string>;
-  project?: string;
-  proxy?: string;
-  repo?: string;
+  insecureOCIForceHttp?: boolean | undefined;
+  name?: string | undefined;
+  noProxy?: string | undefined;
+  password?: string | Redacted.Redacted<string> | undefined;
+  project?: string | undefined;
+  proxy?: string | undefined;
+  repo?: string | undefined;
   /** SSHPrivateKey contains the PEM data for authenticating at the repo server. Only used with Git repos. */
-  sshPrivateKey?: string;
-  tlsClientCertData?: string;
-  tlsClientCertKey?: string;
+  sshPrivateKey?: string | undefined;
+  tlsClientCertData?: string | undefined;
+  tlsClientCertKey?: string | undefined;
   /** Type specifies the type of the repo. Can be either "git" or "helm. "git" is assumed if empty or absent. */
-  type?: string;
-  useAzureWorkloadIdentity?: boolean;
-  username?: string;
+  type?: string | undefined;
+  useAzureWorkloadIdentity?: boolean | undefined;
+  username?: string | undefined;
   /** WebhookManifestCacheWarmDisabled disables manifest cache warming during webhook processing for this repository. When set, webhook handlers will only trigger reconciliation for affected applications and skip Redis cache operations for unaffected ones. Recommended for large monorepos with plain YAML manifests. */
-  webhookManifestCacheWarmDisabled?: boolean;
+  webhookManifestCacheWarmDisabled?: boolean | undefined;
 }
 export interface CreateSessionServiceRequest {
-  password?: string | Redacted.Redacted<string>;
-  token?: string;
-  username?: string;
+  password?: string | Redacted.Redacted<string> | undefined;
+  token?: string | undefined;
+  username?: string | undefined;
 }
 /** SessionResponse wraps the created token or returns an empty string if deleted. */
 export interface SessionSessionResponse {
-  token?: string;
+  token?: string | undefined;
 }
 export interface DeleteAccountServiceTokenRequest {
   name: string;
@@ -2034,54 +2053,54 @@ export interface DeleteAccountServiceTokenRequest {
 export type DeleteAccountServiceTokenResponse = unknown;
 export interface DeleteApplicationServiceRequest {
   name: string;
-  cascade?: boolean;
-  propagationPolicy?: string;
-  appNamespace?: string;
-  project?: string;
+  cascade?: boolean | undefined;
+  propagationPolicy?: string | undefined;
+  appNamespace?: string | undefined;
+  project?: string | undefined;
 }
 export type DeleteApplicationServiceResponse = unknown;
 export interface DeleteApplicationServiceResourceRequest {
   name: string;
-  namespace?: string;
-  resourceName?: string;
-  version?: string;
-  group?: string;
-  kind?: string;
-  force?: boolean;
-  orphan?: boolean;
-  appNamespace?: string;
-  project?: string;
+  namespace?: string | undefined;
+  resourceName?: string | undefined;
+  version?: string | undefined;
+  group?: string | undefined;
+  kind?: string | undefined;
+  force?: boolean | undefined;
+  orphan?: boolean | undefined;
+  appNamespace?: string | undefined;
+  project?: string | undefined;
 }
 export type DeleteApplicationServiceResourceResponse = unknown;
 export interface DeleteApplicationSetServiceRequest {
   name: string;
   /** The application set namespace. Default empty is argocd control plane namespace. */
-  appsetNamespace?: string;
+  appsetNamespace?: string | undefined;
 }
 export interface ApplicationsetApplicationSetResponse {
-  applicationset?: V1alpha1ApplicationSet;
-  project?: string;
+  applicationset?: V1alpha1ApplicationSet | undefined;
+  project?: string | undefined;
 }
 export interface DeleteCertificateServiceCertificateRequest {
   /** A file-glob pattern (not regular expression) the host name has to match. */
-  hostNamePattern?: string;
+  hostNamePattern?: string | undefined;
   /** The type of the certificate to match (ssh or https). */
-  certType?: string;
+  certType?: string | undefined;
   /** The sub type of the certificate to match (protocol dependent, usually only used for ssh certs). */
-  certSubType?: string;
+  certSubType?: string | undefined;
 }
 export interface DeleteClusterServiceRequest {
   /** value holds the cluster server URL or cluster name */
   id_value: string;
-  server?: string;
-  name?: string;
+  server?: string | undefined;
+  name?: string | undefined;
   /** type is the type of the specified cluster identifier ( "server" - default, "name" ). */
-  id_type?: string;
+  id_type?: string | undefined;
 }
 export type DeleteClusterServiceResponse = unknown;
 export interface DeleteGPGKeyServiceRequest {
   /** The GPG key ID to query for. */
-  keyID?: string;
+  keyID?: string | undefined;
 }
 export type DeleteGPGKeyServiceResponse = unknown;
 export interface DeleteProjectServiceRequest {
@@ -2092,7 +2111,7 @@ export interface DeleteProjectServiceTokenRequest {
   project: string;
   role: string;
   iat: string;
-  id?: string;
+  id?: string | undefined;
 }
 export type DeleteProjectServiceTokenResponse = unknown;
 export interface DeleteRepoCredsServiceRepositoryCredentialsRequest {
@@ -2107,44 +2126,44 @@ export interface DeleteRepositoryServiceRepositoryRequest {
   /** Repo URL for query */
   repo: string;
   /** Whether to force a cache refresh on repo's connection state. */
-  forceRefresh?: boolean;
+  forceRefresh?: boolean | undefined;
   /** App project for query. */
-  appProject?: string;
+  appProject?: string | undefined;
 }
 export type DeleteRepositoryServiceRepositoryResponse = unknown;
 export interface DeleteRepositoryServiceWriteRepositoryRequest {
   /** Repo URL for query */
   repo: string;
   /** Whether to force a cache refresh on repo's connection state. */
-  forceRefresh?: boolean;
+  forceRefresh?: boolean | undefined;
   /** App project for query. */
-  appProject?: string;
+  appProject?: string | undefined;
 }
 export type DeleteRepositoryServiceWriteRepositoryResponse = unknown;
 export interface DeleteSessionServiceRequest {}
 export interface GenerateApplicationSetServiceRequest {
-  applicationSet?: V1alpha1ApplicationSet;
+  applicationSet?: V1alpha1ApplicationSet | undefined;
 }
 export type ApplicationsetApplicationSetGenerateResponseApplicationsList =
   Array<V1alpha1Application>;
 export interface ApplicationsetApplicationSetGenerateResponse {
-  applications?: ApplicationsetApplicationSetGenerateResponseApplicationsList;
+  applications?: ApplicationsetApplicationSetGenerateResponseApplicationsList | undefined;
 }
 export interface GetAccountServiceAccountRequest {
   name: string;
 }
 export type AccountAccountCapabilitiesList = Array<string>;
 export interface AccountToken {
-  expiresAt?: number;
-  id?: string;
-  issuedAt?: number;
+  expiresAt?: number | undefined;
+  id?: string | undefined;
+  issuedAt?: number | undefined;
 }
 export type AccountAccountTokensList = Array<AccountToken>;
 export interface AccountAccount {
-  capabilities?: AccountAccountCapabilitiesList;
-  enabled?: boolean;
-  name?: string;
-  tokens?: AccountAccountTokensList;
+  capabilities?: AccountAccountCapabilitiesList | undefined;
+  enabled?: boolean | undefined;
+  name?: string | undefined;
+  tokens?: AccountAccountTokensList | undefined;
 }
 export type GetApplicationServiceRequestProjectsList = Array<string>;
 export type GetApplicationServiceRequestProjectList = Array<string>;
@@ -2153,78 +2172,78 @@ export interface GetApplicationServiceRequest {
   /** the application's name */
   name: string;
   /** forces application reconciliation if set to 'hard'. */
-  refresh?: string;
+  refresh?: string | undefined;
   /** the project names to restrict returned list applications. */
-  projects?: GetApplicationServiceRequestProjectsList;
+  projects?: GetApplicationServiceRequestProjectsList | undefined;
   /** when specified with a watch call, shows changes that occur after that particular version of a resource. */
-  resourceVersion?: string;
+  resourceVersion?: string | undefined;
   /** the selector to restrict returned list to applications only with matched labels. */
-  selector?: string;
+  selector?: string | undefined;
   /** the repoURL to restrict returned list applications. */
-  repo?: string;
+  repo?: string | undefined;
   /** the application's namespace. */
-  appNamespace?: string;
+  appNamespace?: string | undefined;
   /** the project names to restrict returned list applications (legacy name for backwards-compatibility). */
-  project?: GetApplicationServiceRequestProjectList;
+  project?: GetApplicationServiceRequestProjectList | undefined;
   /** the application names to restrict returned list applications (used by the UI favorites filter). An entry may be qualified as 'namespace/name' to match only the application in that namespace. */
-  names?: GetApplicationServiceRequestNamesList;
+  names?: GetApplicationServiceRequestNamesList | undefined;
 }
 export interface GetApplicationServiceApplicationSyncWindowsRequest {
   name: string;
-  appNamespace?: string;
-  project?: string;
+  appNamespace?: string | undefined;
+  project?: string | undefined;
 }
 export interface ApplicationApplicationSyncWindow {
-  duration?: string;
-  kind?: string;
-  manualSync?: boolean;
-  schedule?: string;
+  duration?: string | undefined;
+  kind?: string | undefined;
+  manualSync?: boolean | undefined;
+  schedule?: string | undefined;
 }
 export type ApplicationApplicationSyncWindowsResponseActiveWindowsList =
   Array<ApplicationApplicationSyncWindow>;
 export type ApplicationApplicationSyncWindowsResponseAssignedWindowsList =
   Array<ApplicationApplicationSyncWindow>;
 export interface ApplicationApplicationSyncWindowsResponse {
-  activeWindows?: ApplicationApplicationSyncWindowsResponseActiveWindowsList;
-  assignedWindows?: ApplicationApplicationSyncWindowsResponseAssignedWindowsList;
-  canSync?: boolean;
+  activeWindows?: ApplicationApplicationSyncWindowsResponseActiveWindowsList | undefined;
+  assignedWindows?: ApplicationApplicationSyncWindowsResponseAssignedWindowsList | undefined;
+  canSync?: boolean | undefined;
 }
 export type GetApplicationServiceManifestsRequestSourcePositionsList = Array<string>;
 export type GetApplicationServiceManifestsRequestRevisionsList = Array<string>;
 export interface GetApplicationServiceManifestsRequest {
   name: string;
-  revision?: string;
-  appNamespace?: string;
-  project?: string;
-  sourcePositions?: GetApplicationServiceManifestsRequestSourcePositionsList;
-  revisions?: GetApplicationServiceManifestsRequestRevisionsList;
-  noCache?: boolean;
+  revision?: string | undefined;
+  appNamespace?: string | undefined;
+  project?: string | undefined;
+  sourcePositions?: GetApplicationServiceManifestsRequestSourcePositionsList | undefined;
+  revisions?: GetApplicationServiceManifestsRequestRevisionsList | undefined;
+  noCache?: boolean | undefined;
 }
 export type RepositoryManifestResponseCommandsList = Array<string>;
 export type RepositoryManifestResponseManifestsList = Array<string>;
 export interface RepositoryManifestResponse {
-  commands?: RepositoryManifestResponseCommandsList;
-  manifests?: RepositoryManifestResponseManifestsList;
-  namespace?: string;
-  revision?: string;
-  server?: string;
-  sourceIntegrityResult?: V1alpha1SourceIntegrityCheckResult;
-  sourceType?: string;
+  commands?: RepositoryManifestResponseCommandsList | undefined;
+  manifests?: RepositoryManifestResponseManifestsList | undefined;
+  namespace?: string | undefined;
+  revision?: string | undefined;
+  server?: string | undefined;
+  sourceIntegrityResult?: V1alpha1SourceIntegrityCheckResult | undefined;
+  sourceType?: string | undefined;
   /** Deprecated: Use sourceIntegrityResult for more detailed information. verifyResult will be removed with the next major version. */
-  verifyResult?: string;
+  verifyResult?: string | undefined;
 }
 export interface ApplicationFileChunk {
-  chunk?: string;
+  chunk?: string | undefined;
 }
 export interface ApplicationApplicationManifestQueryWithFiles {
-  appNamespace?: string;
-  checksum?: string;
-  name?: string;
-  project?: string;
+  appNamespace?: string | undefined;
+  checksum?: string | undefined;
+  name?: string | undefined;
+  project?: string | undefined;
 }
 export interface GetApplicationServiceManifestsWithFilesRequest {
-  chunk?: ApplicationFileChunk;
-  query?: ApplicationApplicationManifestQueryWithFiles;
+  chunk?: ApplicationFileChunk | undefined;
+  query?: ApplicationApplicationManifestQueryWithFiles | undefined;
 }
 export interface GetApplicationServiceOCIMetadataRequest {
   /** the application's name */
@@ -2232,48 +2251,48 @@ export interface GetApplicationServiceOCIMetadataRequest {
   /** the revision of the app */
   revision: string;
   /** the application's namespace. */
-  appNamespace?: string;
-  project?: string;
+  appNamespace?: string | undefined;
+  project?: string | undefined;
   /** source index (for multi source apps). */
-  sourceIndex?: number;
+  sourceIndex?: number | undefined;
   /** versionId from historical data (for multi source apps). */
-  versionId?: number;
+  versionId?: number | undefined;
 }
 export interface V1alpha1OCIMetadata {
-  authors?: string;
-  createdAt?: string;
-  description?: string;
-  docsUrl?: string;
-  imageUrl?: string;
-  sourceUrl?: string;
-  version?: string;
+  authors?: string | undefined;
+  createdAt?: string | undefined;
+  description?: string | undefined;
+  docsUrl?: string | undefined;
+  imageUrl?: string | undefined;
+  sourceUrl?: string | undefined;
+  version?: string | undefined;
 }
 export interface GetApplicationServiceResourceRequest {
   name: string;
-  namespace?: string;
-  resourceName?: string;
-  version?: string;
-  group?: string;
-  kind?: string;
-  appNamespace?: string;
-  project?: string;
+  namespace?: string | undefined;
+  resourceName?: string | undefined;
+  version?: string | undefined;
+  group?: string | undefined;
+  kind?: string | undefined;
+  appNamespace?: string | undefined;
+  project?: string | undefined;
 }
 export interface ApplicationApplicationResourceResponse {
-  manifest?: string;
+  manifest?: string | undefined;
 }
 export interface GetApplicationSetServiceRequest {
   /** the applicationsets's name */
   name: string;
   /** The application set namespace. Default empty is argocd control plane namespace. */
-  appsetNamespace?: string;
+  appsetNamespace?: string | undefined;
 }
 export interface GetClusterServiceRequest {
   /** value holds the cluster server URL or cluster name */
   id_value: string;
-  server?: string;
-  name?: string;
+  server?: string | undefined;
+  name?: string | undefined;
   /** type is the type of the specified cluster identifier ( "server" - default, "name" ). */
-  id_type?: string;
+  id_type?: string | undefined;
 }
 export interface GetGPGKeyServiceRequest {
   /** The GPG key ID to query for */
@@ -2289,57 +2308,57 @@ export type ProjectDetailedProjectsResponseClustersList = Array<V1alpha1Cluster>
 export type ProjectDetailedProjectsResponseGlobalProjectsList = Array<V1alpha1AppProject>;
 export type ProjectDetailedProjectsResponseRepositoriesList = Array<V1alpha1Repository>;
 export interface ProjectDetailedProjectsResponse {
-  clusters?: ProjectDetailedProjectsResponseClustersList;
-  globalProjects?: ProjectDetailedProjectsResponseGlobalProjectsList;
-  project?: V1alpha1AppProject;
-  repositories?: ProjectDetailedProjectsResponseRepositoriesList;
+  clusters?: ProjectDetailedProjectsResponseClustersList | undefined;
+  globalProjects?: ProjectDetailedProjectsResponseGlobalProjectsList | undefined;
+  project?: V1alpha1AppProject | undefined;
+  repositories?: ProjectDetailedProjectsResponseRepositoriesList | undefined;
 }
 export interface GetProjectServiceGlobalProjectsRequest {
   name: string;
 }
 export type ProjectGlobalProjectsResponseItemsList = Array<V1alpha1AppProject>;
 export interface ProjectGlobalProjectsResponse {
-  items?: ProjectGlobalProjectsResponseItemsList;
+  items?: ProjectGlobalProjectsResponseItemsList | undefined;
 }
 export interface GetProjectServiceSyncWindowsStateRequest {
   name: string;
 }
 export type ProjectSyncWindowsResponseWindowsList = Array<V1alpha1InlineSyncWindow>;
 export interface ProjectSyncWindowsResponse {
-  windows?: ProjectSyncWindowsResponseWindowsList;
+  windows?: ProjectSyncWindowsResponseWindowsList | undefined;
 }
 export interface GetRepositoryServiceRequest {
   /** Repo URL for query */
   repo: string;
   /** Whether to force a cache refresh on repo's connection state. */
-  forceRefresh?: boolean;
+  forceRefresh?: boolean | undefined;
   /** App project for query. */
-  appProject?: string;
+  appProject?: string | undefined;
 }
 export interface GetRepositoryServiceAppDetailsRequest {
   /** RepoURL is the URL to the repository (Git or Helm) that contains the application manifests */
   source_repoURL: string;
-  appName?: string;
-  appProject?: string;
-  source?: V1alpha1ApplicationSource;
-  sourceIndex?: number;
-  versionId?: number;
+  appName?: string | undefined;
+  appProject?: string | undefined;
+  source?: V1alpha1ApplicationSource | undefined;
+  sourceIndex?: number | undefined;
+  versionId?: number | undefined;
 }
 export type RepositoryHelmAppSpecFileParametersList = Array<V1alpha1HelmFileParameter>;
 export type RepositoryHelmAppSpecParametersList = Array<V1alpha1HelmParameter>;
 export type RepositoryHelmAppSpecValueFilesList = Array<string>;
 export interface RepositoryHelmAppSpec {
-  fileParameters?: RepositoryHelmAppSpecFileParametersList;
-  name?: string;
-  parameters?: RepositoryHelmAppSpecParametersList;
-  valueFiles?: RepositoryHelmAppSpecValueFilesList;
-  values?: string;
+  fileParameters?: RepositoryHelmAppSpecFileParametersList | undefined;
+  name?: string | undefined;
+  parameters?: RepositoryHelmAppSpecParametersList | undefined;
+  valueFiles?: RepositoryHelmAppSpecValueFilesList | undefined;
+  values?: string | undefined;
 }
 /** images is a list of available images. */
 export type RepositoryKustomizeAppSpecImagesList = Array<string>;
 export interface RepositoryKustomizeAppSpec {
   /** images is a list of available images. */
-  images?: RepositoryKustomizeAppSpecImagesList;
+  images?: RepositoryKustomizeAppSpecImagesList | undefined;
 }
 /** array is the default value of the parameter if the parameter is an array. */
 export type RepositoryParameterAnnouncementArrayList = Array<string>;
@@ -2347,136 +2366,138 @@ export type RepositoryParameterAnnouncementArrayList = Array<string>;
 export type RepositoryParameterAnnouncementMapMap = { [key: string]: string | undefined };
 export interface RepositoryParameterAnnouncement {
   /** array is the default value of the parameter if the parameter is an array. */
-  array?: RepositoryParameterAnnouncementArrayList;
+  array?: RepositoryParameterAnnouncementArrayList | undefined;
   /** collectionType is the type of value this parameter holds - either a single value (a string) or a collection (array or map). If collectionType is set, only the field with that type will be used. If collectionType is not set, `string` is the default. If collectionType is set to an invalid value, a validation error is thrown. */
-  collectionType?: string;
+  collectionType?: string | undefined;
   /** itemType determines the primitive data type represented by the parameter. Parameters are always encoded as strings, but this field lets them be interpreted as other primitive types. */
-  itemType?: string;
+  itemType?: string | undefined;
   /** map is the default value of the parameter if the parameter is a map. */
-  map?: RepositoryParameterAnnouncementMapMap;
+  map?: RepositoryParameterAnnouncementMapMap | undefined;
   /** name is the name identifying a parameter. */
-  name?: string;
+  name?: string | undefined;
   /** required defines if this given parameter is mandatory. */
-  required?: boolean;
+  required?: boolean | undefined;
   /** string is the default value of the parameter if the parameter is a string. */
-  string?: string;
+  string?: string | undefined;
   /** title is a human-readable text of the parameter name. */
-  title?: string;
+  title?: string | undefined;
   /** tooltip is a human-readable description of the parameter. */
-  tooltip?: string;
+  tooltip?: string | undefined;
 }
 export type RepositoryPluginAppSpecParametersAnnouncementList =
   Array<RepositoryParameterAnnouncement>;
 export interface RepositoryPluginAppSpec {
-  parametersAnnouncement?: RepositoryPluginAppSpecParametersAnnouncementList;
+  parametersAnnouncement?: RepositoryPluginAppSpecParametersAnnouncementList | undefined;
 }
 export interface RepositoryRepoAppDetailsResponse {
-  directory?: unknown;
-  helm?: RepositoryHelmAppSpec;
-  kustomize?: RepositoryKustomizeAppSpec;
-  plugin?: RepositoryPluginAppSpec;
-  type?: string;
+  directory?: unknown | undefined;
+  helm?: RepositoryHelmAppSpec | undefined;
+  kustomize?: RepositoryKustomizeAppSpec | undefined;
+  plugin?: RepositoryPluginAppSpec | undefined;
+  type?: string | undefined;
 }
 export interface GetRepositoryServiceHelmChartsRequest {
   /** Repo URL for query */
   repo: string;
   /** Whether to force a cache refresh on repo's connection state. */
-  forceRefresh?: boolean;
+  forceRefresh?: boolean | undefined;
   /** App project for query. */
-  appProject?: string;
+  appProject?: string | undefined;
 }
 export type RepositoryHelmChartVersionsList = Array<string>;
 export interface RepositoryHelmChart {
-  name?: string;
-  versions?: RepositoryHelmChartVersionsList;
+  name?: string | undefined;
+  versions?: RepositoryHelmChartVersionsList | undefined;
 }
 export type RepositoryHelmChartsResponseItemsList = Array<RepositoryHelmChart>;
 export interface RepositoryHelmChartsResponse {
-  items?: RepositoryHelmChartsResponseItemsList;
+  items?: RepositoryHelmChartsResponseItemsList | undefined;
 }
 export interface GetRepositoryServiceWriteRequest {
   /** Repo URL for query */
   repo: string;
   /** Whether to force a cache refresh on repo's connection state. */
-  forceRefresh?: boolean;
+  forceRefresh?: boolean | undefined;
   /** App project for query. */
-  appProject?: string;
+  appProject?: string | undefined;
 }
 export interface GetSessionServiceUserInfoRequest {}
 export type SessionGetUserInfoResponseGroupsList = Array<string>;
 export interface SessionGetUserInfoResponse {
-  groups?: SessionGetUserInfoResponseGroupsList;
-  iss?: string;
-  loggedIn?: boolean;
-  username?: string;
+  groups?: SessionGetUserInfoResponseGroupsList | undefined;
+  iss?: string | undefined;
+  loggedIn?: boolean | undefined;
+  username?: string | undefined;
 }
 export interface GetSettingsServiceRequest {}
 export type ClusterSettingsAdditionalUrlsList = Array<string>;
 export type V1alpha1CommandArgsList = Array<string>;
 export type V1alpha1CommandCommandList = Array<string>;
 export interface V1alpha1Command {
-  args?: V1alpha1CommandArgsList;
-  command?: V1alpha1CommandCommandList;
+  args?: V1alpha1CommandArgsList | undefined;
+  command?: V1alpha1CommandCommandList | undefined;
 }
 export interface V1alpha1ConfigManagementPlugin {
-  generate?: V1alpha1Command;
-  init?: V1alpha1Command;
-  lockRepo?: boolean;
-  name?: string;
+  generate?: V1alpha1Command | undefined;
+  init?: V1alpha1Command | undefined;
+  lockRepo?: boolean | undefined;
+  name?: string | undefined;
 }
 /** Deprecated: use sidecar plugins instead. */
 export type ClusterSettingsConfigManagementPluginsList = Array<V1alpha1ConfigManagementPlugin>;
 export interface ClusterConnector {
-  id?: string;
-  name?: string;
-  type?: string;
+  id?: string | undefined;
+  name?: string | undefined;
+  type?: string | undefined;
 }
 export type ClusterDexConfigConnectorsList = Array<ClusterConnector>;
 export interface ClusterDexConfig {
-  connectors?: ClusterDexConfigConnectorsList;
-  dexAuthConnectorID?: string;
+  connectors?: ClusterDexConfigConnectorsList | undefined;
+  dexAuthConnectorID?: string | undefined;
 }
 export interface ClusterGoogleAnalyticsConfig {
-  anonymizeUsers?: boolean;
-  trackingID?: string;
+  anonymizeUsers?: boolean | undefined;
+  trackingID?: string | undefined;
 }
 export type ClusterHelpBinaryUrlsMap = { [key: string]: string | undefined };
 export interface ClusterHelp {
-  binaryUrls?: ClusterHelpBinaryUrlsMap;
-  chatText?: string;
-  chatUrl?: string;
+  binaryUrls?: ClusterHelpBinaryUrlsMap | undefined;
+  chatText?: string | undefined;
+  chatUrl?: string | undefined;
 }
 export interface V1alpha1KustomizeVersion {
-  buildOptions?: string;
-  name?: string;
-  path?: string;
+  buildOptions?: string | undefined;
+  name?: string | undefined;
+  path?: string | undefined;
 }
 /** Versions is a list of Kustomize versions and their corresponding binary paths and build options. */
 export type V1alpha1KustomizeOptionsVersionsList = Array<V1alpha1KustomizeVersion>;
 export interface V1alpha1KustomizeOptions {
   /** Deprecated: Use settings.Settings instead. See: settings.Settings.KustomizeVersions. If this field is set, it will be used as the Kustomize binary path. Otherwise, Versions is used. */
-  binaryPath?: string;
-  buildOptions?: string;
+  binaryPath?: string | undefined;
+  buildOptions?: string | undefined;
   /** Versions is a list of Kustomize versions and their corresponding binary paths and build options. */
-  versions?: V1alpha1KustomizeOptionsVersionsList;
+  versions?: V1alpha1KustomizeOptionsVersionsList | undefined;
 }
 export type ClusterSettingsKustomizeVersionsList = Array<string>;
 export type OidcClaimValuesList = Array<string>;
 export interface OidcClaim {
-  essential?: boolean;
-  value?: string;
-  values?: OidcClaimValuesList;
+  essential?: boolean | undefined;
+  value?: string | undefined;
+  values?: OidcClaimValuesList | undefined;
 }
 export type ClusterOIDCConfigIdTokenClaimsMap = { [key: string]: OidcClaim | undefined };
 export type ClusterOIDCConfigScopesList = Array<string>;
 export interface ClusterOIDCConfig {
-  cliClientID?: string;
-  clientID?: string;
-  enablePKCEAuthentication?: boolean;
-  idTokenClaims?: ClusterOIDCConfigIdTokenClaimsMap;
-  issuer?: string;
-  name?: string;
-  scopes?: ClusterOIDCConfigScopesList;
+  cliClientID?: string | undefined;
+  clientID?: string | undefined;
+  deviceURL?: string | undefined;
+  enablePKCEAuthentication?: boolean | undefined;
+  idTokenClaims?: ClusterOIDCConfigIdTokenClaimsMap | undefined;
+  issuer?: string | undefined;
+  name?: string | undefined;
+  scopes?: ClusterOIDCConfigScopesList | undefined;
+  tokenURL?: string | undefined;
 }
 export type ClusterPlugin = V1alpha1PluginConfigMapRef;
 export type ClusterSettingsPluginsList = Array<V1alpha1PluginConfigMapRef>;
@@ -2484,71 +2505,71 @@ export type V1alpha1OverrideIgnoreDiffJSONPointersList = Array<string>;
 export type V1alpha1OverrideIgnoreDiffJqPathExpressionsList = Array<string>;
 export type V1alpha1OverrideIgnoreDiffManagedFieldsManagersList = Array<string>;
 export interface V1alpha1OverrideIgnoreDiff {
-  jSONPointers?: V1alpha1OverrideIgnoreDiffJSONPointersList;
-  jqPathExpressions?: V1alpha1OverrideIgnoreDiffJqPathExpressionsList;
-  managedFieldsManagers?: V1alpha1OverrideIgnoreDiffManagedFieldsManagersList;
+  jSONPointers?: V1alpha1OverrideIgnoreDiffJSONPointersList | undefined;
+  jqPathExpressions?: V1alpha1OverrideIgnoreDiffJqPathExpressionsList | undefined;
+  managedFieldsManagers?: V1alpha1OverrideIgnoreDiffManagedFieldsManagersList | undefined;
 }
 /** KnownTypeField contains a mapping between a Custom Resource Definition (CRD) field and a well-known Kubernetes type. This mapping is primarily used for unit conversions in resources where the type is not explicitly defined (e.g., converting "0.1" to "100m" for CPU requests). */
 export interface V1alpha1KnownTypeField {
-  field?: string;
+  field?: string | undefined;
   /** Type specifies the expected Kubernetes type for the field, such as "cpu" or "memory". This helps in converting values between different formats (e.g., "0.1" to "100m" for CPU). */
-  type?: string;
+  type?: string | undefined;
 }
 /** KnownTypeFields lists fields for which unit conversions should be applied. */
 export type V1alpha1ResourceOverrideKnownTypeFieldsList = Array<V1alpha1KnownTypeField>;
 export interface V1alpha1ResourceOverride {
   /** Actions defines the set of actions that can be performed on the resource, as a Lua script. */
-  actions?: string;
+  actions?: string | undefined;
   /** HealthLua contains a Lua script that defines custom health checks for the resource. */
-  healthLua?: string;
-  ignoreDifferences?: V1alpha1OverrideIgnoreDiff;
-  ignoreResourceUpdates?: V1alpha1OverrideIgnoreDiff;
+  healthLua?: string | undefined;
+  ignoreDifferences?: V1alpha1OverrideIgnoreDiff | undefined;
+  ignoreResourceUpdates?: V1alpha1OverrideIgnoreDiff | undefined;
   /** KnownTypeFields lists fields for which unit conversions should be applied. */
-  knownTypeFields?: V1alpha1ResourceOverrideKnownTypeFieldsList;
+  knownTypeFields?: V1alpha1ResourceOverrideKnownTypeFieldsList | undefined;
   /** UseOpenLibs indicates whether to use open-source libraries for the resource. */
-  useOpenLibs?: boolean;
+  useOpenLibs?: boolean | undefined;
 }
 export type ClusterSettingsResourceOverridesMap = {
   [key: string]: V1alpha1ResourceOverride | undefined;
 };
 export interface ClusterSettings {
-  additionalUrls?: ClusterSettingsAdditionalUrlsList;
-  appLabelKey?: string;
-  appsInAnyNamespaceEnabled?: boolean;
+  additionalUrls?: ClusterSettingsAdditionalUrlsList | undefined;
+  appLabelKey?: string | undefined;
+  appsInAnyNamespaceEnabled?: boolean | undefined;
   /** Deprecated: use sidecar plugins instead. */
-  configManagementPlugins?: ClusterSettingsConfigManagementPluginsList;
-  controllerNamespace?: string;
-  dexConfig?: ClusterDexConfig;
-  execEnabled?: boolean;
-  googleAnalytics?: ClusterGoogleAnalyticsConfig;
-  help?: ClusterHelp;
-  hydratorEnabled?: boolean;
-  impersonationEnabled?: boolean;
-  installationID?: string;
-  kustomizeOptions?: V1alpha1KustomizeOptions;
-  kustomizeVersions?: ClusterSettingsKustomizeVersionsList;
-  oidcConfig?: ClusterOIDCConfig;
-  passwordPattern?: string | Redacted.Redacted<string>;
-  plugins?: ClusterSettingsPluginsList;
-  resourceOverrides?: ClusterSettingsResourceOverridesMap;
-  resourceViewEnabled?: boolean;
-  statusBadgeEnabled?: boolean;
-  statusBadgeRootUrl?: string;
-  syncWithReplaceAllowed?: boolean;
-  trackingMethod?: string;
-  uiBannerContent?: string;
-  uiBannerPermanent?: boolean;
-  uiBannerPosition?: string;
-  uiBannerURL?: string;
-  uiCssURL?: string;
-  uiLoginButtonText?: string;
-  url?: string;
-  userLoginsDisabled?: boolean;
+  configManagementPlugins?: ClusterSettingsConfigManagementPluginsList | undefined;
+  controllerNamespace?: string | undefined;
+  dexConfig?: ClusterDexConfig | undefined;
+  execEnabled?: boolean | undefined;
+  googleAnalytics?: ClusterGoogleAnalyticsConfig | undefined;
+  help?: ClusterHelp | undefined;
+  hydratorEnabled?: boolean | undefined;
+  impersonationEnabled?: boolean | undefined;
+  installationID?: string | undefined;
+  kustomizeOptions?: V1alpha1KustomizeOptions | undefined;
+  kustomizeVersions?: ClusterSettingsKustomizeVersionsList | undefined;
+  oidcConfig?: ClusterOIDCConfig | undefined;
+  passwordPattern?: string | Redacted.Redacted<string> | undefined;
+  plugins?: ClusterSettingsPluginsList | undefined;
+  resourceOverrides?: ClusterSettingsResourceOverridesMap | undefined;
+  resourceViewEnabled?: boolean | undefined;
+  statusBadgeEnabled?: boolean | undefined;
+  statusBadgeRootUrl?: string | undefined;
+  syncWithReplaceAllowed?: boolean | undefined;
+  trackingMethod?: string | undefined;
+  uiBannerContent?: string | undefined;
+  uiBannerPermanent?: boolean | undefined;
+  uiBannerPosition?: string | undefined;
+  uiBannerURL?: string | undefined;
+  uiCssURL?: string | undefined;
+  uiLoginButtonText?: string | undefined;
+  url?: string | undefined;
+  userLoginsDisabled?: boolean | undefined;
 }
 export interface GetSettingsServicePluginsRequest {}
 export type ClusterSettingsPluginsResponsePluginsList = Array<V1alpha1PluginConfigMapRef>;
 export interface ClusterSettingsPluginsResponse {
-  plugins?: ClusterSettingsPluginsResponsePluginsList;
+  plugins?: ClusterSettingsPluginsResponsePluginsList | undefined;
 }
 export interface InvalidateClusterServiceCacheRequest {
   /** value holds the cluster server URL or cluster name */
@@ -2557,244 +2578,244 @@ export interface InvalidateClusterServiceCacheRequest {
 export interface ListAccountServiceAccountsRequest {}
 export type AccountAccountsListItemsList = Array<AccountAccount>;
 export interface AccountAccountsList {
-  items?: AccountAccountsListItemsList;
+  items?: AccountAccountsListItemsList | undefined;
 }
 export type ListApplicationServiceRequestProjectsList = Array<string>;
 export type ListApplicationServiceRequestProjectList = Array<string>;
 export type ListApplicationServiceRequestNamesList = Array<string>;
 export interface ListApplicationServiceRequest {
   /** the application's name. */
-  name?: string;
+  name?: string | undefined;
   /** forces application reconciliation if set to 'hard'. */
-  refresh?: string;
+  refresh?: string | undefined;
   /** the project names to restrict returned list applications. */
-  projects?: ListApplicationServiceRequestProjectsList;
+  projects?: ListApplicationServiceRequestProjectsList | undefined;
   /** when specified with a watch call, shows changes that occur after that particular version of a resource. */
-  resourceVersion?: string;
+  resourceVersion?: string | undefined;
   /** the selector to restrict returned list to applications only with matched labels. */
-  selector?: string;
+  selector?: string | undefined;
   /** the repoURL to restrict returned list applications. */
-  repo?: string;
+  repo?: string | undefined;
   /** the application's namespace. */
-  appNamespace?: string;
+  appNamespace?: string | undefined;
   /** the project names to restrict returned list applications (legacy name for backwards-compatibility). */
-  project?: ListApplicationServiceRequestProjectList;
+  project?: ListApplicationServiceRequestProjectList | undefined;
   /** the application names to restrict returned list applications (used by the UI favorites filter). An entry may be qualified as 'namespace/name' to match only the application in that namespace. */
-  names?: ListApplicationServiceRequestNamesList;
+  names?: ListApplicationServiceRequestNamesList | undefined;
 }
 export type V1alpha1ApplicationListItemsList = Array<V1alpha1Application>;
 export interface V1alpha1ApplicationList {
-  items?: V1alpha1ApplicationListItemsList;
-  metadata?: V1ListMeta;
+  items?: V1alpha1ApplicationListItemsList | undefined;
+  metadata?: V1ListMeta | undefined;
 }
 export interface ListApplicationServiceLinksRequest {
   name: string;
-  namespace?: string;
-  project?: string;
+  namespace?: string | undefined;
+  project?: string | undefined;
 }
 export interface ApplicationLinkInfo {
-  description?: string;
-  iconClass?: string;
-  title?: string;
-  url?: string;
+  description?: string | undefined;
+  iconClass?: string | undefined;
+  title?: string | undefined;
+  url?: string | undefined;
 }
 export type ApplicationLinksResponseItemsList = Array<ApplicationLinkInfo>;
 export interface ApplicationLinksResponse {
-  items?: ApplicationLinksResponseItemsList;
+  items?: ApplicationLinksResponseItemsList | undefined;
 }
 export interface ListApplicationServiceResourceActionsRequest {
   name: string;
-  namespace?: string;
-  resourceName?: string;
-  version?: string;
-  group?: string;
-  kind?: string;
-  appNamespace?: string;
-  project?: string;
+  namespace?: string | undefined;
+  resourceName?: string | undefined;
+  version?: string | undefined;
+  group?: string | undefined;
+  kind?: string | undefined;
+  appNamespace?: string | undefined;
+  project?: string | undefined;
 }
 /** ResourceActionParam represents a parameter for a resource action. It includes a name, value, type, and an optional default value for the parameter. */
 export interface V1alpha1ResourceActionParam {
   /** Name is the name of the parameter. */
-  name?: string;
+  name?: string | undefined;
 }
 /** Params contains the parameters required to execute the action. */
 export type V1alpha1ResourceActionParamsList = Array<V1alpha1ResourceActionParam>;
 /** ResourceAction represents an individual action that can be performed on a resource. It includes parameters, an optional disabled flag, an icon for display, and a name for the action. */
 export interface V1alpha1ResourceAction {
   /** Disabled indicates whether the action is disabled. */
-  disabled?: boolean;
+  disabled?: boolean | undefined;
   /** DisplayName provides a user-friendly name for the action. */
-  displayName?: string;
+  displayName?: string | undefined;
   /** IconClass specifies the CSS class for the action's icon. */
-  iconClass?: string;
+  iconClass?: string | undefined;
   /** Name is the name or identifier for the action. */
-  name?: string;
+  name?: string | undefined;
   /** Params contains the parameters required to execute the action. */
-  params?: V1alpha1ResourceActionParamsList;
+  params?: V1alpha1ResourceActionParamsList | undefined;
 }
 export type ApplicationResourceActionsListResponseActionsList = Array<V1alpha1ResourceAction>;
 export interface ApplicationResourceActionsListResponse {
-  actions?: ApplicationResourceActionsListResponseActionsList;
+  actions?: ApplicationResourceActionsListResponseActionsList | undefined;
 }
 export interface ListApplicationServiceResourceEventsRequest {
   name: string;
-  resourceNamespace?: string;
-  resourceName?: string;
-  resourceUID?: string;
-  appNamespace?: string;
-  project?: string;
+  resourceNamespace?: string | undefined;
+  resourceName?: string | undefined;
+  resourceUID?: string | undefined;
+  appNamespace?: string | undefined;
+  project?: string | undefined;
 }
 /** MicroTime is version of Time with microsecond level precision. +protobuf.options.marshal=false +protobuf.as=Timestamp +protobuf.options.(gogoproto.goproto_stringer)=false */
 export interface V1MicroTime {
   /** Non-negative fractions of a second at nanosecond resolution. Negative second values with fractions must still have non-negative nanos values that count forward in time. Must be from 0 to 999,999,999 inclusive. This field may be limited in precision depending on context. */
-  nanos?: number;
+  nanos?: number | undefined;
   /** Represents seconds of UTC time since Unix epoch 1970-01-01T00:00:00Z. Must be from 0001-01-01T00:00:00Z to 9999-12-31T23:59:59Z inclusive. */
-  seconds?: number;
+  seconds?: number | undefined;
 }
 /** ObjectReference contains enough information to let you inspect or modify the referred object. */
 export interface EventsObjectReference {
   /** API version of the referent. */
-  apiVersion?: string;
+  apiVersion?: string | undefined;
   /** If referring to a piece of an object instead of an entire object, this string should contain a valid JSON/Go field access statement, such as desiredState.manifest.containers[2]. For example, if the object reference is to a container within a pod, this would take on a value like: "spec.containers{name}" (where "name" refers to the name of the container that triggered the event) or if no container name is specified "spec.containers[2]" (container with index 2 in this pod). */
-  fieldPath?: string;
+  fieldPath?: string | undefined;
   /** Kind of the referent. */
-  kind?: string;
+  kind?: string | undefined;
   /** Name of the referent. */
-  name?: string;
+  name?: string | undefined;
   /** Namespace of the referent. */
-  namespace?: string;
+  namespace?: string | undefined;
   /** Specific resourceVersion to which this reference is made, if any. */
-  resourceVersion?: string;
+  resourceVersion?: string | undefined;
   /** UID of the referent. */
-  uid?: string;
+  uid?: string | undefined;
 }
 /** EventSeries contain information on series of events, i.e. thing that was/is happening continuously for some time. */
 export interface EventsEventSeries {
   /** Number of occurrences in this series up to the last heartbeat time. */
-  count?: number;
-  lastObservedTime?: V1MicroTime;
+  count?: number | undefined;
+  lastObservedTime?: V1MicroTime | undefined;
 }
 /** EventSource contains information for an event. */
 export interface EventsEventSource {
   /** Component from which the event is generated. */
-  component?: string;
+  component?: string | undefined;
   /** Node name on which the event is generated. */
-  host?: string;
+  host?: string | undefined;
 }
 /** Event mirrors corev1.Event and exposes the fields consumed by the Argo CD API and UI. Event is a report of an event somewhere in the cluster. Events have a limited retention time and triggers and messages may evolve with time. Event consumers should not rely on the timing of an event with a given Reason reflecting a consistent underlying trigger, or the continued existence of events with that Reason. Events should be treated as informative, best-effort, supplemental data. */
 export interface EventsEvent {
   /** What action was taken/failed regarding to the Regarding object. */
-  action?: string;
+  action?: string | undefined;
   /** The number of times this event has occurred. */
-  count?: number;
-  eventTime?: V1MicroTime;
-  firstTimestamp?: string;
-  involvedObject?: EventsObjectReference;
-  lastTimestamp?: string;
+  count?: number | undefined;
+  eventTime?: V1MicroTime | undefined;
+  firstTimestamp?: string | undefined;
+  involvedObject?: EventsObjectReference | undefined;
+  lastTimestamp?: string | undefined;
   /** A human-readable description of the status of this operation. */
-  message?: string;
-  metadata?: V1ObjectMeta;
+  message?: string | undefined;
+  metadata?: V1ObjectMeta | undefined;
   /** This should be a short, machine understandable string that gives the reason for the transition into the object's current status. */
-  reason?: string;
-  related?: EventsObjectReference;
+  reason?: string | undefined;
+  related?: EventsObjectReference | undefined;
   /** Name of the controller that emitted this Event, e.g. `kubernetes.io/kubelet`. */
-  reportingComponent?: string;
+  reportingComponent?: string | undefined;
   /** ID of the controller instance, e.g. `kubelet-xyzf`. */
-  reportingInstance?: string;
-  series?: EventsEventSeries;
-  source?: EventsEventSource;
+  reportingInstance?: string | undefined;
+  series?: EventsEventSeries | undefined;
+  source?: EventsEventSource | undefined;
   /** Type of this event (Normal, Warning), new types could be added in the future. */
-  type?: string;
+  type?: string | undefined;
 }
 /** List of events. */
 export type EventsEventListItemsList = Array<EventsEvent>;
 /** EventList is a list of Argo CD Event messages. It mirrors corev1.EventList field-for-field but is defined in Argo CD's apiclient package to avoid pulling Kubernetes protobuf types into the public gRPC surface. */
 export interface EventsEventList {
   /** List of events. */
-  items?: EventsEventListItemsList;
-  metadata?: V1ListMeta;
+  items?: EventsEventListItemsList | undefined;
+  metadata?: V1ListMeta | undefined;
 }
 export interface ListApplicationServiceResourceLinksRequest {
   name: string;
-  namespace?: string;
-  resourceName?: string;
-  version?: string;
-  group?: string;
-  kind?: string;
-  appNamespace?: string;
-  project?: string;
+  namespace?: string | undefined;
+  resourceName?: string | undefined;
+  version?: string | undefined;
+  group?: string | undefined;
+  kind?: string | undefined;
+  appNamespace?: string | undefined;
+  project?: string | undefined;
 }
 export type ListApplicationSetServiceRequestProjectsList = Array<string>;
 export interface ListApplicationSetServiceRequest {
   /** the project names to restrict returned list applicationsets. */
-  projects?: ListApplicationSetServiceRequestProjectsList;
+  projects?: ListApplicationSetServiceRequestProjectsList | undefined;
   /** the selector to restrict returned list to applications only with matched labels. */
-  selector?: string;
+  selector?: string | undefined;
   /** The application set namespace. Default empty is argocd control plane namespace. */
-  appsetNamespace?: string;
+  appsetNamespace?: string | undefined;
 }
 export type V1alpha1ApplicationSetListItemsList = Array<V1alpha1ApplicationSet>;
 export interface V1alpha1ApplicationSetList {
-  items?: V1alpha1ApplicationSetListItemsList;
-  metadata?: V1ListMeta;
+  items?: V1alpha1ApplicationSetListItemsList | undefined;
+  metadata?: V1ListMeta | undefined;
 }
 export interface ListApplicationSetServiceResourceEventsRequest {
   /** the applicationsets's name */
   name: string;
   /** The application set namespace. Default empty is argocd control plane namespace. */
-  appsetNamespace?: string;
+  appsetNamespace?: string | undefined;
 }
 export interface ListCertificateServiceCertificatesRequest {
   /** A file-glob pattern (not regular expression) the host name has to match. */
-  hostNamePattern?: string;
+  hostNamePattern?: string | undefined;
   /** The type of the certificate to match (ssh or https). */
-  certType?: string;
+  certType?: string | undefined;
   /** The sub type of the certificate to match (protocol dependent, usually only used for ssh certs). */
-  certSubType?: string;
+  certSubType?: string | undefined;
 }
 export interface ListClusterServiceRequest {
-  server?: string;
-  name?: string;
+  server?: string | undefined;
+  name?: string | undefined;
   /** type is the type of the specified cluster identifier ( "server" - default, "name" ). */
-  id_type?: string;
+  id_type?: string | undefined;
   /** value holds the cluster server URL or cluster name. */
-  id_value?: string;
+  id_value?: string | undefined;
 }
 export type V1alpha1ClusterListItemsList = Array<V1alpha1Cluster>;
 /** ClusterList is a collection of Clusters. */
 export interface V1alpha1ClusterList {
-  items?: V1alpha1ClusterListItemsList;
-  metadata?: V1ListMeta;
+  items?: V1alpha1ClusterListItemsList | undefined;
+  metadata?: V1ListMeta | undefined;
 }
 export interface ListGPGKeyServiceRequest {
   /** The GPG key ID to query for. */
-  keyID?: string;
+  keyID?: string | undefined;
 }
 export interface ListNotificationServiceServicesRequest {}
 export type NotificationService = V1alpha1PluginConfigMapRef;
 export type NotificationServiceListItemsList = Array<V1alpha1PluginConfigMapRef>;
 export interface NotificationServiceList {
-  items?: NotificationServiceListItemsList;
+  items?: NotificationServiceListItemsList | undefined;
 }
 export interface ListNotificationServiceTemplatesRequest {}
 export type NotificationTemplate = V1alpha1PluginConfigMapRef;
 export type NotificationTemplateListItemsList = Array<V1alpha1PluginConfigMapRef>;
 export interface NotificationTemplateList {
-  items?: NotificationTemplateListItemsList;
+  items?: NotificationTemplateListItemsList | undefined;
 }
 export interface ListNotificationServiceTriggersRequest {}
 export type NotificationTrigger = V1alpha1PluginConfigMapRef;
 export type NotificationTriggerListItemsList = Array<V1alpha1PluginConfigMapRef>;
 export interface NotificationTriggerList {
-  items?: NotificationTriggerListItemsList;
+  items?: NotificationTriggerListItemsList | undefined;
 }
 export interface ListProjectServiceRequest {
-  name?: string;
+  name?: string | undefined;
 }
 export type V1alpha1AppProjectListItemsList = Array<V1alpha1AppProject>;
 export interface V1alpha1AppProjectList {
-  items?: V1alpha1AppProjectListItemsList;
-  metadata?: V1ListMeta;
+  items?: V1alpha1AppProjectListItemsList | undefined;
+  metadata?: V1ListMeta | undefined;
 }
 export interface ListProjectServiceEventsRequest {
   name: string;
@@ -2804,93 +2825,93 @@ export interface ListProjectServiceLinksRequest {
 }
 export interface ListRepoCredsServiceRepositoryCredentialsRequest {
   /** Repo URL for query. */
-  url?: string;
+  url?: string | undefined;
 }
 export type V1alpha1RepoCredsListItemsList = Array<V1alpha1RepoCreds>;
 /** RepositoryList is a collection of Repositories. */
 export interface V1alpha1RepoCredsList {
-  items?: V1alpha1RepoCredsListItemsList;
-  metadata?: V1ListMeta;
+  items?: V1alpha1RepoCredsListItemsList | undefined;
+  metadata?: V1ListMeta | undefined;
 }
 export interface ListRepoCredsServiceWriteRepositoryCredentialsRequest {
   /** Repo URL for query. */
-  url?: string;
+  url?: string | undefined;
 }
 export interface ListRepositoryServiceAppsRequest {
   repo: string;
-  revision?: string;
-  appName?: string;
-  appProject?: string;
+  revision?: string | undefined;
+  appName?: string | undefined;
+  appProject?: string | undefined;
 }
 export interface RepositoryAppInfo {
-  path?: string;
-  type?: string;
+  path?: string | undefined;
+  type?: string | undefined;
 }
 export type RepositoryRepoAppsResponseItemsList = Array<RepositoryAppInfo>;
 export interface RepositoryRepoAppsResponse {
-  items?: RepositoryRepoAppsResponseItemsList;
+  items?: RepositoryRepoAppsResponseItemsList | undefined;
 }
 export interface ListRepositoryServiceOCITagsRequest {
   /** Repo URL for query */
   repo: string;
   /** Whether to force a cache refresh on repo's connection state. */
-  forceRefresh?: boolean;
+  forceRefresh?: boolean | undefined;
   /** App project for query. */
-  appProject?: string;
+  appProject?: string | undefined;
 }
 export type RepositoryRefsBranchesList = Array<string>;
 export type RepositoryRefsTagsList = Array<string>;
 export interface RepositoryRefs {
-  branches?: RepositoryRefsBranchesList;
-  tags?: RepositoryRefsTagsList;
+  branches?: RepositoryRefsBranchesList | undefined;
+  tags?: RepositoryRefsTagsList | undefined;
 }
 export interface ListRepositoryServiceRefsRequest {
   /** Repo URL for query */
   repo: string;
   /** Whether to force a cache refresh on repo's connection state. */
-  forceRefresh?: boolean;
+  forceRefresh?: boolean | undefined;
   /** App project for query. */
-  appProject?: string;
+  appProject?: string | undefined;
 }
 export interface ListRepositoryServiceRepositoriesRequest {
   /** Repo URL for query. */
-  repo?: string;
+  repo?: string | undefined;
   /** Whether to force a cache refresh on repo's connection state. */
-  forceRefresh?: boolean;
+  forceRefresh?: boolean | undefined;
   /** App project for query. */
-  appProject?: string;
+  appProject?: string | undefined;
 }
 export type V1alpha1RepositoryListItemsList = Array<V1alpha1Repository>;
 /** RepositoryList is a collection of Repositories. */
 export interface V1alpha1RepositoryList {
-  items?: V1alpha1RepositoryListItemsList;
-  metadata?: V1ListMeta;
+  items?: V1alpha1RepositoryListItemsList | undefined;
+  metadata?: V1ListMeta | undefined;
 }
 export interface ListRepositoryServiceWriteRepositoriesRequest {
   /** Repo URL for query. */
-  repo?: string;
+  repo?: string | undefined;
   /** Whether to force a cache refresh on repo's connection state. */
-  forceRefresh?: boolean;
+  forceRefresh?: boolean | undefined;
   /** App project for query. */
-  appProject?: string;
+  appProject?: string | undefined;
 }
 export interface PatchApplicationServiceRequest {
   name: string;
-  appNamespace?: string;
-  patch?: string;
-  patchType?: string;
-  project?: string;
+  appNamespace?: string | undefined;
+  patch?: string | undefined;
+  patchType?: string | undefined;
+  project?: string | undefined;
 }
 export interface PatchApplicationServiceResourceRequest {
   name: string;
-  namespace?: string;
-  resourceName?: string;
-  version?: string;
-  group?: string;
-  kind?: string;
-  patchType?: string;
-  appNamespace?: string;
-  project?: string;
+  namespace?: string | undefined;
+  resourceName?: string | undefined;
+  version?: string | undefined;
+  group?: string | undefined;
+  kind?: string | undefined;
+  patchType?: string | undefined;
+  appNamespace?: string | undefined;
+  project?: string | undefined;
   body: string;
 }
 export interface RotateClusterServiceAuthRequest {
@@ -2900,13 +2921,13 @@ export interface RotateClusterServiceAuthRequest {
 export type RotateClusterServiceAuthResponse = unknown;
 export interface RunApplicationServiceResourceActionRequest {
   name: string;
-  namespace?: string;
-  resourceName?: string;
-  version?: string;
-  group?: string;
-  kind?: string;
-  appNamespace?: string;
-  project?: string;
+  namespace?: string | undefined;
+  resourceName?: string | undefined;
+  version?: string | undefined;
+  group?: string | undefined;
+  kind?: string | undefined;
+  appNamespace?: string | undefined;
+  project?: string | undefined;
   body: string;
 }
 export type RunApplicationServiceResourceActionResponse = unknown;
@@ -2915,15 +2936,17 @@ export type RunApplicationServiceResourceActionV2RequestResourceActionParameters
   Array<V1alpha1Info>;
 export interface RunApplicationServiceResourceActionV2Request {
   name: string;
-  action?: string;
-  appNamespace?: string;
-  group?: string;
-  kind?: string;
-  namespace?: string;
-  project?: string;
-  resourceActionParameters?: RunApplicationServiceResourceActionV2RequestResourceActionParametersList;
-  resourceName?: string;
-  version?: string;
+  action?: string | undefined;
+  appNamespace?: string | undefined;
+  group?: string | undefined;
+  kind?: string | undefined;
+  namespace?: string | undefined;
+  project?: string | undefined;
+  resourceActionParameters?:
+    | RunApplicationServiceResourceActionV2RequestResourceActionParametersList
+    | undefined;
+  resourceName?: string | undefined;
+  version?: string | undefined;
 }
 export type RunApplicationServiceResourceActionV2Response = unknown;
 export type SyncApplicationServiceRequestInfosList = Array<V1alpha1Info>;
@@ -2933,45 +2956,45 @@ export type SyncApplicationServiceRequestRevisionsList = Array<string>;
 export type SyncApplicationServiceRequestSourcePositionsList = Array<string>;
 export type ApplicationSyncOptionsItemsList = Array<string>;
 export interface ApplicationSyncOptions {
-  items?: ApplicationSyncOptionsItemsList;
+  items?: ApplicationSyncOptionsItemsList | undefined;
 }
 export interface SyncApplicationServiceRequest {
   name: string;
-  appNamespace?: string;
-  dryRun?: boolean;
-  infos?: SyncApplicationServiceRequestInfosList;
-  manifests?: SyncApplicationServiceRequestManifestsList;
-  project?: string;
-  prune?: boolean;
-  resources?: SyncApplicationServiceRequestResourcesList;
-  retryStrategy?: V1alpha1RetryStrategy;
-  revision?: string;
-  revisions?: SyncApplicationServiceRequestRevisionsList;
-  sourcePositions?: SyncApplicationServiceRequestSourcePositionsList;
-  strategy?: V1alpha1SyncStrategy;
-  syncOptions?: ApplicationSyncOptions;
+  appNamespace?: string | undefined;
+  dryRun?: boolean | undefined;
+  infos?: SyncApplicationServiceRequestInfosList | undefined;
+  manifests?: SyncApplicationServiceRequestManifestsList | undefined;
+  project?: string | undefined;
+  prune?: boolean | undefined;
+  resources?: SyncApplicationServiceRequestResourcesList | undefined;
+  retryStrategy?: V1alpha1RetryStrategy | undefined;
+  revision?: string | undefined;
+  revisions?: SyncApplicationServiceRequestRevisionsList | undefined;
+  sourcePositions?: SyncApplicationServiceRequestSourcePositionsList | undefined;
+  strategy?: V1alpha1SyncStrategy | undefined;
+  syncOptions?: ApplicationSyncOptions | undefined;
 }
 export interface TerminateApplicationServiceOperationRequest {
   name: string;
-  appNamespace?: string;
-  project?: string;
+  appNamespace?: string | undefined;
+  project?: string | undefined;
 }
 export type TerminateApplicationServiceOperationResponse = unknown;
 export interface UpdateAccountServicePasswordRequest {
-  currentPassword?: string | Redacted.Redacted<string>;
-  name?: string;
-  newPassword?: string | Redacted.Redacted<string>;
+  currentPassword?: string | Redacted.Redacted<string> | undefined;
+  name?: string | undefined;
+  newPassword?: string | Redacted.Redacted<string> | undefined;
 }
 export type UpdateAccountServicePasswordResponse = unknown;
 export interface UpdateApplicationServiceRequest {
   /** Name must be unique within a namespace. Is required when creating resources, although some resources may allow a client to request the generation of an appropriate name automatically. Name is primarily intended for creation idempotence and configuration definition. Cannot be updated. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names#names +optional */
   application_metadata_name: string;
-  validate?: boolean;
-  project?: string;
-  metadata?: V1ObjectMeta;
-  operation?: V1alpha1Operation;
-  spec?: V1alpha1ApplicationSpec;
-  status?: V1alpha1ApplicationStatus;
+  validate?: boolean | undefined;
+  project?: string | undefined;
+  metadata?: V1ObjectMeta | undefined;
+  operation?: V1alpha1Operation | undefined;
+  spec?: V1alpha1ApplicationSpec | undefined;
+  status?: V1alpha1ApplicationStatus | undefined;
 }
 export type UpdateApplicationServiceSpecRequestIgnoreDifferencesList =
   Array<V1alpha1ResourceIgnoreDifferences>;
@@ -2979,18 +3002,18 @@ export type UpdateApplicationServiceSpecRequestInfoList = Array<V1alpha1Info>;
 export type UpdateApplicationServiceSpecRequestSourcesList = Array<V1alpha1ApplicationSource>;
 export interface UpdateApplicationServiceSpecRequest {
   name: string;
-  validate?: boolean;
-  appNamespace?: string;
-  project?: string;
-  destination?: V1alpha1ApplicationDestination;
-  ignoreDifferences?: UpdateApplicationServiceSpecRequestIgnoreDifferencesList;
-  info?: UpdateApplicationServiceSpecRequestInfoList;
+  validate?: boolean | undefined;
+  appNamespace?: string | undefined;
+  project?: string | undefined;
+  destination?: V1alpha1ApplicationDestination | undefined;
+  ignoreDifferences?: UpdateApplicationServiceSpecRequestIgnoreDifferencesList | undefined;
+  info?: UpdateApplicationServiceSpecRequestInfoList | undefined;
   /** RevisionHistoryLimit limits the number of items kept in the application's revision history, which is used for informational purposes as well as for rollbacks to previous versions. This should only be changed in exceptional circumstances. Setting to zero will store no history. This will reduce storage used. Increasing will increase the space used to store the history, so we do not recommend increasing it. Default is 10. */
-  revisionHistoryLimit?: number;
-  source?: V1alpha1ApplicationSource;
-  sourceHydrator?: V1alpha1SourceHydrator;
-  sources?: UpdateApplicationServiceSpecRequestSourcesList;
-  syncPolicy?: V1alpha1SyncPolicy;
+  revisionHistoryLimit?: number | undefined;
+  source?: V1alpha1ApplicationSource | undefined;
+  sourceHydrator?: V1alpha1SourceHydrator | undefined;
+  sources?: UpdateApplicationServiceSpecRequestSourcesList | undefined;
+  syncPolicy?: V1alpha1SyncPolicy | undefined;
 }
 export type UpdateClusterServiceRequestUpdatedFieldsList = Array<string>;
 export type UpdateClusterServiceRequestAnnotationsMap = { [key: string]: string | undefined };
@@ -3000,225 +3023,225 @@ export type UpdateClusterServiceRequestNamespacesList = Array<string>;
 export interface UpdateClusterServiceRequest {
   /** value holds the cluster server URL or cluster name */
   id_value: string;
-  updatedFields?: UpdateClusterServiceRequestUpdatedFieldsList;
+  updatedFields?: UpdateClusterServiceRequestUpdatedFieldsList | undefined;
   /** type is the type of the specified cluster identifier ( "server" - default, "name" ). */
-  id_type?: string;
-  annotations?: UpdateClusterServiceRequestAnnotationsMap;
+  id_type?: string | undefined;
+  annotations?: UpdateClusterServiceRequestAnnotationsMap | undefined;
   /** Indicates if cluster level resources should be managed. This setting is used only if cluster is connected in a namespaced mode. */
-  clusterResources?: boolean;
-  config?: V1alpha1ClusterConfig;
-  configHash?: string;
-  connectionState?: V1alpha1ConnectionState;
-  info?: V1alpha1ClusterInfo;
-  labels?: UpdateClusterServiceRequestLabelsMap;
-  name?: string;
+  clusterResources?: boolean | undefined;
+  config?: V1alpha1ClusterConfig | undefined;
+  configHash?: string | undefined;
+  connectionState?: V1alpha1ConnectionState | undefined;
+  info?: V1alpha1ClusterInfo | undefined;
+  labels?: UpdateClusterServiceRequestLabelsMap | undefined;
+  name?: string | undefined;
   /** Holds list of namespaces which are accessible in that cluster. Cluster level resources will be ignored if namespace list is not empty. */
-  namespaces?: UpdateClusterServiceRequestNamespacesList;
-  project?: string;
-  refreshRequestedAt?: string;
-  server?: string;
-  serverVersion?: string;
+  namespaces?: UpdateClusterServiceRequestNamespacesList | undefined;
+  project?: string | undefined;
+  refreshRequestedAt?: string | undefined;
+  server?: string | undefined;
+  serverVersion?: string | undefined;
   /** Shard contains optional shard number. Calculated on the fly by the application controller if not specified. */
-  shard?: number;
+  shard?: number | undefined;
 }
 export interface UpdateProjectServiceRequest {
   /** Name must be unique within a namespace. Is required when creating resources, although some resources may allow a client to request the generation of an appropriate name automatically. Name is primarily intended for creation idempotence and configuration definition. Cannot be updated. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names#names +optional */
   project_metadata_name: string;
-  project?: V1alpha1AppProject;
+  project?: V1alpha1AppProject | undefined;
 }
 export interface UpdateRepoCredsServiceRepositoryCredentialsRequest {
   /** URL is the URL to which these credentials match */
   creds_url: string;
-  azureActiveDirectoryEndpoint?: string;
-  azureServicePrincipalClientId?: string;
-  azureServicePrincipalClientSecret?: string;
-  azureServicePrincipalTenantId?: string;
-  bearerToken?: string;
-  enableOCI?: boolean;
-  forceHttpBasicAuth?: boolean;
-  gcpServiceAccountKey?: string;
-  githubAppEnterpriseBaseUrl?: string;
-  githubAppID?: number;
-  githubAppInstallationID?: number;
-  githubAppPrivateKey?: string;
+  azureActiveDirectoryEndpoint?: string | undefined;
+  azureServicePrincipalClientId?: string | undefined;
+  azureServicePrincipalClientSecret?: string | undefined;
+  azureServicePrincipalTenantId?: string | undefined;
+  bearerToken?: string | undefined;
+  enableOCI?: boolean | undefined;
+  forceHttpBasicAuth?: boolean | undefined;
+  gcpServiceAccountKey?: string | undefined;
+  githubAppEnterpriseBaseUrl?: string | undefined;
+  githubAppID?: number | undefined;
+  githubAppInstallationID?: number | undefined;
+  githubAppPrivateKey?: string | undefined;
   /** InsecureOCIForceHttp specifies whether the connection to the repository uses TLS at _all_. If true, no TLS. This flag is applicable for OCI repos only. */
-  insecureOCIForceHttp?: boolean;
-  noProxy?: string;
-  password?: string | Redacted.Redacted<string>;
-  proxy?: string;
-  sshPrivateKey?: string;
-  tlsClientCertData?: string;
-  tlsClientCertKey?: string;
+  insecureOCIForceHttp?: boolean | undefined;
+  noProxy?: string | undefined;
+  password?: string | Redacted.Redacted<string> | undefined;
+  proxy?: string | undefined;
+  sshPrivateKey?: string | undefined;
+  tlsClientCertData?: string | undefined;
+  tlsClientCertKey?: string | undefined;
   /** Type specifies the type of the repoCreds. Can be either "git", "helm" or "oci". "git" is assumed if empty or absent. */
-  type?: string;
-  url?: string;
-  useAzureWorkloadIdentity?: boolean;
-  username?: string;
+  type?: string | undefined;
+  url?: string | undefined;
+  useAzureWorkloadIdentity?: boolean | undefined;
+  username?: string | undefined;
 }
 export interface UpdateRepoCredsServiceWriteRepositoryCredentialsRequest {
   /** URL is the URL to which these credentials match */
   creds_url: string;
-  azureActiveDirectoryEndpoint?: string;
-  azureServicePrincipalClientId?: string;
-  azureServicePrincipalClientSecret?: string;
-  azureServicePrincipalTenantId?: string;
-  bearerToken?: string;
-  enableOCI?: boolean;
-  forceHttpBasicAuth?: boolean;
-  gcpServiceAccountKey?: string;
-  githubAppEnterpriseBaseUrl?: string;
-  githubAppID?: number;
-  githubAppInstallationID?: number;
-  githubAppPrivateKey?: string;
+  azureActiveDirectoryEndpoint?: string | undefined;
+  azureServicePrincipalClientId?: string | undefined;
+  azureServicePrincipalClientSecret?: string | undefined;
+  azureServicePrincipalTenantId?: string | undefined;
+  bearerToken?: string | undefined;
+  enableOCI?: boolean | undefined;
+  forceHttpBasicAuth?: boolean | undefined;
+  gcpServiceAccountKey?: string | undefined;
+  githubAppEnterpriseBaseUrl?: string | undefined;
+  githubAppID?: number | undefined;
+  githubAppInstallationID?: number | undefined;
+  githubAppPrivateKey?: string | undefined;
   /** InsecureOCIForceHttp specifies whether the connection to the repository uses TLS at _all_. If true, no TLS. This flag is applicable for OCI repos only. */
-  insecureOCIForceHttp?: boolean;
-  noProxy?: string;
-  password?: string | Redacted.Redacted<string>;
-  proxy?: string;
-  sshPrivateKey?: string;
-  tlsClientCertData?: string;
-  tlsClientCertKey?: string;
+  insecureOCIForceHttp?: boolean | undefined;
+  noProxy?: string | undefined;
+  password?: string | Redacted.Redacted<string> | undefined;
+  proxy?: string | undefined;
+  sshPrivateKey?: string | undefined;
+  tlsClientCertData?: string | undefined;
+  tlsClientCertKey?: string | undefined;
   /** Type specifies the type of the repoCreds. Can be either "git", "helm" or "oci". "git" is assumed if empty or absent. */
-  type?: string;
-  url?: string;
-  useAzureWorkloadIdentity?: boolean;
-  username?: string;
+  type?: string | undefined;
+  url?: string | undefined;
+  useAzureWorkloadIdentity?: boolean | undefined;
+  username?: string | undefined;
 }
 export interface UpdateRepositoryServiceRepositoryRequest {
   /** Repo contains the URL to the remote repository */
   repo_repo: string;
-  azureActiveDirectoryEndpoint?: string;
-  azureServicePrincipalClientId?: string;
-  azureServicePrincipalClientSecret?: string;
-  azureServicePrincipalTenantId?: string;
-  bearerToken?: string;
-  connectionState?: V1alpha1ConnectionState;
+  azureActiveDirectoryEndpoint?: string | undefined;
+  azureServicePrincipalClientId?: string | undefined;
+  azureServicePrincipalClientSecret?: string | undefined;
+  azureServicePrincipalTenantId?: string | undefined;
+  bearerToken?: string | undefined;
+  connectionState?: V1alpha1ConnectionState | undefined;
   /** Depth specifies the depth for shallow clones. A value of 0 or omitting the field indicates a full clone. */
-  depth?: number;
+  depth?: number | undefined;
   /** EnableLFS specifies whether git-lfs support should be enabled for this repo. Only valid for Git repositories. */
-  enableLfs?: boolean;
-  enableOCI?: boolean;
-  forceHttpBasicAuth?: boolean;
-  gcpServiceAccountKey?: string;
-  githubAppEnterpriseBaseUrl?: string;
-  githubAppID?: number;
-  githubAppInstallationID?: number;
-  githubAppPrivateKey?: string;
-  inheritedCreds?: boolean;
-  insecure?: boolean;
-  insecureIgnoreHostKey?: boolean;
+  enableLfs?: boolean | undefined;
+  enableOCI?: boolean | undefined;
+  forceHttpBasicAuth?: boolean | undefined;
+  gcpServiceAccountKey?: string | undefined;
+  githubAppEnterpriseBaseUrl?: string | undefined;
+  githubAppID?: number | undefined;
+  githubAppInstallationID?: number | undefined;
+  githubAppPrivateKey?: string | undefined;
+  inheritedCreds?: boolean | undefined;
+  insecure?: boolean | undefined;
+  insecureIgnoreHostKey?: boolean | undefined;
   /** InsecureOCIForceHttp specifies whether the connection to the repository uses TLS at _all_. If true, no TLS. This flag is applicable for OCI repos only. */
-  insecureOCIForceHttp?: boolean;
-  name?: string;
-  noProxy?: string;
-  password?: string | Redacted.Redacted<string>;
-  project?: string;
-  proxy?: string;
-  repo?: string;
+  insecureOCIForceHttp?: boolean | undefined;
+  name?: string | undefined;
+  noProxy?: string | undefined;
+  password?: string | Redacted.Redacted<string> | undefined;
+  project?: string | undefined;
+  proxy?: string | undefined;
+  repo?: string | undefined;
   /** SSHPrivateKey contains the PEM data for authenticating at the repo server. Only used with Git repos. */
-  sshPrivateKey?: string;
-  tlsClientCertData?: string;
-  tlsClientCertKey?: string;
+  sshPrivateKey?: string | undefined;
+  tlsClientCertData?: string | undefined;
+  tlsClientCertKey?: string | undefined;
   /** Type specifies the type of the repo. Can be either "git" or "helm. "git" is assumed if empty or absent. */
-  type?: string;
-  useAzureWorkloadIdentity?: boolean;
-  username?: string;
+  type?: string | undefined;
+  useAzureWorkloadIdentity?: boolean | undefined;
+  username?: string | undefined;
   /** WebhookManifestCacheWarmDisabled disables manifest cache warming during webhook processing for this repository. When set, webhook handlers will only trigger reconciliation for affected applications and skip Redis cache operations for unaffected ones. Recommended for large monorepos with plain YAML manifests. */
-  webhookManifestCacheWarmDisabled?: boolean;
+  webhookManifestCacheWarmDisabled?: boolean | undefined;
 }
 export interface UpdateRepositoryServiceWriteRepositoryRequest {
   /** Repo contains the URL to the remote repository */
   repo_repo: string;
-  azureActiveDirectoryEndpoint?: string;
-  azureServicePrincipalClientId?: string;
-  azureServicePrincipalClientSecret?: string;
-  azureServicePrincipalTenantId?: string;
-  bearerToken?: string;
-  connectionState?: V1alpha1ConnectionState;
+  azureActiveDirectoryEndpoint?: string | undefined;
+  azureServicePrincipalClientId?: string | undefined;
+  azureServicePrincipalClientSecret?: string | undefined;
+  azureServicePrincipalTenantId?: string | undefined;
+  bearerToken?: string | undefined;
+  connectionState?: V1alpha1ConnectionState | undefined;
   /** Depth specifies the depth for shallow clones. A value of 0 or omitting the field indicates a full clone. */
-  depth?: number;
+  depth?: number | undefined;
   /** EnableLFS specifies whether git-lfs support should be enabled for this repo. Only valid for Git repositories. */
-  enableLfs?: boolean;
-  enableOCI?: boolean;
-  forceHttpBasicAuth?: boolean;
-  gcpServiceAccountKey?: string;
-  githubAppEnterpriseBaseUrl?: string;
-  githubAppID?: number;
-  githubAppInstallationID?: number;
-  githubAppPrivateKey?: string;
-  inheritedCreds?: boolean;
-  insecure?: boolean;
-  insecureIgnoreHostKey?: boolean;
+  enableLfs?: boolean | undefined;
+  enableOCI?: boolean | undefined;
+  forceHttpBasicAuth?: boolean | undefined;
+  gcpServiceAccountKey?: string | undefined;
+  githubAppEnterpriseBaseUrl?: string | undefined;
+  githubAppID?: number | undefined;
+  githubAppInstallationID?: number | undefined;
+  githubAppPrivateKey?: string | undefined;
+  inheritedCreds?: boolean | undefined;
+  insecure?: boolean | undefined;
+  insecureIgnoreHostKey?: boolean | undefined;
   /** InsecureOCIForceHttp specifies whether the connection to the repository uses TLS at _all_. If true, no TLS. This flag is applicable for OCI repos only. */
-  insecureOCIForceHttp?: boolean;
-  name?: string;
-  noProxy?: string;
-  password?: string | Redacted.Redacted<string>;
-  project?: string;
-  proxy?: string;
-  repo?: string;
+  insecureOCIForceHttp?: boolean | undefined;
+  name?: string | undefined;
+  noProxy?: string | undefined;
+  password?: string | Redacted.Redacted<string> | undefined;
+  project?: string | undefined;
+  proxy?: string | undefined;
+  repo?: string | undefined;
   /** SSHPrivateKey contains the PEM data for authenticating at the repo server. Only used with Git repos. */
-  sshPrivateKey?: string;
-  tlsClientCertData?: string;
-  tlsClientCertKey?: string;
+  sshPrivateKey?: string | undefined;
+  tlsClientCertData?: string | undefined;
+  tlsClientCertKey?: string | undefined;
   /** Type specifies the type of the repo. Can be either "git" or "helm. "git" is assumed if empty or absent. */
-  type?: string;
-  useAzureWorkloadIdentity?: boolean;
-  username?: string;
+  type?: string | undefined;
+  useAzureWorkloadIdentity?: boolean | undefined;
+  username?: string | undefined;
   /** WebhookManifestCacheWarmDisabled disables manifest cache warming during webhook processing for this repository. When set, webhook handlers will only trigger reconciliation for affected applications and skip Redis cache operations for unaffected ones. Recommended for large monorepos with plain YAML manifests. */
-  webhookManifestCacheWarmDisabled?: boolean;
+  webhookManifestCacheWarmDisabled?: boolean | undefined;
 }
 export interface ValidateRepositoryServiceAccessRequest {
   /** The URL to the repo */
   repo: string;
   /** Username for accessing repo. */
-  username?: string;
+  username?: string | undefined;
   /** Password for accessing repo. */
-  password?: string;
+  password?: string | undefined;
   /** Private key data for accessing SSH repository. */
-  sshPrivateKey?: string;
+  sshPrivateKey?: string | undefined;
   /** Whether to skip certificate or host key validation. */
-  insecure?: boolean;
+  insecure?: boolean | undefined;
   /** TLS client cert data for accessing HTTPS repository. */
-  tlsClientCertData?: string;
+  tlsClientCertData?: string | undefined;
   /** TLS client cert key for accessing HTTPS repository. */
-  tlsClientCertKey?: string;
+  tlsClientCertKey?: string | undefined;
   /** The type of the repo. */
-  type?: string;
+  type?: string | undefined;
   /** The name of the repo. */
-  name?: string;
+  name?: string | undefined;
   /** Whether helm-oci support should be enabled for this repo. */
-  enableOci?: boolean;
+  enableOci?: boolean | undefined;
   /** Github App Private Key PEM data. */
-  githubAppPrivateKey?: string;
+  githubAppPrivateKey?: string | undefined;
   /** Github App ID of the app used to access the repo. */
-  githubAppID?: string;
+  githubAppID?: string | undefined;
   /** Github App Installation ID of the installed GitHub App. */
-  githubAppInstallationID?: string;
+  githubAppInstallationID?: string | undefined;
   /** Github App Enterprise base url if empty will default to https://api.github.com. */
-  githubAppEnterpriseBaseUrl?: string;
+  githubAppEnterpriseBaseUrl?: string | undefined;
   /** HTTP/HTTPS proxy to access the repository. */
-  proxy?: string;
+  proxy?: string | undefined;
   /** Reference between project and repository that allow you automatically to be added as item inside SourceRepos project entity. */
-  project?: string;
+  project?: string | undefined;
   /** Google Cloud Platform service account key. */
-  gcpServiceAccountKey?: string;
+  gcpServiceAccountKey?: string | undefined;
   /** Whether to force HTTP basic auth. */
-  forceHttpBasicAuth?: boolean;
+  forceHttpBasicAuth?: boolean | undefined;
   /** Whether to use azure workload identity for authentication. */
-  useAzureWorkloadIdentity?: boolean;
+  useAzureWorkloadIdentity?: boolean | undefined;
   /** BearerToken contains the bearer token used for Git auth at the repo server. */
-  bearerToken?: string;
+  bearerToken?: string | undefined;
   /** Whether https should be disabled for an OCI repo. */
-  insecureOciForceHttp?: boolean;
+  insecureOciForceHttp?: boolean | undefined;
   /** Azure Service Principal Client ID. */
-  azureServicePrincipalClientId?: string;
+  azureServicePrincipalClientId?: string | undefined;
   /** Azure Service Principal Client Secret. */
-  azureServicePrincipalClientSecret?: string;
+  azureServicePrincipalClientSecret?: string | undefined;
   /** Azure Service Principal Tenant ID. */
-  azureServicePrincipalTenantId?: string;
+  azureServicePrincipalTenantId?: string | undefined;
   /** Azure Active Directory Endpoint. */
-  azureActiveDirectoryEndpoint?: string;
+  azureActiveDirectoryEndpoint?: string | undefined;
   body: string;
 }
 export type ValidateRepositoryServiceAccessResponse = unknown;
@@ -3226,135 +3249,135 @@ export interface ValidateRepositoryServiceWriteAccessRequest {
   /** The URL to the repo */
   repo: string;
   /** Username for accessing repo. */
-  username?: string;
+  username?: string | undefined;
   /** Password for accessing repo. */
-  password?: string;
+  password?: string | undefined;
   /** Private key data for accessing SSH repository. */
-  sshPrivateKey?: string;
+  sshPrivateKey?: string | undefined;
   /** Whether to skip certificate or host key validation. */
-  insecure?: boolean;
+  insecure?: boolean | undefined;
   /** TLS client cert data for accessing HTTPS repository. */
-  tlsClientCertData?: string;
+  tlsClientCertData?: string | undefined;
   /** TLS client cert key for accessing HTTPS repository. */
-  tlsClientCertKey?: string;
+  tlsClientCertKey?: string | undefined;
   /** The type of the repo. */
-  type?: string;
+  type?: string | undefined;
   /** The name of the repo. */
-  name?: string;
+  name?: string | undefined;
   /** Whether helm-oci support should be enabled for this repo. */
-  enableOci?: boolean;
+  enableOci?: boolean | undefined;
   /** Github App Private Key PEM data. */
-  githubAppPrivateKey?: string;
+  githubAppPrivateKey?: string | undefined;
   /** Github App ID of the app used to access the repo. */
-  githubAppID?: string;
+  githubAppID?: string | undefined;
   /** Github App Installation ID of the installed GitHub App. */
-  githubAppInstallationID?: string;
+  githubAppInstallationID?: string | undefined;
   /** Github App Enterprise base url if empty will default to https://api.github.com. */
-  githubAppEnterpriseBaseUrl?: string;
+  githubAppEnterpriseBaseUrl?: string | undefined;
   /** HTTP/HTTPS proxy to access the repository. */
-  proxy?: string;
+  proxy?: string | undefined;
   /** Reference between project and repository that allow you automatically to be added as item inside SourceRepos project entity. */
-  project?: string;
+  project?: string | undefined;
   /** Google Cloud Platform service account key. */
-  gcpServiceAccountKey?: string;
+  gcpServiceAccountKey?: string | undefined;
   /** Whether to force HTTP basic auth. */
-  forceHttpBasicAuth?: boolean;
+  forceHttpBasicAuth?: boolean | undefined;
   /** Whether to use azure workload identity for authentication. */
-  useAzureWorkloadIdentity?: boolean;
+  useAzureWorkloadIdentity?: boolean | undefined;
   /** BearerToken contains the bearer token used for Git auth at the repo server. */
-  bearerToken?: string;
+  bearerToken?: string | undefined;
   /** Whether https should be disabled for an OCI repo. */
-  insecureOciForceHttp?: boolean;
+  insecureOciForceHttp?: boolean | undefined;
   /** Azure Service Principal Client ID. */
-  azureServicePrincipalClientId?: string;
+  azureServicePrincipalClientId?: string | undefined;
   /** Azure Service Principal Client Secret. */
-  azureServicePrincipalClientSecret?: string;
+  azureServicePrincipalClientSecret?: string | undefined;
   /** Azure Service Principal Tenant ID. */
-  azureServicePrincipalTenantId?: string;
+  azureServicePrincipalTenantId?: string | undefined;
   /** Azure Active Directory Endpoint. */
-  azureActiveDirectoryEndpoint?: string;
+  azureActiveDirectoryEndpoint?: string | undefined;
   body: string;
 }
 export type ValidateRepositoryServiceWriteAccessResponse = unknown;
 export interface VersionServiceVersionRequest {}
 export interface VersionVersionMessage {
-  BuildDate?: string;
-  Compiler?: string;
-  ExtraBuildInfo?: string;
-  GitCommit?: string;
-  GitTag?: string;
-  GitTreeState?: string;
-  GoVersion?: string;
-  HelmVersion?: string;
-  JsonnetVersion?: string;
-  KubectlVersion?: string;
-  KustomizeVersion?: string;
-  Platform?: string;
-  Version?: string;
+  BuildDate?: string | undefined;
+  Compiler?: string | undefined;
+  ExtraBuildInfo?: string | undefined;
+  GitCommit?: string | undefined;
+  GitTag?: string | undefined;
+  GitTreeState?: string | undefined;
+  GoVersion?: string | undefined;
+  HelmVersion?: string | undefined;
+  JsonnetVersion?: string | undefined;
+  KubectlVersion?: string | undefined;
+  KustomizeVersion?: string | undefined;
+  Platform?: string | undefined;
+  Version?: string | undefined;
 }
 export type WatchApplicationServiceRequestProjectsList = Array<string>;
 export type WatchApplicationServiceRequestProjectList = Array<string>;
 export type WatchApplicationServiceRequestNamesList = Array<string>;
 export interface WatchApplicationServiceRequest {
   /** the application's name. */
-  name?: string;
+  name?: string | undefined;
   /** forces application reconciliation if set to 'hard'. */
-  refresh?: string;
+  refresh?: string | undefined;
   /** the project names to restrict returned list applications. */
-  projects?: WatchApplicationServiceRequestProjectsList;
+  projects?: WatchApplicationServiceRequestProjectsList | undefined;
   /** when specified with a watch call, shows changes that occur after that particular version of a resource. */
-  resourceVersion?: string;
+  resourceVersion?: string | undefined;
   /** the selector to restrict returned list to applications only with matched labels. */
-  selector?: string;
+  selector?: string | undefined;
   /** the repoURL to restrict returned list applications. */
-  repo?: string;
+  repo?: string | undefined;
   /** the application's namespace. */
-  appNamespace?: string;
+  appNamespace?: string | undefined;
   /** the project names to restrict returned list applications (legacy name for backwards-compatibility). */
-  project?: WatchApplicationServiceRequestProjectList;
+  project?: WatchApplicationServiceRequestProjectList | undefined;
   /** the application names to restrict returned list applications (used by the UI favorites filter). An entry may be qualified as 'namespace/name' to match only the application in that namespace. */
-  names?: WatchApplicationServiceRequestNamesList;
+  names?: WatchApplicationServiceRequestNamesList | undefined;
 }
 /** ApplicationWatchEvent contains information about application change. */
 export interface V1alpha1ApplicationWatchEvent {
-  application?: V1alpha1Application;
-  type?: string;
+  application?: V1alpha1Application | undefined;
+  type?: string | undefined;
 }
 export interface WatchApplicationServiceResponse {
-  error?: RuntimeStreamError;
-  result?: V1alpha1ApplicationWatchEvent;
+  error?: RuntimeStreamError | undefined;
+  result?: V1alpha1ApplicationWatchEvent | undefined;
 }
 export interface WatchApplicationServiceResourceTreeRequest {
   applicationName: string;
-  namespace?: string;
-  name?: string;
-  version?: string;
-  group?: string;
-  kind?: string;
-  appNamespace?: string;
-  project?: string;
+  namespace?: string | undefined;
+  name?: string | undefined;
+  version?: string | undefined;
+  group?: string | undefined;
+  kind?: string | undefined;
+  appNamespace?: string | undefined;
+  project?: string | undefined;
 }
 export interface WatchApplicationServiceResourceTreeResponse {
-  error?: RuntimeStreamError;
-  result?: V1alpha1ApplicationTree;
+  error?: RuntimeStreamError | undefined;
+  result?: V1alpha1ApplicationTree | undefined;
 }
 export type WatchApplicationSetServiceRequestProjectsList = Array<string>;
 export interface WatchApplicationSetServiceRequest {
-  name?: string;
-  projects?: WatchApplicationSetServiceRequestProjectsList;
-  selector?: string;
-  appSetNamespace?: string;
+  name?: string | undefined;
+  projects?: WatchApplicationSetServiceRequestProjectsList | undefined;
+  selector?: string | undefined;
+  appSetNamespace?: string | undefined;
   /** when specified with a watch call, shows changes that occur after that particular version of a resource. */
-  resourceVersion?: string;
+  resourceVersion?: string | undefined;
 }
 /** ApplicationSetWatchEvent contains information about application change. */
 export interface V1alpha1ApplicationSetWatchEvent {
-  applicationSet?: V1alpha1ApplicationSet;
-  type?: string;
+  applicationSet?: V1alpha1ApplicationSet | undefined;
+  type?: string | undefined;
 }
 export interface WatchApplicationSetServiceResponse {
-  error?: RuntimeStreamError;
-  result?: V1alpha1ApplicationSetWatchEvent;
+  error?: RuntimeStreamError | undefined;
+  result?: V1alpha1ApplicationSetWatchEvent | undefined;
 }
 export type AccountServiceCanIError = ArgocdOpError;
 /** CanI checks if the current account has permission to perform an action */
@@ -4964,7 +4987,7 @@ export const updateApplicationServiceSpec: API.OperationMethod<
   ArgocdOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4640, __c145, 0) as any as S.Schema<UpdateApplicationServiceSpecRequest>,
-  output: __S(3660, __c114, 12) as any as S.Schema<V1alpha1ApplicationSpec>,
+  output: __S(3661, __c114, 13) as any as S.Schema<V1alpha1ApplicationSpec>,
   errors: [UnknownArgocdError],
   protocol: ArgocdProtocol,
   retry: Retry.Retry,
@@ -5479,7 +5502,7 @@ function __c11(j: number): any {
           validate: S.optional(S.Boolean.pipe(T.Query())),
           metadata: S.optional(__S(3525, __c110, 5)),
           operation: S.optional(__S(3687, __c115, 7)),
-          spec: S.optional(__S(3660, __c114, 12)),
+          spec: S.optional(__S(3661, __c114, 13)),
           status: S.optional(__S(3702, __c115, 22)),
         }).pipe(T.Http({ method: "POST", uri: "/api/v1/applications", code: 200 })),
       ).annotate({ identifier: "CreateApplicationServiceRequest" });
@@ -5542,7 +5565,7 @@ function __c14(j: number): any {
       return S.suspend(() =>
         S.Struct({
           metadata: S.optional(__S(451, __c14, 3)),
-          spec: S.optional(__S(3660, __c114, 12)),
+          spec: S.optional(__S(3661, __c114, 13)),
         }),
       ).annotate({ identifier: "V1alpha1ApplicationSetTemplate" });
     case 5:
@@ -5626,6 +5649,7 @@ function __c14(j: number): any {
       return S.suspend(() =>
         S.Struct({
           api: S.optional(S.String),
+          excludedLabels: S.optional(__S(1984, __c62, 0)),
           labels: S.optional(__S(1984, __c62, 0)),
           organization: S.optional(S.String),
           project: S.optional(S.String),
@@ -5689,6 +5713,7 @@ function __c14(j: number): any {
       return S.suspend(() =>
         S.Struct({
           api: S.optional(S.String),
+          excludedLabels: S.optional(__S(1984, __c62, 0)),
           insecure: S.optional(S.Boolean),
           labels: S.optional(__S(1984, __c62, 0)),
           owner: S.optional(S.String),
@@ -5701,6 +5726,7 @@ function __c14(j: number): any {
         S.Struct({
           api: S.optional(S.String),
           appSecretName: S.optional(S.String),
+          excludedLabels: S.optional(__S(1984, __c62, 0)),
           labels: S.optional(__S(1984, __c62, 0)),
           owner: S.optional(S.String),
           repo: S.optional(S.String),
@@ -5712,6 +5738,7 @@ function __c14(j: number): any {
         S.Struct({
           api: S.optional(S.String),
           caRef: S.optional(__S(468, __c14, 20)),
+          excludedLabels: S.optional(__S(1984, __c62, 0)),
           insecure: S.optional(S.Boolean),
           labels: S.optional(__S(1984, __c62, 0)),
           project: S.optional(S.String),
@@ -7757,11 +7784,13 @@ function __c90(j: number): any {
         S.Struct({
           cliClientID: S.optional(S.String),
           clientID: S.optional(S.String),
+          deviceURL: S.optional(S.String),
           enablePKCEAuthentication: S.optional(S.Boolean),
           idTokenClaims: S.optional(__S(2893, __c90, 13)),
           issuer: S.optional(S.String),
           name: S.optional(S.String),
           scopes: S.optional(__S(1984, __c62, 0)),
+          tokenURL: S.optional(S.String),
         }),
       ).annotate({ identifier: "ClusterOIDCConfig" });
     case 15:
@@ -8600,13 +8629,23 @@ function __c114(j: number): any {
     case 11:
       return S.suspend(() =>
         S.Struct({
+          applyOnly: S.optional(S.Boolean),
+          dryRun: S.optional(S.Boolean),
+          force: S.optional(S.Boolean),
+          prune: S.optional(S.Boolean),
+        }),
+      ).annotate({ identifier: "V1alpha1SyncPolicyManualDefaults" });
+    case 12:
+      return S.suspend(() =>
+        S.Struct({
           automated: S.optional(__S(3657, __c114, 9)),
           managedNamespaceMetadata: S.optional(__S(3658, __c114, 10)),
+          manualDefaults: S.optional(__S(3659, __c114, 11)),
           retry: S.optional(__S(3649, __c114, 1)),
           syncOptions: S.optional(__S(1984, __c62, 0)),
         }),
       ).annotate({ identifier: "V1alpha1SyncPolicy" });
-    case 12:
+    case 13:
       return S.suspend(() =>
         S.Struct({
           destination: S.optional(__S(3552, __c111, 0)),
@@ -8617,7 +8656,7 @@ function __c114(j: number): any {
           source: S.optional(__S(3606, __c112, 22)),
           sourceHydrator: S.optional(__S(3656, __c114, 8)),
           sources: S.optional(__S(3650, __c114, 2)),
-          syncPolicy: S.optional(__S(3659, __c114, 11)),
+          syncPolicy: S.optional(__S(3660, __c114, 12)),
         }),
       ).annotate({ identifier: "V1alpha1ApplicationSpec" });
   }
@@ -8830,7 +8869,7 @@ function __c115(j: number): any {
         S.Struct({
           metadata: S.optional(__S(3525, __c110, 5)),
           operation: S.optional(__S(3687, __c115, 7)),
-          spec: S.optional(__S(3660, __c114, 12)),
+          spec: S.optional(__S(3661, __c114, 13)),
           status: S.optional(__S(3702, __c115, 22)),
         }),
       ).annotate({ identifier: "V1alpha1Application" });
@@ -9258,7 +9297,7 @@ function __c144(j: number): any {
           project: S.optional(S.String.pipe(T.Query())),
           metadata: S.optional(__S(3525, __c110, 5)),
           operation: S.optional(__S(3687, __c115, 7)),
-          spec: S.optional(__S(3660, __c114, 12)),
+          spec: S.optional(__S(3661, __c114, 13)),
           status: S.optional(__S(3702, __c115, 22)),
         }).pipe(
           T.Http({
@@ -9286,7 +9325,7 @@ function __c145(j: number): any {
           source: S.optional(__S(3606, __c112, 22)),
           sourceHydrator: S.optional(__S(3656, __c114, 8)),
           sources: S.optional(__S(3650, __c114, 2)),
-          syncPolicy: S.optional(__S(3659, __c114, 11)),
+          syncPolicy: S.optional(__S(3660, __c114, 12)),
         }).pipe(T.Http({ method: "PUT", uri: "/api/v1/applications/{name}/spec", code: 200 })),
       ).annotate({ identifier: "UpdateApplicationServiceSpecRequest" });
   }

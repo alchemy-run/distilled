@@ -87,6 +87,19 @@ export type BenefitGrantsListRequestExternalCustomerIdCase1List = Array<string>;
 export type BenefitGrantsListRequestExternalCustomerId =
   | string
   | BenefitGrantsListRequestExternalCustomerIdCase1List;
+export type BenefitGrantsListRequestExternalBenefitIdCase1List = Array<string>;
+/** Filter by benefit external ID. */
+export type BenefitGrantsListRequestExternalBenefitId =
+  | string
+  | BenefitGrantsListRequestExternalBenefitIdCase1List;
+export type BenefitGrantsListRequestMemberIdCase1List = Array<string>;
+/** Filter by member ID. */
+export type BenefitGrantsListRequestMemberId = string | BenefitGrantsListRequestMemberIdCase1List;
+export type BenefitGrantsListRequestExternalMemberIdCase1List = Array<string>;
+/** Filter by member external ID. */
+export type BenefitGrantsListRequestExternalMemberId =
+  | string
+  | BenefitGrantsListRequestExternalMemberIdCase1List;
 export type BenefitGrantSortProperty =
   | "created_at"
   | "-created_at"
@@ -97,19 +110,25 @@ export type BenefitGrantSortProperty =
 export type BenefitGrantsListRequestSortingList = Array<BenefitGrantSortProperty | (string & {})>;
 export interface BenefitGrantsListRequest {
   /** Filter by organization ID. */
-  organization_id?: BenefitGrantsListRequestOrganizationId;
+  organization_id?: BenefitGrantsListRequestOrganizationId | undefined;
   /** Filter by customer ID. */
-  customer_id?: BenefitGrantsListRequestCustomerId;
+  customer_id?: BenefitGrantsListRequestCustomerId | undefined;
   /** Filter by customer external ID. */
-  external_customer_id?: BenefitGrantsListRequestExternalCustomerId;
+  external_customer_id?: BenefitGrantsListRequestExternalCustomerId | undefined;
+  /** Filter by benefit external ID. */
+  external_benefit_id?: BenefitGrantsListRequestExternalBenefitId | undefined;
+  /** Filter by member ID. */
+  member_id?: BenefitGrantsListRequestMemberId | undefined;
+  /** Filter by member external ID. */
+  external_member_id?: BenefitGrantsListRequestExternalMemberId | undefined;
   /** Filter by granted status. If `true`, only granted benefits will be returned. If `false`, only revoked benefits will be returned. */
-  is_granted?: boolean;
+  is_granted?: boolean | undefined;
   /** Page number, defaults to 1. */
-  page?: number;
+  page?: number | undefined;
   /** Size of a page, defaults to 10. Maximum is 100. */
-  limit?: number;
+  limit?: number | undefined;
   /** Sorting criterion. Several criteria can be used simultaneously and will be applied in order. Add a minus sign `-` before the criteria name to sort by descending order. */
-  sorting?: BenefitGrantsListRequestSortingList;
+  sorting?: BenefitGrantsListRequestSortingList | undefined;
 }
 export interface BenefitGrantError {
   message: string;
@@ -369,11 +388,11 @@ export type AddressCountry =
   | "ZM"
   | "ZW";
 export interface Address {
-  line1?: string | null;
-  line2?: string | null;
-  postal_code?: string | null;
-  city?: string | null;
-  state?: string | null;
+  line1?: string | null | undefined;
+  line2?: string | null | undefined;
+  postal_code?: string | null | undefined;
+  city?: string | null | undefined;
+  state?: string | null | undefined;
   country: AddressCountry;
 }
 export type CustomerIndividualTaxIdList = Array<unknown>;
@@ -387,7 +406,7 @@ export interface CustomerIndividual {
   modified_at: string | null;
   metadata: MetadataOutputType;
   /** The ID of the customer in your system. This must be unique within the organization. Once set, it can't be updated. */
-  external_id?: string | null;
+  external_id?: string | null | undefined;
   /** The email address of the customer. This must be unique within the organization. */
   email: string;
   /** Whether the customer email address is verified. The address is automatically verified when the customer accesses the customer portal using their email address. */
@@ -400,11 +419,11 @@ export interface CustomerIndividual {
   billing_name: string | null;
   billing_address: Address | null;
   tax_id: CustomerIndividualTaxIdList | null;
-  locale?: string | null;
+  locale?: string | null | undefined;
   /** The ID of the organization owning the customer. */
   organization_id: string;
   /** The ID of the customer's default payment method, if any. Use the payment methods endpoint to retrieve its details. */
-  default_payment_method_id?: string | null;
+  default_payment_method_id?: string | null | undefined;
   /** Timestamp for when the customer was soft deleted. */
   deleted_at: string | null;
   /** Timestamp of the first event ingested for this customer. Can predate `created_at`, and is null if no event was ever ingested. */
@@ -422,9 +441,9 @@ export interface CustomerTeam {
   modified_at: string | null;
   metadata: MetadataOutputType;
   /** The ID of the customer in your system. This must be unique within the organization. Once set, it can't be updated. */
-  external_id?: string | null;
+  external_id?: string | null | undefined;
   /** The email address of the customer. This must be unique within the organization. */
-  email?: string | null;
+  email?: string | null | undefined;
   /** Whether the customer email address is verified. The address is automatically verified when the customer accesses the customer portal using their email address. */
   email_verified: boolean;
   /** The type of customer. Team customers can have multiple members. */
@@ -435,11 +454,11 @@ export interface CustomerTeam {
   billing_name: string | null;
   billing_address: Address | null;
   tax_id: CustomerTeamTaxIdList | null;
-  locale?: string | null;
+  locale?: string | null | undefined;
   /** The ID of the organization owning the customer. */
   organization_id: string;
   /** The ID of the customer's default payment method, if any. Use the payment methods endpoint to retrieve its details. */
-  default_payment_method_id?: string | null;
+  default_payment_method_id?: string | null | undefined;
   /** Timestamp for when the customer was soft deleted. */
   deleted_at: string | null;
   /** Timestamp of the first event ingested for this customer. Can predate `created_at`, and is null if no event was ever ingested. */
@@ -491,9 +510,13 @@ export interface BenefitCustom {
   is_deleted: boolean;
   /** The ID of the organization owning the benefit. */
   organization_id: string;
+  /** An ID from your own system to reference this resource. It must be unique within the organization for this type of resource. */
+  external_id: string | null;
   metadata: MetadataOutputType;
   /** The visibility of the benefit in the customer portal. */
   visibility: BenefitVisibility;
+  /** ID of the catalog that introduced this version of the benefit. None for benefits not managed by declarative config. */
+  catalog_id: string | null;
   properties: BenefitCustomProperties;
   visibility_configurable: boolean;
 }
@@ -525,9 +548,13 @@ export interface BenefitDiscord {
   is_deleted: boolean;
   /** The ID of the organization owning the benefit. */
   organization_id: string;
+  /** An ID from your own system to reference this resource. It must be unique within the organization for this type of resource. */
+  external_id: string | null;
   metadata: MetadataOutputType;
   /** The visibility of the benefit in the customer portal. */
   visibility: BenefitVisibility;
+  /** ID of the catalog that introduced this version of the benefit. None for benefits not managed by declarative config. */
+  catalog_id: string | null;
   properties: BenefitDiscordProperties;
   visibility_configurable: boolean;
 }
@@ -566,9 +593,13 @@ export interface BenefitGitHubRepository {
   is_deleted: boolean;
   /** The ID of the organization owning the benefit. */
   organization_id: string;
+  /** An ID from your own system to reference this resource. It must be unique within the organization for this type of resource. */
+  external_id: string | null;
   metadata: MetadataOutputType;
   /** The visibility of the benefit in the customer portal. */
   visibility: BenefitVisibility;
+  /** ID of the catalog that introduced this version of the benefit. None for benefits not managed by declarative config. */
+  catalog_id: string | null;
   properties: BenefitGitHubRepositoryProperties;
   visibility_configurable: boolean;
 }
@@ -596,9 +627,13 @@ export interface BenefitDownloadables {
   is_deleted: boolean;
   /** The ID of the organization owning the benefit. */
   organization_id: string;
+  /** An ID from your own system to reference this resource. It must be unique within the organization for this type of resource. */
+  external_id: string | null;
   metadata: MetadataOutputType;
   /** The visibility of the benefit in the customer portal. */
   visibility: BenefitVisibility;
+  /** ID of the catalog that introduced this version of the benefit. None for benefits not managed by declarative config. */
+  catalog_id: string | null;
   properties: BenefitDownloadablesProperties;
   visibility_configurable: boolean;
 }
@@ -635,9 +670,13 @@ export interface BenefitLicenseKeys {
   is_deleted: boolean;
   /** The ID of the organization owning the benefit. */
   organization_id: string;
+  /** An ID from your own system to reference this resource. It must be unique within the organization for this type of resource. */
+  external_id: string | null;
   metadata: MetadataOutputType;
   /** The visibility of the benefit in the customer portal. */
   visibility: BenefitVisibility;
+  /** ID of the catalog that introduced this version of the benefit. None for benefits not managed by declarative config. */
+  catalog_id: string | null;
   properties: BenefitLicenseKeysProperties;
   visibility_configurable: boolean;
 }
@@ -666,9 +705,13 @@ export interface BenefitMeterCredit {
   is_deleted: boolean;
   /** The ID of the organization owning the benefit. */
   organization_id: string;
+  /** An ID from your own system to reference this resource. It must be unique within the organization for this type of resource. */
+  external_id: string | null;
   metadata: MetadataOutputType;
   /** The visibility of the benefit in the customer portal. */
   visibility: BenefitVisibility;
+  /** ID of the catalog that introduced this version of the benefit. None for benefits not managed by declarative config. */
+  catalog_id: string | null;
   properties: BenefitMeterCreditProperties;
   visibility_configurable: boolean;
 }
@@ -691,9 +734,13 @@ export interface BenefitFeatureFlag {
   is_deleted: boolean;
   /** The ID of the organization owning the benefit. */
   organization_id: string;
+  /** An ID from your own system to reference this resource. It must be unique within the organization for this type of resource. */
+  external_id: string | null;
   metadata: MetadataOutputType;
   /** The visibility of the benefit in the customer portal. */
   visibility: BenefitVisibility;
+  /** ID of the catalog that introduced this version of the benefit. None for benefits not managed by declarative config. */
+  catalog_id: string | null;
   properties: unknown;
   visibility_configurable: boolean;
 }
@@ -705,13 +752,13 @@ export interface BenefitSlackSharedChannelProperties {
   /** Template for the channel name. Supports placeholders: {customer_name}, {customer_email_local}, and {metadata.<key>} for any value stored in customer user metadata. */
   channel_name_template: string;
   /** Create the channel as private (recommended). */
-  private?: boolean;
+  private?: boolean | undefined;
   /** Optional message posted to the channel right after creation. */
-  welcome_message?: string | null;
+  welcome_message?: string | null | undefined;
   /** Archive the channel when the benefit is revoked. */
-  archive_on_revoke?: boolean;
+  archive_on_revoke?: boolean | undefined;
   /** Slack user IDs from the merchant workspace to invite to every channel created for this benefit. */
-  team_invitees?: BenefitSlackSharedChannelPropertiesTeamInviteesList;
+  team_invitees?: BenefitSlackSharedChannelPropertiesTeamInviteesList | undefined;
 }
 export interface BenefitSlackSharedChannel {
   /** The ID of the benefit. */
@@ -731,9 +778,13 @@ export interface BenefitSlackSharedChannel {
   is_deleted: boolean;
   /** The ID of the organization owning the benefit. */
   organization_id: string;
+  /** An ID from your own system to reference this resource. It must be unique within the organization for this type of resource. */
+  external_id: string | null;
   metadata: MetadataOutputType;
   /** The visibility of the benefit in the customer portal. */
   visibility: BenefitVisibility;
+  /** ID of the catalog that introduced this version of the benefit. None for benefits not managed by declarative config. */
+  catalog_id: string | null;
   properties: BenefitSlackSharedChannelProperties;
   visibility_configurable: boolean;
 }
@@ -747,10 +798,10 @@ export type Benefit =
   | BenefitFeatureFlag
   | BenefitSlackSharedChannel;
 export interface BenefitGrantDiscordProperties {
-  account_id?: string | null;
-  guild_id?: string;
-  role_id?: string;
-  granted_account_id?: string;
+  account_id?: string | null | undefined;
+  guild_id?: string | undefined;
+  role_id?: string | undefined;
+  granted_account_id?: string | undefined;
 }
 export type BenefitGrantGitHubRepositoryPropertiesPermission =
   | "pull"
@@ -759,28 +810,28 @@ export type BenefitGrantGitHubRepositoryPropertiesPermission =
   | "maintain"
   | "admin";
 export interface BenefitGrantGitHubRepositoryProperties {
-  account_id?: string | null;
-  repository_owner?: string;
-  repository_name?: string;
-  permission?: BenefitGrantGitHubRepositoryPropertiesPermission;
-  granted_account_id?: string;
+  account_id?: string | null | undefined;
+  repository_owner?: string | undefined;
+  repository_name?: string | undefined;
+  permission?: BenefitGrantGitHubRepositoryPropertiesPermission | undefined;
+  granted_account_id?: string | undefined;
 }
 export type BenefitGrantDownloadablesPropertiesFilesList = Array<string>;
 export interface BenefitGrantDownloadablesProperties {
-  files?: BenefitGrantDownloadablesPropertiesFilesList;
+  files?: BenefitGrantDownloadablesPropertiesFilesList | undefined;
 }
 export interface BenefitGrantLicenseKeysProperties {
-  user_provided_key?: string;
-  license_key_id?: string;
-  display_key?: string;
+  user_provided_key?: string | undefined;
+  license_key_id?: string | undefined;
+  display_key?: string | undefined;
 }
 export interface BenefitGrantSlackSharedChannelProperties {
-  invited_email?: string;
-  channel_id?: string;
-  channel_name?: string;
-  invite_id?: string;
-  invite_url?: string;
-  connected_team_id?: string;
+  invited_email?: string | undefined;
+  channel_id?: string | undefined;
+  channel_name?: string | undefined;
+  invite_id?: string | undefined;
+  invite_url?: string | undefined;
+  connected_team_id?: string | undefined;
 }
 export type BenefitGrantProperties =
   | BenefitGrantDiscordProperties
@@ -797,11 +848,11 @@ export interface BenefitGrant {
   /** The ID of the grant. */
   id: string;
   /** The timestamp when the benefit was granted. If `None`, the benefit is not granted. */
-  granted_at?: string | null;
+  granted_at?: string | null | undefined;
   /** Whether the benefit is granted. */
   is_granted: boolean;
   /** The timestamp when the benefit was revoked. If `None`, the benefit is not revoked. */
-  revoked_at?: string | null;
+  revoked_at?: string | null | undefined;
   /** Whether the benefit is revoked. */
   is_revoked: boolean;
   /** The ID of the subscription that granted this benefit. */
@@ -811,13 +862,13 @@ export interface BenefitGrant {
   /** The ID of the customer concerned by this grant. */
   customer_id: string;
   /** The ID of the member concerned by this grant. */
-  member_id?: string | null;
+  member_id?: string | null | undefined;
   /** The ID of the benefit concerned by this grant. */
   benefit_id: string;
   /** The error information if the benefit grant failed with an unrecoverable error. */
-  error?: BenefitGrantError | null;
+  error?: BenefitGrantError | null | undefined;
   customer: Customer;
-  member?: Member | null;
+  member?: Member | null | undefined;
   benefit: Benefit;
   properties: BenefitGrantProperties;
 }
@@ -837,19 +888,21 @@ export type BenefitCustomCreateMetadataMap = {
 };
 /** Properties for creating a benefit of type `custom`. */
 export interface BenefitCustomCreateProperties {
-  note?: string | null;
+  note?: string | null | undefined;
 }
 /** Schema to create a benefit of type `custom`. */
 export interface BenefitCustomCreate {
+  /** An ID from your own system to reference this resource. It must be unique within the organization for this type of resource. */
+  external_id?: string | null | undefined;
   /** Key-value object allowing you to store additional information. The key must be a string with a maximum length of **40 characters**. The value must be either: * A string with a maximum length of **500 characters** * An integer * A floating-point number * A boolean You can store up to **50 key-value pairs**. */
-  metadata?: BenefitCustomCreateMetadataMap;
+  metadata?: BenefitCustomCreateMetadataMap | undefined;
   type: string;
   /** The description of the benefit. Will be displayed on products having this benefit. */
   description: string;
   /** The ID of the organization owning the benefit. **Required unless you use an organization token.** */
-  organization_id?: string | null;
+  organization_id?: string | null | undefined;
   /** The visibility of the benefit in the customer portal. */
-  visibility?: BenefitVisibility | (string & {}) | null;
+  visibility?: BenefitVisibility | (string & {}) | null | undefined;
   properties: BenefitCustomCreateProperties;
 }
 export type BenefitDiscordCreateMetadataValue = string | number | number | boolean;
@@ -860,15 +913,17 @@ export type BenefitDiscordCreateMetadataMap = {
 /** Properties to create a benefit of type `discord`. */
 export type BenefitDiscordCreateProperties = BenefitDiscordProperties;
 export interface BenefitDiscordCreate {
+  /** An ID from your own system to reference this resource. It must be unique within the organization for this type of resource. */
+  external_id?: string | null | undefined;
   /** Key-value object allowing you to store additional information. The key must be a string with a maximum length of **40 characters**. The value must be either: * A string with a maximum length of **500 characters** * An integer * A floating-point number * A boolean You can store up to **50 key-value pairs**. */
-  metadata?: BenefitDiscordCreateMetadataMap;
+  metadata?: BenefitDiscordCreateMetadataMap | undefined;
   type: string;
   /** The description of the benefit. Will be displayed on products having this benefit. */
   description: string;
   /** The ID of the organization owning the benefit. **Required unless you use an organization token.** */
-  organization_id?: string | null;
+  organization_id?: string | null | undefined;
   /** The visibility of the benefit in the customer portal. */
-  visibility?: BenefitVisibility | (string & {}) | null;
+  visibility?: BenefitVisibility | (string & {}) | null | undefined;
   properties: BenefitDiscordProperties;
 }
 export type BenefitGitHubRepositoryCreateMetadataValue = string | number | number | boolean;
@@ -893,15 +948,17 @@ export interface BenefitGitHubRepositoryCreateProperties {
   permission: BenefitGitHubRepositoryCreatePropertiesPermission | (string & {});
 }
 export interface BenefitGitHubRepositoryCreate {
+  /** An ID from your own system to reference this resource. It must be unique within the organization for this type of resource. */
+  external_id?: string | null | undefined;
   /** Key-value object allowing you to store additional information. The key must be a string with a maximum length of **40 characters**. The value must be either: * A string with a maximum length of **500 characters** * An integer * A floating-point number * A boolean You can store up to **50 key-value pairs**. */
-  metadata?: BenefitGitHubRepositoryCreateMetadataMap;
+  metadata?: BenefitGitHubRepositoryCreateMetadataMap | undefined;
   type: string;
   /** The description of the benefit. Will be displayed on products having this benefit. */
   description: string;
   /** The ID of the organization owning the benefit. **Required unless you use an organization token.** */
-  organization_id?: string | null;
+  organization_id?: string | null | undefined;
   /** The visibility of the benefit in the customer portal. */
-  visibility?: BenefitVisibility | (string & {}) | null;
+  visibility?: BenefitVisibility | (string & {}) | null | undefined;
   properties: BenefitGitHubRepositoryCreateProperties;
 }
 export type BenefitDownloadablesCreateMetadataValue = string | number | number | boolean;
@@ -914,19 +971,21 @@ export type BenefitDownloadablesCreatePropertiesArchivedMap = {
 };
 export type BenefitDownloadablesCreatePropertiesFilesList = Array<string>;
 export interface BenefitDownloadablesCreateProperties {
-  archived?: BenefitDownloadablesCreatePropertiesArchivedMap;
+  archived?: BenefitDownloadablesCreatePropertiesArchivedMap | undefined;
   files: BenefitDownloadablesCreatePropertiesFilesList;
 }
 export interface BenefitDownloadablesCreate {
+  /** An ID from your own system to reference this resource. It must be unique within the organization for this type of resource. */
+  external_id?: string | null | undefined;
   /** Key-value object allowing you to store additional information. The key must be a string with a maximum length of **40 characters**. The value must be either: * A string with a maximum length of **500 characters** * An integer * A floating-point number * A boolean You can store up to **50 key-value pairs**. */
-  metadata?: BenefitDownloadablesCreateMetadataMap;
+  metadata?: BenefitDownloadablesCreateMetadataMap | undefined;
   type: string;
   /** The description of the benefit. Will be displayed on products having this benefit. */
   description: string;
   /** The ID of the organization owning the benefit. **Required unless you use an organization token.** */
-  organization_id?: string | null;
+  organization_id?: string | null | undefined;
   /** The visibility of the benefit in the customer portal. */
-  visibility?: BenefitVisibility | (string & {}) | null;
+  visibility?: BenefitVisibility | (string & {}) | null | undefined;
   properties: BenefitDownloadablesCreateProperties;
 }
 export type BenefitLicenseKeysCreateMetadataValue = string | number | number | boolean;
@@ -936,21 +995,23 @@ export type BenefitLicenseKeysCreateMetadataMap = {
 };
 export type BenefitLicenseKeyActivationCreateProperties = BenefitLicenseKeyActivationProperties;
 export interface BenefitLicenseKeysCreateProperties {
-  prefix?: string | null;
-  expires?: BenefitLicenseKeyExpirationProperties | null;
-  activations?: BenefitLicenseKeyActivationProperties | null;
-  limit_usage?: number | null;
+  prefix?: string | null | undefined;
+  expires?: BenefitLicenseKeyExpirationProperties | null | undefined;
+  activations?: BenefitLicenseKeyActivationProperties | null | undefined;
+  limit_usage?: number | null | undefined;
 }
 export interface BenefitLicenseKeysCreate {
+  /** An ID from your own system to reference this resource. It must be unique within the organization for this type of resource. */
+  external_id?: string | null | undefined;
   /** Key-value object allowing you to store additional information. The key must be a string with a maximum length of **40 characters**. The value must be either: * A string with a maximum length of **500 characters** * An integer * A floating-point number * A boolean You can store up to **50 key-value pairs**. */
-  metadata?: BenefitLicenseKeysCreateMetadataMap;
+  metadata?: BenefitLicenseKeysCreateMetadataMap | undefined;
   type: string;
   /** The description of the benefit. Will be displayed on products having this benefit. */
   description: string;
   /** The ID of the organization owning the benefit. **Required unless you use an organization token.** */
-  organization_id?: string | null;
+  organization_id?: string | null | undefined;
   /** The visibility of the benefit in the customer portal. */
-  visibility?: BenefitVisibility | (string & {}) | null;
+  visibility?: BenefitVisibility | (string & {}) | null | undefined;
   properties: BenefitLicenseKeysCreateProperties;
 }
 export type BenefitMeterCreditCreateMetadataValue = string | number | number | boolean;
@@ -962,15 +1023,17 @@ export type BenefitMeterCreditCreateMetadataMap = {
 export type BenefitMeterCreditCreateProperties = BenefitMeterCreditProperties;
 /** Schema to create a benefit of type `meter_unit`. */
 export interface BenefitMeterCreditCreate {
+  /** An ID from your own system to reference this resource. It must be unique within the organization for this type of resource. */
+  external_id?: string | null | undefined;
   /** Key-value object allowing you to store additional information. The key must be a string with a maximum length of **40 characters**. The value must be either: * A string with a maximum length of **500 characters** * An integer * A floating-point number * A boolean You can store up to **50 key-value pairs**. */
-  metadata?: BenefitMeterCreditCreateMetadataMap;
+  metadata?: BenefitMeterCreditCreateMetadataMap | undefined;
   type: string;
   /** The description of the benefit. Will be displayed on products having this benefit. */
   description: string;
   /** The ID of the organization owning the benefit. **Required unless you use an organization token.** */
-  organization_id?: string | null;
+  organization_id?: string | null | undefined;
   /** The visibility of the benefit in the customer portal. */
-  visibility?: BenefitVisibility | (string & {}) | null;
+  visibility?: BenefitVisibility | (string & {}) | null | undefined;
   properties: BenefitMeterCreditProperties;
 }
 export type BenefitFeatureFlagCreateMetadataValue = string | number | number | boolean;
@@ -980,15 +1043,17 @@ export type BenefitFeatureFlagCreateMetadataMap = {
 };
 /** Schema to create a benefit of type `feature_flag`. */
 export interface BenefitFeatureFlagCreate {
+  /** An ID from your own system to reference this resource. It must be unique within the organization for this type of resource. */
+  external_id?: string | null | undefined;
   /** Key-value object allowing you to store additional information. The key must be a string with a maximum length of **40 characters**. The value must be either: * A string with a maximum length of **500 characters** * An integer * A floating-point number * A boolean You can store up to **50 key-value pairs**. */
-  metadata?: BenefitFeatureFlagCreateMetadataMap;
+  metadata?: BenefitFeatureFlagCreateMetadataMap | undefined;
   type: string;
   /** The description of the benefit. Will be displayed on products having this benefit. */
   description: string;
   /** The ID of the organization owning the benefit. **Required unless you use an organization token.** */
-  organization_id?: string | null;
+  organization_id?: string | null | undefined;
   /** The visibility of the benefit in the customer portal. */
-  visibility?: BenefitVisibility | (string & {}) | null;
+  visibility?: BenefitVisibility | (string & {}) | null | undefined;
   properties: unknown;
 }
 export type BenefitSlackSharedChannelCreateMetadataValue = string | number | number | boolean;
@@ -1001,21 +1066,23 @@ export interface BenefitSlackSharedChannelCreateProperties {
   /** Polar Slack integration to use for this benefit. */
   slack_integration_id: string;
   channel_name_template: string;
-  private?: boolean;
-  welcome_message?: string | null;
-  archive_on_revoke?: boolean;
-  team_invitees?: BenefitSlackSharedChannelCreatePropertiesTeamInviteesList;
+  private?: boolean | undefined;
+  welcome_message?: string | null | undefined;
+  archive_on_revoke?: boolean | undefined;
+  team_invitees?: BenefitSlackSharedChannelCreatePropertiesTeamInviteesList | undefined;
 }
 export interface BenefitSlackSharedChannelCreate {
+  /** An ID from your own system to reference this resource. It must be unique within the organization for this type of resource. */
+  external_id?: string | null | undefined;
   /** Key-value object allowing you to store additional information. The key must be a string with a maximum length of **40 characters**. The value must be either: * A string with a maximum length of **500 characters** * An integer * A floating-point number * A boolean You can store up to **50 key-value pairs**. */
-  metadata?: BenefitSlackSharedChannelCreateMetadataMap;
+  metadata?: BenefitSlackSharedChannelCreateMetadataMap | undefined;
   type: string;
   /** The description of the benefit. Will be displayed on products having this benefit. */
   description: string;
   /** The ID of the organization owning the benefit. **Required unless you use an organization token.** */
-  organization_id?: string | null;
+  organization_id?: string | null | undefined;
   /** The visibility of the benefit in the customer portal. */
-  visibility?: BenefitVisibility | (string & {}) | null;
+  visibility?: BenefitVisibility | (string & {}) | null | undefined;
   properties: BenefitSlackSharedChannelCreateProperties;
 }
 export type BenefitCreate =
@@ -1038,9 +1105,9 @@ export interface BenefitsDeleteResponse {}
 export interface BenefitsFilesRequest {
   id: string;
   /** Page number, defaults to 1. */
-  page?: number;
+  page?: number | undefined;
   /** Size of a page, defaults to 10. Maximum is 100. */
-  limit?: number;
+  limit?: number | undefined;
 }
 export interface BenefitDownloadableFile {
   /** The ID of the object. */
@@ -1084,15 +1151,15 @@ export type BenefitsGrantsRequestMemberId = string | BenefitsGrantsRequestMember
 export interface BenefitsGrantsRequest {
   id: string;
   /** Filter by granted status. If `true`, only granted benefits will be returned. If `false`, only revoked benefits will be returned. */
-  is_granted?: boolean;
+  is_granted?: boolean | undefined;
   /** Filter by customer. */
-  customer_id?: BenefitsGrantsRequestCustomerId;
+  customer_id?: BenefitsGrantsRequestCustomerId | undefined;
   /** Filter by member. */
-  member_id?: BenefitsGrantsRequestMemberId;
+  member_id?: BenefitsGrantsRequestMemberId | undefined;
   /** Page number, defaults to 1. */
-  page?: number;
+  page?: number | undefined;
   /** Size of a page, defaults to 10. Maximum is 100. */
-  limit?: number;
+  limit?: number | undefined;
 }
 export type BenefitsListRequestOrganizationIdCase1List = Array<string>;
 /** Filter by organization ID. */
@@ -1112,6 +1179,9 @@ export type BenefitsListRequestType = BenefitType | BenefitsListRequestTypeCase1
 export type BenefitsListRequestIdCase1List = Array<string>;
 /** Filter by benefit IDs. */
 export type BenefitsListRequestId = string | BenefitsListRequestIdCase1List;
+export type BenefitsListRequestExternalIdCase1List = Array<string>;
+/** Filter by benefit external ID. */
+export type BenefitsListRequestExternalId = string | BenefitsListRequestExternalIdCase1List;
 export type BenefitsListRequestExcludeIdCase1List = Array<string>;
 /** Exclude benefits with these IDs. */
 export type BenefitsListRequestExcludeId = string | BenefitsListRequestExcludeIdCase1List;
@@ -1138,23 +1208,25 @@ export type MetadataQueryValue =
 export type MetadataQueryMap = { [key: string]: MetadataQueryValue | undefined };
 export interface BenefitsListRequest {
   /** Filter by organization ID. */
-  organization_id?: BenefitsListRequestOrganizationId;
+  organization_id?: BenefitsListRequestOrganizationId | undefined;
   /** Filter by benefit type. */
-  type?: BenefitsListRequestType;
+  type?: BenefitsListRequestType | undefined;
   /** Filter by benefit IDs. */
-  id?: BenefitsListRequestId;
+  id?: BenefitsListRequestId | undefined;
+  /** Filter by benefit external ID. */
+  external_id?: BenefitsListRequestExternalId | undefined;
   /** Exclude benefits with these IDs. */
-  exclude_id?: BenefitsListRequestExcludeId;
+  exclude_id?: BenefitsListRequestExcludeId | undefined;
   /** Filter by description. */
-  query?: string;
+  query?: string | undefined;
   /** Page number, defaults to 1. */
-  page?: number;
+  page?: number | undefined;
   /** Size of a page, defaults to 10. Maximum is 100. */
-  limit?: number;
+  limit?: number | undefined;
   /** Sorting criterion. Several criteria can be used simultaneously and will be applied in order. Add a minus sign `-` before the criteria name to sort by descending order. */
-  sorting?: BenefitsListRequestSortingList;
+  sorting?: BenefitsListRequestSortingList | undefined;
   /** Filter by metadata key-value pairs. It uses the `deepObject` style, e.g. `?metadata[key]=value`. */
-  metadata?: MetadataQueryMap;
+  metadata?: MetadataQueryMap | undefined;
 }
 export type ListResourceBenefitItemsList = Array<Benefit>;
 export interface ListResourceBenefit {
@@ -1167,14 +1239,16 @@ export type BenefitCustomUpdateMetadataMap = {
   [key: string]: BenefitCustomUpdateMetadataValue | undefined;
 };
 export interface BenefitCustomUpdate {
+  /** An ID from your own system to reference this resource. It must be unique within the organization for this type of resource. */
+  external_id?: string | null | undefined;
   /** Key-value object allowing you to store additional information. The key must be a string with a maximum length of **40 characters**. The value must be either: * A string with a maximum length of **500 characters** * An integer * A floating-point number * A boolean You can store up to **50 key-value pairs**. */
-  metadata?: BenefitCustomUpdateMetadataMap;
+  metadata?: BenefitCustomUpdateMetadataMap | undefined;
   /** The description of the benefit. Will be displayed on products having this benefit. */
-  description?: string | null;
+  description?: string | null | undefined;
   /** The visibility of the benefit in the customer portal. */
-  visibility?: BenefitVisibility | (string & {}) | null;
+  visibility?: BenefitVisibility | (string & {}) | null | undefined;
   type: string;
-  properties?: BenefitCustomProperties | null;
+  properties?: BenefitCustomProperties | null | undefined;
 }
 export type BenefitDiscordUpdateMetadataValue = string | number | number | boolean;
 /** Key-value object allowing you to store additional information. The key must be a string with a maximum length of **40 characters**. The value must be either: * A string with a maximum length of **500 characters** * An integer * A floating-point number * A boolean You can store up to **50 key-value pairs**. */
@@ -1182,12 +1256,14 @@ export type BenefitDiscordUpdateMetadataMap = {
   [key: string]: BenefitDiscordUpdateMetadataValue | undefined;
 };
 export interface BenefitDiscordUpdate {
+  /** An ID from your own system to reference this resource. It must be unique within the organization for this type of resource. */
+  external_id?: string | null | undefined;
   /** Key-value object allowing you to store additional information. The key must be a string with a maximum length of **40 characters**. The value must be either: * A string with a maximum length of **500 characters** * An integer * A floating-point number * A boolean You can store up to **50 key-value pairs**. */
-  metadata?: BenefitDiscordUpdateMetadataMap;
+  metadata?: BenefitDiscordUpdateMetadataMap | undefined;
   /** The description of the benefit. Will be displayed on products having this benefit. */
-  description?: string | null;
+  description?: string | null | undefined;
   type: string;
-  properties?: BenefitDiscordProperties | null;
+  properties?: BenefitDiscordProperties | null | undefined;
 }
 export type BenefitGitHubRepositoryUpdateMetadataValue = string | number | number | boolean;
 /** Key-value object allowing you to store additional information. The key must be a string with a maximum length of **40 characters**. The value must be either: * A string with a maximum length of **500 characters** * An integer * A floating-point number * A boolean You can store up to **50 key-value pairs**. */
@@ -1195,12 +1271,14 @@ export type BenefitGitHubRepositoryUpdateMetadataMap = {
   [key: string]: BenefitGitHubRepositoryUpdateMetadataValue | undefined;
 };
 export interface BenefitGitHubRepositoryUpdate {
+  /** An ID from your own system to reference this resource. It must be unique within the organization for this type of resource. */
+  external_id?: string | null | undefined;
   /** Key-value object allowing you to store additional information. The key must be a string with a maximum length of **40 characters**. The value must be either: * A string with a maximum length of **500 characters** * An integer * A floating-point number * A boolean You can store up to **50 key-value pairs**. */
-  metadata?: BenefitGitHubRepositoryUpdateMetadataMap;
+  metadata?: BenefitGitHubRepositoryUpdateMetadataMap | undefined;
   /** The description of the benefit. Will be displayed on products having this benefit. */
-  description?: string | null;
+  description?: string | null | undefined;
   type: string;
-  properties?: BenefitGitHubRepositoryCreateProperties | null;
+  properties?: BenefitGitHubRepositoryCreateProperties | null | undefined;
 }
 export type BenefitDownloadablesUpdateMetadataValue = string | number | number | boolean;
 /** Key-value object allowing you to store additional information. The key must be a string with a maximum length of **40 characters**. The value must be either: * A string with a maximum length of **500 characters** * An integer * A floating-point number * A boolean You can store up to **50 key-value pairs**. */
@@ -1208,12 +1286,14 @@ export type BenefitDownloadablesUpdateMetadataMap = {
   [key: string]: BenefitDownloadablesUpdateMetadataValue | undefined;
 };
 export interface BenefitDownloadablesUpdate {
+  /** An ID from your own system to reference this resource. It must be unique within the organization for this type of resource. */
+  external_id?: string | null | undefined;
   /** Key-value object allowing you to store additional information. The key must be a string with a maximum length of **40 characters**. The value must be either: * A string with a maximum length of **500 characters** * An integer * A floating-point number * A boolean You can store up to **50 key-value pairs**. */
-  metadata?: BenefitDownloadablesUpdateMetadataMap;
+  metadata?: BenefitDownloadablesUpdateMetadataMap | undefined;
   /** The description of the benefit. Will be displayed on products having this benefit. */
-  description?: string | null;
+  description?: string | null | undefined;
   type: string;
-  properties?: BenefitDownloadablesCreateProperties | null;
+  properties?: BenefitDownloadablesCreateProperties | null | undefined;
 }
 export type BenefitLicenseKeysUpdateMetadataValue = string | number | number | boolean;
 /** Key-value object allowing you to store additional information. The key must be a string with a maximum length of **40 characters**. The value must be either: * A string with a maximum length of **500 characters** * An integer * A floating-point number * A boolean You can store up to **50 key-value pairs**. */
@@ -1221,14 +1301,16 @@ export type BenefitLicenseKeysUpdateMetadataMap = {
   [key: string]: BenefitLicenseKeysUpdateMetadataValue | undefined;
 };
 export interface BenefitLicenseKeysUpdate {
+  /** An ID from your own system to reference this resource. It must be unique within the organization for this type of resource. */
+  external_id?: string | null | undefined;
   /** Key-value object allowing you to store additional information. The key must be a string with a maximum length of **40 characters**. The value must be either: * A string with a maximum length of **500 characters** * An integer * A floating-point number * A boolean You can store up to **50 key-value pairs**. */
-  metadata?: BenefitLicenseKeysUpdateMetadataMap;
+  metadata?: BenefitLicenseKeysUpdateMetadataMap | undefined;
   /** The description of the benefit. Will be displayed on products having this benefit. */
-  description?: string | null;
+  description?: string | null | undefined;
   /** The visibility of the benefit in the customer portal. */
-  visibility?: BenefitVisibility | (string & {}) | null;
+  visibility?: BenefitVisibility | (string & {}) | null | undefined;
   type: string;
-  properties?: BenefitLicenseKeysCreateProperties | null;
+  properties?: BenefitLicenseKeysCreateProperties | null | undefined;
 }
 export type BenefitMeterCreditUpdateMetadataValue = string | number | number | boolean;
 /** Key-value object allowing you to store additional information. The key must be a string with a maximum length of **40 characters**. The value must be either: * A string with a maximum length of **500 characters** * An integer * A floating-point number * A boolean You can store up to **50 key-value pairs**. */
@@ -1236,14 +1318,16 @@ export type BenefitMeterCreditUpdateMetadataMap = {
   [key: string]: BenefitMeterCreditUpdateMetadataValue | undefined;
 };
 export interface BenefitMeterCreditUpdate {
+  /** An ID from your own system to reference this resource. It must be unique within the organization for this type of resource. */
+  external_id?: string | null | undefined;
   /** Key-value object allowing you to store additional information. The key must be a string with a maximum length of **40 characters**. The value must be either: * A string with a maximum length of **500 characters** * An integer * A floating-point number * A boolean You can store up to **50 key-value pairs**. */
-  metadata?: BenefitMeterCreditUpdateMetadataMap;
+  metadata?: BenefitMeterCreditUpdateMetadataMap | undefined;
   /** The description of the benefit. Will be displayed on products having this benefit. */
-  description?: string | null;
+  description?: string | null | undefined;
   /** The visibility of the benefit in the customer portal. */
-  visibility?: BenefitVisibility | (string & {}) | null;
+  visibility?: BenefitVisibility | (string & {}) | null | undefined;
   type: string;
-  properties?: BenefitMeterCreditProperties | null;
+  properties?: BenefitMeterCreditProperties | null | undefined;
 }
 export type BenefitFeatureFlagUpdateMetadataValue = string | number | number | boolean;
 /** Key-value object allowing you to store additional information. The key must be a string with a maximum length of **40 characters**. The value must be either: * A string with a maximum length of **500 characters** * An integer * A floating-point number * A boolean You can store up to **50 key-value pairs**. */
@@ -1251,14 +1335,16 @@ export type BenefitFeatureFlagUpdateMetadataMap = {
   [key: string]: BenefitFeatureFlagUpdateMetadataValue | undefined;
 };
 export interface BenefitFeatureFlagUpdate {
+  /** An ID from your own system to reference this resource. It must be unique within the organization for this type of resource. */
+  external_id?: string | null | undefined;
   /** Key-value object allowing you to store additional information. The key must be a string with a maximum length of **40 characters**. The value must be either: * A string with a maximum length of **500 characters** * An integer * A floating-point number * A boolean You can store up to **50 key-value pairs**. */
-  metadata?: BenefitFeatureFlagUpdateMetadataMap;
+  metadata?: BenefitFeatureFlagUpdateMetadataMap | undefined;
   /** The description of the benefit. Will be displayed on products having this benefit. */
-  description?: string | null;
+  description?: string | null | undefined;
   /** The visibility of the benefit in the customer portal. */
-  visibility?: BenefitVisibility | (string & {}) | null;
+  visibility?: BenefitVisibility | (string & {}) | null | undefined;
   type: string;
-  properties?: unknown | null;
+  properties?: unknown | null | undefined;
 }
 export type BenefitSlackSharedChannelUpdateMetadataValue = string | number | number | boolean;
 /** Key-value object allowing you to store additional information. The key must be a string with a maximum length of **40 characters**. The value must be either: * A string with a maximum length of **500 characters** * An integer * A floating-point number * A boolean You can store up to **50 key-value pairs**. */
@@ -1266,12 +1352,14 @@ export type BenefitSlackSharedChannelUpdateMetadataMap = {
   [key: string]: BenefitSlackSharedChannelUpdateMetadataValue | undefined;
 };
 export interface BenefitSlackSharedChannelUpdate {
+  /** An ID from your own system to reference this resource. It must be unique within the organization for this type of resource. */
+  external_id?: string | null | undefined;
   /** Key-value object allowing you to store additional information. The key must be a string with a maximum length of **40 characters**. The value must be either: * A string with a maximum length of **500 characters** * An integer * A floating-point number * A boolean You can store up to **50 key-value pairs**. */
-  metadata?: BenefitSlackSharedChannelUpdateMetadataMap;
+  metadata?: BenefitSlackSharedChannelUpdateMetadataMap | undefined;
   /** The description of the benefit. Will be displayed on products having this benefit. */
-  description?: string | null;
+  description?: string | null | undefined;
   type: string;
-  properties?: BenefitSlackSharedChannelCreateProperties | null;
+  properties?: BenefitSlackSharedChannelCreateProperties | null | undefined;
 }
 export type BenefitsUpdateRequestBody =
   | BenefitCustomUpdate
@@ -1287,182 +1375,47 @@ export interface BenefitsUpdateRequest {
   body: BenefitsUpdateRequestBody;
 }
 export type BenefitsUpdateResponse = Benefit;
-export type CheckoutLinkCreateProductPriceMetadataValue = string | number | number | boolean;
+export type CheckoutLinksCreateRequestMetadataValue = string | number | number | boolean;
 /** Key-value object allowing you to store additional information. The key must be a string with a maximum length of **40 characters**. The value must be either: * A string with a maximum length of **500 characters** * An integer * A floating-point number * A boolean You can store up to **50 key-value pairs**. */
-export type CheckoutLinkCreateProductPriceMetadataMap = {
-  [key: string]: CheckoutLinkCreateProductPriceMetadataValue | undefined;
+export type CheckoutLinksCreateRequestMetadataMap = {
+  [key: string]: CheckoutLinksCreateRequestMetadataValue | undefined;
 };
 export type TrialInterval = "day" | "week" | "month" | "year";
-/** Schema to create a new checkout link from a a single product price. **Deprecated**: Use `CheckoutLinkCreateProducts` instead. */
-export interface CheckoutLinkCreateProductPrice {
-  /** Key-value object allowing you to store additional information. The key must be a string with a maximum length of **40 characters**. The value must be either: * A string with a maximum length of **500 characters** * An integer * A floating-point number * A boolean You can store up to **50 key-value pairs**. */
-  metadata?: CheckoutLinkCreateProductPriceMetadataMap;
-  /** The interval unit for the trial period. */
-  trial_interval?: TrialInterval | (string & {}) | null;
-  /** The number of interval units for the trial period. */
-  trial_interval_count?: number | null;
-  /** Payment processor to use. Currently only Stripe is supported. */
-  payment_processor: string;
-  /** Optional label to distinguish links internally */
-  label?: string | null;
-  /** Whether to allow the customer to apply discount codes. If you apply a discount through `discount_id`, it'll still be applied, but the customer won't be able to change it. */
-  allow_discount_codes?: boolean;
-  /** Whether to require the customer to fill their full billing address, instead of just the country. Customers in the US will always be required to fill their full address, regardless of this setting. */
-  require_billing_address?: boolean;
-  /** ID of the discount to apply to the checkout. If the discount is not applicable anymore when opening the checkout link, it'll be ignored. */
-  discount_id?: string | null;
-  /** Preconfigured number of seats for seat-based pricing. When set, checkout sessions created from this link are locked to this number of seats and the customer won't be able to change it. All products on the link must use seat-based pricing and allow this number of seats. If the products no longer accommodate this value when the link is opened, it'll be ignored. */
-  seats?: number | null;
-  /** Preconfigured number of units for unit-based pricing. When set, checkout sessions created from this link are locked to this number of units and the customer won't be able to change it. All products on the link must use unit-based pricing and allow this number of units. If the products no longer accommodate this value when the link is opened, it'll be ignored. */
-  units?: number | null;
-  /** URL where the customer will be redirected after a successful payment.You can add the `checkout_id={CHECKOUT_ID}` query parameter to retrieve the checkout session id. */
-  success_url?: string | null;
-  /** When set, a back button will be shown in the checkout to return to this URL. */
-  return_url?: string | null;
-  product_price_id: string;
-}
-export type CheckoutLinkCreateProductMetadataValue = string | number | number | boolean;
-/** Key-value object allowing you to store additional information. The key must be a string with a maximum length of **40 characters**. The value must be either: * A string with a maximum length of **500 characters** * An integer * A floating-point number * A boolean You can store up to **50 key-value pairs**. */
-export type CheckoutLinkCreateProductMetadataMap = {
-  [key: string]: CheckoutLinkCreateProductMetadataValue | undefined;
-};
-/** Schema to create a new checkout link from a a single product. **Deprecated**: Use `CheckoutLinkCreateProducts` instead. */
-export interface CheckoutLinkCreateProduct {
-  /** Key-value object allowing you to store additional information. The key must be a string with a maximum length of **40 characters**. The value must be either: * A string with a maximum length of **500 characters** * An integer * A floating-point number * A boolean You can store up to **50 key-value pairs**. */
-  metadata?: CheckoutLinkCreateProductMetadataMap;
-  /** The interval unit for the trial period. */
-  trial_interval?: TrialInterval | (string & {}) | null;
-  /** The number of interval units for the trial period. */
-  trial_interval_count?: number | null;
-  /** Payment processor to use. Currently only Stripe is supported. */
-  payment_processor: string;
-  /** Optional label to distinguish links internally */
-  label?: string | null;
-  /** Whether to allow the customer to apply discount codes. If you apply a discount through `discount_id`, it'll still be applied, but the customer won't be able to change it. */
-  allow_discount_codes?: boolean;
-  /** Whether to require the customer to fill their full billing address, instead of just the country. Customers in the US will always be required to fill their full address, regardless of this setting. */
-  require_billing_address?: boolean;
-  /** ID of the discount to apply to the checkout. If the discount is not applicable anymore when opening the checkout link, it'll be ignored. */
-  discount_id?: string | null;
-  /** Preconfigured number of seats for seat-based pricing. When set, checkout sessions created from this link are locked to this number of seats and the customer won't be able to change it. All products on the link must use seat-based pricing and allow this number of seats. If the products no longer accommodate this value when the link is opened, it'll be ignored. */
-  seats?: number | null;
-  /** Preconfigured number of units for unit-based pricing. When set, checkout sessions created from this link are locked to this number of units and the customer won't be able to change it. All products on the link must use unit-based pricing and allow this number of units. If the products no longer accommodate this value when the link is opened, it'll be ignored. */
-  units?: number | null;
-  /** URL where the customer will be redirected after a successful payment.You can add the `checkout_id={CHECKOUT_ID}` query parameter to retrieve the checkout session id. */
-  success_url?: string | null;
-  /** When set, a back button will be shown in the checkout to return to this URL. */
-  return_url?: string | null;
-  product_id: string;
-}
-export type CheckoutLinkCreateProductsMetadataValue = string | number | number | boolean;
-/** Key-value object allowing you to store additional information. The key must be a string with a maximum length of **40 characters**. The value must be either: * A string with a maximum length of **500 characters** * An integer * A floating-point number * A boolean You can store up to **50 key-value pairs**. */
-export type CheckoutLinkCreateProductsMetadataMap = {
-  [key: string]: CheckoutLinkCreateProductsMetadataValue | undefined;
-};
 /** List of products that will be available to select at checkout. */
-export type CheckoutLinkCreateProductsProductsList = Array<string>;
-/** Schema to create a new checkout link. */
-export interface CheckoutLinkCreateProducts {
+export type CheckoutLinksCreateRequestProductsList = Array<string>;
+export interface CheckoutLinksCreateRequest {
   /** Key-value object allowing you to store additional information. The key must be a string with a maximum length of **40 characters**. The value must be either: * A string with a maximum length of **500 characters** * An integer * A floating-point number * A boolean You can store up to **50 key-value pairs**. */
-  metadata?: CheckoutLinkCreateProductsMetadataMap;
+  metadata?: CheckoutLinksCreateRequestMetadataMap | undefined;
   /** The interval unit for the trial period. */
-  trial_interval?: TrialInterval | (string & {}) | null;
+  trial_interval?: TrialInterval | (string & {}) | null | undefined;
   /** The number of interval units for the trial period. */
-  trial_interval_count?: number | null;
+  trial_interval_count?: number | null | undefined;
   /** Payment processor to use. Currently only Stripe is supported. */
   payment_processor: string;
   /** Optional label to distinguish links internally */
-  label?: string | null;
+  label?: string | null | undefined;
   /** Whether to allow the customer to apply discount codes. If you apply a discount through `discount_id`, it'll still be applied, but the customer won't be able to change it. */
-  allow_discount_codes?: boolean;
+  allow_discount_codes?: boolean | undefined;
   /** Whether to require the customer to fill their full billing address, instead of just the country. Customers in the US will always be required to fill their full address, regardless of this setting. */
-  require_billing_address?: boolean;
+  require_billing_address?: boolean | undefined;
   /** ID of the discount to apply to the checkout. If the discount is not applicable anymore when opening the checkout link, it'll be ignored. */
-  discount_id?: string | null;
+  discount_id?: string | null | undefined;
   /** Preconfigured number of seats for seat-based pricing. When set, checkout sessions created from this link are locked to this number of seats and the customer won't be able to change it. All products on the link must use seat-based pricing and allow this number of seats. If the products no longer accommodate this value when the link is opened, it'll be ignored. */
-  seats?: number | null;
+  seats?: number | null | undefined;
   /** Preconfigured number of units for unit-based pricing. When set, checkout sessions created from this link are locked to this number of units and the customer won't be able to change it. All products on the link must use unit-based pricing and allow this number of units. If the products no longer accommodate this value when the link is opened, it'll be ignored. */
-  units?: number | null;
+  units?: number | null | undefined;
   /** URL where the customer will be redirected after a successful payment.You can add the `checkout_id={CHECKOUT_ID}` query parameter to retrieve the checkout session id. */
-  success_url?: string | null;
+  success_url?: string | null | undefined;
   /** When set, a back button will be shown in the checkout to return to this URL. */
-  return_url?: string | null;
+  return_url?: string | null | undefined;
   /** List of products that will be available to select at checkout. */
-  products: CheckoutLinkCreateProductsProductsList;
-}
-export type CheckoutLinkCreate =
-  | CheckoutLinkCreateProductPrice
-  | CheckoutLinkCreateProduct
-  | CheckoutLinkCreateProducts;
-export interface CheckoutLinksCreateRequest {
-  body: CheckoutLinkCreate;
+  products: CheckoutLinksCreateRequestProductsList;
 }
 export type PaymentProcessor = "stripe";
 export type ProductVisibility = "draft" | "private" | "public";
 export type RecurringInterval = "day" | "week" | "month" | "year";
 export type ProductPriceSource = "catalog" | "ad_hoc";
 export type TaxBehaviorOption = "location" | "inclusive" | "exclusive";
-/** A recurring price for a product, i.e. a subscription. **Deprecated**: The recurring interval should be set on the product itself. */
-export interface LegacyRecurringProductPriceFixed {
-  /** Creation timestamp of the object. */
-  created_at: string;
-  /** Last modification timestamp of the object. */
-  modified_at: string | null;
-  /** The ID of the price. */
-  id: string;
-  /** The source of the price . `catalog` is a predefined price, while `ad_hoc` is a price created dynamically on a Checkout session. */
-  source: ProductPriceSource;
-  amount_type: string;
-  /** The currency in which the customer will be charged. */
-  price_currency: string;
-  /** The tax behavior of the price. If null, it defaults to the organization's default tax behavior. */
-  tax_behavior: TaxBehaviorOption | null;
-  /** Whether the price is archived and no longer available. */
-  is_archived: boolean;
-  /** The ID of the product owning the price. */
-  product_id: string;
-  /** The type of the price. */
-  type: string;
-  /** The recurring interval of the price. */
-  recurring_interval: RecurringInterval;
-  /** The price in cents. */
-  price_amount: number;
-  legacy: boolean;
-}
-/** A pay-what-you-want recurring price for a product, i.e. a subscription. **Deprecated**: The recurring interval should be set on the product itself. */
-export interface LegacyRecurringProductPriceCustom {
-  /** Creation timestamp of the object. */
-  created_at: string;
-  /** Last modification timestamp of the object. */
-  modified_at: string | null;
-  /** The ID of the price. */
-  id: string;
-  /** The source of the price . `catalog` is a predefined price, while `ad_hoc` is a price created dynamically on a Checkout session. */
-  source: ProductPriceSource;
-  amount_type: string;
-  /** The currency in which the customer will be charged. */
-  price_currency: string;
-  /** The tax behavior of the price. If null, it defaults to the organization's default tax behavior. */
-  tax_behavior: TaxBehaviorOption | null;
-  /** Whether the price is archived and no longer available. */
-  is_archived: boolean;
-  /** The ID of the product owning the price. */
-  product_id: string;
-  /** The type of the price. */
-  type: string;
-  /** The recurring interval of the price. */
-  recurring_interval: RecurringInterval;
-  /** The minimum amount the customer can pay. If 0, the price is 'free or pay what you want'. */
-  minimum_amount: number;
-  /** The maximum amount the customer can pay. */
-  maximum_amount: number | null;
-  /** The initial amount shown to the customer. */
-  preset_amount: number | null;
-  legacy: boolean;
-}
-export type LegacyRecurringProductPrice =
-  | LegacyRecurringProductPriceFixed
-  | LegacyRecurringProductPriceCustom;
 /** A fixed price for a product. */
 export interface ProductPriceFixed {
   /** Creation timestamp of the object. */
@@ -1514,7 +1467,7 @@ export interface ProductPriceCustom {
 export type TierType = "volume" | "graduated";
 /** A per-unit rate up to and including `bound`. Each tier starts where the previous one ended. The first starts at zero. `bound` is None on the last tier if it's unbounded. Rates are in cents and may be fractional. Rates carry no precision bound: this schema reads stored rows, and a bound tightened later would stop them loading. `TierInput` holds the rules new rates must meet. */
 export interface Tier {
-  bound?: number | null;
+  bound?: number | null | undefined;
   unit_amount: string;
 }
 export type TiersTiersList = Array<Tier>;
@@ -1658,9 +1611,8 @@ export type ProductPrice =
   | ProductPriceUnitBased
   | ProductPriceMeteredUnit
   | ProductPriceMeteredTiers;
-export type CheckoutLinkProductPricesItem = LegacyRecurringProductPrice | ProductPrice;
 /** List of prices for this product. */
-export type CheckoutLinkProductPricesList = Array<CheckoutLinkProductPricesItem>;
+export type CheckoutLinkProductPricesList = Array<ProductPrice>;
 export interface BenefitCustomPublic {
   /** The ID of the benefit. */
   id: string;
@@ -1794,8 +1746,6 @@ export type DiscountFixedOnceForeverDurationBaseAmountsMap = { [key: string]: nu
 export interface DiscountFixedOnceForeverDurationBase {
   duration: DiscountDuration;
   type: DiscountType;
-  amount: number;
-  currency: string;
   /** Map of currency to fixed amount to discount from the total. */
   amounts: DiscountFixedOnceForeverDurationBaseAmountsMap;
   /** Creation timestamp of the object. */
@@ -1804,6 +1754,8 @@ export interface DiscountFixedOnceForeverDurationBase {
   modified_at: string | null;
   /** The ID of the object. */
   id: string;
+  /** An ID from your own system to reference this resource. It must be unique within the organization for this type of resource. */
+  external_id: string | null;
   metadata: MetadataOutputType;
   /** Name of the discount. Will be displayed to the customer when the discount is applied. */
   name: string;
@@ -1828,8 +1780,6 @@ export interface DiscountFixedRepeatDurationBase {
   duration: DiscountDuration;
   duration_in_months: number;
   type: DiscountType;
-  amount: number;
-  currency: string;
   /** Map of currency to fixed amount to discount from the total. */
   amounts: DiscountFixedRepeatDurationBaseAmountsMap;
   /** Creation timestamp of the object. */
@@ -1838,6 +1788,8 @@ export interface DiscountFixedRepeatDurationBase {
   modified_at: string | null;
   /** The ID of the object. */
   id: string;
+  /** An ID from your own system to reference this resource. It must be unique within the organization for this type of resource. */
+  external_id: string | null;
   metadata: MetadataOutputType;
   /** Name of the discount. Will be displayed to the customer when the discount is applied. */
   name: string;
@@ -1867,6 +1819,8 @@ export interface DiscountPercentageOnceForeverDurationBase {
   modified_at: string | null;
   /** The ID of the object. */
   id: string;
+  /** An ID from your own system to reference this resource. It must be unique within the organization for this type of resource. */
+  external_id: string | null;
   metadata: MetadataOutputType;
   /** Name of the discount. Will be displayed to the customer when the discount is applied. */
   name: string;
@@ -1897,6 +1851,8 @@ export interface DiscountPercentageRepeatDurationBase {
   modified_at: string | null;
   /** The ID of the object. */
   id: string;
+  /** An ID from your own system to reference this resource. It must be unique within the organization for this type of resource. */
+  external_id: string | null;
   metadata: MetadataOutputType;
   /** Name of the discount. Will be displayed to the customer when the discount is applied. */
   name: string;
@@ -1988,15 +1944,15 @@ export type CheckoutLinkSortProperty =
 export type CheckoutLinksListRequestSortingList = Array<CheckoutLinkSortProperty | (string & {})>;
 export interface CheckoutLinksListRequest {
   /** Filter by organization ID. */
-  organization_id?: CheckoutLinksListRequestOrganizationId;
+  organization_id?: CheckoutLinksListRequestOrganizationId | undefined;
   /** Filter by product ID. */
-  product_id?: CheckoutLinksListRequestProductId;
+  product_id?: CheckoutLinksListRequestProductId | undefined;
   /** Page number, defaults to 1. */
-  page?: number;
+  page?: number | undefined;
   /** Size of a page, defaults to 10. Maximum is 100. */
-  limit?: number;
+  limit?: number | undefined;
   /** Sorting criterion. Several criteria can be used simultaneously and will be applied in order. Add a minus sign `-` before the criteria name to sort by descending order. */
-  sorting?: CheckoutLinksListRequestSortingList;
+  sorting?: CheckoutLinksListRequestSortingList | undefined;
 }
 export type ListResourceCheckoutLinkItemsList = Array<CheckoutLink>;
 export interface ListResourceCheckoutLink {
@@ -2013,38 +1969,38 @@ export interface CheckoutLinksUpdateRequest {
   /** The checkout link ID. */
   id: string;
   /** The interval unit for the trial period. */
-  trial_interval?: TrialInterval | (string & {}) | null;
+  trial_interval?: TrialInterval | (string & {}) | null | undefined;
   /** The number of interval units for the trial period. */
-  trial_interval_count?: number | null;
+  trial_interval_count?: number | null | undefined;
   /** Key-value object allowing you to store additional information. The key must be a string with a maximum length of **40 characters**. The value must be either: * A string with a maximum length of **500 characters** * An integer * A floating-point number * A boolean You can store up to **50 key-value pairs**. */
-  metadata?: CheckoutLinksUpdateRequestMetadataMap;
+  metadata?: CheckoutLinksUpdateRequestMetadataMap | undefined;
   /** List of products that will be available to select at checkout. */
-  products?: CheckoutLinksUpdateRequestProductsList | null;
-  label?: string | null;
+  products?: CheckoutLinksUpdateRequestProductsList | null | undefined;
+  label?: string | null | undefined;
   /** Whether to allow the customer to apply discount codes. If you apply a discount through `discount_id`, it'll still be applied, but the customer won't be able to change it. */
-  allow_discount_codes?: boolean | null;
+  allow_discount_codes?: boolean | null | undefined;
   /** Whether to require the customer to fill their full billing address, instead of just the country. Customers in the US will always be required to fill their full address, regardless of this setting. */
-  require_billing_address?: boolean | null;
+  require_billing_address?: boolean | null | undefined;
   /** ID of the discount to apply to the checkout. If the discount is not applicable anymore when opening the checkout link, it'll be ignored. */
-  discount_id?: string | null;
+  discount_id?: string | null | undefined;
   /** Preconfigured number of seats for seat-based pricing. When set, checkout sessions created from this link are locked to this number of seats and the customer won't be able to change it. All products on the link must use seat-based pricing and allow this number of seats. If the products no longer accommodate this value when the link is opened, it'll be ignored. */
-  seats?: number | null;
+  seats?: number | null | undefined;
   /** Preconfigured number of units for unit-based pricing. When set, checkout sessions created from this link are locked to this number of units and the customer won't be able to change it. All products on the link must use unit-based pricing and allow this number of units. If the products no longer accommodate this value when the link is opened, it'll be ignored. */
-  units?: number | null;
+  units?: number | null | undefined;
   /** URL where the customer will be redirected after a successful payment.You can add the `checkout_id={CHECKOUT_ID}` query parameter to retrieve the checkout session id. */
-  success_url?: string | null;
+  success_url?: string | null | undefined;
   /** When set, a back button will be shown in the checkout to return to this URL. */
-  return_url?: string | null;
+  return_url?: string | null | undefined;
 }
-export type CheckoutsCreateRequestMetadataValue = string | number | number | boolean;
+export type CheckoutProductsCreateMetadataValue = string | number | number | boolean;
 /** Key-value object allowing you to store additional information. The key must be a string with a maximum length of **40 characters**. The value must be either: * A string with a maximum length of **500 characters** * An integer * A floating-point number * A boolean You can store up to **50 key-value pairs**. */
-export type CheckoutsCreateRequestMetadataMap = {
-  [key: string]: CheckoutsCreateRequestMetadataValue | undefined;
+export type CheckoutProductsCreateMetadataMap = {
+  [key: string]: CheckoutProductsCreateMetadataValue | undefined;
 };
-export type CheckoutsCreateRequestCustomFieldDataValue = string | number | boolean;
+export type CheckoutProductsCreateCustomFieldDataValue = string | number | boolean;
 /** Key-value object storing custom field values. */
-export type CheckoutsCreateRequestCustomFieldDataMap = {
-  [key: string]: CheckoutsCreateRequestCustomFieldDataValue | null | undefined;
+export type CheckoutProductsCreateCustomFieldDataMap = {
+  [key: string]: CheckoutProductsCreateCustomFieldDataValue | null | undefined;
 };
 export type AddressInputCountry =
   | "AD"
@@ -2292,17 +2248,17 @@ export type AddressInputCountry =
   | "ZM"
   | "ZW";
 export interface AddressInput {
-  line1?: string | null;
-  line2?: string | null;
-  postal_code?: string | null;
-  city?: string | null;
-  state?: string | null;
+  line1?: string | null | undefined;
+  line2?: string | null | undefined;
+  postal_code?: string | null | undefined;
+  city?: string | null | undefined;
+  state?: string | null | undefined;
   country: AddressInputCountry | (string & {});
 }
-export type CheckoutsCreateRequestCustomerMetadataValue = string | number | number | boolean;
+export type CheckoutProductsCreateCustomerMetadataValue = string | number | number | boolean;
 /** Key-value object allowing you to store additional information that'll be copied to the created customer. The key must be a string with a maximum length of **40 characters**. The value must be either: * A string with a maximum length of **500 characters** * An integer * A floating-point number * A boolean You can store up to **50 key-value pairs**. */
-export type CheckoutsCreateRequestCustomerMetadataMap = {
-  [key: string]: CheckoutsCreateRequestCustomerMetadataValue | undefined;
+export type CheckoutProductsCreateCustomerMetadataMap = {
+  [key: string]: CheckoutProductsCreateCustomerMetadataValue | undefined;
 };
 export type PresentmentCurrency =
   | "aed"
@@ -2432,14 +2388,14 @@ export type PresentmentCurrency =
   | "zar"
   | "zmw";
 /** List of product IDs available to select at that checkout. The first one will be selected by default. */
-export type CheckoutsCreateRequestProductsList = Array<string>;
+export type CheckoutProductsCreateProductsList = Array<string>;
 /** Schema to create a fixed price. */
 export interface ProductPriceFixedCreate {
   amount_type: string;
   /** The currency in which the customer will be charged. */
-  price_currency?: PresentmentCurrency | (string & {});
+  price_currency?: PresentmentCurrency | (string & {}) | undefined;
   /** The tax behavior of the price. If not set, it will default to the organization's default tax behavior. */
-  tax_behavior?: TaxBehaviorOption | (string & {}) | null;
+  tax_behavior?: TaxBehaviorOption | (string & {}) | null | undefined;
   /** The price in cents. Set to `0` for a free price. Minimum amounts per currency: - USD: 0.5 - AED: 2 - ALL: 50 - AMD: 200 - AOA: 500 - ARS: 750 - AUD: 0.7 - AWG: 1 - AZN: 1 - BAM: 1 - BBD: 2 - BDT: 70 - BIF: 2,000 - BMD: 1 - BND: 1 - BOB: 5 - BRL: 2.5 - BSD: 1 - BWP: 10 - BZD: 2 - CAD: 0.7 - CDF: 2,000 - CHF: 0.5 - CLP: 500 - CNY: 5 - COP: 2,000 - CRC: 300 - CVE: 50 - CZK: 15 - DJF: 100 - DKK: 3.2 - DOP: 40 - DZD: 70 - EGP: 30 - ETB: 80 - EUR: 0.5 - FJD: 2 - FKP: 1 - GBP: 0.4 - GEL: 2 - GNF: 5,000 - GIP: 1 - GMD: 40 - GTQ: 5 - GYD: 200 - HKD: 4 - HNL: 20 - HTG: 70 - HUF: 175 - IDR: 9,000 - ILS: 1.5 - INR: 60 - ISK: 70 - JMD: 80 - JPY: 80 - KES: 70 - KGS: 50 - KHR: 3,000 - KMF: 500 - KRW: 800 - KYD: 1 - KZT: 300 - LAK: 20,000 - LKR: 200 - LRD: 100 - LSL: 10 - MAD: 5 - MDL: 10 - MGA: 3,000 - MKD: 50 - MNT: 2,000 - MOP: 5 - MUR: 50 - MVR: 8 - MXN: 9 - MWK: 1,000 - MYR: 2 - MZN: 50 - NAD: 10 - NGN: 700 - NIO: 20 - NOK: 5 - NPR: 80 - NZD: 0.9 - PAB: 1 - PEN: 2 - PGK: 3 - PHP: 35 - PKR: 200 - PLN: 2 - PYG: 4,000 - QAR: 2 - RON: 2.5 - RSD: 60 - RWF: 1,000 - SAR: 2 - SBD: 4 - SCR: 8 - SEK: 5 - SGD: 0.7 - SHP: 1 - SOS: 500 - SRD: 20 - SZL: 10 - THB: 20 - TJS: 5 - TOP: 2 - TRY: 30 - TTD: 4 - TWD: 20 - TZS: 2,000 - UAH: 30 - UGX: 2,000 - UYU: 20 - UZS: 7,000 - VND: 20,000 - VUV: 100 - WST: 2 - XAF: 500 - XCD: 2 - XCG: 1 - XOF: 500 - XPF: 100 - YER: 200 - ZAR: 9 - ZMW: 10 - Other currencies: 50 minor units */
   price_amount: number;
 }
@@ -2447,20 +2403,20 @@ export interface ProductPriceFixedCreate {
 export interface ProductPriceCustomCreate {
   amount_type: string;
   /** The currency in which the customer will be charged. */
-  price_currency?: PresentmentCurrency | (string & {});
+  price_currency?: PresentmentCurrency | (string & {}) | undefined;
   /** The tax behavior of the price. If not set, it will default to the organization's default tax behavior. */
-  tax_behavior?: TaxBehaviorOption | (string & {}) | null;
+  tax_behavior?: TaxBehaviorOption | (string & {}) | null | undefined;
   /** The minimum amount the customer can pay. If set to 0, the price is 'free or pay what you want' and $0 is accepted. If set to a value below the minimum price amount for the currency, it will be rejected. Defaults to the minimum price amount for the currency. Minimum per currency: - USD: 0.5 - AED: 2 - ALL: 50 - AMD: 200 - AOA: 500 - ARS: 750 - AUD: 0.7 - AWG: 1 - AZN: 1 - BAM: 1 - BBD: 2 - BDT: 70 - BIF: 2,000 - BMD: 1 - BND: 1 - BOB: 5 - BRL: 2.5 - BSD: 1 - BWP: 10 - BZD: 2 - CAD: 0.7 - CDF: 2,000 - CHF: 0.5 - CLP: 500 - CNY: 5 - COP: 2,000 - CRC: 300 - CVE: 50 - CZK: 15 - DJF: 100 - DKK: 3.2 - DOP: 40 - DZD: 70 - EGP: 30 - ETB: 80 - EUR: 0.5 - FJD: 2 - FKP: 1 - GBP: 0.4 - GEL: 2 - GNF: 5,000 - GIP: 1 - GMD: 40 - GTQ: 5 - GYD: 200 - HKD: 4 - HNL: 20 - HTG: 70 - HUF: 175 - IDR: 9,000 - ILS: 1.5 - INR: 60 - ISK: 70 - JMD: 80 - JPY: 80 - KES: 70 - KGS: 50 - KHR: 3,000 - KMF: 500 - KRW: 800 - KYD: 1 - KZT: 300 - LAK: 20,000 - LKR: 200 - LRD: 100 - LSL: 10 - MAD: 5 - MDL: 10 - MGA: 3,000 - MKD: 50 - MNT: 2,000 - MOP: 5 - MUR: 50 - MVR: 8 - MXN: 9 - MWK: 1,000 - MYR: 2 - MZN: 50 - NAD: 10 - NGN: 700 - NIO: 20 - NOK: 5 - NPR: 80 - NZD: 0.9 - PAB: 1 - PEN: 2 - PGK: 3 - PHP: 35 - PKR: 200 - PLN: 2 - PYG: 4,000 - QAR: 2 - RON: 2.5 - RSD: 60 - RWF: 1,000 - SAR: 2 - SBD: 4 - SCR: 8 - SEK: 5 - SGD: 0.7 - SHP: 1 - SOS: 500 - SRD: 20 - SZL: 10 - THB: 20 - TJS: 5 - TOP: 2 - TRY: 30 - TTD: 4 - TWD: 20 - TZS: 2,000 - UAH: 30 - UGX: 2,000 - UYU: 20 - UZS: 7,000 - VND: 20,000 - VUV: 100 - WST: 2 - XAF: 500 - XCD: 2 - XCG: 1 - XOF: 500 - XPF: 100 - YER: 200 - ZAR: 9 - ZMW: 10 - Other currencies: 50 minor units */
-  minimum_amount?: number;
+  minimum_amount?: number | undefined;
   /** The maximum amount the customer can pay. Maximum per currency: - USD: 999,999.99 - EUR: 999,999.99 - GBP: 999,999.99 - ARS: 1,400,000 - CDF: 2,800,000 - COP: 4,000,000 - IDR: 16,000,000 - KHR: 4,000,000 - LAK: 21,000,000 - MNT: 3,500,000 - MWK: 1,750,000 - NGN: 1,550,000 - TZS: 2,500,000 - UGX: 3,700,000 - UZS: 12,500,000 - Other currencies: 99,999,999 minor units */
-  maximum_amount?: number | null;
+  maximum_amount?: number | null | undefined;
   /** The initial amount shown to the customer. If 0, the customer will see $0 as the default. If set to a value below the minimum price amount for the currency, it will be rejected.Minimum per currency: - USD: 0.5 - AED: 2 - ALL: 50 - AMD: 200 - AOA: 500 - ARS: 750 - AUD: 0.7 - AWG: 1 - AZN: 1 - BAM: 1 - BBD: 2 - BDT: 70 - BIF: 2,000 - BMD: 1 - BND: 1 - BOB: 5 - BRL: 2.5 - BSD: 1 - BWP: 10 - BZD: 2 - CAD: 0.7 - CDF: 2,000 - CHF: 0.5 - CLP: 500 - CNY: 5 - COP: 2,000 - CRC: 300 - CVE: 50 - CZK: 15 - DJF: 100 - DKK: 3.2 - DOP: 40 - DZD: 70 - EGP: 30 - ETB: 80 - EUR: 0.5 - FJD: 2 - FKP: 1 - GBP: 0.4 - GEL: 2 - GNF: 5,000 - GIP: 1 - GMD: 40 - GTQ: 5 - GYD: 200 - HKD: 4 - HNL: 20 - HTG: 70 - HUF: 175 - IDR: 9,000 - ILS: 1.5 - INR: 60 - ISK: 70 - JMD: 80 - JPY: 80 - KES: 70 - KGS: 50 - KHR: 3,000 - KMF: 500 - KRW: 800 - KYD: 1 - KZT: 300 - LAK: 20,000 - LKR: 200 - LRD: 100 - LSL: 10 - MAD: 5 - MDL: 10 - MGA: 3,000 - MKD: 50 - MNT: 2,000 - MOP: 5 - MUR: 50 - MVR: 8 - MXN: 9 - MWK: 1,000 - MYR: 2 - MZN: 50 - NAD: 10 - NGN: 700 - NIO: 20 - NOK: 5 - NPR: 80 - NZD: 0.9 - PAB: 1 - PEN: 2 - PGK: 3 - PHP: 35 - PKR: 200 - PLN: 2 - PYG: 4,000 - QAR: 2 - RON: 2.5 - RSD: 60 - RWF: 1,000 - SAR: 2 - SBD: 4 - SCR: 8 - SEK: 5 - SGD: 0.7 - SHP: 1 - SOS: 500 - SRD: 20 - SZL: 10 - THB: 20 - TJS: 5 - TOP: 2 - TRY: 30 - TTD: 4 - TWD: 20 - TZS: 2,000 - UAH: 30 - UGX: 2,000 - UYU: 20 - UZS: 7,000 - VND: 20,000 - VUV: 100 - WST: 2 - XAF: 500 - XCD: 2 - XCG: 1 - XOF: 500 - XPF: 100 - YER: 200 - ZAR: 9 - ZMW: 10 - Other currencies: 50 minor units */
-  preset_amount?: number | null;
+  preset_amount?: number | null | undefined;
 }
 export type TierInputUnitAmount = number | string;
 /** A tier submitted through the API. Rates stop at the reach of the BigInteger amount columns, with 12 decimal places. */
 export interface TierInput {
-  bound?: number | null;
+  bound?: number | null | undefined;
   unit_amount: TierInputUnitAmount;
 }
 export type TiersInputTiersList = Array<TierInput>;
@@ -2473,13 +2429,13 @@ export interface TiersInput {
 export interface ProductPriceSeatBasedCreate {
   amount_type: string;
   /** The currency in which the customer will be charged. */
-  price_currency?: PresentmentCurrency | (string & {});
+  price_currency?: PresentmentCurrency | (string & {}) | undefined;
   /** The tax behavior of the price. If not set, it will default to the organization's default tax behavior. */
-  tax_behavior?: TaxBehaviorOption | (string & {}) | null;
+  tax_behavior?: TaxBehaviorOption | (string & {}) | null | undefined;
   /** Tiered pricing based on the purchased seat quantity. */
   tiers: TiersInput;
   /** The minimum purchasable seat quantity (inclusive). Defaults to 1 when not set. */
-  minimum_units?: number | null;
+  minimum_units?: number | null | undefined;
 }
 export type ProductPriceUnitBasedCreateUnitLabelValueMap = { [key: string]: string | undefined };
 export type ProductPriceUnitBasedCreateUnitLabelMap = {
@@ -2489,15 +2445,15 @@ export type ProductPriceUnitBasedCreateUnitLabelMap = {
 export interface ProductPriceUnitBasedCreate {
   amount_type: string;
   /** The currency in which the customer will be charged. */
-  price_currency?: PresentmentCurrency | (string & {});
+  price_currency?: PresentmentCurrency | (string & {}) | undefined;
   /** The tax behavior of the price. If not set, it will default to the organization's default tax behavior. */
-  tax_behavior?: TaxBehaviorOption | (string & {}) | null;
+  tax_behavior?: TaxBehaviorOption | (string & {}) | null | undefined;
   /** Tiered pricing based on the purchased unit quantity. */
   tiers: TiersInput;
   /** The minimum purchasable quantity (inclusive). Defaults to 1 when not set. */
-  minimum_units?: number | null;
+  minimum_units?: number | null | undefined;
   /** Per-locale unit nouns shown at checkout and on invoices. `{"en": {"=1": "device", "other": "devices"}}`. Defaults to "unit"/"units" when unset. */
-  unit_label?: ProductPriceUnitBasedCreateUnitLabelMap | null;
+  unit_label?: ProductPriceUnitBasedCreateUnitLabelMap | null | undefined;
 }
 /** The price per unit in cents. Supports up to 12 decimal places. */
 export type ProductPriceMeteredUnitCreateUnitAmount = number | string;
@@ -2505,31 +2461,31 @@ export type ProductPriceMeteredUnitCreateUnitAmount = number | string;
 export interface ProductPriceMeteredUnitCreate {
   amount_type: string;
   /** The currency in which the customer will be charged. */
-  price_currency?: PresentmentCurrency | (string & {});
+  price_currency?: PresentmentCurrency | (string & {}) | undefined;
   /** The tax behavior of the price. If not set, it will default to the organization's default tax behavior. */
-  tax_behavior?: TaxBehaviorOption | (string & {}) | null;
+  tax_behavior?: TaxBehaviorOption | (string & {}) | null | undefined;
   /** The ID of the meter associated to the price. */
   meter_id: string;
   /** The price per unit in cents. Supports up to 12 decimal places. */
   unit_amount: ProductPriceMeteredUnitCreateUnitAmount;
   /** Optional maximum amount in cents that can be charged, regardless of the number of units consumed. */
-  cap_amount?: number | null;
+  cap_amount?: number | null | undefined;
 }
 /** Schema to create a metered price billed from tiers on consumed units. */
 export interface ProductPriceMeteredTiersCreate {
   amount_type: string;
   /** The currency in which the customer will be charged. */
-  price_currency?: PresentmentCurrency | (string & {});
+  price_currency?: PresentmentCurrency | (string & {}) | undefined;
   /** The tax behavior of the price. If not set, it will default to the organization's default tax behavior. */
-  tax_behavior?: TaxBehaviorOption | (string & {}) | null;
+  tax_behavior?: TaxBehaviorOption | (string & {}) | null | undefined;
   /** The ID of the meter associated to the price. */
   meter_id: string;
   /** Tiered pricing based on consumed units. */
   tiers: TiersInput;
   /** Optional maximum amount in cents that can be charged, regardless of the number of units consumed. */
-  cap_amount?: number | null;
+  cap_amount?: number | null | undefined;
 }
-export type CheckoutsCreateRequestPricesValueItem =
+export type CheckoutProductsCreatePricesValueItem =
   | ProductPriceFixedCreate
   | ProductPriceCustomCreate
   | ProductPriceSeatBasedCreate
@@ -2537,68 +2493,167 @@ export type CheckoutsCreateRequestPricesValueItem =
   | ProductPriceMeteredUnitCreate
   | ProductPriceMeteredTiersCreate;
 /** List of prices for the product. At most one fixed price and one seat-based price may be combined (billed as `fixed + seat_charge`), or a single custom price may stand alone, plus any number of metered prices. A custom price cannot be combined with a fixed or seat-based price. */
-export type CheckoutsCreateRequestPricesValueList = Array<CheckoutsCreateRequestPricesValueItem>;
-export type CheckoutsCreateRequestPricesMap = {
-  [key: string]: CheckoutsCreateRequestPricesValueList | undefined;
+export type CheckoutProductsCreatePricesValueList = Array<CheckoutProductsCreatePricesValueItem>;
+export type CheckoutProductsCreatePricesMap = {
+  [key: string]: CheckoutProductsCreatePricesValueList | undefined;
 };
-export interface CheckoutsCreateRequest {
+/** Create a new checkout session from a list of products. Customers will be able to switch between those products. Metadata set on the checkout will be copied to the resulting order and/or subscription. */
+export interface CheckoutProductsCreate {
   /** The interval unit for the trial period. */
-  trial_interval?: TrialInterval | (string & {}) | null;
+  trial_interval?: TrialInterval | (string & {}) | null | undefined;
   /** The number of interval units for the trial period. */
-  trial_interval_count?: number | null;
+  trial_interval_count?: number | null | undefined;
   /** Key-value object allowing you to store additional information. The key must be a string with a maximum length of **40 characters**. The value must be either: * A string with a maximum length of **500 characters** * An integer * A floating-point number * A boolean You can store up to **50 key-value pairs**. */
-  metadata?: CheckoutsCreateRequestMetadataMap;
+  metadata?: CheckoutProductsCreateMetadataMap | undefined;
   /** Key-value object storing custom field values. */
-  custom_field_data?: CheckoutsCreateRequestCustomFieldDataMap;
+  custom_field_data?: CheckoutProductsCreateCustomFieldDataMap | undefined;
   /** ID of the discount to apply to the checkout. */
-  discount_id?: string | null;
+  discount_id?: string | null | undefined;
   /** Whether to allow the customer to apply discount codes. If you apply a discount through `discount_id`, it'll still be applied, but the customer won't be able to change it. */
-  allow_discount_codes?: boolean;
+  allow_discount_codes?: boolean | undefined;
   /** Whether to require the customer to fill their full billing address, instead of just the country. Customers in the US will always be required to fill their full address, regardless of this setting. If you preset the billing address, this setting will be automatically set to `true`. */
-  require_billing_address?: boolean;
-  amount?: number | null;
+  require_billing_address?: boolean | undefined;
+  amount?: number | null | undefined;
   /** Predefined number of seats (works with seat-based pricing only) */
-  seats?: number | null;
+  seats?: number | null | undefined;
   /** Minimum number of seats (works with seat-based pricing only) */
-  min_seats?: number | null;
+  min_seats?: number | null | undefined;
   /** Maximum number of seats (works with seat-based pricing only) */
-  max_seats?: number | null;
+  max_seats?: number | null | undefined;
   /** Predefined number of units (works with unit-based pricing only) */
-  units?: number | null;
+  units?: number | null | undefined;
   /** Minimum number of units (works with unit-based pricing only) */
-  min_units?: number | null;
+  min_units?: number | null | undefined;
   /** Maximum number of units (works with unit-based pricing only) */
-  max_units?: number | null;
+  max_units?: number | null | undefined;
   /** Whether to enable the trial period for the checkout session. If `false`, the trial period will be disabled, even if the selected product has a trial configured. */
-  allow_trial?: boolean;
+  allow_trial?: boolean | undefined;
   /** ID of an existing customer in the organization. The customer data will be pre-filled in the checkout form. The resulting order will be linked to this customer. */
-  customer_id?: string | null;
+  customer_id?: string | null | undefined;
   /** Whether the customer is a business or an individual. If `true`, the customer will be required to fill their full billing address and billing name. */
-  is_business_customer?: boolean;
+  is_business_customer?: boolean | undefined;
   /** ID of the customer in your system. If a matching customer exists on Polar, the resulting order will be linked to this customer. Otherwise, a new customer will be created with this external ID set. */
-  external_customer_id?: string | null;
-  customer_name?: string | null;
-  customer_email?: string | null;
-  customer_ip_address?: string | null;
-  customer_billing_name?: string | null;
-  customer_billing_address?: AddressInput | null;
-  customer_tax_id?: string | null;
+  external_customer_id?: string | null | undefined;
+  customer_name?: string | null | undefined;
+  customer_email?: string | null | undefined;
+  customer_ip_address?: string | null | undefined;
+  customer_billing_name?: string | null | undefined;
+  customer_billing_address?: AddressInput | null | undefined;
+  customer_tax_id?: string | null | undefined;
   /** Key-value object allowing you to store additional information that'll be copied to the created customer. The key must be a string with a maximum length of **40 characters**. The value must be either: * A string with a maximum length of **500 characters** * An integer * A floating-point number * A boolean You can store up to **50 key-value pairs**. */
-  customer_metadata?: CheckoutsCreateRequestCustomerMetadataMap;
+  customer_metadata?: CheckoutProductsCreateCustomerMetadataMap | undefined;
   /** ID of a subscription to upgrade. It must be on a free pricing. If checkout is successful, metadata set on this checkout will be copied to the subscription, and existing keys will be overwritten. */
-  subscription_id?: string | null;
+  subscription_id?: string | null | undefined;
   /** URL where the customer will be redirected after a successful payment.You can add the `checkout_id={CHECKOUT_ID}` query parameter to retrieve the checkout session id. */
-  success_url?: string | null;
+  success_url?: string | null | undefined;
   /** When set, a back button will be shown in the checkout to return to this URL. */
-  return_url?: string | null;
+  return_url?: string | null | undefined;
   /** If you plan to embed the checkout session, set this to the Origin of the embedding page. It'll allow the Polar iframe to communicate with the parent page. */
-  embed_origin?: string | null;
-  locale?: string | null;
-  currency?: PresentmentCurrency | (string & {}) | null;
+  embed_origin?: string | null | undefined;
+  locale?: string | null | undefined;
+  currency?: PresentmentCurrency | (string & {}) | null | undefined;
   /** List of product IDs available to select at that checkout. The first one will be selected by default. */
-  products: CheckoutsCreateRequestProductsList;
+  products: CheckoutProductsCreateProductsList;
   /** Optional mapping of product IDs to a list of ad-hoc prices to create for that product. If not set, catalog prices of the product will be used. */
-  prices?: CheckoutsCreateRequestPricesMap | null;
+  prices?: CheckoutProductsCreatePricesMap | null | undefined;
+}
+export type CheckoutProductsExternalCreateMetadataValue = string | number | number | boolean;
+/** Key-value object allowing you to store additional information. The key must be a string with a maximum length of **40 characters**. The value must be either: * A string with a maximum length of **500 characters** * An integer * A floating-point number * A boolean You can store up to **50 key-value pairs**. */
+export type CheckoutProductsExternalCreateMetadataMap = {
+  [key: string]: CheckoutProductsExternalCreateMetadataValue | undefined;
+};
+export type CheckoutProductsExternalCreateCustomFieldDataValue = string | number | boolean;
+/** Key-value object storing custom field values. */
+export type CheckoutProductsExternalCreateCustomFieldDataMap = {
+  [key: string]: CheckoutProductsExternalCreateCustomFieldDataValue | null | undefined;
+};
+export type CheckoutProductsExternalCreateCustomerMetadataValue =
+  | string
+  | number
+  | number
+  | boolean;
+/** Key-value object allowing you to store additional information that'll be copied to the created customer. The key must be a string with a maximum length of **40 characters**. The value must be either: * A string with a maximum length of **500 characters** * An integer * A floating-point number * A boolean You can store up to **50 key-value pairs**. */
+export type CheckoutProductsExternalCreateCustomerMetadataMap = {
+  [key: string]: CheckoutProductsExternalCreateCustomerMetadataValue | undefined;
+};
+/** List of product external IDs available to select at that checkout. The first one will be selected by default. */
+export type CheckoutProductsExternalCreateExternalProductsList = Array<string>;
+export type CheckoutProductsExternalCreatePricesValueItem =
+  | ProductPriceFixedCreate
+  | ProductPriceCustomCreate
+  | ProductPriceSeatBasedCreate
+  | ProductPriceUnitBasedCreate
+  | ProductPriceMeteredUnitCreate
+  | ProductPriceMeteredTiersCreate;
+/** List of prices for the product. At most one fixed price and one seat-based price may be combined (billed as `fixed + seat_charge`), or a single custom price may stand alone, plus any number of metered prices. A custom price cannot be combined with a fixed or seat-based price. */
+export type CheckoutProductsExternalCreatePricesValueList =
+  Array<CheckoutProductsExternalCreatePricesValueItem>;
+export type CheckoutProductsExternalCreatePricesMap = {
+  [key: string]: CheckoutProductsExternalCreatePricesValueList | undefined;
+};
+/** Create a new checkout session from a list of products, referenced by their external ID. Customers will be able to switch between those products. Metadata set on the checkout will be copied to the resulting order and/or subscription. */
+export interface CheckoutProductsExternalCreate {
+  /** The interval unit for the trial period. */
+  trial_interval?: TrialInterval | (string & {}) | null | undefined;
+  /** The number of interval units for the trial period. */
+  trial_interval_count?: number | null | undefined;
+  /** Key-value object allowing you to store additional information. The key must be a string with a maximum length of **40 characters**. The value must be either: * A string with a maximum length of **500 characters** * An integer * A floating-point number * A boolean You can store up to **50 key-value pairs**. */
+  metadata?: CheckoutProductsExternalCreateMetadataMap | undefined;
+  /** Key-value object storing custom field values. */
+  custom_field_data?: CheckoutProductsExternalCreateCustomFieldDataMap | undefined;
+  /** ID of the discount to apply to the checkout. */
+  discount_id?: string | null | undefined;
+  /** Whether to allow the customer to apply discount codes. If you apply a discount through `discount_id`, it'll still be applied, but the customer won't be able to change it. */
+  allow_discount_codes?: boolean | undefined;
+  /** Whether to require the customer to fill their full billing address, instead of just the country. Customers in the US will always be required to fill their full address, regardless of this setting. If you preset the billing address, this setting will be automatically set to `true`. */
+  require_billing_address?: boolean | undefined;
+  amount?: number | null | undefined;
+  /** Predefined number of seats (works with seat-based pricing only) */
+  seats?: number | null | undefined;
+  /** Minimum number of seats (works with seat-based pricing only) */
+  min_seats?: number | null | undefined;
+  /** Maximum number of seats (works with seat-based pricing only) */
+  max_seats?: number | null | undefined;
+  /** Predefined number of units (works with unit-based pricing only) */
+  units?: number | null | undefined;
+  /** Minimum number of units (works with unit-based pricing only) */
+  min_units?: number | null | undefined;
+  /** Maximum number of units (works with unit-based pricing only) */
+  max_units?: number | null | undefined;
+  /** Whether to enable the trial period for the checkout session. If `false`, the trial period will be disabled, even if the selected product has a trial configured. */
+  allow_trial?: boolean | undefined;
+  /** ID of an existing customer in the organization. The customer data will be pre-filled in the checkout form. The resulting order will be linked to this customer. */
+  customer_id?: string | null | undefined;
+  /** Whether the customer is a business or an individual. If `true`, the customer will be required to fill their full billing address and billing name. */
+  is_business_customer?: boolean | undefined;
+  /** ID of the customer in your system. If a matching customer exists on Polar, the resulting order will be linked to this customer. Otherwise, a new customer will be created with this external ID set. */
+  external_customer_id?: string | null | undefined;
+  customer_name?: string | null | undefined;
+  customer_email?: string | null | undefined;
+  customer_ip_address?: string | null | undefined;
+  customer_billing_name?: string | null | undefined;
+  customer_billing_address?: AddressInput | null | undefined;
+  customer_tax_id?: string | null | undefined;
+  /** Key-value object allowing you to store additional information that'll be copied to the created customer. The key must be a string with a maximum length of **40 characters**. The value must be either: * A string with a maximum length of **500 characters** * An integer * A floating-point number * A boolean You can store up to **50 key-value pairs**. */
+  customer_metadata?: CheckoutProductsExternalCreateCustomerMetadataMap | undefined;
+  /** ID of a subscription to upgrade. It must be on a free pricing. If checkout is successful, metadata set on this checkout will be copied to the subscription, and existing keys will be overwritten. */
+  subscription_id?: string | null | undefined;
+  /** URL where the customer will be redirected after a successful payment.You can add the `checkout_id={CHECKOUT_ID}` query parameter to retrieve the checkout session id. */
+  success_url?: string | null | undefined;
+  /** When set, a back button will be shown in the checkout to return to this URL. */
+  return_url?: string | null | undefined;
+  /** If you plan to embed the checkout session, set this to the Origin of the embedding page. It'll allow the Polar iframe to communicate with the parent page. */
+  embed_origin?: string | null | undefined;
+  locale?: string | null | undefined;
+  currency?: PresentmentCurrency | (string & {}) | null | undefined;
+  /** List of product external IDs available to select at that checkout. The first one will be selected by default. */
+  external_products: CheckoutProductsExternalCreateExternalProductsList;
+  /** Optional mapping of product external IDs to a list of ad-hoc prices to create for that product. If not set, catalog prices of the product will be used. */
+  prices?: CheckoutProductsExternalCreatePricesMap | null | undefined;
+}
+export type CheckoutCreate = CheckoutProductsCreate | CheckoutProductsExternalCreate;
+export interface CheckoutsCreateRequest {
+  body: CheckoutCreate;
 }
 export type CheckoutCustomFieldDataValue = string | number | boolean;
 /** Key-value object storing custom field values. */
@@ -2617,9 +2672,8 @@ export interface CheckoutBillingAddressFields {
   line1: BillingAddressFieldMode;
   line2: BillingAddressFieldMode;
 }
-export type CheckoutProductPricesItem = LegacyRecurringProductPrice | ProductPrice;
 /** List of prices for this product. */
-export type CheckoutProductPricesList = Array<CheckoutProductPricesItem>;
+export type CheckoutProductPricesList = Array<ProductPrice>;
 /** List of benefits granted by the product. */
 export type CheckoutProductBenefitsList = Array<BenefitPublic>;
 /** List of medias associated to the product. */
@@ -2656,6 +2710,8 @@ export interface CheckoutProduct {
   is_archived: boolean;
   /** The ID of the organization owning the product. */
   organization_id: string;
+  /** ID of the catalog that introduced this version of the product. None for products not managed by declarative config. */
+  catalog_id: string | null;
   /** List of prices for this product. */
   prices: CheckoutProductPricesList;
   /** List of benefits granted by the product. */
@@ -2665,10 +2721,8 @@ export interface CheckoutProduct {
 }
 /** List of products available to select. */
 export type CheckoutProductsList = Array<CheckoutProduct>;
-export type CheckoutProductPrice = LegacyRecurringProductPrice | ProductPrice;
-export type CheckoutPricesValueItem = LegacyRecurringProductPrice | ProductPrice;
 /** List of prices for this product. */
-export type CheckoutPricesValueList = Array<CheckoutPricesValueItem>;
+export type CheckoutPricesValueList = Array<ProductPrice>;
 export type CheckoutPricesMap = { [key: string]: CheckoutPricesValueList | undefined };
 /** Map of currency to fixed amount to discount from the total. */
 export type CheckoutDiscountFixedOnceForeverDurationAmountsMap = {
@@ -2678,8 +2732,6 @@ export type CheckoutDiscountFixedOnceForeverDurationAmountsMap = {
 export interface CheckoutDiscountFixedOnceForeverDuration {
   duration: DiscountDuration;
   type: DiscountType;
-  amount: number;
-  currency: string;
   /** Map of currency to fixed amount to discount from the total. */
   amounts: CheckoutDiscountFixedOnceForeverDurationAmountsMap;
   /** The ID of the object. */
@@ -2694,8 +2746,6 @@ export interface CheckoutDiscountFixedRepeatDuration {
   duration: DiscountDuration;
   duration_in_months: number;
   type: DiscountType;
-  amount: number;
-  currency: string;
   /** Map of currency to fixed amount to discount from the total. */
   amounts: CheckoutDiscountFixedRepeatDurationAmountsMap;
   /** The ID of the object. */
@@ -2732,12 +2782,12 @@ export type CheckoutDiscount =
   | CheckoutDiscountPercentageOnceForeverDuration
   | CheckoutDiscountPercentageRepeatDuration;
 export interface CustomFieldTextProperties {
-  form_label?: string;
-  form_help_text?: string;
-  form_placeholder?: string;
-  textarea?: boolean;
-  min_length?: number;
-  max_length?: number;
+  form_label?: string | undefined;
+  form_help_text?: string | undefined;
+  form_placeholder?: string | undefined;
+  textarea?: boolean | undefined;
+  min_length?: number | undefined;
+  max_length?: number | undefined;
 }
 /** Schema for a custom field of type text. */
 export interface CustomFieldText {
@@ -2758,11 +2808,11 @@ export interface CustomFieldText {
   properties: CustomFieldTextProperties;
 }
 export interface CustomFieldNumberProperties {
-  form_label?: string;
-  form_help_text?: string;
-  form_placeholder?: string;
-  ge?: number;
-  le?: number;
+  form_label?: string | undefined;
+  form_help_text?: string | undefined;
+  form_placeholder?: string | undefined;
+  ge?: number | undefined;
+  le?: number | undefined;
 }
 /** Schema for a custom field of type number. */
 export interface CustomFieldNumber {
@@ -2786,9 +2836,9 @@ export type CustomFieldDateProperties = CustomFieldNumberProperties;
 /** Schema for a custom field of type date. */
 export type CustomFieldDate = CustomFieldNumber;
 export interface CustomFieldCheckboxProperties {
-  form_label?: string;
-  form_help_text?: string;
-  form_placeholder?: string;
+  form_label?: string | undefined;
+  form_help_text?: string | undefined;
+  form_placeholder?: string | undefined;
 }
 /** Schema for a custom field of type checkbox. */
 export interface CustomFieldCheckbox {
@@ -2814,9 +2864,9 @@ export interface CustomFieldSelectOption {
 }
 export type CustomFieldSelectPropertiesOptionsList = Array<CustomFieldSelectOption>;
 export interface CustomFieldSelectProperties {
-  form_label?: string;
-  form_help_text?: string;
-  form_placeholder?: string;
+  form_label?: string | undefined;
+  form_help_text?: string | undefined;
+  form_placeholder?: string | undefined;
   options: CustomFieldSelectPropertiesOptionsList;
 }
 /** Schema for a custom field of type select. */
@@ -2867,7 +2917,7 @@ export interface Checkout {
   /** Last modification timestamp of the object. */
   modified_at: string | null;
   /** Key-value object storing custom field values. */
-  custom_field_data?: CheckoutCustomFieldDataMap;
+  custom_field_data?: CheckoutCustomFieldDataMap | undefined;
   /** Payment processor used. */
   payment_processor: PaymentProcessor;
   /** Status of the checkout session. - Open: the checkout session was opened. - Expired: the checkout session was expired and is no more accessible. - Confirmed: the user on the checkout session clicked Pay. This is not indicative of the payment's success status. - Failed: the checkout definitely failed for technical reasons and cannot be retried. In most cases, this state is never reached. - Succeeded: the payment on the checkout was performed successfully. */
@@ -2887,11 +2937,11 @@ export interface Checkout {
   /** Amount in cents, before discounts and taxes. */
   amount: number;
   /** Predefined number of seats (works with seat-based pricing only) */
-  seats?: number | null;
+  seats?: number | null | undefined;
   /** Minimum number of seats (works with seat-based pricing only) */
-  min_seats?: number | null;
+  min_seats?: number | null | undefined;
   /** Maximum number of seats (works with seat-based pricing only) */
-  max_seats?: number | null;
+  max_seats?: number | null | undefined;
   /** Predefined number of units (works with unit-based pricing only) */
   units: number | null;
   /** Minimum number of units (works with unit-based pricing only) */
@@ -2922,8 +2972,6 @@ export interface Checkout {
   organization_id: string;
   /** ID of the product to checkout. */
   product_id: string | null;
-  /** ID of the product price to checkout. */
-  product_price_id: string | null;
   /** ID of the discount applied to the checkout. */
   discount_id: string | null;
   /** Whether to allow the customer to apply discount codes. If you apply a discount through `discount_id`, it'll still be applied, but the customer won't be able to change it. */
@@ -2951,7 +2999,7 @@ export interface Checkout {
   customer_billing_name: string | null;
   customer_billing_address: Address | null;
   customer_tax_id: string | null;
-  locale?: string | null;
+  locale?: string | null | undefined;
   /** Payment method type selected by the customer in the checkout form, e.g. `card`, `apple_pay` or `upi`. */
   payment_method_type: string | null;
   payment_processor_metadata: CheckoutPaymentProcessorMetadataMap;
@@ -2969,7 +3017,7 @@ export interface Checkout {
   /** Product selected to checkout. */
   product: CheckoutProduct | null;
   /** Price of the selected product. */
-  product_price: CheckoutProductPrice | null;
+  product_price: ProductPrice | null;
   /** Mapping of product IDs to their list of prices. */
   prices: CheckoutPricesMap | null;
   discount: CheckoutDiscount | null;
@@ -2989,6 +3037,11 @@ export type CheckoutsListRequestOrganizationId =
 export type CheckoutsListRequestProductIdCase1List = Array<string>;
 /** Filter by product ID. */
 export type CheckoutsListRequestProductId = string | CheckoutsListRequestProductIdCase1List;
+export type CheckoutsListRequestExternalProductIdCase1List = Array<string>;
+/** Filter by product external ID. */
+export type CheckoutsListRequestExternalProductId =
+  | string
+  | CheckoutsListRequestExternalProductIdCase1List;
 export type CheckoutsListRequestCustomerIdCase1List = Array<string>;
 /** Filter by customer ID. */
 export type CheckoutsListRequestCustomerId = string | CheckoutsListRequestCustomerIdCase1List;
@@ -3010,23 +3063,25 @@ export type CheckoutSortProperty =
 export type CheckoutsListRequestSortingList = Array<CheckoutSortProperty | (string & {})>;
 export interface CheckoutsListRequest {
   /** Filter by organization ID. */
-  organization_id?: CheckoutsListRequestOrganizationId;
+  organization_id?: CheckoutsListRequestOrganizationId | undefined;
   /** Filter by product ID. */
-  product_id?: CheckoutsListRequestProductId;
+  product_id?: CheckoutsListRequestProductId | undefined;
+  /** Filter by product external ID. */
+  external_product_id?: CheckoutsListRequestExternalProductId | undefined;
   /** Filter by customer ID. */
-  customer_id?: CheckoutsListRequestCustomerId;
+  customer_id?: CheckoutsListRequestCustomerId | undefined;
   /** Filter by customer external ID. */
-  external_customer_id?: CheckoutsListRequestExternalCustomerId;
+  external_customer_id?: CheckoutsListRequestExternalCustomerId | undefined;
   /** Filter by checkout session status. */
-  status?: CheckoutsListRequestStatus;
+  status?: CheckoutsListRequestStatus | undefined;
   /** Filter by customer email. */
-  query?: string;
+  query?: string | undefined;
   /** Page number, defaults to 1. */
-  page?: number;
+  page?: number | undefined;
   /** Size of a page, defaults to 10. Maximum is 100. */
-  limit?: number;
+  limit?: number | undefined;
   /** Sorting criterion. Several criteria can be used simultaneously and will be applied in order. Add a minus sign `-` before the criteria name to sort by descending order. */
-  sorting?: CheckoutsListRequestSortingList;
+  sorting?: CheckoutsListRequestSortingList | undefined;
 }
 export type ListResourceCheckoutItemsList = Array<Checkout>;
 export interface ListResourceCheckout {
@@ -3052,47 +3107,45 @@ export interface CheckoutsUpdateRequest {
   /** The checkout session ID. */
   id: string;
   /** Key-value object storing custom field values. */
-  custom_field_data?: CheckoutsUpdateRequestCustomFieldDataMap;
+  custom_field_data?: CheckoutsUpdateRequestCustomFieldDataMap | undefined;
   /** ID of the product to checkout. Must be present in the checkout's product list. */
-  product_id?: string | null;
-  /** ID of the product price to checkout. Must correspond to a price present in the checkout's product list. */
-  product_price_id?: string | null;
-  amount?: number | null;
+  product_id?: string | null | undefined;
+  amount?: number | null | undefined;
   /** Number of seats for seat-based pricing. */
-  seats?: number | null;
+  seats?: number | null | undefined;
   /** Number of units for unit-based pricing. */
-  units?: number | null;
-  is_business_customer?: boolean | null;
-  customer_name?: string | null;
-  customer_email?: string | null;
-  customer_billing_name?: string | null;
-  customer_billing_address?: AddressInput | null;
-  customer_tax_id?: string | null;
-  locale?: string | null;
+  units?: number | null | undefined;
+  is_business_customer?: boolean | null | undefined;
+  customer_name?: string | null | undefined;
+  customer_email?: string | null | undefined;
+  customer_billing_name?: string | null | undefined;
+  customer_billing_address?: AddressInput | null | undefined;
+  customer_tax_id?: string | null | undefined;
+  locale?: string | null | undefined;
   /** The interval unit for the trial period. */
-  trial_interval?: TrialInterval | (string & {}) | null;
+  trial_interval?: TrialInterval | (string & {}) | null | undefined;
   /** The number of interval units for the trial period. */
-  trial_interval_count?: number | null;
+  trial_interval_count?: number | null | undefined;
   /** Key-value object allowing you to store additional information. The key must be a string with a maximum length of **40 characters**. The value must be either: * A string with a maximum length of **500 characters** * An integer * A floating-point number * A boolean You can store up to **50 key-value pairs**. */
-  metadata?: CheckoutsUpdateRequestMetadataMap;
-  currency?: PresentmentCurrency | (string & {}) | null;
+  metadata?: CheckoutsUpdateRequestMetadataMap | undefined;
+  currency?: PresentmentCurrency | (string & {}) | null | undefined;
   /** ID of the discount to apply to the checkout. */
-  discount_id?: string | null;
+  discount_id?: string | null | undefined;
   /** Whether to allow the customer to apply discount codes. If you apply a discount through `discount_id`, it'll still be applied, but the customer won't be able to change it. */
-  allow_discount_codes?: boolean | null;
+  allow_discount_codes?: boolean | null | undefined;
   /** Whether to require the customer to fill their full billing address, instead of just the country. Customers in the US will always be required to fill their full address, regardless of this setting. If you preset the billing address, this setting will be automatically set to `true`. */
-  require_billing_address?: boolean | null;
+  require_billing_address?: boolean | null | undefined;
   /** Whether to enable the trial period for the checkout session. If `false`, the trial period will be disabled, even if the selected product has a trial configured. */
-  allow_trial?: boolean | null;
-  customer_ip_address?: string | null;
+  allow_trial?: boolean | null | undefined;
+  customer_ip_address?: string | null | undefined;
   /** Key-value object allowing you to store additional information that'll be copied to the created customer. The key must be a string with a maximum length of **40 characters**. The value must be either: * A string with a maximum length of **500 characters** * An integer * A floating-point number * A boolean You can store up to **50 key-value pairs**. */
-  customer_metadata?: CheckoutsUpdateRequestCustomerMetadataMap | null;
+  customer_metadata?: CheckoutsUpdateRequestCustomerMetadataMap | null | undefined;
   /** URL where the customer will be redirected after a successful payment.You can add the `checkout_id={CHECKOUT_ID}` query parameter to retrieve the checkout session id. */
-  success_url?: string | null;
+  success_url?: string | null | undefined;
   /** When set, a back button will be shown in the checkout to return to this URL. */
-  return_url?: string | null;
+  return_url?: string | null | undefined;
   /** If you plan to embed the checkout session, set this to the Origin of the embedding page. It'll allow the Polar iframe to communicate with the parent page. */
-  embed_origin?: string | null;
+  embed_origin?: string | null | undefined;
 }
 export interface ClaimCustomerSeatsGetInfoRequest {
   invitation_token: string;
@@ -3112,40 +3165,75 @@ export interface SeatClaimInfo {
   /** Whether the seat can be claimed */
   can_claim: boolean;
 }
-export type ConfirmCheckoutsClientRequestCustomFieldDataValue = string | number | boolean;
+export type CheckoutConfirmStripeCustomFieldDataValue = string | number | boolean;
 /** Key-value object storing custom field values. */
-export type ConfirmCheckoutsClientRequestCustomFieldDataMap = {
-  [key: string]: ConfirmCheckoutsClientRequestCustomFieldDataValue | null | undefined;
+export type CheckoutConfirmStripeCustomFieldDataMap = {
+  [key: string]: CheckoutConfirmStripeCustomFieldDataValue | null | undefined;
 };
+/** Confirm a checkout session using a Stripe confirmation token. */
+export interface CheckoutConfirmStripe {
+  /** Key-value object storing custom field values. */
+  custom_field_data?: CheckoutConfirmStripeCustomFieldDataMap | undefined;
+  /** ID of the product to checkout. Must be present in the checkout's product list. */
+  product_id?: string | null | undefined;
+  amount?: number | null | undefined;
+  /** Number of seats for seat-based pricing. */
+  seats?: number | null | undefined;
+  /** Number of units for unit-based pricing. */
+  units?: number | null | undefined;
+  is_business_customer?: boolean | null | undefined;
+  customer_name?: string | null | undefined;
+  customer_email?: string | null | undefined;
+  customer_billing_name?: string | null | undefined;
+  customer_billing_address?: AddressInput | null | undefined;
+  customer_tax_id?: string | null | undefined;
+  locale?: string | null | undefined;
+  /** Payment method type selected by the customer in the checkout form, e.g. `card`, `apple_pay` or `upi`. */
+  payment_method_type?: string | null | undefined;
+  /** Discount code to apply to the checkout. */
+  discount_code?: string | null | undefined;
+  /** Disable the trial period for the checkout session. It's mainly useful when the trial is blocked because the customer already redeemed one. */
+  allow_trial?: boolean | null | undefined;
+  /** ID of the Stripe confirmation token. Required for fixed prices and custom prices. */
+  confirmation_token_id?: string | null | undefined;
+}
+export type CheckoutConfirmSharedPaymentTokenCustomFieldDataValue = string | number | boolean;
+/** Key-value object storing custom field values. */
+export type CheckoutConfirmSharedPaymentTokenCustomFieldDataMap = {
+  [key: string]: CheckoutConfirmSharedPaymentTokenCustomFieldDataValue | null | undefined;
+};
+/** Confirm a checkout session using a Stripe shared payment token granted by an agent. Only supported for one-time payments. */
+export interface CheckoutConfirmSharedPaymentToken {
+  /** Key-value object storing custom field values. */
+  custom_field_data?: CheckoutConfirmSharedPaymentTokenCustomFieldDataMap | undefined;
+  /** ID of the product to checkout. Must be present in the checkout's product list. */
+  product_id?: string | null | undefined;
+  amount?: number | null | undefined;
+  /** Number of seats for seat-based pricing. */
+  seats?: number | null | undefined;
+  /** Number of units for unit-based pricing. */
+  units?: number | null | undefined;
+  is_business_customer?: boolean | null | undefined;
+  customer_name?: string | null | undefined;
+  customer_email?: string | null | undefined;
+  customer_billing_name?: string | null | undefined;
+  customer_billing_address?: AddressInput | null | undefined;
+  customer_tax_id?: string | null | undefined;
+  locale?: string | null | undefined;
+  /** Payment method type selected by the customer in the checkout form, e.g. `card`, `apple_pay` or `upi`. */
+  payment_method_type?: string | null | undefined;
+  /** Discount code to apply to the checkout. */
+  discount_code?: string | null | undefined;
+  /** Disable the trial period for the checkout session. It's mainly useful when the trial is blocked because the customer already redeemed one. */
+  allow_trial?: boolean | null | undefined;
+  /** ID of the Stripe shared payment token (`spt_...`). */
+  shared_payment_token_id: string;
+}
+export type CheckoutConfirm = CheckoutConfirmStripe | CheckoutConfirmSharedPaymentToken;
 export interface ConfirmCheckoutsClientRequest {
   /** The checkout session client secret. */
   client_secret: string;
-  /** Key-value object storing custom field values. */
-  custom_field_data?: ConfirmCheckoutsClientRequestCustomFieldDataMap;
-  /** ID of the product to checkout. Must be present in the checkout's product list. */
-  product_id?: string | null;
-  /** ID of the product price to checkout. Must correspond to a price present in the checkout's product list. */
-  product_price_id?: string | null;
-  amount?: number | null;
-  /** Number of seats for seat-based pricing. */
-  seats?: number | null;
-  /** Number of units for unit-based pricing. */
-  units?: number | null;
-  is_business_customer?: boolean | null;
-  customer_name?: string | null;
-  customer_email?: string | null;
-  customer_billing_name?: string | null;
-  customer_billing_address?: AddressInput | null;
-  customer_tax_id?: string | null;
-  locale?: string | null;
-  /** Payment method type selected by the customer in the checkout form, e.g. `card`, `apple_pay` or `upi`. */
-  payment_method_type?: string | null;
-  /** Discount code to apply to the checkout. */
-  discount_code?: string | null;
-  /** Disable the trial period for the checkout session. It's mainly useful when the trial is blocked because the customer already redeemed one. */
-  allow_trial?: boolean | null;
-  /** ID of the Stripe confirmation token. Required for fixed prices and custom prices. */
-  confirmation_token_id?: string | null;
+  body: CheckoutConfirm;
 }
 export type CheckoutPublicConfirmedCustomFieldDataValue = string | number | boolean;
 /** Key-value object storing custom field values. */
@@ -3157,10 +3245,8 @@ export type CheckoutPublicConfirmedPaymentProcessorMetadataMap = {
 };
 /** List of products available to select. */
 export type CheckoutPublicConfirmedProductsList = Array<CheckoutProduct>;
-export type CheckoutPublicConfirmedProductPrice = LegacyRecurringProductPrice | ProductPrice;
-export type CheckoutPublicConfirmedPricesValueItem = LegacyRecurringProductPrice | ProductPrice;
 /** List of prices for this product. */
-export type CheckoutPublicConfirmedPricesValueList = Array<CheckoutPublicConfirmedPricesValueItem>;
+export type CheckoutPublicConfirmedPricesValueList = Array<ProductPrice>;
 export type CheckoutPublicConfirmedPricesMap = {
   [key: string]: CheckoutPublicConfirmedPricesValueList | undefined;
 };
@@ -3198,7 +3284,7 @@ export interface CheckoutPublicConfirmed {
   /** Last modification timestamp of the object. */
   modified_at: string | null;
   /** Key-value object storing custom field values. */
-  custom_field_data?: CheckoutPublicConfirmedCustomFieldDataMap;
+  custom_field_data?: CheckoutPublicConfirmedCustomFieldDataMap | undefined;
   /** Payment processor used. */
   payment_processor: PaymentProcessor;
   status: string;
@@ -3217,11 +3303,11 @@ export interface CheckoutPublicConfirmed {
   /** Amount in cents, before discounts and taxes. */
   amount: number;
   /** Predefined number of seats (works with seat-based pricing only) */
-  seats?: number | null;
+  seats?: number | null | undefined;
   /** Minimum number of seats (works with seat-based pricing only) */
-  min_seats?: number | null;
+  min_seats?: number | null | undefined;
   /** Maximum number of seats (works with seat-based pricing only) */
-  max_seats?: number | null;
+  max_seats?: number | null | undefined;
   /** Predefined number of units (works with unit-based pricing only) */
   units: number | null;
   /** Minimum number of units (works with unit-based pricing only) */
@@ -3252,8 +3338,6 @@ export interface CheckoutPublicConfirmed {
   organization_id: string;
   /** ID of the product to checkout. */
   product_id: string | null;
-  /** ID of the product price to checkout. */
-  product_price_id: string | null;
   /** ID of the discount applied to the checkout. */
   discount_id: string | null;
   /** Whether to allow the customer to apply discount codes. If you apply a discount through `discount_id`, it'll still be applied, but the customer won't be able to change it. */
@@ -3281,7 +3365,7 @@ export interface CheckoutPublicConfirmed {
   customer_billing_name: string | null;
   customer_billing_address: Address | null;
   customer_tax_id: string | null;
-  locale?: string | null;
+  locale?: string | null | undefined;
   /** Payment method type selected by the customer in the checkout form, e.g. `card`, `apple_pay` or `upi`. */
   payment_method_type: string | null;
   payment_processor_metadata: CheckoutPublicConfirmedPaymentProcessorMetadataMap;
@@ -3292,13 +3376,82 @@ export interface CheckoutPublicConfirmed {
   /** Product selected to checkout. */
   product: CheckoutProduct | null;
   /** Price of the selected product. */
-  product_price: CheckoutPublicConfirmedProductPrice | null;
+  product_price: ProductPrice | null;
   /** Mapping of product IDs to their list of prices. */
   prices: CheckoutPublicConfirmedPricesMap | null;
   discount: CheckoutPublicConfirmedDiscount | null;
   organization: CheckoutOrganization;
   attached_custom_fields: CheckoutPublicConfirmedAttachedCustomFieldsList | null;
   customer_session_token: string | null;
+}
+/** Schema to manually grant credits on a customer meter using Polar IDs. */
+export interface CustomerMeterCreditsIDCreate {
+  /** The number of units to credit. */
+  units: number;
+  /** Whether unused credits carry over to the next meter period. */
+  rollover?: boolean | undefined;
+  /** Your unique identifier for this credit. Retrying with the same `external_id` doesn't grant the credit twice. */
+  external_id?: string | null | undefined;
+  /** The ID of the customer. */
+  customer_id: string;
+  /** The ID of the meter. */
+  meter_id: string;
+}
+/** Schema to manually grant credits on a customer meter using external IDs. */
+export interface CustomerMeterCreditsExternalIDCreate {
+  /** The number of units to credit. */
+  units: number;
+  /** Whether unused credits carry over to the next meter period. */
+  rollover?: boolean | undefined;
+  /** Your unique identifier for this credit. Retrying with the same `external_id` doesn't grant the credit twice. */
+  external_id?: string | null | undefined;
+  /** The external ID of the customer. */
+  external_customer_id: string;
+  /** The external ID of the meter, as set by config as code. */
+  external_meter_id: string;
+}
+export type CustomerMetersCreditsRequestBody =
+  | CustomerMeterCreditsIDCreate
+  | CustomerMeterCreditsExternalIDCreate;
+export interface CustomerMetersCreditsRequest {
+  body: CustomerMetersCreditsRequestBody;
+}
+export type MeterCreditedMetadataReason = "benefit" | "manual";
+export interface MeterCreditedMetadata {
+  meter_id: string;
+  units: number;
+  rollover: boolean;
+  reason?: MeterCreditedMetadataReason | undefined;
+}
+/** An event created by Polar when credits are added to a customer meter. */
+export interface MeterCreditEvent {
+  /** The ID of the object. */
+  id: string;
+  /** The timestamp of the event. */
+  timestamp: string;
+  /** The ID of the organization owning the event. */
+  organization_id: string;
+  /** ID of the customer in your Polar organization associated with the event. */
+  customer_id: string | null;
+  /** The customer associated with the event. */
+  customer: Customer | null;
+  /** ID of the customer in your system associated with the event. */
+  external_customer_id: string | null;
+  /** ID of the member within the customer's organization who performed the action inside B2B. */
+  member_id?: string | null | undefined;
+  /** ID of the member in your system within the customer's organization who performed the action inside B2B. */
+  external_member_id?: string | null | undefined;
+  /** Number of direct child events linked to this event. */
+  child_count?: number | undefined;
+  /** The ID of the parent event. */
+  parent_id?: string | null | undefined;
+  /** Human readable label of the event type. */
+  label: string;
+  /** The source of the event. `system` events are created by Polar. `user` events are the one you create through our ingestion API. */
+  source: string;
+  /** The name of the event. */
+  name: string;
+  metadata: MeterCreditedMetadata;
 }
 export interface CustomerMetersGetRequest {
   /** The customer meter ID. */
@@ -3319,7 +3472,7 @@ export interface Filter {
   clauses: FilterClausesList;
 }
 export interface CountAggregation {
-  func?: string;
+  func?: string | undefined;
 }
 export type PropertyAggregationFunc = "sum" | "max" | "min" | "avg";
 export interface PropertyAggregation {
@@ -3327,12 +3480,14 @@ export interface PropertyAggregation {
   property: string;
 }
 export interface UniqueAggregation {
-  func?: string;
+  func?: string | undefined;
   property: string;
 }
 /** The aggregation to apply on the filtered events to calculate the meter. */
 export type MeterAggregation = CountAggregation | PropertyAggregation | UniqueAggregation;
 export interface Meter {
+  /** An ID from your own system to reference this resource. It must be unique within the organization for this type of resource. */
+  external_id: string | null;
   metadata: MetadataOutputType;
   /** Creation timestamp of the object. */
   created_at: string;
@@ -3345,9 +3500,9 @@ export interface Meter {
   /** The unit of the meter. */
   unit: MeterUnit;
   /** The label for the custom unit. */
-  custom_label?: string | null;
+  custom_label?: string | null | undefined;
   /** The multiplier to convert from base unit to display scale. */
-  custom_multiplier?: number | null;
+  custom_multiplier?: number | null | undefined;
   /** The filter to apply on events that'll be used to calculate the meter. */
   filter: Filter;
   /** The aggregation to apply on the filtered events to calculate the meter. */
@@ -3355,7 +3510,7 @@ export interface Meter {
   /** The ID of the organization owning the meter. */
   organization_id: string;
   /** Whether the meter is archived and the time it was archived. */
-  archived_at?: string | null;
+  archived_at?: string | null | undefined;
 }
 /** An active customer meter, with current consumed and credited units. */
 export interface CustomerMeter {
@@ -3398,6 +3553,11 @@ export type CustomerMetersListRequestExternalCustomerId =
 export type CustomerMetersListRequestMeterIdCase1List = Array<string>;
 /** Filter by meter ID. */
 export type CustomerMetersListRequestMeterId = string | CustomerMetersListRequestMeterIdCase1List;
+export type CustomerMetersListRequestExternalMeterIdCase1List = Array<string>;
+/** Filter by meter external ID. */
+export type CustomerMetersListRequestExternalMeterId =
+  | string
+  | CustomerMetersListRequestExternalMeterIdCase1List;
 export type CustomerMeterSortProperty =
   | "created_at"
   | "-created_at"
@@ -3420,24 +3580,30 @@ export type CustomerMeterSortProperty =
 export type CustomerMetersListRequestSortingList = Array<CustomerMeterSortProperty | (string & {})>;
 export interface CustomerMetersListRequest {
   /** Filter by organization ID. */
-  organization_id?: CustomerMetersListRequestOrganizationId;
+  organization_id?: CustomerMetersListRequestOrganizationId | undefined;
   /** Filter by customer ID. */
-  customer_id?: CustomerMetersListRequestCustomerId;
+  customer_id?: CustomerMetersListRequestCustomerId | undefined;
   /** Filter by external customer ID. */
-  external_customer_id?: CustomerMetersListRequestExternalCustomerId;
+  external_customer_id?: CustomerMetersListRequestExternalCustomerId | undefined;
   /** Filter by meter ID. */
-  meter_id?: CustomerMetersListRequestMeterId;
+  meter_id?: CustomerMetersListRequestMeterId | undefined;
+  /** Filter by meter external ID. */
+  external_meter_id?: CustomerMetersListRequestExternalMeterId | undefined;
   /** Page number, defaults to 1. */
-  page?: number;
+  page?: number | undefined;
   /** Size of a page, defaults to 10. Maximum is 100. */
-  limit?: number;
+  limit?: number | undefined;
   /** Sorting criterion. Several criteria can be used simultaneously and will be applied in order. Add a minus sign `-` before the criteria name to sort by descending order. */
-  sorting?: CustomerMetersListRequestSortingList;
+  sorting?: CustomerMetersListRequestSortingList | undefined;
 }
 export type ListResourceCustomerMeterItemsList = Array<CustomerMeter>;
 export interface ListResourceCustomerMeter {
   items: ListResourceCustomerMeterItemsList;
   pagination: Pagination;
+}
+export interface CustomerMetersReverseCreditRequest {
+  /** The ID of the `meter.credited` event returned when the credit was granted. */
+  id: string;
 }
 export interface CustomerPortalBenefitGrantsGetRequest {
   /** The benefit grant ID. */
@@ -3466,9 +3632,9 @@ export interface CustomerPortalCustomer {
   billing_address: Address | null;
   tax_id: CustomerPortalCustomerTaxIdList | null;
   oauth_accounts: CustomerPortalCustomerOauthAccountsMap;
-  default_payment_method_id?: string | null;
-  type?: CustomerType | null;
-  locale?: string | null;
+  default_payment_method_id?: string | null | undefined;
+  type?: CustomerType | null | undefined;
+  locale?: string | null | undefined;
 }
 export type CustomerBenefitGrantMemberOauthAccountsMap = {
   [key: string]: CustomerPortalOAuthAccount | undefined;
@@ -3515,15 +3681,15 @@ export interface CustomerBenefitGrantDiscord {
   granted_at: string | null;
   revoked_at: string | null;
   customer_id: string;
-  member_id?: string | null;
+  member_id?: string | null | undefined;
   benefit_id: string;
   subscription_id: string | null;
   order_id: string | null;
   is_granted: boolean;
   is_revoked: boolean;
-  error?: BenefitGrantError | null;
+  error?: BenefitGrantError | null | undefined;
   customer: CustomerPortalCustomer;
-  member?: CustomerBenefitGrantMember | null;
+  member?: CustomerBenefitGrantMember | null | undefined;
   benefit: BenefitDiscordSubscriber;
   properties: BenefitGrantDiscordProperties;
 }
@@ -3565,15 +3731,15 @@ export interface CustomerBenefitGrantGitHubRepository {
   granted_at: string | null;
   revoked_at: string | null;
   customer_id: string;
-  member_id?: string | null;
+  member_id?: string | null | undefined;
   benefit_id: string;
   subscription_id: string | null;
   order_id: string | null;
   is_granted: boolean;
   is_revoked: boolean;
-  error?: BenefitGrantError | null;
+  error?: BenefitGrantError | null | undefined;
   customer: CustomerPortalCustomer;
-  member?: CustomerBenefitGrantMember | null;
+  member?: CustomerBenefitGrantMember | null | undefined;
   benefit: BenefitGitHubRepositorySubscriber;
   properties: BenefitGrantGitHubRepositoryProperties;
 }
@@ -3612,13 +3778,13 @@ export interface CustomerBenefitGrantDownloadables {
   granted_at: string | null;
   revoked_at: string | null;
   customer_id: string;
-  member_id?: string | null;
+  member_id?: string | null | undefined;
   benefit_id: string;
   subscription_id: string | null;
   order_id: string | null;
   is_granted: boolean;
   is_revoked: boolean;
-  error?: BenefitGrantError | null;
+  error?: BenefitGrantError | null | undefined;
   customer: CustomerPortalCustomer;
   benefit: BenefitDownloadablesSubscriber;
   properties: BenefitGrantDownloadablesProperties;
@@ -3655,13 +3821,13 @@ export interface CustomerBenefitGrantLicenseKeys {
   granted_at: string | null;
   revoked_at: string | null;
   customer_id: string;
-  member_id?: string | null;
+  member_id?: string | null | undefined;
   benefit_id: string;
   subscription_id: string | null;
   order_id: string | null;
   is_granted: boolean;
   is_revoked: boolean;
-  error?: BenefitGrantError | null;
+  error?: BenefitGrantError | null | undefined;
   customer: CustomerPortalCustomer;
   benefit: BenefitLicenseKeysSubscriber;
   properties: BenefitGrantLicenseKeysProperties;
@@ -3699,13 +3865,13 @@ export interface CustomerBenefitGrantCustom {
   granted_at: string | null;
   revoked_at: string | null;
   customer_id: string;
-  member_id?: string | null;
+  member_id?: string | null | undefined;
   benefit_id: string;
   subscription_id: string | null;
   order_id: string | null;
   is_granted: boolean;
   is_revoked: boolean;
-  error?: BenefitGrantError | null;
+  error?: BenefitGrantError | null | undefined;
   customer: CustomerPortalCustomer;
   benefit: BenefitCustomSubscriber;
   properties: unknown;
@@ -3734,9 +3900,9 @@ export interface BenefitMeterCreditSubscriber {
   properties: BenefitMeterCreditProperties;
 }
 export interface BenefitGrantMeterCreditProperties {
-  last_credited_meter_id?: string;
-  last_credited_units?: number;
-  last_credited_at?: string;
+  last_credited_meter_id?: string | undefined;
+  last_credited_units?: number | undefined;
+  last_credited_at?: string | undefined;
 }
 export interface CustomerBenefitGrantMeterCredit {
   /** Creation timestamp of the object. */
@@ -3748,13 +3914,13 @@ export interface CustomerBenefitGrantMeterCredit {
   granted_at: string | null;
   revoked_at: string | null;
   customer_id: string;
-  member_id?: string | null;
+  member_id?: string | null | undefined;
   benefit_id: string;
   subscription_id: string | null;
   order_id: string | null;
   is_granted: boolean;
   is_revoked: boolean;
-  error?: BenefitGrantError | null;
+  error?: BenefitGrantError | null | undefined;
   customer: CustomerPortalCustomer;
   benefit: BenefitMeterCreditSubscriber;
   properties: BenefitGrantMeterCreditProperties;
@@ -3790,13 +3956,13 @@ export interface CustomerBenefitGrantFeatureFlag {
   granted_at: string | null;
   revoked_at: string | null;
   customer_id: string;
-  member_id?: string | null;
+  member_id?: string | null | undefined;
   benefit_id: string;
   subscription_id: string | null;
   order_id: string | null;
   is_granted: boolean;
   is_revoked: boolean;
-  error?: BenefitGrantError | null;
+  error?: BenefitGrantError | null | undefined;
   customer: CustomerPortalCustomer;
   benefit: BenefitFeatureFlagSubscriber;
   properties: unknown;
@@ -3812,13 +3978,13 @@ export interface CustomerBenefitGrantSlackSharedChannel {
   granted_at: string | null;
   revoked_at: string | null;
   customer_id: string;
-  member_id?: string | null;
+  member_id?: string | null | undefined;
   benefit_id: string;
   subscription_id: string | null;
   order_id: string | null;
   is_granted: boolean;
   is_revoked: boolean;
-  error?: BenefitGrantError | null;
+  error?: BenefitGrantError | null | undefined;
   customer: CustomerPortalCustomer;
   benefit: BenefitFeatureFlagSubscriber;
   properties: BenefitGrantSlackSharedChannelProperties;
@@ -3879,25 +4045,25 @@ export type CustomerPortalBenefitGrantsListRequestSortingList = Array<
 >;
 export interface CustomerPortalBenefitGrantsListRequest {
   /** Filter by benefit description. */
-  query?: string;
+  query?: string | undefined;
   /** Filter by benefit type. */
-  type?: CustomerPortalBenefitGrantsListRequestType;
+  type?: CustomerPortalBenefitGrantsListRequestType | undefined;
   /** Filter by benefit ID. */
-  benefit_id?: CustomerPortalBenefitGrantsListRequestBenefitId;
+  benefit_id?: CustomerPortalBenefitGrantsListRequestBenefitId | undefined;
   /** Filter by checkout ID. */
-  checkout_id?: CustomerPortalBenefitGrantsListRequestCheckoutId;
+  checkout_id?: CustomerPortalBenefitGrantsListRequestCheckoutId | undefined;
   /** Filter by order ID. */
-  order_id?: CustomerPortalBenefitGrantsListRequestOrderId;
+  order_id?: CustomerPortalBenefitGrantsListRequestOrderId | undefined;
   /** Filter by subscription ID. */
-  subscription_id?: CustomerPortalBenefitGrantsListRequestSubscriptionId;
+  subscription_id?: CustomerPortalBenefitGrantsListRequestSubscriptionId | undefined;
   /** Filter by member ID. */
-  member_id?: CustomerPortalBenefitGrantsListRequestMemberId;
+  member_id?: CustomerPortalBenefitGrantsListRequestMemberId | undefined;
   /** Page number, defaults to 1. */
-  page?: number;
+  page?: number | undefined;
   /** Size of a page, defaults to 10. Maximum is 100. */
-  limit?: number;
+  limit?: number | undefined;
   /** Sorting criterion. Several criteria can be used simultaneously and will be applied in order. Add a minus sign `-` before the criteria name to sort by descending order. */
-  sorting?: CustomerPortalBenefitGrantsListRequestSortingList;
+  sorting?: CustomerPortalBenefitGrantsListRequestSortingList | undefined;
 }
 export type ListResourceCustomerBenefitGrantItemsList = Array<CustomerBenefitGrant>;
 export interface ListResourceCustomerBenefitGrant {
@@ -4001,15 +4167,15 @@ export type CustomerPortalCustomerMetersListRequestSortingList = Array<
 >;
 export interface CustomerPortalCustomerMetersListRequest {
   /** Filter by meter ID. */
-  meter_id?: CustomerPortalCustomerMetersListRequestMeterId;
+  meter_id?: CustomerPortalCustomerMetersListRequestMeterId | undefined;
   /** Filter by meter name. */
-  query?: string;
+  query?: string | undefined;
   /** Page number, defaults to 1. */
-  page?: number;
+  page?: number | undefined;
   /** Size of a page, defaults to 10. Maximum is 100. */
-  limit?: number;
+  limit?: number | undefined;
   /** Sorting criterion. Several criteria can be used simultaneously and will be applied in order. Add a minus sign `-` before the criteria name to sort by descending order. */
-  sorting?: CustomerPortalCustomerMetersListRequestSortingList;
+  sorting?: CustomerPortalCustomerMetersListRequestSortingList | undefined;
 }
 export type ListResourceCustomerCustomerMeterItemsList = Array<CustomerCustomerMeter>;
 export interface ListResourceCustomerCustomerMeter {
@@ -4026,7 +4192,7 @@ export interface PaymentMethodCardMetadata {
   last4: string;
   exp_month: number;
   exp_year: number;
-  wallet?: string | null;
+  wallet?: string | null | undefined;
 }
 export interface PaymentMethodCard {
   /** The ID of the object. */
@@ -4102,9 +4268,9 @@ export interface PortalAuthenticatedUser {
   /** Associated customer ID. */
   customer_id: string;
   /** Member ID. Only set for members. */
-  member_id?: string | null;
+  member_id?: string | null | undefined;
   /** Member role (owner, billing_manager, member). Only set for members. */
-  role?: string | null;
+  role?: string | null | undefined;
 }
 export interface CustomerPortalCustomerSessionIntrospectRequest {}
 export interface CustomerCustomerSession {
@@ -4114,9 +4280,9 @@ export interface CustomerCustomerSession {
 export interface CustomerPortalCustomersGetRequest {}
 export interface CustomerPortalCustomersListPaymentMethodsRequest {
   /** Page number, defaults to 1. */
-  page?: number;
+  page?: number | undefined;
   /** Size of a page, defaults to 10. Maximum is 100. */
-  limit?: number;
+  limit?: number | undefined;
 }
 export type ListResourceCustomerPaymentMethodItemsList = Array<CustomerPaymentMethod>;
 export interface ListResourceCustomerPaymentMethod {
@@ -4124,10 +4290,10 @@ export interface ListResourceCustomerPaymentMethod {
   pagination: Pagination;
 }
 export interface CustomerPortalCustomersUpdateRequest {
-  billing_name?: string | null;
-  billing_address?: AddressInput | null;
-  tax_id?: string | null;
-  default_payment_method_id?: string | null;
+  billing_name?: string | null | undefined;
+  billing_address?: AddressInput | null | undefined;
+  tax_id?: string | null | undefined;
+  default_payment_method_id?: string | null | undefined;
 }
 export type CustomerPortalDownloadablesListRequestBenefitIdCase1List = Array<string>;
 /** Filter by benefit ID. */
@@ -4136,16 +4302,16 @@ export type CustomerPortalDownloadablesListRequestBenefitId =
   | CustomerPortalDownloadablesListRequestBenefitIdCase1List;
 export interface CustomerPortalDownloadablesListRequest {
   /** Filter by benefit ID. */
-  benefit_id?: CustomerPortalDownloadablesListRequestBenefitId;
+  benefit_id?: CustomerPortalDownloadablesListRequestBenefitId | undefined;
   /** Page number, defaults to 1. */
-  page?: number;
+  page?: number | undefined;
   /** Size of a page, defaults to 10. Maximum is 100. */
-  limit?: number;
+  limit?: number | undefined;
 }
 export type S3DownloadURLHeadersMap = { [key: string]: string | undefined };
 export interface S3DownloadURL {
   url: string;
-  headers?: S3DownloadURLHeadersMap;
+  headers?: S3DownloadURLHeadersMap | undefined;
   expires_at: string;
 }
 export type FileServiceTypes =
@@ -4201,9 +4367,9 @@ export interface CustomerPortalLicenseKeysActivateRequest {
   organization_id: string;
   label: string;
   /** Key-value object allowing you to set conditions that must match when validating the license key. The key must be a string with a maximum length of **40 characters**. The value must be either: * A string with a maximum length of **500 characters** * An integer * A floating-point number * A boolean You can store up to **50 key-value pairs**. */
-  conditions?: CustomerPortalLicenseKeysActivateRequestConditionsMap;
+  conditions?: CustomerPortalLicenseKeysActivateRequestConditionsMap | undefined;
   /** Key-value object allowing you to store additional information about the activation The key must be a string with a maximum length of **40 characters**. The value must be either: * A string with a maximum length of **500 characters** * An integer * A floating-point number * A boolean You can store up to **50 key-value pairs**. */
-  meta?: CustomerPortalLicenseKeysActivateRequestMetaMap;
+  meta?: CustomerPortalLicenseKeysActivateRequestMetaMap | undefined;
 }
 export type LicenseKeyActivationCreatedMetaValue = string | number | number | boolean;
 export type LicenseKeyActivationCreatedMetaMap = {
@@ -4219,9 +4385,9 @@ export interface LicenseKeyCustomer {
   modified_at: string | null;
   metadata: MetadataOutputType;
   /** The ID of the customer in your system. This must be unique within the organization. Once set, it can't be updated. */
-  external_id?: string | null;
+  external_id?: string | null | undefined;
   /** The email address of the customer. This must be unique within the organization. */
-  email?: string | null;
+  email?: string | null | undefined;
   /** Whether the customer email address is verified. The address is automatically verified when the customer accesses the customer portal using their email address. */
   email_verified: boolean;
   /** The type of customer: 'individual' for single users, 'team' for customers with multiple members. */
@@ -4232,11 +4398,11 @@ export interface LicenseKeyCustomer {
   billing_name: string | null;
   billing_address: Address | null;
   tax_id: LicenseKeyCustomerTaxIdList | null;
-  locale?: string | null;
+  locale?: string | null | undefined;
   /** The ID of the organization owning the customer. */
   organization_id: string;
   /** The ID of the customer's default payment method, if any. Use the payment methods endpoint to retrieve its details. */
-  default_payment_method_id?: string | null;
+  default_payment_method_id?: string | null | undefined;
   /** Timestamp for when the customer was soft deleted. */
   deleted_at: string | null;
   /** Timestamp of the first event ingested for this customer. Can predate `created_at`, and is null if no event was ever ingested. */
@@ -4379,11 +4545,11 @@ export interface LicenseKeyWithActivations {
 }
 export interface CustomerPortalLicenseKeysListRequest {
   /** Filter by a specific benefit */
-  benefit_id?: string;
+  benefit_id?: string | undefined;
   /** Page number, defaults to 1. */
-  page?: number;
+  page?: number | undefined;
   /** Size of a page, defaults to 10. Maximum is 100. */
-  limit?: number;
+  limit?: number | undefined;
 }
 export interface LicenseKeyRead {
   /** The ID of the object. */
@@ -4458,12 +4624,12 @@ export type CustomerPortalLicenseKeysValidateRequestConditionsMap = {
 export interface CustomerPortalLicenseKeysValidateRequest {
   key: string;
   organization_id: string;
-  activation_id?: string | null;
-  benefit_id?: string | null;
-  customer_id?: string | null;
-  increment_usage?: number | null;
+  activation_id?: string | null | undefined;
+  benefit_id?: string | null | undefined;
+  customer_id?: string | null | undefined;
+  increment_usage?: number | null | undefined;
   /** Key-value object allowing you to set conditions that must match when validating the license key. The key must be a string with a maximum length of **40 characters**. The value must be either: * A string with a maximum length of **500 characters** * An integer * A floating-point number * A boolean You can store up to **50 key-value pairs**. */
-  conditions?: CustomerPortalLicenseKeysValidateRequestConditionsMap;
+  conditions?: CustomerPortalLicenseKeysValidateRequestConditionsMap | undefined;
 }
 export interface ValidatedLicenseKey {
   /** The ID of the object. */
@@ -4498,15 +4664,15 @@ export interface ValidatedLicenseKey {
   order_id: string | null;
   /** The one-time order granting the license key, if any. */
   order: LicenseKeyOrder | null;
-  activation?: LicenseKeyActivationBase | null;
+  activation?: LicenseKeyActivationBase | null | undefined;
 }
 export interface CustomerPortalMembersAddMemberRequest {
   /** The email address of the new member. */
   email: string;
   /** The name of the new member (optional). */
-  name?: string | null;
+  name?: string | null | undefined;
   /** The role for the new member. Defaults to 'member'. */
-  role?: MemberRole | (string & {});
+  role?: MemberRole | (string & {}) | undefined;
 }
 /** A member of the customer's team as seen in the customer portal. */
 export interface CustomerPortalMember {
@@ -4525,9 +4691,9 @@ export interface CustomerPortalMember {
 }
 export interface CustomerPortalMembersListMembersRequest {
   /** Page number, defaults to 1. */
-  page?: number;
+  page?: number | undefined;
   /** Size of a page, defaults to 10. Maximum is 100. */
-  limit?: number;
+  limit?: number | undefined;
 }
 export type ListResourceCustomerPortalMemberItemsList = Array<CustomerPortalMember>;
 export interface ListResourceCustomerPortalMember {
@@ -4541,9 +4707,9 @@ export interface CustomerPortalMembersRemoveMemberResponse {}
 export interface CustomerPortalMembersUpdateMemberRequest {
   id: string;
   /** The new name for the member. */
-  name?: string | null;
+  name?: string | null | undefined;
   /** The new role for the member. */
-  role?: MemberRole | (string & {}) | null;
+  role?: MemberRole | (string & {}) | null | undefined;
 }
 export interface CustomerPortalOrdersGenerateInvoiceRequest {
   /** The order ID. */
@@ -4560,9 +4726,8 @@ export type OrderBillingReason =
   | "subscription_cycle"
   | "subscription_update"
   | "subscription_meter_cycle";
-export type CustomerOrderProductPricesItem = LegacyRecurringProductPrice | ProductPrice;
 /** List of prices for this product. */
-export type CustomerOrderProductPricesList = Array<CustomerOrderProductPricesItem>;
+export type CustomerOrderProductPricesList = Array<ProductPrice>;
 /** List of benefits granted by the product. */
 export type CustomerOrderProductBenefitsList = Array<BenefitPublic>;
 /** List of medias associated to the product. */
@@ -4573,23 +4738,21 @@ export interface CustomerPortalUsageSettings {
 export interface CustomerPortalSubscriptionSettings {
   update_seats: boolean;
   update_plan: boolean;
-  update_units?: boolean;
-  pause?: boolean;
+  update_units?: boolean | undefined;
+  pause?: boolean | undefined;
 }
 export interface CustomerPortalCustomerSettings {
-  allow_email_change?: boolean;
+  allow_email_change?: boolean | undefined;
 }
 export interface OrganizationCustomerPortalSettings {
   usage: CustomerPortalUsageSettings;
   subscription: CustomerPortalSubscriptionSettings;
-  customer?: CustomerPortalCustomerSettings;
+  customer?: CustomerPortalCustomerSettings | undefined;
 }
 /** Feature flags exposed to the customer portal. */
 export interface CustomerOrganizationFeatureSettings {
-  /** Whether the member model is enabled for this organization. */
-  member_model_enabled?: boolean;
   /** Whether localization is enabled for this organization. */
-  checkout_localization_enabled?: boolean;
+  checkout_localization_enabled?: boolean | undefined;
 }
 export interface CustomerOrganization {
   /** Creation timestamp of the object. */
@@ -4611,7 +4774,7 @@ export interface CustomerOrganization {
   /** Settings related to the customer portal */
   customer_portal_settings: OrganizationCustomerPortalSettings;
   /** Feature flags for the customer portal. */
-  organization_features?: CustomerOrganizationFeatureSettings;
+  organization_features?: CustomerOrganizationFeatureSettings | undefined;
 }
 export interface CustomerOrderProduct {
   /** The ID of the object. */
@@ -4695,13 +4858,13 @@ export interface CustomerOrderSubscription {
   /** The timestamp when the subscription was canceled. The subscription might still be active if `cancel_at_period_end` is `true`. */
   canceled_at: string | null;
   /** The timestamp when the subscription started. */
-  started_at: string | null;
+  started_at: string;
   /** The timestamp when the subscription will end. */
   ends_at: string | null;
   /** The timestamp when the subscription ended. */
   ended_at: string | null;
   /** The timestamp when the subscription entered `past_due` status. */
-  past_due_at?: string | null;
+  past_due_at?: string | null | undefined;
   /** Whether the subscription will be paused at the end of the current period. */
   pause_at_period_end: boolean;
   /** The timestamp when the subscription was paused. */
@@ -4716,7 +4879,7 @@ export interface CustomerOrderSubscription {
   discount_id: string | null;
   checkout_id: string | null;
   /** The number of seats for seat-based subscriptions. None for non-seat subscriptions. */
-  seats?: number | null;
+  seats?: number | null | undefined;
   /** The number of units for unit-based subscriptions. None for non-unit subscriptions. */
   units: number | null;
   customer_cancellation_reason: CustomerCancellationReason | null;
@@ -4787,7 +4950,7 @@ export interface CustomerOrder {
   /** The receipt number for this order. Set once the order is paid for organizations with receipts enabled. When set, a downloadable receipt PDF can be obtained via the receipt endpoint. */
   receipt_number: string | null;
   /** Number of seats purchased (for seat-based one-time orders). */
-  seats?: number | null;
+  seats?: number | null | undefined;
   /** Number of units purchased (for unit-based pricing). */
   units: number | null;
   customer_id: string;
@@ -4796,7 +4959,7 @@ export interface CustomerOrder {
   subscription_id: string | null;
   checkout_id: string | null;
   /** When the next automatic payment retry is scheduled. `null` if the order is not in dunning or all retries have been exhausted. */
-  next_payment_attempt_at?: string | null;
+  next_payment_attempt_at?: string | null | undefined;
   product: CustomerOrderProduct | null;
   subscription: CustomerOrderSubscription | null;
   /** Line items composing the order. */
@@ -4817,7 +4980,7 @@ export interface CustomerOrderPaymentStatus {
   /** Current payment status. */
   status: string;
   /** Error message if payment failed. */
-  error?: string | null;
+  error?: string | null | undefined;
 }
 export interface CustomerPortalOrdersInvoiceRequest {
   /** The order ID. */
@@ -4862,19 +5025,19 @@ export type CustomerPortalOrdersListRequestSortingList = Array<
 >;
 export interface CustomerPortalOrdersListRequest {
   /** Filter by product ID. */
-  product_id?: CustomerPortalOrdersListRequestProductId;
+  product_id?: CustomerPortalOrdersListRequestProductId | undefined;
   /** Filter by product billing type. `recurring` will filter data corresponding to subscriptions creations or renewals. `one_time` will filter data corresponding to one-time purchases. */
-  product_billing_type?: CustomerPortalOrdersListRequestProductBillingType;
+  product_billing_type?: CustomerPortalOrdersListRequestProductBillingType | undefined;
   /** Filter by subscription ID. */
-  subscription_id?: CustomerPortalOrdersListRequestSubscriptionId;
+  subscription_id?: CustomerPortalOrdersListRequestSubscriptionId | undefined;
   /** Search by product or organization name. */
-  query?: string;
+  query?: string | undefined;
   /** Page number, defaults to 1. */
-  page?: number;
+  page?: number | undefined;
   /** Size of a page, defaults to 10. Maximum is 100. */
-  limit?: number;
+  limit?: number | undefined;
   /** Sorting criterion. Several criteria can be used simultaneously and will be applied in order. Add a minus sign `-` before the criteria name to sort by descending order. */
-  sorting?: CustomerPortalOrdersListRequestSortingList;
+  sorting?: CustomerPortalOrdersListRequestSortingList | undefined;
 }
 export type ListResourceCustomerOrderItemsList = Array<CustomerOrder>;
 export interface ListResourceCustomerOrder {
@@ -4894,17 +5057,16 @@ export interface CustomerPortalOrdersUpdateRequest {
   /** The order ID. */
   id: string;
   /** The name of the customer that should appear on the invoice. */
-  billing_name?: string | null;
+  billing_name?: string | null | undefined;
   /** The address of the customer that should appear on the invoice. Country and state fields cannot be updated. */
-  billing_address?: AddressInput | null;
+  billing_address?: AddressInput | null | undefined;
 }
 export interface CustomerPortalOrganizationsGetRequest {
   /** The organization slug. */
   slug: string;
 }
-export type CustomerProductPricesItem = LegacyRecurringProductPrice | ProductPrice;
 /** List of available prices for this product. */
-export type CustomerProductPricesList = Array<CustomerProductPricesItem>;
+export type CustomerProductPricesList = Array<ProductPrice>;
 /** List of benefits granted by the product. */
 export type CustomerProductBenefitsList = Array<BenefitPublic>;
 /** The medias associated to the product. */
@@ -4959,25 +5121,25 @@ export type CustomerPortalSeatsAssignSeatRequestMetadataMap = {
 };
 export interface CustomerPortalSeatsAssignSeatRequest {
   /** Subscription ID. Required if neither order_id nor checkout_id is provided. */
-  subscription_id?: string | null;
+  subscription_id?: string | null | undefined;
   /** Order ID for one-time purchases. Required if subscription_id is not provided. */
-  order_id?: string | null;
+  order_id?: string | null | undefined;
   /** Email of the customer to assign the seat to */
-  email?: string | null;
+  email?: string | null | undefined;
   /** External customer ID for the seat assignment */
-  external_customer_id?: string | null;
+  external_customer_id?: string | null | undefined;
   /** Customer ID for the seat assignment */
-  customer_id?: string | null;
+  customer_id?: string | null | undefined;
   /** External member ID for the seat assignment. Can be used alone (lookup existing member) or with email (create/validate member). */
-  external_member_id?: string | null;
+  external_member_id?: string | null | undefined;
   /** Member ID for the seat assignment. */
-  member_id?: string | null;
+  member_id?: string | null | undefined;
   /** Additional metadata for the seat (max 10 keys, 1KB total) */
-  metadata?: CustomerPortalSeatsAssignSeatRequestMetadataMap | null;
+  metadata?: CustomerPortalSeatsAssignSeatRequestMetadataMap | null | undefined;
   /** If true, the seat will be immediately claimed without sending an invitation email. API-only feature. */
-  immediate_claim?: boolean;
+  immediate_claim?: boolean | undefined;
   /** Checkout ID. Resolves to the subscription or order produced by the checkout. */
-  checkout_id?: string | null;
+  checkout_id?: string | null | undefined;
 }
 export type SeatStatus = "pending" | "claimed" | "revoked";
 export type CustomerSeatSeatMetadataMap = { [key: string]: unknown | undefined };
@@ -5015,13 +5177,12 @@ export interface CustomerSeat {
 }
 export interface CustomerPortalSeatsListClaimedSubscriptionsRequest {
   /** Page number, defaults to 1. */
-  page?: number;
+  page?: number | undefined;
   /** Size of a page, defaults to 10. Maximum is 100. */
-  limit?: number;
+  limit?: number | undefined;
 }
-export type CustomerSubscriptionProductPricesItem = LegacyRecurringProductPrice | ProductPrice;
 /** List of prices for this product. */
-export type CustomerSubscriptionProductPricesList = Array<CustomerSubscriptionProductPricesItem>;
+export type CustomerSubscriptionProductPricesList = Array<ProductPrice>;
 /** List of benefits granted by the product. */
 export type CustomerSubscriptionProductBenefitsList = Array<BenefitPublic>;
 /** List of medias associated to the product. */
@@ -5065,9 +5226,8 @@ export interface CustomerSubscriptionProduct {
   medias: CustomerSubscriptionProductMediasList;
   organization: CustomerOrganization;
 }
-export type CustomerSubscriptionPricesItem = LegacyRecurringProductPrice | ProductPrice;
 /** List of enabled prices for the subscription. */
-export type CustomerSubscriptionPricesList = Array<CustomerSubscriptionPricesItem>;
+export type CustomerSubscriptionPricesList = Array<ProductPrice>;
 export type CustomerSubscriptionMeterMeter = CustomerCustomerMeterMeter;
 export interface CustomerSubscriptionMeter {
   /** Creation timestamp of the object. */
@@ -5104,6 +5264,10 @@ export interface PendingSubscriptionUpdate {
   seats: number | null;
   /** Number of units to apply to the subscription. If `null`, the number of units won't be changed. */
   units: number | null;
+  /** ID of the new discount to apply to the subscription. If `null`, the subscription keeps its current discount. */
+  discount_id: string | null;
+  /** Whether the subscription's current discount will be removed. */
+  discount_unset: boolean;
 }
 export interface CustomerSubscription {
   /** Creation timestamp of the object. */
@@ -5139,13 +5303,13 @@ export interface CustomerSubscription {
   /** The timestamp when the subscription was canceled. The subscription might still be active if `cancel_at_period_end` is `true`. */
   canceled_at: string | null;
   /** The timestamp when the subscription started. */
-  started_at: string | null;
+  started_at: string;
   /** The timestamp when the subscription will end. */
   ends_at: string | null;
   /** The timestamp when the subscription ended. */
   ended_at: string | null;
   /** The timestamp when the subscription entered `past_due` status. */
-  past_due_at?: string | null;
+  past_due_at?: string | null | undefined;
   /** Whether the subscription will be paused at the end of the current period. */
   pause_at_period_end: boolean;
   /** The timestamp when the subscription was paused. */
@@ -5160,7 +5324,7 @@ export interface CustomerSubscription {
   discount_id: string | null;
   checkout_id: string | null;
   /** The number of seats for seat-based subscriptions. None for non-seat subscriptions. */
-  seats?: number | null;
+  seats?: number | null | undefined;
   /** The number of units for unit-based subscriptions. None for non-unit subscriptions. */
   units: number | null;
   customer_cancellation_reason: CustomerCancellationReason | null;
@@ -5180,9 +5344,9 @@ export interface ListResourceCustomerSubscription {
 }
 export interface CustomerPortalSeatsListSeatsRequest {
   /** Subscription ID */
-  subscription_id?: string;
+  subscription_id?: string | undefined;
   /** Order ID */
-  order_id?: string;
+  order_id?: string | undefined;
 }
 /** List of seats */
 export type SeatsListSeatsList = Array<CustomerSeat>;
@@ -5229,17 +5393,17 @@ export type CustomerPortalSubscriptionsListRequestSortingList = Array<
 >;
 export interface CustomerPortalSubscriptionsListRequest {
   /** Filter by product ID. */
-  product_id?: CustomerPortalSubscriptionsListRequestProductId;
+  product_id?: CustomerPortalSubscriptionsListRequestProductId | undefined;
   /** Filter by active or cancelled subscription. */
-  active?: boolean;
+  active?: boolean | undefined;
   /** Search by product or organization name. */
-  query?: string;
+  query?: string | undefined;
   /** Page number, defaults to 1. */
-  page?: number;
+  page?: number | undefined;
   /** Size of a page, defaults to 10. Maximum is 100. */
-  limit?: number;
+  limit?: number | undefined;
   /** Sorting criterion. Several criteria can be used simultaneously and will be applied in order. Add a minus sign `-` before the criteria name to sort by descending order. */
-  sorting?: CustomerPortalSubscriptionsListRequestSortingList;
+  sorting?: CustomerPortalSubscriptionsListRequestSortingList | undefined;
 }
 export interface CustomerSubscriptionUpdateProduct {
   /** Update subscription to another product. */
@@ -5255,17 +5419,17 @@ export interface CustomerSubscriptionUpdateUnits {
 }
 export interface CustomerSubscriptionCancel {
   /** Cancel an active subscription once the current period ends. Or uncancel a subscription currently set to be revoked at period end. */
-  cancel_at_period_end?: boolean | null;
+  cancel_at_period_end?: boolean | null | undefined;
   /** Customers reason for cancellation. * `too_expensive`: Too expensive for the customer. * `missing_features`: Customer is missing certain features. * `switched_service`: Customer switched to another service. * `unused`: Customer is not using it enough. * `customer_service`: Customer is not satisfied with the customer service. * `low_quality`: Customer is unhappy with the quality. * `too_complex`: Customer considers the service too complicated. * `other`: Other reason(s). */
-  cancellation_reason?: CustomerCancellationReason | (string & {}) | null;
+  cancellation_reason?: CustomerCancellationReason | (string & {}) | null | undefined;
   /** Customer feedback and why they decided to cancel. */
-  cancellation_comment?: string | null;
+  cancellation_comment?: string | null | undefined;
 }
 export interface CustomerSubscriptionPause {
   /** Pause an active subscription at the end of the current period. Or cancel a scheduled pause on a subscription set to be paused at period end. */
   pause_at_period_end: boolean;
   /** Date at which the paused subscription should automatically resume. If not set, it stays paused until resumed. Must be after the current period end. */
-  resumes_at?: string | null;
+  resumes_at?: string | null | undefined;
 }
 export interface CustomerSubscriptionResume {
   /** Resume a paused subscription immediately, starting a new billing period and charging the customer. */
@@ -5313,11 +5477,11 @@ export type CustomerPortalWalletsListRequestSortingList = Array<
 >;
 export interface CustomerPortalWalletsListRequest {
   /** Page number, defaults to 1. */
-  page?: number;
+  page?: number | undefined;
   /** Size of a page, defaults to 10. Maximum is 100. */
-  limit?: number;
+  limit?: number | undefined;
   /** Sorting criterion. Several criteria can be used simultaneously and will be applied in order. Add a minus sign `-` before the criteria name to sort by descending order. */
-  sorting?: CustomerPortalWalletsListRequestSortingList;
+  sorting?: CustomerPortalWalletsListRequestSortingList | undefined;
 }
 export type ListResourceCustomerWalletItemsList = Array<CustomerWallet>;
 export interface ListResourceCustomerWallet {
@@ -5333,24 +5497,24 @@ export type CustomerIndividualCreateMetadataMap = {
 export interface MemberOwnerCreate {
   /** The email address of the member. */
   email: string;
-  name?: string | null;
+  name?: string | null | undefined;
   /** The ID of the member in your system. This must be unique within the customer. */
-  external_id?: string | null;
+  external_id?: string | null | undefined;
 }
 export interface CustomerIndividualCreate {
   /** Key-value object allowing you to store additional information. The key must be a string with a maximum length of **40 characters**. The value must be either: * A string with a maximum length of **500 characters** * An integer * A floating-point number * A boolean You can store up to **50 key-value pairs**. */
-  metadata?: CustomerIndividualCreateMetadataMap;
+  metadata?: CustomerIndividualCreateMetadataMap | undefined;
   /** The ID of the customer in your system. This must be unique within the organization. Once set, it can't be updated. */
-  external_id?: string | null;
-  name?: string | null;
-  billing_address?: AddressInput | null;
-  tax_id?: string | null;
-  locale?: string | null;
+  external_id?: string | null | undefined;
+  name?: string | null | undefined;
+  billing_address?: AddressInput | null | undefined;
+  tax_id?: string | null | undefined;
+  locale?: string | null | undefined;
   /** The ID of the organization owning the customer. **Required unless you use an organization token.** */
-  organization_id?: string | null;
+  organization_id?: string | null | undefined;
   /** Optional owner member to create with the customer. If not provided, an owner member will be automatically created using the customer's email and name. */
-  owner?: MemberOwnerCreate | null;
-  type?: string;
+  owner?: MemberOwnerCreate | null | undefined;
+  type?: string | undefined;
   /** The email address of the customer. This must be unique within the organization. */
   email: string;
 }
@@ -5361,20 +5525,20 @@ export type CustomerTeamCreateMetadataMap = {
 };
 export interface CustomerTeamCreate {
   /** Key-value object allowing you to store additional information. The key must be a string with a maximum length of **40 characters**. The value must be either: * A string with a maximum length of **500 characters** * An integer * A floating-point number * A boolean You can store up to **50 key-value pairs**. */
-  metadata?: CustomerTeamCreateMetadataMap;
+  metadata?: CustomerTeamCreateMetadataMap | undefined;
   /** The ID of the customer in your system. This must be unique within the organization. Once set, it can't be updated. */
-  external_id?: string | null;
-  name?: string | null;
-  billing_address?: AddressInput | null;
-  tax_id?: string | null;
-  locale?: string | null;
+  external_id?: string | null | undefined;
+  name?: string | null | undefined;
+  billing_address?: AddressInput | null | undefined;
+  tax_id?: string | null | undefined;
+  locale?: string | null | undefined;
   /** The ID of the organization owning the customer. **Required unless you use an organization token.** */
-  organization_id?: string | null;
+  organization_id?: string | null | undefined;
   /** Optional owner member to create with the customer. If not provided, an owner member will be automatically created using the customer's email and name. */
-  owner?: MemberOwnerCreate | null;
+  owner?: MemberOwnerCreate | null | undefined;
   type: string;
   /** The email address of the team customer. Optional for team customers -- if omitted, an owner with an email must be provided. */
-  email?: string | null;
+  email?: string | null | undefined;
 }
 export type CustomerCreate = CustomerIndividualCreate | CustomerTeamCreate;
 export interface CustomersCreateRequest {
@@ -5385,36 +5549,36 @@ export interface CustomersDeleteRequest {
   /** The customer ID. */
   id: string;
   /** If true, also anonymize the customer's personal data for GDPR compliance. This replaces email with a hashed version, hashes name and billing name (name preserved for businesses with tax_id), clears billing address, and removes OAuth account data. */
-  anonymize?: boolean;
+  anonymize?: boolean | undefined;
 }
 export interface CustomersDeleteResponse {}
 export interface CustomersDeleteExternalRequest {
   /** The customer external ID. */
   external_id: string;
   /** If true, also anonymize the customer's personal data for GDPR compliance. */
-  anonymize?: boolean;
+  anonymize?: boolean | undefined;
 }
 export interface CustomersDeleteExternalResponse {}
 export type CustomerSeatsAssignSeatRequestMetadataMap = { [key: string]: unknown | undefined };
 export interface CustomerSeatsAssignSeatRequest {
   /** Subscription ID. Required if neither order_id nor checkout_id is provided. */
-  subscription_id?: string | null;
+  subscription_id?: string | null | undefined;
   /** Order ID for one-time purchases. Required if subscription_id is not provided. */
-  order_id?: string | null;
+  order_id?: string | null | undefined;
   /** Email of the customer to assign the seat to */
-  email?: string | null;
+  email?: string | null | undefined;
   /** External customer ID for the seat assignment */
-  external_customer_id?: string | null;
+  external_customer_id?: string | null | undefined;
   /** Customer ID for the seat assignment */
-  customer_id?: string | null;
+  customer_id?: string | null | undefined;
   /** External member ID for the seat assignment. Can be used alone (lookup existing member) or with email (create/validate member). */
-  external_member_id?: string | null;
+  external_member_id?: string | null | undefined;
   /** Member ID for the seat assignment. */
-  member_id?: string | null;
+  member_id?: string | null | undefined;
   /** Additional metadata for the seat (max 10 keys, 1KB total) */
-  metadata?: CustomerSeatsAssignSeatRequestMetadataMap | null;
+  metadata?: CustomerSeatsAssignSeatRequestMetadataMap | null | undefined;
   /** If true, the seat will be immediately claimed without sending an invitation email. API-only feature. */
-  immediate_claim?: boolean;
+  immediate_claim?: boolean | undefined;
 }
 export interface CustomerSeatsClaimSeatRequest {
   /** Invitation token to claim the seat */
@@ -5428,8 +5592,8 @@ export interface CustomerSeatClaimResponse {
   customer_session_token: string;
 }
 export interface CustomerSeatsListSeatsRequest {
-  subscription_id?: string;
-  order_id?: string;
+  subscription_id?: string | undefined;
+  order_id?: string | undefined;
 }
 export interface CustomerSeatsResendInvitationRequest {
   seat_id: string;
@@ -5440,22 +5604,22 @@ export interface CustomerSeatsRevokeSeatRequest {
 /** Schema for creating a customer session using a customer ID. */
 export interface CustomerSessionCustomerIDCreate {
   /** ID of the member to create a session for. When not provided and the organization has `member_model_enabled`, the owner member of the customer will be used for individual customers. */
-  member_id?: string | null;
+  member_id?: string | null | undefined;
   /** External ID of the member to create a session for. Alternative to `member_id`. */
-  external_member_id?: string | null;
+  external_member_id?: string | null | undefined;
   /** When set, a back button will be shown in the customer portal to return to this URL. */
-  return_url?: string | null;
+  return_url?: string | null | undefined;
   /** ID of the customer to create a session for. */
   customer_id: string;
 }
 /** Schema for creating a customer session using an external customer ID. */
 export interface CustomerSessionCustomerExternalIDCreate {
   /** ID of the member to create a session for. When not provided and the organization has `member_model_enabled`, the owner member of the customer will be used for individual customers. */
-  member_id?: string | null;
+  member_id?: string | null | undefined;
   /** External ID of the member to create a session for. Alternative to `member_id`. */
-  external_member_id?: string | null;
+  external_member_id?: string | null | undefined;
   /** When set, a back button will be shown in the customer portal to return to this URL. */
-  return_url?: string | null;
+  return_url?: string | null | undefined;
   /** External ID of the customer to create a session for. */
   external_customer_id: string;
 }
@@ -5487,7 +5651,7 @@ export type CustomersExportRequestOrganizationId =
   | CustomersExportRequestOrganizationIdCase1List;
 export interface CustomersExportRequest {
   /** Filter by organization ID. */
-  organization_id?: CustomersExportRequestOrganizationId;
+  organization_id?: CustomersExportRequestOrganizationId | undefined;
 }
 export interface CustomersExportResponse {}
 export interface CustomersGetRequest {
@@ -5539,7 +5703,7 @@ export interface CustomerStateSubscription {
   /** Last modification timestamp of the object. */
   modified_at: string | null;
   /** Key-value object storing custom field values. */
-  custom_field_data?: CustomerStateSubscriptionCustomFieldDataMap;
+  custom_field_data?: CustomerStateSubscriptionCustomFieldDataMap | undefined;
   metadata: MetadataOutputType;
   status: CustomerStateSubscriptionStatus;
   /** The amount of the subscription. */
@@ -5561,7 +5725,7 @@ export interface CustomerStateSubscription {
   /** The timestamp when the subscription was canceled. The subscription might still be active if `cancel_at_period_end` is `true`. */
   canceled_at: string | null;
   /** The timestamp when the subscription started. */
-  started_at: string | null;
+  started_at: string;
   /** The timestamp when the subscription will end. */
   ends_at: string | null;
   /** The ID of the subscribed product. */
@@ -5633,7 +5797,7 @@ export interface CustomerStateIndividual {
   modified_at: string | null;
   metadata: MetadataOutputType;
   /** The ID of the customer in your system. This must be unique within the organization. Once set, it can't be updated. */
-  external_id?: string | null;
+  external_id?: string | null | undefined;
   /** The email address of the customer. This must be unique within the organization. */
   email: string;
   /** Whether the customer email address is verified. The address is automatically verified when the customer accesses the customer portal using their email address. */
@@ -5646,11 +5810,11 @@ export interface CustomerStateIndividual {
   billing_name: string | null;
   billing_address: Address | null;
   tax_id: CustomerStateIndividualTaxIdList | null;
-  locale?: string | null;
+  locale?: string | null | undefined;
   /** The ID of the organization owning the customer. */
   organization_id: string;
   /** The ID of the customer's default payment method, if any. Use the payment methods endpoint to retrieve its details. */
-  default_payment_method_id?: string | null;
+  default_payment_method_id?: string | null | undefined;
   /** Timestamp for when the customer was soft deleted. */
   deleted_at: string | null;
   /** Timestamp of the first event ingested for this customer. Can predate `created_at`, and is null if no event was ever ingested. */
@@ -5680,9 +5844,9 @@ export interface CustomerStateTeam {
   modified_at: string | null;
   metadata: MetadataOutputType;
   /** The ID of the customer in your system. This must be unique within the organization. Once set, it can't be updated. */
-  external_id?: string | null;
+  external_id?: string | null | undefined;
   /** The email address of the customer. This must be unique within the organization. */
-  email?: string | null;
+  email?: string | null | undefined;
   /** Whether the customer email address is verified. The address is automatically verified when the customer accesses the customer portal using their email address. */
   email_verified: boolean;
   /** The type of customer. Team customers can have multiple members. */
@@ -5693,11 +5857,11 @@ export interface CustomerStateTeam {
   billing_name: string | null;
   billing_address: Address | null;
   tax_id: CustomerStateTeamTaxIdList | null;
-  locale?: string | null;
+  locale?: string | null | undefined;
   /** The ID of the organization owning the customer. */
   organization_id: string;
   /** The ID of the customer's default payment method, if any. Use the payment methods endpoint to retrieve its details. */
-  default_payment_method_id?: string | null;
+  default_payment_method_id?: string | null | undefined;
   /** Timestamp for when the customer was soft deleted. */
   deleted_at: string | null;
   /** Timestamp of the first event ingested for this customer. Can predate `created_at`, and is null if no event was ever ingested. */
@@ -5732,21 +5896,21 @@ export type CustomerSortProperty =
 export type CustomersListRequestSortingList = Array<CustomerSortProperty | (string & {})>;
 export interface CustomersListRequest {
   /** Filter by organization ID. */
-  organization_id?: CustomersListRequestOrganizationId;
+  organization_id?: CustomersListRequestOrganizationId | undefined;
   /** Filter by exact email. */
-  email?: string;
+  email?: string | undefined;
   /** Filter by name, email, or external ID. */
-  query?: string;
+  query?: string | undefined;
   /** Filter by active customers, i.e. customers with at least one trialing, active or past_due subscription. */
-  active?: boolean;
+  active?: boolean | undefined;
   /** Page number, defaults to 1. */
-  page?: number;
+  page?: number | undefined;
   /** Size of a page, defaults to 10. Maximum is 100. */
-  limit?: number;
+  limit?: number | undefined;
   /** Sorting criterion. Several criteria can be used simultaneously and will be applied in order. Add a minus sign `-` before the criteria name to sort by descending order. */
-  sorting?: CustomersListRequestSortingList;
+  sorting?: CustomersListRequestSortingList | undefined;
   /** Filter by metadata key-value pairs. It uses the `deepObject` style, e.g. `?metadata[key]=value`. */
-  metadata?: MetadataQueryMap;
+  metadata?: MetadataQueryMap | undefined;
 }
 export type ListResourceCustomerItemsList = Array<Customer>;
 export interface ListResourceCustomer {
@@ -5757,9 +5921,9 @@ export interface CustomersListPaymentMethodsRequest {
   /** The customer ID. */
   id: string;
   /** Page number, defaults to 1. */
-  page?: number;
+  page?: number | undefined;
   /** Size of a page, defaults to 10. Maximum is 100. */
-  limit?: number;
+  limit?: number | undefined;
 }
 export interface CustomerPaymentMethodCard {
   /** The ID of the object. */
@@ -5815,9 +5979,9 @@ export interface CustomersListPaymentMethodsExternalRequest {
   /** The customer external ID. */
   external_id: string;
   /** Page number, defaults to 1. */
-  page?: number;
+  page?: number | undefined;
   /** Size of a page, defaults to 10. Maximum is 100. */
-  limit?: number;
+  limit?: number | undefined;
 }
 /** The role of the member within the customer. To assign or transfer ownership, use the member update endpoint. */
 export type CustomersMembersCreateRequestRole = "member" | "billing_manager";
@@ -5826,11 +5990,11 @@ export interface CustomersMembersCreateRequest {
   id: string;
   /** The email address of the member. */
   email: string;
-  name?: string | null;
+  name?: string | null | undefined;
   /** The ID of the member in your system. This must be unique within the customer. */
-  external_id?: string | null;
+  external_id?: string | null | undefined;
   /** The role of the member within the customer. To assign or transfer ownership, use the member update endpoint. */
-  role?: CustomersMembersCreateRequestRole | (string & {});
+  role?: CustomersMembersCreateRequestRole | (string & {}) | undefined;
 }
 /** The role of the member within the customer. To assign or transfer ownership, use the member update endpoint. */
 export type CustomersMembersCreateExternalRequestRole = "member" | "billing_manager";
@@ -5839,9 +6003,9 @@ export interface CustomersMembersCreateExternalRequest {
   external_id: string;
   /** The email address of the member. */
   email: string;
-  name?: string | null;
+  name?: string | null | undefined;
   /** The role of the member within the customer. To assign or transfer ownership, use the member update endpoint. */
-  role?: CustomersMembersCreateExternalRequestRole | (string & {});
+  role?: CustomersMembersCreateExternalRequestRole | (string & {}) | undefined;
 }
 export interface CustomersMembersDeleteRequest {
   /** The customer ID. */
@@ -5873,13 +6037,13 @@ export interface CustomersMembersListRequest {
   /** The customer ID. */
   id: string;
   /** Filter by member role. */
-  role?: MemberRole | (string & {});
+  role?: MemberRole | (string & {}) | undefined;
   /** Page number, defaults to 1. */
-  page?: number;
+  page?: number | undefined;
   /** Size of a page, defaults to 10. Maximum is 100. */
-  limit?: number;
+  limit?: number | undefined;
   /** Sorting criterion. Several criteria can be used simultaneously and will be applied in order. Add a minus sign `-` before the criteria name to sort by descending order. */
-  sorting?: CustomersMembersListRequestSortingList;
+  sorting?: CustomersMembersListRequestSortingList | undefined;
 }
 export type ListResourceMemberItemsList = Array<Member>;
 export interface ListResourceMember {
@@ -5893,32 +6057,32 @@ export interface CustomersMembersListExternalRequest {
   /** The customer external ID. */
   external_id: string;
   /** Filter by member role. */
-  role?: MemberRole | (string & {});
+  role?: MemberRole | (string & {}) | undefined;
   /** Page number, defaults to 1. */
-  page?: number;
+  page?: number | undefined;
   /** Size of a page, defaults to 10. Maximum is 100. */
-  limit?: number;
+  limit?: number | undefined;
   /** Sorting criterion. Several criteria can be used simultaneously and will be applied in order. Add a minus sign `-` before the criteria name to sort by descending order. */
-  sorting?: CustomersMembersListExternalRequestSortingList;
+  sorting?: CustomersMembersListExternalRequestSortingList | undefined;
 }
 export interface CustomersMembersUpdateRequest {
   /** The customer ID. */
   id: string;
   member_id: string;
-  name?: string | null;
-  email?: string | null;
+  name?: string | null | undefined;
+  email?: string | null | undefined;
   /** The role of the member within the customer. */
-  role?: MemberRole | (string & {}) | null;
+  role?: MemberRole | (string & {}) | null | undefined;
 }
 export interface CustomersMembersUpdateExternalRequest {
   /** The customer external ID. */
   external_id: string;
   /** The member external ID. */
   member_external_id: string;
-  name?: string | null;
-  email?: string | null;
+  name?: string | null | undefined;
+  email?: string | null | undefined;
   /** The role of the member within the customer. */
-  role?: MemberRole | (string & {}) | null;
+  role?: MemberRole | (string & {}) | null | undefined;
 }
 export type CustomersUpdateRequestMetadataValue = string | number | number | boolean;
 /** Key-value object allowing you to store additional information. The key must be a string with a maximum length of **40 characters**. The value must be either: * A string with a maximum length of **500 characters** * An integer * A floating-point number * A boolean You can store up to **50 key-value pairs**. */
@@ -5929,17 +6093,17 @@ export interface CustomersUpdateRequest {
   /** The customer ID. */
   id: string;
   /** Key-value object allowing you to store additional information. The key must be a string with a maximum length of **40 characters**. The value must be either: * A string with a maximum length of **500 characters** * An integer * A floating-point number * A boolean You can store up to **50 key-value pairs**. */
-  metadata?: CustomersUpdateRequestMetadataMap;
+  metadata?: CustomersUpdateRequestMetadataMap | undefined;
   /** The email address of the customer. This must be unique within the organization. */
-  email?: string | null;
-  name?: string | null;
-  billing_address?: AddressInput | null;
-  tax_id?: string | null;
-  locale?: string | null;
+  email?: string | null | undefined;
+  name?: string | null | undefined;
+  billing_address?: AddressInput | null | undefined;
+  tax_id?: string | null | undefined;
+  locale?: string | null | undefined;
   /** The ID of the customer in your system. This must be unique within the organization. Once set, it can't be updated. */
-  external_id?: string | null;
+  external_id?: string | null | undefined;
   /** The customer type. Can only be upgraded from 'individual' to 'team', never downgraded. */
-  type?: CustomerType | (string & {}) | null;
+  type?: CustomerType | (string & {}) | null | undefined;
 }
 export type CustomersUpdateResponse = Customer;
 export type CustomersUpdateExternalRequestMetadataValue = string | number | number | boolean;
@@ -5951,13 +6115,13 @@ export interface CustomersUpdateExternalRequest {
   /** The customer external ID. */
   external_id: string;
   /** Key-value object allowing you to store additional information. The key must be a string with a maximum length of **40 characters**. The value must be either: * A string with a maximum length of **500 characters** * An integer * A floating-point number * A boolean You can store up to **50 key-value pairs**. */
-  metadata?: CustomersUpdateExternalRequestMetadataMap;
+  metadata?: CustomersUpdateExternalRequestMetadataMap | undefined;
   /** The email address of the customer. This must be unique within the organization. */
-  email?: string | null;
-  name?: string | null;
-  billing_address?: AddressInput | null;
-  tax_id?: string | null;
-  locale?: string | null;
+  email?: string | null | undefined;
+  name?: string | null | undefined;
+  billing_address?: AddressInput | null | undefined;
+  tax_id?: string | null | undefined;
+  locale?: string | null | undefined;
 }
 export type CustomersUpdateExternalResponse = Customer;
 export type CustomFieldCreateTextMetadataValue = string | number | number | boolean;
@@ -5968,14 +6132,14 @@ export type CustomFieldCreateTextMetadataMap = {
 /** Schema to create a custom field of type text. */
 export interface CustomFieldCreateText {
   /** Key-value object allowing you to store additional information. The key must be a string with a maximum length of **40 characters**. The value must be either: * A string with a maximum length of **500 characters** * An integer * A floating-point number * A boolean You can store up to **50 key-value pairs**. */
-  metadata?: CustomFieldCreateTextMetadataMap;
+  metadata?: CustomFieldCreateTextMetadataMap | undefined;
   type: string;
   /** Identifier of the custom field. It'll be used as key when storing the value. Must be unique across the organization.It can only contain ASCII letters, numbers and hyphens. */
   slug: string;
   /** Name of the custom field. */
   name: string;
   /** The ID of the organization owning the custom field. **Required unless you use an organization token.** */
-  organization_id?: string | null;
+  organization_id?: string | null | undefined;
   properties: CustomFieldTextProperties;
 }
 export type CustomFieldCreateNumberMetadataValue = string | number | number | boolean;
@@ -5986,14 +6150,14 @@ export type CustomFieldCreateNumberMetadataMap = {
 /** Schema to create a custom field of type number. */
 export interface CustomFieldCreateNumber {
   /** Key-value object allowing you to store additional information. The key must be a string with a maximum length of **40 characters**. The value must be either: * A string with a maximum length of **500 characters** * An integer * A floating-point number * A boolean You can store up to **50 key-value pairs**. */
-  metadata?: CustomFieldCreateNumberMetadataMap;
+  metadata?: CustomFieldCreateNumberMetadataMap | undefined;
   type: string;
   /** Identifier of the custom field. It'll be used as key when storing the value. Must be unique across the organization.It can only contain ASCII letters, numbers and hyphens. */
   slug: string;
   /** Name of the custom field. */
   name: string;
   /** The ID of the organization owning the custom field. **Required unless you use an organization token.** */
-  organization_id?: string | null;
+  organization_id?: string | null | undefined;
   properties: CustomFieldNumberProperties;
 }
 export type CustomFieldCreateDateMetadataValue = string | number | number | boolean;
@@ -6004,14 +6168,14 @@ export type CustomFieldCreateDateMetadataMap = {
 /** Schema to create a custom field of type date. */
 export interface CustomFieldCreateDate {
   /** Key-value object allowing you to store additional information. The key must be a string with a maximum length of **40 characters**. The value must be either: * A string with a maximum length of **500 characters** * An integer * A floating-point number * A boolean You can store up to **50 key-value pairs**. */
-  metadata?: CustomFieldCreateDateMetadataMap;
+  metadata?: CustomFieldCreateDateMetadataMap | undefined;
   type: string;
   /** Identifier of the custom field. It'll be used as key when storing the value. Must be unique across the organization.It can only contain ASCII letters, numbers and hyphens. */
   slug: string;
   /** Name of the custom field. */
   name: string;
   /** The ID of the organization owning the custom field. **Required unless you use an organization token.** */
-  organization_id?: string | null;
+  organization_id?: string | null | undefined;
   properties: CustomFieldNumberProperties;
 }
 export type CustomFieldCreateCheckboxMetadataValue = string | number | number | boolean;
@@ -6022,14 +6186,14 @@ export type CustomFieldCreateCheckboxMetadataMap = {
 /** Schema to create a custom field of type checkbox. */
 export interface CustomFieldCreateCheckbox {
   /** Key-value object allowing you to store additional information. The key must be a string with a maximum length of **40 characters**. The value must be either: * A string with a maximum length of **500 characters** * An integer * A floating-point number * A boolean You can store up to **50 key-value pairs**. */
-  metadata?: CustomFieldCreateCheckboxMetadataMap;
+  metadata?: CustomFieldCreateCheckboxMetadataMap | undefined;
   type: string;
   /** Identifier of the custom field. It'll be used as key when storing the value. Must be unique across the organization.It can only contain ASCII letters, numbers and hyphens. */
   slug: string;
   /** Name of the custom field. */
   name: string;
   /** The ID of the organization owning the custom field. **Required unless you use an organization token.** */
-  organization_id?: string | null;
+  organization_id?: string | null | undefined;
   properties: CustomFieldCheckboxProperties;
 }
 export type CustomFieldCreateSelectMetadataValue = string | number | number | boolean;
@@ -6040,14 +6204,14 @@ export type CustomFieldCreateSelectMetadataMap = {
 /** Schema to create a custom field of type select. */
 export interface CustomFieldCreateSelect {
   /** Key-value object allowing you to store additional information. The key must be a string with a maximum length of **40 characters**. The value must be either: * A string with a maximum length of **500 characters** * An integer * A floating-point number * A boolean You can store up to **50 key-value pairs**. */
-  metadata?: CustomFieldCreateSelectMetadataMap;
+  metadata?: CustomFieldCreateSelectMetadataMap | undefined;
   type: string;
   /** Identifier of the custom field. It'll be used as key when storing the value. Must be unique across the organization.It can only contain ASCII letters, numbers and hyphens. */
   slug: string;
   /** Name of the custom field. */
   name: string;
   /** The ID of the organization owning the custom field. **Required unless you use an organization token.** */
-  organization_id?: string | null;
+  organization_id?: string | null | undefined;
   properties: CustomFieldSelectProperties;
 }
 export type CustomFieldCreate =
@@ -6091,17 +6255,17 @@ export type CustomFieldSortProperty =
 export type CustomFieldsListRequestSortingList = Array<CustomFieldSortProperty | (string & {})>;
 export interface CustomFieldsListRequest {
   /** Filter by organization ID. */
-  organization_id?: CustomFieldsListRequestOrganizationId;
+  organization_id?: CustomFieldsListRequestOrganizationId | undefined;
   /** Filter by custom field name or slug. */
-  query?: string;
+  query?: string | undefined;
   /** Filter by custom field type. */
-  type?: CustomFieldsListRequestType;
+  type?: CustomFieldsListRequestType | undefined;
   /** Page number, defaults to 1. */
-  page?: number;
+  page?: number | undefined;
   /** Size of a page, defaults to 10. Maximum is 100. */
-  limit?: number;
+  limit?: number | undefined;
   /** Sorting criterion. Several criteria can be used simultaneously and will be applied in order. Add a minus sign `-` before the criteria name to sort by descending order. */
-  sorting?: CustomFieldsListRequestSortingList;
+  sorting?: CustomFieldsListRequestSortingList | undefined;
 }
 export type ListResourceCustomFieldItemsList = Array<CustomField>;
 export interface ListResourceCustomField {
@@ -6116,11 +6280,11 @@ export type CustomFieldUpdateTextMetadataMap = {
 /** Schema to update a custom field of type text. */
 export interface CustomFieldUpdateText {
   /** Key-value object allowing you to store additional information. The key must be a string with a maximum length of **40 characters**. The value must be either: * A string with a maximum length of **500 characters** * An integer * A floating-point number * A boolean You can store up to **50 key-value pairs**. */
-  metadata?: CustomFieldUpdateTextMetadataMap;
-  name?: string | null;
-  slug?: string | null;
+  metadata?: CustomFieldUpdateTextMetadataMap | undefined;
+  name?: string | null | undefined;
+  slug?: string | null | undefined;
   type: string;
-  properties?: CustomFieldTextProperties | null;
+  properties?: CustomFieldTextProperties | null | undefined;
 }
 export type CustomFieldUpdateNumberMetadataValue = string | number | number | boolean;
 /** Key-value object allowing you to store additional information. The key must be a string with a maximum length of **40 characters**. The value must be either: * A string with a maximum length of **500 characters** * An integer * A floating-point number * A boolean You can store up to **50 key-value pairs**. */
@@ -6130,11 +6294,11 @@ export type CustomFieldUpdateNumberMetadataMap = {
 /** Schema to update a custom field of type number. */
 export interface CustomFieldUpdateNumber {
   /** Key-value object allowing you to store additional information. The key must be a string with a maximum length of **40 characters**. The value must be either: * A string with a maximum length of **500 characters** * An integer * A floating-point number * A boolean You can store up to **50 key-value pairs**. */
-  metadata?: CustomFieldUpdateNumberMetadataMap;
-  name?: string | null;
-  slug?: string | null;
+  metadata?: CustomFieldUpdateNumberMetadataMap | undefined;
+  name?: string | null | undefined;
+  slug?: string | null | undefined;
   type: string;
-  properties?: CustomFieldNumberProperties | null;
+  properties?: CustomFieldNumberProperties | null | undefined;
 }
 export type CustomFieldUpdateDateMetadataValue = string | number | number | boolean;
 /** Key-value object allowing you to store additional information. The key must be a string with a maximum length of **40 characters**. The value must be either: * A string with a maximum length of **500 characters** * An integer * A floating-point number * A boolean You can store up to **50 key-value pairs**. */
@@ -6144,11 +6308,11 @@ export type CustomFieldUpdateDateMetadataMap = {
 /** Schema to update a custom field of type date. */
 export interface CustomFieldUpdateDate {
   /** Key-value object allowing you to store additional information. The key must be a string with a maximum length of **40 characters**. The value must be either: * A string with a maximum length of **500 characters** * An integer * A floating-point number * A boolean You can store up to **50 key-value pairs**. */
-  metadata?: CustomFieldUpdateDateMetadataMap;
-  name?: string | null;
-  slug?: string | null;
+  metadata?: CustomFieldUpdateDateMetadataMap | undefined;
+  name?: string | null | undefined;
+  slug?: string | null | undefined;
   type: string;
-  properties?: CustomFieldNumberProperties | null;
+  properties?: CustomFieldNumberProperties | null | undefined;
 }
 export type CustomFieldUpdateCheckboxMetadataValue = string | number | number | boolean;
 /** Key-value object allowing you to store additional information. The key must be a string with a maximum length of **40 characters**. The value must be either: * A string with a maximum length of **500 characters** * An integer * A floating-point number * A boolean You can store up to **50 key-value pairs**. */
@@ -6158,11 +6322,11 @@ export type CustomFieldUpdateCheckboxMetadataMap = {
 /** Schema to update a custom field of type checkbox. */
 export interface CustomFieldUpdateCheckbox {
   /** Key-value object allowing you to store additional information. The key must be a string with a maximum length of **40 characters**. The value must be either: * A string with a maximum length of **500 characters** * An integer * A floating-point number * A boolean You can store up to **50 key-value pairs**. */
-  metadata?: CustomFieldUpdateCheckboxMetadataMap;
-  name?: string | null;
-  slug?: string | null;
+  metadata?: CustomFieldUpdateCheckboxMetadataMap | undefined;
+  name?: string | null | undefined;
+  slug?: string | null | undefined;
   type: string;
-  properties?: CustomFieldCheckboxProperties | null;
+  properties?: CustomFieldCheckboxProperties | null | undefined;
 }
 export type CustomFieldUpdateSelectMetadataValue = string | number | number | boolean;
 /** Key-value object allowing you to store additional information. The key must be a string with a maximum length of **40 characters**. The value must be either: * A string with a maximum length of **500 characters** * An integer * A floating-point number * A boolean You can store up to **50 key-value pairs**. */
@@ -6172,11 +6336,11 @@ export type CustomFieldUpdateSelectMetadataMap = {
 /** Schema to update a custom field of type select. */
 export interface CustomFieldUpdateSelect {
   /** Key-value object allowing you to store additional information. The key must be a string with a maximum length of **40 characters**. The value must be either: * A string with a maximum length of **500 characters** * An integer * A floating-point number * A boolean You can store up to **50 key-value pairs**. */
-  metadata?: CustomFieldUpdateSelectMetadataMap;
-  name?: string | null;
-  slug?: string | null;
+  metadata?: CustomFieldUpdateSelectMetadataMap | undefined;
+  name?: string | null | undefined;
+  slug?: string | null | undefined;
   type: string;
-  properties?: CustomFieldSelectProperties | null;
+  properties?: CustomFieldSelectProperties | null | undefined;
 }
 export type CustomFieldUpdate =
   | CustomFieldUpdateText
@@ -6201,31 +6365,32 @@ export type DiscountFixedCreateProductsList = Array<string>;
 export type DiscountFixedCreateAmountsMap = { [key: string]: number | undefined };
 /** Schema to create a fixed amount discount. */
 export interface DiscountFixedCreate {
+  /** An ID from your own system to reference this resource. It must be unique within the organization for this type of resource. */
+  external_id?: string | null | undefined;
   /** Key-value object allowing you to store additional information. The key must be a string with a maximum length of **40 characters**. The value must be either: * A string with a maximum length of **500 characters** * An integer * A floating-point number * A boolean You can store up to **50 key-value pairs**. */
-  metadata?: DiscountFixedCreateMetadataMap;
+  metadata?: DiscountFixedCreateMetadataMap | undefined;
   /** Name of the discount. Will be displayed to the customer when the discount is applied. */
   name: string;
   /** Code customers can use to apply the discount during checkout. Must be between 3 and 256 characters long and contain only alphanumeric characters.If not provided, the discount can only be applied via the API. */
-  code?: string | null;
+  code?: string | null | undefined;
   /** Optional timestamp after which the discount is redeemable. */
-  starts_at?: string | null;
+  starts_at?: string | null | undefined;
   /** Optional timestamp after which the discount is no longer redeemable. */
-  ends_at?: string | null;
+  ends_at?: string | null | undefined;
   /** Optional maximum number of times the discount can be redeemed. */
-  max_redemptions?: number | null;
+  max_redemptions?: number | null | undefined;
   /** Optional maximum number of times the discount can be redeemed by a single customer. */
-  max_redemptions_per_customer?: number | null;
-  products?: DiscountFixedCreateProductsList | null;
+  max_redemptions_per_customer?: number | null | undefined;
+  products?: DiscountFixedCreateProductsList | null | undefined;
   /** The ID of the organization owning the discount. **Required unless you use an organization token.** */
-  organization_id?: string | null;
-  type?: string;
+  organization_id?: string | null | undefined;
+  type?: string | undefined;
   /** For subscriptions, determines if the discount should be applied once on the first invoice, forever, or for a certain number of months determined by `duration_in_months`. */
   duration: DiscountDuration | (string & {});
   /** Number of months the discount should be applied. Required when `duration` is `repeating`. Must be omitted otherwise. For this to work on yearly pricing, you should multiply this by 12. For example, to apply the discount for 2 years, set this to 24. */
-  duration_in_months?: number | null;
-  amount?: number | null;
-  currency?: PresentmentCurrency | (string & {}) | null;
-  amounts?: DiscountFixedCreateAmountsMap | null;
+  duration_in_months?: number | null | undefined;
+  /** Map of currency to fixed amount to discount from the total. This allows specifying different discount amounts for different currencies. */
+  amounts: DiscountFixedCreateAmountsMap;
 }
 export type DiscountPercentageCreateMetadataValue = string | number | number | boolean;
 /** Key-value object allowing you to store additional information. The key must be a string with a maximum length of **40 characters**. The value must be either: * A string with a maximum length of **500 characters** * An integer * A floating-point number * A boolean You can store up to **50 key-value pairs**. */
@@ -6236,28 +6401,30 @@ export type DiscountPercentageCreateMetadataMap = {
 export type DiscountPercentageCreateProductsList = Array<string>;
 /** Schema to create a percentage discount. */
 export interface DiscountPercentageCreate {
+  /** An ID from your own system to reference this resource. It must be unique within the organization for this type of resource. */
+  external_id?: string | null | undefined;
   /** Key-value object allowing you to store additional information. The key must be a string with a maximum length of **40 characters**. The value must be either: * A string with a maximum length of **500 characters** * An integer * A floating-point number * A boolean You can store up to **50 key-value pairs**. */
-  metadata?: DiscountPercentageCreateMetadataMap;
+  metadata?: DiscountPercentageCreateMetadataMap | undefined;
   /** Name of the discount. Will be displayed to the customer when the discount is applied. */
   name: string;
   /** Code customers can use to apply the discount during checkout. Must be between 3 and 256 characters long and contain only alphanumeric characters.If not provided, the discount can only be applied via the API. */
-  code?: string | null;
+  code?: string | null | undefined;
   /** Optional timestamp after which the discount is redeemable. */
-  starts_at?: string | null;
+  starts_at?: string | null | undefined;
   /** Optional timestamp after which the discount is no longer redeemable. */
-  ends_at?: string | null;
+  ends_at?: string | null | undefined;
   /** Optional maximum number of times the discount can be redeemed. */
-  max_redemptions?: number | null;
+  max_redemptions?: number | null | undefined;
   /** Optional maximum number of times the discount can be redeemed by a single customer. */
-  max_redemptions_per_customer?: number | null;
-  products?: DiscountPercentageCreateProductsList | null;
+  max_redemptions_per_customer?: number | null | undefined;
+  products?: DiscountPercentageCreateProductsList | null | undefined;
   /** The ID of the organization owning the discount. **Required unless you use an organization token.** */
-  organization_id?: string | null;
-  type?: string;
+  organization_id?: string | null | undefined;
+  type?: string | undefined;
   /** For subscriptions, determines if the discount should be applied once on the first invoice, forever, or for a certain number of months determined by `duration_in_months`. */
   duration: DiscountDuration | (string & {});
   /** Number of months the discount should be applied. Required when `duration` is `repeating`. Must be omitted otherwise. For this to work on yearly pricing, you should multiply this by 12. For example, to apply the discount for 2 years, set this to 24. */
-  duration_in_months?: number | null;
+  duration_in_months?: number | null | undefined;
   /** Discount percentage in basis points. A basis point is 1/100th of a percent. For example, to create a 25.5% discount, set this to 2550. */
   basis_points: number;
 }
@@ -6306,8 +6473,6 @@ export type DiscountFixedOnceForeverDurationProductsList = Array<DiscountProduct
 export interface DiscountFixedOnceForeverDuration {
   duration: DiscountDuration;
   type: DiscountType;
-  amount: number;
-  currency: string;
   /** Map of currency to fixed amount to discount from the total. */
   amounts: DiscountFixedOnceForeverDurationAmountsMap;
   /** Creation timestamp of the object. */
@@ -6316,6 +6481,8 @@ export interface DiscountFixedOnceForeverDuration {
   modified_at: string | null;
   /** The ID of the object. */
   id: string;
+  /** An ID from your own system to reference this resource. It must be unique within the organization for this type of resource. */
+  external_id: string | null;
   metadata: MetadataOutputType;
   /** Name of the discount. Will be displayed to the customer when the discount is applied. */
   name: string;
@@ -6343,8 +6510,6 @@ export interface DiscountFixedRepeatDuration {
   duration: DiscountDuration;
   duration_in_months: number;
   type: DiscountType;
-  amount: number;
-  currency: string;
   /** Map of currency to fixed amount to discount from the total. */
   amounts: DiscountFixedRepeatDurationAmountsMap;
   /** Creation timestamp of the object. */
@@ -6353,6 +6518,8 @@ export interface DiscountFixedRepeatDuration {
   modified_at: string | null;
   /** The ID of the object. */
   id: string;
+  /** An ID from your own system to reference this resource. It must be unique within the organization for this type of resource. */
+  external_id: string | null;
   metadata: MetadataOutputType;
   /** Name of the discount. Will be displayed to the customer when the discount is applied. */
   name: string;
@@ -6385,6 +6552,8 @@ export interface DiscountPercentageOnceForeverDuration {
   modified_at: string | null;
   /** The ID of the object. */
   id: string;
+  /** An ID from your own system to reference this resource. It must be unique within the organization for this type of resource. */
+  external_id: string | null;
   metadata: MetadataOutputType;
   /** Name of the discount. Will be displayed to the customer when the discount is applied. */
   name: string;
@@ -6418,6 +6587,8 @@ export interface DiscountPercentageRepeatDuration {
   modified_at: string | null;
   /** The ID of the object. */
   id: string;
+  /** An ID from your own system to reference this resource. It must be unique within the organization for this type of resource. */
+  external_id: string | null;
   metadata: MetadataOutputType;
   /** Name of the discount. Will be displayed to the customer when the discount is applied. */
   name: string;
@@ -6458,6 +6629,9 @@ export type DiscountsListRequestOrganizationIdCase1List = Array<string>;
 export type DiscountsListRequestOrganizationId =
   | string
   | DiscountsListRequestOrganizationIdCase1List;
+export type DiscountsListRequestExternalIdCase1List = Array<string>;
+/** Filter by discount external ID. */
+export type DiscountsListRequestExternalId = string | DiscountsListRequestExternalIdCase1List;
 export type DiscountSortProperty =
   | "created_at"
   | "-created_at"
@@ -6472,15 +6646,17 @@ export type DiscountSortProperty =
 export type DiscountsListRequestSortingList = Array<DiscountSortProperty | (string & {})>;
 export interface DiscountsListRequest {
   /** Filter by organization ID. */
-  organization_id?: DiscountsListRequestOrganizationId;
+  organization_id?: DiscountsListRequestOrganizationId | undefined;
+  /** Filter by discount external ID. */
+  external_id?: DiscountsListRequestExternalId | undefined;
   /** Filter by name. */
-  query?: string;
+  query?: string | undefined;
   /** Page number, defaults to 1. */
-  page?: number;
+  page?: number | undefined;
   /** Size of a page, defaults to 10. Maximum is 100. */
-  limit?: number;
+  limit?: number | undefined;
   /** Sorting criterion. Several criteria can be used simultaneously and will be applied in order. Add a minus sign `-` before the criteria name to sort by descending order. */
-  sorting?: DiscountsListRequestSortingList;
+  sorting?: DiscountsListRequestSortingList | undefined;
 }
 export type ListResourceDiscountItemsList = Array<Discount>;
 export interface ListResourceDiscount {
@@ -6499,27 +6675,27 @@ export type DiscountsUpdateRequestProductsList = Array<string>;
 export interface DiscountsUpdateRequest {
   /** The discount ID. */
   id: string;
+  /** An ID from your own system to reference this resource. It must be unique within the organization for this type of resource. */
+  external_id?: string | null | undefined;
   /** Key-value object allowing you to store additional information. The key must be a string with a maximum length of **40 characters**. The value must be either: * A string with a maximum length of **500 characters** * An integer * A floating-point number * A boolean You can store up to **50 key-value pairs**. */
-  metadata?: DiscountsUpdateRequestMetadataMap;
-  name?: string | null;
+  metadata?: DiscountsUpdateRequestMetadataMap | undefined;
+  name?: string | null | undefined;
   /** Code customers can use to apply the discount during checkout. Must be between 3 and 256 characters long and contain only alphanumeric characters.If not provided, the discount can only be applied via the API. */
-  code?: string | null;
+  code?: string | null | undefined;
   /** Optional timestamp after which the discount is redeemable. */
-  starts_at?: string | null;
+  starts_at?: string | null | undefined;
   /** Optional timestamp after which the discount is no longer redeemable. */
-  ends_at?: string | null;
+  ends_at?: string | null | undefined;
   /** Optional maximum number of times the discount can be redeemed. */
-  max_redemptions?: number | null;
+  max_redemptions?: number | null | undefined;
   /** Optional maximum number of times the discount can be redeemed by a single customer. */
-  max_redemptions_per_customer?: number | null;
-  duration?: DiscountDuration | (string & {}) | null;
-  duration_in_months?: number | null;
-  type?: DiscountType | (string & {}) | null;
-  amount?: number | null;
-  currency?: PresentmentCurrency | (string & {}) | null;
-  amounts?: DiscountsUpdateRequestAmountsMap | null;
-  basis_points?: number | null;
-  products?: DiscountsUpdateRequestProductsList | null;
+  max_redemptions_per_customer?: number | null | undefined;
+  duration?: DiscountDuration | (string & {}) | null | undefined;
+  duration_in_months?: number | null | undefined;
+  type?: DiscountType | (string & {}) | null | undefined;
+  amounts?: DiscountsUpdateRequestAmountsMap | null | undefined;
+  basis_points?: number | null | undefined;
+  products?: DiscountsUpdateRequestProductsList | null | undefined;
 }
 export type DiscountsUpdateResponse = Discount;
 export interface DisputesAcceptRequest {
@@ -6543,9 +6719,9 @@ export interface DisputeCustomer {
   modified_at: string | null;
   metadata: MetadataOutputType;
   /** The ID of the customer in your system. This must be unique within the organization. Once set, it can't be updated. */
-  external_id?: string | null;
+  external_id?: string | null | undefined;
   /** The email address of the customer. This must be unique within the organization. */
-  email?: string | null;
+  email?: string | null | undefined;
   /** Whether the customer email address is verified. The address is automatically verified when the customer accesses the customer portal using their email address. */
   email_verified: boolean;
   /** The type of customer: 'individual' for single users, 'team' for customers with multiple members. */
@@ -6556,11 +6732,11 @@ export interface DisputeCustomer {
   billing_name: string | null;
   billing_address: Address | null;
   tax_id: DisputeCustomerTaxIdList | null;
-  locale?: string | null;
+  locale?: string | null | undefined;
   /** The ID of the organization owning the customer. */
   organization_id: string;
   /** The ID of the customer's default payment method, if any. Use the payment methods endpoint to retrieve its details. */
-  default_payment_method_id?: string | null;
+  default_payment_method_id?: string | null | undefined;
   /** Timestamp for when the customer was soft deleted. */
   deleted_at: string | null;
   /** Timestamp of the first event ingested for this customer. Can predate `created_at`, and is null if no event was ever ingested. */
@@ -6619,17 +6795,17 @@ export type DisputeSortProperty = "created_at" | "-created_at" | "amount" | "-am
 export type DisputesListRequestSortingList = Array<DisputeSortProperty | (string & {})>;
 export interface DisputesListRequest {
   /** Filter by organization ID. */
-  organization_id?: DisputesListRequestOrganizationId;
+  organization_id?: DisputesListRequestOrganizationId | undefined;
   /** Filter by order ID. */
-  order_id?: DisputesListRequestOrderId;
+  order_id?: DisputesListRequestOrderId | undefined;
   /** Filter by dispute status. */
-  status?: DisputesListRequestStatus;
+  status?: DisputesListRequestStatus | undefined;
   /** Page number, defaults to 1. */
-  page?: number;
+  page?: number | undefined;
   /** Size of a page, defaults to 10. Maximum is 100. */
-  limit?: number;
+  limit?: number | undefined;
   /** Sorting criterion. Several criteria can be used simultaneously and will be applied in order. Add a minus sign `-` before the criteria name to sort by descending order. */
-  sorting?: DisputesListRequestSortingList;
+  sorting?: DisputesListRequestSortingList | undefined;
 }
 export type ListResourceDisputeItemsList = Array<Dispute>;
 export interface ListResourceDispute {
@@ -6639,41 +6815,6 @@ export interface ListResourceDispute {
 export interface EventsGetRequest {
   /** The event ID. */
   id: string;
-}
-export interface MeterCreditedMetadata {
-  meter_id: string;
-  units: number;
-  rollover: boolean;
-}
-/** An event created by Polar when credits are added to a customer meter. */
-export interface MeterCreditEvent {
-  /** The ID of the object. */
-  id: string;
-  /** The timestamp of the event. */
-  timestamp: string;
-  /** The ID of the organization owning the event. */
-  organization_id: string;
-  /** ID of the customer in your Polar organization associated with the event. */
-  customer_id: string | null;
-  /** The customer associated with the event. */
-  customer: Customer | null;
-  /** ID of the customer in your system associated with the event. */
-  external_customer_id: string | null;
-  /** ID of the member within the customer's organization who performed the action inside B2B. */
-  member_id?: string | null;
-  /** ID of the member in your system within the customer's organization who performed the action inside B2B. */
-  external_member_id?: string | null;
-  /** Number of direct child events linked to this event. */
-  child_count?: number;
-  /** The ID of the parent event. */
-  parent_id?: string | null;
-  /** Human readable label of the event type. */
-  label: string;
-  /** The source of the event. `system` events are created by Polar. `user` events are the one you create through our ingestion API. */
-  source: string;
-  /** The name of the event. */
-  name: string;
-  metadata: MeterCreditedMetadata;
 }
 export interface MeterResetMetadata {
   meter_id: string;
@@ -6693,13 +6834,13 @@ export interface MeterResetEvent {
   /** ID of the customer in your system associated with the event. */
   external_customer_id: string | null;
   /** ID of the member within the customer's organization who performed the action inside B2B. */
-  member_id?: string | null;
+  member_id?: string | null | undefined;
   /** ID of the member in your system within the customer's organization who performed the action inside B2B. */
-  external_member_id?: string | null;
+  external_member_id?: string | null | undefined;
   /** Number of direct child events linked to this event. */
-  child_count?: number;
+  child_count?: number | undefined;
   /** The ID of the parent event. */
-  parent_id?: string | null;
+  parent_id?: string | null | undefined;
   /** Human readable label of the event type. */
   label: string;
   /** The source of the event. `system` events are created by Polar. `user` events are the one you create through our ingestion API. */
@@ -6712,7 +6853,7 @@ export interface BenefitGrantMetadata {
   benefit_id: string;
   benefit_grant_id: string;
   benefit_type: BenefitType;
-  member_id?: string;
+  member_id?: string | undefined;
 }
 /** An event created by Polar when a benefit is granted to a customer. */
 export interface BenefitGrantedEvent {
@@ -6729,13 +6870,13 @@ export interface BenefitGrantedEvent {
   /** ID of the customer in your system associated with the event. */
   external_customer_id: string | null;
   /** ID of the member within the customer's organization who performed the action inside B2B. */
-  member_id?: string | null;
+  member_id?: string | null | undefined;
   /** ID of the member in your system within the customer's organization who performed the action inside B2B. */
-  external_member_id?: string | null;
+  external_member_id?: string | null | undefined;
   /** Number of direct child events linked to this event. */
-  child_count?: number;
+  child_count?: number | undefined;
   /** The ID of the parent event. */
-  parent_id?: string | null;
+  parent_id?: string | null | undefined;
   /** Human readable label of the event type. */
   label: string;
   /** The source of the event. `system` events are created by Polar. `user` events are the one you create through our ingestion API. */
@@ -6774,13 +6915,13 @@ export interface SubscriptionCreatedEvent {
   /** ID of the customer in your system associated with the event. */
   external_customer_id: string | null;
   /** ID of the member within the customer's organization who performed the action inside B2B. */
-  member_id?: string | null;
+  member_id?: string | null | undefined;
   /** ID of the member in your system within the customer's organization who performed the action inside B2B. */
-  external_member_id?: string | null;
+  external_member_id?: string | null | undefined;
   /** Number of direct child events linked to this event. */
-  child_count?: number;
+  child_count?: number | undefined;
   /** The ID of the parent event. */
-  parent_id?: string | null;
+  parent_id?: string | null | undefined;
   /** Human readable label of the event type. */
   label: string;
   /** The source of the event. `system` events are created by Polar. `user` events are the one you create through our ingestion API. */
@@ -6790,13 +6931,13 @@ export interface SubscriptionCreatedEvent {
   metadata: SubscriptionCreatedMetadata;
 }
 export interface SubscriptionUpdatedMetadata {
-  product_id?: string;
-  proration_behavior?: SubscriptionProrationBehavior;
-  discount_id?: string | null;
-  trial_end?: string;
-  seats?: number;
-  units?: number;
-  billing_period_end?: string;
+  product_id?: string | undefined;
+  proration_behavior?: SubscriptionProrationBehavior | undefined;
+  discount_id?: string | null | undefined;
+  trial_end?: string | undefined;
+  seats?: number | undefined;
+  units?: number | undefined;
+  billing_period_end?: string | undefined;
   subscription_id: string;
 }
 /** An event created by Polar when a subscription is updated. */
@@ -6814,13 +6955,13 @@ export interface SubscriptionUpdatedEvent {
   /** ID of the customer in your system associated with the event. */
   external_customer_id: string | null;
   /** ID of the member within the customer's organization who performed the action inside B2B. */
-  member_id?: string | null;
+  member_id?: string | null | undefined;
   /** ID of the member in your system within the customer's organization who performed the action inside B2B. */
-  external_member_id?: string | null;
+  external_member_id?: string | null | undefined;
   /** Number of direct child events linked to this event. */
-  child_count?: number;
+  child_count?: number | undefined;
   /** The ID of the parent event. */
-  parent_id?: string | null;
+  parent_id?: string | null | undefined;
   /** Human readable label of the event type. */
   label: string;
   /** The source of the event. `system` events are created by Polar. `user` events are the one you create through our ingestion API. */
@@ -6831,11 +6972,11 @@ export interface SubscriptionUpdatedEvent {
 }
 export interface SubscriptionCycledMetadata {
   subscription_id: string;
-  product_id?: string;
-  amount?: number;
-  currency?: string;
-  recurring_interval?: string;
-  recurring_interval_count?: number;
+  product_id?: string | undefined;
+  amount?: number | undefined;
+  currency?: string | undefined;
+  recurring_interval?: string | undefined;
+  recurring_interval_count?: number | undefined;
 }
 /** An event created by Polar when a subscription is cycled. */
 export interface SubscriptionCycledEvent {
@@ -6852,13 +6993,13 @@ export interface SubscriptionCycledEvent {
   /** ID of the customer in your system associated with the event. */
   external_customer_id: string | null;
   /** ID of the member within the customer's organization who performed the action inside B2B. */
-  member_id?: string | null;
+  member_id?: string | null | undefined;
   /** ID of the member in your system within the customer's organization who performed the action inside B2B. */
-  external_member_id?: string | null;
+  external_member_id?: string | null | undefined;
   /** Number of direct child events linked to this event. */
-  child_count?: number;
+  child_count?: number | undefined;
   /** The ID of the parent event. */
-  parent_id?: string | null;
+  parent_id?: string | null | undefined;
   /** Human readable label of the event type. */
   label: string;
   /** The source of the event. `system` events are created by Polar. `user` events are the one you create through our ingestion API. */
@@ -6869,16 +7010,16 @@ export interface SubscriptionCycledEvent {
 }
 export interface SubscriptionCanceledMetadata {
   subscription_id: string;
-  product_id?: string;
+  product_id?: string | undefined;
   amount: number;
   currency: string;
   recurring_interval: string;
   recurring_interval_count: number;
-  customer_cancellation_reason?: string;
-  customer_cancellation_comment?: string;
+  customer_cancellation_reason?: string | undefined;
+  customer_cancellation_comment?: string | undefined;
   canceled_at: string;
-  ends_at?: string;
-  cancel_at_period_end?: boolean;
+  ends_at?: string | undefined;
+  cancel_at_period_end?: boolean | undefined;
 }
 /** An event created by Polar when a subscription is canceled. */
 export interface SubscriptionCanceledEvent {
@@ -6895,13 +7036,13 @@ export interface SubscriptionCanceledEvent {
   /** ID of the customer in your system associated with the event. */
   external_customer_id: string | null;
   /** ID of the member within the customer's organization who performed the action inside B2B. */
-  member_id?: string | null;
+  member_id?: string | null | undefined;
   /** ID of the member in your system within the customer's organization who performed the action inside B2B. */
-  external_member_id?: string | null;
+  external_member_id?: string | null | undefined;
   /** Number of direct child events linked to this event. */
-  child_count?: number;
+  child_count?: number | undefined;
   /** The ID of the parent event. */
-  parent_id?: string | null;
+  parent_id?: string | null | undefined;
   /** Human readable label of the event type. */
   label: string;
   /** The source of the event. `system` events are created by Polar. `user` events are the one you create through our ingestion API. */
@@ -6915,12 +7056,12 @@ export type SubscriptionRevokedMetadata = SubscriptionCycledMetadata;
 export type SubscriptionRevokedEvent = SubscriptionCycledEvent;
 export interface SubscriptionPastDueMetadata {
   subscription_id: string;
-  product_id?: string;
+  product_id?: string | undefined;
   past_due_at: string;
-  amount?: number;
-  currency?: string;
-  recurring_interval?: string;
-  recurring_interval_count?: number;
+  amount?: number | undefined;
+  currency?: string | undefined;
+  recurring_interval?: string | undefined;
+  recurring_interval_count?: number | undefined;
 }
 /** An event created by Polar when a subscription becomes past due. */
 export interface SubscriptionPastDueEvent {
@@ -6937,13 +7078,13 @@ export interface SubscriptionPastDueEvent {
   /** ID of the customer in your system associated with the event. */
   external_customer_id: string | null;
   /** ID of the member within the customer's organization who performed the action inside B2B. */
-  member_id?: string | null;
+  member_id?: string | null | undefined;
   /** ID of the member in your system within the customer's organization who performed the action inside B2B. */
-  external_member_id?: string | null;
+  external_member_id?: string | null | undefined;
   /** Number of direct child events linked to this event. */
-  child_count?: number;
+  child_count?: number | undefined;
   /** The ID of the parent event. */
-  parent_id?: string | null;
+  parent_id?: string | null | undefined;
   /** Human readable label of the event type. */
   label: string;
   /** The source of the event. `system` events are created by Polar. `user` events are the one you create through our ingestion API. */
@@ -6960,13 +7101,13 @@ export type SubscriptionReinstatedMetadata = SubscriptionCycledMetadata;
 export type SubscriptionReinstatedEvent = SubscriptionCycledEvent;
 export interface SubscriptionPausedMetadata {
   subscription_id: string;
-  product_id?: string;
-  amount?: number;
-  currency?: string;
-  recurring_interval?: string;
-  recurring_interval_count?: number;
+  product_id?: string | undefined;
+  amount?: number | undefined;
+  currency?: string | undefined;
+  recurring_interval?: string | undefined;
+  recurring_interval_count?: number | undefined;
   paused_at: string;
-  resumes_at?: string;
+  resumes_at?: string | undefined;
 }
 /** An event created by Polar when a subscription is paused. */
 export interface SubscriptionPausedEvent {
@@ -6983,13 +7124,13 @@ export interface SubscriptionPausedEvent {
   /** ID of the customer in your system associated with the event. */
   external_customer_id: string | null;
   /** ID of the member within the customer's organization who performed the action inside B2B. */
-  member_id?: string | null;
+  member_id?: string | null | undefined;
   /** ID of the member in your system within the customer's organization who performed the action inside B2B. */
-  external_member_id?: string | null;
+  external_member_id?: string | null | undefined;
   /** Number of direct child events linked to this event. */
-  child_count?: number;
+  child_count?: number | undefined;
   /** The ID of the parent event. */
-  parent_id?: string | null;
+  parent_id?: string | null | undefined;
   /** Human readable label of the event type. */
   label: string;
   /** The source of the event. `system` events are created by Polar. `user` events are the one you create through our ingestion API. */
@@ -7022,13 +7163,13 @@ export interface SubscriptionMigratedEvent {
   /** ID of the customer in your system associated with the event. */
   external_customer_id: string | null;
   /** ID of the member within the customer's organization who performed the action inside B2B. */
-  member_id?: string | null;
+  member_id?: string | null | undefined;
   /** ID of the member in your system within the customer's organization who performed the action inside B2B. */
-  external_member_id?: string | null;
+  external_member_id?: string | null | undefined;
   /** Number of direct child events linked to this event. */
-  child_count?: number;
+  child_count?: number | undefined;
   /** The ID of the parent event. */
-  parent_id?: string | null;
+  parent_id?: string | null | undefined;
   /** Human readable label of the event type. */
   label: string;
   /** The source of the event. `system` events are created by Polar. `user` events are the one you create through our ingestion API. */
@@ -7060,13 +7201,13 @@ export interface SubscriptionUncanceledEvent {
   /** ID of the customer in your system associated with the event. */
   external_customer_id: string | null;
   /** ID of the member within the customer's organization who performed the action inside B2B. */
-  member_id?: string | null;
+  member_id?: string | null | undefined;
   /** ID of the member in your system within the customer's organization who performed the action inside B2B. */
-  external_member_id?: string | null;
+  external_member_id?: string | null | undefined;
   /** Number of direct child events linked to this event. */
-  child_count?: number;
+  child_count?: number | undefined;
   /** The ID of the parent event. */
-  parent_id?: string | null;
+  parent_id?: string | null | undefined;
   /** Human readable label of the event type. */
   label: string;
   /** The source of the event. `system` events are created by Polar. `user` events are the one you create through our ingestion API. */
@@ -7095,13 +7236,13 @@ export interface SubscriptionProductUpdatedEvent {
   /** ID of the customer in your system associated with the event. */
   external_customer_id: string | null;
   /** ID of the member within the customer's organization who performed the action inside B2B. */
-  member_id?: string | null;
+  member_id?: string | null | undefined;
   /** ID of the member in your system within the customer's organization who performed the action inside B2B. */
-  external_member_id?: string | null;
+  external_member_id?: string | null | undefined;
   /** Number of direct child events linked to this event. */
-  child_count?: number;
+  child_count?: number | undefined;
   /** The ID of the parent event. */
-  parent_id?: string | null;
+  parent_id?: string | null | undefined;
   /** Human readable label of the event type. */
   label: string;
   /** The source of the event. `system` events are created by Polar. `user` events are the one you create through our ingestion API. */
@@ -7131,13 +7272,13 @@ export interface SubscriptionSeatsUpdatedEvent {
   /** ID of the customer in your system associated with the event. */
   external_customer_id: string | null;
   /** ID of the member within the customer's organization who performed the action inside B2B. */
-  member_id?: string | null;
+  member_id?: string | null | undefined;
   /** ID of the member in your system within the customer's organization who performed the action inside B2B. */
-  external_member_id?: string | null;
+  external_member_id?: string | null | undefined;
   /** Number of direct child events linked to this event. */
-  child_count?: number;
+  child_count?: number | undefined;
   /** The ID of the parent event. */
-  parent_id?: string | null;
+  parent_id?: string | null | undefined;
   /** Human readable label of the event type. */
   label: string;
   /** The source of the event. `system` events are created by Polar. `user` events are the one you create through our ingestion API. */
@@ -7167,13 +7308,13 @@ export interface SubscriptionUnitsUpdatedEvent {
   /** ID of the customer in your system associated with the event. */
   external_customer_id: string | null;
   /** ID of the member within the customer's organization who performed the action inside B2B. */
-  member_id?: string | null;
+  member_id?: string | null | undefined;
   /** ID of the member in your system within the customer's organization who performed the action inside B2B. */
-  external_member_id?: string | null;
+  external_member_id?: string | null | undefined;
   /** Number of direct child events linked to this event. */
-  child_count?: number;
+  child_count?: number | undefined;
   /** The ID of the parent event. */
-  parent_id?: string | null;
+  parent_id?: string | null | undefined;
   /** Human readable label of the event type. */
   label: string;
   /** The source of the event. `system` events are created by Polar. `user` events are the one you create through our ingestion API. */
@@ -7202,13 +7343,13 @@ export interface SubscriptionBillingPeriodUpdatedEvent {
   /** ID of the customer in your system associated with the event. */
   external_customer_id: string | null;
   /** ID of the member within the customer's organization who performed the action inside B2B. */
-  member_id?: string | null;
+  member_id?: string | null | undefined;
   /** ID of the member in your system within the customer's organization who performed the action inside B2B. */
-  external_member_id?: string | null;
+  external_member_id?: string | null | undefined;
   /** Number of direct child events linked to this event. */
-  child_count?: number;
+  child_count?: number | undefined;
   /** The ID of the parent event. */
-  parent_id?: string | null;
+  parent_id?: string | null | undefined;
   /** Human readable label of the event type. */
   label: string;
   /** The source of the event. `system` events are created by Polar. `user` events are the one you create through our ingestion API. */
@@ -7235,13 +7376,13 @@ export interface SubscriptionUpdateClearedEvent {
   /** ID of the customer in your system associated with the event. */
   external_customer_id: string | null;
   /** ID of the member within the customer's organization who performed the action inside B2B. */
-  member_id?: string | null;
+  member_id?: string | null | undefined;
   /** ID of the member in your system within the customer's organization who performed the action inside B2B. */
-  external_member_id?: string | null;
+  external_member_id?: string | null | undefined;
   /** Number of direct child events linked to this event. */
-  child_count?: number;
+  child_count?: number | undefined;
   /** The ID of the parent event. */
-  parent_id?: string | null;
+  parent_id?: string | null | undefined;
   /** Human readable label of the event type. */
   label: string;
   /** The source of the event. `system` events are created by Polar. `user` events are the one you create through our ingestion API. */
@@ -7252,19 +7393,19 @@ export interface SubscriptionUpdateClearedEvent {
 }
 export interface OrderPaidMetadata {
   order_id: string;
-  product_id?: string;
-  billing_type?: string;
+  product_id?: string | undefined;
+  billing_type?: string | undefined;
   amount: number;
-  currency?: string;
-  net_amount?: number;
-  tax_amount?: number;
-  applied_balance_amount?: number;
-  discount_amount?: number;
-  discount_id?: string;
-  platform_fee?: number;
-  subscription_id?: string;
-  recurring_interval?: string;
-  recurring_interval_count?: number;
+  currency?: string | undefined;
+  net_amount?: number | undefined;
+  tax_amount?: number | undefined;
+  applied_balance_amount?: number | undefined;
+  discount_amount?: number | undefined;
+  discount_id?: string | undefined;
+  platform_fee?: number | undefined;
+  subscription_id?: string | undefined;
+  recurring_interval?: string | undefined;
+  recurring_interval_count?: number | undefined;
 }
 /** An event created by Polar when an order is paid. */
 export interface OrderPaidEvent {
@@ -7281,13 +7422,13 @@ export interface OrderPaidEvent {
   /** ID of the customer in your system associated with the event. */
   external_customer_id: string | null;
   /** ID of the member within the customer's organization who performed the action inside B2B. */
-  member_id?: string | null;
+  member_id?: string | null | undefined;
   /** ID of the member in your system within the customer's organization who performed the action inside B2B. */
-  external_member_id?: string | null;
+  external_member_id?: string | null | undefined;
   /** Number of direct child events linked to this event. */
-  child_count?: number;
+  child_count?: number | undefined;
   /** The ID of the parent event. */
-  parent_id?: string | null;
+  parent_id?: string | null | undefined;
   /** Human readable label of the event type. */
   label: string;
   /** The source of the event. `system` events are created by Polar. `user` events are the one you create through our ingestion API. */
@@ -7316,13 +7457,13 @@ export interface OrderRefundedEvent {
   /** ID of the customer in your system associated with the event. */
   external_customer_id: string | null;
   /** ID of the member within the customer's organization who performed the action inside B2B. */
-  member_id?: string | null;
+  member_id?: string | null | undefined;
   /** ID of the member in your system within the customer's organization who performed the action inside B2B. */
-  external_member_id?: string | null;
+  external_member_id?: string | null | undefined;
   /** Number of direct child events linked to this event. */
-  child_count?: number;
+  child_count?: number | undefined;
   /** The ID of the parent event. */
-  parent_id?: string | null;
+  parent_id?: string | null | undefined;
   /** Human readable label of the event type. */
   label: string;
   /** The source of the event. `system` events are created by Polar. `user` events are the one you create through our ingestion API. */
@@ -7351,13 +7492,13 @@ export interface OrderVoidedEvent {
   /** ID of the customer in your system associated with the event. */
   external_customer_id: string | null;
   /** ID of the member within the customer's organization who performed the action inside B2B. */
-  member_id?: string | null;
+  member_id?: string | null | undefined;
   /** ID of the member in your system within the customer's organization who performed the action inside B2B. */
-  external_member_id?: string | null;
+  external_member_id?: string | null | undefined;
   /** Number of direct child events linked to this event. */
-  child_count?: number;
+  child_count?: number | undefined;
   /** The ID of the parent event. */
-  parent_id?: string | null;
+  parent_id?: string | null | undefined;
   /** Human readable label of the event type. */
   label: string;
   /** The source of the event. `system` events are created by Polar. `user` events are the one you create through our ingestion API. */
@@ -7372,7 +7513,7 @@ export type OrderUnvoidedEvent = OrderVoidedEvent;
 export interface CheckoutCreatedMetadata {
   checkout_id: string;
   checkout_status: string;
-  product_id?: string;
+  product_id?: string | undefined;
 }
 /** An event created by Polar when a checkout is created. */
 export interface CheckoutCreatedEvent {
@@ -7389,13 +7530,13 @@ export interface CheckoutCreatedEvent {
   /** ID of the customer in your system associated with the event. */
   external_customer_id: string | null;
   /** ID of the member within the customer's organization who performed the action inside B2B. */
-  member_id?: string | null;
+  member_id?: string | null | undefined;
   /** ID of the member in your system within the customer's organization who performed the action inside B2B. */
-  external_member_id?: string | null;
+  external_member_id?: string | null | undefined;
   /** Number of direct child events linked to this event. */
-  child_count?: number;
+  child_count?: number | undefined;
   /** The ID of the parent event. */
-  parent_id?: string | null;
+  parent_id?: string | null | undefined;
   /** Human readable label of the event type. */
   label: string;
   /** The source of the event. `system` events are created by Polar. `user` events are the one you create through our ingestion API. */
@@ -7425,13 +7566,13 @@ export interface CustomerCreatedEvent {
   /** ID of the customer in your system associated with the event. */
   external_customer_id: string | null;
   /** ID of the member within the customer's organization who performed the action inside B2B. */
-  member_id?: string | null;
+  member_id?: string | null | undefined;
   /** ID of the member in your system within the customer's organization who performed the action inside B2B. */
-  external_member_id?: string | null;
+  external_member_id?: string | null | undefined;
   /** Number of direct child events linked to this event. */
-  child_count?: number;
+  child_count?: number | undefined;
   /** The ID of the parent event. */
-  parent_id?: string | null;
+  parent_id?: string | null | undefined;
   /** Human readable label of the event type. */
   label: string;
   /** The source of the event. `system` events are created by Polar. `user` events are the one you create through our ingestion API. */
@@ -7441,11 +7582,11 @@ export interface CustomerCreatedEvent {
   metadata: CustomerCreatedMetadata;
 }
 export interface AddressDict {
-  line1?: string;
-  line2?: string;
-  postal_code?: string;
-  city?: string;
-  state?: string;
+  line1?: string | undefined;
+  line2?: string | undefined;
+  postal_code?: string | undefined;
+  city?: string | undefined;
+  state?: string | undefined;
   country: string;
 }
 export type CustomerUpdatedFieldsMetadataValue = string | number | boolean;
@@ -7453,12 +7594,12 @@ export type CustomerUpdatedFieldsMetadataMap = {
   [key: string]: CustomerUpdatedFieldsMetadataValue | undefined;
 };
 export interface CustomerUpdatedFields {
-  name?: string | null;
-  billing_name?: string | null;
-  email?: string | null;
-  billing_address?: AddressDict | null;
-  tax_id?: string | null;
-  metadata?: CustomerUpdatedFieldsMetadataMap | null;
+  name?: string | null | undefined;
+  billing_name?: string | null | undefined;
+  email?: string | null | undefined;
+  billing_address?: AddressDict | null | undefined;
+  tax_id?: string | null | undefined;
+  metadata?: CustomerUpdatedFieldsMetadataMap | null | undefined;
 }
 export interface CustomerUpdatedMetadata {
   customer_id: string;
@@ -7482,13 +7623,13 @@ export interface CustomerUpdatedEvent {
   /** ID of the customer in your system associated with the event. */
   external_customer_id: string | null;
   /** ID of the member within the customer's organization who performed the action inside B2B. */
-  member_id?: string | null;
+  member_id?: string | null | undefined;
   /** ID of the member in your system within the customer's organization who performed the action inside B2B. */
-  external_member_id?: string | null;
+  external_member_id?: string | null | undefined;
   /** Number of direct child events linked to this event. */
-  child_count?: number;
+  child_count?: number | undefined;
   /** The ID of the parent event. */
-  parent_id?: string | null;
+  parent_id?: string | null | undefined;
   /** Human readable label of the event type. */
   label: string;
   /** The source of the event. `system` events are created by Polar. `user` events are the one you create through our ingestion API. */
@@ -7503,18 +7644,18 @@ export type CustomerDeletedEvent = CustomerCreatedEvent;
 export interface BalanceOrderMetadata {
   transaction_id: string;
   order_id: string;
-  product_id?: string;
-  subscription_id?: string;
+  product_id?: string | undefined;
+  subscription_id?: string | undefined;
   amount: number;
-  net_amount?: number;
+  net_amount?: number | undefined;
   currency: string;
   presentment_amount: number;
   presentment_currency: string;
   tax_amount: number;
-  tax_state?: string | null;
-  tax_country?: string | null;
+  tax_state?: string | null | undefined;
+  tax_country?: string | null | undefined;
   fee: number;
-  exchange_rate?: number;
+  exchange_rate?: number | undefined;
 }
 /** An event created by Polar when an order is paid. */
 export interface BalanceOrderEvent {
@@ -7531,13 +7672,13 @@ export interface BalanceOrderEvent {
   /** ID of the customer in your system associated with the event. */
   external_customer_id: string | null;
   /** ID of the member within the customer's organization who performed the action inside B2B. */
-  member_id?: string | null;
+  member_id?: string | null | undefined;
   /** ID of the member in your system within the customer's organization who performed the action inside B2B. */
-  external_member_id?: string | null;
+  external_member_id?: string | null | undefined;
   /** Number of direct child events linked to this event. */
-  child_count?: number;
+  child_count?: number | undefined;
   /** The ID of the parent event. */
-  parent_id?: string | null;
+  parent_id?: string | null | undefined;
   /** Human readable label of the event type. */
   label: string;
   /** The source of the event. `system` events are created by Polar. `user` events are the one you create through our ingestion API. */
@@ -7548,15 +7689,15 @@ export interface BalanceOrderEvent {
 }
 export interface BalanceCreditOrderMetadata {
   order_id: string;
-  product_id?: string;
-  subscription_id?: string;
+  product_id?: string | undefined;
+  subscription_id?: string | undefined;
   amount: number;
   currency: string;
   tax_amount: number;
-  tax_state?: string | null;
-  tax_country?: string | null;
+  tax_state?: string | null | undefined;
+  tax_country?: string | null | undefined;
   fee: number;
-  exchange_rate?: number;
+  exchange_rate?: number | undefined;
 }
 /** An event created by Polar when an order is paid via customer balance. */
 export interface BalanceCreditOrderEvent {
@@ -7573,13 +7714,13 @@ export interface BalanceCreditOrderEvent {
   /** ID of the customer in your system associated with the event. */
   external_customer_id: string | null;
   /** ID of the member within the customer's organization who performed the action inside B2B. */
-  member_id?: string | null;
+  member_id?: string | null | undefined;
   /** ID of the member in your system within the customer's organization who performed the action inside B2B. */
-  external_member_id?: string | null;
+  external_member_id?: string | null | undefined;
   /** Number of direct child events linked to this event. */
-  child_count?: number;
+  child_count?: number | undefined;
   /** The ID of the parent event. */
-  parent_id?: string | null;
+  parent_id?: string | null | undefined;
   /** Human readable label of the event type. */
   label: string;
   /** The source of the event. `system` events are created by Polar. `user` events are the one you create through our ingestion API. */
@@ -7591,20 +7732,20 @@ export interface BalanceCreditOrderEvent {
 export interface BalanceRefundMetadata {
   transaction_id: string;
   refund_id: string;
-  order_id?: string;
-  order_created_at?: string;
-  product_id?: string;
-  subscription_id?: string;
+  order_id?: string | undefined;
+  order_created_at?: string | undefined;
+  product_id?: string | undefined;
+  subscription_id?: string | undefined;
   amount: number;
   currency: string;
   presentment_amount: number;
   presentment_currency: string;
-  refundable_amount?: number;
+  refundable_amount?: number | undefined;
   tax_amount: number;
-  tax_state?: string | null;
-  tax_country?: string | null;
+  tax_state?: string | null | undefined;
+  tax_country?: string | null | undefined;
   fee: number;
-  exchange_rate?: number;
+  exchange_rate?: number | undefined;
 }
 /** An event created by Polar when an order is refunded. */
 export interface BalanceRefundEvent {
@@ -7621,13 +7762,13 @@ export interface BalanceRefundEvent {
   /** ID of the customer in your system associated with the event. */
   external_customer_id: string | null;
   /** ID of the member within the customer's organization who performed the action inside B2B. */
-  member_id?: string | null;
+  member_id?: string | null | undefined;
   /** ID of the member in your system within the customer's organization who performed the action inside B2B. */
-  external_member_id?: string | null;
+  external_member_id?: string | null | undefined;
   /** Number of direct child events linked to this event. */
-  child_count?: number;
+  child_count?: number | undefined;
   /** The ID of the parent event. */
-  parent_id?: string | null;
+  parent_id?: string | null | undefined;
   /** Human readable label of the event type. */
   label: string;
   /** The source of the event. `system` events are created by Polar. `user` events are the one you create through our ingestion API. */
@@ -7641,19 +7782,19 @@ export type BalanceRefundReversalEvent = BalanceRefundEvent;
 export interface BalanceDisputeMetadata {
   transaction_id: string;
   dispute_id: string;
-  order_id?: string;
-  order_created_at?: string;
-  product_id?: string;
-  subscription_id?: string;
+  order_id?: string | undefined;
+  order_created_at?: string | undefined;
+  product_id?: string | undefined;
+  subscription_id?: string | undefined;
   amount: number;
   currency: string;
   presentment_amount: number;
   presentment_currency: string;
   tax_amount: number;
-  tax_state?: string | null;
-  tax_country?: string | null;
+  tax_state?: string | null | undefined;
+  tax_country?: string | null | undefined;
   fee: number;
-  exchange_rate?: number;
+  exchange_rate?: number | undefined;
 }
 /** An event created by Polar when an order is disputed. */
 export interface BalanceDisputeEvent {
@@ -7670,13 +7811,13 @@ export interface BalanceDisputeEvent {
   /** ID of the customer in your system associated with the event. */
   external_customer_id: string | null;
   /** ID of the member within the customer's organization who performed the action inside B2B. */
-  member_id?: string | null;
+  member_id?: string | null | undefined;
   /** ID of the member in your system within the customer's organization who performed the action inside B2B. */
-  external_member_id?: string | null;
+  external_member_id?: string | null | undefined;
   /** Number of direct child events linked to this event. */
-  child_count?: number;
+  child_count?: number | undefined;
   /** The ID of the parent event. */
-  parent_id?: string | null;
+  parent_id?: string | null | undefined;
   /** Human readable label of the event type. */
   label: string;
   /** The source of the event. `system` events are created by Polar. `user` events are the one you create through our ingestion API. */
@@ -7737,21 +7878,22 @@ export interface LLMMetadata {
   /** The model used for the event. */
   model: string;
   /** The LLM prompt used for the event. */
-  prompt?: string | null;
+  prompt?: string | null | undefined;
   /** The LLM response used for the event. */
-  response?: string | null;
+  response?: string | null | undefined;
   /** The number of LLM input tokens used for the event. */
   input_tokens: number;
   /** The number of LLM cached tokens that were used for the event. */
-  cached_input_tokens?: number;
+  cached_input_tokens?: number | undefined;
   /** The number of LLM output tokens used for the event. */
   output_tokens: number;
   /** The total number of LLM tokens used for the event. */
   total_tokens: number;
 }
 export interface EventMetadataOutput {
-  _cost?: CostMetadataOutput;
-  _llm?: LLMMetadata;
+  _cost?: CostMetadataOutput | undefined;
+  _llm?: LLMMetadata | undefined;
+  [key: string]: unknown;
 }
 /** An event you created through the ingestion API. */
 export interface UserEvent {
@@ -7768,13 +7910,13 @@ export interface UserEvent {
   /** ID of the customer in your system associated with the event. */
   external_customer_id: string | null;
   /** ID of the member within the customer's organization who performed the action inside B2B. */
-  member_id?: string | null;
+  member_id?: string | null | undefined;
   /** ID of the member in your system within the customer's organization who performed the action inside B2B. */
-  external_member_id?: string | null;
+  external_member_id?: string | null | undefined;
   /** Number of direct child events linked to this event. */
-  child_count?: number;
+  child_count?: number | undefined;
   /** The ID of the parent event. */
-  parent_id?: string | null;
+  parent_id?: string | null | undefined;
   /** Human readable label of the event type. */
   label: string;
   /** The name of the event. */
@@ -7794,44 +7936,45 @@ export interface CostMetadataInput {
   currency: string;
 }
 export interface EventMetadataInput {
-  _cost?: CostMetadataInput;
-  _llm?: LLMMetadata;
+  _cost?: CostMetadataInput | undefined;
+  _llm?: LLMMetadata | undefined;
+  [key: string]: unknown;
 }
 export interface EventCreateCustomer {
   /** The timestamp of the event. */
-  timestamp?: string;
+  timestamp?: string | undefined;
   /** The name of the event. */
   name: string;
   /** The ID of the organization owning the event. **Required unless you use an organization token.** */
-  organization_id?: string | null;
+  organization_id?: string | null | undefined;
   /** Your unique identifier for this event. Useful for deduplication and parent-child relationships. */
-  external_id?: string | null;
+  external_id?: string | null | undefined;
   /** The ID of the parent event. Can be either a Polar event ID (UUID) or an external event ID. */
-  parent_id?: string | null;
+  parent_id?: string | null | undefined;
   /** Key-value object allowing you to store additional information about the event. Some keys like `_llm` are structured data that are handled specially by Polar. The key must be a string with a maximum length of **40 characters**. The value must be either: * A string with a maximum length of **500 characters** * An integer * A floating-point number * A boolean You can store up to **50 key-value pairs**. */
-  metadata?: EventMetadataInput;
+  metadata?: EventMetadataInput | undefined;
   /** ID of the customer in your Polar organization associated with the event. */
   customer_id: string;
   /** ID of the member within the customer's organization who performed the action. Used for member-level attribution in B2B. */
-  member_id?: string | null;
+  member_id?: string | null | undefined;
 }
 export interface EventCreateExternalCustomer {
   /** The timestamp of the event. */
-  timestamp?: string;
+  timestamp?: string | undefined;
   /** The name of the event. */
   name: string;
   /** The ID of the organization owning the event. **Required unless you use an organization token.** */
-  organization_id?: string | null;
+  organization_id?: string | null | undefined;
   /** Your unique identifier for this event. Useful for deduplication and parent-child relationships. */
-  external_id?: string | null;
+  external_id?: string | null | undefined;
   /** The ID of the parent event. Can be either a Polar event ID (UUID) or an external event ID. */
-  parent_id?: string | null;
+  parent_id?: string | null | undefined;
   /** Key-value object allowing you to store additional information about the event. Some keys like `_llm` are structured data that are handled specially by Polar. The key must be a string with a maximum length of **40 characters**. The value must be either: * A string with a maximum length of **500 characters** * An integer * A floating-point number * A boolean You can store up to **50 key-value pairs**. */
-  metadata?: EventMetadataInput;
+  metadata?: EventMetadataInput | undefined;
   /** ID of the customer in your system associated with the event. */
   external_customer_id: string;
   /** ID of the member in your system within the customer's organization who performed the action. Used for member-level attribution in B2B. */
-  external_member_id?: string | null;
+  external_member_id?: string | null | undefined;
 }
 export type EventsIngestRequestEventsItem = EventCreateCustomer | EventCreateExternalCustomer;
 /** List of events to ingest. */
@@ -7844,7 +7987,7 @@ export interface EventsIngestResponse {
   /** Number of events inserted. */
   inserted: number;
   /** Number of duplicate events skipped. */
-  duplicates?: number;
+  duplicates?: number | undefined;
 }
 export type EventsListRequestOrganizationIdCase1List = Array<string>;
 /** Filter by organization ID. */
@@ -7868,37 +8011,37 @@ export type EventSortProperty = "timestamp" | "-timestamp";
 export type EventsListRequestSortingList = Array<EventSortProperty | (string & {})>;
 export interface EventsListRequest {
   /** Filter events following filter clauses. JSON string following the same schema a meter filter clause. */
-  filter?: string;
+  filter?: string | undefined;
   /** Filter events after this timestamp. */
-  start_timestamp?: string;
+  start_timestamp?: string | undefined;
   /** Filter events before this timestamp. */
-  end_timestamp?: string;
+  end_timestamp?: string | undefined;
   /** Filter by organization ID. */
-  organization_id?: EventsListRequestOrganizationId;
+  organization_id?: EventsListRequestOrganizationId | undefined;
   /** Filter by customer ID. */
-  customer_id?: EventsListRequestCustomerId;
+  customer_id?: EventsListRequestCustomerId | undefined;
   /** Filter by external customer ID. */
-  external_customer_id?: EventsListRequestExternalCustomerId;
+  external_customer_id?: EventsListRequestExternalCustomerId | undefined;
   /** Filter by a meter filter clause. */
-  meter_id?: string;
+  meter_id?: string | undefined;
   /** Filter by event name. */
-  name?: EventsListRequestName;
+  name?: EventsListRequestName | undefined;
   /** Filter by event source. */
-  source?: EventsListRequestSource;
+  source?: EventsListRequestSource | undefined;
   /** Query to filter events. */
-  query?: string;
+  query?: string | undefined;
   /** When combined with depth, use this event as the anchor instead of root events. */
-  parent_id?: string;
+  parent_id?: string | undefined;
   /** Fetch descendants up to this depth. When set: 0=root events only, 1=roots+children, etc. Max 5. When not set, returns all events. */
-  depth?: number;
+  depth?: number | undefined;
   /** Page number, defaults to 1. */
-  page?: number;
+  page?: number | undefined;
   /** Size of a page, defaults to 10. Maximum is 100. */
-  limit?: number;
+  limit?: number | undefined;
   /** Sorting criterion. Several criteria can be used simultaneously and will be applied in order. Add a minus sign `-` before the criteria name to sort by descending order. */
-  sorting?: EventsListRequestSortingList;
+  sorting?: EventsListRequestSortingList | undefined;
   /** Filter by metadata key-value pairs. It uses the `deepObject` style, e.g. `?metadata[key]=value`. */
-  metadata?: MetadataQueryMap;
+  metadata?: MetadataQueryMap | undefined;
 }
 export type ListResourceEventItemsList = Array<Event>;
 export interface ListResourceEvent {
@@ -7943,21 +8086,21 @@ export type EventNamesSortProperty =
 export type EventsListNamesRequestSortingList = Array<EventNamesSortProperty | (string & {})>;
 export interface EventsListNamesRequest {
   /** Filter by organization ID. */
-  organization_id?: EventsListNamesRequestOrganizationId;
+  organization_id?: EventsListNamesRequestOrganizationId | undefined;
   /** Filter by customer ID. */
-  customer_id?: EventsListNamesRequestCustomerId;
+  customer_id?: EventsListNamesRequestCustomerId | undefined;
   /** Filter by external customer ID. */
-  external_customer_id?: EventsListNamesRequestExternalCustomerId;
+  external_customer_id?: EventsListNamesRequestExternalCustomerId | undefined;
   /** Filter by event source. */
-  source?: EventsListNamesRequestSource;
+  source?: EventsListNamesRequestSource | undefined;
   /** Query to filter event names. */
-  query?: string;
+  query?: string | undefined;
   /** Page number, defaults to 1. */
-  page?: number;
+  page?: number | undefined;
   /** Size of a page, defaults to 10. Maximum is 100. */
-  limit?: number;
+  limit?: number | undefined;
   /** Sorting criterion. Several criteria can be used simultaneously and will be applied in order. Add a minus sign `-` before the criteria name to sort by descending order. */
-  sorting?: EventsListNamesRequestSortingList;
+  sorting?: EventsListNamesRequestSortingList | undefined;
 }
 export interface EventName {
   /** The name of the event. */
@@ -8005,39 +8148,39 @@ export type EventTypesSortProperty =
 export type EventTypesListRequestSortingList = Array<EventTypesSortProperty | (string & {})>;
 export interface EventTypesListRequest {
   /** Filter by organization ID. */
-  organization_id?: EventTypesListRequestOrganizationId;
+  organization_id?: EventTypesListRequestOrganizationId | undefined;
   /** Filter by customer ID. */
-  customer_id?: EventTypesListRequestCustomerId;
+  customer_id?: EventTypesListRequestCustomerId | undefined;
   /** Filter by external customer ID. */
-  external_customer_id?: EventTypesListRequestExternalCustomerId;
+  external_customer_id?: EventTypesListRequestExternalCustomerId | undefined;
   /** Query to filter event types by name or label. */
-  query?: string;
+  query?: string | undefined;
   /** When true, only return event types with root events (parent_id IS NULL). */
-  root_events?: boolean;
+  root_events?: boolean | undefined;
   /** Filter by specific parent event ID. */
-  parent_id?: string;
+  parent_id?: string | undefined;
   /** Filter by event source (system or user). */
-  source?: EventSource | (string & {});
+  source?: EventSource | (string & {}) | undefined;
   /** Page number, defaults to 1. */
-  page?: number;
+  page?: number | undefined;
   /** Size of a page, defaults to 10. Maximum is 100. */
-  limit?: number;
+  limit?: number | undefined;
   /** Sorting criterion. Several criteria can be used simultaneously and will be applied in order. Add a minus sign `-` before the criteria name to sort by descending order. */
-  sorting?: EventTypesListRequestSortingList;
+  sorting?: EventTypesListRequestSortingList | undefined;
 }
 export interface EventTypeWithStats {
   /** The ID of the event type. Null for system event types. */
-  id?: string | null;
+  id?: string | null | undefined;
   /** Creation timestamp of the event type. Null for system event types. */
-  created_at?: string | null;
+  created_at?: string | null | undefined;
   /** Last modification timestamp of the event type. Null for system event types. */
-  modified_at?: string | null;
+  modified_at?: string | null | undefined;
   /** The name of the event type. */
   name: string;
   /** The label for the event type. */
   label: string;
   /** Property path to extract dynamic label from event metadata. */
-  label_property_selector?: string | null;
+  label_property_selector?: string | null | undefined;
   /** The ID of the organization owning the event type. */
   organization_id: string;
   /** The source of the events (system or user). */
@@ -8060,7 +8203,7 @@ export interface EventTypesUpdateRequest {
   /** The label for the event type. */
   label: string;
   /** Property path to extract dynamic label from event metadata (e.g., 'subject' or 'metadata.subject'). */
-  label_property_selector?: string | null;
+  label_property_selector?: string | null | undefined;
 }
 export interface EventType {
   /** Creation timestamp of the object. */
@@ -8074,7 +8217,7 @@ export interface EventType {
   /** The label for the event type. */
   label: string;
   /** Property path to extract dynamic label from event metadata. */
-  label_property_selector?: string | null;
+  label_property_selector?: string | null | undefined;
   /** The ID of the organization owning the event type. */
   organization_id: string;
 }
@@ -8082,7 +8225,7 @@ export interface S3FileCreatePart {
   number: number;
   chunk_start: number;
   chunk_end: number;
-  checksum_sha256_base64?: string | null;
+  checksum_sha256_base64?: string | null | undefined;
 }
 export type S3FileCreateMultipartPartsList = Array<S3FileCreatePart>;
 export interface S3FileCreateMultipart {
@@ -8090,53 +8233,53 @@ export interface S3FileCreateMultipart {
 }
 /** Schema to create a file to be associated with the downloadables benefit. */
 export interface DownloadableFileCreate {
-  organization_id?: string | null;
+  organization_id?: string | null | undefined;
   name: string;
   mime_type: string;
   size: number;
-  checksum_sha256_base64?: string | null;
+  checksum_sha256_base64?: string | null | undefined;
   upload: S3FileCreateMultipart;
   service: string;
-  version?: string | null;
+  version?: string | null | undefined;
 }
 /** Schema to create a file to be used as a product media file. */
 export interface ProductMediaFileCreate {
-  organization_id?: string | null;
+  organization_id?: string | null | undefined;
   name: string;
   /** MIME type of the file. Only images are supported for this type of file. */
   mime_type: string;
   /** Size of the file. A maximum of 10 MB is allowed for this type of file. */
   size: number;
-  checksum_sha256_base64?: string | null;
+  checksum_sha256_base64?: string | null | undefined;
   upload: S3FileCreateMultipart;
   service: string;
-  version?: string | null;
+  version?: string | null | undefined;
 }
 /** Schema to create a file to be used as an organization avatar. */
 export interface OrganizationAvatarFileCreate {
-  organization_id?: string | null;
+  organization_id?: string | null | undefined;
   name: string;
   /** MIME type of the file. Only images are supported for this type of file. */
   mime_type: string;
   /** Size of the file. A maximum of 1 MB is allowed for this type of file. */
   size: number;
-  checksum_sha256_base64?: string | null;
+  checksum_sha256_base64?: string | null | undefined;
   upload: S3FileCreateMultipart;
   service: string;
-  version?: string | null;
+  version?: string | null | undefined;
 }
 /** Schema to create a file attached to a support case. */
 export interface SupportCaseAttachmentFileCreate {
-  organization_id?: string | null;
+  organization_id?: string | null | undefined;
   name: string;
   /** MIME type of the file. Images, videos, PDF, CSV, plain text, Word and Excel documents are supported. */
   mime_type: string;
   /** Size of the file. A maximum of 250 MB is allowed for this type of file. */
   size: number;
-  checksum_sha256_base64?: string | null;
+  checksum_sha256_base64?: string | null | undefined;
   upload: S3FileCreateMultipart;
   service: string;
-  version?: string | null;
+  version?: string | null | undefined;
 }
 export type FileCreate =
   | DownloadableFileCreate
@@ -8151,10 +8294,10 @@ export interface S3FileUploadPart {
   number: number;
   chunk_start: number;
   chunk_end: number;
-  checksum_sha256_base64?: string | null;
+  checksum_sha256_base64?: string | null | undefined;
   url: string;
   expires_at: string;
-  headers?: S3FileUploadPartHeadersMap;
+  headers?: S3FileUploadPartHeadersMap | undefined;
 }
 export type S3FileUploadMultipartPartsList = Array<S3FileUploadPart>;
 export interface S3FileUploadMultipart {
@@ -8177,7 +8320,7 @@ export interface FileUpload {
   last_modified_at: string | null;
   upload: S3FileUploadMultipart;
   version: string | null;
-  is_uploaded?: boolean;
+  is_uploaded?: boolean | undefined;
   service: FileServiceTypes;
   size_readable: string;
 }
@@ -8193,13 +8336,13 @@ export type FilesListRequestIdsCase1List = Array<string>;
 export type FilesListRequestIds = string | FilesListRequestIdsCase1List;
 export interface FilesListRequest {
   /** Filter by organization ID. */
-  organization_id?: FilesListRequestOrganizationId;
+  organization_id?: FilesListRequestOrganizationId | undefined;
   /** Filter by file ID. */
-  ids?: FilesListRequestIds;
+  ids?: FilesListRequestIds | undefined;
   /** Page number, defaults to 1. */
-  page?: number;
+  page?: number | undefined;
   /** Size of a page, defaults to 10. Maximum is 100. */
-  limit?: number;
+  limit?: number | undefined;
 }
 /** File to be associated with the downloadables benefit. */
 export interface DownloadableFileRead {
@@ -8257,8 +8400,8 @@ export interface ListResourceFileRead {
 export interface FilesUpdateRequest {
   /** The file ID. */
   id: string;
-  name?: string | null;
-  version?: string | null;
+  name?: string | null | undefined;
+  version?: string | null | undefined;
 }
 export type FilesUpdateResponse = FileRead;
 export interface S3FileUploadCompletedPart {
@@ -8286,10 +8429,8 @@ export type CheckoutPublicCustomFieldDataMap = {
 export type CheckoutPublicPaymentProcessorMetadataMap = { [key: string]: string | undefined };
 /** List of products available to select. */
 export type CheckoutPublicProductsList = Array<CheckoutProduct>;
-export type CheckoutPublicProductPrice = LegacyRecurringProductPrice | ProductPrice;
-export type CheckoutPublicPricesValueItem = LegacyRecurringProductPrice | ProductPrice;
 /** List of prices for this product. */
-export type CheckoutPublicPricesValueList = Array<CheckoutPublicPricesValueItem>;
+export type CheckoutPublicPricesValueList = Array<ProductPrice>;
 export type CheckoutPublicPricesMap = { [key: string]: CheckoutPublicPricesValueList | undefined };
 export type CheckoutPublicDiscount =
   | CheckoutDiscountFixedOnceForeverDuration
@@ -8306,7 +8447,7 @@ export interface CheckoutPublic {
   /** Last modification timestamp of the object. */
   modified_at: string | null;
   /** Key-value object storing custom field values. */
-  custom_field_data?: CheckoutPublicCustomFieldDataMap;
+  custom_field_data?: CheckoutPublicCustomFieldDataMap | undefined;
   /** Payment processor used. */
   payment_processor: PaymentProcessor;
   /** Status of the checkout session. - Open: the checkout session was opened. - Expired: the checkout session was expired and is no more accessible. - Confirmed: the user on the checkout session clicked Pay. This is not indicative of the payment's success status. - Failed: the checkout definitely failed for technical reasons and cannot be retried. In most cases, this state is never reached. - Succeeded: the payment on the checkout was performed successfully. */
@@ -8326,11 +8467,11 @@ export interface CheckoutPublic {
   /** Amount in cents, before discounts and taxes. */
   amount: number;
   /** Predefined number of seats (works with seat-based pricing only) */
-  seats?: number | null;
+  seats?: number | null | undefined;
   /** Minimum number of seats (works with seat-based pricing only) */
-  min_seats?: number | null;
+  min_seats?: number | null | undefined;
   /** Maximum number of seats (works with seat-based pricing only) */
-  max_seats?: number | null;
+  max_seats?: number | null | undefined;
   /** Predefined number of units (works with unit-based pricing only) */
   units: number | null;
   /** Minimum number of units (works with unit-based pricing only) */
@@ -8361,8 +8502,6 @@ export interface CheckoutPublic {
   organization_id: string;
   /** ID of the product to checkout. */
   product_id: string | null;
-  /** ID of the product price to checkout. */
-  product_price_id: string | null;
   /** ID of the discount applied to the checkout. */
   discount_id: string | null;
   /** Whether to allow the customer to apply discount codes. If you apply a discount through `discount_id`, it'll still be applied, but the customer won't be able to change it. */
@@ -8390,7 +8529,7 @@ export interface CheckoutPublic {
   customer_billing_name: string | null;
   customer_billing_address: Address | null;
   customer_tax_id: string | null;
-  locale?: string | null;
+  locale?: string | null | undefined;
   /** Payment method type selected by the customer in the checkout form, e.g. `card`, `apple_pay` or `upi`. */
   payment_method_type: string | null;
   payment_processor_metadata: CheckoutPublicPaymentProcessorMetadataMap;
@@ -8401,7 +8540,7 @@ export interface CheckoutPublic {
   /** Product selected to checkout. */
   product: CheckoutProduct | null;
   /** Price of the selected product. */
-  product_price: CheckoutPublicProductPrice | null;
+  product_price: ProductPrice | null;
   /** Mapping of product IDs to their list of prices. */
   prices: CheckoutPublicPricesMap | null;
   discount: CheckoutPublicDiscount | null;
@@ -8423,9 +8562,9 @@ export interface LicenseKeysActivateRequest {
   organization_id: string;
   label: string;
   /** Key-value object allowing you to set conditions that must match when validating the license key. The key must be a string with a maximum length of **40 characters**. The value must be either: * A string with a maximum length of **500 characters** * An integer * A floating-point number * A boolean You can store up to **50 key-value pairs**. */
-  conditions?: LicenseKeysActivateRequestConditionsMap;
+  conditions?: LicenseKeysActivateRequestConditionsMap | undefined;
   /** Key-value object allowing you to store additional information about the activation The key must be a string with a maximum length of **40 characters**. The value must be either: * A string with a maximum length of **500 characters** * An integer * A floating-point number * A boolean You can store up to **50 key-value pairs**. */
-  meta?: LicenseKeysActivateRequestMetaMap;
+  meta?: LicenseKeysActivateRequestMetaMap | undefined;
 }
 export interface LicenseKeysDeactivateRequest {
   key: string;
@@ -8466,26 +8605,26 @@ export type LicenseKeysListRequestStatusCase1List = Array<LicenseKeyStatus | (st
 export type LicenseKeysListRequestStatus = LicenseKeyStatus | LicenseKeysListRequestStatusCase1List;
 export interface LicenseKeysListRequest {
   /** Filter by organization ID. */
-  organization_id?: LicenseKeysListRequestOrganizationId;
+  organization_id?: LicenseKeysListRequestOrganizationId | undefined;
   /** Filter by benefit ID. */
-  benefit_id?: LicenseKeysListRequestBenefitId;
+  benefit_id?: LicenseKeysListRequestBenefitId | undefined;
   /** Filter by license key status. */
-  status?: LicenseKeysListRequestStatus;
+  status?: LicenseKeysListRequestStatus | undefined;
   /** Page number, defaults to 1. */
-  page?: number;
+  page?: number | undefined;
   /** Size of a page, defaults to 10. Maximum is 100. */
-  limit?: number;
+  limit?: number | undefined;
 }
 export interface LicenseKeysRotateRequest {
   id: string;
 }
 export interface LicenseKeysUpdateRequest {
   id: string;
-  status?: LicenseKeyStatus | (string & {}) | null;
-  usage?: number;
-  limit_activations?: number | null;
-  limit_usage?: number | null;
-  expires_at?: string | null;
+  status?: LicenseKeyStatus | (string & {}) | null | undefined;
+  usage?: number | undefined;
+  limit_activations?: number | null | undefined;
+  limit_usage?: number | null | undefined;
+  expires_at?: string | null | undefined;
 }
 export type LicenseKeysValidateRequestConditionsValue = string | number | number | boolean;
 /** Key-value object allowing you to set conditions that must match when validating the license key. The key must be a string with a maximum length of **40 characters**. The value must be either: * A string with a maximum length of **500 characters** * An integer * A floating-point number * A boolean You can store up to **50 key-value pairs**. */
@@ -8495,12 +8634,12 @@ export type LicenseKeysValidateRequestConditionsMap = {
 export interface LicenseKeysValidateRequest {
   key: string;
   organization_id: string;
-  activation_id?: string | null;
-  benefit_id?: string | null;
-  customer_id?: string | null;
-  increment_usage?: number | null;
+  activation_id?: string | null | undefined;
+  benefit_id?: string | null | undefined;
+  customer_id?: string | null | undefined;
+  increment_usage?: number | null | undefined;
   /** Key-value object allowing you to set conditions that must match when validating the license key. The key must be a string with a maximum length of **40 characters**. The value must be either: * A string with a maximum length of **500 characters** * An integer * A floating-point number * A boolean You can store up to **50 key-value pairs**. */
-  conditions?: LicenseKeysValidateRequestConditionsMap;
+  conditions?: LicenseKeysValidateRequestConditionsMap | undefined;
 }
 export type MetersCreateRequestMetadataValue = string | number | number | boolean;
 /** Key-value object allowing you to store additional information. The key must be a string with a maximum length of **40 characters**. The value must be either: * A string with a maximum length of **500 characters** * An integer * A floating-point number * A boolean You can store up to **50 key-value pairs**. */
@@ -8513,47 +8652,57 @@ export type MetersCreateRequestAggregation =
   | PropertyAggregation
   | UniqueAggregation;
 export interface MetersCreateRequest {
+  /** An ID from your own system to reference this resource. It must be unique within the organization for this type of resource. */
+  external_id?: string | null | undefined;
   /** Key-value object allowing you to store additional information. The key must be a string with a maximum length of **40 characters**. The value must be either: * A string with a maximum length of **500 characters** * An integer * A floating-point number * A boolean You can store up to **50 key-value pairs**. */
-  metadata?: MetersCreateRequestMetadataMap;
+  metadata?: MetersCreateRequestMetadataMap | undefined;
   /** The name of the meter. Will be shown on customer's invoices and usage. */
   name: string;
   /** The unit of the meter. */
-  unit?: MeterUnit | (string & {});
+  unit?: MeterUnit | (string & {}) | undefined;
   /** The label for the custom unit, e.g. 'request'. Required when unit is 'custom'. */
-  custom_label?: string | null;
+  custom_label?: string | null | undefined;
   /** The multiplier to convert from the base unit to display scale, e.g. 1000 to display per 1000 units. Defaults to 1 when not provided. */
-  custom_multiplier?: number | null;
+  custom_multiplier?: number | null | undefined;
   /** The filter to apply on events that'll be used to calculate the meter. */
   filter: Filter;
   /** The aggregation to apply on the filtered events to calculate the meter. */
   aggregation: MetersCreateRequestAggregation;
   /** The ID of the organization owning the meter. **Required unless you use an organization token.** */
-  organization_id?: string | null;
+  organization_id?: string | null | undefined;
 }
 export interface MetersGetRequest {
   /** The meter ID. */
   id: string;
 }
+export interface MetersGetExternalRequest {
+  external_id: string;
+}
 export type MetersListRequestOrganizationIdCase1List = Array<string>;
 /** Filter by organization ID. */
 export type MetersListRequestOrganizationId = string | MetersListRequestOrganizationIdCase1List;
+export type MetersListRequestExternalIdCase1List = Array<string>;
+/** Filter by meter external ID. */
+export type MetersListRequestExternalId = string | MetersListRequestExternalIdCase1List;
 export type MeterSortProperty = "created_at" | "-created_at" | "name" | "-name";
 export type MetersListRequestSortingList = Array<MeterSortProperty | (string & {})>;
 export interface MetersListRequest {
   /** Filter by organization ID. */
-  organization_id?: MetersListRequestOrganizationId;
+  organization_id?: MetersListRequestOrganizationId | undefined;
+  /** Filter by meter external ID. */
+  external_id?: MetersListRequestExternalId | undefined;
   /** Filter by name. */
-  query?: string;
+  query?: string | undefined;
   /** Filter on archived meters. */
-  is_archived?: boolean;
+  is_archived?: boolean | undefined;
   /** Page number, defaults to 1. */
-  page?: number;
+  page?: number | undefined;
   /** Size of a page, defaults to 10. Maximum is 100. */
-  limit?: number;
+  limit?: number | undefined;
   /** Sorting criterion. Several criteria can be used simultaneously and will be applied in order. Add a minus sign `-` before the criteria name to sort by descending order. */
-  sorting?: MetersListRequestSortingList;
+  sorting?: MetersListRequestSortingList | undefined;
   /** Filter by metadata key-value pairs. It uses the `deepObject` style, e.g. `?metadata[key]=value`. */
-  metadata?: MetadataQueryMap;
+  metadata?: MetadataQueryMap | undefined;
 }
 export type ListResourceMeterItemsList = Array<Meter>;
 export interface ListResourceMeter {
@@ -9180,15 +9329,15 @@ export interface MetersQuantitiesRequest {
   /** Interval between two timestamps. */
   interval: TimeInterval | (string & {});
   /** Timezone to use for the timestamps. Default is UTC. */
-  timezone?: MetersQuantitiesRequestTimezone | (string & {});
+  timezone?: MetersQuantitiesRequestTimezone | (string & {}) | undefined;
   /** Filter by customer ID. */
-  customer_id?: MetersQuantitiesRequestCustomerId;
+  customer_id?: MetersQuantitiesRequestCustomerId | undefined;
   /** Filter by external customer ID. */
-  external_customer_id?: MetersQuantitiesRequestExternalCustomerId;
+  external_customer_id?: MetersQuantitiesRequestExternalCustomerId | undefined;
   /** If set, will first compute the quantities per customer before aggregating them using the given function. If not set, the quantities will be aggregated across all events. */
-  customer_aggregation_function?: AggregationFunction | (string & {});
+  customer_aggregation_function?: AggregationFunction | (string & {}) | undefined;
   /** Filter by metadata key-value pairs. It uses the `deepObject` style, e.g. `?metadata[key]=value`. */
-  metadata?: MetadataQueryMap;
+  metadata?: MetadataQueryMap | undefined;
 }
 export interface MeterQuantity {
   /** The timestamp for the current period. */
@@ -9214,22 +9363,24 @@ export type MetersUpdateRequestAggregation =
 export interface MetersUpdateRequest {
   /** The meter ID. */
   id: string;
+  /** An ID from your own system to reference this resource. It must be unique within the organization for this type of resource. */
+  external_id?: string | null | undefined;
   /** Key-value object allowing you to store additional information. The key must be a string with a maximum length of **40 characters**. The value must be either: * A string with a maximum length of **500 characters** * An integer * A floating-point number * A boolean You can store up to **50 key-value pairs**. */
-  metadata?: MetersUpdateRequestMetadataMap;
+  metadata?: MetersUpdateRequestMetadataMap | undefined;
   /** The name of the meter. Will be shown on customer's invoices and usage. */
-  name?: string | null;
+  name?: string | null | undefined;
   /** The unit of the meter. */
-  unit?: MeterUnit | (string & {}) | null;
+  unit?: MeterUnit | (string & {}) | null | undefined;
   /** The label for the custom unit. Required when unit is 'custom'. */
-  custom_label?: string | null;
+  custom_label?: string | null | undefined;
   /** The multiplier to convert from base unit to display scale. Required when unit is 'custom'. */
-  custom_multiplier?: number | null;
+  custom_multiplier?: number | null | undefined;
   /** The filter to apply on events that'll be used to calculate the meter. */
-  filter?: Filter | null;
+  filter?: Filter | null | undefined;
   /** The aggregation to apply on the filtered events to calculate the meter. */
-  aggregation?: MetersUpdateRequestAggregation | null;
+  aggregation?: MetersUpdateRequestAggregation | null | undefined;
   /** Whether the meter is archived. Archived meters are no longer used for billing. */
-  is_archived?: boolean | null;
+  is_archived?: boolean | null | undefined;
 }
 /** List of metric slugs to display in this dashboard. */
 export type MetricsCreateDashboardRequestMetricsList = Array<string>;
@@ -9237,9 +9388,9 @@ export interface MetricsCreateDashboardRequest {
   /** Display name for the dashboard. */
   name: string;
   /** List of metric slugs to display in this dashboard. */
-  metrics?: MetricsCreateDashboardRequestMetricsList;
+  metrics?: MetricsCreateDashboardRequestMetricsList | undefined;
   /** The ID of the organization owning this dashboard. **Required unless you use an organization token.** */
-  organization_id?: string | null;
+  organization_id?: string | null | undefined;
 }
 /** List of metric slugs displayed in this dashboard. */
 export type MetricDashboardSchemaMetricsList = Array<string>;
@@ -9871,6 +10022,11 @@ export type MetricsExportRequestOrganizationId =
 export type MetricsExportRequestProductIdCase1List = Array<string>;
 /** Filter by product ID. */
 export type MetricsExportRequestProductId = string | MetricsExportRequestProductIdCase1List;
+export type MetricsExportRequestExternalProductIdCase1List = Array<string>;
+/** Filter by product external ID. */
+export type MetricsExportRequestExternalProductId =
+  | string
+  | MetricsExportRequestExternalProductIdCase1List;
 export type MetricsExportRequestBillingTypeCase1List = Array<ProductBillingType | (string & {})>;
 /** Filter by billing type. `recurring` will filter data corresponding to subscriptions creations or renewals. `one_time` will filter data corresponding to one-time purchases. */
 export type MetricsExportRequestBillingType =
@@ -9886,19 +10042,21 @@ export interface MetricsExportRequest {
   /** End date. */
   end_date: string;
   /** Timezone to use for the timestamps. Default is UTC. */
-  timezone?: MetricsExportRequestTimezone | (string & {});
+  timezone?: MetricsExportRequestTimezone | (string & {}) | undefined;
   /** Interval between two timestamps. */
   interval: TimeInterval | (string & {});
   /** Filter by organization ID. */
-  organization_id?: MetricsExportRequestOrganizationId;
+  organization_id?: MetricsExportRequestOrganizationId | undefined;
   /** Filter by product ID. */
-  product_id?: MetricsExportRequestProductId;
+  product_id?: MetricsExportRequestProductId | undefined;
+  /** Filter by product external ID. */
+  external_product_id?: MetricsExportRequestExternalProductId | undefined;
   /** Filter by billing type. `recurring` will filter data corresponding to subscriptions creations or renewals. `one_time` will filter data corresponding to one-time purchases. */
-  billing_type?: MetricsExportRequestBillingType;
+  billing_type?: MetricsExportRequestBillingType | undefined;
   /** Filter by customer ID. */
-  customer_id?: MetricsExportRequestCustomerId;
+  customer_id?: MetricsExportRequestCustomerId | undefined;
   /** List of metric slugs to include in the export. If not provided, all metrics are exported. */
-  metrics?: MetricsExportRequestMetricsList;
+  metrics?: MetricsExportRequestMetricsList | undefined;
 }
 export interface MetricsExportResponse {}
 /** Timezone to use for the timestamps. Default is UTC. */
@@ -10507,6 +10665,11 @@ export type MetricsGetRequestOrganizationId = string | MetricsGetRequestOrganiza
 export type MetricsGetRequestProductIdCase1List = Array<string>;
 /** Filter by product ID. */
 export type MetricsGetRequestProductId = string | MetricsGetRequestProductIdCase1List;
+export type MetricsGetRequestExternalProductIdCase1List = Array<string>;
+/** Filter by product external ID. */
+export type MetricsGetRequestExternalProductId =
+  | string
+  | MetricsGetRequestExternalProductIdCase1List;
 export type MetricsGetRequestBillingTypeCase1List = Array<ProductBillingType | (string & {})>;
 /** Filter by billing type. `recurring` will filter data corresponding to subscriptions creations or renewals. `one_time` will filter data corresponding to one-time purchases. */
 export type MetricsGetRequestBillingType =
@@ -10522,19 +10685,21 @@ export interface MetricsGetRequest {
   /** End date. */
   end_date: string;
   /** Timezone to use for the timestamps. Default is UTC. */
-  timezone?: MetricsGetRequestTimezone | (string & {});
+  timezone?: MetricsGetRequestTimezone | (string & {}) | undefined;
   /** Interval between two timestamps. */
   interval: TimeInterval | (string & {});
   /** Filter by organization ID. */
-  organization_id?: MetricsGetRequestOrganizationId;
+  organization_id?: MetricsGetRequestOrganizationId | undefined;
   /** Filter by product ID. */
-  product_id?: MetricsGetRequestProductId;
+  product_id?: MetricsGetRequestProductId | undefined;
+  /** Filter by product external ID. */
+  external_product_id?: MetricsGetRequestExternalProductId | undefined;
   /** Filter by billing type. `recurring` will filter data corresponding to subscriptions creations or renewals. `one_time` will filter data corresponding to one-time purchases. */
-  billing_type?: MetricsGetRequestBillingType;
+  billing_type?: MetricsGetRequestBillingType | undefined;
   /** Filter by customer ID. */
-  customer_id?: MetricsGetRequestCustomerId;
+  customer_id?: MetricsGetRequestCustomerId | undefined;
   /** List of metric slugs to focus on. When provided, only the queries needed for these metrics will be executed, improving performance. If not provided, all metrics are returned. */
-  metrics?: MetricsGetRequestMetricsList;
+  metrics?: MetricsGetRequestMetricsList | undefined;
 }
 export type MetricPeriodActiveSubscriptions = number | number;
 export type MetricPeriodCommittedSubscriptions = number | number;
@@ -10594,61 +10759,88 @@ export type MetricPeriodSeatUtilizationRate = number | number;
 export interface MetricPeriod {
   /** Timestamp of this period data. */
   timestamp: string;
-  active_subscriptions?: MetricPeriodActiveSubscriptions | null;
-  committed_subscriptions?: MetricPeriodCommittedSubscriptions | null;
-  monthly_recurring_revenue?: MetricPeriodMonthlyRecurringRevenue | null;
-  trial_monthly_recurring_revenue?: MetricPeriodTrialMonthlyRecurringRevenue | null;
-  committed_monthly_recurring_revenue?: MetricPeriodCommittedMonthlyRecurringRevenue | null;
-  trial_committed_monthly_recurring_revenue?: MetricPeriodTrialCommittedMonthlyRecurringRevenue | null;
-  average_revenue_per_user?: MetricPeriodAverageRevenuePerUser | null;
-  checkouts?: MetricPeriodCheckouts | null;
-  succeeded_checkouts?: MetricPeriodSucceededCheckouts | null;
-  churned_subscriptions?: MetricPeriodChurnedSubscriptions | null;
-  churn_rate?: MetricPeriodChurnRate | null;
-  seats_total?: MetricPeriodSeatsTotal | null;
-  seats_claimed?: MetricPeriodSeatsClaimed | null;
-  seats_pending?: MetricPeriodSeatsPending | null;
-  seat_customers?: MetricPeriodSeatCustomers | null;
-  new_seat_customers?: MetricPeriodNewSeatCustomers | null;
-  churned_seat_customers?: MetricPeriodChurnedSeatCustomers | null;
-  orders?: MetricPeriodOrders | null;
-  revenue?: MetricPeriodRevenue | null;
-  net_revenue?: MetricPeriodNetRevenue | null;
-  cumulative_revenue?: MetricPeriodCumulativeRevenue | null;
-  net_cumulative_revenue?: MetricPeriodNetCumulativeRevenue | null;
-  costs?: MetricPeriodCosts | null;
-  cumulative_costs?: MetricPeriodCumulativeCosts | null;
-  average_order_value?: MetricPeriodAverageOrderValue | null;
-  net_average_order_value?: MetricPeriodNetAverageOrderValue | null;
-  cost_per_user?: MetricPeriodCostPerUser | null;
-  active_user_by_event?: MetricPeriodActiveUserByEvent | null;
-  one_time_products?: MetricPeriodOneTimeProducts | null;
-  one_time_products_revenue?: MetricPeriodOneTimeProductsRevenue | null;
-  one_time_products_net_revenue?: MetricPeriodOneTimeProductsNetRevenue | null;
-  new_subscriptions?: MetricPeriodNewSubscriptions | null;
-  new_subscriptions_revenue?: MetricPeriodNewSubscriptionsRevenue | null;
-  new_subscriptions_net_revenue?: MetricPeriodNewSubscriptionsNetRevenue | null;
-  renewed_subscriptions?: MetricPeriodRenewedSubscriptions | null;
-  renewed_subscriptions_revenue?: MetricPeriodRenewedSubscriptionsRevenue | null;
-  renewed_subscriptions_net_revenue?: MetricPeriodRenewedSubscriptionsNetRevenue | null;
-  canceled_subscriptions?: MetricPeriodCanceledSubscriptions | null;
-  canceled_subscriptions_customer_service?: MetricPeriodCanceledSubscriptionsCustomerService | null;
-  canceled_subscriptions_low_quality?: MetricPeriodCanceledSubscriptionsLowQuality | null;
-  canceled_subscriptions_missing_features?: MetricPeriodCanceledSubscriptionsMissingFeatures | null;
-  canceled_subscriptions_switched_service?: MetricPeriodCanceledSubscriptionsSwitchedService | null;
-  canceled_subscriptions_too_complex?: MetricPeriodCanceledSubscriptionsTooComplex | null;
-  canceled_subscriptions_too_expensive?: MetricPeriodCanceledSubscriptionsTooExpensive | null;
-  canceled_subscriptions_unused?: MetricPeriodCanceledSubscriptionsUnused | null;
-  canceled_subscriptions_other?: MetricPeriodCanceledSubscriptionsOther | null;
-  annual_recurring_revenue?: MetricPeriodAnnualRecurringRevenue | null;
-  committed_annual_recurring_revenue?: MetricPeriodCommittedAnnualRecurringRevenue | null;
-  checkouts_conversion?: MetricPeriodCheckoutsConversion | null;
-  ltv?: MetricPeriodLtv | null;
-  gross_margin?: MetricPeriodGrossMargin | null;
-  gross_margin_percentage?: MetricPeriodGrossMarginPercentage | null;
-  cashflow?: MetricPeriodCashflow | null;
-  average_seats_per_customer?: MetricPeriodAverageSeatsPerCustomer | null;
-  seat_utilization_rate?: MetricPeriodSeatUtilizationRate | null;
+  active_subscriptions?: MetricPeriodActiveSubscriptions | null | undefined;
+  committed_subscriptions?: MetricPeriodCommittedSubscriptions | null | undefined;
+  monthly_recurring_revenue?: MetricPeriodMonthlyRecurringRevenue | null | undefined;
+  trial_monthly_recurring_revenue?: MetricPeriodTrialMonthlyRecurringRevenue | null | undefined;
+  committed_monthly_recurring_revenue?:
+    | MetricPeriodCommittedMonthlyRecurringRevenue
+    | null
+    | undefined;
+  trial_committed_monthly_recurring_revenue?:
+    | MetricPeriodTrialCommittedMonthlyRecurringRevenue
+    | null
+    | undefined;
+  average_revenue_per_user?: MetricPeriodAverageRevenuePerUser | null | undefined;
+  checkouts?: MetricPeriodCheckouts | null | undefined;
+  succeeded_checkouts?: MetricPeriodSucceededCheckouts | null | undefined;
+  churned_subscriptions?: MetricPeriodChurnedSubscriptions | null | undefined;
+  churn_rate?: MetricPeriodChurnRate | null | undefined;
+  seats_total?: MetricPeriodSeatsTotal | null | undefined;
+  seats_claimed?: MetricPeriodSeatsClaimed | null | undefined;
+  seats_pending?: MetricPeriodSeatsPending | null | undefined;
+  seat_customers?: MetricPeriodSeatCustomers | null | undefined;
+  new_seat_customers?: MetricPeriodNewSeatCustomers | null | undefined;
+  churned_seat_customers?: MetricPeriodChurnedSeatCustomers | null | undefined;
+  orders?: MetricPeriodOrders | null | undefined;
+  revenue?: MetricPeriodRevenue | null | undefined;
+  net_revenue?: MetricPeriodNetRevenue | null | undefined;
+  cumulative_revenue?: MetricPeriodCumulativeRevenue | null | undefined;
+  net_cumulative_revenue?: MetricPeriodNetCumulativeRevenue | null | undefined;
+  costs?: MetricPeriodCosts | null | undefined;
+  cumulative_costs?: MetricPeriodCumulativeCosts | null | undefined;
+  average_order_value?: MetricPeriodAverageOrderValue | null | undefined;
+  net_average_order_value?: MetricPeriodNetAverageOrderValue | null | undefined;
+  cost_per_user?: MetricPeriodCostPerUser | null | undefined;
+  active_user_by_event?: MetricPeriodActiveUserByEvent | null | undefined;
+  one_time_products?: MetricPeriodOneTimeProducts | null | undefined;
+  one_time_products_revenue?: MetricPeriodOneTimeProductsRevenue | null | undefined;
+  one_time_products_net_revenue?: MetricPeriodOneTimeProductsNetRevenue | null | undefined;
+  new_subscriptions?: MetricPeriodNewSubscriptions | null | undefined;
+  new_subscriptions_revenue?: MetricPeriodNewSubscriptionsRevenue | null | undefined;
+  new_subscriptions_net_revenue?: MetricPeriodNewSubscriptionsNetRevenue | null | undefined;
+  renewed_subscriptions?: MetricPeriodRenewedSubscriptions | null | undefined;
+  renewed_subscriptions_revenue?: MetricPeriodRenewedSubscriptionsRevenue | null | undefined;
+  renewed_subscriptions_net_revenue?: MetricPeriodRenewedSubscriptionsNetRevenue | null | undefined;
+  canceled_subscriptions?: MetricPeriodCanceledSubscriptions | null | undefined;
+  canceled_subscriptions_customer_service?:
+    | MetricPeriodCanceledSubscriptionsCustomerService
+    | null
+    | undefined;
+  canceled_subscriptions_low_quality?:
+    | MetricPeriodCanceledSubscriptionsLowQuality
+    | null
+    | undefined;
+  canceled_subscriptions_missing_features?:
+    | MetricPeriodCanceledSubscriptionsMissingFeatures
+    | null
+    | undefined;
+  canceled_subscriptions_switched_service?:
+    | MetricPeriodCanceledSubscriptionsSwitchedService
+    | null
+    | undefined;
+  canceled_subscriptions_too_complex?:
+    | MetricPeriodCanceledSubscriptionsTooComplex
+    | null
+    | undefined;
+  canceled_subscriptions_too_expensive?:
+    | MetricPeriodCanceledSubscriptionsTooExpensive
+    | null
+    | undefined;
+  canceled_subscriptions_unused?: MetricPeriodCanceledSubscriptionsUnused | null | undefined;
+  canceled_subscriptions_other?: MetricPeriodCanceledSubscriptionsOther | null | undefined;
+  annual_recurring_revenue?: MetricPeriodAnnualRecurringRevenue | null | undefined;
+  committed_annual_recurring_revenue?:
+    | MetricPeriodCommittedAnnualRecurringRevenue
+    | null
+    | undefined;
+  checkouts_conversion?: MetricPeriodCheckoutsConversion | null | undefined;
+  ltv?: MetricPeriodLtv | null | undefined;
+  gross_margin?: MetricPeriodGrossMargin | null | undefined;
+  gross_margin_percentage?: MetricPeriodGrossMarginPercentage | null | undefined;
+  cashflow?: MetricPeriodCashflow | null | undefined;
+  average_seats_per_customer?: MetricPeriodAverageSeatsPerCustomer | null | undefined;
+  seat_utilization_rate?: MetricPeriodSeatUtilizationRate | null | undefined;
 }
 /** List of data for each timestamp. */
 export type MetricsResponsePeriodsList = Array<MetricPeriod>;
@@ -10708,61 +10900,91 @@ export type MetricsTotalsCashflow = number | number;
 export type MetricsTotalsAverageSeatsPerCustomer = number | number;
 export type MetricsTotalsSeatUtilizationRate = number | number;
 export interface MetricsTotals {
-  active_subscriptions?: MetricsTotalsActiveSubscriptions | null;
-  committed_subscriptions?: MetricsTotalsCommittedSubscriptions | null;
-  monthly_recurring_revenue?: MetricsTotalsMonthlyRecurringRevenue | null;
-  trial_monthly_recurring_revenue?: MetricsTotalsTrialMonthlyRecurringRevenue | null;
-  committed_monthly_recurring_revenue?: MetricsTotalsCommittedMonthlyRecurringRevenue | null;
-  trial_committed_monthly_recurring_revenue?: MetricsTotalsTrialCommittedMonthlyRecurringRevenue | null;
-  average_revenue_per_user?: MetricsTotalsAverageRevenuePerUser | null;
-  checkouts?: MetricsTotalsCheckouts | null;
-  succeeded_checkouts?: MetricsTotalsSucceededCheckouts | null;
-  churned_subscriptions?: MetricsTotalsChurnedSubscriptions | null;
-  churn_rate?: MetricsTotalsChurnRate | null;
-  seats_total?: MetricsTotalsSeatsTotal | null;
-  seats_claimed?: MetricsTotalsSeatsClaimed | null;
-  seats_pending?: MetricsTotalsSeatsPending | null;
-  seat_customers?: MetricsTotalsSeatCustomers | null;
-  new_seat_customers?: MetricsTotalsNewSeatCustomers | null;
-  churned_seat_customers?: MetricsTotalsChurnedSeatCustomers | null;
-  orders?: MetricsTotalsOrders | null;
-  revenue?: MetricsTotalsRevenue | null;
-  net_revenue?: MetricsTotalsNetRevenue | null;
-  cumulative_revenue?: MetricsTotalsCumulativeRevenue | null;
-  net_cumulative_revenue?: MetricsTotalsNetCumulativeRevenue | null;
-  costs?: MetricsTotalsCosts | null;
-  cumulative_costs?: MetricsTotalsCumulativeCosts | null;
-  average_order_value?: MetricsTotalsAverageOrderValue | null;
-  net_average_order_value?: MetricsTotalsNetAverageOrderValue | null;
-  cost_per_user?: MetricsTotalsCostPerUser | null;
-  active_user_by_event?: MetricsTotalsActiveUserByEvent | null;
-  one_time_products?: MetricsTotalsOneTimeProducts | null;
-  one_time_products_revenue?: MetricsTotalsOneTimeProductsRevenue | null;
-  one_time_products_net_revenue?: MetricsTotalsOneTimeProductsNetRevenue | null;
-  new_subscriptions?: MetricsTotalsNewSubscriptions | null;
-  new_subscriptions_revenue?: MetricsTotalsNewSubscriptionsRevenue | null;
-  new_subscriptions_net_revenue?: MetricsTotalsNewSubscriptionsNetRevenue | null;
-  renewed_subscriptions?: MetricsTotalsRenewedSubscriptions | null;
-  renewed_subscriptions_revenue?: MetricsTotalsRenewedSubscriptionsRevenue | null;
-  renewed_subscriptions_net_revenue?: MetricsTotalsRenewedSubscriptionsNetRevenue | null;
-  canceled_subscriptions?: MetricsTotalsCanceledSubscriptions | null;
-  canceled_subscriptions_customer_service?: MetricsTotalsCanceledSubscriptionsCustomerService | null;
-  canceled_subscriptions_low_quality?: MetricsTotalsCanceledSubscriptionsLowQuality | null;
-  canceled_subscriptions_missing_features?: MetricsTotalsCanceledSubscriptionsMissingFeatures | null;
-  canceled_subscriptions_switched_service?: MetricsTotalsCanceledSubscriptionsSwitchedService | null;
-  canceled_subscriptions_too_complex?: MetricsTotalsCanceledSubscriptionsTooComplex | null;
-  canceled_subscriptions_too_expensive?: MetricsTotalsCanceledSubscriptionsTooExpensive | null;
-  canceled_subscriptions_unused?: MetricsTotalsCanceledSubscriptionsUnused | null;
-  canceled_subscriptions_other?: MetricsTotalsCanceledSubscriptionsOther | null;
-  annual_recurring_revenue?: MetricsTotalsAnnualRecurringRevenue | null;
-  committed_annual_recurring_revenue?: MetricsTotalsCommittedAnnualRecurringRevenue | null;
-  checkouts_conversion?: MetricsTotalsCheckoutsConversion | null;
-  ltv?: MetricsTotalsLtv | null;
-  gross_margin?: MetricsTotalsGrossMargin | null;
-  gross_margin_percentage?: MetricsTotalsGrossMarginPercentage | null;
-  cashflow?: MetricsTotalsCashflow | null;
-  average_seats_per_customer?: MetricsTotalsAverageSeatsPerCustomer | null;
-  seat_utilization_rate?: MetricsTotalsSeatUtilizationRate | null;
+  active_subscriptions?: MetricsTotalsActiveSubscriptions | null | undefined;
+  committed_subscriptions?: MetricsTotalsCommittedSubscriptions | null | undefined;
+  monthly_recurring_revenue?: MetricsTotalsMonthlyRecurringRevenue | null | undefined;
+  trial_monthly_recurring_revenue?: MetricsTotalsTrialMonthlyRecurringRevenue | null | undefined;
+  committed_monthly_recurring_revenue?:
+    | MetricsTotalsCommittedMonthlyRecurringRevenue
+    | null
+    | undefined;
+  trial_committed_monthly_recurring_revenue?:
+    | MetricsTotalsTrialCommittedMonthlyRecurringRevenue
+    | null
+    | undefined;
+  average_revenue_per_user?: MetricsTotalsAverageRevenuePerUser | null | undefined;
+  checkouts?: MetricsTotalsCheckouts | null | undefined;
+  succeeded_checkouts?: MetricsTotalsSucceededCheckouts | null | undefined;
+  churned_subscriptions?: MetricsTotalsChurnedSubscriptions | null | undefined;
+  churn_rate?: MetricsTotalsChurnRate | null | undefined;
+  seats_total?: MetricsTotalsSeatsTotal | null | undefined;
+  seats_claimed?: MetricsTotalsSeatsClaimed | null | undefined;
+  seats_pending?: MetricsTotalsSeatsPending | null | undefined;
+  seat_customers?: MetricsTotalsSeatCustomers | null | undefined;
+  new_seat_customers?: MetricsTotalsNewSeatCustomers | null | undefined;
+  churned_seat_customers?: MetricsTotalsChurnedSeatCustomers | null | undefined;
+  orders?: MetricsTotalsOrders | null | undefined;
+  revenue?: MetricsTotalsRevenue | null | undefined;
+  net_revenue?: MetricsTotalsNetRevenue | null | undefined;
+  cumulative_revenue?: MetricsTotalsCumulativeRevenue | null | undefined;
+  net_cumulative_revenue?: MetricsTotalsNetCumulativeRevenue | null | undefined;
+  costs?: MetricsTotalsCosts | null | undefined;
+  cumulative_costs?: MetricsTotalsCumulativeCosts | null | undefined;
+  average_order_value?: MetricsTotalsAverageOrderValue | null | undefined;
+  net_average_order_value?: MetricsTotalsNetAverageOrderValue | null | undefined;
+  cost_per_user?: MetricsTotalsCostPerUser | null | undefined;
+  active_user_by_event?: MetricsTotalsActiveUserByEvent | null | undefined;
+  one_time_products?: MetricsTotalsOneTimeProducts | null | undefined;
+  one_time_products_revenue?: MetricsTotalsOneTimeProductsRevenue | null | undefined;
+  one_time_products_net_revenue?: MetricsTotalsOneTimeProductsNetRevenue | null | undefined;
+  new_subscriptions?: MetricsTotalsNewSubscriptions | null | undefined;
+  new_subscriptions_revenue?: MetricsTotalsNewSubscriptionsRevenue | null | undefined;
+  new_subscriptions_net_revenue?: MetricsTotalsNewSubscriptionsNetRevenue | null | undefined;
+  renewed_subscriptions?: MetricsTotalsRenewedSubscriptions | null | undefined;
+  renewed_subscriptions_revenue?: MetricsTotalsRenewedSubscriptionsRevenue | null | undefined;
+  renewed_subscriptions_net_revenue?:
+    | MetricsTotalsRenewedSubscriptionsNetRevenue
+    | null
+    | undefined;
+  canceled_subscriptions?: MetricsTotalsCanceledSubscriptions | null | undefined;
+  canceled_subscriptions_customer_service?:
+    | MetricsTotalsCanceledSubscriptionsCustomerService
+    | null
+    | undefined;
+  canceled_subscriptions_low_quality?:
+    | MetricsTotalsCanceledSubscriptionsLowQuality
+    | null
+    | undefined;
+  canceled_subscriptions_missing_features?:
+    | MetricsTotalsCanceledSubscriptionsMissingFeatures
+    | null
+    | undefined;
+  canceled_subscriptions_switched_service?:
+    | MetricsTotalsCanceledSubscriptionsSwitchedService
+    | null
+    | undefined;
+  canceled_subscriptions_too_complex?:
+    | MetricsTotalsCanceledSubscriptionsTooComplex
+    | null
+    | undefined;
+  canceled_subscriptions_too_expensive?:
+    | MetricsTotalsCanceledSubscriptionsTooExpensive
+    | null
+    | undefined;
+  canceled_subscriptions_unused?: MetricsTotalsCanceledSubscriptionsUnused | null | undefined;
+  canceled_subscriptions_other?: MetricsTotalsCanceledSubscriptionsOther | null | undefined;
+  annual_recurring_revenue?: MetricsTotalsAnnualRecurringRevenue | null | undefined;
+  committed_annual_recurring_revenue?:
+    | MetricsTotalsCommittedAnnualRecurringRevenue
+    | null
+    | undefined;
+  checkouts_conversion?: MetricsTotalsCheckoutsConversion | null | undefined;
+  ltv?: MetricsTotalsLtv | null | undefined;
+  gross_margin?: MetricsTotalsGrossMargin | null | undefined;
+  gross_margin_percentage?: MetricsTotalsGrossMarginPercentage | null | undefined;
+  cashflow?: MetricsTotalsCashflow | null | undefined;
+  average_seats_per_customer?: MetricsTotalsAverageSeatsPerCustomer | null | undefined;
+  seat_utilization_rate?: MetricsTotalsSeatUtilizationRate | null | undefined;
 }
 export type MetricType = "scalar" | "currency" | "currency_sub_cent" | "percentage";
 /** Information about a metric. */
@@ -10775,61 +10997,61 @@ export interface Metric {
   type: MetricType;
 }
 export interface Metrics {
-  active_subscriptions?: Metric | null;
-  committed_subscriptions?: Metric | null;
-  monthly_recurring_revenue?: Metric | null;
-  trial_monthly_recurring_revenue?: Metric | null;
-  committed_monthly_recurring_revenue?: Metric | null;
-  trial_committed_monthly_recurring_revenue?: Metric | null;
-  average_revenue_per_user?: Metric | null;
-  checkouts?: Metric | null;
-  succeeded_checkouts?: Metric | null;
-  churned_subscriptions?: Metric | null;
-  churn_rate?: Metric | null;
-  seats_total?: Metric | null;
-  seats_claimed?: Metric | null;
-  seats_pending?: Metric | null;
-  seat_customers?: Metric | null;
-  new_seat_customers?: Metric | null;
-  churned_seat_customers?: Metric | null;
-  orders?: Metric | null;
-  revenue?: Metric | null;
-  net_revenue?: Metric | null;
-  cumulative_revenue?: Metric | null;
-  net_cumulative_revenue?: Metric | null;
-  costs?: Metric | null;
-  cumulative_costs?: Metric | null;
-  average_order_value?: Metric | null;
-  net_average_order_value?: Metric | null;
-  cost_per_user?: Metric | null;
-  active_user_by_event?: Metric | null;
-  one_time_products?: Metric | null;
-  one_time_products_revenue?: Metric | null;
-  one_time_products_net_revenue?: Metric | null;
-  new_subscriptions?: Metric | null;
-  new_subscriptions_revenue?: Metric | null;
-  new_subscriptions_net_revenue?: Metric | null;
-  renewed_subscriptions?: Metric | null;
-  renewed_subscriptions_revenue?: Metric | null;
-  renewed_subscriptions_net_revenue?: Metric | null;
-  canceled_subscriptions?: Metric | null;
-  canceled_subscriptions_customer_service?: Metric | null;
-  canceled_subscriptions_low_quality?: Metric | null;
-  canceled_subscriptions_missing_features?: Metric | null;
-  canceled_subscriptions_switched_service?: Metric | null;
-  canceled_subscriptions_too_complex?: Metric | null;
-  canceled_subscriptions_too_expensive?: Metric | null;
-  canceled_subscriptions_unused?: Metric | null;
-  canceled_subscriptions_other?: Metric | null;
-  annual_recurring_revenue?: Metric | null;
-  committed_annual_recurring_revenue?: Metric | null;
-  checkouts_conversion?: Metric | null;
-  ltv?: Metric | null;
-  gross_margin?: Metric | null;
-  gross_margin_percentage?: Metric | null;
-  cashflow?: Metric | null;
-  average_seats_per_customer?: Metric | null;
-  seat_utilization_rate?: Metric | null;
+  active_subscriptions?: Metric | null | undefined;
+  committed_subscriptions?: Metric | null | undefined;
+  monthly_recurring_revenue?: Metric | null | undefined;
+  trial_monthly_recurring_revenue?: Metric | null | undefined;
+  committed_monthly_recurring_revenue?: Metric | null | undefined;
+  trial_committed_monthly_recurring_revenue?: Metric | null | undefined;
+  average_revenue_per_user?: Metric | null | undefined;
+  checkouts?: Metric | null | undefined;
+  succeeded_checkouts?: Metric | null | undefined;
+  churned_subscriptions?: Metric | null | undefined;
+  churn_rate?: Metric | null | undefined;
+  seats_total?: Metric | null | undefined;
+  seats_claimed?: Metric | null | undefined;
+  seats_pending?: Metric | null | undefined;
+  seat_customers?: Metric | null | undefined;
+  new_seat_customers?: Metric | null | undefined;
+  churned_seat_customers?: Metric | null | undefined;
+  orders?: Metric | null | undefined;
+  revenue?: Metric | null | undefined;
+  net_revenue?: Metric | null | undefined;
+  cumulative_revenue?: Metric | null | undefined;
+  net_cumulative_revenue?: Metric | null | undefined;
+  costs?: Metric | null | undefined;
+  cumulative_costs?: Metric | null | undefined;
+  average_order_value?: Metric | null | undefined;
+  net_average_order_value?: Metric | null | undefined;
+  cost_per_user?: Metric | null | undefined;
+  active_user_by_event?: Metric | null | undefined;
+  one_time_products?: Metric | null | undefined;
+  one_time_products_revenue?: Metric | null | undefined;
+  one_time_products_net_revenue?: Metric | null | undefined;
+  new_subscriptions?: Metric | null | undefined;
+  new_subscriptions_revenue?: Metric | null | undefined;
+  new_subscriptions_net_revenue?: Metric | null | undefined;
+  renewed_subscriptions?: Metric | null | undefined;
+  renewed_subscriptions_revenue?: Metric | null | undefined;
+  renewed_subscriptions_net_revenue?: Metric | null | undefined;
+  canceled_subscriptions?: Metric | null | undefined;
+  canceled_subscriptions_customer_service?: Metric | null | undefined;
+  canceled_subscriptions_low_quality?: Metric | null | undefined;
+  canceled_subscriptions_missing_features?: Metric | null | undefined;
+  canceled_subscriptions_switched_service?: Metric | null | undefined;
+  canceled_subscriptions_too_complex?: Metric | null | undefined;
+  canceled_subscriptions_too_expensive?: Metric | null | undefined;
+  canceled_subscriptions_unused?: Metric | null | undefined;
+  canceled_subscriptions_other?: Metric | null | undefined;
+  annual_recurring_revenue?: Metric | null | undefined;
+  committed_annual_recurring_revenue?: Metric | null | undefined;
+  checkouts_conversion?: Metric | null | undefined;
+  ltv?: Metric | null | undefined;
+  gross_margin?: Metric | null | undefined;
+  gross_margin_percentage?: Metric | null | undefined;
+  cashflow?: Metric | null | undefined;
+  average_seats_per_customer?: Metric | null | undefined;
+  seat_utilization_rate?: Metric | null | undefined;
 }
 /** Metrics response schema. */
 export interface MetricsResponse {
@@ -10879,7 +11101,7 @@ export type MetricsListDashboardsRequestOrganizationId =
   | MetricsListDashboardsRequestOrganizationIdCase1List;
 export interface MetricsListDashboardsRequest {
   /** Filter by organization ID. */
-  organization_id?: MetricsListDashboardsRequestOrganizationId;
+  organization_id?: MetricsListDashboardsRequestOrganizationId | undefined;
 }
 export type MetricsListDashboardsResponseBodyList = Array<MetricDashboardSchema>;
 export type MetricsListDashboardsResponse = MetricsListDashboardsResponseBodyList;
@@ -10888,9 +11110,9 @@ export interface MetricsUpdateDashboardRequest {
   /** The metric dashboard ID. */
   id: string;
   /** Display name for the dashboard. */
-  name?: string | null;
+  name?: string | null | undefined;
   /** List of metric slugs to display in this dashboard. */
-  metrics?: MetricsUpdateDashboardRequestMetricsList | null;
+  metrics?: MetricsUpdateDashboardRequestMetricsList | null | undefined;
 }
 export interface Oauth2AuthorizeRequest {}
 export interface OAuth2ClientPublic {
@@ -10989,8 +11211,8 @@ export interface AuthorizeResponseUser {
   sub: AuthorizeUser | null;
   scopes: AuthorizeResponseUserScopesList;
   organizations: AuthorizeResponseUserOrganizationsList;
-  requires_single_organization?: boolean;
-  scope_display_names?: AuthorizeResponseUserScopeDisplayNamesMap;
+  requires_single_organization?: boolean | undefined;
+  scope_display_names?: AuthorizeResponseUserScopeDisplayNamesMap | undefined;
 }
 export type AuthorizeResponseOrganizationScopesList = Array<Scope>;
 export type AuthorizeResponseOrganizationOrganizationsList = Array<AuthorizeOrganization>;
@@ -11003,8 +11225,8 @@ export interface AuthorizeResponseOrganization {
   sub: AuthorizeOrganization | null;
   scopes: AuthorizeResponseOrganizationScopesList;
   organizations: AuthorizeResponseOrganizationOrganizationsList;
-  requires_single_organization?: boolean;
-  scope_display_names?: AuthorizeResponseOrganizationScopeDisplayNamesMap;
+  requires_single_organization?: boolean | undefined;
+  scope_display_names?: AuthorizeResponseOrganizationScopeDisplayNamesMap | undefined;
 }
 export type Oauth2AuthorizeResponseBody = AuthorizeResponseUser | AuthorizeResponseOrganization;
 export type Oauth2AuthorizeResponse = Oauth2AuthorizeResponseBody;
@@ -11025,16 +11247,17 @@ export interface Oauth2ClientsOauth2CreateClientRequest {
   redirect_uris: Oauth2ClientsOauth2CreateClientRequestRedirectUrisList;
   token_endpoint_auth_method?:
     | Oauth2ClientsOauth2CreateClientRequestTokenEndpointAuthMethod
-    | (string & {});
-  grant_types?: Oauth2ClientsOauth2CreateClientRequestGrantTypesList;
-  response_types?: Oauth2ClientsOauth2CreateClientRequestResponseTypesList;
-  scope?: string;
+    | (string & {})
+    | undefined;
+  grant_types?: Oauth2ClientsOauth2CreateClientRequestGrantTypesList | undefined;
+  response_types?: Oauth2ClientsOauth2CreateClientRequestResponseTypesList | undefined;
+  scope?: string | undefined;
   client_name: string;
-  client_uri?: string | null;
-  logo_uri?: string | null;
-  tos_uri?: string | null;
-  policy_uri?: string | null;
-  default_sub_type?: SubType | (string & {});
+  client_uri?: string | null | undefined;
+  logo_uri?: string | null | undefined;
+  tos_uri?: string | null | undefined;
+  policy_uri?: string | null | undefined;
+  default_sub_type?: SubType | (string & {}) | undefined;
 }
 export type Oauth2ClientsOauth2CreateClientResponse = unknown;
 export interface Oauth2ClientsOauth2DeleteClientRequest {
@@ -11062,22 +11285,23 @@ export interface Oauth2ClientsOauth2UpdateClientRequest {
   redirect_uris: Oauth2ClientsOauth2UpdateClientRequestRedirectUrisList;
   token_endpoint_auth_method?:
     | Oauth2ClientsOauth2UpdateClientRequestTokenEndpointAuthMethod
-    | (string & {});
-  grant_types?: Oauth2ClientsOauth2UpdateClientRequestGrantTypesList;
-  response_types?: Oauth2ClientsOauth2UpdateClientRequestResponseTypesList;
-  scope?: string;
+    | (string & {})
+    | undefined;
+  grant_types?: Oauth2ClientsOauth2UpdateClientRequestGrantTypesList | undefined;
+  response_types?: Oauth2ClientsOauth2UpdateClientRequestResponseTypesList | undefined;
+  scope?: string | undefined;
   client_name: string;
-  client_uri?: string | null;
-  logo_uri?: string | null;
-  tos_uri?: string | null;
-  policy_uri?: string | null;
-  default_sub_type?: SubType | (string & {});
+  client_uri?: string | null | undefined;
+  logo_uri?: string | null | undefined;
+  tos_uri?: string | null | undefined;
+  policy_uri?: string | null | undefined;
+  default_sub_type?: SubType | (string & {}) | undefined;
 }
 export type Oauth2ClientsOauth2UpdateClientResponse = unknown;
 export type Oauth2IntrospectTokenRequestTokenTypeHint = "access_token" | "refresh_token";
 export interface Oauth2IntrospectTokenRequest {
   token: string;
-  token_type_hint?: Oauth2IntrospectTokenRequestTokenTypeHint | (string & {}) | null;
+  token_type_hint?: Oauth2IntrospectTokenRequestTokenTypeHint | (string & {}) | null | undefined;
   client_id: string;
   client_secret: string | Redacted.Redacted<string>;
 }
@@ -11115,9 +11339,9 @@ export interface WebTokenRequest {
   client_id: string;
   client_secret: string | Redacted.Redacted<string>;
   session_token: string | Redacted.Redacted<string>;
-  sub_type?: WebTokenRequestSubType | (string & {});
-  sub?: string | null;
-  scope?: string | null;
+  sub_type?: WebTokenRequestSubType | (string & {}) | undefined;
+  sub?: string | null | undefined;
+  scope?: string | null | undefined;
 }
 export type Oauth2RequestTokenRequestBody =
   | AuthorizationCodeTokenRequest
@@ -11130,14 +11354,14 @@ export interface TokenResponse {
   access_token: string | Redacted.Redacted<string>;
   token_type: string;
   expires_in: number;
-  refresh_token?: string | null;
+  refresh_token?: string | null | undefined;
   scope: string;
-  id_token?: string | null;
+  id_token?: string | null | undefined;
 }
 export type Oauth2RevokeTokenRequestTokenTypeHint = "access_token" | "refresh_token";
 export interface Oauth2RevokeTokenRequest {
   token: string;
-  token_type_hint?: Oauth2RevokeTokenRequestTokenTypeHint | (string & {}) | null;
+  token_type_hint?: Oauth2RevokeTokenRequestTokenTypeHint | (string & {}) | null | undefined;
   client_id: string;
   client_secret: string | Redacted.Redacted<string>;
 }
@@ -11145,13 +11369,13 @@ export type Oauth2RevokeTokenResponse = unknown;
 export interface Oauth2UserinfoRequest {}
 export interface UserInfoUser {
   sub: string;
-  name?: string | null;
-  email?: string | null;
-  email_verified?: boolean | null;
+  name?: string | null | undefined;
+  email?: string | null | undefined;
+  email_verified?: boolean | null | undefined;
 }
 export interface UserInfoOrganization {
   sub: string;
-  name?: string | null;
+  name?: string | null | undefined;
 }
 export type Oauth2UserinfoResponseBody = UserInfoUser | UserInfoOrganization;
 export type Oauth2UserinfoResponse = Oauth2UserinfoResponseBody;
@@ -11167,23 +11391,23 @@ export type OrdersCreateRequestMetadataMap = {
 };
 export interface OrdersCreateRequest {
   /** Key-value object storing custom field values. */
-  custom_field_data?: OrdersCreateRequestCustomFieldDataMap;
+  custom_field_data?: OrdersCreateRequestCustomFieldDataMap | undefined;
   /** Key-value object allowing you to store additional information. The key must be a string with a maximum length of **40 characters**. The value must be either: * A string with a maximum length of **500 characters** * An integer * A floating-point number * A boolean You can store up to **50 key-value pairs**. */
-  metadata?: OrdersCreateRequestMetadataMap;
+  metadata?: OrdersCreateRequestMetadataMap | undefined;
   /** The ID of the organization the order belongs to. **Required unless you use an organization token.** The customer and product must belong to this organization. */
-  organization_id?: string | null;
+  organization_id?: string | null | undefined;
   /** The ID of the customer the order is for. Must belong to the order's organization. */
   customer_id: string;
   /** The ID of the one-time product to charge for. Must belong to the order's organization. Only fixed-price, free and unit-based products are supported. */
   product_id: string;
   /** The currency to charge in (ISO 4217, lowercase, e.g. `usd`). Defaults to the organization's default currency; specify it to force a different one, or when the product isn't priced in the organization's default currency. */
-  currency?: string | null;
+  currency?: string | null | undefined;
   /** A custom amount to charge, in the smallest currency unit. Overrides the product's price; defaults to the product's configured price (0 for free products). A positive amount must be at least the currency's minimum. Can't be combined with `units`. */
-  amount?: number | null;
+  amount?: number | null | undefined;
   /** The number of units to charge for. Required when the product has unit-based pricing, and rejected otherwise. The amount comes from the price's tiers. Can't be combined with `amount`. */
-  units?: number | null;
+  units?: number | null | undefined;
   /** A custom description for the order's line item, shown on the invoice and receipt (e.g. `5,000 tokens`). Defaults to the product name. */
-  description?: string | null;
+  description?: string | null | undefined;
 }
 export type OrderCustomFieldDataValue = string | number | boolean;
 /** Key-value object storing custom field values. */
@@ -11200,9 +11424,9 @@ export interface OrderCustomer {
   modified_at: string | null;
   metadata: MetadataOutputType;
   /** The ID of the customer in your system. This must be unique within the organization. Once set, it can't be updated. */
-  external_id?: string | null;
+  external_id?: string | null | undefined;
   /** The email address of the customer. This must be unique within the organization. */
-  email?: string | null;
+  email?: string | null | undefined;
   /** Whether the customer email address is verified. The address is automatically verified when the customer accesses the customer portal using their email address. */
   email_verified: boolean;
   /** The type of customer: 'individual' for single users, 'team' for customers with multiple members. */
@@ -11213,18 +11437,52 @@ export interface OrderCustomer {
   billing_name: string | null;
   billing_address: Address | null;
   tax_id: OrderCustomerTaxIdList | null;
-  locale?: string | null;
+  locale?: string | null | undefined;
   /** The ID of the organization owning the customer. */
   organization_id: string;
   /** The ID of the customer's default payment method, if any. Use the payment methods endpoint to retrieve its details. */
-  default_payment_method_id?: string | null;
+  default_payment_method_id?: string | null | undefined;
   /** Timestamp for when the customer was soft deleted. */
   deleted_at: string | null;
   /** Timestamp of the first event ingested for this customer. Can predate `created_at`, and is null if no event was ever ingested. */
   first_user_event_at: string | null;
   avatar_url: string | null;
 }
-export type OrderProduct = DiscountProduct;
+export interface OrderProduct {
+  metadata: MetadataOutputType;
+  /** The ID of the object. */
+  id: string;
+  /** Creation timestamp of the object. */
+  created_at: string;
+  /** Last modification timestamp of the object. */
+  modified_at: string | null;
+  /** The interval unit for the trial period. */
+  trial_interval: TrialInterval | null;
+  /** The number of interval units for the trial period. */
+  trial_interval_count: number | null;
+  /** The name of the product. */
+  name: string;
+  /** The description of the product. */
+  description: string | null;
+  /** The visibility of the product. */
+  visibility: ProductVisibility;
+  /** The recurring interval of the product. If `None`, the product is a one-time purchase. */
+  recurring_interval: RecurringInterval | null;
+  /** Number of interval units of the subscription. If this is set to 1 the charge will happen every interval (e.g. every month), if set to 2 it will be every other month, and so on. None for one-time products. */
+  recurring_interval_count: number | null;
+  /** The meter cycle of the product, independent of the billing interval. If `None`, metered concerns follow the billing interval. */
+  meter_interval: RecurringInterval | null;
+  /** Number of meter interval units. None when no meter cycle is set. */
+  meter_interval_count: number | null;
+  /** Whether the product is a subscription. */
+  is_recurring: boolean;
+  /** Whether the product is archived and no longer available. */
+  is_archived: boolean;
+  /** The ID of the organization owning the product. */
+  organization_id: string;
+  /** ID of the catalog that introduced this version of the product. None for products not managed by declarative config. */
+  catalog_id: string | null;
+}
 export type OrderDiscount =
   | DiscountFixedOnceForeverDurationBase
   | DiscountFixedRepeatDurationBase
@@ -11265,13 +11523,13 @@ export interface OrderSubscription {
   /** The timestamp when the subscription was canceled. The subscription might still be active if `cancel_at_period_end` is `true`. */
   canceled_at: string | null;
   /** The timestamp when the subscription started. */
-  started_at: string | null;
+  started_at: string;
   /** The timestamp when the subscription will end. */
   ends_at: string | null;
   /** The timestamp when the subscription ended. */
   ended_at: string | null;
   /** The timestamp when the subscription entered `past_due` status. */
-  past_due_at?: string | null;
+  past_due_at?: string | null | undefined;
   /** Whether the subscription will be paused at the end of the current period. */
   pause_at_period_end: boolean;
   /** The timestamp when the subscription was paused. */
@@ -11286,7 +11544,7 @@ export interface OrderSubscription {
   discount_id: string | null;
   checkout_id: string | null;
   /** The number of seats for seat-based subscriptions. None for non-seat subscriptions. */
-  seats?: number | null;
+  seats?: number | null | undefined;
   /** The number of units for unit-based subscriptions. None for non-unit subscriptions. */
   units: number | null;
   customer_cancellation_reason: CustomerCancellationReason | null;
@@ -11334,7 +11592,7 @@ export interface Order {
   /** The receipt number for this order. Set once the order is paid for organizations with receipts enabled. When set, a downloadable receipt PDF can be obtained via the receipt endpoint. */
   receipt_number: string | null;
   /** Number of seats purchased (for seat-based one-time orders). */
-  seats?: number | null;
+  seats?: number | null | undefined;
   /** Number of units purchased (for unit-based pricing). */
   units: number | null;
   customer_id: string;
@@ -11343,16 +11601,16 @@ export interface Order {
   subscription_id: string | null;
   checkout_id: string | null;
   /** When the next automatic payment retry is scheduled. `null` if the order is not in dunning or all retries have been exhausted. */
-  next_payment_attempt_at?: string | null;
+  next_payment_attempt_at?: string | null | undefined;
   metadata: MetadataOutputType;
   /** Key-value object storing custom field values. */
-  custom_field_data?: OrderCustomFieldDataMap;
+  custom_field_data?: OrderCustomFieldDataMap | undefined;
   /** Platform fee amount in cents. */
   platform_fee_amount: number;
   /** Currency of the platform fee. */
   platform_fee_currency: string | null;
   customer: OrderCustomer;
-  product: DiscountProduct | null;
+  product: OrderProduct | null;
   discount: OrderDiscount | null;
   subscription: OrderSubscription | null;
   /** Line items composing the order. */
@@ -11370,6 +11628,11 @@ export type OrdersExportRequestOrganizationId = string | OrdersExportRequestOrga
 export type OrdersExportRequestProductIdCase1List = Array<string>;
 /** Filter by product ID. */
 export type OrdersExportRequestProductId = string | OrdersExportRequestProductIdCase1List;
+export type OrdersExportRequestExternalProductIdCase1List = Array<string>;
+/** Filter by product external ID. */
+export type OrdersExportRequestExternalProductId =
+  | string
+  | OrdersExportRequestExternalProductIdCase1List;
 export type OrdersExportRequestStatusCase1List = Array<OrderStatus | (string & {})>;
 /** Filter by order status. */
 export type OrdersExportRequestStatus = OrderStatus | OrdersExportRequestStatusCase1List;
@@ -11395,26 +11658,28 @@ export type OrdersExportRequestColumnsCase1List = Array<OrderExportColumn | (str
 export type OrdersExportRequestColumns = OrderExportColumn | OrdersExportRequestColumnsCase1List;
 export interface OrdersExportRequest {
   /** Filter by organization ID. */
-  organization_id?: OrdersExportRequestOrganizationId;
+  organization_id?: OrdersExportRequestOrganizationId | undefined;
   /** Filter by product ID. */
-  product_id?: OrdersExportRequestProductId;
+  product_id?: OrdersExportRequestProductId | undefined;
+  /** Filter by product external ID. */
+  external_product_id?: OrdersExportRequestExternalProductId | undefined;
   /** Filter by order status. */
-  status?: OrdersExportRequestStatus;
+  status?: OrdersExportRequestStatus | undefined;
   /** Only include orders created after this date. Must include a UTC offset. */
-  created_after?: string;
+  created_after?: string | undefined;
   /** Only include orders created before this date. Must include a UTC offset. */
-  created_before?: string;
+  created_before?: string | undefined;
   /** Time zone used to render dates in the CSV. */
-  timezone?: string;
+  timezone?: string | undefined;
   /** Columns to include in the CSV, in order. Defaults to email, created_at, product, net_amount, currency, status and invoice_number. */
-  columns?: OrdersExportRequestColumns;
+  columns?: OrdersExportRequestColumns | undefined;
 }
 export interface OrdersExportResponse {}
 export interface OrdersFinalizeRequest {
   /** The order ID. */
   id: string;
   /** ID of the payment method to charge. Must belong to the order's customer. Falls back to the customer's default payment method when unset. */
-  payment_method_id?: string | null;
+  payment_method_id?: string | null | undefined;
 }
 export interface OrdersGenerateInvoiceRequest {
   /** The order ID. */
@@ -11440,6 +11705,11 @@ export type OrdersListRequestOrganizationId = string | OrdersListRequestOrganiza
 export type OrdersListRequestProductIdCase1List = Array<string>;
 /** Filter by product ID. */
 export type OrdersListRequestProductId = string | OrdersListRequestProductIdCase1List;
+export type OrdersListRequestExternalProductIdCase1List = Array<string>;
+/** Filter by product external ID. */
+export type OrdersListRequestExternalProductId =
+  | string
+  | OrdersListRequestExternalProductIdCase1List;
 export type OrdersListRequestProductBillingTypeCase1List = Array<
   ProductBillingType | (string & {})
 >;
@@ -11489,35 +11759,37 @@ export type OrderSortProperty =
 export type OrdersListRequestSortingList = Array<OrderSortProperty | (string & {})>;
 export interface OrdersListRequest {
   /** Filter by organization ID. */
-  organization_id?: OrdersListRequestOrganizationId;
+  organization_id?: OrdersListRequestOrganizationId | undefined;
   /** Filter by product ID. */
-  product_id?: OrdersListRequestProductId;
+  product_id?: OrdersListRequestProductId | undefined;
+  /** Filter by product external ID. */
+  external_product_id?: OrdersListRequestExternalProductId | undefined;
   /** Filter by product billing type. `recurring` will filter data corresponding to subscriptions creations or renewals. `one_time` will filter data corresponding to one-time purchases. */
-  product_billing_type?: OrdersListRequestProductBillingType;
+  product_billing_type?: OrdersListRequestProductBillingType | undefined;
   /** Filter by discount ID. */
-  discount_id?: OrdersListRequestDiscountId;
+  discount_id?: OrdersListRequestDiscountId | undefined;
   /** Filter by customer ID. */
-  customer_id?: OrdersListRequestCustomerId;
+  customer_id?: OrdersListRequestCustomerId | undefined;
   /** Filter by customer external ID. */
-  external_customer_id?: OrdersListRequestExternalCustomerId;
+  external_customer_id?: OrdersListRequestExternalCustomerId | undefined;
   /** Filter by checkout ID. */
-  checkout_id?: OrdersListRequestCheckoutId;
+  checkout_id?: OrdersListRequestCheckoutId | undefined;
   /** Filter by subscription ID. */
-  subscription_id?: OrdersListRequestSubscriptionId;
+  subscription_id?: OrdersListRequestSubscriptionId | undefined;
   /** Filter by order status. */
-  status?: OrdersListRequestStatus;
+  status?: OrdersListRequestStatus | undefined;
   /** Only include orders created after this date */
-  created_after?: string;
+  created_after?: string | undefined;
   /** Only include orders created before this date */
-  created_before?: string;
+  created_before?: string | undefined;
   /** Page number, defaults to 1. */
-  page?: number;
+  page?: number | undefined;
   /** Size of a page, defaults to 10. Maximum is 100. */
-  limit?: number;
+  limit?: number | undefined;
   /** Sorting criterion. Several criteria can be used simultaneously and will be applied in order. Add a minus sign `-` before the criteria name to sort by descending order. */
-  sorting?: OrdersListRequestSortingList;
+  sorting?: OrdersListRequestSortingList | undefined;
   /** Filter by metadata key-value pairs. It uses the `deepObject` style, e.g. `?metadata[key]=value`. */
-  metadata?: MetadataQueryMap;
+  metadata?: MetadataQueryMap | undefined;
 }
 export type ListResourceOrderItemsList = Array<Order>;
 export interface ListResourceOrder {
@@ -11537,9 +11809,9 @@ export interface OrdersUpdateRequest {
   /** The order ID. */
   id: string;
   /** The name of the customer that should appear on the invoice. */
-  billing_name?: string | null;
+  billing_name?: string | null | undefined;
   /** The address of the customer that should appear on the invoice. Country and state fields cannot be updated. */
-  billing_address?: AddressInput | null;
+  billing_address?: AddressInput | null | undefined;
 }
 export interface OrganizationIndividualLegalEntitySchema {
   type: string;
@@ -11570,38 +11842,26 @@ export interface OrganizationSocialLink {
 }
 export type OrganizationsCreateRequestSocialsList = Array<OrganizationSocialLink>;
 /** Categories of products being sold. */
-export type OrganizationDetailsSellingCategoriesList = Array<string>;
+export type OrganizationDetailsInputSellingCategoriesList = Array<string>;
 /** Pricing models used by the organization. */
-export type OrganizationDetailsPricingModelsList = Array<string>;
-/** Main customer acquisition channels. */
-export type OrganizationDetailsCustomerAcquisitionList = Array<string>;
-export type OrganizationDetailsSwitchingFrom =
+export type OrganizationDetailsInputPricingModelsList = Array<string>;
+export type OrganizationDetailsInputSwitchingFrom =
   | "paddle"
   | "lemon_squeezy"
   | "gumroad"
   | "stripe"
   | "other";
-export interface OrganizationDetails {
-  /** Brief information about you and your business. */
-  about?: string | null;
+export interface OrganizationDetailsInput {
   /** Description of digital products being sold. */
-  product_description?: string | null;
+  product_description?: string | null | undefined;
   /** Categories of products being sold. */
-  selling_categories?: OrganizationDetailsSellingCategoriesList;
+  selling_categories?: OrganizationDetailsInputSellingCategoriesList | undefined;
   /** Pricing models used by the organization. */
-  pricing_models?: OrganizationDetailsPricingModelsList;
-  /** How the organization will integrate and use Polar. */
-  intended_use?: string | null;
-  /** Main customer acquisition channels. */
-  customer_acquisition?: OrganizationDetailsCustomerAcquisitionList;
-  /** Estimated revenue in the next 12 months */
-  future_annual_revenue?: number | null;
+  pricing_models?: OrganizationDetailsInputPricingModelsList | undefined;
   /** Switching from another platform? */
-  switching?: boolean;
+  switching?: boolean | undefined;
   /** Which platform the organization is migrating from. */
-  switching_from?: OrganizationDetailsSwitchingFrom | (string & {}) | null;
-  /** Revenue from last year if applicable. */
-  previous_annual_revenue?: number | null;
+  switching_from?: OrganizationDetailsInputSwitchingFrom | (string & {}) | null | undefined;
 }
 export type OrganizationsCreateRequestCountry =
   | "AD"
@@ -11851,12 +12111,10 @@ export type OrganizationsCreateRequestCountry =
 export type OrganizationFeatureSettingsUpdateOverviewMetricsList = Array<string>;
 /** Feature settings that organizations can update themselves. Other feature settings are managed by Polar staff: they're ignored if provided and keep their current value. */
 export interface OrganizationFeatureSettingsUpdate {
-  /** If this organization has the Member model enabled */
-  member_model_enabled?: boolean;
   /** If this organization has checkout localization enabled */
-  checkout_localization_enabled?: boolean;
+  checkout_localization_enabled?: boolean | undefined;
   /** Ordered list of metric slugs shown on the dashboard overview. */
-  overview_metrics?: OrganizationFeatureSettingsUpdateOverviewMetricsList | null;
+  overview_metrics?: OrganizationFeatureSettingsUpdateOverviewMetricsList | null | undefined;
 }
 export type OrganizationSubscriptionSettingsProrationBehavior =
   | "invoice"
@@ -11888,26 +12146,26 @@ export interface OrganizationCustomerEmailSettings {
 export interface OrganizationsCreateRequest {
   name: string;
   slug: string;
-  avatar_url?: string | null;
-  legal_entity?: OrganizationsCreateRequestLegalEntity | null;
+  avatar_url?: string | null | undefined;
+  legal_entity?: OrganizationsCreateRequestLegalEntity | null | undefined;
   /** Public support email. */
-  email?: string | null;
+  email?: string | null | undefined;
   /** Official website of the organization. */
-  website?: string | null;
+  website?: string | null | undefined;
   /** Link to social profiles. */
-  socials?: OrganizationsCreateRequestSocialsList | null;
+  socials?: OrganizationsCreateRequestSocialsList | null | undefined;
   /** Additional, private, business details Polar needs about active organizations for compliance (KYC). */
-  details?: OrganizationDetails | null;
+  details?: OrganizationDetailsInput | null | undefined;
   /** Two-letter country code (ISO 3166-1 alpha-2). */
-  country?: OrganizationsCreateRequestCountry | (string & {}) | null;
-  feature_settings?: OrganizationFeatureSettingsUpdate | null;
-  subscription_settings?: OrganizationSubscriptionSettings | null;
-  customer_email_settings?: OrganizationCustomerEmailSettings | null;
-  customer_portal_settings?: OrganizationCustomerPortalSettings | null;
+  country?: OrganizationsCreateRequestCountry | (string & {}) | null | undefined;
+  feature_settings?: OrganizationFeatureSettingsUpdate | null | undefined;
+  subscription_settings?: OrganizationSubscriptionSettings | null | undefined;
+  customer_email_settings?: OrganizationCustomerEmailSettings | null | undefined;
+  customer_portal_settings?: OrganizationCustomerPortalSettings | null | undefined;
   /** Default presentment currency for the organization */
-  default_presentment_currency?: PresentmentCurrency | (string & {});
+  default_presentment_currency?: PresentmentCurrency | (string & {}) | undefined;
   /** Default tax behavior applied on products. */
-  default_tax_behavior?: TaxBehaviorOption | (string & {});
+  default_tax_behavior?: TaxBehaviorOption | (string & {}) | undefined;
 }
 /** Links to social profiles. */
 export type OrganizationSocialsList = Array<OrganizationSocialLink>;
@@ -11923,37 +12181,33 @@ export type OrganizationStatus =
 export type OrganizationFeatureSettingsOverviewMetricsList = Array<string>;
 export interface OrganizationFeatureSettings {
   /** If this organization has issue funding enabled */
-  issue_funding_enabled?: boolean;
+  issue_funding_enabled?: boolean | undefined;
   /** If this organization has Wallets enabled */
-  wallets_enabled?: boolean;
-  /** If this organization has the Member model enabled */
-  member_model_enabled?: boolean;
+  wallets_enabled?: boolean | undefined;
   /** If this organization has checkout localization enabled */
-  checkout_localization_enabled?: boolean;
+  checkout_localization_enabled?: boolean | undefined;
   /** Ordered list of metric slugs shown on the dashboard overview. */
-  overview_metrics?: OrganizationFeatureSettingsOverviewMetricsList | null;
+  overview_metrics?: OrganizationFeatureSettingsOverviewMetricsList | null | undefined;
   /** If this organization has access to reset proration behavior. */
-  reset_proration_behavior_enabled?: boolean;
+  reset_proration_behavior_enabled?: boolean | undefined;
   /** If this organization can create and finalize draft orders via the API (off-session charges against a saved payment method). */
-  off_session_charges_enabled?: boolean;
-  /** If this organization can set a separate meter cycle on recurring products (a meter interval independent of the billing interval). */
-  meter_cycling_enabled?: boolean;
+  off_session_charges_enabled?: boolean | undefined;
   /** Enables the slack shared channel benefit */
-  slack_benefit_enabled?: boolean;
+  slack_benefit_enabled?: boolean | undefined;
   /** If this organization has preview access to new features enabled */
-  preview_access_enabled?: boolean;
+  preview_access_enabled?: boolean | undefined;
   /** If this organization has the disputes dashboard enabled */
-  disputes_enabled?: boolean;
+  disputes_enabled?: boolean | undefined;
   /** If this organization has single sign-on configuration enabled */
-  sso_enabled?: boolean;
+  sso_enabled?: boolean | undefined;
   /** If this organization can set a threshold below which Polar concedes disputes on its behalf. Requires `disputes_enabled`. */
-  dispute_auto_accept_enabled?: boolean;
-  /** If this organization has the split product navigation (Billing / Compass / Customers) enabled in the dashboard */
-  compass_enabled?: boolean;
+  dispute_auto_accept_enabled?: boolean | undefined;
   /** If this organization can migrate its billing from another provider (e.g. Stripe) to Polar. */
-  merchant_migration_enabled?: boolean;
-  /** If this organization's checkout tells the browser to refuse framing from any host outside its embed hosts. */
-  frame_ancestors_enforced?: boolean;
+  merchant_migration_enabled?: boolean | undefined;
+  /** If this organization's ingested events are queued in `staged_events` and moved to `events` out of band. */
+  staged_events_ingest_enabled?: boolean | undefined;
+  /** If this organization can manage its configuration from a declarative config document. */
+  config_as_code_enabled?: boolean | undefined;
 }
 /** `auto_accept_below_amount` is in Polar's settlement currency (USD). */
 export interface OrganizationDisputeSettings {
@@ -12273,7 +12527,7 @@ export interface Organization {
   /** Hosts allowed to embed this organization's checkout. An entry is a host and an optional port, without a scheme: HTTPS is always allowed, and HTTP too for local hosts -- `localhost`, any `.localhost` or `.local` name, and loopback or private addresses. `*.example.com` matches any subdomain, but not `example.com` itself. An app origin such as `chrome-extension://abcdef` carries its scheme, having no host to match on. */
   embed_hosts: OrganizationEmbedHostsList;
   /** Two-letter country code (ISO 3166-1 alpha-2). */
-  country?: OrganizationCountry | null;
+  country?: OrganizationCountry | null | undefined;
   /** ID of the transactions account. */
   account_id: string | null;
   /** ID of the payout account. */
@@ -12298,13 +12552,13 @@ export type OrganizationSortProperty =
 export type OrganizationsListRequestSortingList = Array<OrganizationSortProperty | (string & {})>;
 export interface OrganizationsListRequest {
   /** Filter by slug. */
-  slug?: string;
+  slug?: string | undefined;
   /** Page number, defaults to 1. */
-  page?: number;
+  page?: number | undefined;
   /** Size of a page, defaults to 10. Maximum is 100. */
-  limit?: number;
+  limit?: number | undefined;
   /** Sorting criterion. Several criteria can be used simultaneously and will be applied in order. Add a minus sign `-` before the criteria name to sort by descending order. */
-  sorting?: OrganizationsListRequestSortingList;
+  sorting?: OrganizationsListRequestSortingList | undefined;
 }
 export type ListResourceOrganizationItemsList = Array<Organization>;
 export interface ListResourceOrganization {
@@ -12559,36 +12813,36 @@ export type OrganizationsUpdateRequestCountry =
   | "ZW";
 export interface OrganizationDisputeSettingsUpdate {
   /** Concede disputes below this amount, in USD cents, without asking the organization. A dispute charged in another currency converts at the rate its payment settled at. `null` turns it off. The disputed amount and the processor's dispute fee are still deducted. */
-  auto_accept_below_amount?: number | null;
+  auto_accept_below_amount?: number | null | undefined;
 }
 /** Hosts allowed to embed this organization's checkout. An entry is a host and an optional port, without a scheme: HTTPS is always allowed, and HTTP too for local hosts -- `localhost`, any `.localhost` or `.local` name, and loopback or private addresses. `*.example.com` matches any subdomain, but not `example.com` itself. An app origin such as `chrome-extension://abcdef` carries its scheme, having no host to match on. */
 export type OrganizationsUpdateRequestEmbedHostsList = Array<string>;
 export interface OrganizationsUpdateRequest {
   id: string;
-  name?: string | null;
-  avatar_url?: string | null;
+  name?: string | null | undefined;
+  avatar_url?: string | null | undefined;
   /** Public support email. */
-  email?: string | null;
+  email?: string | null | undefined;
   /** Official website of the organization. */
-  website?: string | null;
+  website?: string | null | undefined;
   /** Links to social profiles. */
-  socials?: OrganizationsUpdateRequestSocialsList | null;
+  socials?: OrganizationsUpdateRequestSocialsList | null | undefined;
   /** Additional, private, business details Polar needs about active organizations for compliance (KYC). */
-  details?: OrganizationDetails | null;
+  details?: OrganizationDetailsInput | null | undefined;
   /** Two-letter country code (ISO 3166-1 alpha-2). */
-  country?: OrganizationsUpdateRequestCountry | (string & {}) | null;
-  feature_settings?: OrganizationFeatureSettingsUpdate | null;
-  subscription_settings?: OrganizationSubscriptionSettings | null;
-  customer_email_settings?: OrganizationCustomerEmailSettings | null;
-  customer_portal_settings?: OrganizationCustomerPortalSettings | null;
-  dispute_settings?: OrganizationDisputeSettingsUpdate | null;
-  embed_hosts?: OrganizationsUpdateRequestEmbedHostsList | null;
+  country?: OrganizationsUpdateRequestCountry | (string & {}) | null | undefined;
+  feature_settings?: OrganizationFeatureSettingsUpdate | null | undefined;
+  subscription_settings?: OrganizationSubscriptionSettings | null | undefined;
+  customer_email_settings?: OrganizationCustomerEmailSettings | null | undefined;
+  customer_portal_settings?: OrganizationCustomerPortalSettings | null | undefined;
+  dispute_settings?: OrganizationDisputeSettingsUpdate | null | undefined;
+  embed_hosts?: OrganizationsUpdateRequestEmbedHostsList | null | undefined;
   /** Default presentment currency for the organization */
-  default_presentment_currency?: PresentmentCurrency | (string & {}) | null;
+  default_presentment_currency?: PresentmentCurrency | (string & {}) | null | undefined;
   /** Default tax behavior applied on products. */
-  default_tax_behavior?: TaxBehaviorOption | (string & {}) | null;
+  default_tax_behavior?: TaxBehaviorOption | (string & {}) | null | undefined;
   /** Whether members must access this organization through its SSO connection. Turning this on requires an active SSO session for this organization and at least one enabled SSO connection. */
-  sso_enforced?: boolean | null;
+  sso_enforced?: boolean | null | undefined;
 }
 export interface PaymentsGetRequest {
   /** The payment ID. */
@@ -12642,7 +12896,7 @@ export interface CardPayment {
   /** The ID of the order associated with this payment. */
   order_id: string | null;
   /** Additional metadata from the payment processor for internal use. */
-  processor_metadata?: CardPaymentProcessorMetadataMap;
+  processor_metadata?: CardPaymentProcessorMetadataMap | undefined;
   /** Additional metadata for the card payment method. */
   method_metadata: CardPaymentMetadata;
 }
@@ -12686,7 +12940,7 @@ export interface KrCardPayment {
   /** The ID of the order associated with this payment. */
   order_id: string | null;
   /** Additional metadata from the payment processor for internal use. */
-  processor_metadata?: KrCardPaymentProcessorMetadataMap;
+  processor_metadata?: KrCardPaymentProcessorMetadataMap | undefined;
   /** Additional metadata for the South Korean card payment method. */
   method_metadata: KrCardPaymentMetadata;
 }
@@ -12723,7 +12977,7 @@ export interface GenericPayment {
   /** The ID of the order associated with this payment. */
   order_id: string | null;
   /** Additional metadata from the payment processor for internal use. */
-  processor_metadata?: GenericPaymentProcessorMetadataMap;
+  processor_metadata?: GenericPaymentProcessorMetadataMap | undefined;
 }
 export type Payment = CardPayment | KrCardPayment | GenericPayment;
 export type PaymentsGetResponse = Payment;
@@ -12760,25 +13014,25 @@ export type PaymentSortProperty =
 export type PaymentsListRequestSortingList = Array<PaymentSortProperty | (string & {})>;
 export interface PaymentsListRequest {
   /** Filter by organization ID. */
-  organization_id?: PaymentsListRequestOrganizationId;
+  organization_id?: PaymentsListRequestOrganizationId | undefined;
   /** Filter by checkout ID. */
-  checkout_id?: PaymentsListRequestCheckoutId;
+  checkout_id?: PaymentsListRequestCheckoutId | undefined;
   /** Filter by order ID. */
-  order_id?: PaymentsListRequestOrderId;
+  order_id?: PaymentsListRequestOrderId | undefined;
   /** Filter by customer ID. */
-  customer_id?: PaymentsListRequestCustomerId;
+  customer_id?: PaymentsListRequestCustomerId | undefined;
   /** Filter by payment status. */
-  status?: PaymentsListRequestStatus;
+  status?: PaymentsListRequestStatus | undefined;
   /** Filter by payment method. */
-  method?: PaymentsListRequestMethod;
+  method?: PaymentsListRequestMethod | undefined;
   /** Filter by customer email. */
-  customer_email?: PaymentsListRequestCustomerEmail;
+  customer_email?: PaymentsListRequestCustomerEmail | undefined;
   /** Page number, defaults to 1. */
-  page?: number;
+  page?: number | undefined;
   /** Size of a page, defaults to 10. Maximum is 100. */
-  limit?: number;
+  limit?: number | undefined;
   /** Sorting criterion. Several criteria can be used simultaneously and will be applied in order. Add a minus sign `-` before the criteria name to sort by descending order. */
-  sorting?: PaymentsListRequestSortingList;
+  sorting?: PaymentsListRequestSortingList | undefined;
 }
 export type ListResourcePaymentItemsList = Array<Payment>;
 export interface ListResourcePayment {
@@ -12810,34 +13064,36 @@ export interface AttachedCustomFieldCreate {
 /** List of custom fields to attach. */
 export type ProductCreateRecurringAttachedCustomFieldsList = Array<AttachedCustomFieldCreate>;
 export interface ProductCreateRecurring {
+  /** An ID from your own system to reference this resource. It must be unique within the organization for this type of resource. */
+  external_id?: string | null | undefined;
   /** Key-value object allowing you to store additional information. The key must be a string with a maximum length of **40 characters**. The value must be either: * A string with a maximum length of **500 characters** * An integer * A floating-point number * A boolean You can store up to **50 key-value pairs**. */
-  metadata?: ProductCreateRecurringMetadataMap;
+  metadata?: ProductCreateRecurringMetadataMap | undefined;
   /** The name of the product. */
   name: string;
   /** The description of the product. */
-  description?: string | null;
+  description?: string | null | undefined;
   /** The visibility of the product. */
-  visibility?: ProductVisibility | (string & {});
+  visibility?: ProductVisibility | (string & {}) | undefined;
   /** List of available prices for this product. It may combine at most one fixed price with one seat-based price (billed as `fixed + seat_charge`), or contain a single custom or free price, plus any number of metered prices. A free price cannot be combined with other prices, and a custom price cannot be combined with a fixed or seat-based price. Metered prices are not supported on one-time purchase products. */
   prices: ProductCreateRecurringPricesList;
   /** List of file IDs. Each one must be on the same organization as the product, of type `product_media` and correctly uploaded. */
-  medias?: ProductCreateRecurringMediasList | null;
+  medias?: ProductCreateRecurringMediasList | null | undefined;
   /** List of custom fields to attach. */
-  attached_custom_fields?: ProductCreateRecurringAttachedCustomFieldsList;
+  attached_custom_fields?: ProductCreateRecurringAttachedCustomFieldsList | undefined;
   /** The ID of the organization owning the product. **Required unless you use an organization token.** */
-  organization_id?: string | null;
+  organization_id?: string | null | undefined;
   /** The interval unit for the trial period. */
-  trial_interval?: TrialInterval | (string & {}) | null;
+  trial_interval?: TrialInterval | (string & {}) | null | undefined;
   /** The number of interval units for the trial period. */
-  trial_interval_count?: number | null;
+  trial_interval_count?: number | null | undefined;
   /** The recurring interval of the product. */
   recurring_interval: RecurringInterval | (string & {});
   /** Number of interval units of the subscription. If this is set to 1 the charge will happen every interval (e.g. every month), if set to 2 it will be every other month, and so on. */
-  recurring_interval_count?: number;
+  recurring_interval_count?: number | undefined;
   /** Optional meter cycle, independent of the billing interval. When set, overage settlement, meter resets and meter-credit grants run on this cadence rather than the billing interval -- e.g. yearly billing with monthly credits. It must evenly divide the billing interval. If `None`, metered concerns follow the billing interval. **Once set, it can't be changed.** */
-  meter_interval?: RecurringInterval | (string & {}) | null;
+  meter_interval?: RecurringInterval | (string & {}) | null | undefined;
   /** Number of meter interval units. Defaults to 1 when `meter_interval` is set. Ignored when `meter_interval` is `None`. */
-  meter_interval_count?: number | null;
+  meter_interval_count?: number | null | undefined;
 }
 export type ProductCreateOneTimeMetadataValue = string | number | number | boolean;
 /** Key-value object allowing you to store additional information. The key must be a string with a maximum length of **40 characters**. The value must be either: * A string with a maximum length of **500 characters** * An integer * A floating-point number * A boolean You can store up to **50 key-value pairs**. */
@@ -12857,34 +13113,35 @@ export type ProductCreateOneTimeMediasList = Array<string>;
 /** List of custom fields to attach. */
 export type ProductCreateOneTimeAttachedCustomFieldsList = Array<AttachedCustomFieldCreate>;
 export interface ProductCreateOneTime {
+  /** An ID from your own system to reference this resource. It must be unique within the organization for this type of resource. */
+  external_id?: string | null | undefined;
   /** Key-value object allowing you to store additional information. The key must be a string with a maximum length of **40 characters**. The value must be either: * A string with a maximum length of **500 characters** * An integer * A floating-point number * A boolean You can store up to **50 key-value pairs**. */
-  metadata?: ProductCreateOneTimeMetadataMap;
+  metadata?: ProductCreateOneTimeMetadataMap | undefined;
   /** The name of the product. */
   name: string;
   /** The description of the product. */
-  description?: string | null;
+  description?: string | null | undefined;
   /** The visibility of the product. */
-  visibility?: ProductVisibility | (string & {});
+  visibility?: ProductVisibility | (string & {}) | undefined;
   /** List of available prices for this product. It may combine at most one fixed price with one seat-based price (billed as `fixed + seat_charge`), or contain a single custom or free price, plus any number of metered prices. A free price cannot be combined with other prices, and a custom price cannot be combined with a fixed or seat-based price. Metered prices are not supported on one-time purchase products. */
   prices: ProductCreateOneTimePricesList;
   /** List of file IDs. Each one must be on the same organization as the product, of type `product_media` and correctly uploaded. */
-  medias?: ProductCreateOneTimeMediasList | null;
+  medias?: ProductCreateOneTimeMediasList | null | undefined;
   /** List of custom fields to attach. */
-  attached_custom_fields?: ProductCreateOneTimeAttachedCustomFieldsList;
+  attached_custom_fields?: ProductCreateOneTimeAttachedCustomFieldsList | undefined;
   /** The ID of the organization owning the product. **Required unless you use an organization token.** */
-  organization_id?: string | null;
+  organization_id?: string | null | undefined;
   /** States that the product is a one-time purchase. */
-  recurring_interval?: unknown | null;
+  recurring_interval?: unknown | null | undefined;
   /** One-time products don't have a recurring interval count. */
-  recurring_interval_count?: unknown | null;
+  recurring_interval_count?: unknown | null | undefined;
 }
 export type ProductCreate = ProductCreateRecurring | ProductCreateOneTime;
 export interface ProductsCreateRequest {
   body: ProductCreate;
 }
-export type ProductPricesItem = LegacyRecurringProductPrice | ProductPrice;
 /** List of prices for this product. */
-export type ProductPricesList = Array<ProductPricesItem>;
+export type ProductPricesList = Array<ProductPrice>;
 /** List of benefits granted by the product. */
 export type ProductBenefitsList = Array<Benefit>;
 /** List of medias associated to the product. */
@@ -12923,6 +13180,10 @@ export interface Product {
   is_archived: boolean;
   /** The ID of the organization owning the product. */
   organization_id: string;
+  /** ID of the catalog that introduced this version of the product. None for products not managed by declarative config. */
+  catalog_id: string | null;
+  /** An ID from your own system to reference this resource. It must be unique within the organization for this type of resource. */
+  external_id: string | null;
   metadata: MetadataOutputType;
   /** Whether the product can be permanently deleted. Products referenced by an order, subscription, trial or discount cannot be deleted. */
   is_deletable: boolean;
@@ -12945,6 +13206,9 @@ export interface ProductsGetRequest {
 export type ProductsListRequestIdCase1List = Array<string>;
 /** Filter by product ID. */
 export type ProductsListRequestId = string | ProductsListRequestIdCase1List;
+export type ProductsListRequestExternalIdCase1List = Array<string>;
+/** Filter by product external ID. */
+export type ProductsListRequestExternalId = string | ProductsListRequestExternalIdCase1List;
 export type ProductsListRequestOrganizationIdCase1List = Array<string>;
 /** Filter by organization ID. */
 export type ProductsListRequestOrganizationId = string | ProductsListRequestOrganizationIdCase1List;
@@ -12964,27 +13228,29 @@ export type ProductSortProperty =
 export type ProductsListRequestSortingList = Array<ProductSortProperty | (string & {})>;
 export interface ProductsListRequest {
   /** Filter by product ID. */
-  id?: ProductsListRequestId;
+  id?: ProductsListRequestId | undefined;
+  /** Filter by product external ID. */
+  external_id?: ProductsListRequestExternalId | undefined;
   /** Filter by organization ID. */
-  organization_id?: ProductsListRequestOrganizationId;
+  organization_id?: ProductsListRequestOrganizationId | undefined;
   /** Filter by product name. */
-  query?: string;
+  query?: string | undefined;
   /** Filter on archived products. */
-  is_archived?: boolean;
+  is_archived?: boolean | undefined;
   /** Filter on recurring products. If `true`, only subscriptions tiers are returned. If `false`, only one-time purchase products are returned. */
-  is_recurring?: boolean;
+  is_recurring?: boolean | undefined;
   /** Filter products granting specific benefit. */
-  benefit_id?: ProductsListRequestBenefitId;
+  benefit_id?: ProductsListRequestBenefitId | undefined;
   /** Filter by visibility. */
-  visibility?: ProductsListRequestVisibilityList;
+  visibility?: ProductsListRequestVisibilityList | undefined;
   /** Page number, defaults to 1. */
-  page?: number;
+  page?: number | undefined;
   /** Size of a page, defaults to 10. Maximum is 100. */
-  limit?: number;
+  limit?: number | undefined;
   /** Sorting criterion. Several criteria can be used simultaneously and will be applied in order. Add a minus sign `-` before the criteria name to sort by descending order. */
-  sorting?: ProductsListRequestSortingList;
+  sorting?: ProductsListRequestSortingList | undefined;
   /** Filter by metadata key-value pairs. It uses the `deepObject` style, e.g. `?metadata[key]=value`. */
-  metadata?: MetadataQueryMap;
+  metadata?: MetadataQueryMap | undefined;
 }
 export type ListResourceProductItemsList = Array<Product>;
 export interface ListResourceProduct {
@@ -13016,28 +13282,30 @@ export type ProductsUpdateRequestMediasList = Array<string>;
 export type ProductsUpdateRequestAttachedCustomFieldsList = Array<AttachedCustomFieldCreate>;
 export interface ProductsUpdateRequest {
   id: string;
+  /** An ID from your own system to reference this resource. It must be unique within the organization for this type of resource. */
+  external_id?: string | null | undefined;
   /** Key-value object allowing you to store additional information. The key must be a string with a maximum length of **40 characters**. The value must be either: * A string with a maximum length of **500 characters** * An integer * A floating-point number * A boolean You can store up to **50 key-value pairs**. */
-  metadata?: ProductsUpdateRequestMetadataMap;
+  metadata?: ProductsUpdateRequestMetadataMap | undefined;
   /** The interval unit for the trial period. */
-  trial_interval?: TrialInterval | (string & {}) | null;
+  trial_interval?: TrialInterval | (string & {}) | null | undefined;
   /** The number of interval units for the trial period. */
-  trial_interval_count?: number | null;
-  name?: string | null;
+  trial_interval_count?: number | null | undefined;
+  name?: string | null | undefined;
   /** The description of the product. */
-  description?: string | null;
+  description?: string | null | undefined;
   /** The recurring interval of the product. If `None`, the product is a one-time purchase. **Can only be set on legacy recurring products. Once set, it can't be changed.** */
-  recurring_interval?: RecurringInterval | (string & {}) | null;
+  recurring_interval?: RecurringInterval | (string & {}) | null | undefined;
   /** Number of interval units of the subscription. If this is set to 1 the charge will happen every interval (e.g. every month), if set to 2 it will be every other month, and so on. Once set, it can't be changed.** */
-  recurring_interval_count?: number | null;
+  recurring_interval_count?: number | null | undefined;
   /** Whether the product is archived. If `true`, the product won't be available for purchase anymore. Existing customers will still have access to their benefits, and subscriptions will continue normally. */
-  is_archived?: boolean | null;
+  is_archived?: boolean | null | undefined;
   /** The visibility of the product. */
-  visibility?: ProductVisibility | (string & {}) | null;
+  visibility?: ProductVisibility | (string & {}) | null | undefined;
   /** List of available prices for this product. If you want to keep existing prices, include them in the list as an `ExistingProductPrice` object. */
-  prices?: ProductsUpdateRequestPricesList | null;
+  prices?: ProductsUpdateRequestPricesList | null | undefined;
   /** List of file IDs. Each one must be on the same organization as the product, of type `product_media` and correctly uploaded. */
-  medias?: ProductsUpdateRequestMediasList | null;
-  attached_custom_fields?: ProductsUpdateRequestAttachedCustomFieldsList | null;
+  medias?: ProductsUpdateRequestMediasList | null | undefined;
+  attached_custom_fields?: ProductsUpdateRequestAttachedCustomFieldsList | null | undefined;
 }
 /** List of benefit IDs. Each one must be on the same organization as the product. */
 export type ProductsUpdateBenefitsRequestBenefitsList = Array<string>;
@@ -13061,16 +13329,16 @@ export type RefundsCreateRequestReason =
   | "other";
 export interface RefundsCreateRequest {
   /** Key-value object allowing you to store additional information. The key must be a string with a maximum length of **40 characters**. The value must be either: * A string with a maximum length of **500 characters** * An integer * A floating-point number * A boolean You can store up to **50 key-value pairs**. */
-  metadata?: RefundsCreateRequestMetadataMap;
+  metadata?: RefundsCreateRequestMetadataMap | undefined;
   order_id: string;
   /** Reason for the refund. */
   reason: RefundsCreateRequestReason | (string & {});
   /** Amount to refund in cents. Minimum is 1. */
   amount: number;
   /** An internal comment about the refund. */
-  comment?: string | null;
+  comment?: string | null | undefined;
   /** Should this refund trigger the associated customer benefits to be revoked? **Note:** Only allowed in case the `order` is a one-time purchase. Subscriptions automatically revoke customer benefits once the subscription itself is revoked, i.e fully canceled. */
-  revoke_benefits?: boolean;
+  revoke_benefits?: boolean | undefined;
 }
 export type RefundStatus = "pending" | "succeeded" | "failed" | "canceled";
 export type RefundReason =
@@ -13080,6 +13348,8 @@ export type RefundReason =
   | "service_disruption"
   | "satisfaction_guarantee"
   | "dispute_prevention"
+  | "tax_refund"
+  | "vat_reverse_charge_correction"
   | "other";
 /** Dispute associated with a refund, in case we prevented a dispute by issuing a refund. */
 export interface RefundDispute {
@@ -13156,25 +13426,25 @@ export type RefundSortProperty = "created_at" | "-created_at" | "amount" | "-amo
 export type RefundsListRequestSortingList = Array<RefundSortProperty | (string & {})>;
 export interface RefundsListRequest {
   /** Filter by refund ID. */
-  id?: RefundsListRequestId;
+  id?: RefundsListRequestId | undefined;
   /** Filter by organization ID. */
-  organization_id?: RefundsListRequestOrganizationId;
+  organization_id?: RefundsListRequestOrganizationId | undefined;
   /** Filter by order ID. */
-  order_id?: RefundsListRequestOrderId;
+  order_id?: RefundsListRequestOrderId | undefined;
   /** Filter by subscription ID. */
-  subscription_id?: RefundsListRequestSubscriptionId;
+  subscription_id?: RefundsListRequestSubscriptionId | undefined;
   /** Filter by customer ID. */
-  customer_id?: RefundsListRequestCustomerId;
+  customer_id?: RefundsListRequestCustomerId | undefined;
   /** Filter by customer external ID. */
-  external_customer_id?: RefundsListRequestExternalCustomerId;
+  external_customer_id?: RefundsListRequestExternalCustomerId | undefined;
   /** Filter by `succeeded`. */
-  succeeded?: boolean;
+  succeeded?: boolean | undefined;
   /** Page number, defaults to 1. */
-  page?: number;
+  page?: number | undefined;
   /** Size of a page, defaults to 10. Maximum is 100. */
-  limit?: number;
+  limit?: number | undefined;
   /** Sorting criterion. Several criteria can be used simultaneously and will be applied in order. Add a minus sign `-` before the criteria name to sort by descending order. */
-  sorting?: RefundsListRequestSortingList;
+  sorting?: RefundsListRequestSortingList | undefined;
 }
 export type ListResourceRefundItemsList = Array<Refund>;
 export interface ListResourceRefund {
@@ -13185,20 +13455,20 @@ export interface RetryCustomerPortalOrdersConfirmPaymentRequest {
   /** The order ID. */
   id: string;
   /** ID of the Stripe confirmation token for new payment methods. */
-  confirmation_token_id?: string | null;
+  confirmation_token_id?: string | null | undefined;
   /** ID of an existing saved payment method. */
-  payment_method_id?: string | null;
+  payment_method_id?: string | null | undefined;
   /** Payment processor used. */
-  payment_processor?: PaymentProcessor;
+  payment_processor?: PaymentProcessor | undefined;
 }
 /** Response after confirming a retry payment. */
 export interface CustomerOrderPaymentConfirmation {
   /** Payment status after confirmation. */
   status: string;
   /** Client secret for handling additional actions. */
-  client_secret?: string | null;
+  client_secret?: string | null | undefined;
   /** Error message if confirmation failed. */
-  error?: string | null;
+  error?: string | null | undefined;
 }
 export type SubscriptionCreateCustomerMetadataValue = string | number | number | boolean;
 /** Key-value object allowing you to store additional information. The key must be a string with a maximum length of **40 characters**. The value must be either: * A string with a maximum length of **500 characters** * An integer * A floating-point number * A boolean You can store up to **50 key-value pairs**. */
@@ -13208,11 +13478,11 @@ export type SubscriptionCreateCustomerMetadataMap = {
 /** Create a subscription for an existing customer. */
 export interface SubscriptionCreateCustomer {
   /** Key-value object allowing you to store additional information. The key must be a string with a maximum length of **40 characters**. The value must be either: * A string with a maximum length of **500 characters** * An integer * A floating-point number * A boolean You can store up to **50 key-value pairs**. */
-  metadata?: SubscriptionCreateCustomerMetadataMap;
+  metadata?: SubscriptionCreateCustomerMetadataMap | undefined;
   /** The ID of the recurring product to subscribe to. Must be a free product, otherwise the customer should go through a checkout flow. */
   product_id: string;
   /** The currency of the subscription. The product must have a free price in this currency. If not set, the organization's default currency is used. */
-  currency?: PresentmentCurrency | (string & {}) | null;
+  currency?: PresentmentCurrency | (string & {}) | null | undefined;
   /** The ID of the customer to create the subscription for. */
   customer_id: string;
 }
@@ -13224,11 +13494,11 @@ export type SubscriptionCreateExternalCustomerMetadataMap = {
 /** Create a subscription for an existing customer identified by an external ID. */
 export interface SubscriptionCreateExternalCustomer {
   /** Key-value object allowing you to store additional information. The key must be a string with a maximum length of **40 characters**. The value must be either: * A string with a maximum length of **500 characters** * An integer * A floating-point number * A boolean You can store up to **50 key-value pairs**. */
-  metadata?: SubscriptionCreateExternalCustomerMetadataMap;
+  metadata?: SubscriptionCreateExternalCustomerMetadataMap | undefined;
   /** The ID of the recurring product to subscribe to. Must be a free product, otherwise the customer should go through a checkout flow. */
   product_id: string;
   /** The currency of the subscription. The product must have a free price in this currency. If not set, the organization's default currency is used. */
-  currency?: PresentmentCurrency | (string & {}) | null;
+  currency?: PresentmentCurrency | (string & {}) | null | undefined;
   /** The ID of the customer in your system to create the subscription for. It must already exist in Polar. */
   external_customer_id: string;
 }
@@ -13253,9 +13523,9 @@ export interface SubscriptionCustomer {
   modified_at: string | null;
   metadata: MetadataOutputType;
   /** The ID of the customer in your system. This must be unique within the organization. Once set, it can't be updated. */
-  external_id?: string | null;
+  external_id?: string | null | undefined;
   /** The email address of the customer. This must be unique within the organization. */
-  email?: string | null;
+  email?: string | null | undefined;
   /** Whether the customer email address is verified. The address is automatically verified when the customer accesses the customer portal using their email address. */
   email_verified: boolean;
   /** The type of customer: 'individual' for single users, 'team' for customers with multiple members. */
@@ -13266,11 +13536,11 @@ export interface SubscriptionCustomer {
   billing_name: string | null;
   billing_address: Address | null;
   tax_id: SubscriptionCustomerTaxIdList | null;
-  locale?: string | null;
+  locale?: string | null | undefined;
   /** The ID of the organization owning the customer. */
   organization_id: string;
   /** The ID of the customer's default payment method, if any. Use the payment methods endpoint to retrieve its details. */
-  default_payment_method_id?: string | null;
+  default_payment_method_id?: string | null | undefined;
   /** Timestamp for when the customer was soft deleted. */
   deleted_at: string | null;
   /** Timestamp of the first event ingested for this customer. Can predate `created_at`, and is null if no event was ever ingested. */
@@ -13282,9 +13552,8 @@ export type SubscriptionDiscount =
   | DiscountFixedRepeatDurationBase
   | DiscountPercentageOnceForeverDurationBase
   | DiscountPercentageRepeatDurationBase;
-export type SubscriptionPricesItem = LegacyRecurringProductPrice | ProductPrice;
 /** List of enabled prices for the subscription. */
-export type SubscriptionPricesList = Array<SubscriptionPricesItem>;
+export type SubscriptionPricesList = Array<ProductPrice>;
 /** Current consumption and spending for a subscription meter. */
 export interface SubscriptionMeter {
   /** Creation timestamp of the object. */
@@ -13340,13 +13609,13 @@ export interface Subscription {
   /** The timestamp when the subscription was canceled. The subscription might still be active if `cancel_at_period_end` is `true`. */
   canceled_at: string | null;
   /** The timestamp when the subscription started. */
-  started_at: string | null;
+  started_at: string;
   /** The timestamp when the subscription will end. */
   ends_at: string | null;
   /** The timestamp when the subscription ended. */
   ended_at: string | null;
   /** The timestamp when the subscription entered `past_due` status. */
-  past_due_at?: string | null;
+  past_due_at?: string | null | undefined;
   /** Whether the subscription will be paused at the end of the current period. */
   pause_at_period_end: boolean;
   /** The timestamp when the subscription was paused. */
@@ -13361,14 +13630,14 @@ export interface Subscription {
   discount_id: string | null;
   checkout_id: string | null;
   /** The number of seats for seat-based subscriptions. None for non-seat subscriptions. */
-  seats?: number | null;
+  seats?: number | null | undefined;
   /** The number of units for unit-based subscriptions. None for non-unit subscriptions. */
   units: number | null;
   customer_cancellation_reason: CustomerCancellationReason | null;
   customer_cancellation_comment: string | null;
   metadata: MetadataOutputType;
   /** Key-value object storing custom field values. */
-  custom_field_data?: SubscriptionCustomFieldDataMap;
+  custom_field_data?: SubscriptionCustomFieldDataMap | undefined;
   customer: SubscriptionCustomer;
   product: Product;
   discount: SubscriptionDiscount | null;
@@ -13389,6 +13658,11 @@ export type SubscriptionsExportRequestProductIdCase1List = Array<string>;
 export type SubscriptionsExportRequestProductId =
   | string
   | SubscriptionsExportRequestProductIdCase1List;
+export type SubscriptionsExportRequestExternalProductIdCase1List = Array<string>;
+/** Filter by product external ID. */
+export type SubscriptionsExportRequestExternalProductId =
+  | string
+  | SubscriptionsExportRequestExternalProductIdCase1List;
 export type SubscriptionsExportRequestStatusCase1List = Array<SubscriptionStatus | (string & {})>;
 /** Filter by subscription status. */
 export type SubscriptionsExportRequestStatus =
@@ -13426,21 +13700,23 @@ export type SubscriptionsExportRequestColumns =
   | SubscriptionsExportRequestColumnsCase1List;
 export interface SubscriptionsExportRequest {
   /** Filter by organization ID. */
-  organization_id?: SubscriptionsExportRequestOrganizationId;
+  organization_id?: SubscriptionsExportRequestOrganizationId | undefined;
   /** Filter by product ID. */
-  product_id?: SubscriptionsExportRequestProductId;
+  product_id?: SubscriptionsExportRequestProductId | undefined;
+  /** Filter by product external ID. */
+  external_product_id?: SubscriptionsExportRequestExternalProductId | undefined;
   /** Filter by subscription status. */
-  status?: SubscriptionsExportRequestStatus;
+  status?: SubscriptionsExportRequestStatus | undefined;
   /** Filter by subscriptions that are set to cancel at period end. */
-  cancel_at_period_end?: boolean;
+  cancel_at_period_end?: boolean | undefined;
   /** Only include subscriptions started after this date. Must include a UTC offset. */
-  started_after?: string;
+  started_after?: string | undefined;
   /** Only include subscriptions started before this date. Must include a UTC offset. */
-  started_before?: string;
+  started_before?: string | undefined;
   /** Time zone used to render dates in the CSV. */
-  timezone?: string;
+  timezone?: string | undefined;
   /** Columns to include in the CSV, in order. Defaults to email, started_at, product, amount, currency, status and recurring_interval. */
-  columns?: SubscriptionsExportRequestColumns;
+  columns?: SubscriptionsExportRequestColumns | undefined;
 }
 export interface SubscriptionsExportResponse {}
 export interface SubscriptionsGetRequest {
@@ -13455,6 +13731,11 @@ export type SubscriptionsListRequestOrganizationId =
 export type SubscriptionsListRequestProductIdCase1List = Array<string>;
 /** Filter by product ID. */
 export type SubscriptionsListRequestProductId = string | SubscriptionsListRequestProductIdCase1List;
+export type SubscriptionsListRequestExternalProductIdCase1List = Array<string>;
+/** Filter by product external ID. */
+export type SubscriptionsListRequestExternalProductId =
+  | string
+  | SubscriptionsListRequestExternalProductIdCase1List;
 export type SubscriptionsListRequestCustomerIdCase1List = Array<string>;
 /** Filter by customer ID. */
 export type SubscriptionsListRequestCustomerId =
@@ -13504,39 +13785,41 @@ export type SubscriptionSortProperty =
 export type SubscriptionsListRequestSortingList = Array<SubscriptionSortProperty | (string & {})>;
 export interface SubscriptionsListRequest {
   /** Filter by organization ID. */
-  organization_id?: SubscriptionsListRequestOrganizationId;
+  organization_id?: SubscriptionsListRequestOrganizationId | undefined;
   /** Filter by product ID. */
-  product_id?: SubscriptionsListRequestProductId;
+  product_id?: SubscriptionsListRequestProductId | undefined;
+  /** Filter by product external ID. */
+  external_product_id?: SubscriptionsListRequestExternalProductId | undefined;
   /** Filter by customer ID. */
-  customer_id?: SubscriptionsListRequestCustomerId;
+  customer_id?: SubscriptionsListRequestCustomerId | undefined;
   /** Filter by customer external ID. */
-  external_customer_id?: SubscriptionsListRequestExternalCustomerId;
+  external_customer_id?: SubscriptionsListRequestExternalCustomerId | undefined;
   /** Filter by discount ID. */
-  discount_id?: SubscriptionsListRequestDiscountId;
+  discount_id?: SubscriptionsListRequestDiscountId | undefined;
   /** Filter by active or inactive subscription. */
-  active?: boolean;
+  active?: boolean | undefined;
   /** Filter by subscription status. */
-  status?: SubscriptionsListRequestStatus;
+  status?: SubscriptionsListRequestStatus | undefined;
   /** Filter by subscriptions that are set to cancel at period end. */
-  cancel_at_period_end?: boolean;
+  cancel_at_period_end?: boolean | undefined;
   /** Filter by customer cancellation reason. */
-  customer_cancellation_reason?: SubscriptionsListRequestCustomerCancellationReason;
+  customer_cancellation_reason?: SubscriptionsListRequestCustomerCancellationReason | undefined;
   /** Filter by cancellation date (after or equal to). */
-  canceled_at_after?: string;
+  canceled_at_after?: string | undefined;
   /** Filter by cancellation date (before or equal to). */
-  canceled_at_before?: string;
+  canceled_at_before?: string | undefined;
   /** Only include subscriptions started after this date. */
-  started_after?: string;
+  started_after?: string | undefined;
   /** Only include subscriptions started before this date. */
-  started_before?: string;
+  started_before?: string | undefined;
   /** Page number, defaults to 1. */
-  page?: number;
+  page?: number | undefined;
   /** Size of a page, defaults to 10. Maximum is 100. */
-  limit?: number;
+  limit?: number | undefined;
   /** Sorting criterion. Several criteria can be used simultaneously and will be applied in order. Add a minus sign `-` before the criteria name to sort by descending order. */
-  sorting?: SubscriptionsListRequestSortingList;
+  sorting?: SubscriptionsListRequestSortingList | undefined;
   /** Filter by metadata key-value pairs. It uses the `deepObject` style, e.g. `?metadata[key]=value`. */
-  metadata?: MetadataQueryMap;
+  metadata?: MetadataQueryMap | undefined;
 }
 export type ListResourceSubscriptionItemsList = Array<Subscription>;
 export interface ListResourceSubscription {
@@ -13554,27 +13837,27 @@ export type SubscriptionUpdateBaseMetadataMap = {
 };
 export interface SubscriptionUpdateBase {
   /** Key-value object allowing you to store additional information. The key must be a string with a maximum length of **40 characters**. The value must be either: * A string with a maximum length of **500 characters** * An integer * A floating-point number * A boolean You can store up to **50 key-value pairs**. */
-  metadata?: SubscriptionUpdateBaseMetadataMap;
+  metadata?: SubscriptionUpdateBaseMetadataMap | undefined;
   /** Update subscription to another product. */
-  product_id?: string | null;
+  product_id?: string | null | undefined;
   /** Determine how to handle the proration billing. If not provided, will use the default organization setting. */
-  proration_behavior?: SubscriptionProrationBehavior | (string & {}) | null;
+  proration_behavior?: SubscriptionProrationBehavior | (string & {}) | null | undefined;
   /** Update the subscription to apply a new discount. If set to `null`, the discount will be removed. The change will be applied on the next billing cycle. */
-  discount_id?: string | null;
+  discount_id?: string | null | undefined;
   /** Set or extend the trial period of the subscription. If set to `now`, the trial will end immediately and the first billing cycle will be charged synchronously. The subscription remains trialing if the payment fails. */
-  trial_end?: string | null;
+  trial_end?: string | null | undefined;
 }
 export interface SubscriptionUpdateSeats {
   /** Update the number of seats for this subscription. */
   seats: number;
   /** Determine how to handle the proration billing. If not provided, will use the default organization setting. */
-  proration_behavior?: SubscriptionProrationBehavior | (string & {}) | null;
+  proration_behavior?: SubscriptionProrationBehavior | (string & {}) | null | undefined;
 }
 export interface SubscriptionUpdateUnits {
   /** Update the number of units for this subscription. */
   units: number;
   /** Determine how to handle the proration billing. If not provided, will use the default organization setting. */
-  proration_behavior?: SubscriptionProrationBehavior | (string & {}) | null;
+  proration_behavior?: SubscriptionProrationBehavior | (string & {}) | null | undefined;
 }
 export interface SubscriptionUpdateBillingPeriod {
   /** Set a new date for the end of the current billing period. The subscription will renew on this date. The new date can be earlier or later than the current period end, as long as it's in the future. If the subscription is set to cancel at the end of the period, it'll end on this new date instead. It is not possible to update the current billing period on a subscription that's already revoked or not active. */
@@ -13582,17 +13865,17 @@ export interface SubscriptionUpdateBillingPeriod {
 }
 export interface SubscriptionCancel {
   /** Customer reason for cancellation. Helpful to monitor reasons behind churn for future improvements. Only set this in case your own service is requesting the reason from the customer. Or you know based on direct conversations, i.e support, with the customer. * `too_expensive`: Too expensive for the customer. * `missing_features`: Customer is missing certain features. * `switched_service`: Customer switched to another service. * `unused`: Customer is not using it enough. * `customer_service`: Customer is not satisfied with the customer service. * `low_quality`: Customer is unhappy with the quality. * `too_complex`: Customer considers the service too complicated. * `other`: Other reason(s). */
-  customer_cancellation_reason?: CustomerCancellationReason | (string & {}) | null;
+  customer_cancellation_reason?: CustomerCancellationReason | (string & {}) | null | undefined;
   /** Customer feedback and why they decided to cancel. **IMPORTANT:** Do not use this to store internal notes! It's intended to be input from the customer and is therefore also available in their Polar purchases library. Only set this in case your own service is requesting the reason from the customer. Or you copy a message directly from a customer conversation, i.e support. */
-  customer_cancellation_comment?: string | null;
+  customer_cancellation_comment?: string | null | undefined;
   /** Cancel an active subscription once the current period ends. Or uncancel a subscription currently set to be revoked at period end. */
   cancel_at_period_end: boolean;
 }
 export interface SubscriptionRevoke {
   /** Customer reason for cancellation. Helpful to monitor reasons behind churn for future improvements. Only set this in case your own service is requesting the reason from the customer. Or you know based on direct conversations, i.e support, with the customer. * `too_expensive`: Too expensive for the customer. * `missing_features`: Customer is missing certain features. * `switched_service`: Customer switched to another service. * `unused`: Customer is not using it enough. * `customer_service`: Customer is not satisfied with the customer service. * `low_quality`: Customer is unhappy with the quality. * `too_complex`: Customer considers the service too complicated. * `other`: Other reason(s). */
-  customer_cancellation_reason?: CustomerCancellationReason | (string & {}) | null;
+  customer_cancellation_reason?: CustomerCancellationReason | (string & {}) | null | undefined;
   /** Customer feedback and why they decided to cancel. **IMPORTANT:** Do not use this to store internal notes! It's intended to be input from the customer and is therefore also available in their Polar purchases library. Only set this in case your own service is requesting the reason from the customer. Or you copy a message directly from a customer conversation, i.e support. */
-  customer_cancellation_comment?: string | null;
+  customer_cancellation_comment?: string | null | undefined;
   /** Cancel and revoke an active subscription immediately */
   revoke: boolean;
 }
@@ -13600,7 +13883,7 @@ export interface SubscriptionPause {
   /** Pause an active subscription at the end of the current period. Or cancel a scheduled pause on a subscription set to be paused at period end. */
   pause_at_period_end: boolean;
   /** Date at which the paused subscription should automatically resume. If not set, the subscription stays paused until it is resumed manually. Must be after the current period end. */
-  resumes_at?: string | null;
+  resumes_at?: string | null | undefined;
 }
 export type SubscriptionResume = CustomerSubscriptionResume;
 export interface SubscriptionUpdateClear {
@@ -13631,29 +13914,27 @@ export interface UpdateCheckoutsClientRequest {
   /** The checkout session client secret. */
   client_secret: string;
   /** Key-value object storing custom field values. */
-  custom_field_data?: UpdateCheckoutsClientRequestCustomFieldDataMap;
+  custom_field_data?: UpdateCheckoutsClientRequestCustomFieldDataMap | undefined;
   /** ID of the product to checkout. Must be present in the checkout's product list. */
-  product_id?: string | null;
-  /** ID of the product price to checkout. Must correspond to a price present in the checkout's product list. */
-  product_price_id?: string | null;
-  amount?: number | null;
+  product_id?: string | null | undefined;
+  amount?: number | null | undefined;
   /** Number of seats for seat-based pricing. */
-  seats?: number | null;
+  seats?: number | null | undefined;
   /** Number of units for unit-based pricing. */
-  units?: number | null;
-  is_business_customer?: boolean | null;
-  customer_name?: string | null;
-  customer_email?: string | null;
-  customer_billing_name?: string | null;
-  customer_billing_address?: AddressInput | null;
-  customer_tax_id?: string | null;
-  locale?: string | null;
+  units?: number | null | undefined;
+  is_business_customer?: boolean | null | undefined;
+  customer_name?: string | null | undefined;
+  customer_email?: string | null | undefined;
+  customer_billing_name?: string | null | undefined;
+  customer_billing_address?: AddressInput | null | undefined;
+  customer_tax_id?: string | null | undefined;
+  locale?: string | null | undefined;
   /** Payment method type selected by the customer in the checkout form, e.g. `card`, `apple_pay` or `upi`. */
-  payment_method_type?: string | null;
+  payment_method_type?: string | null | undefined;
   /** Discount code to apply to the checkout. */
-  discount_code?: string | null;
+  discount_code?: string | null | undefined;
   /** Disable the trial period for the checkout session. It's mainly useful when the trial is blocked because the customer already redeemed one. */
-  allow_trial?: boolean | null;
+  allow_trial?: boolean | null | undefined;
 }
 export interface UpdateCustomerPortalCustomersCheckEmailRequest {
   token: string;
@@ -13723,20 +14004,22 @@ export interface WebhooksCreateWebhookEndpointRequest {
   /** The URL where the webhook events will be sent. */
   url: string;
   /** An optional name for the webhook endpoint to help organize and identify it. */
-  name?: string | null;
+  name?: string | null | undefined;
   /** The API version that'll be used in event payloads. */
-  api_version?: WebhooksCreateWebhookEndpointRequestApiVersion | (string & {});
+  api_version?: WebhooksCreateWebhookEndpointRequestApiVersion | (string & {}) | undefined;
   /** The format of the webhook payload. */
   format: WebhookFormat | (string & {});
   /** The events that will trigger the webhook. */
   events: WebhooksCreateWebhookEndpointRequestEventsList;
   /** The organization ID associated with the webhook endpoint. **Required unless you use an organization token.** */
-  organization_id?: string | null;
+  organization_id?: string | null | undefined;
 }
 /** The events that will trigger the webhook. */
 export type WebhookEndpointEventsList = Array<WebhookEventType>;
 /** A webhook endpoint. */
 export interface WebhookEndpoint {
+  /** An ID from your own system to reference this resource. It must be unique within the organization for this type of resource. */
+  external_id: string | null;
   /** Creation timestamp of the object. */
   created_at: string;
   /** Last modification timestamp of the object. */
@@ -13746,7 +14029,7 @@ export interface WebhookEndpoint {
   /** The URL where the webhook events will be sent. */
   url: string;
   /** An optional name for the webhook endpoint to help organize and identify it. */
-  name?: string | null;
+  name?: string | null | undefined;
   /** The API version that'll be used in event payloads. */
   api_version: string;
   /** The format of the webhook payload. */
@@ -13767,6 +14050,9 @@ export interface WebhooksDeleteWebhookEndpointRequest {
   id: string;
 }
 export interface WebhooksDeleteWebhookEndpointResponse {}
+export interface WebhooksGetExternalWebhookEndpointRequest {
+  external_id: string;
+}
 export interface WebhooksGetWebhookEndpointRequest {
   /** The webhook endpoint ID. */
   id: string;
@@ -13786,23 +14072,23 @@ export type WebhooksListWebhookDeliveriesRequestEventType =
   | WebhooksListWebhookDeliveriesRequestEventTypeCase1List;
 export interface WebhooksListWebhookDeliveriesRequest {
   /** Filter by webhook endpoint ID. */
-  endpoint_id?: WebhooksListWebhookDeliveriesRequestEndpointId;
+  endpoint_id?: WebhooksListWebhookDeliveriesRequestEndpointId | undefined;
   /** Filter deliveries after this timestamp. */
-  start_timestamp?: string;
+  start_timestamp?: string | undefined;
   /** Filter deliveries before this timestamp. */
-  end_timestamp?: string;
+  end_timestamp?: string | undefined;
   /** Filter by delivery success status. */
-  succeeded?: boolean;
+  succeeded?: boolean | undefined;
   /** Query to filter webhook deliveries. */
-  query?: string;
+  query?: string | undefined;
   /** Filter by HTTP response code class (2xx, 3xx, 4xx, 5xx). */
-  http_code_class?: WebhooksListWebhookDeliveriesRequestHttpCodeClass | (string & {});
+  http_code_class?: WebhooksListWebhookDeliveriesRequestHttpCodeClass | (string & {}) | undefined;
   /** Filter by webhook event type. */
-  event_type?: WebhooksListWebhookDeliveriesRequestEventType;
+  event_type?: WebhooksListWebhookDeliveriesRequestEventType | undefined;
   /** Page number, defaults to 1. */
-  page?: number;
+  page?: number | undefined;
   /** Size of a page, defaults to 10. Maximum is 100. */
-  limit?: number;
+  limit?: number | undefined;
 }
 /** A webhook event. An event represent something that happened in the system that should be sent to the webhook endpoint. It can be delivered multiple times until it's marked as succeeded, each one creating a new delivery. */
 export interface WebhookEvent {
@@ -13813,9 +14099,9 @@ export interface WebhookEvent {
   /** The ID of the object. */
   id: string;
   /** Last HTTP code returned by the URL. `null` if no delviery has been attempted or if the endpoint was unreachable. */
-  last_http_code?: number | null;
+  last_http_code?: number | null | undefined;
   /** Whether this event was successfully delivered. `null` if no delivery has been attempted. */
-  succeeded?: boolean | null;
+  succeeded?: boolean | null | undefined;
   /** Whether this event was skipped because the webhook endpoint was disabled. */
   skipped: boolean;
   /** The API version used in the payload of this event. */
@@ -13856,11 +14142,11 @@ export type WebhooksListWebhookEndpointsRequestOrganizationId =
   | WebhooksListWebhookEndpointsRequestOrganizationIdCase1List;
 export interface WebhooksListWebhookEndpointsRequest {
   /** Filter by organization ID. */
-  organization_id?: WebhooksListWebhookEndpointsRequestOrganizationId;
+  organization_id?: WebhooksListWebhookEndpointsRequestOrganizationId | undefined;
   /** Page number, defaults to 1. */
-  page?: number;
+  page?: number | undefined;
   /** Size of a page, defaults to 10. Maximum is 100. */
-  limit?: number;
+  limit?: number | undefined;
 }
 export type ListResourceWebhookEndpointItemsList = Array<WebhookEndpoint>;
 export interface ListResourceWebhookEndpoint {
@@ -13884,15 +14170,15 @@ export type WebhooksUpdateWebhookEndpointRequestEventsList = Array<
 export interface WebhooksUpdateWebhookEndpointRequest {
   /** The webhook endpoint ID. */
   id: string;
-  url?: string | null;
+  url?: string | null | undefined;
   /** An optional name for the webhook endpoint to help organize and identify it. */
-  name?: string | null;
+  name?: string | null | undefined;
   /** The API version that'll be used in event payloads. */
-  api_version?: WebhooksUpdateWebhookEndpointRequestApiVersion | (string & {}) | null;
-  format?: WebhookFormat | (string & {}) | null;
-  events?: WebhooksUpdateWebhookEndpointRequestEventsList | null;
+  api_version?: WebhooksUpdateWebhookEndpointRequestApiVersion | (string & {}) | null | undefined;
+  format?: WebhookFormat | (string & {}) | null | undefined;
+  events?: WebhooksUpdateWebhookEndpointRequestEventsList | null | undefined;
   /** Whether the webhook endpoint is enabled. */
-  enabled?: boolean | null;
+  enabled?: boolean | null | undefined;
 }
 export type BenefitGrantsListError = UnprocessableEntity | PolarOpError;
 /** List Benefit Grants List benefit grants across all benefits accessible to the authenticated subject. **Scopes**: `benefits:read` `benefits:write` */
@@ -13904,8 +14190,8 @@ export const benefitGrantsList: API.PaginatedOperationMethod<
   BenefitGrant
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(1432, __c179, 0) as any as S.Schema<BenefitGrantsListRequest>,
-    output: __S(1443, __c180, 3) as any as S.Schema<ListResourceBenefitGrant>,
+    input: __S(1480, __c185, 0) as any as S.Schema<BenefitGrantsListRequest>,
+    output: __S(1491, __c186, 3) as any as S.Schema<ListResourceBenefitGrant>,
     errors: [UnprocessableEntity, UnknownPolarError],
     protocol: PolarProtocol,
     retry: Retry.Retry,
@@ -13922,17 +14208,17 @@ export const benefitGrantsList: API.PaginatedOperationMethod<
   paginatePolar,
 ) as any;
 
-export type BenefitsCreateError = UnprocessableEntity | PolarOpError;
-/** Create Benefit Create a benefit. **Scopes**: `benefits:write` */
+export type BenefitsCreateError = Forbidden | UnprocessableEntity | PolarOpError;
+/** Create Benefit Create a benefit, for example license keys, file downloads or Discord access. **Scopes**: `benefits:write` */
 export const benefitsCreate: API.OperationMethod<
   BenefitsCreateRequest,
   BenefitsCreateResponse,
   BenefitsCreateError,
   PolarOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1624, __c203, 0) as any as S.Schema<BenefitsCreateRequest>,
-  output: __S(1632, __c204, 0) as any as S.Schema<BenefitsCreateResponse>,
-  errors: [UnprocessableEntity, UnknownPolarError],
+  input: __S(1648, __c206, 0) as any as S.Schema<BenefitsCreateRequest>,
+  output: __S(1656, __c207, 0) as any as S.Schema<BenefitsCreateResponse>,
+  errors: [Forbidden, UnprocessableEntity, UnknownPolarError],
   protocol: PolarProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -13947,8 +14233,8 @@ export const benefitsDelete: API.OperationMethod<
   BenefitsDeleteError,
   PolarOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1744, __c218, 0) as any as S.Schema<BenefitsDeleteRequest>,
-  output: __S(1752, __c219, 0) as any as S.Schema<BenefitsDeleteResponse>,
+  input: __S(1792, __c224, 0) as any as S.Schema<BenefitsDeleteRequest>,
+  output: __S(1800, __c225, 0) as any as S.Schema<BenefitsDeleteResponse>,
   errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPolarError],
   protocol: PolarProtocol,
   retry: Retry.Retry,
@@ -13966,8 +14252,8 @@ export const benefitsFiles: API.PaginatedOperationMethod<
   BenefitDownloadableFile
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(1840, __c230, 0) as any as S.Schema<BenefitsFilesRequest>,
-    output: __S(1843, __c230, 3) as any as S.Schema<ListResourceBenefitDownloadableFile>,
+    input: __S(1896, __c237, 0) as any as S.Schema<BenefitsFilesRequest>,
+    output: __S(1899, __c237, 3) as any as S.Schema<ListResourceBenefitDownloadableFile>,
     errors: [NotFound, UnprocessableEntity, UnknownPolarError],
     protocol: PolarProtocol,
     retry: Retry.Retry,
@@ -13992,8 +14278,8 @@ export const benefitsGet: API.OperationMethod<
   BenefitsGetError,
   PolarOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1944, __c243, 0) as any as S.Schema<BenefitsGetRequest>,
-  output: __S(1632, __c204, 0) as any as S.Schema<BenefitsGetResponse>,
+  input: __S(2000, __c250, 0) as any as S.Schema<BenefitsGetRequest>,
+  output: __S(1656, __c207, 0) as any as S.Schema<BenefitsGetResponse>,
   errors: [NotFound, UnprocessableEntity, UnknownPolarError],
   protocol: PolarProtocol,
   retry: Retry.Retry,
@@ -14012,7 +14298,7 @@ export const benefitsGrants: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
     input: __S(0, __c0, 0) as any as S.Schema<BenefitsGrantsRequest>,
-    output: __S(1443, __c180, 3) as any as S.Schema<ListResourceBenefitGrant>,
+    output: __S(1491, __c186, 3) as any as S.Schema<ListResourceBenefitGrant>,
     errors: [NotFound, UnprocessableEntity, UnknownPolarError],
     protocol: PolarProtocol,
     retry: Retry.Retry,
@@ -14065,8 +14351,8 @@ export const benefitsUpdate: API.OperationMethod<
   BenefitsUpdateError,
   PolarOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(208, __c26, 0) as any as S.Schema<BenefitsUpdateRequest>,
-  output: __S(1632, __c204, 0) as any as S.Schema<BenefitsUpdateResponse>,
+  input: __S(216, __c27, 0) as any as S.Schema<BenefitsUpdateRequest>,
+  output: __S(1656, __c207, 0) as any as S.Schema<BenefitsUpdateResponse>,
   errors: [NotFound, UnprocessableEntity, UnknownPolarError],
   protocol: PolarProtocol,
   retry: Retry.Retry,
@@ -14082,8 +14368,8 @@ export const checkoutLinksCreate: API.OperationMethod<
   CheckoutLinksCreateError,
   PolarOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(312, __c39, 0) as any as S.Schema<CheckoutLinksCreateRequest>,
-  output: __S(323, __c40, 3) as any as S.Schema<CheckoutLink>,
+  input: __S(321, __c40, 1) as any as S.Schema<CheckoutLinksCreateRequest>,
+  output: __S(330, __c41, 2) as any as S.Schema<CheckoutLink>,
   errors: [UnprocessableEntity, UnknownPolarError],
   protocol: PolarProtocol,
   retry: Retry.Retry,
@@ -14099,8 +14385,8 @@ export const checkoutLinksDelete: API.OperationMethod<
   CheckoutLinksDeleteError,
   PolarOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(440, __c55, 0) as any as S.Schema<CheckoutLinksDeleteRequest>,
-  output: __S(1752, __c219, 0) as any as S.Schema<CheckoutLinksDeleteResponse>,
+  input: __S(456, __c57, 0) as any as S.Schema<CheckoutLinksDeleteRequest>,
+  output: __S(1800, __c225, 0) as any as S.Schema<CheckoutLinksDeleteResponse>,
   errors: [NotFound, UnprocessableEntity, UnknownPolarError],
   protocol: PolarProtocol,
   retry: Retry.Retry,
@@ -14116,8 +14402,8 @@ export const checkoutLinksGet: API.OperationMethod<
   CheckoutLinksGetError,
   PolarOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(536, __c67, 0) as any as S.Schema<CheckoutLinksGetRequest>,
-  output: __S(323, __c40, 3) as any as S.Schema<CheckoutLink>,
+  input: __S(552, __c69, 0) as any as S.Schema<CheckoutLinksGetRequest>,
+  output: __S(330, __c41, 2) as any as S.Schema<CheckoutLink>,
   errors: [NotFound, UnprocessableEntity, UnknownPolarError],
   protocol: PolarProtocol,
   retry: Retry.Retry,
@@ -14135,8 +14421,8 @@ export const checkoutLinksList: API.PaginatedOperationMethod<
   CheckoutLink
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(632, __c79, 0) as any as S.Schema<CheckoutLinksListRequest>,
-    output: __S(634, __c79, 2) as any as S.Schema<ListResourceCheckoutLink>,
+    input: __S(648, __c81, 0) as any as S.Schema<CheckoutLinksListRequest>,
+    output: __S(650, __c81, 2) as any as S.Schema<ListResourceCheckoutLink>,
     errors: [UnprocessableEntity, UnknownPolarError],
     protocol: PolarProtocol,
     retry: Retry.Retry,
@@ -14161,8 +14447,8 @@ export const checkoutLinksUpdate: API.OperationMethod<
   CheckoutLinksUpdateError,
   PolarOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(745, __c93, 1) as any as S.Schema<CheckoutLinksUpdateRequest>,
-  output: __S(323, __c40, 3) as any as S.Schema<CheckoutLink>,
+  input: __S(753, __c94, 1) as any as S.Schema<CheckoutLinksUpdateRequest>,
+  output: __S(330, __c41, 2) as any as S.Schema<CheckoutLink>,
   errors: [NotFound, UnprocessableEntity, UnknownPolarError],
   protocol: PolarProtocol,
   retry: Retry.Retry,
@@ -14178,8 +14464,8 @@ export const checkoutsCreate: API.OperationMethod<
   CheckoutsCreateError,
   PolarOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(861, __c107, 5) as any as S.Schema<CheckoutsCreateRequest>,
-  output: __S(868, __c108, 4) as any as S.Schema<Checkout>,
+  input: __S(856, __c107, 0) as any as S.Schema<CheckoutsCreateRequest>,
+  output: __S(866, __c108, 2) as any as S.Schema<Checkout>,
   errors: [UnprocessableEntity, UnknownPolarError],
   protocol: PolarProtocol,
   retry: Retry.Retry,
@@ -14196,7 +14482,7 @@ export const checkoutsGet: API.OperationMethod<
   PolarOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(992, __c124, 0) as any as S.Schema<CheckoutsGetRequest>,
-  output: __S(868, __c108, 4) as any as S.Schema<Checkout>,
+  output: __S(866, __c108, 2) as any as S.Schema<Checkout>,
   errors: [NotFound, UnprocessableEntity, UnknownPolarError],
   protocol: PolarProtocol,
   retry: Retry.Retry,
@@ -14214,8 +14500,8 @@ export const checkoutsList: API.PaginatedOperationMethod<
   Checkout
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(1040, __c130, 0) as any as S.Schema<CheckoutsListRequest>,
-    output: __S(1042, __c130, 2) as any as S.Schema<ListResourceCheckout>,
+    input: __S(1080, __c135, 0) as any as S.Schema<CheckoutsListRequest>,
+    output: __S(1082, __c135, 2) as any as S.Schema<ListResourceCheckout>,
     errors: [UnprocessableEntity, UnknownPolarError],
     protocol: PolarProtocol,
     retry: Retry.Retry,
@@ -14240,8 +14526,8 @@ export const checkoutsUpdate: API.OperationMethod<
   CheckoutsUpdateError,
   PolarOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1051, __c131, 3) as any as S.Schema<CheckoutsUpdateRequest>,
-  output: __S(868, __c108, 4) as any as S.Schema<Checkout>,
+  input: __S(1091, __c136, 3) as any as S.Schema<CheckoutsUpdateRequest>,
+  output: __S(866, __c108, 2) as any as S.Schema<Checkout>,
   errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPolarError],
   protocol: PolarProtocol,
   retry: Retry.Retry,
@@ -14255,15 +14541,15 @@ export type ClaimCustomerSeatsGetInfoError =
   | NotFound
   | UnprocessableEntity
   | PolarOpError;
-/** Get Claim Info */
+/** Get Claim Info Get claim information for a customer seat invitation. */
 export const claimCustomerSeatsGetInfo: API.OperationMethod<
   ClaimCustomerSeatsGetInfoRequest,
   SeatClaimInfo,
   ClaimCustomerSeatsGetInfoError,
   PolarOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1056, __c132, 0) as any as S.Schema<ClaimCustomerSeatsGetInfoRequest>,
-  output: __S(1057, __c132, 1) as any as S.Schema<SeatClaimInfo>,
+  input: __S(1096, __c137, 0) as any as S.Schema<ClaimCustomerSeatsGetInfoRequest>,
+  output: __S(1097, __c137, 1) as any as S.Schema<SeatClaimInfo>,
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownPolarError],
   protocol: PolarProtocol,
   retry: Retry.Retry,
@@ -14285,13 +14571,30 @@ export const confirmCheckoutsClient: API.OperationMethod<
   ConfirmCheckoutsClientError,
   PolarOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1065, __c133, 1) as any as S.Schema<ConfirmCheckoutsClientRequest>,
-  output: __S(1069, __c133, 5) as any as S.Schema<CheckoutPublicConfirmed>,
+  input: __S(1104, __c138, 0) as any as S.Schema<ConfirmCheckoutsClientRequest>,
+  output: __S(1106, __c138, 2) as any as S.Schema<CheckoutPublicConfirmed>,
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity, UnknownPolarError],
   protocol: PolarProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ConfirmCheckoutsClient",
+}));
+
+export type CustomerMetersCreditsError = Forbidden | Conflict | UnprocessableEntity | PolarOpError;
+/** Credit Customer Meter Manually grant credits on a customer meter. Returns the `meter.credited` event. The customer meter balance is updated before the response is returned, unless the meter is being updated concurrently, in which case it catches up shortly after. **Scopes**: `customers:write` */
+export const customerMetersCredits: API.OperationMethod<
+  CustomerMetersCreditsRequest,
+  MeterCreditEvent,
+  CustomerMetersCreditsError,
+  PolarOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(1120, __c140, 0) as any as S.Schema<CustomerMetersCreditsRequest>,
+  output: __S(1129, __c141, 1) as any as S.Schema<MeterCreditEvent>,
+  errors: [Forbidden, Conflict, UnprocessableEntity, UnknownPolarError],
+  protocol: PolarProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CustomerMetersCredits",
 }));
 
 export type CustomerMetersGetError = NotFound | UnprocessableEntity | PolarOpError;
@@ -14302,8 +14605,8 @@ export const customerMetersGet: API.OperationMethod<
   CustomerMetersGetError,
   PolarOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1080, __c135, 0) as any as S.Schema<CustomerMetersGetRequest>,
-  output: __S(1088, __c136, 0) as any as S.Schema<CustomerMeter>,
+  input: __S(1136, __c142, 0) as any as S.Schema<CustomerMetersGetRequest>,
+  output: __S(1144, __c143, 0) as any as S.Schema<CustomerMeter>,
   errors: [NotFound, UnprocessableEntity, UnknownPolarError],
   protocol: PolarProtocol,
   retry: Retry.Retry,
@@ -14321,8 +14624,8 @@ export const customerMetersList: API.PaginatedOperationMethod<
   CustomerMeter
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(1104, __c138, 0) as any as S.Schema<CustomerMetersListRequest>,
-    output: __S(1106, __c138, 2) as any as S.Schema<ListResourceCustomerMeter>,
+    input: __S(1160, __c145, 0) as any as S.Schema<CustomerMetersListRequest>,
+    output: __S(1162, __c145, 2) as any as S.Schema<ListResourceCustomerMeter>,
     errors: [UnprocessableEntity, UnknownPolarError],
     protocol: PolarProtocol,
     retry: Retry.Retry,
@@ -14339,6 +14642,28 @@ export const customerMetersList: API.PaginatedOperationMethod<
   paginatePolar,
 ) as any;
 
+export type CustomerMetersReverseCreditError =
+  | Forbidden
+  | NotFound
+  | Conflict
+  | UnprocessableEntity
+  | PolarOpError;
+/** Reverse Customer Meter Credit Reverse a manual credit, removing the units the customer hasn't used yet. Works once per credit, within 7 days and in the current billing period. Returns a `meter.credited` event with negative units and `parent_id` set to the reversed credit. **Scopes**: `customers:write` */
+export const customerMetersReverseCredit: API.OperationMethod<
+  CustomerMetersReverseCreditRequest,
+  MeterCreditEvent,
+  CustomerMetersReverseCreditError,
+  PolarOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(1168, __c146, 0) as any as S.Schema<CustomerMetersReverseCreditRequest>,
+  output: __S(1129, __c141, 1) as any as S.Schema<MeterCreditEvent>,
+  errors: [Forbidden, NotFound, Conflict, UnprocessableEntity, UnknownPolarError],
+  protocol: PolarProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CustomerMetersReverseCredit",
+}));
+
 export type CustomerPortalBenefitGrantsGetError = NotFound | UnprocessableEntity | PolarOpError;
 /** Get Benefit Grant Get a benefit grant by ID for the authenticated customer. **Scopes**: `customer_portal:read` `customer_portal:write` */
 export const customerPortalBenefitGrantsGet: API.OperationMethod<
@@ -14347,8 +14672,8 @@ export const customerPortalBenefitGrantsGet: API.OperationMethod<
   CustomerPortalBenefitGrantsGetError,
   PolarOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1112, __c139, 0) as any as S.Schema<CustomerPortalBenefitGrantsGetRequest>,
-  output: __S(1120, __c140, 0) as any as S.Schema<CustomerPortalBenefitGrantsGetResponse>,
+  input: __S(1176, __c147, 0) as any as S.Schema<CustomerPortalBenefitGrantsGetRequest>,
+  output: __S(1184, __c148, 0) as any as S.Schema<CustomerPortalBenefitGrantsGetResponse>,
   errors: [NotFound, UnprocessableEntity, UnknownPolarError],
   protocol: PolarProtocol,
   retry: Retry.Retry,
@@ -14366,8 +14691,8 @@ export const customerPortalBenefitGrantsList: API.PaginatedOperationMethod<
   CustomerBenefitGrant
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(1128, __c141, 0) as any as S.Schema<CustomerPortalBenefitGrantsListRequest>,
-    output: __S(1130, __c141, 2) as any as S.Schema<ListResourceCustomerBenefitGrant>,
+    input: __S(1192, __c149, 0) as any as S.Schema<CustomerPortalBenefitGrantsListRequest>,
+    output: __S(1194, __c149, 2) as any as S.Schema<ListResourceCustomerBenefitGrant>,
     errors: [UnprocessableEntity, UnknownPolarError],
     protocol: PolarProtocol,
     retry: Retry.Retry,
@@ -14396,8 +14721,8 @@ export const customerPortalBenefitGrantsUpdate: API.OperationMethod<
   CustomerPortalBenefitGrantsUpdateError,
   PolarOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1136, __c142, 0) as any as S.Schema<CustomerPortalBenefitGrantsUpdateRequest>,
-  output: __S(1120, __c140, 0) as any as S.Schema<CustomerPortalBenefitGrantsUpdateResponse>,
+  input: __S(1200, __c150, 0) as any as S.Schema<CustomerPortalBenefitGrantsUpdateRequest>,
+  output: __S(1184, __c148, 0) as any as S.Schema<CustomerPortalBenefitGrantsUpdateResponse>,
   errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPolarError],
   protocol: PolarProtocol,
   retry: Retry.Retry,
@@ -14413,8 +14738,8 @@ export const customerPortalCustomerMetersGet: API.OperationMethod<
   CustomerPortalCustomerMetersGetError,
   PolarOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1144, __c143, 0) as any as S.Schema<CustomerPortalCustomerMetersGetRequest>,
-  output: __S(1152, __c144, 0) as any as S.Schema<CustomerCustomerMeter>,
+  input: __S(1208, __c151, 0) as any as S.Schema<CustomerPortalCustomerMetersGetRequest>,
+  output: __S(1216, __c152, 0) as any as S.Schema<CustomerCustomerMeter>,
   errors: [NotFound, UnprocessableEntity, UnknownPolarError],
   protocol: PolarProtocol,
   retry: Retry.Retry,
@@ -14432,8 +14757,8 @@ export const customerPortalCustomerMetersList: API.PaginatedOperationMethod<
   CustomerCustomerMeter
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(1168, __c146, 0) as any as S.Schema<CustomerPortalCustomerMetersListRequest>,
-    output: __S(1170, __c146, 2) as any as S.Schema<ListResourceCustomerCustomerMeter>,
+    input: __S(1232, __c154, 0) as any as S.Schema<CustomerPortalCustomerMetersListRequest>,
+    output: __S(1234, __c154, 2) as any as S.Schema<ListResourceCustomerCustomerMeter>,
     errors: [UnprocessableEntity, UnknownPolarError],
     protocol: PolarProtocol,
     retry: Retry.Retry,
@@ -14461,8 +14786,8 @@ export const customerPortalCustomersAddPaymentMethod: API.OperationMethod<
   CustomerPortalCustomersAddPaymentMethodError,
   PolarOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1176, __c147, 0) as any as S.Schema<CustomerPortalCustomersAddPaymentMethodRequest>,
-  output: __S(1184, __c148, 0) as any as S.Schema<CustomerPortalCustomersAddPaymentMethodResponse>,
+  input: __S(1240, __c155, 0) as any as S.Schema<CustomerPortalCustomersAddPaymentMethodRequest>,
+  output: __S(1248, __c156, 0) as any as S.Schema<CustomerPortalCustomersAddPaymentMethodResponse>,
   errors: [BadRequest, UnprocessableEntity, UnknownPolarError],
   protocol: PolarProtocol,
   retry: Retry.Retry,
@@ -14482,13 +14807,13 @@ export const customerPortalCustomersConfirmPaymentMethod: API.OperationMethod<
   PolarOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    1192,
-    __c149,
+    1256,
+    __c157,
     0,
   ) as any as S.Schema<CustomerPortalCustomersConfirmPaymentMethodRequest>,
   output: __S(
-    1184,
-    __c148,
+    1248,
+    __c156,
     0,
   ) as any as S.Schema<CustomerPortalCustomersConfirmPaymentMethodResponse>,
   errors: [Forbidden, UnprocessableEntity, UnknownPolarError],
@@ -14510,10 +14835,10 @@ export const customerPortalCustomersDeletePaymentMethod: API.OperationMethod<
   CustomerPortalCustomersDeletePaymentMethodError,
   PolarOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1200, __c150, 0) as any as S.Schema<CustomerPortalCustomersDeletePaymentMethodRequest>,
+  input: __S(1264, __c158, 0) as any as S.Schema<CustomerPortalCustomersDeletePaymentMethodRequest>,
   output: __S(
-    1752,
-    __c219,
+    1800,
+    __c225,
     0,
   ) as any as S.Schema<CustomerPortalCustomersDeletePaymentMethodResponse>,
   errors: [BadRequest, NotFound, UnprocessableEntity, UnknownPolarError],
@@ -14532,11 +14857,11 @@ export const customerPortalCustomerSessionGetAuthenticatedUser: API.OperationMet
   PolarOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    1208,
-    __c151,
+    1272,
+    __c159,
     0,
   ) as any as S.Schema<CustomerPortalCustomerSessionGetAuthenticatedUserRequest>,
-  output: __S(1209, __c151, 1) as any as S.Schema<PortalAuthenticatedUser>,
+  output: __S(1273, __c159, 1) as any as S.Schema<PortalAuthenticatedUser>,
   errors: [UnknownPolarError],
   protocol: PolarProtocol,
   retry: Retry.Retry,
@@ -14552,8 +14877,8 @@ export const customerPortalCustomerSessionIntrospect: API.OperationMethod<
   CustomerPortalCustomerSessionIntrospectError,
   PolarOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1216, __c152, 0) as any as S.Schema<CustomerPortalCustomerSessionIntrospectRequest>,
-  output: __S(1217, __c152, 1) as any as S.Schema<CustomerCustomerSession>,
+  input: __S(1280, __c160, 0) as any as S.Schema<CustomerPortalCustomerSessionIntrospectRequest>,
+  output: __S(1281, __c160, 1) as any as S.Schema<CustomerCustomerSession>,
   errors: [UnknownPolarError],
   protocol: PolarProtocol,
   retry: Retry.Retry,
@@ -14569,8 +14894,8 @@ export const customerPortalCustomersGet: API.OperationMethod<
   CustomerPortalCustomersGetError,
   PolarOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1224, __c153, 0) as any as S.Schema<CustomerPortalCustomersGetRequest>,
-  output: __S(1234, __c154, 2) as any as S.Schema<CustomerPortalCustomer>,
+  input: __S(1288, __c161, 0) as any as S.Schema<CustomerPortalCustomersGetRequest>,
+  output: __S(1298, __c162, 2) as any as S.Schema<CustomerPortalCustomer>,
   errors: [UnknownPolarError],
   protocol: PolarProtocol,
   retry: Retry.Retry,
@@ -14589,11 +14914,11 @@ export const customerPortalCustomersListPaymentMethods: API.PaginatedOperationMe
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
     input: __S(
-      1248,
-      __c156,
+      1312,
+      __c164,
       0,
     ) as any as S.Schema<CustomerPortalCustomersListPaymentMethodsRequest>,
-    output: __S(1250, __c156, 2) as any as S.Schema<ListResourceCustomerPaymentMethod>,
+    output: __S(1314, __c164, 2) as any as S.Schema<ListResourceCustomerPaymentMethod>,
     errors: [UnprocessableEntity, UnknownPolarError],
     protocol: PolarProtocol,
     retry: Retry.Retry,
@@ -14618,8 +14943,8 @@ export const customerPortalCustomersUpdate: API.OperationMethod<
   CustomerPortalCustomersUpdateError,
   PolarOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1256, __c157, 0) as any as S.Schema<CustomerPortalCustomersUpdateRequest>,
-  output: __S(1234, __c154, 2) as any as S.Schema<CustomerPortalCustomer>,
+  input: __S(1320, __c165, 0) as any as S.Schema<CustomerPortalCustomersUpdateRequest>,
+  output: __S(1298, __c162, 2) as any as S.Schema<CustomerPortalCustomer>,
   errors: [UnprocessableEntity, UnknownPolarError],
   protocol: PolarProtocol,
   retry: Retry.Retry,
@@ -14637,8 +14962,8 @@ export const customerPortalDownloadablesList: API.PaginatedOperationMethod<
   DownloadableRead
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(1264, __c158, 0) as any as S.Schema<CustomerPortalDownloadablesListRequest>,
-    output: __S(1269, __c158, 5) as any as S.Schema<ListResourceDownloadableRead>,
+    input: __S(1328, __c166, 0) as any as S.Schema<CustomerPortalDownloadablesListRequest>,
+    output: __S(1333, __c166, 5) as any as S.Schema<ListResourceDownloadableRead>,
     errors: [UnprocessableEntity, UnknownPolarError],
     protocol: PolarProtocol,
     retry: Retry.Retry,
@@ -14667,8 +14992,8 @@ export const customerPortalLicenseKeysActivate: API.OperationMethod<
   CustomerPortalLicenseKeysActivateError,
   PolarOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1274, __c159, 2) as any as S.Schema<CustomerPortalLicenseKeysActivateRequest>,
-  output: __S(1282, __c160, 2) as any as S.Schema<LicenseKeyActivationCreated>,
+  input: __S(1338, __c167, 2) as any as S.Schema<CustomerPortalLicenseKeysActivateRequest>,
+  output: __S(1346, __c168, 2) as any as S.Schema<LicenseKeyActivationCreated>,
   errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPolarError],
   protocol: PolarProtocol,
   retry: Retry.Retry,
@@ -14687,8 +15012,8 @@ export const customerPortalLicenseKeysDeactivate: API.OperationMethod<
   CustomerPortalLicenseKeysDeactivateError,
   PolarOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1312, __c164, 0) as any as S.Schema<CustomerPortalLicenseKeysDeactivateRequest>,
-  output: __S(1752, __c219, 0) as any as S.Schema<CustomerPortalLicenseKeysDeactivateResponse>,
+  input: __S(1376, __c172, 0) as any as S.Schema<CustomerPortalLicenseKeysDeactivateRequest>,
+  output: __S(1800, __c225, 0) as any as S.Schema<CustomerPortalLicenseKeysDeactivateResponse>,
   errors: [NotFound, UnprocessableEntity, UnknownPolarError],
   protocol: PolarProtocol,
   retry: Retry.Retry,
@@ -14704,8 +15029,8 @@ export const customerPortalLicenseKeysGet: API.OperationMethod<
   CustomerPortalLicenseKeysGetError,
   PolarOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1320, __c165, 0) as any as S.Schema<CustomerPortalLicenseKeysGetRequest>,
-  output: __S(1329, __c166, 1) as any as S.Schema<LicenseKeyWithActivations>,
+  input: __S(1384, __c173, 0) as any as S.Schema<CustomerPortalLicenseKeysGetRequest>,
+  output: __S(1393, __c174, 1) as any as S.Schema<LicenseKeyWithActivations>,
   errors: [NotFound, UnprocessableEntity, UnknownPolarError],
   protocol: PolarProtocol,
   retry: Retry.Retry,
@@ -14723,8 +15048,8 @@ export const customerPortalLicenseKeysList: API.PaginatedOperationMethod<
   LicenseKeyRead
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(1344, __c168, 0) as any as S.Schema<CustomerPortalLicenseKeysListRequest>,
-    output: __S(1353, __c169, 1) as any as S.Schema<ListResourceLicenseKeyRead>,
+    input: __S(1408, __c176, 0) as any as S.Schema<CustomerPortalLicenseKeysListRequest>,
+    output: __S(1417, __c177, 1) as any as S.Schema<ListResourceLicenseKeyRead>,
     errors: [NotFound, UnprocessableEntity, UnknownPolarError],
     protocol: PolarProtocol,
     retry: Retry.Retry,
@@ -14753,8 +15078,8 @@ export const customerPortalLicenseKeysRotate: API.OperationMethod<
   CustomerPortalLicenseKeysRotateError,
   PolarOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1368, __c171, 0) as any as S.Schema<CustomerPortalLicenseKeysRotateRequest>,
-  output: __S(1360, __c170, 0) as any as S.Schema<RotatedLicenseKey>,
+  input: __S(1432, __c179, 0) as any as S.Schema<CustomerPortalLicenseKeysRotateRequest>,
+  output: __S(1424, __c178, 0) as any as S.Schema<RotatedLicenseKey>,
   errors: [BadRequest, NotFound, UnprocessableEntity, UnknownPolarError],
   protocol: PolarProtocol,
   retry: Retry.Retry,
@@ -14774,8 +15099,8 @@ export const customerPortalLicenseKeysValidate: API.OperationMethod<
   CustomerPortalLicenseKeysValidateError,
   PolarOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1377, __c172, 1) as any as S.Schema<CustomerPortalLicenseKeysValidateRequest>,
-  output: __S(1384, __c173, 0) as any as S.Schema<ValidatedLicenseKey>,
+  input: __S(1441, __c180, 1) as any as S.Schema<CustomerPortalLicenseKeysValidateRequest>,
+  output: __S(1448, __c181, 0) as any as S.Schema<ValidatedLicenseKey>,
   errors: [BadRequest, NotFound, UnprocessableEntity, UnknownPolarError],
   protocol: PolarProtocol,
   retry: Retry.Retry,
@@ -14795,8 +15120,8 @@ export const customerPortalMembersAddMember: API.OperationMethod<
   CustomerPortalMembersAddMemberError,
   PolarOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1392, __c174, 0) as any as S.Schema<CustomerPortalMembersAddMemberRequest>,
-  output: __S(1400, __c175, 0) as any as S.Schema<CustomerPortalMember>,
+  input: __S(1456, __c182, 0) as any as S.Schema<CustomerPortalMembersAddMemberRequest>,
+  output: __S(1464, __c183, 0) as any as S.Schema<CustomerPortalMember>,
   errors: [BadRequest, Forbidden, UnprocessableEntity, UnknownPolarError],
   protocol: PolarProtocol,
   retry: Retry.Retry,
@@ -14814,8 +15139,8 @@ export const customerPortalMembersListMembers: API.PaginatedOperationMethod<
   CustomerPortalMember
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(1408, __c176, 0) as any as S.Schema<CustomerPortalMembersListMembersRequest>,
-    output: __S(1410, __c176, 2) as any as S.Schema<ListResourceCustomerPortalMember>,
+    input: __S(1472, __c184, 0) as any as S.Schema<CustomerPortalMembersListMembersRequest>,
+    output: __S(1474, __c184, 2) as any as S.Schema<ListResourceCustomerPortalMember>,
     errors: [Forbidden, UnprocessableEntity, UnknownPolarError],
     protocol: PolarProtocol,
     retry: Retry.Retry,
@@ -14845,8 +15170,8 @@ export const customerPortalMembersRemoveMember: API.OperationMethod<
   CustomerPortalMembersRemoveMemberError,
   PolarOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1416, __c177, 0) as any as S.Schema<CustomerPortalMembersRemoveMemberRequest>,
-  output: __S(1752, __c219, 0) as any as S.Schema<CustomerPortalMembersRemoveMemberResponse>,
+  input: __S(1520, __c190, 0) as any as S.Schema<CustomerPortalMembersRemoveMemberRequest>,
+  output: __S(1800, __c225, 0) as any as S.Schema<CustomerPortalMembersRemoveMemberResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownPolarError],
   protocol: PolarProtocol,
   retry: Retry.Retry,
@@ -14867,8 +15192,8 @@ export const customerPortalMembersUpdateMember: API.OperationMethod<
   CustomerPortalMembersUpdateMemberError,
   PolarOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1424, __c178, 0) as any as S.Schema<CustomerPortalMembersUpdateMemberRequest>,
-  output: __S(1400, __c175, 0) as any as S.Schema<CustomerPortalMember>,
+  input: __S(1528, __c191, 0) as any as S.Schema<CustomerPortalMembersUpdateMemberRequest>,
+  output: __S(1464, __c183, 0) as any as S.Schema<CustomerPortalMember>,
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownPolarError],
   protocol: PolarProtocol,
   retry: Retry.Retry,
@@ -14888,8 +15213,8 @@ export const customerPortalOrdersGenerateInvoice: API.OperationMethod<
   CustomerPortalOrdersGenerateInvoiceError,
   PolarOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1472, __c184, 0) as any as S.Schema<CustomerPortalOrdersGenerateInvoiceRequest>,
-  output: __S(1752, __c219, 0) as any as S.Schema<CustomerPortalOrdersGenerateInvoiceResponse>,
+  input: __S(1536, __c192, 0) as any as S.Schema<CustomerPortalOrdersGenerateInvoiceRequest>,
+  output: __S(1800, __c225, 0) as any as S.Schema<CustomerPortalOrdersGenerateInvoiceResponse>,
   errors: [NotFound, Conflict, UnprocessableEntity, UnknownPolarError],
   protocol: PolarProtocol,
   retry: Retry.Retry,
@@ -14905,8 +15230,8 @@ export const customerPortalOrdersGet: API.OperationMethod<
   CustomerPortalOrdersGetError,
   PolarOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1480, __c185, 0) as any as S.Schema<CustomerPortalOrdersGetRequest>,
-  output: __S(1491, __c186, 3) as any as S.Schema<CustomerOrder>,
+  input: __S(1544, __c193, 0) as any as S.Schema<CustomerPortalOrdersGetRequest>,
+  output: __S(1553, __c194, 1) as any as S.Schema<CustomerOrder>,
   errors: [NotFound, UnprocessableEntity, UnknownPolarError],
   protocol: PolarProtocol,
   retry: Retry.Retry,
@@ -14925,8 +15250,8 @@ export const customerPortalOrdersGetPaymentStatus: API.OperationMethod<
   CustomerPortalOrdersGetPaymentStatusError,
   PolarOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1520, __c190, 0) as any as S.Schema<CustomerPortalOrdersGetPaymentStatusRequest>,
-  output: __S(1521, __c190, 1) as any as S.Schema<CustomerOrderPaymentStatus>,
+  input: __S(1592, __c199, 0) as any as S.Schema<CustomerPortalOrdersGetPaymentStatusRequest>,
+  output: __S(1593, __c199, 1) as any as S.Schema<CustomerOrderPaymentStatus>,
   errors: [NotFound, UnprocessableEntity, UnknownPolarError],
   protocol: PolarProtocol,
   retry: Retry.Retry,
@@ -14942,8 +15267,8 @@ export const customerPortalOrdersInvoice: API.OperationMethod<
   CustomerPortalOrdersInvoiceError,
   PolarOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1528, __c191, 0) as any as S.Schema<CustomerPortalOrdersInvoiceRequest>,
-  output: __S(1536, __c192, 0) as any as S.Schema<CustomerOrderInvoice>,
+  input: __S(1600, __c200, 0) as any as S.Schema<CustomerPortalOrdersInvoiceRequest>,
+  output: __S(1608, __c201, 0) as any as S.Schema<CustomerOrderInvoice>,
   errors: [NotFound, UnprocessableEntity, UnknownPolarError],
   protocol: PolarProtocol,
   retry: Retry.Retry,
@@ -14961,8 +15286,8 @@ export const customerPortalOrdersList: API.PaginatedOperationMethod<
   CustomerOrder
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(1544, __c193, 0) as any as S.Schema<CustomerPortalOrdersListRequest>,
-    output: __S(1546, __c193, 2) as any as S.Schema<ListResourceCustomerOrder>,
+    input: __S(1616, __c202, 0) as any as S.Schema<CustomerPortalOrdersListRequest>,
+    output: __S(1618, __c202, 2) as any as S.Schema<ListResourceCustomerOrder>,
     errors: [UnprocessableEntity, UnknownPolarError],
     protocol: PolarProtocol,
     retry: Retry.Retry,
@@ -14987,8 +15312,8 @@ export const customerPortalOrdersReceipt: API.OperationMethod<
   CustomerPortalOrdersReceiptError,
   PolarOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1552, __c194, 0) as any as S.Schema<CustomerPortalOrdersReceiptRequest>,
-  output: __S(1536, __c192, 0) as any as S.Schema<CustomerOrderReceipt>,
+  input: __S(1624, __c203, 0) as any as S.Schema<CustomerPortalOrdersReceiptRequest>,
+  output: __S(1608, __c201, 0) as any as S.Schema<CustomerOrderReceipt>,
   errors: [NotFound, UnprocessableEntity, UnknownPolarError],
   protocol: PolarProtocol,
   retry: Retry.Retry,
@@ -15004,8 +15329,8 @@ export const customerPortalOrdersUpdate: API.OperationMethod<
   CustomerPortalOrdersUpdateError,
   PolarOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1560, __c195, 0) as any as S.Schema<CustomerPortalOrdersUpdateRequest>,
-  output: __S(1491, __c186, 3) as any as S.Schema<CustomerOrder>,
+  input: __S(1632, __c204, 0) as any as S.Schema<CustomerPortalOrdersUpdateRequest>,
+  output: __S(1553, __c194, 1) as any as S.Schema<CustomerOrder>,
   errors: [NotFound, UnprocessableEntity, UnknownPolarError],
   protocol: PolarProtocol,
   retry: Retry.Retry,
@@ -15021,8 +15346,8 @@ export const customerPortalOrganizationsGet: API.OperationMethod<
   CustomerPortalOrganizationsGetError,
   PolarOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1568, __c196, 0) as any as S.Schema<CustomerPortalOrganizationsGetRequest>,
-  output: __S(1572, __c196, 4) as any as S.Schema<CustomerOrganizationData>,
+  input: __S(1640, __c205, 0) as any as S.Schema<CustomerPortalOrganizationsGetRequest>,
+  output: __S(1643, __c205, 3) as any as S.Schema<CustomerOrganizationData>,
   errors: [NotFound, UnprocessableEntity, UnknownPolarError],
   protocol: PolarProtocol,
   retry: Retry.Retry,
@@ -15043,8 +15368,8 @@ export const customerPortalSeatsAssignSeat: API.OperationMethod<
   CustomerPortalSeatsAssignSeatError,
   PolarOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1576, __c197, 0) as any as S.Schema<CustomerPortalSeatsAssignSeatRequest>,
-  output: __S(1585, __c198, 1) as any as S.Schema<CustomerSeat>,
+  input: __S(1664, __c208, 0) as any as S.Schema<CustomerPortalSeatsAssignSeatRequest>,
+  output: __S(1673, __c209, 1) as any as S.Schema<CustomerSeat>,
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownPolarError],
   protocol: PolarProtocol,
   retry: Retry.Retry,
@@ -15063,11 +15388,11 @@ export const customerPortalSeatsListClaimedSubscriptions: API.PaginatedOperation
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
     input: __S(
-      1592,
-      __c199,
+      1680,
+      __c210,
       0,
     ) as any as S.Schema<CustomerPortalSeatsListClaimedSubscriptionsRequest>,
-    output: __S(1617, __c202, 1) as any as S.Schema<ListResourceCustomerSubscription>,
+    output: __S(1705, __c213, 1) as any as S.Schema<ListResourceCustomerSubscription>,
     errors: [UnprocessableEntity, UnknownPolarError],
     protocol: PolarProtocol,
     retry: Retry.Retry,
@@ -15096,8 +15421,8 @@ export const customerPortalSeatsListSeats: API.OperationMethod<
   CustomerPortalSeatsListSeatsError,
   PolarOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1640, __c205, 0) as any as S.Schema<CustomerPortalSeatsListSeatsRequest>,
-  output: __S(1649, __c206, 1) as any as S.Schema<SeatsList>,
+  input: __S(1712, __c214, 0) as any as S.Schema<CustomerPortalSeatsListSeatsRequest>,
+  output: __S(1721, __c215, 1) as any as S.Schema<SeatsList>,
   errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPolarError],
   protocol: PolarProtocol,
   retry: Retry.Retry,
@@ -15118,8 +15443,8 @@ export const customerPortalSeatsResendInvitation: API.OperationMethod<
   CustomerPortalSeatsResendInvitationError,
   PolarOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1656, __c207, 0) as any as S.Schema<CustomerPortalSeatsResendInvitationRequest>,
-  output: __S(1585, __c198, 1) as any as S.Schema<CustomerSeat>,
+  input: __S(1728, __c216, 0) as any as S.Schema<CustomerPortalSeatsResendInvitationRequest>,
+  output: __S(1673, __c209, 1) as any as S.Schema<CustomerSeat>,
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownPolarError],
   protocol: PolarProtocol,
   retry: Retry.Retry,
@@ -15139,8 +15464,8 @@ export const customerPortalSeatsRevokeSeat: API.OperationMethod<
   CustomerPortalSeatsRevokeSeatError,
   PolarOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1664, __c208, 0) as any as S.Schema<CustomerPortalSeatsRevokeSeatRequest>,
-  output: __S(1585, __c198, 1) as any as S.Schema<CustomerSeat>,
+  input: __S(1736, __c217, 0) as any as S.Schema<CustomerPortalSeatsRevokeSeatRequest>,
+  output: __S(1673, __c209, 1) as any as S.Schema<CustomerSeat>,
   errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPolarError],
   protocol: PolarProtocol,
   retry: Retry.Retry,
@@ -15160,8 +15485,8 @@ export const customerPortalSubscriptionsCancel: API.OperationMethod<
   CustomerPortalSubscriptionsCancelError,
   PolarOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1672, __c209, 0) as any as S.Schema<CustomerPortalSubscriptionsCancelRequest>,
-  output: __S(1605, __c200, 5) as any as S.Schema<CustomerSubscription>,
+  input: __S(1744, __c218, 0) as any as S.Schema<CustomerPortalSubscriptionsCancelRequest>,
+  output: __S(1690, __c211, 2) as any as S.Schema<CustomerSubscription>,
   errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPolarError],
   protocol: PolarProtocol,
   retry: Retry.Retry,
@@ -15177,8 +15502,8 @@ export const customerPortalSubscriptionsGet: API.OperationMethod<
   CustomerPortalSubscriptionsGetError,
   PolarOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1680, __c210, 0) as any as S.Schema<CustomerPortalSubscriptionsGetRequest>,
-  output: __S(1605, __c200, 5) as any as S.Schema<CustomerSubscription>,
+  input: __S(1752, __c219, 0) as any as S.Schema<CustomerPortalSubscriptionsGetRequest>,
+  output: __S(1690, __c211, 2) as any as S.Schema<CustomerSubscription>,
   errors: [NotFound, UnprocessableEntity, UnknownPolarError],
   protocol: PolarProtocol,
   retry: Retry.Retry,
@@ -15196,8 +15521,8 @@ export const customerPortalSubscriptionsList: API.PaginatedOperationMethod<
   CustomerSubscription
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(1688, __c211, 0) as any as S.Schema<CustomerPortalSubscriptionsListRequest>,
-    output: __S(1617, __c202, 1) as any as S.Schema<ListResourceCustomerSubscription>,
+    input: __S(1760, __c220, 0) as any as S.Schema<CustomerPortalSubscriptionsListRequest>,
+    output: __S(1705, __c213, 1) as any as S.Schema<ListResourceCustomerSubscription>,
     errors: [UnprocessableEntity, UnknownPolarError],
     protocol: PolarProtocol,
     retry: Retry.Retry,
@@ -15227,8 +15552,8 @@ export const customerPortalSubscriptionsUpdate: API.OperationMethod<
   CustomerPortalSubscriptionsUpdateError,
   PolarOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1696, __c212, 0) as any as S.Schema<CustomerPortalSubscriptionsUpdateRequest>,
-  output: __S(1605, __c200, 5) as any as S.Schema<CustomerSubscription>,
+  input: __S(1768, __c221, 0) as any as S.Schema<CustomerPortalSubscriptionsUpdateRequest>,
+  output: __S(1690, __c211, 2) as any as S.Schema<CustomerSubscription>,
   errors: [Forbidden, NotFound, Conflict, UnprocessableEntity, UnknownPolarError],
   protocol: PolarProtocol,
   retry: Retry.Retry,
@@ -15244,8 +15569,8 @@ export const customerPortalWalletsGet: API.OperationMethod<
   CustomerPortalWalletsGetError,
   PolarOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1704, __c213, 0) as any as S.Schema<CustomerPortalWalletsGetRequest>,
-  output: __S(1712, __c214, 0) as any as S.Schema<CustomerWallet>,
+  input: __S(1776, __c222, 0) as any as S.Schema<CustomerPortalWalletsGetRequest>,
+  output: __S(1784, __c223, 0) as any as S.Schema<CustomerWallet>,
   errors: [NotFound, UnprocessableEntity, UnknownPolarError],
   protocol: PolarProtocol,
   retry: Retry.Retry,
@@ -15263,8 +15588,8 @@ export const customerPortalWalletsList: API.PaginatedOperationMethod<
   CustomerWallet
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(1720, __c215, 0) as any as S.Schema<CustomerPortalWalletsListRequest>,
-    output: __S(1722, __c215, 2) as any as S.Schema<ListResourceCustomerWallet>,
+    input: __S(1808, __c226, 0) as any as S.Schema<CustomerPortalWalletsListRequest>,
+    output: __S(1810, __c226, 2) as any as S.Schema<ListResourceCustomerWallet>,
     errors: [UnprocessableEntity, UnknownPolarError],
     protocol: PolarProtocol,
     retry: Retry.Retry,
@@ -15282,15 +15607,15 @@ export const customerPortalWalletsList: API.PaginatedOperationMethod<
 ) as any;
 
 export type CustomersCreateError = UnprocessableEntity | PolarOpError;
-/** Create Customer Create a customer. **Scopes**: `customers:write` */
+/** Create Customer Create a customer. Set `external_id` to the customer's ID in your system to look it up by that ID. **Scopes**: `customers:write` */
 export const customersCreate: API.OperationMethod<
   CustomersCreateRequest,
   CustomersCreateResponse,
   CustomersCreateError,
   PolarOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1728, __c216, 0) as any as S.Schema<CustomersCreateRequest>,
-  output: __S(1736, __c217, 0) as any as S.Schema<CustomersCreateResponse>,
+  input: __S(1816, __c227, 0) as any as S.Schema<CustomersCreateRequest>,
+  output: __S(1824, __c228, 0) as any as S.Schema<CustomersCreateResponse>,
   errors: [UnprocessableEntity, UnknownPolarError],
   protocol: PolarProtocol,
   retry: Retry.Retry,
@@ -15306,8 +15631,8 @@ export const customersDelete: API.OperationMethod<
   CustomersDeleteError,
   PolarOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1760, __c220, 0) as any as S.Schema<CustomersDeleteRequest>,
-  output: __S(1752, __c219, 0) as any as S.Schema<CustomersDeleteResponse>,
+  input: __S(1832, __c229, 0) as any as S.Schema<CustomersDeleteRequest>,
+  output: __S(1800, __c225, 0) as any as S.Schema<CustomersDeleteResponse>,
   errors: [NotFound, UnprocessableEntity, UnknownPolarError],
   protocol: PolarProtocol,
   retry: Retry.Retry,
@@ -15323,8 +15648,8 @@ export const customersDeleteExternal: API.OperationMethod<
   CustomersDeleteExternalError,
   PolarOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1768, __c221, 0) as any as S.Schema<CustomersDeleteExternalRequest>,
-  output: __S(1752, __c219, 0) as any as S.Schema<CustomersDeleteExternalResponse>,
+  input: __S(1840, __c230, 0) as any as S.Schema<CustomersDeleteExternalRequest>,
+  output: __S(1800, __c225, 0) as any as S.Schema<CustomersDeleteExternalResponse>,
   errors: [NotFound, UnprocessableEntity, UnknownPolarError],
   protocol: PolarProtocol,
   retry: Retry.Retry,
@@ -15338,15 +15663,15 @@ export type CustomerSeatsAssignSeatError =
   | NotFound
   | UnprocessableEntity
   | PolarOpError;
-/** Assign Seat **Scopes**: `customer_seats:write` */
+/** Assign Seat Assign a seat for a subscription or order. **Scopes**: `customer_seats:write` */
 export const customerSeatsAssignSeat: API.OperationMethod<
   CustomerSeatsAssignSeatRequest,
   CustomerSeat,
   CustomerSeatsAssignSeatError,
   PolarOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1776, __c222, 0) as any as S.Schema<CustomerSeatsAssignSeatRequest>,
-  output: __S(1585, __c198, 1) as any as S.Schema<CustomerSeat>,
+  input: __S(1848, __c231, 0) as any as S.Schema<CustomerSeatsAssignSeatRequest>,
+  output: __S(1673, __c209, 1) as any as S.Schema<CustomerSeat>,
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownPolarError],
   protocol: PolarProtocol,
   retry: Retry.Retry,
@@ -15359,15 +15684,15 @@ export type CustomerSeatsClaimSeatError =
   | Forbidden
   | UnprocessableEntity
   | PolarOpError;
-/** Claim Seat */
+/** Claim Seat Claim a customer seat with an invitation token. */
 export const customerSeatsClaimSeat: API.OperationMethod<
   CustomerSeatsClaimSeatRequest,
   CustomerSeatClaimResponse,
   CustomerSeatsClaimSeatError,
   PolarOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1784, __c223, 0) as any as S.Schema<CustomerSeatsClaimSeatRequest>,
-  output: __S(1785, __c223, 1) as any as S.Schema<CustomerSeatClaimResponse>,
+  input: __S(1856, __c232, 0) as any as S.Schema<CustomerSeatsClaimSeatRequest>,
+  output: __S(1857, __c232, 1) as any as S.Schema<CustomerSeatClaimResponse>,
   errors: [BadRequest, Forbidden, UnprocessableEntity, UnknownPolarError],
   protocol: PolarProtocol,
   retry: Retry.Retry,
@@ -15376,15 +15701,15 @@ export const customerSeatsClaimSeat: API.OperationMethod<
 }));
 
 export type CustomerSeatsListSeatsError = Forbidden | NotFound | UnprocessableEntity | PolarOpError;
-/** List Seats **Scopes**: `customer_seats:read` */
+/** List Seats List seats for a subscription or order. **Scopes**: `customer_seats:read` */
 export const customerSeatsListSeats: API.OperationMethod<
   CustomerSeatsListSeatsRequest,
   SeatsList,
   CustomerSeatsListSeatsError,
   PolarOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1792, __c224, 0) as any as S.Schema<CustomerSeatsListSeatsRequest>,
-  output: __S(1649, __c206, 1) as any as S.Schema<SeatsList>,
+  input: __S(1864, __c233, 0) as any as S.Schema<CustomerSeatsListSeatsRequest>,
+  output: __S(1721, __c215, 1) as any as S.Schema<SeatsList>,
   errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPolarError],
   protocol: PolarProtocol,
   retry: Retry.Retry,
@@ -15398,15 +15723,15 @@ export type CustomerSeatsResendInvitationError =
   | NotFound
   | UnprocessableEntity
   | PolarOpError;
-/** Resend Invitation **Scopes**: `customer_seats:write` */
+/** Resend Invitation Resend an invitation for a pending customer seat. **Scopes**: `customer_seats:write` */
 export const customerSeatsResendInvitation: API.OperationMethod<
   CustomerSeatsResendInvitationRequest,
   CustomerSeat,
   CustomerSeatsResendInvitationError,
   PolarOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1800, __c225, 0) as any as S.Schema<CustomerSeatsResendInvitationRequest>,
-  output: __S(1585, __c198, 1) as any as S.Schema<CustomerSeat>,
+  input: __S(1872, __c234, 0) as any as S.Schema<CustomerSeatsResendInvitationRequest>,
+  output: __S(1673, __c209, 1) as any as S.Schema<CustomerSeat>,
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownPolarError],
   protocol: PolarProtocol,
   retry: Retry.Retry,
@@ -15419,15 +15744,15 @@ export type CustomerSeatsRevokeSeatError =
   | NotFound
   | UnprocessableEntity
   | PolarOpError;
-/** Revoke Seat **Scopes**: `customer_seats:write` */
+/** Revoke Seat Revoke a customer seat. **Scopes**: `customer_seats:write` */
 export const customerSeatsRevokeSeat: API.OperationMethod<
   CustomerSeatsRevokeSeatRequest,
   CustomerSeat,
   CustomerSeatsRevokeSeatError,
   PolarOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1808, __c226, 0) as any as S.Schema<CustomerSeatsRevokeSeatRequest>,
-  output: __S(1585, __c198, 1) as any as S.Schema<CustomerSeat>,
+  input: __S(1880, __c235, 0) as any as S.Schema<CustomerSeatsRevokeSeatRequest>,
+  output: __S(1673, __c209, 1) as any as S.Schema<CustomerSeat>,
   errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPolarError],
   protocol: PolarProtocol,
   retry: Retry.Retry,
@@ -15443,8 +15768,8 @@ export const customerSessionsCreate: API.OperationMethod<
   CustomerSessionsCreateError,
   PolarOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1816, __c227, 0) as any as S.Schema<CustomerSessionsCreateRequest>,
-  output: __S(1817, __c227, 1) as any as S.Schema<CustomerSession>,
+  input: __S(1888, __c236, 0) as any as S.Schema<CustomerSessionsCreateRequest>,
+  output: __S(1889, __c236, 1) as any as S.Schema<CustomerSession>,
   errors: [Conflict, UnprocessableEntity, UnknownPolarError],
   protocol: PolarProtocol,
   retry: Retry.Retry,
@@ -15460,8 +15785,8 @@ export const customersExport: API.OperationMethod<
   CustomersExportError,
   PolarOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1824, __c228, 0) as any as S.Schema<CustomersExportRequest>,
-  output: __S(1752, __c219, 0) as any as S.Schema<CustomersExportResponse>,
+  input: __S(1904, __c238, 0) as any as S.Schema<CustomersExportRequest>,
+  output: __S(1800, __c225, 0) as any as S.Schema<CustomersExportResponse>,
   errors: [UnprocessableEntity, UnknownPolarError],
   protocol: PolarProtocol,
   retry: Retry.Retry,
@@ -15477,8 +15802,8 @@ export const customersGet: API.OperationMethod<
   CustomersGetError,
   PolarOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1832, __c229, 0) as any as S.Schema<CustomersGetRequest>,
-  output: __S(1736, __c217, 0) as any as S.Schema<CustomersGetResponse>,
+  input: __S(1912, __c239, 0) as any as S.Schema<CustomersGetRequest>,
+  output: __S(1824, __c228, 0) as any as S.Schema<CustomersGetResponse>,
   errors: [NotFound, UnprocessableEntity, UnknownPolarError],
   protocol: PolarProtocol,
   retry: Retry.Retry,
@@ -15494,8 +15819,8 @@ export const customersGetExternal: API.OperationMethod<
   CustomersGetExternalError,
   PolarOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1848, __c231, 0) as any as S.Schema<CustomersGetExternalRequest>,
-  output: __S(1736, __c217, 0) as any as S.Schema<CustomersGetExternalResponse>,
+  input: __S(1920, __c240, 0) as any as S.Schema<CustomersGetExternalRequest>,
+  output: __S(1824, __c228, 0) as any as S.Schema<CustomersGetExternalResponse>,
   errors: [NotFound, UnprocessableEntity, UnknownPolarError],
   protocol: PolarProtocol,
   retry: Retry.Retry,
@@ -15511,8 +15836,8 @@ export const customersGetState: API.OperationMethod<
   CustomersGetStateError,
   PolarOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1856, __c232, 0) as any as S.Schema<CustomersGetStateRequest>,
-  output: __S(1864, __c233, 0) as any as S.Schema<CustomersGetStateResponse>,
+  input: __S(1928, __c241, 0) as any as S.Schema<CustomersGetStateRequest>,
+  output: __S(1936, __c242, 0) as any as S.Schema<CustomersGetStateResponse>,
   errors: [NotFound, UnprocessableEntity, UnknownPolarError],
   protocol: PolarProtocol,
   retry: Retry.Retry,
@@ -15528,8 +15853,8 @@ export const customersGetStateExternal: API.OperationMethod<
   CustomersGetStateExternalError,
   PolarOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1872, __c234, 0) as any as S.Schema<CustomersGetStateExternalRequest>,
-  output: __S(1864, __c233, 0) as any as S.Schema<CustomersGetStateExternalResponse>,
+  input: __S(1944, __c243, 0) as any as S.Schema<CustomersGetStateExternalRequest>,
+  output: __S(1936, __c242, 0) as any as S.Schema<CustomersGetStateExternalResponse>,
   errors: [NotFound, UnprocessableEntity, UnknownPolarError],
   protocol: PolarProtocol,
   retry: Retry.Retry,
@@ -15547,8 +15872,8 @@ export const customersList: API.PaginatedOperationMethod<
   Customer
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(1880, __c235, 0) as any as S.Schema<CustomersListRequest>,
-    output: __S(1882, __c235, 2) as any as S.Schema<ListResourceCustomer>,
+    input: __S(1952, __c244, 0) as any as S.Schema<CustomersListRequest>,
+    output: __S(1954, __c244, 2) as any as S.Schema<ListResourceCustomer>,
     errors: [UnprocessableEntity, UnknownPolarError],
     protocol: PolarProtocol,
     retry: Retry.Retry,
@@ -15575,8 +15900,8 @@ export const customersListPaymentMethods: API.PaginatedOperationMethod<
   PaymentMethod
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(1888, __c236, 0) as any as S.Schema<CustomersListPaymentMethodsRequest>,
-    output: __S(1897, __c237, 1) as any as S.Schema<ListResourcePaymentMethod>,
+    input: __S(1960, __c245, 0) as any as S.Schema<CustomersListPaymentMethodsRequest>,
+    output: __S(1969, __c246, 1) as any as S.Schema<ListResourcePaymentMethod>,
     errors: [NotFound, UnprocessableEntity, UnknownPolarError],
     protocol: PolarProtocol,
     retry: Retry.Retry,
@@ -15606,8 +15931,8 @@ export const customersListPaymentMethodsExternal: API.PaginatedOperationMethod<
   PaymentMethod
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(1904, __c238, 0) as any as S.Schema<CustomersListPaymentMethodsExternalRequest>,
-    output: __S(1897, __c237, 1) as any as S.Schema<ListResourcePaymentMethod>,
+    input: __S(1976, __c247, 0) as any as S.Schema<CustomersListPaymentMethodsExternalRequest>,
+    output: __S(1969, __c246, 1) as any as S.Schema<ListResourcePaymentMethod>,
     errors: [NotFound, UnprocessableEntity, UnknownPolarError],
     protocol: PolarProtocol,
     retry: Retry.Retry,
@@ -15632,8 +15957,8 @@ export const customersMembersCreate: API.OperationMethod<
   CustomersMembersCreateError,
   PolarOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1912, __c239, 0) as any as S.Schema<CustomersMembersCreateRequest>,
-  output: __S(1448, __c181, 0) as any as S.Schema<Member>,
+  input: __S(1984, __c248, 0) as any as S.Schema<CustomersMembersCreateRequest>,
+  output: __S(1496, __c187, 0) as any as S.Schema<Member>,
   errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPolarError],
   protocol: PolarProtocol,
   retry: Retry.Retry,
@@ -15654,8 +15979,8 @@ export const customersMembersCreateExternal: API.OperationMethod<
   CustomersMembersCreateExternalError,
   PolarOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1920, __c240, 0) as any as S.Schema<CustomersMembersCreateExternalRequest>,
-  output: __S(1448, __c181, 0) as any as S.Schema<Member>,
+  input: __S(1992, __c249, 0) as any as S.Schema<CustomersMembersCreateExternalRequest>,
+  output: __S(1496, __c187, 0) as any as S.Schema<Member>,
   errors: [Forbidden, NotFound, Conflict, UnprocessableEntity, UnknownPolarError],
   protocol: PolarProtocol,
   retry: Retry.Retry,
@@ -15671,8 +15996,8 @@ export const customersMembersDelete: API.OperationMethod<
   CustomersMembersDeleteError,
   PolarOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1928, __c241, 0) as any as S.Schema<CustomersMembersDeleteRequest>,
-  output: __S(1752, __c219, 0) as any as S.Schema<CustomersMembersDeleteResponse>,
+  input: __S(2008, __c251, 0) as any as S.Schema<CustomersMembersDeleteRequest>,
+  output: __S(1800, __c225, 0) as any as S.Schema<CustomersMembersDeleteResponse>,
   errors: [NotFound, UnprocessableEntity, UnknownPolarError],
   protocol: PolarProtocol,
   retry: Retry.Retry,
@@ -15692,8 +16017,8 @@ export const customersMembersDeleteExternal: API.OperationMethod<
   CustomersMembersDeleteExternalError,
   PolarOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1936, __c242, 0) as any as S.Schema<CustomersMembersDeleteExternalRequest>,
-  output: __S(1752, __c219, 0) as any as S.Schema<CustomersMembersDeleteExternalResponse>,
+  input: __S(2016, __c252, 0) as any as S.Schema<CustomersMembersDeleteExternalRequest>,
+  output: __S(1800, __c225, 0) as any as S.Schema<CustomersMembersDeleteExternalResponse>,
   errors: [NotFound, Conflict, UnprocessableEntity, UnknownPolarError],
   protocol: PolarProtocol,
   retry: Retry.Retry,
@@ -15709,8 +16034,8 @@ export const customersMembersGet: API.OperationMethod<
   CustomersMembersGetError,
   PolarOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1952, __c244, 0) as any as S.Schema<CustomersMembersGetRequest>,
-  output: __S(1448, __c181, 0) as any as S.Schema<Member>,
+  input: __S(2024, __c253, 0) as any as S.Schema<CustomersMembersGetRequest>,
+  output: __S(1496, __c187, 0) as any as S.Schema<Member>,
   errors: [NotFound, UnprocessableEntity, UnknownPolarError],
   protocol: PolarProtocol,
   retry: Retry.Retry,
@@ -15730,8 +16055,8 @@ export const customersMembersGetExternal: API.OperationMethod<
   CustomersMembersGetExternalError,
   PolarOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1960, __c245, 0) as any as S.Schema<CustomersMembersGetExternalRequest>,
-  output: __S(1448, __c181, 0) as any as S.Schema<Member>,
+  input: __S(2032, __c254, 0) as any as S.Schema<CustomersMembersGetExternalRequest>,
+  output: __S(1496, __c187, 0) as any as S.Schema<Member>,
   errors: [NotFound, Conflict, UnprocessableEntity, UnknownPolarError],
   protocol: PolarProtocol,
   retry: Retry.Retry,
@@ -15749,8 +16074,8 @@ export const customersMembersList: API.PaginatedOperationMethod<
   Member
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(1968, __c246, 0) as any as S.Schema<CustomersMembersListRequest>,
-    output: __S(1977, __c247, 1) as any as S.Schema<ListResourceMember>,
+    input: __S(2040, __c255, 0) as any as S.Schema<CustomersMembersListRequest>,
+    output: __S(2049, __c256, 1) as any as S.Schema<ListResourceMember>,
     errors: [NotFound, UnprocessableEntity, UnknownPolarError],
     protocol: PolarProtocol,
     retry: Retry.Retry,
@@ -15781,8 +16106,8 @@ export const customersMembersListExternal: API.PaginatedOperationMethod<
   Member
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(1984, __c248, 0) as any as S.Schema<CustomersMembersListExternalRequest>,
-    output: __S(1977, __c247, 1) as any as S.Schema<ListResourceMember>,
+    input: __S(2056, __c257, 0) as any as S.Schema<CustomersMembersListExternalRequest>,
+    output: __S(2049, __c256, 1) as any as S.Schema<ListResourceMember>,
     errors: [NotFound, Conflict, UnprocessableEntity, UnknownPolarError],
     protocol: PolarProtocol,
     retry: Retry.Retry,
@@ -15807,8 +16132,8 @@ export const customersMembersUpdate: API.OperationMethod<
   CustomersMembersUpdateError,
   PolarOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1992, __c249, 0) as any as S.Schema<CustomersMembersUpdateRequest>,
-  output: __S(1448, __c181, 0) as any as S.Schema<Member>,
+  input: __S(2064, __c258, 0) as any as S.Schema<CustomersMembersUpdateRequest>,
+  output: __S(1496, __c187, 0) as any as S.Schema<Member>,
   errors: [NotFound, UnprocessableEntity, UnknownPolarError],
   protocol: PolarProtocol,
   retry: Retry.Retry,
@@ -15828,8 +16153,8 @@ export const customersMembersUpdateExternal: API.OperationMethod<
   CustomersMembersUpdateExternalError,
   PolarOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2000, __c250, 0) as any as S.Schema<CustomersMembersUpdateExternalRequest>,
-  output: __S(1448, __c181, 0) as any as S.Schema<Member>,
+  input: __S(2072, __c259, 0) as any as S.Schema<CustomersMembersUpdateExternalRequest>,
+  output: __S(1496, __c187, 0) as any as S.Schema<Member>,
   errors: [NotFound, Conflict, UnprocessableEntity, UnknownPolarError],
   protocol: PolarProtocol,
   retry: Retry.Retry,
@@ -15845,8 +16170,8 @@ export const customersUpdate: API.OperationMethod<
   CustomersUpdateError,
   PolarOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2009, __c251, 1) as any as S.Schema<CustomersUpdateRequest>,
-  output: __S(1736, __c217, 0) as any as S.Schema<CustomersUpdateResponse>,
+  input: __S(2081, __c260, 1) as any as S.Schema<CustomersUpdateRequest>,
+  output: __S(1824, __c228, 0) as any as S.Schema<CustomersUpdateResponse>,
   errors: [NotFound, UnprocessableEntity, UnknownPolarError],
   protocol: PolarProtocol,
   retry: Retry.Retry,
@@ -15862,8 +16187,8 @@ export const customersUpdateExternal: API.OperationMethod<
   CustomersUpdateExternalError,
   PolarOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2017, __c252, 1) as any as S.Schema<CustomersUpdateExternalRequest>,
-  output: __S(1736, __c217, 0) as any as S.Schema<CustomersUpdateExternalResponse>,
+  input: __S(2089, __c261, 1) as any as S.Schema<CustomersUpdateExternalRequest>,
+  output: __S(1824, __c228, 0) as any as S.Schema<CustomersUpdateExternalResponse>,
   errors: [NotFound, UnprocessableEntity, UnknownPolarError],
   protocol: PolarProtocol,
   retry: Retry.Retry,
@@ -15879,8 +16204,8 @@ export const customFieldsCreate: API.OperationMethod<
   CustomFieldsCreateError,
   PolarOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2024, __c253, 0) as any as S.Schema<CustomFieldsCreateRequest>,
-  output: __S(2032, __c254, 0) as any as S.Schema<CustomFieldsCreateResponse>,
+  input: __S(8, __c1, 0) as any as S.Schema<CustomFieldsCreateRequest>,
+  output: __S(16, __c2, 0) as any as S.Schema<CustomFieldsCreateResponse>,
   errors: [UnprocessableEntity, UnknownPolarError],
   protocol: PolarProtocol,
   retry: Retry.Retry,
@@ -15896,8 +16221,8 @@ export const customFieldsDelete: API.OperationMethod<
   CustomFieldsDeleteError,
   PolarOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2040, __c255, 0) as any as S.Schema<CustomFieldsDeleteRequest>,
-  output: __S(1752, __c219, 0) as any as S.Schema<CustomFieldsDeleteResponse>,
+  input: __S(24, __c3, 0) as any as S.Schema<CustomFieldsDeleteRequest>,
+  output: __S(1800, __c225, 0) as any as S.Schema<CustomFieldsDeleteResponse>,
   errors: [NotFound, UnprocessableEntity, UnknownPolarError],
   protocol: PolarProtocol,
   retry: Retry.Retry,
@@ -15913,8 +16238,8 @@ export const customFieldsGet: API.OperationMethod<
   CustomFieldsGetError,
   PolarOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8, __c1, 0) as any as S.Schema<CustomFieldsGetRequest>,
-  output: __S(2032, __c254, 0) as any as S.Schema<CustomFieldsGetResponse>,
+  input: __S(32, __c4, 0) as any as S.Schema<CustomFieldsGetRequest>,
+  output: __S(16, __c2, 0) as any as S.Schema<CustomFieldsGetResponse>,
   errors: [NotFound, UnprocessableEntity, UnknownPolarError],
   protocol: PolarProtocol,
   retry: Retry.Retry,
@@ -15932,8 +16257,8 @@ export const customFieldsList: API.PaginatedOperationMethod<
   CustomField
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(16, __c2, 0) as any as S.Schema<CustomFieldsListRequest>,
-    output: __S(18, __c2, 2) as any as S.Schema<ListResourceCustomField>,
+    input: __S(40, __c5, 0) as any as S.Schema<CustomFieldsListRequest>,
+    output: __S(42, __c5, 2) as any as S.Schema<ListResourceCustomField>,
     errors: [UnprocessableEntity, UnknownPolarError],
     protocol: PolarProtocol,
     retry: Retry.Retry,
@@ -15958,8 +16283,8 @@ export const customFieldsUpdate: API.OperationMethod<
   CustomFieldsUpdateError,
   PolarOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(24, __c3, 0) as any as S.Schema<CustomFieldsUpdateRequest>,
-  output: __S(2032, __c254, 0) as any as S.Schema<CustomFieldsUpdateResponse>,
+  input: __S(48, __c6, 0) as any as S.Schema<CustomFieldsUpdateRequest>,
+  output: __S(16, __c2, 0) as any as S.Schema<CustomFieldsUpdateResponse>,
   errors: [NotFound, UnprocessableEntity, UnknownPolarError],
   protocol: PolarProtocol,
   retry: Retry.Retry,
@@ -15975,8 +16300,8 @@ export const discountsCreate: API.OperationMethod<
   DiscountsCreateError,
   PolarOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(32, __c4, 0) as any as S.Schema<DiscountsCreateRequest>,
-  output: __S(40, __c5, 0) as any as S.Schema<DiscountsCreateResponse>,
+  input: __S(56, __c7, 0) as any as S.Schema<DiscountsCreateRequest>,
+  output: __S(64, __c8, 0) as any as S.Schema<DiscountsCreateResponse>,
   errors: [UnprocessableEntity, UnknownPolarError],
   protocol: PolarProtocol,
   retry: Retry.Retry,
@@ -15992,8 +16317,8 @@ export const discountsDelete: API.OperationMethod<
   DiscountsDeleteError,
   PolarOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(48, __c6, 0) as any as S.Schema<DiscountsDeleteRequest>,
-  output: __S(1752, __c219, 0) as any as S.Schema<DiscountsDeleteResponse>,
+  input: __S(72, __c9, 0) as any as S.Schema<DiscountsDeleteRequest>,
+  output: __S(1800, __c225, 0) as any as S.Schema<DiscountsDeleteResponse>,
   errors: [NotFound, UnprocessableEntity, UnknownPolarError],
   protocol: PolarProtocol,
   retry: Retry.Retry,
@@ -16009,8 +16334,8 @@ export const discountsGet: API.OperationMethod<
   DiscountsGetError,
   PolarOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(56, __c7, 0) as any as S.Schema<DiscountsGetRequest>,
-  output: __S(40, __c5, 0) as any as S.Schema<DiscountsGetResponse>,
+  input: __S(80, __c10, 0) as any as S.Schema<DiscountsGetRequest>,
+  output: __S(64, __c8, 0) as any as S.Schema<DiscountsGetResponse>,
   errors: [NotFound, UnprocessableEntity, UnknownPolarError],
   protocol: PolarProtocol,
   retry: Retry.Retry,
@@ -16028,8 +16353,8 @@ export const discountsList: API.PaginatedOperationMethod<
   Discount
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(64, __c8, 0) as any as S.Schema<DiscountsListRequest>,
-    output: __S(66, __c8, 2) as any as S.Schema<ListResourceDiscount>,
+    input: __S(88, __c11, 0) as any as S.Schema<DiscountsListRequest>,
+    output: __S(90, __c11, 2) as any as S.Schema<ListResourceDiscount>,
     errors: [UnprocessableEntity, UnknownPolarError],
     protocol: PolarProtocol,
     retry: Retry.Retry,
@@ -16054,8 +16379,8 @@ export const discountsUpdate: API.OperationMethod<
   DiscountsUpdateError,
   PolarOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(74, __c9, 2) as any as S.Schema<DiscountsUpdateRequest>,
-  output: __S(40, __c5, 0) as any as S.Schema<DiscountsUpdateResponse>,
+  input: __S(98, __c12, 2) as any as S.Schema<DiscountsUpdateRequest>,
+  output: __S(64, __c8, 0) as any as S.Schema<DiscountsUpdateResponse>,
   errors: [NotFound, UnprocessableEntity, UnknownPolarError],
   protocol: PolarProtocol,
   retry: Retry.Retry,
@@ -16071,8 +16396,8 @@ export const disputesAccept: API.OperationMethod<
   DisputesAcceptError,
   PolarOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(80, __c10, 0) as any as S.Schema<DisputesAcceptRequest>,
-  output: __S(88, __c11, 0) as any as S.Schema<Dispute>,
+  input: __S(128, __c16, 0) as any as S.Schema<DisputesAcceptRequest>,
+  output: __S(136, __c17, 0) as any as S.Schema<Dispute>,
   errors: [NotFound, Conflict, UnprocessableEntity, UnknownPolarError],
   protocol: PolarProtocol,
   retry: Retry.Retry,
@@ -16088,8 +16413,8 @@ export const disputesGet: API.OperationMethod<
   DisputesGetError,
   PolarOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(96, __c12, 0) as any as S.Schema<DisputesGetRequest>,
-  output: __S(88, __c11, 0) as any as S.Schema<Dispute>,
+  input: __S(144, __c18, 0) as any as S.Schema<DisputesGetRequest>,
+  output: __S(136, __c17, 0) as any as S.Schema<Dispute>,
   errors: [NotFound, UnprocessableEntity, UnknownPolarError],
   protocol: PolarProtocol,
   retry: Retry.Retry,
@@ -16107,8 +16432,8 @@ export const disputesList: API.PaginatedOperationMethod<
   Dispute
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(128, __c16, 0) as any as S.Schema<DisputesListRequest>,
-    output: __S(130, __c16, 2) as any as S.Schema<ListResourceDispute>,
+    input: __S(152, __c19, 0) as any as S.Schema<DisputesListRequest>,
+    output: __S(154, __c19, 2) as any as S.Schema<ListResourceDispute>,
     errors: [UnprocessableEntity, UnknownPolarError],
     protocol: PolarProtocol,
     retry: Retry.Retry,
@@ -16133,8 +16458,8 @@ export const eventsGet: API.OperationMethod<
   EventsGetError,
   PolarOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(136, __c17, 0) as any as S.Schema<EventsGetRequest>,
-  output: __S(137, __c17, 1) as any as S.Schema<EventsGetResponse>,
+  input: __S(160, __c20, 0) as any as S.Schema<EventsGetRequest>,
+  output: __S(161, __c20, 1) as any as S.Schema<EventsGetResponse>,
   errors: [NotFound, UnprocessableEntity, UnknownPolarError],
   protocol: PolarProtocol,
   retry: Retry.Retry,
@@ -16142,7 +16467,7 @@ export const eventsGet: API.OperationMethod<
   span: "EventsGet",
 }));
 
-export type EventsIngestError = UnprocessableEntity | PolarOpError;
+export type EventsIngestError = Forbidden | UnprocessableEntity | PolarOpError;
 /** Ingest Events Ingest batch of events. **Scopes**: `events:write` */
 export const eventsIngest: API.OperationMethod<
   EventsIngestRequest,
@@ -16150,9 +16475,9 @@ export const eventsIngest: API.OperationMethod<
   EventsIngestError,
   PolarOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(145, __c18, 1) as any as S.Schema<EventsIngestRequest>,
-  output: __S(146, __c18, 2) as any as S.Schema<EventsIngestResponse>,
-  errors: [UnprocessableEntity, UnknownPolarError],
+  input: __S(169, __c21, 1) as any as S.Schema<EventsIngestRequest>,
+  output: __S(170, __c21, 2) as any as S.Schema<EventsIngestResponse>,
+  errors: [Forbidden, UnprocessableEntity, UnknownPolarError],
   protocol: PolarProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -16167,8 +16492,8 @@ export const eventsList: API.OperationMethod<
   EventsListError,
   PolarOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(152, __c19, 0) as any as S.Schema<EventsListRequest>,
-  output: __S(153, __c19, 1) as any as S.Schema<EventsListResponse>,
+  input: __S(176, __c22, 0) as any as S.Schema<EventsListRequest>,
+  output: __S(177, __c22, 1) as any as S.Schema<EventsListResponse>,
   errors: [UnprocessableEntity, UnknownPolarError],
   protocol: PolarProtocol,
   retry: Retry.Retry,
@@ -16186,8 +16511,8 @@ export const eventsListNames: API.PaginatedOperationMethod<
   EventName
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(160, __c20, 0) as any as S.Schema<EventsListNamesRequest>,
-    output: __S(163, __c20, 3) as any as S.Schema<ListResourceEventName>,
+    input: __S(184, __c23, 0) as any as S.Schema<EventsListNamesRequest>,
+    output: __S(187, __c23, 3) as any as S.Schema<ListResourceEventName>,
     errors: [UnprocessableEntity, UnknownPolarError],
     protocol: PolarProtocol,
     retry: Retry.Retry,
@@ -16214,8 +16539,8 @@ export const eventTypesList: API.PaginatedOperationMethod<
   EventTypeWithStats
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(168, __c21, 0) as any as S.Schema<EventTypesListRequest>,
-    output: __S(171, __c21, 3) as any as S.Schema<ListResourceEventTypeWithStats>,
+    input: __S(192, __c24, 0) as any as S.Schema<EventTypesListRequest>,
+    output: __S(195, __c24, 3) as any as S.Schema<ListResourceEventTypeWithStats>,
     errors: [UnprocessableEntity, UnknownPolarError],
     protocol: PolarProtocol,
     retry: Retry.Retry,
@@ -16240,8 +16565,8 @@ export const eventTypesUpdate: API.OperationMethod<
   EventTypesUpdateError,
   PolarOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(176, __c22, 0) as any as S.Schema<EventTypesUpdateRequest>,
-  output: __S(177, __c22, 1) as any as S.Schema<EventType>,
+  input: __S(200, __c25, 0) as any as S.Schema<EventTypesUpdateRequest>,
+  output: __S(201, __c25, 1) as any as S.Schema<EventType>,
   errors: [NotFound, UnprocessableEntity, UnknownPolarError],
   protocol: PolarProtocol,
   retry: Retry.Retry,
@@ -16257,8 +16582,8 @@ export const filesCreate: API.OperationMethod<
   FilesCreateError,
   PolarOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(184, __c23, 0) as any as S.Schema<FilesCreateRequest>,
-  output: __S(188, __c23, 4) as any as S.Schema<FileUpload>,
+  input: __S(208, __c26, 0) as any as S.Schema<FilesCreateRequest>,
+  output: __S(212, __c26, 4) as any as S.Schema<FileUpload>,
   errors: [UnprocessableEntity, UnknownPolarError],
   protocol: PolarProtocol,
   retry: Retry.Retry,
@@ -16274,8 +16599,8 @@ export const filesDelete: API.OperationMethod<
   FilesDeleteError,
   PolarOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(192, __c24, 0) as any as S.Schema<FilesDeleteRequest>,
-  output: __S(1752, __c219, 0) as any as S.Schema<FilesDeleteResponse>,
+  input: __S(224, __c28, 0) as any as S.Schema<FilesDeleteRequest>,
+  output: __S(1800, __c225, 0) as any as S.Schema<FilesDeleteResponse>,
   errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPolarError],
   protocol: PolarProtocol,
   retry: Retry.Retry,
@@ -16293,8 +16618,8 @@ export const filesList: API.PaginatedOperationMethod<
   FileRead
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(200, __c25, 0) as any as S.Schema<FilesListRequest>,
-    output: __S(202, __c25, 2) as any as S.Schema<ListResourceFileRead>,
+    input: __S(232, __c29, 0) as any as S.Schema<FilesListRequest>,
+    output: __S(234, __c29, 2) as any as S.Schema<ListResourceFileRead>,
     errors: [UnprocessableEntity, UnknownPolarError],
     protocol: PolarProtocol,
     retry: Retry.Retry,
@@ -16319,8 +16644,8 @@ export const filesUpdate: API.OperationMethod<
   FilesUpdateError,
   PolarOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(216, __c27, 0) as any as S.Schema<FilesUpdateRequest>,
-  output: __S(224, __c28, 0) as any as S.Schema<FilesUpdateResponse>,
+  input: __S(240, __c30, 0) as any as S.Schema<FilesUpdateRequest>,
+  output: __S(248, __c31, 0) as any as S.Schema<FilesUpdateResponse>,
   errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPolarError],
   protocol: PolarProtocol,
   retry: Retry.Retry,
@@ -16336,8 +16661,8 @@ export const filesUploaded: API.OperationMethod<
   FilesUploadedError,
   PolarOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(234, __c29, 2) as any as S.Schema<FilesUploadedRequest>,
-  output: __S(224, __c28, 0) as any as S.Schema<FilesUploadedResponse>,
+  input: __S(258, __c32, 2) as any as S.Schema<FilesUploadedRequest>,
+  output: __S(248, __c31, 0) as any as S.Schema<FilesUploadedResponse>,
   errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPolarError],
   protocol: PolarProtocol,
   retry: Retry.Retry,
@@ -16353,8 +16678,8 @@ export const getCheckoutsClient: API.OperationMethod<
   GetCheckoutsClientError,
   PolarOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(240, __c30, 0) as any as S.Schema<GetCheckoutsClientRequest>,
-  output: __S(251, __c31, 3) as any as S.Schema<CheckoutPublic>,
+  input: __S(264, __c33, 0) as any as S.Schema<GetCheckoutsClientRequest>,
+  output: __S(273, __c34, 1) as any as S.Schema<CheckoutPublic>,
   errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPolarError],
   protocol: PolarProtocol,
   retry: Retry.Retry,
@@ -16370,8 +16695,8 @@ export const licenseKeysActivate: API.OperationMethod<
   LicenseKeysActivateError,
   PolarOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(258, __c32, 2) as any as S.Schema<LicenseKeysActivateRequest>,
-  output: __S(1282, __c160, 2) as any as S.Schema<LicenseKeyActivationCreated>,
+  input: __S(282, __c35, 2) as any as S.Schema<LicenseKeysActivateRequest>,
+  output: __S(1346, __c168, 2) as any as S.Schema<LicenseKeyActivationCreated>,
   errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPolarError],
   protocol: PolarProtocol,
   retry: Retry.Retry,
@@ -16387,8 +16712,8 @@ export const licenseKeysDeactivate: API.OperationMethod<
   LicenseKeysDeactivateError,
   PolarOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(264, __c33, 0) as any as S.Schema<LicenseKeysDeactivateRequest>,
-  output: __S(1752, __c219, 0) as any as S.Schema<LicenseKeysDeactivateResponse>,
+  input: __S(288, __c36, 0) as any as S.Schema<LicenseKeysDeactivateRequest>,
+  output: __S(1800, __c225, 0) as any as S.Schema<LicenseKeysDeactivateResponse>,
   errors: [NotFound, UnprocessableEntity, UnknownPolarError],
   protocol: PolarProtocol,
   retry: Retry.Retry,
@@ -16404,8 +16729,8 @@ export const licenseKeysGet: API.OperationMethod<
   LicenseKeysGetError,
   PolarOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(272, __c34, 0) as any as S.Schema<LicenseKeysGetRequest>,
-  output: __S(1329, __c166, 1) as any as S.Schema<LicenseKeyWithActivations>,
+  input: __S(296, __c37, 0) as any as S.Schema<LicenseKeysGetRequest>,
+  output: __S(1393, __c174, 1) as any as S.Schema<LicenseKeyWithActivations>,
   errors: [NotFound, UnprocessableEntity, UnknownPolarError],
   protocol: PolarProtocol,
   retry: Retry.Retry,
@@ -16421,8 +16746,8 @@ export const licenseKeysGetActivation: API.OperationMethod<
   LicenseKeysGetActivationError,
   PolarOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(280, __c35, 0) as any as S.Schema<LicenseKeysGetActivationRequest>,
-  output: __S(282, __c35, 2) as any as S.Schema<LicenseKeyActivationRead>,
+  input: __S(304, __c38, 0) as any as S.Schema<LicenseKeysGetActivationRequest>,
+  output: __S(306, __c38, 2) as any as S.Schema<LicenseKeyActivationRead>,
   errors: [NotFound, UnprocessableEntity, UnknownPolarError],
   protocol: PolarProtocol,
   retry: Retry.Retry,
@@ -16440,8 +16765,8 @@ export const licenseKeysList: API.PaginatedOperationMethod<
   LicenseKeyRead
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(288, __c36, 0) as any as S.Schema<LicenseKeysListRequest>,
-    output: __S(1353, __c169, 1) as any as S.Schema<ListResourceLicenseKeyRead>,
+    input: __S(312, __c39, 0) as any as S.Schema<LicenseKeysListRequest>,
+    output: __S(1417, __c177, 1) as any as S.Schema<ListResourceLicenseKeyRead>,
     errors: [NotFound, UnprocessableEntity, UnknownPolarError],
     protocol: PolarProtocol,
     retry: Retry.Retry,
@@ -16466,8 +16791,8 @@ export const licenseKeysRotate: API.OperationMethod<
   LicenseKeysRotateError,
   PolarOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(296, __c37, 0) as any as S.Schema<LicenseKeysRotateRequest>,
-  output: __S(1360, __c170, 0) as any as S.Schema<RotatedLicenseKey>,
+  input: __S(368, __c46, 0) as any as S.Schema<LicenseKeysRotateRequest>,
+  output: __S(1424, __c178, 0) as any as S.Schema<RotatedLicenseKey>,
   errors: [BadRequest, NotFound, UnprocessableEntity, UnknownPolarError],
   protocol: PolarProtocol,
   retry: Retry.Retry,
@@ -16483,8 +16808,8 @@ export const licenseKeysUpdate: API.OperationMethod<
   LicenseKeysUpdateError,
   PolarOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(304, __c38, 0) as any as S.Schema<LicenseKeysUpdateRequest>,
-  output: __S(1360, __c170, 0) as any as S.Schema<LicenseKeyRead>,
+  input: __S(376, __c47, 0) as any as S.Schema<LicenseKeysUpdateRequest>,
+  output: __S(1424, __c178, 0) as any as S.Schema<LicenseKeyRead>,
   errors: [NotFound, UnprocessableEntity, UnknownPolarError],
   protocol: PolarProtocol,
   retry: Retry.Retry,
@@ -16500,8 +16825,8 @@ export const licenseKeysValidate: API.OperationMethod<
   LicenseKeysValidateError,
   PolarOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(353, __c44, 1) as any as S.Schema<LicenseKeysValidateRequest>,
-  output: __S(1384, __c173, 0) as any as S.Schema<ValidatedLicenseKey>,
+  input: __S(385, __c48, 1) as any as S.Schema<LicenseKeysValidateRequest>,
+  output: __S(1448, __c181, 0) as any as S.Schema<ValidatedLicenseKey>,
   errors: [BadRequest, NotFound, UnprocessableEntity, UnknownPolarError],
   protocol: PolarProtocol,
   retry: Retry.Retry,
@@ -16517,8 +16842,8 @@ export const metersCreate: API.OperationMethod<
   MetersCreateError,
   PolarOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(361, __c45, 1) as any as S.Schema<MetersCreateRequest>,
-  output: __S(1098, __c137, 2) as any as S.Schema<Meter>,
+  input: __S(393, __c49, 1) as any as S.Schema<MetersCreateRequest>,
+  output: __S(1154, __c144, 2) as any as S.Schema<Meter>,
   errors: [UnprocessableEntity, UnknownPolarError],
   protocol: PolarProtocol,
   retry: Retry.Retry,
@@ -16534,13 +16859,30 @@ export const metersGet: API.OperationMethod<
   MetersGetError,
   PolarOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(368, __c46, 0) as any as S.Schema<MetersGetRequest>,
-  output: __S(1098, __c137, 2) as any as S.Schema<Meter>,
+  input: __S(400, __c50, 0) as any as S.Schema<MetersGetRequest>,
+  output: __S(1154, __c144, 2) as any as S.Schema<Meter>,
   errors: [NotFound, UnprocessableEntity, UnknownPolarError],
   protocol: PolarProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "MetersGet",
+}));
+
+export type MetersGetExternalError = NotFound | Conflict | UnprocessableEntity | PolarOpError;
+/** Get Meter by External ID Get a meter by external ID. **Scopes**: `meters:read` `meters:write` */
+export const metersGetExternal: API.OperationMethod<
+  MetersGetExternalRequest,
+  Meter,
+  MetersGetExternalError,
+  PolarOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(408, __c51, 0) as any as S.Schema<MetersGetExternalRequest>,
+  output: __S(1154, __c144, 2) as any as S.Schema<Meter>,
+  errors: [NotFound, Conflict, UnprocessableEntity, UnknownPolarError],
+  protocol: PolarProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "MetersGetExternal",
 }));
 
 export type MetersListError = UnprocessableEntity | PolarOpError;
@@ -16553,8 +16895,8 @@ export const metersList: API.PaginatedOperationMethod<
   Meter
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(376, __c47, 0) as any as S.Schema<MetersListRequest>,
-    output: __S(378, __c47, 2) as any as S.Schema<ListResourceMeter>,
+    input: __S(416, __c52, 0) as any as S.Schema<MetersListRequest>,
+    output: __S(418, __c52, 2) as any as S.Schema<ListResourceMeter>,
     errors: [UnprocessableEntity, UnknownPolarError],
     protocol: PolarProtocol,
     retry: Retry.Retry,
@@ -16579,8 +16921,8 @@ export const metersQuantities: API.OperationMethod<
   MetersQuantitiesError,
   PolarOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(384, __c48, 0) as any as S.Schema<MetersQuantitiesRequest>,
-  output: __S(387, __c48, 3) as any as S.Schema<MeterQuantities>,
+  input: __S(424, __c53, 0) as any as S.Schema<MetersQuantitiesRequest>,
+  output: __S(427, __c53, 3) as any as S.Schema<MeterQuantities>,
   errors: [NotFound, UnprocessableEntity, UnknownPolarError],
   protocol: PolarProtocol,
   retry: Retry.Retry,
@@ -16596,8 +16938,8 @@ export const metersUpdate: API.OperationMethod<
   MetersUpdateError,
   PolarOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(393, __c49, 1) as any as S.Schema<MetersUpdateRequest>,
-  output: __S(1098, __c137, 2) as any as S.Schema<Meter>,
+  input: __S(433, __c54, 1) as any as S.Schema<MetersUpdateRequest>,
+  output: __S(1154, __c144, 2) as any as S.Schema<Meter>,
   errors: [NotFound, UnprocessableEntity, UnknownPolarError],
   protocol: PolarProtocol,
   retry: Retry.Retry,
@@ -16613,8 +16955,8 @@ export const metricsCreateDashboard: API.OperationMethod<
   MetricsCreateDashboardError,
   PolarOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(400, __c50, 0) as any as S.Schema<MetricsCreateDashboardRequest>,
-  output: __S(408, __c51, 0) as any as S.Schema<MetricDashboardSchema>,
+  input: __S(440, __c55, 0) as any as S.Schema<MetricsCreateDashboardRequest>,
+  output: __S(448, __c56, 0) as any as S.Schema<MetricDashboardSchema>,
   errors: [UnprocessableEntity, UnknownPolarError],
   protocol: PolarProtocol,
   retry: Retry.Retry,
@@ -16630,8 +16972,8 @@ export const metricsDeleteDashboard: API.OperationMethod<
   MetricsDeleteDashboardError,
   PolarOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(416, __c52, 0) as any as S.Schema<MetricsDeleteDashboardRequest>,
-  output: __S(1752, __c219, 0) as any as S.Schema<MetricsDeleteDashboardResponse>,
+  input: __S(464, __c58, 0) as any as S.Schema<MetricsDeleteDashboardRequest>,
+  output: __S(1800, __c225, 0) as any as S.Schema<MetricsDeleteDashboardResponse>,
   errors: [UnprocessableEntity, UnknownPolarError],
   protocol: PolarProtocol,
   retry: Retry.Retry,
@@ -16647,8 +16989,8 @@ export const metricsExport: API.OperationMethod<
   MetricsExportError,
   PolarOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(424, __c53, 0) as any as S.Schema<MetricsExportRequest>,
-  output: __S(1752, __c219, 0) as any as S.Schema<MetricsExportResponse>,
+  input: __S(472, __c59, 0) as any as S.Schema<MetricsExportRequest>,
+  output: __S(1800, __c225, 0) as any as S.Schema<MetricsExportResponse>,
   errors: [UnprocessableEntity, UnknownPolarError],
   protocol: PolarProtocol,
   retry: Retry.Retry,
@@ -16664,8 +17006,8 @@ export const metricsGet: API.OperationMethod<
   MetricsGetError,
   PolarOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(432, __c54, 0) as any as S.Schema<MetricsGetRequest>,
-  output: __S(438, __c54, 6) as any as S.Schema<MetricsResponse>,
+  input: __S(480, __c60, 0) as any as S.Schema<MetricsGetRequest>,
+  output: __S(486, __c60, 6) as any as S.Schema<MetricsResponse>,
   errors: [UnprocessableEntity, UnknownPolarError],
   protocol: PolarProtocol,
   retry: Retry.Retry,
@@ -16681,8 +17023,8 @@ export const metricsGetDashboard: API.OperationMethod<
   MetricsGetDashboardError,
   PolarOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(448, __c56, 0) as any as S.Schema<MetricsGetDashboardRequest>,
-  output: __S(408, __c51, 0) as any as S.Schema<MetricDashboardSchema>,
+  input: __S(488, __c61, 0) as any as S.Schema<MetricsGetDashboardRequest>,
+  output: __S(448, __c56, 0) as any as S.Schema<MetricDashboardSchema>,
   errors: [UnprocessableEntity, UnknownPolarError],
   protocol: PolarProtocol,
   retry: Retry.Retry,
@@ -16698,8 +17040,8 @@ export const metricsLimits2: API.OperationMethod<
   MetricsLimits2Error,
   PolarOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(456, __c57, 0) as any as S.Schema<MetricsLimits2Request>,
-  output: __S(459, __c57, 3) as any as S.Schema<MetricsLimits>,
+  input: __S(496, __c62, 0) as any as S.Schema<MetricsLimits2Request>,
+  output: __S(499, __c62, 3) as any as S.Schema<MetricsLimits>,
   errors: [UnknownPolarError],
   protocol: PolarProtocol,
   retry: Retry.Retry,
@@ -16715,8 +17057,8 @@ export const metricsListDashboards: API.OperationMethod<
   MetricsListDashboardsError,
   PolarOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(464, __c58, 0) as any as S.Schema<MetricsListDashboardsRequest>,
-  output: __S(466, __c58, 2) as any as S.Schema<MetricsListDashboardsResponse>,
+  input: __S(504, __c63, 0) as any as S.Schema<MetricsListDashboardsRequest>,
+  output: __S(506, __c63, 2) as any as S.Schema<MetricsListDashboardsResponse>,
   errors: [UnprocessableEntity, UnknownPolarError],
   protocol: PolarProtocol,
   retry: Retry.Retry,
@@ -16732,8 +17074,8 @@ export const metricsUpdateDashboard: API.OperationMethod<
   MetricsUpdateDashboardError,
   PolarOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(472, __c59, 0) as any as S.Schema<MetricsUpdateDashboardRequest>,
-  output: __S(408, __c51, 0) as any as S.Schema<MetricDashboardSchema>,
+  input: __S(512, __c64, 0) as any as S.Schema<MetricsUpdateDashboardRequest>,
+  output: __S(448, __c56, 0) as any as S.Schema<MetricDashboardSchema>,
   errors: [UnprocessableEntity, UnknownPolarError],
   protocol: PolarProtocol,
   retry: Retry.Retry,
@@ -16749,8 +17091,8 @@ export const oauth2Authorize: API.OperationMethod<
   Oauth2AuthorizeError,
   PolarOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(480, __c60, 0) as any as S.Schema<Oauth2AuthorizeRequest>,
-  output: __S(481, __c60, 1) as any as S.Schema<Oauth2AuthorizeResponse>,
+  input: __S(520, __c65, 0) as any as S.Schema<Oauth2AuthorizeRequest>,
+  output: __S(521, __c65, 1) as any as S.Schema<Oauth2AuthorizeResponse>,
   errors: [UnknownPolarError],
   protocol: PolarProtocol,
   retry: Retry.Retry,
@@ -16766,8 +17108,8 @@ export const oauth2ClientsOauth2CreateClient: API.OperationMethod<
   Oauth2ClientsOauth2CreateClientError,
   PolarOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(488, __c61, 0) as any as S.Schema<Oauth2ClientsOauth2CreateClientRequest>,
-  output: __S(496, __c62, 0) as any as S.Schema<Oauth2ClientsOauth2CreateClientResponse>,
+  input: __S(528, __c66, 0) as any as S.Schema<Oauth2ClientsOauth2CreateClientRequest>,
+  output: __S(536, __c67, 0) as any as S.Schema<Oauth2ClientsOauth2CreateClientResponse>,
   errors: [UnprocessableEntity, UnknownPolarError],
   protocol: PolarProtocol,
   retry: Retry.Retry,
@@ -16783,8 +17125,8 @@ export const oauth2ClientsOauth2DeleteClient: API.OperationMethod<
   Oauth2ClientsOauth2DeleteClientError,
   PolarOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(504, __c63, 0) as any as S.Schema<Oauth2ClientsOauth2DeleteClientRequest>,
-  output: __S(1752, __c219, 0) as any as S.Schema<Oauth2ClientsOauth2DeleteClientResponse>,
+  input: __S(544, __c68, 0) as any as S.Schema<Oauth2ClientsOauth2DeleteClientRequest>,
+  output: __S(1800, __c225, 0) as any as S.Schema<Oauth2ClientsOauth2DeleteClientResponse>,
   errors: [UnprocessableEntity, UnknownPolarError],
   protocol: PolarProtocol,
   retry: Retry.Retry,
@@ -16800,8 +17142,8 @@ export const oauth2ClientsOauth2GetClient: API.OperationMethod<
   Oauth2ClientsOauth2GetClientError,
   PolarOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(512, __c64, 0) as any as S.Schema<Oauth2ClientsOauth2GetClientRequest>,
-  output: __S(496, __c62, 0) as any as S.Schema<Oauth2ClientsOauth2GetClientResponse>,
+  input: __S(560, __c70, 0) as any as S.Schema<Oauth2ClientsOauth2GetClientRequest>,
+  output: __S(536, __c67, 0) as any as S.Schema<Oauth2ClientsOauth2GetClientResponse>,
   errors: [UnprocessableEntity, UnknownPolarError],
   protocol: PolarProtocol,
   retry: Retry.Retry,
@@ -16817,8 +17159,8 @@ export const oauth2ClientsOauth2UpdateClient: API.OperationMethod<
   Oauth2ClientsOauth2UpdateClientError,
   PolarOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(520, __c65, 0) as any as S.Schema<Oauth2ClientsOauth2UpdateClientRequest>,
-  output: __S(496, __c62, 0) as any as S.Schema<Oauth2ClientsOauth2UpdateClientResponse>,
+  input: __S(568, __c71, 0) as any as S.Schema<Oauth2ClientsOauth2UpdateClientRequest>,
+  output: __S(536, __c67, 0) as any as S.Schema<Oauth2ClientsOauth2UpdateClientResponse>,
   errors: [UnprocessableEntity, UnknownPolarError],
   protocol: PolarProtocol,
   retry: Retry.Retry,
@@ -16834,8 +17176,8 @@ export const oauth2IntrospectToken: API.OperationMethod<
   Oauth2IntrospectTokenError,
   PolarOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(528, __c66, 0) as any as S.Schema<Oauth2IntrospectTokenRequest>,
-  output: __S(529, __c66, 1) as any as S.Schema<IntrospectTokenResponse>,
+  input: __S(576, __c72, 0) as any as S.Schema<Oauth2IntrospectTokenRequest>,
+  output: __S(577, __c72, 1) as any as S.Schema<IntrospectTokenResponse>,
   errors: [UnknownPolarError],
   protocol: PolarProtocol,
   retry: Retry.Retry,
@@ -16851,8 +17193,8 @@ export const oauth2RequestToken: API.OperationMethod<
   Oauth2RequestTokenError,
   PolarOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(544, __c68, 0) as any as S.Schema<Oauth2RequestTokenRequest>,
-  output: __S(545, __c68, 1) as any as S.Schema<TokenResponse>,
+  input: __S(584, __c73, 0) as any as S.Schema<Oauth2RequestTokenRequest>,
+  output: __S(585, __c73, 1) as any as S.Schema<TokenResponse>,
   errors: [UnknownPolarError],
   protocol: PolarProtocol,
   retry: Retry.Retry,
@@ -16868,8 +17210,8 @@ export const oauth2RevokeToken: API.OperationMethod<
   Oauth2RevokeTokenError,
   PolarOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(552, __c69, 0) as any as S.Schema<Oauth2RevokeTokenRequest>,
-  output: __S(496, __c62, 0) as any as S.Schema<Oauth2RevokeTokenResponse>,
+  input: __S(592, __c74, 0) as any as S.Schema<Oauth2RevokeTokenRequest>,
+  output: __S(536, __c67, 0) as any as S.Schema<Oauth2RevokeTokenResponse>,
   errors: [UnknownPolarError],
   protocol: PolarProtocol,
   retry: Retry.Retry,
@@ -16885,8 +17227,8 @@ export const oauth2Userinfo: API.OperationMethod<
   Oauth2UserinfoError,
   PolarOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(560, __c70, 0) as any as S.Schema<Oauth2UserinfoRequest>,
-  output: __S(561, __c70, 1) as any as S.Schema<Oauth2UserinfoResponse>,
+  input: __S(600, __c75, 0) as any as S.Schema<Oauth2UserinfoRequest>,
+  output: __S(601, __c75, 1) as any as S.Schema<Oauth2UserinfoResponse>,
   errors: [UnknownPolarError],
   protocol: PolarProtocol,
   retry: Retry.Retry,
@@ -16902,8 +17244,8 @@ export const ordersCreate: API.OperationMethod<
   OrdersCreateError,
   PolarOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(570, __c71, 2) as any as S.Schema<OrdersCreateRequest>,
-  output: __S(579, __c72, 3) as any as S.Schema<Order>,
+  input: __S(610, __c76, 2) as any as S.Schema<OrdersCreateRequest>,
+  output: __S(619, __c77, 3) as any as S.Schema<Order>,
   errors: [UnprocessableEntity, UnknownPolarError],
   protocol: PolarProtocol,
   retry: Retry.Retry,
@@ -16919,8 +17261,8 @@ export const ordersExport: API.OperationMethod<
   OrdersExportError,
   PolarOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(584, __c73, 0) as any as S.Schema<OrdersExportRequest>,
-  output: __S(1752, __c219, 0) as any as S.Schema<OrdersExportResponse>,
+  input: __S(624, __c78, 0) as any as S.Schema<OrdersExportRequest>,
+  output: __S(1800, __c225, 0) as any as S.Schema<OrdersExportResponse>,
   errors: [UnprocessableEntity, UnknownPolarError],
   protocol: PolarProtocol,
   retry: Retry.Retry,
@@ -16936,8 +17278,8 @@ export const ordersFinalize: API.OperationMethod<
   OrdersFinalizeError,
   PolarOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(592, __c74, 0) as any as S.Schema<OrdersFinalizeRequest>,
-  output: __S(579, __c72, 3) as any as S.Schema<Order>,
+  input: __S(632, __c79, 0) as any as S.Schema<OrdersFinalizeRequest>,
+  output: __S(619, __c77, 3) as any as S.Schema<Order>,
   errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPolarError],
   protocol: PolarProtocol,
   retry: Retry.Retry,
@@ -16953,8 +17295,8 @@ export const ordersGenerateInvoice: API.OperationMethod<
   OrdersGenerateInvoiceError,
   PolarOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(600, __c75, 0) as any as S.Schema<OrdersGenerateInvoiceRequest>,
-  output: __S(1752, __c219, 0) as any as S.Schema<OrdersGenerateInvoiceResponse>,
+  input: __S(640, __c80, 0) as any as S.Schema<OrdersGenerateInvoiceRequest>,
+  output: __S(1800, __c225, 0) as any as S.Schema<OrdersGenerateInvoiceResponse>,
   errors: [NotFound, Conflict, UnprocessableEntity, UnknownPolarError],
   protocol: PolarProtocol,
   retry: Retry.Retry,
@@ -16970,8 +17312,8 @@ export const ordersGet: API.OperationMethod<
   OrdersGetError,
   PolarOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(608, __c76, 0) as any as S.Schema<OrdersGetRequest>,
-  output: __S(579, __c72, 3) as any as S.Schema<Order>,
+  input: __S(656, __c82, 0) as any as S.Schema<OrdersGetRequest>,
+  output: __S(619, __c77, 3) as any as S.Schema<Order>,
   errors: [NotFound, UnprocessableEntity, UnknownPolarError],
   protocol: PolarProtocol,
   retry: Retry.Retry,
@@ -16987,8 +17329,8 @@ export const ordersInvoice: API.OperationMethod<
   OrdersInvoiceError,
   PolarOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(616, __c77, 0) as any as S.Schema<OrdersInvoiceRequest>,
-  output: __S(1536, __c192, 0) as any as S.Schema<OrderInvoice>,
+  input: __S(664, __c83, 0) as any as S.Schema<OrdersInvoiceRequest>,
+  output: __S(1608, __c201, 0) as any as S.Schema<OrderInvoice>,
   errors: [NotFound, UnprocessableEntity, UnknownPolarError],
   protocol: PolarProtocol,
   retry: Retry.Retry,
@@ -17006,8 +17348,8 @@ export const ordersList: API.PaginatedOperationMethod<
   Order
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(624, __c78, 0) as any as S.Schema<OrdersListRequest>,
-    output: __S(626, __c78, 2) as any as S.Schema<ListResourceOrder>,
+    input: __S(672, __c84, 0) as any as S.Schema<OrdersListRequest>,
+    output: __S(674, __c84, 2) as any as S.Schema<ListResourceOrder>,
     errors: [UnprocessableEntity, UnknownPolarError],
     protocol: PolarProtocol,
     retry: Retry.Retry,
@@ -17032,8 +17374,8 @@ export const ordersReceipt: API.OperationMethod<
   OrdersReceiptError,
   PolarOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(640, __c80, 0) as any as S.Schema<OrdersReceiptRequest>,
-  output: __S(1536, __c192, 0) as any as S.Schema<OrderReceipt>,
+  input: __S(680, __c85, 0) as any as S.Schema<OrdersReceiptRequest>,
+  output: __S(1608, __c201, 0) as any as S.Schema<OrderReceipt>,
   errors: [NotFound, UnprocessableEntity, UnknownPolarError],
   protocol: PolarProtocol,
   retry: Retry.Retry,
@@ -17049,8 +17391,8 @@ export const ordersUpdate: API.OperationMethod<
   OrdersUpdateError,
   PolarOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(648, __c81, 0) as any as S.Schema<OrdersUpdateRequest>,
-  output: __S(579, __c72, 3) as any as S.Schema<Order>,
+  input: __S(688, __c86, 0) as any as S.Schema<OrdersUpdateRequest>,
+  output: __S(619, __c77, 3) as any as S.Schema<Order>,
   errors: [NotFound, UnprocessableEntity, UnknownPolarError],
   protocol: PolarProtocol,
   retry: Retry.Retry,
@@ -17066,8 +17408,8 @@ export const organizationsCreate: API.OperationMethod<
   OrganizationsCreateError,
   PolarOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(656, __c82, 0) as any as S.Schema<OrganizationsCreateRequest>,
-  output: __S(671, __c83, 7) as any as S.Schema<Organization>,
+  input: __S(696, __c87, 0) as any as S.Schema<OrganizationsCreateRequest>,
+  output: __S(711, __c88, 7) as any as S.Schema<Organization>,
   errors: [Forbidden, UnprocessableEntity, UnknownPolarError],
   protocol: PolarProtocol,
   retry: Retry.Retry,
@@ -17083,8 +17425,8 @@ export const organizationsGet: API.OperationMethod<
   OrganizationsGetError,
   PolarOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(680, __c85, 0) as any as S.Schema<OrganizationsGetRequest>,
-  output: __S(671, __c83, 7) as any as S.Schema<Organization>,
+  input: __S(720, __c90, 0) as any as S.Schema<OrganizationsGetRequest>,
+  output: __S(711, __c88, 7) as any as S.Schema<Organization>,
   errors: [NotFound, UnprocessableEntity, UnknownPolarError],
   protocol: PolarProtocol,
   retry: Retry.Retry,
@@ -17102,8 +17444,8 @@ export const organizationsList: API.PaginatedOperationMethod<
   Organization
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(688, __c86, 0) as any as S.Schema<OrganizationsListRequest>,
-    output: __S(690, __c86, 2) as any as S.Schema<ListResourceOrganization>,
+    input: __S(728, __c91, 0) as any as S.Schema<OrganizationsListRequest>,
+    output: __S(730, __c91, 2) as any as S.Schema<ListResourceOrganization>,
     errors: [UnprocessableEntity, UnknownPolarError],
     protocol: PolarProtocol,
     retry: Retry.Retry,
@@ -17133,8 +17475,8 @@ export const organizationsUpdate: API.OperationMethod<
   OrganizationsUpdateError,
   PolarOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(697, __c87, 1) as any as S.Schema<OrganizationsUpdateRequest>,
-  output: __S(671, __c83, 7) as any as S.Schema<Organization>,
+  input: __S(737, __c92, 1) as any as S.Schema<OrganizationsUpdateRequest>,
+  output: __S(711, __c88, 7) as any as S.Schema<Organization>,
   errors: [Forbidden, NotFound, Conflict, UnprocessableEntity, UnknownPolarError],
   protocol: PolarProtocol,
   retry: Retry.Retry,
@@ -17150,8 +17492,8 @@ export const paymentsGet: API.OperationMethod<
   PaymentsGetError,
   PolarOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(704, __c88, 0) as any as S.Schema<PaymentsGetRequest>,
-  output: __S(705, __c88, 1) as any as S.Schema<PaymentsGetResponse>,
+  input: __S(744, __c93, 0) as any as S.Schema<PaymentsGetRequest>,
+  output: __S(745, __c93, 1) as any as S.Schema<PaymentsGetResponse>,
   errors: [NotFound, UnprocessableEntity, UnknownPolarError],
   protocol: PolarProtocol,
   retry: Retry.Retry,
@@ -17169,8 +17511,8 @@ export const paymentsList: API.PaginatedOperationMethod<
   Payment
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(712, __c89, 0) as any as S.Schema<PaymentsListRequest>,
-    output: __S(714, __c89, 2) as any as S.Schema<ListResourcePayment>,
+    input: __S(760, __c95, 0) as any as S.Schema<PaymentsListRequest>,
+    output: __S(762, __c95, 2) as any as S.Schema<ListResourcePayment>,
     errors: [UnprocessableEntity, UnknownPolarError],
     protocol: PolarProtocol,
     retry: Retry.Retry,
@@ -17187,7 +17529,7 @@ export const paymentsList: API.PaginatedOperationMethod<
   paginatePolar,
 ) as any;
 
-export type ProductsCreateError = UnprocessableEntity | PolarOpError;
+export type ProductsCreateError = Forbidden | UnprocessableEntity | PolarOpError;
 /** Create Product Create a product. **Scopes**: `products:write` */
 export const productsCreate: API.OperationMethod<
   ProductsCreateRequest,
@@ -17195,9 +17537,9 @@ export const productsCreate: API.OperationMethod<
   ProductsCreateError,
   PolarOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(720, __c90, 0) as any as S.Schema<ProductsCreateRequest>,
-  output: __S(729, __c91, 1) as any as S.Schema<Product>,
-  errors: [UnprocessableEntity, UnknownPolarError],
+  input: __S(768, __c96, 0) as any as S.Schema<ProductsCreateRequest>,
+  output: __S(776, __c97, 0) as any as S.Schema<Product>,
+  errors: [Forbidden, UnprocessableEntity, UnknownPolarError],
   protocol: PolarProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -17217,8 +17559,8 @@ export const productsDelete: API.OperationMethod<
   ProductsDeleteError,
   PolarOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(736, __c92, 0) as any as S.Schema<ProductsDeleteRequest>,
-  output: __S(1752, __c219, 0) as any as S.Schema<ProductsDeleteResponse>,
+  input: __S(784, __c98, 0) as any as S.Schema<ProductsDeleteRequest>,
+  output: __S(1800, __c225, 0) as any as S.Schema<ProductsDeleteResponse>,
   errors: [Forbidden, NotFound, Conflict, UnprocessableEntity, UnknownPolarError],
   protocol: PolarProtocol,
   retry: Retry.Retry,
@@ -17234,8 +17576,8 @@ export const productsGet: API.OperationMethod<
   ProductsGetError,
   PolarOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(760, __c95, 0) as any as S.Schema<ProductsGetRequest>,
-  output: __S(729, __c91, 1) as any as S.Schema<Product>,
+  input: __S(792, __c99, 0) as any as S.Schema<ProductsGetRequest>,
+  output: __S(776, __c97, 0) as any as S.Schema<Product>,
   errors: [NotFound, UnprocessableEntity, UnknownPolarError],
   protocol: PolarProtocol,
   retry: Retry.Retry,
@@ -17253,8 +17595,8 @@ export const productsList: API.PaginatedOperationMethod<
   Product
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(768, __c96, 0) as any as S.Schema<ProductsListRequest>,
-    output: __S(770, __c96, 2) as any as S.Schema<ListResourceProduct>,
+    input: __S(800, __c100, 0) as any as S.Schema<ProductsListRequest>,
+    output: __S(802, __c100, 2) as any as S.Schema<ListResourceProduct>,
     errors: [UnprocessableEntity, UnknownPolarError],
     protocol: PolarProtocol,
     retry: Retry.Retry,
@@ -17279,8 +17621,8 @@ export const productsUpdate: API.OperationMethod<
   ProductsUpdateError,
   PolarOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(780, __c97, 4) as any as S.Schema<ProductsUpdateRequest>,
-  output: __S(729, __c91, 1) as any as S.Schema<Product>,
+  input: __S(812, __c101, 4) as any as S.Schema<ProductsUpdateRequest>,
+  output: __S(776, __c97, 0) as any as S.Schema<Product>,
   errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPolarError],
   protocol: PolarProtocol,
   retry: Retry.Retry,
@@ -17296,8 +17638,8 @@ export const productsUpdateBenefits: API.OperationMethod<
   ProductsUpdateBenefitsError,
   PolarOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(784, __c98, 0) as any as S.Schema<ProductsUpdateBenefitsRequest>,
-  output: __S(729, __c91, 1) as any as S.Schema<Product>,
+  input: __S(816, __c102, 0) as any as S.Schema<ProductsUpdateBenefitsRequest>,
+  output: __S(776, __c97, 0) as any as S.Schema<Product>,
   errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPolarError],
   protocol: PolarProtocol,
   retry: Retry.Retry,
@@ -17313,8 +17655,8 @@ export const refundsCreate: API.OperationMethod<
   RefundsCreateError,
   PolarOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(793, __c99, 1) as any as S.Schema<RefundsCreateRequest>,
-  output: __S(801, __c100, 1) as any as S.Schema<Refund>,
+  input: __S(825, __c103, 1) as any as S.Schema<RefundsCreateRequest>,
+  output: __S(833, __c104, 1) as any as S.Schema<Refund>,
   errors: [Forbidden, UnprocessableEntity, UnknownPolarError],
   protocol: PolarProtocol,
   retry: Retry.Retry,
@@ -17332,8 +17674,8 @@ export const refundsList: API.PaginatedOperationMethod<
   Refund
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(808, __c101, 0) as any as S.Schema<RefundsListRequest>,
-    output: __S(810, __c101, 2) as any as S.Schema<ListResourceRefund>,
+    input: __S(840, __c105, 0) as any as S.Schema<RefundsListRequest>,
+    output: __S(842, __c105, 2) as any as S.Schema<ListResourceRefund>,
     errors: [UnprocessableEntity, UnknownPolarError],
     protocol: PolarProtocol,
     retry: Retry.Retry,
@@ -17362,8 +17704,8 @@ export const retryCustomerPortalOrdersConfirmPayment: API.OperationMethod<
   RetryCustomerPortalOrdersConfirmPaymentError,
   PolarOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(816, __c102, 0) as any as S.Schema<RetryCustomerPortalOrdersConfirmPaymentRequest>,
-  output: __S(817, __c102, 1) as any as S.Schema<CustomerOrderPaymentConfirmation>,
+  input: __S(848, __c106, 0) as any as S.Schema<RetryCustomerPortalOrdersConfirmPaymentRequest>,
+  output: __S(849, __c106, 1) as any as S.Schema<CustomerOrderPaymentConfirmation>,
   errors: [NotFound, Conflict, UnprocessableEntity, UnknownPolarError],
   protocol: PolarProtocol,
   retry: Retry.Retry,
@@ -17379,8 +17721,8 @@ export const subscriptionsCreate: API.OperationMethod<
   SubscriptionsCreateError,
   PolarOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(824, __c103, 0) as any as S.Schema<SubscriptionsCreateRequest>,
-  output: __S(836, __c104, 4) as any as S.Schema<Subscription>,
+  input: __S(904, __c113, 0) as any as S.Schema<SubscriptionsCreateRequest>,
+  output: __S(915, __c114, 3) as any as S.Schema<Subscription>,
   errors: [UnprocessableEntity, UnknownPolarError],
   protocol: PolarProtocol,
   retry: Retry.Retry,
@@ -17396,8 +17738,8 @@ export const subscriptionsExport: API.OperationMethod<
   SubscriptionsExportError,
   PolarOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(840, __c105, 0) as any as S.Schema<SubscriptionsExportRequest>,
-  output: __S(1752, __c219, 0) as any as S.Schema<SubscriptionsExportResponse>,
+  input: __S(920, __c115, 0) as any as S.Schema<SubscriptionsExportRequest>,
+  output: __S(1800, __c225, 0) as any as S.Schema<SubscriptionsExportResponse>,
   errors: [UnprocessableEntity, UnknownPolarError],
   protocol: PolarProtocol,
   retry: Retry.Retry,
@@ -17413,8 +17755,8 @@ export const subscriptionsGet: API.OperationMethod<
   SubscriptionsGetError,
   PolarOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(848, __c106, 0) as any as S.Schema<SubscriptionsGetRequest>,
-  output: __S(836, __c104, 4) as any as S.Schema<Subscription>,
+  input: __S(928, __c116, 0) as any as S.Schema<SubscriptionsGetRequest>,
+  output: __S(915, __c114, 3) as any as S.Schema<Subscription>,
   errors: [NotFound, UnprocessableEntity, UnknownPolarError],
   protocol: PolarProtocol,
   retry: Retry.Retry,
@@ -17432,8 +17774,8 @@ export const subscriptionsList: API.PaginatedOperationMethod<
   Subscription
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(904, __c113, 0) as any as S.Schema<SubscriptionsListRequest>,
-    output: __S(906, __c113, 2) as any as S.Schema<ListResourceSubscription>,
+    input: __S(936, __c117, 0) as any as S.Schema<SubscriptionsListRequest>,
+    output: __S(938, __c117, 2) as any as S.Schema<ListResourceSubscription>,
     errors: [UnprocessableEntity, UnknownPolarError],
     protocol: PolarProtocol,
     retry: Retry.Retry,
@@ -17463,8 +17805,8 @@ export const subscriptionsRevoke: API.OperationMethod<
   SubscriptionsRevokeError,
   PolarOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(912, __c114, 0) as any as S.Schema<SubscriptionsRevokeRequest>,
-  output: __S(836, __c104, 4) as any as S.Schema<Subscription>,
+  input: __S(944, __c118, 0) as any as S.Schema<SubscriptionsRevokeRequest>,
+  output: __S(915, __c114, 3) as any as S.Schema<Subscription>,
   errors: [Forbidden, NotFound, Conflict, UnprocessableEntity, UnknownPolarError],
   protocol: PolarProtocol,
   retry: Retry.Retry,
@@ -17485,8 +17827,8 @@ export const subscriptionsUpdate: API.OperationMethod<
   SubscriptionsUpdateError,
   PolarOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(920, __c115, 0) as any as S.Schema<SubscriptionsUpdateRequest>,
-  output: __S(836, __c104, 4) as any as S.Schema<Subscription>,
+  input: __S(952, __c119, 0) as any as S.Schema<SubscriptionsUpdateRequest>,
+  output: __S(915, __c114, 3) as any as S.Schema<Subscription>,
   errors: [Forbidden, NotFound, Conflict, UnprocessableEntity, UnknownPolarError],
   protocol: PolarProtocol,
   retry: Retry.Retry,
@@ -17507,8 +17849,8 @@ export const updateCheckoutsClient: API.OperationMethod<
   UpdateCheckoutsClientError,
   PolarOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(929, __c116, 1) as any as S.Schema<UpdateCheckoutsClientRequest>,
-  output: __S(251, __c31, 3) as any as S.Schema<CheckoutPublic>,
+  input: __S(961, __c120, 1) as any as S.Schema<UpdateCheckoutsClientRequest>,
+  output: __S(273, __c34, 1) as any as S.Schema<CheckoutPublic>,
   errors: [Forbidden, NotFound, Conflict, UnprocessableEntity, UnknownPolarError],
   protocol: PolarProtocol,
   retry: Retry.Retry,
@@ -17524,8 +17866,8 @@ export const updateCustomerPortalCustomersCheckEmail: API.OperationMethod<
   UpdateCustomerPortalCustomersCheckEmailError,
   PolarOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(936, __c117, 0) as any as S.Schema<UpdateCustomerPortalCustomersCheckEmailRequest>,
-  output: __S(1752, __c219, 0) as any as S.Schema<UpdateCustomerPortalCustomersCheckEmailResponse>,
+  input: __S(968, __c121, 0) as any as S.Schema<UpdateCustomerPortalCustomersCheckEmailRequest>,
+  output: __S(1800, __c225, 0) as any as S.Schema<UpdateCustomerPortalCustomersCheckEmailResponse>,
   errors: [UnprocessableEntity, UnknownPolarError],
   protocol: PolarProtocol,
   retry: Retry.Retry,
@@ -17541,10 +17883,10 @@ export const updateCustomerPortalCustomersRequestEmail: API.OperationMethod<
   UpdateCustomerPortalCustomersRequestEmailError,
   PolarOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(944, __c118, 0) as any as S.Schema<UpdateCustomerPortalCustomersRequestEmailRequest>,
+  input: __S(976, __c122, 0) as any as S.Schema<UpdateCustomerPortalCustomersRequestEmailRequest>,
   output: __S(
-    1752,
-    __c219,
+    1800,
+    __c225,
     0,
   ) as any as S.Schema<UpdateCustomerPortalCustomersRequestEmailResponse>,
   errors: [UnprocessableEntity, UnknownPolarError],
@@ -17562,8 +17904,8 @@ export const updateCustomerPortalCustomersVerifyEmail: API.OperationMethod<
   UpdateCustomerPortalCustomersVerifyEmailError,
   PolarOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(952, __c119, 0) as any as S.Schema<UpdateCustomerPortalCustomersVerifyEmailRequest>,
-  output: __S(953, __c119, 1) as any as S.Schema<CustomerEmailUpdateVerifyResponse>,
+  input: __S(984, __c123, 0) as any as S.Schema<UpdateCustomerPortalCustomersVerifyEmailRequest>,
+  output: __S(985, __c123, 1) as any as S.Schema<CustomerEmailUpdateVerifyResponse>,
   errors: [UnprocessableEntity, UnknownPolarError],
   protocol: PolarProtocol,
   retry: Retry.Retry,
@@ -17579,8 +17921,8 @@ export const webhooksCreateWebhookEndpoint: API.OperationMethod<
   WebhooksCreateWebhookEndpointError,
   PolarOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(960, __c120, 0) as any as S.Schema<WebhooksCreateWebhookEndpointRequest>,
-  output: __S(968, __c121, 0) as any as S.Schema<WebhookEndpoint>,
+  input: __S(1000, __c125, 0) as any as S.Schema<WebhooksCreateWebhookEndpointRequest>,
+  output: __S(1008, __c126, 0) as any as S.Schema<WebhookEndpoint>,
   errors: [UnprocessableEntity, UnknownPolarError],
   protocol: PolarProtocol,
   retry: Retry.Retry,
@@ -17596,13 +17938,34 @@ export const webhooksDeleteWebhookEndpoint: API.OperationMethod<
   WebhooksDeleteWebhookEndpointError,
   PolarOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(976, __c122, 0) as any as S.Schema<WebhooksDeleteWebhookEndpointRequest>,
-  output: __S(1752, __c219, 0) as any as S.Schema<WebhooksDeleteWebhookEndpointResponse>,
+  input: __S(1016, __c127, 0) as any as S.Schema<WebhooksDeleteWebhookEndpointRequest>,
+  output: __S(1800, __c225, 0) as any as S.Schema<WebhooksDeleteWebhookEndpointResponse>,
   errors: [NotFound, UnprocessableEntity, UnknownPolarError],
   protocol: PolarProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "WebhooksDeleteWebhookEndpoint",
+}));
+
+export type WebhooksGetExternalWebhookEndpointError =
+  | NotFound
+  | Conflict
+  | UnprocessableEntity
+  | PolarOpError;
+/** Get Webhook Endpoint by External ID Get a webhook endpoint by external ID. **Scopes**: `webhooks:read` `webhooks:write` */
+export const webhooksGetExternalWebhookEndpoint: API.OperationMethod<
+  WebhooksGetExternalWebhookEndpointRequest,
+  WebhookEndpoint,
+  WebhooksGetExternalWebhookEndpointError,
+  PolarOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(1024, __c128, 0) as any as S.Schema<WebhooksGetExternalWebhookEndpointRequest>,
+  output: __S(1008, __c126, 0) as any as S.Schema<WebhookEndpoint>,
+  errors: [NotFound, Conflict, UnprocessableEntity, UnknownPolarError],
+  protocol: PolarProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "WebhooksGetExternalWebhookEndpoint",
 }));
 
 export type WebhooksGetWebhookEndpointError = NotFound | UnprocessableEntity | PolarOpError;
@@ -17613,8 +17976,8 @@ export const webhooksGetWebhookEndpoint: API.OperationMethod<
   WebhooksGetWebhookEndpointError,
   PolarOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(984, __c123, 0) as any as S.Schema<WebhooksGetWebhookEndpointRequest>,
-  output: __S(968, __c121, 0) as any as S.Schema<WebhookEndpoint>,
+  input: __S(1032, __c129, 0) as any as S.Schema<WebhooksGetWebhookEndpointRequest>,
+  output: __S(1008, __c126, 0) as any as S.Schema<WebhookEndpoint>,
   errors: [NotFound, UnprocessableEntity, UnknownPolarError],
   protocol: PolarProtocol,
   retry: Retry.Retry,
@@ -17632,8 +17995,8 @@ export const webhooksListWebhookDeliveries: API.PaginatedOperationMethod<
   WebhookDelivery
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(1000, __c125, 0) as any as S.Schema<WebhooksListWebhookDeliveriesRequest>,
-    output: __S(1004, __c125, 4) as any as S.Schema<ListResourceWebhookDelivery>,
+    input: __S(1040, __c130, 0) as any as S.Schema<WebhooksListWebhookDeliveriesRequest>,
+    output: __S(1044, __c130, 4) as any as S.Schema<ListResourceWebhookDelivery>,
     errors: [UnprocessableEntity, UnknownPolarError],
     protocol: PolarProtocol,
     retry: Retry.Retry,
@@ -17660,8 +18023,8 @@ export const webhooksListWebhookEndpoints: API.PaginatedOperationMethod<
   WebhookEndpoint
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(1008, __c126, 0) as any as S.Schema<WebhooksListWebhookEndpointsRequest>,
-    output: __S(1010, __c126, 2) as any as S.Schema<ListResourceWebhookEndpoint>,
+    input: __S(1048, __c131, 0) as any as S.Schema<WebhooksListWebhookEndpointsRequest>,
+    output: __S(1050, __c131, 2) as any as S.Schema<ListResourceWebhookEndpoint>,
     errors: [UnprocessableEntity, UnknownPolarError],
     protocol: PolarProtocol,
     retry: Retry.Retry,
@@ -17686,8 +18049,8 @@ export const webhooksRedeliverWebhookEvent: API.OperationMethod<
   WebhooksRedeliverWebhookEventError,
   PolarOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1016, __c127, 0) as any as S.Schema<WebhooksRedeliverWebhookEventRequest>,
-  output: __S(1752, __c219, 0) as any as S.Schema<WebhooksRedeliverWebhookEventResponse>,
+  input: __S(1056, __c132, 0) as any as S.Schema<WebhooksRedeliverWebhookEventRequest>,
+  output: __S(1800, __c225, 0) as any as S.Schema<WebhooksRedeliverWebhookEventResponse>,
   errors: [NotFound, UnprocessableEntity, UnknownPolarError],
   protocol: PolarProtocol,
   retry: Retry.Retry,
@@ -17703,8 +18066,8 @@ export const webhooksResetWebhookEndpointSecret: API.OperationMethod<
   WebhooksResetWebhookEndpointSecretError,
   PolarOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1024, __c128, 0) as any as S.Schema<WebhooksResetWebhookEndpointSecretRequest>,
-  output: __S(968, __c121, 0) as any as S.Schema<WebhookEndpoint>,
+  input: __S(1064, __c133, 0) as any as S.Schema<WebhooksResetWebhookEndpointSecretRequest>,
+  output: __S(1008, __c126, 0) as any as S.Schema<WebhookEndpoint>,
   errors: [NotFound, UnprocessableEntity, UnknownPolarError],
   protocol: PolarProtocol,
   retry: Retry.Retry,
@@ -17720,8 +18083,8 @@ export const webhooksUpdateWebhookEndpoint: API.OperationMethod<
   WebhooksUpdateWebhookEndpointError,
   PolarOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1032, __c129, 0) as any as S.Schema<WebhooksUpdateWebhookEndpointRequest>,
-  output: __S(968, __c121, 0) as any as S.Schema<WebhookEndpoint>,
+  input: __S(1072, __c134, 0) as any as S.Schema<WebhooksUpdateWebhookEndpointRequest>,
+  output: __S(1008, __c126, 0) as any as S.Schema<WebhookEndpoint>,
   errors: [NotFound, UnprocessableEntity, UnknownPolarError],
   protocol: PolarProtocol,
   retry: Retry.Retry,
@@ -17750,12 +18113,40 @@ function __c1(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          body: S.Unknown.pipe(T.HttpBody()),
+        }).pipe(T.Http({ method: "POST", uri: "/v1/custom-fields/", code: 200 })),
+      ).annotate({ identifier: "CustomFieldsCreateRequest" });
+  }
+}
+function __c2(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() => S.Unknown.pipe(T.RawResponseRoot())).annotate({
+        identifier: "CustomFieldsCreateResponse",
+      });
+  }
+}
+function __c3(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String.pipe(T.Label()),
+        }).pipe(T.Http({ method: "DELETE", uri: "/v1/custom-fields/{id}", code: 200 })),
+      ).annotate({ identifier: "CustomFieldsDeleteRequest" });
+  }
+}
+function __c4(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
           id: S.String.pipe(T.Label()),
         }).pipe(T.Http({ method: "GET", uri: "/v1/custom-fields/{id}", code: 200 })),
       ).annotate({ identifier: "CustomFieldsGetRequest" });
   }
 }
-function __c2(j: number): any {
+function __c5(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17765,7 +18156,7 @@ function __c2(j: number): any {
           type: S.optional(S.Unknown.pipe(T.Query())),
           page: S.optional(S.Number.pipe(T.Query())),
           limit: S.optional(S.Number.pipe(T.Query())),
-          sorting: S.optional(__S(1456, __c182, 0).pipe(T.Query())),
+          sorting: S.optional(__S(1504, __c188, 0).pipe(T.Query())),
         }).pipe(T.Http({ method: "GET", uri: "/v1/custom-fields/", code: 200 })),
       ).annotate({ identifier: "CustomFieldsListRequest" });
     case 1:
@@ -17773,13 +18164,13 @@ function __c2(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          items: __S(17, __c2, 1),
-          pagination: __S(1464, __c183, 0),
+          items: __S(41, __c5, 1),
+          pagination: __S(1512, __c189, 0),
         }),
       ).annotate({ identifier: "ListResourceCustomField" });
   }
 }
-function __c3(j: number): any {
+function __c6(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17790,7 +18181,7 @@ function __c3(j: number): any {
       ).annotate({ identifier: "CustomFieldsUpdateRequest" });
   }
 }
-function __c4(j: number): any {
+function __c7(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17800,7 +18191,7 @@ function __c4(j: number): any {
       ).annotate({ identifier: "DiscountsCreateRequest" });
   }
 }
-function __c5(j: number): any {
+function __c8(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Unknown.pipe(T.RawResponseRoot())).annotate({
@@ -17808,7 +18199,7 @@ function __c5(j: number): any {
       });
   }
 }
-function __c6(j: number): any {
+function __c9(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17818,7 +18209,7 @@ function __c6(j: number): any {
       ).annotate({ identifier: "DiscountsDeleteRequest" });
   }
 }
-function __c7(j: number): any {
+function __c10(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17828,16 +18219,17 @@ function __c7(j: number): any {
       ).annotate({ identifier: "DiscountsGetRequest" });
   }
 }
-function __c8(j: number): any {
+function __c11(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           organization_id: S.optional(S.Unknown.pipe(T.Query())),
+          external_id: S.optional(S.Unknown.pipe(T.Query())),
           query: S.optional(S.String.pipe(T.Query())),
           page: S.optional(S.Number.pipe(T.Query())),
           limit: S.optional(S.Number.pipe(T.Query())),
-          sorting: S.optional(__S(1456, __c182, 0).pipe(T.Query())),
+          sorting: S.optional(__S(1504, __c188, 0).pipe(T.Query())),
         }).pipe(T.Http({ method: "GET", uri: "/v1/discounts/", code: 200 })),
       ).annotate({ identifier: "DiscountsListRequest" });
     case 1:
@@ -17845,13 +18237,13 @@ function __c8(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          items: __S(65, __c8, 1),
-          pagination: __S(1464, __c183, 0),
+          items: __S(89, __c11, 1),
+          pagination: __S(1512, __c189, 0),
         }),
       ).annotate({ identifier: "ListResourceDiscount" });
   }
 }
-function __c9(j: number): any {
+function __c12(j: number): any {
   switch (j) {
     case 0:
       return S.Record(S.String, S.Number);
@@ -17861,7 +18253,8 @@ function __c9(j: number): any {
       return S.suspend(() =>
         S.Struct({
           id: S.String.pipe(T.Label()),
-          metadata: S.optional(__S(73, __c9, 1)),
+          external_id: S.optional(S.NullOr(S.String)),
+          metadata: S.optional(__S(97, __c12, 1)),
           name: S.optional(S.NullOr(S.String)),
           code: S.optional(S.NullOr(S.String)),
           starts_at: S.optional(S.NullOr(S.String)),
@@ -17871,58 +18264,11 @@ function __c9(j: number): any {
           duration: S.optional(S.NullOr(S.String)),
           duration_in_months: S.optional(S.NullOr(S.Number)),
           type: S.optional(S.NullOr(S.String)),
-          amount: S.optional(S.NullOr(S.Number)),
-          currency: S.optional(S.NullOr(S.String)),
-          amounts: S.optional(S.NullOr(__S(72, __c9, 0))),
+          amounts: S.optional(S.NullOr(__S(96, __c12, 0))),
           basis_points: S.optional(S.NullOr(S.Number)),
-          products: S.optional(S.NullOr(__S(752, __c94, 0))),
+          products: S.optional(S.NullOr(__S(360, __c45, 0))),
         }).pipe(T.Http({ method: "PATCH", uri: "/v1/discounts/{id}", code: 200 })),
       ).annotate({ identifier: "DiscountsUpdateRequest" });
-  }
-}
-function __c10(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.String.pipe(T.Label()),
-        }).pipe(T.Http({ method: "POST", uri: "/v1/disputes/{id}/accept", code: 200 })),
-      ).annotate({ identifier: "DisputesAcceptRequest" });
-  }
-}
-function __c11(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          created_at: S.String,
-          modified_at: S.NullOr(S.String),
-          id: S.String,
-          status: S.String,
-          resolved: S.Boolean,
-          closed: S.Boolean,
-          amount: S.Number,
-          tax_amount: S.Number,
-          currency: S.String,
-          reason: S.NullOr(S.String),
-          evidence_due_by: S.NullOr(S.String),
-          past_due: S.Boolean,
-          order_id: S.String,
-          payment_id: S.String,
-          customer: __S(1288, __c161, 0),
-          case_id: S.NullOr(S.String),
-        }),
-      ).annotate({ identifier: "Dispute" });
-  }
-}
-function __c12(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.String.pipe(T.Label()),
-        }).pipe(T.Http({ method: "GET", uri: "/v1/disputes/{id}", code: 200 })),
-      ).annotate({ identifier: "DisputesGetRequest" });
   }
 }
 function __c13(j: number): any {
@@ -17933,11 +18279,12 @@ function __c13(j: number): any {
           organization_id: S.optional(S.Unknown.pipe(T.Query())),
           type: S.optional(S.Unknown.pipe(T.Query())),
           id: S.optional(S.Unknown.pipe(T.Query())),
+          external_id: S.optional(S.Unknown.pipe(T.Query())),
           exclude_id: S.optional(S.Unknown.pipe(T.Query())),
           query: S.optional(S.String.pipe(T.Query())),
           page: S.optional(S.Number.pipe(T.Query())),
           limit: S.optional(S.Number.pipe(T.Query())),
-          sorting: S.optional(__S(1456, __c182, 0).pipe(T.Query())),
+          sorting: S.optional(__S(1504, __c188, 0).pipe(T.Query())),
           metadata: S.optional(__S(120, __c15, 0).pipe(T.Query())),
         }).pipe(T.Http({ method: "GET", uri: "/v1/benefits/", code: 200 })),
       ).annotate({ identifier: "BenefitsListRequest" });
@@ -17945,7 +18292,7 @@ function __c13(j: number): any {
       return S.suspend(() =>
         S.Struct({
           items: __S(112, __c14, 0),
-          pagination: __S(1464, __c183, 0),
+          pagination: __S(1512, __c189, 0),
         }),
       ).annotate({ identifier: "ListResourceBenefit" });
   }
@@ -17967,26 +18314,71 @@ function __c16(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          id: S.String.pipe(T.Label()),
+        }).pipe(T.Http({ method: "POST", uri: "/v1/disputes/{id}/accept", code: 200 })),
+      ).annotate({ identifier: "DisputesAcceptRequest" });
+  }
+}
+function __c17(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          created_at: S.String,
+          modified_at: S.NullOr(S.String),
+          id: S.String,
+          status: S.String,
+          resolved: S.Boolean,
+          closed: S.Boolean,
+          amount: S.Number,
+          tax_amount: S.Number,
+          currency: S.String,
+          reason: S.NullOr(S.String),
+          evidence_due_by: S.NullOr(S.String),
+          past_due: S.Boolean,
+          order_id: S.String,
+          payment_id: S.String,
+          customer: __S(1352, __c169, 0),
+          case_id: S.NullOr(S.String),
+        }),
+      ).annotate({ identifier: "Dispute" });
+  }
+}
+function __c18(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String.pipe(T.Label()),
+        }).pipe(T.Http({ method: "GET", uri: "/v1/disputes/{id}", code: 200 })),
+      ).annotate({ identifier: "DisputesGetRequest" });
+  }
+}
+function __c19(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
           organization_id: S.optional(S.Unknown.pipe(T.Query())),
           order_id: S.optional(S.Unknown.pipe(T.Query())),
           status: S.optional(S.Unknown.pipe(T.Query())),
           page: S.optional(S.Number.pipe(T.Query())),
           limit: S.optional(S.Number.pipe(T.Query())),
-          sorting: S.optional(__S(1456, __c182, 0).pipe(T.Query())),
+          sorting: S.optional(__S(1504, __c188, 0).pipe(T.Query())),
         }).pipe(T.Http({ method: "GET", uri: "/v1/disputes/", code: 200 })),
       ).annotate({ identifier: "DisputesListRequest" });
     case 1:
-      return S.Array(__S(88, __c11, 0));
+      return S.Array(__S(136, __c17, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          items: __S(129, __c16, 1),
-          pagination: __S(1464, __c183, 0),
+          items: __S(153, __c19, 1),
+          pagination: __S(1512, __c189, 0),
         }),
       ).annotate({ identifier: "ListResourceDispute" });
   }
 }
-function __c17(j: number): any {
+function __c20(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18000,14 +18392,14 @@ function __c17(j: number): any {
       });
   }
 }
-function __c18(j: number): any {
+function __c21(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.Unknown);
     case 1:
       return S.suspend(() =>
         S.Struct({
-          events: __S(144, __c18, 0),
+          events: __S(168, __c21, 0),
         }).pipe(T.Http({ method: "POST", uri: "/v1/events/ingest", code: 200 })),
       ).annotate({ identifier: "EventsIngestRequest" });
     case 2:
@@ -18019,7 +18411,7 @@ function __c18(j: number): any {
       ).annotate({ identifier: "EventsIngestResponse" });
   }
 }
-function __c19(j: number): any {
+function __c22(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18038,7 +18430,7 @@ function __c19(j: number): any {
           depth: S.optional(S.Number.pipe(T.Query())),
           page: S.optional(S.Number.pipe(T.Query())),
           limit: S.optional(S.Number.pipe(T.Query())),
-          sorting: S.optional(__S(1456, __c182, 0).pipe(T.Query())),
+          sorting: S.optional(__S(1504, __c188, 0).pipe(T.Query())),
           metadata: S.optional(__S(120, __c15, 0).pipe(T.Query())),
         }).pipe(T.Http({ method: "GET", uri: "/v1/events/", code: 200 })),
       ).annotate({ identifier: "EventsListRequest" });
@@ -18048,7 +18440,7 @@ function __c19(j: number): any {
       });
   }
 }
-function __c20(j: number): any {
+function __c23(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18060,7 +18452,7 @@ function __c20(j: number): any {
           query: S.optional(S.String.pipe(T.Query())),
           page: S.optional(S.Number.pipe(T.Query())),
           limit: S.optional(S.Number.pipe(T.Query())),
-          sorting: S.optional(__S(1456, __c182, 0).pipe(T.Query())),
+          sorting: S.optional(__S(1504, __c188, 0).pipe(T.Query())),
         }).pipe(T.Http({ method: "GET", uri: "/v1/events/names", code: 200 })),
       ).annotate({ identifier: "EventsListNamesRequest" });
     case 1:
@@ -18075,17 +18467,17 @@ function __c20(j: number): any {
         }),
       ).annotate({ identifier: "EventName" });
     case 2:
-      return S.Array(__S(161, __c20, 1));
+      return S.Array(__S(185, __c23, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          items: __S(162, __c20, 2),
-          pagination: __S(1464, __c183, 0),
+          items: __S(186, __c23, 2),
+          pagination: __S(1512, __c189, 0),
         }),
       ).annotate({ identifier: "ListResourceEventName" });
   }
 }
-function __c21(j: number): any {
+function __c24(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18099,7 +18491,7 @@ function __c21(j: number): any {
           source: S.optional(S.String.pipe(T.Query())),
           page: S.optional(S.Number.pipe(T.Query())),
           limit: S.optional(S.Number.pipe(T.Query())),
-          sorting: S.optional(__S(1456, __c182, 0).pipe(T.Query())),
+          sorting: S.optional(__S(1504, __c188, 0).pipe(T.Query())),
         }).pipe(T.Http({ method: "GET", uri: "/v1/event-types/", code: 200 })),
       ).annotate({ identifier: "EventTypesListRequest" });
     case 1:
@@ -18119,17 +18511,17 @@ function __c21(j: number): any {
         }),
       ).annotate({ identifier: "EventTypeWithStats" });
     case 2:
-      return S.Array(__S(169, __c21, 1));
+      return S.Array(__S(193, __c24, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          items: __S(170, __c21, 2),
-          pagination: __S(1464, __c183, 0),
+          items: __S(194, __c24, 2),
+          pagination: __S(1512, __c189, 0),
         }),
       ).annotate({ identifier: "ListResourceEventTypeWithStats" });
   }
 }
-function __c22(j: number): any {
+function __c25(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18153,7 +18545,7 @@ function __c22(j: number): any {
       ).annotate({ identifier: "EventType" });
   }
 }
-function __c23(j: number): any {
+function __c26(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18174,13 +18566,13 @@ function __c23(j: number): any {
         }),
       ).annotate({ identifier: "S3FileUploadPart" });
     case 2:
-      return S.Array(__S(185, __c23, 1));
+      return S.Array(__S(209, __c26, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           id: S.String,
           path: S.String,
-          parts: __S(186, __c23, 2),
+          parts: __S(210, __c26, 2),
         }),
       ).annotate({ identifier: "S3FileUploadMultipart" });
     case 4:
@@ -18197,7 +18589,7 @@ function __c23(j: number): any {
           checksum_sha256_base64: S.NullOr(S.String),
           checksum_sha256_hex: S.NullOr(S.String),
           last_modified_at: S.NullOr(S.String),
-          upload: __S(187, __c23, 3),
+          upload: __S(211, __c26, 3),
           version: S.NullOr(S.String),
           is_uploaded: S.optional(S.Boolean),
           service: S.String,
@@ -18206,7 +18598,18 @@ function __c23(j: number): any {
       ).annotate({ identifier: "FileUpload" });
   }
 }
-function __c24(j: number): any {
+function __c27(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String.pipe(T.Label()),
+          body: S.Unknown.pipe(T.HttpBody()),
+        }).pipe(T.Http({ method: "PATCH", uri: "/v1/benefits/{id}", code: 200 })),
+      ).annotate({ identifier: "BenefitsUpdateRequest" });
+  }
+}
+function __c28(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18216,7 +18619,7 @@ function __c24(j: number): any {
       ).annotate({ identifier: "FilesDeleteRequest" });
   }
 }
-function __c25(j: number): any {
+function __c29(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18232,24 +18635,13 @@ function __c25(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          items: __S(201, __c25, 1),
-          pagination: __S(1464, __c183, 0),
+          items: __S(233, __c29, 1),
+          pagination: __S(1512, __c189, 0),
         }),
       ).annotate({ identifier: "ListResourceFileRead" });
   }
 }
-function __c26(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.String.pipe(T.Label()),
-          body: S.Unknown.pipe(T.HttpBody()),
-        }).pipe(T.Http({ method: "PATCH", uri: "/v1/benefits/{id}", code: 200 })),
-      ).annotate({ identifier: "BenefitsUpdateRequest" });
-  }
-}
-function __c27(j: number): any {
+function __c30(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18261,7 +18653,7 @@ function __c27(j: number): any {
       ).annotate({ identifier: "FilesUpdateRequest" });
   }
 }
-function __c28(j: number): any {
+function __c31(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Unknown.pipe(T.RawResponseRoot())).annotate({
@@ -18269,7 +18661,7 @@ function __c28(j: number): any {
       });
   }
 }
-function __c29(j: number): any {
+function __c32(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18280,18 +18672,18 @@ function __c29(j: number): any {
         }),
       ).annotate({ identifier: "S3FileUploadCompletedPart" });
     case 1:
-      return S.Array(__S(232, __c29, 0));
+      return S.Array(__S(256, __c32, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           id: S.String.pipe(T.Label()),
           path: S.String,
-          parts: __S(233, __c29, 1),
+          parts: __S(257, __c32, 1),
         }).pipe(T.Http({ method: "POST", uri: "/v1/files/{id}/uploaded", code: 200 })),
       ).annotate({ identifier: "FilesUploadedRequest" });
   }
 }
-function __c30(j: number): any {
+function __c33(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18301,21 +18693,17 @@ function __c30(j: number): any {
       ).annotate({ identifier: "GetCheckoutsClientRequest" });
   }
 }
-function __c31(j: number): any {
+function __c34(j: number): any {
   switch (j) {
     case 0:
       return S.Record(S.String, /*@__PURE__*/ S.NullOr(S.Unknown));
     case 1:
-      return S.Array(S.Unknown);
-    case 2:
-      return S.Record(S.String, __S(249, __c31, 1));
-    case 3:
       return S.suspend(() =>
         S.Struct({
           id: S.String,
           created_at: S.String,
           modified_at: S.NullOr(S.String),
-          custom_field_data: S.optional(__S(248, __c31, 0)),
+          custom_field_data: S.optional(__S(272, __c34, 0)),
           payment_processor: S.String,
           status: S.String,
           client_secret: S.String.pipe(T.SensitiveValue({})),
@@ -18343,7 +18731,6 @@ function __c31(j: number): any {
           trial_end: S.NullOr(S.String),
           organization_id: S.String,
           product_id: S.NullOr(S.String),
-          product_price_id: S.NullOr(S.String),
           discount_id: S.NullOr(S.String),
           allow_discount_codes: S.Boolean,
           require_billing_address: S.Boolean,
@@ -18364,18 +18751,18 @@ function __c31(j: number): any {
           payment_method_type: S.NullOr(S.String),
           payment_processor_metadata: __S(896, __c112, 0),
           billing_address_fields: __S(880, __c110, 0),
-          products: __S(883, __c110, 3),
-          product: S.NullOr(__S(882, __c110, 2)),
+          products: __S(882, __c110, 2),
+          product: S.NullOr(__S(881, __c110, 1)),
           product_price: S.NullOr(S.Unknown),
-          prices: S.NullOr(__S(250, __c31, 2)),
+          prices: S.NullOr(__S(883, __c110, 3)),
           discount: S.NullOr(S.Unknown),
-          organization: __S(1072, __c134, 0),
+          organization: __S(1112, __c139, 0),
           attached_custom_fields: S.NullOr(__S(873, __c109, 1)),
         }),
       ).annotate({ identifier: "CheckoutPublic" });
   }
 }
-function __c32(j: number): any {
+function __c35(j: number): any {
   switch (j) {
     case 0:
       return S.Record(S.String, S.Unknown);
@@ -18387,13 +18774,13 @@ function __c32(j: number): any {
           key: S.String,
           organization_id: S.String,
           label: S.String,
-          conditions: S.optional(__S(256, __c32, 0)),
-          meta: S.optional(__S(257, __c32, 1)),
+          conditions: S.optional(__S(280, __c35, 0)),
+          meta: S.optional(__S(281, __c35, 1)),
         }).pipe(T.Http({ method: "POST", uri: "/v1/license-keys/activate", code: 200 })),
       ).annotate({ identifier: "LicenseKeysActivateRequest" });
   }
 }
-function __c33(j: number): any {
+function __c36(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18405,7 +18792,7 @@ function __c33(j: number): any {
       ).annotate({ identifier: "LicenseKeysDeactivateRequest" });
   }
 }
-function __c34(j: number): any {
+function __c37(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18415,7 +18802,7 @@ function __c34(j: number): any {
       ).annotate({ identifier: "LicenseKeysGetRequest" });
   }
 }
-function __c35(j: number): any {
+function __c38(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18438,15 +18825,15 @@ function __c35(j: number): any {
           id: S.String,
           license_key_id: S.String,
           label: S.String,
-          meta: __S(281, __c35, 1),
+          meta: __S(305, __c38, 1),
           created_at: S.String,
           modified_at: S.NullOr(S.String),
-          license_key: __S(1360, __c170, 0),
+          license_key: __S(1424, __c178, 0),
         }),
       ).annotate({ identifier: "LicenseKeyActivationRead" });
   }
 }
-function __c36(j: number): any {
+function __c39(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18460,49 +18847,36 @@ function __c36(j: number): any {
       ).annotate({ identifier: "LicenseKeysListRequest" });
   }
 }
-function __c37(j: number): any {
+function __c40(j: number): any {
   switch (j) {
     case 0:
+      return S.Record(S.String, S.Unknown);
+    case 1:
       return S.suspend(() =>
         S.Struct({
-          id: S.String.pipe(T.Label()),
-        }).pipe(T.Http({ method: "POST", uri: "/v1/license-keys/{id}/rotate", code: 200 })),
-      ).annotate({ identifier: "LicenseKeysRotateRequest" });
-  }
-}
-function __c38(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.String.pipe(T.Label()),
-          status: S.optional(S.NullOr(S.String)),
-          usage: S.optional(S.Number),
-          limit_activations: S.optional(S.NullOr(S.Number)),
-          limit_usage: S.optional(S.NullOr(S.Number)),
-          expires_at: S.optional(S.NullOr(S.String)),
-        }).pipe(T.Http({ method: "PATCH", uri: "/v1/license-keys/{id}", code: 200 })),
-      ).annotate({ identifier: "LicenseKeysUpdateRequest" });
-  }
-}
-function __c39(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          body: S.Unknown.pipe(T.HttpBody()),
+          metadata: S.optional(__S(320, __c40, 0)),
+          trial_interval: S.optional(S.NullOr(S.String)),
+          trial_interval_count: S.optional(S.NullOr(S.Number)),
+          payment_processor: S.String,
+          label: S.optional(S.NullOr(S.String)),
+          allow_discount_codes: S.optional(S.Boolean),
+          require_billing_address: S.optional(S.Boolean),
+          discount_id: S.optional(S.NullOr(S.String)),
+          seats: S.optional(S.NullOr(S.Number)),
+          units: S.optional(S.NullOr(S.Number)),
+          success_url: S.optional(S.NullOr(S.String)),
+          return_url: S.optional(S.NullOr(S.String)),
+          products: __S(360, __c45, 0),
         }).pipe(T.Http({ method: "POST", uri: "/v1/checkout-links/", code: 200 })),
       ).annotate({ identifier: "CheckoutLinksCreateRequest" });
   }
 }
-function __c40(j: number): any {
+function __c41(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(S.Unknown);
-    case 1:
       return S.suspend(() =>
         S.Struct({
-          metadata: __S(344, __c43, 0),
+          metadata: __S(352, __c44, 0),
           id: S.String,
           created_at: S.String,
           modified_at: S.NullOr(S.String),
@@ -18518,14 +18892,14 @@ function __c40(j: number): any {
           is_recurring: S.Boolean,
           is_archived: S.Boolean,
           organization_id: S.String,
-          prices: __S(320, __c40, 0),
-          benefits: __S(336, __c42, 0),
-          medias: __S(329, __c41, 1),
+          prices: __S(336, __c42, 0),
+          benefits: __S(344, __c43, 0),
+          medias: __S(338, __c42, 2),
         }),
       ).annotate({ identifier: "CheckoutLinkProduct" });
+    case 1:
+      return S.Array(__S(328, __c41, 0));
     case 2:
-      return S.Array(__S(321, __c40, 1));
-    case 3:
       return S.suspend(() =>
         S.Struct({
           id: S.String,
@@ -18533,7 +18907,7 @@ function __c40(j: number): any {
           modified_at: S.NullOr(S.String),
           trial_interval: S.NullOr(S.String),
           trial_interval_count: S.NullOr(S.Number),
-          metadata: __S(344, __c43, 0),
+          metadata: __S(352, __c44, 0),
           payment_processor: S.String,
           client_secret: S.String.pipe(T.SensitiveValue({})),
           success_url: S.NullOr(S.String),
@@ -18545,16 +18919,18 @@ function __c40(j: number): any {
           seats: S.NullOr(S.Number),
           units: S.NullOr(S.Number),
           organization_id: S.String,
-          products: __S(322, __c40, 2),
+          products: __S(329, __c41, 1),
           discount: S.NullOr(S.Unknown),
           url: S.String,
         }),
       ).annotate({ identifier: "CheckoutLink" });
   }
 }
-function __c41(j: number): any {
+function __c42(j: number): any {
   switch (j) {
     case 0:
+      return S.Array(S.Unknown);
+    case 1:
       return S.suspend(() =>
         S.Struct({
           id: S.String,
@@ -18576,23 +18952,54 @@ function __c41(j: number): any {
           public_url: S.String,
         }),
       ).annotate({ identifier: "ProductMediaFileRead" });
-    case 1:
-      return S.Array(__S(328, __c41, 0));
-  }
-}
-function __c42(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Array(S.Unknown);
+    case 2:
+      return S.Array(__S(337, __c42, 1));
   }
 }
 function __c43(j: number): any {
   switch (j) {
     case 0:
-      return S.Record(S.String, S.Unknown);
+      return S.Array(S.Unknown);
   }
 }
 function __c44(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Record(S.String, S.Unknown);
+  }
+}
+function __c45(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(S.String);
+  }
+}
+function __c46(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String.pipe(T.Label()),
+        }).pipe(T.Http({ method: "POST", uri: "/v1/license-keys/{id}/rotate", code: 200 })),
+      ).annotate({ identifier: "LicenseKeysRotateRequest" });
+  }
+}
+function __c47(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String.pipe(T.Label()),
+          status: S.optional(S.NullOr(S.String)),
+          usage: S.optional(S.Number),
+          limit_activations: S.optional(S.NullOr(S.Number)),
+          limit_usage: S.optional(S.NullOr(S.Number)),
+          expires_at: S.optional(S.NullOr(S.String)),
+        }).pipe(T.Http({ method: "PATCH", uri: "/v1/license-keys/{id}", code: 200 })),
+      ).annotate({ identifier: "LicenseKeysUpdateRequest" });
+  }
+}
+function __c48(j: number): any {
   switch (j) {
     case 0:
       return S.Record(S.String, S.Unknown);
@@ -18605,31 +19012,32 @@ function __c44(j: number): any {
           benefit_id: S.optional(S.NullOr(S.String)),
           customer_id: S.optional(S.NullOr(S.String)),
           increment_usage: S.optional(S.NullOr(S.Number)),
-          conditions: S.optional(__S(352, __c44, 0)),
+          conditions: S.optional(__S(384, __c48, 0)),
         }).pipe(T.Http({ method: "POST", uri: "/v1/license-keys/validate", code: 200 })),
       ).annotate({ identifier: "LicenseKeysValidateRequest" });
   }
 }
-function __c45(j: number): any {
+function __c49(j: number): any {
   switch (j) {
     case 0:
       return S.Record(S.String, S.Unknown);
     case 1:
       return S.suspend(() =>
         S.Struct({
-          metadata: S.optional(__S(360, __c45, 0)),
+          external_id: S.optional(S.NullOr(S.String)),
+          metadata: S.optional(__S(392, __c49, 0)),
           name: S.String,
           unit: S.optional(S.String),
           custom_label: S.optional(S.NullOr(S.String)),
           custom_multiplier: S.optional(S.NullOr(S.Number)),
-          filter: __S(1097, __c137, 1),
+          filter: __S(1153, __c144, 1),
           aggregation: S.Unknown,
           organization_id: S.optional(S.NullOr(S.String)),
         }).pipe(T.Http({ method: "POST", uri: "/v1/meters/", code: 200 })),
       ).annotate({ identifier: "MetersCreateRequest" });
   }
 }
-function __c46(j: number): any {
+function __c50(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18639,32 +19047,43 @@ function __c46(j: number): any {
       ).annotate({ identifier: "MetersGetRequest" });
   }
 }
-function __c47(j: number): any {
+function __c51(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          external_id: S.String.pipe(T.Label()),
+        }).pipe(T.Http({ method: "GET", uri: "/v1/meters/external/{external_id}", code: 200 })),
+      ).annotate({ identifier: "MetersGetExternalRequest" });
+  }
+}
+function __c52(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           organization_id: S.optional(S.Unknown.pipe(T.Query())),
+          external_id: S.optional(S.Unknown.pipe(T.Query())),
           query: S.optional(S.String.pipe(T.Query())),
           is_archived: S.optional(S.Boolean.pipe(T.Query())),
           page: S.optional(S.Number.pipe(T.Query())),
           limit: S.optional(S.Number.pipe(T.Query())),
-          sorting: S.optional(__S(1456, __c182, 0).pipe(T.Query())),
+          sorting: S.optional(__S(1504, __c188, 0).pipe(T.Query())),
           metadata: S.optional(__S(120, __c15, 0).pipe(T.Query())),
         }).pipe(T.Http({ method: "GET", uri: "/v1/meters/", code: 200 })),
       ).annotate({ identifier: "MetersListRequest" });
     case 1:
-      return S.Array(__S(1098, __c137, 2));
+      return S.Array(__S(1154, __c144, 2));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          items: __S(377, __c47, 1),
-          pagination: __S(1464, __c183, 0),
+          items: __S(417, __c52, 1),
+          pagination: __S(1512, __c189, 0),
         }),
       ).annotate({ identifier: "ListResourceMeter" });
   }
 }
-function __c48(j: number): any {
+function __c53(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18688,17 +19107,17 @@ function __c48(j: number): any {
         }),
       ).annotate({ identifier: "MeterQuantity" });
     case 2:
-      return S.Array(__S(385, __c48, 1));
+      return S.Array(__S(425, __c53, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          quantities: __S(386, __c48, 2),
+          quantities: __S(426, __c53, 2),
           total: S.Number,
         }),
       ).annotate({ identifier: "MeterQuantities" });
   }
 }
-function __c49(j: number): any {
+function __c54(j: number): any {
   switch (j) {
     case 0:
       return S.Record(S.String, S.Unknown);
@@ -18706,31 +19125,32 @@ function __c49(j: number): any {
       return S.suspend(() =>
         S.Struct({
           id: S.String.pipe(T.Label()),
-          metadata: S.optional(__S(392, __c49, 0)),
+          external_id: S.optional(S.NullOr(S.String)),
+          metadata: S.optional(__S(432, __c54, 0)),
           name: S.optional(S.NullOr(S.String)),
           unit: S.optional(S.NullOr(S.String)),
           custom_label: S.optional(S.NullOr(S.String)),
           custom_multiplier: S.optional(S.NullOr(S.Number)),
-          filter: S.optional(S.NullOr(__S(1097, __c137, 1))),
+          filter: S.optional(S.NullOr(__S(1153, __c144, 1))),
           aggregation: S.optional(S.NullOr(S.Unknown)),
           is_archived: S.optional(S.NullOr(S.Boolean)),
         }).pipe(T.Http({ method: "PATCH", uri: "/v1/meters/{id}", code: 200 })),
       ).annotate({ identifier: "MetersUpdateRequest" });
   }
 }
-function __c50(j: number): any {
+function __c55(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           name: S.String,
-          metrics: S.optional(__S(752, __c94, 0)),
+          metrics: S.optional(__S(360, __c45, 0)),
           organization_id: S.optional(S.NullOr(S.String)),
         }).pipe(T.Http({ method: "POST", uri: "/v1/metrics/dashboards", code: 200 })),
       ).annotate({ identifier: "MetricsCreateDashboardRequest" });
   }
 }
-function __c51(j: number): any {
+function __c56(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18739,13 +19159,23 @@ function __c51(j: number): any {
           modified_at: S.NullOr(S.String),
           id: S.String,
           name: S.String,
-          metrics: __S(752, __c94, 0),
+          metrics: __S(360, __c45, 0),
           organization_id: S.String,
         }),
       ).annotate({ identifier: "MetricDashboardSchema" });
   }
 }
-function __c52(j: number): any {
+function __c57(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String.pipe(T.Label()),
+        }).pipe(T.Http({ method: "DELETE", uri: "/v1/checkout-links/{id}", code: 200 })),
+      ).annotate({ identifier: "CheckoutLinksDeleteRequest" });
+  }
+}
+function __c58(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18755,7 +19185,7 @@ function __c52(j: number): any {
       ).annotate({ identifier: "MetricsDeleteDashboardRequest" });
   }
 }
-function __c53(j: number): any {
+function __c59(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18766,14 +19196,15 @@ function __c53(j: number): any {
           interval: S.String.pipe(T.Query()),
           organization_id: S.optional(S.Unknown.pipe(T.Query())),
           product_id: S.optional(S.Unknown.pipe(T.Query())),
+          external_product_id: S.optional(S.Unknown.pipe(T.Query())),
           billing_type: S.optional(S.Unknown.pipe(T.Query())),
           customer_id: S.optional(S.Unknown.pipe(T.Query())),
-          metrics: S.optional(__S(752, __c94, 0).pipe(T.Query())),
+          metrics: S.optional(__S(360, __c45, 0).pipe(T.Query())),
         }).pipe(T.Http({ method: "GET", uri: "/v1/metrics/export", code: 200 })),
       ).annotate({ identifier: "MetricsExportRequest" });
   }
 }
-function __c54(j: number): any {
+function __c60(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18784,9 +19215,10 @@ function __c54(j: number): any {
           interval: S.String.pipe(T.Query()),
           organization_id: S.optional(S.Unknown.pipe(T.Query())),
           product_id: S.optional(S.Unknown.pipe(T.Query())),
+          external_product_id: S.optional(S.Unknown.pipe(T.Query())),
           billing_type: S.optional(S.Unknown.pipe(T.Query())),
           customer_id: S.optional(S.Unknown.pipe(T.Query())),
-          metrics: S.optional(__S(752, __c94, 0).pipe(T.Query())),
+          metrics: S.optional(__S(360, __c45, 0).pipe(T.Query())),
         }).pipe(T.Http({ method: "GET", uri: "/v1/metrics/", code: 200 })),
       ).annotate({ identifier: "MetricsGetRequest" });
     case 1:
@@ -18851,7 +19283,7 @@ function __c54(j: number): any {
         }),
       ).annotate({ identifier: "MetricPeriod" });
     case 2:
-      return S.Array(__S(433, __c54, 1));
+      return S.Array(__S(481, __c60, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -18923,84 +19355,74 @@ function __c54(j: number): any {
     case 5:
       return S.suspend(() =>
         S.Struct({
-          active_subscriptions: S.optional(S.NullOr(__S(436, __c54, 4))),
-          committed_subscriptions: S.optional(S.NullOr(__S(436, __c54, 4))),
-          monthly_recurring_revenue: S.optional(S.NullOr(__S(436, __c54, 4))),
-          trial_monthly_recurring_revenue: S.optional(S.NullOr(__S(436, __c54, 4))),
-          committed_monthly_recurring_revenue: S.optional(S.NullOr(__S(436, __c54, 4))),
-          trial_committed_monthly_recurring_revenue: S.optional(S.NullOr(__S(436, __c54, 4))),
-          average_revenue_per_user: S.optional(S.NullOr(__S(436, __c54, 4))),
-          checkouts: S.optional(S.NullOr(__S(436, __c54, 4))),
-          succeeded_checkouts: S.optional(S.NullOr(__S(436, __c54, 4))),
-          churned_subscriptions: S.optional(S.NullOr(__S(436, __c54, 4))),
-          churn_rate: S.optional(S.NullOr(__S(436, __c54, 4))),
-          seats_total: S.optional(S.NullOr(__S(436, __c54, 4))),
-          seats_claimed: S.optional(S.NullOr(__S(436, __c54, 4))),
-          seats_pending: S.optional(S.NullOr(__S(436, __c54, 4))),
-          seat_customers: S.optional(S.NullOr(__S(436, __c54, 4))),
-          new_seat_customers: S.optional(S.NullOr(__S(436, __c54, 4))),
-          churned_seat_customers: S.optional(S.NullOr(__S(436, __c54, 4))),
-          orders: S.optional(S.NullOr(__S(436, __c54, 4))),
-          revenue: S.optional(S.NullOr(__S(436, __c54, 4))),
-          net_revenue: S.optional(S.NullOr(__S(436, __c54, 4))),
-          cumulative_revenue: S.optional(S.NullOr(__S(436, __c54, 4))),
-          net_cumulative_revenue: S.optional(S.NullOr(__S(436, __c54, 4))),
-          costs: S.optional(S.NullOr(__S(436, __c54, 4))),
-          cumulative_costs: S.optional(S.NullOr(__S(436, __c54, 4))),
-          average_order_value: S.optional(S.NullOr(__S(436, __c54, 4))),
-          net_average_order_value: S.optional(S.NullOr(__S(436, __c54, 4))),
-          cost_per_user: S.optional(S.NullOr(__S(436, __c54, 4))),
-          active_user_by_event: S.optional(S.NullOr(__S(436, __c54, 4))),
-          one_time_products: S.optional(S.NullOr(__S(436, __c54, 4))),
-          one_time_products_revenue: S.optional(S.NullOr(__S(436, __c54, 4))),
-          one_time_products_net_revenue: S.optional(S.NullOr(__S(436, __c54, 4))),
-          new_subscriptions: S.optional(S.NullOr(__S(436, __c54, 4))),
-          new_subscriptions_revenue: S.optional(S.NullOr(__S(436, __c54, 4))),
-          new_subscriptions_net_revenue: S.optional(S.NullOr(__S(436, __c54, 4))),
-          renewed_subscriptions: S.optional(S.NullOr(__S(436, __c54, 4))),
-          renewed_subscriptions_revenue: S.optional(S.NullOr(__S(436, __c54, 4))),
-          renewed_subscriptions_net_revenue: S.optional(S.NullOr(__S(436, __c54, 4))),
-          canceled_subscriptions: S.optional(S.NullOr(__S(436, __c54, 4))),
-          canceled_subscriptions_customer_service: S.optional(S.NullOr(__S(436, __c54, 4))),
-          canceled_subscriptions_low_quality: S.optional(S.NullOr(__S(436, __c54, 4))),
-          canceled_subscriptions_missing_features: S.optional(S.NullOr(__S(436, __c54, 4))),
-          canceled_subscriptions_switched_service: S.optional(S.NullOr(__S(436, __c54, 4))),
-          canceled_subscriptions_too_complex: S.optional(S.NullOr(__S(436, __c54, 4))),
-          canceled_subscriptions_too_expensive: S.optional(S.NullOr(__S(436, __c54, 4))),
-          canceled_subscriptions_unused: S.optional(S.NullOr(__S(436, __c54, 4))),
-          canceled_subscriptions_other: S.optional(S.NullOr(__S(436, __c54, 4))),
-          annual_recurring_revenue: S.optional(S.NullOr(__S(436, __c54, 4))),
-          committed_annual_recurring_revenue: S.optional(S.NullOr(__S(436, __c54, 4))),
-          checkouts_conversion: S.optional(S.NullOr(__S(436, __c54, 4))),
-          ltv: S.optional(S.NullOr(__S(436, __c54, 4))),
-          gross_margin: S.optional(S.NullOr(__S(436, __c54, 4))),
-          gross_margin_percentage: S.optional(S.NullOr(__S(436, __c54, 4))),
-          cashflow: S.optional(S.NullOr(__S(436, __c54, 4))),
-          average_seats_per_customer: S.optional(S.NullOr(__S(436, __c54, 4))),
-          seat_utilization_rate: S.optional(S.NullOr(__S(436, __c54, 4))),
+          active_subscriptions: S.optional(S.NullOr(__S(484, __c60, 4))),
+          committed_subscriptions: S.optional(S.NullOr(__S(484, __c60, 4))),
+          monthly_recurring_revenue: S.optional(S.NullOr(__S(484, __c60, 4))),
+          trial_monthly_recurring_revenue: S.optional(S.NullOr(__S(484, __c60, 4))),
+          committed_monthly_recurring_revenue: S.optional(S.NullOr(__S(484, __c60, 4))),
+          trial_committed_monthly_recurring_revenue: S.optional(S.NullOr(__S(484, __c60, 4))),
+          average_revenue_per_user: S.optional(S.NullOr(__S(484, __c60, 4))),
+          checkouts: S.optional(S.NullOr(__S(484, __c60, 4))),
+          succeeded_checkouts: S.optional(S.NullOr(__S(484, __c60, 4))),
+          churned_subscriptions: S.optional(S.NullOr(__S(484, __c60, 4))),
+          churn_rate: S.optional(S.NullOr(__S(484, __c60, 4))),
+          seats_total: S.optional(S.NullOr(__S(484, __c60, 4))),
+          seats_claimed: S.optional(S.NullOr(__S(484, __c60, 4))),
+          seats_pending: S.optional(S.NullOr(__S(484, __c60, 4))),
+          seat_customers: S.optional(S.NullOr(__S(484, __c60, 4))),
+          new_seat_customers: S.optional(S.NullOr(__S(484, __c60, 4))),
+          churned_seat_customers: S.optional(S.NullOr(__S(484, __c60, 4))),
+          orders: S.optional(S.NullOr(__S(484, __c60, 4))),
+          revenue: S.optional(S.NullOr(__S(484, __c60, 4))),
+          net_revenue: S.optional(S.NullOr(__S(484, __c60, 4))),
+          cumulative_revenue: S.optional(S.NullOr(__S(484, __c60, 4))),
+          net_cumulative_revenue: S.optional(S.NullOr(__S(484, __c60, 4))),
+          costs: S.optional(S.NullOr(__S(484, __c60, 4))),
+          cumulative_costs: S.optional(S.NullOr(__S(484, __c60, 4))),
+          average_order_value: S.optional(S.NullOr(__S(484, __c60, 4))),
+          net_average_order_value: S.optional(S.NullOr(__S(484, __c60, 4))),
+          cost_per_user: S.optional(S.NullOr(__S(484, __c60, 4))),
+          active_user_by_event: S.optional(S.NullOr(__S(484, __c60, 4))),
+          one_time_products: S.optional(S.NullOr(__S(484, __c60, 4))),
+          one_time_products_revenue: S.optional(S.NullOr(__S(484, __c60, 4))),
+          one_time_products_net_revenue: S.optional(S.NullOr(__S(484, __c60, 4))),
+          new_subscriptions: S.optional(S.NullOr(__S(484, __c60, 4))),
+          new_subscriptions_revenue: S.optional(S.NullOr(__S(484, __c60, 4))),
+          new_subscriptions_net_revenue: S.optional(S.NullOr(__S(484, __c60, 4))),
+          renewed_subscriptions: S.optional(S.NullOr(__S(484, __c60, 4))),
+          renewed_subscriptions_revenue: S.optional(S.NullOr(__S(484, __c60, 4))),
+          renewed_subscriptions_net_revenue: S.optional(S.NullOr(__S(484, __c60, 4))),
+          canceled_subscriptions: S.optional(S.NullOr(__S(484, __c60, 4))),
+          canceled_subscriptions_customer_service: S.optional(S.NullOr(__S(484, __c60, 4))),
+          canceled_subscriptions_low_quality: S.optional(S.NullOr(__S(484, __c60, 4))),
+          canceled_subscriptions_missing_features: S.optional(S.NullOr(__S(484, __c60, 4))),
+          canceled_subscriptions_switched_service: S.optional(S.NullOr(__S(484, __c60, 4))),
+          canceled_subscriptions_too_complex: S.optional(S.NullOr(__S(484, __c60, 4))),
+          canceled_subscriptions_too_expensive: S.optional(S.NullOr(__S(484, __c60, 4))),
+          canceled_subscriptions_unused: S.optional(S.NullOr(__S(484, __c60, 4))),
+          canceled_subscriptions_other: S.optional(S.NullOr(__S(484, __c60, 4))),
+          annual_recurring_revenue: S.optional(S.NullOr(__S(484, __c60, 4))),
+          committed_annual_recurring_revenue: S.optional(S.NullOr(__S(484, __c60, 4))),
+          checkouts_conversion: S.optional(S.NullOr(__S(484, __c60, 4))),
+          ltv: S.optional(S.NullOr(__S(484, __c60, 4))),
+          gross_margin: S.optional(S.NullOr(__S(484, __c60, 4))),
+          gross_margin_percentage: S.optional(S.NullOr(__S(484, __c60, 4))),
+          cashflow: S.optional(S.NullOr(__S(484, __c60, 4))),
+          average_seats_per_customer: S.optional(S.NullOr(__S(484, __c60, 4))),
+          seat_utilization_rate: S.optional(S.NullOr(__S(484, __c60, 4))),
         }),
       ).annotate({ identifier: "Metrics" });
     case 6:
       return S.suspend(() =>
         S.Struct({
-          periods: __S(434, __c54, 2),
-          totals: __S(435, __c54, 3),
-          metrics: __S(437, __c54, 5),
+          periods: __S(482, __c60, 2),
+          totals: __S(483, __c60, 3),
+          metrics: __S(485, __c60, 5),
         }),
       ).annotate({ identifier: "MetricsResponse" });
   }
 }
-function __c55(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.String.pipe(T.Label()),
-        }).pipe(T.Http({ method: "DELETE", uri: "/v1/checkout-links/{id}", code: 200 })),
-      ).annotate({ identifier: "CheckoutLinksDeleteRequest" });
-  }
-}
-function __c56(j: number): any {
+function __c61(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19010,7 +19432,7 @@ function __c56(j: number): any {
       ).annotate({ identifier: "MetricsGetDashboardRequest" });
   }
 }
-function __c57(j: number): any {
+function __c62(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19026,23 +19448,23 @@ function __c57(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          hour: __S(457, __c57, 1),
-          day: __S(457, __c57, 1),
-          week: __S(457, __c57, 1),
-          month: __S(457, __c57, 1),
-          year: __S(457, __c57, 1),
+          hour: __S(497, __c62, 1),
+          day: __S(497, __c62, 1),
+          week: __S(497, __c62, 1),
+          month: __S(497, __c62, 1),
+          year: __S(497, __c62, 1),
         }),
       ).annotate({ identifier: "MetricsIntervalsLimits" });
     case 3:
       return S.suspend(() =>
         S.Struct({
           min_date: S.String,
-          intervals: __S(458, __c57, 2),
+          intervals: __S(498, __c62, 2),
         }),
       ).annotate({ identifier: "MetricsLimits" });
   }
 }
-function __c58(j: number): any {
+function __c63(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19051,26 +19473,26 @@ function __c58(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/v1/metrics/dashboards", code: 200 })),
       ).annotate({ identifier: "MetricsListDashboardsRequest" });
     case 1:
-      return S.Array(__S(408, __c51, 0));
+      return S.Array(__S(448, __c56, 0));
     case 2:
-      return S.suspend(() => __S(465, __c58, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(505, __c63, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "MetricsListDashboardsResponse",
       });
   }
 }
-function __c59(j: number): any {
+function __c64(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           id: S.String.pipe(T.Label()),
           name: S.optional(S.NullOr(S.String)),
-          metrics: S.optional(S.NullOr(__S(752, __c94, 0))),
+          metrics: S.optional(S.NullOr(__S(360, __c45, 0))),
         }).pipe(T.Http({ method: "PATCH", uri: "/v1/metrics/dashboards/{id}", code: 200 })),
       ).annotate({ identifier: "MetricsUpdateDashboardRequest" });
   }
 }
-function __c60(j: number): any {
+function __c65(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19082,15 +19504,15 @@ function __c60(j: number): any {
       });
   }
 }
-function __c61(j: number): any {
+function __c66(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          redirect_uris: __S(752, __c94, 0),
+          redirect_uris: __S(360, __c45, 0),
           token_endpoint_auth_method: S.optional(S.String),
-          grant_types: S.optional(__S(1456, __c182, 0)),
-          response_types: S.optional(__S(752, __c94, 0)),
+          grant_types: S.optional(__S(1504, __c188, 0)),
+          response_types: S.optional(__S(360, __c45, 0)),
           scope: S.optional(S.String),
           client_name: S.String,
           client_uri: S.optional(S.NullOr(S.String)),
@@ -19102,7 +19524,7 @@ function __c61(j: number): any {
       ).annotate({ identifier: "Oauth2ClientsOauth2CreateClientRequest" });
   }
 }
-function __c62(j: number): any {
+function __c67(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Unknown.pipe(T.RawResponseRoot())).annotate({
@@ -19110,7 +19532,7 @@ function __c62(j: number): any {
       });
   }
 }
-function __c63(j: number): any {
+function __c68(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19120,7 +19542,17 @@ function __c63(j: number): any {
       ).annotate({ identifier: "Oauth2ClientsOauth2DeleteClientRequest" });
   }
 }
-function __c64(j: number): any {
+function __c69(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String.pipe(T.Label()),
+        }).pipe(T.Http({ method: "GET", uri: "/v1/checkout-links/{id}", code: 200 })),
+      ).annotate({ identifier: "CheckoutLinksGetRequest" });
+  }
+}
+function __c70(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19130,16 +19562,16 @@ function __c64(j: number): any {
       ).annotate({ identifier: "Oauth2ClientsOauth2GetClientRequest" });
   }
 }
-function __c65(j: number): any {
+function __c71(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           client_id: S.String.pipe(T.Label()),
-          redirect_uris: __S(752, __c94, 0),
+          redirect_uris: __S(360, __c45, 0),
           token_endpoint_auth_method: S.optional(S.String),
-          grant_types: S.optional(__S(1456, __c182, 0)),
-          response_types: S.optional(__S(752, __c94, 0)),
+          grant_types: S.optional(__S(1504, __c188, 0)),
+          response_types: S.optional(__S(360, __c45, 0)),
           scope: S.optional(S.String),
           client_name: S.String,
           client_uri: S.optional(S.NullOr(S.String)),
@@ -19151,7 +19583,7 @@ function __c65(j: number): any {
       ).annotate({ identifier: "Oauth2ClientsOauth2UpdateClientRequest" });
   }
 }
-function __c66(j: number): any {
+function __c72(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19171,7 +19603,7 @@ function __c66(j: number): any {
           scope: S.String,
           sub_type: S.String,
           sub: S.String,
-          organizations: __S(752, __c94, 0),
+          organizations: __S(360, __c45, 0),
           aud: S.String,
           iss: S.String,
           exp: S.Number,
@@ -19180,17 +19612,7 @@ function __c66(j: number): any {
       ).annotate({ identifier: "IntrospectTokenResponse" });
   }
 }
-function __c67(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.String.pipe(T.Label()),
-        }).pipe(T.Http({ method: "GET", uri: "/v1/checkout-links/{id}", code: 200 })),
-      ).annotate({ identifier: "CheckoutLinksGetRequest" });
-  }
-}
-function __c68(j: number): any {
+function __c73(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19211,7 +19633,7 @@ function __c68(j: number): any {
       ).annotate({ identifier: "TokenResponse" });
   }
 }
-function __c69(j: number): any {
+function __c74(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19224,7 +19646,7 @@ function __c69(j: number): any {
       ).annotate({ identifier: "Oauth2RevokeTokenRequest" });
   }
 }
-function __c70(j: number): any {
+function __c75(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19236,7 +19658,7 @@ function __c70(j: number): any {
       });
   }
 }
-function __c71(j: number): any {
+function __c76(j: number): any {
   switch (j) {
     case 0:
       return S.Record(S.String, /*@__PURE__*/ S.NullOr(S.Unknown));
@@ -19245,8 +19667,8 @@ function __c71(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          custom_field_data: S.optional(__S(568, __c71, 0)),
-          metadata: S.optional(__S(569, __c71, 1)),
+          custom_field_data: S.optional(__S(608, __c76, 0)),
+          metadata: S.optional(__S(609, __c76, 1)),
           organization_id: S.optional(S.NullOr(S.String)),
           customer_id: S.String,
           product_id: S.String,
@@ -19258,12 +19680,14 @@ function __c71(j: number): any {
       ).annotate({ identifier: "OrdersCreateRequest" });
   }
 }
-function __c72(j: number): any {
+function __c77(j: number): any {
   switch (j) {
     case 0:
+      return S.Record(S.String, /*@__PURE__*/ S.NullOr(S.Unknown));
+    case 1:
       return S.suspend(() =>
         S.Struct({
-          metadata: __S(344, __c43, 0),
+          metadata: __S(352, __c44, 0),
           id: S.String,
           created_at: S.String,
           modified_at: S.NullOr(S.String),
@@ -19279,14 +19703,13 @@ function __c72(j: number): any {
           is_recurring: S.Boolean,
           is_archived: S.Boolean,
           organization_id: S.String,
+          catalog_id: S.NullOr(S.String),
         }),
-      ).annotate({ identifier: "DiscountProduct" });
-    case 1:
-      return S.Record(S.String, /*@__PURE__*/ S.NullOr(S.Unknown));
+      ).annotate({ identifier: "OrderProduct" });
     case 2:
       return S.suspend(() =>
         S.Struct({
-          metadata: __S(344, __c43, 0),
+          metadata: __S(352, __c44, 0),
           created_at: S.String,
           modified_at: S.NullOr(S.String),
           id: S.String,
@@ -19303,7 +19726,7 @@ function __c72(j: number): any {
           trial_end: S.NullOr(S.String),
           cancel_at_period_end: S.Boolean,
           canceled_at: S.NullOr(S.String),
-          started_at: S.NullOr(S.String),
+          started_at: S.String,
           ends_at: S.NullOr(S.String),
           ended_at: S.NullOr(S.String),
           past_due_at: S.optional(S.NullOr(S.String)),
@@ -19352,15 +19775,15 @@ function __c72(j: number): any {
           subscription_id: S.NullOr(S.String),
           checkout_id: S.NullOr(S.String),
           next_payment_attempt_at: S.optional(S.NullOr(S.String)),
-          metadata: __S(344, __c43, 0),
-          custom_field_data: S.optional(__S(577, __c72, 1)),
+          metadata: __S(352, __c44, 0),
+          custom_field_data: S.optional(__S(616, __c77, 0)),
           platform_fee_amount: S.Number,
           platform_fee_currency: S.NullOr(S.String),
-          customer: __S(1288, __c161, 0),
-          product: S.NullOr(__S(576, __c72, 0)),
+          customer: __S(1352, __c169, 0),
+          product: S.NullOr(__S(617, __c77, 1)),
           discount: S.NullOr(S.Unknown),
-          subscription: S.NullOr(__S(578, __c72, 2)),
-          items: __S(1497, __c187, 1),
+          subscription: S.NullOr(__S(618, __c77, 2)),
+          items: __S(1561, __c195, 1),
           description: S.String,
           refundable_amount: S.Number,
           refundable_tax_amount: S.Number,
@@ -19368,13 +19791,14 @@ function __c72(j: number): any {
       ).annotate({ identifier: "Order" });
   }
 }
-function __c73(j: number): any {
+function __c78(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           organization_id: S.optional(S.Unknown.pipe(T.Query())),
           product_id: S.optional(S.Unknown.pipe(T.Query())),
+          external_product_id: S.optional(S.Unknown.pipe(T.Query())),
           status: S.optional(S.Unknown.pipe(T.Query())),
           created_after: S.optional(S.String.pipe(T.Query())),
           created_before: S.optional(S.String.pipe(T.Query())),
@@ -19384,7 +19808,7 @@ function __c73(j: number): any {
       ).annotate({ identifier: "OrdersExportRequest" });
   }
 }
-function __c74(j: number): any {
+function __c79(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19395,7 +19819,7 @@ function __c74(j: number): any {
       ).annotate({ identifier: "OrdersFinalizeRequest" });
   }
 }
-function __c75(j: number): any {
+function __c80(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19405,7 +19829,30 @@ function __c75(j: number): any {
       ).annotate({ identifier: "OrdersGenerateInvoiceRequest" });
   }
 }
-function __c76(j: number): any {
+function __c81(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          organization_id: S.optional(S.Unknown.pipe(T.Query())),
+          product_id: S.optional(S.Unknown.pipe(T.Query())),
+          page: S.optional(S.Number.pipe(T.Query())),
+          limit: S.optional(S.Number.pipe(T.Query())),
+          sorting: S.optional(__S(1504, __c188, 0).pipe(T.Query())),
+        }).pipe(T.Http({ method: "GET", uri: "/v1/checkout-links/", code: 200 })),
+      ).annotate({ identifier: "CheckoutLinksListRequest" });
+    case 1:
+      return S.Array(__S(330, __c41, 2));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          items: __S(649, __c81, 1),
+          pagination: __S(1512, __c189, 0),
+        }),
+      ).annotate({ identifier: "ListResourceCheckoutLink" });
+  }
+}
+function __c82(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19415,7 +19862,7 @@ function __c76(j: number): any {
       ).annotate({ identifier: "OrdersGetRequest" });
   }
 }
-function __c77(j: number): any {
+function __c83(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19425,13 +19872,14 @@ function __c77(j: number): any {
       ).annotate({ identifier: "OrdersInvoiceRequest" });
   }
 }
-function __c78(j: number): any {
+function __c84(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           organization_id: S.optional(S.Unknown.pipe(T.Query())),
           product_id: S.optional(S.Unknown.pipe(T.Query())),
+          external_product_id: S.optional(S.Unknown.pipe(T.Query())),
           product_billing_type: S.optional(S.Unknown.pipe(T.Query())),
           discount_id: S.optional(S.Unknown.pipe(T.Query())),
           customer_id: S.optional(S.Unknown.pipe(T.Query())),
@@ -19443,45 +19891,22 @@ function __c78(j: number): any {
           created_before: S.optional(S.String.pipe(T.Query())),
           page: S.optional(S.Number.pipe(T.Query())),
           limit: S.optional(S.Number.pipe(T.Query())),
-          sorting: S.optional(__S(1456, __c182, 0).pipe(T.Query())),
+          sorting: S.optional(__S(1504, __c188, 0).pipe(T.Query())),
           metadata: S.optional(__S(120, __c15, 0).pipe(T.Query())),
         }).pipe(T.Http({ method: "GET", uri: "/v1/orders/", code: 200 })),
       ).annotate({ identifier: "OrdersListRequest" });
     case 1:
-      return S.Array(__S(579, __c72, 3));
+      return S.Array(__S(619, __c77, 3));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          items: __S(625, __c78, 1),
-          pagination: __S(1464, __c183, 0),
+          items: __S(673, __c84, 1),
+          pagination: __S(1512, __c189, 0),
         }),
       ).annotate({ identifier: "ListResourceOrder" });
   }
 }
-function __c79(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          organization_id: S.optional(S.Unknown.pipe(T.Query())),
-          product_id: S.optional(S.Unknown.pipe(T.Query())),
-          page: S.optional(S.Number.pipe(T.Query())),
-          limit: S.optional(S.Number.pipe(T.Query())),
-          sorting: S.optional(__S(1456, __c182, 0).pipe(T.Query())),
-        }).pipe(T.Http({ method: "GET", uri: "/v1/checkout-links/", code: 200 })),
-      ).annotate({ identifier: "CheckoutLinksListRequest" });
-    case 1:
-      return S.Array(__S(323, __c40, 3));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          items: __S(633, __c79, 1),
-          pagination: __S(1464, __c183, 0),
-        }),
-      ).annotate({ identifier: "ListResourceCheckoutLink" });
-  }
-}
-function __c80(j: number): any {
+function __c85(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19491,7 +19916,7 @@ function __c80(j: number): any {
       ).annotate({ identifier: "OrdersReceiptRequest" });
   }
 }
-function __c81(j: number): any {
+function __c86(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19503,7 +19928,7 @@ function __c81(j: number): any {
       ).annotate({ identifier: "OrdersUpdateRequest" });
   }
 }
-function __c82(j: number): any {
+function __c87(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19514,20 +19939,20 @@ function __c82(j: number): any {
           legal_entity: S.optional(S.NullOr(S.Unknown)),
           email: S.optional(S.NullOr(S.String)),
           website: S.optional(S.NullOr(S.String)),
-          socials: S.optional(S.NullOr(__S(665, __c83, 1))),
-          details: S.optional(S.NullOr(__S(672, __c84, 0))),
+          socials: S.optional(S.NullOr(__S(705, __c88, 1))),
+          details: S.optional(S.NullOr(__S(712, __c89, 0))),
           country: S.optional(S.NullOr(S.String)),
-          feature_settings: S.optional(S.NullOr(__S(673, __c84, 1))),
-          subscription_settings: S.optional(S.NullOr(__S(666, __c83, 2))),
-          customer_email_settings: S.optional(S.NullOr(__S(667, __c83, 3))),
-          customer_portal_settings: S.optional(S.NullOr(__S(1515, __c189, 3))),
+          feature_settings: S.optional(S.NullOr(__S(713, __c89, 1))),
+          subscription_settings: S.optional(S.NullOr(__S(706, __c88, 2))),
+          customer_email_settings: S.optional(S.NullOr(__S(707, __c88, 3))),
+          customer_portal_settings: S.optional(S.NullOr(__S(1579, __c197, 3))),
           default_presentment_currency: S.optional(S.String),
           default_tax_behavior: S.optional(S.String),
         }).pipe(T.Http({ method: "POST", uri: "/v1/organizations/", code: 200 })),
       ).annotate({ identifier: "OrganizationsCreateRequest" });
   }
 }
-function __c83(j: number): any {
+function __c88(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19537,7 +19962,7 @@ function __c83(j: number): any {
         }),
       ).annotate({ identifier: "OrganizationSocialLink" });
     case 1:
-      return S.Array(__S(664, __c83, 0));
+      return S.Array(__S(704, __c88, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -19572,20 +19997,18 @@ function __c83(j: number): any {
         S.Struct({
           issue_funding_enabled: S.optional(S.Boolean),
           wallets_enabled: S.optional(S.Boolean),
-          member_model_enabled: S.optional(S.Boolean),
           checkout_localization_enabled: S.optional(S.Boolean),
-          overview_metrics: S.optional(S.NullOr(__S(752, __c94, 0))),
+          overview_metrics: S.optional(S.NullOr(__S(360, __c45, 0))),
           reset_proration_behavior_enabled: S.optional(S.Boolean),
           off_session_charges_enabled: S.optional(S.Boolean),
-          meter_cycling_enabled: S.optional(S.Boolean),
           slack_benefit_enabled: S.optional(S.Boolean),
           preview_access_enabled: S.optional(S.Boolean),
           disputes_enabled: S.optional(S.Boolean),
           sso_enabled: S.optional(S.Boolean),
           dispute_auto_accept_enabled: S.optional(S.Boolean),
-          compass_enabled: S.optional(S.Boolean),
           merchant_migration_enabled: S.optional(S.Boolean),
-          frame_ancestors_enforced: S.optional(S.Boolean),
+          staged_events_ingest_enabled: S.optional(S.Boolean),
+          config_as_code_enabled: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "OrganizationFeatureSettings" });
     case 5:
@@ -19618,55 +20041,49 @@ function __c83(j: number): any {
           allow_customer_updates: S.Boolean,
           email: S.NullOr(S.String),
           website: S.NullOr(S.String),
-          socials: __S(665, __c83, 1),
+          socials: __S(705, __c88, 1),
           status: S.String,
           details_submitted_at: S.NullOr(S.String),
           onboarding_resubmission_requested_at: S.NullOr(S.String),
           sso_enforced: S.Boolean,
           default_presentment_currency: S.String,
           default_tax_behavior: S.String,
-          feature_settings: S.NullOr(__S(668, __c83, 4)),
-          subscription_settings: __S(666, __c83, 2),
-          customer_email_settings: __S(667, __c83, 3),
-          customer_portal_settings: __S(1515, __c189, 3),
-          dispute_settings: __S(669, __c83, 5),
-          embed_hosts: __S(752, __c94, 0),
+          feature_settings: S.NullOr(__S(708, __c88, 4)),
+          subscription_settings: __S(706, __c88, 2),
+          customer_email_settings: __S(707, __c88, 3),
+          customer_portal_settings: __S(1579, __c197, 3),
+          dispute_settings: __S(709, __c88, 5),
+          embed_hosts: __S(360, __c45, 0),
           country: S.optional(S.NullOr(S.String)),
           account_id: S.NullOr(S.String),
           payout_account_id: S.NullOr(S.String),
-          capabilities: __S(670, __c83, 6),
+          capabilities: __S(710, __c88, 6),
         }),
       ).annotate({ identifier: "Organization" });
   }
 }
-function __c84(j: number): any {
+function __c89(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          about: S.optional(S.NullOr(S.String)),
           product_description: S.optional(S.NullOr(S.String)),
-          selling_categories: S.optional(__S(752, __c94, 0)),
-          pricing_models: S.optional(__S(752, __c94, 0)),
-          intended_use: S.optional(S.NullOr(S.String)),
-          customer_acquisition: S.optional(__S(752, __c94, 0)),
-          future_annual_revenue: S.optional(S.NullOr(S.Number)),
+          selling_categories: S.optional(__S(360, __c45, 0)),
+          pricing_models: S.optional(__S(360, __c45, 0)),
           switching: S.optional(S.Boolean),
           switching_from: S.optional(S.NullOr(S.String)),
-          previous_annual_revenue: S.optional(S.NullOr(S.Number)),
         }),
-      ).annotate({ identifier: "OrganizationDetails" });
+      ).annotate({ identifier: "OrganizationDetailsInput" });
     case 1:
       return S.suspend(() =>
         S.Struct({
-          member_model_enabled: S.optional(S.Boolean),
           checkout_localization_enabled: S.optional(S.Boolean),
-          overview_metrics: S.optional(S.NullOr(__S(752, __c94, 0))),
+          overview_metrics: S.optional(S.NullOr(__S(360, __c45, 0))),
         }),
       ).annotate({ identifier: "OrganizationFeatureSettingsUpdate" });
   }
 }
-function __c85(j: number): any {
+function __c90(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19676,7 +20093,7 @@ function __c85(j: number): any {
       ).annotate({ identifier: "OrganizationsGetRequest" });
   }
 }
-function __c86(j: number): any {
+function __c91(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19684,21 +20101,21 @@ function __c86(j: number): any {
           slug: S.optional(S.String.pipe(T.Query())),
           page: S.optional(S.Number.pipe(T.Query())),
           limit: S.optional(S.Number.pipe(T.Query())),
-          sorting: S.optional(__S(1456, __c182, 0).pipe(T.Query())),
+          sorting: S.optional(__S(1504, __c188, 0).pipe(T.Query())),
         }).pipe(T.Http({ method: "GET", uri: "/v1/organizations/", code: 200 })),
       ).annotate({ identifier: "OrganizationsListRequest" });
     case 1:
-      return S.Array(__S(671, __c83, 7));
+      return S.Array(__S(711, __c88, 7));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          items: __S(689, __c86, 1),
-          pagination: __S(1464, __c183, 0),
+          items: __S(729, __c91, 1),
+          pagination: __S(1512, __c189, 0),
         }),
       ).annotate({ identifier: "ListResourceOrganization" });
   }
 }
-function __c87(j: number): any {
+function __c92(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19714,15 +20131,15 @@ function __c87(j: number): any {
           avatar_url: S.optional(S.NullOr(S.String)),
           email: S.optional(S.NullOr(S.String)),
           website: S.optional(S.NullOr(S.String)),
-          socials: S.optional(S.NullOr(__S(665, __c83, 1))),
-          details: S.optional(S.NullOr(__S(672, __c84, 0))),
+          socials: S.optional(S.NullOr(__S(705, __c88, 1))),
+          details: S.optional(S.NullOr(__S(712, __c89, 0))),
           country: S.optional(S.NullOr(S.String)),
-          feature_settings: S.optional(S.NullOr(__S(673, __c84, 1))),
-          subscription_settings: S.optional(S.NullOr(__S(666, __c83, 2))),
-          customer_email_settings: S.optional(S.NullOr(__S(667, __c83, 3))),
-          customer_portal_settings: S.optional(S.NullOr(__S(1515, __c189, 3))),
-          dispute_settings: S.optional(S.NullOr(__S(696, __c87, 0))),
-          embed_hosts: S.optional(S.NullOr(__S(752, __c94, 0))),
+          feature_settings: S.optional(S.NullOr(__S(713, __c89, 1))),
+          subscription_settings: S.optional(S.NullOr(__S(706, __c88, 2))),
+          customer_email_settings: S.optional(S.NullOr(__S(707, __c88, 3))),
+          customer_portal_settings: S.optional(S.NullOr(__S(1579, __c197, 3))),
+          dispute_settings: S.optional(S.NullOr(__S(736, __c92, 0))),
+          embed_hosts: S.optional(S.NullOr(__S(360, __c45, 0))),
           default_presentment_currency: S.optional(S.NullOr(S.String)),
           default_tax_behavior: S.optional(S.NullOr(S.String)),
           sso_enforced: S.optional(S.NullOr(S.Boolean)),
@@ -19730,7 +20147,7 @@ function __c87(j: number): any {
       ).annotate({ identifier: "OrganizationsUpdateRequest" });
   }
 }
-function __c88(j: number): any {
+function __c93(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19744,7 +20161,31 @@ function __c88(j: number): any {
       });
   }
 }
-function __c89(j: number): any {
+function __c94(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Record(S.String, S.Unknown);
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String.pipe(T.Label()),
+          trial_interval: S.optional(S.NullOr(S.String)),
+          trial_interval_count: S.optional(S.NullOr(S.Number)),
+          metadata: S.optional(__S(752, __c94, 0)),
+          products: S.optional(S.NullOr(__S(360, __c45, 0))),
+          label: S.optional(S.NullOr(S.String)),
+          allow_discount_codes: S.optional(S.NullOr(S.Boolean)),
+          require_billing_address: S.optional(S.NullOr(S.Boolean)),
+          discount_id: S.optional(S.NullOr(S.String)),
+          seats: S.optional(S.NullOr(S.Number)),
+          units: S.optional(S.NullOr(S.Number)),
+          success_url: S.optional(S.NullOr(S.String)),
+          return_url: S.optional(S.NullOr(S.String)),
+        }).pipe(T.Http({ method: "PATCH", uri: "/v1/checkout-links/{id}", code: 200 })),
+      ).annotate({ identifier: "CheckoutLinksUpdateRequest" });
+  }
+}
+function __c95(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19758,7 +20199,7 @@ function __c89(j: number): any {
           customer_email: S.optional(S.Unknown.pipe(T.Query())),
           page: S.optional(S.Number.pipe(T.Query())),
           limit: S.optional(S.Number.pipe(T.Query())),
-          sorting: S.optional(__S(1456, __c182, 0).pipe(T.Query())),
+          sorting: S.optional(__S(1504, __c188, 0).pipe(T.Query())),
         }).pipe(T.Http({ method: "GET", uri: "/v1/payments/", code: 200 })),
       ).annotate({ identifier: "PaymentsListRequest" });
     case 1:
@@ -19766,13 +20207,13 @@ function __c89(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          items: __S(713, __c89, 1),
-          pagination: __S(1464, __c183, 0),
+          items: __S(761, __c95, 1),
+          pagination: __S(1512, __c189, 0),
         }),
       ).annotate({ identifier: "ListResourcePayment" });
   }
 }
-function __c90(j: number): any {
+function __c96(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19782,11 +20223,9 @@ function __c90(j: number): any {
       ).annotate({ identifier: "ProductsCreateRequest" });
   }
 }
-function __c91(j: number): any {
+function __c97(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(S.Unknown);
-    case 1:
       return S.suspend(() =>
         S.Struct({
           id: S.String,
@@ -19804,17 +20243,19 @@ function __c91(j: number): any {
           is_recurring: S.Boolean,
           is_archived: S.Boolean,
           organization_id: S.String,
-          metadata: __S(344, __c43, 0),
+          catalog_id: S.NullOr(S.String),
+          external_id: S.NullOr(S.String),
+          metadata: __S(352, __c44, 0),
           is_deletable: S.Boolean,
-          prices: __S(728, __c91, 0),
+          prices: __S(336, __c42, 0),
           benefits: __S(112, __c14, 0),
-          medias: __S(329, __c41, 1),
+          medias: __S(338, __c42, 2),
           attached_custom_fields: __S(873, __c109, 1),
         }),
       ).annotate({ identifier: "Product" });
   }
 }
-function __c92(j: number): any {
+function __c98(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19824,37 +20265,7 @@ function __c92(j: number): any {
       ).annotate({ identifier: "ProductsDeleteRequest" });
   }
 }
-function __c93(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Record(S.String, S.Unknown);
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.String.pipe(T.Label()),
-          trial_interval: S.optional(S.NullOr(S.String)),
-          trial_interval_count: S.optional(S.NullOr(S.Number)),
-          metadata: S.optional(__S(744, __c93, 0)),
-          products: S.optional(S.NullOr(__S(752, __c94, 0))),
-          label: S.optional(S.NullOr(S.String)),
-          allow_discount_codes: S.optional(S.NullOr(S.Boolean)),
-          require_billing_address: S.optional(S.NullOr(S.Boolean)),
-          discount_id: S.optional(S.NullOr(S.String)),
-          seats: S.optional(S.NullOr(S.Number)),
-          units: S.optional(S.NullOr(S.Number)),
-          success_url: S.optional(S.NullOr(S.String)),
-          return_url: S.optional(S.NullOr(S.String)),
-        }).pipe(T.Http({ method: "PATCH", uri: "/v1/checkout-links/{id}", code: 200 })),
-      ).annotate({ identifier: "CheckoutLinksUpdateRequest" });
-  }
-}
-function __c94(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Array(S.String);
-  }
-}
-function __c95(j: number): any {
+function __c99(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19864,36 +20275,37 @@ function __c95(j: number): any {
       ).annotate({ identifier: "ProductsGetRequest" });
   }
 }
-function __c96(j: number): any {
+function __c100(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           id: S.optional(S.Unknown.pipe(T.Query())),
+          external_id: S.optional(S.Unknown.pipe(T.Query())),
           organization_id: S.optional(S.Unknown.pipe(T.Query())),
           query: S.optional(S.String.pipe(T.Query())),
           is_archived: S.optional(S.Boolean.pipe(T.Query())),
           is_recurring: S.optional(S.Boolean.pipe(T.Query())),
           benefit_id: S.optional(S.Unknown.pipe(T.Query())),
-          visibility: S.optional(__S(1456, __c182, 0).pipe(T.Query())),
+          visibility: S.optional(__S(1504, __c188, 0).pipe(T.Query())),
           page: S.optional(S.Number.pipe(T.Query())),
           limit: S.optional(S.Number.pipe(T.Query())),
-          sorting: S.optional(__S(1456, __c182, 0).pipe(T.Query())),
+          sorting: S.optional(__S(1504, __c188, 0).pipe(T.Query())),
           metadata: S.optional(__S(120, __c15, 0).pipe(T.Query())),
         }).pipe(T.Http({ method: "GET", uri: "/v1/products/", code: 200 })),
       ).annotate({ identifier: "ProductsListRequest" });
     case 1:
-      return S.Array(__S(729, __c91, 1));
+      return S.Array(__S(776, __c97, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          items: __S(769, __c96, 1),
-          pagination: __S(1464, __c183, 0),
+          items: __S(801, __c100, 1),
+          pagination: __S(1512, __c189, 0),
         }),
       ).annotate({ identifier: "ListResourceProduct" });
   }
 }
-function __c97(j: number): any {
+function __c101(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19903,7 +20315,7 @@ function __c97(j: number): any {
         }),
       ).annotate({ identifier: "AttachedCustomFieldCreate" });
     case 1:
-      return S.Array(__S(776, __c97, 0));
+      return S.Array(__S(808, __c101, 0));
     case 2:
       return S.Record(S.String, S.Unknown);
     case 3:
@@ -19912,7 +20324,8 @@ function __c97(j: number): any {
       return S.suspend(() =>
         S.Struct({
           id: S.String.pipe(T.Label()),
-          metadata: S.optional(__S(778, __c97, 2)),
+          external_id: S.optional(S.NullOr(S.String)),
+          metadata: S.optional(__S(810, __c101, 2)),
           trial_interval: S.optional(S.NullOr(S.String)),
           trial_interval_count: S.optional(S.NullOr(S.Number)),
           name: S.optional(S.NullOr(S.String)),
@@ -19921,32 +20334,32 @@ function __c97(j: number): any {
           recurring_interval_count: S.optional(S.NullOr(S.Number)),
           is_archived: S.optional(S.NullOr(S.Boolean)),
           visibility: S.optional(S.NullOr(S.String)),
-          prices: S.optional(S.NullOr(__S(779, __c97, 3))),
-          medias: S.optional(S.NullOr(__S(752, __c94, 0))),
-          attached_custom_fields: S.optional(S.NullOr(__S(777, __c97, 1))),
+          prices: S.optional(S.NullOr(__S(811, __c101, 3))),
+          medias: S.optional(S.NullOr(__S(360, __c45, 0))),
+          attached_custom_fields: S.optional(S.NullOr(__S(809, __c101, 1))),
         }).pipe(T.Http({ method: "PATCH", uri: "/v1/products/{id}", code: 200 })),
       ).annotate({ identifier: "ProductsUpdateRequest" });
   }
 }
-function __c98(j: number): any {
+function __c102(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           id: S.String.pipe(T.Label()),
-          benefits: __S(752, __c94, 0),
+          benefits: __S(360, __c45, 0),
         }).pipe(T.Http({ method: "POST", uri: "/v1/products/{id}/benefits", code: 200 })),
       ).annotate({ identifier: "ProductsUpdateBenefitsRequest" });
   }
 }
-function __c99(j: number): any {
+function __c103(j: number): any {
   switch (j) {
     case 0:
       return S.Record(S.String, S.Unknown);
     case 1:
       return S.suspend(() =>
         S.Struct({
-          metadata: S.optional(__S(792, __c99, 0)),
+          metadata: S.optional(__S(824, __c103, 0)),
           order_id: S.String,
           reason: S.String,
           amount: S.Number,
@@ -19956,7 +20369,7 @@ function __c99(j: number): any {
       ).annotate({ identifier: "RefundsCreateRequest" });
   }
 }
-function __c100(j: number): any {
+function __c104(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19983,7 +20396,7 @@ function __c100(j: number): any {
           created_at: S.String,
           modified_at: S.NullOr(S.String),
           id: S.String,
-          metadata: __S(344, __c43, 0),
+          metadata: __S(352, __c44, 0),
           status: S.String,
           reason: S.String,
           amount: S.Number,
@@ -19994,12 +20407,12 @@ function __c100(j: number): any {
           subscription_id: S.NullOr(S.String),
           customer_id: S.String,
           revoke_benefits: S.Boolean,
-          dispute: S.NullOr(__S(800, __c100, 0)),
+          dispute: S.NullOr(__S(832, __c104, 0)),
         }),
       ).annotate({ identifier: "Refund" });
   }
 }
-function __c101(j: number): any {
+function __c105(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20013,21 +20426,21 @@ function __c101(j: number): any {
           succeeded: S.optional(S.Boolean.pipe(T.Query())),
           page: S.optional(S.Number.pipe(T.Query())),
           limit: S.optional(S.Number.pipe(T.Query())),
-          sorting: S.optional(__S(1456, __c182, 0).pipe(T.Query())),
+          sorting: S.optional(__S(1504, __c188, 0).pipe(T.Query())),
         }).pipe(T.Http({ method: "GET", uri: "/v1/refunds/", code: 200 })),
       ).annotate({ identifier: "RefundsListRequest" });
     case 1:
-      return S.Array(__S(801, __c100, 1));
+      return S.Array(__S(833, __c104, 1));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          items: __S(809, __c101, 1),
-          pagination: __S(1464, __c183, 0),
+          items: __S(841, __c105, 1),
+          pagination: __S(1512, __c189, 0),
         }),
       ).annotate({ identifier: "ListResourceRefund" });
   }
 }
-function __c102(j: number): any {
+function __c106(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20054,158 +20467,12 @@ function __c102(j: number): any {
       ).annotate({ identifier: "CustomerOrderPaymentConfirmation" });
   }
 }
-function __c103(j: number): any {
+function __c107(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           body: S.Unknown.pipe(T.HttpBody()),
-        }).pipe(T.Http({ method: "POST", uri: "/v1/subscriptions/", code: 200 })),
-      ).annotate({ identifier: "SubscriptionsCreateRequest" });
-  }
-}
-function __c104(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Record(S.String, /*@__PURE__*/ S.NullOr(S.Unknown));
-    case 1:
-      return S.Array(S.Unknown);
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          created_at: S.String,
-          modified_at: S.NullOr(S.String),
-          id: S.String,
-          consumed_units: S.Number,
-          credited_units: S.Number,
-          amount: S.Number,
-          meter_id: S.String,
-          meter: __S(1098, __c137, 2),
-        }),
-      ).annotate({ identifier: "SubscriptionMeter" });
-    case 3:
-      return S.Array(__S(834, __c104, 2));
-    case 4:
-      return S.suspend(() =>
-        S.Struct({
-          created_at: S.String,
-          modified_at: S.NullOr(S.String),
-          id: S.String,
-          amount: S.Number,
-          currency: S.String,
-          recurring_interval: S.String,
-          recurring_interval_count: S.Number,
-          status: S.String,
-          current_period_start: S.String,
-          current_period_end: S.String,
-          current_meter_period_start: S.NullOr(S.String),
-          current_meter_period_end: S.NullOr(S.String),
-          trial_start: S.NullOr(S.String),
-          trial_end: S.NullOr(S.String),
-          cancel_at_period_end: S.Boolean,
-          canceled_at: S.NullOr(S.String),
-          started_at: S.NullOr(S.String),
-          ends_at: S.NullOr(S.String),
-          ended_at: S.NullOr(S.String),
-          past_due_at: S.optional(S.NullOr(S.String)),
-          pause_at_period_end: S.Boolean,
-          paused_at: S.NullOr(S.String),
-          resumes_at: S.NullOr(S.String),
-          customer_id: S.String,
-          product_id: S.String,
-          discount_id: S.NullOr(S.String),
-          checkout_id: S.NullOr(S.String),
-          seats: S.optional(S.NullOr(S.Number)),
-          units: S.NullOr(S.Number),
-          customer_cancellation_reason: S.NullOr(S.String),
-          customer_cancellation_comment: S.NullOr(S.String),
-          metadata: __S(344, __c43, 0),
-          custom_field_data: S.optional(__S(832, __c104, 0)),
-          customer: __S(1288, __c161, 0),
-          product: __S(729, __c91, 1),
-          discount: S.NullOr(S.Unknown),
-          prices: __S(833, __c104, 1),
-          meters: __S(835, __c104, 3),
-          pending_update: S.NullOr(__S(1608, __c201, 0)),
-        }),
-      ).annotate({ identifier: "Subscription" });
-  }
-}
-function __c105(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          organization_id: S.optional(S.Unknown.pipe(T.Query())),
-          product_id: S.optional(S.Unknown.pipe(T.Query())),
-          status: S.optional(S.Unknown.pipe(T.Query())),
-          cancel_at_period_end: S.optional(S.Boolean.pipe(T.Query())),
-          started_after: S.optional(S.String.pipe(T.Query())),
-          started_before: S.optional(S.String.pipe(T.Query())),
-          timezone: S.optional(S.String.pipe(T.Query())),
-          columns: S.optional(S.Unknown.pipe(T.Query())),
-        }).pipe(T.Http({ method: "GET", uri: "/v1/subscriptions/export", code: 200 })),
-      ).annotate({ identifier: "SubscriptionsExportRequest" });
-  }
-}
-function __c106(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.String.pipe(T.Label()),
-        }).pipe(T.Http({ method: "GET", uri: "/v1/subscriptions/{id}", code: 200 })),
-      ).annotate({ identifier: "SubscriptionsGetRequest" });
-  }
-}
-function __c107(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Record(S.String, S.Unknown);
-    case 1:
-      return S.Record(S.String, /*@__PURE__*/ S.NullOr(S.Unknown));
-    case 2:
-      return S.Record(S.String, S.Unknown);
-    case 3:
-      return S.Array(S.Unknown);
-    case 4:
-      return S.Record(S.String, __S(859, __c107, 3));
-    case 5:
-      return S.suspend(() =>
-        S.Struct({
-          trial_interval: S.optional(S.NullOr(S.String)),
-          trial_interval_count: S.optional(S.NullOr(S.Number)),
-          metadata: S.optional(__S(856, __c107, 0)),
-          custom_field_data: S.optional(__S(857, __c107, 1)),
-          discount_id: S.optional(S.NullOr(S.String)),
-          allow_discount_codes: S.optional(S.Boolean),
-          require_billing_address: S.optional(S.Boolean),
-          amount: S.optional(S.NullOr(S.Number)),
-          seats: S.optional(S.NullOr(S.Number)),
-          min_seats: S.optional(S.NullOr(S.Number)),
-          max_seats: S.optional(S.NullOr(S.Number)),
-          units: S.optional(S.NullOr(S.Number)),
-          min_units: S.optional(S.NullOr(S.Number)),
-          max_units: S.optional(S.NullOr(S.Number)),
-          allow_trial: S.optional(S.Boolean),
-          customer_id: S.optional(S.NullOr(S.String)),
-          is_business_customer: S.optional(S.Boolean),
-          external_customer_id: S.optional(S.NullOr(S.String)),
-          customer_name: S.optional(S.NullOr(S.String)),
-          customer_email: S.optional(S.NullOr(S.String)),
-          customer_ip_address: S.optional(S.NullOr(S.String)),
-          customer_billing_name: S.optional(S.NullOr(S.String)),
-          customer_billing_address: S.optional(S.NullOr(__S(888, __c111, 0))),
-          customer_tax_id: S.optional(S.NullOr(S.String)),
-          customer_metadata: S.optional(__S(858, __c107, 2)),
-          subscription_id: S.optional(S.NullOr(S.String)),
-          success_url: S.optional(S.NullOr(S.String)),
-          return_url: S.optional(S.NullOr(S.String)),
-          embed_origin: S.optional(S.NullOr(S.String)),
-          locale: S.optional(S.NullOr(S.String)),
-          currency: S.optional(S.NullOr(S.String)),
-          products: __S(752, __c94, 0),
-          prices: S.optional(S.NullOr(__S(860, __c107, 4))),
         }).pipe(T.Http({ method: "POST", uri: "/v1/checkouts/", code: 200 })),
       ).annotate({ identifier: "CheckoutsCreateRequest" });
   }
@@ -20215,12 +20482,8 @@ function __c108(j: number): any {
     case 0:
       return S.Record(S.String, /*@__PURE__*/ S.NullOr(S.Unknown));
     case 1:
-      return S.Array(S.Unknown);
-    case 2:
-      return S.Record(S.String, __S(865, __c108, 1));
-    case 3:
       return S.Record(S.String, S.Unknown);
-    case 4:
+    case 2:
       return S.suspend(() =>
         S.Struct({
           id: S.String,
@@ -20254,7 +20517,6 @@ function __c108(j: number): any {
           trial_end: S.NullOr(S.String),
           organization_id: S.String,
           product_id: S.NullOr(S.String),
-          product_price_id: S.NullOr(S.String),
           discount_id: S.NullOr(S.String),
           allow_discount_codes: S.Boolean,
           require_billing_address: S.Boolean,
@@ -20277,16 +20539,16 @@ function __c108(j: number): any {
           billing_address_fields: __S(880, __c110, 0),
           trial_interval: S.NullOr(S.String),
           trial_interval_count: S.NullOr(S.Number),
-          metadata: __S(344, __c43, 0),
+          metadata: __S(352, __c44, 0),
           external_customer_id: S.NullOr(S.String),
-          products: __S(883, __c110, 3),
-          product: S.NullOr(__S(882, __c110, 2)),
+          products: __S(882, __c110, 2),
+          product: S.NullOr(__S(881, __c110, 1)),
           product_price: S.NullOr(S.Unknown),
-          prices: S.NullOr(__S(866, __c108, 2)),
+          prices: S.NullOr(__S(883, __c110, 3)),
           discount: S.NullOr(S.Unknown),
           subscription_id: S.NullOr(S.String),
           attached_custom_fields: S.NullOr(__S(873, __c109, 1)),
-          customer_metadata: __S(867, __c108, 3),
+          customer_metadata: __S(865, __c108, 1),
         }),
       ).annotate({ identifier: "Checkout" });
   }
@@ -20320,8 +20582,6 @@ function __c110(j: number): any {
         }),
       ).annotate({ identifier: "CheckoutBillingAddressFields" });
     case 1:
-      return S.Array(S.Unknown);
-    case 2:
       return S.suspend(() =>
         S.Struct({
           id: S.String,
@@ -20339,13 +20599,16 @@ function __c110(j: number): any {
           is_recurring: S.Boolean,
           is_archived: S.Boolean,
           organization_id: S.String,
-          prices: __S(881, __c110, 1),
-          benefits: __S(336, __c42, 0),
-          medias: __S(329, __c41, 1),
+          catalog_id: S.NullOr(S.String),
+          prices: __S(336, __c42, 0),
+          benefits: __S(344, __c43, 0),
+          medias: __S(338, __c42, 2),
         }),
       ).annotate({ identifier: "CheckoutProduct" });
+    case 2:
+      return S.Array(__S(881, __c110, 1));
     case 3:
-      return S.Array(__S(882, __c110, 2));
+      return S.Record(S.String, __S(336, __c42, 0));
   }
 }
 function __c111(j: number): any {
@@ -20374,8 +20637,112 @@ function __c113(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          body: S.Unknown.pipe(T.HttpBody()),
+        }).pipe(T.Http({ method: "POST", uri: "/v1/subscriptions/", code: 200 })),
+      ).annotate({ identifier: "SubscriptionsCreateRequest" });
+  }
+}
+function __c114(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Record(S.String, /*@__PURE__*/ S.NullOr(S.Unknown));
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          created_at: S.String,
+          modified_at: S.NullOr(S.String),
+          id: S.String,
+          consumed_units: S.Number,
+          credited_units: S.Number,
+          amount: S.Number,
+          meter_id: S.String,
+          meter: __S(1154, __c144, 2),
+        }),
+      ).annotate({ identifier: "SubscriptionMeter" });
+    case 2:
+      return S.Array(__S(913, __c114, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          created_at: S.String,
+          modified_at: S.NullOr(S.String),
+          id: S.String,
+          amount: S.Number,
+          currency: S.String,
+          recurring_interval: S.String,
+          recurring_interval_count: S.Number,
+          status: S.String,
+          current_period_start: S.String,
+          current_period_end: S.String,
+          current_meter_period_start: S.NullOr(S.String),
+          current_meter_period_end: S.NullOr(S.String),
+          trial_start: S.NullOr(S.String),
+          trial_end: S.NullOr(S.String),
+          cancel_at_period_end: S.Boolean,
+          canceled_at: S.NullOr(S.String),
+          started_at: S.String,
+          ends_at: S.NullOr(S.String),
+          ended_at: S.NullOr(S.String),
+          past_due_at: S.optional(S.NullOr(S.String)),
+          pause_at_period_end: S.Boolean,
+          paused_at: S.NullOr(S.String),
+          resumes_at: S.NullOr(S.String),
+          customer_id: S.String,
+          product_id: S.String,
+          discount_id: S.NullOr(S.String),
+          checkout_id: S.NullOr(S.String),
+          seats: S.optional(S.NullOr(S.Number)),
+          units: S.NullOr(S.Number),
+          customer_cancellation_reason: S.NullOr(S.String),
+          customer_cancellation_comment: S.NullOr(S.String),
+          metadata: __S(352, __c44, 0),
+          custom_field_data: S.optional(__S(912, __c114, 0)),
+          customer: __S(1352, __c169, 0),
+          product: __S(776, __c97, 0),
+          discount: S.NullOr(S.Unknown),
+          prices: __S(336, __c42, 0),
+          meters: __S(914, __c114, 2),
+          pending_update: S.NullOr(__S(1696, __c212, 0)),
+        }),
+      ).annotate({ identifier: "Subscription" });
+  }
+}
+function __c115(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
           organization_id: S.optional(S.Unknown.pipe(T.Query())),
           product_id: S.optional(S.Unknown.pipe(T.Query())),
+          external_product_id: S.optional(S.Unknown.pipe(T.Query())),
+          status: S.optional(S.Unknown.pipe(T.Query())),
+          cancel_at_period_end: S.optional(S.Boolean.pipe(T.Query())),
+          started_after: S.optional(S.String.pipe(T.Query())),
+          started_before: S.optional(S.String.pipe(T.Query())),
+          timezone: S.optional(S.String.pipe(T.Query())),
+          columns: S.optional(S.Unknown.pipe(T.Query())),
+        }).pipe(T.Http({ method: "GET", uri: "/v1/subscriptions/export", code: 200 })),
+      ).annotate({ identifier: "SubscriptionsExportRequest" });
+  }
+}
+function __c116(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String.pipe(T.Label()),
+        }).pipe(T.Http({ method: "GET", uri: "/v1/subscriptions/{id}", code: 200 })),
+      ).annotate({ identifier: "SubscriptionsGetRequest" });
+  }
+}
+function __c117(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          organization_id: S.optional(S.Unknown.pipe(T.Query())),
+          product_id: S.optional(S.Unknown.pipe(T.Query())),
+          external_product_id: S.optional(S.Unknown.pipe(T.Query())),
           customer_id: S.optional(S.Unknown.pipe(T.Query())),
           external_customer_id: S.optional(S.Unknown.pipe(T.Query())),
           discount_id: S.optional(S.Unknown.pipe(T.Query())),
@@ -20389,22 +20756,22 @@ function __c113(j: number): any {
           started_before: S.optional(S.String.pipe(T.Query())),
           page: S.optional(S.Number.pipe(T.Query())),
           limit: S.optional(S.Number.pipe(T.Query())),
-          sorting: S.optional(__S(1456, __c182, 0).pipe(T.Query())),
+          sorting: S.optional(__S(1504, __c188, 0).pipe(T.Query())),
           metadata: S.optional(__S(120, __c15, 0).pipe(T.Query())),
         }).pipe(T.Http({ method: "GET", uri: "/v1/subscriptions/", code: 200 })),
       ).annotate({ identifier: "SubscriptionsListRequest" });
     case 1:
-      return S.Array(__S(836, __c104, 4));
+      return S.Array(__S(915, __c114, 3));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          items: __S(905, __c113, 1),
-          pagination: __S(1464, __c183, 0),
+          items: __S(937, __c117, 1),
+          pagination: __S(1512, __c189, 0),
         }),
       ).annotate({ identifier: "ListResourceSubscription" });
   }
 }
-function __c114(j: number): any {
+function __c118(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20414,7 +20781,7 @@ function __c114(j: number): any {
       ).annotate({ identifier: "SubscriptionsRevokeRequest" });
   }
 }
-function __c115(j: number): any {
+function __c119(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20425,7 +20792,7 @@ function __c115(j: number): any {
       ).annotate({ identifier: "SubscriptionsUpdateRequest" });
   }
 }
-function __c116(j: number): any {
+function __c120(j: number): any {
   switch (j) {
     case 0:
       return S.Record(S.String, /*@__PURE__*/ S.NullOr(S.Unknown));
@@ -20433,9 +20800,8 @@ function __c116(j: number): any {
       return S.suspend(() =>
         S.Struct({
           client_secret: S.String.pipe(T.Label()),
-          custom_field_data: S.optional(__S(928, __c116, 0)),
+          custom_field_data: S.optional(__S(960, __c120, 0)),
           product_id: S.optional(S.NullOr(S.String)),
-          product_price_id: S.optional(S.NullOr(S.String)),
           amount: S.optional(S.NullOr(S.Number)),
           seats: S.optional(S.NullOr(S.Number)),
           units: S.optional(S.NullOr(S.Number)),
@@ -20455,7 +20821,7 @@ function __c116(j: number): any {
       ).annotate({ identifier: "UpdateCheckoutsClientRequest" });
   }
 }
-function __c117(j: number): any {
+function __c121(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20471,7 +20837,7 @@ function __c117(j: number): any {
       ).annotate({ identifier: "UpdateCustomerPortalCustomersCheckEmailRequest" });
   }
 }
-function __c118(j: number): any {
+function __c122(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20487,7 +20853,7 @@ function __c118(j: number): any {
       ).annotate({ identifier: "UpdateCustomerPortalCustomersRequestEmailRequest" });
   }
 }
-function __c119(j: number): any {
+function __c123(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20509,62 +20875,6 @@ function __c119(j: number): any {
       ).annotate({ identifier: "CustomerEmailUpdateVerifyResponse" });
   }
 }
-function __c120(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          url: S.String,
-          name: S.optional(S.NullOr(S.String)),
-          api_version: S.optional(S.String),
-          format: S.String,
-          events: __S(1456, __c182, 0),
-          organization_id: S.optional(S.NullOr(S.String)),
-        }).pipe(T.Http({ method: "POST", uri: "/v1/webhooks/endpoints", code: 200 })),
-      ).annotate({ identifier: "WebhooksCreateWebhookEndpointRequest" });
-  }
-}
-function __c121(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          created_at: S.String,
-          modified_at: S.NullOr(S.String),
-          id: S.String,
-          url: S.String,
-          name: S.optional(S.NullOr(S.String)),
-          api_version: S.String,
-          format: S.String,
-          secret: S.String.pipe(T.SensitiveValue({})),
-          organization_id: S.String,
-          events: __S(1456, __c182, 0),
-          enabled: S.Boolean,
-          uses_standard_webhook_signature: S.Boolean,
-        }),
-      ).annotate({ identifier: "WebhookEndpoint" });
-  }
-}
-function __c122(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.String.pipe(T.Label()),
-        }).pipe(T.Http({ method: "DELETE", uri: "/v1/webhooks/endpoints/{id}", code: 200 })),
-      ).annotate({ identifier: "WebhooksDeleteWebhookEndpointRequest" });
-  }
-}
-function __c123(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.String.pipe(T.Label()),
-        }).pipe(T.Http({ method: "GET", uri: "/v1/webhooks/endpoints/{id}", code: 200 })),
-      ).annotate({ identifier: "WebhooksGetWebhookEndpointRequest" });
-  }
-}
 function __c124(j: number): any {
   switch (j) {
     case 0:
@@ -20576,6 +20886,79 @@ function __c124(j: number): any {
   }
 }
 function __c125(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          url: S.String,
+          name: S.optional(S.NullOr(S.String)),
+          api_version: S.optional(S.String),
+          format: S.String,
+          events: __S(1504, __c188, 0),
+          organization_id: S.optional(S.NullOr(S.String)),
+        }).pipe(T.Http({ method: "POST", uri: "/v1/webhooks/endpoints", code: 200 })),
+      ).annotate({ identifier: "WebhooksCreateWebhookEndpointRequest" });
+  }
+}
+function __c126(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          external_id: S.NullOr(S.String),
+          created_at: S.String,
+          modified_at: S.NullOr(S.String),
+          id: S.String,
+          url: S.String,
+          name: S.optional(S.NullOr(S.String)),
+          api_version: S.String,
+          format: S.String,
+          secret: S.String.pipe(T.SensitiveValue({})),
+          organization_id: S.String,
+          events: __S(1504, __c188, 0),
+          enabled: S.Boolean,
+          uses_standard_webhook_signature: S.Boolean,
+        }),
+      ).annotate({ identifier: "WebhookEndpoint" });
+  }
+}
+function __c127(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String.pipe(T.Label()),
+        }).pipe(T.Http({ method: "DELETE", uri: "/v1/webhooks/endpoints/{id}", code: 200 })),
+      ).annotate({ identifier: "WebhooksDeleteWebhookEndpointRequest" });
+  }
+}
+function __c128(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          external_id: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/v1/webhooks/endpoints/external/{external_id}",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "WebhooksGetExternalWebhookEndpointRequest" });
+  }
+}
+function __c129(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String.pipe(T.Label()),
+        }).pipe(T.Http({ method: "GET", uri: "/v1/webhooks/endpoints/{id}", code: 200 })),
+      ).annotate({ identifier: "WebhooksGetWebhookEndpointRequest" });
+  }
+}
+function __c130(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20615,21 +20998,21 @@ function __c125(j: number): any {
           succeeded: S.Boolean,
           http_code: S.NullOr(S.Number),
           response: S.NullOr(S.String),
-          webhook_event: __S(1001, __c125, 1),
+          webhook_event: __S(1041, __c130, 1),
         }),
       ).annotate({ identifier: "WebhookDelivery" });
     case 3:
-      return S.Array(__S(1002, __c125, 2));
+      return S.Array(__S(1042, __c130, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
-          items: __S(1003, __c125, 3),
-          pagination: __S(1464, __c183, 0),
+          items: __S(1043, __c130, 3),
+          pagination: __S(1512, __c189, 0),
         }),
       ).annotate({ identifier: "ListResourceWebhookDelivery" });
   }
 }
-function __c126(j: number): any {
+function __c131(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20640,17 +21023,17 @@ function __c126(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/v1/webhooks/endpoints", code: 200 })),
       ).annotate({ identifier: "WebhooksListWebhookEndpointsRequest" });
     case 1:
-      return S.Array(__S(968, __c121, 0));
+      return S.Array(__S(1008, __c126, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          items: __S(1009, __c126, 1),
-          pagination: __S(1464, __c183, 0),
+          items: __S(1049, __c131, 1),
+          pagination: __S(1512, __c189, 0),
         }),
       ).annotate({ identifier: "ListResourceWebhookEndpoint" });
   }
 }
-function __c127(j: number): any {
+function __c132(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20660,7 +21043,7 @@ function __c127(j: number): any {
       ).annotate({ identifier: "WebhooksRedeliverWebhookEventRequest" });
   }
 }
-function __c128(j: number): any {
+function __c133(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20670,7 +21053,7 @@ function __c128(j: number): any {
       ).annotate({ identifier: "WebhooksResetWebhookEndpointSecretRequest" });
   }
 }
-function __c129(j: number): any {
+function __c134(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20680,40 +21063,41 @@ function __c129(j: number): any {
           name: S.optional(S.NullOr(S.String)),
           api_version: S.optional(S.NullOr(S.String)),
           format: S.optional(S.NullOr(S.String)),
-          events: S.optional(S.NullOr(__S(1456, __c182, 0))),
+          events: S.optional(S.NullOr(__S(1504, __c188, 0))),
           enabled: S.optional(S.NullOr(S.Boolean)),
         }).pipe(T.Http({ method: "PATCH", uri: "/v1/webhooks/endpoints/{id}", code: 200 })),
       ).annotate({ identifier: "WebhooksUpdateWebhookEndpointRequest" });
   }
 }
-function __c130(j: number): any {
+function __c135(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           organization_id: S.optional(S.Unknown.pipe(T.Query())),
           product_id: S.optional(S.Unknown.pipe(T.Query())),
+          external_product_id: S.optional(S.Unknown.pipe(T.Query())),
           customer_id: S.optional(S.Unknown.pipe(T.Query())),
           external_customer_id: S.optional(S.Unknown.pipe(T.Query())),
           status: S.optional(S.Unknown.pipe(T.Query())),
           query: S.optional(S.String.pipe(T.Query())),
           page: S.optional(S.Number.pipe(T.Query())),
           limit: S.optional(S.Number.pipe(T.Query())),
-          sorting: S.optional(__S(1456, __c182, 0).pipe(T.Query())),
+          sorting: S.optional(__S(1504, __c188, 0).pipe(T.Query())),
         }).pipe(T.Http({ method: "GET", uri: "/v1/checkouts/", code: 200 })),
       ).annotate({ identifier: "CheckoutsListRequest" });
     case 1:
-      return S.Array(__S(868, __c108, 4));
+      return S.Array(__S(866, __c108, 2));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          items: __S(1041, __c130, 1),
-          pagination: __S(1464, __c183, 0),
+          items: __S(1081, __c135, 1),
+          pagination: __S(1512, __c189, 0),
         }),
       ).annotate({ identifier: "ListResourceCheckout" });
   }
 }
-function __c131(j: number): any {
+function __c136(j: number): any {
   switch (j) {
     case 0:
       return S.Record(S.String, /*@__PURE__*/ S.NullOr(S.Unknown));
@@ -20725,9 +21109,8 @@ function __c131(j: number): any {
       return S.suspend(() =>
         S.Struct({
           id: S.String.pipe(T.Label()),
-          custom_field_data: S.optional(__S(1048, __c131, 0)),
+          custom_field_data: S.optional(__S(1088, __c136, 0)),
           product_id: S.optional(S.NullOr(S.String)),
-          product_price_id: S.optional(S.NullOr(S.String)),
           amount: S.optional(S.NullOr(S.Number)),
           seats: S.optional(S.NullOr(S.Number)),
           units: S.optional(S.NullOr(S.Number)),
@@ -20740,14 +21123,14 @@ function __c131(j: number): any {
           locale: S.optional(S.NullOr(S.String)),
           trial_interval: S.optional(S.NullOr(S.String)),
           trial_interval_count: S.optional(S.NullOr(S.Number)),
-          metadata: S.optional(__S(1049, __c131, 1)),
+          metadata: S.optional(__S(1089, __c136, 1)),
           currency: S.optional(S.NullOr(S.String)),
           discount_id: S.optional(S.NullOr(S.String)),
           allow_discount_codes: S.optional(S.NullOr(S.Boolean)),
           require_billing_address: S.optional(S.NullOr(S.Boolean)),
           allow_trial: S.optional(S.NullOr(S.Boolean)),
           customer_ip_address: S.optional(S.NullOr(S.String)),
-          customer_metadata: S.optional(S.NullOr(__S(1050, __c131, 2))),
+          customer_metadata: S.optional(S.NullOr(__S(1090, __c136, 2))),
           success_url: S.optional(S.NullOr(S.String)),
           return_url: S.optional(S.NullOr(S.String)),
           embed_origin: S.optional(S.NullOr(S.String)),
@@ -20755,7 +21138,7 @@ function __c131(j: number): any {
       ).annotate({ identifier: "CheckoutsUpdateRequest" });
   }
 }
-function __c132(j: number): any {
+function __c137(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20778,31 +21161,13 @@ function __c132(j: number): any {
       ).annotate({ identifier: "SeatClaimInfo" });
   }
 }
-function __c133(j: number): any {
+function __c138(j: number): any {
   switch (j) {
     case 0:
-      return S.Record(S.String, /*@__PURE__*/ S.NullOr(S.Unknown));
-    case 1:
       return S.suspend(() =>
         S.Struct({
           client_secret: S.String.pipe(T.Label()),
-          custom_field_data: S.optional(__S(1064, __c133, 0)),
-          product_id: S.optional(S.NullOr(S.String)),
-          product_price_id: S.optional(S.NullOr(S.String)),
-          amount: S.optional(S.NullOr(S.Number)),
-          seats: S.optional(S.NullOr(S.Number)),
-          units: S.optional(S.NullOr(S.Number)),
-          is_business_customer: S.optional(S.NullOr(S.Boolean)),
-          customer_name: S.optional(S.NullOr(S.String)),
-          customer_email: S.optional(S.NullOr(S.String)),
-          customer_billing_name: S.optional(S.NullOr(S.String)),
-          customer_billing_address: S.optional(S.NullOr(__S(888, __c111, 0))),
-          customer_tax_id: S.optional(S.NullOr(S.String)),
-          locale: S.optional(S.NullOr(S.String)),
-          payment_method_type: S.optional(S.NullOr(S.String)),
-          discount_code: S.optional(S.NullOr(S.String)),
-          allow_trial: S.optional(S.NullOr(S.Boolean)),
-          confirmation_token_id: S.optional(S.NullOr(S.String)),
+          body: S.Unknown.pipe(T.HttpBody()),
         }).pipe(
           T.Http({
             method: "POST",
@@ -20811,19 +21176,15 @@ function __c133(j: number): any {
           }),
         ),
       ).annotate({ identifier: "ConfirmCheckoutsClientRequest" });
-    case 2:
+    case 1:
       return S.Record(S.String, /*@__PURE__*/ S.NullOr(S.Unknown));
-    case 3:
-      return S.Array(S.Unknown);
-    case 4:
-      return S.Record(S.String, __S(1067, __c133, 3));
-    case 5:
+    case 2:
       return S.suspend(() =>
         S.Struct({
           id: S.String,
           created_at: S.String,
           modified_at: S.NullOr(S.String),
-          custom_field_data: S.optional(__S(1066, __c133, 2)),
+          custom_field_data: S.optional(__S(1105, __c138, 1)),
           payment_processor: S.String,
           status: S.String,
           client_secret: S.String.pipe(T.SensitiveValue({})),
@@ -20851,7 +21212,6 @@ function __c133(j: number): any {
           trial_end: S.NullOr(S.String),
           organization_id: S.String,
           product_id: S.NullOr(S.String),
-          product_price_id: S.NullOr(S.String),
           discount_id: S.NullOr(S.String),
           allow_discount_codes: S.Boolean,
           require_billing_address: S.Boolean,
@@ -20872,19 +21232,19 @@ function __c133(j: number): any {
           payment_method_type: S.NullOr(S.String),
           payment_processor_metadata: __S(896, __c112, 0),
           billing_address_fields: __S(880, __c110, 0),
-          products: __S(883, __c110, 3),
-          product: S.NullOr(__S(882, __c110, 2)),
+          products: __S(882, __c110, 2),
+          product: S.NullOr(__S(881, __c110, 1)),
           product_price: S.NullOr(S.Unknown),
-          prices: S.NullOr(__S(1068, __c133, 4)),
+          prices: S.NullOr(__S(883, __c110, 3)),
           discount: S.NullOr(S.Unknown),
-          organization: __S(1072, __c134, 0),
+          organization: __S(1112, __c139, 0),
           attached_custom_fields: S.NullOr(__S(873, __c109, 1)),
           customer_session_token: S.NullOr(S.String),
         }),
       ).annotate({ identifier: "CheckoutPublicConfirmed" });
   }
 }
-function __c134(j: number): any {
+function __c139(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20901,7 +21261,49 @@ function __c134(j: number): any {
       ).annotate({ identifier: "CheckoutOrganization" });
   }
 }
-function __c135(j: number): any {
+function __c140(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          body: S.Unknown.pipe(T.HttpBody()),
+        }).pipe(T.Http({ method: "POST", uri: "/v1/customer-meters/credits", code: 200 })),
+      ).annotate({ identifier: "CustomerMetersCreditsRequest" });
+  }
+}
+function __c141(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          meter_id: S.String,
+          units: S.Number,
+          rollover: S.Boolean,
+          reason: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "MeterCreditedMetadata" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String,
+          timestamp: S.String,
+          organization_id: S.String,
+          customer_id: S.NullOr(S.String),
+          customer: S.NullOr(S.Unknown),
+          external_customer_id: S.NullOr(S.String),
+          member_id: S.optional(S.NullOr(S.String)),
+          external_member_id: S.optional(S.NullOr(S.String)),
+          child_count: S.optional(S.Number),
+          parent_id: S.optional(S.NullOr(S.String)),
+          label: S.String,
+          source: S.String,
+          name: S.String,
+          metadata: __S(1128, __c141, 0),
+        }),
+      ).annotate({ identifier: "MeterCreditEvent" });
+  }
+}
+function __c142(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20911,7 +21313,7 @@ function __c135(j: number): any {
       ).annotate({ identifier: "CustomerMetersGetRequest" });
   }
 }
-function __c136(j: number): any {
+function __c143(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20925,12 +21327,12 @@ function __c136(j: number): any {
           credited_units: S.Number,
           balance: S.Number,
           customer: S.Unknown,
-          meter: __S(1098, __c137, 2),
+          meter: __S(1154, __c144, 2),
         }),
       ).annotate({ identifier: "CustomerMeter" });
   }
 }
-function __c137(j: number): any {
+function __c144(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.Unknown);
@@ -20938,13 +21340,14 @@ function __c137(j: number): any {
       return S.suspend(() =>
         S.Struct({
           conjunction: S.String,
-          clauses: __S(1096, __c137, 0),
+          clauses: __S(1152, __c144, 0),
         }),
       ).annotate({ identifier: "Filter" });
     case 2:
       return S.suspend(() =>
         S.Struct({
-          metadata: __S(344, __c43, 0),
+          external_id: S.NullOr(S.String),
+          metadata: __S(352, __c44, 0),
           created_at: S.String,
           modified_at: S.NullOr(S.String),
           id: S.String,
@@ -20952,7 +21355,7 @@ function __c137(j: number): any {
           unit: S.String,
           custom_label: S.optional(S.NullOr(S.String)),
           custom_multiplier: S.optional(S.NullOr(S.Number)),
-          filter: __S(1097, __c137, 1),
+          filter: __S(1153, __c144, 1),
           aggregation: S.Unknown,
           organization_id: S.String,
           archived_at: S.optional(S.NullOr(S.String)),
@@ -20960,7 +21363,7 @@ function __c137(j: number): any {
       ).annotate({ identifier: "Meter" });
   }
 }
-function __c138(j: number): any {
+function __c145(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20969,23 +21372,36 @@ function __c138(j: number): any {
           customer_id: S.optional(S.Unknown.pipe(T.Query())),
           external_customer_id: S.optional(S.Unknown.pipe(T.Query())),
           meter_id: S.optional(S.Unknown.pipe(T.Query())),
+          external_meter_id: S.optional(S.Unknown.pipe(T.Query())),
           page: S.optional(S.Number.pipe(T.Query())),
           limit: S.optional(S.Number.pipe(T.Query())),
-          sorting: S.optional(__S(1456, __c182, 0).pipe(T.Query())),
+          sorting: S.optional(__S(1504, __c188, 0).pipe(T.Query())),
         }).pipe(T.Http({ method: "GET", uri: "/v1/customer-meters/", code: 200 })),
       ).annotate({ identifier: "CustomerMetersListRequest" });
     case 1:
-      return S.Array(__S(1088, __c136, 0));
+      return S.Array(__S(1144, __c143, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          items: __S(1105, __c138, 1),
-          pagination: __S(1464, __c183, 0),
+          items: __S(1161, __c145, 1),
+          pagination: __S(1512, __c189, 0),
         }),
       ).annotate({ identifier: "ListResourceCustomerMeter" });
   }
 }
-function __c139(j: number): any {
+function __c146(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({ method: "POST", uri: "/v1/customer-meters/credits/{id}/reverse", code: 200 }),
+        ),
+      ).annotate({ identifier: "CustomerMetersReverseCreditRequest" });
+  }
+}
+function __c147(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20997,7 +21413,7 @@ function __c139(j: number): any {
       ).annotate({ identifier: "CustomerPortalBenefitGrantsGetRequest" });
   }
 }
-function __c140(j: number): any {
+function __c148(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Unknown.pipe(T.RawResponseRoot())).annotate({
@@ -21005,7 +21421,7 @@ function __c140(j: number): any {
       });
   }
 }
-function __c141(j: number): any {
+function __c149(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -21019,7 +21435,7 @@ function __c141(j: number): any {
           member_id: S.optional(S.Unknown.pipe(T.Query())),
           page: S.optional(S.Number.pipe(T.Query())),
           limit: S.optional(S.Number.pipe(T.Query())),
-          sorting: S.optional(__S(1456, __c182, 0).pipe(T.Query())),
+          sorting: S.optional(__S(1504, __c188, 0).pipe(T.Query())),
         }).pipe(T.Http({ method: "GET", uri: "/v1/customer-portal/benefit-grants/", code: 200 })),
       ).annotate({ identifier: "CustomerPortalBenefitGrantsListRequest" });
     case 1:
@@ -21027,13 +21443,13 @@ function __c141(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          items: __S(1129, __c141, 1),
-          pagination: __S(1464, __c183, 0),
+          items: __S(1193, __c149, 1),
+          pagination: __S(1512, __c189, 0),
         }),
       ).annotate({ identifier: "ListResourceCustomerBenefitGrant" });
   }
 }
-function __c142(j: number): any {
+function __c150(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -21046,7 +21462,7 @@ function __c142(j: number): any {
       ).annotate({ identifier: "CustomerPortalBenefitGrantsUpdateRequest" });
   }
 }
-function __c143(j: number): any {
+function __c151(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -21056,7 +21472,7 @@ function __c143(j: number): any {
       ).annotate({ identifier: "CustomerPortalCustomerMetersGetRequest" });
   }
 }
-function __c144(j: number): any {
+function __c152(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -21069,12 +21485,12 @@ function __c144(j: number): any {
           consumed_units: S.Number,
           credited_units: S.Number,
           balance: S.Number,
-          meter: __S(1160, __c145, 0),
+          meter: __S(1224, __c153, 0),
         }),
       ).annotate({ identifier: "CustomerCustomerMeter" });
   }
 }
-function __c145(j: number): any {
+function __c153(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -21087,7 +21503,7 @@ function __c145(j: number): any {
       ).annotate({ identifier: "CustomerCustomerMeterMeter" });
   }
 }
-function __c146(j: number): any {
+function __c154(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -21096,21 +21512,21 @@ function __c146(j: number): any {
           query: S.optional(S.String.pipe(T.Query())),
           page: S.optional(S.Number.pipe(T.Query())),
           limit: S.optional(S.Number.pipe(T.Query())),
-          sorting: S.optional(__S(1456, __c182, 0).pipe(T.Query())),
+          sorting: S.optional(__S(1504, __c188, 0).pipe(T.Query())),
         }).pipe(T.Http({ method: "GET", uri: "/v1/customer-portal/meters/", code: 200 })),
       ).annotate({ identifier: "CustomerPortalCustomerMetersListRequest" });
     case 1:
-      return S.Array(__S(1152, __c144, 0));
+      return S.Array(__S(1216, __c152, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          items: __S(1169, __c146, 1),
-          pagination: __S(1464, __c183, 0),
+          items: __S(1233, __c154, 1),
+          pagination: __S(1512, __c189, 0),
         }),
       ).annotate({ identifier: "ListResourceCustomerCustomerMeter" });
   }
 }
-function __c147(j: number): any {
+function __c155(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -21128,7 +21544,7 @@ function __c147(j: number): any {
       ).annotate({ identifier: "CustomerPortalCustomersAddPaymentMethodRequest" });
   }
 }
-function __c148(j: number): any {
+function __c156(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Unknown.pipe(T.RawResponseRoot())).annotate({
@@ -21136,7 +21552,7 @@ function __c148(j: number): any {
       });
   }
 }
-function __c149(j: number): any {
+function __c157(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -21153,7 +21569,7 @@ function __c149(j: number): any {
       ).annotate({ identifier: "CustomerPortalCustomersConfirmPaymentMethodRequest" });
   }
 }
-function __c150(j: number): any {
+function __c158(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -21169,7 +21585,7 @@ function __c150(j: number): any {
       ).annotate({ identifier: "CustomerPortalCustomersDeletePaymentMethodRequest" });
   }
 }
-function __c151(j: number): any {
+function __c159(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -21190,7 +21606,7 @@ function __c151(j: number): any {
       ).annotate({ identifier: "PortalAuthenticatedUser" });
   }
 }
-function __c152(j: number): any {
+function __c160(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -21211,7 +21627,7 @@ function __c152(j: number): any {
       ).annotate({ identifier: "CustomerCustomerSession" });
   }
 }
-function __c153(j: number): any {
+function __c161(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -21221,7 +21637,7 @@ function __c153(j: number): any {
       ).annotate({ identifier: "CustomerPortalCustomersGetRequest" });
   }
 }
-function __c154(j: number): any {
+function __c162(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -21231,7 +21647,7 @@ function __c154(j: number): any {
         }),
       ).annotate({ identifier: "CustomerPortalOAuthAccount" });
     case 1:
-      return S.Record(S.String, __S(1232, __c154, 0));
+      return S.Record(S.String, __S(1296, __c162, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -21243,8 +21659,8 @@ function __c154(j: number): any {
           name: S.NullOr(S.String),
           billing_name: S.NullOr(S.String),
           billing_address: S.NullOr(__S(888, __c111, 0)),
-          tax_id: S.NullOr(__S(1240, __c155, 0)),
-          oauth_accounts: __S(1233, __c154, 1),
+          tax_id: S.NullOr(__S(1304, __c163, 0)),
+          oauth_accounts: __S(1297, __c162, 1),
           default_payment_method_id: S.optional(S.NullOr(S.String)),
           type: S.optional(S.NullOr(S.String)),
           locale: S.optional(S.NullOr(S.String)),
@@ -21252,13 +21668,13 @@ function __c154(j: number): any {
       ).annotate({ identifier: "CustomerPortalCustomer" });
   }
 }
-function __c155(j: number): any {
+function __c163(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.Unknown);
   }
 }
-function __c156(j: number): any {
+function __c164(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -21278,13 +21694,13 @@ function __c156(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          items: __S(1249, __c156, 1),
-          pagination: __S(1464, __c183, 0),
+          items: __S(1313, __c164, 1),
+          pagination: __S(1512, __c189, 0),
         }),
       ).annotate({ identifier: "ListResourceCustomerPaymentMethod" });
   }
 }
-function __c157(j: number): any {
+function __c165(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -21297,7 +21713,7 @@ function __c157(j: number): any {
       ).annotate({ identifier: "CustomerPortalCustomersUpdateRequest" });
   }
 }
-function __c158(j: number): any {
+function __c166(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -21329,7 +21745,7 @@ function __c158(j: number): any {
           checksum_sha256_base64: S.NullOr(S.String),
           checksum_sha256_hex: S.NullOr(S.String),
           last_modified_at: S.NullOr(S.String),
-          download: __S(1265, __c158, 1),
+          download: __S(1329, __c166, 1),
           version: S.NullOr(S.String),
           is_uploaded: S.Boolean,
           service: S.String,
@@ -21341,21 +21757,21 @@ function __c158(j: number): any {
         S.Struct({
           id: S.String,
           benefit_id: S.String,
-          file: __S(1266, __c158, 2),
+          file: __S(1330, __c166, 2),
         }),
       ).annotate({ identifier: "DownloadableRead" });
     case 4:
-      return S.Array(__S(1267, __c158, 3));
+      return S.Array(__S(1331, __c166, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
-          items: __S(1268, __c158, 4),
-          pagination: __S(1464, __c183, 0),
+          items: __S(1332, __c166, 4),
+          pagination: __S(1512, __c189, 0),
         }),
       ).annotate({ identifier: "ListResourceDownloadableRead" });
   }
 }
-function __c159(j: number): any {
+function __c167(j: number): any {
   switch (j) {
     case 0:
       return S.Record(S.String, S.Unknown);
@@ -21367,15 +21783,15 @@ function __c159(j: number): any {
           key: S.String,
           organization_id: S.String,
           label: S.String,
-          conditions: S.optional(__S(1272, __c159, 0)),
-          meta: S.optional(__S(1273, __c159, 1)),
+          conditions: S.optional(__S(1336, __c167, 0)),
+          meta: S.optional(__S(1337, __c167, 1)),
         }).pipe(
           T.Http({ method: "POST", uri: "/v1/customer-portal/license-keys/activate", code: 200 }),
         ),
       ).annotate({ identifier: "CustomerPortalLicenseKeysActivateRequest" });
   }
 }
-function __c160(j: number): any {
+function __c168(j: number): any {
   switch (j) {
     case 0:
       return S.Record(S.String, S.Unknown);
@@ -21387,9 +21803,9 @@ function __c160(j: number): any {
           modified_at: S.NullOr(S.String),
           organization_id: S.String,
           customer_id: S.String,
-          customer: __S(1288, __c161, 0),
+          customer: __S(1352, __c169, 0),
           member_id: S.NullOr(S.String),
-          member: S.NullOr(__S(1296, __c162, 0)),
+          member: S.NullOr(__S(1360, __c170, 0)),
           benefit_id: S.String,
           key: S.String,
           display_key: S.String,
@@ -21401,9 +21817,9 @@ function __c160(j: number): any {
           last_validated_at: S.NullOr(S.String),
           expires_at: S.NullOr(S.String),
           subscription_id: S.NullOr(S.String),
-          subscription: S.NullOr(__S(1304, __c163, 0)),
+          subscription: S.NullOr(__S(1368, __c171, 0)),
           order_id: S.NullOr(S.String),
-          order: S.NullOr(__S(1305, __c163, 1)),
+          order: S.NullOr(__S(1369, __c171, 1)),
         }),
       ).annotate({ identifier: "GrantedLicenseKey" });
     case 2:
@@ -21412,15 +21828,15 @@ function __c160(j: number): any {
           id: S.String,
           license_key_id: S.String,
           label: S.String,
-          meta: __S(1280, __c160, 0),
+          meta: __S(1344, __c168, 0),
           created_at: S.String,
           modified_at: S.NullOr(S.String),
-          license_key: __S(1281, __c160, 1),
+          license_key: __S(1345, __c168, 1),
         }),
       ).annotate({ identifier: "LicenseKeyActivationCreated" });
   }
 }
-function __c161(j: number): any {
+function __c169(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -21428,7 +21844,7 @@ function __c161(j: number): any {
           id: S.String,
           created_at: S.String,
           modified_at: S.NullOr(S.String),
-          metadata: __S(344, __c43, 0),
+          metadata: __S(352, __c44, 0),
           external_id: S.optional(S.NullOr(S.String)),
           email: S.optional(S.NullOr(S.String)),
           email_verified: S.Boolean,
@@ -21436,7 +21852,7 @@ function __c161(j: number): any {
           name: S.NullOr(S.String),
           billing_name: S.NullOr(S.String),
           billing_address: S.NullOr(__S(888, __c111, 0)),
-          tax_id: S.NullOr(__S(1240, __c155, 0)),
+          tax_id: S.NullOr(__S(1304, __c163, 0)),
           locale: S.optional(S.NullOr(S.String)),
           organization_id: S.String,
           default_payment_method_id: S.optional(S.NullOr(S.String)),
@@ -21447,7 +21863,7 @@ function __c161(j: number): any {
       ).annotate({ identifier: "LicenseKeyCustomer" });
   }
 }
-function __c162(j: number): any {
+function __c170(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -21459,7 +21875,7 @@ function __c162(j: number): any {
       ).annotate({ identifier: "LicenseKeyMember" });
   }
 }
-function __c163(j: number): any {
+function __c171(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -21483,7 +21899,7 @@ function __c163(j: number): any {
       ).annotate({ identifier: "LicenseKeyOrder" });
   }
 }
-function __c164(j: number): any {
+function __c172(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -21497,7 +21913,7 @@ function __c164(j: number): any {
       ).annotate({ identifier: "CustomerPortalLicenseKeysDeactivateRequest" });
   }
 }
-function __c165(j: number): any {
+function __c173(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -21507,10 +21923,10 @@ function __c165(j: number): any {
       ).annotate({ identifier: "CustomerPortalLicenseKeysGetRequest" });
   }
 }
-function __c166(j: number): any {
+function __c174(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(1337, __c167, 1));
+      return S.Array(__S(1401, __c175, 1));
     case 1:
       return S.suspend(() =>
         S.Struct({
@@ -21519,9 +21935,9 @@ function __c166(j: number): any {
           modified_at: S.NullOr(S.String),
           organization_id: S.String,
           customer_id: S.String,
-          customer: __S(1288, __c161, 0),
+          customer: __S(1352, __c169, 0),
           member_id: S.NullOr(S.String),
-          member: S.NullOr(__S(1296, __c162, 0)),
+          member: S.NullOr(__S(1360, __c170, 0)),
           benefit_id: S.String,
           key: S.String,
           display_key: S.String,
@@ -21532,12 +21948,12 @@ function __c166(j: number): any {
           validations: S.Number,
           last_validated_at: S.NullOr(S.String),
           expires_at: S.NullOr(S.String),
-          activations: __S(1328, __c166, 0),
+          activations: __S(1392, __c174, 0),
         }),
       ).annotate({ identifier: "LicenseKeyWithActivations" });
   }
 }
-function __c167(j: number): any {
+function __c175(j: number): any {
   switch (j) {
     case 0:
       return S.Record(S.String, S.Unknown);
@@ -21547,14 +21963,14 @@ function __c167(j: number): any {
           id: S.String,
           license_key_id: S.String,
           label: S.String,
-          meta: __S(1336, __c167, 0),
+          meta: __S(1400, __c175, 0),
           created_at: S.String,
           modified_at: S.NullOr(S.String),
         }),
       ).annotate({ identifier: "LicenseKeyActivationBase" });
   }
 }
-function __c168(j: number): any {
+function __c176(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -21566,20 +21982,20 @@ function __c168(j: number): any {
       ).annotate({ identifier: "CustomerPortalLicenseKeysListRequest" });
   }
 }
-function __c169(j: number): any {
+function __c177(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(1360, __c170, 0));
+      return S.Array(__S(1424, __c178, 0));
     case 1:
       return S.suspend(() =>
         S.Struct({
-          items: __S(1352, __c169, 0),
-          pagination: __S(1464, __c183, 0),
+          items: __S(1416, __c177, 0),
+          pagination: __S(1512, __c189, 0),
         }),
       ).annotate({ identifier: "ListResourceLicenseKeyRead" });
   }
 }
-function __c170(j: number): any {
+function __c178(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -21589,9 +22005,9 @@ function __c170(j: number): any {
           modified_at: S.NullOr(S.String),
           organization_id: S.String,
           customer_id: S.String,
-          customer: __S(1288, __c161, 0),
+          customer: __S(1352, __c169, 0),
           member_id: S.NullOr(S.String),
-          member: S.NullOr(__S(1296, __c162, 0)),
+          member: S.NullOr(__S(1360, __c170, 0)),
           benefit_id: S.String,
           key: S.String,
           display_key: S.String,
@@ -21606,7 +22022,7 @@ function __c170(j: number): any {
       ).annotate({ identifier: "LicenseKeyRead" });
   }
 }
-function __c171(j: number): any {
+function __c179(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -21622,7 +22038,7 @@ function __c171(j: number): any {
       ).annotate({ identifier: "CustomerPortalLicenseKeysRotateRequest" });
   }
 }
-function __c172(j: number): any {
+function __c180(j: number): any {
   switch (j) {
     case 0:
       return S.Record(S.String, S.Unknown);
@@ -21635,14 +22051,14 @@ function __c172(j: number): any {
           benefit_id: S.optional(S.NullOr(S.String)),
           customer_id: S.optional(S.NullOr(S.String)),
           increment_usage: S.optional(S.NullOr(S.Number)),
-          conditions: S.optional(__S(1376, __c172, 0)),
+          conditions: S.optional(__S(1440, __c180, 0)),
         }).pipe(
           T.Http({ method: "POST", uri: "/v1/customer-portal/license-keys/validate", code: 200 }),
         ),
       ).annotate({ identifier: "CustomerPortalLicenseKeysValidateRequest" });
   }
 }
-function __c173(j: number): any {
+function __c181(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -21652,9 +22068,9 @@ function __c173(j: number): any {
           modified_at: S.NullOr(S.String),
           organization_id: S.String,
           customer_id: S.String,
-          customer: __S(1288, __c161, 0),
+          customer: __S(1352, __c169, 0),
           member_id: S.NullOr(S.String),
-          member: S.NullOr(__S(1296, __c162, 0)),
+          member: S.NullOr(__S(1360, __c170, 0)),
           benefit_id: S.String,
           key: S.String,
           display_key: S.String,
@@ -21666,15 +22082,15 @@ function __c173(j: number): any {
           last_validated_at: S.NullOr(S.String),
           expires_at: S.NullOr(S.String),
           subscription_id: S.NullOr(S.String),
-          subscription: S.NullOr(__S(1304, __c163, 0)),
+          subscription: S.NullOr(__S(1368, __c171, 0)),
           order_id: S.NullOr(S.String),
-          order: S.NullOr(__S(1305, __c163, 1)),
-          activation: S.optional(S.NullOr(__S(1337, __c167, 1))),
+          order: S.NullOr(__S(1369, __c171, 1)),
+          activation: S.optional(S.NullOr(__S(1401, __c175, 1))),
         }),
       ).annotate({ identifier: "ValidatedLicenseKey" });
   }
 }
-function __c174(j: number): any {
+function __c182(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -21686,7 +22102,7 @@ function __c174(j: number): any {
       ).annotate({ identifier: "CustomerPortalMembersAddMemberRequest" });
   }
 }
-function __c175(j: number): any {
+function __c183(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -21701,7 +22117,7 @@ function __c175(j: number): any {
       ).annotate({ identifier: "CustomerPortalMember" });
   }
 }
-function __c176(j: number): any {
+function __c184(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -21711,39 +22127,17 @@ function __c176(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/v1/customer-portal/members", code: 200 })),
       ).annotate({ identifier: "CustomerPortalMembersListMembersRequest" });
     case 1:
-      return S.Array(__S(1400, __c175, 0));
+      return S.Array(__S(1464, __c183, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          items: __S(1409, __c176, 1),
-          pagination: __S(1464, __c183, 0),
+          items: __S(1473, __c184, 1),
+          pagination: __S(1512, __c189, 0),
         }),
       ).annotate({ identifier: "ListResourceCustomerPortalMember" });
   }
 }
-function __c177(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.String.pipe(T.Label()),
-        }).pipe(T.Http({ method: "DELETE", uri: "/v1/customer-portal/members/{id}", code: 200 })),
-      ).annotate({ identifier: "CustomerPortalMembersRemoveMemberRequest" });
-  }
-}
-function __c178(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.String.pipe(T.Label()),
-          name: S.optional(S.NullOr(S.String)),
-          role: S.optional(S.NullOr(S.String)),
-        }).pipe(T.Http({ method: "PATCH", uri: "/v1/customer-portal/members/{id}", code: 200 })),
-      ).annotate({ identifier: "CustomerPortalMembersUpdateMemberRequest" });
-  }
-}
-function __c179(j: number): any {
+function __c185(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -21751,15 +22145,18 @@ function __c179(j: number): any {
           organization_id: S.optional(S.Unknown.pipe(T.Query())),
           customer_id: S.optional(S.Unknown.pipe(T.Query())),
           external_customer_id: S.optional(S.Unknown.pipe(T.Query())),
+          external_benefit_id: S.optional(S.Unknown.pipe(T.Query())),
+          member_id: S.optional(S.Unknown.pipe(T.Query())),
+          external_member_id: S.optional(S.Unknown.pipe(T.Query())),
           is_granted: S.optional(S.Boolean.pipe(T.Query())),
           page: S.optional(S.Number.pipe(T.Query())),
           limit: S.optional(S.Number.pipe(T.Query())),
-          sorting: S.optional(__S(1456, __c182, 0).pipe(T.Query())),
+          sorting: S.optional(__S(1504, __c188, 0).pipe(T.Query())),
         }).pipe(T.Http({ method: "GET", uri: "/v1/benefit-grants/", code: 200 })),
       ).annotate({ identifier: "BenefitGrantsListRequest" });
   }
 }
-function __c180(j: number): any {
+function __c186(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -21784,25 +22181,25 @@ function __c180(j: number): any {
           customer_id: S.String,
           member_id: S.optional(S.NullOr(S.String)),
           benefit_id: S.String,
-          error: S.optional(S.NullOr(__S(1440, __c180, 0))),
+          error: S.optional(S.NullOr(__S(1488, __c186, 0))),
           customer: S.Unknown,
-          member: S.optional(S.NullOr(__S(1448, __c181, 0))),
+          member: S.optional(S.NullOr(__S(1496, __c187, 0))),
           benefit: S.Unknown,
           properties: S.Unknown,
         }),
       ).annotate({ identifier: "BenefitGrant" });
     case 2:
-      return S.Array(__S(1441, __c180, 1));
+      return S.Array(__S(1489, __c186, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          items: __S(1442, __c180, 2),
-          pagination: __S(1464, __c183, 0),
+          items: __S(1490, __c186, 2),
+          pagination: __S(1512, __c189, 0),
         }),
       ).annotate({ identifier: "ListResourceBenefitGrant" });
   }
 }
-function __c181(j: number): any {
+function __c187(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -21819,13 +22216,13 @@ function __c181(j: number): any {
       ).annotate({ identifier: "Member" });
   }
 }
-function __c182(j: number): any {
+function __c188(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
   }
 }
-function __c183(j: number): any {
+function __c189(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -21836,7 +22233,29 @@ function __c183(j: number): any {
       ).annotate({ identifier: "Pagination" });
   }
 }
-function __c184(j: number): any {
+function __c190(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String.pipe(T.Label()),
+        }).pipe(T.Http({ method: "DELETE", uri: "/v1/customer-portal/members/{id}", code: 200 })),
+      ).annotate({ identifier: "CustomerPortalMembersRemoveMemberRequest" });
+  }
+}
+function __c191(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String.pipe(T.Label()),
+          name: S.optional(S.NullOr(S.String)),
+          role: S.optional(S.NullOr(S.String)),
+        }).pipe(T.Http({ method: "PATCH", uri: "/v1/customer-portal/members/{id}", code: 200 })),
+      ).annotate({ identifier: "CustomerPortalMembersUpdateMemberRequest" });
+  }
+}
+function __c192(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -21848,7 +22267,7 @@ function __c184(j: number): any {
       ).annotate({ identifier: "CustomerPortalOrdersGenerateInvoiceRequest" });
   }
 }
-function __c185(j: number): any {
+function __c193(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -21858,35 +22277,9 @@ function __c185(j: number): any {
       ).annotate({ identifier: "CustomerPortalOrdersGetRequest" });
   }
 }
-function __c186(j: number): any {
+function __c194(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(S.Unknown);
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.String,
-          created_at: S.String,
-          modified_at: S.NullOr(S.String),
-          trial_interval: S.NullOr(S.String),
-          trial_interval_count: S.NullOr(S.Number),
-          name: S.String,
-          description: S.NullOr(S.String),
-          visibility: S.String,
-          recurring_interval: S.NullOr(S.String),
-          recurring_interval_count: S.NullOr(S.Number),
-          meter_interval: S.NullOr(S.String),
-          meter_interval_count: S.NullOr(S.Number),
-          is_recurring: S.Boolean,
-          is_archived: S.Boolean,
-          organization_id: S.String,
-          prices: __S(1488, __c186, 0),
-          benefits: __S(336, __c42, 0),
-          medias: __S(329, __c41, 1),
-          organization: __S(1505, __c188, 1),
-        }),
-      ).annotate({ identifier: "CustomerOrderProduct" });
-    case 2:
       return S.suspend(() =>
         S.Struct({
           created_at: S.String,
@@ -21905,7 +22298,7 @@ function __c186(j: number): any {
           trial_end: S.NullOr(S.String),
           cancel_at_period_end: S.Boolean,
           canceled_at: S.NullOr(S.String),
-          started_at: S.NullOr(S.String),
+          started_at: S.String,
           ends_at: S.NullOr(S.String),
           ended_at: S.NullOr(S.String),
           past_due_at: S.optional(S.NullOr(S.String)),
@@ -21922,7 +22315,7 @@ function __c186(j: number): any {
           customer_cancellation_comment: S.NullOr(S.String),
         }),
       ).annotate({ identifier: "CustomerOrderSubscription" });
-    case 3:
+    case 1:
       return S.suspend(() =>
         S.Struct({
           id: S.String,
@@ -21954,9 +22347,9 @@ function __c186(j: number): any {
           subscription_id: S.NullOr(S.String),
           checkout_id: S.NullOr(S.String),
           next_payment_attempt_at: S.optional(S.NullOr(S.String)),
-          product: S.NullOr(__S(1489, __c186, 1)),
-          subscription: S.NullOr(__S(1490, __c186, 2)),
-          items: __S(1497, __c187, 1),
+          product: S.NullOr(__S(1584, __c198, 0)),
+          subscription: S.NullOr(__S(1552, __c194, 0)),
+          items: __S(1561, __c195, 1),
           description: S.String,
           refundable_amount: S.Number,
           refundable_tax_amount: S.Number,
@@ -21964,7 +22357,7 @@ function __c186(j: number): any {
       ).annotate({ identifier: "CustomerOrder" });
   }
 }
-function __c187(j: number): any {
+function __c195(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -21982,15 +22375,14 @@ function __c187(j: number): any {
         }),
       ).annotate({ identifier: "OrderItemSchema" });
     case 1:
-      return S.Array(__S(1496, __c187, 0));
+      return S.Array(__S(1560, __c195, 0));
   }
 }
-function __c188(j: number): any {
+function __c196(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          member_model_enabled: S.optional(S.Boolean),
           checkout_localization_enabled: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "CustomerOrganizationFeatureSettings" });
@@ -22005,13 +22397,13 @@ function __c188(j: number): any {
           avatar_url: S.NullOr(S.String),
           proration_behavior: S.String,
           allow_customer_updates: S.Boolean,
-          customer_portal_settings: __S(1515, __c189, 3),
-          organization_features: S.optional(__S(1504, __c188, 0)),
+          customer_portal_settings: __S(1579, __c197, 3),
+          organization_features: S.optional(__S(1568, __c196, 0)),
         }),
       ).annotate({ identifier: "CustomerOrganization" });
   }
 }
-function __c189(j: number): any {
+function __c197(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -22037,14 +22429,42 @@ function __c189(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          usage: __S(1512, __c189, 0),
-          subscription: __S(1513, __c189, 1),
-          customer: S.optional(__S(1514, __c189, 2)),
+          usage: __S(1576, __c197, 0),
+          subscription: __S(1577, __c197, 1),
+          customer: S.optional(__S(1578, __c197, 2)),
         }),
       ).annotate({ identifier: "OrganizationCustomerPortalSettings" });
   }
 }
-function __c190(j: number): any {
+function __c198(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String,
+          created_at: S.String,
+          modified_at: S.NullOr(S.String),
+          trial_interval: S.NullOr(S.String),
+          trial_interval_count: S.NullOr(S.Number),
+          name: S.String,
+          description: S.NullOr(S.String),
+          visibility: S.String,
+          recurring_interval: S.NullOr(S.String),
+          recurring_interval_count: S.NullOr(S.Number),
+          meter_interval: S.NullOr(S.String),
+          meter_interval_count: S.NullOr(S.Number),
+          is_recurring: S.Boolean,
+          is_archived: S.Boolean,
+          organization_id: S.String,
+          prices: __S(336, __c42, 0),
+          benefits: __S(344, __c43, 0),
+          medias: __S(338, __c42, 2),
+          organization: __S(1569, __c196, 1),
+        }),
+      ).annotate({ identifier: "CustomerOrderProduct" });
+  }
+}
+function __c199(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -22067,7 +22487,7 @@ function __c190(j: number): any {
       ).annotate({ identifier: "CustomerOrderPaymentStatus" });
   }
 }
-function __c191(j: number): any {
+function __c200(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -22079,7 +22499,7 @@ function __c191(j: number): any {
       ).annotate({ identifier: "CustomerPortalOrdersInvoiceRequest" });
   }
 }
-function __c192(j: number): any {
+function __c201(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -22089,7 +22509,7 @@ function __c192(j: number): any {
       ).annotate({ identifier: "CustomerOrderInvoice" });
   }
 }
-function __c193(j: number): any {
+function __c202(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -22100,21 +22520,21 @@ function __c193(j: number): any {
           query: S.optional(S.String.pipe(T.Query())),
           page: S.optional(S.Number.pipe(T.Query())),
           limit: S.optional(S.Number.pipe(T.Query())),
-          sorting: S.optional(__S(1456, __c182, 0).pipe(T.Query())),
+          sorting: S.optional(__S(1504, __c188, 0).pipe(T.Query())),
         }).pipe(T.Http({ method: "GET", uri: "/v1/customer-portal/orders/", code: 200 })),
       ).annotate({ identifier: "CustomerPortalOrdersListRequest" });
     case 1:
-      return S.Array(__S(1491, __c186, 3));
+      return S.Array(__S(1553, __c194, 1));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          items: __S(1545, __c193, 1),
-          pagination: __S(1464, __c183, 0),
+          items: __S(1617, __c202, 1),
+          pagination: __S(1512, __c189, 0),
         }),
       ).annotate({ identifier: "ListResourceCustomerOrder" });
   }
 }
-function __c194(j: number): any {
+function __c203(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -22126,7 +22546,7 @@ function __c194(j: number): any {
       ).annotate({ identifier: "CustomerPortalOrdersReceiptRequest" });
   }
 }
-function __c195(j: number): any {
+function __c204(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -22138,7 +22558,7 @@ function __c195(j: number): any {
       ).annotate({ identifier: "CustomerPortalOrdersUpdateRequest" });
   }
 }
-function __c196(j: number): any {
+function __c205(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -22149,8 +22569,6 @@ function __c196(j: number): any {
         ),
       ).annotate({ identifier: "CustomerPortalOrganizationsGetRequest" });
     case 1:
-      return S.Array(S.Unknown);
-    case 2:
       return S.suspend(() =>
         S.Struct({
           id: S.String,
@@ -22168,23 +22586,41 @@ function __c196(j: number): any {
           is_recurring: S.Boolean,
           is_archived: S.Boolean,
           organization_id: S.String,
-          prices: __S(1569, __c196, 1),
-          benefits: __S(336, __c42, 0),
-          medias: __S(329, __c41, 1),
+          prices: __S(336, __c42, 0),
+          benefits: __S(344, __c43, 0),
+          medias: __S(338, __c42, 2),
         }),
       ).annotate({ identifier: "CustomerProduct" });
+    case 2:
+      return S.Array(__S(1641, __c205, 1));
     case 3:
-      return S.Array(__S(1570, __c196, 2));
-    case 4:
       return S.suspend(() =>
         S.Struct({
-          organization: __S(1505, __c188, 1),
-          products: __S(1571, __c196, 3),
+          organization: __S(1569, __c196, 1),
+          products: __S(1642, __c205, 2),
         }),
       ).annotate({ identifier: "CustomerOrganizationData" });
   }
 }
-function __c197(j: number): any {
+function __c206(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          body: S.Unknown.pipe(T.HttpBody()),
+        }).pipe(T.Http({ method: "POST", uri: "/v1/benefits/", code: 200 })),
+      ).annotate({ identifier: "BenefitsCreateRequest" });
+  }
+}
+function __c207(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() => S.Unknown.pipe(T.RawResponseRoot())).annotate({
+        identifier: "BenefitsCreateResponse",
+      });
+  }
+}
+function __c208(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -22196,14 +22632,14 @@ function __c197(j: number): any {
           customer_id: S.optional(S.NullOr(S.String)),
           external_member_id: S.optional(S.NullOr(S.String)),
           member_id: S.optional(S.NullOr(S.String)),
-          metadata: S.optional(S.NullOr(__S(1584, __c198, 0))),
+          metadata: S.optional(S.NullOr(__S(1672, __c209, 0))),
           immediate_claim: S.optional(S.Boolean),
           checkout_id: S.optional(S.NullOr(S.String)),
         }).pipe(T.Http({ method: "POST", uri: "/v1/customer-portal/seats", code: 200 })),
       ).annotate({ identifier: "CustomerPortalSeatsAssignSeatRequest" });
   }
 }
-function __c198(j: number): any {
+function __c209(j: number): any {
   switch (j) {
     case 0:
       return S.Record(S.String, S.Unknown);
@@ -22218,18 +22654,18 @@ function __c198(j: number): any {
           status: S.String,
           customer_id: S.NullOr(S.String),
           member_id: S.NullOr(S.String),
-          member: S.NullOr(__S(1448, __c181, 0)),
+          member: S.NullOr(__S(1496, __c187, 0)),
           email: S.NullOr(S.String),
           customer_email: S.NullOr(S.String),
           invitation_token_expires_at: S.NullOr(S.String),
           claimed_at: S.NullOr(S.String),
           revoked_at: S.NullOr(S.String),
-          seat_metadata: S.NullOr(__S(1584, __c198, 0)),
+          seat_metadata: S.NullOr(__S(1672, __c209, 0)),
         }),
       ).annotate({ identifier: "CustomerSeat" });
   }
 }
-function __c199(j: number): any {
+function __c210(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -22242,37 +22678,9 @@ function __c199(j: number): any {
       ).annotate({ identifier: "CustomerPortalSeatsListClaimedSubscriptionsRequest" });
   }
 }
-function __c200(j: number): any {
+function __c211(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(S.Unknown);
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.String,
-          created_at: S.String,
-          modified_at: S.NullOr(S.String),
-          trial_interval: S.NullOr(S.String),
-          trial_interval_count: S.NullOr(S.Number),
-          name: S.String,
-          description: S.NullOr(S.String),
-          visibility: S.String,
-          recurring_interval: S.NullOr(S.String),
-          recurring_interval_count: S.NullOr(S.Number),
-          meter_interval: S.NullOr(S.String),
-          meter_interval_count: S.NullOr(S.Number),
-          is_recurring: S.Boolean,
-          is_archived: S.Boolean,
-          organization_id: S.String,
-          prices: __S(1600, __c200, 0),
-          benefits: __S(336, __c42, 0),
-          medias: __S(329, __c41, 1),
-          organization: __S(1505, __c188, 1),
-        }),
-      ).annotate({ identifier: "CustomerSubscriptionProduct" });
-    case 2:
-      return S.Array(S.Unknown);
-    case 3:
       return S.suspend(() =>
         S.Struct({
           created_at: S.String,
@@ -22282,12 +22690,12 @@ function __c200(j: number): any {
           credited_units: S.Number,
           amount: S.Number,
           meter_id: S.String,
-          meter: __S(1160, __c145, 0),
+          meter: __S(1224, __c153, 0),
         }),
       ).annotate({ identifier: "CustomerSubscriptionMeter" });
-    case 4:
-      return S.Array(__S(1603, __c200, 3));
-    case 5:
+    case 1:
+      return S.Array(__S(1688, __c211, 0));
+    case 2:
       return S.suspend(() =>
         S.Struct({
           created_at: S.String,
@@ -22306,7 +22714,7 @@ function __c200(j: number): any {
           trial_end: S.NullOr(S.String),
           cancel_at_period_end: S.Boolean,
           canceled_at: S.NullOr(S.String),
-          started_at: S.NullOr(S.String),
+          started_at: S.String,
           ends_at: S.NullOr(S.String),
           ended_at: S.NullOr(S.String),
           past_due_at: S.optional(S.NullOr(S.String)),
@@ -22321,15 +22729,15 @@ function __c200(j: number): any {
           units: S.NullOr(S.Number),
           customer_cancellation_reason: S.NullOr(S.String),
           customer_cancellation_comment: S.NullOr(S.String),
-          product: __S(1601, __c200, 1),
-          prices: __S(1602, __c200, 2),
-          meters: __S(1604, __c200, 4),
-          pending_update: S.NullOr(__S(1608, __c201, 0)),
+          product: __S(1584, __c198, 0),
+          prices: __S(336, __c42, 0),
+          meters: __S(1689, __c211, 1),
+          pending_update: S.NullOr(__S(1696, __c212, 0)),
         }),
       ).annotate({ identifier: "CustomerSubscription" });
   }
 }
-function __c201(j: number): any {
+function __c212(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -22341,42 +22749,26 @@ function __c201(j: number): any {
           product_id: S.NullOr(S.String),
           seats: S.NullOr(S.Number),
           units: S.NullOr(S.Number),
+          discount_id: S.NullOr(S.String),
+          discount_unset: S.Boolean,
         }),
       ).annotate({ identifier: "PendingSubscriptionUpdate" });
   }
 }
-function __c202(j: number): any {
+function __c213(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(1605, __c200, 5));
+      return S.Array(__S(1690, __c211, 2));
     case 1:
       return S.suspend(() =>
         S.Struct({
-          items: __S(1616, __c202, 0),
-          pagination: __S(1464, __c183, 0),
+          items: __S(1704, __c213, 0),
+          pagination: __S(1512, __c189, 0),
         }),
       ).annotate({ identifier: "ListResourceCustomerSubscription" });
   }
 }
-function __c203(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          body: S.Unknown.pipe(T.HttpBody()),
-        }).pipe(T.Http({ method: "POST", uri: "/v1/benefits/", code: 200 })),
-      ).annotate({ identifier: "BenefitsCreateRequest" });
-  }
-}
-function __c204(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() => S.Unknown.pipe(T.RawResponseRoot())).annotate({
-        identifier: "BenefitsCreateResponse",
-      });
-  }
-}
-function __c205(j: number): any {
+function __c214(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -22387,21 +22779,21 @@ function __c205(j: number): any {
       ).annotate({ identifier: "CustomerPortalSeatsListSeatsRequest" });
   }
 }
-function __c206(j: number): any {
+function __c215(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(1585, __c198, 1));
+      return S.Array(__S(1673, __c209, 1));
     case 1:
       return S.suspend(() =>
         S.Struct({
-          seats: __S(1648, __c206, 0),
+          seats: __S(1720, __c215, 0),
           available_seats: S.Number,
           total_seats: S.Number,
         }),
       ).annotate({ identifier: "SeatsList" });
   }
 }
-function __c207(j: number): any {
+function __c216(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -22413,7 +22805,7 @@ function __c207(j: number): any {
       ).annotate({ identifier: "CustomerPortalSeatsResendInvitationRequest" });
   }
 }
-function __c208(j: number): any {
+function __c217(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -22425,7 +22817,7 @@ function __c208(j: number): any {
       ).annotate({ identifier: "CustomerPortalSeatsRevokeSeatRequest" });
   }
 }
-function __c209(j: number): any {
+function __c218(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -22437,7 +22829,7 @@ function __c209(j: number): any {
       ).annotate({ identifier: "CustomerPortalSubscriptionsCancelRequest" });
   }
 }
-function __c210(j: number): any {
+function __c219(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -22449,7 +22841,7 @@ function __c210(j: number): any {
       ).annotate({ identifier: "CustomerPortalSubscriptionsGetRequest" });
   }
 }
-function __c211(j: number): any {
+function __c220(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -22459,12 +22851,12 @@ function __c211(j: number): any {
           query: S.optional(S.String.pipe(T.Query())),
           page: S.optional(S.Number.pipe(T.Query())),
           limit: S.optional(S.Number.pipe(T.Query())),
-          sorting: S.optional(__S(1456, __c182, 0).pipe(T.Query())),
+          sorting: S.optional(__S(1504, __c188, 0).pipe(T.Query())),
         }).pipe(T.Http({ method: "GET", uri: "/v1/customer-portal/subscriptions/", code: 200 })),
       ).annotate({ identifier: "CustomerPortalSubscriptionsListRequest" });
   }
 }
-function __c212(j: number): any {
+function __c221(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -22477,7 +22869,7 @@ function __c212(j: number): any {
       ).annotate({ identifier: "CustomerPortalSubscriptionsUpdateRequest" });
   }
 }
-function __c213(j: number): any {
+function __c222(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -22487,7 +22879,7 @@ function __c213(j: number): any {
       ).annotate({ identifier: "CustomerPortalWalletsGetRequest" });
   }
 }
-function __c214(j: number): any {
+function __c223(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -22502,46 +22894,7 @@ function __c214(j: number): any {
       ).annotate({ identifier: "CustomerWallet" });
   }
 }
-function __c215(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          page: S.optional(S.Number.pipe(T.Query())),
-          limit: S.optional(S.Number.pipe(T.Query())),
-          sorting: S.optional(__S(1456, __c182, 0).pipe(T.Query())),
-        }).pipe(T.Http({ method: "GET", uri: "/v1/customer-portal/wallets/", code: 200 })),
-      ).annotate({ identifier: "CustomerPortalWalletsListRequest" });
-    case 1:
-      return S.Array(__S(1712, __c214, 0));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          items: __S(1721, __c215, 1),
-          pagination: __S(1464, __c183, 0),
-        }),
-      ).annotate({ identifier: "ListResourceCustomerWallet" });
-  }
-}
-function __c216(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          body: S.Unknown.pipe(T.HttpBody()),
-        }).pipe(T.Http({ method: "POST", uri: "/v1/customers/", code: 200 })),
-      ).annotate({ identifier: "CustomersCreateRequest" });
-  }
-}
-function __c217(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() => S.Unknown.pipe(T.RawResponseRoot())).annotate({
-        identifier: "CustomersCreateResponse",
-      });
-  }
-}
-function __c218(j: number): any {
+function __c224(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -22551,13 +22904,52 @@ function __c218(j: number): any {
       ).annotate({ identifier: "BenefitsDeleteRequest" });
   }
 }
-function __c219(j: number): any {
+function __c225(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({})).annotate({ identifier: "BenefitsDeleteResponse" });
   }
 }
-function __c220(j: number): any {
+function __c226(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          page: S.optional(S.Number.pipe(T.Query())),
+          limit: S.optional(S.Number.pipe(T.Query())),
+          sorting: S.optional(__S(1504, __c188, 0).pipe(T.Query())),
+        }).pipe(T.Http({ method: "GET", uri: "/v1/customer-portal/wallets/", code: 200 })),
+      ).annotate({ identifier: "CustomerPortalWalletsListRequest" });
+    case 1:
+      return S.Array(__S(1784, __c223, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          items: __S(1809, __c226, 1),
+          pagination: __S(1512, __c189, 0),
+        }),
+      ).annotate({ identifier: "ListResourceCustomerWallet" });
+  }
+}
+function __c227(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          body: S.Unknown.pipe(T.HttpBody()),
+        }).pipe(T.Http({ method: "POST", uri: "/v1/customers/", code: 200 })),
+      ).annotate({ identifier: "CustomersCreateRequest" });
+  }
+}
+function __c228(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() => S.Unknown.pipe(T.RawResponseRoot())).annotate({
+        identifier: "CustomersCreateResponse",
+      });
+  }
+}
+function __c229(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -22568,7 +22960,7 @@ function __c220(j: number): any {
       ).annotate({ identifier: "CustomersDeleteRequest" });
   }
 }
-function __c221(j: number): any {
+function __c230(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -22581,7 +22973,7 @@ function __c221(j: number): any {
       ).annotate({ identifier: "CustomersDeleteExternalRequest" });
   }
 }
-function __c222(j: number): any {
+function __c231(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -22593,13 +22985,13 @@ function __c222(j: number): any {
           customer_id: S.optional(S.NullOr(S.String)),
           external_member_id: S.optional(S.NullOr(S.String)),
           member_id: S.optional(S.NullOr(S.String)),
-          metadata: S.optional(S.NullOr(__S(1584, __c198, 0))),
+          metadata: S.optional(S.NullOr(__S(1672, __c209, 0))),
           immediate_claim: S.optional(S.Boolean),
         }).pipe(T.Http({ method: "POST", uri: "/v1/customer-seats", code: 200 })),
       ).annotate({ identifier: "CustomerSeatsAssignSeatRequest" });
   }
 }
-function __c223(j: number): any {
+function __c232(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -22610,13 +23002,13 @@ function __c223(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          seat: __S(1585, __c198, 1),
+          seat: __S(1673, __c209, 1),
           customer_session_token: S.String,
         }),
       ).annotate({ identifier: "CustomerSeatClaimResponse" });
   }
 }
-function __c224(j: number): any {
+function __c233(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -22627,7 +23019,7 @@ function __c224(j: number): any {
       ).annotate({ identifier: "CustomerSeatsListSeatsRequest" });
   }
 }
-function __c225(j: number): any {
+function __c234(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -22637,7 +23029,7 @@ function __c225(j: number): any {
       ).annotate({ identifier: "CustomerSeatsResendInvitationRequest" });
   }
 }
-function __c226(j: number): any {
+function __c235(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -22647,7 +23039,7 @@ function __c226(j: number): any {
       ).annotate({ identifier: "CustomerSeatsRevokeSeatRequest" });
   }
 }
-function __c227(j: number): any {
+function __c236(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -22671,27 +23063,7 @@ function __c227(j: number): any {
       ).annotate({ identifier: "CustomerSession" });
   }
 }
-function __c228(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          organization_id: S.optional(S.Unknown.pipe(T.Query())),
-        }).pipe(T.Http({ method: "GET", uri: "/v1/customers/export", code: 200 })),
-      ).annotate({ identifier: "CustomersExportRequest" });
-  }
-}
-function __c229(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.String.pipe(T.Label()),
-        }).pipe(T.Http({ method: "GET", uri: "/v1/customers/{id}", code: 200 })),
-      ).annotate({ identifier: "CustomersGetRequest" });
-  }
-}
-function __c230(j: number): any {
+function __c237(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -22726,17 +23098,37 @@ function __c230(j: number): any {
         }),
       ).annotate({ identifier: "BenefitDownloadableFile" });
     case 2:
-      return S.Array(__S(1841, __c230, 1));
+      return S.Array(__S(1897, __c237, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          items: __S(1842, __c230, 2),
-          pagination: __S(1464, __c183, 0),
+          items: __S(1898, __c237, 2),
+          pagination: __S(1512, __c189, 0),
         }),
       ).annotate({ identifier: "ListResourceBenefitDownloadableFile" });
   }
 }
-function __c231(j: number): any {
+function __c238(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          organization_id: S.optional(S.Unknown.pipe(T.Query())),
+        }).pipe(T.Http({ method: "GET", uri: "/v1/customers/export", code: 200 })),
+      ).annotate({ identifier: "CustomersExportRequest" });
+  }
+}
+function __c239(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String.pipe(T.Label()),
+        }).pipe(T.Http({ method: "GET", uri: "/v1/customers/{id}", code: 200 })),
+      ).annotate({ identifier: "CustomersGetRequest" });
+  }
+}
+function __c240(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -22746,7 +23138,7 @@ function __c231(j: number): any {
       ).annotate({ identifier: "CustomersGetExternalRequest" });
   }
 }
-function __c232(j: number): any {
+function __c241(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -22756,7 +23148,7 @@ function __c232(j: number): any {
       ).annotate({ identifier: "CustomersGetStateRequest" });
   }
 }
-function __c233(j: number): any {
+function __c242(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Unknown.pipe(T.RawResponseRoot())).annotate({
@@ -22764,7 +23156,7 @@ function __c233(j: number): any {
       });
   }
 }
-function __c234(j: number): any {
+function __c243(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -22776,7 +23168,7 @@ function __c234(j: number): any {
       ).annotate({ identifier: "CustomersGetStateExternalRequest" });
   }
 }
-function __c235(j: number): any {
+function __c244(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -22787,7 +23179,7 @@ function __c235(j: number): any {
           active: S.optional(S.Boolean.pipe(T.Query())),
           page: S.optional(S.Number.pipe(T.Query())),
           limit: S.optional(S.Number.pipe(T.Query())),
-          sorting: S.optional(__S(1456, __c182, 0).pipe(T.Query())),
+          sorting: S.optional(__S(1504, __c188, 0).pipe(T.Query())),
           metadata: S.optional(__S(120, __c15, 0).pipe(T.Query())),
         }).pipe(T.Http({ method: "GET", uri: "/v1/customers/", code: 200 })),
       ).annotate({ identifier: "CustomersListRequest" });
@@ -22796,13 +23188,13 @@ function __c235(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          items: __S(1881, __c235, 1),
-          pagination: __S(1464, __c183, 0),
+          items: __S(1953, __c244, 1),
+          pagination: __S(1512, __c189, 0),
         }),
       ).annotate({ identifier: "ListResourceCustomer" });
   }
 }
-function __c236(j: number): any {
+function __c245(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -22814,20 +23206,20 @@ function __c236(j: number): any {
       ).annotate({ identifier: "CustomersListPaymentMethodsRequest" });
   }
 }
-function __c237(j: number): any {
+function __c246(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.Unknown);
     case 1:
       return S.suspend(() =>
         S.Struct({
-          items: __S(1896, __c237, 0),
-          pagination: __S(1464, __c183, 0),
+          items: __S(1968, __c246, 0),
+          pagination: __S(1512, __c189, 0),
         }),
       ).annotate({ identifier: "ListResourcePaymentMethod" });
   }
 }
-function __c238(j: number): any {
+function __c247(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -22845,7 +23237,7 @@ function __c238(j: number): any {
       ).annotate({ identifier: "CustomersListPaymentMethodsExternalRequest" });
   }
 }
-function __c239(j: number): any {
+function __c248(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -22859,7 +23251,7 @@ function __c239(j: number): any {
       ).annotate({ identifier: "CustomersMembersCreateRequest" });
   }
 }
-function __c240(j: number): any {
+function __c249(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -22878,7 +23270,17 @@ function __c240(j: number): any {
       ).annotate({ identifier: "CustomersMembersCreateExternalRequest" });
   }
 }
-function __c241(j: number): any {
+function __c250(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String.pipe(T.Label()),
+        }).pipe(T.Http({ method: "GET", uri: "/v1/benefits/{id}", code: 200 })),
+      ).annotate({ identifier: "BenefitsGetRequest" });
+  }
+}
+function __c251(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -22891,7 +23293,7 @@ function __c241(j: number): any {
       ).annotate({ identifier: "CustomersMembersDeleteRequest" });
   }
 }
-function __c242(j: number): any {
+function __c252(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -22908,17 +23310,7 @@ function __c242(j: number): any {
       ).annotate({ identifier: "CustomersMembersDeleteExternalRequest" });
   }
 }
-function __c243(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.String.pipe(T.Label()),
-        }).pipe(T.Http({ method: "GET", uri: "/v1/benefits/{id}", code: 200 })),
-      ).annotate({ identifier: "BenefitsGetRequest" });
-  }
-}
-function __c244(j: number): any {
+function __c253(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -22931,7 +23323,7 @@ function __c244(j: number): any {
       ).annotate({ identifier: "CustomersMembersGetRequest" });
   }
 }
-function __c245(j: number): any {
+function __c254(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -22948,7 +23340,7 @@ function __c245(j: number): any {
       ).annotate({ identifier: "CustomersMembersGetExternalRequest" });
   }
 }
-function __c246(j: number): any {
+function __c255(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -22957,25 +23349,25 @@ function __c246(j: number): any {
           role: S.optional(S.String.pipe(T.Query())),
           page: S.optional(S.Number.pipe(T.Query())),
           limit: S.optional(S.Number.pipe(T.Query())),
-          sorting: S.optional(__S(1456, __c182, 0).pipe(T.Query())),
+          sorting: S.optional(__S(1504, __c188, 0).pipe(T.Query())),
         }).pipe(T.Http({ method: "GET", uri: "/v1/customers/{id}/members", code: 200 })),
       ).annotate({ identifier: "CustomersMembersListRequest" });
   }
 }
-function __c247(j: number): any {
+function __c256(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(1448, __c181, 0));
+      return S.Array(__S(1496, __c187, 0));
     case 1:
       return S.suspend(() =>
         S.Struct({
-          items: __S(1976, __c247, 0),
-          pagination: __S(1464, __c183, 0),
+          items: __S(2048, __c256, 0),
+          pagination: __S(1512, __c189, 0),
         }),
       ).annotate({ identifier: "ListResourceMember" });
   }
 }
-function __c248(j: number): any {
+function __c257(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -22984,14 +23376,14 @@ function __c248(j: number): any {
           role: S.optional(S.String.pipe(T.Query())),
           page: S.optional(S.Number.pipe(T.Query())),
           limit: S.optional(S.Number.pipe(T.Query())),
-          sorting: S.optional(__S(1456, __c182, 0).pipe(T.Query())),
+          sorting: S.optional(__S(1504, __c188, 0).pipe(T.Query())),
         }).pipe(
           T.Http({ method: "GET", uri: "/v1/customers/external/{external_id}/members", code: 200 }),
         ),
       ).annotate({ identifier: "CustomersMembersListExternalRequest" });
   }
 }
-function __c249(j: number): any {
+function __c258(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -23007,7 +23399,7 @@ function __c249(j: number): any {
       ).annotate({ identifier: "CustomersMembersUpdateRequest" });
   }
 }
-function __c250(j: number): any {
+function __c259(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -23027,7 +23419,7 @@ function __c250(j: number): any {
       ).annotate({ identifier: "CustomersMembersUpdateExternalRequest" });
   }
 }
-function __c251(j: number): any {
+function __c260(j: number): any {
   switch (j) {
     case 0:
       return S.Record(S.String, S.Unknown);
@@ -23035,7 +23427,7 @@ function __c251(j: number): any {
       return S.suspend(() =>
         S.Struct({
           id: S.String.pipe(T.Label()),
-          metadata: S.optional(__S(2008, __c251, 0)),
+          metadata: S.optional(__S(2080, __c260, 0)),
           email: S.optional(S.NullOr(S.String)),
           name: S.optional(S.NullOr(S.String)),
           billing_address: S.optional(S.NullOr(__S(888, __c111, 0))),
@@ -23047,7 +23439,7 @@ function __c251(j: number): any {
       ).annotate({ identifier: "CustomersUpdateRequest" });
   }
 }
-function __c252(j: number): any {
+function __c261(j: number): any {
   switch (j) {
     case 0:
       return S.Record(S.String, S.Unknown);
@@ -23055,7 +23447,7 @@ function __c252(j: number): any {
       return S.suspend(() =>
         S.Struct({
           external_id: S.String.pipe(T.Label()),
-          metadata: S.optional(__S(2016, __c252, 0)),
+          metadata: S.optional(__S(2088, __c261, 0)),
           email: S.optional(S.NullOr(S.String)),
           name: S.optional(S.NullOr(S.String)),
           billing_address: S.optional(S.NullOr(__S(888, __c111, 0))),
@@ -23065,34 +23457,6 @@ function __c252(j: number): any {
           T.Http({ method: "PATCH", uri: "/v1/customers/external/{external_id}", code: 200 }),
         ),
       ).annotate({ identifier: "CustomersUpdateExternalRequest" });
-  }
-}
-function __c253(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          body: S.Unknown.pipe(T.HttpBody()),
-        }).pipe(T.Http({ method: "POST", uri: "/v1/custom-fields/", code: 200 })),
-      ).annotate({ identifier: "CustomFieldsCreateRequest" });
-  }
-}
-function __c254(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() => S.Unknown.pipe(T.RawResponseRoot())).annotate({
-        identifier: "CustomFieldsCreateResponse",
-      });
-  }
-}
-function __c255(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.String.pipe(T.Label()),
-        }).pipe(T.Http({ method: "DELETE", uri: "/v1/custom-fields/{id}", code: 200 })),
-      ).annotate({ identifier: "CustomFieldsDeleteRequest" });
   }
 }
 // Schema table: entry i is schema j of builder f, made on first reach.

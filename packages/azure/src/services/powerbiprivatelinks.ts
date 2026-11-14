@@ -28,23 +28,24 @@ const TELEMETRY = {
   prefix: "Powerbiprivatelinks",
   service: "Powerbiprivatelinks",
   labels: "azure",
+  labelNames: { resourceGroupName: "azure.resource_group.name" },
   propagate: "w3c",
 } as const;
 
 export interface PrivateEndpoint {
   /** Specifies the id of private endpoint. */
-  id?: string;
+  id?: string | undefined;
 }
 /** Status of the connection. */
 export type ConnectionStateStatus = "Pending" | "Approved" | "Rejected" | "Disconnected";
 /** ConnectionState information. */
 export interface ConnectionState {
   /** Status of the connection. */
-  status?: ConnectionStateStatus | (string & {});
+  status?: ConnectionStateStatus | (string & {}) | undefined;
   /** Description of the connection state. */
-  description?: string;
+  description?: string | undefined;
   /** Actions required (if any). */
-  actionsRequired?: string;
+  actionsRequired?: string | undefined;
 }
 /** Provisioning state of the Private Endpoint Connection. */
 export type PrivateEndpointConnectionPropertiesProvisioningState =
@@ -56,24 +57,27 @@ export type PrivateEndpointConnectionPropertiesProvisioningState =
   | "Failed";
 export interface PrivateEndpointConnectionProperties {
   /** Specifies the private endpoint. */
-  privateEndpoint?: PrivateEndpoint;
+  privateEndpoint?: PrivateEndpoint | undefined;
   /** Specifies the connection state. */
-  privateLinkServiceConnectionState?: ConnectionState;
+  privateLinkServiceConnectionState?: ConnectionState | undefined;
   /** Provisioning state of the Private Endpoint Connection. */
-  provisioningState?: PrivateEndpointConnectionPropertiesProvisioningState | (string & {});
+  provisioningState?:
+    | PrivateEndpointConnectionPropertiesProvisioningState
+    | (string & {})
+    | undefined;
 }
 export interface PrivateEndpointConnectionInput {
   /** Specifies the properties of the private endpoint connection. */
-  properties?: PrivateEndpointConnectionProperties;
+  properties?: PrivateEndpointConnectionProperties | undefined;
 }
 /** Specifies the private endpoint connections of the resource. */
 export type TenantPropertiesInputPrivateEndpointConnectionsList =
   Array<PrivateEndpointConnectionInput>;
 export interface TenantPropertiesInput {
   /** Specifies the tenant id of the resource. */
-  tenantId?: string;
+  tenantId?: string | undefined;
   /** Specifies the private endpoint connections of the resource. */
-  privateEndpointConnections?: TenantPropertiesInputPrivateEndpointConnectionsList;
+  privateEndpointConnections?: TenantPropertiesInputPrivateEndpointConnectionsList | undefined;
 }
 /** Specifies the tags of the resource. */
 export type CreatePowerBIResourceRequestTagsMap = { [key: string]: string | undefined };
@@ -85,11 +89,11 @@ export interface CreatePowerBIResourceRequest {
   /** The name of the Azure resource. */
   azureResourceName: string;
   /** Specifies the location of the resource. */
-  location?: string;
+  location?: string | undefined;
   /** Specifies the properties of the resource. */
-  properties?: TenantPropertiesInput;
+  properties?: TenantPropertiesInput | undefined;
   /** Specifies the tags of the resource. */
-  tags?: CreatePowerBIResourceRequestTagsMap;
+  tags?: CreatePowerBIResourceRequestTagsMap | undefined;
 }
 /** The type of identity that created the resource. */
 export type TenantResourceSystemDataCreatedByType =
@@ -106,17 +110,17 @@ export type TenantResourceSystemDataLastModifiedByType =
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface TenantResourceSystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: TenantResourceSystemDataCreatedByType;
+  createdByType?: TenantResourceSystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: TenantResourceSystemDataLastModifiedByType;
+  lastModifiedByType?: TenantResourceSystemDataLastModifiedByType | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 /** The type of identity that created the resource. */
 export type PrivateEndpointConnectionSystemDataCreatedByType =
@@ -133,55 +137,55 @@ export type PrivateEndpointConnectionSystemDataLastModifiedByType =
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface PrivateEndpointConnectionSystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: PrivateEndpointConnectionSystemDataCreatedByType;
+  createdByType?: PrivateEndpointConnectionSystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: PrivateEndpointConnectionSystemDataLastModifiedByType;
+  lastModifiedByType?: PrivateEndpointConnectionSystemDataLastModifiedByType | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 export interface PrivateEndpointConnection {
   /** Specifies the id of the resource. */
-  id?: string;
+  id?: string | undefined;
   /** Specifies the name of the resource. */
-  name?: string;
+  name?: string | undefined;
   /** Specifies the type of the resource. */
-  type?: string;
+  type?: string | undefined;
   /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: PrivateEndpointConnectionSystemData;
+  systemData?: PrivateEndpointConnectionSystemData | undefined;
   /** Specifies the properties of the private endpoint connection. */
-  properties?: PrivateEndpointConnectionProperties;
+  properties?: PrivateEndpointConnectionProperties | undefined;
 }
 /** Specifies the private endpoint connections of the resource. */
 export type TenantPropertiesPrivateEndpointConnectionsList = Array<PrivateEndpointConnection>;
 export interface TenantProperties {
   /** Specifies the tenant id of the resource. */
-  tenantId?: string;
+  tenantId?: string | undefined;
   /** Specifies the private endpoint connections of the resource. */
-  privateEndpointConnections?: TenantPropertiesPrivateEndpointConnectionsList;
+  privateEndpointConnections?: TenantPropertiesPrivateEndpointConnectionsList | undefined;
 }
 /** Specifies the tags of the resource. */
 export type TenantResourceTagsMap = { [key: string]: string | undefined };
 export interface TenantResource {
   /** Specifies the resource identifier of the resource. */
-  id?: string;
+  id?: string | undefined;
   /** Specifies the name of the resource. */
-  name?: string;
+  name?: string | undefined;
   /** Specifies the type of the resource. */
-  type?: string;
+  type?: string | undefined;
   /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: TenantResourceSystemData;
+  systemData?: TenantResourceSystemData | undefined;
   /** Specifies the location of the resource. */
-  location?: string;
+  location?: string | undefined;
   /** Specifies the properties of the resource. */
-  properties?: TenantProperties;
+  properties?: TenantProperties | undefined;
   /** Specifies the tags of the resource. */
-  tags?: TenantResourceTagsMap;
+  tags?: TenantResourceTagsMap | undefined;
 }
 export interface CreatePrivateEndpointConnectionRequest {
   /** The Azure subscription ID. This is a GUID-formatted string (e.g. 00000000-0000-0000-0000-000000000000). */
@@ -193,7 +197,7 @@ export interface CreatePrivateEndpointConnectionRequest {
   /** The name of the private endpoint. */
   privateEndpointName: string;
   /** Specifies the properties of the private endpoint connection. */
-  properties?: PrivateEndpointConnectionProperties;
+  properties?: PrivateEndpointConnectionProperties | undefined;
 }
 export interface DeletePowerBIResourceRequest {
   /** The Azure subscription ID. This is a GUID-formatted string (e.g. 00000000-0000-0000-0000-000000000000). */
@@ -216,7 +220,7 @@ export interface DeletePrivateEndpointConnectionRequest {
 }
 export interface DeletePrivateEndpointConnectionResponse {
   /** The Azure async operation id to poll on result. */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
 }
 export interface GetPrivateEndpointConnectionRequest {
   /** The Azure subscription ID. This is a GUID-formatted string (e.g. 00000000-0000-0000-0000-000000000000). */
@@ -245,22 +249,22 @@ export type PrivateLinkResourcePropertiesRequiredZoneNamesList = Array<string>;
 /** Properties of a private link resource. */
 export interface PrivateLinkResourceProperties {
   /** The private link resource group id. */
-  groupId?: string;
+  groupId?: string | undefined;
   /** The private link resource required member names. */
-  requiredMembers?: PrivateLinkResourcePropertiesRequiredMembersList;
+  requiredMembers?: PrivateLinkResourcePropertiesRequiredMembersList | undefined;
   /** The private link resource Private link DNS zone name. */
-  requiredZoneNames?: PrivateLinkResourcePropertiesRequiredZoneNamesList;
+  requiredZoneNames?: PrivateLinkResourcePropertiesRequiredZoneNamesList | undefined;
 }
 /** A private link resource */
 export interface PrivateLinkResource {
   /** Resource properties. */
-  properties?: PrivateLinkResourceProperties;
+  properties?: PrivateLinkResourceProperties | undefined;
   /** Fully qualified identifier of the resource. */
-  id?: string;
+  id?: string | undefined;
   /** Name of the resource. */
-  name?: string;
+  name?: string | undefined;
   /** Type of the resource. */
-  type?: string;
+  type?: string | undefined;
 }
 export interface GetPrivateLinkServiceResourceOperationResultRequest {
   /** The Azure subscription ID. This is a GUID-formatted string (e.g. 00000000-0000-0000-0000-000000000000). */
@@ -273,24 +277,24 @@ export type ErrorDetailDetailsList = Array<ErrorDetail>;
 /** The resource management error additional info. */
 export interface ErrorAdditionalInfo {
   /** The additional info type. */
-  type?: string;
+  type?: string | undefined;
   /** The additional info. */
-  info?: unknown;
+  info?: unknown | undefined;
 }
 /** The error additional info. */
 export type ErrorDetailAdditionalInfoList = Array<ErrorAdditionalInfo>;
 /** The error detail. */
 export interface ErrorDetail {
   /** The error code. */
-  code?: string;
+  code?: string | undefined;
   /** The error message. */
-  message?: string;
+  message?: string | undefined;
   /** The error target. */
-  target?: string;
+  target?: string | undefined;
   /** The error details. */
-  details?: ErrorDetailDetailsList;
+  details?: ErrorDetailDetailsList | undefined;
   /** The error additional info. */
-  additionalInfo?: ErrorDetailAdditionalInfoList;
+  additionalInfo?: ErrorDetailAdditionalInfoList | undefined;
 }
 /** The error details. */
 export type AsyncOperationDetailErrorDetailsList = Array<ErrorDetail>;
@@ -299,41 +303,41 @@ export type AsyncOperationDetailErrorAdditionalInfoList = Array<ErrorAdditionalI
 /** The error detail. */
 export interface AsyncOperationDetailError {
   /** The error code. */
-  code?: string;
+  code?: string | undefined;
   /** The error message. */
-  message?: string;
+  message?: string | undefined;
   /** The error target. */
-  target?: string;
+  target?: string | undefined;
   /** The error details. */
-  details?: AsyncOperationDetailErrorDetailsList;
+  details?: AsyncOperationDetailErrorDetailsList | undefined;
   /** The error additional info. */
-  additionalInfo?: AsyncOperationDetailErrorAdditionalInfoList;
+  additionalInfo?: AsyncOperationDetailErrorAdditionalInfoList | undefined;
 }
 export interface AsyncOperationDetail {
   /** The operation id. */
-  id?: string;
+  id?: string | undefined;
   /** The operation name. */
-  name?: string;
+  name?: string | undefined;
   /** The operation status. */
-  status?: string;
+  status?: string | undefined;
   /** The operation start time. */
-  startTime?: string;
+  startTime?: string | undefined;
   /** The operation end time. */
-  endTime?: string;
+  endTime?: string | undefined;
   /** The error detail. */
-  error?: AsyncOperationDetailError;
+  error?: AsyncOperationDetailError | undefined;
 }
 export interface ListOperationsRequest {}
 /** Localized display information for this particular operation. */
 export interface OperationDisplay {
   /** The localized friendly form of the resource provider name, e.g. "Microsoft Monitoring Insights" or "Microsoft Compute". */
-  provider?: string;
+  provider?: string | undefined;
   /** The localized friendly name of the resource type related to this operation. E.g. "Virtual Machines" or "Job Schedule Collections". */
-  resource?: string;
+  resource?: string | undefined;
   /** The concise, localized friendly name for the operation; suitable for dropdowns. E.g. "Create or Update Virtual Machine", "Restart Virtual Machine". */
-  operation?: string;
+  operation?: string | undefined;
   /** The short, localized friendly description of the operation; suitable for tool tips and detailed views. */
-  description?: string;
+  description?: string | undefined;
 }
 /** The intended executor of the operation; as in Resource Based Access Control (RBAC) and audit logs UX. Default value is "user,system" */
 export type OperationOrigin = "user" | "system" | "user,system";
@@ -342,23 +346,23 @@ export type OperationActionType = "Internal";
 /** Details of a REST API operation, returned from the Resource Provider Operations API */
 export interface Operation {
   /** The name of the operation, as per Resource-Based Access Control (RBAC). Examples: "Microsoft.Compute/virtualMachines/write", "Microsoft.Compute/virtualMachines/capture/action" */
-  name?: string;
+  name?: string | undefined;
   /** Whether the operation applies to data-plane. This is "true" for data-plane operations and "false" for ARM/control-plane operations. */
-  isDataAction?: boolean;
+  isDataAction?: boolean | undefined;
   /** Localized display information for this particular operation. */
-  display?: OperationDisplay;
+  display?: OperationDisplay | undefined;
   /** The intended executor of the operation; as in Resource Based Access Control (RBAC) and audit logs UX. Default value is "user,system" */
-  origin?: OperationOrigin;
+  origin?: OperationOrigin | undefined;
   /** Enum. Indicates the action type. "Internal" refers to actions that are for internal only APIs. */
-  actionType?: OperationActionType;
+  actionType?: OperationActionType | undefined;
 }
 /** List of operations supported by the resource provider */
 export type ListOperationsResponseValueList = Array<Operation>;
 export interface ListOperationsResponse {
   /** List of operations supported by the resource provider */
-  value?: ListOperationsResponseValueList;
+  value?: ListOperationsResponseValueList | undefined;
   /** URL to get the next set of operation list results (if there are any). */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListPowerBIResourceByResourceNameRequest {
   /** The Azure subscription ID. This is a GUID-formatted string (e.g. 00000000-0000-0000-0000-000000000000). */
@@ -384,9 +388,9 @@ export type PrivateEndpointConnectionListResultValueList = Array<PrivateEndpoint
 /** List of private endpoint connections. */
 export interface PrivateEndpointConnectionListResult {
   /** Specifies the name of the private endpoint connection. */
-  value?: PrivateEndpointConnectionListResultValueList;
+  value?: PrivateEndpointConnectionListResultValueList | undefined;
   /** URL to get the next set of operation list results (if there are any). */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListPrivateLinkResourceByResourceRequest {
   /** The Azure subscription ID. This is a GUID-formatted string (e.g. 00000000-0000-0000-0000-000000000000). */
@@ -401,9 +405,9 @@ export type PrivateLinkResourcesListResultValueList = Array<PrivateLinkResource>
 /** Specifies list of the private link resource. */
 export interface PrivateLinkResourcesListResult {
   /** A collection of private endpoint connection resources. */
-  value?: PrivateLinkResourcesListResultValueList;
+  value?: PrivateLinkResourcesListResultValueList | undefined;
   /** URL to get the next set of operation list results (if there are any). */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListPrivateLinkServiceByResourceGroupRequest {
   /** The Azure subscription ID. This is a GUID-formatted string (e.g. 00000000-0000-0000-0000-000000000000). */
@@ -432,11 +436,11 @@ export interface UpdatePowerBIResourceRequest {
   /** The name of the Azure resource. */
   azureResourceName: string;
   /** Specifies the location of the resource. */
-  location?: string;
+  location?: string | undefined;
   /** Specifies the properties of the resource. */
-  properties?: TenantPropertiesInput;
+  properties?: TenantPropertiesInput | undefined;
   /** Specifies the tags of the resource. */
-  tags?: UpdatePowerBIResourceRequestTagsMap;
+  tags?: UpdatePowerBIResourceRequestTagsMap | undefined;
 }
 export type CreatePowerBIResourceError = AzureOpError;
 /** Creates or updates a Private Link Service Resource for Power BI. */

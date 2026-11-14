@@ -29,6 +29,7 @@ const TELEMETRY = {
   prefix: "Databox",
   service: "Databox",
   labels: "azure",
+  labelNames: { resourceGroupName: "azure.resource_group.name" },
   propagate: "w3c",
 } as const;
 
@@ -75,13 +76,13 @@ export interface ContactDetails {
   /** Phone number of the contact person. */
   phone: string;
   /** Phone extension number of the contact person. */
-  phoneExtension?: string;
+  phoneExtension?: string | undefined;
   /** Mobile number of the contact person. */
-  mobile?: string;
+  mobile?: string | undefined;
   /** List of Email-ids to be notified about job progress. */
   emailList: ContactDetailsEmailListList;
   /** Notification preference for a job stage. */
-  notificationPreference?: ContactDetailsNotificationPreferenceList;
+  notificationPreference?: ContactDetailsNotificationPreferenceList | undefined;
 }
 /** Type of address. */
 export type ShippingAddressAddressType = "None" | "Residential" | "Commercial";
@@ -90,27 +91,27 @@ export interface ShippingAddress {
   /** Street Address line 1. */
   streetAddress1: string;
   /** Street Address line 2. */
-  streetAddress2?: string;
+  streetAddress2?: string | undefined;
   /** Street Address line 3. */
-  streetAddress3?: string;
+  streetAddress3?: string | undefined;
   /** Name of the City. */
-  city?: string;
+  city?: string | undefined;
   /** Name of the State or Province. */
-  stateOrProvince?: string;
+  stateOrProvince?: string | undefined;
   /** Name of the Country. */
   country: string;
   /** Postal code. */
-  postalCode?: string;
+  postalCode?: string | undefined;
   /** Extended Zip Code. */
-  zipExtendedCode?: string;
+  zipExtendedCode?: string | undefined;
   /** Name of the company. */
-  companyName?: string;
+  companyName?: string | undefined;
   /** Type of address. */
-  addressType?: ShippingAddressAddressType | (string & {});
+  addressType?: ShippingAddressAddressType | (string & {}) | undefined;
   /** Flag to indicate if customer has chosen to skip default address validation */
-  skipAddressValidation?: boolean;
+  skipAddressValidation?: boolean | undefined;
   /** Tax Identification Number */
-  taxIdentificationNumber?: string;
+  taxIdentificationNumber?: string | undefined;
 }
 /** Account Type of the data to be transferred. */
 export type DataAccountDetailsDataAccountType = "StorageAccount" | "ManagedDisk";
@@ -119,7 +120,7 @@ export interface DataAccountDetails {
   /** Account Type of the data to be transferred. */
   dataAccountType: DataAccountDetailsDataAccountType | (string & {});
   /** Password for all the shares to be created on the device. Should not be passed for TransferType:ExportFromAzure jobs. If this is not passed, the service will generate password itself. This will not be returned in Get Call. Password Requirements : Password must be minimum of 12 and maximum of 64 characters. Password must have at least one uppercase alphabet, one number and one special character. Password cannot have the following characters : IilLoO0 Password can have only alphabets, numbers and these characters : @#\-$%^!+=;:_()]+ */
-  sharePassword?: string | Redacted.Redacted<string>;
+  sharePassword?: string | Redacted.Redacted<string> | undefined;
 }
 /** Level of the logs to be collected. */
 export type DataImportDetailsLogCollectionLevel = "Error" | "Verbose";
@@ -128,7 +129,7 @@ export interface DataImportDetails {
   /** Account details of the data to be transferred */
   accountDetails: DataAccountDetails;
   /** Level of the logs to be collected. */
-  logCollectionLevel?: DataImportDetailsLogCollectionLevel | (string & {});
+  logCollectionLevel?: DataImportDetailsLogCollectionLevel | (string & {}) | undefined;
 }
 /** Details of the data to be imported into azure. */
 export type JobDetailsInputDataImportDetailsList = Array<DataImportDetails>;
@@ -145,11 +146,11 @@ export type BlobFilterDetailsContainerListList = Array<string>;
 /** Filter details to transfer Azure Blobs */
 export interface BlobFilterDetails {
   /** Prefix list of the Azure blobs to be transferred. */
-  blobPrefixList?: BlobFilterDetailsBlobPrefixListList;
+  blobPrefixList?: BlobFilterDetailsBlobPrefixListList | undefined;
   /** List of full path of the blobs to be transferred. */
-  blobPathList?: BlobFilterDetailsBlobPathListList;
+  blobPathList?: BlobFilterDetailsBlobPathListList | undefined;
   /** List of blob containers to be transferred. */
-  containerList?: BlobFilterDetailsContainerListList;
+  containerList?: BlobFilterDetailsContainerListList | undefined;
 }
 /** Prefix list of the Azure files to be transferred. */
 export type AzureFileFilterDetailsFilePrefixListList = Array<string>;
@@ -160,11 +161,11 @@ export type AzureFileFilterDetailsFileShareListList = Array<string>;
 /** Filter details to transfer Azure files */
 export interface AzureFileFilterDetails {
   /** Prefix list of the Azure files to be transferred. */
-  filePrefixList?: AzureFileFilterDetailsFilePrefixListList;
+  filePrefixList?: AzureFileFilterDetailsFilePrefixListList | undefined;
   /** List of full path of the files to be transferred. */
-  filePathList?: AzureFileFilterDetailsFilePathListList;
+  filePathList?: AzureFileFilterDetailsFilePathListList | undefined;
   /** List of file shares to be transferred. */
-  fileShareList?: AzureFileFilterDetailsFileShareListList;
+  fileShareList?: AzureFileFilterDetailsFileShareListList | undefined;
 }
 /** Type of the filter file. */
 export type FilterFileType = "AzureBlob" | "AzureFile";
@@ -182,16 +183,16 @@ export interface TransferFilterDetails {
   /** Type of the account of data. */
   dataAccountType: TransferFilterDetailsDataAccountType | (string & {});
   /** Filter details to transfer blobs. */
-  blobFilterDetails?: BlobFilterDetails;
+  blobFilterDetails?: BlobFilterDetails | undefined;
   /** Filter details to transfer Azure files. */
-  azureFileFilterDetails?: AzureFileFilterDetails;
+  azureFileFilterDetails?: AzureFileFilterDetails | undefined;
   /** Details of the filter files to be used for data transfer. */
-  filterFileDetails?: TransferFilterDetailsFilterFileDetailsList;
+  filterFileDetails?: TransferFilterDetailsFilterFileDetailsList | undefined;
 }
 /** Map of filter type and the details to filter. This field is required only if the TransferConfigurationType is given as TransferUsingFilter. */
 export interface TransferConfigurationTransferFilterDetails {
   /** Details of the filtering the transfer of data. */
-  include?: TransferFilterDetails;
+  include?: TransferFilterDetails | undefined;
 }
 /** Type of the account of data */
 export type TransferAllDetailsDataAccountType = "StorageAccount" | "ManagedDisk";
@@ -200,23 +201,23 @@ export interface TransferAllDetails {
   /** Type of the account of data */
   dataAccountType: TransferAllDetailsDataAccountType | (string & {});
   /** To indicate if all Azure blobs have to be transferred */
-  transferAllBlobs?: boolean;
+  transferAllBlobs?: boolean | undefined;
   /** To indicate if all Azure Files have to be transferred */
-  transferAllFiles?: boolean;
+  transferAllFiles?: boolean | undefined;
 }
 /** Map of filter type and the details to transfer all data. This field is required only if the TransferConfigurationType is given as TransferAll */
 export interface TransferConfigurationTransferAllDetails {
   /** Details to transfer all data. */
-  include?: TransferAllDetails;
+  include?: TransferAllDetails | undefined;
 }
 /** Configuration for defining the transfer of data. */
 export interface TransferConfiguration {
   /** Type of the configuration for transfer. */
   transferConfigurationType: TransferConfigurationType | (string & {});
   /** Map of filter type and the details to filter. This field is required only if the TransferConfigurationType is given as TransferUsingFilter. */
-  transferFilterDetails?: TransferConfigurationTransferFilterDetails;
+  transferFilterDetails?: TransferConfigurationTransferFilterDetails | undefined;
   /** Map of filter type and the details to transfer all data. This field is required only if the TransferConfigurationType is given as TransferAll */
-  transferAllDetails?: TransferConfigurationTransferAllDetails;
+  transferAllDetails?: TransferConfigurationTransferAllDetails | undefined;
 }
 /** Level of the logs to be collected. */
 export type DataExportDetailsLogCollectionLevel = "Error" | "Verbose";
@@ -225,7 +226,7 @@ export interface DataExportDetails {
   /** Configuration for the data transfer. */
   transferConfiguration: TransferConfiguration;
   /** Level of the logs to be collected. */
-  logCollectionLevel?: DataExportDetailsLogCollectionLevel | (string & {});
+  logCollectionLevel?: DataExportDetailsLogCollectionLevel | (string & {}) | undefined;
   /** Account details of the data to be transferred */
   accountDetails: DataAccountDetails;
 }
@@ -249,9 +250,9 @@ export type HardwareEncryption = "Enabled" | "Disabled";
 /** Preferences related to the Encryption. */
 export interface EncryptionPreferences {
   /** Defines secondary layer of software-based encryption enablement. */
-  doubleEncryption?: EncryptionPreferencesDoubleEncryption | (string & {});
+  doubleEncryption?: EncryptionPreferencesDoubleEncryption | (string & {}) | undefined;
   /** Defines Hardware level encryption (Only for disk) */
-  hardwareEncryption?: HardwareEncryption | (string & {});
+  hardwareEncryption?: HardwareEncryption | (string & {}) | undefined;
 }
 export type PreferencesInputStorageAccountAccessTierPreferencesItem = "Archive";
 /** Preferences related to the Access Tier of storage accounts. */
@@ -261,15 +262,17 @@ export type PreferencesInputStorageAccountAccessTierPreferencesList = Array<
 /** Preferences related to the order */
 export interface PreferencesInput {
   /** Preferred data center region. */
-  preferredDataCenterRegion?: PreferencesInputPreferredDataCenterRegionList;
+  preferredDataCenterRegion?: PreferencesInputPreferredDataCenterRegionList | undefined;
   /** Preferences related to the shipment logistics of the sku. */
-  transportPreferences?: TransportPreferencesInput;
+  transportPreferences?: TransportPreferencesInput | undefined;
   /** Optional Preferences related to the reverse shipment logistics of the sku. */
-  reverseTransportPreferences?: TransportPreferencesInput;
+  reverseTransportPreferences?: TransportPreferencesInput | undefined;
   /** Preferences related to the Encryption. */
-  encryptionPreferences?: EncryptionPreferences;
+  encryptionPreferences?: EncryptionPreferences | undefined;
   /** Preferences related to the Access Tier of storage accounts. */
-  storageAccountAccessTierPreferences?: PreferencesInputStorageAccountAccessTierPreferencesList;
+  storageAccountAccessTierPreferences?:
+    | PreferencesInputStorageAccountAccessTierPreferencesList
+    | undefined;
 }
 /** Contact Info. */
 export interface ContactInfo {
@@ -278,80 +281,80 @@ export interface ContactInfo {
   /** Phone number of the contact person. */
   phone: string;
   /** Phone extension number of the contact person. */
-  phoneExtension?: string;
+  phoneExtension?: string | undefined;
   /** Mobile number of the contact person. */
-  mobile?: string;
+  mobile?: string | undefined;
 }
 /** Reverse Shipping Address and contact details for a job. */
 export interface ReverseShippingDetailsInput {
   /** Contact Info. */
-  contactDetails?: ContactInfo;
+  contactDetails?: ContactInfo | undefined;
   /** Shipping address where customer wishes to receive the device. */
-  shippingAddress?: ShippingAddress;
+  shippingAddress?: ShippingAddress | undefined;
 }
 /** Type of encryption key used for key encryption. */
 export type KeyEncryptionKeyKekType = "MicrosoftManaged" | "CustomerManaged";
 /** User assigned identity properties. */
 export interface UserAssignedProperties {
   /** Arm resource id for user assigned identity to be used to fetch MSI token. */
-  resourceId?: string;
+  resourceId?: string | undefined;
 }
 /** Managed identity properties. */
 export interface IdentityProperties {
   /** Managed service identity type. */
-  type?: string;
+  type?: string | undefined;
   /** User assigned identity properties. */
-  userAssigned?: UserAssignedProperties;
+  userAssigned?: UserAssignedProperties | undefined;
 }
 /** Encryption key containing details about key to encrypt different keys. */
 export interface KeyEncryptionKey {
   /** Type of encryption key used for key encryption. */
   kekType: KeyEncryptionKeyKekType | (string & {});
   /** Managed identity properties used for key encryption. */
-  identityProperties?: IdentityProperties;
+  identityProperties?: IdentityProperties | undefined;
   /** Key encryption key. It is required in case of Customer managed KekType. */
-  kekUrl?: string;
+  kekUrl?: string | undefined;
   /** Kek vault resource id. It is required in case of Customer managed KekType. */
-  kekVaultResourceID?: string;
+  kekVaultResourceID?: string | undefined;
 }
 /** Job details. */
 export interface JobDetailsInput {
   /** Contact details for notification and shipping. */
   contactDetails: ContactDetails;
   /** Shipping address of the customer. */
-  shippingAddress?: ShippingAddress;
+  shippingAddress?: ShippingAddress | undefined;
   /** Details of the data to be imported into azure. */
-  dataImportDetails?: JobDetailsInputDataImportDetailsList;
+  dataImportDetails?: JobDetailsInputDataImportDetailsList | undefined;
   /** Details of the data to be exported from azure. */
-  dataExportDetails?: JobDetailsInputDataExportDetailsList;
+  dataExportDetails?: JobDetailsInputDataExportDetailsList | undefined;
   /** Indicates the type of job details. */
   jobDetailsType: ClassDiscriminator | (string & {});
   /** Preferences for the order. */
-  preferences?: PreferencesInput;
+  preferences?: PreferencesInput | undefined;
   /** Optional Reverse Shipping details for order. */
-  reverseShippingDetails?: ReverseShippingDetailsInput;
+  reverseShippingDetails?: ReverseShippingDetailsInput | undefined;
   /** Details about which key encryption type is being used. */
-  keyEncryptionKey?: KeyEncryptionKey;
+  keyEncryptionKey?: KeyEncryptionKey | undefined;
   /** The expected size of the data, which needs to be transferred in this job, in terabytes. */
-  expectedDataSizeInTeraBytes?: number;
+  expectedDataSizeInTeraBytes?: number | undefined;
 }
 /** Delivery type of Job. */
 export type JobPropertiesInputDeliveryType = "NonScheduled" | "Scheduled";
 /** Additional delivery info. */
 export interface JobDeliveryInfo {
   /** Scheduled date time. */
-  scheduledDateTime?: string;
+  scheduledDateTime?: string | undefined;
 }
 /** Job Properties */
 export interface JobPropertiesInput {
   /** Type of the data transfer. */
   transferType: TransferType | (string & {});
   /** Details of a job run. This field will only be sent for expand details filter. */
-  details?: JobDetailsInput;
+  details?: JobDetailsInput | undefined;
   /** Delivery type of Job. */
-  deliveryType?: JobPropertiesInputDeliveryType | (string & {});
+  deliveryType?: JobPropertiesInputDeliveryType | (string & {}) | undefined;
   /** Delivery Info of Job. */
-  deliveryInfo?: JobDeliveryInfo;
+  deliveryInfo?: JobDeliveryInfo | undefined;
 }
 /** SKU names. */
 export type SkuName = "DataBox" | "DataBoxDisk" | "DataBoxHeavy" | "DataBoxCustomerDisk";
@@ -368,11 +371,11 @@ export interface Sku {
   /** The sku name. */
   name: SkuName | (string & {});
   /** The display name of the sku. */
-  displayName?: string;
+  displayName?: string | undefined;
   /** The sku family. */
-  family?: string;
+  family?: string | undefined;
   /** The customer friendly name of the combination of version and capacity of the device. This field is necessary only at the time of ordering the newer generation device i.e. AzureDataBox120 and AzureDataBox525 as of Feb/2025 */
-  model?: ModelName | (string & {});
+  model?: ModelName | (string & {}) | undefined;
 }
 /** User assigned identity properties */
 export interface ResourceIdentityInputUserAssignedIdentitiesValue {}
@@ -383,9 +386,9 @@ export type ResourceIdentityInputUserAssignedIdentitiesMap = {
 /** Msi identity details of the resource */
 export interface ResourceIdentityInput {
   /** Identity type */
-  type?: string;
+  type?: string | undefined;
   /** User Assigned Identities */
-  userAssignedIdentities?: ResourceIdentityInputUserAssignedIdentitiesMap;
+  userAssignedIdentities?: ResourceIdentityInputUserAssignedIdentitiesMap | undefined;
 }
 export interface CreateJobRequest {
   /** The ID of the target subscription. */
@@ -395,7 +398,7 @@ export interface CreateJobRequest {
   /** The name of the job Resource within the specified resource group. job names must be between 3 and 24 characters in length and use any alphanumeric and underscore only */
   jobName: string;
   /** Resource tags. */
-  tags?: CreateJobRequestTagsMap;
+  tags?: CreateJobRequestTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Properties of a job. */
@@ -403,7 +406,7 @@ export interface CreateJobRequest {
   /** The sku type. */
   sku: Sku;
   /** Msi identity of the resource */
-  identity?: ResourceIdentityInput;
+  identity?: ResourceIdentityInput | undefined;
 }
 /** The type of identity that created the resource. */
 export type SystemDataCreatedByType = "User" | "Application" | "ManagedIdentity" | "Key";
@@ -412,17 +415,17 @@ export type SystemDataLastModifiedByType = "User" | "Application" | "ManagedIden
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface SystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: SystemDataCreatedByType;
+  createdByType?: SystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: SystemDataLastModifiedByType;
+  lastModifiedByType?: SystemDataLastModifiedByType | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 /** Resource tags. */
 export type CreateJobResponseTagsMap = { [key: string]: string | undefined };
@@ -458,9 +461,9 @@ export type AdditionalErrorInfoInfoMap = { [key: string]: unknown | undefined };
 /** This class represents additional info which Resource Providers pass when an error occurs. */
 export interface AdditionalErrorInfo {
   /** Additional information of the type of error. */
-  info?: AdditionalErrorInfoInfoMap;
+  info?: AdditionalErrorInfoInfoMap | undefined;
   /** Type of error (e.g. CustomerIntervention, PolicyViolation, SecurityViolation). */
-  type?: string;
+  type?: string | undefined;
 }
 /** Gets or sets additional error info. */
 export type CloudErrorAdditionalInfoList = Array<AdditionalErrorInfo>;
@@ -469,15 +472,15 @@ export type CloudErrorDetailsList = Array<CloudError>;
 /** Provides additional information about an http error response. */
 export interface CloudError {
   /** Gets or sets additional error info. */
-  additionalInfo?: CloudErrorAdditionalInfoList;
+  additionalInfo?: CloudErrorAdditionalInfoList | undefined;
   /** Error code. */
-  code?: string;
+  code?: string | undefined;
   /** Gets or sets details for the error. */
-  details?: CloudErrorDetailsList;
+  details?: CloudErrorDetailsList | undefined;
   /** The error message parsed from the body of the http error response. */
-  message?: string;
+  message?: string | undefined;
   /** Gets or sets the target of the error. */
-  target?: string;
+  target?: string | undefined;
 }
 /** Holds the device erasure completion status */
 export type StageStatus =
@@ -505,43 +508,43 @@ export type PortalDelayErrorCode =
 /** Job Delay Notification details */
 export interface JobDelayDetails {
   /** Status of notification */
-  status?: DelayNotificationStatus;
+  status?: DelayNotificationStatus | undefined;
   /** Delay Error code */
-  errorCode?: PortalDelayErrorCode;
+  errorCode?: PortalDelayErrorCode | undefined;
   /** Description of the delay. */
-  description?: string;
+  description?: string | undefined;
   /** Timestamp when the delay notification was created. */
-  startTime?: string;
+  startTime?: string | undefined;
   /** Timestamp when the delay notification was resolved. */
-  resolutionTime?: string;
+  resolutionTime?: string | undefined;
 }
 /** Delay information for the job stages. */
 export type JobStagesDelayInformationList = Array<JobDelayDetails>;
 /** Job stages. */
 export interface JobStages {
   /** Name of the job stage. */
-  stageName?: StageName;
+  stageName?: StageName | undefined;
   /** Display name of the job stage. */
-  displayName?: string;
+  displayName?: string | undefined;
   /** Status of the job stage. */
-  stageStatus?: StageStatus;
+  stageStatus?: StageStatus | undefined;
   /** Time for the job stage in UTC ISO 8601 format. */
-  stageTime?: string;
+  stageTime?: string | undefined;
   /** Job Stage Details */
-  jobStageDetails?: unknown;
+  jobStageDetails?: unknown | undefined;
   /** Delay information for the job stages. */
-  delayInformation?: JobStagesDelayInformationList;
+  delayInformation?: JobStagesDelayInformationList | undefined;
 }
 /** List of stages that run in the job. */
 export type JobDetailsJobStagesList = Array<JobStages>;
 /** package shipping details */
 export interface PackageShippingDetails {
   /** Url where shipment can be tracked. */
-  trackingUrl?: string;
+  trackingUrl?: string | undefined;
   /** Name of the carrier. */
-  carrierName?: string;
+  carrierName?: string | undefined;
   /** Tracking Id of shipment. */
-  trackingId?: string;
+  trackingId?: string | undefined;
 }
 /** Details of the data to be imported into azure. */
 export type JobDetailsDataImportDetailsList = Array<DataImportDetails>;
@@ -554,7 +557,7 @@ export interface TransportPreferences {
   /** Indicates Shipment Logistics type that the customer preferred. */
   preferredShipmentType: TransportShipmentTypes;
   /** Read only property which indicates whether transport preferences has been updated or not after device is prepared. */
-  isUpdated?: boolean;
+  isUpdated?: boolean | undefined;
 }
 export type PreferencesStorageAccountAccessTierPreferencesItem = "Archive";
 /** Preferences related to the Access Tier of storage accounts. */
@@ -563,24 +566,26 @@ export type PreferencesStorageAccountAccessTierPreferencesList =
 /** Preferences related to the order */
 export interface Preferences {
   /** Preferred data center region. */
-  preferredDataCenterRegion?: PreferencesPreferredDataCenterRegionList;
+  preferredDataCenterRegion?: PreferencesPreferredDataCenterRegionList | undefined;
   /** Preferences related to the shipment logistics of the sku. */
-  transportPreferences?: TransportPreferences;
+  transportPreferences?: TransportPreferences | undefined;
   /** Optional Preferences related to the reverse shipment logistics of the sku. */
-  reverseTransportPreferences?: TransportPreferences;
+  reverseTransportPreferences?: TransportPreferences | undefined;
   /** Preferences related to the Encryption. */
-  encryptionPreferences?: EncryptionPreferences;
+  encryptionPreferences?: EncryptionPreferences | undefined;
   /** Preferences related to the Access Tier of storage accounts. */
-  storageAccountAccessTierPreferences?: PreferencesStorageAccountAccessTierPreferencesList;
+  storageAccountAccessTierPreferences?:
+    | PreferencesStorageAccountAccessTierPreferencesList
+    | undefined;
 }
 /** Reverse Shipping Address and contact details for a job. */
 export interface ReverseShippingDetails {
   /** Contact Info. */
-  contactDetails?: ContactInfo;
+  contactDetails?: ContactInfo | undefined;
   /** Shipping address where customer wishes to receive the device. */
-  shippingAddress?: ShippingAddress;
+  shippingAddress?: ShippingAddress | undefined;
   /** A flag to indicate whether Reverse Shipping details are updated or not after device has been prepared. Read only field */
-  isUpdated?: boolean;
+  isUpdated?: boolean | undefined;
 }
 /** Details for log generated during copy. */
 export interface CopyLogDetails {
@@ -592,11 +597,11 @@ export type JobDetailsCopyLogDetailsList = Array<CopyLogDetails>;
 /** Device erasure details with erasure completion status, secure erasure sas key and erasureordestructionlog sas key */
 export interface DeviceErasureDetails {
   /** Holds the device erasure completion status */
-  deviceErasureStatus?: StageStatus;
+  deviceErasureStatus?: StageStatus | undefined;
   /** Shared access key to download cleanup or destruction certificate for device */
-  erasureOrDestructionCertificateSasKey?: string;
+  erasureOrDestructionCertificateSasKey?: string | undefined;
   /** Shared access key to download secure erasure certificate for the device */
-  secureErasureCertificateSasKey?: string;
+  secureErasureCertificateSasKey?: string | undefined;
 }
 /** Resolution code provided by customer. */
 export type CustomerResolutionCode =
@@ -610,11 +615,11 @@ export type JobDetailsActionsList = Array<CustomerResolutionCode>;
 /** Last Mitigation Action Performed On Job */
 export interface LastMitigationActionOnJob {
   /** Action performed date time */
-  actionDateTimeInUtc?: string;
+  actionDateTimeInUtc?: string | undefined;
   /** Action performed by customer, possibility is that mitigation might happen by customer or service or by ops */
-  isPerformedByCustomer?: boolean;
+  isPerformedByCustomer?: boolean | undefined;
   /** Resolution code provided by customer */
-  customerResolution?: CustomerResolutionCode;
+  customerResolution?: CustomerResolutionCode | undefined;
 }
 /** Data center address type */
 export type DatacenterAddressType = "DatacenterAddressLocation" | "DatacenterAddressInstruction";
@@ -625,9 +630,11 @@ export interface DatacenterAddressResponse {
   /** Data center address type */
   datacenterAddressType: DatacenterAddressType;
   /** List of supported carriers for return shipment. */
-  supportedCarriersForReturnShipment?: DatacenterAddressResponseSupportedCarriersForReturnShipmentList;
+  supportedCarriersForReturnShipment?:
+    | DatacenterAddressResponseSupportedCarriersForReturnShipmentList
+    | undefined;
   /** Azure Location where the Data Center serves primarily. */
-  dataCenterAzureLocation?: string;
+  dataCenterAzureLocation?: string | undefined;
 }
 /** DataCenter code. */
 export type DataCenterCode =
@@ -702,45 +709,45 @@ export type DataCenterCode =
 /** Job details. */
 export interface JobDetails {
   /** List of stages that run in the job. */
-  jobStages?: JobDetailsJobStagesList;
+  jobStages?: JobDetailsJobStagesList | undefined;
   /** Contact details for notification and shipping. */
   contactDetails: ContactDetails;
   /** Shipping address of the customer. */
-  shippingAddress?: ShippingAddress;
+  shippingAddress?: ShippingAddress | undefined;
   /** Delivery package shipping details. */
-  deliveryPackage?: PackageShippingDetails;
+  deliveryPackage?: PackageShippingDetails | undefined;
   /** Return package shipping details. */
-  returnPackage?: PackageShippingDetails;
+  returnPackage?: PackageShippingDetails | undefined;
   /** Details of the data to be imported into azure. */
-  dataImportDetails?: JobDetailsDataImportDetailsList;
+  dataImportDetails?: JobDetailsDataImportDetailsList | undefined;
   /** Details of the data to be exported from azure. */
-  dataExportDetails?: JobDetailsDataExportDetailsList;
+  dataExportDetails?: JobDetailsDataExportDetailsList | undefined;
   /** Indicates the type of job details. */
   jobDetailsType: ClassDiscriminator;
   /** Preferences for the order. */
-  preferences?: Preferences;
+  preferences?: Preferences | undefined;
   /** Optional Reverse Shipping details for order. */
-  reverseShippingDetails?: ReverseShippingDetails;
+  reverseShippingDetails?: ReverseShippingDetails | undefined;
   /** List of copy log details. */
-  copyLogDetails?: JobDetailsCopyLogDetailsList;
+  copyLogDetails?: JobDetailsCopyLogDetailsList | undefined;
   /** Shared access key to download the return shipment label */
-  reverseShipmentLabelSasKey?: string;
+  reverseShipmentLabelSasKey?: string | undefined;
   /** Shared access key to download the chain of custody logs */
-  chainOfCustodySasKey?: string;
+  chainOfCustodySasKey?: string | undefined;
   /** Holds device data erasure details */
-  deviceErasureDetails?: DeviceErasureDetails;
+  deviceErasureDetails?: DeviceErasureDetails | undefined;
   /** Details about which key encryption type is being used. */
-  keyEncryptionKey?: KeyEncryptionKey;
+  keyEncryptionKey?: KeyEncryptionKey | undefined;
   /** The expected size of the data, which needs to be transferred in this job, in terabytes. */
-  expectedDataSizeInTeraBytes?: number;
+  expectedDataSizeInTeraBytes?: number | undefined;
   /** Available actions on the job. */
-  actions?: JobDetailsActionsList;
+  actions?: JobDetailsActionsList | undefined;
   /** Last mitigation action performed on the job. */
-  lastMitigationActionOnJob?: LastMitigationActionOnJob;
+  lastMitigationActionOnJob?: LastMitigationActionOnJob | undefined;
   /** Datacenter address to ship to, for the given sku and storage location. */
-  datacenterAddress?: DatacenterAddressResponse;
+  datacenterAddress?: DatacenterAddressResponse | undefined;
   /** DataCenter code. */
-  dataCenterCode?: DataCenterCode;
+  dataCenterCode?: DataCenterCode | undefined;
 }
 /** Delivery type of Job. */
 export type JobPropertiesDeliveryType = "NonScheduled" | "Scheduled";
@@ -749,44 +756,44 @@ export interface JobProperties {
   /** Type of the data transfer. */
   transferType: TransferType;
   /** Describes whether the job is cancellable or not. */
-  isCancellable?: boolean;
+  isCancellable?: boolean | undefined;
   /** Describes whether the job is deletable or not. */
-  isDeletable?: boolean;
+  isDeletable?: boolean | undefined;
   /** Describes whether the shipping address is editable or not. */
-  isShippingAddressEditable?: boolean;
+  isShippingAddressEditable?: boolean | undefined;
   /** The Editable status for Reverse Shipping Address and Contact Info */
-  reverseShippingDetailsUpdate?: ReverseShippingDetailsEditStatus;
+  reverseShippingDetailsUpdate?: ReverseShippingDetailsEditStatus | undefined;
   /** The Editable status for Reverse Transport preferences */
-  reverseTransportPreferenceUpdate?: ReverseTransportPreferenceEditStatus;
+  reverseTransportPreferenceUpdate?: ReverseTransportPreferenceEditStatus | undefined;
   /** Is Prepare To Ship Enabled on this job */
-  isPrepareToShipEnabled?: boolean;
+  isPrepareToShipEnabled?: boolean | undefined;
   /** Name of the stage which is in progress. */
-  status?: StageName;
+  status?: StageName | undefined;
   /** Name of the stage where delay might be present. */
-  delayedStage?: StageName;
+  delayedStage?: StageName | undefined;
   /** Time at which the job was started in UTC ISO 8601 format. */
-  startTime?: string;
+  startTime?: string | undefined;
   /** Top level error for the job. */
-  error?: CloudError;
+  error?: CloudError | undefined;
   /** Details of a job run. This field will only be sent for expand details filter. */
-  details?: JobDetails;
+  details?: JobDetails | undefined;
   /** Reason for cancellation. */
-  cancellationReason?: string;
+  cancellationReason?: string | undefined;
   /** Delivery type of Job. */
-  deliveryType?: JobPropertiesDeliveryType;
+  deliveryType?: JobPropertiesDeliveryType | undefined;
   /** Delivery Info of Job. */
-  deliveryInfo?: JobDeliveryInfo;
+  deliveryInfo?: JobDeliveryInfo | undefined;
   /** Flag to indicate cancellation of scheduled job. */
-  isCancellableWithoutFee?: boolean;
+  isCancellableWithoutFee?: boolean | undefined;
   /** Flag to indicate if all devices associated with the job are lost. */
-  allDevicesLost?: boolean;
+  allDevicesLost?: boolean | undefined;
 }
 /** User assigned identity properties */
 export interface ResourceIdentityUserAssignedIdentitiesValue {
   /** The principal ID of the assigned identity. */
-  principalId?: string;
+  principalId?: string | undefined;
   /** The client ID of the assigned identity. */
-  clientId?: string;
+  clientId?: string | undefined;
 }
 /** User Assigned Identities */
 export type ResourceIdentityUserAssignedIdentitiesMap = {
@@ -795,25 +802,25 @@ export type ResourceIdentityUserAssignedIdentitiesMap = {
 /** Msi identity details of the resource */
 export interface ResourceIdentity {
   /** Identity type */
-  type?: string;
+  type?: string | undefined;
   /** Service Principal Id backing the Msi */
-  principalId?: string;
+  principalId?: string | undefined;
   /** Home Tenant Id */
-  tenantId?: string;
+  tenantId?: string | undefined;
   /** User Assigned Identities */
-  userAssignedIdentities?: ResourceIdentityUserAssignedIdentitiesMap;
+  userAssignedIdentities?: ResourceIdentityUserAssignedIdentitiesMap | undefined;
 }
 export interface CreateJobResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: CreateJobResponseTagsMap;
+  tags?: CreateJobResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Properties of a job. */
@@ -821,11 +828,11 @@ export interface CreateJobResponse {
   /** The sku type. */
   sku: Sku;
   /** Msi identity of the resource */
-  identity?: ResourceIdentity;
+  identity?: ResourceIdentity | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  locationHeader?: string;
+  locationHeader?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeleteJobRequest {
   /** The ID of the target subscription. */
@@ -837,9 +844,9 @@ export interface DeleteJobRequest {
 }
 export interface DeleteJobResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface GetJobRequest {
   /** The ID of the target subscription. */
@@ -849,21 +856,21 @@ export interface GetJobRequest {
   /** The name of the job Resource within the specified resource group. job names must be between 3 and 24 characters in length and use any alphanumeric and underscore only */
   jobName: string;
   /** $expand is supported on details parameter for job, which provides details on the job stages. */
-  _expand?: string;
+  _expand?: string | undefined;
 }
 /** Resource tags. */
 export type GetJobResponseTagsMap = { [key: string]: string | undefined };
 export interface GetJobResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: GetJobResponseTagsMap;
+  tags?: GetJobResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Properties of a job. */
@@ -871,7 +878,7 @@ export interface GetJobResponse {
   /** The sku type. */
   sku: Sku;
   /** Msi identity of the resource */
-  identity?: ResourceIdentity;
+  identity?: ResourceIdentity | undefined;
 }
 export interface JobsBookShipmentPickUpRequest {
   /** The ID of the target subscription. */
@@ -890,16 +897,16 @@ export interface JobsBookShipmentPickUpRequest {
 /** Shipment pick up response. */
 export interface ShipmentPickUpResponse {
   /** Confirmation number for the pick up request. */
-  confirmationNumber?: string;
+  confirmationNumber?: string | undefined;
   /** Time by which shipment should be ready for pick up, this is in local time of pick up area. */
-  readyByTime?: string;
+  readyByTime?: string | undefined;
 }
 /** package carrier info */
 export interface PackageCarrierInfo {
   /** Name of the carrier. */
-  carrierName?: string;
+  carrierName?: string | undefined;
   /** Tracking Id of shipment. */
-  trackingId?: string;
+  trackingId?: string | undefined;
 }
 export interface JobsMarkDevicesShippedRequest {
   /** The ID of the target subscription. */
@@ -918,22 +925,22 @@ export interface ListJobByResourceGroupRequest {
   /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
   /** $skipToken is supported on Get list of jobs, which provides the next page in the list of jobs. */
-  _skipToken?: string;
+  _skipToken?: string | undefined;
 }
 /** Resource tags. */
 export type JobResourceTagsMap = { [key: string]: string | undefined };
 /** Job Resource. */
 export interface JobResource {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: JobResourceTagsMap;
+  tags?: JobResourceTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Properties of a job. */
@@ -941,7 +948,7 @@ export interface JobResource {
   /** The sku type. */
   sku: Sku;
   /** Msi identity of the resource */
-  identity?: ResourceIdentity;
+  identity?: ResourceIdentity | undefined;
 }
 /** The JobResource items on this page */
 export type JobResourceListValueList = Array<JobResource>;
@@ -950,7 +957,7 @@ export interface JobResourceList {
   /** The JobResource items on this page */
   value: JobResourceListValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListJobCredentialsRequest {
   /** The ID of the target subscription. */
@@ -963,25 +970,25 @@ export interface ListJobCredentialsRequest {
 /** Dc access security code */
 export interface DcAccessSecurityCode {
   /** Reverse Dc access security code. */
-  reverseDCAccessCode?: string;
+  reverseDCAccessCode?: string | undefined;
   /** Forward Dc access security code. */
-  forwardDCAccessCode?: string;
+  forwardDCAccessCode?: string | undefined;
 }
 /** The base class for the secrets */
 export interface JobSecrets {
   /** Used to indicate what type of job secrets object. */
   jobSecretsType: ClassDiscriminator;
   /** Dc Access Security Code for Customer Managed Shipping */
-  dcAccessSecurityCode?: DcAccessSecurityCode;
+  dcAccessSecurityCode?: DcAccessSecurityCode | undefined;
   /** Error while fetching the secrets. */
-  error?: CloudError;
+  error?: CloudError | undefined;
 }
 /** Unencrypted credentials for accessing device. */
 export interface UnencryptedCredentials {
   /** Name of the job. */
-  jobName?: string;
+  jobName?: string | undefined;
   /** Secrets related to this job. */
-  jobSecrets?: JobSecrets;
+  jobSecrets?: JobSecrets | undefined;
 }
 /** The UnencryptedCredentials items on this page */
 export type UnencryptedCredentialsListValueList = Array<UnencryptedCredentials>;
@@ -990,47 +997,47 @@ export interface UnencryptedCredentialsList {
   /** The UnencryptedCredentials items on this page */
   value: UnencryptedCredentialsListValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListJobsRequest {
   /** The ID of the target subscription. */
   subscriptionId: string;
   /** $skipToken is supported on Get list of jobs, which provides the next page in the list of jobs. */
-  _skipToken?: string;
+  _skipToken?: string | undefined;
 }
 export interface ListOperationsRequest {}
 /** Operation display */
 export interface OperationDisplay {
   /** Provider name. */
-  provider?: string;
+  provider?: string | undefined;
   /** Resource name. */
-  resource?: string;
+  resource?: string | undefined;
   /** Localized name of the operation for display purpose. */
-  operation?: string;
+  operation?: string | undefined;
   /** Localized description of the operation for display purpose. */
-  description?: string;
+  description?: string | undefined;
 }
 /** Operation entity. */
 export interface Operation {
   /** Name of the operation. Format: {resourceProviderNamespace}/{resourceType}/{read|write|delete|action} */
-  name?: string;
+  name?: string | undefined;
   /** Operation display values. */
-  display?: OperationDisplay;
+  display?: OperationDisplay | undefined;
   /** Operation properties. */
-  properties?: unknown;
+  properties?: unknown | undefined;
   /** Origin of the operation. Can be : user|system|user,system */
-  origin?: string;
+  origin?: string | undefined;
   /** Indicates whether the operation is a data action */
-  isDataAction?: boolean;
+  isDataAction?: boolean | undefined;
 }
 /** The list of connected cluster API operations. */
 export type OperationListValueList = Array<Operation>;
 /** The paginated list of connected cluster API operations. */
 export interface OperationList {
   /** The list of connected cluster API operations. */
-  value?: OperationListValueList;
+  value?: OperationListValueList | undefined;
   /** The link to fetch the next page of connected cluster API operations. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 /** Sku Names to filter for available skus */
 export type ListServiceAvailableSkusByResourceGroupRequestSkuNamesList = Array<
@@ -1048,14 +1055,14 @@ export interface ListServiceAvailableSkusByResourceGroupRequest {
   /** ISO country code. Country for hardware shipment. For codes check: https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2#Officially_assigned_code_elements */
   country: string;
   /** Sku Names to filter for available skus */
-  skuNames?: ListServiceAvailableSkusByResourceGroupRequestSkuNamesList;
+  skuNames?: ListServiceAvailableSkusByResourceGroupRequestSkuNamesList | undefined;
 }
 /** Map of data location to service location */
 export interface DataLocationToServiceLocationMap {
   /** Location of the data. */
-  dataLocation?: string;
+  dataLocation?: string | undefined;
   /** Location of the service. */
-  serviceLocation?: string;
+  serviceLocation?: string | undefined;
 }
 /** The map of data location to service location. */
 export type SkuPropertiesDataLocationToServiceLocationMapList =
@@ -1063,20 +1070,20 @@ export type SkuPropertiesDataLocationToServiceLocationMapList =
 /** Capacity of the sku. */
 export interface SkuCapacity {
   /** Usable capacity in TB. */
-  usable?: string;
+  usable?: string | undefined;
   /** Maximum capacity in TB. */
-  maximum?: string;
+  maximum?: string | undefined;
   /** Maximum capacity per device in TB. */
-  individualSkuUsable?: string;
+  individualSkuUsable?: string | undefined;
 }
 /** Describes metadata for retrieving price info. */
 export interface SkuCost {
   /** Meter id of the Sku. */
-  meterId?: string;
+  meterId?: string | undefined;
   /** The type of the meter. */
-  meterType?: string;
+  meterType?: string | undefined;
   /** Multiplier specifies the region specific value to be multiplied with 1$ guid. Eg: Our new regions will be using 1$ shipping guid with appropriate multiplier specific to region. */
-  multiplier?: number;
+  multiplier?: number | undefined;
 }
 /** Cost of the Sku. */
 export type SkuPropertiesCostsList = Array<SkuCost>;
@@ -1095,30 +1102,30 @@ export type SkuPropertiesCountriesWithinCommerceBoundaryList = Array<string>;
 /** Properties of the sku. */
 export interface SkuProperties {
   /** The map of data location to service location. */
-  dataLocationToServiceLocationMap?: SkuPropertiesDataLocationToServiceLocationMapList;
+  dataLocationToServiceLocationMap?: SkuPropertiesDataLocationToServiceLocationMapList | undefined;
   /** Capacity of the Sku. */
-  capacity?: SkuCapacity;
+  capacity?: SkuCapacity | undefined;
   /** Cost of the Sku. */
-  costs?: SkuPropertiesCostsList;
+  costs?: SkuPropertiesCostsList | undefined;
   /** Api versions that support this Sku. */
-  apiVersions?: SkuPropertiesApiVersionsList;
+  apiVersions?: SkuPropertiesApiVersionsList | undefined;
   /** Reason why the Sku is disabled. */
-  disabledReason?: SkuDisabledReason;
+  disabledReason?: SkuDisabledReason | undefined;
   /** Message for why the Sku is disabled. */
-  disabledReasonMessage?: string;
+  disabledReasonMessage?: string | undefined;
   /** Required feature to access the sku. */
-  requiredFeature?: string;
+  requiredFeature?: string | undefined;
   /** List of all the Countries in the SKU specific commerce boundary */
-  countriesWithinCommerceBoundary?: SkuPropertiesCountriesWithinCommerceBoundaryList;
+  countriesWithinCommerceBoundary?: SkuPropertiesCountriesWithinCommerceBoundaryList | undefined;
 }
 /** Information of the sku. */
 export interface SkuInformation {
   /** The Sku. */
-  sku?: Sku;
+  sku?: Sku | undefined;
   /** The sku is enabled or not. */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** Properties of the sku. */
-  properties?: SkuProperties;
+  properties?: SkuProperties | undefined;
 }
 /** [Placeholder] Description for page model */
 export type AvailableSkusResultValueList = Array<SkuInformation>;
@@ -1127,7 +1134,7 @@ export interface AvailableSkusResult {
   /** [Placeholder] Description for page model */
   value: AvailableSkusResultValueList;
   /** [Placeholder] Description for nextLink property */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 /** Serial number and the customer resolution code corresponding to each serial number */
 export type MitigateRequestSerialNumberCustomerResolutionMapMap = {
@@ -1141,9 +1148,11 @@ export interface MitigateRequest {
   /** The name of the job Resource within the specified resource group. job names must be between 3 and 24 characters in length and use any alphanumeric and underscore only */
   jobName: string;
   /** Resolution code for the job */
-  customerResolutionCode?: CustomerResolutionCode | (string & {});
+  customerResolutionCode?: CustomerResolutionCode | (string & {}) | undefined;
   /** Serial number and the customer resolution code corresponding to each serial number */
-  serialNumberCustomerResolutionMap?: MitigateRequestSerialNumberCustomerResolutionMapMap;
+  serialNumberCustomerResolutionMap?:
+    | MitigateRequestSerialNumberCustomerResolutionMapMap
+    | undefined;
 }
 export interface MitigateResponse {}
 /** Request body to get the availability for scheduling orders. */
@@ -1153,16 +1162,16 @@ export interface ScheduleAvailabilityRequest {
   /** Sku Name for which the order is to be scheduled. */
   skuName: SkuName | (string & {});
   /** Country in which storage location should be supported. */
-  country?: string;
+  country?: string | undefined;
   /** The customer friendly name of the combination of version and capacity of the device. This field is necessary only at the time of ordering the newer generation device i.e. AzureDataBox120 and AzureDataBox525 as of Feb/2025 */
-  model?: ModelName | (string & {});
+  model?: ModelName | (string & {}) | undefined;
 }
 /** Request body to get the transport availability for given sku. */
 export interface TransportAvailabilityRequest {
   /** Type of the device. */
-  skuName?: SkuName | (string & {});
+  skuName?: SkuName | (string & {}) | undefined;
   /** The customer friendly name of the combination of version and capacity of the device. This field is necessary only at the time of ordering the newer generation device i.e. AzureDataBox120 and AzureDataBox525 as of Feb/2025 */
-  model?: ModelName | (string & {});
+  model?: ModelName | (string & {}) | undefined;
 }
 /** Request body to get the datacenter address. */
 export interface DatacenterAddressRequest {
@@ -1171,7 +1180,7 @@ export interface DatacenterAddressRequest {
   /** Sku Name for which the data center address requested. */
   skuName: SkuName | (string & {});
   /** The customer friendly name of the combination of version and capacity of the device. This field is necessary only at the time of ordering the newer generation device i.e. AzureDataBox120 and AzureDataBox525 as of Feb/2025 */
-  model?: ModelName | (string & {});
+  model?: ModelName | (string & {}) | undefined;
 }
 /** Request body to get the device capabilities for given sku. */
 export type DeviceCapabilityRequest = TransportAvailabilityRequest;
@@ -1181,25 +1190,25 @@ export interface ServiceRegionConfigurationRequest {
   /** The name of Azure region. */
   location: string;
   /** Request body to get the availability for scheduling orders. */
-  scheduleAvailabilityRequest?: ScheduleAvailabilityRequest;
+  scheduleAvailabilityRequest?: ScheduleAvailabilityRequest | undefined;
   /** Request body to get the transport availability for given sku. */
-  transportAvailabilityRequest?: TransportAvailabilityRequest;
+  transportAvailabilityRequest?: TransportAvailabilityRequest | undefined;
   /** Request body to get the datacenter address for given sku. */
-  datacenterAddressRequest?: DatacenterAddressRequest;
+  datacenterAddressRequest?: DatacenterAddressRequest | undefined;
   /** Request body to get the device capabilities for a given sku. */
-  deviceCapabilityRequest?: TransportAvailabilityRequest;
+  deviceCapabilityRequest?: TransportAvailabilityRequest | undefined;
 }
 /** List of dates available to schedule */
 export type ScheduleAvailabilityResponseAvailableDatesList = Array<string>;
 /** Schedule availability for given sku in a region. */
 export interface ScheduleAvailabilityResponse {
   /** List of dates available to schedule */
-  availableDates?: ScheduleAvailabilityResponseAvailableDatesList;
+  availableDates?: ScheduleAvailabilityResponseAvailableDatesList | undefined;
 }
 /** Transport options availability details for given region. */
 export interface TransportAvailabilityDetails {
   /** Transport Shipment Type supported for given region. */
-  shipmentType?: TransportShipmentTypes;
+  shipmentType?: TransportShipmentTypes | undefined;
 }
 /** List of transport availability details for given region */
 export type TransportAvailabilityResponseTransportAvailabilityDetailsList =
@@ -1207,30 +1216,32 @@ export type TransportAvailabilityResponseTransportAvailabilityDetailsList =
 /** Transport options available for given sku in a region. */
 export interface TransportAvailabilityResponse {
   /** List of transport availability details for given region */
-  transportAvailabilityDetails?: TransportAvailabilityResponseTransportAvailabilityDetailsList;
+  transportAvailabilityDetails?:
+    | TransportAvailabilityResponseTransportAvailabilityDetailsList
+    | undefined;
 }
 /** Device capability details for a given sku for a given region. */
 export interface DeviceCapabilityDetails {
   /** Hardware encryption support for a given sku for a given region. */
-  hardwareEncryption?: HardwareEncryption;
+  hardwareEncryption?: HardwareEncryption | undefined;
 }
 /** List of device capabilities available for a given region and a given sku */
 export type DeviceCapabilityResponseDeviceCapabilityDetailsList = Array<DeviceCapabilityDetails>;
 /** Device capabilities for given sku in a region */
 export interface DeviceCapabilityResponse {
   /** List of device capabilities available for a given region and a given sku */
-  deviceCapabilityDetails?: DeviceCapabilityResponseDeviceCapabilityDetailsList;
+  deviceCapabilityDetails?: DeviceCapabilityResponseDeviceCapabilityDetailsList | undefined;
 }
 /** Configuration response specific to a region. */
 export interface RegionConfigurationResponse {
   /** Schedule availability for given sku in a region. */
-  scheduleAvailabilityResponse?: ScheduleAvailabilityResponse;
+  scheduleAvailabilityResponse?: ScheduleAvailabilityResponse | undefined;
   /** Transport options available for given sku in a region. */
-  transportAvailabilityResponse?: TransportAvailabilityResponse;
+  transportAvailabilityResponse?: TransportAvailabilityResponse | undefined;
   /** Datacenter address for given sku in a region. */
-  datacenterAddressResponse?: DatacenterAddressResponse;
+  datacenterAddressResponse?: DatacenterAddressResponse | undefined;
   /** Device capabilities available for a given sku in a region. */
-  deviceCapabilityResponse?: DeviceCapabilityResponse;
+  deviceCapabilityResponse?: DeviceCapabilityResponse | undefined;
 }
 export interface ServiceRegionConfigurationByResourceGroupRequest {
   /** The ID of the target subscription. */
@@ -1240,42 +1251,42 @@ export interface ServiceRegionConfigurationByResourceGroupRequest {
   /** The name of Azure region. */
   location: string;
   /** Request body to get the availability for scheduling orders. */
-  scheduleAvailabilityRequest?: ScheduleAvailabilityRequest;
+  scheduleAvailabilityRequest?: ScheduleAvailabilityRequest | undefined;
   /** Request body to get the transport availability for given sku. */
-  transportAvailabilityRequest?: TransportAvailabilityRequest;
+  transportAvailabilityRequest?: TransportAvailabilityRequest | undefined;
   /** Request body to get the datacenter address for given sku. */
-  datacenterAddressRequest?: DatacenterAddressRequest;
+  datacenterAddressRequest?: DatacenterAddressRequest | undefined;
   /** Request body to get the device capabilities for a given sku. */
-  deviceCapabilityRequest?: TransportAvailabilityRequest;
+  deviceCapabilityRequest?: TransportAvailabilityRequest | undefined;
 }
 /** Package carrier details. */
 export interface PackageCarrierDetails {
   /** Carrier Account Number of customer for customer disk. */
-  carrierAccountNumber?: string;
+  carrierAccountNumber?: string | undefined;
   /** Name of the carrier. */
-  carrierName?: string;
+  carrierName?: string | undefined;
   /** Tracking Id of shipment. */
-  trackingId?: string;
+  trackingId?: string | undefined;
 }
 /** Job details for update. */
 export interface UpdateJobDetailsInput {
   /** Contact details for notification and shipping. */
-  contactDetails?: ContactDetails;
+  contactDetails?: ContactDetails | undefined;
   /** Shipping address of the customer. */
-  shippingAddress?: ShippingAddress;
+  shippingAddress?: ShippingAddress | undefined;
   /** Reverse Shipping Address and contact details for a job. */
-  reverseShippingDetails?: ReverseShippingDetailsInput;
+  reverseShippingDetails?: ReverseShippingDetailsInput | undefined;
   /** Preferences related to the order */
-  preferences?: PreferencesInput;
+  preferences?: PreferencesInput | undefined;
   /** Key encryption key for the job. */
-  keyEncryptionKey?: KeyEncryptionKey;
+  keyEncryptionKey?: KeyEncryptionKey | undefined;
   /** Return package details of job. */
-  returnToCustomerPackageDetails?: PackageCarrierDetails;
+  returnToCustomerPackageDetails?: PackageCarrierDetails | undefined;
 }
 /** Job Properties for update */
 export interface UpdateJobPropertiesInput {
   /** Details of a job to be updated. */
-  details?: UpdateJobDetailsInput;
+  details?: UpdateJobDetailsInput | undefined;
 }
 /** The list of key value pairs that describe the resource. These tags can be used in viewing and grouping this resource (across resource groups). */
 export type UpdateJobRequestTagsMap = { [key: string]: string | undefined };
@@ -1287,25 +1298,25 @@ export interface UpdateJobRequest {
   /** The name of the job Resource within the specified resource group. job names must be between 3 and 24 characters in length and use any alphanumeric and underscore only */
   jobName: string;
   /** Properties of a job to be updated. */
-  properties?: UpdateJobPropertiesInput;
+  properties?: UpdateJobPropertiesInput | undefined;
   /** The list of key value pairs that describe the resource. These tags can be used in viewing and grouping this resource (across resource groups). */
-  tags?: UpdateJobRequestTagsMap;
+  tags?: UpdateJobRequestTagsMap | undefined;
   /** Msi identity of the resource */
-  identity?: ResourceIdentityInput;
+  identity?: ResourceIdentityInput | undefined;
 }
 /** Resource tags. */
 export type UpdateJobResponseTagsMap = { [key: string]: string | undefined };
 export interface UpdateJobResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: UpdateJobResponseTagsMap;
+  tags?: UpdateJobResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Properties of a job. */
@@ -1313,11 +1324,11 @@ export interface UpdateJobResponse {
   /** The sku type. */
   sku: Sku;
   /** Msi identity of the resource */
-  identity?: ResourceIdentity;
+  identity?: ResourceIdentity | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  locationHeader?: string;
+  locationHeader?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Identify the nature of validation. */
 export type ValidateServiceInputsRequestValidationCategory = "JobCreationValidation";
@@ -1357,7 +1368,7 @@ export interface ValidationInputResponse {
   /** Identifies the type of validation response. */
   validationType: ValidationInputDiscriminator;
   /** Error code and message of validation response. */
-  error?: CloudError;
+  error?: CloudError | undefined;
 }
 /** List of response details contain validationType and its response as key and value respectively. */
 export type ValidationResponsePropertiesIndividualResponseDetailsList =
@@ -1365,14 +1376,14 @@ export type ValidationResponsePropertiesIndividualResponseDetailsList =
 /** Properties of pre job creation validation response. */
 export interface ValidationResponseProperties {
   /** Overall validation status. */
-  status?: OverallValidationStatus;
+  status?: OverallValidationStatus | undefined;
   /** List of response details contain validationType and its response as key and value respectively. */
-  individualResponseDetails?: ValidationResponsePropertiesIndividualResponseDetailsList;
+  individualResponseDetails?: ValidationResponsePropertiesIndividualResponseDetailsList | undefined;
 }
 /** Response of pre job creation validations. */
 export interface ValidationResponse {
   /** Properties of pre job creation validation response. */
-  properties?: ValidationResponseProperties;
+  properties?: ValidationResponseProperties | undefined;
 }
 /** Identify the nature of validation. */
 export type ValidateServiceInputsByResourceGroupRequestValidationCategory = "JobCreationValidation";

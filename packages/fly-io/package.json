@@ -1,6 +1,6 @@
 {
   "name": "@distilled.cloud/fly-io",
-  "version": "1.0.0-rc.17",
+  "version": "1.0.0-rc.20",
   "license": "Apache-2.0",
   "repository": {
     "type": "git",
@@ -79,19 +79,11 @@
       "distilled-lazy": "./lib/services.lazy/mpg.js",
       "default": "./lib/services/mpg.js"
     },
-    "./addons": {
-      "types": "./lib/services/addons.d.ts",
-      "bun": "./src/services/addons.ts",
-      "worker": "./src/services/addons.ts",
-      "distilled-lazy": "./lib/services.lazy/addons.js",
-      "default": "./lib/services/addons.js"
-    },
-    "./builders": {
-      "types": "./lib/services/builders.d.ts",
-      "bun": "./src/services/builders.ts",
-      "worker": "./src/services/builders.ts",
-      "distilled-lazy": "./lib/services.lazy/builders.js",
-      "default": "./lib/services/builders.js"
+    "./GraphQL": {
+      "types": "./lib/graphql-index.d.ts",
+      "bun": "./src/graphql-index.ts",
+      "worker": "./src/graphql-index.ts",
+      "default": "./lib/graphql-index.js"
     },
     "./*": {
       "types": "./lib/services/*.d.ts",
@@ -120,7 +112,7 @@
     "effect": "catalog:"
   },
   "distilled": {
-    "generatedAt": "2026-10-25",
-    "specUpdatedAt": "2026-10-08"
+    "generatedAt": "2026-11-13",
+    "specUpdatedAt": "2026-11-07"
   }
 }

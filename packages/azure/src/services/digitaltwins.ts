@@ -28,6 +28,7 @@ const TELEMETRY = {
   prefix: "Digitaltwins",
   service: "Digitaltwins",
   labels: "azure",
+  labelNames: { resourceGroupName: "azure.resource_group.name" },
   propagate: "w3c",
 } as const;
 
@@ -49,11 +50,11 @@ export type CheckNameResultReason = "Invalid" | "AlreadyExists";
 /** The result returned from a check name availability request. */
 export interface CheckNameResult {
   /** Specifies a Boolean value that indicates if the name is available. */
-  nameAvailable?: boolean;
+  nameAvailable?: boolean | undefined;
   /** Message indicating an unavailable name due to a conflict, or a description of the naming rules that are violated. */
-  message?: string | null;
+  message?: string | null | undefined;
   /** Message providing the reason why the given name is invalid. */
-  reason?: CheckNameResultReason | null;
+  reason?: CheckNameResultReason | null | undefined;
 }
 export interface DeleteDigitalTwinRequest {
   /** The subscription identifier. */
@@ -74,9 +75,9 @@ export type DigitalTwinsIdentityType =
 /** The information about the user assigned identity. */
 export interface UserAssignedIdentity {
   /** The client id of the User Assigned Identity Resource. */
-  clientId?: string;
+  clientId?: string | undefined;
   /** The object id of the User Assigned Identity Resource. */
-  principalId?: string;
+  principalId?: string | undefined;
 }
 /** The list of user identities associated with the resource. The user identity dictionary key references will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'. . */
 export type DigitalTwinsIdentityUserAssignedIdentitiesMap = {
@@ -85,13 +86,13 @@ export type DigitalTwinsIdentityUserAssignedIdentitiesMap = {
 /** The managed identity for the DigitalTwinsInstance. */
 export interface DigitalTwinsIdentity {
   /** The type of Managed Identity used by the DigitalTwinsInstance. */
-  type?: DigitalTwinsIdentityType;
+  type?: DigitalTwinsIdentityType | undefined;
   /** The object id of the Managed Identity Resource. This will be sent to the RP from ARM via the x-ms-identity-principal-id header in the PUT request if the resource has a systemAssigned(implicit) identity */
-  principalId?: string | null;
+  principalId?: string | null | undefined;
   /** The tenant id of the Managed Identity Resource. This will be sent to the RP from ARM via the x-ms-client-tenant-id header in the PUT request if the resource has a systemAssigned(implicit) identity */
-  tenantId?: string | null;
+  tenantId?: string | null | undefined;
   /** The list of user identities associated with the resource. The user identity dictionary key references will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'. . */
-  userAssignedIdentities?: DigitalTwinsIdentityUserAssignedIdentitiesMap | null;
+  userAssignedIdentities?: DigitalTwinsIdentityUserAssignedIdentitiesMap | null | undefined;
 }
 /** The type of identity that created the resource. */
 export type SystemDataCreatedByType = "User" | "Application" | "ManagedIdentity" | "Key";
@@ -100,17 +101,17 @@ export type SystemDataLastModifiedByType = "User" | "Application" | "ManagedIden
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface SystemData {
   /** The identity that created the resource. */
-  createdBy?: string | null;
+  createdBy?: string | null | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: SystemDataCreatedByType | null;
+  createdByType?: SystemDataCreatedByType | null | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string | null;
+  createdAt?: string | null | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string | null;
+  lastModifiedBy?: string | null | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: SystemDataLastModifiedByType | null;
+  lastModifiedByType?: SystemDataLastModifiedByType | null | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string | null;
+  lastModifiedAt?: string | null | undefined;
 }
 /** The provisioning state. */
 export type DigitalTwinsPropertiesProvisioningState =
@@ -134,7 +135,7 @@ export type ConnectionPropertiesProvisioningState =
 /** The private endpoint property of a private endpoint connection. */
 export interface PrivateEndpoint {
   /** The resource identifier. */
-  id?: string;
+  id?: string | undefined;
 }
 /** The list of group ids for the private endpoint connection. */
 export type ConnectionPropertiesGroupIdsList = Array<string>;
@@ -147,31 +148,31 @@ export interface ConnectionState {
   /** The description for the current state of a private endpoint connection. */
   description: string;
   /** Actions required for a private endpoint connection. */
-  actionsRequired?: string;
+  actionsRequired?: string | undefined;
 }
 /** The properties of a private endpoint connection. */
 export interface ConnectionProperties {
   /** The provisioning state. */
-  provisioningState?: ConnectionPropertiesProvisioningState | null;
+  provisioningState?: ConnectionPropertiesProvisioningState | null | undefined;
   /** The private endpoint. */
-  privateEndpoint?: PrivateEndpoint;
+  privateEndpoint?: PrivateEndpoint | undefined;
   /** The list of group ids for the private endpoint connection. */
-  groupIds?: ConnectionPropertiesGroupIdsList;
+  groupIds?: ConnectionPropertiesGroupIdsList | undefined;
   /** The connection state. */
-  privateLinkServiceConnectionState?: ConnectionState;
+  privateLinkServiceConnectionState?: ConnectionState | undefined;
 }
 /** The private endpoint connection of a Digital Twin. */
 export interface PrivateEndpointConnection {
   /** The resource identifier. */
-  id?: string;
+  id?: string | undefined;
   /** The resource name. */
-  name?: string;
+  name?: string | undefined;
   /** The resource type. */
-  type?: string;
+  type?: string | undefined;
   /** The connection properties. */
   properties: ConnectionProperties;
   /** Metadata pertaining to creation and last modification of the private endpoint connection. */
-  systemData?: SystemData | null;
+  systemData?: SystemData | null | undefined;
 }
 /** The private endpoint connections. */
 export type DigitalTwinsPropertiesPrivateEndpointConnectionsList = Array<PrivateEndpointConnection>;
@@ -180,35 +181,38 @@ export type DigitalTwinsPropertiesPublicNetworkAccess = "Enabled" | "Disabled";
 /** The properties of a DigitalTwinsInstance. */
 export interface DigitalTwinsProperties {
   /** Time when DigitalTwinsInstance was created. */
-  createdTime?: string;
+  createdTime?: string | undefined;
   /** Time when DigitalTwinsInstance was updated. */
-  lastUpdatedTime?: string;
+  lastUpdatedTime?: string | undefined;
   /** The provisioning state. */
-  provisioningState?: DigitalTwinsPropertiesProvisioningState;
+  provisioningState?: DigitalTwinsPropertiesProvisioningState | undefined;
   /** Api endpoint to work with DigitalTwinsInstance. */
-  hostName?: string | null;
+  hostName?: string | null | undefined;
   /** The private endpoint connections. */
-  privateEndpointConnections?: DigitalTwinsPropertiesPrivateEndpointConnectionsList | null;
+  privateEndpointConnections?:
+    | DigitalTwinsPropertiesPrivateEndpointConnectionsList
+    | null
+    | undefined;
   /** Public network access for the DigitalTwinsInstance. */
-  publicNetworkAccess?: DigitalTwinsPropertiesPublicNetworkAccess | null;
+  publicNetworkAccess?: DigitalTwinsPropertiesPublicNetworkAccess | null | undefined;
 }
 export interface DeleteDigitalTwinResponse {
   /** The resource identifier. */
-  id?: string;
+  id?: string | undefined;
   /** The resource name. */
-  name?: string;
+  name?: string | undefined;
   /** The resource type. */
-  type?: string;
+  type?: string | undefined;
   /** The resource location. */
   location: string;
   /** The resource tags. */
-  tags?: DeleteDigitalTwinResponseTagsMap | null;
+  tags?: DeleteDigitalTwinResponseTagsMap | null | undefined;
   /** The managed identity for the DigitalTwinsInstance. */
-  identity?: DigitalTwinsIdentity | null;
+  identity?: DigitalTwinsIdentity | null | undefined;
   /** Metadata pertaining to creation and last modification of the DigitalTwinsInstance. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** DigitalTwins instance properties. */
-  properties?: DigitalTwinsProperties;
+  properties?: DigitalTwinsProperties | undefined;
 }
 export interface DeleteDigitalTwinsEndpointRequest {
   /** The subscription identifier. */
@@ -246,54 +250,54 @@ export type ManagedIdentityReferenceType = "SystemAssigned" | "UserAssigned";
 /** The properties of the Managed Identity. */
 export interface ManagedIdentityReference {
   /** The type of managed identity used. */
-  type?: ManagedIdentityReferenceType | (string & {});
+  type?: ManagedIdentityReferenceType | (string & {}) | undefined;
   /** The user identity ARM resource id if the managed identity type is 'UserAssigned'. */
-  userAssignedIdentity?: string | null;
+  userAssignedIdentity?: string | null | undefined;
 }
 /** Properties related to Digital Twins Endpoint */
 export interface DigitalTwinsEndpointResourceProperties {
   /** The type of Digital Twins endpoint */
   endpointType: DigitalTwinsEndpointResourcePropertiesEndpointType;
   /** The provisioning state. */
-  provisioningState?: DigitalTwinsEndpointResourcePropertiesProvisioningState | null;
+  provisioningState?: DigitalTwinsEndpointResourcePropertiesProvisioningState | null | undefined;
   /** Time when the Endpoint was added to DigitalTwinsInstance. */
-  createdTime?: string | null;
+  createdTime?: string | null | undefined;
   /** Specifies the authentication type being used for connecting to the endpoint. Defaults to 'KeyBased'. If 'KeyBased' is selected, a connection string must be specified (at least the primary connection string). If 'IdentityBased' is select, the endpointUri and entityPath properties must be specified. */
-  authenticationType?: DigitalTwinsEndpointResourcePropertiesAuthenticationType;
+  authenticationType?: DigitalTwinsEndpointResourcePropertiesAuthenticationType | undefined;
   /** Dead letter storage secret for key-based authentication. Will be obfuscated during read. */
-  deadLetterSecret?: string | null;
+  deadLetterSecret?: string | null | undefined;
   /** Dead letter storage URL for identity-based authentication. */
-  deadLetterUri?: string | null;
+  deadLetterUri?: string | null | undefined;
   /** Managed identity properties for the endpoint. */
-  identity?: ManagedIdentityReference | null;
+  identity?: ManagedIdentityReference | null | undefined;
   /** EventHub (KeyBased): primary connection string. */
-  connectionStringPrimaryKey?: string | null;
+  connectionStringPrimaryKey?: string | null | undefined;
   /** EventHub (KeyBased): secondary connection string. */
-  connectionStringSecondaryKey?: string | null;
+  connectionStringSecondaryKey?: string | null | undefined;
   /** ServiceBus (KeyBased): primary connection string. */
-  primaryConnectionString?: string | null;
+  primaryConnectionString?: string | null | undefined;
   /** ServiceBus (KeyBased): secondary connection string. */
-  secondaryConnectionString?: string | null;
+  secondaryConnectionString?: string | null | undefined;
   /** EventHub/ServiceBus (IdentityBased): the URL of the namespace, e.g. sb://<namespace>.servicebus.windows.net. */
-  endpointUri?: string | null;
+  endpointUri?: string | null | undefined;
   /** EventHub/ServiceBus (IdentityBased): the event hub, queue, or topic name. */
-  entityPath?: string | null;
+  entityPath?: string | null | undefined;
   /** EventGrid: the topic endpoint URL. */
-  TopicEndpoint?: string | null;
+  TopicEndpoint?: string | null | undefined;
   /** EventGrid: primary access key. Obfuscated on read. */
-  accessKey1?: string | null;
+  accessKey1?: string | null | undefined;
   /** EventGrid: secondary access key. Obfuscated on read. */
-  accessKey2?: string | null;
+  accessKey2?: string | null | undefined;
 }
 export interface DeleteDigitalTwinsEndpointResponse {
   /** The resource identifier. */
-  id?: string;
+  id?: string | undefined;
   /** Extension resource name. */
-  name?: string;
+  name?: string | undefined;
   /** The resource type. */
-  type?: string;
+  type?: string | undefined;
   /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** DigitalTwinsInstance endpoint resource properties. */
   properties: DigitalTwinsEndpointResourceProperties;
 }
@@ -318,7 +322,7 @@ export interface DeleteTimeSeriesDatabaseConnectionRequest {
   /** Name of time series database connection. */
   timeSeriesDatabaseConnectionName: string;
   /** Specifies whether or not to attempt to clean up artifacts that were created in order to establish a connection to the time series database. This is a best-effort attempt that will fail if appropriate permissions are not in place. Setting this to 'true' does not delete any recorded data. */
-  cleanupConnectionArtifacts?: boolean;
+  cleanupConnectionArtifacts?: boolean | undefined;
 }
 /** The type of time series connection resource. */
 export type TimeSeriesDatabaseConnectionPropertiesConnectionType = "AzureDataExplorer";
@@ -341,43 +345,43 @@ export interface TimeSeriesDatabaseConnectionProperties {
   /** The type of time series connection resource. */
   connectionType: TimeSeriesDatabaseConnectionPropertiesConnectionType;
   /** The provisioning state. */
-  provisioningState?: TimeSeriesDatabaseConnectionPropertiesProvisioningState;
+  provisioningState?: TimeSeriesDatabaseConnectionPropertiesProvisioningState | undefined;
   /** Managed identity properties for the time series database connection resource. */
-  identity?: ManagedIdentityReference | null;
+  identity?: ManagedIdentityReference | null | undefined;
   /** The resource ID of the Azure Data Explorer cluster. */
-  adxResourceId?: string | null;
+  adxResourceId?: string | null | undefined;
   /** The URI of the Azure Data Explorer cluster, e.g. https://<cluster>.<region>.kusto.windows.net. */
-  adxEndpointUri?: string | null;
+  adxEndpointUri?: string | null | undefined;
   /** The name of the Azure Data Explorer database. */
-  adxDatabaseName?: string | null;
+  adxDatabaseName?: string | null | undefined;
   /** The name of the Azure Data Explorer table used for storing updates to properties of twins and relationships. Defaults to AdtPropertyEvents. */
-  adxTableName?: string | null;
+  adxTableName?: string | null | undefined;
   /** The name of the Azure Data Explorer table used for recording twin lifecycle events. The table will not be created if this property is left unspecified. */
-  adxTwinLifecycleEventsTableName?: string | null;
+  adxTwinLifecycleEventsTableName?: string | null | undefined;
   /** The name of the Azure Data Explorer table used for recording relationship lifecycle events. The table will not be created if this property is left unspecified. */
-  adxRelationshipLifecycleEventsTableName?: string | null;
+  adxRelationshipLifecycleEventsTableName?: string | null | undefined;
   /** The URL of the EventHub namespace for identity-based authentication, e.g. sb://<namespace>.servicebus.windows.net. */
-  eventHubEndpointUri?: string | null;
+  eventHubEndpointUri?: string | null | undefined;
   /** The EventHub name in the EventHub namespace for identity-based authentication. */
-  eventHubEntityPath?: string | null;
+  eventHubEntityPath?: string | null | undefined;
   /** The resource ID of the EventHub namespace. */
-  eventHubNamespaceResourceId?: string | null;
+  eventHubNamespaceResourceId?: string | null | undefined;
   /** The EventHub consumer group to use when ADX reads from EventHub. Defaults to $Default. */
-  eventHubConsumerGroup?: string | null;
+  eventHubConsumerGroup?: string | null | undefined;
   /** Whether to record property and item removals ('true' / 'false'). Defaults to 'false'. */
-  recordPropertyAndItemRemovals?: string | null;
+  recordPropertyAndItemRemovals?: string | null | undefined;
 }
 export interface DeleteTimeSeriesDatabaseConnectionResponse {
   /** The resource identifier. */
-  id?: string;
+  id?: string | undefined;
   /** Extension resource name. */
-  name?: string;
+  name?: string | undefined;
   /** The resource type. */
-  type?: string;
+  type?: string | undefined;
   /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Properties of a specific time series database connection. */
-  properties?: TimeSeriesDatabaseConnectionProperties;
+  properties?: TimeSeriesDatabaseConnectionProperties | undefined;
 }
 /** The resource tags. */
 export type DigitalTwinsCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
@@ -396,9 +400,9 @@ export type DigitalTwinsIdentityInputUserAssignedIdentitiesMap = {
 /** The managed identity for the DigitalTwinsInstance. */
 export interface DigitalTwinsIdentityInput {
   /** The type of Managed Identity used by the DigitalTwinsInstance. */
-  type?: DigitalTwinsIdentityInputType | (string & {});
+  type?: DigitalTwinsIdentityInputType | (string & {}) | undefined;
   /** The list of user identities associated with the resource. The user identity dictionary key references will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'. . */
-  userAssignedIdentities?: DigitalTwinsIdentityInputUserAssignedIdentitiesMap | null;
+  userAssignedIdentities?: DigitalTwinsIdentityInputUserAssignedIdentitiesMap | null | undefined;
 }
 /** The private endpoint property of a private endpoint connection. */
 export type PrivateEndpointInput = UserAssignedIdentityInput;
@@ -407,11 +411,11 @@ export type ConnectionPropertiesInputGroupIdsList = Array<string>;
 /** The properties of a private endpoint connection. */
 export interface ConnectionPropertiesInput {
   /** The private endpoint. */
-  privateEndpoint?: UserAssignedIdentityInput;
+  privateEndpoint?: UserAssignedIdentityInput | undefined;
   /** The list of group ids for the private endpoint connection. */
-  groupIds?: ConnectionPropertiesInputGroupIdsList;
+  groupIds?: ConnectionPropertiesInputGroupIdsList | undefined;
   /** The connection state. */
-  privateLinkServiceConnectionState?: ConnectionState;
+  privateLinkServiceConnectionState?: ConnectionState | undefined;
 }
 /** The private endpoint connection of a Digital Twin. */
 export interface PrivateEndpointConnectionInput {
@@ -426,9 +430,16 @@ export type DigitalTwinsPropertiesInputPublicNetworkAccess = "Enabled" | "Disabl
 /** The properties of a DigitalTwinsInstance. */
 export interface DigitalTwinsPropertiesInput {
   /** The private endpoint connections. */
-  privateEndpointConnections?: DigitalTwinsPropertiesInputPrivateEndpointConnectionsList | null;
+  privateEndpointConnections?:
+    | DigitalTwinsPropertiesInputPrivateEndpointConnectionsList
+    | null
+    | undefined;
   /** Public network access for the DigitalTwinsInstance. */
-  publicNetworkAccess?: DigitalTwinsPropertiesInputPublicNetworkAccess | (string & {}) | null;
+  publicNetworkAccess?:
+    | DigitalTwinsPropertiesInputPublicNetworkAccess
+    | (string & {})
+    | null
+    | undefined;
 }
 export interface DigitalTwinsCreateOrUpdateRequest {
   /** The subscription identifier. */
@@ -440,31 +451,31 @@ export interface DigitalTwinsCreateOrUpdateRequest {
   /** The resource location. */
   location: string;
   /** The resource tags. */
-  tags?: DigitalTwinsCreateOrUpdateRequestTagsMap | null;
+  tags?: DigitalTwinsCreateOrUpdateRequestTagsMap | null | undefined;
   /** The managed identity for the DigitalTwinsInstance. */
-  identity?: DigitalTwinsIdentityInput | null;
+  identity?: DigitalTwinsIdentityInput | null | undefined;
   /** DigitalTwins instance properties. */
-  properties?: DigitalTwinsPropertiesInput;
+  properties?: DigitalTwinsPropertiesInput | undefined;
 }
 /** The resource tags. */
 export type DigitalTwinsCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
 export interface DigitalTwinsCreateOrUpdateResponse {
   /** The resource identifier. */
-  id?: string;
+  id?: string | undefined;
   /** The resource name. */
-  name?: string;
+  name?: string | undefined;
   /** The resource type. */
-  type?: string;
+  type?: string | undefined;
   /** The resource location. */
   location: string;
   /** The resource tags. */
-  tags?: DigitalTwinsCreateOrUpdateResponseTagsMap | null;
+  tags?: DigitalTwinsCreateOrUpdateResponseTagsMap | null | undefined;
   /** The managed identity for the DigitalTwinsInstance. */
-  identity?: DigitalTwinsIdentity | null;
+  identity?: DigitalTwinsIdentity | null | undefined;
   /** Metadata pertaining to creation and last modification of the DigitalTwinsInstance. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** DigitalTwins instance properties. */
-  properties?: DigitalTwinsProperties;
+  properties?: DigitalTwinsProperties | undefined;
 }
 /** The type of Digital Twins endpoint */
 export type DigitalTwinsEndpointResourcePropertiesInputEndpointType =
@@ -482,31 +493,32 @@ export interface DigitalTwinsEndpointResourcePropertiesInput {
   /** Specifies the authentication type being used for connecting to the endpoint. Defaults to 'KeyBased'. If 'KeyBased' is selected, a connection string must be specified (at least the primary connection string). If 'IdentityBased' is select, the endpointUri and entityPath properties must be specified. */
   authenticationType?:
     | DigitalTwinsEndpointResourcePropertiesInputAuthenticationType
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** Dead letter storage secret for key-based authentication. Will be obfuscated during read. */
-  deadLetterSecret?: string | null;
+  deadLetterSecret?: string | null | undefined;
   /** Dead letter storage URL for identity-based authentication. */
-  deadLetterUri?: string | null;
+  deadLetterUri?: string | null | undefined;
   /** Managed identity properties for the endpoint. */
-  identity?: ManagedIdentityReference | null;
+  identity?: ManagedIdentityReference | null | undefined;
   /** EventHub (KeyBased): primary connection string. */
-  connectionStringPrimaryKey?: string | null;
+  connectionStringPrimaryKey?: string | null | undefined;
   /** EventHub (KeyBased): secondary connection string. */
-  connectionStringSecondaryKey?: string | null;
+  connectionStringSecondaryKey?: string | null | undefined;
   /** ServiceBus (KeyBased): primary connection string. */
-  primaryConnectionString?: string | null;
+  primaryConnectionString?: string | null | undefined;
   /** ServiceBus (KeyBased): secondary connection string. */
-  secondaryConnectionString?: string | null;
+  secondaryConnectionString?: string | null | undefined;
   /** EventHub/ServiceBus (IdentityBased): the URL of the namespace, e.g. sb://<namespace>.servicebus.windows.net. */
-  endpointUri?: string | null;
+  endpointUri?: string | null | undefined;
   /** EventHub/ServiceBus (IdentityBased): the event hub, queue, or topic name. */
-  entityPath?: string | null;
+  entityPath?: string | null | undefined;
   /** EventGrid: the topic endpoint URL. */
-  TopicEndpoint?: string | null;
+  TopicEndpoint?: string | null | undefined;
   /** EventGrid: primary access key. Obfuscated on read. */
-  accessKey1?: string | null;
+  accessKey1?: string | null | undefined;
   /** EventGrid: secondary access key. Obfuscated on read. */
-  accessKey2?: string | null;
+  accessKey2?: string | null | undefined;
 }
 export interface DigitalTwinsEndpointCreateOrUpdateRequest {
   /** The subscription identifier. */
@@ -522,13 +534,13 @@ export interface DigitalTwinsEndpointCreateOrUpdateRequest {
 }
 export interface DigitalTwinsEndpointCreateOrUpdateResponse {
   /** The resource identifier. */
-  id?: string;
+  id?: string | undefined;
   /** Extension resource name. */
-  name?: string;
+  name?: string | undefined;
   /** The resource type. */
-  type?: string;
+  type?: string | undefined;
   /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** DigitalTwinsInstance endpoint resource properties. */
   properties: DigitalTwinsEndpointResourceProperties;
 }
@@ -544,21 +556,21 @@ export interface GetDigitalTwinRequest {
 export type GetDigitalTwinResponseTagsMap = { [key: string]: string | undefined };
 export interface GetDigitalTwinResponse {
   /** The resource identifier. */
-  id?: string;
+  id?: string | undefined;
   /** The resource name. */
-  name?: string;
+  name?: string | undefined;
   /** The resource type. */
-  type?: string;
+  type?: string | undefined;
   /** The resource location. */
   location: string;
   /** The resource tags. */
-  tags?: GetDigitalTwinResponseTagsMap | null;
+  tags?: GetDigitalTwinResponseTagsMap | null | undefined;
   /** The managed identity for the DigitalTwinsInstance. */
-  identity?: DigitalTwinsIdentity | null;
+  identity?: DigitalTwinsIdentity | null | undefined;
   /** Metadata pertaining to creation and last modification of the DigitalTwinsInstance. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** DigitalTwins instance properties. */
-  properties?: DigitalTwinsProperties;
+  properties?: DigitalTwinsProperties | undefined;
 }
 export interface GetDigitalTwinsEndpointRequest {
   /** The subscription identifier. */
@@ -572,13 +584,13 @@ export interface GetDigitalTwinsEndpointRequest {
 }
 export interface GetDigitalTwinsEndpointResponse {
   /** The resource identifier. */
-  id?: string;
+  id?: string | undefined;
   /** Extension resource name. */
-  name?: string;
+  name?: string | undefined;
   /** The resource type. */
-  type?: string;
+  type?: string | undefined;
   /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** DigitalTwinsInstance endpoint resource properties. */
   properties: DigitalTwinsEndpointResourceProperties;
 }
@@ -609,22 +621,22 @@ export type GroupIdInformationPropertiesRequiredZoneNamesList = Array<string>;
 /** The properties for a group information object. */
 export interface GroupIdInformationProperties {
   /** The group id. */
-  groupId?: string;
+  groupId?: string | undefined;
   /** The required members for a specific group id. */
-  requiredMembers?: GroupIdInformationPropertiesRequiredMembersList;
+  requiredMembers?: GroupIdInformationPropertiesRequiredMembersList | undefined;
   /** The required DNS zones for a specific group id. */
-  requiredZoneNames?: GroupIdInformationPropertiesRequiredZoneNamesList;
+  requiredZoneNames?: GroupIdInformationPropertiesRequiredZoneNamesList | undefined;
 }
 /** The group information for creating a private endpoint on Digital Twin. */
 export interface GroupIdInformation {
   /** The group information properties. */
   properties: GroupIdInformationProperties;
   /** The resource identifier. */
-  id?: string;
+  id?: string | undefined;
   /** The resource name. */
-  name?: string;
+  name?: string | undefined;
   /** The resource type. */
-  type?: string;
+  type?: string | undefined;
 }
 export interface GetTimeSeriesDatabaseConnectionRequest {
   /** The subscription identifier. */
@@ -638,15 +650,15 @@ export interface GetTimeSeriesDatabaseConnectionRequest {
 }
 export interface GetTimeSeriesDatabaseConnectionResponse {
   /** The resource identifier. */
-  id?: string;
+  id?: string | undefined;
   /** Extension resource name. */
-  name?: string;
+  name?: string | undefined;
   /** The resource type. */
-  type?: string;
+  type?: string | undefined;
   /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Properties of a specific time series database connection. */
-  properties?: TimeSeriesDatabaseConnectionProperties;
+  properties?: TimeSeriesDatabaseConnectionProperties | undefined;
 }
 export interface ListDigitalTwinByResourceGroupRequest {
   /** The subscription identifier. */
@@ -659,30 +671,30 @@ export type DigitalTwinsDescriptionTagsMap = { [key: string]: string | undefined
 /** The description of the DigitalTwins service. */
 export interface DigitalTwinsDescription {
   /** The resource identifier. */
-  id?: string;
+  id?: string | undefined;
   /** The resource name. */
-  name?: string;
+  name?: string | undefined;
   /** The resource type. */
-  type?: string;
+  type?: string | undefined;
   /** The resource location. */
   location: string;
   /** The resource tags. */
-  tags?: DigitalTwinsDescriptionTagsMap | null;
+  tags?: DigitalTwinsDescriptionTagsMap | null | undefined;
   /** The managed identity for the DigitalTwinsInstance. */
-  identity?: DigitalTwinsIdentity | null;
+  identity?: DigitalTwinsIdentity | null | undefined;
   /** Metadata pertaining to creation and last modification of the DigitalTwinsInstance. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** DigitalTwins instance properties. */
-  properties?: DigitalTwinsProperties;
+  properties?: DigitalTwinsProperties | undefined;
 }
 /** A list of DigitalTwins description objects. */
 export type DigitalTwinsDescriptionListResultValueList = Array<DigitalTwinsDescription>;
 /** A list of DigitalTwins description objects with a next link. */
 export interface DigitalTwinsDescriptionListResult {
   /** The link used to get the next page of DigitalTwins description objects. */
-  nextLink?: string | null;
+  nextLink?: string | null | undefined;
   /** A list of DigitalTwins description objects. */
-  value?: DigitalTwinsDescriptionListResultValueList;
+  value?: DigitalTwinsDescriptionListResultValueList | undefined;
 }
 export interface ListDigitalTwinsRequest {
   /** The subscription identifier. */
@@ -699,13 +711,13 @@ export interface ListDigitalTwinsEndpointRequest {
 /** DigitalTwinsInstance endpoint resource. */
 export interface DigitalTwinsEndpointResource {
   /** The resource identifier. */
-  id?: string;
+  id?: string | undefined;
   /** Extension resource name. */
-  name?: string;
+  name?: string | undefined;
   /** The resource type. */
-  type?: string;
+  type?: string | undefined;
   /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** DigitalTwinsInstance endpoint resource properties. */
   properties: DigitalTwinsEndpointResourceProperties;
 }
@@ -714,45 +726,45 @@ export type DigitalTwinsEndpointResourceListResultValueList = Array<DigitalTwins
 /** A list of DigitalTwinsInstance Endpoints with a next link. */
 export interface DigitalTwinsEndpointResourceListResult {
   /** The link used to get the next page of DigitalTwinsInstance Endpoints. */
-  nextLink?: string | null;
+  nextLink?: string | null | undefined;
   /** A list of DigitalTwinsInstance Endpoints. */
-  value?: DigitalTwinsEndpointResourceListResultValueList;
+  value?: DigitalTwinsEndpointResourceListResultValueList | undefined;
 }
 export interface ListOperationsRequest {}
 /** The object that represents the operation. */
 export interface OperationDisplay {
   /** Service provider: Microsoft DigitalTwins. */
-  provider?: string;
+  provider?: string | undefined;
   /** Resource Type: DigitalTwinsInstances. */
-  resource?: string;
+  resource?: string | undefined;
   /** Name of the operation. */
-  operation?: string;
+  operation?: string | undefined;
   /** Friendly description for the operation. */
-  description?: string;
+  description?: string | undefined;
 }
 /** Operation properties. */
 export type OperationPropertiesMap = { [key: string]: unknown | undefined };
 /** DigitalTwins service REST API operation */
 export interface Operation {
   /** Operation name: {provider}/{resource}/{read | write | action | delete} */
-  name?: string;
+  name?: string | undefined;
   /** Operation properties display */
-  display?: OperationDisplay;
+  display?: OperationDisplay | undefined;
   /** The intended executor of the operation. */
-  origin?: string | null;
+  origin?: string | null | undefined;
   /** If the operation is a data action (for data plane rbac). */
-  isDataAction?: boolean;
+  isDataAction?: boolean | undefined;
   /** Operation properties. */
-  properties?: OperationPropertiesMap | null;
+  properties?: OperationPropertiesMap | null | undefined;
 }
 /** A list of DigitalTwins operations supported by the Microsoft.DigitalTwins resource provider. */
 export type OperationListResultValueList = Array<Operation>;
 /** A list of DigitalTwins service operations. It contains a list of operations and a URL link to get the next set of results. */
 export interface OperationListResult {
   /** The link used to get the next page of DigitalTwins description objects. */
-  nextLink?: string | null;
+  nextLink?: string | null | undefined;
   /** A list of DigitalTwins operations supported by the Microsoft.DigitalTwins resource provider. */
-  value?: OperationListResultValueList;
+  value?: OperationListResultValueList | undefined;
 }
 export interface ListPrivateEndpointConnectionsRequest {
   /** The subscription identifier. */
@@ -767,7 +779,7 @@ export type PrivateEndpointConnectionsResponseValueList = Array<PrivateEndpointC
 /** The available private link connections for a Digital Twin. */
 export interface PrivateEndpointConnectionsResponse {
   /** The list of available private link connections for a Digital Twin. */
-  value?: PrivateEndpointConnectionsResponseValueList;
+  value?: PrivateEndpointConnectionsResponseValueList | undefined;
 }
 export interface ListPrivateLinkResourcesRequest {
   /** The subscription identifier. */
@@ -782,7 +794,7 @@ export type GroupIdInformationResponseValueList = Array<GroupIdInformation>;
 /** The available private link resources for a Digital Twin. */
 export interface GroupIdInformationResponse {
   /** The list of available private link resources for a Digital Twin. */
-  value?: GroupIdInformationResponseValueList;
+  value?: GroupIdInformationResponseValueList | undefined;
 }
 export interface ListTimeSeriesDatabaseConnectionsRequest {
   /** The subscription identifier. */
@@ -795,24 +807,24 @@ export interface ListTimeSeriesDatabaseConnectionsRequest {
 /** Describes a time series database connection resource. */
 export interface TimeSeriesDatabaseConnection {
   /** The resource identifier. */
-  id?: string;
+  id?: string | undefined;
   /** Extension resource name. */
-  name?: string;
+  name?: string | undefined;
   /** The resource type. */
-  type?: string;
+  type?: string | undefined;
   /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Properties of a specific time series database connection. */
-  properties?: TimeSeriesDatabaseConnectionProperties;
+  properties?: TimeSeriesDatabaseConnectionProperties | undefined;
 }
 /** A list of time series database connection resources. */
 export type TimeSeriesDatabaseConnectionListResultValueList = Array<TimeSeriesDatabaseConnection>;
 /** A pageable list of time series database connection resources. */
 export interface TimeSeriesDatabaseConnectionListResult {
   /** The link used to get the next page of results. */
-  nextLink?: string | null;
+  nextLink?: string | null | undefined;
   /** A list of time series database connection resources. */
-  value?: TimeSeriesDatabaseConnectionListResultValueList;
+  value?: TimeSeriesDatabaseConnectionListResultValueList | undefined;
 }
 export interface PrivateEndpointConnectionsCreateOrUpdateRequest {
   /** The subscription identifier. */
@@ -833,29 +845,29 @@ export interface TimeSeriesDatabaseConnectionPropertiesInput {
   /** The type of time series connection resource. */
   connectionType: TimeSeriesDatabaseConnectionPropertiesInputConnectionType | (string & {});
   /** Managed identity properties for the time series database connection resource. */
-  identity?: ManagedIdentityReference | null;
+  identity?: ManagedIdentityReference | null | undefined;
   /** The resource ID of the Azure Data Explorer cluster. */
-  adxResourceId?: string | null;
+  adxResourceId?: string | null | undefined;
   /** The URI of the Azure Data Explorer cluster, e.g. https://<cluster>.<region>.kusto.windows.net. */
-  adxEndpointUri?: string | null;
+  adxEndpointUri?: string | null | undefined;
   /** The name of the Azure Data Explorer database. */
-  adxDatabaseName?: string | null;
+  adxDatabaseName?: string | null | undefined;
   /** The name of the Azure Data Explorer table used for storing updates to properties of twins and relationships. Defaults to AdtPropertyEvents. */
-  adxTableName?: string | null;
+  adxTableName?: string | null | undefined;
   /** The name of the Azure Data Explorer table used for recording twin lifecycle events. The table will not be created if this property is left unspecified. */
-  adxTwinLifecycleEventsTableName?: string | null;
+  adxTwinLifecycleEventsTableName?: string | null | undefined;
   /** The name of the Azure Data Explorer table used for recording relationship lifecycle events. The table will not be created if this property is left unspecified. */
-  adxRelationshipLifecycleEventsTableName?: string | null;
+  adxRelationshipLifecycleEventsTableName?: string | null | undefined;
   /** The URL of the EventHub namespace for identity-based authentication, e.g. sb://<namespace>.servicebus.windows.net. */
-  eventHubEndpointUri?: string | null;
+  eventHubEndpointUri?: string | null | undefined;
   /** The EventHub name in the EventHub namespace for identity-based authentication. */
-  eventHubEntityPath?: string | null;
+  eventHubEntityPath?: string | null | undefined;
   /** The resource ID of the EventHub namespace. */
-  eventHubNamespaceResourceId?: string | null;
+  eventHubNamespaceResourceId?: string | null | undefined;
   /** The EventHub consumer group to use when ADX reads from EventHub. Defaults to $Default. */
-  eventHubConsumerGroup?: string | null;
+  eventHubConsumerGroup?: string | null | undefined;
   /** Whether to record property and item removals ('true' / 'false'). Defaults to 'false'. */
-  recordPropertyAndItemRemovals?: string | null;
+  recordPropertyAndItemRemovals?: string | null | undefined;
 }
 export interface TimeSeriesDatabaseConnectionsCreateOrUpdateRequest {
   /** The subscription identifier. */
@@ -867,19 +879,19 @@ export interface TimeSeriesDatabaseConnectionsCreateOrUpdateRequest {
   /** Name of time series database connection. */
   timeSeriesDatabaseConnectionName: string;
   /** Properties of a specific time series database connection. */
-  properties?: TimeSeriesDatabaseConnectionPropertiesInput;
+  properties?: TimeSeriesDatabaseConnectionPropertiesInput | undefined;
 }
 export interface TimeSeriesDatabaseConnectionsCreateOrUpdateResponse {
   /** The resource identifier. */
-  id?: string;
+  id?: string | undefined;
   /** Extension resource name. */
-  name?: string;
+  name?: string | undefined;
   /** The resource type. */
-  type?: string;
+  type?: string | undefined;
   /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Properties of a specific time series database connection. */
-  properties?: TimeSeriesDatabaseConnectionProperties;
+  properties?: TimeSeriesDatabaseConnectionProperties | undefined;
 }
 /** Instance patch properties */
 export type UpdateDigitalTwinRequestTagsMap = { [key: string]: string | undefined };
@@ -888,7 +900,11 @@ export type DigitalTwinsPatchPropertiesPublicNetworkAccess = "Enabled" | "Disabl
 /** The properties of a DigitalTwinsInstance. */
 export interface DigitalTwinsPatchProperties {
   /** Public network access for the DigitalTwinsInstance. */
-  publicNetworkAccess?: DigitalTwinsPatchPropertiesPublicNetworkAccess | (string & {}) | null;
+  publicNetworkAccess?:
+    | DigitalTwinsPatchPropertiesPublicNetworkAccess
+    | (string & {})
+    | null
+    | undefined;
 }
 export interface UpdateDigitalTwinRequest {
   /** The subscription identifier. */
@@ -898,31 +914,31 @@ export interface UpdateDigitalTwinRequest {
   /** The name of the DigitalTwinsInstance. */
   resourceName: string;
   /** Instance patch properties */
-  tags?: UpdateDigitalTwinRequestTagsMap | null;
+  tags?: UpdateDigitalTwinRequestTagsMap | null | undefined;
   /** The managed identity for the DigitalTwinsInstance. */
-  identity?: DigitalTwinsIdentityInput | null;
+  identity?: DigitalTwinsIdentityInput | null | undefined;
   /** Properties for the DigitalTwinsInstance. */
-  properties?: DigitalTwinsPatchProperties | null;
+  properties?: DigitalTwinsPatchProperties | null | undefined;
 }
 /** The resource tags. */
 export type UpdateDigitalTwinResponseTagsMap = { [key: string]: string | undefined };
 export interface UpdateDigitalTwinResponse {
   /** The resource identifier. */
-  id?: string;
+  id?: string | undefined;
   /** The resource name. */
-  name?: string;
+  name?: string | undefined;
   /** The resource type. */
-  type?: string;
+  type?: string | undefined;
   /** The resource location. */
   location: string;
   /** The resource tags. */
-  tags?: UpdateDigitalTwinResponseTagsMap | null;
+  tags?: UpdateDigitalTwinResponseTagsMap | null | undefined;
   /** The managed identity for the DigitalTwinsInstance. */
-  identity?: DigitalTwinsIdentity | null;
+  identity?: DigitalTwinsIdentity | null | undefined;
   /** Metadata pertaining to creation and last modification of the DigitalTwinsInstance. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** DigitalTwins instance properties. */
-  properties?: DigitalTwinsProperties;
+  properties?: DigitalTwinsProperties | undefined;
 }
 export type CheckDigitalTwinNameAvailabilityError = AzureOpError;
 /** Check if a DigitalTwinsInstance name is available. */

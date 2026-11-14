@@ -28,6 +28,7 @@ const TELEMETRY = {
   prefix: "Devopsinfrastructure",
   service: "Devopsinfrastructure",
   labels: "azure",
+  labelNames: { resourceGroupName: "azure.resource_group.name" },
   propagate: "w3c",
 } as const;
 
@@ -66,9 +67,9 @@ export interface DeletePoolRequest {
 }
 export interface DeletePoolResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** List of resource IDs to delete. */
 export type DeletePoolResourcesRequestResourceIdsList = Array<string>;
@@ -98,17 +99,17 @@ export type SystemDataLastModifiedByType = "User" | "Application" | "ManagedIden
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface SystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: SystemDataCreatedByType;
+  createdByType?: SystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: SystemDataLastModifiedByType;
+  lastModifiedByType?: SystemDataLastModifiedByType | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 /** Resource tags. */
 export type GetPoolResponseTagsMap = { [key: string]: string | undefined };
@@ -128,20 +129,20 @@ export interface AzureDevOpsPermissionProfile {
   /** Determines who has admin permissions to the Azure DevOps pool (CreatorOnly, Inherit, SpecificAccounts). */
   kind: string;
   /** User email addresses. */
-  users?: PoolStringList;
+  users?: PoolStringList | undefined;
   /** Group email addresses. */
-  groups?: PoolStringList;
+  groups?: PoolStringList | undefined;
 }
 /** Defines the organization in which the pool will be used. */
 export interface OrganizationProfile {
   /** Discriminator property for OrganizationProfile. */
   kind: string;
   /** AzureDevOps: list of {url, projects?, parallelism?, openAccess?}; GitHub: list of {url, repositories?}. */
-  organizations?: unknown;
+  organizations?: unknown | undefined;
   /** AzureDevOps only: the type of permission which determines which accounts are admins on the pool. */
-  permissionProfile?: AzureDevOpsPermissionProfile;
+  permissionProfile?: AzureDevOpsPermissionProfile | undefined;
   /** AzureDevOps only: an alias to reference the pool by. */
-  alias?: string;
+  alias?: string | undefined;
 }
 /** Determines how the stand-by scheme should be provided. */
 export type ResourcePredictionsProfileType = "Manual" | "Automatic";
@@ -150,20 +151,20 @@ export interface ResourcePredictionsProfile {
   /** Determines how the stand-by scheme should be provided. */
   kind: ResourcePredictionsProfileType | (string & {});
   /** Automatic only: determines the balance between cost and performance (Balanced, MostCostEffective, MoreCostEffective, MorePerformance, BestPerformance). */
-  predictionPreference?: string;
+  predictionPreference?: string | undefined;
 }
 /** The agent profile of the machines in the pool. */
 export interface AgentProfile {
   /** Discriminator property for AgentProfile. */
   kind: string;
   /** Defines pool buffer/stand-by agents. */
-  resourcePredictions?: unknown;
+  resourcePredictions?: unknown | undefined;
   /** Defines how the pool buffer/stand-by agents is provided. */
-  resourcePredictionsProfile?: ResourcePredictionsProfile;
+  resourcePredictionsProfile?: ResourcePredictionsProfile | undefined;
   /** Stateful only: how long should stateful machines be kept around (d.hh:mm:ss). */
-  maxAgentLifetime?: string;
+  maxAgentLifetime?: string | undefined;
   /** Stateful only: how long should the machine be kept around after it ran a workload when there are no stand-by agents. */
-  gracePeriodTimeSpan?: string;
+  gracePeriodTimeSpan?: string | undefined;
 }
 /** The Azure SKU of the machines in the pool. */
 export interface DevOpsAzureSku {
@@ -173,24 +174,24 @@ export interface DevOpsAzureSku {
 /** The VM image of the machines in the pool. */
 export interface PoolImage {
   /** The resource id of the image. */
-  resourceId?: string;
+  resourceId?: string | undefined;
   /** The image to use from a well-known set of images made available to customers. */
-  wellKnownImageName?: string;
+  wellKnownImageName?: string | undefined;
   /** List of aliases to reference the image by. */
-  aliases?: PoolStringList;
+  aliases?: PoolStringList | undefined;
   /** The percentage of the buffer to be allocated to this image. */
-  buffer?: string;
+  buffer?: string | undefined;
   /** The ephemeral type of the image (Automatic, CacheDisk, ResourceDisk). */
-  ephemeralType?: string;
+  ephemeralType?: string | undefined;
 }
 /** The VM images of the machines in the pool. */
 export type PoolImageList = Array<PoolImage>;
 /** The secret management settings of the machines in the pool. */
 export interface SecretsManagementSettings {
   /** Where to store certificates on the machine. */
-  certificateStoreLocation?: string;
+  certificateStoreLocation?: string | undefined;
   /** Name of the certificate store to use on the machine (My, Root). */
-  certificateStoreName?: string;
+  certificateStoreName?: string | undefined;
   /** The list of certificates to install on all machines in the pool. */
   observedCertificates: PoolStringList;
   /** Defines if the key of installed certificates should be exportable. */
@@ -199,61 +200,61 @@ export interface SecretsManagementSettings {
 /** The OS profile of the machines in the pool. */
 export interface OsProfile {
   /** The secret management settings of the machines in the pool. */
-  secretsManagementSettings?: SecretsManagementSettings;
+  secretsManagementSettings?: SecretsManagementSettings | undefined;
   /** Determines how the service should be run (Service, Interactive). */
-  logonType?: string;
+  logonType?: string | undefined;
 }
 /** The data disk of the VMSS. */
 export interface DataDisk {
   /** The type of caching to be enabled for the data disks (None, ReadOnly, ReadWrite). */
-  caching?: string;
+  caching?: string | undefined;
   /** The initial disk size in gigabytes. */
-  diskSizeGiB?: number;
+  diskSizeGiB?: number | undefined;
   /** The storage Account type to be used for the data disk. */
-  storageAccountType?: string;
+  storageAccountType?: string | undefined;
   /** The drive letter for the empty data disk. */
-  driveLetter?: string;
+  driveLetter?: string | undefined;
 }
 /** A list of empty data disks to attach. */
 export type DataDiskList = Array<DataDisk>;
 /** The storage profile of the VMSS. */
 export interface StorageProfile {
   /** The Azure SKU name of the OS disk (Standard, Premium, StandardSSD). */
-  osDiskStorageAccountType?: string;
+  osDiskStorageAccountType?: string | undefined;
   /** A list of empty data disks to attach. */
-  dataDisks?: DataDiskList;
+  dataDisks?: DataDiskList | undefined;
 }
 /** The network profile of the machines in the pool. */
 export interface NetworkProfile {
   /** The subnet id on which to put all machines created in the pool. */
-  subnetId?: string;
+  subnetId?: string | undefined;
   /** The number of static public IP addresses for machines in the pool. */
-  staticIpAddressCount?: number;
+  staticIpAddressCount?: number | undefined;
 }
 /** Defines the type of fabric the agent will run on. */
 export interface FabricProfile {
   /** Discriminator property for FabricProfile. */
   kind: string;
   /** Vmss only: the Azure SKU of the machines in the pool. */
-  sku?: DevOpsAzureSku;
+  sku?: DevOpsAzureSku | undefined;
   /** Vmss only: the VM images of the machines in the pool. */
-  images?: PoolImageList;
+  images?: PoolImageList | undefined;
   /** Vmss only: the OS profile of the machines in the pool. */
-  osProfile?: OsProfile;
+  osProfile?: OsProfile | undefined;
   /** Vmss only: the storage profile of the machines in the pool. */
-  storageProfile?: StorageProfile;
+  storageProfile?: StorageProfile | undefined;
   /** Vmss only: the network profile of the machines in the pool. */
-  networkProfile?: NetworkProfile;
+  networkProfile?: NetworkProfile | undefined;
 }
 /** The runtime configuration of the pool. */
 export interface RuntimeConfiguration {
   /** The target work folder of the task agent on the machine. */
-  workFolder?: string;
+  workFolder?: string | undefined;
 }
 /** Pool properties */
 export interface PoolProperties {
   /** The status of the current operation. */
-  provisioningState?: ProvisioningState | (string & {});
+  provisioningState?: ProvisioningState | (string & {}) | undefined;
   /** Defines how many resources can there be created at any given time. */
   maximumConcurrency: number;
   /** Defines the organization in which the pool will be used. */
@@ -263,9 +264,9 @@ export interface PoolProperties {
   /** Defines the type of fabric the agent will run on. */
   fabricProfile: FabricProfile;
   /** The resource id of the DevCenter Project the pool belongs to. */
-  devCenterProjectResourceId?: string;
+  devCenterProjectResourceId?: string | undefined;
   /** The runtime configuration of the pool. */
-  runtimeConfiguration?: RuntimeConfiguration;
+  runtimeConfiguration?: RuntimeConfiguration | undefined;
 }
 /** Type of managed service identity (where both SystemAssigned and UserAssigned types are allowed). */
 export type ManagedServiceIdentityType =
@@ -276,9 +277,9 @@ export type ManagedServiceIdentityType =
 /** User assigned identity properties */
 export interface UserAssignedIdentity {
   /** The principal ID of the assigned identity. */
-  principalId?: string;
+  principalId?: string | undefined;
   /** The client ID of the assigned identity. */
-  clientId?: string;
+  clientId?: string | undefined;
 }
 /** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
 export type GetPoolResponseIdentityUserAssignedIdentitiesMap = {
@@ -287,30 +288,30 @@ export type GetPoolResponseIdentityUserAssignedIdentitiesMap = {
 /** Managed service identity (system assigned and/or user assigned identities) */
 export interface GetPoolResponseIdentity {
   /** The service principal ID of the system assigned identity. This property will only be provided for a system assigned identity. */
-  principalId?: string;
+  principalId?: string | undefined;
   /** The tenant ID of the system assigned identity. This property will only be provided for a system assigned identity. */
-  tenantId?: string;
+  tenantId?: string | undefined;
   type: ManagedServiceIdentityType;
   /** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
-  userAssignedIdentities?: GetPoolResponseIdentityUserAssignedIdentitiesMap;
+  userAssignedIdentities?: GetPoolResponseIdentityUserAssignedIdentitiesMap | undefined;
 }
 export interface GetPoolResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: GetPoolResponseTagsMap;
+  tags?: GetPoolResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: PoolProperties;
+  properties?: PoolProperties | undefined;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: GetPoolResponseIdentity;
+  identity?: GetPoolResponseIdentity | undefined;
 }
 export interface ListImageVersionByImageRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -328,15 +329,15 @@ export interface ImageVersionProperties {
 /** An image version object */
 export interface ImageVersion {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: ImageVersionProperties;
+  properties?: ImageVersionProperties | undefined;
 }
 /** The ImageVersion items on this page */
 export type ImageVersionListResultValueList = Array<ImageVersion>;
@@ -345,19 +346,19 @@ export interface ImageVersionListResult {
   /** The ImageVersion items on this page */
   value: ImageVersionListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListOperationsRequest {}
 /** Localized display information for this particular operation. */
 export interface OperationDisplay {
   /** The localized friendly form of the resource provider name, e.g. "Microsoft Monitoring Insights" or "Microsoft Compute". */
-  provider?: string;
+  provider?: string | undefined;
   /** The localized friendly name of the resource type related to this operation. E.g. "Virtual Machines" or "Job Schedule Collections". */
-  resource?: string;
+  resource?: string | undefined;
   /** The concise, localized friendly name for the operation; suitable for dropdowns. E.g. "Create or Update Virtual Machine", "Restart Virtual Machine". */
-  operation?: string;
+  operation?: string | undefined;
   /** The short, localized friendly description of the operation; suitable for tool tips and detailed views. */
-  description?: string;
+  description?: string | undefined;
 }
 /** The intended executor of the operation; as in Resource Based Access Control (RBAC) and audit logs UX. Default value is "user,system" */
 export type OperationOrigin = "user" | "system" | "user,system";
@@ -366,23 +367,23 @@ export type OperationActionType = "Internal";
 /** Details of a REST API operation, returned from the Resource Provider Operations API */
 export interface Operation {
   /** The name of the operation, as per Resource-Based Access Control (RBAC). Examples: "Microsoft.Compute/virtualMachines/write", "Microsoft.Compute/virtualMachines/capture/action" */
-  name?: string;
+  name?: string | undefined;
   /** Whether the operation applies to data-plane. This is "true" for data-plane operations and "false" for ARM/control-plane operations. */
-  isDataAction?: boolean;
+  isDataAction?: boolean | undefined;
   /** Localized display information for this particular operation. */
-  display?: OperationDisplay;
+  display?: OperationDisplay | undefined;
   /** The intended executor of the operation; as in Resource Based Access Control (RBAC) and audit logs UX. Default value is "user,system" */
-  origin?: OperationOrigin;
+  origin?: OperationOrigin | undefined;
   /** Enum. Indicates the action type. "Internal" refers to actions that are for internal only APIs. */
-  actionType?: OperationActionType;
+  actionType?: OperationActionType | undefined;
 }
 /** List of operations supported by the resource provider */
 export type ListOperationsResponseValueList = Array<Operation>;
 export interface ListOperationsResponse {
   /** List of operations supported by the resource provider */
-  value?: ListOperationsResponseValueList;
+  value?: ListOperationsResponseValueList | undefined;
   /** URL to get the next set of operation list results (if there are any). */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListPoolByResourceGroupRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -399,31 +400,31 @@ export type PoolIdentityUserAssignedIdentitiesMap = {
 /** Managed service identity (system assigned and/or user assigned identities) */
 export interface PoolIdentity {
   /** The service principal ID of the system assigned identity. This property will only be provided for a system assigned identity. */
-  principalId?: string;
+  principalId?: string | undefined;
   /** The tenant ID of the system assigned identity. This property will only be provided for a system assigned identity. */
-  tenantId?: string;
+  tenantId?: string | undefined;
   type: ManagedServiceIdentityType;
   /** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
-  userAssignedIdentities?: PoolIdentityUserAssignedIdentitiesMap;
+  userAssignedIdentities?: PoolIdentityUserAssignedIdentitiesMap | undefined;
 }
 /** Concrete tracked resource types can be created by aliasing this type using a specific property type. */
 export interface Pool {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: PoolTagsMap;
+  tags?: PoolTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: PoolProperties;
+  properties?: PoolProperties | undefined;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: PoolIdentity;
+  identity?: PoolIdentity | undefined;
 }
 /** The Pool items on this page */
 export type PoolListResultValueList = Array<Pool>;
@@ -432,7 +433,7 @@ export interface PoolListResult {
   /** The Pool items on this page */
   value: PoolListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListPoolBySubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -471,15 +472,15 @@ export interface ResourceDetailsObjectProperties {
 /** A ResourceDetailsObject */
 export interface ResourceDetailsObject {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: ResourceDetailsObjectProperties;
+  properties?: ResourceDetailsObjectProperties | undefined;
 }
 /** The ResourceDetailsObject items on this page */
 export type ResourceDetailsObjectListResultValueList = Array<ResourceDetailsObject>;
@@ -488,7 +489,7 @@ export interface ResourceDetailsObjectListResult {
   /** The ResourceDetailsObject items on this page */
   value: ResourceDetailsObjectListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListSkuByLocationRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -544,22 +545,22 @@ export type ResourceSkuRestrictionInfoZonesList = Array<string>;
 /** Describes an available Compute SKU Restriction Information. */
 export interface ResourceSkuRestrictionInfo {
   /** Locations where the SKU is restricted */
-  locations?: ResourceSkuRestrictionInfoLocationsList;
+  locations?: ResourceSkuRestrictionInfoLocationsList | undefined;
   /** List of availability zones where the SKU is restricted. */
-  zones?: ResourceSkuRestrictionInfoZonesList;
+  zones?: ResourceSkuRestrictionInfoZonesList | undefined;
 }
 /** Describes the reason for SKU restriction. */
 export type ResourceSkuRestrictionsReasonCode = "QuotaId" | "NotAvailableForSubscription";
 /** The restrictions of the SKU. */
 export interface ResourceSkuRestrictions {
   /** the type of restrictions. */
-  type?: ResourceSkuRestrictionsType;
+  type?: ResourceSkuRestrictionsType | undefined;
   /** The value of restrictions. If the restriction type is set to location. This would be different locations where the SKU is restricted. */
   values: ResourceSkuRestrictionsValuesList;
   /** The information about the restriction where the SKU cannot be used. */
   restrictionInfo: ResourceSkuRestrictionInfo;
   /** the reason for restriction. */
-  reasonCode?: ResourceSkuRestrictionsReasonCode;
+  reasonCode?: ResourceSkuRestrictionsReasonCode | undefined;
 }
 /** The restrictions of the SKU. */
 export type ResourceSkuPropertiesRestrictionsList = Array<ResourceSkuRestrictions>;
@@ -585,15 +586,15 @@ export interface ResourceSkuProperties {
 /** A ResourceSku */
 export interface ResourceSku {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: ResourceSkuProperties;
+  properties?: ResourceSkuProperties | undefined;
 }
 /** The ResourceSku items on this page */
 export type ResourceSkuListResultValueList = Array<ResourceSku>;
@@ -602,7 +603,7 @@ export interface ResourceSkuListResult {
   /** The ResourceSku items on this page */
   value: ResourceSkuListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type PoolsCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
@@ -616,7 +617,7 @@ export type PoolsCreateOrUpdateRequestIdentityUserAssignedIdentitiesMap = {
 export interface PoolsCreateOrUpdateRequestIdentity {
   type: ManagedServiceIdentityType | (string & {});
   /** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
-  userAssignedIdentities?: PoolsCreateOrUpdateRequestIdentityUserAssignedIdentitiesMap;
+  userAssignedIdentities?: PoolsCreateOrUpdateRequestIdentityUserAssignedIdentitiesMap | undefined;
 }
 export interface PoolsCreateOrUpdateRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -626,13 +627,13 @@ export interface PoolsCreateOrUpdateRequest {
   /** Name of the pool. It needs to be globally unique. */
   poolName: string;
   /** Resource tags. */
-  tags?: PoolsCreateOrUpdateRequestTagsMap;
+  tags?: PoolsCreateOrUpdateRequestTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: PoolProperties;
+  properties?: PoolProperties | undefined;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: PoolsCreateOrUpdateRequestIdentity;
+  identity?: PoolsCreateOrUpdateRequestIdentity | undefined;
 }
 /** Resource tags. */
 export type PoolsCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
@@ -643,32 +644,32 @@ export type PoolsCreateOrUpdateResponseIdentityUserAssignedIdentitiesMap = {
 /** Managed service identity (system assigned and/or user assigned identities) */
 export interface PoolsCreateOrUpdateResponseIdentity {
   /** The service principal ID of the system assigned identity. This property will only be provided for a system assigned identity. */
-  principalId?: string;
+  principalId?: string | undefined;
   /** The tenant ID of the system assigned identity. This property will only be provided for a system assigned identity. */
-  tenantId?: string;
+  tenantId?: string | undefined;
   type: ManagedServiceIdentityType;
   /** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
-  userAssignedIdentities?: PoolsCreateOrUpdateResponseIdentityUserAssignedIdentitiesMap;
+  userAssignedIdentities?: PoolsCreateOrUpdateResponseIdentityUserAssignedIdentitiesMap | undefined;
 }
 export interface PoolsCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: PoolsCreateOrUpdateResponseTagsMap;
+  tags?: PoolsCreateOrUpdateResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: PoolProperties;
+  properties?: PoolProperties | undefined;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: PoolsCreateOrUpdateResponseIdentity;
+  identity?: PoolsCreateOrUpdateResponseIdentity | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface SubscriptionUsagesUsagesRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -679,14 +680,14 @@ export interface SubscriptionUsagesUsagesRequest {
 /** The Quota Names */
 export interface QuotaName {
   /** The name of the resource. */
-  value?: string;
+  value?: string | undefined;
   /** The localized name of the resource. */
-  localizedValue?: string;
+  localizedValue?: string | undefined;
 }
 /** Describes Resource Quota */
 export interface Quota {
   /** The name of the quota. */
-  name?: QuotaName;
+  name?: QuotaName | undefined;
   /** Fully qualified ARM resource id */
   id: string;
   /** The unit of usage measurement. */
@@ -703,7 +704,7 @@ export interface PagedQuota {
   /** The Quota items on this page */
   value: PagedQuotaValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 /** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
 export type UpdatePoolRequestIdentityUserAssignedIdentitiesMap = {
@@ -713,26 +714,26 @@ export type UpdatePoolRequestIdentityUserAssignedIdentitiesMap = {
 export interface UpdatePoolRequestIdentity {
   type: ManagedServiceIdentityType | (string & {});
   /** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
-  userAssignedIdentities?: UpdatePoolRequestIdentityUserAssignedIdentitiesMap;
+  userAssignedIdentities?: UpdatePoolRequestIdentityUserAssignedIdentitiesMap | undefined;
 }
 /** Resource tags. */
 export type UpdatePoolRequestTagsMap = { [key: string]: string | undefined };
 /** The updatable properties of the Pool. */
 export interface PoolUpdateProperties {
   /** The status of the current operation. */
-  provisioningState?: ProvisioningState | (string & {});
+  provisioningState?: ProvisioningState | (string & {}) | undefined;
   /** Defines how many resources can there be created at any given time. */
-  maximumConcurrency?: number;
+  maximumConcurrency?: number | undefined;
   /** Defines the organization in which the pool will be used. */
-  organizationProfile?: OrganizationProfile;
+  organizationProfile?: OrganizationProfile | undefined;
   /** Defines how the machine will be handled once it executed a job. */
-  agentProfile?: AgentProfile;
+  agentProfile?: AgentProfile | undefined;
   /** Defines the type of fabric the agent will run on. */
-  fabricProfile?: FabricProfile;
+  fabricProfile?: FabricProfile | undefined;
   /** The resource id of the DevCenter Project the pool belongs to. */
-  devCenterProjectResourceId?: string;
+  devCenterProjectResourceId?: string | undefined;
   /** The runtime configuration of the pool. */
-  runtimeConfiguration?: RuntimeConfiguration;
+  runtimeConfiguration?: RuntimeConfiguration | undefined;
 }
 export interface UpdatePoolRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -742,11 +743,11 @@ export interface UpdatePoolRequest {
   /** Name of the pool. It needs to be globally unique. */
   poolName: string;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: UpdatePoolRequestIdentity;
+  identity?: UpdatePoolRequestIdentity | undefined;
   /** Resource tags. */
-  tags?: UpdatePoolRequestTagsMap;
+  tags?: UpdatePoolRequestTagsMap | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: PoolUpdateProperties;
+  properties?: PoolUpdateProperties | undefined;
 }
 /** Resource tags. */
 export type UpdatePoolResponseTagsMap = { [key: string]: string | undefined };
@@ -757,34 +758,34 @@ export type UpdatePoolResponseIdentityUserAssignedIdentitiesMap = {
 /** Managed service identity (system assigned and/or user assigned identities) */
 export interface UpdatePoolResponseIdentity {
   /** The service principal ID of the system assigned identity. This property will only be provided for a system assigned identity. */
-  principalId?: string;
+  principalId?: string | undefined;
   /** The tenant ID of the system assigned identity. This property will only be provided for a system assigned identity. */
-  tenantId?: string;
+  tenantId?: string | undefined;
   type: ManagedServiceIdentityType;
   /** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
-  userAssignedIdentities?: UpdatePoolResponseIdentityUserAssignedIdentitiesMap;
+  userAssignedIdentities?: UpdatePoolResponseIdentityUserAssignedIdentitiesMap | undefined;
 }
 export interface UpdatePoolResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: UpdatePoolResponseTagsMap;
+  tags?: UpdatePoolResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: PoolProperties;
+  properties?: PoolProperties | undefined;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: UpdatePoolResponseIdentity;
+  identity?: UpdatePoolResponseIdentity | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  locationHeader?: string;
+  locationHeader?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export type CheckPoolNameAvailabilityError = AzureOpError;
 /** Checks that the pool name is valid and is not already in use. */

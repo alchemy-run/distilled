@@ -66,14 +66,16 @@ export type ArchiveAiGatewayBudgetRequestScopeType = "team" | "project" | "user"
 export interface ArchiveAiGatewayBudgetRequest {
   /** The budget scope to archive. */
   scopeType: ArchiveAiGatewayBudgetRequestScopeType | (string & {});
-  /** Required when scopeType is "project". */
-  projectId?: string;
-  /** Required when scopeType is "user". */
-  userId?: string;
+  /** Required when scopeType is \"project\". */
+  projectId?: string | undefined;
+  /** Required when scopeType is \"user\". */
+  userId?: string | undefined;
+  /** Why the budget is being changed, up to 500 characters. Recorded in the activity log and audit log drains, and sent in the ai-gateway.budget.updated webhook. */
+  justification?: string | undefined;
   /** The Team identifier to perform the request on behalf of. */
-  teamId?: string;
+  teamId?: string | undefined;
   /** The Team slug to perform the request on behalf of. */
-  slug?: string;
+  slug?: string | undefined;
 }
 export type AiGatewayBudgetAlertThresholdsList = Array<number>;
 export type AiGatewayBudgetRefreshPeriod = "daily" | "monthly" | "none" | "weekly";
@@ -82,21 +84,21 @@ export type AiGatewayBudgetScopeType = "api-key" | "project" | "team" | "user";
 export type AiGatewayBudgetSource = "default";
 export interface AiGatewayBudget {
   active: boolean;
-  alertThresholds?: AiGatewayBudgetAlertThresholdsList;
+  alertThresholds?: AiGatewayBudgetAlertThresholdsList | undefined;
   archived: boolean;
   createdAt: number;
   currentByokSpend: number;
   currentSpend: number;
   includeByokInQuota: boolean;
   limitAmount: number;
-  name?: string;
+  name?: string | undefined;
   quotaEntityId: string;
   refreshPeriod: AiGatewayBudgetRefreshPeriod;
   /** The native Vercel id of the scoped entity. Team/project ids already carry their prefix, so this equals `quotaEntityId` (`team_...` / `prj_...`); for the api-key scope it is the api key id (the `api_key_id_` prefix stripped). */
   scopeId: string;
   scopeType: AiGatewayBudgetScopeType;
   /** Set when the row is inherited from the team's budget default. */
-  source?: AiGatewayBudgetSource;
+  source?: AiGatewayBudgetSource | undefined;
   updatedAt: number;
 }
 /** The budget default scope to delete. */
@@ -104,46 +106,89 @@ export type ArchiveAiGatewayBudgetDefaultRequestScopeType = "team" | "project" |
 export interface ArchiveAiGatewayBudgetDefaultRequest {
   /** The budget default scope to delete. */
   scopeType: ArchiveAiGatewayBudgetDefaultRequestScopeType | (string & {});
+  /** Why the budget is being changed, up to 500 characters. Recorded in the activity log and audit log drains, and sent in the ai-gateway.budget.updated webhook. Only recorded when scopeType is set. */
+  justification?: string | undefined;
   /** The Team identifier to perform the request on behalf of. */
-  teamId?: string;
+  teamId?: string | undefined;
   /** The Team slug to perform the request on behalf of. */
-  slug?: string;
+  slug?: string | undefined;
 }
 export interface ArchiveAiGatewayBudgetDefaultResponse {}
+export interface CreateAiGatewayByokCredentialRequestMappingsItem {
+  /** The AI Gateway model slug (e.g., "openai/gpt-5.4") */
+  gatewayModelSlug: string;
+  /** The customer's custom model ID (e.g., "my-finetuned-gpt-5") */
+  customModelId: string;
+}
+/** Model mappings to create atomically with the credential (e.g. Azure deployments). One DynamoDB transaction holds the credential plus all mappings, so at most 99 mappings fit. */
+export type CreateAiGatewayByokCredentialRequestMappingsList =
+  Array<CreateAiGatewayByokCredentialRequestMappingsItem>;
+export interface CreateAiGatewayByokCredentialRequest {
+  /** The Team identifier to perform the request on behalf of. */
+  teamId?: string | undefined;
+  /** The Team slug to perform the request on behalf of. */
+  slug?: string | undefined;
+  /** The owner ID for this credential. Ignored for customer tokens, which always create in their own team. */
+  ownerId?: string | undefined;
+  /** The provider slug this credential is for (e.g., "openai", "anthropic") */
+  providerSlug: string;
+  /** The developer-entered name for this credential */
+  name: string;
+  /** Whether the credential is active and can be used */
+  active?: boolean | undefined;
+  /** Whether the customer attested this external credential has a zero data retention policy */
+  zeroDataRetention?: boolean | undefined;
+  /** The ID of the user performing this action, used for Activity-log attribution. */
+  userId?: string | undefined;
+  /** Model mappings to create atomically with the credential (e.g. Azure deployments). One DynamoDB transaction holds the credential plus all mappings, so at most 99 mappings fit. */
+  mappings?: CreateAiGatewayByokCredentialRequestMappingsList | undefined;
+}
+export interface CreateAiGatewayByokCredentialResponse {
+  active: boolean;
+  createdAt: number;
+  credentialId: string;
+  lastFourChars: string;
+  name: string;
+  ownerId: string;
+  providerSlug: string;
+  rotatedAt: number | null;
+  updatedAt: number;
+  zeroDataRetention: boolean;
+}
 export interface CreateAiGatewayRuleRequest {
   /** The Team identifier to perform the request on behalf of. */
-  teamId?: string;
+  teamId?: string | undefined;
   /** The Team slug to perform the request on behalf of. */
-  slug?: string;
+  slug?: string | undefined;
 }
 export interface AiGatewayRuleAction {
-  reason?: string;
-  rewriteModel?: string;
+  reason?: string | undefined;
+  rewriteModel?: string | undefined;
 }
 export interface AiGatewayRuleMatch {
-  model?: string;
+  model?: string | undefined;
 }
 export type AiGatewayRuleType = "deny" | "rewrite";
 /** Public response shape for AI Gateway routing rules. Used so OpenAPI generation can avoid ElectroDB's recursive EntityItem types. */
 export interface AiGatewayRule {
-  action?: AiGatewayRuleAction;
+  action?: AiGatewayRuleAction | undefined;
   createdAt: number;
-  createdBy?: string;
-  deleted?: boolean;
-  description?: string;
+  createdBy?: string | undefined;
+  deleted?: boolean | undefined;
+  description?: string | undefined;
   enabled: boolean;
-  match?: AiGatewayRuleMatch;
+  match?: AiGatewayRuleMatch | undefined;
   ownerId: string;
   ruleId: string;
   type: AiGatewayRuleType;
   updatedAt: number;
-  updatedBy?: string;
+  updatedBy?: string | undefined;
 }
 export interface CreateAiGatewayVirtualModelConfigRequest {
   /** The Team identifier to perform the request on behalf of. */
-  teamId?: string;
+  teamId?: string | undefined;
   /** The Team slug to perform the request on behalf of. */
-  slug?: string;
+  slug?: string | undefined;
 }
 /** BYOK credential IDs allowed for this VMC. */
 export type AiGatewayVirtualModelConfigByokCredentialIdsList = Array<string>;
@@ -166,11 +211,11 @@ export type AiGatewayVirtualModelConfigInferenceRegionProvidersValueScope =
 /** Per-provider region overrides keyed by provider slug. */
 export interface AiGatewayVirtualModelConfigInferenceRegionProvidersValue {
   /** Geo zone (e.g. "us", "eu"). */
-  geoRegion?: string;
+  geoRegion?: string | undefined;
   /** Provider-specific region identifier. */
-  providerRegion?: string;
+  providerRegion?: string | undefined;
   /** Pin scope: `specific` (one provider region), `zone` (geo zone), or `global`. */
-  scope?: AiGatewayVirtualModelConfigInferenceRegionProvidersValueScope;
+  scope?: AiGatewayVirtualModelConfigInferenceRegionProvidersValueScope | undefined;
 }
 /** Per-provider region overrides keyed by provider slug. */
 export type AiGatewayVirtualModelConfigInferenceRegionProvidersMap = {
@@ -181,30 +226,30 @@ export type AiGatewayVirtualModelConfigInferenceRegionScope = "global" | "specif
 /** Region pinned on the VMC for system-credential routing (alias/router only). */
 export interface AiGatewayVirtualModelConfigInferenceRegion {
   /** Geo zone (e.g. "us", "eu"). */
-  geoRegion?: string;
+  geoRegion?: string | undefined;
   /** Provider-specific region identifier. */
-  providerRegion?: string;
+  providerRegion?: string | undefined;
   /** Per-provider region overrides keyed by provider slug. */
-  providers?: AiGatewayVirtualModelConfigInferenceRegionProvidersMap;
+  providers?: AiGatewayVirtualModelConfigInferenceRegionProvidersMap | undefined;
   /** Pin scope: `specific` (one provider region), `zone` (geo zone), or `global`. */
-  scope?: AiGatewayVirtualModelConfigInferenceRegionScope;
+  scope?: AiGatewayVirtualModelConfigInferenceRegionScope | undefined;
 }
 /** For kind=router: ordered candidates, bare slugs/references or `{ slug, ...attributes }`. For kind=alias: ordered fallback model slugs, optionally led by one conditional `{ model, when }` entry, used when the primary model's answers match `when`. */
 export interface AiGatewayVirtualModelConfigModelsItemCase1 {
   /** Highest task level the member handles, in [0, 1]. Read by the intelligence selector. */
-  intelligence?: number;
+  intelligence?: number | undefined;
   slug: string;
 }
 /** Without a question, checks every Choice and Score question. */
 export interface AiGatewayEvaluationFallbackConditionCase0 {
   confidenceBelow: number;
-  question?: string;
+  question?: string | undefined;
 }
 export type AiGatewayEvaluationFallbackConditionCase1ProbabilityBetweenList = Array<number>;
 /** Without a question, checks every Boolean question. */
 export interface AiGatewayEvaluationFallbackConditionCase1 {
   probabilityBetween: AiGatewayEvaluationFallbackConditionCase1ProbabilityBetweenList;
-  question?: string;
+  question?: string | undefined;
 }
 export type AiGatewayEvaluationFallbackConditionCase2AnyList =
   Array<AiGatewayEvaluationFallbackCondition>;
@@ -259,7 +304,7 @@ export type AiGatewayVirtualModelConfigProviderTimeoutsByokMap = {
 };
 /** Per-request provider timeouts in ms, keyed by provider slug for BYOK credentials. */
 export interface AiGatewayVirtualModelConfigProviderTimeouts {
-  byok?: AiGatewayVirtualModelConfigProviderTimeoutsByokMap;
+  byok?: AiGatewayVirtualModelConfigProviderTimeoutsByokMap | undefined;
 }
 /** For kind=router: how to order candidates. Absent means declared order. */
 export type AiGatewayVirtualModelConfigSelector = "cost" | "tps" | "ttft";
@@ -267,9 +312,9 @@ export type AiGatewayVirtualModelConfigSelector = "cost" | "tps" | "ttft";
 export type AiGatewayRouterSelectorOptionBag = { [key: string]: unknown | undefined };
 /** For kind=router: option slices keyed by selector name; each selector owns its slice's shape. */
 export interface AiGatewayVirtualModelConfigSelectorOptions {
-  cost?: AiGatewayRouterSelectorOptionBag;
-  tps?: AiGatewayRouterSelectorOptionBag;
-  ttft?: AiGatewayRouterSelectorOptionBag;
+  cost?: AiGatewayRouterSelectorOptionBag | undefined;
+  tps?: AiGatewayRouterSelectorOptionBag | undefined;
+  ttft?: AiGatewayRouterSelectorOptionBag | undefined;
 }
 /** Service tier for providers that support it. */
 export type AiGatewayVirtualModelConfigServiceTier = "fast" | "flex" | "priority";
@@ -283,118 +328,151 @@ export type AiGatewayVirtualModelConfigSort =
   | "ttft";
 /** Only use fastest providers with short timeouts. */
 export type AiGatewayVirtualModelConfigSpeed = "fast";
-/** Public response shape for virtual model configs. Used so OpenAPI generation can avoid ElectroDB's recursive EntityItem types. */
+/** Active and archived router configurations owned by the authenticated team. */
 export interface AiGatewayVirtualModelConfig {
   /** Allow fallback from fast to standard providers on failure. */
-  allowFallbackFromFast?: boolean;
+  allowFallbackFromFast?: boolean | undefined;
   /** For kind=relay: URL the gateway forwards requests to as a transparent proxy. */
-  baseUrl?: string;
+  baseUrl?: string | undefined;
   /** BYOK credential IDs allowed for this VMC. */
-  byokCredentialIds?: AiGatewayVirtualModelConfigByokCredentialIdsList;
+  byokCredentialIds?: AiGatewayVirtualModelConfigByokCredentialIdsList | undefined;
   /** Use caching if available. */
-  caching?: AiGatewayVirtualModelConfigCaching;
+  caching?: AiGatewayVirtualModelConfigCaching | undefined;
   /** Creation timestamp (epoch ms). */
   createdAt: number;
   /** User or app id that created this VMC. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** Whether this VMC is soft-deleted. */
   deleted: boolean;
   /** Optional description for UI. */
-  description?: string;
+  description?: string | undefined;
   /** Only use providers that will not train on your prompts. */
-  disallowPromptTraining?: boolean;
+  disallowPromptTraining?: boolean | undefined;
   /** Human-readable name for UI. */
-  displayName?: string;
+  displayName?: string | undefined;
   /** Limit providers to those with these features. */
-  has?: AiGatewayVirtualModelConfigHasList;
+  has?: AiGatewayVirtualModelConfigHasList | undefined;
   /** Only use HIPAA-compliant providers. */
-  hipaaCompliant?: boolean;
+  hipaaCompliant?: boolean | undefined;
   /** Region pinned on the VMC for system-credential routing (alias/router only). */
-  inferenceRegion?: AiGatewayVirtualModelConfigInferenceRegion;
+  inferenceRegion?: AiGatewayVirtualModelConfigInferenceRegion | undefined;
   /** The concrete model-provider instance this VMC resolves to. */
-  instanceId?: string;
+  instanceId?: string | undefined;
   /** VMC kind: alias, relay, or router. */
   kind: string;
   /** For kind=router: ordered candidates, bare slugs/references or `{ slug, ...attributes }`. For kind=alias: ordered fallback model slugs, optionally led by one conditional `{ model, when }` entry, used when the primary model's answers match `when`. */
-  models?: AiGatewayVirtualModelConfigModelsList;
+  models?: AiGatewayVirtualModelConfigModelsList | undefined;
   /** Canonical model slug this VMC maps to (e.g. "creator/model"). Not used by kind=router. */
-  modelSlug?: string;
+  modelSlug?: string | undefined;
   /** Observability tags attached to requests through this VMC. */
-  observabilityTags?: AiGatewayVirtualModelConfigObservabilityTagsList;
+  observabilityTags?: AiGatewayVirtualModelConfigObservabilityTagsList | undefined;
   /** Team (owner) that owns this VMC. */
   ownerId: string;
   /** Restrict routing to only these providers. */
-  providerOnly?: AiGatewayVirtualModelConfigProviderOnlyList;
+  providerOnly?: AiGatewayVirtualModelConfigProviderOnlyList | undefined;
   /** Arbitrary per-provider AI SDK options, keyed by gateway provider slug. */
-  providerOptions?: AiGatewayVirtualModelConfigProviderOptionsMap;
+  providerOptions?: AiGatewayVirtualModelConfigProviderOptionsMap | undefined;
   /** Ordered list of providers to try as fallbacks on failure. */
-  providerOrder?: AiGatewayVirtualModelConfigProviderOrderList;
+  providerOrder?: AiGatewayVirtualModelConfigProviderOrderList | undefined;
   /** Per-request provider timeouts in ms, keyed by provider slug for BYOK credentials. */
-  providerTimeouts?: AiGatewayVirtualModelConfigProviderTimeouts;
+  providerTimeouts?: AiGatewayVirtualModelConfigProviderTimeouts | undefined;
   /** For kind=router: how to order candidates. Absent means declared order. */
-  selector?: AiGatewayVirtualModelConfigSelector;
+  selector?: AiGatewayVirtualModelConfigSelector | undefined;
   /** For kind=router: option slices keyed by selector name; each selector owns its slice's shape. */
-  selectorOptions?: AiGatewayVirtualModelConfigSelectorOptions;
+  selectorOptions?: AiGatewayVirtualModelConfigSelectorOptions | undefined;
   /** Service tier for providers that support it. */
-  serviceTier?: AiGatewayVirtualModelConfigServiceTier;
+  serviceTier?: AiGatewayVirtualModelConfigServiceTier | undefined;
   /** Rank eligible providers by an attribute. */
-  sort?: AiGatewayVirtualModelConfigSort;
+  sort?: AiGatewayVirtualModelConfigSort | undefined;
   /** Only use fastest providers with short timeouts. */
-  speed?: AiGatewayVirtualModelConfigSpeed;
+  speed?: AiGatewayVirtualModelConfigSpeed | undefined;
   /** UI lifecycle status: draft, active, or archived. */
   status: string;
   /** Last update timestamp (epoch ms). */
   updatedAt: number;
   /** User or app id that last updated this VMC. */
-  updatedBy?: string;
+  updatedBy?: string | undefined;
   /** Client-facing alias used as the model slug in Gateway calls. */
   virtualModelSlug: string;
   /** Visibility in listings: public, internal, or stealth. */
-  visibility?: string;
+  visibility?: string | undefined;
   /** Only use providers with zero data retention. */
-  zeroDataRetention?: boolean;
+  zeroDataRetention?: boolean | undefined;
 }
+export interface DeleteAiGatewayByokCredentialRequest {
+  /** The unique ID of the credential to delete */
+  credentialId: string;
+  ownerId?: string | undefined;
+  /** The ID of the user performing this action, used for Activity-log attribution. */
+  userId?: string | undefined;
+  /** The Team identifier to perform the request on behalf of. */
+  teamId?: string | undefined;
+  /** The Team slug to perform the request on behalf of. */
+  slug?: string | undefined;
+}
+export type DeleteAiGatewayByokCredentialResponse = unknown | null;
 export interface DeleteAiGatewayRuleRequest {
   ruleId: string;
   /** The Team identifier to perform the request on behalf of. */
-  teamId?: string;
+  teamId?: string | undefined;
   /** The Team slug to perform the request on behalf of. */
-  slug?: string;
+  slug?: string | undefined;
 }
-export type DeleteAiGatewayRuleResponse = unknown;
+export type DeleteAiGatewayRuleResponse = unknown | null;
 export interface DeleteAiGatewayVirtualModelConfigRequest {
-  ownerId?: string;
+  ownerId?: string | undefined;
   virtualModelSlug: string;
-  updatedBy?: string;
-  actingIp?: string;
-  actingUserAgent?: string;
+  updatedBy?: string | undefined;
+  actingIp?: string | undefined;
+  actingUserAgent?: string | undefined;
   /** The Team identifier to perform the request on behalf of. */
-  teamId?: string;
+  teamId?: string | undefined;
   /** The Team slug to perform the request on behalf of. */
-  slug?: string;
+  slug?: string | undefined;
 }
-export type DeleteAiGatewayVirtualModelConfigResponse = unknown;
+export type DeleteAiGatewayVirtualModelConfigResponse = unknown | null;
 export interface DeleteAiGatewayVirtualModelConfigBySlugRequest {
   vmcSlug: string;
-  ownerId?: string;
-  updatedBy?: string;
-  actingIp?: string;
-  actingUserAgent?: string;
+  ownerId?: string | undefined;
+  updatedBy?: string | undefined;
+  actingIp?: string | undefined;
+  actingUserAgent?: string | undefined;
   /** The Team identifier to perform the request on behalf of. */
-  teamId?: string;
+  teamId?: string | undefined;
   /** The Team slug to perform the request on behalf of. */
-  slug?: string;
+  slug?: string | undefined;
 }
-export type DeleteAiGatewayVirtualModelConfigBySlugResponse = unknown;
-export interface GetAiGatewayVirtualModelConfigRequest {
-  ownerId?: string;
-  virtualModelSlug?: string;
-  limit?: number;
-  cursor?: string;
+export type DeleteAiGatewayVirtualModelConfigBySlugResponse = unknown | null;
+export interface GetAiGatewayByokCredentialRequest {
+  /** The unique ID of the credential */
+  credentialId: string;
+  ownerId?: string | undefined;
   /** The Team identifier to perform the request on behalf of. */
-  teamId?: string;
+  teamId?: string | undefined;
   /** The Team slug to perform the request on behalf of. */
-  slug?: string;
+  slug?: string | undefined;
+}
+export interface GetAiGatewayByokCredentialResponse {
+  active: boolean;
+  createdAt: number;
+  credentialId: string;
+  lastFourChars: string;
+  name: string;
+  ownerId: string;
+  providerSlug: string;
+  rotatedAt: number | null;
+  updatedAt: number;
+  zeroDataRetention: boolean;
+}
+export interface GetAiGatewayVirtualModelConfigRequest {
+  ownerId?: string | undefined;
+  virtualModelSlug?: string | undefined;
+  limit?: number | undefined;
+  cursor?: string | undefined;
+  /** The Team identifier to perform the request on behalf of. */
+  teamId?: string | undefined;
+  /** The Team slug to perform the request on behalf of. */
+  slug?: string | undefined;
 }
 /** The page of VMCs. */
 export type AiGatewayVirtualModelConfigListVirtualModelConfigsList =
@@ -411,24 +489,24 @@ export type GetAiGatewayVirtualModelConfigResponseBody =
 export type GetAiGatewayVirtualModelConfigResponse = GetAiGatewayVirtualModelConfigResponseBody;
 export interface GetAiGatewayVirtualModelConfigBySlugRequest {
   vmcSlug: string;
-  ownerId?: string;
+  ownerId?: string | undefined;
   /** The Team identifier to perform the request on behalf of. */
-  teamId?: string;
+  teamId?: string | undefined;
   /** The Team slug to perform the request on behalf of. */
-  slug?: string;
+  slug?: string | undefined;
 }
 export interface ListAiGatewayBudgetDefaultsRequest {
   /** The Team identifier to perform the request on behalf of. */
-  teamId?: string;
+  teamId?: string | undefined;
   /** The Team slug to perform the request on behalf of. */
-  slug?: string;
+  slug?: string | undefined;
 }
 export type AiGatewayBudgetDefaultAlertThresholdsList = Array<number>;
 export type AiGatewayBudgetDefaultRefreshPeriod = "daily" | "monthly" | "none" | "weekly";
 export type AiGatewayBudgetDefaultScopeType = "api-key" | "project" | "team" | "user";
 export interface AiGatewayBudgetDefault {
   active: boolean;
-  alertThresholds?: AiGatewayBudgetDefaultAlertThresholdsList;
+  alertThresholds?: AiGatewayBudgetDefaultAlertThresholdsList | undefined;
   createdAt: number;
   limitAmount: number;
   refreshPeriod: AiGatewayBudgetDefaultRefreshPeriod;
@@ -443,54 +521,269 @@ export interface AiGatewayBudgetDefaultList {
 export type ListAiGatewayBudgetsRequestScopeType = "team" | "project" | "user" | "api-key";
 export interface ListAiGatewayBudgetsRequest {
   /** Restrict the list to a single budget scope. */
-  scopeType?: ListAiGatewayBudgetsRequestScopeType | (string & {});
+  scopeType?: ListAiGatewayBudgetsRequestScopeType | (string & {}) | undefined;
+  /** Whether to include rows inherited from a budget default (`source: "default"`). Defaults to true. */
+  includeDefaultCovered?: boolean | undefined;
+  /** Maximum number of budgets to return (capped at 200). Enables pagination. */
+  limit?: number | undefined;
+  /** Opaque cursor returned by a prior call as nextCursor. */
+  cursor?: string | undefined;
   /** The Team identifier to perform the request on behalf of. */
-  teamId?: string;
+  teamId?: string | undefined;
   /** The Team slug to perform the request on behalf of. */
-  slug?: string;
+  slug?: string | undefined;
 }
 export type AiGatewayBudgetListBudgetsList = Array<AiGatewayBudget>;
+/** Paged requests only: `source: 'default'` rows per scope type across the whole `scopeType`-filtered list, independent of the page and of `includeDefaultCovered`. */
+export interface AiGatewayBudgetListDefaultCoveredCounts {
+  api_key: number;
+  project: number;
+  team: number;
+  user: number;
+}
 export interface AiGatewayBudgetList {
   budgets: AiGatewayBudgetListBudgetsList;
+  /** Paged requests only: `source: 'default'` rows per scope type across the whole `scopeType`-filtered list, independent of the page and of `includeDefaultCovered`. */
+  defaultCoveredCounts?: AiGatewayBudgetListDefaultCoveredCounts | undefined;
+  /** Paged requests only (`limit` or `cursor` set): pass as `cursor` to read the next page; null on the last page. */
+  nextCursor?: string | null | undefined;
+}
+export interface ListAiGatewayByokCredentialsRequest {
+  /** The owner ID to list credentials for. Ignored for customer tokens, which always list their own team. */
+  ownerId?: string | undefined;
+  /** Optional provider slug to filter credentials by */
+  providerSlug?: string | undefined;
+  /** Whether to include soft-deleted credentials */
+  includeDeleted?: boolean | undefined;
+  /** Not supported. Credential values are never returned. */
+  decrypt?: boolean | undefined;
+  /** Whether to include model mappings for each credential in the response */
+  includeModelMappings?: boolean | undefined;
+  /** The Team identifier to perform the request on behalf of. */
+  teamId?: string | undefined;
+  /** The Team slug to perform the request on behalf of. */
+  slug?: string | undefined;
+}
+export interface ListAiGatewayByokCredentialsResponseCredentialsItemModelMappingsItem {
+  customModelId: string;
+  gatewayModelSlug: string;
+}
+export type ListAiGatewayByokCredentialsResponseCredentialsItemModelMappingsList =
+  Array<ListAiGatewayByokCredentialsResponseCredentialsItemModelMappingsItem>;
+export interface ListAiGatewayByokCredentialsResponseCredentialsItem {
+  active: boolean;
+  createdAt: number;
+  credential: string | null;
+  credentialId: string;
+  deleted: boolean;
+  lastFourChars: string;
+  modelMappings: ListAiGatewayByokCredentialsResponseCredentialsItemModelMappingsList;
+  name: string;
+  ownerId: string;
+  providerSlug: string;
+  rotatedAt: number | null;
+  updatedAt: number;
+  zeroDataRetention: boolean;
+}
+export type ListAiGatewayByokCredentialsResponseCredentialsList =
+  Array<ListAiGatewayByokCredentialsResponseCredentialsItem>;
+export interface ListAiGatewayByokCredentialsResponse {
+  credentials: ListAiGatewayByokCredentialsResponseCredentialsList;
+}
+export interface ListAiGatewayRoutersRequest {
+  /** The owner (team) ID to list routers for. Only trusted-origin callers use this. Public callers select their team with `teamId` or `slug`, and a supplied ownerId never overrides the authenticated team. */
+  ownerId?: string | undefined;
+  /** The Team identifier to perform the request on behalf of. */
+  teamId?: string | undefined;
+  /** The Team slug to perform the request on behalf of. */
+  slug?: string | undefined;
+}
+/** Active and archived router configurations owned by the authenticated team. */
+export type AiGatewayRouterListRoutersList = Array<AiGatewayVirtualModelConfig>;
+export interface AiGatewayRouterList {
+  /** Active and archived router configurations owned by the authenticated team. */
+  routers: AiGatewayRouterListRoutersList;
 }
 export interface ListAiGatewayRulesRequest {
-  includeDisabled?: boolean;
+  includeDisabled?: boolean | undefined;
+  /** Maximum number of rules to return (capped at 200). Enables pagination. */
+  limit?: number | undefined;
+  /** Opaque cursor returned by a prior call as nextCursor. */
+  cursor?: string | undefined;
   /** The Team identifier to perform the request on behalf of. */
-  teamId?: string;
+  teamId?: string | undefined;
   /** The Team slug to perform the request on behalf of. */
-  slug?: string;
+  slug?: string | undefined;
 }
-export type AiGatewayRuleListRulesList = Array<AiGatewayRule>;
+export type AiGatewayRuleListItemAction = AiGatewayRuleAction;
+export type AiGatewayRuleListItemMatch = AiGatewayRuleMatch;
+export type AiGatewayRuleListItemType = "deny" | "rewrite";
+export interface AiGatewayRuleListItem {
+  action?: AiGatewayRuleAction | undefined;
+  createdAt: number;
+  createdBy?: string | undefined;
+  deleted?: boolean | undefined;
+  description?: string | undefined;
+  enabled: boolean;
+  match?: AiGatewayRuleMatch | undefined;
+  ownerId: string;
+  ruleId: string;
+  /** Rule that takes precedence over this enabled rule for the same model, so this one never applies */
+  shadowedBy?: string | undefined;
+  type: AiGatewayRuleListItemType;
+  updatedAt: number;
+  updatedBy?: string | undefined;
+}
+export type AiGatewayRuleListRulesList = Array<AiGatewayRuleListItem>;
 export interface AiGatewayRuleList {
+  nextCursor: string | null;
   rules: AiGatewayRuleListRulesList;
 }
 export interface ListAiGatewayVirtualModelConfigsRequest {
-  ownerId?: string;
-  limit?: number;
-  cursor?: string;
+  ownerId?: string | undefined;
+  limit?: number | undefined;
+  cursor?: string | undefined;
+  includeArchived?: boolean | undefined;
   /** The Team identifier to perform the request on behalf of. */
-  teamId?: string;
+  teamId?: string | undefined;
   /** The Team slug to perform the request on behalf of. */
-  slug?: string;
+  slug?: string | undefined;
+}
+export interface UpdateAiGatewayByokCredentialRequest {
+  /** The unique ID of the credential to update */
+  credentialId: string;
+  ownerId?: string | undefined;
+  /** The Team identifier to perform the request on behalf of. */
+  teamId?: string | undefined;
+  /** The Team slug to perform the request on behalf of. */
+  slug?: string | undefined;
+  /** The new name for the credential */
+  name?: string | undefined;
+  /** Whether the credential should be active */
+  active?: boolean | undefined;
+  /** Whether the customer attested this external credential has a zero data retention policy */
+  zeroDataRetention?: boolean | undefined;
+  /** The ID of the user performing this action, used for Activity-log attribution. */
+  userId?: string | undefined;
+}
+export interface UpdateAiGatewayByokCredentialResponse {
+  active: boolean;
+  createdAt: number;
+  credentialId: string;
+  lastFourChars: string;
+  name: string;
+  ownerId: string;
+  providerSlug: string;
+  rotatedAt: number | null;
+  updatedAt: number;
+  zeroDataRetention: boolean;
 }
 export interface UpdateAiGatewayRuleRequest {
   /** The Team identifier to perform the request on behalf of. */
-  teamId?: string;
+  teamId?: string | undefined;
   /** The Team slug to perform the request on behalf of. */
-  slug?: string;
+  slug?: string | undefined;
 }
 export interface UpdateAiGatewayVirtualModelConfigRequest {
   /** The Team identifier to perform the request on behalf of. */
-  teamId?: string;
+  teamId?: string | undefined;
   /** The Team slug to perform the request on behalf of. */
-  slug?: string;
+  slug?: string | undefined;
 }
 export interface UpdateAiGatewayVirtualModelConfigBySlugRequest {
   vmcSlug: string;
   /** The Team identifier to perform the request on behalf of. */
-  teamId?: string;
+  teamId?: string | undefined;
   /** The Team slug to perform the request on behalf of. */
-  slug?: string;
+  slug?: string | undefined;
+}
+/** How often the quota refreshes. */
+export type UpdateApiKeyQuotaRequestRefreshPeriod = "daily" | "weekly" | "monthly" | "none";
+export type UpdateApiKeyQuotaRequestAlertThresholdsItem = 50 | 75 | 100;
+/** Spend percentages (a subset of [50, 75, 100]) at which to send a spend alert. Pass an empty array to disable alerts. */
+export type UpdateApiKeyQuotaRequestAlertThresholdsList = Array<
+  UpdateApiKeyQuotaRequestAlertThresholdsItem | (number & {})
+>;
+export interface UpdateApiKeyQuotaRequest {
+  /** The ID of the API key whose quota should be updated. */
+  apiKeyID: string;
+  /** The quota limit amount. Required if the quota does not yet exist. */
+  limitAmount?: number | undefined;
+  /** Whether BYOK (Bring Your Own Key) usage counts against the quota. */
+  includeByokInQuota?: boolean | undefined;
+  /** How often the quota refreshes. */
+  refreshPeriod?: UpdateApiKeyQuotaRequestRefreshPeriod | (string & {}) | undefined;
+  /** Whether the quota is currently active. */
+  active?: boolean | undefined;
+  /** Set to true to archive (soft-delete) the quota. The api key itself is unaffected. */
+  archived?: boolean | undefined;
+  /** Spend percentages (a subset of [50, 75, 100]) at which to send a spend alert. Pass an empty array to disable alerts. */
+  alertThresholds?: UpdateApiKeyQuotaRequestAlertThresholdsList | undefined;
+  /** Why the budget is being changed, up to 500 characters. Recorded in the activity log and audit log drains. */
+  justification?: string | undefined;
+}
+/** Spend percentages (a subset of [50, 75, 100]) at which to send a spend alert. Empty or undefined disables alerts. */
+export type APIKeyQuotaAlertThresholdsList = Array<number>;
+/** AI Gateway quota associated with an API key. */
+export interface APIKeyQuota {
+  /** The unique identifier for the quota. */
+  quotaEntityId: string;
+  /** The quota limit amount. */
+  limitAmount: number;
+  /** The current amount spent against the quota. */
+  currentSpend: number;
+  /** The current BYOK spend (tracked separately). */
+  currentByokSpend: number;
+  /** Whether BYOK (Bring Your Own Key) spend counts against the quota. */
+  includeByokInQuota: boolean;
+  /** How often the quota refreshes. */
+  refreshPeriod: string;
+  /** Whether the quota is currently active. */
+  active: boolean;
+  /** Whether the quota has been archived. */
+  archived: boolean;
+  /** Spend percentages (a subset of [50, 75, 100]) at which to send a spend alert. Empty or undefined disables alerts. */
+  alertThresholds?: APIKeyQuotaAlertThresholdsList | undefined;
+  /** Timestamp (in milliseconds) of when the quota was created. */
+  createdAt: number;
+  /** Timestamp (in milliseconds) of when the quota was last updated. */
+  updatedAt: number;
+}
+/** Represents an API key. */
+export interface APIKey {
+  /** The unique identifier of the API key. */
+  id: string;
+  /** The human-readable name of the API key. */
+  name: string;
+  /** The last few characters of the API key string, for helping identify the API key. */
+  partialKey: string;
+  /** The ID of the team that the API key grants access to. */
+  teamId: string;
+  /** The API key's purpose, i.e. what resources it can be used with. */
+  purpose: string;
+  /** The ID of the project that this API key grants access to. When this is unset, the API key grants access to all projects in the team. */
+  projectId: string | null;
+  /** Timestamp (in milliseconds) of when the API key expires. */
+  expiresAt: number | null;
+  /** Timestamp (in milliseconds) of when the API key was most recently used. */
+  activeAt: number;
+  /** Timestamp (in milliseconds) of when the API key was created. */
+  createdAt: number;
+  /** The ID of the user who created the API key. */
+  createdBy: string;
+  /** Timestamp (in milliseconds) of when the API key was marked as leaked. */
+  leakedAt: number | null;
+  /** URL where the API key was discovered as leaked. */
+  leakedUrl: string | null;
+  /** The ID of the app that created the API key, if any */
+  createdByAppId: string | null;
+  quota?: APIKeyQuota | undefined;
+  /** Generic metadata attached to the API key. The accepted shape depends on the key's `purpose` and is validated when the key is created. For `ai-gateway` keys this carries `environment` and `spendAttribution`. */
+  metadata?: unknown | undefined;
+}
+export interface UpdateApiKeyQuotaResponse {
+  apiKey: APIKey;
+  quota: APIKeyQuota;
 }
 export type UpsertAiGatewayBudgetRequestScopeType = "team" | "project" | "user";
 export type UpsertAiGatewayBudgetRequestRefreshPeriod = "daily" | "weekly" | "monthly" | "none";
@@ -500,20 +793,22 @@ export type UpsertAiGatewayBudgetRequestAlertThresholdsList = Array<
 >;
 export interface UpsertAiGatewayBudgetRequest {
   /** The Team identifier to perform the request on behalf of. */
-  teamId?: string;
+  teamId?: string | undefined;
   /** The Team slug to perform the request on behalf of. */
-  slug?: string;
+  slug?: string | undefined;
   scopeType: UpsertAiGatewayBudgetRequestScopeType | (string & {});
-  /** Required when scopeType is "project". */
-  projectId?: string;
-  /** Required when scopeType is "user". */
-  userId?: string;
+  /** Required when scopeType is \"project\". */
+  projectId?: string | undefined;
+  /** Required when scopeType is \"user\". */
+  userId?: string | undefined;
   /** Budget limit in dollars. */
   limitAmount: number;
-  refreshPeriod?: UpsertAiGatewayBudgetRequestRefreshPeriod | (string & {});
+  refreshPeriod?: UpsertAiGatewayBudgetRequestRefreshPeriod | (string & {}) | undefined;
   /** Whether BYOK usage counts toward this budget. */
-  includeByokInQuota?: boolean;
-  alertThresholds?: UpsertAiGatewayBudgetRequestAlertThresholdsList;
+  includeByokInQuota?: boolean | undefined;
+  alertThresholds?: UpsertAiGatewayBudgetRequestAlertThresholdsList | undefined;
+  /** Why the budget is being changed, up to 500 characters. Recorded in the activity log and audit log drains, and sent in the ai-gateway.budget.updated webhook. */
+  justification?: string | undefined;
 }
 export type UpsertAiGatewayBudgetDefaultRequestScopeType = "team" | "project" | "api-key" | "user";
 export type UpsertAiGatewayBudgetDefaultRequestRefreshPeriod =
@@ -527,14 +822,16 @@ export type UpsertAiGatewayBudgetDefaultRequestAlertThresholdsList = Array<
 >;
 export interface UpsertAiGatewayBudgetDefaultRequest {
   /** The Team identifier to perform the request on behalf of. */
-  teamId?: string;
+  teamId?: string | undefined;
   /** The Team slug to perform the request on behalf of. */
-  slug?: string;
+  slug?: string | undefined;
   scopeType: UpsertAiGatewayBudgetDefaultRequestScopeType | (string & {});
   /** Default budget limit in dollars. */
   limitAmount: number;
-  refreshPeriod?: UpsertAiGatewayBudgetDefaultRequestRefreshPeriod | (string & {});
-  alertThresholds?: UpsertAiGatewayBudgetDefaultRequestAlertThresholdsList;
+  refreshPeriod?: UpsertAiGatewayBudgetDefaultRequestRefreshPeriod | (string & {}) | undefined;
+  alertThresholds?: UpsertAiGatewayBudgetDefaultRequestAlertThresholdsList | undefined;
+  /** Why the budget is being changed, up to 500 characters. Recorded in the activity log and audit log drains, and sent in the ai-gateway.budget.updated webhook. */
+  justification?: string | undefined;
 }
 export type ArchiveAiGatewayBudgetError = BadRequest | Forbidden | NotFound | VercelOpError;
 /** Archive AI Gateway budget Archive a team-, project-, or user-scope AI Gateway budget. */
@@ -544,8 +841,8 @@ export const archiveAiGatewayBudget: API.OperationMethod<
   ArchiveAiGatewayBudgetError,
   VercelOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(224, __c14, 0) as any as S.Schema<ArchiveAiGatewayBudgetRequest>,
-  output: __S(256, __c16, 0) as any as S.Schema<AiGatewayBudget>,
+  input: __S(352, __c22, 0) as any as S.Schema<ArchiveAiGatewayBudgetRequest>,
+  output: __S(384, __c24, 0) as any as S.Schema<AiGatewayBudget>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: VercelProtocol,
   retry: Retry.Retry,
@@ -561,13 +858,30 @@ export const archiveAiGatewayBudgetDefault: API.OperationMethod<
   ArchiveAiGatewayBudgetDefaultError,
   VercelOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(272, __c17, 0) as any as S.Schema<ArchiveAiGatewayBudgetDefaultRequest>,
-  output: __S(273, __c17, 1) as any as S.Schema<ArchiveAiGatewayBudgetDefaultResponse>,
+  input: __S(400, __c25, 0) as any as S.Schema<ArchiveAiGatewayBudgetDefaultRequest>,
+  output: __S(401, __c25, 1) as any as S.Schema<ArchiveAiGatewayBudgetDefaultResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: VercelProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ArchiveAiGatewayBudgetDefault",
+}));
+
+export type CreateAiGatewayByokCredentialError = BadRequest | Forbidden | NotFound | VercelOpError;
+/** Create a BYOK credential Create a new BYOK credential */
+export const createAiGatewayByokCredential: API.OperationMethod<
+  CreateAiGatewayByokCredentialRequest,
+  CreateAiGatewayByokCredentialResponse,
+  CreateAiGatewayByokCredentialError,
+  VercelOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(418, __c26, 2) as any as S.Schema<CreateAiGatewayByokCredentialRequest>,
+  output: __S(432, __c27, 0) as any as S.Schema<CreateAiGatewayByokCredentialResponse>,
+  errors: [BadRequest, Forbidden, NotFound],
+  protocol: VercelProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateAiGatewayByokCredential",
 }));
 
 export type CreateAiGatewayRuleError = BadRequest | Forbidden | NotFound | Conflict | VercelOpError;
@@ -578,8 +892,8 @@ export const createAiGatewayRule: API.OperationMethod<
   CreateAiGatewayRuleError,
   VercelOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(288, __c18, 0) as any as S.Schema<CreateAiGatewayRuleRequest>,
-  output: __S(306, __c19, 2) as any as S.Schema<AiGatewayRule>,
+  input: __S(448, __c28, 0) as any as S.Schema<CreateAiGatewayRuleRequest>,
+  output: __S(480, __c30, 0) as any as S.Schema<AiGatewayRule>,
   errors: [BadRequest, Forbidden, NotFound, Conflict],
   protocol: VercelProtocol,
   retry: Retry.Retry,
@@ -600,13 +914,30 @@ export const createAiGatewayVirtualModelConfig: API.OperationMethod<
   CreateAiGatewayVirtualModelConfigError,
   VercelOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(320, __c20, 0) as any as S.Schema<CreateAiGatewayVirtualModelConfigRequest>,
-  output: __S(347, __c21, 11) as any as S.Schema<AiGatewayVirtualModelConfig>,
+  input: __S(496, __c31, 0) as any as S.Schema<CreateAiGatewayVirtualModelConfigRequest>,
+  output: __S(523, __c32, 11) as any as S.Schema<AiGatewayVirtualModelConfig>,
   errors: [BadRequest, Forbidden, NotFound, Conflict],
   protocol: VercelProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateAiGatewayVirtualModelConfig",
+}));
+
+export type DeleteAiGatewayByokCredentialError = BadRequest | Forbidden | NotFound | VercelOpError;
+/** Delete a BYOK credential Delete a BYOK credential (soft delete) and its model mappings */
+export const deleteAiGatewayByokCredential: API.OperationMethod<
+  DeleteAiGatewayByokCredentialRequest,
+  DeleteAiGatewayByokCredentialResponse,
+  DeleteAiGatewayByokCredentialError,
+  VercelOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(528, __c33, 0) as any as S.Schema<DeleteAiGatewayByokCredentialRequest>,
+  output: __S(544, __c34, 0) as any as S.Schema<DeleteAiGatewayByokCredentialResponse>,
+  errors: [BadRequest, Forbidden, NotFound],
+  protocol: VercelProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteAiGatewayByokCredential",
 }));
 
 export type DeleteAiGatewayRuleError = BadRequest | Forbidden | NotFound | VercelOpError;
@@ -617,8 +948,8 @@ export const deleteAiGatewayRule: API.OperationMethod<
   DeleteAiGatewayRuleError,
   VercelOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(352, __c22, 0) as any as S.Schema<DeleteAiGatewayRuleRequest>,
-  output: __S(368, __c23, 0) as any as S.Schema<DeleteAiGatewayRuleResponse>,
+  input: __S(0, __c0, 0) as any as S.Schema<DeleteAiGatewayRuleRequest>,
+  output: __S(544, __c34, 0) as any as S.Schema<DeleteAiGatewayRuleResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: VercelProtocol,
   retry: Retry.Retry,
@@ -638,8 +969,8 @@ export const deleteAiGatewayVirtualModelConfig: API.OperationMethod<
   DeleteAiGatewayVirtualModelConfigError,
   VercelOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(384, __c24, 0) as any as S.Schema<DeleteAiGatewayVirtualModelConfigRequest>,
-  output: __S(368, __c23, 0) as any as S.Schema<DeleteAiGatewayVirtualModelConfigResponse>,
+  input: __S(16, __c1, 0) as any as S.Schema<DeleteAiGatewayVirtualModelConfigRequest>,
+  output: __S(544, __c34, 0) as any as S.Schema<DeleteAiGatewayVirtualModelConfigResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: VercelProtocol,
   retry: Retry.Retry,
@@ -659,13 +990,30 @@ export const deleteAiGatewayVirtualModelConfigBySlug: API.OperationMethod<
   DeleteAiGatewayVirtualModelConfigBySlugError,
   VercelOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(0, __c0, 0) as any as S.Schema<DeleteAiGatewayVirtualModelConfigBySlugRequest>,
-  output: __S(368, __c23, 0) as any as S.Schema<DeleteAiGatewayVirtualModelConfigBySlugResponse>,
+  input: __S(32, __c2, 0) as any as S.Schema<DeleteAiGatewayVirtualModelConfigBySlugRequest>,
+  output: __S(544, __c34, 0) as any as S.Schema<DeleteAiGatewayVirtualModelConfigBySlugResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: VercelProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteAiGatewayVirtualModelConfigBySlug",
+}));
+
+export type GetAiGatewayByokCredentialError = BadRequest | Forbidden | NotFound | VercelOpError;
+/** Get a BYOK credential Get a BYOK credential by ID. The credential value is never returned. */
+export const getAiGatewayByokCredential: API.OperationMethod<
+  GetAiGatewayByokCredentialRequest,
+  GetAiGatewayByokCredentialResponse,
+  GetAiGatewayByokCredentialError,
+  VercelOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(48, __c3, 0) as any as S.Schema<GetAiGatewayByokCredentialRequest>,
+  output: __S(432, __c27, 0) as any as S.Schema<GetAiGatewayByokCredentialResponse>,
+  errors: [BadRequest, Forbidden, NotFound],
+  protocol: VercelProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAiGatewayByokCredential",
 }));
 
 export type GetAiGatewayVirtualModelConfigError = BadRequest | Forbidden | NotFound | VercelOpError;
@@ -676,8 +1024,8 @@ export const getAiGatewayVirtualModelConfig: API.OperationMethod<
   GetAiGatewayVirtualModelConfigError,
   VercelOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(16, __c1, 0) as any as S.Schema<GetAiGatewayVirtualModelConfigRequest>,
-  output: __S(17, __c1, 1) as any as S.Schema<GetAiGatewayVirtualModelConfigResponse>,
+  input: __S(64, __c4, 0) as any as S.Schema<GetAiGatewayVirtualModelConfigRequest>,
+  output: __S(65, __c4, 1) as any as S.Schema<GetAiGatewayVirtualModelConfigResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: VercelProtocol,
   retry: Retry.Retry,
@@ -697,8 +1045,8 @@ export const getAiGatewayVirtualModelConfigBySlug: API.OperationMethod<
   GetAiGatewayVirtualModelConfigBySlugError,
   VercelOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(32, __c2, 0) as any as S.Schema<GetAiGatewayVirtualModelConfigBySlugRequest>,
-  output: __S(347, __c21, 11) as any as S.Schema<AiGatewayVirtualModelConfig>,
+  input: __S(80, __c5, 0) as any as S.Schema<GetAiGatewayVirtualModelConfigBySlugRequest>,
+  output: __S(523, __c32, 11) as any as S.Schema<AiGatewayVirtualModelConfig>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: VercelProtocol,
   retry: Retry.Retry,
@@ -714,8 +1062,8 @@ export const listAiGatewayBudgetDefaults: API.OperationMethod<
   ListAiGatewayBudgetDefaultsError,
   VercelOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(48, __c3, 0) as any as S.Schema<ListAiGatewayBudgetDefaultsRequest>,
-  output: __S(50, __c3, 2) as any as S.Schema<AiGatewayBudgetDefaultList>,
+  input: __S(96, __c6, 0) as any as S.Schema<ListAiGatewayBudgetDefaultsRequest>,
+  output: __S(98, __c6, 2) as any as S.Schema<AiGatewayBudgetDefaultList>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: VercelProtocol,
   retry: Retry.Retry,
@@ -724,15 +1072,15 @@ export const listAiGatewayBudgetDefaults: API.OperationMethod<
 }));
 
 export type ListAiGatewayBudgetsError = BadRequest | Forbidden | NotFound | VercelOpError;
-/** List AI Gateway budgets List the team's AI Gateway budgets (team/project/user scopes, plus default-covered api-key spend) as a flat list, optionally filtered by scope. */
+/** List AI Gateway budgets List the team's AI Gateway budgets (team/project/user scopes, plus default-covered api-key spend) as a flat list, optionally filtered by scope. Without `limit` or `cursor`, returns every budget. With either, returns one page ordered by `quotaEntityId` plus `nextCursor` (null on the last page) and `defaultCoveredCounts`. Paging still reads the full merge server-side: the gateway meter list it joins has no cursor. */
 export const listAiGatewayBudgets: API.OperationMethod<
   ListAiGatewayBudgetsRequest,
   AiGatewayBudgetList,
   ListAiGatewayBudgetsError,
   VercelOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(80, __c5, 0) as any as S.Schema<ListAiGatewayBudgetsRequest>,
-  output: __S(82, __c5, 2) as any as S.Schema<AiGatewayBudgetList>,
+  input: __S(128, __c8, 0) as any as S.Schema<ListAiGatewayBudgetsRequest>,
+  output: __S(131, __c8, 3) as any as S.Schema<AiGatewayBudgetList>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: VercelProtocol,
   retry: Retry.Retry,
@@ -740,16 +1088,50 @@ export const listAiGatewayBudgets: API.OperationMethod<
   span: "ListAiGatewayBudgets",
 }));
 
+export type ListAiGatewayByokCredentialsError = BadRequest | Forbidden | NotFound | VercelOpError;
+/** List BYOK credentials List BYOK credentials for an owner, optionally filtered by provider */
+export const listAiGatewayByokCredentials: API.OperationMethod<
+  ListAiGatewayByokCredentialsRequest,
+  ListAiGatewayByokCredentialsResponse,
+  ListAiGatewayByokCredentialsError,
+  VercelOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(144, __c9, 0) as any as S.Schema<ListAiGatewayByokCredentialsRequest>,
+  output: __S(149, __c9, 5) as any as S.Schema<ListAiGatewayByokCredentialsResponse>,
+  errors: [BadRequest, Forbidden, NotFound],
+  protocol: VercelProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAiGatewayByokCredentials",
+}));
+
+export type ListAiGatewayRoutersError = BadRequest | Forbidden | NotFound | VercelOpError;
+/** List AI Gateway routers List the authenticated team's active and archived custom routers. */
+export const listAiGatewayRouters: API.OperationMethod<
+  ListAiGatewayRoutersRequest,
+  AiGatewayRouterList,
+  ListAiGatewayRoutersError,
+  VercelOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(160, __c10, 0) as any as S.Schema<ListAiGatewayRoutersRequest>,
+  output: __S(161, __c10, 1) as any as S.Schema<AiGatewayRouterList>,
+  errors: [BadRequest, Forbidden, NotFound],
+  protocol: VercelProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListAiGatewayRouters",
+}));
+
 export type ListAiGatewayRulesError = BadRequest | Forbidden | NotFound | VercelOpError;
-/** List rules List the authenticated team's routing rules */
+/** List rules List the authenticated team's routing rules, oldest first. Without `limit` or `cursor`, returns every rule. With either, returns one page and a `nextCursor` for the next page (null on the last page). Paging reads and sorts the team's rules server-side, which is fine at current rule counts. */
 export const listAiGatewayRules: API.OperationMethod<
   ListAiGatewayRulesRequest,
   AiGatewayRuleList,
   ListAiGatewayRulesError,
   VercelOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(96, __c6, 0) as any as S.Schema<ListAiGatewayRulesRequest>,
-  output: __S(98, __c6, 2) as any as S.Schema<AiGatewayRuleList>,
+  input: __S(192, __c12, 0) as any as S.Schema<ListAiGatewayRulesRequest>,
+  output: __S(195, __c12, 3) as any as S.Schema<AiGatewayRuleList>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: VercelProtocol,
   retry: Retry.Retry,
@@ -762,20 +1144,37 @@ export type ListAiGatewayVirtualModelConfigsError =
   | Forbidden
   | NotFound
   | VercelOpError;
-/** List virtual model configs List virtual model configs. With `ownerId`, returns all of that team's VMCs. Without it, pages through VMCs across all teams (newest-first, `limit`/`cursor`). */
+/** List virtual model configs List virtual model configs. For a team, returns all of its VMCs, or with `limit` or `cursor` one page ordered by `virtualModelSlug`. Across teams, pages newest-first. `includeArchived=false` omits archived VMCs. */
 export const listAiGatewayVirtualModelConfigs: API.OperationMethod<
   ListAiGatewayVirtualModelConfigsRequest,
   AiGatewayVirtualModelConfigList,
   ListAiGatewayVirtualModelConfigsError,
   VercelOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(114, __c7, 2) as any as S.Schema<ListAiGatewayVirtualModelConfigsRequest>,
-  output: __S(113, __c7, 1) as any as S.Schema<AiGatewayVirtualModelConfigList>,
+  input: __S(209, __c13, 1) as any as S.Schema<ListAiGatewayVirtualModelConfigsRequest>,
+  output: __S(208, __c13, 0) as any as S.Schema<AiGatewayVirtualModelConfigList>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: VercelProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListAiGatewayVirtualModelConfigs",
+}));
+
+export type UpdateAiGatewayByokCredentialError = BadRequest | Forbidden | NotFound | VercelOpError;
+/** Update a BYOK credential Update a BYOK credential. Send `credential` to replace the key value in place, which keeps the credential ID, settings and model mappings. */
+export const updateAiGatewayByokCredential: API.OperationMethod<
+  UpdateAiGatewayByokCredentialRequest,
+  UpdateAiGatewayByokCredentialResponse,
+  UpdateAiGatewayByokCredentialError,
+  VercelOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(224, __c14, 0) as any as S.Schema<UpdateAiGatewayByokCredentialRequest>,
+  output: __S(432, __c27, 0) as any as S.Schema<UpdateAiGatewayByokCredentialResponse>,
+  errors: [BadRequest, Forbidden, NotFound],
+  protocol: VercelProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateAiGatewayByokCredential",
 }));
 
 export type UpdateAiGatewayRuleError = BadRequest | Forbidden | NotFound | VercelOpError;
@@ -786,8 +1185,8 @@ export const updateAiGatewayRule: API.OperationMethod<
   UpdateAiGatewayRuleError,
   VercelOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(128, __c8, 0) as any as S.Schema<UpdateAiGatewayRuleRequest>,
-  output: __S(306, __c19, 2) as any as S.Schema<AiGatewayRule>,
+  input: __S(240, __c15, 0) as any as S.Schema<UpdateAiGatewayRuleRequest>,
+  output: __S(480, __c30, 0) as any as S.Schema<AiGatewayRule>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: VercelProtocol,
   retry: Retry.Retry,
@@ -807,8 +1206,8 @@ export const updateAiGatewayVirtualModelConfig: API.OperationMethod<
   UpdateAiGatewayVirtualModelConfigError,
   VercelOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(144, __c9, 0) as any as S.Schema<UpdateAiGatewayVirtualModelConfigRequest>,
-  output: __S(347, __c21, 11) as any as S.Schema<AiGatewayVirtualModelConfig>,
+  input: __S(256, __c16, 0) as any as S.Schema<UpdateAiGatewayVirtualModelConfigRequest>,
+  output: __S(523, __c32, 11) as any as S.Schema<AiGatewayVirtualModelConfig>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: VercelProtocol,
   retry: Retry.Retry,
@@ -828,13 +1227,30 @@ export const updateAiGatewayVirtualModelConfigBySlug: API.OperationMethod<
   UpdateAiGatewayVirtualModelConfigBySlugError,
   VercelOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(160, __c10, 0) as any as S.Schema<UpdateAiGatewayVirtualModelConfigBySlugRequest>,
-  output: __S(347, __c21, 11) as any as S.Schema<AiGatewayVirtualModelConfig>,
+  input: __S(272, __c17, 0) as any as S.Schema<UpdateAiGatewayVirtualModelConfigBySlugRequest>,
+  output: __S(523, __c32, 11) as any as S.Schema<AiGatewayVirtualModelConfig>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: VercelProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "UpdateAiGatewayVirtualModelConfigBySlug",
+}));
+
+export type UpdateApiKeyQuotaError = BadRequest | Forbidden | NotFound | VercelOpError;
+/** Update an AI Gateway API key budget Set, change, or remove the AI Gateway budget on an API key. Creates the budget if the key does not have one. */
+export const updateApiKeyQuota: API.OperationMethod<
+  UpdateApiKeyQuotaRequest,
+  UpdateApiKeyQuotaResponse,
+  UpdateApiKeyQuotaError,
+  VercelOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(288, __c18, 0) as any as S.Schema<UpdateApiKeyQuotaRequest>,
+  output: __S(291, __c18, 3) as any as S.Schema<UpdateApiKeyQuotaResponse>,
+  errors: [BadRequest, Forbidden, NotFound],
+  protocol: VercelProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateApiKeyQuota",
 }));
 
 export type UpsertAiGatewayBudgetError = BadRequest | Forbidden | NotFound | VercelOpError;
@@ -845,8 +1261,8 @@ export const upsertAiGatewayBudget: API.OperationMethod<
   UpsertAiGatewayBudgetError,
   VercelOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(176, __c11, 0) as any as S.Schema<UpsertAiGatewayBudgetRequest>,
-  output: __S(256, __c16, 0) as any as S.Schema<AiGatewayBudget>,
+  input: __S(320, __c20, 0) as any as S.Schema<UpsertAiGatewayBudgetRequest>,
+  output: __S(384, __c24, 0) as any as S.Schema<AiGatewayBudget>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: VercelProtocol,
   retry: Retry.Retry,
@@ -862,8 +1278,8 @@ export const upsertAiGatewayBudgetDefault: API.OperationMethod<
   UpsertAiGatewayBudgetDefaultError,
   VercelOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(208, __c13, 0) as any as S.Schema<UpsertAiGatewayBudgetDefaultRequest>,
-  output: __S(64, __c4, 0) as any as S.Schema<AiGatewayBudgetDefault>,
+  input: __S(336, __c21, 0) as any as S.Schema<UpsertAiGatewayBudgetDefaultRequest>,
+  output: __S(112, __c7, 0) as any as S.Schema<AiGatewayBudgetDefault>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: VercelProtocol,
   retry: Retry.Retry,
@@ -873,6 +1289,34 @@ export const upsertAiGatewayBudgetDefault: API.OperationMethod<
 
 // Schema builders: each runs one schema initializer, on that schema's first use.
 function __c0(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          ruleId: S.String.pipe(T.Query()),
+          teamId: S.optional(S.String.pipe(T.Query())),
+          slug: S.optional(S.String.pipe(T.Query())),
+        }).pipe(T.Http({ method: "DELETE", uri: "/ai-gateway/rules", code: 200 })),
+      ).annotate({ identifier: "DeleteAiGatewayRuleRequest" });
+  }
+}
+function __c1(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          ownerId: S.optional(S.String.pipe(T.Query())),
+          virtualModelSlug: S.String.pipe(T.Query()),
+          updatedBy: S.optional(S.String.pipe(T.Query())),
+          actingIp: S.optional(S.String.pipe(T.Query())),
+          actingUserAgent: S.optional(S.String.pipe(T.Query())),
+          teamId: S.optional(S.String.pipe(T.Query())),
+          slug: S.optional(S.String.pipe(T.Query())),
+        }).pipe(T.Http({ method: "DELETE", uri: "/ai-gateway/virtual-model-configs", code: 200 })),
+      ).annotate({ identifier: "DeleteAiGatewayVirtualModelConfigRequest" });
+  }
+}
+function __c2(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -894,7 +1338,22 @@ function __c0(j: number): any {
       ).annotate({ identifier: "DeleteAiGatewayVirtualModelConfigBySlugRequest" });
   }
 }
-function __c1(j: number): any {
+function __c3(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          credentialId: S.String.pipe(T.Label()),
+          ownerId: S.optional(S.String.pipe(T.Query())),
+          teamId: S.optional(S.String.pipe(T.Query())),
+          slug: S.optional(S.String.pipe(T.Query())),
+        }).pipe(
+          T.Http({ method: "GET", uri: "/ai-gateway/byok-credentials/{credentialId}", code: 200 }),
+        ),
+      ).annotate({ identifier: "GetAiGatewayByokCredentialRequest" });
+  }
+}
+function __c4(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -913,7 +1372,7 @@ function __c1(j: number): any {
       });
   }
 }
-function __c2(j: number): any {
+function __c5(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -928,7 +1387,7 @@ function __c2(j: number): any {
       ).annotate({ identifier: "GetAiGatewayVirtualModelConfigBySlugRequest" });
   }
 }
-function __c3(j: number): any {
+function __c6(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -938,22 +1397,22 @@ function __c3(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/ai-gateway/budgets/defaults/list", code: 200 })),
       ).annotate({ identifier: "ListAiGatewayBudgetDefaultsRequest" });
     case 1:
-      return S.Array(__S(64, __c4, 0));
+      return S.Array(__S(112, __c7, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          defaults: __S(49, __c3, 1),
+          defaults: __S(97, __c6, 1),
         }),
       ).annotate({ identifier: "AiGatewayBudgetDefaultList" });
   }
 }
-function __c4(j: number): any {
+function __c7(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           active: S.Boolean,
-          alertThresholds: S.optional(__S(240, __c15, 0)),
+          alertThresholds: S.optional(__S(368, __c23, 0)),
           createdAt: S.Number,
           limitAmount: S.Number,
           refreshPeriod: S.String,
@@ -963,63 +1422,174 @@ function __c4(j: number): any {
       ).annotate({ identifier: "AiGatewayBudgetDefault" });
   }
 }
-function __c5(j: number): any {
+function __c8(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           scopeType: S.optional(S.String.pipe(T.Query())),
+          includeDefaultCovered: S.optional(S.Boolean.pipe(T.Query(), T.StringEncoded())),
+          limit: S.optional(S.Number.pipe(T.Query())),
+          cursor: S.optional(S.String.pipe(T.Query())),
           teamId: S.optional(S.String.pipe(T.Query())),
           slug: S.optional(S.String.pipe(T.Query())),
         }).pipe(T.Http({ method: "GET", uri: "/ai-gateway/budgets/list", code: 200 })),
       ).annotate({ identifier: "ListAiGatewayBudgetsRequest" });
     case 1:
-      return S.Array(__S(256, __c16, 0));
+      return S.Array(__S(384, __c24, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          budgets: __S(81, __c5, 1),
+          api_key: S.Number.pipe(T.Body("api-key")),
+          project: S.Number,
+          team: S.Number,
+          user: S.Number,
+        }),
+      ).annotate({ identifier: "AiGatewayBudgetListDefaultCoveredCounts" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          budgets: __S(129, __c8, 1),
+          defaultCoveredCounts: S.optional(__S(130, __c8, 2)),
+          nextCursor: S.optional(S.NullOr(S.String)),
         }),
       ).annotate({ identifier: "AiGatewayBudgetList" });
   }
 }
-function __c6(j: number): any {
+function __c9(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          ownerId: S.optional(S.String.pipe(T.Query())),
+          providerSlug: S.optional(S.String.pipe(T.Query())),
+          includeDeleted: S.optional(S.Boolean.pipe(T.Query(), T.StringEncoded())),
+          decrypt: S.optional(S.Boolean.pipe(T.Query(), T.StringEncoded())),
+          includeModelMappings: S.optional(S.Boolean.pipe(T.Query(), T.StringEncoded())),
+          teamId: S.optional(S.String.pipe(T.Query())),
+          slug: S.optional(S.String.pipe(T.Query())),
+        }).pipe(T.Http({ method: "GET", uri: "/ai-gateway/byok-credentials/list", code: 200 })),
+      ).annotate({ identifier: "ListAiGatewayByokCredentialsRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          customModelId: S.String,
+          gatewayModelSlug: S.String,
+        }),
+      ).annotate({
+        identifier: "ListAiGatewayByokCredentialsResponseCredentialsItemModelMappingsItem",
+      });
+    case 2:
+      return S.Array(__S(145, __c9, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          active: S.Boolean,
+          createdAt: S.Number,
+          credential: S.NullOr(S.String),
+          credentialId: S.String,
+          deleted: S.Boolean,
+          lastFourChars: S.String,
+          modelMappings: __S(146, __c9, 2),
+          name: S.String,
+          ownerId: S.String,
+          providerSlug: S.String,
+          rotatedAt: S.NullOr(S.Number),
+          updatedAt: S.Number,
+          zeroDataRetention: S.Boolean,
+        }),
+      ).annotate({ identifier: "ListAiGatewayByokCredentialsResponseCredentialsItem" });
+    case 4:
+      return S.Array(__S(147, __c9, 3));
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          credentials: __S(148, __c9, 4),
+        }),
+      ).annotate({ identifier: "ListAiGatewayByokCredentialsResponse" });
+  }
+}
+function __c10(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          ownerId: S.optional(S.String.pipe(T.Query())),
+          teamId: S.optional(S.String.pipe(T.Query())),
+          slug: S.optional(S.String.pipe(T.Query())),
+        }).pipe(T.Http({ method: "GET", uri: "/v1/ai-gateway/routers", code: 200 })),
+      ).annotate({ identifier: "ListAiGatewayRoutersRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          routers: __S(176, __c11, 0),
+        }),
+      ).annotate({ identifier: "AiGatewayRouterList" });
+  }
+}
+function __c11(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(__S(523, __c32, 11));
+  }
+}
+function __c12(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           includeDisabled: S.optional(S.Boolean.pipe(T.Query(), T.StringEncoded())),
+          limit: S.optional(S.Number.pipe(T.Query())),
+          cursor: S.optional(S.String.pipe(T.Query())),
           teamId: S.optional(S.String.pipe(T.Query())),
           slug: S.optional(S.String.pipe(T.Query())),
         }).pipe(T.Http({ method: "GET", uri: "/ai-gateway/rules", code: 200 })),
       ).annotate({ identifier: "ListAiGatewayRulesRequest" });
     case 1:
-      return S.Array(__S(306, __c19, 2));
-    case 2:
       return S.suspend(() =>
         S.Struct({
-          rules: __S(97, __c6, 1),
+          action: S.optional(__S(464, __c29, 0)),
+          createdAt: S.Number,
+          createdBy: S.optional(S.String),
+          deleted: S.optional(S.Boolean),
+          description: S.optional(S.String),
+          enabled: S.Boolean,
+          match: S.optional(__S(465, __c29, 1)),
+          ownerId: S.String,
+          ruleId: S.String,
+          shadowedBy: S.optional(S.String),
+          type: S.String,
+          updatedAt: S.Number,
+          updatedBy: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "AiGatewayRuleListItem" });
+    case 2:
+      return S.Array(__S(193, __c12, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          nextCursor: S.NullOr(S.String),
+          rules: __S(194, __c12, 2),
         }),
       ).annotate({ identifier: "AiGatewayRuleList" });
   }
 }
-function __c7(j: number): any {
+function __c13(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(347, __c21, 11));
-    case 1:
       return S.suspend(() =>
         S.Struct({
           cursor: S.NullOr(S.String),
-          virtualModelConfigs: __S(112, __c7, 0),
+          virtualModelConfigs: __S(176, __c11, 0),
         }),
       ).annotate({ identifier: "AiGatewayVirtualModelConfigList" });
-    case 2:
+    case 1:
       return S.suspend(() =>
         S.Struct({
           ownerId: S.optional(S.String.pipe(T.Query())),
           limit: S.optional(S.Number.pipe(T.Query())),
           cursor: S.optional(S.String.pipe(T.Query())),
+          includeArchived: S.optional(S.Boolean.pipe(T.Query(), T.StringEncoded())),
           teamId: S.optional(S.String.pipe(T.Query())),
           slug: S.optional(S.String.pipe(T.Query())),
         }).pipe(
@@ -1028,7 +1598,30 @@ function __c7(j: number): any {
       ).annotate({ identifier: "ListAiGatewayVirtualModelConfigsRequest" });
   }
 }
-function __c8(j: number): any {
+function __c14(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          credentialId: S.String.pipe(T.Label()),
+          ownerId: S.optional(S.String.pipe(T.Query())),
+          teamId: S.optional(S.String.pipe(T.Query())),
+          slug: S.optional(S.String.pipe(T.Query())),
+          name: S.optional(S.String),
+          active: S.optional(S.Boolean),
+          zeroDataRetention: S.optional(S.Boolean),
+          userId: S.optional(S.String),
+        }).pipe(
+          T.Http({
+            method: "PATCH",
+            uri: "/ai-gateway/byok-credentials/{credentialId}",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "UpdateAiGatewayByokCredentialRequest" });
+  }
+}
+function __c15(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1039,7 +1632,7 @@ function __c8(j: number): any {
       ).annotate({ identifier: "UpdateAiGatewayRuleRequest" });
   }
 }
-function __c9(j: number): any {
+function __c16(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1050,7 +1643,7 @@ function __c9(j: number): any {
       ).annotate({ identifier: "UpdateAiGatewayVirtualModelConfigRequest" });
   }
 }
-function __c10(j: number): any {
+function __c17(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1068,7 +1661,73 @@ function __c10(j: number): any {
       ).annotate({ identifier: "UpdateAiGatewayVirtualModelConfigBySlugRequest" });
   }
 }
-function __c11(j: number): any {
+function __c18(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          apiKeyID: S.String.pipe(T.Label()),
+          limitAmount: S.optional(S.Number),
+          includeByokInQuota: S.optional(S.Boolean),
+          refreshPeriod: S.optional(S.String),
+          active: S.optional(S.Boolean),
+          archived: S.optional(S.Boolean),
+          alertThresholds: S.optional(__S(304, __c19, 0)),
+          justification: S.optional(S.String),
+        }).pipe(T.Http({ method: "PATCH", uri: "/api-keys/{apiKeyID}/quota", code: 200 })),
+      ).annotate({ identifier: "UpdateApiKeyQuotaRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          quotaEntityId: S.String,
+          limitAmount: S.Number,
+          currentSpend: S.Number,
+          currentByokSpend: S.Number,
+          includeByokInQuota: S.Boolean,
+          refreshPeriod: S.String,
+          active: S.Boolean,
+          archived: S.Boolean,
+          alertThresholds: S.optional(__S(368, __c23, 0)),
+          createdAt: S.Number,
+          updatedAt: S.Number,
+        }),
+      ).annotate({ identifier: "APIKeyQuota" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String,
+          name: S.String,
+          partialKey: S.String,
+          teamId: S.String,
+          purpose: S.String,
+          projectId: S.NullOr(S.String),
+          expiresAt: S.NullOr(S.Number),
+          activeAt: S.Number,
+          createdAt: S.Number,
+          createdBy: S.String,
+          leakedAt: S.NullOr(S.Number),
+          leakedUrl: S.NullOr(S.String),
+          createdByAppId: S.NullOr(S.String),
+          quota: S.optional(__S(289, __c18, 1)),
+          metadata: S.optional(S.Unknown),
+        }),
+      ).annotate({ identifier: "APIKey" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          apiKey: __S(290, __c18, 2),
+          quota: __S(289, __c18, 1),
+        }),
+      ).annotate({ identifier: "UpdateApiKeyQuotaResponse" });
+  }
+}
+function __c19(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(S.Number);
+  }
+}
+function __c20(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1081,18 +1740,13 @@ function __c11(j: number): any {
           limitAmount: S.Number,
           refreshPeriod: S.optional(S.String),
           includeByokInQuota: S.optional(S.Boolean),
-          alertThresholds: S.optional(__S(192, __c12, 0)),
+          alertThresholds: S.optional(__S(304, __c19, 0)),
+          justification: S.optional(S.String),
         }).pipe(T.Http({ method: "PUT", uri: "/ai-gateway/budgets", code: 200 })),
       ).annotate({ identifier: "UpsertAiGatewayBudgetRequest" });
   }
 }
-function __c12(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Array(S.Number);
-  }
-}
-function __c13(j: number): any {
+function __c21(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1102,12 +1756,13 @@ function __c13(j: number): any {
           scopeType: S.String,
           limitAmount: S.Number,
           refreshPeriod: S.optional(S.String),
-          alertThresholds: S.optional(__S(192, __c12, 0)),
+          alertThresholds: S.optional(__S(304, __c19, 0)),
+          justification: S.optional(S.String),
         }).pipe(T.Http({ method: "PUT", uri: "/ai-gateway/budgets/defaults", code: 200 })),
       ).annotate({ identifier: "UpsertAiGatewayBudgetDefaultRequest" });
   }
 }
-function __c14(j: number): any {
+function __c22(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1115,25 +1770,26 @@ function __c14(j: number): any {
           scopeType: S.String.pipe(T.Query()),
           projectId: S.optional(S.String.pipe(T.Query())),
           userId: S.optional(S.String.pipe(T.Query())),
+          justification: S.optional(S.String.pipe(T.Query())),
           teamId: S.optional(S.String.pipe(T.Query())),
           slug: S.optional(S.String.pipe(T.Query())),
         }).pipe(T.Http({ method: "DELETE", uri: "/ai-gateway/budgets", code: 200 })),
       ).annotate({ identifier: "ArchiveAiGatewayBudgetRequest" });
   }
 }
-function __c15(j: number): any {
+function __c23(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.Number);
   }
 }
-function __c16(j: number): any {
+function __c24(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           active: S.Boolean,
-          alertThresholds: S.optional(__S(240, __c15, 0)),
+          alertThresholds: S.optional(__S(368, __c23, 0)),
           archived: S.Boolean,
           createdAt: S.Number,
           currentByokSpend: S.Number,
@@ -1151,12 +1807,13 @@ function __c16(j: number): any {
       ).annotate({ identifier: "AiGatewayBudget" });
   }
 }
-function __c17(j: number): any {
+function __c25(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           scopeType: S.String.pipe(T.Query()),
+          justification: S.optional(S.String.pipe(T.Query())),
           teamId: S.optional(S.String.pipe(T.Query())),
           slug: S.optional(S.String.pipe(T.Query())),
         }).pipe(T.Http({ method: "DELETE", uri: "/ai-gateway/budgets/defaults", code: 200 })),
@@ -1167,7 +1824,53 @@ function __c17(j: number): any {
       });
   }
 }
-function __c18(j: number): any {
+function __c26(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          gatewayModelSlug: S.String,
+          customModelId: S.String,
+        }),
+      ).annotate({ identifier: "CreateAiGatewayByokCredentialRequestMappingsItem" });
+    case 1:
+      return S.Array(__S(416, __c26, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          teamId: S.optional(S.String.pipe(T.Query())),
+          slug: S.optional(S.String.pipe(T.Query())),
+          ownerId: S.optional(S.String),
+          providerSlug: S.String,
+          name: S.String,
+          active: S.optional(S.Boolean),
+          zeroDataRetention: S.optional(S.Boolean),
+          userId: S.optional(S.String),
+          mappings: S.optional(__S(417, __c26, 1)),
+        }).pipe(T.Http({ method: "POST", uri: "/ai-gateway/byok-credentials", code: 200 })),
+      ).annotate({ identifier: "CreateAiGatewayByokCredentialRequest" });
+  }
+}
+function __c27(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          active: S.Boolean,
+          createdAt: S.Number,
+          credentialId: S.String,
+          lastFourChars: S.String,
+          name: S.String,
+          ownerId: S.String,
+          providerSlug: S.String,
+          rotatedAt: S.NullOr(S.Number),
+          updatedAt: S.Number,
+          zeroDataRetention: S.Boolean,
+        }),
+      ).annotate({ identifier: "CreateAiGatewayByokCredentialResponse" });
+  }
+}
+function __c28(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1178,7 +1881,7 @@ function __c18(j: number): any {
       ).annotate({ identifier: "CreateAiGatewayRuleRequest" });
   }
 }
-function __c19(j: number): any {
+function __c29(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1193,16 +1896,20 @@ function __c19(j: number): any {
           model: S.optional(S.String),
         }),
       ).annotate({ identifier: "AiGatewayRuleMatch" });
-    case 2:
+  }
+}
+function __c30(j: number): any {
+  switch (j) {
+    case 0:
       return S.suspend(() =>
         S.Struct({
-          action: S.optional(__S(304, __c19, 0)),
+          action: S.optional(__S(464, __c29, 0)),
           createdAt: S.Number,
           createdBy: S.optional(S.String),
           deleted: S.optional(S.Boolean),
           description: S.optional(S.String),
           enabled: S.Boolean,
-          match: S.optional(__S(305, __c19, 1)),
+          match: S.optional(__S(465, __c29, 1)),
           ownerId: S.String,
           ruleId: S.String,
           type: S.String,
@@ -1212,7 +1919,7 @@ function __c19(j: number): any {
       ).annotate({ identifier: "AiGatewayRule" });
   }
 }
-function __c20(j: number): any {
+function __c31(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1223,7 +1930,7 @@ function __c20(j: number): any {
       ).annotate({ identifier: "CreateAiGatewayVirtualModelConfigRequest" });
   }
 }
-function __c21(j: number): any {
+function __c32(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
@@ -1238,13 +1945,13 @@ function __c21(j: number): any {
         }),
       ).annotate({ identifier: "AiGatewayVirtualModelConfigInferenceRegionProvidersValue" });
     case 3:
-      return S.Record(S.String, /*@__PURE__*/ S.NullOr(__S(338, __c21, 2)));
+      return S.Record(S.String, /*@__PURE__*/ S.NullOr(__S(514, __c32, 2)));
     case 4:
       return S.suspend(() =>
         S.Struct({
           geoRegion: S.optional(S.String),
           providerRegion: S.optional(S.String),
-          providers: S.optional(__S(339, __c21, 3)),
+          providers: S.optional(__S(515, __c32, 3)),
           scope: S.optional(S.String),
         }),
       ).annotate({ identifier: "AiGatewayVirtualModelConfigInferenceRegion" });
@@ -1253,21 +1960,21 @@ function __c21(j: number): any {
     case 6:
       return S.Record(S.String, S.Unknown);
     case 7:
-      return S.Record(S.String, __S(342, __c21, 6));
+      return S.Record(S.String, __S(518, __c32, 6));
     case 8:
       return S.Record(S.String, S.Number);
     case 9:
       return S.suspend(() =>
         S.Struct({
-          byok: S.optional(__S(344, __c21, 8)),
+          byok: S.optional(__S(520, __c32, 8)),
         }),
       ).annotate({ identifier: "AiGatewayVirtualModelConfigProviderTimeouts" });
     case 10:
       return S.suspend(() =>
         S.Struct({
-          cost: S.optional(__S(342, __c21, 6)),
-          tps: S.optional(__S(342, __c21, 6)),
-          ttft: S.optional(__S(342, __c21, 6)),
+          cost: S.optional(__S(518, __c32, 6)),
+          tps: S.optional(__S(518, __c32, 6)),
+          ttft: S.optional(__S(518, __c32, 6)),
         }),
       ).annotate({ identifier: "AiGatewayVirtualModelConfigSelectorOptions" });
     case 11:
@@ -1275,7 +1982,7 @@ function __c21(j: number): any {
         S.Struct({
           allowFallbackFromFast: S.optional(S.Boolean),
           baseUrl: S.optional(S.String),
-          byokCredentialIds: S.optional(__S(336, __c21, 0)),
+          byokCredentialIds: S.optional(__S(512, __c32, 0)),
           caching: S.optional(S.String),
           createdAt: S.Number,
           createdBy: S.optional(S.String),
@@ -1283,21 +1990,21 @@ function __c21(j: number): any {
           description: S.optional(S.String),
           disallowPromptTraining: S.optional(S.Boolean),
           displayName: S.optional(S.String),
-          has: S.optional(__S(337, __c21, 1)),
+          has: S.optional(__S(513, __c32, 1)),
           hipaaCompliant: S.optional(S.Boolean),
-          inferenceRegion: S.optional(__S(340, __c21, 4)),
+          inferenceRegion: S.optional(__S(516, __c32, 4)),
           instanceId: S.optional(S.String),
           kind: S.String,
-          models: S.optional(__S(341, __c21, 5)),
+          models: S.optional(__S(517, __c32, 5)),
           modelSlug: S.optional(S.String),
-          observabilityTags: S.optional(__S(336, __c21, 0)),
+          observabilityTags: S.optional(__S(512, __c32, 0)),
           ownerId: S.String,
-          providerOnly: S.optional(__S(336, __c21, 0)),
-          providerOptions: S.optional(__S(343, __c21, 7)),
-          providerOrder: S.optional(__S(336, __c21, 0)),
-          providerTimeouts: S.optional(__S(345, __c21, 9)),
+          providerOnly: S.optional(__S(512, __c32, 0)),
+          providerOptions: S.optional(__S(519, __c32, 7)),
+          providerOrder: S.optional(__S(512, __c32, 0)),
+          providerTimeouts: S.optional(__S(521, __c32, 9)),
           selector: S.optional(S.String),
-          selectorOptions: S.optional(__S(346, __c21, 10)),
+          selectorOptions: S.optional(__S(522, __c32, 10)),
           serviceTier: S.optional(S.String),
           sort: S.optional(S.String),
           speed: S.optional(S.String),
@@ -1311,40 +2018,32 @@ function __c21(j: number): any {
       ).annotate({ identifier: "AiGatewayVirtualModelConfig" });
   }
 }
-function __c22(j: number): any {
+function __c33(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          ruleId: S.String.pipe(T.Query()),
-          teamId: S.optional(S.String.pipe(T.Query())),
-          slug: S.optional(S.String.pipe(T.Query())),
-        }).pipe(T.Http({ method: "DELETE", uri: "/ai-gateway/rules", code: 200 })),
-      ).annotate({ identifier: "DeleteAiGatewayRuleRequest" });
-  }
-}
-function __c23(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() => S.Unknown.pipe(T.RawResponseRoot())).annotate({
-        identifier: "DeleteAiGatewayRuleResponse",
-      });
-  }
-}
-function __c24(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
+          credentialId: S.String.pipe(T.Label()),
           ownerId: S.optional(S.String.pipe(T.Query())),
-          virtualModelSlug: S.String.pipe(T.Query()),
-          updatedBy: S.optional(S.String.pipe(T.Query())),
-          actingIp: S.optional(S.String.pipe(T.Query())),
-          actingUserAgent: S.optional(S.String.pipe(T.Query())),
+          userId: S.optional(S.String.pipe(T.Query())),
           teamId: S.optional(S.String.pipe(T.Query())),
           slug: S.optional(S.String.pipe(T.Query())),
-        }).pipe(T.Http({ method: "DELETE", uri: "/ai-gateway/virtual-model-configs", code: 200 })),
-      ).annotate({ identifier: "DeleteAiGatewayVirtualModelConfigRequest" });
+        }).pipe(
+          T.Http({
+            method: "DELETE",
+            uri: "/ai-gateway/byok-credentials/{credentialId}",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "DeleteAiGatewayByokCredentialRequest" });
+  }
+}
+function __c34(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() => S.NullOr(S.Unknown).pipe(T.RawResponseRoot())).annotate({
+        identifier: "DeleteAiGatewayByokCredentialResponse",
+      });
   }
 }
 // Schema table: entry i is schema j of builder f, made on first reach.

@@ -611,6 +611,102 @@ describe("SSO access token refresh (#886)", () => {
   }
 });
 
+describe("SSO hosts follow the partition of sso_region", () => {
+  let home: string;
+  let originalHome: string | undefined;
+
+  beforeEach(() => {
+    home = mkdtempSync(join(tmpdir(), "distilled-aws-auth-"));
+    originalHome = process.env.HOME;
+    process.env.HOME = home;
+  });
+
+  afterEach(() => {
+    process.env.HOME = originalHome;
+    rmSync(home, { recursive: true, force: true });
+  });
+
+  for (const [ssoRegion, dnsSuffix] of [
+    ["us-east-1", "amazonaws.com"],
+    ["eusc-de-east-1", "amazonaws.eu"],
+    ["cn-north-1", "amazonaws.com.cn"],
+  ] as const) {
+    test(`${ssoRegion} calls oidc.${ssoRegion}.${dnsSuffix} and portal.sso.${ssoRegion}.${dnsSuffix}`, async () => {
+      mkdirSync(join(home, ".aws"), { recursive: true });
+      writeFileSync(
+        join(home, ".aws", "config"),
+        config.replace(`sso_region = ${SSO_REGION}`, `sso_region = ${ssoRegion}`),
+      );
+      const tokenPath = join(home, ".aws", "sso", "cache", `${ssoTokenCacheName(SESSION)}.json`);
+      const files = new Map([
+        [
+          tokenPath,
+          JSON.stringify({
+            accessToken: "expired-access-token",
+            expiresAt: new Date(Date.now() - 60 * 1000).toISOString(),
+            refreshToken: "refresh-token",
+            clientId: "client-id",
+            clientSecret: "client-secret",
+            region: ssoRegion,
+            startUrl: START_URL,
+          }),
+        ],
+      ]);
+      const hosts: string[] = [];
+
+      const fs = FileSystem.layerNoop({
+        readFileString: (path) =>
+          files.has(path)
+            ? Effect.succeed(files.get(path)!)
+            : Effect.fail(
+                PlatformError.systemError({
+                  _tag: "NotFound",
+                  module: "FileSystem",
+                  method: "readFileString",
+                  pathOrDescriptor: path,
+                }),
+              ),
+        writeFileString: (path, data) =>
+          Effect.sync(() => {
+            files.set(path, data);
+          }),
+      });
+      const http = Layer.succeed(HttpClient.HttpClient)(
+        HttpClient.make((request, url) =>
+          Effect.sync(() => {
+            hosts.push(url.hostname);
+            return HttpClientResponse.fromWeb(
+              request,
+              Response.json(
+                url.pathname === "/token"
+                  ? { accessToken: "fresh-access-token", tokenType: "Bearer", expiresIn: 3600 }
+                  : {
+                      roleCredentials: {
+                        accessKeyId: "AKIA-dev",
+                        secretAccessKey: "secret-dev",
+                        sessionToken: "session-dev",
+                        expiration: inOneHour().getTime(),
+                      },
+                    },
+              ),
+            );
+          }),
+        ),
+      );
+
+      await Effect.runPromise(
+        Effect.flatMap(makeAuthService(), (auth) => auth.loadProfileCredentials("dev")).pipe(
+          Effect.provide(Layer.mergeAll(fs, http, Path.layer)),
+        ),
+      );
+      expect(hosts).toEqual([
+        `oidc.${ssoRegion}.${dnsSuffix}`,
+        `portal.sso.${ssoRegion}.${dnsSuffix}`,
+      ]);
+    });
+  }
+});
+
 describe("AWS_CONFIG_FILE", () => {
   let home: string;
   let originalHome: string | undefined;

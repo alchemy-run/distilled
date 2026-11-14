@@ -1,0 +1,84 @@
+{
+  "description": "Accept X-Inngest-Env on environment list/update, app list/get/sync and function list/get. A branch-environment signing key only reaches its branch child environment when the request names it; without the header these calls answer not_found or internal_error.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.inngest.api#V2GetAppsRequest/members/xInngestEnv",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpHeader": "X-Inngest-Env",
+          "smithy.api#documentation": "Scope the request to an environment by name (e.g. a branch environment)"
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.inngest.api#V2GetAppRequest/members/xInngestEnv",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpHeader": "X-Inngest-Env",
+          "smithy.api#documentation": "Scope the request to an environment by name (e.g. a branch environment)"
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.inngest.api#V2GetFunctionsRequest/members/xInngestEnv",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpHeader": "X-Inngest-Env",
+          "smithy.api#documentation": "Scope the request to an environment by name (e.g. a branch environment)"
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.inngest.api#V2GetFunctionRequest/members/xInngestEnv",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpHeader": "X-Inngest-Env",
+          "smithy.api#documentation": "Scope the request to an environment by name (e.g. a branch environment)"
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.inngest.api#V2SyncAppRequest/members/xInngestEnv",
+      "before": "url",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpHeader": "X-Inngest-Env",
+          "smithy.api#documentation": "Scope the request to an environment by name (e.g. a branch environment)"
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.inngest.api#V2FetchAccountEnvsRequest/members/xInngestEnv",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpHeader": "X-Inngest-Env",
+          "smithy.api#documentation": "Scope the request to an environment by name (e.g. a branch environment)"
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.inngest.api#V2PatchEnvRequest/members/xInngestEnv",
+      "before": "isArchived",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpHeader": "X-Inngest-Env",
+          "smithy.api#documentation": "Scope the request to an environment by name (e.g. a branch environment)"
+        }
+      }
+    }
+  ]
+}

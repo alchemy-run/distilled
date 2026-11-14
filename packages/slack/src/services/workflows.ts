@@ -48,13 +48,13 @@ export interface AddTriggersPermissionsRequest {
   /** Encoded ID of the trigger */
   trigger_id: string;
   /** List of encoded user IDs */
-  user_ids?: AddTriggersPermissionsRequestUserIdsList;
+  user_ids?: AddTriggersPermissionsRequestUserIdsList | undefined;
   /** List of encoded channel IDs */
-  channel_ids?: AddTriggersPermissionsRequestChannelIdsList;
+  channel_ids?: AddTriggersPermissionsRequestChannelIdsList | undefined;
   /** List of encoded workspace IDs */
-  team_ids?: AddTriggersPermissionsRequestTeamIdsList;
+  team_ids?: AddTriggersPermissionsRequestTeamIdsList | undefined;
   /** List of encoded organization IDs */
-  org_ids?: AddTriggersPermissionsRequestOrgIdsList;
+  org_ids?: AddTriggersPermissionsRequestOrgIdsList | undefined;
 }
 export interface AddTriggersPermissionsResponse {
   /** Always `true` (a failed call raises a typed error instead). */
@@ -118,13 +118,13 @@ export interface RemoveTriggersPermissionsRequest {
   /** Encoded ID of the trigger */
   trigger_id: string;
   /** List of encoded user IDs */
-  user_ids?: RemoveTriggersPermissionsRequestUserIdsList;
+  user_ids?: RemoveTriggersPermissionsRequestUserIdsList | undefined;
   /** List of encoded channel IDs */
-  channel_ids?: RemoveTriggersPermissionsRequestChannelIdsList;
+  channel_ids?: RemoveTriggersPermissionsRequestChannelIdsList | undefined;
   /** List of encoded workspace IDs */
-  team_ids?: RemoveTriggersPermissionsRequestTeamIdsList;
+  team_ids?: RemoveTriggersPermissionsRequestTeamIdsList | undefined;
   /** List of encoded organization IDs */
-  org_ids?: RemoveTriggersPermissionsRequestOrgIdsList;
+  org_ids?: RemoveTriggersPermissionsRequestOrgIdsList | undefined;
 }
 export type RemoveTriggersPermissionsResponsePermissionType =
   | "everyone"
@@ -142,12 +142,12 @@ export interface RemoveTriggersPermissionsResponse {
   ok: boolean;
   permission_type: RemoveTriggersPermissionsResponsePermissionType;
   /** A list of encoded user IDs. */
-  user_ids?: RemoveTriggersPermissionsResponseUserIdsList;
+  user_ids?: RemoveTriggersPermissionsResponseUserIdsList | undefined;
   /** A list of encoded channel IDs. */
-  channel_ids?: RemoveTriggersPermissionsResponseChannelIdsList;
+  channel_ids?: RemoveTriggersPermissionsResponseChannelIdsList | undefined;
   /** Encoded workspace IDs. */
-  team_ids?: RemoveTriggersPermissionsResponseTeamIdsList;
-  org_ids?: RemoveTriggersPermissionsResponseOrgIdsList;
+  team_ids?: RemoveTriggersPermissionsResponseTeamIdsList | undefined;
+  org_ids?: RemoveTriggersPermissionsResponseOrgIdsList | undefined;
 }
 /** Comma-separated array of trigger IDs that will replace any existing featured workflows in the channel; max 15 */
 export type SetFeaturedRequestTriggerIdsList = Array<string>;
@@ -180,13 +180,13 @@ export interface SetTriggersPermissionsRequest {
   /** The type of permission that defines who can run a trigger */
   permission_type: SetTriggersPermissionsRequestPermissionType | (string & {});
   /** List of encoded user IDs */
-  user_ids?: SetTriggersPermissionsRequestUserIdsList;
+  user_ids?: SetTriggersPermissionsRequestUserIdsList | undefined;
   /** List of encoded channel IDs */
-  channel_ids?: SetTriggersPermissionsRequestChannelIdsList;
+  channel_ids?: SetTriggersPermissionsRequestChannelIdsList | undefined;
   /** List of encoded workspace IDs */
-  team_ids?: SetTriggersPermissionsRequestTeamIdsList;
+  team_ids?: SetTriggersPermissionsRequestTeamIdsList | undefined;
   /** List of encoded organization IDs */
-  org_ids?: SetTriggersPermissionsRequestOrgIdsList;
+  org_ids?: SetTriggersPermissionsRequestOrgIdsList | undefined;
 }
 export interface SetTriggersPermissionsResponse {
   /** Always `true` (a failed call raises a typed error instead). */

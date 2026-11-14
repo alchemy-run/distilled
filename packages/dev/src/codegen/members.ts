@@ -16,11 +16,30 @@ import { oneLine } from "./naming.ts";
 export const ADDITIONAL_PROPERTIES_TRAIT = "com.distilled.openapi#additionalProperties";
 
 /**
- * Member-level marker: the value is the caller's own JSON, sent and returned
- * with its keys as written. The generator emits `T.Verbatim()` on the member
- * and lists it on `T.UnionCases` for every opaque union case that holds it.
+ * Smithy 2.0 `@default`: the value a member has when the wire leaves it out.
+ * A response always carries such a member (proto3 fields without presence).
  */
-export const VERBATIM_TRAIT = "distilled.protocols#verbatim";
+export const DEFAULT_TRAIT = "smithy.api#default";
+
+/**
+ * A server-streaming gRPC operation, whose output collects the stream as
+ * `{ items }`; generated as `API.makeStreaming` (see the proto converter).
+ */
+export const SERVER_STREAMING_TRAIT = "com.distilled.grpc#serverStreaming";
+
+/**
+ * An operation that streams only when its input asks, e.g. a REST route
+ * that answers NDJSON for `stream: true` and JSON otherwise:
+ * `{ "input": { "<member>": <value>, … }, "items": "<frame shape id>" }`.
+ * The plain call keeps the operation's output; `.stream()` sets `input`
+ * over the caller's and emits each frame as `items`. Generated as
+ * `API.makeStreaming` with `streamInput` and `items` in its config.
+ */
+export const STREAM_WHEN_TRAIT = "com.distilled.openapi#streamWhen";
+
+/** The operation streams: server streaming, or streaming when its input asks. */
+export const streamsOutput = (traits: Record<string, unknown> | undefined): boolean =>
+  traits !== undefined && (SERVER_STREAMING_TRAIT in traits || STREAM_WHEN_TRAIT in traits);
 
 export interface MemberBase {
   /** Original smithy member name. */

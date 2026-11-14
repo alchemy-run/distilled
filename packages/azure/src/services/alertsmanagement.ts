@@ -28,6 +28,7 @@ const TELEMETRY = {
   prefix: "Alertsmanagement",
   service: "Alertsmanagement",
   labels: "azure",
+  labelNames: { resourceGroupName: "azure.resource_group.name" },
   propagate: "w3c",
 } as const;
 
@@ -57,11 +58,11 @@ export type ConditionValuesList = Array<string>;
 /** Condition to trigger an alert processing rule. */
 export interface Condition {
   /** Field for a given condition. */
-  field?: Field | (string & {});
+  field?: Field | (string & {}) | undefined;
   /** Operator for a given condition. */
-  operator?: Operator | (string & {});
+  operator?: Operator | (string & {}) | undefined;
   /** List of values to match for a given condition. */
-  values?: ConditionValuesList;
+  values?: ConditionValuesList | undefined;
 }
 /** Conditions on which alerts will be filtered. */
 export type AlertProcessingRulePropertiesConditionsList = Array<Condition>;
@@ -76,26 +77,26 @@ export interface Recurrence {
   /** Specifies when the recurrence should be applied. */
   recurrenceType: RecurrenceType | (string & {});
   /** Start time for recurrence. */
-  startTime?: string;
+  startTime?: string | undefined;
   /** End time for recurrence. */
-  endTime?: string;
+  endTime?: string | undefined;
   /** Days of the week (only for `Weekly` recurrences). */
-  daysOfWeek?: RecurrenceDaysOfWeekList;
+  daysOfWeek?: RecurrenceDaysOfWeekList | undefined;
   /** Days of the month (only for `Monthly` recurrences). */
-  daysOfMonth?: RecurrenceDaysOfMonthList;
+  daysOfMonth?: RecurrenceDaysOfMonthList | undefined;
 }
 /** List of recurrences. */
 export type ScheduleRecurrencesList = Array<Recurrence>;
 /** Scheduling configuration for a given alert processing rule. */
 export interface Schedule {
   /** Scheduling effective from time. Date-Time in ISO-8601 format without timezone suffix. */
-  effectiveFrom?: string;
+  effectiveFrom?: string | undefined;
   /** Scheduling effective until time. Date-Time in ISO-8601 format without timezone suffix. */
-  effectiveUntil?: string;
+  effectiveUntil?: string | undefined;
   /** Scheduling time zone. */
-  timeZone?: string;
+  timeZone?: string | undefined;
   /** List of recurrences. */
-  recurrences?: ScheduleRecurrencesList;
+  recurrences?: ScheduleRecurrencesList | undefined;
 }
 /** Action that should be applied. */
 export type ActionType = "AddActionGroups" | "RemoveAllActionGroups";
@@ -106,7 +107,7 @@ export interface Action {
   /** Action that should be applied. */
   actionType: ActionType | (string & {});
   /** Action group resource IDs to add (only for `AddActionGroups`). */
-  actionGroupIds?: ActionActionGroupIdsList;
+  actionGroupIds?: ActionActionGroupIdsList | undefined;
 }
 /** Actions to be applied. */
 export type AlertProcessingRulePropertiesActionsList = Array<Action>;
@@ -115,15 +116,15 @@ export interface AlertProcessingRuleProperties {
   /** Scopes on which alert processing rule will apply. */
   scopes: AlertProcessingRulePropertiesScopesList;
   /** Conditions on which alerts will be filtered. */
-  conditions?: AlertProcessingRulePropertiesConditionsList;
+  conditions?: AlertProcessingRulePropertiesConditionsList | undefined;
   /** Scheduling for alert processing rule. */
-  schedule?: Schedule;
+  schedule?: Schedule | undefined;
   /** Actions to be applied. */
   actions: AlertProcessingRulePropertiesActionsList;
   /** Actions to be applied.Description of alert processing rule. */
-  description?: string;
+  description?: string | undefined;
   /** Indicates if the given alert processing rule is enabled or disabled. */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
 }
 export interface AlertProcessingRulesCreateOrUpdateRequest {
   /** The ID of the target subscription. */
@@ -133,11 +134,11 @@ export interface AlertProcessingRulesCreateOrUpdateRequest {
   /** The name of the alert processing rule that needs to be fetched. */
   alertProcessingRuleName: string;
   /** Resource tags. */
-  tags?: AlertProcessingRulesCreateOrUpdateRequestTagsMap;
+  tags?: AlertProcessingRulesCreateOrUpdateRequestTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Alert processing rule properties. */
-  properties?: AlertProcessingRuleProperties;
+  properties?: AlertProcessingRuleProperties | undefined;
 }
 /** Resource tags. */
 export type AlertProcessingRulesCreateOrUpdateResponseTagsMap = {
@@ -145,17 +146,17 @@ export type AlertProcessingRulesCreateOrUpdateResponseTagsMap = {
 };
 export interface AlertProcessingRulesCreateOrUpdateResponse {
   /** Azure resource Id */
-  id?: string;
+  id?: string | undefined;
   /** Azure resource type */
-  type?: string;
+  type?: string | undefined;
   /** Azure resource name */
-  name?: string;
+  name?: string | undefined;
   /** Resource tags. */
-  tags?: AlertProcessingRulesCreateOrUpdateResponseTagsMap;
+  tags?: AlertProcessingRulesCreateOrUpdateResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Alert processing rule properties. */
-  properties?: AlertProcessingRuleProperties;
+  properties?: AlertProcessingRuleProperties | undefined;
 }
 export type AlertsChangeStateRequestNewState = "New" | "Acknowledged" | "Closed";
 export interface AlertsChangeStateRequest {
@@ -165,7 +166,7 @@ export interface AlertsChangeStateRequest {
   alertId: string;
   /** New state of the alert. */
   newState: AlertsChangeStateRequestNewState | (string & {});
-  comments?: string;
+  comments?: string | undefined;
 }
 /** Severity of alert Sev0 being highest and Sev4 being lowest. */
 export type EssentialsSeverity = "Sev0" | "Sev1" | "Sev2" | "Sev3" | "Sev4";
@@ -195,62 +196,62 @@ export type EssentialsMonitorService =
 /** Action status */
 export interface ActionStatus {
   /** Value indicating whether alert is suppressed. */
-  isSuppressed?: boolean;
+  isSuppressed?: boolean | undefined;
 }
 /** This object contains consistent fields across different monitor services. */
 export interface Essentials {
   /** Severity of alert Sev0 being highest and Sev4 being lowest. */
-  severity?: EssentialsSeverity;
+  severity?: EssentialsSeverity | undefined;
   /** The type of signal the alert is based on, which could be metrics, logs or activity logs. */
-  signalType?: EssentialsSignalType;
+  signalType?: EssentialsSignalType | undefined;
   /** Alert object state, which can be modified by the user. */
-  alertState?: EssentialsAlertState;
+  alertState?: EssentialsAlertState | undefined;
   /** Can be 'Fired' or 'Resolved', which represents whether the underlying conditions have crossed the defined alert rule thresholds. */
-  monitorCondition?: EssentialsMonitorCondition;
+  monitorCondition?: EssentialsMonitorCondition | undefined;
   /** Target ARM resource, on which alert got created. */
-  targetResource?: string;
+  targetResource?: string | undefined;
   /** Name of the target ARM resource name, on which alert got created. */
-  targetResourceName?: string;
+  targetResourceName?: string | undefined;
   /** Resource group of target ARM resource, on which alert got created. */
-  targetResourceGroup?: string;
+  targetResourceGroup?: string | undefined;
   /** Resource type of target ARM resource, on which alert got created. */
-  targetResourceType?: string;
+  targetResourceType?: string | undefined;
   /** Monitor service on which the rule(monitor) is set. */
-  monitorService?: EssentialsMonitorService;
+  monitorService?: EssentialsMonitorService | undefined;
   /** Rule(monitor) which fired alert instance. Depending on the monitor service, this would be ARM id or name of the rule. */
-  alertRule?: string;
+  alertRule?: string | undefined;
   /** Unique Id created by monitor service for each alert instance. This could be used to track the issue at the monitor service, in case of Nagios, Zabbix, SCOM etc. */
-  sourceCreatedId?: string;
+  sourceCreatedId?: string | undefined;
   /** Unique Id of the smart group */
-  smartGroupId?: string;
+  smartGroupId?: string | undefined;
   /** Verbose reason describing the reason why this alert instance is added to a smart group */
-  smartGroupingReason?: string;
+  smartGroupingReason?: string | undefined;
   /** Creation time(ISO-8601 format) of alert instance. */
-  startDateTime?: string;
+  startDateTime?: string | undefined;
   /** Last modification time(ISO-8601 format) of alert instance. */
-  lastModifiedDateTime?: string;
+  lastModifiedDateTime?: string | undefined;
   /** Resolved time(ISO-8601 format) of alert instance. This will be updated when monitor service resolves the alert instance because the rule condition is no longer met. */
-  monitorConditionResolvedDateTime?: string;
+  monitorConditionResolvedDateTime?: string | undefined;
   /** User who last modified the alert, in case of monitor service updates user would be 'system', otherwise name of the user. */
-  lastModifiedUserName?: string;
-  actionStatus?: ActionStatus;
+  lastModifiedUserName?: string | undefined;
+  actionStatus?: ActionStatus | undefined;
   /** Alert description. */
-  description?: string;
+  description?: string | undefined;
 }
 /** Alert property bag */
 export interface AlertProperties {
-  essentials?: Essentials;
-  context?: unknown;
-  egressConfig?: unknown;
+  essentials?: Essentials | undefined;
+  context?: unknown | undefined;
+  egressConfig?: unknown | undefined;
 }
 export interface AlertsChangeStateResponse {
   /** Azure resource Id */
-  id?: string;
+  id?: string | undefined;
   /** Azure resource type */
-  type?: string;
+  type?: string | undefined;
   /** Azure resource name */
-  name?: string;
-  properties?: AlertProperties;
+  name?: string | undefined;
+  properties?: AlertProperties | undefined;
 }
 export type AlertsMetaDataRequestIdentifier = "MonitorServiceList";
 export interface AlertsMetaDataRequest {
@@ -266,7 +267,7 @@ export interface AlertsMetaDataProperties {
 }
 /** alert meta data information. */
 export interface AlertsMetaData {
-  properties?: AlertsMetaDataProperties;
+  properties?: AlertsMetaDataProperties | undefined;
 }
 export interface DeleteAlertProcessingRuleRequest {
   /** The ID of the target subscription. */
@@ -331,58 +332,58 @@ export interface GetAlertAllRequest {
   /** scope here is resourceId for which alert is created. */
   scope: string;
   /** Filter by target resource( which is full ARM ID) Default value is select all. */
-  targetResource?: string;
+  targetResource?: string | undefined;
   /** Filter by target resource type. Default value is select all. */
-  targetResourceType?: string;
+  targetResourceType?: string | undefined;
   /** Filter by target resource group name. Default value is select all. */
-  targetResourceGroup?: string;
+  targetResourceGroup?: string | undefined;
   /** Filter by monitor service which generates the alert instance. Default value is select all. */
-  monitorService?: GetAlertAllRequestMonitorService | (string & {});
+  monitorService?: GetAlertAllRequestMonitorService | (string & {}) | undefined;
   /** Filter by monitor condition which is either 'Fired' or 'Resolved'. Default value is to select all. */
-  monitorCondition?: GetAlertAllRequestMonitorCondition | (string & {});
+  monitorCondition?: GetAlertAllRequestMonitorCondition | (string & {}) | undefined;
   /** Filter by severity. Default value is select all. */
-  severity?: GetAlertAllRequestSeverity | (string & {});
+  severity?: GetAlertAllRequestSeverity | (string & {}) | undefined;
   /** Filter by state of the alert instance. Default value is to select all. */
-  alertState?: GetAlertAllRequestAlertState | (string & {});
+  alertState?: GetAlertAllRequestAlertState | (string & {}) | undefined;
   /** Filter by specific alert rule. Default value is to select all. */
-  alertRule?: string;
+  alertRule?: string | undefined;
   /** Filter the alerts list by the Smart Group Id. Default value is none. */
-  smartGroupId?: string;
+  smartGroupId?: string | undefined;
   /** Include context which has contextual data specific to the monitor service. Default value is false' */
-  includeContext?: boolean;
+  includeContext?: boolean | undefined;
   /** Include egress config which would be used for displaying the content in portal. Default value is 'false'. */
-  includeEgressConfig?: boolean;
+  includeEgressConfig?: boolean | undefined;
   /** Determines number of alerts returned per page in response. Permissible value is between 1 to 250. When the "includeContent" filter is selected, maximum value allowed is 25. Default value is 25. */
-  pageCount?: number;
+  pageCount?: number | undefined;
   /** Sort the query results by input field, Default value is 'lastModifiedDateTime'. */
-  sortBy?: GetAlertAllRequestSortBy | (string & {});
+  sortBy?: GetAlertAllRequestSortBy | (string & {}) | undefined;
   /** Sort the query results order in either ascending or descending. Default value is 'desc' for time fields and 'asc' for others. */
-  sortOrder?: GetAlertAllRequestSortOrder | (string & {});
+  sortOrder?: GetAlertAllRequestSortOrder | (string & {}) | undefined;
   /** This filter allows to selection of the fields(comma separated) which would be part of the essential section. This would allow to project only the required fields rather than getting entire content. Default is to fetch all the fields in the essentials section. */
-  select?: string;
+  select?: string | undefined;
   /** Filter by time range by below listed values. Default value is 1 day. */
-  timeRange?: GetAlertAllRequestTimeRange | (string & {});
+  timeRange?: GetAlertAllRequestTimeRange | (string & {}) | undefined;
   /** Filter by custom time range in the format <start-time>/<end-time> where time is in (ISO-8601 format)'. Permissible values is within 30 days from query time. Either timeRange or customTimeRange could be used but not both. Default is none. */
-  customTimeRange?: string;
+  customTimeRange?: string | undefined;
 }
 /** An alert created in alert management service. */
 export interface Alert {
   /** Azure resource Id */
-  id?: string;
+  id?: string | undefined;
   /** Azure resource type */
-  type?: string;
+  type?: string | undefined;
   /** Azure resource name */
-  name?: string;
-  properties?: AlertProperties;
+  name?: string | undefined;
+  properties?: AlertProperties | undefined;
 }
 /** List of alerts */
 export type AlertsListValueList = Array<Alert>;
 /** List the alerts. */
 export interface AlertsList {
   /** URL to fetch the next set of alerts. */
-  nextLink?: string;
+  nextLink?: string | undefined;
   /** List of alerts */
-  value?: AlertsListValueList;
+  value?: AlertsListValueList | undefined;
 }
 export interface GetAlertByIdRequest {
   /** scope here is resourceId for which alert is created. */
@@ -392,12 +393,12 @@ export interface GetAlertByIdRequest {
 }
 export interface GetAlertByIdResponse {
   /** Azure resource Id */
-  id?: string;
+  id?: string | undefined;
   /** Azure resource type */
-  type?: string;
+  type?: string | undefined;
   /** Azure resource name */
-  name?: string;
-  properties?: AlertProperties;
+  name?: string | undefined;
+  properties?: AlertProperties | undefined;
 }
 export interface GetAlertHistoryRequest {
   /** scope here is resourceId for which alert is created. */
@@ -413,37 +414,37 @@ export type AlertModificationItemModificationEvent =
 /** Alert modification item. */
 export interface AlertModificationItem {
   /** Reason for the modification */
-  modificationEvent?: AlertModificationItemModificationEvent;
+  modificationEvent?: AlertModificationItemModificationEvent | undefined;
   /** Old value */
-  oldValue?: string;
+  oldValue?: string | undefined;
   /** New value */
-  newValue?: string;
+  newValue?: string | undefined;
   /** Modified date and time */
-  modifiedAt?: string;
+  modifiedAt?: string | undefined;
   /** Modified user details (Principal client name) */
-  modifiedBy?: string;
+  modifiedBy?: string | undefined;
   /** Modification comments */
-  comments?: string;
+  comments?: string | undefined;
   /** Description of the modification */
-  description?: string;
+  description?: string | undefined;
 }
 /** Modification details */
 export type AlertModificationPropertiesModificationsList = Array<AlertModificationItem>;
 /** Properties of the alert modification item. */
 export interface AlertModificationProperties {
   /** Unique Id of the alert for which the history is being retrieved */
-  alertId?: string;
+  alertId?: string | undefined;
   /** Modification details */
-  modifications?: AlertModificationPropertiesModificationsList;
+  modifications?: AlertModificationPropertiesModificationsList | undefined;
 }
 export interface GetAlertHistoryResponse {
   /** Azure resource Id */
-  id?: string;
+  id?: string | undefined;
   /** Azure resource type */
-  type?: string;
+  type?: string | undefined;
   /** Azure resource name */
-  name?: string;
-  properties?: AlertModificationProperties;
+  name?: string | undefined;
+  properties?: AlertModificationProperties | undefined;
 }
 export interface GetAlertProcessingRuleByNameRequest {
   /** The ID of the target subscription. */
@@ -457,17 +458,17 @@ export interface GetAlertProcessingRuleByNameRequest {
 export type GetAlertProcessingRuleByNameResponseTagsMap = { [key: string]: string | undefined };
 export interface GetAlertProcessingRuleByNameResponse {
   /** Azure resource Id */
-  id?: string;
+  id?: string | undefined;
   /** Azure resource type */
-  type?: string;
+  type?: string | undefined;
   /** Azure resource name */
-  name?: string;
+  name?: string | undefined;
   /** Resource tags. */
-  tags?: GetAlertProcessingRuleByNameResponseTagsMap;
+  tags?: GetAlertProcessingRuleByNameResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Alert processing rule properties. */
-  properties?: AlertProcessingRuleProperties;
+  properties?: AlertProcessingRuleProperties | undefined;
 }
 export type GetAlertSummaryRequestGroupby =
   | "severity"
@@ -502,62 +503,62 @@ export interface GetAlertSummaryRequest {
   /** This parameter allows the result set to be grouped by input fields. For example, groupby=severity,alertstate. */
   groupby: GetAlertSummaryRequestGroupby | (string & {});
   /** Include count of the SmartGroups as part of the summary. Default value is 'false'. */
-  includeSmartGroupsCount?: boolean;
+  includeSmartGroupsCount?: boolean | undefined;
   /** Filter by target resource( which is full ARM ID) Default value is select all. */
-  targetResource?: string;
+  targetResource?: string | undefined;
   /** Filter by target resource type. Default value is select all. */
-  targetResourceType?: string;
+  targetResourceType?: string | undefined;
   /** Filter by target resource group name. Default value is select all. */
-  targetResourceGroup?: string;
+  targetResourceGroup?: string | undefined;
   /** Filter by monitor service which generates the alert instance. Default value is select all. */
-  monitorService?: GetAlertSummaryRequestMonitorService | (string & {});
+  monitorService?: GetAlertSummaryRequestMonitorService | (string & {}) | undefined;
   /** Filter by monitor condition which is either 'Fired' or 'Resolved'. Default value is to select all. */
-  monitorCondition?: GetAlertSummaryRequestMonitorCondition | (string & {});
+  monitorCondition?: GetAlertSummaryRequestMonitorCondition | (string & {}) | undefined;
   /** Filter by severity. Default value is select all. */
-  severity?: GetAlertSummaryRequestSeverity | (string & {});
+  severity?: GetAlertSummaryRequestSeverity | (string & {}) | undefined;
   /** Filter by state of the alert instance. Default value is to select all. */
-  alertState?: GetAlertSummaryRequestAlertState | (string & {});
+  alertState?: GetAlertSummaryRequestAlertState | (string & {}) | undefined;
   /** Filter by specific alert rule. Default value is to select all. */
-  alertRule?: string;
+  alertRule?: string | undefined;
   /** Filter by time range by below listed values. Default value is 1 day. */
-  timeRange?: GetAlertSummaryRequestTimeRange | (string & {});
+  timeRange?: GetAlertSummaryRequestTimeRange | (string & {}) | undefined;
   /** Filter by custom time range in the format <start-time>/<end-time> where time is in (ISO-8601 format)'. Permissible values is within 30 days from query time. Either timeRange or customTimeRange could be used but not both. Default is none. */
-  customTimeRange?: string;
+  customTimeRange?: string | undefined;
 }
 /** List of the items */
 export type AlertsSummaryGroupItemValuesList = Array<AlertsSummaryGroupItem>;
 /** Alerts summary group item */
 export interface AlertsSummaryGroupItem {
   /** Value of the aggregated field */
-  name?: string;
+  name?: string | undefined;
   /** Count of the aggregated field */
-  count?: number;
+  count?: number | undefined;
   /** Name of the field aggregated */
-  groupedby?: string;
+  groupedby?: string | undefined;
   /** List of the items */
-  values?: AlertsSummaryGroupItemValuesList;
+  values?: AlertsSummaryGroupItemValuesList | undefined;
 }
 /** List of the items */
 export type AlertsSummaryGroupValuesList = Array<AlertsSummaryGroupItem>;
 /** Group the result set. */
 export interface AlertsSummaryGroup {
   /** Total count of the result set. */
-  total?: number;
+  total?: number | undefined;
   /** Total count of the smart groups. */
-  smartGroupsCount?: number;
+  smartGroupsCount?: number | undefined;
   /** Name of the field aggregated */
-  groupedby?: string;
+  groupedby?: string | undefined;
   /** List of the items */
-  values?: AlertsSummaryGroupValuesList;
+  values?: AlertsSummaryGroupValuesList | undefined;
 }
 export interface GetAlertSummaryResponse {
   /** Azure resource Id */
-  id?: string;
+  id?: string | undefined;
   /** Azure resource type */
-  type?: string;
+  type?: string | undefined;
   /** Azure resource name */
-  name?: string;
-  properties?: AlertsSummaryGroup;
+  name?: string | undefined;
+  properties?: AlertsSummaryGroup | undefined;
 }
 export interface GetPrometheusRuleGroupRequest {
   /** The ID of the target subscription. */
@@ -574,17 +575,17 @@ export type SystemDataLastModifiedByType = "User" | "Application" | "ManagedIden
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface SystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: SystemDataCreatedByType;
+  createdByType?: SystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: SystemDataLastModifiedByType;
+  lastModifiedByType?: SystemDataLastModifiedByType | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 /** Resource tags. */
 export type GetPrometheusRuleGroupResponseTagsMap = { [key: string]: string | undefined };
@@ -599,70 +600,70 @@ export type PrometheusRuleGroupActionActionPropertiesMap = { [key: string]: stri
 /** An alert action. Only relevant for alerts. */
 export interface PrometheusRuleGroupAction {
   /** The resource id of the action group to use. */
-  actionGroupId?: string;
+  actionGroupId?: string | undefined;
   /** The properties of an action group object. */
-  actionProperties?: PrometheusRuleGroupActionActionPropertiesMap;
+  actionProperties?: PrometheusRuleGroupActionActionPropertiesMap | undefined;
 }
 /** Actions that are performed when the alert rule becomes active, and when an alert condition is resolved. */
 export type PrometheusRuleActionsList = Array<PrometheusRuleGroupAction>;
 /** Specifies the Prometheus alert rule configuration. */
 export interface PrometheusRuleResolveConfiguration {
   /** Enable alert auto-resolution. */
-  autoResolved?: boolean;
+  autoResolved?: boolean | undefined;
   /** Alert auto-resolution timeout. */
-  timeToResolve?: string;
+  timeToResolve?: string | undefined;
 }
 /** An Azure Prometheus alerting or recording rule. */
 export interface PrometheusRule {
   /** Recorded metrics name. */
-  record?: string;
+  record?: string | undefined;
   /** Alert rule name. */
-  alert?: string;
+  alert?: string | undefined;
   /** Enable/disable rule. */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** The PromQL expression to evaluate. https://prometheus.io/docs/prometheus/latest/querying/basics/. Evaluated periodically as given by 'interval', and the result recorded as a new set of time series with the metric name as given by 'record'. */
   expression: string;
   /** Labels to add or overwrite before storing the result. */
-  labels?: PrometheusRuleLabelsMap;
+  labels?: PrometheusRuleLabelsMap | undefined;
   /** The severity of the alerts fired by the rule. Must be between 0 and 4. */
-  severity?: number;
+  severity?: number | undefined;
   /** The amount of time alert must be active before firing. */
-  for?: string;
+  for?: string | undefined;
   /** The annotations clause specifies a set of informational labels that can be used to store longer additional information such as alert descriptions or runbook links. The annotation values can be templated. */
-  annotations?: PrometheusRuleAnnotationsMap;
+  annotations?: PrometheusRuleAnnotationsMap | undefined;
   /** Actions that are performed when the alert rule becomes active, and when an alert condition is resolved. */
-  actions?: PrometheusRuleActionsList;
+  actions?: PrometheusRuleActionsList | undefined;
   /** Defines the configuration for resolving fired alerts. Only relevant for alerts. */
-  resolveConfiguration?: PrometheusRuleResolveConfiguration;
+  resolveConfiguration?: PrometheusRuleResolveConfiguration | undefined;
 }
 /** Defines the rules in the Prometheus rule group. */
 export type PrometheusRuleGroupPropertiesRulesList = Array<PrometheusRule>;
 /** An Azure Prometheus rule group. */
 export interface PrometheusRuleGroupProperties {
   /** Rule group description. */
-  description?: string;
+  description?: string | undefined;
   /** Enable/disable rule group. */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** Apply rule to data from a specific cluster. */
-  clusterName?: string;
+  clusterName?: string | undefined;
   /** Target Azure Monitor workspaces resource ids. This api-version is currently limited to creating with one scope. This may change in future. */
   scopes: PrometheusRuleGroupPropertiesScopesList;
   /** The interval in which to run the Prometheus rule group represented in ISO 8601 duration format. Should be between 1 and 15 minutes */
-  interval?: string;
+  interval?: string | undefined;
   /** Defines the rules in the Prometheus rule group. */
   rules: PrometheusRuleGroupPropertiesRulesList;
 }
 export interface GetPrometheusRuleGroupResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: GetPrometheusRuleGroupResponseTagsMap;
+  tags?: GetPrometheusRuleGroupResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The Prometheus rule group properties of the resource. */
@@ -676,7 +677,7 @@ export interface GetSmartDetectorAlertRuleRequest {
   /** The name of the alert rule. */
   alertRuleName: string;
   /** Indicates if Smart Detector should be expanded. */
-  expandDetector?: boolean;
+  expandDetector?: boolean | undefined;
 }
 /** The resource tags. */
 export type GetSmartDetectorAlertRuleResponseTagsMap = { [key: string]: string | undefined };
@@ -700,15 +701,15 @@ export type DetectorParameterDefinitionType =
 /** The detector parameter definition. */
 export interface DetectorParameterDefinition {
   /** The detector parameter name. */
-  name?: string;
+  name?: string | undefined;
   /** The detector parameter display name. */
-  displayName?: string;
+  displayName?: string | undefined;
   /** The detector parameter description. */
-  description?: string;
+  description?: string | undefined;
   /** The detector parameter type. */
-  type?: DetectorParameterDefinitionType;
+  type?: DetectorParameterDefinitionType | undefined;
   /** A value indicating whether this detector parameter is mandatory. */
-  isMandatory?: boolean;
+  isMandatory?: boolean | undefined;
 }
 /** The Smart Detector parameters definitions.' */
 export type DetectorParameterDefinitionsList = Array<DetectorParameterDefinition>;
@@ -719,19 +720,19 @@ export interface Detector {
   /** The detector id. */
   id: string;
   /** The detector's parameters.' */
-  parameters?: DetectorParametersMap;
+  parameters?: DetectorParametersMap | undefined;
   /** The Smart Detector name. */
-  name?: string;
+  name?: string | undefined;
   /** The Smart Detector description. */
-  description?: string;
+  description?: string | undefined;
   /** The Smart Detector supported resource types. */
-  supportedResourceTypes?: DetectorSupportedResourceTypesList;
+  supportedResourceTypes?: DetectorSupportedResourceTypesList | undefined;
   /** The Smart Detector image path. By default this is not populated, unless it's specified in expandDetector */
-  imagePaths?: DetectorImagePathsList;
+  imagePaths?: DetectorImagePathsList | undefined;
   /** The Smart Detector parameters definitions.' */
-  parameterDefinitions?: DetectorParameterDefinitionsList;
+  parameterDefinitions?: DetectorParameterDefinitionsList | undefined;
   /** The Smart Detector supported cadences. */
-  supportedCadences?: DetectorSupportedCadencesList;
+  supportedCadences?: DetectorSupportedCadencesList | undefined;
 }
 /** The alert rule resources scope. */
 export type AlertRulePropertiesScopeList = Array<string>;
@@ -740,21 +741,21 @@ export type ActionGroupsInformationGroupIdsList = Array<string>;
 /** The Action Groups information, used by the alert rule. */
 export interface ActionGroupsInformation {
   /** An optional custom email subject to use in email notifications. */
-  customEmailSubject?: string;
+  customEmailSubject?: string | undefined;
   /** An optional custom web-hook payload to use in web-hook notifications. */
-  customWebhookPayload?: string;
+  customWebhookPayload?: string | undefined;
   /** The Action Group resource IDs. */
   groupIds: ActionGroupsInformationGroupIdsList;
 }
 /** Optional throttling information for the alert rule. */
 export interface ThrottlingInformation {
   /** The required duration (in ISO8601 format) to wait before notifying on the alert rule again. The time granularity must be in minutes and minimum value is 0 minutes */
-  duration?: string;
+  duration?: string | undefined;
 }
 /** The alert rule properties. */
 export interface AlertRuleProperties {
   /** The alert rule description. */
-  description?: string;
+  description?: string | undefined;
   /** The alert rule state. */
   state: AlertRulePropertiesState;
   /** The alert rule severity. */
@@ -768,21 +769,21 @@ export interface AlertRuleProperties {
   /** The alert rule actions. */
   actionGroups: ActionGroupsInformation;
   /** The alert rule throttling information. */
-  throttling?: ThrottlingInformation;
+  throttling?: ThrottlingInformation | undefined;
 }
 export interface GetSmartDetectorAlertRuleResponse {
   /** The resource ID. */
-  id?: string;
+  id?: string | undefined;
   /** The resource type. */
-  type?: string;
+  type?: string | undefined;
   /** The resource name. */
-  name?: string;
+  name?: string | undefined;
   /** The resource location. */
-  location?: string;
+  location?: string | undefined;
   /** The resource tags. */
-  tags?: GetSmartDetectorAlertRuleResponseTagsMap;
+  tags?: GetSmartDetectorAlertRuleResponseTagsMap | undefined;
   /** The properties of the alert rule. */
-  properties?: AlertRuleProperties;
+  properties?: AlertRuleProperties | undefined;
 }
 export interface ListAlertProcessingRuleByResourceGroupRequest {
   /** The ID of the target subscription. */
@@ -795,17 +796,17 @@ export type AlertProcessingRuleTagsMap = { [key: string]: string | undefined };
 /** Alert processing rule object containing target scopes, conditions and scheduling logic. */
 export interface AlertProcessingRule {
   /** Azure resource Id */
-  id?: string;
+  id?: string | undefined;
   /** Azure resource type */
-  type?: string;
+  type?: string | undefined;
   /** Azure resource name */
-  name?: string;
+  name?: string | undefined;
   /** Resource tags. */
-  tags?: AlertProcessingRuleTagsMap;
+  tags?: AlertProcessingRuleTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Alert processing rule properties. */
-  properties?: AlertProcessingRuleProperties;
+  properties?: AlertProcessingRuleProperties | undefined;
 }
 /** The AlertProcessingRule items on this page */
 export type AlertProcessingRulesListValueList = Array<AlertProcessingRule>;
@@ -814,7 +815,7 @@ export interface AlertProcessingRulesList {
   /** The AlertProcessingRule items on this page */
   value: AlertProcessingRulesListValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListAlertProcessingRuleBySubscriptionRequest {
   /** The ID of the target subscription. */
@@ -824,27 +825,27 @@ export interface ListOperationsRequest {}
 /** Properties of the operation */
 export interface OperationDisplay {
   /** Provider name */
-  provider?: string;
+  provider?: string | undefined;
   /** Resource name */
-  resource?: string;
+  resource?: string | undefined;
   /** Operation name */
-  operation?: string;
+  operation?: string | undefined;
   /** Description of the operation */
-  description?: string;
+  description?: string | undefined;
 }
 /** Operation provided by provider */
 export interface Operation {
   /** Name of the operation */
-  name?: string;
+  name?: string | undefined;
   /** Properties of the operation */
-  display?: OperationDisplay;
+  display?: OperationDisplay | undefined;
 }
 /** Array of operations */
 export type OperationsListValueList = Array<Operation>;
 /** Lists the operations available in the AlertsManagement RP. */
 export interface OperationsList {
   /** URL to fetch the next set of alerts. */
-  nextLink?: string;
+  nextLink?: string | undefined;
   /** Array of operations */
   value: OperationsListValueList;
 }
@@ -859,15 +860,15 @@ export type PrometheusRuleGroupResourceTagsMap = { [key: string]: string | undef
 /** The Prometheus rule group resource. */
 export interface PrometheusRuleGroupResource {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: PrometheusRuleGroupResourceTagsMap;
+  tags?: PrometheusRuleGroupResourceTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The Prometheus rule group properties of the resource. */
@@ -878,8 +879,8 @@ export type PrometheusRuleGroupResourceCollectionValueList = Array<PrometheusRul
 /** Represents a collection of alert rule resources. */
 export interface PrometheusRuleGroupResourceCollection {
   /** the values for the alert rule resources. */
-  value?: PrometheusRuleGroupResourceCollectionValueList;
-  nextLink?: string;
+  value?: PrometheusRuleGroupResourceCollectionValueList | undefined;
+  nextLink?: string | undefined;
 }
 export interface ListPrometheusRuleGroupBySubscriptionRequest {
   /** The ID of the target subscription. */
@@ -891,39 +892,39 @@ export interface ListSmartDetectorAlertRuleByResourceGroupRequest {
   /** The name of the resource group. */
   resourceGroupName: string;
   /** Indicates if Smart Detector should be expanded. */
-  expandDetector?: boolean;
+  expandDetector?: boolean | undefined;
 }
 /** The resource tags. */
 export type AlertRuleTagsMap = { [key: string]: string | undefined };
 /** The alert rule information */
 export interface AlertRule {
   /** The resource ID. */
-  id?: string;
+  id?: string | undefined;
   /** The resource type. */
-  type?: string;
+  type?: string | undefined;
   /** The resource name. */
-  name?: string;
+  name?: string | undefined;
   /** The resource location. */
-  location?: string;
+  location?: string | undefined;
   /** The resource tags. */
-  tags?: AlertRuleTagsMap;
+  tags?: AlertRuleTagsMap | undefined;
   /** The properties of the alert rule. */
-  properties?: AlertRuleProperties;
+  properties?: AlertRuleProperties | undefined;
 }
 /** List of Smart Detector alert rules. */
 export type AlertRulesListValueList = Array<AlertRule>;
 /** List of Smart Detector alert rules. */
 export interface AlertRulesList {
   /** List of Smart Detector alert rules. */
-  value?: AlertRulesListValueList;
+  value?: AlertRulesListValueList | undefined;
   /** The URL to get the next set of results. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListSmartDetectorAlertRulesRequest {
   /** The Azure subscription Id. */
   subscriptionId: string;
   /** Indicates if Smart Detector should be expanded. */
-  expandDetector?: boolean;
+  expandDetector?: boolean | undefined;
 }
 /** The resource tags. */
 export type PatchSmartDetectorAlertRuleRequestTagsMap = { [key: string]: string | undefined };
@@ -934,17 +935,17 @@ export type AlertRulePatchPropertiesSeverity = "Sev0" | "Sev1" | "Sev2" | "Sev3"
 /** The alert rule properties. */
 export interface AlertRulePatchProperties {
   /** The alert rule description. */
-  description?: string;
+  description?: string | undefined;
   /** The alert rule state. */
-  state?: AlertRulePatchPropertiesState | (string & {});
+  state?: AlertRulePatchPropertiesState | (string & {}) | undefined;
   /** The alert rule severity. */
-  severity?: AlertRulePatchPropertiesSeverity | (string & {});
+  severity?: AlertRulePatchPropertiesSeverity | (string & {}) | undefined;
   /** The alert rule frequency in ISO8601 format. The time granularity must be in minutes and minimum value is 5 minutes. */
-  frequency?: string;
+  frequency?: string | undefined;
   /** The alert rule actions. */
-  actionGroups?: ActionGroupsInformation;
+  actionGroups?: ActionGroupsInformation | undefined;
   /** The alert rule throttling information. */
-  throttling?: ThrottlingInformation;
+  throttling?: ThrottlingInformation | undefined;
 }
 export interface PatchSmartDetectorAlertRuleRequest {
   /** The Azure subscription Id. */
@@ -954,25 +955,25 @@ export interface PatchSmartDetectorAlertRuleRequest {
   /** The name of the alert rule. */
   alertRuleName: string;
   /** The resource tags. */
-  tags?: PatchSmartDetectorAlertRuleRequestTagsMap;
+  tags?: PatchSmartDetectorAlertRuleRequestTagsMap | undefined;
   /** The properties of the alert rule. */
-  properties?: AlertRulePatchProperties;
+  properties?: AlertRulePatchProperties | undefined;
 }
 /** The resource tags. */
 export type PatchSmartDetectorAlertRuleResponseTagsMap = { [key: string]: string | undefined };
 export interface PatchSmartDetectorAlertRuleResponse {
   /** The resource ID. */
-  id?: string;
+  id?: string | undefined;
   /** The resource type. */
-  type?: string;
+  type?: string | undefined;
   /** The resource name. */
-  name?: string;
+  name?: string | undefined;
   /** The resource location. */
-  location?: string;
+  location?: string | undefined;
   /** The resource tags. */
-  tags?: PatchSmartDetectorAlertRuleResponseTagsMap;
+  tags?: PatchSmartDetectorAlertRuleResponseTagsMap | undefined;
   /** The properties of the alert rule. */
-  properties?: AlertRuleProperties;
+  properties?: AlertRuleProperties | undefined;
 }
 /** Resource tags. */
 export type PrometheusRuleGroupsCreateOrUpdateRequestTagsMap = {
@@ -986,7 +987,7 @@ export interface PrometheusRuleGroupsCreateOrUpdateRequest {
   /** The name of the rule group. */
   ruleGroupName: string;
   /** Resource tags. */
-  tags?: PrometheusRuleGroupsCreateOrUpdateRequestTagsMap;
+  tags?: PrometheusRuleGroupsCreateOrUpdateRequestTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The Prometheus rule group properties of the resource. */
@@ -998,15 +999,15 @@ export type PrometheusRuleGroupsCreateOrUpdateResponseTagsMap = {
 };
 export interface PrometheusRuleGroupsCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: PrometheusRuleGroupsCreateOrUpdateResponseTagsMap;
+  tags?: PrometheusRuleGroupsCreateOrUpdateResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The Prometheus rule group properties of the resource. */
@@ -1027,14 +1028,14 @@ export interface DetectorInput {
   /** The detector id. */
   id: string;
   /** The detector's parameters.' */
-  parameters?: DetectorInputParametersMap;
+  parameters?: DetectorInputParametersMap | undefined;
 }
 /** The alert rule resources scope. */
 export type AlertRulePropertiesInputScopeList = Array<string>;
 /** The alert rule properties. */
 export interface AlertRulePropertiesInput {
   /** The alert rule description. */
-  description?: string;
+  description?: string | undefined;
   /** The alert rule state. */
   state: AlertRulePropertiesInputState | (string & {});
   /** The alert rule severity. */
@@ -1048,7 +1049,7 @@ export interface AlertRulePropertiesInput {
   /** The alert rule actions. */
   actionGroups: ActionGroupsInformation;
   /** The alert rule throttling information. */
-  throttling?: ThrottlingInformation;
+  throttling?: ThrottlingInformation | undefined;
 }
 export interface SmartDetectorAlertRulesCreateOrUpdateRequest {
   /** The Azure subscription Id. */
@@ -1058,11 +1059,11 @@ export interface SmartDetectorAlertRulesCreateOrUpdateRequest {
   /** The name of the alert rule. */
   alertRuleName: string;
   /** The resource location. */
-  location?: string;
+  location?: string | undefined;
   /** The resource tags. */
-  tags?: SmartDetectorAlertRulesCreateOrUpdateRequestTagsMap;
+  tags?: SmartDetectorAlertRulesCreateOrUpdateRequestTagsMap | undefined;
   /** The properties of the alert rule. */
-  properties?: AlertRulePropertiesInput;
+  properties?: AlertRulePropertiesInput | undefined;
 }
 /** The resource tags. */
 export type SmartDetectorAlertRulesCreateOrUpdateResponseTagsMap = {
@@ -1070,22 +1071,22 @@ export type SmartDetectorAlertRulesCreateOrUpdateResponseTagsMap = {
 };
 export interface SmartDetectorAlertRulesCreateOrUpdateResponse {
   /** The resource ID. */
-  id?: string;
+  id?: string | undefined;
   /** The resource type. */
-  type?: string;
+  type?: string | undefined;
   /** The resource name. */
-  name?: string;
+  name?: string | undefined;
   /** The resource location. */
-  location?: string;
+  location?: string | undefined;
   /** The resource tags. */
-  tags?: SmartDetectorAlertRulesCreateOrUpdateResponseTagsMap;
+  tags?: SmartDetectorAlertRulesCreateOrUpdateResponseTagsMap | undefined;
   /** The properties of the alert rule. */
-  properties?: AlertRuleProperties;
+  properties?: AlertRuleProperties | undefined;
 }
 /** Alert processing rule properties supported by patch. */
 export interface PatchProperties {
   /** Indicates if the given alert processing rule is enabled or disabled. */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
 }
 /** Tags to be updated. */
 export type UpdateAlertProcessingRuleRequestTagsMap = { [key: string]: string | undefined };
@@ -1097,31 +1098,31 @@ export interface UpdateAlertProcessingRuleRequest {
   /** The name of the alert processing rule that needs to be fetched. */
   alertProcessingRuleName: string;
   /** Properties supported by patch operation. */
-  properties?: PatchProperties;
+  properties?: PatchProperties | undefined;
   /** Tags to be updated. */
-  tags?: UpdateAlertProcessingRuleRequestTagsMap;
+  tags?: UpdateAlertProcessingRuleRequestTagsMap | undefined;
 }
 /** Resource tags. */
 export type UpdateAlertProcessingRuleResponseTagsMap = { [key: string]: string | undefined };
 export interface UpdateAlertProcessingRuleResponse {
   /** Azure resource Id */
-  id?: string;
+  id?: string | undefined;
   /** Azure resource type */
-  type?: string;
+  type?: string | undefined;
   /** Azure resource name */
-  name?: string;
+  name?: string | undefined;
   /** Resource tags. */
-  tags?: UpdateAlertProcessingRuleResponseTagsMap;
+  tags?: UpdateAlertProcessingRuleResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Alert processing rule properties. */
-  properties?: AlertProcessingRuleProperties;
+  properties?: AlertProcessingRuleProperties | undefined;
 }
 /** Resource tags */
 export type UpdatePrometheusRuleGroupRequestTagsMap = { [key: string]: string | undefined };
 export interface PrometheusRuleGroupResourcePatchParametersProperties {
   /** the flag that indicates whether the Prometheus rule group is enabled. */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
 }
 export interface UpdatePrometheusRuleGroupRequest {
   /** The ID of the target subscription. */
@@ -1131,22 +1132,22 @@ export interface UpdatePrometheusRuleGroupRequest {
   /** The name of the rule group. */
   ruleGroupName: string;
   /** Resource tags */
-  tags?: UpdatePrometheusRuleGroupRequestTagsMap;
-  properties?: PrometheusRuleGroupResourcePatchParametersProperties;
+  tags?: UpdatePrometheusRuleGroupRequestTagsMap | undefined;
+  properties?: PrometheusRuleGroupResourcePatchParametersProperties | undefined;
 }
 /** Resource tags. */
 export type UpdatePrometheusRuleGroupResponseTagsMap = { [key: string]: string | undefined };
 export interface UpdatePrometheusRuleGroupResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: UpdatePrometheusRuleGroupResponseTagsMap;
+  tags?: UpdatePrometheusRuleGroupResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The Prometheus rule group properties of the resource. */

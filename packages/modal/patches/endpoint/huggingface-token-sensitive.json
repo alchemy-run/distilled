@@ -1,0 +1,10 @@
+{
+  "description": "The Hugging Face token of an endpoint's model source is a credential: mark it sensitive so it is Redacted in the SDK.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.modal.endpoint#EndpointHuggingFaceModelSource/members/huggingfaceToken/traits",
+      "value": { "smithy.api#sensitive": {} }
+    }
+  ]
+}

@@ -1,0 +1,20 @@
+{
+  "description": "GET /process/interpreter/execute is a WebSocket: the client sends one JSON request and the daemon streams JSON chunks (stdout, stderr, error, control). Over plain HTTP it can't run. Remove the operation; `executeInterpreterCode` and `streamInterpreterCode` in src/toolbox.ts implement it, checked live 2026-11-04.",
+  "patches": [
+    {
+      "op": "test",
+      "path": "/shapes/com.daytona.interpreter#Interpreter/operations/3",
+      "value": {
+        "target": "com.daytona.interpreter#ExecuteInterpreterCode"
+      }
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.daytona.interpreter#Interpreter/operations/3"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.daytona.interpreter#ExecuteInterpreterCode"
+    }
+  ]
+}

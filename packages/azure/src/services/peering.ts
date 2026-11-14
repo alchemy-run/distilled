@@ -28,6 +28,7 @@ const TELEMETRY = {
   prefix: "Peering",
   service: "Peering",
   labels: "azure",
+  labelNames: { resourceGroupName: "azure.resource_group.name" },
   propagate: "w3c",
 } as const;
 
@@ -35,9 +36,9 @@ export interface CheckServiceProviderAvailabilityRequest {
   /** The ID of the target subscription. */
   subscriptionId: string;
   /** Gets or sets the peering service location. */
-  peeringServiceLocation?: string;
+  peeringServiceLocation?: string | undefined;
   /** Gets or sets the peering service provider. */
-  peeringServiceProvider?: string;
+  peeringServiceProvider?: string | undefined;
 }
 /** Response for checking service provider availability */
 export type CheckServiceProviderAvailabilityResponse = "Available" | "Unavailable";
@@ -45,13 +46,13 @@ export type CheckServiceProviderAvailabilityResponse2 = CheckServiceProviderAvai
 /** The properties that define a Connection Monitor Test. */
 export interface ConnectionMonitorTestPropertiesInput {
   /** The Connection Monitor test source agent */
-  sourceAgent?: string;
+  sourceAgent?: string | undefined;
   /** The Connection Monitor test destination */
-  destination?: string;
+  destination?: string | undefined;
   /** The Connection Monitor test destination port */
-  destinationPort?: number;
+  destinationPort?: number | undefined;
   /** The Connection Monitor test frequency in seconds */
-  testFrequencyInSec?: number;
+  testFrequencyInSec?: number | undefined;
 }
 export interface ConnectionMonitorTestsCreateOrUpdateRequest {
   /** The ID of the target subscription. */
@@ -63,7 +64,7 @@ export interface ConnectionMonitorTestsCreateOrUpdateRequest {
   /** The name of the connection monitor test */
   connectionMonitorTestName: string;
   /** The properties that define a Connection Monitor Test. */
-  properties?: ConnectionMonitorTestPropertiesInput;
+  properties?: ConnectionMonitorTestPropertiesInput | undefined;
 }
 /** The type of identity that created the resource. */
 export type SystemDataCreatedByType = "User" | "Application" | "ManagedIdentity" | "Key";
@@ -72,17 +73,17 @@ export type SystemDataLastModifiedByType = "User" | "Application" | "ManagedIden
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface SystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: SystemDataCreatedByType;
+  createdByType?: SystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: SystemDataLastModifiedByType;
+  lastModifiedByType?: SystemDataLastModifiedByType | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 /** The path representing the Connection Monitor test. */
 export type ConnectionMonitorTestPropertiesPathList = Array<string>;
@@ -91,31 +92,31 @@ export type ProvisioningState = "Succeeded" | "Updating" | "Deleting" | "Failed"
 /** The properties that define a Connection Monitor Test. */
 export interface ConnectionMonitorTestProperties {
   /** The Connection Monitor test source agent */
-  sourceAgent?: string;
+  sourceAgent?: string | undefined;
   /** The Connection Monitor test destination */
-  destination?: string;
+  destination?: string | undefined;
   /** The Connection Monitor test destination port */
-  destinationPort?: number;
+  destinationPort?: number | undefined;
   /** The Connection Monitor test frequency in seconds */
-  testFrequencyInSec?: number;
+  testFrequencyInSec?: number | undefined;
   /** The flag that indicates if the Connection Monitor test is successful or not. */
-  isTestSuccessful?: boolean;
+  isTestSuccessful?: boolean | undefined;
   /** The path representing the Connection Monitor test. */
-  path?: ConnectionMonitorTestPropertiesPathList;
+  path?: ConnectionMonitorTestPropertiesPathList | undefined;
   /** The provisioning state of the resource. */
-  provisioningState?: ProvisioningState;
+  provisioningState?: ProvisioningState | undefined;
 }
 export interface ConnectionMonitorTestsCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties that define a Connection Monitor Test. */
-  properties?: ConnectionMonitorTestProperties;
+  properties?: ConnectionMonitorTestProperties | undefined;
 }
 export interface DeleteConnectionMonitorTestRequest {
   /** The ID of the target subscription. */
@@ -198,15 +199,15 @@ export interface GetConnectionMonitorTestRequest {
 }
 export interface GetConnectionMonitorTestResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties that define a Connection Monitor Test. */
-  properties?: ConnectionMonitorTestProperties;
+  properties?: ConnectionMonitorTestProperties | undefined;
 }
 export interface GetPeerAsnRequest {
   /** The ID of the target subscription. */
@@ -219,11 +220,11 @@ export type Role = "Noc" | "Policy" | "Technical" | "Service" | "Escalation" | "
 /** The contact detail class. */
 export interface ContactDetail {
   /** The role of the contact. */
-  role?: Role | (string & {});
+  role?: Role | (string & {}) | undefined;
   /** The e-mail address of the contact. */
-  email?: string;
+  email?: string | undefined;
   /** The phone number of the contact. */
-  phone?: string;
+  phone?: string | undefined;
 }
 /** The contact details of the peer. */
 export type PeerAsnPropertiesPeerContactDetailList = Array<ContactDetail>;
@@ -232,27 +233,27 @@ export type ValidationState = "None" | "Pending" | "Approved" | "Failed";
 /** The properties that define a peer's ASN. */
 export interface PeerAsnProperties {
   /** The Autonomous System Number (ASN) of the peer. */
-  peerAsn?: number;
+  peerAsn?: number | undefined;
   /** The contact details of the peer. */
-  peerContactDetail?: PeerAsnPropertiesPeerContactDetailList;
+  peerContactDetail?: PeerAsnPropertiesPeerContactDetailList | undefined;
   /** The name of the peer. */
-  peerName?: string;
+  peerName?: string | undefined;
   /** The validation state of the ASN associated with the peer. */
-  validationState?: ValidationState;
+  validationState?: ValidationState | undefined;
   /** The error message for the validation state */
-  errorMessage?: string;
+  errorMessage?: string | undefined;
 }
 export interface GetPeerAsnResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties that define a peer's ASN. */
-  properties?: PeerAsnProperties;
+  properties?: PeerAsnProperties | undefined;
 }
 export interface GetPeeringRequest {
   /** The ID of the target subscription. */
@@ -308,57 +309,57 @@ export type SessionStateV6 =
 /** The properties that define a BGP session. */
 export interface BgpSession {
   /** The IPv4 prefix that contains both ends' IPv4 addresses. */
-  sessionPrefixV4?: string;
+  sessionPrefixV4?: string | undefined;
   /** The IPv6 prefix that contains both ends' IPv6 addresses. */
-  sessionPrefixV6?: string;
+  sessionPrefixV6?: string | undefined;
   /** The IPv4 session address on Microsoft's end. */
-  microsoftSessionIPv4Address?: string;
+  microsoftSessionIPv4Address?: string | undefined;
   /** The IPv6 session address on Microsoft's end. */
-  microsoftSessionIPv6Address?: string;
+  microsoftSessionIPv6Address?: string | undefined;
   /** The IPv4 session address on peer's end. */
-  peerSessionIPv4Address?: string;
+  peerSessionIPv4Address?: string | undefined;
   /** The IPv6 session address on peer's end. */
-  peerSessionIPv6Address?: string;
+  peerSessionIPv6Address?: string | undefined;
   /** The state of the IPv4 session. */
-  sessionStateV4?: SessionStateV4 | (string & {});
+  sessionStateV4?: SessionStateV4 | (string & {}) | undefined;
   /** The state of the IPv6 session. */
-  sessionStateV6?: SessionStateV6 | (string & {});
+  sessionStateV6?: SessionStateV6 | (string & {}) | undefined;
   /** The maximum number of prefixes advertised over the IPv4 session. */
-  maxPrefixesAdvertisedV4?: number;
+  maxPrefixesAdvertisedV4?: number | undefined;
   /** The maximum number of prefixes advertised over the IPv6 session. */
-  maxPrefixesAdvertisedV6?: number;
+  maxPrefixesAdvertisedV6?: number | undefined;
   /** The MD5 authentication key of the session. */
-  md5AuthenticationKey?: string;
+  md5AuthenticationKey?: string | undefined;
 }
 /** The properties that define a direct connection. */
 export interface DirectConnection {
   /** The bandwidth of the connection. */
-  bandwidthInMbps?: number;
+  bandwidthInMbps?: number | undefined;
   /** The bandwidth that is actually provisioned. */
-  provisionedBandwidthInMbps?: number;
+  provisionedBandwidthInMbps?: number | undefined;
   /** The field indicating if Microsoft provides session ip addresses. */
-  sessionAddressProvider?: SessionAddressProvider;
+  sessionAddressProvider?: SessionAddressProvider | undefined;
   /** The flag that indicates whether or not the connection is used for peering service. */
-  useForPeeringService?: boolean;
+  useForPeeringService?: boolean | undefined;
   /** The ID used within Microsoft's peering provisioning system to track the connection */
-  microsoftTrackingId?: string;
+  microsoftTrackingId?: string | undefined;
   /** The PeeringDB.com ID of the facility at which the connection has to be set up. */
-  peeringDBFacilityId?: number;
+  peeringDBFacilityId?: number | undefined;
   /** The state of the connection. */
-  connectionState?: ConnectionState;
+  connectionState?: ConnectionState | undefined;
   /** The BGP session associated with the connection. */
-  bgpSession?: BgpSession;
+  bgpSession?: BgpSession | undefined;
   /** The unique identifier (GUID) for the connection. */
-  connectionIdentifier?: string;
+  connectionIdentifier?: string | undefined;
   /** The error message related to the connection state, if any. */
-  errorMessage?: string;
+  errorMessage?: string | undefined;
 }
 /** The set of connections that constitute a direct peering. */
 export type PeeringPropertiesDirectConnectionsList = Array<DirectConnection>;
 /** The sub resource. */
 export interface SubResource {
   /** The identifier of the referenced resource. */
-  id?: string;
+  id?: string | undefined;
 }
 /** The type of direct peering. */
 export type DirectPeeringType =
@@ -374,35 +375,35 @@ export type DirectPeeringType =
 /** The properties that define a direct peering. */
 export interface PeeringPropertiesDirect {
   /** The set of connections that constitute a direct peering. */
-  connections?: PeeringPropertiesDirectConnectionsList;
+  connections?: PeeringPropertiesDirectConnectionsList | undefined;
   /** The flag that indicates whether or not the peering is used for peering service. */
-  useForPeeringService?: boolean;
+  useForPeeringService?: boolean | undefined;
   /** The reference of the peer ASN. */
-  peerAsn?: SubResource;
+  peerAsn?: SubResource | undefined;
   /** The type of direct peering. */
-  directPeeringType?: DirectPeeringType;
+  directPeeringType?: DirectPeeringType | undefined;
 }
 /** The properties that define an exchange connection. */
 export interface ExchangeConnection {
   /** The PeeringDB.com ID of the facility at which the connection has to be set up. */
-  peeringDBFacilityId?: number;
+  peeringDBFacilityId?: number | undefined;
   /** The state of the connection. */
-  connectionState?: ConnectionState;
+  connectionState?: ConnectionState | undefined;
   /** The BGP session associated with the connection. */
-  bgpSession?: BgpSession;
+  bgpSession?: BgpSession | undefined;
   /** The unique identifier (GUID) for the connection. */
-  connectionIdentifier?: string;
+  connectionIdentifier?: string | undefined;
   /** The error message related to the connection state, if any. */
-  errorMessage?: string;
+  errorMessage?: string | undefined;
 }
 /** The set of connections that constitute an exchange peering. */
 export type PeeringPropertiesExchangeConnectionsList = Array<ExchangeConnection>;
 /** The properties that define an exchange peering. */
 export interface PeeringPropertiesExchange {
   /** The set of connections that constitute an exchange peering. */
-  connections?: PeeringPropertiesExchangeConnectionsList;
+  connections?: PeeringPropertiesExchangeConnectionsList | undefined;
   /** The reference of the peer ASN. */
-  peerAsn?: SubResource;
+  peerAsn?: SubResource | undefined;
 }
 /** The protocol of the traffic that will be sent for the connectivity probe. */
 export type Protocol = "None" | "ICMP" | "TCP";
@@ -411,28 +412,28 @@ export type ConnectivityProbePrefixesToAccesslistList = Array<string>;
 /** Represents a connectivity probe, a configuration peers can add to direct and exchange peerings to create ping tests. These ping tests will allow us to generate availability, jitter, and latency data for traffic (using ICMP or TCP) from Azure to an endpoint IP address given by the customer. This data will be emitted such that the peer can view these metrics in the Azure portal in the Connectivity probe blade of their peering. */
 export interface ConnectivityProbe {
   /** The endpoint IP address where traffic will be sent to from Azure for the connectivity probe. */
-  endpoint?: string;
+  endpoint?: string | undefined;
   /** The Azure region where traffic will originate from for the connectivity probe. */
-  azureRegion?: string;
+  azureRegion?: string | undefined;
   /** The protocol of the traffic that will be sent for the connectivity probe. */
-  protocol?: Protocol;
+  protocol?: Protocol | undefined;
   /** Set to contain the prefixes that agents in Azure will send traffic from. For peers to allow into their network the connectivity probe traffic can reach their endpoint for the connectivity probe. */
-  prefixesToAccesslist?: ConnectivityProbePrefixesToAccesslistList;
+  prefixesToAccesslist?: ConnectivityProbePrefixesToAccesslistList | undefined;
 }
 /** The connectivity probes associated with the peering. */
 export type PeeringPropertiesConnectivityProbesList = Array<ConnectivityProbe>;
 /** The properties that define connectivity to the Microsoft Cloud Edge. */
 export interface PeeringProperties {
   /** The properties that define a direct peering. */
-  direct?: PeeringPropertiesDirect;
+  direct?: PeeringPropertiesDirect | undefined;
   /** The properties that define an exchange peering. */
-  exchange?: PeeringPropertiesExchange;
+  exchange?: PeeringPropertiesExchange | undefined;
   /** The connectivity probes associated with the peering. */
-  connectivityProbes?: PeeringPropertiesConnectivityProbesList;
+  connectivityProbes?: PeeringPropertiesConnectivityProbesList | undefined;
   /** The location of the peering. */
-  peeringLocation?: string;
+  peeringLocation?: string | undefined;
   /** The provisioning state of the resource. */
-  provisioningState?: ProvisioningState;
+  provisioningState?: ProvisioningState | undefined;
 }
 /** The tier of the peering SKU. */
 export type Tier = "Basic" | "Premium";
@@ -443,31 +444,31 @@ export type Size = "Free" | "Metered" | "Unlimited";
 /** The SKU that defines the tier and kind of the peering. */
 export interface PeeringSku {
   /** The name of the peering SKU. */
-  name?: string;
+  name?: string | undefined;
   /** The tier of the peering SKU. */
-  tier?: Tier | (string & {});
+  tier?: Tier | (string & {}) | undefined;
   /** The family of the peering SKU. */
-  family?: Family | (string & {});
+  family?: Family | (string & {}) | undefined;
   /** The size of the peering SKU. */
-  size?: Size | (string & {});
+  size?: Size | (string & {}) | undefined;
 }
 /** The kind of the peering. */
 export type Kind = "Direct" | "Exchange";
 export interface GetPeeringResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: GetPeeringResponseTagsMap;
+  tags?: GetPeeringResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The properties that define a peering. */
-  properties?: PeeringProperties;
+  properties?: PeeringProperties | undefined;
   /** The SKU that defines the tier and kind of the peering. */
   sku: PeeringSku;
   /** The kind of the peering. */
@@ -488,49 +489,49 @@ export type LogAnalyticsWorkspacePropertiesConnectedAgentsList = Array<string>;
 /** The properties that define a Log Analytics Workspace. */
 export interface LogAnalyticsWorkspaceProperties {
   /** The Workspace ID. */
-  workspaceID?: string;
+  workspaceID?: string | undefined;
   /** The Workspace Key. */
-  key?: string;
+  key?: string | undefined;
   /** The list of connected agents. */
-  connectedAgents?: LogAnalyticsWorkspacePropertiesConnectedAgentsList;
+  connectedAgents?: LogAnalyticsWorkspacePropertiesConnectedAgentsList | undefined;
 }
 /** The properties that define connectivity to the Peering Service. */
 export interface PeeringServiceProperties {
   /** The location (state/province) of the customer. */
-  peeringServiceLocation?: string;
+  peeringServiceLocation?: string | undefined;
   /** The name of the service provider. */
-  peeringServiceProvider?: string;
+  peeringServiceProvider?: string | undefined;
   /** The provisioning state of the resource. */
-  provisioningState?: ProvisioningState;
+  provisioningState?: ProvisioningState | undefined;
   /** The primary peering (Microsoft/service provider) location to be used for customer traffic. */
-  providerPrimaryPeeringLocation?: string;
+  providerPrimaryPeeringLocation?: string | undefined;
   /** The backup peering (Microsoft/service provider) location to be used for customer traffic. */
-  providerBackupPeeringLocation?: string;
+  providerBackupPeeringLocation?: string | undefined;
   /** The Log Analytics Workspace Properties */
-  logAnalyticsWorkspaceProperties?: LogAnalyticsWorkspaceProperties;
+  logAnalyticsWorkspaceProperties?: LogAnalyticsWorkspaceProperties | undefined;
 }
 /** The SKU that defines the type of the peering service. */
 export interface PeeringServiceSku {
   /** The name of the peering service SKU. */
-  name?: string;
+  name?: string | undefined;
 }
 export interface GetPeeringServiceResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: GetPeeringServiceResponseTagsMap;
+  tags?: GetPeeringServiceResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The properties that define a peering service. */
-  properties?: PeeringServiceProperties;
+  properties?: PeeringServiceProperties | undefined;
   /** The SKU that defines the type of the peering service. */
-  sku?: PeeringServiceSku;
+  sku?: PeeringServiceSku | undefined;
 }
 export interface GetPrefixRequest {
   /** The ID of the target subscription. */
@@ -542,7 +543,7 @@ export interface GetPrefixRequest {
   /** The name of the prefix. */
   prefixName: string;
   /** The properties to be expanded. */
-  _expand?: string;
+  _expand?: string | undefined;
 }
 /** The prefix validation state. */
 export type PrefixValidationState =
@@ -558,46 +559,46 @@ export type LearnedType = "None" | "ViaServiceProvider" | "ViaSession";
 /** The details of the event associated with a prefix. */
 export interface PeeringServicePrefixEvent {
   /** The timestamp of the event associated with a prefix. */
-  eventTimestamp?: string;
+  eventTimestamp?: string | undefined;
   /** The type of the event associated with a prefix. */
-  eventType?: string;
+  eventType?: string | undefined;
   /** The summary of the event associated with a prefix. */
-  eventSummary?: string;
+  eventSummary?: string | undefined;
   /** The level of the event associated with a prefix. */
-  eventLevel?: string;
+  eventLevel?: string | undefined;
   /** The description of the event associated with a prefix. */
-  eventDescription?: string;
+  eventDescription?: string | undefined;
 }
 /** The list of events for peering service prefix */
 export type PeeringServicePrefixPropertiesEventsList = Array<PeeringServicePrefixEvent>;
 /** The peering service prefix properties class. */
 export interface PeeringServicePrefixProperties {
   /** The prefix from which your traffic originates. */
-  prefix?: string;
+  prefix?: string | undefined;
   /** The prefix validation state */
-  prefixValidationState?: PrefixValidationState;
+  prefixValidationState?: PrefixValidationState | undefined;
   /** The prefix learned type */
-  learnedType?: LearnedType;
+  learnedType?: LearnedType | undefined;
   /** The error message for validation state */
-  errorMessage?: string;
+  errorMessage?: string | undefined;
   /** The list of events for peering service prefix */
-  events?: PeeringServicePrefixPropertiesEventsList;
+  events?: PeeringServicePrefixPropertiesEventsList | undefined;
   /** The peering service prefix key */
-  peeringServicePrefixKey?: string;
+  peeringServicePrefixKey?: string | undefined;
   /** The provisioning state of the resource. */
-  provisioningState?: ProvisioningState;
+  provisioningState?: ProvisioningState | undefined;
 }
 export interface GetPrefixResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Gets or sets the peering prefix properties. */
-  properties?: PeeringServicePrefixProperties;
+  properties?: PeeringServicePrefixProperties | undefined;
 }
 export interface GetRegisteredAsnRequest {
   /** The ID of the target subscription. */
@@ -612,23 +613,23 @@ export interface GetRegisteredAsnRequest {
 /** The properties that define a registered ASN. */
 export interface PeeringRegisteredAsnProperties {
   /** The customer's ASN from which traffic originates. */
-  asn?: number;
+  asn?: number | undefined;
   /** The peering service prefix key that is to be shared with the customer. */
-  peeringServicePrefixKey?: string;
+  peeringServicePrefixKey?: string | undefined;
   /** The provisioning state of the resource. */
-  provisioningState?: ProvisioningState;
+  provisioningState?: ProvisioningState | undefined;
 }
 export interface GetRegisteredAsnResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties that define a registered ASN. */
-  properties?: PeeringRegisteredAsnProperties;
+  properties?: PeeringRegisteredAsnProperties | undefined;
 }
 export interface GetRegisteredPrefixRequest {
   /** The ID of the target subscription. */
@@ -643,27 +644,27 @@ export interface GetRegisteredPrefixRequest {
 /** The properties that define a registered prefix. */
 export interface PeeringRegisteredPrefixProperties {
   /** The customer's prefix from which traffic originates. */
-  prefix?: string;
+  prefix?: string | undefined;
   /** The prefix validation state. */
-  prefixValidationState?: PrefixValidationState;
+  prefixValidationState?: PrefixValidationState | undefined;
   /** The peering service prefix key that is to be shared with the customer. */
-  peeringServicePrefixKey?: string;
+  peeringServicePrefixKey?: string | undefined;
   /** The error message associated with the validation state, if any. */
-  errorMessage?: string;
+  errorMessage?: string | undefined;
   /** The provisioning state of the resource. */
-  provisioningState?: ProvisioningState;
+  provisioningState?: ProvisioningState | undefined;
 }
 export interface GetRegisteredPrefixResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties that define a registered prefix. */
-  properties?: PeeringRegisteredPrefixProperties;
+  properties?: PeeringRegisteredPrefixProperties | undefined;
 }
 export type InvokeLookingGlassRequestCommand = "Traceroute" | "Ping" | "BgpRoute";
 export type InvokeLookingGlassRequestSourceType = "EdgeSite" | "AzureRegion";
@@ -684,9 +685,9 @@ export type Command = "Traceroute" | "Ping" | "BgpRoute";
 /** Looking glass output model */
 export interface LookingGlassOutput {
   /** Invoked command */
-  command?: Command;
+  command?: Command | undefined;
   /** Output of the command */
-  output?: string;
+  output?: string | undefined;
 }
 export interface ListCdnPeeringPrefixesRequest {
   /** The ID of the target subscription. */
@@ -697,28 +698,28 @@ export interface ListCdnPeeringPrefixesRequest {
 /** The properties that define a CDN peering prefix */
 export interface CdnPeeringPrefixProperties {
   /** The prefix. */
-  prefix?: string;
+  prefix?: string | undefined;
   /** The Azure region. */
-  azureRegion?: string;
+  azureRegion?: string | undefined;
   /** The Azure service. */
-  azureService?: string;
+  azureService?: string | undefined;
   /** The flag that indicates whether or not this is the primary region. */
-  isPrimaryRegion?: boolean;
+  isPrimaryRegion?: boolean | undefined;
   /** The BGP Community */
-  bgpCommunity?: string;
+  bgpCommunity?: string | undefined;
 }
 /** The CDN peering prefix */
 export interface CdnPeeringPrefix {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties that define a cdn peering prefix. */
-  properties?: CdnPeeringPrefixProperties;
+  properties?: CdnPeeringPrefixProperties | undefined;
 }
 /** The CdnPeeringPrefix items on this page */
 export type CdnPeeringPrefixListResultValueList = Array<CdnPeeringPrefix>;
@@ -727,7 +728,7 @@ export interface CdnPeeringPrefixListResult {
   /** The CdnPeeringPrefix items on this page */
   value: CdnPeeringPrefixListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListConnectionMonitorTestByPeeringServiceRequest {
   /** The ID of the target subscription. */
@@ -740,15 +741,15 @@ export interface ListConnectionMonitorTestByPeeringServiceRequest {
 /** The Connection Monitor Test class. */
 export interface ConnectionMonitorTest {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties that define a Connection Monitor Test. */
-  properties?: ConnectionMonitorTestProperties;
+  properties?: ConnectionMonitorTestProperties | undefined;
 }
 /** The ConnectionMonitorTest items on this page */
 export type ConnectionMonitorTestListResultValueList = Array<ConnectionMonitorTest>;
@@ -757,7 +758,7 @@ export interface ConnectionMonitorTestListResult {
   /** The ConnectionMonitorTest items on this page */
   value: ConnectionMonitorTestListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export type ListLegacyPeeringsRequestKind = "Direct" | "Exchange";
 export type ListLegacyPeeringsRequestDirectPeeringType =
@@ -778,28 +779,28 @@ export interface ListLegacyPeeringsRequest {
   /** The kind of the peering. */
   kind: ListLegacyPeeringsRequestKind | (string & {});
   /** The ASN number associated with a legacy peering. */
-  asn?: number;
+  asn?: number | undefined;
   /** The direct peering type. */
-  directPeeringType?: ListLegacyPeeringsRequestDirectPeeringType | (string & {});
+  directPeeringType?: ListLegacyPeeringsRequestDirectPeeringType | (string & {}) | undefined;
 }
 /** Resource tags. */
 export type PeeringTagsMap = { [key: string]: string | undefined };
 /** Peering is a logical representation of a set of connections to the Microsoft Cloud Edge at a location. */
 export interface Peering2 {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: PeeringTagsMap;
+  tags?: PeeringTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The properties that define a peering. */
-  properties?: PeeringProperties;
+  properties?: PeeringProperties | undefined;
   /** The SKU that defines the tier and kind of the peering. */
   sku: PeeringSku;
   /** The kind of the peering. */
@@ -812,79 +813,79 @@ export interface PeeringListResult {
   /** The Peering items on this page */
   value: PeeringListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListOperationsRequest {}
 /** The information related to the operation. */
 export interface OperationDisplayInfo {
   /** The name of the resource provider. */
-  provider?: string;
+  provider?: string | undefined;
   /** The type of the resource. */
-  resource?: string;
+  resource?: string | undefined;
   /** The name of the operation. */
-  operation?: string;
+  operation?: string | undefined;
   /** The description of the operation. */
-  description?: string;
+  description?: string | undefined;
 }
 /** Supported time grain types for the metric. */
 export type MetricSpecificationSupportedTimeGrainTypesList = Array<string>;
 /** Dimensions of the metric. */
 export interface MetricDimension {
   /** Name of the dimension. */
-  name?: string;
+  name?: string | undefined;
   /** Localized friendly display name of the dimension. */
-  displayName?: string;
+  displayName?: string | undefined;
 }
 /** Dimensions of the metric. */
 export type MetricSpecificationDimensionsList = Array<MetricDimension>;
 /** Specifications of the Metrics for Azure Monitoring. */
 export interface MetricSpecification {
   /** Name of the metric. */
-  name?: string;
+  name?: string | undefined;
   /** Localized friendly display name of the metric. */
-  displayName?: string;
+  displayName?: string | undefined;
   /** Localized friendly description of the metric. */
-  displayDescription?: string;
+  displayDescription?: string | undefined;
   /** Unit that makes sense for the metric. */
-  unit?: string;
+  unit?: string | undefined;
   /** Aggregation type will be set to one of the values: Average, Minimum, Maximum, Total, Count. */
-  aggregationType?: string;
+  aggregationType?: string | undefined;
   /** Supported time grain types for the metric. */
-  supportedTimeGrainTypes?: MetricSpecificationSupportedTimeGrainTypesList;
+  supportedTimeGrainTypes?: MetricSpecificationSupportedTimeGrainTypesList | undefined;
   /** Dimensions of the metric. */
-  dimensions?: MetricSpecificationDimensionsList;
+  dimensions?: MetricSpecificationDimensionsList | undefined;
 }
 /** Specifications of the Metrics for Azure Monitoring. */
 export type ServiceSpecificationMetricSpecificationsList = Array<MetricSpecification>;
 /** Service specification payload. */
 export interface ServiceSpecification {
   /** Specifications of the Metrics for Azure Monitoring. */
-  metricSpecifications?: ServiceSpecificationMetricSpecificationsList;
+  metricSpecifications?: ServiceSpecificationMetricSpecificationsList | undefined;
 }
 /** The properties of the operation. */
 export interface OperationProperties {
   /** Service specification payload. */
-  serviceSpecification?: ServiceSpecification;
+  serviceSpecification?: ServiceSpecification | undefined;
 }
 /** The peering API operation. */
 export interface Operation {
   /** The name of the operation. */
-  name?: string;
+  name?: string | undefined;
   /** The information related to the operation. */
-  display?: OperationDisplayInfo;
+  display?: OperationDisplayInfo | undefined;
   /** The flag that indicates whether the operation applies to data plane. */
-  isDataAction?: boolean;
+  isDataAction?: boolean | undefined;
   /** The properties of the operation. */
-  properties?: OperationProperties;
+  properties?: OperationProperties | undefined;
 }
 /** The list of peering API operations. */
 export type OperationListResultValueList = Array<Operation>;
 /** The paginated list of peering API operations. */
 export interface OperationListResult {
   /** The list of peering API operations. */
-  value?: OperationListResultValueList;
+  value?: OperationListResultValueList | undefined;
   /** The link to fetch the next page of peering API operations. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListPeerAsnBySubscriptionRequest {
   /** The ID of the target subscription. */
@@ -893,15 +894,15 @@ export interface ListPeerAsnBySubscriptionRequest {
 /** The essential information related to the peer's ASN. */
 export interface PeerAsn {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties that define a peer's ASN. */
-  properties?: PeerAsnProperties;
+  properties?: PeerAsnProperties | undefined;
 }
 /** The PeerAsn items on this page */
 export type PeerAsnListResultValueList = Array<PeerAsn>;
@@ -910,7 +911,7 @@ export interface PeerAsnListResult {
   /** The PeerAsn items on this page */
   value: PeerAsnListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListPeeringByResourceGroupRequest {
   /** The ID of the target subscription. */
@@ -939,90 +940,90 @@ export interface ListPeeringLocationsRequest {
   /** The kind of the peering. */
   kind: ListPeeringLocationsRequestKind | (string & {});
   /** The type of direct peering. */
-  directPeeringType?: ListPeeringLocationsRequestDirectPeeringType | (string & {});
+  directPeeringType?: ListPeeringLocationsRequestDirectPeeringType | (string & {}) | undefined;
 }
 /** The properties that define a direct peering facility. */
 export interface DirectPeeringFacility {
   /** The address of the direct peering facility. */
-  address?: string;
+  address?: string | undefined;
   /** The type of the direct peering. */
-  directPeeringType?: DirectPeeringType;
+  directPeeringType?: DirectPeeringType | undefined;
   /** The PeeringDB.com ID of the facility. */
-  peeringDBFacilityId?: number;
+  peeringDBFacilityId?: number | undefined;
   /** The PeeringDB.com URL of the facility. */
-  peeringDBFacilityLink?: string;
+  peeringDBFacilityLink?: string | undefined;
 }
 /** The list of direct peering facilities at the peering location. */
 export type PeeringLocationPropertiesDirectPeeringFacilitiesList = Array<DirectPeeringFacility>;
 /** The properties that define a peering bandwidth offer. */
 export interface PeeringBandwidthOffer {
   /** The name of the bandwidth offer. */
-  offerName?: string;
+  offerName?: string | undefined;
   /** The value of the bandwidth offer in Mbps. */
-  valueInMbps?: number;
+  valueInMbps?: number | undefined;
 }
 /** The list of bandwidth offers available at the peering location. */
 export type PeeringLocationPropertiesDirectBandwidthOffersList = Array<PeeringBandwidthOffer>;
 /** The properties that define a direct peering location. */
 export interface PeeringLocationPropertiesDirect {
   /** The list of direct peering facilities at the peering location. */
-  peeringFacilities?: PeeringLocationPropertiesDirectPeeringFacilitiesList;
+  peeringFacilities?: PeeringLocationPropertiesDirectPeeringFacilitiesList | undefined;
   /** The list of bandwidth offers available at the peering location. */
-  bandwidthOffers?: PeeringLocationPropertiesDirectBandwidthOffersList;
+  bandwidthOffers?: PeeringLocationPropertiesDirectBandwidthOffersList | undefined;
 }
 /** The properties that define an exchange peering facility. */
 export interface ExchangePeeringFacility {
   /** The name of the exchange peering facility. */
-  exchangeName?: string;
+  exchangeName?: string | undefined;
   /** The bandwidth of the connection between Microsoft and the exchange peering facility. */
-  bandwidthInMbps?: number;
+  bandwidthInMbps?: number | undefined;
   /** The IPv4 address of Microsoft at the exchange peering facility. */
-  microsoftIPv4Address?: string;
+  microsoftIPv4Address?: string | undefined;
   /** The IPv6 address of Microsoft at the exchange peering facility. */
-  microsoftIPv6Address?: string;
+  microsoftIPv6Address?: string | undefined;
   /** The IPv4 prefixes associated with the exchange peering facility. */
-  facilityIPv4Prefix?: string;
+  facilityIPv4Prefix?: string | undefined;
   /** The IPv6 prefixes associated with the exchange peering facility. */
-  facilityIPv6Prefix?: string;
+  facilityIPv6Prefix?: string | undefined;
   /** The PeeringDB.com ID of the facility. */
-  peeringDBFacilityId?: number;
+  peeringDBFacilityId?: number | undefined;
   /** The PeeringDB.com URL of the facility. */
-  peeringDBFacilityLink?: string;
+  peeringDBFacilityLink?: string | undefined;
 }
 /** The list of exchange peering facilities at the peering location. */
 export type PeeringLocationPropertiesExchangePeeringFacilitiesList = Array<ExchangePeeringFacility>;
 /** The properties that define an exchange peering location. */
 export interface PeeringLocationPropertiesExchange {
   /** The list of exchange peering facilities at the peering location. */
-  peeringFacilities?: PeeringLocationPropertiesExchangePeeringFacilitiesList;
+  peeringFacilities?: PeeringLocationPropertiesExchangePeeringFacilitiesList | undefined;
 }
 /** The properties that define a peering location. */
 export interface PeeringLocationProperties {
   /** The properties that define a direct peering location. */
-  direct?: PeeringLocationPropertiesDirect;
+  direct?: PeeringLocationPropertiesDirect | undefined;
   /** The properties that define an exchange peering location. */
-  exchange?: PeeringLocationPropertiesExchange;
+  exchange?: PeeringLocationPropertiesExchange | undefined;
   /** The name of the peering location. */
-  peeringLocation?: string;
+  peeringLocation?: string | undefined;
   /** The country in which the peering location exists. */
-  country?: string;
+  country?: string | undefined;
   /** The Azure region associated with the peering location. */
-  azureRegion?: string;
+  azureRegion?: string | undefined;
 }
 /** Peering location is where connectivity could be established to the Microsoft Cloud Edge. */
 export interface PeeringLocation {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The kind of peering that the peering location supports. */
-  kind?: Kind;
+  kind?: Kind | undefined;
   /** The properties that define a peering location. */
-  properties?: PeeringLocationProperties;
+  properties?: PeeringLocationProperties | undefined;
 }
 /** The PeeringLocation items on this page */
 export type PeeringLocationListResultValueList = Array<PeeringLocation>;
@@ -1031,7 +1032,7 @@ export interface PeeringLocationListResult {
   /** The PeeringLocation items on this page */
   value: PeeringLocationListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListPeeringServiceByResourceGroupRequest {
   /** The ID of the target subscription. */
@@ -1044,21 +1045,21 @@ export type PeeringServiceTagsMap = { [key: string]: string | undefined };
 /** Peering Service */
 export interface PeeringService {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: PeeringServiceTagsMap;
+  tags?: PeeringServiceTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The properties that define a peering service. */
-  properties?: PeeringServiceProperties;
+  properties?: PeeringServiceProperties | undefined;
   /** The SKU that defines the type of the peering service. */
-  sku?: PeeringServiceSku;
+  sku?: PeeringServiceSku | undefined;
 }
 /** The PeeringService items on this page */
 export type PeeringServiceListResultValueList = Array<PeeringService>;
@@ -1067,7 +1068,7 @@ export interface PeeringServiceListResult {
   /** The PeeringService items on this page */
   value: PeeringServiceListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListPeeringServiceBySubscriptionRequest {
   /** The ID of the target subscription. */
@@ -1080,13 +1081,13 @@ export interface ListPeeringServiceCountriesRequest {
 /** Common fields that are returned in the response for all Azure Resource Manager resources */
 export interface PeeringServiceCountry {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
 }
 /** The PeeringServiceCountry items on this page */
 export type PeeringServiceCountryListResultValueList = Array<PeeringServiceCountry>;
@@ -1095,35 +1096,35 @@ export interface PeeringServiceCountryListResult {
   /** The PeeringServiceCountry items on this page */
   value: PeeringServiceCountryListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListPeeringServiceLocationsRequest {
   /** The ID of the target subscription. */
   subscriptionId: string;
   /** The country of interest, in which the locations are to be present. */
-  country?: string;
+  country?: string | undefined;
 }
 /** The properties that define connectivity to the Peering Service Location. */
 export interface PeeringServiceLocationProperties {
   /** Country of the customer */
-  country?: string;
+  country?: string | undefined;
   /** State of the customer */
-  state?: string;
+  state?: string | undefined;
   /** Azure region for the location */
-  azureRegion?: string;
+  azureRegion?: string | undefined;
 }
 /** The peering service location. */
 export interface PeeringServiceLocation {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties that define a peering service location. */
-  properties?: PeeringServiceLocationProperties;
+  properties?: PeeringServiceLocationProperties | undefined;
 }
 /** The PeeringServiceLocation items on this page */
 export type PeeringServiceLocationListResultValueList = Array<PeeringServiceLocation>;
@@ -1132,7 +1133,7 @@ export interface PeeringServiceLocationListResult {
   /** The PeeringServiceLocation items on this page */
   value: PeeringServiceLocationListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListPeeringServiceProvidersRequest {
   /** The ID of the target subscription. */
@@ -1143,22 +1144,22 @@ export type PeeringServiceProviderPropertiesPeeringLocationsList = Array<string>
 /** The properties that define connectivity to the Peering Service Provider. */
 export interface PeeringServiceProviderProperties {
   /** The name of the service provider. */
-  serviceProviderName?: string;
+  serviceProviderName?: string | undefined;
   /** The list of locations at which the service provider peers with Microsoft. */
-  peeringLocations?: PeeringServiceProviderPropertiesPeeringLocationsList;
+  peeringLocations?: PeeringServiceProviderPropertiesPeeringLocationsList | undefined;
 }
 /** PeeringService provider */
 export interface PeeringServiceProvider {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties that define a peering service provider. */
-  properties?: PeeringServiceProviderProperties;
+  properties?: PeeringServiceProviderProperties | undefined;
 }
 /** The PeeringServiceProvider items on this page */
 export type PeeringServiceProviderListResultValueList = Array<PeeringServiceProvider>;
@@ -1167,7 +1168,7 @@ export interface PeeringServiceProviderListResult {
   /** The PeeringServiceProvider items on this page */
   value: PeeringServiceProviderListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListPrefixByPeeringServiceRequest {
   /** The ID of the target subscription. */
@@ -1177,20 +1178,20 @@ export interface ListPrefixByPeeringServiceRequest {
   /** The name of the peering. */
   peeringServiceName: string;
   /** The properties to be expanded. */
-  _expand?: string;
+  _expand?: string | undefined;
 }
 /** The peering service prefix class. */
 export interface PeeringServicePrefix {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Gets or sets the peering prefix properties. */
-  properties?: PeeringServicePrefixProperties;
+  properties?: PeeringServicePrefixProperties | undefined;
 }
 /** The PeeringServicePrefix items on this page */
 export type PeeringServicePrefixListResultValueList = Array<PeeringServicePrefix>;
@@ -1199,7 +1200,7 @@ export interface PeeringServicePrefixListResult {
   /** The PeeringServicePrefix items on this page */
   value: PeeringServicePrefixListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListReceivedRouteByPeeringRequest {
   /** The ID of the target subscription. */
@@ -1209,32 +1210,32 @@ export interface ListReceivedRouteByPeeringRequest {
   /** The name of the peering. */
   peeringName: string;
   /** The optional prefix that can be used to filter the routes. */
-  prefix?: string;
+  prefix?: string | undefined;
   /** The optional AS path that can be used to filter the routes. */
-  asPath?: string;
+  asPath?: string | undefined;
   /** The optional origin AS validation state that can be used to filter the routes. */
-  originAsValidationState?: string;
+  originAsValidationState?: string | undefined;
   /** The optional RPKI validation state that can be used to filter the routes. */
-  rpkiValidationState?: string;
+  rpkiValidationState?: string | undefined;
   /** The optional page continuation token that is used in the event of paginated result. */
-  _skipToken?: string;
+  _skipToken?: string | undefined;
 }
 /** The properties that define a received route. */
 export interface PeeringReceivedRoute {
   /** The prefix. */
-  prefix?: string;
+  prefix?: string | undefined;
   /** The next hop for the prefix. */
-  nextHop?: string;
+  nextHop?: string | undefined;
   /** The AS path for the prefix. */
-  asPath?: string;
+  asPath?: string | undefined;
   /** The origin AS change information for the prefix. */
-  originAsValidationState?: string;
+  originAsValidationState?: string | undefined;
   /** The RPKI validation state for the prefix and origin AS that's listed in the AS path. */
-  rpkiValidationState?: string;
+  rpkiValidationState?: string | undefined;
   /** The authority which holds the Route Origin Authorization record for the prefix, if any. */
-  trustAnchor?: string;
+  trustAnchor?: string | undefined;
   /** The received timestamp associated with the prefix. */
-  receivedTimestamp?: string;
+  receivedTimestamp?: string | undefined;
 }
 /** The PeeringReceivedRoute items on this page */
 export type PeeringReceivedRouteListResultValueList = Array<PeeringReceivedRoute>;
@@ -1243,7 +1244,7 @@ export interface PeeringReceivedRouteListResult {
   /** The PeeringReceivedRoute items on this page */
   value: PeeringReceivedRouteListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListRegisteredAsnByPeeringRequest {
   /** The ID of the target subscription. */
@@ -1256,15 +1257,15 @@ export interface ListRegisteredAsnByPeeringRequest {
 /** The customer's ASN that is registered by the peering service provider. */
 export interface PeeringRegisteredAsn {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties that define a registered ASN. */
-  properties?: PeeringRegisteredAsnProperties;
+  properties?: PeeringRegisteredAsnProperties | undefined;
 }
 /** The PeeringRegisteredAsn items on this page */
 export type PeeringRegisteredAsnListResultValueList = Array<PeeringRegisteredAsn>;
@@ -1273,7 +1274,7 @@ export interface PeeringRegisteredAsnListResult {
   /** The PeeringRegisteredAsn items on this page */
   value: PeeringRegisteredAsnListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListRegisteredPrefixByPeeringRequest {
   /** The ID of the target subscription. */
@@ -1286,15 +1287,15 @@ export interface ListRegisteredPrefixByPeeringRequest {
 /** The customer's prefix that is registered by the peering service provider. */
 export interface PeeringRegisteredPrefix {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties that define a registered prefix. */
-  properties?: PeeringRegisteredPrefixProperties;
+  properties?: PeeringRegisteredPrefixProperties | undefined;
 }
 /** The PeeringRegisteredPrefix items on this page */
 export type PeeringRegisteredPrefixListResultValueList = Array<PeeringRegisteredPrefix>;
@@ -1303,7 +1304,7 @@ export interface PeeringRegisteredPrefixListResult {
   /** The PeeringRegisteredPrefix items on this page */
   value: PeeringRegisteredPrefixListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListRpUnbilledPrefixesRequest {
   /** The ID of the target subscription. */
@@ -1313,16 +1314,16 @@ export interface ListRpUnbilledPrefixesRequest {
   /** The name of the peering. */
   peeringName: string;
   /** Flag to enable consolidation prefixes */
-  consolidate?: boolean;
+  consolidate?: boolean | undefined;
 }
 /** The Routing Preference unbilled prefix */
 export interface RpUnbilledPrefix {
   /** The prefix. */
-  prefix?: string;
+  prefix?: string | undefined;
   /** The Azure region. */
-  azureRegion?: string;
+  azureRegion?: string | undefined;
   /** The peer ASN. */
-  peerAsn?: number;
+  peerAsn?: number | undefined;
 }
 /** The RpUnbilledPrefix items on this page */
 export type RpUnbilledPrefixListResultValueList = Array<RpUnbilledPrefix>;
@@ -1331,18 +1332,18 @@ export interface RpUnbilledPrefixListResult {
   /** The RpUnbilledPrefix items on this page */
   value: RpUnbilledPrefixListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 /** The contact details of the peer. */
 export type PeerAsnPropertiesInputPeerContactDetailList = Array<ContactDetail>;
 /** The properties that define a peer's ASN. */
 export interface PeerAsnPropertiesInput {
   /** The Autonomous System Number (ASN) of the peer. */
-  peerAsn?: number;
+  peerAsn?: number | undefined;
   /** The contact details of the peer. */
-  peerContactDetail?: PeerAsnPropertiesInputPeerContactDetailList;
+  peerContactDetail?: PeerAsnPropertiesInputPeerContactDetailList | undefined;
   /** The name of the peer. */
-  peerName?: string;
+  peerName?: string | undefined;
 }
 export interface PeerAsnsCreateOrUpdateRequest {
   /** The ID of the target subscription. */
@@ -1350,87 +1351,87 @@ export interface PeerAsnsCreateOrUpdateRequest {
   /** The peer ASN name. */
   peerAsnName: string;
   /** The properties that define a peer's ASN. */
-  properties?: PeerAsnPropertiesInput;
+  properties?: PeerAsnPropertiesInput | undefined;
 }
 export interface PeerAsnsCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties that define a peer's ASN. */
-  properties?: PeerAsnProperties;
+  properties?: PeerAsnProperties | undefined;
 }
 /** Resource tags. */
 export type PeeringsCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
 /** The properties that define a direct connection. */
 export interface DirectConnectionInput {
   /** The bandwidth of the connection. */
-  bandwidthInMbps?: number;
+  bandwidthInMbps?: number | undefined;
   /** The field indicating if Microsoft provides session ip addresses. */
-  sessionAddressProvider?: SessionAddressProvider | (string & {});
+  sessionAddressProvider?: SessionAddressProvider | (string & {}) | undefined;
   /** The flag that indicates whether or not the connection is used for peering service. */
-  useForPeeringService?: boolean;
+  useForPeeringService?: boolean | undefined;
   /** The PeeringDB.com ID of the facility at which the connection has to be set up. */
-  peeringDBFacilityId?: number;
+  peeringDBFacilityId?: number | undefined;
   /** The BGP session associated with the connection. */
-  bgpSession?: BgpSession;
+  bgpSession?: BgpSession | undefined;
   /** The unique identifier (GUID) for the connection. */
-  connectionIdentifier?: string;
+  connectionIdentifier?: string | undefined;
 }
 /** The set of connections that constitute a direct peering. */
 export type PeeringPropertiesDirectInputConnectionsList = Array<DirectConnectionInput>;
 /** The properties that define a direct peering. */
 export interface PeeringPropertiesDirectInput {
   /** The set of connections that constitute a direct peering. */
-  connections?: PeeringPropertiesDirectInputConnectionsList;
+  connections?: PeeringPropertiesDirectInputConnectionsList | undefined;
   /** The reference of the peer ASN. */
-  peerAsn?: SubResource;
+  peerAsn?: SubResource | undefined;
   /** The type of direct peering. */
-  directPeeringType?: DirectPeeringType | (string & {});
+  directPeeringType?: DirectPeeringType | (string & {}) | undefined;
 }
 /** The properties that define an exchange connection. */
 export interface ExchangeConnectionInput {
   /** The PeeringDB.com ID of the facility at which the connection has to be set up. */
-  peeringDBFacilityId?: number;
+  peeringDBFacilityId?: number | undefined;
   /** The BGP session associated with the connection. */
-  bgpSession?: BgpSession;
+  bgpSession?: BgpSession | undefined;
   /** The unique identifier (GUID) for the connection. */
-  connectionIdentifier?: string;
+  connectionIdentifier?: string | undefined;
 }
 /** The set of connections that constitute an exchange peering. */
 export type PeeringPropertiesExchangeInputConnectionsList = Array<ExchangeConnectionInput>;
 /** The properties that define an exchange peering. */
 export interface PeeringPropertiesExchangeInput {
   /** The set of connections that constitute an exchange peering. */
-  connections?: PeeringPropertiesExchangeInputConnectionsList;
+  connections?: PeeringPropertiesExchangeInputConnectionsList | undefined;
   /** The reference of the peer ASN. */
-  peerAsn?: SubResource;
+  peerAsn?: SubResource | undefined;
 }
 /** Represents a connectivity probe, a configuration peers can add to direct and exchange peerings to create ping tests. These ping tests will allow us to generate availability, jitter, and latency data for traffic (using ICMP or TCP) from Azure to an endpoint IP address given by the customer. This data will be emitted such that the peer can view these metrics in the Azure portal in the Connectivity probe blade of their peering. */
 export interface ConnectivityProbeInput {
   /** The endpoint IP address where traffic will be sent to from Azure for the connectivity probe. */
-  endpoint?: string;
+  endpoint?: string | undefined;
   /** The Azure region where traffic will originate from for the connectivity probe. */
-  azureRegion?: string;
+  azureRegion?: string | undefined;
   /** The protocol of the traffic that will be sent for the connectivity probe. */
-  protocol?: Protocol | (string & {});
+  protocol?: Protocol | (string & {}) | undefined;
 }
 /** The connectivity probes associated with the peering. */
 export type PeeringPropertiesInputConnectivityProbesList = Array<ConnectivityProbeInput>;
 /** The properties that define connectivity to the Microsoft Cloud Edge. */
 export interface PeeringPropertiesInput {
   /** The properties that define a direct peering. */
-  direct?: PeeringPropertiesDirectInput;
+  direct?: PeeringPropertiesDirectInput | undefined;
   /** The properties that define an exchange peering. */
-  exchange?: PeeringPropertiesExchangeInput;
+  exchange?: PeeringPropertiesExchangeInput | undefined;
   /** The connectivity probes associated with the peering. */
-  connectivityProbes?: PeeringPropertiesInputConnectivityProbesList;
+  connectivityProbes?: PeeringPropertiesInputConnectivityProbesList | undefined;
   /** The location of the peering. */
-  peeringLocation?: string;
+  peeringLocation?: string | undefined;
 }
 export interface PeeringsCreateOrUpdateRequest {
   /** The ID of the target subscription. */
@@ -1440,11 +1441,11 @@ export interface PeeringsCreateOrUpdateRequest {
   /** The name of the peering. */
   peeringName: string;
   /** Resource tags. */
-  tags?: PeeringsCreateOrUpdateRequestTagsMap;
+  tags?: PeeringsCreateOrUpdateRequestTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The properties that define a peering. */
-  properties?: PeeringPropertiesInput;
+  properties?: PeeringPropertiesInput | undefined;
   /** The SKU that defines the tier and kind of the peering. */
   sku: PeeringSku;
   /** The kind of the peering. */
@@ -1454,19 +1455,19 @@ export interface PeeringsCreateOrUpdateRequest {
 export type PeeringsCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
 export interface PeeringsCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: PeeringsCreateOrUpdateResponseTagsMap;
+  tags?: PeeringsCreateOrUpdateResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The properties that define a peering. */
-  properties?: PeeringProperties;
+  properties?: PeeringProperties | undefined;
   /** The SKU that defines the tier and kind of the peering. */
   sku: PeeringSku;
   /** The kind of the peering. */
@@ -1479,15 +1480,15 @@ export interface LogAnalyticsWorkspacePropertiesInput {}
 /** The properties that define connectivity to the Peering Service. */
 export interface PeeringServicePropertiesInput {
   /** The location (state/province) of the customer. */
-  peeringServiceLocation?: string;
+  peeringServiceLocation?: string | undefined;
   /** The name of the service provider. */
-  peeringServiceProvider?: string;
+  peeringServiceProvider?: string | undefined;
   /** The primary peering (Microsoft/service provider) location to be used for customer traffic. */
-  providerPrimaryPeeringLocation?: string;
+  providerPrimaryPeeringLocation?: string | undefined;
   /** The backup peering (Microsoft/service provider) location to be used for customer traffic. */
-  providerBackupPeeringLocation?: string;
+  providerBackupPeeringLocation?: string | undefined;
   /** The Log Analytics Workspace Properties */
-  logAnalyticsWorkspaceProperties?: LogAnalyticsWorkspacePropertiesInput;
+  logAnalyticsWorkspaceProperties?: LogAnalyticsWorkspacePropertiesInput | undefined;
 }
 export interface PeeringServicesCreateOrUpdateRequest {
   /** The ID of the target subscription. */
@@ -1497,33 +1498,33 @@ export interface PeeringServicesCreateOrUpdateRequest {
   /** The name of the peering. */
   peeringServiceName: string;
   /** Resource tags. */
-  tags?: PeeringServicesCreateOrUpdateRequestTagsMap;
+  tags?: PeeringServicesCreateOrUpdateRequestTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The properties that define a peering service. */
-  properties?: PeeringServicePropertiesInput;
+  properties?: PeeringServicePropertiesInput | undefined;
   /** The SKU that defines the type of the peering service. */
-  sku?: PeeringServiceSku;
+  sku?: PeeringServiceSku | undefined;
 }
 /** Resource tags. */
 export type PeeringServicesCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
 export interface PeeringServicesCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: PeeringServicesCreateOrUpdateResponseTagsMap;
+  tags?: PeeringServicesCreateOrUpdateResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The properties that define a peering service. */
-  properties?: PeeringServiceProperties;
+  properties?: PeeringServiceProperties | undefined;
   /** The SKU that defines the type of the peering service. */
-  sku?: PeeringServiceSku;
+  sku?: PeeringServiceSku | undefined;
 }
 export interface PeeringServicesInitializeConnectionMonitorRequest {
   /** The ID of the target subscription. */
@@ -1533,9 +1534,9 @@ export interface PeeringServicesInitializeConnectionMonitorResponse {}
 /** The peering service prefix properties class. */
 export interface PeeringServicePrefixPropertiesInput {
   /** The prefix from which your traffic originates. */
-  prefix?: string;
+  prefix?: string | undefined;
   /** The peering service prefix key */
-  peeringServicePrefixKey?: string;
+  peeringServicePrefixKey?: string | undefined;
 }
 export interface PrefixesCreateOrUpdateRequest {
   /** The ID of the target subscription. */
@@ -1547,24 +1548,24 @@ export interface PrefixesCreateOrUpdateRequest {
   /** The name of the prefix. */
   prefixName: string;
   /** Gets or sets the peering prefix properties. */
-  properties?: PeeringServicePrefixPropertiesInput;
+  properties?: PeeringServicePrefixPropertiesInput | undefined;
 }
 export interface PrefixesCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Gets or sets the peering prefix properties. */
-  properties?: PeeringServicePrefixProperties;
+  properties?: PeeringServicePrefixProperties | undefined;
 }
 /** The properties that define a registered ASN. */
 export interface PeeringRegisteredAsnPropertiesInput {
   /** The customer's ASN from which traffic originates. */
-  asn?: number;
+  asn?: number | undefined;
 }
 export interface RegisteredAsnsCreateOrUpdateRequest {
   /** The ID of the target subscription. */
@@ -1576,24 +1577,24 @@ export interface RegisteredAsnsCreateOrUpdateRequest {
   /** The name of the registered ASN. */
   registeredAsnName: string;
   /** The properties that define a registered ASN. */
-  properties?: PeeringRegisteredAsnPropertiesInput;
+  properties?: PeeringRegisteredAsnPropertiesInput | undefined;
 }
 export interface RegisteredAsnsCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties that define a registered ASN. */
-  properties?: PeeringRegisteredAsnProperties;
+  properties?: PeeringRegisteredAsnProperties | undefined;
 }
 /** The properties that define a registered prefix. */
 export interface PeeringRegisteredPrefixPropertiesInput {
   /** The customer's prefix from which traffic originates. */
-  prefix?: string;
+  prefix?: string | undefined;
 }
 export interface RegisteredPrefixesCreateOrUpdateRequest {
   /** The ID of the target subscription. */
@@ -1605,19 +1606,19 @@ export interface RegisteredPrefixesCreateOrUpdateRequest {
   /** The name of the registered prefix. */
   registeredPrefixName: string;
   /** The properties that define a registered prefix. */
-  properties?: PeeringRegisteredPrefixPropertiesInput;
+  properties?: PeeringRegisteredPrefixPropertiesInput | undefined;
 }
 export interface RegisteredPrefixesCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties that define a registered prefix. */
-  properties?: PeeringRegisteredPrefixProperties;
+  properties?: PeeringRegisteredPrefixProperties | undefined;
 }
 /** Gets or sets the tags, a dictionary of descriptors arm object */
 export type UpdatePeeringRequestTagsMap = { [key: string]: string | undefined };
@@ -1629,25 +1630,25 @@ export interface UpdatePeeringRequest {
   /** The name of the peering. */
   peeringName: string;
   /** Gets or sets the tags, a dictionary of descriptors arm object */
-  tags?: UpdatePeeringRequestTagsMap;
+  tags?: UpdatePeeringRequestTagsMap | undefined;
 }
 /** Resource tags. */
 export type UpdatePeeringResponseTagsMap = { [key: string]: string | undefined };
 export interface UpdatePeeringResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: UpdatePeeringResponseTagsMap;
+  tags?: UpdatePeeringResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The properties that define a peering. */
-  properties?: PeeringProperties;
+  properties?: PeeringProperties | undefined;
   /** The SKU that defines the tier and kind of the peering. */
   sku: PeeringSku;
   /** The kind of the peering. */
@@ -1663,27 +1664,27 @@ export interface UpdatePeeringServiceRequest {
   /** The name of the peering. */
   peeringServiceName: string;
   /** Gets or sets the tags, a dictionary of descriptors arm object */
-  tags?: UpdatePeeringServiceRequestTagsMap;
+  tags?: UpdatePeeringServiceRequestTagsMap | undefined;
 }
 /** Resource tags. */
 export type UpdatePeeringServiceResponseTagsMap = { [key: string]: string | undefined };
 export interface UpdatePeeringServiceResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: UpdatePeeringServiceResponseTagsMap;
+  tags?: UpdatePeeringServiceResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The properties that define a peering service. */
-  properties?: PeeringServiceProperties;
+  properties?: PeeringServiceProperties | undefined;
   /** The SKU that defines the type of the peering service. */
-  sku?: PeeringServiceSku;
+  sku?: PeeringServiceSku | undefined;
 }
 export interface ValidateRegisteredPrefixRequest {
   /** The ID of the target subscription. */
@@ -1697,15 +1698,15 @@ export interface ValidateRegisteredPrefixRequest {
 }
 export interface ValidateRegisteredPrefixResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties that define a registered prefix. */
-  properties?: PeeringRegisteredPrefixProperties;
+  properties?: PeeringRegisteredPrefixProperties | undefined;
 }
 export type CheckServiceProviderAvailabilityError = AzureOpError;
 /** Checks if the peering service provider is present within 1000 miles of customer's location */

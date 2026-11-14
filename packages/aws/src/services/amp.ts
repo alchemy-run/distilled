@@ -7,6 +7,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
 // Schema table, filled on first reach (see __S at the end).
@@ -169,12 +170,12 @@ export type IdempotencyToken = string;
 export interface CreateAlertManagerDefinitionRequest {
   workspaceId: string;
   data: Uint8Array;
-  clientToken?: string;
+  clientToken?: string | undefined;
 }
 export type AlertManagerDefinitionStatusCode = string;
 export interface AlertManagerDefinitionStatus {
   statusCode: string;
-  statusReason?: string;
+  statusReason?: string | undefined;
 }
 export interface CreateAlertManagerDefinitionResponse {
   status: AlertManagerDefinitionStatus;
@@ -182,18 +183,18 @@ export interface CreateAlertManagerDefinitionResponse {
 export type AnomalyDetectorAlias = string;
 export type AnomalyDetectorEvaluationInterval = number;
 export type AnomalyDetectorMissingDataAction =
-  | { markAsAnomaly: boolean; skip?: never }
-  | { markAsAnomaly?: never; skip: boolean };
+  | { markAsAnomaly: boolean; skip?: undefined }
+  | { markAsAnomaly?: undefined; skip: boolean };
 export type RandomCutForestQuery = string;
 export type IgnoreNearExpected =
-  | { amount: number; ratio?: never }
-  | { amount?: never; ratio: number };
+  | { amount: number; ratio?: undefined }
+  | { amount?: undefined; ratio: number };
 export interface RandomCutForestConfiguration {
   query: string;
-  shingleSize?: number;
-  sampleSize?: number;
-  ignoreNearExpectedFromAbove?: IgnoreNearExpected;
-  ignoreNearExpectedFromBelow?: IgnoreNearExpected;
+  shingleSize?: number | undefined;
+  sampleSize?: number | undefined;
+  ignoreNearExpectedFromAbove?: IgnoreNearExpected | undefined;
+  ignoreNearExpectedFromBelow?: IgnoreNearExpected | undefined;
 }
 export type AnomalyDetectorConfiguration = { randomCutForest: RandomCutForestConfiguration };
 export type PrometheusMetricLabelKey = string;
@@ -205,12 +206,12 @@ export type TagMap = { [key: string]: string | undefined };
 export interface CreateAnomalyDetectorRequest {
   workspaceId: string;
   alias: string;
-  evaluationIntervalInSeconds?: number;
-  missingDataAction?: AnomalyDetectorMissingDataAction;
+  evaluationIntervalInSeconds?: number | undefined;
+  missingDataAction?: AnomalyDetectorMissingDataAction | undefined;
   configuration: AnomalyDetectorConfiguration;
-  labels?: { [key: string]: string | undefined };
-  clientToken?: string;
-  tags?: { [key: string]: string | undefined };
+  labels?: { [key: string]: string | undefined } | undefined;
+  clientToken?: string | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export type AnomalyDetectorId = string;
 export type AnomalyDetectorArn = string;
@@ -225,24 +226,24 @@ export type AnomalyDetectorStatusCode =
   | (string & {});
 export interface AnomalyDetectorStatus {
   statusCode: AnomalyDetectorStatusCode;
-  statusReason?: string;
+  statusReason?: string | undefined;
 }
 export interface CreateAnomalyDetectorResponse {
   anomalyDetectorId: string;
   arn: string;
   status: AnomalyDetectorStatus;
-  tags?: { [key: string]: string | undefined };
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export type LogGroupArn = string;
 export interface CreateLoggingConfigurationRequest {
   workspaceId: string;
   logGroupArn: string;
-  clientToken?: string;
+  clientToken?: string | undefined;
 }
 export type LoggingConfigurationStatusCode = string;
 export interface LoggingConfigurationStatus {
   statusCode: string;
-  statusReason?: string;
+  statusReason?: string | undefined;
 }
 export interface CreateLoggingConfigurationResponse {
   status: LoggingConfigurationStatus;
@@ -261,12 +262,12 @@ export type LoggingDestinations = LoggingDestination[];
 export interface CreateQueryLoggingConfigurationRequest {
   workspaceId: string;
   destinations: LoggingDestination[];
-  clientToken?: string;
+  clientToken?: string | undefined;
 }
 export type QueryLoggingConfigurationStatusCode = string;
 export interface QueryLoggingConfigurationStatus {
   statusCode: string;
-  statusReason?: string;
+  statusReason?: string | undefined;
 }
 export interface CreateQueryLoggingConfigurationResponse {
   status: QueryLoggingConfigurationStatus;
@@ -277,20 +278,20 @@ export interface CreateRuleGroupsNamespaceRequest {
   workspaceId: string;
   name: string;
   data: Uint8Array;
-  clientToken?: string;
-  tags?: { [key: string]: string | undefined };
+  clientToken?: string | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export type RuleGroupsNamespaceArn = string;
 export type RuleGroupsNamespaceStatusCode = string;
 export interface RuleGroupsNamespaceStatus {
   statusCode: string;
-  statusReason?: string;
+  statusReason?: string | undefined;
 }
 export interface CreateRuleGroupsNamespaceResponse {
   name: string;
   arn: string;
   status: RuleGroupsNamespaceStatus;
-  tags?: { [key: string]: string | undefined };
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export type ScraperAlias = string;
 export type ScrapeConfiguration = { configurationBlob: Uint8Array };
@@ -301,7 +302,7 @@ export type SubnetId = string;
 export type SubnetIds = string[];
 export interface EksConfiguration {
   clusterArn: string;
-  securityGroupIds?: string[];
+  securityGroupIds?: string[] | undefined;
   subnetIds: string[];
 }
 export interface VpcConfiguration {
@@ -309,8 +310,8 @@ export interface VpcConfiguration {
   subnetIds: string[];
 }
 export type Source =
-  | { eksConfiguration: EksConfiguration; vpcConfiguration?: never }
-  | { eksConfiguration?: never; vpcConfiguration: VpcConfiguration };
+  | { eksConfiguration: EksConfiguration; vpcConfiguration?: undefined }
+  | { eksConfiguration?: undefined; vpcConfiguration: VpcConfiguration };
 export type WorkspaceArn = string;
 export interface AmpConfiguration {
   workspaceArn: string;
@@ -320,28 +321,37 @@ export interface CloudWatchConfiguration {
   datasetArn: string;
 }
 export type Destination =
-  | { ampConfiguration: AmpConfiguration; cloudWatchConfiguration?: never }
-  | { ampConfiguration?: never; cloudWatchConfiguration: CloudWatchConfiguration };
+  | { ampConfiguration: AmpConfiguration; cloudWatchConfiguration?: undefined }
+  | { ampConfiguration?: undefined; cloudWatchConfiguration: CloudWatchConfiguration };
 export type IamRoleArn = string;
 export interface RoleConfiguration {
-  sourceRoleArn?: string;
-  targetRoleArn?: string;
+  sourceRoleArn?: string | undefined;
+  targetRoleArn?: string | undefined;
 }
 export type OpenSearchDomainArn = string;
 export interface OpenSearchExporterConfiguration {
   domainArn: string;
 }
-export type ExporterConfiguration = { openSearchConfiguration: OpenSearchExporterConfiguration };
+export type MskClusterArn = string;
+export type KafkaExporterFilter = string;
+export interface KafkaExporterConfiguration {
+  clusterArn: string;
+  topicFilter?: string | undefined;
+  consumerGroupFilter?: string | undefined;
+}
+export type ExporterConfiguration =
+  | { openSearchConfiguration: OpenSearchExporterConfiguration; kafkaConfiguration?: undefined }
+  | { openSearchConfiguration?: undefined; kafkaConfiguration: KafkaExporterConfiguration };
 export type ExporterList = ExporterConfiguration[];
 export interface CreateScraperRequest {
-  alias?: string;
+  alias?: string | undefined;
   scrapeConfiguration: ScrapeConfiguration;
   source: Source;
   destination: Destination;
-  roleConfiguration?: RoleConfiguration;
-  clientToken?: string;
-  tags?: { [key: string]: string | undefined };
-  exporters?: ExporterConfiguration[];
+  roleConfiguration?: RoleConfiguration | undefined;
+  clientToken?: string | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
+  exporters?: ExporterConfiguration[] | undefined;
 }
 export type ScraperId = string;
 export type ScraperArn = string;
@@ -353,15 +363,15 @@ export interface CreateScraperResponse {
   scraperId: string;
   arn: string;
   status: ScraperStatus;
-  tags?: { [key: string]: string | undefined };
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export type WorkspaceAlias = string;
 export type KmsKeyArn = string;
 export interface CreateWorkspaceRequest {
-  alias?: string;
-  clientToken?: string;
-  tags?: { [key: string]: string | undefined };
-  kmsKeyArn?: string;
+  alias?: string | undefined;
+  clientToken?: string | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
+  kmsKeyArn?: string | undefined;
 }
 export type WorkspaceStatusCode = string;
 export interface WorkspaceStatus {
@@ -371,45 +381,45 @@ export interface CreateWorkspaceResponse {
   workspaceId: string;
   arn: string;
   status: WorkspaceStatus;
-  tags?: { [key: string]: string | undefined };
-  kmsKeyArn?: string;
+  tags?: { [key: string]: string | undefined } | undefined;
+  kmsKeyArn?: string | undefined;
 }
 export interface DeleteAlertManagerDefinitionRequest {
   workspaceId: string;
-  clientToken?: string;
+  clientToken?: string | undefined;
 }
 export interface DeleteAlertManagerDefinitionResponse {}
 export interface DeleteAnomalyDetectorRequest {
   workspaceId: string;
   anomalyDetectorId: string;
-  clientToken?: string;
+  clientToken?: string | undefined;
 }
 export interface DeleteAnomalyDetectorResponse {}
 export interface DeleteLoggingConfigurationRequest {
   workspaceId: string;
-  clientToken?: string;
+  clientToken?: string | undefined;
 }
 export interface DeleteLoggingConfigurationResponse {}
 export interface DeleteQueryLoggingConfigurationRequest {
   workspaceId: string;
-  clientToken?: string;
+  clientToken?: string | undefined;
 }
 export interface DeleteQueryLoggingConfigurationResponse {}
 export interface DeleteResourcePolicyRequest {
   workspaceId: string;
-  clientToken?: string;
-  revisionId?: string;
+  clientToken?: string | undefined;
+  revisionId?: string | undefined;
 }
 export interface DeleteResourcePolicyResponse {}
 export interface DeleteRuleGroupsNamespaceRequest {
   workspaceId: string;
   name: string;
-  clientToken?: string;
+  clientToken?: string | undefined;
 }
 export interface DeleteRuleGroupsNamespaceResponse {}
 export interface DeleteScraperRequest {
   scraperId: string;
-  clientToken?: string;
+  clientToken?: string | undefined;
 }
 export interface DeleteScraperResponse {
   scraperId: string;
@@ -417,12 +427,12 @@ export interface DeleteScraperResponse {
 }
 export interface DeleteScraperLoggingConfigurationRequest {
   scraperId: string;
-  clientToken?: string;
+  clientToken?: string | undefined;
 }
 export interface DeleteScraperLoggingConfigurationResponse {}
 export interface DeleteWorkspaceRequest {
   workspaceId: string;
-  clientToken?: string;
+  clientToken?: string | undefined;
 }
 export interface DeleteWorkspaceResponse {}
 export interface DescribeAlertManagerDefinitionRequest {
@@ -430,7 +440,7 @@ export interface DescribeAlertManagerDefinitionRequest {
 }
 export interface AlertManagerDefinitionDescription {
   status: AlertManagerDefinitionStatus;
-  data?: Uint8Array;
+  data?: Uint8Array | undefined;
   createdAt: Date;
   modifiedAt: Date;
 }
@@ -445,14 +455,14 @@ export interface AnomalyDetectorDescription {
   arn: string;
   anomalyDetectorId: string;
   alias: string;
-  evaluationIntervalInSeconds?: number;
-  missingDataAction?: AnomalyDetectorMissingDataAction;
-  configuration?: AnomalyDetectorConfiguration;
-  labels?: { [key: string]: string | undefined };
+  evaluationIntervalInSeconds?: number | undefined;
+  missingDataAction?: AnomalyDetectorMissingDataAction | undefined;
+  configuration?: AnomalyDetectorConfiguration | undefined;
+  labels?: { [key: string]: string | undefined } | undefined;
   status: AnomalyDetectorStatus;
   createdAt: Date;
   modifiedAt: Date;
-  tags?: { [key: string]: string | undefined };
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface DescribeAnomalyDetectorResponse {
   anomalyDetector: AnomalyDetectorDescription;
@@ -500,10 +510,10 @@ export interface RuleGroupsNamespaceDescription {
   arn: string;
   name: string;
   status: RuleGroupsNamespaceStatus;
-  data?: Uint8Array;
+  data?: Uint8Array | undefined;
   createdAt: Date;
   modifiedAt: Date;
-  tags?: { [key: string]: string | undefined };
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface DescribeRuleGroupsNamespaceResponse {
   ruleGroupsNamespace: RuleGroupsNamespaceDescription;
@@ -513,20 +523,20 @@ export interface DescribeScraperRequest {
 }
 export type StatusReason = string;
 export interface ScraperDescription {
-  alias?: string;
+  alias?: string | undefined;
   scraperId: string;
   arn: string;
   roleArn: string;
   status: ScraperStatus;
   createdAt: Date;
   lastModifiedAt: Date;
-  tags?: { [key: string]: string | undefined };
-  statusReason?: string;
+  tags?: { [key: string]: string | undefined } | undefined;
+  statusReason?: string | undefined;
   scrapeConfiguration: ScrapeConfiguration;
   source: Source;
   destination: Destination;
-  roleConfiguration?: RoleConfiguration;
-  exporters?: ExporterConfiguration[];
+  roleConfiguration?: RoleConfiguration | undefined;
+  exporters?: ExporterConfiguration[] | undefined;
 }
 export interface DescribeScraperResponse {
   scraper: ScraperDescription;
@@ -537,17 +547,17 @@ export interface DescribeScraperLoggingConfigurationRequest {
 export type ScraperLoggingConfigurationStatusCode = string;
 export interface ScraperLoggingConfigurationStatus {
   statusCode: string;
-  statusReason?: string;
+  statusReason?: string | undefined;
 }
 export type ScraperLoggingDestination = { cloudWatchLogs: CloudWatchLogDestination };
 export type ScraperComponentType = string;
 export type StringMap = { [key: string]: string | undefined };
 export interface ComponentConfig {
-  options?: { [key: string]: string | undefined };
+  options?: { [key: string]: string | undefined } | undefined;
 }
 export interface ScraperComponent {
   type: string;
-  config?: ComponentConfig;
+  config?: ComponentConfig | undefined;
 }
 export type ScraperComponents = ScraperComponent[];
 export interface DescribeScraperLoggingConfigurationResponse {
@@ -563,13 +573,13 @@ export interface DescribeWorkspaceRequest {
 export type Uri = string;
 export interface WorkspaceDescription {
   workspaceId: string;
-  alias?: string;
+  alias?: string | undefined;
   arn: string;
   status: WorkspaceStatus;
-  prometheusEndpoint?: string;
+  prometheusEndpoint?: string | undefined;
   createdAt: Date;
-  tags?: { [key: string]: string | undefined };
-  kmsKeyArn?: string;
+  tags?: { [key: string]: string | undefined } | undefined;
+  kmsKeyArn?: string | undefined;
 }
 export interface DescribeWorkspaceResponse {
   workspace: WorkspaceDescription;
@@ -580,10 +590,10 @@ export interface DescribeWorkspaceConfigurationRequest {
 export type WorkspaceConfigurationStatusCode = string;
 export interface WorkspaceConfigurationStatus {
   statusCode: string;
-  statusReason?: string;
+  statusReason?: string | undefined;
 }
 export interface LimitsPerLabelSetEntry {
-  maxSeries?: number;
+  maxSeries?: number | undefined;
 }
 export type LabelName = string;
 export type LabelValue = string;
@@ -595,10 +605,10 @@ export interface LimitsPerLabelSet {
 export type LimitsPerLabelSetList = LimitsPerLabelSet[];
 export interface WorkspaceConfigurationDescription {
   status: WorkspaceConfigurationStatus;
-  limitsPerLabelSet?: LimitsPerLabelSet[];
-  retentionPeriodInDays?: number;
-  outOfOrderTimeWindowInSeconds?: number;
-  ruleQueryOffsetInSeconds?: number;
+  limitsPerLabelSet?: LimitsPerLabelSet[] | undefined;
+  retentionPeriodInDays?: number | undefined;
+  outOfOrderTimeWindowInSeconds?: number | undefined;
+  ruleQueryOffsetInSeconds?: number | undefined;
 }
 export interface DescribeWorkspaceConfigurationResponse {
   workspaceConfiguration: WorkspaceConfigurationDescription;
@@ -610,9 +620,9 @@ export interface GetDefaultScraperConfigurationResponse {
 export type PaginationToken = string;
 export interface ListAnomalyDetectorsRequest {
   workspaceId: string;
-  alias?: string;
-  maxResults?: number;
-  nextToken?: string;
+  alias?: string | undefined;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export interface AnomalyDetectorSummary {
   arn: string;
@@ -621,18 +631,18 @@ export interface AnomalyDetectorSummary {
   status: AnomalyDetectorStatus;
   createdAt: Date;
   modifiedAt: Date;
-  tags?: { [key: string]: string | undefined };
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export type AnomalyDetectorSummaryList = AnomalyDetectorSummary[];
 export interface ListAnomalyDetectorsResponse {
   anomalyDetectors: AnomalyDetectorSummary[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface ListRuleGroupsNamespacesRequest {
   workspaceId: string;
-  name?: string;
-  nextToken?: string;
-  maxResults?: number;
+  name?: string | undefined;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export interface RuleGroupsNamespaceSummary {
   arn: string;
@@ -640,71 +650,71 @@ export interface RuleGroupsNamespaceSummary {
   status: RuleGroupsNamespaceStatus;
   createdAt: Date;
   modifiedAt: Date;
-  tags?: { [key: string]: string | undefined };
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export type RuleGroupsNamespaceSummaryList = RuleGroupsNamespaceSummary[];
 export interface ListRuleGroupsNamespacesResponse {
   ruleGroupsNamespaces: RuleGroupsNamespaceSummary[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export type FilterKey = string;
 export type FilterValue = string;
 export type FilterValues = string[];
 export type ScraperFilters = { [key: string]: string[] | undefined };
 export interface ListScrapersRequest {
-  filters?: { [key: string]: string[] | undefined };
-  nextToken?: string;
-  maxResults?: number;
+  filters?: { [key: string]: string[] | undefined } | undefined;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export interface ScraperSummary {
-  alias?: string;
+  alias?: string | undefined;
   scraperId: string;
   arn: string;
   roleArn: string;
   status: ScraperStatus;
   createdAt: Date;
   lastModifiedAt: Date;
-  tags?: { [key: string]: string | undefined };
-  statusReason?: string;
+  tags?: { [key: string]: string | undefined } | undefined;
+  statusReason?: string | undefined;
   source: Source;
   destination: Destination;
-  roleConfiguration?: RoleConfiguration;
-  exporters?: ExporterConfiguration[];
+  roleConfiguration?: RoleConfiguration | undefined;
+  exporters?: ExporterConfiguration[] | undefined;
 }
 export type ScraperSummaryList = ScraperSummary[];
 export interface ListScrapersResponse {
   scrapers: ScraperSummary[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface ListTagsForResourceRequest {
   resourceArn: string;
 }
 export interface ListTagsForResourceResponse {
-  tags?: { [key: string]: string | undefined };
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface ListWorkspacesRequest {
-  nextToken?: string;
-  alias?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  alias?: string | undefined;
+  maxResults?: number | undefined;
 }
 export interface WorkspaceSummary {
   workspaceId: string;
-  alias?: string;
+  alias?: string | undefined;
   arn: string;
   status: WorkspaceStatus;
   createdAt: Date;
-  tags?: { [key: string]: string | undefined };
-  kmsKeyArn?: string;
+  tags?: { [key: string]: string | undefined } | undefined;
+  kmsKeyArn?: string | undefined;
 }
 export type WorkspaceSummaryList = WorkspaceSummary[];
 export interface ListWorkspacesResponse {
   workspaces: WorkspaceSummary[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface PutAlertManagerDefinitionRequest {
   workspaceId: string;
   data: Uint8Array;
-  clientToken?: string;
+  clientToken?: string | undefined;
 }
 export interface PutAlertManagerDefinitionResponse {
   status: AlertManagerDefinitionStatus;
@@ -712,23 +722,23 @@ export interface PutAlertManagerDefinitionResponse {
 export interface PutAnomalyDetectorRequest {
   workspaceId: string;
   anomalyDetectorId: string;
-  evaluationIntervalInSeconds?: number;
-  missingDataAction?: AnomalyDetectorMissingDataAction;
+  evaluationIntervalInSeconds?: number | undefined;
+  missingDataAction?: AnomalyDetectorMissingDataAction | undefined;
   configuration: AnomalyDetectorConfiguration;
-  labels?: { [key: string]: string | undefined };
-  clientToken?: string;
+  labels?: { [key: string]: string | undefined } | undefined;
+  clientToken?: string | undefined;
 }
 export interface PutAnomalyDetectorResponse {
   anomalyDetectorId: string;
   arn: string;
   status: AnomalyDetectorStatus;
-  tags?: { [key: string]: string | undefined };
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface PutResourcePolicyRequest {
   workspaceId: string;
   policyDocument: string;
-  clientToken?: string;
-  revisionId?: string;
+  clientToken?: string | undefined;
+  revisionId?: string | undefined;
 }
 export interface PutResourcePolicyResponse {
   policyStatus: string;
@@ -738,13 +748,13 @@ export interface PutRuleGroupsNamespaceRequest {
   workspaceId: string;
   name: string;
   data: Uint8Array;
-  clientToken?: string;
+  clientToken?: string | undefined;
 }
 export interface PutRuleGroupsNamespaceResponse {
   name: string;
   arn: string;
   status: RuleGroupsNamespaceStatus;
-  tags?: { [key: string]: string | undefined };
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface TagResourceRequest {
   resourceArn: string;
@@ -760,7 +770,7 @@ export interface UntagResourceResponse {}
 export interface UpdateLoggingConfigurationRequest {
   workspaceId: string;
   logGroupArn: string;
-  clientToken?: string;
+  clientToken?: string | undefined;
 }
 export interface UpdateLoggingConfigurationResponse {
   status: LoggingConfigurationStatus;
@@ -768,47 +778,47 @@ export interface UpdateLoggingConfigurationResponse {
 export interface UpdateQueryLoggingConfigurationRequest {
   workspaceId: string;
   destinations: LoggingDestination[];
-  clientToken?: string;
+  clientToken?: string | undefined;
 }
 export interface UpdateQueryLoggingConfigurationResponse {
   status: QueryLoggingConfigurationStatus;
 }
 export interface UpdateScraperRequest {
   scraperId: string;
-  alias?: string;
-  scrapeConfiguration?: ScrapeConfiguration;
-  destination?: Destination;
-  roleConfiguration?: RoleConfiguration;
-  clientToken?: string;
-  exporters?: ExporterConfiguration[];
+  alias?: string | undefined;
+  scrapeConfiguration?: ScrapeConfiguration | undefined;
+  destination?: Destination | undefined;
+  roleConfiguration?: RoleConfiguration | undefined;
+  clientToken?: string | undefined;
+  exporters?: ExporterConfiguration[] | undefined;
 }
 export interface UpdateScraperResponse {
   scraperId: string;
   arn: string;
   status: ScraperStatus;
-  tags?: { [key: string]: string | undefined };
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface UpdateScraperLoggingConfigurationRequest {
   scraperId: string;
   loggingDestination: ScraperLoggingDestination;
-  scraperComponents?: ScraperComponent[];
+  scraperComponents?: ScraperComponent[] | undefined;
 }
 export interface UpdateScraperLoggingConfigurationResponse {
   status: ScraperLoggingConfigurationStatus;
 }
 export interface UpdateWorkspaceAliasRequest {
   workspaceId: string;
-  alias?: string;
-  clientToken?: string;
+  alias?: string | undefined;
+  clientToken?: string | undefined;
 }
 export interface UpdateWorkspaceAliasResponse {}
 export interface UpdateWorkspaceConfigurationRequest {
   workspaceId: string;
-  clientToken?: string;
-  limitsPerLabelSet?: LimitsPerLabelSet[];
-  retentionPeriodInDays?: number;
-  outOfOrderTimeWindowInSeconds?: number;
-  ruleQueryOffsetInSeconds?: number;
+  clientToken?: string | undefined;
+  limitsPerLabelSet?: LimitsPerLabelSet[] | undefined;
+  retentionPeriodInDays?: number | undefined;
+  outOfOrderTimeWindowInSeconds?: number | undefined;
+  ruleQueryOffsetInSeconds?: number | undefined;
 }
 export interface UpdateWorkspaceConfigurationResponse {
   status: WorkspaceConfigurationStatus;
@@ -832,7 +842,7 @@ export type CreateAlertManagerDefinitionError =
  * The `CreateAlertManagerDefinition` operation creates the alert manager definition in a workspace. If a workspace already has an alert manager definition, don't use this operation to update it. Instead, use `PutAlertManagerDefinition`.
  */
 export const createAlertManagerDefinition: API.OperationMethod<
-  CreateAlertManagerDefinitionRequest,
+  CreateAlertManagerDefinitionRequest & RegionInput,
   CreateAlertManagerDefinitionResponse,
   CreateAlertManagerDefinitionError,
   Credentials | HttpClient.HttpClient
@@ -867,7 +877,7 @@ export type CreateAnomalyDetectorError =
  * Creates an anomaly detector within a workspace using the Random Cut Forest algorithm for time-series analysis. The anomaly detector analyzes Amazon Managed Service for Prometheus metrics to identify unusual patterns and behaviors.
  */
 export const createAnomalyDetector: API.OperationMethod<
-  CreateAnomalyDetectorRequest,
+  CreateAnomalyDetectorRequest & RegionInput,
   CreateAnomalyDetectorResponse,
   CreateAnomalyDetectorError,
   Credentials | HttpClient.HttpClient
@@ -902,7 +912,7 @@ export type CreateLoggingConfigurationError =
  * These logging configurations are only for rules and alerting logs.
  */
 export const createLoggingConfiguration: API.OperationMethod<
-  CreateLoggingConfigurationRequest,
+  CreateLoggingConfigurationRequest & RegionInput,
   CreateLoggingConfigurationResponse,
   CreateLoggingConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -934,7 +944,7 @@ export type CreateQueryLoggingConfigurationError =
  * Creates a query logging configuration for the specified workspace. This operation enables logging of queries that exceed the specified QSP threshold.
  */
 export const createQueryLoggingConfiguration: API.OperationMethod<
-  CreateQueryLoggingConfigurationRequest,
+  CreateQueryLoggingConfigurationRequest & RegionInput,
   CreateQueryLoggingConfigurationResponse,
   CreateQueryLoggingConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -972,7 +982,7 @@ export type CreateRuleGroupsNamespaceError =
  * Use this operation only to create new rule groups namespaces. To update an existing rule groups namespace, use `PutRuleGroupsNamespace`.
  */
 export const createRuleGroupsNamespace: API.OperationMethod<
-  CreateRuleGroupsNamespaceRequest,
+  CreateRuleGroupsNamespaceRequest & RegionInput,
   CreateRuleGroupsNamespaceResponse,
   CreateRuleGroupsNamespaceError,
   Credentials | HttpClient.HttpClient
@@ -1007,7 +1017,7 @@ export type CreateScraperError =
 /**
  * Creates a scraper to collect metrics from Prometheus-compatible sources. The scraper sends the collected metrics to Amazon Managed Service for Prometheus workspaces or CloudWatch datasets. You can configure scrapers to collect metrics from Amazon EKS clusters, Amazon MSK clusters, or from VPC-based sources that support DNS-based service discovery. Scrapers are flexible. You can configure a scraper to control which metrics to collect, the frequency of collection, which transformations to apply to the metrics, and more.
  *
- * An IAM role will be created for you that Amazon Managed Service for Prometheus uses to access the metrics in your source. You must configure this role with a policy that allows it to scrape metrics from your source. For Amazon EKS sources, see Configuring your Amazon EKS cluster in the *Amazon Managed Service for Prometheus User Guide*.
+ * An IAM role will be created for you that Amazon Managed Service for Prometheus uses to access the metrics in your source. You must configure this role with a policy that allows it to scrape metrics from your source. For Amazon EKS sources, see Configuring your Amazon EKS cluster in the *Amazon Managed Service for Prometheus User Guide*. For a Kafka exporter, grant this role access with a cluster policy on the Amazon MSK cluster instead. For details, see `KafkaExporterConfiguration`.
  *
  * The `scrapeConfiguration` parameter contains the base-64 encoded YAML configuration for the scraper.
  *
@@ -1016,7 +1026,7 @@ export type CreateScraperError =
  * For more information about collectors, including what metrics are collected, and how to configure the scraper, see Using an Amazon Web Services managed collector in the *Amazon Managed Service for Prometheus User Guide*.
  */
 export const createScraper: API.OperationMethod<
-  CreateScraperRequest,
+  CreateScraperRequest & RegionInput,
   CreateScraperResponse,
   CreateScraperError,
   Credentials | HttpClient.HttpClient
@@ -1051,7 +1061,7 @@ export type CreateWorkspaceError =
  * Creates a Prometheus workspace. A workspace is a logical space dedicated to the storage and querying of Prometheus metrics. You can have one or more workspaces in each Region in your account.
  */
 export const createWorkspace: API.OperationMethod<
-  CreateWorkspaceRequest,
+  CreateWorkspaceRequest & RegionInput,
   CreateWorkspaceResponse,
   CreateWorkspaceError,
   Credentials | HttpClient.HttpClient
@@ -1085,7 +1095,7 @@ export type DeleteAlertManagerDefinitionError =
  * Deletes the alert manager definition from a workspace.
  */
 export const deleteAlertManagerDefinition: API.OperationMethod<
-  DeleteAlertManagerDefinitionRequest,
+  DeleteAlertManagerDefinitionRequest & RegionInput,
   DeleteAlertManagerDefinitionResponse,
   DeleteAlertManagerDefinitionError,
   Credentials | HttpClient.HttpClient
@@ -1119,7 +1129,7 @@ export type DeleteAnomalyDetectorError =
  * Removes an anomaly detector from a workspace. This operation is idempotent.
  */
 export const deleteAnomalyDetector: API.OperationMethod<
-  DeleteAnomalyDetectorRequest,
+  DeleteAnomalyDetectorRequest & RegionInput,
   DeleteAnomalyDetectorResponse,
   DeleteAnomalyDetectorError,
   Credentials | HttpClient.HttpClient
@@ -1154,7 +1164,7 @@ export type DeleteLoggingConfigurationError =
  * These logging configurations are only for rules and alerting logs.
  */
 export const deleteLoggingConfiguration: API.OperationMethod<
-  DeleteLoggingConfigurationRequest,
+  DeleteLoggingConfigurationRequest & RegionInput,
   DeleteLoggingConfigurationResponse,
   DeleteLoggingConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -1186,7 +1196,7 @@ export type DeleteQueryLoggingConfigurationError =
  * Deletes the query logging configuration for the specified workspace.
  */
 export const deleteQueryLoggingConfiguration: API.OperationMethod<
-  DeleteQueryLoggingConfigurationRequest,
+  DeleteQueryLoggingConfigurationRequest & RegionInput,
   DeleteQueryLoggingConfigurationResponse,
   DeleteQueryLoggingConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -1219,7 +1229,7 @@ export type DeleteResourcePolicyError =
  * Deletes the resource-based policy attached to an Amazon Managed Service for Prometheus workspace.
  */
 export const deleteResourcePolicy: API.OperationMethod<
-  DeleteResourcePolicyRequest,
+  DeleteResourcePolicyRequest & RegionInput,
   DeleteResourcePolicyResponse,
   DeleteResourcePolicyError,
   Credentials | HttpClient.HttpClient
@@ -1253,7 +1263,7 @@ export type DeleteRuleGroupsNamespaceError =
  * Deletes one rule groups namespace and its associated rule groups definition.
  */
 export const deleteRuleGroupsNamespace: API.OperationMethod<
-  DeleteRuleGroupsNamespaceRequest,
+  DeleteRuleGroupsNamespaceRequest & RegionInput,
   DeleteRuleGroupsNamespaceResponse,
   DeleteRuleGroupsNamespaceError,
   Credentials | HttpClient.HttpClient
@@ -1287,7 +1297,7 @@ export type DeleteScraperError =
  * The `DeleteScraper` operation deletes one scraper, and stops any metrics collection that the scraper performs.
  */
 export const deleteScraper: API.OperationMethod<
-  DeleteScraperRequest,
+  DeleteScraperRequest & RegionInput,
   DeleteScraperResponse,
   DeleteScraperError,
   Credentials | HttpClient.HttpClient
@@ -1320,7 +1330,7 @@ export type DeleteScraperLoggingConfigurationError =
  * Deletes the logging configuration for a Amazon Managed Service for Prometheus scraper.
  */
 export const deleteScraperLoggingConfiguration: API.OperationMethod<
-  DeleteScraperLoggingConfigurationRequest,
+  DeleteScraperLoggingConfigurationRequest & RegionInput,
   DeleteScraperLoggingConfigurationResponse,
   DeleteScraperLoggingConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -1355,7 +1365,7 @@ export type DeleteWorkspaceError =
  * When you delete a workspace, the data that has been ingested into it is not immediately deleted. It will be permanently deleted within one month.
  */
 export const deleteWorkspace: API.OperationMethod<
-  DeleteWorkspaceRequest,
+  DeleteWorkspaceRequest & RegionInput,
   DeleteWorkspaceResponse,
   DeleteWorkspaceError,
   Credentials | HttpClient.HttpClient
@@ -1388,7 +1398,7 @@ export type DescribeAlertManagerDefinitionError =
  * Retrieves the full information about the alert manager definition for a workspace.
  */
 export const describeAlertManagerDefinition: API.OperationMethod<
-  DescribeAlertManagerDefinitionRequest,
+  DescribeAlertManagerDefinitionRequest & RegionInput,
   DescribeAlertManagerDefinitionResponse,
   DescribeAlertManagerDefinitionError,
   Credentials | HttpClient.HttpClient
@@ -1420,7 +1430,7 @@ export type DescribeAnomalyDetectorError =
  * Retrieves detailed information about a specific anomaly detector, including its status and configuration.
  */
 export const describeAnomalyDetector: API.OperationMethod<
-  DescribeAnomalyDetectorRequest,
+  DescribeAnomalyDetectorRequest & RegionInput,
   DescribeAnomalyDetectorResponse,
   DescribeAnomalyDetectorError,
   Credentials | HttpClient.HttpClient
@@ -1453,7 +1463,7 @@ export type DescribeLoggingConfigurationError =
  * These logging configurations are only for rules and alerting logs.
  */
 export const describeLoggingConfiguration: API.OperationMethod<
-  DescribeLoggingConfigurationRequest,
+  DescribeLoggingConfigurationRequest & RegionInput,
   DescribeLoggingConfigurationResponse,
   DescribeLoggingConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -1483,7 +1493,7 @@ export type DescribeQueryLoggingConfigurationError =
  * Retrieves the details of the query logging configuration for the specified workspace.
  */
 export const describeQueryLoggingConfiguration: API.OperationMethod<
-  DescribeQueryLoggingConfigurationRequest,
+  DescribeQueryLoggingConfigurationRequest & RegionInput,
   DescribeQueryLoggingConfigurationResponse,
   DescribeQueryLoggingConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -1514,7 +1524,7 @@ export type DescribeResourcePolicyError =
  * Returns information about the resource-based policy attached to an Amazon Managed Service for Prometheus workspace.
  */
 export const describeResourcePolicy: API.OperationMethod<
-  DescribeResourcePolicyRequest,
+  DescribeResourcePolicyRequest & RegionInput,
   DescribeResourcePolicyResponse,
   DescribeResourcePolicyError,
   Credentials | HttpClient.HttpClient
@@ -1546,7 +1556,7 @@ export type DescribeRuleGroupsNamespaceError =
  * Returns complete information about one rule groups namespace. To retrieve a list of rule groups namespaces, use `ListRuleGroupsNamespaces`.
  */
 export const describeRuleGroupsNamespace: API.OperationMethod<
-  DescribeRuleGroupsNamespaceRequest,
+  DescribeRuleGroupsNamespaceRequest & RegionInput,
   DescribeRuleGroupsNamespaceResponse,
   DescribeRuleGroupsNamespaceError,
   Credentials | HttpClient.HttpClient
@@ -1578,7 +1588,7 @@ export type DescribeScraperError =
  * The `DescribeScraper` operation displays information about an existing scraper.
  */
 export const describeScraper: API.OperationMethod<
-  DescribeScraperRequest,
+  DescribeScraperRequest & RegionInput,
   DescribeScraperResponse,
   DescribeScraperError,
   Credentials | HttpClient.HttpClient
@@ -1609,7 +1619,7 @@ export type DescribeScraperLoggingConfigurationError =
  * Describes the logging configuration for a Amazon Managed Service for Prometheus scraper.
  */
 export const describeScraperLoggingConfiguration: API.OperationMethod<
-  DescribeScraperLoggingConfigurationRequest,
+  DescribeScraperLoggingConfigurationRequest & RegionInput,
   DescribeScraperLoggingConfigurationResponse,
   DescribeScraperLoggingConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -1640,7 +1650,7 @@ export type DescribeWorkspaceError =
  * Returns information about an existing workspace.
  */
 export const describeWorkspace: API.OperationMethod<
-  DescribeWorkspaceRequest,
+  DescribeWorkspaceRequest & RegionInput,
   DescribeWorkspaceResponse,
   DescribeWorkspaceError,
   Credentials | HttpClient.HttpClient
@@ -1672,7 +1682,7 @@ export type DescribeWorkspaceConfigurationError =
  * Use this operation to return information about the configuration of a workspace. The configuration details returned include workspace configuration status, label set limits, and retention period.
  */
 export const describeWorkspaceConfiguration: API.OperationMethod<
-  DescribeWorkspaceConfigurationRequest,
+  DescribeWorkspaceConfigurationRequest & RegionInput,
   DescribeWorkspaceConfigurationResponse,
   DescribeWorkspaceConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -1702,7 +1712,7 @@ export type GetDefaultScraperConfigurationError =
  * The `GetDefaultScraperConfiguration` operation returns the default scraper configuration used when Amazon EKS creates a scraper for you.
  */
 export const getDefaultScraperConfiguration: API.OperationMethod<
-  GetDefaultScraperConfigurationRequest,
+  GetDefaultScraperConfigurationRequest & RegionInput,
   GetDefaultScraperConfigurationResponse,
   GetDefaultScraperConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -1728,7 +1738,7 @@ export type ListAnomalyDetectorsError =
  * Returns a paginated list of anomaly detectors for a workspace with optional filtering by alias.
  */
 export const listAnomalyDetectors: API.PaginatedOperationMethod<
-  ListAnomalyDetectorsRequest,
+  ListAnomalyDetectorsRequest & RegionInput,
   ListAnomalyDetectorsResponse,
   ListAnomalyDetectorsError,
   Credentials | HttpClient.HttpClient,
@@ -1767,7 +1777,7 @@ export type ListRuleGroupsNamespacesError =
  * Returns a list of rule groups namespaces in a workspace.
  */
 export const listRuleGroupsNamespaces: API.PaginatedOperationMethod<
-  ListRuleGroupsNamespacesRequest,
+  ListRuleGroupsNamespacesRequest & RegionInput,
   ListRuleGroupsNamespacesResponse,
   ListRuleGroupsNamespacesError,
   Credentials | HttpClient.HttpClient,
@@ -1805,7 +1815,7 @@ export type ListScrapersError =
  * The `ListScrapers` operation lists all of the scrapers in your account. This includes scrapers being created or deleted. You can optionally filter the returned list.
  */
 export const listScrapers: API.PaginatedOperationMethod<
-  ListScrapersRequest,
+  ListScrapersRequest & RegionInput,
   ListScrapersResponse,
   ListScrapersError,
   Credentials | HttpClient.HttpClient,
@@ -1843,7 +1853,7 @@ export type ListTagsForResourceError =
  * The `ListTagsForResource` operation returns the tags that are associated with an Amazon Managed Service for Prometheus resource. Currently, the only resources that can be tagged are scrapers, workspaces, and rule groups namespaces.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -1874,7 +1884,7 @@ export type ListWorkspacesError =
  * Lists all of the Amazon Managed Service for Prometheus workspaces in your account. This includes workspaces being created or deleted.
  */
 export const listWorkspaces: API.PaginatedOperationMethod<
-  ListWorkspacesRequest,
+  ListWorkspacesRequest & RegionInput,
   ListWorkspacesResponse,
   ListWorkspacesError,
   Credentials | HttpClient.HttpClient,
@@ -1914,7 +1924,7 @@ export type PutAlertManagerDefinitionError =
  * Updates an existing alert manager definition in a workspace. If the workspace does not already have an alert manager definition, don't use this operation to create it. Instead, use `CreateAlertManagerDefinition`.
  */
 export const putAlertManagerDefinition: API.OperationMethod<
-  PutAlertManagerDefinitionRequest,
+  PutAlertManagerDefinitionRequest & RegionInput,
   PutAlertManagerDefinitionResponse,
   PutAlertManagerDefinitionError,
   Credentials | HttpClient.HttpClient
@@ -1949,7 +1959,7 @@ export type PutAnomalyDetectorError =
  * When you call `PutAnomalyDetector`, the operation creates a new anomaly detector if one doesn't exist, or updates an existing one. Each call to this operation triggers a complete retraining of the detector, which includes querying the minimum required samples and backfilling the detector with historical data. This process occurs regardless of whether you're making a minor change like updating the evaluation interval or making more substantial modifications. The operation serves as the single method for creating, updating, and retraining anomaly detectors.
  */
 export const putAnomalyDetector: API.OperationMethod<
-  PutAnomalyDetectorRequest,
+  PutAnomalyDetectorRequest & RegionInput,
   PutAnomalyDetectorResponse,
   PutAnomalyDetectorError,
   Credentials | HttpClient.HttpClient
@@ -1989,7 +1999,7 @@ export type PutResourcePolicyError =
  * For more information about working with IAM, see Using Amazon Managed Service for Prometheus with IAM in the *Amazon Managed Service for Prometheus User Guide*.
  */
 export const putResourcePolicy: API.OperationMethod<
-  PutResourcePolicyRequest,
+  PutResourcePolicyRequest & RegionInput,
   PutResourcePolicyResponse,
   PutResourcePolicyError,
   Credentials | HttpClient.HttpClient
@@ -2030,7 +2040,7 @@ export type PutRuleGroupsNamespaceError =
  * You can't use this operation to add tags to an existing rule groups namespace. Instead, use `TagResource`.
  */
 export const putRuleGroupsNamespace: API.OperationMethod<
-  PutRuleGroupsNamespaceRequest,
+  PutRuleGroupsNamespaceRequest & RegionInput,
   PutRuleGroupsNamespaceResponse,
   PutRuleGroupsNamespaceError,
   Credentials | HttpClient.HttpClient
@@ -2066,7 +2076,7 @@ export type TagResourceError =
  * If you specify a new tag key for the resource, this tag is appended to the list of tags associated with the resource. If you specify a tag key that is already associated with the resource, the new tag value that you specify replaces the previous value for that tag. To remove a tag, use `UntagResource`.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -2098,7 +2108,7 @@ export type UntagResourceError =
  * Removes the specified tags from an Amazon Managed Service for Prometheus resource. The only resources that can be tagged are rule groups namespaces, scrapers, and workspaces.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -2132,7 +2142,7 @@ export type UpdateLoggingConfigurationError =
  * These logging configurations are only for rules and alerting logs.
  */
 export const updateLoggingConfiguration: API.OperationMethod<
-  UpdateLoggingConfigurationRequest,
+  UpdateLoggingConfigurationRequest & RegionInput,
   UpdateLoggingConfigurationResponse,
   UpdateLoggingConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -2164,7 +2174,7 @@ export type UpdateQueryLoggingConfigurationError =
  * Updates the query logging configuration for the specified workspace.
  */
 export const updateQueryLoggingConfiguration: API.OperationMethod<
-  UpdateQueryLoggingConfigurationRequest,
+  UpdateQueryLoggingConfigurationRequest & RegionInput,
   UpdateQueryLoggingConfigurationResponse,
   UpdateQueryLoggingConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -2200,7 +2210,7 @@ export type UpdateScraperError =
  * You can't use this function to update the source from which the scraper is collecting metrics. To change the source, delete the scraper and create a new one.
  */
 export const updateScraper: API.OperationMethod<
-  UpdateScraperRequest,
+  UpdateScraperRequest & RegionInput,
   UpdateScraperResponse,
   UpdateScraperError,
   Credentials | HttpClient.HttpClient
@@ -2234,7 +2244,7 @@ export type UpdateScraperLoggingConfigurationError =
  * Updates the logging configuration for a Amazon Managed Service for Prometheus scraper.
  */
 export const updateScraperLoggingConfiguration: API.OperationMethod<
-  UpdateScraperLoggingConfigurationRequest,
+  UpdateScraperLoggingConfigurationRequest & RegionInput,
   UpdateScraperLoggingConfigurationResponse,
   UpdateScraperLoggingConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -2268,7 +2278,7 @@ export type UpdateWorkspaceAliasError =
  * Updates the alias of an existing workspace.
  */
 export const updateWorkspaceAlias: API.OperationMethod<
-  UpdateWorkspaceAliasRequest,
+  UpdateWorkspaceAliasRequest & RegionInput,
   UpdateWorkspaceAliasResponse,
   UpdateWorkspaceAliasError,
   Credentials | HttpClient.HttpClient
@@ -2306,7 +2316,7 @@ export type UpdateWorkspaceConfigurationError =
  * You must specify at least one of `limitsPerLabelSet` or `retentionPeriodInDays` for the request to be valid.
  */
 export const updateWorkspaceConfiguration: API.OperationMethod<
-  UpdateWorkspaceConfigurationRequest,
+  UpdateWorkspaceConfigurationRequest & RegionInput,
   UpdateWorkspaceConfigurationResponse,
   UpdateWorkspaceConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -2421,7 +2431,7 @@ function __c5(j: number): any {
           roleConfiguration: S.optional(__S(75, __c9, 3)),
           clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
           tags: S.optional(__S(464, __c58, 0)),
-          exporters: S.optional(__S(78, __c9, 6)),
+          exporters: S.optional(__S(79, __c9, 7)),
         }).pipe(T.all(T.Http({ method: "POST", uri: "/scrapers" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "CreateScraperRequest" });
   }
@@ -2485,9 +2495,20 @@ function __c9(j: number): any {
         identifier: "OpenSearchExporterConfiguration",
       });
     case 5:
-      return S.Union([/*@__PURE__*/ S.Struct({ openSearchConfiguration: __S(76, __c9, 4) })]);
+      return S.suspend(() =>
+        S.Struct({
+          clusterArn: S.String,
+          topicFilter: S.optional(S.String),
+          consumerGroupFilter: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "KafkaExporterConfiguration" });
     case 6:
-      return S.Array(__S(77, __c9, 5));
+      return S.Union([
+        /*@__PURE__*/ S.Struct({ openSearchConfiguration: __S(76, __c9, 4) }),
+        /*@__PURE__*/ S.Struct({ kafkaConfiguration: __S(77, __c9, 5) }),
+      ]);
+    case 7:
+      return S.Array(__S(78, __c9, 6));
   }
 }
 function __c10(j: number): any {
@@ -2958,7 +2979,7 @@ function __c29(j: number): any {
           source: __S(58, __c7, 2),
           destination: __S(74, __c9, 2),
           roleConfiguration: S.optional(__S(75, __c9, 3)),
-          exporters: S.optional(__S(78, __c9, 6)),
+          exporters: S.optional(__S(79, __c9, 7)),
         }),
       ).annotate({ identifier: "ScraperDescription" });
     case 2:
@@ -3216,7 +3237,7 @@ function __c38(j: number): any {
           source: __S(58, __c7, 2),
           destination: __S(74, __c9, 2),
           roleConfiguration: S.optional(__S(75, __c9, 3)),
-          exporters: S.optional(__S(78, __c9, 6)),
+          exporters: S.optional(__S(79, __c9, 7)),
         }),
       ).annotate({ identifier: "ScraperSummary" });
     case 3:
@@ -3468,7 +3489,7 @@ function __c49(j: number): any {
           destination: S.optional(__S(74, __c9, 2)),
           roleConfiguration: S.optional(__S(75, __c9, 3)),
           clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
-          exporters: S.optional(__S(78, __c9, 6)),
+          exporters: S.optional(__S(79, __c9, 7)),
         }).pipe(
           T.all(
             T.Http({ method: "PUT", uri: "/scrapers/{scraperId}" }),

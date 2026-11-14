@@ -28,6 +28,7 @@ const TELEMETRY = {
   prefix: "Storagediscovery",
   service: "Storagediscovery",
   labels: "azure",
+  labelNames: { resourceGroupName: "azure.resource_group.name" },
   propagate: "w3c",
 } as const;
 
@@ -69,11 +70,11 @@ export type ReportResultSetRowsList = Array<ReportResultSetRowsItemList>;
 /** The result set of the report operation */
 export interface ReportResultSet {
   /** Array of columns object, present only if the query succeeded */
-  columns?: ReportResultSetColumnsList;
+  columns?: ReportResultSetColumnsList | undefined;
   /** Array of all rows from ADX, present only if the query succeeded */
-  rows?: ReportResultSetRowsList;
+  rows?: ReportResultSetRowsList | undefined;
   /** Provides an error about the query, present only if the query fails */
-  errorCode?: string;
+  errorCode?: string | undefined;
 }
 /** One or more result sets, in the same order as the queries in the request body */
 export type GetReportResultResultsList = Array<ReportResultSet>;
@@ -82,9 +83,9 @@ export interface GetReportResult {
   /** One or more result sets, in the same order as the queries in the request body */
   results: GetReportResultResultsList;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface GetReportRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -103,36 +104,36 @@ export type SystemDataLastModifiedByType = "User" | "Application" | "ManagedIden
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface SystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: SystemDataCreatedByType;
+  createdByType?: SystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: SystemDataLastModifiedByType;
+  lastModifiedByType?: SystemDataLastModifiedByType | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 /** The provisioning state of a resource type. */
 export type AzureResourceManagerResourceProvisioningState = "Succeeded" | "Failed" | "Canceled";
 /** Properties for the Report resource used only as a proxy for the Report API. */
 export interface ReportProperties {
   /** The status of the last operation. */
-  provisioningState?: AzureResourceManagerResourceProvisioningState;
+  provisioningState?: AzureResourceManagerResourceProvisioningState | undefined;
 }
 export interface GetReportResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: ReportProperties;
+  properties?: ReportProperties | undefined;
 }
 export interface GetStorageDiscoveryWorkspaceRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -165,52 +166,52 @@ export interface StorageDiscoveryScope {
   /** Resource types for the collection */
   resourceTypes: StorageDiscoveryScopeResourceTypesList;
   /** The storage account tags keys to filter */
-  tagKeysOnly?: StorageDiscoveryScopeTagKeysOnlyList;
+  tagKeysOnly?: StorageDiscoveryScopeTagKeysOnlyList | undefined;
   /** Resource tags. */
-  tags?: StorageDiscoveryScopeTagsMap;
+  tags?: StorageDiscoveryScopeTagsMap | undefined;
 }
 /** The scopes of the storage discovery workspace. */
 export type StorageDiscoveryWorkspacePropertiesScopesList = Array<StorageDiscoveryScope>;
 /** Storage Discovery Workspace Properties */
 export interface StorageDiscoveryWorkspaceProperties {
   /** The storage discovery sku */
-  sku?: StorageDiscoveryWorkspacePropertiesSku;
+  sku?: StorageDiscoveryWorkspacePropertiesSku | undefined;
   /** The description of the storage discovery workspace */
-  description?: string;
+  description?: string | undefined;
   /** The view level storage discovery data estate */
   workspaceRoots: StorageDiscoveryWorkspacePropertiesWorkspaceRootsList;
   /** The scopes of the storage discovery workspace. */
   scopes: StorageDiscoveryWorkspacePropertiesScopesList;
   /** The status of the last operation. */
-  provisioningState?: AzureResourceManagerResourceProvisioningState;
+  provisioningState?: AzureResourceManagerResourceProvisioningState | undefined;
 }
 export interface GetStorageDiscoveryWorkspaceResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: GetStorageDiscoveryWorkspaceResponseTagsMap;
+  tags?: GetStorageDiscoveryWorkspaceResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: StorageDiscoveryWorkspaceProperties;
+  properties?: StorageDiscoveryWorkspaceProperties | undefined;
 }
 export interface ListOperationsRequest {}
 /** Localized display information for this particular operation. */
 export interface OperationDisplay {
   /** The localized friendly form of the resource provider name, e.g. "Microsoft Monitoring Insights" or "Microsoft Compute". */
-  provider?: string;
+  provider?: string | undefined;
   /** The localized friendly name of the resource type related to this operation. E.g. "Virtual Machines" or "Job Schedule Collections". */
-  resource?: string;
+  resource?: string | undefined;
   /** The concise, localized friendly name for the operation; suitable for dropdowns. E.g. "Create or Update Virtual Machine", "Restart Virtual Machine". */
-  operation?: string;
+  operation?: string | undefined;
   /** The short, localized friendly description of the operation; suitable for tool tips and detailed views. */
-  description?: string;
+  description?: string | undefined;
 }
 /** The intended executor of the operation; as in Resource Based Access Control (RBAC) and audit logs UX. Default value is "user,system" */
 export type OperationOrigin = "user" | "system" | "user,system";
@@ -219,23 +220,23 @@ export type OperationActionType = "Internal";
 /** Details of a REST API operation, returned from the Resource Provider Operations API */
 export interface Operation {
   /** The name of the operation, as per Resource-Based Access Control (RBAC). Examples: "Microsoft.Compute/virtualMachines/write", "Microsoft.Compute/virtualMachines/capture/action" */
-  name?: string;
+  name?: string | undefined;
   /** Whether the operation applies to data-plane. This is "true" for data-plane operations and "false" for ARM/control-plane operations. */
-  isDataAction?: boolean;
+  isDataAction?: boolean | undefined;
   /** Localized display information for this particular operation. */
-  display?: OperationDisplay;
+  display?: OperationDisplay | undefined;
   /** The intended executor of the operation; as in Resource Based Access Control (RBAC) and audit logs UX. Default value is "user,system" */
-  origin?: OperationOrigin;
+  origin?: OperationOrigin | undefined;
   /** Enum. Indicates the action type. "Internal" refers to actions that are for internal only APIs. */
-  actionType?: OperationActionType;
+  actionType?: OperationActionType | undefined;
 }
 /** List of operations supported by the resource provider */
 export type ListOperationsResponseValueList = Array<Operation>;
 export interface ListOperationsResponse {
   /** List of operations supported by the resource provider */
-  value?: ListOperationsResponseValueList;
+  value?: ListOperationsResponseValueList | undefined;
   /** URL to get the next set of operation list results (if there are any). */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListReportByResourceGroupRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -248,15 +249,15 @@ export interface ListReportByResourceGroupRequest {
 /** A report resource */
 export interface ReportResource {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: ReportProperties;
+  properties?: ReportProperties | undefined;
 }
 /** The ReportResource items on this page */
 export type ReportResourceListResultValueList = Array<ReportResource>;
@@ -265,7 +266,7 @@ export interface ReportResourceListResult {
   /** The ReportResource items on this page */
   value: ReportResourceListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListReportBySubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -284,19 +285,19 @@ export type StorageDiscoveryWorkspaceTagsMap = { [key: string]: string | undefin
 /** A Storage Discovery Workspace resource. This resource configures the collection of storage account metrics. */
 export interface StorageDiscoveryWorkspace {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: StorageDiscoveryWorkspaceTagsMap;
+  tags?: StorageDiscoveryWorkspaceTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: StorageDiscoveryWorkspaceProperties;
+  properties?: StorageDiscoveryWorkspaceProperties | undefined;
 }
 /** The StorageDiscoveryWorkspace items on this page */
 export type StorageDiscoveryWorkspaceListResultValueList = Array<StorageDiscoveryWorkspace>;
@@ -305,7 +306,7 @@ export interface StorageDiscoveryWorkspaceListResult {
   /** The StorageDiscoveryWorkspace items on this page */
   value: StorageDiscoveryWorkspaceListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListStorageDiscoveryWorkspaceBySubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -324,9 +325,9 @@ export type StorageDiscoveryWorkspacePropertiesInputScopesList = Array<StorageDi
 /** Storage Discovery Workspace Properties */
 export interface StorageDiscoveryWorkspacePropertiesInput {
   /** The storage discovery sku */
-  sku?: StorageDiscoveryWorkspacePropertiesInputSku | (string & {});
+  sku?: StorageDiscoveryWorkspacePropertiesInputSku | (string & {}) | undefined;
   /** The description of the storage discovery workspace */
-  description?: string;
+  description?: string | undefined;
   /** The view level storage discovery data estate */
   workspaceRoots: StorageDiscoveryWorkspacePropertiesInputWorkspaceRootsList;
   /** The scopes of the storage discovery workspace. */
@@ -340,11 +341,11 @@ export interface StorageDiscoveryWorkspacesCreateOrUpdateRequest {
   /** The name of the StorageDiscoveryWorkspace */
   storageDiscoveryWorkspaceName: string;
   /** Resource tags. */
-  tags?: StorageDiscoveryWorkspacesCreateOrUpdateRequestTagsMap;
+  tags?: StorageDiscoveryWorkspacesCreateOrUpdateRequestTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: StorageDiscoveryWorkspacePropertiesInput;
+  properties?: StorageDiscoveryWorkspacePropertiesInput | undefined;
 }
 /** Resource tags. */
 export type StorageDiscoveryWorkspacesCreateOrUpdateResponseTagsMap = {
@@ -352,19 +353,19 @@ export type StorageDiscoveryWorkspacesCreateOrUpdateResponseTagsMap = {
 };
 export interface StorageDiscoveryWorkspacesCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: StorageDiscoveryWorkspacesCreateOrUpdateResponseTagsMap;
+  tags?: StorageDiscoveryWorkspacesCreateOrUpdateResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: StorageDiscoveryWorkspaceProperties;
+  properties?: StorageDiscoveryWorkspaceProperties | undefined;
 }
 /** The queries to execute against Storage Discovery data. Format: Base64-encoded JSON object with structure: {"queries":[{"name":"queryName","query":"KQL query"}]} For query syntax and available tables, see: https://aka.ms/storageDiscoveryQuery */
 export type StorageDiscoveryWorkspacesReportRequestQueriesList = Array<string>;
@@ -389,13 +390,13 @@ export type StorageDiscoveryWorkspacePropertiesUpdateScopesList = Array<StorageD
 /** The template for adding updateable properties. */
 export interface StorageDiscoveryWorkspacePropertiesUpdate {
   /** The storage discovery sku */
-  sku?: StorageDiscoverySku | (string & {});
+  sku?: StorageDiscoverySku | (string & {}) | undefined;
   /** The description of the storage discovery workspace */
-  description?: string;
+  description?: string | undefined;
   /** The view level storage discovery data estate */
-  workspaceRoots?: StorageDiscoveryWorkspacePropertiesUpdateWorkspaceRootsList;
+  workspaceRoots?: StorageDiscoveryWorkspacePropertiesUpdateWorkspaceRootsList | undefined;
   /** The scopes of the storage discovery workspace. */
-  scopes?: StorageDiscoveryWorkspacePropertiesUpdateScopesList;
+  scopes?: StorageDiscoveryWorkspacePropertiesUpdateScopesList | undefined;
 }
 export interface UpdateStorageDiscoveryWorkspaceRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -405,27 +406,27 @@ export interface UpdateStorageDiscoveryWorkspaceRequest {
   /** The name of the StorageDiscoveryWorkspace */
   storageDiscoveryWorkspaceName: string;
   /** Resource tags. */
-  tags?: UpdateStorageDiscoveryWorkspaceRequestTagsMap;
+  tags?: UpdateStorageDiscoveryWorkspaceRequestTagsMap | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: StorageDiscoveryWorkspacePropertiesUpdate;
+  properties?: StorageDiscoveryWorkspacePropertiesUpdate | undefined;
 }
 /** Resource tags. */
 export type UpdateStorageDiscoveryWorkspaceResponseTagsMap = { [key: string]: string | undefined };
 export interface UpdateStorageDiscoveryWorkspaceResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: UpdateStorageDiscoveryWorkspaceResponseTagsMap;
+  tags?: UpdateStorageDiscoveryWorkspaceResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: StorageDiscoveryWorkspaceProperties;
+  properties?: StorageDiscoveryWorkspaceProperties | undefined;
 }
 export type DeleteStorageDiscoveryWorkspaceError = AzureOpError;
 /** Delete a StorageDiscoveryWorkspace */

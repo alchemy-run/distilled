@@ -28,6 +28,7 @@ const TELEMETRY = {
   prefix: "Frontdoor",
   service: "Frontdoor",
   labels: "azure",
+  labelNames: { resourceGroupName: "azure.resource_group.name" },
   propagate: "w3c",
 } as const;
 
@@ -46,11 +47,11 @@ export type Availability = "Available" | "Unavailable";
 /** Output of check name availability API. */
 export interface CheckNameAvailabilityOutput {
   /** Indicates whether the name is available. */
-  nameAvailability?: Availability;
+  nameAvailability?: Availability | undefined;
   /** The reason why the name is not available. */
-  reason?: string;
+  reason?: string | undefined;
   /** The detailed error message describing why the name is not available. */
-  message?: string;
+  message?: string | undefined;
 }
 export interface CheckFrontDoorNameAvailabilityWithSubscriptionRequest {
   /** The ID of the target subscription. */
@@ -72,9 +73,9 @@ export interface DeleteExperimentRequest {
 }
 export interface DeleteExperimentResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeleteFrontDoorRequest {
   /** The ID of the target subscription. */
@@ -86,9 +87,9 @@ export interface DeleteFrontDoorRequest {
 }
 export interface DeleteFrontDoorResponse {
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeleteNetworkExperimentProfileRequest {
   /** The ID of the target subscription. */
@@ -100,9 +101,9 @@ export interface DeleteNetworkExperimentProfileRequest {
 }
 export interface DeleteNetworkExperimentProfileResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeletePolicyRequest {
   /** The ID of the target subscription. */
@@ -114,9 +115,9 @@ export interface DeletePolicyRequest {
 }
 export interface DeletePolicyResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeleteRulesEngineRequest {
   /** The ID of the target subscription. */
@@ -130,9 +131,9 @@ export interface DeleteRulesEngineRequest {
 }
 export interface DeleteRulesEngineResponse {
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DisableFrontendEndpointHttpsRequest {
   /** The ID of the target subscription. */
@@ -146,9 +147,9 @@ export interface DisableFrontendEndpointHttpsRequest {
 }
 export interface DisableFrontendEndpointHttpsResponse {
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Defines the source of the SSL certificate */
 export type FrontDoorCertificateSource = "AzureKeyVault" | "FrontDoor";
@@ -159,23 +160,23 @@ export type MinimumTLSVersion = "1.0" | "1.2";
 /** The Key Vault containing the SSL certificate */
 export interface KeyVaultCertificateSourceParametersVault {
   /** Resource ID. */
-  id?: string;
+  id?: string | undefined;
 }
 /** Parameters required for bring-your-own-certification via Key Vault */
 export interface KeyVaultCertificateSourceParameters {
   /** The Key Vault containing the SSL certificate */
-  vault?: KeyVaultCertificateSourceParametersVault;
+  vault?: KeyVaultCertificateSourceParametersVault | undefined;
   /** The name of the Key Vault secret representing the full certificate PFX */
-  secretName?: string;
+  secretName?: string | undefined;
   /** The version of the Key Vault secret representing the full certificate PFX */
-  secretVersion?: string;
+  secretVersion?: string | undefined;
 }
 /** Defines the type of the certificate used for secure connections to a frontendEndpoint */
 export type FrontDoorCertificateType = "Dedicated";
 /** Parameters required for enabling SSL with Front Door-managed certificates */
 export interface FrontDoorCertificateSourceParameters {
   /** Defines the type of the certificate used for secure connections to a frontendEndpoint */
-  certificateType?: FrontDoorCertificateType | (string & {});
+  certificateType?: FrontDoorCertificateType | (string & {}) | undefined;
 }
 export interface EnableFrontendEndpointHttpsRequest {
   /** The ID of the target subscription. */
@@ -193,37 +194,37 @@ export interface EnableFrontendEndpointHttpsRequest {
   /** The minimum TLS version required from the clients to establish an SSL handshake with Front Door. */
   minimumTlsVersion: MinimumTLSVersion | (string & {});
   /** KeyVault certificate source parameters (if certificateSource=AzureKeyVault) */
-  keyVaultCertificateSourceParameters?: KeyVaultCertificateSourceParameters;
+  keyVaultCertificateSourceParameters?: KeyVaultCertificateSourceParameters | undefined;
   /** Parameters required for enabling SSL with Front Door-managed certificates (if certificateSource=FrontDoor) */
-  frontDoorCertificateSourceParameters?: FrontDoorCertificateSourceParameters;
+  frontDoorCertificateSourceParameters?: FrontDoorCertificateSourceParameters | undefined;
 }
 export interface EnableFrontendEndpointHttpsResponse {
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Resource tags. */
 export type ExperimentsCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
 /** Defines the endpoint properties */
 export interface Endpoint {
   /** The name of the endpoint */
-  name?: string;
+  name?: string | undefined;
   /** The endpoint URL */
-  endpoint?: string;
+  endpoint?: string | undefined;
 }
 /** The state of the Experiment */
 export type State = "Enabled" | "Disabled";
 /** Defines the properties of an experiment */
 export interface ExperimentPropertiesInput {
   /** The description of the details or intents of the Experiment */
-  description?: string;
+  description?: string | undefined;
   /** The endpoint A of an experiment */
-  endpointA?: Endpoint;
+  endpointA?: Endpoint | undefined;
   /** The endpoint B of an experiment */
-  endpointB?: Endpoint;
+  endpointB?: Endpoint | undefined;
   /** The state of the Experiment */
-  enabledState?: State | (string & {});
+  enabledState?: State | (string & {}) | undefined;
 }
 export interface ExperimentsCreateOrUpdateRequest {
   /** The ID of the target subscription. */
@@ -235,11 +236,11 @@ export interface ExperimentsCreateOrUpdateRequest {
   /** The Experiment identifier associated with the Experiment */
   experimentName: string;
   /** Resource location. */
-  location?: string;
+  location?: string | undefined;
   /** Resource tags. */
-  tags?: ExperimentsCreateOrUpdateRequestTagsMap;
+  tags?: ExperimentsCreateOrUpdateRequestTagsMap | undefined;
   /** The properties of an Experiment */
-  properties?: ExperimentPropertiesInput;
+  properties?: ExperimentPropertiesInput | undefined;
 }
 /** Resource tags. */
 export type ExperimentsCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
@@ -254,37 +255,37 @@ export type NetworkExperimentResourceState =
 /** Defines the properties of an experiment */
 export interface ExperimentProperties {
   /** The description of the details or intents of the Experiment */
-  description?: string;
+  description?: string | undefined;
   /** The endpoint A of an experiment */
-  endpointA?: Endpoint;
+  endpointA?: Endpoint | undefined;
   /** The endpoint B of an experiment */
-  endpointB?: Endpoint;
+  endpointB?: Endpoint | undefined;
   /** The state of the Experiment */
-  enabledState?: State;
+  enabledState?: State | undefined;
   /** Resource status. */
-  resourceState?: NetworkExperimentResourceState;
+  resourceState?: NetworkExperimentResourceState | undefined;
   /** The description of Experiment status from the server side */
-  status?: string;
+  status?: string | undefined;
   /** The uri to the Script used in the Experiment */
-  scriptFileUri?: string;
+  scriptFileUri?: string | undefined;
 }
 export interface ExperimentsCreateOrUpdateResponse {
   /** Resource ID. */
-  id?: string;
+  id?: string | undefined;
   /** Resource name. */
-  name?: string;
+  name?: string | undefined;
   /** Resource type. */
-  type?: string;
+  type?: string | undefined;
   /** Resource location. */
-  location?: string;
+  location?: string | undefined;
   /** Resource tags. */
-  tags?: ExperimentsCreateOrUpdateResponseTagsMap;
+  tags?: ExperimentsCreateOrUpdateResponseTagsMap | undefined;
   /** The properties of an Experiment */
-  properties?: ExperimentProperties;
+  properties?: ExperimentProperties | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  locationHeader?: string;
+  locationHeader?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Resource tags. */
 export type FrontDoorsCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
@@ -321,52 +322,52 @@ export type FrontDoorResourceState =
 /** The JSON object that contains the properties required to create a routing rule. */
 export interface RoutingRuleProperties {
   /** Frontend endpoints associated with this rule */
-  frontendEndpoints?: RoutingRulePropertiesFrontendEndpointsList;
+  frontendEndpoints?: RoutingRulePropertiesFrontendEndpointsList | undefined;
   /** Protocol schemes to match for this rule */
-  acceptedProtocols?: RoutingRulePropertiesAcceptedProtocolsList;
+  acceptedProtocols?: RoutingRulePropertiesAcceptedProtocolsList | undefined;
   /** The route patterns of the rule. */
-  patternsToMatch?: RoutingRulePropertiesPatternsToMatchList;
+  patternsToMatch?: RoutingRulePropertiesPatternsToMatchList | undefined;
   /** Whether to enable use of this rule. Permitted values are 'Enabled' or 'Disabled' */
-  enabledState?: RoutingRuleEnabledState | (string & {});
+  enabledState?: RoutingRuleEnabledState | (string & {}) | undefined;
   /** A reference to the routing configuration. */
-  routeConfiguration?: RouteConfiguration;
+  routeConfiguration?: RouteConfiguration | undefined;
   /** A reference to a specific Rules Engine Configuration to apply to this route. */
-  rulesEngine?: KeyVaultCertificateSourceParametersVault;
+  rulesEngine?: KeyVaultCertificateSourceParametersVault | undefined;
   /** Defines the Web Application Firewall policy for each routing rule (if applicable) */
-  webApplicationFirewallPolicyLink?: KeyVaultCertificateSourceParametersVault;
+  webApplicationFirewallPolicyLink?: KeyVaultCertificateSourceParametersVault | undefined;
   /** Resource status. */
-  resourceState?: FrontDoorResourceState | (string & {});
+  resourceState?: FrontDoorResourceState | (string & {}) | undefined;
 }
 /** A routing rule represents a specification for traffic to treat and where to send it, along with health probe information. */
 export interface RoutingRuleInput {
   /** Resource ID. */
-  id?: string;
+  id?: string | undefined;
   /** Properties of the Front Door Routing Rule */
-  properties?: RoutingRuleProperties;
+  properties?: RoutingRuleProperties | undefined;
   /** Resource name. */
-  name?: string;
+  name?: string | undefined;
 }
 /** Routing rules associated with this Front Door. */
 export type FrontDoorPropertiesInputRoutingRulesList = Array<RoutingRuleInput>;
 /** The JSON object that contains the properties required to create load balancing settings */
 export interface LoadBalancingSettingsProperties {
   /** The number of samples to consider for load balancing decisions */
-  sampleSize?: number;
+  sampleSize?: number | undefined;
   /** The number of samples within the sample period that must succeed */
-  successfulSamplesRequired?: number;
+  successfulSamplesRequired?: number | undefined;
   /** The additional latency in milliseconds for probes to fall into the lowest latency bucket */
-  additionalLatencyMilliseconds?: number;
+  additionalLatencyMilliseconds?: number | undefined;
   /** Resource status. */
-  resourceState?: FrontDoorResourceState | (string & {});
+  resourceState?: FrontDoorResourceState | (string & {}) | undefined;
 }
 /** Load balancing settings for a backend pool */
 export interface LoadBalancingSettingsModelInput {
   /** Resource ID. */
-  id?: string;
+  id?: string | undefined;
   /** Properties of the load balancing settings */
-  properties?: LoadBalancingSettingsProperties;
+  properties?: LoadBalancingSettingsProperties | undefined;
   /** Resource name. */
-  name?: string;
+  name?: string | undefined;
 }
 /** Load balancing settings associated with this Front Door instance. */
 export type FrontDoorPropertiesInputLoadBalancingSettingsList =
@@ -378,26 +379,26 @@ export type HealthProbeEnabled = "Enabled" | "Disabled";
 /** The JSON object that contains the properties required to create a health probe settings. */
 export interface HealthProbeSettingsProperties {
   /** The path to use for the health probe. Default is / */
-  path?: string;
+  path?: string | undefined;
   /** Protocol scheme to use for this probe */
-  protocol?: FrontDoorProtocol | (string & {});
+  protocol?: FrontDoorProtocol | (string & {}) | undefined;
   /** The number of seconds between health probes. */
-  intervalInSeconds?: number;
+  intervalInSeconds?: number | undefined;
   /** Configures which HTTP method to use to probe the backends defined under backendPools. */
-  healthProbeMethod?: HealthProbeSettingsPropertiesHealthProbeMethod | (string & {});
+  healthProbeMethod?: HealthProbeSettingsPropertiesHealthProbeMethod | (string & {}) | undefined;
   /** Whether to enable health probes to be made against backends defined under backendPools. Health probes can only be disabled if there is a single enabled backend in single enabled backend pool. */
-  enabledState?: HealthProbeEnabled | (string & {});
+  enabledState?: HealthProbeEnabled | (string & {}) | undefined;
   /** Resource status. */
-  resourceState?: FrontDoorResourceState | (string & {});
+  resourceState?: FrontDoorResourceState | (string & {}) | undefined;
 }
 /** Load balancing settings for a backend pool */
 export interface HealthProbeSettingsModelInput {
   /** Resource ID. */
-  id?: string;
+  id?: string | undefined;
   /** Properties of the health probe settings */
-  properties?: HealthProbeSettingsProperties;
+  properties?: HealthProbeSettingsProperties | undefined;
   /** Resource name. */
-  name?: string;
+  name?: string | undefined;
 }
 /** Health probe settings associated with this Front Door instance. */
 export type FrontDoorPropertiesInputHealthProbeSettingsList = Array<HealthProbeSettingsModelInput>;
@@ -413,51 +414,51 @@ export type BackendEnabledState = "Enabled" | "Disabled";
 /** Backend address of a frontDoor load balancer. */
 export interface Backend {
   /** Location of the backend (IP address or FQDN) */
-  address?: string;
+  address?: string | undefined;
   /** The Alias of the Private Link resource. Populating this optional field indicates that this backend is 'Private' */
-  privateLinkAlias?: string;
+  privateLinkAlias?: string | undefined;
   /** The Resource Id of the Private Link resource. Populating this optional field indicates that this backend is 'Private' */
-  privateLinkResourceId?: string;
+  privateLinkResourceId?: string | undefined;
   /** The location of the Private Link resource. Required only if 'privateLinkResourceId' is populated */
-  privateLinkLocation?: string;
+  privateLinkLocation?: string | undefined;
   /** The Approval status for the connection to the Private Link */
-  privateEndpointStatus?: PrivateEndpointStatus | (string & {});
+  privateEndpointStatus?: PrivateEndpointStatus | (string & {}) | undefined;
   /** A custom message to be included in the approval request to connect to the Private Link */
-  privateLinkApprovalMessage?: string;
+  privateLinkApprovalMessage?: string | undefined;
   /** The HTTP TCP port number. Must be between 1 and 65535. */
-  httpPort?: number;
+  httpPort?: number | undefined;
   /** The HTTPS TCP port number. Must be between 1 and 65535. */
-  httpsPort?: number;
+  httpsPort?: number | undefined;
   /** Whether to enable use of this backend. Permitted values are 'Enabled' or 'Disabled' */
-  enabledState?: BackendEnabledState | (string & {});
+  enabledState?: BackendEnabledState | (string & {}) | undefined;
   /** Priority to use for load balancing. Higher priorities will not be used for load balancing if any lower priority backend is healthy. */
-  priority?: number;
+  priority?: number | undefined;
   /** Weight of this endpoint for load balancing purposes. */
-  weight?: number;
+  weight?: number | undefined;
   /** The value to use as the host header sent to the backend. If blank or unspecified, this defaults to the incoming host. */
-  backendHostHeader?: string;
+  backendHostHeader?: string | undefined;
 }
 /** The set of backends for this pool */
 export type BackendPoolPropertiesBackendsList = Array<Backend>;
 /** The JSON object that contains the properties required to create a Backend Pool. */
 export interface BackendPoolProperties {
   /** The set of backends for this pool */
-  backends?: BackendPoolPropertiesBackendsList;
+  backends?: BackendPoolPropertiesBackendsList | undefined;
   /** Load balancing settings for a backend pool */
-  loadBalancingSettings?: KeyVaultCertificateSourceParametersVault;
+  loadBalancingSettings?: KeyVaultCertificateSourceParametersVault | undefined;
   /** L7 health probe settings for a backend pool */
-  healthProbeSettings?: KeyVaultCertificateSourceParametersVault;
+  healthProbeSettings?: KeyVaultCertificateSourceParametersVault | undefined;
   /** Resource status. */
-  resourceState?: FrontDoorResourceState | (string & {});
+  resourceState?: FrontDoorResourceState | (string & {}) | undefined;
 }
 /** A backend pool is a collection of backends that can be routed to. */
 export interface BackendPoolInput {
   /** Resource ID. */
-  id?: string;
+  id?: string | undefined;
   /** Properties of the Front Door Backend Pool */
-  properties?: BackendPoolProperties;
+  properties?: BackendPoolProperties | undefined;
   /** Resource name. */
-  name?: string;
+  name?: string | undefined;
 }
 /** Backend pools available to routing rules. */
 export type FrontDoorPropertiesInputBackendPoolsList = Array<BackendPoolInput>;
@@ -494,37 +495,37 @@ export interface CustomHttpsConfiguration {
   /** The minimum TLS version required from the clients to establish an SSL handshake with Front Door. */
   minimumTlsVersion: MinimumTLSVersion | (string & {});
   /** KeyVault certificate source parameters (if certificateSource=AzureKeyVault) */
-  keyVaultCertificateSourceParameters?: KeyVaultCertificateSourceParameters;
+  keyVaultCertificateSourceParameters?: KeyVaultCertificateSourceParameters | undefined;
   /** Parameters required for enabling SSL with Front Door-managed certificates (if certificateSource=FrontDoor) */
-  frontDoorCertificateSourceParameters?: FrontDoorCertificateSourceParameters;
+  frontDoorCertificateSourceParameters?: FrontDoorCertificateSourceParameters | undefined;
 }
 /** The JSON object that contains the properties required to create a frontend endpoint. */
 export interface FrontendEndpointProperties {
   /** The host name of the frontendEndpoint. Must be a domain name. */
-  hostName?: string;
+  hostName?: string | undefined;
   /** Whether to allow session affinity on this host. Valid options are 'Enabled' or 'Disabled' */
-  sessionAffinityEnabledState?: SessionAffinityEnabledState | (string & {});
+  sessionAffinityEnabledState?: SessionAffinityEnabledState | (string & {}) | undefined;
   /** UNUSED. This field will be ignored. The TTL to use in seconds for session affinity, if applicable. */
-  sessionAffinityTtlSeconds?: number;
+  sessionAffinityTtlSeconds?: number | undefined;
   /** Defines the Web Application Firewall policy for each host (if applicable) */
-  webApplicationFirewallPolicyLink?: KeyVaultCertificateSourceParametersVault;
+  webApplicationFirewallPolicyLink?: KeyVaultCertificateSourceParametersVault | undefined;
   /** Resource status. */
-  resourceState?: FrontDoorResourceState | (string & {});
+  resourceState?: FrontDoorResourceState | (string & {}) | undefined;
   /** Provisioning status of Custom Https of the frontendEndpoint. */
-  customHttpsProvisioningState?: CustomHttpsProvisioningState | (string & {});
+  customHttpsProvisioningState?: CustomHttpsProvisioningState | (string & {}) | undefined;
   /** Provisioning substate shows the progress of custom HTTPS enabling/disabling process step by step. */
-  customHttpsProvisioningSubstate?: CustomHttpsProvisioningSubstate | (string & {});
+  customHttpsProvisioningSubstate?: CustomHttpsProvisioningSubstate | (string & {}) | undefined;
   /** The configuration specifying how to enable HTTPS */
-  customHttpsConfiguration?: CustomHttpsConfiguration;
+  customHttpsConfiguration?: CustomHttpsConfiguration | undefined;
 }
 /** A frontend endpoint used for routing. */
 export interface FrontendEndpointInput {
   /** Resource ID. */
-  id?: string;
+  id?: string | undefined;
   /** Resource name. */
-  name?: string;
+  name?: string | undefined;
   /** Properties of the Frontend endpoint */
-  properties?: FrontendEndpointProperties;
+  properties?: FrontendEndpointProperties | undefined;
 }
 /** Frontend endpoints available to routing rules. */
 export type FrontDoorPropertiesInputFrontendEndpointsList = Array<FrontendEndpointInput>;
@@ -533,30 +534,33 @@ export type BackendPoolsSettingsEnforceCertificateNameCheck = "Enabled" | "Disab
 /** Settings that apply to all backend pools. */
 export interface BackendPoolsSettings {
   /** Whether to enforce certificate name check on HTTPS requests to all backend pools. No effect on non-HTTPS requests. */
-  enforceCertificateNameCheck?: BackendPoolsSettingsEnforceCertificateNameCheck | (string & {});
+  enforceCertificateNameCheck?:
+    | BackendPoolsSettingsEnforceCertificateNameCheck
+    | (string & {})
+    | undefined;
   /** Send and receive timeout on forwarding request to the backend. When timeout is reached, the request fails and returns. */
-  sendRecvTimeoutSeconds?: number;
+  sendRecvTimeoutSeconds?: number | undefined;
 }
 /** Operational status of the Front Door load balancer. Permitted values are 'Enabled' or 'Disabled' */
 export type FrontDoorEnabledState = "Enabled" | "Disabled";
 /** The JSON object that contains the properties required to create an endpoint. */
 export interface FrontDoorPropertiesInput {
   /** A friendly name for the frontDoor */
-  friendlyName?: string;
+  friendlyName?: string | undefined;
   /** Routing rules associated with this Front Door. */
-  routingRules?: FrontDoorPropertiesInputRoutingRulesList;
+  routingRules?: FrontDoorPropertiesInputRoutingRulesList | undefined;
   /** Load balancing settings associated with this Front Door instance. */
-  loadBalancingSettings?: FrontDoorPropertiesInputLoadBalancingSettingsList;
+  loadBalancingSettings?: FrontDoorPropertiesInputLoadBalancingSettingsList | undefined;
   /** Health probe settings associated with this Front Door instance. */
-  healthProbeSettings?: FrontDoorPropertiesInputHealthProbeSettingsList;
+  healthProbeSettings?: FrontDoorPropertiesInputHealthProbeSettingsList | undefined;
   /** Backend pools available to routing rules. */
-  backendPools?: FrontDoorPropertiesInputBackendPoolsList;
+  backendPools?: FrontDoorPropertiesInputBackendPoolsList | undefined;
   /** Frontend endpoints available to routing rules. */
-  frontendEndpoints?: FrontDoorPropertiesInputFrontendEndpointsList;
+  frontendEndpoints?: FrontDoorPropertiesInputFrontendEndpointsList | undefined;
   /** Settings for all backendPools */
-  backendPoolsSettings?: BackendPoolsSettings;
+  backendPoolsSettings?: BackendPoolsSettings | undefined;
   /** Operational status of the Front Door load balancer. Permitted values are 'Enabled' or 'Disabled' */
-  enabledState?: FrontDoorEnabledState | (string & {});
+  enabledState?: FrontDoorEnabledState | (string & {}) | undefined;
 }
 export interface FrontDoorsCreateOrUpdateRequest {
   /** The ID of the target subscription. */
@@ -566,76 +570,76 @@ export interface FrontDoorsCreateOrUpdateRequest {
   /** Name of the Front Door which is globally unique. */
   frontDoorName: string;
   /** Resource location. */
-  location?: string;
+  location?: string | undefined;
   /** Resource tags. */
-  tags?: FrontDoorsCreateOrUpdateRequestTagsMap;
+  tags?: FrontDoorsCreateOrUpdateRequestTagsMap | undefined;
   /** Properties of the Front Door Load Balancer */
-  properties?: FrontDoorPropertiesInput;
+  properties?: FrontDoorPropertiesInput | undefined;
 }
 /** Resource tags. */
 export type FrontDoorsCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
 /** A routing rule represents a specification for traffic to treat and where to send it, along with health probe information. */
 export interface RoutingRule {
   /** Resource ID. */
-  id?: string;
+  id?: string | undefined;
   /** Properties of the Front Door Routing Rule */
-  properties?: RoutingRuleProperties;
+  properties?: RoutingRuleProperties | undefined;
   /** Resource name. */
-  name?: string;
+  name?: string | undefined;
   /** Resource type. */
-  type?: string;
+  type?: string | undefined;
 }
 /** Routing rules associated with this Front Door. */
 export type FrontDoorPropertiesRoutingRulesList = Array<RoutingRule>;
 /** Load balancing settings for a backend pool */
 export interface LoadBalancingSettingsModel {
   /** Resource ID. */
-  id?: string;
+  id?: string | undefined;
   /** Properties of the load balancing settings */
-  properties?: LoadBalancingSettingsProperties;
+  properties?: LoadBalancingSettingsProperties | undefined;
   /** Resource name. */
-  name?: string;
+  name?: string | undefined;
   /** Resource type. */
-  type?: string;
+  type?: string | undefined;
 }
 /** Load balancing settings associated with this Front Door instance. */
 export type FrontDoorPropertiesLoadBalancingSettingsList = Array<LoadBalancingSettingsModel>;
 /** Load balancing settings for a backend pool */
 export interface HealthProbeSettingsModel {
   /** Resource ID. */
-  id?: string;
+  id?: string | undefined;
   /** Properties of the health probe settings */
-  properties?: HealthProbeSettingsProperties;
+  properties?: HealthProbeSettingsProperties | undefined;
   /** Resource name. */
-  name?: string;
+  name?: string | undefined;
   /** Resource type. */
-  type?: string;
+  type?: string | undefined;
 }
 /** Health probe settings associated with this Front Door instance. */
 export type FrontDoorPropertiesHealthProbeSettingsList = Array<HealthProbeSettingsModel>;
 /** A backend pool is a collection of backends that can be routed to. */
 export interface BackendPool {
   /** Resource ID. */
-  id?: string;
+  id?: string | undefined;
   /** Properties of the Front Door Backend Pool */
-  properties?: BackendPoolProperties;
+  properties?: BackendPoolProperties | undefined;
   /** Resource name. */
-  name?: string;
+  name?: string | undefined;
   /** Resource type. */
-  type?: string;
+  type?: string | undefined;
 }
 /** Backend pools available to routing rules. */
 export type FrontDoorPropertiesBackendPoolsList = Array<BackendPool>;
 /** A frontend endpoint used for routing. */
 export interface FrontendEndpoint {
   /** Resource ID. */
-  id?: string;
+  id?: string | undefined;
   /** Resource name. */
-  name?: string;
+  name?: string | undefined;
   /** Resource type. */
-  type?: string;
+  type?: string | undefined;
   /** Properties of the Frontend endpoint */
-  properties?: FrontendEndpointProperties;
+  properties?: FrontendEndpointProperties | undefined;
 }
 /** Frontend endpoints available to routing rules. */
 export type FrontDoorPropertiesFrontendEndpointsList = Array<FrontendEndpoint>;
@@ -648,7 +652,7 @@ export interface HeaderAction {
   /** The name of the header this action will apply to. */
   headerName: string;
   /** The value to update the given header name with. This value is not used if the actionType is Delete. */
-  value?: string;
+  value?: string | undefined;
 }
 /** A list of header actions to apply from the request from AFD to the origin. */
 export type RulesEngineActionRequestHeaderActionsList = Array<HeaderAction>;
@@ -657,11 +661,11 @@ export type RulesEngineActionResponseHeaderActionsList = Array<HeaderAction>;
 /** One or more actions that will execute, modifying the request and/or response. */
 export interface RulesEngineAction {
   /** A list of header actions to apply from the request from AFD to the origin. */
-  requestHeaderActions?: RulesEngineActionRequestHeaderActionsList;
+  requestHeaderActions?: RulesEngineActionRequestHeaderActionsList | undefined;
   /** A list of header actions to apply from the response from AFD to the client. */
-  responseHeaderActions?: RulesEngineActionResponseHeaderActionsList;
+  responseHeaderActions?: RulesEngineActionResponseHeaderActionsList | undefined;
   /** Override the route configuration. */
-  routeConfigurationOverride?: RouteConfiguration;
+  routeConfigurationOverride?: RouteConfiguration | undefined;
 }
 /** Match Variable */
 export type RulesEngineMatchVariable =
@@ -707,15 +711,15 @@ export interface RulesEngineMatchCondition {
   /** Match Variable */
   rulesEngineMatchVariable: RulesEngineMatchVariable | (string & {});
   /** Name of selector in RequestHeader or RequestBody to be matched */
-  selector?: string;
+  selector?: string | undefined;
   /** Describes operator to apply to the match condition. */
   rulesEngineOperator: RulesEngineOperator | (string & {});
   /** Describes if this is negate condition or not */
-  negateCondition?: boolean;
+  negateCondition?: boolean | undefined;
   /** Match values to match against. The operator will apply to each value in here with OR semantics. If any of them match the variable with the given operator this match condition is considered a match. */
   rulesEngineMatchValue: RulesEngineMatchConditionRulesEngineMatchValueList;
   /** List of transforms */
-  transforms?: RulesEngineMatchConditionTransformsList;
+  transforms?: RulesEngineMatchConditionTransformsList | undefined;
 }
 /** A list of match conditions that must meet in order for the actions of this rule to run. Having no match conditions means the actions will always run. */
 export type RulesEngineRuleMatchConditionsList = Array<RulesEngineMatchCondition>;
@@ -730,29 +734,29 @@ export interface RulesEngineRule {
   /** Actions to perform on the request and response if all of the match conditions are met. */
   action: RulesEngineAction;
   /** A list of match conditions that must meet in order for the actions of this rule to run. Having no match conditions means the actions will always run. */
-  matchConditions?: RulesEngineRuleMatchConditionsList;
+  matchConditions?: RulesEngineRuleMatchConditionsList | undefined;
   /** If this rule is a match should the rules engine continue running the remaining rules or stop. If not present, defaults to Continue. */
-  matchProcessingBehavior?: MatchProcessingBehavior | (string & {});
+  matchProcessingBehavior?: MatchProcessingBehavior | (string & {}) | undefined;
 }
 /** A list of rules that define a particular Rules Engine Configuration. */
 export type RulesEnginePropertiesRulesList = Array<RulesEngineRule>;
 /** The JSON object that contains the properties required to create a Rules Engine Configuration. */
 export interface RulesEngineProperties {
   /** A list of rules that define a particular Rules Engine Configuration. */
-  rules?: RulesEnginePropertiesRulesList;
+  rules?: RulesEnginePropertiesRulesList | undefined;
   /** Resource status. */
-  resourceState?: FrontDoorResourceState | (string & {});
+  resourceState?: FrontDoorResourceState | (string & {}) | undefined;
 }
 /** A rules engine configuration containing a list of rules that will run to modify the runtime behavior of the request and response. */
 export interface RulesEngine {
   /** Resource ID. */
-  id?: string;
+  id?: string | undefined;
   /** Resource name. */
-  name?: string;
+  name?: string | undefined;
   /** Resource type. */
-  type?: string;
+  type?: string | undefined;
   /** Properties of the Rules Engine Configuration. */
-  properties?: RulesEngineProperties;
+  properties?: RulesEngineProperties | undefined;
 }
 /** Rules Engine Configurations available to routing rules. */
 export type FrontDoorPropertiesRulesEnginesList = Array<RulesEngine>;
@@ -761,51 +765,51 @@ export type FrontDoorPropertiesExtendedPropertiesMap = { [key: string]: string |
 /** The JSON object that contains the properties required to create an endpoint. */
 export interface FrontDoorProperties {
   /** A friendly name for the frontDoor */
-  friendlyName?: string;
+  friendlyName?: string | undefined;
   /** Routing rules associated with this Front Door. */
-  routingRules?: FrontDoorPropertiesRoutingRulesList;
+  routingRules?: FrontDoorPropertiesRoutingRulesList | undefined;
   /** Load balancing settings associated with this Front Door instance. */
-  loadBalancingSettings?: FrontDoorPropertiesLoadBalancingSettingsList;
+  loadBalancingSettings?: FrontDoorPropertiesLoadBalancingSettingsList | undefined;
   /** Health probe settings associated with this Front Door instance. */
-  healthProbeSettings?: FrontDoorPropertiesHealthProbeSettingsList;
+  healthProbeSettings?: FrontDoorPropertiesHealthProbeSettingsList | undefined;
   /** Backend pools available to routing rules. */
-  backendPools?: FrontDoorPropertiesBackendPoolsList;
+  backendPools?: FrontDoorPropertiesBackendPoolsList | undefined;
   /** Frontend endpoints available to routing rules. */
-  frontendEndpoints?: FrontDoorPropertiesFrontendEndpointsList;
+  frontendEndpoints?: FrontDoorPropertiesFrontendEndpointsList | undefined;
   /** Settings for all backendPools */
-  backendPoolsSettings?: BackendPoolsSettings;
+  backendPoolsSettings?: BackendPoolsSettings | undefined;
   /** Operational status of the Front Door load balancer. Permitted values are 'Enabled' or 'Disabled' */
-  enabledState?: FrontDoorEnabledState;
+  enabledState?: FrontDoorEnabledState | undefined;
   /** Resource status of the Front Door. */
-  resourceState?: FrontDoorResourceState;
+  resourceState?: FrontDoorResourceState | undefined;
   /** Provisioning state of the Front Door. */
-  provisioningState?: string;
+  provisioningState?: string | undefined;
   /** The host that each frontendEndpoint must CNAME to. */
-  cname?: string;
+  cname?: string | undefined;
   /** The Id of the frontdoor. */
-  frontdoorId?: string;
+  frontdoorId?: string | undefined;
   /** Rules Engine Configurations available to routing rules. */
-  rulesEngines?: FrontDoorPropertiesRulesEnginesList;
+  rulesEngines?: FrontDoorPropertiesRulesEnginesList | undefined;
   /** Key-Value pair representing additional properties for frontdoor. */
-  extendedProperties?: FrontDoorPropertiesExtendedPropertiesMap;
+  extendedProperties?: FrontDoorPropertiesExtendedPropertiesMap | undefined;
 }
 export interface FrontDoorsCreateOrUpdateResponse {
   /** Resource ID. */
-  id?: string;
+  id?: string | undefined;
   /** Resource name. */
-  name?: string;
+  name?: string | undefined;
   /** Resource type. */
-  type?: string;
+  type?: string | undefined;
   /** Resource location. */
-  location?: string;
+  location?: string | undefined;
   /** Resource tags. */
-  tags?: FrontDoorsCreateOrUpdateResponseTagsMap;
+  tags?: FrontDoorsCreateOrUpdateResponseTagsMap | undefined;
   /** Properties of the Front Door Load Balancer */
-  properties?: FrontDoorProperties;
+  properties?: FrontDoorProperties | undefined;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface GetExperimentRequest {
   /** The ID of the target subscription. */
@@ -821,17 +825,17 @@ export interface GetExperimentRequest {
 export type GetExperimentResponseTagsMap = { [key: string]: string | undefined };
 export interface GetExperimentResponse {
   /** Resource ID. */
-  id?: string;
+  id?: string | undefined;
   /** Resource name. */
-  name?: string;
+  name?: string | undefined;
   /** Resource type. */
-  type?: string;
+  type?: string | undefined;
   /** Resource location. */
-  location?: string;
+  location?: string | undefined;
   /** Resource tags. */
-  tags?: GetExperimentResponseTagsMap;
+  tags?: GetExperimentResponseTagsMap | undefined;
   /** The properties of an Experiment */
-  properties?: ExperimentProperties;
+  properties?: ExperimentProperties | undefined;
 }
 export interface GetFrontDoorRequest {
   /** The ID of the target subscription. */
@@ -845,17 +849,17 @@ export interface GetFrontDoorRequest {
 export type GetFrontDoorResponseTagsMap = { [key: string]: string | undefined };
 export interface GetFrontDoorResponse {
   /** Resource ID. */
-  id?: string;
+  id?: string | undefined;
   /** Resource name. */
-  name?: string;
+  name?: string | undefined;
   /** Resource type. */
-  type?: string;
+  type?: string | undefined;
   /** Resource location. */
-  location?: string;
+  location?: string | undefined;
   /** Resource tags. */
-  tags?: GetFrontDoorResponseTagsMap;
+  tags?: GetFrontDoorResponseTagsMap | undefined;
   /** Properties of the Front Door Load Balancer */
-  properties?: FrontDoorProperties;
+  properties?: FrontDoorProperties | undefined;
 }
 export interface GetFrontendEndpointRequest {
   /** The ID of the target subscription. */
@@ -869,13 +873,13 @@ export interface GetFrontendEndpointRequest {
 }
 export interface GetFrontendEndpointResponse {
   /** Resource ID. */
-  id?: string;
+  id?: string | undefined;
   /** Resource name. */
-  name?: string;
+  name?: string | undefined;
   /** Resource type. */
-  type?: string;
+  type?: string | undefined;
   /** Properties of the Frontend endpoint */
-  properties?: FrontendEndpointProperties;
+  properties?: FrontendEndpointProperties | undefined;
 }
 export interface GetNetworkExperimentProfileRequest {
   /** The ID of the target subscription. */
@@ -890,25 +894,25 @@ export type GetNetworkExperimentProfileResponseTagsMap = { [key: string]: string
 /** Defines the properties of an experiment */
 export interface ProfileProperties {
   /** Resource status. */
-  resourceState?: NetworkExperimentResourceState | (string & {});
+  resourceState?: NetworkExperimentResourceState | (string & {}) | undefined;
   /** The state of the Experiment */
-  enabledState?: State | (string & {});
+  enabledState?: State | (string & {}) | undefined;
 }
 export interface GetNetworkExperimentProfileResponse {
   /** Resource ID. */
-  id?: string;
+  id?: string | undefined;
   /** Resource name. */
-  name?: string;
+  name?: string | undefined;
   /** Resource type. */
-  type?: string;
+  type?: string | undefined;
   /** Resource location. */
-  location?: string;
+  location?: string | undefined;
   /** Resource tags. */
-  tags?: GetNetworkExperimentProfileResponseTagsMap;
+  tags?: GetNetworkExperimentProfileResponseTagsMap | undefined;
   /** The properties of a Profile */
-  properties?: ProfileProperties;
+  properties?: ProfileProperties | undefined;
   /** Gets a unique read-only string that changes whenever the resource is updated. */
-  etag?: string;
+  etag?: string | undefined;
 }
 export interface GetPolicyRequest {
   /** The ID of the target subscription. */
@@ -948,9 +952,9 @@ export interface WebApplicationFirewallScrubbingRules {
   /** When matchVariable is a collection, operate on the selector to specify which elements in the collection this rule applies to. */
   selectorMatchOperator: ScrubbingRuleEntryMatchOperator | (string & {});
   /** When matchVariable is a collection, operator used to specify which elements in the collection this rule applies to. */
-  selector?: string;
+  selector?: string | undefined;
   /** Defines the state of a log scrubbing rule. Default value is enabled. */
-  state?: ScrubbingRuleEntryState | (string & {});
+  state?: ScrubbingRuleEntryState | (string & {}) | undefined;
 }
 /** List of log scrubbing rules applied to the Web Application Firewall logs. */
 export type PolicySettingsLogScrubbingScrubbingRulesList =
@@ -958,30 +962,30 @@ export type PolicySettingsLogScrubbingScrubbingRulesList =
 /** Defines rules that scrub sensitive fields in the Web Application Firewall logs. */
 export interface PolicySettingsLogScrubbing {
   /** State of the log scrubbing config. Default value is Enabled. */
-  state?: WebApplicationFirewallScrubbingState | (string & {});
+  state?: WebApplicationFirewallScrubbingState | (string & {}) | undefined;
   /** List of log scrubbing rules applied to the Web Application Firewall logs. */
-  scrubbingRules?: PolicySettingsLogScrubbingScrubbingRulesList;
+  scrubbingRules?: PolicySettingsLogScrubbingScrubbingRulesList | undefined;
 }
 /** Defines top-level WebApplicationFirewallPolicy configuration settings. */
 export interface PolicySettings {
   /** Describes if the policy is in enabled or disabled state. Defaults to Enabled if not specified. */
-  enabledState?: PolicyEnabledState | (string & {});
+  enabledState?: PolicyEnabledState | (string & {}) | undefined;
   /** Describes if it is in detection mode or prevention mode at policy level. */
-  mode?: PolicyMode | (string & {});
+  mode?: PolicyMode | (string & {}) | undefined;
   /** If action type is redirect, this field represents redirect URL for the client. */
-  redirectUrl?: string;
+  redirectUrl?: string | undefined;
   /** If the action type is block, customer can override the response status code. */
-  customBlockResponseStatusCode?: number;
+  customBlockResponseStatusCode?: number | undefined;
   /** If the action type is block, customer can override the response body. The body must be specified in base64 encoding. */
-  customBlockResponseBody?: string;
+  customBlockResponseBody?: string | undefined;
   /** Describes if policy managed rules will inspect the request body content. */
-  requestBodyCheck?: PolicyRequestBodyCheck | (string & {});
+  requestBodyCheck?: PolicyRequestBodyCheck | (string & {}) | undefined;
   /** Defines the JavaScript challenge cookie validity lifetime in minutes. This setting is only applicable to Premium_AzureFrontDoor. Value must be an integer between 5 and 1440 with the default value being 30. */
-  javascriptChallengeExpirationInMinutes?: number;
+  javascriptChallengeExpirationInMinutes?: number | undefined;
   /** Defines the Captcha cookie validity lifetime in minutes. This setting is only applicable to Premium_AzureFrontDoor. Value must be an integer between 5 and 1440 with the default value being 30. */
-  captchaExpirationInMinutes?: number;
+  captchaExpirationInMinutes?: number | undefined;
   /** Defines rules that scrub sensitive fields in the Web Application Firewall logs. */
-  logScrubbing?: PolicySettingsLogScrubbing;
+  logScrubbing?: PolicySettingsLogScrubbing | undefined;
 }
 /** Describes if the custom rule is in enabled or disabled state. Defaults to Enabled if not specified. */
 export type CustomRuleEnabledState = "Disabled" | "Enabled";
@@ -1042,15 +1046,15 @@ export interface MatchCondition {
   /** Request variable to compare with. */
   matchVariable: MatchVariable | (string & {});
   /** Match against a specific key from the QueryString, PostArgs, RequestHeader or Cookies variables. Default is null. */
-  selector?: string;
+  selector?: string | undefined;
   /** Comparison type to use for matching with the variable value. */
   operator: Operator | (string & {});
   /** Describes if the result of this condition should be negated. */
-  negateCondition?: boolean;
+  negateCondition?: boolean | undefined;
   /** List of possible match values. */
   matchValue: MatchConditionMatchValueList;
   /** List of transforms. */
-  transforms?: MatchConditionTransformsList;
+  transforms?: MatchConditionTransformsList | undefined;
 }
 /** List of match conditions. */
 export type CustomRuleMatchConditionsList = Array<MatchCondition>;
@@ -1066,19 +1070,19 @@ export type ActionType =
 /** Defines contents of a web application rule */
 export interface CustomRule {
   /** Describes the name of the rule. */
-  name?: string;
+  name?: string | undefined;
   /** Describes priority of the rule. Rules with a lower value will be evaluated before rules with a higher value. */
   priority: number;
   /** Describes if the custom rule is in enabled or disabled state. Defaults to Enabled if not specified. */
-  enabledState?: CustomRuleEnabledState | (string & {});
+  enabledState?: CustomRuleEnabledState | (string & {}) | undefined;
   /** Describes type of rule. */
   ruleType: RuleType | (string & {});
   /** Time window for resetting the rate limit count. Default is 1 minute. */
-  rateLimitDurationInMinutes?: number;
+  rateLimitDurationInMinutes?: number | undefined;
   /** Number of allowed requests per client within the time window. */
-  rateLimitThreshold?: number;
+  rateLimitThreshold?: number | undefined;
   /** Describes the list of variables to group the rate limit requests */
-  groupBy?: CustomRuleGroupByList;
+  groupBy?: CustomRuleGroupByList | undefined;
   /** List of match conditions. */
   matchConditions: CustomRuleMatchConditionsList;
   /** Describes what action to be applied when rule matches. */
@@ -1089,7 +1093,7 @@ export type CustomRuleListRulesList = Array<CustomRule>;
 /** Defines contents of custom rules */
 export interface CustomRuleList {
   /** List of rules */
-  rules?: CustomRuleListRulesList;
+  rules?: CustomRuleListRulesList | undefined;
 }
 /** Defines the action to take when a managed rule set score threshold is met. */
 export type ManagedRuleSetActionType = "Block" | "Log" | "Redirect";
@@ -1131,13 +1135,13 @@ export interface ManagedRuleOverride {
   /** Identifier for the managed rule. */
   ruleId: string;
   /** Describes if the managed rule is in enabled or disabled state. Defaults to Disabled if not specified. */
-  enabledState?: ManagedRuleEnabledState | (string & {});
+  enabledState?: ManagedRuleEnabledState | (string & {}) | undefined;
   /** Describes the override action to be applied when rule matches. */
-  action?: ActionType | (string & {});
+  action?: ActionType | (string & {}) | undefined;
   /** Describes the override sensitivity to be applied when rule matches. */
-  sensitivity?: SensitivityType | (string & {});
+  sensitivity?: SensitivityType | (string & {}) | undefined;
   /** Describes the exclusions that are applied to this specific rule. */
-  exclusions?: ManagedRuleOverrideExclusionsList;
+  exclusions?: ManagedRuleOverrideExclusionsList | undefined;
 }
 /** List of rules that will be disabled. If none specified, all rules in the group will be disabled. */
 export type ManagedRuleGroupOverrideRulesList = Array<ManagedRuleOverride>;
@@ -1146,9 +1150,9 @@ export interface ManagedRuleGroupOverride {
   /** Describes the managed rule group to override. */
   ruleGroupName: string;
   /** Describes the exclusions that are applied to all rules in the group. */
-  exclusions?: ManagedRuleGroupOverrideExclusionsList;
+  exclusions?: ManagedRuleGroupOverrideExclusionsList | undefined;
   /** List of rules that will be disabled. If none specified, all rules in the group will be disabled. */
-  rules?: ManagedRuleGroupOverrideRulesList;
+  rules?: ManagedRuleGroupOverrideRulesList | undefined;
 }
 /** Defines the rule group overrides to apply to the rule set. */
 export type ManagedRuleSetRuleGroupOverridesList = Array<ManagedRuleGroupOverride>;
@@ -1159,11 +1163,11 @@ export interface ManagedRuleSet {
   /** Defines the version of the rule set to use. */
   ruleSetVersion: string;
   /** Defines the rule set action. */
-  ruleSetAction?: ManagedRuleSetActionType | (string & {});
+  ruleSetAction?: ManagedRuleSetActionType | (string & {}) | undefined;
   /** Describes the exclusions that are applied to all rules in the set. */
-  exclusions?: ManagedRuleSetExclusionsList;
+  exclusions?: ManagedRuleSetExclusionsList | undefined;
   /** Defines the rule group overrides to apply to the rule set. */
-  ruleGroupOverrides?: ManagedRuleSetRuleGroupOverridesList;
+  ruleGroupOverrides?: ManagedRuleSetRuleGroupOverridesList | undefined;
 }
 /** List of rule sets. */
 export type ManagedRuleSetListManagedRuleSetsList = Array<ManagedRuleSet>;
@@ -1193,7 +1197,7 @@ export interface RuleGroupScope {
   /** Defines the rule group name. */
   ruleGroupName: string;
   /** List of rule scopes. */
-  ruleScopes?: RuleGroupScopeRuleScopesList;
+  ruleScopes?: RuleGroupScopeRuleScopesList | undefined;
 }
 /** List of rule group scopes. */
 export type ManagedRuleSetScopeRuleGroupScopesList = Array<RuleGroupScope>;
@@ -1204,7 +1208,7 @@ export interface ManagedRuleSetScope {
   /** Defines the version of the rule set. */
   ruleSetVersion: string;
   /** List of rule group scopes. */
-  ruleGroupScopes?: ManagedRuleSetScopeRuleGroupScopesList;
+  ruleGroupScopes?: ManagedRuleSetScopeRuleGroupScopesList | undefined;
 }
 /** Scope(s) of the exception. */
 export type ManagedRuleSetExceptionScopesList = Array<ManagedRuleSetScope>;
@@ -1213,9 +1217,9 @@ export interface ManagedRuleSetException {
   /** The variable to be evaluated for excluding the request. */
   matchVariable: ExceptionMatchVariable | (string & {});
   /** Comparison operator to apply to the selector when specifying which elements in the collection this exception applies to. */
-  selectorMatchOperator?: ExceptionSelectorMatchOperator | (string & {});
+  selectorMatchOperator?: ExceptionSelectorMatchOperator | (string & {}) | undefined;
   /** When matchVariable is a collection, operator used to specify which elements in the collection this exception applies to. Currently supported only for RequestHeaderNames. */
-  selector?: string;
+  selector?: string | undefined;
   /** Comparison operator to apply to the value to be matched. */
   valueMatchOperator: ExceptionValueMatchOperator | (string & {});
   /** List of values to be matched with. */
@@ -1228,14 +1232,14 @@ export type ManagedRuleSetExceptionListExceptionsList = Array<ManagedRuleSetExce
 /** Defines the list of exceptions for the managed rule sets. */
 export interface ManagedRuleSetExceptionList {
   /** List of exceptions. */
-  exceptions?: ManagedRuleSetExceptionListExceptionsList;
+  exceptions?: ManagedRuleSetExceptionListExceptionsList | undefined;
 }
 /** Defines the list of managed rule sets for the policy. */
 export interface ManagedRuleSetList {
   /** List of rule sets. */
-  managedRuleSets?: ManagedRuleSetListManagedRuleSetsList;
+  managedRuleSets?: ManagedRuleSetListManagedRuleSetsList | undefined;
   /** List of exceptions applied on the managed rule sets. */
-  exceptionsList?: ManagedRuleSetExceptionList;
+  exceptionsList?: ManagedRuleSetExceptionList | undefined;
 }
 /** Defines the Resource ID for a Frontend Endpoint. */
 export type FrontendEndpointLink = KeyVaultCertificateSourceParametersVault;
@@ -1263,21 +1267,23 @@ export type PolicyResourceState =
 /** Defines web application firewall policy properties. */
 export interface WebApplicationFirewallPolicyProperties {
   /** Describes settings for the policy. */
-  policySettings?: PolicySettings;
+  policySettings?: PolicySettings | undefined;
   /** Describes custom rules inside the policy. */
-  customRules?: CustomRuleList;
+  customRules?: CustomRuleList | undefined;
   /** Describes managed rules inside the policy. */
-  managedRules?: ManagedRuleSetList;
+  managedRules?: ManagedRuleSetList | undefined;
   /** Describes Frontend Endpoints associated with this Web Application Firewall policy. */
-  frontendEndpointLinks?: WebApplicationFirewallPolicyPropertiesFrontendEndpointLinksList;
+  frontendEndpointLinks?:
+    | WebApplicationFirewallPolicyPropertiesFrontendEndpointLinksList
+    | undefined;
   /** Describes Routing Rules associated with this Web Application Firewall policy. */
-  routingRuleLinks?: WebApplicationFirewallPolicyPropertiesRoutingRuleLinksList;
+  routingRuleLinks?: WebApplicationFirewallPolicyPropertiesRoutingRuleLinksList | undefined;
   /** Describes Security Policy associated with this Web Application Firewall policy. */
-  securityPolicyLinks?: WebApplicationFirewallPolicyPropertiesSecurityPolicyLinksList;
+  securityPolicyLinks?: WebApplicationFirewallPolicyPropertiesSecurityPolicyLinksList | undefined;
   /** Provisioning state of the policy. */
-  provisioningState?: string;
+  provisioningState?: string | undefined;
   /** Resource status of the policy. */
-  resourceState?: PolicyResourceState;
+  resourceState?: PolicyResourceState | undefined;
 }
 /** Name of the pricing tier. */
 export type SkuName =
@@ -1287,25 +1293,25 @@ export type SkuName =
 /** The pricing tier of the web application firewall policy. */
 export interface Sku {
   /** Name of the pricing tier. */
-  name?: SkuName | (string & {});
+  name?: SkuName | (string & {}) | undefined;
 }
 export interface GetPolicyResponse {
   /** Resource ID. */
-  id?: string;
+  id?: string | undefined;
   /** Resource name. */
-  name?: string;
+  name?: string | undefined;
   /** Resource type. */
-  type?: string;
+  type?: string | undefined;
   /** Resource location. */
-  location?: string;
+  location?: string | undefined;
   /** Resource tags. */
-  tags?: GetPolicyResponseTagsMap;
+  tags?: GetPolicyResponseTagsMap | undefined;
   /** Properties of the web application firewall policy. */
-  properties?: WebApplicationFirewallPolicyProperties;
+  properties?: WebApplicationFirewallPolicyProperties | undefined;
   /** Gets a unique read-only string that changes whenever the resource is updated. */
-  etag?: string;
+  etag?: string | undefined;
   /** The pricing tier of web application firewall policy. Defaults to Classic_AzureFrontDoor if not specified. */
-  sku?: Sku;
+  sku?: Sku | undefined;
 }
 export type GetReportLatencyScorecardsRequestAggregationInterval = "Daily" | "Weekly" | "Monthly";
 export interface GetReportLatencyScorecardsRequest {
@@ -1318,9 +1324,9 @@ export interface GetReportLatencyScorecardsRequest {
   /** The Experiment identifier associated with the Experiment */
   experimentName: string;
   /** The end DateTime of the Latency Scorecard in UTC */
-  endDateTimeUTC?: string;
+  endDateTimeUTC?: string | undefined;
   /** The country associated with the Latency Scorecard. Values are country ISO codes as specified here- https://www.iso.org/iso-3166-country-codes.html */
-  country?: string;
+  country?: string | undefined;
   /** The aggregation interval of the Latency Scorecard */
   aggregationInterval: GetReportLatencyScorecardsRequestAggregationInterval | (string & {});
 }
@@ -1329,62 +1335,62 @@ export type GetReportLatencyScorecardsResponseTagsMap = { [key: string]: string 
 /** Defines the properties of a latency metric used in the latency scorecard */
 export interface LatencyMetric {
   /** The name of the Latency Metric */
-  name?: string;
+  name?: string | undefined;
   /** The end time of the Latency Scorecard in UTC */
-  endDateTimeUTC?: string;
+  endDateTimeUTC?: string | undefined;
   /** The metric value of the A endpoint */
-  aValue?: number;
+  aValue?: number | undefined;
   /** The metric value of the B endpoint */
-  bValue?: number;
+  bValue?: number | undefined;
   /** The difference in value between endpoint A and B */
-  delta?: number;
+  delta?: number | undefined;
   /** The percent difference between endpoint A and B */
-  deltaPercent?: number;
+  deltaPercent?: number | undefined;
   /** The lower end of the 95% confidence interval for endpoint A */
-  aCLower95CI?: number;
+  aCLower95CI?: number | undefined;
   /** The upper end of the 95% confidence interval for endpoint A */
-  aHUpper95CI?: number;
+  aHUpper95CI?: number | undefined;
   /** The lower end of the 95% confidence interval for endpoint B */
-  bCLower95CI?: number;
+  bCLower95CI?: number | undefined;
   /** The upper end of the 95% confidence interval for endpoint B */
-  bUpper95CI?: number;
+  bUpper95CI?: number | undefined;
 }
 /** The latency metrics of the Latency Scorecard */
 export type LatencyScorecardPropertiesLatencyMetricsList = Array<LatencyMetric>;
 /** Defines a the properties of a Latency Scorecard */
 export interface LatencyScorecardProperties {
   /** The unique identifier of the Latency Scorecard */
-  id?: string;
+  id?: string | undefined;
   /** The name of the Latency Scorecard */
-  name?: string;
+  name?: string | undefined;
   /** The description of the Latency Scorecard */
-  description?: string;
+  description?: string | undefined;
   /** The A endpoint in the scorecard */
-  endpointA?: string;
+  endpointA?: string | undefined;
   /** The B endpoint in the scorecard */
-  endpointB?: string;
+  endpointB?: string | undefined;
   /** The start time of the Latency Scorecard in UTC */
-  startDateTimeUTC?: string;
+  startDateTimeUTC?: string | undefined;
   /** The end time of the Latency Scorecard in UTC */
-  endDateTimeUTC?: string;
+  endDateTimeUTC?: string | undefined;
   /** The country associated with the Latency Scorecard. Values are country ISO codes as specified here- https://www.iso.org/iso-3166-country-codes.html */
-  country?: string;
+  country?: string | undefined;
   /** The latency metrics of the Latency Scorecard */
-  latencyMetrics?: LatencyScorecardPropertiesLatencyMetricsList;
+  latencyMetrics?: LatencyScorecardPropertiesLatencyMetricsList | undefined;
 }
 export interface GetReportLatencyScorecardsResponse {
   /** Resource ID. */
-  id?: string;
+  id?: string | undefined;
   /** Resource name. */
-  name?: string;
+  name?: string | undefined;
   /** Resource type. */
-  type?: string;
+  type?: string | undefined;
   /** Resource location. */
-  location?: string;
+  location?: string | undefined;
   /** Resource tags. */
-  tags?: GetReportLatencyScorecardsResponseTagsMap;
+  tags?: GetReportLatencyScorecardsResponseTagsMap | undefined;
   /** The properties of a latency scorecard */
-  properties?: LatencyScorecardProperties;
+  properties?: LatencyScorecardProperties | undefined;
 }
 export type GetReportTimeseriesRequestAggregationInterval = "Hourly" | "Daily";
 export type GetReportTimeseriesRequestTimeseriesType =
@@ -1410,9 +1416,9 @@ export interface GetReportTimeseriesRequest {
   /** The type of Timeseries */
   timeseriesType: GetReportTimeseriesRequestTimeseriesType | (string & {});
   /** The specific endpoint */
-  endpoint?: string;
+  endpoint?: string | undefined;
   /** The country associated with the Timeseries. Values are country ISO codes as specified here- https://www.iso.org/iso-3166-country-codes.html */
-  country?: string;
+  country?: string | undefined;
 }
 /** Resource tags. */
 export type GetReportTimeseriesResponseTagsMap = { [key: string]: string | undefined };
@@ -1423,42 +1429,42 @@ export type TimeseriesType = "MeasurementCounts" | "LatencyP50" | "LatencyP75" |
 /** Defines a timeseries datapoint used in a timeseries */
 export interface TimeseriesDataPoint {
   /** The DateTime of the Timeseries data point in UTC */
-  dateTimeUTC?: string;
+  dateTimeUTC?: string | undefined;
   /** The Value of the Timeseries data point */
-  value?: number;
+  value?: number | undefined;
 }
 /** The set of data points for the timeseries */
 export type TimeseriesPropertiesTimeseriesDataList = Array<TimeseriesDataPoint>;
 /** Defines the properties of a timeseries */
 export interface TimeseriesProperties {
   /** The endpoint associated with the Timeseries data point */
-  endpoint?: string;
+  endpoint?: string | undefined;
   /** The start DateTime of the Timeseries in UTC */
-  startDateTimeUTC?: string;
+  startDateTimeUTC?: string | undefined;
   /** The end DateTime of the Timeseries in UTC */
-  endDateTimeUTC?: string;
+  endDateTimeUTC?: string | undefined;
   /** The aggregation interval of the Timeseries */
-  aggregationInterval?: AggregationInterval;
+  aggregationInterval?: AggregationInterval | undefined;
   /** The type of Timeseries */
-  timeseriesType?: TimeseriesType;
+  timeseriesType?: TimeseriesType | undefined;
   /** The country associated with the Timeseries. Values are country ISO codes as specified here- https://www.iso.org/iso-3166-country-codes.html */
-  country?: string;
+  country?: string | undefined;
   /** The set of data points for the timeseries */
-  timeseriesData?: TimeseriesPropertiesTimeseriesDataList;
+  timeseriesData?: TimeseriesPropertiesTimeseriesDataList | undefined;
 }
 export interface GetReportTimeseriesResponse {
   /** Resource ID. */
-  id?: string;
+  id?: string | undefined;
   /** Resource name. */
-  name?: string;
+  name?: string | undefined;
   /** Resource type. */
-  type?: string;
+  type?: string | undefined;
   /** Resource location. */
-  location?: string;
+  location?: string | undefined;
   /** Resource tags. */
-  tags?: GetReportTimeseriesResponseTagsMap;
+  tags?: GetReportTimeseriesResponseTagsMap | undefined;
   /** The properties of a Timeseries */
-  properties?: TimeseriesProperties;
+  properties?: TimeseriesProperties | undefined;
 }
 export interface GetRulesEngineRequest {
   /** The ID of the target subscription. */
@@ -1472,13 +1478,13 @@ export interface GetRulesEngineRequest {
 }
 export interface GetRulesEngineResponse {
   /** Resource ID. */
-  id?: string;
+  id?: string | undefined;
   /** Resource name. */
-  name?: string;
+  name?: string | undefined;
   /** Resource type. */
-  type?: string;
+  type?: string | undefined;
   /** Properties of the Rules Engine Configuration. */
-  properties?: RulesEngineProperties;
+  properties?: RulesEngineProperties | undefined;
 }
 export interface ListExperimentByProfileRequest {
   /** The ID of the target subscription. */
@@ -1493,17 +1499,17 @@ export type ExperimentTagsMap = { [key: string]: string | undefined };
 /** Defines the properties of an Experiment */
 export interface Experiment {
   /** Resource ID. */
-  id?: string;
+  id?: string | undefined;
   /** Resource name. */
-  name?: string;
+  name?: string | undefined;
   /** Resource type. */
-  type?: string;
+  type?: string | undefined;
   /** Resource location. */
-  location?: string;
+  location?: string | undefined;
   /** Resource tags. */
-  tags?: ExperimentTagsMap;
+  tags?: ExperimentTagsMap | undefined;
   /** The properties of an Experiment */
-  properties?: ExperimentProperties;
+  properties?: ExperimentProperties | undefined;
 }
 /** The Experiment items on this page */
 export type ExperimentListValueList = Array<Experiment>;
@@ -1512,7 +1518,7 @@ export interface ExperimentList {
   /** The Experiment items on this page */
   value: ExperimentListValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListFrontDoorByResourceGroupRequest {
   /** The ID of the target subscription. */
@@ -1525,17 +1531,17 @@ export type FrontDoorTagsMap = { [key: string]: string | undefined };
 /** Front Door represents a collection of backend endpoints to route traffic to along with rules that specify how traffic is sent there. */
 export interface FrontDoor {
   /** Resource ID. */
-  id?: string;
+  id?: string | undefined;
   /** Resource name. */
-  name?: string;
+  name?: string | undefined;
   /** Resource type. */
-  type?: string;
+  type?: string | undefined;
   /** Resource location. */
-  location?: string;
+  location?: string | undefined;
   /** Resource tags. */
-  tags?: FrontDoorTagsMap;
+  tags?: FrontDoorTagsMap | undefined;
   /** Properties of the Front Door Load Balancer */
-  properties?: FrontDoorProperties;
+  properties?: FrontDoorProperties | undefined;
 }
 /** The FrontDoor items on this page */
 export type FrontDoorListResultValueList = Array<FrontDoor>;
@@ -1544,7 +1550,7 @@ export interface FrontDoorListResult {
   /** The FrontDoor items on this page */
   value: FrontDoorListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListFrontDoorsRequest {
   /** The ID of the target subscription. */
@@ -1565,7 +1571,7 @@ export interface FrontendEndpointsListResult {
   /** The FrontendEndpoint items on this page */
   value: FrontendEndpointsListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListManagedRuleSetsRequest {
   /** The ID of the target subscription. */
@@ -1578,28 +1584,28 @@ export type ParanoiaLevel = "PL1" | "PL2" | "PL3" | "PL4";
 /** Describes a managed rule definition. */
 export interface ManagedRuleDefinition {
   /** Identifier for the managed rule. */
-  ruleId?: string;
+  ruleId?: string | undefined;
   /** Describes the default state for the managed rule. */
-  defaultState?: ManagedRuleEnabledState;
+  defaultState?: ManagedRuleEnabledState | undefined;
   /** Describes the default action to be applied when the managed rule matches. */
-  defaultAction?: ActionType;
+  defaultAction?: ActionType | undefined;
   /** Describes the default sensitivity to be applied when the managed rule matches. */
-  defaultSensitivity?: SensitivityType;
+  defaultSensitivity?: SensitivityType | undefined;
   /** Describes the functionality of the managed rule. */
-  description?: string;
+  description?: string | undefined;
   /** Describes the paranoia level of the managed rule. Applicable only for DRS rules. Omitted for Bot Manager, DDoS, and AI rules. */
-  paranoiaLevel?: ParanoiaLevel;
+  paranoiaLevel?: ParanoiaLevel | undefined;
 }
 /** List of rules within the managed rule group. */
 export type ManagedRuleGroupDefinitionRulesList = Array<ManagedRuleDefinition>;
 /** Describes a managed rule group. */
 export interface ManagedRuleGroupDefinition {
   /** Name of the managed rule group. */
-  ruleGroupName?: string;
+  ruleGroupName?: string | undefined;
   /** Description of the managed rule group. */
-  description?: string;
+  description?: string | undefined;
   /** List of rules within the managed rule group. */
-  rules?: ManagedRuleGroupDefinitionRulesList;
+  rules?: ManagedRuleGroupDefinitionRulesList | undefined;
 }
 /** Rule groups of the managed rule set. */
 export type ManagedRuleSetDefinitionPropertiesRuleGroupsList = Array<ManagedRuleGroupDefinition>;
@@ -1608,34 +1614,34 @@ export type ManagedRuleSetStatus = "Preview" | "GA" | "Deprecated" | "Supported"
 /** Properties for a managed rule set definition. */
 export interface ManagedRuleSetDefinitionProperties {
   /** Provisioning state of the managed rule set. */
-  provisioningState?: string;
+  provisioningState?: string | undefined;
   /** Id of the managed rule set. */
-  ruleSetId?: string;
+  ruleSetId?: string | undefined;
   /** Type of the managed rule set. */
-  ruleSetType?: string;
+  ruleSetType?: string | undefined;
   /** Version of the managed rule set type. */
-  ruleSetVersion?: string;
+  ruleSetVersion?: string | undefined;
   /** Rule groups of the managed rule set. */
-  ruleGroups?: ManagedRuleSetDefinitionPropertiesRuleGroupsList;
+  ruleGroups?: ManagedRuleSetDefinitionPropertiesRuleGroupsList | undefined;
   /** Human-readable display name for the managed rule set version (e.g., 'Default Ruleset 2.2 (Latest, Recommended)'). */
-  displayName?: string;
+  displayName?: string | undefined;
   /** Describes the lifecycle status of the managed rule set version. */
-  status?: ManagedRuleSetStatus;
+  status?: ManagedRuleSetStatus | undefined;
 }
 /** Describes the a managed rule set definition. */
 export interface ManagedRuleSetDefinition {
   /** Resource ID. */
-  id?: string;
+  id?: string | undefined;
   /** Resource name. */
-  name?: string;
+  name?: string | undefined;
   /** Resource type. */
-  type?: string;
+  type?: string | undefined;
   /** Resource location. */
-  location?: string;
+  location?: string | undefined;
   /** Resource tags. */
-  tags?: ManagedRuleSetDefinitionTagsMap;
+  tags?: ManagedRuleSetDefinitionTagsMap | undefined;
   /** Properties for a managed rule set definition. */
-  properties?: ManagedRuleSetDefinitionProperties;
+  properties?: ManagedRuleSetDefinitionProperties | undefined;
 }
 /** The ManagedRuleSetDefinition items on this page */
 export type ManagedRuleSetDefinitionListValueList = Array<ManagedRuleSetDefinition>;
@@ -1644,7 +1650,7 @@ export interface ManagedRuleSetDefinitionList {
   /** The ManagedRuleSetDefinition items on this page */
   value: ManagedRuleSetDefinitionListValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListNetworkExperimentProfileByResourceGroupRequest {
   /** The ID of the target subscription. */
@@ -1657,19 +1663,19 @@ export type ProfileTagsMap = { [key: string]: string | undefined };
 /** Defines an Network Experiment Profile and lists of Experiments */
 export interface Profile {
   /** Resource ID. */
-  id?: string;
+  id?: string | undefined;
   /** Resource name. */
-  name?: string;
+  name?: string | undefined;
   /** Resource type. */
-  type?: string;
+  type?: string | undefined;
   /** Resource location. */
-  location?: string;
+  location?: string | undefined;
   /** Resource tags. */
-  tags?: ProfileTagsMap;
+  tags?: ProfileTagsMap | undefined;
   /** The properties of a Profile */
-  properties?: ProfileProperties;
+  properties?: ProfileProperties | undefined;
   /** Gets a unique read-only string that changes whenever the resource is updated. */
-  etag?: string;
+  etag?: string | undefined;
 }
 /** The Profile items on this page */
 export type ProfileListValueList = Array<Profile>;
@@ -1678,7 +1684,7 @@ export interface ProfileList {
   /** The Profile items on this page */
   value: ProfileListValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListNetworkExperimentProfilesRequest {
   /** The ID of the target subscription. */
@@ -1695,21 +1701,21 @@ export type WebApplicationFirewallPolicyTagsMap = { [key: string]: string | unde
 /** Defines web application firewall policy. */
 export interface WebApplicationFirewallPolicy {
   /** Resource ID. */
-  id?: string;
+  id?: string | undefined;
   /** Resource name. */
-  name?: string;
+  name?: string | undefined;
   /** Resource type. */
-  type?: string;
+  type?: string | undefined;
   /** Resource location. */
-  location?: string;
+  location?: string | undefined;
   /** Resource tags. */
-  tags?: WebApplicationFirewallPolicyTagsMap;
+  tags?: WebApplicationFirewallPolicyTagsMap | undefined;
   /** Properties of the web application firewall policy. */
-  properties?: WebApplicationFirewallPolicyProperties;
+  properties?: WebApplicationFirewallPolicyProperties | undefined;
   /** Gets a unique read-only string that changes whenever the resource is updated. */
-  etag?: string;
+  etag?: string | undefined;
   /** The pricing tier of web application firewall policy. Defaults to Classic_AzureFrontDoor if not specified. */
-  sku?: Sku;
+  sku?: Sku | undefined;
 }
 /** The WebApplicationFirewallPolicy items on this page */
 export type WebApplicationFirewallPolicyListValueList = Array<WebApplicationFirewallPolicy>;
@@ -1718,7 +1724,7 @@ export interface WebApplicationFirewallPolicyList {
   /** The WebApplicationFirewallPolicy items on this page */
   value: WebApplicationFirewallPolicyListValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListPolicyBySubscriptionRequest {
   /** The ID of the target subscription. */
@@ -1739,28 +1745,28 @@ export type EndpointType = "AFD" | "AzureRegion" | "CDN" | "ATM";
 /** Defines the properties of a preconfigured endpoint */
 export interface PreconfiguredEndpointProperties {
   /** The description of the endpoint */
-  description?: string;
+  description?: string | undefined;
   /** The endpoint that is preconfigured */
-  endpoint?: string;
+  endpoint?: string | undefined;
   /** The type of endpoint */
-  endpointType?: EndpointType;
+  endpointType?: EndpointType | undefined;
   /** The preconfigured endpoint backend */
-  backend?: string;
+  backend?: string | undefined;
 }
 /** Defines the properties of a preconfigured endpoint */
 export interface PreconfiguredEndpoint {
   /** Resource ID. */
-  id?: string;
+  id?: string | undefined;
   /** Resource name. */
-  name?: string;
+  name?: string | undefined;
   /** Resource type. */
-  type?: string;
+  type?: string | undefined;
   /** Resource location. */
-  location?: string;
+  location?: string | undefined;
   /** Resource tags. */
-  tags?: PreconfiguredEndpointTagsMap;
+  tags?: PreconfiguredEndpointTagsMap | undefined;
   /** The properties of a preconfiguredEndpoint */
-  properties?: PreconfiguredEndpointProperties;
+  properties?: PreconfiguredEndpointProperties | undefined;
 }
 /** The PreconfiguredEndpoint items on this page */
 export type PreconfiguredEndpointListValueList = Array<PreconfiguredEndpoint>;
@@ -1769,7 +1775,7 @@ export interface PreconfiguredEndpointList {
   /** The PreconfiguredEndpoint items on this page */
   value: PreconfiguredEndpointListValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListRulesEngineByFrontDoorRequest {
   /** The ID of the target subscription. */
@@ -1786,7 +1792,7 @@ export interface RulesEngineListResult {
   /** The RulesEngine items on this page */
   value: RulesEngineListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type NetworkExperimentProfilesCreateOrUpdateRequestTagsMap = {
@@ -1800,13 +1806,13 @@ export interface NetworkExperimentProfilesCreateOrUpdateRequest {
   /** The Profile identifier associated with the Tenant and Partner */
   profileName: string;
   /** Resource location. */
-  location?: string;
+  location?: string | undefined;
   /** Resource tags. */
-  tags?: NetworkExperimentProfilesCreateOrUpdateRequestTagsMap;
+  tags?: NetworkExperimentProfilesCreateOrUpdateRequestTagsMap | undefined;
   /** The properties of a Profile */
-  properties?: ProfileProperties;
+  properties?: ProfileProperties | undefined;
   /** Gets a unique read-only string that changes whenever the resource is updated. */
-  etag?: string;
+  etag?: string | undefined;
 }
 /** Resource tags. */
 export type NetworkExperimentProfilesCreateOrUpdateResponseTagsMap = {
@@ -1814,34 +1820,34 @@ export type NetworkExperimentProfilesCreateOrUpdateResponseTagsMap = {
 };
 export interface NetworkExperimentProfilesCreateOrUpdateResponse {
   /** Resource ID. */
-  id?: string;
+  id?: string | undefined;
   /** Resource name. */
-  name?: string;
+  name?: string | undefined;
   /** Resource type. */
-  type?: string;
+  type?: string | undefined;
   /** Resource location. */
-  location?: string;
+  location?: string | undefined;
   /** Resource tags. */
-  tags?: NetworkExperimentProfilesCreateOrUpdateResponseTagsMap;
+  tags?: NetworkExperimentProfilesCreateOrUpdateResponseTagsMap | undefined;
   /** The properties of a Profile */
-  properties?: ProfileProperties;
+  properties?: ProfileProperties | undefined;
   /** Gets a unique read-only string that changes whenever the resource is updated. */
-  etag?: string;
+  etag?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  locationHeader?: string;
+  locationHeader?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Resource tags. */
 export type PoliciesCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
 /** Defines web application firewall policy properties. */
 export interface WebApplicationFirewallPolicyPropertiesInput {
   /** Describes settings for the policy. */
-  policySettings?: PolicySettings;
+  policySettings?: PolicySettings | undefined;
   /** Describes custom rules inside the policy. */
-  customRules?: CustomRuleList;
+  customRules?: CustomRuleList | undefined;
   /** Describes managed rules inside the policy. */
-  managedRules?: ManagedRuleSetList;
+  managedRules?: ManagedRuleSetList | undefined;
 }
 export interface PoliciesCreateOrUpdateRequest {
   /** The ID of the target subscription. */
@@ -1851,39 +1857,39 @@ export interface PoliciesCreateOrUpdateRequest {
   /** The name of the Web Application Firewall Policy. */
   policyName: string;
   /** Resource location. */
-  location?: string;
+  location?: string | undefined;
   /** Resource tags. */
-  tags?: PoliciesCreateOrUpdateRequestTagsMap;
+  tags?: PoliciesCreateOrUpdateRequestTagsMap | undefined;
   /** Properties of the web application firewall policy. */
-  properties?: WebApplicationFirewallPolicyPropertiesInput;
+  properties?: WebApplicationFirewallPolicyPropertiesInput | undefined;
   /** Gets a unique read-only string that changes whenever the resource is updated. */
-  etag?: string;
+  etag?: string | undefined;
   /** The pricing tier of web application firewall policy. Defaults to Classic_AzureFrontDoor if not specified. */
-  sku?: Sku;
+  sku?: Sku | undefined;
 }
 /** Resource tags. */
 export type PoliciesCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
 export interface PoliciesCreateOrUpdateResponse {
   /** Resource ID. */
-  id?: string;
+  id?: string | undefined;
   /** Resource name. */
-  name?: string;
+  name?: string | undefined;
   /** Resource type. */
-  type?: string;
+  type?: string | undefined;
   /** Resource location. */
-  location?: string;
+  location?: string | undefined;
   /** Resource tags. */
-  tags?: PoliciesCreateOrUpdateResponseTagsMap;
+  tags?: PoliciesCreateOrUpdateResponseTagsMap | undefined;
   /** Properties of the web application firewall policy. */
-  properties?: WebApplicationFirewallPolicyProperties;
+  properties?: WebApplicationFirewallPolicyProperties | undefined;
   /** Gets a unique read-only string that changes whenever the resource is updated. */
-  etag?: string;
+  etag?: string | undefined;
   /** The pricing tier of web application firewall policy. Defaults to Classic_AzureFrontDoor if not specified. */
-  sku?: Sku;
+  sku?: Sku | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  locationHeader?: string;
+  locationHeader?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** The path to the content to be purged. Can describe a file path or a wild card directory. */
 export type PurgeEndpointContentRequestContentPathsList = Array<string>;
@@ -1899,9 +1905,9 @@ export interface PurgeEndpointContentRequest {
 }
 export interface PurgeEndpointContentResponse {
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface RulesEnginesCreateOrUpdateRequest {
   /** The ID of the target subscription. */
@@ -1913,30 +1919,30 @@ export interface RulesEnginesCreateOrUpdateRequest {
   /** Name of the Rules Engine which is unique within the Front Door. */
   rulesEngineName: string;
   /** Properties of the Rules Engine Configuration. */
-  properties?: RulesEngineProperties;
+  properties?: RulesEngineProperties | undefined;
 }
 export interface RulesEnginesCreateOrUpdateResponse {
   /** Resource ID. */
-  id?: string;
+  id?: string | undefined;
   /** Resource name. */
-  name?: string;
+  name?: string | undefined;
   /** Resource type. */
-  type?: string;
+  type?: string | undefined;
   /** Properties of the Rules Engine Configuration. */
-  properties?: RulesEngineProperties;
+  properties?: RulesEngineProperties | undefined;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Resource tags. */
 export type UpdateExperimentRequestTagsMap = { [key: string]: string | undefined };
 /** Defines the properties of an experiment */
 export interface ExperimentUpdateProperties {
   /** The description of the intent or details of the Experiment */
-  description?: string;
+  description?: string | undefined;
   /** The state of the Experiment */
-  enabledState?: State | (string & {});
+  enabledState?: State | (string & {}) | undefined;
 }
 export interface UpdateExperimentRequest {
   /** The ID of the target subscription. */
@@ -1948,34 +1954,34 @@ export interface UpdateExperimentRequest {
   /** The Experiment identifier associated with the Experiment */
   experimentName: string;
   /** Resource tags. */
-  tags?: UpdateExperimentRequestTagsMap;
+  tags?: UpdateExperimentRequestTagsMap | undefined;
   /** The properties of a Profile */
-  properties?: ExperimentUpdateProperties;
+  properties?: ExperimentUpdateProperties | undefined;
 }
 /** Resource tags. */
 export type UpdateExperimentResponseTagsMap = { [key: string]: string | undefined };
 export interface UpdateExperimentResponse {
   /** Resource ID. */
-  id?: string;
+  id?: string | undefined;
   /** Resource name. */
-  name?: string;
+  name?: string | undefined;
   /** Resource type. */
-  type?: string;
+  type?: string | undefined;
   /** Resource location. */
-  location?: string;
+  location?: string | undefined;
   /** Resource tags. */
-  tags?: UpdateExperimentResponseTagsMap;
+  tags?: UpdateExperimentResponseTagsMap | undefined;
   /** The properties of an Experiment */
-  properties?: ExperimentProperties;
+  properties?: ExperimentProperties | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  locationHeader?: string;
+  locationHeader?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Defines the properties of an experiment */
 export interface ProfileUpdateProperties {
   /** The enabled state of the Profile */
-  enabledState?: State | (string & {});
+  enabledState?: State | (string & {}) | undefined;
 }
 /** Resource tags. */
 export type UpdateNetworkExperimentProfileRequestTagsMap = { [key: string]: string | undefined };
@@ -1987,31 +1993,31 @@ export interface UpdateNetworkExperimentProfileRequest {
   /** The Profile identifier associated with the Tenant and Partner */
   profileName: string;
   /** The properties of a Profile */
-  properties?: ProfileUpdateProperties;
+  properties?: ProfileUpdateProperties | undefined;
   /** Resource tags. */
-  tags?: UpdateNetworkExperimentProfileRequestTagsMap;
+  tags?: UpdateNetworkExperimentProfileRequestTagsMap | undefined;
 }
 /** Resource tags. */
 export type UpdateNetworkExperimentProfileResponseTagsMap = { [key: string]: string | undefined };
 export interface UpdateNetworkExperimentProfileResponse {
   /** Resource ID. */
-  id?: string;
+  id?: string | undefined;
   /** Resource name. */
-  name?: string;
+  name?: string | undefined;
   /** Resource type. */
-  type?: string;
+  type?: string | undefined;
   /** Resource location. */
-  location?: string;
+  location?: string | undefined;
   /** Resource tags. */
-  tags?: UpdateNetworkExperimentProfileResponseTagsMap;
+  tags?: UpdateNetworkExperimentProfileResponseTagsMap | undefined;
   /** The properties of a Profile */
-  properties?: ProfileProperties;
+  properties?: ProfileProperties | undefined;
   /** Gets a unique read-only string that changes whenever the resource is updated. */
-  etag?: string;
+  etag?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  locationHeader?: string;
+  locationHeader?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Resource tags. */
 export type UpdatePolicyRequestTagsMap = { [key: string]: string | undefined };
@@ -2023,31 +2029,31 @@ export interface UpdatePolicyRequest {
   /** The name of the Web Application Firewall Policy. */
   policyName: string;
   /** Resource tags. */
-  tags?: UpdatePolicyRequestTagsMap;
+  tags?: UpdatePolicyRequestTagsMap | undefined;
 }
 /** Resource tags. */
 export type UpdatePolicyResponseTagsMap = { [key: string]: string | undefined };
 export interface UpdatePolicyResponse {
   /** Resource ID. */
-  id?: string;
+  id?: string | undefined;
   /** Resource name. */
-  name?: string;
+  name?: string | undefined;
   /** Resource type. */
-  type?: string;
+  type?: string | undefined;
   /** Resource location. */
-  location?: string;
+  location?: string | undefined;
   /** Resource tags. */
-  tags?: UpdatePolicyResponseTagsMap;
+  tags?: UpdatePolicyResponseTagsMap | undefined;
   /** Properties of the web application firewall policy. */
-  properties?: WebApplicationFirewallPolicyProperties;
+  properties?: WebApplicationFirewallPolicyProperties | undefined;
   /** Gets a unique read-only string that changes whenever the resource is updated. */
-  etag?: string;
+  etag?: string | undefined;
   /** The pricing tier of web application firewall policy. Defaults to Classic_AzureFrontDoor if not specified. */
-  sku?: Sku;
+  sku?: Sku | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  locationHeader?: string;
+  locationHeader?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface ValidateFrontDoorCustomDomainRequest {
   /** The ID of the target subscription. */
@@ -2062,11 +2068,11 @@ export interface ValidateFrontDoorCustomDomainRequest {
 /** Output of custom domain validation. */
 export interface ValidateCustomDomainOutput {
   /** Indicates whether the custom domain is valid or not. */
-  customDomainValidated?: boolean;
+  customDomainValidated?: boolean | undefined;
   /** The reason why the custom domain is not valid. */
-  reason?: string;
+  reason?: string | undefined;
   /** Error message describing why the custom domain is not valid. */
-  message?: string;
+  message?: string | undefined;
 }
 export type CheckFrontDoorNameAvailabilityError = AzureOpError;
 /** Check the availability of a Front Door resource name. */

@@ -29,6 +29,7 @@ const TELEMETRY = {
   prefix: "Datafactory",
   service: "Datafactory",
   labels: "azure",
+  labelNames: { resourceGroupName: "azure.resource_group.name" },
   propagate: "w3c",
 } as const;
 
@@ -37,25 +38,25 @@ export type DataFlowAnnotationsList = Array<unknown>;
 /** The folder that this data flow is in. If not specified, Data flow will appear at the root level. */
 export interface DataFlowFolder {
   /** The name of the folder that this data flow is in. */
-  name?: string;
+  name?: string | undefined;
 }
 /** Azure Data Factory nested object which contains a flow with data movements and transformations. */
 export interface DataFlow {
   /** Type of data flow. */
   type: string;
   /** The description of the data flow. */
-  description?: string;
+  description?: string | undefined;
   /** List of tags that can be used for describing the data flow. */
-  annotations?: DataFlowAnnotationsList;
+  annotations?: DataFlowAnnotationsList | undefined;
   /** The folder that this data flow is in. If not specified, Data flow will appear at the root level. */
-  folder?: DataFlowFolder;
+  folder?: DataFlowFolder | undefined;
   /** Type-specific data flow properties (polymorphic on `type`). */
-  typeProperties?: unknown;
+  typeProperties?: unknown | undefined;
 }
 /** Data flow debug resource. */
 export interface DataFlowDebugResource {
   /** The resource name. */
-  name?: string;
+  name?: string | undefined;
   /** Data flow properties. */
   properties: DataFlow;
 }
@@ -72,7 +73,7 @@ export interface LinkedServiceReference {
   /** Reference LinkedService name. */
   referenceName: string;
   /** Arguments for LinkedService. */
-  parameters?: LinkedServiceReferenceParametersMap;
+  parameters?: LinkedServiceReferenceParametersMap | undefined;
 }
 /** Parameter type. */
 export type ParameterType =
@@ -88,7 +89,7 @@ export interface ParameterSpecification {
   /** Parameter type. */
   type: ParameterType | (string & {});
   /** Default value of parameter. */
-  defaultValue?: unknown;
+  defaultValue?: unknown | undefined;
 }
 /** Parameters for dataset. */
 export type DatasetParametersMap = { [key: string]: ParameterSpecification | undefined };
@@ -97,34 +98,34 @@ export type DatasetAnnotationsList = Array<unknown>;
 /** The folder that this Dataset is in. If not specified, Dataset will appear at the root level. */
 export interface DatasetFolder {
   /** The name of the folder that this Dataset is in. */
-  name?: string;
+  name?: string | undefined;
 }
 /** The Azure Data Factory nested object which identifies data within different data stores, such as tables, files, folders, and documents. */
 export interface Dataset {
   /** Type of dataset. */
   type: string;
   /** Dataset description. */
-  description?: string;
+  description?: string | undefined;
   /** Columns that define the structure of the dataset. Type: array (or Expression with resultType array), itemType: DatasetDataElement. */
-  structure?: unknown;
+  structure?: unknown | undefined;
   /** Columns that define the physical type schema of the dataset. Type: array (or Expression with resultType array), itemType: DatasetSchemaDataElement. */
-  schema?: unknown;
+  schema?: unknown | undefined;
   /** Linked service reference. */
   linkedServiceName: LinkedServiceReference;
   /** Parameters for dataset. */
-  parameters?: DatasetParametersMap;
+  parameters?: DatasetParametersMap | undefined;
   /** List of tags that can be used for describing the Dataset. */
-  annotations?: DatasetAnnotationsList;
+  annotations?: DatasetAnnotationsList | undefined;
   /** The folder that this Dataset is in. If not specified, Dataset will appear at the root level. */
-  folder?: DatasetFolder;
+  folder?: DatasetFolder | undefined;
   /** Type-specific dataset properties (polymorphic on `type`). */
-  typeProperties?: unknown;
+  typeProperties?: unknown | undefined;
   [key: string]: unknown;
 }
 /** Dataset debug resource. */
 export interface DatasetDebugResource {
   /** The resource name. */
-  name?: string;
+  name?: string | undefined;
   /** Dataset properties. */
   properties: Dataset;
 }
@@ -141,7 +142,7 @@ export interface IntegrationRuntimeReference {
   /** Reference integration runtime name. */
   referenceName: string;
   /** Arguments for integration runtime. */
-  parameters?: IntegrationRuntimeReferenceParametersMap;
+  parameters?: IntegrationRuntimeReferenceParametersMap | undefined;
 }
 /** Parameters for linked service. */
 export type LinkedServiceParametersMap = { [key: string]: ParameterSpecification | undefined };
@@ -152,23 +153,23 @@ export interface LinkedService {
   /** Type of linked service. */
   type: string;
   /** Version of the linked service. */
-  version?: string;
+  version?: string | undefined;
   /** The integration runtime reference. */
-  connectVia?: IntegrationRuntimeReference;
+  connectVia?: IntegrationRuntimeReference | undefined;
   /** Linked service description. */
-  description?: string;
+  description?: string | undefined;
   /** Parameters for linked service. */
-  parameters?: LinkedServiceParametersMap;
+  parameters?: LinkedServiceParametersMap | undefined;
   /** List of tags that can be used for describing the linked service. */
-  annotations?: LinkedServiceAnnotationsList;
+  annotations?: LinkedServiceAnnotationsList | undefined;
   /** Type-specific linked service properties (polymorphic on `type`). */
-  typeProperties?: unknown;
+  typeProperties?: unknown | undefined;
   [key: string]: unknown;
 }
 /** Linked service debug resource. */
 export interface LinkedServiceDebugResource {
   /** The resource name. */
-  name?: string;
+  name?: string | undefined;
   /** Properties of linked service. */
   properties: LinkedService;
 }
@@ -178,16 +179,16 @@ export type AddDataFlowDebugSessionDataFlowRequestLinkedServicesList =
 /** Staging info for execute data flow activity. */
 export interface DataFlowStagingInfo {
   /** Staging linked service reference. */
-  linkedService?: LinkedServiceReference;
+  linkedService?: LinkedServiceReference | undefined;
   /** Folder path for staging blob. Type: string (or Expression with resultType string) */
-  folderPath?: unknown;
+  folderPath?: unknown | undefined;
 }
 /** Definition of data flow source setting for debug. */
 export interface DataFlowSourceSetting {
   /** The data flow source name. */
-  sourceName?: string;
+  sourceName?: string | undefined;
   /** Defines the row limit of data flow source in debug. */
-  rowLimit?: number;
+  rowLimit?: number | undefined;
   [key: string]: unknown;
 }
 /** Source setting for data flow debug. */
@@ -197,11 +198,11 @@ export type DataFlowDebugPackageDebugSettingsParametersMap = { [key: string]: un
 /** Data flow debug settings. */
 export interface DataFlowDebugPackageDebugSettings {
   /** Source setting for data flow debug. */
-  sourceSettings?: DataFlowDebugPackageDebugSettingsSourceSettingsList;
+  sourceSettings?: DataFlowDebugPackageDebugSettingsSourceSettingsList | undefined;
   /** Data flow parameters. */
-  parameters?: DataFlowDebugPackageDebugSettingsParametersMap;
+  parameters?: DataFlowDebugPackageDebugSettingsParametersMap | undefined;
   /** Parameters for dataset. */
-  datasetParameters?: unknown;
+  datasetParameters?: unknown | undefined;
 }
 export interface AddDataFlowDebugSessionDataFlowRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -211,24 +212,24 @@ export interface AddDataFlowDebugSessionDataFlowRequest {
   /** The factory name. */
   factoryName: string;
   /** The ID of data flow debug session. */
-  sessionId?: string;
+  sessionId?: string | undefined;
   /** Data flow instance. */
-  dataFlow?: DataFlowDebugResource;
+  dataFlow?: DataFlowDebugResource | undefined;
   /** List of Data flows */
-  dataFlows?: AddDataFlowDebugSessionDataFlowRequestDataFlowsList;
+  dataFlows?: AddDataFlowDebugSessionDataFlowRequestDataFlowsList | undefined;
   /** List of datasets. */
-  datasets?: AddDataFlowDebugSessionDataFlowRequestDatasetsList;
+  datasets?: AddDataFlowDebugSessionDataFlowRequestDatasetsList | undefined;
   /** List of linked services. */
-  linkedServices?: AddDataFlowDebugSessionDataFlowRequestLinkedServicesList;
+  linkedServices?: AddDataFlowDebugSessionDataFlowRequestLinkedServicesList | undefined;
   /** Staging info for debug session. */
-  staging?: DataFlowStagingInfo;
+  staging?: DataFlowStagingInfo | undefined;
   /** Data flow debug settings. */
-  debugSettings?: DataFlowDebugPackageDebugSettings;
+  debugSettings?: DataFlowDebugPackageDebugSettings | undefined;
 }
 /** Response body structure for starting data flow debug session. */
 export interface AddDataFlowToDebugSessionResponse {
   /** The ID of data flow debug job version. */
-  jobVersion?: string;
+  jobVersion?: string | undefined;
 }
 export interface CancelPipelineRunRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -239,7 +240,7 @@ export interface CancelPipelineRunRequest {
   /** The pipeline run identifier. */
   runId: string;
   /** If true, cancel all the Child pipelines that are triggered by the current pipeline. */
-  isRecursive?: boolean;
+  isRecursive?: boolean | undefined;
 }
 export interface CancelPipelineRunResponse {}
 export interface CancelTriggerRunRequest {
@@ -256,39 +257,39 @@ export interface CancelTriggerRunResponse {}
 /** The folder that this CDC is in. If not specified, CDC will appear at the root level. */
 export interface ChangeDataCaptureFolder {
   /** The name of the folder that this CDC is in. */
-  name?: string;
+  name?: string | undefined;
 }
 /** Schema of a CDC table in terms of column names and their corresponding data types. */
 export interface MapperTableSchema {
   /** Name of the column. */
-  name?: string;
+  name?: string | undefined;
   /** Data type of the column. */
-  dataType?: string;
+  dataType?: string | undefined;
 }
 /** List of columns for the source table. */
 export type MapperTablePropertiesSchemaList = Array<MapperTableSchema>;
 /** Connector properties of a CDC table in terms of name / value pairs. */
 export interface MapperDslConnectorProperties {
   /** Name of the property. */
-  name?: string;
+  name?: string | undefined;
   /** Value of the property. */
-  value?: unknown;
+  value?: unknown | undefined;
 }
 /** List of name/value pairs for connection properties. */
 export type MapperTablePropertiesDslConnectorPropertiesList = Array<MapperDslConnectorProperties>;
 /** Properties for a CDC table. */
 export interface MapperTableProperties {
   /** List of columns for the source table. */
-  schema?: MapperTablePropertiesSchemaList;
+  schema?: MapperTablePropertiesSchemaList | undefined;
   /** List of name/value pairs for connection properties. */
-  dslConnectorProperties?: MapperTablePropertiesDslConnectorPropertiesList;
+  dslConnectorProperties?: MapperTablePropertiesDslConnectorPropertiesList | undefined;
 }
 /** CDC table details. */
 export interface MapperTable {
   /** Name of the table. */
-  name?: string;
+  name?: string | undefined;
   /** Table properties. */
-  properties?: MapperTableProperties;
+  properties?: MapperTableProperties | undefined;
 }
 /** List of source tables for a source connection. */
 export type MapperSourceConnectionsInfoSourceEntitiesList = Array<MapperTable>;
@@ -299,22 +300,22 @@ export type MapperConnectionCommonDslConnectorPropertiesList = Array<MapperDslCo
 /** Source connection details. */
 export interface MapperConnection {
   /** Linked service reference. */
-  linkedService?: LinkedServiceReference;
+  linkedService?: LinkedServiceReference | undefined;
   /** Type of the linked service e.g.: AzureBlobFS. */
-  linkedServiceType?: string;
+  linkedServiceType?: string | undefined;
   /** Type of connection via linked service or dataset. */
   type: ConnectionType | (string & {});
   /** A boolean indicating whether linked service is of type inline dataset. Currently only inline datasets are supported. */
-  isInlineDataset?: boolean;
+  isInlineDataset?: boolean | undefined;
   /** List of name/value pairs for connection properties. */
-  commonDslConnectorProperties?: MapperConnectionCommonDslConnectorPropertiesList;
+  commonDslConnectorProperties?: MapperConnectionCommonDslConnectorPropertiesList | undefined;
 }
 /** A object which contains list of tables and connection details for a source connection. */
 export interface MapperSourceConnectionsInfo {
   /** List of source tables for a source connection. */
-  sourceEntities?: MapperSourceConnectionsInfoSourceEntitiesList;
+  sourceEntities?: MapperSourceConnectionsInfoSourceEntitiesList | undefined;
   /** Source connection details. */
-  connection?: MapperConnection;
+  connection?: MapperConnection | undefined;
 }
 /** List of sources connections that can be used as sources in the CDC. */
 export type ChangeDataCaptureSourceConnectionsInfoList = Array<MapperSourceConnectionsInfo>;
@@ -323,57 +324,57 @@ export type MapperTargetConnectionsInfoTargetEntitiesList = Array<MapperTable>;
 /** Source or target connection reference details. */
 export interface MapperConnectionReference {
   /** Name of the connection */
-  connectionName?: string;
+  connectionName?: string | undefined;
   /** Type of connection via linked service or dataset. */
-  type?: ConnectionType | (string & {});
+  type?: ConnectionType | (string & {}) | undefined;
 }
 /** Type of the CDC attribute mapping. Note: 'Advanced' mapping type is also saved as 'Derived'. */
 export type MappingType = "Direct" | "Derived" | "Aggregate";
 /** Attribute reference details for the referred column. */
 export interface MapperAttributeReference {
   /** Name of the column. */
-  name?: string;
+  name?: string | undefined;
   /** Name of the table. */
-  entity?: string;
+  entity?: string | undefined;
   /** The connection reference for the connection. */
-  entityConnectionReference?: MapperConnectionReference;
+  entityConnectionReference?: MapperConnectionReference | undefined;
 }
 /** List of references for source columns. It is used for 'Derived' and 'Aggregate' type mappings only. */
 export type MapperAttributeMappingAttributeReferencesList = Array<MapperAttributeReference>;
 /** Source and target column mapping details. */
 export interface MapperAttributeMapping {
   /** Name of the target column. */
-  name?: string;
+  name?: string | undefined;
   /** Type of the CDC attribute mapping. Note: 'Advanced' mapping type is also saved as 'Derived'. */
-  type?: MappingType | (string & {});
+  type?: MappingType | (string & {}) | undefined;
   /** Name of the function used for 'Aggregate' and 'Derived' (except 'Advanced') type mapping. */
-  functionName?: string;
+  functionName?: string | undefined;
   /** Expression used for 'Aggregate' and 'Derived' type mapping. */
-  expression?: string;
+  expression?: string | undefined;
   /** Reference of the source column used in the mapping. It is used for 'Direct' mapping type only. */
-  attributeReference?: MapperAttributeReference;
+  attributeReference?: MapperAttributeReference | undefined;
   /** List of references for source columns. It is used for 'Derived' and 'Aggregate' type mappings only. */
-  attributeReferences?: MapperAttributeMappingAttributeReferencesList;
+  attributeReferences?: MapperAttributeMappingAttributeReferencesList | undefined;
 }
 /** List of attribute mappings. */
 export type MapperAttributeMappingsAttributeMappingsList = Array<MapperAttributeMapping>;
 /** Attribute mapping details. */
 export interface MapperAttributeMappings {
   /** List of attribute mappings. */
-  attributeMappings?: MapperAttributeMappingsAttributeMappingsList;
+  attributeMappings?: MapperAttributeMappingsAttributeMappingsList | undefined;
 }
 /** Source and target table mapping details. */
 export interface DataMapperMapping {
   /** Name of the target table */
-  targetEntityName?: string;
+  targetEntityName?: string | undefined;
   /** Name of the source table */
-  sourceEntityName?: string;
+  sourceEntityName?: string | undefined;
   /** The connection reference for the source connection. */
-  sourceConnectionReference?: MapperConnectionReference;
+  sourceConnectionReference?: MapperConnectionReference | undefined;
   /** This holds the user provided attribute mapping information. */
-  attributeMappingInfo?: MapperAttributeMappings;
+  attributeMappingInfo?: MapperAttributeMappings | undefined;
   /** This holds the source denormalization information used while joining multiple sources. */
-  sourceDenormalizeInfo?: unknown;
+  sourceDenormalizeInfo?: unknown | undefined;
 }
 /** List of table mappings. */
 export type MapperTargetConnectionsInfoDataMapperMappingsList = Array<DataMapperMapping>;
@@ -382,13 +383,13 @@ export type MapperTargetConnectionsInfoRelationshipsList = Array<unknown>;
 /** A object which contains list of tables and connection details for a target connection. */
 export interface MapperTargetConnectionsInfo {
   /** List of source tables for a target connection. */
-  targetEntities?: MapperTargetConnectionsInfoTargetEntitiesList;
+  targetEntities?: MapperTargetConnectionsInfoTargetEntitiesList | undefined;
   /** Source connection details. */
-  connection?: MapperConnection;
+  connection?: MapperConnection | undefined;
   /** List of table mappings. */
-  dataMapperMappings?: MapperTargetConnectionsInfoDataMapperMappingsList;
+  dataMapperMappings?: MapperTargetConnectionsInfoDataMapperMappingsList | undefined;
   /** List of relationship info among the tables. */
-  relationships?: MapperTargetConnectionsInfoRelationshipsList;
+  relationships?: MapperTargetConnectionsInfoRelationshipsList | undefined;
 }
 /** List of target connections that can be used as sources in the CDC. */
 export type ChangeDataCaptureTargetConnectionsInfoList = Array<MapperTargetConnectionsInfo>;
@@ -397,23 +398,23 @@ export type FrequencyType = "Hour" | "Minute" | "Second";
 /** CDC policy recurrence details. */
 export interface MapperPolicyRecurrence {
   /** Frequency of period in terms of 'Hour', 'Minute' or 'Second'. */
-  frequency?: FrequencyType | (string & {});
+  frequency?: FrequencyType | (string & {}) | undefined;
   /** Actual interval value as per chosen frequency. */
-  interval?: number;
+  interval?: number | undefined;
 }
 /** CDC Policy. */
 export interface MapperPolicy {
   /** Mode of running the CDC: batch vs continuous. */
-  mode?: string;
+  mode?: string | undefined;
   /** Defines the frequency and interval for running the CDC for batch mode. */
-  recurrence?: MapperPolicyRecurrence;
+  recurrence?: MapperPolicyRecurrence | undefined;
 }
 /** A Azure Data Factory object which automatically detects data changes at the source and then sends the updated data to the destination. */
 export interface ChangeDataCapture {
   /** The folder that this CDC is in. If not specified, CDC will appear at the root level. */
-  folder?: ChangeDataCaptureFolder;
+  folder?: ChangeDataCaptureFolder | undefined;
   /** The description of the change data capture. */
-  description?: string;
+  description?: string | undefined;
   /** List of sources connections that can be used as sources in the CDC. */
   sourceConnectionsInfo: ChangeDataCaptureSourceConnectionsInfoList;
   /** List of target connections that can be used as sources in the CDC. */
@@ -421,9 +422,9 @@ export interface ChangeDataCapture {
   /** CDC policy */
   policy: MapperPolicy;
   /** A boolean to determine if the vnet configuration needs to be overwritten. */
-  allowVNetOverride?: boolean;
+  allowVNetOverride?: boolean | undefined;
   /** Status of the CDC as to if it is running or stopped. */
-  status?: string;
+  status?: string | undefined;
 }
 export interface ChangeDataCaptureCreateOrUpdateRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -444,31 +445,31 @@ export type SystemDataLastModifiedByType = "User" | "Application" | "ManagedIden
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface SystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: SystemDataCreatedByType;
+  createdByType?: SystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: SystemDataLastModifiedByType;
+  lastModifiedByType?: SystemDataLastModifiedByType | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 export interface ChangeDataCaptureCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Properties of the change data capture. */
   properties: ChangeDataCapture;
   /** "If etag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields.") */
-  etag?: string;
+  etag?: string | undefined;
 }
 export interface ChangeDataCaptureStatusRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -488,17 +489,17 @@ export interface IntegrationRuntime {
   /** Type of integration runtime. */
   type: IntegrationRuntimeType | (string & {});
   /** Integration runtime description. */
-  description?: string;
+  description?: string | undefined;
   /** Type-specific integration runtime properties (polymorphic on `type`). */
-  typeProperties?: unknown;
+  typeProperties?: unknown | undefined;
   /** Managed Virtual Network reference (Managed integration runtimes). */
-  managedVirtualNetwork?: unknown;
+  managedVirtualNetwork?: unknown | undefined;
   [key: string]: unknown;
 }
 /** Integration runtime debug resource. */
 export interface IntegrationRuntimeDebugResource {
   /** The resource name. */
-  name?: string;
+  name?: string | undefined;
   /** Integration runtime properties. */
   properties: IntegrationRuntime;
 }
@@ -510,24 +511,24 @@ export interface CreateDataFlowDebugSessionRequest {
   /** The factory name. */
   factoryName: string;
   /** Compute type of the cluster. The value will be overwritten by the same setting in integration runtime if provided. */
-  computeType?: string;
+  computeType?: string | undefined;
   /** Core count of the cluster. The value will be overwritten by the same setting in integration runtime if provided. */
-  coreCount?: number;
+  coreCount?: number | undefined;
   /** Time to live setting of the cluster in minutes. */
-  timeToLive?: number;
+  timeToLive?: number | undefined;
   /** Set to use integration runtime setting for data flow debug session. */
-  integrationRuntime?: IntegrationRuntimeDebugResource;
+  integrationRuntime?: IntegrationRuntimeDebugResource | undefined;
 }
 /** Response body structure for creating data flow debug session. */
 export interface CreateDataFlowDebugSessionResponse {
   /** The state of the debug session. */
-  status?: string;
+  status?: string | undefined;
   /** The ID of data flow debug session. */
-  sessionId?: string;
+  sessionId?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface CreateIntegrationRuntimeLinkedIntegrationRuntimeRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -539,11 +540,11 @@ export interface CreateIntegrationRuntimeLinkedIntegrationRuntimeRequest {
   /** The integration runtime name. */
   integrationRuntimeName: string;
   /** The name of the linked integration runtime. */
-  name?: string;
+  name?: string | undefined;
   /** The name of the data factory that the linked integration runtime belongs to. */
-  dataFactoryName?: string;
+  dataFactoryName?: string | undefined;
   /** The location of the data factory that the linked integration runtime belongs to. */
-  dataFactoryLocation?: string;
+  dataFactoryLocation?: string | undefined;
 }
 /** The state of integration runtime. */
 export type IntegrationRuntimeState =
@@ -562,15 +563,15 @@ export interface IntegrationRuntimeStatus {
   /** Type of integration runtime. */
   type: IntegrationRuntimeType;
   /** The data factory name which the integration runtime belong to. */
-  dataFactoryName?: string;
+  dataFactoryName?: string | undefined;
   /** The state of integration runtime. */
-  state?: IntegrationRuntimeState;
+  state?: IntegrationRuntimeState | undefined;
   [key: string]: unknown;
 }
 /** Integration runtime status response. */
 export interface IntegrationRuntimeStatusResponse {
   /** The integration runtime name. */
-  name?: string;
+  name?: string | undefined;
   /** Integration runtime properties. */
   properties: IntegrationRuntimeStatus;
 }
@@ -585,14 +586,14 @@ export interface CreatePipelineRunRequest {
   /** The pipeline name. */
   pipelineName: string;
   /** The pipeline run identifier. If run ID is specified the parameters of the specified run will be used to create a new run. */
-  referencePipelineRunId?: string;
+  referencePipelineRunId?: string | undefined;
   /** Recovery mode flag. If recovery mode is set to true, the specified referenced pipeline run and the new run will be grouped under the same groupId. */
-  isRecovery?: boolean;
+  isRecovery?: boolean | undefined;
   /** In recovery mode, the rerun will start from this activity. If not specified, all activities will run. */
-  startActivityName?: string;
+  startActivityName?: string | undefined;
   /** In recovery mode, if set to true, the rerun will start from failed activities. The property will be used only if startActivityName is not specified. */
-  startFromFailure?: boolean;
-  body?: CreatePipelineRunRequestBodyMap;
+  startFromFailure?: boolean | undefined;
+  body?: CreatePipelineRunRequestBodyMap | undefined;
 }
 /** Response body with a run identifier. */
 export interface CreateRunResponse {
@@ -606,11 +607,11 @@ export interface Credential {
   /** Type of credential. */
   type: string;
   /** Credential description. */
-  description?: string;
+  description?: string | undefined;
   /** List of tags that can be used for describing the Credential. */
-  annotations?: CredentialAnnotationsList;
+  annotations?: CredentialAnnotationsList | undefined;
   /** Type-specific credential properties (polymorphic on `type`). */
-  typeProperties?: unknown;
+  typeProperties?: unknown | undefined;
   [key: string]: unknown;
 }
 export interface CredentialOperationsCreateOrUpdateRequest {
@@ -627,17 +628,17 @@ export interface CredentialOperationsCreateOrUpdateRequest {
 }
 export interface CredentialOperationsCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Properties of credentials. */
   properties: Credential;
   /** "If etag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields.") */
-  etag?: string;
+  etag?: string | undefined;
 }
 export interface DataFlowDebugSessionQueryByFactoryRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -650,23 +651,23 @@ export interface DataFlowDebugSessionQueryByFactoryRequest {
 /** Data flow debug session info. */
 export interface DataFlowDebugSessionInfo {
   /** The name of the data flow. */
-  dataFlowName?: string;
+  dataFlowName?: string | undefined;
   /** Compute type of the cluster. */
-  computeType?: string;
+  computeType?: string | undefined;
   /** Core count of the cluster. */
-  coreCount?: number;
+  coreCount?: number | undefined;
   /** Node count of the cluster. (deprecated property) */
-  nodeCount?: number;
+  nodeCount?: number | undefined;
   /** Attached integration runtime name of data flow debug session. */
-  integrationRuntimeName?: string;
+  integrationRuntimeName?: string | undefined;
   /** The ID of data flow debug session. */
-  sessionId?: string;
+  sessionId?: string | undefined;
   /** Start time of data flow debug session. */
-  startTime?: string;
+  startTime?: string | undefined;
   /** Compute type of the cluster. */
-  timeToLiveInMinutes?: number;
+  timeToLiveInMinutes?: number | undefined;
   /** Last activity time of data flow debug session. */
-  lastActivityTime?: string;
+  lastActivityTime?: string | undefined;
   [key: string]: unknown;
 }
 /** The DataFlowDebugSessionInfo items on this page */
@@ -676,7 +677,7 @@ export interface QueryDataFlowDebugSessionsResponse {
   /** The DataFlowDebugSessionInfo items on this page */
   value: QueryDataFlowDebugSessionsResponseValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface DataFlowsCreateOrUpdateRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -692,17 +693,17 @@ export interface DataFlowsCreateOrUpdateRequest {
 }
 export interface DataFlowsCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Data flow properties. */
   properties: DataFlow;
   /** "If etag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields.") */
-  etag?: string;
+  etag?: string | undefined;
 }
 export interface DatasetsCreateOrUpdateRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -718,17 +719,17 @@ export interface DatasetsCreateOrUpdateRequest {
 }
 export interface DatasetsCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Dataset properties. */
   properties: Dataset;
   /** "If etag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields.") */
-  etag?: string;
+  etag?: string | undefined;
 }
 export interface DeleteChangeDataCaptureRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -771,7 +772,7 @@ export interface DeleteDataFlowDebugSessionRequest {
   /** The factory name. */
   factoryName: string;
   /** The ID of data flow debug session. */
-  sessionId?: string;
+  sessionId?: string | undefined;
 }
 export interface DeleteDataFlowDebugSessionResponse {}
 export interface DeleteDatasetRequest {
@@ -896,23 +897,23 @@ export interface DisableIntegrationRuntimeInteractiveQueryRequest {
 }
 export interface DisableIntegrationRuntimeInteractiveQueryResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Integration runtime properties. */
   properties: IntegrationRuntime;
   /** "If etag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields.") */
-  etag?: string;
+  etag?: string | undefined;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface EnableIntegrationRuntimeInteractiveQueryRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -924,27 +925,27 @@ export interface EnableIntegrationRuntimeInteractiveQueryRequest {
   /** The integration runtime name. */
   integrationRuntimeName: string;
   /** The allowed idle time for interactive authoring. */
-  autoTerminationMinutes?: number;
+  autoTerminationMinutes?: number | undefined;
 }
 export interface EnableIntegrationRuntimeInteractiveQueryResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Integration runtime properties. */
   properties: IntegrationRuntime;
   /** "If etag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields.") */
-  etag?: string;
+  etag?: string | undefined;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** The command type. */
 export type DataFlowDebugCommandType =
@@ -958,11 +959,11 @@ export interface DataFlowDebugCommandPayload {
   /** The stream name which is used for preview. */
   streamName: string;
   /** Row limits for preview response. */
-  rowLimits?: number;
+  rowLimits?: number | undefined;
   /** Array of column names. */
-  columns?: DataFlowDebugCommandPayloadColumnsList;
+  columns?: DataFlowDebugCommandPayloadColumnsList | undefined;
   /** The expression which is used for preview. */
-  expression?: string;
+  expression?: string | undefined;
 }
 export interface ExecuteDataFlowDebugSessionCommandRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -972,29 +973,29 @@ export interface ExecuteDataFlowDebugSessionCommandRequest {
   /** The factory name. */
   factoryName: string;
   /** The ID of data flow debug session. */
-  sessionId?: string;
+  sessionId?: string | undefined;
   /** The command type. */
-  command?: DataFlowDebugCommandType | (string & {});
+  command?: DataFlowDebugCommandType | (string & {}) | undefined;
   /** The command payload object. */
-  commandPayload?: DataFlowDebugCommandPayload;
+  commandPayload?: DataFlowDebugCommandPayload | undefined;
 }
 /** Response body structure of data flow result for data preview, statistics or expression preview. */
 export interface DataFlowDebugCommandResponse {
   /** The run status of data preview, statistics or expression preview. */
-  status?: string;
+  status?: string | undefined;
   /** The result data of data preview, statistics or expression preview. */
-  data?: string;
+  data?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** The exposure control request. */
 export interface ExposureControlRequest {
   /** The feature name. */
-  featureName?: string;
+  featureName?: string | undefined;
   /** The feature type. */
-  featureType?: string;
+  featureType?: string | undefined;
 }
 /** List of exposure control features. */
 export type ExposureControlQueryFeatureValuesByFactoryRequestExposureControlRequestsList =
@@ -1012,9 +1013,9 @@ export interface ExposureControlQueryFeatureValuesByFactoryRequest {
 /** The exposure control response. */
 export interface ExposureControlResponse {
   /** The feature name. */
-  featureName?: string;
+  featureName?: string | undefined;
   /** The feature value. */
-  value?: string;
+  value?: string | undefined;
 }
 /** List of exposure control feature values. */
 export type ExposureControlBatchResponseExposureControlResponsesList =
@@ -1037,9 +1038,9 @@ export interface FactoryRepoConfiguration {
   /** Root folder. */
   rootFolder: string;
   /** Last commit id. */
-  lastCommitId?: string;
+  lastCommitId?: string | undefined;
   /** Disable manual publish operation in ADF studio to favor automated publish. */
-  disablePublish?: boolean;
+  disablePublish?: boolean | undefined;
 }
 export interface FactoriesConfigureFactoryRepoRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1047,14 +1048,14 @@ export interface FactoriesConfigureFactoryRepoRequest {
   /** The location identifier. */
   locationId: string;
   /** The factory resource id. */
-  factoryResourceId?: string;
+  factoryResourceId?: string | undefined;
   /** Git repo information of the factory. */
-  repoConfiguration?: FactoryRepoConfiguration;
+  repoConfiguration?: FactoryRepoConfiguration | undefined;
 }
 /** Purview configuration. */
 export interface PurviewConfiguration {
   /** Purview resource id. */
-  purviewResourceId?: string;
+  purviewResourceId?: string | undefined;
 }
 /** Global Parameter type. */
 export type GlobalParameterType = "Object" | "String" | "Int" | "Float" | "Bool" | "Array";
@@ -1072,7 +1073,7 @@ export type FactoryPropertiesGlobalParametersMap = {
 /** Managed Identity used for CMK. */
 export interface CMKIdentityDefinition {
   /** The resource id of the user assigned identity to authenticate to customer's key vault. */
-  userAssignedIdentity?: string;
+  userAssignedIdentity?: string | undefined;
 }
 /** Definition of CMK for the factory. */
 export interface EncryptionConfiguration {
@@ -1081,30 +1082,30 @@ export interface EncryptionConfiguration {
   /** The url of the Azure Key Vault used for CMK. */
   vaultBaseUrl: string;
   /** The version of the key used for CMK. If not provided, latest version will be used. */
-  keyVersion?: string;
+  keyVersion?: string | undefined;
   /** User assigned identity to use to authenticate to customer's key vault. If not provided Managed Service Identity will be used. */
-  identity?: CMKIdentityDefinition;
+  identity?: CMKIdentityDefinition | undefined;
 }
 /** Whether or not public network access is allowed for the data factory. */
 export type PublicNetworkAccess = "Enabled" | "Disabled";
 /** Factory resource properties. */
 export interface FactoryProperties {
   /** Factory provisioning state, example Succeeded. */
-  provisioningState?: string;
+  provisioningState?: string | undefined;
   /** Time the factory was created in ISO8601 format. */
-  createTime?: string;
+  createTime?: string | undefined;
   /** Version of the factory. */
-  version?: string;
+  version?: string | undefined;
   /** Purview information of the factory. */
-  purviewConfiguration?: PurviewConfiguration;
+  purviewConfiguration?: PurviewConfiguration | undefined;
   /** Git repo information of the factory. */
-  repoConfiguration?: FactoryRepoConfiguration;
+  repoConfiguration?: FactoryRepoConfiguration | undefined;
   /** List of parameters for factory. */
-  globalParameters?: FactoryPropertiesGlobalParametersMap;
+  globalParameters?: FactoryPropertiesGlobalParametersMap | undefined;
   /** Properties to enable Customer Managed Key for the factory. */
-  encryption?: EncryptionConfiguration;
+  encryption?: EncryptionConfiguration | undefined;
   /** Whether or not public network access is allowed for the data factory. */
-  publicNetworkAccess?: PublicNetworkAccess;
+  publicNetworkAccess?: PublicNetworkAccess | undefined;
 }
 /** The identity type. */
 export type FactoryIdentityType = "SystemAssigned" | "UserAssigned" | "SystemAssigned,UserAssigned";
@@ -1115,33 +1116,33 @@ export interface FactoryIdentity {
   /** The identity type. */
   type: FactoryIdentityType | (string & {});
   /** The principal id of the identity. */
-  principalId?: string;
+  principalId?: string | undefined;
   /** The client tenant id of the identity. */
-  tenantId?: string;
+  tenantId?: string | undefined;
   /** List of user assigned identities for the factory. */
-  userAssignedIdentities?: FactoryIdentityUserAssignedIdentitiesMap;
+  userAssignedIdentities?: FactoryIdentityUserAssignedIdentitiesMap | undefined;
 }
 /** The resource tags. */
 export type FactoriesConfigureFactoryRepoResponseTagsMap = { [key: string]: string | undefined };
 export interface FactoriesConfigureFactoryRepoResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Properties of the factory. */
-  properties?: FactoryProperties;
+  properties?: FactoryProperties | undefined;
   /** Managed service identity of the factory. */
-  identity?: FactoryIdentity;
+  identity?: FactoryIdentity | undefined;
   /** The resource location. */
-  location?: string;
+  location?: string | undefined;
   /** The resource tags. */
-  tags?: FactoriesConfigureFactoryRepoResponseTagsMap;
+  tags?: FactoriesConfigureFactoryRepoResponseTagsMap | undefined;
   /** If eTag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields. */
-  eTag?: string;
+  eTag?: string | undefined;
 }
 /** List of parameters for factory. */
 export type FactoryPropertiesInputGlobalParametersMap = {
@@ -1150,15 +1151,15 @@ export type FactoryPropertiesInputGlobalParametersMap = {
 /** Factory resource properties. */
 export interface FactoryPropertiesInput {
   /** Purview information of the factory. */
-  purviewConfiguration?: PurviewConfiguration;
+  purviewConfiguration?: PurviewConfiguration | undefined;
   /** Git repo information of the factory. */
-  repoConfiguration?: FactoryRepoConfiguration;
+  repoConfiguration?: FactoryRepoConfiguration | undefined;
   /** List of parameters for factory. */
-  globalParameters?: FactoryPropertiesInputGlobalParametersMap;
+  globalParameters?: FactoryPropertiesInputGlobalParametersMap | undefined;
   /** Properties to enable Customer Managed Key for the factory. */
-  encryption?: EncryptionConfiguration;
+  encryption?: EncryptionConfiguration | undefined;
   /** Whether or not public network access is allowed for the data factory. */
-  publicNetworkAccess?: PublicNetworkAccess | (string & {});
+  publicNetworkAccess?: PublicNetworkAccess | (string & {}) | undefined;
 }
 /** The resource tags. */
 export type FactoriesCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
@@ -1170,35 +1171,35 @@ export interface FactoriesCreateOrUpdateRequest {
   /** The factory name. */
   factoryName: string;
   /** Properties of the factory. */
-  properties?: FactoryPropertiesInput;
+  properties?: FactoryPropertiesInput | undefined;
   /** Managed service identity of the factory. */
-  identity?: FactoryIdentity;
+  identity?: FactoryIdentity | undefined;
   /** The resource location. */
-  location?: string;
+  location?: string | undefined;
   /** The resource tags. */
-  tags?: FactoriesCreateOrUpdateRequestTagsMap;
+  tags?: FactoriesCreateOrUpdateRequestTagsMap | undefined;
 }
 /** The resource tags. */
 export type FactoriesCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
 export interface FactoriesCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Properties of the factory. */
-  properties?: FactoryProperties;
+  properties?: FactoryProperties | undefined;
   /** Managed service identity of the factory. */
-  identity?: FactoryIdentity;
+  identity?: FactoryIdentity | undefined;
   /** The resource location. */
-  location?: string;
+  location?: string | undefined;
   /** The resource tags. */
-  tags?: FactoriesCreateOrUpdateResponseTagsMap;
+  tags?: FactoriesCreateOrUpdateResponseTagsMap | undefined;
   /** If eTag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields. */
-  eTag?: string;
+  eTag?: string | undefined;
 }
 export interface GetChangeDataCaptureRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1212,17 +1213,17 @@ export interface GetChangeDataCaptureRequest {
 }
 export interface GetChangeDataCaptureResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Properties of the change data capture. */
   properties: ChangeDataCapture;
   /** "If etag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields.") */
-  etag?: string;
+  etag?: string | undefined;
 }
 export interface GetCredentialOperationRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1236,17 +1237,17 @@ export interface GetCredentialOperationRequest {
 }
 export interface GetCredentialOperationResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Properties of credentials. */
   properties: Credential;
   /** "If etag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields.") */
-  etag?: string;
+  etag?: string | undefined;
 }
 export interface GetDataFlowRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1260,17 +1261,17 @@ export interface GetDataFlowRequest {
 }
 export interface GetDataFlowResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Data flow properties. */
   properties: DataFlow;
   /** "If etag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields.") */
-  etag?: string;
+  etag?: string | undefined;
 }
 export interface GetDatasetRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1284,17 +1285,17 @@ export interface GetDatasetRequest {
 }
 export interface GetDatasetResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Dataset properties. */
   properties: Dataset;
   /** "If etag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields.") */
-  etag?: string;
+  etag?: string | undefined;
 }
 export interface GetExposureControlFeatureValueRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1302,9 +1303,9 @@ export interface GetExposureControlFeatureValueRequest {
   /** The location identifier. */
   locationId: string;
   /** The feature name. */
-  featureName?: string;
+  featureName?: string | undefined;
   /** The feature type. */
-  featureType?: string;
+  featureType?: string | undefined;
 }
 export interface GetExposureControlFeatureValueByFactoryRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1314,9 +1315,9 @@ export interface GetExposureControlFeatureValueByFactoryRequest {
   /** The factory name. */
   factoryName: string;
   /** The feature name. */
-  featureName?: string;
+  featureName?: string | undefined;
   /** The feature type. */
-  featureType?: string;
+  featureType?: string | undefined;
 }
 export interface GetFactoryRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1330,23 +1331,23 @@ export interface GetFactoryRequest {
 export type GetFactoryResponseTagsMap = { [key: string]: string | undefined };
 export interface GetFactoryResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Properties of the factory. */
-  properties?: FactoryProperties;
+  properties?: FactoryProperties | undefined;
   /** Managed service identity of the factory. */
-  identity?: FactoryIdentity;
+  identity?: FactoryIdentity | undefined;
   /** The resource location. */
-  location?: string;
+  location?: string | undefined;
   /** The resource tags. */
-  tags?: GetFactoryResponseTagsMap;
+  tags?: GetFactoryResponseTagsMap | undefined;
   /** If eTag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields. */
-  eTag?: string;
+  eTag?: string | undefined;
 }
 export interface GetFactoryDataPlaneAccessRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1356,44 +1357,44 @@ export interface GetFactoryDataPlaneAccessRequest {
   /** The factory name. */
   factoryName: string;
   /** The string with permissions for Data Plane access. Currently only 'r' is supported which grants read only access. */
-  permissions?: string;
+  permissions?: string | undefined;
   /** The resource path to get access relative to factory. Currently only empty string is supported which corresponds to the factory resource. */
-  accessResourcePath?: string;
+  accessResourcePath?: string | undefined;
   /** The name of the profile. Currently only the default is supported. The default value is DefaultProfile. */
-  profileName?: string;
+  profileName?: string | undefined;
   /** Start time for the token. If not specified the current time will be used. */
-  startTime?: string;
+  startTime?: string | undefined;
   /** Expiration time for the token. Maximum duration for the token is eight hours and by default the token will expire in eight hours. */
-  expireTime?: string;
+  expireTime?: string | undefined;
 }
 /** Get Data Plane read only token request definition. */
 export interface UserAccessPolicy {
   /** The string with permissions for Data Plane access. Currently only 'r' is supported which grants read only access. */
-  permissions?: string;
+  permissions?: string | undefined;
   /** The resource path to get access relative to factory. Currently only empty string is supported which corresponds to the factory resource. */
-  accessResourcePath?: string;
+  accessResourcePath?: string | undefined;
   /** The name of the profile. Currently only the default is supported. The default value is DefaultProfile. */
-  profileName?: string;
+  profileName?: string | undefined;
   /** Start time for the token. If not specified the current time will be used. */
-  startTime?: string;
+  startTime?: string | undefined;
   /** Expiration time for the token. Maximum duration for the token is eight hours and by default the token will expire in eight hours. */
-  expireTime?: string;
+  expireTime?: string | undefined;
 }
 /** Get Data Plane read only token response definition. */
 export interface AccessPolicyResponse {
   /** The user access policy. */
-  policy?: UserAccessPolicy;
+  policy?: UserAccessPolicy | undefined;
   /** Data Plane read only access token. */
-  accessToken?: string | Redacted.Redacted<string>;
+  accessToken?: string | Redacted.Redacted<string> | undefined;
   /** Data Plane service base URL. */
-  dataPlaneUrl?: string;
+  dataPlaneUrl?: string | undefined;
 }
 /** Client secret information for factory's bring your own app repository configuration. */
 export interface GitHubClientSecret {
   /** Bring your own app client secret AKV URL. */
-  byoaSecretAkvUrl?: string;
+  byoaSecretAkvUrl?: string | undefined;
   /** Bring your own app client secret name in AKV. */
-  byoaSecretName?: string;
+  byoaSecretName?: string | undefined;
 }
 export interface GetFactoryGitHubAccessTokenRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1405,16 +1406,16 @@ export interface GetFactoryGitHubAccessTokenRequest {
   /** GitHub access code. */
   gitHubAccessCode: string;
   /** GitHub application client ID. */
-  gitHubClientId?: string;
+  gitHubClientId?: string | undefined;
   /** GitHub bring your own app client secret information. */
-  gitHubClientSecret?: GitHubClientSecret;
+  gitHubClientSecret?: GitHubClientSecret | undefined;
   /** GitHub access token base URL. */
   gitHubAccessTokenBaseUrl: string;
 }
 /** Get GitHub access token response definition. */
 export interface GitHubAccessTokenResponse {
   /** GitHub access token. */
-  gitHubAccessToken?: string;
+  gitHubAccessToken?: string | undefined;
 }
 export interface GetGlobalParameterRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1432,17 +1433,17 @@ export type GetGlobalParameterResponsePropertiesMap = {
 };
 export interface GetGlobalParameterResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Properties of the global parameter. */
   properties: GetGlobalParameterResponsePropertiesMap;
   /** "If etag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields.") */
-  etag?: string;
+  etag?: string | undefined;
 }
 export interface GetIntegrationRuntimeRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1456,17 +1457,17 @@ export interface GetIntegrationRuntimeRequest {
 }
 export interface GetIntegrationRuntimeResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Integration runtime properties. */
   properties: IntegrationRuntime;
   /** "If etag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields.") */
-  etag?: string;
+  etag?: string | undefined;
 }
 export interface GetIntegrationRuntimeConnectionInfoRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1481,17 +1482,17 @@ export interface GetIntegrationRuntimeConnectionInfoRequest {
 /** Connection information for encrypting the on-premises data source credentials. */
 export interface IntegrationRuntimeConnectionInfo {
   /** The token generated in service. Callers use this token to authenticate to integration runtime. */
-  serviceToken?: string;
+  serviceToken?: string | undefined;
   /** The integration runtime SSL certificate thumbprint. Click-Once application uses it to do server validation. */
-  identityCertThumbprint?: string;
+  identityCertThumbprint?: string | undefined;
   /** The on-premises integration runtime host URL. */
-  hostServiceUri?: string;
+  hostServiceUri?: string | undefined;
   /** The integration runtime version. */
-  version?: string;
+  version?: string | undefined;
   /** The public key for encrypting a credential when transferring the credential to the integration runtime. */
-  publicKey?: string;
+  publicKey?: string | undefined;
   /** Whether the identity certificate is expired. */
-  isIdentityCertExprired?: boolean;
+  isIdentityCertExprired?: boolean | undefined;
   [key: string]: unknown;
 }
 export interface GetIntegrationRuntimeMonitoringDataRequest {
@@ -1507,21 +1508,21 @@ export interface GetIntegrationRuntimeMonitoringDataRequest {
 /** Monitoring data for integration runtime node. */
 export interface IntegrationRuntimeNodeMonitoringData {
   /** Name of the integration runtime node. */
-  nodeName?: string;
+  nodeName?: string | undefined;
   /** Available memory (MB) on the integration runtime node. */
-  availableMemoryInMB?: number;
+  availableMemoryInMB?: number | undefined;
   /** CPU percentage on the integration runtime node. */
-  cpuUtilization?: number;
+  cpuUtilization?: number | undefined;
   /** Maximum concurrent jobs on the integration runtime node. */
-  concurrentJobsLimit?: number;
+  concurrentJobsLimit?: number | undefined;
   /** The number of jobs currently running on the integration runtime node. */
-  concurrentJobsRunning?: number;
+  concurrentJobsRunning?: number | undefined;
   /** The maximum concurrent jobs in this integration runtime. */
-  maxConcurrentJobs?: number;
+  maxConcurrentJobs?: number | undefined;
   /** Sent bytes on the integration runtime node. */
-  sentBytes?: number;
+  sentBytes?: number | undefined;
   /** Received bytes on the integration runtime node. */
-  receivedBytes?: number;
+  receivedBytes?: number | undefined;
   [key: string]: unknown;
 }
 /** Integration runtime node monitoring data. */
@@ -1529,9 +1530,9 @@ export type IntegrationRuntimeMonitoringDataNodesList = Array<IntegrationRuntime
 /** Get monitoring data response. */
 export interface IntegrationRuntimeMonitoringData {
   /** Integration runtime name. */
-  name?: string;
+  name?: string | undefined;
   /** Integration runtime node monitoring data. */
-  nodes?: IntegrationRuntimeMonitoringDataNodesList;
+  nodes?: IntegrationRuntimeMonitoringDataNodesList | undefined;
 }
 export interface GetIntegrationRuntimeNodeRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1559,41 +1560,41 @@ export type IntegrationRuntimeUpdateResult = "None" | "Succeed" | "Fail";
 /** Properties of Self-hosted integration runtime node. */
 export interface SelfHostedIntegrationRuntimeNode {
   /** Name of the integration runtime node. */
-  nodeName?: string;
+  nodeName?: string | undefined;
   /** Machine name of the integration runtime node. */
-  machineName?: string;
+  machineName?: string | undefined;
   /** URI for the host machine of the integration runtime. */
-  hostServiceUri?: string;
+  hostServiceUri?: string | undefined;
   /** Status of the integration runtime node. */
-  status?: SelfHostedIntegrationRuntimeNodeStatus;
+  status?: SelfHostedIntegrationRuntimeNodeStatus | undefined;
   /** The integration runtime capabilities dictionary */
-  capabilities?: SelfHostedIntegrationRuntimeNodeCapabilitiesMap;
+  capabilities?: SelfHostedIntegrationRuntimeNodeCapabilitiesMap | undefined;
   /** Status of the integration runtime node version. */
-  versionStatus?: string;
+  versionStatus?: string | undefined;
   /** Version of the integration runtime node. */
-  version?: string;
+  version?: string | undefined;
   /** The time at which the integration runtime node was registered in ISO8601 format. */
-  registerTime?: string;
+  registerTime?: string | undefined;
   /** The most recent time at which the integration runtime was connected in ISO8601 format. */
-  lastConnectTime?: string;
+  lastConnectTime?: string | undefined;
   /** The time at which the integration runtime will expire in ISO8601 format. */
-  expiryTime?: string;
+  expiryTime?: string | undefined;
   /** The time the node last started up. */
-  lastStartTime?: string;
+  lastStartTime?: string | undefined;
   /** The integration runtime node last stop time. */
-  lastStopTime?: string;
+  lastStopTime?: string | undefined;
   /** The result of the last integration runtime node update. */
-  lastUpdateResult?: IntegrationRuntimeUpdateResult;
+  lastUpdateResult?: IntegrationRuntimeUpdateResult | undefined;
   /** The last time for the integration runtime node update start. */
-  lastStartUpdateTime?: string;
+  lastStartUpdateTime?: string | undefined;
   /** The last time for the integration runtime node update end. */
-  lastEndUpdateTime?: string;
+  lastEndUpdateTime?: string | undefined;
   /** Indicates whether this node is the active dispatcher for integration runtime requests. */
-  isActiveDispatcher?: boolean;
+  isActiveDispatcher?: boolean | undefined;
   /** Maximum concurrent jobs on the integration runtime node. */
-  concurrentJobsLimit?: number;
+  concurrentJobsLimit?: number | undefined;
   /** The maximum concurrent jobs in this integration runtime. */
-  maxConcurrentJobs?: number;
+  maxConcurrentJobs?: number | undefined;
   [key: string]: unknown;
 }
 export interface GetIntegrationRuntimeNodeIpAddressRequest {
@@ -1609,7 +1610,7 @@ export interface GetIntegrationRuntimeNodeIpAddressRequest {
 /** The IP address of self-hosted integration runtime node. */
 export interface IntegrationRuntimeNodeIpAddress {
   /** The IP address of self-hosted integration runtime node. */
-  ipAddress?: string;
+  ipAddress?: string | undefined;
 }
 export interface GetIntegrationRuntimeObjectMetadataRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1621,7 +1622,7 @@ export interface GetIntegrationRuntimeObjectMetadataRequest {
   /** The integration runtime name. */
   integrationRuntimeName: string;
   /** Metadata path. */
-  metadataPath?: string;
+  metadataPath?: string | undefined;
 }
 /** The type of SSIS object metadata. */
 export type SsisObjectMetadataType = "Folder" | "Project" | "Package" | "Environment";
@@ -1630,11 +1631,11 @@ export interface SsisObjectMetadata {
   /** Type of metadata. */
   type: SsisObjectMetadataType;
   /** Metadata id. */
-  id?: number;
+  id?: number | undefined;
   /** Metadata name. */
-  name?: string;
+  name?: string | undefined;
   /** Metadata description. */
-  description?: string;
+  description?: string | undefined;
 }
 /** The SsisObjectMetadata items on this page */
 export type SsisObjectMetadataListResponseValueList = Array<SsisObjectMetadata>;
@@ -1643,7 +1644,7 @@ export interface SsisObjectMetadataListResponse {
   /** The SsisObjectMetadata items on this page */
   value: SsisObjectMetadataListResponseValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface GetIntegrationRuntimeStatusRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1667,17 +1668,17 @@ export interface GetLinkedServiceRequest {
 }
 export interface GetLinkedServiceResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Properties of linked service. */
   properties: LinkedService;
   /** "If etag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields.") */
-  etag?: string;
+  etag?: string | undefined;
 }
 export interface GetManagedPrivateEndpointRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1694,49 +1695,49 @@ export interface GetManagedPrivateEndpointRequest {
 /** The connection state of a managed private endpoint */
 export interface ConnectionStateProperties {
   /** The actions required on the managed private endpoint */
-  actionsRequired?: string;
+  actionsRequired?: string | undefined;
   /** The managed private endpoint description */
-  description?: string;
+  description?: string | undefined;
   /** The approval status */
-  status?: string;
+  status?: string | undefined;
 }
 /** Fully qualified domain names */
 export type ManagedPrivateEndpointFqdnsList = Array<string>;
 /** Properties of a managed private endpoint */
 export interface ManagedPrivateEndpoint {
   /** The managed private endpoint connection state */
-  connectionState?: ConnectionStateProperties;
+  connectionState?: ConnectionStateProperties | undefined;
   /** Fully qualified domain names */
-  fqdns?: ManagedPrivateEndpointFqdnsList;
+  fqdns?: ManagedPrivateEndpointFqdnsList | undefined;
   /** The groupId to which the managed private endpoint is created */
-  groupId?: string;
+  groupId?: string | undefined;
   /** Denotes whether the managed private endpoint is reserved */
-  isReserved?: boolean;
+  isReserved?: boolean | undefined;
   /** The ARM resource ID of the resource to which the managed private endpoint is created */
-  privateLinkResourceId?: string;
+  privateLinkResourceId?: string | undefined;
   /** The managed private endpoint provisioning state */
-  provisioningState?: string;
+  provisioningState?: string | undefined;
   /** Provisioning failure message when provisioningState is Failed. */
-  error?: string;
+  error?: string | undefined;
   /** ARM resource ID of the backing private endpoint in the Data Factory managed subscription. */
-  resourceId?: string;
+  resourceId?: string | undefined;
   /** Private IP address of the endpoint in the managed virtual network. */
-  ipAddress?: string;
+  ipAddress?: string | undefined;
   [key: string]: unknown;
 }
 export interface GetManagedPrivateEndpointResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Managed private endpoint properties. */
   properties: ManagedPrivateEndpoint;
   /** "If etag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields.") */
-  etag?: string;
+  etag?: string | undefined;
 }
 export interface GetManagedVirtualNetworkRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1751,24 +1752,24 @@ export interface GetManagedVirtualNetworkRequest {
 /** A managed Virtual Network associated with the Azure Data Factory */
 export interface ManagedVirtualNetwork {
   /** Managed Virtual Network ID. */
-  vNetId?: string;
+  vNetId?: string | undefined;
   /** Managed Virtual Network alias. */
-  alias?: string;
+  alias?: string | undefined;
   [key: string]: unknown;
 }
 export interface GetManagedVirtualNetworkResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Managed Virtual Network properties. */
   properties: ManagedVirtualNetwork;
   /** "If etag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields.") */
-  etag?: string;
+  etag?: string | undefined;
 }
 export interface GetPipelineRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1813,25 +1814,25 @@ export interface Activity {
   /** Type of activity. */
   type: string;
   /** Activity description. */
-  description?: string;
+  description?: string | undefined;
   /** Activity state. This is an optional property and if not provided, the state will be Active by default. */
-  state?: ActivityState | (string & {});
+  state?: ActivityState | (string & {}) | undefined;
   /** Status result of the activity when the state is set to Inactive. This is an optional property and if not provided when the activity is inactive, the status will be Succeeded by default. */
-  onInactiveMarkAs?: ActivityOnInactiveMarkAs | (string & {});
+  onInactiveMarkAs?: ActivityOnInactiveMarkAs | (string & {}) | undefined;
   /** Activity depends on condition. */
-  dependsOn?: ActivityDependsOnList;
+  dependsOn?: ActivityDependsOnList | undefined;
   /** Activity user properties. */
-  userProperties?: ActivityUserPropertiesList;
+  userProperties?: ActivityUserPropertiesList | undefined;
   /** Type-specific activity properties (polymorphic on `type`). */
-  typeProperties?: unknown;
+  typeProperties?: unknown | undefined;
   /** Linked service reference (ExecutionActivity subtypes). */
-  linkedServiceName?: unknown;
+  linkedServiceName?: unknown | undefined;
   /** Activity policy (ExecutionActivity subtypes). */
-  policy?: unknown;
+  policy?: unknown | undefined;
   /** List of inputs for the activity (Copy / data movement activities). */
-  inputs?: unknown;
+  inputs?: unknown | undefined;
   /** List of outputs for the activity (Copy / data movement activities). */
-  outputs?: unknown;
+  outputs?: unknown | undefined;
   [key: string]: unknown;
 }
 /** List of activities in pipeline. */
@@ -1845,7 +1846,7 @@ export interface VariableSpecification {
   /** Variable type. */
   type: VariableType | (string & {});
   /** Default value of variable. */
-  defaultValue?: unknown;
+  defaultValue?: unknown | undefined;
 }
 /** List of variables for pipeline. */
 export type PipelineVariablesMap = { [key: string]: VariableSpecification | undefined };
@@ -1856,52 +1857,52 @@ export type PipelineRunDimensionsMap = { [key: string]: unknown | undefined };
 /** The folder that this Pipeline is in. If not specified, Pipeline will appear at the root level. */
 export interface PipelineFolder {
   /** The name of the folder that this Pipeline is in. */
-  name?: string;
+  name?: string | undefined;
 }
 /** Pipeline ElapsedTime Metric Policy. */
 export interface PipelineElapsedTimeMetricPolicy {
   /** TimeSpan value, after which an Azure Monitoring Metric is fired. */
-  duration?: unknown;
+  duration?: unknown | undefined;
 }
 /** Pipeline Policy. */
 export interface PipelinePolicy {
   /** Pipeline ElapsedTime Metric Policy. */
-  elapsedTimeMetric?: PipelineElapsedTimeMetricPolicy;
+  elapsedTimeMetric?: PipelineElapsedTimeMetricPolicy | undefined;
 }
 /** A data factory pipeline. */
 export interface Pipeline {
   /** The description of the pipeline. */
-  description?: string;
+  description?: string | undefined;
   /** List of activities in pipeline. */
-  activities?: PipelineActivitiesList;
+  activities?: PipelineActivitiesList | undefined;
   /** List of parameters for pipeline. */
-  parameters?: PipelineParametersMap;
+  parameters?: PipelineParametersMap | undefined;
   /** List of variables for pipeline. */
-  variables?: PipelineVariablesMap;
+  variables?: PipelineVariablesMap | undefined;
   /** The max number of concurrent runs for the pipeline. */
-  concurrency?: number;
+  concurrency?: number | undefined;
   /** List of tags that can be used for describing the Pipeline. */
-  annotations?: PipelineAnnotationsList;
+  annotations?: PipelineAnnotationsList | undefined;
   /** Dimensions emitted by Pipeline. */
-  runDimensions?: PipelineRunDimensionsMap;
+  runDimensions?: PipelineRunDimensionsMap | undefined;
   /** The folder that this Pipeline is in. If not specified, Pipeline will appear at the root level. */
-  folder?: PipelineFolder;
+  folder?: PipelineFolder | undefined;
   /** Pipeline Policy. */
-  policy?: PipelinePolicy;
+  policy?: PipelinePolicy | undefined;
 }
 export interface GetPipelineResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Properties of the pipeline. */
   properties: Pipeline;
   /** "If etag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields.") */
-  etag?: string;
+  etag?: string | undefined;
 }
 export interface GetPipelineRunRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1919,44 +1920,44 @@ export type PipelineRunRunDimensionsMap = { [key: string]: string | undefined };
 /** Provides entity name and id that started the pipeline run. */
 export interface PipelineRunInvokedBy {
   /** Name of the entity that started the pipeline run. */
-  name?: string;
+  name?: string | undefined;
   /** The ID of the entity that started the run. */
-  id?: string;
+  id?: string | undefined;
   /** The type of the entity that started the run. */
-  invokedByType?: string;
+  invokedByType?: string | undefined;
   /** The name of the pipeline that triggered the run, if any. */
-  pipelineName?: string;
+  pipelineName?: string | undefined;
   /** The run id of the pipeline that triggered the run, if any. */
-  pipelineRunId?: string;
+  pipelineRunId?: string | undefined;
 }
 /** Information about a pipeline run. */
 export interface PipelineRun {
   /** Identifier of a run. */
-  runId?: string;
+  runId?: string | undefined;
   /** Identifier that correlates all the recovery runs of a pipeline run. */
-  runGroupId?: string;
+  runGroupId?: string | undefined;
   /** Indicates if the recovered pipeline run is the latest in its group. */
-  isLatest?: boolean;
+  isLatest?: boolean | undefined;
   /** The pipeline name. */
-  pipelineName?: string;
+  pipelineName?: string | undefined;
   /** The full or partial list of parameter name, value pair used in the pipeline run. */
-  parameters?: PipelineRunParametersMap;
+  parameters?: PipelineRunParametersMap | undefined;
   /** Run dimensions emitted by Pipeline run. */
-  runDimensions?: PipelineRunRunDimensionsMap;
+  runDimensions?: PipelineRunRunDimensionsMap | undefined;
   /** Entity that started the pipeline run. */
-  invokedBy?: PipelineRunInvokedBy;
+  invokedBy?: PipelineRunInvokedBy | undefined;
   /** The last updated timestamp for the pipeline run event in ISO8601 format. */
-  lastUpdated?: string;
+  lastUpdated?: string | undefined;
   /** The start time of a pipeline run in ISO8601 format. */
-  runStart?: string;
+  runStart?: string | undefined;
   /** The end time of a pipeline run in ISO8601 format. */
-  runEnd?: string;
+  runEnd?: string | undefined;
   /** The duration of a pipeline run. */
-  durationInMs?: number;
+  durationInMs?: number | undefined;
   /** The status of a pipeline run. Possible values: Queued, InProgress, Succeeded, Failed, Canceling, Cancelled */
-  status?: string;
+  status?: string | undefined;
   /** The message from a pipeline run. */
-  message?: string;
+  message?: string | undefined;
   [key: string]: unknown;
 }
 export interface GetPrivateEndpointConnectionRequest {
@@ -1971,38 +1972,38 @@ export interface GetPrivateEndpointConnectionRequest {
 }
 /** A wrapper for an ARM resource id */
 export interface ArmIdWrapper {
-  id?: string;
+  id?: string | undefined;
 }
 /** The state of a private link connection */
 export interface PrivateLinkConnectionState {
   /** Status of a private link connection */
-  status?: string;
+  status?: string | undefined;
   /** Description of a private link connection */
-  description?: string;
+  description?: string | undefined;
   /** ActionsRequired for a private link connection */
-  actionsRequired?: string;
+  actionsRequired?: string | undefined;
 }
 /** A remote private endpoint connection */
 export interface RemotePrivateEndpointConnection {
-  provisioningState?: string;
+  provisioningState?: string | undefined;
   /** PrivateEndpoint of a remote private endpoint connection */
-  privateEndpoint?: ArmIdWrapper;
+  privateEndpoint?: ArmIdWrapper | undefined;
   /** The state of a private link connection */
-  privateLinkServiceConnectionState?: PrivateLinkConnectionState;
+  privateLinkServiceConnectionState?: PrivateLinkConnectionState | undefined;
 }
 export interface GetPrivateEndpointConnectionResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Core resource properties */
-  properties?: RemotePrivateEndpointConnection;
+  properties?: RemotePrivateEndpointConnection | undefined;
   /** "If etag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields.") */
-  etag?: string;
+  etag?: string | undefined;
 }
 export interface GetPrivateLinkResourceRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2019,24 +2020,24 @@ export type PrivateLinkResourcePropertiesRequiredZoneNamesList = Array<string>;
 /** Properties of a private link resource */
 export interface PrivateLinkResourceProperties {
   /** GroupId of a private link resource */
-  groupId?: string;
+  groupId?: string | undefined;
   /** RequiredMembers of a private link resource */
-  requiredMembers?: PrivateLinkResourcePropertiesRequiredMembersList;
+  requiredMembers?: PrivateLinkResourcePropertiesRequiredMembersList | undefined;
   /** RequiredZoneNames of a private link resource */
-  requiredZoneNames?: PrivateLinkResourcePropertiesRequiredZoneNamesList;
+  requiredZoneNames?: PrivateLinkResourcePropertiesRequiredZoneNamesList | undefined;
 }
 /** A private link resource */
 export interface PrivateLinkResource {
   /** The resource identifier. */
-  id?: string;
+  id?: string | undefined;
   /** The resource name. */
-  name?: string;
+  name?: string | undefined;
   /** The resource type. */
-  type?: string;
+  type?: string | undefined;
   /** Etag identifies change in the resource. */
-  etag?: string;
+  etag?: string | undefined;
   /** Core resource properties */
-  properties?: PrivateLinkResourceProperties;
+  properties?: PrivateLinkResourceProperties | undefined;
 }
 export type PrivateLinkResourcesWrapperValueList = Array<PrivateLinkResource>;
 /** Wrapper for a collection of private link resources */
@@ -2062,32 +2063,32 @@ export interface Trigger {
   /** Trigger type. */
   type: string;
   /** Trigger description. */
-  description?: string;
+  description?: string | undefined;
   /** Indicates if trigger is running or not. Updated when Start/Stop APIs are called on the Trigger. */
-  runtimeState?: TriggerRuntimeState | (string & {});
+  runtimeState?: TriggerRuntimeState | (string & {}) | undefined;
   /** List of tags that can be used for describing the trigger. */
-  annotations?: TriggerAnnotationsList;
+  annotations?: TriggerAnnotationsList | undefined;
   /** Type-specific trigger properties (polymorphic on `type`). */
-  typeProperties?: unknown;
+  typeProperties?: unknown | undefined;
   /** Pipelines that need to be started (MultiplePipelineTrigger subtypes). */
-  pipelines?: unknown;
+  pipelines?: unknown | undefined;
   /** Pipeline for which runs are created (TumblingWindowTrigger / ChainingTrigger). */
-  pipeline?: unknown;
+  pipeline?: unknown | undefined;
   [key: string]: unknown;
 }
 export interface GetTriggerResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Properties of the trigger. */
   properties: Trigger;
   /** "If etag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields.") */
-  etag?: string;
+  etag?: string | undefined;
 }
 export interface GetTriggerEventSubscriptionStatusRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2109,9 +2110,9 @@ export type EventSubscriptionStatus =
 /** Defines the response of a trigger subscription operation. */
 export interface TriggerSubscriptionOperationStatus {
   /** Trigger name. */
-  triggerName?: string;
+  triggerName?: string | undefined;
   /** Event Subscription Status. */
-  status?: EventSubscriptionStatus;
+  status?: EventSubscriptionStatus | undefined;
 }
 /** Properties of the global parameter. */
 export type GlobalParametersCreateOrUpdateRequestPropertiesMap = {
@@ -2135,17 +2136,17 @@ export type GlobalParametersCreateOrUpdateResponsePropertiesMap = {
 };
 export interface GlobalParametersCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Properties of the global parameter. */
   properties: GlobalParametersCreateOrUpdateResponsePropertiesMap;
   /** "If etag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields.") */
-  etag?: string;
+  etag?: string | undefined;
 }
 export interface IntegrationRuntimesCreateOrUpdateRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2161,17 +2162,17 @@ export interface IntegrationRuntimesCreateOrUpdateRequest {
 }
 export interface IntegrationRuntimesCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Integration runtime properties. */
   properties: IntegrationRuntime;
   /** "If etag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields.") */
-  etag?: string;
+  etag?: string | undefined;
 }
 export interface IntegrationRuntimesUpgradeRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2198,17 +2199,17 @@ export interface LinkedServicesCreateOrUpdateRequest {
 }
 export interface LinkedServicesCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Properties of linked service. */
   properties: LinkedService;
   /** "If etag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields.") */
-  etag?: string;
+  etag?: string | undefined;
 }
 export interface ListChangeDataCaptureByFactoryRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2221,17 +2222,17 @@ export interface ListChangeDataCaptureByFactoryRequest {
 /** Change data capture resource type. */
 export interface ChangeDataCaptureResource {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Properties of the change data capture. */
   properties: ChangeDataCapture;
   /** "If etag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields.") */
-  etag?: string;
+  etag?: string | undefined;
   [key: string]: unknown;
 }
 /** The ChangeDataCaptureResource items on this page */
@@ -2241,7 +2242,7 @@ export interface ChangeDataCaptureListResponse {
   /** The ChangeDataCaptureResource items on this page */
   value: ChangeDataCaptureListResponseValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListCredentialOperationByFactoryRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2254,17 +2255,17 @@ export interface ListCredentialOperationByFactoryRequest {
 /** Credential resource type. */
 export interface CredentialResource {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Properties of credentials. */
   properties: Credential;
   /** "If etag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields.") */
-  etag?: string;
+  etag?: string | undefined;
 }
 /** The CredentialResource items on this page */
 export type CredentialListResponseValueList = Array<CredentialResource>;
@@ -2273,7 +2274,7 @@ export interface CredentialListResponse {
   /** The CredentialResource items on this page */
   value: CredentialListResponseValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListDataFlowByFactoryRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2286,17 +2287,17 @@ export interface ListDataFlowByFactoryRequest {
 /** Data flow resource type. */
 export interface DataFlowResource {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Data flow properties. */
   properties: DataFlow;
   /** "If etag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields.") */
-  etag?: string;
+  etag?: string | undefined;
 }
 /** The DataFlowResource items on this page */
 export type DataFlowListResponseValueList = Array<DataFlowResource>;
@@ -2305,7 +2306,7 @@ export interface DataFlowListResponse {
   /** The DataFlowResource items on this page */
   value: DataFlowListResponseValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListDatasetByFactoryRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2318,17 +2319,17 @@ export interface ListDatasetByFactoryRequest {
 /** Dataset resource type. */
 export interface DatasetResource {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Dataset properties. */
   properties: Dataset;
   /** "If etag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields.") */
-  etag?: string;
+  etag?: string | undefined;
 }
 /** The DatasetResource items on this page */
 export type DatasetListResponseValueList = Array<DatasetResource>;
@@ -2337,7 +2338,7 @@ export interface DatasetListResponse {
   /** The DatasetResource items on this page */
   value: DatasetListResponseValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListFactoriesRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2348,23 +2349,23 @@ export type FactoryTagsMap = { [key: string]: string | undefined };
 /** Factory resource type. */
 export interface Factory {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Properties of the factory. */
-  properties?: FactoryProperties;
+  properties?: FactoryProperties | undefined;
   /** Managed service identity of the factory. */
-  identity?: FactoryIdentity;
+  identity?: FactoryIdentity | undefined;
   /** The resource location. */
-  location?: string;
+  location?: string | undefined;
   /** The resource tags. */
-  tags?: FactoryTagsMap;
+  tags?: FactoryTagsMap | undefined;
   /** If eTag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields. */
-  eTag?: string;
+  eTag?: string | undefined;
   [key: string]: unknown;
 }
 /** The Factory items on this page */
@@ -2374,7 +2375,7 @@ export interface FactoryListResponse {
   /** The Factory items on this page */
   value: FactoryListResponseValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListFactoryByResourceGroupRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2397,17 +2398,17 @@ export type GlobalParameterResourcePropertiesMap = {
 /** Global parameters resource type. */
 export interface GlobalParameterResource {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Properties of the global parameter. */
   properties: GlobalParameterResourcePropertiesMap;
   /** "If etag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields.") */
-  etag?: string;
+  etag?: string | undefined;
 }
 /** The GlobalParameterResource items on this page */
 export type GlobalParameterListResponseValueList = Array<GlobalParameterResource>;
@@ -2416,7 +2417,7 @@ export interface GlobalParameterListResponse {
   /** The GlobalParameterResource items on this page */
   value: GlobalParameterListResponseValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListIntegrationRuntimeAuthKeysRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2431,9 +2432,9 @@ export interface ListIntegrationRuntimeAuthKeysRequest {
 /** The integration runtime authentication keys. */
 export interface IntegrationRuntimeAuthKeys {
   /** The primary integration runtime authentication key. */
-  authKey1?: string;
+  authKey1?: string | undefined;
   /** The secondary integration runtime authentication key. */
-  authKey2?: string;
+  authKey2?: string | undefined;
 }
 export interface ListIntegrationRuntimeByFactoryRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2446,17 +2447,17 @@ export interface ListIntegrationRuntimeByFactoryRequest {
 /** Integration runtime resource type. */
 export interface IntegrationRuntimeResource {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Integration runtime properties. */
   properties: IntegrationRuntime;
   /** "If etag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields.") */
-  etag?: string;
+  etag?: string | undefined;
 }
 /** The IntegrationRuntimeResource items on this page */
 export type IntegrationRuntimeListResponseValueList = Array<IntegrationRuntimeResource>;
@@ -2465,7 +2466,7 @@ export interface IntegrationRuntimeListResponse {
   /** The IntegrationRuntimeResource items on this page */
   value: IntegrationRuntimeListResponseValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListIntegrationRuntimeOutboundNetworkDependenciesEndpointsRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2480,7 +2481,7 @@ export interface ListIntegrationRuntimeOutboundNetworkDependenciesEndpointsReque
 /** The details of Azure-SSIS integration runtime outbound network dependency endpoint. */
 export interface IntegrationRuntimeOutboundNetworkDependenciesEndpointDetails {
   /** The port of endpoint. */
-  port?: number;
+  port?: number | undefined;
 }
 /** The details of endpoint. */
 export type IntegrationRuntimeOutboundNetworkDependenciesEndpointEndpointDetailsList =
@@ -2488,9 +2489,11 @@ export type IntegrationRuntimeOutboundNetworkDependenciesEndpointEndpointDetails
 /** The endpoint for Azure-SSIS integration runtime outbound network dependency. */
 export interface IntegrationRuntimeOutboundNetworkDependenciesEndpoint {
   /** The domain name of endpoint. */
-  domainName?: string;
+  domainName?: string | undefined;
   /** The details of endpoint. */
-  endpointDetails?: IntegrationRuntimeOutboundNetworkDependenciesEndpointEndpointDetailsList;
+  endpointDetails?:
+    | IntegrationRuntimeOutboundNetworkDependenciesEndpointEndpointDetailsList
+    | undefined;
 }
 /** The endpoints for outbound network dependency. */
 export type IntegrationRuntimeOutboundNetworkDependenciesCategoryEndpointEndpointsList =
@@ -2498,9 +2501,11 @@ export type IntegrationRuntimeOutboundNetworkDependenciesCategoryEndpointEndpoin
 /** Azure-SSIS integration runtime outbound network dependency endpoints for one category. */
 export interface IntegrationRuntimeOutboundNetworkDependenciesCategoryEndpoint {
   /** The category of outbound network dependency. */
-  category?: string;
+  category?: string | undefined;
   /** The endpoints for outbound network dependency. */
-  endpoints?: IntegrationRuntimeOutboundNetworkDependenciesCategoryEndpointEndpointsList;
+  endpoints?:
+    | IntegrationRuntimeOutboundNetworkDependenciesCategoryEndpointEndpointsList
+    | undefined;
 }
 /** The list of outbound network dependency endpoints. */
 export type IntegrationRuntimeOutboundNetworkDependenciesEndpointsResponseValueList =
@@ -2508,7 +2513,7 @@ export type IntegrationRuntimeOutboundNetworkDependenciesEndpointsResponseValueL
 /** Azure-SSIS integration runtime outbound network dependency endpoints. */
 export interface IntegrationRuntimeOutboundNetworkDependenciesEndpointsResponse {
   /** The list of outbound network dependency endpoints. */
-  value?: IntegrationRuntimeOutboundNetworkDependenciesEndpointsResponseValueList;
+  value?: IntegrationRuntimeOutboundNetworkDependenciesEndpointsResponseValueList | undefined;
 }
 export interface ListLinkedServiceByFactoryRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2521,17 +2526,17 @@ export interface ListLinkedServiceByFactoryRequest {
 /** Linked service resource type. */
 export interface LinkedServiceResource {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Properties of linked service. */
   properties: LinkedService;
   /** "If etag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields.") */
-  etag?: string;
+  etag?: string | undefined;
 }
 /** The LinkedServiceResource items on this page */
 export type LinkedServiceListResponseValueList = Array<LinkedServiceResource>;
@@ -2540,7 +2545,7 @@ export interface LinkedServiceListResponse {
   /** The LinkedServiceResource items on this page */
   value: LinkedServiceListResponseValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListManagedPrivateEndpointByFactoryRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2555,17 +2560,17 @@ export interface ListManagedPrivateEndpointByFactoryRequest {
 /** Managed private endpoint resource type. */
 export interface ManagedPrivateEndpointResource {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Managed private endpoint properties. */
   properties: ManagedPrivateEndpoint;
   /** "If etag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields.") */
-  etag?: string;
+  etag?: string | undefined;
 }
 /** The ManagedPrivateEndpointResource items on this page */
 export type ManagedPrivateEndpointListResponseValueList = Array<ManagedPrivateEndpointResource>;
@@ -2574,7 +2579,7 @@ export interface ManagedPrivateEndpointListResponse {
   /** The ManagedPrivateEndpointResource items on this page */
   value: ManagedPrivateEndpointListResponseValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListManagedVirtualNetworkByFactoryRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2587,17 +2592,17 @@ export interface ListManagedVirtualNetworkByFactoryRequest {
 /** Managed Virtual Network resource type. */
 export interface ManagedVirtualNetworkResource {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Managed Virtual Network properties. */
   properties: ManagedVirtualNetwork;
   /** "If etag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields.") */
-  etag?: string;
+  etag?: string | undefined;
 }
 /** The ManagedVirtualNetworkResource items on this page */
 export type ManagedVirtualNetworkListResponseValueList = Array<ManagedVirtualNetworkResource>;
@@ -2606,73 +2611,73 @@ export interface ManagedVirtualNetworkListResponse {
   /** The ManagedVirtualNetworkResource items on this page */
   value: ManagedVirtualNetworkListResponseValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListOperationsRequest {}
 /** Metadata associated with the operation. */
 export interface OperationDisplay {
   /** The description of the operation. */
-  description?: string;
+  description?: string | undefined;
   /** The name of the provider. */
-  provider?: string;
+  provider?: string | undefined;
   /** The name of the resource type on which the operation is performed. */
-  resource?: string;
+  resource?: string | undefined;
   /** The type of operation: get, read, delete, etc. */
-  operation?: string;
+  operation?: string | undefined;
 }
 /** Details about an operation related to logs. */
 export interface OperationLogSpecification {
   /** The name of the log category. */
-  name?: string;
+  name?: string | undefined;
   /** Localized display name. */
-  displayName?: string;
+  displayName?: string | undefined;
   /** Blobs created in the customer storage account, per hour. */
-  blobDuration?: string;
+  blobDuration?: string | undefined;
 }
 /** Details about operations related to logs. */
 export type OperationServiceSpecificationLogSpecificationsList = Array<OperationLogSpecification>;
 /** Defines how often data for a metric becomes available. */
 export interface OperationMetricAvailability {
   /** The granularity for the metric. */
-  timeGrain?: string;
+  timeGrain?: string | undefined;
   /** Blob created in the customer storage account, per hour. */
-  blobDuration?: string;
+  blobDuration?: string | undefined;
 }
 /** Defines how often data for metrics becomes available. */
 export type OperationMetricSpecificationAvailabilitiesList = Array<OperationMetricAvailability>;
 /** Defines the metric dimension. */
 export interface OperationMetricDimension {
   /** The name of the dimension for the metric. */
-  name?: string;
+  name?: string | undefined;
   /** The display name of the metric dimension. */
-  displayName?: string;
+  displayName?: string | undefined;
   /** Whether the dimension should be exported to Azure Monitor. */
-  toBeExportedForShoebox?: boolean;
+  toBeExportedForShoebox?: boolean | undefined;
 }
 /** Defines the metric dimension. */
 export type OperationMetricSpecificationDimensionsList = Array<OperationMetricDimension>;
 /** Details about an operation related to metrics. */
 export interface OperationMetricSpecification {
   /** The name of the metric. */
-  name?: string;
+  name?: string | undefined;
   /** Localized display name of the metric. */
-  displayName?: string;
+  displayName?: string | undefined;
   /** The description of the metric. */
-  displayDescription?: string;
+  displayDescription?: string | undefined;
   /** The unit that the metric is measured in. */
-  unit?: string;
+  unit?: string | undefined;
   /** The type of metric aggregation. */
-  aggregationType?: string;
+  aggregationType?: string | undefined;
   /** Whether or not the service is using regional MDM accounts. */
-  enableRegionalMdmAccount?: string;
+  enableRegionalMdmAccount?: string | undefined;
   /** The name of the MDM account. */
-  sourceMdmAccount?: string;
+  sourceMdmAccount?: string | undefined;
   /** The name of the MDM namespace. */
-  sourceMdmNamespace?: string;
+  sourceMdmNamespace?: string | undefined;
   /** Defines how often data for metrics becomes available. */
-  availabilities?: OperationMetricSpecificationAvailabilitiesList;
+  availabilities?: OperationMetricSpecificationAvailabilitiesList | undefined;
   /** Defines the metric dimension. */
-  dimensions?: OperationMetricSpecificationDimensionsList;
+  dimensions?: OperationMetricSpecificationDimensionsList | undefined;
 }
 /** Details about operations related to metrics. */
 export type OperationServiceSpecificationMetricSpecificationsList =
@@ -2680,34 +2685,34 @@ export type OperationServiceSpecificationMetricSpecificationsList =
 /** Details about a service operation. */
 export interface OperationServiceSpecification {
   /** Details about operations related to logs. */
-  logSpecifications?: OperationServiceSpecificationLogSpecificationsList;
+  logSpecifications?: OperationServiceSpecificationLogSpecificationsList | undefined;
   /** Details about operations related to metrics. */
-  metricSpecifications?: OperationServiceSpecificationMetricSpecificationsList;
+  metricSpecifications?: OperationServiceSpecificationMetricSpecificationsList | undefined;
 }
 /** Additional details about an operation. */
 export interface OperationProperties {
   /** Details about a service operation. */
-  serviceSpecification?: OperationServiceSpecification;
+  serviceSpecification?: OperationServiceSpecification | undefined;
 }
 /** Azure Data Factory API operation definition. */
 export interface Operation {
   /** Operation name: {provider}/{resource}/{operation} */
-  name?: string;
+  name?: string | undefined;
   /** The intended executor of the operation. */
-  origin?: string;
+  origin?: string | undefined;
   /** Metadata associated with the operation. */
-  display?: OperationDisplay;
+  display?: OperationDisplay | undefined;
   /** Additional details about the operation. */
-  properties?: OperationProperties;
+  properties?: OperationProperties | undefined;
 }
 /** List of Data Factory operations supported by the Data Factory resource provider. */
 export type OperationListResponseValueList = Array<Operation>;
 /** A list of operations that can be performed by the Data Factory service. */
 export interface OperationListResponse {
   /** List of Data Factory operations supported by the Data Factory resource provider. */
-  value?: OperationListResponseValueList;
+  value?: OperationListResponseValueList | undefined;
   /** The link to the next page of results, if any remaining results exist. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListPipelineByFactoryRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2720,17 +2725,17 @@ export interface ListPipelineByFactoryRequest {
 /** Pipeline resource type. */
 export interface PipelineResource {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Properties of the pipeline. */
   properties: Pipeline;
   /** "If etag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields.") */
-  etag?: string;
+  etag?: string | undefined;
   [key: string]: unknown;
 }
 /** The PipelineResource items on this page */
@@ -2740,7 +2745,7 @@ export interface PipelineListResponse {
   /** The PipelineResource items on this page */
   value: PipelineListResponseValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListPrivateEndPointConnectionByFactoryRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2753,17 +2758,17 @@ export interface ListPrivateEndPointConnectionByFactoryRequest {
 /** Private Endpoint Connection ARM resource. */
 export interface PrivateEndpointConnectionResource {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Core resource properties */
-  properties?: RemotePrivateEndpointConnection;
+  properties?: RemotePrivateEndpointConnection | undefined;
   /** "If etag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields.") */
-  etag?: string;
+  etag?: string | undefined;
 }
 /** The PrivateEndpointConnectionResource items on this page */
 export type PrivateEndpointConnectionListResponseValueList =
@@ -2773,7 +2778,7 @@ export interface PrivateEndpointConnectionListResponse {
   /** The PrivateEndpointConnectionResource items on this page */
   value: PrivateEndpointConnectionListResponseValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListTriggerByFactoryRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2786,17 +2791,17 @@ export interface ListTriggerByFactoryRequest {
 /** Trigger resource type. */
 export interface TriggerResource {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Properties of the trigger. */
   properties: Trigger;
   /** "If etag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields.") */
-  etag?: string;
+  etag?: string | undefined;
 }
 /** The TriggerResource items on this page */
 export type TriggerListResponseValueList = Array<TriggerResource>;
@@ -2805,7 +2810,7 @@ export interface TriggerListResponse {
   /** The TriggerResource items on this page */
   value: TriggerListResponseValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 /** The connection state of a managed private endpoint */
 export interface ConnectionStatePropertiesInput {}
@@ -2814,13 +2819,13 @@ export type ManagedPrivateEndpointInputFqdnsList = Array<string>;
 /** Properties of a managed private endpoint */
 export interface ManagedPrivateEndpointInput {
   /** The managed private endpoint connection state */
-  connectionState?: ConnectionStatePropertiesInput;
+  connectionState?: ConnectionStatePropertiesInput | undefined;
   /** Fully qualified domain names */
-  fqdns?: ManagedPrivateEndpointInputFqdnsList;
+  fqdns?: ManagedPrivateEndpointInputFqdnsList | undefined;
   /** The groupId to which the managed private endpoint is created */
-  groupId?: string;
+  groupId?: string | undefined;
   /** The ARM resource ID of the resource to which the managed private endpoint is created */
-  privateLinkResourceId?: string;
+  privateLinkResourceId?: string | undefined;
   [key: string]: unknown;
 }
 export interface ManagedPrivateEndpointsCreateOrUpdateRequest {
@@ -2839,17 +2844,17 @@ export interface ManagedPrivateEndpointsCreateOrUpdateRequest {
 }
 export interface ManagedPrivateEndpointsCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Managed private endpoint properties. */
   properties: ManagedPrivateEndpoint;
   /** "If etag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields.") */
-  etag?: string;
+  etag?: string | undefined;
 }
 /** A managed Virtual Network associated with the Azure Data Factory */
 export interface ManagedVirtualNetworkInput {
@@ -2869,17 +2874,17 @@ export interface ManagedVirtualNetworksCreateOrUpdateRequest {
 }
 export interface ManagedVirtualNetworksCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Managed Virtual Network properties. */
   properties: ManagedVirtualNetwork;
   /** "If etag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields.") */
-  etag?: string;
+  etag?: string | undefined;
 }
 /** Parameter name to be used for filter. The allowed operands to query pipeline runs are PipelineName, RunStart, RunEnd and Status; to query activity runs are ActivityName, ActivityRunStart, ActivityRunEnd, ActivityType and Status, and to query trigger runs are TriggerName, TriggerRunTimestamp and Status. */
 export type RunQueryFilterOperand =
@@ -2940,15 +2945,15 @@ export interface PipelineRunsQueryByFactoryRequest {
   /** The factory name. */
   factoryName: string;
   /** The continuation token for getting the next page of results. Null for first page. */
-  continuationToken?: string;
+  continuationToken?: string | undefined;
   /** The time at or after which the run event was updated in 'ISO 8601' format. */
   lastUpdatedAfter: string;
   /** The time at or before which the run event was updated in 'ISO 8601' format. */
   lastUpdatedBefore: string;
   /** List of filters. */
-  filters?: PipelineRunsQueryByFactoryRequestFiltersList;
+  filters?: PipelineRunsQueryByFactoryRequestFiltersList | undefined;
   /** List of OrderBy option. */
-  orderBy?: PipelineRunsQueryByFactoryRequestOrderByList;
+  orderBy?: PipelineRunsQueryByFactoryRequestOrderByList | undefined;
 }
 /** List of pipeline runs. */
 export type PipelineRunsQueryResponseValueList = Array<PipelineRun>;
@@ -2957,7 +2962,7 @@ export interface PipelineRunsQueryResponse {
   /** List of pipeline runs. */
   value: PipelineRunsQueryResponseValueList;
   /** The continuation token for getting the next page of results, if any remaining results exist, null otherwise. */
-  continuationToken?: string;
+  continuationToken?: string | undefined;
 }
 export interface PipelinesCreateOrUpdateRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2973,29 +2978,29 @@ export interface PipelinesCreateOrUpdateRequest {
 }
 export interface PipelinesCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Properties of the pipeline. */
   properties: Pipeline;
   /** "If etag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields.") */
-  etag?: string;
+  etag?: string | undefined;
 }
 /** Private endpoint which a connection belongs to. */
 export interface PrivateEndpoint {
   /** The resource Id for private endpoint */
-  id?: string;
+  id?: string | undefined;
 }
 /** A request to approve or reject a private endpoint connection */
 export interface PrivateLinkConnectionApprovalRequest {
   /** The state of a private link connection */
-  privateLinkServiceConnectionState?: PrivateLinkConnectionState;
+  privateLinkServiceConnectionState?: PrivateLinkConnectionState | undefined;
   /** The resource of private endpoint. */
-  privateEndpoint?: PrivateEndpoint;
+  privateEndpoint?: PrivateEndpoint | undefined;
 }
 export interface PrivateEndpointConnectionCreateOrUpdateRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -3007,21 +3012,21 @@ export interface PrivateEndpointConnectionCreateOrUpdateRequest {
   /** The private endpoint connection name. */
   privateEndpointConnectionName: string;
   /** Core resource properties */
-  properties?: PrivateLinkConnectionApprovalRequest;
+  properties?: PrivateLinkConnectionApprovalRequest | undefined;
 }
 export interface PrivateEndpointConnectionCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Core resource properties */
-  properties?: RemotePrivateEndpointConnection;
+  properties?: RemotePrivateEndpointConnection | undefined;
   /** "If etag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields.") */
-  etag?: string;
+  etag?: string | undefined;
 }
 export interface RefreshIntegrationRuntimeObjectMetadataRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -3036,17 +3041,17 @@ export interface RefreshIntegrationRuntimeObjectMetadataRequest {
 /** The status of the operation. */
 export interface SsisObjectMetadataStatusResponse {
   /** The status of the operation. */
-  status?: string;
+  status?: string | undefined;
   /** The operation name. */
-  name?: string;
+  name?: string | undefined;
   /** The operation properties. */
-  properties?: string;
+  properties?: string | undefined;
   /** The operation error message. */
-  error?: string;
+  error?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** The name of the authentication key to regenerate. */
 export type IntegrationRuntimeAuthKeyName = "authKey1" | "authKey2";
@@ -3060,7 +3065,7 @@ export interface RegenerateIntegrationRuntimeAuthKeyRequest {
   /** The integration runtime name. */
   integrationRuntimeName: string;
   /** The name of the authentication key to regenerate. */
-  keyName?: IntegrationRuntimeAuthKeyName | (string & {});
+  keyName?: IntegrationRuntimeAuthKeyName | (string & {}) | undefined;
 }
 export interface RemoveIntegrationRuntimeLinksRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -3086,44 +3091,44 @@ export interface RunActivityRunsQueryByPipelineRequest {
   /** The pipeline run identifier. */
   runId: string;
   /** The continuation token for getting the next page of results. Null for first page. */
-  continuationToken?: string;
+  continuationToken?: string | undefined;
   /** The time at or after which the run event was updated in 'ISO 8601' format. */
   lastUpdatedAfter: string;
   /** The time at or before which the run event was updated in 'ISO 8601' format. */
   lastUpdatedBefore: string;
   /** List of filters. */
-  filters?: RunActivityRunsQueryByPipelineRequestFiltersList;
+  filters?: RunActivityRunsQueryByPipelineRequestFiltersList | undefined;
   /** List of OrderBy option. */
-  orderBy?: RunActivityRunsQueryByPipelineRequestOrderByList;
+  orderBy?: RunActivityRunsQueryByPipelineRequestOrderByList | undefined;
 }
 /** Information about an activity run in a pipeline. */
 export interface ActivityRun {
   /** The name of the pipeline. */
-  pipelineName?: string;
+  pipelineName?: string | undefined;
   /** The id of the pipeline run. */
-  pipelineRunId?: string;
+  pipelineRunId?: string | undefined;
   /** The name of the activity. */
-  activityName?: string;
+  activityName?: string | undefined;
   /** The type of the activity. */
-  activityType?: string;
+  activityType?: string | undefined;
   /** The id of the activity run. */
-  activityRunId?: string;
+  activityRunId?: string | undefined;
   /** The name of the compute linked service. */
-  linkedServiceName?: string;
+  linkedServiceName?: string | undefined;
   /** The status of the activity run. */
-  status?: string;
+  status?: string | undefined;
   /** The start time of the activity run in 'ISO 8601' format. */
-  activityRunStart?: string;
+  activityRunStart?: string | undefined;
   /** The end time of the activity run in 'ISO 8601' format. */
-  activityRunEnd?: string;
+  activityRunEnd?: string | undefined;
   /** The duration of the activity run. */
-  durationInMs?: number;
+  durationInMs?: number | undefined;
   /** The input for the activity. */
-  input?: unknown;
+  input?: unknown | undefined;
   /** The output for the activity. */
-  output?: unknown;
+  output?: unknown | undefined;
   /** The error if any from the activity run. */
-  error?: unknown;
+  error?: unknown | undefined;
   [key: string]: unknown;
 }
 /** List of activity runs. */
@@ -3133,7 +3138,7 @@ export interface ActivityRunsQueryResponse {
   /** List of activity runs. */
   value: ActivityRunsQueryResponseValueList;
   /** The continuation token for getting the next page of results, if any remaining results exist, null otherwise. */
-  continuationToken?: string;
+  continuationToken?: string | undefined;
 }
 export interface StartChangeDataCaptureRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -3159,13 +3164,13 @@ export interface StartIntegrationRuntimeRequest {
 /** Integration runtime status response. */
 export interface StartIntegrationRuntimeResponse {
   /** The integration runtime name. */
-  name?: string;
+  name?: string | undefined;
   /** Integration runtime properties. */
   properties: IntegrationRuntimeStatus;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface StartTriggerRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -3179,7 +3184,7 @@ export interface StartTriggerRequest {
 }
 export interface StartTriggerResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
 }
 export interface StopChangeDataCaptureRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -3204,9 +3209,9 @@ export interface StopIntegrationRuntimeRequest {
 }
 export interface StopIntegrationRuntimeResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface StopTriggerRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -3220,7 +3225,7 @@ export interface StopTriggerRequest {
 }
 export interface StopTriggerResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
 }
 export interface SubscribeTriggerToEventsRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -3235,13 +3240,13 @@ export interface SubscribeTriggerToEventsRequest {
 /** Defines the response of a trigger subscription operation. */
 export interface SubscribeTriggerToEventsResponse {
   /** Trigger name. */
-  triggerName?: string;
+  triggerName?: string | undefined;
   /** Event Subscription Status. */
-  status?: EventSubscriptionStatus;
+  status?: EventSubscriptionStatus | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface SyncIntegrationRuntimeCredentialsRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -3266,15 +3271,15 @@ export interface TriggerRunsQueryByFactoryRequest {
   /** The factory name. */
   factoryName: string;
   /** The continuation token for getting the next page of results. Null for first page. */
-  continuationToken?: string;
+  continuationToken?: string | undefined;
   /** The time at or after which the run event was updated in 'ISO 8601' format. */
   lastUpdatedAfter: string;
   /** The time at or before which the run event was updated in 'ISO 8601' format. */
   lastUpdatedBefore: string;
   /** List of filters. */
-  filters?: TriggerRunsQueryByFactoryRequestFiltersList;
+  filters?: TriggerRunsQueryByFactoryRequestFiltersList | undefined;
   /** List of OrderBy option. */
-  orderBy?: TriggerRunsQueryByFactoryRequestOrderByList;
+  orderBy?: TriggerRunsQueryByFactoryRequestOrderByList | undefined;
 }
 /** Trigger run status. */
 export type TriggerRunStatus = "Succeeded" | "Failed" | "Inprogress";
@@ -3289,25 +3294,25 @@ export type TriggerRunDependencyStatusMap = { [key: string]: unknown | undefined
 /** Trigger runs. */
 export interface TriggerRun {
   /** Trigger run id. */
-  triggerRunId?: string;
+  triggerRunId?: string | undefined;
   /** Trigger name. */
-  triggerName?: string;
+  triggerName?: string | undefined;
   /** Trigger type. */
-  triggerType?: string;
+  triggerType?: string | undefined;
   /** Trigger run start time. */
-  triggerRunTimestamp?: string;
+  triggerRunTimestamp?: string | undefined;
   /** Trigger run status. */
-  status?: TriggerRunStatus;
+  status?: TriggerRunStatus | undefined;
   /** Trigger error message. */
-  message?: string;
+  message?: string | undefined;
   /** List of property name and value related to trigger run. Name, value pair depends on type of trigger. */
-  properties?: TriggerRunPropertiesMap;
+  properties?: TriggerRunPropertiesMap | undefined;
   /** List of pipeline name and run Id triggered by the trigger run. */
-  triggeredPipelines?: TriggerRunTriggeredPipelinesMap;
+  triggeredPipelines?: TriggerRunTriggeredPipelinesMap | undefined;
   /** Run dimension for which trigger was fired. */
-  runDimension?: TriggerRunRunDimensionMap;
+  runDimension?: TriggerRunRunDimensionMap | undefined;
   /** Status of the upstream pipelines. */
-  dependencyStatus?: TriggerRunDependencyStatusMap;
+  dependencyStatus?: TriggerRunDependencyStatusMap | undefined;
   [key: string]: unknown;
 }
 /** List of trigger runs. */
@@ -3317,7 +3322,7 @@ export interface TriggerRunsQueryResponse {
   /** List of trigger runs. */
   value: TriggerRunsQueryResponseValueList;
   /** The continuation token for getting the next page of results, if any remaining results exist, null otherwise. */
-  continuationToken?: string;
+  continuationToken?: string | undefined;
 }
 export interface TriggerRunsRerunRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -3344,17 +3349,17 @@ export interface TriggersCreateOrUpdateRequest {
 }
 export interface TriggersCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Properties of the trigger. */
   properties: Trigger;
   /** "If etag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields.") */
-  etag?: string;
+  etag?: string | undefined;
 }
 export interface TriggersQueryByFactoryRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -3364,9 +3369,9 @@ export interface TriggersQueryByFactoryRequest {
   /** The factory name. */
   factoryName: string;
   /** The continuation token for getting the next page of results. Null for first page. */
-  continuationToken?: string;
+  continuationToken?: string | undefined;
   /** The name of the parent TumblingWindowTrigger to get the child rerun triggers */
-  parentTriggerName?: string;
+  parentTriggerName?: string | undefined;
 }
 /** List of triggers. */
 export type TriggerQueryResponseValueList = Array<TriggerResource>;
@@ -3375,7 +3380,7 @@ export interface TriggerQueryResponse {
   /** List of triggers. */
   value: TriggerQueryResponseValueList;
   /** The continuation token for getting the next page of results, if any remaining results exist, null otherwise. */
-  continuationToken?: string;
+  continuationToken?: string | undefined;
 }
 export interface UnsubscribeTriggerFromEventsRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -3390,20 +3395,20 @@ export interface UnsubscribeTriggerFromEventsRequest {
 /** Defines the response of a trigger subscription operation. */
 export interface UnsubscribeTriggerFromEventsResponse {
   /** Trigger name. */
-  triggerName?: string;
+  triggerName?: string | undefined;
   /** Event Subscription Status. */
-  status?: EventSubscriptionStatus;
+  status?: EventSubscriptionStatus | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** The resource tags. */
 export type UpdateFactoryRequestTagsMap = { [key: string]: string | undefined };
 /** Factory update resource properties. */
 export interface FactoryUpdateProperties {
   /** Whether or not public network access is allowed for the data factory. */
-  publicNetworkAccess?: PublicNetworkAccess | (string & {});
+  publicNetworkAccess?: PublicNetworkAccess | (string & {}) | undefined;
 }
 export interface UpdateFactoryRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -3413,33 +3418,33 @@ export interface UpdateFactoryRequest {
   /** The factory name. */
   factoryName: string;
   /** The resource tags. */
-  tags?: UpdateFactoryRequestTagsMap;
+  tags?: UpdateFactoryRequestTagsMap | undefined;
   /** Managed service identity of the factory. */
-  identity?: FactoryIdentity;
+  identity?: FactoryIdentity | undefined;
   /** Properties of update the factory. */
-  properties?: FactoryUpdateProperties;
+  properties?: FactoryUpdateProperties | undefined;
 }
 /** The resource tags. */
 export type UpdateFactoryResponseTagsMap = { [key: string]: string | undefined };
 export interface UpdateFactoryResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Properties of the factory. */
-  properties?: FactoryProperties;
+  properties?: FactoryProperties | undefined;
   /** Managed service identity of the factory. */
-  identity?: FactoryIdentity;
+  identity?: FactoryIdentity | undefined;
   /** The resource location. */
-  location?: string;
+  location?: string | undefined;
   /** The resource tags. */
-  tags?: UpdateFactoryResponseTagsMap;
+  tags?: UpdateFactoryResponseTagsMap | undefined;
   /** If eTag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields. */
-  eTag?: string;
+  eTag?: string | undefined;
 }
 /** The state of integration runtime auto update. */
 export type IntegrationRuntimeAutoUpdate = "On" | "Off";
@@ -3453,23 +3458,23 @@ export interface UpdateIntegrationRuntimeRequest {
   /** The integration runtime name. */
   integrationRuntimeName: string;
   /** Enables or disables the auto-update feature of the self-hosted integration runtime. See https://go.microsoft.com/fwlink/?linkid=854189. */
-  autoUpdate?: IntegrationRuntimeAutoUpdate | (string & {});
+  autoUpdate?: IntegrationRuntimeAutoUpdate | (string & {}) | undefined;
   /** The time offset (in hours) in the day, e.g., PT03H is 3 hours. The integration runtime auto update will happen on that time. */
-  updateDelayOffset?: string;
+  updateDelayOffset?: string | undefined;
 }
 export interface UpdateIntegrationRuntimeResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Integration runtime properties. */
   properties: IntegrationRuntime;
   /** "If etag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields.") */
-  etag?: string;
+  etag?: string | undefined;
 }
 export interface UpdateIntegrationRuntimeNodeRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -3481,7 +3486,7 @@ export interface UpdateIntegrationRuntimeNodeRequest {
   /** The integration runtime node name. */
   nodeName: string;
   /** The number of concurrent jobs permitted to run on the integration runtime node. Values between 1 and maxConcurrentJobs(inclusive) are allowed. */
-  concurrentJobsLimit?: number;
+  concurrentJobsLimit?: number | undefined;
 }
 export type AddDataFlowDebugSessionDataFlowError = AzureOpError;
 /** Add a data flow into debug session. */

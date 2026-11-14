@@ -28,7 +28,7 @@ export interface ArchiveConversationRequest {
   /** ID of the code channel to archive. */
   channel_id: string;
   /** Timestamp of a message in the code channel to share back as a thread reply on the origin message. Requires the channel to have an `origin_link` set. */
-  summary_message_ts?: string;
+  summary_message_ts?: string | undefined;
 }
 export interface ArchiveConversationResponse {
   /** Always `true` (a failed call raises a typed error instead). */
@@ -36,17 +36,17 @@ export interface ArchiveConversationResponse {
 }
 export interface CreateConversationRequest {
   /** Encoded team id to create the channel in. Required for org tokens when `origin_channel_id` is not provided. When omitted, the workspace is derived from the origin channel. */
-  team_id?: string;
+  team_id?: string | undefined;
   /** An opaque identifier for the agent session. When provided, the call is idempotent: if a channel already exists for this `session_id`, it is returned instead of creating a new one. */
-  session_id?: string;
+  session_id?: string | undefined;
   /** A friendly display name for the code channel. Optional when `origin_channel_id` and `origin_message_ts` are provided -- in that case the channel is named from the origin message and re-titled automatically. Required when no origin link is given. */
   name: string;
-  /** Create a private channel instead of a public one. */
-  is_private?: boolean;
+  /** Whether the code channel is private. When omitted, the channel matches the privacy of `origin_channel_id`, or is public if no origin is given. An explicit value is always honored, even if it differs from the origin channel's privacy: passing `false` creates a public channel from a private origin. */
+  is_private?: boolean | undefined;
   /** The channel ID where the agent session was initiated from. Must be provided together with `origin_message_ts`. The channel must be accessible to the calling user and must not be externally shared (Slack Connect). When `team_id` is omitted with an org token, the channel is created in the same workspace as this origin channel. */
-  origin_channel_id?: string;
+  origin_channel_id?: string | undefined;
   /** The message timestamp in the origin channel that started the agent session. Must be provided together with `origin_channel_id`. The author of this message is automatically invited to the newly created code channel. */
-  origin_message_ts?: string;
+  origin_message_ts?: string | undefined;
 }
 export interface CreateConversationResponse {
   /** Always `true` (a failed call raises a typed error instead). */
@@ -62,9 +62,9 @@ export interface GetCanvasRequest {
   /** Encoded ID of the canvas to fetch. */
   canvas_id: string;
   /** Format to render the canvas content in. Defaults to markdown. */
-  content_format?: GetCanvasRequestContentFormat | (string & {});
+  content_format?: GetCanvasRequestContentFormat | (string & {}) | undefined;
   /** Whether to include resolved comment threads in the response. Defaults to false. */
-  include_resolved?: boolean;
+  include_resolved?: boolean | undefined;
 }
 export interface GetCanvasResponseCommentsItemRepliesItem {
   /** Message timestamp of the reply. */
@@ -141,9 +141,9 @@ export interface RemoveViewRequest {
   /** ID of the code channel to remove the view from. */
   channel_id: string;
   /** Agent-assigned key of the view to remove. Provide exactly one of view_key or view_id. */
-  view_key?: string;
+  view_key?: string | undefined;
   /** Encoded channel tab ID of the view to remove. Provide exactly one of view_key or view_id. */
-  view_id?: string;
+  view_id?: string | undefined;
 }
 export interface RemoveViewResponse {
   /** Always `true` (a failed call raises a typed error instead). */
@@ -155,19 +155,19 @@ export interface RemoveViewResponse {
 }
 export interface RenameSessionRequest {
   /** ID of the channel containing the agent session. Required for public channels. */
-  channel_id?: string;
+  channel_id?: string | undefined;
   /** New title for the agent session (1-200 characters). For a session channel, this also renames the channel. */
   title: string;
   /** Timestamp of the thread root message the session is scoped to. Required for thread-based sessions in regular channels and DMs. Must be omitted for session channels. */
-  thread_ts?: string;
+  thread_ts?: string | undefined;
 }
 export interface RenameSessionResponse {
   /** Always `true` (a failed call raises a typed error instead). */
   ok: boolean;
   /** The updated title of the agent session. */
-  title?: string;
+  title: string;
   /** The encoded ID of the channel, returned when an agent channel was renamed. */
-  channel_id?: string;
+  channel_id?: string | undefined;
 }
 export interface SetCanvasContentRequest {
   /** ID of the agent session channel the canvas is attached to. */
@@ -212,67 +212,67 @@ export interface SetPropertiesRequestCodeChannelSummaryMessage {
   /** Timestamp of the summary message in the code channel. */
   message_ts: string;
   /** Thread timestamp if the summary message is a thread reply. Clients need this to fetch the message via conversations.replies. */
-  thread_ts?: string;
+  thread_ts?: string | undefined;
 }
 /** Code channel properties to set. Only provided fields are updated. */
 export interface SetPropertiesRequestCodeChannel {
   /** Git hosting provider (e.g. github.com). */
-  host?: string;
+  host?: string | undefined;
   /** Repository name (e.g., org/repo). */
-  repo?: string;
+  repo?: string | undefined;
   /** Working branch name. */
-  branch?: string;
+  branch?: string | undefined;
   /** Base branch the working branch was created from. */
-  base_branch?: string;
+  base_branch?: string | undefined;
   /** Current commit SHA. */
-  commit_sha?: string;
+  commit_sha?: string | undefined;
   /** Pull request number. */
-  pr_number?: number;
+  pr_number?: number | undefined;
   /** URL of the pull request. */
-  pr_url?: string;
+  pr_url?: string | undefined;
   /** Title of the pull request. */
-  pr_title?: string;
-  /** Status of the pull request (e.g. open, merged, closed). */
-  pr_status?: string;
+  pr_title?: string | undefined;
+  /** The pull request status displayed for the channel as a whole. One of: an empty string while the pull request is a draft (no status is displayed); open, when it is ready for review; blocked, when a reviewer requested changes, checks are failing, or it has merge conflicts; merged, once it is merged; or closed, when it is closed without being merged. */
+  pr_status?: string | undefined;
   /** URL to the CI pipeline run. */
-  ci_url?: string;
+  ci_url?: string | undefined;
   /** State of the CI pipeline (e.g. pending, success, failure). */
-  ci_state?: string;
+  ci_state?: string | undefined;
   /** List of file paths relevant to this session. */
-  file_paths?: SetPropertiesRequestCodeChannelFilePathsList;
+  file_paths?: SetPropertiesRequestCodeChannelFilePathsList | undefined;
   /** Primary programming language. */
-  language?: string;
+  language?: string | undefined;
   /** Upstream repository URL. */
-  upstream_url?: string;
+  upstream_url?: string | undefined;
   /** URL of the working branch. */
-  branch_url?: string;
+  branch_url?: string | undefined;
   /** Configurable items to display in the channel context bar. A maximum of 5 items will be applied; any beyond that will be silently truncated and a warning returned. */
-  context_bar_items?: SetPropertiesRequestCodeChannelContextBarItemsList;
+  context_bar_items?: SetPropertiesRequestCodeChannelContextBarItemsList | undefined;
   /** Points to the current summary message for this code channel. Must reference a message within this channel. When the channel is archived with a summary_message_ts, this property is also set to record where the summary lives so clients can fetch it. */
-  summary_message?: SetPropertiesRequestCodeChannelSummaryMessage;
+  summary_message?: SetPropertiesRequestCodeChannelSummaryMessage | undefined;
 }
 /** Agent resource properties to set. Only provided fields are updated. */
 export interface SetPropertiesRequestAgentResource {
   /** URL of the external resource. */
-  url?: string;
+  url?: string | undefined;
   /** Type of the external resource. */
-  resource_type?: string;
+  resource_type?: string | undefined;
   /** Display title of the external resource. */
-  title?: string;
+  title?: string | undefined;
   /** Provider of the external resource. */
-  provider?: string;
+  provider?: string | undefined;
 }
 export interface SetPropertiesRequest {
   /** ID of the code channel to update. */
   channel_id: string;
   /** New display title for the agent session. */
-  title?: string;
+  title?: string | undefined;
   /** New status for the agent session. */
-  status?: SetPropertiesRequestStatus | (string & {});
+  status?: SetPropertiesRequestStatus | (string & {}) | undefined;
   /** Code channel properties to set. Only provided fields are updated. */
-  code_channel?: SetPropertiesRequestCodeChannel;
+  code_channel?: SetPropertiesRequestCodeChannel | undefined;
   /** Agent resource properties to set. Only provided fields are updated. */
-  agent_resource?: SetPropertiesRequestAgentResource;
+  agent_resource?: SetPropertiesRequestAgentResource | undefined;
 }
 export interface SetPropertiesResponse {
   /** Always `true` (a failed call raises a typed error instead). */
@@ -280,78 +280,70 @@ export interface SetPropertiesResponse {
   /** The encoded ID of the updated code channel. */
   channel_id: string;
 }
-/** The lifecycle status to set. */
-export type SetStatusRequestStatus = "active" | "processing" | "suspended" | "closed";
 export interface SetStatusRequest {
   /** ID of the channel containing the agent session. Required for public channels. */
-  channel_id?: string;
+  channel_id?: string | undefined;
   /** The lifecycle status to set. */
-  status: SetStatusRequestStatus | (string & {});
+  status: unknown;
   /** Timestamp of the thread root message the session is scoped to. Required for thread-based sessions in regular channels and DMs. Must be omitted for session channels. */
-  thread_ts?: string;
+  thread_ts?: string | undefined;
   /** Title for the agent session (max 200 characters). Only used when creating a new session; ignored if the session already exists. To rename an existing session, use `agents.sessions.rename`. */
-  title?: string;
+  title?: string | undefined;
   /** The user who initiated the session. Only used when creating a new session; ignored if the session already exists. Must be a member of the channel. */
-  initiator_user_id?: string;
+  initiator_user_id?: string | undefined;
   /** Emoji to use as the agent's icon. Takes priority over `icon_url`. Remains in effect until you clear it (pass `null`) or set a new value. Requires the `chat:write.customize` scope. */
-  icon_emoji?: string;
+  icon_emoji?: string | undefined;
   /** URL to an image to use as the agent's icon. Remains in effect until you clear it (pass `null`) or set a new value. Requires the `chat:write.customize` scope. */
-  icon_url?: string;
+  icon_url?: string | undefined;
   /** Display name override for the agent (max 200 characters). Remains in effect until you clear it (pass `null`) or set a new value. Requires the `chat:write.customize` scope. */
-  username?: string;
+  username?: string | undefined;
 }
 export interface SetStatusResponse {
   /** Always `true` (a failed call raises a typed error instead). */
   ok: boolean;
   /** The current lifecycle status of the agent session, derived from the statuses of all agents in the session. */
-  status?: unknown;
+  status: unknown;
   /** The lifecycle status of the calling agent within this session. May differ from the session-level status when other agents are present. */
-  agent_status?: unknown;
+  agent_status: unknown;
   /** The current title of the agent session, if set. */
-  title?: string;
+  title?: string | undefined;
 }
-/** For canvas views: access level granted to the channel for the canvas tab. Defaults to write. Use 'comment' to grant channel members comment access (read and comment, no editing) so the agent remains the sole author of the canvas text. */
+/** For `canvas` views: access level granted to the channel for the canvas tab. Defaults to `write`. Use `comment` to grant channel members comment access (read and comment, no editing) so the agent remains the sole author of the canvas text. */
 export type SetViewRequestAccessLevel = "read" | "write" | "comment";
-/** Origins the view may fetch()/XHR/WebSocket to. Accepted and stored, but not honored at render time yet. */
-export type SetViewRequestCspConnectDomainsList = Array<string>;
-/** Origins the view may load scripts/styles/fonts/images/media from, merged into the curated CDN allowlist at render time. */
+/** Origins the view may load scripts, styles, fonts, images, and media from, merged into the curated CDN allowlist at render time. */
 export type SetViewRequestCspResourceDomainsList = Array<string>;
-/** Content-Security-Policy domain declarations for the view. Domains are validated server-side (https-only, no private/internal hosts) and persisted. Only resource_domains is honored at render time today; connect_domains is accepted and stored for forward-compatibility but NOT honored yet. */
+/** Content-Security-Policy domain declarations for the view. Domains are validated server-side (`https://` only, no private or internal hosts) and persisted. */
 export interface SetViewRequestCsp {
-  /** Origins the view may fetch()/XHR/WebSocket to. Accepted and stored, but not honored at render time yet. */
-  connect_domains?: SetViewRequestCspConnectDomainsList;
-  /** Origins the view may load scripts/styles/fonts/images/media from, merged into the curated CDN allowlist at render time. */
-  resource_domains?: SetViewRequestCspResourceDomainsList;
+  /** Origins the view may load scripts, styles, fonts, images, and media from, merged into the curated CDN allowlist at render time. */
+  resource_domains?: SetViewRequestCspResourceDomainsList | undefined;
 }
 export interface SetViewRequest {
   /** ID of the code channel to render the view in. */
   channel_id: string;
-  /** The kind of view to create or update. Defaults to html. Determines which other arguments are required: html and diff require content, block_kit requires blocks, canvas requires canvas_id, pull_request requires pr_url. */
-  type?: unknown;
-  /** Agent-assigned stable identity for the view (e.g. the source file path on the agent's machine). Used as the upsert key: calls with the same view_key update the same view. Required for html, block_kit, and canvas views; ignored for diff (a diff view is a per-channel singleton). */
-  view_key?: string;
-  /** View content. For html, a full self-contained HTML document; for diff, raw unified diff text. Capped at 1,000,000 bytes -- larger content returns content_too_large. The cap is enforced by the handler (not schema maxLength) so the documented error code actually surfaces instead of a generic argument-validation failure. Required when type is html or diff. */
-  content?: string;
-  /** Block Kit blocks to render in the view tab. Required when type is block_kit; ignored otherwise. */
-  blocks?: unknown;
-  /** Encoded ID of the canvas to attach as the view. Required when type is canvas; ignored otherwise. */
-  canvas_id?: string;
-  /** For canvas views: access level granted to the channel for the canvas tab. Defaults to write. Use 'comment' to grant channel members comment access (read and comment, no editing) so the agent remains the sole author of the canvas text. */
-  access_level?: SetViewRequestAccessLevel | (string & {});
-  /** For canvas views: hash of the canvas-derived markdown the agent last wrote, recorded so the agent can later detect human edits to the canvas. Opaque to the server. */
-  agent_content_hash?: string;
-  /** For pull_request views: the pull request's URL. Required when type is pull_request; ignored otherwise. */
-  pr_url?: string;
-  /** For diff views: base branch name for display purposes. */
-  base_branch?: string;
-  /** For diff views: head branch name for display purposes. */
-  head_branch?: string;
-  /** Display label for the view tab. Preferred over the legacy 'label' argument (name wins if both are supplied). Defaults to the last path segment of view_key, stripped of any .html/.htm extension. */
-  name?: string;
-  /** Deprecated alias for 'name'. Display label for the view tab. Defaults to the last path segment of view_key, stripped of any .html/.htm extension. */
-  label?: string;
-  /** Content-Security-Policy domain declarations for the view. Domains are validated server-side (https-only, no private/internal hosts) and persisted. Only resource_domains is honored at render time today; connect_domains is accepted and stored for forward-compatibility but NOT honored yet. */
-  csp?: SetViewRequestCsp;
+  /** The kind of view to create or update. Defaults to `html`. Determines which other arguments are required: `html` and `diff` require `content`, `block_kit` requires `blocks`, and `canvas` requires `canvas_id`. */
+  type?: unknown | undefined;
+  /** Agent-assigned stable identity for the view (e.g. the source file path on the agent's machine). Used as the upsert key: calls with the same `view_key` update the same view. Required for `html`, `block_kit`, and `canvas` views; ignored for `diff` (a `diff` view is a per-channel singleton). */
+  view_key?: string | undefined;
+  /** View content. For `html`, a full self-contained HTML document; for `diff`, raw unified diff text. Capped at 1,000,000 bytes; larger content returns `content_too_large`. The cap is enforced by the handler (not schema `maxLength`) so the documented error code actually surfaces instead of a generic argument-validation failure. Required when `type` is `html` or `diff`. */
+  content?: string | undefined;
+  /** Block Kit blocks to render in the view tab. Required when `type` is `block_kit`; ignored otherwise. */
+  blocks?: unknown | undefined;
+  /** Encoded ID of the canvas to attach as the view. Required when `type` is `canvas`; ignored otherwise. */
+  canvas_id?: string | undefined;
+  /** For `canvas` views: access level granted to the channel for the canvas tab. Defaults to `write`. Use `comment` to grant channel members comment access (read and comment, no editing) so the agent remains the sole author of the canvas text. */
+  access_level?: SetViewRequestAccessLevel | (string & {}) | undefined;
+  /** For `canvas` views: hash of the canvas-derived markdown the agent last wrote, recorded so the agent can later detect human edits to the canvas. Opaque to the server. */
+  agent_content_hash?: string | undefined;
+  /** For `diff` views: base branch name for display purposes. */
+  base_branch?: string | undefined;
+  /** For `diff` views: head branch name for display purposes. */
+  head_branch?: string | undefined;
+  /** Display label for the view tab. Preferred over the legacy `label` argument (`name` wins if both are supplied). Defaults to the last path segment of `view_key`, stripped of any `.html` or `.htm` extension. */
+  name?: string | undefined;
+  /** Deprecated alias for `name`. Display label for the view tab. Defaults to the last path segment of `view_key`, stripped of any `.html` or `.htm` extension. */
+  label?: string | undefined;
+  /** Content-Security-Policy domain declarations for the view. Domains are validated server-side (`https://` only, no private or internal hosts) and persisted. */
+  csp?: SetViewRequestCsp | undefined;
 }
 export interface SetViewResponse {
   /** Always `true` (a failed call raises a typed error instead). */
@@ -360,14 +352,14 @@ export interface SetViewResponse {
   channel_id: string;
   /** The encoded channel tab ID of the view. */
   view_id: string;
-  /** The encoded ID of the backing file for the view. For html and block_kit views this is the agent-owned content file; for diff views it is the diff snippet file; for canvas views it is the canvas's file ID (same value as canvas_id). Empty for pull_request views, which have no backing file. */
+  /** The encoded ID of the backing file for the view. For `html` and `block_kit` views this is the agent-owned content file; for `diff` views it is the diff snippet file; for `canvas` views it is the canvas's file ID (same value as `canvas_id`). */
   file_id: string;
   /** Server-assigned content version, monotonically increasing per view. */
   content_version: number;
   /** The type of the view that was created or updated. */
-  type?: unknown;
-  /** For canvas views, the encoded ID of the attached canvas. Absent for other view types. */
-  canvas_id?: string;
+  type?: unknown | undefined;
+  /** For `canvas` views, the encoded ID of the attached canvas. Absent for other view types. */
+  canvas_id?: string | undefined;
 }
 export type ArchiveConversationError = SlackOpError;
 /** Archive a code channel. Required scopes -- bot: `code_channels:manage` Method-specific errors (the `error` slug on the SlackError): - `channel_not_found` -- The specified channel_id does not correspond to a valid channel. - `not_agent_channel` -- The specified channel is not a code channel. - `not_authorized` -- The caller is not an authorized agent bot for this channel. - `already_archived` -- The channel has already been archived. - `restricted_action` -- The workspace does not allow the bot to archive channels. - `summary_message_not_found` -- The specified summary_message_ts does not correspond to a message in the code channel. - `no_origin_link` -- summary_message_ts was provided but the code channel has no origin_link set. - `origin_channel_not_found` -- The origin channel referenced by the code channel is no longer accessible. - `origin_message_not_found` -- The origin message referenced by the code channel's origin_link could not be found. See https://docs.slack.dev/reference/methods/agents.conversations.archive */
@@ -404,7 +396,7 @@ export const createConversation: API.OperationMethod<
 }));
 
 export type GetCanvasError = SlackOpError;
-/** Fetch a canvas attached to a code channel. Required scopes -- bot: `code_channels:manage` Method-specific errors (the `error` slug on the SlackError): - `channel_not_found` -- The specified channel does not correspond to a valid channel. - `not_agent_channel` -- The specified channel is not an agent session channel. - `not_authorized` -- The caller is not an authorized agent bot for this channel. - `canvas_not_found` -- The specified `canvas_id` does not correspond to a canvas you can access. - `canvas_content_fetch_failed` -- The canvas content could not be fetched or rendered. - `comments_fetch_failed` -- The canvas comment threads could not be fetched. See https://docs.slack.dev/reference/methods/agents.conversations.getCanvas */
+/** Fetch a canvas attached to a code channel. Required scopes -- bot: `code_channels:manage` Rate limit tier: 3 Method-specific errors (the `error` slug on the SlackError): - `channel_not_found` -- The specified channel does not correspond to a valid channel. - `not_agent_channel` -- The specified channel is not an agent session channel. - `not_authorized` -- The caller is not an authorized agent bot for this channel. - `canvas_not_found` -- The specified `canvas_id` does not correspond to a canvas you can access. - `canvas_content_fetch_failed` -- The canvas content could not be fetched or rendered. - `comments_fetch_failed` -- The canvas comment threads could not be fetched. See https://docs.slack.dev/reference/methods/agents.conversations.getCanvas */
 export const getCanvas: API.OperationMethod<
   GetCanvasRequest,
   GetCanvasResponse,
@@ -472,7 +464,7 @@ export const renameSession: API.OperationMethod<
 }));
 
 export type SetCanvasContentError = SlackOpError;
-/** Replace the full markdown content of a plan canvas attached to a code channel. Required scopes -- bot: `code_channels:manage` Method-specific errors (the `error` slug on the SlackError): - `channel_not_found` -- The specified channel does not correspond to a valid channel. - `not_agent_channel` -- The specified channel is not an agent session channel. - `feature_not_enabled` -- The set-canvas-content feature is not enabled for this user. - `not_authorized` -- The caller is not an authorized agent bot for this channel. - `canvas_not_found` -- The specified canvas_id does not correspond to a canvas you can access. - `content_too_large` -- The provided content exceeds the maximum canvas size. - `too_many_sections` -- The provided content or the existing canvas has too many sections to diff. Reduce the number of distinct blocks (paragraphs, headings, code fences) in the document. - `canvas_content_fetch_failed` -- The canvas's current content could not be read to compute the diff. - `canvas_content_update_failed` -- The canvas content could not be updated. See https://docs.slack.dev/reference/methods/agents.conversations.setCanvasContent */
+/** Replace the full markdown content of a plan canvas attached to a code channel. Required scopes -- bot: `code_channels:manage` Rate limit tier: 3 Method-specific errors (the `error` slug on the SlackError): - `channel_not_found` -- The specified channel does not correspond to a valid channel. - `not_agent_channel` -- The specified channel is not an agent session channel. - `not_authorized` -- The caller is not an authorized agent bot for this channel. - `canvas_not_found` -- The specified canvas_id does not correspond to a canvas you can access. - `content_too_large` -- The provided content exceeds the maximum canvas size. - `too_many_sections` -- The provided content or the existing canvas has too many sections to diff. Reduce the number of distinct blocks (paragraphs, headings, code fences) in the document. - `canvas_content_fetch_failed` -- The canvas's current content could not be read to compute the diff. - `canvas_content_update_failed` -- The canvas content could not be updated. See https://docs.slack.dev/reference/methods/agents.conversations.setCanvasContent */
 export const setCanvasContent: API.OperationMethod<
   SetCanvasContentRequest,
   SetCanvasContentResponse,
@@ -540,7 +532,7 @@ export const setStatus: API.OperationMethod<
 }));
 
 export type SetViewError = SlackOpError;
-/** Create or update a view in a code channel. Required scopes -- bot: `code_channels:manage` Method-specific errors (the `error` slug on the SlackError): - `channel_not_found` -- The specified channel does not correspond to a valid channel. - `not_agent_channel` -- The specified channel is not a code channel. - `not_authorized` -- The caller is not an authorized agent bot or member for this channel. - `content_too_large` -- The view content exceeds the maximum allowed size (1 MB). - `too_many_views` -- The channel already has the maximum number of views (5), or already has a diff view (at most 1 is allowed). - `invalid_csp_domain` -- One or more declared CSP domains failed validation (must be https:// origins, no private/reserved/internal hosts). - `invalid_view_type` -- The supplied type is not a recognized view type. - `missing_required_arg` -- A required argument for the supplied view type is missing (content for html/diff, blocks for block_kit, canvas_id for canvas, pr_url for pull_request). - `invalid_pr_url` -- The supplied pr_url is not a valid https pull request URL. - `invalid_blocks` -- The supplied blocks failed Block Kit validation. - `canvas_not_found` -- The specified canvas_id does not correspond to a canvas you can access. - `not_view_owner` -- The view already exists and was created by a different agent bot; only its owner may update it. - `view_creation_failed` -- The view could not be created as a channel tab. See https://docs.slack.dev/reference/methods/agents.conversations.setView */
+/** Create or update a view in a code channel. Required scopes -- bot: `code_channels:manage` Method-specific errors (the `error` slug on the SlackError): - `channel_not_found` -- The specified channel does not correspond to a valid channel. - `not_agent_channel` -- The specified channel is not a code channel. - `not_authorized` -- The caller is not an authorized agent bot or member for this channel. - `content_too_large` -- The view content exceeds the maximum allowed size (1 MB). - `too_many_views` -- The channel already has the maximum number of views (5), or already has a `diff` view (at most 1 is allowed). - `invalid_csp_domain` -- One or more declared CSP domains failed validation (must be `https://` origins, no private, reserved, or internal hosts). - `invalid_view_type` -- The supplied `type` is not a recognized view type. - `missing_required_arg` -- A required argument for the supplied view type is missing (`content` for `html` or `diff`, `blocks` for `block_kit`, `canvas_id` for `canvas`). - `invalid_blocks` -- The supplied `blocks` failed Block Kit validation. - `canvas_not_found` -- The specified `canvas_id` does not correspond to a canvas you can access. - `not_view_owner` -- The view already exists and was created by a different agent bot; only its owner may update it. - `view_creation_failed` -- The view could not be created as a channel tab. See https://docs.slack.dev/reference/methods/agents.conversations.setView */
 export const setView: API.OperationMethod<
   SetViewRequest,
   SetViewResponse,
@@ -605,7 +597,6 @@ function __c3(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          connect_domains: S.optional(__S(96, __c12, 0)),
           resource_domains: S.optional(__S(96, __c12, 0)),
         }),
       ).annotate({ identifier: "SetViewRequestCsp" });
@@ -620,7 +611,6 @@ function __c3(j: number): any {
           canvas_id: S.optional(S.String),
           access_level: S.optional(S.String),
           agent_content_hash: S.optional(S.String),
-          pr_url: S.optional(S.String),
           base_branch: S.optional(S.String),
           head_branch: S.optional(S.String),
           name: S.optional(S.String),
@@ -755,7 +745,7 @@ function __c7(j: number): any {
       return S.suspend(() =>
         S.Struct({
           ok: S.Boolean,
-          title: S.optional(S.String),
+          title: S.String,
           channel_id: S.optional(S.String),
         }),
       ).annotate({ identifier: "RenameSessionResponse" });
@@ -872,7 +862,7 @@ function __c13(j: number): any {
       return S.suspend(() =>
         S.Struct({
           channel_id: S.optional(S.String),
-          status: S.String,
+          status: S.Unknown,
           thread_ts: S.optional(S.String),
           title: S.optional(S.String),
           initiator_user_id: S.optional(S.String),
@@ -885,8 +875,8 @@ function __c13(j: number): any {
       return S.suspend(() =>
         S.Struct({
           ok: S.Boolean,
-          status: S.optional(S.Unknown),
-          agent_status: S.optional(S.Unknown),
+          status: S.Unknown,
+          agent_status: S.Unknown,
           title: S.optional(S.String),
         }),
       ).annotate({ identifier: "SetStatusResponse" });

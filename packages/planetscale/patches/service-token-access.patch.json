@@ -1,0 +1,371 @@
+{
+  "description": "Service-token access operations (GET, POST and DELETE /organizations/{organization}/service-tokens/{id}/access), absent from the OpenAPI spec. Routes, bodies and responses follow the official Go SDK used by pscale: https://github.com/planetscale/planetscale-go/blob/v0.175.0/planetscale/service_tokens.go and its service_tokens_test.go fixtures. GET /access returns individual accesses, unlike GET /grants, which groups them by resource. Remove when the spec covers these operations.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.planetscale.api#PlanetScale/operations/-",
+      "value": {
+        "target": "com.planetscale.api#ListServiceTokenAccesses"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.planetscale.api#PlanetScale/operations/-",
+      "value": {
+        "target": "com.planetscale.api#AddServiceTokenAccess"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.planetscale.api#PlanetScale/operations/-",
+      "value": {
+        "target": "com.planetscale.api#RemoveServiceTokenAccess"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.planetscale.api#ListServiceTokenAccesses",
+      "value": {
+        "type": "operation",
+        "input": {
+          "target": "com.planetscale.api#ListServiceTokenAccessesRequest"
+        },
+        "output": {
+          "target": "com.planetscale.api#ServiceTokenAccessesResponse"
+        },
+        "errors": [
+          {
+            "target": "com.planetscale.api#Forbidden"
+          },
+          {
+            "target": "com.planetscale.api#NotFound"
+          },
+          {
+            "target": "com.planetscale.api#UnprocessableEntity"
+          }
+        ],
+        "traits": {
+          "smithy.api#http": {
+            "method": "GET",
+            "uri": "/organizations/{organization}/service-tokens/{id}/access",
+            "code": 200
+          },
+          "smithy.api#documentation": "List the individual access permissions granted to a service token.",
+          "com.distilled.telemetry#operation": {
+            "name": "PlanetScale.ListServiceTokenAccesses",
+            "method": "PlanetScale/ListServiceTokenAccesses",
+            "attributes": {
+              "url.template": "/organizations/{organization}/service-tokens/{id}/access"
+            }
+          }
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.planetscale.api#ListServiceTokenAccessesRequest",
+      "value": {
+        "type": "structure",
+        "members": {
+          "organization": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#httpLabel": {},
+              "smithy.api#required": {}
+            }
+          },
+          "id": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#httpLabel": {},
+              "smithy.api#required": {}
+            }
+          }
+        },
+        "traits": {
+          "smithy.api#input": {}
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.planetscale.api#AddServiceTokenAccess",
+      "value": {
+        "type": "operation",
+        "input": {
+          "target": "com.planetscale.api#AddServiceTokenAccessRequest"
+        },
+        "output": {
+          "target": "com.planetscale.api#ServiceTokenAccessesResponse"
+        },
+        "errors": [
+          {
+            "target": "com.planetscale.api#Forbidden"
+          },
+          {
+            "target": "com.planetscale.api#NotFound"
+          },
+          {
+            "target": "com.planetscale.api#UnprocessableEntity"
+          }
+        ],
+        "traits": {
+          "smithy.api#http": {
+            "method": "POST",
+            "uri": "/organizations/{organization}/service-tokens/{id}/access",
+            "code": 200
+          },
+          "smithy.api#documentation": "Grant access permissions on a database or organization to a service token.",
+          "com.distilled.telemetry#operation": {
+            "name": "PlanetScale.AddServiceTokenAccess",
+            "method": "PlanetScale/AddServiceTokenAccess",
+            "attributes": {
+              "url.template": "/organizations/{organization}/service-tokens/{id}/access"
+            }
+          }
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.planetscale.api#AddServiceTokenAccessRequest",
+      "value": {
+        "type": "structure",
+        "members": {
+          "organization": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#httpLabel": {},
+              "smithy.api#required": {}
+            }
+          },
+          "id": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#httpLabel": {},
+              "smithy.api#required": {}
+            }
+          },
+          "database": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#required": {},
+              "smithy.api#documentation": "Database name, or an empty string for organization-level access."
+            }
+          },
+          "access": {
+            "target": "com.planetscale.api#ServiceTokenAccessNames",
+            "traits": {
+              "smithy.api#required": {}
+            }
+          }
+        },
+        "traits": {
+          "smithy.api#input": {}
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.planetscale.api#RemoveServiceTokenAccess",
+      "value": {
+        "type": "operation",
+        "input": {
+          "target": "com.planetscale.api#RemoveServiceTokenAccessRequest"
+        },
+        "output": {
+          "target": "smithy.api#Unit"
+        },
+        "errors": [
+          {
+            "target": "com.planetscale.api#Forbidden"
+          },
+          {
+            "target": "com.planetscale.api#NotFound"
+          },
+          {
+            "target": "com.planetscale.api#UnprocessableEntity"
+          }
+        ],
+        "traits": {
+          "smithy.api#http": {
+            "method": "DELETE",
+            "uri": "/organizations/{organization}/service-tokens/{id}/access",
+            "code": 200
+          },
+          "smithy.api#documentation": "Remove access permissions on a database or organization from a service token.",
+          "com.distilled.telemetry#operation": {
+            "name": "PlanetScale.RemoveServiceTokenAccess",
+            "method": "PlanetScale/RemoveServiceTokenAccess",
+            "attributes": {
+              "url.template": "/organizations/{organization}/service-tokens/{id}/access"
+            }
+          }
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.planetscale.api#RemoveServiceTokenAccessRequest",
+      "value": {
+        "type": "structure",
+        "members": {
+          "organization": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#httpLabel": {},
+              "smithy.api#required": {}
+            }
+          },
+          "id": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#httpLabel": {},
+              "smithy.api#required": {}
+            }
+          },
+          "database": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#required": {},
+              "smithy.api#documentation": "Database name, or an empty string for organization-level access."
+            }
+          },
+          "access": {
+            "target": "com.planetscale.api#ServiceTokenAccessNames",
+            "traits": {
+              "smithy.api#required": {}
+            }
+          }
+        },
+        "traits": {
+          "smithy.api#input": {}
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.planetscale.api#ServiceTokenAccessNames",
+      "value": {
+        "type": "list",
+        "member": {
+          "target": "smithy.api#String"
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.planetscale.api#ServiceTokenAccessesResponse",
+      "value": {
+        "type": "structure",
+        "members": {
+          "type": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#required": {}
+            }
+          },
+          "next_page": {
+            "target": "smithy.api#Integer",
+            "traits": {
+              "smithy.api#required": {},
+              "com.distilled.openapi#nullable": {}
+            }
+          },
+          "prev_page": {
+            "target": "smithy.api#Integer",
+            "traits": {
+              "smithy.api#required": {},
+              "com.distilled.openapi#nullable": {}
+            }
+          },
+          "data": {
+            "target": "com.planetscale.api#ServiceTokenAccessList",
+            "traits": {
+              "smithy.api#required": {}
+            }
+          }
+        },
+        "traits": {
+          "smithy.api#output": {}
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.planetscale.api#ServiceTokenAccessList",
+      "value": {
+        "type": "list",
+        "member": {
+          "target": "com.planetscale.api#ServiceTokenAccess"
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.planetscale.api#ServiceTokenAccess",
+      "value": {
+        "type": "structure",
+        "members": {
+          "id": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#required": {}
+            }
+          },
+          "type": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#required": {}
+            }
+          },
+          "access": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#required": {}
+            }
+          },
+          "resource": {
+            "target": "com.planetscale.api#ServiceTokenAccessResource",
+            "traits": {
+              "smithy.api#required": {}
+            }
+          }
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.planetscale.api#ServiceTokenAccessResource",
+      "value": {
+        "type": "structure",
+        "members": {
+          "id": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#required": {}
+            }
+          },
+          "name": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#required": {}
+            }
+          },
+          "type": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#required": {}
+            }
+          },
+          "created_at": {
+            "target": "smithy.api#String"
+          },
+          "updated_at": {
+            "target": "smithy.api#String"
+          }
+        }
+      }
+    }
+  ]
+}

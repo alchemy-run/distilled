@@ -1,0 +1,15 @@
+{
+  "operations": {
+    "deleteDataAutomationLibrary": {
+      "syntheticErrors": [
+        {
+          "name": "LibraryIngestionJobsActive",
+          "from": "ValidationException",
+          "message": {
+            "includes": "there are active ingestion jobs"
+          }
+        }
+      ]
+    }
+  }
+}

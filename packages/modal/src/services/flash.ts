@@ -24,37 +24,37 @@ const TELEMETRY = {
 } as const;
 
 export interface FlashContainerDeregisterRequest {
-  serviceName?: string;
+  serviceName?: string | undefined;
 }
 export interface FlashContainerDeregisterResponse {}
 export interface FlashSetTargetSlotsMetricsRequest {
   /** TODO(claudia): add other metrics to use in autoscaling decisions */
-  functionId?: string;
-  targetSlots?: number;
+  functionId?: string | undefined;
+  targetSlots?: number | undefined;
 }
 export interface FlashSetTargetSlotsMetricsResponse {}
 export interface ListFlashContainerRequest {
-  functionId?: string;
+  functionId?: string | undefined;
 }
 export interface ListFlashContainerResponseContainer {
-  taskId?: string;
-  host?: string;
-  port?: number;
+  taskId: string;
+  host: string;
+  port: number;
 }
 export type ListFlashContainerResponseContainerList = Array<ListFlashContainerResponseContainer>;
 export interface ListFlashContainerResponse {
-  containers?: ListFlashContainerResponseContainerList;
+  containers: ListFlashContainerResponseContainerList;
 }
 export interface RegisterFlashContainerRequest {
-  serviceName?: string;
   /** not used? */
-  priority?: number;
-  weight?: number;
-  host?: string;
-  port?: number;
+  serviceName?: string | undefined;
+  priority?: number | undefined;
+  weight?: number | undefined;
+  host?: string | undefined;
+  port?: number | undefined;
 }
 export interface RegisterFlashContainerResponse {
-  url?: string;
+  url: string;
 }
 export type FlashContainerDeregisterError = ModalOpError;
 /** Modal Flash (experimental) */
@@ -180,9 +180,9 @@ function __c3(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          taskId: S.optional(S.String),
-          host: S.optional(S.String),
-          port: S.optional(S.Number),
+          taskId: S.String,
+          host: S.String,
+          port: S.Number,
         }),
       ).annotate({ identifier: "ListFlashContainerResponseContainer" });
     case 2:
@@ -190,7 +190,7 @@ function __c3(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          containers: S.optional(__S(14, __c3, 2)),
+          containers: __S(14, __c3, 2),
         }),
       ).annotate({ identifier: "ListFlashContainerResponse" });
   }
@@ -216,7 +216,7 @@ function __c4(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          url: S.optional(S.String),
+          url: S.String,
         }),
       ).annotate({ identifier: "RegisterFlashContainerResponse" });
   }

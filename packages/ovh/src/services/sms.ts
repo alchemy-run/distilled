@@ -35,9 +35,9 @@ export interface CancelSmsBatchRequest {
 /** Batch error details */
 export interface SmsBatchError {
   /** Error message */
-  message?: string;
+  message?: string | undefined;
   /** Receiver that triggered the error */
-  receiver?: string;
+  receiver?: string | undefined;
 }
 /** Details on error(s) on the batch, if any */
 export type SmsBatchErrorsList = Array<SmsBatchError>;
@@ -56,39 +56,39 @@ export type SmsBatchStatusEnum =
 /** Batch of SMS to send */
 export interface SmsBatch {
   /** SMS account ID */
-  accountID?: number;
+  accountID?: number | undefined;
   /** Creation datetime */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** Details on error(s) on the batch, if any */
-  errors?: SmsBatchErrorsList;
+  errors?: SmsBatchErrorsList | undefined;
   /** The estimated cost of the batch in credits */
-  estimatedCredits?: number;
+  estimatedCredits?: number | undefined;
   /** Datetime when the batch finished processing SMSs */
-  finishedAt?: string | null;
+  finishedAt?: string | null | undefined;
   /** SMS sender */
-  from?: string | null;
+  from?: string | null | undefined;
   /** Batch ID */
-  id?: string;
+  id?: string | undefined;
   /** SMS message */
-  message?: string;
+  message?: string | undefined;
   /** Batch name */
-  name?: string;
+  name?: string | undefined;
   /** Number of processed records in this batch */
-  processedRecords?: number;
+  processedRecords?: number | undefined;
   /** SMS receivers list */
-  receivers?: SmsBatchReceiversList | null;
+  receivers?: SmsBatchReceiversList | null | undefined;
   /** Datetime when the SMSs of the batch are sent (based on deferred time if exists) */
-  sentAt?: string | null;
+  sentAt?: string | null | undefined;
   /** Slot ID */
-  slotID?: string | null;
+  slotID?: string | null | undefined;
   /** Datetime when the batch started processing SMSs */
-  startedAt?: string | null;
+  startedAt?: string | null | undefined;
   /** Batch status */
-  status?: SmsBatchStatusEnum;
+  status?: SmsBatchStatusEnum | undefined;
   /** Total number of records in this batch */
-  totalRecords?: number;
+  totalRecords?: number | undefined;
   /** Last update datetime */
-  updatedAt?: string;
+  updatedAt?: string | undefined;
 }
 /** SMS classes */
 export type SmsBatchClassEnum = "FLASH" | "PHONE" | "SIM";
@@ -98,25 +98,25 @@ export interface CreateSmsBatchRequest {
   /** The internal name of your SMS offer */
   serviceName: string;
   /** Deprecated: SMS class */
-  class?: SmsBatchClassEnum | (string & {});
+  class?: SmsBatchClassEnum | (string & {}) | undefined;
   /** SMS deferred sending date */
-  deferred?: string;
+  deferred?: string | undefined;
   /** SMS sender. Either "from" or "senderForResponse" must be passed */
-  from?: string;
+  from?: string | undefined;
   /** SMS message */
   message: string;
   /** Batch name */
-  name?: string;
+  name?: string | undefined;
   /** STOP clause not needed */
-  noStop?: boolean;
+  noStop?: boolean | undefined;
   /** Ask to compute a sender that allows response. Either "from" or "senderForResponse" must be passed */
-  senderForResponse?: boolean;
+  senderForResponse?: boolean | undefined;
   /** SMS receivers slot ID. Either "to" or "slotID" must be passed */
-  slotID?: string;
+  slotID?: string | undefined;
   /** SMS tag */
-  tag?: string;
+  tag?: string | undefined;
   /** SMS receivers list. Either "to" or "slotID" must be passed */
-  to?: CreateSmsBatchRequestToList;
+  to?: CreateSmsBatchRequestToList | undefined;
 }
 /** All existing types for a given sender */
 export type SmsTypeSenderEnum = "alpha" | "numeric" | "shortcode" | "virtual";
@@ -133,13 +133,13 @@ export type SmsEncodingEnum = "7bits" | "unicode";
 /** A structure describing the encoding, length and number of SMS parts of a text message */
 export interface SmsJobEstimate {
   /** The number of characters the message contains, including invisible escaped characters */
-  characters?: number;
+  characters?: number | undefined;
   /** The characters class that will be used to send the SMS, depending on characters in message */
-  charactersClass?: SmsEncodingEnum;
+  charactersClass?: SmsEncodingEnum | undefined;
   /** The number of characters every SMS part can contain, depending on characters class and quantity of parts */
-  maxCharactersPerPart?: number;
+  maxCharactersPerPart?: number | undefined;
   /** The quantity of SMS parts the message will be split in */
-  parts?: number;
+  parts?: number | undefined;
 }
 /** The receivers */
 export type CreateSmsHlrRequestReceiversList = Array<string>;
@@ -147,20 +147,20 @@ export interface CreateSmsHlrRequest {
   /** The internal name of your SMS offer */
   serviceName: string;
   /** The receivers */
-  receivers?: CreateSmsHlrRequestReceiversList;
+  receivers?: CreateSmsHlrRequestReceiversList | undefined;
   /** The receivers document url link in csv format */
-  receiversDocumentUrl?: string;
+  receiversDocumentUrl?: string | undefined;
 }
 export type SmsSmsSendingReportIdsList = Array<number>;
 export type SmsSmsSendingReportInvalidReceiversList = Array<string>;
 export type SmsSmsSendingReportValidReceiversList = Array<string>;
 /** A structure describing all information about quota informations */
 export interface SmsSmsSendingReport {
-  ids?: SmsSmsSendingReportIdsList;
-  invalidReceivers?: SmsSmsSendingReportInvalidReceiversList;
-  tag?: string;
-  totalCreditsRemoved?: number;
-  validReceivers?: SmsSmsSendingReportValidReceiversList;
+  ids?: SmsSmsSendingReportIdsList | undefined;
+  invalidReceivers?: SmsSmsSendingReportInvalidReceiversList | undefined;
+  tag?: string | undefined;
+  totalCreditsRemoved?: number | undefined;
+  validReceivers?: SmsSmsSendingReportValidReceiversList | undefined;
 }
 /** The charset format */
 export type SmsCharsetEnum = "UTF-8";
@@ -176,33 +176,33 @@ export interface CreateSmsJobRequest {
   /** The internal name of your SMS offer */
   serviceName: string;
   /** The sms coding */
-  charset?: SmsCharsetEnum | (string & {});
+  charset?: SmsCharsetEnum | (string & {}) | undefined;
   /** Deprecated: The sms class */
-  class?: SmsClassEnum | (string & {});
+  class?: SmsClassEnum | (string & {}) | undefined;
   /** Deprecated: the coding is deduced from the message and its charset */
-  coding?: SmsCodingEnum | (string & {});
+  coding?: SmsCodingEnum | (string & {}) | undefined;
   /** The time -in minute(s)- to wait before sending the message */
-  differedPeriod?: number;
+  differedPeriod?: number | undefined;
   /** The sms message */
   message: string;
   /** Do not display STOP clause in the message, this requires that this is not an advertising message */
-  noStopClause?: boolean;
+  noStopClause?: boolean | undefined;
   /** The priority of the message */
-  priority?: SmsPriorityEnum | (string & {});
+  priority?: SmsPriorityEnum | (string & {}) | undefined;
   /** The receivers list */
-  receivers?: CreateSmsJobRequestReceiversList;
+  receivers?: CreateSmsJobRequestReceiversList | undefined;
   /** The receivers document url link in csv format */
-  receiversDocumentUrl?: string;
+  receiversDocumentUrl?: string | undefined;
   /** The receivers document slot id */
-  receiversSlotId?: string;
+  receiversSlotId?: string | undefined;
   /** The sender */
-  sender?: string;
+  sender?: string | undefined;
   /** Set the flag to send a special sms which can be reply by the receiver (smsResponse). */
-  senderForResponse?: boolean;
+  senderForResponse?: boolean | undefined;
   /** The identifier group tag */
-  tag?: string;
+  tag?: string | undefined;
   /** The maximum time -in minute(s)- before the message is dropped */
-  validityPeriod?: number;
+  validityPeriod?: number | undefined;
 }
 export interface CreateSmsPhonebookRequest {
   /** The internal name of your SMS offer */
@@ -219,17 +219,17 @@ export interface CreateSmsPhonebookPhonebookContactRequest {
   /** Group name of the phonebook */
   group: string;
   /** Home mobile phone number of the contact */
-  homeMobile?: string;
+  homeMobile?: string | undefined;
   /** Home landline phone number of the contact */
-  homePhone?: string;
+  homePhone?: string | undefined;
   /** Name of the contact */
   name: string;
   /** Contact surname */
   surname: string;
   /** Mobile phone office number of the contact */
-  workMobile?: string;
+  workMobile?: string | undefined;
   /** Landline phone office number of the contact */
-  workPhone?: string;
+  workPhone?: string | undefined;
 }
 export type CreateSmsPhonebookPhonebookContactResponse = number;
 export interface CreateSmsReceiverRequest {
@@ -238,28 +238,28 @@ export interface CreateSmsReceiverRequest {
   /** Download file from URL before sending to contacts (works only with csvUrl and not document ID) */
   autoUpdate: boolean;
   /** URL of the file you want to import */
-  csvUrl?: string;
+  csvUrl?: string | undefined;
   /** Description name of the document */
   description: string;
   /** ID of the /me/document file you want to import */
-  documentId?: string;
+  documentId?: string | undefined;
   /** Slot number id used to handle the document */
   slotId: number;
 }
 /** Sms receivers preloaded */
 export interface SmsReceiver {
   /** Download file from URL before sending to contacts (works only with csvUrl and not document ID) */
-  autoUpdate?: boolean;
+  autoUpdate?: boolean | undefined;
   /** Is the object compatible with autoUpdate */
-  canAutoUpdate?: boolean;
+  canAutoUpdate?: boolean | undefined;
   /** Creation date of the document */
-  datetime?: string;
+  datetime?: string | undefined;
   /** Description name of the document */
-  description?: string;
+  description?: string | undefined;
   /** Number of receiver records in the document */
-  records?: number;
+  records?: number | undefined;
   /** Slot number id */
-  slotId?: number;
+  slotId?: number | undefined;
 }
 export interface CreateSmsReceiverCleanRequest {
   /** The internal name of your SMS offer */
@@ -273,16 +273,16 @@ export interface CreateSmsReceiverCleanRequest {
 }
 /** A structure giving operation price and asynchronous task ID */
 export interface SmsReceiversAsynchronousCleanReport {
-  taskId?: number;
-  totalCreditsRemoved?: number;
+  taskId?: number | undefined;
+  totalCreditsRemoved?: number | undefined;
 }
 export interface CreateSmsSenderRequest {
   /** The internal name of your SMS offer */
   serviceName: string;
   /** Sender description */
-  description?: string;
+  description?: string | undefined;
   /** Message seen by the moderator */
-  reason?: string;
+  reason?: string | undefined;
   /** The sender (alpha or phone number) */
   sender: string;
 }
@@ -293,26 +293,26 @@ export interface CreateSmsSenderDocumentRequest {
   /** The sms sender */
   sender: string;
   /** Document description */
-  description?: string;
+  description?: string | undefined;
   /** Document name */
   name: string;
 }
 /** SMS senders' document */
 export interface SmsSenderDocument {
   /** Creation datetime */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** Document description */
-  description?: string | null;
+  description?: string | null | undefined;
   /** Document ID */
-  documentID?: string;
+  documentID?: string | undefined;
   /** URL to get document */
-  getUrl?: string;
+  getUrl?: string | undefined;
   /** Document name */
-  name?: string;
+  name?: string | undefined;
   /** URL to upload document */
-  putUrl?: string | null;
+  putUrl?: string | null | undefined;
   /** Document size (in bytes) */
-  size?: number;
+  size?: number | undefined;
 }
 export interface CreateSmsSmppPasswordRequest {
   /** The internal name of your SMS offer */
@@ -327,13 +327,13 @@ export interface CreateSmsTemplatesControlRequest {
   /** Specify the kind of template */
   activity: SmsTypeTemplateEnum | (string & {});
   /** Template description */
-  description?: string;
+  description?: string | undefined;
   /** Message pattern to be moderated. Use "#VALUE#" format for dynamic text area. */
   message: string;
   /** Name of the template */
   name: string;
   /** Message seen by the moderator */
-  reason?: string;
+  reason?: string | undefined;
 }
 export interface CreateSmsTemplatesControlResponse {}
 export interface CreateSmsTemplatesControlRelaunchValidationRequest {
@@ -364,33 +364,33 @@ export interface CreateSmsUserJobRequest {
   /** The sms user login */
   login: string;
   /** The sms coding */
-  charset?: SmsCharsetEnum | (string & {});
+  charset?: SmsCharsetEnum | (string & {}) | undefined;
   /** Deprecated: The sms class */
-  class?: SmsClassEnum | (string & {});
+  class?: SmsClassEnum | (string & {}) | undefined;
   /** Deprecated: the coding is deduced from the message and its charset */
-  coding?: SmsCodingEnum | (string & {});
+  coding?: SmsCodingEnum | (string & {}) | undefined;
   /** The time -in minute(s)- to wait before sending the message */
-  differedPeriod?: number;
+  differedPeriod?: number | undefined;
   /** The sms message */
   message: string;
   /** Do not display STOP clause in the message, this requires that this is not an advertising message */
-  noStopClause?: boolean;
+  noStopClause?: boolean | undefined;
   /** The priority of the message */
-  priority?: SmsPriorityEnum | (string & {});
+  priority?: SmsPriorityEnum | (string & {}) | undefined;
   /** The receivers list */
-  receivers?: CreateSmsUserJobRequestReceiversList;
+  receivers?: CreateSmsUserJobRequestReceiversList | undefined;
   /** The receivers document url link in csv format */
-  receiversDocumentUrl?: string;
+  receiversDocumentUrl?: string | undefined;
   /** The receivers document slot id */
-  receiversSlotId?: string;
+  receiversSlotId?: string | undefined;
   /** The sender */
-  sender?: string;
+  sender?: string | undefined;
   /** Set the flag to send a special sms which can be reply by the receiver (smsResponse). */
-  senderForResponse?: boolean;
+  senderForResponse?: boolean | undefined;
   /** The identifier group tag */
-  tag?: string;
+  tag?: string | undefined;
   /** The maximum time -in minute(s)- before the message is dropped */
-  validityPeriod?: number;
+  validityPeriod?: number | undefined;
 }
 export interface CreateSmsUserReceiverRequest {
   /** The internal name of your SMS offer */
@@ -400,11 +400,11 @@ export interface CreateSmsUserReceiverRequest {
   /** Download file from URL before sending to contacts (works only with csvUrl and not document ID) */
   autoUpdate: boolean;
   /** URL of the file you want to import */
-  csvUrl?: string;
+  csvUrl?: string | undefined;
   /** Description name of the document */
   description: string;
   /** ID of the /me/document file you want to import */
-  documentId?: string;
+  documentId?: string | undefined;
   /** Slot number id used to handle the document */
   slotId: number;
 }
@@ -429,10 +429,10 @@ export interface CreateSmsVirtualNumberChatAccessRequest {
 /** The web access for your virtual number chat application */
 export interface SmsChatAccess {
   /** The creation date of this access */
-  creationDate?: string;
-  id?: number;
+  creationDate?: string | undefined;
+  id?: number | undefined;
   /** The url of the web access */
-  url?: string;
+  url?: string | undefined;
 }
 /** The receivers list */
 export type CreateSmsVirtualNumberJobRequestReceiversList = Array<string>;
@@ -442,27 +442,27 @@ export interface CreateSmsVirtualNumberJobRequest {
   /** The virtual number */
   number: string;
   /** The sms coding */
-  charset?: SmsCharsetEnum | (string & {});
+  charset?: SmsCharsetEnum | (string & {}) | undefined;
   /** Deprecated: The sms class */
-  class?: SmsClassEnum | (string & {});
+  class?: SmsClassEnum | (string & {}) | undefined;
   /** Deprecated: the coding is deduced from the message and its charset */
-  coding?: SmsCodingEnum | (string & {});
+  coding?: SmsCodingEnum | (string & {}) | undefined;
   /** The time -in minute(s)- to wait before sending the message */
-  differedPeriod?: number;
+  differedPeriod?: number | undefined;
   /** The sms message */
   message: string;
   /** The priority of the message */
-  priority?: SmsPriorityEnum | (string & {});
+  priority?: SmsPriorityEnum | (string & {}) | undefined;
   /** The receivers list */
-  receivers?: CreateSmsVirtualNumberJobRequestReceiversList;
+  receivers?: CreateSmsVirtualNumberJobRequestReceiversList | undefined;
   /** The receivers document url link in csv format */
-  receiversDocumentUrl?: string;
+  receiversDocumentUrl?: string | undefined;
   /** The receivers document slot id */
-  receiversSlotId?: string;
+  receiversSlotId?: string | undefined;
   /** The identifier group tag */
-  tag?: string;
+  tag?: string | undefined;
   /** The maximum time -in minute(s)- before the message is dropped */
-  validityPeriod?: number;
+  validityPeriod?: number | undefined;
 }
 export interface DeleteSmsBatchRequest {
   /** The internal name of your SMS offer */
@@ -626,13 +626,13 @@ export type IamResourceMetadataTagsMap = { [key: string]: string | undefined };
 /** IAM resource metadata embedded in services models */
 export interface IamResourceMetadata {
   /** Resource display name */
-  displayName?: string | null;
+  displayName?: string | null | undefined;
   /** Unique identifier of the resource */
-  id?: string;
+  id?: string | undefined;
   /** Resource tags. Tags that were internally computed are prefixed with ovh: */
-  tags?: IamResourceMetadataTagsMap | null;
+  tags?: IamResourceMetadataTagsMap | null | undefined;
   /** Unique resource name used in policies */
-  urn?: string;
+  urn?: string | undefined;
 }
 /** Response type */
 export type SmsResponseTypeEnum = "cgi" | "none" | "text";
@@ -640,56 +640,56 @@ export type SmsResponseTypeEnum = "cgi" | "none" | "text";
 export type SmsResponseTrackingMediaEnum = "email" | "sms" | "voice";
 /** The tracking media response */
 export interface SmsResponseTrackingOptions {
-  media?: SmsResponseTrackingMediaEnum | (string & {});
-  sender?: string;
-  target?: string;
+  media?: SmsResponseTrackingMediaEnum | (string & {}) | undefined;
+  sender?: string | undefined;
+  target?: string | undefined;
 }
 export type SmsResponseTrackingOptionsList = Array<SmsResponseTrackingOptions>;
 /** A structure describing how to manage an sms Response */
 export interface SmsResponse {
   /** Default url callback used for a given response. */
-  cgiUrl?: string | null;
-  responseType?: SmsResponseTypeEnum | (string & {});
+  cgiUrl?: string | null | undefined;
+  responseType?: SmsResponseTypeEnum | (string & {}) | undefined;
   /** Automatic notification sent by text in case of customer reply. */
-  text?: string | null;
-  trackingDefaultSmsSender?: string | null;
-  trackingOptions?: SmsResponseTrackingOptionsList | null;
+  text?: string | null | undefined;
+  trackingDefaultSmsSender?: string | null | undefined;
+  trackingOptions?: SmsResponseTrackingOptionsList | null | undefined;
 }
 /** Account status */
 export type SmsStatusAccountEnum = "disable" | "enable";
 /** A structure describing all information about templates informations */
 export interface SmsTemplates {
-  customizedEmailMode?: boolean;
-  customizedSmsMode?: boolean;
-  emailBody?: string | null;
-  emailFrom?: string | null;
-  emailSubject?: string | null;
-  smsBody?: string | null;
-  time2chatAutomaticResponse?: string | null;
+  customizedEmailMode?: boolean | undefined;
+  customizedSmsMode?: boolean | undefined;
+  emailBody?: string | null | undefined;
+  emailFrom?: string | null | undefined;
+  emailSubject?: string | null | undefined;
+  smsBody?: string | null | undefined;
+  time2chatAutomaticResponse?: string | null | undefined;
 }
 /** SMS details */
 export interface SmsAccountWithIAM {
-  automaticRecreditAmount?: SmsPackQuantityAutomaticRecreditEnum | null;
+  automaticRecreditAmount?: SmsPackQuantityAutomaticRecreditEnum | null | undefined;
   /** URL called when state of a sent SMS changes */
-  callBack?: string | null;
+  callBack?: string | null | undefined;
   /** For what purpose this account can be used for */
-  channel?: SmsChannelEnum;
+  channel?: SmsChannelEnum | undefined;
   /** Credit threshold after which an automatic recredit is launched */
-  creditThresholdForAutomaticRecredit?: number;
-  creditsHoldByQuota?: number;
-  creditsLeft?: number;
-  description?: string;
+  creditThresholdForAutomaticRecredit?: number | undefined;
+  creditsHoldByQuota?: number | undefined;
+  creditsLeft?: number | undefined;
+  description?: string | undefined;
   /** IAM resource metadata */
-  iam?: IamResourceMetadata | null;
-  name?: string;
+  iam?: IamResourceMetadata | null | undefined;
+  name?: string | undefined;
   /** Whether the account can be used for smpp or not */
-  smpp?: boolean;
-  smsResponse?: SmsResponse;
-  status?: SmsStatusAccountEnum;
+  smpp?: boolean | undefined;
+  smsResponse?: SmsResponse | undefined;
+  status?: SmsStatusAccountEnum | undefined;
   /** URL called when a STOP is received after a receiver replied stop to a SMS */
-  stopCallBack?: string | null;
-  templates?: SmsTemplates;
-  userQuantityWithQuota?: number;
+  stopCallBack?: string | null | undefined;
+  templates?: SmsTemplates | undefined;
+  userQuantityWithQuota?: number | undefined;
 }
 export interface GetSmsBatchRequest {
   /** The internal name of your SMS offer */
@@ -706,21 +706,21 @@ export interface GetSmsBatchStatisticsRequest {
 /** Batch's statistics */
 export interface SmsBatchStatistics {
   /** The cost of the batch in credits, computed during batch processing */
-  credits?: number;
+  credits?: number | undefined;
   /** Number of SMS that are delivered */
-  delivered?: number;
+  delivered?: number | undefined;
   /** The estimated cost of the batch in credits, computed before batch processing */
-  estimatedCredits?: number;
+  estimatedCredits?: number | undefined;
   /** Number of SMS in error */
-  failed?: number;
+  failed?: number | undefined;
   /** Batch ID */
-  id?: string;
+  id?: string | undefined;
   /** Number of SMS that are in pending status */
-  pending?: number;
+  pending?: number | undefined;
   /** Number of SMS that are sent to the broker */
-  sent?: number;
+  sent?: number | undefined;
   /** Number of SMS that received a STOP by the receiver */
-  stoplisted?: number;
+  stoplisted?: number | undefined;
 }
 export interface GetSmsBlacklistRequest {
   /** The internal name of your SMS offer */
@@ -731,12 +731,12 @@ export interface GetSmsBlacklistRequest {
 /** SMS blacklist */
 export interface SmsBlacklist {
   /** ID of the batch responsible of the blacklist */
-  batchID?: string | null;
-  dateCreation?: string;
+  batchID?: string | null | undefined;
+  dateCreation?: string | undefined;
   /** The sms number blacklisted */
-  number?: string;
+  number?: string | undefined;
   /** ID of the outgoing SMS responsible of the blacklist */
-  smsOutgoingID?: number | null;
+  smsOutgoingID?: number | null | undefined;
 }
 /** Way type */
 export type SmsDocumentWayTypeEnum = "incoming" | "outgoing";
@@ -744,13 +744,13 @@ export interface GetSmsDocumentRequest {
   /** The internal name of your SMS offer */
   serviceName: string;
   /** Filter SMSs with their batch ID (outgoing SMSs only) */
-  batchID?: string;
+  batchID?: string | undefined;
   /** Filter the value of creationDatetime property (>=) */
-  creationDatetime_from?: string;
+  creationDatetime_from?: string | undefined;
   /** Filter the value of creationDatetime property (<=) */
-  creationDatetime_to?: string;
+  creationDatetime_to?: string | undefined;
   /** Select sms with a specific identifier group tag */
-  tag?: string;
+  tag?: string | undefined;
   /** specify outgoing or incoming sms */
   wayType: SmsDocumentWayTypeEnum | (string & {});
 }
@@ -766,23 +766,23 @@ export type SmsHlrStatuses = "doing" | "done" | "error" | "todo";
 /** Home Location Register informations. Give informations about a given cellular phone. */
 export interface SmsHlrLookupNumber {
   /** HLR creation datetime */
-  datetime?: string;
+  datetime?: string | undefined;
   /** HLR id */
-  id?: number;
+  id?: number | undefined;
   /** MSISDN */
-  msisdn?: string;
+  msisdn?: string | undefined;
   /** The {Mobile Country Code, Mobile Network Code} unique identifier */
-  operatorCode?: string;
+  operatorCode?: string | undefined;
   /** Has the MSISDN been ported from its original network */
-  ported?: boolean;
+  ported?: boolean | undefined;
   /** Is the MSISDN currently reachable */
-  reachable?: boolean;
+  reachable?: boolean | undefined;
   /** Is the MSISDN currently roaming outside its natinal network */
-  roaming?: boolean;
+  roaming?: boolean | undefined;
   /** Status of the HLR request */
-  status?: SmsHlrStatuses;
+  status?: SmsHlrStatuses | undefined;
   /** Is the MSISDN valid */
-  valid?: boolean;
+  valid?: boolean | undefined;
 }
 export interface GetSmsHlrOperatorRequest {
   /** The internal name of your SMS offer */
@@ -793,15 +793,15 @@ export interface GetSmsHlrOperatorRequest {
 /** Sms operator informations */
 export interface SmsHlr {
   /** The country */
-  country?: string;
+  country?: string | undefined;
   /** The countryCode prefix number */
-  countryCode?: string;
+  countryCode?: string | undefined;
   /** The network name */
-  network?: string;
+  network?: string | undefined;
   /** The operator name */
-  operator?: string;
+  operator?: string | undefined;
   /** The region */
-  region?: string;
+  region?: string | undefined;
 }
 export interface GetSmsIncomingRequest {
   /** The internal name of your SMS offer */
@@ -811,12 +811,12 @@ export interface GetSmsIncomingRequest {
 }
 /** Sms history of sms incoming received */
 export interface SmsIncoming {
-  creationDatetime?: string;
-  credits?: number;
-  id?: number;
-  message?: string;
-  sender?: string;
-  tag?: string;
+  creationDatetime?: string | undefined;
+  credits?: number | undefined;
+  id?: number | undefined;
+  message?: string | undefined;
+  sender?: string | undefined;
+  tag?: string | undefined;
 }
 export interface GetSmsJobRequest {
   /** The internal name of your SMS offer */
@@ -826,19 +826,19 @@ export interface GetSmsJobRequest {
 }
 /** Sms job */
 export interface SmsJob {
-  creationDatetime?: string;
-  credits?: number;
-  deliveredAt?: string | null;
-  deliveryReceipt?: number;
-  differedDelivery?: number;
-  id?: number;
-  message?: string;
-  messageLength?: number;
-  numberOfSms?: number;
-  ptt?: number;
-  receiver?: string;
-  sender?: string;
-  sentAt?: string | null;
+  creationDatetime?: string | undefined;
+  credits?: number | undefined;
+  deliveredAt?: string | null | undefined;
+  deliveryReceipt?: number | undefined;
+  differedDelivery?: number | undefined;
+  id?: number | undefined;
+  message?: string | undefined;
+  messageLength?: number | undefined;
+  numberOfSms?: number | undefined;
+  ptt?: number | undefined;
+  receiver?: string | undefined;
+  sender?: string | undefined;
+  sentAt?: string | null | undefined;
 }
 export interface GetSmsOutgoingRequest {
   /** The internal name of your SMS offer */
@@ -849,39 +849,39 @@ export interface GetSmsOutgoingRequest {
 /** Sent SMS */
 export interface SmsOutgoing {
   /** ID of batch linked to the SMS */
-  batchID?: string | null;
+  batchID?: string | null | undefined;
   /** Creation datetime */
-  creationDatetime?: string;
+  creationDatetime?: string | undefined;
   /** Spent credits */
-  credits?: number;
+  credits?: number | undefined;
   /** Delivering datetime */
-  deliveredAt?: string | null;
+  deliveredAt?: string | null | undefined;
   /** Delivery receipt from operator */
-  deliveryReceipt?: number;
+  deliveryReceipt?: number | undefined;
   /** Delay before SMS sending */
-  differedDelivery?: number;
+  differedDelivery?: number | undefined;
   /** Identifier */
-  id?: number;
+  id?: number | undefined;
   /** SMS message */
-  message?: string;
+  message?: string | undefined;
   /** SMPP messageID */
-  messageID?: string | null;
+  messageID?: string | null | undefined;
   /** SMS message length */
-  messageLength?: number;
+  messageLength?: number | undefined;
   /** SMS message's number of parts */
-  numberOfSms?: number;
+  numberOfSms?: number | undefined;
   /** Code representing SMS state */
-  ptt?: number;
+  ptt?: number | undefined;
   /** SMS receiver */
-  receiver?: string;
+  receiver?: string | undefined;
   /** SMS sender */
-  sender?: string;
+  sender?: string | undefined;
   /** Sending datetime */
-  sentAt?: string | null;
+  sentAt?: string | null | undefined;
   /** Customer label to categorize SMSs */
-  tag?: string;
+  tag?: string | undefined;
   /** Tariff code applied on the sms */
-  tariffCode?: string;
+  tariffCode?: string | undefined;
 }
 export interface GetSmsOutgoingHlrRequest {
   /** The internal name of your SMS offer */
@@ -898,11 +898,11 @@ export interface GetSmsPhonebookRequest {
 /** Phone book */
 export interface SmsPhonebook {
   /** Identifier of the phonebook */
-  bookKey?: string;
+  bookKey?: string | undefined;
   /** Phonebook name */
-  name?: string;
+  name?: string | undefined;
   /** Phone key identifier between the phone and phonebooks */
-  phoneKey?: string;
+  phoneKey?: string | undefined;
 }
 /** Export file format */
 export type TelephonyContactsExportFormatsEnum = "csv";
@@ -918,10 +918,10 @@ export interface GetSmsPhonebookExportRequest {
 export type TelephonyPcsFileStatusEnum = "doing" | "done" | "error" | "todo";
 /** Telephony API related file hosted */
 export interface TelephonyPcsFile {
-  filename?: string;
-  status?: TelephonyPcsFileStatusEnum;
-  url?: string;
-  urlExpirationDatetime?: string;
+  filename?: string | undefined;
+  status?: TelephonyPcsFileStatusEnum | undefined;
+  url?: string | undefined;
+  urlExpirationDatetime?: string | undefined;
 }
 export interface GetSmsPhonebookPhonebookContactRequest {
   /** The internal name of your SMS offer */
@@ -934,21 +934,21 @@ export interface GetSmsPhonebookPhonebookContactRequest {
 /** Phone book contact */
 export interface SmsPhonebookContact {
   /** Group name of the phonebook */
-  group?: string;
+  group?: string | undefined;
   /** Home mobile phone number of the contact */
-  homeMobile?: string | null;
+  homeMobile?: string | null | undefined;
   /** Home landline phone number of the contact */
-  homePhone?: string | null;
+  homePhone?: string | null | undefined;
   /** Contact identifier */
-  id?: number;
+  id?: number | undefined;
   /** Contact name */
-  name?: string;
+  name?: string | undefined;
   /** Contact surname */
-  surname?: string;
+  surname?: string | undefined;
   /** Mobile phone office number of the contact */
-  workMobile?: string | null;
+  workMobile?: string | null | undefined;
   /** Landline phone office number of the contact */
-  workPhone?: string | null;
+  workPhone?: string | null | undefined;
 }
 export interface GetSmsPttsRequest {
   /** The premium transaction tracking code */
@@ -959,11 +959,11 @@ export type SmsPttDurationTypeEnum = "indeterminated" | "permanent" | "temporary
 /** A structure describing ptt details */
 export interface SmsPttDetails {
   /** Ptt informations */
-  comment?: string;
+  comment?: string | undefined;
   /** Ptt short description */
-  description?: string;
+  description?: string | undefined;
   /** Ptt volatility type */
-  duration?: SmsPttDurationTypeEnum;
+  duration?: SmsPttDurationTypeEnum | undefined;
 }
 /** Countries where we sell SMS credits */
 export type SmsBillingCountryEnum = "es" | "fr" | "gb" | "ie" | "it" | "pl";
@@ -1179,7 +1179,7 @@ export type SmsCountryEnum =
   | "zw";
 export interface GetSmsRateDestinationsRequest {
   /** Country where you buy credits */
-  billingCountry?: SmsBillingCountryEnum | (string & {});
+  billingCountry?: SmsBillingCountryEnum | (string & {}) | undefined;
   /** Country where you send SMS */
   country: SmsCountryEnum | (string & {});
 }
@@ -1201,20 +1201,20 @@ export type OrderCurrencyCodeEnum =
   | "points";
 /** Price with it's currency and textual representation */
 export interface OrderPrice {
-  currencyCode?: OrderCurrencyCodeEnum;
-  text?: string;
-  value?: number;
+  currencyCode?: OrderCurrencyCodeEnum | undefined;
+  text?: string | undefined;
+  value?: number | undefined;
 }
 /** Rates of a given destination */
 export interface SmsDestinationRates {
   /** The country full name */
-  country?: string;
+  country?: string | undefined;
   /** The country 2-letters code */
-  countryCode?: SmsCountryEnum;
+  countryCode?: SmsCountryEnum | undefined;
   /** Credits consumed by sending one SMS towards the given destination */
-  credit?: number;
+  credit?: number | undefined;
   /** Price of one SMS sent towards the given destination */
-  price?: OrderPrice;
+  price?: OrderPrice | undefined;
 }
 export interface GetSmsReceiverRequest {
   /** The internal name of your SMS offer */
@@ -1242,19 +1242,19 @@ export type SmsStatusSenderEnum = "disable" | "enable" | "refused" | "waitingVal
 /** SMS senders */
 export interface SmsSender {
   /** Message sent by the moderator */
-  comment?: string | null;
+  comment?: string | null | undefined;
   /** Sender description */
-  description?: string;
+  description?: string | undefined;
   /** Specify if the sender is custom or not */
-  referer?: SmsRefererSenderEnum;
+  referer?: SmsRefererSenderEnum | undefined;
   /** The sms sender */
-  sender?: string;
+  sender?: string | undefined;
   /** Sender status */
-  status?: SmsStatusSenderEnum;
+  status?: SmsStatusSenderEnum | undefined;
   /** Specify the kind of sender */
-  type?: SmsTypeSenderEnum | null;
+  type?: SmsTypeSenderEnum | null | undefined;
   /** Validation media identifier */
-  validationMedia?: string | null;
+  validationMedia?: string | null | undefined;
 }
 export interface GetSmsSenderDocumentRequest {
   /** The internal name of your SMS offer */
@@ -1273,15 +1273,15 @@ export type ServicesServicePossibleRenewPeriodList = Array<number>;
 /** Map a possible renew for a specific service */
 export interface ServiceRenewType {
   /** The service is automatically renewed */
-  automatic?: boolean;
+  automatic?: boolean | undefined;
   /** The service will be deleted at expiration */
-  deleteAtExpiration?: boolean;
+  deleteAtExpiration?: boolean | undefined;
   /** The service forced to be renewed */
-  forced?: boolean;
+  forced?: boolean | undefined;
   /** The service needs to be manually renewed and paid */
-  manualPayment?: boolean | null;
+  manualPayment?: boolean | null | undefined;
   /** period of renew in month */
-  period?: number | null;
+  period?: number | null | undefined;
 }
 /** Detailed renewal type of a service */
 export type ServiceRenewalTypeEnum =
@@ -1303,21 +1303,21 @@ export type ServiceStateEnum =
 /** Details about a Service */
 export interface ServicesService {
   /** Indicates that the service can be set up to be deleted at expiration */
-  canDeleteAtExpiration?: boolean;
-  contactAdmin?: string;
-  contactBilling?: string;
-  contactTech?: string;
-  creation?: string;
-  domain?: string;
-  engagedUpTo?: string | null;
-  expiration?: string;
+  canDeleteAtExpiration?: boolean | undefined;
+  contactAdmin?: string | undefined;
+  contactBilling?: string | undefined;
+  contactTech?: string | undefined;
+  creation?: string | undefined;
+  domain?: string | undefined;
+  engagedUpTo?: string | null | undefined;
+  expiration?: string | undefined;
   /** All the possible renew period of your service in month */
-  possibleRenewPeriod?: ServicesServicePossibleRenewPeriodList | null;
+  possibleRenewPeriod?: ServicesServicePossibleRenewPeriodList | null | undefined;
   /** Way of handling the renew */
-  renew?: ServiceRenewType | null;
-  renewalType?: ServiceRenewalTypeEnum;
-  serviceId?: number;
-  status?: ServiceStateEnum;
+  renew?: ServiceRenewType | null | undefined;
+  renewalType?: ServiceRenewalTypeEnum | undefined;
+  serviceId?: number | undefined;
+  status?: ServiceStateEnum | undefined;
 }
 export interface GetSmsSmppSettingsRequest {
   /** The internal name of your SMS offer */
@@ -1326,9 +1326,9 @@ export interface GetSmsSmppSettingsRequest {
 /** SMPP Settings Endpoints */
 export interface SmsSettingsEndpoints {
   /** address of the TLS endpoint: domain:port */
-  secured?: string;
+  secured?: string | undefined;
   /** address of the non-TLS endpoint: domain:port */
-  unsecured?: string;
+  unsecured?: string | undefined;
 }
 /** Addresses of the TLS and non-TLS endpoints */
 export type SmsSettingsEndpointsList = Array<SmsSettingsEndpoints>;
@@ -1343,15 +1343,15 @@ export type SmsSettingsStatusEnum =
 /** SMPP settings */
 export interface SmsSettings {
   /** Addresses of the TLS and non-TLS endpoints */
-  endpoints?: SmsSettingsEndpointsList;
+  endpoints?: SmsSettingsEndpointsList | undefined;
   /** Status of the SMPP account */
-  status?: SmsSettingsStatusEnum;
+  status?: SmsSettingsStatusEnum | undefined;
   /** Username used to connect to OVHcloud SMSC */
-  systemID?: string;
+  systemID?: string | undefined;
   /** Number of messages allowed per seconds */
-  throughput?: number;
+  throughput?: number | undefined;
   /** Number of messages treated simultaneously */
-  windowing?: number;
+  windowing?: number | undefined;
 }
 export interface GetSmsTaskRequest {
   /** The internal name of your SMS offer */
@@ -1372,10 +1372,10 @@ export type SmsTodoGeneralPublicStepsEnum =
   | "waitForHlrs";
 /** Operation on a SMS service */
 export interface SmsTask {
-  function?: SmsTodoGeneralPublicFunctionsEnum;
-  status?: TelephonyTaskStatusEnum;
-  step?: SmsTodoGeneralPublicStepsEnum;
-  taskId?: number;
+  function?: SmsTodoGeneralPublicFunctionsEnum | undefined;
+  status?: TelephonyTaskStatusEnum | undefined;
+  step?: SmsTodoGeneralPublicStepsEnum | undefined;
+  taskId?: number | undefined;
 }
 export interface GetSmsTemplatesControlRequest {
   /** The internal name of your SMS offer */
@@ -1386,19 +1386,19 @@ export interface GetSmsTemplatesControlRequest {
 /** Sms template for moderation (Needed to send in US country) */
 export interface SmsTemplateControl {
   /** Specify the kind of template */
-  activity?: SmsTypeTemplateEnum;
+  activity?: SmsTypeTemplateEnum | undefined;
   /** Message sent by the moderator */
-  comment?: string;
+  comment?: string | undefined;
   /** Template creation datetime */
-  datetime?: string;
+  datetime?: string | undefined;
   /** Template description */
-  description?: string;
+  description?: string | undefined;
   /** Message pattern to be moderated. Use "#VALUE#" format for dynamic text area. */
-  message?: string;
+  message?: string | undefined;
   /** Name of the template */
-  name?: string;
+  name?: string | undefined;
   /** Template status */
-  status?: SmsStatusSenderEnum;
+  status?: SmsStatusSenderEnum | undefined;
 }
 export interface GetSmsUserRequest {
   /** The internal name of your SMS offer */
@@ -1410,31 +1410,31 @@ export interface GetSmsUserRequest {
 export type SmsSupportEnum = "both" | "mail" | "sms";
 /** A structure describing all information about alert threshold informations */
 export interface SmsAlertThreshold {
-  alertEmail?: string;
-  alertNumber?: string;
-  alertThreshold?: number;
-  support?: SmsSupportEnum | (string & {});
+  alertEmail?: string | undefined;
+  alertNumber?: string | undefined;
+  alertThreshold?: number | undefined;
+  support?: SmsSupportEnum | (string & {}) | undefined;
 }
 export type SmsUserIpRestrictionsList = Array<string>;
 /** Current quota status */
 export type SmsQuotaStatusUserEnum = "active" | "inactive";
 /** A structure describing all information about quota informations */
 export interface SmsQuota {
-  quotaLeft?: number;
-  quotaStatus?: SmsQuotaStatusUserEnum | (string & {});
+  quotaLeft?: number | undefined;
+  quotaStatus?: SmsQuotaStatusUserEnum | (string & {}) | undefined;
 }
 /** SMS users */
 export interface SmsUser {
-  alertThresholdInformations?: SmsAlertThreshold;
+  alertThresholdInformations?: SmsAlertThreshold | undefined;
   /** URL called when state of a sent SMS changes */
-  callBack?: string | null;
-  ipRestrictions?: SmsUserIpRestrictionsList;
+  callBack?: string | null | undefined;
+  ipRestrictions?: SmsUserIpRestrictionsList | undefined;
   /** The sms user login */
-  login?: string;
-  password?: string | Redacted.Redacted<string>;
-  quotaInformations?: SmsQuota;
+  login?: string | undefined;
+  password?: string | Redacted.Redacted<string> | undefined;
+  quotaInformations?: SmsQuota | undefined;
   /** URL called when a STOP is received after a receiver replied stop to a SMS */
-  stopCallBack?: string | null;
+  stopCallBack?: string | null | undefined;
 }
 export interface GetSmsUserDocumentRequest {
   /** The internal name of your SMS offer */
@@ -1442,11 +1442,11 @@ export interface GetSmsUserDocumentRequest {
   /** The sms user login */
   login: string;
   /** Filter the value of creationDatetime property (>=) */
-  creationDatetime_from?: string;
+  creationDatetime_from?: string | undefined;
   /** Filter the value of creationDatetime property (<=) */
-  creationDatetime_to?: string;
+  creationDatetime_to?: string | undefined;
   /** Select sms with a specific identifier group tag */
-  tag?: string;
+  tag?: string | undefined;
   /** specify outgoing or incoming sms */
   wayType: SmsDocumentWayTypeEnum | (string & {});
 }
@@ -1509,11 +1509,11 @@ export type SmsVirtualNumberIsoCountryCodeEnum = "be" | "ch" | "de" | "es" | "fr
 /** Virtual numbers */
 export interface SmsVirtualNumberGenericServiceWithIAM {
   /** The ISO formated country code of the number */
-  countryCode?: SmsVirtualNumberIsoCountryCodeEnum;
+  countryCode?: SmsVirtualNumberIsoCountryCodeEnum | undefined;
   /** IAM resource metadata */
-  iam?: IamResourceMetadata | null;
+  iam?: IamResourceMetadata | null | undefined;
   /** The virtual number */
-  number?: string;
+  number?: string | undefined;
 }
 export interface GetSmsVirtualNumberByNumberRequest {
   /** The internal name of your SMS offer */
@@ -1524,9 +1524,9 @@ export interface GetSmsVirtualNumberByNumberRequest {
 /** Virtual numbers */
 export interface SmsVirtualNumber {
   /** The ISO formated country code of the number */
-  countryCode?: SmsVirtualNumberIsoCountryCodeEnum;
+  countryCode?: SmsVirtualNumberIsoCountryCodeEnum | undefined;
   /** The virtual number */
-  number?: string;
+  number?: string | undefined;
 }
 export interface GetSmsVirtualNumberChatAccessRequest {
   /** The internal name of your SMS offer */
@@ -1552,16 +1552,16 @@ export interface GetSmsVirtualNumberJobRequest {
 }
 /** Sms job */
 export interface SmsVirtualNumberJob {
-  creationDatetime?: string;
-  credits?: number;
-  deliveryReceipt?: number;
-  differedDelivery?: number;
-  id?: number;
-  message?: string;
-  messageLength?: number;
-  numberOfSms?: number;
-  ptt?: number;
-  receiver?: string;
+  creationDatetime?: string | undefined;
+  credits?: number | undefined;
+  deliveryReceipt?: number | undefined;
+  differedDelivery?: number | undefined;
+  id?: number | undefined;
+  message?: string | undefined;
+  messageLength?: number | undefined;
+  numberOfSms?: number | undefined;
+  ptt?: number | undefined;
+  receiver?: string | undefined;
 }
 export interface GetSmsVirtualNumberOutgoingRequest {
   /** The internal name of your SMS offer */
@@ -1594,15 +1594,15 @@ export interface ImportSmsPhonebookRequest {
 /** Operation on a telephony service */
 export interface TelephonyTask {
   /** Action associated with the task */
-  action?: string;
+  action?: string | undefined;
   /** Potential failure reason of the task */
-  message?: string | null;
+  message?: string | null | undefined;
   /** Object potentially created at the end of the task */
-  objectCreated?: string | null;
-  serviceType?: string;
+  objectCreated?: string | null | undefined;
+  serviceType?: string | undefined;
   /** Status of the task */
-  status?: TelephonyTaskStatusEnum;
-  taskId?: number;
+  status?: TelephonyTaskStatusEnum | undefined;
+  taskId?: number | undefined;
 }
 /** Resource tag filter */
 export interface IamResourceTagFilterInput {}
@@ -1612,7 +1612,7 @@ export type ListSmsRequestIamTagsMap = {
 };
 export interface ListSmsRequest {
   /** Filter resources on IAM tags */
-  iamTags?: ListSmsRequestIamTagsMap;
+  iamTags?: ListSmsRequestIamTagsMap | undefined;
 }
 export type ListSmsResponseBodyList = Array<string>;
 export type ListSmsResponse = ListSmsResponseBodyList;
@@ -1626,9 +1626,9 @@ export interface ListSmsBlacklistsRequest {
   /** The internal name of your SMS offer */
   serviceName: string;
   /** Filter the value of batchID property (=) */
-  batchID?: string;
+  batchID?: string | undefined;
   /** Filter the value of smsOutgoingID property (=) */
-  smsOutgoingID?: number;
+  smsOutgoingID?: number | undefined;
 }
 export type ListSmsBlacklistsResponseBodyList = Array<string>;
 export type ListSmsBlacklistsResponse = ListSmsBlacklistsResponseBodyList;
@@ -1652,15 +1652,15 @@ export type SmsRestrictionCodeEnum =
 /** Sms reach list */
 export interface SmsException {
   /** The abreviated country code. */
-  countrySuffixe?: string;
+  countrySuffixe?: string | undefined;
   /** The exception message */
-  messages?: SmsExceptionMessagesList;
+  messages?: SmsExceptionMessagesList | undefined;
   /** The list of operators impacted. */
-  operators?: string;
+  operators?: string | undefined;
   /** The type of routing restriction imposed by the operator */
-  restrictionCode?: SmsRestrictionCodeEnum;
+  restrictionCode?: SmsRestrictionCodeEnum | undefined;
   /** The substitution sender used to bypass operator filter */
-  substitution?: string | null;
+  substitution?: string | null | undefined;
 }
 export type ListSmsExceptionsResponseBodyList = Array<SmsException>;
 export type ListSmsExceptionsResponse = ListSmsExceptionsResponseBodyList;
@@ -1674,13 +1674,13 @@ export interface ListSmsIncomingRequest {
   /** The internal name of your SMS offer */
   serviceName: string;
   /** Filter the value of creationDatetime property (>=) */
-  creationDatetime_from?: string;
+  creationDatetime_from?: string | undefined;
   /** Filter the value of creationDatetime property (<=) */
-  creationDatetime_to?: string;
+  creationDatetime_to?: string | undefined;
   /** Filter the value of sender property (=) */
-  sender?: string;
+  sender?: string | undefined;
   /** Filter the value of tag property (=) */
-  tag?: string;
+  tag?: string | undefined;
 }
 export type ListSmsIncomingResponseBodyList = Array<number>;
 export type ListSmsIncomingResponse = ListSmsIncomingResponseBodyList;
@@ -1694,25 +1694,25 @@ export interface ListSmsOutgoingRequest {
   /** The internal name of your SMS offer */
   serviceName: string;
   /** Filter on batch id property (=) */
-  batchID?: string;
+  batchID?: string | undefined;
   /** Filter on creationDatetime property (>=) */
-  creationDatetime_from?: string;
+  creationDatetime_from?: string | undefined;
   /** Filter on creationDatetime property (<=) */
-  creationDatetime_to?: string;
+  creationDatetime_to?: string | undefined;
   /** Filter on deliveryReceipt property (=) */
-  deliveryReceipt?: number;
+  deliveryReceipt?: number | undefined;
   /** Filter on differedDelivery property (=) */
-  differedDelivery?: number;
+  differedDelivery?: number | undefined;
   /** Filter on message id property (=) */
-  messageID?: string;
+  messageID?: string | undefined;
   /** Filter on ptt property (=) */
-  ptt?: number;
+  ptt?: number | undefined;
   /** Filter on receiver property (=) */
-  receiver?: string;
+  receiver?: string | undefined;
   /** Filter on sender property (=) */
-  sender?: string;
+  sender?: string | undefined;
   /** Filter on tag property (=) */
-  tag?: string;
+  tag?: string | undefined;
 }
 export type ListSmsOutgoingResponseBodyList = Array<number>;
 export type ListSmsOutgoingResponse = ListSmsOutgoingResponseBodyList;
@@ -1733,34 +1733,34 @@ export type ListSmsPhonebooksResponseBodyList = Array<string>;
 export type ListSmsPhonebooksResponse = ListSmsPhonebooksResponseBodyList;
 export interface ListSmsRatePacksRequest {
   /** Country where you buy credits */
-  billingCountry?: SmsBillingCountryEnum | (string & {});
+  billingCountry?: SmsBillingCountryEnum | (string & {}) | undefined;
   /** Country where you send SMS */
   country: SmsCountryEnum | (string & {});
 }
 /** Details about a SMS pack */
 export interface SmsPackDetails {
   /** Destination country code */
-  countryCode?: SmsCountryEnum;
+  countryCode?: SmsCountryEnum | undefined;
   /** Credits consumed by sending one SMS towards the given destination */
-  credit?: number;
+  credit?: number | undefined;
   /** Price of one credit, including pack's promotion */
-  creditPrice?: OrderPrice;
+  creditPrice?: OrderPrice | undefined;
   /** Maximum quantity (excluded) of credit to order to have this price */
-  creditQuantityMax?: number | null;
+  creditQuantityMax?: number | null | undefined;
   /** Minimum quantity (included) of credit to order to have this price */
-  creditQuantityMin?: number;
+  creditQuantityMin?: number | undefined;
   /** Price of one credit, during a promotional event */
-  discountCreditPrice?: OrderPrice | null;
+  discountCreditPrice?: OrderPrice | null | undefined;
   /** Percentage applied as part of a promotional event */
-  discountPercentage?: number | null;
+  discountPercentage?: number | null | undefined;
   /** Price of one SMS, during a promotional event */
-  discountSmsPrice?: OrderPrice | null;
+  discountSmsPrice?: OrderPrice | null | undefined;
   /** Price of one SMS sent towards the given destination, including pack's promotion */
-  smsPrice?: OrderPrice;
+  smsPrice?: OrderPrice | undefined;
   /** Maximum quantity (excluded) of SMS you can obtain with this pack */
-  smsQuantityMax?: number | null;
+  smsQuantityMax?: number | null | undefined;
   /** Minimum quantity (included) of SMS you can obtain with this pack */
-  smsQuantityMin?: number;
+  smsQuantityMin?: number | undefined;
 }
 export type ListSmsRatePacksResponseBodyList = Array<SmsPackDetails>;
 export type ListSmsRatePacksResponse = ListSmsRatePacksResponseBodyList;
@@ -1821,14 +1821,14 @@ export interface ListSmsSeeOffersRequest {
 }
 /** A structure describing all information about an sms pack offer */
 export interface SmsPackOffer {
-  countryDestination?: string;
-  giftPrice?: number | null;
-  giftQuantity?: number | null;
-  language?: string;
-  price?: number;
-  quantity?: number;
-  smsQuantity?: number;
-  totalPrice?: number | null;
+  countryDestination?: string | undefined;
+  giftPrice?: number | null | undefined;
+  giftQuantity?: number | null | undefined;
+  language?: string | undefined;
+  price?: number | undefined;
+  quantity?: number | undefined;
+  smsQuantity?: number | undefined;
+  totalPrice?: number | null | undefined;
 }
 export type ListSmsSeeOffersResponseBodyList = Array<SmsPackOffer>;
 export type ListSmsSeeOffersResponse = ListSmsSeeOffersResponseBodyList;
@@ -1852,12 +1852,12 @@ export interface ListSmsSendersAvailableForValidationRequest {
   /** The internal name of your SMS offer */
   serviceName: string;
   /** Information type */
-  referer?: SmsSenderRefererEnum | (string & {});
+  referer?: SmsSenderRefererEnum | (string & {}) | undefined;
 }
 /** A structure describing all information about senders available */
 export interface SmsSenderAvailable {
-  referer?: SmsSenderRefererEnum;
-  sender?: string;
+  referer?: SmsSenderRefererEnum | undefined;
+  sender?: string | undefined;
 }
 export type ListSmsSendersAvailableForValidationResponseBodyList = Array<SmsSenderAvailable>;
 export type ListSmsSendersAvailableForValidationResponse =
@@ -1872,7 +1872,7 @@ export interface ListSmsTaskRequest {
   /** The internal name of your SMS offer */
   serviceName: string;
   /** Filter the value of status property (=) */
-  status?: TelephonyTaskStatusEnum | (string & {});
+  status?: TelephonyTaskStatusEnum | (string & {}) | undefined;
 }
 export type ListSmsTaskResponseBodyList = Array<number>;
 export type ListSmsTaskResponse = ListSmsTaskResponseBodyList;
@@ -1888,9 +1888,9 @@ export interface ListSmsUserIncomingRequest {
   /** The sms user login */
   login: string;
   /** Filter the value of sender property (=) */
-  sender?: string;
+  sender?: string | undefined;
   /** Filter the value of tag property (=) */
-  tag?: string;
+  tag?: string | undefined;
 }
 export type ListSmsUserIncomingResponseBodyList = Array<number>;
 export type ListSmsUserIncomingResponse = ListSmsUserIncomingResponseBodyList;
@@ -1908,17 +1908,17 @@ export interface ListSmsUserOutgoingRequest {
   /** The sms user login */
   login: string;
   /** Filter the value of deliveryReceipt property (=) */
-  deliveryReceipt?: number;
+  deliveryReceipt?: number | undefined;
   /** Filter the value of differedDelivery property (=) */
-  differedDelivery?: number;
+  differedDelivery?: number | undefined;
   /** Filter the value of ptt property (=) */
-  ptt?: number;
+  ptt?: number | undefined;
   /** Filter the value of receiver property (=) */
-  receiver?: string;
+  receiver?: string | undefined;
   /** Filter the value of sender property (=) */
-  sender?: string;
+  sender?: string | undefined;
   /** Filter the value of tag property (=) */
-  tag?: string;
+  tag?: string | undefined;
 }
 export type ListSmsUserOutgoingResponseBodyList = Array<number>;
 export type ListSmsUserOutgoingResponse = ListSmsUserOutgoingResponseBodyList;
@@ -1942,13 +1942,13 @@ export interface ListSmsVirtualNumberIncomingRequest {
   /** The virtual number */
   number: string;
   /** Filter the value of creationDatetime property (>=) */
-  creationDatetime_from?: string;
+  creationDatetime_from?: string | undefined;
   /** Filter the value of creationDatetime property (<=) */
-  creationDatetime_to?: string;
+  creationDatetime_to?: string | undefined;
   /** Filter the value of sender property (=) */
-  sender?: string;
+  sender?: string | undefined;
   /** Filter the value of tag property (=) */
-  tag?: string;
+  tag?: string | undefined;
 }
 export type ListSmsVirtualNumberIncomingResponseBodyList = Array<number>;
 export type ListSmsVirtualNumberIncomingResponse = ListSmsVirtualNumberIncomingResponseBodyList;
@@ -1966,21 +1966,21 @@ export interface ListSmsVirtualNumberOutgoingRequest {
   /** The virtual number */
   number: string;
   /** Filter the value of creationDatetime property (>=) */
-  creationDatetime_from?: string;
+  creationDatetime_from?: string | undefined;
   /** Filter the value of creationDatetime property (<=) */
-  creationDatetime_to?: string;
+  creationDatetime_to?: string | undefined;
   /** Filter the value of deliveryReceipt property (=) */
-  deliveryReceipt?: number;
+  deliveryReceipt?: number | undefined;
   /** Filter the value of differedDelivery property (=) */
-  differedDelivery?: number;
+  differedDelivery?: number | undefined;
   /** Filter the value of ptt property (=) */
-  ptt?: number;
+  ptt?: number | undefined;
   /** Filter the value of receiver property (=) */
-  receiver?: string;
+  receiver?: string | undefined;
   /** Filter the value of sender property (=) */
-  sender?: string;
+  sender?: string | undefined;
   /** Filter the value of tag property (=) */
-  tag?: string;
+  tag?: string | undefined;
 }
 export type ListSmsVirtualNumberOutgoingResponseBodyList = Array<number>;
 export type ListSmsVirtualNumberOutgoingResponse = ListSmsVirtualNumberOutgoingResponseBodyList;
@@ -1990,7 +1990,7 @@ export type ListSmsVirtualNumbersRequestIamTagsMap = {
 };
 export interface ListSmsVirtualNumbersRequest {
   /** Filter resources on IAM tags */
-  iamTags?: ListSmsVirtualNumbersRequestIamTagsMap;
+  iamTags?: ListSmsVirtualNumbersRequestIamTagsMap | undefined;
 }
 export type ListSmsVirtualNumbersResponseBodyList = Array<string>;
 export type ListSmsVirtualNumbersResponse = ListSmsVirtualNumbersResponseBodyList;
@@ -2003,16 +2003,16 @@ export type ListSmsVirtualNumbersResponse2 = ListSmsVirtualNumbersResponseBodyLi
 export interface PutSmsRequest {
   /** The internal name of your SMS offer */
   serviceName: string;
-  automaticRecreditAmount?: SmsPackQuantityAutomaticRecreditEnum | (number & {}) | null;
+  automaticRecreditAmount?: SmsPackQuantityAutomaticRecreditEnum | (number & {}) | null | undefined;
   /** URL called when state of a sent SMS changes */
-  callBack?: string | null;
+  callBack?: string | null | undefined;
   /** Credit threshold after which an automatic recredit is launched */
-  creditThresholdForAutomaticRecredit?: number;
-  description?: string;
-  smsResponse?: SmsResponse;
+  creditThresholdForAutomaticRecredit?: number | undefined;
+  description?: string | undefined;
+  smsResponse?: SmsResponse | undefined;
   /** URL called when a STOP is received after a receiver replied stop to a SMS */
-  stopCallBack?: string | null;
-  templates?: SmsTemplates;
+  stopCallBack?: string | null | undefined;
+  templates?: SmsTemplates | undefined;
 }
 export interface PutSmsResponse {}
 export interface PutSmsBatchRequest {
@@ -2029,7 +2029,7 @@ export interface PutSmsPhonebookRequest {
   /** Identifier of the phonebook */
   bookKey: string;
   /** Phonebook name */
-  name?: string;
+  name?: string | undefined;
 }
 export interface PutSmsPhonebookResponse {}
 export interface PutSmsPhonebookPhonebookContactRequest {
@@ -2040,19 +2040,19 @@ export interface PutSmsPhonebookPhonebookContactRequest {
   /** Contact identifier */
   id: number;
   /** Group name of the phonebook */
-  group?: string;
+  group?: string | undefined;
   /** Home mobile phone number of the contact */
-  homeMobile?: string | null;
+  homeMobile?: string | null | undefined;
   /** Home landline phone number of the contact */
-  homePhone?: string | null;
+  homePhone?: string | null | undefined;
   /** Contact name */
-  name?: string;
+  name?: string | undefined;
   /** Contact surname */
-  surname?: string;
+  surname?: string | undefined;
   /** Mobile phone office number of the contact */
-  workMobile?: string | null;
+  workMobile?: string | null | undefined;
   /** Landline phone office number of the contact */
-  workPhone?: string | null;
+  workPhone?: string | null | undefined;
 }
 export interface PutSmsPhonebookPhonebookContactResponse {}
 export interface PutSmsReceiverRequest {
@@ -2061,9 +2061,9 @@ export interface PutSmsReceiverRequest {
   /** Slot number id */
   slotId: number;
   /** Download file from URL before sending to contacts (works only with csvUrl and not document ID) */
-  autoUpdate?: boolean;
+  autoUpdate?: boolean | undefined;
   /** Description name of the document */
-  description?: string;
+  description?: string | undefined;
 }
 export interface PutSmsReceiverResponse {}
 export interface PutSmsSenderRequest {
@@ -2072,9 +2072,9 @@ export interface PutSmsSenderRequest {
   /** The sms sender */
   sender: string;
   /** Sender description */
-  description?: string;
+  description?: string | undefined;
   /** Sender status */
-  status?: SmsStatusSenderEnum | (string & {});
+  status?: SmsStatusSenderEnum | (string & {}) | undefined;
 }
 export interface PutSmsSenderResponse {}
 export interface PutSmsSenderDocumentRequest {
@@ -2085,16 +2085,16 @@ export interface PutSmsSenderDocumentRequest {
   /** Document ID */
   documentID: string;
   /** Document description */
-  description?: string | null;
+  description?: string | null | undefined;
   /** Document name */
-  name?: string;
+  name?: string | undefined;
 }
 export interface PutSmsSenderDocumentResponse {}
 export interface PutSmsServiceInfosRequest {
   /** The internal name of your SMS offer */
   serviceName: string;
   /** Way of handling the renew */
-  renew?: ServiceRenewType | null;
+  renew?: ServiceRenewType | null | undefined;
 }
 export interface PutSmsServiceInfosResponse {}
 /** Smpp allowed IPs action */
@@ -2117,13 +2117,13 @@ export interface PutSmsTemplatesControlRequest {
   /** Name of the template */
   name: string;
   /** Specify the kind of template */
-  activity?: SmsTypeTemplateEnum | (string & {});
+  activity?: SmsTypeTemplateEnum | (string & {}) | undefined;
   /** Template description */
-  description?: string;
+  description?: string | undefined;
   /** Message pattern to be moderated. Use "#VALUE#" format for dynamic text area. */
-  message?: string;
+  message?: string | undefined;
   /** Template status */
-  status?: SmsStatusSenderEnum | (string & {});
+  status?: SmsStatusSenderEnum | (string & {}) | undefined;
 }
 export interface PutSmsTemplatesControlResponse {}
 export type PutSmsUserRequestIpRestrictionsList = Array<string>;
@@ -2132,14 +2132,14 @@ export interface PutSmsUserRequest {
   serviceName: string;
   /** The sms user login */
   login: string;
-  alertThresholdInformations?: SmsAlertThreshold;
+  alertThresholdInformations?: SmsAlertThreshold | undefined;
   /** URL called when state of a sent SMS changes */
-  callBack?: string | null;
-  ipRestrictions?: PutSmsUserRequestIpRestrictionsList;
-  password?: string | Redacted.Redacted<string>;
-  quotaInformations?: SmsQuota;
+  callBack?: string | null | undefined;
+  ipRestrictions?: PutSmsUserRequestIpRestrictionsList | undefined;
+  password?: string | Redacted.Redacted<string> | undefined;
+  quotaInformations?: SmsQuota | undefined;
   /** URL called when a STOP is received after a receiver replied stop to a SMS */
-  stopCallBack?: string | null;
+  stopCallBack?: string | null | undefined;
 }
 export interface PutSmsUserResponse {}
 export interface PutSmsUserReceiverRequest {
@@ -2150,16 +2150,16 @@ export interface PutSmsUserReceiverRequest {
   /** Slot number id */
   slotId: number;
   /** Download file from URL before sending to contacts (works only with csvUrl and not document ID) */
-  autoUpdate?: boolean;
+  autoUpdate?: boolean | undefined;
   /** Description name of the document */
-  description?: string;
+  description?: string | undefined;
 }
 export interface PutSmsUserReceiverResponse {}
 export interface PutSmsVirtualNumberServiceInfosRequest {
   /** Your virtual number */
   number: string;
   /** Way of handling the renew */
-  renew?: ServiceRenewType | null;
+  renew?: ServiceRenewType | null | undefined;
 }
 export interface PutSmsVirtualNumberServiceInfosResponse {}
 export interface TransferSmsCreditsRequest {

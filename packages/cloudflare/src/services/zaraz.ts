@@ -60,7 +60,7 @@ export interface CreatePublishRequest {
   /** Identifier. */
   zoneId: string;
   /** Zaraz configuration description. */
-  body?: string;
+  body?: string | undefined;
 }
 export type CreatePublishResponse = string;
 export interface GetConfigRequest {
@@ -75,40 +75,40 @@ export interface ConfigGetResponseSettings {
   /** Automatic injection of Zaraz scripts enabled. */
   autoInjectScript: boolean;
   /** Details of the worker that receives and edits Zaraz Context object. */
-  contextEnricher?: ConfigGetResponseSettingsContextEnricher | null;
+  contextEnricher?: ConfigGetResponseSettingsContextEnricher | null | undefined;
   /** The domain Zaraz will use for writing and reading its cookies. */
-  cookieDomain?: string | null;
+  cookieDomain?: string | null | undefined;
   /** Ecommerce API enabled. */
-  ecommerce?: boolean | null;
+  ecommerce?: boolean | null | undefined;
   /** Custom endpoint for server-side track events. */
-  eventsApiPath?: string | null;
+  eventsApiPath?: string | null | undefined;
   /** Hiding external referrer URL enabled. */
-  hideExternalReferer?: boolean | null;
+  hideExternalReferer?: boolean | null | undefined;
   /** Trimming IP address enabled. */
-  hideIPAddress?: boolean | null;
+  hideIPAddress?: boolean | null | undefined;
   /** Removing URL query params enabled. */
-  hideQueryParams?: boolean | null;
+  hideQueryParams?: boolean | null | undefined;
   /** Removing sensitive data from User Agent string enabled. */
-  hideUserAgent?: boolean | null;
+  hideUserAgent?: boolean | null | undefined;
   /** Custom endpoint for Zaraz init script. */
-  initPath?: string | null;
+  initPath?: string | null | undefined;
   /** Injection of Zaraz scripts into iframes enabled. */
-  injectIframes?: boolean | null;
+  injectIframes?: boolean | null | undefined;
   /** Custom path for Managed Components server functionalities. */
-  mcRootPath?: string | null;
+  mcRootPath?: string | null | undefined;
   /** Custom endpoint for Zaraz main script. */
-  scriptPath?: string | null;
+  scriptPath?: string | null | undefined;
   /** Custom endpoint for Zaraz tracking requests. */
-  trackPath?: string | null;
+  trackPath?: string | null | undefined;
 }
 export type UntypedConfigMap = { [key: string]: unknown | undefined };
 export interface ConfigGetResponseAnalytics {
   /** Consent purpose assigned to Monitoring. */
-  defaultPurpose?: string | null;
+  defaultPurpose?: string | null | undefined;
   /** Whether Advanced Monitoring reports are enabled. */
-  enabled?: boolean | null;
+  enabled?: boolean | null | undefined;
   /** Session expiration time (seconds). */
-  sessionExpTime?: number | null;
+  sessionExpTime?: number | null | undefined;
 }
 export type ConfigGetResponseConsentButtonTextTranslationsAcceptAllMap = {
   [key: string]: string | undefined;
@@ -155,23 +155,26 @@ export type ConfigGetResponseConsentPurposesWithTranslationsMap = {
 };
 export interface ConfigGetResponseConsent {
   enabled: boolean;
-  buttonTextTranslations?: ConfigGetResponseConsentButtonTextTranslations | null;
-  companyEmail?: string | null;
-  companyName?: string | null;
-  companyStreetAddress?: string | null;
-  consentModalIntroHTML?: string | null;
+  buttonTextTranslations?: ConfigGetResponseConsentButtonTextTranslations | null | undefined;
+  companyEmail?: string | null | undefined;
+  companyName?: string | null | undefined;
+  companyStreetAddress?: string | null | undefined;
+  consentModalIntroHTML?: string | null | undefined;
   /** Object where keys are language codes. */
-  consentModalIntroHTMLWithTranslations?: ConfigGetResponseConsentConsentModalIntroHTMLWithTranslationsMap | null;
-  cookieName?: string | null;
-  customCSS?: string | null;
-  customIntroDisclaimerDismissed?: boolean | null;
-  defaultLanguage?: string | null;
-  hideModal?: boolean | null;
+  consentModalIntroHTMLWithTranslations?:
+    | ConfigGetResponseConsentConsentModalIntroHTMLWithTranslationsMap
+    | null
+    | undefined;
+  cookieName?: string | null | undefined;
+  customCSS?: string | null | undefined;
+  customIntroDisclaimerDismissed?: boolean | null | undefined;
+  defaultLanguage?: string | null | undefined;
+  hideModal?: boolean | null | undefined;
   /** Object where keys are purpose alpha-numeric IDs. */
-  purposes?: ConfigGetResponseConsentPurposesMap | null;
+  purposes?: ConfigGetResponseConsentPurposesMap | null | undefined;
   /** Object where keys are purpose alpha-numeric IDs. */
-  purposesWithTranslations?: ConfigGetResponseConsentPurposesWithTranslationsMap | null;
-  tcfCompliant?: boolean | null;
+  purposesWithTranslations?: ConfigGetResponseConsentPurposesWithTranslationsMap | null | undefined;
+  tcfCompliant?: boolean | null | undefined;
 }
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface GetConfigResponse {
@@ -190,11 +193,11 @@ export interface GetConfigResponse {
   /** Zaraz internal version of the config. */
   zarazVersion: number;
   /** Cloudflare Monitoring settings. */
-  analytics?: ConfigGetResponseAnalytics | null;
+  analytics?: ConfigGetResponseAnalytics | null | undefined;
   /** Consent management configuration. */
-  consent?: ConfigGetResponseConsent | null;
+  consent?: ConfigGetResponseConsent | null | undefined;
   /** Single Page Application support enabled. */
-  historyChange?: boolean | null;
+  historyChange?: boolean | null | undefined;
 }
 export interface GetDefaultRequest {
   /** Identifier. */
@@ -245,23 +248,29 @@ export type DefaultGetResponseConsentPurposesWithTranslationsMap = {
 };
 export interface DefaultGetResponseConsent {
   enabled: boolean;
-  buttonTextTranslations?: DefaultGetResponseConsentButtonTextTranslations | null;
-  companyEmail?: string | null;
-  companyName?: string | null;
-  companyStreetAddress?: string | null;
-  consentModalIntroHTML?: string | null;
+  buttonTextTranslations?: DefaultGetResponseConsentButtonTextTranslations | null | undefined;
+  companyEmail?: string | null | undefined;
+  companyName?: string | null | undefined;
+  companyStreetAddress?: string | null | undefined;
+  consentModalIntroHTML?: string | null | undefined;
   /** Object where keys are language codes. */
-  consentModalIntroHTMLWithTranslations?: DefaultGetResponseConsentConsentModalIntroHTMLWithTranslationsMap | null;
-  cookieName?: string | null;
-  customCSS?: string | null;
-  customIntroDisclaimerDismissed?: boolean | null;
-  defaultLanguage?: string | null;
-  hideModal?: boolean | null;
+  consentModalIntroHTMLWithTranslations?:
+    | DefaultGetResponseConsentConsentModalIntroHTMLWithTranslationsMap
+    | null
+    | undefined;
+  cookieName?: string | null | undefined;
+  customCSS?: string | null | undefined;
+  customIntroDisclaimerDismissed?: boolean | null | undefined;
+  defaultLanguage?: string | null | undefined;
+  hideModal?: boolean | null | undefined;
   /** Object where keys are purpose alpha-numeric IDs. */
-  purposes?: DefaultGetResponseConsentPurposesMap | null;
+  purposes?: DefaultGetResponseConsentPurposesMap | null | undefined;
   /** Object where keys are purpose alpha-numeric IDs. */
-  purposesWithTranslations?: DefaultGetResponseConsentPurposesWithTranslationsMap | null;
-  tcfCompliant?: boolean | null;
+  purposesWithTranslations?:
+    | DefaultGetResponseConsentPurposesWithTranslationsMap
+    | null
+    | undefined;
+  tcfCompliant?: boolean | null | undefined;
 }
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface GetDefaultResponse {
@@ -280,11 +289,11 @@ export interface GetDefaultResponse {
   /** Zaraz internal version of the config. */
   zarazVersion: number;
   /** Cloudflare Monitoring settings. */
-  analytics?: ConfigGetResponseAnalytics | null;
+  analytics?: ConfigGetResponseAnalytics | null | undefined;
   /** Consent management configuration. */
-  consent?: DefaultGetResponseConsent | null;
+  consent?: DefaultGetResponseConsent | null | undefined;
   /** Single Page Application support enabled. */
-  historyChange?: boolean | null;
+  historyChange?: boolean | null | undefined;
 }
 export interface GetExportRequest {
   /** Identifier. */
@@ -346,23 +355,32 @@ export type HistoryConfigsGetResultValueConfigConsentPurposesWithTranslationsMap
 };
 export interface HistoryConfigsGetResultValueConfigConsent {
   enabled: boolean;
-  buttonTextTranslations?: HistoryConfigsGetResultValueConfigConsentButtonTextTranslations | null;
-  companyEmail?: string | null;
-  companyName?: string | null;
-  companyStreetAddress?: string | null;
-  consentModalIntroHTML?: string | null;
+  buttonTextTranslations?:
+    | HistoryConfigsGetResultValueConfigConsentButtonTextTranslations
+    | null
+    | undefined;
+  companyEmail?: string | null | undefined;
+  companyName?: string | null | undefined;
+  companyStreetAddress?: string | null | undefined;
+  consentModalIntroHTML?: string | null | undefined;
   /** Object where keys are language codes. */
-  consentModalIntroHTMLWithTranslations?: HistoryConfigsGetResultValueConfigConsentConsentModalIntroHTMLWithTranslationsMap | null;
-  cookieName?: string | null;
-  customCSS?: string | null;
-  customIntroDisclaimerDismissed?: boolean | null;
-  defaultLanguage?: string | null;
-  hideModal?: boolean | null;
+  consentModalIntroHTMLWithTranslations?:
+    | HistoryConfigsGetResultValueConfigConsentConsentModalIntroHTMLWithTranslationsMap
+    | null
+    | undefined;
+  cookieName?: string | null | undefined;
+  customCSS?: string | null | undefined;
+  customIntroDisclaimerDismissed?: boolean | null | undefined;
+  defaultLanguage?: string | null | undefined;
+  hideModal?: boolean | null | undefined;
   /** Object where keys are purpose alpha-numeric IDs. */
-  purposes?: HistoryConfigsGetResultValueConfigConsentPurposesMap | null;
+  purposes?: HistoryConfigsGetResultValueConfigConsentPurposesMap | null | undefined;
   /** Object where keys are purpose alpha-numeric IDs. */
-  purposesWithTranslations?: HistoryConfigsGetResultValueConfigConsentPurposesWithTranslationsMap | null;
-  tcfCompliant?: boolean | null;
+  purposesWithTranslations?:
+    | HistoryConfigsGetResultValueConfigConsentPurposesWithTranslationsMap
+    | null
+    | undefined;
+  tcfCompliant?: boolean | null | undefined;
 }
 export interface HistoryConfigsGetResultValueConfig {
   /** Data layer compatibility mode enabled. */
@@ -380,11 +398,11 @@ export interface HistoryConfigsGetResultValueConfig {
   /** Zaraz internal version of the config. */
   zarazVersion: number;
   /** Cloudflare Monitoring settings. */
-  analytics?: ConfigGetResponseAnalytics | null;
+  analytics?: ConfigGetResponseAnalytics | null | undefined;
   /** Consent management configuration. */
-  consent?: HistoryConfigsGetResultValueConfigConsent | null;
+  consent?: HistoryConfigsGetResultValueConfigConsent | null | undefined;
   /** Single Page Application support enabled. */
-  historyChange?: boolean | null;
+  historyChange?: boolean | null | undefined;
 }
 export interface HistoryConfigsGetResultValue {
   /** ID of the configuration. */
@@ -419,13 +437,13 @@ export interface ListHistoriesRequest {
   /** Identifier. */
   zoneId: string;
   /** Maximum amount of results to list. Default value is 10. */
-  limit?: number;
+  limit?: number | undefined;
   /** Ordinal number to start listing the results with. Default value is 0. */
-  offset?: number;
+  offset?: number | undefined;
   /** The field to sort by. Default is updated_at. */
-  sortField?: HistoryListRequestSortField | (string & {});
+  sortField?: HistoryListRequestSortField | (string & {}) | undefined;
   /** Sorting order. Default is DESC. */
-  sortOrder?: HistoryListRequestSortOrder | (string & {});
+  sortOrder?: HistoryListRequestSortOrder | (string & {}) | undefined;
 }
 export interface HistoryListResultItem {
   /** ID of the configuration. */
@@ -444,46 +462,46 @@ export interface ListHistoriesResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: HistoryListResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export type ConfigUpdateRequestSettingsContextEnricher = ConfigGetResponseSettingsContextEnricher;
 export interface ConfigUpdateRequestSettings {
   /** Automatic injection of Zaraz scripts enabled. */
   autoInjectScript: boolean;
   /** Details of the worker that receives and edits Zaraz Context object. */
-  contextEnricher?: ConfigGetResponseSettingsContextEnricher;
+  contextEnricher?: ConfigGetResponseSettingsContextEnricher | undefined;
   /** The domain Zaraz will use for writing and reading its cookies. */
-  cookieDomain?: string;
+  cookieDomain?: string | undefined;
   /** Ecommerce API enabled. */
-  ecommerce?: boolean;
+  ecommerce?: boolean | undefined;
   /** Custom endpoint for server-side track events. */
-  eventsApiPath?: string;
+  eventsApiPath?: string | undefined;
   /** Hiding external referrer URL enabled. */
-  hideExternalReferer?: boolean;
+  hideExternalReferer?: boolean | undefined;
   /** Trimming IP address enabled. */
-  hideIPAddress?: boolean;
+  hideIPAddress?: boolean | undefined;
   /** Removing URL query params enabled. */
-  hideQueryParams?: boolean;
+  hideQueryParams?: boolean | undefined;
   /** Removing sensitive data from User Agent string enabled. */
-  hideUserAgent?: boolean;
+  hideUserAgent?: boolean | undefined;
   /** Custom endpoint for Zaraz init script. */
-  initPath?: string;
+  initPath?: string | undefined;
   /** Injection of Zaraz scripts into iframes enabled. */
-  injectIframes?: boolean;
+  injectIframes?: boolean | undefined;
   /** Custom path for Managed Components server functionalities. */
-  mcRootPath?: string;
+  mcRootPath?: string | undefined;
   /** Custom endpoint for Zaraz main script. */
-  scriptPath?: string;
+  scriptPath?: string | undefined;
   /** Custom endpoint for Zaraz tracking requests. */
-  trackPath?: string;
+  trackPath?: string | undefined;
 }
 export interface ConfigUpdateRequestAnalytics {
   /** Consent purpose assigned to Monitoring. */
-  defaultPurpose?: string;
+  defaultPurpose?: string | undefined;
   /** Whether Advanced Monitoring reports are enabled. */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** Session expiration time (seconds). */
-  sessionExpTime?: number;
+  sessionExpTime?: number | undefined;
 }
 export type ConfigUpdateRequestConsentButtonTextTranslationsAcceptAllMap = {
   [key: string]: string | undefined;
@@ -527,23 +545,25 @@ export type ConfigUpdateRequestConsentPurposesWithTranslationsMap = {
 };
 export interface ConfigUpdateRequestConsent {
   enabled: boolean;
-  buttonTextTranslations?: ConfigUpdateRequestConsentButtonTextTranslations;
-  companyEmail?: string;
-  companyName?: string;
-  companyStreetAddress?: string;
-  consentModalIntroHTML?: string;
+  buttonTextTranslations?: ConfigUpdateRequestConsentButtonTextTranslations | undefined;
+  companyEmail?: string | undefined;
+  companyName?: string | undefined;
+  companyStreetAddress?: string | undefined;
+  consentModalIntroHTML?: string | undefined;
   /** Object where keys are language codes. */
-  consentModalIntroHTMLWithTranslations?: ConfigUpdateRequestConsentConsentModalIntroHTMLWithTranslationsMap;
-  cookieName?: string;
-  customCSS?: string;
-  customIntroDisclaimerDismissed?: boolean;
-  defaultLanguage?: string;
-  hideModal?: boolean;
+  consentModalIntroHTMLWithTranslations?:
+    | ConfigUpdateRequestConsentConsentModalIntroHTMLWithTranslationsMap
+    | undefined;
+  cookieName?: string | undefined;
+  customCSS?: string | undefined;
+  customIntroDisclaimerDismissed?: boolean | undefined;
+  defaultLanguage?: string | undefined;
+  hideModal?: boolean | undefined;
   /** Object where keys are purpose alpha-numeric IDs. */
-  purposes?: ConfigUpdateRequestConsentPurposesMap;
+  purposes?: ConfigUpdateRequestConsentPurposesMap | undefined;
   /** Object where keys are purpose alpha-numeric IDs. */
-  purposesWithTranslations?: ConfigUpdateRequestConsentPurposesWithTranslationsMap;
-  tcfCompliant?: boolean;
+  purposesWithTranslations?: ConfigUpdateRequestConsentPurposesWithTranslationsMap | undefined;
+  tcfCompliant?: boolean | undefined;
 }
 export interface PutConfigRequest {
   /** Identifier. */
@@ -563,11 +583,11 @@ export interface PutConfigRequest {
   /** Zaraz internal version of the config. */
   zarazVersion: number;
   /** Cloudflare Monitoring settings. */
-  analytics?: ConfigUpdateRequestAnalytics;
+  analytics?: ConfigUpdateRequestAnalytics | undefined;
   /** Consent management configuration. */
-  consent?: ConfigUpdateRequestConsent;
+  consent?: ConfigUpdateRequestConsent | undefined;
   /** Single Page Application support enabled. */
-  historyChange?: boolean;
+  historyChange?: boolean | undefined;
 }
 export type ConfigUpdateResponseSettingsContextEnricher = ConfigGetResponseSettingsContextEnricher;
 export type ConfigUpdateResponseSettings = ConfigGetResponseSettings;
@@ -614,23 +634,29 @@ export type ConfigUpdateResponseConsentPurposesWithTranslationsMap = {
 };
 export interface ConfigUpdateResponseConsent {
   enabled: boolean;
-  buttonTextTranslations?: ConfigUpdateResponseConsentButtonTextTranslations | null;
-  companyEmail?: string | null;
-  companyName?: string | null;
-  companyStreetAddress?: string | null;
-  consentModalIntroHTML?: string | null;
+  buttonTextTranslations?: ConfigUpdateResponseConsentButtonTextTranslations | null | undefined;
+  companyEmail?: string | null | undefined;
+  companyName?: string | null | undefined;
+  companyStreetAddress?: string | null | undefined;
+  consentModalIntroHTML?: string | null | undefined;
   /** Object where keys are language codes. */
-  consentModalIntroHTMLWithTranslations?: ConfigUpdateResponseConsentConsentModalIntroHTMLWithTranslationsMap | null;
-  cookieName?: string | null;
-  customCSS?: string | null;
-  customIntroDisclaimerDismissed?: boolean | null;
-  defaultLanguage?: string | null;
-  hideModal?: boolean | null;
+  consentModalIntroHTMLWithTranslations?:
+    | ConfigUpdateResponseConsentConsentModalIntroHTMLWithTranslationsMap
+    | null
+    | undefined;
+  cookieName?: string | null | undefined;
+  customCSS?: string | null | undefined;
+  customIntroDisclaimerDismissed?: boolean | null | undefined;
+  defaultLanguage?: string | null | undefined;
+  hideModal?: boolean | null | undefined;
   /** Object where keys are purpose alpha-numeric IDs. */
-  purposes?: ConfigUpdateResponseConsentPurposesMap | null;
+  purposes?: ConfigUpdateResponseConsentPurposesMap | null | undefined;
   /** Object where keys are purpose alpha-numeric IDs. */
-  purposesWithTranslations?: ConfigUpdateResponseConsentPurposesWithTranslationsMap | null;
-  tcfCompliant?: boolean | null;
+  purposesWithTranslations?:
+    | ConfigUpdateResponseConsentPurposesWithTranslationsMap
+    | null
+    | undefined;
+  tcfCompliant?: boolean | null | undefined;
 }
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface PutConfigResponse {
@@ -649,11 +675,11 @@ export interface PutConfigResponse {
   /** Zaraz internal version of the config. */
   zarazVersion: number;
   /** Cloudflare Monitoring settings. */
-  analytics?: ConfigGetResponseAnalytics | null;
+  analytics?: ConfigGetResponseAnalytics | null | undefined;
   /** Consent management configuration. */
-  consent?: ConfigUpdateResponseConsent | null;
+  consent?: ConfigUpdateResponseConsent | null | undefined;
   /** Single Page Application support enabled. */
-  historyChange?: boolean | null;
+  historyChange?: boolean | null | undefined;
 }
 export interface PutHistoryRequest {
   /** Identifier. */
@@ -706,23 +732,29 @@ export type HistoryUpdateResponseConsentPurposesWithTranslationsMap = {
 };
 export interface HistoryUpdateResponseConsent {
   enabled: boolean;
-  buttonTextTranslations?: HistoryUpdateResponseConsentButtonTextTranslations | null;
-  companyEmail?: string | null;
-  companyName?: string | null;
-  companyStreetAddress?: string | null;
-  consentModalIntroHTML?: string | null;
+  buttonTextTranslations?: HistoryUpdateResponseConsentButtonTextTranslations | null | undefined;
+  companyEmail?: string | null | undefined;
+  companyName?: string | null | undefined;
+  companyStreetAddress?: string | null | undefined;
+  consentModalIntroHTML?: string | null | undefined;
   /** Object where keys are language codes. */
-  consentModalIntroHTMLWithTranslations?: HistoryUpdateResponseConsentConsentModalIntroHTMLWithTranslationsMap | null;
-  cookieName?: string | null;
-  customCSS?: string | null;
-  customIntroDisclaimerDismissed?: boolean | null;
-  defaultLanguage?: string | null;
-  hideModal?: boolean | null;
+  consentModalIntroHTMLWithTranslations?:
+    | HistoryUpdateResponseConsentConsentModalIntroHTMLWithTranslationsMap
+    | null
+    | undefined;
+  cookieName?: string | null | undefined;
+  customCSS?: string | null | undefined;
+  customIntroDisclaimerDismissed?: boolean | null | undefined;
+  defaultLanguage?: string | null | undefined;
+  hideModal?: boolean | null | undefined;
   /** Object where keys are purpose alpha-numeric IDs. */
-  purposes?: HistoryUpdateResponseConsentPurposesMap | null;
+  purposes?: HistoryUpdateResponseConsentPurposesMap | null | undefined;
   /** Object where keys are purpose alpha-numeric IDs. */
-  purposesWithTranslations?: HistoryUpdateResponseConsentPurposesWithTranslationsMap | null;
-  tcfCompliant?: boolean | null;
+  purposesWithTranslations?:
+    | HistoryUpdateResponseConsentPurposesWithTranslationsMap
+    | null
+    | undefined;
+  tcfCompliant?: boolean | null | undefined;
 }
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface PutHistoryResponse {
@@ -741,11 +773,11 @@ export interface PutHistoryResponse {
   /** Zaraz internal version of the config. */
   zarazVersion: number;
   /** Cloudflare Monitoring settings. */
-  analytics?: ConfigGetResponseAnalytics | null;
+  analytics?: ConfigGetResponseAnalytics | null | undefined;
   /** Consent management configuration. */
-  consent?: HistoryUpdateResponseConsent | null;
+  consent?: HistoryUpdateResponseConsent | null | undefined;
   /** Single Page Application support enabled. */
-  historyChange?: boolean | null;
+  historyChange?: boolean | null | undefined;
 }
 export type UpdateRequestWorkflow = "realtime" | "preview";
 export interface PutZarazRequest {

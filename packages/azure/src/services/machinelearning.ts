@@ -28,6 +28,7 @@ const TELEMETRY = {
   prefix: "Machinelearning",
   service: "Machinelearning",
   labels: "azure",
+  labelNames: { resourceGroupName: "azure.resource_group.name" },
   propagate: "w3c",
 } as const;
 
@@ -53,9 +54,9 @@ export type GetWorkspaceResponseTagsMap = { [key: string]: string | undefined };
 /** Sku of the resource */
 export interface Sku {
   /** Name of the sku */
-  name?: string;
+  name?: string | undefined;
   /** Tier of the sku like Basic or Enterprise */
-  tier?: string;
+  tier?: string | undefined;
 }
 /** The type of this workspace. */
 export type WorkspacePropertiesWorkspaceType =
@@ -80,59 +81,59 @@ export interface WorkspaceProperties {
   /** The email id of the owner for this workspace. */
   ownerEmail: string;
   /** The type of this workspace. */
-  workspaceType?: WorkspacePropertiesWorkspaceType;
+  workspaceType?: WorkspacePropertiesWorkspaceType | undefined;
   /** The current state of workspace resource. */
-  workspaceState?: WorkspacePropertiesWorkspaceState;
+  workspaceState?: WorkspacePropertiesWorkspaceState | undefined;
   /** The immutable id associated with this workspace. */
-  workspaceId?: string;
+  workspaceId?: string | undefined;
   /** The creation time for this workspace resource. */
-  creationTime?: string;
+  creationTime?: string | undefined;
   /** The regional endpoint for the machine learning studio service which hosts this workspace. */
-  studioEndpoint?: string;
+  studioEndpoint?: string | undefined;
   /** The key vault identifier used for encrypted workspaces. */
-  keyVaultIdentifierId?: string;
+  keyVaultIdentifierId?: string | undefined;
 }
 export interface GetWorkspaceResponse {
   /** The resource ID. */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource. */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. */
-  type?: string;
+  type?: string | undefined;
   /** The location of the resource. This cannot be changed after the resource is created. */
   location: string;
   /** The tags of the resource. */
-  tags?: GetWorkspaceResponseTagsMap;
+  tags?: GetWorkspaceResponseTagsMap | undefined;
   /** The sku of the workspace. */
-  sku?: Sku;
+  sku?: Sku | undefined;
   /** The properties of the machine learning workspace. */
-  properties?: WorkspaceProperties;
+  properties?: WorkspaceProperties | undefined;
 }
 export interface ListOperationsRequest {}
 /** Display name of operation */
 export interface OperationDisplay {
   /** The resource provider name: Microsoft.MachineLearning */
-  provider?: string;
+  provider?: string | undefined;
   /** The resource on which the operation is performed. */
-  resource?: string;
+  resource?: string | undefined;
   /** The operation that users can perform. */
-  operation?: string;
+  operation?: string | undefined;
   /** The description for the operation. */
-  description?: string;
+  description?: string | undefined;
 }
 /** Azure Machine Learning Studio REST API operation */
 export interface Operation {
   /** Operation name: {provider}/{resource}/{operation} */
-  name?: string;
+  name?: string | undefined;
   /** Display name of operation */
-  display?: OperationDisplay;
+  display?: OperationDisplay | undefined;
 }
 /** List of AML Studio operations supported by the AML Studio resource provider. */
 export type OperationListResultValueList = Array<Operation>;
 /** An array of operations supported by the resource provider. */
 export interface OperationListResult {
   /** List of AML Studio operations supported by the AML Studio resource provider. */
-  value?: OperationListResultValueList;
+  value?: OperationListResultValueList | undefined;
 }
 export interface ListWorkspaceByResourceGroupRequest {
   /** The Microsoft Azure subscription ID. */
@@ -145,28 +146,28 @@ export type WorkspaceTagsMap = { [key: string]: string | undefined };
 /** An object that represents a machine learning workspace. */
 export interface Workspace {
   /** The resource ID. */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource. */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. */
-  type?: string;
+  type?: string | undefined;
   /** The location of the resource. This cannot be changed after the resource is created. */
   location: string;
   /** The tags of the resource. */
-  tags?: WorkspaceTagsMap;
+  tags?: WorkspaceTagsMap | undefined;
   /** The sku of the workspace. */
-  sku?: Sku;
+  sku?: Sku | undefined;
   /** The properties of the machine learning workspace. */
-  properties?: WorkspaceProperties;
+  properties?: WorkspaceProperties | undefined;
 }
 /** The list of machine learning workspaces. Since this list may be incomplete, the nextLink field should be used to request the next list of machine learning workspaces. */
 export type WorkspaceListResultValueList = Array<Workspace>;
 /** The result of a request to list machine learning workspace keys. */
 export interface WorkspaceListResult {
   /** The list of machine learning workspaces. Since this list may be incomplete, the nextLink field should be used to request the next list of machine learning workspaces. */
-  value?: WorkspaceListResultValueList;
+  value?: WorkspaceListResultValueList | undefined;
   /** The URI that can be used to request the next list of machine learning workspaces. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListWorkspacesRequest {
   /** The Microsoft Azure subscription ID. */
@@ -183,9 +184,9 @@ export interface ListWorkspaceWorkspaceKeysRequest {
 /** Workspace authorization keys for a workspace. */
 export interface WorkspaceKeysResponse {
   /** Primary authorization key for this workspace. */
-  primaryToken?: string;
+  primaryToken?: string | undefined;
   /** Secondary authorization key for this workspace. */
-  secondaryToken?: string;
+  secondaryToken?: string | undefined;
 }
 /** The resource tags for the machine learning workspace. */
 export type UpdateWorkspaceRequestTagsMap = { [key: string]: string | undefined };
@@ -201,11 +202,11 @@ export type WorkspacePropertiesUpdateParametersWorkspaceState =
 /** The parameters for updating the properties of a machine learning workspace. */
 export interface WorkspacePropertiesUpdateParameters {
   /** The current state of workspace resource. */
-  workspaceState?: WorkspacePropertiesUpdateParametersWorkspaceState | (string & {});
+  workspaceState?: WorkspacePropertiesUpdateParametersWorkspaceState | (string & {}) | undefined;
   /** The key vault identifier used for encrypted workspaces. */
-  keyVaultIdentifierId?: string;
+  keyVaultIdentifierId?: string | undefined;
   /** The sku of the workspace. */
-  sku?: Sku;
+  sku?: Sku | undefined;
 }
 export interface UpdateWorkspaceRequest {
   /** The Microsoft Azure subscription ID. */
@@ -215,27 +216,27 @@ export interface UpdateWorkspaceRequest {
   /** The name of the machine learning workspace. */
   workspaceName: string;
   /** The resource tags for the machine learning workspace. */
-  tags?: UpdateWorkspaceRequestTagsMap;
+  tags?: UpdateWorkspaceRequestTagsMap | undefined;
   /** The properties that the machine learning workspace will be updated with. */
-  properties?: WorkspacePropertiesUpdateParameters;
+  properties?: WorkspacePropertiesUpdateParameters | undefined;
 }
 /** The tags of the resource. */
 export type UpdateWorkspaceResponseTagsMap = { [key: string]: string | undefined };
 export interface UpdateWorkspaceResponse {
   /** The resource ID. */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource. */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. */
-  type?: string;
+  type?: string | undefined;
   /** The location of the resource. This cannot be changed after the resource is created. */
   location: string;
   /** The tags of the resource. */
-  tags?: UpdateWorkspaceResponseTagsMap;
+  tags?: UpdateWorkspaceResponseTagsMap | undefined;
   /** The sku of the workspace. */
-  sku?: Sku;
+  sku?: Sku | undefined;
   /** The properties of the machine learning workspace. */
-  properties?: WorkspaceProperties;
+  properties?: WorkspaceProperties | undefined;
 }
 /** The tags of the resource. */
 export type WorkspacesCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
@@ -246,7 +247,7 @@ export interface WorkspacePropertiesInput {
   /** The email id of the owner for this workspace. */
   ownerEmail: string;
   /** The key vault identifier used for encrypted workspaces. */
-  keyVaultIdentifierId?: string;
+  keyVaultIdentifierId?: string | undefined;
 }
 export interface WorkspacesCreateOrUpdateRequest {
   /** The Microsoft Azure subscription ID. */
@@ -258,29 +259,29 @@ export interface WorkspacesCreateOrUpdateRequest {
   /** The location of the resource. This cannot be changed after the resource is created. */
   location: string;
   /** The tags of the resource. */
-  tags?: WorkspacesCreateOrUpdateRequestTagsMap;
+  tags?: WorkspacesCreateOrUpdateRequestTagsMap | undefined;
   /** The sku of the workspace. */
-  sku?: Sku;
+  sku?: Sku | undefined;
   /** The properties of the machine learning workspace. */
-  properties?: WorkspacePropertiesInput;
+  properties?: WorkspacePropertiesInput | undefined;
 }
 /** The tags of the resource. */
 export type WorkspacesCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
 export interface WorkspacesCreateOrUpdateResponse {
   /** The resource ID. */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource. */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. */
-  type?: string;
+  type?: string | undefined;
   /** The location of the resource. This cannot be changed after the resource is created. */
   location: string;
   /** The tags of the resource. */
-  tags?: WorkspacesCreateOrUpdateResponseTagsMap;
+  tags?: WorkspacesCreateOrUpdateResponseTagsMap | undefined;
   /** The sku of the workspace. */
-  sku?: Sku;
+  sku?: Sku | undefined;
   /** The properties of the machine learning workspace. */
-  properties?: WorkspaceProperties;
+  properties?: WorkspaceProperties | undefined;
 }
 export interface WorkspacesResyncStorageKeysRequest {
   /** The Microsoft Azure subscription ID. */

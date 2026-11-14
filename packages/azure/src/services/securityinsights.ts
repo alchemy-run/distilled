@@ -28,6 +28,7 @@ const TELEMETRY = {
   prefix: "Securityinsights",
   service: "Securityinsights",
   labels: "azure",
+  labelNames: { resourceGroupName: "azure.resource_group.name" },
   propagate: "w3c",
 } as const;
 
@@ -50,9 +51,9 @@ export interface ActionsCreateOrUpdateRequest {
   /** Action ID */
   actionId: string;
   /** Etag of the azure resource */
-  etag?: string;
+  etag?: string | undefined;
   /** Action properties for put request */
-  properties?: ActionRequestProperties;
+  properties?: ActionRequestProperties | undefined;
 }
 /** The type of identity that created the resource. */
 export type SystemDataCreatedByType = "User" | "Application" | "ManagedIdentity" | "Key";
@@ -61,38 +62,38 @@ export type SystemDataLastModifiedByType = "User" | "Application" | "ManagedIden
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface SystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: SystemDataCreatedByType;
+  createdByType?: SystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: SystemDataLastModifiedByType;
+  lastModifiedByType?: SystemDataLastModifiedByType | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 /** Action property bag. */
 export interface ActionResponseProperties {
   /** Logic App Resource Id, /subscriptions/{my-subscription}/resourceGroups/{my-resource-group}/providers/Microsoft.Logic/workflows/{my-workflow-id}. */
   logicAppResourceId: string;
   /** The name of the logic app's workflow. */
-  workflowId?: string;
+  workflowId?: string | undefined;
 }
 export interface ActionsCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Action properties for get request */
-  properties?: ActionResponseProperties;
+  properties?: ActionResponseProperties | undefined;
   /** Etag of the action. */
-  etag?: string;
+  etag?: string | undefined;
 }
 /** The kind of the alert rule */
 export type AlertRuleKind = "Scheduled" | "MicrosoftSecurityIncidentCreation" | "Fusion";
@@ -108,25 +109,25 @@ export interface AlertRulesCreateOrUpdateRequest {
   /** Metadata used by portal/tooling/etc to render different UX experiences for resources of the same type; e.g. ApiApps are a kind of Microsoft.Web/sites type. If supported, the resource provider must validate and persist this value. */
   kind: AlertRuleKind | (string & {});
   /** Etag of the azure resource */
-  etag?: string;
+  etag?: string | undefined;
   /** Alert rule properties (polymorphic on `kind`: Scheduled, Fusion, MicrosoftSecurityIncidentCreation, NRT, ...). */
-  properties?: unknown;
+  properties?: unknown | undefined;
 }
 export interface AlertRulesCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Metadata used by portal/tooling/etc to render different UX experiences for resources of the same type; e.g. ApiApps are a kind of Microsoft.Web/sites type. If supported, the resource provider must validate and persist this value. */
   kind: AlertRuleKind;
   /** Etag of the azure resource */
-  etag?: string;
+  etag?: string | undefined;
   /** Alert rule properties (polymorphic on `kind`: Scheduled, Fusion, MicrosoftSecurityIncidentCreation, NRT, ...). */
-  properties?: unknown;
+  properties?: unknown | undefined;
 }
 export type TriggersOn = "Incidents" | "Alerts";
 export type TriggersWhen = "Created" | "Updated";
@@ -140,7 +141,7 @@ export type ConditionType =
 export interface AutomationRuleCondition {
   conditionType: ConditionType | (string & {});
   /** Condition properties (shape depends on `conditionType`). */
-  conditionProperties?: unknown;
+  conditionProperties?: unknown | undefined;
 }
 /** The conditions to evaluate to determine if the automation rule should be triggered on a given object. */
 export type AutomationRuleTriggeringLogicConditionsList = Array<AutomationRuleCondition>;
@@ -149,11 +150,11 @@ export interface AutomationRuleTriggeringLogic {
   /** Determines whether the automation rule is enabled or disabled. */
   isEnabled: boolean;
   /** Determines when the automation rule should automatically expire and be disabled. */
-  expirationTimeUtc?: string;
+  expirationTimeUtc?: string | undefined;
   triggersOn: TriggersOn | (string & {});
   triggersWhen: TriggersWhen | (string & {});
   /** The conditions to evaluate to determine if the automation rule should be triggered on a given object. */
-  conditions?: AutomationRuleTriggeringLogicConditionsList;
+  conditions?: AutomationRuleTriggeringLogicConditionsList | undefined;
 }
 /** The type of the automation rule action. */
 export type ActionType = "ModifyProperties" | "RunPlaybook" | "AddIncidentTask";
@@ -163,7 +164,7 @@ export interface AutomationRuleAction {
   /** The type of the automation rule action. */
   actionType: ActionType | (string & {});
   /** Action configuration (shape depends on `actionType`). */
-  actionConfiguration?: unknown;
+  actionConfiguration?: unknown | undefined;
 }
 /** The actions to execute when the automation rule is triggered. */
 export type AutomationRulePropertiesInputActionsList = Array<AutomationRuleAction>;
@@ -190,20 +191,20 @@ export interface AutomationRulesCreateOrUpdateRequest {
   /** Automation rule properties */
   properties: AutomationRulePropertiesInput;
   /** Etag of the azure resource */
-  etag?: string;
+  etag?: string | undefined;
 }
 /** The actions to execute when the automation rule is triggered. */
 export type AutomationRulePropertiesActionsList = Array<AutomationRuleAction>;
 /** Information on the client (user or application) that made some action */
 export interface ClientInfo {
   /** The email of the client. */
-  email?: string;
+  email?: string | undefined;
   /** The name of the client. */
-  name?: string;
+  name?: string | undefined;
   /** The object id of the client. */
-  objectId?: string;
+  objectId?: string | undefined;
   /** The user principal name of the client. */
-  userPrincipalName?: string;
+  userPrincipalName?: string | undefined;
 }
 /** Automation rule properties */
 export interface AutomationRuleProperties {
@@ -216,32 +217,32 @@ export interface AutomationRuleProperties {
   /** The actions to execute when the automation rule is triggered. */
   actions: AutomationRulePropertiesActionsList;
   /** The last time the automation rule was updated. */
-  lastModifiedTimeUtc?: string;
+  lastModifiedTimeUtc?: string | undefined;
   /** The time the automation rule was created. */
-  createdTimeUtc?: string;
+  createdTimeUtc?: string | undefined;
   /** Information on the client (user or application) that made some action */
-  lastModifiedBy?: ClientInfo;
+  lastModifiedBy?: ClientInfo | undefined;
   /** Information on the client (user or application) that made some action */
-  createdBy?: ClientInfo;
+  createdBy?: ClientInfo | undefined;
 }
 export interface AutomationRulesCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Automation rule properties */
   properties: AutomationRuleProperties;
   /** Etag of the azure resource */
-  etag?: string;
+  etag?: string | undefined;
 }
 /** User information that made some action */
 export interface UserInfoInput {
   /** The object id of the user. */
-  objectId?: string | null;
+  objectId?: string | null | undefined;
 }
 /** List of labels relevant to this bookmark */
 export type BookmarkPropertiesInputLabelsList = Array<string>;
@@ -250,42 +251,42 @@ export type IncidentSeverity = "High" | "Medium" | "Low" | "Informational";
 /** Describes related incident information for the bookmark */
 export interface IncidentInfo {
   /** Incident Id */
-  incidentId?: string;
+  incidentId?: string | undefined;
   /** The severity of the incident */
-  severity?: IncidentSeverity | (string & {});
+  severity?: IncidentSeverity | (string & {}) | undefined;
   /** The title of the incident */
-  title?: string;
+  title?: string | undefined;
   /** Relation Name */
-  relationName?: string;
+  relationName?: string | undefined;
 }
 /** Describes bookmark properties */
 export interface BookmarkPropertiesInput {
   /** The time the bookmark was created */
-  created?: string;
+  created?: string | undefined;
   /** Describes a user that created the bookmark */
-  createdBy?: UserInfoInput;
+  createdBy?: UserInfoInput | undefined;
   /** The display name of the bookmark */
   displayName: string;
   /** List of labels relevant to this bookmark */
-  labels?: BookmarkPropertiesInputLabelsList;
+  labels?: BookmarkPropertiesInputLabelsList | undefined;
   /** The notes of the bookmark */
-  notes?: string;
+  notes?: string | undefined;
   /** The query of the bookmark. */
   query: string;
   /** The query result of the bookmark. */
-  queryResult?: string;
+  queryResult?: string | undefined;
   /** The last time the bookmark was updated */
-  updated?: string;
+  updated?: string | undefined;
   /** Describes a user that updated the bookmark */
-  updatedBy?: UserInfoInput;
+  updatedBy?: UserInfoInput | undefined;
   /** The bookmark event time */
-  eventTime?: string;
+  eventTime?: string | undefined;
   /** The start time for the query */
-  queryStartTime?: string;
+  queryStartTime?: string | undefined;
   /** The end time for the query */
-  queryEndTime?: string;
+  queryEndTime?: string | undefined;
   /** Describes an incident that relates to bookmark */
-  incidentInfo?: IncidentInfo;
+  incidentInfo?: IncidentInfo | undefined;
 }
 export interface BookmarksCreateOrUpdateRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -297,63 +298,63 @@ export interface BookmarksCreateOrUpdateRequest {
   /** Bookmark ID */
   bookmarkId: string;
   /** Bookmark properties */
-  properties?: BookmarkPropertiesInput;
+  properties?: BookmarkPropertiesInput | undefined;
   /** Etag of the azure resource */
-  etag?: string;
+  etag?: string | undefined;
 }
 /** User information that made some action */
 export interface UserInfo {
   /** The email of the user. */
-  email?: string;
+  email?: string | undefined;
   /** The name of the user. */
-  name?: string;
+  name?: string | undefined;
   /** The object id of the user. */
-  objectId?: string | null;
+  objectId?: string | null | undefined;
 }
 /** List of labels relevant to this bookmark */
 export type BookmarkPropertiesLabelsList = Array<string>;
 /** Describes bookmark properties */
 export interface BookmarkProperties {
   /** The time the bookmark was created */
-  created?: string;
+  created?: string | undefined;
   /** Describes a user that created the bookmark */
-  createdBy?: UserInfo;
+  createdBy?: UserInfo | undefined;
   /** The display name of the bookmark */
   displayName: string;
   /** List of labels relevant to this bookmark */
-  labels?: BookmarkPropertiesLabelsList;
+  labels?: BookmarkPropertiesLabelsList | undefined;
   /** The notes of the bookmark */
-  notes?: string;
+  notes?: string | undefined;
   /** The query of the bookmark. */
   query: string;
   /** The query result of the bookmark. */
-  queryResult?: string;
+  queryResult?: string | undefined;
   /** The last time the bookmark was updated */
-  updated?: string;
+  updated?: string | undefined;
   /** Describes a user that updated the bookmark */
-  updatedBy?: UserInfo;
+  updatedBy?: UserInfo | undefined;
   /** The bookmark event time */
-  eventTime?: string;
+  eventTime?: string | undefined;
   /** The start time for the query */
-  queryStartTime?: string;
+  queryStartTime?: string | undefined;
   /** The end time for the query */
-  queryEndTime?: string;
+  queryEndTime?: string | undefined;
   /** Describes an incident that relates to bookmark */
-  incidentInfo?: IncidentInfo;
+  incidentInfo?: IncidentInfo | undefined;
 }
 export interface BookmarksCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Bookmark properties */
-  properties?: BookmarkProperties;
+  properties?: BookmarkProperties | undefined;
   /** Etag of the azure resource */
-  etag?: string;
+  etag?: string | undefined;
 }
 /** Source type of the content */
 export type SourceKind = "LocalWorkspace" | "Community" | "Solution" | "SourceRepository";
@@ -362,18 +363,18 @@ export interface MetadataSource {
   /** Source type of the content */
   kind: SourceKind | (string & {});
   /** Name of the content source. The repo name, solution name, LA workspace name etc. */
-  name?: string;
+  name?: string | undefined;
   /** ID of the content source. The solution ID, workspace ID, etc */
-  sourceId?: string;
+  sourceId?: string | undefined;
 }
 /** Publisher or creator of the content item. */
 export interface MetadataAuthor {
   /** Name of the author. Company or person. */
-  name?: string;
+  name?: string | undefined;
   /** Email of author contact */
-  email?: string;
+  email?: string | undefined;
   /** Link for author/vendor page */
-  link?: string;
+  link?: string | undefined;
 }
 /** Type of support for content item */
 export type SupportTier = "Microsoft" | "Partner" | "Community";
@@ -382,11 +383,11 @@ export interface MetadataSupport {
   /** Type of support for content item */
   tier: SupportTier | (string & {});
   /** Name of the support contact. Company or person. */
-  name?: string;
+  name?: string | undefined;
   /** Email of support contact */
-  email?: string;
+  email?: string | undefined;
   /** Link for support help, like to support page to open a ticket etc. */
-  link?: string;
+  link?: string | undefined;
 }
 /** The kind of content the metadata is for. */
 export type Kind =
@@ -418,17 +419,17 @@ export type MetadataDependenciesCriteriaList = Array<MetadataDependencies>;
 /** Dependencies for the content item, what other content items it requires to work. Can describe more complex dependencies using a recursive/nested structure. For a single dependency an id/kind/version can be supplied or operator/criteria for complex dependencies. */
 export interface MetadataDependencies {
   /** Id of the content item we depend on */
-  contentId?: string;
+  contentId?: string | undefined;
   /** Type of the content item we depend on */
-  kind?: Kind | (string & {});
+  kind?: Kind | (string & {}) | undefined;
   /** Version of the the content item we depend on. Can be blank, * or missing to indicate any version fulfills the dependency. If version does not match our defined numeric format then an exact match is required. */
-  version?: string;
+  version?: string | undefined;
   /** Name of the content item */
-  name?: string;
+  name?: string | undefined;
   /** Operator used for list of dependencies in criteria array. */
-  operator?: MetadataDependencyOperator | (string & {});
+  operator?: MetadataDependencyOperator | (string & {}) | undefined;
   /** This is the list of dependencies we must fulfill, according to the AND/OR operator */
-  criteria?: MetadataDependenciesCriteriaList;
+  criteria?: MetadataDependenciesCriteriaList | undefined;
 }
 /** domain for the solution content item */
 export type MetadataCategoriesDomainsList = Array<string>;
@@ -437,9 +438,9 @@ export type MetadataCategoriesVerticalsList = Array<string>;
 /** ies for the solution content item */
 export interface MetadataCategories {
   /** domain for the solution content item */
-  domains?: MetadataCategoriesDomainsList;
+  domains?: MetadataCategoriesDomainsList | undefined;
   /** Industry verticals for the solution content item */
-  verticals?: MetadataCategoriesVerticalsList;
+  verticals?: MetadataCategoriesVerticalsList | undefined;
 }
 /** Providers for the solution content item */
 export type MetadataPropertiesProvidersList = Array<string>;
@@ -454,43 +455,43 @@ export type MetadataPropertiesPreviewImagesDarkList = Array<string>;
 /** Metadata property bag. */
 export interface MetadataProperties {
   /** Static ID for the content. Used to identify dependencies and content from solutions or community. Hard-coded/static for out of the box content and solutions. Can be optionally set for user created content to define dependencies. If an active content item is made from a template, both will have the same contentId. */
-  contentId?: string;
+  contentId?: string | undefined;
   /** Full parent resource ID of the content item the metadata is for. This is the full resource ID including the scope (subscription and resource group) */
   parentId: string;
   /** Version of the content. Default and recommended format is numeric (e.g. 1, 1.0, 1.0.0, 1.0.0.0), following ARM template best practices. Can also be any string, but then we cannot guarantee any version checks */
-  version?: string;
+  version?: string | undefined;
   /** The kind of content the metadata is for. */
   kind: string;
   /** Source of the content. This is where/how it was created. */
-  source?: MetadataSource;
+  source?: MetadataSource | undefined;
   /** The creator of the content item. */
-  author?: MetadataAuthor;
+  author?: MetadataAuthor | undefined;
   /** Support information for the metadata - type, name, contact information */
-  support?: MetadataSupport;
+  support?: MetadataSupport | undefined;
   /** Dependencies for the content item, what other content items it requires to work. Can describe more complex dependencies using a recursive/nested structure. For a single dependency an id/kind/version can be supplied or operator/criteria for complex formats. */
-  dependencies?: MetadataDependencies;
+  dependencies?: MetadataDependencies | undefined;
   /** Categories for the solution content item */
-  categories?: MetadataCategories;
+  categories?: MetadataCategories | undefined;
   /** Providers for the solution content item */
-  providers?: MetadataPropertiesProvidersList;
+  providers?: MetadataPropertiesProvidersList | undefined;
   /** first publish date of solution content item */
-  firstPublishDate?: string;
+  firstPublishDate?: string | undefined;
   /** last publish date of solution content item */
-  lastPublishDate?: string;
+  lastPublishDate?: string | undefined;
   /** The custom version of the content. A optional free text */
-  customVersion?: string;
+  customVersion?: string | undefined;
   /** Schema version of the content. Can be used to distinguish between different flow based on the schema version */
-  contentSchemaVersion?: string;
+  contentSchemaVersion?: string | undefined;
   /** the icon identifier. this id can later be fetched from the solution template */
-  icon?: string;
+  icon?: string | undefined;
   /** the tactics the resource covers */
-  threatAnalysisTactics?: MetadataPropertiesThreatAnalysisTacticsList;
+  threatAnalysisTactics?: MetadataPropertiesThreatAnalysisTacticsList | undefined;
   /** the techniques the resource covers, these have to be aligned with the tactics being used */
-  threatAnalysisTechniques?: MetadataPropertiesThreatAnalysisTechniquesList;
+  threatAnalysisTechniques?: MetadataPropertiesThreatAnalysisTechniquesList | undefined;
   /** preview image file names. These will be taken from the solution artifacts */
-  previewImages?: MetadataPropertiesPreviewImagesList;
+  previewImages?: MetadataPropertiesPreviewImagesList | undefined;
   /** preview image file names. These will be taken from the solution artifacts. used for dark theme support */
-  previewImagesDark?: MetadataPropertiesPreviewImagesDarkList;
+  previewImagesDark?: MetadataPropertiesPreviewImagesDarkList | undefined;
 }
 export interface CreateMetadataRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -502,28 +503,28 @@ export interface CreateMetadataRequest {
   /** The Metadata name. */
   metadataName: string;
   /** Metadata properties */
-  properties?: MetadataProperties;
+  properties?: MetadataProperties | undefined;
   /** Etag of the azure resource */
-  etag?: string;
+  etag?: string | undefined;
 }
 export interface CreateMetadataResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Metadata properties */
-  properties?: MetadataProperties;
+  properties?: MetadataProperties | undefined;
   /** Etag of the azure resource */
-  etag?: string;
+  etag?: string | undefined;
 }
 /** The Sentinel onboarding state properties */
 export interface SentinelOnboardingStateProperties {
   /** Flag that indicates the status of the CMK setting */
-  customerManagedKey?: boolean;
+  customerManagedKey?: boolean | undefined;
 }
 export interface CreateSentinelOnboardingStateRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -535,23 +536,23 @@ export interface CreateSentinelOnboardingStateRequest {
   /** The Sentinel onboarding state name. Supports - default */
   sentinelOnboardingStateName: string;
   /** The Sentinel onboarding state object */
-  properties?: SentinelOnboardingStateProperties;
+  properties?: SentinelOnboardingStateProperties | undefined;
   /** Etag of the azure resource */
-  etag?: string;
+  etag?: string | undefined;
 }
 export interface CreateSentinelOnboardingStateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The Sentinel onboarding state object */
-  properties?: SentinelOnboardingStateProperties;
+  properties?: SentinelOnboardingStateProperties | undefined;
   /** Etag of the azure resource */
-  etag?: string;
+  etag?: string | undefined;
 }
 /** The type of repository. */
 export type RepoType = "Github" | "AzureDevOps";
@@ -572,12 +573,12 @@ export interface RepositoryInput {
   /** Branch name of repository. */
   branch: string;
   /** Display url of repository. */
-  displayUrl?: string;
+  displayUrl?: string | undefined;
 }
 /** Service principal metadata. */
 export interface ServicePrincipalInput {
   /** Expiration time of service principal credentials. */
-  credentialsExpireOn?: string;
+  credentialsExpireOn?: string | undefined;
 }
 /** The kind of repository access credentials */
 export type RepositoryAccessKind = "OAuth" | "PAT" | "App";
@@ -586,32 +587,32 @@ export interface RepositoryAccess {
   /** The kind of repository access credentials */
   kind: RepositoryAccessKind | (string & {});
   /** OAuth Code. Required when `kind` is `OAuth` */
-  code?: string;
+  code?: string | undefined;
   /** OAuth State. Required when `kind` is `OAuth` */
-  state?: string;
+  state?: string | undefined;
   /** OAuth ClientId. Required when `kind` is `OAuth` */
-  clientId?: string;
+  clientId?: string | undefined;
   /** Personal Access Token. Required when `kind` is `PAT` */
-  token?: string;
+  token?: string | undefined;
   /** Application installation ID. Required when `kind` is `App`. Supported by `GitHub` only. */
-  installationId?: string;
+  installationId?: string | undefined;
 }
 /** Detail about the webhook object. */
 export interface WebhookInput {
   /** A flag to instruct the backend service to rotate webhook secret. */
-  rotateWebhookSecret?: boolean;
+  rotateWebhookSecret?: boolean | undefined;
 }
 /** Resources created in user's repository for the source-control. */
 export interface RepositoryResourceInfoInput {
   /** The webhook object created for the source-control. */
-  webhook?: WebhookInput;
+  webhook?: WebhookInput | undefined;
 }
 /** Describes source control properties */
 export interface SourceControlPropertiesInput {
   /** The display name of the source control */
   displayName: string;
   /** A description of the source control */
-  description?: string;
+  description?: string | undefined;
   /** The repository type of the source control */
   repoType: RepoType | (string & {});
   /** Array of source control content types. */
@@ -619,11 +620,11 @@ export interface SourceControlPropertiesInput {
   /** Repository metadata. */
   repository: RepositoryInput;
   /** Service principal metadata. */
-  servicePrincipal?: ServicePrincipalInput;
+  servicePrincipal?: ServicePrincipalInput | undefined;
   /** Repository access credentials. This is write-only object and it never returns back to a user. */
-  repositoryAccess?: RepositoryAccess;
+  repositoryAccess?: RepositoryAccess | undefined;
   /** Information regarding the resources created in user's repository. */
-  repositoryResourceInfo?: RepositoryResourceInfoInput;
+  repositoryResourceInfo?: RepositoryResourceInfoInput | undefined;
 }
 export interface CreateSourceControlRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -637,7 +638,7 @@ export interface CreateSourceControlRequest {
   /** source control properties */
   properties: SourceControlPropertiesInput;
   /** Etag of the azure resource */
-  etag?: string;
+  etag?: string | undefined;
 }
 /** The version of the source control. */
 export type Version = "V1" | "V2";
@@ -650,65 +651,65 @@ export interface Repository {
   /** Branch name of repository. */
   branch: string;
   /** Display url of repository. */
-  displayUrl?: string;
+  displayUrl?: string | undefined;
   /** Url to access repository action logs. */
-  deploymentLogsUrl?: string;
+  deploymentLogsUrl?: string | undefined;
 }
 /** Service principal metadata. */
 export interface ServicePrincipal {
   /** Id of service principal. */
-  id?: string;
+  id?: string | undefined;
   /** Tenant id of service principal. */
-  tenantId?: string;
+  tenantId?: string | undefined;
   /** App id of service principal. */
-  appId?: string;
+  appId?: string | undefined;
   /** Expiration time of service principal credentials. */
-  credentialsExpireOn?: string;
+  credentialsExpireOn?: string | undefined;
 }
 /** Workload Identity Federation metadata. */
 export interface WorkloadIdentityFederation {
   /** Id of Workload Identity Federation. */
-  id?: string;
+  id?: string | undefined;
   /** Tenant id of Workload Identity Federation. */
-  tenantId?: string;
+  tenantId?: string | undefined;
   /** App id of Workload Identity Federation. */
-  appId?: string;
+  appId?: string | undefined;
   /** Subject of Workload Identity Federation. */
-  subject?: string;
+  subject?: string | undefined;
   /** Issuer of Workload Identity Federation. */
-  issuer?: string;
+  issuer?: string | undefined;
 }
 /** Detail about the webhook object. */
 export interface Webhook {
   /** Unique identifier for the webhook. */
-  webhookId?: string;
+  webhookId?: string | undefined;
   /** URL that gets invoked by the webhook. */
-  webhookUrl?: string;
+  webhookUrl?: string | undefined;
   /** Time when the webhook secret was updated. */
-  webhookSecretUpdateTime?: string;
+  webhookSecretUpdateTime?: string | undefined;
   /** A flag to instruct the backend service to rotate webhook secret. */
-  rotateWebhookSecret?: boolean;
+  rotateWebhookSecret?: boolean | undefined;
 }
 /** Resources created in GitHub repository. */
 export interface GitHubResourceInfo {
   /** GitHub application installation id. */
-  appInstallationId?: string;
+  appInstallationId?: string | undefined;
 }
 /** Resources created in Azure DevOps repository. */
 export interface AzureDevOpsResourceInfo {
   /** Id of the pipeline created for the source-control. */
-  pipelineId?: string;
+  pipelineId?: string | undefined;
   /** Id of the service-connection created for the source-control. */
-  serviceConnectionId?: string;
+  serviceConnectionId?: string | undefined;
 }
 /** Resources created in user's repository for the source-control. */
 export interface RepositoryResourceInfo {
   /** The webhook object created for the source-control. */
-  webhook?: Webhook;
+  webhook?: Webhook | undefined;
   /** Resources created in GitHub for this source-control. */
-  gitHubResourceInfo?: GitHubResourceInfo;
+  gitHubResourceInfo?: GitHubResourceInfo | undefined;
   /** Resources created in Azure DevOps for this source-control. */
-  azureDevOpsResourceInfo?: AzureDevOpsResourceInfo;
+  azureDevOpsResourceInfo?: AzureDevOpsResourceInfo | undefined;
 }
 /** Status while trying to fetch the deployment information. */
 export type DeploymentFetchStatus = "Success" | "Unauthorized" | "NotFound";
@@ -719,44 +720,44 @@ export type DeploymentResult = "Success" | "Canceled" | "Failed";
 /** Description about a deployment. */
 export interface Deployment {
   /** Deployment identifier. */
-  deploymentId?: string;
+  deploymentId?: string | undefined;
   /** Current status of the deployment. */
-  deploymentState?: DeploymentState;
+  deploymentState?: DeploymentState | undefined;
   /** The outcome of the deployment. */
-  deploymentResult?: DeploymentResult;
+  deploymentResult?: DeploymentResult | undefined;
   /** The time when the deployment finished. */
-  deploymentTime?: string;
+  deploymentTime?: string | undefined;
   /** Url to access repository action logs. */
-  deploymentLogsUrl?: string;
+  deploymentLogsUrl?: string | undefined;
 }
 /** Information regarding a deployment. */
 export interface DeploymentInfo {
   /** Status while fetching the last deployment. */
-  deploymentFetchStatus?: DeploymentFetchStatus;
+  deploymentFetchStatus?: DeploymentFetchStatus | undefined;
   /** Deployment information. */
-  deployment?: Deployment;
+  deployment?: Deployment | undefined;
   /** Additional details about the deployment that can be shown to the user. */
-  message?: string;
+  message?: string | undefined;
 }
 /** Status of the pull request. */
 export type PullRequestState = "Open" | "Closed";
 /** Information regarding pull request for protected branches. */
 export interface PullRequest {
   /** URL of pull request */
-  url?: string;
+  url?: string | undefined;
   /** State of the pull request */
-  state?: PullRequestState;
+  state?: PullRequestState | undefined;
 }
 /** Describes source control properties */
 export interface SourceControlProperties {
   /** The id (a Guid) of the source control */
-  id?: string;
+  id?: string | undefined;
   /** The version number associated with the source control */
-  version?: Version;
+  version?: Version | undefined;
   /** The display name of the source control */
   displayName: string;
   /** A description of the source control */
-  description?: string;
+  description?: string | undefined;
   /** The repository type of the source control */
   repoType: RepoType;
   /** Array of source control content types. */
@@ -764,31 +765,31 @@ export interface SourceControlProperties {
   /** Repository metadata. */
   repository: Repository;
   /** Service principal metadata. */
-  servicePrincipal?: ServicePrincipal;
+  servicePrincipal?: ServicePrincipal | undefined;
   /** Workload Identity metadata. */
-  workloadIdentityFederation?: WorkloadIdentityFederation;
+  workloadIdentityFederation?: WorkloadIdentityFederation | undefined;
   /** Repository access credentials. This is write-only object and it never returns back to a user. */
-  repositoryAccess?: RepositoryAccess;
+  repositoryAccess?: RepositoryAccess | undefined;
   /** Information regarding the resources created in user's repository. */
-  repositoryResourceInfo?: RepositoryResourceInfo;
+  repositoryResourceInfo?: RepositoryResourceInfo | undefined;
   /** Information regarding the latest deployment for the source control. */
-  lastDeploymentInfo?: DeploymentInfo;
+  lastDeploymentInfo?: DeploymentInfo | undefined;
   /** Information regarding the pull request of the source control. */
-  pullRequest?: PullRequest;
+  pullRequest?: PullRequest | undefined;
 }
 export interface CreateSourceControlResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** source control properties */
   properties: SourceControlProperties;
   /** Etag of the azure resource */
-  etag?: string;
+  etag?: string | undefined;
 }
 /** The kind of the threat intelligence entity */
 export type ThreatIntelligenceResourceInnerKind = "indicator";
@@ -799,9 +800,9 @@ export type ThreatIntelligenceIndicatorPropertiesInputIndicatorTypesList = Array
 /** Describes threat kill chain phase entity */
 export interface ThreatIntelligenceKillChainPhase {
   /** Kill chainName name */
-  killChainName?: string;
+  killChainName?: string | undefined;
   /** Phase name */
-  phaseName?: string;
+  phaseName?: string | undefined;
 }
 /** Kill chain phases */
 export type ThreatIntelligenceIndicatorPropertiesInputKillChainPhasesList =
@@ -809,9 +810,9 @@ export type ThreatIntelligenceIndicatorPropertiesInputKillChainPhasesList =
 /** Describes threat kill chain phase entity */
 export interface ThreatIntelligenceParsedPatternTypeValue {
   /** Type of the value */
-  valueType?: string;
+  valueType?: string | undefined;
   /** Value of parsed pattern */
-  value?: string;
+  value?: string | undefined;
 }
 /** Pattern type keys */
 export type ThreatIntelligenceParsedPatternPatternTypeValuesList =
@@ -819,9 +820,9 @@ export type ThreatIntelligenceParsedPatternPatternTypeValuesList =
 /** Describes parsed pattern entity */
 export interface ThreatIntelligenceParsedPattern {
   /** Pattern type key */
-  patternTypeKey?: string;
+  patternTypeKey?: string | undefined;
   /** Pattern type keys */
-  patternTypeValues?: ThreatIntelligenceParsedPatternPatternTypeValuesList;
+  patternTypeValues?: ThreatIntelligenceParsedPatternPatternTypeValuesList | undefined;
 }
 /** Parsed patterns */
 export type ThreatIntelligenceIndicatorPropertiesInputParsedPatternList =
@@ -831,15 +832,15 @@ export type ThreatIntelligenceExternalReferenceHashesMap = { [key: string]: stri
 /** Describes external reference */
 export interface ThreatIntelligenceExternalReference {
   /** External reference description */
-  description?: string;
+  description?: string | undefined;
   /** External reference ID */
-  externalId?: string;
+  externalId?: string | undefined;
   /** External reference source name */
-  sourceName?: string;
+  sourceName?: string | undefined;
   /** External reference URL */
-  url?: string;
+  url?: string | undefined;
   /** External reference hashes */
-  hashes?: ThreatIntelligenceExternalReferenceHashesMap;
+  hashes?: ThreatIntelligenceExternalReferenceHashesMap | undefined;
 }
 /** External References */
 export type ThreatIntelligenceIndicatorPropertiesInputExternalReferencesList =
@@ -849,11 +850,11 @@ export type ThreatIntelligenceGranularMarkingModelSelectorsList = Array<string>;
 /** Describes threat granular marking model entity */
 export interface ThreatIntelligenceGranularMarkingModel {
   /** Language granular marking model */
-  language?: string;
+  language?: string | undefined;
   /** marking reference granular marking model */
-  markingRef?: number;
+  markingRef?: number | undefined;
   /** granular marking model selectors */
-  selectors?: ThreatIntelligenceGranularMarkingModelSelectorsList;
+  selectors?: ThreatIntelligenceGranularMarkingModelSelectorsList | undefined;
 }
 /** Granular Markings */
 export type ThreatIntelligenceIndicatorPropertiesInputGranularMarkingsList =
@@ -871,61 +872,63 @@ export type ThreatIntelligenceIndicatorPropertiesInputExtensionsMap = {
 /** Describes threat intelligence entity properties */
 export interface ThreatIntelligenceIndicatorPropertiesInput {
   /** List of tags */
-  threatIntelligenceTags?: ThreatIntelligenceIndicatorPropertiesInputThreatIntelligenceTagsList;
+  threatIntelligenceTags?:
+    | ThreatIntelligenceIndicatorPropertiesInputThreatIntelligenceTagsList
+    | undefined;
   /** Last updated time in UTC */
-  lastUpdatedTimeUtc?: string;
+  lastUpdatedTimeUtc?: string | undefined;
   /** Source of a threat intelligence entity */
-  source?: string;
+  source?: string | undefined;
   /** Display name of a threat intelligence entity */
-  displayName?: string;
+  displayName?: string | undefined;
   /** Description of a threat intelligence entity */
-  description?: string;
+  description?: string | undefined;
   /** Indicator types of threat intelligence entities */
-  indicatorTypes?: ThreatIntelligenceIndicatorPropertiesInputIndicatorTypesList;
+  indicatorTypes?: ThreatIntelligenceIndicatorPropertiesInputIndicatorTypesList | undefined;
   /** Pattern of a threat intelligence entity */
-  pattern?: string;
+  pattern?: string | undefined;
   /** Pattern type of a threat intelligence entity */
-  patternType?: string;
+  patternType?: string | undefined;
   /** Pattern version of a threat intelligence entity */
-  patternVersion?: string;
+  patternVersion?: string | undefined;
   /** Kill chain phases */
-  killChainPhases?: ThreatIntelligenceIndicatorPropertiesInputKillChainPhasesList;
+  killChainPhases?: ThreatIntelligenceIndicatorPropertiesInputKillChainPhasesList | undefined;
   /** Parsed patterns */
-  parsedPattern?: ThreatIntelligenceIndicatorPropertiesInputParsedPatternList;
+  parsedPattern?: ThreatIntelligenceIndicatorPropertiesInputParsedPatternList | undefined;
   /** External ID of threat intelligence entity */
-  externalId?: string;
+  externalId?: string | undefined;
   /** Created by reference of threat intelligence entity */
-  createdByRef?: string;
+  createdByRef?: string | undefined;
   /** Is threat intelligence entity defanged */
-  defanged?: boolean;
+  defanged?: boolean | undefined;
   /** External last updated time in UTC */
-  externalLastUpdatedTimeUtc?: string;
+  externalLastUpdatedTimeUtc?: string | undefined;
   /** External References */
-  externalReferences?: ThreatIntelligenceIndicatorPropertiesInputExternalReferencesList;
+  externalReferences?: ThreatIntelligenceIndicatorPropertiesInputExternalReferencesList | undefined;
   /** Granular Markings */
-  granularMarkings?: ThreatIntelligenceIndicatorPropertiesInputGranularMarkingsList;
+  granularMarkings?: ThreatIntelligenceIndicatorPropertiesInputGranularMarkingsList | undefined;
   /** Labels of threat intelligence entity */
-  labels?: ThreatIntelligenceIndicatorPropertiesInputLabelsList;
+  labels?: ThreatIntelligenceIndicatorPropertiesInputLabelsList | undefined;
   /** Is threat intelligence entity revoked */
-  revoked?: boolean;
+  revoked?: boolean | undefined;
   /** Confidence of threat intelligence entity */
-  confidence?: number;
+  confidence?: number | undefined;
   /** Threat intelligence entity object marking references */
-  objectMarkingRefs?: ThreatIntelligenceIndicatorPropertiesInputObjectMarkingRefsList;
+  objectMarkingRefs?: ThreatIntelligenceIndicatorPropertiesInputObjectMarkingRefsList | undefined;
   /** Language of threat intelligence entity */
-  language?: string;
+  language?: string | undefined;
   /** Threat types */
-  threatTypes?: ThreatIntelligenceIndicatorPropertiesInputThreatTypesList;
+  threatTypes?: ThreatIntelligenceIndicatorPropertiesInputThreatTypesList | undefined;
   /** Valid from */
-  validFrom?: string;
+  validFrom?: string | undefined;
   /** Valid until */
-  validUntil?: string;
+  validUntil?: string | undefined;
   /** Created by */
-  created?: string;
+  created?: string | undefined;
   /** Modified by */
-  modified?: string;
+  modified?: string | undefined;
   /** Extensions map */
-  extensions?: ThreatIntelligenceIndicatorPropertiesInputExtensionsMap;
+  extensions?: ThreatIntelligenceIndicatorPropertiesInputExtensionsMap | undefined;
 }
 export interface CreateThreatIntelligenceIndicatorRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -939,23 +942,23 @@ export interface CreateThreatIntelligenceIndicatorRequest {
   /** Metadata used by portal/tooling/etc to render different UX experiences for resources of the same type; e.g. ApiApps are a kind of Microsoft.Web/sites type. If supported, the resource provider must validate and persist this value. */
   kind: ThreatIntelligenceResourceInnerKind | (string & {});
   /** Etag of the azure resource */
-  etag?: string;
+  etag?: string | undefined;
   /** Threat Intelligence Entity properties */
-  properties?: ThreatIntelligenceIndicatorPropertiesInput;
+  properties?: ThreatIntelligenceIndicatorPropertiesInput | undefined;
 }
 export interface CreateThreatIntelligenceIndicatorResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Metadata used by portal/tooling/etc to render different UX experiences for resources of the same type; e.g. ApiApps are a kind of Microsoft.Web/sites type. If supported, the resource provider must validate and persist this value. */
   kind: ThreatIntelligenceResourceInnerKind;
   /** Etag of the azure resource */
-  etag?: string;
+  etag?: string | undefined;
 }
 export interface CreateThreatIntelligenceIndicatorIndicatorRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -967,23 +970,23 @@ export interface CreateThreatIntelligenceIndicatorIndicatorRequest {
   /** Metadata used by portal/tooling/etc to render different UX experiences for resources of the same type; e.g. ApiApps are a kind of Microsoft.Web/sites type. If supported, the resource provider must validate and persist this value. */
   kind: ThreatIntelligenceResourceInnerKind | (string & {});
   /** Etag of the azure resource */
-  etag?: string;
+  etag?: string | undefined;
   /** Threat Intelligence Entity properties */
-  properties?: ThreatIntelligenceIndicatorPropertiesInput;
+  properties?: ThreatIntelligenceIndicatorPropertiesInput | undefined;
 }
 export interface CreateThreatIntelligenceIndicatorIndicatorResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Metadata used by portal/tooling/etc to render different UX experiences for resources of the same type; e.g. ApiApps are a kind of Microsoft.Web/sites type. If supported, the resource provider must validate and persist this value. */
   kind: ThreatIntelligenceResourceInnerKind;
   /** Etag of the azure resource */
-  etag?: string;
+  etag?: string | undefined;
 }
 /** The kind of the data connector definitions */
 export type DataConnectorDefinitionKind = "Customizable";
@@ -999,25 +1002,25 @@ export interface DataConnectorDefinitionsCreateOrUpdateRequest {
   /** Metadata used by portal/tooling/etc to render different UX experiences for resources of the same type; e.g. ApiApps are a kind of Microsoft.Web/sites type. If supported, the resource provider must validate and persist this value. */
   kind: DataConnectorDefinitionKind | (string & {});
   /** Etag of the azure resource */
-  etag?: string;
+  etag?: string | undefined;
   /** Data connector definition properties (polymorphic on `kind`, e.g. Customizable). */
-  properties?: unknown;
+  properties?: unknown | undefined;
 }
 export interface DataConnectorDefinitionsCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Metadata used by portal/tooling/etc to render different UX experiences for resources of the same type; e.g. ApiApps are a kind of Microsoft.Web/sites type. If supported, the resource provider must validate and persist this value. */
   kind: DataConnectorDefinitionKind;
   /** Etag of the azure resource */
-  etag?: string;
+  etag?: string | undefined;
   /** Data connector definition properties (polymorphic on `kind`, e.g. Customizable). */
-  properties?: unknown;
+  properties?: unknown | undefined;
 }
 /** The kind of the data connector */
 export type DataConnectorKind =
@@ -1044,25 +1047,25 @@ export interface DataConnectorsCreateOrUpdateRequest {
   /** Metadata used by portal/tooling/etc to render different UX experiences for resources of the same type; e.g. ApiApps are a kind of Microsoft.Web/sites type. If supported, the resource provider must validate and persist this value. */
   kind: DataConnectorKind | (string & {});
   /** Etag of the azure resource */
-  etag?: string;
+  etag?: string | undefined;
   /** Data connector properties (polymorphic on `kind`). */
-  properties?: unknown;
+  properties?: unknown | undefined;
 }
 export interface DataConnectorsCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Metadata used by portal/tooling/etc to render different UX experiences for resources of the same type; e.g. ApiApps are a kind of Microsoft.Web/sites type. If supported, the resource provider must validate and persist this value. */
   kind: DataConnectorKind;
   /** Etag of the azure resource */
-  etag?: string;
+  etag?: string | undefined;
   /** Data connector properties (polymorphic on `kind`). */
-  properties?: unknown;
+  properties?: unknown | undefined;
 }
 export interface DeleteActionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1254,15 +1257,15 @@ export type WarningBodyDetailsList = Array<WarningBody>;
 /** Warning details. */
 export interface WarningBody {
   /** An identifier for the warning. Codes are invariant and are intended to be consumed programmatically. */
-  code?: WarningCode;
+  code?: WarningCode | undefined;
   /** A message describing the warning, intended to be suitable for display in a user interface. */
-  message?: string;
-  details?: WarningBodyDetailsList;
+  message?: string | undefined;
+  details?: WarningBodyDetailsList | undefined;
 }
 /** Warning response structure. */
 export interface Warning {
   /** Warning data. */
-  warning?: WarningBody;
+  warning?: WarningBody | undefined;
 }
 export interface DeleteThreatIntelligenceIndicatorRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1287,9 +1290,9 @@ export interface DeleteWatchlistRequest {
 }
 export interface DeleteWatchlistResponse {
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
 }
 export interface DeleteWatchlistItemRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1318,17 +1321,17 @@ export interface GetActionRequest {
 }
 export interface GetActionResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Action properties for get request */
-  properties?: ActionResponseProperties;
+  properties?: ActionResponseProperties | undefined;
   /** Etag of the action. */
-  etag?: string;
+  etag?: string | undefined;
 }
 export interface GetAlertRuleRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1342,19 +1345,19 @@ export interface GetAlertRuleRequest {
 }
 export interface GetAlertRuleResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Metadata used by portal/tooling/etc to render different UX experiences for resources of the same type; e.g. ApiApps are a kind of Microsoft.Web/sites type. If supported, the resource provider must validate and persist this value. */
   kind: AlertRuleKind;
   /** Etag of the azure resource */
-  etag?: string;
+  etag?: string | undefined;
   /** Alert rule properties (polymorphic on `kind`: Scheduled, Fusion, MicrosoftSecurityIncidentCreation, NRT, ...). */
-  properties?: unknown;
+  properties?: unknown | undefined;
 }
 export interface GetAlertRuleTemplateRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1368,13 +1371,13 @@ export interface GetAlertRuleTemplateRequest {
 }
 export interface GetAlertRuleTemplateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Metadata used by portal/tooling/etc to render different UX experiences for resources of the same type; e.g. ApiApps are a kind of Microsoft.Web/sites type. If supported, the resource provider must validate and persist this value. */
   kind: AlertRuleKind;
 }
@@ -1390,17 +1393,17 @@ export interface GetAutomationRuleRequest {
 }
 export interface GetAutomationRuleResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Automation rule properties */
   properties: AutomationRuleProperties;
   /** Etag of the azure resource */
-  etag?: string;
+  etag?: string | undefined;
 }
 export interface GetBookmarkRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1414,17 +1417,17 @@ export interface GetBookmarkRequest {
 }
 export interface GetBookmarkResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Bookmark properties */
-  properties?: BookmarkProperties;
+  properties?: BookmarkProperties | undefined;
   /** Etag of the azure resource */
-  etag?: string;
+  etag?: string | undefined;
 }
 export interface GetContentPackageRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1449,65 +1452,65 @@ export type PackageBasePropertiesThreatAnalysisTechniquesList = Array<string>;
 /** Describes package properties */
 export interface PackageBaseProperties {
   /** The content id of the package */
-  contentId?: string;
+  contentId?: string | undefined;
   /** Unique ID for the content. It should be generated based on the contentId, contentKind and the contentVersion of the package */
-  contentProductId?: string;
+  contentProductId?: string | undefined;
   /** The package kind */
-  contentKind?: PackageKind | (string & {});
+  contentKind?: PackageKind | (string & {}) | undefined;
   /** The version of the content schema. */
-  contentSchemaVersion?: string;
+  contentSchemaVersion?: string | undefined;
   /** Flag indicates if this is a newly published package. */
-  isNew?: Flag | (string & {});
+  isNew?: Flag | (string & {}) | undefined;
   /** Flag indicates if this package is in preview. */
-  isPreview?: Flag | (string & {});
+  isPreview?: Flag | (string & {}) | undefined;
   /** Flag indicates if this package is among the featured list. */
-  isFeatured?: Flag | (string & {});
+  isFeatured?: Flag | (string & {}) | undefined;
   /** Flag indicates if this template is deprecated */
-  isDeprecated?: Flag | (string & {});
+  isDeprecated?: Flag | (string & {}) | undefined;
   /** the latest version number of the package */
-  version?: string;
+  version?: string | undefined;
   /** The display name of the package */
-  displayName?: string;
+  displayName?: string | undefined;
   /** The description of the package */
-  description?: string;
+  description?: string | undefined;
   /** The publisher display name of the package */
-  publisherDisplayName?: string;
+  publisherDisplayName?: string | undefined;
   /** The source of the package */
-  source?: MetadataSource;
+  source?: MetadataSource | undefined;
   /** The author of the package */
-  author?: MetadataAuthor;
+  author?: MetadataAuthor | undefined;
   /** The support tier of the package */
-  support?: MetadataSupport;
+  support?: MetadataSupport | undefined;
   /** The support tier of the package */
-  dependencies?: MetadataDependencies;
+  dependencies?: MetadataDependencies | undefined;
   /** Providers for the package item */
-  providers?: PackageBasePropertiesProvidersList;
+  providers?: PackageBasePropertiesProvidersList | undefined;
   /** first publish date package item */
-  firstPublishDate?: string;
+  firstPublishDate?: string | undefined;
   /** last publish date for the package item */
-  lastPublishDate?: string;
+  lastPublishDate?: string | undefined;
   /** The categories of the package */
-  categories?: MetadataCategories;
+  categories?: MetadataCategories | undefined;
   /** the tactics the resource covers */
-  threatAnalysisTactics?: PackageBasePropertiesThreatAnalysisTacticsList;
+  threatAnalysisTactics?: PackageBasePropertiesThreatAnalysisTacticsList | undefined;
   /** the techniques the resource covers, these have to be aligned with the tactics being used */
-  threatAnalysisTechniques?: PackageBasePropertiesThreatAnalysisTechniquesList;
+  threatAnalysisTechniques?: PackageBasePropertiesThreatAnalysisTechniquesList | undefined;
   /** the icon identifier. this id can later be fetched from the content metadata */
-  icon?: string;
+  icon?: string | undefined;
 }
 export interface GetContentPackageResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** package properties */
-  properties?: PackageBaseProperties;
+  properties?: PackageBaseProperties | undefined;
   /** Etag of the azure resource */
-  etag?: string;
+  etag?: string | undefined;
 }
 export interface GetContentTemplateRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1534,73 +1537,73 @@ export type TemplatePropertiesDependantTemplatesList = Array<TemplateProperties>
 /** Template property bag. */
 export interface TemplateProperties {
   /** Static ID for the content. Used to identify dependencies and content from solutions or community. Hard-coded/static for out of the box content and solutions. Dynamic for user-created. This is the resource name */
-  contentId?: string;
+  contentId?: string | undefined;
   /** Unique ID for the content. It should be generated based on the contentId of the package, contentId of the template, contentKind of the template and the contentVersion of the template */
-  contentProductId?: string;
+  contentProductId?: string | undefined;
   /** Version of the package. Default and recommended format is numeric (e.g. 1, 1.0, 1.0.0, 1.0.0.0), following ARM metadata best practices. Can also be any string, but then we cannot guarantee any version checks */
-  packageVersion?: string;
+  packageVersion?: string | undefined;
   /** Version of the content. Default and recommended format is numeric (e.g. 1, 1.0, 1.0.0, 1.0.0.0), following ARM metadata best practices. Can also be any string, but then we cannot guarantee any version checks */
-  version?: string;
+  version?: string | undefined;
   /** The display name of the template */
-  displayName?: string;
+  displayName?: string | undefined;
   /** The kind of content the template is for. */
-  contentKind?: Kind;
+  contentKind?: Kind | undefined;
   /** Source of the content. This is where/how it was created. */
-  source?: MetadataSource;
+  source?: MetadataSource | undefined;
   /** The creator of the content item. */
-  author?: MetadataAuthor;
+  author?: MetadataAuthor | undefined;
   /** Support information for the template - type, name, contact information */
-  support?: MetadataSupport;
+  support?: MetadataSupport | undefined;
   /** Dependencies for the content item, what other content items it requires to work. Can describe more complex dependencies using a recursive/nested structure. For a single dependency an id/kind/version can be supplied or operator/criteria for complex formats. */
-  dependencies?: MetadataDependencies;
+  dependencies?: MetadataDependencies | undefined;
   /** Categories for the item */
-  categories?: MetadataCategories;
+  categories?: MetadataCategories | undefined;
   /** Providers for the content item */
-  providers?: TemplatePropertiesProvidersList;
+  providers?: TemplatePropertiesProvidersList | undefined;
   /** first publish date content item */
-  firstPublishDate?: string;
+  firstPublishDate?: string | undefined;
   /** last publish date for the content item */
-  lastPublishDate?: string;
+  lastPublishDate?: string | undefined;
   /** The custom version of the content. A optional free text */
-  customVersion?: string;
+  customVersion?: string | undefined;
   /** Schema version of the content. Can be used to distinguish between different flow based on the schema version */
-  contentSchemaVersion?: string;
+  contentSchemaVersion?: string | undefined;
   /** the icon identifier. this id can later be fetched from the content metadata */
-  icon?: string;
+  icon?: string | undefined;
   /** the tactics the resource covers */
-  threatAnalysisTactics?: TemplatePropertiesThreatAnalysisTacticsList;
+  threatAnalysisTactics?: TemplatePropertiesThreatAnalysisTacticsList | undefined;
   /** the techniques the resource covers, these have to be aligned with the tactics being used */
-  threatAnalysisTechniques?: TemplatePropertiesThreatAnalysisTechniquesList;
+  threatAnalysisTechniques?: TemplatePropertiesThreatAnalysisTechniquesList | undefined;
   /** preview image file names. These will be taken from the solution artifacts */
-  previewImages?: TemplatePropertiesPreviewImagesList;
+  previewImages?: TemplatePropertiesPreviewImagesList | undefined;
   /** preview image file names. These will be taken from the solution artifacts. used for dark theme support */
-  previewImagesDark?: TemplatePropertiesPreviewImagesDarkList;
+  previewImagesDark?: TemplatePropertiesPreviewImagesDarkList | undefined;
   /** the package Id contains this template */
-  packageId?: string;
+  packageId?: string | undefined;
   /** the packageKind of the package contains this template */
-  packageKind?: PackageKind;
+  packageKind?: PackageKind | undefined;
   /** the name of the package contains this template */
-  packageName?: string;
+  packageName?: string | undefined;
   /** Flag indicates if this template is deprecated */
-  isDeprecated?: Flag;
+  isDeprecated?: Flag | undefined;
   /** The JSON of the ARM template to deploy active content. Expandable. */
-  mainTemplate?: unknown;
+  mainTemplate?: unknown | undefined;
   /** Dependant templates. Expandable. */
-  dependantTemplates?: TemplatePropertiesDependantTemplatesList;
+  dependantTemplates?: TemplatePropertiesDependantTemplatesList | undefined;
 }
 export interface GetContentTemplateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** template properties */
-  properties?: TemplateProperties;
+  properties?: TemplateProperties | undefined;
   /** Etag of the azure resource */
-  etag?: string;
+  etag?: string | undefined;
 }
 export interface GetDataConnectorRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1614,19 +1617,19 @@ export interface GetDataConnectorRequest {
 }
 export interface GetDataConnectorResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Metadata used by portal/tooling/etc to render different UX experiences for resources of the same type; e.g. ApiApps are a kind of Microsoft.Web/sites type. If supported, the resource provider must validate and persist this value. */
   kind: DataConnectorKind;
   /** Etag of the azure resource */
-  etag?: string;
+  etag?: string | undefined;
   /** Data connector properties (polymorphic on `kind`). */
-  properties?: unknown;
+  properties?: unknown | undefined;
 }
 export interface GetDataConnectorDefinitionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1640,19 +1643,19 @@ export interface GetDataConnectorDefinitionRequest {
 }
 export interface GetDataConnectorDefinitionResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Metadata used by portal/tooling/etc to render different UX experiences for resources of the same type; e.g. ApiApps are a kind of Microsoft.Web/sites type. If supported, the resource provider must validate and persist this value. */
   kind: DataConnectorDefinitionKind;
   /** Etag of the azure resource */
-  etag?: string;
+  etag?: string | undefined;
   /** Data connector definition properties (polymorphic on `kind`, e.g. Customizable). */
-  properties?: unknown;
+  properties?: unknown | undefined;
 }
 export interface GetIncidentRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1683,15 +1686,15 @@ export type OwnerType = "Unknown" | "User" | "Group";
 /** Information on the user an incident is assigned to */
 export interface IncidentOwnerInfo {
   /** The email of the user the incident is assigned to. */
-  email?: string;
+  email?: string | undefined;
   /** The name of the user the incident is assigned to. */
-  assignedTo?: string;
+  assignedTo?: string | undefined;
   /** The object id of the user the incident is assigned to. */
-  objectId?: string;
+  objectId?: string | undefined;
   /** The user principal name of the user the incident is assigned to. */
-  userPrincipalName?: string;
+  userPrincipalName?: string | undefined;
   /** The type of the owner the incident is assigned to. */
-  ownerType?: OwnerType | (string & {});
+  ownerType?: OwnerType | (string & {}) | undefined;
 }
 /** The type of the label */
 export type IncidentLabelType = "User" | "AutoAssigned";
@@ -1700,7 +1703,7 @@ export interface IncidentLabel {
   /** The name of the label */
   labelName: string;
   /** The type of the label */
-  labelType?: IncidentLabelType | (string & {});
+  labelType?: IncidentLabelType | (string & {}) | undefined;
 }
 /** List of labels relevant to this incident */
 export type IncidentPropertiesLabelsList = Array<IncidentLabel>;
@@ -1730,17 +1733,17 @@ export type IncidentAdditionalDataTacticsList = Array<AttackTactic>;
 /** Incident additional data property bag. */
 export interface IncidentAdditionalData {
   /** The number of alerts in the incident */
-  alertsCount?: number;
+  alertsCount?: number | undefined;
   /** The number of bookmarks in the incident */
-  bookmarksCount?: number;
+  bookmarksCount?: number | undefined;
   /** The number of comments in the incident */
-  commentsCount?: number;
+  commentsCount?: number | undefined;
   /** List of product names of alerts in the incident */
-  alertProductNames?: IncidentAdditionalDataAlertProductNamesList;
+  alertProductNames?: IncidentAdditionalDataAlertProductNamesList | undefined;
   /** The tactics associated with incident */
-  tactics?: IncidentAdditionalDataTacticsList;
+  tactics?: IncidentAdditionalDataTacticsList | undefined;
   /** The provider incident url to the incident in Microsoft 365 Defender portal */
-  providerIncidentUrl?: string;
+  providerIncidentUrl?: string | undefined;
 }
 /** List of resource ids of Analytic rules related to the incident */
 export type IncidentPropertiesRelatedAnalyticRuleIdsList = Array<string>;
@@ -1749,55 +1752,55 @@ export interface IncidentProperties {
   /** The title of the incident */
   title: string;
   /** The description of the incident */
-  description?: string;
+  description?: string | undefined;
   /** The severity of the incident */
   severity: IncidentSeverity;
   /** The status of the incident */
   status: IncidentStatus;
   /** The reason the incident was closed */
-  classification?: IncidentClassification;
+  classification?: IncidentClassification | undefined;
   /** The classification reason the incident was closed with */
-  classificationReason?: IncidentClassificationReason;
+  classificationReason?: IncidentClassificationReason | undefined;
   /** Describes the reason the incident was closed */
-  classificationComment?: string;
+  classificationComment?: string | undefined;
   /** Describes a user that the incident is assigned to */
-  owner?: IncidentOwnerInfo;
+  owner?: IncidentOwnerInfo | undefined;
   /** List of labels relevant to this incident */
-  labels?: IncidentPropertiesLabelsList;
+  labels?: IncidentPropertiesLabelsList | undefined;
   /** The time of the first activity in the incident */
-  firstActivityTimeUtc?: string;
+  firstActivityTimeUtc?: string | undefined;
   /** The time of the last activity in the incident */
-  lastActivityTimeUtc?: string;
+  lastActivityTimeUtc?: string | undefined;
   /** The last time the incident was updated */
-  lastModifiedTimeUtc?: string;
+  lastModifiedTimeUtc?: string | undefined;
   /** The time the incident was created */
-  createdTimeUtc?: string;
+  createdTimeUtc?: string | undefined;
   /** A sequential number */
-  incidentNumber?: number;
+  incidentNumber?: number | undefined;
   /** Additional data on the incident */
-  additionalData?: IncidentAdditionalData;
+  additionalData?: IncidentAdditionalData | undefined;
   /** List of resource ids of Analytic rules related to the incident */
-  relatedAnalyticRuleIds?: IncidentPropertiesRelatedAnalyticRuleIdsList;
+  relatedAnalyticRuleIds?: IncidentPropertiesRelatedAnalyticRuleIdsList | undefined;
   /** The deep-link url to the incident in Azure portal */
-  incidentUrl?: string;
+  incidentUrl?: string | undefined;
   /** The name of the source provider that generated the incident */
-  providerName?: string;
+  providerName?: string | undefined;
   /** The incident ID assigned by the incident provider */
-  providerIncidentId?: string;
+  providerIncidentId?: string | undefined;
 }
 export interface GetIncidentResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Incident properties */
-  properties?: IncidentProperties;
+  properties?: IncidentProperties | undefined;
   /** Etag of the azure resource */
-  etag?: string;
+  etag?: string | undefined;
 }
 export interface GetIncidentCommentRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1816,25 +1819,25 @@ export interface IncidentCommentProperties {
   /** The comment message */
   message: string;
   /** The time the comment was created */
-  createdTimeUtc?: string;
+  createdTimeUtc?: string | undefined;
   /** The time the comment was updated */
-  lastModifiedTimeUtc?: string;
+  lastModifiedTimeUtc?: string | undefined;
   /** Describes the client that created the comment */
-  author?: ClientInfo;
+  author?: ClientInfo | undefined;
 }
 export interface GetIncidentCommentResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Incident comment properties */
-  properties?: IncidentCommentProperties;
+  properties?: IncidentCommentProperties | undefined;
   /** Etag of the azure resource */
-  etag?: string;
+  etag?: string | undefined;
 }
 export interface GetIncidentRelationRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1853,25 +1856,25 @@ export interface RelationProperties {
   /** The resource ID of the related resource */
   relatedResourceId: string;
   /** The name of the related resource */
-  relatedResourceName?: string;
+  relatedResourceName?: string | undefined;
   /** The resource type of the related resource */
-  relatedResourceType?: string;
+  relatedResourceType?: string | undefined;
   /** The resource kind of the related resource */
-  relatedResourceKind?: string;
+  relatedResourceKind?: string | undefined;
 }
 export interface GetIncidentRelationResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Relation properties */
-  properties?: RelationProperties;
+  properties?: RelationProperties | undefined;
   /** Etag of the azure resource */
-  etag?: string;
+  etag?: string | undefined;
 }
 export interface GetIncidentTaskRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1892,31 +1895,31 @@ export interface IncidentTaskProperties {
   /** The title of the task */
   title: string;
   /** The description of the task */
-  description?: string;
+  description?: string | undefined;
   /** The status of the task */
   status: IncidentTaskStatus;
   /** The time the task was created */
-  createdTimeUtc?: string;
+  createdTimeUtc?: string | undefined;
   /** The last time the task was updated */
-  lastModifiedTimeUtc?: string;
+  lastModifiedTimeUtc?: string | undefined;
   /** Information on the client (user or application) that made some action */
-  createdBy?: ClientInfo;
+  createdBy?: ClientInfo | undefined;
   /** Information on the client (user or application) that made some action */
-  lastModifiedBy?: ClientInfo;
+  lastModifiedBy?: ClientInfo | undefined;
 }
 export interface GetIncidentTaskResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Describes the properties of an incident task */
   properties: IncidentTaskProperties;
   /** Etag of the azure resource */
-  etag?: string;
+  etag?: string | undefined;
 }
 export interface GetMetadataRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1930,17 +1933,17 @@ export interface GetMetadataRequest {
 }
 export interface GetMetadataResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Metadata properties */
-  properties?: MetadataProperties;
+  properties?: MetadataProperties | undefined;
   /** Etag of the azure resource */
-  etag?: string;
+  etag?: string | undefined;
 }
 export interface GetProductPackageRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1961,71 +1964,71 @@ export type ProductPackagePropertiesThreatAnalysisTechniquesList = Array<string>
 /** Describes package properties */
 export interface ProductPackageProperties {
   /** The content id of the package */
-  contentId?: string;
+  contentId?: string | undefined;
   /** Unique ID for the content. It should be generated based on the contentId, contentKind and the contentVersion of the package */
-  contentProductId?: string;
+  contentProductId?: string | undefined;
   /** The package kind */
-  contentKind?: PackageKind;
+  contentKind?: PackageKind | undefined;
   /** The version of the content schema. */
-  contentSchemaVersion?: string;
+  contentSchemaVersion?: string | undefined;
   /** Flag indicates if this is a newly published package. */
-  isNew?: Flag;
+  isNew?: Flag | undefined;
   /** Flag indicates if this package is in preview. */
-  isPreview?: Flag;
+  isPreview?: Flag | undefined;
   /** Flag indicates if this package is among the featured list. */
-  isFeatured?: Flag;
+  isFeatured?: Flag | undefined;
   /** Flag indicates if this template is deprecated */
-  isDeprecated?: Flag;
+  isDeprecated?: Flag | undefined;
   /** the latest version number of the package */
-  version?: string;
+  version?: string | undefined;
   /** The display name of the package */
-  displayName?: string;
+  displayName?: string | undefined;
   /** The description of the package */
-  description?: string;
+  description?: string | undefined;
   /** The publisher display name of the package */
-  publisherDisplayName?: string;
+  publisherDisplayName?: string | undefined;
   /** The source of the package */
-  source?: MetadataSource;
+  source?: MetadataSource | undefined;
   /** The author of the package */
-  author?: MetadataAuthor;
+  author?: MetadataAuthor | undefined;
   /** The support tier of the package */
-  support?: MetadataSupport;
+  support?: MetadataSupport | undefined;
   /** The support tier of the package */
-  dependencies?: MetadataDependencies;
+  dependencies?: MetadataDependencies | undefined;
   /** Providers for the package item */
-  providers?: ProductPackagePropertiesProvidersList;
+  providers?: ProductPackagePropertiesProvidersList | undefined;
   /** first publish date package item */
-  firstPublishDate?: string;
+  firstPublishDate?: string | undefined;
   /** last publish date for the package item */
-  lastPublishDate?: string;
+  lastPublishDate?: string | undefined;
   /** The categories of the package */
-  categories?: MetadataCategories;
+  categories?: MetadataCategories | undefined;
   /** the tactics the resource covers */
-  threatAnalysisTactics?: ProductPackagePropertiesThreatAnalysisTacticsList;
+  threatAnalysisTactics?: ProductPackagePropertiesThreatAnalysisTacticsList | undefined;
   /** the techniques the resource covers, these have to be aligned with the tactics being used */
-  threatAnalysisTechniques?: ProductPackagePropertiesThreatAnalysisTechniquesList;
+  threatAnalysisTechniques?: ProductPackagePropertiesThreatAnalysisTechniquesList | undefined;
   /** the icon identifier. this id can later be fetched from the content metadata */
-  icon?: string;
+  icon?: string | undefined;
   /** The version of the installed package, null or absent means not installed. */
-  installedVersion?: string;
+  installedVersion?: string | undefined;
   /** The metadata resource id. */
-  metadataResourceId?: string;
+  metadataResourceId?: string | undefined;
   /** The json of the ARM template to deploy. Expandable. */
-  packagedContent?: unknown;
+  packagedContent?: unknown | undefined;
 }
 export interface GetProductPackageResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** package properties */
-  properties?: ProductPackageProperties;
+  properties?: ProductPackageProperties | undefined;
   /** Etag of the azure resource */
-  etag?: string;
+  etag?: string | undefined;
 }
 export interface GetProductTemplateRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2050,71 +2053,71 @@ export type ProductTemplatePropertiesPreviewImagesDarkList = Array<string>;
 /** Template property bag. */
 export interface ProductTemplateProperties {
   /** Static ID for the content. Used to identify dependencies and content from solutions or community. Hard-coded/static for out of the box content and solutions. Dynamic for user-created. This is the resource name */
-  contentId?: string;
+  contentId?: string | undefined;
   /** Unique ID for the content. It should be generated based on the contentId of the package, contentId of the template, contentKind of the template and the contentVersion of the template */
-  contentProductId?: string;
+  contentProductId?: string | undefined;
   /** Version of the package. Default and recommended format is numeric (e.g. 1, 1.0, 1.0.0, 1.0.0.0), following ARM metadata best practices. Can also be any string, but then we cannot guarantee any version checks */
-  packageVersion?: string;
+  packageVersion?: string | undefined;
   /** Version of the content. Default and recommended format is numeric (e.g. 1, 1.0, 1.0.0, 1.0.0.0), following ARM metadata best practices. Can also be any string, but then we cannot guarantee any version checks */
-  version?: string;
+  version?: string | undefined;
   /** The display name of the template */
-  displayName?: string;
+  displayName?: string | undefined;
   /** The kind of content the template is for. */
-  contentKind?: Kind;
+  contentKind?: Kind | undefined;
   /** Source of the content. This is where/how it was created. */
-  source?: MetadataSource;
+  source?: MetadataSource | undefined;
   /** The creator of the content item. */
-  author?: MetadataAuthor;
+  author?: MetadataAuthor | undefined;
   /** Support information for the template - type, name, contact information */
-  support?: MetadataSupport;
+  support?: MetadataSupport | undefined;
   /** Dependencies for the content item, what other content items it requires to work. Can describe more complex dependencies using a recursive/nested structure. For a single dependency an id/kind/version can be supplied or operator/criteria for complex formats. */
-  dependencies?: MetadataDependencies;
+  dependencies?: MetadataDependencies | undefined;
   /** Categories for the item */
-  categories?: MetadataCategories;
+  categories?: MetadataCategories | undefined;
   /** Providers for the content item */
-  providers?: ProductTemplatePropertiesProvidersList;
+  providers?: ProductTemplatePropertiesProvidersList | undefined;
   /** first publish date content item */
-  firstPublishDate?: string;
+  firstPublishDate?: string | undefined;
   /** last publish date for the content item */
-  lastPublishDate?: string;
+  lastPublishDate?: string | undefined;
   /** The custom version of the content. A optional free text */
-  customVersion?: string;
+  customVersion?: string | undefined;
   /** Schema version of the content. Can be used to distinguish between different flow based on the schema version */
-  contentSchemaVersion?: string;
+  contentSchemaVersion?: string | undefined;
   /** the icon identifier. this id can later be fetched from the content metadata */
-  icon?: string;
+  icon?: string | undefined;
   /** the tactics the resource covers */
-  threatAnalysisTactics?: ProductTemplatePropertiesThreatAnalysisTacticsList;
+  threatAnalysisTactics?: ProductTemplatePropertiesThreatAnalysisTacticsList | undefined;
   /** the techniques the resource covers, these have to be aligned with the tactics being used */
-  threatAnalysisTechniques?: ProductTemplatePropertiesThreatAnalysisTechniquesList;
+  threatAnalysisTechniques?: ProductTemplatePropertiesThreatAnalysisTechniquesList | undefined;
   /** preview image file names. These will be taken from the solution artifacts */
-  previewImages?: ProductTemplatePropertiesPreviewImagesList;
+  previewImages?: ProductTemplatePropertiesPreviewImagesList | undefined;
   /** preview image file names. These will be taken from the solution artifacts. used for dark theme support */
-  previewImagesDark?: ProductTemplatePropertiesPreviewImagesDarkList;
+  previewImagesDark?: ProductTemplatePropertiesPreviewImagesDarkList | undefined;
   /** the package Id contains this template */
-  packageId?: string;
+  packageId?: string | undefined;
   /** the packageKind of the package contains this template */
-  packageKind?: PackageKind;
+  packageKind?: PackageKind | undefined;
   /** the name of the package contains this template */
-  packageName?: string;
+  packageName?: string | undefined;
   /** Flag indicates if this template is deprecated */
-  isDeprecated?: Flag;
+  isDeprecated?: Flag | undefined;
   /** The json of the ARM template to deploy */
-  packagedContent?: unknown;
+  packagedContent?: unknown | undefined;
 }
 export interface GetProductTemplateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** template properties */
-  properties?: ProductTemplateProperties;
+  properties?: ProductTemplateProperties | undefined;
   /** Etag of the azure resource */
-  etag?: string;
+  etag?: string | undefined;
 }
 export interface GetSecurityMLAnalyticsSettingsRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2130,19 +2133,19 @@ export interface GetSecurityMLAnalyticsSettingsRequest {
 export type SecurityMLAnalyticsSettingsKind = "Anomaly";
 export interface GetSecurityMLAnalyticsSettingsResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Metadata used by portal/tooling/etc to render different UX experiences for resources of the same type; e.g. ApiApps are a kind of Microsoft.Web/sites type. If supported, the resource provider must validate and persist this value. */
   kind: SecurityMLAnalyticsSettingsKind;
   /** Etag of the azure resource */
-  etag?: string;
+  etag?: string | undefined;
   /** Security ML analytics settings properties (polymorphic on `kind`, e.g. Anomaly). */
-  properties?: unknown;
+  properties?: unknown | undefined;
 }
 export interface GetSentinelOnboardingStateRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2156,17 +2159,17 @@ export interface GetSentinelOnboardingStateRequest {
 }
 export interface GetSentinelOnboardingStateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The Sentinel onboarding state object */
-  properties?: SentinelOnboardingStateProperties;
+  properties?: SentinelOnboardingStateProperties | undefined;
   /** Etag of the azure resource */
-  etag?: string;
+  etag?: string | undefined;
 }
 export interface GetSourceControlRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2180,17 +2183,17 @@ export interface GetSourceControlRequest {
 }
 export interface GetSourceControlResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** source control properties */
   properties: SourceControlProperties;
   /** Etag of the azure resource */
-  etag?: string;
+  etag?: string | undefined;
 }
 export interface GetThreatIntelligenceIndicatorRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2204,17 +2207,17 @@ export interface GetThreatIntelligenceIndicatorRequest {
 }
 export interface GetThreatIntelligenceIndicatorResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Metadata used by portal/tooling/etc to render different UX experiences for resources of the same type; e.g. ApiApps are a kind of Microsoft.Web/sites type. If supported, the resource provider must validate and persist this value. */
   kind: ThreatIntelligenceResourceInnerKind;
   /** Etag of the azure resource */
-  etag?: string;
+  etag?: string | undefined;
 }
 export interface GetWatchlistRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2242,63 +2245,63 @@ export type WatchlistProvisioningState =
 /** Describes watchlist properties */
 export interface WatchlistProperties {
   /** The id (a Guid) of the watchlist */
-  watchlistId?: string;
+  watchlistId?: string | undefined;
   /** The display name of the watchlist */
   displayName: string;
   /** The provider of the watchlist */
   provider: string;
   /** The filename of the watchlist, called 'source' */
-  source?: string;
+  source?: string | undefined;
   /** The sourceType of the watchlist */
-  sourceType?: SourceType;
+  sourceType?: SourceType | undefined;
   /** The time the watchlist was created */
-  created?: string;
+  created?: string | undefined;
   /** The last time the watchlist was updated */
-  updated?: string;
+  updated?: string | undefined;
   /** Describes a user that created the watchlist */
-  createdBy?: UserInfo;
+  createdBy?: UserInfo | undefined;
   /** Describes a user that updated the watchlist */
-  updatedBy?: UserInfo;
+  updatedBy?: UserInfo | undefined;
   /** A description of the watchlist */
-  description?: string;
+  description?: string | undefined;
   /** The type of the watchlist */
-  watchlistType?: string;
+  watchlistType?: string | undefined;
   /** The alias of the watchlist */
-  watchlistAlias?: string;
+  watchlistAlias?: string | undefined;
   /** A flag that indicates if the watchlist is deleted or not */
-  isDeleted?: boolean;
+  isDeleted?: boolean | undefined;
   /** List of labels relevant to this watchlist */
-  labels?: WatchlistPropertiesLabelsList;
+  labels?: WatchlistPropertiesLabelsList | undefined;
   /** The default duration of a watchlist (in ISO 8601 duration format) */
-  defaultDuration?: string;
+  defaultDuration?: string | undefined;
   /** The tenantId where the watchlist belongs to */
-  tenantId?: string;
+  tenantId?: string | undefined;
   /** The number of lines in a csv/tsv content to skip before the header */
-  numberOfLinesToSkip?: number;
+  numberOfLinesToSkip?: number | undefined;
   /** The raw content that represents to watchlist items to create. In case of csv/tsv content type, it's the content of the file that will parsed by the endpoint */
-  rawContent?: string;
+  rawContent?: string | undefined;
   /** The search key is used to optimize query performance when using watchlists for joins with other data. For example, enable a column with IP addresses to be the designated SearchKey field, then use this field as the key field when joining to other event data by IP address. */
   itemsSearchKey: string;
   /** The content type of the raw content. Example : text/csv or text/tsv */
-  contentType?: string;
+  contentType?: string | undefined;
   /** The status of the Watchlist upload : New, InProgress or Complete. **Note** : When a Watchlist upload status is InProgress, the Watchlist cannot be deleted */
-  uploadStatus?: string;
+  uploadStatus?: string | undefined;
   /** Describes provisioning state */
-  provisioningState?: WatchlistProvisioningState;
+  provisioningState?: WatchlistProvisioningState | undefined;
 }
 export interface GetWatchlistResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Watchlist properties */
-  properties?: WatchlistProperties;
+  properties?: WatchlistProperties | undefined;
   /** Etag of the azure resource */
-  etag?: string;
+  etag?: string | undefined;
 }
 export interface GetWatchlistItemRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2315,39 +2318,39 @@ export interface GetWatchlistItemRequest {
 /** Describes watchlist item properties */
 export interface WatchlistItemProperties {
   /** The type of the watchlist item */
-  watchlistItemType?: string;
+  watchlistItemType?: string | undefined;
   /** The id (a Guid) of the watchlist item */
-  watchlistItemId?: string;
+  watchlistItemId?: string | undefined;
   /** The tenantId to which the watchlist item belongs to */
-  tenantId?: string;
+  tenantId?: string | undefined;
   /** A flag that indicates if the watchlist item is deleted or not */
-  isDeleted?: boolean;
+  isDeleted?: boolean | undefined;
   /** The time the watchlist item was created */
-  created?: string;
+  created?: string | undefined;
   /** The last time the watchlist item was updated */
-  updated?: string;
+  updated?: string | undefined;
   /** Describes a user that created the watchlist item */
-  createdBy?: UserInfo;
+  createdBy?: UserInfo | undefined;
   /** Describes a user that updated the watchlist item */
-  updatedBy?: UserInfo;
+  updatedBy?: UserInfo | undefined;
   /** key-value pairs for a watchlist item */
   itemsKeyValue: unknown;
   /** key-value pairs for a watchlist item entity mapping */
-  entityMapping?: unknown;
+  entityMapping?: unknown | undefined;
 }
 export interface GetWatchlistItemResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Watchlist Item properties */
-  properties?: WatchlistItemProperties;
+  properties?: WatchlistItemProperties | undefined;
   /** Etag of the azure resource */
-  etag?: string;
+  etag?: string | undefined;
 }
 /** Incident comment property bag. */
 export interface IncidentCommentPropertiesInput {
@@ -2366,23 +2369,23 @@ export interface IncidentCommentsCreateOrUpdateRequest {
   /** Incident comment ID */
   incidentCommentId: string;
   /** Incident comment properties */
-  properties?: IncidentCommentPropertiesInput;
+  properties?: IncidentCommentPropertiesInput | undefined;
   /** Etag of the azure resource */
-  etag?: string;
+  etag?: string | undefined;
 }
 export interface IncidentCommentsCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Incident comment properties */
-  properties?: IncidentCommentProperties;
+  properties?: IncidentCommentProperties | undefined;
   /** Etag of the azure resource */
-  etag?: string;
+  etag?: string | undefined;
 }
 /** Relation property bag. */
 export interface RelationPropertiesInput {
@@ -2401,23 +2404,23 @@ export interface IncidentRelationsCreateOrUpdateRequest {
   /** Relation Name */
   relationName: string;
   /** Relation properties */
-  properties?: RelationPropertiesInput;
+  properties?: RelationPropertiesInput | undefined;
   /** Etag of the azure resource */
-  etag?: string;
+  etag?: string | undefined;
 }
 export interface IncidentRelationsCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Relation properties */
-  properties?: RelationProperties;
+  properties?: RelationProperties | undefined;
   /** Etag of the azure resource */
-  etag?: string;
+  etag?: string | undefined;
 }
 /** List of labels relevant to this incident */
 export type IncidentPropertiesInputLabelsList = Array<IncidentLabel>;
@@ -2426,25 +2429,25 @@ export interface IncidentPropertiesInput {
   /** The title of the incident */
   title: string;
   /** The description of the incident */
-  description?: string;
+  description?: string | undefined;
   /** The severity of the incident */
   severity: IncidentSeverity | (string & {});
   /** The status of the incident */
   status: IncidentStatus | (string & {});
   /** The reason the incident was closed */
-  classification?: IncidentClassification | (string & {});
+  classification?: IncidentClassification | (string & {}) | undefined;
   /** The classification reason the incident was closed with */
-  classificationReason?: IncidentClassificationReason | (string & {});
+  classificationReason?: IncidentClassificationReason | (string & {}) | undefined;
   /** Describes the reason the incident was closed */
-  classificationComment?: string;
+  classificationComment?: string | undefined;
   /** Describes a user that the incident is assigned to */
-  owner?: IncidentOwnerInfo;
+  owner?: IncidentOwnerInfo | undefined;
   /** List of labels relevant to this incident */
-  labels?: IncidentPropertiesInputLabelsList;
+  labels?: IncidentPropertiesInputLabelsList | undefined;
   /** The time of the first activity in the incident */
-  firstActivityTimeUtc?: string;
+  firstActivityTimeUtc?: string | undefined;
   /** The time of the last activity in the incident */
-  lastActivityTimeUtc?: string;
+  lastActivityTimeUtc?: string | undefined;
 }
 export interface IncidentsCreateOrUpdateRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2456,36 +2459,36 @@ export interface IncidentsCreateOrUpdateRequest {
   /** Incident ID */
   incidentId: string;
   /** Incident properties */
-  properties?: IncidentPropertiesInput;
+  properties?: IncidentPropertiesInput | undefined;
   /** Etag of the azure resource */
-  etag?: string;
+  etag?: string | undefined;
 }
 export interface IncidentsCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Incident properties */
-  properties?: IncidentProperties;
+  properties?: IncidentProperties | undefined;
   /** Etag of the azure resource */
-  etag?: string;
+  etag?: string | undefined;
 }
 /** Describes the properties of an incident task */
 export interface IncidentTaskPropertiesInput {
   /** The title of the task */
   title: string;
   /** The description of the task */
-  description?: string;
+  description?: string | undefined;
   /** The status of the task */
   status: IncidentTaskStatus | (string & {});
   /** Information on the client (user or application) that made some action */
-  createdBy?: ClientInfo;
+  createdBy?: ClientInfo | undefined;
   /** Information on the client (user or application) that made some action */
-  lastModifiedBy?: ClientInfo;
+  lastModifiedBy?: ClientInfo | undefined;
 }
 export interface IncidentTasksCreateOrUpdateRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2501,21 +2504,21 @@ export interface IncidentTasksCreateOrUpdateRequest {
   /** Describes the properties of an incident task */
   properties: IncidentTaskPropertiesInput;
   /** Etag of the azure resource */
-  etag?: string;
+  etag?: string | undefined;
 }
 export interface IncidentTasksCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Describes the properties of an incident task */
   properties: IncidentTaskProperties;
   /** Etag of the azure resource */
-  etag?: string;
+  etag?: string | undefined;
 }
 export interface InstallContentPackageRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2527,23 +2530,23 @@ export interface InstallContentPackageRequest {
   /** package Id */
   packageId: string;
   /** package properties */
-  properties?: PackageBaseProperties;
+  properties?: PackageBaseProperties | undefined;
   /** Etag of the azure resource */
-  etag?: string;
+  etag?: string | undefined;
 }
 export interface InstallContentPackageResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** package properties */
-  properties?: PackageBaseProperties;
+  properties?: PackageBaseProperties | undefined;
   /** Etag of the azure resource */
-  etag?: string;
+  etag?: string | undefined;
 }
 /** Providers for the content item */
 export type TemplatePropertiesInputProvidersList = Array<string>;
@@ -2558,55 +2561,55 @@ export type TemplatePropertiesInputPreviewImagesDarkList = Array<string>;
 /** Template property bag. */
 export interface TemplatePropertiesInput {
   /** Static ID for the content. Used to identify dependencies and content from solutions or community. Hard-coded/static for out of the box content and solutions. Dynamic for user-created. This is the resource name */
-  contentId?: string;
+  contentId?: string | undefined;
   /** Unique ID for the content. It should be generated based on the contentId of the package, contentId of the template, contentKind of the template and the contentVersion of the template */
-  contentProductId?: string;
+  contentProductId?: string | undefined;
   /** Version of the package. Default and recommended format is numeric (e.g. 1, 1.0, 1.0.0, 1.0.0.0), following ARM metadata best practices. Can also be any string, but then we cannot guarantee any version checks */
-  packageVersion?: string;
+  packageVersion?: string | undefined;
   /** Version of the content. Default and recommended format is numeric (e.g. 1, 1.0, 1.0.0, 1.0.0.0), following ARM metadata best practices. Can also be any string, but then we cannot guarantee any version checks */
-  version?: string;
+  version?: string | undefined;
   /** The display name of the template */
-  displayName?: string;
+  displayName?: string | undefined;
   /** The kind of content the template is for. */
-  contentKind?: Kind | (string & {});
+  contentKind?: Kind | (string & {}) | undefined;
   /** Source of the content. This is where/how it was created. */
-  source?: MetadataSource;
+  source?: MetadataSource | undefined;
   /** The creator of the content item. */
-  author?: MetadataAuthor;
+  author?: MetadataAuthor | undefined;
   /** Support information for the template - type, name, contact information */
-  support?: MetadataSupport;
+  support?: MetadataSupport | undefined;
   /** Dependencies for the content item, what other content items it requires to work. Can describe more complex dependencies using a recursive/nested structure. For a single dependency an id/kind/version can be supplied or operator/criteria for complex formats. */
-  dependencies?: MetadataDependencies;
+  dependencies?: MetadataDependencies | undefined;
   /** Categories for the item */
-  categories?: MetadataCategories;
+  categories?: MetadataCategories | undefined;
   /** Providers for the content item */
-  providers?: TemplatePropertiesInputProvidersList;
+  providers?: TemplatePropertiesInputProvidersList | undefined;
   /** first publish date content item */
-  firstPublishDate?: string;
+  firstPublishDate?: string | undefined;
   /** last publish date for the content item */
-  lastPublishDate?: string;
+  lastPublishDate?: string | undefined;
   /** The custom version of the content. A optional free text */
-  customVersion?: string;
+  customVersion?: string | undefined;
   /** Schema version of the content. Can be used to distinguish between different flow based on the schema version */
-  contentSchemaVersion?: string;
+  contentSchemaVersion?: string | undefined;
   /** the icon identifier. this id can later be fetched from the content metadata */
-  icon?: string;
+  icon?: string | undefined;
   /** the tactics the resource covers */
-  threatAnalysisTactics?: TemplatePropertiesInputThreatAnalysisTacticsList;
+  threatAnalysisTactics?: TemplatePropertiesInputThreatAnalysisTacticsList | undefined;
   /** the techniques the resource covers, these have to be aligned with the tactics being used */
-  threatAnalysisTechniques?: TemplatePropertiesInputThreatAnalysisTechniquesList;
+  threatAnalysisTechniques?: TemplatePropertiesInputThreatAnalysisTechniquesList | undefined;
   /** preview image file names. These will be taken from the solution artifacts */
-  previewImages?: TemplatePropertiesInputPreviewImagesList;
+  previewImages?: TemplatePropertiesInputPreviewImagesList | undefined;
   /** preview image file names. These will be taken from the solution artifacts. used for dark theme support */
-  previewImagesDark?: TemplatePropertiesInputPreviewImagesDarkList;
+  previewImagesDark?: TemplatePropertiesInputPreviewImagesDarkList | undefined;
   /** the package Id contains this template */
-  packageId?: string;
+  packageId?: string | undefined;
   /** the packageKind of the package contains this template */
-  packageKind?: PackageKind | (string & {});
+  packageKind?: PackageKind | (string & {}) | undefined;
   /** the name of the package contains this template */
-  packageName?: string;
+  packageName?: string | undefined;
   /** The JSON of the ARM template to deploy active content. Expandable. */
-  mainTemplate?: unknown;
+  mainTemplate?: unknown | undefined;
 }
 export interface InstallContentTemplateRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2618,23 +2621,23 @@ export interface InstallContentTemplateRequest {
   /** template Id */
   templateId: string;
   /** template properties */
-  properties?: TemplatePropertiesInput;
+  properties?: TemplatePropertiesInput | undefined;
   /** Etag of the azure resource */
-  etag?: string;
+  etag?: string | undefined;
 }
 export interface InstallContentTemplateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** template properties */
-  properties?: TemplateProperties;
+  properties?: TemplateProperties | undefined;
   /** Etag of the azure resource */
-  etag?: string;
+  etag?: string | undefined;
 }
 export interface ListActionByAlertRuleRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2649,17 +2652,17 @@ export interface ListActionByAlertRuleRequest {
 /** Action for alert rule. */
 export interface ActionResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Action properties for get request */
-  properties?: ActionResponseProperties;
+  properties?: ActionResponseProperties | undefined;
   /** Etag of the action. */
-  etag?: string;
+  etag?: string | undefined;
 }
 /** The ActionResponse items on this page */
 export type ActionsListValueList = Array<ActionResponse>;
@@ -2668,7 +2671,7 @@ export interface ActionsList {
   /** The ActionResponse items on this page */
   value: ActionsListValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListAlertRulesRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2681,17 +2684,17 @@ export interface ListAlertRulesRequest {
 /** Alert rule. */
 export interface AlertRule {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Metadata used by portal/tooling/etc to render different UX experiences for resources of the same type; e.g. ApiApps are a kind of Microsoft.Web/sites type. If supported, the resource provider must validate and persist this value. */
   kind: AlertRuleKind;
   /** Etag of the azure resource */
-  etag?: string;
+  etag?: string | undefined;
 }
 /** The AlertRule items on this page */
 export type AlertRulesListValueList = Array<AlertRule>;
@@ -2700,7 +2703,7 @@ export interface AlertRulesList {
   /** The AlertRule items on this page */
   value: AlertRulesListValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListAlertRuleTemplatesRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2713,13 +2716,13 @@ export interface ListAlertRuleTemplatesRequest {
 /** Alert rule template. */
 export interface AlertRuleTemplate {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Metadata used by portal/tooling/etc to render different UX experiences for resources of the same type; e.g. ApiApps are a kind of Microsoft.Web/sites type. If supported, the resource provider must validate and persist this value. */
   kind: AlertRuleKind;
 }
@@ -2730,7 +2733,7 @@ export interface AlertRuleTemplatesList {
   /** The AlertRuleTemplate items on this page */
   value: AlertRuleTemplatesListValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListAutomationRulesRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2743,25 +2746,25 @@ export interface ListAutomationRulesRequest {
 /** Concrete proxy resource types can be created by aliasing this type using a specific property type. */
 export interface AutomationRule {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Automation rule properties */
   properties: AutomationRuleProperties;
   /** Etag of the azure resource */
-  etag?: string;
+  etag?: string | undefined;
 }
 /** List of automation rules. */
 export type AutomationRulesListValueList = Array<AutomationRule>;
 export interface AutomationRulesList {
   /** List of automation rules. */
-  value?: AutomationRulesListValueList;
+  value?: AutomationRulesListValueList | undefined;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListBookmarksRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2774,17 +2777,17 @@ export interface ListBookmarksRequest {
 /** Represents a bookmark in Azure Security Insights. */
 export interface Bookmark {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Bookmark properties */
-  properties?: BookmarkProperties;
+  properties?: BookmarkProperties | undefined;
   /** Etag of the azure resource */
-  etag?: string;
+  etag?: string | undefined;
 }
 /** The Bookmark items on this page */
 export type BookmarkListValueList = Array<Bookmark>;
@@ -2793,7 +2796,7 @@ export interface BookmarkList {
   /** The Bookmark items on this page */
   value: BookmarkListValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListContentPackagesRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2803,34 +2806,34 @@ export interface ListContentPackagesRequest {
   /** The name of the monitor workspace. */
   workspaceName: string;
   /** Filters the results, based on a Boolean condition. Optional. */
-  _filter?: string;
+  _filter?: string | undefined;
   /** Sorts the results. Optional. */
-  _orderby?: string;
+  _orderby?: string | undefined;
   /** Searches for a substring in the response. Optional. */
-  _search?: string;
+  _search?: string | undefined;
   /** Instructs the server to return only object count without actual body. Optional. */
-  _count?: boolean;
+  _count?: boolean | undefined;
   /** Returns only the first n results. Optional. */
-  _top?: number;
+  _top?: number | undefined;
   /** Used to skip n elements in the OData query (offset). Returns a nextLink to the next page of results if there are any left. */
-  _skip?: number;
+  _skip?: number | undefined;
   /** Skiptoken is only used if a previous operation returned a partial result. If a previous response contains a nextLink element, the value of the nextLink element will include a skiptoken parameter that specifies a starting point to use for subsequent calls. Optional. */
-  _skipToken?: string;
+  _skipToken?: string | undefined;
 }
 /** Represents a Package in Azure Security Insights. */
 export interface PackageModel {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** package properties */
-  properties?: PackageBaseProperties;
+  properties?: PackageBaseProperties | undefined;
   /** Etag of the azure resource */
-  etag?: string;
+  etag?: string | undefined;
 }
 /** The PackageModel items on this page */
 export type PackageListValueList = Array<PackageModel>;
@@ -2839,7 +2842,7 @@ export interface PackageList {
   /** The PackageModel items on this page */
   value: PackageListValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListContentTemplatesRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2849,36 +2852,36 @@ export interface ListContentTemplatesRequest {
   /** The name of the monitor workspace. */
   workspaceName: string;
   /** Filters the results, based on a Boolean condition. Optional. */
-  _filter?: string;
+  _filter?: string | undefined;
   /** Sorts the results. Optional. */
-  _orderby?: string;
+  _orderby?: string | undefined;
   /** Expands the object with optional fiends that are not included by default. Optional. */
-  _expand?: string;
+  _expand?: string | undefined;
   /** Searches for a substring in the response. Optional. */
-  _search?: string;
+  _search?: string | undefined;
   /** Instructs the server to return only object count without actual body. Optional. */
-  _count?: boolean;
+  _count?: boolean | undefined;
   /** Returns only the first n results. Optional. */
-  _top?: number;
+  _top?: number | undefined;
   /** Used to skip n elements in the OData query (offset). Returns a nextLink to the next page of results if there are any left. */
-  _skip?: number;
+  _skip?: number | undefined;
   /** Skiptoken is only used if a previous operation returned a partial result. If a previous response contains a nextLink element, the value of the nextLink element will include a skiptoken parameter that specifies a starting point to use for subsequent calls. Optional. */
-  _skipToken?: string;
+  _skipToken?: string | undefined;
 }
 /** Template resource definition. */
 export interface TemplateModel {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** template properties */
-  properties?: TemplateProperties;
+  properties?: TemplateProperties | undefined;
   /** Etag of the azure resource */
-  etag?: string;
+  etag?: string | undefined;
 }
 /** The TemplateModel items on this page */
 export type TemplateListValueList = Array<TemplateModel>;
@@ -2887,7 +2890,7 @@ export interface TemplateList {
   /** The TemplateModel items on this page */
   value: TemplateListValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListDataConnectorDefinitionsRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2900,26 +2903,26 @@ export interface ListDataConnectorDefinitionsRequest {
 /** An Azure resource, which encapsulate the entire info requires to display a data connector page in Azure portal, and the info required to define data connections. */
 export interface DataConnectorDefinition {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Metadata used by portal/tooling/etc to render different UX experiences for resources of the same type; e.g. ApiApps are a kind of Microsoft.Web/sites type. If supported, the resource provider must validate and persist this value. */
   kind: DataConnectorDefinitionKind;
   /** Etag of the azure resource */
-  etag?: string;
+  etag?: string | undefined;
 }
 /** List of data connector definitions. */
 export type DataConnectorDefinitionArmCollectionWrapperValueList = Array<DataConnectorDefinition>;
 /** Encapsulate the data connector definition object */
 export interface DataConnectorDefinitionArmCollectionWrapper {
   /** List of data connector definitions. */
-  value?: DataConnectorDefinitionArmCollectionWrapperValueList;
+  value?: DataConnectorDefinitionArmCollectionWrapperValueList | undefined;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListDataConnectorsRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2932,17 +2935,17 @@ export interface ListDataConnectorsRequest {
 /** Data connector */
 export interface DataConnector {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Metadata used by portal/tooling/etc to render different UX experiences for resources of the same type; e.g. ApiApps are a kind of Microsoft.Web/sites type. If supported, the resource provider must validate and persist this value. */
   kind: DataConnectorKind;
   /** Etag of the azure resource */
-  etag?: string;
+  etag?: string | undefined;
 }
 /** The DataConnector items on this page */
 export type DataConnectorListValueList = Array<DataConnector>;
@@ -2951,7 +2954,7 @@ export interface DataConnectorList {
   /** The DataConnector items on this page */
   value: DataConnectorListValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListIncidentAlertsRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2993,9 +2996,9 @@ export type ConfidenceLevel = "Unknown" | "Low" | "High";
 /** confidence reason item */
 export interface SecurityAlertPropertiesConfidenceReasonsItem {
   /** The reason's description */
-  reason?: string;
+  reason?: string | undefined;
   /** The type (category) of the reason */
-  reasonType?: string;
+  reasonType?: string | undefined;
 }
 /** The confidence reasons */
 export type SecurityAlertPropertiesConfidenceReasonsList =
@@ -3031,74 +3034,74 @@ export type SecurityAlertPropertiesResourceIdentifiersList = Array<unknown>;
 /** SecurityAlert entity property bag. */
 export interface SecurityAlertProperties {
   /** A bag of custom fields that should be part of the entity and will be presented to the user. */
-  additionalData?: SecurityAlertPropertiesAdditionalDataMap;
+  additionalData?: SecurityAlertPropertiesAdditionalDataMap | undefined;
   /** The graph item display name which is a short humanly readable description of the graph item instance. This property is optional and might be system generated. */
-  friendlyName?: string;
+  friendlyName?: string | undefined;
   /** The display name of the alert. */
-  alertDisplayName?: string;
+  alertDisplayName?: string | undefined;
   /** The type name of the alert. */
-  alertType?: string;
+  alertType?: string | undefined;
   /** Display name of the main entity being reported on. */
-  compromisedEntity?: string;
+  compromisedEntity?: string | undefined;
   /** The confidence level of this alert. */
-  confidenceLevel?: ConfidenceLevel;
+  confidenceLevel?: ConfidenceLevel | undefined;
   /** The confidence reasons */
-  confidenceReasons?: SecurityAlertPropertiesConfidenceReasonsList;
+  confidenceReasons?: SecurityAlertPropertiesConfidenceReasonsList | undefined;
   /** The confidence score of the alert. */
-  confidenceScore?: number;
+  confidenceScore?: number | undefined;
   /** The confidence score calculation status, i.e. indicating if score calculation is pending for this alert, not applicable or final. */
-  confidenceScoreStatus?: ConfidenceScoreStatus;
+  confidenceScoreStatus?: ConfidenceScoreStatus | undefined;
   /** Alert description. */
-  description?: string;
+  description?: string | undefined;
   /** The impact end time of the alert (the time of the last event contributing to the alert). */
-  endTimeUtc?: string;
+  endTimeUtc?: string | undefined;
   /** Holds the alert intent stage(s) mapping for this alert. */
-  intent?: KillChainIntent;
+  intent?: KillChainIntent | undefined;
   /** The identifier of the alert inside the product which generated the alert. */
-  providerAlertId?: string;
+  providerAlertId?: string | undefined;
   /** The time the alert was made available for consumption. */
-  processingEndTime?: string;
+  processingEndTime?: string | undefined;
   /** The name of a component inside the product which generated the alert. */
-  productComponentName?: string;
+  productComponentName?: string | undefined;
   /** The name of the product which published this alert. */
-  productName?: string;
+  productName?: string | undefined;
   /** The version of the product generating the alert. */
-  productVersion?: string;
+  productVersion?: string | undefined;
   /** Manual action items to take to remediate the alert. */
-  remediationSteps?: SecurityAlertPropertiesRemediationStepsList;
+  remediationSteps?: SecurityAlertPropertiesRemediationStepsList | undefined;
   /** The severity of the alert */
-  severity?: AlertSeverity;
+  severity?: AlertSeverity | undefined;
   /** The impact start time of the alert (the time of the first event contributing to the alert). */
-  startTimeUtc?: string;
+  startTimeUtc?: string | undefined;
   /** The lifecycle status of the alert. */
-  status?: AlertStatus;
+  status?: AlertStatus | undefined;
   /** Holds the product identifier of the alert for the product. */
-  systemAlertId?: string;
+  systemAlertId?: string | undefined;
   /** The tactics of the alert */
-  tactics?: SecurityAlertPropertiesTacticsList;
+  tactics?: SecurityAlertPropertiesTacticsList | undefined;
   /** The time the alert was generated. */
-  timeGenerated?: string;
+  timeGenerated?: string | undefined;
   /** The name of the vendor that raise the alert. */
-  vendorName?: string;
+  vendorName?: string | undefined;
   /** The uri link of the alert. */
-  alertLink?: string;
+  alertLink?: string | undefined;
   /** The list of resource identifiers of the alert. */
-  resourceIdentifiers?: SecurityAlertPropertiesResourceIdentifiersList;
+  resourceIdentifiers?: SecurityAlertPropertiesResourceIdentifiersList | undefined;
 }
 /** Represents a security alert entity. */
 export interface SecurityAlert {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Metadata used by portal/tooling/etc to render different UX experiences for resources of the same type; e.g. ApiApps are a kind of Microsoft.Web/sites type. If supported, the resource provider must validate and persist this value. */
   kind: EntityKindEnum;
   /** SecurityAlert entity properties */
-  properties?: SecurityAlertProperties;
+  properties?: SecurityAlertProperties | undefined;
 }
 /** Array of incident alerts. */
 export type IncidentAlertListValueList = Array<SecurityAlert>;
@@ -3124,46 +3127,46 @@ export type HuntingBookmarkPropertiesLabelsList = Array<string>;
 /** Describes bookmark properties */
 export interface HuntingBookmarkProperties {
   /** A bag of custom fields that should be part of the entity and will be presented to the user. */
-  additionalData?: HuntingBookmarkPropertiesAdditionalDataMap;
+  additionalData?: HuntingBookmarkPropertiesAdditionalDataMap | undefined;
   /** The graph item display name which is a short humanly readable description of the graph item instance. This property is optional and might be system generated. */
-  friendlyName?: string;
+  friendlyName?: string | undefined;
   /** The time the bookmark was created */
-  created?: string;
+  created?: string | undefined;
   /** Describes a user that created the bookmark */
-  createdBy?: UserInfo;
+  createdBy?: UserInfo | undefined;
   /** The display name of the bookmark */
   displayName: string;
   /** The time of the event */
-  eventTime?: string;
+  eventTime?: string | undefined;
   /** List of labels relevant to this bookmark */
-  labels?: HuntingBookmarkPropertiesLabelsList;
+  labels?: HuntingBookmarkPropertiesLabelsList | undefined;
   /** The notes of the bookmark */
-  notes?: string;
+  notes?: string | undefined;
   /** The query of the bookmark. */
   query: string;
   /** The query result of the bookmark. */
-  queryResult?: string;
+  queryResult?: string | undefined;
   /** The last time the bookmark was updated */
-  updated?: string;
+  updated?: string | undefined;
   /** Describes a user that updated the bookmark */
-  updatedBy?: UserInfo;
+  updatedBy?: UserInfo | undefined;
   /** Describes an incident that relates to bookmark */
-  incidentInfo?: IncidentInfo;
+  incidentInfo?: IncidentInfo | undefined;
 }
 /** Represents a Hunting bookmark entity. */
 export interface HuntingBookmark {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Metadata used by portal/tooling/etc to render different UX experiences for resources of the same type; e.g. ApiApps are a kind of Microsoft.Web/sites type. If supported, the resource provider must validate and persist this value. */
   kind: EntityKindEnum;
   /** HuntingBookmark entity properties */
-  properties?: HuntingBookmarkProperties;
+  properties?: HuntingBookmarkProperties | undefined;
 }
 /** Array of incident bookmarks. */
 export type IncidentBookmarkListValueList = Array<HuntingBookmark>;
@@ -3182,28 +3185,28 @@ export interface ListIncidentCommentsRequest {
   /** Incident ID */
   incidentId: string;
   /** Filters the results, based on a Boolean condition. Optional. */
-  _filter?: string;
+  _filter?: string | undefined;
   /** Sorts the results. Optional. */
-  _orderby?: string;
+  _orderby?: string | undefined;
   /** Returns only the first n results. Optional. */
-  _top?: number;
+  _top?: number | undefined;
   /** Skiptoken is only used if a previous operation returned a partial result. If a previous response contains a nextLink element, the value of the nextLink element will include a skiptoken parameter that specifies a starting point to use for subsequent calls. Optional. */
-  _skipToken?: string;
+  _skipToken?: string | undefined;
 }
 /** Represents an incident comment */
 export interface IncidentComment {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Incident comment properties */
-  properties?: IncidentCommentProperties;
+  properties?: IncidentCommentProperties | undefined;
   /** Etag of the azure resource */
-  etag?: string;
+  etag?: string | undefined;
 }
 /** The IncidentComment items on this page */
 export type IncidentCommentListValueList = Array<IncidentComment>;
@@ -3212,7 +3215,7 @@ export interface IncidentCommentList {
   /** The IncidentComment items on this page */
   value: IncidentCommentListValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListIncidentEntitiesRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -3227,13 +3230,13 @@ export interface ListIncidentEntitiesRequest {
 /** Specific entity. */
 export interface Entity {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Metadata used by portal/tooling/etc to render different UX experiences for resources of the same type; e.g. ApiApps are a kind of Microsoft.Web/sites type. If supported, the resource provider must validate and persist this value. */
   kind: EntityKindEnum;
 }
@@ -3251,9 +3254,9 @@ export type IncidentEntitiesResponseMetaDataList = Array<IncidentEntitiesResults
 /** The incident related entities response. */
 export interface IncidentEntitiesResponse {
   /** Array of the incident related entities. */
-  entities?: IncidentEntitiesResponseEntitiesList;
+  entities?: IncidentEntitiesResponseEntitiesList | undefined;
   /** The metadata from the incident related entities results. */
-  metaData?: IncidentEntitiesResponseMetaDataList;
+  metaData?: IncidentEntitiesResponseMetaDataList | undefined;
 }
 export interface ListIncidentRelationsRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -3265,28 +3268,28 @@ export interface ListIncidentRelationsRequest {
   /** Incident ID */
   incidentId: string;
   /** Filters the results, based on a Boolean condition. Optional. */
-  _filter?: string;
+  _filter?: string | undefined;
   /** Sorts the results. Optional. */
-  _orderby?: string;
+  _orderby?: string | undefined;
   /** Returns only the first n results. Optional. */
-  _top?: number;
+  _top?: number | undefined;
   /** Skiptoken is only used if a previous operation returned a partial result. If a previous response contains a nextLink element, the value of the nextLink element will include a skiptoken parameter that specifies a starting point to use for subsequent calls. Optional. */
-  _skipToken?: string;
+  _skipToken?: string | undefined;
 }
 /** Represents a relation between two resources */
 export interface Relation {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Relation properties */
-  properties?: RelationProperties;
+  properties?: RelationProperties | undefined;
   /** Etag of the azure resource */
-  etag?: string;
+  etag?: string | undefined;
 }
 /** The Relation items on this page */
 export type RelationListValueList = Array<Relation>;
@@ -3295,7 +3298,7 @@ export interface RelationList {
   /** The Relation items on this page */
   value: RelationListValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListIncidentsRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -3305,28 +3308,28 @@ export interface ListIncidentsRequest {
   /** The name of the monitor workspace. */
   workspaceName: string;
   /** Filters the results, based on a Boolean condition. Optional. */
-  _filter?: string;
+  _filter?: string | undefined;
   /** Sorts the results. Optional. */
-  _orderby?: string;
+  _orderby?: string | undefined;
   /** Returns only the first n results. Optional. */
-  _top?: number;
+  _top?: number | undefined;
   /** Skiptoken is only used if a previous operation returned a partial result. If a previous response contains a nextLink element, the value of the nextLink element will include a skiptoken parameter that specifies a starting point to use for subsequent calls. Optional. */
-  _skipToken?: string;
+  _skipToken?: string | undefined;
 }
 /** Represents an incident in Azure Security Insights. */
 export interface Incident {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Incident properties */
-  properties?: IncidentProperties;
+  properties?: IncidentProperties | undefined;
   /** Etag of the azure resource */
-  etag?: string;
+  etag?: string | undefined;
 }
 /** The Incident items on this page */
 export type IncidentListValueList = Array<Incident>;
@@ -3335,7 +3338,7 @@ export interface IncidentList {
   /** The Incident items on this page */
   value: IncidentListValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListIncidentTasksRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -3350,26 +3353,26 @@ export interface ListIncidentTasksRequest {
 /** Describes incident task properties */
 export interface IncidentTask {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Describes the properties of an incident task */
   properties: IncidentTaskProperties;
   /** Etag of the azure resource */
-  etag?: string;
+  etag?: string | undefined;
 }
 /** List of incident tasks. */
 export type IncidentTaskListValueList = Array<IncidentTask>;
 /** List of incident tasks */
 export interface IncidentTaskList {
   /** List of incident tasks. */
-  value?: IncidentTaskListValueList;
+  value?: IncidentTaskListValueList | undefined;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListMetadataRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -3379,28 +3382,28 @@ export interface ListMetadataRequest {
   /** The name of the monitor workspace. */
   workspaceName: string;
   /** Filters the results, based on a Boolean condition. Optional. */
-  _filter?: string;
+  _filter?: string | undefined;
   /** Sorts the results. Optional. */
-  _orderby?: string;
+  _orderby?: string | undefined;
   /** Returns only the first n results. Optional. */
-  _top?: number;
+  _top?: number | undefined;
   /** Used to skip n elements in the OData query (offset). Returns a nextLink to the next page of results if there are any left. */
-  _skip?: number;
+  _skip?: number | undefined;
 }
 /** Metadata resource definition. */
 export interface MetadataModel {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Metadata properties */
-  properties?: MetadataProperties;
+  properties?: MetadataProperties | undefined;
   /** Etag of the azure resource */
-  etag?: string;
+  etag?: string | undefined;
 }
 /** The MetadataModel items on this page */
 export type MetadataListValueList = Array<MetadataModel>;
@@ -3409,37 +3412,37 @@ export interface MetadataList {
   /** The MetadataModel items on this page */
   value: MetadataListValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListOperationsRequest {}
 /** Properties of the operation */
 export interface OperationDisplay {
   /** Description of the operation */
-  description?: string;
+  description?: string | undefined;
   /** Operation name */
-  operation?: string;
+  operation?: string | undefined;
   /** Provider name */
-  provider?: string;
+  provider?: string | undefined;
   /** Resource name */
-  resource?: string;
+  resource?: string | undefined;
 }
 /** Operation provided by provider */
 export interface Operation {
   /** Properties of the operation */
-  display?: OperationDisplay;
+  display?: OperationDisplay | undefined;
   /** Name of the operation */
-  name?: string;
+  name?: string | undefined;
   /** The origin of the operation */
-  origin?: string;
+  origin?: string | undefined;
   /** Indicates whether the operation is a data action */
-  isDataAction?: boolean;
+  isDataAction?: boolean | undefined;
 }
 /** Array of operations */
 export type OperationsListValueList = Array<Operation>;
 /** Lists the operations available in the SecurityInsights RP. */
 export interface OperationsList {
   /** URL to fetch the next set of operations. */
-  nextLink?: string;
+  nextLink?: string | undefined;
   /** Array of operations */
   value: OperationsListValueList;
 }
@@ -3451,30 +3454,30 @@ export interface ListProductPackagesRequest {
   /** The name of the monitor workspace. */
   workspaceName: string;
   /** Filters the results, based on a Boolean condition. Optional. */
-  _filter?: string;
+  _filter?: string | undefined;
   /** Sorts the results. Optional. */
-  _orderby?: string;
+  _orderby?: string | undefined;
   /** Returns only the first n results. Optional. */
-  _top?: number;
+  _top?: number | undefined;
   /** Skiptoken is only used if a previous operation returned a partial result. If a previous response contains a nextLink element, the value of the nextLink element will include a skiptoken parameter that specifies a starting point to use for subsequent calls. Optional. */
-  _skipToken?: string;
+  _skipToken?: string | undefined;
   /** Searches for a substring in the response. Optional. */
-  _search?: string;
+  _search?: string | undefined;
 }
 /** Represents a Package in Azure Security Insights. */
 export interface ProductPackageModel {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** package properties */
-  properties?: ProductPackageProperties;
+  properties?: ProductPackageProperties | undefined;
   /** Etag of the azure resource */
-  etag?: string;
+  etag?: string | undefined;
 }
 /** The ProductPackageModel items on this page */
 export type ProductPackageListValueList = Array<ProductPackageModel>;
@@ -3483,7 +3486,7 @@ export interface ProductPackageList {
   /** The ProductPackageModel items on this page */
   value: ProductPackageListValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListProductTemplatesRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -3493,34 +3496,34 @@ export interface ListProductTemplatesRequest {
   /** The name of the monitor workspace. */
   workspaceName: string;
   /** Filters the results, based on a Boolean condition. Optional. */
-  _filter?: string;
+  _filter?: string | undefined;
   /** Sorts the results. Optional. */
-  _orderby?: string;
+  _orderby?: string | undefined;
   /** Searches for a substring in the response. Optional. */
-  _search?: string;
+  _search?: string | undefined;
   /** Instructs the server to return only object count without actual body. Optional. */
-  _count?: boolean;
+  _count?: boolean | undefined;
   /** Returns only the first n results. Optional. */
-  _top?: number;
+  _top?: number | undefined;
   /** Used to skip n elements in the OData query (offset). Returns a nextLink to the next page of results if there are any left. */
-  _skip?: number;
+  _skip?: number | undefined;
   /** Skiptoken is only used if a previous operation returned a partial result. If a previous response contains a nextLink element, the value of the nextLink element will include a skiptoken parameter that specifies a starting point to use for subsequent calls. Optional. */
-  _skipToken?: string;
+  _skipToken?: string | undefined;
 }
 /** Template resource definition. */
 export interface ProductTemplateModel {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** template properties */
-  properties?: ProductTemplateProperties;
+  properties?: ProductTemplateProperties | undefined;
   /** Etag of the azure resource */
-  etag?: string;
+  etag?: string | undefined;
 }
 /** The ProductTemplateModel items on this page */
 export type ProductTemplateListValueList = Array<ProductTemplateModel>;
@@ -3529,7 +3532,7 @@ export interface ProductTemplateList {
   /** The ProductTemplateModel items on this page */
   value: ProductTemplateListValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListSecurityMLAnalyticsSettingsRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -3542,19 +3545,19 @@ export interface ListSecurityMLAnalyticsSettingsRequest {
 /** Security ML Analytics Setting */
 export interface SecurityMLAnalyticsSetting {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Metadata used by portal/tooling/etc to render different UX experiences for resources of the same type; e.g. ApiApps are a kind of Microsoft.Web/sites type. If supported, the resource provider must validate and persist this value. */
   kind: SecurityMLAnalyticsSettingsKind;
   /** Etag of the azure resource */
-  etag?: string;
+  etag?: string | undefined;
   /** Security ML analytics settings properties (polymorphic on `kind`, e.g. Anomaly). */
-  properties?: unknown;
+  properties?: unknown | undefined;
 }
 /** The SecurityMLAnalyticsSetting items on this page */
 export type SecurityMLAnalyticsSettingsListValueList = Array<SecurityMLAnalyticsSetting>;
@@ -3563,7 +3566,7 @@ export interface SecurityMLAnalyticsSettingsList {
   /** The SecurityMLAnalyticsSetting items on this page */
   value: SecurityMLAnalyticsSettingsListValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListSentinelOnboardingStatesRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -3576,17 +3579,17 @@ export interface ListSentinelOnboardingStatesRequest {
 /** Sentinel onboarding state */
 export interface SentinelOnboardingState {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The Sentinel onboarding state object */
-  properties?: SentinelOnboardingStateProperties;
+  properties?: SentinelOnboardingStateProperties | undefined;
   /** Etag of the azure resource */
-  etag?: string;
+  etag?: string | undefined;
 }
 /** Array of Sentinel onboarding states */
 export type SentinelOnboardingStatesListValueList = Array<SentinelOnboardingState>;
@@ -3610,13 +3613,13 @@ export type RepoBranchesList = Array<string>;
 /** Represents a repository. */
 export interface Repo {
   /** The url to access the repository. */
-  url?: string;
+  url?: string | undefined;
   /** The name of the repository. */
-  fullName?: string;
+  fullName?: string | undefined;
   /** The installation id of the repository. */
-  installationId?: number;
+  installationId?: number | undefined;
   /** Array of branches. */
-  branches?: RepoBranchesList;
+  branches?: RepoBranchesList | undefined;
 }
 /** The Repo items on this page */
 export type RepoListValueList = Array<Repo>;
@@ -3625,7 +3628,7 @@ export interface RepoList {
   /** The Repo items on this page */
   value: RepoListValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListSourceControlsRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -3638,17 +3641,17 @@ export interface ListSourceControlsRequest {
 /** Represents a SourceControl in Azure Security Insights. */
 export interface SourceControl {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** source control properties */
   properties: SourceControlProperties;
   /** Etag of the azure resource */
-  etag?: string;
+  etag?: string | undefined;
 }
 /** The SourceControl items on this page */
 export type SourceControlListValueList = Array<SourceControl>;
@@ -3657,7 +3660,7 @@ export interface SourceControlList {
   /** The SourceControl items on this page */
   value: SourceControlListValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListThreatIntelligenceIndicatorMetricsRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -3670,9 +3673,9 @@ export interface ListThreatIntelligenceIndicatorMetricsRequest {
 /** Describes threat intelligence metric entity */
 export interface ThreatIntelligenceMetricEntity {
   /** Metric name */
-  metricName?: string;
+  metricName?: string | undefined;
   /** Metric value */
-  metricValue?: number;
+  metricValue?: number | undefined;
 }
 /** Threat type metrics */
 export type ThreatIntelligenceMetricThreatTypeMetricsList = Array<ThreatIntelligenceMetricEntity>;
@@ -3683,18 +3686,18 @@ export type ThreatIntelligenceMetricSourceMetricsList = Array<ThreatIntelligence
 /** Describes threat intelligence metric */
 export interface ThreatIntelligenceMetric {
   /** Last updated indicator metric */
-  lastUpdatedTimeUtc?: string;
+  lastUpdatedTimeUtc?: string | undefined;
   /** Threat type metrics */
-  threatTypeMetrics?: ThreatIntelligenceMetricThreatTypeMetricsList;
+  threatTypeMetrics?: ThreatIntelligenceMetricThreatTypeMetricsList | undefined;
   /** Pattern type metrics */
-  patternTypeMetrics?: ThreatIntelligenceMetricPatternTypeMetricsList;
+  patternTypeMetrics?: ThreatIntelligenceMetricPatternTypeMetricsList | undefined;
   /** Source metrics */
-  sourceMetrics?: ThreatIntelligenceMetricSourceMetricsList;
+  sourceMetrics?: ThreatIntelligenceMetricSourceMetricsList | undefined;
 }
 /** Threat intelligence metrics. */
 export interface ThreatIntelligenceMetrics {
   /** Threat intelligence metrics. */
-  properties?: ThreatIntelligenceMetric;
+  properties?: ThreatIntelligenceMetric | undefined;
 }
 /** Array of threat intelligence metric fields (type/threat type/source). */
 export type ThreatIntelligenceMetricsListValueList = Array<ThreatIntelligenceMetrics>;
@@ -3711,28 +3714,28 @@ export interface ListThreatIntelligenceIndicatorsRequest {
   /** The name of the monitor workspace. */
   workspaceName: string;
   /** Filters the results, based on a Boolean condition. Optional. */
-  _filter?: string;
+  _filter?: string | undefined;
   /** Returns only the first n results. Optional. */
-  _top?: number;
+  _top?: number | undefined;
   /** Skiptoken is only used if a previous operation returned a partial result. If a previous response contains a nextLink element, the value of the nextLink element will include a skiptoken parameter that specifies a starting point to use for subsequent calls. Optional. */
-  _skipToken?: string;
+  _skipToken?: string | undefined;
   /** Sorts the results. Optional. */
-  _orderby?: string;
+  _orderby?: string | undefined;
 }
 /** Threat intelligence information object. */
 export interface ThreatIntelligenceInformation {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Metadata used by portal/tooling/etc to render different UX experiences for resources of the same type; e.g. ApiApps are a kind of Microsoft.Web/sites type. If supported, the resource provider must validate and persist this value. */
   kind: ThreatIntelligenceResourceInnerKind;
   /** Etag of the azure resource */
-  etag?: string;
+  etag?: string | undefined;
 }
 /** The ThreatIntelligenceInformation items on this page */
 export type ThreatIntelligenceInformationListValueList = Array<ThreatIntelligenceInformation>;
@@ -3741,7 +3744,7 @@ export interface ThreatIntelligenceInformationList {
   /** The ThreatIntelligenceInformation items on this page */
   value: ThreatIntelligenceInformationListValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListWatchlistItemsRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -3753,22 +3756,22 @@ export interface ListWatchlistItemsRequest {
   /** The watchlist alias */
   watchlistAlias: string;
   /** Skiptoken is only used if a previous operation returned a partial result. If a previous response contains a nextLink element, the value of the nextLink element will include a skiptoken parameter that specifies a starting point to use for subsequent calls. Optional. */
-  _skipToken?: string;
+  _skipToken?: string | undefined;
 }
 /** Represents a Watchlist Item in Azure Security Insights. */
 export interface WatchlistItem {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Watchlist Item properties */
-  properties?: WatchlistItemProperties;
+  properties?: WatchlistItemProperties | undefined;
   /** Etag of the azure resource */
-  etag?: string;
+  etag?: string | undefined;
 }
 /** The WatchlistItem items on this page */
 export type WatchlistItemListValueList = Array<WatchlistItem>;
@@ -3777,7 +3780,7 @@ export interface WatchlistItemList {
   /** The WatchlistItem items on this page */
   value: WatchlistItemListValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListWatchlistsRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -3787,22 +3790,22 @@ export interface ListWatchlistsRequest {
   /** The name of the monitor workspace. */
   workspaceName: string;
   /** Skiptoken is only used if a previous operation returned a partial result. If a previous response contains a nextLink element, the value of the nextLink element will include a skiptoken parameter that specifies a starting point to use for subsequent calls. Optional. */
-  _skipToken?: string;
+  _skipToken?: string | undefined;
 }
 /** Represents a Watchlist in Azure Security Insights. */
 export interface Watchlist {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Watchlist properties */
-  properties?: WatchlistProperties;
+  properties?: WatchlistProperties | undefined;
   /** Etag of the azure resource */
-  etag?: string;
+  etag?: string | undefined;
 }
 /** The Watchlist items on this page */
 export type WatchlistListValueList = Array<Watchlist>;
@@ -3811,7 +3814,7 @@ export interface WatchlistList {
   /** The Watchlist items on this page */
   value: WatchlistListValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ReplaceThreatIntelligenceIndicatorTagsRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -3825,23 +3828,23 @@ export interface ReplaceThreatIntelligenceIndicatorTagsRequest {
   /** Metadata used by portal/tooling/etc to render different UX experiences for resources of the same type; e.g. ApiApps are a kind of Microsoft.Web/sites type. If supported, the resource provider must validate and persist this value. */
   kind: ThreatIntelligenceResourceInnerKind | (string & {});
   /** Etag of the azure resource */
-  etag?: string;
+  etag?: string | undefined;
   /** Threat Intelligence Entity properties */
-  properties?: ThreatIntelligenceIndicatorPropertiesInput;
+  properties?: ThreatIntelligenceIndicatorPropertiesInput | undefined;
 }
 export interface ReplaceThreatIntelligenceIndicatorTagsResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Metadata used by portal/tooling/etc to render different UX experiences for resources of the same type; e.g. ApiApps are a kind of Microsoft.Web/sites type. If supported, the resource provider must validate and persist this value. */
   kind: ThreatIntelligenceResourceInnerKind;
   /** Etag of the azure resource */
-  etag?: string;
+  etag?: string | undefined;
 }
 export interface RunEntityPlaybookRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -3853,9 +3856,9 @@ export interface RunEntityPlaybookRequest {
   /** entity ID */
   entityIdentifier: string;
   /** Incident ARM id. */
-  incidentArmId?: string;
+  incidentArmId?: string | undefined;
   /** The tenant id of the playbook resource. */
-  tenantId?: string;
+  tenantId?: string | undefined;
   /** The resource id of the playbook resource. */
   logicAppsResourceId: string;
 }
@@ -3869,7 +3872,7 @@ export interface RunIncidentPlaybookRequest {
   workspaceName: string;
   /** The incident identifier. */
   incidentIdentifier: string;
-  tenantId?: string;
+  tenantId?: string | undefined;
   /** Related Analytic rule resource id */
   logicAppsResourceId: string;
 }
@@ -3886,25 +3889,25 @@ export interface SecurityMLAnalyticsSettingsCreateOrUpdateRequest {
   /** Metadata used by portal/tooling/etc to render different UX experiences for resources of the same type; e.g. ApiApps are a kind of Microsoft.Web/sites type. If supported, the resource provider must validate and persist this value. */
   kind: SecurityMLAnalyticsSettingsKind | (string & {});
   /** Etag of the azure resource */
-  etag?: string;
+  etag?: string | undefined;
   /** Security ML analytics settings properties (polymorphic on `kind`, e.g. Anomaly). */
-  properties?: unknown;
+  properties?: unknown | undefined;
 }
 export interface SecurityMLAnalyticsSettingsCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Metadata used by portal/tooling/etc to render different UX experiences for resources of the same type; e.g. ApiApps are a kind of Microsoft.Web/sites type. If supported, the resource provider must validate and persist this value. */
   kind: SecurityMLAnalyticsSettingsKind;
   /** Etag of the azure resource */
-  etag?: string;
+  etag?: string | undefined;
   /** Security ML analytics settings properties (polymorphic on `kind`, e.g. Anomaly). */
-  properties?: unknown;
+  properties?: unknown | undefined;
 }
 /** List of tags to be appended. */
 export type ThreatIntelligenceIndicatorAppendTagsRequestThreatIntelligenceTagsList = Array<string>;
@@ -3918,7 +3921,9 @@ export interface ThreatIntelligenceIndicatorAppendTagsRequest {
   /** Threat intelligence indicator name field. */
   name: string;
   /** List of tags to be appended. */
-  threatIntelligenceTags?: ThreatIntelligenceIndicatorAppendTagsRequestThreatIntelligenceTagsList;
+  threatIntelligenceTags?:
+    | ThreatIntelligenceIndicatorAppendTagsRequestThreatIntelligenceTagsList
+    | undefined;
 }
 export interface ThreatIntelligenceIndicatorAppendTagsResponse {}
 /** Sorting order (ascending/descending/unsorted). */
@@ -3926,9 +3931,9 @@ export type ThreatIntelligenceSortingOrder = "unsorted" | "ascending" | "descend
 /** List of available columns for sorting */
 export interface ThreatIntelligenceSortingCriteria {
   /** Column name */
-  itemKey?: string;
+  itemKey?: string | undefined;
   /** Sorting order (ascending/descending/unsorted). */
-  sortOrder?: ThreatIntelligenceSortingOrder | (string & {});
+  sortOrder?: ThreatIntelligenceSortingOrder | (string & {}) | undefined;
 }
 /** Columns to sort by and sorting order */
 export type ThreatIntelligenceIndicatorQueryIndicatorsRequestSortByList =
@@ -3951,31 +3956,31 @@ export interface ThreatIntelligenceIndicatorQueryIndicatorsRequest {
   /** The name of the monitor workspace. */
   workspaceName: string;
   /** Page size */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Minimum confidence. */
-  minConfidence?: number;
+  minConfidence?: number | undefined;
   /** Maximum confidence. */
-  maxConfidence?: number;
+  maxConfidence?: number | undefined;
   /** Start time for ValidUntil filter. */
-  minValidUntil?: string;
+  minValidUntil?: string | undefined;
   /** End time for ValidUntil filter. */
-  maxValidUntil?: string;
+  maxValidUntil?: string | undefined;
   /** Parameter to include/exclude disabled indicators. */
-  includeDisabled?: boolean;
+  includeDisabled?: boolean | undefined;
   /** Columns to sort by and sorting order */
-  sortBy?: ThreatIntelligenceIndicatorQueryIndicatorsRequestSortByList;
+  sortBy?: ThreatIntelligenceIndicatorQueryIndicatorsRequestSortByList | undefined;
   /** Sources of threat intelligence indicators */
-  sources?: ThreatIntelligenceIndicatorQueryIndicatorsRequestSourcesList;
+  sources?: ThreatIntelligenceIndicatorQueryIndicatorsRequestSourcesList | undefined;
   /** Pattern types */
-  patternTypes?: ThreatIntelligenceIndicatorQueryIndicatorsRequestPatternTypesList;
+  patternTypes?: ThreatIntelligenceIndicatorQueryIndicatorsRequestPatternTypesList | undefined;
   /** Threat types of threat intelligence indicators */
-  threatTypes?: ThreatIntelligenceIndicatorQueryIndicatorsRequestThreatTypesList;
+  threatTypes?: ThreatIntelligenceIndicatorQueryIndicatorsRequestThreatTypesList | undefined;
   /** Ids of threat intelligence indicators */
-  ids?: ThreatIntelligenceIndicatorQueryIndicatorsRequestIdsList;
+  ids?: ThreatIntelligenceIndicatorQueryIndicatorsRequestIdsList | undefined;
   /** Keywords for searching threat intelligence indicators */
-  keywords?: ThreatIntelligenceIndicatorQueryIndicatorsRequestKeywordsList;
+  keywords?: ThreatIntelligenceIndicatorQueryIndicatorsRequestKeywordsList | undefined;
   /** Skip token. */
-  skipToken?: string;
+  skipToken?: string | undefined;
 }
 export interface UninstallContentPackageRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -4001,43 +4006,43 @@ export type MetadataPropertiesPatchPreviewImagesDarkList = Array<string>;
 /** Metadata property bag for patch requests. This is the same as the MetadataProperties, but with nothing required */
 export interface MetadataPropertiesPatch {
   /** Static ID for the content. Used to identify dependencies and content from solutions or community. Hard-coded/static for out of the box content and solutions. Can be optionally set for user created content to define dependencies. If an active content item is made from a template, both will have the same contentId. */
-  contentId?: string;
+  contentId?: string | undefined;
   /** Full parent resource ID of the content item the metadata is for. This is the full resource ID including the scope (subscription and resource group) */
-  parentId?: string;
+  parentId?: string | undefined;
   /** Version of the content. Default and recommended format is numeric (e.g. 1, 1.0, 1.0.0, 1.0.0.0), following ARM template best practices. Can also be any string, but then we cannot guarantee any version checks */
-  version?: string;
+  version?: string | undefined;
   /** The kind of content the metadata is for. */
-  kind?: string;
+  kind?: string | undefined;
   /** Source of the content. This is where/how it was created. */
-  source?: MetadataSource;
+  source?: MetadataSource | undefined;
   /** The creator of the content item. */
-  author?: MetadataAuthor;
+  author?: MetadataAuthor | undefined;
   /** Support information for the metadata - type, name, contact information */
-  support?: MetadataSupport;
+  support?: MetadataSupport | undefined;
   /** Dependencies for the content item, what other content items it requires to work. Can describe more complex dependencies using a recursive/nested structure. For a single dependency an id/kind/version can be supplied or operator/criteria for complex formats. */
-  dependencies?: MetadataDependencies;
+  dependencies?: MetadataDependencies | undefined;
   /** Categories for the solution content item */
-  categories?: MetadataCategories;
+  categories?: MetadataCategories | undefined;
   /** Providers for the solution content item */
-  providers?: MetadataPropertiesPatchProvidersList;
+  providers?: MetadataPropertiesPatchProvidersList | undefined;
   /** first publish date of solution content item */
-  firstPublishDate?: string;
+  firstPublishDate?: string | undefined;
   /** last publish date of solution content item */
-  lastPublishDate?: string;
+  lastPublishDate?: string | undefined;
   /** The custom version of the content. A optional free text */
-  customVersion?: string;
+  customVersion?: string | undefined;
   /** Schema version of the content. Can be used to distinguish between different flow based on the schema version */
-  contentSchemaVersion?: string;
+  contentSchemaVersion?: string | undefined;
   /** the icon identifier. this id can later be fetched from the solution template */
-  icon?: string;
+  icon?: string | undefined;
   /** the tactics the resource covers */
-  threatAnalysisTactics?: MetadataPropertiesPatchThreatAnalysisTacticsList;
+  threatAnalysisTactics?: MetadataPropertiesPatchThreatAnalysisTacticsList | undefined;
   /** the techniques the resource covers, these have to be aligned with the tactics being used */
-  threatAnalysisTechniques?: MetadataPropertiesPatchThreatAnalysisTechniquesList;
+  threatAnalysisTechniques?: MetadataPropertiesPatchThreatAnalysisTechniquesList | undefined;
   /** preview image file names. These will be taken from the solution artifacts */
-  previewImages?: MetadataPropertiesPatchPreviewImagesList;
+  previewImages?: MetadataPropertiesPatchPreviewImagesList | undefined;
   /** preview image file names. These will be taken from the solution artifacts. used for dark theme support */
-  previewImagesDark?: MetadataPropertiesPatchPreviewImagesDarkList;
+  previewImagesDark?: MetadataPropertiesPatchPreviewImagesDarkList | undefined;
 }
 export interface UpdateMetadataRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -4049,46 +4054,46 @@ export interface UpdateMetadataRequest {
   /** The Metadata name. */
   metadataName: string;
   /** Etag of the azure resource */
-  etag?: string;
+  etag?: string | undefined;
   /** Metadata patch request body */
-  properties?: MetadataPropertiesPatch;
+  properties?: MetadataPropertiesPatch | undefined;
 }
 export interface UpdateMetadataResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Metadata properties */
-  properties?: MetadataProperties;
+  properties?: MetadataProperties | undefined;
   /** Etag of the azure resource */
-  etag?: string;
+  etag?: string | undefined;
 }
 /** Describes watchlist item properties */
 export interface WatchlistItemPropertiesInput {
   /** The type of the watchlist item */
-  watchlistItemType?: string;
+  watchlistItemType?: string | undefined;
   /** The id (a Guid) of the watchlist item */
-  watchlistItemId?: string;
+  watchlistItemId?: string | undefined;
   /** The tenantId to which the watchlist item belongs to */
-  tenantId?: string;
+  tenantId?: string | undefined;
   /** A flag that indicates if the watchlist item is deleted or not */
-  isDeleted?: boolean;
+  isDeleted?: boolean | undefined;
   /** The time the watchlist item was created */
-  created?: string;
+  created?: string | undefined;
   /** The last time the watchlist item was updated */
-  updated?: string;
+  updated?: string | undefined;
   /** Describes a user that created the watchlist item */
-  createdBy?: UserInfoInput;
+  createdBy?: UserInfoInput | undefined;
   /** Describes a user that updated the watchlist item */
-  updatedBy?: UserInfoInput;
+  updatedBy?: UserInfoInput | undefined;
   /** key-value pairs for a watchlist item */
   itemsKeyValue: unknown;
   /** key-value pairs for a watchlist item entity mapping */
-  entityMapping?: unknown;
+  entityMapping?: unknown | undefined;
 }
 export interface WatchlistItemsCreateOrUpdateRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -4102,70 +4107,70 @@ export interface WatchlistItemsCreateOrUpdateRequest {
   /** The watchlist item id (GUID) */
   watchlistItemId: string;
   /** Watchlist Item properties */
-  properties?: WatchlistItemPropertiesInput;
+  properties?: WatchlistItemPropertiesInput | undefined;
   /** Etag of the azure resource */
-  etag?: string;
+  etag?: string | undefined;
 }
 export interface WatchlistItemsCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Watchlist Item properties */
-  properties?: WatchlistItemProperties;
+  properties?: WatchlistItemProperties | undefined;
   /** Etag of the azure resource */
-  etag?: string;
+  etag?: string | undefined;
 }
 /** List of labels relevant to this watchlist */
 export type WatchlistPropertiesInputLabelsList = Array<string>;
 /** Describes watchlist properties */
 export interface WatchlistPropertiesInput {
   /** The id (a Guid) of the watchlist */
-  watchlistId?: string;
+  watchlistId?: string | undefined;
   /** The display name of the watchlist */
   displayName: string;
   /** The provider of the watchlist */
   provider: string;
   /** The filename of the watchlist, called 'source' */
-  source?: string;
+  source?: string | undefined;
   /** The sourceType of the watchlist */
-  sourceType?: SourceType | (string & {});
+  sourceType?: SourceType | (string & {}) | undefined;
   /** The time the watchlist was created */
-  created?: string;
+  created?: string | undefined;
   /** The last time the watchlist was updated */
-  updated?: string;
+  updated?: string | undefined;
   /** Describes a user that created the watchlist */
-  createdBy?: UserInfoInput;
+  createdBy?: UserInfoInput | undefined;
   /** Describes a user that updated the watchlist */
-  updatedBy?: UserInfoInput;
+  updatedBy?: UserInfoInput | undefined;
   /** A description of the watchlist */
-  description?: string;
+  description?: string | undefined;
   /** The type of the watchlist */
-  watchlistType?: string;
+  watchlistType?: string | undefined;
   /** The alias of the watchlist */
-  watchlistAlias?: string;
+  watchlistAlias?: string | undefined;
   /** A flag that indicates if the watchlist is deleted or not */
-  isDeleted?: boolean;
+  isDeleted?: boolean | undefined;
   /** List of labels relevant to this watchlist */
-  labels?: WatchlistPropertiesInputLabelsList;
+  labels?: WatchlistPropertiesInputLabelsList | undefined;
   /** The default duration of a watchlist (in ISO 8601 duration format) */
-  defaultDuration?: string;
+  defaultDuration?: string | undefined;
   /** The tenantId where the watchlist belongs to */
-  tenantId?: string;
+  tenantId?: string | undefined;
   /** The number of lines in a csv/tsv content to skip before the header */
-  numberOfLinesToSkip?: number;
+  numberOfLinesToSkip?: number | undefined;
   /** The raw content that represents to watchlist items to create. In case of csv/tsv content type, it's the content of the file that will parsed by the endpoint */
-  rawContent?: string;
+  rawContent?: string | undefined;
   /** The search key is used to optimize query performance when using watchlists for joins with other data. For example, enable a column with IP addresses to be the designated SearchKey field, then use this field as the key field when joining to other event data by IP address. */
   itemsSearchKey: string;
   /** The content type of the raw content. Example : text/csv or text/tsv */
-  contentType?: string;
+  contentType?: string | undefined;
   /** The status of the Watchlist upload : New, InProgress or Complete. **Note** : When a Watchlist upload status is InProgress, the Watchlist cannot be deleted */
-  uploadStatus?: string;
+  uploadStatus?: string | undefined;
 }
 export interface WatchlistsCreateOrUpdateRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -4177,25 +4182,25 @@ export interface WatchlistsCreateOrUpdateRequest {
   /** The watchlist alias */
   watchlistAlias: string;
   /** Watchlist properties */
-  properties?: WatchlistPropertiesInput;
+  properties?: WatchlistPropertiesInput | undefined;
   /** Etag of the azure resource */
-  etag?: string;
+  etag?: string | undefined;
 }
 export interface WatchlistsCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Watchlist properties */
-  properties?: WatchlistProperties;
+  properties?: WatchlistProperties | undefined;
   /** Etag of the azure resource */
-  etag?: string;
+  etag?: string | undefined;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
 }
 export type ActionsCreateOrUpdateError = AzureOpError;
 /** Creates or updates the action of alert rule. */

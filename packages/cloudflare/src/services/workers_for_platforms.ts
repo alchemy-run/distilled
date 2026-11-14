@@ -225,6 +225,15 @@ export class ServiceBindingNotFound
     [{ code: 10144 }],
   ) {}
 
+export class UnknownWorkerEntrypoint
+  extends /*@__PURE__*/ T.applyErrorMatchers(
+    /*@__PURE__*/ S.TaggedError<UnknownWorkerEntrypoint>()("UnknownWorkerEntrypoint", {
+      code: S.Number,
+      message: S.String,
+    }),
+    [{ code: 10375 }],
+  ) {}
+
 export class VectorizeIndexNotFound
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<VectorizeIndexNotFound>()("VectorizeIndexNotFound", {
@@ -287,9 +296,9 @@ export interface DispatchNamespacesScriptsSecretsBulkUpdateRequestSecretsValueSe
   /** Allowed operations with the key. [Learn more](https://developer.mozilla.org/en-US/docs/Web/API/SubtleCrypto/importKey#keyUsages). */
   usages: DispatchNamespacesScriptsSecretsBulkUpdateRequestSecretsValueSecretKeyUsagesList;
   /** Base64-encoded key data. Required if `format` is "raw", "pkcs8", or "spki". */
-  keyBase64?: string;
+  keyBase64?: string | undefined;
   /** Key data in [JSON Web Key](https://developer.mozilla.org/en-US/docs/Web/API/SubtleCrypto/importKey#json_web_key) format. Required if `format` is "jwk". */
-  keyJwk?: unknown;
+  keyJwk?: unknown | undefined;
 }
 export type DispatchNamespacesScriptsSecretsBulkUpdateRequestSecretsValue =
   | DispatchNamespacesScriptsSecretsBulkUpdateRequestSecretsValueSecretText
@@ -308,9 +317,9 @@ export interface BulkUpdateDispatchNamespaceScriptSecretsRequest {
   /** Name of the script. */
   scriptName: string;
   /** Map of secret names to secret values: */
-  secrets?: DispatchNamespacesScriptsSecretsBulkUpdateRequestSecretsMap;
+  secrets?: DispatchNamespacesScriptsSecretsBulkUpdateRequestSecretsMap | undefined;
   /** Optional version tags to apply to the new script version. */
-  versionTags?: DispatchNamespacesScriptsSecretsBulkUpdateRequestVersionTagsMap;
+  versionTags?: DispatchNamespacesScriptsSecretsBulkUpdateRequestVersionTagsMap | undefined;
 }
 export type DispatchNamespacesScriptsSecretsBulkUpdateResultValueSecretTextType = "secret_text";
 export interface DispatchNamespacesScriptsSecretsBulkUpdateResultValueSecretText {
@@ -350,9 +359,9 @@ export interface DispatchNamespacesScriptsSecretsBulkUpdateResultValueSecretKey 
   /** Allowed operations with the key. [Learn more](https://developer.mozilla.org/en-US/docs/Web/API/SubtleCrypto/importKey#keyUsages). */
   usages: DispatchNamespacesScriptsSecretsBulkUpdateResultValueSecretKeyUsagesList;
   /** Base64-encoded key data. Required if `format` is "raw", "pkcs8", or "spki". */
-  keyBase64?: string | null;
+  keyBase64?: string | null | undefined;
   /** Key data in [JSON Web Key](https://developer.mozilla.org/en-US/docs/Web/API/SubtleCrypto/importKey#json_web_key) format. Required if `format` is "jwk". */
-  keyJwk?: unknown | null;
+  keyJwk?: unknown | null | undefined;
 }
 export type DispatchNamespacesScriptsSecretsBulkUpdateResultValue =
   | DispatchNamespacesScriptsSecretsBulkUpdateResultValueSecretText
@@ -366,26 +375,26 @@ export interface CreateDispatchNamespaceRequest {
   /** Identifier. */
   accountId: string;
   /** The name of the dispatch namespace. */
-  name?: string;
+  name?: string | undefined;
 }
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface CreateDispatchNamespaceResponse {
   /** Identifier. */
-  createdBy?: string | null;
+  createdBy?: string | null | undefined;
   /** When the script was created. */
-  createdOn?: string | null;
+  createdOn?: string | null | undefined;
   /** Identifier. */
-  modifiedBy?: string | null;
+  modifiedBy?: string | null | undefined;
   /** When the script was last modified. */
-  modifiedOn?: string | null;
+  modifiedOn?: string | null | undefined;
   /** API Resource UUID tag. */
-  namespaceId?: string | null;
+  namespaceId?: string | null | undefined;
   /** Name of the Workers for Platforms dispatch namespace. */
-  namespaceName?: string | null;
+  namespaceName?: string | null | undefined;
   /** The current number of scripts in this Dispatch Namespace. */
-  scriptCount?: number | null;
+  scriptCount?: number | null | undefined;
   /** Whether the Workers in the namespace are executed in a "trusted" manner. When a Worker is trusted, it has access to the shared caches for the zone in the Cache API, and has access to the `request.cf` object on incoming Requests. When a Worker is untrusted, caches are not shared across the zone, and `request.cf` is undefined. By default, Workers in a namespace are "untrusted". */
-  trustedWorkers?: boolean | null;
+  trustedWorkers?: boolean | null | undefined;
 }
 export interface DispatchNamespacesScriptsAssetUploadCreateRequestManifestValue {
   /** The hash of the file. */
@@ -412,9 +421,9 @@ export type DispatchNamespacesScriptsAssetUploadCreateResponseBucketsList =
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface CreateDispatchNamespaceScriptAssetUploadResponse {
   /** The requests to make to upload assets. */
-  buckets?: DispatchNamespacesScriptsAssetUploadCreateResponseBucketsList | null;
+  buckets?: DispatchNamespacesScriptsAssetUploadCreateResponseBucketsList | null | undefined;
   /** A JWT to use as authentication for uploading assets. */
-  jwt?: string | null;
+  jwt?: string | null | undefined;
 }
 export interface DeleteDispatchNamespaceRequest {
   /** Identifier. */
@@ -431,7 +440,7 @@ export interface DeleteDispatchNamespaceScriptRequest {
   /** Name of the script. */
   scriptName: string;
   /** If true, delete the script even when other Workers still reference it. Service bindings in those Workers may be left broken. Durable Object namespaces implemented by the deleted script are deleted even if other Workers reference them. */
-  force?: boolean;
+  force?: boolean | undefined;
 }
 export type DeleteDispatchNamespaceScriptResponse = unknown;
 export interface DeleteDispatchNamespaceScriptSecretRequest {
@@ -444,7 +453,7 @@ export interface DeleteDispatchNamespaceScriptSecretRequest {
   /** A JavaScript variable name for the secret binding. */
   secretName: string;
   /** Flag that indicates whether the secret name is URL encoded. */
-  urlEncoded?: boolean;
+  urlEncoded?: boolean | undefined;
 }
 export type DeleteDispatchNamespaceScriptSecretResponse = unknown;
 export interface DeleteDispatchNamespaceScriptTagRequest {
@@ -456,7 +465,7 @@ export interface DeleteDispatchNamespaceScriptTagRequest {
   scriptName: string;
   /** A typed tag key containing only Unicode letters or numbers, underscores, periods, or hyphens. The complete UTF-8 encoded tag (the key plus `=` and the value when the value is non-empty) must not exceed 1024 bytes. Cloudflare-reserved prefixes are not accepted. */
   tag: string;
-  apiVersion?: string;
+  apiVersion?: string | undefined;
 }
 export type DispatchNamespacesScriptsTagsDeleteResultMap = { [key: string]: string | undefined };
 export type DeleteDispatchNamespaceScriptTagResponse = DispatchNamespacesScriptsTagsDeleteResultMap;
@@ -469,21 +478,21 @@ export interface GetDispatchNamespaceRequest {
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface GetDispatchNamespaceResponse {
   /** Identifier. */
-  createdBy?: string | null;
+  createdBy?: string | null | undefined;
   /** When the script was created. */
-  createdOn?: string | null;
+  createdOn?: string | null | undefined;
   /** Identifier. */
-  modifiedBy?: string | null;
+  modifiedBy?: string | null | undefined;
   /** When the script was last modified. */
-  modifiedOn?: string | null;
+  modifiedOn?: string | null | undefined;
   /** API Resource UUID tag. */
-  namespaceId?: string | null;
+  namespaceId?: string | null | undefined;
   /** Name of the Workers for Platforms dispatch namespace. */
-  namespaceName?: string | null;
+  namespaceName?: string | null | undefined;
   /** The current number of scripts in this Dispatch Namespace. */
-  scriptCount?: number | null;
+  scriptCount?: number | null | undefined;
   /** Whether the Workers in the namespace are executed in a "trusted" manner. When a Worker is trusted, it has access to the shared caches for the zone in the Cache API, and has access to the `request.cf` object on incoming Requests. When a Worker is untrusted, caches are not shared across the zone, and `request.cf` is undefined. By default, Workers in a namespace are "untrusted". */
-  trustedWorkers?: boolean | null;
+  trustedWorkers?: boolean | null | undefined;
 }
 export interface GetDispatchNamespaceScriptRequest {
   /** Identifier. */
@@ -497,7 +506,7 @@ export interface DispatchNamespacesScriptsGetResponseScriptCacheOptions {
   /** Whether caching is enabled for this Worker. */
   enabled: boolean;
   /** Whether cached responses are shared across Worker version uploads. This is independent of `enabled`. It can stay true while caching is off, so the preference survives turning caching off and back on. */
-  crossVersionCache?: boolean | null;
+  crossVersionCache?: boolean | null | undefined;
 }
 export type DispatchNamespacesScriptsGetResponseScriptCompatibilityFlagsList = Array<string>;
 export type DispatchNamespacesScriptsGetResponseScriptExportsValueWorkerType = "worker";
@@ -510,9 +519,9 @@ export interface DispatchNamespacesScriptsGetResponseScriptExportsValueWorker {
   /** Marks this entry as a Worker entrypoint export. */
   type: DispatchNamespacesScriptsGetResponseScriptExportsValueWorkerType;
   /** Cache override for this entrypoint. Overrides the Worker's global `cache_options.enabled` for this entrypoint only. */
-  cache?: DispatchNamespacesScriptsGetResponseScriptExportsValueWorkerCache | null;
+  cache?: DispatchNamespacesScriptsGetResponseScriptExportsValueWorkerCache | null | undefined;
   /** Live export. May be omitted; defaults to `created`. */
-  state?: DispatchNamespacesScriptsGetResponseScriptExportsValueWorkerState | null;
+  state?: DispatchNamespacesScriptsGetResponseScriptExportsValueWorkerState | null | undefined;
 }
 export type DispatchNamespacesScriptsGetResponseScriptExportsValueWorkersDurableObjectExportStorage =
   | "sqlite"
@@ -527,9 +536,12 @@ export interface DispatchNamespacesScriptsGetResponseScriptExportsValueWorkersDu
   /** Marks this entry as a Durable Object export. */
   type: DispatchNamespacesScriptsGetResponseScriptExportsValueWorkersDurableObjectExportType;
   /** Name of the container (declared in the upload's `metadata.containers`) that backs this Durable Object. When set, the namespace is container-enabled. Valid only on live entries. */
-  container?: string | null;
+  container?: string | null | undefined;
   /** Live export. May be omitted; defaults to `created`. */
-  state?: DispatchNamespacesScriptsGetResponseScriptExportsValueWorkersDurableObjectExportState | null;
+  state?:
+    | DispatchNamespacesScriptsGetResponseScriptExportsValueWorkersDurableObjectExportState
+    | null
+    | undefined;
 }
 export type DispatchNamespacesScriptsGetResponseScriptExportsValueWorkersDurableObjectDeletedExportState =
   "deleted";
@@ -582,7 +594,7 @@ export interface DispatchNamespacesScriptsGetResponseScriptExportsValueWorkersDu
   /** Marks this entry as a Durable Object export. */
   type: DispatchNamespacesScriptsGetResponseScriptExportsValueWorkersDurableObjectExpectingTransferExportType;
   /** Name of the container (declared in the upload's `metadata.containers`) that backs this Durable Object once the transfer settles. Valid only on live entries. */
-  container?: string | null;
+  container?: string | null | undefined;
 }
 export type DispatchNamespacesScriptsGetResponseScriptExportsValue =
   | DispatchNamespacesScriptsGetResponseScriptExportsValueWorker
@@ -598,15 +610,18 @@ export type DispatchNamespacesScriptsGetResponseScriptHandlersList = Array<strin
 export type DispatchNamespacesScriptsGetResponseScriptNamedHandlersItemHandlersList = Array<string>;
 export interface DispatchNamespacesScriptsGetResponseScriptNamedHandlersItem {
   /** The names of handlers exported as part of the named export. */
-  handlers?: DispatchNamespacesScriptsGetResponseScriptNamedHandlersItemHandlersList | null;
+  handlers?:
+    | DispatchNamespacesScriptsGetResponseScriptNamedHandlersItemHandlersList
+    | null
+    | undefined;
   /** The name of the export. */
-  name?: string | null;
+  name?: string | null | undefined;
 }
 export type DispatchNamespacesScriptsGetResponseScriptNamedHandlersList =
   Array<DispatchNamespacesScriptsGetResponseScriptNamedHandlersItem>;
 export interface DispatchNamespacesScriptsGetResponseScriptObservabilityIssues {
   /** Whether real-time Issues are enabled for the Worker. */
-  enabled?: boolean | null;
+  enabled?: boolean | null | undefined;
 }
 export type DispatchNamespacesScriptsGetResponseScriptObservabilityLogsDestinationsList =
   Array<string>;
@@ -616,11 +631,14 @@ export interface DispatchNamespacesScriptsGetResponseScriptObservabilityLogs {
   /** Whether [invocation logs](https://developers.cloudflare.com/workers/observability/logs/workers-logs/#invocation-logs) are enabled for the Worker. */
   invocationLogs: boolean;
   /** A list of destinations where logs will be exported to. */
-  destinations?: DispatchNamespacesScriptsGetResponseScriptObservabilityLogsDestinationsList | null;
+  destinations?:
+    | DispatchNamespacesScriptsGetResponseScriptObservabilityLogsDestinationsList
+    | null
+    | undefined;
   /** The sampling rate for logs. From 0 to 1 (1 = 100%, 0.1 = 10%). Default is 1. */
-  headSamplingRate?: number | null;
+  headSamplingRate?: number | null | undefined;
   /** Whether log persistence is enabled for the Worker. */
-  persist?: boolean | null;
+  persist?: boolean | null | undefined;
 }
 export type DispatchNamespacesScriptsGetResponseScriptObservabilityTracesDestinationsList =
   Array<string>;
@@ -629,29 +647,35 @@ export type DispatchNamespacesScriptsGetResponseScriptObservabilityTracesPropaga
   | "accept";
 export interface DispatchNamespacesScriptsGetResponseScriptObservabilityTraces {
   /** A list of destinations where traces will be exported to. */
-  destinations?: DispatchNamespacesScriptsGetResponseScriptObservabilityTracesDestinationsList | null;
+  destinations?:
+    | DispatchNamespacesScriptsGetResponseScriptObservabilityTracesDestinationsList
+    | null
+    | undefined;
   /** Whether traces are enabled for the Worker. */
-  enabled?: boolean | null;
+  enabled?: boolean | null | undefined;
   /** The sampling rate for traces. From 0 to 1 (1 = 100%, 0.1 = 10%). Default is 1. */
-  headSamplingRate?: number | null;
+  headSamplingRate?: number | null | undefined;
   /** Whether trace persistence is enabled for the Worker. */
-  persist?: boolean | null;
+  persist?: boolean | null | undefined;
   /** Controls how inbound trace context (traceparent/tracestate) headers on incoming requests are handled. "authenticated" honors inbound trace context only when accompanied by a valid trace auth token. "accept" unconditionally accepts inbound trace context. Requires the trace propagation feature to be enabled. Returns null when the trace propagation feature is not enabled for the account. */
-  propagationPolicy?: DispatchNamespacesScriptsGetResponseScriptObservabilityTracesPropagationPolicy | null;
+  propagationPolicy?:
+    | DispatchNamespacesScriptsGetResponseScriptObservabilityTracesPropagationPolicy
+    | null
+    | undefined;
 }
 export interface DispatchNamespacesScriptsGetResponseScriptObservability {
   /** Whether observability is enabled for the Worker. */
   enabled: boolean;
   /** The sampling rate for incoming requests. From 0 to 1 (1 = 100%, 0.1 = 10%). Default is 1. */
-  headSamplingRate?: number | null;
+  headSamplingRate?: number | null | undefined;
   /** Real-time Issues settings for the Worker. */
-  issues?: DispatchNamespacesScriptsGetResponseScriptObservabilityIssues | null;
+  issues?: DispatchNamespacesScriptsGetResponseScriptObservabilityIssues | null | undefined;
   /** Log settings for the Worker. */
-  logs?: DispatchNamespacesScriptsGetResponseScriptObservabilityLogs | null;
+  logs?: DispatchNamespacesScriptsGetResponseScriptObservabilityLogs | null | undefined;
   /** Whether query strings are removed from request URLs in logs and traces. */
-  redactQueryString?: boolean | null;
+  redactQueryString?: boolean | null | undefined;
   /** Trace settings for the Worker. */
-  traces?: DispatchNamespacesScriptsGetResponseScriptObservabilityTraces | null;
+  traces?: DispatchNamespacesScriptsGetResponseScriptObservabilityTraces | null | undefined;
 }
 export type DispatchNamespacesScriptsGetResponseScriptPlacementCase0Mode = "smart";
 export type DispatchNamespacesScriptsGetResponseScriptPlacementCase0Status =
@@ -662,9 +686,9 @@ export interface DispatchNamespacesScriptsGetResponseScriptPlacementCase0 {
   /** Enables [Smart Placement](https://developers.cloudflare.com/workers/configuration/smart-placement). */
   mode: DispatchNamespacesScriptsGetResponseScriptPlacementCase0Mode;
   /** The last time the script was analyzed for [Smart Placement](https://developers.cloudflare.com/workers/configuration/smart-placement). */
-  lastAnalyzedAt?: string | null;
+  lastAnalyzedAt?: string | null | undefined;
   /** Status of [Smart Placement](https://developers.cloudflare.com/workers/configuration/smart-placement). */
-  status?: DispatchNamespacesScriptsGetResponseScriptPlacementCase0Status | null;
+  status?: DispatchNamespacesScriptsGetResponseScriptPlacementCase0Status | null | undefined;
 }
 export type DispatchNamespacesScriptsGetResponseScriptPlacementCase1Status =
   | "SUCCESS"
@@ -674,9 +698,9 @@ export interface DispatchNamespacesScriptsGetResponseScriptPlacementCase1 {
   /** Cloud region for targeted placement in format 'provider:region'. */
   region: string;
   /** The last time the script was analyzed for [Smart Placement](https://developers.cloudflare.com/workers/configuration/smart-placement). */
-  lastAnalyzedAt?: string | null;
+  lastAnalyzedAt?: string | null | undefined;
   /** Status of [Smart Placement](https://developers.cloudflare.com/workers/configuration/smart-placement). */
-  status?: DispatchNamespacesScriptsGetResponseScriptPlacementCase1Status | null;
+  status?: DispatchNamespacesScriptsGetResponseScriptPlacementCase1Status | null | undefined;
 }
 export type DispatchNamespacesScriptsGetResponseScriptPlacementCase2Status =
   | "SUCCESS"
@@ -686,9 +710,9 @@ export interface DispatchNamespacesScriptsGetResponseScriptPlacementCase2 {
   /** HTTP hostname for targeted placement. */
   hostname: string;
   /** The last time the script was analyzed for [Smart Placement](https://developers.cloudflare.com/workers/configuration/smart-placement). */
-  lastAnalyzedAt?: string | null;
+  lastAnalyzedAt?: string | null | undefined;
   /** Status of [Smart Placement](https://developers.cloudflare.com/workers/configuration/smart-placement). */
-  status?: DispatchNamespacesScriptsGetResponseScriptPlacementCase2Status | null;
+  status?: DispatchNamespacesScriptsGetResponseScriptPlacementCase2Status | null | undefined;
 }
 export type DispatchNamespacesScriptsGetResponseScriptPlacementCase3Status =
   | "SUCCESS"
@@ -698,9 +722,9 @@ export interface DispatchNamespacesScriptsGetResponseScriptPlacementCase3 {
   /** TCP host and port for targeted placement. */
   host: string;
   /** The last time the script was analyzed for [Smart Placement](https://developers.cloudflare.com/workers/configuration/smart-placement). */
-  lastAnalyzedAt?: string | null;
+  lastAnalyzedAt?: string | null | undefined;
   /** Status of [Smart Placement](https://developers.cloudflare.com/workers/configuration/smart-placement). */
-  status?: DispatchNamespacesScriptsGetResponseScriptPlacementCase3Status | null;
+  status?: DispatchNamespacesScriptsGetResponseScriptPlacementCase3Status | null | undefined;
 }
 export type DispatchNamespacesScriptsGetResponseScriptPlacementCase4Mode = "targeted";
 export type DispatchNamespacesScriptsGetResponseScriptPlacementCase4Status =
@@ -713,9 +737,9 @@ export interface DispatchNamespacesScriptsGetResponseScriptPlacementCase4 {
   /** Cloud region for targeted placement in format 'provider:region'. */
   region: string;
   /** The last time the script was analyzed for [Smart Placement](https://developers.cloudflare.com/workers/configuration/smart-placement). */
-  lastAnalyzedAt?: string | null;
+  lastAnalyzedAt?: string | null | undefined;
   /** Status of [Smart Placement](https://developers.cloudflare.com/workers/configuration/smart-placement). */
-  status?: DispatchNamespacesScriptsGetResponseScriptPlacementCase4Status | null;
+  status?: DispatchNamespacesScriptsGetResponseScriptPlacementCase4Status | null | undefined;
 }
 export type DispatchNamespacesScriptsGetResponseScriptPlacementCase5Mode = "targeted";
 export type DispatchNamespacesScriptsGetResponseScriptPlacementCase5Status =
@@ -728,9 +752,9 @@ export interface DispatchNamespacesScriptsGetResponseScriptPlacementCase5 {
   /** Targeted placement mode. */
   mode: DispatchNamespacesScriptsGetResponseScriptPlacementCase5Mode;
   /** The last time the script was analyzed for [Smart Placement](https://developers.cloudflare.com/workers/configuration/smart-placement). */
-  lastAnalyzedAt?: string | null;
+  lastAnalyzedAt?: string | null | undefined;
   /** Status of [Smart Placement](https://developers.cloudflare.com/workers/configuration/smart-placement). */
-  status?: DispatchNamespacesScriptsGetResponseScriptPlacementCase5Status | null;
+  status?: DispatchNamespacesScriptsGetResponseScriptPlacementCase5Status | null | undefined;
 }
 export type DispatchNamespacesScriptsGetResponseScriptPlacementCase6Mode = "targeted";
 export type DispatchNamespacesScriptsGetResponseScriptPlacementCase6Status =
@@ -743,9 +767,9 @@ export interface DispatchNamespacesScriptsGetResponseScriptPlacementCase6 {
   /** Targeted placement mode. */
   mode: DispatchNamespacesScriptsGetResponseScriptPlacementCase6Mode;
   /** The last time the script was analyzed for [Smart Placement](https://developers.cloudflare.com/workers/configuration/smart-placement). */
-  lastAnalyzedAt?: string | null;
+  lastAnalyzedAt?: string | null | undefined;
   /** Status of [Smart Placement](https://developers.cloudflare.com/workers/configuration/smart-placement). */
-  status?: DispatchNamespacesScriptsGetResponseScriptPlacementCase6Status | null;
+  status?: DispatchNamespacesScriptsGetResponseScriptPlacementCase6Status | null | undefined;
 }
 export type DispatchNamespacesScriptsGetResponseScriptPlacementCase7Mode = "targeted";
 export interface DispatchNamespacesScriptsGetResponseScriptPlacementCase7TargetItemRegion {
@@ -776,9 +800,9 @@ export interface DispatchNamespacesScriptsGetResponseScriptPlacementCase7 {
   /** Array of placement targets (currently limited to single target). */
   target: DispatchNamespacesScriptsGetResponseScriptPlacementCase7TargetList;
   /** The last time the script was analyzed for [Smart Placement](https://developers.cloudflare.com/workers/configuration/smart-placement). */
-  lastAnalyzedAt?: string | null;
+  lastAnalyzedAt?: string | null | undefined;
   /** Status of [Smart Placement](https://developers.cloudflare.com/workers/configuration/smart-placement). */
-  status?: DispatchNamespacesScriptsGetResponseScriptPlacementCase7Status | null;
+  status?: DispatchNamespacesScriptsGetResponseScriptPlacementCase7Status | null | undefined;
 }
 export type DispatchNamespacesScriptsGetResponseScriptPlacement =
   | DispatchNamespacesScriptsGetResponseScriptPlacementCase0
@@ -799,9 +823,9 @@ export interface DispatchNamespacesScriptsGetResponseScriptTailConsumersItem {
   /** Name of Worker that is to be the consumer. */
   service: string;
   /** Optional environment if the Worker utilizes one. */
-  environment?: string | null;
+  environment?: string | null | undefined;
   /** Optional dispatch namespace the script belongs to. */
-  namespace?: string | null;
+  namespace?: string | null | undefined;
 }
 export type DispatchNamespacesScriptsGetResponseScriptTailConsumersList =
   Array<DispatchNamespacesScriptsGetResponseScriptTailConsumersItem>;
@@ -811,61 +835,64 @@ export type DispatchNamespacesScriptsGetResponseScriptUsageModel =
   | "unbound";
 export interface DispatchNamespacesScriptsGetResponseScript {
   /** The name used to identify the script. */
-  id?: string | null;
+  id?: string | null | undefined;
   /** Global CacheW configuration for the Worker. When caching is on, the platform provisions a `cloudflare.app` zone for the Worker. A `type: worker` entry in the `exports` map can override this value for a single entrypoint. */
-  cacheOptions?: DispatchNamespacesScriptsGetResponseScriptCacheOptions | null;
+  cacheOptions?: DispatchNamespacesScriptsGetResponseScriptCacheOptions | null | undefined;
   /** Date indicating targeted support in the Workers runtime. Backwards incompatible fixes to the runtime following this date will not affect this Worker. */
-  compatibilityDate?: string | null;
+  compatibilityDate?: string | null | undefined;
   /** Flags that enable or disable certain features in the Workers runtime. Used to enable upcoming features or opt in or out of specific changes not included in a `compatibility_date`. */
-  compatibilityFlags?: DispatchNamespacesScriptsGetResponseScriptCompatibilityFlagsList | null;
+  compatibilityFlags?:
+    | DispatchNamespacesScriptsGetResponseScriptCompatibilityFlagsList
+    | null
+    | undefined;
   /** When the script was created. */
-  createdOn?: string | null;
+  createdOn?: string | null | undefined;
   /** Hashed script content, can be used in a If-None-Match header when updating. */
-  etag?: string | null;
+  etag?: string | null | undefined;
   /** Declarative exports for the Worker's most recent version, including Durable Object classes (with their `storage` backend) and named Worker entrypoints. Tombstoned lifecycle entries are omitted, so only live exports (`created` and `expecting-transfer`) are returned. */
-  exports?: DispatchNamespacesScriptsGetResponseScriptExportsMap | null;
+  exports?: DispatchNamespacesScriptsGetResponseScriptExportsMap | null | undefined;
   /** The names of handlers exported as part of the default export. */
-  handlers?: DispatchNamespacesScriptsGetResponseScriptHandlersList | null;
+  handlers?: DispatchNamespacesScriptsGetResponseScriptHandlersList | null | undefined;
   /** Whether a Worker contains assets. */
-  hasAssets?: boolean | null;
+  hasAssets?: boolean | null | undefined;
   /** Whether a Worker contains modules. */
-  hasModules?: boolean | null;
+  hasModules?: boolean | null | undefined;
   /** The client most recently used to deploy this Worker. */
-  lastDeployedFrom?: string | null;
+  lastDeployedFrom?: string | null | undefined;
   /** Whether Logpush is turned on for the Worker. */
-  logpush?: boolean | null;
+  logpush?: boolean | null | undefined;
   /** The tag of the Durable Object migration that was most recently applied for this Worker. */
-  migrationTag?: string | null;
+  migrationTag?: string | null | undefined;
   /** When the script was last modified. */
-  modifiedOn?: string | null;
+  modifiedOn?: string | null | undefined;
   /** Named exports, such as Durable Object class implementations and named entrypoints. */
-  namedHandlers?: DispatchNamespacesScriptsGetResponseScriptNamedHandlersList | null;
+  namedHandlers?: DispatchNamespacesScriptsGetResponseScriptNamedHandlersList | null | undefined;
   /** Observability settings for the Worker. */
-  observability?: DispatchNamespacesScriptsGetResponseScriptObservability | null;
+  observability?: DispatchNamespacesScriptsGetResponseScriptObservability | null | undefined;
   /** Configuration for [Smart Placement](https://developers.cloudflare.com/workers/configuration/smart-placement). Specify mode='smart' for Smart Placement, or one of region/hostname/host. */
-  placement?: DispatchNamespacesScriptsGetResponseScriptPlacement | null;
+  placement?: DispatchNamespacesScriptsGetResponseScriptPlacement | null | undefined;
   /** Configuration for [Smart Placement](https://developers.cloudflare.com/workers/configuration/smart-placement). Specify mode='smart' for Smart Placement, or one of region/hostname/host. */
-  placementMode?: DispatchNamespacesScriptsGetResponseScriptPlacementMode | null;
+  placementMode?: DispatchNamespacesScriptsGetResponseScriptPlacementMode | null | undefined;
   /** Status of [Smart Placement](https://developers.cloudflare.com/workers/configuration/smart-placement). */
-  placementStatus?: DispatchNamespacesScriptsGetResponseScriptPlacementStatus | null;
+  placementStatus?: DispatchNamespacesScriptsGetResponseScriptPlacementStatus | null | undefined;
   /** The immutable ID of the script. */
-  tag?: string | null;
+  tag?: string | null | undefined;
   /** Tags associated with the Worker. */
-  tags?: DispatchNamespacesScriptsGetResponseScriptTagsList | null;
+  tags?: DispatchNamespacesScriptsGetResponseScriptTagsList | null | undefined;
   /** List of Workers that will consume logs from the attached Worker. */
-  tailConsumers?: DispatchNamespacesScriptsGetResponseScriptTailConsumersList | null;
+  tailConsumers?: DispatchNamespacesScriptsGetResponseScriptTailConsumersList | null | undefined;
   /** Usage model for the Worker invocations. */
-  usageModel?: DispatchNamespacesScriptsGetResponseScriptUsageModel | null;
+  usageModel?: DispatchNamespacesScriptsGetResponseScriptUsageModel | null | undefined;
 }
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface GetDispatchNamespaceScriptResponse {
   /** When the script was created. */
-  createdOn?: string | null;
+  createdOn?: string | null | undefined;
   /** Name of the Workers for Platforms dispatch namespace. */
-  dispatchNamespace?: string | null;
+  dispatchNamespace?: string | null | undefined;
   /** When the script was last modified. */
-  modifiedOn?: string | null;
-  script?: DispatchNamespacesScriptsGetResponseScript | null;
+  modifiedOn?: string | null | undefined;
+  script?: DispatchNamespacesScriptsGetResponseScript | null | undefined;
 }
 export interface GetDispatchNamespaceScriptBindingRequest {
   /** Identifier. */
@@ -891,7 +918,7 @@ export interface DispatchNamespacesScriptsBindingsGetResultItemAISearch {
   /** The kind of resource that the binding provides. */
   type: DispatchNamespacesScriptsBindingsGetResultItemAISearchType;
   /** The namespace the instance belongs to. Defaults to "default" if omitted. Customers who don't use namespaces can simply omit this field. */
-  namespace?: string | null;
+  namespace?: string | null | undefined;
 }
 export type DispatchNamespacesScriptsBindingsGetResultItemAISearchNamespaceType =
   "ai_search_namespace";
@@ -953,7 +980,7 @@ export interface DispatchNamespacesScriptsBindingsGetResultItemD1 {
   /** The kind of resource that the binding provides. */
   type: DispatchNamespacesScriptsBindingsGetResultItemD1Type;
   /** This property has been renamed to `database_id`. */
-  id?: string | null;
+  id?: string | null | undefined;
 }
 export type DispatchNamespacesScriptsBindingsGetResultItemDataBlobType = "data_blob";
 export interface DispatchNamespacesScriptsBindingsGetResultItemDataBlob {
@@ -974,17 +1001,23 @@ export type DispatchNamespacesScriptsBindingsGetResultItemDispatchNamespaceOutbo
   Array<DispatchNamespacesScriptsBindingsGetResultItemDispatchNamespaceOutboundParamsItem>;
 export interface DispatchNamespacesScriptsBindingsGetResultItemDispatchNamespaceOutboundWorker {
   /** Entrypoint to invoke on the outbound worker. */
-  entrypoint?: string | null;
+  entrypoint?: string | null | undefined;
   /** Environment of the outbound worker. */
-  environment?: string | null;
+  environment?: string | null | undefined;
   /** Name of the outbound worker. */
-  service?: string | null;
+  service?: string | null | undefined;
 }
 export interface DispatchNamespacesScriptsBindingsGetResultItemDispatchNamespaceOutbound {
   /** Pass information from the Dispatch Worker to the Outbound Worker through the parameters. */
-  params?: DispatchNamespacesScriptsBindingsGetResultItemDispatchNamespaceOutboundParamsList | null;
+  params?:
+    | DispatchNamespacesScriptsBindingsGetResultItemDispatchNamespaceOutboundParamsList
+    | null
+    | undefined;
   /** Outbound worker. */
-  worker?: DispatchNamespacesScriptsBindingsGetResultItemDispatchNamespaceOutboundWorker | null;
+  worker?:
+    | DispatchNamespacesScriptsBindingsGetResultItemDispatchNamespaceOutboundWorker
+    | null
+    | undefined;
 }
 export interface DispatchNamespacesScriptsBindingsGetResultItemDispatchNamespace {
   /** A JavaScript variable name for the binding. */
@@ -994,7 +1027,10 @@ export interface DispatchNamespacesScriptsBindingsGetResultItemDispatchNamespace
   /** The kind of resource that the binding provides. */
   type: DispatchNamespacesScriptsBindingsGetResultItemDispatchNamespaceType;
   /** Outbound worker. */
-  outbound?: DispatchNamespacesScriptsBindingsGetResultItemDispatchNamespaceOutbound | null;
+  outbound?:
+    | DispatchNamespacesScriptsBindingsGetResultItemDispatchNamespaceOutbound
+    | null
+    | undefined;
 }
 export type DispatchNamespacesScriptsBindingsGetResultItemDurableObjectNamespaceType =
   "durable_object_namespace";
@@ -1004,15 +1040,15 @@ export interface DispatchNamespacesScriptsBindingsGetResultItemDurableObjectName
   /** The kind of resource that the binding provides. */
   type: DispatchNamespacesScriptsBindingsGetResultItemDurableObjectNamespaceType;
   /** The exported class name of the Durable Object. */
-  className?: string | null;
+  className?: string | null | undefined;
   /** The dispatch namespace the Durable Object script belongs to. */
-  dispatchNamespace?: string | null;
+  dispatchNamespace?: string | null | undefined;
   /** The environment of the script_name to bind to. */
-  environment?: string | null;
+  environment?: string | null | undefined;
   /** Namespace identifier tag. */
-  namespaceId?: string | null;
+  namespaceId?: string | null | undefined;
   /** The script where the Durable Object is defined, if it is external to this Worker. */
-  scriptName?: string | null;
+  scriptName?: string | null | undefined;
 }
 export type DispatchNamespacesScriptsBindingsGetResultItemHyperdriveType = "hyperdrive";
 export interface DispatchNamespacesScriptsBindingsGetResultItemHyperdrive {
@@ -1030,9 +1066,9 @@ export interface DispatchNamespacesScriptsBindingsGetResultItemInherit {
   /** The kind of resource that the binding provides. */
   type: DispatchNamespacesScriptsBindingsGetResultItemInheritType;
   /** The old name of the inherited binding. If set, the binding will be renamed from `old_name` to `name` in the new version. If not set, the binding will keep the same name between versions. */
-  oldName?: string | null;
+  oldName?: string | null | undefined;
   /** Identifier for the version to inherit the binding from. This can be a version ID, or the literal "latest" to inherit from the most recently uploaded version, which may not be the deployed version. Defaults to "latest". Only the Workers API version endpoints under `/accounts/{account_id}/workers/workers/{worker_id}/versions` accept a version ID. Other endpoints, including script upload and script version upload, accept only "latest" and reject a version ID with error 10057. */
-  versionId?: string | null;
+  versionId?: string | null | undefined;
 }
 export type DispatchNamespacesScriptsBindingsGetResultItemImagesType = "images";
 export interface DispatchNamespacesScriptsBindingsGetResultItemImages {
@@ -1117,7 +1153,7 @@ export interface DispatchNamespacesScriptsBindingsGetResultItemRatelimitSimple {
   /** The period in seconds. */
   period: number;
   /** Duration in seconds to apply the mitigation action after the rate limit is exceeded. Valid values are 0 (disabled), 10, or multiples of 60 up to 86400. Must be greater than or equal to the period when non-zero. */
-  mitigationTimeout?: number | null;
+  mitigationTimeout?: number | null | undefined;
 }
 export type DispatchNamespacesScriptsBindingsGetResultItemRatelimitType = "ratelimit";
 export interface DispatchNamespacesScriptsBindingsGetResultItemRatelimit {
@@ -1144,7 +1180,10 @@ export interface DispatchNamespacesScriptsBindingsGetResultItemR2Bucket {
   /** The kind of resource that the binding provides. */
   type: DispatchNamespacesScriptsBindingsGetResultItemR2BucketType;
   /** The [jurisdiction](https://developers.cloudflare.com/r2/reference/data-location/#jurisdictional-restrictions) of the R2 bucket. */
-  jurisdiction?: DispatchNamespacesScriptsBindingsGetResultItemR2BucketJurisdiction | null;
+  jurisdiction?:
+    | DispatchNamespacesScriptsBindingsGetResultItemR2BucketJurisdiction
+    | null
+    | undefined;
 }
 export type DispatchNamespacesScriptsBindingsGetResultItemSecretTextType = "secret_text";
 export interface DispatchNamespacesScriptsBindingsGetResultItemSecretText {
@@ -1166,11 +1205,17 @@ export interface DispatchNamespacesScriptsBindingsGetResultItemSendEmail {
   /** The kind of resource that the binding provides. */
   type: DispatchNamespacesScriptsBindingsGetResultItemSendEmailType;
   /** List of allowed destination addresses. */
-  allowedDestinationAddresses?: DispatchNamespacesScriptsBindingsGetResultItemSendEmailAllowedDestinationAddressesList | null;
+  allowedDestinationAddresses?:
+    | DispatchNamespacesScriptsBindingsGetResultItemSendEmailAllowedDestinationAddressesList
+    | null
+    | undefined;
   /** List of allowed sender addresses. */
-  allowedSenderAddresses?: DispatchNamespacesScriptsBindingsGetResultItemSendEmailAllowedSenderAddressesList | null;
+  allowedSenderAddresses?:
+    | DispatchNamespacesScriptsBindingsGetResultItemSendEmailAllowedSenderAddressesList
+    | null
+    | undefined;
   /** Destination address for the email. */
-  destinationAddress?: string | null;
+  destinationAddress?: string | null | undefined;
 }
 export type DispatchNamespacesScriptsBindingsGetResultItemServiceType = "service";
 export interface DispatchNamespacesScriptsBindingsGetResultItemService {
@@ -1181,9 +1226,9 @@ export interface DispatchNamespacesScriptsBindingsGetResultItemService {
   /** The kind of resource that the binding provides. */
   type: DispatchNamespacesScriptsBindingsGetResultItemServiceType;
   /** Entrypoint to invoke on the target Worker. */
-  entrypoint?: string | null;
+  entrypoint?: string | null | undefined;
   /** Optional environment if the Worker utilizes one. */
-  environment?: string | null;
+  environment?: string | null | undefined;
 }
 export type DispatchNamespacesScriptsBindingsGetResultItemTextBlobType = "text_blob";
 export interface DispatchNamespacesScriptsBindingsGetResultItemTextBlob {
@@ -1260,9 +1305,9 @@ export interface DispatchNamespacesScriptsBindingsGetResultItemSecretKey {
   /** Allowed operations with the key. [Learn more](https://developer.mozilla.org/en-US/docs/Web/API/SubtleCrypto/importKey#keyUsages). */
   usages: DispatchNamespacesScriptsBindingsGetResultItemSecretKeyUsagesList;
   /** Base64-encoded key data. Required if `format` is "raw", "pkcs8", or "spki". */
-  keyBase64?: string | null;
+  keyBase64?: string | null | undefined;
   /** Key data in [JSON Web Key](https://developer.mozilla.org/en-US/docs/Web/API/SubtleCrypto/importKey#json_web_key) format. Required if `format` is "jwk". */
-  keyJwk?: unknown | null;
+  keyJwk?: unknown | null | undefined;
 }
 export type DispatchNamespacesScriptsBindingsGetResultItemWorkflowType = "workflow";
 export interface DispatchNamespacesScriptsBindingsGetResultItemWorkflow {
@@ -1273,9 +1318,9 @@ export interface DispatchNamespacesScriptsBindingsGetResultItemWorkflow {
   /** Name of the Workflow to bind to. */
   workflowName: string;
   /** Class name of the Workflow. Should only be provided if the Workflow belongs to this script. */
-  className?: string | null;
+  className?: string | null | undefined;
   /** Script name that contains the Workflow. If not provided, defaults to this script name. */
-  scriptName?: string | null;
+  scriptName?: string | null | undefined;
 }
 export type DispatchNamespacesScriptsBindingsGetResultItemWasmModuleType = "wasm_module";
 export interface DispatchNamespacesScriptsBindingsGetResultItemWasmModule {
@@ -1303,12 +1348,19 @@ export interface DispatchNamespacesScriptsBindingsGetResultItemVPCNetwork {
   name: string;
   /** The kind of resource that the binding provides. */
   type: DispatchNamespacesScriptsBindingsGetResultItemVPCNetworkType;
-  /** Enables Gateway identity for the binding. Requires network_id to be "cf1:network" and cannot be combined with tunnel_id. */
-  identity?: DispatchNamespacesScriptsBindingsGetResultItemVPCNetworkIdentity | null;
-  /** Identifier of the network to bind to. Only "cf1:network" is currently supported. Mutually exclusive with tunnel_id. */
-  networkId?: string | null;
+  /** Enables Gateway identity for the binding. Requires network_id to be "cf1:network" and cannot be combined with tunnel_id or an explicit "cf1:vnet:" network_id. */
+  identity?: DispatchNamespacesScriptsBindingsGetResultItemVPCNetworkIdentity | null | undefined;
+  /** Identifier of the network to bind to. Use "cf1:network" to select the account's default virtual network at runtime, or "cf1:vnet:" to select an explicit virtual network in the Worker's account. Mutually exclusive with tunnel_id. */
+  networkId?: string | null | undefined;
   /** UUID of the Cloudflare Tunnel to bind to. Mutually exclusive with network_id. */
-  tunnelId?: string | null;
+  tunnelId?: string | null | undefined;
+}
+export type DispatchNamespacesScriptsBindingsGetResultItemWorkerLoaderType = "worker_loader";
+export interface DispatchNamespacesScriptsBindingsGetResultItemWorkerLoader {
+  /** A JavaScript variable name for the binding. */
+  name: string;
+  /** The kind of resource that the binding provides. */
+  type: DispatchNamespacesScriptsBindingsGetResultItemWorkerLoaderType;
 }
 export type DispatchNamespacesScriptsBindingsGetResultItem =
   | DispatchNamespacesScriptsBindingsGetResultItemAI
@@ -1348,14 +1400,15 @@ export type DispatchNamespacesScriptsBindingsGetResultItem =
   | DispatchNamespacesScriptsBindingsGetResultItemWorkflow
   | DispatchNamespacesScriptsBindingsGetResultItemWasmModule
   | DispatchNamespacesScriptsBindingsGetResultItemVPCService
-  | DispatchNamespacesScriptsBindingsGetResultItemVPCNetwork;
+  | DispatchNamespacesScriptsBindingsGetResultItemVPCNetwork
+  | DispatchNamespacesScriptsBindingsGetResultItemWorkerLoader;
 export type DispatchNamespacesScriptsBindingsGetResultList =
   Array<DispatchNamespacesScriptsBindingsGetResultItem>;
 export interface GetDispatchNamespaceScriptBindingResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: DispatchNamespacesScriptsBindingsGetResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export interface GetDispatchNamespaceScriptContentRequest {
   /** Identifier. */
@@ -1376,7 +1429,7 @@ export interface GetDispatchNamespaceScriptSecretRequest {
   /** A JavaScript variable name for the secret binding. */
   secretName: string;
   /** Flag that indicates whether the secret name is URL encoded. */
-  urlEncoded?: boolean;
+  urlEncoded?: boolean | undefined;
 }
 export type DispatchNamespacesScriptsSecretsGetResultSecretTextType = "secret_text";
 export interface DispatchNamespacesScriptsSecretsGetResultSecretText {
@@ -1416,9 +1469,9 @@ export interface DispatchNamespacesScriptsSecretsGetResultSecretKey {
   /** Allowed operations with the key. [Learn more](https://developer.mozilla.org/en-US/docs/Web/API/SubtleCrypto/importKey#keyUsages). */
   usages: DispatchNamespacesScriptsSecretsGetResultSecretKeyUsagesList;
   /** Base64-encoded key data. Required if `format` is "raw", "pkcs8", or "spki". */
-  keyBase64?: string | null;
+  keyBase64?: string | null | undefined;
   /** Key data in [JSON Web Key](https://developer.mozilla.org/en-US/docs/Web/API/SubtleCrypto/importKey#json_web_key) format. Required if `format` is "jwk". */
-  keyJwk?: unknown | null;
+  keyJwk?: unknown | null | undefined;
 }
 export type DispatchNamespacesScriptsSecretsGetResult =
   | DispatchNamespacesScriptsSecretsGetResultSecretText
@@ -1448,7 +1501,7 @@ export interface DispatchNamespacesScriptsSettingsGetResponseBindingsItemAISearc
   /** The kind of resource that the binding provides. */
   type: DispatchNamespacesScriptsSettingsGetResponseBindingsItemAISearchType;
   /** The namespace the instance belongs to. Defaults to "default" if omitted. Customers who don't use namespaces can simply omit this field. */
-  namespace?: string | null;
+  namespace?: string | null | undefined;
 }
 export type DispatchNamespacesScriptsSettingsGetResponseBindingsItemAISearchNamespaceType =
   "ai_search_namespace";
@@ -1511,7 +1564,7 @@ export interface DispatchNamespacesScriptsSettingsGetResponseBindingsItemD1 {
   /** The kind of resource that the binding provides. */
   type: DispatchNamespacesScriptsSettingsGetResponseBindingsItemD1Type;
   /** This property has been renamed to `database_id`. */
-  id?: string | null;
+  id?: string | null | undefined;
 }
 export type DispatchNamespacesScriptsSettingsGetResponseBindingsItemDataBlobType = "data_blob";
 export interface DispatchNamespacesScriptsSettingsGetResponseBindingsItemDataBlob {
@@ -1532,9 +1585,15 @@ export type DispatchNamespacesScriptsSettingsGetResponseBindingsItemDispatchName
   DispatchNamespacesScriptsBindingsGetResultItemDispatchNamespaceOutboundWorker;
 export interface DispatchNamespacesScriptsSettingsGetResponseBindingsItemDispatchNamespaceOutbound {
   /** Pass information from the Dispatch Worker to the Outbound Worker through the parameters. */
-  params?: DispatchNamespacesScriptsSettingsGetResponseBindingsItemDispatchNamespaceOutboundParamsList | null;
+  params?:
+    | DispatchNamespacesScriptsSettingsGetResponseBindingsItemDispatchNamespaceOutboundParamsList
+    | null
+    | undefined;
   /** Outbound worker. */
-  worker?: DispatchNamespacesScriptsBindingsGetResultItemDispatchNamespaceOutboundWorker | null;
+  worker?:
+    | DispatchNamespacesScriptsBindingsGetResultItemDispatchNamespaceOutboundWorker
+    | null
+    | undefined;
 }
 export interface DispatchNamespacesScriptsSettingsGetResponseBindingsItemDispatchNamespace {
   /** A JavaScript variable name for the binding. */
@@ -1544,7 +1603,10 @@ export interface DispatchNamespacesScriptsSettingsGetResponseBindingsItemDispatc
   /** The kind of resource that the binding provides. */
   type: DispatchNamespacesScriptsSettingsGetResponseBindingsItemDispatchNamespaceType;
   /** Outbound worker. */
-  outbound?: DispatchNamespacesScriptsSettingsGetResponseBindingsItemDispatchNamespaceOutbound | null;
+  outbound?:
+    | DispatchNamespacesScriptsSettingsGetResponseBindingsItemDispatchNamespaceOutbound
+    | null
+    | undefined;
 }
 export type DispatchNamespacesScriptsSettingsGetResponseBindingsItemDurableObjectNamespaceType =
   "durable_object_namespace";
@@ -1554,15 +1616,15 @@ export interface DispatchNamespacesScriptsSettingsGetResponseBindingsItemDurable
   /** The kind of resource that the binding provides. */
   type: DispatchNamespacesScriptsSettingsGetResponseBindingsItemDurableObjectNamespaceType;
   /** The exported class name of the Durable Object. */
-  className?: string | null;
+  className?: string | null | undefined;
   /** The dispatch namespace the Durable Object script belongs to. */
-  dispatchNamespace?: string | null;
+  dispatchNamespace?: string | null | undefined;
   /** The environment of the script_name to bind to. */
-  environment?: string | null;
+  environment?: string | null | undefined;
   /** Namespace identifier tag. */
-  namespaceId?: string | null;
+  namespaceId?: string | null | undefined;
   /** The script where the Durable Object is defined, if it is external to this Worker. */
-  scriptName?: string | null;
+  scriptName?: string | null | undefined;
 }
 export type DispatchNamespacesScriptsSettingsGetResponseBindingsItemHyperdriveType = "hyperdrive";
 export interface DispatchNamespacesScriptsSettingsGetResponseBindingsItemHyperdrive {
@@ -1580,9 +1642,9 @@ export interface DispatchNamespacesScriptsSettingsGetResponseBindingsItemInherit
   /** The kind of resource that the binding provides. */
   type: DispatchNamespacesScriptsSettingsGetResponseBindingsItemInheritType;
   /** The old name of the inherited binding. If set, the binding will be renamed from `old_name` to `name` in the new version. If not set, the binding will keep the same name between versions. */
-  oldName?: string | null;
+  oldName?: string | null | undefined;
   /** Identifier for the version to inherit the binding from. This can be a version ID, or the literal "latest" to inherit from the most recently uploaded version, which may not be the deployed version. Defaults to "latest". Only the Workers API version endpoints under `/accounts/{account_id}/workers/workers/{worker_id}/versions` accept a version ID. Other endpoints, including script upload and script version upload, accept only "latest" and reject a version ID with error 10057. */
-  versionId?: string | null;
+  versionId?: string | null | undefined;
 }
 export type DispatchNamespacesScriptsSettingsGetResponseBindingsItemImagesType = "images";
 export interface DispatchNamespacesScriptsSettingsGetResponseBindingsItemImages {
@@ -1690,7 +1752,10 @@ export interface DispatchNamespacesScriptsSettingsGetResponseBindingsItemR2Bucke
   /** The kind of resource that the binding provides. */
   type: DispatchNamespacesScriptsSettingsGetResponseBindingsItemR2BucketType;
   /** The [jurisdiction](https://developers.cloudflare.com/r2/reference/data-location/#jurisdictional-restrictions) of the R2 bucket. */
-  jurisdiction?: DispatchNamespacesScriptsSettingsGetResponseBindingsItemR2BucketJurisdiction | null;
+  jurisdiction?:
+    | DispatchNamespacesScriptsSettingsGetResponseBindingsItemR2BucketJurisdiction
+    | null
+    | undefined;
 }
 export type DispatchNamespacesScriptsSettingsGetResponseBindingsItemSecretTextType = "secret_text";
 export interface DispatchNamespacesScriptsSettingsGetResponseBindingsItemSecretText {
@@ -1712,11 +1777,17 @@ export interface DispatchNamespacesScriptsSettingsGetResponseBindingsItemSendEma
   /** The kind of resource that the binding provides. */
   type: DispatchNamespacesScriptsSettingsGetResponseBindingsItemSendEmailType;
   /** List of allowed destination addresses. */
-  allowedDestinationAddresses?: DispatchNamespacesScriptsSettingsGetResponseBindingsItemSendEmailAllowedDestinationAddressesList | null;
+  allowedDestinationAddresses?:
+    | DispatchNamespacesScriptsSettingsGetResponseBindingsItemSendEmailAllowedDestinationAddressesList
+    | null
+    | undefined;
   /** List of allowed sender addresses. */
-  allowedSenderAddresses?: DispatchNamespacesScriptsSettingsGetResponseBindingsItemSendEmailAllowedSenderAddressesList | null;
+  allowedSenderAddresses?:
+    | DispatchNamespacesScriptsSettingsGetResponseBindingsItemSendEmailAllowedSenderAddressesList
+    | null
+    | undefined;
   /** Destination address for the email. */
-  destinationAddress?: string | null;
+  destinationAddress?: string | null | undefined;
 }
 export type DispatchNamespacesScriptsSettingsGetResponseBindingsItemServiceType = "service";
 export interface DispatchNamespacesScriptsSettingsGetResponseBindingsItemService {
@@ -1727,9 +1798,9 @@ export interface DispatchNamespacesScriptsSettingsGetResponseBindingsItemService
   /** The kind of resource that the binding provides. */
   type: DispatchNamespacesScriptsSettingsGetResponseBindingsItemServiceType;
   /** Entrypoint to invoke on the target Worker. */
-  entrypoint?: string | null;
+  entrypoint?: string | null | undefined;
   /** Optional environment if the Worker utilizes one. */
-  environment?: string | null;
+  environment?: string | null | undefined;
 }
 export type DispatchNamespacesScriptsSettingsGetResponseBindingsItemTextBlobType = "text_blob";
 export interface DispatchNamespacesScriptsSettingsGetResponseBindingsItemTextBlob {
@@ -1807,9 +1878,9 @@ export interface DispatchNamespacesScriptsSettingsGetResponseBindingsItemSecretK
   /** Allowed operations with the key. [Learn more](https://developer.mozilla.org/en-US/docs/Web/API/SubtleCrypto/importKey#keyUsages). */
   usages: DispatchNamespacesScriptsSettingsGetResponseBindingsItemSecretKeyUsagesList;
   /** Base64-encoded key data. Required if `format` is "raw", "pkcs8", or "spki". */
-  keyBase64?: string | null;
+  keyBase64?: string | null | undefined;
   /** Key data in [JSON Web Key](https://developer.mozilla.org/en-US/docs/Web/API/SubtleCrypto/importKey#json_web_key) format. Required if `format` is "jwk". */
-  keyJwk?: unknown | null;
+  keyJwk?: unknown | null | undefined;
 }
 export type DispatchNamespacesScriptsSettingsGetResponseBindingsItemWorkflowType = "workflow";
 export interface DispatchNamespacesScriptsSettingsGetResponseBindingsItemWorkflow {
@@ -1820,9 +1891,9 @@ export interface DispatchNamespacesScriptsSettingsGetResponseBindingsItemWorkflo
   /** Name of the Workflow to bind to. */
   workflowName: string;
   /** Class name of the Workflow. Should only be provided if the Workflow belongs to this script. */
-  className?: string | null;
+  className?: string | null | undefined;
   /** Script name that contains the Workflow. If not provided, defaults to this script name. */
-  scriptName?: string | null;
+  scriptName?: string | null | undefined;
 }
 export type DispatchNamespacesScriptsSettingsGetResponseBindingsItemWasmModuleType = "wasm_module";
 export interface DispatchNamespacesScriptsSettingsGetResponseBindingsItemWasmModule {
@@ -1850,12 +1921,23 @@ export interface DispatchNamespacesScriptsSettingsGetResponseBindingsItemVPCNetw
   name: string;
   /** The kind of resource that the binding provides. */
   type: DispatchNamespacesScriptsSettingsGetResponseBindingsItemVPCNetworkType;
-  /** Enables Gateway identity for the binding. Requires network_id to be "cf1:network" and cannot be combined with tunnel_id. */
-  identity?: DispatchNamespacesScriptsSettingsGetResponseBindingsItemVPCNetworkIdentity | null;
-  /** Identifier of the network to bind to. Only "cf1:network" is currently supported. Mutually exclusive with tunnel_id. */
-  networkId?: string | null;
+  /** Enables Gateway identity for the binding. Requires network_id to be "cf1:network" and cannot be combined with tunnel_id or an explicit "cf1:vnet:" network_id. */
+  identity?:
+    | DispatchNamespacesScriptsSettingsGetResponseBindingsItemVPCNetworkIdentity
+    | null
+    | undefined;
+  /** Identifier of the network to bind to. Use "cf1:network" to select the account's default virtual network at runtime, or "cf1:vnet:" to select an explicit virtual network in the Worker's account. Mutually exclusive with tunnel_id. */
+  networkId?: string | null | undefined;
   /** UUID of the Cloudflare Tunnel to bind to. Mutually exclusive with network_id. */
-  tunnelId?: string | null;
+  tunnelId?: string | null | undefined;
+}
+export type DispatchNamespacesScriptsSettingsGetResponseBindingsItemWorkerLoaderType =
+  "worker_loader";
+export interface DispatchNamespacesScriptsSettingsGetResponseBindingsItemWorkerLoader {
+  /** A JavaScript variable name for the binding. */
+  name: string;
+  /** The kind of resource that the binding provides. */
+  type: DispatchNamespacesScriptsSettingsGetResponseBindingsItemWorkerLoaderType;
 }
 export type DispatchNamespacesScriptsSettingsGetResponseBindingsItem =
   | DispatchNamespacesScriptsSettingsGetResponseBindingsItemAI
@@ -1895,7 +1977,8 @@ export type DispatchNamespacesScriptsSettingsGetResponseBindingsItem =
   | DispatchNamespacesScriptsSettingsGetResponseBindingsItemWorkflow
   | DispatchNamespacesScriptsSettingsGetResponseBindingsItemWasmModule
   | DispatchNamespacesScriptsSettingsGetResponseBindingsItemVPCService
-  | DispatchNamespacesScriptsSettingsGetResponseBindingsItemVPCNetwork;
+  | DispatchNamespacesScriptsSettingsGetResponseBindingsItemVPCNetwork
+  | DispatchNamespacesScriptsSettingsGetResponseBindingsItemWorkerLoader;
 export type DispatchNamespacesScriptsSettingsGetResponseBindingsList =
   Array<DispatchNamespacesScriptsSettingsGetResponseBindingsItem>;
 export type DispatchNamespacesScriptsSettingsGetResponseCacheOptions =
@@ -1909,9 +1992,9 @@ export interface DispatchNamespacesScriptsSettingsGetResponseExportsValueWorker 
   /** Marks this entry as a Worker entrypoint export. */
   type: DispatchNamespacesScriptsSettingsGetResponseExportsValueWorkerType;
   /** Cache override for this entrypoint. Overrides the Worker's global `cache_options.enabled` for this entrypoint only. */
-  cache?: DispatchNamespacesScriptsGetResponseScriptExportsValueWorkerCache | null;
+  cache?: DispatchNamespacesScriptsGetResponseScriptExportsValueWorkerCache | null | undefined;
   /** Live export. May be omitted; defaults to `created`. */
-  state?: DispatchNamespacesScriptsSettingsGetResponseExportsValueWorkerState | null;
+  state?: DispatchNamespacesScriptsSettingsGetResponseExportsValueWorkerState | null | undefined;
 }
 export type DispatchNamespacesScriptsSettingsGetResponseExportsValueWorkersDurableObjectExportStorage =
   | "sqlite"
@@ -1926,9 +2009,12 @@ export interface DispatchNamespacesScriptsSettingsGetResponseExportsValueWorkers
   /** Marks this entry as a Durable Object export. */
   type: DispatchNamespacesScriptsSettingsGetResponseExportsValueWorkersDurableObjectExportType;
   /** Name of the container (declared in the upload's `metadata.containers`) that backs this Durable Object. When set, the namespace is container-enabled. Valid only on live entries. */
-  container?: string | null;
+  container?: string | null | undefined;
   /** Live export. May be omitted; defaults to `created`. */
-  state?: DispatchNamespacesScriptsSettingsGetResponseExportsValueWorkersDurableObjectExportState | null;
+  state?:
+    | DispatchNamespacesScriptsSettingsGetResponseExportsValueWorkersDurableObjectExportState
+    | null
+    | undefined;
 }
 export type DispatchNamespacesScriptsSettingsGetResponseExportsValueWorkersDurableObjectDeletedExportState =
   "deleted";
@@ -1981,7 +2067,7 @@ export interface DispatchNamespacesScriptsSettingsGetResponseExportsValueWorkers
   /** Marks this entry as a Durable Object export. */
   type: DispatchNamespacesScriptsSettingsGetResponseExportsValueWorkersDurableObjectExpectingTransferExportType;
   /** Name of the container (declared in the upload's `metadata.containers`) that backs this Durable Object once the transfer settles. Valid only on live entries. */
-  container?: string | null;
+  container?: string | null | undefined;
 }
 export type DispatchNamespacesScriptsSettingsGetResponseExportsValue =
   | DispatchNamespacesScriptsSettingsGetResponseExportsValueWorker
@@ -2041,9 +2127,12 @@ export interface DispatchNamespacesScriptsSettingsGetResponseExportsReconciliati
   /** Stable, machine-readable tag identifying which reconciliation scenario produced an error, warning, or info entry. Clients may branch on this value instead of parsing `message`. */
   scenario: DispatchNamespacesScriptsSettingsGetResponseExportsReconciliationInfoItemScenario;
   /** The provisioned namespace the entry relates to, when applicable. */
-  namespaceId?: string | null;
+  namespaceId?: string | null | undefined;
   /** Other Workers in the account that still bind to the affected class. Advisory: while non-empty the tombstone is not yet safe to remove -- redeploy these Workers with bindings re-pointed first. */
-  referencingScripts?: DispatchNamespacesScriptsSettingsGetResponseExportsReconciliationInfoItemReferencingScriptsList | null;
+  referencingScripts?:
+    | DispatchNamespacesScriptsSettingsGetResponseExportsReconciliationInfoItemReferencingScriptsList
+    | null
+    | undefined;
 }
 export type DispatchNamespacesScriptsSettingsGetResponseExportsReconciliationInfoList =
   Array<DispatchNamespacesScriptsSettingsGetResponseExportsReconciliationInfoItem>;
@@ -2121,7 +2210,7 @@ export interface DispatchNamespacesScriptsSettingsGetResponseExportsReconciliati
   /** Stable, machine-readable tag identifying which reconciliation scenario produced an error, warning, or info entry. Clients may branch on this value instead of parsing `message`. */
   scenario: DispatchNamespacesScriptsSettingsGetResponseExportsReconciliationWarningsItemScenario;
   /** The provisioned namespace the warning relates to, when applicable. */
-  namespaceId?: string | null;
+  namespaceId?: string | null | undefined;
 }
 export type DispatchNamespacesScriptsSettingsGetResponseExportsReconciliationWarningsList =
   Array<DispatchNamespacesScriptsSettingsGetResponseExportsReconciliationWarningsItem>;
@@ -2147,9 +2236,9 @@ export interface DispatchNamespacesScriptsSettingsGetResponseExportsReconciliati
 }
 export interface DispatchNamespacesScriptsSettingsGetResponseLimits {
   /** The amount of CPU time this Worker can use in milliseconds. */
-  cpuMs?: number | null;
+  cpuMs?: number | null | undefined;
   /** The number of subrequests this Worker can make per request. */
-  subrequests?: number | null;
+  subrequests?: number | null | undefined;
 }
 export type DispatchNamespacesScriptsSettingsGetResponseMigrationsSingleStepMigrationDeletedClassesList =
   Array<string>;
@@ -2158,33 +2247,48 @@ export type DispatchNamespacesScriptsSettingsGetResponseMigrationsSingleStepMigr
 export type DispatchNamespacesScriptsSettingsGetResponseMigrationsSingleStepMigrationNewSqliteClassesList =
   Array<string>;
 export interface DispatchNamespacesScriptsSettingsGetResponseMigrationsSingleStepMigrationRenamedClassesItem {
-  from?: string | null;
-  to?: string | null;
+  from?: string | null | undefined;
+  to?: string | null | undefined;
 }
 export type DispatchNamespacesScriptsSettingsGetResponseMigrationsSingleStepMigrationRenamedClassesList =
   Array<DispatchNamespacesScriptsSettingsGetResponseMigrationsSingleStepMigrationRenamedClassesItem>;
 export interface DispatchNamespacesScriptsSettingsGetResponseMigrationsSingleStepMigrationTransferredClassesItem {
-  from?: string | null;
-  fromScript?: string | null;
-  to?: string | null;
+  from?: string | null | undefined;
+  fromScript?: string | null | undefined;
+  to?: string | null | undefined;
 }
 export type DispatchNamespacesScriptsSettingsGetResponseMigrationsSingleStepMigrationTransferredClassesList =
   Array<DispatchNamespacesScriptsSettingsGetResponseMigrationsSingleStepMigrationTransferredClassesItem>;
 export interface DispatchNamespacesScriptsSettingsGetResponseMigrationsSingleStepMigration {
   /** A list of classes to delete Durable Object namespaces from. */
-  deletedClasses?: DispatchNamespacesScriptsSettingsGetResponseMigrationsSingleStepMigrationDeletedClassesList | null;
+  deletedClasses?:
+    | DispatchNamespacesScriptsSettingsGetResponseMigrationsSingleStepMigrationDeletedClassesList
+    | null
+    | undefined;
   /** A list of classes to create Durable Object namespaces from. */
-  newClasses?: DispatchNamespacesScriptsSettingsGetResponseMigrationsSingleStepMigrationNewClassesList | null;
+  newClasses?:
+    | DispatchNamespacesScriptsSettingsGetResponseMigrationsSingleStepMigrationNewClassesList
+    | null
+    | undefined;
   /** A list of classes to create Durable Object namespaces with SQLite from. */
-  newSqliteClasses?: DispatchNamespacesScriptsSettingsGetResponseMigrationsSingleStepMigrationNewSqliteClassesList | null;
+  newSqliteClasses?:
+    | DispatchNamespacesScriptsSettingsGetResponseMigrationsSingleStepMigrationNewSqliteClassesList
+    | null
+    | undefined;
   /** Tag to set as the latest migration tag. */
-  newTag?: string | null;
+  newTag?: string | null | undefined;
   /** Tag used to verify against the latest migration tag for this Worker. If they don't match, the upload is rejected. */
-  oldTag?: string | null;
+  oldTag?: string | null | undefined;
   /** A list of classes with Durable Object namespaces that were renamed. */
-  renamedClasses?: DispatchNamespacesScriptsSettingsGetResponseMigrationsSingleStepMigrationRenamedClassesList | null;
+  renamedClasses?:
+    | DispatchNamespacesScriptsSettingsGetResponseMigrationsSingleStepMigrationRenamedClassesList
+    | null
+    | undefined;
   /** A list of transfers for Durable Object namespaces from a different Worker and class to a class defined in this Worker. */
-  transferredClasses?: DispatchNamespacesScriptsSettingsGetResponseMigrationsSingleStepMigrationTransferredClassesList | null;
+  transferredClasses?:
+    | DispatchNamespacesScriptsSettingsGetResponseMigrationsSingleStepMigrationTransferredClassesList
+    | null
+    | undefined;
 }
 export type DispatchNamespacesScriptsSettingsGetResponseMigrationsWorkersMultipleStepMigrationsStepsItemDeletedClassesList =
   Array<string>;
@@ -2202,25 +2306,43 @@ export type DispatchNamespacesScriptsSettingsGetResponseMigrationsWorkersMultipl
   Array<DispatchNamespacesScriptsSettingsGetResponseMigrationsSingleStepMigrationTransferredClassesItem>;
 export interface DispatchNamespacesScriptsSettingsGetResponseMigrationsWorkersMultipleStepMigrationsStepsItem {
   /** A list of classes to delete Durable Object namespaces from. */
-  deletedClasses?: DispatchNamespacesScriptsSettingsGetResponseMigrationsWorkersMultipleStepMigrationsStepsItemDeletedClassesList | null;
+  deletedClasses?:
+    | DispatchNamespacesScriptsSettingsGetResponseMigrationsWorkersMultipleStepMigrationsStepsItemDeletedClassesList
+    | null
+    | undefined;
   /** A list of classes to create Durable Object namespaces from. */
-  newClasses?: DispatchNamespacesScriptsSettingsGetResponseMigrationsWorkersMultipleStepMigrationsStepsItemNewClassesList | null;
+  newClasses?:
+    | DispatchNamespacesScriptsSettingsGetResponseMigrationsWorkersMultipleStepMigrationsStepsItemNewClassesList
+    | null
+    | undefined;
   /** A list of classes to create Durable Object namespaces with SQLite from. */
-  newSqliteClasses?: DispatchNamespacesScriptsSettingsGetResponseMigrationsWorkersMultipleStepMigrationsStepsItemNewSqliteClassesList | null;
+  newSqliteClasses?:
+    | DispatchNamespacesScriptsSettingsGetResponseMigrationsWorkersMultipleStepMigrationsStepsItemNewSqliteClassesList
+    | null
+    | undefined;
   /** A list of classes with Durable Object namespaces that were renamed. */
-  renamedClasses?: DispatchNamespacesScriptsSettingsGetResponseMigrationsWorkersMultipleStepMigrationsStepsItemRenamedClassesList | null;
+  renamedClasses?:
+    | DispatchNamespacesScriptsSettingsGetResponseMigrationsWorkersMultipleStepMigrationsStepsItemRenamedClassesList
+    | null
+    | undefined;
   /** A list of transfers for Durable Object namespaces from a different Worker and class to a class defined in this Worker. */
-  transferredClasses?: DispatchNamespacesScriptsSettingsGetResponseMigrationsWorkersMultipleStepMigrationsStepsItemTransferredClassesList | null;
+  transferredClasses?:
+    | DispatchNamespacesScriptsSettingsGetResponseMigrationsWorkersMultipleStepMigrationsStepsItemTransferredClassesList
+    | null
+    | undefined;
 }
 export type DispatchNamespacesScriptsSettingsGetResponseMigrationsWorkersMultipleStepMigrationsStepsList =
   Array<DispatchNamespacesScriptsSettingsGetResponseMigrationsWorkersMultipleStepMigrationsStepsItem>;
 export interface DispatchNamespacesScriptsSettingsGetResponseMigrationsWorkersMultipleStepMigrations {
   /** Tag to set as the latest migration tag. */
-  newTag?: string | null;
+  newTag?: string | null | undefined;
   /** Tag used to verify against the latest migration tag for this Worker. If they don't match, the upload is rejected. */
-  oldTag?: string | null;
+  oldTag?: string | null | undefined;
   /** Migrations to apply in order. */
-  steps?: DispatchNamespacesScriptsSettingsGetResponseMigrationsWorkersMultipleStepMigrationsStepsList | null;
+  steps?:
+    | DispatchNamespacesScriptsSettingsGetResponseMigrationsWorkersMultipleStepMigrationsStepsList
+    | null
+    | undefined;
 }
 export type DispatchNamespacesScriptsSettingsGetResponseMigrations =
   | DispatchNamespacesScriptsSettingsGetResponseMigrationsSingleStepMigration
@@ -2235,11 +2357,14 @@ export interface DispatchNamespacesScriptsSettingsGetResponseObservabilityLogs {
   /** Whether [invocation logs](https://developers.cloudflare.com/workers/observability/logs/workers-logs/#invocation-logs) are enabled for the Worker. */
   invocationLogs: boolean;
   /** A list of destinations where logs will be exported to. */
-  destinations?: DispatchNamespacesScriptsSettingsGetResponseObservabilityLogsDestinationsList | null;
+  destinations?:
+    | DispatchNamespacesScriptsSettingsGetResponseObservabilityLogsDestinationsList
+    | null
+    | undefined;
   /** The sampling rate for logs. From 0 to 1 (1 = 100%, 0.1 = 10%). Default is 1. */
-  headSamplingRate?: number | null;
+  headSamplingRate?: number | null | undefined;
   /** Whether log persistence is enabled for the Worker. */
-  persist?: boolean | null;
+  persist?: boolean | null | undefined;
 }
 export type DispatchNamespacesScriptsSettingsGetResponseObservabilityTracesDestinationsList =
   Array<string>;
@@ -2248,29 +2373,35 @@ export type DispatchNamespacesScriptsSettingsGetResponseObservabilityTracesPropa
   | "accept";
 export interface DispatchNamespacesScriptsSettingsGetResponseObservabilityTraces {
   /** A list of destinations where traces will be exported to. */
-  destinations?: DispatchNamespacesScriptsSettingsGetResponseObservabilityTracesDestinationsList | null;
+  destinations?:
+    | DispatchNamespacesScriptsSettingsGetResponseObservabilityTracesDestinationsList
+    | null
+    | undefined;
   /** Whether traces are enabled for the Worker. */
-  enabled?: boolean | null;
+  enabled?: boolean | null | undefined;
   /** The sampling rate for traces. From 0 to 1 (1 = 100%, 0.1 = 10%). Default is 1. */
-  headSamplingRate?: number | null;
+  headSamplingRate?: number | null | undefined;
   /** Whether trace persistence is enabled for the Worker. */
-  persist?: boolean | null;
+  persist?: boolean | null | undefined;
   /** Controls how inbound trace context (traceparent/tracestate) headers on incoming requests are handled. "authenticated" honors inbound trace context only when accompanied by a valid trace auth token. "accept" unconditionally accepts inbound trace context. Requires the trace propagation feature to be enabled. Returns null when the trace propagation feature is not enabled for the account. */
-  propagationPolicy?: DispatchNamespacesScriptsSettingsGetResponseObservabilityTracesPropagationPolicy | null;
+  propagationPolicy?:
+    | DispatchNamespacesScriptsSettingsGetResponseObservabilityTracesPropagationPolicy
+    | null
+    | undefined;
 }
 export interface DispatchNamespacesScriptsSettingsGetResponseObservability {
   /** Whether observability is enabled for the Worker. */
   enabled: boolean;
   /** The sampling rate for incoming requests. From 0 to 1 (1 = 100%, 0.1 = 10%). Default is 1. */
-  headSamplingRate?: number | null;
+  headSamplingRate?: number | null | undefined;
   /** Real-time Issues settings for the Worker. */
-  issues?: DispatchNamespacesScriptsGetResponseScriptObservabilityIssues | null;
+  issues?: DispatchNamespacesScriptsGetResponseScriptObservabilityIssues | null | undefined;
   /** Log settings for the Worker. */
-  logs?: DispatchNamespacesScriptsSettingsGetResponseObservabilityLogs | null;
+  logs?: DispatchNamespacesScriptsSettingsGetResponseObservabilityLogs | null | undefined;
   /** Whether query strings are removed from request URLs in logs and traces. */
-  redactQueryString?: boolean | null;
+  redactQueryString?: boolean | null | undefined;
   /** Trace settings for the Worker. */
-  traces?: DispatchNamespacesScriptsSettingsGetResponseObservabilityTraces | null;
+  traces?: DispatchNamespacesScriptsSettingsGetResponseObservabilityTraces | null | undefined;
 }
 export type DispatchNamespacesScriptsSettingsGetResponsePlacementModeMode = "smart";
 export interface DispatchNamespacesScriptsSettingsGetResponsePlacementMode {
@@ -2348,33 +2479,39 @@ export type DispatchNamespacesScriptsSettingsGetResponseUsageModel =
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface GetDispatchNamespaceScriptSettingResponse {
   /** List of bindings attached to a Worker. You can find more about bindings on our docs: https://developers.cloudflare.com/workers/configuration/multipart-upload-metadata/#bindings. */
-  bindings?: DispatchNamespacesScriptsSettingsGetResponseBindingsList | null;
+  bindings?: DispatchNamespacesScriptsSettingsGetResponseBindingsList | null | undefined;
   /** Global CacheW configuration for the Worker. When caching is on, the platform provisions a `cloudflare.app` zone for the Worker. A `type: worker` entry in the `exports` map can override this value for a single entrypoint. */
-  cacheOptions?: DispatchNamespacesScriptsGetResponseScriptCacheOptions | null;
+  cacheOptions?: DispatchNamespacesScriptsGetResponseScriptCacheOptions | null | undefined;
   /** Date indicating targeted support in the Workers runtime. Backwards incompatible fixes to the runtime following this date will not affect this Worker. */
-  compatibilityDate?: string | null;
+  compatibilityDate?: string | null | undefined;
   /** Flags that enable or disable certain features in the Workers runtime. Used to enable upcoming features or opt in or out of specific changes not included in a `compatibility_date`. */
-  compatibilityFlags?: DispatchNamespacesScriptsSettingsGetResponseCompatibilityFlagsList | null;
+  compatibilityFlags?:
+    | DispatchNamespacesScriptsSettingsGetResponseCompatibilityFlagsList
+    | null
+    | undefined;
   /** Declarative exports for the Worker. Worker entrypoint entries (`type: worker`) carry cache configuration for that entrypoint. */
-  exports?: DispatchNamespacesScriptsSettingsGetResponseExportsMap | null;
+  exports?: DispatchNamespacesScriptsSettingsGetResponseExportsMap | null | undefined;
   /** Summary of the declarative exports reconciliation that ran on this upload. Populated only when the uploaded metadata included an `exports` block. Durable Object entries drive reconciliation; `type: worker` entries do not contribute to this summary. */
-  exportsReconciliation?: DispatchNamespacesScriptsSettingsGetResponseExportsReconciliation | null;
+  exportsReconciliation?:
+    | DispatchNamespacesScriptsSettingsGetResponseExportsReconciliation
+    | null
+    | undefined;
   /** Limits to apply for this Worker. */
-  limits?: DispatchNamespacesScriptsSettingsGetResponseLimits | null;
+  limits?: DispatchNamespacesScriptsSettingsGetResponseLimits | null | undefined;
   /** Whether Logpush is turned on for the Worker. */
-  logpush?: boolean | null;
+  logpush?: boolean | null | undefined;
   /** Migrations to apply for Durable Objects associated with this Worker. */
-  migrations?: DispatchNamespacesScriptsSettingsGetResponseMigrations | null;
+  migrations?: DispatchNamespacesScriptsSettingsGetResponseMigrations | null | undefined;
   /** Observability settings for the Worker. */
-  observability?: DispatchNamespacesScriptsSettingsGetResponseObservability | null;
+  observability?: DispatchNamespacesScriptsSettingsGetResponseObservability | null | undefined;
   /** Configuration for [Smart Placement](https://developers.cloudflare.com/workers/configuration/smart-placement). Specify mode='smart' for Smart Placement, or one of region/hostname/host. */
-  placement?: DispatchNamespacesScriptsSettingsGetResponsePlacement | null;
+  placement?: DispatchNamespacesScriptsSettingsGetResponsePlacement | null | undefined;
   /** Tags associated with the Worker. */
-  tags?: DispatchNamespacesScriptsSettingsGetResponseTagsList | null;
+  tags?: DispatchNamespacesScriptsSettingsGetResponseTagsList | null | undefined;
   /** List of Workers that will consume logs from the attached Worker. */
-  tailConsumers?: DispatchNamespacesScriptsSettingsGetResponseTailConsumersList | null;
+  tailConsumers?: DispatchNamespacesScriptsSettingsGetResponseTailConsumersList | null | undefined;
   /** Usage model for the Worker invocations. */
-  usageModel?: DispatchNamespacesScriptsSettingsGetResponseUsageModel | null;
+  usageModel?: DispatchNamespacesScriptsSettingsGetResponseUsageModel | null | undefined;
 }
 export interface ListDispatchNamespacesRequest {
   /** Identifier. */
@@ -2382,28 +2519,28 @@ export interface ListDispatchNamespacesRequest {
 }
 export interface DispatchNamespacesListResultItem {
   /** Identifier. */
-  createdBy?: string | null;
+  createdBy?: string | null | undefined;
   /** When the script was created. */
-  createdOn?: string | null;
+  createdOn?: string | null | undefined;
   /** Identifier. */
-  modifiedBy?: string | null;
+  modifiedBy?: string | null | undefined;
   /** When the script was last modified. */
-  modifiedOn?: string | null;
+  modifiedOn?: string | null | undefined;
   /** API Resource UUID tag. */
-  namespaceId?: string | null;
+  namespaceId?: string | null | undefined;
   /** Name of the Workers for Platforms dispatch namespace. */
-  namespaceName?: string | null;
+  namespaceName?: string | null | undefined;
   /** The current number of scripts in this Dispatch Namespace. */
-  scriptCount?: number | null;
+  scriptCount?: number | null | undefined;
   /** Whether the Workers in the namespace are executed in a "trusted" manner. When a Worker is trusted, it has access to the shared caches for the zone in the Cache API, and has access to the `request.cf` object on incoming Requests. When a Worker is untrusted, caches are not shared across the zone, and `request.cf` is undefined. By default, Workers in a namespace are "untrusted". */
-  trustedWorkers?: boolean | null;
+  trustedWorkers?: boolean | null | undefined;
 }
 export type DispatchNamespacesListResultList = Array<DispatchNamespacesListResultItem>;
 export interface ListDispatchNamespacesResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: DispatchNamespacesListResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export interface ListDispatchNamespaceScriptSecretsRequest {
   /** Identifier. */
@@ -2451,9 +2588,9 @@ export interface DispatchNamespacesScriptsSecretsListResultItemSecretKey {
   /** Allowed operations with the key. [Learn more](https://developer.mozilla.org/en-US/docs/Web/API/SubtleCrypto/importKey#keyUsages). */
   usages: DispatchNamespacesScriptsSecretsListResultItemSecretKeyUsagesList;
   /** Base64-encoded key data. Required if `format` is "raw", "pkcs8", or "spki". */
-  keyBase64?: string | null;
+  keyBase64?: string | null | undefined;
   /** Key data in [JSON Web Key](https://developer.mozilla.org/en-US/docs/Web/API/SubtleCrypto/importKey#json_web_key) format. Required if `format` is "jwk". */
-  keyJwk?: unknown | null;
+  keyJwk?: unknown | null | undefined;
 }
 export type DispatchNamespacesScriptsSecretsListResultItem =
   | DispatchNamespacesScriptsSecretsListResultItemSecretText
@@ -2464,7 +2601,7 @@ export interface ListDispatchNamespaceScriptSecretsResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: DispatchNamespacesScriptsSecretsListResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export interface ListDispatchNamespaceScriptTagsRequest {
   /** Identifier. */
@@ -2479,7 +2616,7 @@ export interface ListDispatchNamespaceScriptTagsResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: DispatchNamespacesScriptsTagsListResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export type DispatchNamespacesScriptsSettingsEditRequestSettingsBindingsItemAIType = "ai";
 export interface DispatchNamespacesScriptsSettingsEditRequestSettingsBindingsItemAI {
@@ -2498,7 +2635,7 @@ export interface DispatchNamespacesScriptsSettingsEditRequestSettingsBindingsIte
   /** The kind of resource that the binding provides. */
   type: DispatchNamespacesScriptsSettingsEditRequestSettingsBindingsItemAISearchType;
   /** The namespace the instance belongs to. Defaults to "default" if omitted. Customers who don't use namespaces can simply omit this field. */
-  namespace?: string;
+  namespace?: string | undefined;
 }
 export type DispatchNamespacesScriptsSettingsEditRequestSettingsBindingsItemAISearchNamespaceType =
   "ai_search_namespace";
@@ -2563,7 +2700,7 @@ export interface DispatchNamespacesScriptsSettingsEditRequestSettingsBindingsIte
   /** The kind of resource that the binding provides. */
   type: DispatchNamespacesScriptsSettingsEditRequestSettingsBindingsItemD1Type;
   /** This property has been renamed to `database_id`. */
-  id?: string;
+  id?: string | undefined;
 }
 export type DispatchNamespacesScriptsSettingsEditRequestSettingsBindingsItemDataBlobType =
   "data_blob";
@@ -2583,17 +2720,21 @@ export type DispatchNamespacesScriptsSettingsEditRequestSettingsBindingsItemDisp
   Array<DispatchNamespacesScriptsBindingsGetResultItemDispatchNamespaceOutboundParamsItem>;
 export interface DispatchNamespacesScriptsSettingsEditRequestSettingsBindingsItemDispatchNamespaceOutboundWorker {
   /** Entrypoint to invoke on the outbound worker. */
-  entrypoint?: string;
+  entrypoint?: string | undefined;
   /** Environment of the outbound worker. */
-  environment?: string;
+  environment?: string | undefined;
   /** Name of the outbound worker. */
-  service?: string;
+  service?: string | undefined;
 }
 export interface DispatchNamespacesScriptsSettingsEditRequestSettingsBindingsItemDispatchNamespaceOutbound {
   /** Pass information from the Dispatch Worker to the Outbound Worker through the parameters. */
-  params?: DispatchNamespacesScriptsSettingsEditRequestSettingsBindingsItemDispatchNamespaceOutboundParamsList;
+  params?:
+    | DispatchNamespacesScriptsSettingsEditRequestSettingsBindingsItemDispatchNamespaceOutboundParamsList
+    | undefined;
   /** Outbound worker. */
-  worker?: DispatchNamespacesScriptsSettingsEditRequestSettingsBindingsItemDispatchNamespaceOutboundWorker;
+  worker?:
+    | DispatchNamespacesScriptsSettingsEditRequestSettingsBindingsItemDispatchNamespaceOutboundWorker
+    | undefined;
 }
 export interface DispatchNamespacesScriptsSettingsEditRequestSettingsBindingsItemDispatchNamespace {
   /** A JavaScript variable name for the binding. */
@@ -2603,7 +2744,9 @@ export interface DispatchNamespacesScriptsSettingsEditRequestSettingsBindingsIte
   /** The kind of resource that the binding provides. */
   type: DispatchNamespacesScriptsSettingsEditRequestSettingsBindingsItemDispatchNamespaceType;
   /** Outbound worker. */
-  outbound?: DispatchNamespacesScriptsSettingsEditRequestSettingsBindingsItemDispatchNamespaceOutbound;
+  outbound?:
+    | DispatchNamespacesScriptsSettingsEditRequestSettingsBindingsItemDispatchNamespaceOutbound
+    | undefined;
 }
 export type DispatchNamespacesScriptsSettingsEditRequestSettingsBindingsItemDurableObjectNamespaceType =
   "durable_object_namespace";
@@ -2613,15 +2756,15 @@ export interface DispatchNamespacesScriptsSettingsEditRequestSettingsBindingsIte
   /** The kind of resource that the binding provides. */
   type: DispatchNamespacesScriptsSettingsEditRequestSettingsBindingsItemDurableObjectNamespaceType;
   /** The exported class name of the Durable Object. */
-  className?: string;
+  className?: string | undefined;
   /** The dispatch namespace the Durable Object script belongs to. */
-  dispatchNamespace?: string;
+  dispatchNamespace?: string | undefined;
   /** The environment of the script_name to bind to. */
-  environment?: string;
+  environment?: string | undefined;
   /** Namespace identifier tag. */
-  namespaceId?: string;
+  namespaceId?: string | undefined;
   /** The script where the Durable Object is defined, if it is external to this Worker. */
-  scriptName?: string;
+  scriptName?: string | undefined;
 }
 export type DispatchNamespacesScriptsSettingsEditRequestSettingsBindingsItemHyperdriveType =
   "hyperdrive";
@@ -2640,9 +2783,9 @@ export interface DispatchNamespacesScriptsSettingsEditRequestSettingsBindingsIte
   /** The kind of resource that the binding provides. */
   type: DispatchNamespacesScriptsSettingsEditRequestSettingsBindingsItemInheritType;
   /** The old name of the inherited binding. If set, the binding will be renamed from `old_name` to `name` in the new version. If not set, the binding will keep the same name between versions. */
-  oldName?: string;
+  oldName?: string | undefined;
   /** Identifier for the version to inherit the binding from. This can be a version ID, or the literal "latest" to inherit from the most recently uploaded version, which may not be the deployed version. Defaults to "latest". Only the Workers API version endpoints under `/accounts/{account_id}/workers/workers/{worker_id}/versions` accept a version ID. Other endpoints, including script upload and script version upload, accept only "latest" and reject a version ID with error 10057. */
-  versionId?: string;
+  versionId?: string | undefined;
 }
 export type DispatchNamespacesScriptsSettingsEditRequestSettingsBindingsItemImagesType = "images";
 export interface DispatchNamespacesScriptsSettingsEditRequestSettingsBindingsItemImages {
@@ -2731,7 +2874,7 @@ export interface DispatchNamespacesScriptsSettingsEditRequestSettingsBindingsIte
   /** The period in seconds. */
   period: number;
   /** Duration in seconds to apply the mitigation action after the rate limit is exceeded. Valid values are 0 (disabled), 10, or multiples of 60 up to 86400. Must be greater than or equal to the period when non-zero. */
-  mitigationTimeout?: number;
+  mitigationTimeout?: number | undefined;
 }
 export type DispatchNamespacesScriptsSettingsEditRequestSettingsBindingsItemRatelimitType =
   "ratelimit";
@@ -2762,7 +2905,8 @@ export interface DispatchNamespacesScriptsSettingsEditRequestSettingsBindingsIte
   /** The [jurisdiction](https://developers.cloudflare.com/r2/reference/data-location/#jurisdictional-restrictions) of the R2 bucket. */
   jurisdiction?:
     | DispatchNamespacesScriptsSettingsEditRequestSettingsBindingsItemR2BucketJurisdiction
-    | (string & {});
+    | (string & {})
+    | undefined;
 }
 export type DispatchNamespacesScriptsSettingsEditRequestSettingsBindingsItemSecretTextType =
   "secret_text";
@@ -2786,11 +2930,15 @@ export interface DispatchNamespacesScriptsSettingsEditRequestSettingsBindingsIte
   /** The kind of resource that the binding provides. */
   type: DispatchNamespacesScriptsSettingsEditRequestSettingsBindingsItemSendEmailType;
   /** List of allowed destination addresses. */
-  allowedDestinationAddresses?: DispatchNamespacesScriptsSettingsEditRequestSettingsBindingsItemSendEmailAllowedDestinationAddressesList;
+  allowedDestinationAddresses?:
+    | DispatchNamespacesScriptsSettingsEditRequestSettingsBindingsItemSendEmailAllowedDestinationAddressesList
+    | undefined;
   /** List of allowed sender addresses. */
-  allowedSenderAddresses?: DispatchNamespacesScriptsSettingsEditRequestSettingsBindingsItemSendEmailAllowedSenderAddressesList;
+  allowedSenderAddresses?:
+    | DispatchNamespacesScriptsSettingsEditRequestSettingsBindingsItemSendEmailAllowedSenderAddressesList
+    | undefined;
   /** Destination address for the email. */
-  destinationAddress?: string;
+  destinationAddress?: string | undefined;
 }
 export type DispatchNamespacesScriptsSettingsEditRequestSettingsBindingsItemServiceType = "service";
 export interface DispatchNamespacesScriptsSettingsEditRequestSettingsBindingsItemService {
@@ -2801,9 +2949,9 @@ export interface DispatchNamespacesScriptsSettingsEditRequestSettingsBindingsIte
   /** The kind of resource that the binding provides. */
   type: DispatchNamespacesScriptsSettingsEditRequestSettingsBindingsItemServiceType;
   /** Entrypoint to invoke on the target Worker. */
-  entrypoint?: string;
+  entrypoint?: string | undefined;
   /** Optional environment if the Worker utilizes one. */
-  environment?: string;
+  environment?: string | undefined;
 }
 export type DispatchNamespacesScriptsSettingsEditRequestSettingsBindingsItemTextBlobType =
   "text_blob";
@@ -2890,9 +3038,9 @@ export interface DispatchNamespacesScriptsSettingsEditRequestSettingsBindingsIte
   /** Allowed operations with the key. [Learn more](https://developer.mozilla.org/en-US/docs/Web/API/SubtleCrypto/importKey#keyUsages). */
   usages: DispatchNamespacesScriptsSettingsEditRequestSettingsBindingsItemSecretKeyUsagesList;
   /** Base64-encoded key data. Required if `format` is "raw", "pkcs8", or "spki". */
-  keyBase64?: string;
+  keyBase64?: string | undefined;
   /** Key data in [JSON Web Key](https://developer.mozilla.org/en-US/docs/Web/API/SubtleCrypto/importKey#json_web_key) format. Required if `format` is "jwk". */
-  keyJwk?: unknown;
+  keyJwk?: unknown | undefined;
 }
 export type DispatchNamespacesScriptsSettingsEditRequestSettingsBindingsItemWorkflowType =
   "workflow";
@@ -2904,9 +3052,9 @@ export interface DispatchNamespacesScriptsSettingsEditRequestSettingsBindingsIte
   /** Name of the Workflow to bind to. */
   workflowName: string;
   /** Class name of the Workflow. Should only be provided if the Workflow belongs to this script. */
-  className?: string;
+  className?: string | undefined;
   /** Script name that contains the Workflow. If not provided, defaults to this script name. */
-  scriptName?: string;
+  scriptName?: string | undefined;
 }
 export type DispatchNamespacesScriptsSettingsEditRequestSettingsBindingsItemWasmModuleType =
   "wasm_module";
@@ -2937,14 +3085,23 @@ export interface DispatchNamespacesScriptsSettingsEditRequestSettingsBindingsIte
   name: string;
   /** The kind of resource that the binding provides. */
   type: DispatchNamespacesScriptsSettingsEditRequestSettingsBindingsItemVPCNetworkType;
-  /** Enables Gateway identity for the binding. Requires network_id to be "cf1:network" and cannot be combined with tunnel_id. */
+  /** Enables Gateway identity for the binding. Requires network_id to be "cf1:network" and cannot be combined with tunnel_id or an explicit "cf1:vnet:" network_id. */
   identity?:
     | DispatchNamespacesScriptsSettingsEditRequestSettingsBindingsItemVPCNetworkIdentity
-    | (string & {});
-  /** Identifier of the network to bind to. Only "cf1:network" is currently supported. Mutually exclusive with tunnel_id. */
-  networkId?: string;
+    | (string & {})
+    | undefined;
+  /** Identifier of the network to bind to. Use "cf1:network" to select the account's default virtual network at runtime, or "cf1:vnet:" to select an explicit virtual network in the Worker's account. Mutually exclusive with tunnel_id. */
+  networkId?: string | undefined;
   /** UUID of the Cloudflare Tunnel to bind to. Mutually exclusive with network_id. */
-  tunnelId?: string;
+  tunnelId?: string | undefined;
+}
+export type DispatchNamespacesScriptsSettingsEditRequestSettingsBindingsItemWorkerLoaderType =
+  "worker_loader";
+export interface DispatchNamespacesScriptsSettingsEditRequestSettingsBindingsItemWorkerLoader {
+  /** A JavaScript variable name for the binding. */
+  name: string;
+  /** The kind of resource that the binding provides. */
+  type: DispatchNamespacesScriptsSettingsEditRequestSettingsBindingsItemWorkerLoaderType;
 }
 export type DispatchNamespacesScriptsSettingsEditRequestSettingsBindingsItem =
   | DispatchNamespacesScriptsSettingsEditRequestSettingsBindingsItemAI
@@ -2984,14 +3141,15 @@ export type DispatchNamespacesScriptsSettingsEditRequestSettingsBindingsItem =
   | DispatchNamespacesScriptsSettingsEditRequestSettingsBindingsItemWorkflow
   | DispatchNamespacesScriptsSettingsEditRequestSettingsBindingsItemWasmModule
   | DispatchNamespacesScriptsSettingsEditRequestSettingsBindingsItemVPCService
-  | DispatchNamespacesScriptsSettingsEditRequestSettingsBindingsItemVPCNetwork;
+  | DispatchNamespacesScriptsSettingsEditRequestSettingsBindingsItemVPCNetwork
+  | DispatchNamespacesScriptsSettingsEditRequestSettingsBindingsItemWorkerLoader;
 export type DispatchNamespacesScriptsSettingsEditRequestSettingsBindingsList =
   Array<DispatchNamespacesScriptsSettingsEditRequestSettingsBindingsItem>;
 export interface DispatchNamespacesScriptsSettingsEditRequestSettingsCacheOptions {
   /** Whether caching is enabled for this Worker. */
   enabled: boolean;
   /** Whether cached responses are shared across Worker version uploads. This is independent of `enabled`. It can stay true while caching is off, so the preference survives turning caching off and back on. */
-  crossVersionCache?: boolean;
+  crossVersionCache?: boolean | undefined;
 }
 export type DispatchNamespacesScriptsSettingsEditRequestSettingsCompatibilityFlagsList =
   Array<string>;
@@ -3003,11 +3161,12 @@ export interface DispatchNamespacesScriptsSettingsEditRequestSettingsExportsValu
   /** Marks this entry as a Worker entrypoint export. */
   type: DispatchNamespacesScriptsSettingsEditRequestSettingsExportsValueWorkerType;
   /** Cache override for this entrypoint. Overrides the Worker's global `cache_options.enabled` for this entrypoint only. */
-  cache?: DispatchNamespacesScriptsGetResponseScriptExportsValueWorkerCache;
+  cache?: DispatchNamespacesScriptsGetResponseScriptExportsValueWorkerCache | undefined;
   /** Live export. May be omitted; defaults to `created`. */
   state?:
     | DispatchNamespacesScriptsSettingsEditRequestSettingsExportsValueWorkerState
-    | (string & {});
+    | (string & {})
+    | undefined;
 }
 export type DispatchNamespacesScriptsSettingsEditRequestSettingsExportsValueWorkersDurableObjectExportStorage =
   | "sqlite"
@@ -3024,11 +3183,12 @@ export interface DispatchNamespacesScriptsSettingsEditRequestSettingsExportsValu
   /** Marks this entry as a Durable Object export. */
   type: DispatchNamespacesScriptsSettingsEditRequestSettingsExportsValueWorkersDurableObjectExportType;
   /** Name of the container (declared in the upload's `metadata.containers`) that backs this Durable Object. When set, the namespace is container-enabled. Valid only on live entries. */
-  container?: string;
+  container?: string | undefined;
   /** Live export. May be omitted; defaults to `created`. */
   state?:
     | DispatchNamespacesScriptsSettingsEditRequestSettingsExportsValueWorkersDurableObjectExportState
-    | (string & {});
+    | (string & {})
+    | undefined;
 }
 export type DispatchNamespacesScriptsSettingsEditRequestSettingsExportsValueWorkersDurableObjectDeletedExportState =
   "deleted";
@@ -3083,7 +3243,7 @@ export interface DispatchNamespacesScriptsSettingsEditRequestSettingsExportsValu
   /** Marks this entry as a Durable Object export. */
   type: DispatchNamespacesScriptsSettingsEditRequestSettingsExportsValueWorkersDurableObjectExpectingTransferExportType;
   /** Name of the container (declared in the upload's `metadata.containers`) that backs this Durable Object once the transfer settles. Valid only on live entries. */
-  container?: string;
+  container?: string | undefined;
 }
 export type DispatchNamespacesScriptsSettingsEditRequestSettingsExportsValue =
   | DispatchNamespacesScriptsSettingsEditRequestSettingsExportsValueWorker
@@ -3145,9 +3305,11 @@ export interface DispatchNamespacesScriptsSettingsEditRequestSettingsExportsReco
     | DispatchNamespacesScriptsSettingsEditRequestSettingsExportsReconciliationInfoItemScenario
     | (string & {});
   /** The provisioned namespace the entry relates to, when applicable. */
-  namespaceId?: string;
+  namespaceId?: string | undefined;
   /** Other Workers in the account that still bind to the affected class. Advisory: while non-empty the tombstone is not yet safe to remove -- redeploy these Workers with bindings re-pointed first. */
-  referencingScripts?: DispatchNamespacesScriptsSettingsEditRequestSettingsExportsReconciliationInfoItemReferencingScriptsList;
+  referencingScripts?:
+    | DispatchNamespacesScriptsSettingsEditRequestSettingsExportsReconciliationInfoItemReferencingScriptsList
+    | undefined;
 }
 export type DispatchNamespacesScriptsSettingsEditRequestSettingsExportsReconciliationInfoList =
   Array<DispatchNamespacesScriptsSettingsEditRequestSettingsExportsReconciliationInfoItem>;
@@ -3221,7 +3383,7 @@ export interface DispatchNamespacesScriptsSettingsEditRequestSettingsExportsReco
     | DispatchNamespacesScriptsSettingsEditRequestSettingsExportsReconciliationWarningsItemScenario
     | (string & {});
   /** The provisioned namespace the warning relates to, when applicable. */
-  namespaceId?: string;
+  namespaceId?: string | undefined;
 }
 export type DispatchNamespacesScriptsSettingsEditRequestSettingsExportsReconciliationWarningsList =
   Array<DispatchNamespacesScriptsSettingsEditRequestSettingsExportsReconciliationWarningsItem>;
@@ -3247,9 +3409,9 @@ export interface DispatchNamespacesScriptsSettingsEditRequestSettingsExportsReco
 }
 export interface DispatchNamespacesScriptsSettingsEditRequestSettingsLimits {
   /** The amount of CPU time this Worker can use in milliseconds. */
-  cpuMs?: number;
+  cpuMs?: number | undefined;
   /** The number of subrequests this Worker can make per request. */
-  subrequests?: number;
+  subrequests?: number | undefined;
 }
 export type DispatchNamespacesScriptsSettingsEditRequestSettingsMigrationsSingleStepMigrationDeletedClassesList =
   Array<string>;
@@ -3258,33 +3420,43 @@ export type DispatchNamespacesScriptsSettingsEditRequestSettingsMigrationsSingle
 export type DispatchNamespacesScriptsSettingsEditRequestSettingsMigrationsSingleStepMigrationNewSqliteClassesList =
   Array<string>;
 export interface DispatchNamespacesScriptsSettingsEditRequestSettingsMigrationsSingleStepMigrationRenamedClassesItem {
-  from?: string;
-  to?: string;
+  from?: string | undefined;
+  to?: string | undefined;
 }
 export type DispatchNamespacesScriptsSettingsEditRequestSettingsMigrationsSingleStepMigrationRenamedClassesList =
   Array<DispatchNamespacesScriptsSettingsEditRequestSettingsMigrationsSingleStepMigrationRenamedClassesItem>;
 export interface DispatchNamespacesScriptsSettingsEditRequestSettingsMigrationsSingleStepMigrationTransferredClassesItem {
-  from?: string;
-  fromScript?: string;
-  to?: string;
+  from?: string | undefined;
+  fromScript?: string | undefined;
+  to?: string | undefined;
 }
 export type DispatchNamespacesScriptsSettingsEditRequestSettingsMigrationsSingleStepMigrationTransferredClassesList =
   Array<DispatchNamespacesScriptsSettingsEditRequestSettingsMigrationsSingleStepMigrationTransferredClassesItem>;
 export interface DispatchNamespacesScriptsSettingsEditRequestSettingsMigrationsSingleStepMigration {
   /** A list of classes to delete Durable Object namespaces from. */
-  deletedClasses?: DispatchNamespacesScriptsSettingsEditRequestSettingsMigrationsSingleStepMigrationDeletedClassesList;
+  deletedClasses?:
+    | DispatchNamespacesScriptsSettingsEditRequestSettingsMigrationsSingleStepMigrationDeletedClassesList
+    | undefined;
   /** A list of classes to create Durable Object namespaces from. */
-  newClasses?: DispatchNamespacesScriptsSettingsEditRequestSettingsMigrationsSingleStepMigrationNewClassesList;
+  newClasses?:
+    | DispatchNamespacesScriptsSettingsEditRequestSettingsMigrationsSingleStepMigrationNewClassesList
+    | undefined;
   /** A list of classes to create Durable Object namespaces with SQLite from. */
-  newSqliteClasses?: DispatchNamespacesScriptsSettingsEditRequestSettingsMigrationsSingleStepMigrationNewSqliteClassesList;
+  newSqliteClasses?:
+    | DispatchNamespacesScriptsSettingsEditRequestSettingsMigrationsSingleStepMigrationNewSqliteClassesList
+    | undefined;
   /** Tag to set as the latest migration tag. */
-  newTag?: string;
+  newTag?: string | undefined;
   /** Tag used to verify against the latest migration tag for this Worker. If they don't match, the upload is rejected. */
-  oldTag?: string;
+  oldTag?: string | undefined;
   /** A list of classes with Durable Object namespaces that were renamed. */
-  renamedClasses?: DispatchNamespacesScriptsSettingsEditRequestSettingsMigrationsSingleStepMigrationRenamedClassesList;
+  renamedClasses?:
+    | DispatchNamespacesScriptsSettingsEditRequestSettingsMigrationsSingleStepMigrationRenamedClassesList
+    | undefined;
   /** A list of transfers for Durable Object namespaces from a different Worker and class to a class defined in this Worker. */
-  transferredClasses?: DispatchNamespacesScriptsSettingsEditRequestSettingsMigrationsSingleStepMigrationTransferredClassesList;
+  transferredClasses?:
+    | DispatchNamespacesScriptsSettingsEditRequestSettingsMigrationsSingleStepMigrationTransferredClassesList
+    | undefined;
 }
 export type DispatchNamespacesScriptsSettingsEditRequestSettingsMigrationsWorkersMultipleStepMigrationsStepsItemDeletedClassesList =
   Array<string>;
@@ -3302,32 +3474,44 @@ export type DispatchNamespacesScriptsSettingsEditRequestSettingsMigrationsWorker
   Array<DispatchNamespacesScriptsSettingsEditRequestSettingsMigrationsSingleStepMigrationTransferredClassesItem>;
 export interface DispatchNamespacesScriptsSettingsEditRequestSettingsMigrationsWorkersMultipleStepMigrationsStepsItem {
   /** A list of classes to delete Durable Object namespaces from. */
-  deletedClasses?: DispatchNamespacesScriptsSettingsEditRequestSettingsMigrationsWorkersMultipleStepMigrationsStepsItemDeletedClassesList;
+  deletedClasses?:
+    | DispatchNamespacesScriptsSettingsEditRequestSettingsMigrationsWorkersMultipleStepMigrationsStepsItemDeletedClassesList
+    | undefined;
   /** A list of classes to create Durable Object namespaces from. */
-  newClasses?: DispatchNamespacesScriptsSettingsEditRequestSettingsMigrationsWorkersMultipleStepMigrationsStepsItemNewClassesList;
+  newClasses?:
+    | DispatchNamespacesScriptsSettingsEditRequestSettingsMigrationsWorkersMultipleStepMigrationsStepsItemNewClassesList
+    | undefined;
   /** A list of classes to create Durable Object namespaces with SQLite from. */
-  newSqliteClasses?: DispatchNamespacesScriptsSettingsEditRequestSettingsMigrationsWorkersMultipleStepMigrationsStepsItemNewSqliteClassesList;
+  newSqliteClasses?:
+    | DispatchNamespacesScriptsSettingsEditRequestSettingsMigrationsWorkersMultipleStepMigrationsStepsItemNewSqliteClassesList
+    | undefined;
   /** A list of classes with Durable Object namespaces that were renamed. */
-  renamedClasses?: DispatchNamespacesScriptsSettingsEditRequestSettingsMigrationsWorkersMultipleStepMigrationsStepsItemRenamedClassesList;
+  renamedClasses?:
+    | DispatchNamespacesScriptsSettingsEditRequestSettingsMigrationsWorkersMultipleStepMigrationsStepsItemRenamedClassesList
+    | undefined;
   /** A list of transfers for Durable Object namespaces from a different Worker and class to a class defined in this Worker. */
-  transferredClasses?: DispatchNamespacesScriptsSettingsEditRequestSettingsMigrationsWorkersMultipleStepMigrationsStepsItemTransferredClassesList;
+  transferredClasses?:
+    | DispatchNamespacesScriptsSettingsEditRequestSettingsMigrationsWorkersMultipleStepMigrationsStepsItemTransferredClassesList
+    | undefined;
 }
 export type DispatchNamespacesScriptsSettingsEditRequestSettingsMigrationsWorkersMultipleStepMigrationsStepsList =
   Array<DispatchNamespacesScriptsSettingsEditRequestSettingsMigrationsWorkersMultipleStepMigrationsStepsItem>;
 export interface DispatchNamespacesScriptsSettingsEditRequestSettingsMigrationsWorkersMultipleStepMigrations {
   /** Tag to set as the latest migration tag. */
-  newTag?: string;
+  newTag?: string | undefined;
   /** Tag used to verify against the latest migration tag for this Worker. If they don't match, the upload is rejected. */
-  oldTag?: string;
+  oldTag?: string | undefined;
   /** Migrations to apply in order. */
-  steps?: DispatchNamespacesScriptsSettingsEditRequestSettingsMigrationsWorkersMultipleStepMigrationsStepsList;
+  steps?:
+    | DispatchNamespacesScriptsSettingsEditRequestSettingsMigrationsWorkersMultipleStepMigrationsStepsList
+    | undefined;
 }
 export type DispatchNamespacesScriptsSettingsEditRequestSettingsMigrations =
   | DispatchNamespacesScriptsSettingsEditRequestSettingsMigrationsSingleStepMigration
   | DispatchNamespacesScriptsSettingsEditRequestSettingsMigrationsWorkersMultipleStepMigrations;
 export interface DispatchNamespacesScriptsSettingsEditRequestSettingsObservabilityIssues {
   /** Whether real-time Issues are enabled for the Worker. */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
 }
 export type DispatchNamespacesScriptsSettingsEditRequestSettingsObservabilityLogsDestinationsList =
   Array<string>;
@@ -3337,11 +3521,13 @@ export interface DispatchNamespacesScriptsSettingsEditRequestSettingsObservabili
   /** Whether [invocation logs](https://developers.cloudflare.com/workers/observability/logs/workers-logs/#invocation-logs) are enabled for the Worker. */
   invocationLogs: boolean;
   /** A list of destinations where logs will be exported to. */
-  destinations?: DispatchNamespacesScriptsSettingsEditRequestSettingsObservabilityLogsDestinationsList;
+  destinations?:
+    | DispatchNamespacesScriptsSettingsEditRequestSettingsObservabilityLogsDestinationsList
+    | undefined;
   /** The sampling rate for logs. From 0 to 1 (1 = 100%, 0.1 = 10%). Default is 1. */
-  headSamplingRate?: number;
+  headSamplingRate?: number | undefined;
   /** Whether log persistence is enabled for the Worker. */
-  persist?: boolean;
+  persist?: boolean | undefined;
 }
 export type DispatchNamespacesScriptsSettingsEditRequestSettingsObservabilityTracesDestinationsList =
   Array<string>;
@@ -3350,31 +3536,34 @@ export type DispatchNamespacesScriptsSettingsEditRequestSettingsObservabilityTra
   | "accept";
 export interface DispatchNamespacesScriptsSettingsEditRequestSettingsObservabilityTraces {
   /** A list of destinations where traces will be exported to. */
-  destinations?: DispatchNamespacesScriptsSettingsEditRequestSettingsObservabilityTracesDestinationsList;
+  destinations?:
+    | DispatchNamespacesScriptsSettingsEditRequestSettingsObservabilityTracesDestinationsList
+    | undefined;
   /** Whether traces are enabled for the Worker. */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** The sampling rate for traces. From 0 to 1 (1 = 100%, 0.1 = 10%). Default is 1. */
-  headSamplingRate?: number;
+  headSamplingRate?: number | undefined;
   /** Whether trace persistence is enabled for the Worker. */
-  persist?: boolean;
+  persist?: boolean | undefined;
   /** Controls how inbound trace context (traceparent/tracestate) headers on incoming requests are handled. "authenticated" honors inbound trace context only when accompanied by a valid trace auth token. "accept" unconditionally accepts inbound trace context. Requires the trace propagation feature to be enabled. Returns null when the trace propagation feature is not enabled for the account. */
   propagationPolicy?:
     | DispatchNamespacesScriptsSettingsEditRequestSettingsObservabilityTracesPropagationPolicy
-    | (string & {});
+    | (string & {})
+    | undefined;
 }
 export interface DispatchNamespacesScriptsSettingsEditRequestSettingsObservability {
   /** Whether observability is enabled for the Worker. */
   enabled: boolean;
   /** The sampling rate for incoming requests. From 0 to 1 (1 = 100%, 0.1 = 10%). Default is 1. */
-  headSamplingRate?: number;
+  headSamplingRate?: number | undefined;
   /** Real-time Issues settings for the Worker. */
-  issues?: DispatchNamespacesScriptsSettingsEditRequestSettingsObservabilityIssues;
+  issues?: DispatchNamespacesScriptsSettingsEditRequestSettingsObservabilityIssues | undefined;
   /** Log settings for the Worker. */
-  logs?: DispatchNamespacesScriptsSettingsEditRequestSettingsObservabilityLogs;
+  logs?: DispatchNamespacesScriptsSettingsEditRequestSettingsObservabilityLogs | undefined;
   /** Whether query strings are removed from request URLs in logs and traces. */
-  redactQueryString?: boolean;
+  redactQueryString?: boolean | undefined;
   /** Trace settings for the Worker. */
-  traces?: DispatchNamespacesScriptsSettingsEditRequestSettingsObservabilityTraces;
+  traces?: DispatchNamespacesScriptsSettingsEditRequestSettingsObservabilityTraces | undefined;
 }
 export type DispatchNamespacesScriptsSettingsEditRequestSettingsPlacementModeMode = "smart";
 export interface DispatchNamespacesScriptsSettingsEditRequestSettingsPlacementMode {
@@ -3441,9 +3630,9 @@ export interface DispatchNamespacesScriptsSettingsEditRequestSettingsTailConsume
   /** Name of Worker that is to be the consumer. */
   service: string;
   /** Optional environment if the Worker utilizes one. */
-  environment?: string;
+  environment?: string | undefined;
   /** Optional dispatch namespace the script belongs to. */
-  namespace?: string;
+  namespace?: string | undefined;
 }
 export type DispatchNamespacesScriptsSettingsEditRequestSettingsTailConsumersList =
   Array<DispatchNamespacesScriptsSettingsEditRequestSettingsTailConsumersItem>;
@@ -3453,33 +3642,40 @@ export type DispatchNamespacesScriptsSettingsEditRequestSettingsUsageModel =
   | "unbound";
 export interface DispatchNamespacesScriptsSettingsEditRequestSettings {
   /** List of bindings attached to a Worker. You can find more about bindings on our docs: https://developers.cloudflare.com/workers/configuration/multipart-upload-metadata/#bindings. */
-  bindings?: DispatchNamespacesScriptsSettingsEditRequestSettingsBindingsList;
+  bindings?: DispatchNamespacesScriptsSettingsEditRequestSettingsBindingsList | undefined;
   /** Global CacheW configuration for the Worker. When caching is on, the platform provisions a `cloudflare.app` zone for the Worker. A `type: worker` entry in the `exports` map can override this value for a single entrypoint. */
-  cacheOptions?: DispatchNamespacesScriptsSettingsEditRequestSettingsCacheOptions;
+  cacheOptions?: DispatchNamespacesScriptsSettingsEditRequestSettingsCacheOptions | undefined;
   /** Date indicating targeted support in the Workers runtime. Backwards incompatible fixes to the runtime following this date will not affect this Worker. */
-  compatibilityDate?: string;
+  compatibilityDate?: string | undefined;
   /** Flags that enable or disable certain features in the Workers runtime. Used to enable upcoming features or opt in or out of specific changes not included in a `compatibility_date`. */
-  compatibilityFlags?: DispatchNamespacesScriptsSettingsEditRequestSettingsCompatibilityFlagsList;
+  compatibilityFlags?:
+    | DispatchNamespacesScriptsSettingsEditRequestSettingsCompatibilityFlagsList
+    | undefined;
   /** Declarative exports for the Worker. Worker entrypoint entries (`type: worker`) carry cache configuration for that entrypoint. */
-  exports?: DispatchNamespacesScriptsSettingsEditRequestSettingsExportsMap;
+  exports?: DispatchNamespacesScriptsSettingsEditRequestSettingsExportsMap | undefined;
   /** Summary of the declarative exports reconciliation that ran on this upload. Populated only when the uploaded metadata included an `exports` block. Durable Object entries drive reconciliation; `type: worker` entries do not contribute to this summary. */
-  exportsReconciliation?: DispatchNamespacesScriptsSettingsEditRequestSettingsExportsReconciliation;
+  exportsReconciliation?:
+    | DispatchNamespacesScriptsSettingsEditRequestSettingsExportsReconciliation
+    | undefined;
   /** Limits to apply for this Worker. */
-  limits?: DispatchNamespacesScriptsSettingsEditRequestSettingsLimits;
+  limits?: DispatchNamespacesScriptsSettingsEditRequestSettingsLimits | undefined;
   /** Whether Logpush is turned on for the Worker. */
-  logpush?: boolean;
+  logpush?: boolean | undefined;
   /** Migrations to apply for Durable Objects associated with this Worker. */
-  migrations?: DispatchNamespacesScriptsSettingsEditRequestSettingsMigrations;
+  migrations?: DispatchNamespacesScriptsSettingsEditRequestSettingsMigrations | undefined;
   /** Observability settings for the Worker. */
-  observability?: DispatchNamespacesScriptsSettingsEditRequestSettingsObservability;
+  observability?: DispatchNamespacesScriptsSettingsEditRequestSettingsObservability | undefined;
   /** Configuration for [Smart Placement](https://developers.cloudflare.com/workers/configuration/smart-placement). Specify mode='smart' for Smart Placement, or one of region/hostname/host. */
-  placement?: DispatchNamespacesScriptsSettingsEditRequestSettingsPlacement;
+  placement?: DispatchNamespacesScriptsSettingsEditRequestSettingsPlacement | undefined;
   /** Tags associated with the Worker. */
-  tags?: DispatchNamespacesScriptsSettingsEditRequestSettingsTagsList;
+  tags?: DispatchNamespacesScriptsSettingsEditRequestSettingsTagsList | undefined;
   /** List of Workers that will consume logs from the attached Worker. */
-  tailConsumers?: DispatchNamespacesScriptsSettingsEditRequestSettingsTailConsumersList;
+  tailConsumers?: DispatchNamespacesScriptsSettingsEditRequestSettingsTailConsumersList | undefined;
   /** Usage model for the Worker invocations. */
-  usageModel?: DispatchNamespacesScriptsSettingsEditRequestSettingsUsageModel | (string & {});
+  usageModel?:
+    | DispatchNamespacesScriptsSettingsEditRequestSettingsUsageModel
+    | (string & {})
+    | undefined;
 }
 export interface PatchDispatchNamespaceScriptSettingRequest {
   /** Identifier. */
@@ -3489,7 +3685,7 @@ export interface PatchDispatchNamespaceScriptSettingRequest {
   /** Name of the script. */
   scriptName: string;
   /** Script and version settings for Workers for Platforms namespace scripts. Same as script-and-version-settings-item but without annotations, which are not supported for namespace scripts. */
-  settings?: DispatchNamespacesScriptsSettingsEditRequestSettings;
+  settings?: DispatchNamespacesScriptsSettingsEditRequestSettings | undefined;
 }
 export type DispatchNamespacesScriptsSettingsEditResponseBindingsItemAIType = "ai";
 export interface DispatchNamespacesScriptsSettingsEditResponseBindingsItemAI {
@@ -3507,7 +3703,7 @@ export interface DispatchNamespacesScriptsSettingsEditResponseBindingsItemAISear
   /** The kind of resource that the binding provides. */
   type: DispatchNamespacesScriptsSettingsEditResponseBindingsItemAISearchType;
   /** The namespace the instance belongs to. Defaults to "default" if omitted. Customers who don't use namespaces can simply omit this field. */
-  namespace?: string | null;
+  namespace?: string | null | undefined;
 }
 export type DispatchNamespacesScriptsSettingsEditResponseBindingsItemAISearchNamespaceType =
   "ai_search_namespace";
@@ -3570,7 +3766,7 @@ export interface DispatchNamespacesScriptsSettingsEditResponseBindingsItemD1 {
   /** The kind of resource that the binding provides. */
   type: DispatchNamespacesScriptsSettingsEditResponseBindingsItemD1Type;
   /** This property has been renamed to `database_id`. */
-  id?: string | null;
+  id?: string | null | undefined;
 }
 export type DispatchNamespacesScriptsSettingsEditResponseBindingsItemDataBlobType = "data_blob";
 export interface DispatchNamespacesScriptsSettingsEditResponseBindingsItemDataBlob {
@@ -3591,9 +3787,15 @@ export type DispatchNamespacesScriptsSettingsEditResponseBindingsItemDispatchNam
   DispatchNamespacesScriptsBindingsGetResultItemDispatchNamespaceOutboundWorker;
 export interface DispatchNamespacesScriptsSettingsEditResponseBindingsItemDispatchNamespaceOutbound {
   /** Pass information from the Dispatch Worker to the Outbound Worker through the parameters. */
-  params?: DispatchNamespacesScriptsSettingsEditResponseBindingsItemDispatchNamespaceOutboundParamsList | null;
+  params?:
+    | DispatchNamespacesScriptsSettingsEditResponseBindingsItemDispatchNamespaceOutboundParamsList
+    | null
+    | undefined;
   /** Outbound worker. */
-  worker?: DispatchNamespacesScriptsBindingsGetResultItemDispatchNamespaceOutboundWorker | null;
+  worker?:
+    | DispatchNamespacesScriptsBindingsGetResultItemDispatchNamespaceOutboundWorker
+    | null
+    | undefined;
 }
 export interface DispatchNamespacesScriptsSettingsEditResponseBindingsItemDispatchNamespace {
   /** A JavaScript variable name for the binding. */
@@ -3603,7 +3805,10 @@ export interface DispatchNamespacesScriptsSettingsEditResponseBindingsItemDispat
   /** The kind of resource that the binding provides. */
   type: DispatchNamespacesScriptsSettingsEditResponseBindingsItemDispatchNamespaceType;
   /** Outbound worker. */
-  outbound?: DispatchNamespacesScriptsSettingsEditResponseBindingsItemDispatchNamespaceOutbound | null;
+  outbound?:
+    | DispatchNamespacesScriptsSettingsEditResponseBindingsItemDispatchNamespaceOutbound
+    | null
+    | undefined;
 }
 export type DispatchNamespacesScriptsSettingsEditResponseBindingsItemDurableObjectNamespaceType =
   "durable_object_namespace";
@@ -3613,15 +3818,15 @@ export interface DispatchNamespacesScriptsSettingsEditResponseBindingsItemDurabl
   /** The kind of resource that the binding provides. */
   type: DispatchNamespacesScriptsSettingsEditResponseBindingsItemDurableObjectNamespaceType;
   /** The exported class name of the Durable Object. */
-  className?: string | null;
+  className?: string | null | undefined;
   /** The dispatch namespace the Durable Object script belongs to. */
-  dispatchNamespace?: string | null;
+  dispatchNamespace?: string | null | undefined;
   /** The environment of the script_name to bind to. */
-  environment?: string | null;
+  environment?: string | null | undefined;
   /** Namespace identifier tag. */
-  namespaceId?: string | null;
+  namespaceId?: string | null | undefined;
   /** The script where the Durable Object is defined, if it is external to this Worker. */
-  scriptName?: string | null;
+  scriptName?: string | null | undefined;
 }
 export type DispatchNamespacesScriptsSettingsEditResponseBindingsItemHyperdriveType = "hyperdrive";
 export interface DispatchNamespacesScriptsSettingsEditResponseBindingsItemHyperdrive {
@@ -3639,9 +3844,9 @@ export interface DispatchNamespacesScriptsSettingsEditResponseBindingsItemInheri
   /** The kind of resource that the binding provides. */
   type: DispatchNamespacesScriptsSettingsEditResponseBindingsItemInheritType;
   /** The old name of the inherited binding. If set, the binding will be renamed from `old_name` to `name` in the new version. If not set, the binding will keep the same name between versions. */
-  oldName?: string | null;
+  oldName?: string | null | undefined;
   /** Identifier for the version to inherit the binding from. This can be a version ID, or the literal "latest" to inherit from the most recently uploaded version, which may not be the deployed version. Defaults to "latest". Only the Workers API version endpoints under `/accounts/{account_id}/workers/workers/{worker_id}/versions` accept a version ID. Other endpoints, including script upload and script version upload, accept only "latest" and reject a version ID with error 10057. */
-  versionId?: string | null;
+  versionId?: string | null | undefined;
 }
 export type DispatchNamespacesScriptsSettingsEditResponseBindingsItemImagesType = "images";
 export interface DispatchNamespacesScriptsSettingsEditResponseBindingsItemImages {
@@ -3749,7 +3954,10 @@ export interface DispatchNamespacesScriptsSettingsEditResponseBindingsItemR2Buck
   /** The kind of resource that the binding provides. */
   type: DispatchNamespacesScriptsSettingsEditResponseBindingsItemR2BucketType;
   /** The [jurisdiction](https://developers.cloudflare.com/r2/reference/data-location/#jurisdictional-restrictions) of the R2 bucket. */
-  jurisdiction?: DispatchNamespacesScriptsSettingsEditResponseBindingsItemR2BucketJurisdiction | null;
+  jurisdiction?:
+    | DispatchNamespacesScriptsSettingsEditResponseBindingsItemR2BucketJurisdiction
+    | null
+    | undefined;
 }
 export type DispatchNamespacesScriptsSettingsEditResponseBindingsItemSecretTextType = "secret_text";
 export interface DispatchNamespacesScriptsSettingsEditResponseBindingsItemSecretText {
@@ -3771,11 +3979,17 @@ export interface DispatchNamespacesScriptsSettingsEditResponseBindingsItemSendEm
   /** The kind of resource that the binding provides. */
   type: DispatchNamespacesScriptsSettingsEditResponseBindingsItemSendEmailType;
   /** List of allowed destination addresses. */
-  allowedDestinationAddresses?: DispatchNamespacesScriptsSettingsEditResponseBindingsItemSendEmailAllowedDestinationAddressesList | null;
+  allowedDestinationAddresses?:
+    | DispatchNamespacesScriptsSettingsEditResponseBindingsItemSendEmailAllowedDestinationAddressesList
+    | null
+    | undefined;
   /** List of allowed sender addresses. */
-  allowedSenderAddresses?: DispatchNamespacesScriptsSettingsEditResponseBindingsItemSendEmailAllowedSenderAddressesList | null;
+  allowedSenderAddresses?:
+    | DispatchNamespacesScriptsSettingsEditResponseBindingsItemSendEmailAllowedSenderAddressesList
+    | null
+    | undefined;
   /** Destination address for the email. */
-  destinationAddress?: string | null;
+  destinationAddress?: string | null | undefined;
 }
 export type DispatchNamespacesScriptsSettingsEditResponseBindingsItemServiceType = "service";
 export interface DispatchNamespacesScriptsSettingsEditResponseBindingsItemService {
@@ -3786,9 +4000,9 @@ export interface DispatchNamespacesScriptsSettingsEditResponseBindingsItemServic
   /** The kind of resource that the binding provides. */
   type: DispatchNamespacesScriptsSettingsEditResponseBindingsItemServiceType;
   /** Entrypoint to invoke on the target Worker. */
-  entrypoint?: string | null;
+  entrypoint?: string | null | undefined;
   /** Optional environment if the Worker utilizes one. */
-  environment?: string | null;
+  environment?: string | null | undefined;
 }
 export type DispatchNamespacesScriptsSettingsEditResponseBindingsItemTextBlobType = "text_blob";
 export interface DispatchNamespacesScriptsSettingsEditResponseBindingsItemTextBlob {
@@ -3866,9 +4080,9 @@ export interface DispatchNamespacesScriptsSettingsEditResponseBindingsItemSecret
   /** Allowed operations with the key. [Learn more](https://developer.mozilla.org/en-US/docs/Web/API/SubtleCrypto/importKey#keyUsages). */
   usages: DispatchNamespacesScriptsSettingsEditResponseBindingsItemSecretKeyUsagesList;
   /** Base64-encoded key data. Required if `format` is "raw", "pkcs8", or "spki". */
-  keyBase64?: string | null;
+  keyBase64?: string | null | undefined;
   /** Key data in [JSON Web Key](https://developer.mozilla.org/en-US/docs/Web/API/SubtleCrypto/importKey#json_web_key) format. Required if `format` is "jwk". */
-  keyJwk?: unknown | null;
+  keyJwk?: unknown | null | undefined;
 }
 export type DispatchNamespacesScriptsSettingsEditResponseBindingsItemWorkflowType = "workflow";
 export interface DispatchNamespacesScriptsSettingsEditResponseBindingsItemWorkflow {
@@ -3879,9 +4093,9 @@ export interface DispatchNamespacesScriptsSettingsEditResponseBindingsItemWorkfl
   /** Name of the Workflow to bind to. */
   workflowName: string;
   /** Class name of the Workflow. Should only be provided if the Workflow belongs to this script. */
-  className?: string | null;
+  className?: string | null | undefined;
   /** Script name that contains the Workflow. If not provided, defaults to this script name. */
-  scriptName?: string | null;
+  scriptName?: string | null | undefined;
 }
 export type DispatchNamespacesScriptsSettingsEditResponseBindingsItemWasmModuleType = "wasm_module";
 export interface DispatchNamespacesScriptsSettingsEditResponseBindingsItemWasmModule {
@@ -3909,12 +4123,23 @@ export interface DispatchNamespacesScriptsSettingsEditResponseBindingsItemVPCNet
   name: string;
   /** The kind of resource that the binding provides. */
   type: DispatchNamespacesScriptsSettingsEditResponseBindingsItemVPCNetworkType;
-  /** Enables Gateway identity for the binding. Requires network_id to be "cf1:network" and cannot be combined with tunnel_id. */
-  identity?: DispatchNamespacesScriptsSettingsEditResponseBindingsItemVPCNetworkIdentity | null;
-  /** Identifier of the network to bind to. Only "cf1:network" is currently supported. Mutually exclusive with tunnel_id. */
-  networkId?: string | null;
+  /** Enables Gateway identity for the binding. Requires network_id to be "cf1:network" and cannot be combined with tunnel_id or an explicit "cf1:vnet:" network_id. */
+  identity?:
+    | DispatchNamespacesScriptsSettingsEditResponseBindingsItemVPCNetworkIdentity
+    | null
+    | undefined;
+  /** Identifier of the network to bind to. Use "cf1:network" to select the account's default virtual network at runtime, or "cf1:vnet:" to select an explicit virtual network in the Worker's account. Mutually exclusive with tunnel_id. */
+  networkId?: string | null | undefined;
   /** UUID of the Cloudflare Tunnel to bind to. Mutually exclusive with network_id. */
-  tunnelId?: string | null;
+  tunnelId?: string | null | undefined;
+}
+export type DispatchNamespacesScriptsSettingsEditResponseBindingsItemWorkerLoaderType =
+  "worker_loader";
+export interface DispatchNamespacesScriptsSettingsEditResponseBindingsItemWorkerLoader {
+  /** A JavaScript variable name for the binding. */
+  name: string;
+  /** The kind of resource that the binding provides. */
+  type: DispatchNamespacesScriptsSettingsEditResponseBindingsItemWorkerLoaderType;
 }
 export type DispatchNamespacesScriptsSettingsEditResponseBindingsItem =
   | DispatchNamespacesScriptsSettingsEditResponseBindingsItemAI
@@ -3954,7 +4179,8 @@ export type DispatchNamespacesScriptsSettingsEditResponseBindingsItem =
   | DispatchNamespacesScriptsSettingsEditResponseBindingsItemWorkflow
   | DispatchNamespacesScriptsSettingsEditResponseBindingsItemWasmModule
   | DispatchNamespacesScriptsSettingsEditResponseBindingsItemVPCService
-  | DispatchNamespacesScriptsSettingsEditResponseBindingsItemVPCNetwork;
+  | DispatchNamespacesScriptsSettingsEditResponseBindingsItemVPCNetwork
+  | DispatchNamespacesScriptsSettingsEditResponseBindingsItemWorkerLoader;
 export type DispatchNamespacesScriptsSettingsEditResponseBindingsList =
   Array<DispatchNamespacesScriptsSettingsEditResponseBindingsItem>;
 export type DispatchNamespacesScriptsSettingsEditResponseCacheOptions =
@@ -3968,9 +4194,9 @@ export interface DispatchNamespacesScriptsSettingsEditResponseExportsValueWorker
   /** Marks this entry as a Worker entrypoint export. */
   type: DispatchNamespacesScriptsSettingsEditResponseExportsValueWorkerType;
   /** Cache override for this entrypoint. Overrides the Worker's global `cache_options.enabled` for this entrypoint only. */
-  cache?: DispatchNamespacesScriptsGetResponseScriptExportsValueWorkerCache | null;
+  cache?: DispatchNamespacesScriptsGetResponseScriptExportsValueWorkerCache | null | undefined;
   /** Live export. May be omitted; defaults to `created`. */
-  state?: DispatchNamespacesScriptsSettingsEditResponseExportsValueWorkerState | null;
+  state?: DispatchNamespacesScriptsSettingsEditResponseExportsValueWorkerState | null | undefined;
 }
 export type DispatchNamespacesScriptsSettingsEditResponseExportsValueWorkersDurableObjectExportStorage =
   | "sqlite"
@@ -3985,9 +4211,12 @@ export interface DispatchNamespacesScriptsSettingsEditResponseExportsValueWorker
   /** Marks this entry as a Durable Object export. */
   type: DispatchNamespacesScriptsSettingsEditResponseExportsValueWorkersDurableObjectExportType;
   /** Name of the container (declared in the upload's `metadata.containers`) that backs this Durable Object. When set, the namespace is container-enabled. Valid only on live entries. */
-  container?: string | null;
+  container?: string | null | undefined;
   /** Live export. May be omitted; defaults to `created`. */
-  state?: DispatchNamespacesScriptsSettingsEditResponseExportsValueWorkersDurableObjectExportState | null;
+  state?:
+    | DispatchNamespacesScriptsSettingsEditResponseExportsValueWorkersDurableObjectExportState
+    | null
+    | undefined;
 }
 export type DispatchNamespacesScriptsSettingsEditResponseExportsValueWorkersDurableObjectDeletedExportState =
   "deleted";
@@ -4040,7 +4269,7 @@ export interface DispatchNamespacesScriptsSettingsEditResponseExportsValueWorker
   /** Marks this entry as a Durable Object export. */
   type: DispatchNamespacesScriptsSettingsEditResponseExportsValueWorkersDurableObjectExpectingTransferExportType;
   /** Name of the container (declared in the upload's `metadata.containers`) that backs this Durable Object once the transfer settles. Valid only on live entries. */
-  container?: string | null;
+  container?: string | null | undefined;
 }
 export type DispatchNamespacesScriptsSettingsEditResponseExportsValue =
   | DispatchNamespacesScriptsSettingsEditResponseExportsValueWorker
@@ -4100,9 +4329,12 @@ export interface DispatchNamespacesScriptsSettingsEditResponseExportsReconciliat
   /** Stable, machine-readable tag identifying which reconciliation scenario produced an error, warning, or info entry. Clients may branch on this value instead of parsing `message`. */
   scenario: DispatchNamespacesScriptsSettingsEditResponseExportsReconciliationInfoItemScenario;
   /** The provisioned namespace the entry relates to, when applicable. */
-  namespaceId?: string | null;
+  namespaceId?: string | null | undefined;
   /** Other Workers in the account that still bind to the affected class. Advisory: while non-empty the tombstone is not yet safe to remove -- redeploy these Workers with bindings re-pointed first. */
-  referencingScripts?: DispatchNamespacesScriptsSettingsEditResponseExportsReconciliationInfoItemReferencingScriptsList | null;
+  referencingScripts?:
+    | DispatchNamespacesScriptsSettingsEditResponseExportsReconciliationInfoItemReferencingScriptsList
+    | null
+    | undefined;
 }
 export type DispatchNamespacesScriptsSettingsEditResponseExportsReconciliationInfoList =
   Array<DispatchNamespacesScriptsSettingsEditResponseExportsReconciliationInfoItem>;
@@ -4172,7 +4404,7 @@ export interface DispatchNamespacesScriptsSettingsEditResponseExportsReconciliat
   /** Stable, machine-readable tag identifying which reconciliation scenario produced an error, warning, or info entry. Clients may branch on this value instead of parsing `message`. */
   scenario: DispatchNamespacesScriptsSettingsEditResponseExportsReconciliationWarningsItemScenario;
   /** The provisioned namespace the warning relates to, when applicable. */
-  namespaceId?: string | null;
+  namespaceId?: string | null | undefined;
 }
 export type DispatchNamespacesScriptsSettingsEditResponseExportsReconciliationWarningsList =
   Array<DispatchNamespacesScriptsSettingsEditResponseExportsReconciliationWarningsItem>;
@@ -4214,19 +4446,34 @@ export type DispatchNamespacesScriptsSettingsEditResponseMigrationsSingleStepMig
   Array<DispatchNamespacesScriptsSettingsGetResponseMigrationsSingleStepMigrationTransferredClassesItem>;
 export interface DispatchNamespacesScriptsSettingsEditResponseMigrationsSingleStepMigration {
   /** A list of classes to delete Durable Object namespaces from. */
-  deletedClasses?: DispatchNamespacesScriptsSettingsEditResponseMigrationsSingleStepMigrationDeletedClassesList | null;
+  deletedClasses?:
+    | DispatchNamespacesScriptsSettingsEditResponseMigrationsSingleStepMigrationDeletedClassesList
+    | null
+    | undefined;
   /** A list of classes to create Durable Object namespaces from. */
-  newClasses?: DispatchNamespacesScriptsSettingsEditResponseMigrationsSingleStepMigrationNewClassesList | null;
+  newClasses?:
+    | DispatchNamespacesScriptsSettingsEditResponseMigrationsSingleStepMigrationNewClassesList
+    | null
+    | undefined;
   /** A list of classes to create Durable Object namespaces with SQLite from. */
-  newSqliteClasses?: DispatchNamespacesScriptsSettingsEditResponseMigrationsSingleStepMigrationNewSqliteClassesList | null;
+  newSqliteClasses?:
+    | DispatchNamespacesScriptsSettingsEditResponseMigrationsSingleStepMigrationNewSqliteClassesList
+    | null
+    | undefined;
   /** Tag to set as the latest migration tag. */
-  newTag?: string | null;
+  newTag?: string | null | undefined;
   /** Tag used to verify against the latest migration tag for this Worker. If they don't match, the upload is rejected. */
-  oldTag?: string | null;
+  oldTag?: string | null | undefined;
   /** A list of classes with Durable Object namespaces that were renamed. */
-  renamedClasses?: DispatchNamespacesScriptsSettingsEditResponseMigrationsSingleStepMigrationRenamedClassesList | null;
+  renamedClasses?:
+    | DispatchNamespacesScriptsSettingsEditResponseMigrationsSingleStepMigrationRenamedClassesList
+    | null
+    | undefined;
   /** A list of transfers for Durable Object namespaces from a different Worker and class to a class defined in this Worker. */
-  transferredClasses?: DispatchNamespacesScriptsSettingsEditResponseMigrationsSingleStepMigrationTransferredClassesList | null;
+  transferredClasses?:
+    | DispatchNamespacesScriptsSettingsEditResponseMigrationsSingleStepMigrationTransferredClassesList
+    | null
+    | undefined;
 }
 export type DispatchNamespacesScriptsSettingsEditResponseMigrationsWorkersMultipleStepMigrationsStepsItemDeletedClassesList =
   Array<string>;
@@ -4244,25 +4491,43 @@ export type DispatchNamespacesScriptsSettingsEditResponseMigrationsWorkersMultip
   Array<DispatchNamespacesScriptsSettingsGetResponseMigrationsSingleStepMigrationTransferredClassesItem>;
 export interface DispatchNamespacesScriptsSettingsEditResponseMigrationsWorkersMultipleStepMigrationsStepsItem {
   /** A list of classes to delete Durable Object namespaces from. */
-  deletedClasses?: DispatchNamespacesScriptsSettingsEditResponseMigrationsWorkersMultipleStepMigrationsStepsItemDeletedClassesList | null;
+  deletedClasses?:
+    | DispatchNamespacesScriptsSettingsEditResponseMigrationsWorkersMultipleStepMigrationsStepsItemDeletedClassesList
+    | null
+    | undefined;
   /** A list of classes to create Durable Object namespaces from. */
-  newClasses?: DispatchNamespacesScriptsSettingsEditResponseMigrationsWorkersMultipleStepMigrationsStepsItemNewClassesList | null;
+  newClasses?:
+    | DispatchNamespacesScriptsSettingsEditResponseMigrationsWorkersMultipleStepMigrationsStepsItemNewClassesList
+    | null
+    | undefined;
   /** A list of classes to create Durable Object namespaces with SQLite from. */
-  newSqliteClasses?: DispatchNamespacesScriptsSettingsEditResponseMigrationsWorkersMultipleStepMigrationsStepsItemNewSqliteClassesList | null;
+  newSqliteClasses?:
+    | DispatchNamespacesScriptsSettingsEditResponseMigrationsWorkersMultipleStepMigrationsStepsItemNewSqliteClassesList
+    | null
+    | undefined;
   /** A list of classes with Durable Object namespaces that were renamed. */
-  renamedClasses?: DispatchNamespacesScriptsSettingsEditResponseMigrationsWorkersMultipleStepMigrationsStepsItemRenamedClassesList | null;
+  renamedClasses?:
+    | DispatchNamespacesScriptsSettingsEditResponseMigrationsWorkersMultipleStepMigrationsStepsItemRenamedClassesList
+    | null
+    | undefined;
   /** A list of transfers for Durable Object namespaces from a different Worker and class to a class defined in this Worker. */
-  transferredClasses?: DispatchNamespacesScriptsSettingsEditResponseMigrationsWorkersMultipleStepMigrationsStepsItemTransferredClassesList | null;
+  transferredClasses?:
+    | DispatchNamespacesScriptsSettingsEditResponseMigrationsWorkersMultipleStepMigrationsStepsItemTransferredClassesList
+    | null
+    | undefined;
 }
 export type DispatchNamespacesScriptsSettingsEditResponseMigrationsWorkersMultipleStepMigrationsStepsList =
   Array<DispatchNamespacesScriptsSettingsEditResponseMigrationsWorkersMultipleStepMigrationsStepsItem>;
 export interface DispatchNamespacesScriptsSettingsEditResponseMigrationsWorkersMultipleStepMigrations {
   /** Tag to set as the latest migration tag. */
-  newTag?: string | null;
+  newTag?: string | null | undefined;
   /** Tag used to verify against the latest migration tag for this Worker. If they don't match, the upload is rejected. */
-  oldTag?: string | null;
+  oldTag?: string | null | undefined;
   /** Migrations to apply in order. */
-  steps?: DispatchNamespacesScriptsSettingsEditResponseMigrationsWorkersMultipleStepMigrationsStepsList | null;
+  steps?:
+    | DispatchNamespacesScriptsSettingsEditResponseMigrationsWorkersMultipleStepMigrationsStepsList
+    | null
+    | undefined;
 }
 export type DispatchNamespacesScriptsSettingsEditResponseMigrations =
   | DispatchNamespacesScriptsSettingsEditResponseMigrationsSingleStepMigration
@@ -4277,11 +4542,14 @@ export interface DispatchNamespacesScriptsSettingsEditResponseObservabilityLogs 
   /** Whether [invocation logs](https://developers.cloudflare.com/workers/observability/logs/workers-logs/#invocation-logs) are enabled for the Worker. */
   invocationLogs: boolean;
   /** A list of destinations where logs will be exported to. */
-  destinations?: DispatchNamespacesScriptsSettingsEditResponseObservabilityLogsDestinationsList | null;
+  destinations?:
+    | DispatchNamespacesScriptsSettingsEditResponseObservabilityLogsDestinationsList
+    | null
+    | undefined;
   /** The sampling rate for logs. From 0 to 1 (1 = 100%, 0.1 = 10%). Default is 1. */
-  headSamplingRate?: number | null;
+  headSamplingRate?: number | null | undefined;
   /** Whether log persistence is enabled for the Worker. */
-  persist?: boolean | null;
+  persist?: boolean | null | undefined;
 }
 export type DispatchNamespacesScriptsSettingsEditResponseObservabilityTracesDestinationsList =
   Array<string>;
@@ -4290,29 +4558,35 @@ export type DispatchNamespacesScriptsSettingsEditResponseObservabilityTracesProp
   | "accept";
 export interface DispatchNamespacesScriptsSettingsEditResponseObservabilityTraces {
   /** A list of destinations where traces will be exported to. */
-  destinations?: DispatchNamespacesScriptsSettingsEditResponseObservabilityTracesDestinationsList | null;
+  destinations?:
+    | DispatchNamespacesScriptsSettingsEditResponseObservabilityTracesDestinationsList
+    | null
+    | undefined;
   /** Whether traces are enabled for the Worker. */
-  enabled?: boolean | null;
+  enabled?: boolean | null | undefined;
   /** The sampling rate for traces. From 0 to 1 (1 = 100%, 0.1 = 10%). Default is 1. */
-  headSamplingRate?: number | null;
+  headSamplingRate?: number | null | undefined;
   /** Whether trace persistence is enabled for the Worker. */
-  persist?: boolean | null;
+  persist?: boolean | null | undefined;
   /** Controls how inbound trace context (traceparent/tracestate) headers on incoming requests are handled. "authenticated" honors inbound trace context only when accompanied by a valid trace auth token. "accept" unconditionally accepts inbound trace context. Requires the trace propagation feature to be enabled. Returns null when the trace propagation feature is not enabled for the account. */
-  propagationPolicy?: DispatchNamespacesScriptsSettingsEditResponseObservabilityTracesPropagationPolicy | null;
+  propagationPolicy?:
+    | DispatchNamespacesScriptsSettingsEditResponseObservabilityTracesPropagationPolicy
+    | null
+    | undefined;
 }
 export interface DispatchNamespacesScriptsSettingsEditResponseObservability {
   /** Whether observability is enabled for the Worker. */
   enabled: boolean;
   /** The sampling rate for incoming requests. From 0 to 1 (1 = 100%, 0.1 = 10%). Default is 1. */
-  headSamplingRate?: number | null;
+  headSamplingRate?: number | null | undefined;
   /** Real-time Issues settings for the Worker. */
-  issues?: DispatchNamespacesScriptsGetResponseScriptObservabilityIssues | null;
+  issues?: DispatchNamespacesScriptsGetResponseScriptObservabilityIssues | null | undefined;
   /** Log settings for the Worker. */
-  logs?: DispatchNamespacesScriptsSettingsEditResponseObservabilityLogs | null;
+  logs?: DispatchNamespacesScriptsSettingsEditResponseObservabilityLogs | null | undefined;
   /** Whether query strings are removed from request URLs in logs and traces. */
-  redactQueryString?: boolean | null;
+  redactQueryString?: boolean | null | undefined;
   /** Trace settings for the Worker. */
-  traces?: DispatchNamespacesScriptsSettingsEditResponseObservabilityTraces | null;
+  traces?: DispatchNamespacesScriptsSettingsEditResponseObservabilityTraces | null | undefined;
 }
 export type DispatchNamespacesScriptsSettingsEditResponsePlacementModeMode = "smart";
 export interface DispatchNamespacesScriptsSettingsEditResponsePlacementMode {
@@ -4386,40 +4660,46 @@ export type DispatchNamespacesScriptsSettingsEditResponseUsageModel =
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface PatchDispatchNamespaceScriptSettingResponse {
   /** List of bindings attached to a Worker. You can find more about bindings on our docs: https://developers.cloudflare.com/workers/configuration/multipart-upload-metadata/#bindings. */
-  bindings?: DispatchNamespacesScriptsSettingsEditResponseBindingsList | null;
+  bindings?: DispatchNamespacesScriptsSettingsEditResponseBindingsList | null | undefined;
   /** Global CacheW configuration for the Worker. When caching is on, the platform provisions a `cloudflare.app` zone for the Worker. A `type: worker` entry in the `exports` map can override this value for a single entrypoint. */
-  cacheOptions?: DispatchNamespacesScriptsGetResponseScriptCacheOptions | null;
+  cacheOptions?: DispatchNamespacesScriptsGetResponseScriptCacheOptions | null | undefined;
   /** Date indicating targeted support in the Workers runtime. Backwards incompatible fixes to the runtime following this date will not affect this Worker. */
-  compatibilityDate?: string | null;
+  compatibilityDate?: string | null | undefined;
   /** Flags that enable or disable certain features in the Workers runtime. Used to enable upcoming features or opt in or out of specific changes not included in a `compatibility_date`. */
-  compatibilityFlags?: DispatchNamespacesScriptsSettingsEditResponseCompatibilityFlagsList | null;
+  compatibilityFlags?:
+    | DispatchNamespacesScriptsSettingsEditResponseCompatibilityFlagsList
+    | null
+    | undefined;
   /** Declarative exports for the Worker. Worker entrypoint entries (`type: worker`) carry cache configuration for that entrypoint. */
-  exports?: DispatchNamespacesScriptsSettingsEditResponseExportsMap | null;
+  exports?: DispatchNamespacesScriptsSettingsEditResponseExportsMap | null | undefined;
   /** Summary of the declarative exports reconciliation that ran on this upload. Populated only when the uploaded metadata included an `exports` block. Durable Object entries drive reconciliation; `type: worker` entries do not contribute to this summary. */
-  exportsReconciliation?: DispatchNamespacesScriptsSettingsEditResponseExportsReconciliation | null;
+  exportsReconciliation?:
+    | DispatchNamespacesScriptsSettingsEditResponseExportsReconciliation
+    | null
+    | undefined;
   /** Limits to apply for this Worker. */
-  limits?: DispatchNamespacesScriptsSettingsGetResponseLimits | null;
+  limits?: DispatchNamespacesScriptsSettingsGetResponseLimits | null | undefined;
   /** Whether Logpush is turned on for the Worker. */
-  logpush?: boolean | null;
+  logpush?: boolean | null | undefined;
   /** Migrations to apply for Durable Objects associated with this Worker. */
-  migrations?: DispatchNamespacesScriptsSettingsEditResponseMigrations | null;
+  migrations?: DispatchNamespacesScriptsSettingsEditResponseMigrations | null | undefined;
   /** Observability settings for the Worker. */
-  observability?: DispatchNamespacesScriptsSettingsEditResponseObservability | null;
+  observability?: DispatchNamespacesScriptsSettingsEditResponseObservability | null | undefined;
   /** Configuration for [Smart Placement](https://developers.cloudflare.com/workers/configuration/smart-placement). Specify mode='smart' for Smart Placement, or one of region/hostname/host. */
-  placement?: DispatchNamespacesScriptsSettingsEditResponsePlacement | null;
+  placement?: DispatchNamespacesScriptsSettingsEditResponsePlacement | null | undefined;
   /** Tags associated with the Worker. */
-  tags?: DispatchNamespacesScriptsSettingsEditResponseTagsList | null;
+  tags?: DispatchNamespacesScriptsSettingsEditResponseTagsList | null | undefined;
   /** List of Workers that will consume logs from the attached Worker. */
-  tailConsumers?: DispatchNamespacesScriptsSettingsEditResponseTailConsumersList | null;
+  tailConsumers?: DispatchNamespacesScriptsSettingsEditResponseTailConsumersList | null | undefined;
   /** Usage model for the Worker invocations. */
-  usageModel?: DispatchNamespacesScriptsSettingsEditResponseUsageModel | null;
+  usageModel?: DispatchNamespacesScriptsSettingsEditResponseUsageModel | null | undefined;
 }
 export type DispatchNamespacesScriptsUpdateRequestBindingsInherit = "strict";
 export interface PutDispatchNamespaceScriptMetadataAnnotations {
-  workersMessage?: string;
-  workersTag?: string;
+  workersMessage?: string | undefined;
+  workersTag?: string | undefined;
   /** Alias to point at this version (e.g. for gradual deployments). */
-  workersAlias?: string;
+  workersAlias?: string | undefined;
 }
 export type PutDispatchNamespaceScriptAssetsConfigHtmlHandling =
   | "auto-trailing-slash"
@@ -4435,16 +4715,19 @@ export type PutDispatchNamespaceScriptAssetsConfigRunWorkerFirst =
   | PutDispatchNamespaceScriptMetadataStringList
   | boolean;
 export interface PutDispatchNamespaceScriptAssetsConfig {
-  htmlHandling?: PutDispatchNamespaceScriptAssetsConfigHtmlHandling | (string & {});
-  notFoundHandling?: PutDispatchNamespaceScriptAssetsConfigNotFoundHandling | (string & {});
-  runWorkerFirst?: PutDispatchNamespaceScriptAssetsConfigRunWorkerFirst;
-  serveDirectly?: boolean;
-  headers?: string;
-  redirects?: string;
+  htmlHandling?: PutDispatchNamespaceScriptAssetsConfigHtmlHandling | (string & {}) | undefined;
+  notFoundHandling?:
+    | PutDispatchNamespaceScriptAssetsConfigNotFoundHandling
+    | (string & {})
+    | undefined;
+  runWorkerFirst?: PutDispatchNamespaceScriptAssetsConfigRunWorkerFirst | undefined;
+  serveDirectly?: boolean | undefined;
+  headers?: string | undefined;
+  redirects?: string | undefined;
 }
 export interface PutDispatchNamespaceScriptMetadataAssets {
-  config?: PutDispatchNamespaceScriptAssetsConfig;
-  jwt?: string;
+  config?: PutDispatchNamespaceScriptAssetsConfig | undefined;
+  jwt?: string | undefined;
 }
 export type PutDispatchNamespaceScriptBindingAiType = "ai";
 export interface PutDispatchNamespaceScriptBindingAi {
@@ -4455,7 +4738,7 @@ export type PutDispatchNamespaceScriptBindingAiSearchType = "ai_search";
 export interface PutDispatchNamespaceScriptBindingAiSearch {
   instanceName: string;
   name: string;
-  namespace?: string;
+  namespace?: string | undefined;
   type: PutDispatchNamespaceScriptBindingAiSearchType;
 }
 export type PutDispatchNamespaceScriptBindingAiSearchNamespaceType = "ai_search_namespace";
@@ -4484,7 +4767,7 @@ export type PutDispatchNamespaceScriptBindingD1Type = "d1";
 export interface PutDispatchNamespaceScriptBindingD1 {
   databaseId: string;
   name: string;
-  id?: string;
+  id?: string | undefined;
   type: PutDispatchNamespaceScriptBindingD1Type;
 }
 export type PutDispatchNamespaceScriptBindingDataBlobType = "data_blob";
@@ -4499,19 +4782,19 @@ export interface PutDispatchNamespaceScriptBindingDispatchNamespaceOutboundParam
 export type PutDispatchNamespaceScriptBindingDispatchNamespaceOutboundParamsList =
   Array<PutDispatchNamespaceScriptBindingDispatchNamespaceOutboundParam>;
 export interface PutDispatchNamespaceScriptBindingDispatchNamespaceOutboundWorker {
-  entrypoint?: string;
-  environment?: string;
-  service?: string;
+  entrypoint?: string | undefined;
+  environment?: string | undefined;
+  service?: string | undefined;
 }
 export interface PutDispatchNamespaceScriptBindingDispatchNamespaceOutbound {
-  params?: PutDispatchNamespaceScriptBindingDispatchNamespaceOutboundParamsList;
-  worker?: PutDispatchNamespaceScriptBindingDispatchNamespaceOutboundWorker;
+  params?: PutDispatchNamespaceScriptBindingDispatchNamespaceOutboundParamsList | undefined;
+  worker?: PutDispatchNamespaceScriptBindingDispatchNamespaceOutboundWorker | undefined;
 }
 export type PutDispatchNamespaceScriptBindingDispatchNamespaceType = "dispatch_namespace";
 export interface PutDispatchNamespaceScriptBindingDispatchNamespace {
   name: string;
   namespace: string;
-  outbound?: PutDispatchNamespaceScriptBindingDispatchNamespaceOutbound;
+  outbound?: PutDispatchNamespaceScriptBindingDispatchNamespaceOutbound | undefined;
   type: PutDispatchNamespaceScriptBindingDispatchNamespaceType;
 }
 export type PutDispatchNamespaceScriptBindingDurableObjectNamespaceType =
@@ -4519,10 +4802,10 @@ export type PutDispatchNamespaceScriptBindingDurableObjectNamespaceType =
 export interface PutDispatchNamespaceScriptBindingDurableObjectNamespace {
   name: string;
   className: string;
-  dispatchNamespace?: string;
-  environment?: string;
-  namespaceId?: string;
-  scriptName?: string;
+  dispatchNamespace?: string | undefined;
+  environment?: string | undefined;
+  namespaceId?: string | undefined;
+  scriptName?: string | undefined;
   type: PutDispatchNamespaceScriptBindingDurableObjectNamespaceType;
 }
 export type PutDispatchNamespaceScriptBindingHyperdriveType = "hyperdrive";
@@ -4534,8 +4817,8 @@ export interface PutDispatchNamespaceScriptBindingHyperdrive {
 export type PutDispatchNamespaceScriptBindingInheritType = "inherit";
 export interface PutDispatchNamespaceScriptBindingInherit {
   name: string;
-  oldName?: string;
-  versionId?: string;
+  oldName?: string | undefined;
+  versionId?: string | undefined;
   type: PutDispatchNamespaceScriptBindingInheritType;
 }
 export type PutDispatchNamespaceScriptBindingImagesType = "images";
@@ -4587,7 +4870,7 @@ export interface PutDispatchNamespaceScriptBindingQueue {
 export interface PutDispatchNamespaceScriptBindingRatelimitSimple {
   limit: number;
   period: number;
-  mitigationTimeout?: number;
+  mitigationTimeout?: number | undefined;
 }
 export type PutDispatchNamespaceScriptBindingRatelimitType = "ratelimit";
 export interface PutDispatchNamespaceScriptBindingRatelimit {
@@ -4604,7 +4887,7 @@ export type PutDispatchNamespaceScriptBindingR2BucketType = "r2_bucket";
 export interface PutDispatchNamespaceScriptBindingR2Bucket {
   bucketName: string;
   name: string;
-  jurisdiction?: PutDispatchNamespaceScriptBindingR2BucketJurisdiction | (string & {});
+  jurisdiction?: PutDispatchNamespaceScriptBindingR2BucketJurisdiction | (string & {}) | undefined;
   type: PutDispatchNamespaceScriptBindingR2BucketType;
 }
 export type PutDispatchNamespaceScriptBindingSecretTextType = "secret_text";
@@ -4616,19 +4899,17 @@ export interface PutDispatchNamespaceScriptBindingSecretText {
 export type PutDispatchNamespaceScriptBindingSendEmailType = "send_email";
 export interface PutDispatchNamespaceScriptBindingSendEmail {
   name: string;
-  allowedDestinationAddresses?: PutDispatchNamespaceScriptMetadataStringList;
-  allowedSenderAddresses?: PutDispatchNamespaceScriptMetadataStringList;
-  destinationAddress?: string;
+  allowedDestinationAddresses?: PutDispatchNamespaceScriptMetadataStringList | undefined;
+  allowedSenderAddresses?: PutDispatchNamespaceScriptMetadataStringList | undefined;
+  destinationAddress?: string | undefined;
   type: PutDispatchNamespaceScriptBindingSendEmailType;
 }
 export type PutDispatchNamespaceScriptBindingServiceType = "service";
 export interface PutDispatchNamespaceScriptBindingService {
   name: string;
   service: string;
-  entrypoint?: string;
-  environment?: string;
-  /** JSON object the bound entrypoint reads as `ctx.props`, sent with its keys as written. */
-  props?: unknown;
+  entrypoint?: string | undefined;
+  environment?: string | undefined;
   type: PutDispatchNamespaceScriptBindingServiceType;
 }
 export type PutDispatchNamespaceScriptBindingTextBlobType = "text_blob";
@@ -4680,8 +4961,8 @@ export interface PutDispatchNamespaceScriptBindingSecretKey {
   format: PutDispatchNamespaceScriptBindingSecretKeyFormat | (string & {});
   name: string;
   usages: PutDispatchNamespaceScriptBindingSecretKeyUsagesList;
-  keyBase64?: string;
-  keyJwk?: unknown;
+  keyBase64?: string | undefined;
+  keyJwk?: unknown | undefined;
   type: PutDispatchNamespaceScriptBindingSecretKeyType;
 }
 export type PutDispatchNamespaceScriptBindingWorkflowType = "workflow";
@@ -4689,7 +4970,7 @@ export interface PutDispatchNamespaceScriptBindingWorkflow {
   name: string;
   workflowName: string;
   className: string;
-  scriptName?: string;
+  scriptName?: string | undefined;
   type: PutDispatchNamespaceScriptBindingWorkflowType;
 }
 export type PutDispatchNamespaceScriptBindingWasmModuleType = "wasm_module";
@@ -4707,8 +4988,8 @@ export interface PutDispatchNamespaceScriptBindingVpcService {
 export type PutDispatchNamespaceScriptBindingVpcNetworkType = "vpc_network";
 export interface PutDispatchNamespaceScriptBindingVpcNetwork {
   name: string;
-  networkId?: string;
-  tunnelId?: string;
+  networkId?: string | undefined;
+  tunnelId?: string | undefined;
   type: PutDispatchNamespaceScriptBindingVpcNetworkType;
 }
 export type PutDispatchNamespaceScriptBindingWorkerLoaderType = "worker_loader";
@@ -4779,14 +5060,14 @@ export type PutDispatchNamespaceScriptMetadataBindingsList =
 export type ContainerImageMap = { [key: string]: string | undefined };
 export interface PutDispatchNamespaceScriptContainer {
   className: string;
-  name?: string;
-  images?: ContainerImageMap;
+  name?: string | undefined;
+  images?: ContainerImageMap | undefined;
 }
 export type PutDispatchNamespaceScriptMetadataContainersList =
   Array<PutDispatchNamespaceScriptContainer>;
 export interface PutDispatchNamespaceScriptMetadataLimits {
-  cpuMs?: number;
-  subrequests?: number;
+  cpuMs?: number | undefined;
+  subrequests?: number | undefined;
 }
 export type PutDispatchNamespaceScriptMigrationRenamedClass =
   DispatchNamespacesScriptsSettingsEditRequestSettingsMigrationsSingleStepMigrationRenamedClassesItem;
@@ -4797,27 +5078,27 @@ export type PutDispatchNamespaceScriptMigrationTransferredClass =
 export type PutDispatchNamespaceScriptMigrationTransferredClassesList =
   Array<DispatchNamespacesScriptsSettingsEditRequestSettingsMigrationsSingleStepMigrationTransferredClassesItem>;
 export interface PutDispatchNamespaceScriptSingleStepMigration {
-  deletedClasses?: PutDispatchNamespaceScriptMetadataStringList;
-  newClasses?: PutDispatchNamespaceScriptMetadataStringList;
-  newSqliteClasses?: PutDispatchNamespaceScriptMetadataStringList;
-  newTag?: string;
-  oldTag?: string;
-  renamedClasses?: PutDispatchNamespaceScriptMigrationRenamedClassesList;
-  transferredClasses?: PutDispatchNamespaceScriptMigrationTransferredClassesList;
+  deletedClasses?: PutDispatchNamespaceScriptMetadataStringList | undefined;
+  newClasses?: PutDispatchNamespaceScriptMetadataStringList | undefined;
+  newSqliteClasses?: PutDispatchNamespaceScriptMetadataStringList | undefined;
+  newTag?: string | undefined;
+  oldTag?: string | undefined;
+  renamedClasses?: PutDispatchNamespaceScriptMigrationRenamedClassesList | undefined;
+  transferredClasses?: PutDispatchNamespaceScriptMigrationTransferredClassesList | undefined;
 }
 export interface PutDispatchNamespaceScriptMigrationStep {
-  deletedClasses?: PutDispatchNamespaceScriptMetadataStringList;
-  newClasses?: PutDispatchNamespaceScriptMetadataStringList;
-  newSqliteClasses?: PutDispatchNamespaceScriptMetadataStringList;
-  renamedClasses?: PutDispatchNamespaceScriptMigrationRenamedClassesList;
-  transferredClasses?: PutDispatchNamespaceScriptMigrationTransferredClassesList;
+  deletedClasses?: PutDispatchNamespaceScriptMetadataStringList | undefined;
+  newClasses?: PutDispatchNamespaceScriptMetadataStringList | undefined;
+  newSqliteClasses?: PutDispatchNamespaceScriptMetadataStringList | undefined;
+  renamedClasses?: PutDispatchNamespaceScriptMigrationRenamedClassesList | undefined;
+  transferredClasses?: PutDispatchNamespaceScriptMigrationTransferredClassesList | undefined;
 }
 export type PutDispatchNamespaceScriptMigrationStepsList =
   Array<PutDispatchNamespaceScriptMigrationStep>;
 export interface PutDispatchNamespaceScriptMultipleStepMigrations {
-  newTag?: string;
-  oldTag?: string;
-  steps?: PutDispatchNamespaceScriptMigrationStepsList;
+  newTag?: string | undefined;
+  oldTag?: string | undefined;
+  steps?: PutDispatchNamespaceScriptMigrationStepsList | undefined;
 }
 export type PutDispatchNamespaceScriptMetadataMigrations =
   | PutDispatchNamespaceScriptSingleStepMigration
@@ -4825,32 +5106,33 @@ export type PutDispatchNamespaceScriptMetadataMigrations =
 export interface PutDispatchNamespaceScriptObservabilityLogs {
   enabled: boolean;
   invocationLogs: boolean;
-  destinations?: PutDispatchNamespaceScriptMetadataStringList;
-  headSamplingRate?: number | null;
-  persist?: boolean;
+  destinations?: PutDispatchNamespaceScriptMetadataStringList | undefined;
+  headSamplingRate?: number | null | undefined;
+  persist?: boolean | undefined;
 }
 export type PutDispatchNamespaceScriptObservabilityTracesPropagationPolicy =
   | "authenticated"
   | "accept";
 export interface PutDispatchNamespaceScriptObservabilityTraces {
-  destinations?: PutDispatchNamespaceScriptMetadataStringList;
-  enabled?: boolean;
-  headSamplingRate?: number | null;
-  persist?: boolean;
+  destinations?: PutDispatchNamespaceScriptMetadataStringList | undefined;
+  enabled?: boolean | undefined;
+  headSamplingRate?: number | null | undefined;
+  persist?: boolean | undefined;
   propagationPolicy?:
     | PutDispatchNamespaceScriptObservabilityTracesPropagationPolicy
-    | (string & {});
+    | (string & {})
+    | undefined;
 }
 export interface PutDispatchNamespaceScriptObservabilityIssues {
   /** Whether Workers Issues error monitoring is enabled. */
   enabled: boolean;
 }
 export interface PutDispatchNamespaceScriptMetadataObservability {
-  enabled?: boolean;
-  headSamplingRate?: number | null;
-  logs?: PutDispatchNamespaceScriptObservabilityLogs | null;
-  traces?: PutDispatchNamespaceScriptObservabilityTraces | null;
-  issues?: PutDispatchNamespaceScriptObservabilityIssues;
+  enabled?: boolean | undefined;
+  headSamplingRate?: number | null | undefined;
+  logs?: PutDispatchNamespaceScriptObservabilityLogs | null | undefined;
+  traces?: PutDispatchNamespaceScriptObservabilityTraces | null | undefined;
+  issues?: PutDispatchNamespaceScriptObservabilityIssues | undefined;
 }
 export type PutDispatchNamespaceScriptPlacementSmartMode = "smart";
 export interface PutDispatchNamespaceScriptPlacementSmart {
@@ -4904,18 +5186,25 @@ export type PutDispatchNamespaceScriptMetadataPlacement =
   | PutDispatchNamespaceScriptPlacementTargetedList;
 export interface PutDispatchNamespaceScriptTailConsumer {
   service: string;
-  environment?: string;
-  namespace?: string;
+  environment?: string | undefined;
+  namespace?: string | undefined;
 }
 export type PutDispatchNamespaceScriptMetadataTailConsumersList =
   Array<PutDispatchNamespaceScriptTailConsumer>;
 export type PutDispatchNamespaceScriptMetadataUsageModel = "standard" | "bundled" | "unbound";
 export interface PutDispatchNamespaceScriptMetadataCache {
-  enabled?: boolean;
-  crossVersionCache?: boolean;
+  enabled?: boolean | undefined;
+  crossVersionCache?: boolean | undefined;
 }
 export type PutDispatchNamespaceScriptMetadataStreamingTailConsumersList =
   Array<PutDispatchNamespaceScriptTailConsumer>;
+export type CodeUpdateStrategyMode = "immediate" | "deferred";
+export interface CodeUpdateStrategy {
+  /** `immediate` applies Durable Object code updates right away; `deferred` lets active Durable Objects hibernate before updating their code. */
+  mode: CodeUpdateStrategyMode | (string & {});
+  /** Maximum number of seconds (0-86400, millisecond precision) to wait before forcing the update. Only valid with mode `deferred`. When omitted, the default maximum delay (300) applies. */
+  maxDelay?: number | undefined;
+}
 export type PutDispatchNamespaceScriptMetadataExportType = "worker" | "durable-object";
 export type PutDispatchNamespaceScriptMetadataExportState =
   | "created"
@@ -4924,41 +5213,46 @@ export type PutDispatchNamespaceScriptMetadataExportState =
   | "transferred"
   | "expecting-transfer";
 export interface PutDispatchNamespaceScriptMetadataExport {
-  type?: PutDispatchNamespaceScriptMetadataExportType | (string & {});
-  cache?: PutDispatchNamespaceScriptMetadataCache;
-  storage?: string;
-  container?: string;
-  state?: PutDispatchNamespaceScriptMetadataExportState | (string & {});
-  renamedTo?: string;
-  transferredTo?: string;
-  transferFrom?: string;
+  type?: PutDispatchNamespaceScriptMetadataExportType | (string & {}) | undefined;
+  cache?: PutDispatchNamespaceScriptMetadataCache | undefined;
+  storage?: string | undefined;
+  container?: string | undefined;
+  state?: PutDispatchNamespaceScriptMetadataExportState | (string & {}) | undefined;
+  renamedTo?: string | undefined;
+  transferredTo?: string | undefined;
+  transferFrom?: string | undefined;
 }
 export type PutDispatchNamespaceScriptMetadataExports = {
   [key: string]: PutDispatchNamespaceScriptMetadataExport | undefined;
 };
 export interface PutDispatchNamespaceScriptMetadata {
-  annotations?: PutDispatchNamespaceScriptMetadataAnnotations;
-  assets?: PutDispatchNamespaceScriptMetadataAssets;
-  bindings?: PutDispatchNamespaceScriptMetadataBindingsList;
-  bodyPart?: string;
-  compatibilityDate?: string;
-  compatibilityFlags?: PutDispatchNamespaceScriptMetadataStringList;
-  containers?: PutDispatchNamespaceScriptMetadataContainersList;
-  keepAssets?: boolean;
-  keepBindings?: PutDispatchNamespaceScriptMetadataStringList;
-  limits?: PutDispatchNamespaceScriptMetadataLimits;
-  logpush?: boolean;
-  mainModule?: string;
-  migrations?: PutDispatchNamespaceScriptMetadataMigrations;
-  observability?: PutDispatchNamespaceScriptMetadataObservability;
-  placement?: PutDispatchNamespaceScriptMetadataPlacement;
-  tags?: PutDispatchNamespaceScriptMetadataStringList;
-  tailConsumers?: PutDispatchNamespaceScriptMetadataTailConsumersList | null;
-  usageModel?: PutDispatchNamespaceScriptMetadataUsageModel | (string & {});
-  cacheOptions?: PutDispatchNamespaceScriptMetadataCache;
-  streamingTailConsumers?: PutDispatchNamespaceScriptMetadataStreamingTailConsumersList | null;
+  annotations?: PutDispatchNamespaceScriptMetadataAnnotations | undefined;
+  assets?: PutDispatchNamespaceScriptMetadataAssets | undefined;
+  bindings?: PutDispatchNamespaceScriptMetadataBindingsList | undefined;
+  bodyPart?: string | undefined;
+  compatibilityDate?: string | undefined;
+  compatibilityFlags?: PutDispatchNamespaceScriptMetadataStringList | undefined;
+  containers?: PutDispatchNamespaceScriptMetadataContainersList | undefined;
+  keepAssets?: boolean | undefined;
+  keepBindings?: PutDispatchNamespaceScriptMetadataStringList | undefined;
+  limits?: PutDispatchNamespaceScriptMetadataLimits | undefined;
+  logpush?: boolean | undefined;
+  mainModule?: string | undefined;
+  migrations?: PutDispatchNamespaceScriptMetadataMigrations | undefined;
+  observability?: PutDispatchNamespaceScriptMetadataObservability | undefined;
+  placement?: PutDispatchNamespaceScriptMetadataPlacement | undefined;
+  tags?: PutDispatchNamespaceScriptMetadataStringList | undefined;
+  tailConsumers?: PutDispatchNamespaceScriptMetadataTailConsumersList | null | undefined;
+  usageModel?: PutDispatchNamespaceScriptMetadataUsageModel | (string & {}) | undefined;
+  cacheOptions?: PutDispatchNamespaceScriptMetadataCache | undefined;
+  streamingTailConsumers?:
+    | PutDispatchNamespaceScriptMetadataStreamingTailConsumersList
+    | null
+    | undefined;
+  /** Choose whether to apply Durable Object code updates immediately or defer them. When omitted, the default strategy applies. */
+  codeUpdateStrategy?: CodeUpdateStrategy | undefined;
   /** Per-export settings keyed by the verbatim export name (default for the default export). */
-  exports?: PutDispatchNamespaceScriptMetadataExports;
+  exports?: PutDispatchNamespaceScriptMetadataExports | undefined;
 }
 export interface PutDispatchNamespaceScriptRequest {
   /** Identifier. */
@@ -4968,10 +5262,13 @@ export interface PutDispatchNamespaceScriptRequest {
   /** Name of the script. */
   scriptName: string;
   /** When set to "strict", the upload will fail with error 10057 if any `inherit` type bindings cannot be resolved against the latest uploaded version of the script, which may not be the deployed version. Without this, unresolvable inherit bindings are silently dropped. */
-  bindingsInherit?: DispatchNamespacesScriptsUpdateRequestBindingsInherit | (string & {});
+  bindingsInherit?:
+    | DispatchNamespacesScriptsUpdateRequestBindingsInherit
+    | (string & {})
+    | undefined;
   metadata: PutDispatchNamespaceScriptMetadata;
   /** Module / asset file parts, appended under their own filenames. */
-  files?: File | Blob | (File | Blob)[];
+  files?: File | Blob | (File | Blob)[] | undefined;
 }
 export type DispatchNamespacesScriptsUpdateResponseCacheOptions =
   DispatchNamespacesScriptsGetResponseScriptCacheOptions;
@@ -4984,9 +5281,9 @@ export interface DispatchNamespacesScriptsUpdateResponseExportsValueWorker {
   /** Marks this entry as a Worker entrypoint export. */
   type: DispatchNamespacesScriptsUpdateResponseExportsValueWorkerType;
   /** Cache override for this entrypoint. Overrides the Worker's global `cache_options.enabled` for this entrypoint only. */
-  cache?: DispatchNamespacesScriptsGetResponseScriptExportsValueWorkerCache | null;
+  cache?: DispatchNamespacesScriptsGetResponseScriptExportsValueWorkerCache | null | undefined;
   /** Live export. May be omitted; defaults to `created`. */
-  state?: DispatchNamespacesScriptsUpdateResponseExportsValueWorkerState | null;
+  state?: DispatchNamespacesScriptsUpdateResponseExportsValueWorkerState | null | undefined;
 }
 export type DispatchNamespacesScriptsUpdateResponseExportsValueWorkersDurableObjectExportStorage =
   | "sqlite"
@@ -5001,9 +5298,12 @@ export interface DispatchNamespacesScriptsUpdateResponseExportsValueWorkersDurab
   /** Marks this entry as a Durable Object export. */
   type: DispatchNamespacesScriptsUpdateResponseExportsValueWorkersDurableObjectExportType;
   /** Name of the container (declared in the upload's `metadata.containers`) that backs this Durable Object. When set, the namespace is container-enabled. Valid only on live entries. */
-  container?: string | null;
+  container?: string | null | undefined;
   /** Live export. May be omitted; defaults to `created`. */
-  state?: DispatchNamespacesScriptsUpdateResponseExportsValueWorkersDurableObjectExportState | null;
+  state?:
+    | DispatchNamespacesScriptsUpdateResponseExportsValueWorkersDurableObjectExportState
+    | null
+    | undefined;
 }
 export type DispatchNamespacesScriptsUpdateResponseExportsValueWorkersDurableObjectDeletedExportState =
   "deleted";
@@ -5056,7 +5356,7 @@ export interface DispatchNamespacesScriptsUpdateResponseExportsValueWorkersDurab
   /** Marks this entry as a Durable Object export. */
   type: DispatchNamespacesScriptsUpdateResponseExportsValueWorkersDurableObjectExpectingTransferExportType;
   /** Name of the container (declared in the upload's `metadata.containers`) that backs this Durable Object once the transfer settles. Valid only on live entries. */
-  container?: string | null;
+  container?: string | null | undefined;
 }
 export type DispatchNamespacesScriptsUpdateResponseExportsValue =
   | DispatchNamespacesScriptsUpdateResponseExportsValueWorker
@@ -5072,9 +5372,12 @@ export type DispatchNamespacesScriptsUpdateResponseHandlersList = Array<string>;
 export type DispatchNamespacesScriptsUpdateResponseNamedHandlersItemHandlersList = Array<string>;
 export interface DispatchNamespacesScriptsUpdateResponseNamedHandlersItem {
   /** The names of handlers exported as part of the named export. */
-  handlers?: DispatchNamespacesScriptsUpdateResponseNamedHandlersItemHandlersList | null;
+  handlers?:
+    | DispatchNamespacesScriptsUpdateResponseNamedHandlersItemHandlersList
+    | null
+    | undefined;
   /** The name of the export. */
-  name?: string | null;
+  name?: string | null | undefined;
 }
 export type DispatchNamespacesScriptsUpdateResponseNamedHandlersList =
   Array<DispatchNamespacesScriptsUpdateResponseNamedHandlersItem>;
@@ -5088,11 +5391,14 @@ export interface DispatchNamespacesScriptsUpdateResponseObservabilityLogs {
   /** Whether [invocation logs](https://developers.cloudflare.com/workers/observability/logs/workers-logs/#invocation-logs) are enabled for the Worker. */
   invocationLogs: boolean;
   /** A list of destinations where logs will be exported to. */
-  destinations?: DispatchNamespacesScriptsUpdateResponseObservabilityLogsDestinationsList | null;
+  destinations?:
+    | DispatchNamespacesScriptsUpdateResponseObservabilityLogsDestinationsList
+    | null
+    | undefined;
   /** The sampling rate for logs. From 0 to 1 (1 = 100%, 0.1 = 10%). Default is 1. */
-  headSamplingRate?: number | null;
+  headSamplingRate?: number | null | undefined;
   /** Whether log persistence is enabled for the Worker. */
-  persist?: boolean | null;
+  persist?: boolean | null | undefined;
 }
 export type DispatchNamespacesScriptsUpdateResponseObservabilityTracesDestinationsList =
   Array<string>;
@@ -5101,29 +5407,35 @@ export type DispatchNamespacesScriptsUpdateResponseObservabilityTracesPropagatio
   | "accept";
 export interface DispatchNamespacesScriptsUpdateResponseObservabilityTraces {
   /** A list of destinations where traces will be exported to. */
-  destinations?: DispatchNamespacesScriptsUpdateResponseObservabilityTracesDestinationsList | null;
+  destinations?:
+    | DispatchNamespacesScriptsUpdateResponseObservabilityTracesDestinationsList
+    | null
+    | undefined;
   /** Whether traces are enabled for the Worker. */
-  enabled?: boolean | null;
+  enabled?: boolean | null | undefined;
   /** The sampling rate for traces. From 0 to 1 (1 = 100%, 0.1 = 10%). Default is 1. */
-  headSamplingRate?: number | null;
+  headSamplingRate?: number | null | undefined;
   /** Whether trace persistence is enabled for the Worker. */
-  persist?: boolean | null;
+  persist?: boolean | null | undefined;
   /** Controls how inbound trace context (traceparent/tracestate) headers on incoming requests are handled. "authenticated" honors inbound trace context only when accompanied by a valid trace auth token. "accept" unconditionally accepts inbound trace context. Requires the trace propagation feature to be enabled. Returns null when the trace propagation feature is not enabled for the account. */
-  propagationPolicy?: DispatchNamespacesScriptsUpdateResponseObservabilityTracesPropagationPolicy | null;
+  propagationPolicy?:
+    | DispatchNamespacesScriptsUpdateResponseObservabilityTracesPropagationPolicy
+    | null
+    | undefined;
 }
 export interface DispatchNamespacesScriptsUpdateResponseObservability {
   /** Whether observability is enabled for the Worker. */
   enabled: boolean;
   /** The sampling rate for incoming requests. From 0 to 1 (1 = 100%, 0.1 = 10%). Default is 1. */
-  headSamplingRate?: number | null;
+  headSamplingRate?: number | null | undefined;
   /** Real-time Issues settings for the Worker. */
-  issues?: DispatchNamespacesScriptsGetResponseScriptObservabilityIssues | null;
+  issues?: DispatchNamespacesScriptsGetResponseScriptObservabilityIssues | null | undefined;
   /** Log settings for the Worker. */
-  logs?: DispatchNamespacesScriptsUpdateResponseObservabilityLogs | null;
+  logs?: DispatchNamespacesScriptsUpdateResponseObservabilityLogs | null | undefined;
   /** Whether query strings are removed from request URLs in logs and traces. */
-  redactQueryString?: boolean | null;
+  redactQueryString?: boolean | null | undefined;
   /** Trace settings for the Worker. */
-  traces?: DispatchNamespacesScriptsUpdateResponseObservabilityTraces | null;
+  traces?: DispatchNamespacesScriptsUpdateResponseObservabilityTraces | null | undefined;
 }
 export type DispatchNamespacesScriptsUpdateResponsePlacementCase0Mode = "smart";
 export type DispatchNamespacesScriptsUpdateResponsePlacementCase0Status =
@@ -5134,9 +5446,9 @@ export interface DispatchNamespacesScriptsUpdateResponsePlacementCase0 {
   /** Enables [Smart Placement](https://developers.cloudflare.com/workers/configuration/smart-placement). */
   mode: DispatchNamespacesScriptsUpdateResponsePlacementCase0Mode;
   /** The last time the script was analyzed for [Smart Placement](https://developers.cloudflare.com/workers/configuration/smart-placement). */
-  lastAnalyzedAt?: string | null;
+  lastAnalyzedAt?: string | null | undefined;
   /** Status of [Smart Placement](https://developers.cloudflare.com/workers/configuration/smart-placement). */
-  status?: DispatchNamespacesScriptsUpdateResponsePlacementCase0Status | null;
+  status?: DispatchNamespacesScriptsUpdateResponsePlacementCase0Status | null | undefined;
 }
 export type DispatchNamespacesScriptsUpdateResponsePlacementCase1Status =
   | "SUCCESS"
@@ -5146,9 +5458,9 @@ export interface DispatchNamespacesScriptsUpdateResponsePlacementCase1 {
   /** Cloud region for targeted placement in format 'provider:region'. */
   region: string;
   /** The last time the script was analyzed for [Smart Placement](https://developers.cloudflare.com/workers/configuration/smart-placement). */
-  lastAnalyzedAt?: string | null;
+  lastAnalyzedAt?: string | null | undefined;
   /** Status of [Smart Placement](https://developers.cloudflare.com/workers/configuration/smart-placement). */
-  status?: DispatchNamespacesScriptsUpdateResponsePlacementCase1Status | null;
+  status?: DispatchNamespacesScriptsUpdateResponsePlacementCase1Status | null | undefined;
 }
 export type DispatchNamespacesScriptsUpdateResponsePlacementCase2Status =
   | "SUCCESS"
@@ -5158,9 +5470,9 @@ export interface DispatchNamespacesScriptsUpdateResponsePlacementCase2 {
   /** HTTP hostname for targeted placement. */
   hostname: string;
   /** The last time the script was analyzed for [Smart Placement](https://developers.cloudflare.com/workers/configuration/smart-placement). */
-  lastAnalyzedAt?: string | null;
+  lastAnalyzedAt?: string | null | undefined;
   /** Status of [Smart Placement](https://developers.cloudflare.com/workers/configuration/smart-placement). */
-  status?: DispatchNamespacesScriptsUpdateResponsePlacementCase2Status | null;
+  status?: DispatchNamespacesScriptsUpdateResponsePlacementCase2Status | null | undefined;
 }
 export type DispatchNamespacesScriptsUpdateResponsePlacementCase3Status =
   | "SUCCESS"
@@ -5170,9 +5482,9 @@ export interface DispatchNamespacesScriptsUpdateResponsePlacementCase3 {
   /** TCP host and port for targeted placement. */
   host: string;
   /** The last time the script was analyzed for [Smart Placement](https://developers.cloudflare.com/workers/configuration/smart-placement). */
-  lastAnalyzedAt?: string | null;
+  lastAnalyzedAt?: string | null | undefined;
   /** Status of [Smart Placement](https://developers.cloudflare.com/workers/configuration/smart-placement). */
-  status?: DispatchNamespacesScriptsUpdateResponsePlacementCase3Status | null;
+  status?: DispatchNamespacesScriptsUpdateResponsePlacementCase3Status | null | undefined;
 }
 export type DispatchNamespacesScriptsUpdateResponsePlacementCase4Mode = "targeted";
 export type DispatchNamespacesScriptsUpdateResponsePlacementCase4Status =
@@ -5185,9 +5497,9 @@ export interface DispatchNamespacesScriptsUpdateResponsePlacementCase4 {
   /** Cloud region for targeted placement in format 'provider:region'. */
   region: string;
   /** The last time the script was analyzed for [Smart Placement](https://developers.cloudflare.com/workers/configuration/smart-placement). */
-  lastAnalyzedAt?: string | null;
+  lastAnalyzedAt?: string | null | undefined;
   /** Status of [Smart Placement](https://developers.cloudflare.com/workers/configuration/smart-placement). */
-  status?: DispatchNamespacesScriptsUpdateResponsePlacementCase4Status | null;
+  status?: DispatchNamespacesScriptsUpdateResponsePlacementCase4Status | null | undefined;
 }
 export type DispatchNamespacesScriptsUpdateResponsePlacementCase5Mode = "targeted";
 export type DispatchNamespacesScriptsUpdateResponsePlacementCase5Status =
@@ -5200,9 +5512,9 @@ export interface DispatchNamespacesScriptsUpdateResponsePlacementCase5 {
   /** Targeted placement mode. */
   mode: DispatchNamespacesScriptsUpdateResponsePlacementCase5Mode;
   /** The last time the script was analyzed for [Smart Placement](https://developers.cloudflare.com/workers/configuration/smart-placement). */
-  lastAnalyzedAt?: string | null;
+  lastAnalyzedAt?: string | null | undefined;
   /** Status of [Smart Placement](https://developers.cloudflare.com/workers/configuration/smart-placement). */
-  status?: DispatchNamespacesScriptsUpdateResponsePlacementCase5Status | null;
+  status?: DispatchNamespacesScriptsUpdateResponsePlacementCase5Status | null | undefined;
 }
 export type DispatchNamespacesScriptsUpdateResponsePlacementCase6Mode = "targeted";
 export type DispatchNamespacesScriptsUpdateResponsePlacementCase6Status =
@@ -5215,9 +5527,9 @@ export interface DispatchNamespacesScriptsUpdateResponsePlacementCase6 {
   /** Targeted placement mode. */
   mode: DispatchNamespacesScriptsUpdateResponsePlacementCase6Mode;
   /** The last time the script was analyzed for [Smart Placement](https://developers.cloudflare.com/workers/configuration/smart-placement). */
-  lastAnalyzedAt?: string | null;
+  lastAnalyzedAt?: string | null | undefined;
   /** Status of [Smart Placement](https://developers.cloudflare.com/workers/configuration/smart-placement). */
-  status?: DispatchNamespacesScriptsUpdateResponsePlacementCase6Status | null;
+  status?: DispatchNamespacesScriptsUpdateResponsePlacementCase6Status | null | undefined;
 }
 export type DispatchNamespacesScriptsUpdateResponsePlacementCase7Mode = "targeted";
 export type DispatchNamespacesScriptsUpdateResponsePlacementCase7TargetItemRegion =
@@ -5242,9 +5554,9 @@ export interface DispatchNamespacesScriptsUpdateResponsePlacementCase7 {
   /** Array of placement targets (currently limited to single target). */
   target: DispatchNamespacesScriptsUpdateResponsePlacementCase7TargetList;
   /** The last time the script was analyzed for [Smart Placement](https://developers.cloudflare.com/workers/configuration/smart-placement). */
-  lastAnalyzedAt?: string | null;
+  lastAnalyzedAt?: string | null | undefined;
   /** Status of [Smart Placement](https://developers.cloudflare.com/workers/configuration/smart-placement). */
-  status?: DispatchNamespacesScriptsUpdateResponsePlacementCase7Status | null;
+  status?: DispatchNamespacesScriptsUpdateResponsePlacementCase7Status | null | undefined;
 }
 export type DispatchNamespacesScriptsUpdateResponsePlacement =
   | DispatchNamespacesScriptsUpdateResponsePlacementCase0
@@ -5270,57 +5582,60 @@ export type DispatchNamespacesScriptsUpdateResponseUsageModel = "standard" | "bu
 export interface PutDispatchNamespaceScriptResponse {
   startupTimeMs: number;
   /** The name used to identify the script. */
-  id?: string | null;
+  id?: string | null | undefined;
   /** Global CacheW configuration for the Worker. When caching is on, the platform provisions a `cloudflare.app` zone for the Worker. A `type: worker` entry in the `exports` map can override this value for a single entrypoint. */
-  cacheOptions?: DispatchNamespacesScriptsGetResponseScriptCacheOptions | null;
+  cacheOptions?: DispatchNamespacesScriptsGetResponseScriptCacheOptions | null | undefined;
   /** Date indicating targeted support in the Workers runtime. Backwards incompatible fixes to the runtime following this date will not affect this Worker. */
-  compatibilityDate?: string | null;
+  compatibilityDate?: string | null | undefined;
   /** Flags that enable or disable certain features in the Workers runtime. Used to enable upcoming features or opt in or out of specific changes not included in a `compatibility_date`. */
-  compatibilityFlags?: DispatchNamespacesScriptsUpdateResponseCompatibilityFlagsList | null;
+  compatibilityFlags?:
+    | DispatchNamespacesScriptsUpdateResponseCompatibilityFlagsList
+    | null
+    | undefined;
   /** When the script was created. */
-  createdOn?: string | null;
+  createdOn?: string | null | undefined;
   /** The entry point for the script. */
-  entryPoint?: string | null;
+  entryPoint?: string | null | undefined;
   /** Hashed script content, can be used in a If-None-Match header when updating. */
-  etag?: string | null;
+  etag?: string | null | undefined;
   /** Declarative exports for the Worker's most recent version, including Durable Object classes (with their `storage` backend) and named Worker entrypoints. Tombstoned lifecycle entries are omitted, so only live exports (`created` and `expecting-transfer`) are returned. */
-  exports?: DispatchNamespacesScriptsUpdateResponseExportsMap | null;
+  exports?: DispatchNamespacesScriptsUpdateResponseExportsMap | null | undefined;
   /** The names of handlers exported as part of the default export. */
-  handlers?: DispatchNamespacesScriptsUpdateResponseHandlersList | null;
+  handlers?: DispatchNamespacesScriptsUpdateResponseHandlersList | null | undefined;
   /** Whether a Worker contains assets. */
-  hasAssets?: boolean | null;
+  hasAssets?: boolean | null | undefined;
   /** Whether a Worker contains modules. */
-  hasModules?: boolean | null;
+  hasModules?: boolean | null | undefined;
   /** The client most recently used to deploy this Worker. */
-  lastDeployedFrom?: string | null;
+  lastDeployedFrom?: string | null | undefined;
   /** Whether Logpush is turned on for the Worker. */
-  logpush?: boolean | null;
+  logpush?: boolean | null | undefined;
   /** The tag of the Durable Object migration that was most recently applied for this Worker. */
-  migrationTag?: string | null;
+  migrationTag?: string | null | undefined;
   /** When the script was last modified. */
-  modifiedOn?: string | null;
+  modifiedOn?: string | null | undefined;
   /** Named exports, such as Durable Object class implementations and named entrypoints. */
-  namedHandlers?: DispatchNamespacesScriptsUpdateResponseNamedHandlersList | null;
+  namedHandlers?: DispatchNamespacesScriptsUpdateResponseNamedHandlersList | null | undefined;
   /** Observability settings for the Worker. */
-  observability?: DispatchNamespacesScriptsUpdateResponseObservability | null;
+  observability?: DispatchNamespacesScriptsUpdateResponseObservability | null | undefined;
   /** Configuration for [Smart Placement](https://developers.cloudflare.com/workers/configuration/smart-placement). Specify mode='smart' for Smart Placement, or one of region/hostname/host. */
-  placement?: DispatchNamespacesScriptsUpdateResponsePlacement | null;
-  placementMode?: DispatchNamespacesScriptsUpdateResponsePlacementMode | null;
-  placementStatus?: DispatchNamespacesScriptsUpdateResponsePlacementStatus | null;
+  placement?: DispatchNamespacesScriptsUpdateResponsePlacement | null | undefined;
+  placementMode?: DispatchNamespacesScriptsUpdateResponsePlacementMode | null | undefined;
+  placementStatus?: DispatchNamespacesScriptsUpdateResponsePlacementStatus | null | undefined;
   /** The immutable ID of the script. */
-  tag?: string | null;
+  tag?: string | null | undefined;
   /** Tags associated with the Worker. */
-  tags?: DispatchNamespacesScriptsUpdateResponseTagsList | null;
+  tags?: DispatchNamespacesScriptsUpdateResponseTagsList | null | undefined;
   /** List of Workers that will consume logs from the attached Worker. */
-  tailConsumers?: DispatchNamespacesScriptsUpdateResponseTailConsumersList | null;
+  tailConsumers?: DispatchNamespacesScriptsUpdateResponseTailConsumersList | null | undefined;
   /** Usage model for the Worker invocations. */
-  usageModel?: DispatchNamespacesScriptsUpdateResponseUsageModel | null;
+  usageModel?: DispatchNamespacesScriptsUpdateResponseUsageModel | null | undefined;
 }
 export interface DispatchNamespacesScriptsContentUpdateRequestMetadata {
   /** Name of the part in the multipart request that contains the script (e.g. the file adding a listener to the `fetch` event). Indicates a `service worker syntax` Worker. */
-  bodyPart?: string;
+  bodyPart?: string | undefined;
   /** Name of the part in the multipart request that contains the main module (e.g. the file exporting a `fetch` handler). Indicates a `module syntax` Worker. */
-  mainModule?: string;
+  mainModule?: string | undefined;
 }
 export type DispatchNamespacesScriptsContentUpdateRequestFilesList = Array<string>;
 export interface PutDispatchNamespaceScriptContentRequest {
@@ -5333,9 +5648,9 @@ export interface PutDispatchNamespaceScriptContentRequest {
   /** JSON-encoded metadata about the uploaded parts and Worker configuration. */
   metadata: DispatchNamespacesScriptsContentUpdateRequestMetadata;
   /** An array of modules (often JavaScript files) comprising a Worker script. At least one module must be present and referenced in the metadata as `main_module` or `body_part` by filename. Possible Content-Type(s) are: `application/javascript+module`, `text/javascript+module`, `application/javascript`, `text/javascript`, `text/x-python`, `text/x-python-requirement`, `application/wasm`, `text/plain`, `application/octet-stream`, `application/source-map`. */
-  files?: DispatchNamespacesScriptsContentUpdateRequestFilesList;
-  cfworkerbodypart?: string;
-  cfworkermainmodulepart?: string;
+  files?: DispatchNamespacesScriptsContentUpdateRequestFilesList | undefined;
+  cfworkerbodypart?: string | undefined;
+  cfworkermainmodulepart?: string | undefined;
 }
 export type DispatchNamespacesScriptsContentUpdateResponseCacheOptions =
   DispatchNamespacesScriptsGetResponseScriptCacheOptions;
@@ -5348,9 +5663,9 @@ export interface DispatchNamespacesScriptsContentUpdateResponseExportsValueWorke
   /** Marks this entry as a Worker entrypoint export. */
   type: DispatchNamespacesScriptsContentUpdateResponseExportsValueWorkerType;
   /** Cache override for this entrypoint. Overrides the Worker's global `cache_options.enabled` for this entrypoint only. */
-  cache?: DispatchNamespacesScriptsGetResponseScriptExportsValueWorkerCache | null;
+  cache?: DispatchNamespacesScriptsGetResponseScriptExportsValueWorkerCache | null | undefined;
   /** Live export. May be omitted; defaults to `created`. */
-  state?: DispatchNamespacesScriptsContentUpdateResponseExportsValueWorkerState | null;
+  state?: DispatchNamespacesScriptsContentUpdateResponseExportsValueWorkerState | null | undefined;
 }
 export type DispatchNamespacesScriptsContentUpdateResponseExportsValueWorkersDurableObjectExportStorage =
   | "sqlite"
@@ -5365,9 +5680,12 @@ export interface DispatchNamespacesScriptsContentUpdateResponseExportsValueWorke
   /** Marks this entry as a Durable Object export. */
   type: DispatchNamespacesScriptsContentUpdateResponseExportsValueWorkersDurableObjectExportType;
   /** Name of the container (declared in the upload's `metadata.containers`) that backs this Durable Object. When set, the namespace is container-enabled. Valid only on live entries. */
-  container?: string | null;
+  container?: string | null | undefined;
   /** Live export. May be omitted; defaults to `created`. */
-  state?: DispatchNamespacesScriptsContentUpdateResponseExportsValueWorkersDurableObjectExportState | null;
+  state?:
+    | DispatchNamespacesScriptsContentUpdateResponseExportsValueWorkersDurableObjectExportState
+    | null
+    | undefined;
 }
 export type DispatchNamespacesScriptsContentUpdateResponseExportsValueWorkersDurableObjectDeletedExportState =
   "deleted";
@@ -5420,7 +5738,7 @@ export interface DispatchNamespacesScriptsContentUpdateResponseExportsValueWorke
   /** Marks this entry as a Durable Object export. */
   type: DispatchNamespacesScriptsContentUpdateResponseExportsValueWorkersDurableObjectExpectingTransferExportType;
   /** Name of the container (declared in the upload's `metadata.containers`) that backs this Durable Object once the transfer settles. Valid only on live entries. */
-  container?: string | null;
+  container?: string | null | undefined;
 }
 export type DispatchNamespacesScriptsContentUpdateResponseExportsValue =
   | DispatchNamespacesScriptsContentUpdateResponseExportsValueWorker
@@ -5437,9 +5755,12 @@ export type DispatchNamespacesScriptsContentUpdateResponseNamedHandlersItemHandl
   Array<string>;
 export interface DispatchNamespacesScriptsContentUpdateResponseNamedHandlersItem {
   /** The names of handlers exported as part of the named export. */
-  handlers?: DispatchNamespacesScriptsContentUpdateResponseNamedHandlersItemHandlersList | null;
+  handlers?:
+    | DispatchNamespacesScriptsContentUpdateResponseNamedHandlersItemHandlersList
+    | null
+    | undefined;
   /** The name of the export. */
-  name?: string | null;
+  name?: string | null | undefined;
 }
 export type DispatchNamespacesScriptsContentUpdateResponseNamedHandlersList =
   Array<DispatchNamespacesScriptsContentUpdateResponseNamedHandlersItem>;
@@ -5453,11 +5774,14 @@ export interface DispatchNamespacesScriptsContentUpdateResponseObservabilityLogs
   /** Whether [invocation logs](https://developers.cloudflare.com/workers/observability/logs/workers-logs/#invocation-logs) are enabled for the Worker. */
   invocationLogs: boolean;
   /** A list of destinations where logs will be exported to. */
-  destinations?: DispatchNamespacesScriptsContentUpdateResponseObservabilityLogsDestinationsList | null;
+  destinations?:
+    | DispatchNamespacesScriptsContentUpdateResponseObservabilityLogsDestinationsList
+    | null
+    | undefined;
   /** The sampling rate for logs. From 0 to 1 (1 = 100%, 0.1 = 10%). Default is 1. */
-  headSamplingRate?: number | null;
+  headSamplingRate?: number | null | undefined;
   /** Whether log persistence is enabled for the Worker. */
-  persist?: boolean | null;
+  persist?: boolean | null | undefined;
 }
 export type DispatchNamespacesScriptsContentUpdateResponseObservabilityTracesDestinationsList =
   Array<string>;
@@ -5466,29 +5790,35 @@ export type DispatchNamespacesScriptsContentUpdateResponseObservabilityTracesPro
   | "accept";
 export interface DispatchNamespacesScriptsContentUpdateResponseObservabilityTraces {
   /** A list of destinations where traces will be exported to. */
-  destinations?: DispatchNamespacesScriptsContentUpdateResponseObservabilityTracesDestinationsList | null;
+  destinations?:
+    | DispatchNamespacesScriptsContentUpdateResponseObservabilityTracesDestinationsList
+    | null
+    | undefined;
   /** Whether traces are enabled for the Worker. */
-  enabled?: boolean | null;
+  enabled?: boolean | null | undefined;
   /** The sampling rate for traces. From 0 to 1 (1 = 100%, 0.1 = 10%). Default is 1. */
-  headSamplingRate?: number | null;
+  headSamplingRate?: number | null | undefined;
   /** Whether trace persistence is enabled for the Worker. */
-  persist?: boolean | null;
+  persist?: boolean | null | undefined;
   /** Controls how inbound trace context (traceparent/tracestate) headers on incoming requests are handled. "authenticated" honors inbound trace context only when accompanied by a valid trace auth token. "accept" unconditionally accepts inbound trace context. Requires the trace propagation feature to be enabled. Returns null when the trace propagation feature is not enabled for the account. */
-  propagationPolicy?: DispatchNamespacesScriptsContentUpdateResponseObservabilityTracesPropagationPolicy | null;
+  propagationPolicy?:
+    | DispatchNamespacesScriptsContentUpdateResponseObservabilityTracesPropagationPolicy
+    | null
+    | undefined;
 }
 export interface DispatchNamespacesScriptsContentUpdateResponseObservability {
   /** Whether observability is enabled for the Worker. */
   enabled: boolean;
   /** The sampling rate for incoming requests. From 0 to 1 (1 = 100%, 0.1 = 10%). Default is 1. */
-  headSamplingRate?: number | null;
+  headSamplingRate?: number | null | undefined;
   /** Real-time Issues settings for the Worker. */
-  issues?: DispatchNamespacesScriptsGetResponseScriptObservabilityIssues | null;
+  issues?: DispatchNamespacesScriptsGetResponseScriptObservabilityIssues | null | undefined;
   /** Log settings for the Worker. */
-  logs?: DispatchNamespacesScriptsContentUpdateResponseObservabilityLogs | null;
+  logs?: DispatchNamespacesScriptsContentUpdateResponseObservabilityLogs | null | undefined;
   /** Whether query strings are removed from request URLs in logs and traces. */
-  redactQueryString?: boolean | null;
+  redactQueryString?: boolean | null | undefined;
   /** Trace settings for the Worker. */
-  traces?: DispatchNamespacesScriptsContentUpdateResponseObservabilityTraces | null;
+  traces?: DispatchNamespacesScriptsContentUpdateResponseObservabilityTraces | null | undefined;
 }
 export type DispatchNamespacesScriptsContentUpdateResponsePlacementCase0Mode = "smart";
 export type DispatchNamespacesScriptsContentUpdateResponsePlacementCase0Status =
@@ -5499,9 +5829,9 @@ export interface DispatchNamespacesScriptsContentUpdateResponsePlacementCase0 {
   /** Enables [Smart Placement](https://developers.cloudflare.com/workers/configuration/smart-placement). */
   mode: DispatchNamespacesScriptsContentUpdateResponsePlacementCase0Mode;
   /** The last time the script was analyzed for [Smart Placement](https://developers.cloudflare.com/workers/configuration/smart-placement). */
-  lastAnalyzedAt?: string | null;
+  lastAnalyzedAt?: string | null | undefined;
   /** Status of [Smart Placement](https://developers.cloudflare.com/workers/configuration/smart-placement). */
-  status?: DispatchNamespacesScriptsContentUpdateResponsePlacementCase0Status | null;
+  status?: DispatchNamespacesScriptsContentUpdateResponsePlacementCase0Status | null | undefined;
 }
 export type DispatchNamespacesScriptsContentUpdateResponsePlacementCase1Status =
   | "SUCCESS"
@@ -5511,9 +5841,9 @@ export interface DispatchNamespacesScriptsContentUpdateResponsePlacementCase1 {
   /** Cloud region for targeted placement in format 'provider:region'. */
   region: string;
   /** The last time the script was analyzed for [Smart Placement](https://developers.cloudflare.com/workers/configuration/smart-placement). */
-  lastAnalyzedAt?: string | null;
+  lastAnalyzedAt?: string | null | undefined;
   /** Status of [Smart Placement](https://developers.cloudflare.com/workers/configuration/smart-placement). */
-  status?: DispatchNamespacesScriptsContentUpdateResponsePlacementCase1Status | null;
+  status?: DispatchNamespacesScriptsContentUpdateResponsePlacementCase1Status | null | undefined;
 }
 export type DispatchNamespacesScriptsContentUpdateResponsePlacementCase2Status =
   | "SUCCESS"
@@ -5523,9 +5853,9 @@ export interface DispatchNamespacesScriptsContentUpdateResponsePlacementCase2 {
   /** HTTP hostname for targeted placement. */
   hostname: string;
   /** The last time the script was analyzed for [Smart Placement](https://developers.cloudflare.com/workers/configuration/smart-placement). */
-  lastAnalyzedAt?: string | null;
+  lastAnalyzedAt?: string | null | undefined;
   /** Status of [Smart Placement](https://developers.cloudflare.com/workers/configuration/smart-placement). */
-  status?: DispatchNamespacesScriptsContentUpdateResponsePlacementCase2Status | null;
+  status?: DispatchNamespacesScriptsContentUpdateResponsePlacementCase2Status | null | undefined;
 }
 export type DispatchNamespacesScriptsContentUpdateResponsePlacementCase3Status =
   | "SUCCESS"
@@ -5535,9 +5865,9 @@ export interface DispatchNamespacesScriptsContentUpdateResponsePlacementCase3 {
   /** TCP host and port for targeted placement. */
   host: string;
   /** The last time the script was analyzed for [Smart Placement](https://developers.cloudflare.com/workers/configuration/smart-placement). */
-  lastAnalyzedAt?: string | null;
+  lastAnalyzedAt?: string | null | undefined;
   /** Status of [Smart Placement](https://developers.cloudflare.com/workers/configuration/smart-placement). */
-  status?: DispatchNamespacesScriptsContentUpdateResponsePlacementCase3Status | null;
+  status?: DispatchNamespacesScriptsContentUpdateResponsePlacementCase3Status | null | undefined;
 }
 export type DispatchNamespacesScriptsContentUpdateResponsePlacementCase4Mode = "targeted";
 export type DispatchNamespacesScriptsContentUpdateResponsePlacementCase4Status =
@@ -5550,9 +5880,9 @@ export interface DispatchNamespacesScriptsContentUpdateResponsePlacementCase4 {
   /** Cloud region for targeted placement in format 'provider:region'. */
   region: string;
   /** The last time the script was analyzed for [Smart Placement](https://developers.cloudflare.com/workers/configuration/smart-placement). */
-  lastAnalyzedAt?: string | null;
+  lastAnalyzedAt?: string | null | undefined;
   /** Status of [Smart Placement](https://developers.cloudflare.com/workers/configuration/smart-placement). */
-  status?: DispatchNamespacesScriptsContentUpdateResponsePlacementCase4Status | null;
+  status?: DispatchNamespacesScriptsContentUpdateResponsePlacementCase4Status | null | undefined;
 }
 export type DispatchNamespacesScriptsContentUpdateResponsePlacementCase5Mode = "targeted";
 export type DispatchNamespacesScriptsContentUpdateResponsePlacementCase5Status =
@@ -5565,9 +5895,9 @@ export interface DispatchNamespacesScriptsContentUpdateResponsePlacementCase5 {
   /** Targeted placement mode. */
   mode: DispatchNamespacesScriptsContentUpdateResponsePlacementCase5Mode;
   /** The last time the script was analyzed for [Smart Placement](https://developers.cloudflare.com/workers/configuration/smart-placement). */
-  lastAnalyzedAt?: string | null;
+  lastAnalyzedAt?: string | null | undefined;
   /** Status of [Smart Placement](https://developers.cloudflare.com/workers/configuration/smart-placement). */
-  status?: DispatchNamespacesScriptsContentUpdateResponsePlacementCase5Status | null;
+  status?: DispatchNamespacesScriptsContentUpdateResponsePlacementCase5Status | null | undefined;
 }
 export type DispatchNamespacesScriptsContentUpdateResponsePlacementCase6Mode = "targeted";
 export type DispatchNamespacesScriptsContentUpdateResponsePlacementCase6Status =
@@ -5580,9 +5910,9 @@ export interface DispatchNamespacesScriptsContentUpdateResponsePlacementCase6 {
   /** Targeted placement mode. */
   mode: DispatchNamespacesScriptsContentUpdateResponsePlacementCase6Mode;
   /** The last time the script was analyzed for [Smart Placement](https://developers.cloudflare.com/workers/configuration/smart-placement). */
-  lastAnalyzedAt?: string | null;
+  lastAnalyzedAt?: string | null | undefined;
   /** Status of [Smart Placement](https://developers.cloudflare.com/workers/configuration/smart-placement). */
-  status?: DispatchNamespacesScriptsContentUpdateResponsePlacementCase6Status | null;
+  status?: DispatchNamespacesScriptsContentUpdateResponsePlacementCase6Status | null | undefined;
 }
 export type DispatchNamespacesScriptsContentUpdateResponsePlacementCase7Mode = "targeted";
 export type DispatchNamespacesScriptsContentUpdateResponsePlacementCase7TargetItemRegion =
@@ -5607,9 +5937,9 @@ export interface DispatchNamespacesScriptsContentUpdateResponsePlacementCase7 {
   /** Array of placement targets (currently limited to single target). */
   target: DispatchNamespacesScriptsContentUpdateResponsePlacementCase7TargetList;
   /** The last time the script was analyzed for [Smart Placement](https://developers.cloudflare.com/workers/configuration/smart-placement). */
-  lastAnalyzedAt?: string | null;
+  lastAnalyzedAt?: string | null | undefined;
   /** Status of [Smart Placement](https://developers.cloudflare.com/workers/configuration/smart-placement). */
-  status?: DispatchNamespacesScriptsContentUpdateResponsePlacementCase7Status | null;
+  status?: DispatchNamespacesScriptsContentUpdateResponsePlacementCase7Status | null | undefined;
 }
 export type DispatchNamespacesScriptsContentUpdateResponsePlacement =
   | DispatchNamespacesScriptsContentUpdateResponsePlacementCase0
@@ -5637,51 +5967,63 @@ export type DispatchNamespacesScriptsContentUpdateResponseUsageModel =
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface PutDispatchNamespaceScriptContentResponse {
   /** The name used to identify the script. */
-  id?: string | null;
+  id?: string | null | undefined;
   /** Global CacheW configuration for the Worker. When caching is on, the platform provisions a `cloudflare.app` zone for the Worker. A `type: worker` entry in the `exports` map can override this value for a single entrypoint. */
-  cacheOptions?: DispatchNamespacesScriptsGetResponseScriptCacheOptions | null;
+  cacheOptions?: DispatchNamespacesScriptsGetResponseScriptCacheOptions | null | undefined;
   /** Date indicating targeted support in the Workers runtime. Backwards incompatible fixes to the runtime following this date will not affect this Worker. */
-  compatibilityDate?: string | null;
+  compatibilityDate?: string | null | undefined;
   /** Flags that enable or disable certain features in the Workers runtime. Used to enable upcoming features or opt in or out of specific changes not included in a `compatibility_date`. */
-  compatibilityFlags?: DispatchNamespacesScriptsContentUpdateResponseCompatibilityFlagsList | null;
+  compatibilityFlags?:
+    | DispatchNamespacesScriptsContentUpdateResponseCompatibilityFlagsList
+    | null
+    | undefined;
   /** When the script was created. */
-  createdOn?: string | null;
+  createdOn?: string | null | undefined;
   /** Hashed script content, can be used in a If-None-Match header when updating. */
-  etag?: string | null;
+  etag?: string | null | undefined;
   /** Declarative exports for the Worker's most recent version, including Durable Object classes (with their `storage` backend) and named Worker entrypoints. Tombstoned lifecycle entries are omitted, so only live exports (`created` and `expecting-transfer`) are returned. */
-  exports?: DispatchNamespacesScriptsContentUpdateResponseExportsMap | null;
+  exports?: DispatchNamespacesScriptsContentUpdateResponseExportsMap | null | undefined;
   /** The names of handlers exported as part of the default export. */
-  handlers?: DispatchNamespacesScriptsContentUpdateResponseHandlersList | null;
+  handlers?: DispatchNamespacesScriptsContentUpdateResponseHandlersList | null | undefined;
   /** Whether a Worker contains assets. */
-  hasAssets?: boolean | null;
+  hasAssets?: boolean | null | undefined;
   /** Whether a Worker contains modules. */
-  hasModules?: boolean | null;
+  hasModules?: boolean | null | undefined;
   /** The client most recently used to deploy this Worker. */
-  lastDeployedFrom?: string | null;
+  lastDeployedFrom?: string | null | undefined;
   /** Whether Logpush is turned on for the Worker. */
-  logpush?: boolean | null;
+  logpush?: boolean | null | undefined;
   /** The tag of the Durable Object migration that was most recently applied for this Worker. */
-  migrationTag?: string | null;
+  migrationTag?: string | null | undefined;
   /** When the script was last modified. */
-  modifiedOn?: string | null;
+  modifiedOn?: string | null | undefined;
   /** Named exports, such as Durable Object class implementations and named entrypoints. */
-  namedHandlers?: DispatchNamespacesScriptsContentUpdateResponseNamedHandlersList | null;
+  namedHandlers?:
+    | DispatchNamespacesScriptsContentUpdateResponseNamedHandlersList
+    | null
+    | undefined;
   /** Observability settings for the Worker. */
-  observability?: DispatchNamespacesScriptsContentUpdateResponseObservability | null;
+  observability?: DispatchNamespacesScriptsContentUpdateResponseObservability | null | undefined;
   /** Configuration for [Smart Placement](https://developers.cloudflare.com/workers/configuration/smart-placement). Specify mode='smart' for Smart Placement, or one of region/hostname/host. */
-  placement?: DispatchNamespacesScriptsContentUpdateResponsePlacement | null;
+  placement?: DispatchNamespacesScriptsContentUpdateResponsePlacement | null | undefined;
   /** Configuration for [Smart Placement](https://developers.cloudflare.com/workers/configuration/smart-placement). Specify mode='smart' for Smart Placement, or one of region/hostname/host. */
-  placementMode?: DispatchNamespacesScriptsContentUpdateResponsePlacementMode | null;
+  placementMode?: DispatchNamespacesScriptsContentUpdateResponsePlacementMode | null | undefined;
   /** Status of [Smart Placement](https://developers.cloudflare.com/workers/configuration/smart-placement). */
-  placementStatus?: DispatchNamespacesScriptsContentUpdateResponsePlacementStatus | null;
+  placementStatus?:
+    | DispatchNamespacesScriptsContentUpdateResponsePlacementStatus
+    | null
+    | undefined;
   /** The immutable ID of the script. */
-  tag?: string | null;
+  tag?: string | null | undefined;
   /** Tags associated with the Worker. */
-  tags?: DispatchNamespacesScriptsContentUpdateResponseTagsList | null;
+  tags?: DispatchNamespacesScriptsContentUpdateResponseTagsList | null | undefined;
   /** List of Workers that will consume logs from the attached Worker. */
-  tailConsumers?: DispatchNamespacesScriptsContentUpdateResponseTailConsumersList | null;
+  tailConsumers?:
+    | DispatchNamespacesScriptsContentUpdateResponseTailConsumersList
+    | null
+    | undefined;
   /** Usage model for the Worker invocations. */
-  usageModel?: DispatchNamespacesScriptsContentUpdateResponseUsageModel | null;
+  usageModel?: DispatchNamespacesScriptsContentUpdateResponseUsageModel | null | undefined;
 }
 export type DispatchNamespacesScriptsSecretsUpdateRequestType = "secret_text" | "secret_key";
 export type DispatchNamespacesScriptsSecretsUpdateRequestFormat = "raw" | "pkcs8" | "spki" | "jwk";
@@ -5707,19 +6049,19 @@ export interface PutDispatchNamespaceScriptSecretRequest {
   /** A JavaScript variable name for the binding. */
   name: string;
   /** The secret value to use. */
-  text?: string;
+  text?: string | undefined;
   /** The kind of resource that the binding provides. */
   type: DispatchNamespacesScriptsSecretsUpdateRequestType | (string & {});
   /** Algorithm-specific key parameters. [Learn more](https://developer.mozilla.org/en-US/docs/Web/API/SubtleCrypto/importKey#algorithm). */
-  algorithm?: unknown;
+  algorithm?: unknown | undefined;
   /** Data format of the key. [Learn more](https://developer.mozilla.org/en-US/docs/Web/API/SubtleCrypto/importKey#format). */
-  format?: DispatchNamespacesScriptsSecretsUpdateRequestFormat | (string & {});
+  format?: DispatchNamespacesScriptsSecretsUpdateRequestFormat | (string & {}) | undefined;
   /** Allowed operations with the key. [Learn more](https://developer.mozilla.org/en-US/docs/Web/API/SubtleCrypto/importKey#keyUsages). */
-  usages?: DispatchNamespacesScriptsSecretsUpdateRequestUsagesList;
+  usages?: DispatchNamespacesScriptsSecretsUpdateRequestUsagesList | undefined;
   /** Base64-encoded key data. Required if `format` is "raw", "pkcs8", or "spki". */
-  keyBase64?: string;
+  keyBase64?: string | undefined;
   /** Key data in [JSON Web Key](https://developer.mozilla.org/en-US/docs/Web/API/SubtleCrypto/importKey#json_web_key) format. Required if `format` is "jwk". */
-  keyJwk?: unknown;
+  keyJwk?: unknown | undefined;
 }
 export type DispatchNamespacesScriptsSecretsUpdateResultSecretTextType = "secret_text";
 export interface DispatchNamespacesScriptsSecretsUpdateResultSecretText {
@@ -5759,9 +6101,9 @@ export interface DispatchNamespacesScriptsSecretsUpdateResultSecretKey {
   /** Allowed operations with the key. [Learn more](https://developer.mozilla.org/en-US/docs/Web/API/SubtleCrypto/importKey#keyUsages). */
   usages: DispatchNamespacesScriptsSecretsUpdateResultSecretKeyUsagesList;
   /** Base64-encoded key data. Required if `format` is "raw", "pkcs8", or "spki". */
-  keyBase64?: string | null;
+  keyBase64?: string | null | undefined;
   /** Key data in [JSON Web Key](https://developer.mozilla.org/en-US/docs/Web/API/SubtleCrypto/importKey#json_web_key) format. Required if `format` is "jwk". */
-  keyJwk?: unknown | null;
+  keyJwk?: unknown | null | undefined;
 }
 export type DispatchNamespacesScriptsSecretsUpdateResult =
   | DispatchNamespacesScriptsSecretsUpdateResultSecretText
@@ -5783,7 +6125,7 @@ export interface PutDispatchNamespaceScriptTagResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: DispatchNamespacesScriptsTagsUpdateResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export type BulkUpdateDispatchNamespaceScriptSecretsError = CloudflareOpError;
 /** Create, update, or delete multiple secrets on a Workers for Platforms script in a single operation using JSON Merge Patch (RFC 7396). This operation creates a single version with all changes included. Prefer this API instead of changing many secrets individually. Usage: - To create or update a secret, set its value to a secret object. - To delete a secret, set its value to `null`. - Secrets not included in the request are left unchanged. */
@@ -6145,16 +6487,17 @@ export type PutDispatchNamespaceScriptError =
   | HyperdriveConfigNotFound
   | VectorizeIndexNotFound
   | MtlsCertificateNotFound
+  | UnknownWorkerEntrypoint
   | CloudflareOpError;
-/** Upload a Workers for Platforms script module to a dispatch namespace. You can find more about the multipart metadata on our docs: https://developers.cloudflare.com/workers/configuration/multipart-upload-metadata/. */
+/** Upload Worker code and configuration to a Workers for Platforms dispatch namespace. For ES module and other module-based Workers, use `multipart/form-data` with a JSON `metadata` part whose `main_module` field names the entrypoint file. Upload each module as a separate file part; JavaScript ES module parts use the `application/javascript+module` content type. Raw `application/javascript` and `text/javascript` request bodies accept only legacy service-worker syntax using `addEventListener`. They do not accept ES module syntax such as `export default`. To upload a module Worker, use the multipart request format instead. Learn more about multipart metadata in the [documentation](https://developers.cloudflare.com/workers/configuration/multipart-upload-metadata/). */
 export const putDispatchNamespaceScript: API.OperationMethod<
   PutDispatchNamespaceScriptRequest,
   PutDispatchNamespaceScriptResponse,
   PutDispatchNamespaceScriptError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(850, __c26, 18) as any as S.Schema<PutDispatchNamespaceScriptRequest>,
-  output: __S(854, __c26, 22) as any as S.Schema<PutDispatchNamespaceScriptResponse>,
+  input: __S(851, __c26, 19) as any as S.Schema<PutDispatchNamespaceScriptRequest>,
+  output: __S(855, __c26, 23) as any as S.Schema<PutDispatchNamespaceScriptResponse>,
   errors: [
     DispatchNamespaceNotFound,
     Forbidden,
@@ -6168,6 +6511,7 @@ export const putDispatchNamespaceScript: API.OperationMethod<
     HyperdriveConfigNotFound,
     VectorizeIndexNotFound,
     MtlsCertificateNotFound,
+    UnknownWorkerEntrypoint,
     CloudflareRateLimited,
     CloudflareError,
   ],
@@ -6718,6 +7062,7 @@ function __c15(j: number): any {
             ["name", "part", "type"],
             ["name", "serviceId", "type"],
             ["name", "type", "identity", "networkId", "tunnelId"],
+            ["name", "type"],
           ],
           {
             key: "type",
@@ -6760,6 +7105,7 @@ function __c15(j: number): any {
               "wasm_module",
               "vpc_service",
               "vpc_network",
+              "worker_loader",
             ],
           },
         ),
@@ -6909,6 +7255,7 @@ function __c18(j: number): any {
             ["name", "part", "type"],
             ["name", "serviceId", "type"],
             ["name", "type", "identity", "networkId", "tunnelId"],
+            ["name", "type"],
           ],
           {
             key: "type",
@@ -6951,6 +7298,7 @@ function __c18(j: number): any {
               "wasm_module",
               "vpc_service",
               "vpc_network",
+              "worker_loader",
             ],
           },
         ),
@@ -7283,6 +7631,7 @@ function __c24(j: number): any {
             ["name", "part", "type"],
             ["name", "serviceId", "type"],
             ["name", "type", "identity", "networkId", "tunnelId"],
+            ["name", "type"],
           ],
           {
             key: "type",
@@ -7325,6 +7674,7 @@ function __c24(j: number): any {
               "wasm_module",
               "vpc_service",
               "vpc_network",
+              "worker_loader",
             ],
           },
         ),
@@ -7566,6 +7916,7 @@ function __c24(j: number): any {
             ["name", "part", "type"],
             ["name", "serviceId", "type"],
             ["name", "type", "identity", "networkId", "tunnelId"],
+            ["name", "type"],
           ],
           {
             key: "type",
@@ -7608,6 +7959,7 @@ function __c24(j: number): any {
               "wasm_module",
               "vpc_service",
               "vpc_network",
+              "worker_loader",
             ],
           },
         ),
@@ -7783,7 +8135,7 @@ function __c26(j: number): any {
               "destinationAddress",
               "type",
             ],
-            ["name", "service", "entrypoint", "environment", "props", "type"],
+            ["name", "service", "entrypoint", "environment", "type"],
             ["name", "part", "type"],
             ["indexName", "name", "type"],
             ["name", "type"],
@@ -7843,47 +8195,6 @@ function __c26(j: number): any {
               "k2",
             ],
           },
-          [
-            [],
-            [],
-            [],
-            [],
-            [],
-            [],
-            [],
-            [],
-            [],
-            [],
-            [],
-            [],
-            [],
-            ["json"],
-            [],
-            [],
-            [],
-            [],
-            [],
-            [],
-            [],
-            [],
-            [],
-            [],
-            ["props"],
-            [],
-            [],
-            [],
-            [],
-            [],
-            [],
-            [],
-            [],
-            [],
-            [],
-            [],
-            [],
-            [],
-            [],
-          ],
         ),
       );
     case 6:
@@ -7966,6 +8277,13 @@ function __c26(j: number): any {
     case 15:
       return S.suspend(() =>
         S.Struct({
+          mode: S.String,
+          maxDelay: S.optional(S.Number.pipe(T.Body("max_delay"))),
+        }),
+      ).annotate({ identifier: "CodeUpdateStrategy" });
+    case 16:
+      return S.suspend(() =>
+        S.Struct({
           type: S.optional(S.String),
           cache: S.optional(__S(846, __c26, 14)),
           storage: S.optional(S.String),
@@ -7976,9 +8294,9 @@ function __c26(j: number): any {
           transferFrom: S.optional(S.String.pipe(T.Body("transfer_from"))),
         }),
       ).annotate({ identifier: "PutDispatchNamespaceScriptMetadataExport" });
-    case 16:
-      return S.Record(S.String, __S(847, __c26, 15));
     case 17:
+      return S.Record(S.String, __S(848, __c26, 16));
+    case 18:
       return S.suspend(() =>
         S.Struct({
           annotations: S.optional(__S(833, __c26, 1)),
@@ -8003,17 +8321,18 @@ function __c26(j: number): any {
           streamingTailConsumers: S.optional(
             S.NullOr(__S(802, __c25, 2)).pipe(T.Body("streaming_tail_consumers")),
           ),
-          exports: S.optional(__S(848, __c26, 16).pipe(T.KeyDictionary({}))),
+          codeUpdateStrategy: S.optional(__S(847, __c26, 15).pipe(T.Body("code_update_strategy"))),
+          exports: S.optional(__S(849, __c26, 17).pipe(T.KeyDictionary({}))),
         }),
       ).annotate({ identifier: "PutDispatchNamespaceScriptMetadata" });
-    case 18:
+    case 19:
       return S.suspend(() =>
         S.Struct({
           accountId: S.String.pipe(T.Label("account_id")),
           dispatchNamespace: S.String.pipe(T.Label("dispatch_namespace")),
           scriptName: S.String.pipe(T.Label("script_name")),
           bindingsInherit: S.optional(S.String.pipe(T.Query("bindings_inherit"))),
-          metadata: __S(849, __c26, 17).pipe(
+          metadata: __S(850, __c26, 18).pipe(
             T.KeyDictionary({
               abrLevel: "abr_level",
               allowedDestinationAddresses: "allowed_destination_addresses",
@@ -8132,7 +8451,7 @@ function __c26(j: number): any {
           )
           .pipe(T.KeyDictionary(KEY_DICTIONARY)),
       ).annotate({ identifier: "PutDispatchNamespaceScriptRequest" });
-    case 19:
+    case 20:
       return S.Unknown.pipe(
         /*@__PURE__*/ T.UnionCases([
           ["type", "cache", "state"],
@@ -8143,9 +8462,9 @@ function __c26(j: number): any {
           ["state", "storage", "transferFrom", "type", "container"],
         ]),
       );
-    case 20:
-      return S.Record(S.String, __S(851, __c26, 19));
     case 21:
+      return S.Record(S.String, __S(852, __c26, 20));
+    case 22:
       return S.Unknown.pipe(
         /*@__PURE__*/ T.UnionCases([
           ["mode", "lastAnalyzedAt", "status"],
@@ -8158,7 +8477,7 @@ function __c26(j: number): any {
           ["mode", "target", "lastAnalyzedAt", "status"],
         ]),
       );
-    case 22:
+    case 23:
       return S.suspend(() =>
         S.Struct({
           startupTimeMs: S.Number.pipe(T.Body("startup_time_ms")),
@@ -8171,7 +8490,7 @@ function __c26(j: number): any {
           createdOn: S.optional(S.NullOr(S.String).pipe(T.Body("created_on"))),
           entryPoint: S.optional(S.NullOr(S.String).pipe(T.Body("entry_point"))),
           etag: S.optional(S.NullOr(S.String)),
-          exports: S.optional(S.NullOr(__S(852, __c26, 20))),
+          exports: S.optional(S.NullOr(__S(853, __c26, 21))),
           handlers: S.optional(S.NullOr(__S(128, __c4, 0))),
           hasAssets: S.optional(S.NullOr(S.Boolean).pipe(T.Body("has_assets"))),
           hasModules: S.optional(S.NullOr(S.Boolean).pipe(T.Body("has_modules"))),
@@ -8181,7 +8500,7 @@ function __c26(j: number): any {
           modifiedOn: S.optional(S.NullOr(S.String).pipe(T.Body("modified_on"))),
           namedHandlers: S.optional(S.NullOr(__S(449, __c14, 1)).pipe(T.Body("named_handlers"))),
           observability: S.optional(S.NullOr(__S(420, __c13, 4))),
-          placement: S.optional(S.NullOr(__S(853, __c26, 21))),
+          placement: S.optional(S.NullOr(__S(854, __c26, 22))),
           placementMode: S.optional(S.NullOr(S.String).pipe(T.Body("placement_mode"))),
           placementStatus: S.optional(S.NullOr(S.String).pipe(T.Body("placement_status"))),
           tag: S.optional(S.NullOr(S.String)),

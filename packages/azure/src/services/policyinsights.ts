@@ -28,6 +28,7 @@ const TELEMETRY = {
   prefix: "Policyinsights",
   service: "Policyinsights",
   labels: "azure",
+  labelNames: { resourceGroupName: "azure.resource_group.name" },
   propagate: "w3c",
 } as const;
 
@@ -36,9 +37,9 @@ export type ComplianceState = "Compliant" | "NonCompliant" | "Unknown";
 /** A piece of evidence supporting the compliance state set in the attestation. */
 export interface AttestationEvidence {
   /** The description for this piece of evidence. */
-  description?: string;
+  description?: string | undefined;
   /** The URI location of the evidence. */
-  sourceUri?: string;
+  sourceUri?: string | undefined;
 }
 /** The evidence supporting the compliance state set in this attestation. */
 export type AttestationPropertiesInputEvidenceList = Array<AttestationEvidence>;
@@ -47,21 +48,21 @@ export interface AttestationPropertiesInput {
   /** The resource ID of the policy assignment that the attestation is setting the state for. */
   policyAssignmentId: string;
   /** The policy definition reference ID from a policy set definition that the attestation is setting the state for. If the policy assignment assigns a policy set definition the attestation can choose a definition within the set definition with this property or omit this and set the state for the entire set definition. */
-  policyDefinitionReferenceId?: string;
+  policyDefinitionReferenceId?: string | undefined;
   /** The compliance state that should be set on the resource. */
-  complianceState?: ComplianceState | (string & {});
+  complianceState?: ComplianceState | (string & {}) | undefined;
   /** The time the compliance state should expire. */
-  expiresOn?: string;
+  expiresOn?: string | undefined;
   /** The person responsible for setting the state of the resource. This value is typically an Azure Active Directory object ID. */
-  owner?: string;
+  owner?: string | undefined;
   /** Comments describing why this attestation was created. */
-  comments?: string;
+  comments?: string | undefined;
   /** The evidence supporting the compliance state set in this attestation. */
-  evidence?: AttestationPropertiesInputEvidenceList;
+  evidence?: AttestationPropertiesInputEvidenceList | undefined;
   /** The time the evidence was assessed */
-  assessmentDate?: string;
+  assessmentDate?: string | undefined;
   /** Additional metadata for this attestation */
-  metadata?: unknown;
+  metadata?: unknown | undefined;
 }
 export interface AttestationsCreateOrUpdateAtResourceRequest {
   /** Resource ID. */
@@ -78,17 +79,17 @@ export type SystemDataLastModifiedByType = "User" | "Application" | "ManagedIden
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface SystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: SystemDataCreatedByType;
+  createdByType?: SystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: SystemDataLastModifiedByType;
+  lastModifiedByType?: SystemDataLastModifiedByType | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 /** The evidence supporting the compliance state set in this attestation. */
 export type AttestationPropertiesEvidenceList = Array<AttestationEvidence>;
@@ -97,41 +98,41 @@ export interface AttestationProperties {
   /** The resource ID of the policy assignment that the attestation is setting the state for. */
   policyAssignmentId: string;
   /** The policy definition reference ID from a policy set definition that the attestation is setting the state for. If the policy assignment assigns a policy set definition the attestation can choose a definition within the set definition with this property or omit this and set the state for the entire set definition. */
-  policyDefinitionReferenceId?: string;
+  policyDefinitionReferenceId?: string | undefined;
   /** The compliance state that should be set on the resource. */
-  complianceState?: ComplianceState;
+  complianceState?: ComplianceState | undefined;
   /** The time the compliance state should expire. */
-  expiresOn?: string;
+  expiresOn?: string | undefined;
   /** The person responsible for setting the state of the resource. This value is typically an Azure Active Directory object ID. */
-  owner?: string;
+  owner?: string | undefined;
   /** Comments describing why this attestation was created. */
-  comments?: string;
+  comments?: string | undefined;
   /** The evidence supporting the compliance state set in this attestation. */
-  evidence?: AttestationPropertiesEvidenceList;
+  evidence?: AttestationPropertiesEvidenceList | undefined;
   /** The status of the attestation. */
-  provisioningState?: string;
+  provisioningState?: string | undefined;
   /** The time the compliance state was last changed in this attestation. */
-  lastComplianceStateChangeAt?: string;
+  lastComplianceStateChangeAt?: string | undefined;
   /** The time the evidence was assessed */
-  assessmentDate?: string;
+  assessmentDate?: string | undefined;
   /** Additional metadata for this attestation */
-  metadata?: unknown;
+  metadata?: unknown | undefined;
 }
 export interface AttestationsCreateOrUpdateAtResourceResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Properties for the attestation. */
   properties: AttestationProperties;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface AttestationsCreateOrUpdateAtResourceGroupRequest {
   /** The ID of the target subscription. */
@@ -145,19 +146,19 @@ export interface AttestationsCreateOrUpdateAtResourceGroupRequest {
 }
 export interface AttestationsCreateOrUpdateAtResourceGroupResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Properties for the attestation. */
   properties: AttestationProperties;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface AttestationsCreateOrUpdateAtSubscriptionRequest {
   /** The ID of the target subscription. */
@@ -169,19 +170,19 @@ export interface AttestationsCreateOrUpdateAtSubscriptionRequest {
 }
 export interface AttestationsCreateOrUpdateAtSubscriptionResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Properties for the attestation. */
   properties: AttestationProperties;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export type CancelRemediationAtManagementGroupRequestManagementGroupsNamespace =
   "Microsoft.Management";
@@ -204,64 +205,64 @@ export type RemediationFiltersResourceIdsList = Array<string>;
 /** The filters that will be applied to determine which resources to remediate. */
 export interface RemediationFilters {
   /** The resource locations that will be remediated. */
-  locations?: RemediationFiltersLocationsList;
+  locations?: RemediationFiltersLocationsList | undefined;
   /** The IDs of the resources that will be remediated. Can specify at most 100 IDs. This filter cannot be used when ReEvaluateCompliance is set to ReEvaluateCompliance, and cannot be empty if provided. */
-  resourceIds?: RemediationFiltersResourceIdsList;
+  resourceIds?: RemediationFiltersResourceIdsList | undefined;
 }
 /** The deployment status summary for all deployments created by the remediation. */
 export interface RemediationDeploymentSummary {
   /** The number of deployments required by the remediation. */
-  totalDeployments?: number;
+  totalDeployments?: number | undefined;
   /** The number of deployments required by the remediation that have succeeded. */
-  successfulDeployments?: number;
+  successfulDeployments?: number | undefined;
   /** The number of deployments required by the remediation that have failed. */
-  failedDeployments?: number;
+  failedDeployments?: number | undefined;
 }
 /** The remediation failure threshold settings */
 export interface RemediationPropertiesFailureThreshold {
   /** A number between 0.0 to 1.0 representing the percentage failure threshold. The remediation will fail if the percentage of failed remediation operations (i.e. failed deployments) exceeds this threshold. */
-  percentage?: number;
+  percentage?: number | undefined;
 }
 /** The remediation properties. */
 export interface RemediationProperties {
   /** The resource ID of the policy assignment that should be remediated. */
-  policyAssignmentId?: string;
+  policyAssignmentId?: string | undefined;
   /** The policy definition reference ID of the individual definition that should be remediated. Required when the policy assignment being remediated assigns a policy set definition. */
-  policyDefinitionReferenceId?: string;
+  policyDefinitionReferenceId?: string | undefined;
   /** The way resources to remediate are discovered. Defaults to ExistingNonCompliant if not specified. */
-  resourceDiscoveryMode?: ResourceDiscoveryMode;
+  resourceDiscoveryMode?: ResourceDiscoveryMode | undefined;
   /** The status of the remediation. This refers to the entire remediation task, not individual deployments. Allowed values are Evaluating, Canceled, Cancelling, Failed, Complete, or Succeeded. */
-  provisioningState?: string;
+  provisioningState?: string | undefined;
   /** The time at which the remediation was created. */
-  createdOn?: string;
+  createdOn?: string | undefined;
   /** The time at which the remediation was last updated. */
-  lastUpdatedOn?: string;
+  lastUpdatedOn?: string | undefined;
   /** The filters that will be applied to determine which resources to remediate. */
-  filters?: RemediationFilters;
+  filters?: RemediationFilters | undefined;
   /** The deployment status summary for all deployments created by the remediation. */
-  deploymentStatus?: RemediationDeploymentSummary;
+  deploymentStatus?: RemediationDeploymentSummary | undefined;
   /** The remediation status message. Provides additional details regarding the state of the remediation. */
-  statusMessage?: string;
+  statusMessage?: string | undefined;
   /** The remediation correlation Id. Can be used to find events related to the remediation in the activity log. */
-  correlationId?: string;
+  correlationId?: string | undefined;
   /** Determines the max number of resources that can be remediated by the remediation job. If not provided, the default resource count is used. */
-  resourceCount?: number;
+  resourceCount?: number | undefined;
   /** Determines how many resources to remediate at any given time. Can be used to increase or reduce the pace of the remediation. If not provided, the default parallel deployments value is used. */
-  parallelDeployments?: number;
+  parallelDeployments?: number | undefined;
   /** The remediation failure threshold settings */
-  failureThreshold?: RemediationPropertiesFailureThreshold;
+  failureThreshold?: RemediationPropertiesFailureThreshold | undefined;
 }
 export interface CancelRemediationAtManagementGroupResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Properties for the remediation. */
-  properties?: RemediationProperties;
+  properties?: RemediationProperties | undefined;
 }
 export interface CancelRemediationAtResourceRequest {
   /** Resource ID. */
@@ -271,15 +272,15 @@ export interface CancelRemediationAtResourceRequest {
 }
 export interface CancelRemediationAtResourceResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Properties for the remediation. */
-  properties?: RemediationProperties;
+  properties?: RemediationProperties | undefined;
 }
 export interface CancelRemediationAtResourceGroupRequest {
   /** The ID of the target subscription. */
@@ -291,15 +292,15 @@ export interface CancelRemediationAtResourceGroupRequest {
 }
 export interface CancelRemediationAtResourceGroupResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Properties for the remediation. */
-  properties?: RemediationProperties;
+  properties?: RemediationProperties | undefined;
 }
 export interface CancelRemediationAtSubscriptionRequest {
   /** The ID of the target subscription. */
@@ -309,15 +310,15 @@ export interface CancelRemediationAtSubscriptionRequest {
 }
 export interface CancelRemediationAtSubscriptionResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Properties for the remediation. */
-  properties?: RemediationProperties;
+  properties?: RemediationProperties | undefined;
 }
 export type CheckPolicyRestrictionAtManagementGroupScopeRequestManagementGroupsNamespace =
   "Microsoft.Management";
@@ -326,9 +327,9 @@ export interface CheckRestrictionsResourceDetails {
   /** The resource content. This should include whatever properties are already known and can be a partial set of all resource properties. */
   resourceContent: unknown;
   /** The api-version of the resource content. */
-  apiVersion?: string;
+  apiVersion?: string | undefined;
   /** The scope where the resource is being created. For example, if the resource is a child resource this would be the parent resource's resource ID. */
-  scope?: string;
+  scope?: string | undefined;
 }
 /** The list of potential values for the field that should be evaluated against Azure Policy. */
 export type PendingFieldValuesList = Array<string>;
@@ -337,7 +338,7 @@ export interface PendingField {
   /** The name of the field. This can be a top-level property like 'name' or 'type' or an Azure Policy field alias. */
   field: string;
   /** The list of potential values for the field that should be evaluated against Azure Policy. */
-  values?: PendingFieldValuesList;
+  values?: PendingFieldValuesList | undefined;
 }
 /** The list of fields and values that should be evaluated for potential restrictions. */
 export type CheckPolicyRestrictionAtManagementGroupScopeRequestPendingFieldsList =
@@ -350,9 +351,9 @@ export interface CheckPolicyRestrictionAtManagementGroupScopeRequest {
   /** Management group ID. */
   managementGroupId: string;
   /** The information about the resource that will be evaluated. */
-  resourceDetails?: CheckRestrictionsResourceDetails;
+  resourceDetails?: CheckRestrictionsResourceDetails | undefined;
   /** The list of fields and values that should be evaluated for potential restrictions. */
-  pendingFields?: CheckPolicyRestrictionAtManagementGroupScopeRequestPendingFieldsList;
+  pendingFields?: CheckPolicyRestrictionAtManagementGroupScopeRequestPendingFieldsList | undefined;
 }
 /** The type of restriction that is imposed on the field. */
 export type FieldRestrictionResult = "Required" | "Removed" | "Deny" | "Audit";
@@ -361,56 +362,56 @@ export type FieldRestrictionValuesList = Array<string>;
 /** Resource identifiers for a policy. */
 export interface PolicyReference {
   /** The resource identifier of the policy definition. */
-  policyDefinitionId?: string;
+  policyDefinitionId?: string | undefined;
   /** The resource identifier of the policy set definition. */
-  policySetDefinitionId?: string;
+  policySetDefinitionId?: string | undefined;
   /** The reference identifier of a specific policy definition within a policy set definition. */
-  policyDefinitionReferenceId?: string;
+  policyDefinitionReferenceId?: string | undefined;
   /** The resource identifier of the policy assignment. */
-  policyAssignmentId?: string;
+  policyAssignmentId?: string | undefined;
 }
 /** The restrictions on a field imposed by a specific policy. */
 export interface FieldRestriction {
   /** The type of restriction that is imposed on the field. */
-  result?: FieldRestrictionResult;
+  result?: FieldRestrictionResult | undefined;
   /** The value that policy will set for the field if the user does not provide a value. */
-  defaultValue?: string;
+  defaultValue?: string | undefined;
   /** The values that policy either requires or denies for the field. */
-  values?: FieldRestrictionValuesList;
+  values?: FieldRestrictionValuesList | undefined;
   /** The details of the policy that is causing the field restriction. */
-  policy?: PolicyReference;
+  policy?: PolicyReference | undefined;
   /** The effect of the policy that is causing the field restriction. http://aka.ms/policyeffects */
-  policyEffect?: string;
+  policyEffect?: string | undefined;
   /** The reason for the restriction. */
-  reason?: string;
+  reason?: string | undefined;
 }
 /** The restrictions placed on that field by policy. */
 export type FieldRestrictionsRestrictionsList = Array<FieldRestriction>;
 /** The restrictions that will be placed on a field in the resource by policy. */
 export interface FieldRestrictions {
   /** The name of the field. This can be a top-level property like 'name' or 'type' or an Azure Policy field alias. */
-  field?: string;
+  field?: string | undefined;
   /** The restrictions placed on that field by policy. */
-  restrictions?: FieldRestrictionsRestrictionsList;
+  restrictions?: FieldRestrictionsRestrictionsList | undefined;
 }
 /** The restrictions that will be placed on various fields in the resource by policy. */
 export type CheckRestrictionsResultFieldRestrictionsList = Array<FieldRestrictions>;
 /** Evaluation details of policy language expressions. */
 export interface ExpressionEvaluationDetails {
   /** Evaluation result. */
-  result?: string;
+  result?: string | undefined;
   /** Expression evaluated. */
-  expression?: string;
+  expression?: string | undefined;
   /** The kind of expression that was evaluated. */
-  expressionKind?: string;
+  expressionKind?: string | undefined;
   /** Property path if the expression is a field or an alias. */
-  path?: string;
+  path?: string | undefined;
   /** Value of the expression. */
-  expressionValue?: unknown;
+  expressionValue?: unknown | undefined;
   /** Target value to be compared with the expression value. */
-  targetValue?: unknown;
+  targetValue?: unknown | undefined;
   /** Operator to compare the expression value and the target value. */
-  operator?: string;
+  operator?: string | undefined;
 }
 /** Details of the evaluated expressions. */
 export type CheckRestrictionEvaluationDetailsEvaluatedExpressionsList =
@@ -418,34 +419,34 @@ export type CheckRestrictionEvaluationDetailsEvaluatedExpressionsList =
 /** Evaluation details of IfNotExists effect. */
 export interface IfNotExistsEvaluationDetails {
   /** ID of the last evaluated resource for IfNotExists effect. */
-  resourceId?: string;
+  resourceId?: string | undefined;
   /** Total number of resources to which the existence condition is applicable. */
-  totalResources?: number;
+  totalResources?: number | undefined;
 }
 /** Policy evaluation details. */
 export interface CheckRestrictionEvaluationDetails {
   /** Details of the evaluated expressions. */
-  evaluatedExpressions?: CheckRestrictionEvaluationDetailsEvaluatedExpressionsList;
+  evaluatedExpressions?: CheckRestrictionEvaluationDetailsEvaluatedExpressionsList | undefined;
   /** Evaluation details of IfNotExists effect. */
-  ifNotExistsDetails?: IfNotExistsEvaluationDetails;
+  ifNotExistsDetails?: IfNotExistsEvaluationDetails | undefined;
   /** The reason for the evaluation result. */
-  reason?: string;
+  reason?: string | undefined;
 }
 /** The details of the effect that was applied to the resource. */
 export interface PolicyEffectDetails {
   /** The effect that was applied to the resource. http://aka.ms/policyeffects */
-  policyEffect?: string;
+  policyEffect?: string | undefined;
 }
 /** The result of a non-compliant policy evaluation against the given resource content. */
 export interface PolicyEvaluationResult {
   /** The details of the policy that was evaluated. */
-  policyInfo?: PolicyReference;
+  policyInfo?: PolicyReference | undefined;
   /** The result of the policy evaluation against the resource. This will typically be 'NonCompliant' but may contain other values if errors were encountered. */
-  evaluationResult?: string;
+  evaluationResult?: string | undefined;
   /** The detailed results of the policy expressions and values that were evaluated. */
-  evaluationDetails?: CheckRestrictionEvaluationDetails;
+  evaluationDetails?: CheckRestrictionEvaluationDetails | undefined;
   /** The details of the effect that was applied to the resource. */
-  effectDetails?: PolicyEffectDetails;
+  effectDetails?: PolicyEffectDetails | undefined;
 }
 /** Policy evaluation results against the given resource content. This will indicate if the partial content that was provided will be denied as-is. */
 export type CheckRestrictionsResultContentEvaluationResultPolicyEvaluationsList =
@@ -453,14 +454,16 @@ export type CheckRestrictionsResultContentEvaluationResultPolicyEvaluationsList 
 /** Evaluation results for the provided partial resource content. */
 export interface CheckRestrictionsResultContentEvaluationResult {
   /** Policy evaluation results against the given resource content. This will indicate if the partial content that was provided will be denied as-is. */
-  policyEvaluations?: CheckRestrictionsResultContentEvaluationResultPolicyEvaluationsList;
+  policyEvaluations?:
+    | CheckRestrictionsResultContentEvaluationResultPolicyEvaluationsList
+    | undefined;
 }
 /** The result of a check policy restrictions evaluation on a resource. */
 export interface CheckRestrictionsResult {
   /** The restrictions that will be placed on various fields in the resource by policy. */
-  fieldRestrictions?: CheckRestrictionsResultFieldRestrictionsList;
+  fieldRestrictions?: CheckRestrictionsResultFieldRestrictionsList | undefined;
   /** Evaluation results for the provided partial resource content. */
-  contentEvaluationResult?: CheckRestrictionsResultContentEvaluationResult;
+  contentEvaluationResult?: CheckRestrictionsResultContentEvaluationResult | undefined;
 }
 /** The list of fields and values that should be evaluated for potential restrictions. */
 export type CheckPolicyRestrictionAtResourceGroupScopeRequestPendingFieldsList =
@@ -473,9 +476,9 @@ export interface CheckPolicyRestrictionAtResourceGroupScopeRequest {
   /** The information about the resource that will be evaluated. */
   resourceDetails: CheckRestrictionsResourceDetails;
   /** The list of fields and values that should be evaluated for potential restrictions. */
-  pendingFields?: CheckPolicyRestrictionAtResourceGroupScopeRequestPendingFieldsList;
+  pendingFields?: CheckPolicyRestrictionAtResourceGroupScopeRequestPendingFieldsList | undefined;
   /** Whether to include policies with the 'audit' effect in the results. Defaults to false. */
-  includeAuditEffect?: boolean;
+  includeAuditEffect?: boolean | undefined;
 }
 /** The list of fields and values that should be evaluated for potential restrictions. */
 export type CheckPolicyRestrictionAtSubscriptionScopeRequestPendingFieldsList = Array<PendingField>;
@@ -485,9 +488,9 @@ export interface CheckPolicyRestrictionAtSubscriptionScopeRequest {
   /** The information about the resource that will be evaluated. */
   resourceDetails: CheckRestrictionsResourceDetails;
   /** The list of fields and values that should be evaluated for potential restrictions. */
-  pendingFields?: CheckPolicyRestrictionAtSubscriptionScopeRequestPendingFieldsList;
+  pendingFields?: CheckPolicyRestrictionAtSubscriptionScopeRequestPendingFieldsList | undefined;
   /** Whether to include policies with the 'audit' effect in the results. Defaults to false. */
-  includeAuditEffect?: boolean;
+  includeAuditEffect?: boolean | undefined;
 }
 export interface DeleteAttestationAtResourceRequest {
   /** Resource ID. */
@@ -526,15 +529,15 @@ export interface DeleteRemediationAtManagementGroupRequest {
 }
 export interface DeleteRemediationAtManagementGroupResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Properties for the remediation. */
-  properties?: RemediationProperties;
+  properties?: RemediationProperties | undefined;
 }
 export interface DeleteRemediationAtResourceRequest {
   /** Resource ID. */
@@ -544,15 +547,15 @@ export interface DeleteRemediationAtResourceRequest {
 }
 export interface DeleteRemediationAtResourceResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Properties for the remediation. */
-  properties?: RemediationProperties;
+  properties?: RemediationProperties | undefined;
 }
 export interface DeleteRemediationAtResourceGroupRequest {
   /** The ID of the target subscription. */
@@ -564,15 +567,15 @@ export interface DeleteRemediationAtResourceGroupRequest {
 }
 export interface DeleteRemediationAtResourceGroupResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Properties for the remediation. */
-  properties?: RemediationProperties;
+  properties?: RemediationProperties | undefined;
 }
 export interface DeleteRemediationAtSubscriptionRequest {
   /** The ID of the target subscription. */
@@ -582,15 +585,15 @@ export interface DeleteRemediationAtSubscriptionRequest {
 }
 export interface DeleteRemediationAtSubscriptionResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Properties for the remediation. */
-  properties?: RemediationProperties;
+  properties?: RemediationProperties | undefined;
 }
 export interface GetAttestationAtResourceRequest {
   /** Resource ID. */
@@ -600,13 +603,13 @@ export interface GetAttestationAtResourceRequest {
 }
 export interface GetAttestationAtResourceResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Properties for the attestation. */
   properties: AttestationProperties;
 }
@@ -620,13 +623,13 @@ export interface GetAttestationAtResourceGroupRequest {
 }
 export interface GetAttestationAtResourceGroupResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Properties for the attestation. */
   properties: AttestationProperties;
 }
@@ -638,13 +641,13 @@ export interface GetAttestationAtSubscriptionRequest {
 }
 export interface GetAttestationAtSubscriptionResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Properties for the attestation. */
   properties: AttestationProperties;
 }
@@ -655,33 +658,33 @@ export interface GetPolicyMetadataResourceRequest {
 /** The properties of the policy metadata. */
 export interface PolicyMetadataProperties {
   /** The policy metadata identifier. */
-  metadataId?: string;
+  metadataId?: string | undefined;
   /** The category of the policy metadata. */
-  category?: string;
+  category?: string | undefined;
   /** The title of the policy metadata. */
-  title?: string;
+  title?: string | undefined;
   /** The owner of the policy metadata. */
-  owner?: string;
+  owner?: string | undefined;
   /** Url for getting additional content about the resource metadata. */
-  additionalContentUrl?: string;
+  additionalContentUrl?: string | undefined;
   /** Additional metadata. */
-  metadata?: unknown;
+  metadata?: unknown | undefined;
   /** The description of the policy metadata. */
-  description?: string;
+  description?: string | undefined;
   /** The requirements of the policy metadata. */
-  requirements?: string;
+  requirements?: string | undefined;
 }
 export interface GetPolicyMetadataResourceResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Properties of the policy metadata. */
-  properties?: PolicyMetadataProperties;
+  properties?: PolicyMetadataProperties | undefined;
 }
 export type GetRemediationAtManagementGroupRequestManagementGroupsNamespace =
   "Microsoft.Management";
@@ -697,15 +700,15 @@ export interface GetRemediationAtManagementGroupRequest {
 }
 export interface GetRemediationAtManagementGroupResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Properties for the remediation. */
-  properties?: RemediationProperties;
+  properties?: RemediationProperties | undefined;
 }
 export interface GetRemediationAtResourceRequest {
   /** Resource ID. */
@@ -715,15 +718,15 @@ export interface GetRemediationAtResourceRequest {
 }
 export interface GetRemediationAtResourceResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Properties for the remediation. */
-  properties?: RemediationProperties;
+  properties?: RemediationProperties | undefined;
 }
 export interface GetRemediationAtResourceGroupRequest {
   /** The ID of the target subscription. */
@@ -735,15 +738,15 @@ export interface GetRemediationAtResourceGroupRequest {
 }
 export interface GetRemediationAtResourceGroupResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Properties for the remediation. */
-  properties?: RemediationProperties;
+  properties?: RemediationProperties | undefined;
 }
 export interface GetRemediationAtSubscriptionRequest {
   /** The ID of the target subscription. */
@@ -753,34 +756,34 @@ export interface GetRemediationAtSubscriptionRequest {
 }
 export interface GetRemediationAtSubscriptionResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Properties for the remediation. */
-  properties?: RemediationProperties;
+  properties?: RemediationProperties | undefined;
 }
 export interface ListAttestationForResourceRequest {
   /** Resource ID. */
   resourceId: string;
   /** Maximum number of records to return. */
-  _top?: number;
+  _top?: number | undefined;
   /** OData filter expression. */
-  _filter?: string;
+  _filter?: string | undefined;
 }
 /** An attestation resource. */
 export interface Attestation {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Properties for the attestation. */
   properties: AttestationProperties;
 }
@@ -791,7 +794,7 @@ export interface AttestationListResult {
   /** The Attestation items on this page */
   value: AttestationListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListAttestationForResourceGroupRequest {
   /** The ID of the target subscription. */
@@ -799,17 +802,17 @@ export interface ListAttestationForResourceGroupRequest {
   /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
   /** Maximum number of records to return. */
-  _top?: number;
+  _top?: number | undefined;
   /** OData filter expression. */
-  _filter?: string;
+  _filter?: string | undefined;
 }
 export interface ListAttestationForSubscriptionRequest {
   /** The ID of the target subscription. */
   subscriptionId: string;
   /** Maximum number of records to return. */
-  _top?: number;
+  _top?: number | undefined;
   /** OData filter expression. */
-  _filter?: string;
+  _filter?: string | undefined;
 }
 export type ListComponentPolicyStateQueryResultsForPolicyDefinitionRequestAuthorizationNamespace =
   "Microsoft.Authorization";
@@ -829,19 +832,19 @@ export interface ListComponentPolicyStateQueryResultsForPolicyDefinitionRequest 
     | ListComponentPolicyStateQueryResultsForPolicyDefinitionRequestComponentPolicyStatesResource
     | (string & {});
   /** Maximum number of records to return. */
-  _top?: number;
+  _top?: number | undefined;
   /** Ordering expression using OData notation. One or more comma-separated column names with an optional "desc" (the default) or "asc", e.g. "$orderby=PolicyAssignmentId, ResourceId asc". */
-  _orderby?: string;
+  _orderby?: string | undefined;
   /** Select expression using OData notation. Limits the columns on each record to just those requested, e.g. "$select=PolicyAssignmentId, ResourceId". */
-  _select?: string;
+  _select?: string | undefined;
   /** ISO 8601 formatted timestamp specifying the start time of the interval to query. When not specified, the service uses ($to - 1-day). */
-  _from?: string;
+  _from?: string | undefined;
   /** ISO 8601 formatted timestamp specifying the end time of the interval to query. When not specified, the service uses request time. */
-  _to?: string;
+  _to?: string | undefined;
   /** OData filter expression. */
-  _filter?: string;
+  _filter?: string | undefined;
   /** OData apply expression for aggregations. */
-  _apply?: string;
+  _apply?: string | undefined;
 }
 /** Evaluation details of policy language expressions. */
 export type ComponentExpressionEvaluationDetails = ExpressionEvaluationDetails;
@@ -851,78 +854,78 @@ export type ComponentPolicyEvaluationDetailsEvaluatedExpressionsList =
 /** Policy evaluation details. */
 export interface ComponentPolicyEvaluationDetails {
   /** Details of the evaluated expressions. */
-  evaluatedExpressions?: ComponentPolicyEvaluationDetailsEvaluatedExpressionsList;
+  evaluatedExpressions?: ComponentPolicyEvaluationDetailsEvaluatedExpressionsList | undefined;
   /** Additional textual reason for the evaluation outcome. */
-  reason?: string;
+  reason?: string | undefined;
 }
 /** Policy definition group names. */
 export type ComponentPolicyStatePolicyDefinitionGroupNamesList = Array<string>;
 /** Component Policy State record. */
 export interface ComponentPolicyState {
   /** OData entity ID; always set to null since component policy state records do not have an entity ID. */
-  _odata_id?: string;
+  _odata_id?: string | undefined;
   /** OData context string; used by OData clients to resolve type information based on metadata. */
-  _odata_context?: string;
+  _odata_context?: string | undefined;
   /** Timestamp for the component policy state record. */
-  timestamp?: string;
+  timestamp?: string | undefined;
   /** Component Id. */
-  componentId?: string;
+  componentId?: string | undefined;
   /** Component type. */
-  componentType?: string;
+  componentType?: string | undefined;
   /** Component name. */
-  componentName?: string;
+  componentName?: string | undefined;
   /** Resource ID. */
-  resourceId?: string;
+  resourceId?: string | undefined;
   /** Policy assignment ID. */
-  policyAssignmentId?: string;
+  policyAssignmentId?: string | undefined;
   /** Policy definition ID. */
-  policyDefinitionId?: string;
+  policyDefinitionId?: string | undefined;
   /** Subscription ID. */
-  subscriptionId?: string;
+  subscriptionId?: string | undefined;
   /** Resource type. */
-  resourceType?: string;
+  resourceType?: string | undefined;
   /** Resource location. */
-  resourceLocation?: string;
+  resourceLocation?: string | undefined;
   /** Resource group name. */
-  resourceGroup?: string;
+  resourceGroup?: string | undefined;
   /** Policy assignment name. */
-  policyAssignmentName?: string;
+  policyAssignmentName?: string | undefined;
   /** Policy assignment owner. */
-  policyAssignmentOwner?: string;
+  policyAssignmentOwner?: string | undefined;
   /** Policy assignment parameters. */
-  policyAssignmentParameters?: string;
+  policyAssignmentParameters?: string | undefined;
   /** Policy assignment scope. */
-  policyAssignmentScope?: string;
+  policyAssignmentScope?: string | undefined;
   /** Policy definition name. */
-  policyDefinitionName?: string;
+  policyDefinitionName?: string | undefined;
   /** Policy definition action, i.e. effect. */
-  policyDefinitionAction?: string;
+  policyDefinitionAction?: string | undefined;
   /** Policy definition category. */
-  policyDefinitionCategory?: string;
+  policyDefinitionCategory?: string | undefined;
   /** Policy set definition ID, if the policy assignment is for a policy set. */
-  policySetDefinitionId?: string;
+  policySetDefinitionId?: string | undefined;
   /** Policy set definition name, if the policy assignment is for a policy set. */
-  policySetDefinitionName?: string;
+  policySetDefinitionName?: string | undefined;
   /** Policy set definition owner, if the policy assignment is for a policy set. */
-  policySetDefinitionOwner?: string;
+  policySetDefinitionOwner?: string | undefined;
   /** Policy set definition category, if the policy assignment is for a policy set. */
-  policySetDefinitionCategory?: string;
+  policySetDefinitionCategory?: string | undefined;
   /** Policy set definition parameters, if the policy assignment is for a policy set. */
-  policySetDefinitionParameters?: string;
+  policySetDefinitionParameters?: string | undefined;
   /** Reference ID for the policy definition inside the policy set, if the policy assignment is for a policy set. */
-  policyDefinitionReferenceId?: string;
+  policyDefinitionReferenceId?: string | undefined;
   /** Compliance state of the resource. */
-  complianceState?: string;
+  complianceState?: string | undefined;
   /** Policy evaluation details. This is only included in the response if the request contains $expand=PolicyEvaluationDetails. */
-  policyEvaluationDetails?: ComponentPolicyEvaluationDetails;
+  policyEvaluationDetails?: ComponentPolicyEvaluationDetails | undefined;
   /** Policy definition group names. */
-  policyDefinitionGroupNames?: ComponentPolicyStatePolicyDefinitionGroupNamesList;
+  policyDefinitionGroupNames?: ComponentPolicyStatePolicyDefinitionGroupNamesList | undefined;
   /** Evaluated policy definition version. */
-  policyDefinitionVersion?: string;
+  policyDefinitionVersion?: string | undefined;
   /** Evaluated policy set definition version. */
-  policySetDefinitionVersion?: string;
+  policySetDefinitionVersion?: string | undefined;
   /** Evaluated policy assignment version. */
-  policyAssignmentVersion?: string;
+  policyAssignmentVersion?: string | undefined;
   [key: string]: unknown;
 }
 /** Query results. */
@@ -930,11 +933,11 @@ export type ComponentPolicyStatesQueryResultsValueList = Array<ComponentPolicySt
 /** Query results. */
 export interface ComponentPolicyStatesQueryResults {
   /** OData context string; used by OData clients to resolve type information based on metadata. */
-  _odata_context?: string;
+  _odata_context?: string | undefined;
   /** OData entity count; represents the number of policy state records returned. */
-  _odata_count?: number;
+  _odata_count?: number | undefined;
   /** Query results. */
-  value?: ComponentPolicyStatesQueryResultsValueList;
+  value?: ComponentPolicyStatesQueryResultsValueList | undefined;
 }
 export type ListComponentPolicyStateQueryResultsForResourceRequestComponentPolicyStatesResource =
   "latest";
@@ -946,21 +949,21 @@ export interface ListComponentPolicyStateQueryResultsForResourceRequest {
     | ListComponentPolicyStateQueryResultsForResourceRequestComponentPolicyStatesResource
     | (string & {});
   /** Maximum number of records to return. */
-  _top?: number;
+  _top?: number | undefined;
   /** Ordering expression using OData notation. One or more comma-separated column names with an optional "desc" (the default) or "asc", e.g. "$orderby=PolicyAssignmentId, ResourceId asc". */
-  _orderby?: string;
+  _orderby?: string | undefined;
   /** Select expression using OData notation. Limits the columns on each record to just those requested, e.g. "$select=PolicyAssignmentId, ResourceId". */
-  _select?: string;
+  _select?: string | undefined;
   /** ISO 8601 formatted timestamp specifying the start time of the interval to query. When not specified, the service uses ($to - 1-day). */
-  _from?: string;
+  _from?: string | undefined;
   /** ISO 8601 formatted timestamp specifying the end time of the interval to query. When not specified, the service uses request time. */
-  _to?: string;
+  _to?: string | undefined;
   /** OData filter expression. */
-  _filter?: string;
+  _filter?: string | undefined;
   /** OData apply expression for aggregations. */
-  _apply?: string;
+  _apply?: string | undefined;
   /** The $expand query parameter. */
-  _expand?: string;
+  _expand?: string | undefined;
 }
 export type ListComponentPolicyStateQueryResultsForResourceGroupRequestComponentPolicyStatesResource =
   "latest";
@@ -974,19 +977,19 @@ export interface ListComponentPolicyStateQueryResultsForResourceGroupRequest {
     | ListComponentPolicyStateQueryResultsForResourceGroupRequestComponentPolicyStatesResource
     | (string & {});
   /** Maximum number of records to return. */
-  _top?: number;
+  _top?: number | undefined;
   /** Ordering expression using OData notation. One or more comma-separated column names with an optional "desc" (the default) or "asc", e.g. "$orderby=PolicyAssignmentId, ResourceId asc". */
-  _orderby?: string;
+  _orderby?: string | undefined;
   /** Select expression using OData notation. Limits the columns on each record to just those requested, e.g. "$select=PolicyAssignmentId, ResourceId". */
-  _select?: string;
+  _select?: string | undefined;
   /** ISO 8601 formatted timestamp specifying the start time of the interval to query. When not specified, the service uses ($to - 1-day). */
-  _from?: string;
+  _from?: string | undefined;
   /** ISO 8601 formatted timestamp specifying the end time of the interval to query. When not specified, the service uses request time. */
-  _to?: string;
+  _to?: string | undefined;
   /** OData filter expression. */
-  _filter?: string;
+  _filter?: string | undefined;
   /** OData apply expression for aggregations. */
-  _apply?: string;
+  _apply?: string | undefined;
 }
 export type ListComponentPolicyStateQueryResultsForResourceGroupLevelPolicyAssignmentRequestAuthorizationNamespace =
   "Microsoft.Authorization";
@@ -1008,19 +1011,19 @@ export interface ListComponentPolicyStateQueryResultsForResourceGroupLevelPolicy
     | ListComponentPolicyStateQueryResultsForResourceGroupLevelPolicyAssignmentRequestComponentPolicyStatesResource
     | (string & {});
   /** Maximum number of records to return. */
-  _top?: number;
+  _top?: number | undefined;
   /** Ordering expression using OData notation. One or more comma-separated column names with an optional "desc" (the default) or "asc", e.g. "$orderby=PolicyAssignmentId, ResourceId asc". */
-  _orderby?: string;
+  _orderby?: string | undefined;
   /** Select expression using OData notation. Limits the columns on each record to just those requested, e.g. "$select=PolicyAssignmentId, ResourceId". */
-  _select?: string;
+  _select?: string | undefined;
   /** ISO 8601 formatted timestamp specifying the start time of the interval to query. When not specified, the service uses ($to - 1-day). */
-  _from?: string;
+  _from?: string | undefined;
   /** ISO 8601 formatted timestamp specifying the end time of the interval to query. When not specified, the service uses request time. */
-  _to?: string;
+  _to?: string | undefined;
   /** OData filter expression. */
-  _filter?: string;
+  _filter?: string | undefined;
   /** OData apply expression for aggregations. */
-  _apply?: string;
+  _apply?: string | undefined;
 }
 export type ListComponentPolicyStateQueryResultsForSubscriptionRequestComponentPolicyStatesResource =
   "latest";
@@ -1032,19 +1035,19 @@ export interface ListComponentPolicyStateQueryResultsForSubscriptionRequest {
     | ListComponentPolicyStateQueryResultsForSubscriptionRequestComponentPolicyStatesResource
     | (string & {});
   /** Maximum number of records to return. */
-  _top?: number;
+  _top?: number | undefined;
   /** Ordering expression using OData notation. One or more comma-separated column names with an optional "desc" (the default) or "asc", e.g. "$orderby=PolicyAssignmentId, ResourceId asc". */
-  _orderby?: string;
+  _orderby?: string | undefined;
   /** Select expression using OData notation. Limits the columns on each record to just those requested, e.g. "$select=PolicyAssignmentId, ResourceId". */
-  _select?: string;
+  _select?: string | undefined;
   /** ISO 8601 formatted timestamp specifying the start time of the interval to query. When not specified, the service uses ($to - 1-day). */
-  _from?: string;
+  _from?: string | undefined;
   /** ISO 8601 formatted timestamp specifying the end time of the interval to query. When not specified, the service uses request time. */
-  _to?: string;
+  _to?: string | undefined;
   /** OData filter expression. */
-  _filter?: string;
+  _filter?: string | undefined;
   /** OData apply expression for aggregations. */
-  _apply?: string;
+  _apply?: string | undefined;
 }
 export type ListComponentPolicyStateQueryResultsForSubscriptionLevelPolicyAssignmentRequestAuthorizationNamespace =
   "Microsoft.Authorization";
@@ -1064,49 +1067,49 @@ export interface ListComponentPolicyStateQueryResultsForSubscriptionLevelPolicyA
     | ListComponentPolicyStateQueryResultsForSubscriptionLevelPolicyAssignmentRequestComponentPolicyStatesResource
     | (string & {});
   /** Maximum number of records to return. */
-  _top?: number;
+  _top?: number | undefined;
   /** Ordering expression using OData notation. One or more comma-separated column names with an optional "desc" (the default) or "asc", e.g. "$orderby=PolicyAssignmentId, ResourceId asc". */
-  _orderby?: string;
+  _orderby?: string | undefined;
   /** Select expression using OData notation. Limits the columns on each record to just those requested, e.g. "$select=PolicyAssignmentId, ResourceId". */
-  _select?: string;
+  _select?: string | undefined;
   /** ISO 8601 formatted timestamp specifying the start time of the interval to query. When not specified, the service uses ($to - 1-day). */
-  _from?: string;
+  _from?: string | undefined;
   /** ISO 8601 formatted timestamp specifying the end time of the interval to query. When not specified, the service uses request time. */
-  _to?: string;
+  _to?: string | undefined;
   /** OData filter expression. */
-  _filter?: string;
+  _filter?: string | undefined;
   /** OData apply expression for aggregations. */
-  _apply?: string;
+  _apply?: string | undefined;
 }
 export interface ListOperationsRequest {}
 /** Display metadata associated with the operation. */
 export interface OperationDisplay {
   /** Resource provider name. */
-  provider?: string;
+  provider?: string | undefined;
   /** Resource name on which the operation is performed. */
-  resource?: string;
+  resource?: string | undefined;
   /** Operation name. */
-  operation?: string;
+  operation?: string | undefined;
   /** Operation description. */
-  description?: string;
+  description?: string | undefined;
 }
 /** Operation definition. */
 export interface Operation {
   /** Operation name. */
-  name?: string;
+  name?: string | undefined;
   /** Indicates whether the operation is a data action */
-  isDataAction?: boolean;
+  isDataAction?: boolean | undefined;
   /** Display metadata associated with the operation. */
-  display?: OperationDisplay;
+  display?: OperationDisplay | undefined;
 }
 /** List of available operations. */
 export type OperationsListResultsValueList = Array<Operation>;
 /** List of available operations. */
 export interface OperationsListResults {
   /** OData entity count; represents the number of operations returned. */
-  _odata_count?: number;
+  _odata_count?: number | undefined;
   /** List of available operations. */
-  value?: OperationsListResultsValueList;
+  value?: OperationsListResultsValueList | undefined;
 }
 export type ListPolicyEventQueryResultsForManagementGroupRequestManagementGroupsNamespace =
   "Microsoft.Management";
@@ -1123,38 +1126,38 @@ export interface ListPolicyEventQueryResultsForManagementGroupRequest {
     | ListPolicyEventQueryResultsForManagementGroupRequestPolicyEventsResource
     | (string & {});
   /** Maximum number of records to return. */
-  _top?: number;
+  _top?: number | undefined;
   /** Ordering expression using OData notation. One or more comma-separated column names with an optional "desc" (the default) or "asc", e.g. "$orderby=PolicyAssignmentId, ResourceId asc". */
-  _orderby?: string;
+  _orderby?: string | undefined;
   /** Select expression using OData notation. Limits the columns on each record to just those requested, e.g. "$select=PolicyAssignmentId, ResourceId". */
-  _select?: string;
+  _select?: string | undefined;
   /** ISO 8601 formatted timestamp specifying the start time of the interval to query. When not specified, the service uses ($to - 1-day). */
-  _from?: string;
+  _from?: string | undefined;
   /** ISO 8601 formatted timestamp specifying the end time of the interval to query. When not specified, the service uses request time. */
-  _to?: string;
+  _to?: string | undefined;
   /** OData filter expression. */
-  _filter?: string;
+  _filter?: string | undefined;
   /** OData apply expression for aggregations. */
-  _apply?: string;
+  _apply?: string | undefined;
   /** Skiptoken is only provided if a previous response returned a partial result as a part of nextLink element. */
-  _skiptoken?: string;
+  _skiptoken?: string | undefined;
 }
 /** Component event details. */
 export interface ComponentEventDetails {
   /** Component Id. */
-  id?: string;
+  id?: string | undefined;
   /** Component type. */
-  type?: string;
+  type?: string | undefined;
   /** Component name. */
-  name?: string;
+  name?: string | undefined;
   /** Timestamp for component policy event record. */
-  timestamp?: string;
+  timestamp?: string | undefined;
   /** Tenant ID for the policy event record. */
-  tenantId?: string;
+  tenantId?: string | undefined;
   /** Principal object ID for the user who initiated the resource component operation that triggered the policy event. */
-  principalOid?: string;
+  principalOid?: string | undefined;
   /** Policy definition action, i.e. effect. */
-  policyDefinitionAction?: string;
+  policyDefinitionAction?: string | undefined;
   [key: string]: unknown;
 }
 /** Components events records populated only when URL contains $expand=components clause. */
@@ -1162,67 +1165,67 @@ export type PolicyEventComponentsList = Array<ComponentEventDetails>;
 /** Policy event record. */
 export interface PolicyEvent {
   /** OData entity ID; always set to null since policy event records do not have an entity ID. */
-  _odata_id?: string;
+  _odata_id?: string | undefined;
   /** OData context string; used by OData clients to resolve type information based on metadata. */
-  _odata_context?: string;
+  _odata_context?: string | undefined;
   /** Timestamp for the policy event record. */
-  timestamp?: string;
+  timestamp?: string | undefined;
   /** Resource ID. */
-  resourceId?: string;
+  resourceId?: string | undefined;
   /** Policy assignment ID. */
-  policyAssignmentId?: string;
+  policyAssignmentId?: string | undefined;
   /** Policy definition ID. */
-  policyDefinitionId?: string;
+  policyDefinitionId?: string | undefined;
   /** Effective parameters for the policy assignment. */
-  effectiveParameters?: string;
+  effectiveParameters?: string | undefined;
   /** Flag which states whether the resource is compliant against the policy assignment it was evaluated against. */
-  isCompliant?: boolean;
+  isCompliant?: boolean | undefined;
   /** Subscription ID. */
-  subscriptionId?: string;
+  subscriptionId?: string | undefined;
   /** Resource type. */
-  resourceType?: string;
+  resourceType?: string | undefined;
   /** Resource location. */
-  resourceLocation?: string;
+  resourceLocation?: string | undefined;
   /** Resource group name. */
-  resourceGroup?: string;
+  resourceGroup?: string | undefined;
   /** List of resource tags. */
-  resourceTags?: string;
+  resourceTags?: string | undefined;
   /** Policy assignment name. */
-  policyAssignmentName?: string;
+  policyAssignmentName?: string | undefined;
   /** Policy assignment owner. */
-  policyAssignmentOwner?: string;
+  policyAssignmentOwner?: string | undefined;
   /** Policy assignment parameters. */
-  policyAssignmentParameters?: string;
+  policyAssignmentParameters?: string | undefined;
   /** Policy assignment scope. */
-  policyAssignmentScope?: string;
+  policyAssignmentScope?: string | undefined;
   /** Policy definition name. */
-  policyDefinitionName?: string;
+  policyDefinitionName?: string | undefined;
   /** Policy definition action, i.e. effect. */
-  policyDefinitionAction?: string;
+  policyDefinitionAction?: string | undefined;
   /** Policy definition category. */
-  policyDefinitionCategory?: string;
+  policyDefinitionCategory?: string | undefined;
   /** Policy set definition ID, if the policy assignment is for a policy set. */
-  policySetDefinitionId?: string;
+  policySetDefinitionId?: string | undefined;
   /** Policy set definition name, if the policy assignment is for a policy set. */
-  policySetDefinitionName?: string;
+  policySetDefinitionName?: string | undefined;
   /** Policy set definition owner, if the policy assignment is for a policy set. */
-  policySetDefinitionOwner?: string;
+  policySetDefinitionOwner?: string | undefined;
   /** Policy set definition category, if the policy assignment is for a policy set. */
-  policySetDefinitionCategory?: string;
+  policySetDefinitionCategory?: string | undefined;
   /** Policy set definition parameters, if the policy assignment is for a policy set. */
-  policySetDefinitionParameters?: string;
+  policySetDefinitionParameters?: string | undefined;
   /** Comma separated list of management group IDs, which represent the hierarchy of the management groups the resource is under. */
-  managementGroupIds?: string;
+  managementGroupIds?: string | undefined;
   /** Reference ID for the policy definition inside the policy set, if the policy assignment is for a policy set. */
-  policyDefinitionReferenceId?: string;
+  policyDefinitionReferenceId?: string | undefined;
   /** Compliance state of the resource. */
-  complianceState?: string;
+  complianceState?: string | undefined;
   /** Tenant ID for the policy event record. */
-  tenantId?: string;
+  tenantId?: string | undefined;
   /** Principal object ID for the user who initiated the resource operation that triggered the policy event. */
-  principalOid?: string;
+  principalOid?: string | undefined;
   /** Components events records populated only when URL contains $expand=components clause. */
-  components?: PolicyEventComponentsList;
+  components?: PolicyEventComponentsList | undefined;
   [key: string]: unknown;
 }
 /** Query results. */
@@ -1230,13 +1233,13 @@ export type PolicyEventsQueryResultsValueList = Array<PolicyEvent>;
 /** Query results. */
 export interface PolicyEventsQueryResults {
   /** OData context string; used by OData clients to resolve type information based on metadata. */
-  _odata_context?: string;
+  _odata_context?: string | undefined;
   /** OData entity count; represents the number of policy event records returned. */
-  _odata_count?: number;
+  _odata_count?: number | undefined;
   /** Odata next link; URL to get the next set of results. */
-  _odata_nextLink?: string;
+  _odata_nextLink?: string | undefined;
   /** Query results. */
-  value?: PolicyEventsQueryResultsValueList;
+  value?: PolicyEventsQueryResultsValueList | undefined;
 }
 export type ListPolicyEventQueryResultsForPolicyDefinitionRequestAuthorizationNamespace =
   "Microsoft.Authorization";
@@ -1255,21 +1258,21 @@ export interface ListPolicyEventQueryResultsForPolicyDefinitionRequest {
     | ListPolicyEventQueryResultsForPolicyDefinitionRequestPolicyEventsResource
     | (string & {});
   /** Maximum number of records to return. */
-  _top?: number;
+  _top?: number | undefined;
   /** Ordering expression using OData notation. One or more comma-separated column names with an optional "desc" (the default) or "asc", e.g. "$orderby=PolicyAssignmentId, ResourceId asc". */
-  _orderby?: string;
+  _orderby?: string | undefined;
   /** Select expression using OData notation. Limits the columns on each record to just those requested, e.g. "$select=PolicyAssignmentId, ResourceId". */
-  _select?: string;
+  _select?: string | undefined;
   /** ISO 8601 formatted timestamp specifying the start time of the interval to query. When not specified, the service uses ($to - 1-day). */
-  _from?: string;
+  _from?: string | undefined;
   /** ISO 8601 formatted timestamp specifying the end time of the interval to query. When not specified, the service uses request time. */
-  _to?: string;
+  _to?: string | undefined;
   /** OData filter expression. */
-  _filter?: string;
+  _filter?: string | undefined;
   /** OData apply expression for aggregations. */
-  _apply?: string;
+  _apply?: string | undefined;
   /** Skiptoken is only provided if a previous response returned a partial result as a part of nextLink element. */
-  _skiptoken?: string;
+  _skiptoken?: string | undefined;
 }
 export type ListPolicyEventQueryResultsForPolicySetDefinitionRequestAuthorizationNamespace =
   "Microsoft.Authorization";
@@ -1289,21 +1292,21 @@ export interface ListPolicyEventQueryResultsForPolicySetDefinitionRequest {
     | ListPolicyEventQueryResultsForPolicySetDefinitionRequestPolicyEventsResource
     | (string & {});
   /** Maximum number of records to return. */
-  _top?: number;
+  _top?: number | undefined;
   /** Ordering expression using OData notation. One or more comma-separated column names with an optional "desc" (the default) or "asc", e.g. "$orderby=PolicyAssignmentId, ResourceId asc". */
-  _orderby?: string;
+  _orderby?: string | undefined;
   /** Select expression using OData notation. Limits the columns on each record to just those requested, e.g. "$select=PolicyAssignmentId, ResourceId". */
-  _select?: string;
+  _select?: string | undefined;
   /** ISO 8601 formatted timestamp specifying the start time of the interval to query. When not specified, the service uses ($to - 1-day). */
-  _from?: string;
+  _from?: string | undefined;
   /** ISO 8601 formatted timestamp specifying the end time of the interval to query. When not specified, the service uses request time. */
-  _to?: string;
+  _to?: string | undefined;
   /** OData filter expression. */
-  _filter?: string;
+  _filter?: string | undefined;
   /** OData apply expression for aggregations. */
-  _apply?: string;
+  _apply?: string | undefined;
   /** Skiptoken is only provided if a previous response returned a partial result as a part of nextLink element. */
-  _skiptoken?: string;
+  _skiptoken?: string | undefined;
 }
 export type ListPolicyEventQueryResultsForResourceRequestPolicyEventsResource = "default";
 export interface ListPolicyEventQueryResultsForResourceRequest {
@@ -1314,23 +1317,23 @@ export interface ListPolicyEventQueryResultsForResourceRequest {
     | ListPolicyEventQueryResultsForResourceRequestPolicyEventsResource
     | (string & {});
   /** Maximum number of records to return. */
-  _top?: number;
+  _top?: number | undefined;
   /** Ordering expression using OData notation. One or more comma-separated column names with an optional "desc" (the default) or "asc", e.g. "$orderby=PolicyAssignmentId, ResourceId asc". */
-  _orderby?: string;
+  _orderby?: string | undefined;
   /** Select expression using OData notation. Limits the columns on each record to just those requested, e.g. "$select=PolicyAssignmentId, ResourceId". */
-  _select?: string;
+  _select?: string | undefined;
   /** ISO 8601 formatted timestamp specifying the start time of the interval to query. When not specified, the service uses ($to - 1-day). */
-  _from?: string;
+  _from?: string | undefined;
   /** ISO 8601 formatted timestamp specifying the end time of the interval to query. When not specified, the service uses request time. */
-  _to?: string;
+  _to?: string | undefined;
   /** OData filter expression. */
-  _filter?: string;
+  _filter?: string | undefined;
   /** OData apply expression for aggregations. */
-  _apply?: string;
+  _apply?: string | undefined;
   /** The $expand query parameter. For example, to expand components use $expand=components */
-  _expand?: string;
+  _expand?: string | undefined;
   /** Skiptoken is only provided if a previous response returned a partial result as a part of nextLink element. */
-  _skiptoken?: string;
+  _skiptoken?: string | undefined;
 }
 export type ListPolicyEventQueryResultsForResourceGroupRequestPolicyEventsResource = "default";
 export interface ListPolicyEventQueryResultsForResourceGroupRequest {
@@ -1343,21 +1346,21 @@ export interface ListPolicyEventQueryResultsForResourceGroupRequest {
     | ListPolicyEventQueryResultsForResourceGroupRequestPolicyEventsResource
     | (string & {});
   /** Maximum number of records to return. */
-  _top?: number;
+  _top?: number | undefined;
   /** Ordering expression using OData notation. One or more comma-separated column names with an optional "desc" (the default) or "asc", e.g. "$orderby=PolicyAssignmentId, ResourceId asc". */
-  _orderby?: string;
+  _orderby?: string | undefined;
   /** Select expression using OData notation. Limits the columns on each record to just those requested, e.g. "$select=PolicyAssignmentId, ResourceId". */
-  _select?: string;
+  _select?: string | undefined;
   /** ISO 8601 formatted timestamp specifying the start time of the interval to query. When not specified, the service uses ($to - 1-day). */
-  _from?: string;
+  _from?: string | undefined;
   /** ISO 8601 formatted timestamp specifying the end time of the interval to query. When not specified, the service uses request time. */
-  _to?: string;
+  _to?: string | undefined;
   /** OData filter expression. */
-  _filter?: string;
+  _filter?: string | undefined;
   /** OData apply expression for aggregations. */
-  _apply?: string;
+  _apply?: string | undefined;
   /** Skiptoken is only provided if a previous response returned a partial result as a part of nextLink element. */
-  _skiptoken?: string;
+  _skiptoken?: string | undefined;
 }
 export type ListPolicyEventQueryResultsForResourceGroupLevelPolicyAssignmentRequestAuthorizationNamespace =
   "Microsoft.Authorization";
@@ -1379,21 +1382,21 @@ export interface ListPolicyEventQueryResultsForResourceGroupLevelPolicyAssignmen
     | ListPolicyEventQueryResultsForResourceGroupLevelPolicyAssignmentRequestPolicyEventsResource
     | (string & {});
   /** Maximum number of records to return. */
-  _top?: number;
+  _top?: number | undefined;
   /** Ordering expression using OData notation. One or more comma-separated column names with an optional "desc" (the default) or "asc", e.g. "$orderby=PolicyAssignmentId, ResourceId asc". */
-  _orderby?: string;
+  _orderby?: string | undefined;
   /** Select expression using OData notation. Limits the columns on each record to just those requested, e.g. "$select=PolicyAssignmentId, ResourceId". */
-  _select?: string;
+  _select?: string | undefined;
   /** ISO 8601 formatted timestamp specifying the start time of the interval to query. When not specified, the service uses ($to - 1-day). */
-  _from?: string;
+  _from?: string | undefined;
   /** ISO 8601 formatted timestamp specifying the end time of the interval to query. When not specified, the service uses request time. */
-  _to?: string;
+  _to?: string | undefined;
   /** OData filter expression. */
-  _filter?: string;
+  _filter?: string | undefined;
   /** OData apply expression for aggregations. */
-  _apply?: string;
+  _apply?: string | undefined;
   /** Skiptoken is only provided if a previous response returned a partial result as a part of nextLink element. */
-  _skiptoken?: string;
+  _skiptoken?: string | undefined;
 }
 export type ListPolicyEventQueryResultsForSubscriptionRequestPolicyEventsResource = "default";
 export interface ListPolicyEventQueryResultsForSubscriptionRequest {
@@ -1404,21 +1407,21 @@ export interface ListPolicyEventQueryResultsForSubscriptionRequest {
     | ListPolicyEventQueryResultsForSubscriptionRequestPolicyEventsResource
     | (string & {});
   /** Maximum number of records to return. */
-  _top?: number;
+  _top?: number | undefined;
   /** Ordering expression using OData notation. One or more comma-separated column names with an optional "desc" (the default) or "asc", e.g. "$orderby=PolicyAssignmentId, ResourceId asc". */
-  _orderby?: string;
+  _orderby?: string | undefined;
   /** Select expression using OData notation. Limits the columns on each record to just those requested, e.g. "$select=PolicyAssignmentId, ResourceId". */
-  _select?: string;
+  _select?: string | undefined;
   /** ISO 8601 formatted timestamp specifying the start time of the interval to query. When not specified, the service uses ($to - 1-day). */
-  _from?: string;
+  _from?: string | undefined;
   /** ISO 8601 formatted timestamp specifying the end time of the interval to query. When not specified, the service uses request time. */
-  _to?: string;
+  _to?: string | undefined;
   /** OData filter expression. */
-  _filter?: string;
+  _filter?: string | undefined;
   /** OData apply expression for aggregations. */
-  _apply?: string;
+  _apply?: string | undefined;
   /** Skiptoken is only provided if a previous response returned a partial result as a part of nextLink element. */
-  _skiptoken?: string;
+  _skiptoken?: string | undefined;
 }
 export type ListPolicyEventQueryResultsForSubscriptionLevelPolicyAssignmentRequestAuthorizationNamespace =
   "Microsoft.Authorization";
@@ -1438,51 +1441,51 @@ export interface ListPolicyEventQueryResultsForSubscriptionLevelPolicyAssignment
     | ListPolicyEventQueryResultsForSubscriptionLevelPolicyAssignmentRequestPolicyEventsResource
     | (string & {});
   /** Maximum number of records to return. */
-  _top?: number;
+  _top?: number | undefined;
   /** Ordering expression using OData notation. One or more comma-separated column names with an optional "desc" (the default) or "asc", e.g. "$orderby=PolicyAssignmentId, ResourceId asc". */
-  _orderby?: string;
+  _orderby?: string | undefined;
   /** Select expression using OData notation. Limits the columns on each record to just those requested, e.g. "$select=PolicyAssignmentId, ResourceId". */
-  _select?: string;
+  _select?: string | undefined;
   /** ISO 8601 formatted timestamp specifying the start time of the interval to query. When not specified, the service uses ($to - 1-day). */
-  _from?: string;
+  _from?: string | undefined;
   /** ISO 8601 formatted timestamp specifying the end time of the interval to query. When not specified, the service uses request time. */
-  _to?: string;
+  _to?: string | undefined;
   /** OData filter expression. */
-  _filter?: string;
+  _filter?: string | undefined;
   /** OData apply expression for aggregations. */
-  _apply?: string;
+  _apply?: string | undefined;
   /** Skiptoken is only provided if a previous response returned a partial result as a part of nextLink element. */
-  _skiptoken?: string;
+  _skiptoken?: string | undefined;
 }
 export interface ListPolicyMetadataRequest {
   /** Maximum number of records to return. */
-  _top?: number;
+  _top?: number | undefined;
 }
 /** The properties of the policy metadata, excluding properties containing large strings */
 export interface PolicyMetadataSlimProperties {
   /** The policy metadata identifier. */
-  metadataId?: string;
+  metadataId?: string | undefined;
   /** The category of the policy metadata. */
-  category?: string;
+  category?: string | undefined;
   /** The title of the policy metadata. */
-  title?: string;
+  title?: string | undefined;
   /** The owner of the policy metadata. */
-  owner?: string;
+  owner?: string | undefined;
   /** Url for getting additional content about the resource metadata. */
-  additionalContentUrl?: string;
+  additionalContentUrl?: string | undefined;
   /** Additional metadata. */
-  metadata?: unknown;
+  metadata?: unknown | undefined;
 }
 /** Slim version of policy metadata resource definition, excluding properties with large strings */
 export interface SlimPolicyMetadata {
   /** Properties of the policy metadata. */
-  properties?: PolicyMetadataSlimProperties;
+  properties?: PolicyMetadataSlimProperties | undefined;
   /** The ID of the policy metadata. */
-  id?: string;
+  id?: string | undefined;
   /** The type of the policy metadata. */
-  type?: string;
+  type?: string | undefined;
   /** The name of the policy metadata. */
-  name?: string;
+  name?: string | undefined;
 }
 /** The SlimPolicyMetadata items on this page */
 export type PolicyMetadataCollectionValueList = Array<SlimPolicyMetadata>;
@@ -1491,7 +1494,7 @@ export interface PolicyMetadataCollection {
   /** The SlimPolicyMetadata items on this page */
   value: PolicyMetadataCollectionValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export type ListPolicyStateQueryResultsForManagementGroupRequestManagementGroupsNamespace =
   "Microsoft.Management";
@@ -1510,45 +1513,45 @@ export interface ListPolicyStateQueryResultsForManagementGroupRequest {
     | ListPolicyStateQueryResultsForManagementGroupRequestPolicyStatesResource
     | (string & {});
   /** Maximum number of records to return. */
-  _top?: number;
+  _top?: number | undefined;
   /** Ordering expression using OData notation. One or more comma-separated column names with an optional "desc" (the default) or "asc", e.g. "$orderby=PolicyAssignmentId, ResourceId asc". */
-  _orderby?: string;
+  _orderby?: string | undefined;
   /** Select expression using OData notation. Limits the columns on each record to just those requested, e.g. "$select=PolicyAssignmentId, ResourceId". */
-  _select?: string;
+  _select?: string | undefined;
   /** ISO 8601 formatted timestamp specifying the start time of the interval to query. When not specified, the service uses ($to - 1-day). */
-  _from?: string;
+  _from?: string | undefined;
   /** ISO 8601 formatted timestamp specifying the end time of the interval to query. When not specified, the service uses request time. */
-  _to?: string;
+  _to?: string | undefined;
   /** OData filter expression. */
-  _filter?: string;
+  _filter?: string | undefined;
   /** OData apply expression for aggregations. */
-  _apply?: string;
+  _apply?: string | undefined;
   /** Skiptoken is only provided if a previous response returned a partial result as a part of nextLink element. */
-  _skiptoken?: string;
+  _skiptoken?: string | undefined;
 }
 /** Details of the evaluated expressions. */
 export type PolicyEvaluationDetailsEvaluatedExpressionsList = Array<ExpressionEvaluationDetails>;
 /** Policy evaluation details. */
 export interface PolicyEvaluationDetails {
   /** Details of the evaluated expressions. */
-  evaluatedExpressions?: PolicyEvaluationDetailsEvaluatedExpressionsList;
+  evaluatedExpressions?: PolicyEvaluationDetailsEvaluatedExpressionsList | undefined;
   /** Evaluation details of IfNotExists effect. */
-  ifNotExistsDetails?: IfNotExistsEvaluationDetails;
+  ifNotExistsDetails?: IfNotExistsEvaluationDetails | undefined;
 }
 /** Policy definition group names. */
 export type PolicyStatePolicyDefinitionGroupNamesList = Array<string>;
 /** Component state details. */
 export interface ComponentStateDetails {
   /** Component Id. */
-  id?: string;
+  id?: string | undefined;
   /** Component type. */
-  type?: string;
+  type?: string | undefined;
   /** Component name. */
-  name?: string;
+  name?: string | undefined;
   /** Component compliance evaluation timestamp. */
-  timestamp?: string;
+  timestamp?: string | undefined;
   /** Component compliance state. */
-  complianceState?: string;
+  complianceState?: string | undefined;
   [key: string]: unknown;
 }
 /** Components state compliance records populated only when URL contains $expand=components clause. */
@@ -1556,73 +1559,73 @@ export type PolicyStateComponentsList = Array<ComponentStateDetails>;
 /** Policy state record. */
 export interface PolicyState {
   /** OData entity ID; always set to null since policy state records do not have an entity ID. */
-  _odata_id?: string;
+  _odata_id?: string | undefined;
   /** OData context string; used by OData clients to resolve type information based on metadata. */
-  _odata_context?: string;
+  _odata_context?: string | undefined;
   /** Timestamp for the policy state record. */
-  timestamp?: string;
+  timestamp?: string | undefined;
   /** Resource ID. */
-  resourceId?: string;
+  resourceId?: string | undefined;
   /** Policy assignment ID. */
-  policyAssignmentId?: string;
+  policyAssignmentId?: string | undefined;
   /** Policy definition ID. */
-  policyDefinitionId?: string;
+  policyDefinitionId?: string | undefined;
   /** Effective parameters for the policy assignment. */
-  effectiveParameters?: string;
+  effectiveParameters?: string | undefined;
   /** Flag which states whether the resource is compliant against the policy assignment it was evaluated against. This property is deprecated; please use ComplianceState instead. */
-  isCompliant?: boolean;
+  isCompliant?: boolean | undefined;
   /** Subscription ID. */
-  subscriptionId?: string;
+  subscriptionId?: string | undefined;
   /** Resource type. */
-  resourceType?: string;
+  resourceType?: string | undefined;
   /** Resource location. */
-  resourceLocation?: string;
+  resourceLocation?: string | undefined;
   /** Resource group name. */
-  resourceGroup?: string;
+  resourceGroup?: string | undefined;
   /** List of resource tags. */
-  resourceTags?: string;
+  resourceTags?: string | undefined;
   /** Policy assignment name. */
-  policyAssignmentName?: string;
+  policyAssignmentName?: string | undefined;
   /** Policy assignment owner. */
-  policyAssignmentOwner?: string;
+  policyAssignmentOwner?: string | undefined;
   /** Policy assignment parameters. */
-  policyAssignmentParameters?: string;
+  policyAssignmentParameters?: string | undefined;
   /** Policy assignment scope. */
-  policyAssignmentScope?: string;
+  policyAssignmentScope?: string | undefined;
   /** Policy definition name. */
-  policyDefinitionName?: string;
+  policyDefinitionName?: string | undefined;
   /** Policy definition action, i.e. effect. */
-  policyDefinitionAction?: string;
+  policyDefinitionAction?: string | undefined;
   /** Policy definition category. */
-  policyDefinitionCategory?: string;
+  policyDefinitionCategory?: string | undefined;
   /** Policy set definition ID, if the policy assignment is for a policy set. */
-  policySetDefinitionId?: string;
+  policySetDefinitionId?: string | undefined;
   /** Policy set definition name, if the policy assignment is for a policy set. */
-  policySetDefinitionName?: string;
+  policySetDefinitionName?: string | undefined;
   /** Policy set definition owner, if the policy assignment is for a policy set. */
-  policySetDefinitionOwner?: string;
+  policySetDefinitionOwner?: string | undefined;
   /** Policy set definition category, if the policy assignment is for a policy set. */
-  policySetDefinitionCategory?: string;
+  policySetDefinitionCategory?: string | undefined;
   /** Policy set definition parameters, if the policy assignment is for a policy set. */
-  policySetDefinitionParameters?: string;
+  policySetDefinitionParameters?: string | undefined;
   /** Comma separated list of management group IDs, which represent the hierarchy of the management groups the resource is under. */
-  managementGroupIds?: string;
+  managementGroupIds?: string | undefined;
   /** Reference ID for the policy definition inside the policy set, if the policy assignment is for a policy set. */
-  policyDefinitionReferenceId?: string;
+  policyDefinitionReferenceId?: string | undefined;
   /** Compliance state of the resource. */
-  complianceState?: string;
+  complianceState?: string | undefined;
   /** Policy evaluation details. */
-  policyEvaluationDetails?: PolicyEvaluationDetails;
+  policyEvaluationDetails?: PolicyEvaluationDetails | undefined;
   /** Policy definition group names. */
-  policyDefinitionGroupNames?: PolicyStatePolicyDefinitionGroupNamesList;
+  policyDefinitionGroupNames?: PolicyStatePolicyDefinitionGroupNamesList | undefined;
   /** Components state compliance records populated only when URL contains $expand=components clause. */
-  components?: PolicyStateComponentsList;
+  components?: PolicyStateComponentsList | undefined;
   /** Evaluated policy definition version. */
-  policyDefinitionVersion?: string;
+  policyDefinitionVersion?: string | undefined;
   /** Evaluated policy set definition version. */
-  policySetDefinitionVersion?: string;
+  policySetDefinitionVersion?: string | undefined;
   /** Evaluated policy assignment version. */
-  policyAssignmentVersion?: string;
+  policyAssignmentVersion?: string | undefined;
   [key: string]: unknown;
 }
 /** Query results. */
@@ -1630,13 +1633,13 @@ export type PolicyStatesQueryResultsValueList = Array<PolicyState>;
 /** Query results. */
 export interface PolicyStatesQueryResults {
   /** OData context string; used by OData clients to resolve type information based on metadata. */
-  _odata_context?: string;
+  _odata_context?: string | undefined;
   /** OData entity count; represents the number of policy state records returned. */
-  _odata_count?: number;
+  _odata_count?: number | undefined;
   /** Odata next link; URL to get the next set of results. */
-  _odata_nextLink?: string;
+  _odata_nextLink?: string | undefined;
   /** Query results. */
-  value?: PolicyStatesQueryResultsValueList;
+  value?: PolicyStatesQueryResultsValueList | undefined;
 }
 export type ListPolicyStateQueryResultsForPolicyDefinitionRequestAuthorizationNamespace =
   "Microsoft.Authorization";
@@ -1657,21 +1660,21 @@ export interface ListPolicyStateQueryResultsForPolicyDefinitionRequest {
     | ListPolicyStateQueryResultsForPolicyDefinitionRequestPolicyStatesResource
     | (string & {});
   /** Maximum number of records to return. */
-  _top?: number;
+  _top?: number | undefined;
   /** Ordering expression using OData notation. One or more comma-separated column names with an optional "desc" (the default) or "asc", e.g. "$orderby=PolicyAssignmentId, ResourceId asc". */
-  _orderby?: string;
+  _orderby?: string | undefined;
   /** Select expression using OData notation. Limits the columns on each record to just those requested, e.g. "$select=PolicyAssignmentId, ResourceId". */
-  _select?: string;
+  _select?: string | undefined;
   /** ISO 8601 formatted timestamp specifying the start time of the interval to query. When not specified, the service uses ($to - 1-day). */
-  _from?: string;
+  _from?: string | undefined;
   /** ISO 8601 formatted timestamp specifying the end time of the interval to query. When not specified, the service uses request time. */
-  _to?: string;
+  _to?: string | undefined;
   /** OData filter expression. */
-  _filter?: string;
+  _filter?: string | undefined;
   /** OData apply expression for aggregations. */
-  _apply?: string;
+  _apply?: string | undefined;
   /** Skiptoken is only provided if a previous response returned a partial result as a part of nextLink element. */
-  _skiptoken?: string;
+  _skiptoken?: string | undefined;
 }
 export type ListPolicyStateQueryResultsForPolicySetDefinitionRequestAuthorizationNamespace =
   "Microsoft.Authorization";
@@ -1692,21 +1695,21 @@ export interface ListPolicyStateQueryResultsForPolicySetDefinitionRequest {
     | ListPolicyStateQueryResultsForPolicySetDefinitionRequestPolicyStatesResource
     | (string & {});
   /** Maximum number of records to return. */
-  _top?: number;
+  _top?: number | undefined;
   /** Ordering expression using OData notation. One or more comma-separated column names with an optional "desc" (the default) or "asc", e.g. "$orderby=PolicyAssignmentId, ResourceId asc". */
-  _orderby?: string;
+  _orderby?: string | undefined;
   /** Select expression using OData notation. Limits the columns on each record to just those requested, e.g. "$select=PolicyAssignmentId, ResourceId". */
-  _select?: string;
+  _select?: string | undefined;
   /** ISO 8601 formatted timestamp specifying the start time of the interval to query. When not specified, the service uses ($to - 1-day). */
-  _from?: string;
+  _from?: string | undefined;
   /** ISO 8601 formatted timestamp specifying the end time of the interval to query. When not specified, the service uses request time. */
-  _to?: string;
+  _to?: string | undefined;
   /** OData filter expression. */
-  _filter?: string;
+  _filter?: string | undefined;
   /** OData apply expression for aggregations. */
-  _apply?: string;
+  _apply?: string | undefined;
   /** Skiptoken is only provided if a previous response returned a partial result as a part of nextLink element. */
-  _skiptoken?: string;
+  _skiptoken?: string | undefined;
 }
 export type ListPolicyStateQueryResultsForResourceRequestPolicyStatesResource =
   | "default"
@@ -1719,23 +1722,23 @@ export interface ListPolicyStateQueryResultsForResourceRequest {
     | ListPolicyStateQueryResultsForResourceRequestPolicyStatesResource
     | (string & {});
   /** Maximum number of records to return. */
-  _top?: number;
+  _top?: number | undefined;
   /** Ordering expression using OData notation. One or more comma-separated column names with an optional "desc" (the default) or "asc", e.g. "$orderby=PolicyAssignmentId, ResourceId asc". */
-  _orderby?: string;
+  _orderby?: string | undefined;
   /** Select expression using OData notation. Limits the columns on each record to just those requested, e.g. "$select=PolicyAssignmentId, ResourceId". */
-  _select?: string;
+  _select?: string | undefined;
   /** ISO 8601 formatted timestamp specifying the start time of the interval to query. When not specified, the service uses ($to - 1-day). */
-  _from?: string;
+  _from?: string | undefined;
   /** ISO 8601 formatted timestamp specifying the end time of the interval to query. When not specified, the service uses request time. */
-  _to?: string;
+  _to?: string | undefined;
   /** OData filter expression. */
-  _filter?: string;
+  _filter?: string | undefined;
   /** OData apply expression for aggregations. */
-  _apply?: string;
+  _apply?: string | undefined;
   /** The $expand query parameter. For example, to expand components use $expand=components */
-  _expand?: string;
+  _expand?: string | undefined;
   /** Skiptoken is only provided if a previous response returned a partial result as a part of nextLink element. */
-  _skiptoken?: string;
+  _skiptoken?: string | undefined;
 }
 export type ListPolicyStateQueryResultsForResourceGroupRequestPolicyStatesResource =
   | "default"
@@ -1750,21 +1753,21 @@ export interface ListPolicyStateQueryResultsForResourceGroupRequest {
     | ListPolicyStateQueryResultsForResourceGroupRequestPolicyStatesResource
     | (string & {});
   /** Maximum number of records to return. */
-  _top?: number;
+  _top?: number | undefined;
   /** Ordering expression using OData notation. One or more comma-separated column names with an optional "desc" (the default) or "asc", e.g. "$orderby=PolicyAssignmentId, ResourceId asc". */
-  _orderby?: string;
+  _orderby?: string | undefined;
   /** Select expression using OData notation. Limits the columns on each record to just those requested, e.g. "$select=PolicyAssignmentId, ResourceId". */
-  _select?: string;
+  _select?: string | undefined;
   /** ISO 8601 formatted timestamp specifying the start time of the interval to query. When not specified, the service uses ($to - 1-day). */
-  _from?: string;
+  _from?: string | undefined;
   /** ISO 8601 formatted timestamp specifying the end time of the interval to query. When not specified, the service uses request time. */
-  _to?: string;
+  _to?: string | undefined;
   /** OData filter expression. */
-  _filter?: string;
+  _filter?: string | undefined;
   /** OData apply expression for aggregations. */
-  _apply?: string;
+  _apply?: string | undefined;
   /** Skiptoken is only provided if a previous response returned a partial result as a part of nextLink element. */
-  _skiptoken?: string;
+  _skiptoken?: string | undefined;
 }
 export type ListPolicyStateQueryResultsForResourceGroupLevelPolicyAssignmentRequestAuthorizationNamespace =
   "Microsoft.Authorization";
@@ -1787,21 +1790,21 @@ export interface ListPolicyStateQueryResultsForResourceGroupLevelPolicyAssignmen
     | ListPolicyStateQueryResultsForResourceGroupLevelPolicyAssignmentRequestPolicyStatesResource
     | (string & {});
   /** Maximum number of records to return. */
-  _top?: number;
+  _top?: number | undefined;
   /** Ordering expression using OData notation. One or more comma-separated column names with an optional "desc" (the default) or "asc", e.g. "$orderby=PolicyAssignmentId, ResourceId asc". */
-  _orderby?: string;
+  _orderby?: string | undefined;
   /** Select expression using OData notation. Limits the columns on each record to just those requested, e.g. "$select=PolicyAssignmentId, ResourceId". */
-  _select?: string;
+  _select?: string | undefined;
   /** ISO 8601 formatted timestamp specifying the start time of the interval to query. When not specified, the service uses ($to - 1-day). */
-  _from?: string;
+  _from?: string | undefined;
   /** ISO 8601 formatted timestamp specifying the end time of the interval to query. When not specified, the service uses request time. */
-  _to?: string;
+  _to?: string | undefined;
   /** OData filter expression. */
-  _filter?: string;
+  _filter?: string | undefined;
   /** OData apply expression for aggregations. */
-  _apply?: string;
+  _apply?: string | undefined;
   /** Skiptoken is only provided if a previous response returned a partial result as a part of nextLink element. */
-  _skiptoken?: string;
+  _skiptoken?: string | undefined;
 }
 export type ListPolicyStateQueryResultsForSubscriptionRequestPolicyStatesResource =
   | "default"
@@ -1814,21 +1817,21 @@ export interface ListPolicyStateQueryResultsForSubscriptionRequest {
     | ListPolicyStateQueryResultsForSubscriptionRequestPolicyStatesResource
     | (string & {});
   /** Maximum number of records to return. */
-  _top?: number;
+  _top?: number | undefined;
   /** Ordering expression using OData notation. One or more comma-separated column names with an optional "desc" (the default) or "asc", e.g. "$orderby=PolicyAssignmentId, ResourceId asc". */
-  _orderby?: string;
+  _orderby?: string | undefined;
   /** Select expression using OData notation. Limits the columns on each record to just those requested, e.g. "$select=PolicyAssignmentId, ResourceId". */
-  _select?: string;
+  _select?: string | undefined;
   /** ISO 8601 formatted timestamp specifying the start time of the interval to query. When not specified, the service uses ($to - 1-day). */
-  _from?: string;
+  _from?: string | undefined;
   /** ISO 8601 formatted timestamp specifying the end time of the interval to query. When not specified, the service uses request time. */
-  _to?: string;
+  _to?: string | undefined;
   /** OData filter expression. */
-  _filter?: string;
+  _filter?: string | undefined;
   /** OData apply expression for aggregations. */
-  _apply?: string;
+  _apply?: string | undefined;
   /** Skiptoken is only provided if a previous response returned a partial result as a part of nextLink element. */
-  _skiptoken?: string;
+  _skiptoken?: string | undefined;
 }
 export type ListPolicyStateQueryResultsForSubscriptionLevelPolicyAssignmentRequestAuthorizationNamespace =
   "Microsoft.Authorization";
@@ -1849,21 +1852,21 @@ export interface ListPolicyStateQueryResultsForSubscriptionLevelPolicyAssignment
     | ListPolicyStateQueryResultsForSubscriptionLevelPolicyAssignmentRequestPolicyStatesResource
     | (string & {});
   /** Maximum number of records to return. */
-  _top?: number;
+  _top?: number | undefined;
   /** Ordering expression using OData notation. One or more comma-separated column names with an optional "desc" (the default) or "asc", e.g. "$orderby=PolicyAssignmentId, ResourceId asc". */
-  _orderby?: string;
+  _orderby?: string | undefined;
   /** Select expression using OData notation. Limits the columns on each record to just those requested, e.g. "$select=PolicyAssignmentId, ResourceId". */
-  _select?: string;
+  _select?: string | undefined;
   /** ISO 8601 formatted timestamp specifying the start time of the interval to query. When not specified, the service uses ($to - 1-day). */
-  _from?: string;
+  _from?: string | undefined;
   /** ISO 8601 formatted timestamp specifying the end time of the interval to query. When not specified, the service uses request time. */
-  _to?: string;
+  _to?: string | undefined;
   /** OData filter expression. */
-  _filter?: string;
+  _filter?: string | undefined;
   /** OData apply expression for aggregations. */
-  _apply?: string;
+  _apply?: string | undefined;
   /** Skiptoken is only provided if a previous response returned a partial result as a part of nextLink element. */
-  _skiptoken?: string;
+  _skiptoken?: string | undefined;
 }
 export type ListRemediationDeploymentsAtManagementGroupRequestManagementGroupsNamespace =
   "Microsoft.Management";
@@ -1877,48 +1880,48 @@ export interface ListRemediationDeploymentsAtManagementGroupRequest {
   /** The name of the remediation. */
   remediationName: string;
   /** Maximum number of records to return. */
-  _top?: number;
+  _top?: number | undefined;
 }
 /** Internal error details. */
 export type ErrorDefinitionDetailsList = Array<ErrorDefinition>;
 /** Scenario specific error details. */
 export interface TypedErrorInfo {
   /** The type of included error details. */
-  type?: string;
+  type?: string | undefined;
   /** The scenario specific error details. */
-  info?: unknown;
+  info?: unknown | undefined;
 }
 /** Additional scenario specific error details. */
 export type ErrorDefinitionAdditionalInfoList = Array<TypedErrorInfo>;
 /** Error definition. */
 export interface ErrorDefinition {
   /** Service specific error code which serves as the substatus for the HTTP error code. */
-  code?: string;
+  code?: string | undefined;
   /** Description of the error. */
-  message?: string;
+  message?: string | undefined;
   /** The target of the error. */
-  target?: string;
+  target?: string | undefined;
   /** Internal error details. */
-  details?: ErrorDefinitionDetailsList;
+  details?: ErrorDefinitionDetailsList | undefined;
   /** Additional scenario specific error details. */
-  additionalInfo?: ErrorDefinitionAdditionalInfoList;
+  additionalInfo?: ErrorDefinitionAdditionalInfoList | undefined;
 }
 /** Details of a single deployment created by the remediation. */
 export interface RemediationDeployment {
   /** Resource ID of the resource that is being remediated by the deployment. */
-  remediatedResourceId?: string;
+  remediatedResourceId?: string | undefined;
   /** Resource ID of the template deployment that will remediate the resource. */
-  deploymentId?: string;
+  deploymentId?: string | undefined;
   /** Status of the remediation deployment. */
-  status?: string;
+  status?: string | undefined;
   /** Location of the resource that is being remediated. */
-  resourceLocation?: string;
+  resourceLocation?: string | undefined;
   /** Error encountered while remediated the resource. */
-  error?: ErrorDefinition;
+  error?: ErrorDefinition | undefined;
   /** The time at which the remediation was created. */
-  createdOn?: string;
+  createdOn?: string | undefined;
   /** The time at which the remediation deployment was last updated. */
-  lastUpdatedOn?: string;
+  lastUpdatedOn?: string | undefined;
 }
 /** The RemediationDeployment items on this page */
 export type RemediationDeploymentsListResultValueList = Array<RemediationDeployment>;
@@ -1927,7 +1930,7 @@ export interface RemediationDeploymentsListResult {
   /** The RemediationDeployment items on this page */
   value: RemediationDeploymentsListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListRemediationDeploymentsAtResourceRequest {
   /** Resource ID. */
@@ -1935,7 +1938,7 @@ export interface ListRemediationDeploymentsAtResourceRequest {
   /** The name of the remediation. */
   remediationName: string;
   /** Maximum number of records to return. */
-  _top?: number;
+  _top?: number | undefined;
 }
 export interface ListRemediationDeploymentsAtResourceGroupRequest {
   /** The ID of the target subscription. */
@@ -1945,7 +1948,7 @@ export interface ListRemediationDeploymentsAtResourceGroupRequest {
   /** The name of the remediation. */
   remediationName: string;
   /** Maximum number of records to return. */
-  _top?: number;
+  _top?: number | undefined;
 }
 export interface ListRemediationDeploymentsAtSubscriptionRequest {
   /** The ID of the target subscription. */
@@ -1953,7 +1956,7 @@ export interface ListRemediationDeploymentsAtSubscriptionRequest {
   /** The name of the remediation. */
   remediationName: string;
   /** Maximum number of records to return. */
-  _top?: number;
+  _top?: number | undefined;
 }
 export type ListRemediationForManagementGroupRequestManagementGroupsNamespace =
   "Microsoft.Management";
@@ -1965,22 +1968,22 @@ export interface ListRemediationForManagementGroupRequest {
   /** Management group ID. */
   managementGroupId: string;
   /** Maximum number of records to return. */
-  _top?: number;
+  _top?: number | undefined;
   /** OData filter expression. */
-  _filter?: string;
+  _filter?: string | undefined;
 }
 /** The remediation definition. */
 export interface Remediation {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Properties for the remediation. */
-  properties?: RemediationProperties;
+  properties?: RemediationProperties | undefined;
 }
 /** The Remediation items on this page */
 export type RemediationListResultValueList = Array<Remediation>;
@@ -1989,15 +1992,15 @@ export interface RemediationListResult {
   /** The Remediation items on this page */
   value: RemediationListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListRemediationForResourceRequest {
   /** Resource ID. */
   resourceId: string;
   /** Maximum number of records to return. */
-  _top?: number;
+  _top?: number | undefined;
   /** OData filter expression. */
-  _filter?: string;
+  _filter?: string | undefined;
 }
 export interface ListRemediationForResourceGroupRequest {
   /** The ID of the target subscription. */
@@ -2005,17 +2008,17 @@ export interface ListRemediationForResourceGroupRequest {
   /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
   /** Maximum number of records to return. */
-  _top?: number;
+  _top?: number | undefined;
   /** OData filter expression. */
-  _filter?: string;
+  _filter?: string | undefined;
 }
 export interface ListRemediationForSubscriptionRequest {
   /** The ID of the target subscription. */
   subscriptionId: string;
   /** Maximum number of records to return. */
-  _top?: number;
+  _top?: number | undefined;
   /** OData filter expression. */
-  _filter?: string;
+  _filter?: string | undefined;
 }
 export type PolicyStatesSummarizeForManagementGroupRequestManagementGroupsNamespace =
   "Microsoft.Management";
@@ -2032,20 +2035,20 @@ export interface PolicyStatesSummarizeForManagementGroupRequest {
     | PolicyStatesSummarizeForManagementGroupRequestPolicyStatesSummaryResource
     | (string & {});
   /** Maximum number of records to return. */
-  _top?: number;
+  _top?: number | undefined;
   /** ISO 8601 formatted timestamp specifying the start time of the interval to query. When not specified, the service uses ($to - 1-day). */
-  _from?: string;
+  _from?: string | undefined;
   /** ISO 8601 formatted timestamp specifying the end time of the interval to query. When not specified, the service uses request time. */
-  _to?: string;
+  _to?: string | undefined;
   /** OData filter expression. */
-  _filter?: string;
+  _filter?: string | undefined;
 }
 /** The compliance state rollup. */
 export interface ComplianceDetail {
   /** The compliance state. */
-  complianceState?: string;
+  complianceState?: string | undefined;
   /** Summarized count value for this compliance state. */
-  count?: number;
+  count?: number | undefined;
 }
 /** The resources summary at this level. */
 export type SummaryResultsResourceDetailsList = Array<ComplianceDetail>;
@@ -2056,80 +2059,80 @@ export type SummaryResultsPolicyGroupDetailsList = Array<ComplianceDetail>;
 /** Compliance summary on a particular summary level. */
 export interface SummaryResults {
   /** HTTP POST URI for queryResults action on Microsoft.PolicyInsights to retrieve raw results for the compliance summary. This property will not be available by default in future API versions, but could be queried explicitly. */
-  queryResultsUri?: string;
+  queryResultsUri?: string | undefined;
   /** Number of non-compliant resources. */
-  nonCompliantResources?: number;
+  nonCompliantResources?: number | undefined;
   /** Number of non-compliant policies. */
-  nonCompliantPolicies?: number;
+  nonCompliantPolicies?: number | undefined;
   /** The resources summary at this level. */
-  resourceDetails?: SummaryResultsResourceDetailsList;
+  resourceDetails?: SummaryResultsResourceDetailsList | undefined;
   /** The policy artifact summary at this level. For query scope level, it represents policy assignment summary. For policy assignment level, it represents policy definitions summary. */
-  policyDetails?: SummaryResultsPolicyDetailsList;
+  policyDetails?: SummaryResultsPolicyDetailsList | undefined;
   /** The policy definition group summary at this level. */
-  policyGroupDetails?: SummaryResultsPolicyGroupDetailsList;
+  policyGroupDetails?: SummaryResultsPolicyGroupDetailsList | undefined;
 }
 /** Policy definition group names. */
 export type PolicyDefinitionSummaryPolicyDefinitionGroupNamesList = Array<string>;
 /** Policy definition summary. */
 export interface PolicyDefinitionSummary {
   /** Policy definition ID. */
-  policyDefinitionId?: string;
+  policyDefinitionId?: string | undefined;
   /** Policy definition reference ID. */
-  policyDefinitionReferenceId?: string;
+  policyDefinitionReferenceId?: string | undefined;
   /** Policy definition group names. */
-  policyDefinitionGroupNames?: PolicyDefinitionSummaryPolicyDefinitionGroupNamesList;
+  policyDefinitionGroupNames?: PolicyDefinitionSummaryPolicyDefinitionGroupNamesList | undefined;
   /** Policy effect, i.e. policy definition action. */
-  effect?: string;
+  effect?: string | undefined;
   /** Compliance summary for the policy definition. */
-  results?: SummaryResults;
+  results?: SummaryResults | undefined;
 }
 /** Policy definitions summary. */
 export type PolicyAssignmentSummaryPolicyDefinitionsList = Array<PolicyDefinitionSummary>;
 /** Policy definition group summary. */
 export interface PolicyGroupSummary {
   /** Policy group name. */
-  policyGroupName?: string;
+  policyGroupName?: string | undefined;
   /** Compliance summary for the policy definition group. */
-  results?: SummaryResults;
+  results?: SummaryResults | undefined;
 }
 /** Policy definition group summary. */
 export type PolicyAssignmentSummaryPolicyGroupsList = Array<PolicyGroupSummary>;
 /** Policy assignment summary. */
 export interface PolicyAssignmentSummary {
   /** Policy assignment ID. */
-  policyAssignmentId?: string;
+  policyAssignmentId?: string | undefined;
   /** Policy set definition ID, if the policy assignment is for a policy set. */
-  policySetDefinitionId?: string;
+  policySetDefinitionId?: string | undefined;
   /** Compliance summary for the policy assignment. */
-  results?: SummaryResults;
+  results?: SummaryResults | undefined;
   /** Policy definitions summary. */
-  policyDefinitions?: PolicyAssignmentSummaryPolicyDefinitionsList;
+  policyDefinitions?: PolicyAssignmentSummaryPolicyDefinitionsList | undefined;
   /** Policy definition group summary. */
-  policyGroups?: PolicyAssignmentSummaryPolicyGroupsList;
+  policyGroups?: PolicyAssignmentSummaryPolicyGroupsList | undefined;
 }
 /** Policy assignments summary. */
 export type SummaryPolicyAssignmentsList = Array<PolicyAssignmentSummary>;
 /** Summary results. */
 export interface Summary {
   /** OData entity ID; always set to null since summaries do not have an entity ID. */
-  _odata_id?: string;
+  _odata_id?: string | undefined;
   /** OData context string; used by OData clients to resolve type information based on metadata. */
-  _odata_context?: string;
+  _odata_context?: string | undefined;
   /** Compliance summary for all policy assignments. */
-  results?: SummaryResults;
+  results?: SummaryResults | undefined;
   /** Policy assignments summary. */
-  policyAssignments?: SummaryPolicyAssignmentsList;
+  policyAssignments?: SummaryPolicyAssignmentsList | undefined;
 }
 /** Summarize action results. */
 export type SummarizeResultsValueList = Array<Summary>;
 /** Summarize action results. */
 export interface SummarizeResults {
   /** OData context string; used by OData clients to resolve type information based on metadata. */
-  _odata_context?: string;
+  _odata_context?: string | undefined;
   /** OData entity count; represents the number of summaries returned; always set to 1. */
-  _odata_count?: number;
+  _odata_count?: number | undefined;
   /** Summarize action results. */
-  value?: SummarizeResultsValueList;
+  value?: SummarizeResultsValueList | undefined;
 }
 export type PolicyStatesSummarizeForPolicyDefinitionRequestAuthorizationNamespace =
   "Microsoft.Authorization";
@@ -2148,13 +2151,13 @@ export interface PolicyStatesSummarizeForPolicyDefinitionRequest {
     | PolicyStatesSummarizeForPolicyDefinitionRequestPolicyStatesSummaryResource
     | (string & {});
   /** Maximum number of records to return. */
-  _top?: number;
+  _top?: number | undefined;
   /** ISO 8601 formatted timestamp specifying the start time of the interval to query. When not specified, the service uses ($to - 1-day). */
-  _from?: string;
+  _from?: string | undefined;
   /** ISO 8601 formatted timestamp specifying the end time of the interval to query. When not specified, the service uses request time. */
-  _to?: string;
+  _to?: string | undefined;
   /** OData filter expression. */
-  _filter?: string;
+  _filter?: string | undefined;
 }
 export type PolicyStatesSummarizeForPolicySetDefinitionRequestAuthorizationNamespace =
   "Microsoft.Authorization";
@@ -2174,13 +2177,13 @@ export interface PolicyStatesSummarizeForPolicySetDefinitionRequest {
     | PolicyStatesSummarizeForPolicySetDefinitionRequestPolicyStatesSummaryResource
     | (string & {});
   /** Maximum number of records to return. */
-  _top?: number;
+  _top?: number | undefined;
   /** ISO 8601 formatted timestamp specifying the start time of the interval to query. When not specified, the service uses ($to - 1-day). */
-  _from?: string;
+  _from?: string | undefined;
   /** ISO 8601 formatted timestamp specifying the end time of the interval to query. When not specified, the service uses request time. */
-  _to?: string;
+  _to?: string | undefined;
   /** OData filter expression. */
-  _filter?: string;
+  _filter?: string | undefined;
 }
 export type PolicyStatesSummarizeForResourceRequestPolicyStatesSummaryResource = "latest";
 export interface PolicyStatesSummarizeForResourceRequest {
@@ -2191,13 +2194,13 @@ export interface PolicyStatesSummarizeForResourceRequest {
     | PolicyStatesSummarizeForResourceRequestPolicyStatesSummaryResource
     | (string & {});
   /** Maximum number of records to return. */
-  _top?: number;
+  _top?: number | undefined;
   /** ISO 8601 formatted timestamp specifying the start time of the interval to query. When not specified, the service uses ($to - 1-day). */
-  _from?: string;
+  _from?: string | undefined;
   /** ISO 8601 formatted timestamp specifying the end time of the interval to query. When not specified, the service uses request time. */
-  _to?: string;
+  _to?: string | undefined;
   /** OData filter expression. */
-  _filter?: string;
+  _filter?: string | undefined;
 }
 export type PolicyStatesSummarizeForResourceGroupRequestPolicyStatesSummaryResource = "latest";
 export interface PolicyStatesSummarizeForResourceGroupRequest {
@@ -2210,13 +2213,13 @@ export interface PolicyStatesSummarizeForResourceGroupRequest {
     | PolicyStatesSummarizeForResourceGroupRequestPolicyStatesSummaryResource
     | (string & {});
   /** Maximum number of records to return. */
-  _top?: number;
+  _top?: number | undefined;
   /** ISO 8601 formatted timestamp specifying the start time of the interval to query. When not specified, the service uses ($to - 1-day). */
-  _from?: string;
+  _from?: string | undefined;
   /** ISO 8601 formatted timestamp specifying the end time of the interval to query. When not specified, the service uses request time. */
-  _to?: string;
+  _to?: string | undefined;
   /** OData filter expression. */
-  _filter?: string;
+  _filter?: string | undefined;
 }
 export type PolicyStatesSummarizeForResourceGroupLevelPolicyAssignmentRequestAuthorizationNamespace =
   "Microsoft.Authorization";
@@ -2238,13 +2241,13 @@ export interface PolicyStatesSummarizeForResourceGroupLevelPolicyAssignmentReque
     | PolicyStatesSummarizeForResourceGroupLevelPolicyAssignmentRequestPolicyStatesSummaryResource
     | (string & {});
   /** Maximum number of records to return. */
-  _top?: number;
+  _top?: number | undefined;
   /** ISO 8601 formatted timestamp specifying the start time of the interval to query. When not specified, the service uses ($to - 1-day). */
-  _from?: string;
+  _from?: string | undefined;
   /** ISO 8601 formatted timestamp specifying the end time of the interval to query. When not specified, the service uses request time. */
-  _to?: string;
+  _to?: string | undefined;
   /** OData filter expression. */
-  _filter?: string;
+  _filter?: string | undefined;
 }
 export type PolicyStatesSummarizeForSubscriptionRequestPolicyStatesSummaryResource = "latest";
 export interface PolicyStatesSummarizeForSubscriptionRequest {
@@ -2255,13 +2258,13 @@ export interface PolicyStatesSummarizeForSubscriptionRequest {
     | PolicyStatesSummarizeForSubscriptionRequestPolicyStatesSummaryResource
     | (string & {});
   /** Maximum number of records to return. */
-  _top?: number;
+  _top?: number | undefined;
   /** ISO 8601 formatted timestamp specifying the start time of the interval to query. When not specified, the service uses ($to - 1-day). */
-  _from?: string;
+  _from?: string | undefined;
   /** ISO 8601 formatted timestamp specifying the end time of the interval to query. When not specified, the service uses request time. */
-  _to?: string;
+  _to?: string | undefined;
   /** OData filter expression. */
-  _filter?: string;
+  _filter?: string | undefined;
 }
 export type PolicyStatesSummarizeForSubscriptionLevelPolicyAssignmentRequestAuthorizationNamespace =
   "Microsoft.Authorization";
@@ -2281,32 +2284,32 @@ export interface PolicyStatesSummarizeForSubscriptionLevelPolicyAssignmentReques
     | PolicyStatesSummarizeForSubscriptionLevelPolicyAssignmentRequestPolicyStatesSummaryResource
     | (string & {});
   /** Maximum number of records to return. */
-  _top?: number;
+  _top?: number | undefined;
   /** ISO 8601 formatted timestamp specifying the start time of the interval to query. When not specified, the service uses ($to - 1-day). */
-  _from?: string;
+  _from?: string | undefined;
   /** ISO 8601 formatted timestamp specifying the end time of the interval to query. When not specified, the service uses request time. */
-  _to?: string;
+  _to?: string | undefined;
   /** OData filter expression. */
-  _filter?: string;
+  _filter?: string | undefined;
 }
 export type RemediationsCreateOrUpdateAtManagementGroupRequestManagementGroupsNamespace =
   "Microsoft.Management";
 /** The remediation properties. */
 export interface RemediationPropertiesInput {
   /** The resource ID of the policy assignment that should be remediated. */
-  policyAssignmentId?: string;
+  policyAssignmentId?: string | undefined;
   /** The policy definition reference ID of the individual definition that should be remediated. Required when the policy assignment being remediated assigns a policy set definition. */
-  policyDefinitionReferenceId?: string;
+  policyDefinitionReferenceId?: string | undefined;
   /** The way resources to remediate are discovered. Defaults to ExistingNonCompliant if not specified. */
-  resourceDiscoveryMode?: ResourceDiscoveryMode | (string & {});
+  resourceDiscoveryMode?: ResourceDiscoveryMode | (string & {}) | undefined;
   /** The filters that will be applied to determine which resources to remediate. */
-  filters?: RemediationFilters;
+  filters?: RemediationFilters | undefined;
   /** Determines the max number of resources that can be remediated by the remediation job. If not provided, the default resource count is used. */
-  resourceCount?: number;
+  resourceCount?: number | undefined;
   /** Determines how many resources to remediate at any given time. Can be used to increase or reduce the pace of the remediation. If not provided, the default parallel deployments value is used. */
-  parallelDeployments?: number;
+  parallelDeployments?: number | undefined;
   /** The remediation failure threshold settings */
-  failureThreshold?: RemediationPropertiesFailureThreshold;
+  failureThreshold?: RemediationPropertiesFailureThreshold | undefined;
 }
 export interface RemediationsCreateOrUpdateAtManagementGroupRequest {
   /** The namespace for Microsoft Management RP; only "Microsoft.Management" is allowed. */
@@ -2318,19 +2321,19 @@ export interface RemediationsCreateOrUpdateAtManagementGroupRequest {
   /** The name of the remediation. */
   remediationName: string;
   /** Properties for the remediation. */
-  properties?: RemediationPropertiesInput;
+  properties?: RemediationPropertiesInput | undefined;
 }
 export interface RemediationsCreateOrUpdateAtManagementGroupResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Properties for the remediation. */
-  properties?: RemediationProperties;
+  properties?: RemediationProperties | undefined;
 }
 export interface RemediationsCreateOrUpdateAtResourceRequest {
   /** Resource ID. */
@@ -2338,19 +2341,19 @@ export interface RemediationsCreateOrUpdateAtResourceRequest {
   /** The name of the remediation. */
   remediationName: string;
   /** Properties for the remediation. */
-  properties?: RemediationPropertiesInput;
+  properties?: RemediationPropertiesInput | undefined;
 }
 export interface RemediationsCreateOrUpdateAtResourceResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Properties for the remediation. */
-  properties?: RemediationProperties;
+  properties?: RemediationProperties | undefined;
 }
 export interface RemediationsCreateOrUpdateAtResourceGroupRequest {
   /** The ID of the target subscription. */
@@ -2360,19 +2363,19 @@ export interface RemediationsCreateOrUpdateAtResourceGroupRequest {
   /** The name of the remediation. */
   remediationName: string;
   /** Properties for the remediation. */
-  properties?: RemediationPropertiesInput;
+  properties?: RemediationPropertiesInput | undefined;
 }
 export interface RemediationsCreateOrUpdateAtResourceGroupResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Properties for the remediation. */
-  properties?: RemediationProperties;
+  properties?: RemediationProperties | undefined;
 }
 export interface RemediationsCreateOrUpdateAtSubscriptionRequest {
   /** The ID of the target subscription. */
@@ -2380,19 +2383,19 @@ export interface RemediationsCreateOrUpdateAtSubscriptionRequest {
   /** The name of the remediation. */
   remediationName: string;
   /** Properties for the remediation. */
-  properties?: RemediationPropertiesInput;
+  properties?: RemediationPropertiesInput | undefined;
 }
 export interface RemediationsCreateOrUpdateAtSubscriptionResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Properties for the remediation. */
-  properties?: RemediationProperties;
+  properties?: RemediationProperties | undefined;
 }
 export interface TriggerPolicyStateResourceGroupEvaluationRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2402,9 +2405,9 @@ export interface TriggerPolicyStateResourceGroupEvaluationRequest {
 }
 export interface TriggerPolicyStateResourceGroupEvaluationResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface TriggerPolicyStateSubscriptionEvaluationRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2412,9 +2415,9 @@ export interface TriggerPolicyStateSubscriptionEvaluationRequest {
 }
 export interface TriggerPolicyStateSubscriptionEvaluationResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export type AttestationsCreateOrUpdateAtResourceError = AzureOpError;
 /** Creates or updates an attestation at resource scope. */

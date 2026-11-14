@@ -13,6 +13,7 @@ import { runGeneratorCli } from "@distilled.cloud/dev/codegen/cli";
  * member renaming or wire dictionaries appear here.
  */
 import type { SdkSpec } from "@distilled.cloud/dev/codegen/generator";
+import { streamsOutput } from "@distilled.cloud/dev/codegen/members";
 
 const NULLABLE_TRAIT = "com.distilled.openapi#nullable";
 const ERROR_MATCHERS_TRAIT = "com.distilled.openapi#errorMatchers";
@@ -67,7 +68,14 @@ const boatSpec: SdkSpec = {
     },
   },
 
+  // Boat streams application/x-ndjson: server-streaming operations
+  // (attachCommand, and executeSandboxCommand with `stream: true`, both
+  // patched) emit as API.makeStreaming with core/ndjson's
+  // framing in their config, so only programs that call one bundle it.
+  streams: true,
+
   operationDecl: {
+    extraConfig: (ctx) => (streamsOutput(ctx.op.def.traits) ? ["framing: T.ndjson"] : []),
     contextType: "BoatOpContext",
     commonErrorType: "BoatOpError",
     commonErrorClasses: ["UnknownBoatError"],

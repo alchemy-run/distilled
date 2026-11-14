@@ -28,6 +28,7 @@ const TELEMETRY = {
   prefix: "Servicefabric",
   service: "Servicefabric",
   labels: "azure",
+  labelNames: { resourceGroupName: "azure.resource_group.name" },
   propagate: "w3c",
 } as const;
 
@@ -44,8 +45,8 @@ export interface UserAssignedIdentityInput {}
 export type UserAssignedIdentityMapInput = { [key: string]: UserAssignedIdentityInput | undefined };
 /** Describes the managed identities for an Azure resource. */
 export interface ManagedIdentityInput {
-  type?: ManagedIdentityType | (string & {});
-  userAssignedIdentities?: UserAssignedIdentityMapInput;
+  type?: ManagedIdentityType | (string & {}) | undefined;
+  userAssignedIdentities?: UserAssignedIdentityMapInput | undefined;
 }
 /** List of application parameters with overridden values from their default values specified in the application manifest. */
 export type ApplicationParameterList = { [key: string]: string | undefined };
@@ -54,21 +55,21 @@ export type ArmRollingUpgradeMonitoringPolicyFailureAction = "Rollback" | "Manua
 /** The policy used for monitoring the application upgrade */
 export interface ArmRollingUpgradeMonitoringPolicy {
   /** The activation Mode of the service package */
-  failureAction?: ArmRollingUpgradeMonitoringPolicyFailureAction | (string & {});
-  healthCheckWaitDuration?: string;
-  healthCheckStableDuration?: string;
-  healthCheckRetryTimeout?: string;
-  upgradeTimeout?: string;
-  upgradeDomainTimeout?: string;
+  failureAction?: ArmRollingUpgradeMonitoringPolicyFailureAction | (string & {}) | undefined;
+  healthCheckWaitDuration?: string | undefined;
+  healthCheckStableDuration?: string | undefined;
+  healthCheckRetryTimeout?: string | undefined;
+  upgradeTimeout?: string | undefined;
+  upgradeDomainTimeout?: string | undefined;
 }
 /** Represents the health policy used to evaluate the health of services belonging to a service type. */
 export interface ArmServiceTypeHealthPolicy {
   /** The maximum percentage of services allowed to be unhealthy before your application is considered in error. */
-  maxPercentUnhealthyServices?: number;
+  maxPercentUnhealthyServices?: number | undefined;
   /** The maximum percentage of partitions per service allowed to be unhealthy before your application is considered in error. */
-  maxPercentUnhealthyPartitionsPerService?: number;
+  maxPercentUnhealthyPartitionsPerService?: number | undefined;
   /** The maximum percentage of replicas per partition allowed to be unhealthy before your application is considered in error. */
-  maxPercentUnhealthyReplicasPerPartition?: number;
+  maxPercentUnhealthyReplicasPerPartition?: number | undefined;
 }
 /** Defines a ServiceTypeHealthPolicy per service type name. The entries in the map replace the default service type health policy for each specified service type. For example, in an application that contains both a stateless gateway service type and a stateful engine service type, the health policies for the stateless and stateful services can be configured differently. With policy per service type, there's more granular control of the health of the service. If no policy is specified for a service type name, the DefaultServiceTypeHealthPolicy is used for evaluation. */
 export type ArmServiceTypeHealthPolicyMap = {
@@ -77,37 +78,37 @@ export type ArmServiceTypeHealthPolicyMap = {
 /** Defines a health policy used to evaluate the health of an application or one of its children entities. */
 export interface ArmApplicationHealthPolicy {
   /** Indicates whether warnings are treated with the same severity as errors. */
-  considerWarningAsError?: boolean;
+  considerWarningAsError?: boolean | undefined;
   /** The maximum allowed percentage of unhealthy deployed applications. Allowed values are Byte values from zero to 100. The percentage represents the maximum tolerated percentage of deployed applications that can be unhealthy before the application is considered in error. This is calculated by dividing the number of unhealthy deployed applications over the number of nodes where the application is currently deployed on in the cluster. The computation rounds up to tolerate one failure on small numbers of nodes. Default percentage is zero. */
-  maxPercentUnhealthyDeployedApplications?: number;
+  maxPercentUnhealthyDeployedApplications?: number | undefined;
   /** The health policy used by default to evaluate the health of a service type. */
-  defaultServiceTypeHealthPolicy?: ArmServiceTypeHealthPolicy;
+  defaultServiceTypeHealthPolicy?: ArmServiceTypeHealthPolicy | undefined;
   /** The map with service type health policy per service type name. The map is empty by default. */
-  serviceTypeHealthPolicyMap?: ArmServiceTypeHealthPolicyMap;
+  serviceTypeHealthPolicyMap?: ArmServiceTypeHealthPolicyMap | undefined;
 }
 /** The mode used to monitor health during a rolling upgrade. The values are UnmonitoredAuto, UnmonitoredManual, and Monitored. */
 export type RollingUpgradeMode = "Invalid" | "UnmonitoredAuto" | "UnmonitoredManual" | "Monitored";
 /** Describes the policy for a monitored application upgrade. */
 export interface ApplicationUpgradePolicy {
   /** The maximum amount of time to block processing of an upgrade domain and prevent loss of availability when there are unexpected issues. When this timeout expires, processing of the upgrade domain will proceed regardless of availability loss issues. The timeout is reset at the start of each upgrade domain. Valid values are between 0 and 42949672925 inclusive. (unsigned 32-bit integer). */
-  upgradeReplicaSetCheckTimeout?: string;
-  forceRestart?: boolean;
-  rollingUpgradeMonitoringPolicy?: ArmRollingUpgradeMonitoringPolicy;
-  applicationHealthPolicy?: ArmApplicationHealthPolicy;
-  upgradeMode?: RollingUpgradeMode | (string & {});
+  upgradeReplicaSetCheckTimeout?: string | undefined;
+  forceRestart?: boolean | undefined;
+  rollingUpgradeMonitoringPolicy?: ArmRollingUpgradeMonitoringPolicy | undefined;
+  applicationHealthPolicy?: ArmApplicationHealthPolicy | undefined;
+  upgradeMode?: RollingUpgradeMode | (string & {}) | undefined;
   /** Determines whether the application should be recreated on update. If value=true, the rest of the upgrade policy parameters are not allowed and it will result in availability loss. */
-  recreateApplication?: boolean;
+  recreateApplication?: boolean | undefined;
 }
 /** Describes capacity information for a custom resource balancing metric. This can be used to limit the total consumption of this metric by the services of this application. */
 export interface ApplicationMetricDescription {
   /** The name of the metric. */
-  name?: string;
+  name?: string | undefined;
   /** The maximum node capacity for Service Fabric application. This is the maximum Load for an instance of this application on a single node. Even if the capacity of node is greater than this value, Service Fabric will limit the total load of services within the application on each node to this value. If set to zero, capacity for this metric is unlimited on each node. When creating a new application with application capacity defined, the product of MaximumNodes and this value must always be smaller than or equal to TotalApplicationCapacity. When updating existing application with application capacity, the product of MaximumNodes and this value must always be smaller than or equal to TotalApplicationCapacity. */
-  maximumCapacity?: number;
+  maximumCapacity?: number | undefined;
   /** The node reservation capacity for Service Fabric application. This is the amount of load which is reserved on nodes which have instances of this application. If MinimumNodes is specified, then the product of these values will be the capacity reserved in the cluster for the application. If set to zero, no capacity is reserved for this metric. When setting application capacity or when updating application capacity; this value must be smaller than or equal to MaximumCapacity for each metric. */
-  reservationCapacity?: number;
+  reservationCapacity?: number | undefined;
   /** The total metric capacity for Service Fabric application. This is the total metric capacity for this application in the cluster. Service Fabric will try to limit the sum of loads of services within the application to this value. When creating a new application with application capacity defined, the product of MaximumNodes and MaximumCapacity must always be smaller than or equal to this value. */
-  totalApplicationCapacity?: number;
+  totalApplicationCapacity?: number | undefined;
 }
 /** List of application capacity metric description. */
 export type ApplicationMetricDescriptionList = Array<ApplicationMetricDescription>;
@@ -122,19 +123,19 @@ export type ApplicationResourcePropertiesInputManagedIdentitiesList =
   Array<ApplicationUserAssignedIdentity>;
 /** The application resource properties. */
 export interface ApplicationResourcePropertiesInput {
-  typeVersion?: string;
-  parameters?: ApplicationParameterList;
-  upgradePolicy?: ApplicationUpgradePolicy;
+  typeVersion?: string | undefined;
+  parameters?: ApplicationParameterList | undefined;
+  upgradePolicy?: ApplicationUpgradePolicy | undefined;
   /** The minimum number of nodes where Service Fabric will reserve capacity for this application. Note that this does not mean that the services of this application will be placed on all of those nodes. If this property is set to zero, no capacity will be reserved. The value of this property cannot be more than the value of the MaximumNodes property. */
-  minimumNodes?: number;
+  minimumNodes?: number | undefined;
   /** The maximum number of nodes where Service Fabric will reserve capacity for this application. Note that this does not mean that the services of this application will be placed on all of those nodes. By default, the value of this property is zero and it means that the services can be placed on any node. */
-  maximumNodes?: number;
+  maximumNodes?: number | undefined;
   /** Remove the current application capacity settings. */
-  removeApplicationCapacity?: boolean;
-  metrics?: ApplicationMetricDescriptionList;
+  removeApplicationCapacity?: boolean | undefined;
+  metrics?: ApplicationMetricDescriptionList | undefined;
   /** List of user assigned identities for the application, each mapped to a friendly name. */
-  managedIdentities?: ApplicationResourcePropertiesInputManagedIdentitiesList;
-  typeName?: string;
+  managedIdentities?: ApplicationResourcePropertiesInputManagedIdentitiesList | undefined;
+  typeName?: string | undefined;
 }
 export interface ApplicationsCreateOrUpdateRequest {
   /** The customer subscription identifier. */
@@ -146,11 +147,11 @@ export interface ApplicationsCreateOrUpdateRequest {
   /** The name of the application resource. */
   applicationName: string;
   /** It will be deprecated in New API, resource location depends on the parent resource. */
-  location?: string;
+  location?: string | undefined;
   /** Azure resource tags. */
-  tags?: ApplicationsCreateOrUpdateRequestTagsMap;
-  identity?: ManagedIdentityInput;
-  properties?: ApplicationResourcePropertiesInput;
+  tags?: ApplicationsCreateOrUpdateRequestTagsMap | undefined;
+  identity?: ManagedIdentityInput | undefined;
+  properties?: ApplicationResourcePropertiesInput | undefined;
 }
 export interface ApplicationsCreateOrUpdateResponse {}
 /** Azure resource tags. */
@@ -167,48 +168,48 @@ export interface ApplicationTypesCreateOrUpdateRequest {
   /** The name of the application type name resource. */
   applicationTypeName: string;
   /** It will be deprecated in New API, resource location depends on the parent resource. */
-  location?: string;
+  location?: string | undefined;
   /** Azure resource tags. */
-  tags?: ApplicationTypesCreateOrUpdateRequestTagsMap;
-  properties?: UserAssignedIdentityInput;
+  tags?: ApplicationTypesCreateOrUpdateRequestTagsMap | undefined;
+  properties?: UserAssignedIdentityInput | undefined;
 }
 /** Azure resource tags. */
 export type ApplicationTypesCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface SystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: string;
+  createdByType?: string | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: string;
+  lastModifiedByType?: string | undefined;
   /** The timestamp of resource last modification (UTC). */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 /** The application type name properties */
 export interface ApplicationTypeResourceProperties {
   /** The current deployment or provisioning state, which only appears in the response. */
-  provisioningState?: string;
+  provisioningState?: string | undefined;
 }
 export interface ApplicationTypesCreateOrUpdateResponse {
   /** Azure resource identifier. */
-  id?: string;
+  id?: string | undefined;
   /** Azure resource name. */
-  name?: string;
+  name?: string | undefined;
   /** Azure resource type. */
-  type?: string;
+  type?: string | undefined;
   /** It will be deprecated in New API, resource location depends on the parent resource. */
-  location?: string;
+  location?: string | undefined;
   /** Azure resource tags. */
-  tags?: ApplicationTypesCreateOrUpdateResponseTagsMap;
+  tags?: ApplicationTypesCreateOrUpdateResponseTagsMap | undefined;
   /** Azure resource etag. */
-  etag?: string;
-  systemData?: SystemData;
-  properties?: ApplicationTypeResourceProperties;
+  etag?: string | undefined;
+  systemData?: SystemData | undefined;
+  properties?: ApplicationTypeResourceProperties | undefined;
 }
 /** Azure resource tags. */
 export type ApplicationTypeVersionsCreateOrUpdateRequestTagsMap = {
@@ -231,10 +232,10 @@ export interface ApplicationTypeVersionsCreateOrUpdateRequest {
   /** The application type version. */
   version: string;
   /** It will be deprecated in New API, resource location depends on the parent resource. */
-  location?: string;
+  location?: string | undefined;
   /** Azure resource tags. */
-  tags?: ApplicationTypeVersionsCreateOrUpdateRequestTagsMap;
-  properties?: ApplicationTypeVersionResourcePropertiesInput;
+  tags?: ApplicationTypeVersionsCreateOrUpdateRequestTagsMap | undefined;
+  properties?: ApplicationTypeVersionResourcePropertiesInput | undefined;
 }
 export interface ApplicationTypeVersionsCreateOrUpdateResponse {}
 /** Azure resource tags. */
@@ -250,11 +251,11 @@ export type ClusterPropertiesInputAddOnFeaturesList = Array<AddOnFeatures | (str
 /** The settings to enable AAD authentication on the cluster. */
 export interface AzureActiveDirectory {
   /** Azure active directory tenant id. */
-  tenantId?: string;
+  tenantId?: string | undefined;
   /** Azure active directory cluster application id. */
-  clusterApplication?: string;
+  clusterApplication?: string | undefined;
   /** Azure active directory client application id. */
-  clientApplication?: string;
+  clientApplication?: string | undefined;
 }
 /** The local certificate store location. */
 export type StoreName =
@@ -271,8 +272,8 @@ export interface CertificateDescription {
   /** Thumbprint of the primary certificate. */
   thumbprint: string;
   /** Thumbprint of the secondary certificate. */
-  thumbprintSecondary?: string;
-  x509StoreName?: StoreName | (string & {});
+  thumbprintSecondary?: string | undefined;
+  x509StoreName?: StoreName | (string & {}) | undefined;
 }
 /** Describes the server certificate details using common name. */
 export interface ServerCertificateCommonName {
@@ -286,8 +287,8 @@ export type ServerCertificateCommonNamesCommonNamesList = Array<ServerCertificat
 /** Describes a list of server certificates referenced by common name that are used to secure the cluster. */
 export interface ServerCertificateCommonNames {
   /** The list of server certificates referenced by common name that are used to secure the cluster. */
-  commonNames?: ServerCertificateCommonNamesCommonNamesList;
-  x509StoreName?: StoreName | (string & {});
+  commonNames?: ServerCertificateCommonNamesCommonNamesList | undefined;
+  x509StoreName?: StoreName | (string & {}) | undefined;
 }
 /** Describes the client certificate details using common name. */
 export interface ClientCertificateCommonName {
@@ -318,7 +319,7 @@ export interface DiagnosticsStorageAccountConfig {
   /** The protected diagnostics storage key name. */
   protectedAccountKeyName: string;
   /** The secondary protected diagnostics storage key name. If one of the storage account keys is rotated the cluster will fallback to using the other. */
-  protectedAccountKeyName2?: string;
+  protectedAccountKeyName2?: string | undefined;
   /** The blob endpoint of the azure storage account. */
   blobEndpoint: string;
   /** The queue endpoint of the azure storage account. */
@@ -362,28 +363,28 @@ export interface NodeTypeDescription {
   /** The name of the node type. */
   name: string;
   /** The placement tags applied to nodes in the node type, which can be used to indicate where certain services (workload) should run. */
-  placementProperties?: NodeTypeDescriptionPlacementPropertiesMap;
+  placementProperties?: NodeTypeDescriptionPlacementPropertiesMap | undefined;
   /** The capacity tags applied to the nodes in the node type, the cluster resource manager uses these tags to understand how much resource a node has. */
-  capacities?: NodeTypeDescriptionCapacitiesMap;
+  capacities?: NodeTypeDescriptionCapacitiesMap | undefined;
   /** The TCP cluster management endpoint port. */
   clientConnectionEndpointPort: number;
   /** The HTTP cluster management endpoint port. */
   httpGatewayEndpointPort: number;
-  durabilityLevel?: DurabilityLevel | (string & {});
+  durabilityLevel?: DurabilityLevel | (string & {}) | undefined;
   /** The range of ports from which cluster assigned port to Service Fabric applications. */
-  applicationPorts?: EndpointRangeDescription;
+  applicationPorts?: EndpointRangeDescription | undefined;
   /** The range of ephemeral ports that nodes in this node type should be configured with. */
-  ephemeralPorts?: EndpointRangeDescription;
+  ephemeralPorts?: EndpointRangeDescription | undefined;
   /** The node type on which system services will run. Only one node type should be marked as primary. Primary node type cannot be deleted or changed for existing clusters. */
   isPrimary: boolean;
   /** VMInstanceCount should be 1 to n, where n indicates the number of VM instances corresponding to this nodeType. VMInstanceCount = 0 can be done only in these scenarios: NodeType is a secondary nodeType. Durability = Bronze or Durability >= Bronze and InfrastructureServiceManager = true. If VMInstanceCount = 0, implies the VMs for this nodeType will not be used for the initial cluster size computation. */
   vmInstanceCount: number;
   /** The endpoint used by reverse proxy. */
-  reverseProxyEndpointPort?: number;
+  reverseProxyEndpointPort?: number | undefined;
   /** Indicates if the node type can only host Stateless workloads. */
-  isStateless?: boolean;
+  isStateless?: boolean | undefined;
   /** Indicates if the node type is enabled to support multiple zones. */
-  multipleAvailabilityZones?: boolean;
+  multipleAvailabilityZones?: boolean | undefined;
 }
 /** The list of node types in the cluster. */
 export type ClusterPropertiesInputNodeTypesList = Array<NodeTypeDescription>;
@@ -392,32 +393,32 @@ export type ReliabilityLevel = "None" | "Bronze" | "Silver" | "Gold" | "Platinum
 /** Represents the health policy used to evaluate the health of services belonging to a service type. */
 export interface ServiceTypeHealthPolicy {
   /** The maximum percentage of services allowed to be unhealthy before your application is considered in error. */
-  maxPercentUnhealthyServices?: number;
+  maxPercentUnhealthyServices?: number | undefined;
 }
 /** Defines a ServiceTypeHealthPolicy per service type name. The entries in the map replace the default service type health policy for each specified service type. For example, in an application that contains both a stateless gateway service type and a stateful engine service type, the health policies for the stateless and stateful services can be configured differently. With policy per service type, there's more granular control of the health of the service. If no policy is specified for a service type name, the DefaultServiceTypeHealthPolicy is used for evaluation. */
 export type ServiceTypeHealthPolicyMap = { [key: string]: ServiceTypeHealthPolicy | undefined };
 /** Defines a health policy used to evaluate the health of an application or one of its children entities. */
 export interface ApplicationHealthPolicy {
   /** The health policy used by default to evaluate the health of a service type. */
-  defaultServiceTypeHealthPolicy?: ServiceTypeHealthPolicy;
+  defaultServiceTypeHealthPolicy?: ServiceTypeHealthPolicy | undefined;
   /** The map with service type health policy per service type name. The map is empty by default. */
-  serviceTypeHealthPolicies?: ServiceTypeHealthPolicyMap;
+  serviceTypeHealthPolicies?: ServiceTypeHealthPolicyMap | undefined;
 }
 /** Defines a map that contains specific application health policies for different applications. Each entry specifies as key the application name and as value an ApplicationHealthPolicy used to evaluate the application health. The application name should include the 'fabric:' URI scheme. The map is empty by default. */
 export type ApplicationHealthPolicyMap = { [key: string]: ApplicationHealthPolicy | undefined };
 /** Defines a health policy used to evaluate the health of the cluster or of a cluster node. */
 export interface ClusterHealthPolicy {
   /** The maximum allowed percentage of unhealthy nodes before reporting an error. For example, to allow 10% of nodes to be unhealthy, this value would be 10. The percentage represents the maximum tolerated percentage of nodes that can be unhealthy before the cluster is considered in error. If the percentage is respected but there is at least one unhealthy node, the health is evaluated as Warning. The percentage is calculated by dividing the number of unhealthy nodes over the total number of nodes in the cluster. The computation rounds up to tolerate one failure on small numbers of nodes. Default percentage is zero. In large clusters, some nodes will always be down or out for repairs, so this percentage should be configured to tolerate that. */
-  maxPercentUnhealthyNodes?: number;
+  maxPercentUnhealthyNodes?: number | undefined;
   /** The maximum allowed percentage of unhealthy applications before reporting an error. For example, to allow 10% of applications to be unhealthy, this value would be 10. The percentage represents the maximum tolerated percentage of applications that can be unhealthy before the cluster is considered in error. If the percentage is respected but there is at least one unhealthy application, the health is evaluated as Warning. This is calculated by dividing the number of unhealthy applications over the total number of application instances in the cluster, excluding applications of application types that are included in the ApplicationTypeHealthPolicyMap. The computation rounds up to tolerate one failure on small numbers of applications. Default percentage is zero. */
-  maxPercentUnhealthyApplications?: number;
+  maxPercentUnhealthyApplications?: number | undefined;
   /** Defines the application health policy map used to evaluate the health of an application or one of its children entities. */
-  applicationHealthPolicies?: ApplicationHealthPolicyMap;
+  applicationHealthPolicies?: ApplicationHealthPolicyMap | undefined;
 }
 /** Represents the delta health policy used to evaluate the health of services belonging to a service type when upgrading the cluster. */
 export interface ServiceTypeDeltaHealthPolicy {
   /** The maximum allowed percentage of services health degradation allowed during cluster upgrades. The delta is measured between the state of the services at the beginning of upgrade and the state of the services at the time of the health evaluation. The check is performed after every upgrade domain upgrade completion to make sure the global state of the cluster is within tolerated limits. */
-  maxPercentDeltaUnhealthyServices?: number;
+  maxPercentDeltaUnhealthyServices?: number | undefined;
 }
 /** Defines a map that contains specific delta health policies for different service types. Each entry specifies as key the service type name and as value a ServiceTypeDeltaHealthPolicy used to evaluate the service health when upgrading the cluster. The map is empty by default. */
 export type ServiceTypeDeltaHealthPolicyMap = {
@@ -426,9 +427,9 @@ export type ServiceTypeDeltaHealthPolicyMap = {
 /** Defines a delta health policy used to evaluate the health of an application or one of its child entities when upgrading the cluster. */
 export interface ApplicationDeltaHealthPolicy {
   /** The delta health policy used by default to evaluate the health of a service type when upgrading the cluster. */
-  defaultServiceTypeDeltaHealthPolicy?: ServiceTypeDeltaHealthPolicy;
+  defaultServiceTypeDeltaHealthPolicy?: ServiceTypeDeltaHealthPolicy | undefined;
   /** The map with service type delta health policy per service type name. The map is empty by default. */
-  serviceTypeDeltaHealthPolicies?: ServiceTypeDeltaHealthPolicyMap;
+  serviceTypeDeltaHealthPolicies?: ServiceTypeDeltaHealthPolicyMap | undefined;
 }
 /** Defines a map that contains specific application delta health policies for different applications. Each entry specifies as key the application name and as value an ApplicationDeltaHealthPolicy used to evaluate the application health when upgrading the cluster. The application name should include the 'fabric:' URI scheme. The map is empty by default. */
 export type ApplicationDeltaHealthPolicyMap = {
@@ -443,12 +444,12 @@ export interface ClusterUpgradeDeltaHealthPolicy {
   /** The maximum allowed percentage of applications health degradation allowed during cluster upgrades. The delta is measured between the state of the applications at the beginning of upgrade and the state of the applications at the time of the health evaluation. The check is performed after every upgrade domain upgrade completion to make sure the global state of the cluster is within tolerated limits. System services are not included in this. */
   maxPercentDeltaUnhealthyApplications: number;
   /** Defines the application delta health policy map used to evaluate the health of an application or one of its child entities when upgrading the cluster. */
-  applicationDeltaHealthPolicies?: ApplicationDeltaHealthPolicyMap;
+  applicationDeltaHealthPolicies?: ApplicationDeltaHealthPolicyMap | undefined;
 }
 /** Describes the policy used when upgrading the cluster. */
 export interface ClusterUpgradePolicy {
   /** If true, then processes are forcefully restarted during upgrade even when the code version has not changed (the upgrade only changes configuration or data). */
-  forceRestart?: boolean;
+  forceRestart?: boolean | undefined;
   /** The maximum amount of time to block processing of an upgrade domain and prevent loss of availability when there are unexpected issues. When this timeout expires, processing of the upgrade domain will proceed regardless of availability loss issues. The timeout is reset at the start of each upgrade domain. The timeout can be in either hh:mm:ss or in d.hh:mm:ss.ms format. */
   upgradeReplicaSetCheckTimeout: string;
   /** The length of time to wait after completing an upgrade domain before performing health checks. The duration can be in either hh:mm:ss or in d.hh:mm:ss.ms format. */
@@ -464,7 +465,7 @@ export interface ClusterUpgradePolicy {
   /** The cluster health policy used when upgrading the cluster. */
   healthPolicy: ClusterHealthPolicy;
   /** The cluster delta health policy used when upgrading the cluster. */
-  deltaHealthPolicy?: ClusterUpgradeDeltaHealthPolicy;
+  deltaHealthPolicy?: ClusterUpgradeDeltaHealthPolicy | undefined;
 }
 /** The upgrade mode of the cluster when new Service Fabric runtime version is available. */
 export type UpgradeMode = "Automatic" | "Manual";
@@ -511,53 +512,53 @@ export type ClusterPropertiesInputNotificationsList = Array<Notification>;
 /** Describes the cluster resource properties. */
 export interface ClusterPropertiesInput {
   /** The list of add-on features to enable in the cluster. */
-  addOnFeatures?: ClusterPropertiesInputAddOnFeaturesList;
+  addOnFeatures?: ClusterPropertiesInputAddOnFeaturesList | undefined;
   /** The AAD authentication settings of the cluster. */
-  azureActiveDirectory?: AzureActiveDirectory;
+  azureActiveDirectory?: AzureActiveDirectory | undefined;
   /** The certificate to use for securing the cluster. The certificate provided will be used for node to node security within the cluster, SSL certificate for cluster management endpoint and default admin client. */
-  certificate?: CertificateDescription;
-  certificateCommonNames?: ServerCertificateCommonNames;
+  certificate?: CertificateDescription | undefined;
+  certificateCommonNames?: ServerCertificateCommonNames | undefined;
   /** The list of client certificates referenced by common name that are allowed to manage the cluster. */
-  clientCertificateCommonNames?: ClusterPropertiesInputClientCertificateCommonNamesList;
+  clientCertificateCommonNames?: ClusterPropertiesInputClientCertificateCommonNamesList | undefined;
   /** The list of client certificates referenced by thumbprint that are allowed to manage the cluster. */
-  clientCertificateThumbprints?: ClusterPropertiesInputClientCertificateThumbprintsList;
+  clientCertificateThumbprints?: ClusterPropertiesInputClientCertificateThumbprintsList | undefined;
   /** The Service Fabric runtime version of the cluster. This property can only by set the user when **upgradeMode** is set to 'Manual'. To get list of available Service Fabric versions for new clusters use [ClusterVersion API](https://learn.microsoft.com/rest/api/servicefabric/cluster-versions/list). To get the list of available version for existing clusters use **availableClusterVersions**. */
-  clusterCodeVersion?: string;
+  clusterCodeVersion?: string | undefined;
   /** The storage account information for storing Service Fabric diagnostic logs. */
-  diagnosticsStorageAccountConfig?: DiagnosticsStorageAccountConfig;
+  diagnosticsStorageAccountConfig?: DiagnosticsStorageAccountConfig | undefined;
   /** Indicates if the event store service is enabled. */
-  eventStoreServiceEnabled?: boolean;
+  eventStoreServiceEnabled?: boolean | undefined;
   /** The list of custom fabric settings to configure the cluster. */
-  fabricSettings?: ClusterPropertiesInputFabricSettingsList;
+  fabricSettings?: ClusterPropertiesInputFabricSettingsList | undefined;
   /** The http management endpoint of the cluster. */
   managementEndpoint: string;
   /** The list of node types in the cluster. */
   nodeTypes: ClusterPropertiesInputNodeTypesList;
-  reliabilityLevel?: ReliabilityLevel | (string & {});
+  reliabilityLevel?: ReliabilityLevel | (string & {}) | undefined;
   /** The server certificate used by reverse proxy. */
-  reverseProxyCertificate?: CertificateDescription;
-  reverseProxyCertificateCommonNames?: ServerCertificateCommonNames;
+  reverseProxyCertificate?: CertificateDescription | undefined;
+  reverseProxyCertificateCommonNames?: ServerCertificateCommonNames | undefined;
   /** The policy to use when upgrading the cluster. */
-  upgradeDescription?: ClusterUpgradePolicy;
-  upgradeMode?: UpgradeMode | (string & {});
+  upgradeDescription?: ClusterUpgradePolicy | undefined;
+  upgradeMode?: UpgradeMode | (string & {}) | undefined;
   /** The policy used to clean up unused versions. */
-  applicationTypeVersionsCleanupPolicy?: ApplicationTypeVersionsCleanupPolicy;
+  applicationTypeVersionsCleanupPolicy?: ApplicationTypeVersionsCleanupPolicy | undefined;
   /** The VM image VMSS has been configured with. Generic names such as Windows or Linux can be used. */
-  vmImage?: string;
-  sfZonalUpgradeMode?: SfZonalUpgradeMode | (string & {});
-  vmssZonalUpgradeMode?: VmssZonalUpgradeMode | (string & {});
+  vmImage?: string | undefined;
+  sfZonalUpgradeMode?: SfZonalUpgradeMode | (string & {}) | undefined;
+  vmssZonalUpgradeMode?: VmssZonalUpgradeMode | (string & {}) | undefined;
   /** Indicates if infrastructure service manager is enabled. */
-  infrastructureServiceManager?: boolean;
+  infrastructureServiceManager?: boolean | undefined;
   /** Indicates when new cluster runtime version upgrades will be applied after they are released. By default is Wave0. Only applies when **upgradeMode** is set to 'Automatic'. */
-  upgradeWave?: ClusterUpgradeCadence | (string & {});
+  upgradeWave?: ClusterUpgradeCadence | (string & {}) | undefined;
   /** Indicates the start date and time to pause automatic runtime version upgrades on the cluster for an specific period of time on the cluster (UTC). */
-  upgradePauseStartTimestampUtc?: string;
+  upgradePauseStartTimestampUtc?: string | undefined;
   /** Indicates the end date and time to pause automatic runtime version upgrades on the cluster for an specific period of time on the cluster (UTC). */
-  upgradePauseEndTimestampUtc?: string;
+  upgradePauseEndTimestampUtc?: string | undefined;
   /** Boolean to pause automatic runtime version upgrades to the cluster. */
-  waveUpgradePaused?: boolean;
+  waveUpgradePaused?: boolean | undefined;
   /** Indicates a list of notification channels for cluster events. */
-  notifications?: ClusterPropertiesInputNotificationsList;
+  notifications?: ClusterPropertiesInputNotificationsList | undefined;
 }
 export interface ClustersCreateOrUpdateRequest {
   /** The customer subscription identifier. */
@@ -569,9 +570,9 @@ export interface ClustersCreateOrUpdateRequest {
   /** Azure resource location. */
   location: string;
   /** Azure resource tags. */
-  tags?: ClustersCreateOrUpdateRequestTagsMap;
+  tags?: ClustersCreateOrUpdateRequestTagsMap | undefined;
   /** The cluster resource properties */
-  properties?: ClusterPropertiesInput;
+  properties?: ClusterPropertiesInput | undefined;
 }
 /** Azure resource tags. */
 export type ClustersCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
@@ -582,11 +583,11 @@ export type ClusterEnvironment = "Windows" | "Linux";
 /** The detail of the Service Fabric runtime version result */
 export interface ClusterVersionDetails {
   /** The Service Fabric runtime version of the cluster. */
-  codeVersion?: string;
+  codeVersion?: string | undefined;
   /** The date of expiry of support of the version. */
-  supportExpiryUtc?: string;
+  supportExpiryUtc?: string | undefined;
   /** Indicates if this version is for Windows or Linux operating system. */
-  environment?: ClusterEnvironment;
+  environment?: ClusterEnvironment | undefined;
 }
 /** The Service Fabric runtime versions available for this cluster. */
 export type ClusterPropertiesAvailableClusterVersionsList = Array<ClusterVersionDetails>;
@@ -617,79 +618,79 @@ export type ClusterPropertiesNotificationsList = Array<Notification>;
 /** Describes the cluster resource properties. */
 export interface ClusterProperties {
   /** The list of add-on features to enable in the cluster. */
-  addOnFeatures?: ClusterPropertiesAddOnFeaturesList;
+  addOnFeatures?: ClusterPropertiesAddOnFeaturesList | undefined;
   /** The Service Fabric runtime versions available for this cluster. */
-  availableClusterVersions?: ClusterPropertiesAvailableClusterVersionsList;
+  availableClusterVersions?: ClusterPropertiesAvailableClusterVersionsList | undefined;
   /** The AAD authentication settings of the cluster. */
-  azureActiveDirectory?: AzureActiveDirectory;
+  azureActiveDirectory?: AzureActiveDirectory | undefined;
   /** The certificate to use for securing the cluster. The certificate provided will be used for node to node security within the cluster, SSL certificate for cluster management endpoint and default admin client. */
-  certificate?: CertificateDescription;
-  certificateCommonNames?: ServerCertificateCommonNames;
+  certificate?: CertificateDescription | undefined;
+  certificateCommonNames?: ServerCertificateCommonNames | undefined;
   /** The list of client certificates referenced by common name that are allowed to manage the cluster. */
-  clientCertificateCommonNames?: ClusterPropertiesClientCertificateCommonNamesList;
+  clientCertificateCommonNames?: ClusterPropertiesClientCertificateCommonNamesList | undefined;
   /** The list of client certificates referenced by thumbprint that are allowed to manage the cluster. */
-  clientCertificateThumbprints?: ClusterPropertiesClientCertificateThumbprintsList;
+  clientCertificateThumbprints?: ClusterPropertiesClientCertificateThumbprintsList | undefined;
   /** The Service Fabric runtime version of the cluster. This property can only by set the user when **upgradeMode** is set to 'Manual'. To get list of available Service Fabric versions for new clusters use [ClusterVersion API](https://learn.microsoft.com/rest/api/servicefabric/cluster-versions/list). To get the list of available version for existing clusters use **availableClusterVersions**. */
-  clusterCodeVersion?: string;
+  clusterCodeVersion?: string | undefined;
   /** The Azure Resource Provider endpoint. A system service in the cluster connects to this endpoint. */
-  clusterEndpoint?: string;
+  clusterEndpoint?: string | undefined;
   /** A service generated unique identifier for the cluster resource. */
-  clusterId?: string;
-  clusterState?: ClusterState;
+  clusterId?: string | undefined;
+  clusterState?: ClusterState | undefined;
   /** The storage account information for storing Service Fabric diagnostic logs. */
-  diagnosticsStorageAccountConfig?: DiagnosticsStorageAccountConfig;
+  diagnosticsStorageAccountConfig?: DiagnosticsStorageAccountConfig | undefined;
   /** Indicates if the event store service is enabled. */
-  eventStoreServiceEnabled?: boolean;
+  eventStoreServiceEnabled?: boolean | undefined;
   /** The list of custom fabric settings to configure the cluster. */
-  fabricSettings?: ClusterPropertiesFabricSettingsList;
+  fabricSettings?: ClusterPropertiesFabricSettingsList | undefined;
   /** The http management endpoint of the cluster. */
   managementEndpoint: string;
   /** The list of node types in the cluster. */
   nodeTypes: ClusterPropertiesNodeTypesList;
   /** The provisioning state of the cluster resource. */
-  provisioningState?: ClusterPropertiesProvisioningState;
-  reliabilityLevel?: ReliabilityLevel;
+  provisioningState?: ClusterPropertiesProvisioningState | undefined;
+  reliabilityLevel?: ReliabilityLevel | undefined;
   /** The server certificate used by reverse proxy. */
-  reverseProxyCertificate?: CertificateDescription;
-  reverseProxyCertificateCommonNames?: ServerCertificateCommonNames;
+  reverseProxyCertificate?: CertificateDescription | undefined;
+  reverseProxyCertificateCommonNames?: ServerCertificateCommonNames | undefined;
   /** The policy to use when upgrading the cluster. */
-  upgradeDescription?: ClusterUpgradePolicy;
-  upgradeMode?: UpgradeMode;
+  upgradeDescription?: ClusterUpgradePolicy | undefined;
+  upgradeMode?: UpgradeMode | undefined;
   /** The policy used to clean up unused versions. */
-  applicationTypeVersionsCleanupPolicy?: ApplicationTypeVersionsCleanupPolicy;
+  applicationTypeVersionsCleanupPolicy?: ApplicationTypeVersionsCleanupPolicy | undefined;
   /** The VM image VMSS has been configured with. Generic names such as Windows or Linux can be used. */
-  vmImage?: string;
-  sfZonalUpgradeMode?: SfZonalUpgradeMode;
-  vmssZonalUpgradeMode?: VmssZonalUpgradeMode;
+  vmImage?: string | undefined;
+  sfZonalUpgradeMode?: SfZonalUpgradeMode | undefined;
+  vmssZonalUpgradeMode?: VmssZonalUpgradeMode | undefined;
   /** Indicates if infrastructure service manager is enabled. */
-  infrastructureServiceManager?: boolean;
+  infrastructureServiceManager?: boolean | undefined;
   /** Indicates when new cluster runtime version upgrades will be applied after they are released. By default is Wave0. Only applies when **upgradeMode** is set to 'Automatic'. */
-  upgradeWave?: ClusterUpgradeCadence;
+  upgradeWave?: ClusterUpgradeCadence | undefined;
   /** Indicates the start date and time to pause automatic runtime version upgrades on the cluster for an specific period of time on the cluster (UTC). */
-  upgradePauseStartTimestampUtc?: string;
+  upgradePauseStartTimestampUtc?: string | undefined;
   /** Indicates the end date and time to pause automatic runtime version upgrades on the cluster for an specific period of time on the cluster (UTC). */
-  upgradePauseEndTimestampUtc?: string;
+  upgradePauseEndTimestampUtc?: string | undefined;
   /** Boolean to pause automatic runtime version upgrades to the cluster. */
-  waveUpgradePaused?: boolean;
+  waveUpgradePaused?: boolean | undefined;
   /** Indicates a list of notification channels for cluster events. */
-  notifications?: ClusterPropertiesNotificationsList;
+  notifications?: ClusterPropertiesNotificationsList | undefined;
 }
 export interface ClustersCreateOrUpdateResponse {
   /** Azure resource identifier. */
-  id?: string;
+  id?: string | undefined;
   /** Azure resource name. */
-  name?: string;
+  name?: string | undefined;
   /** Azure resource type. */
-  type?: string;
+  type?: string | undefined;
   /** Azure resource location. */
   location: string;
   /** Azure resource tags. */
-  tags?: ClustersCreateOrUpdateResponseTagsMap;
+  tags?: ClustersCreateOrUpdateResponseTagsMap | undefined;
   /** Azure resource etag. */
-  etag?: string;
-  systemData?: SystemData;
+  etag?: string | undefined;
+  systemData?: SystemData | undefined;
   /** The cluster resource properties */
-  properties?: ClusterProperties;
+  properties?: ClusterProperties | undefined;
 }
 export interface DeleteApplicationRequest {
   /** The customer subscription identifier. */
@@ -762,58 +763,58 @@ export interface GetApplicationRequest {
 export type GetApplicationResponseTagsMap = { [key: string]: string | undefined };
 export interface UserAssignedIdentity {
   /** The principal id of user assigned identity. */
-  principalId?: string;
+  principalId?: string | undefined;
   /** The client id of user assigned identity. */
-  clientId?: string;
+  clientId?: string | undefined;
 }
 /** The list of user identities associated with the resource. The user identity dictionary key references will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'. */
 export type UserAssignedIdentityMap = { [key: string]: UserAssignedIdentity | undefined };
 /** Describes the managed identities for an Azure resource. */
 export interface ManagedIdentity {
   /** The principal id of the managed identity. This property will only be provided for a system assigned identity. */
-  principalId?: string;
+  principalId?: string | undefined;
   /** The tenant id of the managed identity. This property will only be provided for a system assigned identity. */
-  tenantId?: string;
-  type?: ManagedIdentityType;
-  userAssignedIdentities?: UserAssignedIdentityMap;
+  tenantId?: string | undefined;
+  type?: ManagedIdentityType | undefined;
+  userAssignedIdentities?: UserAssignedIdentityMap | undefined;
 }
 /** List of user assigned identities for the application, each mapped to a friendly name. */
 export type ApplicationResourcePropertiesManagedIdentitiesList =
   Array<ApplicationUserAssignedIdentity>;
 /** The application resource properties. */
 export interface ApplicationResourceProperties {
-  typeVersion?: string;
-  parameters?: ApplicationParameterList;
-  upgradePolicy?: ApplicationUpgradePolicy;
+  typeVersion?: string | undefined;
+  parameters?: ApplicationParameterList | undefined;
+  upgradePolicy?: ApplicationUpgradePolicy | undefined;
   /** The minimum number of nodes where Service Fabric will reserve capacity for this application. Note that this does not mean that the services of this application will be placed on all of those nodes. If this property is set to zero, no capacity will be reserved. The value of this property cannot be more than the value of the MaximumNodes property. */
-  minimumNodes?: number;
+  minimumNodes?: number | undefined;
   /** The maximum number of nodes where Service Fabric will reserve capacity for this application. Note that this does not mean that the services of this application will be placed on all of those nodes. By default, the value of this property is zero and it means that the services can be placed on any node. */
-  maximumNodes?: number;
+  maximumNodes?: number | undefined;
   /** Remove the current application capacity settings. */
-  removeApplicationCapacity?: boolean;
-  metrics?: ApplicationMetricDescriptionList;
+  removeApplicationCapacity?: boolean | undefined;
+  metrics?: ApplicationMetricDescriptionList | undefined;
   /** List of user assigned identities for the application, each mapped to a friendly name. */
-  managedIdentities?: ApplicationResourcePropertiesManagedIdentitiesList;
+  managedIdentities?: ApplicationResourcePropertiesManagedIdentitiesList | undefined;
   /** The current deployment or provisioning state, which only appears in the response */
-  provisioningState?: string;
-  typeName?: string;
+  provisioningState?: string | undefined;
+  typeName?: string | undefined;
 }
 export interface GetApplicationResponse {
   /** Azure resource identifier. */
-  id?: string;
+  id?: string | undefined;
   /** Azure resource name. */
-  name?: string;
+  name?: string | undefined;
   /** Azure resource type. */
-  type?: string;
+  type?: string | undefined;
   /** It will be deprecated in New API, resource location depends on the parent resource. */
-  location?: string;
+  location?: string | undefined;
   /** Azure resource tags. */
-  tags?: GetApplicationResponseTagsMap;
+  tags?: GetApplicationResponseTagsMap | undefined;
   /** Azure resource etag. */
-  etag?: string;
-  systemData?: SystemData;
-  identity?: ManagedIdentity;
-  properties?: ApplicationResourceProperties;
+  etag?: string | undefined;
+  systemData?: SystemData | undefined;
+  identity?: ManagedIdentity | undefined;
+  properties?: ApplicationResourceProperties | undefined;
 }
 export interface GetApplicationTypeRequest {
   /** The customer subscription identifier. */
@@ -829,19 +830,19 @@ export interface GetApplicationTypeRequest {
 export type GetApplicationTypeResponseTagsMap = { [key: string]: string | undefined };
 export interface GetApplicationTypeResponse {
   /** Azure resource identifier. */
-  id?: string;
+  id?: string | undefined;
   /** Azure resource name. */
-  name?: string;
+  name?: string | undefined;
   /** Azure resource type. */
-  type?: string;
+  type?: string | undefined;
   /** It will be deprecated in New API, resource location depends on the parent resource. */
-  location?: string;
+  location?: string | undefined;
   /** Azure resource tags. */
-  tags?: GetApplicationTypeResponseTagsMap;
+  tags?: GetApplicationTypeResponseTagsMap | undefined;
   /** Azure resource etag. */
-  etag?: string;
-  systemData?: SystemData;
-  properties?: ApplicationTypeResourceProperties;
+  etag?: string | undefined;
+  systemData?: SystemData | undefined;
+  properties?: ApplicationTypeResourceProperties | undefined;
 }
 export interface GetApplicationTypeVersionRequest {
   /** The customer subscription identifier. */
@@ -862,26 +863,26 @@ export type ApplicationTypeParameterList = { [key: string]: string | undefined }
 /** The properties of the application type version resource. */
 export interface ApplicationTypeVersionResourceProperties {
   /** The current deployment or provisioning state, which only appears in the response */
-  provisioningState?: string;
+  provisioningState?: string | undefined;
   /** The URL to the application package */
   appPackageUrl: string;
-  defaultParameterList?: ApplicationTypeParameterList;
+  defaultParameterList?: ApplicationTypeParameterList | undefined;
 }
 export interface GetApplicationTypeVersionResponse {
   /** Azure resource identifier. */
-  id?: string;
+  id?: string | undefined;
   /** Azure resource name. */
-  name?: string;
+  name?: string | undefined;
   /** Azure resource type. */
-  type?: string;
+  type?: string | undefined;
   /** It will be deprecated in New API, resource location depends on the parent resource. */
-  location?: string;
+  location?: string | undefined;
   /** Azure resource tags. */
-  tags?: GetApplicationTypeVersionResponseTagsMap;
+  tags?: GetApplicationTypeVersionResponseTagsMap | undefined;
   /** Azure resource etag. */
-  etag?: string;
-  systemData?: SystemData;
-  properties?: ApplicationTypeVersionResourceProperties;
+  etag?: string | undefined;
+  systemData?: SystemData | undefined;
+  properties?: ApplicationTypeVersionResourceProperties | undefined;
 }
 export interface GetClusterRequest {
   /** The customer subscription identifier. */
@@ -895,20 +896,20 @@ export interface GetClusterRequest {
 export type GetClusterResponseTagsMap = { [key: string]: string | undefined };
 export interface GetClusterResponse {
   /** Azure resource identifier. */
-  id?: string;
+  id?: string | undefined;
   /** Azure resource name. */
-  name?: string;
+  name?: string | undefined;
   /** Azure resource type. */
-  type?: string;
+  type?: string | undefined;
   /** Azure resource location. */
   location: string;
   /** Azure resource tags. */
-  tags?: GetClusterResponseTagsMap;
+  tags?: GetClusterResponseTagsMap | undefined;
   /** Azure resource etag. */
-  etag?: string;
-  systemData?: SystemData;
+  etag?: string | undefined;
+  systemData?: SystemData | undefined;
   /** The cluster resource properties */
-  properties?: ClusterProperties;
+  properties?: ClusterProperties | undefined;
 }
 export interface GetClusterVersionRequest {
   /** The customer subscription identifier. */
@@ -921,19 +922,19 @@ export interface GetClusterVersionRequest {
 /** The result of the Service Fabric runtime versions */
 export interface ClusterCodeVersionsResult {
   /** The identification of the result */
-  id?: string;
+  id?: string | undefined;
   /** The name of the result */
-  name?: string;
+  name?: string | undefined;
   /** The result resource type */
-  type?: string;
-  properties?: ClusterVersionDetails;
+  type?: string | undefined;
+  properties?: ClusterVersionDetails | undefined;
 }
 export type ClusterCodeVersionsListResultValueList = Array<ClusterCodeVersionsResult>;
 /** The list results of the Service Fabric runtime versions. */
 export interface ClusterCodeVersionsListResult {
-  value?: ClusterCodeVersionsListResultValueList;
+  value?: ClusterCodeVersionsListResultValueList | undefined;
   /** The URL to use for getting the next set of results. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export type GetClusterVersionByEnvironmentRequestEnvironment = "Windows" | "Linux";
 export interface GetClusterVersionByEnvironmentRequest {
@@ -982,13 +983,13 @@ export interface ServiceLoadMetricDescription {
   /** The name of the metric. If the service chooses to report load during runtime, the load metric name should match the name that is specified in Name exactly. Note that metric names are case sensitive. */
   name: string;
   /** The service load metric relative weight, compared to other metrics configured for this service, as a number. */
-  weight?: ServiceLoadMetricWeight | (string & {});
+  weight?: ServiceLoadMetricWeight | (string & {}) | undefined;
   /** Used only for Stateful services. The default amount of load, as a number, that this service creates for this metric when it is a Primary replica. */
-  primaryDefaultLoad?: number;
+  primaryDefaultLoad?: number | undefined;
   /** Used only for Stateful services. The default amount of load, as a number, that this service creates for this metric when it is a Secondary replica. */
-  secondaryDefaultLoad?: number;
+  secondaryDefaultLoad?: number | undefined;
   /** Used only for Stateless services. The default amount of load, as a number, that this service creates for this metric. */
-  defaultLoad?: number;
+  defaultLoad?: number | undefined;
 }
 /** The service load metrics is given as an array of ServiceLoadMetricDescription objects. */
 export type ServiceLoadMetricsList = Array<ServiceLoadMetricDescription>;
@@ -1019,13 +1020,13 @@ export interface PartitionSchemeDescription {
   /** Specifies how the service is partitioned. */
   partitionScheme: PartitionScheme | (string & {});
   /** Number of partitions (UniformInt64Range / Named). */
-  count?: number;
+  count?: number | undefined;
   /** Lower bound of the partition key range (UniformInt64Range). */
-  lowKey?: string;
+  lowKey?: string | undefined;
   /** Upper bound of the partition key range (UniformInt64Range). */
-  highKey?: string;
+  highKey?: string | undefined;
   /** Partition names (Named). */
-  names?: PartitionNamesList;
+  names?: PartitionNamesList | undefined;
 }
 /** The activation Mode of the service package */
 export type ServiceResourcePropertiesServicePackageActivationMode =
@@ -1034,53 +1035,53 @@ export type ServiceResourcePropertiesServicePackageActivationMode =
 /** The service resource properties. */
 export interface ServiceResourceProperties {
   /** The placement constraints as a string. Placement constraints are boolean expressions on node properties and allow for restricting a service to particular nodes based on the service requirements. For example, to place a service on nodes where NodeType is blue specify the following: "NodeColor == blue)". */
-  placementConstraints?: string;
-  correlationScheme?: CorrelationSchemeList;
-  serviceLoadMetrics?: ServiceLoadMetricsList;
-  servicePlacementPolicies?: ServicePlacementPoliciesList;
-  defaultMoveCost?: MoveCost;
+  placementConstraints?: string | undefined;
+  correlationScheme?: CorrelationSchemeList | undefined;
+  serviceLoadMetrics?: ServiceLoadMetricsList | undefined;
+  servicePlacementPolicies?: ServicePlacementPoliciesList | undefined;
+  defaultMoveCost?: MoveCost | undefined;
   /** The current deployment or provisioning state, which only appears in the response */
-  provisioningState?: string;
+  provisioningState?: string | undefined;
   serviceKind: ServiceKind;
   /** The name of the service type */
-  serviceTypeName?: string;
-  partitionDescription?: PartitionSchemeDescription;
+  serviceTypeName?: string | undefined;
+  partitionDescription?: PartitionSchemeDescription | undefined;
   /** The activation Mode of the service package */
-  servicePackageActivationMode?: ServiceResourcePropertiesServicePackageActivationMode;
+  servicePackageActivationMode?: ServiceResourcePropertiesServicePackageActivationMode | undefined;
   /** Dns name used for the service. If this is specified, then the service can be accessed via its DNS name instead of service name. */
-  serviceDnsName?: string;
+  serviceDnsName?: string | undefined;
   /** Stateless: number of instances per partition (-1 = one on every node). */
-  instanceCount?: number;
+  instanceCount?: number | undefined;
   /** Stateless: delay before closing instances during upgrade (ISO 8601 duration). */
-  instanceCloseDelayDuration?: string;
+  instanceCloseDelayDuration?: string | undefined;
   /** Stateful: target replica set size. */
-  targetReplicaSetSize?: number;
+  targetReplicaSetSize?: number | undefined;
   /** Stateful: minimum replica set size. */
-  minReplicaSetSize?: number;
+  minReplicaSetSize?: number | undefined;
   /** Stateful: wait before a down replica is replaced (ISO 8601 duration). */
-  replicaRestartWaitDuration?: string;
+  replicaRestartWaitDuration?: string | undefined;
   /** Stateful: maximum time a partition may be in quorum loss (ISO 8601 duration). */
-  quorumLossWaitDuration?: string;
+  quorumLossWaitDuration?: string | undefined;
   /** Stateful: how long standby replicas are kept (ISO 8601 duration). */
-  standByReplicaKeepDuration?: string;
+  standByReplicaKeepDuration?: string | undefined;
   /** Stateful: whether the service persists state on local disk. */
-  hasPersistedState?: boolean;
+  hasPersistedState?: boolean | undefined;
 }
 export interface GetServiceResponse {
   /** Azure resource identifier. */
-  id?: string;
+  id?: string | undefined;
   /** Azure resource name. */
-  name?: string;
+  name?: string | undefined;
   /** Azure resource type. */
-  type?: string;
+  type?: string | undefined;
   /** It will be deprecated in New API, resource location depends on the parent resource. */
-  location?: string;
+  location?: string | undefined;
   /** Azure resource tags. */
-  tags?: GetServiceResponseTagsMap;
+  tags?: GetServiceResponseTagsMap | undefined;
   /** Azure resource etag. */
-  etag?: string;
-  systemData?: SystemData;
-  properties?: ServiceResourceProperties;
+  etag?: string | undefined;
+  systemData?: SystemData | undefined;
+  properties?: ServiceResourceProperties | undefined;
 }
 export interface ListApplicationsRequest {
   /** The customer subscription identifier. */
@@ -1095,27 +1096,27 @@ export type ApplicationResourceTagsMap = { [key: string]: string | undefined };
 /** The application resource. */
 export interface ApplicationResource {
   /** Azure resource identifier. */
-  id?: string;
+  id?: string | undefined;
   /** Azure resource name. */
-  name?: string;
+  name?: string | undefined;
   /** Azure resource type. */
-  type?: string;
+  type?: string | undefined;
   /** It will be deprecated in New API, resource location depends on the parent resource. */
-  location?: string;
+  location?: string | undefined;
   /** Azure resource tags. */
-  tags?: ApplicationResourceTagsMap;
+  tags?: ApplicationResourceTagsMap | undefined;
   /** Azure resource etag. */
-  etag?: string;
-  systemData?: SystemData;
-  identity?: ManagedIdentity;
-  properties?: ApplicationResourceProperties;
+  etag?: string | undefined;
+  systemData?: SystemData | undefined;
+  identity?: ManagedIdentity | undefined;
+  properties?: ApplicationResourceProperties | undefined;
 }
 export type ApplicationResourceListValueList = Array<ApplicationResource>;
 /** The list of application resources. */
 export interface ApplicationResourceList {
-  value?: ApplicationResourceListValueList;
+  value?: ApplicationResourceListValueList | undefined;
   /** URL to get the next set of application list results if there are any. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListApplicationTypesRequest {
   /** The customer subscription identifier. */
@@ -1130,26 +1131,26 @@ export type ApplicationTypeResourceTagsMap = { [key: string]: string | undefined
 /** The application type name resource */
 export interface ApplicationTypeResource {
   /** Azure resource identifier. */
-  id?: string;
+  id?: string | undefined;
   /** Azure resource name. */
-  name?: string;
+  name?: string | undefined;
   /** Azure resource type. */
-  type?: string;
+  type?: string | undefined;
   /** It will be deprecated in New API, resource location depends on the parent resource. */
-  location?: string;
+  location?: string | undefined;
   /** Azure resource tags. */
-  tags?: ApplicationTypeResourceTagsMap;
+  tags?: ApplicationTypeResourceTagsMap | undefined;
   /** Azure resource etag. */
-  etag?: string;
-  systemData?: SystemData;
-  properties?: ApplicationTypeResourceProperties;
+  etag?: string | undefined;
+  systemData?: SystemData | undefined;
+  properties?: ApplicationTypeResourceProperties | undefined;
 }
 export type ApplicationTypeResourceListValueList = Array<ApplicationTypeResource>;
 /** The list of application type names. */
 export interface ApplicationTypeResourceList {
-  value?: ApplicationTypeResourceListValueList;
+  value?: ApplicationTypeResourceListValueList | undefined;
   /** URL to get the next set of application type list results if there are any. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListApplicationTypeVersionsRequest {
   /** The customer subscription identifier. */
@@ -1166,26 +1167,26 @@ export type ApplicationTypeVersionResourceTagsMap = { [key: string]: string | un
 /** An application type version resource for the specified application type name resource. */
 export interface ApplicationTypeVersionResource {
   /** Azure resource identifier. */
-  id?: string;
+  id?: string | undefined;
   /** Azure resource name. */
-  name?: string;
+  name?: string | undefined;
   /** Azure resource type. */
-  type?: string;
+  type?: string | undefined;
   /** It will be deprecated in New API, resource location depends on the parent resource. */
-  location?: string;
+  location?: string | undefined;
   /** Azure resource tags. */
-  tags?: ApplicationTypeVersionResourceTagsMap;
+  tags?: ApplicationTypeVersionResourceTagsMap | undefined;
   /** Azure resource etag. */
-  etag?: string;
-  systemData?: SystemData;
-  properties?: ApplicationTypeVersionResourceProperties;
+  etag?: string | undefined;
+  systemData?: SystemData | undefined;
+  properties?: ApplicationTypeVersionResourceProperties | undefined;
 }
 export type ApplicationTypeVersionResourceListValueList = Array<ApplicationTypeVersionResource>;
 /** The list of application type version resources for the specified application type name resource. */
 export interface ApplicationTypeVersionResourceList {
-  value?: ApplicationTypeVersionResourceListValueList;
+  value?: ApplicationTypeVersionResourceListValueList | undefined;
   /** URL to get the next set of application type version list results if there are any. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListClusterByResourceGroupRequest {
   /** The customer subscription identifier. */
@@ -1198,27 +1199,27 @@ export type ClusterTagsMap = { [key: string]: string | undefined };
 /** The cluster resource */
 export interface Cluster {
   /** Azure resource identifier. */
-  id?: string;
+  id?: string | undefined;
   /** Azure resource name. */
-  name?: string;
+  name?: string | undefined;
   /** Azure resource type. */
-  type?: string;
+  type?: string | undefined;
   /** Azure resource location. */
   location: string;
   /** Azure resource tags. */
-  tags?: ClusterTagsMap;
+  tags?: ClusterTagsMap | undefined;
   /** Azure resource etag. */
-  etag?: string;
-  systemData?: SystemData;
+  etag?: string | undefined;
+  systemData?: SystemData | undefined;
   /** The cluster resource properties */
-  properties?: ClusterProperties;
+  properties?: ClusterProperties | undefined;
 }
 export type ClusterListResultValueList = Array<Cluster>;
 /** Cluster list results */
 export interface ClusterListResult {
-  value?: ClusterListResultValueList;
+  value?: ClusterListResultValueList | undefined;
   /** The URL to use for getting the next set of results. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListClustersRequest {
   /** The customer subscription identifier. */
@@ -1237,7 +1238,7 @@ export interface ListClusterUpgradableVersionsRequest {
 export type UpgradableVersionPathResultSupportedPathList = Array<string>;
 /** The list of intermediate cluster code versions for an upgrade or downgrade. Or minimum and maximum upgradable version if no target was given */
 export interface UpgradableVersionPathResult {
-  supportedPath?: UpgradableVersionPathResultSupportedPathList;
+  supportedPath?: UpgradableVersionPathResultSupportedPathList | undefined;
 }
 export type ListClusterVersionByEnvironmentRequestEnvironment = "Windows" | "Linux";
 export interface ListClusterVersionByEnvironmentRequest {
@@ -1258,35 +1259,35 @@ export interface ListOperationsRequest {}
 /** Operation supported by the Service Fabric resource provider */
 export interface AvailableOperationDisplay {
   /** The name of the provider. */
-  provider?: string;
+  provider?: string | undefined;
   /** The resource on which the operation is performed */
-  resource?: string;
+  resource?: string | undefined;
   /** The operation that can be performed. */
-  operation?: string;
+  operation?: string | undefined;
   /** Operation description */
-  description?: string;
+  description?: string | undefined;
 }
 /** Available operation list result */
 export interface OperationResult {
   /** The name of the operation. */
-  name?: string;
+  name?: string | undefined;
   /** Indicates whether the operation is a data action */
-  isDataAction?: boolean;
+  isDataAction?: boolean | undefined;
   /** The object that represents the operation. */
-  display?: AvailableOperationDisplay;
+  display?: AvailableOperationDisplay | undefined;
   /** Origin result */
-  origin?: string;
+  origin?: string | undefined;
   /** The URL to use for getting the next set of results. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 /** List of operations supported by the Service Fabric resource provider. */
 export type OperationListResultValueList = Array<OperationResult>;
 /** Describes the result of the request to list Service Fabric resource provider operations. */
 export interface OperationListResult {
   /** List of operations supported by the Service Fabric resource provider. */
-  value?: OperationListResultValueList;
+  value?: OperationListResultValueList | undefined;
   /** URL to get the next set of operation list results if there are any. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListServicesRequest {
   /** The customer subscription identifier. */
@@ -1303,26 +1304,26 @@ export type ServiceResourceTagsMap = { [key: string]: string | undefined };
 /** The service resource. */
 export interface ServiceResource {
   /** Azure resource identifier. */
-  id?: string;
+  id?: string | undefined;
   /** Azure resource name. */
-  name?: string;
+  name?: string | undefined;
   /** Azure resource type. */
-  type?: string;
+  type?: string | undefined;
   /** It will be deprecated in New API, resource location depends on the parent resource. */
-  location?: string;
+  location?: string | undefined;
   /** Azure resource tags. */
-  tags?: ServiceResourceTagsMap;
+  tags?: ServiceResourceTagsMap | undefined;
   /** Azure resource etag. */
-  etag?: string;
-  systemData?: SystemData;
-  properties?: ServiceResourceProperties;
+  etag?: string | undefined;
+  systemData?: SystemData | undefined;
+  properties?: ServiceResourceProperties | undefined;
 }
 export type ServiceResourceListValueList = Array<ServiceResource>;
 /** The list of service resources. */
 export interface ServiceResourceList {
-  value?: ServiceResourceListValueList;
+  value?: ServiceResourceListValueList | undefined;
   /** URL to get the next set of service list results if there are any. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 /** Azure resource tags. */
 export type ServicesCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
@@ -1333,37 +1334,38 @@ export type ServiceResourcePropertiesInputServicePackageActivationMode =
 /** The service resource properties. */
 export interface ServiceResourcePropertiesInput {
   /** The placement constraints as a string. Placement constraints are boolean expressions on node properties and allow for restricting a service to particular nodes based on the service requirements. For example, to place a service on nodes where NodeType is blue specify the following: "NodeColor == blue)". */
-  placementConstraints?: string;
-  correlationScheme?: CorrelationSchemeList;
-  serviceLoadMetrics?: ServiceLoadMetricsList;
-  servicePlacementPolicies?: ServicePlacementPoliciesList;
-  defaultMoveCost?: MoveCost | (string & {});
+  placementConstraints?: string | undefined;
+  correlationScheme?: CorrelationSchemeList | undefined;
+  serviceLoadMetrics?: ServiceLoadMetricsList | undefined;
+  servicePlacementPolicies?: ServicePlacementPoliciesList | undefined;
+  defaultMoveCost?: MoveCost | (string & {}) | undefined;
   serviceKind: ServiceKind | (string & {});
   /** The name of the service type */
-  serviceTypeName?: string;
-  partitionDescription?: PartitionSchemeDescription;
+  serviceTypeName?: string | undefined;
+  partitionDescription?: PartitionSchemeDescription | undefined;
   /** The activation Mode of the service package */
   servicePackageActivationMode?:
     | ServiceResourcePropertiesInputServicePackageActivationMode
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** Dns name used for the service. If this is specified, then the service can be accessed via its DNS name instead of service name. */
-  serviceDnsName?: string;
+  serviceDnsName?: string | undefined;
   /** Stateless: number of instances per partition (-1 = one on every node). */
-  instanceCount?: number;
+  instanceCount?: number | undefined;
   /** Stateless: delay before closing instances during upgrade (ISO 8601 duration). */
-  instanceCloseDelayDuration?: string;
+  instanceCloseDelayDuration?: string | undefined;
   /** Stateful: target replica set size. */
-  targetReplicaSetSize?: number;
+  targetReplicaSetSize?: number | undefined;
   /** Stateful: minimum replica set size. */
-  minReplicaSetSize?: number;
+  minReplicaSetSize?: number | undefined;
   /** Stateful: wait before a down replica is replaced (ISO 8601 duration). */
-  replicaRestartWaitDuration?: string;
+  replicaRestartWaitDuration?: string | undefined;
   /** Stateful: maximum time a partition may be in quorum loss (ISO 8601 duration). */
-  quorumLossWaitDuration?: string;
+  quorumLossWaitDuration?: string | undefined;
   /** Stateful: how long standby replicas are kept (ISO 8601 duration). */
-  standByReplicaKeepDuration?: string;
+  standByReplicaKeepDuration?: string | undefined;
   /** Stateful: whether the service persists state on local disk. */
-  hasPersistedState?: boolean;
+  hasPersistedState?: boolean | undefined;
 }
 export interface ServicesCreateOrUpdateRequest {
   /** The customer subscription identifier. */
@@ -1377,10 +1379,10 @@ export interface ServicesCreateOrUpdateRequest {
   /** The name of the service resource in the format of {applicationName}~{serviceName}. */
   serviceName: string;
   /** It will be deprecated in New API, resource location depends on the parent resource. */
-  location?: string;
+  location?: string | undefined;
   /** Azure resource tags. */
-  tags?: ServicesCreateOrUpdateRequestTagsMap;
-  properties?: ServiceResourcePropertiesInput;
+  tags?: ServicesCreateOrUpdateRequestTagsMap | undefined;
+  properties?: ServiceResourcePropertiesInput | undefined;
 }
 export interface ServicesCreateOrUpdateResponse {}
 /** Azure resource tags. */
@@ -1390,18 +1392,18 @@ export type ApplicationResourceUpdatePropertiesManagedIdentitiesList =
   Array<ApplicationUserAssignedIdentity>;
 /** The application resource properties for patch operations. */
 export interface ApplicationResourceUpdateProperties {
-  typeVersion?: string;
-  parameters?: ApplicationParameterList;
-  upgradePolicy?: ApplicationUpgradePolicy;
+  typeVersion?: string | undefined;
+  parameters?: ApplicationParameterList | undefined;
+  upgradePolicy?: ApplicationUpgradePolicy | undefined;
   /** The minimum number of nodes where Service Fabric will reserve capacity for this application. Note that this does not mean that the services of this application will be placed on all of those nodes. If this property is set to zero, no capacity will be reserved. The value of this property cannot be more than the value of the MaximumNodes property. */
-  minimumNodes?: number;
+  minimumNodes?: number | undefined;
   /** The maximum number of nodes where Service Fabric will reserve capacity for this application. Note that this does not mean that the services of this application will be placed on all of those nodes. By default, the value of this property is zero and it means that the services can be placed on any node. */
-  maximumNodes?: number;
+  maximumNodes?: number | undefined;
   /** Remove the current application capacity settings. */
-  removeApplicationCapacity?: boolean;
-  metrics?: ApplicationMetricDescriptionList;
+  removeApplicationCapacity?: boolean | undefined;
+  metrics?: ApplicationMetricDescriptionList | undefined;
   /** List of user assigned identities for the application, each mapped to a friendly name. */
-  managedIdentities?: ApplicationResourceUpdatePropertiesManagedIdentitiesList;
+  managedIdentities?: ApplicationResourceUpdatePropertiesManagedIdentitiesList | undefined;
 }
 export interface UpdateApplicationRequest {
   /** The customer subscription identifier. */
@@ -1413,10 +1415,10 @@ export interface UpdateApplicationRequest {
   /** The name of the application resource. */
   applicationName: string;
   /** It will be deprecated in New API, resource location depends on the parent resource. */
-  location?: string;
+  location?: string | undefined;
   /** Azure resource tags. */
-  tags?: UpdateApplicationRequestTagsMap;
-  properties?: ApplicationResourceUpdateProperties;
+  tags?: UpdateApplicationRequestTagsMap | undefined;
+  properties?: ApplicationResourceUpdateProperties | undefined;
 }
 export interface UpdateApplicationResponse {}
 /** The list of add-on features to enable in the cluster. */
@@ -1438,44 +1440,48 @@ export type ClusterPropertiesUpdateParametersNotificationsList = Array<Notificat
 /** Describes the cluster resource properties that can be updated during PATCH operation. */
 export interface ClusterPropertiesUpdateParameters {
   /** The list of add-on features to enable in the cluster. */
-  addOnFeatures?: ClusterPropertiesUpdateParametersAddOnFeaturesList;
+  addOnFeatures?: ClusterPropertiesUpdateParametersAddOnFeaturesList | undefined;
   /** The certificate to use for securing the cluster. The certificate provided will be used for node to node security within the cluster, SSL certificate for cluster management endpoint and default admin client. */
-  certificate?: CertificateDescription;
-  certificateCommonNames?: ServerCertificateCommonNames;
+  certificate?: CertificateDescription | undefined;
+  certificateCommonNames?: ServerCertificateCommonNames | undefined;
   /** The list of client certificates referenced by common name that are allowed to manage the cluster. This will overwrite the existing list. */
-  clientCertificateCommonNames?: ClusterPropertiesUpdateParametersClientCertificateCommonNamesList;
+  clientCertificateCommonNames?:
+    | ClusterPropertiesUpdateParametersClientCertificateCommonNamesList
+    | undefined;
   /** The list of client certificates referenced by thumbprint that are allowed to manage the cluster. This will overwrite the existing list. */
-  clientCertificateThumbprints?: ClusterPropertiesUpdateParametersClientCertificateThumbprintsList;
+  clientCertificateThumbprints?:
+    | ClusterPropertiesUpdateParametersClientCertificateThumbprintsList
+    | undefined;
   /** The Service Fabric runtime version of the cluster. This property can only by set the user when **upgradeMode** is set to 'Manual'. To get list of available Service Fabric versions for new clusters use [ClusterVersion API](https://learn.microsoft.com/rest/api/servicefabric/cluster-versions/list). To get the list of available version for existing clusters use **availableClusterVersions**. */
-  clusterCodeVersion?: string;
+  clusterCodeVersion?: string | undefined;
   /** Indicates if the event store service is enabled. */
-  eventStoreServiceEnabled?: boolean;
+  eventStoreServiceEnabled?: boolean | undefined;
   /** The list of custom fabric settings to configure the cluster. This will overwrite the existing list. */
-  fabricSettings?: ClusterPropertiesUpdateParametersFabricSettingsList;
+  fabricSettings?: ClusterPropertiesUpdateParametersFabricSettingsList | undefined;
   /** The list of node types in the cluster. This will overwrite the existing list. */
-  nodeTypes?: ClusterPropertiesUpdateParametersNodeTypesList;
-  reliabilityLevel?: ReliabilityLevel | (string & {});
+  nodeTypes?: ClusterPropertiesUpdateParametersNodeTypesList | undefined;
+  reliabilityLevel?: ReliabilityLevel | (string & {}) | undefined;
   /** The server certificate used by reverse proxy. */
-  reverseProxyCertificate?: CertificateDescription;
+  reverseProxyCertificate?: CertificateDescription | undefined;
   /** The policy to use when upgrading the cluster. */
-  upgradeDescription?: ClusterUpgradePolicy;
+  upgradeDescription?: ClusterUpgradePolicy | undefined;
   /** The policy used to clean up unused versions. */
-  applicationTypeVersionsCleanupPolicy?: ApplicationTypeVersionsCleanupPolicy;
-  upgradeMode?: UpgradeMode | (string & {});
-  sfZonalUpgradeMode?: SfZonalUpgradeMode | (string & {});
-  vmssZonalUpgradeMode?: VmssZonalUpgradeMode | (string & {});
+  applicationTypeVersionsCleanupPolicy?: ApplicationTypeVersionsCleanupPolicy | undefined;
+  upgradeMode?: UpgradeMode | (string & {}) | undefined;
+  sfZonalUpgradeMode?: SfZonalUpgradeMode | (string & {}) | undefined;
+  vmssZonalUpgradeMode?: VmssZonalUpgradeMode | (string & {}) | undefined;
   /** Indicates if infrastructure service manager is enabled. */
-  infrastructureServiceManager?: boolean;
+  infrastructureServiceManager?: boolean | undefined;
   /** Indicates when new cluster runtime version upgrades will be applied after they are released. By default is Wave0. Only applies when **upgradeMode** is set to 'Automatic'. */
-  upgradeWave?: ClusterUpgradeCadence | (string & {});
+  upgradeWave?: ClusterUpgradeCadence | (string & {}) | undefined;
   /** The start timestamp to pause runtime version upgrades on the cluster (UTC). */
-  upgradePauseStartTimestampUtc?: string;
+  upgradePauseStartTimestampUtc?: string | undefined;
   /** The end timestamp of pause runtime version upgrades on the cluster (UTC). */
-  upgradePauseEndTimestampUtc?: string;
+  upgradePauseEndTimestampUtc?: string | undefined;
   /** Boolean to pause automatic runtime version upgrades to the cluster. */
-  waveUpgradePaused?: boolean;
+  waveUpgradePaused?: boolean | undefined;
   /** Indicates a list of notification channels for cluster events. */
-  notifications?: ClusterPropertiesUpdateParametersNotificationsList;
+  notifications?: ClusterPropertiesUpdateParametersNotificationsList | undefined;
 }
 /** Cluster update parameters */
 export type UpdateClusterRequestTagsMap = { [key: string]: string | undefined };
@@ -1486,54 +1492,54 @@ export interface UpdateClusterRequest {
   resourceGroupName: string;
   /** The name of the cluster resource. */
   clusterName: string;
-  properties?: ClusterPropertiesUpdateParameters;
+  properties?: ClusterPropertiesUpdateParameters | undefined;
   /** Cluster update parameters */
-  tags?: UpdateClusterRequestTagsMap;
+  tags?: UpdateClusterRequestTagsMap | undefined;
 }
 /** Azure resource tags. */
 export type UpdateClusterResponseTagsMap = { [key: string]: string | undefined };
 export interface UpdateClusterResponse {
   /** Azure resource identifier. */
-  id?: string;
+  id?: string | undefined;
   /** Azure resource name. */
-  name?: string;
+  name?: string | undefined;
   /** Azure resource type. */
-  type?: string;
+  type?: string | undefined;
   /** Azure resource location. */
   location: string;
   /** Azure resource tags. */
-  tags?: UpdateClusterResponseTagsMap;
+  tags?: UpdateClusterResponseTagsMap | undefined;
   /** Azure resource etag. */
-  etag?: string;
-  systemData?: SystemData;
+  etag?: string | undefined;
+  systemData?: SystemData | undefined;
   /** The cluster resource properties */
-  properties?: ClusterProperties;
+  properties?: ClusterProperties | undefined;
 }
 /** Azure resource tags. */
 export type UpdateServiceRequestTagsMap = { [key: string]: string | undefined };
 /** The service resource properties for patch operations. */
 export interface ServiceResourceUpdateProperties {
   /** The placement constraints as a string. Placement constraints are boolean expressions on node properties and allow for restricting a service to particular nodes based on the service requirements. For example, to place a service on nodes where NodeType is blue specify the following: "NodeColor == blue)". */
-  placementConstraints?: string;
-  correlationScheme?: CorrelationSchemeList;
-  serviceLoadMetrics?: ServiceLoadMetricsList;
-  servicePlacementPolicies?: ServicePlacementPoliciesList;
-  defaultMoveCost?: MoveCost | (string & {});
+  placementConstraints?: string | undefined;
+  correlationScheme?: CorrelationSchemeList | undefined;
+  serviceLoadMetrics?: ServiceLoadMetricsList | undefined;
+  servicePlacementPolicies?: ServicePlacementPoliciesList | undefined;
+  defaultMoveCost?: MoveCost | (string & {}) | undefined;
   serviceKind: ServiceKind | (string & {});
   /** Stateless: number of instances per partition (-1 = one on every node). */
-  instanceCount?: number;
+  instanceCount?: number | undefined;
   /** Stateless: delay before closing instances during upgrade (ISO 8601 duration). */
-  instanceCloseDelayDuration?: string;
+  instanceCloseDelayDuration?: string | undefined;
   /** Stateful: target replica set size. */
-  targetReplicaSetSize?: number;
+  targetReplicaSetSize?: number | undefined;
   /** Stateful: minimum replica set size. */
-  minReplicaSetSize?: number;
+  minReplicaSetSize?: number | undefined;
   /** Stateful: wait before a down replica is replaced (ISO 8601 duration). */
-  replicaRestartWaitDuration?: string;
+  replicaRestartWaitDuration?: string | undefined;
   /** Stateful: maximum time a partition may be in quorum loss (ISO 8601 duration). */
-  quorumLossWaitDuration?: string;
+  quorumLossWaitDuration?: string | undefined;
   /** Stateful: how long standby replicas are kept (ISO 8601 duration). */
-  standByReplicaKeepDuration?: string;
+  standByReplicaKeepDuration?: string | undefined;
 }
 export interface UpdateServiceRequest {
   /** The customer subscription identifier. */
@@ -1547,10 +1553,10 @@ export interface UpdateServiceRequest {
   /** The name of the service resource in the format of {applicationName}~{serviceName}. */
   serviceName: string;
   /** It will be deprecated in New API, resource location depends on the parent resource. */
-  location?: string;
+  location?: string | undefined;
   /** Azure resource tags. */
-  tags?: UpdateServiceRequestTagsMap;
-  properties?: ServiceResourceUpdateProperties;
+  tags?: UpdateServiceRequestTagsMap | undefined;
+  properties?: ServiceResourceUpdateProperties | undefined;
 }
 export interface UpdateServiceResponse {}
 export type ApplicationsCreateOrUpdateError = AzureOpError;

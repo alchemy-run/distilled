@@ -7,6 +7,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
 // Schema table, filled on first reach (see __S at the end).
@@ -129,34 +130,34 @@ export type Filters = { [key: string]: string | undefined };
 export type NextToken = string;
 export interface QueryForecastRequest {
   ForecastArn: string;
-  StartDate?: string;
-  EndDate?: string;
+  StartDate?: string | undefined;
+  EndDate?: string | undefined;
   Filters: { [key: string]: string | undefined };
-  NextToken?: string;
+  NextToken?: string | undefined;
 }
 export type Statistic = string;
 export interface DataPoint {
-  Timestamp?: string;
-  Value?: number;
+  Timestamp?: string | undefined;
+  Value?: number | undefined;
 }
 export type TimeSeries = DataPoint[];
 export type Predictions = { [key: string]: DataPoint[] | undefined };
 export interface Forecast {
-  Predictions?: { [key: string]: DataPoint[] | undefined };
+  Predictions?: { [key: string]: DataPoint[] | undefined } | undefined;
 }
 export interface QueryForecastResponse {
-  Forecast?: Forecast;
+  Forecast?: Forecast | undefined;
 }
 export type LongArn = string;
 export interface QueryWhatIfForecastRequest {
   WhatIfForecastArn: string;
-  StartDate?: string;
-  EndDate?: string;
+  StartDate?: string | undefined;
+  EndDate?: string | undefined;
   Filters: { [key: string]: string | undefined };
-  NextToken?: string;
+  NextToken?: string | undefined;
 }
 export interface QueryWhatIfForecastResponse {
-  Forecast?: Forecast;
+  Forecast?: Forecast | undefined;
 }
 export type ErrorMessage = string;
 export type QueryForecastError =
@@ -183,7 +184,7 @@ export type QueryForecastError =
  * used to create the predictor.
  */
 export const queryForecast: API.OperationMethod<
-  QueryForecastRequest,
+  QueryForecastRequest & RegionInput,
   QueryForecastResponse,
   QueryForecastError,
   Credentials | HttpClient.HttpClient
@@ -215,7 +216,7 @@ export type QueryWhatIfForecastError =
  * Retrieves a what-if forecast.
  */
 export const queryWhatIfForecast: API.OperationMethod<
-  QueryWhatIfForecastRequest,
+  QueryWhatIfForecastRequest & RegionInput,
   QueryWhatIfForecastResponse,
   QueryWhatIfForecastError,
   Credentials | HttpClient.HttpClient

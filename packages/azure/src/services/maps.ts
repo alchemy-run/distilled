@@ -28,6 +28,7 @@ const TELEMETRY = {
   prefix: "Maps",
   service: "Maps",
   labels: "azure",
+  labelNames: { resourceGroupName: "azure.resource_group.name" },
   propagate: "w3c",
 } as const;
 
@@ -55,7 +56,7 @@ export type UserAssignedIdentitiesInput = { [key: string]: UserAssignedIdentityI
 /** Managed service identity (system assigned and/or user assigned identities) */
 export interface AccountsCreateOrUpdateRequestIdentity {
   type: ManagedServiceIdentityType | (string & {});
-  userAssignedIdentities?: UserAssignedIdentitiesInput;
+  userAssignedIdentities?: UserAssignedIdentitiesInput | undefined;
 }
 /** Linked resource is reference to a resource deployed in an Azure subscription, add the linked resource `uniqueName` value as an optional parameter for operations on Azure Maps Geospatial REST APIs. */
 export interface LinkedResource {
@@ -78,7 +79,7 @@ export type CorsRulesCorsRulesList = Array<CorsRule>;
 /** Sets the CORS rules. You can include up to five CorsRule elements in the request. */
 export interface CorsRules {
   /** The list of CORS rules. You can include up to five CorsRule elements in the request. */
-  corsRules?: CorsRulesCorsRulesList;
+  corsRules?: CorsRulesCorsRulesList | undefined;
 }
 /** Values are enabled and disabled. */
 export type MapsAccountPropertiesInputEncryptionInfrastructureEncryption = "enabled" | "disabled";
@@ -90,37 +91,41 @@ export type CustomerManagedKeyEncryptionKeyEncryptionKeyIdentityIdentityType =
 /** All identity configuration for Customer-managed key settings defining which identity should be used to auth to Key Vault. */
 export interface CustomerManagedKeyEncryptionKeyEncryptionKeyIdentity {
   /** Values can be systemAssignedIdentity or userAssignedIdentity */
-  identityType?: CustomerManagedKeyEncryptionKeyEncryptionKeyIdentityIdentityType | (string & {});
+  identityType?:
+    | CustomerManagedKeyEncryptionKeyEncryptionKeyIdentityIdentityType
+    | (string & {})
+    | undefined;
   /** user assigned identity to use for accessing key encryption key Url. Ex: /subscriptions/fa5fc227-a624-475e-b696-cdd604c735bc/resourceGroups/<resource group>/providers/Microsoft.ManagedIdentity/userAssignedIdentities/myId. Mutually exclusive with identityType systemAssignedIdentity and delegatedResourceIdentity. */
-  userAssignedIdentityResourceId?: string;
+  userAssignedIdentityResourceId?: string | undefined;
   /** delegated identity to use for accessing key encryption key Url. Ex: /subscriptions/fa5fc227-a624-475e-b696-cdd604c735bc/resourceGroups/<resource group>/providers/Microsoft.ManagedIdentity/userAssignedIdentities/myId. Mutually exclusive with identityType systemAssignedIdentity and userAssignedIdentity - internal use only. */
-  delegatedIdentityClientId?: string;
+  delegatedIdentityClientId?: string | undefined;
 }
 /** All Customer-managed key encryption properties for the resource. */
 export interface CustomerManagedKeyEncryption {
   /** All identity configuration for Customer-managed key settings defining which identity should be used to auth to Key Vault. */
-  keyEncryptionKeyIdentity?: CustomerManagedKeyEncryptionKeyEncryptionKeyIdentity;
+  keyEncryptionKeyIdentity?: CustomerManagedKeyEncryptionKeyEncryptionKeyIdentity | undefined;
   /** key encryption key Url, versioned or non-versioned. Ex: https://contosovault.vault.azure.net/keys/contosokek/562a4bb76b524a1493a6afe8e536ee78 or https://contosovault.vault.azure.net/keys/contosokek. */
-  keyEncryptionKeyUrl?: string;
+  keyEncryptionKeyUrl?: string | undefined;
 }
 /** (Optional) Discouraged to include in resource definition. Only needed where it is possible to disable platform (AKA infrastructure) encryption. Azure SQL TDE is an example of this. Values are enabled and disabled. */
 export interface MapsAccountPropertiesInputEncryption {
   /** Values are enabled and disabled. */
   infrastructureEncryption?:
     | MapsAccountPropertiesInputEncryptionInfrastructureEncryption
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** All Customer-managed key encryption properties for the resource. */
-  customerManagedKeyEncryption?: CustomerManagedKeyEncryption;
+  customerManagedKeyEncryption?: CustomerManagedKeyEncryption | undefined;
 }
 /** Additional Map account properties */
 export interface MapsAccountPropertiesInput {
   /** Allows toggle functionality on Azure Policy to disable Azure Maps local authentication support. This will disable Shared Keys and Shared Access Signature Token authentication from any usage. */
-  disableLocalAuth?: boolean;
-  linkedResources?: LinkedResources;
+  disableLocalAuth?: boolean | undefined;
+  linkedResources?: LinkedResources | undefined;
   /** Specifies CORS rules for the Blob service. You can include up to five CorsRule elements in the request. If no CorsRule elements are included in the request body, all CORS rules will be deleted, and CORS will be disabled for the Blob service. */
-  cors?: CorsRules;
+  cors?: CorsRules | undefined;
   /** (Optional) Discouraged to include in resource definition. Only needed where it is possible to disable platform (AKA infrastructure) encryption. Azure SQL TDE is an example of this. Values are enabled and disabled. */
-  encryption?: MapsAccountPropertiesInputEncryption;
+  encryption?: MapsAccountPropertiesInputEncryption | undefined;
 }
 export interface AccountsCreateOrUpdateRequest {
   /** The ID of the target subscription. */
@@ -130,17 +135,17 @@ export interface AccountsCreateOrUpdateRequest {
   /** The name of the Maps Account. */
   accountName: string;
   /** Resource tags. */
-  tags?: AccountsCreateOrUpdateRequestTagsMap;
+  tags?: AccountsCreateOrUpdateRequestTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The SKU of this account. */
   sku: SkuInput;
   /** Get or Set Kind property. */
-  kind?: Kind | (string & {});
+  kind?: Kind | (string & {}) | undefined;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: AccountsCreateOrUpdateRequestIdentity;
+  identity?: AccountsCreateOrUpdateRequestIdentity | undefined;
   /** The map account properties. */
-  properties?: MapsAccountPropertiesInput;
+  properties?: MapsAccountPropertiesInput | undefined;
 }
 /** Resource tags. */
 export type AccountsCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
@@ -151,7 +156,7 @@ export interface Sku {
   /** The name of the SKU, in standard format (such as S0). */
   name: SkuName;
   /** Gets the sku tier. This is based on the SKU name. */
-  tier?: string;
+  tier?: string | undefined;
 }
 /** The type of identity that created the resource. */
 export type AccountsCreateOrUpdateResponseSystemDataCreatedByType =
@@ -168,80 +173,80 @@ export type AccountsCreateOrUpdateResponseSystemDataLastModifiedByType =
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface AccountsCreateOrUpdateResponseSystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: AccountsCreateOrUpdateResponseSystemDataCreatedByType;
+  createdByType?: AccountsCreateOrUpdateResponseSystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: AccountsCreateOrUpdateResponseSystemDataLastModifiedByType;
+  lastModifiedByType?: AccountsCreateOrUpdateResponseSystemDataLastModifiedByType | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 /** User assigned identity properties */
 export interface UserAssignedIdentity {
   /** The principal ID of the assigned identity. */
-  principalId?: string;
+  principalId?: string | undefined;
   /** The client ID of the assigned identity. */
-  clientId?: string;
+  clientId?: string | undefined;
 }
 /** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
 export type UserAssignedIdentities = { [key: string]: UserAssignedIdentity | undefined };
 /** Managed service identity (system assigned and/or user assigned identities) */
 export interface AccountsCreateOrUpdateResponseIdentity {
   /** The service principal ID of the system assigned identity. This property will only be provided for a system assigned identity. */
-  principalId?: string;
+  principalId?: string | undefined;
   /** The tenant ID of the system assigned identity. This property will only be provided for a system assigned identity. */
-  tenantId?: string;
+  tenantId?: string | undefined;
   type: ManagedServiceIdentityType;
-  userAssignedIdentities?: UserAssignedIdentities;
+  userAssignedIdentities?: UserAssignedIdentities | undefined;
 }
 /** Values are enabled and disabled. */
 export type MapsAccountPropertiesEncryptionInfrastructureEncryption = "enabled" | "disabled";
 /** (Optional) Discouraged to include in resource definition. Only needed where it is possible to disable platform (AKA infrastructure) encryption. Azure SQL TDE is an example of this. Values are enabled and disabled. */
 export interface MapsAccountPropertiesEncryption {
   /** Values are enabled and disabled. */
-  infrastructureEncryption?: MapsAccountPropertiesEncryptionInfrastructureEncryption;
+  infrastructureEncryption?: MapsAccountPropertiesEncryptionInfrastructureEncryption | undefined;
   /** All Customer-managed key encryption properties for the resource. */
-  customerManagedKeyEncryption?: CustomerManagedKeyEncryption;
+  customerManagedKeyEncryption?: CustomerManagedKeyEncryption | undefined;
 }
 /** Additional Map account properties */
 export interface MapsAccountProperties {
   /** A unique identifier for the maps account */
-  uniqueId?: string;
+  uniqueId?: string | undefined;
   /** Allows toggle functionality on Azure Policy to disable Azure Maps local authentication support. This will disable Shared Keys and Shared Access Signature Token authentication from any usage. */
-  disableLocalAuth?: boolean;
+  disableLocalAuth?: boolean | undefined;
   /** The provisioning state of the Map account resource, Account updates can only be performed on terminal states. Terminal states: `Succeeded` and `Failed` */
-  provisioningState?: string;
-  linkedResources?: LinkedResources;
+  provisioningState?: string | undefined;
+  linkedResources?: LinkedResources | undefined;
   /** Specifies CORS rules for the Blob service. You can include up to five CorsRule elements in the request. If no CorsRule elements are included in the request body, all CORS rules will be deleted, and CORS will be disabled for the Blob service. */
-  cors?: CorsRules;
+  cors?: CorsRules | undefined;
   /** (Optional) Discouraged to include in resource definition. Only needed where it is possible to disable platform (AKA infrastructure) encryption. Azure SQL TDE is an example of this. Values are enabled and disabled. */
-  encryption?: MapsAccountPropertiesEncryption;
+  encryption?: MapsAccountPropertiesEncryption | undefined;
 }
 export interface AccountsCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Resource tags. */
-  tags?: AccountsCreateOrUpdateResponseTagsMap;
+  tags?: AccountsCreateOrUpdateResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The SKU of this account. */
   sku: Sku;
   /** Get or Set Kind property. */
-  kind?: Kind;
+  kind?: Kind | undefined;
   /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: AccountsCreateOrUpdateResponseSystemData;
+  systemData?: AccountsCreateOrUpdateResponseSystemData | undefined;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: AccountsCreateOrUpdateResponseIdentity;
+  identity?: AccountsCreateOrUpdateResponseIdentity | undefined;
   /** The map account properties. */
-  properties?: MapsAccountProperties;
+  properties?: MapsAccountProperties | undefined;
 }
 /** Resource tags. */
 export type CreatorsCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
@@ -260,7 +265,7 @@ export interface CreatorsCreateOrUpdateRequest {
   /** The name of the Maps Creator instance. */
   creatorName: string;
   /** Resource tags. */
-  tags?: CreatorsCreateOrUpdateRequestTagsMap;
+  tags?: CreatorsCreateOrUpdateRequestTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The Creator resource properties. */
@@ -271,7 +276,7 @@ export type CreatorsCreateOrUpdateResponseTagsMap = { [key: string]: string | un
 /** Creator resource properties */
 export interface CreatorProperties {
   /** The state of the resource provisioning, terminal states: Succeeded, Failed, Canceled */
-  provisioningState?: string;
+  provisioningState?: string | undefined;
   /** The storage units to be allocated. Integer values from 1 to 100, inclusive. */
   storageUnits: number;
 }
@@ -290,33 +295,33 @@ export type CreatorsCreateOrUpdateResponseSystemDataLastModifiedByType =
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface CreatorsCreateOrUpdateResponseSystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: CreatorsCreateOrUpdateResponseSystemDataCreatedByType;
+  createdByType?: CreatorsCreateOrUpdateResponseSystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: CreatorsCreateOrUpdateResponseSystemDataLastModifiedByType;
+  lastModifiedByType?: CreatorsCreateOrUpdateResponseSystemDataLastModifiedByType | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 export interface CreatorsCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Resource tags. */
-  tags?: CreatorsCreateOrUpdateResponseTagsMap;
+  tags?: CreatorsCreateOrUpdateResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The Creator resource properties. */
   properties: CreatorProperties;
   /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: CreatorsCreateOrUpdateResponseSystemData;
+  systemData?: CreatorsCreateOrUpdateResponseSystemData | undefined;
 }
 export interface DeleteAccountRequest {
   /** The ID of the target subscription. */
@@ -363,41 +368,41 @@ export type GetAccountResponseSystemDataLastModifiedByType =
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface GetAccountResponseSystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: GetAccountResponseSystemDataCreatedByType;
+  createdByType?: GetAccountResponseSystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: GetAccountResponseSystemDataLastModifiedByType;
+  lastModifiedByType?: GetAccountResponseSystemDataLastModifiedByType | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 /** Managed service identity (system assigned and/or user assigned identities) */
 export type GetAccountResponseIdentity = AccountsCreateOrUpdateResponseIdentity;
 export interface GetAccountResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Resource tags. */
-  tags?: GetAccountResponseTagsMap;
+  tags?: GetAccountResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The SKU of this account. */
   sku: Sku;
   /** Get or Set Kind property. */
-  kind?: Kind;
+  kind?: Kind | undefined;
   /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: GetAccountResponseSystemData;
+  systemData?: GetAccountResponseSystemData | undefined;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: AccountsCreateOrUpdateResponseIdentity;
+  identity?: AccountsCreateOrUpdateResponseIdentity | undefined;
   /** The map account properties. */
-  properties?: MapsAccountProperties;
+  properties?: MapsAccountProperties | undefined;
 }
 export interface GetCreatorRequest {
   /** The ID of the target subscription. */
@@ -426,33 +431,33 @@ export type GetCreatorResponseSystemDataLastModifiedByType =
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface GetCreatorResponseSystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: GetCreatorResponseSystemDataCreatedByType;
+  createdByType?: GetCreatorResponseSystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: GetCreatorResponseSystemDataLastModifiedByType;
+  lastModifiedByType?: GetCreatorResponseSystemDataLastModifiedByType | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 export interface GetCreatorResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Resource tags. */
-  tags?: GetCreatorResponseTagsMap;
+  tags?: GetCreatorResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The Creator resource properties. */
   properties: CreatorProperties;
   /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: GetCreatorResponseSystemData;
+  systemData?: GetCreatorResponseSystemData | undefined;
 }
 export interface ListAccountByResourceGroupRequest {
   /** The ID of the target subscription. */
@@ -473,51 +478,51 @@ export type MapsAccountSystemDataLastModifiedByType =
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface MapsAccountSystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: MapsAccountSystemDataCreatedByType;
+  createdByType?: MapsAccountSystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: MapsAccountSystemDataLastModifiedByType;
+  lastModifiedByType?: MapsAccountSystemDataLastModifiedByType | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 /** Managed service identity (system assigned and/or user assigned identities) */
 export type MapsAccountIdentity = AccountsCreateOrUpdateResponseIdentity;
 /** An Azure resource which represents access to a suite of Maps REST APIs. */
 export interface MapsAccount {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Resource tags. */
-  tags?: MapsAccountTagsMap;
+  tags?: MapsAccountTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The SKU of this account. */
   sku: Sku;
   /** Get or Set Kind property. */
-  kind?: Kind;
+  kind?: Kind | undefined;
   /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: MapsAccountSystemData;
+  systemData?: MapsAccountSystemData | undefined;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: AccountsCreateOrUpdateResponseIdentity;
+  identity?: AccountsCreateOrUpdateResponseIdentity | undefined;
   /** The map account properties. */
-  properties?: MapsAccountProperties;
+  properties?: MapsAccountProperties | undefined;
 }
 /** a Maps Account. */
 export type MapsAccountsValueList = Array<MapsAccount>;
 /** A list of Maps Accounts. */
 export interface MapsAccounts {
   /** a Maps Account. */
-  value?: MapsAccountsValueList;
+  value?: MapsAccountsValueList | undefined;
   /** URL client should use to fetch the next page (per server side paging). It's null for now, added for future use. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListAccountBySubscriptionRequest {
   /** The ID of the target subscription. */
@@ -534,13 +539,13 @@ export interface ListAccountKeysRequest {
 /** The set of keys which can be used to access the Maps REST APIs. Two keys are provided for key rotation without interruption. */
 export interface MapsAccountKeys {
   /** The last updated date and time of the primary key. */
-  primaryKeyLastUpdated?: string;
+  primaryKeyLastUpdated?: string | undefined;
   /** The primary key for accessing the Maps REST APIs. */
-  primaryKey?: string;
+  primaryKey?: string | undefined;
   /** The secondary key for accessing the Maps REST APIs. */
-  secondaryKey?: string;
+  secondaryKey?: string | undefined;
   /** The last updated date and time of the secondary key. */
-  secondaryKeyLastUpdated?: string;
+  secondaryKeyLastUpdated?: string | undefined;
 }
 /** The Map account key to use for signing. Picking `primaryKey` or `secondaryKey` will use the Map account Shared Keys, and using `managedIdentity` will use the auto-renewed private key to sign the SAS. */
 export type ListAccountSasRequestSigningKey = "primaryKey" | "secondaryKey" | "managedIdentity";
@@ -558,7 +563,7 @@ export interface ListAccountSasRequest {
   /** The principal Id also known as the object Id of a User Assigned Managed Identity currently assigned to the Map Account. To assign a Managed Identity of the account, use operation Create or Update an assign a User Assigned Identity resource Id. */
   principalId: string;
   /** Optional, allows control of which region locations are permitted access to Azure Maps REST APIs with the SAS token. Example: "eastus", "westus2". Omitting this parameter will allow all region locations to be accessible. */
-  regions?: ListAccountSasRequestRegionsList;
+  regions?: ListAccountSasRequestRegionsList | undefined;
   /** Required parameter which represents the desired maximum request per second to allowed for the given SAS token. This does not guarantee perfect accuracy in measurements but provides application safe guards of abuse with eventual enforcement. */
   maxRatePerSecond: number;
   /** The date time offset of when the token validity begins. For example "2017-05-24T10:42:03.1567373Z". Maximum duration allowed is 24 hours between `start` and `expiry`. */
@@ -569,7 +574,7 @@ export interface ListAccountSasRequest {
 /** A new Sas token which can be used to access the Maps REST APIs and is controlled by the specified Managed identity permissions on Azure (IAM) Role Based Access Control. */
 export interface MapsAccountSasToken {
   /** The shared access signature access token. */
-  accountSasToken?: string;
+  accountSasToken?: string | undefined;
 }
 export interface ListCreatorByAccountRequest {
   /** The ID of the target subscription. */
@@ -592,137 +597,137 @@ export type CreatorSystemDataLastModifiedByType =
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface CreatorSystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: CreatorSystemDataCreatedByType;
+  createdByType?: CreatorSystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: CreatorSystemDataLastModifiedByType;
+  lastModifiedByType?: CreatorSystemDataLastModifiedByType | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 /** An Azure resource which represents Maps Creator product and provides ability to manage private location data. */
 export interface Creator {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Resource tags. */
-  tags?: CreatorTagsMap;
+  tags?: CreatorTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The Creator resource properties. */
   properties: CreatorProperties;
   /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: CreatorSystemData;
+  systemData?: CreatorSystemData | undefined;
 }
 /** a Creator account. */
 export type CreatorListValueList = Array<Creator>;
 /** A list of Creator resources. */
 export interface CreatorList {
   /** a Creator account. */
-  value?: CreatorListValueList;
+  value?: CreatorListValueList | undefined;
   /** URL client should use to fetch the next page (per server side paging). It's null for now, added for future use. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListMapOperationsRequest {}
 /** Operation display payload */
 export interface OperationDisplay {
   /** Resource provider of the operation */
-  provider?: string;
+  provider?: string | undefined;
   /** Resource of the operation */
-  resource?: string;
+  resource?: string | undefined;
   /** Localized friendly name for the operation */
-  operation?: string;
+  operation?: string | undefined;
   /** Localized friendly description for the operation */
-  description?: string;
+  description?: string | undefined;
 }
 /** Dimension of map account, for example API Category, Api Name, Result Type, and Response Code. */
 export interface Dimension {
   /** Display name of dimension. */
-  name?: string;
+  name?: string | undefined;
   /** Display name of dimension. */
-  displayName?: string;
+  displayName?: string | undefined;
   /** Internal name of the dimension. */
-  internalName?: string;
+  internalName?: string | undefined;
   /** Internal metric name of the dimension. */
-  internalMetricName?: string;
+  internalMetricName?: string | undefined;
   /** Source Mdm Namespace of the dimension. */
-  sourceMdmNamespace?: string;
+  sourceMdmNamespace?: string | undefined;
   /** Flag to indicate exporting to Azure Monitor. */
-  toBeExportedToShoebox?: boolean;
+  toBeExportedToShoebox?: boolean | undefined;
 }
 /** Dimensions of map account. */
 export type MetricSpecificationDimensionsList = Array<Dimension>;
 /** Metric specification of operation. */
 export interface MetricSpecification {
   /** Name of metric specification. */
-  name?: string;
+  name?: string | undefined;
   /** Display name of metric specification. */
-  displayName?: string;
+  displayName?: string | undefined;
   /** Display description of metric specification. */
-  displayDescription?: string;
+  displayDescription?: string | undefined;
   /** Unit could be Count. */
-  unit?: string;
+  unit?: string | undefined;
   /** Dimensions of map account. */
-  dimensions?: MetricSpecificationDimensionsList;
+  dimensions?: MetricSpecificationDimensionsList | undefined;
   /** Aggregation type could be Average. */
-  aggregationType?: string;
+  aggregationType?: string | undefined;
   /** The property to decide fill gap with zero or not. */
-  fillGapWithZero?: boolean;
+  fillGapWithZero?: boolean | undefined;
   /** The category this metric specification belong to, could be Capacity. */
-  category?: string;
+  category?: string | undefined;
   /** Account Resource Id. */
-  resourceIdDimensionNameOverride?: string;
+  resourceIdDimensionNameOverride?: string | undefined;
   /** Source metrics account. */
-  sourceMdmAccount?: string;
+  sourceMdmAccount?: string | undefined;
   /** Internal metric name. */
-  internalMetricName?: string;
+  internalMetricName?: string | undefined;
   /** Lock aggregation type for metrics. */
-  lockAggregationType?: string;
+  lockAggregationType?: string | undefined;
   /** Metrics namespace. */
-  sourceMdmNamespace?: string;
+  sourceMdmNamespace?: string | undefined;
   /** Allowed aggregation types for metrics. */
-  supportedAggregationTypes?: string;
+  supportedAggregationTypes?: string | undefined;
 }
 /** Metric specifications of operation. */
 export type ServiceSpecificationMetricSpecificationsList = Array<MetricSpecification>;
 /** One property of operation, include metric specifications. */
 export interface ServiceSpecification {
   /** Metric specifications of operation. */
-  metricSpecifications?: ServiceSpecificationMetricSpecificationsList;
+  metricSpecifications?: ServiceSpecificationMetricSpecificationsList | undefined;
 }
 /** Properties of operation, include metric specifications. */
 export interface OperationProperties {
   /** One property of operation, include metric specifications. */
-  serviceSpecification?: ServiceSpecification;
+  serviceSpecification?: ServiceSpecification | undefined;
 }
 /** Operation detail payload */
 export interface OperationDetail {
   /** Name of the operation */
-  name?: string;
+  name?: string | undefined;
   /** Indicates whether the operation is a data action */
-  isDataAction?: boolean;
+  isDataAction?: boolean | undefined;
   /** Display of the operation */
-  display?: OperationDisplay;
+  display?: OperationDisplay | undefined;
   /** Origin of the operation */
-  origin?: string;
+  origin?: string | undefined;
   /** Properties of the operation */
-  properties?: OperationProperties;
+  properties?: OperationProperties | undefined;
 }
 /** An operation available for Maps. */
 export type MapsOperationsValueList = Array<OperationDetail>;
 /** The set of operations available for Maps. */
 export interface MapsOperations {
   /** An operation available for Maps. */
-  value?: MapsOperationsValueList;
+  value?: MapsOperationsValueList | undefined;
   /** URL client should use to fetch the next page (per server side paging). It's null for now, added for future use. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListMapSubscriptionOperationsRequest {
   /** The ID of the target subscription. */
@@ -752,15 +757,15 @@ export interface UpdateAccountRequest {
   /** The name of the Maps Account. */
   accountName: string;
   /** Gets or sets a list of key value pairs that describe the resource. These tags can be used in viewing and grouping this resource (across resource groups). A maximum of 15 tags can be provided for a resource. Each tag must have a key no greater than 128 characters and value no greater than 256 characters. */
-  tags?: UpdateAccountRequestTagsMap;
+  tags?: UpdateAccountRequestTagsMap | undefined;
   /** Get or Set Kind property. */
-  kind?: Kind | (string & {});
+  kind?: Kind | (string & {}) | undefined;
   /** The SKU of this account. */
-  sku?: SkuInput;
+  sku?: SkuInput | undefined;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: AccountsCreateOrUpdateRequestIdentity;
+  identity?: AccountsCreateOrUpdateRequestIdentity | undefined;
   /** The map account properties. */
-  properties?: MapsAccountPropertiesInput;
+  properties?: MapsAccountPropertiesInput | undefined;
 }
 /** Resource tags. */
 export type UpdateAccountResponseTagsMap = { [key: string]: string | undefined };
@@ -779,41 +784,41 @@ export type UpdateAccountResponseSystemDataLastModifiedByType =
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface UpdateAccountResponseSystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: UpdateAccountResponseSystemDataCreatedByType;
+  createdByType?: UpdateAccountResponseSystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: UpdateAccountResponseSystemDataLastModifiedByType;
+  lastModifiedByType?: UpdateAccountResponseSystemDataLastModifiedByType | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 /** Managed service identity (system assigned and/or user assigned identities) */
 export type UpdateAccountResponseIdentity = AccountsCreateOrUpdateResponseIdentity;
 export interface UpdateAccountResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Resource tags. */
-  tags?: UpdateAccountResponseTagsMap;
+  tags?: UpdateAccountResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The SKU of this account. */
   sku: Sku;
   /** Get or Set Kind property. */
-  kind?: Kind;
+  kind?: Kind | undefined;
   /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: UpdateAccountResponseSystemData;
+  systemData?: UpdateAccountResponseSystemData | undefined;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: AccountsCreateOrUpdateResponseIdentity;
+  identity?: AccountsCreateOrUpdateResponseIdentity | undefined;
   /** The map account properties. */
-  properties?: MapsAccountProperties;
+  properties?: MapsAccountProperties | undefined;
 }
 /** Gets or sets a list of key value pairs that describe the resource. These tags can be used in viewing and grouping this resource (across resource groups). A maximum of 15 tags can be provided for a resource. Each tag must have a key no greater than 128 characters and value no greater than 256 characters. */
 export type UpdateCreatorRequestTagsMap = { [key: string]: string | undefined };
@@ -827,9 +832,9 @@ export interface UpdateCreatorRequest {
   /** The name of the Maps Creator instance. */
   creatorName: string;
   /** Gets or sets a list of key value pairs that describe the resource. These tags can be used in viewing and grouping this resource (across resource groups). A maximum of 15 tags can be provided for a resource. Each tag must have a key no greater than 128 characters and value no greater than 256 characters. */
-  tags?: UpdateCreatorRequestTagsMap;
+  tags?: UpdateCreatorRequestTagsMap | undefined;
   /** Creator resource properties. */
-  properties?: CreatorPropertiesInput;
+  properties?: CreatorPropertiesInput | undefined;
 }
 /** Resource tags. */
 export type UpdateCreatorResponseTagsMap = { [key: string]: string | undefined };
@@ -848,33 +853,33 @@ export type UpdateCreatorResponseSystemDataLastModifiedByType =
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface UpdateCreatorResponseSystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: UpdateCreatorResponseSystemDataCreatedByType;
+  createdByType?: UpdateCreatorResponseSystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: UpdateCreatorResponseSystemDataLastModifiedByType;
+  lastModifiedByType?: UpdateCreatorResponseSystemDataLastModifiedByType | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 export interface UpdateCreatorResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Resource tags. */
-  tags?: UpdateCreatorResponseTagsMap;
+  tags?: UpdateCreatorResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The Creator resource properties. */
   properties: CreatorProperties;
   /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: UpdateCreatorResponseSystemData;
+  systemData?: UpdateCreatorResponseSystemData | undefined;
 }
 export type AccountsCreateOrUpdateError = AzureOpError;
 /** Create or update a Maps Account. A Maps Account holds the keys which allow access to the Maps REST APIs. */

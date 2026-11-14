@@ -180,6 +180,14 @@ ended up declaring a `<Pkg>ParseError` no code path created.
 (`<Pkg>OpError` / `DefaultErrors`) includes:
 
 - `Unknown<Pkg>Error` — built by the protocol's `unknownError` fallback.
+  Its fields are core's `UnknownErrorFields` (`status`, `code`, `message`,
+  `body`), spread first, then any field the provider adds:
+  `Schema.TaggedError<UnknownPkgError>()("UnknownPkgError",
+  UnknownErrorFields)`. With `makeRestProtocol`, build it as
+  `unknownError: (info) => new UnknownPkgError(unknownErrorProps(info))`.
+  Give it no `Category`. The protocol turns an unmapped 5xx into core
+  `InternalServerError` (retried), so only non-5xx statuses reach the
+  unknown error, and those must not be retried.
 - `<Pkg>ParseError` with `{ body: Schema.Unknown, cause: Schema.Unknown }`,
   `.pipe(Category.withParseError)` — built by the protocol's `parseError`
   (copy `packages/s2/src/errors.ts`).

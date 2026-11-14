@@ -37,30 +37,30 @@ const TELEMETRY = {
 
 export interface ListIpsRequest {
   /** Specified as `jdcloud` to list IPs used by JD Cloud data centers. */
-  networks?: string;
+  networks?: string | undefined;
 }
 export type ListResultPublicIPIPsIpv4CidrsList = Array<string>;
 export type ListResultPublicIPIPsIpv6CidrsList = Array<string>;
 export interface ListResultPublicIPIPs {
   /** A digest of the IP data. Useful for determining if the data has changed. */
-  etag?: string | null;
+  etag?: string | null | undefined;
   /** List of Cloudflare IPv4 CIDR addresses. */
-  ipv4Cidrs?: ListResultPublicIPIPsIpv4CidrsList | null;
+  ipv4Cidrs?: ListResultPublicIPIPsIpv4CidrsList | null | undefined;
   /** List of Cloudflare IPv6 CIDR addresses. */
-  ipv6Cidrs?: ListResultPublicIPIPsIpv6CidrsList | null;
+  ipv6Cidrs?: ListResultPublicIPIPsIpv6CidrsList | null | undefined;
 }
 export type ListResultPublicIPIPsJDCloudIpv4CidrsList = Array<string>;
 export type ListResultPublicIPIPsJDCloudIpv6CidrsList = Array<string>;
 export type ListResultPublicIPIPsJDCloudJdcloudCidrsList = Array<string>;
 export interface ListResultPublicIPIPsJDCloud {
   /** A digest of the IP data. Useful for determining if the data has changed. */
-  etag?: string | null;
+  etag?: string | null | undefined;
   /** List of Cloudflare IPv4 CIDR addresses. */
-  ipv4Cidrs?: ListResultPublicIPIPsJDCloudIpv4CidrsList | null;
+  ipv4Cidrs?: ListResultPublicIPIPsJDCloudIpv4CidrsList | null | undefined;
   /** List of Cloudflare IPv6 CIDR addresses. */
-  ipv6Cidrs?: ListResultPublicIPIPsJDCloudIpv6CidrsList | null;
+  ipv6Cidrs?: ListResultPublicIPIPsJDCloudIpv6CidrsList | null | undefined;
   /** List IPv4 and IPv6 CIDRs, only populated if `?networks=jdcloud` is used. */
-  jdcloudCidrs?: ListResultPublicIPIPsJDCloudJdcloudCidrsList | null;
+  jdcloudCidrs?: ListResultPublicIPIPsJDCloudJdcloudCidrsList | null | undefined;
 }
 export type ListResult = ListResultPublicIPIPs | ListResultPublicIPIPsJDCloud;
 export type ListIpsResponse = ListResult;

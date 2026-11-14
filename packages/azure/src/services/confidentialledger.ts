@@ -28,6 +28,7 @@ const TELEMETRY = {
   prefix: "Confidentialledger",
   service: "Confidentialledger",
   labels: "azure",
+  labelNames: { resourceGroupName: "azure.resource_group.name" },
   propagate: "w3c",
 } as const;
 
@@ -35,19 +36,19 @@ export interface CheckNameAvailabilityRequest {
   /** The ID of the target subscription. */
   subscriptionId: string;
   /** The name of the resource for which availability needs to be checked. */
-  name?: string;
+  name?: string | undefined;
   /** The resource type. */
-  type?: string;
+  type?: string | undefined;
 }
 /** The reason why the given name is not available. */
 export type CheckNameAvailabilityResponseReason = "Invalid" | "AlreadyExists";
 export interface CheckNameAvailabilityResponse {
   /** Indicates if the resource name is available. */
-  nameAvailable?: boolean;
+  nameAvailable?: boolean | undefined;
   /** The reason why the given name is not available. */
-  reason?: CheckNameAvailabilityResponseReason;
+  reason?: CheckNameAvailabilityResponseReason | undefined;
   /** Detailed reason why the given name is available. */
-  message?: string;
+  message?: string | undefined;
 }
 /** Resource tags. */
 export type CreateLedgerRequestTagsMap = { [key: string]: string | undefined };
@@ -62,20 +63,20 @@ export type LedgerRoleName = "Reader" | "Contributor" | "Administrator";
 /** AAD based security principal with associated Ledger RoleName */
 export interface AADBasedSecurityPrincipal {
   /** UUID/GUID based Principal Id of the Security Principal */
-  principalId?: string;
+  principalId?: string | undefined;
   /** UUID/GUID based Tenant Id of the Security Principal */
-  tenantId?: string;
+  tenantId?: string | undefined;
   /** LedgerRole associated with the Security Principal of Ledger */
-  ledgerRoleName?: LedgerRoleName | (string & {});
+  ledgerRoleName?: LedgerRoleName | (string & {}) | undefined;
 }
 /** Array of all AAD based Security Principals. */
 export type LedgerPropertiesInputAadBasedSecurityPrincipalsList = Array<AADBasedSecurityPrincipal>;
 /** Cert based security principal with Ledger RoleName */
 export interface CertBasedSecurityPrincipal {
   /** Public key of the user cert (.pem or .cer) */
-  cert?: string;
+  cert?: string | undefined;
   /** LedgerRole associated with the Security Principal of Ledger */
-  ledgerRoleName?: LedgerRoleName | (string & {});
+  ledgerRoleName?: LedgerRoleName | (string & {}) | undefined;
 }
 /** Array of all cert based Security Principals. */
 export type LedgerPropertiesInputCertBasedSecurityPrincipalsList =
@@ -85,31 +86,31 @@ export type ApplicationType = "ConfidentialLedger" | "CodeTransparency";
 /** Additional Confidential Ledger properties. */
 export interface LedgerPropertiesInput {
   /** Object representing RunningState for Ledger. */
-  runningState?: RunningState | (string & {});
+  runningState?: RunningState | (string & {}) | undefined;
   /** Type of Confidential Ledger */
-  ledgerType?: LedgerType | (string & {});
+  ledgerType?: LedgerType | (string & {}) | undefined;
   /** SKU associated with the ledger */
-  ledgerSku?: LedgerSku | (string & {});
+  ledgerSku?: LedgerSku | (string & {}) | undefined;
   /** Array of all AAD based Security Principals. */
-  aadBasedSecurityPrincipals?: LedgerPropertiesInputAadBasedSecurityPrincipalsList;
+  aadBasedSecurityPrincipals?: LedgerPropertiesInputAadBasedSecurityPrincipalsList | undefined;
   /** Array of all cert based Security Principals. */
-  certBasedSecurityPrincipals?: LedgerPropertiesInputCertBasedSecurityPrincipalsList;
+  certBasedSecurityPrincipals?: LedgerPropertiesInputCertBasedSecurityPrincipalsList | undefined;
   /** CCF Property for the logging level for the untrusted host: Trace, Debug, Info, Fail, Fatal. */
-  hostLevel?: string;
+  hostLevel?: string | undefined;
   /** CCF Property for the maximum size of the http request body: 1MB, 5MB, 10MB. */
-  maxBodySizeInMb?: number;
+  maxBodySizeInMb?: number | undefined;
   /** CCF Property for the subject name to include in the node certificate. Default: CN=CCF Node. */
-  subjectName?: string;
+  subjectName?: string | undefined;
   /** Number of CCF nodes in the ACC Ledger. */
-  nodeCount?: number;
+  nodeCount?: number | undefined;
   /** Prefix for the write load balancer. Example: write */
-  writeLBAddressPrefix?: string;
+  writeLBAddressPrefix?: string | undefined;
   /** Number of additional threads processing incoming client requests in the enclave (modify with care!) */
-  workerThreads?: number;
+  workerThreads?: number | undefined;
   /** Application type of the Confidential Ledger. */
-  applicationType?: ApplicationType | (string & {});
+  applicationType?: ApplicationType | (string & {}) | undefined;
   /** The SCITT Configuration that needs to be set for the Confidential Ledger. */
-  scittConfiguration?: string;
+  scittConfiguration?: string | undefined;
 }
 export interface CreateLedgerRequest {
   /** The ID of the target subscription. */
@@ -119,11 +120,11 @@ export interface CreateLedgerRequest {
   /** Name of the Confidential Ledger */
   ledgerName: string;
   /** Resource tags. */
-  tags?: CreateLedgerRequestTagsMap;
+  tags?: CreateLedgerRequestTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Properties of Confidential Ledger Resource. */
-  properties?: LedgerPropertiesInput;
+  properties?: LedgerPropertiesInput | undefined;
 }
 /** The type of identity that created the resource. */
 export type SystemDataCreatedByType = "User" | "Application" | "ManagedIdentity" | "Key";
@@ -132,17 +133,17 @@ export type SystemDataLastModifiedByType = "User" | "Application" | "ManagedIden
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface SystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: SystemDataCreatedByType;
+  createdByType?: SystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: SystemDataLastModifiedByType;
+  lastModifiedByType?: SystemDataLastModifiedByType | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 /** Resource tags. */
 export type CreateLedgerResponseTagsMap = { [key: string]: string | undefined };
@@ -164,63 +165,63 @@ export type EnclavePlatform = "IntelSgx" | "AmdSevSnp";
 /** Additional Confidential Ledger properties. */
 export interface LedgerProperties {
   /** Unique name for the Confidential Ledger. */
-  ledgerName?: string;
+  ledgerName?: string | undefined;
   /** Endpoint for calling Ledger Service. */
-  ledgerUri?: string;
+  ledgerUri?: string | undefined;
   /** Endpoint for accessing network identity. */
-  identityServiceUri?: string;
+  identityServiceUri?: string | undefined;
   /** Internal namespace for the Ledger */
-  ledgerInternalNamespace?: string;
+  ledgerInternalNamespace?: string | undefined;
   /** Object representing RunningState for Ledger. */
-  runningState?: RunningState;
+  runningState?: RunningState | undefined;
   /** Type of Confidential Ledger */
-  ledgerType?: LedgerType;
+  ledgerType?: LedgerType | undefined;
   /** Provisioning state of Ledger Resource */
-  provisioningState?: ProvisioningState;
+  provisioningState?: ProvisioningState | undefined;
   /** SKU associated with the ledger */
-  ledgerSku?: LedgerSku;
+  ledgerSku?: LedgerSku | undefined;
   /** Array of all AAD based Security Principals. */
-  aadBasedSecurityPrincipals?: LedgerPropertiesAadBasedSecurityPrincipalsList;
+  aadBasedSecurityPrincipals?: LedgerPropertiesAadBasedSecurityPrincipalsList | undefined;
   /** Array of all cert based Security Principals. */
-  certBasedSecurityPrincipals?: LedgerPropertiesCertBasedSecurityPrincipalsList;
+  certBasedSecurityPrincipals?: LedgerPropertiesCertBasedSecurityPrincipalsList | undefined;
   /** CCF Property for the logging level for the untrusted host: Trace, Debug, Info, Fail, Fatal. */
-  hostLevel?: string;
+  hostLevel?: string | undefined;
   /** CCF Property for the maximum size of the http request body: 1MB, 5MB, 10MB. */
-  maxBodySizeInMb?: number;
+  maxBodySizeInMb?: number | undefined;
   /** CCF Property for the subject name to include in the node certificate. Default: CN=CCF Node. */
-  subjectName?: string;
+  subjectName?: string | undefined;
   /** Number of CCF nodes in the ACC Ledger. */
-  nodeCount?: number;
+  nodeCount?: number | undefined;
   /** Prefix for the write load balancer. Example: write */
-  writeLBAddressPrefix?: string;
+  writeLBAddressPrefix?: string | undefined;
   /** Number of additional threads processing incoming client requests in the enclave (modify with care!) */
-  workerThreads?: number;
+  workerThreads?: number | undefined;
   /** Enclave platform of the Confidential Ledger. */
-  enclavePlatform?: EnclavePlatform;
+  enclavePlatform?: EnclavePlatform | undefined;
   /** Application type of the Confidential Ledger. */
-  applicationType?: ApplicationType;
+  applicationType?: ApplicationType | undefined;
   /** The SCITT Configuration that needs to be set for the Confidential Ledger. */
-  scittConfiguration?: string;
+  scittConfiguration?: string | undefined;
 }
 export interface CreateLedgerResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: CreateLedgerResponseTagsMap;
+  tags?: CreateLedgerResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Properties of Confidential Ledger Resource. */
-  properties?: LedgerProperties;
+  properties?: LedgerProperties | undefined;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeleteLedgerRequest {
   /** The ID of the target subscription. */
@@ -232,9 +233,9 @@ export interface DeleteLedgerRequest {
 }
 export interface DeleteLedgerResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface ExportLedgerFileRequest {
   /** The ID of the target subscription. */
@@ -244,18 +245,18 @@ export interface ExportLedgerFileRequest {
   /** Name of the Confidential Ledger */
   ledgerName: string;
   /** The region where the exported ledger files will eventually be restored to. */
-  restoreRegion?: string;
+  restoreRegion?: string | undefined;
   /** SAS URI used to access the Fileshare for exporting ledger files. */
   uri: string;
 }
 /** Object representing the files export response of a Confidential Ledger Resource. */
 export interface ConfidentialLedgerFilesExportResponse {
   /** Response body stating if the ledger files are being exported. */
-  message?: string;
+  message?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface GetLedgerRequest {
   /** The ID of the target subscription. */
@@ -269,19 +270,19 @@ export interface GetLedgerRequest {
 export type GetLedgerResponseTagsMap = { [key: string]: string | undefined };
 export interface GetLedgerResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: GetLedgerResponseTagsMap;
+  tags?: GetLedgerResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Properties of Confidential Ledger Resource. */
-  properties?: LedgerProperties;
+  properties?: LedgerProperties | undefined;
 }
 export interface ListLedgerByResourceGroupRequest {
   /** The ID of the target subscription. */
@@ -289,26 +290,26 @@ export interface ListLedgerByResourceGroupRequest {
   /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
   /** The filter to apply on the list operation. eg. $filter=ledgerType eq 'Public' */
-  _filter?: string;
+  _filter?: string | undefined;
 }
 /** Resource tags. */
 export type ConfidentialLedgerTagsMap = { [key: string]: string | undefined };
 /** Confidential Ledger. Contains the properties of Confidential Ledger Resource. */
 export interface ConfidentialLedger {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: ConfidentialLedgerTagsMap;
+  tags?: ConfidentialLedgerTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Properties of Confidential Ledger Resource. */
-  properties?: LedgerProperties;
+  properties?: LedgerProperties | undefined;
 }
 /** The ConfidentialLedger items on this page */
 export type ConfidentialLedgerListValueList = Array<ConfidentialLedger>;
@@ -317,43 +318,43 @@ export interface ConfidentialLedgerList {
   /** The ConfidentialLedger items on this page */
   value: ConfidentialLedgerListValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListLedgerBySubscriptionRequest {
   /** The ID of the target subscription. */
   subscriptionId: string;
   /** The filter to apply on the list operation. eg. $filter=ledgerType eq 'Public' */
-  _filter?: string;
+  _filter?: string | undefined;
 }
 export interface ListOperationsRequest {}
 /** Describes the properties of the Operation. */
 export interface ResourceProviderOperationDisplay {
   /** Name of the resource provider. */
-  provider?: string;
+  provider?: string | undefined;
   /** Name of the resource type. */
-  resource?: string;
+  resource?: string | undefined;
   /** Name of the resource provider operation. */
-  operation?: string;
+  operation?: string | undefined;
   /** Description of the resource provider operation. */
-  description?: string;
+  description?: string | undefined;
 }
 /** Describes the Resource Provider Operation. */
 export interface ResourceProviderOperationDefinition {
   /** Resource provider operation name. */
-  name?: string;
+  name?: string | undefined;
   /** Indicates whether the operation is data action or not. */
-  isDataAction?: boolean;
+  isDataAction?: boolean | undefined;
   /** Details about the operations */
-  display?: ResourceProviderOperationDisplay;
+  display?: ResourceProviderOperationDisplay | undefined;
 }
 /** The list of operations. */
 export type ResourceProviderOperationListValueList = Array<ResourceProviderOperationDefinition>;
 /** List containing this Resource Provider's available operations. */
 export interface ResourceProviderOperationList {
   /** The list of operations. */
-  value?: ResourceProviderOperationListValueList;
+  value?: ResourceProviderOperationListValueList | undefined;
   /** The URL to get the next set of results, if any. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type UpdateLedgerRequestTagsMap = { [key: string]: string | undefined };
@@ -365,31 +366,31 @@ export interface UpdateLedgerRequest {
   /** Name of the Confidential Ledger */
   ledgerName: string;
   /** Resource tags. */
-  tags?: UpdateLedgerRequestTagsMap;
+  tags?: UpdateLedgerRequestTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Properties of Confidential Ledger Resource. */
-  properties?: LedgerPropertiesInput;
+  properties?: LedgerPropertiesInput | undefined;
 }
 /** Resource tags. */
 export type UpdateLedgerResponseTagsMap = { [key: string]: string | undefined };
 export interface UpdateLedgerResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: UpdateLedgerResponseTagsMap;
+  tags?: UpdateLedgerResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Properties of Confidential Ledger Resource. */
-  properties?: LedgerProperties;
+  properties?: LedgerProperties | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  locationHeader?: string;
+  locationHeader?: string | undefined;
 }
 export type CheckNameAvailabilityError = AzureOpError;
 /** To check whether a resource name is available. */

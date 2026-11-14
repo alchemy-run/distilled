@@ -1,6 +1,7 @@
 import type * as API from "@distilled.cloud/core/api";
 import type { API_ERRORS, ConfigError, InvalidInput } from "@distilled.cloud/core/errors";
-import { makeRestProtocol } from "@distilled.cloud/core/protocol-rest";
+import { makeRestProtocol, unknownErrorProps } from "@distilled.cloud/core/protocol-rest";
+import type { SdkError } from "@distilled.cloud/core/sdk-error";
 /**
  * PlaidProtocol -- hand-written.
  *
@@ -37,7 +38,8 @@ export type PlaidOpError =
   | ConfigError
   | HttpClientError.HttpClientError
   | PlaidParseError
-  | InvalidInput;
+  | InvalidInput
+  | SdkError;
 
 /** Context (requirements) shared by every generated Plaid operation. */
 export type PlaidOpContext = Credentials | HttpClient.HttpClient;
@@ -66,11 +68,6 @@ export const PlaidProtocol: Layer.Layer<API.Protocol> = /*@__PURE__*/ makeRestPr
           : undefined;
     return { code, message };
   },
-  unknownError: ({ code, message, body }) =>
-    new UnknownPlaidError({
-      code: typeof code === "string" ? code : code !== undefined ? String(code) : undefined,
-      message,
-      body,
-    }),
+  unknownError: (info) => new UnknownPlaidError(unknownErrorProps(info)),
   parseError: ({ body, cause }) => new PlaidParseError({ body, cause }),
 });

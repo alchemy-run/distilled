@@ -28,6 +28,7 @@ const TELEMETRY = {
   prefix: "Guestconfiguration",
   service: "Guestconfiguration",
   labels: "azure",
+  labelNames: { resourceGroupName: "azure.resource_group.name" },
   propagate: "w3c",
 } as const;
 
@@ -63,9 +64,9 @@ export type AssignmentType =
 /** Represents a configuration parameter. */
 export interface ConfigurationParameter {
   /** Name of the configuration parameter. */
-  name?: string;
+  name?: string | undefined;
   /** Value of the configuration parameter. */
-  value?: string;
+  value?: string | undefined;
 }
 /** The configuration parameters for the guest configuration. */
 export type GuestConfigurationNavigationConfigurationParameterList = Array<ConfigurationParameter>;
@@ -79,155 +80,157 @@ export type ActionAfterReboot = "ContinueConfiguration" | "StopConfiguration";
 /** Configuration setting of LCM (Local Configuration Manager). */
 export interface ConfigurationSetting {
   /** Specifies how the LCM(Local Configuration Manager) actually applies the configuration to the target nodes. Possible values are ApplyOnly, ApplyAndMonitor, and ApplyAndAutoCorrect. */
-  configurationMode?: ConfigurationMode;
+  configurationMode?: ConfigurationMode | undefined;
   /** If true - new configurations downloaded from the pull service are allowed to overwrite the old ones on the target node. Otherwise, false */
-  allowModuleOverwrite?: boolean;
+  allowModuleOverwrite?: boolean | undefined;
   /** Specifies what happens after a reboot during the application of a configuration. The possible values are ContinueConfiguration and StopConfiguration */
-  actionAfterReboot?: ActionAfterReboot;
+  actionAfterReboot?: ActionAfterReboot | undefined;
   /** The time interval, in minutes, at which the LCM checks a pull service to get updated configurations. This value is ignored if the LCM is not configured in pull mode. The default value is 30. */
-  refreshFrequencyMins?: number;
+  refreshFrequencyMins?: number | undefined;
   /** Set this to true to automatically reboot the node after a configuration that requires reboot is applied. Otherwise, you will have to manually reboot the node for any configuration that requires it. The default value is false. To use this setting when a reboot condition is enacted by something other than DSC (such as Windows Installer), combine this setting with the xPendingReboot module. */
-  rebootIfNeeded?: boolean;
+  rebootIfNeeded?: boolean | undefined;
   /** How often, in minutes, the current configuration is checked and applied. This property is ignored if the ConfigurationMode property is set to ApplyOnly. The default value is 15. */
-  configurationModeFrequencyMins?: number;
+  configurationModeFrequencyMins?: number | undefined;
 }
 /** Guest configuration is an artifact that encapsulates DSC configuration and its dependencies. The artifact is a zip file containing DSC configuration (as MOF) and dependent resources and other dependencies like modules. */
 export interface GuestConfigurationNavigation {
   /** Kind of the guest configuration. For example:DSC */
-  kind?: Kind;
+  kind?: Kind | undefined;
   /** Name of the guest configuration. */
-  name?: string;
+  name?: string | undefined;
   /** Version of the guest configuration. */
-  version?: string;
+  version?: string | undefined;
   /** Uri of the storage where guest configuration package is uploaded. */
-  contentUri?: string;
+  contentUri?: string | undefined;
   /** Combined hash of the guest configuration package and configuration parameters. */
-  contentHash?: string;
+  contentHash?: string | undefined;
   /** Managed identity with storage access of the guest configuration package and configuration parameters. */
-  contentManagedIdentity?: string;
+  contentManagedIdentity?: string | undefined;
   /** Specifies the assignment type and execution of the configuration. Possible values are Audit, DeployAndAutoCorrect, ApplyAndAutoCorrect and ApplyAndMonitor. */
-  assignmentType?: AssignmentType;
+  assignmentType?: AssignmentType | undefined;
   /** Specifies the origin of the configuration. */
-  assignmentSource?: string | null;
+  assignmentSource?: string | null | undefined;
   /** Specifies the content type of the configuration. Possible values could be Builtin or Custom. */
-  contentType?: string | null;
+  contentType?: string | null | undefined;
   /** The configuration parameters for the guest configuration. */
-  configurationParameter?: GuestConfigurationNavigationConfigurationParameterList;
+  configurationParameter?: GuestConfigurationNavigationConfigurationParameterList | undefined;
   /** The protected configuration parameters for the guest configuration. */
-  configurationProtectedParameter?: GuestConfigurationNavigationConfigurationProtectedParameterList;
+  configurationProtectedParameter?:
+    | GuestConfigurationNavigationConfigurationProtectedParameterList
+    | undefined;
   /** The configuration setting for the guest configuration. */
-  configurationSetting?: ConfigurationSetting;
+  configurationSetting?: ConfigurationSetting | undefined;
 }
 /** A value indicating compliance status of the machine for the assigned guest configuration. */
 export type ComplianceStatus = "Compliant" | "NonCompliant" | "Pending";
 /** Information about the configuration. */
 export interface ConfigurationInfo {
   /** Name of the configuration. */
-  name?: string;
+  name?: string | undefined;
   /** Version of the configuration. */
-  version?: string;
+  version?: string | undefined;
 }
 /** Information about the guest configuration assignment. */
 export interface AssignmentInfo {
   /** Name of the guest configuration assignment. */
-  name?: string;
+  name?: string | undefined;
   /** Information about the configuration. */
-  configuration?: ConfigurationInfo;
+  configuration?: ConfigurationInfo | undefined;
 }
 /** Information about the VM. */
 export interface VMInfo {
   /** Azure resource Id of the VM. */
-  id?: string;
+  id?: string | undefined;
   /** UUID(Universally Unique Identifier) of the VM. */
-  uuid?: string;
+  uuid?: string | undefined;
 }
 /** Type of report, Consistency or Initial */
 export type Type = "Consistency" | "Initial";
 /** Reason and code for the compliance of the guest configuration assignment resource. */
 export interface AssignmentReportResourceComplianceReason {
   /** Reason for the compliance of the guest configuration assignment resource. */
-  phrase?: string;
+  phrase?: string | undefined;
   /** Code for the compliance of the guest configuration assignment resource. */
-  code?: string;
+  code?: string | undefined;
 }
 /** Compliance reason and reason code for a resource. */
 export type AssignmentReportResourceReasonsList = Array<AssignmentReportResourceComplianceReason>;
 /** The guest configuration assignment resource. */
 export interface AssignmentReportResource {
   /** A value indicating compliance status of the machine for the assigned guest configuration. */
-  complianceStatus?: ComplianceStatus;
+  complianceStatus?: ComplianceStatus | undefined;
   /** Name of the guest configuration assignment resource setting. */
-  resourceId?: string;
+  resourceId?: string | undefined;
   /** Compliance reason and reason code for a resource. */
-  reasons?: AssignmentReportResourceReasonsList;
+  reasons?: AssignmentReportResourceReasonsList | undefined;
   /** Properties of a guest configuration assignment resource. */
-  properties?: unknown;
+  properties?: unknown | undefined;
 }
 /** The list of resources for which guest configuration assignment compliance is checked. */
 export type AssignmentReportResourcesList = Array<AssignmentReportResource>;
 export interface AssignmentReport {
   /** ARM resource id of the report for the guest configuration assignment. */
-  id?: string;
+  id?: string | undefined;
   /** GUID that identifies the guest configuration assignment report under a subscription, resource group. */
-  reportId?: string;
+  reportId?: string | undefined;
   /** Configuration details of the guest configuration assignment. */
-  assignment?: AssignmentInfo;
+  assignment?: AssignmentInfo | undefined;
   /** Information about the VM. */
-  vm?: VMInfo;
+  vm?: VMInfo | undefined;
   /** Start date and time of the guest configuration assignment compliance status check. */
-  startTime?: string;
+  startTime?: string | undefined;
   /** End date and time of the guest configuration assignment compliance status check. */
-  endTime?: string;
+  endTime?: string | undefined;
   /** A value indicating compliance status of the machine for the assigned guest configuration. */
-  complianceStatus?: ComplianceStatus;
+  complianceStatus?: ComplianceStatus | undefined;
   /** Type of report, Consistency or Initial */
-  operationType?: Type;
+  operationType?: Type | undefined;
   /** The list of resources for which guest configuration assignment compliance is checked. */
-  resources?: AssignmentReportResourcesList;
+  resources?: AssignmentReportResourcesList | undefined;
 }
 /** The provisioning state, which only appears in the response. */
 export type ProvisioningState = "Succeeded" | "Failed" | "Canceled" | "Created";
 /** Information about VMSS VM */
 export interface VMSSVMInfo {
   /** UUID of the VM. */
-  vmId?: string;
+  vmId?: string | undefined;
   /** Azure resource Id of the VM. */
-  vmResourceId?: string;
+  vmResourceId?: string | undefined;
   /** A value indicating compliance status of the machine for the assigned guest configuration. */
-  complianceStatus?: ComplianceStatus;
+  complianceStatus?: ComplianceStatus | undefined;
   /** Id of the latest report for the guest configuration assignment. */
-  latestReportId?: string | null;
+  latestReportId?: string | null | undefined;
   /** Date and time when last compliance status was checked. */
-  lastComplianceChecked?: string | null;
+  lastComplianceChecked?: string | null | undefined;
 }
 /** The list of VM Compliance data for VMSS */
 export type GuestConfigurationAssignmentPropertiesVmssVMListList = Array<VMSSVMInfo>;
 /** Guest configuration assignment properties. */
 export interface GuestConfigurationAssignmentProperties {
   /** VM resource Id. */
-  targetResourceId?: string | null;
+  targetResourceId?: string | null | undefined;
   /** The guest configuration to assign. */
-  guestConfiguration?: GuestConfigurationNavigation;
+  guestConfiguration?: GuestConfigurationNavigation | undefined;
   /** A value indicating compliance status of the machine for the assigned guest configuration. */
-  complianceStatus?: ComplianceStatus;
+  complianceStatus?: ComplianceStatus | undefined;
   /** Date and time when last compliance status was checked. */
-  lastComplianceStatusChecked?: string | null;
+  lastComplianceStatusChecked?: string | null | undefined;
   /** Id of the latest report for the guest configuration assignment. */
-  latestReportId?: string | null;
+  latestReportId?: string | null | undefined;
   /** parameter hash for the guest configuration assignment. */
-  parameterHash?: string | null;
+  parameterHash?: string | null | undefined;
   /** Last reported guest configuration assignment report. */
-  latestAssignmentReport?: AssignmentReport;
+  latestAssignmentReport?: AssignmentReport | undefined;
   /** The source which initiated the guest configuration assignment. Ex: Azure Policy */
-  context?: string;
+  context?: string | undefined;
   /** Combined hash of the configuration package and parameters. */
-  assignmentHash?: string | null;
+  assignmentHash?: string | null | undefined;
   /** The provisioning state, which only appears in the response. */
-  provisioningState?: ProvisioningState | null;
+  provisioningState?: ProvisioningState | null | undefined;
   /** Type of the resource - VMSS / VM */
-  resourceType?: string | null;
+  resourceType?: string | null | undefined;
   /** The list of VM Compliance data for VMSS */
-  vmssVMList?: GuestConfigurationAssignmentPropertiesVmssVMListList;
+  vmssVMList?: GuestConfigurationAssignmentPropertiesVmssVMListList | undefined;
 }
 /** The type of identity that created the resource. */
 export type DeleteGuestConfigurationAssignmentsVMSSResponseSystemDataCreatedByType =
@@ -244,31 +247,35 @@ export type DeleteGuestConfigurationAssignmentsVMSSResponseSystemDataLastModifie
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface DeleteGuestConfigurationAssignmentsVMSSResponseSystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: DeleteGuestConfigurationAssignmentsVMSSResponseSystemDataCreatedByType;
+  createdByType?:
+    | DeleteGuestConfigurationAssignmentsVMSSResponseSystemDataCreatedByType
+    | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: DeleteGuestConfigurationAssignmentsVMSSResponseSystemDataLastModifiedByType;
+  lastModifiedByType?:
+    | DeleteGuestConfigurationAssignmentsVMSSResponseSystemDataLastModifiedByType
+    | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 export interface DeleteGuestConfigurationAssignmentsVMSSResponse {
   /** ARM resource id of the guest configuration assignment. */
-  id?: string;
+  id?: string | undefined;
   /** The guest configuration assignment name. */
   name: string;
   /** Region where the VM is located. */
-  location?: string;
+  location?: string | undefined;
   /** The type of the resource. */
-  type?: string;
+  type?: string | undefined;
   /** Properties of the Guest configuration assignment. */
-  properties?: GuestConfigurationAssignmentProperties;
+  properties?: GuestConfigurationAssignmentProperties | undefined;
   /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: DeleteGuestConfigurationAssignmentsVMSSResponseSystemData;
+  systemData?: DeleteGuestConfigurationAssignmentsVMSSResponseSystemData | undefined;
 }
 export interface DeleteGuestConfigurationConnectedVMwarevSphereAssignmentRequest {
   /** The ID of the target subscription. */
@@ -317,31 +324,33 @@ export type GetGuestConfigurationAssignmentResponseSystemDataLastModifiedByType 
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface GetGuestConfigurationAssignmentResponseSystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: GetGuestConfigurationAssignmentResponseSystemDataCreatedByType;
+  createdByType?: GetGuestConfigurationAssignmentResponseSystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: GetGuestConfigurationAssignmentResponseSystemDataLastModifiedByType;
+  lastModifiedByType?:
+    | GetGuestConfigurationAssignmentResponseSystemDataLastModifiedByType
+    | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 export interface GetGuestConfigurationAssignmentResponse {
   /** ARM resource id of the guest configuration assignment. */
-  id?: string;
+  id?: string | undefined;
   /** The guest configuration assignment name. */
   name: string;
   /** Region where the VM is located. */
-  location?: string;
+  location?: string | undefined;
   /** The type of the resource. */
-  type?: string;
+  type?: string | undefined;
   /** Properties of the Guest configuration assignment. */
-  properties?: GuestConfigurationAssignmentProperties;
+  properties?: GuestConfigurationAssignmentProperties | undefined;
   /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: GetGuestConfigurationAssignmentResponseSystemData;
+  systemData?: GetGuestConfigurationAssignmentResponseSystemData | undefined;
 }
 export interface GetGuestConfigurationAssignmentReportRequest {
   /** The ID of the target subscription. */
@@ -360,45 +369,45 @@ export type AssignmentReportDetailsResourcesList = Array<AssignmentReportResourc
 /** Details of the guest configuration assignment report. */
 export interface AssignmentReportDetails {
   /** A value indicating compliance status of the machine for the assigned guest configuration. */
-  complianceStatus?: ComplianceStatus;
+  complianceStatus?: ComplianceStatus | undefined;
   /** Start date and time of the guest configuration assignment compliance status check. */
-  startTime?: string;
+  startTime?: string | undefined;
   /** End date and time of the guest configuration assignment compliance status check. */
-  endTime?: string;
+  endTime?: string | undefined;
   /** GUID of the report. */
-  jobId?: string;
+  jobId?: string | undefined;
   /** Type of report, Consistency or Initial */
-  operationType?: Type;
+  operationType?: Type | undefined;
   /** The list of resources for which guest configuration assignment compliance is checked. */
-  resources?: AssignmentReportDetailsResourcesList;
+  resources?: AssignmentReportDetailsResourcesList | undefined;
 }
 /** Report for the guest configuration assignment. Report contains information such as compliance status, reason, and more. */
 export interface GuestConfigurationAssignmentReportProperties {
   /** A value indicating compliance status of the machine for the assigned guest configuration. */
-  complianceStatus?: ComplianceStatus;
+  complianceStatus?: ComplianceStatus | undefined;
   /** GUID that identifies the guest configuration assignment report under a subscription, resource group. */
-  reportId?: string;
+  reportId?: string | undefined;
   /** Configuration details of the guest configuration assignment. */
-  assignment?: AssignmentInfo;
+  assignment?: AssignmentInfo | undefined;
   /** Information about the VM. */
-  vm?: VMInfo;
+  vm?: VMInfo | undefined;
   /** Start date and time of the guest configuration assignment compliance status check. */
-  startTime?: string;
+  startTime?: string | undefined;
   /** End date and time of the guest configuration assignment compliance status check. */
-  endTime?: string;
+  endTime?: string | undefined;
   /** Details of the assignment report. */
-  details?: AssignmentReportDetails | null;
+  details?: AssignmentReportDetails | null | undefined;
   /** Azure resource Id of the VMSS. */
-  vmssResourceId?: string;
+  vmssResourceId?: string | undefined;
 }
 /** Report for the guest configuration assignment. Report contains information such as compliance status, reason, and more. */
 export interface GuestConfigurationAssignmentReport {
   /** ARM resource id of the report for the guest configuration assignment. */
-  id?: string;
+  id?: string | undefined;
   /** GUID that identifies the guest configuration assignment report under a subscription, resource group. */
-  name?: string;
+  name?: string | undefined;
   /** Properties of the guest configuration report. */
-  properties?: GuestConfigurationAssignmentReportProperties;
+  properties?: GuestConfigurationAssignmentReportProperties | undefined;
 }
 export interface GetGuestConfigurationAssignmentReportsVMSSRequest {
   /** The ID of the target subscription. */
@@ -437,40 +446,42 @@ export type GetGuestConfigurationAssignmentsVMSSResponseSystemDataLastModifiedBy
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface GetGuestConfigurationAssignmentsVMSSResponseSystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: GetGuestConfigurationAssignmentsVMSSResponseSystemDataCreatedByType;
+  createdByType?: GetGuestConfigurationAssignmentsVMSSResponseSystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: GetGuestConfigurationAssignmentsVMSSResponseSystemDataLastModifiedByType;
+  lastModifiedByType?:
+    | GetGuestConfigurationAssignmentsVMSSResponseSystemDataLastModifiedByType
+    | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 /** Error the service embeds in a 200 response it could not fulfil. */
 export interface GuestConfigurationAssignmentResponseError {
   /** Error code, e.g. `VMSSNotSupported`. */
-  code?: string;
+  code?: string | undefined;
   /** Error message. */
-  message?: string;
+  message?: string | undefined;
 }
 export interface GetGuestConfigurationAssignmentsVMSSResponse {
   /** ARM resource id of the guest configuration assignment. */
-  id?: string;
+  id?: string | undefined;
   /** The guest configuration assignment name. */
-  name?: string;
+  name?: string | undefined;
   /** Region where the VM is located. */
-  location?: string;
+  location?: string | undefined;
   /** The type of the resource. */
-  type?: string;
+  type?: string | undefined;
   /** Properties of the Guest configuration assignment. */
-  properties?: GuestConfigurationAssignmentProperties;
+  properties?: GuestConfigurationAssignmentProperties | undefined;
   /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: GetGuestConfigurationAssignmentsVMSSResponseSystemData;
+  systemData?: GetGuestConfigurationAssignmentsVMSSResponseSystemData | undefined;
   /** Error the service embeds in a 200 response, e.g. `VMSSNotSupported`. */
-  error?: GuestConfigurationAssignmentResponseError;
+  error?: GuestConfigurationAssignmentResponseError | undefined;
 }
 export interface GetGuestConfigurationConnectedVMwarevSphereAssignmentRequest {
   /** The ID of the target subscription. */
@@ -497,31 +508,35 @@ export type GetGuestConfigurationConnectedVMwarevSphereAssignmentResponseSystemD
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface GetGuestConfigurationConnectedVMwarevSphereAssignmentResponseSystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: GetGuestConfigurationConnectedVMwarevSphereAssignmentResponseSystemDataCreatedByType;
+  createdByType?:
+    | GetGuestConfigurationConnectedVMwarevSphereAssignmentResponseSystemDataCreatedByType
+    | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: GetGuestConfigurationConnectedVMwarevSphereAssignmentResponseSystemDataLastModifiedByType;
+  lastModifiedByType?:
+    | GetGuestConfigurationConnectedVMwarevSphereAssignmentResponseSystemDataLastModifiedByType
+    | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 export interface GetGuestConfigurationConnectedVMwarevSphereAssignmentResponse {
   /** ARM resource id of the guest configuration assignment. */
-  id?: string;
+  id?: string | undefined;
   /** The guest configuration assignment name. */
   name: string;
   /** Region where the VM is located. */
-  location?: string;
+  location?: string | undefined;
   /** The type of the resource. */
-  type?: string;
+  type?: string | undefined;
   /** Properties of the Guest configuration assignment. */
-  properties?: GuestConfigurationAssignmentProperties;
+  properties?: GuestConfigurationAssignmentProperties | undefined;
   /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: GetGuestConfigurationConnectedVMwarevSphereAssignmentResponseSystemData;
+  systemData?: GetGuestConfigurationConnectedVMwarevSphereAssignmentResponseSystemData | undefined;
 }
 export interface GetGuestConfigurationConnectedVMwarevSphereAssignmentsReportRequest {
   /** The ID of the target subscription. */
@@ -560,31 +575,33 @@ export type GetGuestConfigurationHCRPAssignmentResponseSystemDataLastModifiedByT
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface GetGuestConfigurationHCRPAssignmentResponseSystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: GetGuestConfigurationHCRPAssignmentResponseSystemDataCreatedByType;
+  createdByType?: GetGuestConfigurationHCRPAssignmentResponseSystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: GetGuestConfigurationHCRPAssignmentResponseSystemDataLastModifiedByType;
+  lastModifiedByType?:
+    | GetGuestConfigurationHCRPAssignmentResponseSystemDataLastModifiedByType
+    | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 export interface GetGuestConfigurationHCRPAssignmentResponse {
   /** ARM resource id of the guest configuration assignment. */
-  id?: string;
+  id?: string | undefined;
   /** The guest configuration assignment name. */
   name: string;
   /** Region where the VM is located. */
-  location?: string;
+  location?: string | undefined;
   /** The type of the resource. */
-  type?: string;
+  type?: string | undefined;
   /** Properties of the Guest configuration assignment. */
-  properties?: GuestConfigurationAssignmentProperties;
+  properties?: GuestConfigurationAssignmentProperties | undefined;
   /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: GetGuestConfigurationHCRPAssignmentResponseSystemData;
+  systemData?: GetGuestConfigurationHCRPAssignmentResponseSystemData | undefined;
 }
 export interface GetGuestConfigurationHCRPAssignmentReportRequest {
   /** The ID of the target subscription. */
@@ -607,30 +624,32 @@ export type GuestConfigurationNavigationInputConfigurationProtectedParameterList
 /** Guest configuration is an artifact that encapsulates DSC configuration and its dependencies. The artifact is a zip file containing DSC configuration (as MOF) and dependent resources and other dependencies like modules. */
 export interface GuestConfigurationNavigationInput {
   /** Kind of the guest configuration. For example:DSC */
-  kind?: Kind | (string & {});
+  kind?: Kind | (string & {}) | undefined;
   /** Name of the guest configuration. */
-  name?: string;
+  name?: string | undefined;
   /** Version of the guest configuration. */
-  version?: string;
+  version?: string | undefined;
   /** Uri of the storage where guest configuration package is uploaded. */
-  contentUri?: string;
+  contentUri?: string | undefined;
   /** Combined hash of the guest configuration package and configuration parameters. */
-  contentHash?: string;
+  contentHash?: string | undefined;
   /** Managed identity with storage access of the guest configuration package and configuration parameters. */
-  contentManagedIdentity?: string;
+  contentManagedIdentity?: string | undefined;
   /** Specifies the assignment type and execution of the configuration. Possible values are Audit, DeployAndAutoCorrect, ApplyAndAutoCorrect and ApplyAndMonitor. */
-  assignmentType?: AssignmentType | (string & {});
+  assignmentType?: AssignmentType | (string & {}) | undefined;
   /** The configuration parameters for the guest configuration. */
-  configurationParameter?: GuestConfigurationNavigationInputConfigurationParameterList;
+  configurationParameter?: GuestConfigurationNavigationInputConfigurationParameterList | undefined;
   /** The protected configuration parameters for the guest configuration. */
-  configurationProtectedParameter?: GuestConfigurationNavigationInputConfigurationProtectedParameterList;
+  configurationProtectedParameter?:
+    | GuestConfigurationNavigationInputConfigurationProtectedParameterList
+    | undefined;
 }
 /** Information about the configuration. */
 export interface ConfigurationInfoInput {}
 /** Information about the guest configuration assignment. */
 export interface AssignmentInfoInput {
   /** Information about the configuration. */
-  configuration?: ConfigurationInfoInput;
+  configuration?: ConfigurationInfoInput | undefined;
 }
 /** Information about the VM. */
 export type VMInfoInput = ConfigurationInfoInput;
@@ -641,17 +660,17 @@ export type AssignmentReportResourceInputReasonsList = Array<ConfigurationInfoIn
 /** The guest configuration assignment resource. */
 export interface AssignmentReportResourceInput {
   /** Compliance reason and reason code for a resource. */
-  reasons?: AssignmentReportResourceInputReasonsList;
+  reasons?: AssignmentReportResourceInputReasonsList | undefined;
 }
 /** The list of resources for which guest configuration assignment compliance is checked. */
 export type AssignmentReportInputResourcesList = Array<AssignmentReportResourceInput>;
 export interface AssignmentReportInput {
   /** Configuration details of the guest configuration assignment. */
-  assignment?: AssignmentInfoInput;
+  assignment?: AssignmentInfoInput | undefined;
   /** Information about the VM. */
-  vm?: ConfigurationInfoInput;
+  vm?: ConfigurationInfoInput | undefined;
   /** The list of resources for which guest configuration assignment compliance is checked. */
-  resources?: AssignmentReportInputResourcesList;
+  resources?: AssignmentReportInputResourcesList | undefined;
 }
 /** Information about VMSS VM */
 export type VMSSVMInfoInput = ConfigurationInfoInput;
@@ -661,13 +680,13 @@ export type GuestConfigurationAssignmentPropertiesInputVmssVMListList =
 /** Guest configuration assignment properties. */
 export interface GuestConfigurationAssignmentPropertiesInput {
   /** The guest configuration to assign. */
-  guestConfiguration?: GuestConfigurationNavigationInput;
+  guestConfiguration?: GuestConfigurationNavigationInput | undefined;
   /** Last reported guest configuration assignment report. */
-  latestAssignmentReport?: AssignmentReportInput;
+  latestAssignmentReport?: AssignmentReportInput | undefined;
   /** The source which initiated the guest configuration assignment. Ex: Azure Policy */
-  context?: string;
+  context?: string | undefined;
   /** The list of VM Compliance data for VMSS */
-  vmssVMList?: GuestConfigurationAssignmentPropertiesInputVmssVMListList;
+  vmssVMList?: GuestConfigurationAssignmentPropertiesInputVmssVMListList | undefined;
 }
 export interface GuestConfigurationAssignmentsCreateOrUpdateRequest {
   /** The ID of the target subscription. */
@@ -681,9 +700,9 @@ export interface GuestConfigurationAssignmentsCreateOrUpdateRequest {
   /** The guest configuration assignment name. */
   name: string;
   /** Region where the VM is located. */
-  location?: string;
+  location?: string | undefined;
   /** Properties of the Guest configuration assignment. */
-  properties?: GuestConfigurationAssignmentPropertiesInput;
+  properties?: GuestConfigurationAssignmentPropertiesInput | undefined;
 }
 /** The type of identity that created the resource. */
 export type GuestConfigurationAssignmentsCreateOrUpdateResponseSystemDataCreatedByType =
@@ -700,31 +719,35 @@ export type GuestConfigurationAssignmentsCreateOrUpdateResponseSystemDataLastMod
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface GuestConfigurationAssignmentsCreateOrUpdateResponseSystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: GuestConfigurationAssignmentsCreateOrUpdateResponseSystemDataCreatedByType;
+  createdByType?:
+    | GuestConfigurationAssignmentsCreateOrUpdateResponseSystemDataCreatedByType
+    | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: GuestConfigurationAssignmentsCreateOrUpdateResponseSystemDataLastModifiedByType;
+  lastModifiedByType?:
+    | GuestConfigurationAssignmentsCreateOrUpdateResponseSystemDataLastModifiedByType
+    | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 export interface GuestConfigurationAssignmentsCreateOrUpdateResponse {
   /** ARM resource id of the guest configuration assignment. */
-  id?: string;
+  id?: string | undefined;
   /** The guest configuration assignment name. */
   name: string;
   /** Region where the VM is located. */
-  location?: string;
+  location?: string | undefined;
   /** The type of the resource. */
-  type?: string;
+  type?: string | undefined;
   /** Properties of the Guest configuration assignment. */
-  properties?: GuestConfigurationAssignmentProperties;
+  properties?: GuestConfigurationAssignmentProperties | undefined;
   /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: GuestConfigurationAssignmentsCreateOrUpdateResponseSystemData;
+  systemData?: GuestConfigurationAssignmentsCreateOrUpdateResponseSystemData | undefined;
 }
 export interface GuestConfigurationAssignmentsVMSSCreateOrUpdateRequest {
   /** The ID of the target subscription. */
@@ -736,9 +759,9 @@ export interface GuestConfigurationAssignmentsVMSSCreateOrUpdateRequest {
   /** The guest configuration assignment name. */
   name: string;
   /** Region where the VM is located. */
-  location?: string;
+  location?: string | undefined;
   /** Properties of the Guest configuration assignment. */
-  properties?: GuestConfigurationAssignmentPropertiesInput;
+  properties?: GuestConfigurationAssignmentPropertiesInput | undefined;
 }
 /** The type of identity that created the resource. */
 export type GuestConfigurationAssignmentsVMSSCreateOrUpdateResponseSystemDataCreatedByType =
@@ -755,33 +778,37 @@ export type GuestConfigurationAssignmentsVMSSCreateOrUpdateResponseSystemDataLas
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface GuestConfigurationAssignmentsVMSSCreateOrUpdateResponseSystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: GuestConfigurationAssignmentsVMSSCreateOrUpdateResponseSystemDataCreatedByType;
+  createdByType?:
+    | GuestConfigurationAssignmentsVMSSCreateOrUpdateResponseSystemDataCreatedByType
+    | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: GuestConfigurationAssignmentsVMSSCreateOrUpdateResponseSystemDataLastModifiedByType;
+  lastModifiedByType?:
+    | GuestConfigurationAssignmentsVMSSCreateOrUpdateResponseSystemDataLastModifiedByType
+    | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 export interface GuestConfigurationAssignmentsVMSSCreateOrUpdateResponse {
   /** ARM resource id of the guest configuration assignment. */
-  id?: string;
+  id?: string | undefined;
   /** The guest configuration assignment name. */
-  name?: string;
+  name?: string | undefined;
   /** Region where the VM is located. */
-  location?: string;
+  location?: string | undefined;
   /** The type of the resource. */
-  type?: string;
+  type?: string | undefined;
   /** Properties of the Guest configuration assignment. */
-  properties?: GuestConfigurationAssignmentProperties;
+  properties?: GuestConfigurationAssignmentProperties | undefined;
   /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: GuestConfigurationAssignmentsVMSSCreateOrUpdateResponseSystemData;
+  systemData?: GuestConfigurationAssignmentsVMSSCreateOrUpdateResponseSystemData | undefined;
   /** Error the service embeds in a 200 response, e.g. `VMSSNotSupported`. */
-  error?: GuestConfigurationAssignmentResponseError;
+  error?: GuestConfigurationAssignmentResponseError | undefined;
 }
 export interface GuestConfigurationConnectedVMwarevSphereAssignmentsCreateOrUpdateRequest {
   /** The ID of the target subscription. */
@@ -795,9 +822,9 @@ export interface GuestConfigurationConnectedVMwarevSphereAssignmentsCreateOrUpda
   /** The guest configuration assignment name. */
   name: string;
   /** Region where the VM is located. */
-  location?: string;
+  location?: string | undefined;
   /** Properties of the Guest configuration assignment. */
-  properties?: GuestConfigurationAssignmentPropertiesInput;
+  properties?: GuestConfigurationAssignmentPropertiesInput | undefined;
 }
 /** The type of identity that created the resource. */
 export type GuestConfigurationConnectedVMwarevSphereAssignmentsCreateOrUpdateResponseSystemDataCreatedByType =
@@ -814,31 +841,37 @@ export type GuestConfigurationConnectedVMwarevSphereAssignmentsCreateOrUpdateRes
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface GuestConfigurationConnectedVMwarevSphereAssignmentsCreateOrUpdateResponseSystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: GuestConfigurationConnectedVMwarevSphereAssignmentsCreateOrUpdateResponseSystemDataCreatedByType;
+  createdByType?:
+    | GuestConfigurationConnectedVMwarevSphereAssignmentsCreateOrUpdateResponseSystemDataCreatedByType
+    | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: GuestConfigurationConnectedVMwarevSphereAssignmentsCreateOrUpdateResponseSystemDataLastModifiedByType;
+  lastModifiedByType?:
+    | GuestConfigurationConnectedVMwarevSphereAssignmentsCreateOrUpdateResponseSystemDataLastModifiedByType
+    | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 export interface GuestConfigurationConnectedVMwarevSphereAssignmentsCreateOrUpdateResponse {
   /** ARM resource id of the guest configuration assignment. */
-  id?: string;
+  id?: string | undefined;
   /** The guest configuration assignment name. */
   name: string;
   /** Region where the VM is located. */
-  location?: string;
+  location?: string | undefined;
   /** The type of the resource. */
-  type?: string;
+  type?: string | undefined;
   /** Properties of the Guest configuration assignment. */
-  properties?: GuestConfigurationAssignmentProperties;
+  properties?: GuestConfigurationAssignmentProperties | undefined;
   /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: GuestConfigurationConnectedVMwarevSphereAssignmentsCreateOrUpdateResponseSystemData;
+  systemData?:
+    | GuestConfigurationConnectedVMwarevSphereAssignmentsCreateOrUpdateResponseSystemData
+    | undefined;
 }
 export interface GuestConfigurationHCRPAssignmentsCreateOrUpdateRequest {
   /** The ID of the target subscription. */
@@ -852,9 +885,9 @@ export interface GuestConfigurationHCRPAssignmentsCreateOrUpdateRequest {
   /** The guest configuration assignment name. */
   name: string;
   /** Region where the VM is located. */
-  location?: string;
+  location?: string | undefined;
   /** Properties of the Guest configuration assignment. */
-  properties?: GuestConfigurationAssignmentPropertiesInput;
+  properties?: GuestConfigurationAssignmentPropertiesInput | undefined;
 }
 /** The type of identity that created the resource. */
 export type GuestConfigurationHCRPAssignmentsCreateOrUpdateResponseSystemDataCreatedByType =
@@ -871,31 +904,35 @@ export type GuestConfigurationHCRPAssignmentsCreateOrUpdateResponseSystemDataLas
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface GuestConfigurationHCRPAssignmentsCreateOrUpdateResponseSystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: GuestConfigurationHCRPAssignmentsCreateOrUpdateResponseSystemDataCreatedByType;
+  createdByType?:
+    | GuestConfigurationHCRPAssignmentsCreateOrUpdateResponseSystemDataCreatedByType
+    | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: GuestConfigurationHCRPAssignmentsCreateOrUpdateResponseSystemDataLastModifiedByType;
+  lastModifiedByType?:
+    | GuestConfigurationHCRPAssignmentsCreateOrUpdateResponseSystemDataLastModifiedByType
+    | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 export interface GuestConfigurationHCRPAssignmentsCreateOrUpdateResponse {
   /** ARM resource id of the guest configuration assignment. */
-  id?: string;
+  id?: string | undefined;
   /** The guest configuration assignment name. */
   name: string;
   /** Region where the VM is located. */
-  location?: string;
+  location?: string | undefined;
   /** The type of the resource. */
-  type?: string;
+  type?: string | undefined;
   /** Properties of the Guest configuration assignment. */
-  properties?: GuestConfigurationAssignmentProperties;
+  properties?: GuestConfigurationAssignmentProperties | undefined;
   /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: GuestConfigurationHCRPAssignmentsCreateOrUpdateResponseSystemData;
+  systemData?: GuestConfigurationHCRPAssignmentsCreateOrUpdateResponseSystemData | undefined;
 }
 export interface ListGuestConfigurationAssignmentReportsRequest {
   /** The ID of the target subscription. */
@@ -913,8 +950,8 @@ export type GuestConfigurationAssignmentReportListValueList =
 /** List of guest configuration assignment reports. */
 export interface GuestConfigurationAssignmentReportList {
   /** List of reports for the guest configuration. Report contains information such as compliance status, reason and more. */
-  value?: GuestConfigurationAssignmentReportListValueList;
-  nextLink?: string;
+  value?: GuestConfigurationAssignmentReportListValueList | undefined;
+  nextLink?: string | undefined;
 }
 export interface ListGuestConfigurationAssignmentReportsVMSSRequest {
   /** The ID of the target subscription. */
@@ -949,40 +986,40 @@ export type GuestConfigurationAssignmentSystemDataLastModifiedByType =
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface GuestConfigurationAssignmentSystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: GuestConfigurationAssignmentSystemDataCreatedByType;
+  createdByType?: GuestConfigurationAssignmentSystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: GuestConfigurationAssignmentSystemDataLastModifiedByType;
+  lastModifiedByType?: GuestConfigurationAssignmentSystemDataLastModifiedByType | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 /** Guest configuration assignment is an association between a machine and guest configuration. */
 export interface GuestConfigurationAssignment {
   /** ARM resource id of the guest configuration assignment. */
-  id?: string;
+  id?: string | undefined;
   /** The guest configuration assignment name. */
   name: string;
   /** Region where the VM is located. */
-  location?: string;
+  location?: string | undefined;
   /** The type of the resource. */
-  type?: string;
+  type?: string | undefined;
   /** Properties of the Guest configuration assignment. */
-  properties?: GuestConfigurationAssignmentProperties;
+  properties?: GuestConfigurationAssignmentProperties | undefined;
   /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: GuestConfigurationAssignmentSystemData;
+  systemData?: GuestConfigurationAssignmentSystemData | undefined;
 }
 /** Result of the list guest configuration assignment operation. */
 export type GuestConfigurationAssignmentListValueList = Array<GuestConfigurationAssignment>;
 /** The response of the list guest configuration assignment operation. */
 export interface GuestConfigurationAssignmentList {
   /** Result of the list guest configuration assignment operation. */
-  value?: GuestConfigurationAssignmentListValueList;
-  nextLink?: string;
+  value?: GuestConfigurationAssignmentListValueList | undefined;
+  nextLink?: string | undefined;
 }
 export interface ListGuestConfigurationAssignmentsRGRequest {
   /** The ID of the target subscription. */
@@ -1042,27 +1079,27 @@ export interface ListOperationsRequest {}
 /** Provider, Resource, Operation, and description values. */
 export interface OperationDisplay {
   /** Service provider: Microsoft.GuestConfiguration. */
-  provider?: string;
+  provider?: string | undefined;
   /** Resource on which the operation is performed. */
-  resource?: string;
+  resource?: string | undefined;
   /** Operation type: Read, write, delete, etc. */
-  operation?: string;
+  operation?: string | undefined;
   /** Description about the operation. */
-  description?: string;
+  description?: string | undefined;
 }
 /** Provider, Resource, Operation and description values. */
 export interface OperationProperties {
   /** Service provider: Microsoft.GuestConfiguration */
-  statusCode?: string;
+  statusCode?: string | undefined;
 }
 /** GuestConfiguration REST API operation. */
 export interface Operation {
   /** Operation name: For example, providers/Microsoft.GuestConfiguration/guestConfigurationAssignments/write or read. */
-  name?: string;
+  name?: string | undefined;
   /** Provider, Resource, Operation, and description values. */
-  display?: OperationDisplay;
+  display?: OperationDisplay | undefined;
   /** Additional properties of the operation. */
-  properties?: OperationProperties;
+  properties?: OperationProperties | undefined;
 }
 /** List of Automation operations supported by the Automation resource provider. */
 export type OperationListValueList = Array<Operation>;
@@ -1070,7 +1107,7 @@ export type OperationListValueList = Array<Operation>;
 export interface OperationList {
   /** List of Automation operations supported by the Automation resource provider. */
   value: OperationListValueList;
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export type DeleteGuestConfigurationAssignmentError = AzureOpError;
 /** Delete a guest configuration assignment */

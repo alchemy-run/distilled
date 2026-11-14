@@ -87,7 +87,7 @@ export interface GetAsyncTaskResponseBodyCase2ErrorCase0 {
   status: number;
   code: string;
   message: string;
-  additional_data?: GetAsyncTaskResponseBodyCase2ErrorCase0AdditionalDataMap;
+  additional_data?: GetAsyncTaskResponseBodyCase2ErrorCase0AdditionalDataMap | undefined;
 }
 export type GetAsyncTaskResponseBodyCase2ErrorCase1AdditionalDataValueCase1List = Array<string>;
 export type GetAsyncTaskResponseBodyCase2ErrorCase1AdditionalDataValue =
@@ -101,7 +101,7 @@ export interface GetAsyncTaskResponseBodyCase2ErrorCase1 {
   status: number;
   code: string;
   message: string;
-  additional_data?: GetAsyncTaskResponseBodyCase2ErrorCase1AdditionalDataMap;
+  additional_data?: GetAsyncTaskResponseBodyCase2ErrorCase1AdditionalDataMap | undefined;
 }
 export type GetAsyncTaskResponseBodyCase2ErrorCase2AdditionalDataValueCase1List = Array<string>;
 export type GetAsyncTaskResponseBodyCase2ErrorCase2AdditionalDataValue =
@@ -115,7 +115,7 @@ export interface GetAsyncTaskResponseBodyCase2ErrorCase2 {
   status: number;
   code: string;
   message: string;
-  additional_data?: GetAsyncTaskResponseBodyCase2ErrorCase2AdditionalDataMap;
+  additional_data?: GetAsyncTaskResponseBodyCase2ErrorCase2AdditionalDataMap | undefined;
 }
 export type GetAsyncTaskResponseBodyCase2ErrorCase3AdditionalDataValueCase1List = Array<string>;
 export type GetAsyncTaskResponseBodyCase2ErrorCase3AdditionalDataValue =
@@ -129,7 +129,7 @@ export interface GetAsyncTaskResponseBodyCase2ErrorCase3 {
   status: number;
   code: string;
   message: string;
-  additional_data?: GetAsyncTaskResponseBodyCase2ErrorCase3AdditionalDataMap;
+  additional_data?: GetAsyncTaskResponseBodyCase2ErrorCase3AdditionalDataMap | undefined;
 }
 export type GetAsyncTaskResponseBodyCase2ErrorCase4AdditionalDataValueCase1List = Array<string>;
 export type GetAsyncTaskResponseBodyCase2ErrorCase4AdditionalDataValue =
@@ -143,7 +143,7 @@ export interface GetAsyncTaskResponseBodyCase2ErrorCase4 {
   status: number;
   code: string;
   message: string;
-  additional_data?: GetAsyncTaskResponseBodyCase2ErrorCase4AdditionalDataMap;
+  additional_data?: GetAsyncTaskResponseBodyCase2ErrorCase4AdditionalDataMap | undefined;
 }
 export type GetAsyncTaskResponseBodyCase2ErrorCase5AdditionalDataValueCase1List = Array<string>;
 export type GetAsyncTaskResponseBodyCase2ErrorCase5AdditionalDataValue =
@@ -157,7 +157,7 @@ export interface GetAsyncTaskResponseBodyCase2ErrorCase5 {
   status: number;
   code: string;
   message: string;
-  additional_data?: GetAsyncTaskResponseBodyCase2ErrorCase5AdditionalDataMap;
+  additional_data?: GetAsyncTaskResponseBodyCase2ErrorCase5AdditionalDataMap | undefined;
 }
 export type GetAsyncTaskResponseBodyCase2ErrorCase6AdditionalDataValueCase1List = Array<string>;
 export type GetAsyncTaskResponseBodyCase2ErrorCase6AdditionalDataValue =
@@ -171,7 +171,7 @@ export interface GetAsyncTaskResponseBodyCase2ErrorCase6 {
   status: number;
   code: string;
   message: string;
-  additional_data?: GetAsyncTaskResponseBodyCase2ErrorCase6AdditionalDataMap;
+  additional_data?: GetAsyncTaskResponseBodyCase2ErrorCase6AdditionalDataMap | undefined;
 }
 export type GetAsyncTaskResponseBodyCase2ErrorCase7AdditionalDataValueCase1List = Array<string>;
 export type GetAsyncTaskResponseBodyCase2ErrorCase7AdditionalDataValue =
@@ -185,7 +185,7 @@ export interface GetAsyncTaskResponseBodyCase2ErrorCase7 {
   status: number;
   code: string;
   message: string;
-  additional_data?: GetAsyncTaskResponseBodyCase2ErrorCase7AdditionalDataMap;
+  additional_data?: GetAsyncTaskResponseBodyCase2ErrorCase7AdditionalDataMap | undefined;
 }
 export type GetAsyncTaskResponseBodyCase2ErrorCase8AdditionalDataValueCase1List = Array<string>;
 export type GetAsyncTaskResponseBodyCase2ErrorCase8AdditionalDataValue =
@@ -199,7 +199,7 @@ export interface GetAsyncTaskResponseBodyCase2ErrorCase8 {
   status: number;
   code: string;
   message: string;
-  additional_data?: GetAsyncTaskResponseBodyCase2ErrorCase8AdditionalDataMap;
+  additional_data?: GetAsyncTaskResponseBodyCase2ErrorCase8AdditionalDataMap | undefined;
 }
 export type GetAsyncTaskResponseBodyCase2ErrorCase9AdditionalDataValueCase1List = Array<string>;
 export type GetAsyncTaskResponseBodyCase2ErrorCase9AdditionalDataValue =
@@ -213,7 +213,7 @@ export interface GetAsyncTaskResponseBodyCase2ErrorCase9 {
   status: number;
   code: string;
   message: string;
-  additional_data?: GetAsyncTaskResponseBodyCase2ErrorCase9AdditionalDataMap;
+  additional_data?: GetAsyncTaskResponseBodyCase2ErrorCase9AdditionalDataMap | undefined;
 }
 export type GetAsyncTaskResponseBodyCase2ErrorCase10AdditionalDataValueCase1List = Array<string>;
 export type GetAsyncTaskResponseBodyCase2ErrorCase10AdditionalDataValue =
@@ -227,7 +227,7 @@ export interface GetAsyncTaskResponseBodyCase2ErrorCase10 {
   status: number;
   code: string;
   message: string;
-  additional_data?: GetAsyncTaskResponseBodyCase2ErrorCase10AdditionalDataMap;
+  additional_data?: GetAsyncTaskResponseBodyCase2ErrorCase10AdditionalDataMap | undefined;
 }
 export type GetAsyncTaskResponseBodyCase2ErrorCase11AdditionalDataValueCase1List = Array<string>;
 export type GetAsyncTaskResponseBodyCase2ErrorCase11AdditionalDataValue =
@@ -241,7 +241,7 @@ export interface GetAsyncTaskResponseBodyCase2ErrorCase11 {
   status: number;
   code: string;
   message: string;
-  additional_data?: GetAsyncTaskResponseBodyCase2ErrorCase11AdditionalDataMap;
+  additional_data?: GetAsyncTaskResponseBodyCase2ErrorCase11AdditionalDataMap | undefined;
 }
 export type GetAsyncTaskResponseBodyCase2ErrorCase12AdditionalDataValueCase1List = Array<string>;
 export type GetAsyncTaskResponseBodyCase2ErrorCase12AdditionalDataValue =
@@ -255,7 +255,7 @@ export interface GetAsyncTaskResponseBodyCase2ErrorCase12 {
   status: number;
   code: string;
   message: string;
-  additional_data?: GetAsyncTaskResponseBodyCase2ErrorCase12AdditionalDataMap;
+  additional_data?: GetAsyncTaskResponseBodyCase2ErrorCase12AdditionalDataMap | undefined;
 }
 export type GetAsyncTaskResponseBodyCase2ErrorCase13AdditionalDataValueCase1List = Array<string>;
 export type GetAsyncTaskResponseBodyCase2ErrorCase13AdditionalDataValue =
@@ -269,7 +269,7 @@ export interface GetAsyncTaskResponseBodyCase2ErrorCase13 {
   status: number;
   code: string;
   message: string;
-  additional_data?: GetAsyncTaskResponseBodyCase2ErrorCase13AdditionalDataMap;
+  additional_data?: GetAsyncTaskResponseBodyCase2ErrorCase13AdditionalDataMap | undefined;
 }
 export type GetAsyncTaskResponseBodyCase2ErrorCase14AdditionalDataValueCase1List = Array<string>;
 export type GetAsyncTaskResponseBodyCase2ErrorCase14AdditionalDataValue =
@@ -283,7 +283,7 @@ export interface GetAsyncTaskResponseBodyCase2ErrorCase14 {
   status: number;
   code: string;
   message: string;
-  additional_data?: GetAsyncTaskResponseBodyCase2ErrorCase14AdditionalDataMap;
+  additional_data?: GetAsyncTaskResponseBodyCase2ErrorCase14AdditionalDataMap | undefined;
 }
 export type GetAsyncTaskResponseBodyCase2ErrorCase15AdditionalDataValueCase1List = Array<string>;
 export type GetAsyncTaskResponseBodyCase2ErrorCase15AdditionalDataValue =
@@ -297,7 +297,7 @@ export interface GetAsyncTaskResponseBodyCase2ErrorCase15 {
   status: number;
   code: string;
   message: string;
-  additional_data?: GetAsyncTaskResponseBodyCase2ErrorCase15AdditionalDataMap;
+  additional_data?: GetAsyncTaskResponseBodyCase2ErrorCase15AdditionalDataMap | undefined;
 }
 export type GetAsyncTaskResponseBodyCase2ErrorCase16AdditionalDataValueCase1List = Array<string>;
 export type GetAsyncTaskResponseBodyCase2ErrorCase16AdditionalDataValue =
@@ -311,7 +311,7 @@ export interface GetAsyncTaskResponseBodyCase2ErrorCase16 {
   status: number;
   code: string;
   message: string;
-  additional_data?: GetAsyncTaskResponseBodyCase2ErrorCase16AdditionalDataMap;
+  additional_data?: GetAsyncTaskResponseBodyCase2ErrorCase16AdditionalDataMap | undefined;
 }
 export type GetAsyncTaskResponseBodyCase2ErrorCase17AdditionalDataValueCase1List = Array<string>;
 export type GetAsyncTaskResponseBodyCase2ErrorCase17AdditionalDataValue =
@@ -325,7 +325,7 @@ export interface GetAsyncTaskResponseBodyCase2ErrorCase17 {
   status: number;
   code: string;
   message: string;
-  additional_data?: GetAsyncTaskResponseBodyCase2ErrorCase17AdditionalDataMap;
+  additional_data?: GetAsyncTaskResponseBodyCase2ErrorCase17AdditionalDataMap | undefined;
 }
 export type GetAsyncTaskResponseBodyCase2ErrorCase18AdditionalDataValueCase1List = Array<string>;
 export type GetAsyncTaskResponseBodyCase2ErrorCase18AdditionalDataValue =
@@ -339,7 +339,7 @@ export interface GetAsyncTaskResponseBodyCase2ErrorCase18 {
   status: number;
   code: string;
   message: string;
-  additional_data?: GetAsyncTaskResponseBodyCase2ErrorCase18AdditionalDataMap;
+  additional_data?: GetAsyncTaskResponseBodyCase2ErrorCase18AdditionalDataMap | undefined;
 }
 export type GetAsyncTaskResponseBodyCase2ErrorCase19AdditionalDataValueCase1List = Array<string>;
 export type GetAsyncTaskResponseBodyCase2ErrorCase19AdditionalDataValue =
@@ -353,7 +353,7 @@ export interface GetAsyncTaskResponseBodyCase2ErrorCase19 {
   status: number;
   code: string;
   message: string;
-  additional_data?: GetAsyncTaskResponseBodyCase2ErrorCase19AdditionalDataMap;
+  additional_data?: GetAsyncTaskResponseBodyCase2ErrorCase19AdditionalDataMap | undefined;
 }
 export type GetAsyncTaskResponseBodyCase2ErrorCase20AdditionalDataValueCase1List = Array<string>;
 export type GetAsyncTaskResponseBodyCase2ErrorCase20AdditionalDataValue =
@@ -367,7 +367,7 @@ export interface GetAsyncTaskResponseBodyCase2ErrorCase20 {
   status: number;
   code: string;
   message: string;
-  additional_data?: GetAsyncTaskResponseBodyCase2ErrorCase20AdditionalDataMap;
+  additional_data?: GetAsyncTaskResponseBodyCase2ErrorCase20AdditionalDataMap | undefined;
 }
 export type GetAsyncTaskResponseBodyCase2ErrorCase21AdditionalDataValueCase1List = Array<string>;
 export type GetAsyncTaskResponseBodyCase2ErrorCase21AdditionalDataValue =
@@ -381,7 +381,7 @@ export interface GetAsyncTaskResponseBodyCase2ErrorCase21 {
   status: number;
   code: string;
   message: string;
-  additional_data?: GetAsyncTaskResponseBodyCase2ErrorCase21AdditionalDataMap;
+  additional_data?: GetAsyncTaskResponseBodyCase2ErrorCase21AdditionalDataMap | undefined;
 }
 export type GetAsyncTaskResponseBodyCase2ErrorCase22AdditionalDataValueCase1List = Array<string>;
 export type GetAsyncTaskResponseBodyCase2ErrorCase22AdditionalDataValue =
@@ -395,7 +395,7 @@ export interface GetAsyncTaskResponseBodyCase2ErrorCase22 {
   status: number;
   code: string;
   message: string;
-  additional_data?: GetAsyncTaskResponseBodyCase2ErrorCase22AdditionalDataMap;
+  additional_data?: GetAsyncTaskResponseBodyCase2ErrorCase22AdditionalDataMap | undefined;
 }
 export type GetAsyncTaskResponseBodyCase2Error =
   | GetAsyncTaskResponseBodyCase2ErrorCase0

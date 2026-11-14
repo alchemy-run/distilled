@@ -28,6 +28,7 @@ const TELEMETRY = {
   prefix: "Cpim",
   service: "Cpim",
   labels: "azure",
+  labelNames: { resourceGroupName: "azure.resource_group.name" },
   propagate: "w3c",
 } as const;
 
@@ -43,19 +44,19 @@ export type NameAvailabilityReason = "AlreadyExists" | "Invalid";
 /** Response of the CheckNameAvailability operation. */
 export interface NameAvailabilityResponse {
   /** Description of the reason if name is not available. */
-  message?: string;
+  message?: string | undefined;
   /** True if the name is available and can be used to create a new tenant. Otherwise false. */
-  nameAvailable?: boolean;
-  reason?: NameAvailabilityReason;
+  nameAvailable?: boolean | undefined;
+  reason?: NameAvailabilityReason | undefined;
 }
 /** These properties are used to create the Azure AD B2C tenant. These properties are not part of the Azure resource. */
 export interface CreateTenantProperties {
   /** The display name of the Azure AD B2C tenant. */
-  displayName?: string;
-  countryCode?: string;
+  displayName?: string | undefined;
+  countryCode?: string | undefined;
 }
 export interface CreateB2CTenantRequestProperties {
-  createTenantProperties?: CreateTenantProperties;
+  createTenantProperties?: CreateTenantProperties | undefined;
 }
 /** The name of the SKU for the tenant. */
 export type B2CResourceSKUName = "Standard" | "PremiumP1" | "PremiumP2";
@@ -64,9 +65,9 @@ export type B2CResourceSKUTier = "A0";
 /** SKU properties of the Azure AD B2C tenant. Learn more about Azure AD B2C billing at [aka.ms/b2cBilling](https://aka.ms/b2cBilling). */
 export interface B2CResourceSKU {
   /** The name of the SKU for the tenant. */
-  name?: B2CResourceSKUName | (string & {});
+  name?: B2CResourceSKUName | (string & {}) | undefined;
   /** The tier of the tenant. */
-  tier?: B2CResourceSKUTier | (string & {});
+  tier?: B2CResourceSKUTier | (string & {}) | undefined;
 }
 /** Resource Tags */
 export type CreateB2CTenantRequestTagsMap = { [key: string]: string | undefined };
@@ -82,7 +83,7 @@ export interface CreateB2CTenantRequest {
   properties: CreateB2CTenantRequestProperties;
   sku: B2CResourceSKU;
   /** Resource Tags */
-  tags?: CreateB2CTenantRequestTagsMap;
+  tags?: CreateB2CTenantRequestTagsMap | undefined;
 }
 /** The type of the B2C tenant resource. */
 export type B2CTenantResourceType = "Microsoft.AzureActiveDirectory/b2cDirectories";
@@ -91,16 +92,16 @@ export type B2CTenantResourcePropertiesBillingConfigBillingType = "MAU" | "Auths
 /** The billing configuration for the tenant. */
 export interface B2CTenantResourcePropertiesBillingConfig {
   /** The type of billing. Will be MAU for all new customers. If 'Auths', it can be updated to 'MAU'. Cannot be changed if value is 'MAU'. Learn more about Azure AD B2C billing at [aka.ms/b2cBilling](https://aka.ms/b2cbilling). */
-  billingType?: B2CTenantResourcePropertiesBillingConfigBillingType;
+  billingType?: B2CTenantResourcePropertiesBillingConfigBillingType | undefined;
   /** The data from which the billing type took effect */
-  effectiveStartDateUtc?: string;
+  effectiveStartDateUtc?: string | undefined;
 }
 /** Properties of the Azure AD B2C tenant Azure resource. */
 export interface B2CTenantResourceProperties {
   /** The billing configuration for the tenant. */
-  billingConfig?: B2CTenantResourcePropertiesBillingConfig;
+  billingConfig?: B2CTenantResourcePropertiesBillingConfig | undefined;
   /** An identifier of the Azure AD B2C tenant. */
-  tenantId?: string;
+  tenantId?: string | undefined;
 }
 /** Resource Tags */
 export type B2CTenantResourceTagsMap = { [key: string]: string | undefined };
@@ -119,45 +120,45 @@ export type B2CTenantResourceSystemDataLastModifiedByType =
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface B2CTenantResourceSystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: B2CTenantResourceSystemDataCreatedByType;
+  createdByType?: B2CTenantResourceSystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: B2CTenantResourceSystemDataLastModifiedByType;
+  lastModifiedByType?: B2CTenantResourceSystemDataLastModifiedByType | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 export interface CreateB2CTenantResponse {
   /** The type of the B2C tenant resource. */
-  type?: B2CTenantResourceType;
+  type?: B2CTenantResourceType | undefined;
   sku: B2CResourceSKU;
   /** The Azure AD B2C tenant resource properties */
-  properties?: B2CTenantResourceProperties;
+  properties?: B2CTenantResourceProperties | undefined;
   /** An identifier that represents the Azure AD B2C tenant resource. */
-  id?: string;
+  id?: string | undefined;
   /** The name of the Azure AD B2C tenant resource. */
-  name?: string;
+  name?: string | undefined;
   /** The location in which the resource is hosted and data resides. Can be one of 'United States', 'Europe', 'Asia Pacific', or 'Australia'. Refer to [this documentation](https://aka.ms/B2CDataResidency) for more information. */
   location: string;
   /** Resource Tags */
-  tags?: B2CTenantResourceTagsMap;
+  tags?: B2CTenantResourceTagsMap | undefined;
   /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: B2CTenantResourceSystemData;
+  systemData?: B2CTenantResourceSystemData | undefined;
   /** Location URI to poll for result */
-  locationHeader?: string;
+  locationHeader?: string | undefined;
   /** Contains the number of seconds to wait before polling the location. */
-  retryAfter?: string;
+  retryAfter?: string | undefined;
 }
 /** Key-value pairs of additional resource provisioning properties. */
 export type CreateGuestUsageRequestTagsMap = { [key: string]: string | undefined };
 /** Guest Usages Resource Properties */
 export interface GuestUsagesResourceProperties {
   /** An identifier for the tenant for which the resource is being created */
-  tenantId?: string;
+  tenantId?: string | undefined;
 }
 export interface CreateGuestUsageRequest {
   /** Subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -167,11 +168,11 @@ export interface CreateGuestUsageRequest {
   /** The initial domain name of the Azure AD B2C tenant. */
   resourceName: string;
   /** Location of the Guest Usages resource. */
-  location?: string;
+  location?: string | undefined;
   /** Key-value pairs of additional resource provisioning properties. */
-  tags?: CreateGuestUsageRequestTagsMap;
+  tags?: CreateGuestUsageRequestTagsMap | undefined;
   /** The Guest Usages Resource Properties */
-  properties?: GuestUsagesResourceProperties;
+  properties?: GuestUsagesResourceProperties | undefined;
 }
 /** Key-value pairs of additional resource provisioning properties. */
 export type GuestUsagesResourceTagsMap = { [key: string]: string | undefined };
@@ -190,34 +191,34 @@ export type GuestUsagesResourceSystemDataLastModifiedByType =
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface GuestUsagesResourceSystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: GuestUsagesResourceSystemDataCreatedByType;
+  createdByType?: GuestUsagesResourceSystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: GuestUsagesResourceSystemDataLastModifiedByType;
+  lastModifiedByType?: GuestUsagesResourceSystemDataLastModifiedByType | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 /** Guest Usages Resource */
 export interface GuestUsagesResource {
   /** An identifier that represents the Guest Usages resource. */
-  id?: string;
+  id?: string | undefined;
   /** The name of the Guest Usages resource. */
-  name?: string;
+  name?: string | undefined;
   /** The type of the Guest Usages resource. */
-  type?: string;
+  type?: string | undefined;
   /** Location of the Guest Usages resource. */
-  location?: string;
+  location?: string | undefined;
   /** Key-value pairs of additional resource provisioning properties. */
-  tags?: GuestUsagesResourceTagsMap;
+  tags?: GuestUsagesResourceTagsMap | undefined;
   /** The Guest Usages Resource Properties */
-  properties?: GuestUsagesResourceProperties;
+  properties?: GuestUsagesResourceProperties | undefined;
   /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: GuestUsagesResourceSystemData;
+  systemData?: GuestUsagesResourceSystemData | undefined;
 }
 export interface DeleteB2CTenantRequest {
   /** Subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -229,9 +230,9 @@ export interface DeleteB2CTenantRequest {
 }
 export interface DeleteB2CTenantResponse {
   /** Contains the URL/location which can return the deletion status. */
-  location?: string;
+  location?: string | undefined;
   /** Contains the number of seconds to wait before checking the deletion status. */
-  retryAfter?: string;
+  retryAfter?: string | undefined;
 }
 export interface DeleteGuestUsageRequest {
   /** Subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -252,20 +253,20 @@ export interface GetB2CTenantRequest {
 }
 export interface B2CTenantResource {
   /** The type of the B2C tenant resource. */
-  type?: B2CTenantResourceType;
+  type?: B2CTenantResourceType | undefined;
   sku: B2CResourceSKU;
   /** The Azure AD B2C tenant resource properties */
-  properties?: B2CTenantResourceProperties;
+  properties?: B2CTenantResourceProperties | undefined;
   /** An identifier that represents the Azure AD B2C tenant resource. */
-  id?: string;
+  id?: string | undefined;
   /** The name of the Azure AD B2C tenant resource. */
-  name?: string;
+  name?: string | undefined;
   /** The location in which the resource is hosted and data resides. Can be one of 'United States', 'Europe', 'Asia Pacific', or 'Australia'. Refer to [this documentation](https://aka.ms/B2CDataResidency) for more information. */
   location: string;
   /** Resource Tags */
-  tags?: B2CTenantResourceTagsMap;
+  tags?: B2CTenantResourceTagsMap | undefined;
   /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: B2CTenantResourceSystemData;
+  systemData?: B2CTenantResourceSystemData | undefined;
 }
 export interface GetGuestUsageRequest {
   /** Subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -286,7 +287,7 @@ export type B2CTenantResourceListValueList = Array<B2CTenantResource>;
 /** The collection of Azure AD B2C tenant resources */
 export interface B2CTenantResourceList {
   /** List of Azure AD B2C tenant resources */
-  value?: B2CTenantResourceListValueList;
+  value?: B2CTenantResourceListValueList | undefined;
 }
 export interface ListB2CTenantBySubscriptionRequest {
   /** Subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -303,7 +304,7 @@ export type GuestUsagesResourceListValueList = Array<GuestUsagesResource>;
 /** The collection of guest usages resources */
 export interface GuestUsagesResourceList {
   /** List of guest usages resources */
-  value?: GuestUsagesResourceListValueList;
+  value?: GuestUsagesResourceListValueList | undefined;
 }
 export interface ListGuestUsageBySubscriptionRequest {
   /** Subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -313,47 +314,50 @@ export interface ListOperationsRequest {}
 /** Operation display payload */
 export interface OperationDisplay {
   /** Resource provider of the operation */
-  provider?: string;
+  provider?: string | undefined;
   /** Resource of the operation */
-  resource?: string;
+  resource?: string | undefined;
   /** Localized friendly name for the operation */
-  operation?: string;
+  operation?: string | undefined;
   /** Localized friendly description for the operation */
-  description?: string;
+  description?: string | undefined;
 }
 /** Operation detail payload */
 export interface OperationDetail {
   /** Name of the operation */
-  name?: string;
+  name?: string | undefined;
   /** Indicates whether the operation is a data action */
-  isDataAction?: boolean;
+  isDataAction?: boolean | undefined;
   /** Display of the operation */
-  display?: OperationDisplay;
+  display?: OperationDisplay | undefined;
   /** Origin of the operation */
-  origin?: string;
+  origin?: string | undefined;
 }
 /** Collection of available operation details */
 export type AvailableOperationsValueList = Array<OperationDetail>;
 /** Available operations of the service */
 export interface AvailableOperations {
   /** Collection of available operation details */
-  value?: AvailableOperationsValueList;
+  value?: AvailableOperationsValueList | undefined;
   /** URL client should use to fetch the next page (per server side paging). It's null for now, added for future use. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 /** The type of billing. Will be MAU for all new customers. If 'Auths', it can be updated to 'MAU'. Cannot be changed if value is 'MAU'. Learn more about Azure AD B2C billing at [aka.ms/b2cBilling](https://aka.ms/b2cbilling). */
 export type B2CTenantResourcePropertiesInputBillingConfigBillingType = "MAU" | "Auths";
 /** The billing configuration for the tenant. */
 export interface B2CTenantResourcePropertiesInputBillingConfig {
   /** The type of billing. Will be MAU for all new customers. If 'Auths', it can be updated to 'MAU'. Cannot be changed if value is 'MAU'. Learn more about Azure AD B2C billing at [aka.ms/b2cBilling](https://aka.ms/b2cbilling). */
-  billingType?: B2CTenantResourcePropertiesInputBillingConfigBillingType | (string & {});
+  billingType?:
+    | B2CTenantResourcePropertiesInputBillingConfigBillingType
+    | (string & {})
+    | undefined;
 }
 /** Properties of the Azure AD B2C tenant Azure resource. */
 export interface B2CTenantResourcePropertiesInput {
   /** The billing configuration for the tenant. */
-  billingConfig?: B2CTenantResourcePropertiesInputBillingConfig;
+  billingConfig?: B2CTenantResourcePropertiesInputBillingConfig | undefined;
   /** An identifier of the Azure AD B2C tenant. */
-  tenantId?: string;
+  tenantId?: string | undefined;
 }
 /** Resource Tags */
 export type UpdateB2CTenantRequestTagsMap = { [key: string]: string | undefined };
@@ -364,11 +368,11 @@ export interface UpdateB2CTenantRequest {
   resourceGroupName: string;
   /** The initial domain name of the Azure AD B2C tenant. */
   resourceName: string;
-  sku?: B2CResourceSKU;
+  sku?: B2CResourceSKU | undefined;
   /** The Azure AD B2C tenant resource properties. */
-  properties?: B2CTenantResourcePropertiesInput;
+  properties?: B2CTenantResourcePropertiesInput | undefined;
   /** Resource Tags */
-  tags?: UpdateB2CTenantRequestTagsMap;
+  tags?: UpdateB2CTenantRequestTagsMap | undefined;
 }
 /** Key-value pairs of additional resource provisioning properties. */
 export type UpdateGuestUsageRequestTagsMap = { [key: string]: string | undefined };
@@ -380,7 +384,7 @@ export interface UpdateGuestUsageRequest {
   /** The initial domain name of the Azure AD B2C tenant. */
   resourceName: string;
   /** Key-value pairs of additional resource provisioning properties. */
-  tags?: UpdateGuestUsageRequestTagsMap;
+  tags?: UpdateGuestUsageRequestTagsMap | undefined;
 }
 export type CheckB2CTenantNameAvailabilityError = AzureOpError;
 /** Checks the availability and validity of a domain name for the tenant. */

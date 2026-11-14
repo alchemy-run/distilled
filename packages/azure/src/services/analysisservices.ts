@@ -28,6 +28,7 @@ const TELEMETRY = {
   prefix: "Analysisservices",
   service: "Analysisservices",
   labels: "azure",
+  labelNames: { resourceGroupName: "azure.resource_group.name" },
   propagate: "w3c",
 } as const;
 
@@ -37,18 +38,18 @@ export interface CheckServerNameAvailabilityRequest {
   /** The region name which the operation will lookup into. */
   location: string;
   /** Name for checking availability. */
-  name?: string;
+  name?: string | undefined;
   /** The resource type of azure analysis services. */
-  type?: string;
+  type?: string | undefined;
 }
 /** The checking result of server name availability. */
 export interface CheckServerNameAvailabilityResult {
   /** Indicator of available of the server name. */
-  nameAvailable?: boolean;
+  nameAvailable?: boolean | undefined;
   /** The reason of unavailability. */
-  reason?: string;
+  reason?: string | undefined;
   /** The detailed message of the request unavailability. */
-  message?: string;
+  message?: string | undefined;
 }
 /** The name of the Azure pricing tier to which the SKU applies. */
 export type ResourceSkuTier = "Development" | "Basic" | "Standard";
@@ -57,9 +58,9 @@ export interface ResourceSku {
   /** Name of the SKU level. */
   name: string;
   /** The name of the Azure pricing tier to which the SKU applies. */
-  tier?: ResourceSkuTier | (string & {});
+  tier?: ResourceSkuTier | (string & {}) | undefined;
   /** The number of instances in the read only query pool. */
-  capacity?: number;
+  capacity?: number | undefined;
 }
 /** Key-value pairs of additional resource provisioning properties. */
 export type CreateServerRequestTagsMap = { [key: string]: string | undefined };
@@ -68,30 +69,30 @@ export type ServerAdministratorsMembersList = Array<string>;
 /** An array of administrator user identities. */
 export interface ServerAdministrators {
   /** An array of administrator user identities. */
-  members?: ServerAdministratorsMembersList;
+  members?: ServerAdministratorsMembersList | undefined;
 }
 /** The gateway details. */
 export interface GatewayDetailsInput {
   /** Gateway resource to be associated with the server. */
-  gatewayResourceId?: string;
+  gatewayResourceId?: string | undefined;
 }
 /** The detail of firewall rule. */
 export interface IPv4FirewallRule {
   /** The rule name. */
-  firewallRuleName?: string;
+  firewallRuleName?: string | undefined;
   /** The start range of IPv4. */
-  rangeStart?: string;
+  rangeStart?: string | undefined;
   /** The end range of IPv4. */
-  rangeEnd?: string;
+  rangeEnd?: string | undefined;
 }
 /** An array of firewall rules. */
 export type IPv4FirewallSettingsFirewallRulesList = Array<IPv4FirewallRule>;
 /** An array of firewall rules. */
 export interface IPv4FirewallSettings {
   /** An array of firewall rules. */
-  firewallRules?: IPv4FirewallSettingsFirewallRulesList;
+  firewallRules?: IPv4FirewallSettingsFirewallRulesList | undefined;
   /** The indicator of enabling PBI service. */
-  enablePowerBIService?: boolean;
+  enablePowerBIService?: boolean | undefined;
 }
 /** How the read-write server's participation in the query pool is controlled.<br/>It can have the following values: <ul><li>readOnly - indicates that the read-write server is intended not to participate in query operations</li><li>all - indicates that the read-write server can participate in query operations</li></ul>Specifying readOnly when capacity is 1 results in error. */
 export type AnalysisServicesServerPropertiesInputQuerypoolConnectionMode = "All" | "ReadOnly";
@@ -102,23 +103,27 @@ export type AnalysisServicesServerPropertiesInputServerMonitorMode = 0 | 1;
 /** Properties of Analysis Services resource. */
 export interface AnalysisServicesServerPropertiesInput {
   /** A collection of AS server administrators */
-  asAdministrators?: ServerAdministrators;
+  asAdministrators?: ServerAdministrators | undefined;
   /** The SAS container URI to the backup container. */
-  backupBlobContainerUri?: string;
+  backupBlobContainerUri?: string | undefined;
   /** The gateway details configured for the AS server. */
-  gatewayDetails?: GatewayDetailsInput;
+  gatewayDetails?: GatewayDetailsInput | undefined;
   /** The firewall settings for the AS server. */
-  ipV4FirewallSettings?: IPv4FirewallSettings;
+  ipV4FirewallSettings?: IPv4FirewallSettings | undefined;
   /** How the read-write server's participation in the query pool is controlled.<br/>It can have the following values: <ul><li>readOnly - indicates that the read-write server is intended not to participate in query operations</li><li>all - indicates that the read-write server can participate in query operations</li></ul>Specifying readOnly when capacity is 1 results in error. */
   querypoolConnectionMode?:
     | AnalysisServicesServerPropertiesInputQuerypoolConnectionMode
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** The managed mode of the server (0 = not managed, 1 = managed). */
-  managedMode?: AnalysisServicesServerPropertiesInputManagedMode | (number & {});
+  managedMode?: AnalysisServicesServerPropertiesInputManagedMode | (number & {}) | undefined;
   /** The server monitor mode for AS server */
-  serverMonitorMode?: AnalysisServicesServerPropertiesInputServerMonitorMode | (number & {});
+  serverMonitorMode?:
+    | AnalysisServicesServerPropertiesInputServerMonitorMode
+    | (number & {})
+    | undefined;
   /** The SKU of the Analysis Services resource. */
-  sku?: ResourceSku;
+  sku?: ResourceSku | undefined;
 }
 export interface CreateServerRequest {
   /** A unique identifier for a Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -132,20 +137,20 @@ export interface CreateServerRequest {
   /** The SKU of the Analysis Services resource. */
   sku: ResourceSku;
   /** Key-value pairs of additional resource provisioning properties. */
-  tags?: CreateServerRequestTagsMap;
+  tags?: CreateServerRequestTagsMap | undefined;
   /** Properties of the provision operation request. */
-  properties?: AnalysisServicesServerPropertiesInput;
+  properties?: AnalysisServicesServerPropertiesInput | undefined;
 }
 /** Key-value pairs of additional resource provisioning properties. */
 export type CreateServerResponseTagsMap = { [key: string]: string | undefined };
 /** The gateway details. */
 export interface GatewayDetails {
   /** Gateway resource to be associated with the server. */
-  gatewayResourceId?: string;
+  gatewayResourceId?: string | undefined;
   /** Gateway object id from in the DMTS cluster for the gateway resource. */
-  gatewayObjectId?: string;
+  gatewayObjectId?: string | undefined;
   /** Uri of the DMTS cluster. */
-  dmtsClusterUri?: string;
+  dmtsClusterUri?: string | undefined;
 }
 /** How the read-write server's participation in the query pool is controlled.<br/>It can have the following values: <ul><li>readOnly - indicates that the read-write server is intended not to participate in query operations</li><li>all - indicates that the read-write server can participate in query operations</li></ul>Specifying readOnly when capacity is 1 results in error. */
 export type AnalysisServicesServerPropertiesQuerypoolConnectionMode = "All" | "ReadOnly";
@@ -184,43 +189,43 @@ export type AnalysisServicesServerPropertiesProvisioningState =
 /** Properties of Analysis Services resource. */
 export interface AnalysisServicesServerProperties {
   /** A collection of AS server administrators */
-  asAdministrators?: ServerAdministrators;
+  asAdministrators?: ServerAdministrators | undefined;
   /** The SAS container URI to the backup container. */
-  backupBlobContainerUri?: string;
+  backupBlobContainerUri?: string | undefined;
   /** The gateway details configured for the AS server. */
-  gatewayDetails?: GatewayDetails;
+  gatewayDetails?: GatewayDetails | undefined;
   /** The firewall settings for the AS server. */
-  ipV4FirewallSettings?: IPv4FirewallSettings;
+  ipV4FirewallSettings?: IPv4FirewallSettings | undefined;
   /** How the read-write server's participation in the query pool is controlled.<br/>It can have the following values: <ul><li>readOnly - indicates that the read-write server is intended not to participate in query operations</li><li>all - indicates that the read-write server can participate in query operations</li></ul>Specifying readOnly when capacity is 1 results in error. */
-  querypoolConnectionMode?: AnalysisServicesServerPropertiesQuerypoolConnectionMode;
+  querypoolConnectionMode?: AnalysisServicesServerPropertiesQuerypoolConnectionMode | undefined;
   /** The managed mode of the server (0 = not managed, 1 = managed). */
-  managedMode?: AnalysisServicesServerPropertiesManagedMode;
+  managedMode?: AnalysisServicesServerPropertiesManagedMode | undefined;
   /** The server monitor mode for AS server */
-  serverMonitorMode?: AnalysisServicesServerPropertiesServerMonitorMode;
+  serverMonitorMode?: AnalysisServicesServerPropertiesServerMonitorMode | undefined;
   /** The current state of Analysis Services resource. The state is to indicate more states outside of resource provisioning. */
-  state?: AnalysisServicesServerPropertiesState;
+  state?: AnalysisServicesServerPropertiesState | undefined;
   /** The current deployment state of Analysis Services resource. The provisioningState is to indicate states for resource provisioning. */
-  provisioningState?: AnalysisServicesServerPropertiesProvisioningState;
+  provisioningState?: AnalysisServicesServerPropertiesProvisioningState | undefined;
   /** The full name of the Analysis Services resource. */
-  serverFullName?: string;
+  serverFullName?: string | undefined;
   /** The SKU of the Analysis Services resource. */
-  sku?: ResourceSku;
+  sku?: ResourceSku | undefined;
 }
 export interface CreateServerResponse {
   /** An identifier that represents the Analysis Services resource. */
-  id?: string;
+  id?: string | undefined;
   /** The name of the Analysis Services resource. */
-  name?: string;
+  name?: string | undefined;
   /** The type of the Analysis Services resource. */
-  type?: string;
+  type?: string | undefined;
   /** Location of the Analysis Services resource. */
   location: string;
   /** The SKU of the Analysis Services resource. */
   sku: ResourceSku;
   /** Key-value pairs of additional resource provisioning properties. */
-  tags?: CreateServerResponseTagsMap;
+  tags?: CreateServerResponseTagsMap | undefined;
   /** Properties of the provision operation request. */
-  properties?: AnalysisServicesServerProperties;
+  properties?: AnalysisServicesServerProperties | undefined;
 }
 export interface DeleteServerRequest {
   /** A unique identifier for a Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -243,55 +248,55 @@ export interface GetServerDetailsRequest {
 export type GetServerDetailsResponseTagsMap = { [key: string]: string | undefined };
 export interface GetServerDetailsResponse {
   /** An identifier that represents the Analysis Services resource. */
-  id?: string;
+  id?: string | undefined;
   /** The name of the Analysis Services resource. */
-  name?: string;
+  name?: string | undefined;
   /** The type of the Analysis Services resource. */
-  type?: string;
+  type?: string | undefined;
   /** Location of the Analysis Services resource. */
   location: string;
   /** The SKU of the Analysis Services resource. */
   sku: ResourceSku;
   /** Key-value pairs of additional resource provisioning properties. */
-  tags?: GetServerDetailsResponseTagsMap;
+  tags?: GetServerDetailsResponseTagsMap | undefined;
   /** Properties of the provision operation request. */
-  properties?: AnalysisServicesServerProperties;
+  properties?: AnalysisServicesServerProperties | undefined;
 }
 export interface ListOperationsRequest {}
 /** The object that represents the operation. */
 export interface OperationDisplay {
   /** Service provider: Microsoft.Consumption. */
-  provider?: string;
+  provider?: string | undefined;
   /** Resource on which the operation is performed: UsageDetail, etc. */
-  resource?: string;
+  resource?: string | undefined;
   /** Operation type: Read, write, delete, etc. */
-  operation?: string;
+  operation?: string | undefined;
   /** Description of the operation object. */
-  description?: string;
+  description?: string | undefined;
 }
 /** Metric dimension. */
 export interface MetricDimensions {
   /** Dimension name. */
-  name?: string;
+  name?: string | undefined;
   /** Dimension display name. */
-  displayName?: string;
+  displayName?: string | undefined;
 }
 /** The dimensions of metric. */
 export type MetricSpecificationsDimensionsList = Array<MetricDimensions>;
 /** Available operation metric specification for exposing performance metrics to shoebox. */
 export interface MetricSpecifications {
   /** The name of metric. */
-  name?: string;
+  name?: string | undefined;
   /** The displayed name of metric. */
-  displayName?: string;
+  displayName?: string | undefined;
   /** The displayed description of metric. */
-  displayDescription?: string;
+  displayDescription?: string | undefined;
   /** The unit of the metric. */
-  unit?: string;
+  unit?: string | undefined;
   /** The aggregation type of metric. */
-  aggregationType?: string;
+  aggregationType?: string | undefined;
   /** The dimensions of metric. */
-  dimensions?: MetricSpecificationsDimensionsList;
+  dimensions?: MetricSpecificationsDimensionsList | undefined;
 }
 /** The metric specifications. */
 export type OperationPropertiesServiceSpecificationMetricSpecificationsList =
@@ -299,45 +304,47 @@ export type OperationPropertiesServiceSpecificationMetricSpecificationsList =
 /** The log metric specification for exposing performance metrics to shoebox. */
 export interface LogSpecifications {
   /** The name of metric. */
-  name?: string;
+  name?: string | undefined;
   /** The displayed name of log. */
-  displayName?: string;
+  displayName?: string | undefined;
   /** The blob duration for the log. */
-  blobDuration?: string;
+  blobDuration?: string | undefined;
 }
 /** The log specifications. */
 export type OperationPropertiesServiceSpecificationLogSpecificationsList = Array<LogSpecifications>;
 /** Performance metrics to shoebox. */
 export interface OperationPropertiesServiceSpecification {
   /** The metric specifications. */
-  metricSpecifications?: OperationPropertiesServiceSpecificationMetricSpecificationsList;
+  metricSpecifications?:
+    | OperationPropertiesServiceSpecificationMetricSpecificationsList
+    | undefined;
   /** The log specifications. */
-  logSpecifications?: OperationPropertiesServiceSpecificationLogSpecificationsList;
+  logSpecifications?: OperationPropertiesServiceSpecificationLogSpecificationsList | undefined;
 }
 /** Additional properties to expose performance metrics to shoebox. */
 export interface OperationProperties {
   /** Performance metrics to shoebox. */
-  serviceSpecification?: OperationPropertiesServiceSpecification;
+  serviceSpecification?: OperationPropertiesServiceSpecification | undefined;
 }
 /** A Consumption REST API operation. */
 export interface Operation {
   /** Operation name: {provider}/{resource}/{operation}. */
-  name?: string;
+  name?: string | undefined;
   /** The object that represents the operation. */
-  display?: OperationDisplay;
+  display?: OperationDisplay | undefined;
   /** The origin */
-  origin?: string;
+  origin?: string | undefined;
   /** Additional properties to expose performance metrics to shoebox. */
-  properties?: OperationProperties;
+  properties?: OperationProperties | undefined;
 }
 /** List of analysis services operations supported by the Microsoft.AnalysisServices resource provider. */
 export type OperationListResultValueList = Array<Operation>;
 /** Result of listing consumption operations. It contains a list of operations and a URL link to get the next set of results. */
 export interface OperationListResult {
   /** List of analysis services operations supported by the Microsoft.AnalysisServices resource provider. */
-  value?: OperationListResultValueList;
+  value?: OperationListResultValueList | undefined;
   /** URL to get the next set of operation list results if there are any. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListServerByResourceGroupRequest {
   /** A unique identifier for a Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -350,19 +357,19 @@ export type AnalysisServicesServerTagsMap = { [key: string]: string | undefined 
 /** Represents an instance of an Analysis Services resource. */
 export interface AnalysisServicesServer {
   /** An identifier that represents the Analysis Services resource. */
-  id?: string;
+  id?: string | undefined;
   /** The name of the Analysis Services resource. */
-  name?: string;
+  name?: string | undefined;
   /** The type of the Analysis Services resource. */
-  type?: string;
+  type?: string | undefined;
   /** Location of the Analysis Services resource. */
   location: string;
   /** The SKU of the Analysis Services resource. */
   sku: ResourceSku;
   /** Key-value pairs of additional resource provisioning properties. */
-  tags?: AnalysisServicesServerTagsMap;
+  tags?: AnalysisServicesServerTagsMap | undefined;
   /** Properties of the provision operation request. */
-  properties?: AnalysisServicesServerProperties;
+  properties?: AnalysisServicesServerProperties | undefined;
 }
 /** An array of Analysis Services resources. */
 export type AnalysisServicesServersValueList = Array<AnalysisServicesServer>;
@@ -384,7 +391,7 @@ export type GatewayListStatusLiveStatus = 0;
 /** Status of gateway is live. */
 export interface GatewayListStatusLive {
   /** Live message of list gateway. Status: 0 - Live */
-  status?: GatewayListStatusLiveStatus;
+  status?: GatewayListStatusLiveStatus | undefined;
 }
 export interface ListServerOperationResultsRequest {
   /** A unique identifier for a Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -408,45 +415,45 @@ export type ErrorDetailDetailsList = Array<ErrorDetail>;
 /** The resource management error additional info. */
 export interface ErrorAdditionalInfo {
   /** The additional info type. */
-  type?: string;
+  type?: string | undefined;
   /** The additional info. */
-  info?: unknown;
+  info?: unknown | undefined;
 }
 /** The error additional info. */
 export type ErrorDetailAdditionalInfoList = Array<ErrorAdditionalInfo>;
 /** The error detail. */
 export interface ErrorDetail {
   /** The error code. */
-  code?: string;
+  code?: string | undefined;
   /** The error message. */
-  message?: string;
+  message?: string | undefined;
   /** The error target. */
-  target?: string;
+  target?: string | undefined;
   /** The error sub code */
-  subCode?: number;
+  subCode?: number | undefined;
   /** The http status code */
-  httpStatusCode?: number;
+  httpStatusCode?: number | undefined;
   /** the timestamp for the error. */
-  timeStamp?: string;
+  timeStamp?: string | undefined;
   /** The error details. */
-  details?: ErrorDetailDetailsList;
+  details?: ErrorDetailDetailsList | undefined;
   /** The error additional info. */
-  additionalInfo?: ErrorDetailAdditionalInfoList;
+  additionalInfo?: ErrorDetailAdditionalInfoList | undefined;
 }
 /** The status of operation. */
 export interface OperationStatus {
   /** The operation Id. */
-  id?: string;
+  id?: string | undefined;
   /** The operation name. */
-  name?: string;
+  name?: string | undefined;
   /** The start time of the operation. */
-  startTime?: string;
+  startTime?: string | undefined;
   /** The end time of the operation. */
-  endTime?: string;
+  endTime?: string | undefined;
   /** The status of the operation. */
-  status?: string;
+  status?: string | undefined;
   /** The error detail of the operation if any. */
-  error?: ErrorDetail;
+  error?: ErrorDetail | undefined;
 }
 export interface ListServersRequest {
   /** A unique identifier for a Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -463,16 +470,16 @@ export interface ListServerSkusForExistingRequest {
 /** An object that represents SKU details for existing resources. */
 export interface SkuDetailsForExistingResource {
   /** The SKU in SKU details for existing resources. */
-  sku?: ResourceSku;
+  sku?: ResourceSku | undefined;
   /** The resource type. */
-  resourceType?: string;
+  resourceType?: string | undefined;
 }
 /** The collection of available SKUs for existing resources. */
 export type SkuEnumerationForExistingResourceResultValueList = Array<SkuDetailsForExistingResource>;
 /** An object that represents enumerating SKUs for existing resources. */
 export interface SkuEnumerationForExistingResourceResult {
   /** The collection of available SKUs for existing resources. */
-  value?: SkuEnumerationForExistingResourceResultValueList;
+  value?: SkuEnumerationForExistingResourceResultValueList | undefined;
 }
 export interface ListServerSkusForNewRequest {
   /** A unique identifier for a Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -483,7 +490,7 @@ export type SkuEnumerationForNewResourceResultValueList = Array<ResourceSku>;
 /** An object that represents enumerating SKUs for new resources. */
 export interface SkuEnumerationForNewResourceResult {
   /** The collection of available SKUs for new resources. */
-  value?: SkuEnumerationForNewResourceResultValueList;
+  value?: SkuEnumerationForNewResourceResultValueList | undefined;
 }
 export interface ResumeServerRequest {
   /** A unique identifier for a Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -525,21 +532,25 @@ export type AnalysisServicesServerMutablePropertiesInputServerMonitorMode = 0 | 
 /** An object that represents a set of mutable Analysis Services resource properties. */
 export interface AnalysisServicesServerMutablePropertiesInput {
   /** A collection of AS server administrators */
-  asAdministrators?: ServerAdministrators;
+  asAdministrators?: ServerAdministrators | undefined;
   /** The SAS container URI to the backup container. */
-  backupBlobContainerUri?: string;
+  backupBlobContainerUri?: string | undefined;
   /** The gateway details configured for the AS server. */
-  gatewayDetails?: GatewayDetailsInput;
+  gatewayDetails?: GatewayDetailsInput | undefined;
   /** The firewall settings for the AS server. */
-  ipV4FirewallSettings?: IPv4FirewallSettings;
+  ipV4FirewallSettings?: IPv4FirewallSettings | undefined;
   /** How the read-write server's participation in the query pool is controlled.<br/>It can have the following values: <ul><li>readOnly - indicates that the read-write server is intended not to participate in query operations</li><li>all - indicates that the read-write server can participate in query operations</li></ul>Specifying readOnly when capacity is 1 results in error. */
   querypoolConnectionMode?:
     | AnalysisServicesServerMutablePropertiesInputQuerypoolConnectionMode
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** The managed mode of the server (0 = not managed, 1 = managed). */
-  managedMode?: AnalysisServicesServerMutablePropertiesInputManagedMode | (number & {});
+  managedMode?: AnalysisServicesServerMutablePropertiesInputManagedMode | (number & {}) | undefined;
   /** The server monitor mode for AS server */
-  serverMonitorMode?: AnalysisServicesServerMutablePropertiesInputServerMonitorMode | (number & {});
+  serverMonitorMode?:
+    | AnalysisServicesServerMutablePropertiesInputServerMonitorMode
+    | (number & {})
+    | undefined;
 }
 export interface UpdateServerRequest {
   /** A unique identifier for a Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -549,29 +560,29 @@ export interface UpdateServerRequest {
   /** The name of the Analysis Services server. It must be at least 3 characters in length, and no more than 63. */
   serverName: string;
   /** The SKU of the Analysis Services resource. */
-  sku?: ResourceSku;
+  sku?: ResourceSku | undefined;
   /** Key-value pairs of additional provisioning properties. */
-  tags?: UpdateServerRequestTagsMap;
+  tags?: UpdateServerRequestTagsMap | undefined;
   /** Properties of the provision operation request. */
-  properties?: AnalysisServicesServerMutablePropertiesInput;
+  properties?: AnalysisServicesServerMutablePropertiesInput | undefined;
 }
 /** Key-value pairs of additional resource provisioning properties. */
 export type UpdateServerResponseTagsMap = { [key: string]: string | undefined };
 export interface UpdateServerResponse {
   /** An identifier that represents the Analysis Services resource. */
-  id?: string;
+  id?: string | undefined;
   /** The name of the Analysis Services resource. */
-  name?: string;
+  name?: string | undefined;
   /** The type of the Analysis Services resource. */
-  type?: string;
+  type?: string | undefined;
   /** Location of the Analysis Services resource. */
   location: string;
   /** The SKU of the Analysis Services resource. */
   sku: ResourceSku;
   /** Key-value pairs of additional resource provisioning properties. */
-  tags?: UpdateServerResponseTagsMap;
+  tags?: UpdateServerResponseTagsMap | undefined;
   /** Properties of the provision operation request. */
-  properties?: AnalysisServicesServerProperties;
+  properties?: AnalysisServicesServerProperties | undefined;
 }
 export type CheckServerNameAvailabilityError = AzureOpError;
 /** Check the name availability in the target location. */

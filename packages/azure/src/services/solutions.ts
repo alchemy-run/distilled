@@ -29,6 +29,7 @@ const TELEMETRY = {
   prefix: "Solutions",
   service: "Solutions",
   labels: "azure",
+  labelNames: { resourceGroupName: "azure.resource_group.name" },
   propagate: "w3c",
 } as const;
 
@@ -41,15 +42,15 @@ export interface Sku {
   /** The SKU name. */
   name: string;
   /** The SKU tier. */
-  tier?: string;
+  tier?: string | undefined;
   /** The SKU size. */
-  size?: string;
+  size?: string | undefined;
   /** The SKU family. */
-  family?: string;
+  family?: string | undefined;
   /** The SKU model. */
-  model?: string;
+  model?: string | undefined;
   /** The SKU capacity. */
-  capacity?: number;
+  capacity?: number | undefined;
 }
 /** The managed application lock level. */
 export type ApplicationLockLevel = "CanNotDelete" | "ReadOnly" | "None";
@@ -101,9 +102,9 @@ export type ApplicationPackageLockingPolicyDefinitionAllowedDataActionsList = Ar
 /** Managed application locking policy. */
 export interface ApplicationPackageLockingPolicyDefinition {
   /** The deny assignment excluded actions. */
-  allowedActions?: ApplicationPackageLockingPolicyDefinitionAllowedActionsList;
+  allowedActions?: ApplicationPackageLockingPolicyDefinitionAllowedActionsList | undefined;
   /** The deny assignment excluded data actions. */
-  allowedDataActions?: ApplicationPackageLockingPolicyDefinitionAllowedDataActionsList;
+  allowedDataActions?: ApplicationPackageLockingPolicyDefinitionAllowedDataActionsList | undefined;
 }
 /** The deployment mode. */
 export type DeploymentMode = "NotSpecified" | "Incremental" | "Complete";
@@ -117,16 +118,16 @@ export type ApplicationManagementMode = "NotSpecified" | "Unmanaged" | "Managed"
 /** Managed application management policy. */
 export interface ApplicationManagementPolicy {
   /** The managed application management mode. */
-  mode?: ApplicationManagementMode | (string & {});
+  mode?: ApplicationManagementMode | (string & {}) | undefined;
 }
 /** Managed application policy. */
 export interface ApplicationPolicy {
   /** The policy name */
-  name?: string;
+  name?: string | undefined;
   /** The policy definition Id. */
-  policyDefinitionId?: string;
+  policyDefinitionId?: string | undefined;
   /** The policy parameters. */
-  parameters?: string;
+  parameters?: string | undefined;
 }
 /** The managed application provider policies. */
 export type ApplicationDefinitionPropertiesPoliciesList = Array<ApplicationPolicy>;
@@ -135,33 +136,33 @@ export interface ApplicationDefinitionProperties {
   /** The managed application lock level. */
   lockLevel: ApplicationLockLevel | (string & {});
   /** The managed application definition display name. */
-  displayName?: string;
+  displayName?: string | undefined;
   /** A value indicating whether the package is enabled or not. */
-  isEnabled?: boolean;
+  isEnabled?: boolean | undefined;
   /** The managed application provider authorizations. */
-  authorizations?: ApplicationDefinitionPropertiesAuthorizationsList;
+  authorizations?: ApplicationDefinitionPropertiesAuthorizationsList | undefined;
   /** The collection of managed application artifacts. The portal will use the files specified as artifacts to construct the user experience of creating a managed application from a managed application definition. */
-  artifacts?: ApplicationDefinitionPropertiesArtifactsList;
+  artifacts?: ApplicationDefinitionPropertiesArtifactsList | undefined;
   /** The managed application definition description. */
-  description?: string;
+  description?: string | undefined;
   /** The managed application definition package file Uri. Use this element */
-  packageFileUri?: string;
+  packageFileUri?: string | undefined;
   /** The storage account id for bring your own storage scenario. */
-  storageAccountId?: string;
+  storageAccountId?: string | undefined;
   /** The inline main template json which has resources to be provisioned. It can be a JObject or well-formed JSON string. */
-  mainTemplate?: unknown;
+  mainTemplate?: unknown | undefined;
   /** The createUiDefinition json for the backing template with Microsoft.Solutions/applications resource. It can be a JObject or well-formed JSON string. */
-  createUiDefinition?: unknown;
+  createUiDefinition?: unknown | undefined;
   /** The managed application notification policy. */
-  notificationPolicy?: ApplicationNotificationPolicy;
+  notificationPolicy?: ApplicationNotificationPolicy | undefined;
   /** The managed application locking policy. */
-  lockingPolicy?: ApplicationPackageLockingPolicyDefinition;
+  lockingPolicy?: ApplicationPackageLockingPolicyDefinition | undefined;
   /** The managed application deployment policy. */
-  deploymentPolicy?: ApplicationDeploymentPolicy;
+  deploymentPolicy?: ApplicationDeploymentPolicy | undefined;
   /** The managed application management policy that determines publisher's access to the managed resource group. */
-  managementPolicy?: ApplicationManagementPolicy;
+  managementPolicy?: ApplicationManagementPolicy | undefined;
   /** The managed application provider policies. */
-  policies?: ApplicationDefinitionPropertiesPoliciesList;
+  policies?: ApplicationDefinitionPropertiesPoliciesList | undefined;
 }
 export interface ApplicationDefinitionsCreateOrUpdateRequest {
   /** The ID of the target subscription. */
@@ -171,13 +172,13 @@ export interface ApplicationDefinitionsCreateOrUpdateRequest {
   /** The name of the managed application definition. */
   applicationDefinitionName: string;
   /** Resource location */
-  location?: string;
+  location?: string | undefined;
   /** Resource tags */
-  tags?: ApplicationDefinitionsCreateOrUpdateRequestTagsMap;
+  tags?: ApplicationDefinitionsCreateOrUpdateRequestTagsMap | undefined;
   /** ID of the resource that manages this resource. */
-  managedBy?: string;
+  managedBy?: string | undefined;
   /** The SKU of the resource. */
-  sku?: Sku;
+  sku?: Sku | undefined;
   /** The managed application definition properties. */
   properties: ApplicationDefinitionProperties;
 }
@@ -200,35 +201,37 @@ export type ApplicationDefinitionsCreateOrUpdateResponseSystemDataLastModifiedBy
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface ApplicationDefinitionsCreateOrUpdateResponseSystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: ApplicationDefinitionsCreateOrUpdateResponseSystemDataCreatedByType;
+  createdByType?: ApplicationDefinitionsCreateOrUpdateResponseSystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: ApplicationDefinitionsCreateOrUpdateResponseSystemDataLastModifiedByType;
+  lastModifiedByType?:
+    | ApplicationDefinitionsCreateOrUpdateResponseSystemDataLastModifiedByType
+    | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 export interface ApplicationDefinitionsCreateOrUpdateResponse {
   /** Resource ID */
-  id?: string;
+  id?: string | undefined;
   /** Resource name */
-  name?: string;
+  name?: string | undefined;
   /** Resource type */
-  type?: string;
+  type?: string | undefined;
   /** Resource location */
-  location?: string;
+  location?: string | undefined;
   /** Resource tags */
-  tags?: ApplicationDefinitionsCreateOrUpdateResponseTagsMap;
+  tags?: ApplicationDefinitionsCreateOrUpdateResponseTagsMap | undefined;
   /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: ApplicationDefinitionsCreateOrUpdateResponseSystemData;
+  systemData?: ApplicationDefinitionsCreateOrUpdateResponseSystemData | undefined;
   /** ID of the resource that manages this resource. */
-  managedBy?: string;
+  managedBy?: string | undefined;
   /** The SKU of the resource. */
-  sku?: Sku;
+  sku?: Sku | undefined;
   /** The managed application definition properties. */
   properties: ApplicationDefinitionProperties;
 }
@@ -243,9 +246,9 @@ export interface JitApproverDefinition {
   /** The approver service principal Id. */
   id: string;
   /** The approver type. */
-  type?: JitApproverDefinitionType | (string & {});
+  type?: JitApproverDefinitionType | (string & {}) | undefined;
   /** The approver display name. */
-  displayName?: string;
+  displayName?: string | undefined;
 }
 /** The JIT approvers */
 export type ApplicationJitAccessPolicyJitApproversList = Array<JitApproverDefinition>;
@@ -254,22 +257,22 @@ export interface ApplicationJitAccessPolicy {
   /** Whether the JIT access is enabled. */
   jitAccessEnabled: boolean;
   /** JIT approval mode. */
-  jitApprovalMode?: JitApprovalMode | (string & {});
+  jitApprovalMode?: JitApprovalMode | (string & {}) | undefined;
   /** The JIT approvers */
-  jitApprovers?: ApplicationJitAccessPolicyJitApproversList;
+  jitApprovers?: ApplicationJitAccessPolicyJitApproversList | undefined;
   /** The maximum duration JIT access is granted. This is an ISO8601 time period value. */
-  maximumJitAccessDuration?: string;
+  maximumJitAccessDuration?: string | undefined;
 }
 /** The managed application properties. */
 export interface ApplicationPropertiesInput {
   /** The managed resource group Id. */
-  managedResourceGroupId?: string;
+  managedResourceGroupId?: string | undefined;
   /** The fully qualified path of managed application definition Id. */
-  applicationDefinitionId?: string;
+  applicationDefinitionId?: string | undefined;
   /** Name and value pairs that define the managed application parameters. It can be a JObject or a well formed JSON string. */
-  parameters?: unknown;
+  parameters?: unknown | undefined;
   /** The managed application Jit access policy. */
-  jitAccessPolicy?: ApplicationJitAccessPolicy;
+  jitAccessPolicy?: ApplicationJitAccessPolicy | undefined;
 }
 /** Plan for the managed application. */
 export interface Plan {
@@ -280,7 +283,7 @@ export interface Plan {
   /** The product code. */
   product: string;
   /** The promotion code. */
-  promotionCode?: string;
+  promotionCode?: string | undefined;
   /** The plan's version. */
   version: string;
 }
@@ -299,9 +302,9 @@ export type IdentityInputUserAssignedIdentitiesMap = {
 /** Identity for the resource. */
 export interface IdentityInput {
   /** The identity type. */
-  type?: IdentityInputType | (string & {});
+  type?: IdentityInputType | (string & {}) | undefined;
   /** The list of user identities associated with the resource. The user identity dictionary key references will be resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'. */
-  userAssignedIdentities?: IdentityInputUserAssignedIdentitiesMap;
+  userAssignedIdentities?: IdentityInputUserAssignedIdentitiesMap | undefined;
 }
 export interface ApplicationsCreateOrUpdateRequest {
   /** The ID of the target subscription. */
@@ -311,21 +314,21 @@ export interface ApplicationsCreateOrUpdateRequest {
   /** The name of the managed application. */
   applicationName: string;
   /** Resource location */
-  location?: string;
+  location?: string | undefined;
   /** Resource tags */
-  tags?: ApplicationsCreateOrUpdateRequestTagsMap;
+  tags?: ApplicationsCreateOrUpdateRequestTagsMap | undefined;
   /** ID of the resource that manages this resource. */
-  managedBy?: string;
+  managedBy?: string | undefined;
   /** The SKU of the resource. */
-  sku?: Sku;
+  sku?: Sku | undefined;
   /** The managed application properties. */
   properties: ApplicationPropertiesInput;
   /** The plan information. */
-  plan?: Plan;
+  plan?: Plan | undefined;
   /** The kind of the managed application. Allowed values are MarketPlace and ServiceCatalog. */
   kind: string;
   /** The identity of the resource. */
-  identity?: IdentityInput;
+  identity?: IdentityInput | undefined;
 }
 /** Resource tags */
 export type ApplicationsCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
@@ -344,17 +347,17 @@ export type ApplicationsCreateOrUpdateResponseSystemDataLastModifiedByType =
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface ApplicationsCreateOrUpdateResponseSystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: ApplicationsCreateOrUpdateResponseSystemDataCreatedByType;
+  createdByType?: ApplicationsCreateOrUpdateResponseSystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: ApplicationsCreateOrUpdateResponseSystemDataLastModifiedByType;
+  lastModifiedByType?: ApplicationsCreateOrUpdateResponseSystemDataLastModifiedByType | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 /** Provisioning status of the managed application. */
 export type ProvisioningState =
@@ -370,14 +373,14 @@ export type ProvisioningState =
 /** Managed application billing details definition. */
 export interface ApplicationBillingDetailsDefinition {
   /** The managed application resource usage Id. */
-  resourceUsageId?: string;
+  resourceUsageId?: string | undefined;
 }
 /** The read-only authorizations property that is retrieved from the application package. */
 export type ApplicationPropertiesAuthorizationsList = Array<ApplicationAuthorization>;
 /** The application package contact information. */
 export interface ApplicationPackageContact {
   /** The contact name. */
-  contactName?: string;
+  contactName?: string | undefined;
   /** The contact email. */
   email: string;
   /** The contact phone number. */
@@ -386,9 +389,9 @@ export interface ApplicationPackageContact {
 /** The appliance package support URLs. */
 export interface ApplicationPackageSupportUrls {
   /** The public azure support URL. */
-  publicAzure?: string;
+  publicAzure?: string | undefined;
   /** The government cloud support URL. */
-  governmentCloud?: string;
+  governmentCloud?: string | undefined;
 }
 /** The managed application artifact name. */
 export type ApplicationArtifactName =
@@ -410,44 +413,44 @@ export type ApplicationPropertiesArtifactsList = Array<ApplicationArtifact>;
 /** The application client details to track the entity creating/updating the managed app resource. */
 export interface ApplicationClientDetails {
   /** The client Oid. */
-  oid?: string;
+  oid?: string | undefined;
   /** The client Puid */
-  puid?: string;
+  puid?: string | undefined;
   /** The client application Id. */
-  applicationId?: string;
+  applicationId?: string | undefined;
 }
 /** The managed application properties. */
 export interface ApplicationProperties {
   /** The managed resource group Id. */
-  managedResourceGroupId?: string;
+  managedResourceGroupId?: string | undefined;
   /** The fully qualified path of managed application definition Id. */
-  applicationDefinitionId?: string;
+  applicationDefinitionId?: string | undefined;
   /** Name and value pairs that define the managed application parameters. It can be a JObject or a well formed JSON string. */
-  parameters?: unknown;
+  parameters?: unknown | undefined;
   /** Name and value pairs that define the managed application outputs. */
-  outputs?: unknown;
+  outputs?: unknown | undefined;
   /** The managed application provisioning state. */
-  provisioningState?: ProvisioningState;
+  provisioningState?: ProvisioningState | undefined;
   /** The managed application billing details. */
-  billingDetails?: ApplicationBillingDetailsDefinition;
+  billingDetails?: ApplicationBillingDetailsDefinition | undefined;
   /** The managed application Jit access policy. */
-  jitAccessPolicy?: ApplicationJitAccessPolicy;
+  jitAccessPolicy?: ApplicationJitAccessPolicy | undefined;
   /** The publisher tenant Id. */
-  publisherTenantId?: string;
+  publisherTenantId?: string | undefined;
   /** The read-only authorizations property that is retrieved from the application package. */
-  authorizations?: ApplicationPropertiesAuthorizationsList;
+  authorizations?: ApplicationPropertiesAuthorizationsList | undefined;
   /** The managed application management mode. */
-  managementMode?: ApplicationManagementMode;
+  managementMode?: ApplicationManagementMode | undefined;
   /** The read-only customer support property that is retrieved from the application package. */
-  customerSupport?: ApplicationPackageContact;
+  customerSupport?: ApplicationPackageContact | undefined;
   /** The read-only support URLs property that is retrieved from the application package. */
-  supportUrls?: ApplicationPackageSupportUrls;
+  supportUrls?: ApplicationPackageSupportUrls | undefined;
   /** The collection of managed application artifacts. */
-  artifacts?: ApplicationPropertiesArtifactsList;
+  artifacts?: ApplicationPropertiesArtifactsList | undefined;
   /** The client entity that created the JIT request. */
-  createdBy?: ApplicationClientDetails;
+  createdBy?: ApplicationClientDetails | undefined;
   /** The client entity that last updated the JIT request. */
-  updatedBy?: ApplicationClientDetails;
+  updatedBy?: ApplicationClientDetails | undefined;
 }
 /** The identity type. */
 export type IdentityType =
@@ -458,9 +461,9 @@ export type IdentityType =
 /** Represents the user assigned identity that is contained within the UserAssignedIdentities dictionary on ResourceIdentity */
 export interface UserAssignedResourceIdentity {
   /** The principal id of user assigned identity. */
-  principalId?: string;
+  principalId?: string | undefined;
   /** The tenant id of user assigned identity. */
-  tenantId?: string;
+  tenantId?: string | undefined;
 }
 /** The list of user identities associated with the resource. The user identity dictionary key references will be resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'. */
 export type IdentityUserAssignedIdentitiesMap = {
@@ -469,39 +472,39 @@ export type IdentityUserAssignedIdentitiesMap = {
 /** Identity for the resource. */
 export interface Identity {
   /** The principal ID of resource identity. */
-  principalId?: string;
+  principalId?: string | undefined;
   /** The tenant ID of resource. */
-  tenantId?: string;
+  tenantId?: string | undefined;
   /** The identity type. */
-  type?: IdentityType;
+  type?: IdentityType | undefined;
   /** The list of user identities associated with the resource. The user identity dictionary key references will be resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'. */
-  userAssignedIdentities?: IdentityUserAssignedIdentitiesMap;
+  userAssignedIdentities?: IdentityUserAssignedIdentitiesMap | undefined;
 }
 export interface ApplicationsCreateOrUpdateResponse {
   /** Resource ID */
-  id?: string;
+  id?: string | undefined;
   /** Resource name */
-  name?: string;
+  name?: string | undefined;
   /** Resource type */
-  type?: string;
+  type?: string | undefined;
   /** Resource location */
-  location?: string;
+  location?: string | undefined;
   /** Resource tags */
-  tags?: ApplicationsCreateOrUpdateResponseTagsMap;
+  tags?: ApplicationsCreateOrUpdateResponseTagsMap | undefined;
   /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: ApplicationsCreateOrUpdateResponseSystemData;
+  systemData?: ApplicationsCreateOrUpdateResponseSystemData | undefined;
   /** ID of the resource that manages this resource. */
-  managedBy?: string;
+  managedBy?: string | undefined;
   /** The SKU of the resource. */
-  sku?: Sku;
+  sku?: Sku | undefined;
   /** The managed application properties. */
   properties: ApplicationProperties;
   /** The plan information. */
-  plan?: Plan;
+  plan?: Plan | undefined;
   /** The kind of the managed application. Allowed values are MarketPlace and ServiceCatalog. */
   kind: string;
   /** The identity of the resource. */
-  identity?: Identity;
+  identity?: Identity | undefined;
 }
 /** Resource tags */
 export type ApplicationsCreateOrUpdateByIdRequestTagsMap = { [key: string]: string | undefined };
@@ -509,21 +512,21 @@ export interface ApplicationsCreateOrUpdateByIdRequest {
   /** The fully qualified ID of the managed application, including the managed application name and the managed application resource type. Use the format, /subscriptions/{guid}/resourceGroups/{resource-group-name}/Microsoft.Solutions/applications/{application-name} */
   applicationId: string;
   /** Resource location */
-  location?: string;
+  location?: string | undefined;
   /** Resource tags */
-  tags?: ApplicationsCreateOrUpdateByIdRequestTagsMap;
+  tags?: ApplicationsCreateOrUpdateByIdRequestTagsMap | undefined;
   /** ID of the resource that manages this resource. */
-  managedBy?: string;
+  managedBy?: string | undefined;
   /** The SKU of the resource. */
-  sku?: Sku;
+  sku?: Sku | undefined;
   /** The managed application properties. */
   properties: ApplicationPropertiesInput;
   /** The plan information. */
-  plan?: Plan;
+  plan?: Plan | undefined;
   /** The kind of the managed application. Allowed values are MarketPlace and ServiceCatalog. */
   kind: string;
   /** The identity of the resource. */
-  identity?: IdentityInput;
+  identity?: IdentityInput | undefined;
 }
 /** Resource tags */
 export type ApplicationsCreateOrUpdateByIdResponseTagsMap = { [key: string]: string | undefined };
@@ -542,43 +545,45 @@ export type ApplicationsCreateOrUpdateByIdResponseSystemDataLastModifiedByType =
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface ApplicationsCreateOrUpdateByIdResponseSystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: ApplicationsCreateOrUpdateByIdResponseSystemDataCreatedByType;
+  createdByType?: ApplicationsCreateOrUpdateByIdResponseSystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: ApplicationsCreateOrUpdateByIdResponseSystemDataLastModifiedByType;
+  lastModifiedByType?:
+    | ApplicationsCreateOrUpdateByIdResponseSystemDataLastModifiedByType
+    | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 export interface ApplicationsCreateOrUpdateByIdResponse {
   /** Resource ID */
-  id?: string;
+  id?: string | undefined;
   /** Resource name */
-  name?: string;
+  name?: string | undefined;
   /** Resource type */
-  type?: string;
+  type?: string | undefined;
   /** Resource location */
-  location?: string;
+  location?: string | undefined;
   /** Resource tags */
-  tags?: ApplicationsCreateOrUpdateByIdResponseTagsMap;
+  tags?: ApplicationsCreateOrUpdateByIdResponseTagsMap | undefined;
   /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: ApplicationsCreateOrUpdateByIdResponseSystemData;
+  systemData?: ApplicationsCreateOrUpdateByIdResponseSystemData | undefined;
   /** ID of the resource that manages this resource. */
-  managedBy?: string;
+  managedBy?: string | undefined;
   /** The SKU of the resource. */
-  sku?: Sku;
+  sku?: Sku | undefined;
   /** The managed application properties. */
   properties: ApplicationProperties;
   /** The plan information. */
-  plan?: Plan;
+  plan?: Plan | undefined;
   /** The kind of the managed application. Allowed values are MarketPlace and ServiceCatalog. */
   kind: string;
   /** The identity of the resource. */
-  identity?: Identity;
+  identity?: Identity | undefined;
 }
 export interface DeleteApplicationRequest {
   /** The ID of the target subscription. */
@@ -637,43 +642,43 @@ export type GetApplicationResponseSystemDataLastModifiedByType =
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface GetApplicationResponseSystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: GetApplicationResponseSystemDataCreatedByType;
+  createdByType?: GetApplicationResponseSystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: GetApplicationResponseSystemDataLastModifiedByType;
+  lastModifiedByType?: GetApplicationResponseSystemDataLastModifiedByType | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 export interface GetApplicationResponse {
   /** Resource ID */
-  id?: string;
+  id?: string | undefined;
   /** Resource name */
-  name?: string;
+  name?: string | undefined;
   /** Resource type */
-  type?: string;
+  type?: string | undefined;
   /** Resource location */
-  location?: string;
+  location?: string | undefined;
   /** Resource tags */
-  tags?: GetApplicationResponseTagsMap;
+  tags?: GetApplicationResponseTagsMap | undefined;
   /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: GetApplicationResponseSystemData;
+  systemData?: GetApplicationResponseSystemData | undefined;
   /** ID of the resource that manages this resource. */
-  managedBy?: string;
+  managedBy?: string | undefined;
   /** The SKU of the resource. */
-  sku?: Sku;
+  sku?: Sku | undefined;
   /** The managed application properties. */
   properties: ApplicationProperties;
   /** The plan information. */
-  plan?: Plan;
+  plan?: Plan | undefined;
   /** The kind of the managed application. Allowed values are MarketPlace and ServiceCatalog. */
   kind: string;
   /** The identity of the resource. */
-  identity?: Identity;
+  identity?: Identity | undefined;
 }
 export interface GetApplicationByIdRequest {
   /** The fully qualified ID of the managed application, including the managed application name and the managed application resource type. Use the format, /subscriptions/{guid}/resourceGroups/{resource-group-name}/Microsoft.Solutions/applications/{application-name} */
@@ -696,43 +701,43 @@ export type GetApplicationByIdResponseSystemDataLastModifiedByType =
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface GetApplicationByIdResponseSystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: GetApplicationByIdResponseSystemDataCreatedByType;
+  createdByType?: GetApplicationByIdResponseSystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: GetApplicationByIdResponseSystemDataLastModifiedByType;
+  lastModifiedByType?: GetApplicationByIdResponseSystemDataLastModifiedByType | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 export interface GetApplicationByIdResponse {
   /** Resource ID */
-  id?: string;
+  id?: string | undefined;
   /** Resource name */
-  name?: string;
+  name?: string | undefined;
   /** Resource type */
-  type?: string;
+  type?: string | undefined;
   /** Resource location */
-  location?: string;
+  location?: string | undefined;
   /** Resource tags */
-  tags?: GetApplicationByIdResponseTagsMap;
+  tags?: GetApplicationByIdResponseTagsMap | undefined;
   /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: GetApplicationByIdResponseSystemData;
+  systemData?: GetApplicationByIdResponseSystemData | undefined;
   /** ID of the resource that manages this resource. */
-  managedBy?: string;
+  managedBy?: string | undefined;
   /** The SKU of the resource. */
-  sku?: Sku;
+  sku?: Sku | undefined;
   /** The managed application properties. */
   properties: ApplicationProperties;
   /** The plan information. */
-  plan?: Plan;
+  plan?: Plan | undefined;
   /** The kind of the managed application. Allowed values are MarketPlace and ServiceCatalog. */
   kind: string;
   /** The identity of the resource. */
-  identity?: Identity;
+  identity?: Identity | undefined;
 }
 export interface GetApplicationDefinitionRequest {
   /** The ID of the target subscription. */
@@ -759,35 +764,35 @@ export type GetApplicationDefinitionResponseSystemDataLastModifiedByType =
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface GetApplicationDefinitionResponseSystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: GetApplicationDefinitionResponseSystemDataCreatedByType;
+  createdByType?: GetApplicationDefinitionResponseSystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: GetApplicationDefinitionResponseSystemDataLastModifiedByType;
+  lastModifiedByType?: GetApplicationDefinitionResponseSystemDataLastModifiedByType | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 export interface GetApplicationDefinitionResponse {
   /** Resource ID */
-  id?: string;
+  id?: string | undefined;
   /** Resource name */
-  name?: string;
+  name?: string | undefined;
   /** Resource type */
-  type?: string;
+  type?: string | undefined;
   /** Resource location */
-  location?: string;
+  location?: string | undefined;
   /** Resource tags */
-  tags?: GetApplicationDefinitionResponseTagsMap;
+  tags?: GetApplicationDefinitionResponseTagsMap | undefined;
   /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: GetApplicationDefinitionResponseSystemData;
+  systemData?: GetApplicationDefinitionResponseSystemData | undefined;
   /** ID of the resource that manages this resource. */
-  managedBy?: string;
+  managedBy?: string | undefined;
   /** The SKU of the resource. */
-  sku?: Sku;
+  sku?: Sku | undefined;
   /** The managed application definition properties. */
   properties: ApplicationDefinitionProperties;
 }
@@ -816,17 +821,17 @@ export type GetJitRequestResponseSystemDataLastModifiedByType =
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface GetJitRequestResponseSystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: GetJitRequestResponseSystemDataCreatedByType;
+  createdByType?: GetJitRequestResponseSystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: GetJitRequestResponseSystemDataLastModifiedByType;
+  lastModifiedByType?: GetJitRequestResponseSystemDataLastModifiedByType | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 /** The JIT authorization policies. */
 export interface JitAuthorizationPolicies {
@@ -862,35 +867,35 @@ export interface JitRequestProperties {
   /** The parent application id. */
   applicationResourceId: string;
   /** The publisher tenant id. */
-  publisherTenantId?: string;
+  publisherTenantId?: string | undefined;
   /** The JIT authorization policies. */
   jitAuthorizationPolicies: JitRequestPropertiesJitAuthorizationPoliciesList;
   /** The JIT request properties. */
   jitSchedulingPolicy: JitSchedulingPolicy;
   /** The JIT request provisioning state. */
-  provisioningState?: ProvisioningState;
+  provisioningState?: ProvisioningState | undefined;
   /** The JIT request state. */
-  jitRequestState?: JitRequestState;
+  jitRequestState?: JitRequestState | undefined;
   /** The client entity that created the JIT request. */
-  createdBy?: ApplicationClientDetails;
+  createdBy?: ApplicationClientDetails | undefined;
   /** The client entity that last updated the JIT request. */
-  updatedBy?: ApplicationClientDetails;
+  updatedBy?: ApplicationClientDetails | undefined;
 }
 export interface GetJitRequestResponse {
   /** Resource ID */
-  id?: string;
+  id?: string | undefined;
   /** Resource name */
-  name?: string;
+  name?: string | undefined;
   /** Resource type */
-  type?: string;
+  type?: string | undefined;
   /** Resource location */
-  location?: string;
+  location?: string | undefined;
   /** Resource tags */
-  tags?: GetJitRequestResponseTagsMap;
+  tags?: GetJitRequestResponseTagsMap | undefined;
   /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: GetJitRequestResponseSystemData;
+  systemData?: GetJitRequestResponseSystemData | undefined;
   /** The JIT request properties. */
-  properties?: JitRequestProperties;
+  properties?: JitRequestProperties | undefined;
 }
 /** Resource tags */
 export type JitRequestsCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
@@ -913,11 +918,11 @@ export interface JitRequestsCreateOrUpdateRequest {
   /** The name of the JIT request. */
   jitRequestName: string;
   /** Resource location */
-  location?: string;
+  location?: string | undefined;
   /** Resource tags */
-  tags?: JitRequestsCreateOrUpdateRequestTagsMap;
+  tags?: JitRequestsCreateOrUpdateRequestTagsMap | undefined;
   /** The JIT request properties. */
-  properties?: JitRequestPropertiesInput;
+  properties?: JitRequestPropertiesInput | undefined;
 }
 /** Resource tags */
 export type JitRequestsCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
@@ -936,33 +941,33 @@ export type JitRequestsCreateOrUpdateResponseSystemDataLastModifiedByType =
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface JitRequestsCreateOrUpdateResponseSystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: JitRequestsCreateOrUpdateResponseSystemDataCreatedByType;
+  createdByType?: JitRequestsCreateOrUpdateResponseSystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: JitRequestsCreateOrUpdateResponseSystemDataLastModifiedByType;
+  lastModifiedByType?: JitRequestsCreateOrUpdateResponseSystemDataLastModifiedByType | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 export interface JitRequestsCreateOrUpdateResponse {
   /** Resource ID */
-  id?: string;
+  id?: string | undefined;
   /** Resource name */
-  name?: string;
+  name?: string | undefined;
   /** Resource type */
-  type?: string;
+  type?: string | undefined;
   /** Resource location */
-  location?: string;
+  location?: string | undefined;
   /** Resource tags */
-  tags?: JitRequestsCreateOrUpdateResponseTagsMap;
+  tags?: JitRequestsCreateOrUpdateResponseTagsMap | undefined;
   /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: JitRequestsCreateOrUpdateResponseSystemData;
+  systemData?: JitRequestsCreateOrUpdateResponseSystemData | undefined;
   /** The JIT request properties. */
-  properties?: JitRequestProperties;
+  properties?: JitRequestProperties | undefined;
 }
 export interface ListApplicationAllowedUpgradePlansRequest {
   /** The ID of the target subscription. */
@@ -977,7 +982,7 @@ export type AllowedUpgradePlansResultValueList = Array<Plan>;
 /** The array of plan. */
 export interface AllowedUpgradePlansResult {
   /** The array of plans. */
-  value?: AllowedUpgradePlansResultValueList;
+  value?: AllowedUpgradePlansResultValueList | undefined;
 }
 export interface ListApplicationByResourceGroupRequest {
   /** The ID of the target subscription. */
@@ -998,53 +1003,53 @@ export type ApplicationSystemDataLastModifiedByType =
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface ApplicationSystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: ApplicationSystemDataCreatedByType;
+  createdByType?: ApplicationSystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: ApplicationSystemDataLastModifiedByType;
+  lastModifiedByType?: ApplicationSystemDataLastModifiedByType | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 /** Information about managed application. */
 export interface Application {
   /** Resource ID */
-  id?: string;
+  id?: string | undefined;
   /** Resource name */
-  name?: string;
+  name?: string | undefined;
   /** Resource type */
-  type?: string;
+  type?: string | undefined;
   /** Resource location */
-  location?: string;
+  location?: string | undefined;
   /** Resource tags */
-  tags?: ApplicationTagsMap;
+  tags?: ApplicationTagsMap | undefined;
   /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: ApplicationSystemData;
+  systemData?: ApplicationSystemData | undefined;
   /** ID of the resource that manages this resource. */
-  managedBy?: string;
+  managedBy?: string | undefined;
   /** The SKU of the resource. */
-  sku?: Sku;
+  sku?: Sku | undefined;
   /** The managed application properties. */
   properties: ApplicationProperties;
   /** The plan information. */
-  plan?: Plan;
+  plan?: Plan | undefined;
   /** The kind of the managed application. Allowed values are MarketPlace and ServiceCatalog. */
   kind: string;
   /** The identity of the resource. */
-  identity?: Identity;
+  identity?: Identity | undefined;
 }
 /** The array of managed applications. */
 export type ApplicationListResultValueList = Array<Application>;
 /** List of managed applications. */
 export interface ApplicationListResult {
   /** The array of managed applications. */
-  value?: ApplicationListResultValueList;
+  value?: ApplicationListResultValueList | undefined;
   /** The URL to use for getting the next set of results. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListApplicationBySubscriptionRequest {
   /** The ID of the target subscription. */
@@ -1073,36 +1078,36 @@ export type ApplicationDefinitionSystemDataLastModifiedByType =
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface ApplicationDefinitionSystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: ApplicationDefinitionSystemDataCreatedByType;
+  createdByType?: ApplicationDefinitionSystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: ApplicationDefinitionSystemDataLastModifiedByType;
+  lastModifiedByType?: ApplicationDefinitionSystemDataLastModifiedByType | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 /** Information about managed application definition. */
 export interface ApplicationDefinition {
   /** Resource ID */
-  id?: string;
+  id?: string | undefined;
   /** Resource name */
-  name?: string;
+  name?: string | undefined;
   /** Resource type */
-  type?: string;
+  type?: string | undefined;
   /** Resource location */
-  location?: string;
+  location?: string | undefined;
   /** Resource tags */
-  tags?: ApplicationDefinitionTagsMap;
+  tags?: ApplicationDefinitionTagsMap | undefined;
   /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: ApplicationDefinitionSystemData;
+  systemData?: ApplicationDefinitionSystemData | undefined;
   /** ID of the resource that manages this resource. */
-  managedBy?: string;
+  managedBy?: string | undefined;
   /** The SKU of the resource. */
-  sku?: Sku;
+  sku?: Sku | undefined;
   /** The managed application definition properties. */
   properties: ApplicationDefinitionProperties;
 }
@@ -1111,9 +1116,9 @@ export type ApplicationDefinitionListResultValueList = Array<ApplicationDefiniti
 /** List of managed application definitions. */
 export interface ApplicationDefinitionListResult {
   /** The array of managed application definitions. */
-  value?: ApplicationDefinitionListResultValueList;
+  value?: ApplicationDefinitionListResultValueList | undefined;
   /** The URL to use for getting the next set of results. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListApplicationDefinitionBySubscriptionRequest {
   /** The ID of the target subscription. */
@@ -1129,33 +1134,33 @@ export interface ListApplicationTokensRequest {
   /** The name of the managed application. */
   applicationName: string;
   /** The authorization audience. */
-  authorizationAudience?: string;
+  authorizationAudience?: string | undefined;
   /** The user assigned identities. */
-  userAssignedIdentities?: ListApplicationTokensRequestUserAssignedIdentitiesList;
+  userAssignedIdentities?: ListApplicationTokensRequestUserAssignedIdentitiesList | undefined;
 }
 /** The managed identity token for the managed app resource. */
 export interface ManagedIdentityToken {
   /** The requested access token. */
-  accessToken?: string | Redacted.Redacted<string>;
+  accessToken?: string | Redacted.Redacted<string> | undefined;
   /** The number of seconds the access token will be valid. */
-  expiresIn?: string;
+  expiresIn?: string | undefined;
   /** The timespan when the access token expires. This is represented as the number of seconds from epoch. */
-  expiresOn?: string;
+  expiresOn?: string | undefined;
   /** The timespan when the access token takes effect. This is represented as the number of seconds from epoch. */
-  notBefore?: string;
+  notBefore?: string | undefined;
   /** The aud (audience) the access token was request for. This is the same as what was provided in the listTokens request. */
-  authorizationAudience?: string;
+  authorizationAudience?: string | undefined;
   /** The Azure resource ID for the issued token. This is either the managed application ID or the user-assigned identity ID. */
-  resourceId?: string;
+  resourceId?: string | undefined;
   /** The type of the token. */
-  tokenType?: string;
+  tokenType?: string | undefined;
 }
 /** The array of managed identity tokens. */
 export type ManagedIdentityTokenResultValueList = Array<ManagedIdentityToken>;
 /** The array of managed identity tokens. */
 export interface ManagedIdentityTokenResult {
   /** The array of managed identity tokens. */
-  value?: ManagedIdentityTokenResultValueList;
+  value?: ManagedIdentityTokenResultValueList | undefined;
 }
 export interface ListJitRequestByResourceGroupRequest {
   /** The ID of the target subscription. */
@@ -1180,43 +1185,43 @@ export type JitRequestDefinitionSystemDataLastModifiedByType =
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface JitRequestDefinitionSystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: JitRequestDefinitionSystemDataCreatedByType;
+  createdByType?: JitRequestDefinitionSystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: JitRequestDefinitionSystemDataLastModifiedByType;
+  lastModifiedByType?: JitRequestDefinitionSystemDataLastModifiedByType | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 /** Information about JIT request definition. */
 export interface JitRequestDefinition {
   /** Resource ID */
-  id?: string;
+  id?: string | undefined;
   /** Resource name */
-  name?: string;
+  name?: string | undefined;
   /** Resource type */
-  type?: string;
+  type?: string | undefined;
   /** Resource location */
-  location?: string;
+  location?: string | undefined;
   /** Resource tags */
-  tags?: JitRequestDefinitionTagsMap;
+  tags?: JitRequestDefinitionTagsMap | undefined;
   /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: JitRequestDefinitionSystemData;
+  systemData?: JitRequestDefinitionSystemData | undefined;
   /** The JIT request properties. */
-  properties?: JitRequestProperties;
+  properties?: JitRequestProperties | undefined;
 }
 /** The array of Jit request definition. */
 export type JitRequestDefinitionListResultValueList = Array<JitRequestDefinition>;
 /** List of JIT requests. */
 export interface JitRequestDefinitionListResult {
   /** The array of Jit request definition. */
-  value?: JitRequestDefinitionListResultValueList;
+  value?: JitRequestDefinitionListResultValueList | undefined;
   /** The URL to use for getting the next set of results. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListJitRequestBySubscriptionRequest {
   /** The ID of the target subscription. */
@@ -1226,13 +1231,13 @@ export interface ListOperationsRequest {}
 /** Localized display information for this particular operation. */
 export interface OperationDisplay {
   /** The localized friendly form of the resource provider name, e.g. "Microsoft Monitoring Insights" or "Microsoft Compute". */
-  provider?: string;
+  provider?: string | undefined;
   /** The localized friendly name of the resource type related to this operation. E.g. "Virtual Machines" or "Job Schedule Collections". */
-  resource?: string;
+  resource?: string | undefined;
   /** The concise, localized friendly name for the operation; suitable for dropdowns. E.g. "Create or Update Virtual Machine", "Restart Virtual Machine". */
-  operation?: string;
+  operation?: string | undefined;
   /** The short, localized friendly description of the operation; suitable for tool tips and detailed views. */
-  description?: string;
+  description?: string | undefined;
 }
 /** The intended executor of the operation; as in Resource Based Access Control (RBAC) and audit logs UX. Default value is "user,system" */
 export type OperationOrigin = "user" | "system" | "user,system";
@@ -1241,23 +1246,23 @@ export type OperationActionType = "Internal";
 /** Details of a REST API operation, returned from the Resource Provider Operations API */
 export interface Operation {
   /** The name of the operation, as per Resource-Based Access Control (RBAC). Examples: "Microsoft.Compute/virtualMachines/write", "Microsoft.Compute/virtualMachines/capture/action" */
-  name?: string;
+  name?: string | undefined;
   /** Whether the operation applies to data-plane. This is "true" for data-plane operations and "false" for ARM/control-plane operations. */
-  isDataAction?: boolean;
+  isDataAction?: boolean | undefined;
   /** Localized display information for this particular operation. */
-  display?: OperationDisplay;
+  display?: OperationDisplay | undefined;
   /** The intended executor of the operation; as in Resource Based Access Control (RBAC) and audit logs UX. Default value is "user,system" */
-  origin?: OperationOrigin;
+  origin?: OperationOrigin | undefined;
   /** Enum. Indicates the action type. "Internal" refers to actions that are for internal only APIs. */
-  actionType?: OperationActionType;
+  actionType?: OperationActionType | undefined;
 }
 /** List of operations supported by the resource provider */
 export type ListOperationsResponseValueList = Array<Operation>;
 export interface ListOperationsResponse {
   /** List of operations supported by the resource provider */
-  value?: ListOperationsResponseValueList;
+  value?: ListOperationsResponseValueList | undefined;
   /** URL to get the next set of operation list results (if there are any). */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface RefreshApplicationPermissionsRequest {
   /** The ID of the target subscription. */
@@ -1273,15 +1278,15 @@ export type UpdateApplicationRequestTagsMap = { [key: string]: string | undefine
 /** Plan for the managed application. */
 export interface PlanPatchable {
   /** The plan name. */
-  name?: string;
+  name?: string | undefined;
   /** The publisher ID. */
-  publisher?: string;
+  publisher?: string | undefined;
   /** The product code. */
-  product?: string;
+  product?: string | undefined;
   /** The promotion code. */
-  promotionCode?: string;
+  promotionCode?: string | undefined;
   /** The plan's version. */
-  version?: string;
+  version?: string | undefined;
 }
 export interface UpdateApplicationRequest {
   /** The ID of the target subscription. */
@@ -1291,21 +1296,21 @@ export interface UpdateApplicationRequest {
   /** The name of the managed application. */
   applicationName: string;
   /** Resource location */
-  location?: string;
+  location?: string | undefined;
   /** Resource tags */
-  tags?: UpdateApplicationRequestTagsMap;
+  tags?: UpdateApplicationRequestTagsMap | undefined;
   /** ID of the resource that manages this resource. */
-  managedBy?: string;
+  managedBy?: string | undefined;
   /** The SKU of the resource. */
-  sku?: Sku;
+  sku?: Sku | undefined;
   /** The managed application properties. */
-  properties?: ApplicationPropertiesInput;
+  properties?: ApplicationPropertiesInput | undefined;
   /** The plan information. */
-  plan?: PlanPatchable;
+  plan?: PlanPatchable | undefined;
   /** The kind of the managed application. Allowed values are MarketPlace and ServiceCatalog. */
-  kind?: string;
+  kind?: string | undefined;
   /** The identity of the resource. */
-  identity?: IdentityInput;
+  identity?: IdentityInput | undefined;
 }
 /** Resource tags */
 export type UpdateApplicationResponseTagsMap = { [key: string]: string | undefined };
@@ -1324,54 +1329,54 @@ export type UpdateApplicationResponseSystemDataLastModifiedByType =
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface UpdateApplicationResponseSystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: UpdateApplicationResponseSystemDataCreatedByType;
+  createdByType?: UpdateApplicationResponseSystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: UpdateApplicationResponseSystemDataLastModifiedByType;
+  lastModifiedByType?: UpdateApplicationResponseSystemDataLastModifiedByType | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 export interface UpdateApplicationResponse {
   /** Resource ID */
-  id?: string;
+  id?: string | undefined;
   /** Resource name */
-  name?: string;
+  name?: string | undefined;
   /** Resource type */
-  type?: string;
+  type?: string | undefined;
   /** Resource location */
-  location?: string;
+  location?: string | undefined;
   /** Resource tags */
-  tags?: UpdateApplicationResponseTagsMap;
+  tags?: UpdateApplicationResponseTagsMap | undefined;
   /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: UpdateApplicationResponseSystemData;
+  systemData?: UpdateApplicationResponseSystemData | undefined;
   /** ID of the resource that manages this resource. */
-  managedBy?: string;
+  managedBy?: string | undefined;
   /** The SKU of the resource. */
-  sku?: Sku;
+  sku?: Sku | undefined;
   /** The managed application properties. */
-  properties?: ApplicationProperties;
+  properties?: ApplicationProperties | undefined;
   /** The plan information. */
-  plan?: PlanPatchable;
+  plan?: PlanPatchable | undefined;
   /** The kind of the managed application. Allowed values are MarketPlace and ServiceCatalog. */
-  kind?: string;
+  kind?: string | undefined;
   /** The identity of the resource. */
-  identity?: Identity;
+  identity?: Identity | undefined;
 }
 /** The JIT request metadata. */
 export interface JitRequestMetadata {
   /** The origin request id. */
-  originRequestId?: string;
+  originRequestId?: string | undefined;
   /** The requestor id. */
-  requestorId?: string;
+  requestorId?: string | undefined;
   /** The publisher's tenant name. */
-  tenantDisplayName?: string;
+  tenantDisplayName?: string | undefined;
   /** The subject display name. */
-  subjectDisplayName?: string;
+  subjectDisplayName?: string | undefined;
 }
 /** The JIT status. */
 export type Status = "NotSpecified" | "Elevate" | "Remove";
@@ -1385,7 +1390,7 @@ export interface UpdateApplicationAccessRequest {
   /** The name of the managed application. */
   applicationName: string;
   /** The approver name. */
-  approver?: string;
+  approver?: string | undefined;
   /** The JIT request metadata. */
   metadata: JitRequestMetadata;
   /** The JIT status. */
@@ -1400,21 +1405,21 @@ export interface UpdateApplicationByIdRequest {
   /** The fully qualified ID of the managed application, including the managed application name and the managed application resource type. Use the format, /subscriptions/{guid}/resourceGroups/{resource-group-name}/Microsoft.Solutions/applications/{application-name} */
   applicationId: string;
   /** Resource location */
-  location?: string;
+  location?: string | undefined;
   /** Resource tags */
-  tags?: UpdateApplicationByIdRequestTagsMap;
+  tags?: UpdateApplicationByIdRequestTagsMap | undefined;
   /** ID of the resource that manages this resource. */
-  managedBy?: string;
+  managedBy?: string | undefined;
   /** The SKU of the resource. */
-  sku?: Sku;
+  sku?: Sku | undefined;
   /** The managed application properties. */
-  properties?: ApplicationPropertiesInput;
+  properties?: ApplicationPropertiesInput | undefined;
   /** The plan information. */
-  plan?: PlanPatchable;
+  plan?: PlanPatchable | undefined;
   /** The kind of the managed application. Allowed values are MarketPlace and ServiceCatalog. */
-  kind?: string;
+  kind?: string | undefined;
   /** The identity of the resource. */
-  identity?: IdentityInput;
+  identity?: IdentityInput | undefined;
 }
 /** Resource tags */
 export type UpdateApplicationByIdResponseTagsMap = { [key: string]: string | undefined };
@@ -1433,43 +1438,43 @@ export type UpdateApplicationByIdResponseSystemDataLastModifiedByType =
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface UpdateApplicationByIdResponseSystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: UpdateApplicationByIdResponseSystemDataCreatedByType;
+  createdByType?: UpdateApplicationByIdResponseSystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: UpdateApplicationByIdResponseSystemDataLastModifiedByType;
+  lastModifiedByType?: UpdateApplicationByIdResponseSystemDataLastModifiedByType | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 export interface UpdateApplicationByIdResponse {
   /** Resource ID */
-  id?: string;
+  id?: string | undefined;
   /** Resource name */
-  name?: string;
+  name?: string | undefined;
   /** Resource type */
-  type?: string;
+  type?: string | undefined;
   /** Resource location */
-  location?: string;
+  location?: string | undefined;
   /** Resource tags */
-  tags?: UpdateApplicationByIdResponseTagsMap;
+  tags?: UpdateApplicationByIdResponseTagsMap | undefined;
   /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: UpdateApplicationByIdResponseSystemData;
+  systemData?: UpdateApplicationByIdResponseSystemData | undefined;
   /** ID of the resource that manages this resource. */
-  managedBy?: string;
+  managedBy?: string | undefined;
   /** The SKU of the resource. */
-  sku?: Sku;
+  sku?: Sku | undefined;
   /** The managed application properties. */
-  properties?: ApplicationProperties;
+  properties?: ApplicationProperties | undefined;
   /** The plan information. */
-  plan?: PlanPatchable;
+  plan?: PlanPatchable | undefined;
   /** The kind of the managed application. Allowed values are MarketPlace and ServiceCatalog. */
-  kind?: string;
+  kind?: string | undefined;
   /** The identity of the resource. */
-  identity?: Identity;
+  identity?: Identity | undefined;
 }
 /** Application definition tags */
 export type UpdateApplicationDefinitionRequestTagsMap = { [key: string]: string | undefined };
@@ -1481,7 +1486,7 @@ export interface UpdateApplicationDefinitionRequest {
   /** The name of the managed application definition. */
   applicationDefinitionName: string;
   /** Application definition tags */
-  tags?: UpdateApplicationDefinitionRequestTagsMap;
+  tags?: UpdateApplicationDefinitionRequestTagsMap | undefined;
 }
 /** Resource tags */
 export type UpdateApplicationDefinitionResponseTagsMap = { [key: string]: string | undefined };
@@ -1500,35 +1505,35 @@ export type UpdateApplicationDefinitionResponseSystemDataLastModifiedByType =
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface UpdateApplicationDefinitionResponseSystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: UpdateApplicationDefinitionResponseSystemDataCreatedByType;
+  createdByType?: UpdateApplicationDefinitionResponseSystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: UpdateApplicationDefinitionResponseSystemDataLastModifiedByType;
+  lastModifiedByType?: UpdateApplicationDefinitionResponseSystemDataLastModifiedByType | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 export interface UpdateApplicationDefinitionResponse {
   /** Resource ID */
-  id?: string;
+  id?: string | undefined;
   /** Resource name */
-  name?: string;
+  name?: string | undefined;
   /** Resource type */
-  type?: string;
+  type?: string | undefined;
   /** Resource location */
-  location?: string;
+  location?: string | undefined;
   /** Resource tags */
-  tags?: UpdateApplicationDefinitionResponseTagsMap;
+  tags?: UpdateApplicationDefinitionResponseTagsMap | undefined;
   /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: UpdateApplicationDefinitionResponseSystemData;
+  systemData?: UpdateApplicationDefinitionResponseSystemData | undefined;
   /** ID of the resource that manages this resource. */
-  managedBy?: string;
+  managedBy?: string | undefined;
   /** The SKU of the resource. */
-  sku?: Sku;
+  sku?: Sku | undefined;
   /** The managed application definition properties. */
   properties: ApplicationDefinitionProperties;
 }
@@ -1542,7 +1547,7 @@ export interface UpdateJitRequestRequest {
   /** The name of the JIT request. */
   jitRequestName: string;
   /** Jit request tags */
-  tags?: UpdateJitRequestRequestTagsMap;
+  tags?: UpdateJitRequestRequestTagsMap | undefined;
 }
 /** Resource tags */
 export type UpdateJitRequestResponseTagsMap = { [key: string]: string | undefined };
@@ -1561,33 +1566,33 @@ export type UpdateJitRequestResponseSystemDataLastModifiedByType =
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface UpdateJitRequestResponseSystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: UpdateJitRequestResponseSystemDataCreatedByType;
+  createdByType?: UpdateJitRequestResponseSystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: UpdateJitRequestResponseSystemDataLastModifiedByType;
+  lastModifiedByType?: UpdateJitRequestResponseSystemDataLastModifiedByType | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 export interface UpdateJitRequestResponse {
   /** Resource ID */
-  id?: string;
+  id?: string | undefined;
   /** Resource name */
-  name?: string;
+  name?: string | undefined;
   /** Resource type */
-  type?: string;
+  type?: string | undefined;
   /** Resource location */
-  location?: string;
+  location?: string | undefined;
   /** Resource tags */
-  tags?: UpdateJitRequestResponseTagsMap;
+  tags?: UpdateJitRequestResponseTagsMap | undefined;
   /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: UpdateJitRequestResponseSystemData;
+  systemData?: UpdateJitRequestResponseSystemData | undefined;
   /** The JIT request properties. */
-  properties?: JitRequestProperties;
+  properties?: JitRequestProperties | undefined;
 }
 export type ApplicationDefinitionsCreateOrUpdateError = AzureOpError;
 /** Creates or updates a managed application definition. */

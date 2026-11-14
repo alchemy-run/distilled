@@ -29,6 +29,7 @@ const TELEMETRY = {
   prefix: "Synapse",
   service: "Synapse",
   labels: "azure",
+  labelNames: { resourceGroupName: "azure.resource_group.name" },
   propagate: "w3c",
 } as const;
 
@@ -37,45 +38,45 @@ export type BigDataPoolsCreateOrUpdateRequestTagsMap = { [key: string]: string |
 /** Auto-scaling properties of a Big Data pool powered by Apache Spark */
 export interface AutoScaleProperties {
   /** The minimum number of nodes the Big Data pool can support. */
-  minNodeCount?: number;
+  minNodeCount?: number | undefined;
   /** Whether automatic scaling is enabled for the Big Data pool. */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** The maximum number of nodes the Big Data pool can support. */
-  maxNodeCount?: number;
+  maxNodeCount?: number | undefined;
 }
 /** Auto-pausing properties of a Big Data pool powered by Apache Spark */
 export interface AutoPauseProperties {
   /** Number of minutes of idle time before the Big Data pool is automatically paused. */
-  delayInMinutes?: number;
+  delayInMinutes?: number | undefined;
   /** Whether auto-pausing is enabled for the Big Data pool. */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
 }
 /** Dynamic Executor Allocation Properties */
 export interface DynamicExecutorAllocation {
   /** Indicates whether Dynamic Executor Allocation is enabled or not. */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** The minimum number of executors alloted */
-  minExecutors?: number;
+  minExecutors?: number | undefined;
   /** The maximum number of executors alloted */
-  maxExecutors?: number;
+  maxExecutors?: number | undefined;
 }
 /** Library requirements for a Big Data pool powered by Apache Spark */
 export interface LibraryRequirementsInput {
   /** The library requirements. */
-  content?: string;
+  content?: string | undefined;
   /** The filename of the library requirements file. */
-  filename?: string;
+  filename?: string | undefined;
 }
 /** Library/package information of a Big Data pool powered by Apache Spark */
 export interface BigDataPoolResourcePropertiesInputCustomLibrariesItem {
   /** Name of the library. */
-  name?: string;
+  name?: string | undefined;
   /** Storage blob path of library. */
-  path?: string;
+  path?: string | undefined;
   /** Storage blob container name. */
-  containerName?: string;
+  containerName?: string | undefined;
   /** Type of the library. */
-  type?: string;
+  type?: string | undefined;
 }
 /** List of custom libraries/packages associated with the spark pool. */
 export type BigDataPoolResourcePropertiesInputCustomLibrariesList =
@@ -85,11 +86,11 @@ export type SparkConfigPropertiesInputConfigurationType = "File" | "Artifact";
 /** SparkConfig Properties for a Big Data pool powered by Apache Spark */
 export interface SparkConfigPropertiesInput {
   /** The spark config properties. */
-  content?: string;
+  content?: string | undefined;
   /** The filename of the spark config properties file. */
-  filename?: string;
+  filename?: string | undefined;
   /** The type of the spark config properties file. */
-  configurationType?: SparkConfigPropertiesInputConfigurationType | (string & {});
+  configurationType?: SparkConfigPropertiesInputConfigurationType | (string & {}) | undefined;
 }
 /** The level of compute power that each node in the Big Data pool has. */
 export type BigDataPoolResourcePropertiesInputNodeSize =
@@ -109,39 +110,39 @@ export type BigDataPoolResourcePropertiesInputNodeSizeFamily =
 /** Properties of a Big Data pool powered by Apache Spark */
 export interface BigDataPoolResourcePropertiesInput {
   /** The state of the Big Data pool. */
-  provisioningState?: string;
+  provisioningState?: string | undefined;
   /** Auto-scaling properties */
-  autoScale?: AutoScaleProperties;
+  autoScale?: AutoScaleProperties | undefined;
   /** Auto-pausing properties */
-  autoPause?: AutoPauseProperties;
+  autoPause?: AutoPauseProperties | undefined;
   /** Whether compute isolation is required or not. */
-  isComputeIsolationEnabled?: boolean;
+  isComputeIsolationEnabled?: boolean | undefined;
   /** Whether autotune is required or not. */
-  isAutotuneEnabled?: boolean;
+  isAutotuneEnabled?: boolean | undefined;
   /** Whether session level packages enabled. */
-  sessionLevelPackagesEnabled?: boolean;
+  sessionLevelPackagesEnabled?: boolean | undefined;
   /** The cache size */
-  cacheSize?: number;
+  cacheSize?: number | undefined;
   /** Dynamic Executor Allocation */
-  dynamicExecutorAllocation?: DynamicExecutorAllocation;
+  dynamicExecutorAllocation?: DynamicExecutorAllocation | undefined;
   /** The Spark events folder */
-  sparkEventsFolder?: string;
+  sparkEventsFolder?: string | undefined;
   /** The number of nodes in the Big Data pool. */
-  nodeCount?: number;
+  nodeCount?: number | undefined;
   /** Library version requirements */
-  libraryRequirements?: LibraryRequirementsInput;
+  libraryRequirements?: LibraryRequirementsInput | undefined;
   /** List of custom libraries/packages associated with the spark pool. */
-  customLibraries?: BigDataPoolResourcePropertiesInputCustomLibrariesList;
+  customLibraries?: BigDataPoolResourcePropertiesInputCustomLibrariesList | undefined;
   /** Spark configuration file to specify additional properties */
-  sparkConfigProperties?: SparkConfigPropertiesInput;
+  sparkConfigProperties?: SparkConfigPropertiesInput | undefined;
   /** The Apache Spark version. */
-  sparkVersion?: string;
+  sparkVersion?: string | undefined;
   /** The default folder where Spark logs will be written. */
-  defaultSparkLogFolder?: string;
+  defaultSparkLogFolder?: string | undefined;
   /** The level of compute power that each node in the Big Data pool has. */
-  nodeSize?: BigDataPoolResourcePropertiesInputNodeSize | (string & {});
+  nodeSize?: BigDataPoolResourcePropertiesInputNodeSize | (string & {}) | undefined;
   /** The kind of nodes that the Big Data pool provides. */
-  nodeSizeFamily?: BigDataPoolResourcePropertiesInputNodeSizeFamily | (string & {});
+  nodeSizeFamily?: BigDataPoolResourcePropertiesInputNodeSizeFamily | (string & {}) | undefined;
 }
 export interface BigDataPoolsCreateOrUpdateRequest {
   /** The ID of the target subscription. */
@@ -153,41 +154,41 @@ export interface BigDataPoolsCreateOrUpdateRequest {
   /** Big Data pool name */
   bigDataPoolName: string;
   /** Whether to stop any running jobs in the Big Data pool */
-  force?: boolean;
+  force?: boolean | undefined;
   /** Resource tags. */
-  tags?: BigDataPoolsCreateOrUpdateRequestTagsMap;
+  tags?: BigDataPoolsCreateOrUpdateRequestTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Big Data pool properties */
-  properties?: BigDataPoolResourcePropertiesInput;
+  properties?: BigDataPoolResourcePropertiesInput | undefined;
 }
 /** Resource tags. */
 export type BigDataPoolsCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
 /** Library requirements for a Big Data pool powered by Apache Spark */
 export interface LibraryRequirements {
   /** The last update time of the library requirements file. */
-  time?: string;
+  time?: string | undefined;
   /** The library requirements. */
-  content?: string;
+  content?: string | undefined;
   /** The filename of the library requirements file. */
-  filename?: string;
+  filename?: string | undefined;
 }
 /** Library/package information of a Big Data pool powered by Apache Spark */
 export interface BigDataPoolResourcePropertiesCustomLibrariesItem {
   /** Name of the library. */
-  name?: string;
+  name?: string | undefined;
   /** Storage blob path of library. */
-  path?: string;
+  path?: string | undefined;
   /** Storage blob container name. */
-  containerName?: string;
+  containerName?: string | undefined;
   /** The last update time of the library. */
-  uploadedTimestamp?: string;
+  uploadedTimestamp?: string | undefined;
   /** Type of the library. */
-  type?: string;
+  type?: string | undefined;
   /** Provisioning status of the library/package. */
-  provisioningStatus?: string;
+  provisioningStatus?: string | undefined;
   /** Creator Id of the library/package. */
-  creatorId?: string;
+  creatorId?: string | undefined;
 }
 /** List of custom libraries/packages associated with the spark pool. */
 export type BigDataPoolResourcePropertiesCustomLibrariesList =
@@ -197,13 +198,13 @@ export type SparkConfigPropertiesConfigurationType = "File" | "Artifact";
 /** SparkConfig Properties for a Big Data pool powered by Apache Spark */
 export interface SparkConfigProperties {
   /** The last update time of the spark config properties file. */
-  time?: string;
+  time?: string | undefined;
   /** The spark config properties. */
-  content?: string;
+  content?: string | undefined;
   /** The filename of the spark config properties file. */
-  filename?: string;
+  filename?: string | undefined;
   /** The type of the spark config properties file. */
-  configurationType?: SparkConfigPropertiesConfigurationType;
+  configurationType?: SparkConfigPropertiesConfigurationType | undefined;
 }
 /** The level of compute power that each node in the Big Data pool has. */
 export type BigDataPoolResourcePropertiesNodeSize =
@@ -223,76 +224,76 @@ export type BigDataPoolResourcePropertiesNodeSizeFamily =
 /** Properties of a Big Data pool powered by Apache Spark */
 export interface BigDataPoolResourceProperties {
   /** The state of the Big Data pool. */
-  provisioningState?: string;
+  provisioningState?: string | undefined;
   /** Auto-scaling properties */
-  autoScale?: AutoScaleProperties;
+  autoScale?: AutoScaleProperties | undefined;
   /** The time when the Big Data pool was created. */
-  creationDate?: string;
+  creationDate?: string | undefined;
   /** Auto-pausing properties */
-  autoPause?: AutoPauseProperties;
+  autoPause?: AutoPauseProperties | undefined;
   /** Whether compute isolation is required or not. */
-  isComputeIsolationEnabled?: boolean;
+  isComputeIsolationEnabled?: boolean | undefined;
   /** Whether autotune is required or not. */
-  isAutotuneEnabled?: boolean;
+  isAutotuneEnabled?: boolean | undefined;
   /** Whether session level packages enabled. */
-  sessionLevelPackagesEnabled?: boolean;
+  sessionLevelPackagesEnabled?: boolean | undefined;
   /** The cache size */
-  cacheSize?: number;
+  cacheSize?: number | undefined;
   /** Dynamic Executor Allocation */
-  dynamicExecutorAllocation?: DynamicExecutorAllocation;
+  dynamicExecutorAllocation?: DynamicExecutorAllocation | undefined;
   /** The Spark events folder */
-  sparkEventsFolder?: string;
+  sparkEventsFolder?: string | undefined;
   /** The number of nodes in the Big Data pool. */
-  nodeCount?: number;
+  nodeCount?: number | undefined;
   /** Library version requirements */
-  libraryRequirements?: LibraryRequirements;
+  libraryRequirements?: LibraryRequirements | undefined;
   /** List of custom libraries/packages associated with the spark pool. */
-  customLibraries?: BigDataPoolResourcePropertiesCustomLibrariesList;
+  customLibraries?: BigDataPoolResourcePropertiesCustomLibrariesList | undefined;
   /** Spark configuration file to specify additional properties */
-  sparkConfigProperties?: SparkConfigProperties;
+  sparkConfigProperties?: SparkConfigProperties | undefined;
   /** The Apache Spark version. */
-  sparkVersion?: string;
+  sparkVersion?: string | undefined;
   /** The default folder where Spark logs will be written. */
-  defaultSparkLogFolder?: string;
+  defaultSparkLogFolder?: string | undefined;
   /** The level of compute power that each node in the Big Data pool has. */
-  nodeSize?: BigDataPoolResourcePropertiesNodeSize;
+  nodeSize?: BigDataPoolResourcePropertiesNodeSize | undefined;
   /** The kind of nodes that the Big Data pool provides. */
-  nodeSizeFamily?: BigDataPoolResourcePropertiesNodeSizeFamily;
+  nodeSizeFamily?: BigDataPoolResourcePropertiesNodeSizeFamily | undefined;
   /** The time when the Big Data pool was updated successfully. */
-  lastSucceededTimestamp?: string;
+  lastSucceededTimestamp?: string | undefined;
 }
 export interface BigDataPoolsCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Resource tags. */
-  tags?: BigDataPoolsCreateOrUpdateResponseTagsMap;
+  tags?: BigDataPoolsCreateOrUpdateResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Big Data pool properties */
-  properties?: BigDataPoolResourceProperties;
+  properties?: BigDataPoolResourceProperties | undefined;
 }
 export interface CheckOperationNameAvailabilityRequest {
   /** The ID of the target subscription. */
   subscriptionId: string;
   /** Workspace name */
-  name?: string;
+  name?: string | undefined;
   /** Type: workspace */
-  type?: string;
+  type?: string | undefined;
 }
 /** A response saying whether the workspace name is available */
 export interface CheckNameAvailabilityResponse {
   /** Validation message */
-  message?: string;
+  message?: string | undefined;
   /** Whether the workspace name is available */
-  available?: boolean;
+  available?: boolean | undefined;
   /** Reason the workspace name is or is not available */
-  reason?: string;
+  reason?: string | undefined;
   /** Workspace name */
-  name?: string;
+  name?: string | undefined;
 }
 export type CreateAzureADOnlyAuthenticationRequestAzureADOnlyAuthenticationName = "default";
 /** Properties of a active directory only authentication. */
@@ -312,7 +313,7 @@ export interface CreateAzureADOnlyAuthenticationRequest {
     | CreateAzureADOnlyAuthenticationRequestAzureADOnlyAuthenticationName
     | (string & {});
   /** azureADOnlyAuthentication resource properties */
-  properties?: AzureADOnlyAuthenticationPropertiesInput;
+  properties?: AzureADOnlyAuthenticationPropertiesInput | undefined;
 }
 /** property configuration state */
 export type AzureADOnlyAuthenticationPropertiesState = "Consistent" | "InConsistent" | "Updating";
@@ -321,19 +322,19 @@ export interface AzureADOnlyAuthenticationProperties {
   /** Azure Active Directory only Authentication enabled. */
   azureADOnlyAuthentication: boolean;
   /** property configuration state */
-  state?: AzureADOnlyAuthenticationPropertiesState;
+  state?: AzureADOnlyAuthenticationPropertiesState | undefined;
   /** property configuration date */
-  creationDate?: string;
+  creationDate?: string | undefined;
 }
 export interface CreateAzureADOnlyAuthenticationResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** azureADOnlyAuthentication resource properties */
-  properties?: AzureADOnlyAuthenticationProperties;
+  properties?: AzureADOnlyAuthenticationProperties | undefined;
 }
 /** The type of integration runtime. */
 export type IntegrationRuntimeType = "Managed" | "SelfHosted";
@@ -342,13 +343,13 @@ export interface IntegrationRuntime {
   /** Type of integration runtime. */
   type: IntegrationRuntimeType | (string & {});
   /** Integration runtime description. */
-  description?: string;
+  description?: string | undefined;
   /** Type-specific integration runtime properties (polymorphic on `type`). */
-  typeProperties?: unknown;
+  typeProperties?: unknown | undefined;
   /** Managed Virtual Network reference (Managed integration runtimes). */
-  managedVirtualNetwork?: unknown;
+  managedVirtualNetwork?: unknown | undefined;
   /** Integration runtime state (read-only, Managed integration runtimes). */
-  state?: string;
+  state?: string | undefined;
   [key: string]: unknown;
 }
 export interface CreateIntegrationRuntimeRequest {
@@ -365,13 +366,13 @@ export interface CreateIntegrationRuntimeRequest {
 }
 export interface CreateIntegrationRuntimeResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Resource Etag. */
-  etag?: string;
+  etag?: string | undefined;
   /** Integration runtime properties. */
   properties: IntegrationRuntime;
 }
@@ -380,16 +381,16 @@ export interface PrivateEndpointInput {}
 /** Connection state details of the private endpoint */
 export interface PrivateLinkServiceConnectionStateInput {
   /** The private link service connection status. */
-  status?: string;
+  status?: string | undefined;
   /** The private link service connection description. */
-  description?: string;
+  description?: string | undefined;
 }
 /** Properties of a private endpoint connection. */
 export interface PrivateEndpointConnectionPropertiesInput {
   /** The private endpoint which the connection belongs to. */
-  privateEndpoint?: PrivateEndpointInput;
+  privateEndpoint?: PrivateEndpointInput | undefined;
   /** Connection state of the private endpoint connection. */
-  privateLinkServiceConnectionState?: PrivateLinkServiceConnectionStateInput;
+  privateLinkServiceConnectionState?: PrivateLinkServiceConnectionStateInput | undefined;
 }
 export interface CreatePrivateEndpointConnectionRequest {
   /** The ID of the target subscription. */
@@ -401,51 +402,51 @@ export interface CreatePrivateEndpointConnectionRequest {
   /** The name of the private endpoint connection. */
   privateEndpointConnectionName: string;
   /** Private endpoint connection properties. */
-  properties?: PrivateEndpointConnectionPropertiesInput;
+  properties?: PrivateEndpointConnectionPropertiesInput | undefined;
 }
 /** Private endpoint details */
 export interface PrivateEndpoint {
   /** Resource id of the private endpoint. */
-  id?: string;
+  id?: string | undefined;
 }
 /** Connection state details of the private endpoint */
 export interface PrivateLinkServiceConnectionState {
   /** The private link service connection status. */
-  status?: string;
+  status?: string | undefined;
   /** The private link service connection description. */
-  description?: string;
+  description?: string | undefined;
   /** The actions required for private link service connection. */
-  actionsRequired?: string;
+  actionsRequired?: string | undefined;
 }
 /** Properties of a private endpoint connection. */
 export interface PrivateEndpointConnectionProperties {
   /** The private endpoint which the connection belongs to. */
-  privateEndpoint?: PrivateEndpoint;
+  privateEndpoint?: PrivateEndpoint | undefined;
   /** Connection state of the private endpoint connection. */
-  privateLinkServiceConnectionState?: PrivateLinkServiceConnectionState;
+  privateLinkServiceConnectionState?: PrivateLinkServiceConnectionState | undefined;
   /** Provisioning state of the private endpoint connection. */
-  provisioningState?: string;
+  provisioningState?: string | undefined;
 }
 export interface CreatePrivateEndpointConnectionResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Private endpoint connection properties. */
-  properties?: PrivateEndpointConnectionProperties;
+  properties?: PrivateEndpointConnectionProperties | undefined;
 }
 /** Resource tags. */
 export type CreateSqlPoolRequestTagsMap = { [key: string]: string | undefined };
 /** SQL pool SKU */
 export interface Sku {
   /** The service tier */
-  tier?: string;
+  tier?: string | undefined;
   /** The SKU name */
-  name?: string;
+  name?: string | undefined;
   /** If the SKU supports scale out/in then the capacity integer should be included. If scale out/in is not possible for the resource this may be omitted. */
-  capacity?: number;
+  capacity?: number | undefined;
 }
 /** Specifies the mode of sql pool creation. Default: regular sql pool creation. PointInTimeRestore: Creates a sql pool by restoring a point in time backup of an existing sql pool. sourceDatabaseId must be specified as the resource ID of the existing sql pool, and restorePointInTime must be specified. Recovery: Creates a sql pool by a geo-replicated backup. sourceDatabaseId must be specified as the recoverableDatabaseId to restore. Restore: Creates a sql pool by restoring a backup of a deleted sql pool. SourceDatabaseId should be the sql pool's original resource ID. SourceDatabaseId and sourceDatabaseDeletionDate must be specified. */
 export type SqlPoolResourcePropertiesInputCreateMode =
@@ -458,23 +459,23 @@ export type SqlPoolResourcePropertiesInputStorageAccountType = "GRS" | "LRS";
 /** Properties of a SQL Analytics pool */
 export interface SqlPoolResourcePropertiesInput {
   /** Maximum size in bytes */
-  maxSizeBytes?: number;
+  maxSizeBytes?: number | undefined;
   /** Collation mode */
-  collation?: string;
+  collation?: string | undefined;
   /** Source database to create from */
-  sourceDatabaseId?: string;
+  sourceDatabaseId?: string | undefined;
   /** Backup database to restore from */
-  recoverableDatabaseId?: string;
+  recoverableDatabaseId?: string | undefined;
   /** Resource state */
-  provisioningState?: string;
+  provisioningState?: string | undefined;
   /** Snapshot time to restore */
-  restorePointInTime?: string;
+  restorePointInTime?: string | undefined;
   /** Specifies the mode of sql pool creation. Default: regular sql pool creation. PointInTimeRestore: Creates a sql pool by restoring a point in time backup of an existing sql pool. sourceDatabaseId must be specified as the resource ID of the existing sql pool, and restorePointInTime must be specified. Recovery: Creates a sql pool by a geo-replicated backup. sourceDatabaseId must be specified as the recoverableDatabaseId to restore. Restore: Creates a sql pool by restoring a backup of a deleted sql pool. SourceDatabaseId should be the sql pool's original resource ID. SourceDatabaseId and sourceDatabaseDeletionDate must be specified. */
-  createMode?: SqlPoolResourcePropertiesInputCreateMode | (string & {});
+  createMode?: SqlPoolResourcePropertiesInputCreateMode | (string & {}) | undefined;
   /** The storage account type used to store backups for this sql pool. */
-  storageAccountType?: SqlPoolResourcePropertiesInputStorageAccountType | (string & {});
+  storageAccountType?: SqlPoolResourcePropertiesInputStorageAccountType | (string & {}) | undefined;
   /** Specifies the time that the sql pool was deleted */
-  sourceDatabaseDeletionDate?: string;
+  sourceDatabaseDeletionDate?: string | undefined;
 }
 export interface CreateSqlPoolRequest {
   /** The ID of the target subscription. */
@@ -486,13 +487,13 @@ export interface CreateSqlPoolRequest {
   /** SQL pool name */
   sqlPoolName: string;
   /** Resource tags. */
-  tags?: CreateSqlPoolRequestTagsMap;
+  tags?: CreateSqlPoolRequestTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** SQL pool SKU */
-  sku?: Sku;
+  sku?: Sku | undefined;
   /** SQL pool properties */
-  properties?: SqlPoolResourcePropertiesInput;
+  properties?: SqlPoolResourcePropertiesInput | undefined;
 }
 /** Resource tags. */
 export type CreateSqlPoolResponseTagsMap = { [key: string]: string | undefined };
@@ -507,43 +508,43 @@ export type SqlPoolResourcePropertiesStorageAccountType = "GRS" | "LRS";
 /** Properties of a SQL Analytics pool */
 export interface SqlPoolResourceProperties {
   /** Maximum size in bytes */
-  maxSizeBytes?: number;
+  maxSizeBytes?: number | undefined;
   /** Collation mode */
-  collation?: string;
+  collation?: string | undefined;
   /** Source database to create from */
-  sourceDatabaseId?: string;
+  sourceDatabaseId?: string | undefined;
   /** Backup database to restore from */
-  recoverableDatabaseId?: string;
+  recoverableDatabaseId?: string | undefined;
   /** Resource state */
-  provisioningState?: string;
+  provisioningState?: string | undefined;
   /** Resource status */
-  status?: string;
+  status?: string | undefined;
   /** Snapshot time to restore */
-  restorePointInTime?: string;
+  restorePointInTime?: string | undefined;
   /** Specifies the mode of sql pool creation. Default: regular sql pool creation. PointInTimeRestore: Creates a sql pool by restoring a point in time backup of an existing sql pool. sourceDatabaseId must be specified as the resource ID of the existing sql pool, and restorePointInTime must be specified. Recovery: Creates a sql pool by a geo-replicated backup. sourceDatabaseId must be specified as the recoverableDatabaseId to restore. Restore: Creates a sql pool by restoring a backup of a deleted sql pool. SourceDatabaseId should be the sql pool's original resource ID. SourceDatabaseId and sourceDatabaseDeletionDate must be specified. */
-  createMode?: SqlPoolResourcePropertiesCreateMode;
+  createMode?: SqlPoolResourcePropertiesCreateMode | undefined;
   /** Date the SQL pool was created */
-  creationDate?: string;
+  creationDate?: string | undefined;
   /** The storage account type used to store backups for this sql pool. */
-  storageAccountType?: SqlPoolResourcePropertiesStorageAccountType;
+  storageAccountType?: SqlPoolResourcePropertiesStorageAccountType | undefined;
   /** Specifies the time that the sql pool was deleted */
-  sourceDatabaseDeletionDate?: string;
+  sourceDatabaseDeletionDate?: string | undefined;
 }
 export interface CreateSqlPoolResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Resource tags. */
-  tags?: CreateSqlPoolResponseTagsMap;
+  tags?: CreateSqlPoolResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** SQL pool SKU */
-  sku?: Sku;
+  sku?: Sku | undefined;
   /** SQL pool properties */
-  properties?: SqlPoolResourceProperties;
+  properties?: SqlPoolResourceProperties | undefined;
 }
 export interface CreateSqlPoolRestorePointRequest {
   /** The ID of the target subscription. */
@@ -562,25 +563,25 @@ export type RestorePointPropertiesRestorePointType = "CONTINUOUS" | "DISCRETE";
 /** Properties of a database restore point */
 export interface RestorePointProperties {
   /** The type of restore point */
-  restorePointType?: RestorePointPropertiesRestorePointType;
+  restorePointType?: RestorePointPropertiesRestorePointType | undefined;
   /** The earliest time to which this database can be restored */
-  earliestRestoreDate?: string;
+  earliestRestoreDate?: string | undefined;
   /** The time the backup was taken */
-  restorePointCreationDate?: string;
+  restorePointCreationDate?: string | undefined;
   /** The label of restore point for backup request by user */
-  restorePointLabel?: string;
+  restorePointLabel?: string | undefined;
 }
 export interface CreateSqlPoolRestorePointResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Resource location. */
-  location?: string;
+  location?: string | undefined;
   /** Resource properties. */
-  properties?: RestorePointProperties;
+  properties?: RestorePointProperties | undefined;
 }
 export type DataMaskingPoliciesCreateOrUpdateRequestDataMaskingPolicyName = "Default";
 /** The state of the data masking policy. */
@@ -590,7 +591,7 @@ export interface DataMaskingPolicyPropertiesInput {
   /** The state of the data masking policy. */
   dataMaskingState: DataMaskingPolicyPropertiesInputDataMaskingState | (string & {});
   /** The list of the exempt principals. Specifies the semicolon-separated list of database users for which the data masking policy does not apply. The specified users receive data results without masking for all of the database queries. */
-  exemptPrincipals?: string;
+  exemptPrincipals?: string | undefined;
 }
 export interface DataMaskingPoliciesCreateOrUpdateRequest {
   /** The ID of the target subscription. */
@@ -606,7 +607,7 @@ export interface DataMaskingPoliciesCreateOrUpdateRequest {
     | DataMaskingPoliciesCreateOrUpdateRequestDataMaskingPolicyName
     | (string & {});
   /** The properties of the data masking policy. */
-  properties?: DataMaskingPolicyPropertiesInput;
+  properties?: DataMaskingPolicyPropertiesInput | undefined;
 }
 /** The state of the data masking policy. */
 export type DataMaskingPolicyPropertiesDataMaskingState = "Disabled" | "Enabled";
@@ -615,27 +616,27 @@ export interface DataMaskingPolicyProperties {
   /** The state of the data masking policy. */
   dataMaskingState: DataMaskingPolicyPropertiesDataMaskingState;
   /** The list of the exempt principals. Specifies the semicolon-separated list of database users for which the data masking policy does not apply. The specified users receive data results without masking for all of the database queries. */
-  exemptPrincipals?: string;
+  exemptPrincipals?: string | undefined;
   /** The list of the application principals. This is a legacy parameter and is no longer used. */
-  applicationPrincipals?: string;
+  applicationPrincipals?: string | undefined;
   /** The masking level. This is a legacy parameter and is no longer used. */
-  maskingLevel?: string;
+  maskingLevel?: string | undefined;
 }
 export interface DataMaskingPoliciesCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** The properties of the data masking policy. */
-  properties?: DataMaskingPolicyProperties;
+  properties?: DataMaskingPolicyProperties | undefined;
   /** The location of the data masking policy. */
-  location?: string;
+  location?: string | undefined;
   /** The kind of data masking policy. Metadata, used for Azure portal. */
-  kind?: string;
+  kind?: string | undefined;
   /** Fully qualified resource ID of the sql pool */
-  managedBy?: string;
+  managedBy?: string | undefined;
 }
 export type DataMaskingRulesCreateOrUpdateRequestDataMaskingPolicyName = "Default";
 /** The rule state. Used to delete a rule. To delete an existing rule, specify the schemaName, tableName, columnName, maskingFunction, and specify ruleState as disabled. However, if the rule doesn't already exist, the rule will be created with ruleState set to enabled, regardless of the provided value of ruleState. */
@@ -651,9 +652,9 @@ export type DataMaskingRulePropertiesInputMaskingFunction =
 /** The properties of a Sql pool data masking rule. */
 export interface DataMaskingRulePropertiesInput {
   /** The alias name. This is a legacy parameter and is no longer used. */
-  aliasName?: string;
+  aliasName?: string | undefined;
   /** The rule state. Used to delete a rule. To delete an existing rule, specify the schemaName, tableName, columnName, maskingFunction, and specify ruleState as disabled. However, if the rule doesn't already exist, the rule will be created with ruleState set to enabled, regardless of the provided value of ruleState. */
-  ruleState?: DataMaskingRulePropertiesInputRuleState | (string & {});
+  ruleState?: DataMaskingRulePropertiesInputRuleState | (string & {}) | undefined;
   /** The schema name on which the data masking rule is applied. */
   schemaName: string;
   /** The table name on which the data masking rule is applied. */
@@ -663,15 +664,15 @@ export interface DataMaskingRulePropertiesInput {
   /** The masking function that is used for the data masking rule. */
   maskingFunction: DataMaskingRulePropertiesInputMaskingFunction | (string & {});
   /** The numberFrom property of the masking rule. Required if maskingFunction is set to Number, otherwise this parameter will be ignored. */
-  numberFrom?: string;
+  numberFrom?: string | undefined;
   /** The numberTo property of the data masking rule. Required if maskingFunction is set to Number, otherwise this parameter will be ignored. */
-  numberTo?: string;
+  numberTo?: string | undefined;
   /** If maskingFunction is set to Text, the number of characters to show unmasked in the beginning of the string. Otherwise, this parameter will be ignored. */
-  prefixSize?: string;
+  prefixSize?: string | undefined;
   /** If maskingFunction is set to Text, the number of characters to show unmasked at the end of the string. Otherwise, this parameter will be ignored. */
-  suffixSize?: string;
+  suffixSize?: string | undefined;
   /** If maskingFunction is set to Text, the character to use for masking the unexposed part of the string. Otherwise, this parameter will be ignored. */
-  replacementString?: string;
+  replacementString?: string | undefined;
 }
 export interface DataMaskingRulesCreateOrUpdateRequest {
   /** The ID of the target subscription. */
@@ -687,7 +688,7 @@ export interface DataMaskingRulesCreateOrUpdateRequest {
   /** The name of the data masking rule. */
   dataMaskingRuleName: string;
   /** The properties of the resource. */
-  properties?: DataMaskingRulePropertiesInput;
+  properties?: DataMaskingRulePropertiesInput | undefined;
 }
 /** The rule state. Used to delete a rule. To delete an existing rule, specify the schemaName, tableName, columnName, maskingFunction, and specify ruleState as disabled. However, if the rule doesn't already exist, the rule will be created with ruleState set to enabled, regardless of the provided value of ruleState. */
 export type DataMaskingRulePropertiesRuleState = "Disabled" | "Enabled";
@@ -702,11 +703,11 @@ export type DataMaskingRulePropertiesMaskingFunction =
 /** The properties of a Sql pool data masking rule. */
 export interface DataMaskingRuleProperties {
   /** The rule Id. */
-  id?: string;
+  id?: string | undefined;
   /** The alias name. This is a legacy parameter and is no longer used. */
-  aliasName?: string;
+  aliasName?: string | undefined;
   /** The rule state. Used to delete a rule. To delete an existing rule, specify the schemaName, tableName, columnName, maskingFunction, and specify ruleState as disabled. However, if the rule doesn't already exist, the rule will be created with ruleState set to enabled, regardless of the provided value of ruleState. */
-  ruleState?: DataMaskingRulePropertiesRuleState;
+  ruleState?: DataMaskingRulePropertiesRuleState | undefined;
   /** The schema name on which the data masking rule is applied. */
   schemaName: string;
   /** The table name on which the data masking rule is applied. */
@@ -716,29 +717,29 @@ export interface DataMaskingRuleProperties {
   /** The masking function that is used for the data masking rule. */
   maskingFunction: DataMaskingRulePropertiesMaskingFunction;
   /** The numberFrom property of the masking rule. Required if maskingFunction is set to Number, otherwise this parameter will be ignored. */
-  numberFrom?: string;
+  numberFrom?: string | undefined;
   /** The numberTo property of the data masking rule. Required if maskingFunction is set to Number, otherwise this parameter will be ignored. */
-  numberTo?: string;
+  numberTo?: string | undefined;
   /** If maskingFunction is set to Text, the number of characters to show unmasked in the beginning of the string. Otherwise, this parameter will be ignored. */
-  prefixSize?: string;
+  prefixSize?: string | undefined;
   /** If maskingFunction is set to Text, the number of characters to show unmasked at the end of the string. Otherwise, this parameter will be ignored. */
-  suffixSize?: string;
+  suffixSize?: string | undefined;
   /** If maskingFunction is set to Text, the character to use for masking the unexposed part of the string. Otherwise, this parameter will be ignored. */
-  replacementString?: string;
+  replacementString?: string | undefined;
 }
 export interface DataMaskingRulesCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** The properties of the resource. */
-  properties?: DataMaskingRuleProperties;
+  properties?: DataMaskingRuleProperties | undefined;
   /** The location of the data masking rule. */
-  location?: string;
+  location?: string | undefined;
   /** The kind of Data Masking Rule. Metadata, used for Azure portal. */
-  kind?: string;
+  kind?: string | undefined;
 }
 export interface DeleteBigDataPoolRequest {
   /** The ID of the target subscription. */
@@ -754,17 +755,17 @@ export interface DeleteBigDataPoolRequest {
 export type DeleteBigDataPoolResponseTagsMap = { [key: string]: string | undefined };
 export interface DeleteBigDataPoolResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Resource tags. */
-  tags?: DeleteBigDataPoolResponseTagsMap;
+  tags?: DeleteBigDataPoolResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Big Data pool properties */
-  properties?: BigDataPoolResourceProperties;
+  properties?: BigDataPoolResourceProperties | undefined;
 }
 export interface DeleteIntegrationRuntimeRequest {
   /** The ID of the target subscription. */
@@ -810,21 +811,21 @@ export type IpFirewallRulePropertiesProvisioningState =
 /** IP firewall rule properties */
 export interface IpFirewallRuleProperties {
   /** The end IP address of the firewall rule. Must be IPv4 format. Must be greater than or equal to startIpAddress */
-  endIpAddress?: string;
+  endIpAddress?: string | undefined;
   /** Resource provisioning state */
-  provisioningState?: IpFirewallRulePropertiesProvisioningState;
+  provisioningState?: IpFirewallRulePropertiesProvisioningState | undefined;
   /** The start IP address of the firewall rule. Must be IPv4 format */
-  startIpAddress?: string;
+  startIpAddress?: string | undefined;
 }
 export interface DeleteIpFirewallRuleResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** IP firewall rule properties */
-  properties?: IpFirewallRuleProperties;
+  properties?: IpFirewallRuleProperties | undefined;
 }
 export interface DeleteKeyRequest {
   /** The ID of the target subscription. */
@@ -839,19 +840,19 @@ export interface DeleteKeyRequest {
 /** Key properties */
 export interface KeyProperties {
   /** Used to activate the workspace after a customer managed key is provided. */
-  isActiveCMK?: boolean;
+  isActiveCMK?: boolean | undefined;
   /** The Key Vault Url of the workspace key. */
-  keyVaultUrl?: string;
+  keyVaultUrl?: string | undefined;
 }
 export interface DeleteKeyResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Keys resource properties */
-  properties?: KeyProperties;
+  properties?: KeyProperties | undefined;
 }
 export interface DeletePrivateEndpointConnectionRequest {
   /** The ID of the target subscription. */
@@ -887,19 +888,19 @@ export interface DeleteSqlPoolRequest {
 export type DeleteSqlPoolResponseTagsMap = { [key: string]: string | undefined };
 export interface DeleteSqlPoolResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Resource tags. */
-  tags?: DeleteSqlPoolResponseTagsMap;
+  tags?: DeleteSqlPoolResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** SQL pool SKU */
-  sku?: Sku;
+  sku?: Sku | undefined;
   /** SQL pool properties */
-  properties?: SqlPoolResourceProperties;
+  properties?: SqlPoolResourceProperties | undefined;
 }
 export interface DeleteSqlPoolRestorePointRequest {
   /** The ID of the target subscription. */
@@ -1017,31 +1018,31 @@ export type DeleteWorkspaceResponseTagsMap = { [key: string]: string | undefined
 /** Details of the data lake storage account associated with the workspace */
 export interface DataLakeStorageAccountDetails {
   /** Account URL */
-  accountUrl?: string;
+  accountUrl?: string | undefined;
   /** Filesystem name */
-  filesystem?: string;
+  filesystem?: string | undefined;
   /** ARM resource Id of this storage account */
-  resourceId?: string;
+  resourceId?: string | undefined;
   /** Create managed private endpoint to this storage account or not */
-  createManagedPrivateEndpoint?: boolean;
+  createManagedPrivateEndpoint?: boolean | undefined;
 }
 /** Virtual Network Profile */
 export interface VirtualNetworkProfile {
   /** Subnet ID used for computes in workspace */
-  computeSubnetId?: string;
+  computeSubnetId?: string | undefined;
 }
 /** Connectivity endpoints */
 export type WorkspacePropertiesConnectivityEndpointsMap = { [key: string]: string | undefined };
 /** A private endpoint connection */
 export interface WorkspacePropertiesPrivateEndpointConnectionsItem {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Private endpoint connection properties. */
-  properties?: PrivateEndpointConnectionProperties;
+  properties?: PrivateEndpointConnectionProperties | undefined;
 }
 /** Private endpoint connections to the workspace */
 export type WorkspacePropertiesPrivateEndpointConnectionsList =
@@ -1049,132 +1050,134 @@ export type WorkspacePropertiesPrivateEndpointConnectionsList =
 /** Details of the customer managed key associated with the workspace */
 export interface WorkspaceKeyDetails {
   /** Workspace Key sub-resource name */
-  name?: string;
+  name?: string | undefined;
   /** Workspace Key sub-resource key vault url */
-  keyVaultUrl?: string;
+  keyVaultUrl?: string | undefined;
 }
 /** Key encryption key properties */
 export interface KekIdentityProperties {
   /** User assigned identity resource Id */
-  userAssignedIdentity?: string;
+  userAssignedIdentity?: string | undefined;
   /** Boolean specifying whether to use system assigned identity or not */
-  useSystemAssignedIdentity?: unknown;
+  useSystemAssignedIdentity?: unknown | undefined;
 }
 /** Details of the customer managed key associated with the workspace */
 export interface CustomerManagedKeyDetails {
   /** The customer managed key status on the workspace */
-  status?: string;
+  status?: string | undefined;
   /** The key object of the workspace */
-  key?: WorkspaceKeyDetails;
+  key?: WorkspaceKeyDetails | undefined;
   /** Key encryption key */
-  kekIdentity?: KekIdentityProperties;
+  kekIdentity?: KekIdentityProperties | undefined;
 }
 /** Details of the encryption associated with the workspace */
 export interface EncryptionDetails {
   /** Double Encryption enabled */
-  doubleEncryptionEnabled?: boolean;
+  doubleEncryptionEnabled?: boolean | undefined;
   /** Customer Managed Key Details */
-  cmk?: CustomerManagedKeyDetails;
+  cmk?: CustomerManagedKeyDetails | undefined;
 }
 /** Allowed Aad Tenant Ids For Linking */
 export type ManagedVirtualNetworkSettingsAllowedAadTenantIdsForLinkingList = Array<string>;
 /** Managed Virtual Network Settings */
 export interface ManagedVirtualNetworkSettings {
   /** Prevent Data Exfiltration */
-  preventDataExfiltration?: boolean;
+  preventDataExfiltration?: boolean | undefined;
   /** Linked Access Check On Target Resource */
-  linkedAccessCheckOnTargetResource?: boolean;
+  linkedAccessCheckOnTargetResource?: boolean | undefined;
   /** Allowed Aad Tenant Ids For Linking */
-  allowedAadTenantIdsForLinking?: ManagedVirtualNetworkSettingsAllowedAadTenantIdsForLinkingList;
+  allowedAadTenantIdsForLinking?:
+    | ManagedVirtualNetworkSettingsAllowedAadTenantIdsForLinkingList
+    | undefined;
 }
 /** Git integration settings */
 export interface WorkspaceRepositoryConfiguration {
   /** Type of workspace repositoryID configuration. Example WorkspaceVSTSConfiguration, WorkspaceGitHubConfiguration */
-  type?: string;
+  type?: string | undefined;
   /** GitHub Enterprise host name. For example: `https://github.mydomain.com` */
-  hostName?: string;
+  hostName?: string | undefined;
   /** Account name */
-  accountName?: string;
+  accountName?: string | undefined;
   /** VSTS project name */
-  projectName?: string;
+  projectName?: string | undefined;
   /** Repository name */
-  repositoryName?: string;
+  repositoryName?: string | undefined;
   /** Collaboration branch */
-  collaborationBranch?: string;
+  collaborationBranch?: string | undefined;
   /** Root folder to use in the repository */
-  rootFolder?: string;
+  rootFolder?: string | undefined;
   /** The last commit ID */
-  lastCommitId?: string;
+  lastCommitId?: string | undefined;
   /** The VSTS tenant ID */
-  tenantId?: string;
+  tenantId?: string | undefined;
 }
 /** Purview Configuration */
 export interface PurviewConfiguration {
   /** Purview Resource ID */
-  purviewResourceId?: string;
+  purviewResourceId?: string | undefined;
 }
 /** Enable or Disable public network access to workspace */
 export type WorkspacePropertiesPublicNetworkAccess = "Enabled" | "Disabled";
 /** Initial workspace AAD admin properties for a CSP subscription */
 export interface CspWorkspaceAdminProperties {
   /** AAD object ID of initial workspace admin */
-  initialWorkspaceAdminObjectId?: string;
+  initialWorkspaceAdminObjectId?: string | undefined;
 }
 /** Workspace settings */
 export type WorkspacePropertiesSettingsMap = { [key: string]: unknown | undefined };
 /** Workspace properties */
 export interface WorkspaceProperties {
   /** Workspace default data lake storage account details */
-  defaultDataLakeStorage?: DataLakeStorageAccountDetails;
+  defaultDataLakeStorage?: DataLakeStorageAccountDetails | undefined;
   /** SQL administrator login password */
-  sqlAdministratorLoginPassword?: string | Redacted.Redacted<string>;
+  sqlAdministratorLoginPassword?: string | Redacted.Redacted<string> | undefined;
   /** Workspace managed resource group. The resource group name uniquely identifies the resource group within the user subscriptionId. The resource group name must be no longer than 90 characters long, and must be alphanumeric characters (Char.IsLetterOrDigit()) and '-', '_', '(', ')' and'.'. Note that the name cannot end with '.' */
-  managedResourceGroupName?: string;
+  managedResourceGroupName?: string | undefined;
   /** Resource provisioning state */
-  provisioningState?: string;
+  provisioningState?: string | undefined;
   /** Login for workspace SQL active directory administrator */
-  sqlAdministratorLogin?: string;
+  sqlAdministratorLogin?: string | undefined;
   /** Virtual Network profile */
-  virtualNetworkProfile?: VirtualNetworkProfile;
+  virtualNetworkProfile?: VirtualNetworkProfile | undefined;
   /** Connectivity endpoints */
-  connectivityEndpoints?: WorkspacePropertiesConnectivityEndpointsMap;
+  connectivityEndpoints?: WorkspacePropertiesConnectivityEndpointsMap | undefined;
   /** Setting this to 'default' will ensure that all compute for this workspace is in a virtual network managed on behalf of the user. */
-  managedVirtualNetwork?: string;
+  managedVirtualNetwork?: string | undefined;
   /** Private endpoint connections to the workspace */
-  privateEndpointConnections?: WorkspacePropertiesPrivateEndpointConnectionsList;
+  privateEndpointConnections?: WorkspacePropertiesPrivateEndpointConnectionsList | undefined;
   /** The encryption details of the workspace */
-  encryption?: EncryptionDetails;
+  encryption?: EncryptionDetails | undefined;
   /** The workspace unique identifier */
-  workspaceUID?: string;
+  workspaceUID?: string | undefined;
   /** Workspace level configs and feature flags */
-  extraProperties?: unknown;
+  extraProperties?: unknown | undefined;
   /** Managed Virtual Network Settings */
-  managedVirtualNetworkSettings?: ManagedVirtualNetworkSettings;
+  managedVirtualNetworkSettings?: ManagedVirtualNetworkSettings | undefined;
   /** Git integration settings */
-  workspaceRepositoryConfiguration?: WorkspaceRepositoryConfiguration;
+  workspaceRepositoryConfiguration?: WorkspaceRepositoryConfiguration | undefined;
   /** Purview Configuration */
-  purviewConfiguration?: PurviewConfiguration;
+  purviewConfiguration?: PurviewConfiguration | undefined;
   /** The ADLA resource ID. */
-  adlaResourceId?: string;
+  adlaResourceId?: string | undefined;
   /** Enable or Disable public network access to workspace */
-  publicNetworkAccess?: WorkspacePropertiesPublicNetworkAccess;
+  publicNetworkAccess?: WorkspacePropertiesPublicNetworkAccess | undefined;
   /** Initial workspace AAD admin properties for a CSP subscription */
-  cspWorkspaceAdminProperties?: CspWorkspaceAdminProperties;
+  cspWorkspaceAdminProperties?: CspWorkspaceAdminProperties | undefined;
   /** Workspace settings */
-  settings?: WorkspacePropertiesSettingsMap;
+  settings?: WorkspacePropertiesSettingsMap | undefined;
   /** Enable or Disable AzureADOnlyAuthentication on All Workspace subresource */
-  azureADOnlyAuthentication?: boolean;
+  azureADOnlyAuthentication?: boolean | undefined;
   /** Is trustedServiceBypassEnabled for the workspace */
-  trustedServiceBypassEnabled?: boolean;
+  trustedServiceBypassEnabled?: boolean | undefined;
 }
 /** The type of managed identity for the workspace */
 export type ManagedIdentityType = "None" | "SystemAssigned" | "SystemAssigned,UserAssigned";
 /** User Assigned Managed Identity */
 export interface UserAssignedManagedIdentity {
   /** The client ID. */
-  clientId?: string | null;
+  clientId?: string | null | undefined;
   /** The principal ID. */
-  principalId?: string | null;
+  principalId?: string | null | undefined;
 }
 /** The User Assigned Managed Identities. */
 export type UserAssignedManagedIdentities = {
@@ -1183,29 +1186,29 @@ export type UserAssignedManagedIdentities = {
 /** The workspace managed identity */
 export interface ManagedIdentity {
   /** The principal ID of the workspace managed identity */
-  principalId?: string;
+  principalId?: string | undefined;
   /** The tenant ID of the workspace managed identity */
-  tenantId?: string;
+  tenantId?: string | undefined;
   /** The type of managed identity for the workspace */
-  type?: ManagedIdentityType;
+  type?: ManagedIdentityType | undefined;
   /** The user assigned managed identities. */
-  userAssignedIdentities?: UserAssignedManagedIdentities;
+  userAssignedIdentities?: UserAssignedManagedIdentities | undefined;
 }
 export interface DeleteWorkspaceResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Resource tags. */
-  tags?: DeleteWorkspaceResponseTagsMap;
+  tags?: DeleteWorkspaceResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Workspace resource properties */
-  properties?: WorkspaceProperties;
+  properties?: WorkspaceProperties | undefined;
   /** Identity of the workspace */
-  identity?: ManagedIdentity;
+  identity?: ManagedIdentity | undefined;
 }
 export interface DeleteWorkspaceAadAdminRequest {
   /** The ID of the target subscription. */
@@ -1328,17 +1331,17 @@ export interface ExportSqlPoolVulnerabilityAssessmentScanRequest {
 /** Properties of the export operation's result. */
 export interface SqlPoolVulnerabilityAssessmentScanExportProperties {
   /** Location of the exported report (e.g. https://myStorage.blob.core.windows.net/VaScans/scans/serverName/databaseName/scan_scanId.xlsx). */
-  exportedReportLocation?: string;
+  exportedReportLocation?: string | undefined;
 }
 export interface ExportSqlPoolVulnerabilityAssessmentScanResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Resource properties. */
-  properties?: SqlPoolVulnerabilityAssessmentScanExportProperties;
+  properties?: SqlPoolVulnerabilityAssessmentScanExportProperties | undefined;
 }
 export type ExtendedSqlPoolBlobAuditingPoliciesCreateOrUpdateRequestBlobAuditingPolicyName =
   "default";
@@ -1349,25 +1352,27 @@ export type ExtendedSqlPoolBlobAuditingPolicyPropertiesAuditActionsAndGroupsList
 /** Properties of an extended Sql pool blob auditing policy. */
 export interface ExtendedSqlPoolBlobAuditingPolicyProperties {
   /** Specifies condition of where clause when creating an audit. */
-  predicateExpression?: string;
+  predicateExpression?: string | undefined;
   /** Specifies the state of the policy. If state is Enabled, storageEndpoint or isAzureMonitorTargetEnabled are required. */
   state: ExtendedSqlPoolBlobAuditingPolicyPropertiesState | (string & {});
   /** Specifies the blob storage endpoint (e.g. https://MyAccount.blob.core.windows.net). If state is Enabled, storageEndpoint or isAzureMonitorTargetEnabled is required. */
-  storageEndpoint?: string;
+  storageEndpoint?: string | undefined;
   /** Specifies the identifier key of the auditing storage account. If state is Enabled and storageEndpoint is specified, not specifying the storageAccountAccessKey will use SQL server system-assigned managed identity to access the storage. Prerequisites for using managed identity authentication: 1. Assign SQL Server a system-assigned managed identity in Azure Active Directory (AAD). 2. Grant SQL Server identity access to the storage account by adding 'Storage Blob Data Contributor' RBAC role to the server identity. For more information, see [Auditing to storage using Managed Identity authentication](https://go.microsoft.com/fwlink/?linkid=2114355) */
-  storageAccountAccessKey?: string;
+  storageAccountAccessKey?: string | undefined;
   /** Specifies the number of days to keep in the audit logs in the storage account. */
-  retentionDays?: number;
+  retentionDays?: number | undefined;
   /** Specifies the Actions-Groups and Actions to audit. The recommended set of action groups to use is the following combination - this will audit all the queries and stored procedures executed against the database, as well as successful and failed logins: BATCH_COMPLETED_GROUP, SUCCESSFUL_DATABASE_AUTHENTICATION_GROUP, FAILED_DATABASE_AUTHENTICATION_GROUP. This above combination is also the set that is configured by default when enabling auditing from the Azure portal. The supported action groups to audit are (note: choose only specific groups that cover your auditing needs. Using unnecessary groups could lead to very large quantities of audit records): APPLICATION_ROLE_CHANGE_PASSWORD_GROUP BACKUP_RESTORE_GROUP DATABASE_LOGOUT_GROUP DATABASE_OBJECT_CHANGE_GROUP DATABASE_OBJECT_OWNERSHIP_CHANGE_GROUP DATABASE_OBJECT_PERMISSION_CHANGE_GROUP DATABASE_OPERATION_GROUP DATABASE_PERMISSION_CHANGE_GROUP DATABASE_PRINCIPAL_CHANGE_GROUP DATABASE_PRINCIPAL_IMPERSONATION_GROUP DATABASE_ROLE_MEMBER_CHANGE_GROUP FAILED_DATABASE_AUTHENTICATION_GROUP SCHEMA_OBJECT_ACCESS_GROUP SCHEMA_OBJECT_CHANGE_GROUP SCHEMA_OBJECT_OWNERSHIP_CHANGE_GROUP SCHEMA_OBJECT_PERMISSION_CHANGE_GROUP SUCCESSFUL_DATABASE_AUTHENTICATION_GROUP USER_CHANGE_PASSWORD_GROUP BATCH_STARTED_GROUP BATCH_COMPLETED_GROUP These are groups that cover all sql statements and stored procedures executed against the database, and should not be used in combination with other groups as this will result in duplicate audit logs. For more information, see [Database-Level Audit Action Groups](https://docs.microsoft.com/en-us/sql/relational-databases/security/auditing/sql-server-audit-action-groups-and-actions#database-level-audit-action-groups). For Database auditing policy, specific Actions can also be specified (note that Actions cannot be specified for Server auditing policy). The supported actions to audit are: SELECT UPDATE INSERT DELETE EXECUTE RECEIVE REFERENCES The general form for defining an action to be audited is: {action} ON {object} BY {principal} Note that <object> in the above format can refer to an object like a table, view, or stored procedure, or an entire database or schema. For the latter cases, the forms DATABASE::{db_name} and SCHEMA::{schema_name} are used, respectively. For example: SELECT on dbo.myTable by public SELECT on DATABASE::myDatabase by public SELECT on SCHEMA::mySchema by public For more information, see [Database-Level Audit Actions](https://docs.microsoft.com/en-us/sql/relational-databases/security/auditing/sql-server-audit-action-groups-and-actions#database-level-audit-actions) */
-  auditActionsAndGroups?: ExtendedSqlPoolBlobAuditingPolicyPropertiesAuditActionsAndGroupsList;
+  auditActionsAndGroups?:
+    | ExtendedSqlPoolBlobAuditingPolicyPropertiesAuditActionsAndGroupsList
+    | undefined;
   /** Specifies the blob storage subscription Id. */
-  storageAccountSubscriptionId?: string;
+  storageAccountSubscriptionId?: string | undefined;
   /** Specifies whether storageAccountAccessKey value is the storage's secondary key. */
-  isStorageSecondaryKeyInUse?: boolean;
+  isStorageSecondaryKeyInUse?: boolean | undefined;
   /** Specifies whether audit events are sent to Azure Monitor. In order to send the events to Azure Monitor, specify 'state' as 'Enabled' and 'isAzureMonitorTargetEnabled' as true. When using REST API to configure auditing, Diagnostic Settings with 'SQLSecurityAuditEvents' diagnostic logs category on the database should be also created. Note that for server level audit you should use the 'master' database as {databaseName}. Diagnostic Settings URI format: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/providers/microsoft.insights/diagnosticSettings/{settingsName}?api-version=2017-05-01-preview For more information, see [Diagnostic Settings REST API](https://go.microsoft.com/fwlink/?linkid=2033207) or [Diagnostic Settings PowerShell](https://go.microsoft.com/fwlink/?linkid=2033043) */
-  isAzureMonitorTargetEnabled?: boolean;
+  isAzureMonitorTargetEnabled?: boolean | undefined;
   /** Specifies the amount of time in milliseconds that can elapse before audit actions are forced to be processed. The default minimum value is 1000 (1 second). The maximum is 2,147,483,647. */
-  queueDelayMs?: number;
+  queueDelayMs?: number | undefined;
 }
 export interface ExtendedSqlPoolBlobAuditingPoliciesCreateOrUpdateRequest {
   /** The ID of the target subscription. */
@@ -1383,17 +1388,17 @@ export interface ExtendedSqlPoolBlobAuditingPoliciesCreateOrUpdateRequest {
     | ExtendedSqlPoolBlobAuditingPoliciesCreateOrUpdateRequestBlobAuditingPolicyName
     | (string & {});
   /** Resource properties. */
-  properties?: ExtendedSqlPoolBlobAuditingPolicyProperties;
+  properties?: ExtendedSqlPoolBlobAuditingPolicyProperties | undefined;
 }
 export interface ExtendedSqlPoolBlobAuditingPoliciesCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Resource properties. */
-  properties?: ExtendedSqlPoolBlobAuditingPolicyProperties;
+  properties?: ExtendedSqlPoolBlobAuditingPolicyProperties | undefined;
 }
 export type GetAzureADOnlyAuthenticationRequestAzureADOnlyAuthenticationName = "default";
 export interface GetAzureADOnlyAuthenticationRequest {
@@ -1410,13 +1415,13 @@ export interface GetAzureADOnlyAuthenticationRequest {
 }
 export interface GetAzureADOnlyAuthenticationResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** azureADOnlyAuthentication resource properties */
-  properties?: AzureADOnlyAuthenticationProperties;
+  properties?: AzureADOnlyAuthenticationProperties | undefined;
 }
 export interface GetBigDataPoolRequest {
   /** The ID of the target subscription. */
@@ -1432,17 +1437,17 @@ export interface GetBigDataPoolRequest {
 export type GetBigDataPoolResponseTagsMap = { [key: string]: string | undefined };
 export interface GetBigDataPoolResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Resource tags. */
-  tags?: GetBigDataPoolResponseTagsMap;
+  tags?: GetBigDataPoolResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Big Data pool properties */
-  properties?: BigDataPoolResourceProperties;
+  properties?: BigDataPoolResourceProperties | undefined;
 }
 export type GetDataMaskingPolicyRequestDataMaskingPolicyName = "Default";
 export interface GetDataMaskingPolicyRequest {
@@ -1459,19 +1464,19 @@ export interface GetDataMaskingPolicyRequest {
 }
 export interface GetDataMaskingPolicyResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** The properties of the data masking policy. */
-  properties?: DataMaskingPolicyProperties;
+  properties?: DataMaskingPolicyProperties | undefined;
   /** The location of the data masking policy. */
-  location?: string;
+  location?: string | undefined;
   /** The kind of data masking policy. Metadata, used for Azure portal. */
-  kind?: string;
+  kind?: string | undefined;
   /** Fully qualified resource ID of the sql pool */
-  managedBy?: string;
+  managedBy?: string | undefined;
 }
 export type GetDataMaskingRuleRequestDataMaskingPolicyName = "Default";
 export interface GetDataMaskingRuleRequest {
@@ -1490,17 +1495,17 @@ export interface GetDataMaskingRuleRequest {
 }
 export interface GetDataMaskingRuleResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** The properties of the resource. */
-  properties?: DataMaskingRuleProperties;
+  properties?: DataMaskingRuleProperties | undefined;
   /** The location of the data masking rule. */
-  location?: string;
+  location?: string | undefined;
   /** The kind of Data Masking Rule. Metadata, used for Azure portal. */
-  kind?: string;
+  kind?: string | undefined;
 }
 export type GetExtendedSqlPoolBlobAuditingPolicyRequestBlobAuditingPolicyName = "default";
 export interface GetExtendedSqlPoolBlobAuditingPolicyRequest {
@@ -1519,13 +1524,13 @@ export interface GetExtendedSqlPoolBlobAuditingPolicyRequest {
 }
 export interface GetExtendedSqlPoolBlobAuditingPolicyResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Resource properties. */
-  properties?: ExtendedSqlPoolBlobAuditingPolicyProperties;
+  properties?: ExtendedSqlPoolBlobAuditingPolicyProperties | undefined;
 }
 export interface GetIntegrationRuntimeRequest {
   /** The ID of the target subscription. */
@@ -1539,13 +1544,13 @@ export interface GetIntegrationRuntimeRequest {
 }
 export interface GetIntegrationRuntimeResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Resource Etag. */
-  etag?: string;
+  etag?: string | undefined;
   /** Integration runtime properties. */
   properties: IntegrationRuntime;
 }
@@ -1562,17 +1567,17 @@ export interface GetIntegrationRuntimeConnectionInfosRequest {
 /** Connection information for encrypting the on-premises data source credentials. */
 export interface IntegrationRuntimeConnectionInfo {
   /** The token generated in service. Callers use this token to authenticate to integration runtime. */
-  serviceToken?: string;
+  serviceToken?: string | undefined;
   /** The integration runtime SSL certificate thumbprint. Click-Once application uses it to do server validation. */
-  identityCertThumbprint?: string;
+  identityCertThumbprint?: string | undefined;
   /** The on-premises integration runtime host URL. */
-  hostServiceUri?: string;
+  hostServiceUri?: string | undefined;
   /** The integration runtime version. */
-  version?: string;
+  version?: string | undefined;
   /** The public key for encrypting a credential when transferring the credential to the integration runtime. */
-  publicKey?: string;
+  publicKey?: string | undefined;
   /** Whether the identity certificate is expired. */
-  isIdentityCertExprired?: boolean;
+  isIdentityCertExprired?: boolean | undefined;
   [key: string]: unknown;
 }
 export interface GetIntegrationRuntimeNodeRequest {
@@ -1603,41 +1608,41 @@ export type SelfHostedIntegrationRuntimeNodeLastUpdateResult = "None" | "Succeed
 /** Properties of Self-hosted integration runtime node. */
 export interface SelfHostedIntegrationRuntimeNode {
   /** Name of the integration runtime node. */
-  nodeName?: string;
+  nodeName?: string | undefined;
   /** Machine name of the integration runtime node. */
-  machineName?: string;
+  machineName?: string | undefined;
   /** URI for the host machine of the integration runtime. */
-  hostServiceUri?: string;
+  hostServiceUri?: string | undefined;
   /** Status of the integration runtime node. */
-  status?: SelfHostedIntegrationRuntimeNodeStatus;
+  status?: SelfHostedIntegrationRuntimeNodeStatus | undefined;
   /** The integration runtime capabilities dictionary */
-  capabilities?: SelfHostedIntegrationRuntimeNodeCapabilitiesMap;
+  capabilities?: SelfHostedIntegrationRuntimeNodeCapabilitiesMap | undefined;
   /** Status of the integration runtime node version. */
-  versionStatus?: string;
+  versionStatus?: string | undefined;
   /** Version of the integration runtime node. */
-  version?: string;
+  version?: string | undefined;
   /** The time at which the integration runtime node was registered in ISO8601 format. */
-  registerTime?: string;
+  registerTime?: string | undefined;
   /** The most recent time at which the integration runtime was connected in ISO8601 format. */
-  lastConnectTime?: string;
+  lastConnectTime?: string | undefined;
   /** The time at which the integration runtime will expire in ISO8601 format. */
-  expiryTime?: string;
+  expiryTime?: string | undefined;
   /** The time the node last started up. */
-  lastStartTime?: string;
+  lastStartTime?: string | undefined;
   /** The integration runtime node last stop time. */
-  lastStopTime?: string;
+  lastStopTime?: string | undefined;
   /** The result of the last integration runtime node update. */
-  lastUpdateResult?: SelfHostedIntegrationRuntimeNodeLastUpdateResult;
+  lastUpdateResult?: SelfHostedIntegrationRuntimeNodeLastUpdateResult | undefined;
   /** The last time for the integration runtime node update start. */
-  lastStartUpdateTime?: string;
+  lastStartUpdateTime?: string | undefined;
   /** The last time for the integration runtime node update end. */
-  lastEndUpdateTime?: string;
+  lastEndUpdateTime?: string | undefined;
   /** Indicates whether this node is the active dispatcher for integration runtime requests. */
-  isActiveDispatcher?: boolean;
+  isActiveDispatcher?: boolean | undefined;
   /** Maximum concurrent jobs on the integration runtime node. */
-  concurrentJobsLimit?: number;
+  concurrentJobsLimit?: number | undefined;
   /** The maximum concurrent jobs in this integration runtime. */
-  maxConcurrentJobs?: number;
+  maxConcurrentJobs?: number | undefined;
   [key: string]: unknown;
 }
 export interface GetIntegrationRuntimeNodeIpAddressRequest {
@@ -1655,7 +1660,7 @@ export interface GetIntegrationRuntimeNodeIpAddressRequest {
 /** The IP address of self-hosted integration runtime node. */
 export interface IntegrationRuntimeNodeIpAddress {
   /** The IP address of self-hosted integration runtime node. */
-  ipAddress?: string;
+  ipAddress?: string | undefined;
 }
 export interface GetIntegrationRuntimeStatusRequest {
   /** The ID of the target subscription. */
@@ -1684,15 +1689,15 @@ export interface IntegrationRuntimeStatus {
   /** Type of integration runtime. */
   type: IntegrationRuntimeType;
   /** The workspace name which the integration runtime belong to. */
-  dataFactoryName?: string;
+  dataFactoryName?: string | undefined;
   /** The state of integration runtime. */
-  state?: IntegrationRuntimeState;
+  state?: IntegrationRuntimeState | undefined;
   [key: string]: unknown;
 }
 /** Integration runtime status response. */
 export interface IntegrationRuntimeStatusResponse {
   /** The integration runtime name. */
-  name?: string;
+  name?: string | undefined;
   /** Integration runtime properties. */
   properties: IntegrationRuntimeStatus;
 }
@@ -1708,13 +1713,13 @@ export interface GetIpFirewallRuleRequest {
 }
 export interface GetIpFirewallRuleResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** IP firewall rule properties */
-  properties?: IpFirewallRuleProperties;
+  properties?: IpFirewallRuleProperties | undefined;
 }
 export interface GetKeyRequest {
   /** The ID of the target subscription. */
@@ -1728,13 +1733,13 @@ export interface GetKeyRequest {
 }
 export interface GetKeyResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Keys resource properties */
-  properties?: KeyProperties;
+  properties?: KeyProperties | undefined;
 }
 export interface GetLibraryRequest {
   /** The ID of the target subscription. */
@@ -1750,13 +1755,13 @@ export interface GetLibraryRequest {
 export type GetLibraryResponseProperties = BigDataPoolResourcePropertiesCustomLibrariesItem;
 export interface GetLibraryResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Resource Etag. */
-  etag?: string;
+  etag?: string | undefined;
   /** Library/package information of a Big Data pool powered by Apache Spark */
   properties: BigDataPoolResourcePropertiesCustomLibrariesItem;
 }
@@ -1781,24 +1786,24 @@ export type ErrorDetailDetailsList = Array<ErrorDetail>;
 /** The resource management error additional info. */
 export interface ErrorAdditionalInfo {
   /** The additional info type. */
-  type?: string;
+  type?: string | undefined;
   /** The additional info. */
-  info?: unknown;
+  info?: unknown | undefined;
 }
 /** The error additional info. */
 export type ErrorDetailAdditionalInfoList = Array<ErrorAdditionalInfo>;
 /** The error detail. */
 export interface ErrorDetail {
   /** The error code. */
-  code?: string;
+  code?: string | undefined;
   /** The error message. */
-  message?: string;
+  message?: string | undefined;
   /** The error target. */
-  target?: string;
+  target?: string | undefined;
   /** The error details. */
-  details?: ErrorDetailDetailsList;
+  details?: ErrorDetailDetailsList | undefined;
   /** The error additional info. */
-  additionalInfo?: ErrorDetailAdditionalInfoList;
+  additionalInfo?: ErrorDetailAdditionalInfoList | undefined;
 }
 /** The error details. */
 export type GetOperationAzureAsyncHeaderResultResponseErrorDetailsList = Array<ErrorDetail>;
@@ -1808,33 +1813,33 @@ export type GetOperationAzureAsyncHeaderResultResponseErrorAdditionalInfoList =
 /** The error detail. */
 export interface GetOperationAzureAsyncHeaderResultResponseError {
   /** The error code. */
-  code?: string;
+  code?: string | undefined;
   /** The error message. */
-  message?: string;
+  message?: string | undefined;
   /** The error target. */
-  target?: string;
+  target?: string | undefined;
   /** The error details. */
-  details?: GetOperationAzureAsyncHeaderResultResponseErrorDetailsList;
+  details?: GetOperationAzureAsyncHeaderResultResponseErrorDetailsList | undefined;
   /** The error additional info. */
-  additionalInfo?: GetOperationAzureAsyncHeaderResultResponseErrorAdditionalInfoList;
+  additionalInfo?: GetOperationAzureAsyncHeaderResultResponseErrorAdditionalInfoList | undefined;
 }
 export interface GetOperationAzureAsyncHeaderResultResponse {
   /** Operation ID */
-  id?: string;
+  id?: string | undefined;
   /** Operation name */
-  name?: string;
+  name?: string | undefined;
   /** Operation status */
-  status?: GetOperationAzureAsyncHeaderResultResponseStatus;
+  status?: GetOperationAzureAsyncHeaderResultResponseStatus | undefined;
   /** Operation properties */
-  properties?: unknown;
+  properties?: unknown | undefined;
   /** The error detail. */
-  error?: GetOperationAzureAsyncHeaderResultResponseError;
+  error?: GetOperationAzureAsyncHeaderResultResponseError | undefined;
   /** Operation start time */
-  startTime?: string;
+  startTime?: string | undefined;
   /** Operation start time */
-  endTime?: string;
+  endTime?: string | undefined;
   /** Completion percentage of the operation */
-  percentComplete?: number;
+  percentComplete?: number | undefined;
 }
 export interface GetOperationLocationHeaderResultRequest {
   /** The ID of the target subscription. */
@@ -1859,13 +1864,13 @@ export interface GetPrivateEndpointConnectionRequest {
 }
 export interface GetPrivateEndpointConnectionResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Private endpoint connection properties. */
-  properties?: PrivateEndpointConnectionProperties;
+  properties?: PrivateEndpointConnectionProperties | undefined;
 }
 export interface GetPrivateEndpointConnectionsPrivateLinkHubRequest {
   /** The ID of the target subscription. */
@@ -1882,11 +1887,11 @@ export type GetPrivateEndpointConnectionsPrivateLinkHubResponseProperties =
   PrivateEndpointConnectionProperties;
 export interface GetPrivateEndpointConnectionsPrivateLinkHubResponse {
   /** identifier */
-  id?: string;
+  id?: string | undefined;
   /** Properties of a private endpoint connection. */
-  properties?: PrivateEndpointConnectionProperties;
-  name?: string;
-  type?: string;
+  properties?: PrivateEndpointConnectionProperties | undefined;
+  name?: string | undefined;
+  type?: string | undefined;
 }
 export interface GetPrivateLinkHubRequest {
   /** The ID of the target subscription. */
@@ -1904,9 +1909,9 @@ export type PrivateEndpointConnectionForPrivateLinkHubBasicProperties =
 /** Private Endpoint Connection For Private Link Hub - Basic */
 export interface PrivateEndpointConnectionForPrivateLinkHubBasic {
   /** identifier */
-  id?: string;
+  id?: string | undefined;
   /** Properties of a private endpoint connection. */
-  properties?: PrivateEndpointConnectionProperties;
+  properties?: PrivateEndpointConnectionProperties | undefined;
 }
 /** List of private endpoint connections */
 export type PrivateLinkHubPropertiesPrivateEndpointConnectionsList =
@@ -1914,23 +1919,23 @@ export type PrivateLinkHubPropertiesPrivateEndpointConnectionsList =
 /** PrivateLinkHub properties */
 export interface PrivateLinkHubProperties {
   /** PrivateLinkHub provisioning state */
-  provisioningState?: string;
+  provisioningState?: string | undefined;
   /** List of private endpoint connections */
-  privateEndpointConnections?: PrivateLinkHubPropertiesPrivateEndpointConnectionsList;
+  privateEndpointConnections?: PrivateLinkHubPropertiesPrivateEndpointConnectionsList | undefined;
 }
 export interface GetPrivateLinkHubResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Resource tags. */
-  tags?: GetPrivateLinkHubResponseTagsMap;
+  tags?: GetPrivateLinkHubResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** PrivateLinkHub resource properties */
-  properties?: PrivateLinkHubProperties;
+  properties?: PrivateLinkHubProperties | undefined;
 }
 export interface GetPrivateLinkHubPrivateLinkResourceRequest {
   /** The ID of the target subscription. */
@@ -1949,21 +1954,21 @@ export type PrivateLinkResourcePropertiesRequiredZoneNamesList = Array<string>;
 /** Properties of a private link resource. */
 export interface PrivateLinkResourceProperties {
   /** The private link resource group id. */
-  groupId?: string;
+  groupId?: string | undefined;
   /** The private link resource required member names. */
-  requiredMembers?: PrivateLinkResourcePropertiesRequiredMembersList;
+  requiredMembers?: PrivateLinkResourcePropertiesRequiredMembersList | undefined;
   /** Required DNS zone names of the the private link resource. */
-  requiredZoneNames?: PrivateLinkResourcePropertiesRequiredZoneNamesList;
+  requiredZoneNames?: PrivateLinkResourcePropertiesRequiredZoneNamesList | undefined;
 }
 export interface GetPrivateLinkHubPrivateLinkResourceResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** The private link resource properties. */
-  properties?: PrivateLinkResourceProperties;
+  properties?: PrivateLinkResourceProperties | undefined;
 }
 export interface GetPrivateLinkResourceRequest {
   /** The ID of the target subscription. */
@@ -1977,13 +1982,13 @@ export interface GetPrivateLinkResourceRequest {
 }
 export interface GetPrivateLinkResourceResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** The private link resource properties. */
-  properties?: PrivateLinkResourceProperties;
+  properties?: PrivateLinkResourceProperties | undefined;
 }
 export interface GetRestorableDroppedSqlPoolRequest {
   /** The ID of the target subscription. */
@@ -1998,33 +2003,33 @@ export interface GetRestorableDroppedSqlPoolRequest {
 /** The properties of a restorable dropped Sql pool */
 export interface RestorableDroppedSqlPoolProperties {
   /** The name of the database */
-  databaseName?: string;
+  databaseName?: string | undefined;
   /** The edition of the database */
-  edition?: string;
+  edition?: string | undefined;
   /** The max size in bytes of the database */
-  maxSizeBytes?: string;
+  maxSizeBytes?: string | undefined;
   /** The service level objective name of the database */
-  serviceLevelObjective?: string;
+  serviceLevelObjective?: string | undefined;
   /** The elastic pool name of the database */
-  elasticPoolName?: string;
+  elasticPoolName?: string | undefined;
   /** The creation date of the database (ISO8601 format) */
-  creationDate?: string;
+  creationDate?: string | undefined;
   /** The deletion date of the database (ISO8601 format) */
-  deletionDate?: string;
+  deletionDate?: string | undefined;
   /** The earliest restore date of the database (ISO8601 format) */
-  earliestRestoreDate?: string;
+  earliestRestoreDate?: string | undefined;
 }
 export interface GetRestorableDroppedSqlPoolResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** The geo-location where the resource lives */
-  location?: string;
+  location?: string | undefined;
   /** The properties of a restorable dropped Sql pool */
-  properties?: RestorableDroppedSqlPoolProperties;
+  properties?: RestorableDroppedSqlPoolProperties | undefined;
 }
 export interface GetSqlPoolRequest {
   /** The ID of the target subscription. */
@@ -2040,19 +2045,19 @@ export interface GetSqlPoolRequest {
 export type GetSqlPoolResponseTagsMap = { [key: string]: string | undefined };
 export interface GetSqlPoolResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Resource tags. */
-  tags?: GetSqlPoolResponseTagsMap;
+  tags?: GetSqlPoolResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** SQL pool SKU */
-  sku?: Sku;
+  sku?: Sku | undefined;
   /** SQL pool properties */
-  properties?: SqlPoolResourceProperties;
+  properties?: SqlPoolResourceProperties | undefined;
 }
 export type GetSqlPoolBlobAuditingPolicyRequestBlobAuditingPolicyName = "default";
 export interface GetSqlPoolBlobAuditingPolicyRequest {
@@ -2076,31 +2081,31 @@ export interface SqlPoolBlobAuditingPolicyProperties {
   /** Specifies the state of the policy. If state is Enabled, storageEndpoint or isAzureMonitorTargetEnabled are required. */
   state: SqlPoolBlobAuditingPolicyPropertiesState | (string & {});
   /** Specifies the blob storage endpoint (e.g. https://MyAccount.blob.core.windows.net). If state is Enabled, storageEndpoint is required. */
-  storageEndpoint?: string;
+  storageEndpoint?: string | undefined;
   /** Specifies the identifier key of the auditing storage account. If state is Enabled and storageEndpoint is specified, storageAccountAccessKey is required. */
-  storageAccountAccessKey?: string;
+  storageAccountAccessKey?: string | undefined;
   /** Specifies the number of days to keep in the audit logs in the storage account. */
-  retentionDays?: number;
+  retentionDays?: number | undefined;
   /** Specifies the Actions-Groups and Actions to audit. The recommended set of action groups to use is the following combination - this will audit all the queries and stored procedures executed against the database, as well as successful and failed logins: BATCH_COMPLETED_GROUP, SUCCESSFUL_DATABASE_AUTHENTICATION_GROUP, FAILED_DATABASE_AUTHENTICATION_GROUP. This above combination is also the set that is configured by default when enabling auditing from the Azure portal. The supported action groups to audit are (note: choose only specific groups that cover your auditing needs. Using unnecessary groups could lead to very large quantities of audit records): APPLICATION_ROLE_CHANGE_PASSWORD_GROUP BACKUP_RESTORE_GROUP DATABASE_LOGOUT_GROUP DATABASE_OBJECT_CHANGE_GROUP DATABASE_OBJECT_OWNERSHIP_CHANGE_GROUP DATABASE_OBJECT_PERMISSION_CHANGE_GROUP DATABASE_OPERATION_GROUP DATABASE_PERMISSION_CHANGE_GROUP DATABASE_PRINCIPAL_CHANGE_GROUP DATABASE_PRINCIPAL_IMPERSONATION_GROUP DATABASE_ROLE_MEMBER_CHANGE_GROUP FAILED_DATABASE_AUTHENTICATION_GROUP SCHEMA_OBJECT_ACCESS_GROUP SCHEMA_OBJECT_CHANGE_GROUP SCHEMA_OBJECT_OWNERSHIP_CHANGE_GROUP SCHEMA_OBJECT_PERMISSION_CHANGE_GROUP SUCCESSFUL_DATABASE_AUTHENTICATION_GROUP USER_CHANGE_PASSWORD_GROUP BATCH_STARTED_GROUP BATCH_COMPLETED_GROUP These are groups that cover all sql statements and stored procedures executed against the database, and should not be used in combination with other groups as this will result in duplicate audit logs. For more information, see [Database-Level Audit Action Groups](https://docs.microsoft.com/en-us/sql/relational-databases/security/auditing/sql-server-audit-action-groups-and-actions#database-level-audit-action-groups). For Database auditing policy, specific Actions can also be specified (note that Actions cannot be specified for Server auditing policy). The supported actions to audit are: SELECT UPDATE INSERT DELETE EXECUTE RECEIVE REFERENCES The general form for defining an action to be audited is: {action} ON {object} BY {principal} Note that <object> in the above format can refer to an object like a table, view, or stored procedure, or an entire database or schema. For the latter cases, the forms DATABASE::{db_name} and SCHEMA::{schema_name} are used, respectively. For example: SELECT on dbo.myTable by public SELECT on DATABASE::myDatabase by public SELECT on SCHEMA::mySchema by public For more information, see [Database-Level Audit Actions](https://docs.microsoft.com/en-us/sql/relational-databases/security/auditing/sql-server-audit-action-groups-and-actions#database-level-audit-actions) */
-  auditActionsAndGroups?: SqlPoolBlobAuditingPolicyPropertiesAuditActionsAndGroupsList;
+  auditActionsAndGroups?: SqlPoolBlobAuditingPolicyPropertiesAuditActionsAndGroupsList | undefined;
   /** Specifies the blob storage subscription Id. */
-  storageAccountSubscriptionId?: string;
+  storageAccountSubscriptionId?: string | undefined;
   /** Specifies whether storageAccountAccessKey value is the storage's secondary key. */
-  isStorageSecondaryKeyInUse?: boolean;
+  isStorageSecondaryKeyInUse?: boolean | undefined;
   /** Specifies whether audit events are sent to Azure Monitor. In order to send the events to Azure Monitor, specify 'state' as 'Enabled' and 'isAzureMonitorTargetEnabled' as true. When using REST API to configure auditing, Diagnostic Settings with 'SQLSecurityAuditEvents' diagnostic logs category on the database should be also created. Note that for server level audit you should use the 'master' database as {databaseName}. Diagnostic Settings URI format: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/providers/microsoft.insights/diagnosticSettings/{settingsName}?api-version=2017-05-01-preview For more information, see [Diagnostic Settings REST API](https://go.microsoft.com/fwlink/?linkid=2033207) or [Diagnostic Settings PowerShell](https://go.microsoft.com/fwlink/?linkid=2033043) */
-  isAzureMonitorTargetEnabled?: boolean;
+  isAzureMonitorTargetEnabled?: boolean | undefined;
 }
 export interface GetSqlPoolBlobAuditingPolicyResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Resource kind. */
-  kind?: string;
+  kind?: string | undefined;
   /** Resource properties. */
-  properties?: SqlPoolBlobAuditingPolicyProperties;
+  properties?: SqlPoolBlobAuditingPolicyProperties | undefined;
 }
 export interface GetSqlPoolColumnRequest {
   /** The ID of the target subscription. */
@@ -2157,19 +2162,19 @@ export type SqlPoolColumnPropertiesColumnType =
 /** Sql pool column properties. */
 export interface SqlPoolColumnProperties {
   /** The column data type. */
-  columnType?: SqlPoolColumnPropertiesColumnType;
+  columnType?: SqlPoolColumnPropertiesColumnType | undefined;
   /** Indicates whether column value is computed or not */
-  isComputed?: boolean;
+  isComputed?: boolean | undefined;
 }
 export interface GetSqlPoolColumnResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Resource properties. */
-  properties?: SqlPoolColumnProperties;
+  properties?: SqlPoolColumnProperties | undefined;
 }
 export type GetSqlPoolDataWarehouseUserActivityRequestDataWarehouseUserActivityName = "current";
 export interface GetSqlPoolDataWarehouseUserActivityRequest {
@@ -2189,17 +2194,17 @@ export interface GetSqlPoolDataWarehouseUserActivityRequest {
 /** User activities of a data warehouse. This currently includes the count of running or suspended queries. For more information, please view the sys.dm_pdw_exec_requests dynamic management view (DMV). */
 export interface DataWarehouseUserActivitiesProperties {
   /** Count of running and suspended queries. */
-  activeQueriesCount?: number;
+  activeQueriesCount?: number | undefined;
 }
 export interface GetSqlPoolDataWarehouseUserActivityResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Resource properties. */
-  properties?: DataWarehouseUserActivitiesProperties;
+  properties?: DataWarehouseUserActivitiesProperties | undefined;
 }
 export type GetSqlPoolGeoBackupPolicyRequestGeoBackupPolicyName = "Default";
 export interface GetSqlPoolGeoBackupPolicyRequest {
@@ -2221,21 +2226,21 @@ export interface GeoBackupPolicyProperties {
   /** The state of the geo backup policy. */
   state: GeoBackupPolicyPropertiesState;
   /** The storage type of the geo backup policy. */
-  storageType?: string;
+  storageType?: string | undefined;
 }
 export interface GetSqlPoolGeoBackupPolicyResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** The properties of the geo backup policy. */
   properties: GeoBackupPolicyProperties;
   /** Kind of geo backup policy. This is metadata used for the Azure portal experience. */
-  kind?: string;
+  kind?: string | undefined;
   /** Backup policy location. */
-  location?: string;
+  location?: string | undefined;
 }
 export interface GetSqlPoolMaintenanceWindowOptionRequest {
   /** The ID of the target subscription. */
@@ -2261,11 +2266,11 @@ export type MaintenanceWindowTimeRangeDayOfWeek =
 /** Maintenance window time range. */
 export interface MaintenanceWindowTimeRange {
   /** Day of maintenance window. */
-  dayOfWeek?: MaintenanceWindowTimeRangeDayOfWeek | (string & {});
+  dayOfWeek?: MaintenanceWindowTimeRangeDayOfWeek | (string & {}) | undefined;
   /** Start time minutes offset from 12am. */
-  startTime?: string;
+  startTime?: string | undefined;
   /** Duration of maintenance window in minutes. */
-  duration?: string;
+  duration?: string | undefined;
 }
 /** Available maintenance cycles e.g. {Saturday, 0, 48*60}, {Wednesday, 0, 24*60}. */
 export type MaintenanceWindowOptionsPropertiesMaintenanceWindowCyclesList =
@@ -2273,29 +2278,31 @@ export type MaintenanceWindowOptionsPropertiesMaintenanceWindowCyclesList =
 /** Maintenance window options properties. */
 export interface MaintenanceWindowOptionsProperties {
   /** Whether maintenance windows are enabled for the database. */
-  isEnabled?: boolean;
+  isEnabled?: boolean | undefined;
   /** Available maintenance cycles e.g. {Saturday, 0, 48*60}, {Wednesday, 0, 24*60}. */
-  maintenanceWindowCycles?: MaintenanceWindowOptionsPropertiesMaintenanceWindowCyclesList;
+  maintenanceWindowCycles?:
+    | MaintenanceWindowOptionsPropertiesMaintenanceWindowCyclesList
+    | undefined;
   /** Minimum duration of maintenance window. */
-  minDurationInMinutes?: number;
+  minDurationInMinutes?: number | undefined;
   /** Default duration for maintenance window. */
-  defaultDurationInMinutes?: number;
+  defaultDurationInMinutes?: number | undefined;
   /** Minimum number of maintenance windows cycles to be set on the database. */
-  minCycles?: number;
+  minCycles?: number | undefined;
   /** Time granularity in minutes for maintenance windows. */
-  timeGranularityInMinutes?: number;
+  timeGranularityInMinutes?: number | undefined;
   /** Whether we allow multiple maintenance windows per cycle. */
-  allowMultipleMaintenanceWindowsPerCycle?: boolean;
+  allowMultipleMaintenanceWindowsPerCycle?: boolean | undefined;
 }
 export interface GetSqlPoolMaintenanceWindowOptionResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Resource properties. */
-  properties?: MaintenanceWindowOptionsProperties;
+  properties?: MaintenanceWindowOptionsProperties | undefined;
 }
 export interface GetSqlPoolMaintenanceWindowsRequest {
   /** The ID of the target subscription. */
@@ -2312,17 +2319,17 @@ export interface GetSqlPoolMaintenanceWindowsRequest {
 export type MaintenanceWindowsPropertiesTimeRangesList = Array<MaintenanceWindowTimeRange>;
 /** Maintenance windows resource properties. */
 export interface MaintenanceWindowsProperties {
-  timeRanges?: MaintenanceWindowsPropertiesTimeRangesList;
+  timeRanges?: MaintenanceWindowsPropertiesTimeRangesList | undefined;
 }
 export interface GetSqlPoolMaintenanceWindowsResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Resource properties. */
-  properties?: MaintenanceWindowsProperties;
+  properties?: MaintenanceWindowsProperties | undefined;
 }
 export interface GetSqlPoolOperationResultLocationHeaderResultRequest {
   /** The ID of the target subscription. */
@@ -2342,19 +2349,19 @@ export type GetSqlPoolOperationResultLocationHeaderResultResponseTagsMap = {
 };
 export interface GetSqlPoolOperationResultLocationHeaderResultResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Resource tags. */
-  tags?: GetSqlPoolOperationResultLocationHeaderResultResponseTagsMap;
+  tags?: GetSqlPoolOperationResultLocationHeaderResultResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** SQL pool SKU */
-  sku?: Sku;
+  sku?: Sku | undefined;
   /** SQL pool properties */
-  properties?: SqlPoolResourceProperties;
+  properties?: SqlPoolResourceProperties | undefined;
 }
 export interface GetSqlPoolReplicationLinkByNameRequest {
   /** The ID of the target subscription. */
@@ -2391,37 +2398,37 @@ export type ReplicationLinkPropertiesReplicationState =
 /** Represents the properties of a Sql pool replication link. */
 export interface ReplicationLinkProperties {
   /** Legacy value indicating whether termination is allowed. Currently always returns true. */
-  isTerminationAllowed?: boolean;
+  isTerminationAllowed?: boolean | undefined;
   /** Replication mode of this replication link. */
-  replicationMode?: string;
+  replicationMode?: string | undefined;
   /** The name of the workspace hosting the partner Sql pool. */
-  partnerServer?: string;
+  partnerServer?: string | undefined;
   /** The name of the partner Sql pool. */
-  partnerDatabase?: string;
+  partnerDatabase?: string | undefined;
   /** The Azure Region of the partner Sql pool. */
-  partnerLocation?: string;
+  partnerLocation?: string | undefined;
   /** The role of the Sql pool in the replication link. */
-  role?: ReplicationLinkPropertiesRole;
+  role?: ReplicationLinkPropertiesRole | undefined;
   /** The role of the partner Sql pool in the replication link. */
-  partnerRole?: ReplicationLinkPropertiesPartnerRole;
+  partnerRole?: ReplicationLinkPropertiesPartnerRole | undefined;
   /** The start time for the replication link. */
-  startTime?: string;
+  startTime?: string | undefined;
   /** The percentage of seeding complete for the replication link. */
-  percentComplete?: number;
+  percentComplete?: number | undefined;
   /** The replication state for the replication link. */
-  replicationState?: ReplicationLinkPropertiesReplicationState;
+  replicationState?: ReplicationLinkPropertiesReplicationState | undefined;
 }
 export interface GetSqlPoolReplicationLinkByNameResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Location of the workspace that contains this firewall rule. */
-  location?: string;
+  location?: string | undefined;
   /** The properties representing the resource. */
-  properties?: ReplicationLinkProperties;
+  properties?: ReplicationLinkProperties | undefined;
 }
 export interface GetSqlPoolRestorePointRequest {
   /** The ID of the target subscription. */
@@ -2437,15 +2444,15 @@ export interface GetSqlPoolRestorePointRequest {
 }
 export interface GetSqlPoolRestorePointResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Resource location. */
-  location?: string;
+  location?: string | undefined;
   /** Resource properties. */
-  properties?: RestorePointProperties;
+  properties?: RestorePointProperties | undefined;
 }
 export interface GetSqlPoolSchemaRequest {
   /** The ID of the target subscription. */
@@ -2461,11 +2468,11 @@ export interface GetSqlPoolSchemaRequest {
 }
 export interface GetSqlPoolSchemaResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
 }
 export type GetSqlPoolSecurityAlertPolicyRequestSecurityAlertPolicyName = "default";
 export interface GetSqlPoolSecurityAlertPolicyRequest {
@@ -2493,29 +2500,29 @@ export interface SecurityAlertPolicyProperties {
   /** Specifies the state of the policy, whether it is enabled or disabled or a policy has not been applied yet on the specific Sql pool. */
   state: SecurityAlertPolicyPropertiesState;
   /** Specifies an array of alerts that are disabled. Allowed values are: Sql_Injection, Sql_Injection_Vulnerability, Access_Anomaly, Data_Exfiltration, Unsafe_Action */
-  disabledAlerts?: SecurityAlertPolicyPropertiesDisabledAlertsList;
+  disabledAlerts?: SecurityAlertPolicyPropertiesDisabledAlertsList | undefined;
   /** Specifies an array of e-mail addresses to which the alert is sent. */
-  emailAddresses?: SecurityAlertPolicyPropertiesEmailAddressesList;
+  emailAddresses?: SecurityAlertPolicyPropertiesEmailAddressesList | undefined;
   /** Specifies that the alert is sent to the account administrators. */
-  emailAccountAdmins?: boolean;
+  emailAccountAdmins?: boolean | undefined;
   /** Specifies the blob storage endpoint (e.g. https://MyAccount.blob.core.windows.net). This blob storage will hold all Threat Detection audit logs. */
-  storageEndpoint?: string;
+  storageEndpoint?: string | undefined;
   /** Specifies the identifier key of the Threat Detection audit storage account. */
-  storageAccountAccessKey?: string;
+  storageAccountAccessKey?: string | undefined;
   /** Specifies the number of days to keep in the Threat Detection audit logs. */
-  retentionDays?: number;
+  retentionDays?: number | undefined;
   /** Specifies the UTC creation time of the policy. */
-  creationTime?: string;
+  creationTime?: string | undefined;
 }
 export interface GetSqlPoolSecurityAlertPolicyResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Resource properties. */
-  properties?: SecurityAlertPolicyProperties;
+  properties?: SecurityAlertPolicyProperties | undefined;
 }
 export type GetSqlPoolSensitivityLabelRequestSensitivityLabelSource = "current" | "recommended";
 export interface GetSqlPoolSensitivityLabelRequest {
@@ -2540,34 +2547,34 @@ export type SensitivityLabelPropertiesRank = "None" | "Low" | "Medium" | "High" 
 /** Properties of a sensitivity label. */
 export interface SensitivityLabelProperties {
   /** The schema name. */
-  schemaName?: string;
+  schemaName?: string | undefined;
   /** The table name. */
-  tableName?: string;
+  tableName?: string | undefined;
   /** The column name. */
-  columnName?: string;
+  columnName?: string | undefined;
   /** The label name. */
-  labelName?: string;
+  labelName?: string | undefined;
   /** The label ID. */
-  labelId?: string;
+  labelId?: string | undefined;
   /** The information type. */
-  informationType?: string;
+  informationType?: string | undefined;
   /** The information type ID. */
-  informationTypeId?: string;
+  informationTypeId?: string | undefined;
   /** Is sensitivity recommendation disabled. Applicable for recommended sensitivity label only. Specifies whether the sensitivity recommendation on this column is disabled (dismissed) or not. */
-  isDisabled?: boolean;
-  rank?: SensitivityLabelPropertiesRank;
+  isDisabled?: boolean | undefined;
+  rank?: SensitivityLabelPropertiesRank | undefined;
 }
 export interface GetSqlPoolSensitivityLabelResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Resource properties. */
-  properties?: SensitivityLabelProperties;
+  properties?: SensitivityLabelProperties | undefined;
   /** managed by */
-  managedBy?: string;
+  managedBy?: string | undefined;
 }
 export interface GetSqlPoolTableRequest {
   /** The ID of the target subscription. */
@@ -2585,11 +2592,11 @@ export interface GetSqlPoolTableRequest {
 }
 export interface GetSqlPoolTableResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
 }
 export type GetSqlPoolTransparentDataEncryptionRequestTransparentDataEncryptionName = "current";
 export interface GetSqlPoolTransparentDataEncryptionRequest {
@@ -2611,19 +2618,19 @@ export type TransparentDataEncryptionPropertiesStatus = "Enabled" | "Disabled";
 /** Represents the properties of a database transparent data encryption. */
 export interface TransparentDataEncryptionProperties {
   /** The status of the database transparent data encryption. */
-  status?: TransparentDataEncryptionPropertiesStatus | (string & {});
+  status?: TransparentDataEncryptionPropertiesStatus | (string & {}) | undefined;
 }
 export interface GetSqlPoolTransparentDataEncryptionResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Resource location. */
-  location?: string;
+  location?: string | undefined;
   /** Represents the properties of the resource. */
-  properties?: TransparentDataEncryptionProperties;
+  properties?: TransparentDataEncryptionProperties | undefined;
 }
 export type GetSqlPoolVulnerabilityAssessmentRequestVulnerabilityAssessmentName = "default";
 export interface GetSqlPoolVulnerabilityAssessmentRequest {
@@ -2645,32 +2652,32 @@ export type VulnerabilityAssessmentRecurringScansPropertiesEmailsList = Array<st
 /** Properties of a Vulnerability Assessment recurring scans. */
 export interface VulnerabilityAssessmentRecurringScansProperties {
   /** Recurring scans state. */
-  isEnabled?: boolean;
+  isEnabled?: boolean | undefined;
   /** Specifies that the schedule scan notification will be is sent to the subscription administrators. */
-  emailSubscriptionAdmins?: boolean;
+  emailSubscriptionAdmins?: boolean | undefined;
   /** Specifies an array of e-mail addresses to which the scan notification is sent. */
-  emails?: VulnerabilityAssessmentRecurringScansPropertiesEmailsList;
+  emails?: VulnerabilityAssessmentRecurringScansPropertiesEmailsList | undefined;
 }
 /** Properties of a Sql pool Vulnerability Assessment. */
 export interface SqlPoolVulnerabilityAssessmentProperties {
   /** A blob storage container path to hold the scan results (e.g. https://myStorage.blob.core.windows.net/VaScans/). It is required if server level vulnerability assessment policy doesn't set */
-  storageContainerPath?: string;
+  storageContainerPath?: string | undefined;
   /** A shared access signature (SAS Key) that has write access to the blob container specified in 'storageContainerPath' parameter. If 'storageAccountAccessKey' isn't specified, StorageContainerSasKey is required. */
-  storageContainerSasKey?: string;
+  storageContainerSasKey?: string | undefined;
   /** Specifies the identifier key of the storage account for vulnerability assessment scan results. If 'StorageContainerSasKey' isn't specified, storageAccountAccessKey is required. */
-  storageAccountAccessKey?: string;
+  storageAccountAccessKey?: string | undefined;
   /** The recurring scans settings */
-  recurringScans?: VulnerabilityAssessmentRecurringScansProperties;
+  recurringScans?: VulnerabilityAssessmentRecurringScansProperties | undefined;
 }
 export interface GetSqlPoolVulnerabilityAssessmentResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Resource properties. */
-  properties?: SqlPoolVulnerabilityAssessmentProperties;
+  properties?: SqlPoolVulnerabilityAssessmentProperties | undefined;
 }
 export type GetSqlPoolVulnerabilityAssessmentRuleBaselineRequestVulnerabilityAssessmentName =
   "default";
@@ -2710,13 +2717,13 @@ export interface SqlPoolVulnerabilityAssessmentRuleBaselineProperties {
 }
 export interface GetSqlPoolVulnerabilityAssessmentRuleBaselineResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Resource properties. */
-  properties?: SqlPoolVulnerabilityAssessmentRuleBaselineProperties;
+  properties?: SqlPoolVulnerabilityAssessmentRuleBaselineProperties | undefined;
 }
 export type GetSqlPoolVulnerabilityAssessmentScanRequestVulnerabilityAssessmentName = "default";
 export interface GetSqlPoolVulnerabilityAssessmentScanRequest {
@@ -2746,9 +2753,9 @@ export type VulnerabilityAssessmentScanRecordPropertiesState =
 /** Properties of a vulnerability assessment scan error. */
 export interface VulnerabilityAssessmentScanError {
   /** The error code. */
-  code?: string;
+  code?: string | undefined;
   /** The error message. */
-  message?: string;
+  message?: string | undefined;
 }
 /** The scan errors. */
 export type VulnerabilityAssessmentScanRecordPropertiesErrorsList =
@@ -2756,31 +2763,31 @@ export type VulnerabilityAssessmentScanRecordPropertiesErrorsList =
 /** Properties of a vulnerability assessment scan record. */
 export interface VulnerabilityAssessmentScanRecordProperties {
   /** The scan ID. */
-  scanId?: string;
+  scanId?: string | undefined;
   /** The scan trigger type. */
-  triggerType?: VulnerabilityAssessmentScanRecordPropertiesTriggerType;
+  triggerType?: VulnerabilityAssessmentScanRecordPropertiesTriggerType | undefined;
   /** The scan status. */
-  state?: VulnerabilityAssessmentScanRecordPropertiesState;
+  state?: VulnerabilityAssessmentScanRecordPropertiesState | undefined;
   /** The scan start time (UTC). */
-  startTime?: string;
+  startTime?: string | undefined;
   /** The scan end time (UTC). */
-  endTime?: string;
+  endTime?: string | undefined;
   /** The scan errors. */
-  errors?: VulnerabilityAssessmentScanRecordPropertiesErrorsList;
+  errors?: VulnerabilityAssessmentScanRecordPropertiesErrorsList | undefined;
   /** The scan results storage container path. */
-  storageContainerPath?: string;
+  storageContainerPath?: string | undefined;
   /** The number of failed security checks. */
-  numberOfFailedSecurityChecks?: number;
+  numberOfFailedSecurityChecks?: number | undefined;
 }
 export interface GetSqlPoolVulnerabilityAssessmentScanResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Resource properties. */
-  properties?: VulnerabilityAssessmentScanRecordProperties;
+  properties?: VulnerabilityAssessmentScanRecordProperties | undefined;
 }
 export interface GetSqlPoolWorkloadClassifierRequest {
   /** The ID of the target subscription. */
@@ -2801,25 +2808,25 @@ export interface WorkloadClassifierProperties {
   /** The workload classifier member name. */
   memberName: string;
   /** The workload classifier label. */
-  label?: string;
+  label?: string | undefined;
   /** The workload classifier context. */
-  context?: string;
+  context?: string | undefined;
   /** The workload classifier start time for classification. */
-  startTime?: string;
+  startTime?: string | undefined;
   /** The workload classifier end time for classification. */
-  endTime?: string;
+  endTime?: string | undefined;
   /** The workload classifier importance. */
-  importance?: string;
+  importance?: string | undefined;
 }
 export interface GetSqlPoolWorkloadClassifierResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Resource properties. */
-  properties?: WorkloadClassifierProperties;
+  properties?: WorkloadClassifierProperties | undefined;
 }
 export interface GetSqlPoolWorkloadGroupRequest {
   /** The ID of the target subscription. */
@@ -2842,21 +2849,21 @@ export interface WorkloadGroupProperties {
   /** The workload group request minimum grant percentage. */
   minResourcePercentPerRequest: number;
   /** The workload group request maximum grant percentage. */
-  maxResourcePercentPerRequest?: number;
+  maxResourcePercentPerRequest?: number | undefined;
   /** The workload group importance level. */
-  importance?: string;
+  importance?: string | undefined;
   /** The workload group query execution timeout. */
-  queryExecutionTimeout?: number;
+  queryExecutionTimeout?: number | undefined;
 }
 export interface GetSqlPoolWorkloadGroupResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Resource properties. */
-  properties?: WorkloadGroupProperties;
+  properties?: WorkloadGroupProperties | undefined;
 }
 export interface GetWorkspaceRequest {
   /** The ID of the target subscription. */
@@ -2870,19 +2877,19 @@ export interface GetWorkspaceRequest {
 export type GetWorkspaceResponseTagsMap = { [key: string]: string | undefined };
 export interface GetWorkspaceResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Resource tags. */
-  tags?: GetWorkspaceResponseTagsMap;
+  tags?: GetWorkspaceResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Workspace resource properties */
-  properties?: WorkspaceProperties;
+  properties?: WorkspaceProperties | undefined;
   /** Identity of the workspace */
-  identity?: ManagedIdentity;
+  identity?: ManagedIdentity | undefined;
 }
 export interface GetWorkspaceAadAdminRequest {
   /** The ID of the target subscription. */
@@ -2895,23 +2902,23 @@ export interface GetWorkspaceAadAdminRequest {
 /** Workspace active directory administrator properties */
 export interface AadAdminProperties {
   /** Tenant ID of the workspace active directory administrator */
-  tenantId?: string;
+  tenantId?: string | undefined;
   /** Login of the workspace active directory administrator */
-  login?: string;
+  login?: string | undefined;
   /** Workspace active directory administrator type */
-  administratorType?: string;
+  administratorType?: string | undefined;
   /** Object ID of the workspace active directory administrator */
-  sid?: string;
+  sid?: string | undefined;
 }
 export interface GetWorkspaceAadAdminResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Workspace active directory administrator properties */
-  properties?: AadAdminProperties;
+  properties?: AadAdminProperties | undefined;
 }
 export interface GetWorkspaceManagedIdentitySqlControlSettingsRequest {
   /** The ID of the target subscription. */
@@ -2935,24 +2942,30 @@ export type GetWorkspaceManagedIdentitySqlControlSettingsResponsePropertiesGrant
 /** Grant sql control to managed identity */
 export interface GetWorkspaceManagedIdentitySqlControlSettingsResponsePropertiesGrantSqlControlToManagedIdentity {
   /** Desired state */
-  desiredState?: GetWorkspaceManagedIdentitySqlControlSettingsResponsePropertiesGrantSqlControlToManagedIdentityDesiredState;
+  desiredState?:
+    | GetWorkspaceManagedIdentitySqlControlSettingsResponsePropertiesGrantSqlControlToManagedIdentityDesiredState
+    | undefined;
   /** Actual state */
-  actualState?: GetWorkspaceManagedIdentitySqlControlSettingsResponsePropertiesGrantSqlControlToManagedIdentityActualState;
+  actualState?:
+    | GetWorkspaceManagedIdentitySqlControlSettingsResponsePropertiesGrantSqlControlToManagedIdentityActualState
+    | undefined;
 }
 /** Sql Control Settings for workspace managed identity */
 export interface GetWorkspaceManagedIdentitySqlControlSettingsResponseProperties {
   /** Grant sql control to managed identity */
-  grantSqlControlToManagedIdentity?: GetWorkspaceManagedIdentitySqlControlSettingsResponsePropertiesGrantSqlControlToManagedIdentity;
+  grantSqlControlToManagedIdentity?:
+    | GetWorkspaceManagedIdentitySqlControlSettingsResponsePropertiesGrantSqlControlToManagedIdentity
+    | undefined;
 }
 export interface GetWorkspaceManagedIdentitySqlControlSettingsResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Sql Control Settings for workspace managed identity */
-  properties?: GetWorkspaceManagedIdentitySqlControlSettingsResponseProperties;
+  properties?: GetWorkspaceManagedIdentitySqlControlSettingsResponseProperties | undefined;
 }
 export type GetWorkspaceManagedSqlServerBlobAuditingPolicyRequestBlobAuditingPolicyName = "default";
 export interface GetWorkspaceManagedSqlServerBlobAuditingPolicyRequest {
@@ -2976,33 +2989,33 @@ export interface ServerBlobAuditingPolicyProperties {
   /** Specifies the state of the policy. If state is Enabled, storageEndpoint or isAzureMonitorTargetEnabled are required. */
   state: ServerBlobAuditingPolicyPropertiesState | (string & {});
   /** Specifies the blob storage endpoint (e.g. https://MyAccount.blob.core.windows.net). If state is Enabled, storageEndpoint or isAzureMonitorTargetEnabled is required. */
-  storageEndpoint?: string;
+  storageEndpoint?: string | undefined;
   /** Specifies the identifier key of the auditing storage account. If state is Enabled and storageEndpoint is specified, not specifying the storageAccountAccessKey will use SQL server system-assigned managed identity to access the storage. Prerequisites for using managed identity authentication: 1. Assign SQL Server a system-assigned managed identity in Azure Active Directory (AAD). 2. Grant SQL Server identity access to the storage account by adding 'Storage Blob Data Contributor' RBAC role to the server identity. For more information, see [Auditing to storage using Managed Identity authentication](https://go.microsoft.com/fwlink/?linkid=2114355) */
-  storageAccountAccessKey?: string;
+  storageAccountAccessKey?: string | undefined;
   /** Specifies the number of days to keep in the audit logs in the storage account. */
-  retentionDays?: number;
+  retentionDays?: number | undefined;
   /** Specifies the Actions-Groups and Actions to audit. The recommended set of action groups to use is the following combination - this will audit all the queries and stored procedures executed against the database, as well as successful and failed logins: BATCH_COMPLETED_GROUP, SUCCESSFUL_DATABASE_AUTHENTICATION_GROUP, FAILED_DATABASE_AUTHENTICATION_GROUP. This above combination is also the set that is configured by default when enabling auditing from the Azure portal. The supported action groups to audit are (note: choose only specific groups that cover your auditing needs. Using unnecessary groups could lead to very large quantities of audit records): APPLICATION_ROLE_CHANGE_PASSWORD_GROUP BACKUP_RESTORE_GROUP DATABASE_LOGOUT_GROUP DATABASE_OBJECT_CHANGE_GROUP DATABASE_OBJECT_OWNERSHIP_CHANGE_GROUP DATABASE_OBJECT_PERMISSION_CHANGE_GROUP DATABASE_OPERATION_GROUP DATABASE_PERMISSION_CHANGE_GROUP DATABASE_PRINCIPAL_CHANGE_GROUP DATABASE_PRINCIPAL_IMPERSONATION_GROUP DATABASE_ROLE_MEMBER_CHANGE_GROUP FAILED_DATABASE_AUTHENTICATION_GROUP SCHEMA_OBJECT_ACCESS_GROUP SCHEMA_OBJECT_CHANGE_GROUP SCHEMA_OBJECT_OWNERSHIP_CHANGE_GROUP SCHEMA_OBJECT_PERMISSION_CHANGE_GROUP SUCCESSFUL_DATABASE_AUTHENTICATION_GROUP USER_CHANGE_PASSWORD_GROUP BATCH_STARTED_GROUP BATCH_COMPLETED_GROUP These are groups that cover all sql statements and stored procedures executed against the database, and should not be used in combination with other groups as this will result in duplicate audit logs. For more information, see [Database-Level Audit Action Groups](https://docs.microsoft.com/en-us/sql/relational-databases/security/auditing/sql-server-audit-action-groups-and-actions#database-level-audit-action-groups). For Database auditing policy, specific Actions can also be specified (note that Actions cannot be specified for Server auditing policy). The supported actions to audit are: SELECT UPDATE INSERT DELETE EXECUTE RECEIVE REFERENCES The general form for defining an action to be audited is: {action} ON {object} BY {principal} Note that <object> in the above format can refer to an object like a table, view, or stored procedure, or an entire database or schema. For the latter cases, the forms DATABASE::{db_name} and SCHEMA::{schema_name} are used, respectively. For example: SELECT on dbo.myTable by public SELECT on DATABASE::myDatabase by public SELECT on SCHEMA::mySchema by public For more information, see [Database-Level Audit Actions](https://docs.microsoft.com/en-us/sql/relational-databases/security/auditing/sql-server-audit-action-groups-and-actions#database-level-audit-actions) */
-  auditActionsAndGroups?: ServerBlobAuditingPolicyPropertiesAuditActionsAndGroupsList;
+  auditActionsAndGroups?: ServerBlobAuditingPolicyPropertiesAuditActionsAndGroupsList | undefined;
   /** Specifies the blob storage subscription Id. */
-  storageAccountSubscriptionId?: string;
+  storageAccountSubscriptionId?: string | undefined;
   /** Specifies whether storageAccountAccessKey value is the storage's secondary key. */
-  isStorageSecondaryKeyInUse?: boolean;
+  isStorageSecondaryKeyInUse?: boolean | undefined;
   /** Specifies whether audit events are sent to Azure Monitor. In order to send the events to Azure Monitor, specify 'state' as 'Enabled' and 'isAzureMonitorTargetEnabled' as true. When using REST API to configure auditing, Diagnostic Settings with 'SQLSecurityAuditEvents' diagnostic logs category on the database should be also created. Note that for server level audit you should use the 'master' database as {databaseName}. Diagnostic Settings URI format: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/providers/microsoft.insights/diagnosticSettings/{settingsName}?api-version=2017-05-01-preview For more information, see [Diagnostic Settings REST API](https://go.microsoft.com/fwlink/?linkid=2033207) or [Diagnostic Settings PowerShell](https://go.microsoft.com/fwlink/?linkid=2033043) */
-  isAzureMonitorTargetEnabled?: boolean;
+  isAzureMonitorTargetEnabled?: boolean | undefined;
   /** Specifies the amount of time in milliseconds that can elapse before audit actions are forced to be processed. The default minimum value is 1000 (1 second). The maximum is 2,147,483,647. */
-  queueDelayMs?: number;
+  queueDelayMs?: number | undefined;
   /** Specifies the state of devops audit. If state is Enabled, devops logs will be sent to Azure Monitor. In order to send the events to Azure Monitor, specify 'State' as 'Enabled', 'IsAzureMonitorTargetEnabled' as true and 'IsDevopsAuditEnabled' as true When using REST API to configure auditing, Diagnostic Settings with 'DevOpsOperationsAudit' diagnostic logs category on the master database should also be created. Diagnostic Settings URI format: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.Sql/servers/{serverName}/databases/master/providers/microsoft.insights/diagnosticSettings/{settingsName}?api-version=2017-05-01-preview For more information, see [Diagnostic Settings REST API](https://go.microsoft.com/fwlink/?linkid=2033207) or [Diagnostic Settings PowerShell](https://go.microsoft.com/fwlink/?linkid=2033043) */
-  isDevopsAuditEnabled?: boolean;
+  isDevopsAuditEnabled?: boolean | undefined;
 }
 export interface GetWorkspaceManagedSqlServerBlobAuditingPolicyResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Resource properties. */
-  properties?: ServerBlobAuditingPolicyProperties;
+  properties?: ServerBlobAuditingPolicyProperties | undefined;
 }
 export interface GetWorkspaceManagedSqlServerDedicatedSQLMinimalTlsSettingsRequest {
   /** The ID of the target subscription. */
@@ -3017,19 +3030,19 @@ export interface GetWorkspaceManagedSqlServerDedicatedSQLMinimalTlsSettingsReque
 /** Properties of a dedicated sql minimal tls settings. */
 export interface DedicatedSQLminimalTlsSettingsProperties {
   /** The minimal tls version of the sql server. */
-  minimalTlsVersion?: string;
+  minimalTlsVersion?: string | undefined;
 }
 export interface GetWorkspaceManagedSqlServerDedicatedSQLMinimalTlsSettingsResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Resource location. */
-  location?: string;
+  location?: string | undefined;
   /** Resource properties. */
-  properties?: DedicatedSQLminimalTlsSettingsProperties;
+  properties?: DedicatedSQLminimalTlsSettingsProperties | undefined;
 }
 export type GetWorkspaceManagedSqlServerEncryptionProtectorRequestEncryptionProtectorName =
   "current";
@@ -3050,29 +3063,29 @@ export type EncryptionProtectorPropertiesServerKeyType = "ServiceManaged" | "Azu
 /** Properties for an encryption protector execution. */
 export interface EncryptionProtectorProperties {
   /** Subregion of the encryption protector. */
-  subregion?: string;
+  subregion?: string | undefined;
   /** The name of the server key. */
-  serverKeyName?: string;
+  serverKeyName?: string | undefined;
   /** The encryption protector type like 'ServiceManaged', 'AzureKeyVault'. */
   serverKeyType: EncryptionProtectorPropertiesServerKeyType;
   /** The URI of the server key. */
-  uri?: string;
+  uri?: string | undefined;
   /** Thumbprint of the server key. */
-  thumbprint?: string;
+  thumbprint?: string | undefined;
 }
 export interface GetWorkspaceManagedSqlServerEncryptionProtectorResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Kind of encryption protector. This is metadata used for the Azure portal experience. */
-  kind?: string;
+  kind?: string | undefined;
   /** Resource location. */
-  location?: string;
+  location?: string | undefined;
   /** Resource properties. */
-  properties?: EncryptionProtectorProperties;
+  properties?: EncryptionProtectorProperties | undefined;
 }
 export type GetWorkspaceManagedSqlServerExtendedBlobAuditingPolicyRequestBlobAuditingPolicyName =
   "default";
@@ -3095,37 +3108,39 @@ export type ExtendedServerBlobAuditingPolicyPropertiesAuditActionsAndGroupsList 
 /** Properties of an extended server blob auditing policy. */
 export interface ExtendedServerBlobAuditingPolicyProperties {
   /** Specifies condition of where clause when creating an audit. */
-  predicateExpression?: string;
+  predicateExpression?: string | undefined;
   /** Specifies the state of the policy. If state is Enabled, storageEndpoint or isAzureMonitorTargetEnabled are required. */
   state: ExtendedServerBlobAuditingPolicyPropertiesState | (string & {});
   /** Specifies the blob storage endpoint (e.g. https://MyAccount.blob.core.windows.net). If state is Enabled, storageEndpoint or isAzureMonitorTargetEnabled is required. */
-  storageEndpoint?: string;
+  storageEndpoint?: string | undefined;
   /** Specifies the identifier key of the auditing storage account. If state is Enabled and storageEndpoint is specified, not specifying the storageAccountAccessKey will use SQL server system-assigned managed identity to access the storage. Prerequisites for using managed identity authentication: 1. Assign SQL Server a system-assigned managed identity in Azure Active Directory (AAD). 2. Grant SQL Server identity access to the storage account by adding 'Storage Blob Data Contributor' RBAC role to the server identity. For more information, see [Auditing to storage using Managed Identity authentication](https://go.microsoft.com/fwlink/?linkid=2114355) */
-  storageAccountAccessKey?: string;
+  storageAccountAccessKey?: string | undefined;
   /** Specifies the number of days to keep in the audit logs in the storage account. */
-  retentionDays?: number;
+  retentionDays?: number | undefined;
   /** Specifies the Actions-Groups and Actions to audit. The recommended set of action groups to use is the following combination - this will audit all the queries and stored procedures executed against the database, as well as successful and failed logins: BATCH_COMPLETED_GROUP, SUCCESSFUL_DATABASE_AUTHENTICATION_GROUP, FAILED_DATABASE_AUTHENTICATION_GROUP. This above combination is also the set that is configured by default when enabling auditing from the Azure portal. The supported action groups to audit are (note: choose only specific groups that cover your auditing needs. Using unnecessary groups could lead to very large quantities of audit records): APPLICATION_ROLE_CHANGE_PASSWORD_GROUP BACKUP_RESTORE_GROUP DATABASE_LOGOUT_GROUP DATABASE_OBJECT_CHANGE_GROUP DATABASE_OBJECT_OWNERSHIP_CHANGE_GROUP DATABASE_OBJECT_PERMISSION_CHANGE_GROUP DATABASE_OPERATION_GROUP DATABASE_PERMISSION_CHANGE_GROUP DATABASE_PRINCIPAL_CHANGE_GROUP DATABASE_PRINCIPAL_IMPERSONATION_GROUP DATABASE_ROLE_MEMBER_CHANGE_GROUP FAILED_DATABASE_AUTHENTICATION_GROUP SCHEMA_OBJECT_ACCESS_GROUP SCHEMA_OBJECT_CHANGE_GROUP SCHEMA_OBJECT_OWNERSHIP_CHANGE_GROUP SCHEMA_OBJECT_PERMISSION_CHANGE_GROUP SUCCESSFUL_DATABASE_AUTHENTICATION_GROUP USER_CHANGE_PASSWORD_GROUP BATCH_STARTED_GROUP BATCH_COMPLETED_GROUP These are groups that cover all sql statements and stored procedures executed against the database, and should not be used in combination with other groups as this will result in duplicate audit logs. For more information, see [Database-Level Audit Action Groups](https://docs.microsoft.com/en-us/sql/relational-databases/security/auditing/sql-server-audit-action-groups-and-actions#database-level-audit-action-groups). For Database auditing policy, specific Actions can also be specified (note that Actions cannot be specified for Server auditing policy). The supported actions to audit are: SELECT UPDATE INSERT DELETE EXECUTE RECEIVE REFERENCES The general form for defining an action to be audited is: {action} ON {object} BY {principal} Note that <object> in the above format can refer to an object like a table, view, or stored procedure, or an entire database or schema. For the latter cases, the forms DATABASE::{db_name} and SCHEMA::{schema_name} are used, respectively. For example: SELECT on dbo.myTable by public SELECT on DATABASE::myDatabase by public SELECT on SCHEMA::mySchema by public For more information, see [Database-Level Audit Actions](https://docs.microsoft.com/en-us/sql/relational-databases/security/auditing/sql-server-audit-action-groups-and-actions#database-level-audit-actions) */
-  auditActionsAndGroups?: ExtendedServerBlobAuditingPolicyPropertiesAuditActionsAndGroupsList;
+  auditActionsAndGroups?:
+    | ExtendedServerBlobAuditingPolicyPropertiesAuditActionsAndGroupsList
+    | undefined;
   /** Specifies the blob storage subscription Id. */
-  storageAccountSubscriptionId?: string;
+  storageAccountSubscriptionId?: string | undefined;
   /** Specifies whether storageAccountAccessKey value is the storage's secondary key. */
-  isStorageSecondaryKeyInUse?: boolean;
+  isStorageSecondaryKeyInUse?: boolean | undefined;
   /** Specifies whether audit events are sent to Azure Monitor. In order to send the events to Azure Monitor, specify 'state' as 'Enabled' and 'isAzureMonitorTargetEnabled' as true. When using REST API to configure auditing, Diagnostic Settings with 'SQLSecurityAuditEvents' diagnostic logs category on the database should be also created. Note that for server level audit you should use the 'master' database as {databaseName}. Diagnostic Settings URI format: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/providers/microsoft.insights/diagnosticSettings/{settingsName}?api-version=2017-05-01-preview For more information, see [Diagnostic Settings REST API](https://go.microsoft.com/fwlink/?linkid=2033207) or [Diagnostic Settings PowerShell](https://go.microsoft.com/fwlink/?linkid=2033043) */
-  isAzureMonitorTargetEnabled?: boolean;
+  isAzureMonitorTargetEnabled?: boolean | undefined;
   /** Specifies the amount of time in milliseconds that can elapse before audit actions are forced to be processed. The default minimum value is 1000 (1 second). The maximum is 2,147,483,647. */
-  queueDelayMs?: number;
+  queueDelayMs?: number | undefined;
   /** Specifies the state of devops audit. If state is Enabled, devops logs will be sent to Azure Monitor. In order to send the events to Azure Monitor, specify 'State' as 'Enabled', 'IsAzureMonitorTargetEnabled' as true and 'IsDevopsAuditEnabled' as true When using REST API to configure auditing, Diagnostic Settings with 'DevOpsOperationsAudit' diagnostic logs category on the master database should also be created. Diagnostic Settings URI format: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.Sql/servers/{serverName}/databases/master/providers/microsoft.insights/diagnosticSettings/{settingsName}?api-version=2017-05-01-preview For more information, see [Diagnostic Settings REST API](https://go.microsoft.com/fwlink/?linkid=2033207) or [Diagnostic Settings PowerShell](https://go.microsoft.com/fwlink/?linkid=2033043) */
-  isDevopsAuditEnabled?: boolean;
+  isDevopsAuditEnabled?: boolean | undefined;
 }
 export interface GetWorkspaceManagedSqlServerExtendedBlobAuditingPolicyResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Resource properties. */
-  properties?: ExtendedServerBlobAuditingPolicyProperties;
+  properties?: ExtendedServerBlobAuditingPolicyProperties | undefined;
 }
 export interface GetWorkspaceManagedSqlServerRecoverableSqlPoolRequest {
   /** The ID of the target subscription. */
@@ -3140,23 +3155,23 @@ export interface GetWorkspaceManagedSqlServerRecoverableSqlPoolRequest {
 /** The properties of a recoverable sql pool */
 export interface RecoverableSqlPoolProperties {
   /** The edition of the database */
-  edition?: string;
+  edition?: string | undefined;
   /** The service level objective name of the database */
-  serviceLevelObjective?: string;
+  serviceLevelObjective?: string | undefined;
   /** The elastic pool name of the database */
-  elasticPoolName?: string;
+  elasticPoolName?: string | undefined;
   /** The last available backup date of the database (ISO8601 format) */
-  lastAvailableBackupDate?: string;
+  lastAvailableBackupDate?: string | undefined;
 }
 export interface GetWorkspaceManagedSqlServerRecoverableSqlPoolResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** The properties of a recoverable sql pool */
-  properties?: RecoverableSqlPoolProperties;
+  properties?: RecoverableSqlPoolProperties | undefined;
 }
 export type GetWorkspaceManagedSqlServerSecurityAlertPolicyRequestSecurityAlertPolicyName =
   "Default";
@@ -3183,29 +3198,29 @@ export interface ServerSecurityAlertPolicyProperties {
   /** Specifies the state of the policy, whether it is enabled or disabled or a policy has not been applied yet on the specific server */
   state: ServerSecurityAlertPolicyPropertiesState;
   /** Specifies an array of alerts that are disabled. Allowed values are: Sql_Injection, Sql_Injection_Vulnerability, Access_Anomaly, Data_Exfiltration, Unsafe_Action */
-  disabledAlerts?: ServerSecurityAlertPolicyPropertiesDisabledAlertsList;
+  disabledAlerts?: ServerSecurityAlertPolicyPropertiesDisabledAlertsList | undefined;
   /** Specifies an array of e-mail addresses to which the alert is sent. */
-  emailAddresses?: ServerSecurityAlertPolicyPropertiesEmailAddressesList;
+  emailAddresses?: ServerSecurityAlertPolicyPropertiesEmailAddressesList | undefined;
   /** Specifies that the alert is sent to the account administrators. */
-  emailAccountAdmins?: boolean;
+  emailAccountAdmins?: boolean | undefined;
   /** Specifies the blob storage endpoint (e.g. https://MyAccount.blob.core.windows.net). This blob storage will hold all Threat Detection audit logs. */
-  storageEndpoint?: string;
+  storageEndpoint?: string | undefined;
   /** Specifies the identifier key of the Threat Detection audit storage account. */
-  storageAccountAccessKey?: string;
+  storageAccountAccessKey?: string | undefined;
   /** Specifies the number of days to keep in the Threat Detection audit logs. */
-  retentionDays?: number;
+  retentionDays?: number | undefined;
   /** Specifies the UTC creation time of the policy. */
-  creationTime?: string;
+  creationTime?: string | undefined;
 }
 export interface GetWorkspaceManagedSqlServerSecurityAlertPolicyResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Resource properties. */
-  properties?: ServerSecurityAlertPolicyProperties;
+  properties?: ServerSecurityAlertPolicyProperties | undefined;
 }
 export type GetWorkspaceManagedSqlServerVulnerabilityAssessmentRequestVulnerabilityAssessmentName =
   "default";
@@ -3226,21 +3241,21 @@ export interface ServerVulnerabilityAssessmentProperties {
   /** A blob storage container path to hold the scan results (e.g. https://myStorage.blob.core.windows.net/VaScans/). */
   storageContainerPath: string;
   /** A shared access signature (SAS Key) that has read and write access to the blob container specified in 'storageContainerPath' parameter. If 'storageAccountAccessKey' isn't specified, StorageContainerSasKey is required. */
-  storageContainerSasKey?: string;
+  storageContainerSasKey?: string | undefined;
   /** Specifies the identifier key of the storage account for vulnerability assessment scan results. If 'StorageContainerSasKey' isn't specified, storageAccountAccessKey is required. */
-  storageAccountAccessKey?: string;
+  storageAccountAccessKey?: string | undefined;
   /** The recurring scans settings */
-  recurringScans?: VulnerabilityAssessmentRecurringScansProperties;
+  recurringScans?: VulnerabilityAssessmentRecurringScansProperties | undefined;
 }
 export interface GetWorkspaceManagedSqlServerVulnerabilityAssessmentResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Resource properties. */
-  properties?: ServerVulnerabilityAssessmentProperties;
+  properties?: ServerVulnerabilityAssessmentProperties | undefined;
 }
 export interface GetWorkspaceSqlAadAdminRequest {
   /** The ID of the target subscription. */
@@ -3252,13 +3267,13 @@ export interface GetWorkspaceSqlAadAdminRequest {
 }
 export interface GetWorkspaceSqlAadAdminResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Workspace active directory administrator properties */
-  properties?: AadAdminProperties;
+  properties?: AadAdminProperties | undefined;
 }
 export interface IntegrationRuntimesUpgradeRequest {
   /** The ID of the target subscription. */
@@ -3274,9 +3289,9 @@ export interface IntegrationRuntimesUpgradeResponse {}
 /** IP firewall rule properties */
 export interface IpFirewallRulePropertiesInput {
   /** The end IP address of the firewall rule. Must be IPv4 format. Must be greater than or equal to startIpAddress */
-  endIpAddress?: string;
+  endIpAddress?: string | undefined;
   /** The start IP address of the firewall rule. Must be IPv4 format */
-  startIpAddress?: string;
+  startIpAddress?: string | undefined;
 }
 export interface IpFirewallRulesCreateOrUpdateRequest {
   /** The ID of the target subscription. */
@@ -3288,17 +3303,17 @@ export interface IpFirewallRulesCreateOrUpdateRequest {
   /** The IP firewall rule name */
   ruleName: string;
   /** IP firewall rule properties */
-  properties?: IpFirewallRulePropertiesInput;
+  properties?: IpFirewallRulePropertiesInput | undefined;
 }
 export interface IpFirewallRulesCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** IP firewall rule properties */
-  properties?: IpFirewallRuleProperties;
+  properties?: IpFirewallRuleProperties | undefined;
 }
 export interface KeysCreateOrUpdateRequest {
   /** The ID of the target subscription. */
@@ -3310,17 +3325,17 @@ export interface KeysCreateOrUpdateRequest {
   /** The name of the workspace key */
   keyName: string;
   /** Keys resource properties */
-  properties?: KeyProperties;
+  properties?: KeyProperties | undefined;
 }
 export interface KeysCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Keys resource properties */
-  properties?: KeyProperties;
+  properties?: KeyProperties | undefined;
 }
 export interface ListAzureADOnlyAuthenticationsRequest {
   /** The ID of the target subscription. */
@@ -3333,22 +3348,22 @@ export interface ListAzureADOnlyAuthenticationsRequest {
 /** Azure Active Directory Only Authentication Info */
 export interface AzureADOnlyAuthentication {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** azureADOnlyAuthentication resource properties */
-  properties?: AzureADOnlyAuthenticationProperties;
+  properties?: AzureADOnlyAuthenticationProperties | undefined;
 }
 /** Array of results. */
 export type AzureADOnlyAuthenticationListResultValueList = Array<AzureADOnlyAuthentication>;
 /** A list of active directory only authentications. */
 export interface AzureADOnlyAuthenticationListResult {
   /** Array of results. */
-  value?: AzureADOnlyAuthenticationListResultValueList;
+  value?: AzureADOnlyAuthenticationListResultValueList | undefined;
   /** Link to retrieve next page of results. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListBigDataPoolByWorkspaceRequest {
   /** The ID of the target subscription. */
@@ -3363,26 +3378,26 @@ export type BigDataPoolResourceInfoTagsMap = { [key: string]: string | undefined
 /** A Big Data pool */
 export interface BigDataPoolResourceInfo {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Resource tags. */
-  tags?: BigDataPoolResourceInfoTagsMap;
+  tags?: BigDataPoolResourceInfoTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Big Data pool properties */
-  properties?: BigDataPoolResourceProperties;
+  properties?: BigDataPoolResourceProperties | undefined;
 }
 /** List of Big Data pools */
 export type BigDataPoolResourceInfoListResultValueList = Array<BigDataPoolResourceInfo>;
 /** Collection of Big Data pool information */
 export interface BigDataPoolResourceInfoListResult {
   /** Link to the next page of results */
-  nextLink?: string;
+  nextLink?: string | undefined;
   /** List of Big Data pools */
-  value?: BigDataPoolResourceInfoListResultValueList;
+  value?: BigDataPoolResourceInfoListResultValueList | undefined;
 }
 export type ListDataMaskingRuleBySqlPoolRequestDataMaskingPolicyName = "Default";
 export interface ListDataMaskingRuleBySqlPoolRequest {
@@ -3400,24 +3415,24 @@ export interface ListDataMaskingRuleBySqlPoolRequest {
 /** Represents a Sql pool data masking rule. */
 export interface DataMaskingRule {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** The properties of the resource. */
-  properties?: DataMaskingRuleProperties;
+  properties?: DataMaskingRuleProperties | undefined;
   /** The location of the data masking rule. */
-  location?: string;
+  location?: string | undefined;
   /** The kind of Data Masking Rule. Metadata, used for Azure portal. */
-  kind?: string;
+  kind?: string | undefined;
 }
 /** The list of Sql pool data masking rules. */
 export type DataMaskingRuleListResultValueList = Array<DataMaskingRule>;
 /** The response to a list data masking rules request. */
 export interface DataMaskingRuleListResult {
   /** The list of Sql pool data masking rules. */
-  value?: DataMaskingRuleListResultValueList;
+  value?: DataMaskingRuleListResultValueList | undefined;
 }
 export interface ListExtendedSqlPoolBlobAuditingPolicyBySqlPoolRequest {
   /** The ID of the target subscription. */
@@ -3432,13 +3447,13 @@ export interface ListExtendedSqlPoolBlobAuditingPolicyBySqlPoolRequest {
 /** An extended Sql pool blob auditing policy. */
 export interface ExtendedSqlPoolBlobAuditingPolicy {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Resource properties. */
-  properties?: ExtendedSqlPoolBlobAuditingPolicyProperties;
+  properties?: ExtendedSqlPoolBlobAuditingPolicyProperties | undefined;
 }
 /** Array of results. */
 export type ExtendedSqlPoolBlobAuditingPolicyListResultValueList =
@@ -3446,9 +3461,9 @@ export type ExtendedSqlPoolBlobAuditingPolicyListResultValueList =
 /** A list of sql pool extended auditing settings. */
 export interface ExtendedSqlPoolBlobAuditingPolicyListResult {
   /** Array of results. */
-  value?: ExtendedSqlPoolBlobAuditingPolicyListResultValueList;
+  value?: ExtendedSqlPoolBlobAuditingPolicyListResultValueList | undefined;
   /** Link to retrieve next page of results. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListIntegrationRuntimeAuthKeysRequest {
   /** The ID of the target subscription. */
@@ -3463,9 +3478,9 @@ export interface ListIntegrationRuntimeAuthKeysRequest {
 /** The integration runtime authentication keys. */
 export interface IntegrationRuntimeAuthKeys {
   /** The primary integration runtime authentication key. */
-  authKey1?: string;
+  authKey1?: string | undefined;
   /** The secondary integration runtime authentication key. */
-  authKey2?: string;
+  authKey2?: string | undefined;
 }
 export interface ListIntegrationRuntimeByWorkspaceRequest {
   /** The ID of the target subscription. */
@@ -3478,13 +3493,13 @@ export interface ListIntegrationRuntimeByWorkspaceRequest {
 /** Integration runtime resource type. */
 export interface IntegrationRuntimeResource {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Resource Etag. */
-  etag?: string;
+  etag?: string | undefined;
   /** Integration runtime properties. */
   properties: IntegrationRuntime;
 }
@@ -3495,7 +3510,7 @@ export interface IntegrationRuntimeListResponse {
   /** List of integration runtimes. */
   value: IntegrationRuntimeListResponseValueList;
   /** The link to the next page of results, if any remaining results exist. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListIntegrationRuntimeMonitoringDataRequest {
   /** The ID of the target subscription. */
@@ -3510,21 +3525,21 @@ export interface ListIntegrationRuntimeMonitoringDataRequest {
 /** Monitoring data for integration runtime node. */
 export interface IntegrationRuntimeNodeMonitoringData {
   /** Name of the integration runtime node. */
-  nodeName?: string;
+  nodeName?: string | undefined;
   /** Available memory (MB) on the integration runtime node. */
-  availableMemoryInMB?: number;
+  availableMemoryInMB?: number | undefined;
   /** CPU percentage on the integration runtime node. */
-  cpuUtilization?: number;
+  cpuUtilization?: number | undefined;
   /** Maximum concurrent jobs on the integration runtime node. */
-  concurrentJobsLimit?: number;
+  concurrentJobsLimit?: number | undefined;
   /** The number of jobs currently running on the integration runtime node. */
-  concurrentJobsRunning?: number;
+  concurrentJobsRunning?: number | undefined;
   /** The maximum concurrent jobs in this integration runtime. */
-  maxConcurrentJobs?: number;
+  maxConcurrentJobs?: number | undefined;
   /** Sent bytes on the integration runtime node. */
-  sentBytes?: number;
+  sentBytes?: number | undefined;
   /** Received bytes on the integration runtime node. */
-  receivedBytes?: number;
+  receivedBytes?: number | undefined;
   [key: string]: unknown;
 }
 /** Integration runtime node monitoring data. */
@@ -3532,9 +3547,9 @@ export type IntegrationRuntimeMonitoringDataNodesList = Array<IntegrationRuntime
 /** Get monitoring data response. */
 export interface IntegrationRuntimeMonitoringData {
   /** Integration runtime name. */
-  name?: string;
+  name?: string | undefined;
   /** Integration runtime node monitoring data. */
-  nodes?: IntegrationRuntimeMonitoringDataNodesList;
+  nodes?: IntegrationRuntimeMonitoringDataNodesList | undefined;
 }
 export interface ListIntegrationRuntimeObjectMetadataRequest {
   /** The ID of the target subscription. */
@@ -3546,7 +3561,7 @@ export interface ListIntegrationRuntimeObjectMetadataRequest {
   /** Integration runtime name */
   integrationRuntimeName: string;
   /** Metadata path. */
-  metadataPath?: string;
+  metadataPath?: string | undefined;
 }
 /** The type of SSIS object metadata. */
 export type SsisObjectMetadataType = "Folder" | "Project" | "Package" | "Environment";
@@ -3555,20 +3570,20 @@ export interface SsisObjectMetadata {
   /** Type of metadata. */
   type: SsisObjectMetadataType;
   /** Metadata id. */
-  id?: number;
+  id?: number | undefined;
   /** Metadata name. */
-  name?: string;
+  name?: string | undefined;
   /** Metadata description. */
-  description?: string;
+  description?: string | undefined;
 }
 /** List of SSIS object metadata. */
 export type SsisObjectMetadataListResponseValueList = Array<SsisObjectMetadata>;
 /** A list of SSIS object metadata. */
 export interface SsisObjectMetadataListResponse {
   /** List of SSIS object metadata. */
-  value?: SsisObjectMetadataListResponseValueList;
+  value?: SsisObjectMetadataListResponseValueList | undefined;
   /** The link to the next page of results, if any remaining results exist. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListIntegrationRuntimeOutboundNetworkDependenciesEndpointsRequest {
   /** The ID of the target subscription. */
@@ -3583,7 +3598,7 @@ export interface ListIntegrationRuntimeOutboundNetworkDependenciesEndpointsReque
 /** The details of Azure-SSIS integration runtime outbound network dependency endpoint. */
 export interface IntegrationRuntimeOutboundNetworkDependenciesEndpointDetails {
   /** The port of endpoint. */
-  port?: number;
+  port?: number | undefined;
 }
 /** The details of endpoint. */
 export type IntegrationRuntimeOutboundNetworkDependenciesEndpointEndpointDetailsList =
@@ -3591,9 +3606,11 @@ export type IntegrationRuntimeOutboundNetworkDependenciesEndpointEndpointDetails
 /** The endpoint for Azure-SSIS integration runtime outbound network dependency. */
 export interface IntegrationRuntimeOutboundNetworkDependenciesEndpoint {
   /** The domain name of endpoint. */
-  domainName?: string;
+  domainName?: string | undefined;
   /** The details of endpoint. */
-  endpointDetails?: IntegrationRuntimeOutboundNetworkDependenciesEndpointEndpointDetailsList;
+  endpointDetails?:
+    | IntegrationRuntimeOutboundNetworkDependenciesEndpointEndpointDetailsList
+    | undefined;
 }
 /** The endpoints for outbound network dependency. */
 export type IntegrationRuntimeOutboundNetworkDependenciesCategoryEndpointEndpointsList =
@@ -3601,9 +3618,11 @@ export type IntegrationRuntimeOutboundNetworkDependenciesCategoryEndpointEndpoin
 /** Azure-SSIS integration runtime outbound network dependency endpoints for one category. */
 export interface IntegrationRuntimeOutboundNetworkDependenciesCategoryEndpoint {
   /** The category of outbound network dependency. */
-  category?: string;
+  category?: string | undefined;
   /** The endpoints for outbound network dependency. */
-  endpoints?: IntegrationRuntimeOutboundNetworkDependenciesCategoryEndpointEndpointsList;
+  endpoints?:
+    | IntegrationRuntimeOutboundNetworkDependenciesCategoryEndpointEndpointsList
+    | undefined;
 }
 /** The list of outbound network dependency endpoints. */
 export type IntegrationRuntimeOutboundNetworkDependenciesEndpointsResponseValueList =
@@ -3611,7 +3630,7 @@ export type IntegrationRuntimeOutboundNetworkDependenciesEndpointsResponseValueL
 /** Azure-SSIS integration runtime outbound network dependency endpoints. */
 export interface IntegrationRuntimeOutboundNetworkDependenciesEndpointsResponse {
   /** The list of outbound network dependency endpoints. */
-  value?: IntegrationRuntimeOutboundNetworkDependenciesEndpointsResponseValueList;
+  value?: IntegrationRuntimeOutboundNetworkDependenciesEndpointsResponseValueList | undefined;
 }
 export interface ListIpFirewallRuleByWorkspaceRequest {
   /** The ID of the target subscription. */
@@ -3624,22 +3643,22 @@ export interface ListIpFirewallRuleByWorkspaceRequest {
 /** IP firewall rule */
 export interface IpFirewallRuleInfo {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** IP firewall rule properties */
-  properties?: IpFirewallRuleProperties;
+  properties?: IpFirewallRuleProperties | undefined;
 }
 /** List of IP firewall rules */
 export type IpFirewallRuleInfoListResultValueList = Array<IpFirewallRuleInfo>;
 /** List of IP firewall rules */
 export interface IpFirewallRuleInfoListResult {
   /** Link to next page of results */
-  nextLink?: string;
+  nextLink?: string | undefined;
   /** List of IP firewall rules */
-  value?: IpFirewallRuleInfoListResultValueList;
+  value?: IpFirewallRuleInfoListResultValueList | undefined;
 }
 export interface ListKeyByWorkspaceRequest {
   /** The ID of the target subscription. */
@@ -3652,22 +3671,22 @@ export interface ListKeyByWorkspaceRequest {
 /** A workspace key */
 export interface Key {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Keys resource properties */
-  properties?: KeyProperties;
+  properties?: KeyProperties | undefined;
 }
 /** List of keys */
 export type KeyInfoListResultValueList = Array<Key>;
 /** List of keys */
 export interface KeyInfoListResult {
   /** Link to the next page of results */
-  nextLink?: string;
+  nextLink?: string | undefined;
   /** List of keys */
-  value?: KeyInfoListResultValueList;
+  value?: KeyInfoListResultValueList | undefined;
 }
 export interface ListLibraryByWorkspaceRequest {
   /** The ID of the target subscription. */
@@ -3682,13 +3701,13 @@ export type LibraryResourceProperties = BigDataPoolResourcePropertiesCustomLibra
 /** Library response details */
 export interface LibraryResource {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Resource Etag. */
-  etag?: string;
+  etag?: string | undefined;
   /** Library/package information of a Big Data pool powered by Apache Spark */
   properties: BigDataPoolResourcePropertiesCustomLibrariesItem;
 }
@@ -3699,28 +3718,28 @@ export interface LibraryListResponse {
   /** List of Library. */
   value: LibraryListResponseValueList;
   /** The link to the next page of results, if any remaining results exist. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListOperationsRequest {}
 /** Description of an available operation */
 export interface AvailableRpOperationDisplayInfo {
   /** Operation description */
-  description?: string;
+  description?: string | undefined;
   /** Resource type */
-  resource?: string;
+  resource?: string | undefined;
   /** Resource provider name */
-  provider?: string;
+  provider?: string | undefined;
   /** Operation name */
-  operation?: string;
+  operation?: string | undefined;
 }
 /** What is this? */
 export interface OperationMetaMetricDimensionSpecification {
   /** Dimension display name */
-  displayName?: string;
+  displayName?: string | undefined;
   /** Dimension unique name */
-  name?: string;
+  name?: string | undefined;
   /** Whether this metric should be exported for Shoebox */
-  toBeExportedForShoebox?: boolean;
+  toBeExportedForShoebox?: boolean | undefined;
 }
 /** Metric dimensions */
 export type OperationMetaMetricSpecificationDimensionsList =
@@ -3728,27 +3747,27 @@ export type OperationMetaMetricSpecificationDimensionsList =
 /** What is this? */
 export interface OperationMetaMetricSpecification {
   /** The source MDM namespace */
-  sourceMdmNamespace?: string;
+  sourceMdmNamespace?: string | undefined;
   /** Metric display name */
-  displayName?: string;
+  displayName?: string | undefined;
   /** Metric unique name */
-  name?: string;
+  name?: string | undefined;
   /** Metric aggregation type */
-  aggregationType?: string;
+  aggregationType?: string | undefined;
   /** Metric description */
-  displayDescription?: string;
+  displayDescription?: string | undefined;
   /** The source MDM account */
-  sourceMdmAccount?: string;
+  sourceMdmAccount?: string | undefined;
   /** Whether the regional MDM account is enabled */
-  enableRegionalMdmAccount?: boolean;
+  enableRegionalMdmAccount?: boolean | undefined;
   /** Metric units */
-  unit?: string;
+  unit?: string | undefined;
   /** Metric dimensions */
-  dimensions?: OperationMetaMetricSpecificationDimensionsList;
+  dimensions?: OperationMetaMetricSpecificationDimensionsList | undefined;
   /** Whether the metric supports instance-level aggregation */
-  supportsInstanceLevelAggregation?: boolean;
+  supportsInstanceLevelAggregation?: boolean | undefined;
   /** Metric filter */
-  metricFilterPattern?: string;
+  metricFilterPattern?: string | undefined;
 }
 /** Service metric specifications */
 export type OperationMetaServiceSpecificationMetricSpecificationsList =
@@ -3756,11 +3775,11 @@ export type OperationMetaServiceSpecificationMetricSpecificationsList =
 /** What is this? */
 export interface OperationMetaLogSpecification {
   /** Log display name */
-  displayName?: string;
+  displayName?: string | undefined;
   /** Time range the log covers */
-  blobDuration?: string;
+  blobDuration?: string | undefined;
   /** Log unique name */
-  name?: string;
+  name?: string | undefined;
 }
 /** Service log specifications */
 export type OperationMetaServiceSpecificationLogSpecificationsList =
@@ -3768,27 +3787,27 @@ export type OperationMetaServiceSpecificationLogSpecificationsList =
 /** What is this? */
 export interface OperationMetaServiceSpecification {
   /** Service metric specifications */
-  metricSpecifications?: OperationMetaServiceSpecificationMetricSpecificationsList;
+  metricSpecifications?: OperationMetaServiceSpecificationMetricSpecificationsList | undefined;
   /** Service log specifications */
-  logSpecifications?: OperationMetaServiceSpecificationLogSpecificationsList;
+  logSpecifications?: OperationMetaServiceSpecificationLogSpecificationsList | undefined;
 }
 /** What is this? */
 export interface OperationMetaPropertyInfo {
   /** Operation service specification */
-  serviceSpecification?: OperationMetaServiceSpecification;
+  serviceSpecification?: OperationMetaServiceSpecification | undefined;
 }
 /** An operation that is available in this resource provider */
 export interface AvailableRpOperation {
   /** Display properties of the operation */
-  display?: AvailableRpOperationDisplayInfo;
+  display?: AvailableRpOperationDisplayInfo | undefined;
   /** Whether this operation is a data action */
-  isDataAction?: string;
+  isDataAction?: string | undefined;
   /** Operation name */
-  name?: string;
+  name?: string | undefined;
   /** Operation properties */
-  properties?: OperationMetaPropertyInfo;
+  properties?: OperationMetaPropertyInfo | undefined;
   /** Operation origin */
-  origin?: string;
+  origin?: string | undefined;
 }
 export type ListOperationsResponseBodyList = Array<AvailableRpOperation>;
 export type ListOperationsResponse = ListOperationsResponseBodyList;
@@ -3807,9 +3826,9 @@ export type ListPrivateEndpointConnectionsResponseValueList =
   Array<WorkspacePropertiesPrivateEndpointConnectionsItem>;
 export interface ListPrivateEndpointConnectionsResponse {
   /** Array of results. */
-  value?: ListPrivateEndpointConnectionsResponseValueList;
+  value?: ListPrivateEndpointConnectionsResponseValueList | undefined;
   /** Link to retrieve next page of results. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListPrivateEndpointConnectionsPrivateLinkHubRequest {
   /** The ID of the target subscription. */
@@ -3824,17 +3843,17 @@ export type PrivateEndpointConnectionForPrivateLinkHubProperties =
   PrivateEndpointConnectionProperties;
 export interface PrivateEndpointConnectionForPrivateLinkHub {
   /** identifier */
-  id?: string;
+  id?: string | undefined;
   /** Properties of a private endpoint connection. */
-  properties?: PrivateEndpointConnectionProperties;
-  name?: string;
-  type?: string;
+  properties?: PrivateEndpointConnectionProperties | undefined;
+  name?: string | undefined;
+  type?: string | undefined;
 }
 export type ListPrivateEndpointConnectionsPrivateLinkHubResponseValueList =
   Array<PrivateEndpointConnectionForPrivateLinkHub>;
 export interface ListPrivateEndpointConnectionsPrivateLinkHubResponse {
-  value?: ListPrivateEndpointConnectionsPrivateLinkHubResponseValueList;
-  nextLink?: string;
+  value?: ListPrivateEndpointConnectionsPrivateLinkHubResponseValueList | undefined;
+  nextLink?: string | undefined;
 }
 export interface ListPrivateLinkHubByResourceGroupRequest {
   /** The ID of the target subscription. */
@@ -3847,26 +3866,26 @@ export type PrivateLinkHubTagsMap = { [key: string]: string | undefined };
 /** A privateLinkHub */
 export interface PrivateLinkHub {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Resource tags. */
-  tags?: PrivateLinkHubTagsMap;
+  tags?: PrivateLinkHubTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** PrivateLinkHub resource properties */
-  properties?: PrivateLinkHubProperties;
+  properties?: PrivateLinkHubProperties | undefined;
 }
 /** List of privateLinkHubs */
 export type PrivateLinkHubInfoListResultValueList = Array<PrivateLinkHub>;
 /** List of privateLinkHubs */
 export interface PrivateLinkHubInfoListResult {
   /** Link to the next page of results */
-  nextLink?: string;
+  nextLink?: string | undefined;
   /** List of privateLinkHubs */
-  value?: PrivateLinkHubInfoListResultValueList;
+  value?: PrivateLinkHubInfoListResultValueList | undefined;
 }
 export interface ListPrivateLinkHubPrivateLinkResourcesRequest {
   /** The ID of the target subscription. */
@@ -3879,22 +3898,22 @@ export interface ListPrivateLinkHubPrivateLinkResourcesRequest {
 /** A private link resource */
 export interface PrivateLinkResource {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** The private link resource properties. */
-  properties?: PrivateLinkResourceProperties;
+  properties?: PrivateLinkResourceProperties | undefined;
 }
 /** Array of results. */
 export type PrivateLinkResourceListResultValueList = Array<PrivateLinkResource>;
 /** A list of private link resources */
 export interface PrivateLinkResourceListResult {
   /** Array of results. */
-  value?: PrivateLinkResourceListResultValueList;
+  value?: PrivateLinkResourceListResultValueList | undefined;
   /** Link to retrieve next page of results. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListPrivateLinkHubsRequest {
   /** The ID of the target subscription. */
@@ -3919,15 +3938,15 @@ export interface ListRestorableDroppedSqlPoolByWorkspaceRequest {
 /** A restorable dropped Sql pool */
 export interface RestorableDroppedSqlPool {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** The geo-location where the resource lives */
-  location?: string;
+  location?: string | undefined;
   /** The properties of a restorable dropped Sql pool */
-  properties?: RestorableDroppedSqlPoolProperties;
+  properties?: RestorableDroppedSqlPoolProperties | undefined;
 }
 /** A list of restorable dropped Sql pools */
 export type RestorableDroppedSqlPoolListResultValueList = Array<RestorableDroppedSqlPool>;
@@ -3949,24 +3968,24 @@ export interface ListSqlPoolBlobAuditingPolicyBySqlPoolRequest {
 /** A Sql pool blob auditing policy. */
 export interface SqlPoolBlobAuditingPolicy {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Resource kind. */
-  kind?: string;
+  kind?: string | undefined;
   /** Resource properties. */
-  properties?: SqlPoolBlobAuditingPolicyProperties;
+  properties?: SqlPoolBlobAuditingPolicyProperties | undefined;
 }
 /** Array of results. */
 export type SqlPoolBlobAuditingPolicyListResultValueList = Array<SqlPoolBlobAuditingPolicy>;
 /** A list of Sql pool auditing settings. */
 export interface SqlPoolBlobAuditingPolicyListResult {
   /** Array of results. */
-  value?: SqlPoolBlobAuditingPolicyListResultValueList;
+  value?: SqlPoolBlobAuditingPolicyListResultValueList | undefined;
   /** Link to retrieve next page of results. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListSqlPoolByWorkspaceRequest {
   /** The ID of the target subscription. */
@@ -3981,28 +4000,28 @@ export type SqlPoolTagsMap = { [key: string]: string | undefined };
 /** A SQL Analytics pool */
 export interface SqlPool {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Resource tags. */
-  tags?: SqlPoolTagsMap;
+  tags?: SqlPoolTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** SQL pool SKU */
-  sku?: Sku;
+  sku?: Sku | undefined;
   /** SQL pool properties */
-  properties?: SqlPoolResourceProperties;
+  properties?: SqlPoolResourceProperties | undefined;
 }
 /** List of SQL pools */
 export type SqlPoolInfoListResultValueList = Array<SqlPool>;
 /** List of SQL pools */
 export interface SqlPoolInfoListResult {
   /** Link to the next page of results */
-  nextLink?: string;
+  nextLink?: string | undefined;
   /** List of SQL pools */
-  value?: SqlPoolInfoListResultValueList;
+  value?: SqlPoolInfoListResultValueList | undefined;
 }
 export interface ListSqlPoolGeoBackupPoliciesRequest {
   /** The ID of the target subscription. */
@@ -4017,24 +4036,24 @@ export interface ListSqlPoolGeoBackupPoliciesRequest {
 /** A database geo backup policy. */
 export interface GeoBackupPolicy {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** The properties of the geo backup policy. */
   properties: GeoBackupPolicyProperties;
   /** Kind of geo backup policy. This is metadata used for the Azure portal experience. */
-  kind?: string;
+  kind?: string | undefined;
   /** Backup policy location. */
-  location?: string;
+  location?: string | undefined;
 }
 /** The list of geo backup policies. */
 export type GeoBackupPolicyListResultValueList = Array<GeoBackupPolicy>;
 /** The response to a list geo backup policies request. */
 export interface GeoBackupPolicyListResult {
   /** The list of geo backup policies. */
-  value?: GeoBackupPolicyListResultValueList;
+  value?: GeoBackupPolicyListResultValueList | undefined;
 }
 export interface ListSqlPoolOperationsRequest {
   /** The ID of the target subscription. */
@@ -4057,53 +4076,53 @@ export type SqlPoolOperationPropertiesState =
 /** The properties of a Sql pool operation. */
 export interface SqlPoolOperationProperties {
   /** The name of the Sql pool the operation is being performed on. */
-  databaseName?: string;
+  databaseName?: string | undefined;
   /** The name of operation. */
-  operation?: string;
+  operation?: string | undefined;
   /** The friendly name of operation. */
-  operationFriendlyName?: string;
+  operationFriendlyName?: string | undefined;
   /** The percentage of the operation completed. */
-  percentComplete?: number;
+  percentComplete?: number | undefined;
   /** The name of the server. */
-  serverName?: string;
+  serverName?: string | undefined;
   /** The operation start time. */
-  startTime?: string;
+  startTime?: string | undefined;
   /** The operation state. */
-  state?: SqlPoolOperationPropertiesState;
+  state?: SqlPoolOperationPropertiesState | undefined;
   /** The operation error code. */
-  errorCode?: number;
+  errorCode?: number | undefined;
   /** The operation error description. */
-  errorDescription?: string;
+  errorDescription?: string | undefined;
   /** The operation error severity. */
-  errorSeverity?: number;
+  errorSeverity?: number | undefined;
   /** Whether or not the error is a user error. */
-  isUserError?: boolean;
+  isUserError?: boolean | undefined;
   /** The estimated completion time of the operation. */
-  estimatedCompletionTime?: string;
+  estimatedCompletionTime?: string | undefined;
   /** The operation description. */
-  description?: string;
+  description?: string | undefined;
   /** Whether the operation can be cancelled. */
-  isCancellable?: boolean;
+  isCancellable?: boolean | undefined;
 }
 /** A Sql pool operation. */
 export interface SqlPoolOperation {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Resource properties. */
-  properties?: SqlPoolOperationProperties;
+  properties?: SqlPoolOperationProperties | undefined;
 }
 /** Array of results. */
 export type SqlPoolBlobAuditingPolicySqlPoolOperationListResultValueList = Array<SqlPoolOperation>;
 /** The response to a list Sql pool operations request */
 export interface SqlPoolBlobAuditingPolicySqlPoolOperationListResult {
   /** Array of results. */
-  value?: SqlPoolBlobAuditingPolicySqlPoolOperationListResultValueList;
+  value?: SqlPoolBlobAuditingPolicySqlPoolOperationListResultValueList | undefined;
   /** Link to retrieve next page of results. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListSqlPoolReplicationLinksRequest {
   /** The ID of the target subscription. */
@@ -4118,24 +4137,24 @@ export interface ListSqlPoolReplicationLinksRequest {
 /** Represents a Sql pool replication link. */
 export interface ReplicationLink {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Location of the workspace that contains this firewall rule. */
-  location?: string;
+  location?: string | undefined;
   /** The properties representing the resource. */
-  properties?: ReplicationLinkProperties;
+  properties?: ReplicationLinkProperties | undefined;
 }
 /** The list of Sql pool replication links housed in the Sql pool. */
 export type ReplicationLinkListResultValueList = Array<ReplicationLink>;
 /** Represents the response to a List Sql pool replication link request. */
 export interface ReplicationLinkListResult {
   /** The list of Sql pool replication links housed in the Sql pool. */
-  value?: ReplicationLinkListResultValueList;
+  value?: ReplicationLinkListResultValueList | undefined;
   /** Link to retrieve next page of results. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListSqlPoolRestorePointsRequest {
   /** The ID of the target subscription. */
@@ -4150,24 +4169,24 @@ export interface ListSqlPoolRestorePointsRequest {
 /** Database restore points. */
 export interface RestorePoint {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Resource location. */
-  location?: string;
+  location?: string | undefined;
   /** Resource properties. */
-  properties?: RestorePointProperties;
+  properties?: RestorePointProperties | undefined;
 }
 /** Array of results. */
 export type RestorePointListResultValueList = Array<RestorePoint>;
 /** A list of long term retention backups. */
 export interface RestorePointListResult {
   /** Array of results. */
-  value?: RestorePointListResultValueList;
+  value?: RestorePointListResultValueList | undefined;
   /** Link to retrieve next page of results. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListSqlPoolSchemasRequest {
   /** The ID of the target subscription. */
@@ -4179,25 +4198,25 @@ export interface ListSqlPoolSchemasRequest {
   /** SQL pool name */
   sqlPoolName: string;
   /** An OData filter expression that filters elements in the collection. */
-  _filter?: string;
+  _filter?: string | undefined;
 }
 /** Common fields that are returned in the response for all Azure Resource Manager resources */
 export interface Resource {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
 }
 /** Array of results. */
 export type SqlPoolSchemaListResultValueList = Array<Resource>;
 /** A list of Sql pool schemas. */
 export interface SqlPoolSchemaListResult {
   /** Array of results. */
-  value?: SqlPoolSchemaListResultValueList;
+  value?: SqlPoolSchemaListResultValueList | undefined;
   /** Link to retrieve next page of results. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListSqlPoolSecurityAlertPoliciesRequest {
   /** The ID of the target subscription. */
@@ -4212,22 +4231,22 @@ export interface ListSqlPoolSecurityAlertPoliciesRequest {
 /** A Sql pool security alert policy. */
 export interface SqlPoolSecurityAlertPolicy {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Resource properties. */
-  properties?: SecurityAlertPolicyProperties;
+  properties?: SecurityAlertPolicyProperties | undefined;
 }
 /** Array of results. */
 export type ListSqlPoolSecurityAlertPoliciesValueList = Array<SqlPoolSecurityAlertPolicy>;
 /** A list of SQL pool security alert policies. */
 export interface ListSqlPoolSecurityAlertPolicies {
   /** Array of results. */
-  value?: ListSqlPoolSecurityAlertPoliciesValueList;
+  value?: ListSqlPoolSecurityAlertPoliciesValueList | undefined;
   /** Link to retrieve next page of results. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListSqlPoolSensitivityLabelCurrentRequest {
   /** The ID of the target subscription. */
@@ -4239,29 +4258,29 @@ export interface ListSqlPoolSensitivityLabelCurrentRequest {
   /** SQL pool name */
   sqlPoolName: string;
   /** An OData filter expression that filters elements in the collection. */
-  _filter?: string;
+  _filter?: string | undefined;
 }
 /** A sensitivity label. */
 export interface SensitivityLabel {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Resource properties. */
-  properties?: SensitivityLabelProperties;
+  properties?: SensitivityLabelProperties | undefined;
   /** managed by */
-  managedBy?: string;
+  managedBy?: string | undefined;
 }
 /** Array of results. */
 export type SensitivityLabelListResultValueList = Array<SensitivityLabel>;
 /** A list of sensitivity labels. */
 export interface SensitivityLabelListResult {
   /** Array of results. */
-  value?: SensitivityLabelListResultValueList;
+  value?: SensitivityLabelListResultValueList | undefined;
   /** Link to retrieve next page of results. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListSqlPoolSensitivityLabelRecommendedRequest {
   /** The ID of the target subscription. */
@@ -4273,11 +4292,11 @@ export interface ListSqlPoolSensitivityLabelRecommendedRequest {
   /** SQL pool name */
   sqlPoolName: string;
   /** Specifies whether to include disabled recommendations or not. */
-  includeDisabledRecommendations?: boolean;
+  includeDisabledRecommendations?: boolean | undefined;
   /** An OData query option to indicate how many elements to skip in the collection. */
-  _skipToken?: string;
+  _skipToken?: string | undefined;
   /** An OData filter expression that filters elements in the collection. */
-  _filter?: string;
+  _filter?: string | undefined;
 }
 export interface ListSqlPoolTableBySchemaRequest {
   /** The ID of the target subscription. */
@@ -4291,16 +4310,16 @@ export interface ListSqlPoolTableBySchemaRequest {
   /** The name of the schema. */
   schemaName: string;
   /** An OData filter expression that filters elements in the collection. */
-  _filter?: string;
+  _filter?: string | undefined;
 }
 /** Array of results. */
 export type SqlPoolTableListResultValueList = Array<Resource>;
 /** A list of Sql pool tables. */
 export interface SqlPoolTableListResult {
   /** Array of results. */
-  value?: SqlPoolTableListResultValueList;
+  value?: SqlPoolTableListResultValueList | undefined;
   /** Link to retrieve next page of results. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListSqlPoolTableColumnByTableNameRequest {
   /** The ID of the target subscription. */
@@ -4316,27 +4335,27 @@ export interface ListSqlPoolTableColumnByTableNameRequest {
   /** The name of the table. */
   tableName: string;
   /** An OData filter expression that filters elements in the collection. */
-  _filter?: string;
+  _filter?: string | undefined;
 }
 /** A Sql pool column resource. */
 export interface SqlPoolColumn {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Resource properties. */
-  properties?: SqlPoolColumnProperties;
+  properties?: SqlPoolColumnProperties | undefined;
 }
 /** Array of results. */
 export type SqlPoolColumnListResultValueList = Array<SqlPoolColumn>;
 /** A list of Sql pool columns. */
 export interface SqlPoolColumnListResult {
   /** Array of results. */
-  value?: SqlPoolColumnListResultValueList;
+  value?: SqlPoolColumnListResultValueList | undefined;
   /** Link to retrieve next page of results. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListSqlPoolTransparentDataEncryptionsRequest {
   /** The ID of the target subscription. */
@@ -4351,24 +4370,24 @@ export interface ListSqlPoolTransparentDataEncryptionsRequest {
 /** Represents a Sql pool transparent data encryption configuration. */
 export interface TransparentDataEncryption {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Resource location. */
-  location?: string;
+  location?: string | undefined;
   /** Represents the properties of the resource. */
-  properties?: TransparentDataEncryptionProperties;
+  properties?: TransparentDataEncryptionProperties | undefined;
 }
 /** Array of results. */
 export type TransparentDataEncryptionListResultValueList = Array<TransparentDataEncryption>;
 /** A list of transparent data encryption configurations. */
 export interface TransparentDataEncryptionListResult {
   /** Array of results. */
-  value?: TransparentDataEncryptionListResultValueList;
+  value?: TransparentDataEncryptionListResultValueList | undefined;
   /** Link to retrieve next page of results. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListSqlPoolUsagesRequest {
   /** The ID of the target subscription. */
@@ -4383,19 +4402,19 @@ export interface ListSqlPoolUsagesRequest {
 /** The Sql pool usages. */
 export interface SqlPoolUsage {
   /** The name of the usage metric. */
-  name?: string;
+  name?: string | undefined;
   /** The name of the resource. */
-  resourceName?: string;
+  resourceName?: string | undefined;
   /** The usage metric display name. */
-  displayName?: string;
+  displayName?: string | undefined;
   /** The current value of the usage metric. */
-  currentValue?: number;
+  currentValue?: number | undefined;
   /** The current limit of the usage metric. */
-  limit?: number;
+  limit?: number | undefined;
   /** The units of the usage metric. */
-  unit?: string;
+  unit?: string | undefined;
   /** The next reset time for the usage metric (ISO8601 format). */
-  nextResetTime?: string;
+  nextResetTime?: string | undefined;
 }
 /** The list of usages for the Sql pool. */
 export type SqlPoolUsageListResultValueList = Array<SqlPoolUsage>;
@@ -4404,7 +4423,7 @@ export interface SqlPoolUsageListResult {
   /** The list of usages for the Sql pool. */
   value: SqlPoolUsageListResultValueList;
   /** Link to retrieve next page of results. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListSqlPoolVulnerabilityAssessmentsRequest {
   /** The ID of the target subscription. */
@@ -4419,13 +4438,13 @@ export interface ListSqlPoolVulnerabilityAssessmentsRequest {
 /** A Sql pool vulnerability assessment. */
 export interface SqlPoolVulnerabilityAssessment {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Resource properties. */
-  properties?: SqlPoolVulnerabilityAssessmentProperties;
+  properties?: SqlPoolVulnerabilityAssessmentProperties | undefined;
 }
 /** Array of results. */
 export type SqlPoolVulnerabilityAssessmentListResultValueList =
@@ -4433,9 +4452,9 @@ export type SqlPoolVulnerabilityAssessmentListResultValueList =
 /** A list of the Sql pool's vulnerability assessments. */
 export interface SqlPoolVulnerabilityAssessmentListResult {
   /** Array of results. */
-  value?: SqlPoolVulnerabilityAssessmentListResultValueList;
+  value?: SqlPoolVulnerabilityAssessmentListResultValueList | undefined;
   /** Link to retrieve next page of results. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export type ListSqlPoolVulnerabilityAssessmentScansRequestVulnerabilityAssessmentName = "default";
 export interface ListSqlPoolVulnerabilityAssessmentScansRequest {
@@ -4455,13 +4474,13 @@ export interface ListSqlPoolVulnerabilityAssessmentScansRequest {
 /** A vulnerability assessment scan record. */
 export interface VulnerabilityAssessmentScanRecord {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Resource properties. */
-  properties?: VulnerabilityAssessmentScanRecordProperties;
+  properties?: VulnerabilityAssessmentScanRecordProperties | undefined;
 }
 /** Array of results. */
 export type VulnerabilityAssessmentScanRecordListResultValueList =
@@ -4469,9 +4488,9 @@ export type VulnerabilityAssessmentScanRecordListResultValueList =
 /** A list of vulnerability assessment scan records. */
 export interface VulnerabilityAssessmentScanRecordListResult {
   /** Array of results. */
-  value?: VulnerabilityAssessmentScanRecordListResultValueList;
+  value?: VulnerabilityAssessmentScanRecordListResultValueList | undefined;
   /** Link to retrieve next page of results. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListSqlPoolWorkloadClassifierRequest {
   /** The ID of the target subscription. */
@@ -4488,22 +4507,22 @@ export interface ListSqlPoolWorkloadClassifierRequest {
 /** Workload classifier operations for a data warehouse */
 export interface WorkloadClassifier {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Resource properties. */
-  properties?: WorkloadClassifierProperties;
+  properties?: WorkloadClassifierProperties | undefined;
 }
 /** Array of results. */
 export type WorkloadClassifierListResultValueList = Array<WorkloadClassifier>;
 /** A list of workload classifiers for a workload group. */
 export interface WorkloadClassifierListResult {
   /** Array of results. */
-  value?: WorkloadClassifierListResultValueList;
+  value?: WorkloadClassifierListResultValueList | undefined;
   /** Link to retrieve next page of results. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListSqlPoolWorkloadGroupRequest {
   /** The ID of the target subscription. */
@@ -4518,22 +4537,22 @@ export interface ListSqlPoolWorkloadGroupRequest {
 /** Workload group operations for a sql pool */
 export interface WorkloadGroup {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Resource properties. */
-  properties?: WorkloadGroupProperties;
+  properties?: WorkloadGroupProperties | undefined;
 }
 /** Array of results. */
 export type WorkloadGroupListResultValueList = Array<WorkloadGroup>;
 /** A list of workload groups. */
 export interface WorkloadGroupListResult {
   /** Array of results. */
-  value?: WorkloadGroupListResultValueList;
+  value?: WorkloadGroupListResultValueList | undefined;
   /** Link to retrieve next page of results. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListWorkspaceByResourceGroupRequest {
   /** The ID of the target subscription. */
@@ -4546,28 +4565,28 @@ export type WorkspaceTagsMap = { [key: string]: string | undefined };
 /** A workspace */
 export interface Workspace {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Resource tags. */
-  tags?: WorkspaceTagsMap;
+  tags?: WorkspaceTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Workspace resource properties */
-  properties?: WorkspaceProperties;
+  properties?: WorkspaceProperties | undefined;
   /** Identity of the workspace */
-  identity?: ManagedIdentity;
+  identity?: ManagedIdentity | undefined;
 }
 /** List of workspaces */
 export type WorkspaceInfoListResultValueList = Array<Workspace>;
 /** List of workspaces */
 export interface WorkspaceInfoListResult {
   /** Link to the next page of results */
-  nextLink?: string;
+  nextLink?: string | undefined;
   /** List of workspaces */
-  value?: WorkspaceInfoListResultValueList;
+  value?: WorkspaceInfoListResultValueList | undefined;
 }
 export interface ListWorkspaceManagedSqlServerBlobAuditingPolicyByWorkspaceRequest {
   /** The ID of the target subscription. */
@@ -4580,22 +4599,22 @@ export interface ListWorkspaceManagedSqlServerBlobAuditingPolicyByWorkspaceReque
 /** A server blob auditing policy. */
 export interface ServerBlobAuditingPolicy {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Resource properties. */
-  properties?: ServerBlobAuditingPolicyProperties;
+  properties?: ServerBlobAuditingPolicyProperties | undefined;
 }
 /** Array of results. */
 export type ServerBlobAuditingPolicyListResultValueList = Array<ServerBlobAuditingPolicy>;
 /** A list of server auditing settings. */
 export interface ServerBlobAuditingPolicyListResult {
   /** Array of results. */
-  value?: ServerBlobAuditingPolicyListResultValueList;
+  value?: ServerBlobAuditingPolicyListResultValueList | undefined;
   /** Link to retrieve next page of results. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListWorkspaceManagedSqlServerDedicatedSQLMinimalTlsSettingsRequest {
   /** The ID of the target subscription. */
@@ -4608,15 +4627,15 @@ export interface ListWorkspaceManagedSqlServerDedicatedSQLMinimalTlsSettingsRequ
 /** Dedicated Sql Minimal Tls Settings Info */
 export interface DedicatedSQLminimalTlsSettings {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Resource location. */
-  location?: string;
+  location?: string | undefined;
   /** Resource properties. */
-  properties?: DedicatedSQLminimalTlsSettingsProperties;
+  properties?: DedicatedSQLminimalTlsSettingsProperties | undefined;
 }
 /** Array of results. */
 export type DedicatedSQLminimalTlsSettingsListResultValueList =
@@ -4624,9 +4643,9 @@ export type DedicatedSQLminimalTlsSettingsListResultValueList =
 /** A list of the server's dedicated sql minimal tls settings. */
 export interface DedicatedSQLminimalTlsSettingsListResult {
   /** Array of results. */
-  value?: DedicatedSQLminimalTlsSettingsListResultValueList;
+  value?: DedicatedSQLminimalTlsSettingsListResultValueList | undefined;
   /** Link to retrieve next page of results. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListWorkspaceManagedSqlServerEncryptionProtectorRequest {
   /** The ID of the target subscription. */
@@ -4639,26 +4658,26 @@ export interface ListWorkspaceManagedSqlServerEncryptionProtectorRequest {
 /** The server encryption protector. */
 export interface EncryptionProtector {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Kind of encryption protector. This is metadata used for the Azure portal experience. */
-  kind?: string;
+  kind?: string | undefined;
   /** Resource location. */
-  location?: string;
+  location?: string | undefined;
   /** Resource properties. */
-  properties?: EncryptionProtectorProperties;
+  properties?: EncryptionProtectorProperties | undefined;
 }
 /** Array of results. */
 export type EncryptionProtectorListResultValueList = Array<EncryptionProtector>;
 /** A list of server encryption protectors. */
 export interface EncryptionProtectorListResult {
   /** Array of results. */
-  value?: EncryptionProtectorListResultValueList;
+  value?: EncryptionProtectorListResultValueList | undefined;
   /** Link to retrieve next page of results. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListWorkspaceManagedSqlServerExtendedBlobAuditingPolicyByWorkspaceRequest {
   /** The ID of the target subscription. */
@@ -4671,13 +4690,13 @@ export interface ListWorkspaceManagedSqlServerExtendedBlobAuditingPolicyByWorksp
 /** An extended server blob auditing policy. */
 export interface ExtendedServerBlobAuditingPolicy {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Resource properties. */
-  properties?: ExtendedServerBlobAuditingPolicyProperties;
+  properties?: ExtendedServerBlobAuditingPolicyProperties | undefined;
 }
 /** Array of results. */
 export type ExtendedServerBlobAuditingPolicyListResultValueList =
@@ -4685,9 +4704,9 @@ export type ExtendedServerBlobAuditingPolicyListResultValueList =
 /** A list of server extended auditing settings. */
 export interface ExtendedServerBlobAuditingPolicyListResult {
   /** Array of results. */
-  value?: ExtendedServerBlobAuditingPolicyListResultValueList;
+  value?: ExtendedServerBlobAuditingPolicyListResultValueList | undefined;
   /** Link to retrieve next page of results. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListWorkspaceManagedSqlServerRecoverableSqlPoolsRequest {
   /** The ID of the target subscription. */
@@ -4700,22 +4719,22 @@ export interface ListWorkspaceManagedSqlServerRecoverableSqlPoolsRequest {
 /** A recoverable sql pool */
 export interface RecoverableSqlPool {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** The properties of a recoverable sql pool */
-  properties?: RecoverableSqlPoolProperties;
+  properties?: RecoverableSqlPoolProperties | undefined;
 }
 /** A list of recoverable sql pool */
 export type RecoverableSqlPoolListResultValueList = Array<RecoverableSqlPool>;
 /** The response to a list recoverable sql pools request */
 export interface RecoverableSqlPoolListResult {
   /** A list of recoverable sql pool */
-  value?: RecoverableSqlPoolListResultValueList;
+  value?: RecoverableSqlPoolListResultValueList | undefined;
   /** Link to retrieve next page of results. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListWorkspaceManagedSqlServerSecurityAlertPolicyRequest {
   /** The ID of the target subscription. */
@@ -4728,22 +4747,22 @@ export interface ListWorkspaceManagedSqlServerSecurityAlertPolicyRequest {
 /** Workspace managed Sql server security alert policy. */
 export interface ServerSecurityAlertPolicy {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Resource properties. */
-  properties?: ServerSecurityAlertPolicyProperties;
+  properties?: ServerSecurityAlertPolicyProperties | undefined;
 }
 /** Array of results. */
 export type ServerSecurityAlertPolicyListResultValueList = Array<ServerSecurityAlertPolicy>;
 /** A list of the workspace managed sql server's security alert policies. */
 export interface ServerSecurityAlertPolicyListResult {
   /** Array of results. */
-  value?: ServerSecurityAlertPolicyListResultValueList;
+  value?: ServerSecurityAlertPolicyListResultValueList | undefined;
   /** Link to retrieve next page of results. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListWorkspaceManagedSqlServerUsagesRequest {
   /** The ID of the target subscription. */
@@ -4756,19 +4775,19 @@ export interface ListWorkspaceManagedSqlServerUsagesRequest {
 /** Represents server metrics. */
 export interface ServerUsage {
   /** Name of the server usage metric. */
-  name?: string;
+  name?: string | undefined;
   /** The name of the resource. */
-  resourceName?: string;
+  resourceName?: string | undefined;
   /** The metric display name. */
-  displayName?: string;
+  displayName?: string | undefined;
   /** The current value of the metric. */
-  currentValue?: number;
+  currentValue?: number | undefined;
   /** The current limit of the metric. */
-  limit?: number;
+  limit?: number | undefined;
   /** The units of the metric. */
-  unit?: string;
+  unit?: string | undefined;
   /** The next reset time for the metric (ISO8601 format). */
-  nextResetTime?: string;
+  nextResetTime?: string | undefined;
 }
 /** The list of server metrics for the server. */
 export type ServerUsageListResultValueList = Array<ServerUsage>;
@@ -4777,7 +4796,7 @@ export interface ServerUsageListResult {
   /** The list of server metrics for the server. */
   value: ServerUsageListResultValueList;
   /** Link to retrieve next page of results. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListWorkspaceManagedSqlServerVulnerabilityAssessmentsRequest {
   /** The ID of the target subscription. */
@@ -4790,22 +4809,22 @@ export interface ListWorkspaceManagedSqlServerVulnerabilityAssessmentsRequest {
 /** A server vulnerability assessment. */
 export interface ServerVulnerabilityAssessment {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Resource properties. */
-  properties?: ServerVulnerabilityAssessmentProperties;
+  properties?: ServerVulnerabilityAssessmentProperties | undefined;
 }
 /** Array of results. */
 export type ServerVulnerabilityAssessmentListResultValueList = Array<ServerVulnerabilityAssessment>;
 /** A list of the server's vulnerability assessments. */
 export interface ServerVulnerabilityAssessmentListResult {
   /** Array of results. */
-  value?: ServerVulnerabilityAssessmentListResultValueList;
+  value?: ServerVulnerabilityAssessmentListResultValueList | undefined;
   /** Link to retrieve next page of results. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListWorkspacesRequest {
   /** The ID of the target subscription. */
@@ -4825,26 +4844,26 @@ export interface PauseSqlPoolRequest {
 export type PauseSqlPoolResponseTagsMap = { [key: string]: string | undefined };
 export interface PauseSqlPoolResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Resource tags. */
-  tags?: PauseSqlPoolResponseTagsMap;
+  tags?: PauseSqlPoolResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** SQL pool SKU */
-  sku?: Sku;
+  sku?: Sku | undefined;
   /** SQL pool properties */
-  properties?: SqlPoolResourceProperties;
+  properties?: SqlPoolResourceProperties | undefined;
 }
 /** Resource tags. */
 export type PrivateLinkHubsCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
 /** PrivateLinkHub properties */
 export interface PrivateLinkHubPropertiesInput {
   /** PrivateLinkHub provisioning state */
-  provisioningState?: string;
+  provisioningState?: string | undefined;
 }
 export interface PrivateLinkHubsCreateOrUpdateRequest {
   /** The ID of the target subscription. */
@@ -4854,27 +4873,27 @@ export interface PrivateLinkHubsCreateOrUpdateRequest {
   /** Name of the privateLinkHub */
   privateLinkHubName: string;
   /** Resource tags. */
-  tags?: PrivateLinkHubsCreateOrUpdateRequestTagsMap;
+  tags?: PrivateLinkHubsCreateOrUpdateRequestTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** PrivateLinkHub resource properties */
-  properties?: PrivateLinkHubPropertiesInput;
+  properties?: PrivateLinkHubPropertiesInput | undefined;
 }
 /** Resource tags. */
 export type PrivateLinkHubsCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
 export interface PrivateLinkHubsCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Resource tags. */
-  tags?: PrivateLinkHubsCreateOrUpdateResponseTagsMap;
+  tags?: PrivateLinkHubsCreateOrUpdateResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** PrivateLinkHub resource properties */
-  properties?: PrivateLinkHubProperties;
+  properties?: PrivateLinkHubProperties | undefined;
 }
 export interface RefreshIntegrationRuntimeObjectMetadataRequest {
   /** The ID of the target subscription. */
@@ -4889,13 +4908,13 @@ export interface RefreshIntegrationRuntimeObjectMetadataRequest {
 /** The status of the operation. */
 export interface SsisObjectMetadataStatusResponse {
   /** The status of the operation. */
-  status?: string;
+  status?: string | undefined;
   /** The operation name. */
-  name?: string;
+  name?: string | undefined;
   /** The operation properties. */
-  properties?: string;
+  properties?: string | undefined;
   /** The operation error message. */
-  error?: string;
+  error?: string | undefined;
 }
 /** The name of the authentication key to regenerate. */
 export type RegenerateIntegrationRuntimeAuthKeyRequestKeyName = "authKey1" | "authKey2";
@@ -4909,7 +4928,7 @@ export interface RegenerateIntegrationRuntimeAuthKeyRequest {
   /** Integration runtime name */
   integrationRuntimeName: string;
   /** The name of the authentication key to regenerate. */
-  keyName?: RegenerateIntegrationRuntimeAuthKeyRequestKeyName | (string & {});
+  keyName?: RegenerateIntegrationRuntimeAuthKeyRequestKeyName | (string & {}) | undefined;
 }
 /** IP firewall rule properties */
 export type ReplaceIpFirewallRuleAllRequestIpFirewallRulesMap = {
@@ -4923,12 +4942,12 @@ export interface ReplaceIpFirewallRuleAllRequest {
   /** The name of the workspace. */
   workspaceName: string;
   /** IP firewall rule properties */
-  ipFirewallRules?: ReplaceIpFirewallRuleAllRequestIpFirewallRulesMap;
+  ipFirewallRules?: ReplaceIpFirewallRuleAllRequestIpFirewallRulesMap | undefined;
 }
 /** An existing operation for replacing the firewall rules */
 export interface ReplaceAllFirewallRulesOperationResponse {
   /** The operation ID */
-  operationId?: string;
+  operationId?: string | undefined;
 }
 export interface ResumeSqlPoolRequest {
   /** The ID of the target subscription. */
@@ -4944,19 +4963,19 @@ export interface ResumeSqlPoolRequest {
 export type ResumeSqlPoolResponseTagsMap = { [key: string]: string | undefined };
 export interface ResumeSqlPoolResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Resource tags. */
-  tags?: ResumeSqlPoolResponseTagsMap;
+  tags?: ResumeSqlPoolResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** SQL pool SKU */
-  sku?: Sku;
+  sku?: Sku | undefined;
   /** SQL pool properties */
-  properties?: SqlPoolResourceProperties;
+  properties?: SqlPoolResourceProperties | undefined;
 }
 export type SqlPoolBlobAuditingPoliciesCreateOrUpdateRequestBlobAuditingPolicyName = "default";
 export interface SqlPoolBlobAuditingPoliciesCreateOrUpdateRequest {
@@ -4973,19 +4992,19 @@ export interface SqlPoolBlobAuditingPoliciesCreateOrUpdateRequest {
     | SqlPoolBlobAuditingPoliciesCreateOrUpdateRequestBlobAuditingPolicyName
     | (string & {});
   /** Resource properties. */
-  properties?: SqlPoolBlobAuditingPolicyProperties;
+  properties?: SqlPoolBlobAuditingPolicyProperties | undefined;
 }
 export interface SqlPoolBlobAuditingPoliciesCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Resource kind. */
-  kind?: string;
+  kind?: string | undefined;
   /** Resource properties. */
-  properties?: SqlPoolBlobAuditingPolicyProperties;
+  properties?: SqlPoolBlobAuditingPolicyProperties | undefined;
 }
 export type SqlPoolGeoBackupPoliciesCreateOrUpdateRequestGeoBackupPolicyName = "Default";
 /** The state of the geo backup policy. */
@@ -5013,17 +5032,17 @@ export interface SqlPoolGeoBackupPoliciesCreateOrUpdateRequest {
 }
 export interface SqlPoolGeoBackupPoliciesCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** The properties of the geo backup policy. */
   properties: GeoBackupPolicyProperties;
   /** Kind of geo backup policy. This is metadata used for the Azure portal experience. */
-  kind?: string;
+  kind?: string | undefined;
   /** Backup policy location. */
-  location?: string;
+  location?: string | undefined;
 }
 export interface SqlPoolMaintenanceWindowsCreateOrUpdateRequest {
   /** The ID of the target subscription. */
@@ -5037,7 +5056,7 @@ export interface SqlPoolMaintenanceWindowsCreateOrUpdateRequest {
   /** Maintenance window name. */
   maintenanceWindowName: string;
   /** Resource properties. */
-  properties?: MaintenanceWindowsProperties;
+  properties?: MaintenanceWindowsProperties | undefined;
 }
 export interface SqlPoolMaintenanceWindowsCreateOrUpdateResponse {}
 export type SqlPoolSecurityAlertPoliciesCreateOrUpdateRequestSecurityAlertPolicyName = "default";
@@ -5052,17 +5071,17 @@ export interface SecurityAlertPolicyPropertiesInput {
   /** Specifies the state of the policy, whether it is enabled or disabled or a policy has not been applied yet on the specific Sql pool. */
   state: SecurityAlertPolicyPropertiesInputState | (string & {});
   /** Specifies an array of alerts that are disabled. Allowed values are: Sql_Injection, Sql_Injection_Vulnerability, Access_Anomaly, Data_Exfiltration, Unsafe_Action */
-  disabledAlerts?: SecurityAlertPolicyPropertiesInputDisabledAlertsList;
+  disabledAlerts?: SecurityAlertPolicyPropertiesInputDisabledAlertsList | undefined;
   /** Specifies an array of e-mail addresses to which the alert is sent. */
-  emailAddresses?: SecurityAlertPolicyPropertiesInputEmailAddressesList;
+  emailAddresses?: SecurityAlertPolicyPropertiesInputEmailAddressesList | undefined;
   /** Specifies that the alert is sent to the account administrators. */
-  emailAccountAdmins?: boolean;
+  emailAccountAdmins?: boolean | undefined;
   /** Specifies the blob storage endpoint (e.g. https://MyAccount.blob.core.windows.net). This blob storage will hold all Threat Detection audit logs. */
-  storageEndpoint?: string;
+  storageEndpoint?: string | undefined;
   /** Specifies the identifier key of the Threat Detection audit storage account. */
-  storageAccountAccessKey?: string;
+  storageAccountAccessKey?: string | undefined;
   /** Specifies the number of days to keep in the Threat Detection audit logs. */
-  retentionDays?: number;
+  retentionDays?: number | undefined;
 }
 export interface SqlPoolSecurityAlertPoliciesCreateOrUpdateRequest {
   /** The ID of the target subscription. */
@@ -5078,31 +5097,31 @@ export interface SqlPoolSecurityAlertPoliciesCreateOrUpdateRequest {
     | SqlPoolSecurityAlertPoliciesCreateOrUpdateRequestSecurityAlertPolicyName
     | (string & {});
   /** Resource properties. */
-  properties?: SecurityAlertPolicyPropertiesInput;
+  properties?: SecurityAlertPolicyPropertiesInput | undefined;
 }
 export interface SqlPoolSecurityAlertPoliciesCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Resource properties. */
-  properties?: SecurityAlertPolicyProperties;
+  properties?: SecurityAlertPolicyProperties | undefined;
 }
 export type SqlPoolSensitivityLabelsCreateOrUpdateRequestSensitivityLabelSource = "current";
 export type SensitivityLabelPropertiesInputRank = "None" | "Low" | "Medium" | "High" | "Critical";
 /** Properties of a sensitivity label. */
 export interface SensitivityLabelPropertiesInput {
   /** The label name. */
-  labelName?: string;
+  labelName?: string | undefined;
   /** The label ID. */
-  labelId?: string;
+  labelId?: string | undefined;
   /** The information type. */
-  informationType?: string;
+  informationType?: string | undefined;
   /** The information type ID. */
-  informationTypeId?: string;
-  rank?: SensitivityLabelPropertiesInputRank | (string & {});
+  informationTypeId?: string | undefined;
+  rank?: SensitivityLabelPropertiesInputRank | (string & {}) | undefined;
 }
 export interface SqlPoolSensitivityLabelsCreateOrUpdateRequest {
   /** The ID of the target subscription. */
@@ -5124,19 +5143,19 @@ export interface SqlPoolSensitivityLabelsCreateOrUpdateRequest {
     | SqlPoolSensitivityLabelsCreateOrUpdateRequestSensitivityLabelSource
     | (string & {});
   /** Resource properties. */
-  properties?: SensitivityLabelPropertiesInput;
+  properties?: SensitivityLabelPropertiesInput | undefined;
 }
 export interface SqlPoolSensitivityLabelsCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Resource properties. */
-  properties?: SensitivityLabelProperties;
+  properties?: SensitivityLabelProperties | undefined;
   /** managed by */
-  managedBy?: string;
+  managedBy?: string | undefined;
 }
 export type SqlPoolTransparentDataEncryptionsCreateOrUpdateRequestTransparentDataEncryptionName =
   "current";
@@ -5154,19 +5173,19 @@ export interface SqlPoolTransparentDataEncryptionsCreateOrUpdateRequest {
     | SqlPoolTransparentDataEncryptionsCreateOrUpdateRequestTransparentDataEncryptionName
     | (string & {});
   /** Represents the properties of the resource. */
-  properties?: TransparentDataEncryptionProperties;
+  properties?: TransparentDataEncryptionProperties | undefined;
 }
 export interface SqlPoolTransparentDataEncryptionsCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Resource location. */
-  location?: string;
+  location?: string | undefined;
   /** Represents the properties of the resource. */
-  properties?: TransparentDataEncryptionProperties;
+  properties?: TransparentDataEncryptionProperties | undefined;
 }
 export type SqlPoolVulnerabilityAssessmentRuleBaselinesCreateOrUpdateRequestVulnerabilityAssessmentName =
   "default";
@@ -5193,17 +5212,17 @@ export interface SqlPoolVulnerabilityAssessmentRuleBaselinesCreateOrUpdateReques
     | SqlPoolVulnerabilityAssessmentRuleBaselinesCreateOrUpdateRequestBaselineName
     | (string & {});
   /** Resource properties. */
-  properties?: SqlPoolVulnerabilityAssessmentRuleBaselineProperties;
+  properties?: SqlPoolVulnerabilityAssessmentRuleBaselineProperties | undefined;
 }
 export interface SqlPoolVulnerabilityAssessmentRuleBaselinesCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Resource properties. */
-  properties?: SqlPoolVulnerabilityAssessmentRuleBaselineProperties;
+  properties?: SqlPoolVulnerabilityAssessmentRuleBaselineProperties | undefined;
 }
 export type SqlPoolVulnerabilityAssessmentScansInitiateScanRequestVulnerabilityAssessmentName =
   "default";
@@ -5240,17 +5259,17 @@ export interface SqlPoolVulnerabilityAssessmentsCreateOrUpdateRequest {
     | SqlPoolVulnerabilityAssessmentsCreateOrUpdateRequestVulnerabilityAssessmentName
     | (string & {});
   /** Resource properties. */
-  properties?: SqlPoolVulnerabilityAssessmentProperties;
+  properties?: SqlPoolVulnerabilityAssessmentProperties | undefined;
 }
 export interface SqlPoolVulnerabilityAssessmentsCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Resource properties. */
-  properties?: SqlPoolVulnerabilityAssessmentProperties;
+  properties?: SqlPoolVulnerabilityAssessmentProperties | undefined;
 }
 export interface SqlPoolWorkloadClassifierCreateOrUpdateRequest {
   /** The ID of the target subscription. */
@@ -5266,17 +5285,17 @@ export interface SqlPoolWorkloadClassifierCreateOrUpdateRequest {
   /** The name of the workload classifier. */
   workloadClassifierName: string;
   /** Resource properties. */
-  properties?: WorkloadClassifierProperties;
+  properties?: WorkloadClassifierProperties | undefined;
 }
 export interface SqlPoolWorkloadClassifierCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Resource properties. */
-  properties?: WorkloadClassifierProperties;
+  properties?: WorkloadClassifierProperties | undefined;
 }
 export interface SqlPoolWorkloadGroupCreateOrUpdateRequest {
   /** The ID of the target subscription. */
@@ -5290,17 +5309,17 @@ export interface SqlPoolWorkloadGroupCreateOrUpdateRequest {
   /** The name of the workload group. */
   workloadGroupName: string;
   /** Resource properties. */
-  properties?: WorkloadGroupProperties;
+  properties?: WorkloadGroupProperties | undefined;
 }
 export interface SqlPoolWorkloadGroupCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Resource properties. */
-  properties?: WorkloadGroupProperties;
+  properties?: WorkloadGroupProperties | undefined;
 }
 export interface StartIntegrationRuntimeRequest {
   /** The ID of the target subscription. */
@@ -5346,23 +5365,23 @@ export interface UpdateBigDataPoolRequest {
   /** Big Data pool name */
   bigDataPoolName: string;
   /** Updated tags for the Big Data pool */
-  tags?: UpdateBigDataPoolRequestTagsMap;
+  tags?: UpdateBigDataPoolRequestTagsMap | undefined;
 }
 /** Resource tags. */
 export type UpdateBigDataPoolResponseTagsMap = { [key: string]: string | undefined };
 export interface UpdateBigDataPoolResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Resource tags. */
-  tags?: UpdateBigDataPoolResponseTagsMap;
+  tags?: UpdateBigDataPoolResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Big Data pool properties */
-  properties?: BigDataPoolResourceProperties;
+  properties?: BigDataPoolResourceProperties | undefined;
 }
 /** The state of integration runtime auto update. */
 export type IntegrationRuntimeAutoUpdate = "On" | "Off";
@@ -5376,19 +5395,19 @@ export interface UpdateIntegrationRuntimeRequest {
   /** Integration runtime name */
   integrationRuntimeName: string;
   /** Enables or disables the auto-update feature of the self-hosted integration runtime. See https://go.microsoft.com/fwlink/?linkid=854189. */
-  autoUpdate?: IntegrationRuntimeAutoUpdate | (string & {});
+  autoUpdate?: IntegrationRuntimeAutoUpdate | (string & {}) | undefined;
   /** The time offset (in hours) in the day, e.g., PT03H is 3 hours. The integration runtime auto update will happen on that time. */
-  updateDelayOffset?: string;
+  updateDelayOffset?: string | undefined;
 }
 export interface UpdateIntegrationRuntimeResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Resource Etag. */
-  etag?: string;
+  etag?: string | undefined;
   /** Integration runtime properties. */
   properties: IntegrationRuntime;
 }
@@ -5404,7 +5423,7 @@ export interface UpdateIntegrationRuntimeNodeRequest {
   /** Integration runtime node name */
   nodeName: string;
   /** The number of concurrent jobs permitted to run on the integration runtime node. Values between 1 and maxConcurrentJobs(inclusive) are allowed. */
-  concurrentJobsLimit?: number;
+  concurrentJobsLimit?: number | undefined;
 }
 /** Resource tags */
 export type UpdatePrivateLinkHubRequestTagsMap = { [key: string]: string | undefined };
@@ -5416,23 +5435,23 @@ export interface UpdatePrivateLinkHubRequest {
   /** Name of the privateLinkHub */
   privateLinkHubName: string;
   /** Resource tags */
-  tags?: UpdatePrivateLinkHubRequestTagsMap;
+  tags?: UpdatePrivateLinkHubRequestTagsMap | undefined;
 }
 /** Resource tags. */
 export type UpdatePrivateLinkHubResponseTagsMap = { [key: string]: string | undefined };
 export interface UpdatePrivateLinkHubResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Resource tags. */
-  tags?: UpdatePrivateLinkHubResponseTagsMap;
+  tags?: UpdatePrivateLinkHubResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** PrivateLinkHub resource properties */
-  properties?: PrivateLinkHubProperties;
+  properties?: PrivateLinkHubProperties | undefined;
 }
 /** Resource tags. */
 export type UpdateSqlPoolRequestTagsMap = { [key: string]: string | undefined };
@@ -5446,31 +5465,31 @@ export interface UpdateSqlPoolRequest {
   /** SQL pool name */
   sqlPoolName: string;
   /** Resource tags. */
-  tags?: UpdateSqlPoolRequestTagsMap;
+  tags?: UpdateSqlPoolRequestTagsMap | undefined;
   /** The geo-location where the resource lives */
-  location?: string;
+  location?: string | undefined;
   /** SQL pool SKU */
-  sku?: Sku;
+  sku?: Sku | undefined;
   /** SQL pool properties */
-  properties?: SqlPoolResourcePropertiesInput;
+  properties?: SqlPoolResourcePropertiesInput | undefined;
 }
 /** Resource tags. */
 export type UpdateSqlPoolResponseTagsMap = { [key: string]: string | undefined };
 export interface UpdateSqlPoolResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Resource tags. */
-  tags?: UpdateSqlPoolResponseTagsMap;
+  tags?: UpdateSqlPoolResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** SQL pool SKU */
-  sku?: Sku;
+  sku?: Sku | undefined;
   /** SQL pool properties */
-  properties?: SqlPoolResourceProperties;
+  properties?: SqlPoolResourceProperties | undefined;
 }
 export type RecommendedSensitivityLabelUpdatePropertiesOp = "enable" | "disable";
 /** Properties of an operation executed on a recommended sensitivity label. */
@@ -5486,7 +5505,7 @@ export interface RecommendedSensitivityLabelUpdateProperties {
 /** A recommended sensitivity label update operation. */
 export interface RecommendedSensitivityLabelUpdateInput {
   /** Resource properties. */
-  properties?: RecommendedSensitivityLabelUpdateProperties;
+  properties?: RecommendedSensitivityLabelUpdateProperties | undefined;
 }
 export type UpdateSqlPoolRecommendedSensitivityLabelRequestOperationsList =
   Array<RecommendedSensitivityLabelUpdateInput>;
@@ -5499,14 +5518,14 @@ export interface UpdateSqlPoolRecommendedSensitivityLabelRequest {
   workspaceName: string;
   /** SQL pool name */
   sqlPoolName: string;
-  operations?: UpdateSqlPoolRecommendedSensitivityLabelRequestOperationsList;
+  operations?: UpdateSqlPoolRecommendedSensitivityLabelRequestOperationsList | undefined;
 }
 export interface UpdateSqlPoolRecommendedSensitivityLabelResponse {}
 export type SensitivityLabelUpdatePropertiesInputOp = "set" | "remove";
 /** A sensitivity label. */
 export interface SensitivityLabelInput {
   /** Resource properties. */
-  properties?: SensitivityLabelPropertiesInput;
+  properties?: SensitivityLabelPropertiesInput | undefined;
 }
 /** Properties of an operation executed on a sensitivity label. */
 export interface SensitivityLabelUpdatePropertiesInput {
@@ -5518,12 +5537,12 @@ export interface SensitivityLabelUpdatePropertiesInput {
   /** Column name to update. */
   column: string;
   /** The sensitivity label information to apply on a column. */
-  sensitivityLabel?: SensitivityLabelInput;
+  sensitivityLabel?: SensitivityLabelInput | undefined;
 }
 /** A sensitivity label update operation. */
 export interface SensitivityLabelUpdateInput {
   /** Resource properties. */
-  properties?: SensitivityLabelUpdatePropertiesInput;
+  properties?: SensitivityLabelUpdatePropertiesInput | undefined;
 }
 export type UpdateSqlPoolSensitivityLabelRequestOperationsList = Array<SensitivityLabelUpdateInput>;
 export interface UpdateSqlPoolSensitivityLabelRequest {
@@ -5535,7 +5554,7 @@ export interface UpdateSqlPoolSensitivityLabelRequest {
   workspaceName: string;
   /** SQL pool name */
   sqlPoolName: string;
-  operations?: UpdateSqlPoolSensitivityLabelRequestOperationsList;
+  operations?: UpdateSqlPoolSensitivityLabelRequestOperationsList | undefined;
 }
 export interface UpdateSqlPoolSensitivityLabelResponse {}
 /** Resource tags */
@@ -5551,38 +5570,41 @@ export type UserAssignedManagedIdentitiesInput = {
 /** The workspace managed identity */
 export interface ManagedIdentityInput {
   /** The type of managed identity for the workspace */
-  type?: ManagedIdentityInputType | (string & {});
+  type?: ManagedIdentityInputType | (string & {}) | undefined;
   /** The user assigned managed identities. */
-  userAssignedIdentities?: UserAssignedManagedIdentitiesInput;
+  userAssignedIdentities?: UserAssignedManagedIdentitiesInput | undefined;
 }
 /** Details of the customer managed key associated with the workspace */
 export interface CustomerManagedKeyDetailsInput {
   /** The key object of the workspace */
-  key?: WorkspaceKeyDetails;
+  key?: WorkspaceKeyDetails | undefined;
   /** Key encryption key */
-  kekIdentity?: KekIdentityProperties;
+  kekIdentity?: KekIdentityProperties | undefined;
 }
 /** Details of the encryption associated with the workspace */
 export interface EncryptionDetailsInput {
   /** Customer Managed Key Details */
-  cmk?: CustomerManagedKeyDetailsInput;
+  cmk?: CustomerManagedKeyDetailsInput | undefined;
 }
 /** Enable or Disable public network access to workspace */
 export type WorkspacePatchPropertiesInputPublicNetworkAccess = "Enabled" | "Disabled";
 /** Workspace patch properties */
 export interface WorkspacePatchPropertiesInput {
   /** SQL administrator login password */
-  sqlAdministratorLoginPassword?: string | Redacted.Redacted<string>;
+  sqlAdministratorLoginPassword?: string | Redacted.Redacted<string> | undefined;
   /** Managed Virtual Network Settings */
-  managedVirtualNetworkSettings?: ManagedVirtualNetworkSettings;
+  managedVirtualNetworkSettings?: ManagedVirtualNetworkSettings | undefined;
   /** Git integration settings */
-  workspaceRepositoryConfiguration?: WorkspaceRepositoryConfiguration;
+  workspaceRepositoryConfiguration?: WorkspaceRepositoryConfiguration | undefined;
   /** Purview Configuration */
-  purviewConfiguration?: PurviewConfiguration;
+  purviewConfiguration?: PurviewConfiguration | undefined;
   /** The encryption details of the workspace */
-  encryption?: EncryptionDetailsInput;
+  encryption?: EncryptionDetailsInput | undefined;
   /** Enable or Disable public network access to workspace */
-  publicNetworkAccess?: WorkspacePatchPropertiesInputPublicNetworkAccess | (string & {});
+  publicNetworkAccess?:
+    | WorkspacePatchPropertiesInputPublicNetworkAccess
+    | (string & {})
+    | undefined;
 }
 export interface UpdateWorkspaceRequest {
   /** The ID of the target subscription. */
@@ -5592,29 +5614,29 @@ export interface UpdateWorkspaceRequest {
   /** The name of the workspace. */
   workspaceName: string;
   /** Resource tags */
-  tags?: UpdateWorkspaceRequestTagsMap;
+  tags?: UpdateWorkspaceRequestTagsMap | undefined;
   /** The identity of the workspace */
-  identity?: ManagedIdentityInput;
+  identity?: ManagedIdentityInput | undefined;
   /** Workspace patch properties */
-  properties?: WorkspacePatchPropertiesInput;
+  properties?: WorkspacePatchPropertiesInput | undefined;
 }
 /** Resource tags. */
 export type UpdateWorkspaceResponseTagsMap = { [key: string]: string | undefined };
 export interface UpdateWorkspaceResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Resource tags. */
-  tags?: UpdateWorkspaceResponseTagsMap;
+  tags?: UpdateWorkspaceResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Workspace resource properties */
-  properties?: WorkspaceProperties;
+  properties?: WorkspaceProperties | undefined;
   /** Identity of the workspace */
-  identity?: ManagedIdentity;
+  identity?: ManagedIdentity | undefined;
 }
 export type UpdateWorkspaceManagedSqlServerDedicatedSQLMinimalTlsSettingsRequestDedicatedSQLminimalTlsSettingsName =
   "default";
@@ -5630,19 +5652,19 @@ export interface UpdateWorkspaceManagedSqlServerDedicatedSQLMinimalTlsSettingsRe
     | UpdateWorkspaceManagedSqlServerDedicatedSQLMinimalTlsSettingsRequestDedicatedSQLminimalTlsSettingsName
     | (string & {});
   /** Resource properties. */
-  properties?: DedicatedSQLminimalTlsSettingsProperties;
+  properties?: DedicatedSQLminimalTlsSettingsProperties | undefined;
 }
 export interface UpdateWorkspaceManagedSqlServerDedicatedSQLMinimalTlsSettingsResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Resource location. */
-  location?: string;
+  location?: string | undefined;
   /** Resource properties. */
-  properties?: DedicatedSQLminimalTlsSettingsProperties;
+  properties?: DedicatedSQLminimalTlsSettingsProperties | undefined;
 }
 export interface WorkspaceAadAdminsCreateOrUpdateRequest {
   /** The ID of the target subscription. */
@@ -5652,17 +5674,17 @@ export interface WorkspaceAadAdminsCreateOrUpdateRequest {
   /** The name of the workspace. */
   workspaceName: string;
   /** Workspace active directory administrator properties */
-  properties?: AadAdminProperties;
+  properties?: AadAdminProperties | undefined;
 }
 export interface WorkspaceAadAdminsCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Workspace active directory administrator properties */
-  properties?: AadAdminProperties;
+  properties?: AadAdminProperties | undefined;
 }
 /** Desired state */
 export type WorkspaceManagedIdentitySqlControlSettingsCreateOrUpdateRequestPropertiesGrantSqlControlToManagedIdentityDesiredState =
@@ -5673,12 +5695,15 @@ export interface WorkspaceManagedIdentitySqlControlSettingsCreateOrUpdateRequest
   /** Desired state */
   desiredState?:
     | WorkspaceManagedIdentitySqlControlSettingsCreateOrUpdateRequestPropertiesGrantSqlControlToManagedIdentityDesiredState
-    | (string & {});
+    | (string & {})
+    | undefined;
 }
 /** Sql Control Settings for workspace managed identity */
 export interface WorkspaceManagedIdentitySqlControlSettingsCreateOrUpdateRequestProperties {
   /** Grant sql control to managed identity */
-  grantSqlControlToManagedIdentity?: WorkspaceManagedIdentitySqlControlSettingsCreateOrUpdateRequestPropertiesGrantSqlControlToManagedIdentity;
+  grantSqlControlToManagedIdentity?:
+    | WorkspaceManagedIdentitySqlControlSettingsCreateOrUpdateRequestPropertiesGrantSqlControlToManagedIdentity
+    | undefined;
 }
 export interface WorkspaceManagedIdentitySqlControlSettingsCreateOrUpdateRequest {
   /** The ID of the target subscription. */
@@ -5688,7 +5713,9 @@ export interface WorkspaceManagedIdentitySqlControlSettingsCreateOrUpdateRequest
   /** The name of the workspace. */
   workspaceName: string;
   /** Sql Control Settings for workspace managed identity */
-  properties?: WorkspaceManagedIdentitySqlControlSettingsCreateOrUpdateRequestProperties;
+  properties?:
+    | WorkspaceManagedIdentitySqlControlSettingsCreateOrUpdateRequestProperties
+    | undefined;
 }
 /** Desired state */
 export type WorkspaceManagedIdentitySqlControlSettingsCreateOrUpdateResponsePropertiesGrantSqlControlToManagedIdentityDesiredState =
@@ -5704,24 +5731,32 @@ export type WorkspaceManagedIdentitySqlControlSettingsCreateOrUpdateResponseProp
 /** Grant sql control to managed identity */
 export interface WorkspaceManagedIdentitySqlControlSettingsCreateOrUpdateResponsePropertiesGrantSqlControlToManagedIdentity {
   /** Desired state */
-  desiredState?: WorkspaceManagedIdentitySqlControlSettingsCreateOrUpdateResponsePropertiesGrantSqlControlToManagedIdentityDesiredState;
+  desiredState?:
+    | WorkspaceManagedIdentitySqlControlSettingsCreateOrUpdateResponsePropertiesGrantSqlControlToManagedIdentityDesiredState
+    | undefined;
   /** Actual state */
-  actualState?: WorkspaceManagedIdentitySqlControlSettingsCreateOrUpdateResponsePropertiesGrantSqlControlToManagedIdentityActualState;
+  actualState?:
+    | WorkspaceManagedIdentitySqlControlSettingsCreateOrUpdateResponsePropertiesGrantSqlControlToManagedIdentityActualState
+    | undefined;
 }
 /** Sql Control Settings for workspace managed identity */
 export interface WorkspaceManagedIdentitySqlControlSettingsCreateOrUpdateResponseProperties {
   /** Grant sql control to managed identity */
-  grantSqlControlToManagedIdentity?: WorkspaceManagedIdentitySqlControlSettingsCreateOrUpdateResponsePropertiesGrantSqlControlToManagedIdentity;
+  grantSqlControlToManagedIdentity?:
+    | WorkspaceManagedIdentitySqlControlSettingsCreateOrUpdateResponsePropertiesGrantSqlControlToManagedIdentity
+    | undefined;
 }
 export interface WorkspaceManagedIdentitySqlControlSettingsCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Sql Control Settings for workspace managed identity */
-  properties?: WorkspaceManagedIdentitySqlControlSettingsCreateOrUpdateResponseProperties;
+  properties?:
+    | WorkspaceManagedIdentitySqlControlSettingsCreateOrUpdateResponseProperties
+    | undefined;
 }
 export type WorkspaceManagedSqlServerBlobAuditingPoliciesCreateOrUpdateRequestBlobAuditingPolicyName =
   "default";
@@ -5737,17 +5772,17 @@ export interface WorkspaceManagedSqlServerBlobAuditingPoliciesCreateOrUpdateRequ
     | WorkspaceManagedSqlServerBlobAuditingPoliciesCreateOrUpdateRequestBlobAuditingPolicyName
     | (string & {});
   /** Resource properties. */
-  properties?: ServerBlobAuditingPolicyProperties;
+  properties?: ServerBlobAuditingPolicyProperties | undefined;
 }
 export interface WorkspaceManagedSqlServerBlobAuditingPoliciesCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Resource properties. */
-  properties?: ServerBlobAuditingPolicyProperties;
+  properties?: ServerBlobAuditingPolicyProperties | undefined;
 }
 export type WorkspaceManagedSqlServerEncryptionProtectorCreateOrUpdateRequestEncryptionProtectorName =
   "current";
@@ -5756,7 +5791,7 @@ export type EncryptionProtectorPropertiesInputServerKeyType = "ServiceManaged" |
 /** Properties for an encryption protector execution. */
 export interface EncryptionProtectorPropertiesInput {
   /** The name of the server key. */
-  serverKeyName?: string;
+  serverKeyName?: string | undefined;
   /** The encryption protector type like 'ServiceManaged', 'AzureKeyVault'. */
   serverKeyType: EncryptionProtectorPropertiesInputServerKeyType | (string & {});
 }
@@ -5772,21 +5807,21 @@ export interface WorkspaceManagedSqlServerEncryptionProtectorCreateOrUpdateReque
     | WorkspaceManagedSqlServerEncryptionProtectorCreateOrUpdateRequestEncryptionProtectorName
     | (string & {});
   /** Resource properties. */
-  properties?: EncryptionProtectorPropertiesInput;
+  properties?: EncryptionProtectorPropertiesInput | undefined;
 }
 export interface WorkspaceManagedSqlServerEncryptionProtectorCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Kind of encryption protector. This is metadata used for the Azure portal experience. */
-  kind?: string;
+  kind?: string | undefined;
   /** Resource location. */
-  location?: string;
+  location?: string | undefined;
   /** Resource properties. */
-  properties?: EncryptionProtectorProperties;
+  properties?: EncryptionProtectorProperties | undefined;
 }
 export type WorkspaceManagedSqlServerEncryptionProtectorRevalidateRequestEncryptionProtectorName =
   "current";
@@ -5817,17 +5852,17 @@ export interface WorkspaceManagedSqlServerExtendedBlobAuditingPoliciesCreateOrUp
     | WorkspaceManagedSqlServerExtendedBlobAuditingPoliciesCreateOrUpdateRequestBlobAuditingPolicyName
     | (string & {});
   /** Resource properties. */
-  properties?: ExtendedServerBlobAuditingPolicyProperties;
+  properties?: ExtendedServerBlobAuditingPolicyProperties | undefined;
 }
 export interface WorkspaceManagedSqlServerExtendedBlobAuditingPoliciesCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Resource properties. */
-  properties?: ExtendedServerBlobAuditingPolicyProperties;
+  properties?: ExtendedServerBlobAuditingPolicyProperties | undefined;
 }
 export type WorkspaceManagedSqlServerSecurityAlertPolicyCreateOrUpdateRequestSecurityAlertPolicyName =
   "Default";
@@ -5842,17 +5877,17 @@ export interface ServerSecurityAlertPolicyPropertiesInput {
   /** Specifies the state of the policy, whether it is enabled or disabled or a policy has not been applied yet on the specific server */
   state: ServerSecurityAlertPolicyPropertiesInputState | (string & {});
   /** Specifies an array of alerts that are disabled. Allowed values are: Sql_Injection, Sql_Injection_Vulnerability, Access_Anomaly, Data_Exfiltration, Unsafe_Action */
-  disabledAlerts?: ServerSecurityAlertPolicyPropertiesInputDisabledAlertsList;
+  disabledAlerts?: ServerSecurityAlertPolicyPropertiesInputDisabledAlertsList | undefined;
   /** Specifies an array of e-mail addresses to which the alert is sent. */
-  emailAddresses?: ServerSecurityAlertPolicyPropertiesInputEmailAddressesList;
+  emailAddresses?: ServerSecurityAlertPolicyPropertiesInputEmailAddressesList | undefined;
   /** Specifies that the alert is sent to the account administrators. */
-  emailAccountAdmins?: boolean;
+  emailAccountAdmins?: boolean | undefined;
   /** Specifies the blob storage endpoint (e.g. https://MyAccount.blob.core.windows.net). This blob storage will hold all Threat Detection audit logs. */
-  storageEndpoint?: string;
+  storageEndpoint?: string | undefined;
   /** Specifies the identifier key of the Threat Detection audit storage account. */
-  storageAccountAccessKey?: string;
+  storageAccountAccessKey?: string | undefined;
   /** Specifies the number of days to keep in the Threat Detection audit logs. */
-  retentionDays?: number;
+  retentionDays?: number | undefined;
 }
 export interface WorkspaceManagedSqlServerSecurityAlertPolicyCreateOrUpdateRequest {
   /** The ID of the target subscription. */
@@ -5866,17 +5901,17 @@ export interface WorkspaceManagedSqlServerSecurityAlertPolicyCreateOrUpdateReque
     | WorkspaceManagedSqlServerSecurityAlertPolicyCreateOrUpdateRequestSecurityAlertPolicyName
     | (string & {});
   /** Resource properties. */
-  properties?: ServerSecurityAlertPolicyPropertiesInput;
+  properties?: ServerSecurityAlertPolicyPropertiesInput | undefined;
 }
 export interface WorkspaceManagedSqlServerSecurityAlertPolicyCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Resource properties. */
-  properties?: ServerSecurityAlertPolicyProperties;
+  properties?: ServerSecurityAlertPolicyProperties | undefined;
 }
 export type WorkspaceManagedSqlServerVulnerabilityAssessmentsCreateOrUpdateRequestVulnerabilityAssessmentName =
   "default";
@@ -5892,24 +5927,24 @@ export interface WorkspaceManagedSqlServerVulnerabilityAssessmentsCreateOrUpdate
     | WorkspaceManagedSqlServerVulnerabilityAssessmentsCreateOrUpdateRequestVulnerabilityAssessmentName
     | (string & {});
   /** Resource properties. */
-  properties?: ServerVulnerabilityAssessmentProperties;
+  properties?: ServerVulnerabilityAssessmentProperties | undefined;
 }
 export interface WorkspaceManagedSqlServerVulnerabilityAssessmentsCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Resource properties. */
-  properties?: ServerVulnerabilityAssessmentProperties;
+  properties?: ServerVulnerabilityAssessmentProperties | undefined;
 }
 /** Resource tags. */
 export type WorkspacesCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
 /** A private endpoint connection */
 export interface WorkspacePropertiesInputPrivateEndpointConnectionsItem {
   /** Private endpoint connection properties. */
-  properties?: PrivateEndpointConnectionPropertiesInput;
+  properties?: PrivateEndpointConnectionPropertiesInput | undefined;
 }
 /** Private endpoint connections to the workspace */
 export type WorkspacePropertiesInputPrivateEndpointConnectionsList =
@@ -5919,35 +5954,35 @@ export type WorkspacePropertiesInputPublicNetworkAccess = "Enabled" | "Disabled"
 /** Workspace properties */
 export interface WorkspacePropertiesInput {
   /** Workspace default data lake storage account details */
-  defaultDataLakeStorage?: DataLakeStorageAccountDetails;
+  defaultDataLakeStorage?: DataLakeStorageAccountDetails | undefined;
   /** SQL administrator login password */
-  sqlAdministratorLoginPassword?: string | Redacted.Redacted<string>;
+  sqlAdministratorLoginPassword?: string | Redacted.Redacted<string> | undefined;
   /** Workspace managed resource group. The resource group name uniquely identifies the resource group within the user subscriptionId. The resource group name must be no longer than 90 characters long, and must be alphanumeric characters (Char.IsLetterOrDigit()) and '-', '_', '(', ')' and'.'. Note that the name cannot end with '.' */
-  managedResourceGroupName?: string;
+  managedResourceGroupName?: string | undefined;
   /** Login for workspace SQL active directory administrator */
-  sqlAdministratorLogin?: string;
+  sqlAdministratorLogin?: string | undefined;
   /** Virtual Network profile */
-  virtualNetworkProfile?: VirtualNetworkProfile;
+  virtualNetworkProfile?: VirtualNetworkProfile | undefined;
   /** Setting this to 'default' will ensure that all compute for this workspace is in a virtual network managed on behalf of the user. */
-  managedVirtualNetwork?: string;
+  managedVirtualNetwork?: string | undefined;
   /** Private endpoint connections to the workspace */
-  privateEndpointConnections?: WorkspacePropertiesInputPrivateEndpointConnectionsList;
+  privateEndpointConnections?: WorkspacePropertiesInputPrivateEndpointConnectionsList | undefined;
   /** The encryption details of the workspace */
-  encryption?: EncryptionDetailsInput;
+  encryption?: EncryptionDetailsInput | undefined;
   /** Managed Virtual Network Settings */
-  managedVirtualNetworkSettings?: ManagedVirtualNetworkSettings;
+  managedVirtualNetworkSettings?: ManagedVirtualNetworkSettings | undefined;
   /** Git integration settings */
-  workspaceRepositoryConfiguration?: WorkspaceRepositoryConfiguration;
+  workspaceRepositoryConfiguration?: WorkspaceRepositoryConfiguration | undefined;
   /** Purview Configuration */
-  purviewConfiguration?: PurviewConfiguration;
+  purviewConfiguration?: PurviewConfiguration | undefined;
   /** Enable or Disable public network access to workspace */
-  publicNetworkAccess?: WorkspacePropertiesInputPublicNetworkAccess | (string & {});
+  publicNetworkAccess?: WorkspacePropertiesInputPublicNetworkAccess | (string & {}) | undefined;
   /** Initial workspace AAD admin properties for a CSP subscription */
-  cspWorkspaceAdminProperties?: CspWorkspaceAdminProperties;
+  cspWorkspaceAdminProperties?: CspWorkspaceAdminProperties | undefined;
   /** Enable or Disable AzureADOnlyAuthentication on All Workspace subresource */
-  azureADOnlyAuthentication?: boolean;
+  azureADOnlyAuthentication?: boolean | undefined;
   /** Is trustedServiceBypassEnabled for the workspace */
-  trustedServiceBypassEnabled?: boolean;
+  trustedServiceBypassEnabled?: boolean | undefined;
 }
 export interface WorkspacesCreateOrUpdateRequest {
   /** The ID of the target subscription. */
@@ -5957,31 +5992,31 @@ export interface WorkspacesCreateOrUpdateRequest {
   /** The name of the workspace. */
   workspaceName: string;
   /** Resource tags. */
-  tags?: WorkspacesCreateOrUpdateRequestTagsMap;
+  tags?: WorkspacesCreateOrUpdateRequestTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Workspace resource properties */
-  properties?: WorkspacePropertiesInput;
+  properties?: WorkspacePropertiesInput | undefined;
   /** Identity of the workspace */
-  identity?: ManagedIdentityInput;
+  identity?: ManagedIdentityInput | undefined;
 }
 /** Resource tags. */
 export type WorkspacesCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
 export interface WorkspacesCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Resource tags. */
-  tags?: WorkspacesCreateOrUpdateResponseTagsMap;
+  tags?: WorkspacesCreateOrUpdateResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Workspace resource properties */
-  properties?: WorkspaceProperties;
+  properties?: WorkspaceProperties | undefined;
   /** Identity of the workspace */
-  identity?: ManagedIdentity;
+  identity?: ManagedIdentity | undefined;
 }
 export interface WorkspaceSqlAadAdminsCreateOrUpdateRequest {
   /** The ID of the target subscription. */
@@ -5991,17 +6026,17 @@ export interface WorkspaceSqlAadAdminsCreateOrUpdateRequest {
   /** The name of the workspace. */
   workspaceName: string;
   /** Workspace active directory administrator properties */
-  properties?: AadAdminProperties;
+  properties?: AadAdminProperties | undefined;
 }
 export interface WorkspaceSqlAadAdminsCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Workspace active directory administrator properties */
-  properties?: AadAdminProperties;
+  properties?: AadAdminProperties | undefined;
 }
 export type BigDataPoolsCreateOrUpdateError = AzureOpError;
 /** Create a Big Data pool. Create a new Big Data pool. */

@@ -7,6 +7,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
 // Schema table, filled on first reach (see __S at the end).
@@ -149,36 +150,36 @@ export class ThrottlingException
 export type FormatVersion = string;
 export type DescribeServicesMaxResults = number;
 export interface DescribeServicesRequest {
-  ServiceCode?: string;
-  FormatVersion?: string;
-  NextToken?: string;
-  MaxResults?: number;
+  ServiceCode?: string | undefined;
+  FormatVersion?: string | undefined;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export type AttributeNameList = string[];
 export interface Service {
   ServiceCode: string;
-  AttributeNames?: string[];
+  AttributeNames?: string[] | undefined;
 }
 export type ServiceList = Service[];
 export interface DescribeServicesResponse {
-  Services?: Service[];
-  FormatVersion?: string;
-  NextToken?: string;
+  Services?: Service[] | undefined;
+  FormatVersion?: string | undefined;
+  NextToken?: string | undefined;
 }
 export type GetAttributeValuesMaxResults = number;
 export interface GetAttributeValuesRequest {
   ServiceCode: string;
   AttributeName: string;
-  NextToken?: string;
-  MaxResults?: number;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export interface AttributeValue {
-  Value?: string;
+  Value?: string | undefined;
 }
 export type AttributeValueList = AttributeValue[];
 export interface GetAttributeValuesResponse {
-  AttributeValues?: AttributeValue[];
-  NextToken?: string;
+  AttributeValues?: AttributeValue[] | undefined;
+  NextToken?: string | undefined;
 }
 export type PriceListArn = string;
 export type FileFormat = string;
@@ -187,7 +188,7 @@ export interface GetPriceListFileUrlRequest {
   FileFormat: string;
 }
 export interface GetPriceListFileUrlResponse {
-  Url?: string;
+  Url?: string | undefined;
 }
 export type FilterType =
   | "TERM_MATCH"
@@ -207,17 +208,17 @@ export type Filters = Filter[];
 export type GetProductsMaxResults = number;
 export interface GetProductsRequest {
   ServiceCode: string;
-  Filters?: Filter[];
-  FormatVersion?: string;
-  NextToken?: string;
-  MaxResults?: number;
+  Filters?: Filter[] | undefined;
+  FormatVersion?: string | undefined;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export type SynthesizedJsonPriceListJsonItem = string;
 export type PriceListJsonItems = string[];
 export interface GetProductsResponse {
-  FormatVersion?: string;
-  PriceList?: string[];
-  NextToken?: string;
+  FormatVersion?: string | undefined;
+  PriceList?: string[] | undefined;
+  NextToken?: string | undefined;
 }
 export type ServiceCode = string;
 export type EffectiveDate = Date;
@@ -227,22 +228,22 @@ export type MaxResults = number;
 export interface ListPriceListsRequest {
   ServiceCode: string;
   EffectiveDate: Date;
-  RegionCode?: string;
+  RegionCode?: string | undefined;
   CurrencyCode: string;
-  NextToken?: string;
-  MaxResults?: number;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export type FileFormats = string[];
 export interface PriceList {
-  PriceListArn?: string;
-  RegionCode?: string;
-  CurrencyCode?: string;
-  FileFormats?: string[];
+  PriceListArn?: string | undefined;
+  RegionCode?: string | undefined;
+  CurrencyCode?: string | undefined;
+  FileFormats?: string[] | undefined;
 }
 export type PriceLists = PriceList[];
 export interface ListPriceListsResponse {
-  PriceLists?: PriceList[];
-  NextToken?: string;
+  PriceLists?: PriceList[] | undefined;
+  NextToken?: string | undefined;
 }
 export type ErrorMessage = string;
 export type DescribeServicesError =
@@ -258,7 +259,7 @@ export type DescribeServicesError =
  * Returns the metadata for one service or a list of the metadata for all services. Use this without a service code to get the service codes for all services. Use it with a service code, such as `AmazonEC2`, to get information specific to that service, such as the attribute names available for that service. For example, some of the attribute names available for EC2 are `volumeType`, `maxIopsVolume`, `operation`, `locationType`, and `instanceCapacity10xlarge`.
  */
 export const describeServices: API.PaginatedOperationMethod<
-  DescribeServicesRequest,
+  DescribeServicesRequest & RegionInput,
   DescribeServicesResponse,
   DescribeServicesError,
   Credentials | HttpClient.HttpClient,
@@ -301,7 +302,7 @@ export type GetAttributeValuesError =
  * Returns a list of attribute values. Attributes are similar to the details in a Price List API offer file. For a list of available attributes, see Offer File Definitions in the Billing and Cost Management User Guide.
  */
 export const getAttributeValues: API.PaginatedOperationMethod<
-  GetAttributeValuesRequest,
+  GetAttributeValuesRequest & RegionInput,
   GetAttributeValuesResponse,
   GetAttributeValuesError,
   Credentials | HttpClient.HttpClient,
@@ -345,7 +346,7 @@ export type GetPriceListFileUrlError =
  * This returns the URL that you can retrieve your Price List file from. This URL is based on the `PriceListArn` and `FileFormat` that you retrieve from the ListPriceLists response.
  */
 export const getPriceListFileUrl: API.OperationMethod<
-  GetPriceListFileUrlRequest,
+  GetPriceListFileUrlRequest & RegionInput,
   GetPriceListFileUrlResponse,
   GetPriceListFileUrlError,
   Credentials | HttpClient.HttpClient
@@ -380,7 +381,7 @@ export type GetProductsError =
  * Returns a list of all products that match the filter criteria.
  */
 export const getProducts: API.PaginatedOperationMethod<
-  GetProductsRequest,
+  GetProductsRequest & RegionInput,
   GetProductsResponse,
   GetProductsError,
   Credentials | HttpClient.HttpClient,
@@ -426,7 +427,7 @@ export type ListPriceListsError =
  * This returns a list of Price List references that the requester if authorized to view, given a `ServiceCode`, `CurrencyCode`, and an `EffectiveDate`. Use without a `RegionCode` filter to list Price List references from all available Amazon Web Services Regions. Use with a `RegionCode` filter to get the Price List reference that's specific to a specific Amazon Web Services Region. You can use the `PriceListArn` from the response to get your preferred Price List files through the GetPriceListFileUrl API.
  */
 export const listPriceLists: API.PaginatedOperationMethod<
-  ListPriceListsRequest,
+  ListPriceListsRequest & RegionInput,
   ListPriceListsResponse,
   ListPriceListsError,
   Credentials | HttpClient.HttpClient,

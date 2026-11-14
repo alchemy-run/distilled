@@ -29,6 +29,7 @@ const TELEMETRY = {
   prefix: "Datadog",
   service: "Datadog",
   labels: "azure",
+  labelNames: { resourceGroupName: "azure.resource_group.name" },
   propagate: "w3c",
 } as const;
 
@@ -39,43 +40,43 @@ export type MonitorPropertiesInputMonitoringStatus = "Enabled" | "Disabled";
 /** Specify the Datadog organization name. In the case of linking to existing organizations, Id, ApiKey, and Applicationkey is required as well. */
 export interface DatadogOrganizationProperties {
   /** Name of the Datadog organization. */
-  name?: string;
+  name?: string | undefined;
   /** Id of the Datadog organization. */
-  id?: string;
+  id?: string | undefined;
   /** The auth code used to linking to an existing Datadog organization. */
-  linkingAuthCode?: string;
+  linkingAuthCode?: string | undefined;
   /** The client_id from an existing in exchange for an auth token to link organization. */
-  linkingClientId?: string;
+  linkingClientId?: string | undefined;
   /** The redirect URI for linking. */
-  redirectUri?: string;
+  redirectUri?: string | undefined;
   /** Api key associated to the Datadog organization. */
-  apiKey?: string | Redacted.Redacted<string>;
+  apiKey?: string | Redacted.Redacted<string> | undefined;
   /** Application key associated to the Datadog organization. */
-  applicationKey?: string;
+  applicationKey?: string | undefined;
   /** The Id of the Enterprise App used for Single sign on. */
-  enterpriseAppId?: string;
+  enterpriseAppId?: string | undefined;
   /** The configuration which describes the state of cloud security posture management. This collects configuration information for all resources in a subscription and track conformance to industry benchmarks. */
-  cspm?: boolean;
+  cspm?: boolean | undefined;
   /** The configuration which describes the state of resource collection. This collects configuration information for all resources in a subscription. */
-  resourceCollection?: boolean;
+  resourceCollection?: boolean | undefined;
 }
 /** Includes name, email and optionally, phone number. User Information can't be null. */
 export interface UserInfo {
   /** Name of the user */
-  name?: string;
+  name?: string | undefined;
   /** Email of the user used by Datadog for contacting them if needed */
-  emailAddress?: string;
+  emailAddress?: string | undefined;
   /** Phone number of the user used by Datadog for contacting them if needed */
-  phoneNumber?: string;
+  phoneNumber?: string | undefined;
 }
 /** Properties specific to the monitor resource. */
 export interface MonitorPropertiesInput {
   /** Flag specifying if the resource monitoring is enabled or disabled. */
-  monitoringStatus?: MonitorPropertiesInputMonitoringStatus | (string & {});
+  monitoringStatus?: MonitorPropertiesInputMonitoringStatus | (string & {}) | undefined;
   /** Specify the Datadog organization name. In the case of linking to existing organizations, Id, ApiKey, and Applicationkey is required as well. */
-  datadogOrganizationProperties?: DatadogOrganizationProperties;
+  datadogOrganizationProperties?: DatadogOrganizationProperties | undefined;
   /** Includes name, email and optionally, phone number. User Information can't be null. */
-  userInfo?: UserInfo;
+  userInfo?: UserInfo | undefined;
 }
 export interface ResourceSku {
   /** Name of the SKU in {PlanId} format. For Terraform, the only allowed value is 'Linked'. */
@@ -85,7 +86,7 @@ export interface ResourceSku {
 export type ManagedIdentityTypes = "SystemAssigned" | "UserAssigned";
 export interface IdentityPropertiesInput {
   /** Specifies the identity type of the Datadog Monitor. At this time the only allowed value is 'SystemAssigned'. */
-  type?: ManagedIdentityTypes | (string & {});
+  type?: ManagedIdentityTypes | (string & {}) | undefined;
 }
 export interface CreateMonitorRequest {
   /** The ID of the target subscription. */
@@ -95,13 +96,13 @@ export interface CreateMonitorRequest {
   /** Monitor resource name */
   monitorName: string;
   /** Resource tags. */
-  tags?: CreateMonitorRequestTagsMap;
+  tags?: CreateMonitorRequestTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Properties specific to the monitor resource. */
-  properties?: MonitorPropertiesInput;
-  sku?: ResourceSku;
-  identity?: IdentityPropertiesInput;
+  properties?: MonitorPropertiesInput | undefined;
+  sku?: ResourceSku | undefined;
+  identity?: IdentityPropertiesInput | undefined;
 }
 /** The type of identity that created the resource. */
 export type SystemDataCreatedByType = "User" | "Application" | "ManagedIdentity" | "Key";
@@ -110,17 +111,17 @@ export type SystemDataLastModifiedByType = "User" | "Application" | "ManagedIden
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface SystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: SystemDataCreatedByType;
+  createdByType?: SystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: SystemDataLastModifiedByType;
+  lastModifiedByType?: SystemDataLastModifiedByType | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 /** Resource tags. */
 export type CreateMonitorResponseTagsMap = { [key: string]: string | undefined };
@@ -145,48 +146,48 @@ export type MarketplaceSubscriptionStatus =
 export type LiftrResourceCategories = "Unknown" | "MonitorLogs";
 /** Properties specific to the monitor resource. */
 export interface MonitorProperties {
-  provisioningState?: ProvisioningState;
+  provisioningState?: ProvisioningState | undefined;
   /** Flag specifying if the resource monitoring is enabled or disabled. */
-  monitoringStatus?: MonitorPropertiesMonitoringStatus;
+  monitoringStatus?: MonitorPropertiesMonitoringStatus | undefined;
   /** Flag specifying the Marketplace Subscription Status of the resource. If payment is not made in time, the resource will go in Suspended state. */
-  marketplaceSubscriptionStatus?: MarketplaceSubscriptionStatus;
+  marketplaceSubscriptionStatus?: MarketplaceSubscriptionStatus | undefined;
   /** Specify the Datadog organization name. In the case of linking to existing organizations, Id, ApiKey, and Applicationkey is required as well. */
-  datadogOrganizationProperties?: DatadogOrganizationProperties;
+  datadogOrganizationProperties?: DatadogOrganizationProperties | undefined;
   /** Includes name, email and optionally, phone number. User Information can't be null. */
-  userInfo?: UserInfo;
-  liftrResourceCategory?: LiftrResourceCategories;
+  userInfo?: UserInfo | undefined;
+  liftrResourceCategory?: LiftrResourceCategories | undefined;
   /** The priority of the resource. */
-  liftrResourcePreference?: number;
+  liftrResourcePreference?: number | undefined;
 }
 export interface IdentityProperties {
   /** The identity ID. */
-  principalId?: string;
+  principalId?: string | undefined;
   /** The tenant ID of resource. */
-  tenantId?: string;
+  tenantId?: string | undefined;
   /** Specifies the identity type of the Datadog Monitor. At this time the only allowed value is 'SystemAssigned'. */
-  type?: ManagedIdentityTypes;
+  type?: ManagedIdentityTypes | undefined;
 }
 export interface CreateMonitorResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: CreateMonitorResponseTagsMap;
+  tags?: CreateMonitorResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Properties specific to the monitor resource. */
-  properties?: MonitorProperties;
-  sku?: ResourceSku;
-  identity?: IdentityProperties;
+  properties?: MonitorProperties | undefined;
+  sku?: ResourceSku | undefined;
+  identity?: IdentityProperties | undefined;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeleteMonitorRequest {
   /** The ID of the target subscription. */
@@ -198,9 +199,9 @@ export interface DeleteMonitorRequest {
 }
 export interface DeleteMonitorResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeleteMonitoredSubscriptionRequest {
   /** The ID of the target subscription. */
@@ -214,9 +215,9 @@ export interface DeleteMonitoredSubscriptionRequest {
 }
 export interface DeleteMonitoredSubscriptionResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface GetBillingInfoRequest {
   /** The ID of the target subscription. */
@@ -229,31 +230,31 @@ export interface GetBillingInfoRequest {
 /** Marketplace SAAS Info of the resource. */
 export interface MarketplaceSaaSInfo {
   /** Marketplace Subscription Id. This is a GUID-formatted string. */
-  marketplaceSubscriptionId?: string;
+  marketplaceSubscriptionId?: string | undefined;
   /** Marketplace Subscription Details: SAAS Name */
-  marketplaceName?: string;
+  marketplaceName?: string | undefined;
   /** Marketplace Subscription Details: SaaS Subscription Status */
-  marketplaceStatus?: string;
+  marketplaceStatus?: string | undefined;
   /** The Azure Subscription ID to which the Marketplace Subscription belongs and gets billed into. */
-  billedAzureSubscriptionId?: string;
+  billedAzureSubscriptionId?: string | undefined;
   /** Flag specifying if the Marketplace status is subscribed or not. */
-  subscribed?: boolean;
+  subscribed?: boolean | undefined;
 }
 /** Partner Billing details associated with the resource. */
 export interface PartnerBillingEntity {
   /** The Datadog Organization Id. */
-  id?: string;
+  id?: string | undefined;
   /** The Datadog Organization Name. */
-  name?: string;
+  name?: string | undefined;
   /** Link to the datadog organization page */
-  partnerEntityUri?: string;
+  partnerEntityUri?: string | undefined;
 }
 /** Marketplace Subscription and Organization details to which resource gets billed into. */
 export interface BillingInfoResponse {
   /** Marketplace Subscription details */
-  marketplaceSaasInfo?: MarketplaceSaaSInfo;
+  marketplaceSaasInfo?: MarketplaceSaaSInfo | undefined;
   /** Partner Billing Entity details: Organization Info */
-  partnerBillingEntity?: PartnerBillingEntity;
+  partnerBillingEntity?: PartnerBillingEntity | undefined;
 }
 export interface GetCreationSupportedRequest {
   /** The ID of the target subscription. */
@@ -264,14 +265,14 @@ export interface GetCreationSupportedRequest {
 /** Datadog resource can be created or not properties. */
 export interface CreateResourceSupportedProperties {
   /** The ARM id of the subscription. */
-  name?: string;
+  name?: string | undefined;
   /** Indicates if selected subscription supports Datadog resource creation, if not it is already being monitored for the selected organization via multi subscription feature. */
-  creationSupported?: boolean;
+  creationSupported?: boolean | undefined;
 }
 /** Datadog resource can be created or not. */
 export interface CreateResourceSupportedResponse {
   /** Represents the properties of the resource. */
-  properties?: CreateResourceSupportedProperties;
+  properties?: CreateResourceSupportedProperties | undefined;
 }
 export interface GetMonitorRequest {
   /** The ID of the target subscription. */
@@ -285,21 +286,21 @@ export interface GetMonitorRequest {
 export type GetMonitorResponseTagsMap = { [key: string]: string | undefined };
 export interface GetMonitorResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: GetMonitorResponseTagsMap;
+  tags?: GetMonitorResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Properties specific to the monitor resource. */
-  properties?: MonitorProperties;
-  sku?: ResourceSku;
-  identity?: IdentityProperties;
+  properties?: MonitorProperties | undefined;
+  sku?: ResourceSku | undefined;
+  identity?: IdentityProperties | undefined;
 }
 export interface GetMonitorDefaultKeyRequest {
   /** The ID of the target subscription. */
@@ -311,13 +312,13 @@ export interface GetMonitorDefaultKeyRequest {
 }
 export interface DatadogApiKey {
   /** The user that created the API key. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The name of the API key. */
-  name?: string;
+  name?: string | undefined;
   /** The value of the API key. */
   key: string;
   /** The time of creation of the API key. */
-  created?: string;
+  created?: string | undefined;
 }
 export interface GetMonitoredSubscriptionRequest {
   /** The ID of the target subscription. */
@@ -338,86 +339,86 @@ export type TagAction = "Include" | "Exclude";
 /** The definition of a filtering tag. Filtering tags are used for capturing resources and include/exclude them from being monitored. */
 export interface FilteringTag {
   /** The name (also known as the key) of the tag. */
-  name?: string;
+  name?: string | undefined;
   /** The value of the tag. */
-  value?: string;
+  value?: string | undefined;
   /** Valid actions for a filtering tag. Exclusion takes priority over inclusion. */
-  action?: TagAction | (string & {});
+  action?: TagAction | (string & {}) | undefined;
 }
 /** List of filtering tags to be used for capturing logs. This only takes effect if SendResourceLogs flag is enabled. If empty, all resources will be captured. If only Exclude action is specified, the rules will apply to the list of all available resources. If Include actions are specified, the rules will only include resources with the associated tags. */
 export type LogRulesFilteringTagsList = Array<FilteringTag>;
 /** Set of rules for sending logs for the Monitor resource. */
 export interface LogRules {
   /** Flag specifying if AAD logs should be sent for the Monitor resource. */
-  sendAadLogs?: boolean;
+  sendAadLogs?: boolean | undefined;
   /** Flag specifying if Azure subscription logs should be sent for the Monitor resource. */
-  sendSubscriptionLogs?: boolean;
+  sendSubscriptionLogs?: boolean | undefined;
   /** Flag specifying if Azure resource logs should be sent for the Monitor resource. */
-  sendResourceLogs?: boolean;
+  sendResourceLogs?: boolean | undefined;
   /** List of filtering tags to be used for capturing logs. This only takes effect if SendResourceLogs flag is enabled. If empty, all resources will be captured. If only Exclude action is specified, the rules will apply to the list of all available resources. If Include actions are specified, the rules will only include resources with the associated tags. */
-  filteringTags?: LogRulesFilteringTagsList;
+  filteringTags?: LogRulesFilteringTagsList | undefined;
 }
 /** List of filtering tags to be used for capturing metrics. If empty, all resources will be captured. If only Exclude action is specified, the rules will apply to the list of all available resources. If Include actions are specified, the rules will only include resources with the associated tags. */
 export type MetricRulesFilteringTagsList = Array<FilteringTag>;
 /** Set of rules for sending metrics for the Monitor resource. */
 export interface MetricRules {
   /** List of filtering tags to be used for capturing metrics. If empty, all resources will be captured. If only Exclude action is specified, the rules will apply to the list of all available resources. If Include actions are specified, the rules will only include resources with the associated tags. */
-  filteringTags?: MetricRulesFilteringTagsList;
+  filteringTags?: MetricRulesFilteringTagsList | undefined;
 }
 /** List of filtering tags to be used for capturing metrics. If empty, all resources will be captured. If only Exclude action is specified, the rules will apply to the list of all available resources. If Include actions are specified, the rules will only include resources with the associated tags. */
 export type AgentRulesFilteringTagsList = Array<FilteringTag>;
 /** Set of rules for managing agents for the Monitor resource. */
 export interface AgentRules {
   /** Flag specifying if agent monitoring should be enabled for the Monitor resource. */
-  enableAgentMonitoring?: boolean;
+  enableAgentMonitoring?: boolean | undefined;
   /** List of filtering tags to be used for capturing metrics. If empty, all resources will be captured. If only Exclude action is specified, the rules will apply to the list of all available resources. If Include actions are specified, the rules will only include resources with the associated tags. */
-  filteringTags?: AgentRulesFilteringTagsList;
+  filteringTags?: AgentRulesFilteringTagsList | undefined;
 }
 /** Definition of the properties for a TagRules resource. */
 export interface MonitoringTagRulesProperties {
-  provisioningState?: ProvisioningState;
+  provisioningState?: ProvisioningState | undefined;
   /** Set of rules for sending logs for the Monitor resource. */
-  logRules?: LogRules;
+  logRules?: LogRules | undefined;
   /** Set of rules for sending metrics for the Monitor resource. */
-  metricRules?: MetricRules;
+  metricRules?: MetricRules | undefined;
   /** Set of rules for managing agents for the Monitor resource. */
-  agentRules?: AgentRules;
+  agentRules?: AgentRules | undefined;
   /** Configuration to enable/disable auto-muting flag */
-  automuting?: boolean;
+  automuting?: boolean | undefined;
   /** Configuration to enable/disable custom metrics. If enabled, custom metrics from app insights will be sent. */
-  customMetrics?: boolean;
+  customMetrics?: boolean | undefined;
 }
 /** The list of subscriptions and it's monitoring status by current Datadog monitor. */
 export interface MonitoredSubscription {
   /** The subscriptionId to be monitored. */
-  subscriptionId?: string;
+  subscriptionId?: string | undefined;
   /** The state of monitoring. */
-  status?: Status;
+  status?: Status | undefined;
   /** The reason of not monitoring the subscription. */
-  error?: string;
+  error?: string | undefined;
   /** Definition of the properties for a TagRules resource. */
-  tagRules?: MonitoringTagRulesProperties;
+  tagRules?: MonitoringTagRulesProperties | undefined;
 }
 /** List of subscriptions and the state of the monitoring. */
 export type SubscriptionListMonitoredSubscriptionListList = Array<MonitoredSubscription>;
 /** The request to update subscriptions needed to be monitored by the Datadog monitor resource. */
 export interface SubscriptionList {
   /** The operation for the patch on the resource. */
-  operation?: Operation;
+  operation?: Operation | undefined;
   /** List of subscriptions and the state of the monitoring. */
-  monitoredSubscriptionList?: SubscriptionListMonitoredSubscriptionListList;
+  monitoredSubscriptionList?: SubscriptionListMonitoredSubscriptionListList | undefined;
 }
 export interface GetMonitoredSubscriptionResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The request to update subscriptions needed to be monitored by the Datadog monitor resource. */
-  properties?: SubscriptionList;
+  properties?: SubscriptionList | undefined;
 }
 export interface GetSingleSignOnConfigurationRequest {
   /** The ID of the target subscription. */
@@ -432,24 +433,24 @@ export interface GetSingleSignOnConfigurationRequest {
 /** Various states of the SSO resource */
 export type SingleSignOnStates = "Initial" | "Enable" | "Disable" | "Existing";
 export interface DatadogSingleSignOnProperties {
-  provisioningState?: ProvisioningState;
+  provisioningState?: ProvisioningState | undefined;
   /** Various states of the SSO resource */
-  singleSignOnState?: SingleSignOnStates;
+  singleSignOnState?: SingleSignOnStates | undefined;
   /** The Id of the Enterprise App used for Single sign-on. */
-  enterpriseAppId?: string;
+  enterpriseAppId?: string | undefined;
   /** The login URL specific to this Datadog Organization. */
-  singleSignOnUrl?: string;
+  singleSignOnUrl?: string | undefined;
 }
 export interface GetSingleSignOnConfigurationResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
-  properties?: DatadogSingleSignOnProperties;
+  systemData?: SystemData | undefined;
+  properties?: DatadogSingleSignOnProperties | undefined;
 }
 export interface GetTagRuleRequest {
   /** The ID of the target subscription. */
@@ -463,15 +464,15 @@ export interface GetTagRuleRequest {
 }
 export interface GetTagRuleResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Definition of the properties for a TagRules resource. */
-  properties?: MonitoringTagRulesProperties;
+  properties?: MonitoringTagRulesProperties | undefined;
 }
 export interface ListCreationSupportedRequest {
   /** The ID of the target subscription. */
@@ -486,7 +487,7 @@ export interface CreateResourceSupportedResponseList {
   /** The CreateResourceSupportedResponse items on this page */
   value: CreateResourceSupportedResponseListValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListMarketplaceAgreementsRequest {
   /** The ID of the target subscription. */
@@ -495,21 +496,21 @@ export interface ListMarketplaceAgreementsRequest {
 /** Terms properties. */
 export interface DatadogAgreementProperties {
   /** Publisher identifier string. */
-  publisher?: string;
+  publisher?: string | undefined;
   /** Product identifier string. */
-  product?: string;
+  product?: string | undefined;
   /** Plan identifier string. */
-  plan?: string;
+  plan?: string | undefined;
   /** Link to HTML with Microsoft and Publisher terms. */
-  licenseTextLink?: string;
+  licenseTextLink?: string | undefined;
   /** Link to the privacy policy of the publisher. */
-  privacyPolicyLink?: string;
+  privacyPolicyLink?: string | undefined;
   /** Date and time in UTC of when the terms were accepted. This is empty if Accepted is false. */
-  retrieveDatetime?: string;
+  retrieveDatetime?: string | undefined;
   /** Terms signature. */
-  signature?: string;
+  signature?: string | undefined;
   /** If any version of the terms have been accepted, otherwise false. */
-  accepted?: boolean;
+  accepted?: boolean | undefined;
 }
 /** The type of identity that created the resource. */
 export type DatadogAgreementResourceSystemDataCreatedByType =
@@ -526,29 +527,29 @@ export type DatadogAgreementResourceSystemDataLastModifiedByType =
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface DatadogAgreementResourceSystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: DatadogAgreementResourceSystemDataCreatedByType;
+  createdByType?: DatadogAgreementResourceSystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: DatadogAgreementResourceSystemDataLastModifiedByType;
+  lastModifiedByType?: DatadogAgreementResourceSystemDataLastModifiedByType | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 export interface DatadogAgreementResource {
   /** ARM id of the resource. */
-  id?: string;
+  id?: string | undefined;
   /** Name of the agreement. */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. */
-  type?: string;
+  type?: string | undefined;
   /** Represents the properties of the resource. */
-  properties?: DatadogAgreementProperties;
+  properties?: DatadogAgreementProperties | undefined;
   /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: DatadogAgreementResourceSystemData;
+  systemData?: DatadogAgreementResourceSystemData | undefined;
 }
 /** The DatadogAgreementResource items on this page */
 export type DatadogAgreementResourceListResponseValueList = Array<DatadogAgreementResource>;
@@ -557,7 +558,7 @@ export interface DatadogAgreementResourceListResponse {
   /** The DatadogAgreementResource items on this page */
   value: DatadogAgreementResourceListResponseValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListMonitorApiKeysRequest {
   /** The ID of the target subscription. */
@@ -574,7 +575,7 @@ export interface DatadogApiKeyListResponse {
   /** The DatadogApiKey items on this page */
   value: DatadogApiKeyListResponseValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListMonitorByResourceGroupRequest {
   /** The ID of the target subscription. */
@@ -587,21 +588,21 @@ export type DatadogMonitorResourceTagsMap = { [key: string]: string | undefined 
 /** Concrete tracked resource types can be created by aliasing this type using a specific property type. */
 export interface DatadogMonitorResource {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: DatadogMonitorResourceTagsMap;
+  tags?: DatadogMonitorResourceTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Properties specific to the monitor resource. */
-  properties?: MonitorProperties;
-  sku?: ResourceSku;
-  identity?: IdentityProperties;
+  properties?: MonitorProperties | undefined;
+  sku?: ResourceSku | undefined;
+  identity?: IdentityProperties | undefined;
 }
 /** The DatadogMonitorResource items on this page */
 export type DatadogMonitorResourceListResponseValueList = Array<DatadogMonitorResource>;
@@ -610,7 +611,7 @@ export interface DatadogMonitorResourceListResponse {
   /** The DatadogMonitorResource items on this page */
   value: DatadogMonitorResourceListResponseValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListMonitoredSubscriptionsRequest {
   /** The ID of the target subscription. */
@@ -623,15 +624,15 @@ export interface ListMonitoredSubscriptionsRequest {
 /** The request to update subscriptions needed to be monitored by the Datadog monitor resource. */
 export interface MonitoredSubscriptionProperties {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The request to update subscriptions needed to be monitored by the Datadog monitor resource. */
-  properties?: SubscriptionList;
+  properties?: SubscriptionList | undefined;
 }
 /** The MonitoredSubscriptionProperties items on this page */
 export type MonitoredSubscriptionPropertiesListValueList = Array<MonitoredSubscriptionProperties>;
@@ -640,7 +641,7 @@ export interface MonitoredSubscriptionPropertiesList {
   /** The MonitoredSubscriptionProperties items on this page */
   value: MonitoredSubscriptionPropertiesListValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListMonitorHostsRequest {
   /** The ID of the target subscription. */
@@ -656,30 +657,30 @@ export type DatadogHostAliasesList = Array<string>;
 export type DatadogHostAppsList = Array<string>;
 export interface DatadogInstallMethod {
   /** The tool. */
-  tool?: string;
+  tool?: string | undefined;
   /** The tool version. */
-  toolVersion?: string;
+  toolVersion?: string | undefined;
   /** The installer version. */
-  installerVersion?: string;
+  installerVersion?: string | undefined;
 }
 export interface DatadogLogsAgent {
   /** The transport. */
-  transport?: string;
+  transport?: string | undefined;
 }
 export interface DatadogHostMetadata {
   /** The agent version. */
-  agentVersion?: string;
-  installMethod?: DatadogInstallMethod;
-  logsAgent?: DatadogLogsAgent;
+  agentVersion?: string | undefined;
+  installMethod?: DatadogInstallMethod | undefined;
+  logsAgent?: DatadogLogsAgent | undefined;
 }
 export interface DatadogHost {
   /** The name of the host. */
-  name?: string;
+  name?: string | undefined;
   /** The aliases for the host installed via the Datadog agent. */
-  aliases?: DatadogHostAliasesList;
+  aliases?: DatadogHostAliasesList | undefined;
   /** The Datadog integrations reporting metrics for the host. */
-  apps?: DatadogHostAppsList;
-  meta?: DatadogHostMetadata;
+  apps?: DatadogHostAppsList | undefined;
+  meta?: DatadogHostMetadata | undefined;
 }
 /** The DatadogHost items on this page */
 export type DatadogHostListResponseValueList = Array<DatadogHost>;
@@ -688,7 +689,7 @@ export interface DatadogHostListResponse {
   /** The DatadogHost items on this page */
   value: DatadogHostListResponseValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListMonitorLinkedResourcesRequest {
   /** The ID of the target subscription. */
@@ -701,9 +702,9 @@ export interface ListMonitorLinkedResourcesRequest {
 /** The definition of a linked resource. */
 export interface LinkedResource {
   /** The ARM id of the linked resource. */
-  id?: string;
+  id?: string | undefined;
   /** The location of the linked resource. */
-  location?: string;
+  location?: string | undefined;
 }
 /** The LinkedResource items on this page */
 export type LinkedResourceListResponseValueList = Array<LinkedResource>;
@@ -712,7 +713,7 @@ export interface LinkedResourceListResponse {
   /** The LinkedResource items on this page */
   value: LinkedResourceListResponseValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListMonitorMonitoredResourcesRequest {
   /** The ID of the target subscription. */
@@ -725,15 +726,15 @@ export interface ListMonitorMonitoredResourcesRequest {
 /** The properties of a resource currently being monitored by the Datadog monitor resource. */
 export interface MonitoredResource {
   /** The ARM id of the resource. */
-  id?: string;
+  id?: string | undefined;
   /** Flag indicating if resource is sending metrics to Datadog. */
-  sendingMetrics?: boolean;
+  sendingMetrics?: boolean | undefined;
   /** Reason for why the resource is sending metrics (or why it is not sending). */
-  reasonForMetricsStatus?: string;
+  reasonForMetricsStatus?: string | undefined;
   /** Flag indicating if resource is sending logs to Datadog. */
-  sendingLogs?: boolean;
+  sendingLogs?: boolean | undefined;
   /** Reason for why the resource is sending logs (or why it is not sending). */
-  reasonForLogsStatus?: string;
+  reasonForLogsStatus?: string | undefined;
 }
 /** The MonitoredResource items on this page */
 export type MonitoredResourceListResponseValueList = Array<MonitoredResource>;
@@ -742,7 +743,7 @@ export interface MonitoredResourceListResponse {
   /** The MonitoredResource items on this page */
   value: MonitoredResourceListResponseValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListMonitorsRequest {
   /** The ID of the target subscription. */
@@ -752,22 +753,22 @@ export interface ListOperationsRequest {}
 /** The object that represents the operation. */
 export interface OperationDisplay {
   /** Service provider, i.e., Microsoft.Datadog. */
-  provider?: string;
+  provider?: string | undefined;
   /** Type on which the operation is performed, e.g., 'monitors'. */
-  resource?: string;
+  resource?: string | undefined;
   /** Operation type, e.g., read, write, delete, etc. */
-  operation?: string;
+  operation?: string | undefined;
   /** Description of the operation, e.g., 'Write monitors'. */
-  description?: string;
+  description?: string | undefined;
 }
 /** A Microsoft.Datadog REST API operation. */
 export interface OperationResult {
   /** Operation name, i.e., {provider}/{resource}/{operation}. */
-  name?: string;
+  name?: string | undefined;
   /** The object that represents the operation. */
-  display?: OperationDisplay;
+  display?: OperationDisplay | undefined;
   /** Indicates whether the operation is a data action */
-  isDataAction?: boolean;
+  isDataAction?: boolean | undefined;
 }
 /** The list of operations. */
 export type OperationListResultValueList = Array<OperationResult>;
@@ -776,7 +777,7 @@ export interface OperationListResult {
   /** The list of operations. */
   value: OperationListResultValueList;
   /** The URL to get the next set of results, if any. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListSingleSignOnConfigurationsRequest {
   /** The ID of the target subscription. */
@@ -789,14 +790,14 @@ export interface ListSingleSignOnConfigurationsRequest {
 /** Concrete proxy resource types can be created by aliasing this type using a specific property type. */
 export interface DatadogSingleSignOnResource {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
-  properties?: DatadogSingleSignOnProperties;
+  systemData?: SystemData | undefined;
+  properties?: DatadogSingleSignOnProperties | undefined;
 }
 /** The DatadogSingleSignOnResource items on this page */
 export type DatadogSingleSignOnResourceListResponseValueList = Array<DatadogSingleSignOnResource>;
@@ -805,7 +806,7 @@ export interface DatadogSingleSignOnResourceListResponse {
   /** The DatadogSingleSignOnResource items on this page */
   value: DatadogSingleSignOnResourceListResponseValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListTagRulesRequest {
   /** The ID of the target subscription. */
@@ -818,15 +819,15 @@ export interface ListTagRulesRequest {
 /** Capture logs and metrics of Azure resources based on ARM tags. */
 export interface MonitoringTagRules {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Definition of the properties for a TagRules resource. */
-  properties?: MonitoringTagRulesProperties;
+  properties?: MonitoringTagRulesProperties | undefined;
 }
 /** The MonitoringTagRules items on this page */
 export type MonitoringTagRulesListResponseValueList = Array<MonitoringTagRules>;
@@ -835,13 +836,13 @@ export interface MonitoringTagRulesListResponse {
   /** The MonitoringTagRules items on this page */
   value: MonitoringTagRulesListResponseValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface MarketplaceAgreementsCreateOrUpdateRequest {
   /** The ID of the target subscription. */
   subscriptionId: string;
   /** Represents the properties of the resource. */
-  properties?: DatadogAgreementProperties;
+  properties?: DatadogAgreementProperties | undefined;
 }
 export interface OrganizationsResubscribeRequest {
   /** The ID of the target subscription. */
@@ -850,35 +851,35 @@ export interface OrganizationsResubscribeRequest {
   resourceGroupName: string;
   /** Monitor resource name */
   monitorName: string;
-  sku?: ResourceSku;
+  sku?: ResourceSku | undefined;
   /** Newly selected Azure Subscription Id in which the new Marketplace subscription will be created for Resubscribe */
-  azureSubscriptionId?: string;
+  azureSubscriptionId?: string | undefined;
   /** Newly selected Azure resource group in which the new Marketplace subscription will be created for Resubscribe */
-  resourceGroup?: string;
+  resourceGroup?: string | undefined;
 }
 /** Resource tags. */
 export type OrganizationsResubscribeResponseTagsMap = { [key: string]: string | undefined };
 export interface OrganizationsResubscribeResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: OrganizationsResubscribeResponseTagsMap;
+  tags?: OrganizationsResubscribeResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Properties specific to the monitor resource. */
-  properties?: MonitorProperties;
-  sku?: ResourceSku;
-  identity?: IdentityProperties;
+  properties?: MonitorProperties | undefined;
+  sku?: ResourceSku | undefined;
+  identity?: IdentityProperties | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  locationHeader?: string;
+  locationHeader?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface RefreshMonitorSetPasswordLinkRequest {
   /** The ID of the target subscription. */
@@ -889,7 +890,7 @@ export interface RefreshMonitorSetPasswordLinkRequest {
   monitorName: string;
 }
 export interface DatadogSetPasswordLink {
-  setPasswordLink?: string | Redacted.Redacted<string>;
+  setPasswordLink?: string | Redacted.Redacted<string> | undefined;
 }
 export interface SetMonitorDefaultKeyRequest {
   /** The ID of the target subscription. */
@@ -899,20 +900,20 @@ export interface SetMonitorDefaultKeyRequest {
   /** Monitor resource name */
   monitorName: string;
   /** The user that created the API key. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The name of the API key. */
-  name?: string;
+  name?: string | undefined;
   /** The value of the API key. */
   key: string;
   /** The time of creation of the API key. */
-  created?: string;
+  created?: string | undefined;
 }
 export interface SetMonitorDefaultKeyResponse {}
 export interface DatadogSingleSignOnPropertiesInput {
   /** Various states of the SSO resource */
-  singleSignOnState?: SingleSignOnStates | (string & {});
+  singleSignOnState?: SingleSignOnStates | (string & {}) | undefined;
   /** The Id of the Enterprise App used for Single sign-on. */
-  enterpriseAppId?: string;
+  enterpriseAppId?: string | undefined;
 }
 export interface SingleSignOnConfigurationsCreateOrUpdateRequest {
   /** The ID of the target subscription. */
@@ -923,35 +924,35 @@ export interface SingleSignOnConfigurationsCreateOrUpdateRequest {
   monitorName: string;
   /** Configuration name */
   configurationName: string;
-  properties?: DatadogSingleSignOnPropertiesInput;
+  properties?: DatadogSingleSignOnPropertiesInput | undefined;
 }
 export interface SingleSignOnConfigurationsCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
-  properties?: DatadogSingleSignOnProperties;
+  systemData?: SystemData | undefined;
+  properties?: DatadogSingleSignOnProperties | undefined;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Definition of the properties for a TagRules resource. */
 export interface MonitoringTagRulesPropertiesInput {
   /** Set of rules for sending logs for the Monitor resource. */
-  logRules?: LogRules;
+  logRules?: LogRules | undefined;
   /** Set of rules for sending metrics for the Monitor resource. */
-  metricRules?: MetricRules;
+  metricRules?: MetricRules | undefined;
   /** Set of rules for managing agents for the Monitor resource. */
-  agentRules?: AgentRules;
+  agentRules?: AgentRules | undefined;
   /** Configuration to enable/disable auto-muting flag */
-  automuting?: boolean;
+  automuting?: boolean | undefined;
   /** Configuration to enable/disable custom metrics. If enabled, custom metrics from app insights will be sent. */
-  customMetrics?: boolean;
+  customMetrics?: boolean | undefined;
 }
 export interface TagRulesCreateOrUpdateRequest {
   /** The ID of the target subscription. */
@@ -963,30 +964,30 @@ export interface TagRulesCreateOrUpdateRequest {
   /** Rule set name */
   ruleSetName: string;
   /** Definition of the properties for a TagRules resource. */
-  properties?: MonitoringTagRulesPropertiesInput;
+  properties?: MonitoringTagRulesPropertiesInput | undefined;
 }
 export interface TagRulesCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Definition of the properties for a TagRules resource. */
-  properties?: MonitoringTagRulesProperties;
+  properties?: MonitoringTagRulesProperties | undefined;
 }
 /** Flag specifying if the resource monitoring is enabled or disabled. */
 export type MonitorUpdatePropertiesMonitoringStatus = "Enabled" | "Disabled";
 /** The set of properties that can be update in a PATCH request to a monitor resource. */
 export interface MonitorUpdateProperties {
   /** Flag specifying if the resource monitoring is enabled or disabled. */
-  monitoringStatus?: MonitorUpdatePropertiesMonitoringStatus | (string & {});
+  monitoringStatus?: MonitorUpdatePropertiesMonitoringStatus | (string & {}) | undefined;
   /** The new cloud security posture management value of the monitor resource. This collects configuration information for all resources in a subscription and track conformance to industry benchmarks. */
-  cspm?: boolean;
+  cspm?: boolean | undefined;
   /** The new resource collection value of the monitor resource. This collects configuration information for all resources in a subscription. */
-  resourceCollection?: boolean;
+  resourceCollection?: boolean | undefined;
 }
 /** The new tags of the monitor resource. */
 export type UpdateMonitorRequestTagsMap = { [key: string]: string | undefined };
@@ -998,54 +999,54 @@ export interface UpdateMonitorRequest {
   /** Monitor resource name */
   monitorName: string;
   /** The set of properties that can be update in a PATCH request to a monitor resource. */
-  properties?: MonitorUpdateProperties;
+  properties?: MonitorUpdateProperties | undefined;
   /** The new tags of the monitor resource. */
-  tags?: UpdateMonitorRequestTagsMap;
-  sku?: ResourceSku;
+  tags?: UpdateMonitorRequestTagsMap | undefined;
+  sku?: ResourceSku | undefined;
 }
 /** Resource tags. */
 export type UpdateMonitorResponseTagsMap = { [key: string]: string | undefined };
 export interface UpdateMonitorResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: UpdateMonitorResponseTagsMap;
+  tags?: UpdateMonitorResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Properties specific to the monitor resource. */
-  properties?: MonitorProperties;
-  sku?: ResourceSku;
-  identity?: IdentityProperties;
+  properties?: MonitorProperties | undefined;
+  sku?: ResourceSku | undefined;
+  identity?: IdentityProperties | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  locationHeader?: string;
+  locationHeader?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** The list of subscriptions and it's monitoring status by current Datadog monitor. */
 export interface MonitoredSubscriptionInput {
   /** The subscriptionId to be monitored. */
-  subscriptionId?: string;
+  subscriptionId?: string | undefined;
   /** The state of monitoring. */
-  status?: Status | (string & {});
+  status?: Status | (string & {}) | undefined;
   /** The reason of not monitoring the subscription. */
-  error?: string;
+  error?: string | undefined;
   /** Definition of the properties for a TagRules resource. */
-  tagRules?: MonitoringTagRulesPropertiesInput;
+  tagRules?: MonitoringTagRulesPropertiesInput | undefined;
 }
 /** List of subscriptions and the state of the monitoring. */
 export type SubscriptionListInputMonitoredSubscriptionListList = Array<MonitoredSubscriptionInput>;
 /** The request to update subscriptions needed to be monitored by the Datadog monitor resource. */
 export interface SubscriptionListInput {
   /** The operation for the patch on the resource. */
-  operation?: Operation | (string & {});
+  operation?: Operation | (string & {}) | undefined;
   /** List of subscriptions and the state of the monitoring. */
-  monitoredSubscriptionList?: SubscriptionListInputMonitoredSubscriptionListList;
+  monitoredSubscriptionList?: SubscriptionListInputMonitoredSubscriptionListList | undefined;
 }
 export interface UpdateMonitoredSubscriptionRequest {
   /** The ID of the target subscription. */
@@ -1057,23 +1058,23 @@ export interface UpdateMonitoredSubscriptionRequest {
   /** The configuration name. Only 'default' value is supported. */
   configurationName: string;
   /** The request to update subscriptions needed to be monitored by the Datadog monitor resource. */
-  properties?: SubscriptionListInput;
+  properties?: SubscriptionListInput | undefined;
 }
 export interface UpdateMonitoredSubscriptionResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The request to update subscriptions needed to be monitored by the Datadog monitor resource. */
-  properties?: SubscriptionList;
+  properties?: SubscriptionList | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface UpdateMonitoredSubscriptionsCreateorRequest {
   /** The ID of the target subscription. */
@@ -1085,23 +1086,23 @@ export interface UpdateMonitoredSubscriptionsCreateorRequest {
   /** The configuration name. Only 'default' value is supported. */
   configurationName: string;
   /** The request to update subscriptions needed to be monitored by the Datadog monitor resource. */
-  properties?: SubscriptionListInput;
+  properties?: SubscriptionListInput | undefined;
 }
 export interface UpdateMonitoredSubscriptionsCreateorResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The request to update subscriptions needed to be monitored by the Datadog monitor resource. */
-  properties?: SubscriptionList;
+  properties?: SubscriptionList | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export type CreateMonitorError = AzureOpError;
 /** Create a monitor resource. Create a monitor resource. */

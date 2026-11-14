@@ -29,6 +29,7 @@ const TELEMETRY = {
   prefix: "Managednetworkfabric",
   service: "Managednetworkfabric",
   labels: "azure",
+  labelNames: { resourceGroupName: "azure.resource_group.name" },
   propagate: "w3c",
 } as const;
 
@@ -45,24 +46,24 @@ export type ErrorDetailDetailsList = Array<ErrorDetail>;
 /** The resource management error additional info. */
 export interface ErrorAdditionalInfo {
   /** The additional info type. */
-  type?: string;
+  type?: string | undefined;
   /** The additional info. */
-  info?: unknown;
+  info?: unknown | undefined;
 }
 /** The error additional info. */
 export type ErrorDetailAdditionalInfoList = Array<ErrorAdditionalInfo>;
 /** The error detail. */
 export interface ErrorDetail {
   /** The error code. */
-  code?: string;
+  code?: string | undefined;
   /** The error message. */
-  message?: string;
+  message?: string | undefined;
   /** The error target. */
-  target?: string;
+  target?: string | undefined;
   /** The error details. */
-  details?: ErrorDetailDetailsList;
+  details?: ErrorDetailDetailsList | undefined;
   /** The error additional info. */
-  additionalInfo?: ErrorDetailAdditionalInfoList;
+  additionalInfo?: ErrorDetailAdditionalInfoList | undefined;
 }
 /** Configuration state for the resource. */
 export type ConfigurationState =
@@ -81,13 +82,13 @@ export type ConfigurationState =
   | "PendingAdministrativeUpdate";
 export interface AccessControlListsResyncResponse {
   /** The error object. */
-  error?: ErrorDetail;
+  error?: ErrorDetail | undefined;
   /** Gets the configuration state. */
-  configurationState?: ConfigurationState;
+  configurationState?: ConfigurationState | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface CommitL2IsolationDomainConfigurationRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -99,13 +100,13 @@ export interface CommitL2IsolationDomainConfigurationRequest {
 }
 export interface CommitL2IsolationDomainConfigurationResponse {
   /** The error object. */
-  error?: ErrorDetail;
+  error?: ErrorDetail | undefined;
   /** Gets the configuration state. */
-  configurationState?: ConfigurationState;
+  configurationState?: ConfigurationState | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface CommitL3IsolationDomainConfigurationRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -117,13 +118,13 @@ export interface CommitL3IsolationDomainConfigurationRequest {
 }
 export interface CommitL3IsolationDomainConfigurationResponse {
   /** The error object. */
-  error?: ErrorDetail;
+  error?: ErrorDetail | undefined;
   /** Gets the configuration state. */
-  configurationState?: ConfigurationState;
+  configurationState?: ConfigurationState | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface CommitNetworkFabricBatchStatusRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -133,30 +134,30 @@ export interface CommitNetworkFabricBatchStatusRequest {
   /** Name of the Network Fabric. */
   networkFabricName: string;
   /** Commit Batch Identifier. If not provided, the latest commit batch status will be returned. */
-  commitBatchId?: string;
+  commitBatchId?: string | undefined;
 }
 /** The operations list. */
 export type OperationStatusResultOperationsList = Array<OperationStatusResult>;
 /** The current status of an async operation. */
 export interface OperationStatusResult {
   /** Fully qualified ID for the async operation. */
-  id?: string;
+  id?: string | undefined;
   /** Fully qualified ID of the resource against which the original async operation was started. */
-  resourceId?: string;
+  resourceId?: string | undefined;
   /** Name of the async operation. */
-  name?: string;
+  name?: string | undefined;
   /** Operation status. */
   status: string;
   /** Percent of the operation that is complete. */
-  percentComplete?: number;
+  percentComplete?: number | undefined;
   /** The start time of the operation. */
-  startTime?: string;
+  startTime?: string | undefined;
   /** The end time of the operation. */
-  endTime?: string;
+  endTime?: string | undefined;
   /** The operations list. */
-  operations?: OperationStatusResultOperationsList;
+  operations?: OperationStatusResultOperationsList | undefined;
   /** If present, details of the operation error. */
-  error?: ErrorDetail;
+  error?: ErrorDetail | undefined;
 }
 /** The operations list. */
 export type CommitBatchStatusOperationResponseOperationsItemOperationsList =
@@ -164,23 +165,23 @@ export type CommitBatchStatusOperationResponseOperationsItemOperationsList =
 /** The current status of an async operation. */
 export interface CommitBatchStatusOperationResponseOperationsItem {
   /** Fully qualified ID for the async operation. */
-  id?: string;
+  id?: string | undefined;
   /** Fully qualified ID of the resource against which the original async operation was started. */
-  resourceId?: string;
+  resourceId?: string | undefined;
   /** Name of the async operation. */
-  name?: string;
+  name?: string | undefined;
   /** Operation status. */
   status: string;
   /** Percent of the operation that is complete. */
-  percentComplete?: number;
+  percentComplete?: number | undefined;
   /** The start time of the operation. */
-  startTime?: string;
+  startTime?: string | undefined;
   /** The end time of the operation. */
-  endTime?: string;
+  endTime?: string | undefined;
   /** The operations list. */
-  operations?: CommitBatchStatusOperationResponseOperationsItemOperationsList;
+  operations?: CommitBatchStatusOperationResponseOperationsItemOperationsList | undefined;
   /** If present, details of the operation error. */
-  error?: ErrorDetail;
+  error?: ErrorDetail | undefined;
 }
 /** The operations list. */
 export type CommitBatchStatusOperationResponseOperationsList =
@@ -192,15 +193,15 @@ export type CommitBatchStatusOperationResponseErrorAdditionalInfoList = Array<Er
 /** The error detail. */
 export interface CommitBatchStatusOperationResponseError {
   /** The error code. */
-  code?: string;
+  code?: string | undefined;
   /** The error message. */
-  message?: string;
+  message?: string | undefined;
   /** The error target. */
-  target?: string;
+  target?: string | undefined;
   /** The error details. */
-  details?: CommitBatchStatusOperationResponseErrorDetailsList;
+  details?: CommitBatchStatusOperationResponseErrorDetailsList | undefined;
   /** The error additional info. */
-  additionalInfo?: CommitBatchStatusOperationResponseErrorAdditionalInfoList;
+  additionalInfo?: CommitBatchStatusOperationResponseErrorAdditionalInfoList | undefined;
 }
 /** Commit Batch State. */
 export type CommitBatchState = "Processing" | "Succeeded" | "Failed";
@@ -209,43 +210,43 @@ export type CommitBatchDetailsFailedDevicesList = Array<string>;
 /** Commit Batch Details. */
 export interface CommitBatchDetails {
   /** List of devices for which the commit operation failed. */
-  failedDevices?: CommitBatchDetailsFailedDevicesList;
+  failedDevices?: CommitBatchDetailsFailedDevicesList | undefined;
 }
 /** Commit Batch Status Response Properties. */
 export interface CommitBatchStatusResponseProperties {
   /** Commit Batch Identifier. */
-  commitBatchId?: string;
+  commitBatchId?: string | undefined;
   /** Commit Batch State. */
-  commitBatchState?: CommitBatchState;
+  commitBatchState?: CommitBatchState | undefined;
   /** Commit Batch Details. */
-  commitBatchDetails?: CommitBatchDetails;
+  commitBatchDetails?: CommitBatchDetails | undefined;
 }
 /** Commit Batch Status Response. */
 export interface CommitBatchStatusOperationResponse {
   /** Fully qualified ID for the async operation. */
-  id?: string;
+  id?: string | undefined;
   /** Name of the async operation. */
-  name?: string;
+  name?: string | undefined;
   /** Operation status. */
   status: string;
   /** Percent of the operation that is complete. */
-  percentComplete?: number;
+  percentComplete?: number | undefined;
   /** The start time of the operation. */
-  startTime?: string;
+  startTime?: string | undefined;
   /** The end time of the operation. */
-  endTime?: string;
+  endTime?: string | undefined;
   /** The operations list. */
-  operations?: CommitBatchStatusOperationResponseOperationsList;
+  operations?: CommitBatchStatusOperationResponseOperationsList | undefined;
   /** The error detail. */
-  error?: CommitBatchStatusOperationResponseError;
+  error?: CommitBatchStatusOperationResponseError | undefined;
   /** Fully qualified ID of the resource against which the original async operation was started. */
-  resourceId?: string;
+  resourceId?: string | undefined;
   /** Commit Batch Status Response Properties. */
-  properties?: CommitBatchStatusResponseProperties;
+  properties?: CommitBatchStatusResponseProperties | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Commit stage Action to be performed. */
 export type CommitStage = "Start" | "Continue" | "Rollback";
@@ -261,34 +262,34 @@ export interface CommitNetworkFabricConfigurationRequest {
   /** Name of the Network Fabric. */
   networkFabricName: string;
   /** Commit stage Action to be performed. */
-  commitStage?: CommitStage | (string & {});
+  commitStage?: CommitStage | (string & {}) | undefined;
   /** Commit configuration Policy. Supported policy is StageCEConfiguration, which indicates to prepare the configuration for the CE device type. */
-  commitPolicy?: CommitConfigurationPolicy | (string & {});
+  commitPolicy?: CommitConfigurationPolicy | (string & {}) | undefined;
   /** List of ARM resource IDs of devices to be included in the commit operation. Either CE1 or CE2 is allowed. */
-  devices?: CommitNetworkFabricConfigurationRequestDevicesList;
+  devices?: CommitNetworkFabricConfigurationRequestDevicesList | undefined;
 }
 /** The operations list. */
 export type CommitConfigurationResponseOperationsItemOperationsList = Array<OperationStatusResult>;
 /** The current status of an async operation. */
 export interface CommitConfigurationResponseOperationsItem {
   /** Fully qualified ID for the async operation. */
-  id?: string;
+  id?: string | undefined;
   /** Fully qualified ID of the resource against which the original async operation was started. */
-  resourceId?: string;
+  resourceId?: string | undefined;
   /** Name of the async operation. */
-  name?: string;
+  name?: string | undefined;
   /** Operation status. */
   status: string;
   /** Percent of the operation that is complete. */
-  percentComplete?: number;
+  percentComplete?: number | undefined;
   /** The start time of the operation. */
-  startTime?: string;
+  startTime?: string | undefined;
   /** The end time of the operation. */
-  endTime?: string;
+  endTime?: string | undefined;
   /** The operations list. */
-  operations?: CommitConfigurationResponseOperationsItemOperationsList;
+  operations?: CommitConfigurationResponseOperationsItemOperationsList | undefined;
   /** If present, details of the operation error. */
-  error?: ErrorDetail;
+  error?: ErrorDetail | undefined;
 }
 /** The operations list. */
 export type CommitConfigurationResponseOperationsList =
@@ -300,40 +301,40 @@ export type CommitConfigurationResponseErrorAdditionalInfoList = Array<ErrorAddi
 /** The error detail. */
 export interface CommitConfigurationResponseError {
   /** The error code. */
-  code?: string;
+  code?: string | undefined;
   /** The error message. */
-  message?: string;
+  message?: string | undefined;
   /** The error target. */
-  target?: string;
+  target?: string | undefined;
   /** The error details. */
-  details?: CommitConfigurationResponseErrorDetailsList;
+  details?: CommitConfigurationResponseErrorDetailsList | undefined;
   /** The error additional info. */
-  additionalInfo?: CommitConfigurationResponseErrorAdditionalInfoList;
+  additionalInfo?: CommitConfigurationResponseErrorAdditionalInfoList | undefined;
 }
 /** Commit Configuration Response. */
 export interface CommitConfigurationResponse {
   /** Fully qualified ID for the async operation. */
-  id?: string;
+  id?: string | undefined;
   /** Name of the async operation. */
-  name?: string;
+  name?: string | undefined;
   /** Operation status. */
   status: string;
   /** Percent of the operation that is complete. */
-  percentComplete?: number;
+  percentComplete?: number | undefined;
   /** The start time of the operation. */
-  startTime?: string;
+  startTime?: string | undefined;
   /** The end time of the operation. */
-  endTime?: string;
+  endTime?: string | undefined;
   /** The operations list. */
-  operations?: CommitConfigurationResponseOperationsList;
+  operations?: CommitConfigurationResponseOperationsList | undefined;
   /** The error detail. */
-  error?: CommitConfigurationResponseError;
+  error?: CommitConfigurationResponseError | undefined;
   /** Fully qualified ID of the resource against which the original async operation was started. */
-  resourceId?: string;
+  resourceId?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface CommitRoutePolicyConfigurationRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -345,13 +346,13 @@ export interface CommitRoutePolicyConfigurationRequest {
 }
 export interface CommitRoutePolicyConfigurationResponse {
   /** The error object. */
-  error?: ErrorDetail;
+  error?: ErrorDetail | undefined;
   /** Gets the configuration state. */
-  configurationState?: ConfigurationState;
+  configurationState?: ConfigurationState | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Resource tags. */
 export type CreateAccessControlListRequestTagsMap = { [key: string]: string | undefined };
@@ -372,11 +373,11 @@ export type VlanMatchConditionVlanGroupNamesList = Array<string>;
 /** The vlan match conditions that need to be matched. */
 export interface VlanMatchCondition {
   /** List of vlans that need to be matched. Inputs can be single vlan or the range of vlans. */
-  vlans?: VlanMatchConditionVlansList;
+  vlans?: VlanMatchConditionVlansList | undefined;
   /** List of inner vlans that need to be matched.Inputs can be single vlan or the range of vlans. */
-  innerVlans?: VlanMatchConditionInnerVlansList;
+  innerVlans?: VlanMatchConditionInnerVlansList | undefined;
   /** List of vlan group names that need to be matched. */
-  vlanGroupNames?: VlanMatchConditionVlanGroupNamesList;
+  vlanGroupNames?: VlanMatchConditionVlanGroupNamesList | undefined;
 }
 /** IP Address type that needs to be matched. */
 export type SourceDestinationType = "SourceIP" | "DestinationIP" | "Bidirectional";
@@ -389,13 +390,13 @@ export type IpMatchConditionIpGroupNamesList = Array<string>;
 /** Defines the condition that can be filtered using the selected IPs. */
 export interface IpMatchCondition {
   /** IP Address type that needs to be matched. */
-  type?: SourceDestinationType | (string & {});
+  type?: SourceDestinationType | (string & {}) | undefined;
   /** IP Prefix Type that needs to be matched. */
-  prefixType?: PrefixType | (string & {});
+  prefixType?: PrefixType | (string & {}) | undefined;
   /** The list of IP Prefixes that need to be matched. */
-  ipPrefixValues?: IpMatchConditionIpPrefixValuesList;
+  ipPrefixValues?: IpMatchConditionIpPrefixValuesList | undefined;
   /** The List of IP Group Names that need to be matched. */
-  ipGroupNames?: IpMatchConditionIpGroupNamesList;
+  ipGroupNames?: IpMatchConditionIpGroupNamesList | undefined;
 }
 /** List of ether type values that need to be matched. */
 export type AccessControlListMatchConditionEtherTypesList = Array<string>;
@@ -422,47 +423,47 @@ export type AccessControlListPortConditionFlagsList = Array<string>;
 /** Defines the port condition that needs to be matched. */
 export interface AccessControlListPortCondition {
   /** Port type that needs to be matched. */
-  portType?: PortType | (string & {});
+  portType?: PortType | (string & {}) | undefined;
   /** Layer4 protocol type that needs to be matched. */
   layer4Protocol: Layer4Protocol | (string & {});
   /** List of the Ports that need to be matched. */
-  ports?: AccessControlListPortConditionPortsList;
+  ports?: AccessControlListPortConditionPortsList | undefined;
   /** List of the port Group Names that need to be matched. */
-  portGroupNames?: AccessControlListPortConditionPortGroupNamesList;
+  portGroupNames?: AccessControlListPortConditionPortGroupNamesList | undefined;
   /** List of protocol flags that need to be matched. Example: established | initial | <List-of-TCP-flags>. List of eligible TCP Flags are ack, fin, not-ack, not-fin, not-psh, not-rst, not-syn, not-urg, psh, rst, syn, urg */
-  flags?: AccessControlListPortConditionFlagsList;
+  flags?: AccessControlListPortConditionFlagsList | undefined;
 }
 /** Internet Control Message Protocol (ICMP) types */
 export type IcmpConfigurationPropertiesIcmpTypesList = Array<string>;
 /** Internet Control Message Protocol (ICMP) configuration */
 export interface IcmpConfigurationProperties {
   /** Internet Control Message Protocol (ICMP) types */
-  icmpTypes?: IcmpConfigurationPropertiesIcmpTypesList;
+  icmpTypes?: IcmpConfigurationPropertiesIcmpTypesList | undefined;
 }
 /** Defines the match condition that is supported to filter the traffic. */
 export interface AccessControlListMatchCondition {
   /** List of the protocols that need to be matched. */
-  protocolTypes?: AccessControlListMatchConditionProtocolTypesList;
+  protocolTypes?: AccessControlListMatchConditionProtocolTypesList | undefined;
   /** Vlan match condition that needs to be matched. */
-  vlanMatchCondition?: VlanMatchCondition;
+  vlanMatchCondition?: VlanMatchCondition | undefined;
   /** IP condition that needs to be matched. */
-  ipCondition?: IpMatchCondition;
+  ipCondition?: IpMatchCondition | undefined;
   /** List of ether type values that need to be matched. */
-  etherTypes?: AccessControlListMatchConditionEtherTypesList;
+  etherTypes?: AccessControlListMatchConditionEtherTypesList | undefined;
   /** List of IP fragment packets that need to be matched. */
-  fragments?: AccessControlListMatchConditionFragmentsList;
+  fragments?: AccessControlListMatchConditionFragmentsList | undefined;
   /** List of IP Lengths that need to be matched. */
-  ipLengths?: AccessControlListMatchConditionIpLengthsList;
+  ipLengths?: AccessControlListMatchConditionIpLengthsList | undefined;
   /** List of TTL [Time To Live] values that need to be matched. */
-  ttlValues?: AccessControlListMatchConditionTtlValuesList;
+  ttlValues?: AccessControlListMatchConditionTtlValuesList | undefined;
   /** List of DSCP Markings that need to be matched. */
-  dscpMarkings?: AccessControlListMatchConditionDscpMarkingsList;
+  dscpMarkings?: AccessControlListMatchConditionDscpMarkingsList | undefined;
   /** Protocol neighbors that need to be matched. */
-  protocolNeighbors?: AccessControlListMatchConditionProtocolNeighborsList;
+  protocolNeighbors?: AccessControlListMatchConditionProtocolNeighborsList | undefined;
   /** Defines the port condition that needs to be matched. */
-  portCondition?: AccessControlListPortCondition;
+  portCondition?: AccessControlListPortCondition | undefined;
   /** Internet Control Message Protocol (ICMP) configuration */
-  icmpConfiguration?: IcmpConfigurationProperties;
+  icmpConfiguration?: IcmpConfigurationProperties | undefined;
 }
 /** List of the match conditions. */
 export type AccessControlListMatchConfigurationMatchConditionsList =
@@ -474,51 +475,51 @@ export type BitRateUnit = "bps" | "Kbps" | "Mbps" | "Gbps" | "Pps";
 /** Bit rate in bits per second. */
 export interface BitRate {
   /** Bitrate. */
-  rate?: number;
+  rate?: number | undefined;
   /** Bitrate unit. */
-  unit?: BitRateUnit | (string & {});
+  unit?: BitRateUnit | (string & {}) | undefined;
 }
 /** Burst size unit in packets. */
 export type BurstSizeUnit = "Bytes" | "KBytes" | "MBytes" | "GBytes" | "Packets";
 /** Burst size in packets. */
 export interface BurstSize {
   /** Burst size. */
-  size?: number;
+  size?: number | undefined;
   /** Burst size unit. */
-  unit?: BurstSizeUnit | (string & {});
+  unit?: BurstSizeUnit | (string & {}) | undefined;
 }
 /** Police rate configuration properties */
 export interface PoliceRateConfigurationProperties {
   /** Rate limit in bits per second. */
-  bitRate?: BitRate;
+  bitRate?: BitRate | undefined;
   /** Burst size in packets. */
-  burstSize?: BurstSize;
+  burstSize?: BurstSize | undefined;
 }
 /** Action that need to performed. */
 export interface AccessControlListAction {
   /** Type of actions that can be performed. */
-  type?: AclActionType | (string & {});
+  type?: AclActionType | (string & {}) | undefined;
   /** Name of the counter block to get match count information. */
-  counterName?: string;
+  counterName?: string | undefined;
   /** Remark comment */
-  remarkComment?: string;
+  remarkComment?: string | undefined;
   /** Police rate configuration */
-  policeRateConfiguration?: PoliceRateConfigurationProperties;
+  policeRateConfiguration?: PoliceRateConfigurationProperties | undefined;
 }
 /** List of actions that need to be performed for the matched conditions. */
 export type AccessControlListMatchConfigurationActionsList = Array<AccessControlListAction>;
 /** Defines the match configuration that are supported to filter the traffic. */
 export interface AccessControlListMatchConfiguration {
   /** The name of the match configuration. */
-  matchConfigurationName?: string;
+  matchConfigurationName?: string | undefined;
   /** Sequence Number of the match configuration. */
-  sequenceNumber?: number;
+  sequenceNumber?: number | undefined;
   /** Type of IP Address. IPv4 or IPv6 */
-  ipAddressType?: IPAddressType | (string & {});
+  ipAddressType?: IPAddressType | (string & {}) | undefined;
   /** List of the match conditions. */
-  matchConditions?: AccessControlListMatchConfigurationMatchConditionsList;
+  matchConditions?: AccessControlListMatchConfigurationMatchConditionsList | undefined;
   /** List of actions that need to be performed for the matched conditions. */
-  actions?: AccessControlListMatchConfigurationActionsList;
+  actions?: AccessControlListMatchConfigurationActionsList | undefined;
 }
 /** List of match configurations. */
 export type AccessControlListPropertiesInputMatchConfigurationsList =
@@ -528,11 +529,11 @@ export type IpGroupPropertiesIpPrefixesList = Array<string>;
 /** IP Group properties. */
 export interface IpGroupProperties {
   /** IP Group name. */
-  name?: string;
+  name?: string | undefined;
   /** IP Address type. */
-  ipAddressType?: IPAddressType | (string & {});
+  ipAddressType?: IPAddressType | (string & {}) | undefined;
   /** List of IP Prefixes. */
-  ipPrefixes?: IpGroupPropertiesIpPrefixesList;
+  ipPrefixes?: IpGroupPropertiesIpPrefixesList | undefined;
 }
 /** List of IP Groups. */
 export type CommonDynamicMatchConfigurationIpGroupsList = Array<IpGroupProperties>;
@@ -541,9 +542,9 @@ export type VlanGroupPropertiesVlansList = Array<string>;
 /** Vlan group properties. */
 export interface VlanGroupProperties {
   /** Vlan group name. */
-  name?: string;
+  name?: string | undefined;
   /** List of vlans. */
-  vlans?: VlanGroupPropertiesVlansList;
+  vlans?: VlanGroupPropertiesVlansList | undefined;
 }
 /** List of vlan groups. */
 export type CommonDynamicMatchConfigurationVlanGroupsList = Array<VlanGroupProperties>;
@@ -552,20 +553,20 @@ export type PortGroupPropertiesPortsList = Array<string>;
 /** Port Group properties. */
 export interface PortGroupProperties {
   /** The name of the port group. */
-  name?: string;
+  name?: string | undefined;
   /** List of the ports that need to be matched. */
-  ports?: PortGroupPropertiesPortsList;
+  ports?: PortGroupPropertiesPortsList | undefined;
 }
 /** List of the port groups. */
 export type CommonDynamicMatchConfigurationPortGroupsList = Array<PortGroupProperties>;
 /** Dynamic match configuration object. */
 export interface CommonDynamicMatchConfiguration {
   /** List of IP Groups. */
-  ipGroups?: CommonDynamicMatchConfigurationIpGroupsList;
+  ipGroups?: CommonDynamicMatchConfigurationIpGroupsList | undefined;
   /** List of vlan groups. */
-  vlanGroups?: CommonDynamicMatchConfigurationVlanGroupsList;
+  vlanGroups?: CommonDynamicMatchConfigurationVlanGroupsList | undefined;
   /** List of the port groups. */
-  portGroups?: CommonDynamicMatchConfigurationPortGroupsList;
+  portGroups?: CommonDynamicMatchConfigurationPortGroupsList | undefined;
 }
 /** List of dynamic match configurations. */
 export type AccessControlListPropertiesInputDynamicMatchConfigurationsList =
@@ -579,23 +580,23 @@ export type GlobalAccessControlListActionPropertiesEnableCount = "True" | "False
 /** Global Access Control List actions properties */
 export interface GlobalAccessControlListActionProperties {
   /** Configuration to enable or disable ACL action count. */
-  enableCount?: GlobalAccessControlListActionPropertiesEnableCount | (string & {});
+  enableCount?: GlobalAccessControlListActionPropertiesEnableCount | (string & {}) | undefined;
 }
 /** Control Plane Access Control List (ACL) IP condition properties */
 export interface ControlPlanAclIpMatchCondition {
   /** List of the source IP addresses that need to be matched. */
-  sourceIpPrefix?: string;
+  sourceIpPrefix?: string | undefined;
   /** List of the destination IP addresses that need to be matched. */
-  destinationIpPrefix?: string;
+  destinationIpPrefix?: string | undefined;
 }
 /** Control Plane Access Control List (ACL) Time To Live (TTL) match conditions properties */
 export type ControlPlaneAclTtlMatchType = "eq" | "neq" | "gt" | "lt";
 /** TTL [Time To Live] match conditions properties */
 export interface ControlPlaneAclTtlMatchCondition {
   /** TTL [Time To Live] values that need to be matched. */
-  ttlValue?: string;
+  ttlValue?: string | undefined;
   /** TTL [Time To Live] match type. Example: eq | neq | gt | lt | range */
-  ttlMatchType?: ControlPlaneAclTtlMatchType | (string & {});
+  ttlMatchType?: ControlPlaneAclTtlMatchType | (string & {}) | undefined;
 }
 /** List of the ports that need to be matched. Possible values: 1234, 1234-1235, 1234,1235,1236 */
 export type ControlPlaneAclPortConditionPortsList = Array<string>;
@@ -604,53 +605,53 @@ export type ControlPlaneAclPortMatchType = "eq" | "neq" | "gt" | "lt" | "range";
 /** Control Plane Access Control List (ACL) Port Match conditions properties */
 export interface ControlPlaneAclPortCondition {
   /** List of the ports that need to be matched. Possible values: 1234, 1234-1235, 1234,1235,1236 */
-  ports?: ControlPlaneAclPortConditionPortsList;
+  ports?: ControlPlaneAclPortConditionPortsList | undefined;
   /** Port match type. Example: eq | neq | gt | lt | range */
-  portMatchType?: ControlPlaneAclPortMatchType | (string & {});
+  portMatchType?: ControlPlaneAclPortMatchType | (string & {}) | undefined;
 }
 /** Control Plane Access Control List (ACL) Port Match conditions properties */
 export interface ControlPlaneAclPortMatchCondition {
   /** List of the ports that need to be matched. */
-  sourcePorts?: ControlPlaneAclPortCondition;
+  sourcePorts?: ControlPlaneAclPortCondition | undefined;
   /** List of the destination ports that need to be matched. */
-  destinationPorts?: ControlPlaneAclPortCondition;
+  destinationPorts?: ControlPlaneAclPortCondition | undefined;
 }
 /** Flags that need to be matched. Example: established | initial | <List-of-TCP-flags>. List of eligible TCP Flags are ack, cwr, ece, fin, psh, rst, syn, urg, established */
 export type ControlPlaneAclMatchConditionFlagsList = Array<string>;
 /** Control Plane Access Control List (ACL) match conditions properties */
 export interface ControlPlaneAclMatchCondition {
   /** Protocols that need to be matched. */
-  protocolTypes?: string;
+  protocolTypes?: string | undefined;
   /** IP condition that needs to be matched. */
-  ipCondition?: ControlPlanAclIpMatchCondition;
+  ipCondition?: ControlPlanAclIpMatchCondition | undefined;
   /** TTL [Time To Live] values that need to be matched. */
-  ttlMatchCondition?: ControlPlaneAclTtlMatchCondition;
+  ttlMatchCondition?: ControlPlaneAclTtlMatchCondition | undefined;
   /** Port condition that needs to be matched. */
-  portCondition?: ControlPlaneAclPortMatchCondition;
+  portCondition?: ControlPlaneAclPortMatchCondition | undefined;
   /** Flags that need to be matched. Example: established | initial | <List-of-TCP-flags>. List of eligible TCP Flags are ack, cwr, ece, fin, psh, rst, syn, urg, established */
-  flags?: ControlPlaneAclMatchConditionFlagsList;
+  flags?: ControlPlaneAclMatchConditionFlagsList | undefined;
   /** Internet Control Message Protocol (ICMP) configuration */
-  icmpConfiguration?: IcmpConfigurationProperties;
+  icmpConfiguration?: IcmpConfigurationProperties | undefined;
 }
 /** Control Plane Access Control List (ACL) Action Types */
 export type ControlPlaneAclActionType = "Permit" | "Deny" | "Remark";
 /** Control Plane Access Control List (ACL) Actions */
 export interface ControlPlaneAclAction {
   /** Type of actions that can be performed. */
-  type?: ControlPlaneAclActionType | (string & {});
+  type?: ControlPlaneAclActionType | (string & {}) | undefined;
   /** Remark comment */
-  remarkComment?: string;
+  remarkComment?: string | undefined;
 }
 /** Control Plane Access Control List (ACL) match configurations properties */
 export interface ControlPlaneAclMatchConfigurationProperties {
   /** The name of the match configuration. */
-  matchConfigurationName?: string;
+  matchConfigurationName?: string | undefined;
   /** Sequence Number of the match configuration. */
-  sequenceNumber?: number;
+  sequenceNumber?: number | undefined;
   /** Match conditions */
-  matchCondition?: ControlPlaneAclMatchCondition;
+  matchCondition?: ControlPlaneAclMatchCondition | undefined;
   /** Action that need to be performed for the matched conditions. */
-  action?: ControlPlaneAclAction;
+  action?: ControlPlaneAclAction | undefined;
 }
 /** Access Control List (ACL) match configurations. */
 export type ControlPlaneAclPropertiesMatchConfigurationsList =
@@ -658,9 +659,9 @@ export type ControlPlaneAclPropertiesMatchConfigurationsList =
 /** Access Control List (ACL) configurations properties */
 export interface ControlPlaneAclProperties {
   /** IP Address Type. IPv4 or IPv6 */
-  ipAddressType?: IPAddressType | (string & {});
+  ipAddressType?: IPAddressType | (string & {}) | undefined;
   /** Access Control List (ACL) match configurations. */
-  matchConfigurations?: ControlPlaneAclPropertiesMatchConfigurationsList;
+  matchConfigurations?: ControlPlaneAclPropertiesMatchConfigurationsList | undefined;
 }
 /** Access Control List (ACL) configurations. */
 export type AccessControlListPropertiesInputControlPlaneAclConfigurationList =
@@ -668,25 +669,29 @@ export type AccessControlListPropertiesInputControlPlaneAclConfigurationList =
 /** Access Control List Properties defines the resource properties. */
 export interface AccessControlListPropertiesInput {
   /** Switch configuration description. */
-  annotation?: string;
+  annotation?: string | undefined;
   /** Input method to configure Access Control List. */
   configurationType: ConfigurationType | (string & {});
   /** Access Control List file URL. */
-  aclsUrl?: string;
+  aclsUrl?: string | undefined;
   /** Default action that needs to be applied when no condition is matched. Example: Permit | Deny. */
-  defaultAction?: AccessControlListPropertiesInputDefaultAction | (string & {});
+  defaultAction?: AccessControlListPropertiesInputDefaultAction | (string & {}) | undefined;
   /** List of match configurations. */
-  matchConfigurations?: AccessControlListPropertiesInputMatchConfigurationsList;
+  matchConfigurations?: AccessControlListPropertiesInputMatchConfigurationsList | undefined;
   /** List of dynamic match configurations. */
-  dynamicMatchConfigurations?: AccessControlListPropertiesInputDynamicMatchConfigurationsList;
+  dynamicMatchConfigurations?:
+    | AccessControlListPropertiesInputDynamicMatchConfigurationsList
+    | undefined;
   /** Access Control List (ACL) Type */
-  aclType?: AclType | (string & {});
+  aclType?: AclType | (string & {}) | undefined;
   /** Device Role */
-  deviceRole?: DeviceRole | (string & {});
+  deviceRole?: DeviceRole | (string & {}) | undefined;
   /** Global Access Control List (ACL) actions */
-  globalAccessControlListActions?: GlobalAccessControlListActionProperties;
+  globalAccessControlListActions?: GlobalAccessControlListActionProperties | undefined;
   /** Access Control List (ACL) configurations. */
-  controlPlaneAclConfiguration?: AccessControlListPropertiesInputControlPlaneAclConfigurationList;
+  controlPlaneAclConfiguration?:
+    | AccessControlListPropertiesInputControlPlaneAclConfigurationList
+    | undefined;
 }
 export interface CreateAccessControlListRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -696,7 +701,7 @@ export interface CreateAccessControlListRequest {
   /** Name of the Access Control List. */
   accessControlListName: string;
   /** Resource tags. */
-  tags?: CreateAccessControlListRequestTagsMap;
+  tags?: CreateAccessControlListRequestTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The Access ControlList properties. */
@@ -709,17 +714,17 @@ export type SystemDataLastModifiedByType = "User" | "Application" | "ManagedIden
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface SystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: SystemDataCreatedByType;
+  createdByType?: SystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: SystemDataLastModifiedByType;
+  lastModifiedByType?: SystemDataLastModifiedByType | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 /** Resource tags. */
 export type CreateAccessControlListResponseTagsMap = { [key: string]: string | undefined };
@@ -734,7 +739,7 @@ export type AccessControlListPropertiesDynamicMatchConfigurationsList =
 /** Details of the last operations performed on the resource */
 export interface LastOperationProperties {
   /** Details status of the last operation performed on the resource. */
-  details?: string;
+  details?: string | undefined;
 }
 /** Associated Network Fabric Resource IDs */
 export type AccessControlListPropertiesNetworkFabricIdsList = Array<string>;
@@ -760,71 +765,75 @@ export type AdministrativeState =
 /** Access Control List Properties defines the resource properties. */
 export interface AccessControlListProperties {
   /** Switch configuration description. */
-  annotation?: string;
+  annotation?: string | undefined;
   /** Input method to configure Access Control List. */
   configurationType: ConfigurationType;
   /** Access Control List file URL. */
-  aclsUrl?: string;
+  aclsUrl?: string | undefined;
   /** Default action that needs to be applied when no condition is matched. Example: Permit | Deny. */
-  defaultAction?: AccessControlListPropertiesDefaultAction;
+  defaultAction?: AccessControlListPropertiesDefaultAction | undefined;
   /** List of match configurations. */
-  matchConfigurations?: AccessControlListPropertiesMatchConfigurationsList;
+  matchConfigurations?: AccessControlListPropertiesMatchConfigurationsList | undefined;
   /** List of dynamic match configurations. */
-  dynamicMatchConfigurations?: AccessControlListPropertiesDynamicMatchConfigurationsList;
+  dynamicMatchConfigurations?:
+    | AccessControlListPropertiesDynamicMatchConfigurationsList
+    | undefined;
   /** The last synced timestamp. */
-  lastSyncedTime?: string;
+  lastSyncedTime?: string | undefined;
   /** Access Control List (ACL) Type */
-  aclType?: AclType;
+  aclType?: AclType | undefined;
   /** Device Role */
-  deviceRole?: DeviceRole;
+  deviceRole?: DeviceRole | undefined;
   /** Global Access Control List (ACL) actions */
-  globalAccessControlListActions?: GlobalAccessControlListActionProperties;
+  globalAccessControlListActions?: GlobalAccessControlListActionProperties | undefined;
   /** Details of the last operation performed on the resource */
-  lastOperation?: LastOperationProperties;
+  lastOperation?: LastOperationProperties | undefined;
   /** Associated Network Fabric Resource IDs */
-  networkFabricIds?: AccessControlListPropertiesNetworkFabricIdsList;
+  networkFabricIds?: AccessControlListPropertiesNetworkFabricIdsList | undefined;
   /** Access Control List (ACL) configurations. */
-  controlPlaneAclConfiguration?: AccessControlListPropertiesControlPlaneAclConfigurationList;
+  controlPlaneAclConfiguration?:
+    | AccessControlListPropertiesControlPlaneAclConfigurationList
+    | undefined;
   /** Configuration state of the resource. */
-  configurationState?: ConfigurationState;
+  configurationState?: ConfigurationState | undefined;
   /** Provisioning state of the resource. */
-  provisioningState?: ProvisioningState;
+  provisioningState?: ProvisioningState | undefined;
   /** Administrative state of the resource. */
-  administrativeState?: AdministrativeState;
+  administrativeState?: AdministrativeState | undefined;
 }
 export interface CreateAccessControlListResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: CreateAccessControlListResponseTagsMap;
+  tags?: CreateAccessControlListResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The Access ControlList properties. */
   properties: AccessControlListProperties;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Import Route Policy either IPv4 or IPv6. */
 export interface ImportRoutePolicy {
   /** ARM resource ID of RoutePolicy. */
-  importIpv4RoutePolicyId?: string;
+  importIpv4RoutePolicyId?: string | undefined;
   /** ARM resource ID of RoutePolicy. */
-  importIpv6RoutePolicyId?: string;
+  importIpv6RoutePolicyId?: string | undefined;
 }
 /** Export Route Policy either IPv4 or IPv6. */
 export interface ExportRoutePolicy {
   /** ARM resource ID of RoutePolicy. */
-  exportIpv4RoutePolicyId?: string;
+  exportIpv4RoutePolicyId?: string | undefined;
   /** ARM resource ID of RoutePolicy. */
-  exportIpv6RoutePolicyId?: string;
+  exportIpv6RoutePolicyId?: string | undefined;
 }
 /** Peering option list. */
 export type PeeringOption = "OptionA" | "OptionB";
@@ -843,36 +852,36 @@ export type RouteTargetInformationExportIpv6RouteTargetsList = Array<string>;
 /** Route Target Configuration. */
 export interface RouteTargetInformation {
   /** Route Targets to be applied for incoming routes into CE. */
-  importIpv4RouteTargets?: RouteTargetInformationImportIpv4RouteTargetsList;
+  importIpv4RouteTargets?: RouteTargetInformationImportIpv4RouteTargetsList | undefined;
   /** Route Targets to be applied for incoming routes from CE. */
-  importIpv6RouteTargets?: RouteTargetInformationImportIpv6RouteTargetsList;
+  importIpv6RouteTargets?: RouteTargetInformationImportIpv6RouteTargetsList | undefined;
   /** Route Targets to be applied for outgoing routes into CE. */
-  exportIpv4RouteTargets?: RouteTargetInformationExportIpv4RouteTargetsList;
+  exportIpv4RouteTargets?: RouteTargetInformationExportIpv4RouteTargetsList | undefined;
   /** Route Targets to be applied for outgoing routes from CE. */
-  exportIpv6RouteTargets?: RouteTargetInformationExportIpv6RouteTargetsList;
+  exportIpv6RouteTargets?: RouteTargetInformationExportIpv6RouteTargetsList | undefined;
 }
 /** Option B configuration. */
 export interface L3OptionBProperties {
   /** RouteTargets to be applied. This is used for the backward compatibility. */
-  importRouteTargets?: L3OptionBPropertiesImportRouteTargetsList;
+  importRouteTargets?: L3OptionBPropertiesImportRouteTargetsList | undefined;
   /** RouteTargets to be applied. This is used for the backward compatibility. */
-  exportRouteTargets?: L3OptionBPropertiesExportRouteTargetsList;
+  exportRouteTargets?: L3OptionBPropertiesExportRouteTargetsList | undefined;
   /** RouteTargets to be applied. */
-  routeTargets?: RouteTargetInformation;
+  routeTargets?: RouteTargetInformation | undefined;
 }
 /** BFD configuration properties */
 export interface BfdConfigurationInput {
   /** Interval in milliseconds. Example: 300. */
-  intervalInMilliSeconds?: number;
+  intervalInMilliSeconds?: number | undefined;
   /** Multiplier for the Bfd Configuration. Example: 5. */
-  multiplier?: number;
+  multiplier?: number | undefined;
 }
 /** BMP Configuration State. */
 export type ExternalNetworkBmpPropertiesConfigurationState = "Enabled" | "Disabled";
 /** BGP Monitoring Protocol (BMP) Configuration properties. */
 export interface ExternalNetworkBmpProperties {
   /** BMP Configuration State. */
-  configurationState?: ExternalNetworkBmpPropertiesConfigurationState | (string & {});
+  configurationState?: ExternalNetworkBmpPropertiesConfigurationState | (string & {}) | undefined;
 }
 /** V4OverV6 BGP Session state */
 export type ExternalNetworkPropertiesOptionAPropertiesInputV4OverV6BgpSession =
@@ -885,62 +894,64 @@ export type ExternalNetworkPropertiesOptionAPropertiesInputV6OverV4BgpSession =
 /** Prefix Limit properties. */
 export interface PrefixLimitProperties {
   /** Maximum routes allowed. */
-  maximumRoutes?: number;
+  maximumRoutes?: number | undefined;
   /** Limit at which route prefixes a warning is generate. */
-  threshold?: number;
+  threshold?: number | undefined;
   /** Idle Time Expiry in seconds, default is 60. */
-  idleTimeExpiry?: number;
+  idleTimeExpiry?: number | undefined;
 }
 /** Prefix limits */
 export type NativeIpv4PrefixLimitPropertiesPrefixLimitsList = Array<PrefixLimitProperties>;
 /** External Network native IPv4 prefix limit properties */
 export interface NativeIpv4PrefixLimitProperties {
   /** Prefix limits */
-  prefixLimits?: NativeIpv4PrefixLimitPropertiesPrefixLimitsList;
+  prefixLimits?: NativeIpv4PrefixLimitPropertiesPrefixLimitsList | undefined;
 }
 /** Prefix limits */
 export type NativeIpv6PrefixLimitPropertiesPrefixLimitsList = Array<PrefixLimitProperties>;
 /** External Network native IPv6 prefix limit properties */
 export interface NativeIpv6PrefixLimitProperties {
   /** Prefix limits */
-  prefixLimits?: NativeIpv6PrefixLimitPropertiesPrefixLimitsList;
+  prefixLimits?: NativeIpv6PrefixLimitPropertiesPrefixLimitsList | undefined;
 }
 /** option A properties object */
 export interface ExternalNetworkPropertiesOptionAPropertiesInput {
   /** IPv4 Address Prefix. */
-  primaryIpv4Prefix?: string;
+  primaryIpv4Prefix?: string | undefined;
   /** IPv6 Address Prefix. */
-  primaryIpv6Prefix?: string;
+  primaryIpv6Prefix?: string | undefined;
   /** Secondary IPv4 Address Prefix. */
-  secondaryIpv4Prefix?: string;
+  secondaryIpv4Prefix?: string | undefined;
   /** Secondary IPv6 Address Prefix. */
-  secondaryIpv6Prefix?: string;
+  secondaryIpv6Prefix?: string | undefined;
   /** MTU to use for option A peering. */
-  mtu?: number;
+  mtu?: number | undefined;
   /** Vlan identifier. Example : 501 */
   vlanId: number;
   /** Peer ASN number.Example : 28 */
   peerASN: number;
   /** BFD configuration properties */
-  bfdConfiguration?: BfdConfigurationInput;
+  bfdConfiguration?: BfdConfigurationInput | undefined;
   /** Ingress Acl. ARM resource ID of Access Control Lists. */
-  ingressAclId?: string;
+  ingressAclId?: string | undefined;
   /** BMP Monitor Configuration. */
-  bmpConfiguration?: ExternalNetworkBmpProperties;
+  bmpConfiguration?: ExternalNetworkBmpProperties | undefined;
   /** Egress Acl. ARM resource ID of Access Control Lists. */
-  egressAclId?: string;
+  egressAclId?: string | undefined;
   /** V4OverV6 BGP Session state */
   v4OverV6BgpSession?:
     | ExternalNetworkPropertiesOptionAPropertiesInputV4OverV6BgpSession
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** V6OverV4 BGP Session state */
   v6OverV4BgpSession?:
     | ExternalNetworkPropertiesOptionAPropertiesInputV6OverV4BgpSession
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** Native IPv4 prefix limits configuration */
-  nativeIpv4PrefixLimit?: NativeIpv4PrefixLimitProperties;
+  nativeIpv4PrefixLimit?: NativeIpv4PrefixLimitProperties | undefined;
   /** Native IPv6 prefix limits configuration */
-  nativeIpv6PrefixLimit?: NativeIpv6PrefixLimitProperties;
+  nativeIpv6PrefixLimit?: NativeIpv6PrefixLimitProperties | undefined;
 }
 /** List of next hop addresses. */
 export type StaticRoutePropertiesNextHopList = Array<string>;
@@ -960,30 +971,30 @@ export type ExternalNetworkStaticRouteConfigurationInputIpv6RoutesList =
 /** Static Route Configuration properties for ExternalNetwork. */
 export interface ExternalNetworkStaticRouteConfigurationInput {
   /** BFD configuration properties */
-  bfdConfiguration?: BfdConfigurationInput;
+  bfdConfiguration?: BfdConfigurationInput | undefined;
   /** List of IPv4 Routes. */
-  ipv4Routes?: ExternalNetworkStaticRouteConfigurationInputIpv4RoutesList;
+  ipv4Routes?: ExternalNetworkStaticRouteConfigurationInputIpv4RoutesList | undefined;
   /** List of IPv6 Routes. */
-  ipv6Routes?: ExternalNetworkStaticRouteConfigurationInputIpv6RoutesList;
+  ipv6Routes?: ExternalNetworkStaticRouteConfigurationInputIpv6RoutesList | undefined;
 }
 /** External Network Properties. */
 export interface ExternalNetworkPropertiesInput {
   /** Switch configuration description. */
-  annotation?: string;
+  annotation?: string | undefined;
   /** ARM Resource ID of the networkToNetworkInterconnectId of the ExternalNetwork resource. */
-  networkToNetworkInterconnectId?: string;
+  networkToNetworkInterconnectId?: string | undefined;
   /** Import Route Policy either IPv4 or IPv6. */
-  importRoutePolicy?: ImportRoutePolicy;
+  importRoutePolicy?: ImportRoutePolicy | undefined;
   /** Export Route Policy either IPv4 or IPv6. */
-  exportRoutePolicy?: ExportRoutePolicy;
+  exportRoutePolicy?: ExportRoutePolicy | undefined;
   /** Peering option list. */
   peeringOption: PeeringOption | (string & {});
   /** option B properties object */
-  optionBProperties?: L3OptionBProperties;
+  optionBProperties?: L3OptionBProperties | undefined;
   /** option A properties object */
-  optionAProperties?: ExternalNetworkPropertiesOptionAPropertiesInput;
+  optionAProperties?: ExternalNetworkPropertiesOptionAPropertiesInput | undefined;
   /** Static Route Configuration. */
-  staticRouteConfiguration?: ExternalNetworkStaticRouteConfigurationInput;
+  staticRouteConfiguration?: ExternalNetworkStaticRouteConfigurationInput | undefined;
 }
 export interface CreateExternalNetworkRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1002,11 +1013,11 @@ export type BfdConfigurationAdministrativeState = "Enabled" | "Disabled" | "MAT"
 /** BFD configuration properties */
 export interface BfdConfiguration {
   /** Administrative state of the BfdConfiguration. Example: Enabled | Disabled. */
-  administrativeState?: BfdConfigurationAdministrativeState;
+  administrativeState?: BfdConfigurationAdministrativeState | undefined;
   /** Interval in milliseconds. Example: 300. */
-  intervalInMilliSeconds?: number;
+  intervalInMilliSeconds?: number | undefined;
   /** Multiplier for the Bfd Configuration. Example: 5. */
-  multiplier?: number;
+  multiplier?: number | undefined;
 }
 /** V4OverV6 BGP Session state */
 export type ExternalNetworkPropertiesOptionAPropertiesV4OverV6BgpSession = "Enabled" | "Disabled";
@@ -1015,37 +1026,37 @@ export type ExternalNetworkPropertiesOptionAPropertiesV6OverV4BgpSession = "Enab
 /** option A properties object */
 export interface ExternalNetworkPropertiesOptionAProperties {
   /** IPv4 Address Prefix. */
-  primaryIpv4Prefix?: string;
+  primaryIpv4Prefix?: string | undefined;
   /** IPv6 Address Prefix. */
-  primaryIpv6Prefix?: string;
+  primaryIpv6Prefix?: string | undefined;
   /** Secondary IPv4 Address Prefix. */
-  secondaryIpv4Prefix?: string;
+  secondaryIpv4Prefix?: string | undefined;
   /** Secondary IPv6 Address Prefix. */
-  secondaryIpv6Prefix?: string;
+  secondaryIpv6Prefix?: string | undefined;
   /** MTU to use for option A peering. */
-  mtu?: number;
+  mtu?: number | undefined;
   /** Vlan identifier. Example : 501 */
   vlanId: number;
   /** Fabric ASN number. Example 65001 */
-  fabricASN?: number;
+  fabricASN?: number | undefined;
   /** Peer ASN number.Example : 28 */
   peerASN: number;
   /** BFD configuration properties */
-  bfdConfiguration?: BfdConfiguration;
+  bfdConfiguration?: BfdConfiguration | undefined;
   /** Ingress Acl. ARM resource ID of Access Control Lists. */
-  ingressAclId?: string;
+  ingressAclId?: string | undefined;
   /** BMP Monitor Configuration. */
-  bmpConfiguration?: ExternalNetworkBmpProperties;
+  bmpConfiguration?: ExternalNetworkBmpProperties | undefined;
   /** Egress Acl. ARM resource ID of Access Control Lists. */
-  egressAclId?: string;
+  egressAclId?: string | undefined;
   /** V4OverV6 BGP Session state */
-  v4OverV6BgpSession?: ExternalNetworkPropertiesOptionAPropertiesV4OverV6BgpSession;
+  v4OverV6BgpSession?: ExternalNetworkPropertiesOptionAPropertiesV4OverV6BgpSession | undefined;
   /** V6OverV4 BGP Session state */
-  v6OverV4BgpSession?: ExternalNetworkPropertiesOptionAPropertiesV6OverV4BgpSession;
+  v6OverV4BgpSession?: ExternalNetworkPropertiesOptionAPropertiesV6OverV4BgpSession | undefined;
   /** Native IPv4 prefix limits configuration */
-  nativeIpv4PrefixLimit?: NativeIpv4PrefixLimitProperties;
+  nativeIpv4PrefixLimit?: NativeIpv4PrefixLimitProperties | undefined;
   /** Native IPv6 prefix limits configuration */
-  nativeIpv6PrefixLimit?: NativeIpv6PrefixLimitProperties;
+  nativeIpv6PrefixLimit?: NativeIpv6PrefixLimitProperties | undefined;
 }
 /** List of IPv4 Routes. */
 export type ExternalNetworkStaticRouteConfigurationIpv4RoutesList = Array<StaticRouteProperties>;
@@ -1054,63 +1065,63 @@ export type ExternalNetworkStaticRouteConfigurationIpv6RoutesList = Array<Static
 /** Static Route Configuration properties for ExternalNetwork. */
 export interface ExternalNetworkStaticRouteConfiguration {
   /** BFD configuration properties */
-  bfdConfiguration?: BfdConfiguration;
+  bfdConfiguration?: BfdConfiguration | undefined;
   /** List of IPv4 Routes. */
-  ipv4Routes?: ExternalNetworkStaticRouteConfigurationIpv4RoutesList;
+  ipv4Routes?: ExternalNetworkStaticRouteConfigurationIpv4RoutesList | undefined;
   /** List of IPv6 Routes. */
-  ipv6Routes?: ExternalNetworkStaticRouteConfigurationIpv6RoutesList;
+  ipv6Routes?: ExternalNetworkStaticRouteConfigurationIpv6RoutesList | undefined;
 }
 /** External Network Properties. */
 export interface ExternalNetworkProperties {
   /** Switch configuration description. */
-  annotation?: string;
+  annotation?: string | undefined;
   /** ARM Resource ID of the networkToNetworkInterconnectId of the ExternalNetwork resource. */
-  networkToNetworkInterconnectId?: string;
+  networkToNetworkInterconnectId?: string | undefined;
   /** Import Route Policy either IPv4 or IPv6. */
-  importRoutePolicy?: ImportRoutePolicy;
+  importRoutePolicy?: ImportRoutePolicy | undefined;
   /** Export Route Policy either IPv4 or IPv6. */
-  exportRoutePolicy?: ExportRoutePolicy;
+  exportRoutePolicy?: ExportRoutePolicy | undefined;
   /** Peering option list. */
   peeringOption: PeeringOption;
   /** option B properties object */
-  optionBProperties?: L3OptionBProperties;
+  optionBProperties?: L3OptionBProperties | undefined;
   /** option A properties object */
-  optionAProperties?: ExternalNetworkPropertiesOptionAProperties;
+  optionAProperties?: ExternalNetworkPropertiesOptionAProperties | undefined;
   /** Static Route Configuration. */
-  staticRouteConfiguration?: ExternalNetworkStaticRouteConfiguration;
+  staticRouteConfiguration?: ExternalNetworkStaticRouteConfiguration | undefined;
   /** Details of the last operation performed on the resource */
-  lastOperation?: LastOperationProperties;
+  lastOperation?: LastOperationProperties | undefined;
   /** Associated Network Fabric Resource ID */
-  networkFabricId?: string;
+  networkFabricId?: string | undefined;
   /** Configuration state of the resource. */
-  configurationState?: ConfigurationState;
+  configurationState?: ConfigurationState | undefined;
   /** Provisioning state of the resource. */
-  provisioningState?: ProvisioningState;
+  provisioningState?: ProvisioningState | undefined;
   /** Administrative state of the resource. */
-  administrativeState?: AdministrativeState;
+  administrativeState?: AdministrativeState | undefined;
 }
 export interface CreateExternalNetworkResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** External Network Properties */
   properties: ExternalNetworkProperties;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Extension. Example: NoExtension | NPB. */
 export type InternalNetworkPropertiesInputExtension = "NoExtension" | "NPB";
 /** Connected Subnet properties. */
 export interface ConnectedSubnet {
   /** Switch configuration description. */
-  annotation?: string;
+  annotation?: string | undefined;
   /** Prefix of the Connected Subnet. */
   prefix: string;
 }
@@ -1131,7 +1142,7 @@ export type BgpConfigurationInputIpv6ListenRangePrefixesList = Array<string>;
 /** Neighbor Address properties. */
 export interface NeighborAddressInput {
   /** IP Address. */
-  address?: string;
+  address?: string | undefined;
 }
 /** List with stringified IPv4 Neighbor Addresses. */
 export type BgpConfigurationInputIpv4NeighborAddressList = Array<NeighborAddressInput>;
@@ -1148,16 +1159,16 @@ export type BmpExportPolicyPropertiesExportPoliciesList = Array<BmpExportPolicy 
 /** BMP Export Policy Configuration properties. */
 export interface BmpExportPolicyProperties {
   /** Export Policy for the BGP Monitoring Protocol (BMP) Configuration. */
-  exportPolicies?: BmpExportPolicyPropertiesExportPoliciesList;
+  exportPolicies?: BmpExportPolicyPropertiesExportPoliciesList | undefined;
 }
 /** Internal Network BMP Configuration */
 export interface InternalNetworkBmpProperties {
   /** BMP Collector Address. */
-  neighborIpExclusions?: InternalNetworkBmpPropertiesNeighborIpExclusionsList;
+  neighborIpExclusions?: InternalNetworkBmpPropertiesNeighborIpExclusionsList | undefined;
   /** BMP Monitoring configuration state. */
-  bmpConfigurationState?: BmpConfigurationState | (string & {});
+  bmpConfigurationState?: BmpConfigurationState | (string & {}) | undefined;
   /** BMP Export Policy configuration. */
-  exportPolicyConfiguration?: BmpExportPolicyProperties;
+  exportPolicyConfiguration?: BmpExportPolicyProperties | undefined;
 }
 /** V4 over V6 bgp session. */
 export type BgpConfigurationInputV4OverV6BgpSession = "Enabled" | "Disabled";
@@ -1166,31 +1177,31 @@ export type BgpConfigurationInputV6OverV4BgpSession = "Enabled" | "Disabled";
 /** BGP configuration properties */
 export interface BgpConfigurationInput {
   /** Switch configuration description. */
-  annotation?: string;
+  annotation?: string | undefined;
   /** BFD configuration properties */
-  bfdConfiguration?: BfdConfigurationInput;
+  bfdConfiguration?: BfdConfigurationInput | undefined;
   /** Originate a defaultRoute. Ex: "True" | "False". */
-  defaultRouteOriginate?: BooleanEnumProperty | (string & {});
+  defaultRouteOriginate?: BooleanEnumProperty | (string & {}) | undefined;
   /** Allows for routes to be received and processed even if the router detects its own ASN in the AS-Path. 0 is disable, Possible values are 1-10, default is 2. */
-  allowAS?: number;
+  allowAS?: number | undefined;
   /** Enable Or Disable state. */
-  allowASOverride?: AllowASOverride | (string & {});
+  allowASOverride?: AllowASOverride | (string & {}) | undefined;
   /** Peer ASN. Example: 65047. */
   peerASN: number;
   /** List of BGP IPv4 Listen Range prefixes. */
-  ipv4ListenRangePrefixes?: BgpConfigurationInputIpv4ListenRangePrefixesList;
+  ipv4ListenRangePrefixes?: BgpConfigurationInputIpv4ListenRangePrefixesList | undefined;
   /** List of BGP IPv6 Listen Ranges prefixes. */
-  ipv6ListenRangePrefixes?: BgpConfigurationInputIpv6ListenRangePrefixesList;
+  ipv6ListenRangePrefixes?: BgpConfigurationInputIpv6ListenRangePrefixesList | undefined;
   /** List with stringified IPv4 Neighbor Addresses. */
-  ipv4NeighborAddress?: BgpConfigurationInputIpv4NeighborAddressList;
+  ipv4NeighborAddress?: BgpConfigurationInputIpv4NeighborAddressList | undefined;
   /** List with stringified IPv6 Neighbor Address. */
-  ipv6NeighborAddress?: BgpConfigurationInputIpv6NeighborAddressList;
+  ipv6NeighborAddress?: BgpConfigurationInputIpv6NeighborAddressList | undefined;
   /** InternalNetwork BMP Configuration */
-  bmpConfiguration?: InternalNetworkBmpProperties;
+  bmpConfiguration?: InternalNetworkBmpProperties | undefined;
   /** V4 over V6 bgp session. */
-  v4OverV6BgpSession?: BgpConfigurationInputV4OverV6BgpSession | (string & {});
+  v4OverV6BgpSession?: BgpConfigurationInputV4OverV6BgpSession | (string & {}) | undefined;
   /** v6 over v4 bgp session. */
-  v6OverV4BgpSession?: BgpConfigurationInputV6OverV4BgpSession | (string & {});
+  v6OverV4BgpSession?: BgpConfigurationInputV6OverV4BgpSession | (string & {}) | undefined;
 }
 /** List of IPv4 Routes. */
 export type StaticRouteConfigurationInputIpv4RoutesList = Array<StaticRouteProperties>;
@@ -1201,46 +1212,49 @@ export type StaticRouteConfigurationInputExtension = "NoExtension" | "NPB";
 /** Static Route Configuration properties. */
 export interface StaticRouteConfigurationInput {
   /** BFD configuration properties */
-  bfdConfiguration?: BfdConfigurationInput;
+  bfdConfiguration?: BfdConfigurationInput | undefined;
   /** List of IPv4 Routes. */
-  ipv4Routes?: StaticRouteConfigurationInputIpv4RoutesList;
+  ipv4Routes?: StaticRouteConfigurationInputIpv4RoutesList | undefined;
   /** List of IPv6 Routes. */
-  ipv6Routes?: StaticRouteConfigurationInputIpv6RoutesList;
+  ipv6Routes?: StaticRouteConfigurationInputIpv6RoutesList | undefined;
   /** Extension. Example: NoExtension | NPB. */
-  extension?: StaticRouteConfigurationInputExtension | (string & {});
+  extension?: StaticRouteConfigurationInputExtension | (string & {}) | undefined;
 }
 /** Internal Network Properties defines the properties of the resource. */
 export interface InternalNetworkPropertiesInput {
   /** Switch configuration description. */
-  annotation?: string;
+  annotation?: string | undefined;
   /** Extension. Example: NoExtension | NPB. */
-  extension?: InternalNetworkPropertiesInputExtension | (string & {});
+  extension?: InternalNetworkPropertiesInputExtension | (string & {}) | undefined;
   /** Maximum transmission unit. Default value is 1500. */
-  mtu?: number;
+  mtu?: number | undefined;
   /** List of Connected IPv4 Subnets. */
-  connectedIPv4Subnets?: InternalNetworkPropertiesInputConnectedIPv4SubnetsList;
+  connectedIPv4Subnets?: InternalNetworkPropertiesInputConnectedIPv4SubnetsList | undefined;
   /** List of connected IPv6 Subnets. */
-  connectedIPv6Subnets?: InternalNetworkPropertiesInputConnectedIPv6SubnetsList;
+  connectedIPv6Subnets?: InternalNetworkPropertiesInputConnectedIPv6SubnetsList | undefined;
   /** Import Route Policy either IPv4 or IPv6. */
-  importRoutePolicy?: ImportRoutePolicy;
+  importRoutePolicy?: ImportRoutePolicy | undefined;
   /** Export Route Policy either IPv4 or IPv6. */
-  exportRoutePolicy?: ExportRoutePolicy;
+  exportRoutePolicy?: ExportRoutePolicy | undefined;
   /** Ingress Acl. ARM resource ID of Access Control Lists. */
-  ingressAclId?: string;
+  ingressAclId?: string | undefined;
   /** Egress Acl. ARM resource ID of Access Control Lists. */
-  egressAclId?: string;
+  egressAclId?: string | undefined;
   /** To check whether monitoring of internal network is enabled or not. */
-  isMonitoringEnabled?: InternalNetworkPropertiesInputIsMonitoringEnabled | (string & {});
+  isMonitoringEnabled?:
+    | InternalNetworkPropertiesInputIsMonitoringEnabled
+    | (string & {})
+    | undefined;
   /** Vlan identifier. Example: 1001. */
   vlanId: number;
   /** BGP configuration properties. */
-  bgpConfiguration?: BgpConfigurationInput;
+  bgpConfiguration?: BgpConfigurationInput | undefined;
   /** Static Route Configuration properties. */
-  staticRouteConfiguration?: StaticRouteConfigurationInput;
+  staticRouteConfiguration?: StaticRouteConfigurationInput | undefined;
   /** Native IPv4 Prefix Limit Configuration properties. */
-  nativeIpv4PrefixLimit?: NativeIpv4PrefixLimitProperties;
+  nativeIpv4PrefixLimit?: NativeIpv4PrefixLimitProperties | undefined;
   /** Native IPv6 Prefix Limit Configuration properties. */
-  nativeIpv6PrefixLimit?: NativeIpv6PrefixLimitProperties;
+  nativeIpv6PrefixLimit?: NativeIpv6PrefixLimitProperties | undefined;
 }
 export interface CreateInternalNetworkRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1273,13 +1287,13 @@ export type BgpAdministrativeState = "Enabled" | "Disabled";
 /** Neighbor Address properties. */
 export interface NeighborAddress {
   /** IP Address. */
-  address?: string;
+  address?: string | undefined;
   /** BFD Administrative State for each Neighbor Address. Example: Enabled | Disabled. */
-  bfdAdministrativeState?: BfdAdministrativeState;
+  bfdAdministrativeState?: BfdAdministrativeState | undefined;
   /** BGP Administrative State for each Neighbor Address. Example: Enabled | Disabled. */
-  bgpAdministrativeState?: BgpAdministrativeState;
+  bgpAdministrativeState?: BgpAdministrativeState | undefined;
   /** Configuration state of the resource. */
-  configurationState?: ConfigurationState;
+  configurationState?: ConfigurationState | undefined;
 }
 /** List with stringified IPv4 Neighbor Addresses. */
 export type BgpConfigurationIpv4NeighborAddressList = Array<NeighborAddress>;
@@ -1292,33 +1306,33 @@ export type BgpConfigurationV6OverV4BgpSession = "Enabled" | "Disabled";
 /** BGP configuration properties */
 export interface BgpConfiguration {
   /** Switch configuration description. */
-  annotation?: string;
+  annotation?: string | undefined;
   /** BFD configuration properties */
-  bfdConfiguration?: BfdConfiguration;
+  bfdConfiguration?: BfdConfiguration | undefined;
   /** Originate a defaultRoute. Ex: "True" | "False". */
-  defaultRouteOriginate?: BooleanEnumProperty;
+  defaultRouteOriginate?: BooleanEnumProperty | undefined;
   /** Allows for routes to be received and processed even if the router detects its own ASN in the AS-Path. 0 is disable, Possible values are 1-10, default is 2. */
-  allowAS?: number;
+  allowAS?: number | undefined;
   /** Enable Or Disable state. */
-  allowASOverride?: AllowASOverride;
+  allowASOverride?: AllowASOverride | undefined;
   /** ASN of Network Fabric. Example: 65048. */
-  fabricASN?: number;
+  fabricASN?: number | undefined;
   /** Peer ASN. Example: 65047. */
   peerASN: number;
   /** List of BGP IPv4 Listen Range prefixes. */
-  ipv4ListenRangePrefixes?: BgpConfigurationIpv4ListenRangePrefixesList;
+  ipv4ListenRangePrefixes?: BgpConfigurationIpv4ListenRangePrefixesList | undefined;
   /** List of BGP IPv6 Listen Ranges prefixes. */
-  ipv6ListenRangePrefixes?: BgpConfigurationIpv6ListenRangePrefixesList;
+  ipv6ListenRangePrefixes?: BgpConfigurationIpv6ListenRangePrefixesList | undefined;
   /** List with stringified IPv4 Neighbor Addresses. */
-  ipv4NeighborAddress?: BgpConfigurationIpv4NeighborAddressList;
+  ipv4NeighborAddress?: BgpConfigurationIpv4NeighborAddressList | undefined;
   /** List with stringified IPv6 Neighbor Address. */
-  ipv6NeighborAddress?: BgpConfigurationIpv6NeighborAddressList;
+  ipv6NeighborAddress?: BgpConfigurationIpv6NeighborAddressList | undefined;
   /** InternalNetwork BMP Configuration */
-  bmpConfiguration?: InternalNetworkBmpProperties;
+  bmpConfiguration?: InternalNetworkBmpProperties | undefined;
   /** V4 over V6 bgp session. */
-  v4OverV6BgpSession?: BgpConfigurationV4OverV6BgpSession;
+  v4OverV6BgpSession?: BgpConfigurationV4OverV6BgpSession | undefined;
   /** v6 over v4 bgp session. */
-  v6OverV4BgpSession?: BgpConfigurationV6OverV4BgpSession;
+  v6OverV4BgpSession?: BgpConfigurationV6OverV4BgpSession | undefined;
 }
 /** List of IPv4 Routes. */
 export type StaticRouteConfigurationIpv4RoutesList = Array<StaticRouteProperties>;
@@ -1329,72 +1343,72 @@ export type StaticRouteConfigurationExtension = "NoExtension" | "NPB";
 /** Static Route Configuration properties. */
 export interface StaticRouteConfiguration {
   /** BFD configuration properties */
-  bfdConfiguration?: BfdConfiguration;
+  bfdConfiguration?: BfdConfiguration | undefined;
   /** List of IPv4 Routes. */
-  ipv4Routes?: StaticRouteConfigurationIpv4RoutesList;
+  ipv4Routes?: StaticRouteConfigurationIpv4RoutesList | undefined;
   /** List of IPv6 Routes. */
-  ipv6Routes?: StaticRouteConfigurationIpv6RoutesList;
+  ipv6Routes?: StaticRouteConfigurationIpv6RoutesList | undefined;
   /** Extension. Example: NoExtension | NPB. */
-  extension?: StaticRouteConfigurationExtension;
+  extension?: StaticRouteConfigurationExtension | undefined;
 }
 /** Internal Network Properties defines the properties of the resource. */
 export interface InternalNetworkProperties {
   /** Switch configuration description. */
-  annotation?: string;
+  annotation?: string | undefined;
   /** Extension. Example: NoExtension | NPB. */
-  extension?: InternalNetworkPropertiesExtension;
+  extension?: InternalNetworkPropertiesExtension | undefined;
   /** Maximum transmission unit. Default value is 1500. */
-  mtu?: number;
+  mtu?: number | undefined;
   /** List of Connected IPv4 Subnets. */
-  connectedIPv4Subnets?: InternalNetworkPropertiesConnectedIPv4SubnetsList;
+  connectedIPv4Subnets?: InternalNetworkPropertiesConnectedIPv4SubnetsList | undefined;
   /** List of connected IPv6 Subnets. */
-  connectedIPv6Subnets?: InternalNetworkPropertiesConnectedIPv6SubnetsList;
+  connectedIPv6Subnets?: InternalNetworkPropertiesConnectedIPv6SubnetsList | undefined;
   /** Import Route Policy either IPv4 or IPv6. */
-  importRoutePolicy?: ImportRoutePolicy;
+  importRoutePolicy?: ImportRoutePolicy | undefined;
   /** Export Route Policy either IPv4 or IPv6. */
-  exportRoutePolicy?: ExportRoutePolicy;
+  exportRoutePolicy?: ExportRoutePolicy | undefined;
   /** Ingress Acl. ARM resource ID of Access Control Lists. */
-  ingressAclId?: string;
+  ingressAclId?: string | undefined;
   /** Egress Acl. ARM resource ID of Access Control Lists. */
-  egressAclId?: string;
+  egressAclId?: string | undefined;
   /** To check whether monitoring of internal network is enabled or not. */
-  isMonitoringEnabled?: InternalNetworkPropertiesIsMonitoringEnabled;
+  isMonitoringEnabled?: InternalNetworkPropertiesIsMonitoringEnabled | undefined;
   /** Vlan identifier. Example: 1001. */
   vlanId: number;
   /** BGP configuration properties. */
-  bgpConfiguration?: BgpConfiguration;
+  bgpConfiguration?: BgpConfiguration | undefined;
   /** Static Route Configuration properties. */
-  staticRouteConfiguration?: StaticRouteConfiguration;
+  staticRouteConfiguration?: StaticRouteConfiguration | undefined;
   /** Native IPv4 Prefix Limit Configuration properties. */
-  nativeIpv4PrefixLimit?: NativeIpv4PrefixLimitProperties;
+  nativeIpv4PrefixLimit?: NativeIpv4PrefixLimitProperties | undefined;
   /** Native IPv6 Prefix Limit Configuration properties. */
-  nativeIpv6PrefixLimit?: NativeIpv6PrefixLimitProperties;
+  nativeIpv6PrefixLimit?: NativeIpv6PrefixLimitProperties | undefined;
   /** Details of the last operation performed on the resource */
-  lastOperation?: LastOperationProperties;
+  lastOperation?: LastOperationProperties | undefined;
   /** Associated Network Fabric Resource ID */
-  networkFabricId?: string;
+  networkFabricId?: string | undefined;
   /** Configuration state of the resource. */
-  configurationState?: ConfigurationState;
+  configurationState?: ConfigurationState | undefined;
   /** Provisioning state of the resource. */
-  provisioningState?: ProvisioningState;
+  provisioningState?: ProvisioningState | undefined;
   /** Administrative state of the resource. */
-  administrativeState?: AdministrativeState;
+  administrativeState?: AdministrativeState | undefined;
 }
 export interface CreateInternalNetworkResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The Internal Network Properties */
   properties: InternalNetworkProperties;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Resource tags. */
 export type CreateInternetGatewayRequestTagsMap = { [key: string]: string | undefined };
@@ -1403,13 +1417,13 @@ export type GatewayType = "Infrastructure" | "Workload";
 /** Internet Gateway Properties defines the properties of the resource. */
 export interface InternetGatewayPropertiesInput {
   /** Switch configuration description. */
-  annotation?: string;
+  annotation?: string | undefined;
   /** ARM Resource ID of the Internet Gateway Rule. */
-  internetGatewayRuleId?: string;
+  internetGatewayRuleId?: string | undefined;
   /** Gateway Type of the resource. */
-  type?: GatewayType | (string & {});
+  type?: GatewayType | (string & {}) | undefined;
   /** Gateway Type of the resource. */
-  internetGatewayType?: GatewayType | (string & {});
+  internetGatewayType?: GatewayType | (string & {}) | undefined;
   /** ARM Resource ID of the Network Fabric Controller. */
   networkFabricControllerId: string;
 }
@@ -1421,7 +1435,7 @@ export interface CreateInternetGatewayRequest {
   /** Name of the Internet Gateway. */
   internetGatewayName: string;
   /** Resource tags. */
-  tags?: CreateInternetGatewayRequestTagsMap;
+  tags?: CreateInternetGatewayRequestTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The Internet Gateway Properties */
@@ -1432,43 +1446,43 @@ export type CreateInternetGatewayResponseTagsMap = { [key: string]: string | und
 /** Internet Gateway Properties defines the properties of the resource. */
 export interface InternetGatewayProperties {
   /** Switch configuration description. */
-  annotation?: string;
+  annotation?: string | undefined;
   /** ARM Resource ID of the Internet Gateway Rule. */
-  internetGatewayRuleId?: string;
+  internetGatewayRuleId?: string | undefined;
   /** IPv4 Address of Internet Gateway. */
-  ipv4Address?: string;
+  ipv4Address?: string | undefined;
   /** Port number of Internet Gateway. */
-  port?: number;
+  port?: number | undefined;
   /** Gateway Type of the resource. */
-  type?: GatewayType;
+  type?: GatewayType | undefined;
   /** Gateway Type of the resource. */
-  internetGatewayType?: GatewayType;
+  internetGatewayType?: GatewayType | undefined;
   /** ARM Resource ID of the Network Fabric Controller. */
   networkFabricControllerId: string;
   /** Details of the last operation performed on the resource */
-  lastOperation?: LastOperationProperties;
+  lastOperation?: LastOperationProperties | undefined;
   /** Provisioning state of resource. */
-  provisioningState?: ProvisioningState;
+  provisioningState?: ProvisioningState | undefined;
 }
 export interface CreateInternetGatewayResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: CreateInternetGatewayResponseTagsMap;
+  tags?: CreateInternetGatewayResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The Internet Gateway Properties */
   properties: InternetGatewayProperties;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Resource tags. */
 export type CreateInternetGatewayRuleRequestTagsMap = { [key: string]: string | undefined };
@@ -1487,9 +1501,9 @@ export type HeaderAddressPropertiesAddressListList = Array<string>;
 /** Header name and source addresses associated with the header. */
 export interface HeaderAddressProperties {
   /** Name of the header. */
-  headerName?: string;
+  headerName?: string | undefined;
   /** List of source remote IP to be allowed or denied. */
-  addressList?: HeaderAddressPropertiesAddressListList;
+  addressList?: HeaderAddressPropertiesAddressListList | undefined;
 }
 /** List of header Name and source addresses associated with the header. */
 export type RulePropertiesHeaderAddressListList = Array<HeaderAddressProperties>;
@@ -1498,20 +1512,20 @@ export interface RuleProperties {
   /** Specify action. */
   action: Action | (string & {});
   /** List of Addresses to be allowed or denied. */
-  addressList?: RulePropertiesAddressListList;
+  addressList?: RulePropertiesAddressListList | undefined;
   /** Specify rule condition. */
-  condition?: RuleCondition | (string & {});
+  condition?: RuleCondition | (string & {}) | undefined;
   /** List of Addresses to be allowed or denied. */
-  destinationAddressList?: RulePropertiesDestinationAddressListList;
+  destinationAddressList?: RulePropertiesDestinationAddressListList | undefined;
   /** List of source IPv4 and IPv6 address to be allowed or denied. */
-  sourceAddressList?: RulePropertiesSourceAddressListList;
+  sourceAddressList?: RulePropertiesSourceAddressListList | undefined;
   /** List of header Name and source addresses associated with the header. */
-  headerAddressList?: RulePropertiesHeaderAddressListList;
+  headerAddressList?: RulePropertiesHeaderAddressListList | undefined;
 }
 /** Internet Gateway Rule Properties defines the resource properties. */
 export interface InternetGatewayRulePropertiesInput {
   /** Switch configuration description. */
-  annotation?: string;
+  annotation?: string | undefined;
   /** Rules for the InternetGateways */
   ruleProperties: RuleProperties;
 }
@@ -1523,7 +1537,7 @@ export interface CreateInternetGatewayRuleRequest {
   /** Name of the Internet Gateway rule. */
   internetGatewayRuleName: string;
   /** Resource tags. */
-  tags?: CreateInternetGatewayRuleRequestTagsMap;
+  tags?: CreateInternetGatewayRuleRequestTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The Internet Gateway Rule properties */
@@ -1536,35 +1550,35 @@ export type InternetGatewayRulePropertiesInternetGatewayIdsList = Array<string>;
 /** Internet Gateway Rule Properties defines the resource properties. */
 export interface InternetGatewayRuleProperties {
   /** Switch configuration description. */
-  annotation?: string;
+  annotation?: string | undefined;
   /** Rules for the InternetGateways */
   ruleProperties: RuleProperties;
   /** Details of the last operation performed on the resource */
-  lastOperation?: LastOperationProperties;
+  lastOperation?: LastOperationProperties | undefined;
   /** Provisioning state of the resource. */
-  provisioningState?: ProvisioningState;
+  provisioningState?: ProvisioningState | undefined;
   /** List of Internet Gateway resource Id. */
-  internetGatewayIds?: InternetGatewayRulePropertiesInternetGatewayIdsList;
+  internetGatewayIds?: InternetGatewayRulePropertiesInternetGatewayIdsList | undefined;
 }
 export interface CreateInternetGatewayRuleResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: CreateInternetGatewayRuleResponseTagsMap;
+  tags?: CreateInternetGatewayRuleResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The Internet Gateway Rule properties */
   properties: InternetGatewayRuleProperties;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Resource tags. */
 export type CreateIpCommunityRequestTagsMap = { [key: string]: string | undefined };
@@ -1583,7 +1597,7 @@ export interface IpCommunityRule {
   /** Sequence to insert to/delete from existing route. Prefix lists are evaluated starting with the lowest sequence number and continue down the list until a match is made. Once a match is made, the permit or deny statement is applied to that network and the rest of the list is ignored. */
   sequenceNumber: number;
   /** Supported well known Community List. */
-  wellKnownCommunities?: IpCommunityRuleWellKnownCommunitiesList;
+  wellKnownCommunities?: IpCommunityRuleWellKnownCommunitiesList | undefined;
   /** List the community members of IP Community. */
   communityMembers: IpCommunityRuleCommunityMembersList;
 }
@@ -1592,7 +1606,7 @@ export type IpCommunityPropertiesInputIpCommunityRulesList = Array<IpCommunityRu
 /** IP Community Properties defines the resource properties. */
 export interface IpCommunityPropertiesInput {
   /** Switch configuration description. */
-  annotation?: string;
+  annotation?: string | undefined;
   /** List of IP Community Rules. */
   ipCommunityRules: IpCommunityPropertiesInputIpCommunityRulesList;
 }
@@ -1604,7 +1618,7 @@ export interface CreateIpCommunityRequest {
   /** Name of the IP Community. */
   ipCommunityName: string;
   /** Resource tags. */
-  tags?: CreateIpCommunityRequestTagsMap;
+  tags?: CreateIpCommunityRequestTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The IP Community Properties */
@@ -1617,39 +1631,39 @@ export type IpCommunityPropertiesIpCommunityRulesList = Array<IpCommunityRule>;
 /** IP Community Properties defines the resource properties. */
 export interface IpCommunityProperties {
   /** Switch configuration description. */
-  annotation?: string;
+  annotation?: string | undefined;
   /** ARM Resource ID of the Network Fabric. */
-  networkFabricId?: string;
+  networkFabricId?: string | undefined;
   /** List of IP Community Rules. */
   ipCommunityRules: IpCommunityPropertiesIpCommunityRulesList;
   /** Details of the last operation performed on the resource */
-  lastOperation?: LastOperationProperties;
+  lastOperation?: LastOperationProperties | undefined;
   /** Configuration state of the resource. */
-  configurationState?: ConfigurationState;
+  configurationState?: ConfigurationState | undefined;
   /** Provisioning state of the resource. */
-  provisioningState?: ProvisioningState;
+  provisioningState?: ProvisioningState | undefined;
   /** Administrative state of the resource. */
-  administrativeState?: AdministrativeState;
+  administrativeState?: AdministrativeState | undefined;
 }
 export interface CreateIpCommunityResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: CreateIpCommunityResponseTagsMap;
+  tags?: CreateIpCommunityResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The IP Community Properties */
   properties: IpCommunityProperties;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Resource tags. */
 export type CreateIpExtendedCommunityRequestTagsMap = { [key: string]: string | undefined };
@@ -1670,7 +1684,7 @@ export type IpExtendedCommunityPropertiesInputIpExtendedCommunityRulesList =
 /** IP Extended Community Properties defines the resource properties. */
 export interface IpExtendedCommunityPropertiesInput {
   /** Switch configuration description. */
-  annotation?: string;
+  annotation?: string | undefined;
   /** List of IP Extended Community Rules. */
   ipExtendedCommunityRules: IpExtendedCommunityPropertiesInputIpExtendedCommunityRulesList;
 }
@@ -1682,7 +1696,7 @@ export interface CreateIpExtendedCommunityRequest {
   /** Name of the IP Extended Community. */
   ipExtendedCommunityName: string;
   /** Resource tags. */
-  tags?: CreateIpExtendedCommunityRequestTagsMap;
+  tags?: CreateIpExtendedCommunityRequestTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The IpExtendedCommunity properties */
@@ -1696,39 +1710,39 @@ export type IpExtendedCommunityPropertiesIpExtendedCommunityRulesList =
 /** IP Extended Community Properties defines the resource properties. */
 export interface IpExtendedCommunityProperties {
   /** Switch configuration description. */
-  annotation?: string;
+  annotation?: string | undefined;
   /** List of IP Extended Community Rules. */
   ipExtendedCommunityRules: IpExtendedCommunityPropertiesIpExtendedCommunityRulesList;
   /** ARM Resource ID of the Network Fabric. */
-  networkFabricId?: string;
+  networkFabricId?: string | undefined;
   /** Details of the last operation performed on the resource */
-  lastOperation?: LastOperationProperties;
+  lastOperation?: LastOperationProperties | undefined;
   /** Configuration state of the resource. */
-  configurationState?: ConfigurationState;
+  configurationState?: ConfigurationState | undefined;
   /** Provisioning state of the resource. */
-  provisioningState?: ProvisioningState;
+  provisioningState?: ProvisioningState | undefined;
   /** Administrative state of the resource. */
-  administrativeState?: AdministrativeState;
+  administrativeState?: AdministrativeState | undefined;
 }
 export interface CreateIpExtendedCommunityResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: CreateIpExtendedCommunityResponseTagsMap;
+  tags?: CreateIpExtendedCommunityResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The IpExtendedCommunity properties */
   properties: IpExtendedCommunityProperties;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Resource tags. */
 export type CreateIpPrefixRequestTagsMap = { [key: string]: string | undefined };
@@ -1743,16 +1757,16 @@ export interface IpPrefixRule {
   /** Network Prefix specifying IPv4/IPv6 packets to be permitted or denied. Example: 1.1.1.0/24 | 3FFE:FFFF:0:CD30::/126 */
   networkPrefix: string;
   /** Specify prefix-list bounds. */
-  condition?: Condition | (string & {});
+  condition?: Condition | (string & {}) | undefined;
   /** SubnetMaskLength gives the minimum NetworkPrefix length to be matched. Possible values for IPv4 are 1 - 32 . Possible values of IPv6 are 1 - 128. */
-  subnetMaskLength?: string;
+  subnetMaskLength?: string | undefined;
 }
 /** The list of IP Prefix Rules. */
 export type IpPrefixPropertiesInputIpPrefixRulesList = Array<IpPrefixRule>;
 /** IP Prefix Properties defines the properties of the resource. */
 export interface IpPrefixPropertiesInput {
   /** Switch configuration description. */
-  annotation?: string;
+  annotation?: string | undefined;
   /** The list of IP Prefix Rules. */
   ipPrefixRules: IpPrefixPropertiesInputIpPrefixRulesList;
 }
@@ -1764,7 +1778,7 @@ export interface CreateIpPrefixRequest {
   /** Name of the IP Prefix. */
   ipPrefixName: string;
   /** Resource tags. */
-  tags?: CreateIpPrefixRequestTagsMap;
+  tags?: CreateIpPrefixRequestTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The IP Prefix properties */
@@ -1777,39 +1791,39 @@ export type IpPrefixPropertiesIpPrefixRulesList = Array<IpPrefixRule>;
 /** IP Prefix Properties defines the properties of the resource. */
 export interface IpPrefixProperties {
   /** Switch configuration description. */
-  annotation?: string;
+  annotation?: string | undefined;
   /** ARM Resource ID of the Network Fabric. */
-  networkFabricId?: string;
+  networkFabricId?: string | undefined;
   /** The list of IP Prefix Rules. */
   ipPrefixRules: IpPrefixPropertiesIpPrefixRulesList;
   /** Details of the last operation performed on the resource */
-  lastOperation?: LastOperationProperties;
+  lastOperation?: LastOperationProperties | undefined;
   /** Configuration state of the resource. */
-  configurationState?: ConfigurationState;
+  configurationState?: ConfigurationState | undefined;
   /** Provisioning state of the resource. */
-  provisioningState?: ProvisioningState;
+  provisioningState?: ProvisioningState | undefined;
   /** Administrative state of the resource. */
-  administrativeState?: AdministrativeState;
+  administrativeState?: AdministrativeState | undefined;
 }
 export interface CreateIpPrefixResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: CreateIpPrefixResponseTagsMap;
+  tags?: CreateIpPrefixResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The IP Prefix properties */
   properties: IpPrefixProperties;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Resource tags. */
 export type CreateL2IsolationDomainRequestTagsMap = { [key: string]: string | undefined };
@@ -1818,17 +1832,17 @@ export type L2IsolationDomainPropertiesInputExtendedVlan = "Enabled" | "Disabled
 /** L2Isolation Domain Properties defines the properties of the resource. */
 export interface L2IsolationDomainPropertiesInput {
   /** Switch configuration description. */
-  annotation?: string;
+  annotation?: string | undefined;
   /** ARM Resource ID of the Network Fabric. */
   networkFabricId: string;
   /** Vlan Identifier of the Network Fabric. Example: 501. */
   vlanId: number;
   /** Maximum transmission unit. Default value is 1500. */
-  mtu?: number;
+  mtu?: number | undefined;
   /** Extended VLAN status, default value is Disabled. */
-  extendedVlan?: L2IsolationDomainPropertiesInputExtendedVlan | (string & {});
+  extendedVlan?: L2IsolationDomainPropertiesInputExtendedVlan | (string & {}) | undefined;
   /** ARM Resource ID of the networkToNetworkInterconnectId of the L2 ISD resource. */
-  networkToNetworkInterconnectId?: string;
+  networkToNetworkInterconnectId?: string | undefined;
 }
 /** Type of managed service identity (where both SystemAssigned and UserAssigned types are allowed). */
 export type ManagedServiceIdentityType =
@@ -1845,7 +1859,7 @@ export type UserAssignedIdentitiesInput = {
 /** Managed service identity (system assigned and/or user assigned identities) */
 export interface CreateL2IsolationDomainRequestIdentity {
   type: ManagedServiceIdentityType | (string & {});
-  userAssignedIdentities?: UserAssignedIdentitiesInput;
+  userAssignedIdentities?: UserAssignedIdentitiesInput | undefined;
 }
 export interface CreateL2IsolationDomainRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1855,13 +1869,13 @@ export interface CreateL2IsolationDomainRequest {
   /** Name of the L2 Isolation Domain. */
   l2IsolationDomainName: string;
   /** Resource tags. */
-  tags?: CreateL2IsolationDomainRequestTagsMap;
+  tags?: CreateL2IsolationDomainRequestTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The L2IsolationDomain properties */
   properties: L2IsolationDomainPropertiesInput;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: CreateL2IsolationDomainRequestIdentity;
+  identity?: CreateL2IsolationDomainRequestIdentity | undefined;
 }
 /** Resource tags. */
 export type CreateL2IsolationDomainResponseTagsMap = { [key: string]: string | undefined };
@@ -1870,65 +1884,65 @@ export type L2IsolationDomainPropertiesExtendedVlan = "Enabled" | "Disabled";
 /** L2Isolation Domain Properties defines the properties of the resource. */
 export interface L2IsolationDomainProperties {
   /** Switch configuration description. */
-  annotation?: string;
+  annotation?: string | undefined;
   /** ARM Resource ID of the Network Fabric. */
   networkFabricId: string;
   /** Vlan Identifier of the Network Fabric. Example: 501. */
   vlanId: number;
   /** Maximum transmission unit. Default value is 1500. */
-  mtu?: number;
+  mtu?: number | undefined;
   /** Extended VLAN status, default value is Disabled. */
-  extendedVlan?: L2IsolationDomainPropertiesExtendedVlan;
+  extendedVlan?: L2IsolationDomainPropertiesExtendedVlan | undefined;
   /** ARM Resource ID of the networkToNetworkInterconnectId of the L2 ISD resource. */
-  networkToNetworkInterconnectId?: string;
+  networkToNetworkInterconnectId?: string | undefined;
   /** Details of the last operation performed on the resource */
-  lastOperation?: LastOperationProperties;
+  lastOperation?: LastOperationProperties | undefined;
   /** Configuration state of the resource. */
-  configurationState?: ConfigurationState;
+  configurationState?: ConfigurationState | undefined;
   /** Provisioning state of the resource. */
-  provisioningState?: ProvisioningState;
+  provisioningState?: ProvisioningState | undefined;
   /** Administrative state of the resource. */
-  administrativeState?: AdministrativeState;
+  administrativeState?: AdministrativeState | undefined;
 }
 /** User assigned identity properties */
 export interface UserAssignedIdentity {
   /** The principal ID of the assigned identity. */
-  principalId?: string;
+  principalId?: string | undefined;
   /** The client ID of the assigned identity. */
-  clientId?: string;
+  clientId?: string | undefined;
 }
 /** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
 export type UserAssignedIdentities = { [key: string]: UserAssignedIdentity | null | undefined };
 /** Managed service identity (system assigned and/or user assigned identities) */
 export interface CreateL2IsolationDomainResponseIdentity {
   /** The service principal ID of the system assigned identity. This property will only be provided for a system assigned identity. */
-  principalId?: string;
+  principalId?: string | undefined;
   /** The tenant ID of the system assigned identity. This property will only be provided for a system assigned identity. */
-  tenantId?: string;
+  tenantId?: string | undefined;
   type: ManagedServiceIdentityType;
-  userAssignedIdentities?: UserAssignedIdentities;
+  userAssignedIdentities?: UserAssignedIdentities | undefined;
 }
 export interface CreateL2IsolationDomainResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: CreateL2IsolationDomainResponseTagsMap;
+  tags?: CreateL2IsolationDomainResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The L2IsolationDomain properties */
   properties: L2IsolationDomainProperties;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: CreateL2IsolationDomainResponseIdentity;
+  identity?: CreateL2IsolationDomainResponseIdentity | undefined;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Resource tags. */
 export type CreateL3IsolationDomainRequestTagsMap = { [key: string]: string | undefined };
@@ -1948,21 +1962,21 @@ export type AggregateRouteConfigurationIpv6RoutesList = Array<AggregateRoute>;
 /** List of IPv4 and IPv6 aggregate routes. */
 export interface AggregateRouteConfiguration {
   /** List of IPv4 Route prefixes. */
-  ipv4Routes?: AggregateRouteConfigurationIpv4RoutesList;
+  ipv4Routes?: AggregateRouteConfigurationIpv4RoutesList | undefined;
   /** List of Ipv6Routes prefixes. */
-  ipv6Routes?: AggregateRouteConfigurationIpv6RoutesList;
+  ipv6Routes?: AggregateRouteConfigurationIpv6RoutesList | undefined;
 }
 /** Array of ARM Resource ID of the RoutePolicies. */
 export interface L3ExportRoutePolicy {
   /** ARM Resource ID of the RoutePolicy. */
-  exportIpv4RoutePolicyId?: string;
+  exportIpv4RoutePolicyId?: string | undefined;
   /** ARM Resource ID of the RoutePolicy. */
-  exportIpv6RoutePolicyId?: string;
+  exportIpv6RoutePolicyId?: string | undefined;
 }
 /** Connected Subnet Route Policy properties. */
 export interface ConnectedSubnetRoutePolicy {
   /** Array of ARM Resource ID of the RoutePolicies. */
-  exportRoutePolicy?: L3ExportRoutePolicy;
+  exportRoutePolicy?: L3ExportRoutePolicy | undefined;
 }
 /** Static Route - route policy properties. */
 export type StaticRouteRoutePolicy = ConnectedSubnetRoutePolicy;
@@ -1971,38 +1985,40 @@ export type L3UniqueRouteDistinguisherPropertiesInput = UserAssignedIdentityInpu
 /** Layer3 Route prefix limit configuration. */
 export interface RoutePrefixLimitProperties {
   /** Hard limit for the routes. */
-  hardLimit?: number;
+  hardLimit?: number | undefined;
   /** Threshold for the routes. */
-  threshold?: number;
+  threshold?: number | undefined;
 }
 /** L3 Isolation Domain Properties defines the properties of the resource. */
 export interface L3IsolationDomainPropertiesInput {
   /** Switch configuration description. */
-  annotation?: string;
+  annotation?: string | undefined;
   /** Advertise Connected Subnets. Ex: "True" | "False". */
   redistributeConnectedSubnets?:
     | L3IsolationDomainPropertiesInputRedistributeConnectedSubnets
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** Advertise Static Routes. Ex: "True" | "False". */
   redistributeStaticRoutes?:
     | L3IsolationDomainPropertiesInputRedistributeStaticRoutes
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** Aggregate route configurations. */
-  aggregateRouteConfiguration?: AggregateRouteConfiguration;
+  aggregateRouteConfiguration?: AggregateRouteConfiguration | undefined;
   /** Connected Subnet RoutePolicy */
-  connectedSubnetRoutePolicy?: ConnectedSubnetRoutePolicy;
+  connectedSubnetRoutePolicy?: ConnectedSubnetRoutePolicy | undefined;
   /** ARM Resource ID of the Network Fabric. */
   networkFabricId: string;
   /** Static Route - route policy. */
-  staticRouteRoutePolicy?: ConnectedSubnetRoutePolicy;
+  staticRouteRoutePolicy?: ConnectedSubnetRoutePolicy | undefined;
   /** Unique Route Distinguisher configuration */
-  uniqueRdConfiguration?: UserAssignedIdentityInput;
+  uniqueRdConfiguration?: UserAssignedIdentityInput | undefined;
   /** IPv4 VRF Limit configuration. */
-  v4routePrefixLimit?: RoutePrefixLimitProperties;
+  v4routePrefixLimit?: RoutePrefixLimitProperties | undefined;
   /** IPv6 VRF Limit configuration. */
-  v6routePrefixLimit?: RoutePrefixLimitProperties;
+  v6routePrefixLimit?: RoutePrefixLimitProperties | undefined;
   /** BMP Export Policy configuration. */
-  exportPolicyConfiguration?: BmpExportPolicyProperties;
+  exportPolicyConfiguration?: BmpExportPolicyProperties | undefined;
 }
 /** Managed service identity (system assigned and/or user assigned identities) */
 export type CreateL3IsolationDomainRequestIdentity = CreateL2IsolationDomainRequestIdentity;
@@ -2014,13 +2030,13 @@ export interface CreateL3IsolationDomainRequest {
   /** Name of the L3 Isolation Domain. */
   l3IsolationDomainName: string;
   /** Resource tags. */
-  tags?: CreateL3IsolationDomainRequestTagsMap;
+  tags?: CreateL3IsolationDomainRequestTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The L3 Isolation Domain Properties */
   properties: L3IsolationDomainPropertiesInput;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: CreateL2IsolationDomainRequestIdentity;
+  identity?: CreateL2IsolationDomainRequestIdentity | undefined;
 }
 /** Resource tags. */
 export type CreateL3IsolationDomainResponseTagsMap = { [key: string]: string | undefined };
@@ -2033,64 +2049,66 @@ export type L3UniqueRouteDistinguisherPropertiesUniqueRdsList = Array<string>;
 /** Unique Route Distinguisher properties. */
 export interface L3UniqueRouteDistinguisherProperties {
   /** List of Unique Route Distinguisher addresses. */
-  uniqueRds?: L3UniqueRouteDistinguisherPropertiesUniqueRdsList;
+  uniqueRds?: L3UniqueRouteDistinguisherPropertiesUniqueRdsList | undefined;
 }
 /** L3 Isolation Domain Properties defines the properties of the resource. */
 export interface L3IsolationDomainProperties {
   /** Switch configuration description. */
-  annotation?: string;
+  annotation?: string | undefined;
   /** Advertise Connected Subnets. Ex: "True" | "False". */
-  redistributeConnectedSubnets?: L3IsolationDomainPropertiesRedistributeConnectedSubnets;
+  redistributeConnectedSubnets?:
+    | L3IsolationDomainPropertiesRedistributeConnectedSubnets
+    | undefined;
   /** Advertise Static Routes. Ex: "True" | "False". */
-  redistributeStaticRoutes?: L3IsolationDomainPropertiesRedistributeStaticRoutes;
+  redistributeStaticRoutes?: L3IsolationDomainPropertiesRedistributeStaticRoutes | undefined;
   /** Aggregate route configurations. */
-  aggregateRouteConfiguration?: AggregateRouteConfiguration;
+  aggregateRouteConfiguration?: AggregateRouteConfiguration | undefined;
   /** Connected Subnet RoutePolicy */
-  connectedSubnetRoutePolicy?: ConnectedSubnetRoutePolicy;
+  connectedSubnetRoutePolicy?: ConnectedSubnetRoutePolicy | undefined;
   /** ARM Resource ID of the Network Fabric. */
   networkFabricId: string;
   /** Static Route - route policy. */
-  staticRouteRoutePolicy?: ConnectedSubnetRoutePolicy;
+  staticRouteRoutePolicy?: ConnectedSubnetRoutePolicy | undefined;
   /** Unique Route Distinguisher configuration */
-  uniqueRdConfiguration?: L3UniqueRouteDistinguisherProperties;
+  uniqueRdConfiguration?: L3UniqueRouteDistinguisherProperties | undefined;
   /** IPv4 VRF Limit configuration. */
-  v4routePrefixLimit?: RoutePrefixLimitProperties;
+  v4routePrefixLimit?: RoutePrefixLimitProperties | undefined;
   /** IPv6 VRF Limit configuration. */
-  v6routePrefixLimit?: RoutePrefixLimitProperties;
+  v6routePrefixLimit?: RoutePrefixLimitProperties | undefined;
   /** Details of the last operation performed on the resource */
-  lastOperation?: LastOperationProperties;
+  lastOperation?: LastOperationProperties | undefined;
   /** BMP Export Policy configuration. */
-  exportPolicyConfiguration?: BmpExportPolicyProperties;
+  exportPolicyConfiguration?: BmpExportPolicyProperties | undefined;
   /** Configuration state of the resource. */
-  configurationState?: ConfigurationState;
+  configurationState?: ConfigurationState | undefined;
   /** Provisioning state of the resource. */
-  provisioningState?: ProvisioningState;
+  provisioningState?: ProvisioningState | undefined;
   /** Administrative state of the resource. */
-  administrativeState?: AdministrativeState;
+  administrativeState?: AdministrativeState | undefined;
 }
 /** Managed service identity (system assigned and/or user assigned identities) */
 export type CreateL3IsolationDomainResponseIdentity = CreateL2IsolationDomainResponseIdentity;
 export interface CreateL3IsolationDomainResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: CreateL3IsolationDomainResponseTagsMap;
+  tags?: CreateL3IsolationDomainResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The L3 Isolation Domain Properties */
   properties: L3IsolationDomainProperties;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: CreateL2IsolationDomainResponseIdentity;
+  identity?: CreateL2IsolationDomainResponseIdentity | undefined;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Resource tags. */
 export type CreateNeighborGroupRequestTagsMap = { [key: string]: string | undefined };
@@ -2101,14 +2119,14 @@ export type NeighborGroupDestinationIpv6AddressesList = Array<string>;
 /** An array of destination IPv4 Addresses or IPv6 Addresses. */
 export interface NeighborGroupDestination {
   /** Array of IPv4 Addresses. */
-  ipv4Addresses?: NeighborGroupDestinationIpv4AddressesList;
+  ipv4Addresses?: NeighborGroupDestinationIpv4AddressesList | undefined;
   /** Array of IPv6 Addresses. */
-  ipv6Addresses?: NeighborGroupDestinationIpv6AddressesList;
+  ipv6Addresses?: NeighborGroupDestinationIpv6AddressesList | undefined;
 }
 /** Neighbor Group Properties defines the properties of the resource. */
 export interface NeighborGroupPropertiesInput {
   /** Switch configuration description. */
-  annotation?: string;
+  annotation?: string | undefined;
   /** An array of destination IPv4 Addresses or IPv6 Addresses. */
   destination: NeighborGroupDestination;
 }
@@ -2122,13 +2140,13 @@ export interface CreateNeighborGroupRequest {
   /** Name of the Neighbor Group. */
   neighborGroupName: string;
   /** Resource tags. */
-  tags?: CreateNeighborGroupRequestTagsMap;
+  tags?: CreateNeighborGroupRequestTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The NeighborGroup Properties */
   properties: NeighborGroupPropertiesInput;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: CreateL2IsolationDomainRequestIdentity;
+  identity?: CreateL2IsolationDomainRequestIdentity | undefined;
 }
 /** Resource tags. */
 export type CreateNeighborGroupResponseTagsMap = { [key: string]: string | undefined };
@@ -2141,58 +2159,58 @@ export type NeighborGroupPropertiesNetworkFabricIdsList = Array<string>;
 /** Neighbor Group Properties defines the properties of the resource. */
 export interface NeighborGroupProperties {
   /** Switch configuration description. */
-  annotation?: string;
+  annotation?: string | undefined;
   /** An array of destination IPv4 Addresses or IPv6 Addresses. */
   destination: NeighborGroupDestination;
   /** List of NetworkTap IDs where neighbor group is associated. */
-  networkTapIds?: NeighborGroupPropertiesNetworkTapIdsList;
+  networkTapIds?: NeighborGroupPropertiesNetworkTapIdsList | undefined;
   /** List of Network Tap Rule IDs where neighbor group is associated. */
-  networkTapRuleIds?: NeighborGroupPropertiesNetworkTapRuleIdsList;
+  networkTapRuleIds?: NeighborGroupPropertiesNetworkTapRuleIdsList | undefined;
   /** Associated Network Fabric Resource IDs */
-  networkFabricIds?: NeighborGroupPropertiesNetworkFabricIdsList;
+  networkFabricIds?: NeighborGroupPropertiesNetworkFabricIdsList | undefined;
   /** Details of the last operation performed on the resource */
-  lastOperation?: LastOperationProperties;
+  lastOperation?: LastOperationProperties | undefined;
   /** The provisioning state of the resource. */
-  provisioningState?: ProvisioningState;
+  provisioningState?: ProvisioningState | undefined;
   /** Configuration state of the resource. */
-  configurationState?: ConfigurationState;
+  configurationState?: ConfigurationState | undefined;
 }
 /** Managed service identity (system assigned and/or user assigned identities) */
 export type CreateNeighborGroupResponseIdentity = CreateL2IsolationDomainResponseIdentity;
 export interface CreateNeighborGroupResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: CreateNeighborGroupResponseTagsMap;
+  tags?: CreateNeighborGroupResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The NeighborGroup Properties */
   properties: NeighborGroupProperties;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: CreateL2IsolationDomainResponseIdentity;
+  identity?: CreateL2IsolationDomainResponseIdentity | undefined;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Resource tags. */
 export type CreateNetworkBootstrapDeviceRequestTagsMap = { [key: string]: string | undefined };
 /** Network Bootstrap Device Properties defines the properties of the resource. */
 export interface NetworkBootstrapDevicePropertiesInput {
   /** Switch configuration description. */
-  annotation?: string;
+  annotation?: string | undefined;
   /** The host name of the device. */
-  hostName?: string;
+  hostName?: string | undefined;
   /** Serial number of the device. Format of serial Number - Make;Model;HardwareRevisionId;SerialNumber. */
-  serialNumber?: string;
+  serialNumber?: string | undefined;
   /** Network Bootstrap Device SKU name. */
-  networkDeviceSku?: string;
+  networkDeviceSku?: string | undefined;
 }
 /** Managed service identity (system assigned and/or user assigned identities) */
 export type CreateNetworkBootstrapDeviceRequestIdentity = CreateL2IsolationDomainRequestIdentity;
@@ -2204,79 +2222,79 @@ export interface CreateNetworkBootstrapDeviceRequest {
   /** Name of the Network Bootstrap Device. */
   networkBootstrapDeviceName: string;
   /** Resource tags. */
-  tags?: CreateNetworkBootstrapDeviceRequestTagsMap;
+  tags?: CreateNetworkBootstrapDeviceRequestTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The NetworkBootstrapDevice properties */
   properties: NetworkBootstrapDevicePropertiesInput;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: CreateL2IsolationDomainRequestIdentity;
+  identity?: CreateL2IsolationDomainRequestIdentity | undefined;
 }
 /** Resource tags. */
 export type CreateNetworkBootstrapDeviceResponseTagsMap = { [key: string]: string | undefined };
 /** Network Bootstrap Device Properties defines the properties of the resource. */
 export interface NetworkBootstrapDeviceProperties {
   /** Switch configuration description. */
-  annotation?: string;
+  annotation?: string | undefined;
   /** The host name of the device. */
-  hostName?: string;
+  hostName?: string | undefined;
   /** Serial number of the device. Format of serial Number - Make;Model;HardwareRevisionId;SerialNumber. */
-  serialNumber?: string;
+  serialNumber?: string | undefined;
   /** Current version of the device as defined in SKU. */
-  version?: string;
+  version?: string | undefined;
   /** Network Bootstrap Device SKU name. */
-  networkDeviceSku?: string;
+  networkDeviceSku?: string | undefined;
   /** Associated Network Fabric Resource ID */
-  networkFabricId?: string;
+  networkFabricId?: string | undefined;
   /** Secondary Management IPv4 Address. */
-  secondaryManagementIpv4Address?: string;
+  secondaryManagementIpv4Address?: string | undefined;
   /** Dhcp server IPv4 Address. */
-  dhcpV4ServerIpAddress?: string;
+  dhcpV4ServerIpAddress?: string | undefined;
   /** Primary Management IPv6 Address. */
-  primaryManagementIpv6Address?: string;
+  primaryManagementIpv6Address?: string | undefined;
   /** Secondary Management IPv6 Address. */
-  secondaryManagementIpv6Address?: string;
+  secondaryManagementIpv6Address?: string | undefined;
   /** Provisioning state of the resource. */
-  provisioningState?: ProvisioningState;
+  provisioningState?: ProvisioningState | undefined;
   /** Primary Management IPv4 Address. */
-  primaryManagementIpv4Address?: string;
+  primaryManagementIpv4Address?: string | undefined;
   /** Administrative state of the resource. */
-  administrativeState?: AdministrativeState;
+  administrativeState?: AdministrativeState | undefined;
   /** Configuration state of the resource. */
-  configurationState?: ConfigurationState;
+  configurationState?: ConfigurationState | undefined;
 }
 /** Managed service identity (system assigned and/or user assigned identities) */
 export type CreateNetworkBootstrapDeviceResponseIdentity = CreateL2IsolationDomainResponseIdentity;
 export interface CreateNetworkBootstrapDeviceResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: CreateNetworkBootstrapDeviceResponseTagsMap;
+  tags?: CreateNetworkBootstrapDeviceResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The NetworkBootstrapDevice properties */
   properties: NetworkBootstrapDeviceProperties;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: CreateL2IsolationDomainResponseIdentity;
+  identity?: CreateL2IsolationDomainResponseIdentity | undefined;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Network Bootstrap Interface Properties defines the properties of the resource. */
 export interface NetworkBootstrapInterfacePropertiesInput {
   /** Switch configuration description. */
-  annotation?: string;
+  annotation?: string | undefined;
   /** Additional description of the interface. */
-  additionalDescription?: string;
+  additionalDescription?: string | undefined;
   /** Serial number of the interface. Format of serial Number - Make;Model;HardwareRevisionId;SerialNumber. */
-  serialNumber?: string;
+  serialNumber?: string | undefined;
 }
 export interface CreateNetworkBootstrapInterfaceRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2295,45 +2313,45 @@ export type InterfaceType = "Management" | "Data";
 /** Network Bootstrap Interface Properties defines the properties of the resource. */
 export interface NetworkBootstrapInterfaceProperties {
   /** Switch configuration description. */
-  annotation?: string;
+  annotation?: string | undefined;
   /** Provisioning state of the resource. */
-  provisioningState?: ProvisioningState;
+  provisioningState?: ProvisioningState | undefined;
   /** Administrative state of the resource. */
-  administrativeState?: AdministrativeState;
+  administrativeState?: AdministrativeState | undefined;
   /** Configuration state of the resource. */
-  configurationState?: ConfigurationState;
+  configurationState?: ConfigurationState | undefined;
   /** Physical identifier of the device. */
-  physicalIdentifier?: string;
+  physicalIdentifier?: string | undefined;
   /** Connected to information of the device. */
-  connectedTo?: string;
+  connectedTo?: string | undefined;
   /** Type of the interface. */
-  interfaceType?: InterfaceType;
+  interfaceType?: InterfaceType | undefined;
   /** Description of the interface. */
-  description?: string;
+  description?: string | undefined;
   /** Additional description of the interface. */
-  additionalDescription?: string;
+  additionalDescription?: string | undefined;
   /** IPv4Address of the interface. */
-  ipv4Address?: string;
+  ipv4Address?: string | undefined;
   /** IPv6Address of the interface. */
-  ipv6Address?: string;
+  ipv6Address?: string | undefined;
   /** Serial number of the interface. Format of serial Number - Make;Model;HardwareRevisionId;SerialNumber. */
-  serialNumber?: string;
+  serialNumber?: string | undefined;
 }
 export interface CreateNetworkBootstrapInterfaceResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The NetworkBootstrapInterface properties */
   properties: NetworkBootstrapInterfaceProperties;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Resource tags. */
 export type CreateNetworkDeviceRequestTagsMap = { [key: string]: string | undefined };
@@ -2344,20 +2362,20 @@ export interface IdentitySelector {
   /** The type of managed identity that is being selected. */
   identityType: ManagedServiceIdentitySelectorType | (string & {});
   /** The user assigned managed identity resource ID to use. Mutually exclusive with a system assigned identity type. */
-  userAssignedIdentityResourceId?: string;
+  userAssignedIdentityResourceId?: string | undefined;
 }
 /** Network Device Properties defines the properties of the resource. */
 export interface NetworkDevicePropertiesInput {
   /** Switch configuration description. */
-  annotation?: string;
+  annotation?: string | undefined;
   /** The host name of the device. */
-  hostName?: string;
+  hostName?: string | undefined;
   /** Serial number of the device. Format of serial Number - Make;Model;HardwareRevisionId;SerialNumber. */
   serialNumber: string;
   /** The selection of the managed identity to use with this storage account. The identity type must be either system assigned or user assigned. */
-  identitySelector?: IdentitySelector;
+  identitySelector?: IdentitySelector | undefined;
   /** Network Device SKU name. */
-  networkDeviceSku?: string;
+  networkDeviceSku?: string | undefined;
 }
 /** Managed service identity (system assigned and/or user assigned identities) */
 export type CreateNetworkDeviceRequestIdentity = CreateL2IsolationDomainRequestIdentity;
@@ -2369,13 +2387,13 @@ export interface CreateNetworkDeviceRequest {
   /** Name of the Network Device. */
   networkDeviceName: string;
   /** Resource tags. */
-  tags?: CreateNetworkDeviceRequestTagsMap;
+  tags?: CreateNetworkDeviceRequestTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The NetworkDevice properties */
   properties: NetworkDevicePropertiesInput;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: CreateL2IsolationDomainRequestIdentity;
+  identity?: CreateL2IsolationDomainRequestIdentity | undefined;
 }
 /** Resource tags. */
 export type CreateNetworkDeviceResponseTagsMap = { [key: string]: string | undefined };
@@ -2386,124 +2404,124 @@ export type SynchronizationStatus = "InSync" | "Synchronizing" | "OutOfSync";
 /** A reference to a version of a secret in a key vault. */
 export interface SecretArchiveReference {
   /** A Uniform Resource Identifier (URI) for the secret in the key vault. */
-  keyVaultUri?: string;
+  keyVaultUri?: string | undefined;
   /** The resource ID of the key vault containing the secret. */
-  keyVaultId?: string;
+  keyVaultId?: string | undefined;
   /** The name of the secret in the key vault. */
-  secretName?: string;
+  secretName?: string | undefined;
   /** The version of the secret in the key vault. */
-  secretVersion?: string;
+  secretVersion?: string | undefined;
 }
 /** Status of a secret rotation for a device (Network Device or Terminal Server). */
 export interface SecretRotationStatus {
   /** The date and time when the secret was last changed. */
-  lastRotationTime?: string;
+  lastRotationTime?: string | undefined;
   /** Whether the device has been configured with the latest version of the secret. */
-  synchronizationStatus?: SynchronizationStatus;
+  synchronizationStatus?: SynchronizationStatus | undefined;
   /** Reference to the currently configured version of the secret in a key vault. */
-  secretArchiveReference?: SecretArchiveReference;
+  secretArchiveReference?: SecretArchiveReference | undefined;
   /** Identifies the secret according to its purpose. */
-  secretType?: string;
+  secretType?: string | undefined;
 }
 /** Secret rotation status for the device's secrets. */
 export type NetworkDevicePropertiesSecretRotationStatusList = Array<SecretRotationStatus>;
 /** A reference to a version of a certificate in a key vault. */
 export interface CertificateArchiveReference {
   /** A Uniform Resource Identifier (URI) for the certificate in the key vault. */
-  keyVaultUri?: string;
+  keyVaultUri?: string | undefined;
   /** The resource ID of the key vault containing the certificate. */
-  keyVaultId?: string;
+  keyVaultId?: string | undefined;
   /** The name of the certificate in the key vault. */
-  certificateName?: string;
+  certificateName?: string | undefined;
   /** The version of the certificate in the key vault. */
-  certificateVersion?: string;
+  certificateVersion?: string | undefined;
 }
 /** Status of a certificate rotation for a device (Network Device or Terminal Server). */
 export interface CertificateRotationStatus {
   /** Time at which the certificate will expire, for certificates with a limited validity period. */
-  expireTime?: string;
+  expireTime?: string | undefined;
   /** The date and time when the certificate was last changed. */
-  lastRotationTime?: string;
+  lastRotationTime?: string | undefined;
   /** Whether the device has been configured with the latest version of the certificate. */
-  synchronizationStatus?: SynchronizationStatus;
+  synchronizationStatus?: SynchronizationStatus | undefined;
   /** Reference to the currently configured version of the certificate in a key vault. */
-  certificateArchiveReference?: CertificateArchiveReference;
+  certificateArchiveReference?: CertificateArchiveReference | undefined;
   /** Identifies the certificate according to its purpose. */
-  certificateType?: string;
+  certificateType?: string | undefined;
 }
 /** Certificate rotation status for the device's certificates. */
 export type NetworkDevicePropertiesCertificateRotationStatusList = Array<CertificateRotationStatus>;
 /** Network Device Properties defines the properties of the resource. */
 export interface NetworkDeviceProperties {
   /** Switch configuration description. */
-  annotation?: string;
+  annotation?: string | undefined;
   /** The host name of the device. */
-  hostName?: string;
+  hostName?: string | undefined;
   /** Serial number of the device. Format of serial Number - Make;Model;HardwareRevisionId;SerialNumber. */
   serialNumber: string;
   /** The selection of the managed identity to use with this storage account. The identity type must be either system assigned or user assigned. */
-  identitySelector?: IdentitySelector;
+  identitySelector?: IdentitySelector | undefined;
   /** Current version of the device as defined in SKU. */
-  version?: string;
+  version?: string | undefined;
   /** Network Device SKU name. */
-  networkDeviceSku?: string;
+  networkDeviceSku?: string | undefined;
   /** NetworkDeviceRole is the device role: Example: CE | ToR. */
-  networkDeviceRole?: NetworkDeviceRole;
+  networkDeviceRole?: NetworkDeviceRole | undefined;
   /** Reference to network rack resource id. */
-  networkRackId?: string;
+  networkRackId?: string | undefined;
   /** Management IPv4 Address. */
-  managementIpv4Address?: string;
+  managementIpv4Address?: string | undefined;
   /** Management IPv6 Address. */
-  managementIpv6Address?: string;
+  managementIpv6Address?: string | undefined;
   /** User configured read-write configuration applied on the network devices. */
-  rwDeviceConfig?: string;
+  rwDeviceConfig?: string | undefined;
   /** Details of the last operation performed on the resource */
-  lastOperation?: LastOperationProperties;
+  lastOperation?: LastOperationProperties | undefined;
   /** Configuration state of the resource. */
-  configurationState?: ConfigurationState;
+  configurationState?: ConfigurationState | undefined;
   /** Provisioning state of the resource. */
-  provisioningState?: ProvisioningState;
+  provisioningState?: ProvisioningState | undefined;
   /** Administrative state of the resource. */
-  administrativeState?: AdministrativeState;
+  administrativeState?: AdministrativeState | undefined;
   /** Secret rotation status for the device's secrets. */
-  secretRotationStatus?: NetworkDevicePropertiesSecretRotationStatusList;
+  secretRotationStatus?: NetworkDevicePropertiesSecretRotationStatusList | undefined;
   /** Certificate rotation status for the device's certificates. */
-  certificateRotationStatus?: NetworkDevicePropertiesCertificateRotationStatusList;
+  certificateRotationStatus?: NetworkDevicePropertiesCertificateRotationStatusList | undefined;
   /** Associated Network Fabric Resource ID */
-  networkFabricId?: string;
+  networkFabricId?: string | undefined;
 }
 /** Managed service identity (system assigned and/or user assigned identities) */
 export type CreateNetworkDeviceResponseIdentity = CreateL2IsolationDomainResponseIdentity;
 export interface CreateNetworkDeviceResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: CreateNetworkDeviceResponseTagsMap;
+  tags?: CreateNetworkDeviceResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The NetworkDevice properties */
   properties: NetworkDeviceProperties;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: CreateL2IsolationDomainResponseIdentity;
+  identity?: CreateL2IsolationDomainResponseIdentity | undefined;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Resource tags. */
 export type CreateNetworkFabricRequestTagsMap = { [key: string]: string | undefined };
 /** Storage account configuration. */
 export interface StorageAccountConfiguration {
   /** Network Fabric storage account resource identifier. */
-  storageAccountId?: string;
+  storageAccountId?: string | undefined;
   /** The selection of the managed identity to use with this storage account. The identity type must be either system assigned or user assigned. */
-  storageAccountIdentity?: IdentitySelector;
+  storageAccountIdentity?: IdentitySelector | undefined;
 }
 /** Network and credentials configuration currently applied to terminal server. */
 export interface TerminalServerConfigurationInput {
@@ -2512,15 +2530,15 @@ export interface TerminalServerConfigurationInput {
   /** Password for the terminal server connection. */
   password: string | Redacted.Redacted<string>;
   /** Serial Number of Terminal server. */
-  serialNumber?: string;
+  serialNumber?: string | undefined;
   /** IPv4 Address Prefix. */
   primaryIpv4Prefix: string;
   /** IPv6 Address Prefix. */
-  primaryIpv6Prefix?: string;
+  primaryIpv6Prefix?: string | undefined;
   /** Secondary IPv4 Address Prefix. */
   secondaryIpv4Prefix: string;
   /** Secondary IPv6 Address Prefix. */
-  secondaryIpv6Prefix?: string;
+  secondaryIpv6Prefix?: string | undefined;
 }
 /** Route Targets to be applied for incoming routes into CE. This is for backward compatibility. */
 export type VpnOptionBPropertiesImportRouteTargetsList = Array<string>;
@@ -2529,41 +2547,41 @@ export type VpnOptionBPropertiesExportRouteTargetsList = Array<string>;
 /** Option B configuration to be used for Management VPN. */
 export interface VpnOptionBProperties {
   /** Route Targets to be applied for incoming routes into CE. This is for backward compatibility. */
-  importRouteTargets?: VpnOptionBPropertiesImportRouteTargetsList;
+  importRouteTargets?: VpnOptionBPropertiesImportRouteTargetsList | undefined;
   /** Route Targets to be applied for outgoing routes from CE. This is for backward compatibility. */
-  exportRouteTargets?: VpnOptionBPropertiesExportRouteTargetsList;
+  exportRouteTargets?: VpnOptionBPropertiesExportRouteTargetsList | undefined;
   /** Route Targets to be applied. */
-  routeTargets?: RouteTargetInformation;
+  routeTargets?: RouteTargetInformation | undefined;
 }
 /** option A properties */
 export interface VpnOptionAPropertiesInput {
   /** IPv4 Address Prefix. */
-  primaryIpv4Prefix?: string;
+  primaryIpv4Prefix?: string | undefined;
   /** IPv6 Address Prefix. */
-  primaryIpv6Prefix?: string;
+  primaryIpv6Prefix?: string | undefined;
   /** Secondary IPv4 Address Prefix. */
-  secondaryIpv4Prefix?: string;
+  secondaryIpv4Prefix?: string | undefined;
   /** Secondary IPv6 Address Prefix. */
-  secondaryIpv6Prefix?: string;
+  secondaryIpv6Prefix?: string | undefined;
   /** MTU to use for option A peering. */
-  mtu?: number;
+  mtu?: number | undefined;
   /** Vlan Id.Example : 501 */
   vlanId: number;
   /** Peer ASN number.Example : 28 */
   peerASN: number;
   /** BFD Configuration properties. */
-  bfdConfiguration?: BfdConfigurationInput;
+  bfdConfiguration?: BfdConfigurationInput | undefined;
 }
 /** Network and credential configuration currently applied on terminal server. */
 export interface VpnConfigurationPropertiesInput {
   /** ARM Resource ID of the Network To Network Interconnect. */
-  networkToNetworkInterconnectId?: string;
+  networkToNetworkInterconnectId?: string | undefined;
   /** Peering option list. */
   peeringOption: PeeringOption | (string & {});
   /** option B properties */
-  optionBProperties?: VpnOptionBProperties;
+  optionBProperties?: VpnOptionBProperties | undefined;
   /** option A properties */
-  optionAProperties?: VpnOptionAPropertiesInput;
+  optionAProperties?: VpnOptionAPropertiesInput | undefined;
 }
 /** Configuration to be used to setup the management network. */
 export interface ManagementNetworkConfigurationPropertiesInput {
@@ -2577,9 +2595,9 @@ export type NetworkFabricPropertiesInputControlPlaneAclsList = Array<string>;
 /** Feature flag properties. */
 export interface FeatureFlagProperties {
   /** Feature flag name. */
-  featureFlagName?: string;
+  featureFlagName?: string | undefined;
   /** Feature flag value. */
-  featureFlagValue?: string;
+  featureFlagValue?: string | undefined;
 }
 /** NetworkFabric feature flag configuration information */
 export type NetworkFabricPropertiesInputFeatureFlagsList = Array<FeatureFlagProperties>;
@@ -2598,46 +2616,48 @@ export interface UniqueRouteDistinguisherPropertiesInput {
   /** Unique Route Distinguisher configuration state. Default is Enabled. */
   uniqueRdConfigurationState?:
     | UniqueRouteDistinguisherPropertiesInputUniqueRdConfigurationState
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** NNI derived unique Route Distinguisher state. Default is Disabled. */
   nniDerivedUniqueRdConfigurationState?:
     | UniqueRouteDistinguisherPropertiesInputNniDerivedUniqueRdConfigurationState
-    | (string & {});
+    | (string & {})
+    | undefined;
 }
 /** Authorized Transceiver Properties. */
 export interface AuthorizedTransceiverProperties {
   /** Vendor of the transceiver. */
-  vendor?: string;
+  vendor?: string | undefined;
   /** Key that must be configured on the fabric. */
-  key?: string;
+  key?: string | undefined;
 }
 /** QoS configuration state. Default is Disabled. */
 export type QosPropertiesQosConfigurationState = "Disabled" | "Enabled";
 /** NetworkFabric QoS Properties. */
 export interface QosProperties {
   /** QoS configuration state. Default is Disabled. */
-  qosConfigurationState?: QosPropertiesQosConfigurationState | (string & {});
+  qosConfigurationState?: QosPropertiesQosConfigurationState | (string & {}) | undefined;
 }
 /** Network Fabric Properties defines the properties of the resource. */
 export interface NetworkFabricPropertiesInput {
   /** Switch configuration description. */
-  annotation?: string;
+  annotation?: string | undefined;
   /** Supported Network Fabric SKU.Example: Compute / Aggregate racks. Once the user chooses a particular SKU, only supported racks can be added to the Network Fabric. The SKU determines whether it is a single / multi rack Network Fabric. */
   networkFabricSku: string;
   /** The version of Network Fabric. */
-  fabricVersion?: string;
+  fabricVersion?: string | undefined;
   /** Bring your own storage account configurations for Network Fabric. */
-  storageAccountConfiguration?: StorageAccountConfiguration;
+  storageAccountConfiguration?: StorageAccountConfiguration | undefined;
   /** Azure resource ID for the NetworkFabricController the NetworkFabric belongs. */
   networkFabricControllerId: string;
   /** Number of compute racks associated to Network Fabric. */
-  rackCount?: number;
+  rackCount?: number | undefined;
   /** Number of servers.Possible values are from 1-16. */
   serverCountPerRack: number;
   /** IPv4Prefix for Management Network. Example: 10.1.0.0/19. */
   ipv4Prefix: string;
   /** IPv6Prefix for Management Network. Example: 3FFE:FFFF:0:CD40::/59 */
-  ipv6Prefix?: string;
+  ipv6Prefix?: string | undefined;
   /** ASN of CE devices for CE/PE connectivity. */
   fabricASN: number;
   /** Network and credentials configuration currently applied to terminal server. */
@@ -2645,21 +2665,21 @@ export interface NetworkFabricPropertiesInput {
   /** Configuration to be used to setup the management network. */
   managementNetworkConfiguration: ManagementNetworkConfigurationPropertiesInput;
   /** Hardware alert threshold percentage. Possible values are from 20 to 100. */
-  hardwareAlertThreshold?: number;
+  hardwareAlertThreshold?: number | undefined;
   /** Control Plane Access Control List ARM resource IDs. */
-  controlPlaneAcls?: NetworkFabricPropertiesInputControlPlaneAclsList;
+  controlPlaneAcls?: NetworkFabricPropertiesInputControlPlaneAclsList | undefined;
   /** NetworkFabric feature flag configuration information */
-  featureFlags?: NetworkFabricPropertiesInputFeatureFlagsList;
+  featureFlags?: NetworkFabricPropertiesInputFeatureFlagsList | undefined;
   /** Trusted IP Prefixes ARM resource IDs. */
-  trustedIpPrefixes?: NetworkFabricPropertiesInputTrustedIpPrefixesList;
+  trustedIpPrefixes?: NetworkFabricPropertiesInputTrustedIpPrefixesList | undefined;
   /** Unique Route Distinguisher configuration */
-  uniqueRdConfiguration?: UniqueRouteDistinguisherPropertiesInput;
+  uniqueRdConfiguration?: UniqueRouteDistinguisherPropertiesInput | undefined;
   /** Number of Storage arrays associated with the Network Fabric. */
-  storageArrayCount?: number;
+  storageArrayCount?: number | undefined;
   /** Authorized transciever configuration for NetworkFabric. */
-  authorizedTransceiver?: AuthorizedTransceiverProperties;
+  authorizedTransceiver?: AuthorizedTransceiverProperties | undefined;
   /** NetworkFabric QoS Configuration */
-  qosConfiguration?: QosProperties;
+  qosConfiguration?: QosProperties | undefined;
 }
 /** Managed service identity (system assigned and/or user assigned identities) */
 export type CreateNetworkFabricRequestIdentity = CreateL2IsolationDomainRequestIdentity;
@@ -2671,13 +2691,13 @@ export interface CreateNetworkFabricRequest {
   /** Name of the Network Fabric. */
   networkFabricName: string;
   /** Resource tags. */
-  tags?: CreateNetworkFabricRequestTagsMap;
+  tags?: CreateNetworkFabricRequestTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The NetworkFabric Properties */
   properties: NetworkFabricPropertiesInput;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: CreateL2IsolationDomainRequestIdentity;
+  identity?: CreateL2IsolationDomainRequestIdentity | undefined;
 }
 /** Resource tags. */
 export type CreateNetworkFabricResponseTagsMap = { [key: string]: string | undefined };
@@ -2690,9 +2710,9 @@ export type NetworkFabricLockType = "Administrative" | "Configuration";
 /** Network Fabric Lock Configuration. */
 export interface FabricLockProperties {
   /** NetworkFabric Lock State. */
-  lockState?: LockConfigurationState;
+  lockState?: LockConfigurationState | undefined;
   /** NetworkFabric Lock Type. */
-  lockType?: NetworkFabricLockType;
+  lockType?: NetworkFabricLockType | undefined;
 }
 /** Network Fabric Lock details */
 export type NetworkFabricPropertiesFabricLocksList = Array<FabricLockProperties>;
@@ -2705,51 +2725,51 @@ export interface TerminalServerConfiguration {
   /** Password for the terminal server connection. */
   password: string | Redacted.Redacted<string>;
   /** Serial Number of Terminal server. */
-  serialNumber?: string;
+  serialNumber?: string | undefined;
   /** IPv4 Address Prefix. */
   primaryIpv4Prefix: string;
   /** IPv6 Address Prefix. */
-  primaryIpv6Prefix?: string;
+  primaryIpv6Prefix?: string | undefined;
   /** Secondary IPv4 Address Prefix. */
   secondaryIpv4Prefix: string;
   /** Secondary IPv6 Address Prefix. */
-  secondaryIpv6Prefix?: string;
+  secondaryIpv6Prefix?: string | undefined;
   /** ARM Resource ID used for the NetworkDevice. */
-  networkDeviceId?: string;
+  networkDeviceId?: string | undefined;
   /** Secret rotation status for the terminal server's secrets. */
-  secretRotationStatus?: TerminalServerConfigurationSecretRotationStatusList;
+  secretRotationStatus?: TerminalServerConfigurationSecretRotationStatusList | undefined;
 }
 /** option A properties */
 export interface VpnOptionAProperties {
   /** IPv4 Address Prefix. */
-  primaryIpv4Prefix?: string;
+  primaryIpv4Prefix?: string | undefined;
   /** IPv6 Address Prefix. */
-  primaryIpv6Prefix?: string;
+  primaryIpv6Prefix?: string | undefined;
   /** Secondary IPv4 Address Prefix. */
-  secondaryIpv4Prefix?: string;
+  secondaryIpv4Prefix?: string | undefined;
   /** Secondary IPv6 Address Prefix. */
-  secondaryIpv6Prefix?: string;
+  secondaryIpv6Prefix?: string | undefined;
   /** MTU to use for option A peering. */
-  mtu?: number;
+  mtu?: number | undefined;
   /** Vlan Id.Example : 501 */
   vlanId: number;
   /** Peer ASN number.Example : 28 */
   peerASN: number;
   /** BFD Configuration properties. */
-  bfdConfiguration?: BfdConfiguration;
+  bfdConfiguration?: BfdConfiguration | undefined;
 }
 /** Network and credential configuration currently applied on terminal server. */
 export interface VpnConfigurationProperties {
   /** ARM Resource ID of the Network To Network Interconnect. */
-  networkToNetworkInterconnectId?: string;
+  networkToNetworkInterconnectId?: string | undefined;
   /** Administrative state of the resource. */
-  administrativeState?: AdministrativeState;
+  administrativeState?: AdministrativeState | undefined;
   /** Peering option list. */
   peeringOption: PeeringOption;
   /** option B properties */
-  optionBProperties?: VpnOptionBProperties;
+  optionBProperties?: VpnOptionBProperties | undefined;
   /** option A properties */
-  optionAProperties?: VpnOptionAProperties;
+  optionAProperties?: VpnOptionAProperties | undefined;
 }
 /** Configuration to be used to setup the management network. */
 export interface ManagementNetworkConfigurationProperties {
@@ -2781,43 +2801,47 @@ export type UniqueRouteDistinguisherPropertiesNniDerivedUniqueRdConfigurationSta
 /** Unique Route Distinguisher properties. */
 export interface UniqueRouteDistinguisherProperties {
   /** Unique Route Distinguisher configuration state. Default is Enabled. */
-  uniqueRdConfigurationState?: UniqueRouteDistinguisherPropertiesUniqueRdConfigurationState;
+  uniqueRdConfigurationState?:
+    | UniqueRouteDistinguisherPropertiesUniqueRdConfigurationState
+    | undefined;
   /** List of Unique Route Distinguisher addresses. */
-  uniqueRds?: UniqueRouteDistinguisherPropertiesUniqueRdsList;
+  uniqueRds?: UniqueRouteDistinguisherPropertiesUniqueRdsList | undefined;
   /** NNI derived unique Route Distinguisher state. Default is Disabled. */
-  nniDerivedUniqueRdConfigurationState?: UniqueRouteDistinguisherPropertiesNniDerivedUniqueRdConfigurationState;
+  nniDerivedUniqueRdConfigurationState?:
+    | UniqueRouteDistinguisherPropertiesNniDerivedUniqueRdConfigurationState
+    | undefined;
 }
 /** Active commit batch identifiers */
 export type NetworkFabricPropertiesActiveCommitBatchesList = Array<string>;
 /** Overview of secret rotation for the Network Fabric. */
 export interface SecretRotationSummary {
   /** The number of active password sets configured on the devices. */
-  activePasswordSetCount?: number;
+  activePasswordSetCount?: number | undefined;
 }
 /** Network Fabric Properties defines the properties of the resource. */
 export interface NetworkFabricProperties {
   /** Switch configuration description. */
-  annotation?: string;
+  annotation?: string | undefined;
   /** Supported Network Fabric SKU.Example: Compute / Aggregate racks. Once the user chooses a particular SKU, only supported racks can be added to the Network Fabric. The SKU determines whether it is a single / multi rack Network Fabric. */
   networkFabricSku: string;
   /** The version of Network Fabric. */
-  fabricVersion?: string;
+  fabricVersion?: string | undefined;
   /** Array of router IDs. */
-  routerIds?: NetworkFabricPropertiesRouterIdsList;
+  routerIds?: NetworkFabricPropertiesRouterIdsList | undefined;
   /** Bring your own storage account configurations for Network Fabric. */
-  storageAccountConfiguration?: StorageAccountConfiguration;
+  storageAccountConfiguration?: StorageAccountConfiguration | undefined;
   /** Network Fabric Lock details */
-  fabricLocks?: NetworkFabricPropertiesFabricLocksList;
+  fabricLocks?: NetworkFabricPropertiesFabricLocksList | undefined;
   /** Azure resource ID for the NetworkFabricController the NetworkFabric belongs. */
   networkFabricControllerId: string;
   /** Number of compute racks associated to Network Fabric. */
-  rackCount?: number;
+  rackCount?: number | undefined;
   /** Number of servers.Possible values are from 1-16. */
   serverCountPerRack: number;
   /** IPv4Prefix for Management Network. Example: 10.1.0.0/19. */
   ipv4Prefix: string;
   /** IPv6Prefix for Management Network. Example: 3FFE:FFFF:0:CD40::/59 */
-  ipv6Prefix?: string;
+  ipv6Prefix?: string | undefined;
   /** ASN of CE devices for CE/PE connectivity. */
   fabricASN: number;
   /** Network and credentials configuration currently applied to terminal server. */
@@ -2825,63 +2849,63 @@ export interface NetworkFabricProperties {
   /** Configuration to be used to setup the management network. */
   managementNetworkConfiguration: ManagementNetworkConfigurationProperties;
   /** List of NetworkRack resource IDs under the Network Fabric. The number of racks allowed depends on the Network Fabric SKU. */
-  racks?: NetworkFabricPropertiesRacksList;
+  racks?: NetworkFabricPropertiesRacksList | undefined;
   /** List of L2 Isolation Domain resource IDs under the Network Fabric. */
-  l2IsolationDomains?: NetworkFabricPropertiesL2IsolationDomainsList;
+  l2IsolationDomains?: NetworkFabricPropertiesL2IsolationDomainsList | undefined;
   /** List of L3 Isolation Domain resource IDs under the Network Fabric. */
-  l3IsolationDomains?: NetworkFabricPropertiesL3IsolationDomainsList;
+  l3IsolationDomains?: NetworkFabricPropertiesL3IsolationDomainsList | undefined;
   /** Hardware alert threshold percentage. Possible values are from 20 to 100. */
-  hardwareAlertThreshold?: number;
+  hardwareAlertThreshold?: number | undefined;
   /** Control Plane Access Control List ARM resource IDs. */
-  controlPlaneAcls?: NetworkFabricPropertiesControlPlaneAclsList;
+  controlPlaneAcls?: NetworkFabricPropertiesControlPlaneAclsList | undefined;
   /** NetworkFabric feature flag configuration information */
-  featureFlags?: NetworkFabricPropertiesFeatureFlagsList;
+  featureFlags?: NetworkFabricPropertiesFeatureFlagsList | undefined;
   /** Trusted IP Prefixes ARM resource IDs. */
-  trustedIpPrefixes?: NetworkFabricPropertiesTrustedIpPrefixesList;
+  trustedIpPrefixes?: NetworkFabricPropertiesTrustedIpPrefixesList | undefined;
   /** Unique Route Distinguisher configuration */
-  uniqueRdConfiguration?: UniqueRouteDistinguisherProperties;
+  uniqueRdConfiguration?: UniqueRouteDistinguisherProperties | undefined;
   /** Number of Storage arrays associated with the Network Fabric. */
-  storageArrayCount?: number;
+  storageArrayCount?: number | undefined;
   /** Active commit batch identifiers */
-  activeCommitBatches?: NetworkFabricPropertiesActiveCommitBatchesList;
+  activeCommitBatches?: NetworkFabricPropertiesActiveCommitBatchesList | undefined;
   /** Overview of secret rotation for the Network Fabric. */
-  secretRotationSummary?: SecretRotationSummary;
+  secretRotationSummary?: SecretRotationSummary | undefined;
   /** Details of the last operation performed on the resource */
-  lastOperation?: LastOperationProperties;
+  lastOperation?: LastOperationProperties | undefined;
   /** Authorized transciever configuration for NetworkFabric. */
-  authorizedTransceiver?: AuthorizedTransceiverProperties;
+  authorizedTransceiver?: AuthorizedTransceiverProperties | undefined;
   /** Configuration state of the resource. */
-  configurationState?: ConfigurationState;
+  configurationState?: ConfigurationState | undefined;
   /** Provides you the latest status of the NFC service, whether it is Accepted, updating, Succeeded or Failed. During this process, the states keep changing based on the status of NFC provisioning. */
-  provisioningState?: ProvisioningState;
+  provisioningState?: ProvisioningState | undefined;
   /** Administrative state of the resource. */
-  administrativeState?: AdministrativeState;
+  administrativeState?: AdministrativeState | undefined;
   /** NetworkFabric QoS Configuration */
-  qosConfiguration?: QosProperties;
+  qosConfiguration?: QosProperties | undefined;
 }
 /** Managed service identity (system assigned and/or user assigned identities) */
 export type CreateNetworkFabricResponseIdentity = CreateL2IsolationDomainResponseIdentity;
 export interface CreateNetworkFabricResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: CreateNetworkFabricResponseTagsMap;
+  tags?: CreateNetworkFabricResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The NetworkFabric Properties */
   properties: NetworkFabricProperties;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: CreateL2IsolationDomainResponseIdentity;
+  identity?: CreateL2IsolationDomainResponseIdentity | undefined;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Resource tags. */
 export type CreateNetworkFabricControllerRequestTagsMap = { [key: string]: string | undefined };
@@ -2901,9 +2925,9 @@ export type NetworkFabricControllerPropertiesInputWorkloadExpressRouteConnection
 /** Managed Resource Group configuration properties. */
 export interface ManagedResourceGroupConfiguration {
   /** The NFC service will be hosted in a Managed resource group. */
-  name?: string;
+  name?: string | undefined;
   /** Managed resource group location. */
-  location?: string;
+  location?: string | undefined;
 }
 /** A workload management network is required for all the tenant (workload) traffic. This traffic is only dedicated for Tenant workloads which are required to access internet or any other MSFT/Public endpoints. */
 export type NetworkFabricControllerPropertiesInputIsWorkloadManagementNetworkEnabled =
@@ -2914,23 +2938,28 @@ export type NetworkFabricControllerPropertiesInputNfcSku = "Basic" | "Standard" 
 /** NetworkFabricControllerProperties defines the resource properties. */
 export interface NetworkFabricControllerPropertiesInput {
   /** Switch configuration description. */
-  annotation?: string;
+  annotation?: string | undefined;
   /** As part of an update, the Infrastructure ExpressRoute CircuitID should be provided to create and Provision a NFC. This Express route is dedicated for Infrastructure services. (This is a Mandatory attribute) */
-  infrastructureExpressRouteConnections?: NetworkFabricControllerPropertiesInputInfrastructureExpressRouteConnectionsList;
+  infrastructureExpressRouteConnections?:
+    | NetworkFabricControllerPropertiesInputInfrastructureExpressRouteConnectionsList
+    | undefined;
   /** As part of an update, the workload ExpressRoute CircuitID should be provided to create and Provision a NFC. This Express route is dedicated for Workload services. (This is a Mandatory attribute). */
-  workloadExpressRouteConnections?: NetworkFabricControllerPropertiesInputWorkloadExpressRouteConnectionsList;
+  workloadExpressRouteConnections?:
+    | NetworkFabricControllerPropertiesInputWorkloadExpressRouteConnectionsList
+    | undefined;
   /** Managed Resource Group configuration properties. */
-  managedResourceGroupConfiguration?: ManagedResourceGroupConfiguration;
+  managedResourceGroupConfiguration?: ManagedResourceGroupConfiguration | undefined;
   /** A workload management network is required for all the tenant (workload) traffic. This traffic is only dedicated for Tenant workloads which are required to access internet or any other MSFT/Public endpoints. */
   isWorkloadManagementNetworkEnabled?:
     | NetworkFabricControllerPropertiesInputIsWorkloadManagementNetworkEnabled
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** IPv4 Network Fabric Controller Address Space. */
-  ipv4AddressSpace?: string;
+  ipv4AddressSpace?: string | undefined;
   /** IPv6 Network Fabric Controller Address Space. */
-  ipv6AddressSpace?: string;
+  ipv6AddressSpace?: string | undefined;
   /** Network Fabric Controller SKU. */
-  nfcSku?: NetworkFabricControllerPropertiesInputNfcSku | (string & {});
+  nfcSku?: NetworkFabricControllerPropertiesInputNfcSku | (string & {}) | undefined;
 }
 /** Managed service identity (system assigned and/or user assigned identities) */
 export type CreateNetworkFabricControllerRequestIdentity = CreateL2IsolationDomainRequestIdentity;
@@ -2942,13 +2971,13 @@ export interface CreateNetworkFabricControllerRequest {
   /** Name of the Network Fabric Controller. */
   networkFabricControllerName: string;
   /** Resource tags. */
-  tags?: CreateNetworkFabricControllerRequestTagsMap;
+  tags?: CreateNetworkFabricControllerRequestTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The NetworkFabricController Properties */
   properties: NetworkFabricControllerPropertiesInput;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: CreateL2IsolationDomainRequestIdentity;
+  identity?: CreateL2IsolationDomainRequestIdentity | undefined;
 }
 /** Resource tags. */
 export type CreateNetworkFabricControllerResponseTagsMap = { [key: string]: string | undefined };
@@ -2965,9 +2994,9 @@ export type ControllerServicesIpv6AddressSpacesList = Array<string>;
 /** Network Fabric Controller services. */
 export interface ControllerServices {
   /** The IPv4 Address space is optional, if the value is not defined at the time of NFC creation, then the default value 10.0.0.0/19 is considered. The IPV4 address subnet is an optional attribute. */
-  ipv4AddressSpaces?: ControllerServicesIpv4AddressSpacesList;
+  ipv4AddressSpaces?: ControllerServicesIpv4AddressSpacesList | undefined;
   /** The IPv6 is not supported right now. */
-  ipv6AddressSpaces?: ControllerServicesIpv6AddressSpacesList;
+  ipv6AddressSpaces?: ControllerServicesIpv6AddressSpacesList | undefined;
 }
 /** The NF-ID will be an input parameter used by the NF to link and get associated with the parent NFC Service. */
 export type NetworkFabricControllerPropertiesNetworkFabricIdsList = Array<string>;
@@ -2980,64 +3009,72 @@ export type NetworkFabricControllerPropertiesNfcSku = "Basic" | "Standard" | "Hi
 /** NetworkFabricControllerProperties defines the resource properties. */
 export interface NetworkFabricControllerProperties {
   /** Switch configuration description. */
-  annotation?: string;
+  annotation?: string | undefined;
   /** As part of an update, the Infrastructure ExpressRoute CircuitID should be provided to create and Provision a NFC. This Express route is dedicated for Infrastructure services. (This is a Mandatory attribute) */
-  infrastructureExpressRouteConnections?: NetworkFabricControllerPropertiesInfrastructureExpressRouteConnectionsList;
+  infrastructureExpressRouteConnections?:
+    | NetworkFabricControllerPropertiesInfrastructureExpressRouteConnectionsList
+    | undefined;
   /** As part of an update, the workload ExpressRoute CircuitID should be provided to create and Provision a NFC. This Express route is dedicated for Workload services. (This is a Mandatory attribute). */
-  workloadExpressRouteConnections?: NetworkFabricControllerPropertiesWorkloadExpressRouteConnectionsList;
+  workloadExpressRouteConnections?:
+    | NetworkFabricControllerPropertiesWorkloadExpressRouteConnectionsList
+    | undefined;
   /** InfrastructureServices IP ranges. */
-  infrastructureServices?: ControllerServices;
+  infrastructureServices?: ControllerServices | undefined;
   /** WorkloadServices IP ranges. */
-  workloadServices?: ControllerServices;
+  workloadServices?: ControllerServices | undefined;
   /** Managed Resource Group configuration properties. */
-  managedResourceGroupConfiguration?: ManagedResourceGroupConfiguration;
+  managedResourceGroupConfiguration?: ManagedResourceGroupConfiguration | undefined;
   /** The NF-ID will be an input parameter used by the NF to link and get associated with the parent NFC Service. */
-  networkFabricIds?: NetworkFabricControllerPropertiesNetworkFabricIdsList;
+  networkFabricIds?: NetworkFabricControllerPropertiesNetworkFabricIdsList | undefined;
   /** A workload management network is required for all the tenant (workload) traffic. This traffic is only dedicated for Tenant workloads which are required to access internet or any other MSFT/Public endpoints. */
-  isWorkloadManagementNetworkEnabled?: NetworkFabricControllerPropertiesIsWorkloadManagementNetworkEnabled;
+  isWorkloadManagementNetworkEnabled?:
+    | NetworkFabricControllerPropertiesIsWorkloadManagementNetworkEnabled
+    | undefined;
   /** List of tenant InternetGateway resource IDs */
-  tenantInternetGatewayIds?: NetworkFabricControllerPropertiesTenantInternetGatewayIdsList;
+  tenantInternetGatewayIds?:
+    | NetworkFabricControllerPropertiesTenantInternetGatewayIdsList
+    | undefined;
   /** IPv4 Network Fabric Controller Address Space. */
-  ipv4AddressSpace?: string;
+  ipv4AddressSpace?: string | undefined;
   /** IPv6 Network Fabric Controller Address Space. */
-  ipv6AddressSpace?: string;
+  ipv6AddressSpace?: string | undefined;
   /** Network Fabric Controller SKU. */
-  nfcSku?: NetworkFabricControllerPropertiesNfcSku;
+  nfcSku?: NetworkFabricControllerPropertiesNfcSku | undefined;
   /** Details of the last operation performed on the resource */
-  lastOperation?: LastOperationProperties;
+  lastOperation?: LastOperationProperties | undefined;
   /** Provides you the latest status of the NFC service, whether it is Accepted, updating, Succeeded or Failed. During this process, the states keep changing based on the status of NFC provisioning. */
-  provisioningState?: ProvisioningState;
+  provisioningState?: ProvisioningState | undefined;
 }
 /** Managed service identity (system assigned and/or user assigned identities) */
 export type CreateNetworkFabricControllerResponseIdentity = CreateL2IsolationDomainResponseIdentity;
 export interface CreateNetworkFabricControllerResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: CreateNetworkFabricControllerResponseTagsMap;
+  tags?: CreateNetworkFabricControllerResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The NetworkFabricController Properties */
   properties: NetworkFabricControllerProperties;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: CreateL2IsolationDomainResponseIdentity;
+  identity?: CreateL2IsolationDomainResponseIdentity | undefined;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Network Interface Properties defines the properties of the resource. */
 export interface NetworkInterfacePropertiesInput {
   /** Switch configuration description. */
-  annotation?: string;
+  annotation?: string | undefined;
   /** Additional description of the interface. */
-  additionalDescription?: string;
+  additionalDescription?: string | undefined;
 }
 /** Managed service identity (system assigned and/or user assigned identities) */
 export type CreateNetworkInterfaceRequestIdentity = CreateL2IsolationDomainRequestIdentity;
@@ -3053,56 +3090,56 @@ export interface CreateNetworkInterfaceRequest {
   /** The NetworkInterface properties */
   properties: NetworkInterfacePropertiesInput;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: CreateL2IsolationDomainRequestIdentity;
+  identity?: CreateL2IsolationDomainRequestIdentity | undefined;
 }
 /** Network Interface Properties defines the properties of the resource. */
 export interface NetworkInterfaceProperties {
   /** Switch configuration description. */
-  annotation?: string;
+  annotation?: string | undefined;
   /** Physical Identifier of the network interface. */
-  physicalIdentifier?: string;
+  physicalIdentifier?: string | undefined;
   /** The ARM resource id of the interface or compute server its connected to. */
-  connectedTo?: string;
+  connectedTo?: string | undefined;
   /** The Interface Type. Example: Management/Data */
-  interfaceType?: InterfaceType;
+  interfaceType?: InterfaceType | undefined;
   /** IPv4Address of the interface. */
-  ipv4Address?: string;
+  ipv4Address?: string | undefined;
   /** IPv6Address of the interface. */
-  ipv6Address?: string;
+  ipv6Address?: string | undefined;
   /** Description of the interface. */
-  description?: string;
+  description?: string | undefined;
   /** Additional description of the interface. */
-  additionalDescription?: string;
+  additionalDescription?: string | undefined;
   /** Details of the last operation performed on the resource */
-  lastOperation?: LastOperationProperties;
+  lastOperation?: LastOperationProperties | undefined;
   /** Associated Network Fabric Resource ID */
-  networkFabricId?: string;
+  networkFabricId?: string | undefined;
   /** Provisioning state of the resource. */
-  provisioningState?: ProvisioningState;
+  provisioningState?: ProvisioningState | undefined;
   /** Administrative state of the resource. */
-  administrativeState?: AdministrativeState;
+  administrativeState?: AdministrativeState | undefined;
   /** Configuration state of the resource. */
-  configurationState?: ConfigurationState;
+  configurationState?: ConfigurationState | undefined;
 }
 /** Managed service identity (system assigned and/or user assigned identities) */
 export type CreateNetworkInterfaceResponseIdentity = CreateL2IsolationDomainResponseIdentity;
 export interface CreateNetworkInterfaceResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The NetworkInterface properties */
   properties: NetworkInterfaceProperties;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: CreateL2IsolationDomainResponseIdentity;
+  identity?: CreateL2IsolationDomainResponseIdentity | undefined;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Resource tags. */
 export type CreateNetworkMonitorRequestTagsMap = { [key: string]: string | undefined };
@@ -3113,11 +3150,11 @@ export type StationConnectionMode = "Active" | "Passive";
 /** Station Connection Properties. */
 export interface StationConnectionProperties {
   /** Connection keepalive idle time in seconds */
-  keepaliveIdleTime?: number;
+  keepaliveIdleTime?: number | undefined;
   /** Probe interval in seconds, default value is 60 */
-  probeInterval?: number;
+  probeInterval?: number | undefined;
   /** Probe count, default value is 10 */
-  probeCount?: number;
+  probeCount?: number | undefined;
 }
 /** The List of Network ID's that need to be monitored. */
 export type BmpConfigurationPropertiesMonitoredNetworksList = Array<string>;
@@ -3141,36 +3178,36 @@ export type BmpConfigurationPropertiesMonitoredAddressFamiliesList = Array<
 /** BGP Monitoring Protocol (BMP) Configuration properties. */
 export interface BmpConfigurationProperties {
   /** Enabling a station. Either True/False. */
-  stationConfigurationState?: StationConfigurationState | (string & {});
+  stationConfigurationState?: StationConfigurationState | (string & {}) | undefined;
   /** Scope resource ARM Identifier. */
-  scopeResourceId?: string;
+  scopeResourceId?: string | undefined;
   /** Name of the station. */
-  stationName?: string;
+  stationName?: string | undefined;
   /** IP Address of the station. */
-  stationIp?: string;
+  stationIp?: string | undefined;
   /** Port of the station. Default value is 5000. */
-  stationPort?: number;
+  stationPort?: number | undefined;
   /** Station Connection Mode. */
-  stationConnectionMode?: StationConnectionMode | (string & {});
+  stationConnectionMode?: StationConnectionMode | (string & {}) | undefined;
   /** Station Connection Properties. */
-  stationConnectionProperties?: StationConnectionProperties;
+  stationConnectionProperties?: StationConnectionProperties | undefined;
   /** Network of the station */
-  stationNetwork?: string;
+  stationNetwork?: string | undefined;
   /** The List of Network ID's that need to be monitored. */
-  monitoredNetworks?: BmpConfigurationPropertiesMonitoredNetworksList;
+  monitoredNetworks?: BmpConfigurationPropertiesMonitoredNetworksList | undefined;
   /** Export Policy for the BMP Configuration. */
-  exportPolicy?: BmpConfigurationPropertiesExportPolicy | (string & {});
+  exportPolicy?: BmpConfigurationPropertiesExportPolicy | (string & {}) | undefined;
   /** Export Policy configuration properties for the BMP. */
-  exportPolicyConfiguration?: BmpExportPolicyProperties;
+  exportPolicyConfiguration?: BmpExportPolicyProperties | undefined;
   /** Monitored Address Families for the BMP Configuration. */
-  monitoredAddressFamilies?: BmpConfigurationPropertiesMonitoredAddressFamiliesList;
+  monitoredAddressFamilies?: BmpConfigurationPropertiesMonitoredAddressFamiliesList | undefined;
 }
 /** Network Monitor Properties defines the properties of the resource. */
 export interface NetworkMonitorPropertiesInput {
   /** Switch configuration description. */
-  annotation?: string;
+  annotation?: string | undefined;
   /** BMP Configurations for the Network Fabric. */
-  bmpConfiguration?: BmpConfigurationProperties;
+  bmpConfiguration?: BmpConfigurationProperties | undefined;
 }
 export interface CreateNetworkMonitorRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -3180,7 +3217,7 @@ export interface CreateNetworkMonitorRequest {
   /** Name of the Network Monitor. */
   networkMonitorName: string;
   /** Resource tags. */
-  tags?: CreateNetworkMonitorRequestTagsMap;
+  tags?: CreateNetworkMonitorRequestTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The NetworkMonitor properties. */
@@ -3191,37 +3228,37 @@ export type CreateNetworkMonitorResponseTagsMap = { [key: string]: string | unde
 /** Network Monitor Properties defines the properties of the resource. */
 export interface NetworkMonitorProperties {
   /** Switch configuration description. */
-  annotation?: string;
+  annotation?: string | undefined;
   /** BMP Configurations for the Network Fabric. */
-  bmpConfiguration?: BmpConfigurationProperties;
+  bmpConfiguration?: BmpConfigurationProperties | undefined;
   /** Details of the last operation performed on the resource */
-  lastOperation?: LastOperationProperties;
+  lastOperation?: LastOperationProperties | undefined;
   /** Configuration state of the resource. */
-  configurationState?: ConfigurationState;
+  configurationState?: ConfigurationState | undefined;
   /** Provides you the latest status of the NetworkMonitor resource */
-  provisioningState?: ProvisioningState;
+  provisioningState?: ProvisioningState | undefined;
   /** Administrative state of the resource. */
-  administrativeState?: AdministrativeState;
+  administrativeState?: AdministrativeState | undefined;
 }
 export interface CreateNetworkMonitorResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: CreateNetworkMonitorResponseTagsMap;
+  tags?: CreateNetworkMonitorResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The NetworkMonitor properties. */
   properties: NetworkMonitorProperties;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Resource tags. */
 export type CreateNetworkPacketBrokerRequestTagsMap = { [key: string]: string | undefined };
@@ -3240,13 +3277,13 @@ export interface CreateNetworkPacketBrokerRequest {
   /** Name of the Network Packet Broker. */
   networkPacketBrokerName: string;
   /** Resource tags. */
-  tags?: CreateNetworkPacketBrokerRequestTagsMap;
+  tags?: CreateNetworkPacketBrokerRequestTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The NetworkPacketBroker properties */
   properties: NetworkPacketBrokerPropertiesInput;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: CreateL2IsolationDomainRequestIdentity;
+  identity?: CreateL2IsolationDomainRequestIdentity | undefined;
 }
 /** Resource tags. */
 export type CreateNetworkPacketBrokerResponseTagsMap = { [key: string]: string | undefined };
@@ -3263,43 +3300,43 @@ export interface NetworkPacketBrokerProperties {
   /** ARM resource ID of the Network Fabric. */
   networkFabricId: string;
   /** List of ARM resource IDs of Network Devices [NPB]. */
-  networkDeviceIds?: NetworkPacketBrokerPropertiesNetworkDeviceIdsList;
+  networkDeviceIds?: NetworkPacketBrokerPropertiesNetworkDeviceIdsList | undefined;
   /** List of network interfaces across NPB devices that are used to mirror source traffic. */
-  sourceInterfaceIds?: NetworkPacketBrokerPropertiesSourceInterfaceIdsList;
+  sourceInterfaceIds?: NetworkPacketBrokerPropertiesSourceInterfaceIdsList | undefined;
   /** List of network Tap IDs configured on NPB. */
-  networkTapIds?: NetworkPacketBrokerPropertiesNetworkTapIdsList;
+  networkTapIds?: NetworkPacketBrokerPropertiesNetworkTapIdsList | undefined;
   /** List of neighbor group IDs configured on NPB. */
-  neighborGroupIds?: NetworkPacketBrokerPropertiesNeighborGroupIdsList;
+  neighborGroupIds?: NetworkPacketBrokerPropertiesNeighborGroupIdsList | undefined;
   /** Details of the last operation performed on the resource */
-  lastOperation?: LastOperationProperties;
+  lastOperation?: LastOperationProperties | undefined;
   /** Provisioning state of the resource. */
-  provisioningState?: ProvisioningState;
+  provisioningState?: ProvisioningState | undefined;
   /** Configuration state of the resource. */
-  configurationState?: ConfigurationState;
+  configurationState?: ConfigurationState | undefined;
 }
 /** Managed service identity (system assigned and/or user assigned identities) */
 export type CreateNetworkPacketBrokerResponseIdentity = CreateL2IsolationDomainResponseIdentity;
 export interface CreateNetworkPacketBrokerResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: CreateNetworkPacketBrokerResponseTagsMap;
+  tags?: CreateNetworkPacketBrokerResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The NetworkPacketBroker properties */
   properties: NetworkPacketBrokerProperties;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: CreateL2IsolationDomainResponseIdentity;
+  identity?: CreateL2IsolationDomainResponseIdentity | undefined;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Resource tags. */
 export type CreateNetworkRackRequestTagsMap = { [key: string]: string | undefined };
@@ -3308,9 +3345,9 @@ export type NetworkRackType = "Aggregate" | "Compute" | "Combined";
 /** Network Rack Properties defines the properties of the resource. */
 export interface NetworkRackPropertiesInput {
   /** Switch configuration description. */
-  annotation?: string;
+  annotation?: string | undefined;
   /** Network Rack SKU name. */
-  networkRackType?: NetworkRackType | (string & {});
+  networkRackType?: NetworkRackType | (string & {}) | undefined;
   /** ARM resource ID of the Network Fabric. */
   networkFabricId: string;
 }
@@ -3322,7 +3359,7 @@ export interface CreateNetworkRackRequest {
   /** Name of the Network Rack. */
   networkRackName: string;
   /** Resource tags. */
-  tags?: CreateNetworkRackRequestTagsMap;
+  tags?: CreateNetworkRackRequestTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Network Rack Properties */
@@ -3335,39 +3372,39 @@ export type NetworkRackPropertiesNetworkDevicesList = Array<string>;
 /** Network Rack Properties defines the properties of the resource. */
 export interface NetworkRackProperties {
   /** Switch configuration description. */
-  annotation?: string;
+  annotation?: string | undefined;
   /** Network Rack SKU name. */
-  networkRackType?: NetworkRackType;
+  networkRackType?: NetworkRackType | undefined;
   /** ARM resource ID of the Network Fabric. */
   networkFabricId: string;
   /** List of network device ARM resource IDs. */
-  networkDevices?: NetworkRackPropertiesNetworkDevicesList;
+  networkDevices?: NetworkRackPropertiesNetworkDevicesList | undefined;
   /** Details of the last operation performed on the resource */
-  lastOperation?: LastOperationProperties;
+  lastOperation?: LastOperationProperties | undefined;
   /** Provisioning state of the resource. */
-  provisioningState?: ProvisioningState;
+  provisioningState?: ProvisioningState | undefined;
   /** Configuration state of the resource. */
-  configurationState?: ConfigurationState;
+  configurationState?: ConfigurationState | undefined;
 }
 export interface CreateNetworkRackResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: CreateNetworkRackResponseTagsMap;
+  tags?: CreateNetworkRackResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Network Rack Properties */
   properties: NetworkRackProperties;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Resource tags. */
 export type CreateNetworkTapRequestTagsMap = { [key: string]: string | undefined };
@@ -3380,9 +3417,9 @@ export type IsolationDomainPropertiesNeighborGroupIdsList = Array<string>;
 /** Isolation Domain Properties. */
 export interface IsolationDomainProperties {
   /** Type of encapsulation. */
-  encapsulation?: Encapsulation | (string & {});
+  encapsulation?: Encapsulation | (string & {}) | undefined;
   /** List of Neighbor Group IDs. */
-  neighborGroupIds?: IsolationDomainPropertiesNeighborGroupIdsList;
+  neighborGroupIds?: IsolationDomainPropertiesNeighborGroupIdsList | undefined;
 }
 /** The network tap destination properties. */
 export interface DestinationProperties {
@@ -3393,9 +3430,9 @@ export interface DestinationProperties {
   /** The destination Id. ARM Resource ID of either NNI or Internal Networks. */
   destinationId: string;
   /** Isolation Domain Properties. */
-  isolationDomainProperties?: IsolationDomainProperties;
+  isolationDomainProperties?: IsolationDomainProperties | undefined;
   /** ARM Resource ID of destination Tap Rule that contains match configurations. */
-  destinationTapRuleId?: string;
+  destinationTapRuleId?: string | undefined;
 }
 /** List of destinations to send the filter traffic. */
 export type NetworkTapPropertiesInputDestinationsList = Array<DestinationProperties>;
@@ -3404,13 +3441,13 @@ export type NetworkTapPropertiesInputPollingType = "Pull" | "Push";
 /** Network Tap Properties defines the properties of the resource. */
 export interface NetworkTapPropertiesInput {
   /** Switch configuration description. */
-  annotation?: string;
+  annotation?: string | undefined;
   /** ARM resource ID of the Network Packet Broker. */
   networkPacketBrokerId: string;
   /** List of destinations to send the filter traffic. */
   destinations: NetworkTapPropertiesInputDestinationsList;
   /** Polling type. */
-  pollingType?: NetworkTapPropertiesInputPollingType | (string & {});
+  pollingType?: NetworkTapPropertiesInputPollingType | (string & {}) | undefined;
 }
 /** Managed service identity (system assigned and/or user assigned identities) */
 export type CreateNetworkTapRequestIdentity = CreateL2IsolationDomainRequestIdentity;
@@ -3422,13 +3459,13 @@ export interface CreateNetworkTapRequest {
   /** Name of the Network Tap. */
   networkTapName: string;
   /** Resource tags. */
-  tags?: CreateNetworkTapRequestTagsMap;
+  tags?: CreateNetworkTapRequestTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The NetworkTap Properties */
   properties: NetworkTapPropertiesInput;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: CreateL2IsolationDomainRequestIdentity;
+  identity?: CreateL2IsolationDomainRequestIdentity | undefined;
 }
 /** Resource tags. */
 export type CreateNetworkTapResponseTagsMap = { [key: string]: string | undefined };
@@ -3441,49 +3478,49 @@ export type NetworkTapPropertiesPollingType = "Pull" | "Push";
 /** Network Tap Properties defines the properties of the resource. */
 export interface NetworkTapProperties {
   /** Switch configuration description. */
-  annotation?: string;
+  annotation?: string | undefined;
   /** ARM resource ID of the Network Packet Broker. */
   networkPacketBrokerId: string;
   /** Source Tap Rule Id. ARM Resource ID of the Network Tap Rule. */
-  sourceTapRuleId?: string;
+  sourceTapRuleId?: string | undefined;
   /** Associated Network Fabric Resource IDs */
-  networkFabricIds?: NetworkTapPropertiesNetworkFabricIdsList;
+  networkFabricIds?: NetworkTapPropertiesNetworkFabricIdsList | undefined;
   /** List of destinations to send the filter traffic. */
   destinations: NetworkTapPropertiesDestinationsList;
   /** Polling type. */
-  pollingType?: NetworkTapPropertiesPollingType;
+  pollingType?: NetworkTapPropertiesPollingType | undefined;
   /** Details of the last operation performed on the resource */
-  lastOperation?: LastOperationProperties;
+  lastOperation?: LastOperationProperties | undefined;
   /** Gets the configurations state of the resource. */
-  configurationState?: ConfigurationState;
+  configurationState?: ConfigurationState | undefined;
   /** Provides you the latest status of the NFC service, whether it is Accepted, updating, Succeeded or Failed. During this process, the states keep changing based on the status of Network Tap provisioning. */
-  provisioningState?: ProvisioningState;
+  provisioningState?: ProvisioningState | undefined;
   /** Administrative state of the resource. Example -Enabled/Disabled */
-  administrativeState?: AdministrativeState;
+  administrativeState?: AdministrativeState | undefined;
 }
 /** Managed service identity (system assigned and/or user assigned identities) */
 export type CreateNetworkTapResponseIdentity = CreateL2IsolationDomainResponseIdentity;
 export interface CreateNetworkTapResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: CreateNetworkTapResponseTagsMap;
+  tags?: CreateNetworkTapResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The NetworkTap Properties */
   properties: NetworkTapProperties;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: CreateL2IsolationDomainResponseIdentity;
+  identity?: CreateL2IsolationDomainResponseIdentity | undefined;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Resource tags. */
 export type CreateNetworkTapRuleRequestTagsMap = { [key: string]: string | undefined };
@@ -3498,26 +3535,26 @@ export type PortConditionPortGroupNamesList = Array<string>;
 /** Port condition that needs to be matched. */
 export interface PortCondition {
   /** Port type that needs to be matched. */
-  portType?: PortType | (string & {});
+  portType?: PortType | (string & {}) | undefined;
   /** Layer4 protocol type that needs to be matched. */
   layer4Protocol: Layer4Protocol | (string & {});
   /** List of the Ports that need to be matched. */
-  ports?: PortConditionPortsList;
+  ports?: PortConditionPortsList | undefined;
   /** List of the port Group Names that need to be matched. */
-  portGroupNames?: PortConditionPortGroupNamesList;
+  portGroupNames?: PortConditionPortGroupNamesList | undefined;
 }
 /** Defines the match condition that is supported to filter the traffic. */
 export interface NetworkTapRuleMatchCondition {
   /** List of the protocols that need to be matched. */
-  protocolTypes?: NetworkTapRuleMatchConditionProtocolTypesList;
+  protocolTypes?: NetworkTapRuleMatchConditionProtocolTypesList | undefined;
   /** Vlan match condition that needs to be matched. */
-  vlanMatchCondition?: VlanMatchCondition;
+  vlanMatchCondition?: VlanMatchCondition | undefined;
   /** IP condition that needs to be matched. */
-  ipCondition?: IpMatchCondition;
+  ipCondition?: IpMatchCondition | undefined;
   /** Encapsulation Type that needs to be matched. */
-  encapsulationType?: NetworkTapRuleMatchConditionEncapsulationType | (string & {});
+  encapsulationType?: NetworkTapRuleMatchConditionEncapsulationType | (string & {}) | undefined;
   /** Defines the port condition that needs to be matched. */
-  portCondition?: PortCondition;
+  portCondition?: PortCondition | undefined;
 }
 /** List of the match conditions. */
 export type NetworkTapRuleMatchConfigurationMatchConditionsList =
@@ -3534,30 +3571,30 @@ export type TapRuleActionType =
 /** Action that need to performed. */
 export interface NetworkTapRuleAction {
   /** Type of actions that can be performed. */
-  type?: TapRuleActionType | (string & {});
+  type?: TapRuleActionType | (string & {}) | undefined;
   /** Truncate. 0 indicates do not truncate. */
-  truncate?: string;
+  truncate?: string | undefined;
   /** The parameter to enable or disable the timestamp. */
-  isTimestampEnabled?: BooleanEnumProperty | (string & {});
+  isTimestampEnabled?: BooleanEnumProperty | (string & {}) | undefined;
   /** Destination Id. The ARM resource Id may be either Network To Network Interconnect or NeighborGroup. */
-  destinationId?: string;
+  destinationId?: string | undefined;
   /** The name of the match configuration. This is used when Goto type is provided. */
-  matchConfigurationName?: string;
+  matchConfigurationName?: string | undefined;
 }
 /** List of actions that need to be performed for the matched conditions. */
 export type NetworkTapRuleMatchConfigurationActionsList = Array<NetworkTapRuleAction>;
 /** Defines the match configuration that are supported to filter the traffic. */
 export interface NetworkTapRuleMatchConfiguration {
   /** The name of the match configuration. */
-  matchConfigurationName?: string;
+  matchConfigurationName?: string | undefined;
   /** Sequence Number of the match configuration.. */
-  sequenceNumber?: number;
+  sequenceNumber?: number | undefined;
   /** Type of IP Address. IPv4 or IPv6 */
-  ipAddressType?: IPAddressType | (string & {});
+  ipAddressType?: IPAddressType | (string & {}) | undefined;
   /** List of the match conditions. */
-  matchConditions?: NetworkTapRuleMatchConfigurationMatchConditionsList;
+  matchConditions?: NetworkTapRuleMatchConfigurationMatchConditionsList | undefined;
   /** List of actions that need to be performed for the matched conditions. */
-  actions?: NetworkTapRuleMatchConfigurationActionsList;
+  actions?: NetworkTapRuleMatchConfigurationActionsList | undefined;
 }
 /** List of match configurations. */
 export type NetworkTapRulePropertiesInputMatchConfigurationsList =
@@ -3570,28 +3607,30 @@ export type GlobalNetworkTapRuleActionPropertiesEnableCount = "True" | "False";
 /** Global network tap rule actions properties */
 export interface GlobalNetworkTapRuleActionProperties {
   /** Configuration to enable network tap rule counter. */
-  enableCount?: GlobalNetworkTapRuleActionPropertiesEnableCount | (string & {});
+  enableCount?: GlobalNetworkTapRuleActionPropertiesEnableCount | (string & {}) | undefined;
   /** Truncate. 0 indicates do not truncate. */
-  truncate?: string;
+  truncate?: string | undefined;
 }
 /** Network Tap Rule Properties defines the resource properties. */
 export interface NetworkTapRulePropertiesInput {
   /** Switch configuration description. */
-  annotation?: string;
+  annotation?: string | undefined;
   /** Input method to configure Network Tap Rule. */
   configurationType: ConfigurationType | (string & {});
   /** Network Tap Rules file URL. */
-  tapRulesUrl?: string;
+  tapRulesUrl?: string | undefined;
   /** The selection of the managed identity to use with this storage account. The identity type must be either system assigned or user assigned. */
-  identitySelector?: IdentitySelector;
+  identitySelector?: IdentitySelector | undefined;
   /** List of match configurations. */
-  matchConfigurations?: NetworkTapRulePropertiesInputMatchConfigurationsList;
+  matchConfigurations?: NetworkTapRulePropertiesInputMatchConfigurationsList | undefined;
   /** List of dynamic match configurations. */
-  dynamicMatchConfigurations?: NetworkTapRulePropertiesInputDynamicMatchConfigurationsList;
+  dynamicMatchConfigurations?:
+    | NetworkTapRulePropertiesInputDynamicMatchConfigurationsList
+    | undefined;
   /** Polling interval in seconds. */
-  pollingIntervalInSeconds?: number;
+  pollingIntervalInSeconds?: number | undefined;
   /** Global network tap rule actions */
-  globalNetworkTapRuleActions?: GlobalNetworkTapRuleActionProperties;
+  globalNetworkTapRuleActions?: GlobalNetworkTapRuleActionProperties | undefined;
 }
 /** Managed service identity (system assigned and/or user assigned identities) */
 export type CreateNetworkTapRuleRequestIdentity = CreateL2IsolationDomainRequestIdentity;
@@ -3603,13 +3642,13 @@ export interface CreateNetworkTapRuleRequest {
   /** Name of the Network Tap Rule. */
   networkTapRuleName: string;
   /** Resource tags. */
-  tags?: CreateNetworkTapRuleRequestTagsMap;
+  tags?: CreateNetworkTapRuleRequestTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The NetworkTapRule Properties */
   properties: NetworkTapRulePropertiesInput;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: CreateL2IsolationDomainRequestIdentity;
+  identity?: CreateL2IsolationDomainRequestIdentity | undefined;
 }
 /** Resource tags. */
 export type CreateNetworkTapRuleResponseTagsMap = { [key: string]: string | undefined };
@@ -3626,61 +3665,61 @@ export type NetworkTapRulePropertiesNetworkFabricIdsList = Array<string>;
 /** Network Tap Rule Properties defines the resource properties. */
 export interface NetworkTapRuleProperties {
   /** Switch configuration description. */
-  annotation?: string;
+  annotation?: string | undefined;
   /** Input method to configure Network Tap Rule. */
   configurationType: ConfigurationType;
   /** Network Tap Rules file URL. */
-  tapRulesUrl?: string;
+  tapRulesUrl?: string | undefined;
   /** The selection of the managed identity to use with this storage account. The identity type must be either system assigned or user assigned. */
-  identitySelector?: IdentitySelector;
+  identitySelector?: IdentitySelector | undefined;
   /** List of match configurations. */
-  matchConfigurations?: NetworkTapRulePropertiesMatchConfigurationsList;
+  matchConfigurations?: NetworkTapRulePropertiesMatchConfigurationsList | undefined;
   /** List of dynamic match configurations. */
-  dynamicMatchConfigurations?: NetworkTapRulePropertiesDynamicMatchConfigurationsList;
+  dynamicMatchConfigurations?: NetworkTapRulePropertiesDynamicMatchConfigurationsList | undefined;
   /** The ARM resource Id of the NetworkTap. */
-  networkTapId?: string;
+  networkTapId?: string | undefined;
   /** The ARM resource Id of the NetworkTap Rules. */
-  networkTapIds?: NetworkTapRulePropertiesNetworkTapIdsList;
+  networkTapIds?: NetworkTapRulePropertiesNetworkTapIdsList | undefined;
   /** Polling interval in seconds. */
-  pollingIntervalInSeconds?: number;
+  pollingIntervalInSeconds?: number | undefined;
   /** The last sync timestamp. */
-  lastSyncedTime?: string;
+  lastSyncedTime?: string | undefined;
   /** Global network tap rule actions */
-  globalNetworkTapRuleActions?: GlobalNetworkTapRuleActionProperties;
+  globalNetworkTapRuleActions?: GlobalNetworkTapRuleActionProperties | undefined;
   /** Details of the last operation performed on the resource */
-  lastOperation?: LastOperationProperties;
+  lastOperation?: LastOperationProperties | undefined;
   /** Associated Network Fabric Resource IDs */
-  networkFabricIds?: NetworkTapRulePropertiesNetworkFabricIdsList;
+  networkFabricIds?: NetworkTapRulePropertiesNetworkFabricIdsList | undefined;
   /** Configuration state of the resource. */
-  configurationState?: ConfigurationState;
+  configurationState?: ConfigurationState | undefined;
   /** Provisioning state of the resource. */
-  provisioningState?: ProvisioningState;
+  provisioningState?: ProvisioningState | undefined;
   /** Administrative state of the resource. */
-  administrativeState?: AdministrativeState;
+  administrativeState?: AdministrativeState | undefined;
 }
 /** Managed service identity (system assigned and/or user assigned identities) */
 export type CreateNetworkTapRuleResponseIdentity = CreateL2IsolationDomainResponseIdentity;
 export interface CreateNetworkTapRuleResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: CreateNetworkTapRuleResponseTagsMap;
+  tags?: CreateNetworkTapRuleResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The NetworkTapRule Properties */
   properties: NetworkTapRuleProperties;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: CreateL2IsolationDomainResponseIdentity;
+  identity?: CreateL2IsolationDomainResponseIdentity | undefined;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Type of NNI used. Example: CE | NPB */
 export type NetworkToNetworkInterconnectPropertiesInputNniType = "CE" | "NPB";
@@ -3691,9 +3730,9 @@ export type Layer2ConfigurationInterfacesList = Array<string>;
 /** Common properties for Layer2 Configuration. */
 export interface Layer2Configuration {
   /** MTU of the packets between PE & CE. */
-  mtu?: number;
+  mtu?: number | undefined;
   /** List of network device interfaces resource IDs. */
-  interfaces?: Layer2ConfigurationInterfacesList;
+  interfaces?: Layer2ConfigurationInterfacesList | undefined;
 }
 /** Provider Edge (PE) Loopback IP Address. */
 export type OptionBLayer3ConfigurationInputPeLoopbackIpAddressList = Array<string>;
@@ -3707,7 +3746,7 @@ export interface NniBmpProperties {
 /** OptionB Layer3 prefix limit properties. */
 export interface OptionBLayer3PrefixLimitProperties {
   /** Maximum number of routes allowed. */
-  maximumRoutes?: number;
+  maximumRoutes?: number | undefined;
 }
 /** OptionB Layer3 prefix limit configuration. */
 export type OptionBLayer3ConfigurationInputPrefixLimitsList =
@@ -3715,23 +3754,23 @@ export type OptionBLayer3ConfigurationInputPrefixLimitsList =
 /** OptionB Layer3 Configuration properties. */
 export interface OptionBLayer3ConfigurationInput {
   /** IPv4 Address Prefix. */
-  primaryIpv4Prefix?: string;
+  primaryIpv4Prefix?: string | undefined;
   /** IPv6 Address Prefix. */
-  primaryIpv6Prefix?: string;
+  primaryIpv6Prefix?: string | undefined;
   /** Secondary IPv4 Address Prefix. */
-  secondaryIpv4Prefix?: string;
+  secondaryIpv4Prefix?: string | undefined;
   /** Secondary IPv6 Address Prefix. */
-  secondaryIpv6Prefix?: string;
+  secondaryIpv6Prefix?: string | undefined;
   /** ASN of PE devices for CE/PE connectivity.Example : 28 */
   peerASN: number;
   /** VLAN for CE/PE Layer 3 connectivity.Example : 501 */
   vlanId: number;
   /** Provider Edge (PE) Loopback IP Address. */
-  peLoopbackIpAddress?: OptionBLayer3ConfigurationInputPeLoopbackIpAddressList;
+  peLoopbackIpAddress?: OptionBLayer3ConfigurationInputPeLoopbackIpAddressList | undefined;
   /** BGP Monitoring Protocol (BMP) Configuration. */
-  bmpConfiguration?: NniBmpProperties;
+  bmpConfiguration?: NniBmpProperties | undefined;
   /** OptionB Layer3 prefix limit configuration. */
-  prefixLimits?: OptionBLayer3ConfigurationInputPrefixLimitsList;
+  prefixLimits?: OptionBLayer3ConfigurationInputPrefixLimitsList | undefined;
 }
 /** List of IPv4 Routes. */
 export type NpbStaticRouteConfigurationInputIpv4RoutesList = Array<StaticRouteProperties>;
@@ -3740,11 +3779,11 @@ export type NpbStaticRouteConfigurationInputIpv6RoutesList = Array<StaticRoutePr
 /** NPB Static Route Configuration properties. */
 export interface NpbStaticRouteConfigurationInput {
   /** BFD Configuration properties. */
-  bfdConfiguration?: BfdConfigurationInput;
+  bfdConfiguration?: BfdConfigurationInput | undefined;
   /** List of IPv4 Routes. */
-  ipv4Routes?: NpbStaticRouteConfigurationInputIpv4RoutesList;
+  ipv4Routes?: NpbStaticRouteConfigurationInputIpv4RoutesList | undefined;
   /** List of IPv6 Routes. */
-  ipv6Routes?: NpbStaticRouteConfigurationInputIpv6RoutesList;
+  ipv6Routes?: NpbStaticRouteConfigurationInputIpv6RoutesList | undefined;
 }
 /** List of IPv4 Routes. */
 export type NniStaticRouteConfigurationInputIpv4RoutesList = Array<StaticRouteProperties>;
@@ -3753,25 +3792,25 @@ export type NniStaticRouteConfigurationInputIpv6RoutesList = Array<StaticRoutePr
 /** Static Route Configuration properties for NNI. */
 export interface NniStaticRouteConfigurationInput {
   /** BFD configuration properties */
-  bfdConfiguration?: BfdConfigurationInput;
+  bfdConfiguration?: BfdConfigurationInput | undefined;
   /** List of IPv4 Routes. */
-  ipv4Routes?: NniStaticRouteConfigurationInputIpv4RoutesList;
+  ipv4Routes?: NniStaticRouteConfigurationInputIpv4RoutesList | undefined;
   /** List of IPv6 Routes. */
-  ipv6Routes?: NniStaticRouteConfigurationInputIpv6RoutesList;
+  ipv6Routes?: NniStaticRouteConfigurationInputIpv6RoutesList | undefined;
 }
 /** Import Route Policy Configuration. */
 export interface ImportRoutePolicyInformation {
   /** Import IPv4 Route Policy Id. */
-  importIpv4RoutePolicyId?: string;
+  importIpv4RoutePolicyId?: string | undefined;
   /** Import IPv6 Route Policy Id. */
-  importIpv6RoutePolicyId?: string;
+  importIpv6RoutePolicyId?: string | undefined;
 }
 /** Export Route Policy Configuration. */
 export interface ExportRoutePolicyInformation {
   /** Export IPv4 Route Policy Id. */
-  exportIpv4RoutePolicyId?: string;
+  exportIpv4RoutePolicyId?: string | undefined;
   /** Export IPv6 Route Policy Id. */
-  exportIpv6RoutePolicyId?: string;
+  exportIpv6RoutePolicyId?: string | undefined;
 }
 /** Micro Bidirectional Forwarding Detection (BFD) enabled/disabled state. */
 export type MicroBfdState = "Enabled" | "Disabled";
@@ -3782,38 +3821,41 @@ export type ConditionalDefaultRoutePropertiesIpv6RoutesList = Array<StaticRouteP
 /** Conditional Default Route Configuration properties. */
 export interface ConditionalDefaultRouteProperties {
   /** List of IPv4 Routes. */
-  ipv4Routes?: ConditionalDefaultRoutePropertiesIpv4RoutesList;
+  ipv4Routes?: ConditionalDefaultRoutePropertiesIpv4RoutesList | undefined;
   /** List of IPv6 Routes. */
-  ipv6Routes?: ConditionalDefaultRoutePropertiesIpv6RoutesList;
+  ipv6Routes?: ConditionalDefaultRoutePropertiesIpv6RoutesList | undefined;
 }
 /** Configuration used to setup CE-PE connectivity. */
 export interface NetworkToNetworkInterconnectPropertiesInput {
   /** Type of NNI used. Example: CE | NPB */
-  nniType?: NetworkToNetworkInterconnectPropertiesInputNniType | (string & {});
+  nniType?: NetworkToNetworkInterconnectPropertiesInputNniType | (string & {}) | undefined;
   /** Configuration to use NNI for Infrastructure Management. Example: True/False. */
-  isManagementType?: NetworkToNetworkInterconnectPropertiesInputIsManagementType | (string & {});
+  isManagementType?:
+    | NetworkToNetworkInterconnectPropertiesInputIsManagementType
+    | (string & {})
+    | undefined;
   /** Based on this option layer3 parameters are mandatory. Example: True/False */
   useOptionB: BooleanEnumProperty | (string & {});
   /** Common properties for Layer2 Configuration. */
-  layer2Configuration?: Layer2Configuration;
+  layer2Configuration?: Layer2Configuration | undefined;
   /** Common properties for Layer3Configuration. */
-  optionBLayer3Configuration?: OptionBLayer3ConfigurationInput;
+  optionBLayer3Configuration?: OptionBLayer3ConfigurationInput | undefined;
   /** NPB Static Route Configuration properties. */
-  npbStaticRouteConfiguration?: NpbStaticRouteConfigurationInput;
+  npbStaticRouteConfiguration?: NpbStaticRouteConfigurationInput | undefined;
   /** Static Route Configuration. */
-  staticRouteConfiguration?: NniStaticRouteConfigurationInput;
+  staticRouteConfiguration?: NniStaticRouteConfigurationInput | undefined;
   /** Import Route Policy information. */
-  importRoutePolicy?: ImportRoutePolicyInformation;
+  importRoutePolicy?: ImportRoutePolicyInformation | undefined;
   /** Export Route Policy information */
-  exportRoutePolicy?: ExportRoutePolicyInformation;
+  exportRoutePolicy?: ExportRoutePolicyInformation | undefined;
   /** Egress Acl. ARM resource ID of Access Control Lists. */
-  egressAclId?: string;
+  egressAclId?: string | undefined;
   /** Ingress Acl. ARM resource ID of Access Control Lists. */
-  ingressAclId?: string;
+  ingressAclId?: string | undefined;
   /** Micro Bidirectional Forwarding Detection (BFD) enabled/disabled state. */
-  microBfdState?: MicroBfdState | (string & {});
+  microBfdState?: MicroBfdState | (string & {}) | undefined;
   /** Conditional Default Route Configuration properties. */
-  conditionalDefaultRouteConfiguration?: ConditionalDefaultRouteProperties;
+  conditionalDefaultRouteConfiguration?: ConditionalDefaultRouteProperties | undefined;
 }
 export interface CreateNetworkToNetworkInterconnectRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -3838,25 +3880,25 @@ export type OptionBLayer3ConfigurationPrefixLimitsList = Array<OptionBLayer3Pref
 /** OptionB Layer3 Configuration properties. */
 export interface OptionBLayer3Configuration {
   /** IPv4 Address Prefix. */
-  primaryIpv4Prefix?: string;
+  primaryIpv4Prefix?: string | undefined;
   /** IPv6 Address Prefix. */
-  primaryIpv6Prefix?: string;
+  primaryIpv6Prefix?: string | undefined;
   /** Secondary IPv4 Address Prefix. */
-  secondaryIpv4Prefix?: string;
+  secondaryIpv4Prefix?: string | undefined;
   /** Secondary IPv6 Address Prefix. */
-  secondaryIpv6Prefix?: string;
+  secondaryIpv6Prefix?: string | undefined;
   /** ASN of PE devices for CE/PE connectivity.Example : 28 */
   peerASN: number;
   /** VLAN for CE/PE Layer 3 connectivity.Example : 501 */
   vlanId: number;
   /** ASN of CE devices for CE/PE connectivity. */
-  fabricASN?: number;
+  fabricASN?: number | undefined;
   /** Provider Edge (PE) Loopback IP Address. */
-  peLoopbackIpAddress?: OptionBLayer3ConfigurationPeLoopbackIpAddressList;
+  peLoopbackIpAddress?: OptionBLayer3ConfigurationPeLoopbackIpAddressList | undefined;
   /** BGP Monitoring Protocol (BMP) Configuration. */
-  bmpConfiguration?: NniBmpProperties;
+  bmpConfiguration?: NniBmpProperties | undefined;
   /** OptionB Layer3 prefix limit configuration. */
-  prefixLimits?: OptionBLayer3ConfigurationPrefixLimitsList;
+  prefixLimits?: OptionBLayer3ConfigurationPrefixLimitsList | undefined;
 }
 /** List of IPv4 Routes. */
 export type NpbStaticRouteConfigurationIpv4RoutesList = Array<StaticRouteProperties>;
@@ -3865,11 +3907,11 @@ export type NpbStaticRouteConfigurationIpv6RoutesList = Array<StaticRoutePropert
 /** NPB Static Route Configuration properties. */
 export interface NpbStaticRouteConfiguration {
   /** BFD Configuration properties. */
-  bfdConfiguration?: BfdConfiguration;
+  bfdConfiguration?: BfdConfiguration | undefined;
   /** List of IPv4 Routes. */
-  ipv4Routes?: NpbStaticRouteConfigurationIpv4RoutesList;
+  ipv4Routes?: NpbStaticRouteConfigurationIpv4RoutesList | undefined;
   /** List of IPv6 Routes. */
-  ipv6Routes?: NpbStaticRouteConfigurationIpv6RoutesList;
+  ipv6Routes?: NpbStaticRouteConfigurationIpv6RoutesList | undefined;
 }
 /** List of IPv4 Routes. */
 export type NniStaticRouteConfigurationIpv4RoutesList = Array<StaticRouteProperties>;
@@ -3878,64 +3920,64 @@ export type NniStaticRouteConfigurationIpv6RoutesList = Array<StaticRoutePropert
 /** Static Route Configuration properties for NNI. */
 export interface NniStaticRouteConfiguration {
   /** BFD configuration properties */
-  bfdConfiguration?: BfdConfiguration;
+  bfdConfiguration?: BfdConfiguration | undefined;
   /** List of IPv4 Routes. */
-  ipv4Routes?: NniStaticRouteConfigurationIpv4RoutesList;
+  ipv4Routes?: NniStaticRouteConfigurationIpv4RoutesList | undefined;
   /** List of IPv6 Routes. */
-  ipv6Routes?: NniStaticRouteConfigurationIpv6RoutesList;
+  ipv6Routes?: NniStaticRouteConfigurationIpv6RoutesList | undefined;
 }
 /** Configuration used to setup CE-PE connectivity. */
 export interface NetworkToNetworkInterconnectProperties {
   /** Type of NNI used. Example: CE | NPB */
-  nniType?: NetworkToNetworkInterconnectPropertiesNniType;
+  nniType?: NetworkToNetworkInterconnectPropertiesNniType | undefined;
   /** Configuration to use NNI for Infrastructure Management. Example: True/False. */
-  isManagementType?: NetworkToNetworkInterconnectPropertiesIsManagementType;
+  isManagementType?: NetworkToNetworkInterconnectPropertiesIsManagementType | undefined;
   /** Based on this option layer3 parameters are mandatory. Example: True/False */
   useOptionB: BooleanEnumProperty;
   /** Common properties for Layer2 Configuration. */
-  layer2Configuration?: Layer2Configuration;
+  layer2Configuration?: Layer2Configuration | undefined;
   /** Common properties for Layer3Configuration. */
-  optionBLayer3Configuration?: OptionBLayer3Configuration;
+  optionBLayer3Configuration?: OptionBLayer3Configuration | undefined;
   /** NPB Static Route Configuration properties. */
-  npbStaticRouteConfiguration?: NpbStaticRouteConfiguration;
+  npbStaticRouteConfiguration?: NpbStaticRouteConfiguration | undefined;
   /** Static Route Configuration. */
-  staticRouteConfiguration?: NniStaticRouteConfiguration;
+  staticRouteConfiguration?: NniStaticRouteConfiguration | undefined;
   /** Import Route Policy information. */
-  importRoutePolicy?: ImportRoutePolicyInformation;
+  importRoutePolicy?: ImportRoutePolicyInformation | undefined;
   /** Export Route Policy information */
-  exportRoutePolicy?: ExportRoutePolicyInformation;
+  exportRoutePolicy?: ExportRoutePolicyInformation | undefined;
   /** Egress Acl. ARM resource ID of Access Control Lists. */
-  egressAclId?: string;
+  egressAclId?: string | undefined;
   /** Ingress Acl. ARM resource ID of Access Control Lists. */
-  ingressAclId?: string;
+  ingressAclId?: string | undefined;
   /** Micro Bidirectional Forwarding Detection (BFD) enabled/disabled state. */
-  microBfdState?: MicroBfdState;
+  microBfdState?: MicroBfdState | undefined;
   /** Conditional Default Route Configuration properties. */
-  conditionalDefaultRouteConfiguration?: ConditionalDefaultRouteProperties;
+  conditionalDefaultRouteConfiguration?: ConditionalDefaultRouteProperties | undefined;
   /** Details of the last operation performed on the resource */
-  lastOperation?: LastOperationProperties;
+  lastOperation?: LastOperationProperties | undefined;
   /** Configuration state of the resource. */
-  configurationState?: ConfigurationState;
+  configurationState?: ConfigurationState | undefined;
   /** Provisioning state of the resource. */
-  provisioningState?: ProvisioningState;
+  provisioningState?: ProvisioningState | undefined;
   /** Administrative state of the resource. */
-  administrativeState?: AdministrativeState;
+  administrativeState?: AdministrativeState | undefined;
 }
 export interface CreateNetworkToNetworkInterconnectResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The NetworkToNetworkInterconnect Properties */
   properties: NetworkToNetworkInterconnectProperties;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Resource tags. */
 export type CreateRoutePolicyRequestTagsMap = { [key: string]: string | undefined };
@@ -3950,13 +3992,13 @@ export type StatementConditionPropertiesType = "Or" | "And";
 /** Route policy statement condition properties. */
 export interface StatementConditionProperties {
   /** List of IP Community resource IDs. */
-  ipCommunityIds?: StatementConditionPropertiesIpCommunityIdsList;
+  ipCommunityIds?: StatementConditionPropertiesIpCommunityIdsList | undefined;
   /** List of IP Extended Community resource IDs. */
-  ipExtendedCommunityIds?: StatementConditionPropertiesIpExtendedCommunityIdsList;
+  ipExtendedCommunityIds?: StatementConditionPropertiesIpExtendedCommunityIdsList | undefined;
   /** Type of the condition used. */
-  type?: StatementConditionPropertiesType | (string & {});
+  type?: StatementConditionPropertiesType | (string & {}) | undefined;
   /** Arm Resource Id of IpPrefix. */
-  ipPrefixId?: string;
+  ipPrefixId?: string | undefined;
 }
 /** Action type. Example: Permit | Deny | Continue. */
 export type RoutePolicyActionType = "Permit" | "Deny" | "Continue";
@@ -3965,48 +4007,48 @@ export type IpCommunityIdListIpCommunityIdsList = Array<string>;
 /** IP Community ID list properties. */
 export interface IpCommunityIdList {
   /** List of IP Community resource IDs. */
-  ipCommunityIds?: IpCommunityIdListIpCommunityIdsList;
+  ipCommunityIds?: IpCommunityIdListIpCommunityIdsList | undefined;
 }
 /** IP Community Properties. */
 export interface ActionIpCommunityProperties {
   /** List of IP Community IDs. */
-  add?: IpCommunityIdList;
+  add?: IpCommunityIdList | undefined;
   /** List of IP Community IDs. */
-  delete?: IpCommunityIdList;
+  delete?: IpCommunityIdList | undefined;
   /** List of IP Community IDs. */
-  set?: IpCommunityIdList;
+  set?: IpCommunityIdList | undefined;
 }
 /** List of IP Extended Community resource IDs. */
 export type IpExtendedCommunityIdListIpExtendedCommunityIdsList = Array<string>;
 /** IP Extended Community Id list properties. */
 export interface IpExtendedCommunityIdList {
   /** List of IP Extended Community resource IDs. */
-  ipExtendedCommunityIds?: IpExtendedCommunityIdListIpExtendedCommunityIdsList;
+  ipExtendedCommunityIds?: IpExtendedCommunityIdListIpExtendedCommunityIdsList | undefined;
 }
 /** IP Extended Community Properties. */
 export interface ActionIpExtendedCommunityProperties {
   /** List of IP Extended Community IDs. */
-  add?: IpExtendedCommunityIdList;
+  add?: IpExtendedCommunityIdList | undefined;
   /** List of IP Extended Community IDs. */
-  delete?: IpExtendedCommunityIdList;
+  delete?: IpExtendedCommunityIdList | undefined;
   /** List of IP Extended Community IDs. */
-  set?: IpExtendedCommunityIdList;
+  set?: IpExtendedCommunityIdList | undefined;
 }
 /** Route policy action properties. */
 export interface StatementActionProperties {
   /** Local Preference of the route policy. */
-  localPreference?: number;
+  localPreference?: number | undefined;
   /** Action type. Example: Permit | Deny | Continue. */
   actionType: RoutePolicyActionType | (string & {});
   /** IP Community Properties. */
-  ipCommunityProperties?: ActionIpCommunityProperties;
+  ipCommunityProperties?: ActionIpCommunityProperties | undefined;
   /** IP Extended Community Properties. */
-  ipExtendedCommunityProperties?: ActionIpExtendedCommunityProperties;
+  ipExtendedCommunityProperties?: ActionIpExtendedCommunityProperties | undefined;
 }
 /** Route Policy Statement properties. */
 export interface RoutePolicyStatementProperties {
   /** Switch configuration description. */
-  annotation?: string;
+  annotation?: string | undefined;
   /** Sequence to insert to/delete from existing route. */
   sequenceNumber: number;
   /** Route policy condition properties. */
@@ -4021,15 +4063,15 @@ export type RoutePolicyPropertiesInputAddressFamilyType = "IPv4" | "IPv6";
 /** RoutePolicyProperties defines the resource properties. */
 export interface RoutePolicyPropertiesInput {
   /** Switch configuration description. */
-  annotation?: string;
+  annotation?: string | undefined;
   /** Default action that needs to be applied when no condition is matched. Example: Permit | Deny. */
-  defaultAction?: RoutePolicyPropertiesInputDefaultAction | (string & {});
+  defaultAction?: RoutePolicyPropertiesInputDefaultAction | (string & {}) | undefined;
   /** Route Policy statements. */
   statements: RoutePolicyPropertiesInputStatementsList;
   /** Arm Resource ID of Network Fabric. */
   networkFabricId: string;
   /** AddressFamilyType. This parameter decides whether the given ipv4 or ipv6 route policy. */
-  addressFamilyType?: RoutePolicyPropertiesInputAddressFamilyType | (string & {});
+  addressFamilyType?: RoutePolicyPropertiesInputAddressFamilyType | (string & {}) | undefined;
 }
 export interface CreateRoutePolicyRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -4039,7 +4081,7 @@ export interface CreateRoutePolicyRequest {
   /** Name of the Route Policy. */
   routePolicyName: string;
   /** Resource tags. */
-  tags?: CreateRoutePolicyRequestTagsMap;
+  tags?: CreateRoutePolicyRequestTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The RoutePolicy properties */
@@ -4056,43 +4098,43 @@ export type RoutePolicyPropertiesAddressFamilyType = "IPv4" | "IPv6";
 /** RoutePolicyProperties defines the resource properties. */
 export interface RoutePolicyProperties {
   /** Switch configuration description. */
-  annotation?: string;
+  annotation?: string | undefined;
   /** Default action that needs to be applied when no condition is matched. Example: Permit | Deny. */
-  defaultAction?: RoutePolicyPropertiesDefaultAction;
+  defaultAction?: RoutePolicyPropertiesDefaultAction | undefined;
   /** Route Policy statements. */
   statements: RoutePolicyPropertiesStatementsList;
   /** Arm Resource ID of Network Fabric. */
   networkFabricId: string;
   /** AddressFamilyType. This parameter decides whether the given ipv4 or ipv6 route policy. */
-  addressFamilyType?: RoutePolicyPropertiesAddressFamilyType;
+  addressFamilyType?: RoutePolicyPropertiesAddressFamilyType | undefined;
   /** Details of the last operation performed on the resource */
-  lastOperation?: LastOperationProperties;
+  lastOperation?: LastOperationProperties | undefined;
   /** Configuration state of the resource. */
-  configurationState?: ConfigurationState;
+  configurationState?: ConfigurationState | undefined;
   /** Provisioning state of the resource. */
-  provisioningState?: ProvisioningState;
+  provisioningState?: ProvisioningState | undefined;
   /** Administrative state of the resource. */
-  administrativeState?: AdministrativeState;
+  administrativeState?: AdministrativeState | undefined;
 }
 export interface CreateRoutePolicyResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: CreateRoutePolicyResponseTagsMap;
+  tags?: CreateRoutePolicyResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The RoutePolicy properties */
   properties: RoutePolicyProperties;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeleteAccessControlListRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -4104,9 +4146,9 @@ export interface DeleteAccessControlListRequest {
 }
 export interface DeleteAccessControlListResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeleteExternalNetworkRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -4120,9 +4162,9 @@ export interface DeleteExternalNetworkRequest {
 }
 export interface DeleteExternalNetworkResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeleteInternalNetworkRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -4136,9 +4178,9 @@ export interface DeleteInternalNetworkRequest {
 }
 export interface DeleteInternalNetworkResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeleteInternetGatewayRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -4150,9 +4192,9 @@ export interface DeleteInternetGatewayRequest {
 }
 export interface DeleteInternetGatewayResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeleteInternetGatewayRuleRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -4164,9 +4206,9 @@ export interface DeleteInternetGatewayRuleRequest {
 }
 export interface DeleteInternetGatewayRuleResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeleteIpCommunityRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -4178,9 +4220,9 @@ export interface DeleteIpCommunityRequest {
 }
 export interface DeleteIpCommunityResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeleteIpExtendedCommunityRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -4192,9 +4234,9 @@ export interface DeleteIpExtendedCommunityRequest {
 }
 export interface DeleteIpExtendedCommunityResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeleteIpPrefixRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -4206,9 +4248,9 @@ export interface DeleteIpPrefixRequest {
 }
 export interface DeleteIpPrefixResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeleteL2IsolationDomainRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -4220,9 +4262,9 @@ export interface DeleteL2IsolationDomainRequest {
 }
 export interface DeleteL2IsolationDomainResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeleteL3IsolationDomainRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -4234,9 +4276,9 @@ export interface DeleteL3IsolationDomainRequest {
 }
 export interface DeleteL3IsolationDomainResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeleteNeighborGroupRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -4248,9 +4290,9 @@ export interface DeleteNeighborGroupRequest {
 }
 export interface DeleteNeighborGroupResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeleteNetworkBootstrapDeviceRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -4262,9 +4304,9 @@ export interface DeleteNetworkBootstrapDeviceRequest {
 }
 export interface DeleteNetworkBootstrapDeviceResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeleteNetworkBootstrapInterfaceRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -4278,9 +4320,9 @@ export interface DeleteNetworkBootstrapInterfaceRequest {
 }
 export interface DeleteNetworkBootstrapInterfaceResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeleteNetworkDeviceRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -4292,9 +4334,9 @@ export interface DeleteNetworkDeviceRequest {
 }
 export interface DeleteNetworkDeviceResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeleteNetworkFabricRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -4306,9 +4348,9 @@ export interface DeleteNetworkFabricRequest {
 }
 export interface DeleteNetworkFabricResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeleteNetworkFabricControllerRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -4320,9 +4362,9 @@ export interface DeleteNetworkFabricControllerRequest {
 }
 export interface DeleteNetworkFabricControllerResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeleteNetworkInterfaceRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -4336,9 +4378,9 @@ export interface DeleteNetworkInterfaceRequest {
 }
 export interface DeleteNetworkInterfaceResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeleteNetworkMonitorRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -4350,9 +4392,9 @@ export interface DeleteNetworkMonitorRequest {
 }
 export interface DeleteNetworkMonitorResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeleteNetworkPacketBrokerRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -4364,9 +4406,9 @@ export interface DeleteNetworkPacketBrokerRequest {
 }
 export interface DeleteNetworkPacketBrokerResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeleteNetworkRackRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -4378,9 +4420,9 @@ export interface DeleteNetworkRackRequest {
 }
 export interface DeleteNetworkRackResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeleteNetworkTapRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -4392,9 +4434,9 @@ export interface DeleteNetworkTapRequest {
 }
 export interface DeleteNetworkTapResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeleteNetworkTapRuleRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -4406,9 +4448,9 @@ export interface DeleteNetworkTapRuleRequest {
 }
 export interface DeleteNetworkTapRuleResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeleteNetworkToNetworkInterconnectRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -4422,9 +4464,9 @@ export interface DeleteNetworkToNetworkInterconnectRequest {
 }
 export interface DeleteNetworkToNetworkInterconnectResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeleteRoutePolicyRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -4436,9 +4478,9 @@ export interface DeleteRoutePolicyRequest {
 }
 export interface DeleteRoutePolicyResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface GetAccessControlListRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -4452,15 +4494,15 @@ export interface GetAccessControlListRequest {
 export type GetAccessControlListResponseTagsMap = { [key: string]: string | undefined };
 export interface GetAccessControlListResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: GetAccessControlListResponseTagsMap;
+  tags?: GetAccessControlListResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The Access ControlList properties. */
@@ -4478,13 +4520,13 @@ export interface GetExternalNetworkRequest {
 }
 export interface GetExternalNetworkResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** External Network Properties */
   properties: ExternalNetworkProperties;
 }
@@ -4500,13 +4542,13 @@ export interface GetInternalNetworkRequest {
 }
 export interface GetInternalNetworkResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The Internal Network Properties */
   properties: InternalNetworkProperties;
 }
@@ -4522,15 +4564,15 @@ export interface GetInternetGatewayRequest {
 export type GetInternetGatewayResponseTagsMap = { [key: string]: string | undefined };
 export interface GetInternetGatewayResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: GetInternetGatewayResponseTagsMap;
+  tags?: GetInternetGatewayResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The Internet Gateway Properties */
@@ -4548,15 +4590,15 @@ export interface GetInternetGatewayRuleRequest {
 export type GetInternetGatewayRuleResponseTagsMap = { [key: string]: string | undefined };
 export interface GetInternetGatewayRuleResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: GetInternetGatewayRuleResponseTagsMap;
+  tags?: GetInternetGatewayRuleResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The Internet Gateway Rule properties */
@@ -4574,15 +4616,15 @@ export interface GetIpCommunityRequest {
 export type GetIpCommunityResponseTagsMap = { [key: string]: string | undefined };
 export interface GetIpCommunityResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: GetIpCommunityResponseTagsMap;
+  tags?: GetIpCommunityResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The IP Community Properties */
@@ -4600,15 +4642,15 @@ export interface GetIpExtendedCommunityRequest {
 export type GetIpExtendedCommunityResponseTagsMap = { [key: string]: string | undefined };
 export interface GetIpExtendedCommunityResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: GetIpExtendedCommunityResponseTagsMap;
+  tags?: GetIpExtendedCommunityResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The IpExtendedCommunity properties */
@@ -4626,15 +4668,15 @@ export interface GetIpPrefixRequest {
 export type GetIpPrefixResponseTagsMap = { [key: string]: string | undefined };
 export interface GetIpPrefixResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: GetIpPrefixResponseTagsMap;
+  tags?: GetIpPrefixResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The IP Prefix properties */
@@ -4654,21 +4696,21 @@ export type GetL2IsolationDomainResponseTagsMap = { [key: string]: string | unde
 export type GetL2IsolationDomainResponseIdentity = CreateL2IsolationDomainResponseIdentity;
 export interface GetL2IsolationDomainResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: GetL2IsolationDomainResponseTagsMap;
+  tags?: GetL2IsolationDomainResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The L2IsolationDomain properties */
   properties: L2IsolationDomainProperties;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: CreateL2IsolationDomainResponseIdentity;
+  identity?: CreateL2IsolationDomainResponseIdentity | undefined;
 }
 export interface GetL3IsolationDomainRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -4684,21 +4726,21 @@ export type GetL3IsolationDomainResponseTagsMap = { [key: string]: string | unde
 export type GetL3IsolationDomainResponseIdentity = CreateL2IsolationDomainResponseIdentity;
 export interface GetL3IsolationDomainResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: GetL3IsolationDomainResponseTagsMap;
+  tags?: GetL3IsolationDomainResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The L3 Isolation Domain Properties */
   properties: L3IsolationDomainProperties;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: CreateL2IsolationDomainResponseIdentity;
+  identity?: CreateL2IsolationDomainResponseIdentity | undefined;
 }
 export interface GetNeighborGroupRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -4714,21 +4756,21 @@ export type GetNeighborGroupResponseTagsMap = { [key: string]: string | undefine
 export type GetNeighborGroupResponseIdentity = CreateL2IsolationDomainResponseIdentity;
 export interface GetNeighborGroupResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: GetNeighborGroupResponseTagsMap;
+  tags?: GetNeighborGroupResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The NeighborGroup Properties */
   properties: NeighborGroupProperties;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: CreateL2IsolationDomainResponseIdentity;
+  identity?: CreateL2IsolationDomainResponseIdentity | undefined;
 }
 export interface GetNetworkBootstrapDeviceRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -4744,21 +4786,21 @@ export type GetNetworkBootstrapDeviceResponseTagsMap = { [key: string]: string |
 export type GetNetworkBootstrapDeviceResponseIdentity = CreateL2IsolationDomainResponseIdentity;
 export interface GetNetworkBootstrapDeviceResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: GetNetworkBootstrapDeviceResponseTagsMap;
+  tags?: GetNetworkBootstrapDeviceResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The NetworkBootstrapDevice properties */
   properties: NetworkBootstrapDeviceProperties;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: CreateL2IsolationDomainResponseIdentity;
+  identity?: CreateL2IsolationDomainResponseIdentity | undefined;
 }
 export interface GetNetworkBootstrapInterfaceRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -4772,13 +4814,13 @@ export interface GetNetworkBootstrapInterfaceRequest {
 }
 export interface GetNetworkBootstrapInterfaceResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The NetworkBootstrapInterface properties */
   properties: NetworkBootstrapInterfaceProperties;
 }
@@ -4796,21 +4838,21 @@ export type GetNetworkDeviceResponseTagsMap = { [key: string]: string | undefine
 export type GetNetworkDeviceResponseIdentity = CreateL2IsolationDomainResponseIdentity;
 export interface GetNetworkDeviceResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: GetNetworkDeviceResponseTagsMap;
+  tags?: GetNetworkDeviceResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The NetworkDevice properties */
   properties: NetworkDeviceProperties;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: CreateL2IsolationDomainResponseIdentity;
+  identity?: CreateL2IsolationDomainResponseIdentity | undefined;
 }
 export interface GetNetworkDeviceSkusRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -4821,13 +4863,13 @@ export interface GetNetworkDeviceSkusRequest {
 /** Supported version details of the network device. */
 export interface SupportedVersionProperties {
   /** Operating system and firmware combined versions. */
-  version?: string;
+  version?: string | undefined;
   /** Operating system version. */
-  vendorOsVersion?: string;
+  vendorOsVersion?: string | undefined;
   /** Firmware version. */
-  vendorFirmwareVersion?: string;
+  vendorFirmwareVersion?: string | undefined;
   /** If true newly provisioned Fabric will use this device version by default to bootstrap the network devices for the first time. */
-  isDefault?: BooleanEnumProperty;
+  isDefault?: BooleanEnumProperty | undefined;
 }
 /** List of supported version details of network device. */
 export type NetworkDeviceSkuPropertiesSupportedVersionsList = Array<SupportedVersionProperties>;
@@ -4838,9 +4880,9 @@ export type NetworkDeviceSkuPropertiesSupportedRoleTypesList = Array<NetworkDevi
 /** Supported connector properties. */
 export interface SupportedConnectorProperties {
   /** Type of connector used. Example: Optical. */
-  connectorType?: string;
+  connectorType?: string | undefined;
   /** Maximum speed of the connector in Mbps. */
-  maxSpeedInMbps?: number;
+  maxSpeedInMbps?: number | undefined;
 }
 /** List of supported connector types. */
 export type DeviceInterfacePropertiesSupportedConnectorTypesList =
@@ -4848,11 +4890,11 @@ export type DeviceInterfacePropertiesSupportedConnectorTypesList =
 /** Network device interface properties. */
 export interface DeviceInterfaceProperties {
   /** Interface identifier. Example: HundredGigE0/0. */
-  identifier?: string;
+  identifier?: string | undefined;
   /** Interface type. */
-  interfaceType?: string;
+  interfaceType?: string | undefined;
   /** List of supported connector types. */
-  supportedConnectorTypes?: DeviceInterfacePropertiesSupportedConnectorTypesList;
+  supportedConnectorTypes?: DeviceInterfacePropertiesSupportedConnectorTypesList | undefined;
 }
 /** List of network device interfaces. */
 export type NetworkDeviceSkuPropertiesInterfacesList = Array<DeviceInterfaceProperties>;
@@ -4861,25 +4903,25 @@ export interface NetworkDeviceSkuProperties {
   /** Model of the network device. */
   model: string;
   /** Manufacturer of the network device. */
-  manufacturer?: string;
+  manufacturer?: string | undefined;
   /** List of supported version details of network device. */
-  supportedVersions?: NetworkDeviceSkuPropertiesSupportedVersionsList;
+  supportedVersions?: NetworkDeviceSkuPropertiesSupportedVersionsList | undefined;
   /** Available roles for the network device. */
-  supportedRoleTypes?: NetworkDeviceSkuPropertiesSupportedRoleTypesList;
+  supportedRoleTypes?: NetworkDeviceSkuPropertiesSupportedRoleTypesList | undefined;
   /** List of network device interfaces. */
-  interfaces?: NetworkDeviceSkuPropertiesInterfacesList;
+  interfaces?: NetworkDeviceSkuPropertiesInterfacesList | undefined;
   /** Provisioning state of the resource. */
-  provisioningState?: ProvisioningState;
+  provisioningState?: ProvisioningState | undefined;
 }
 export interface GetNetworkDeviceSkusResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The Network Device SKU properties. */
   properties: NetworkDeviceSkuProperties;
 }
@@ -4897,21 +4939,21 @@ export type GetNetworkFabricResponseTagsMap = { [key: string]: string | undefine
 export type GetNetworkFabricResponseIdentity = CreateL2IsolationDomainResponseIdentity;
 export interface GetNetworkFabricResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: GetNetworkFabricResponseTagsMap;
+  tags?: GetNetworkFabricResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The NetworkFabric Properties */
   properties: NetworkFabricProperties;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: CreateL2IsolationDomainResponseIdentity;
+  identity?: CreateL2IsolationDomainResponseIdentity | undefined;
 }
 export interface GetNetworkFabricControllerRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -4927,21 +4969,21 @@ export type GetNetworkFabricControllerResponseTagsMap = { [key: string]: string 
 export type GetNetworkFabricControllerResponseIdentity = CreateL2IsolationDomainResponseIdentity;
 export interface GetNetworkFabricControllerResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: GetNetworkFabricControllerResponseTagsMap;
+  tags?: GetNetworkFabricControllerResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The NetworkFabricController Properties */
   properties: NetworkFabricControllerProperties;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: CreateL2IsolationDomainResponseIdentity;
+  identity?: CreateL2IsolationDomainResponseIdentity | undefined;
 }
 export interface GetNetworkFabricSkusRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -4956,27 +4998,27 @@ export type NetworkFabricSkuPropertiesSupportedVersionsList = Array<string>;
 /** Network Fabric SKU Properties define properties of the resource. */
 export interface NetworkFabricSkuProperties {
   /** Type of Network Fabric SKU. */
-  type?: FabricSkuType;
+  type?: FabricSkuType | undefined;
   /** Maximum number of compute racks available for this Network Fabric SKU. The value of max count racks is 4 for 4 rack SKU and 8 for 8 rack SKU. */
-  maxComputeRacks?: number;
+  maxComputeRacks?: number | undefined;
   /** Maximum number of servers available for this Network Fabric SKU. */
-  maximumServerCount?: number;
+  maximumServerCount?: number | undefined;
   /** List of supported Network Fabric SKU versions. */
-  supportedVersions?: NetworkFabricSkuPropertiesSupportedVersionsList;
+  supportedVersions?: NetworkFabricSkuPropertiesSupportedVersionsList | undefined;
   /** URL providing detailed configuration of the fabric SKU. */
-  details?: string;
+  details?: string | undefined;
   /** Provisioning state of the resource. */
-  provisioningState?: ProvisioningState;
+  provisioningState?: ProvisioningState | undefined;
 }
 export interface GetNetworkFabricSkusResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The Network Fabric SKU properties. */
   properties: NetworkFabricSkuProperties;
 }
@@ -4993,23 +5035,23 @@ export type GetTopologyResponseOperationsItemOperationsList = Array<OperationSta
 /** The current status of an async operation. */
 export interface GetTopologyResponseOperationsItem {
   /** Fully qualified ID for the async operation. */
-  id?: string;
+  id?: string | undefined;
   /** Fully qualified ID of the resource against which the original async operation was started. */
-  resourceId?: string;
+  resourceId?: string | undefined;
   /** Name of the async operation. */
-  name?: string;
+  name?: string | undefined;
   /** Operation status. */
   status: string;
   /** Percent of the operation that is complete. */
-  percentComplete?: number;
+  percentComplete?: number | undefined;
   /** The start time of the operation. */
-  startTime?: string;
+  startTime?: string | undefined;
   /** The end time of the operation. */
-  endTime?: string;
+  endTime?: string | undefined;
   /** The operations list. */
-  operations?: GetTopologyResponseOperationsItemOperationsList;
+  operations?: GetTopologyResponseOperationsItemOperationsList | undefined;
   /** If present, details of the operation error. */
-  error?: ErrorDetail;
+  error?: ErrorDetail | undefined;
 }
 /** The operations list. */
 export type GetTopologyResponseOperationsList = Array<GetTopologyResponseOperationsItem>;
@@ -5020,47 +5062,47 @@ export type GetTopologyResponseErrorAdditionalInfoList = Array<ErrorAdditionalIn
 /** The error detail. */
 export interface GetTopologyResponseError {
   /** The error code. */
-  code?: string;
+  code?: string | undefined;
   /** The error message. */
-  message?: string;
+  message?: string | undefined;
   /** The error target. */
-  target?: string;
+  target?: string | undefined;
   /** The error details. */
-  details?: GetTopologyResponseErrorDetailsList;
+  details?: GetTopologyResponseErrorDetailsList | undefined;
   /** The error additional info. */
-  additionalInfo?: GetTopologyResponseErrorAdditionalInfoList;
+  additionalInfo?: GetTopologyResponseErrorAdditionalInfoList | undefined;
 }
 /** Properties of the GetTopology Response. */
 export interface GetTopologyResponseProperties {
   /** Topology JSON string. */
-  url?: string;
+  url?: string | undefined;
 }
 /** GetTopology Response. */
 export interface GetTopologyResponse {
   /** Fully qualified ID for the async operation. */
-  id?: string;
+  id?: string | undefined;
   /** Name of the async operation. */
-  name?: string;
+  name?: string | undefined;
   /** Operation status. */
   status: string;
   /** Percent of the operation that is complete. */
-  percentComplete?: number;
+  percentComplete?: number | undefined;
   /** The start time of the operation. */
-  startTime?: string;
+  startTime?: string | undefined;
   /** The end time of the operation. */
-  endTime?: string;
+  endTime?: string | undefined;
   /** The operations list. */
-  operations?: GetTopologyResponseOperationsList;
+  operations?: GetTopologyResponseOperationsList | undefined;
   /** The error detail. */
-  error?: GetTopologyResponseError;
+  error?: GetTopologyResponseError | undefined;
   /** Fully qualified ID of the resource against which the original async operation was started. */
-  resourceId?: string;
+  resourceId?: string | undefined;
   /** Properties of the GetTopology Response. */
-  properties?: GetTopologyResponseProperties;
+  properties?: GetTopologyResponseProperties | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface GetNetworkInterfaceRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -5076,17 +5118,17 @@ export interface GetNetworkInterfaceRequest {
 export type GetNetworkInterfaceResponseIdentity = CreateL2IsolationDomainResponseIdentity;
 export interface GetNetworkInterfaceResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The NetworkInterface properties */
   properties: NetworkInterfaceProperties;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: CreateL2IsolationDomainResponseIdentity;
+  identity?: CreateL2IsolationDomainResponseIdentity | undefined;
 }
 export interface GetNetworkMonitorRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -5100,15 +5142,15 @@ export interface GetNetworkMonitorRequest {
 export type GetNetworkMonitorResponseTagsMap = { [key: string]: string | undefined };
 export interface GetNetworkMonitorResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: GetNetworkMonitorResponseTagsMap;
+  tags?: GetNetworkMonitorResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The NetworkMonitor properties. */
@@ -5128,21 +5170,21 @@ export type GetNetworkPacketBrokerResponseTagsMap = { [key: string]: string | un
 export type GetNetworkPacketBrokerResponseIdentity = CreateL2IsolationDomainResponseIdentity;
 export interface GetNetworkPacketBrokerResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: GetNetworkPacketBrokerResponseTagsMap;
+  tags?: GetNetworkPacketBrokerResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The NetworkPacketBroker properties */
   properties: NetworkPacketBrokerProperties;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: CreateL2IsolationDomainResponseIdentity;
+  identity?: CreateL2IsolationDomainResponseIdentity | undefined;
 }
 export interface GetNetworkRackRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -5156,15 +5198,15 @@ export interface GetNetworkRackRequest {
 export type GetNetworkRackResponseTagsMap = { [key: string]: string | undefined };
 export interface GetNetworkRackResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: GetNetworkRackResponseTagsMap;
+  tags?: GetNetworkRackResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Network Rack Properties */
@@ -5184,21 +5226,21 @@ export type GetNetworkTapResponseTagsMap = { [key: string]: string | undefined }
 export type GetNetworkTapResponseIdentity = CreateL2IsolationDomainResponseIdentity;
 export interface GetNetworkTapResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: GetNetworkTapResponseTagsMap;
+  tags?: GetNetworkTapResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The NetworkTap Properties */
   properties: NetworkTapProperties;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: CreateL2IsolationDomainResponseIdentity;
+  identity?: CreateL2IsolationDomainResponseIdentity | undefined;
 }
 export interface GetNetworkTapRuleRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -5214,21 +5256,21 @@ export type GetNetworkTapRuleResponseTagsMap = { [key: string]: string | undefin
 export type GetNetworkTapRuleResponseIdentity = CreateL2IsolationDomainResponseIdentity;
 export interface GetNetworkTapRuleResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: GetNetworkTapRuleResponseTagsMap;
+  tags?: GetNetworkTapRuleResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The NetworkTapRule Properties */
   properties: NetworkTapRuleProperties;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: CreateL2IsolationDomainResponseIdentity;
+  identity?: CreateL2IsolationDomainResponseIdentity | undefined;
 }
 export interface GetNetworkToNetworkInterconnectRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -5242,13 +5284,13 @@ export interface GetNetworkToNetworkInterconnectRequest {
 }
 export interface GetNetworkToNetworkInterconnectResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The NetworkToNetworkInterconnect Properties */
   properties: NetworkToNetworkInterconnectProperties;
 }
@@ -5264,15 +5306,15 @@ export interface GetRoutePolicyRequest {
 export type GetRoutePolicyResponseTagsMap = { [key: string]: string | undefined };
 export interface GetRoutePolicyResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: GetRoutePolicyResponseTagsMap;
+  tags?: GetRoutePolicyResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The RoutePolicy properties */
@@ -5289,15 +5331,15 @@ export type AccessControlListTagsMap = { [key: string]: string | undefined };
 /** The Access Control List resource definition. */
 export interface AccessControlList {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: AccessControlListTagsMap;
+  tags?: AccessControlListTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The Access ControlList properties. */
@@ -5310,7 +5352,7 @@ export interface AccessControlListsListResult {
   /** The AccessControlList items on this page */
   value: AccessControlListsListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListAccessControlListBySubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -5327,13 +5369,13 @@ export interface ListExternalNetworkByL3IsolationDomainRequest {
 /** Defines the External Network resource. */
 export interface ExternalNetwork {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** External Network Properties */
   properties: ExternalNetworkProperties;
 }
@@ -5344,7 +5386,7 @@ export interface ExternalNetworksList {
   /** The ExternalNetwork items on this page */
   value: ExternalNetworksListValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListInternalNetworkByL3IsolationDomainRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -5357,13 +5399,13 @@ export interface ListInternalNetworkByL3IsolationDomainRequest {
 /** Defines the Internal Network resource. */
 export interface InternalNetwork {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The Internal Network Properties */
   properties: InternalNetworkProperties;
 }
@@ -5374,7 +5416,7 @@ export interface InternalNetworksList {
   /** The InternalNetwork items on this page */
   value: InternalNetworksListValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListInternetGatewayByResourceGroupRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -5387,15 +5429,15 @@ export type InternetGatewayTagsMap = { [key: string]: string | undefined };
 /** The Internet Gateway resource definition. */
 export interface InternetGateway {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: InternetGatewayTagsMap;
+  tags?: InternetGatewayTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The Internet Gateway Properties */
@@ -5408,7 +5450,7 @@ export interface InternetGatewaysListResult {
   /** The InternetGateway items on this page */
   value: InternetGatewaysListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListInternetGatewayBySubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -5425,15 +5467,15 @@ export type InternetGatewayRuleTagsMap = { [key: string]: string | undefined };
 /** The Internet Gateway Rule resource definition. */
 export interface InternetGatewayRule {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: InternetGatewayRuleTagsMap;
+  tags?: InternetGatewayRuleTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The Internet Gateway Rule properties */
@@ -5446,7 +5488,7 @@ export interface InternetGatewayRulesListResult {
   /** The InternetGatewayRule items on this page */
   value: InternetGatewayRulesListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListInternetGatewayRuleBySubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -5463,15 +5505,15 @@ export type IpCommunityTagsMap = { [key: string]: string | undefined };
 /** The IP Community resource definition. */
 export interface IpCommunity {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: IpCommunityTagsMap;
+  tags?: IpCommunityTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The IP Community Properties */
@@ -5484,7 +5526,7 @@ export interface IpCommunitiesListResult {
   /** The IpCommunity items on this page */
   value: IpCommunitiesListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListIpCommunityBySubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -5501,15 +5543,15 @@ export type IpExtendedCommunityTagsMap = { [key: string]: string | undefined };
 /** The IP Extended Community resource definition. */
 export interface IpExtendedCommunity {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: IpExtendedCommunityTagsMap;
+  tags?: IpExtendedCommunityTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The IpExtendedCommunity properties */
@@ -5522,7 +5564,7 @@ export interface IpExtendedCommunityListResult {
   /** The IpExtendedCommunity items on this page */
   value: IpExtendedCommunityListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListIpExtendedCommunityBySubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -5539,15 +5581,15 @@ export type IpPrefixTagsMap = { [key: string]: string | undefined };
 /** The IP Prefix resource definition. */
 export interface IpPrefix {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: IpPrefixTagsMap;
+  tags?: IpPrefixTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The IP Prefix properties */
@@ -5560,7 +5602,7 @@ export interface IpPrefixesListResult {
   /** The IpPrefix items on this page */
   value: IpPrefixesListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListIpPrefixBySubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -5579,21 +5621,21 @@ export type L2IsolationDomainIdentity = CreateL2IsolationDomainResponseIdentity;
 /** The L2 Isolation Domain resource definition. */
 export interface L2IsolationDomain {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: L2IsolationDomainTagsMap;
+  tags?: L2IsolationDomainTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The L2IsolationDomain properties */
   properties: L2IsolationDomainProperties;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: CreateL2IsolationDomainResponseIdentity;
+  identity?: CreateL2IsolationDomainResponseIdentity | undefined;
 }
 /** The L2IsolationDomain items on this page */
 export type L2IsolationDomainsListResultValueList = Array<L2IsolationDomain>;
@@ -5602,7 +5644,7 @@ export interface L2IsolationDomainsListResult {
   /** The L2IsolationDomain items on this page */
   value: L2IsolationDomainsListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListL2IsolationDomainBySubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -5621,21 +5663,21 @@ export type L3IsolationDomainIdentity = CreateL2IsolationDomainResponseIdentity;
 /** The L3 Isolation Domain resource definition. */
 export interface L3IsolationDomain {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: L3IsolationDomainTagsMap;
+  tags?: L3IsolationDomainTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The L3 Isolation Domain Properties */
   properties: L3IsolationDomainProperties;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: CreateL2IsolationDomainResponseIdentity;
+  identity?: CreateL2IsolationDomainResponseIdentity | undefined;
 }
 /** The L3IsolationDomain items on this page */
 export type L3IsolationDomainsListResultValueList = Array<L3IsolationDomain>;
@@ -5644,7 +5686,7 @@ export interface L3IsolationDomainsListResult {
   /** The L3IsolationDomain items on this page */
   value: L3IsolationDomainsListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListL3IsolationDomainBySubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -5663,21 +5705,21 @@ export type NeighborGroupIdentity = CreateL2IsolationDomainResponseIdentity;
 /** Defines the Neighbor Group. */
 export interface NeighborGroup {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: NeighborGroupTagsMap;
+  tags?: NeighborGroupTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The NeighborGroup Properties */
   properties: NeighborGroupProperties;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: CreateL2IsolationDomainResponseIdentity;
+  identity?: CreateL2IsolationDomainResponseIdentity | undefined;
 }
 /** The NeighborGroup items on this page */
 export type NeighborGroupsListResultValueList = Array<NeighborGroup>;
@@ -5686,7 +5728,7 @@ export interface NeighborGroupsListResult {
   /** The NeighborGroup items on this page */
   value: NeighborGroupsListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListNeighborGroupBySubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -5705,21 +5747,21 @@ export type NetworkBootstrapDeviceIdentity = CreateL2IsolationDomainResponseIden
 /** The Network Bootstrap Device resource definition. */
 export interface NetworkBootstrapDevice {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: NetworkBootstrapDeviceTagsMap;
+  tags?: NetworkBootstrapDeviceTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The NetworkBootstrapDevice properties */
   properties: NetworkBootstrapDeviceProperties;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: CreateL2IsolationDomainResponseIdentity;
+  identity?: CreateL2IsolationDomainResponseIdentity | undefined;
 }
 /** The NetworkBootstrapDevice items on this page */
 export type NetworkBootstrapDeviceListResultValueList = Array<NetworkBootstrapDevice>;
@@ -5728,7 +5770,7 @@ export interface NetworkBootstrapDeviceListResult {
   /** The NetworkBootstrapDevice items on this page */
   value: NetworkBootstrapDeviceListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListNetworkBootstrapDeviceBySubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -5745,13 +5787,13 @@ export interface ListNetworkBootstrapInterfaceByNetworkBootstrapDeviceRequest {
 /** Defines the NetworkBootstrapInterface resource. */
 export interface NetworkBootstrapInterface {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The NetworkBootstrapInterface properties */
   properties: NetworkBootstrapInterfaceProperties;
 }
@@ -5762,7 +5804,7 @@ export interface NetworkBootstrapInterfaceListResult {
   /** The NetworkBootstrapInterface items on this page */
   value: NetworkBootstrapInterfaceListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListNetworkDeviceByResourceGroupRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -5777,21 +5819,21 @@ export type NetworkDeviceIdentity = CreateL2IsolationDomainResponseIdentity;
 /** The Network Device resource definition. */
 export interface NetworkDevice {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: NetworkDeviceTagsMap;
+  tags?: NetworkDeviceTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The NetworkDevice properties */
   properties: NetworkDeviceProperties;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: CreateL2IsolationDomainResponseIdentity;
+  identity?: CreateL2IsolationDomainResponseIdentity | undefined;
 }
 /** The NetworkDevice items on this page */
 export type NetworkDevicesListResultValueList = Array<NetworkDevice>;
@@ -5800,7 +5842,7 @@ export interface NetworkDevicesListResult {
   /** The NetworkDevice items on this page */
   value: NetworkDevicesListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListNetworkDeviceBySubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -5813,13 +5855,13 @@ export interface ListNetworkDeviceSkusBySubscriptionRequest {
 /** The NetworkDeviceSku resource definition. */
 export interface NetworkDeviceSku {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The Network Device SKU properties. */
   properties: NetworkDeviceSkuProperties;
 }
@@ -5830,7 +5872,7 @@ export interface NetworkDeviceSkusListResult {
   /** The NetworkDeviceSku items on this page */
   value: NetworkDeviceSkusListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListNetworkFabricByResourceGroupRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -5845,21 +5887,21 @@ export type NetworkFabricIdentity = CreateL2IsolationDomainResponseIdentity;
 /** The Network Fabric resource definition. */
 export interface NetworkFabric {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: NetworkFabricTagsMap;
+  tags?: NetworkFabricTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The NetworkFabric Properties */
   properties: NetworkFabricProperties;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: CreateL2IsolationDomainResponseIdentity;
+  identity?: CreateL2IsolationDomainResponseIdentity | undefined;
 }
 /** The NetworkFabric items on this page */
 export type NetworkFabricsListResultValueList = Array<NetworkFabric>;
@@ -5868,7 +5910,7 @@ export interface NetworkFabricsListResult {
   /** The NetworkFabric items on this page */
   value: NetworkFabricsListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListNetworkFabricBySubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -5887,21 +5929,21 @@ export type NetworkFabricControllerIdentity = CreateL2IsolationDomainResponseIde
 /** The Network Fabric Controller resource definition. */
 export interface NetworkFabricController {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: NetworkFabricControllerTagsMap;
+  tags?: NetworkFabricControllerTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The NetworkFabricController Properties */
   properties: NetworkFabricControllerProperties;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: CreateL2IsolationDomainResponseIdentity;
+  identity?: CreateL2IsolationDomainResponseIdentity | undefined;
 }
 /** The NetworkFabricController items on this page */
 export type NetworkFabricControllersListResultValueList = Array<NetworkFabricController>;
@@ -5910,7 +5952,7 @@ export interface NetworkFabricControllersListResult {
   /** The NetworkFabricController items on this page */
   value: NetworkFabricControllersListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListNetworkFabricControllerBySubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -5923,13 +5965,13 @@ export interface ListNetworkFabricSkusBySubscriptionRequest {
 /** The Network Fabric SKU resource definition. */
 export interface NetworkFabricSku {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The Network Fabric SKU properties. */
   properties: NetworkFabricSkuProperties;
 }
@@ -5940,7 +5982,7 @@ export interface NetworkFabricSkusListResult {
   /** The NetworkFabricSku items on this page */
   value: NetworkFabricSkusListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListNetworkInterfaceByNetworkDeviceRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -5955,17 +5997,17 @@ export type NetworkInterfaceIdentity = CreateL2IsolationDomainResponseIdentity;
 /** Defines the NetworkInterface resource. */
 export interface NetworkInterface {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The NetworkInterface properties */
   properties: NetworkInterfaceProperties;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: CreateL2IsolationDomainResponseIdentity;
+  identity?: CreateL2IsolationDomainResponseIdentity | undefined;
 }
 /** The NetworkInterface items on this page */
 export type NetworkInterfacesListValueList = Array<NetworkInterface>;
@@ -5974,7 +6016,7 @@ export interface NetworkInterfacesList {
   /** The NetworkInterface items on this page */
   value: NetworkInterfacesListValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListNetworkMonitorByResourceGroupRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -5987,15 +6029,15 @@ export type NetworkMonitorTagsMap = { [key: string]: string | undefined };
 /** The NetworkMonitor resource definition. */
 export interface NetworkMonitor {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: NetworkMonitorTagsMap;
+  tags?: NetworkMonitorTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The NetworkMonitor properties. */
@@ -6008,7 +6050,7 @@ export interface NetworkMonitorListResult {
   /** The NetworkMonitor items on this page */
   value: NetworkMonitorListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListNetworkMonitorBySubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -6027,21 +6069,21 @@ export type NetworkPacketBrokerIdentity = CreateL2IsolationDomainResponseIdentit
 /** The NetworkPacketBroker resource definition. */
 export interface NetworkPacketBroker {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: NetworkPacketBrokerTagsMap;
+  tags?: NetworkPacketBrokerTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The NetworkPacketBroker properties */
   properties: NetworkPacketBrokerProperties;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: CreateL2IsolationDomainResponseIdentity;
+  identity?: CreateL2IsolationDomainResponseIdentity | undefined;
 }
 /** The NetworkPacketBroker items on this page */
 export type NetworkPacketBrokersListResultValueList = Array<NetworkPacketBroker>;
@@ -6050,7 +6092,7 @@ export interface NetworkPacketBrokersListResult {
   /** The NetworkPacketBroker items on this page */
   value: NetworkPacketBrokersListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListNetworkPacketBrokerBySubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -6067,15 +6109,15 @@ export type NetworkRackTagsMap = { [key: string]: string | undefined };
 /** The Network Rack resource definition. */
 export interface NetworkRack {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: NetworkRackTagsMap;
+  tags?: NetworkRackTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Network Rack Properties */
@@ -6088,7 +6130,7 @@ export interface NetworkRacksListResult {
   /** The NetworkRack items on this page */
   value: NetworkRacksListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListNetworkRackBySubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -6107,21 +6149,21 @@ export type NetworkTapIdentity = CreateL2IsolationDomainResponseIdentity;
 /** The Network Tap resource definition. */
 export interface NetworkTap {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: NetworkTapTagsMap;
+  tags?: NetworkTapTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The NetworkTap Properties */
   properties: NetworkTapProperties;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: CreateL2IsolationDomainResponseIdentity;
+  identity?: CreateL2IsolationDomainResponseIdentity | undefined;
 }
 /** The NetworkTap items on this page */
 export type NetworkTapsListResultValueList = Array<NetworkTap>;
@@ -6130,7 +6172,7 @@ export interface NetworkTapsListResult {
   /** The NetworkTap items on this page */
   value: NetworkTapsListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListNetworkTapBySubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -6149,21 +6191,21 @@ export type NetworkTapRuleIdentity = CreateL2IsolationDomainResponseIdentity;
 /** The NetworkTapRule resource definition. */
 export interface NetworkTapRule {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: NetworkTapRuleTagsMap;
+  tags?: NetworkTapRuleTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The NetworkTapRule Properties */
   properties: NetworkTapRuleProperties;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: CreateL2IsolationDomainResponseIdentity;
+  identity?: CreateL2IsolationDomainResponseIdentity | undefined;
 }
 /** The NetworkTapRule items on this page */
 export type NetworkTapRulesListResultValueList = Array<NetworkTapRule>;
@@ -6172,7 +6214,7 @@ export interface NetworkTapRulesListResult {
   /** The NetworkTapRule items on this page */
   value: NetworkTapRulesListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListNetworkTapRuleBySubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -6189,13 +6231,13 @@ export interface ListNetworkToNetworkInterconnectByNetworkFabricRequest {
 /** The Network To Network Interconnect resource definition. */
 export interface NetworkToNetworkInterconnect {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The NetworkToNetworkInterconnect Properties */
   properties: NetworkToNetworkInterconnectProperties;
 }
@@ -6206,19 +6248,19 @@ export interface NetworkToNetworkInterconnectsList {
   /** The NetworkToNetworkInterconnect items on this page */
   value: NetworkToNetworkInterconnectsListValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListOperationsRequest {}
 /** Localized display information for this particular operation. */
 export interface OperationDisplay {
   /** The localized friendly form of the resource provider name, e.g. "Microsoft Monitoring Insights" or "Microsoft Compute". */
-  provider?: string;
+  provider?: string | undefined;
   /** The localized friendly name of the resource type related to this operation. E.g. "Virtual Machines" or "Job Schedule Collections". */
-  resource?: string;
+  resource?: string | undefined;
   /** The concise, localized friendly name for the operation; suitable for dropdowns. E.g. "Create or Update Virtual Machine", "Restart Virtual Machine". */
-  operation?: string;
+  operation?: string | undefined;
   /** The short, localized friendly description of the operation; suitable for tool tips and detailed views. */
-  description?: string;
+  description?: string | undefined;
 }
 /** The intended executor of the operation; as in Resource Based Access Control (RBAC) and audit logs UX. Default value is "user,system" */
 export type OperationOrigin = "user" | "system" | "user,system";
@@ -6227,23 +6269,23 @@ export type OperationActionType = "Internal";
 /** Details of a REST API operation, returned from the Resource Provider Operations API */
 export interface Operation {
   /** The name of the operation, as per Resource-Based Access Control (RBAC). Examples: "Microsoft.Compute/virtualMachines/write", "Microsoft.Compute/virtualMachines/capture/action" */
-  name?: string;
+  name?: string | undefined;
   /** Whether the operation applies to data-plane. This is "true" for data-plane operations and "false" for ARM/control-plane operations. */
-  isDataAction?: boolean;
+  isDataAction?: boolean | undefined;
   /** Localized display information for this particular operation. */
-  display?: OperationDisplay;
+  display?: OperationDisplay | undefined;
   /** The intended executor of the operation; as in Resource Based Access Control (RBAC) and audit logs UX. Default value is "user,system" */
-  origin?: OperationOrigin;
+  origin?: OperationOrigin | undefined;
   /** Enum. Indicates the action type. "Internal" refers to actions that are for internal only APIs. */
-  actionType?: OperationActionType;
+  actionType?: OperationActionType | undefined;
 }
 /** List of operations supported by the resource provider */
 export type ListOperationsResponseValueList = Array<Operation>;
 export interface ListOperationsResponse {
   /** List of operations supported by the resource provider */
-  value?: ListOperationsResponseValueList;
+  value?: ListOperationsResponseValueList | undefined;
   /** URL to get the next set of operation list results (if there are any). */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListRoutePolicyByResourceGroupRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -6256,15 +6298,15 @@ export type RoutePolicyTagsMap = { [key: string]: string | undefined };
 /** The RoutePolicy resource definition. */
 export interface RoutePolicy {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: RoutePolicyTagsMap;
+  tags?: RoutePolicyTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The RoutePolicy properties */
@@ -6277,7 +6319,7 @@ export interface RoutePoliciesListResult {
   /** The RoutePolicy items on this page */
   value: RoutePoliciesListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListRoutePolicyBySubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -6293,35 +6335,35 @@ export interface LockNetworkFabricFabricRequest {
   /** Name of the Network Fabric. */
   networkFabricName: string;
   /** Type of lock to be applied */
-  lockType?: NetworkFabricLockType | (string & {});
+  lockType?: NetworkFabricLockType | (string & {}) | undefined;
   /** Action to be performed on the lock */
-  action?: NetworkFabricLockAction | (string & {});
+  action?: NetworkFabricLockAction | (string & {}) | undefined;
 }
 /** The operations list. */
 export type LockNetworkFabricFabricResponseOperationsList = Array<OperationStatusResult>;
 export interface LockNetworkFabricFabricResponse {
   /** Fully qualified ID for the async operation. */
-  id?: string;
+  id?: string | undefined;
   /** Fully qualified ID of the resource against which the original async operation was started. */
-  resourceId?: string;
+  resourceId?: string | undefined;
   /** Name of the async operation. */
-  name?: string;
+  name?: string | undefined;
   /** Operation status. */
   status: string;
   /** Percent of the operation that is complete. */
-  percentComplete?: number;
+  percentComplete?: number | undefined;
   /** The start time of the operation. */
-  startTime?: string;
+  startTime?: string | undefined;
   /** The end time of the operation. */
-  endTime?: string;
+  endTime?: string | undefined;
   /** The operations list. */
-  operations?: LockNetworkFabricFabricResponseOperationsList;
+  operations?: LockNetworkFabricFabricResponseOperationsList | undefined;
   /** If present, details of the operation error. */
-  error?: ErrorDetail;
+  error?: ErrorDetail | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface NeighborGroupsResyncRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -6336,23 +6378,23 @@ export type NeighborGroupResyncResponseOperationsItemOperationsList = Array<Oper
 /** The current status of an async operation. */
 export interface NeighborGroupResyncResponseOperationsItem {
   /** Fully qualified ID for the async operation. */
-  id?: string;
+  id?: string | undefined;
   /** Fully qualified ID of the resource against which the original async operation was started. */
-  resourceId?: string;
+  resourceId?: string | undefined;
   /** Name of the async operation. */
-  name?: string;
+  name?: string | undefined;
   /** Operation status. */
   status: string;
   /** Percent of the operation that is complete. */
-  percentComplete?: number;
+  percentComplete?: number | undefined;
   /** The start time of the operation. */
-  startTime?: string;
+  startTime?: string | undefined;
   /** The end time of the operation. */
-  endTime?: string;
+  endTime?: string | undefined;
   /** The operations list. */
-  operations?: NeighborGroupResyncResponseOperationsItemOperationsList;
+  operations?: NeighborGroupResyncResponseOperationsItemOperationsList | undefined;
   /** If present, details of the operation error. */
-  error?: ErrorDetail;
+  error?: ErrorDetail | undefined;
 }
 /** The operations list. */
 export type NeighborGroupResyncResponseOperationsList =
@@ -6364,40 +6406,40 @@ export type NeighborGroupResyncResponseErrorAdditionalInfoList = Array<ErrorAddi
 /** The error detail. */
 export interface NeighborGroupResyncResponseError {
   /** The error code. */
-  code?: string;
+  code?: string | undefined;
   /** The error message. */
-  message?: string;
+  message?: string | undefined;
   /** The error target. */
-  target?: string;
+  target?: string | undefined;
   /** The error details. */
-  details?: NeighborGroupResyncResponseErrorDetailsList;
+  details?: NeighborGroupResyncResponseErrorDetailsList | undefined;
   /** The error additional info. */
-  additionalInfo?: NeighborGroupResyncResponseErrorAdditionalInfoList;
+  additionalInfo?: NeighborGroupResyncResponseErrorAdditionalInfoList | undefined;
 }
 /** Response for Neighbor Group Resync operation. */
 export interface NeighborGroupResyncResponse {
   /** Fully qualified ID for the async operation. */
-  id?: string;
+  id?: string | undefined;
   /** Name of the async operation. */
-  name?: string;
+  name?: string | undefined;
   /** Operation status. */
   status: string;
   /** Percent of the operation that is complete. */
-  percentComplete?: number;
+  percentComplete?: number | undefined;
   /** The start time of the operation. */
-  startTime?: string;
+  startTime?: string | undefined;
   /** The end time of the operation. */
-  endTime?: string;
+  endTime?: string | undefined;
   /** The operations list. */
-  operations?: NeighborGroupResyncResponseOperationsList;
+  operations?: NeighborGroupResyncResponseOperationsList | undefined;
   /** The error detail. */
-  error?: NeighborGroupResyncResponseError;
+  error?: NeighborGroupResyncResponseError | undefined;
   /** Fully qualified ID of the resource against which the original async operation was started. */
-  resourceId?: string;
+  resourceId?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface NetworkBootstrapDevicesResyncPasswordsRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -6413,23 +6455,25 @@ export type NetworkBootstrapDeviceResyncPasswordsResponseOperationsItemOperation
 /** The current status of an async operation. */
 export interface NetworkBootstrapDeviceResyncPasswordsResponseOperationsItem {
   /** Fully qualified ID for the async operation. */
-  id?: string;
+  id?: string | undefined;
   /** Fully qualified ID of the resource against which the original async operation was started. */
-  resourceId?: string;
+  resourceId?: string | undefined;
   /** Name of the async operation. */
-  name?: string;
+  name?: string | undefined;
   /** Operation status. */
   status: string;
   /** Percent of the operation that is complete. */
-  percentComplete?: number;
+  percentComplete?: number | undefined;
   /** The start time of the operation. */
-  startTime?: string;
+  startTime?: string | undefined;
   /** The end time of the operation. */
-  endTime?: string;
+  endTime?: string | undefined;
   /** The operations list. */
-  operations?: NetworkBootstrapDeviceResyncPasswordsResponseOperationsItemOperationsList;
+  operations?:
+    | NetworkBootstrapDeviceResyncPasswordsResponseOperationsItemOperationsList
+    | undefined;
   /** If present, details of the operation error. */
-  error?: ErrorDetail;
+  error?: ErrorDetail | undefined;
 }
 /** The operations list. */
 export type NetworkBootstrapDeviceResyncPasswordsResponseOperationsList =
@@ -6442,40 +6486,40 @@ export type NetworkBootstrapDeviceResyncPasswordsResponseErrorAdditionalInfoList
 /** The error detail. */
 export interface NetworkBootstrapDeviceResyncPasswordsResponseError {
   /** The error code. */
-  code?: string;
+  code?: string | undefined;
   /** The error message. */
-  message?: string;
+  message?: string | undefined;
   /** The error target. */
-  target?: string;
+  target?: string | undefined;
   /** The error details. */
-  details?: NetworkBootstrapDeviceResyncPasswordsResponseErrorDetailsList;
+  details?: NetworkBootstrapDeviceResyncPasswordsResponseErrorDetailsList | undefined;
   /** The error additional info. */
-  additionalInfo?: NetworkBootstrapDeviceResyncPasswordsResponseErrorAdditionalInfoList;
+  additionalInfo?: NetworkBootstrapDeviceResyncPasswordsResponseErrorAdditionalInfoList | undefined;
 }
 /** Response body for a ResyncPasswords request on a Network Bootstrap Device. */
 export interface NetworkBootstrapDeviceResyncPasswordsResponse {
   /** Fully qualified ID for the async operation. */
-  id?: string;
+  id?: string | undefined;
   /** Name of the async operation. */
-  name?: string;
+  name?: string | undefined;
   /** Operation status. */
   status: string;
   /** Percent of the operation that is complete. */
-  percentComplete?: number;
+  percentComplete?: number | undefined;
   /** The start time of the operation. */
-  startTime?: string;
+  startTime?: string | undefined;
   /** The end time of the operation. */
-  endTime?: string;
+  endTime?: string | undefined;
   /** The operations list. */
-  operations?: NetworkBootstrapDeviceResyncPasswordsResponseOperationsList;
+  operations?: NetworkBootstrapDeviceResyncPasswordsResponseOperationsList | undefined;
   /** The error detail. */
-  error?: NetworkBootstrapDeviceResyncPasswordsResponseError;
+  error?: NetworkBootstrapDeviceResyncPasswordsResponseError | undefined;
   /** Fully qualified ID of the resource against which the original async operation was started. */
-  resourceId?: string;
+  resourceId?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface NetworkBootstrapDevicesUpgradeRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -6485,7 +6529,7 @@ export interface NetworkBootstrapDevicesUpgradeRequest {
   /** Name of the Network Bootstrap Device. */
   networkBootstrapDeviceName: string;
   /** Specify the version. */
-  version?: string;
+  version?: string | undefined;
 }
 /** The operations list. */
 export type NetworkBootstrapDeviceUpgradeResponseOperationsItemOperationsList =
@@ -6493,23 +6537,23 @@ export type NetworkBootstrapDeviceUpgradeResponseOperationsItemOperationsList =
 /** The current status of an async operation. */
 export interface NetworkBootstrapDeviceUpgradeResponseOperationsItem {
   /** Fully qualified ID for the async operation. */
-  id?: string;
+  id?: string | undefined;
   /** Fully qualified ID of the resource against which the original async operation was started. */
-  resourceId?: string;
+  resourceId?: string | undefined;
   /** Name of the async operation. */
-  name?: string;
+  name?: string | undefined;
   /** Operation status. */
   status: string;
   /** Percent of the operation that is complete. */
-  percentComplete?: number;
+  percentComplete?: number | undefined;
   /** The start time of the operation. */
-  startTime?: string;
+  startTime?: string | undefined;
   /** The end time of the operation. */
-  endTime?: string;
+  endTime?: string | undefined;
   /** The operations list. */
-  operations?: NetworkBootstrapDeviceUpgradeResponseOperationsItemOperationsList;
+  operations?: NetworkBootstrapDeviceUpgradeResponseOperationsItemOperationsList | undefined;
   /** If present, details of the operation error. */
-  error?: ErrorDetail;
+  error?: ErrorDetail | undefined;
 }
 /** The operations list. */
 export type NetworkBootstrapDeviceUpgradeResponseOperationsList =
@@ -6522,40 +6566,40 @@ export type NetworkBootstrapDeviceUpgradeResponseErrorAdditionalInfoList =
 /** The error detail. */
 export interface NetworkBootstrapDeviceUpgradeResponseError {
   /** The error code. */
-  code?: string;
+  code?: string | undefined;
   /** The error message. */
-  message?: string;
+  message?: string | undefined;
   /** The error target. */
-  target?: string;
+  target?: string | undefined;
   /** The error details. */
-  details?: NetworkBootstrapDeviceUpgradeResponseErrorDetailsList;
+  details?: NetworkBootstrapDeviceUpgradeResponseErrorDetailsList | undefined;
   /** The error additional info. */
-  additionalInfo?: NetworkBootstrapDeviceUpgradeResponseErrorAdditionalInfoList;
+  additionalInfo?: NetworkBootstrapDeviceUpgradeResponseErrorAdditionalInfoList | undefined;
 }
 /** Network Bootstrap Device upgrade Response. */
 export interface NetworkBootstrapDeviceUpgradeResponse {
   /** Fully qualified ID for the async operation. */
-  id?: string;
+  id?: string | undefined;
   /** Name of the async operation. */
-  name?: string;
+  name?: string | undefined;
   /** Operation status. */
   status: string;
   /** Percent of the operation that is complete. */
-  percentComplete?: number;
+  percentComplete?: number | undefined;
   /** The start time of the operation. */
-  startTime?: string;
+  startTime?: string | undefined;
   /** The end time of the operation. */
-  endTime?: string;
+  endTime?: string | undefined;
   /** The operations list. */
-  operations?: NetworkBootstrapDeviceUpgradeResponseOperationsList;
+  operations?: NetworkBootstrapDeviceUpgradeResponseOperationsList | undefined;
   /** The error detail. */
-  error?: NetworkBootstrapDeviceUpgradeResponseError;
+  error?: NetworkBootstrapDeviceUpgradeResponseError | undefined;
   /** Fully qualified ID of the resource against which the original async operation was started. */
-  resourceId?: string;
+  resourceId?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface NetworkDevicesResyncCertificatesRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -6571,23 +6615,23 @@ export type NetworkFabricResyncCertificatesResponseOperationsItemOperationsList 
 /** The current status of an async operation. */
 export interface NetworkFabricResyncCertificatesResponseOperationsItem {
   /** Fully qualified ID for the async operation. */
-  id?: string;
+  id?: string | undefined;
   /** Fully qualified ID of the resource against which the original async operation was started. */
-  resourceId?: string;
+  resourceId?: string | undefined;
   /** Name of the async operation. */
-  name?: string;
+  name?: string | undefined;
   /** Operation status. */
   status: string;
   /** Percent of the operation that is complete. */
-  percentComplete?: number;
+  percentComplete?: number | undefined;
   /** The start time of the operation. */
-  startTime?: string;
+  startTime?: string | undefined;
   /** The end time of the operation. */
-  endTime?: string;
+  endTime?: string | undefined;
   /** The operations list. */
-  operations?: NetworkFabricResyncCertificatesResponseOperationsItemOperationsList;
+  operations?: NetworkFabricResyncCertificatesResponseOperationsItemOperationsList | undefined;
   /** If present, details of the operation error. */
-  error?: ErrorDetail;
+  error?: ErrorDetail | undefined;
 }
 /** The operations list. */
 export type NetworkFabricResyncCertificatesResponseOperationsList =
@@ -6600,40 +6644,40 @@ export type NetworkFabricResyncCertificatesResponseErrorAdditionalInfoList =
 /** The error detail. */
 export interface NetworkFabricResyncCertificatesResponseError {
   /** The error code. */
-  code?: string;
+  code?: string | undefined;
   /** The error message. */
-  message?: string;
+  message?: string | undefined;
   /** The error target. */
-  target?: string;
+  target?: string | undefined;
   /** The error details. */
-  details?: NetworkFabricResyncCertificatesResponseErrorDetailsList;
+  details?: NetworkFabricResyncCertificatesResponseErrorDetailsList | undefined;
   /** The error additional info. */
-  additionalInfo?: NetworkFabricResyncCertificatesResponseErrorAdditionalInfoList;
+  additionalInfo?: NetworkFabricResyncCertificatesResponseErrorAdditionalInfoList | undefined;
 }
 /** Response body for a ResyncCertificates request on a Network Fabric. */
 export interface NetworkFabricResyncCertificatesResponse {
   /** Fully qualified ID for the async operation. */
-  id?: string;
+  id?: string | undefined;
   /** Name of the async operation. */
-  name?: string;
+  name?: string | undefined;
   /** Operation status. */
   status: string;
   /** Percent of the operation that is complete. */
-  percentComplete?: number;
+  percentComplete?: number | undefined;
   /** The start time of the operation. */
-  startTime?: string;
+  startTime?: string | undefined;
   /** The end time of the operation. */
-  endTime?: string;
+  endTime?: string | undefined;
   /** The operations list. */
-  operations?: NetworkFabricResyncCertificatesResponseOperationsList;
+  operations?: NetworkFabricResyncCertificatesResponseOperationsList | undefined;
   /** The error detail. */
-  error?: NetworkFabricResyncCertificatesResponseError;
+  error?: NetworkFabricResyncCertificatesResponseError | undefined;
   /** Fully qualified ID of the resource against which the original async operation was started. */
-  resourceId?: string;
+  resourceId?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface NetworkDevicesResyncPasswordsRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -6649,23 +6693,23 @@ export type NetworkDeviceResyncPasswordsResponseOperationsItemOperationsList =
 /** The current status of an async operation. */
 export interface NetworkDeviceResyncPasswordsResponseOperationsItem {
   /** Fully qualified ID for the async operation. */
-  id?: string;
+  id?: string | undefined;
   /** Fully qualified ID of the resource against which the original async operation was started. */
-  resourceId?: string;
+  resourceId?: string | undefined;
   /** Name of the async operation. */
-  name?: string;
+  name?: string | undefined;
   /** Operation status. */
   status: string;
   /** Percent of the operation that is complete. */
-  percentComplete?: number;
+  percentComplete?: number | undefined;
   /** The start time of the operation. */
-  startTime?: string;
+  startTime?: string | undefined;
   /** The end time of the operation. */
-  endTime?: string;
+  endTime?: string | undefined;
   /** The operations list. */
-  operations?: NetworkDeviceResyncPasswordsResponseOperationsItemOperationsList;
+  operations?: NetworkDeviceResyncPasswordsResponseOperationsItemOperationsList | undefined;
   /** If present, details of the operation error. */
-  error?: ErrorDetail;
+  error?: ErrorDetail | undefined;
 }
 /** The operations list. */
 export type NetworkDeviceResyncPasswordsResponseOperationsList =
@@ -6678,40 +6722,40 @@ export type NetworkDeviceResyncPasswordsResponseErrorAdditionalInfoList =
 /** The error detail. */
 export interface NetworkDeviceResyncPasswordsResponseError {
   /** The error code. */
-  code?: string;
+  code?: string | undefined;
   /** The error message. */
-  message?: string;
+  message?: string | undefined;
   /** The error target. */
-  target?: string;
+  target?: string | undefined;
   /** The error details. */
-  details?: NetworkDeviceResyncPasswordsResponseErrorDetailsList;
+  details?: NetworkDeviceResyncPasswordsResponseErrorDetailsList | undefined;
   /** The error additional info. */
-  additionalInfo?: NetworkDeviceResyncPasswordsResponseErrorAdditionalInfoList;
+  additionalInfo?: NetworkDeviceResyncPasswordsResponseErrorAdditionalInfoList | undefined;
 }
 /** Response body for a ResyncPasswords request on a Network Device. */
 export interface NetworkDeviceResyncPasswordsResponse {
   /** Fully qualified ID for the async operation. */
-  id?: string;
+  id?: string | undefined;
   /** Name of the async operation. */
-  name?: string;
+  name?: string | undefined;
   /** Operation status. */
   status: string;
   /** Percent of the operation that is complete. */
-  percentComplete?: number;
+  percentComplete?: number | undefined;
   /** The start time of the operation. */
-  startTime?: string;
+  startTime?: string | undefined;
   /** The end time of the operation. */
-  endTime?: string;
+  endTime?: string | undefined;
   /** The operations list. */
-  operations?: NetworkDeviceResyncPasswordsResponseOperationsList;
+  operations?: NetworkDeviceResyncPasswordsResponseOperationsList | undefined;
   /** The error detail. */
-  error?: NetworkDeviceResyncPasswordsResponseError;
+  error?: NetworkDeviceResyncPasswordsResponseError | undefined;
   /** Fully qualified ID of the resource against which the original async operation was started. */
-  resourceId?: string;
+  resourceId?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface NetworkDevicesUpgradeRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -6723,30 +6767,30 @@ export interface NetworkDevicesUpgradeRequest {
   /** Version to which the device needs to be upgraded. */
   version: string;
   /** URL to the file containing Read-write configuration to be applied on the device during upgrade. */
-  rwDeviceConfigUrl?: string;
+  rwDeviceConfigUrl?: string | undefined;
 }
 /** The operations list. */
 export type NetworkDeviceUpgradeResponseOperationsItemOperationsList = Array<OperationStatusResult>;
 /** The current status of an async operation. */
 export interface NetworkDeviceUpgradeResponseOperationsItem {
   /** Fully qualified ID for the async operation. */
-  id?: string;
+  id?: string | undefined;
   /** Fully qualified ID of the resource against which the original async operation was started. */
-  resourceId?: string;
+  resourceId?: string | undefined;
   /** Name of the async operation. */
-  name?: string;
+  name?: string | undefined;
   /** Operation status. */
   status: string;
   /** Percent of the operation that is complete. */
-  percentComplete?: number;
+  percentComplete?: number | undefined;
   /** The start time of the operation. */
-  startTime?: string;
+  startTime?: string | undefined;
   /** The end time of the operation. */
-  endTime?: string;
+  endTime?: string | undefined;
   /** The operations list. */
-  operations?: NetworkDeviceUpgradeResponseOperationsItemOperationsList;
+  operations?: NetworkDeviceUpgradeResponseOperationsItemOperationsList | undefined;
   /** If present, details of the operation error. */
-  error?: ErrorDetail;
+  error?: ErrorDetail | undefined;
 }
 /** The operations list. */
 export type NetworkDeviceUpgradeResponseOperationsList =
@@ -6758,40 +6802,40 @@ export type NetworkDeviceUpgradeResponseErrorAdditionalInfoList = Array<ErrorAdd
 /** The error detail. */
 export interface NetworkDeviceUpgradeResponseError {
   /** The error code. */
-  code?: string;
+  code?: string | undefined;
   /** The error message. */
-  message?: string;
+  message?: string | undefined;
   /** The error target. */
-  target?: string;
+  target?: string | undefined;
   /** The error details. */
-  details?: NetworkDeviceUpgradeResponseErrorDetailsList;
+  details?: NetworkDeviceUpgradeResponseErrorDetailsList | undefined;
   /** The error additional info. */
-  additionalInfo?: NetworkDeviceUpgradeResponseErrorAdditionalInfoList;
+  additionalInfo?: NetworkDeviceUpgradeResponseErrorAdditionalInfoList | undefined;
 }
 /** Network Device Upgrade Response. */
 export interface NetworkDeviceUpgradeResponse {
   /** Fully qualified ID for the async operation. */
-  id?: string;
+  id?: string | undefined;
   /** Name of the async operation. */
-  name?: string;
+  name?: string | undefined;
   /** Operation status. */
   status: string;
   /** Percent of the operation that is complete. */
-  percentComplete?: number;
+  percentComplete?: number | undefined;
   /** The start time of the operation. */
-  startTime?: string;
+  startTime?: string | undefined;
   /** The end time of the operation. */
-  endTime?: string;
+  endTime?: string | undefined;
   /** The operations list. */
-  operations?: NetworkDeviceUpgradeResponseOperationsList;
+  operations?: NetworkDeviceUpgradeResponseOperationsList | undefined;
   /** The error detail. */
-  error?: NetworkDeviceUpgradeResponseError;
+  error?: NetworkDeviceUpgradeResponseError | undefined;
   /** Fully qualified ID of the resource against which the original async operation was started. */
-  resourceId?: string;
+  resourceId?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface NetworkFabricsArmConfigurationDiffRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -6807,23 +6851,23 @@ export type ArmConfigurationDiffOperationResponseOperationsItemOperationsList =
 /** The current status of an async operation. */
 export interface ArmConfigurationDiffOperationResponseOperationsItem {
   /** Fully qualified ID for the async operation. */
-  id?: string;
+  id?: string | undefined;
   /** Fully qualified ID of the resource against which the original async operation was started. */
-  resourceId?: string;
+  resourceId?: string | undefined;
   /** Name of the async operation. */
-  name?: string;
+  name?: string | undefined;
   /** Operation status. */
   status: string;
   /** Percent of the operation that is complete. */
-  percentComplete?: number;
+  percentComplete?: number | undefined;
   /** The start time of the operation. */
-  startTime?: string;
+  startTime?: string | undefined;
   /** The end time of the operation. */
-  endTime?: string;
+  endTime?: string | undefined;
   /** The operations list. */
-  operations?: ArmConfigurationDiffOperationResponseOperationsItemOperationsList;
+  operations?: ArmConfigurationDiffOperationResponseOperationsItemOperationsList | undefined;
   /** If present, details of the operation error. */
-  error?: ErrorDetail;
+  error?: ErrorDetail | undefined;
 }
 /** The operations list. */
 export type ArmConfigurationDiffOperationResponseOperationsList =
@@ -6836,47 +6880,47 @@ export type ArmConfigurationDiffOperationResponseErrorAdditionalInfoList =
 /** The error detail. */
 export interface ArmConfigurationDiffOperationResponseError {
   /** The error code. */
-  code?: string;
+  code?: string | undefined;
   /** The error message. */
-  message?: string;
+  message?: string | undefined;
   /** The error target. */
-  target?: string;
+  target?: string | undefined;
   /** The error details. */
-  details?: ArmConfigurationDiffOperationResponseErrorDetailsList;
+  details?: ArmConfigurationDiffOperationResponseErrorDetailsList | undefined;
   /** The error additional info. */
-  additionalInfo?: ArmConfigurationDiffOperationResponseErrorAdditionalInfoList;
+  additionalInfo?: ArmConfigurationDiffOperationResponseErrorAdditionalInfoList | undefined;
 }
 /** Arm Configuration Diff Response Properties. */
 export interface ArmConfigurationDiffResponseProperties {
   /** Storage URL to the diff file. */
-  configurationDiffUrl?: string;
+  configurationDiffUrl?: string | undefined;
 }
 /** Arm Configuration Diff Response V2. */
 export interface ArmConfigurationDiffOperationResponse {
   /** Fully qualified ID for the async operation. */
-  id?: string;
+  id?: string | undefined;
   /** Name of the async operation. */
-  name?: string;
+  name?: string | undefined;
   /** Operation status. */
   status: string;
   /** Percent of the operation that is complete. */
-  percentComplete?: number;
+  percentComplete?: number | undefined;
   /** The start time of the operation. */
-  startTime?: string;
+  startTime?: string | undefined;
   /** The end time of the operation. */
-  endTime?: string;
+  endTime?: string | undefined;
   /** The operations list. */
-  operations?: ArmConfigurationDiffOperationResponseOperationsList;
+  operations?: ArmConfigurationDiffOperationResponseOperationsList | undefined;
   /** The error detail. */
-  error?: ArmConfigurationDiffOperationResponseError;
+  error?: ArmConfigurationDiffOperationResponseError | undefined;
   /** Fully qualified ID of the resource against which the original async operation was started. */
-  resourceId?: string;
+  resourceId?: string | undefined;
   /** Arm Configuration Diff Response Properties. */
-  properties?: ArmConfigurationDiffResponseProperties;
+  properties?: ArmConfigurationDiffResponseProperties | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface NetworkFabricsDeprovisionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -6890,27 +6934,27 @@ export interface NetworkFabricsDeprovisionRequest {
 export type NetworkFabricsDeprovisionResponseOperationsList = Array<OperationStatusResult>;
 export interface NetworkFabricsDeprovisionResponse {
   /** Fully qualified ID for the async operation. */
-  id?: string;
+  id?: string | undefined;
   /** Fully qualified ID of the resource against which the original async operation was started. */
-  resourceId?: string;
+  resourceId?: string | undefined;
   /** Name of the async operation. */
-  name?: string;
+  name?: string | undefined;
   /** Operation status. */
   status: string;
   /** Percent of the operation that is complete. */
-  percentComplete?: number;
+  percentComplete?: number | undefined;
   /** The start time of the operation. */
-  startTime?: string;
+  startTime?: string | undefined;
   /** The end time of the operation. */
-  endTime?: string;
+  endTime?: string | undefined;
   /** The operations list. */
-  operations?: NetworkFabricsDeprovisionResponseOperationsList;
+  operations?: NetworkFabricsDeprovisionResponseOperationsList | undefined;
   /** If present, details of the operation error. */
-  error?: ErrorDetail;
+  error?: ErrorDetail | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface NetworkFabricsDiscardCommitBatchRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -6920,7 +6964,7 @@ export interface NetworkFabricsDiscardCommitBatchRequest {
   /** Name of the Network Fabric. */
   networkFabricName: string;
   /** Commit Batch Identifier. If not provided, the latest commit batch status will be returned. */
-  commitBatchId?: string;
+  commitBatchId?: string | undefined;
 }
 /** The operations list. */
 export type DiscardCommitBatchOperationResponseOperationsItemOperationsList =
@@ -6928,23 +6972,23 @@ export type DiscardCommitBatchOperationResponseOperationsItemOperationsList =
 /** The current status of an async operation. */
 export interface DiscardCommitBatchOperationResponseOperationsItem {
   /** Fully qualified ID for the async operation. */
-  id?: string;
+  id?: string | undefined;
   /** Fully qualified ID of the resource against which the original async operation was started. */
-  resourceId?: string;
+  resourceId?: string | undefined;
   /** Name of the async operation. */
-  name?: string;
+  name?: string | undefined;
   /** Operation status. */
   status: string;
   /** Percent of the operation that is complete. */
-  percentComplete?: number;
+  percentComplete?: number | undefined;
   /** The start time of the operation. */
-  startTime?: string;
+  startTime?: string | undefined;
   /** The end time of the operation. */
-  endTime?: string;
+  endTime?: string | undefined;
   /** The operations list. */
-  operations?: DiscardCommitBatchOperationResponseOperationsItemOperationsList;
+  operations?: DiscardCommitBatchOperationResponseOperationsItemOperationsList | undefined;
   /** If present, details of the operation error. */
-  error?: ErrorDetail;
+  error?: ErrorDetail | undefined;
 }
 /** The operations list. */
 export type DiscardCommitBatchOperationResponseOperationsList =
@@ -6956,47 +7000,47 @@ export type DiscardCommitBatchOperationResponseErrorAdditionalInfoList = Array<E
 /** The error detail. */
 export interface DiscardCommitBatchOperationResponseError {
   /** The error code. */
-  code?: string;
+  code?: string | undefined;
   /** The error message. */
-  message?: string;
+  message?: string | undefined;
   /** The error target. */
-  target?: string;
+  target?: string | undefined;
   /** The error details. */
-  details?: DiscardCommitBatchOperationResponseErrorDetailsList;
+  details?: DiscardCommitBatchOperationResponseErrorDetailsList | undefined;
   /** The error additional info. */
-  additionalInfo?: DiscardCommitBatchOperationResponseErrorAdditionalInfoList;
+  additionalInfo?: DiscardCommitBatchOperationResponseErrorAdditionalInfoList | undefined;
 }
 /** Discard Commit Batch Response Properties. */
 export interface DiscardCommitBatchResponseProperties {
   /** Commit Batch Identifier. */
-  commitBatchId?: string;
+  commitBatchId?: string | undefined;
 }
 /** Discard Commit Batch Response. */
 export interface DiscardCommitBatchOperationResponse {
   /** Fully qualified ID for the async operation. */
-  id?: string;
+  id?: string | undefined;
   /** Name of the async operation. */
-  name?: string;
+  name?: string | undefined;
   /** Operation status. */
   status: string;
   /** Percent of the operation that is complete. */
-  percentComplete?: number;
+  percentComplete?: number | undefined;
   /** The start time of the operation. */
-  startTime?: string;
+  startTime?: string | undefined;
   /** The end time of the operation. */
-  endTime?: string;
+  endTime?: string | undefined;
   /** The operations list. */
-  operations?: DiscardCommitBatchOperationResponseOperationsList;
+  operations?: DiscardCommitBatchOperationResponseOperationsList | undefined;
   /** The error detail. */
-  error?: DiscardCommitBatchOperationResponseError;
+  error?: DiscardCommitBatchOperationResponseError | undefined;
   /** Fully qualified ID of the resource against which the original async operation was started. */
-  resourceId?: string;
+  resourceId?: string | undefined;
   /** Discard commit batch response properties. */
-  properties?: DiscardCommitBatchResponseProperties;
+  properties?: DiscardCommitBatchResponseProperties | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface NetworkFabricsResyncCertificatesRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -7020,23 +7064,23 @@ export type NetworkFabricResyncPasswordsResponseOperationsItemOperationsList =
 /** The current status of an async operation. */
 export interface NetworkFabricResyncPasswordsResponseOperationsItem {
   /** Fully qualified ID for the async operation. */
-  id?: string;
+  id?: string | undefined;
   /** Fully qualified ID of the resource against which the original async operation was started. */
-  resourceId?: string;
+  resourceId?: string | undefined;
   /** Name of the async operation. */
-  name?: string;
+  name?: string | undefined;
   /** Operation status. */
   status: string;
   /** Percent of the operation that is complete. */
-  percentComplete?: number;
+  percentComplete?: number | undefined;
   /** The start time of the operation. */
-  startTime?: string;
+  startTime?: string | undefined;
   /** The end time of the operation. */
-  endTime?: string;
+  endTime?: string | undefined;
   /** The operations list. */
-  operations?: NetworkFabricResyncPasswordsResponseOperationsItemOperationsList;
+  operations?: NetworkFabricResyncPasswordsResponseOperationsItemOperationsList | undefined;
   /** If present, details of the operation error. */
-  error?: ErrorDetail;
+  error?: ErrorDetail | undefined;
 }
 /** The operations list. */
 export type NetworkFabricResyncPasswordsResponseOperationsList =
@@ -7049,40 +7093,40 @@ export type NetworkFabricResyncPasswordsResponseErrorAdditionalInfoList =
 /** The error detail. */
 export interface NetworkFabricResyncPasswordsResponseError {
   /** The error code. */
-  code?: string;
+  code?: string | undefined;
   /** The error message. */
-  message?: string;
+  message?: string | undefined;
   /** The error target. */
-  target?: string;
+  target?: string | undefined;
   /** The error details. */
-  details?: NetworkFabricResyncPasswordsResponseErrorDetailsList;
+  details?: NetworkFabricResyncPasswordsResponseErrorDetailsList | undefined;
   /** The error additional info. */
-  additionalInfo?: NetworkFabricResyncPasswordsResponseErrorAdditionalInfoList;
+  additionalInfo?: NetworkFabricResyncPasswordsResponseErrorAdditionalInfoList | undefined;
 }
 /** Response body for a ResyncPasswords request on a Network Fabric. */
 export interface NetworkFabricResyncPasswordsResponse {
   /** Fully qualified ID for the async operation. */
-  id?: string;
+  id?: string | undefined;
   /** Name of the async operation. */
-  name?: string;
+  name?: string | undefined;
   /** Operation status. */
   status: string;
   /** Percent of the operation that is complete. */
-  percentComplete?: number;
+  percentComplete?: number | undefined;
   /** The start time of the operation. */
-  startTime?: string;
+  startTime?: string | undefined;
   /** The end time of the operation. */
-  endTime?: string;
+  endTime?: string | undefined;
   /** The operations list. */
-  operations?: NetworkFabricResyncPasswordsResponseOperationsList;
+  operations?: NetworkFabricResyncPasswordsResponseOperationsList | undefined;
   /** The error detail. */
-  error?: NetworkFabricResyncPasswordsResponseError;
+  error?: NetworkFabricResyncPasswordsResponseError | undefined;
   /** Fully qualified ID of the resource against which the original async operation was started. */
-  resourceId?: string;
+  resourceId?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Action to be performed while upgrading the fabric. */
 export type NetworkFabricUpgradeAction = "Start" | "Complete";
@@ -7094,35 +7138,35 @@ export interface NetworkFabricsUpgradeRequest {
   /** Name of the Network Fabric. */
   networkFabricName: string;
   /** Specify the version. */
-  version?: string;
+  version?: string | undefined;
   /** Action to be performed while upgrading the fabric. */
-  action?: NetworkFabricUpgradeAction | (string & {});
+  action?: NetworkFabricUpgradeAction | (string & {}) | undefined;
 }
 /** The operations list. */
 export type NetworkFabricsUpgradeResponseOperationsList = Array<OperationStatusResult>;
 export interface NetworkFabricsUpgradeResponse {
   /** Fully qualified ID for the async operation. */
-  id?: string;
+  id?: string | undefined;
   /** Fully qualified ID of the resource against which the original async operation was started. */
-  resourceId?: string;
+  resourceId?: string | undefined;
   /** Name of the async operation. */
-  name?: string;
+  name?: string | undefined;
   /** Operation status. */
   status: string;
   /** Percent of the operation that is complete. */
-  percentComplete?: number;
+  percentComplete?: number | undefined;
   /** The start time of the operation. */
-  startTime?: string;
+  startTime?: string | undefined;
   /** The end time of the operation. */
-  endTime?: string;
+  endTime?: string | undefined;
   /** The operations list. */
-  operations?: NetworkFabricsUpgradeResponseOperationsList;
+  operations?: NetworkFabricsUpgradeResponseOperationsList | undefined;
   /** If present, details of the operation error. */
-  error?: ErrorDetail;
+  error?: ErrorDetail | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface NetworkFabricsViewDeviceConfigurationRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -7138,23 +7182,23 @@ export type ViewDeviceConfigurationOperationResponseOperationsItemOperationsList
 /** The current status of an async operation. */
 export interface ViewDeviceConfigurationOperationResponseOperationsItem {
   /** Fully qualified ID for the async operation. */
-  id?: string;
+  id?: string | undefined;
   /** Fully qualified ID of the resource against which the original async operation was started. */
-  resourceId?: string;
+  resourceId?: string | undefined;
   /** Name of the async operation. */
-  name?: string;
+  name?: string | undefined;
   /** Operation status. */
   status: string;
   /** Percent of the operation that is complete. */
-  percentComplete?: number;
+  percentComplete?: number | undefined;
   /** The start time of the operation. */
-  startTime?: string;
+  startTime?: string | undefined;
   /** The end time of the operation. */
-  endTime?: string;
+  endTime?: string | undefined;
   /** The operations list. */
-  operations?: ViewDeviceConfigurationOperationResponseOperationsItemOperationsList;
+  operations?: ViewDeviceConfigurationOperationResponseOperationsItemOperationsList | undefined;
   /** If present, details of the operation error. */
-  error?: ErrorDetail;
+  error?: ErrorDetail | undefined;
 }
 /** The operations list. */
 export type ViewDeviceConfigurationOperationResponseOperationsList =
@@ -7167,47 +7211,47 @@ export type ViewDeviceConfigurationOperationResponseErrorAdditionalInfoList =
 /** The error detail. */
 export interface ViewDeviceConfigurationOperationResponseError {
   /** The error code. */
-  code?: string;
+  code?: string | undefined;
   /** The error message. */
-  message?: string;
+  message?: string | undefined;
   /** The error target. */
-  target?: string;
+  target?: string | undefined;
   /** The error details. */
-  details?: ViewDeviceConfigurationOperationResponseErrorDetailsList;
+  details?: ViewDeviceConfigurationOperationResponseErrorDetailsList | undefined;
   /** The error additional info. */
-  additionalInfo?: ViewDeviceConfigurationOperationResponseErrorAdditionalInfoList;
+  additionalInfo?: ViewDeviceConfigurationOperationResponseErrorAdditionalInfoList | undefined;
 }
 /** View Device Configuration Response Properties. */
 export interface ViewDeviceConfigurationResponseProperties {
   /** Storage URL to the device configuration file. */
-  deviceConfigurationUrl?: string;
+  deviceConfigurationUrl?: string | undefined;
 }
 /** View Device Configuration Response V2. */
 export interface ViewDeviceConfigurationOperationResponse {
   /** Fully qualified ID for the async operation. */
-  id?: string;
+  id?: string | undefined;
   /** Name of the async operation. */
-  name?: string;
+  name?: string | undefined;
   /** Operation status. */
   status: string;
   /** Percent of the operation that is complete. */
-  percentComplete?: number;
+  percentComplete?: number | undefined;
   /** The start time of the operation. */
-  startTime?: string;
+  startTime?: string | undefined;
   /** The end time of the operation. */
-  endTime?: string;
+  endTime?: string | undefined;
   /** The operations list. */
-  operations?: ViewDeviceConfigurationOperationResponseOperationsList;
+  operations?: ViewDeviceConfigurationOperationResponseOperationsList | undefined;
   /** The error detail. */
-  error?: ViewDeviceConfigurationOperationResponseError;
+  error?: ViewDeviceConfigurationOperationResponseError | undefined;
   /** Fully qualified ID of the resource against which the original async operation was started. */
-  resourceId?: string;
+  resourceId?: string | undefined;
   /** View Device Configuration Response Properties. */
-  properties?: ViewDeviceConfigurationResponseProperties;
+  properties?: ViewDeviceConfigurationResponseProperties | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface NetworkTapRulesResyncRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -7222,23 +7266,23 @@ export type NetworkTapRuleResyncResponseOperationsItemOperationsList = Array<Ope
 /** The current status of an async operation. */
 export interface NetworkTapRuleResyncResponseOperationsItem {
   /** Fully qualified ID for the async operation. */
-  id?: string;
+  id?: string | undefined;
   /** Fully qualified ID of the resource against which the original async operation was started. */
-  resourceId?: string;
+  resourceId?: string | undefined;
   /** Name of the async operation. */
-  name?: string;
+  name?: string | undefined;
   /** Operation status. */
   status: string;
   /** Percent of the operation that is complete. */
-  percentComplete?: number;
+  percentComplete?: number | undefined;
   /** The start time of the operation. */
-  startTime?: string;
+  startTime?: string | undefined;
   /** The end time of the operation. */
-  endTime?: string;
+  endTime?: string | undefined;
   /** The operations list. */
-  operations?: NetworkTapRuleResyncResponseOperationsItemOperationsList;
+  operations?: NetworkTapRuleResyncResponseOperationsItemOperationsList | undefined;
   /** If present, details of the operation error. */
-  error?: ErrorDetail;
+  error?: ErrorDetail | undefined;
 }
 /** The operations list. */
 export type NetworkTapRuleResyncResponseOperationsList =
@@ -7250,40 +7294,40 @@ export type NetworkTapRuleResyncResponseErrorAdditionalInfoList = Array<ErrorAdd
 /** The error detail. */
 export interface NetworkTapRuleResyncResponseError {
   /** The error code. */
-  code?: string;
+  code?: string | undefined;
   /** The error message. */
-  message?: string;
+  message?: string | undefined;
   /** The error target. */
-  target?: string;
+  target?: string | undefined;
   /** The error details. */
-  details?: NetworkTapRuleResyncResponseErrorDetailsList;
+  details?: NetworkTapRuleResyncResponseErrorDetailsList | undefined;
   /** The error additional info. */
-  additionalInfo?: NetworkTapRuleResyncResponseErrorAdditionalInfoList;
+  additionalInfo?: NetworkTapRuleResyncResponseErrorAdditionalInfoList | undefined;
 }
 /** Response for Network Tap Rule resync operation. */
 export interface NetworkTapRuleResyncResponse {
   /** Fully qualified ID for the async operation. */
-  id?: string;
+  id?: string | undefined;
   /** Name of the async operation. */
-  name?: string;
+  name?: string | undefined;
   /** Operation status. */
   status: string;
   /** Percent of the operation that is complete. */
-  percentComplete?: number;
+  percentComplete?: number | undefined;
   /** The start time of the operation. */
-  startTime?: string;
+  startTime?: string | undefined;
   /** The end time of the operation. */
-  endTime?: string;
+  endTime?: string | undefined;
   /** The operations list. */
-  operations?: NetworkTapRuleResyncResponseOperationsList;
+  operations?: NetworkTapRuleResyncResponseOperationsList | undefined;
   /** The error detail. */
-  error?: NetworkTapRuleResyncResponseError;
+  error?: NetworkTapRuleResyncResponseError | undefined;
   /** Fully qualified ID of the resource against which the original async operation was started. */
-  resourceId?: string;
+  resourceId?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface NetworkTapsResyncRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -7298,23 +7342,23 @@ export type NetworkTapResyncResponseOperationsItemOperationsList = Array<Operati
 /** The current status of an async operation. */
 export interface NetworkTapResyncResponseOperationsItem {
   /** Fully qualified ID for the async operation. */
-  id?: string;
+  id?: string | undefined;
   /** Fully qualified ID of the resource against which the original async operation was started. */
-  resourceId?: string;
+  resourceId?: string | undefined;
   /** Name of the async operation. */
-  name?: string;
+  name?: string | undefined;
   /** Operation status. */
   status: string;
   /** Percent of the operation that is complete. */
-  percentComplete?: number;
+  percentComplete?: number | undefined;
   /** The start time of the operation. */
-  startTime?: string;
+  startTime?: string | undefined;
   /** The end time of the operation. */
-  endTime?: string;
+  endTime?: string | undefined;
   /** The operations list. */
-  operations?: NetworkTapResyncResponseOperationsItemOperationsList;
+  operations?: NetworkTapResyncResponseOperationsItemOperationsList | undefined;
   /** If present, details of the operation error. */
-  error?: ErrorDetail;
+  error?: ErrorDetail | undefined;
 }
 /** The operations list. */
 export type NetworkTapResyncResponseOperationsList = Array<NetworkTapResyncResponseOperationsItem>;
@@ -7325,40 +7369,40 @@ export type NetworkTapResyncResponseErrorAdditionalInfoList = Array<ErrorAdditio
 /** The error detail. */
 export interface NetworkTapResyncResponseError {
   /** The error code. */
-  code?: string;
+  code?: string | undefined;
   /** The error message. */
-  message?: string;
+  message?: string | undefined;
   /** The error target. */
-  target?: string;
+  target?: string | undefined;
   /** The error details. */
-  details?: NetworkTapResyncResponseErrorDetailsList;
+  details?: NetworkTapResyncResponseErrorDetailsList | undefined;
   /** The error additional info. */
-  additionalInfo?: NetworkTapResyncResponseErrorAdditionalInfoList;
+  additionalInfo?: NetworkTapResyncResponseErrorAdditionalInfoList | undefined;
 }
 /** Response for NetworkTap Resync operation. */
 export interface NetworkTapResyncResponse {
   /** Fully qualified ID for the async operation. */
-  id?: string;
+  id?: string | undefined;
   /** Name of the async operation. */
-  name?: string;
+  name?: string | undefined;
   /** Operation status. */
   status: string;
   /** Percent of the operation that is complete. */
-  percentComplete?: number;
+  percentComplete?: number | undefined;
   /** The start time of the operation. */
-  startTime?: string;
+  startTime?: string | undefined;
   /** The end time of the operation. */
-  endTime?: string;
+  endTime?: string | undefined;
   /** The operations list. */
-  operations?: NetworkTapResyncResponseOperationsList;
+  operations?: NetworkTapResyncResponseOperationsList | undefined;
   /** The error detail. */
-  error?: NetworkTapResyncResponseError;
+  error?: NetworkTapResyncResponseError | undefined;
   /** Fully qualified ID of the resource against which the original async operation was started. */
-  resourceId?: string;
+  resourceId?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface ProvisionNetworkFabricRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -7372,27 +7416,27 @@ export interface ProvisionNetworkFabricRequest {
 export type ProvisionNetworkFabricResponseOperationsList = Array<OperationStatusResult>;
 export interface ProvisionNetworkFabricResponse {
   /** Fully qualified ID for the async operation. */
-  id?: string;
+  id?: string | undefined;
   /** Fully qualified ID of the resource against which the original async operation was started. */
-  resourceId?: string;
+  resourceId?: string | undefined;
   /** Name of the async operation. */
-  name?: string;
+  name?: string | undefined;
   /** Operation status. */
   status: string;
   /** Percent of the operation that is complete. */
-  percentComplete?: number;
+  percentComplete?: number | undefined;
   /** The start time of the operation. */
-  startTime?: string;
+  startTime?: string | undefined;
   /** The end time of the operation. */
-  endTime?: string;
+  endTime?: string | undefined;
   /** The operations list. */
-  operations?: ProvisionNetworkFabricResponseOperationsList;
+  operations?: ProvisionNetworkFabricResponseOperationsList | undefined;
   /** If present, details of the operation error. */
-  error?: ErrorDetail;
+  error?: ErrorDetail | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface RebootNetworkBootstrapDeviceRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -7408,23 +7452,23 @@ export type NetworkBootstrapDeviceRebootResponseOperationsItemOperationsList =
 /** The current status of an async operation. */
 export interface NetworkBootstrapDeviceRebootResponseOperationsItem {
   /** Fully qualified ID for the async operation. */
-  id?: string;
+  id?: string | undefined;
   /** Fully qualified ID of the resource against which the original async operation was started. */
-  resourceId?: string;
+  resourceId?: string | undefined;
   /** Name of the async operation. */
-  name?: string;
+  name?: string | undefined;
   /** Operation status. */
   status: string;
   /** Percent of the operation that is complete. */
-  percentComplete?: number;
+  percentComplete?: number | undefined;
   /** The start time of the operation. */
-  startTime?: string;
+  startTime?: string | undefined;
   /** The end time of the operation. */
-  endTime?: string;
+  endTime?: string | undefined;
   /** The operations list. */
-  operations?: NetworkBootstrapDeviceRebootResponseOperationsItemOperationsList;
+  operations?: NetworkBootstrapDeviceRebootResponseOperationsItemOperationsList | undefined;
   /** If present, details of the operation error. */
-  error?: ErrorDetail;
+  error?: ErrorDetail | undefined;
 }
 /** The operations list. */
 export type NetworkBootstrapDeviceRebootResponseOperationsList =
@@ -7437,40 +7481,40 @@ export type NetworkBootstrapDeviceRebootResponseErrorAdditionalInfoList =
 /** The error detail. */
 export interface NetworkBootstrapDeviceRebootResponseError {
   /** The error code. */
-  code?: string;
+  code?: string | undefined;
   /** The error message. */
-  message?: string;
+  message?: string | undefined;
   /** The error target. */
-  target?: string;
+  target?: string | undefined;
   /** The error details. */
-  details?: NetworkBootstrapDeviceRebootResponseErrorDetailsList;
+  details?: NetworkBootstrapDeviceRebootResponseErrorDetailsList | undefined;
   /** The error additional info. */
-  additionalInfo?: NetworkBootstrapDeviceRebootResponseErrorAdditionalInfoList;
+  additionalInfo?: NetworkBootstrapDeviceRebootResponseErrorAdditionalInfoList | undefined;
 }
 /** Network Bootstrap Device reboot Response. */
 export interface NetworkBootstrapDeviceRebootResponse {
   /** Fully qualified ID for the async operation. */
-  id?: string;
+  id?: string | undefined;
   /** Name of the async operation. */
-  name?: string;
+  name?: string | undefined;
   /** Operation status. */
   status: string;
   /** Percent of the operation that is complete. */
-  percentComplete?: number;
+  percentComplete?: number | undefined;
   /** The start time of the operation. */
-  startTime?: string;
+  startTime?: string | undefined;
   /** The end time of the operation. */
-  endTime?: string;
+  endTime?: string | undefined;
   /** The operations list. */
-  operations?: NetworkBootstrapDeviceRebootResponseOperationsList;
+  operations?: NetworkBootstrapDeviceRebootResponseOperationsList | undefined;
   /** The error detail. */
-  error?: NetworkBootstrapDeviceRebootResponseError;
+  error?: NetworkBootstrapDeviceRebootResponseError | undefined;
   /** Fully qualified ID of the resource against which the original async operation was started. */
-  resourceId?: string;
+  resourceId?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Type of reboot to be performed. Example: GracefulRebootWithZTP */
 export type RebootType =
@@ -7486,33 +7530,33 @@ export interface RebootNetworkDeviceRequest {
   /** Name of the Network Device. */
   networkDeviceName: string;
   /** Type of reboot to be performed. Example: GracefulRebootWithZTP */
-  rebootType?: RebootType | (string & {});
+  rebootType?: RebootType | (string & {}) | undefined;
 }
 /** The operations list. */
 export type RebootNetworkDeviceResponseOperationsList = Array<OperationStatusResult>;
 export interface RebootNetworkDeviceResponse {
   /** Fully qualified ID for the async operation. */
-  id?: string;
+  id?: string | undefined;
   /** Fully qualified ID of the resource against which the original async operation was started. */
-  resourceId?: string;
+  resourceId?: string | undefined;
   /** Name of the async operation. */
-  name?: string;
+  name?: string | undefined;
   /** Operation status. */
   status: string;
   /** Percent of the operation that is complete. */
-  percentComplete?: number;
+  percentComplete?: number | undefined;
   /** The start time of the operation. */
-  startTime?: string;
+  startTime?: string | undefined;
   /** The end time of the operation. */
-  endTime?: string;
+  endTime?: string | undefined;
   /** The operations list. */
-  operations?: RebootNetworkDeviceResponseOperationsList;
+  operations?: RebootNetworkDeviceResponseOperationsList | undefined;
   /** If present, details of the operation error. */
-  error?: ErrorDetail;
+  error?: ErrorDetail | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface RefreshNetworkBootstrapDeviceConfigurationRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -7528,23 +7572,25 @@ export type NetworkBootstrapDeviceRefreshConfigurationResponseOperationsItemOper
 /** The current status of an async operation. */
 export interface NetworkBootstrapDeviceRefreshConfigurationResponseOperationsItem {
   /** Fully qualified ID for the async operation. */
-  id?: string;
+  id?: string | undefined;
   /** Fully qualified ID of the resource against which the original async operation was started. */
-  resourceId?: string;
+  resourceId?: string | undefined;
   /** Name of the async operation. */
-  name?: string;
+  name?: string | undefined;
   /** Operation status. */
   status: string;
   /** Percent of the operation that is complete. */
-  percentComplete?: number;
+  percentComplete?: number | undefined;
   /** The start time of the operation. */
-  startTime?: string;
+  startTime?: string | undefined;
   /** The end time of the operation. */
-  endTime?: string;
+  endTime?: string | undefined;
   /** The operations list. */
-  operations?: NetworkBootstrapDeviceRefreshConfigurationResponseOperationsItemOperationsList;
+  operations?:
+    | NetworkBootstrapDeviceRefreshConfigurationResponseOperationsItemOperationsList
+    | undefined;
   /** If present, details of the operation error. */
-  error?: ErrorDetail;
+  error?: ErrorDetail | undefined;
 }
 /** The operations list. */
 export type NetworkBootstrapDeviceRefreshConfigurationResponseOperationsList =
@@ -7557,40 +7603,42 @@ export type NetworkBootstrapDeviceRefreshConfigurationResponseErrorAdditionalInf
 /** The error detail. */
 export interface NetworkBootstrapDeviceRefreshConfigurationResponseError {
   /** The error code. */
-  code?: string;
+  code?: string | undefined;
   /** The error message. */
-  message?: string;
+  message?: string | undefined;
   /** The error target. */
-  target?: string;
+  target?: string | undefined;
   /** The error details. */
-  details?: NetworkBootstrapDeviceRefreshConfigurationResponseErrorDetailsList;
+  details?: NetworkBootstrapDeviceRefreshConfigurationResponseErrorDetailsList | undefined;
   /** The error additional info. */
-  additionalInfo?: NetworkBootstrapDeviceRefreshConfigurationResponseErrorAdditionalInfoList;
+  additionalInfo?:
+    | NetworkBootstrapDeviceRefreshConfigurationResponseErrorAdditionalInfoList
+    | undefined;
 }
 /** The current status of an refresh configuration async operation. */
 export interface NetworkBootstrapDeviceRefreshConfigurationResponse {
   /** Fully qualified ID for the async operation. */
-  id?: string;
+  id?: string | undefined;
   /** Name of the async operation. */
-  name?: string;
+  name?: string | undefined;
   /** Operation status. */
   status: string;
   /** Percent of the operation that is complete. */
-  percentComplete?: number;
+  percentComplete?: number | undefined;
   /** The start time of the operation. */
-  startTime?: string;
+  startTime?: string | undefined;
   /** The end time of the operation. */
-  endTime?: string;
+  endTime?: string | undefined;
   /** The operations list. */
-  operations?: NetworkBootstrapDeviceRefreshConfigurationResponseOperationsList;
+  operations?: NetworkBootstrapDeviceRefreshConfigurationResponseOperationsList | undefined;
   /** The error detail. */
-  error?: NetworkBootstrapDeviceRefreshConfigurationResponseError;
+  error?: NetworkBootstrapDeviceRefreshConfigurationResponseError | undefined;
   /** Fully qualified ID of the resource against which the original async operation was started. */
-  resourceId?: string;
+  resourceId?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface RefreshNetworkDeviceConfigurationRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -7606,23 +7654,23 @@ export type NetworkDeviceRefreshConfigurationResponseOperationsItemOperationsLis
 /** The current status of an async operation. */
 export interface NetworkDeviceRefreshConfigurationResponseOperationsItem {
   /** Fully qualified ID for the async operation. */
-  id?: string;
+  id?: string | undefined;
   /** Fully qualified ID of the resource against which the original async operation was started. */
-  resourceId?: string;
+  resourceId?: string | undefined;
   /** Name of the async operation. */
-  name?: string;
+  name?: string | undefined;
   /** Operation status. */
   status: string;
   /** Percent of the operation that is complete. */
-  percentComplete?: number;
+  percentComplete?: number | undefined;
   /** The start time of the operation. */
-  startTime?: string;
+  startTime?: string | undefined;
   /** The end time of the operation. */
-  endTime?: string;
+  endTime?: string | undefined;
   /** The operations list. */
-  operations?: NetworkDeviceRefreshConfigurationResponseOperationsItemOperationsList;
+  operations?: NetworkDeviceRefreshConfigurationResponseOperationsItemOperationsList | undefined;
   /** If present, details of the operation error. */
-  error?: ErrorDetail;
+  error?: ErrorDetail | undefined;
 }
 /** The operations list. */
 export type NetworkDeviceRefreshConfigurationResponseOperationsList =
@@ -7635,40 +7683,40 @@ export type NetworkDeviceRefreshConfigurationResponseErrorAdditionalInfoList =
 /** The error detail. */
 export interface NetworkDeviceRefreshConfigurationResponseError {
   /** The error code. */
-  code?: string;
+  code?: string | undefined;
   /** The error message. */
-  message?: string;
+  message?: string | undefined;
   /** The error target. */
-  target?: string;
+  target?: string | undefined;
   /** The error details. */
-  details?: NetworkDeviceRefreshConfigurationResponseErrorDetailsList;
+  details?: NetworkDeviceRefreshConfigurationResponseErrorDetailsList | undefined;
   /** The error additional info. */
-  additionalInfo?: NetworkDeviceRefreshConfigurationResponseErrorAdditionalInfoList;
+  additionalInfo?: NetworkDeviceRefreshConfigurationResponseErrorAdditionalInfoList | undefined;
 }
 /** The current status of an refresh configuration async operation. */
 export interface NetworkDeviceRefreshConfigurationResponse {
   /** Fully qualified ID for the async operation. */
-  id?: string;
+  id?: string | undefined;
   /** Name of the async operation. */
-  name?: string;
+  name?: string | undefined;
   /** Operation status. */
   status: string;
   /** Percent of the operation that is complete. */
-  percentComplete?: number;
+  percentComplete?: number | undefined;
   /** The start time of the operation. */
-  startTime?: string;
+  startTime?: string | undefined;
   /** The end time of the operation. */
-  endTime?: string;
+  endTime?: string | undefined;
   /** The operations list. */
-  operations?: NetworkDeviceRefreshConfigurationResponseOperationsList;
+  operations?: NetworkDeviceRefreshConfigurationResponseOperationsList | undefined;
   /** The error detail. */
-  error?: NetworkDeviceRefreshConfigurationResponseError;
+  error?: NetworkDeviceRefreshConfigurationResponseError | undefined;
   /** Fully qualified ID of the resource against which the original async operation was started. */
-  resourceId?: string;
+  resourceId?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface RefreshNetworkFabricConfigurationRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -7682,27 +7730,27 @@ export interface RefreshNetworkFabricConfigurationRequest {
 export type RefreshNetworkFabricConfigurationResponseOperationsList = Array<OperationStatusResult>;
 export interface RefreshNetworkFabricConfigurationResponse {
   /** Fully qualified ID for the async operation. */
-  id?: string;
+  id?: string | undefined;
   /** Fully qualified ID of the resource against which the original async operation was started. */
-  resourceId?: string;
+  resourceId?: string | undefined;
   /** Name of the async operation. */
-  name?: string;
+  name?: string | undefined;
   /** Operation status. */
   status: string;
   /** Percent of the operation that is complete. */
-  percentComplete?: number;
+  percentComplete?: number | undefined;
   /** The start time of the operation. */
-  startTime?: string;
+  startTime?: string | undefined;
   /** The end time of the operation. */
-  endTime?: string;
+  endTime?: string | undefined;
   /** The operations list. */
-  operations?: RefreshNetworkFabricConfigurationResponseOperationsList;
+  operations?: RefreshNetworkFabricConfigurationResponseOperationsList | undefined;
   /** If present, details of the operation error. */
-  error?: ErrorDetail;
+  error?: ErrorDetail | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface RotateNetworkFabricCertificatesRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -7718,23 +7766,23 @@ export type NetworkFabricRotateCertificatesResponseOperationsItemOperationsList 
 /** The current status of an async operation. */
 export interface NetworkFabricRotateCertificatesResponseOperationsItem {
   /** Fully qualified ID for the async operation. */
-  id?: string;
+  id?: string | undefined;
   /** Fully qualified ID of the resource against which the original async operation was started. */
-  resourceId?: string;
+  resourceId?: string | undefined;
   /** Name of the async operation. */
-  name?: string;
+  name?: string | undefined;
   /** Operation status. */
   status: string;
   /** Percent of the operation that is complete. */
-  percentComplete?: number;
+  percentComplete?: number | undefined;
   /** The start time of the operation. */
-  startTime?: string;
+  startTime?: string | undefined;
   /** The end time of the operation. */
-  endTime?: string;
+  endTime?: string | undefined;
   /** The operations list. */
-  operations?: NetworkFabricRotateCertificatesResponseOperationsItemOperationsList;
+  operations?: NetworkFabricRotateCertificatesResponseOperationsItemOperationsList | undefined;
   /** If present, details of the operation error. */
-  error?: ErrorDetail;
+  error?: ErrorDetail | undefined;
 }
 /** The operations list. */
 export type NetworkFabricRotateCertificatesResponseOperationsList =
@@ -7747,40 +7795,40 @@ export type NetworkFabricRotateCertificatesResponseErrorAdditionalInfoList =
 /** The error detail. */
 export interface NetworkFabricRotateCertificatesResponseError {
   /** The error code. */
-  code?: string;
+  code?: string | undefined;
   /** The error message. */
-  message?: string;
+  message?: string | undefined;
   /** The error target. */
-  target?: string;
+  target?: string | undefined;
   /** The error details. */
-  details?: NetworkFabricRotateCertificatesResponseErrorDetailsList;
+  details?: NetworkFabricRotateCertificatesResponseErrorDetailsList | undefined;
   /** The error additional info. */
-  additionalInfo?: NetworkFabricRotateCertificatesResponseErrorAdditionalInfoList;
+  additionalInfo?: NetworkFabricRotateCertificatesResponseErrorAdditionalInfoList | undefined;
 }
 /** Response body for a RotateCertificates request on a Network Fabric. */
 export interface NetworkFabricRotateCertificatesResponse {
   /** Fully qualified ID for the async operation. */
-  id?: string;
+  id?: string | undefined;
   /** Name of the async operation. */
-  name?: string;
+  name?: string | undefined;
   /** Operation status. */
   status: string;
   /** Percent of the operation that is complete. */
-  percentComplete?: number;
+  percentComplete?: number | undefined;
   /** The start time of the operation. */
-  startTime?: string;
+  startTime?: string | undefined;
   /** The end time of the operation. */
-  endTime?: string;
+  endTime?: string | undefined;
   /** The operations list. */
-  operations?: NetworkFabricRotateCertificatesResponseOperationsList;
+  operations?: NetworkFabricRotateCertificatesResponseOperationsList | undefined;
   /** The error detail. */
-  error?: NetworkFabricRotateCertificatesResponseError;
+  error?: NetworkFabricRotateCertificatesResponseError | undefined;
   /** Fully qualified ID of the resource against which the original async operation was started. */
-  resourceId?: string;
+  resourceId?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface RotateNetworkFabricPasswordsRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -7796,23 +7844,23 @@ export type NetworkFabricRotatePasswordsResponseOperationsItemOperationsList =
 /** The current status of an async operation. */
 export interface NetworkFabricRotatePasswordsResponseOperationsItem {
   /** Fully qualified ID for the async operation. */
-  id?: string;
+  id?: string | undefined;
   /** Fully qualified ID of the resource against which the original async operation was started. */
-  resourceId?: string;
+  resourceId?: string | undefined;
   /** Name of the async operation. */
-  name?: string;
+  name?: string | undefined;
   /** Operation status. */
   status: string;
   /** Percent of the operation that is complete. */
-  percentComplete?: number;
+  percentComplete?: number | undefined;
   /** The start time of the operation. */
-  startTime?: string;
+  startTime?: string | undefined;
   /** The end time of the operation. */
-  endTime?: string;
+  endTime?: string | undefined;
   /** The operations list. */
-  operations?: NetworkFabricRotatePasswordsResponseOperationsItemOperationsList;
+  operations?: NetworkFabricRotatePasswordsResponseOperationsItemOperationsList | undefined;
   /** If present, details of the operation error. */
-  error?: ErrorDetail;
+  error?: ErrorDetail | undefined;
 }
 /** The operations list. */
 export type NetworkFabricRotatePasswordsResponseOperationsList =
@@ -7825,40 +7873,40 @@ export type NetworkFabricRotatePasswordsResponseErrorAdditionalInfoList =
 /** The error detail. */
 export interface NetworkFabricRotatePasswordsResponseError {
   /** The error code. */
-  code?: string;
+  code?: string | undefined;
   /** The error message. */
-  message?: string;
+  message?: string | undefined;
   /** The error target. */
-  target?: string;
+  target?: string | undefined;
   /** The error details. */
-  details?: NetworkFabricRotatePasswordsResponseErrorDetailsList;
+  details?: NetworkFabricRotatePasswordsResponseErrorDetailsList | undefined;
   /** The error additional info. */
-  additionalInfo?: NetworkFabricRotatePasswordsResponseErrorAdditionalInfoList;
+  additionalInfo?: NetworkFabricRotatePasswordsResponseErrorAdditionalInfoList | undefined;
 }
 /** Response body for a RotatePasswords request on a Network Fabric. */
 export interface NetworkFabricRotatePasswordsResponse {
   /** Fully qualified ID for the async operation. */
-  id?: string;
+  id?: string | undefined;
   /** Name of the async operation. */
-  name?: string;
+  name?: string | undefined;
   /** Operation status. */
   status: string;
   /** Percent of the operation that is complete. */
-  percentComplete?: number;
+  percentComplete?: number | undefined;
   /** The start time of the operation. */
-  startTime?: string;
+  startTime?: string | undefined;
   /** The end time of the operation. */
-  endTime?: string;
+  endTime?: string | undefined;
   /** The operations list. */
-  operations?: NetworkFabricRotatePasswordsResponseOperationsList;
+  operations?: NetworkFabricRotatePasswordsResponseOperationsList | undefined;
   /** The error detail. */
-  error?: NetworkFabricRotatePasswordsResponseError;
+  error?: NetworkFabricRotatePasswordsResponseError | undefined;
   /** Fully qualified ID of the resource against which the original async operation was started. */
-  resourceId?: string;
+  resourceId?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface RunNetworkDeviceRoCommandRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -7868,38 +7916,38 @@ export interface RunNetworkDeviceRoCommandRequest {
   /** Name of the Network Device. */
   networkDeviceName: string;
   /** Specify the command. */
-  command?: string;
+  command?: string | undefined;
 }
 /** Common response for device Ro Commands. */
 export interface CommonPostActionResponseForDeviceROCommands {
   /** Gets the configuration state. */
-  configurationState?: ConfigurationState;
+  configurationState?: ConfigurationState | undefined;
   /** Predefined link containing Device RO Command output. */
-  outputUrl?: string;
+  outputUrl?: string | undefined;
   /** Device RO command Response limited to 4000 characters. */
-  deviceConfigurationPreview?: string;
+  deviceConfigurationPreview?: string | undefined;
 }
 export interface RunNetworkDeviceRoCommandResponse {
   /** The error object. */
-  error?: ErrorDetail;
+  error?: ErrorDetail | undefined;
   /** The end time of the operation. */
-  endTime?: string;
+  endTime?: string | undefined;
   /** Fully qualified ID for the async operation. */
-  id?: string;
+  id?: string | undefined;
   /** Name of the async operation. */
-  name?: string;
+  name?: string | undefined;
   /** The additional properties of the operation status result. */
-  properties?: CommonPostActionResponseForDeviceROCommands;
+  properties?: CommonPostActionResponseForDeviceROCommands | undefined;
   /** Fully qualified ID of the resource against which the original async operation was started. */
-  resourceId?: string;
+  resourceId?: string | undefined;
   /** The start time of the operation. */
-  startTime?: string;
+  startTime?: string | undefined;
   /** Operation status. */
   status: string;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface RunNetworkDeviceRwCommandRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -7909,9 +7957,9 @@ export interface RunNetworkDeviceRwCommandRequest {
   /** Name of the Network Device. */
   networkDeviceName: string;
   /** Specify the command. */
-  command?: string;
+  command?: string | undefined;
   /** Specify the commands file URL. */
-  commandUrl?: string;
+  commandUrl?: string | undefined;
 }
 /** The operations list. */
 export type NetworkDeviceRunRwCommandResponseOperationsItemOperationsList =
@@ -7919,23 +7967,23 @@ export type NetworkDeviceRunRwCommandResponseOperationsItemOperationsList =
 /** The current status of an async operation. */
 export interface NetworkDeviceRunRwCommandResponseOperationsItem {
   /** Fully qualified ID for the async operation. */
-  id?: string;
+  id?: string | undefined;
   /** Fully qualified ID of the resource against which the original async operation was started. */
-  resourceId?: string;
+  resourceId?: string | undefined;
   /** Name of the async operation. */
-  name?: string;
+  name?: string | undefined;
   /** Operation status. */
   status: string;
   /** Percent of the operation that is complete. */
-  percentComplete?: number;
+  percentComplete?: number | undefined;
   /** The start time of the operation. */
-  startTime?: string;
+  startTime?: string | undefined;
   /** The end time of the operation. */
-  endTime?: string;
+  endTime?: string | undefined;
   /** The operations list. */
-  operations?: NetworkDeviceRunRwCommandResponseOperationsItemOperationsList;
+  operations?: NetworkDeviceRunRwCommandResponseOperationsItemOperationsList | undefined;
   /** If present, details of the operation error. */
-  error?: ErrorDetail;
+  error?: ErrorDetail | undefined;
 }
 /** The operations list. */
 export type NetworkDeviceRunRwCommandResponseOperationsList =
@@ -7947,49 +7995,49 @@ export type NetworkDeviceRunRwCommandResponseErrorAdditionalInfoList = Array<Err
 /** The error detail. */
 export interface NetworkDeviceRunRwCommandResponseError {
   /** The error code. */
-  code?: string;
+  code?: string | undefined;
   /** The error message. */
-  message?: string;
+  message?: string | undefined;
   /** The error target. */
-  target?: string;
+  target?: string | undefined;
   /** The error details. */
-  details?: NetworkDeviceRunRwCommandResponseErrorDetailsList;
+  details?: NetworkDeviceRunRwCommandResponseErrorDetailsList | undefined;
   /** The error additional info. */
-  additionalInfo?: NetworkDeviceRunRwCommandResponseErrorAdditionalInfoList;
+  additionalInfo?: NetworkDeviceRunRwCommandResponseErrorAdditionalInfoList | undefined;
 }
 /** Network Device Resource defines the properties of the resource. */
 export interface NetworkDeviceRwCommandResponseProperties {
   /** Gets the configuration state. */
-  configurationState?: ConfigurationState;
+  configurationState?: ConfigurationState | undefined;
   /** Predefined link containing Device Rw Command output. */
-  outputUrl?: string;
+  outputUrl?: string | undefined;
 }
 /** Response body for a RunRwCommand request on a Network Device. */
 export interface NetworkDeviceRunRwCommandResponse {
   /** Fully qualified ID for the async operation. */
-  id?: string;
+  id?: string | undefined;
   /** Name of the async operation. */
-  name?: string;
+  name?: string | undefined;
   /** Operation status. */
   status: string;
   /** Percent of the operation that is complete. */
-  percentComplete?: number;
+  percentComplete?: number | undefined;
   /** The start time of the operation. */
-  startTime?: string;
+  startTime?: string | undefined;
   /** The end time of the operation. */
-  endTime?: string;
+  endTime?: string | undefined;
   /** The operations list. */
-  operations?: NetworkDeviceRunRwCommandResponseOperationsList;
+  operations?: NetworkDeviceRunRwCommandResponseOperationsList | undefined;
   /** The error detail. */
-  error?: NetworkDeviceRunRwCommandResponseError;
+  error?: NetworkDeviceRunRwCommandResponseError | undefined;
   /** Fully qualified ID of the resource against which the original async operation was started. */
-  resourceId?: string;
+  resourceId?: string | undefined;
   /** Network Device Run Rw Command Response properties. */
-  properties?: NetworkDeviceRwCommandResponseProperties;
+  properties?: NetworkDeviceRwCommandResponseProperties | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Resource tags. */
 export type UpdateAccessControlListRequestTagsMap = { [key: string]: string | undefined };
@@ -8004,11 +8052,11 @@ export type VlanMatchConditionPatchVlanGroupNamesList = Array<string>;
 /** The vlan match conditions that need to be matched. */
 export interface VlanMatchConditionPatch {
   /** List of vlans that need to be matched. Inputs can be single vlan or the range of vlans. */
-  vlans?: VlanMatchConditionPatchVlansList;
+  vlans?: VlanMatchConditionPatchVlansList | undefined;
   /** List of inner vlans that need to be matched.Inputs can be single vlan or the range of vlans. */
-  innerVlans?: VlanMatchConditionPatchInnerVlansList;
+  innerVlans?: VlanMatchConditionPatchInnerVlansList | undefined;
   /** List of vlan group names that need to be matched. */
-  vlanGroupNames?: VlanMatchConditionPatchVlanGroupNamesList;
+  vlanGroupNames?: VlanMatchConditionPatchVlanGroupNamesList | undefined;
 }
 /** The list of IP Prefixes that need to be matched. */
 export type IpMatchConditionPatchIpPrefixValuesList = Array<string>;
@@ -8017,13 +8065,13 @@ export type IpMatchConditionPatchIpGroupNamesList = Array<string>;
 /** Defines the condition that can be filtered using the selected IPs. */
 export interface IpMatchConditionPatch {
   /** IP Address type that needs to be matched. */
-  type?: SourceDestinationType | (string & {});
+  type?: SourceDestinationType | (string & {}) | undefined;
   /** IP Prefix Type that needs to be matched. */
-  prefixType?: PrefixType | (string & {});
+  prefixType?: PrefixType | (string & {}) | undefined;
   /** The list of IP Prefixes that need to be matched. */
-  ipPrefixValues?: IpMatchConditionPatchIpPrefixValuesList;
+  ipPrefixValues?: IpMatchConditionPatchIpPrefixValuesList | undefined;
   /** The List of IP Group Names that need to be matched. */
-  ipGroupNames?: IpMatchConditionPatchIpGroupNamesList;
+  ipGroupNames?: IpMatchConditionPatchIpGroupNamesList | undefined;
 }
 /** List of ether type values that need to be matched. */
 export type AccessControlListMatchConditionPatchEtherTypesList = Array<string>;
@@ -8044,15 +8092,15 @@ export type AccessControlListPortConditionPatchFlagsList = Array<string>;
 /** Defines the port condition that needs to be matched. */
 export interface AccessControlListPortConditionPatch {
   /** Port type that needs to be matched. */
-  portType?: PortType | (string & {});
+  portType?: PortType | (string & {}) | undefined;
   /** Layer4 protocol type that needs to be matched. */
-  layer4Protocol?: Layer4Protocol | (string & {});
+  layer4Protocol?: Layer4Protocol | (string & {}) | undefined;
   /** List of the Ports that need to be matched. */
-  ports?: AccessControlListPortConditionPatchPortsList;
+  ports?: AccessControlListPortConditionPatchPortsList | undefined;
   /** List of the port Group Names that need to be matched. */
-  portGroupNames?: AccessControlListPortConditionPatchPortGroupNamesList;
+  portGroupNames?: AccessControlListPortConditionPatchPortGroupNamesList | undefined;
   /** List of protocol flags that need to be matched. Example: established | initial | <List-of-TCP-flags>. List of eligible TCP Flags are ack, fin, not-ack, not-fin, not-psh, not-rst, not-syn, not-urg, psh, rst, syn, urg */
-  flags?: AccessControlListPortConditionPatchFlagsList;
+  flags?: AccessControlListPortConditionPatchFlagsList | undefined;
 }
 /** Protocol neighbors that need to be matched. */
 export type AccessControlListMatchConditionPatchProtocolNeighborsList = Array<string>;
@@ -8061,32 +8109,32 @@ export type IcmpConfigurationPatchPropertiesIcmpTypesList = Array<string>;
 /** Internet Control Message Protocol (ICMP) configuration patch properties */
 export interface IcmpConfigurationPatchProperties {
   /** Internet Control Message Protocol (ICMP) types */
-  icmpTypes?: IcmpConfigurationPatchPropertiesIcmpTypesList;
+  icmpTypes?: IcmpConfigurationPatchPropertiesIcmpTypesList | undefined;
 }
 /** Defines the match condition that is supported to filter the traffic. */
 export interface AccessControlListMatchConditionPatch {
   /** List of the protocols that need to be matched. */
-  protocolTypes?: AccessControlListMatchConditionPatchProtocolTypesList;
+  protocolTypes?: AccessControlListMatchConditionPatchProtocolTypesList | undefined;
   /** Vlan match condition that needs to be matched. */
-  vlanMatchCondition?: VlanMatchConditionPatch;
+  vlanMatchCondition?: VlanMatchConditionPatch | undefined;
   /** IP condition that needs to be matched. */
-  ipCondition?: IpMatchConditionPatch;
+  ipCondition?: IpMatchConditionPatch | undefined;
   /** List of ether type values that need to be matched. */
-  etherTypes?: AccessControlListMatchConditionPatchEtherTypesList;
+  etherTypes?: AccessControlListMatchConditionPatchEtherTypesList | undefined;
   /** List of IP fragment packets that need to be matched. */
-  fragments?: AccessControlListMatchConditionPatchFragmentsList;
+  fragments?: AccessControlListMatchConditionPatchFragmentsList | undefined;
   /** List of IP Lengths that need to be matched. */
-  ipLengths?: AccessControlListMatchConditionPatchIpLengthsList;
+  ipLengths?: AccessControlListMatchConditionPatchIpLengthsList | undefined;
   /** List of TTL [Time To Live] values that need to be matched. */
-  ttlValues?: AccessControlListMatchConditionPatchTtlValuesList;
+  ttlValues?: AccessControlListMatchConditionPatchTtlValuesList | undefined;
   /** List of DSCP Markings that need to be matched. */
-  dscpMarkings?: AccessControlListMatchConditionPatchDscpMarkingsList;
+  dscpMarkings?: AccessControlListMatchConditionPatchDscpMarkingsList | undefined;
   /** Defines the port condition that needs to be matched. */
-  portCondition?: AccessControlListPortConditionPatch;
+  portCondition?: AccessControlListPortConditionPatch | undefined;
   /** Protocol neighbors that need to be matched. */
-  protocolNeighbors?: AccessControlListMatchConditionPatchProtocolNeighborsList;
+  protocolNeighbors?: AccessControlListMatchConditionPatchProtocolNeighborsList | undefined;
   /** Internet Control Message Protocol (ICMP) configuration */
-  icmpConfiguration?: IcmpConfigurationPatchProperties;
+  icmpConfiguration?: IcmpConfigurationPatchProperties | undefined;
 }
 /** List of the match conditions. */
 export type AccessControlListMatchConfigurationPatchMatchConditionsList =
@@ -8098,15 +8146,15 @@ export type AccessControlListMatchConfigurationPatchActionsList = Array<AccessCo
 /** Defines the match configuration that are supported to filter the traffic. */
 export interface AccessControlListMatchConfigurationPatch {
   /** The name of the match configuration. */
-  matchConfigurationName?: string;
+  matchConfigurationName?: string | undefined;
   /** Sequence Number of the match configuration. */
-  sequenceNumber?: number;
+  sequenceNumber?: number | undefined;
   /** Type of IP Address. IPv4 or IPv6 */
-  ipAddressType?: IPAddressType | (string & {});
+  ipAddressType?: IPAddressType | (string & {}) | undefined;
   /** List of the match conditions. */
-  matchConditions?: AccessControlListMatchConfigurationPatchMatchConditionsList;
+  matchConditions?: AccessControlListMatchConfigurationPatchMatchConditionsList | undefined;
   /** List of actions that need to be performed for the matched conditions. */
-  actions?: AccessControlListMatchConfigurationPatchActionsList;
+  actions?: AccessControlListMatchConfigurationPatchActionsList | undefined;
 }
 /** List of match configurations. */
 export type AccessControlListPatchPropertiesMatchConfigurationsList =
@@ -8116,11 +8164,11 @@ export type IpGroupPatchPropertiesIpPrefixesList = Array<string>;
 /** IP Group properties. */
 export interface IpGroupPatchProperties {
   /** IP Group name. */
-  name?: string;
+  name?: string | undefined;
   /** IP Address type. */
-  ipAddressType?: IPAddressType | (string & {});
+  ipAddressType?: IPAddressType | (string & {}) | undefined;
   /** List of IP Prefixes. */
-  ipPrefixes?: IpGroupPatchPropertiesIpPrefixesList;
+  ipPrefixes?: IpGroupPatchPropertiesIpPrefixesList | undefined;
 }
 /** List of IP Groups. */
 export type CommonDynamicMatchConfigurationPatchIpGroupsList = Array<IpGroupPatchProperties>;
@@ -8129,9 +8177,9 @@ export type VlanGroupPatchPropertiesVlansList = Array<string>;
 /** Vlan group properties. */
 export interface VlanGroupPatchProperties {
   /** Vlan group name. */
-  name?: string;
+  name?: string | undefined;
   /** List of vlans. */
-  vlans?: VlanGroupPatchPropertiesVlansList;
+  vlans?: VlanGroupPatchPropertiesVlansList | undefined;
 }
 /** List of vlan groups. */
 export type CommonDynamicMatchConfigurationPatchVlanGroupsList = Array<VlanGroupPatchProperties>;
@@ -8140,20 +8188,20 @@ export type PortGroupPatchPropertiesPortsList = Array<string>;
 /** Port Group Properties */
 export interface PortGroupPatchProperties {
   /** The name of the port group. */
-  name?: string;
+  name?: string | undefined;
   /** List of the ports that need to be matched. */
-  ports?: PortGroupPatchPropertiesPortsList;
+  ports?: PortGroupPatchPropertiesPortsList | undefined;
 }
 /** List of the port groups. */
 export type CommonDynamicMatchConfigurationPatchPortGroupsList = Array<PortGroupPatchProperties>;
 /** Dynamic match configuration object. */
 export interface CommonDynamicMatchConfigurationPatch {
   /** List of IP Groups. */
-  ipGroups?: CommonDynamicMatchConfigurationPatchIpGroupsList;
+  ipGroups?: CommonDynamicMatchConfigurationPatchIpGroupsList | undefined;
   /** List of vlan groups. */
-  vlanGroups?: CommonDynamicMatchConfigurationPatchVlanGroupsList;
+  vlanGroups?: CommonDynamicMatchConfigurationPatchVlanGroupsList | undefined;
   /** List of the port groups. */
-  portGroups?: CommonDynamicMatchConfigurationPatchPortGroupsList;
+  portGroups?: CommonDynamicMatchConfigurationPatchPortGroupsList | undefined;
 }
 /** List of dynamic match configurations. */
 export type AccessControlListPatchPropertiesDynamicMatchConfigurationsList =
@@ -8169,30 +8217,30 @@ export type ControlPlaneAclMatchConditionPatchFlagsList = Array<string>;
 /** Control Plane Access Control List (ACL) match conditions properties */
 export interface ControlPlaneAclMatchConditionPatch {
   /** Protocols that need to be matched. */
-  protocolTypes?: string;
+  protocolTypes?: string | undefined;
   /** IP condition that needs to be matched. */
-  ipCondition?: ControlPlanAclIpMatchCondition;
+  ipCondition?: ControlPlanAclIpMatchCondition | undefined;
   /** TTL [Time To Live] values that need to be matched. */
-  ttlMatchCondition?: ControlPlaneAclTtlMatchCondition;
+  ttlMatchCondition?: ControlPlaneAclTtlMatchCondition | undefined;
   /** Port condition that needs to be matched. */
-  portCondition?: ControlPlaneAclPortMatchCondition;
+  portCondition?: ControlPlaneAclPortMatchCondition | undefined;
   /** Flags that need to be matched. Example: established | initial | <List-of-TCP-flags>. List of eligible TCP Flags are ack, cwr, ece, fin, psh, rst, syn, urg, established */
-  flags?: ControlPlaneAclMatchConditionPatchFlagsList;
+  flags?: ControlPlaneAclMatchConditionPatchFlagsList | undefined;
   /** Internet Control Message Protocol (ICMP) configuration */
-  icmpConfiguration?: IcmpConfigurationPatchProperties;
+  icmpConfiguration?: IcmpConfigurationPatchProperties | undefined;
 }
 /** Control Plane Access Control List (ACL) Actions */
 export type ControlPlaneAclActionPatch = ControlPlaneAclAction;
 /** Control Plane Access Control List (ACL) match configurations properties */
 export interface ControlPlaneAclMatchConfigurationPatchProperties {
   /** The name of the match configuration. */
-  matchConfigurationName?: string;
+  matchConfigurationName?: string | undefined;
   /** Sequence Number of the match configuration. */
-  sequenceNumber?: number;
+  sequenceNumber?: number | undefined;
   /** Match conditions */
-  matchCondition?: ControlPlaneAclMatchConditionPatch;
+  matchCondition?: ControlPlaneAclMatchConditionPatch | undefined;
   /** Action that need to be performed for the matched conditions. */
-  action?: ControlPlaneAclAction;
+  action?: ControlPlaneAclAction | undefined;
 }
 /** Access Control List (ACL) match configurations. */
 export type ControlPlaneAclPatchPropertiesMatchConfigurationsList =
@@ -8200,9 +8248,9 @@ export type ControlPlaneAclPatchPropertiesMatchConfigurationsList =
 /** Access Control List (ACL) configurations patch properties */
 export interface ControlPlaneAclPatchProperties {
   /** IP Address Type. IPv4 or IPv6 */
-  ipAddressType?: IPAddressType | (string & {});
+  ipAddressType?: IPAddressType | (string & {}) | undefined;
   /** Access Control List (ACL) match configurations. */
-  matchConfigurations?: ControlPlaneAclPatchPropertiesMatchConfigurationsList;
+  matchConfigurations?: ControlPlaneAclPatchPropertiesMatchConfigurationsList | undefined;
 }
 /** Access Control List (ACL) configurations. */
 export type AccessControlListPatchPropertiesControlPlaneAclConfigurationList =
@@ -8210,30 +8258,34 @@ export type AccessControlListPatchPropertiesControlPlaneAclConfigurationList =
 /** Global Access Control List actions patch properties */
 export interface GlobalAccessControlListActionPatchProperties {
   /** Configuration to enable or disable ACL action count. */
-  enableCount?: BooleanEnumProperty | (string & {});
+  enableCount?: BooleanEnumProperty | (string & {}) | undefined;
 }
 /** Access Control Lists patch properties. */
 export interface AccessControlListPatchProperties {
   /** Input method to configure Access Control List. */
-  configurationType?: ConfigurationType | (string & {});
+  configurationType?: ConfigurationType | (string & {}) | undefined;
   /** Access Control List file URL. */
-  aclsUrl?: string;
+  aclsUrl?: string | undefined;
   /** Default action that needs to be applied when no condition is matched. Example: Permit | Deny. */
-  defaultAction?: CommunityActionTypes | (string & {});
+  defaultAction?: CommunityActionTypes | (string & {}) | undefined;
   /** List of match configurations. */
-  matchConfigurations?: AccessControlListPatchPropertiesMatchConfigurationsList;
+  matchConfigurations?: AccessControlListPatchPropertiesMatchConfigurationsList | undefined;
   /** List of dynamic match configurations. */
-  dynamicMatchConfigurations?: AccessControlListPatchPropertiesDynamicMatchConfigurationsList;
+  dynamicMatchConfigurations?:
+    | AccessControlListPatchPropertiesDynamicMatchConfigurationsList
+    | undefined;
   /** Access Control List (ACL) configurations. */
-  controlPlaneAclConfiguration?: AccessControlListPatchPropertiesControlPlaneAclConfigurationList;
+  controlPlaneAclConfiguration?:
+    | AccessControlListPatchPropertiesControlPlaneAclConfigurationList
+    | undefined;
   /** Access Control List (ACL) Type */
-  aclType?: AclType | (string & {});
+  aclType?: AclType | (string & {}) | undefined;
   /** Device Role */
-  deviceRole?: DeviceRole | (string & {});
+  deviceRole?: DeviceRole | (string & {}) | undefined;
   /** Global Access Control List (ACL) actions */
-  globalAccessControlListActions?: GlobalAccessControlListActionPatchProperties;
+  globalAccessControlListActions?: GlobalAccessControlListActionPatchProperties | undefined;
   /** Switch configuration description. */
-  annotation?: string;
+  annotation?: string | undefined;
 }
 export interface UpdateAccessControlListRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -8243,31 +8295,31 @@ export interface UpdateAccessControlListRequest {
   /** Name of the Access Control List. */
   accessControlListName: string;
   /** Resource tags. */
-  tags?: UpdateAccessControlListRequestTagsMap;
+  tags?: UpdateAccessControlListRequestTagsMap | undefined;
   /** Access Control Lists patch properties. */
-  properties?: AccessControlListPatchProperties;
+  properties?: AccessControlListPatchProperties | undefined;
 }
 /** Resource tags. */
 export type UpdateAccessControlListResponseTagsMap = { [key: string]: string | undefined };
 export interface UpdateAccessControlListResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: UpdateAccessControlListResponseTagsMap;
+  tags?: UpdateAccessControlListResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The Access ControlList properties. */
   properties: AccessControlListProperties;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  locationHeader?: string;
+  locationHeader?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Network Fabrics or Network Rack resource Id. */
 export type UpdateAccessControlListAdministrativeStateRequestResourceIdsList = Array<string>;
@@ -8281,9 +8333,9 @@ export interface UpdateAccessControlListAdministrativeStateRequest {
   /** Name of the Access Control List. */
   accessControlListName: string;
   /** Network Fabrics or Network Rack resource Id. */
-  resourceIds?: UpdateAccessControlListAdministrativeStateRequestResourceIdsList;
+  resourceIds?: UpdateAccessControlListAdministrativeStateRequestResourceIdsList | undefined;
   /** Administrative state. */
-  state?: EnableDisableState | (string & {});
+  state?: EnableDisableState | (string & {}) | undefined;
 }
 /** The operations list. */
 export type UpdateAdministrativeStateResponseOperationsItemOperationsList =
@@ -8291,23 +8343,23 @@ export type UpdateAdministrativeStateResponseOperationsItemOperationsList =
 /** The current status of an async operation. */
 export interface UpdateAdministrativeStateResponseOperationsItem {
   /** Fully qualified ID for the async operation. */
-  id?: string;
+  id?: string | undefined;
   /** Fully qualified ID of the resource against which the original async operation was started. */
-  resourceId?: string;
+  resourceId?: string | undefined;
   /** Name of the async operation. */
-  name?: string;
+  name?: string | undefined;
   /** Operation status. */
   status: string;
   /** Percent of the operation that is complete. */
-  percentComplete?: number;
+  percentComplete?: number | undefined;
   /** The start time of the operation. */
-  startTime?: string;
+  startTime?: string | undefined;
   /** The end time of the operation. */
-  endTime?: string;
+  endTime?: string | undefined;
   /** The operations list. */
-  operations?: UpdateAdministrativeStateResponseOperationsItemOperationsList;
+  operations?: UpdateAdministrativeStateResponseOperationsItemOperationsList | undefined;
   /** If present, details of the operation error. */
-  error?: ErrorDetail;
+  error?: ErrorDetail | undefined;
 }
 /** The operations list. */
 export type UpdateAdministrativeStateResponseOperationsList =
@@ -8319,15 +8371,15 @@ export type UpdateAdministrativeStateResponseErrorAdditionalInfoList = Array<Err
 /** The error detail. */
 export interface UpdateAdministrativeStateResponseError {
   /** The error code. */
-  code?: string;
+  code?: string | undefined;
   /** The error message. */
-  message?: string;
+  message?: string | undefined;
   /** The error target. */
-  target?: string;
+  target?: string | undefined;
   /** The error details. */
-  details?: UpdateAdministrativeStateResponseErrorDetailsList;
+  details?: UpdateAdministrativeStateResponseErrorDetailsList | undefined;
   /** The error additional info. */
-  additionalInfo?: UpdateAdministrativeStateResponseErrorAdditionalInfoList;
+  additionalInfo?: UpdateAdministrativeStateResponseErrorAdditionalInfoList | undefined;
 }
 /** List of ARM Resource IDs for which the given action applied successfully. */
 export type UpdateAdministrativeStateResponsePropertiesSuccessfulResourcesList = Array<string>;
@@ -8336,36 +8388,38 @@ export type UpdateAdministrativeStateResponsePropertiesFailedResourcesList = Arr
 /** Update Administrative State Response Properties. */
 export interface UpdateAdministrativeStateResponseProperties {
   /** List of ARM Resource IDs for which the given action applied successfully. */
-  successfulResources?: UpdateAdministrativeStateResponsePropertiesSuccessfulResourcesList;
+  successfulResources?:
+    | UpdateAdministrativeStateResponsePropertiesSuccessfulResourcesList
+    | undefined;
   /** List of ARM Resource IDs for which the given action failed to apply. */
-  failedResources?: UpdateAdministrativeStateResponsePropertiesFailedResourcesList;
+  failedResources?: UpdateAdministrativeStateResponsePropertiesFailedResourcesList | undefined;
 }
 /** Update Administrative State Response. */
 export interface UpdateAdministrativeStateResponse {
   /** Fully qualified ID for the async operation. */
-  id?: string;
+  id?: string | undefined;
   /** Name of the async operation. */
-  name?: string;
+  name?: string | undefined;
   /** Operation status. */
   status: string;
   /** Percent of the operation that is complete. */
-  percentComplete?: number;
+  percentComplete?: number | undefined;
   /** The start time of the operation. */
-  startTime?: string;
+  startTime?: string | undefined;
   /** The end time of the operation. */
-  endTime?: string;
+  endTime?: string | undefined;
   /** The operations list. */
-  operations?: UpdateAdministrativeStateResponseOperationsList;
+  operations?: UpdateAdministrativeStateResponseOperationsList | undefined;
   /** The error detail. */
-  error?: UpdateAdministrativeStateResponseError;
+  error?: UpdateAdministrativeStateResponseError | undefined;
   /** Fully qualified ID of the resource against which the original async operation was started. */
-  resourceId?: string;
+  resourceId?: string | undefined;
   /** Response properties in case of successful administrative state update. */
-  properties?: UpdateAdministrativeStateResponseProperties;
+  properties?: UpdateAdministrativeStateResponseProperties | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Import Route Policy either IPv4 or IPv6. */
 export type ImportRoutePolicyPatch = ImportRoutePolicy;
@@ -8386,29 +8440,29 @@ export type RouteTargetPatchInformationExportIpv6RouteTargetsList = Array<string
 /** Route Target Configuration. */
 export interface RouteTargetPatchInformation {
   /** Route Targets to be applied for incoming routes into CE. */
-  importIpv4RouteTargets?: RouteTargetPatchInformationImportIpv4RouteTargetsList;
+  importIpv4RouteTargets?: RouteTargetPatchInformationImportIpv4RouteTargetsList | undefined;
   /** Route Targets to be applied for incoming routes from CE. */
-  importIpv6RouteTargets?: RouteTargetPatchInformationImportIpv6RouteTargetsList;
+  importIpv6RouteTargets?: RouteTargetPatchInformationImportIpv6RouteTargetsList | undefined;
   /** Route Targets to be applied for outgoing routes into CE. */
-  exportIpv4RouteTargets?: RouteTargetPatchInformationExportIpv4RouteTargetsList;
+  exportIpv4RouteTargets?: RouteTargetPatchInformationExportIpv4RouteTargetsList | undefined;
   /** Route Targets to be applied for outgoing routes from CE. */
-  exportIpv6RouteTargets?: RouteTargetPatchInformationExportIpv6RouteTargetsList;
+  exportIpv6RouteTargets?: RouteTargetPatchInformationExportIpv6RouteTargetsList | undefined;
 }
 /** Option B configuration. */
 export interface L3OptionBPatchProperties {
   /** RouteTargets to be applied. This is used for the backward compatibility. */
-  importRouteTargets?: L3OptionBPatchPropertiesImportRouteTargetsList;
+  importRouteTargets?: L3OptionBPatchPropertiesImportRouteTargetsList | undefined;
   /** RouteTargets to be applied. This is used for the backward compatibility. */
-  exportRouteTargets?: L3OptionBPatchPropertiesExportRouteTargetsList;
+  exportRouteTargets?: L3OptionBPatchPropertiesExportRouteTargetsList | undefined;
   /** RouteTargets to be applied. */
-  routeTargets?: RouteTargetPatchInformation;
+  routeTargets?: RouteTargetPatchInformation | undefined;
 }
 /** BFD configuration properties */
 export type BfdPatchConfiguration = BfdConfigurationInput;
 /** BMP Monitoring Configuration patch properties. */
 export interface ExternalNetworkBmpPatchProperties {
   /** BMP Configuration State. */
-  configurationState?: BmpConfigurationState | (string & {});
+  configurationState?: BmpConfigurationState | (string & {}) | undefined;
 }
 /** V4 over V6 BGP session state */
 export type V4OverV6BgpSessionState = "Enabled" | "Disabled";
@@ -8417,11 +8471,11 @@ export type V6OverV4BgpSessionState = "Enabled" | "Disabled";
 /** Prefix Limit Patch properties. */
 export interface PrefixLimitPatchProperties {
   /** Maximum routes allowed. */
-  maximumRoutes?: number;
+  maximumRoutes?: number | undefined;
   /** Limit at which route prefixes a warning is generate. */
-  threshold?: number;
+  threshold?: number | undefined;
   /** Idle time expiry in seconds. */
-  idleTimeExpiry?: number;
+  idleTimeExpiry?: number | undefined;
 }
 /** Prefix limits */
 export type NativeIpv4PrefixLimitPatchPropertiesPrefixLimitsList =
@@ -8429,7 +8483,7 @@ export type NativeIpv4PrefixLimitPatchPropertiesPrefixLimitsList =
 /** External Network native IPv4 prefix limits patch properties */
 export interface NativeIpv4PrefixLimitPatchProperties {
   /** Prefix limits */
-  prefixLimits?: NativeIpv4PrefixLimitPatchPropertiesPrefixLimitsList;
+  prefixLimits?: NativeIpv4PrefixLimitPatchPropertiesPrefixLimitsList | undefined;
 }
 /** Prefix limits */
 export type NativeIpv6PrefixLimitPatchPropertiesPrefixLimitsList =
@@ -8437,40 +8491,40 @@ export type NativeIpv6PrefixLimitPatchPropertiesPrefixLimitsList =
 /** External Network native IPv6 prefix limits patch properties */
 export interface NativeIpv6PrefixLimitPatchProperties {
   /** Prefix limits */
-  prefixLimits?: NativeIpv6PrefixLimitPatchPropertiesPrefixLimitsList;
+  prefixLimits?: NativeIpv6PrefixLimitPatchPropertiesPrefixLimitsList | undefined;
 }
 /** option A properties object */
 export interface ExternalNetworkPatchPropertiesOptionAPropertiesInput {
   /** IPv4 Address Prefix. */
-  primaryIpv4Prefix?: string;
+  primaryIpv4Prefix?: string | undefined;
   /** IPv6 Address Prefix. */
-  primaryIpv6Prefix?: string;
+  primaryIpv6Prefix?: string | undefined;
   /** Secondary IPv4 Address Prefix. */
-  secondaryIpv4Prefix?: string;
+  secondaryIpv4Prefix?: string | undefined;
   /** Secondary IPv6 Address Prefix. */
-  secondaryIpv6Prefix?: string;
+  secondaryIpv6Prefix?: string | undefined;
   /** MTU to use for option A peering. */
-  mtu?: number;
+  mtu?: number | undefined;
   /** Vlan identifier. Example : 501 */
-  vlanId?: number;
+  vlanId?: number | undefined;
   /** Peer ASN number.Example : 28 */
-  peerASN?: number;
+  peerASN?: number | undefined;
   /** BFD configuration properties */
-  bfdConfiguration?: BfdConfigurationInput;
+  bfdConfiguration?: BfdConfigurationInput | undefined;
   /** Ingress Acl. ARM resource ID of Access Control Lists. */
-  ingressAclId?: string;
+  ingressAclId?: string | undefined;
   /** Egress Acl. ARM resource ID of Access Control Lists. */
-  egressAclId?: string;
+  egressAclId?: string | undefined;
   /** BMP Monitor Configuration. */
-  bmpConfiguration?: ExternalNetworkBmpPatchProperties;
+  bmpConfiguration?: ExternalNetworkBmpPatchProperties | undefined;
   /** V4OverV6 BGP Session state */
-  v4OverV6BgpSession?: V4OverV6BgpSessionState | (string & {});
+  v4OverV6BgpSession?: V4OverV6BgpSessionState | (string & {}) | undefined;
   /** V6OverV4 BGP Session state */
-  v6OverV4BgpSession?: V6OverV4BgpSessionState | (string & {});
+  v6OverV4BgpSession?: V6OverV4BgpSessionState | (string & {}) | undefined;
   /** Native IPv4 prefix limit configuration */
-  nativeIpv4PrefixLimit?: NativeIpv4PrefixLimitPatchProperties;
+  nativeIpv4PrefixLimit?: NativeIpv4PrefixLimitPatchProperties | undefined;
   /** Native IPv6 prefix limit configuration */
-  nativeIpv6PrefixLimit?: NativeIpv6PrefixLimitPatchProperties;
+  nativeIpv6PrefixLimit?: NativeIpv6PrefixLimitPatchProperties | undefined;
 }
 /** List of next hop addresses. */
 export type StaticRoutePatchPropertiesNextHopList = Array<string>;
@@ -8490,30 +8544,30 @@ export type ExternalNetworkStaticRoutePatchConfigurationIpv6RoutesList =
 /** Static Route Configuration properties for External Network. */
 export interface ExternalNetworkStaticRoutePatchConfiguration {
   /** BFD configuration properties */
-  bfdConfiguration?: BfdConfigurationInput;
+  bfdConfiguration?: BfdConfigurationInput | undefined;
   /** List of IPv4 Routes. */
-  ipv4Routes?: ExternalNetworkStaticRoutePatchConfigurationIpv4RoutesList;
+  ipv4Routes?: ExternalNetworkStaticRoutePatchConfigurationIpv4RoutesList | undefined;
   /** List of IPv6 Routes. */
-  ipv6Routes?: ExternalNetworkStaticRoutePatchConfigurationIpv6RoutesList;
+  ipv6Routes?: ExternalNetworkStaticRoutePatchConfigurationIpv6RoutesList | undefined;
 }
 /** External Network Patch properties. */
 export interface ExternalNetworkPatchPropertiesInput {
   /** Switch configuration description. */
-  annotation?: string;
+  annotation?: string | undefined;
   /** ARM Resource ID of the networkToNetworkInterconnectId of the ExternalNetwork resource. */
-  networkToNetworkInterconnectId?: string;
+  networkToNetworkInterconnectId?: string | undefined;
   /** Import Route Policy either IPv4 or IPv6. */
-  importRoutePolicy?: ImportRoutePolicy;
+  importRoutePolicy?: ImportRoutePolicy | undefined;
   /** Export Route Policy either IPv4 or IPv6. */
-  exportRoutePolicy?: ExportRoutePolicy;
+  exportRoutePolicy?: ExportRoutePolicy | undefined;
   /** Peering option list. */
-  peeringOption?: PeeringOption | (string & {});
+  peeringOption?: PeeringOption | (string & {}) | undefined;
   /** option B properties object */
-  optionBProperties?: L3OptionBPatchProperties;
+  optionBProperties?: L3OptionBPatchProperties | undefined;
   /** option A properties object */
-  optionAProperties?: ExternalNetworkPatchPropertiesOptionAPropertiesInput;
+  optionAProperties?: ExternalNetworkPatchPropertiesOptionAPropertiesInput | undefined;
   /** Static Route Configuration. */
-  staticRouteConfiguration?: ExternalNetworkStaticRoutePatchConfiguration;
+  staticRouteConfiguration?: ExternalNetworkStaticRoutePatchConfiguration | undefined;
 }
 export interface UpdateExternalNetworkRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -8525,23 +8579,23 @@ export interface UpdateExternalNetworkRequest {
   /** Name of the External Network. */
   externalNetworkName: string;
   /** External Network Patch properties. */
-  properties?: ExternalNetworkPatchPropertiesInput;
+  properties?: ExternalNetworkPatchPropertiesInput | undefined;
 }
 export interface UpdateExternalNetworkResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** External Network Properties */
   properties: ExternalNetworkProperties;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Network Fabrics or Network Rack resource Id. */
 export type UpdateExternalNetworkAdministrativeStateRequestResourceIdsList = Array<string>;
@@ -8555,9 +8609,9 @@ export interface UpdateExternalNetworkAdministrativeStateRequest {
   /** Name of the External Network. */
   externalNetworkName: string;
   /** Network Fabrics or Network Rack resource Id. */
-  resourceIds?: UpdateExternalNetworkAdministrativeStateRequestResourceIdsList;
+  resourceIds?: UpdateExternalNetworkAdministrativeStateRequestResourceIdsList | undefined;
   /** Administrative state. */
-  state?: EnableDisableState | (string & {});
+  state?: EnableDisableState | (string & {}) | undefined;
 }
 /** External Network RouteType. */
 export type ExternalNetworkRouteType = "Static" | "OptionA";
@@ -8571,9 +8625,9 @@ export interface UpdateExternalNetworkBfdAdministrativeStateRequest {
   /** Name of the External Network. */
   externalNetworkName: string;
   /** Route Type that helps to know which bfd we are updating. */
-  routeType?: ExternalNetworkRouteType | (string & {});
+  routeType?: ExternalNetworkRouteType | (string & {}) | undefined;
   /** Administrative state. */
-  administrativeState?: BfdAdministrativeState | (string & {});
+  administrativeState?: BfdAdministrativeState | (string & {}) | undefined;
 }
 /** The operations list. */
 export type ExternalNetworkUpdateBfdAdministrativeStateResponseOperationsItemOperationsList =
@@ -8581,23 +8635,25 @@ export type ExternalNetworkUpdateBfdAdministrativeStateResponseOperationsItemOpe
 /** The current status of an async operation. */
 export interface ExternalNetworkUpdateBfdAdministrativeStateResponseOperationsItem {
   /** Fully qualified ID for the async operation. */
-  id?: string;
+  id?: string | undefined;
   /** Fully qualified ID of the resource against which the original async operation was started. */
-  resourceId?: string;
+  resourceId?: string | undefined;
   /** Name of the async operation. */
-  name?: string;
+  name?: string | undefined;
   /** Operation status. */
   status: string;
   /** Percent of the operation that is complete. */
-  percentComplete?: number;
+  percentComplete?: number | undefined;
   /** The start time of the operation. */
-  startTime?: string;
+  startTime?: string | undefined;
   /** The end time of the operation. */
-  endTime?: string;
+  endTime?: string | undefined;
   /** The operations list. */
-  operations?: ExternalNetworkUpdateBfdAdministrativeStateResponseOperationsItemOperationsList;
+  operations?:
+    | ExternalNetworkUpdateBfdAdministrativeStateResponseOperationsItemOperationsList
+    | undefined;
   /** If present, details of the operation error. */
-  error?: ErrorDetail;
+  error?: ErrorDetail | undefined;
 }
 /** The operations list. */
 export type ExternalNetworkUpdateBfdAdministrativeStateResponseOperationsList =
@@ -8611,49 +8667,51 @@ export type ExternalNetworkUpdateBfdAdministrativeStateResponseErrorAdditionalIn
 /** The error detail. */
 export interface ExternalNetworkUpdateBfdAdministrativeStateResponseError {
   /** The error code. */
-  code?: string;
+  code?: string | undefined;
   /** The error message. */
-  message?: string;
+  message?: string | undefined;
   /** The error target. */
-  target?: string;
+  target?: string | undefined;
   /** The error details. */
-  details?: ExternalNetworkUpdateBfdAdministrativeStateResponseErrorDetailsList;
+  details?: ExternalNetworkUpdateBfdAdministrativeStateResponseErrorDetailsList | undefined;
   /** The error additional info. */
-  additionalInfo?: ExternalNetworkUpdateBfdAdministrativeStateResponseErrorAdditionalInfoList;
+  additionalInfo?:
+    | ExternalNetworkUpdateBfdAdministrativeStateResponseErrorAdditionalInfoList
+    | undefined;
 }
 /** Response properties for External Network BFD Administrative State. */
 export interface ExternalNetworkUpdateBfdAdministrativeStateResponseProperties {
   /** Route Type that helps to know which bfd we are updating. */
-  routeType?: ExternalNetworkRouteType;
+  routeType?: ExternalNetworkRouteType | undefined;
   /** Administrative state. */
-  administrativeState?: BfdAdministrativeState;
+  administrativeState?: BfdAdministrativeState | undefined;
 }
 /** External Network Update Administrative State response */
 export interface ExternalNetworkUpdateBfdAdministrativeStateResponse {
   /** Fully qualified ID for the async operation. */
-  id?: string;
+  id?: string | undefined;
   /** Name of the async operation. */
-  name?: string;
+  name?: string | undefined;
   /** Operation status. */
   status: string;
   /** Percent of the operation that is complete. */
-  percentComplete?: number;
+  percentComplete?: number | undefined;
   /** The start time of the operation. */
-  startTime?: string;
+  startTime?: string | undefined;
   /** The end time of the operation. */
-  endTime?: string;
+  endTime?: string | undefined;
   /** The operations list. */
-  operations?: ExternalNetworkUpdateBfdAdministrativeStateResponseOperationsList;
+  operations?: ExternalNetworkUpdateBfdAdministrativeStateResponseOperationsList | undefined;
   /** The error detail. */
-  error?: ExternalNetworkUpdateBfdAdministrativeStateResponseError;
+  error?: ExternalNetworkUpdateBfdAdministrativeStateResponseError | undefined;
   /** Fully qualified ID of the resource against which the original async operation was started. */
-  resourceId?: string;
+  resourceId?: string | undefined;
   /** Response properties. */
-  properties?: ExternalNetworkUpdateBfdAdministrativeStateResponseProperties;
+  properties?: ExternalNetworkUpdateBfdAdministrativeStateResponseProperties | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Network Fabrics or Network Rack resource Id. */
 export type UpdateExternalNetworkStaticRouteBfdAdministrativeStateRequestResourceIdsList =
@@ -8668,9 +8726,11 @@ export interface UpdateExternalNetworkStaticRouteBfdAdministrativeStateRequest {
   /** Name of the External Network. */
   externalNetworkName: string;
   /** Network Fabrics or Network Rack resource Id. */
-  resourceIds?: UpdateExternalNetworkStaticRouteBfdAdministrativeStateRequestResourceIdsList;
+  resourceIds?:
+    | UpdateExternalNetworkStaticRouteBfdAdministrativeStateRequestResourceIdsList
+    | undefined;
   /** Administrative state. */
-  state?: EnableDisableState | (string & {});
+  state?: EnableDisableState | (string & {}) | undefined;
 }
 /** Connected Subnet properties. */
 export type ConnectedSubnetPatch = ConnectedSubnet;
@@ -8695,38 +8755,38 @@ export type InternalNetworkBmpPatchPropertiesNeighborIpExclusionsList = Array<st
 /** Internal Network BMP Configuration */
 export interface InternalNetworkBmpPatchProperties {
   /** Neighbor IP Address exclusions for BMP. */
-  neighborIpExclusions?: InternalNetworkBmpPatchPropertiesNeighborIpExclusionsList;
+  neighborIpExclusions?: InternalNetworkBmpPatchPropertiesNeighborIpExclusionsList | undefined;
   /** BMP Monitoring configuration state. */
-  bmpConfigurationState?: BmpConfigurationState | (string & {});
+  bmpConfigurationState?: BmpConfigurationState | (string & {}) | undefined;
 }
 /** BGP configuration properties. */
 export interface BgpPatchConfigurationInput {
   /** Switch configuration description. */
-  annotation?: string;
+  annotation?: string | undefined;
   /** BFD configuration properties */
-  bfdConfiguration?: BfdConfigurationInput;
+  bfdConfiguration?: BfdConfigurationInput | undefined;
   /** Originate a defaultRoute. Ex: "True" | "False". */
-  defaultRouteOriginate?: BooleanEnumProperty | (string & {});
+  defaultRouteOriginate?: BooleanEnumProperty | (string & {}) | undefined;
   /** Allows for routes to be received and processed even if the router detects its own ASN in the AS-Path. 0 is disable, Possible values are 1-10, default is 2. */
-  allowAS?: number;
+  allowAS?: number | undefined;
   /** Enable Or Disable state. */
-  allowASOverride?: AllowASOverride | (string & {});
+  allowASOverride?: AllowASOverride | (string & {}) | undefined;
   /** Peer ASN. Example: 65047. */
-  peerASN?: number;
+  peerASN?: number | undefined;
   /** List of BGP IPv4 Listen Range prefixes. */
-  ipv4ListenRangePrefixes?: BgpPatchConfigurationInputIpv4ListenRangePrefixesList;
+  ipv4ListenRangePrefixes?: BgpPatchConfigurationInputIpv4ListenRangePrefixesList | undefined;
   /** List of BGP IPv6 Listen Ranges prefixes. */
-  ipv6ListenRangePrefixes?: BgpPatchConfigurationInputIpv6ListenRangePrefixesList;
+  ipv6ListenRangePrefixes?: BgpPatchConfigurationInputIpv6ListenRangePrefixesList | undefined;
   /** List with stringified IPv4 Neighbor Addresses. */
-  ipv4NeighborAddress?: BgpPatchConfigurationInputIpv4NeighborAddressList;
+  ipv4NeighborAddress?: BgpPatchConfigurationInputIpv4NeighborAddressList | undefined;
   /** List with stringified IPv6 Neighbor Address. */
-  ipv6NeighborAddress?: BgpPatchConfigurationInputIpv6NeighborAddressList;
+  ipv6NeighborAddress?: BgpPatchConfigurationInputIpv6NeighborAddressList | undefined;
   /** InternalNetwork BMP Configuration */
-  bmpConfiguration?: InternalNetworkBmpPatchProperties;
+  bmpConfiguration?: InternalNetworkBmpPatchProperties | undefined;
   /** V4 over V6 bgp session. */
-  v4OverV6BgpSession?: V4OverV6BgpSessionState | (string & {});
+  v4OverV6BgpSession?: V4OverV6BgpSessionState | (string & {}) | undefined;
   /** v6 over v4 bgp session. */
-  v6OverV4BgpSession?: V6OverV4BgpSessionState | (string & {});
+  v6OverV4BgpSession?: V6OverV4BgpSessionState | (string & {}) | undefined;
 }
 /** List of IPv4 Routes. */
 export type StaticRoutePatchConfigurationIpv4RoutesList = Array<StaticRoutePatchProperties>;
@@ -8735,40 +8795,40 @@ export type StaticRoutePatchConfigurationIpv6RoutesList = Array<StaticRoutePatch
 /** Static Route Configuration properties. */
 export interface StaticRoutePatchConfiguration {
   /** BFD configuration properties */
-  bfdConfiguration?: BfdConfigurationInput;
+  bfdConfiguration?: BfdConfigurationInput | undefined;
   /** List of IPv4 Routes. */
-  ipv4Routes?: StaticRoutePatchConfigurationIpv4RoutesList;
+  ipv4Routes?: StaticRoutePatchConfigurationIpv4RoutesList | undefined;
   /** List of IPv6 Routes. */
-  ipv6Routes?: StaticRoutePatchConfigurationIpv6RoutesList;
+  ipv6Routes?: StaticRoutePatchConfigurationIpv6RoutesList | undefined;
 }
 /** InternalNetwork Patch properties. */
 export interface InternalNetworkPatchPropertiesInput {
   /** Switch configuration description. */
-  annotation?: string;
+  annotation?: string | undefined;
   /** Maximum transmission unit. Default value is 1500. */
-  mtu?: number;
+  mtu?: number | undefined;
   /** List of Connected IPv4 Subnets. */
-  connectedIPv4Subnets?: InternalNetworkPatchPropertiesInputConnectedIPv4SubnetsList;
+  connectedIPv4Subnets?: InternalNetworkPatchPropertiesInputConnectedIPv4SubnetsList | undefined;
   /** List of connected IPv6 Subnets. */
-  connectedIPv6Subnets?: InternalNetworkPatchPropertiesInputConnectedIPv6SubnetsList;
+  connectedIPv6Subnets?: InternalNetworkPatchPropertiesInputConnectedIPv6SubnetsList | undefined;
   /** Import Route Policy either IPv4 or IPv6. */
-  importRoutePolicy?: ImportRoutePolicy;
+  importRoutePolicy?: ImportRoutePolicy | undefined;
   /** Export Route Policy either IPv4 or IPv6. */
-  exportRoutePolicy?: ExportRoutePolicy;
+  exportRoutePolicy?: ExportRoutePolicy | undefined;
   /** Ingress Acl. ARM resource ID of Access Control Lists. */
-  ingressAclId?: string;
+  ingressAclId?: string | undefined;
   /** Egress Acl. ARM resource ID of Access Control Lists. */
-  egressAclId?: string;
+  egressAclId?: string | undefined;
   /** To check whether monitoring of internal network is enabled or not. */
-  isMonitoringEnabled?: IsMonitoringEnabled | (string & {});
+  isMonitoringEnabled?: IsMonitoringEnabled | (string & {}) | undefined;
   /** BGP configuration properties. */
-  bgpConfiguration?: BgpPatchConfigurationInput;
+  bgpConfiguration?: BgpPatchConfigurationInput | undefined;
   /** Static Route Configuration properties. */
-  staticRouteConfiguration?: StaticRoutePatchConfiguration;
+  staticRouteConfiguration?: StaticRoutePatchConfiguration | undefined;
   /** Native IPv4 Prefix Limit Configuration properties. */
-  nativeIpv4PrefixLimit?: NativeIpv4PrefixLimitPatchProperties;
+  nativeIpv4PrefixLimit?: NativeIpv4PrefixLimitPatchProperties | undefined;
   /** Native IPv6 Prefix Limit Configuration properties. */
-  nativeIpv6PrefixLimit?: NativeIpv6PrefixLimitPatchProperties;
+  nativeIpv6PrefixLimit?: NativeIpv6PrefixLimitPatchProperties | undefined;
 }
 export interface UpdateInternalNetworkRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -8780,23 +8840,23 @@ export interface UpdateInternalNetworkRequest {
   /** Name of the Internal Network. */
   internalNetworkName: string;
   /** InternalNetwork Patch properties. */
-  properties?: InternalNetworkPatchPropertiesInput;
+  properties?: InternalNetworkPatchPropertiesInput | undefined;
 }
 export interface UpdateInternalNetworkResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The Internal Network Properties */
   properties: InternalNetworkProperties;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Network Fabrics or Network Rack resource Id. */
 export type UpdateInternalNetworkAdministrativeStateRequestResourceIdsList = Array<string>;
@@ -8810,9 +8870,9 @@ export interface UpdateInternalNetworkAdministrativeStateRequest {
   /** Name of the Internal Network. */
   internalNetworkName: string;
   /** Network Fabrics or Network Rack resource Id. */
-  resourceIds?: UpdateInternalNetworkAdministrativeStateRequestResourceIdsList;
+  resourceIds?: UpdateInternalNetworkAdministrativeStateRequestResourceIdsList | undefined;
   /** Administrative state. */
-  state?: EnableDisableState | (string & {});
+  state?: EnableDisableState | (string & {}) | undefined;
 }
 /** Internal Network RouteType. */
 export type InternalNetworkRouteType = "Static" | "Bgp";
@@ -8826,11 +8886,11 @@ export interface UpdateInternalNetworkBfdAdministrativeStateRequest {
   /** Name of the Internal Network. */
   internalNetworkName: string;
   /** Route Type that helps to know which bfd we are updating. */
-  routeType?: InternalNetworkRouteType | (string & {});
+  routeType?: InternalNetworkRouteType | (string & {}) | undefined;
   /** NeighborAddress - Input should be either All or Specific Ipv4 Address or Specific Ipv6 Address. */
-  neighborAddress?: string;
+  neighborAddress?: string | undefined;
   /** BFD Administrative state. */
-  administrativeState?: BfdAdministrativeState | (string & {});
+  administrativeState?: BfdAdministrativeState | (string & {}) | undefined;
 }
 /** The operations list. */
 export type InternalNetworkUpdateBfdAdministrativeStateResponseOperationsItemOperationsList =
@@ -8838,23 +8898,25 @@ export type InternalNetworkUpdateBfdAdministrativeStateResponseOperationsItemOpe
 /** The current status of an async operation. */
 export interface InternalNetworkUpdateBfdAdministrativeStateResponseOperationsItem {
   /** Fully qualified ID for the async operation. */
-  id?: string;
+  id?: string | undefined;
   /** Fully qualified ID of the resource against which the original async operation was started. */
-  resourceId?: string;
+  resourceId?: string | undefined;
   /** Name of the async operation. */
-  name?: string;
+  name?: string | undefined;
   /** Operation status. */
   status: string;
   /** Percent of the operation that is complete. */
-  percentComplete?: number;
+  percentComplete?: number | undefined;
   /** The start time of the operation. */
-  startTime?: string;
+  startTime?: string | undefined;
   /** The end time of the operation. */
-  endTime?: string;
+  endTime?: string | undefined;
   /** The operations list. */
-  operations?: InternalNetworkUpdateBfdAdministrativeStateResponseOperationsItemOperationsList;
+  operations?:
+    | InternalNetworkUpdateBfdAdministrativeStateResponseOperationsItemOperationsList
+    | undefined;
   /** If present, details of the operation error. */
-  error?: ErrorDetail;
+  error?: ErrorDetail | undefined;
 }
 /** The operations list. */
 export type InternalNetworkUpdateBfdAdministrativeStateResponseOperationsList =
@@ -8868,24 +8930,26 @@ export type InternalNetworkUpdateBfdAdministrativeStateResponseErrorAdditionalIn
 /** The error detail. */
 export interface InternalNetworkUpdateBfdAdministrativeStateResponseError {
   /** The error code. */
-  code?: string;
+  code?: string | undefined;
   /** The error message. */
-  message?: string;
+  message?: string | undefined;
   /** The error target. */
-  target?: string;
+  target?: string | undefined;
   /** The error details. */
-  details?: InternalNetworkUpdateBfdAdministrativeStateResponseErrorDetailsList;
+  details?: InternalNetworkUpdateBfdAdministrativeStateResponseErrorDetailsList | undefined;
   /** The error additional info. */
-  additionalInfo?: InternalNetworkUpdateBfdAdministrativeStateResponseErrorAdditionalInfoList;
+  additionalInfo?:
+    | InternalNetworkUpdateBfdAdministrativeStateResponseErrorAdditionalInfoList
+    | undefined;
 }
 /** Neighbor Address Bidirectional Forwarding Detection (BFD) Administrative Status */
 export interface NeighborAddressBfdAdministrativeStatus {
   /** NeighborAddress - Input should be either All or Specific Ipv4 Address or Specific Ipv6 Address. */
-  neighborAddress?: string;
+  neighborAddress?: string | undefined;
   /** BFD Administrative state. */
-  administrativeState?: BfdAdministrativeState;
+  administrativeState?: BfdAdministrativeState | undefined;
   /** Error message. */
-  error?: string;
+  error?: string | undefined;
 }
 /** NeighborAddress administrative status */
 export type InternalNetworkUpdateBfdAdministrativeStateResponsePropertiesNeighborAddressAdministrativeStatusList =
@@ -8893,34 +8957,36 @@ export type InternalNetworkUpdateBfdAdministrativeStateResponsePropertiesNeighbo
 /** Internal Network BFD Administrative State response properties */
 export interface InternalNetworkUpdateBfdAdministrativeStateResponseProperties {
   /** NeighborAddress administrative status */
-  neighborAddressAdministrativeStatus?: InternalNetworkUpdateBfdAdministrativeStateResponsePropertiesNeighborAddressAdministrativeStatusList;
+  neighborAddressAdministrativeStatus?:
+    | InternalNetworkUpdateBfdAdministrativeStateResponsePropertiesNeighborAddressAdministrativeStatusList
+    | undefined;
 }
 /** Internal Network BFD Administrative State response */
 export interface InternalNetworkUpdateBfdAdministrativeStateResponse {
   /** Fully qualified ID for the async operation. */
-  id?: string;
+  id?: string | undefined;
   /** Name of the async operation. */
-  name?: string;
+  name?: string | undefined;
   /** Operation status. */
   status: string;
   /** Percent of the operation that is complete. */
-  percentComplete?: number;
+  percentComplete?: number | undefined;
   /** The start time of the operation. */
-  startTime?: string;
+  startTime?: string | undefined;
   /** The end time of the operation. */
-  endTime?: string;
+  endTime?: string | undefined;
   /** The operations list. */
-  operations?: InternalNetworkUpdateBfdAdministrativeStateResponseOperationsList;
+  operations?: InternalNetworkUpdateBfdAdministrativeStateResponseOperationsList | undefined;
   /** The error detail. */
-  error?: InternalNetworkUpdateBfdAdministrativeStateResponseError;
+  error?: InternalNetworkUpdateBfdAdministrativeStateResponseError | undefined;
   /** Fully qualified ID of the resource against which the original async operation was started. */
-  resourceId?: string;
+  resourceId?: string | undefined;
   /** Internal Network BFD Administrative State response properties */
-  properties?: InternalNetworkUpdateBfdAdministrativeStateResponseProperties;
+  properties?: InternalNetworkUpdateBfdAdministrativeStateResponseProperties | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface UpdateInternalNetworkBgpAdministrativeStateRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -8932,9 +8998,9 @@ export interface UpdateInternalNetworkBgpAdministrativeStateRequest {
   /** Name of the Internal Network. */
   internalNetworkName: string;
   /** NeighborAddress - Input should be either All or Specific Ipv4 Address or Specific Ipv6 Address. */
-  neighborAddress?: string;
+  neighborAddress?: string | undefined;
   /** BGP Administrative state. */
-  administrativeState?: BgpAdministrativeState | (string & {});
+  administrativeState?: BgpAdministrativeState | (string & {}) | undefined;
 }
 /** The operations list. */
 export type InternalNetworkUpdateBgpAdministrativeStateResponseOperationsItemOperationsList =
@@ -8942,23 +9008,25 @@ export type InternalNetworkUpdateBgpAdministrativeStateResponseOperationsItemOpe
 /** The current status of an async operation. */
 export interface InternalNetworkUpdateBgpAdministrativeStateResponseOperationsItem {
   /** Fully qualified ID for the async operation. */
-  id?: string;
+  id?: string | undefined;
   /** Fully qualified ID of the resource against which the original async operation was started. */
-  resourceId?: string;
+  resourceId?: string | undefined;
   /** Name of the async operation. */
-  name?: string;
+  name?: string | undefined;
   /** Operation status. */
   status: string;
   /** Percent of the operation that is complete. */
-  percentComplete?: number;
+  percentComplete?: number | undefined;
   /** The start time of the operation. */
-  startTime?: string;
+  startTime?: string | undefined;
   /** The end time of the operation. */
-  endTime?: string;
+  endTime?: string | undefined;
   /** The operations list. */
-  operations?: InternalNetworkUpdateBgpAdministrativeStateResponseOperationsItemOperationsList;
+  operations?:
+    | InternalNetworkUpdateBgpAdministrativeStateResponseOperationsItemOperationsList
+    | undefined;
   /** If present, details of the operation error. */
-  error?: ErrorDetail;
+  error?: ErrorDetail | undefined;
 }
 /** The operations list. */
 export type InternalNetworkUpdateBgpAdministrativeStateResponseOperationsList =
@@ -8972,24 +9040,26 @@ export type InternalNetworkUpdateBgpAdministrativeStateResponseErrorAdditionalIn
 /** The error detail. */
 export interface InternalNetworkUpdateBgpAdministrativeStateResponseError {
   /** The error code. */
-  code?: string;
+  code?: string | undefined;
   /** The error message. */
-  message?: string;
+  message?: string | undefined;
   /** The error target. */
-  target?: string;
+  target?: string | undefined;
   /** The error details. */
-  details?: InternalNetworkUpdateBgpAdministrativeStateResponseErrorDetailsList;
+  details?: InternalNetworkUpdateBgpAdministrativeStateResponseErrorDetailsList | undefined;
   /** The error additional info. */
-  additionalInfo?: InternalNetworkUpdateBgpAdministrativeStateResponseErrorAdditionalInfoList;
+  additionalInfo?:
+    | InternalNetworkUpdateBgpAdministrativeStateResponseErrorAdditionalInfoList
+    | undefined;
 }
 /** Neighbor Address BGP Administrative Status */
 export interface NeighborAddressBgpAdministrativeStatus {
   /** NeighborAddress - Input should be either All or Specific Ipv4 Address or Specific Ipv6 Address. */
-  neighborAddress?: string;
+  neighborAddress?: string | undefined;
   /** BGP Administrative state. */
-  administrativeState?: BgpAdministrativeState;
+  administrativeState?: BgpAdministrativeState | undefined;
   /** Error message. */
-  error?: string;
+  error?: string | undefined;
 }
 /** NeighborAddress administrative status */
 export type InternalNetworkUpdateBgpAdministrativeStateResponsePropertiesNeighborAddressAdministrativeStatusList =
@@ -8997,34 +9067,36 @@ export type InternalNetworkUpdateBgpAdministrativeStateResponsePropertiesNeighbo
 /** Internal Network BGP Administrative State response properties */
 export interface InternalNetworkUpdateBgpAdministrativeStateResponseProperties {
   /** NeighborAddress administrative status */
-  neighborAddressAdministrativeStatus?: InternalNetworkUpdateBgpAdministrativeStateResponsePropertiesNeighborAddressAdministrativeStatusList;
+  neighborAddressAdministrativeStatus?:
+    | InternalNetworkUpdateBgpAdministrativeStateResponsePropertiesNeighborAddressAdministrativeStatusList
+    | undefined;
 }
 /** Internal Network Administrative State Response */
 export interface InternalNetworkUpdateBgpAdministrativeStateResponse {
   /** Fully qualified ID for the async operation. */
-  id?: string;
+  id?: string | undefined;
   /** Name of the async operation. */
-  name?: string;
+  name?: string | undefined;
   /** Operation status. */
   status: string;
   /** Percent of the operation that is complete. */
-  percentComplete?: number;
+  percentComplete?: number | undefined;
   /** The start time of the operation. */
-  startTime?: string;
+  startTime?: string | undefined;
   /** The end time of the operation. */
-  endTime?: string;
+  endTime?: string | undefined;
   /** The operations list. */
-  operations?: InternalNetworkUpdateBgpAdministrativeStateResponseOperationsList;
+  operations?: InternalNetworkUpdateBgpAdministrativeStateResponseOperationsList | undefined;
   /** The error detail. */
-  error?: InternalNetworkUpdateBgpAdministrativeStateResponseError;
+  error?: InternalNetworkUpdateBgpAdministrativeStateResponseError | undefined;
   /** Fully qualified ID of the resource against which the original async operation was started. */
-  resourceId?: string;
+  resourceId?: string | undefined;
   /** Internal Network BGP Administrative State response properties */
-  properties?: InternalNetworkUpdateBgpAdministrativeStateResponseProperties;
+  properties?: InternalNetworkUpdateBgpAdministrativeStateResponseProperties | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Network Fabrics or Network Rack resource Id. */
 export type UpdateInternalNetworkStaticRouteBfdAdministrativeStateRequestResourceIdsList =
@@ -9039,16 +9111,18 @@ export interface UpdateInternalNetworkStaticRouteBfdAdministrativeStateRequest {
   /** Name of the Internal Network. */
   internalNetworkName: string;
   /** Network Fabrics or Network Rack resource Id. */
-  resourceIds?: UpdateInternalNetworkStaticRouteBfdAdministrativeStateRequestResourceIdsList;
+  resourceIds?:
+    | UpdateInternalNetworkStaticRouteBfdAdministrativeStateRequestResourceIdsList
+    | undefined;
   /** Administrative state. */
-  state?: EnableDisableState | (string & {});
+  state?: EnableDisableState | (string & {}) | undefined;
 }
 /** Resource tags. */
 export type UpdateInternetGatewayRequestTagsMap = { [key: string]: string | undefined };
 /** PatchProperties for InternetGateway */
 export interface InternetGatewayPatchProperties {
   /** ARM Resource ID of the Internet Gateway Rule. */
-  internetGatewayRuleId?: string;
+  internetGatewayRuleId?: string | undefined;
 }
 export interface UpdateInternetGatewayRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -9058,31 +9132,31 @@ export interface UpdateInternetGatewayRequest {
   /** Name of the Internet Gateway. */
   internetGatewayName: string;
   /** Resource tags. */
-  tags?: UpdateInternetGatewayRequestTagsMap;
+  tags?: UpdateInternetGatewayRequestTagsMap | undefined;
   /** Resource properties. */
-  properties?: InternetGatewayPatchProperties;
+  properties?: InternetGatewayPatchProperties | undefined;
 }
 /** Resource tags. */
 export type UpdateInternetGatewayResponseTagsMap = { [key: string]: string | undefined };
 export interface UpdateInternetGatewayResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: UpdateInternetGatewayResponseTagsMap;
+  tags?: UpdateInternetGatewayResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The Internet Gateway Properties */
   properties: InternetGatewayProperties;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  locationHeader?: string;
+  locationHeader?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Resource tags. */
 export type UpdateInternetGatewayRuleRequestTagsMap = { [key: string]: string | undefined };
@@ -9094,29 +9168,29 @@ export interface UpdateInternetGatewayRuleRequest {
   /** Name of the Internet Gateway rule. */
   internetGatewayRuleName: string;
   /** Resource tags. */
-  tags?: UpdateInternetGatewayRuleRequestTagsMap;
+  tags?: UpdateInternetGatewayRuleRequestTagsMap | undefined;
 }
 /** Resource tags. */
 export type UpdateInternetGatewayRuleResponseTagsMap = { [key: string]: string | undefined };
 export interface UpdateInternetGatewayRuleResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: UpdateInternetGatewayRuleResponseTagsMap;
+  tags?: UpdateInternetGatewayRuleResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The Internet Gateway Rule properties */
   properties: InternetGatewayRuleProperties;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  locationHeader?: string;
+  locationHeader?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Resource tags. */
 export type UpdateIpCommunityRequestTagsMap = { [key: string]: string | undefined };
@@ -9125,7 +9199,7 @@ export type IpCommunityPatchablePropertiesIpCommunityRulesList = Array<IpCommuni
 /** IP Community patchable properties. */
 export interface IpCommunityPatchableProperties {
   /** List of IP Community Rules. */
-  ipCommunityRules?: IpCommunityPatchablePropertiesIpCommunityRulesList;
+  ipCommunityRules?: IpCommunityPatchablePropertiesIpCommunityRulesList | undefined;
 }
 export interface UpdateIpCommunityRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -9135,31 +9209,31 @@ export interface UpdateIpCommunityRequest {
   /** Name of the IP Community. */
   ipCommunityName: string;
   /** Resource tags. */
-  tags?: UpdateIpCommunityRequestTagsMap;
+  tags?: UpdateIpCommunityRequestTagsMap | undefined;
   /** IP Community patchable properties. */
-  properties?: IpCommunityPatchableProperties;
+  properties?: IpCommunityPatchableProperties | undefined;
 }
 /** Resource tags. */
 export type UpdateIpCommunityResponseTagsMap = { [key: string]: string | undefined };
 export interface UpdateIpCommunityResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: UpdateIpCommunityResponseTagsMap;
+  tags?: UpdateIpCommunityResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The IP Community Properties */
   properties: IpCommunityProperties;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  locationHeader?: string;
+  locationHeader?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Resource tags. */
 export type UpdateIpExtendedCommunityRequestTagsMap = { [key: string]: string | undefined };
@@ -9169,9 +9243,11 @@ export type IpExtendedCommunityPatchPropertiesIpExtendedCommunityRulesList =
 /** IP Extended Community patchable properties. */
 export interface IpExtendedCommunityPatchProperties {
   /** Switch configuration description. */
-  annotation?: string;
+  annotation?: string | undefined;
   /** List of IP Extended Community Rules. */
-  ipExtendedCommunityRules?: IpExtendedCommunityPatchPropertiesIpExtendedCommunityRulesList;
+  ipExtendedCommunityRules?:
+    | IpExtendedCommunityPatchPropertiesIpExtendedCommunityRulesList
+    | undefined;
 }
 export interface UpdateIpExtendedCommunityRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -9181,31 +9257,31 @@ export interface UpdateIpExtendedCommunityRequest {
   /** Name of the IP Extended Community. */
   ipExtendedCommunityName: string;
   /** Resource tags. */
-  tags?: UpdateIpExtendedCommunityRequestTagsMap;
+  tags?: UpdateIpExtendedCommunityRequestTagsMap | undefined;
   /** IP Extended Community patchable properties. */
-  properties?: IpExtendedCommunityPatchProperties;
+  properties?: IpExtendedCommunityPatchProperties | undefined;
 }
 /** Resource tags. */
 export type UpdateIpExtendedCommunityResponseTagsMap = { [key: string]: string | undefined };
 export interface UpdateIpExtendedCommunityResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: UpdateIpExtendedCommunityResponseTagsMap;
+  tags?: UpdateIpExtendedCommunityResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The IpExtendedCommunity properties */
   properties: IpExtendedCommunityProperties;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  locationHeader?: string;
+  locationHeader?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Resource tags. */
 export type UpdateIpPrefixRequestTagsMap = { [key: string]: string | undefined };
@@ -9214,9 +9290,9 @@ export type IpPrefixPatchPropertiesIpPrefixRulesList = Array<IpPrefixRule>;
 /** IP Prefix patchable properties. */
 export interface IpPrefixPatchProperties {
   /** Switch configuration description. */
-  annotation?: string;
+  annotation?: string | undefined;
   /** The list of IP Prefix Rules. */
-  ipPrefixRules?: IpPrefixPatchPropertiesIpPrefixRulesList;
+  ipPrefixRules?: IpPrefixPatchPropertiesIpPrefixRulesList | undefined;
 }
 export interface UpdateIpPrefixRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -9226,31 +9302,31 @@ export interface UpdateIpPrefixRequest {
   /** Name of the IP Prefix. */
   ipPrefixName: string;
   /** Resource tags. */
-  tags?: UpdateIpPrefixRequestTagsMap;
+  tags?: UpdateIpPrefixRequestTagsMap | undefined;
   /** IP Prefix patchable properties. */
-  properties?: IpPrefixPatchProperties;
+  properties?: IpPrefixPatchProperties | undefined;
 }
 /** Resource tags. */
 export type UpdateIpPrefixResponseTagsMap = { [key: string]: string | undefined };
 export interface UpdateIpPrefixResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: UpdateIpPrefixResponseTagsMap;
+  tags?: UpdateIpPrefixResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The IP Prefix properties */
   properties: IpPrefixProperties;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  locationHeader?: string;
+  locationHeader?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Resource tags. */
 export type UpdateL2IsolationDomainRequestTagsMap = { [key: string]: string | undefined };
@@ -9259,13 +9335,13 @@ export type ExtendedVlan = "Enabled" | "Disabled";
 /** L2 Isolation Domain Patch Properties defines the patchable properties of the resource. */
 export interface L2IsolationDomainPatchProperties {
   /** Switch configuration description. */
-  annotation?: string;
+  annotation?: string | undefined;
   /** Maximum transmission unit. Default value is 1500. */
-  mtu?: number;
+  mtu?: number | undefined;
   /** Extended VLAN status. */
-  extendedVlan?: ExtendedVlan | (string & {});
+  extendedVlan?: ExtendedVlan | (string & {}) | undefined;
   /** ARM Resource ID of the networkToNetworkInterconnectId of the L2 ISD resource. */
-  networkToNetworkInterconnectId?: string;
+  networkToNetworkInterconnectId?: string | undefined;
 }
 /** Type of managed service identity (where both SystemAssigned and UserAssigned types are allowed). */
 export type ManagedServiceIdentityPatchInputType =
@@ -9282,9 +9358,9 @@ export type ManagedServiceIdentityPatchInputUserAssignedIdentitiesMap = {
 /** The managed service identities assigned to this resource. */
 export interface ManagedServiceIdentityPatchInput {
   /** Type of managed service identity (where both SystemAssigned and UserAssigned types are allowed). */
-  type?: ManagedServiceIdentityPatchInputType | (string & {});
+  type?: ManagedServiceIdentityPatchInputType | (string & {}) | undefined;
   /** The identities assigned to this resource by the user. */
-  userAssignedIdentities?: ManagedServiceIdentityPatchInputUserAssignedIdentitiesMap;
+  userAssignedIdentities?: ManagedServiceIdentityPatchInputUserAssignedIdentitiesMap | undefined;
 }
 export interface UpdateL2IsolationDomainRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -9294,11 +9370,11 @@ export interface UpdateL2IsolationDomainRequest {
   /** Name of the L2 Isolation Domain. */
   l2IsolationDomainName: string;
   /** Resource tags. */
-  tags?: UpdateL2IsolationDomainRequestTagsMap;
+  tags?: UpdateL2IsolationDomainRequestTagsMap | undefined;
   /** L2 Isolation Domain resource patch properties. */
-  properties?: L2IsolationDomainPatchProperties;
+  properties?: L2IsolationDomainPatchProperties | undefined;
   /** The managed service identities assigned to this resource. */
-  identity?: ManagedServiceIdentityPatchInput;
+  identity?: ManagedServiceIdentityPatchInput | undefined;
 }
 /** Resource tags. */
 export type UpdateL2IsolationDomainResponseTagsMap = { [key: string]: string | undefined };
@@ -9306,25 +9382,25 @@ export type UpdateL2IsolationDomainResponseTagsMap = { [key: string]: string | u
 export type UpdateL2IsolationDomainResponseIdentity = CreateL2IsolationDomainResponseIdentity;
 export interface UpdateL2IsolationDomainResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: UpdateL2IsolationDomainResponseTagsMap;
+  tags?: UpdateL2IsolationDomainResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The L2IsolationDomain properties */
   properties: L2IsolationDomainProperties;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: CreateL2IsolationDomainResponseIdentity;
+  identity?: CreateL2IsolationDomainResponseIdentity | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  locationHeader?: string;
+  locationHeader?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Network Fabrics or Network Rack resource Id. */
 export type UpdateL2IsolationDomainAdministrativeStateRequestResourceIdsList = Array<string>;
@@ -9336,9 +9412,9 @@ export interface UpdateL2IsolationDomainAdministrativeStateRequest {
   /** Name of the L2 Isolation Domain. */
   l2IsolationDomainName: string;
   /** Network Fabrics or Network Rack resource Id. */
-  resourceIds?: UpdateL2IsolationDomainAdministrativeStateRequestResourceIdsList;
+  resourceIds?: UpdateL2IsolationDomainAdministrativeStateRequestResourceIdsList | undefined;
   /** Administrative state. */
-  state?: EnableDisableState | (string & {});
+  state?: EnableDisableState | (string & {}) | undefined;
 }
 /** Resource tags. */
 export type UpdateL3IsolationDomainRequestTagsMap = { [key: string]: string | undefined };
@@ -9353,9 +9429,9 @@ export type AggregateRoutePatchConfigurationIpv6RoutesList = Array<AggregateRout
 /** List of IPv4 and IPv6 aggregate routes. */
 export interface AggregateRoutePatchConfiguration {
   /** List of IPv4 Route prefixes. */
-  ipv4Routes?: AggregateRoutePatchConfigurationIpv4RoutesList;
+  ipv4Routes?: AggregateRoutePatchConfigurationIpv4RoutesList | undefined;
   /** List of Ipv6Routes prefixes. */
-  ipv6Routes?: AggregateRoutePatchConfigurationIpv6RoutesList;
+  ipv6Routes?: AggregateRoutePatchConfigurationIpv6RoutesList | undefined;
 }
 /** Array of ARM Resource ID of the RoutePolicies. */
 export type L3ExportRoutePolicyPatch = L3ExportRoutePolicy;
@@ -9372,28 +9448,28 @@ export type BmpExportPolicyPatchPropertiesExportPoliciesList = Array<
 /** BMP Export Policy Configuration properties. */
 export interface BmpExportPolicyPatchProperties {
   /** Export Policy for the BGP Monitoring Protocol (BMP) Configuration. */
-  exportPolicies?: BmpExportPolicyPatchPropertiesExportPoliciesList;
+  exportPolicies?: BmpExportPolicyPatchPropertiesExportPoliciesList | undefined;
 }
 /** Resource properties. */
 export interface L3IsolationDomainPatchProperties {
   /** Switch configuration description. */
-  annotation?: string;
+  annotation?: string | undefined;
   /** Advertise Connected Subnets. Ex: "True" | "False". */
-  redistributeConnectedSubnets?: RedistributeConnectedSubnets | (string & {});
+  redistributeConnectedSubnets?: RedistributeConnectedSubnets | (string & {}) | undefined;
   /** Advertise Static Routes. Ex: "True" | "False". */
-  redistributeStaticRoutes?: RedistributeStaticRoutes | (string & {});
+  redistributeStaticRoutes?: RedistributeStaticRoutes | (string & {}) | undefined;
   /** Aggregate route configurations. */
-  aggregateRouteConfiguration?: AggregateRoutePatchConfiguration;
+  aggregateRouteConfiguration?: AggregateRoutePatchConfiguration | undefined;
   /** Connected Subnet RoutePolicy */
-  connectedSubnetRoutePolicy?: ConnectedSubnetRoutePolicy;
+  connectedSubnetRoutePolicy?: ConnectedSubnetRoutePolicy | undefined;
   /** Static Route - route policy. */
-  staticRouteRoutePolicy?: ConnectedSubnetRoutePolicy;
+  staticRouteRoutePolicy?: ConnectedSubnetRoutePolicy | undefined;
   /** IPv4 VRF Limit configuration. */
-  v4routePrefixLimit?: RoutePrefixLimitProperties;
+  v4routePrefixLimit?: RoutePrefixLimitProperties | undefined;
   /** IPv6 VRF Limit configuration. */
-  v6routePrefixLimit?: RoutePrefixLimitProperties;
+  v6routePrefixLimit?: RoutePrefixLimitProperties | undefined;
   /** BMP Export Policy configuration. */
-  exportPolicyConfiguration?: BmpExportPolicyPatchProperties;
+  exportPolicyConfiguration?: BmpExportPolicyPatchProperties | undefined;
 }
 export interface UpdateL3IsolationDomainRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -9403,11 +9479,11 @@ export interface UpdateL3IsolationDomainRequest {
   /** Name of the L3 Isolation Domain. */
   l3IsolationDomainName: string;
   /** Resource tags. */
-  tags?: UpdateL3IsolationDomainRequestTagsMap;
+  tags?: UpdateL3IsolationDomainRequestTagsMap | undefined;
   /** L3 Isolation Domain resource patch properties. */
-  properties?: L3IsolationDomainPatchProperties;
+  properties?: L3IsolationDomainPatchProperties | undefined;
   /** The managed service identities assigned to this resource. */
-  identity?: ManagedServiceIdentityPatchInput;
+  identity?: ManagedServiceIdentityPatchInput | undefined;
 }
 /** Resource tags. */
 export type UpdateL3IsolationDomainResponseTagsMap = { [key: string]: string | undefined };
@@ -9415,25 +9491,25 @@ export type UpdateL3IsolationDomainResponseTagsMap = { [key: string]: string | u
 export type UpdateL3IsolationDomainResponseIdentity = CreateL2IsolationDomainResponseIdentity;
 export interface UpdateL3IsolationDomainResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: UpdateL3IsolationDomainResponseTagsMap;
+  tags?: UpdateL3IsolationDomainResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The L3 Isolation Domain Properties */
   properties: L3IsolationDomainProperties;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: CreateL2IsolationDomainResponseIdentity;
+  identity?: CreateL2IsolationDomainResponseIdentity | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  locationHeader?: string;
+  locationHeader?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Network Fabrics or Network Rack resource Id. */
 export type UpdateL3IsolationDomainAdministrativeStateRequestResourceIdsList = Array<string>;
@@ -9445,9 +9521,9 @@ export interface UpdateL3IsolationDomainAdministrativeStateRequest {
   /** Name of the L3 Isolation Domain. */
   l3IsolationDomainName: string;
   /** Network Fabrics or Network Rack resource Id. */
-  resourceIds?: UpdateL3IsolationDomainAdministrativeStateRequestResourceIdsList;
+  resourceIds?: UpdateL3IsolationDomainAdministrativeStateRequestResourceIdsList | undefined;
   /** Administrative state. */
-  state?: EnableDisableState | (string & {});
+  state?: EnableDisableState | (string & {}) | undefined;
 }
 /** Resource tags. */
 export type UpdateNeighborGroupRequestTagsMap = { [key: string]: string | undefined };
@@ -9458,16 +9534,16 @@ export type NeighborGroupDestinationPatchIpv6AddressesList = Array<string>;
 /** An array of destination IPv4 Addresses or IPv6 Addresses. */
 export interface NeighborGroupDestinationPatch {
   /** Array of IPv4 Addresses. */
-  ipv4Addresses?: NeighborGroupDestinationPatchIpv4AddressesList;
+  ipv4Addresses?: NeighborGroupDestinationPatchIpv4AddressesList | undefined;
   /** Array of IPv6 Addresses. */
-  ipv6Addresses?: NeighborGroupDestinationPatchIpv6AddressesList;
+  ipv6Addresses?: NeighborGroupDestinationPatchIpv6AddressesList | undefined;
 }
 /** Neighbor Group Patch properties. */
 export interface NeighborGroupPatchProperties {
   /** Switch configuration description. */
-  annotation?: string;
+  annotation?: string | undefined;
   /** An array of destination IPv4 Addresses or IPv6 Addresses. */
-  destination?: NeighborGroupDestinationPatch;
+  destination?: NeighborGroupDestinationPatch | undefined;
 }
 export interface UpdateNeighborGroupRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -9477,11 +9553,11 @@ export interface UpdateNeighborGroupRequest {
   /** Name of the Neighbor Group. */
   neighborGroupName: string;
   /** Resource tags. */
-  tags?: UpdateNeighborGroupRequestTagsMap;
+  tags?: UpdateNeighborGroupRequestTagsMap | undefined;
   /** Neighbor Group Patch properties. */
-  properties?: NeighborGroupPatchProperties;
+  properties?: NeighborGroupPatchProperties | undefined;
   /** The managed service identities assigned to this resource. */
-  identity?: ManagedServiceIdentityPatchInput;
+  identity?: ManagedServiceIdentityPatchInput | undefined;
 }
 /** Resource tags. */
 export type UpdateNeighborGroupResponseTagsMap = { [key: string]: string | undefined };
@@ -9489,36 +9565,36 @@ export type UpdateNeighborGroupResponseTagsMap = { [key: string]: string | undef
 export type UpdateNeighborGroupResponseIdentity = CreateL2IsolationDomainResponseIdentity;
 export interface UpdateNeighborGroupResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: UpdateNeighborGroupResponseTagsMap;
+  tags?: UpdateNeighborGroupResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The NeighborGroup Properties */
   properties: NeighborGroupProperties;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: CreateL2IsolationDomainResponseIdentity;
+  identity?: CreateL2IsolationDomainResponseIdentity | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  locationHeader?: string;
+  locationHeader?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Resource tags. */
 export type UpdateNetworkBootstrapDeviceRequestTagsMap = { [key: string]: string | undefined };
 /** Network Bootstrap Device Patch properties. */
 export interface NetworkBootstrapDevicePatchProperties {
   /** Switch configuration description. */
-  annotation?: string;
+  annotation?: string | undefined;
   /** The host name of the device. */
-  hostName?: string;
+  hostName?: string | undefined;
   /** Serial number of the device. Format of serial Number - Make;Model;HardwareRevisionId;SerialNumber. */
-  serialNumber?: string;
+  serialNumber?: string | undefined;
 }
 export interface UpdateNetworkBootstrapDeviceRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -9528,11 +9604,11 @@ export interface UpdateNetworkBootstrapDeviceRequest {
   /** Name of the Network Bootstrap Device. */
   networkBootstrapDeviceName: string;
   /** Resource tags. */
-  tags?: UpdateNetworkBootstrapDeviceRequestTagsMap;
+  tags?: UpdateNetworkBootstrapDeviceRequestTagsMap | undefined;
   /** Network Bootstrap Device Patch properties. */
-  properties?: NetworkBootstrapDevicePatchProperties;
+  properties?: NetworkBootstrapDevicePatchProperties | undefined;
   /** The managed service identities assigned to this resource. */
-  identity?: ManagedServiceIdentityPatchInput;
+  identity?: ManagedServiceIdentityPatchInput | undefined;
 }
 /** Resource tags. */
 export type UpdateNetworkBootstrapDeviceResponseTagsMap = { [key: string]: string | undefined };
@@ -9540,25 +9616,25 @@ export type UpdateNetworkBootstrapDeviceResponseTagsMap = { [key: string]: strin
 export type UpdateNetworkBootstrapDeviceResponseIdentity = CreateL2IsolationDomainResponseIdentity;
 export interface UpdateNetworkBootstrapDeviceResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: UpdateNetworkBootstrapDeviceResponseTagsMap;
+  tags?: UpdateNetworkBootstrapDeviceResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The NetworkBootstrapDevice properties */
   properties: NetworkBootstrapDeviceProperties;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: CreateL2IsolationDomainResponseIdentity;
+  identity?: CreateL2IsolationDomainResponseIdentity | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  locationHeader?: string;
+  locationHeader?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Network Fabrics or Network Rack resource Id. */
 export type UpdateNetworkBootstrapDeviceAdministrativeStateRequestResourceIdsList = Array<string>;
@@ -9581,9 +9657,9 @@ export interface UpdateNetworkBootstrapDeviceAdministrativeStateRequest {
   /** Name of the Network Bootstrap Device. */
   networkBootstrapDeviceName: string;
   /** Network Fabrics or Network Rack resource Id. */
-  resourceIds?: UpdateNetworkBootstrapDeviceAdministrativeStateRequestResourceIdsList;
+  resourceIds?: UpdateNetworkBootstrapDeviceAdministrativeStateRequestResourceIdsList | undefined;
   /** Administrative state. */
-  state?: DeviceAdministrativeState | (string & {});
+  state?: DeviceAdministrativeState | (string & {}) | undefined;
 }
 /** The operations list. */
 export type NetworkBootstrapDeviceUpdateAdministrativeStateResponseOperationsItemOperationsList =
@@ -9591,23 +9667,25 @@ export type NetworkBootstrapDeviceUpdateAdministrativeStateResponseOperationsIte
 /** The current status of an async operation. */
 export interface NetworkBootstrapDeviceUpdateAdministrativeStateResponseOperationsItem {
   /** Fully qualified ID for the async operation. */
-  id?: string;
+  id?: string | undefined;
   /** Fully qualified ID of the resource against which the original async operation was started. */
-  resourceId?: string;
+  resourceId?: string | undefined;
   /** Name of the async operation. */
-  name?: string;
+  name?: string | undefined;
   /** Operation status. */
   status: string;
   /** Percent of the operation that is complete. */
-  percentComplete?: number;
+  percentComplete?: number | undefined;
   /** The start time of the operation. */
-  startTime?: string;
+  startTime?: string | undefined;
   /** The end time of the operation. */
-  endTime?: string;
+  endTime?: string | undefined;
   /** The operations list. */
-  operations?: NetworkBootstrapDeviceUpdateAdministrativeStateResponseOperationsItemOperationsList;
+  operations?:
+    | NetworkBootstrapDeviceUpdateAdministrativeStateResponseOperationsItemOperationsList
+    | undefined;
   /** If present, details of the operation error. */
-  error?: ErrorDetail;
+  error?: ErrorDetail | undefined;
 }
 /** The operations list. */
 export type NetworkBootstrapDeviceUpdateAdministrativeStateResponseOperationsList =
@@ -9621,49 +9699,51 @@ export type NetworkBootstrapDeviceUpdateAdministrativeStateResponseErrorAddition
 /** The error detail. */
 export interface NetworkBootstrapDeviceUpdateAdministrativeStateResponseError {
   /** The error code. */
-  code?: string;
+  code?: string | undefined;
   /** The error message. */
-  message?: string;
+  message?: string | undefined;
   /** The error target. */
-  target?: string;
+  target?: string | undefined;
   /** The error details. */
-  details?: NetworkBootstrapDeviceUpdateAdministrativeStateResponseErrorDetailsList;
+  details?: NetworkBootstrapDeviceUpdateAdministrativeStateResponseErrorDetailsList | undefined;
   /** The error additional info. */
-  additionalInfo?: NetworkBootstrapDeviceUpdateAdministrativeStateResponseErrorAdditionalInfoList;
+  additionalInfo?:
+    | NetworkBootstrapDeviceUpdateAdministrativeStateResponseErrorAdditionalInfoList
+    | undefined;
 }
 /** Network Bootstrap Device Administrative State Update Response. */
 export interface NetworkBootstrapDeviceUpdateAdministrativeStateResponse {
   /** Fully qualified ID for the async operation. */
-  id?: string;
+  id?: string | undefined;
   /** Name of the async operation. */
-  name?: string;
+  name?: string | undefined;
   /** Operation status. */
   status: string;
   /** Percent of the operation that is complete. */
-  percentComplete?: number;
+  percentComplete?: number | undefined;
   /** The start time of the operation. */
-  startTime?: string;
+  startTime?: string | undefined;
   /** The end time of the operation. */
-  endTime?: string;
+  endTime?: string | undefined;
   /** The operations list. */
-  operations?: NetworkBootstrapDeviceUpdateAdministrativeStateResponseOperationsList;
+  operations?: NetworkBootstrapDeviceUpdateAdministrativeStateResponseOperationsList | undefined;
   /** The error detail. */
-  error?: NetworkBootstrapDeviceUpdateAdministrativeStateResponseError;
+  error?: NetworkBootstrapDeviceUpdateAdministrativeStateResponseError | undefined;
   /** Fully qualified ID of the resource against which the original async operation was started. */
-  resourceId?: string;
+  resourceId?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Network Bootstrap Interface Patch properties. */
 export interface NetworkBootstrapInterfacePatchProperties {
   /** Switch configuration description. */
-  annotation?: string;
+  annotation?: string | undefined;
   /** Serial number of the interface. Format of serial Number - Make;Model;HardwareRevisionId;SerialNumber. */
-  serialNumber?: string;
+  serialNumber?: string | undefined;
   /** Additional description of the interface. */
-  additionalDescription?: string;
+  additionalDescription?: string | undefined;
 }
 export interface UpdateNetworkBootstrapInterfaceRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -9675,23 +9755,23 @@ export interface UpdateNetworkBootstrapInterfaceRequest {
   /** Name of the Network Bootstrap Interface. */
   networkBootstrapInterfaceName: string;
   /** Network Bootstrap Interface Patch properties. */
-  properties?: NetworkBootstrapInterfacePatchProperties;
+  properties?: NetworkBootstrapInterfacePatchProperties | undefined;
 }
 export interface UpdateNetworkBootstrapInterfaceResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The NetworkBootstrapInterface properties */
   properties: NetworkBootstrapInterfaceProperties;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Network Fabrics or Network Rack resource Id. */
 export type UpdateNetworkBootstrapInterfaceAdministrativeStateRequestResourceIdsList =
@@ -9706,39 +9786,41 @@ export interface UpdateNetworkBootstrapInterfaceAdministrativeStateRequest {
   /** Name of the Network Bootstrap Interface. */
   networkBootstrapInterfaceName: string;
   /** Network Fabrics or Network Rack resource Id. */
-  resourceIds?: UpdateNetworkBootstrapInterfaceAdministrativeStateRequestResourceIdsList;
+  resourceIds?:
+    | UpdateNetworkBootstrapInterfaceAdministrativeStateRequestResourceIdsList
+    | undefined;
   /** Administrative state. */
-  state?: EnableDisableState | (string & {});
+  state?: EnableDisableState | (string & {}) | undefined;
 }
 export interface UpdateNetworkBootstrapInterfaceAdministrativeStateResponse {
   /** The error object. */
-  error?: ErrorDetail;
+  error?: ErrorDetail | undefined;
   /** Gets the configuration state. */
-  configurationState?: ConfigurationState;
+  configurationState?: ConfigurationState | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Resource tags. */
 export type UpdateNetworkDeviceRequestTagsMap = { [key: string]: string | undefined };
 /** IdentitySelector represents the selection of a managed identity for use. */
 export interface IdentitySelectorPatch {
   /** The type of managed identity that is being selected. */
-  identityType?: ManagedServiceIdentitySelectorType | (string & {});
+  identityType?: ManagedServiceIdentitySelectorType | (string & {}) | undefined;
   /** The user assigned managed identity resource ID to use. Mutually exclusive with a system assigned identity type. */
-  userAssignedIdentityResourceId?: string;
+  userAssignedIdentityResourceId?: string | undefined;
 }
 /** Network Device Patch properties. */
 export interface NetworkDevicePatchParametersProperties {
   /** Switch configuration description. */
-  annotation?: string;
+  annotation?: string | undefined;
   /** The host name of the device. */
-  hostName?: string;
+  hostName?: string | undefined;
   /** Serial number of the device. Format of serial Number - Make;Model;HardwareRevisionId;SerialNumber. */
-  serialNumber?: string;
+  serialNumber?: string | undefined;
   /** The selection of the managed identity to use with this storage account. The identity type must be either system assigned or user assigned. */
-  identitySelector?: IdentitySelectorPatch;
+  identitySelector?: IdentitySelectorPatch | undefined;
 }
 export interface UpdateNetworkDeviceRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -9748,11 +9830,11 @@ export interface UpdateNetworkDeviceRequest {
   /** Name of the Network Device. */
   networkDeviceName: string;
   /** Resource tags. */
-  tags?: UpdateNetworkDeviceRequestTagsMap;
+  tags?: UpdateNetworkDeviceRequestTagsMap | undefined;
   /** Network Device Patch properties. */
-  properties?: NetworkDevicePatchParametersProperties;
+  properties?: NetworkDevicePatchParametersProperties | undefined;
   /** The managed service identities assigned to this resource. */
-  identity?: ManagedServiceIdentityPatchInput;
+  identity?: ManagedServiceIdentityPatchInput | undefined;
 }
 /** Resource tags. */
 export type UpdateNetworkDeviceResponseTagsMap = { [key: string]: string | undefined };
@@ -9760,25 +9842,25 @@ export type UpdateNetworkDeviceResponseTagsMap = { [key: string]: string | undef
 export type UpdateNetworkDeviceResponseIdentity = CreateL2IsolationDomainResponseIdentity;
 export interface UpdateNetworkDeviceResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: UpdateNetworkDeviceResponseTagsMap;
+  tags?: UpdateNetworkDeviceResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The NetworkDevice properties */
   properties: NetworkDeviceProperties;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: CreateL2IsolationDomainResponseIdentity;
+  identity?: CreateL2IsolationDomainResponseIdentity | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  locationHeader?: string;
+  locationHeader?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Network Fabrics or Network Rack resource Id. */
 export type UpdateNetworkDeviceAdministrativeStateRequestResourceIdsList = Array<string>;
@@ -9790,9 +9872,9 @@ export interface UpdateNetworkDeviceAdministrativeStateRequest {
   /** Name of the Network Device. */
   networkDeviceName: string;
   /** Network Fabrics or Network Rack resource Id. */
-  resourceIds?: UpdateNetworkDeviceAdministrativeStateRequestResourceIdsList;
+  resourceIds?: UpdateNetworkDeviceAdministrativeStateRequestResourceIdsList | undefined;
   /** Administrative state. */
-  state?: DeviceAdministrativeState | (string & {});
+  state?: DeviceAdministrativeState | (string & {}) | undefined;
 }
 /** The operations list. */
 export type NetworkDeviceUpdateAdministrativeStateResponseOperationsItemOperationsList =
@@ -9800,23 +9882,25 @@ export type NetworkDeviceUpdateAdministrativeStateResponseOperationsItemOperatio
 /** The current status of an async operation. */
 export interface NetworkDeviceUpdateAdministrativeStateResponseOperationsItem {
   /** Fully qualified ID for the async operation. */
-  id?: string;
+  id?: string | undefined;
   /** Fully qualified ID of the resource against which the original async operation was started. */
-  resourceId?: string;
+  resourceId?: string | undefined;
   /** Name of the async operation. */
-  name?: string;
+  name?: string | undefined;
   /** Operation status. */
   status: string;
   /** Percent of the operation that is complete. */
-  percentComplete?: number;
+  percentComplete?: number | undefined;
   /** The start time of the operation. */
-  startTime?: string;
+  startTime?: string | undefined;
   /** The end time of the operation. */
-  endTime?: string;
+  endTime?: string | undefined;
   /** The operations list. */
-  operations?: NetworkDeviceUpdateAdministrativeStateResponseOperationsItemOperationsList;
+  operations?:
+    | NetworkDeviceUpdateAdministrativeStateResponseOperationsItemOperationsList
+    | undefined;
   /** If present, details of the operation error. */
-  error?: ErrorDetail;
+  error?: ErrorDetail | undefined;
 }
 /** The operations list. */
 export type NetworkDeviceUpdateAdministrativeStateResponseOperationsList =
@@ -9829,59 +9913,61 @@ export type NetworkDeviceUpdateAdministrativeStateResponseErrorAdditionalInfoLis
 /** The error detail. */
 export interface NetworkDeviceUpdateAdministrativeStateResponseError {
   /** The error code. */
-  code?: string;
+  code?: string | undefined;
   /** The error message. */
-  message?: string;
+  message?: string | undefined;
   /** The error target. */
-  target?: string;
+  target?: string | undefined;
   /** The error details. */
-  details?: NetworkDeviceUpdateAdministrativeStateResponseErrorDetailsList;
+  details?: NetworkDeviceUpdateAdministrativeStateResponseErrorDetailsList | undefined;
   /** The error additional info. */
-  additionalInfo?: NetworkDeviceUpdateAdministrativeStateResponseErrorAdditionalInfoList;
+  additionalInfo?:
+    | NetworkDeviceUpdateAdministrativeStateResponseErrorAdditionalInfoList
+    | undefined;
 }
 /** Network Device Administrative State Update Response. */
 export interface NetworkDeviceUpdateAdministrativeStateResponse {
   /** Fully qualified ID for the async operation. */
-  id?: string;
+  id?: string | undefined;
   /** Name of the async operation. */
-  name?: string;
+  name?: string | undefined;
   /** Operation status. */
   status: string;
   /** Percent of the operation that is complete. */
-  percentComplete?: number;
+  percentComplete?: number | undefined;
   /** The start time of the operation. */
-  startTime?: string;
+  startTime?: string | undefined;
   /** The end time of the operation. */
-  endTime?: string;
+  endTime?: string | undefined;
   /** The operations list. */
-  operations?: NetworkDeviceUpdateAdministrativeStateResponseOperationsList;
+  operations?: NetworkDeviceUpdateAdministrativeStateResponseOperationsList | undefined;
   /** The error detail. */
-  error?: NetworkDeviceUpdateAdministrativeStateResponseError;
+  error?: NetworkDeviceUpdateAdministrativeStateResponseError | undefined;
   /** Fully qualified ID of the resource against which the original async operation was started. */
-  resourceId?: string;
+  resourceId?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Resource tags. */
 export type UpdateNetworkFabricRequestTagsMap = { [key: string]: string | undefined };
 /** Network and credentials configuration already applied to terminal server. */
 export interface TerminalServerPatchConfiguration {
   /** Username for the terminal server connection. */
-  username?: string;
+  username?: string | undefined;
   /** Password for the terminal server connection. */
-  password?: string | Redacted.Redacted<string>;
+  password?: string | Redacted.Redacted<string> | undefined;
   /** Serial Number of Terminal server. */
-  serialNumber?: string;
+  serialNumber?: string | undefined;
   /** IPv4 Address Prefix. */
-  primaryIpv4Prefix?: string;
+  primaryIpv4Prefix?: string | undefined;
   /** IPv6 Address Prefix. */
-  primaryIpv6Prefix?: string;
+  primaryIpv6Prefix?: string | undefined;
   /** Secondary IPv4 Address Prefix. */
-  secondaryIpv4Prefix?: string;
+  secondaryIpv4Prefix?: string | undefined;
   /** Secondary IPv6 Address Prefix. */
-  secondaryIpv6Prefix?: string;
+  secondaryIpv6Prefix?: string | undefined;
 }
 /** Route Targets to be applied for incoming routes into CE. This is for backward compatibility. */
 export type VpnOptionBPatchPropertiesImportRouteTargetsList = Array<string>;
@@ -9890,55 +9976,55 @@ export type VpnOptionBPatchPropertiesExportRouteTargetsList = Array<string>;
 /** Option B configuration to be used for Management VPN. */
 export interface VpnOptionBPatchProperties {
   /** Route Targets to be applied for incoming routes into CE. This is for backward compatibility. */
-  importRouteTargets?: VpnOptionBPatchPropertiesImportRouteTargetsList;
+  importRouteTargets?: VpnOptionBPatchPropertiesImportRouteTargetsList | undefined;
   /** Route Targets to be applied for outgoing routes from CE. This is for backward compatibility. */
-  exportRouteTargets?: VpnOptionBPatchPropertiesExportRouteTargetsList;
+  exportRouteTargets?: VpnOptionBPatchPropertiesExportRouteTargetsList | undefined;
   /** Route Targets to be applied. */
-  routeTargets?: RouteTargetPatchInformation;
+  routeTargets?: RouteTargetPatchInformation | undefined;
 }
 /** Peering optionA properties */
 export interface VpnOptionAPatchProperties {
   /** IPv4 Address Prefix. */
-  primaryIpv4Prefix?: string;
+  primaryIpv4Prefix?: string | undefined;
   /** IPv6 Address Prefix. */
-  primaryIpv6Prefix?: string;
+  primaryIpv6Prefix?: string | undefined;
   /** Secondary IPv4 Address Prefix. */
-  secondaryIpv4Prefix?: string;
+  secondaryIpv4Prefix?: string | undefined;
   /** Secondary IPv6 Address Prefix. */
-  secondaryIpv6Prefix?: string;
+  secondaryIpv6Prefix?: string | undefined;
   /** MTU to use for option A peering. */
-  mtu?: number;
+  mtu?: number | undefined;
   /** Vlan Id.Example : 501 */
-  vlanId?: number;
+  vlanId?: number | undefined;
   /** Peer ASN number.Example : 28 */
-  peerASN?: number;
+  peerASN?: number | undefined;
   /** BFD Configuration properties. */
-  bfdConfiguration?: BfdConfigurationInput;
+  bfdConfiguration?: BfdConfigurationInput | undefined;
 }
 /** Network and credential configuration currently applied on terminal server. */
 export interface VpnConfigurationPatchableProperties {
   /** ARM Resource ID of the Network To Network Interconnect. */
-  networkToNetworkInterconnectId?: string;
+  networkToNetworkInterconnectId?: string | undefined;
   /** Peering option list. */
-  peeringOption?: PeeringOption | (string & {});
+  peeringOption?: PeeringOption | (string & {}) | undefined;
   /** option B properties */
-  optionBProperties?: VpnOptionBPatchProperties;
+  optionBProperties?: VpnOptionBPatchProperties | undefined;
   /** option A properties */
-  optionAProperties?: VpnOptionAPatchProperties;
+  optionAProperties?: VpnOptionAPatchProperties | undefined;
 }
 /** Configuration to be used to setup the management network. */
 export interface ManagementNetworkPatchConfiguration {
   /** VPN Configuration properties. */
-  infrastructureVpnConfiguration?: VpnConfigurationPatchableProperties;
+  infrastructureVpnConfiguration?: VpnConfigurationPatchableProperties | undefined;
   /** VPN Configuration properties. */
-  workloadVpnConfiguration?: VpnConfigurationPatchableProperties;
+  workloadVpnConfiguration?: VpnConfigurationPatchableProperties | undefined;
 }
 /** Storage account configuration. */
 export interface StorageAccountPatchConfiguration {
   /** Network Fabric storage account resource identifier. */
-  storageAccountId?: string;
+  storageAccountId?: string | undefined;
   /** The selection of the managed identity to use with this storage account. The identity type must be either system assigned or user assigned. */
-  storageAccountIdentity?: IdentitySelectorPatch;
+  storageAccountIdentity?: IdentitySelectorPatch | undefined;
 }
 /** Control Plane Access Control List ARM resource IDs. */
 export type NetworkFabricPatchPropertiesControlPlaneAclsList = Array<string>;
@@ -9951,18 +10037,22 @@ export type NNIDerivedUniqueRouteDistinguisherConfigurationState = "Enabled" | "
 /** Unique Route Distinguisher configuration properties. */
 export interface UniqueRouteDistinguisherPatchProperties {
   /** Unique Route Distinguisher configuration state. Default is Enabled. */
-  uniqueRdConfigurationState?: UniqueRouteDistinguisherConfigurationState | (string & {});
+  uniqueRdConfigurationState?:
+    | UniqueRouteDistinguisherConfigurationState
+    | (string & {})
+    | undefined;
   /** NNI derived unique Route Distinguisher state. Default is Disabled. */
   nniDerivedUniqueRdConfigurationState?:
     | NNIDerivedUniqueRouteDistinguisherConfigurationState
-    | (string & {});
+    | (string & {})
+    | undefined;
 }
 /** NetworkFabric QoS ConfigurationState. */
 export type QosConfigurationState = "Disabled" | "Enabled";
 /** NetworkFabric QoS Patch Properties. */
 export interface QosPatchProperties {
   /** QoS configuration state. Default is Disabled. */
-  qosConfigurationState?: QosConfigurationState | (string & {});
+  qosConfigurationState?: QosConfigurationState | (string & {}) | undefined;
 }
 /** NetworkFabric feature flag configuration information */
 export type NetworkFabricPatchPropertiesFeatureFlagsList = Array<FeatureFlagProperties>;
@@ -9971,37 +10061,37 @@ export type AuthorizedTransceiverPatchProperties = AuthorizedTransceiverProperti
 /** Network Fabric Patch properties. */
 export interface NetworkFabricPatchProperties {
   /** Switch configuration description. */
-  annotation?: string;
+  annotation?: string | undefined;
   /** Number of compute racks associated to Network Fabric. */
-  rackCount?: number;
+  rackCount?: number | undefined;
   /** Number of servers.Possible values are from 1-16. */
-  serverCountPerRack?: number;
+  serverCountPerRack?: number | undefined;
   /** IPv4Prefix for Management Network. Example: 10.1.0.0/19. */
-  ipv4Prefix?: string;
+  ipv4Prefix?: string | undefined;
   /** IPv6Prefix for Management Network. Example: 3FFE:FFFF:0:CD40::/59. */
-  ipv6Prefix?: string;
+  ipv6Prefix?: string | undefined;
   /** ASN of CE devices for CE/PE connectivity. */
-  fabricASN?: number;
+  fabricASN?: number | undefined;
   /** Network and credentials configuration already applied to terminal server. */
-  terminalServerConfiguration?: TerminalServerPatchConfiguration;
+  terminalServerConfiguration?: TerminalServerPatchConfiguration | undefined;
   /** Configuration to be used to setup the management network. */
-  managementNetworkConfiguration?: ManagementNetworkPatchConfiguration;
+  managementNetworkConfiguration?: ManagementNetworkPatchConfiguration | undefined;
   /** Bring your own storage account configurations for Network Fabric. */
-  storageAccountConfiguration?: StorageAccountPatchConfiguration;
+  storageAccountConfiguration?: StorageAccountPatchConfiguration | undefined;
   /** Hardware alert threshold percentage. Possible values are from 20 to 100. */
-  hardwareAlertThreshold?: number;
+  hardwareAlertThreshold?: number | undefined;
   /** Control Plane Access Control List ARM resource IDs. */
-  controlPlaneAcls?: NetworkFabricPatchPropertiesControlPlaneAclsList;
+  controlPlaneAcls?: NetworkFabricPatchPropertiesControlPlaneAclsList | undefined;
   /** Trusted IP Prefix ARM resource IDs. */
-  trustedIpPrefixes?: NetworkFabricPatchPropertiesTrustedIpPrefixesList;
+  trustedIpPrefixes?: NetworkFabricPatchPropertiesTrustedIpPrefixesList | undefined;
   /** Unique Route Distinguisher configuration */
-  uniqueRdConfiguration?: UniqueRouteDistinguisherPatchProperties;
+  uniqueRdConfiguration?: UniqueRouteDistinguisherPatchProperties | undefined;
   /** NetworkFabric QoS Configuration */
-  qosConfiguration?: QosPatchProperties;
+  qosConfiguration?: QosPatchProperties | undefined;
   /** NetworkFabric feature flag configuration information */
-  featureFlags?: NetworkFabricPatchPropertiesFeatureFlagsList;
+  featureFlags?: NetworkFabricPatchPropertiesFeatureFlagsList | undefined;
   /** Authorized transciever configuration for NetworkFabric. */
-  authorizedTransceiver?: AuthorizedTransceiverProperties;
+  authorizedTransceiver?: AuthorizedTransceiverProperties | undefined;
 }
 export interface UpdateNetworkFabricRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -10011,11 +10101,11 @@ export interface UpdateNetworkFabricRequest {
   /** Name of the Network Fabric. */
   networkFabricName: string;
   /** Resource tags. */
-  tags?: UpdateNetworkFabricRequestTagsMap;
+  tags?: UpdateNetworkFabricRequestTagsMap | undefined;
   /** Network Fabric Patch properties. */
-  properties?: NetworkFabricPatchProperties;
+  properties?: NetworkFabricPatchProperties | undefined;
   /** The managed service identities assigned to this resource. */
-  identity?: ManagedServiceIdentityPatchInput;
+  identity?: ManagedServiceIdentityPatchInput | undefined;
 }
 /** Resource tags. */
 export type UpdateNetworkFabricResponseTagsMap = { [key: string]: string | undefined };
@@ -10023,25 +10113,25 @@ export type UpdateNetworkFabricResponseTagsMap = { [key: string]: string | undef
 export type UpdateNetworkFabricResponseIdentity = CreateL2IsolationDomainResponseIdentity;
 export interface UpdateNetworkFabricResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: UpdateNetworkFabricResponseTagsMap;
+  tags?: UpdateNetworkFabricResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The NetworkFabric Properties */
   properties: NetworkFabricProperties;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: CreateL2IsolationDomainResponseIdentity;
+  identity?: CreateL2IsolationDomainResponseIdentity | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  locationHeader?: string;
+  locationHeader?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Resource tags. */
 export type UpdateNetworkFabricControllerRequestTagsMap = { [key: string]: string | undefined };
@@ -10054,9 +10144,13 @@ export type NetworkFabricControllerPatchPropertiesWorkloadExpressRouteConnection
 /** Network Fabric Controller patch properties. */
 export interface NetworkFabricControllerPatchProperties {
   /** As part of an update, the Infrastructure ExpressRoute CircuitID should be provided to create and Provision a NFC. This Express route is dedicated for Infrastructure services. (This is a Mandatory attribute) */
-  infrastructureExpressRouteConnections?: NetworkFabricControllerPatchPropertiesInfrastructureExpressRouteConnectionsList;
+  infrastructureExpressRouteConnections?:
+    | NetworkFabricControllerPatchPropertiesInfrastructureExpressRouteConnectionsList
+    | undefined;
   /** As part of an update, the workload ExpressRoute CircuitID should be provided to create and Provision a NFC. This Express route is dedicated for Workload services. (This is a Mandatory attribute). */
-  workloadExpressRouteConnections?: NetworkFabricControllerPatchPropertiesWorkloadExpressRouteConnectionsList;
+  workloadExpressRouteConnections?:
+    | NetworkFabricControllerPatchPropertiesWorkloadExpressRouteConnectionsList
+    | undefined;
 }
 export interface UpdateNetworkFabricControllerRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -10066,11 +10160,11 @@ export interface UpdateNetworkFabricControllerRequest {
   /** Name of the Network Fabric Controller. */
   networkFabricControllerName: string;
   /** Resource tags. */
-  tags?: UpdateNetworkFabricControllerRequestTagsMap;
+  tags?: UpdateNetworkFabricControllerRequestTagsMap | undefined;
   /** Network Fabric Controller patch properties. */
-  properties?: NetworkFabricControllerPatchProperties;
+  properties?: NetworkFabricControllerPatchProperties | undefined;
   /** The managed service identities assigned to this resource. */
-  identity?: ManagedServiceIdentityPatchInput;
+  identity?: ManagedServiceIdentityPatchInput | undefined;
 }
 /** Resource tags. */
 export type UpdateNetworkFabricControllerResponseTagsMap = { [key: string]: string | undefined };
@@ -10078,25 +10172,25 @@ export type UpdateNetworkFabricControllerResponseTagsMap = { [key: string]: stri
 export type UpdateNetworkFabricControllerResponseIdentity = CreateL2IsolationDomainResponseIdentity;
 export interface UpdateNetworkFabricControllerResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: UpdateNetworkFabricControllerResponseTagsMap;
+  tags?: UpdateNetworkFabricControllerResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The NetworkFabricController Properties */
   properties: NetworkFabricControllerProperties;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: CreateL2IsolationDomainResponseIdentity;
+  identity?: CreateL2IsolationDomainResponseIdentity | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  locationHeader?: string;
+  locationHeader?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Network Fabrics or Network Rack resource Id. */
 export type UpdateNetworkFabricInfraManagementBfdConfigurationRequestResourceIdsList =
@@ -10109,9 +10203,11 @@ export interface UpdateNetworkFabricInfraManagementBfdConfigurationRequest {
   /** Name of the Network Fabric. */
   networkFabricName: string;
   /** Network Fabrics or Network Rack resource Id. */
-  resourceIds?: UpdateNetworkFabricInfraManagementBfdConfigurationRequestResourceIdsList;
+  resourceIds?:
+    | UpdateNetworkFabricInfraManagementBfdConfigurationRequestResourceIdsList
+    | undefined;
   /** Administrative state. */
-  state?: EnableDisableState | (string & {});
+  state?: EnableDisableState | (string & {}) | undefined;
 }
 /** Network Fabrics or Network Rack resource Id. */
 export type UpdateNetworkFabricWorkloadManagementBfdConfigurationRequestResourceIdsList =
@@ -10124,9 +10220,11 @@ export interface UpdateNetworkFabricWorkloadManagementBfdConfigurationRequest {
   /** Name of the Network Fabric. */
   networkFabricName: string;
   /** Network Fabrics or Network Rack resource Id. */
-  resourceIds?: UpdateNetworkFabricWorkloadManagementBfdConfigurationRequestResourceIdsList;
+  resourceIds?:
+    | UpdateNetworkFabricWorkloadManagementBfdConfigurationRequestResourceIdsList
+    | undefined;
   /** Administrative state. */
-  state?: EnableDisableState | (string & {});
+  state?: EnableDisableState | (string & {}) | undefined;
 }
 /** Network Interface Patch properties. */
 export type NetworkInterfacePatchProperties = NetworkInterfacePropertiesInput;
@@ -10140,29 +10238,29 @@ export interface UpdateNetworkInterfaceRequest {
   /** Name of the Network Interface. */
   networkInterfaceName: string;
   /** Network Interface Patch properties. */
-  properties?: NetworkInterfacePropertiesInput;
+  properties?: NetworkInterfacePropertiesInput | undefined;
   /** The managed service identities assigned to this resource. */
-  identity?: ManagedServiceIdentityPatchInput;
+  identity?: ManagedServiceIdentityPatchInput | undefined;
 }
 /** Managed service identity (system assigned and/or user assigned identities) */
 export type UpdateNetworkInterfaceResponseIdentity = CreateL2IsolationDomainResponseIdentity;
 export interface UpdateNetworkInterfaceResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The NetworkInterface properties */
   properties: NetworkInterfaceProperties;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: CreateL2IsolationDomainResponseIdentity;
+  identity?: CreateL2IsolationDomainResponseIdentity | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Network Fabrics or Network Rack resource Id. */
 export type UpdateNetworkInterfaceAdministrativeStateRequestResourceIdsList = Array<string>;
@@ -10176,9 +10274,9 @@ export interface UpdateNetworkInterfaceAdministrativeStateRequest {
   /** Name of the Network Interface. */
   networkInterfaceName: string;
   /** Network Fabrics or Network Rack resource Id. */
-  resourceIds?: UpdateNetworkInterfaceAdministrativeStateRequestResourceIdsList;
+  resourceIds?: UpdateNetworkInterfaceAdministrativeStateRequestResourceIdsList | undefined;
   /** Administrative state. */
-  state?: EnableDisableState | (string & {});
+  state?: EnableDisableState | (string & {}) | undefined;
 }
 /** Resource tags. */
 export type UpdateNetworkMonitorRequestTagsMap = { [key: string]: string | undefined };
@@ -10193,34 +10291,36 @@ export type BmpConfigurationPatchPropertiesMonitoredAddressFamiliesList = Array<
 /** BMP Configuration patch properties. */
 export interface BmpConfigurationPatchProperties {
   /** Enabling a station. Either True/False. */
-  stationConfigurationState?: StationConfigurationState | (string & {});
+  stationConfigurationState?: StationConfigurationState | (string & {}) | undefined;
   /** Scope resource ARM Identifier. */
-  scopeResourceId?: string;
+  scopeResourceId?: string | undefined;
   /** Name of the station. */
-  stationName?: string;
+  stationName?: string | undefined;
   /** IP Address of the station. */
-  stationIp?: string;
+  stationIp?: string | undefined;
   /** Port of the station. Default value is 5000. */
-  stationPort?: number;
+  stationPort?: number | undefined;
   /** Station Connection Mode. */
-  stationConnectionMode?: StationConnectionMode | (string & {});
+  stationConnectionMode?: StationConnectionMode | (string & {}) | undefined;
   /** Station Connection Properties. */
-  stationConnectionProperties?: StationConnectionProperties;
+  stationConnectionProperties?: StationConnectionProperties | undefined;
   /** Network of the station */
-  stationNetwork?: string;
+  stationNetwork?: string | undefined;
   /** The List of Network ID's that need to be monitored. */
-  monitoredNetworks?: BmpConfigurationPatchPropertiesMonitoredNetworksList;
+  monitoredNetworks?: BmpConfigurationPatchPropertiesMonitoredNetworksList | undefined;
   /** Export Policy for the BMP Configuration. */
-  exportPolicy?: BmpExportPolicy | (string & {});
+  exportPolicy?: BmpExportPolicy | (string & {}) | undefined;
   /** Export Policy configuration properties for the BMP. */
-  exportPolicyConfiguration?: BmpExportPolicyPatchProperties;
+  exportPolicyConfiguration?: BmpExportPolicyPatchProperties | undefined;
   /** Monitored Address Families for the BMP Configuration. */
-  monitoredAddressFamilies?: BmpConfigurationPatchPropertiesMonitoredAddressFamiliesList;
+  monitoredAddressFamilies?:
+    | BmpConfigurationPatchPropertiesMonitoredAddressFamiliesList
+    | undefined;
 }
 /** The Network Monitor Patch Properties. */
 export interface NetworkMonitorPatchProperties {
   /** BGP Monitoring Protocol (BMP) Configurations for the Network Monitor. */
-  bmpConfiguration?: BmpConfigurationPatchProperties;
+  bmpConfiguration?: BmpConfigurationPatchProperties | undefined;
 }
 export interface UpdateNetworkMonitorRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -10230,31 +10330,31 @@ export interface UpdateNetworkMonitorRequest {
   /** Name of the Network Monitor. */
   networkMonitorName: string;
   /** Resource tags. */
-  tags?: UpdateNetworkMonitorRequestTagsMap;
+  tags?: UpdateNetworkMonitorRequestTagsMap | undefined;
   /** Network Monitor Patch properties. */
-  properties?: NetworkMonitorPatchProperties;
+  properties?: NetworkMonitorPatchProperties | undefined;
 }
 /** Resource tags. */
 export type UpdateNetworkMonitorResponseTagsMap = { [key: string]: string | undefined };
 export interface UpdateNetworkMonitorResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: UpdateNetworkMonitorResponseTagsMap;
+  tags?: UpdateNetworkMonitorResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The NetworkMonitor properties. */
   properties: NetworkMonitorProperties;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  locationHeader?: string;
+  locationHeader?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Network Fabrics or Network Rack resource Id. */
 export type UpdateNetworkMonitorAdministrativeStateRequestResourceIdsList = Array<string>;
@@ -10266,9 +10366,9 @@ export interface UpdateNetworkMonitorAdministrativeStateRequest {
   /** Name of the Network Monitor. */
   networkMonitorName: string;
   /** Network Fabrics or Network Rack resource Id. */
-  resourceIds?: UpdateNetworkMonitorAdministrativeStateRequestResourceIdsList;
+  resourceIds?: UpdateNetworkMonitorAdministrativeStateRequestResourceIdsList | undefined;
   /** Administrative state. */
-  state?: EnableDisableState | (string & {});
+  state?: EnableDisableState | (string & {}) | undefined;
 }
 /** List of ARM Resource IDs for which the given action applied successfully. */
 export type UpdateNetworkMonitorAdministrativeStateResponseSuccessfulDevicesList = Array<string>;
@@ -10276,17 +10376,19 @@ export type UpdateNetworkMonitorAdministrativeStateResponseSuccessfulDevicesList
 export type UpdateNetworkMonitorAdministrativeStateResponseFailedDevicesList = Array<string>;
 export interface UpdateNetworkMonitorAdministrativeStateResponse {
   /** The error object. */
-  error?: ErrorDetail;
+  error?: ErrorDetail | undefined;
   /** Gets the configuration state. */
-  configurationState?: ConfigurationState;
+  configurationState?: ConfigurationState | undefined;
   /** List of ARM Resource IDs for which the given action applied successfully. */
-  successfulDevices?: UpdateNetworkMonitorAdministrativeStateResponseSuccessfulDevicesList;
+  successfulDevices?:
+    | UpdateNetworkMonitorAdministrativeStateResponseSuccessfulDevicesList
+    | undefined;
   /** List of ARM Resource IDs for which the given action failed to apply. */
-  failedDevices?: UpdateNetworkMonitorAdministrativeStateResponseFailedDevicesList;
+  failedDevices?: UpdateNetworkMonitorAdministrativeStateResponseFailedDevicesList | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Resource tags. */
 export type UpdateNetworkPacketBrokerRequestTagsMap = { [key: string]: string | undefined };
@@ -10298,9 +10400,9 @@ export interface UpdateNetworkPacketBrokerRequest {
   /** Name of the Network Packet Broker. */
   networkPacketBrokerName: string;
   /** Resource tags. */
-  tags?: UpdateNetworkPacketBrokerRequestTagsMap;
+  tags?: UpdateNetworkPacketBrokerRequestTagsMap | undefined;
   /** The managed service identities assigned to this resource. */
-  identity?: ManagedServiceIdentityPatchInput;
+  identity?: ManagedServiceIdentityPatchInput | undefined;
 }
 /** Resource tags. */
 export type UpdateNetworkPacketBrokerResponseTagsMap = { [key: string]: string | undefined };
@@ -10308,25 +10410,25 @@ export type UpdateNetworkPacketBrokerResponseTagsMap = { [key: string]: string |
 export type UpdateNetworkPacketBrokerResponseIdentity = CreateL2IsolationDomainResponseIdentity;
 export interface UpdateNetworkPacketBrokerResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: UpdateNetworkPacketBrokerResponseTagsMap;
+  tags?: UpdateNetworkPacketBrokerResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The NetworkPacketBroker properties */
   properties: NetworkPacketBrokerProperties;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: CreateL2IsolationDomainResponseIdentity;
+  identity?: CreateL2IsolationDomainResponseIdentity | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  locationHeader?: string;
+  locationHeader?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Resource tags. */
 export type UpdateNetworkRackRequestTagsMap = { [key: string]: string | undefined };
@@ -10338,29 +10440,29 @@ export interface UpdateNetworkRackRequest {
   /** Name of the Network Rack. */
   networkRackName: string;
   /** Resource tags. */
-  tags?: UpdateNetworkRackRequestTagsMap;
+  tags?: UpdateNetworkRackRequestTagsMap | undefined;
 }
 /** Resource tags. */
 export type UpdateNetworkRackResponseTagsMap = { [key: string]: string | undefined };
 export interface UpdateNetworkRackResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: UpdateNetworkRackResponseTagsMap;
+  tags?: UpdateNetworkRackResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Network Rack Properties */
   properties: NetworkRackProperties;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  locationHeader?: string;
+  locationHeader?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Resource tags. */
 export type UpdateNetworkTapRequestTagsMap = { [key: string]: string | undefined };
@@ -10371,33 +10473,33 @@ export type IsolationDomainPatchPropertiesNeighborGroupIdsList = Array<string>;
 /** Isolation Domain Properties. */
 export interface IsolationDomainPatchProperties {
   /** Type of encapsulation. */
-  encapsulation?: Encapsulation | (string & {});
+  encapsulation?: Encapsulation | (string & {}) | undefined;
   /** List of Neighbor Group IDs. */
-  neighborGroupIds?: IsolationDomainPatchPropertiesNeighborGroupIdsList;
+  neighborGroupIds?: IsolationDomainPatchPropertiesNeighborGroupIdsList | undefined;
 }
 /** The network tap destination properties. */
 export interface DestinationPatchProperties {
   /** Destination name. */
-  name?: string;
+  name?: string | undefined;
   /** Type of destination. Input can be IsolationDomain or Direct. */
-  destinationType?: DestinationType | (string & {});
+  destinationType?: DestinationType | (string & {}) | undefined;
   /** The destination Id. ARM Resource ID of either NNI or Internal Networks. */
-  destinationId?: string;
+  destinationId?: string | undefined;
   /** Isolation Domain Properties. */
-  isolationDomainProperties?: IsolationDomainPatchProperties;
+  isolationDomainProperties?: IsolationDomainPatchProperties | undefined;
   /** ARM Resource ID of destination Tap Rule that contains match configurations. */
-  destinationTapRuleId?: string;
+  destinationTapRuleId?: string | undefined;
 }
 /** List of destination properties to send the filter traffic. */
 export type NetworkTapPatchPropertiesDestinationsList = Array<DestinationPatchProperties>;
 /** The Network Tap resource patch definition. */
 export interface NetworkTapPatchProperties {
   /** Switch configuration description. */
-  annotation?: string;
+  annotation?: string | undefined;
   /** Polling type. */
-  pollingType?: PollingType | (string & {});
+  pollingType?: PollingType | (string & {}) | undefined;
   /** List of destination properties to send the filter traffic. */
-  destinations?: NetworkTapPatchPropertiesDestinationsList;
+  destinations?: NetworkTapPatchPropertiesDestinationsList | undefined;
 }
 export interface UpdateNetworkTapRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -10407,11 +10509,11 @@ export interface UpdateNetworkTapRequest {
   /** Name of the Network Tap. */
   networkTapName: string;
   /** Resource tags. */
-  tags?: UpdateNetworkTapRequestTagsMap;
+  tags?: UpdateNetworkTapRequestTagsMap | undefined;
   /** NetworkTap resource patch properties. */
-  properties?: NetworkTapPatchProperties;
+  properties?: NetworkTapPatchProperties | undefined;
   /** The managed service identities assigned to this resource. */
-  identity?: ManagedServiceIdentityPatchInput;
+  identity?: ManagedServiceIdentityPatchInput | undefined;
 }
 /** Resource tags. */
 export type UpdateNetworkTapResponseTagsMap = { [key: string]: string | undefined };
@@ -10419,25 +10521,25 @@ export type UpdateNetworkTapResponseTagsMap = { [key: string]: string | undefine
 export type UpdateNetworkTapResponseIdentity = CreateL2IsolationDomainResponseIdentity;
 export interface UpdateNetworkTapResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: UpdateNetworkTapResponseTagsMap;
+  tags?: UpdateNetworkTapResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The NetworkTap Properties */
   properties: NetworkTapProperties;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: CreateL2IsolationDomainResponseIdentity;
+  identity?: CreateL2IsolationDomainResponseIdentity | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  locationHeader?: string;
+  locationHeader?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Network Fabrics or Network Rack resource Id. */
 export type UpdateNetworkTapAdministrativeStateRequestResourceIdsList = Array<string>;
@@ -10449,9 +10551,9 @@ export interface UpdateNetworkTapAdministrativeStateRequest {
   /** Name of the Network Tap. */
   networkTapName: string;
   /** Network Fabrics or Network Rack resource Id. */
-  resourceIds?: UpdateNetworkTapAdministrativeStateRequestResourceIdsList;
+  resourceIds?: UpdateNetworkTapAdministrativeStateRequestResourceIdsList | undefined;
   /** Administrative state. */
-  state?: EnableDisableState | (string & {});
+  state?: EnableDisableState | (string & {}) | undefined;
 }
 /** Resource tags. */
 export type UpdateNetworkTapRuleRequestTagsMap = { [key: string]: string | undefined };
@@ -10466,26 +10568,26 @@ export type PortConditionPatchPortGroupNamesList = Array<string>;
 /** Port condition that needs to be matched. */
 export interface PortConditionPatch {
   /** Port type that needs to be matched. */
-  portType?: PortType | (string & {});
+  portType?: PortType | (string & {}) | undefined;
   /** Layer4 protocol type that needs to be matched. */
-  layer4Protocol?: Layer4Protocol | (string & {});
+  layer4Protocol?: Layer4Protocol | (string & {}) | undefined;
   /** List of the Ports that need to be matched. */
-  ports?: PortConditionPatchPortsList;
+  ports?: PortConditionPatchPortsList | undefined;
   /** List of the port Group Names that need to be matched. */
-  portGroupNames?: PortConditionPatchPortGroupNamesList;
+  portGroupNames?: PortConditionPatchPortGroupNamesList | undefined;
 }
 /** Defines the match condition that is supported to filter the traffic. */
 export interface NetworkTapRuleMatchConditionPatch {
   /** List of the protocols that need to be matched. */
-  protocolTypes?: NetworkTapRuleMatchConditionPatchProtocolTypesList;
+  protocolTypes?: NetworkTapRuleMatchConditionPatchProtocolTypesList | undefined;
   /** Vlan match condition that needs to be matched. */
-  vlanMatchCondition?: VlanMatchConditionPatch;
+  vlanMatchCondition?: VlanMatchConditionPatch | undefined;
   /** IP condition that needs to be matched. */
-  ipCondition?: IpMatchConditionPatch;
+  ipCondition?: IpMatchConditionPatch | undefined;
   /** Encapsulation Type that needs to be matched. */
-  encapsulationType?: EncapsulationType | (string & {});
+  encapsulationType?: EncapsulationType | (string & {}) | undefined;
   /** Defines the port condition that needs to be matched. */
-  portCondition?: PortConditionPatch;
+  portCondition?: PortConditionPatch | undefined;
 }
 /** List of the match conditions. */
 export type NetworkTapRuleMatchConfigurationPatchMatchConditionsList =
@@ -10497,15 +10599,15 @@ export type NetworkTapRuleMatchConfigurationPatchActionsList = Array<NetworkTapR
 /** Defines the match configuration that are supported to filter the traffic. */
 export interface NetworkTapRuleMatchConfigurationPatch {
   /** The name of the match configuration. */
-  matchConfigurationName?: string;
+  matchConfigurationName?: string | undefined;
   /** Sequence Number of the match configuration.. */
-  sequenceNumber?: number;
+  sequenceNumber?: number | undefined;
   /** Type of IP Address. IPv4 or IPv6 */
-  ipAddressType?: IPAddressType | (string & {});
+  ipAddressType?: IPAddressType | (string & {}) | undefined;
   /** List of the match conditions. */
-  matchConditions?: NetworkTapRuleMatchConfigurationPatchMatchConditionsList;
+  matchConditions?: NetworkTapRuleMatchConfigurationPatchMatchConditionsList | undefined;
   /** List of actions that need to be performed for the matched conditions. */
-  actions?: NetworkTapRuleMatchConfigurationPatchActionsList;
+  actions?: NetworkTapRuleMatchConfigurationPatchActionsList | undefined;
 }
 /** List of match configurations. */
 export type NetworkTapRulePatchPropertiesMatchConfigurationsList =
@@ -10516,26 +10618,28 @@ export type NetworkTapRulePatchPropertiesDynamicMatchConfigurationsList =
 /** Global network tap rule actions patch properties */
 export interface GlobalNetworkTapRuleActionPatchProperties {
   /** Configuration to enable network tap rule counter. */
-  enableCount?: BooleanEnumProperty | (string & {});
+  enableCount?: BooleanEnumProperty | (string & {}) | undefined;
   /** Truncate. 0 indicates do not truncate. */
-  truncate?: string;
+  truncate?: string | undefined;
 }
 /** Network Tap Rule Patch properties. */
 export interface NetworkTapRulePatchProperties {
   /** Switch configuration description. */
-  annotation?: string;
+  annotation?: string | undefined;
   /** Input method to configure Network Tap Rule. */
-  configurationType?: ConfigurationType | (string & {});
+  configurationType?: ConfigurationType | (string & {}) | undefined;
   /** Network Tap Rules file URL. */
-  tapRulesUrl?: string;
+  tapRulesUrl?: string | undefined;
   /** List of match configurations. */
-  matchConfigurations?: NetworkTapRulePatchPropertiesMatchConfigurationsList;
+  matchConfigurations?: NetworkTapRulePatchPropertiesMatchConfigurationsList | undefined;
   /** List of dynamic match configurations. */
-  dynamicMatchConfigurations?: NetworkTapRulePatchPropertiesDynamicMatchConfigurationsList;
+  dynamicMatchConfigurations?:
+    | NetworkTapRulePatchPropertiesDynamicMatchConfigurationsList
+    | undefined;
   /** The selection of the managed identity to use with this storage account. The identity type must be either system assigned or user assigned. */
-  identitySelector?: IdentitySelectorPatch;
+  identitySelector?: IdentitySelectorPatch | undefined;
   /** Global network tap rule actions */
-  globalNetworkTapRuleActions?: GlobalNetworkTapRuleActionPatchProperties;
+  globalNetworkTapRuleActions?: GlobalNetworkTapRuleActionPatchProperties | undefined;
 }
 export interface UpdateNetworkTapRuleRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -10545,11 +10649,11 @@ export interface UpdateNetworkTapRuleRequest {
   /** Name of the Network Tap Rule. */
   networkTapRuleName: string;
   /** Resource tags. */
-  tags?: UpdateNetworkTapRuleRequestTagsMap;
+  tags?: UpdateNetworkTapRuleRequestTagsMap | undefined;
   /** Network Tap Rule Patch properties. */
-  properties?: NetworkTapRulePatchProperties;
+  properties?: NetworkTapRulePatchProperties | undefined;
   /** The managed service identities assigned to this resource. */
-  identity?: ManagedServiceIdentityPatchInput;
+  identity?: ManagedServiceIdentityPatchInput | undefined;
 }
 /** Resource tags. */
 export type UpdateNetworkTapRuleResponseTagsMap = { [key: string]: string | undefined };
@@ -10557,25 +10661,25 @@ export type UpdateNetworkTapRuleResponseTagsMap = { [key: string]: string | unde
 export type UpdateNetworkTapRuleResponseIdentity = CreateL2IsolationDomainResponseIdentity;
 export interface UpdateNetworkTapRuleResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: UpdateNetworkTapRuleResponseTagsMap;
+  tags?: UpdateNetworkTapRuleResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The NetworkTapRule Properties */
   properties: NetworkTapRuleProperties;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: CreateL2IsolationDomainResponseIdentity;
+  identity?: CreateL2IsolationDomainResponseIdentity | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  locationHeader?: string;
+  locationHeader?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Network Fabrics or Network Rack resource Id. */
 export type UpdateNetworkTapRuleAdministrativeStateRequestResourceIdsList = Array<string>;
@@ -10587,35 +10691,35 @@ export interface UpdateNetworkTapRuleAdministrativeStateRequest {
   /** Name of the Network Tap Rule. */
   networkTapRuleName: string;
   /** Network Fabrics or Network Rack resource Id. */
-  resourceIds?: UpdateNetworkTapRuleAdministrativeStateRequestResourceIdsList;
+  resourceIds?: UpdateNetworkTapRuleAdministrativeStateRequestResourceIdsList | undefined;
   /** Administrative state. */
-  state?: EnableDisableState | (string & {});
+  state?: EnableDisableState | (string & {}) | undefined;
 }
 export interface UpdateNetworkTapRuleAdministrativeStateResponse {
   /** The error object. */
-  error?: ErrorDetail;
+  error?: ErrorDetail | undefined;
   /** Gets the configuration state. */
-  configurationState?: ConfigurationState;
+  configurationState?: ConfigurationState | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** List of network device interfaces resource IDs. */
 export type Layer2ConfigurationPatchInterfacesList = Array<string>;
 /** Common properties for Layer2 Configuration. */
 export interface Layer2ConfigurationPatch {
   /** MTU of the packets between PE & CE. */
-  mtu?: number;
+  mtu?: number | undefined;
   /** List of network device interfaces resource IDs. */
-  interfaces?: Layer2ConfigurationPatchInterfacesList;
+  interfaces?: Layer2ConfigurationPatchInterfacesList | undefined;
 }
 /** Provider Edge (PE) Loopback IP Address. */
 export type OptionBLayer3ConfigurationPatchPropertiesInputPeLoopbackIpAddressList = Array<string>;
 /** BGP Monitoring Protocol (BMP) patch properties. */
 export interface NniBmpPatchProperties {
   /** (BGP Monitoring Protocol (BMP) configuration state. */
-  configurationState?: BmpConfigurationState | (string & {});
+  configurationState?: BmpConfigurationState | (string & {}) | undefined;
 }
 /** OptionB Layer3 prefix limit patch properties. */
 export type OptionBLayer3PrefixLimitPatchProperties = OptionBLayer3PrefixLimitProperties;
@@ -10625,23 +10729,25 @@ export type OptionBLayer3ConfigurationPatchPropertiesInputPrefixLimitsList =
 /** Common properties for Layer3Configuration. */
 export interface OptionBLayer3ConfigurationPatchPropertiesInput {
   /** IPv4 Address Prefix. */
-  primaryIpv4Prefix?: string;
+  primaryIpv4Prefix?: string | undefined;
   /** IPv6 Address Prefix. */
-  primaryIpv6Prefix?: string;
+  primaryIpv6Prefix?: string | undefined;
   /** Secondary IPv4 Address Prefix. */
-  secondaryIpv4Prefix?: string;
+  secondaryIpv4Prefix?: string | undefined;
   /** Secondary IPv6 Address Prefix. */
-  secondaryIpv6Prefix?: string;
+  secondaryIpv6Prefix?: string | undefined;
   /** ASN of PE devices for CE/PE connectivity.Example : 28 */
-  peerASN?: number;
+  peerASN?: number | undefined;
   /** VLAN for CE/PE Layer 3 connectivity.Example : 501 */
-  vlanId?: number;
+  vlanId?: number | undefined;
   /** Provider Edge (PE) Loopback IP Address. */
-  peLoopbackIpAddress?: OptionBLayer3ConfigurationPatchPropertiesInputPeLoopbackIpAddressList;
+  peLoopbackIpAddress?:
+    | OptionBLayer3ConfigurationPatchPropertiesInputPeLoopbackIpAddressList
+    | undefined;
   /** BGP Monitoring Protocol (BMP) Configuration. */
-  bmpConfiguration?: NniBmpPatchProperties;
+  bmpConfiguration?: NniBmpPatchProperties | undefined;
   /** OptionB Layer3 prefix limit configuration. */
-  prefixLimits?: OptionBLayer3ConfigurationPatchPropertiesInputPrefixLimitsList;
+  prefixLimits?: OptionBLayer3ConfigurationPatchPropertiesInputPrefixLimitsList | undefined;
 }
 /** List of IPv4 Routes. */
 export type NpbStaticRouteConfigurationPatchIpv4RoutesList = Array<StaticRoutePatchProperties>;
@@ -10650,11 +10756,11 @@ export type NpbStaticRouteConfigurationPatchIpv6RoutesList = Array<StaticRoutePa
 /** NPB Static Route Configuration properties. */
 export interface NpbStaticRouteConfigurationPatch {
   /** BFD Configuration properties. */
-  bfdConfiguration?: BfdConfigurationInput;
+  bfdConfiguration?: BfdConfigurationInput | undefined;
   /** List of IPv4 Routes. */
-  ipv4Routes?: NpbStaticRouteConfigurationPatchIpv4RoutesList;
+  ipv4Routes?: NpbStaticRouteConfigurationPatchIpv4RoutesList | undefined;
   /** List of IPv6 Routes. */
-  ipv6Routes?: NpbStaticRouteConfigurationPatchIpv6RoutesList;
+  ipv6Routes?: NpbStaticRouteConfigurationPatchIpv6RoutesList | undefined;
 }
 /** List of IPv4 Routes. */
 export type NniStaticRoutePatchConfigurationIpv4RoutesList = Array<StaticRoutePatchProperties>;
@@ -10663,11 +10769,11 @@ export type NniStaticRoutePatchConfigurationIpv6RoutesList = Array<StaticRoutePa
 /** Static Route Configuration properties for NNI. */
 export interface NniStaticRoutePatchConfiguration {
   /** Bidirectional Forwarding Detection (BFD) configuration properties */
-  bfdConfiguration?: BfdConfigurationInput;
+  bfdConfiguration?: BfdConfigurationInput | undefined;
   /** List of IPv4 Routes. */
-  ipv4Routes?: NniStaticRoutePatchConfigurationIpv4RoutesList;
+  ipv4Routes?: NniStaticRoutePatchConfigurationIpv4RoutesList | undefined;
   /** List of IPv6 Routes. */
-  ipv6Routes?: NniStaticRoutePatchConfigurationIpv6RoutesList;
+  ipv6Routes?: NniStaticRoutePatchConfigurationIpv6RoutesList | undefined;
 }
 /** Import Route Policy Configuration. */
 export type ImportRoutePolicyInformationPatch = ImportRoutePolicyInformation;
@@ -10676,23 +10782,23 @@ export type ExportRoutePolicyInformationPatch = ExportRoutePolicyInformation;
 /** Network Tap Rule Patch properties. */
 export interface NetworkToNetworkInterconnectPatchPropertiesInput {
   /** Common properties for Layer2Configuration. */
-  layer2Configuration?: Layer2ConfigurationPatch;
+  layer2Configuration?: Layer2ConfigurationPatch | undefined;
   /** Common properties for Layer3Configuration. */
-  optionBLayer3Configuration?: OptionBLayer3ConfigurationPatchPropertiesInput;
+  optionBLayer3Configuration?: OptionBLayer3ConfigurationPatchPropertiesInput | undefined;
   /** NPB Static Route Configuration properties. */
-  npbStaticRouteConfiguration?: NpbStaticRouteConfigurationPatch;
+  npbStaticRouteConfiguration?: NpbStaticRouteConfigurationPatch | undefined;
   /** Static Route Configuration. */
-  staticRouteConfiguration?: NniStaticRoutePatchConfiguration;
+  staticRouteConfiguration?: NniStaticRoutePatchConfiguration | undefined;
   /** Import Route Policy information. */
-  importRoutePolicy?: ImportRoutePolicyInformation;
+  importRoutePolicy?: ImportRoutePolicyInformation | undefined;
   /** Export Route Policy information */
-  exportRoutePolicy?: ExportRoutePolicyInformation;
+  exportRoutePolicy?: ExportRoutePolicyInformation | undefined;
   /** Egress Acl. ARM resource ID of Access Control Lists. */
-  egressAclId?: string;
+  egressAclId?: string | undefined;
   /** Ingress Acl. ARM resource ID of Access Control Lists. */
-  ingressAclId?: string;
+  ingressAclId?: string | undefined;
   /** Micro BFD enabled/disabled state. */
-  microBfdState?: MicroBfdState | (string & {});
+  microBfdState?: MicroBfdState | (string & {}) | undefined;
 }
 export interface UpdateNetworkToNetworkInterconnectRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -10704,23 +10810,23 @@ export interface UpdateNetworkToNetworkInterconnectRequest {
   /** Name of the Network to Network Interconnect. */
   networkToNetworkInterconnectName: string;
   /** Resource properties. */
-  properties?: NetworkToNetworkInterconnectPatchPropertiesInput;
+  properties?: NetworkToNetworkInterconnectPatchPropertiesInput | undefined;
 }
 export interface UpdateNetworkToNetworkInterconnectResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The NetworkToNetworkInterconnect Properties */
   properties: NetworkToNetworkInterconnectProperties;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Network Fabrics or Network Rack resource Id. */
 export type UpdateNetworkToNetworkInterconnectAdministrativeStateRequestResourceIdsList =
@@ -10735,9 +10841,11 @@ export interface UpdateNetworkToNetworkInterconnectAdministrativeStateRequest {
   /** Name of the Network to Network Interconnect. */
   networkToNetworkInterconnectName: string;
   /** Network Fabrics or Network Rack resource Id. */
-  resourceIds?: UpdateNetworkToNetworkInterconnectAdministrativeStateRequestResourceIdsList;
+  resourceIds?:
+    | UpdateNetworkToNetworkInterconnectAdministrativeStateRequestResourceIdsList
+    | undefined;
   /** Administrative state. */
-  state?: EnableDisableState | (string & {});
+  state?: EnableDisableState | (string & {}) | undefined;
 }
 /** Route type to be used. */
 export type RouteType = "Static" | "OptionA";
@@ -10751,9 +10859,9 @@ export interface UpdateNetworkToNetworkInterconnectBfdAdministrativeStateRequest
   /** Name of the Network to Network Interconnect. */
   networkToNetworkInterconnectName: string;
   /** Route Type. Choose either Static or OptionA. */
-  routeType?: RouteType | (string & {});
+  routeType?: RouteType | (string & {}) | undefined;
   /** State. Select either enable or disable. */
-  administrativeState?: BfdAdministrativeState | (string & {});
+  administrativeState?: BfdAdministrativeState | (string & {}) | undefined;
 }
 /** The operations list. */
 export type NniUpdateBfdAdministrativeStateResponseOperationsItemOperationsList =
@@ -10761,23 +10869,23 @@ export type NniUpdateBfdAdministrativeStateResponseOperationsItemOperationsList 
 /** The current status of an async operation. */
 export interface NniUpdateBfdAdministrativeStateResponseOperationsItem {
   /** Fully qualified ID for the async operation. */
-  id?: string;
+  id?: string | undefined;
   /** Fully qualified ID of the resource against which the original async operation was started. */
-  resourceId?: string;
+  resourceId?: string | undefined;
   /** Name of the async operation. */
-  name?: string;
+  name?: string | undefined;
   /** Operation status. */
   status: string;
   /** Percent of the operation that is complete. */
-  percentComplete?: number;
+  percentComplete?: number | undefined;
   /** The start time of the operation. */
-  startTime?: string;
+  startTime?: string | undefined;
   /** The end time of the operation. */
-  endTime?: string;
+  endTime?: string | undefined;
   /** The operations list. */
-  operations?: NniUpdateBfdAdministrativeStateResponseOperationsItemOperationsList;
+  operations?: NniUpdateBfdAdministrativeStateResponseOperationsItemOperationsList | undefined;
   /** If present, details of the operation error. */
-  error?: ErrorDetail;
+  error?: ErrorDetail | undefined;
 }
 /** The operations list. */
 export type NniUpdateBfdAdministrativeStateResponseOperationsList =
@@ -10790,49 +10898,49 @@ export type NniUpdateBfdAdministrativeStateResponseErrorAdditionalInfoList =
 /** The error detail. */
 export interface NniUpdateBfdAdministrativeStateResponseError {
   /** The error code. */
-  code?: string;
+  code?: string | undefined;
   /** The error message. */
-  message?: string;
+  message?: string | undefined;
   /** The error target. */
-  target?: string;
+  target?: string | undefined;
   /** The error details. */
-  details?: NniUpdateBfdAdministrativeStateResponseErrorDetailsList;
+  details?: NniUpdateBfdAdministrativeStateResponseErrorDetailsList | undefined;
   /** The error additional info. */
-  additionalInfo?: NniUpdateBfdAdministrativeStateResponseErrorAdditionalInfoList;
+  additionalInfo?: NniUpdateBfdAdministrativeStateResponseErrorAdditionalInfoList | undefined;
 }
 /** NNI Bidirectional Forwarding Detection (BFD) Update Administrative State response. */
 export interface NniUpdateBfdAdministrativeStateResponseProperties {
   /** Route Type. Choose either Static or OptionA. */
-  routeType?: RouteType;
+  routeType?: RouteType | undefined;
   /** State. Select either enable or disable. */
-  administrativeState?: BfdAdministrativeState;
+  administrativeState?: BfdAdministrativeState | undefined;
 }
 /** NNI Bidirectional Forwarding Detection (BFD) Administrative State response. */
 export interface NniUpdateBfdAdministrativeStateResponse {
   /** Fully qualified ID for the async operation. */
-  id?: string;
+  id?: string | undefined;
   /** Name of the async operation. */
-  name?: string;
+  name?: string | undefined;
   /** Operation status. */
   status: string;
   /** Percent of the operation that is complete. */
-  percentComplete?: number;
+  percentComplete?: number | undefined;
   /** The start time of the operation. */
-  startTime?: string;
+  startTime?: string | undefined;
   /** The end time of the operation. */
-  endTime?: string;
+  endTime?: string | undefined;
   /** The operations list. */
-  operations?: NniUpdateBfdAdministrativeStateResponseOperationsList;
+  operations?: NniUpdateBfdAdministrativeStateResponseOperationsList | undefined;
   /** The error detail. */
-  error?: NniUpdateBfdAdministrativeStateResponseError;
+  error?: NniUpdateBfdAdministrativeStateResponseError | undefined;
   /** Fully qualified ID of the resource against which the original async operation was started. */
-  resourceId?: string;
+  resourceId?: string | undefined;
   /** Properties of the NNI BFD Administrative State response. */
-  properties?: NniUpdateBfdAdministrativeStateResponseProperties;
+  properties?: NniUpdateBfdAdministrativeStateResponseProperties | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Network Fabrics or Network Rack resource Id. */
 export type UpdateNetworkToNetworkInterconnectNpbStaticRouteBfdAdministrativeStateRequestResourceIdsList =
@@ -10847,9 +10955,11 @@ export interface UpdateNetworkToNetworkInterconnectNpbStaticRouteBfdAdministrati
   /** Name of the Network to Network Interconnect. */
   networkToNetworkInterconnectName: string;
   /** Network Fabrics or Network Rack resource Id. */
-  resourceIds?: UpdateNetworkToNetworkInterconnectNpbStaticRouteBfdAdministrativeStateRequestResourceIdsList;
+  resourceIds?:
+    | UpdateNetworkToNetworkInterconnectNpbStaticRouteBfdAdministrativeStateRequestResourceIdsList
+    | undefined;
   /** Administrative state. */
-  state?: EnableDisableState | (string & {});
+  state?: EnableDisableState | (string & {}) | undefined;
 }
 /** Resource tags. */
 export type UpdateRoutePolicyRequestTagsMap = { [key: string]: string | undefined };
@@ -10862,13 +10972,13 @@ export type RoutePolicyConditionType = "Or" | "And";
 /** Route policy statement condition properties. */
 export interface StatementConditionPatchProperties {
   /** List of IP Community resource IDs. */
-  ipCommunityIds?: StatementConditionPatchPropertiesIpCommunityIdsList;
+  ipCommunityIds?: StatementConditionPatchPropertiesIpCommunityIdsList | undefined;
   /** List of IP Extended Community resource IDs. */
-  ipExtendedCommunityIds?: StatementConditionPatchPropertiesIpExtendedCommunityIdsList;
+  ipExtendedCommunityIds?: StatementConditionPatchPropertiesIpExtendedCommunityIdsList | undefined;
   /** Type of the condition used. */
-  type?: RoutePolicyConditionType | (string & {});
+  type?: RoutePolicyConditionType | (string & {}) | undefined;
   /** Arm Resource Id of IpPrefix. */
-  ipPrefixId?: string;
+  ipPrefixId?: string | undefined;
 }
 /** IP Community Properties. */
 export type ActionIpCommunityPatchProperties = ActionIpCommunityProperties;
@@ -10879,7 +10989,7 @@ export type StatementActionPatchProperties = StatementActionProperties;
 /** Route Policy Statement properties. */
 export interface RoutePolicyStatementPatchProperties {
   /** Switch configuration description. */
-  annotation?: string;
+  annotation?: string | undefined;
   /** Sequence to insert to/delete from existing route. */
   sequenceNumber: number;
   /** Route policy condition properties. */
@@ -10893,9 +11003,9 @@ export type RoutePolicyPatchablePropertiesStatementsList =
 /** Route Policy patchable properties. */
 export interface RoutePolicyPatchableProperties {
   /** Default action that needs to be applied when no condition is matched. Example: Permit | Deny. */
-  defaultAction?: CommunityActionTypes | (string & {});
+  defaultAction?: CommunityActionTypes | (string & {}) | undefined;
   /** Route Policy statements. */
-  statements?: RoutePolicyPatchablePropertiesStatementsList;
+  statements?: RoutePolicyPatchablePropertiesStatementsList | undefined;
 }
 export interface UpdateRoutePolicyRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -10905,31 +11015,31 @@ export interface UpdateRoutePolicyRequest {
   /** Name of the Route Policy. */
   routePolicyName: string;
   /** Resource tags. */
-  tags?: UpdateRoutePolicyRequestTagsMap;
+  tags?: UpdateRoutePolicyRequestTagsMap | undefined;
   /** The RoutePolicy patchable properties. */
-  properties?: RoutePolicyPatchableProperties;
+  properties?: RoutePolicyPatchableProperties | undefined;
 }
 /** Resource tags. */
 export type UpdateRoutePolicyResponseTagsMap = { [key: string]: string | undefined };
 export interface UpdateRoutePolicyResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: UpdateRoutePolicyResponseTagsMap;
+  tags?: UpdateRoutePolicyResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The RoutePolicy properties */
   properties: RoutePolicyProperties;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  locationHeader?: string;
+  locationHeader?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Network Fabrics or Network Rack resource Id. */
 export type UpdateRoutePolicyAdministrativeStateRequestResourceIdsList = Array<string>;
@@ -10941,9 +11051,9 @@ export interface UpdateRoutePolicyAdministrativeStateRequest {
   /** Name of the Route Policy. */
   routePolicyName: string;
   /** Network Fabrics or Network Rack resource Id. */
-  resourceIds?: UpdateRoutePolicyAdministrativeStateRequestResourceIdsList;
+  resourceIds?: UpdateRoutePolicyAdministrativeStateRequestResourceIdsList | undefined;
   /** Administrative state. */
-  state?: EnableDisableState | (string & {});
+  state?: EnableDisableState | (string & {}) | undefined;
 }
 export interface ValidateAccessControlListConfigurationRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -10955,15 +11065,15 @@ export interface ValidateAccessControlListConfigurationRequest {
 }
 export interface ValidateAccessControlListConfigurationResponse {
   /** The error object. */
-  error?: ErrorDetail;
+  error?: ErrorDetail | undefined;
   /** Gets the configuration state. */
-  configurationState?: ConfigurationState;
+  configurationState?: ConfigurationState | undefined;
   /** URL for the details of the response. */
-  url?: string;
+  url?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface ValidateL2IsolationDomainConfigurationRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -10975,15 +11085,15 @@ export interface ValidateL2IsolationDomainConfigurationRequest {
 }
 export interface ValidateL2IsolationDomainConfigurationResponse {
   /** The error object. */
-  error?: ErrorDetail;
+  error?: ErrorDetail | undefined;
   /** Gets the configuration state. */
-  configurationState?: ConfigurationState;
+  configurationState?: ConfigurationState | undefined;
   /** URL for the details of the response. */
-  url?: string;
+  url?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface ValidateL3IsolationDomainConfigurationRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -10995,15 +11105,15 @@ export interface ValidateL3IsolationDomainConfigurationRequest {
 }
 export interface ValidateL3IsolationDomainConfigurationResponse {
   /** The error object. */
-  error?: ErrorDetail;
+  error?: ErrorDetail | undefined;
   /** Gets the configuration state. */
-  configurationState?: ConfigurationState;
+  configurationState?: ConfigurationState | undefined;
   /** URL for the details of the response. */
-  url?: string;
+  url?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Validate action that to be performed */
 export type ValidateAction = "Cabling" | "Configuration" | "Connectivity";
@@ -11015,19 +11125,19 @@ export interface ValidateNetworkFabricConfigurationRequest {
   /** Name of the Network Fabric. */
   networkFabricName: string;
   /** Validate action that to be performed */
-  validateAction?: ValidateAction | (string & {});
+  validateAction?: ValidateAction | (string & {}) | undefined;
 }
 export interface ValidateNetworkFabricConfigurationResponse {
   /** The error object. */
-  error?: ErrorDetail;
+  error?: ErrorDetail | undefined;
   /** Gets the configuration state. */
-  configurationState?: ConfigurationState;
+  configurationState?: ConfigurationState | undefined;
   /** URL for the details of the response. */
-  url?: string;
+  url?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface ValidateNetworkTapRuleConfigurationRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -11039,15 +11149,15 @@ export interface ValidateNetworkTapRuleConfigurationRequest {
 }
 export interface ValidateNetworkTapRuleConfigurationResponse {
   /** The error object. */
-  error?: ErrorDetail;
+  error?: ErrorDetail | undefined;
   /** Gets the configuration state. */
-  configurationState?: ConfigurationState;
+  configurationState?: ConfigurationState | undefined;
   /** URL for the details of the response. */
-  url?: string;
+  url?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface ValidateRoutePolicyConfigurationRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -11059,15 +11169,15 @@ export interface ValidateRoutePolicyConfigurationRequest {
 }
 export interface ValidateRoutePolicyConfigurationResponse {
   /** The error object. */
-  error?: ErrorDetail;
+  error?: ErrorDetail | undefined;
   /** Gets the configuration state. */
-  configurationState?: ConfigurationState;
+  configurationState?: ConfigurationState | undefined;
   /** URL for the details of the response. */
-  url?: string;
+  url?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export type AccessControlListsResyncError = AzureOpError;
 /** Implements the operation to the underlying resources. */

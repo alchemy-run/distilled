@@ -80,11 +80,11 @@ export interface AddNetworkSubnetRequest {
   /** Type of subnet. */
   type: AddNetworkSubnetRequestType | (string & {});
   /** IP range of the subnet. Uses CIDR notation. Must be a subnet of the parent [Networks](#tag/networks) `ip_range`. Must not overlap with any other subnets or with any destinations in routes. Minimum network size is /30. We highly recommend that you pick a larger subnet with a /24 netmask. */
-  ip_range?: string;
+  ip_range?: string | undefined;
   /** Name of the [Network Zone](#tag/network-zones). The [Location](#tag/locations) contains the `network_zone` it belongs to. */
   network_zone: string;
   /** ID of the robot vSwitch. Must be supplied if the subnet is of type `vswitch`. */
-  vswitch_id?: number;
+  vswitch_id?: number | undefined;
 }
 /** Status of the Action. */
 export type AddNetworkSubnetResponseActionStatus = "running" | "success" | "error";
@@ -156,7 +156,7 @@ export interface ChangeNetworkProtectionRequest {
   /** ID of the Network. */
   id: number;
   /** Delete protection setting. If true, prevents the [Network](#tag/networks) from being deleted. */
-  delete?: boolean;
+  delete?: boolean | undefined;
 }
 /** Status of the Action. */
 export type ChangeNetworkProtectionResponseActionStatus = "running" | "success" | "error";
@@ -324,13 +324,13 @@ export interface ListNetworkActionsRequest {
   /** ID of the Network. */
   id: number;
   /** Sort actions by field and direction. May be used multiple times. For more information, see "[Sorting](#description/sorting)". */
-  sort?: ListNetworkActionsRequestSortList;
+  sort?: ListNetworkActionsRequestSortList | undefined;
   /** Filter the actions by status. May be used multiple times. The response will only contain actions matching the specified statuses. */
-  status?: ListNetworkActionsRequestStatusList;
+  status?: ListNetworkActionsRequestStatusList | undefined;
   /** Page number to return. For more information, see "[Pagination](#description/pagination)". */
-  page?: number;
+  page?: number | undefined;
   /** Maximum number of entries returned per page. For more information, see "[Pagination](#description/pagination)". */
-  per_page?: number;
+  per_page?: number | undefined;
 }
 /** Status of the Action. */
 export type ListNetworkActionsResponseActionsItemStatus = "running" | "success" | "error";
@@ -410,15 +410,15 @@ export type ListNetworksActionsRequestStatusList = Array<
 >;
 export interface ListNetworksActionsRequest {
   /** Filter the actions by ID. May be used multiple times. The response will only contain actions matching the specified IDs. */
-  id?: ListNetworksActionsRequestIdList;
+  id?: ListNetworksActionsRequestIdList | undefined;
   /** Sort actions by field and direction. May be used multiple times. For more information, see "[Sorting](#description/sorting)". */
-  sort?: ListNetworksActionsRequestSortList;
+  sort?: ListNetworksActionsRequestSortList | undefined;
   /** Filter the actions by status. May be used multiple times. The response will only contain actions matching the specified statuses. */
-  status?: ListNetworksActionsRequestStatusList;
+  status?: ListNetworksActionsRequestStatusList | undefined;
   /** Page number to return. For more information, see "[Pagination](#description/pagination)". */
-  page?: number;
+  page?: number | undefined;
   /** Maximum number of entries returned per page. For more information, see "[Pagination](#description/pagination)". */
-  per_page?: number;
+  per_page?: number | undefined;
 }
 /** Status of the Action. */
 export type ListNetworksActionsResponseActionsItemStatus = "running" | "success" | "error";
@@ -490,7 +490,7 @@ export const addNetworkSubnet: API.OperationMethod<
 }));
 
 export type ChangeNetworkIpRangeError = HetznerOpError;
-/** Change IP range of a Network Changes the IP range of a [Network](#tag/networks). The following restrictions apply to changing the IP range: - IP ranges can only be extended and never shrunk. - IPs can only be added to the end of the existing range, therefore only the netmask is allowed to be changed. To update the routes on the connected [Servers](#tag/servers), they need to be rebooted or the routes to be updated manually. For example if the [Network](#tag/networks) has a range of `10.0.0.0/16` to extend it the new range has to start with the IP `10.0.0.0` as well. The netmask `/16` can be changed to a smaller one then `16` therefore increasing the IP range. A valid entry would be `10.0.0.0/15`, `10.0.0.0/14` or `10.0.0.0/13` and so on. If a change is currently being performed on this [Network](#tag/networks), a error response with code `conflict` will be returned. */
+/** Change IP range of a Network Changes the IP range of a [Network](#tag/networks). The following restrictions apply to changing the IP range: - IP ranges can only be extended and never shrunk. - IPs can only be added to the end of the existing range, therefore only the netmask is allowed to be changed. - The Network must not have any attached members. To update the routes on the connected [Servers](#tag/servers), they need to be rebooted or the routes to be updated manually. For example if the [Network](#tag/networks) has a range of `10.0.0.0/16` to extend it the new range has to start with the IP `10.0.0.0` as well. The netmask `/16` can be changed to a smaller one then `16` therefore increasing the IP range. A valid entry would be `10.0.0.0/15`, `10.0.0.0/14` or `10.0.0.0/13` and so on. If a change is currently being performed on this [Network](#tag/networks), an error response with code `conflict` will be returned. If the Network has any attached members, an error response with code `service_error` will be returned. */
 export const changeNetworkIpRange: API.OperationMethod<
   ChangeNetworkIpRangeRequest,
   ChangeNetworkIpRangeResponse,

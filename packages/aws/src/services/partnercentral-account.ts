@@ -8,6 +8,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
 import * as T from "../traits.ts";
@@ -192,19 +193,21 @@ export interface AccountSummary {
   Name: string;
 }
 export type Participant =
-  | { PartnerProfile: PartnerProfileSummary; SellerProfile?: never; Account?: never }
-  | { PartnerProfile?: never; SellerProfile: SellerProfileSummary; Account?: never }
-  | { PartnerProfile?: never; SellerProfile?: never; Account: AccountSummary };
+  | { PartnerProfile: PartnerProfileSummary; SellerProfile?: undefined; Account?: undefined }
+  | { PartnerProfile?: undefined; SellerProfile: SellerProfileSummary; Account?: undefined }
+  | { PartnerProfile?: undefined; SellerProfile?: undefined; Account: AccountSummary };
 export interface ConnectionTypeDetail {
   CreatedAt: Date;
   InviterEmail: string;
   InviterName: string | redacted.Redacted<string>;
   Status: ConnectionTypeStatus;
-  CanceledAt?: Date;
-  CanceledBy?: string;
+  CanceledAt?: Date | undefined;
+  CanceledBy?: string | undefined;
   OtherParticipant: Participant;
 }
-export type ConnectionTypeDetailMap = { [key in ConnectionType]?: ConnectionTypeDetail };
+export type ConnectionTypeDetailMap = {
+  [key in ConnectionType]?: ConnectionTypeDetail | undefined;
+};
 export interface Connection {
   Catalog: string;
   Id: string;
@@ -221,7 +224,7 @@ export type EmailVerificationCode = string | redacted.Redacted<string>;
 export interface AssociateAwsTrainingCertificationEmailDomainRequest {
   Catalog: string;
   Identifier: string;
-  ClientToken?: string;
+  ClientToken?: string | undefined;
   Email: string;
   EmailVerificationCode: string | redacted.Redacted<string>;
 }
@@ -261,11 +264,11 @@ export interface CancelConnectionInvitationResponse {
   Catalog: string;
   Id: string;
   Arn: string;
-  ConnectionId?: string;
+  ConnectionId?: string | undefined;
   ConnectionType: ConnectionType;
   CreatedAt: Date;
   UpdatedAt: Date;
-  ExpiresAt?: Date;
+  ExpiresAt?: Date | undefined;
   OtherParticipantIdentifier: string;
   ParticipantType: ParticipantType;
   Status: InvitationStatus;
@@ -277,7 +280,7 @@ export type ProfileTaskId = string;
 export interface CancelProfileUpdateTaskRequest {
   Catalog: string;
   Identifier: string;
-  ClientToken?: string;
+  ClientToken?: string | undefined;
   TaskId: string;
 }
 export type PartnerArn = string;
@@ -356,8 +359,8 @@ export interface TaskDetails {
   PrimarySolutionType: PrimarySolutionType;
   IndustrySegments: IndustrySegment[];
   TranslationSourceLocale: string;
-  LocalizedContents?: LocalizedContent[];
-  Headquarters?: Headquarters;
+  LocalizedContents?: LocalizedContent[] | undefined;
+  Headquarters?: Headquarters | undefined;
 }
 export type ProfileTaskStatus = "IN_PROGRESS" | "CANCELED" | "SUCCEEDED" | "FAILED" | (string & {});
 export type ProfileValidationErrorReason =
@@ -383,8 +386,8 @@ export interface CancelProfileUpdateTaskResponse {
   TaskDetails: TaskDetails;
   StartedAt: Date;
   Status: ProfileTaskStatus;
-  EndedAt?: Date;
-  ErrorDetailList?: ErrorDetail[];
+  EndedAt?: Date | undefined;
+  ErrorDetailList?: ErrorDetail[] | undefined;
 }
 export interface CreateConnectionInvitationRequest {
   Catalog: string;
@@ -399,11 +402,11 @@ export interface CreateConnectionInvitationResponse {
   Catalog: string;
   Id: string;
   Arn: string;
-  ConnectionId?: string;
+  ConnectionId?: string | undefined;
   ConnectionType: ConnectionType;
   CreatedAt: Date;
   UpdatedAt: Date;
-  ExpiresAt?: Date;
+  ExpiresAt?: Date | undefined;
   OtherParticipantIdentifier: string;
   ParticipantType: ParticipantType;
   Status: InvitationStatus;
@@ -426,12 +429,12 @@ export interface Tag {
 export type TagList = Tag[];
 export interface CreatePartnerRequest {
   Catalog: string;
-  ClientToken?: string;
+  ClientToken?: string | undefined;
   LegalName: string | redacted.Redacted<string>;
   PrimarySolutionType: PrimarySolutionType;
   AllianceLeadContact: AllianceLeadContact;
   EmailVerificationCode: string | redacted.Redacted<string>;
-  Tags?: Tag[];
+  Tags?: Tag[] | undefined;
 }
 export interface PartnerProfile {
   DisplayName: string;
@@ -441,9 +444,9 @@ export interface PartnerProfile {
   PrimarySolutionType: PrimarySolutionType;
   IndustrySegments: IndustrySegment[];
   TranslationSourceLocale: string;
-  LocalizedContents?: LocalizedContent[];
-  Headquarters?: Headquarters;
-  ProfileId?: string;
+  LocalizedContents?: LocalizedContent[] | undefined;
+  Headquarters?: Headquarters | undefined;
+  ProfileId?: string | undefined;
 }
 export type DomainName = string;
 export interface PartnerDomain {
@@ -458,13 +461,13 @@ export interface CreatePartnerResponse {
   LegalName: string | redacted.Redacted<string>;
   CreatedAt: Date;
   Profile: PartnerProfile;
-  AwsTrainingCertificationEmailDomains?: PartnerDomain[];
+  AwsTrainingCertificationEmailDomains?: PartnerDomain[] | undefined;
   AllianceLeadContact: AllianceLeadContact;
 }
 export interface DisassociateAwsTrainingCertificationEmailDomainRequest {
   Catalog: string;
   Identifier: string;
-  ClientToken?: string;
+  ClientToken?: string | undefined;
   DomainName: string;
 }
 export interface DisassociateAwsTrainingCertificationEmailDomainResponse {}
@@ -498,11 +501,11 @@ export interface GetConnectionInvitationResponse {
   Catalog: string;
   Id: string;
   Arn: string;
-  ConnectionId?: string;
+  ConnectionId?: string | undefined;
   ConnectionType: ConnectionType;
   CreatedAt: Date;
   UpdatedAt: Date;
-  ExpiresAt?: Date;
+  ExpiresAt?: Date | undefined;
   OtherParticipantIdentifier: string;
   ParticipantType: ParticipantType;
   Status: InvitationStatus;
@@ -521,7 +524,7 @@ export interface GetConnectionPreferencesResponse {
   Catalog: string;
   Arn: string;
   AccessType: AccessType;
-  ExcludedParticipantIds?: string[];
+  ExcludedParticipantIds?: string[] | undefined;
   UpdatedAt: Date;
   Revision: number;
 }
@@ -536,7 +539,7 @@ export interface GetPartnerResponse {
   LegalName: string | redacted.Redacted<string>;
   CreatedAt: Date;
   Profile: PartnerProfile;
-  AwsTrainingCertificationEmailDomains?: PartnerDomain[];
+  AwsTrainingCertificationEmailDomains?: PartnerDomain[] | undefined;
 }
 export interface GetProfileUpdateTaskRequest {
   Catalog: string;
@@ -550,8 +553,8 @@ export interface GetProfileUpdateTaskResponse {
   TaskDetails: TaskDetails;
   StartedAt: Date;
   Status: ProfileTaskStatus;
-  EndedAt?: Date;
-  ErrorDetailList?: ErrorDetail[];
+  EndedAt?: Date | undefined;
+  ErrorDetailList?: ErrorDetail[] | undefined;
 }
 export interface GetProfileVisibilityRequest {
   Catalog: string;
@@ -571,8 +574,8 @@ export interface GetQualificationsAssociationDetailsRequest {
 }
 export type QualificationsAssociationStatus = "ASSOCIATED" | "NOT_ASSOCIATED" | (string & {});
 export interface QualificationsAssociationPartner {
-  ProfileId?: string;
-  AccountId?: string;
+  ProfileId?: string | undefined;
+  AccountId?: string | undefined;
 }
 export type AssociatedPartnerList = QualificationsAssociationPartner[];
 export interface GetQualificationsAssociationDetailsResponse {
@@ -580,9 +583,9 @@ export interface GetQualificationsAssociationDetailsResponse {
   Arn: string;
   Id: string;
   Status: QualificationsAssociationStatus;
-  PrimaryPartner?: QualificationsAssociationPartner;
-  AssociatedPartners?: QualificationsAssociationPartner[];
-  UpdatedAt?: Date;
+  PrimaryPartner?: QualificationsAssociationPartner | undefined;
+  AssociatedPartners?: QualificationsAssociationPartner[] | undefined;
+  UpdatedAt?: Date | undefined;
 }
 export interface GetQualificationsAssociationTaskRequest {
   Catalog: string;
@@ -598,7 +601,7 @@ export interface GetQualificationsAssociationTaskResponse {
   Status: QualificationsAssociationTaskStatus;
   PrimaryPartner: QualificationsAssociationPartner;
   StartedAt: Date;
-  EndedAt?: Date;
+  EndedAt?: Date | undefined;
 }
 export interface GetQualificationsDisassociationTaskRequest {
   Catalog: string;
@@ -614,7 +617,7 @@ export interface GetQualificationsDisassociationTaskResponse {
   Status: QualificationsDisassociationTaskStatus;
   AssociatedPartner: QualificationsAssociationPartner;
   StartedAt: Date;
-  EndedAt?: Date;
+  EndedAt?: Date | undefined;
 }
 export type VerificationType = "BUSINESS_VERIFICATION" | "REGISTRANT_VERIFICATION" | (string & {});
 export interface GetVerificationRequest {
@@ -635,13 +638,13 @@ export interface BusinessVerificationDetails {
   LegalName: string | redacted.Redacted<string>;
   RegistrationId: string | redacted.Redacted<string>;
   CountryCode: string;
-  JurisdictionOfIncorporation?: string;
+  JurisdictionOfIncorporation?: string | undefined;
 }
 export type CompletionUrl = string;
 export interface BusinessVerificationResponse {
   BusinessVerificationDetails: BusinessVerificationDetails;
-  CompletionUrl?: string;
-  CompletionUrlExpiresAt?: Date;
+  CompletionUrl?: string | undefined;
+  CompletionUrlExpiresAt?: Date | undefined;
 }
 export interface RegistrantVerificationResponse {
   CompletionUrl: string;
@@ -650,40 +653,40 @@ export interface RegistrantVerificationResponse {
 export type VerificationResponseDetails =
   | {
       BusinessVerificationResponse: BusinessVerificationResponse;
-      RegistrantVerificationResponse?: never;
+      RegistrantVerificationResponse?: undefined;
     }
   | {
-      BusinessVerificationResponse?: never;
+      BusinessVerificationResponse?: undefined;
       RegistrantVerificationResponse: RegistrantVerificationResponse;
     };
 export interface GetVerificationResponse {
   VerificationType: VerificationType;
   VerificationStatus: VerificationStatus;
-  VerificationStatusReason?: string;
+  VerificationStatusReason?: string | undefined;
   VerificationResponseDetails: VerificationResponseDetails;
   StartedAt: Date;
-  CompletedAt?: Date;
+  CompletedAt?: Date | undefined;
 }
 export type NextToken = string;
 export type MaxResults = number;
 export interface ListConnectionInvitationsRequest {
   Catalog: string;
-  NextToken?: string;
-  ConnectionType?: ConnectionType;
-  MaxResults?: number;
-  OtherParticipantIdentifiers?: string[];
-  ParticipantType?: ParticipantType;
-  Status?: InvitationStatus;
+  NextToken?: string | undefined;
+  ConnectionType?: ConnectionType | undefined;
+  MaxResults?: number | undefined;
+  OtherParticipantIdentifiers?: string[] | undefined;
+  ParticipantType?: ParticipantType | undefined;
+  Status?: InvitationStatus | undefined;
 }
 export interface ConnectionInvitationSummary {
   Catalog: string;
   Id: string;
   Arn: string;
-  ConnectionId?: string;
+  ConnectionId?: string | undefined;
   ConnectionType: ConnectionType;
   CreatedAt: Date;
   UpdatedAt: Date;
-  ExpiresAt?: Date;
+  ExpiresAt?: Date | undefined;
   OtherParticipantIdentifier: string;
   ParticipantType: ParticipantType;
   Status: InvitationStatus;
@@ -691,21 +694,23 @@ export interface ConnectionInvitationSummary {
 export type ConnectionInvitationSummaryList = ConnectionInvitationSummary[];
 export interface ListConnectionInvitationsResponse {
   ConnectionInvitationSummaries: ConnectionInvitationSummary[];
-  NextToken?: string;
+  NextToken?: string | undefined;
 }
 export type ConnectionTypeFilter = string;
 export interface ListConnectionsRequest {
   Catalog: string;
-  NextToken?: string;
-  ConnectionType?: string;
-  MaxResults?: number;
-  OtherParticipantIdentifiers?: string[];
+  NextToken?: string | undefined;
+  ConnectionType?: string | undefined;
+  MaxResults?: number | undefined;
+  OtherParticipantIdentifiers?: string[] | undefined;
 }
 export interface ConnectionTypeSummary {
   Status: ConnectionTypeStatus;
   OtherParticipant: Participant;
 }
-export type ConnectionTypeSummaryMap = { [key in ConnectionType]?: ConnectionTypeSummary };
+export type ConnectionTypeSummaryMap = {
+  [key in ConnectionType]?: ConnectionTypeSummary | undefined;
+};
 export interface ConnectionSummary {
   Catalog: string;
   Id: string;
@@ -717,11 +722,11 @@ export interface ConnectionSummary {
 export type ConnectionSummaryList = ConnectionSummary[];
 export interface ListConnectionsResponse {
   ConnectionSummaries: ConnectionSummary[];
-  NextToken?: string;
+  NextToken?: string | undefined;
 }
 export interface ListPartnersRequest {
   Catalog: string;
-  NextToken?: string;
+  NextToken?: string | undefined;
 }
 export interface PartnerSummary {
   Catalog: string;
@@ -733,7 +738,7 @@ export interface PartnerSummary {
 export type PartnerSummaryList = PartnerSummary[];
 export interface ListPartnersResponse {
   PartnerSummaryList: PartnerSummary[];
-  NextToken?: string;
+  NextToken?: string | undefined;
 }
 export type TaggableResourceArn = string;
 export interface ListTagsForResourceRequest {
@@ -741,13 +746,13 @@ export interface ListTagsForResourceRequest {
 }
 export interface ListTagsForResourceResponse {
   ResourceArn: string;
-  Tags?: Tag[];
+  Tags?: Tag[] | undefined;
 }
 export interface PutAllianceLeadContactRequest {
   Catalog: string;
   Identifier: string;
   AllianceLeadContact: AllianceLeadContact;
-  EmailVerificationCode?: string | redacted.Redacted<string>;
+  EmailVerificationCode?: string | redacted.Redacted<string> | undefined;
 }
 export interface PutAllianceLeadContactResponse {
   Catalog: string;
@@ -771,17 +776,17 @@ export interface RejectConnectionInvitationRequest {
   Catalog: string;
   Identifier: string;
   ClientToken: string;
-  Reason?: string;
+  Reason?: string | undefined;
 }
 export interface RejectConnectionInvitationResponse {
   Catalog: string;
   Id: string;
   Arn: string;
-  ConnectionId?: string;
+  ConnectionId?: string | undefined;
   ConnectionType: ConnectionType;
   CreatedAt: Date;
   UpdatedAt: Date;
-  ExpiresAt?: Date;
+  ExpiresAt?: Date | undefined;
   OtherParticipantIdentifier: string;
   ParticipantType: ParticipantType;
   Status: InvitationStatus;
@@ -797,7 +802,7 @@ export interface SendEmailVerificationCodeResponse {}
 export interface StartProfileUpdateTaskRequest {
   Catalog: string;
   Identifier: string;
-  ClientToken?: string;
+  ClientToken?: string | undefined;
   TaskDetails: TaskDetails;
 }
 export interface StartProfileUpdateTaskResponse {
@@ -808,13 +813,13 @@ export interface StartProfileUpdateTaskResponse {
   TaskDetails: TaskDetails;
   StartedAt: Date;
   Status: ProfileTaskStatus;
-  EndedAt?: Date;
-  ErrorDetailList?: ErrorDetail[];
+  EndedAt?: Date | undefined;
+  ErrorDetailList?: ErrorDetail[] | undefined;
 }
 export interface StartQualificationsAssociationTaskRequest {
   Catalog: string;
   Identifier: string;
-  ClientToken?: string;
+  ClientToken?: string | undefined;
   PrimaryPartner: QualificationsAssociationPartner;
 }
 export interface StartQualificationsAssociationTaskResponse {
@@ -829,7 +834,7 @@ export interface StartQualificationsAssociationTaskResponse {
 export interface StartQualificationsDisassociationTaskRequest {
   Catalog: string;
   Identifier: string;
-  ClientToken?: string;
+  ClientToken?: string | undefined;
   AssociatedPartner: QualificationsAssociationPartner;
 }
 export interface StartQualificationsDisassociationTaskResponse {
@@ -845,23 +850,23 @@ export interface RegistrantVerificationDetails {}
 export type VerificationDetails =
   | {
       BusinessVerificationDetails: BusinessVerificationDetails;
-      RegistrantVerificationDetails?: never;
+      RegistrantVerificationDetails?: undefined;
     }
   | {
-      BusinessVerificationDetails?: never;
+      BusinessVerificationDetails?: undefined;
       RegistrantVerificationDetails: RegistrantVerificationDetails;
     };
 export interface StartVerificationRequest {
-  ClientToken?: string;
-  VerificationDetails?: VerificationDetails;
+  ClientToken?: string | undefined;
+  VerificationDetails?: VerificationDetails | undefined;
 }
 export interface StartVerificationResponse {
   VerificationType: VerificationType;
   VerificationStatus: VerificationStatus;
-  VerificationStatusReason?: string;
+  VerificationStatusReason?: string | undefined;
   VerificationResponseDetails: VerificationResponseDetails;
   StartedAt: Date;
-  CompletedAt?: Date;
+  CompletedAt?: Date | undefined;
 }
 export interface TagResourceRequest {
   ResourceArn: string;
@@ -878,13 +883,13 @@ export interface UpdateConnectionPreferencesRequest {
   Catalog: string;
   Revision: number;
   AccessType: AccessType;
-  ExcludedParticipantIdentifiers?: string[];
+  ExcludedParticipantIdentifiers?: string[] | undefined;
 }
 export interface UpdateConnectionPreferencesResponse {
   Catalog: string;
   Arn: string;
   AccessType: AccessType;
-  ExcludedParticipantIds?: string[];
+  ExcludedParticipantIds?: string[] | undefined;
   UpdatedAt: Date;
   Revision: number;
 }
@@ -968,8 +973,8 @@ export interface BusinessValidationError {
   Code: BusinessValidationCode;
 }
 export type ValidationError =
-  | { FieldValidationError: FieldValidationError; BusinessValidationError?: never }
-  | { FieldValidationError?: never; BusinessValidationError: BusinessValidationError };
+  | { FieldValidationError: FieldValidationError; BusinessValidationError?: undefined }
+  | { FieldValidationError?: undefined; BusinessValidationError: BusinessValidationError };
 export type ValidationErrorList = ValidationError[];
 export type AcceptConnectionInvitationError =
   | AccessDeniedException
@@ -984,7 +989,7 @@ export type AcceptConnectionInvitationError =
  * Accepts a connection invitation from another partner, establishing a formal partnership connection between the two parties.
  */
 export const acceptConnectionInvitation: API.OperationMethod<
-  AcceptConnectionInvitationRequest,
+  AcceptConnectionInvitationRequest & RegionInput,
   AcceptConnectionInvitationResponse,
   AcceptConnectionInvitationError,
   Credentials | HttpClient.HttpClient
@@ -1019,7 +1024,7 @@ export type AssociateAwsTrainingCertificationEmailDomainError =
  * Associates an email domain with AWS training and certification for the partner account, enabling automatic verification of employee certifications.
  */
 export const associateAwsTrainingCertificationEmailDomain: API.OperationMethod<
-  AssociateAwsTrainingCertificationEmailDomainRequest,
+  AssociateAwsTrainingCertificationEmailDomainRequest & RegionInput,
   AssociateAwsTrainingCertificationEmailDomainResponse,
   AssociateAwsTrainingCertificationEmailDomainError,
   Credentials | HttpClient.HttpClient
@@ -1057,7 +1062,7 @@ export type CancelConnectionError =
  * Cancels an existing connection between partners, terminating the partnership relationship.
  */
 export const cancelConnection: API.OperationMethod<
-  CancelConnectionRequest,
+  CancelConnectionRequest & RegionInput,
   CancelConnectionResponse,
   CancelConnectionError,
   Credentials | HttpClient.HttpClient
@@ -1091,7 +1096,7 @@ export type CancelConnectionInvitationError =
  * Cancels a pending connection invitation before it has been accepted or rejected.
  */
 export const cancelConnectionInvitation: API.OperationMethod<
-  CancelConnectionInvitationRequest,
+  CancelConnectionInvitationRequest & RegionInput,
   CancelConnectionInvitationResponse,
   CancelConnectionInvitationError,
   Credentials | HttpClient.HttpClient
@@ -1125,7 +1130,7 @@ export type CancelProfileUpdateTaskError =
  * Cancels an in-progress profile update task, stopping any pending changes to the partner profile.
  */
 export const cancelProfileUpdateTask: API.OperationMethod<
-  CancelProfileUpdateTaskRequest,
+  CancelProfileUpdateTaskRequest & RegionInput,
   CancelProfileUpdateTaskResponse,
   CancelProfileUpdateTaskError,
   Credentials | HttpClient.HttpClient
@@ -1160,7 +1165,7 @@ export type CreateConnectionInvitationError =
  * Creates a new connection invitation to establish a partnership with another organization.
  */
 export const createConnectionInvitation: API.OperationMethod<
-  CreateConnectionInvitationRequest,
+  CreateConnectionInvitationRequest & RegionInput,
   CreateConnectionInvitationResponse,
   CreateConnectionInvitationError,
   Credentials | HttpClient.HttpClient
@@ -1194,7 +1199,7 @@ export type CreatePartnerError =
  * Creates a new partner account in the AWS Partner Network with the specified details and configuration.
  */
 export const createPartner: API.OperationMethod<
-  CreatePartnerRequest,
+  CreatePartnerRequest & RegionInput,
   CreatePartnerResponse,
   CreatePartnerError,
   Credentials | HttpClient.HttpClient
@@ -1226,7 +1231,7 @@ export type DisassociateAwsTrainingCertificationEmailDomainError =
  * Removes the association between an email domain and AWS training and certification for the partner account.
  */
 export const disassociateAwsTrainingCertificationEmailDomain: API.OperationMethod<
-  DisassociateAwsTrainingCertificationEmailDomainRequest,
+  DisassociateAwsTrainingCertificationEmailDomainRequest & RegionInput,
   DisassociateAwsTrainingCertificationEmailDomainResponse,
   DisassociateAwsTrainingCertificationEmailDomainError,
   Credentials | HttpClient.HttpClient
@@ -1266,7 +1271,7 @@ export type GetAllianceLeadContactError =
  * Retrieves the alliance lead contact information for a partner account.
  */
 export const getAllianceLeadContact: API.OperationMethod<
-  GetAllianceLeadContactRequest,
+  GetAllianceLeadContactRequest & RegionInput,
   GetAllianceLeadContactResponse,
   GetAllianceLeadContactError,
   Credentials | HttpClient.HttpClient
@@ -1298,7 +1303,7 @@ export type GetConnectionError =
  * Retrieves detailed information about a specific connection between partners.
  */
 export const getConnection: API.OperationMethod<
-  GetConnectionRequest,
+  GetConnectionRequest & RegionInput,
   GetConnectionResponse,
   GetConnectionError,
   Credentials | HttpClient.HttpClient
@@ -1330,7 +1335,7 @@ export type GetConnectionInvitationError =
  * Retrieves detailed information about a specific connection invitation.
  */
 export const getConnectionInvitation: API.OperationMethod<
-  GetConnectionInvitationRequest,
+  GetConnectionInvitationRequest & RegionInput,
   GetConnectionInvitationResponse,
   GetConnectionInvitationError,
   Credentials | HttpClient.HttpClient
@@ -1361,7 +1366,7 @@ export type GetConnectionPreferencesError =
  * Retrieves the connection preferences for a partner account, including access settings and exclusions.
  */
 export const getConnectionPreferences: API.OperationMethod<
-  GetConnectionPreferencesRequest,
+  GetConnectionPreferencesRequest & RegionInput,
   GetConnectionPreferencesResponse,
   GetConnectionPreferencesError,
   Credentials | HttpClient.HttpClient
@@ -1392,7 +1397,7 @@ export type GetPartnerError =
  * Retrieves detailed information about a specific partner account.
  */
 export const getPartner: API.OperationMethod<
-  GetPartnerRequest,
+  GetPartnerRequest & RegionInput,
   GetPartnerResponse,
   GetPartnerError,
   Credentials | HttpClient.HttpClient
@@ -1424,7 +1429,7 @@ export type GetProfileUpdateTaskError =
  * Retrieves information about a specific profile update task.
  */
 export const getProfileUpdateTask: API.OperationMethod<
-  GetProfileUpdateTaskRequest,
+  GetProfileUpdateTaskRequest & RegionInput,
   GetProfileUpdateTaskResponse,
   GetProfileUpdateTaskError,
   Credentials | HttpClient.HttpClient
@@ -1456,7 +1461,7 @@ export type GetProfileVisibilityError =
  * Retrieves the visibility settings for a partner profile, determining who can see the profile information.
  */
 export const getProfileVisibility: API.OperationMethod<
-  GetProfileVisibilityRequest,
+  GetProfileVisibilityRequest & RegionInput,
   GetProfileVisibilityResponse,
   GetProfileVisibilityError,
   Credentials | HttpClient.HttpClient
@@ -1488,7 +1493,7 @@ export type GetQualificationsAssociationDetailsError =
  * Returns your current qualifications association status, the primary partner, and the full list of partners associated under the primary partner.
  */
 export const getQualificationsAssociationDetails: API.OperationMethod<
-  GetQualificationsAssociationDetailsRequest,
+  GetQualificationsAssociationDetailsRequest & RegionInput,
   GetQualificationsAssociationDetailsResponse,
   GetQualificationsAssociationDetailsError,
   Credentials | HttpClient.HttpClient
@@ -1520,7 +1525,7 @@ export type GetQualificationsAssociationTaskError =
  * Retrieves the status and details of the most recent qualifications association task for your partner account. Use this operation to poll the progress of an association task initiated by `StartQualificationsAssociationTask`.
  */
 export const getQualificationsAssociationTask: API.OperationMethod<
-  GetQualificationsAssociationTaskRequest,
+  GetQualificationsAssociationTaskRequest & RegionInput,
   GetQualificationsAssociationTaskResponse,
   GetQualificationsAssociationTaskError,
   Credentials | HttpClient.HttpClient
@@ -1552,7 +1557,7 @@ export type GetQualificationsDisassociationTaskError =
  * Retrieves the status and details of the most recent qualifications disassociation task for your partner account. Use this operation to poll the progress of a disassociation task initiated by `StartQualificationsDisassociationTask`.
  */
 export const getQualificationsDisassociationTask: API.OperationMethod<
-  GetQualificationsDisassociationTaskRequest,
+  GetQualificationsDisassociationTaskRequest & RegionInput,
   GetQualificationsDisassociationTaskResponse,
   GetQualificationsDisassociationTaskError,
   Credentials | HttpClient.HttpClient
@@ -1584,7 +1589,7 @@ export type GetVerificationError =
  * Retrieves the current status and details of a verification process for a partner account. This operation allows partners to check the progress and results of business or registrant verification processes.
  */
 export const getVerification: API.OperationMethod<
-  GetVerificationRequest,
+  GetVerificationRequest & RegionInput,
   GetVerificationResponse,
   GetVerificationError,
   Credentials | HttpClient.HttpClient
@@ -1615,7 +1620,7 @@ export type ListConnectionInvitationsError =
  * Lists connection invitations for the partner account, with optional filtering by status, type, and other criteria.
  */
 export const listConnectionInvitations: API.PaginatedOperationMethod<
-  ListConnectionInvitationsRequest,
+  ListConnectionInvitationsRequest & RegionInput,
   ListConnectionInvitationsResponse,
   ListConnectionInvitationsError,
   Credentials | HttpClient.HttpClient,
@@ -1652,7 +1657,7 @@ export type ListConnectionsError =
  * Lists active connections for the partner account, with optional filtering by connection type and participant.
  */
 export const listConnections: API.PaginatedOperationMethod<
-  ListConnectionsRequest,
+  ListConnectionsRequest & RegionInput,
   ListConnectionsResponse,
   ListConnectionsError,
   Credentials | HttpClient.HttpClient,
@@ -1689,7 +1694,7 @@ export type ListPartnersError =
  * Lists partner accounts in the catalog, providing a summary view of all partners.
  */
 export const listPartners: API.PaginatedOperationMethod<
-  ListPartnersRequest,
+  ListPartnersRequest & RegionInput,
   ListPartnersResponse,
   ListPartnersError,
   Credentials | HttpClient.HttpClient,
@@ -1726,7 +1731,7 @@ export type ListTagsForResourceError =
  * Lists all tags associated with a specific AWS Partner Central Account resource.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -1758,7 +1763,7 @@ export type PutAllianceLeadContactError =
  * Creates or updates the alliance lead contact information for a partner account.
  */
 export const putAllianceLeadContact: API.OperationMethod<
-  PutAllianceLeadContactRequest,
+  PutAllianceLeadContactRequest & RegionInput,
   PutAllianceLeadContactResponse,
   PutAllianceLeadContactError,
   Credentials | HttpClient.HttpClient
@@ -1791,7 +1796,7 @@ export type PutProfileVisibilityError =
  * Sets the visibility level for a partner profile, controlling who can view the profile information.
  */
 export const putProfileVisibility: API.OperationMethod<
-  PutProfileVisibilityRequest,
+  PutProfileVisibilityRequest & RegionInput,
   PutProfileVisibilityResponse,
   PutProfileVisibilityError,
   Credentials | HttpClient.HttpClient
@@ -1825,7 +1830,7 @@ export type RejectConnectionInvitationError =
  * Rejects a connection invitation from another partner, declining the partnership request.
  */
 export const rejectConnectionInvitation: API.OperationMethod<
-  RejectConnectionInvitationRequest,
+  RejectConnectionInvitationRequest & RegionInput,
   RejectConnectionInvitationResponse,
   RejectConnectionInvitationError,
   Credentials | HttpClient.HttpClient
@@ -1858,7 +1863,7 @@ export type SendEmailVerificationCodeError =
  * Sends an email verification code to the specified email address for account verification purposes.
  */
 export const sendEmailVerificationCode: API.OperationMethod<
-  SendEmailVerificationCodeRequest,
+  SendEmailVerificationCodeRequest & RegionInput,
   SendEmailVerificationCodeResponse,
   SendEmailVerificationCodeError,
   Credentials | HttpClient.HttpClient
@@ -1892,7 +1897,7 @@ export type StartProfileUpdateTaskError =
  * Initiates a profile update task to modify partner profile information asynchronously.
  */
 export const startProfileUpdateTask: API.OperationMethod<
-  StartProfileUpdateTaskRequest,
+  StartProfileUpdateTaskRequest & RegionInput,
   StartProfileUpdateTaskResponse,
   StartProfileUpdateTaskError,
   Credentials | HttpClient.HttpClient
@@ -1927,7 +1932,7 @@ export type StartQualificationsAssociationTaskError =
  * Initiates an asynchronous task to associate your partner qualifications with a primary account. You must be a subsidiary of the primary account with an active subsidiary connection. Use `GetQualificationsAssociationTask` to monitor task progress.
  */
 export const startQualificationsAssociationTask: API.OperationMethod<
-  StartQualificationsAssociationTaskRequest,
+  StartQualificationsAssociationTaskRequest & RegionInput,
   StartQualificationsAssociationTaskResponse,
   StartQualificationsAssociationTaskError,
   Credentials | HttpClient.HttpClient
@@ -1961,7 +1966,7 @@ export type StartQualificationsDisassociationTaskError =
  * Initiates an asynchronous task to disassociate your partner qualifications from a primary account. You must currently be associated and cannot disassociate if you are the primary partner. Use `GetQualificationsDisassociationTask` to monitor task progress.
  */
 export const startQualificationsDisassociationTask: API.OperationMethod<
-  StartQualificationsDisassociationTaskRequest,
+  StartQualificationsDisassociationTaskRequest & RegionInput,
   StartQualificationsDisassociationTaskResponse,
   StartQualificationsDisassociationTaskError,
   Credentials | HttpClient.HttpClient
@@ -1995,7 +2000,7 @@ export type StartVerificationError =
  * Initiates a new verification process for a partner account. This operation begins the verification workflow for either business registration or individual registrant identity verification as required by AWS Partner Central.
  */
 export const startVerification: API.OperationMethod<
-  StartVerificationRequest,
+  StartVerificationRequest & RegionInput,
   StartVerificationResponse,
   StartVerificationError,
   Credentials | HttpClient.HttpClient
@@ -2029,7 +2034,7 @@ export type TagResourceError =
  * Adds or updates tags for a specified AWS Partner Central Account resource.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -2063,7 +2068,7 @@ export type UntagResourceError =
  * Removes specified tags from an AWS Partner Central Account resource.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -2096,7 +2101,7 @@ export type UpdateConnectionPreferencesError =
  * Updates the connection preferences for a partner account, modifying access settings and exclusions.
  */
 export const updateConnectionPreferences: API.OperationMethod<
-  UpdateConnectionPreferencesRequest,
+  UpdateConnectionPreferencesRequest & RegionInput,
   UpdateConnectionPreferencesResponse,
   UpdateConnectionPreferencesError,
   Credentials | HttpClient.HttpClient

@@ -3,11 +3,13 @@ import type * as Stream from "effect/Stream";
 import { mapQuery } from "./graphql.ts";
 import type {
   itemsQuery,
+  GqlError,
   GraphQLFailure,
   GraphQLTransportError,
   UnknownGraphQLError,
 } from "./graphql.ts";
 /** Compile-only: Query.fn unwraps Query/Effect fields on the returned plan. */
+import type { FieldWithArgs } from "./graphql.ts";
 import type { PlanError, Query, QueryError, UnwrapPlan } from "./query.ts";
 
 type Plan = {
@@ -58,7 +60,10 @@ type _QueryError = Assert<
   Equal<
     Exclude<
       QueryError<NotFound>,
-      GraphQLFailure<NotFound | UnknownGraphQLError> | UnknownGraphQLError | GraphQLTransportError
+      | GraphQLFailure<NotFound | UnknownGraphQLError>
+      | UnknownGraphQLError
+      | GraphQLTransportError
+      | GqlError
     >,
     NotFound
   >
@@ -99,3 +104,17 @@ const popular = /*@__PURE__*/ service.stars.pipe(/*@__PURE__*/ mapQuery((stars) 
 type _ScalarMap = Assert<Equal<UnwrapPlan<typeof popular>, boolean>>;
 const labels = /*@__PURE__*/ service.tags.pipe(/*@__PURE__*/ mapQuery((tag) => tag.label));
 type _ListMap = Assert<Equal<UnwrapPlan<typeof labels>, ReadonlyArray<string>>>;
+
+// Fields with arguments: a required argument makes the field a call only;
+// all-optional arguments also allow the bare read.
+declare const accountQuery: Query<{
+  byId: FieldWithArgs<{ name: string }, { readonly accountId: string }>;
+  avatarUrl: FieldWithArgs<string, { readonly size?: number | undefined }, false>;
+}>;
+type _ById = Assert<Equal<UnwrapPlan<ReturnType<typeof accountQuery.byId>["name"]>, string>>;
+type _AvatarCall = Assert<Equal<UnwrapPlan<ReturnType<typeof accountQuery.avatarUrl>>, string>>;
+type _AvatarBare = Assert<Equal<UnwrapPlan<typeof accountQuery.avatarUrl>, string>>;
+// @ts-expect-error a required argument cannot be left out
+accountQuery.byId({});
+// @ts-expect-error a field with a required argument has no bare read
+type _NoBareRead = (typeof accountQuery.byId)["pipe"];

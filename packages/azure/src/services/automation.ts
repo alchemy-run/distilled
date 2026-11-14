@@ -29,6 +29,7 @@ const TELEMETRY = {
   prefix: "Automation",
   service: "Automation",
   labels: "azure",
+  labelNames: { resourceGroupName: "azure.resource_group.name" },
   propagate: "w3c",
 } as const;
 
@@ -39,49 +40,49 @@ export interface Sku {
   /** Gets or sets the SKU name of the account. */
   name: SkuNameEnum | (string & {});
   /** Gets or sets the SKU family. */
-  family?: string;
+  family?: string | undefined;
   /** Gets or sets the SKU capacity. */
-  capacity?: number;
+  capacity?: number | undefined;
 }
 /** Settings concerning key vault encryption for a configuration store. */
 export interface KeyVaultProperties {
   /** The URI of the key vault key used to encrypt data. */
-  keyvaultUri?: string;
+  keyvaultUri?: string | undefined;
   /** The name of key used to encrypt data. */
-  keyName?: string;
+  keyName?: string | undefined;
   /** The key version of the key used to encrypt data. */
-  keyVersion?: string;
+  keyVersion?: string | undefined;
 }
 /** Encryption Key Source */
 export type EncryptionKeySourceType = "Microsoft.Automation" | "Microsoft.Keyvault";
 /** User identity used for CMK. */
 export interface EncryptionPropertiesIdentity {
   /** The user identity used for CMK. It will be an ARM resource id in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'. */
-  userAssignedIdentity?: unknown;
+  userAssignedIdentity?: unknown | undefined;
 }
 /** The encryption settings for automation account */
 export interface EncryptionProperties {
   /** Key vault properties. */
-  keyVaultProperties?: KeyVaultProperties;
+  keyVaultProperties?: KeyVaultProperties | undefined;
   /** Encryption Key Source */
-  keySource?: EncryptionKeySourceType | (string & {});
+  keySource?: EncryptionKeySourceType | (string & {}) | undefined;
   /** User identity used for CMK. */
-  identity?: EncryptionPropertiesIdentity;
+  identity?: EncryptionPropertiesIdentity | undefined;
 }
 /** The parameters supplied to the create or update account properties. */
 export interface AutomationAccountCreateOrUpdateProperties {
   /** Gets or sets account SKU. */
-  sku?: Sku;
+  sku?: Sku | undefined;
   /** Set the encryption properties for the automation account */
-  encryption?: EncryptionProperties;
+  encryption?: EncryptionProperties | undefined;
   /** Indicates whether traffic on the non-ARM endpoint (Webhook/Agent) is allowed from the public internet */
-  publicNetworkAccess?: boolean;
+  publicNetworkAccess?: boolean | undefined;
   /** Indicates whether requests using non-AAD authentication are blocked */
-  disableLocalAuth?: boolean;
+  disableLocalAuth?: boolean | undefined;
   /** Set to `Recover` to restore a soft-deleted account with the same name. */
-  createMode?: string;
+  createMode?: string | undefined;
   /** Automation account ID (GUID) of the soft-deleted account to recover; required with `createMode: Recover`. */
-  automationAccountId?: string;
+  automationAccountId?: string | undefined;
 }
 /** The identity type. */
 export type ResourceIdentityType =
@@ -97,9 +98,9 @@ export type IdentityInputUserAssignedIdentitiesMap = {
 /** Identity for the resource. */
 export interface IdentityInput {
   /** The identity type. */
-  type?: ResourceIdentityType | (string & {});
+  type?: ResourceIdentityType | (string & {}) | undefined;
   /** The list of user identities associated with the resource. The user identity dictionary key references will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'. */
-  userAssignedIdentities?: IdentityInputUserAssignedIdentitiesMap;
+  userAssignedIdentities?: IdentityInputUserAssignedIdentitiesMap | undefined;
 }
 /** Gets or sets the tags attached to the resource. */
 export type AutomationAccountCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
@@ -111,15 +112,15 @@ export interface AutomationAccountCreateOrUpdateRequest {
   /** The name of the automation account. */
   automationAccountName: string;
   /** Gets or sets account create or update properties. */
-  properties?: AutomationAccountCreateOrUpdateProperties;
+  properties?: AutomationAccountCreateOrUpdateProperties | undefined;
   /** Gets or sets name of the resource. */
-  name?: string;
+  name?: string | undefined;
   /** Gets or sets the location of the resource. */
-  location?: string;
+  location?: string | undefined;
   /** Sets the identity property for automation account */
-  identity?: IdentityInput;
+  identity?: IdentityInput | undefined;
   /** Gets or sets the tags attached to the resource. */
-  tags?: AutomationAccountCreateOrUpdateRequestTagsMap;
+  tags?: AutomationAccountCreateOrUpdateRequestTagsMap | undefined;
 }
 /** The type of identity that created the resource. */
 export type SystemDataCreatedByType = "User" | "Application" | "ManagedIdentity" | "Key";
@@ -128,17 +129,17 @@ export type SystemDataLastModifiedByType = "User" | "Application" | "ManagedIden
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface SystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: SystemDataCreatedByType;
+  createdByType?: SystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: SystemDataLastModifiedByType;
+  lastModifiedByType?: SystemDataLastModifiedByType | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 /** Resource tags. */
 export type AutomationAccountCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
@@ -147,40 +148,40 @@ export type AutomationAccountState = "Ok" | "Unavailable" | "Suspended";
 /** Private endpoint which the connection belongs to. */
 export interface PrivateEndpointProperty {
   /** Resource id of the private endpoint. */
-  id?: string;
+  id?: string | undefined;
 }
 /** Gets the groupIds. */
 export type PrivateEndpointConnectionPropertiesGroupIdsList = Array<string>;
 /** Connection State of the Private Endpoint Connection. */
 export interface PrivateLinkServiceConnectionStateProperty {
   /** The private link service connection status. */
-  status?: string;
+  status?: string | undefined;
   /** The private link service connection description. */
-  description?: string;
+  description?: string | undefined;
   /** Any action that is required beyond basic workflow (approve/ reject/ disconnect) */
-  actionsRequired?: string;
+  actionsRequired?: string | undefined;
 }
 /** Properties of a private endpoint connection. */
 export interface PrivateEndpointConnectionProperties {
   /** Private endpoint which the connection belongs to. */
-  privateEndpoint?: PrivateEndpointProperty;
+  privateEndpoint?: PrivateEndpointProperty | undefined;
   /** Gets the groupIds. */
-  groupIds?: PrivateEndpointConnectionPropertiesGroupIdsList;
+  groupIds?: PrivateEndpointConnectionPropertiesGroupIdsList | undefined;
   /** Connection State of the Private Endpoint Connection. */
-  privateLinkServiceConnectionState?: PrivateLinkServiceConnectionStateProperty;
+  privateLinkServiceConnectionState?: PrivateLinkServiceConnectionStateProperty | undefined;
 }
 /** A private endpoint connection */
 export interface PrivateEndpointConnection {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource properties. */
-  properties?: PrivateEndpointConnectionProperties;
+  properties?: PrivateEndpointConnectionProperties | undefined;
 }
 /** List of Automation operations supported by the Automation resource provider. */
 export type AutomationAccountPropertiesPrivateEndpointConnectionsList =
@@ -188,33 +189,35 @@ export type AutomationAccountPropertiesPrivateEndpointConnectionsList =
 /** Definition of the account property. */
 export interface AutomationAccountProperties {
   /** Gets or sets the SKU of account. */
-  sku?: Sku;
+  sku?: Sku | undefined;
   /** Gets or sets the last modified by. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** Gets status of account. */
-  state?: AutomationAccountState;
+  state?: AutomationAccountState | undefined;
   /** Gets the creation time. */
-  creationTime?: string;
+  creationTime?: string | undefined;
   /** Gets the last modified time. */
-  lastModifiedTime?: string;
+  lastModifiedTime?: string | undefined;
   /** Gets or sets the description. */
-  description?: string;
+  description?: string | undefined;
   /** Encryption properties for the automation account */
-  encryption?: EncryptionProperties;
+  encryption?: EncryptionProperties | undefined;
   /** List of Automation operations supported by the Automation resource provider. */
-  privateEndpointConnections?: AutomationAccountPropertiesPrivateEndpointConnectionsList;
+  privateEndpointConnections?:
+    | AutomationAccountPropertiesPrivateEndpointConnectionsList
+    | undefined;
   /** Indicates whether traffic on the non-ARM endpoint (Webhook/Agent) is allowed from the public internet */
-  publicNetworkAccess?: boolean;
+  publicNetworkAccess?: boolean | undefined;
   /** Indicates whether requests using non-AAD authentication are blocked */
-  disableLocalAuth?: boolean;
+  disableLocalAuth?: boolean | undefined;
   /** URL of automation hybrid service which is used for hybrid worker on-boarding. */
-  automationHybridServiceUrl?: string;
+  automationHybridServiceUrl?: string | undefined;
 }
 export interface UserAssignedIdentitiesProperties {
   /** The principal id of user assigned identity. */
-  principalId?: string;
+  principalId?: string | undefined;
   /** The client id of user assigned identity. */
-  clientId?: string;
+  clientId?: string | undefined;
 }
 /** The list of user identities associated with the resource. The user identity dictionary key references will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'. */
 export type IdentityUserAssignedIdentitiesMap = {
@@ -223,44 +226,44 @@ export type IdentityUserAssignedIdentitiesMap = {
 /** Identity for the resource. */
 export interface Identity {
   /** The principal ID of resource identity. The value must be an UUID. */
-  principalId?: string;
+  principalId?: string | undefined;
   /** The tenant ID of resource. */
-  tenantId?: string;
+  tenantId?: string | undefined;
   /** The identity type. */
-  type?: ResourceIdentityType;
+  type?: ResourceIdentityType | undefined;
   /** The list of user identities associated with the resource. The user identity dictionary key references will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'. */
-  userAssignedIdentities?: IdentityUserAssignedIdentitiesMap;
+  userAssignedIdentities?: IdentityUserAssignedIdentitiesMap | undefined;
 }
 export interface AutomationAccountCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: AutomationAccountCreateOrUpdateResponseTagsMap;
+  tags?: AutomationAccountCreateOrUpdateResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Gets or sets the automation account properties. */
-  properties?: AutomationAccountProperties;
+  properties?: AutomationAccountProperties | undefined;
   /** Gets or sets the etag of the resource. */
-  etag?: string;
+  etag?: string | undefined;
   /** Identity for the resource. */
-  identity?: Identity;
+  identity?: Identity | undefined;
 }
 /** The properties of the create certificate operation. */
 export interface CertificateCreateOrUpdateProperties {
   /** Gets or sets the base64 encoded value of the certificate. */
   base64Value: string;
   /** Gets or sets the description of the certificate. */
-  description?: string;
+  description?: string | undefined;
   /** Gets or sets the thumbprint of the certificate. */
-  thumbprint?: string;
+  thumbprint?: string | undefined;
   /** Gets or sets the is exportable flag of the certificate. */
-  isExportable?: boolean;
+  isExportable?: boolean | undefined;
 }
 export interface CertificateCreateOrUpdateRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -279,34 +282,34 @@ export interface CertificateCreateOrUpdateRequest {
 /** Properties of the certificate. */
 export interface CertificateProperties {
   /** Gets the thumbprint of the certificate. */
-  thumbprint?: string;
+  thumbprint?: string | undefined;
   /** Gets the expiry time of the certificate. */
-  expiryTime?: string;
+  expiryTime?: string | undefined;
   /** Gets the is exportable flag of the certificate. */
-  isExportable?: boolean;
+  isExportable?: boolean | undefined;
   /** Gets the creation time. */
-  creationTime?: string;
+  creationTime?: string | undefined;
   /** Gets the last modified time. */
-  lastModifiedTime?: string;
+  lastModifiedTime?: string | undefined;
   /** Gets or sets the description. */
-  description?: string;
+  description?: string | undefined;
 }
 export interface CertificateCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Gets or sets the properties of the certificate. */
-  properties?: CertificateProperties;
+  properties?: CertificateProperties | undefined;
 }
 /** The connection type property associated with the entity. */
 export interface ConnectionTypeAssociationProperty {
   /** Gets or sets the name of the connection type. */
-  name?: string;
+  name?: string | undefined;
 }
 /** Gets or sets the field definition properties of the connection. */
 export type ConnectionCreateOrUpdatePropertiesFieldDefinitionValuesMap = {
@@ -315,11 +318,11 @@ export type ConnectionCreateOrUpdatePropertiesFieldDefinitionValuesMap = {
 /** The properties of the create connection properties */
 export interface ConnectionCreateOrUpdateProperties {
   /** Gets or sets the description of the connection. */
-  description?: string;
+  description?: string | undefined;
   /** Gets or sets the connectionType of the connection. */
   connectionType: ConnectionTypeAssociationProperty;
   /** Gets or sets the field definition properties of the connection. */
-  fieldDefinitionValues?: ConnectionCreateOrUpdatePropertiesFieldDefinitionValuesMap;
+  fieldDefinitionValues?: ConnectionCreateOrUpdatePropertiesFieldDefinitionValuesMap | undefined;
 }
 export interface ConnectionCreateOrUpdateRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -340,34 +343,34 @@ export type ConnectionPropertiesFieldDefinitionValuesMap = { [key: string]: stri
 /** Definition of the connection properties. */
 export interface ConnectionProperties {
   /** Gets or sets the connectionType of the connection. */
-  connectionType?: ConnectionTypeAssociationProperty;
+  connectionType?: ConnectionTypeAssociationProperty | undefined;
   /** Gets the field definition values of the connection. */
-  fieldDefinitionValues?: ConnectionPropertiesFieldDefinitionValuesMap;
+  fieldDefinitionValues?: ConnectionPropertiesFieldDefinitionValuesMap | undefined;
   /** Gets the creation time. */
-  creationTime?: string;
+  creationTime?: string | undefined;
   /** Gets the last modified time. */
-  lastModifiedTime?: string;
+  lastModifiedTime?: string | undefined;
   /** Gets or sets the description. */
-  description?: string;
+  description?: string | undefined;
 }
 export interface ConnectionCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Gets or sets the properties of the connection. */
-  properties?: ConnectionProperties;
+  properties?: ConnectionProperties | undefined;
 }
 /** Definition of the connection fields. */
 export interface FieldDefinition {
   /** Gets or sets the isEncrypted flag of the connection field definition. */
-  isEncrypted?: boolean;
+  isEncrypted?: boolean | undefined;
   /** Gets or sets the isOptional flag of the connection field definition. */
-  isOptional?: boolean;
+  isOptional?: boolean | undefined;
   /** Gets or sets the type of the connection field definition. */
   type: string;
 }
@@ -378,7 +381,7 @@ export type ConnectionTypeCreateOrUpdatePropertiesFieldDefinitionsMap = {
 /** The properties of the create connection type. */
 export interface ConnectionTypeCreateOrUpdateProperties {
   /** Gets or sets a Boolean value to indicate if the connection type is global. */
-  isGlobal?: boolean;
+  isGlobal?: boolean | undefined;
   /** Gets or sets the field definitions of the connection type. */
   fieldDefinitions: ConnectionTypeCreateOrUpdatePropertiesFieldDefinitionsMap;
 }
@@ -403,38 +406,38 @@ export type ConnectionTypePropertiesFieldDefinitionsMap = {
 /** Properties of the connection type. */
 export interface ConnectionTypeProperties {
   /** Gets or sets a Boolean value to indicate if the connection type is global. */
-  isGlobal?: boolean;
+  isGlobal?: boolean | undefined;
   /** Gets the field definitions of the connection type. */
-  fieldDefinitions?: ConnectionTypePropertiesFieldDefinitionsMap;
+  fieldDefinitions?: ConnectionTypePropertiesFieldDefinitionsMap | undefined;
   /** Gets the creation time. */
-  creationTime?: string;
+  creationTime?: string | undefined;
   /** Gets or sets the last modified time. */
-  lastModifiedTime?: string;
+  lastModifiedTime?: string | undefined;
   /** Gets or sets the description. */
-  description?: string;
+  description?: string | undefined;
 }
 export interface ConnectionTypeCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Gets or sets the properties of the connection type. */
-  properties?: ConnectionTypeProperties;
+  properties?: ConnectionTypeProperties | undefined;
 }
 /** Runbook Type */
 export type GraphRunbookType = "GraphPowerShell" | "GraphPowerShellWorkflow";
 /** Raw Graphical Runbook content */
 export interface RawGraphicalRunbookContent {
   /** Schema version of the serializer. */
-  schemaVersion?: string;
+  schemaVersion?: string | undefined;
   /** Serialized Graphical runbook */
-  runbookDefinition?: string;
+  runbookDefinition?: string | undefined;
   /** Runbook Type */
-  runbookType?: GraphRunbookType | (string & {});
+  runbookType?: GraphRunbookType | (string & {}) | undefined;
 }
 export interface ConvertGraphRunbookContentRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -444,21 +447,21 @@ export interface ConvertGraphRunbookContentRequest {
   /** The name of the automation account. */
   automationAccountName: string;
   /** Raw graphical Runbook content. */
-  rawContent?: RawGraphicalRunbookContent | null;
+  rawContent?: RawGraphicalRunbookContent | null | undefined;
   /** Graphical Runbook content as JSON */
-  graphRunbookJson?: string | null;
+  graphRunbookJson?: string | null | undefined;
 }
 /** Graphical Runbook Content */
 export interface GraphicalRunbookContent {
   /** Raw graphical Runbook content. */
-  rawContent?: RawGraphicalRunbookContent | null;
+  rawContent?: RawGraphicalRunbookContent | null | undefined;
   /** Graphical Runbook content as JSON */
-  graphRunbookJson?: string | null;
+  graphRunbookJson?: string | null | undefined;
 }
 /** The parameters supplied to the create or update hybrid runbook worker operation. */
 export interface HybridRunbookWorkerCreateOrUpdateParameters {
   /** Azure Resource Manager Id for a virtual machine. */
-  vmResourceId?: string;
+  vmResourceId?: string | undefined;
 }
 export interface CreateHybridRunbookWorkerRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -472,7 +475,7 @@ export interface CreateHybridRunbookWorkerRequest {
   /** The hybrid runbook worker id */
   hybridRunbookWorkerId: string;
   /** Gets or sets hybrid runbook worker group create or update properties. */
-  properties?: HybridRunbookWorkerCreateOrUpdateParameters;
+  properties?: HybridRunbookWorkerCreateOrUpdateParameters | undefined;
 }
 /** Resource tags. */
 export type CreateHybridRunbookWorkerResponseTagsMap = { [key: string]: string | undefined };
@@ -481,43 +484,43 @@ export type WorkerType = "HybridV1" | "HybridV2";
 /** Definition of hybrid runbook worker property. */
 export interface HybridRunbookWorkerProperties {
   /** Gets or sets the assigned machine IP address. */
-  ip?: string;
+  ip?: string | undefined;
   /** Gets or sets the registration time of the worker machine. */
-  registeredDateTime?: string;
+  registeredDateTime?: string | undefined;
   /** Last Heartbeat from the Worker */
-  lastSeenDateTime?: string;
+  lastSeenDateTime?: string | undefined;
   /** Azure Resource Manager Id for a virtual machine. */
-  vmResourceId?: string;
+  vmResourceId?: string | undefined;
   /** Type of the HybridWorker. */
-  workerType?: WorkerType;
+  workerType?: WorkerType | undefined;
   /** Name of the HybridWorker. */
-  workerName?: string;
+  workerName?: string | undefined;
 }
 export interface CreateHybridRunbookWorkerResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: CreateHybridRunbookWorkerResponseTagsMap;
+  tags?: CreateHybridRunbookWorkerResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Gets or sets the hybrid worker group properties. */
-  properties?: HybridRunbookWorkerProperties;
+  properties?: HybridRunbookWorkerProperties | undefined;
 }
 /** Definition of RunAs credential to use for hybrid worker. */
 export interface RunAsCredentialAssociationProperty {
   /** Gets or sets the name of the credential. */
-  name?: string;
+  name?: string | undefined;
 }
 /** The hybrid runbook worker group properties. */
 export interface HybridRunbookWorkerGroupCreateOrUpdateProperties {
   /** Sets the credential of a worker group. */
-  credential?: RunAsCredentialAssociationProperty;
+  credential?: RunAsCredentialAssociationProperty | undefined;
 }
 export interface CreateHybridRunbookWorkerGroupRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -529,9 +532,9 @@ export interface CreateHybridRunbookWorkerGroupRequest {
   /** The hybrid runbook worker group name */
   hybridRunbookWorkerGroupName: string;
   /** Gets or sets hybrid runbook worker group create or update properties. */
-  properties?: HybridRunbookWorkerGroupCreateOrUpdateProperties;
+  properties?: HybridRunbookWorkerGroupCreateOrUpdateProperties | undefined;
   /** Gets or sets the name of the resource. */
-  name?: string;
+  name?: string | undefined;
 }
 /** Resource tags. */
 export type CreateHybridRunbookWorkerGroupResponseTagsMap = { [key: string]: string | undefined };
@@ -540,40 +543,40 @@ export type GroupTypeEnum = "User" | "System";
 /** Definition of hybrid runbook worker group property. */
 export interface HybridRunbookWorkerGroupProperties {
   /** Type of the HybridWorkerGroup. */
-  groupType?: GroupTypeEnum;
+  groupType?: GroupTypeEnum | undefined;
   /** Sets the credential of a worker group. */
-  credential?: RunAsCredentialAssociationProperty;
+  credential?: RunAsCredentialAssociationProperty | undefined;
 }
 export interface CreateHybridRunbookWorkerGroupResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: CreateHybridRunbookWorkerGroupResponseTagsMap;
+  tags?: CreateHybridRunbookWorkerGroupResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Gets or sets the hybrid worker group properties. */
-  properties?: HybridRunbookWorkerGroupProperties;
+  properties?: HybridRunbookWorkerGroupProperties | undefined;
 }
 /** The runbook property associated with the entity. */
 export interface RunbookAssociationProperty {
   /** Gets or sets the name of the runbook. */
-  name?: string;
+  name?: string | undefined;
 }
 /** Gets or sets the parameters of the job. */
 export type JobCreatePropertiesParametersMap = { [key: string]: string | undefined };
 export interface JobCreateProperties {
   /** Gets or sets the runbook. */
-  runbook?: RunbookAssociationProperty;
+  runbook?: RunbookAssociationProperty | undefined;
   /** Gets or sets the parameters of the job. */
-  parameters?: JobCreatePropertiesParametersMap;
+  parameters?: JobCreatePropertiesParametersMap | undefined;
   /** Gets or sets the runOn which specifies the group name where the job is to be executed. */
-  runOn?: string;
+  runOn?: string | undefined;
 }
 export interface CreateJobRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -590,7 +593,7 @@ export interface CreateJobRequest {
 /** The runbook property associated with the entity. */
 export interface JobRuntimeEnvironment {
   /** Name of Runtime Environment. */
-  runtimeEnvironmentName?: string;
+  runtimeEnvironmentName?: string | undefined;
 }
 /** Gets or sets the status of the job. */
 export type JobStatus =
@@ -614,52 +617,52 @@ export type JobProvisioningState = "Failed" | "Succeeded" | "Suspended" | "Proce
 /** Definition of job properties. */
 export interface JobProperties {
   /** Gets or sets the runbook. */
-  runbook?: RunbookAssociationProperty;
+  runbook?: RunbookAssociationProperty | undefined;
   /** Gets or sets the job started by. */
-  startedBy?: string;
+  startedBy?: string | undefined;
   /** Gets or sets the runOn which specifies the group name where the job is to be executed. */
-  runOn?: string;
+  runOn?: string | undefined;
   /** Runtime Environment Property */
-  jobRuntimeEnvironment?: JobRuntimeEnvironment;
+  jobRuntimeEnvironment?: JobRuntimeEnvironment | undefined;
   /** Gets or sets the id of the job. */
-  jobId?: string;
+  jobId?: string | undefined;
   /** Gets or sets the creation time of the job. */
-  creationTime?: string;
+  creationTime?: string | undefined;
   /** Gets or sets the status of the job. */
-  status?: JobStatus;
+  status?: JobStatus | undefined;
   /** Gets or sets the status details of the job. */
-  statusDetails?: string;
+  statusDetails?: string | undefined;
   /** Gets or sets the start time of the job. */
-  startTime?: string | null;
+  startTime?: string | null | undefined;
   /** Gets or sets the end time of the job. */
-  endTime?: string | null;
+  endTime?: string | null | undefined;
   /** Gets or sets the exception of the job. */
-  exception?: string;
+  exception?: string | undefined;
   /** Gets or sets the last modified time of the job. */
-  lastModifiedTime?: string | null;
+  lastModifiedTime?: string | null | undefined;
   /** Gets or sets the last status modified time of the job. */
-  lastStatusModifiedTime?: string | null;
+  lastStatusModifiedTime?: string | null | undefined;
   /** Gets or sets the parameters of the job. */
-  parameters?: JobPropertiesParametersMap;
+  parameters?: JobPropertiesParametersMap | undefined;
   /** The current provisioning state of the job. */
-  provisioningState?: JobProvisioningState;
+  provisioningState?: JobProvisioningState | undefined;
 }
 export interface CreateJobResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties of the job. */
-  properties?: JobProperties;
+  properties?: JobProperties | undefined;
 }
 /** The schedule property associated with the entity. */
 export interface ScheduleAssociationProperty {
   /** Gets or sets the name of the Schedule. */
-  name?: string;
+  name?: string | undefined;
 }
 /** Gets or sets a list of job properties. */
 export type JobScheduleCreatePropertiesParametersMap = { [key: string]: string | undefined };
@@ -670,9 +673,9 @@ export interface JobScheduleCreateProperties {
   /** Gets or sets the runbook. */
   runbook: RunbookAssociationProperty;
   /** Gets or sets the hybrid worker group that the scheduled job should run on. */
-  runOn?: string;
+  runOn?: string | undefined;
   /** Gets or sets a list of job properties. */
-  parameters?: JobScheduleCreatePropertiesParametersMap;
+  parameters?: JobScheduleCreatePropertiesParametersMap | undefined;
 }
 export interface CreateJobScheduleRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -691,47 +694,47 @@ export type JobSchedulePropertiesParametersMap = { [key: string]: string | undef
 /** Definition of job schedule parameters. */
 export interface JobScheduleProperties {
   /** Gets or sets the id of job schedule. */
-  jobScheduleId?: string;
+  jobScheduleId?: string | undefined;
   /** Gets or sets the schedule. */
-  schedule?: ScheduleAssociationProperty;
+  schedule?: ScheduleAssociationProperty | undefined;
   /** Gets or sets the runbook. */
-  runbook?: RunbookAssociationProperty;
+  runbook?: RunbookAssociationProperty | undefined;
   /** Gets or sets the hybrid worker group that the scheduled job should run on. */
-  runOn?: string;
+  runOn?: string | undefined;
   /** Gets or sets the parameters of the job schedule. */
-  parameters?: JobSchedulePropertiesParametersMap;
+  parameters?: JobSchedulePropertiesParametersMap | undefined;
 }
 export interface CreateJobScheduleResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Gets or sets the properties of the job schedule. */
-  properties?: JobScheduleProperties;
+  properties?: JobScheduleProperties | undefined;
 }
 /** Resource tags. */
 export type CreateRuntimeEnvironmentRequestTagsMap = { [key: string]: string | undefined };
 /** Runtime properties. */
 export interface RuntimeProperties {
   /** Language of Runtime Environment */
-  language?: string;
+  language?: string | undefined;
   /** Version of Language */
-  version?: string;
+  version?: string | undefined;
 }
 /** List of Default packages for Environment */
 export type RuntimeEnvironmentPropertiesDefaultPackagesMap = { [key: string]: string | undefined };
 /** Runtime Environment properties. */
 export interface RuntimeEnvironmentProperties {
   /** Runtime properties. */
-  runtime?: RuntimeProperties;
+  runtime?: RuntimeProperties | undefined;
   /** List of Default packages for Environment */
-  defaultPackages?: RuntimeEnvironmentPropertiesDefaultPackagesMap;
+  defaultPackages?: RuntimeEnvironmentPropertiesDefaultPackagesMap | undefined;
   /** Gets or sets the description. */
-  description?: string;
+  description?: string | undefined;
 }
 export interface CreateRuntimeEnvironmentRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -743,29 +746,29 @@ export interface CreateRuntimeEnvironmentRequest {
   /** The name of the Runtime Environment. */
   runtimeEnvironmentName: string;
   /** Resource tags. */
-  tags?: CreateRuntimeEnvironmentRequestTagsMap;
+  tags?: CreateRuntimeEnvironmentRequestTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Gets or sets the Runtime Environment properties. */
-  properties?: RuntimeEnvironmentProperties;
+  properties?: RuntimeEnvironmentProperties | undefined;
 }
 /** Resource tags. */
 export type CreateRuntimeEnvironmentResponseTagsMap = { [key: string]: string | undefined };
 export interface CreateRuntimeEnvironmentResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: CreateRuntimeEnvironmentResponseTagsMap;
+  tags?: CreateRuntimeEnvironmentResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Gets or sets the Runtime Environment properties. */
-  properties?: RuntimeEnvironmentProperties;
+  properties?: RuntimeEnvironmentProperties | undefined;
 }
 /** Target operating system for the software update configuration. */
 export type OperatingSystemType = "Windows" | "Linux";
@@ -787,13 +790,13 @@ export type WindowsPropertiesIncludedKbNumbersList = Array<string>;
 /** Windows specific update configuration. */
 export interface WindowsProperties {
   /** Update classification included in the software update configuration. A comma separated string with required values */
-  includedUpdateClassifications?: WindowsUpdateClasses | (string & {});
+  includedUpdateClassifications?: WindowsUpdateClasses | (string & {}) | undefined;
   /** KB numbers excluded from the software update configuration. */
-  excludedKbNumbers?: WindowsPropertiesExcludedKbNumbersList;
+  excludedKbNumbers?: WindowsPropertiesExcludedKbNumbersList | undefined;
   /** KB numbers included from the software update configuration. */
-  includedKbNumbers?: WindowsPropertiesIncludedKbNumbersList;
+  includedKbNumbers?: WindowsPropertiesIncludedKbNumbersList | undefined;
   /** Reboot setting for the software update configuration. */
-  rebootSetting?: string;
+  rebootSetting?: string | undefined;
 }
 /** Update classifications included in the software update configuration. */
 export type LinuxUpdateClasses = "Unclassified" | "Critical" | "Security" | "Other";
@@ -804,13 +807,13 @@ export type LinuxPropertiesIncludedPackageNameMasksList = Array<string>;
 /** Linux specific update configuration. */
 export interface LinuxProperties {
   /** Update classifications included in the software update configuration. */
-  includedPackageClassifications?: LinuxUpdateClasses | (string & {});
+  includedPackageClassifications?: LinuxUpdateClasses | (string & {}) | undefined;
   /** packages excluded from the software update configuration. */
-  excludedPackageNameMasks?: LinuxPropertiesExcludedPackageNameMasksList;
+  excludedPackageNameMasks?: LinuxPropertiesExcludedPackageNameMasksList | undefined;
   /** packages included from the software update configuration. */
-  includedPackageNameMasks?: LinuxPropertiesIncludedPackageNameMasksList;
+  includedPackageNameMasks?: LinuxPropertiesIncludedPackageNameMasksList | undefined;
   /** Reboot setting for the software update configuration. */
-  rebootSetting?: string;
+  rebootSetting?: string | undefined;
 }
 /** List of azure resource Ids for azure virtual machines targeted by the software update configuration. */
 export type UpdateConfigurationAzureVirtualMachinesList = Array<string>;
@@ -830,53 +833,53 @@ export type TagOperators = "All" | "Any";
 /** Tag filter information for the VM. */
 export interface TagSettingsProperties {
   /** Dictionary of tags with its list of values. */
-  tags?: TagSettingsPropertiesTagsMap;
+  tags?: TagSettingsPropertiesTagsMap | undefined;
   /** Filter VMs by Any or All specified tags. */
-  filterOperator?: TagOperators | (string & {});
+  filterOperator?: TagOperators | (string & {}) | undefined;
 }
 /** Azure query for the update configuration. */
 export interface AzureQueryProperties {
   /** List of Subscription or Resource Group ARM Ids. */
-  scope?: AzureQueryPropertiesScopeList;
+  scope?: AzureQueryPropertiesScopeList | undefined;
   /** List of locations to scope the query to. */
-  locations?: AzureQueryPropertiesLocationsList;
+  locations?: AzureQueryPropertiesLocationsList | undefined;
   /** Tag settings for the VM. */
-  tagSettings?: TagSettingsProperties;
+  tagSettings?: TagSettingsProperties | undefined;
 }
 /** List of Azure queries in the software update configuration. */
 export type TargetPropertiesAzureQueriesList = Array<AzureQueryProperties>;
 /** Non Azure query for the update configuration. */
 export interface NonAzureQueryProperties {
   /** Log Analytics Saved Search name. */
-  functionAlias?: string;
+  functionAlias?: string | undefined;
   /** Workspace Id for Log Analytics in which the saved Search is resided. */
-  workspaceId?: string;
+  workspaceId?: string | undefined;
 }
 /** List of non Azure queries in the software update configuration. */
 export type TargetPropertiesNonAzureQueriesList = Array<NonAzureQueryProperties>;
 /** Group specific to the update configuration. */
 export interface TargetProperties {
   /** List of Azure queries in the software update configuration. */
-  azureQueries?: TargetPropertiesAzureQueriesList;
+  azureQueries?: TargetPropertiesAzureQueriesList | undefined;
   /** List of non Azure queries in the software update configuration. */
-  nonAzureQueries?: TargetPropertiesNonAzureQueriesList;
+  nonAzureQueries?: TargetPropertiesNonAzureQueriesList | undefined;
 }
 /** Update specific properties of the software update configuration. */
 export interface UpdateConfiguration {
   /** operating system of target machines */
   operatingSystem: OperatingSystemType | (string & {});
   /** Windows specific update configuration. */
-  windows?: WindowsProperties;
+  windows?: WindowsProperties | undefined;
   /** Linux specific update configuration. */
-  linux?: LinuxProperties;
+  linux?: LinuxProperties | undefined;
   /** Maximum time allowed for the software update configuration run. Duration needs to be specified using the format PT[n]H[n]M[n]S as per ISO8601 */
-  duration?: string;
+  duration?: string | undefined;
   /** List of azure resource Ids for azure virtual machines targeted by the software update configuration. */
-  azureVirtualMachines?: UpdateConfigurationAzureVirtualMachinesList;
+  azureVirtualMachines?: UpdateConfigurationAzureVirtualMachinesList | undefined;
   /** List of names of non-azure machines targeted by the software update configuration. */
-  nonAzureComputerNames?: UpdateConfigurationNonAzureComputerNamesList;
+  nonAzureComputerNames?: UpdateConfigurationNonAzureComputerNamesList | undefined;
   /** Group targets for the software update configuration. */
-  targets?: TargetProperties;
+  targets?: TargetProperties | undefined;
 }
 /** Gets or sets the frequency of the schedule. */
 export type ScheduleFrequency = "OneTime" | "Day" | "Hour" | "Week" | "Month" | "Minute";
@@ -896,72 +899,72 @@ export type ScheduleDay =
 /** The properties of the create advanced schedule monthly occurrence. */
 export interface AdvancedScheduleMonthlyOccurrence {
   /** Occurrence of the week within the month. Must be between 1 and 5 */
-  occurrence?: number;
+  occurrence?: number | undefined;
   /** Day of the occurrence. Must be one of monday, tuesday, wednesday, thursday, friday, saturday, sunday. */
-  day?: ScheduleDay | (string & {});
+  day?: ScheduleDay | (string & {}) | undefined;
 }
 /** Occurrences of days within a month. */
 export type AdvancedScheduleMonthlyOccurrencesList = Array<AdvancedScheduleMonthlyOccurrence>;
 /** The properties of the create Advanced Schedule. */
 export interface AdvancedSchedule {
   /** Days of the week that the job should execute on. */
-  weekDays?: AdvancedScheduleWeekDaysList;
+  weekDays?: AdvancedScheduleWeekDaysList | undefined;
   /** Days of the month that the job should execute on. Must be between 1 and 31. */
-  monthDays?: AdvancedScheduleMonthDaysList;
+  monthDays?: AdvancedScheduleMonthDaysList | undefined;
   /** Occurrences of days within a month. */
-  monthlyOccurrences?: AdvancedScheduleMonthlyOccurrencesList;
+  monthlyOccurrences?: AdvancedScheduleMonthlyOccurrencesList | undefined;
 }
 /** Definition of schedule parameters. */
 export interface SUCSchedulePropertiesInput {
   /** Gets or sets the start time of the schedule. */
-  startTime?: string;
+  startTime?: string | undefined;
   /** Gets or sets the end time of the schedule. */
-  expiryTime?: string | null;
+  expiryTime?: string | null | undefined;
   /** Gets or sets the expiry time's offset in minutes. */
-  expiryTimeOffsetMinutes?: number;
+  expiryTimeOffsetMinutes?: number | undefined;
   /** Gets or sets a value indicating whether this schedule is enabled. */
-  isEnabled?: boolean;
+  isEnabled?: boolean | undefined;
   /** Gets or sets the next run time of the schedule. */
-  nextRun?: string | null;
+  nextRun?: string | null | undefined;
   /** Gets or sets the next run time's offset in minutes. */
-  nextRunOffsetMinutes?: number;
+  nextRunOffsetMinutes?: number | undefined;
   /** Gets or sets the interval of the schedule. */
-  interval?: number;
+  interval?: number | undefined;
   /** Gets or sets the frequency of the schedule. */
-  frequency?: ScheduleFrequency | (string & {});
+  frequency?: ScheduleFrequency | (string & {}) | undefined;
   /** Gets or sets the time zone of the schedule. */
-  timeZone?: string;
+  timeZone?: string | undefined;
   /** Gets or sets the advanced schedule. */
-  advancedSchedule?: AdvancedSchedule;
+  advancedSchedule?: AdvancedSchedule | undefined;
   /** Gets or sets the creation time. */
-  creationTime?: string;
+  creationTime?: string | undefined;
   /** Gets or sets the last modified time. */
-  lastModifiedTime?: string;
+  lastModifiedTime?: string | undefined;
   /** Gets or sets the description. */
-  description?: string;
+  description?: string | undefined;
 }
 /** Error response of an operation failure */
 export interface AutomationErrorResponse {
   /** Error code */
-  code?: string;
+  code?: string | undefined;
   /** Error message indicating why the operation failed. */
-  message?: string;
+  message?: string | undefined;
 }
 /** Gets or sets the parameters of the task. */
 export type TaskPropertiesParametersMap = { [key: string]: string | undefined };
 /** Task properties of the software update configuration. */
 export interface TaskProperties {
   /** Gets or sets the parameters of the task. */
-  parameters?: TaskPropertiesParametersMap;
+  parameters?: TaskPropertiesParametersMap | undefined;
   /** Gets or sets the name of the runbook. */
-  source?: string;
+  source?: string | undefined;
 }
 /** Task properties of the software update configuration. */
 export interface SoftwareUpdateConfigurationTasks {
   /** Pre task properties. */
-  preTask?: TaskProperties;
+  preTask?: TaskProperties | undefined;
   /** Post task properties. */
-  postTask?: TaskProperties;
+  postTask?: TaskProperties | undefined;
 }
 /** Software update configuration properties. */
 export interface SoftwareUpdateConfigurationPropertiesInput {
@@ -970,9 +973,9 @@ export interface SoftwareUpdateConfigurationPropertiesInput {
   /** Schedule information for the Software update configuration */
   scheduleInfo: SUCSchedulePropertiesInput;
   /** Details of provisioning error */
-  error?: AutomationErrorResponse;
+  error?: AutomationErrorResponse | undefined;
   /** Tasks information for the Software update configuration. */
-  tasks?: SoftwareUpdateConfigurationTasks;
+  tasks?: SoftwareUpdateConfigurationTasks | undefined;
 }
 export interface CreateSoftwareUpdateConfigurationRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -989,33 +992,33 @@ export interface CreateSoftwareUpdateConfigurationRequest {
 /** Definition of schedule parameters. */
 export interface SUCScheduleProperties {
   /** Gets or sets the start time of the schedule. */
-  startTime?: string;
+  startTime?: string | undefined;
   /** Gets the start time's offset in minutes. */
-  startTimeOffsetMinutes?: number;
+  startTimeOffsetMinutes?: number | undefined;
   /** Gets or sets the end time of the schedule. */
-  expiryTime?: string | null;
+  expiryTime?: string | null | undefined;
   /** Gets or sets the expiry time's offset in minutes. */
-  expiryTimeOffsetMinutes?: number;
+  expiryTimeOffsetMinutes?: number | undefined;
   /** Gets or sets a value indicating whether this schedule is enabled. */
-  isEnabled?: boolean;
+  isEnabled?: boolean | undefined;
   /** Gets or sets the next run time of the schedule. */
-  nextRun?: string | null;
+  nextRun?: string | null | undefined;
   /** Gets or sets the next run time's offset in minutes. */
-  nextRunOffsetMinutes?: number;
+  nextRunOffsetMinutes?: number | undefined;
   /** Gets or sets the interval of the schedule. */
-  interval?: number;
+  interval?: number | undefined;
   /** Gets or sets the frequency of the schedule. */
-  frequency?: ScheduleFrequency;
+  frequency?: ScheduleFrequency | undefined;
   /** Gets or sets the time zone of the schedule. */
-  timeZone?: string;
+  timeZone?: string | undefined;
   /** Gets or sets the advanced schedule. */
-  advancedSchedule?: AdvancedSchedule;
+  advancedSchedule?: AdvancedSchedule | undefined;
   /** Gets or sets the creation time. */
-  creationTime?: string;
+  creationTime?: string | undefined;
   /** Gets or sets the last modified time. */
-  lastModifiedTime?: string;
+  lastModifiedTime?: string | undefined;
   /** Gets or sets the description. */
-  description?: string;
+  description?: string | undefined;
 }
 /** Software update configuration properties. */
 export interface SoftwareUpdateConfigurationProperties {
@@ -1024,29 +1027,29 @@ export interface SoftwareUpdateConfigurationProperties {
   /** Schedule information for the Software update configuration */
   scheduleInfo: SUCScheduleProperties;
   /** Provisioning state for the software update configuration, which only appears in the response. */
-  provisioningState?: string;
+  provisioningState?: string | undefined;
   /** Details of provisioning error */
-  error?: AutomationErrorResponse;
+  error?: AutomationErrorResponse | undefined;
   /** Creation time of the resource, which only appears in the response. */
-  creationTime?: string;
+  creationTime?: string | undefined;
   /** CreatedBy property, which only appears in the response. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** Last time resource was modified, which only appears in the response. */
-  lastModifiedTime?: string;
+  lastModifiedTime?: string | undefined;
   /** LastModifiedBy property, which only appears in the response. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** Tasks information for the Software update configuration. */
-  tasks?: SoftwareUpdateConfigurationTasks;
+  tasks?: SoftwareUpdateConfigurationTasks | undefined;
 }
 export interface CreateSoftwareUpdateConfigurationResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Software update configuration properties. */
   properties: SoftwareUpdateConfigurationProperties;
 }
@@ -1076,28 +1079,28 @@ export type SyncType = "PartialSync" | "FullSync";
 /** Definition of source control sync job properties. */
 export interface SourceControlSyncJobProperties {
   /** The source control sync job id. */
-  sourceControlSyncJobId?: string;
+  sourceControlSyncJobId?: string | undefined;
   /** The creation time of the job. */
-  creationTime?: string;
+  creationTime?: string | undefined;
   /** The provisioning state of the job. */
-  provisioningState?: ProvisioningState;
+  provisioningState?: ProvisioningState | undefined;
   /** The start time of the job. */
-  startTime?: string | null;
+  startTime?: string | null | undefined;
   /** The end time of the job. */
-  endTime?: string | null;
+  endTime?: string | null | undefined;
   /** The sync type. */
-  syncType?: SyncType;
+  syncType?: SyncType | undefined;
 }
 /** Definition of the source control sync job. */
 export interface SourceControlSyncJob {
   /** Resource name. */
-  name?: string;
+  name?: string | undefined;
   /** Resource type. */
-  type?: string;
+  type?: string | undefined;
   /** Resource id. */
-  id?: string;
+  id?: string | undefined;
   /** The properties of the source control sync job. */
-  properties?: SourceControlSyncJobProperties;
+  properties?: SourceControlSyncJobProperties | undefined;
 }
 /** Gets or sets the parameters of the test job. */
 export type CreateTestJobRequestParametersMap = { [key: string]: string | undefined };
@@ -1111,38 +1114,38 @@ export interface CreateTestJobRequest {
   /** The runbook name. */
   runbookName: string;
   /** Gets or sets the parameters of the test job. */
-  parameters?: CreateTestJobRequestParametersMap;
+  parameters?: CreateTestJobRequestParametersMap | undefined;
   /** Gets or sets the runOn which specifies the group name where the job is to be executed. */
-  runOn?: string;
+  runOn?: string | undefined;
   /** The runtime Environment Name on which job needs to be tested */
-  runtimeEnvironment?: string;
+  runtimeEnvironment?: string | undefined;
 }
 /** Gets or sets the parameters of the test job. */
 export type TestJobParametersMap = { [key: string]: string | undefined };
 /** Definition of the test job. */
 export interface TestJob {
   /** Gets or sets the creation time of the test job. */
-  creationTime?: string;
+  creationTime?: string | undefined;
   /** Gets or sets the status of the test job. */
-  status?: string;
+  status?: string | undefined;
   /** Gets or sets the status details of the test job. */
-  statusDetails?: string;
+  statusDetails?: string | undefined;
   /** Gets or sets the runOn which specifies the group name where the job is to be executed. */
-  runOn?: string;
+  runOn?: string | undefined;
   /** Gets or sets the start time of the test job. */
-  startTime?: string | null;
+  startTime?: string | null | undefined;
   /** Gets or sets the end time of the test job. */
-  endTime?: string | null;
+  endTime?: string | null | undefined;
   /** Gets or sets the exception of the test job. */
-  exception?: string;
+  exception?: string | undefined;
   /** Gets or sets the last modified time of the test job. */
-  lastModifiedTime?: string;
+  lastModifiedTime?: string | undefined;
   /** Gets or sets the last status modified time of the test job. */
-  lastStatusModifiedTime?: string | null;
+  lastStatusModifiedTime?: string | null | undefined;
   /** Gets or sets the parameters of the test job. */
-  parameters?: TestJobParametersMap;
+  parameters?: TestJobParametersMap | undefined;
   /** The activity-level tracing options of the runbook. */
-  logActivityTrace?: number;
+  logActivityTrace?: number | undefined;
 }
 /** The properties of the create credential operation. */
 export interface CredentialCreateOrUpdateProperties {
@@ -1151,7 +1154,7 @@ export interface CredentialCreateOrUpdateProperties {
   /** Gets or sets the password of the credential. */
   password: string | Redacted.Redacted<string>;
   /** Gets or sets the description of the credential. */
-  description?: string;
+  description?: string | undefined;
 }
 export interface CredentialCreateOrUpdateRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1170,25 +1173,25 @@ export interface CredentialCreateOrUpdateRequest {
 /** Definition of the credential properties */
 export interface CredentialProperties {
   /** Gets the user name of the credential. */
-  userName?: string;
+  userName?: string | undefined;
   /** Gets the creation time. */
-  creationTime?: string;
+  creationTime?: string | undefined;
   /** Gets the last modified time. */
-  lastModifiedTime?: string;
+  lastModifiedTime?: string | undefined;
   /** Gets or sets the description. */
-  description?: string;
+  description?: string | undefined;
 }
 export interface CredentialCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Gets or sets the properties of the credential. */
-  properties?: CredentialProperties;
+  properties?: CredentialProperties | undefined;
 }
 export interface DeleteAutomationAccountRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1347,9 +1350,9 @@ export interface DeletePrivateEndpointConnectionRequest {
 }
 export interface DeletePrivateEndpointConnectionResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeletePython2PackageRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1473,24 +1476,24 @@ export type ContentSourceType = "embeddedContent" | "uri";
 /** Definition of the content source. */
 export interface ContentSource {
   /** Gets or sets the hash. */
-  hash?: ContentHash;
+  hash?: ContentHash | undefined;
   /** Gets or sets the content source type. */
-  type?: ContentSourceType | (string & {});
+  type?: ContentSourceType | (string & {}) | undefined;
   /** Gets or sets the value of the content. This is based on the content source type. */
-  value?: string;
+  value?: string | undefined;
   /** Gets or sets the version of the content. */
-  version?: string;
+  version?: string | undefined;
 }
 /** Definition of the configuration parameter type. */
 export interface DscConfigurationParameter {
   /** Gets or sets the type of the parameter. */
-  type?: string;
+  type?: string | undefined;
   /** Gets or sets a Boolean value to indicate whether the parameter is mandatory or not. */
-  isMandatory?: boolean;
+  isMandatory?: boolean | undefined;
   /** Get or sets the position of the parameter. */
-  position?: number;
+  position?: number | undefined;
   /** Gets or sets the default value of parameter. */
-  defaultValue?: string;
+  defaultValue?: string | undefined;
 }
 /** Gets or sets the configuration parameters. */
 export type DscConfigurationCreateOrUpdatePropertiesParametersMap = {
@@ -1499,15 +1502,15 @@ export type DscConfigurationCreateOrUpdatePropertiesParametersMap = {
 /** The properties to create or update configuration. */
 export interface DscConfigurationCreateOrUpdateProperties {
   /** Gets or sets verbose log option. */
-  logVerbose?: boolean;
+  logVerbose?: boolean | undefined;
   /** Gets or sets progress log option. */
-  logProgress?: boolean;
+  logProgress?: boolean | undefined;
   /** Gets or sets the source. */
   source: ContentSource;
   /** Gets or sets the configuration parameters. */
-  parameters?: DscConfigurationCreateOrUpdatePropertiesParametersMap;
+  parameters?: DscConfigurationCreateOrUpdatePropertiesParametersMap | undefined;
   /** Gets or sets the description of the configuration. */
-  description?: string;
+  description?: string | undefined;
 }
 /** Gets or sets the tags attached to the resource. */
 export type DscConfigurationCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
@@ -1523,11 +1526,11 @@ export interface DscConfigurationCreateOrUpdateRequest {
   /** Gets or sets configuration create or update properties. */
   properties: DscConfigurationCreateOrUpdateProperties;
   /** Gets or sets name of the resource. */
-  name?: string;
+  name?: string | undefined;
   /** Gets or sets the location of the resource. */
-  location?: string;
+  location?: string | undefined;
   /** Gets or sets the tags attached to the resource. */
-  tags?: DscConfigurationCreateOrUpdateRequestTagsMap;
+  tags?: DscConfigurationCreateOrUpdateRequestTagsMap | undefined;
 }
 /** Resource tags. */
 export type DscConfigurationCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
@@ -1542,48 +1545,48 @@ export type DscConfigurationState = "New" | "Edit" | "Published";
 /** Definition of the configuration property type. */
 export interface DscConfigurationProperties {
   /** Gets or sets the provisioning state of the configuration. */
-  provisioningState?: DscConfigurationPropertiesProvisioningState;
+  provisioningState?: DscConfigurationPropertiesProvisioningState | undefined;
   /** Gets or sets the job count of the configuration. */
-  jobCount?: number;
+  jobCount?: number | undefined;
   /** Gets or sets the configuration parameters. */
-  parameters?: DscConfigurationPropertiesParametersMap;
+  parameters?: DscConfigurationPropertiesParametersMap | undefined;
   /** Gets or sets the source. */
-  source?: ContentSource;
+  source?: ContentSource | undefined;
   /** Gets or sets the state of the configuration. */
-  state?: DscConfigurationState;
+  state?: DscConfigurationState | undefined;
   /** Gets or sets verbose log option. */
-  logVerbose?: boolean;
+  logVerbose?: boolean | undefined;
   /** Gets or sets the creation time. */
-  creationTime?: string;
+  creationTime?: string | undefined;
   /** Gets or sets the last modified time. */
-  lastModifiedTime?: string;
+  lastModifiedTime?: string | undefined;
   /** Gets the number of compiled node configurations. */
-  nodeConfigurationCount?: number;
+  nodeConfigurationCount?: number | undefined;
   /** Gets or sets the description. */
-  description?: string;
+  description?: string | undefined;
 }
 export interface DscConfigurationCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: DscConfigurationCreateOrUpdateResponseTagsMap;
+  tags?: DscConfigurationCreateOrUpdateResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Gets or sets the configuration properties. */
-  properties?: DscConfigurationProperties;
+  properties?: DscConfigurationProperties | undefined;
   /** Gets or sets the etag of the resource. */
-  etag?: string;
+  etag?: string | undefined;
 }
 /** The Dsc configuration property associated with the entity. */
 export interface DscConfigurationAssociationProperty {
   /** Gets or sets the name of the Dsc configuration. */
-  name?: string;
+  name?: string | undefined;
 }
 /** The parameter properties supplied to the create or update node configuration operation. */
 export interface DscNodeConfigurationCreateOrUpdateParametersProperties {
@@ -1592,7 +1595,7 @@ export interface DscNodeConfigurationCreateOrUpdateParametersProperties {
   /** Gets or sets the configuration of the node. */
   configuration: DscConfigurationAssociationProperty;
   /** If a new build version of NodeConfiguration is required. */
-  incrementNodeConfigurationBuild?: boolean;
+  incrementNodeConfigurationBuild?: boolean | undefined;
 }
 /** Gets or sets the tags attached to the resource. */
 export type DscNodeConfigurationCreateOrUpdateRequestTagsMap = {
@@ -1608,17 +1611,17 @@ export interface DscNodeConfigurationCreateOrUpdateRequest {
   /** The Dsc node configuration name. */
   nodeConfigurationName: string;
   /** Node configuration properties */
-  properties?: DscNodeConfigurationCreateOrUpdateParametersProperties;
+  properties?: DscNodeConfigurationCreateOrUpdateParametersProperties | undefined;
   /** Name of the node configuration. */
-  name?: string;
+  name?: string | undefined;
   /** Gets or sets the tags attached to the resource. */
-  tags?: DscNodeConfigurationCreateOrUpdateRequestTagsMap;
+  tags?: DscNodeConfigurationCreateOrUpdateRequestTagsMap | undefined;
 }
 export interface DscNodeConfigurationCreateOrUpdateResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface EditRunbookDraftUndoRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1680,8 +1683,8 @@ export type HttpStatusCode =
   | "HttpVersionNotSupported";
 /** The response model for the undo edit runbook operation. */
 export interface EditRunbookDraftUndoResult {
-  statusCode?: HttpStatusCode;
-  requestId?: string;
+  statusCode?: HttpStatusCode | undefined;
+  requestId?: string | undefined;
 }
 export interface GenerateWebhookUriRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1707,76 +1710,76 @@ export interface GetActivityRequest {
 /** Definition of the activity parameter validation set. */
 export interface ActivityParameterValidationSet {
   /** Gets or sets the name of the activity parameter validation set member. */
-  memberValue?: string;
+  memberValue?: string | undefined;
 }
 /** Gets or sets the validation set of activity parameter. */
 export type ActivityParameterValidationSetList = Array<ActivityParameterValidationSet>;
 /** Definition of the activity parameter. */
 export interface ActivityParameter {
   /** Gets or sets the name of the activity parameter. */
-  name?: string;
+  name?: string | undefined;
   /** Gets or sets the type of the activity parameter. */
-  type?: string;
+  type?: string | undefined;
   /** Gets or sets a Boolean value that indicates true if the parameter is required. If the value is false, the parameter is optional. */
-  isMandatory?: boolean;
+  isMandatory?: boolean | undefined;
   /** Gets or sets a Boolean value that indicates true if the parameter is dynamic. */
-  isDynamic?: boolean;
+  isDynamic?: boolean | undefined;
   /** Gets or sets the position of the activity parameter. */
-  position?: number;
+  position?: number | undefined;
   /** Gets or sets a Boolean value that indicates true if the parameter can take values from the incoming pipeline objects. This setting is used if the cmdlet must access the complete input object. false indicates that the parameter cannot take values from the complete input object. */
-  valueFromPipeline?: boolean;
+  valueFromPipeline?: boolean | undefined;
   /** Gets or sets a Boolean value that indicates true if the parameter can be filled from a property of the incoming pipeline object that has the same name as this parameter. false indicates that the parameter cannot be filled from the incoming pipeline object property with the same name. */
-  valueFromPipelineByPropertyName?: boolean;
+  valueFromPipelineByPropertyName?: boolean | undefined;
   /** Gets or sets a Boolean value that indicates true if the cmdlet parameter accepts all the remaining command-line arguments that are associated with this parameter in the form of an array. false if the cmdlet parameter does not accept all the remaining argument values. */
-  valueFromRemainingArguments?: boolean;
+  valueFromRemainingArguments?: boolean | undefined;
   /** Gets or sets the description of the activity parameter. */
-  description?: string;
+  description?: string | undefined;
   /** Gets or sets the validation set of activity parameter. */
-  validationSet?: ActivityParameterValidationSetList;
+  validationSet?: ActivityParameterValidationSetList | undefined;
 }
 /** Gets or sets the parameters of the activity parameter set. */
 export type ActivityParameterSetParametersList = Array<ActivityParameter>;
 /** Definition of the activity parameter set. */
 export interface ActivityParameterSet {
   /** Gets or sets the name of the activity parameter set. */
-  name?: string;
+  name?: string | undefined;
   /** Gets or sets the parameters of the activity parameter set. */
-  parameters?: ActivityParameterSetParametersList;
+  parameters?: ActivityParameterSetParametersList | undefined;
 }
 /** Gets or sets the parameter sets of the activity. */
 export type ActivityPropertiesParameterSetsList = Array<ActivityParameterSet>;
 /** Definition of the activity output type. */
 export interface ActivityOutputType {
   /** Gets or sets the name of the activity output type. */
-  name?: string;
+  name?: string | undefined;
   /** Gets or sets the type of the activity output type. */
-  type?: string;
+  type?: string | undefined;
 }
 /** Gets or sets the output types of the activity. */
 export type ActivityPropertiesOutputTypesList = Array<ActivityOutputType>;
 /** Properties of the activity. */
 export interface ActivityProperties {
   /** Gets or sets the user name of the activity. */
-  definition?: string;
+  definition?: string | undefined;
   /** Gets or sets the parameter sets of the activity. */
-  parameterSets?: ActivityPropertiesParameterSetsList;
+  parameterSets?: ActivityPropertiesParameterSetsList | undefined;
   /** Gets or sets the output types of the activity. */
-  outputTypes?: ActivityPropertiesOutputTypesList;
+  outputTypes?: ActivityPropertiesOutputTypesList | undefined;
   /** Gets or sets the creation time. */
-  creationTime?: string;
+  creationTime?: string | undefined;
   /** Gets or sets the last modified time. */
-  lastModifiedTime?: string;
+  lastModifiedTime?: string | undefined;
   /** Gets or sets the description. */
-  description?: string;
+  description?: string | undefined;
 }
 /** Definition of the activity. */
 export interface Activity {
   /** Gets or sets the id of the resource. */
-  id?: string;
+  id?: string | undefined;
   /** Gets the name of the activity. */
-  name?: string;
+  name?: string | undefined;
   /** Gets or sets the properties of the activity. */
-  properties?: ActivityProperties;
+  properties?: ActivityProperties | undefined;
 }
 export interface GetAgentRegistrationInformationRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1789,20 +1792,20 @@ export interface GetAgentRegistrationInformationRequest {
 /** Definition of the agent registration keys. */
 export interface AgentRegistrationKeys {
   /** Gets or sets the primary key. */
-  primary?: string;
+  primary?: string | undefined;
   /** Gets or sets the secondary key. */
-  secondary?: string;
+  secondary?: string | undefined;
 }
 /** Definition of the agent registration information type. */
 export interface AgentRegistration {
   /** Gets or sets the dsc meta configuration. */
-  dscMetaConfiguration?: string;
+  dscMetaConfiguration?: string | undefined;
   /** Gets or sets the dsc server endpoint. */
-  endpoint?: string;
+  endpoint?: string | undefined;
   /** Gets or sets the agent registration keys. */
-  keys?: AgentRegistrationKeys;
+  keys?: AgentRegistrationKeys | undefined;
   /** Gets or sets the id. */
-  id?: string;
+  id?: string | undefined;
 }
 export interface GetAutomationAccountRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1816,23 +1819,23 @@ export interface GetAutomationAccountRequest {
 export type GetAutomationAccountResponseTagsMap = { [key: string]: string | undefined };
 export interface GetAutomationAccountResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: GetAutomationAccountResponseTagsMap;
+  tags?: GetAutomationAccountResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Gets or sets the automation account properties. */
-  properties?: AutomationAccountProperties;
+  properties?: AutomationAccountProperties | undefined;
   /** Gets or sets the etag of the resource. */
-  etag?: string;
+  etag?: string | undefined;
   /** Identity for the resource. */
-  identity?: Identity;
+  identity?: Identity | undefined;
 }
 export interface GetCertificateRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1846,15 +1849,15 @@ export interface GetCertificateRequest {
 }
 export interface GetCertificateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Gets or sets the properties of the certificate. */
-  properties?: CertificateProperties;
+  properties?: CertificateProperties | undefined;
 }
 export interface GetConnectionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1868,15 +1871,15 @@ export interface GetConnectionRequest {
 }
 export interface GetConnectionResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Gets or sets the properties of the connection. */
-  properties?: ConnectionProperties;
+  properties?: ConnectionProperties | undefined;
 }
 export interface GetConnectionTypeRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1890,15 +1893,15 @@ export interface GetConnectionTypeRequest {
 }
 export interface GetConnectionTypeResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Gets or sets the properties of the connection type. */
-  properties?: ConnectionTypeProperties;
+  properties?: ConnectionTypeProperties | undefined;
 }
 export interface GetCredentialRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1912,15 +1915,15 @@ export interface GetCredentialRequest {
 }
 export interface GetCredentialResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Gets or sets the properties of the credential. */
-  properties?: CredentialProperties;
+  properties?: CredentialProperties | undefined;
 }
 export interface GetDscConfigurationRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1936,21 +1939,21 @@ export interface GetDscConfigurationRequest {
 export type GetDscConfigurationResponseTagsMap = { [key: string]: string | undefined };
 export interface GetDscConfigurationResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: GetDscConfigurationResponseTagsMap;
+  tags?: GetDscConfigurationResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Gets or sets the configuration properties. */
-  properties?: DscConfigurationProperties;
+  properties?: DscConfigurationProperties | undefined;
   /** Gets or sets the etag of the resource. */
-  etag?: string;
+  etag?: string | undefined;
 }
 export interface GetDscConfigurationContentRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1976,14 +1979,14 @@ export interface GetDscNodeRequest {
 /** The dsc node configuration property associated with the entity. */
 export interface DscNodeConfigurationAssociationProperty {
   /** Gets or sets the name of the dsc node configuration. */
-  name?: string;
+  name?: string | undefined;
 }
 /** The dsc extensionHandler property associated with the node */
 export interface DscNodeExtensionHandlerAssociationProperty {
   /** Gets or sets the name of the extension handler. */
-  name?: string;
+  name?: string | undefined;
   /** Gets or sets the version of the extension handler. */
-  version?: string;
+  version?: string | undefined;
 }
 /** Gets or sets the list of extensionHandler properties for a Node. */
 export type DscNodePropertiesExtensionHandlerList =
@@ -1991,37 +1994,37 @@ export type DscNodePropertiesExtensionHandlerList =
 /** The properties of a DscNode */
 export interface DscNodeProperties {
   /** Gets or sets the last seen time of the node. */
-  lastSeen?: string;
+  lastSeen?: string | undefined;
   /** Gets or sets the registration time of the node. */
-  registrationTime?: string;
+  registrationTime?: string | undefined;
   /** Gets or sets the ip of the node. */
-  ip?: string;
+  ip?: string | undefined;
   /** Gets or sets the account id of the node. */
-  accountId?: string;
+  accountId?: string | undefined;
   /** Gets or sets the configuration of the node. */
-  nodeConfiguration?: DscNodeConfigurationAssociationProperty | null;
+  nodeConfiguration?: DscNodeConfigurationAssociationProperty | null | undefined;
   /** Gets or sets the status of the node. */
-  status?: string;
+  status?: string | undefined;
   /** Gets or sets the node id. */
-  nodeId?: string;
+  nodeId?: string | undefined;
   /** Gets or sets the etag of the resource. */
-  etag?: string;
+  etag?: string | undefined;
   /** Gets the total number of records matching filter criteria. */
-  totalCount?: number;
+  totalCount?: number | undefined;
   /** Gets or sets the list of extensionHandler properties for a Node. */
-  extensionHandler?: DscNodePropertiesExtensionHandlerList;
+  extensionHandler?: DscNodePropertiesExtensionHandlerList | undefined;
 }
 export interface GetDscNodeResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties of a DscNode. */
-  properties?: DscNodeProperties;
+  properties?: DscNodeProperties | undefined;
 }
 export interface GetDscNodeConfigurationRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2036,29 +2039,29 @@ export interface GetDscNodeConfigurationRequest {
 /** Properties for the DscNodeConfiguration */
 export interface DscNodeConfigurationProperties {
   /** Gets or sets the last modified time. */
-  lastModifiedTime?: string;
+  lastModifiedTime?: string | undefined;
   /** Gets or sets creation time. */
-  creationTime?: string;
+  creationTime?: string | undefined;
   /** Gets or sets the configuration of the node. */
-  configuration?: DscConfigurationAssociationProperty;
+  configuration?: DscConfigurationAssociationProperty | undefined;
   /** Source of node configuration. */
-  source?: string;
+  source?: string | undefined;
   /** Number of nodes with this node configuration assigned */
-  nodeCount?: number;
+  nodeCount?: number | undefined;
   /** If a new build version of NodeConfiguration is required. */
-  incrementNodeConfigurationBuild?: boolean;
+  incrementNodeConfigurationBuild?: boolean | undefined;
 }
 export interface GetDscNodeConfigurationResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Gets or sets the configuration properties. */
-  properties?: DscNodeConfigurationProperties;
+  properties?: DscNodeConfigurationProperties | undefined;
 }
 export interface GetHybridRunbookWorkerRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2076,19 +2079,19 @@ export interface GetHybridRunbookWorkerRequest {
 export type GetHybridRunbookWorkerResponseTagsMap = { [key: string]: string | undefined };
 export interface GetHybridRunbookWorkerResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: GetHybridRunbookWorkerResponseTagsMap;
+  tags?: GetHybridRunbookWorkerResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Gets or sets the hybrid worker group properties. */
-  properties?: HybridRunbookWorkerProperties;
+  properties?: HybridRunbookWorkerProperties | undefined;
 }
 export interface GetHybridRunbookWorkerGroupRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2104,19 +2107,19 @@ export interface GetHybridRunbookWorkerGroupRequest {
 export type GetHybridRunbookWorkerGroupResponseTagsMap = { [key: string]: string | undefined };
 export interface GetHybridRunbookWorkerGroupResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: GetHybridRunbookWorkerGroupResponseTagsMap;
+  tags?: GetHybridRunbookWorkerGroupResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Gets or sets the hybrid worker group properties. */
-  properties?: HybridRunbookWorkerGroupProperties;
+  properties?: HybridRunbookWorkerGroupProperties | undefined;
 }
 export interface GetJobRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2130,15 +2133,15 @@ export interface GetJobRequest {
 }
 export interface GetJobResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties of the job. */
-  properties?: JobProperties;
+  properties?: JobProperties | undefined;
 }
 export interface GetJobOutputRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2174,15 +2177,15 @@ export interface GetJobScheduleRequest {
 }
 export interface GetJobScheduleResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Gets or sets the properties of the job schedule. */
-  properties?: JobScheduleProperties;
+  properties?: JobScheduleProperties | undefined;
 }
 export interface GetJobStreamRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2210,24 +2213,24 @@ export type JobStreamPropertiesValueMap = { [key: string]: unknown | undefined }
 /** Definition of the job stream. */
 export interface JobStreamProperties {
   /** Gets or sets the id of the job stream. */
-  jobStreamId?: string;
+  jobStreamId?: string | undefined;
   /** Gets or sets the creation time of the job. */
-  time?: string;
+  time?: string | undefined;
   /** Gets or sets the stream type. */
-  streamType?: JobStreamType;
+  streamType?: JobStreamType | undefined;
   /** Gets or sets the stream text. */
-  streamText?: string;
+  streamText?: string | undefined;
   /** Gets or sets the summary. */
-  summary?: string | null;
+  summary?: string | null | undefined;
   /** Gets or sets the values of the job stream. */
-  value?: JobStreamPropertiesValueMap;
+  value?: JobStreamPropertiesValueMap | undefined;
 }
 /** Definition of the job stream. */
 export interface JobStream {
   /** Gets or sets the id of the resource. */
-  id?: string;
+  id?: string | undefined;
   /** Gets or sets the id of the job stream. */
-  properties?: JobStreamProperties;
+  properties?: JobStreamProperties | undefined;
 }
 export interface GetLinkedWorkspaceRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2240,7 +2243,7 @@ export interface GetLinkedWorkspaceRequest {
 /** Definition of the linked workspace. */
 export interface LinkedWorkspace {
   /** Gets the id of the linked workspace. */
-  id?: string;
+  id?: string | undefined;
 }
 export interface GetModuleRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2275,61 +2278,61 @@ export type ModuleProvisioningState =
 /** Definition of the content link. */
 export interface ContentLink {
   /** Gets or sets the uri of content. */
-  uri?: string;
+  uri?: string | undefined;
   /** Gets or sets the hash. */
-  contentHash?: ContentHash;
+  contentHash?: ContentHash | undefined;
   /** Gets or sets the version of the content. */
-  version?: string;
+  version?: string | undefined;
 }
 /** Definition of the module error info type. */
 export interface ModuleErrorInfo {
   /** Gets or sets the error code. */
-  code?: string;
+  code?: string | undefined;
   /** Gets or sets the error message. */
-  message?: string;
+  message?: string | undefined;
 }
 /** Definition of the module property type. */
 export interface ModuleProperties {
   /** Gets or sets the isGlobal flag of the module. */
-  isGlobal?: boolean;
+  isGlobal?: boolean | undefined;
   /** Gets or sets the version of the module. */
-  version?: string;
+  version?: string | undefined;
   /** Gets or sets the size in bytes of the module. */
-  sizeInBytes?: number;
+  sizeInBytes?: number | undefined;
   /** Gets or sets the activity count of the module. */
-  activityCount?: number;
+  activityCount?: number | undefined;
   /** Gets or sets the provisioning state of the module. */
-  provisioningState?: ModuleProvisioningState;
+  provisioningState?: ModuleProvisioningState | undefined;
   /** Gets or sets the contentLink of the module. */
-  contentLink?: ContentLink;
+  contentLink?: ContentLink | undefined;
   /** Gets or sets the error info of the module. */
-  error?: ModuleErrorInfo;
+  error?: ModuleErrorInfo | undefined;
   /** Gets or sets the creation time. */
-  creationTime?: string;
+  creationTime?: string | undefined;
   /** Gets or sets the last modified time. */
-  lastModifiedTime?: string;
+  lastModifiedTime?: string | undefined;
   /** Gets or sets the description. */
-  description?: string;
+  description?: string | undefined;
   /** Gets or sets type of module, if its composite or not. */
-  isComposite?: boolean;
+  isComposite?: boolean | undefined;
 }
 export interface GetModuleResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: GetModuleResponseTagsMap;
+  tags?: GetModuleResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Gets or sets the module properties. */
-  properties?: ModuleProperties;
+  properties?: ModuleProperties | undefined;
   /** Gets or sets the etag of the resource. */
-  etag?: string;
+  etag?: string | undefined;
 }
 export type GetNodeCountInformationRequestCountType = "status" | "nodeconfiguration";
 export interface GetNodeCountInformationRequest {
@@ -2344,22 +2347,22 @@ export interface GetNodeCountInformationRequest {
 }
 export interface NodeCountProperties {
   /** Gets the count for the name */
-  count?: number;
+  count?: number | undefined;
 }
 /** Number of nodes based on the Filter */
 export interface NodeCount {
   /** Gets the name of a count type */
-  name?: string;
-  properties?: NodeCountProperties;
+  name?: string | undefined;
+  properties?: NodeCountProperties | undefined;
 }
 /** Gets an array of counts */
 export type NodeCountsValueList = Array<NodeCount>;
 /** Gets the count of nodes by count type */
 export interface NodeCounts {
   /** Gets an array of counts */
-  value?: NodeCountsValueList;
+  value?: NodeCountsValueList | undefined;
   /** Gets the total number of records matching countType criteria. */
-  totalCount?: number;
+  totalCount?: number | undefined;
 }
 export interface GetNodeReportRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2376,68 +2379,68 @@ export interface GetNodeReportRequest {
 /** Definition of the dsc node report error type. */
 export interface DscReportError {
   /** Gets or sets the source of the error. */
-  errorSource?: string;
+  errorSource?: string | undefined;
   /** Gets or sets the resource ID which generated the error. */
-  resourceId?: string;
+  resourceId?: string | undefined;
   /** Gets or sets the error code. */
-  errorCode?: string;
+  errorCode?: string | undefined;
   /** Gets or sets the error message. */
-  errorMessage?: string;
+  errorMessage?: string | undefined;
   /** Gets or sets the locale of the error. */
-  locale?: string;
+  locale?: string | undefined;
   /** Gets or sets the error details. */
-  errorDetails?: string;
+  errorDetails?: string | undefined;
 }
 /** Gets or sets the errors for the node report. */
 export type DscNodeReportErrorsList = Array<DscReportError>;
 /** Navigation for DSC Report Resource. */
 export interface DscReportResourceNavigation {
   /** Gets or sets the ID of the resource to navigate to. */
-  resourceId?: string;
+  resourceId?: string | undefined;
 }
 /** Gets or sets the Resource Navigation values for resources the resource depends on. */
 export type DscReportResourceDependsOnList = Array<DscReportResourceNavigation>;
 /** Definition of the DSC Report Resource. */
 export interface DscReportResource {
   /** Gets or sets the ID of the resource. */
-  resourceId?: string;
+  resourceId?: string | undefined;
   /** Gets or sets the source info of the resource. */
-  sourceInfo?: string;
+  sourceInfo?: string | undefined;
   /** Gets or sets the Resource Navigation values for resources the resource depends on. */
-  dependsOn?: DscReportResourceDependsOnList;
+  dependsOn?: DscReportResourceDependsOnList | undefined;
   /** Gets or sets the module name of the resource. */
-  moduleName?: string;
+  moduleName?: string | undefined;
   /** Gets or sets the module version of the resource. */
-  moduleVersion?: string;
+  moduleVersion?: string | undefined;
   /** Gets or sets the name of the resource. */
-  resourceName?: string;
+  resourceName?: string | undefined;
   /** Gets or sets the error of the resource. */
-  error?: string;
+  error?: string | undefined;
   /** Gets or sets the status of the resource. */
-  status?: string;
+  status?: string | undefined;
   /** Gets or sets the duration in seconds for the resource. */
-  durationInSeconds?: number;
+  durationInSeconds?: number | undefined;
   /** Gets or sets the start date of the resource. */
-  startDate?: string;
+  startDate?: string | undefined;
 }
 /** Gets or sets the resource for the node report. */
 export type DscNodeReportResourcesList = Array<DscReportResource>;
 /** Definition of the DSC Meta Configuration. */
 export interface DscMetaConfiguration {
   /** Gets or sets the ConfigurationModeFrequencyMins value of the meta configuration. */
-  configurationModeFrequencyMins?: number;
+  configurationModeFrequencyMins?: number | undefined;
   /** Gets or sets the RebootNodeIfNeeded value of the meta configuration. */
-  rebootNodeIfNeeded?: boolean;
+  rebootNodeIfNeeded?: boolean | undefined;
   /** Gets or sets the ConfigurationMode value of the meta configuration. */
-  configurationMode?: string;
+  configurationMode?: string | undefined;
   /** Gets or sets the ActionAfterReboot value of the meta configuration. */
-  actionAfterReboot?: string;
+  actionAfterReboot?: string | undefined;
   /** Gets or sets the CertificateId value of the meta configuration. */
-  certificateId?: string;
+  certificateId?: string | undefined;
   /** Gets or sets the RefreshFrequencyMins value of the meta configuration. */
-  refreshFrequencyMins?: number;
+  refreshFrequencyMins?: number | undefined;
   /** Gets or sets the AllowModuleOverwrite value of the meta configuration. */
-  allowModuleOverwrite?: boolean;
+  allowModuleOverwrite?: boolean | undefined;
 }
 /** Gets or sets the IPv4 address of the node that sent the report. */
 export type DscNodeReportIPV4AddressesList = Array<string>;
@@ -2446,43 +2449,43 @@ export type DscNodeReportIPV6AddressesList = Array<string>;
 /** Definition of the dsc node report type. */
 export interface DscNodeReport {
   /** Gets or sets the end time of the node report. */
-  endTime?: string | null;
+  endTime?: string | null | undefined;
   /** Gets or sets the lastModifiedTime of the node report. */
-  lastModifiedTime?: string;
+  lastModifiedTime?: string | undefined;
   /** Gets or sets the start time of the node report. */
-  startTime?: string | null;
+  startTime?: string | null | undefined;
   /** Gets or sets the type of the node report. */
-  type?: string;
+  type?: string | undefined;
   /** Gets or sets the id of the node report. */
-  reportId?: string;
+  reportId?: string | undefined;
   /** Gets or sets the status of the node report. */
-  status?: string;
+  status?: string | undefined;
   /** Gets or sets the refreshMode of the node report. */
-  refreshMode?: string;
+  refreshMode?: string | undefined;
   /** Gets or sets the rebootRequested of the node report. */
-  rebootRequested?: string;
+  rebootRequested?: string | undefined;
   /** Gets or sets the reportFormatVersion of the node report. */
-  reportFormatVersion?: string;
+  reportFormatVersion?: string | undefined;
   /** Gets or sets the configurationVersion of the node report. */
-  configurationVersion?: string;
+  configurationVersion?: string | undefined;
   /** Gets or sets the id. */
-  id?: string;
+  id?: string | undefined;
   /** Gets or sets the errors for the node report. */
-  errors?: DscNodeReportErrorsList;
+  errors?: DscNodeReportErrorsList | undefined;
   /** Gets or sets the resource for the node report. */
-  resources?: DscNodeReportResourcesList;
+  resources?: DscNodeReportResourcesList | undefined;
   /** Gets or sets the metaConfiguration of the node at the time of the report. */
-  metaConfiguration?: DscMetaConfiguration;
+  metaConfiguration?: DscMetaConfiguration | undefined;
   /** Gets or sets the hostname of the node that sent the report. */
-  hostName?: string;
+  hostName?: string | undefined;
   /** Gets or sets the IPv4 address of the node that sent the report. */
-  iPV4Addresses?: DscNodeReportIPV4AddressesList;
+  iPV4Addresses?: DscNodeReportIPV4AddressesList | undefined;
   /** Gets or sets the IPv6 address of the node that sent the report. */
-  iPV6Addresses?: DscNodeReportIPV6AddressesList;
+  iPV6Addresses?: DscNodeReportIPV6AddressesList | undefined;
   /** Gets or sets the number of resource in the node report. */
-  numberOfResources?: number;
+  numberOfResources?: number | undefined;
   /** Gets or sets the unparsed errors for the node report. */
-  rawErrors?: string;
+  rawErrors?: string | undefined;
 }
 export interface GetNodeReportContentRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2532,9 +2535,9 @@ export type PackageProvisioningState =
 /** Definition of the package error info type. */
 export interface PackageErrorInfo {
   /** Package import error code. */
-  code?: string;
+  code?: string | undefined;
   /** Package import error message. */
-  message?: string;
+  message?: string | undefined;
 }
 /** The type of identity that created the resource. */
 export type PackagePropertiesAllOfCreatedByType =
@@ -2551,50 +2554,50 @@ export type PackagePropertiesAllOfLastModifiedByType =
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface PackagePropertiesAllOf {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: PackagePropertiesAllOfCreatedByType;
+  createdByType?: PackagePropertiesAllOfCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: PackagePropertiesAllOfLastModifiedByType;
+  lastModifiedByType?: PackagePropertiesAllOfLastModifiedByType | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 /** Definition of the package property type. */
 export interface PackageProperties {
   /** Gets or sets the isGlobal flag of the package. */
-  default?: boolean;
+  default?: boolean | undefined;
   /** Gets or sets the version of the Package. */
-  version?: string;
+  version?: string | undefined;
   /** Gets or sets the size in bytes of the Package. */
-  sizeInBytes?: number;
+  sizeInBytes?: number | undefined;
   /** Gets or sets the provisioning state of the Package. */
-  provisioningState?: PackageProvisioningState;
+  provisioningState?: PackageProvisioningState | undefined;
   /** Gets or sets the contentLink of the Package. */
-  contentLink?: ContentLink;
+  contentLink?: ContentLink | undefined;
   /** Gets or sets the error info of the Package. */
-  error?: PackageErrorInfo;
+  error?: PackageErrorInfo | undefined;
   /** Metadata pertaining to creation and last modification of the resource. */
-  allOf?: PackagePropertiesAllOf;
+  allOf?: PackagePropertiesAllOf | undefined;
 }
 export interface GetPackageResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: GetPackageResponseTagsMap;
+  tags?: GetPackageResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Gets or sets the Package properties. */
-  properties?: PackageProperties;
+  properties?: PackageProperties | undefined;
 }
 export interface GetPrivateEndpointConnectionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2608,15 +2611,15 @@ export interface GetPrivateEndpointConnectionRequest {
 }
 export interface GetPrivateEndpointConnectionResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource properties. */
-  properties?: PrivateEndpointConnectionProperties;
+  properties?: PrivateEndpointConnectionProperties | undefined;
 }
 export interface GetPython2PackageRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2632,21 +2635,21 @@ export interface GetPython2PackageRequest {
 export type GetPython2PackageResponseTagsMap = { [key: string]: string | undefined };
 export interface GetPython2PackageResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: GetPython2PackageResponseTagsMap;
+  tags?: GetPython2PackageResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Gets or sets the module properties. */
-  properties?: ModuleProperties;
+  properties?: ModuleProperties | undefined;
   /** Gets or sets the etag of the resource. */
-  etag?: string;
+  etag?: string | undefined;
 }
 export interface GetPython3PackageRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2662,21 +2665,21 @@ export interface GetPython3PackageRequest {
 export type GetPython3PackageResponseTagsMap = { [key: string]: string | undefined };
 export interface GetPython3PackageResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: GetPython3PackageResponseTagsMap;
+  tags?: GetPython3PackageResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Gets or sets the module properties. */
-  properties?: ModuleProperties;
+  properties?: ModuleProperties | undefined;
   /** Gets or sets the etag of the resource. */
-  etag?: string;
+  etag?: string | undefined;
 }
 export interface GetRunbookRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2718,72 +2721,72 @@ export type RunbookDraftParametersMap = { [key: string]: DscConfigurationParamet
 export type RunbookDraftOutputTypesList = Array<string>;
 export interface RunbookDraft {
   /** Gets or sets whether runbook is in edit mode. */
-  inEdit?: boolean;
+  inEdit?: boolean | undefined;
   /** Gets or sets the draft runbook content link. */
-  draftContentLink?: ContentLink;
+  draftContentLink?: ContentLink | undefined;
   /** Gets or sets the creation time of the runbook draft. */
-  creationTime?: string;
+  creationTime?: string | undefined;
   /** Gets or sets the last modified time of the runbook draft. */
-  lastModifiedTime?: string;
+  lastModifiedTime?: string | undefined;
   /** Gets or sets the runbook draft parameters. */
-  parameters?: RunbookDraftParametersMap;
+  parameters?: RunbookDraftParametersMap | undefined;
   /** Gets or sets the runbook output types. */
-  outputTypes?: RunbookDraftOutputTypesList;
+  outputTypes?: RunbookDraftOutputTypesList | undefined;
 }
 /** Gets or sets the provisioning state of the runbook. */
 export type RunbookPropertiesProvisioningState = "Succeeded";
 /** Definition of the runbook property type. */
 export interface RunbookProperties {
   /** Runtime Environment of the runbook execution. */
-  runtimeEnvironment?: string;
+  runtimeEnvironment?: string | undefined;
   /** Gets or sets the type of the runbook. */
-  runbookType?: RunbookTypeEnum;
+  runbookType?: RunbookTypeEnum | undefined;
   /** Gets or sets the published runbook content link. */
-  publishContentLink?: ContentLink;
+  publishContentLink?: ContentLink | undefined;
   /** Gets or sets the state of the runbook. */
-  state?: RunbookState;
+  state?: RunbookState | undefined;
   /** Gets or sets verbose log option. */
-  logVerbose?: boolean;
+  logVerbose?: boolean | undefined;
   /** Gets or sets progress log option. */
-  logProgress?: boolean;
+  logProgress?: boolean | undefined;
   /** Gets or sets the option to log activity trace of the runbook. */
-  logActivityTrace?: number;
+  logActivityTrace?: number | undefined;
   /** Gets or sets the job count of the runbook. */
-  jobCount?: number;
+  jobCount?: number | undefined;
   /** Gets or sets the runbook parameters. */
-  parameters?: RunbookPropertiesParametersMap;
+  parameters?: RunbookPropertiesParametersMap | undefined;
   /** Gets or sets the runbook output types. */
-  outputTypes?: RunbookPropertiesOutputTypesList;
+  outputTypes?: RunbookPropertiesOutputTypesList | undefined;
   /** Gets or sets the draft runbook properties. */
-  draft?: RunbookDraft;
+  draft?: RunbookDraft | undefined;
   /** Gets or sets the provisioning state of the runbook. */
-  provisioningState?: RunbookPropertiesProvisioningState;
+  provisioningState?: RunbookPropertiesProvisioningState | undefined;
   /** Gets or sets the last modified by. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** Gets or sets the creation time. */
-  creationTime?: string;
+  creationTime?: string | undefined;
   /** Gets or sets the last modified time. */
-  lastModifiedTime?: string;
+  lastModifiedTime?: string | undefined;
   /** Gets or sets the description. */
-  description?: string;
+  description?: string | undefined;
 }
 export interface GetRunbookResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: GetRunbookResponseTagsMap;
+  tags?: GetRunbookResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Gets or sets the runbook properties. */
-  properties?: RunbookProperties;
+  properties?: RunbookProperties | undefined;
   /** Gets or sets the etag of the resource. */
-  etag?: string;
+  etag?: string | undefined;
 }
 export interface GetRunbookContentRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2831,19 +2834,19 @@ export interface GetRuntimeEnvironmentRequest {
 export type GetRuntimeEnvironmentResponseTagsMap = { [key: string]: string | undefined };
 export interface GetRuntimeEnvironmentResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: GetRuntimeEnvironmentResponseTagsMap;
+  tags?: GetRuntimeEnvironmentResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Gets or sets the Runtime Environment properties. */
-  properties?: RuntimeEnvironmentProperties;
+  properties?: RuntimeEnvironmentProperties | undefined;
 }
 export interface GetScheduleRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2858,45 +2861,45 @@ export interface GetScheduleRequest {
 /** Definition of schedule parameters. */
 export interface ScheduleProperties {
   /** Gets or sets the start time of the schedule. */
-  startTime?: string;
+  startTime?: string | undefined;
   /** Gets the start time's offset in minutes. */
-  startTimeOffsetMinutes?: number;
+  startTimeOffsetMinutes?: number | undefined;
   /** Gets or sets the end time of the schedule. */
-  expiryTime?: string | null;
+  expiryTime?: string | null | undefined;
   /** Gets or sets the expiry time's offset in minutes. */
-  expiryTimeOffsetMinutes?: number;
+  expiryTimeOffsetMinutes?: number | undefined;
   /** Gets or sets a value indicating whether this schedule is enabled. */
-  isEnabled?: boolean;
+  isEnabled?: boolean | undefined;
   /** Gets or sets the next run time of the schedule. */
-  nextRun?: string | null;
+  nextRun?: string | null | undefined;
   /** Gets or sets the next run time's offset in minutes. */
-  nextRunOffsetMinutes?: number;
+  nextRunOffsetMinutes?: number | undefined;
   /** Gets or sets the interval of the schedule. */
-  interval?: unknown;
+  interval?: unknown | undefined;
   /** Gets or sets the frequency of the schedule. */
-  frequency?: ScheduleFrequency;
+  frequency?: ScheduleFrequency | undefined;
   /** Gets or sets the time zone of the schedule. */
-  timeZone?: string;
+  timeZone?: string | undefined;
   /** Gets or sets the advanced schedule. */
-  advancedSchedule?: AdvancedSchedule;
+  advancedSchedule?: AdvancedSchedule | undefined;
   /** Gets or sets the creation time. */
-  creationTime?: string;
+  creationTime?: string | undefined;
   /** Gets or sets the last modified time. */
-  lastModifiedTime?: string;
+  lastModifiedTime?: string | undefined;
   /** Gets or sets the description. */
-  description?: string;
+  description?: string | undefined;
 }
 export interface GetScheduleResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Gets or sets the properties of the schedule. */
-  properties?: ScheduleProperties;
+  properties?: ScheduleProperties | undefined;
 }
 export interface GetSoftwareUpdateConfigurationByNameRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2910,13 +2913,13 @@ export interface GetSoftwareUpdateConfigurationByNameRequest {
 }
 export interface GetSoftwareUpdateConfigurationByNameResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Software update configuration properties. */
   properties: SoftwareUpdateConfigurationProperties;
 }
@@ -2933,56 +2936,56 @@ export interface GetSoftwareUpdateConfigurationMachineRunByIdRequest {
 /** Software update configuration Run Navigation model. */
 export interface UpdateConfigurationNavigation {
   /** Name of the software update configuration triggered the software update configuration run */
-  name?: string;
+  name?: string | undefined;
 }
 /** Software update configuration machine run job navigation properties. */
 export interface JobNavigation {
   /** Id of the job associated with the software update configuration run */
-  id?: string;
+  id?: string | undefined;
 }
 /** Software update configuration machine run properties. */
 export interface UpdateConfigurationMachineRunProperties {
   /** name of the updated computer */
-  targetComputer?: string;
+  targetComputer?: string | undefined;
   /** type of the updated computer. */
-  targetComputerType?: string;
+  targetComputerType?: string | undefined;
   /** software update configuration triggered this run */
-  softwareUpdateConfiguration?: UpdateConfigurationNavigation;
+  softwareUpdateConfiguration?: UpdateConfigurationNavigation | undefined;
   /** Status of the software update configuration machine run. */
-  status?: string;
+  status?: string | undefined;
   /** Operating system target of the software update configuration triggered this run */
-  osType?: string;
+  osType?: string | undefined;
   /** correlation id of the software update configuration machine run */
-  correlationId?: string;
+  correlationId?: string | undefined;
   /** source computer id of the software update configuration machine run */
-  sourceComputerId?: string;
+  sourceComputerId?: string | undefined;
   /** Start time of the software update configuration machine run. */
-  startTime?: string;
+  startTime?: string | undefined;
   /** End time of the software update configuration machine run. */
-  endTime?: string | null;
+  endTime?: string | null | undefined;
   /** configured duration for the software update configuration run. */
-  configuredDuration?: string;
+  configuredDuration?: string | undefined;
   /** Job associated with the software update configuration machine run */
-  job?: JobNavigation;
+  job?: JobNavigation | undefined;
   /** Creation time of the resource, which only appears in the response. */
-  creationTime?: string;
+  creationTime?: string | undefined;
   /** createdBy property, which only appears in the response. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** Last time resource was modified, which only appears in the response. */
-  lastModifiedTime?: string;
+  lastModifiedTime?: string | undefined;
   /** lastModifiedBy property, which only appears in the response. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** Details of provisioning error */
-  error?: AutomationErrorResponse;
+  error?: AutomationErrorResponse | undefined;
 }
 /** Software update configuration machine run model. */
 export interface SoftwareUpdateConfigurationMachineRun {
   /** Name of the software update configuration machine run */
-  name?: string;
+  name?: string | undefined;
   /** Resource Id of the software update configuration machine run */
-  id?: string;
+  id?: string | undefined;
   /** Software update configuration machine run properties. */
-  properties?: UpdateConfigurationMachineRunProperties;
+  properties?: UpdateConfigurationMachineRunProperties | undefined;
 }
 export interface GetSoftwareUpdateConfigurationRunByIdRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2997,56 +3000,56 @@ export interface GetSoftwareUpdateConfigurationRunByIdRequest {
 /** Task properties of the software update configuration. */
 export interface SoftwareUpdateConfigurationRunTaskProperties {
   /** The status of the task. */
-  status?: string;
+  status?: string | undefined;
   /** The name of the source of the task. */
-  source?: string;
+  source?: string | undefined;
   /** The job id of the task. */
-  jobId?: string;
+  jobId?: string | undefined;
 }
 /** Software update configuration run tasks model. */
 export interface SoftwareUpdateConfigurationRunTasks {
   /** Pre task properties. */
-  preTask?: SoftwareUpdateConfigurationRunTaskProperties;
+  preTask?: SoftwareUpdateConfigurationRunTaskProperties | undefined;
   /** Post task properties. */
-  postTask?: SoftwareUpdateConfigurationRunTaskProperties;
+  postTask?: SoftwareUpdateConfigurationRunTaskProperties | undefined;
 }
 /** Software update configuration properties. */
 export interface SoftwareUpdateConfigurationRunProperties {
   /** software update configuration triggered this run */
-  softwareUpdateConfiguration?: UpdateConfigurationNavigation;
+  softwareUpdateConfiguration?: UpdateConfigurationNavigation | undefined;
   /** Status of the software update configuration run. */
-  status?: string;
+  status?: string | undefined;
   /** Configured duration for the software update configuration run. */
-  configuredDuration?: string;
+  configuredDuration?: string | undefined;
   /** Operating system target of the software update configuration triggered this run */
-  osType?: string;
+  osType?: string | undefined;
   /** Start time of the software update configuration run. */
-  startTime?: string;
+  startTime?: string | undefined;
   /** End time of the software update configuration run. */
-  endTime?: string | null;
+  endTime?: string | null | undefined;
   /** Number of computers in the software update configuration run. */
-  computerCount?: number;
+  computerCount?: number | undefined;
   /** Number of computers with failed status. */
-  failedCount?: number;
+  failedCount?: number | undefined;
   /** Creation time of the resource, which only appears in the response. */
-  creationTime?: string;
+  creationTime?: string | undefined;
   /** CreatedBy property, which only appears in the response. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** Last time resource was modified, which only appears in the response. */
-  lastModifiedTime?: string;
+  lastModifiedTime?: string | undefined;
   /** LastModifiedBy property, which only appears in the response. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** Software update configuration tasks triggered in this run */
-  tasks?: SoftwareUpdateConfigurationRunTasks;
+  tasks?: SoftwareUpdateConfigurationRunTasks | undefined;
 }
 /** Software update configuration Run properties. */
 export interface SoftwareUpdateConfigurationRun {
   /** Name of the software update configuration run. */
-  name?: string;
+  name?: string | undefined;
   /** Resource Id of the software update configuration run */
-  id?: string;
+  id?: string | undefined;
   /** Software update configuration Run properties. */
-  properties?: SoftwareUpdateConfigurationRunProperties;
+  properties?: SoftwareUpdateConfigurationRunProperties | undefined;
 }
 export interface GetSourceControlRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -3063,35 +3066,35 @@ export type SourceType = "VsoGit" | "VsoTfvc" | "GitHub";
 /** Definition of the source control properties */
 export interface SourceControlProperties {
   /** The repo url of the source control. */
-  repoUrl?: string;
+  repoUrl?: string | undefined;
   /** The repo branch of the source control. Include branch as empty string for VsoTfvc. */
-  branch?: string;
+  branch?: string | undefined;
   /** The folder path of the source control. */
-  folderPath?: string;
+  folderPath?: string | undefined;
   /** The auto sync of the source control. Default is false. */
-  autoSync?: boolean;
+  autoSync?: boolean | undefined;
   /** The auto publish of the source control. Default is true. */
-  publishRunbook?: boolean;
+  publishRunbook?: boolean | undefined;
   /** The source type. Must be one of VsoGit, VsoTfvc, GitHub. */
-  sourceType?: SourceType;
+  sourceType?: SourceType | undefined;
   /** The description. */
-  description?: string;
+  description?: string | undefined;
   /** The creation time. */
-  creationTime?: string;
+  creationTime?: string | undefined;
   /** The last modified time. */
-  lastModifiedTime?: string;
+  lastModifiedTime?: string | undefined;
 }
 export interface GetSourceControlResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties of the source control. */
-  properties?: SourceControlProperties;
+  properties?: SourceControlProperties | undefined;
 }
 export interface GetSourceControlSyncJobRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -3108,26 +3111,26 @@ export interface GetSourceControlSyncJobRequest {
 /** Definition of source control sync job properties. */
 export interface SourceControlSyncJobByIdProperties {
   /** The source control sync job id. */
-  sourceControlSyncJobId?: string;
+  sourceControlSyncJobId?: string | undefined;
   /** The creation time of the job. */
-  creationTime?: string;
+  creationTime?: string | undefined;
   /** The provisioning state of the job. */
-  provisioningState?: ProvisioningState;
+  provisioningState?: ProvisioningState | undefined;
   /** The start time of the job. */
-  startTime?: string | null;
+  startTime?: string | null | undefined;
   /** The end time of the job. */
-  endTime?: string | null;
+  endTime?: string | null | undefined;
   /** The sync type. */
-  syncType?: SyncType;
+  syncType?: SyncType | undefined;
   /** The exceptions that occurred while running the sync job. */
-  exception?: string;
+  exception?: string | undefined;
 }
 /** Definition of the source control sync job. */
 export interface SourceControlSyncJobById {
   /** The id of the job. */
-  id?: string;
+  id?: string | undefined;
   /** The properties of the source control sync job. */
-  properties?: SourceControlSyncJobByIdProperties;
+  properties?: SourceControlSyncJobByIdProperties | undefined;
 }
 export interface GetSourceControlSyncJobStreamRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -3152,24 +3155,24 @@ export type SourceControlSyncJobStreamByIdPropertiesValueMap = {
 /** Definition of source control sync job stream by id properties. */
 export interface SourceControlSyncJobStreamByIdProperties {
   /** The sync job stream id. */
-  sourceControlSyncJobStreamId?: string;
+  sourceControlSyncJobStreamId?: string | undefined;
   /** The summary of the sync job stream. */
-  summary?: string;
+  summary?: string | undefined;
   /** The time of the sync job stream. */
-  time?: string | null;
+  time?: string | null | undefined;
   /** The type of the sync job stream. */
-  streamType?: StreamType;
+  streamType?: StreamType | undefined;
   /** The text of the sync job stream. */
-  streamText?: string;
+  streamText?: string | undefined;
   /** The values of the job stream. */
-  value?: SourceControlSyncJobStreamByIdPropertiesValueMap;
+  value?: SourceControlSyncJobStreamByIdPropertiesValueMap | undefined;
 }
 /** Definition of the source control sync job stream by id. */
 export interface SourceControlSyncJobStreamById {
   /** Resource id. */
-  id?: string;
+  id?: string | undefined;
   /** The properties of the source control sync job stream. */
-  properties?: SourceControlSyncJobStreamByIdProperties;
+  properties?: SourceControlSyncJobStreamByIdProperties | undefined;
 }
 export interface GetTestJobRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -3206,27 +3209,27 @@ export interface GetVariableRequest {
 /** Definition of the variable properties */
 export interface VariableProperties {
   /** Gets or sets the value of the variable. */
-  value?: string;
+  value?: string | undefined;
   /** Gets or sets the encrypted flag of the variable. */
-  isEncrypted?: boolean | null;
+  isEncrypted?: boolean | null | undefined;
   /** Gets or sets the creation time. */
-  creationTime?: string;
+  creationTime?: string | undefined;
   /** Gets or sets the last modified time. */
-  lastModifiedTime?: string;
+  lastModifiedTime?: string | undefined;
   /** Gets or sets the description. */
-  description?: string;
+  description?: string | undefined;
 }
 export interface GetVariableResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Gets or sets the properties of the variable. */
-  properties?: VariableProperties;
+  properties?: VariableProperties | undefined;
 }
 export interface GetWatcherRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -3243,43 +3246,43 @@ export type WatcherPropertiesScriptParametersMap = { [key: string]: string | und
 /** Definition of the watcher properties */
 export interface WatcherProperties {
   /** Gets or sets the frequency at which the watcher is invoked. */
-  executionFrequencyInSeconds?: number;
+  executionFrequencyInSeconds?: number | undefined;
   /** Gets or sets the name of the script the watcher is attached to, i.e. the name of an existing runbook. */
-  scriptName?: string;
+  scriptName?: string | undefined;
   /** Gets or sets the parameters of the script. */
-  scriptParameters?: WatcherPropertiesScriptParametersMap;
+  scriptParameters?: WatcherPropertiesScriptParametersMap | undefined;
   /** Gets or sets the name of the hybrid worker group the watcher will run on. */
-  scriptRunOn?: string;
+  scriptRunOn?: string | undefined;
   /** Gets the current status of the watcher. */
-  status?: string;
+  status?: string | undefined;
   /** Gets or sets the creation time. */
-  creationTime?: string;
+  creationTime?: string | undefined;
   /** Gets or sets the last modified time. */
-  lastModifiedTime?: string;
+  lastModifiedTime?: string | undefined;
   /** Details of the user who last modified the watcher. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** Gets or sets the description. */
-  description?: string;
+  description?: string | undefined;
 }
 /** Resource tags. */
 export type GetWatcherResponseTagsMap = { [key: string]: string | undefined };
 export interface GetWatcherResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Gets or sets the watcher properties. */
-  properties?: WatcherProperties;
+  properties?: WatcherProperties | undefined;
   /** Gets or sets the etag of the resource. */
-  etag?: string;
+  etag?: string | undefined;
   /** Resource tags. */
-  tags?: GetWatcherResponseTagsMap;
+  tags?: GetWatcherResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
-  location?: string;
+  location?: string | undefined;
 }
 export interface GetWebhookRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -3296,39 +3299,39 @@ export type WebhookPropertiesParametersMap = { [key: string]: string | undefined
 /** Definition of the webhook properties */
 export interface WebhookProperties {
   /** Gets or sets the value of the enabled flag of the webhook. */
-  isEnabled?: boolean;
+  isEnabled?: boolean | undefined;
   /** Gets or sets the webhook uri. */
-  uri?: string;
+  uri?: string | undefined;
   /** Gets or sets the expiry time. */
-  expiryTime?: string;
+  expiryTime?: string | undefined;
   /** Gets or sets the last invoked time. */
-  lastInvokedTime?: string | null;
+  lastInvokedTime?: string | null | undefined;
   /** Gets or sets the parameters of the job that is created when the webhook calls the runbook it is associated with. */
-  parameters?: WebhookPropertiesParametersMap;
+  parameters?: WebhookPropertiesParametersMap | undefined;
   /** Gets or sets the runbook the webhook is associated with. */
-  runbook?: RunbookAssociationProperty;
+  runbook?: RunbookAssociationProperty | undefined;
   /** Gets or sets the name of the hybrid worker group the webhook job will run on. */
-  runOn?: string;
+  runOn?: string | undefined;
   /** Gets or sets the creation time. */
-  creationTime?: string;
+  creationTime?: string | undefined;
   /** Gets or sets the last modified time. */
-  lastModifiedTime?: string;
+  lastModifiedTime?: string | undefined;
   /** Details of the user who last modified the Webhook */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** Gets or sets the description. */
-  description?: string;
+  description?: string | undefined;
 }
 export interface GetWebhookResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Gets or sets the webhook properties. */
-  properties?: WebhookProperties;
+  properties?: WebhookProperties | undefined;
 }
 export interface ListActivityByModuleRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -3347,7 +3350,7 @@ export interface ActivityListResult {
   /** The Activity items on this page */
   value: ActivityListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListAutomationAccountRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -3358,23 +3361,23 @@ export type AutomationAccountTagsMap = { [key: string]: string | undefined };
 /** Definition of the automation account type. */
 export interface AutomationAccount {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: AutomationAccountTagsMap;
+  tags?: AutomationAccountTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Gets or sets the automation account properties. */
-  properties?: AutomationAccountProperties;
+  properties?: AutomationAccountProperties | undefined;
   /** Gets or sets the etag of the resource. */
-  etag?: string;
+  etag?: string | undefined;
   /** Identity for the resource. */
-  identity?: Identity;
+  identity?: Identity | undefined;
 }
 /** The AutomationAccount items on this page */
 export type AutomationAccountListResultValueList = Array<AutomationAccount>;
@@ -3383,7 +3386,7 @@ export interface AutomationAccountListResult {
   /** The AutomationAccount items on this page */
   value: AutomationAccountListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListAutomationAccountByResourceGroupRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -3402,28 +3405,28 @@ export interface ListAutomationAccountDeletedRunbooksRequest {
 /** Definition of the deleted runbook property. */
 export interface DeletedRunbookProperties {
   /** Gets or sets the Runbook Id. */
-  runbookId?: string;
+  runbookId?: string | undefined;
   /** Type of the runbook. */
-  runbookType?: string;
+  runbookType?: string | undefined;
   /** Gets or sets runtime of the runbook. */
-  runtime?: string;
+  runtime?: string | undefined;
   /** Environment of the runbook. */
-  runtimeEnvironment?: string | null;
+  runtimeEnvironment?: string | null | undefined;
   /** Gets or sets the creation time. */
-  creationTime?: string;
+  creationTime?: string | undefined;
   /** Gets or sets the last modified time. */
-  deletionTime?: string;
+  deletionTime?: string | undefined;
 }
 /** Definition of deleted runbook. */
 export interface DeletedRunbook {
   /** Gets or sets the runbook properties. */
-  properties?: DeletedRunbookProperties;
+  properties?: DeletedRunbookProperties | undefined;
   /** The resource id. */
-  id?: string;
+  id?: string | undefined;
   /** Gets or sets name of the resource. */
-  name?: string;
+  name?: string | undefined;
   /** Gets or sets the location of the resource. */
-  location?: string;
+  location?: string | undefined;
 }
 /** The DeletedRunbook items on this page */
 export type DeletedRunbookListResultValueList = Array<DeletedRunbook>;
@@ -3432,7 +3435,7 @@ export interface DeletedRunbookListResult {
   /** The DeletedRunbook items on this page */
   value: DeletedRunbookListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListCertificateByAutomationAccountRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -3445,15 +3448,15 @@ export interface ListCertificateByAutomationAccountRequest {
 /** Definition of the certificate. */
 export interface Certificate {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Gets or sets the properties of the certificate. */
-  properties?: CertificateProperties;
+  properties?: CertificateProperties | undefined;
 }
 /** The Certificate items on this page */
 export type CertificateListResultValueList = Array<Certificate>;
@@ -3462,7 +3465,7 @@ export interface CertificateListResult {
   /** The Certificate items on this page */
   value: CertificateListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListConnectionByAutomationAccountRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -3475,15 +3478,15 @@ export interface ListConnectionByAutomationAccountRequest {
 /** Definition of the connection. */
 export interface Connection {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Gets or sets the properties of the connection. */
-  properties?: ConnectionProperties;
+  properties?: ConnectionProperties | undefined;
 }
 /** The Connection items on this page */
 export type ConnectionListResultValueList = Array<Connection>;
@@ -3492,7 +3495,7 @@ export interface ConnectionListResult {
   /** The Connection items on this page */
   value: ConnectionListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListConnectionTypeByAutomationAccountRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -3505,15 +3508,15 @@ export interface ListConnectionTypeByAutomationAccountRequest {
 /** Definition of the connection type. */
 export interface ConnectionType {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Gets or sets the properties of the connection type. */
-  properties?: ConnectionTypeProperties;
+  properties?: ConnectionTypeProperties | undefined;
 }
 /** The ConnectionType items on this page */
 export type ConnectionTypeListResultValueList = Array<ConnectionType>;
@@ -3522,7 +3525,7 @@ export interface ConnectionTypeListResult {
   /** The ConnectionType items on this page */
   value: ConnectionTypeListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListCredentialByAutomationAccountRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -3535,15 +3538,15 @@ export interface ListCredentialByAutomationAccountRequest {
 /** Definition of the credential. */
 export interface Credential {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Gets or sets the properties of the credential. */
-  properties?: CredentialProperties;
+  properties?: CredentialProperties | undefined;
 }
 /** The Credential items on this page */
 export type CredentialListResultValueList = Array<Credential>;
@@ -3552,7 +3555,7 @@ export interface CredentialListResult {
   /** The Credential items on this page */
   value: CredentialListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListDeletedAutomationAccountBySubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -3561,33 +3564,33 @@ export interface ListDeletedAutomationAccountBySubscriptionRequest {
 /** Definition of the deleted automation account properties. */
 export interface DeletedAutomationAccountProperties {
   /** Gets or sets the Automation Account Resource Id. */
-  automationAccountResourceId?: string;
+  automationAccountResourceId?: string | undefined;
   /** Gets or sets the Automation Account Id. */
-  automationAccountId?: string;
+  automationAccountId?: string | undefined;
   /** Gets or sets the location of the resource. */
-  location?: string;
+  location?: string | undefined;
   /** Gets the deletion time. */
-  deletionTime?: string;
+  deletionTime?: string | undefined;
 }
 /** Definition of the deleted automation account type. */
 export interface DeletedAutomationAccount {
   /** Gets or sets the automation account properties. */
-  properties?: DeletedAutomationAccountProperties;
+  properties?: DeletedAutomationAccountProperties | undefined;
   /** The resource id. */
-  id?: string;
+  id?: string | undefined;
   /** Gets or sets name of the resource. */
-  name?: string;
+  name?: string | undefined;
   /** The resource type. */
-  type?: string;
+  type?: string | undefined;
   /** Gets or sets the location of the resource. */
-  location?: string;
+  location?: string | undefined;
 }
 /** Gets or sets the list of deleted automation accounts. */
 export type DeletedAutomationAccountListResultValueList = Array<DeletedAutomationAccount>;
 /** The response model for the list deleted automation account. */
 export interface DeletedAutomationAccountListResult {
   /** Gets or sets the list of deleted automation accounts. */
-  value?: DeletedAutomationAccountListResultValueList;
+  value?: DeletedAutomationAccountListResultValueList | undefined;
 }
 export interface ListDscConfigurationByAutomationAccountRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -3597,45 +3600,45 @@ export interface ListDscConfigurationByAutomationAccountRequest {
   /** The name of the automation account. */
   automationAccountName: string;
   /** The filter to apply on the operation. */
-  _filter?: string;
+  _filter?: string | undefined;
   /** The number of rows to skip. */
-  _skip?: number;
+  _skip?: number | undefined;
   /** The number of rows to take. */
-  _top?: number;
+  _top?: number | undefined;
   /** Return total rows. */
-  _inlinecount?: string;
+  _inlinecount?: string | undefined;
 }
 /** Resource tags. */
 export type DscConfigurationTagsMap = { [key: string]: string | undefined };
 /** Definition of the configuration type. */
 export interface DscConfiguration {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: DscConfigurationTagsMap;
+  tags?: DscConfigurationTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Gets or sets the configuration properties. */
-  properties?: DscConfigurationProperties;
+  properties?: DscConfigurationProperties | undefined;
   /** Gets or sets the etag of the resource. */
-  etag?: string;
+  etag?: string | undefined;
 }
 /** Gets or sets a list of configurations. */
 export type DscConfigurationListResultValueList = Array<DscConfiguration>;
 /** The response model for the list configuration operation. */
 export interface DscConfigurationListResult {
   /** Gets or sets a list of configurations. */
-  value?: DscConfigurationListResultValueList;
+  value?: DscConfigurationListResultValueList | undefined;
   /** Gets or sets the next link. */
-  nextLink?: string;
+  nextLink?: string | undefined;
   /** Gets the total number of configurations matching filter criteria. */
-  totalCount?: number;
+  totalCount?: number | undefined;
 }
 export interface ListDscNodeByAutomationAccountRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -3645,37 +3648,37 @@ export interface ListDscNodeByAutomationAccountRequest {
   /** The name of the automation account. */
   automationAccountName: string;
   /** The filter to apply on the operation. */
-  _filter?: string;
+  _filter?: string | undefined;
   /** The number of rows to skip. */
-  _skip?: number;
+  _skip?: number | undefined;
   /** The number of rows to take. */
-  _top?: number;
+  _top?: number | undefined;
   /** Return total rows. */
-  _inlinecount?: string;
+  _inlinecount?: string | undefined;
 }
 /** Definition of a DscNode */
 export interface DscNode {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties of a DscNode. */
-  properties?: DscNodeProperties;
+  properties?: DscNodeProperties | undefined;
 }
 /** Gets or sets a list of dsc nodes. */
 export type DscNodeListResultValueList = Array<DscNode>;
 /** The response model for the list dsc nodes operation. */
 export interface DscNodeListResult {
   /** Gets or sets a list of dsc nodes. */
-  value?: DscNodeListResultValueList;
+  value?: DscNodeListResultValueList | undefined;
   /** Gets or sets the next link. */
-  nextLink?: string;
+  nextLink?: string | undefined;
   /** Gets the total number of nodes matching filter criteria. */
-  totalCount?: number;
+  totalCount?: number | undefined;
 }
 export interface ListDscNodeConfigurationByAutomationAccountRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -3685,37 +3688,37 @@ export interface ListDscNodeConfigurationByAutomationAccountRequest {
   /** The name of the automation account. */
   automationAccountName: string;
   /** The filter to apply on the operation. */
-  _filter?: string;
+  _filter?: string | undefined;
   /** The number of rows to skip. */
-  _skip?: number;
+  _skip?: number | undefined;
   /** The number of rows to take. */
-  _top?: number;
+  _top?: number | undefined;
   /** Return total rows. */
-  _inlinecount?: string;
+  _inlinecount?: string | undefined;
 }
 /** Definition of the dsc node configuration. */
 export interface DscNodeConfiguration {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Gets or sets the configuration properties. */
-  properties?: DscNodeConfigurationProperties;
+  properties?: DscNodeConfigurationProperties | undefined;
 }
 /** Gets or sets a list of Dsc node configurations. */
 export type DscNodeConfigurationListResultValueList = Array<DscNodeConfiguration>;
 /** The response model for the list job operation. */
 export interface DscNodeConfigurationListResult {
   /** Gets or sets a list of Dsc node configurations. */
-  value?: DscNodeConfigurationListResultValueList;
+  value?: DscNodeConfigurationListResultValueList | undefined;
   /** Gets or sets the next link. */
-  nextLink?: string;
+  nextLink?: string | undefined;
   /** Gets or sets the total rows in query. */
-  totalCount?: number;
+  totalCount?: number | undefined;
 }
 export interface ListFieldByTypeRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -3732,17 +3735,17 @@ export interface ListFieldByTypeRequest {
 /** Information about a field of a type. */
 export interface TypeField {
   /** Gets or sets the name of the field. */
-  name?: string;
+  name?: string | undefined;
   /** Gets or sets the type of the field. */
-  type?: string;
+  type?: string | undefined;
 }
 /** Gets or sets a list of fields. */
 export type TypeFieldListResultValueList = Array<TypeField>;
 /** The response model for the list fields operation. */
 export interface TypeFieldListResult {
   /** Gets or sets a list of fields. */
-  value?: TypeFieldListResultValueList;
-  nextLink?: string;
+  value?: TypeFieldListResultValueList | undefined;
+  nextLink?: string | undefined;
 }
 export interface ListHybridRunbookWorkerByHybridRunbookWorkerGroupRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -3754,26 +3757,26 @@ export interface ListHybridRunbookWorkerByHybridRunbookWorkerGroupRequest {
   /** The hybrid runbook worker group name */
   hybridRunbookWorkerGroupName: string;
   /** The filter to apply on the operation. */
-  _filter?: string;
+  _filter?: string | undefined;
 }
 /** Resource tags. */
 export type HybridRunbookWorkerTagsMap = { [key: string]: string | undefined };
 /** Definition of hybrid runbook worker. */
 export interface HybridRunbookWorker {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: HybridRunbookWorkerTagsMap;
+  tags?: HybridRunbookWorkerTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Gets or sets the hybrid worker group properties. */
-  properties?: HybridRunbookWorkerProperties;
+  properties?: HybridRunbookWorkerProperties | undefined;
 }
 /** The HybridRunbookWorker items on this page */
 export type HybridRunbookWorkersListResultValueList = Array<HybridRunbookWorker>;
@@ -3782,7 +3785,7 @@ export interface HybridRunbookWorkersListResult {
   /** The HybridRunbookWorker items on this page */
   value: HybridRunbookWorkersListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListHybridRunbookWorkerGroupByAutomationAccountRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -3792,26 +3795,26 @@ export interface ListHybridRunbookWorkerGroupByAutomationAccountRequest {
   /** The name of the automation account. */
   automationAccountName: string;
   /** The filter to apply on the operation. */
-  _filter?: string;
+  _filter?: string | undefined;
 }
 /** Resource tags. */
 export type HybridRunbookWorkerGroupTagsMap = { [key: string]: string | undefined };
 /** Definition of hybrid runbook worker group. */
 export interface HybridRunbookWorkerGroup {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: HybridRunbookWorkerGroupTagsMap;
+  tags?: HybridRunbookWorkerGroupTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Gets or sets the hybrid worker group properties. */
-  properties?: HybridRunbookWorkerGroupProperties;
+  properties?: HybridRunbookWorkerGroupProperties | undefined;
 }
 /** The HybridRunbookWorkerGroup items on this page */
 export type HybridRunbookWorkerGroupsListResultValueList = Array<HybridRunbookWorkerGroup>;
@@ -3820,7 +3823,7 @@ export interface HybridRunbookWorkerGroupsListResult {
   /** The HybridRunbookWorkerGroup items on this page */
   value: HybridRunbookWorkerGroupsListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListJobByAutomationAccountRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -3830,43 +3833,43 @@ export interface ListJobByAutomationAccountRequest {
   /** The name of the automation account. */
   automationAccountName: string;
   /** The filter to apply on the operation. */
-  _filter?: string;
+  _filter?: string | undefined;
 }
 /** Job collection item properties. */
 export interface JobCollectionItemProperties {
   /** The runbook association. */
-  runbook?: RunbookAssociationProperty;
+  runbook?: RunbookAssociationProperty | undefined;
   /** The id of the job. */
-  jobId?: string;
+  jobId?: string | undefined;
   /** Gets or sets the job started by. */
-  startedBy?: string | null;
+  startedBy?: string | null | undefined;
   /** The creation time of the job. */
-  creationTime?: string;
+  creationTime?: string | undefined;
   /** The status of the job. */
-  status?: JobStatus;
+  status?: JobStatus | undefined;
   /** The start time of the job. */
-  startTime?: string | null;
+  startTime?: string | null | undefined;
   /** The end time of the job. */
-  endTime?: string | null;
+  endTime?: string | null | undefined;
   /** The last modified time of the job. */
-  lastModifiedTime?: string | null;
+  lastModifiedTime?: string | null | undefined;
   /** The provisioning state of a resource. */
-  provisioningState?: string;
+  provisioningState?: string | undefined;
   /** Runtime Environment Property */
-  jobRuntimeEnvironment?: JobRuntimeEnvironment;
+  jobRuntimeEnvironment?: JobRuntimeEnvironment | undefined;
   /** Specifies the runOn group name where the job was executed. */
-  runOn?: string;
+  runOn?: string | undefined;
 }
 /** Job collection item properties. */
 export interface JobCollectionItem {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Job properties. */
   properties: JobCollectionItemProperties;
 }
@@ -3877,7 +3880,7 @@ export interface JobListResultV2 {
   /** The JobCollectionItem items on this page */
   value: JobListResultV2ValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListJobScheduleByAutomationAccountRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -3887,20 +3890,20 @@ export interface ListJobScheduleByAutomationAccountRequest {
   /** The name of the automation account. */
   automationAccountName: string;
   /** The filter to apply on the operation. */
-  _filter?: string;
+  _filter?: string | undefined;
 }
 /** Definition of the job schedule. */
 export interface JobSchedule {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Gets or sets the properties of the job schedule. */
-  properties?: JobScheduleProperties;
+  properties?: JobScheduleProperties | undefined;
 }
 /** The JobSchedule items on this page */
 export type JobScheduleListResultValueList = Array<JobSchedule>;
@@ -3909,7 +3912,7 @@ export interface JobScheduleListResult {
   /** The JobSchedule items on this page */
   value: JobScheduleListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListJobStreamByJobRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -3921,7 +3924,7 @@ export interface ListJobStreamByJobRequest {
   /** The job name. */
   jobName: string;
   /** The filter to apply on the operation. */
-  _filter?: string;
+  _filter?: string | undefined;
 }
 /** The JobStream items on this page */
 export type JobStreamListResultValueList = Array<JobStream>;
@@ -3930,7 +3933,7 @@ export interface JobStreamListResult {
   /** The JobStream items on this page */
   value: JobStreamListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListKeyByAutomationAccountRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -3947,17 +3950,17 @@ export type AutomationKeyPermissions = "Read" | "Full";
 /** Automation key which is used to register a DSC Node */
 export interface Key {
   /** Automation key name. */
-  KeyName?: AutomationKeyName;
+  KeyName?: AutomationKeyName | undefined;
   /** Automation key permissions. */
-  Permissions?: AutomationKeyPermissions;
+  Permissions?: AutomationKeyPermissions | undefined;
   /** Value of the Automation Key used for registration. */
-  Value?: string;
+  Value?: string | undefined;
 }
 /** Lists the automation keys. */
 export type KeyListResultKeysList = Array<Key>;
 export interface KeyListResult {
   /** Lists the automation keys. */
-  keys?: KeyListResultKeysList;
+  keys?: KeyListResultKeysList | undefined;
 }
 export interface ListModuleByAutomationAccountRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -3972,21 +3975,21 @@ export type ModuleTagsMap = { [key: string]: string | undefined };
 /** Definition of the module type. */
 export interface Module {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: ModuleTagsMap;
+  tags?: ModuleTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Gets or sets the module properties. */
-  properties?: ModuleProperties;
+  properties?: ModuleProperties | undefined;
   /** Gets or sets the etag of the resource. */
-  etag?: string;
+  etag?: string | undefined;
 }
 /** The Module items on this page */
 export type ModuleListResultValueList = Array<Module>;
@@ -3995,7 +3998,7 @@ export interface ModuleListResult {
   /** The Module items on this page */
   value: ModuleListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListNodeReportByNodeRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -4007,7 +4010,7 @@ export interface ListNodeReportByNodeRequest {
   /** The node id. */
   nodeId: string;
   /** The filter to apply on the operation. */
-  _filter?: string;
+  _filter?: string | undefined;
 }
 /** The DscNodeReport items on this page */
 export type DscNodeReportListResultValueList = Array<DscNodeReport>;
@@ -4016,7 +4019,7 @@ export interface DscNodeReportListResult {
   /** The DscNodeReport items on this page */
   value: DscNodeReportListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListObjectDataTypeFieldsByTypeRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -4032,37 +4035,37 @@ export interface ListOperationsRequest {}
 /** Provider, Resource and Operation values */
 export interface OperationDisplay {
   /** Service provider: Microsoft.Automation */
-  provider?: string;
+  provider?: string | undefined;
   /** Resource on which the operation is performed: Runbooks, Jobs etc. */
-  resource?: string;
+  resource?: string | undefined;
   /** Operation type: Read, write, delete, etc. */
-  operation?: string;
+  operation?: string | undefined;
   /** Description of the operation. */
-  description?: string;
+  description?: string | undefined;
 }
 /** Dimension of the metric. */
 export interface Dimension {
   /** The name of the dimension. */
-  name?: string;
+  name?: string | undefined;
   /** The display name of the dimension. */
-  displayName?: string;
+  displayName?: string | undefined;
 }
 /** List of dimensions. */
 export type MetricSpecificationDimensionsList = Array<Dimension>;
 /** Description of metrics specification. */
 export interface MetricSpecification {
   /** The name of the metric. */
-  name?: string;
+  name?: string | undefined;
   /** The display name of the metric. */
-  displayName?: string;
+  displayName?: string | undefined;
   /** The description of the metric. */
-  displayDescription?: string;
+  displayDescription?: string | undefined;
   /** Units the metric to be displayed in. */
-  unit?: string;
+  unit?: string | undefined;
   /** The aggregation type. */
-  aggregationType?: string;
+  aggregationType?: string | undefined;
   /** List of dimensions. */
-  dimensions?: MetricSpecificationDimensionsList;
+  dimensions?: MetricSpecificationDimensionsList | undefined;
 }
 /** Operation service specification. */
 export type OperationPropertiesFormatServiceSpecificationMetricSpecificationsList =
@@ -4070,11 +4073,11 @@ export type OperationPropertiesFormatServiceSpecificationMetricSpecificationsLis
 /** Description of logging specification. */
 export interface LogSpecification {
   /** The name of the specification. */
-  name?: string;
+  name?: string | undefined;
   /** The display name of the specification. */
-  displayName?: string;
+  displayName?: string | undefined;
   /** Duration of the blob. */
-  blobDuration?: string;
+  blobDuration?: string | undefined;
 }
 /** Operation log specification. */
 export type OperationPropertiesFormatServiceSpecificationLogSpecificationsList =
@@ -4082,25 +4085,29 @@ export type OperationPropertiesFormatServiceSpecificationLogSpecificationsList =
 /** Specification of the service. */
 export interface OperationPropertiesFormatServiceSpecification {
   /** Operation service specification. */
-  metricSpecifications?: OperationPropertiesFormatServiceSpecificationMetricSpecificationsList;
+  metricSpecifications?:
+    | OperationPropertiesFormatServiceSpecificationMetricSpecificationsList
+    | undefined;
   /** Operation log specification. */
-  logSpecifications?: OperationPropertiesFormatServiceSpecificationLogSpecificationsList;
+  logSpecifications?:
+    | OperationPropertiesFormatServiceSpecificationLogSpecificationsList
+    | undefined;
 }
 /** Description of operation properties format. */
 export interface OperationPropertiesFormat {
   /** Specification of the service. */
-  serviceSpecification?: OperationPropertiesFormatServiceSpecification;
+  serviceSpecification?: OperationPropertiesFormatServiceSpecification | undefined;
 }
 /** Automation REST API operation */
 export interface Operation {
   /** Operation name: {provider}/{resource}/{operation} */
-  name?: string;
+  name?: string | undefined;
   /** Provider, Resource and Operation values */
-  display?: OperationDisplay;
+  display?: OperationDisplay | undefined;
   /** Origin of the operation. */
-  origin?: string;
+  origin?: string | undefined;
   /** Operation properties format. */
-  properties?: OperationPropertiesFormat;
+  properties?: OperationPropertiesFormat | undefined;
 }
 /** List of Automation operations supported by the Automation resource provider. */
 export type OperationListResultValueList = Array<Operation>;
@@ -4109,7 +4116,7 @@ export interface OperationListResult {
   /** List of Automation operations supported by the Automation resource provider. */
   value: OperationListResultValueList;
   /** The URL to get the next set of results, if any. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListPackageByRuntimeEnvironmentRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -4126,19 +4133,19 @@ export type PackageTagsMap = { [key: string]: string | undefined };
 /** Definition of the Package type. */
 export interface Package {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: PackageTagsMap;
+  tags?: PackageTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Gets or sets the Package properties. */
-  properties?: PackageProperties;
+  properties?: PackageProperties | undefined;
 }
 /** The Package items on this page */
 export type PackageListResultValueList = Array<Package>;
@@ -4147,7 +4154,7 @@ export interface PackageListResult {
   /** The Package items on this page */
   value: PackageListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListPrivateEndpointConnectionByAutomationAccountRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -4162,8 +4169,8 @@ export type PrivateEndpointConnectionListResultValueList = Array<PrivateEndpoint
 /** A list of private endpoint connections */
 export interface PrivateEndpointConnectionListResult {
   /** Array of private endpoint connections */
-  value?: PrivateEndpointConnectionListResultValueList;
-  nextLink?: string;
+  value?: PrivateEndpointConnectionListResultValueList | undefined;
+  nextLink?: string | undefined;
 }
 export interface ListPython2PackageByAutomationAccountRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -4194,21 +4201,21 @@ export type RunbookTagsMap = { [key: string]: string | undefined };
 /** Definition of the runbook type. */
 export interface Runbook {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: RunbookTagsMap;
+  tags?: RunbookTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Gets or sets the runbook properties. */
-  properties?: RunbookProperties;
+  properties?: RunbookProperties | undefined;
   /** Gets or sets the etag of the resource. */
-  etag?: string;
+  etag?: string | undefined;
 }
 /** The Runbook items on this page */
 export type RunbookListResultValueList = Array<Runbook>;
@@ -4217,7 +4224,7 @@ export interface RunbookListResult {
   /** The Runbook items on this page */
   value: RunbookListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListRuntimeEnvironmentByAutomationAccountRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -4232,19 +4239,19 @@ export type RuntimeEnvironmentTagsMap = { [key: string]: string | undefined };
 /** Definition of the Runtime Environment type. */
 export interface RuntimeEnvironment {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: RuntimeEnvironmentTagsMap;
+  tags?: RuntimeEnvironmentTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Gets or sets the Runtime Environment properties. */
-  properties?: RuntimeEnvironmentProperties;
+  properties?: RuntimeEnvironmentProperties | undefined;
 }
 /** The RuntimeEnvironment items on this page */
 export type RuntimeEnvironmentListResultValueList = Array<RuntimeEnvironment>;
@@ -4253,7 +4260,7 @@ export interface RuntimeEnvironmentListResult {
   /** The RuntimeEnvironment items on this page */
   value: RuntimeEnvironmentListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListScheduleByAutomationAccountRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -4266,15 +4273,15 @@ export interface ListScheduleByAutomationAccountRequest {
 /** Definition of the schedule. */
 export interface Schedule {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Gets or sets the properties of the schedule. */
-  properties?: ScheduleProperties;
+  properties?: ScheduleProperties | undefined;
 }
 /** The Schedule items on this page */
 export type ScheduleListResultValueList = Array<Schedule>;
@@ -4283,7 +4290,7 @@ export interface ScheduleListResult {
   /** The Schedule items on this page */
   value: ScheduleListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListSoftwareUpdateConfigurationMachineRunsRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -4293,11 +4300,11 @@ export interface ListSoftwareUpdateConfigurationMachineRunsRequest {
   /** The name of the automation account. */
   automationAccountName: string;
   /** The filter to apply on the operation. You can use the following filters: 'properties/osType', 'properties/status', 'properties/startTime', and 'properties/softwareUpdateConfiguration/name' */
-  _filter?: string;
+  _filter?: string | undefined;
   /** number of entries you skip before returning results */
-  _skip?: string;
+  _skip?: string | undefined;
   /** Maximum number of entries returned in the results collection */
-  _top?: string;
+  _top?: string | undefined;
 }
 /** The softwareUpdateConfigurationMachineRun items on this page */
 export type SoftwareUpdateConfigurationMachineRunListResultValueList =
@@ -4307,7 +4314,7 @@ export interface SoftwareUpdateConfigurationMachineRunListResult {
   /** The softwareUpdateConfigurationMachineRun items on this page */
   value: SoftwareUpdateConfigurationMachineRunListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListSoftwareUpdateConfigurationRunsRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -4317,11 +4324,11 @@ export interface ListSoftwareUpdateConfigurationRunsRequest {
   /** The name of the automation account. */
   automationAccountName: string;
   /** The filter to apply on the operation. You can use the following filters: 'properties/osType', 'properties/status', 'properties/startTime', and 'properties/softwareUpdateConfiguration/name' */
-  _filter?: string;
+  _filter?: string | undefined;
   /** Number of entries you skip before returning results */
-  _skip?: string;
+  _skip?: string | undefined;
   /** Maximum number of entries returned in the results collection */
-  _top?: string;
+  _top?: string | undefined;
 }
 /** The softwareUpdateConfigurationRun items on this page */
 export type SoftwareUpdateConfigurationRunListResultValueList =
@@ -4331,7 +4338,7 @@ export interface SoftwareUpdateConfigurationRunListResult {
   /** The softwareUpdateConfigurationRun items on this page */
   value: SoftwareUpdateConfigurationRunListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListSoftwareUpdateConfigurationsRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -4341,33 +4348,33 @@ export interface ListSoftwareUpdateConfigurationsRequest {
   /** The name of the automation account. */
   automationAccountName: string;
   /** The filter to apply on the operation. */
-  _filter?: string;
+  _filter?: string | undefined;
 }
 /** Software update configuration collection item properties. */
 export interface SoftwareUpdateConfigurationCollectionItemProperties {
   /** Update specific properties of the software update configuration. */
-  updateConfiguration?: UpdateConfiguration;
+  updateConfiguration?: UpdateConfiguration | undefined;
   /** Pre and Post Tasks defined */
-  tasks?: SoftwareUpdateConfigurationTasks;
+  tasks?: SoftwareUpdateConfigurationTasks | undefined;
   /** execution frequency of the schedule associated with the software update configuration */
-  frequency?: ScheduleFrequency;
+  frequency?: ScheduleFrequency | undefined;
   /** the start time of the update. */
-  startTime?: string;
+  startTime?: string | undefined;
   /** Creation time of the software update configuration, which only appears in the response. */
-  creationTime?: string;
+  creationTime?: string | undefined;
   /** Last time software update configuration was modified, which only appears in the response. */
-  lastModifiedTime?: string;
+  lastModifiedTime?: string | undefined;
   /** Provisioning state for the software update configuration, which only appears in the response. */
-  provisioningState?: string;
+  provisioningState?: string | undefined;
   /** ext run time of the update. */
-  nextRun?: string | null;
+  nextRun?: string | null | undefined;
 }
 /** Software update configuration collection item properties. */
 export interface SoftwareUpdateConfigurationCollectionItem {
   /** Name of the software update configuration. */
-  name?: string;
+  name?: string | undefined;
   /** Resource Id of the software update configuration */
-  id?: string;
+  id?: string | undefined;
   /** Software update configuration properties. */
   properties: SoftwareUpdateConfigurationCollectionItemProperties;
 }
@@ -4377,7 +4384,7 @@ export type SoftwareUpdateConfigurationListResultValueList =
 /** result of listing all software update configuration */
 export interface SoftwareUpdateConfigurationListResult {
   /** outer object returned when listing all software update configurations */
-  value?: SoftwareUpdateConfigurationListResultValueList;
+  value?: SoftwareUpdateConfigurationListResultValueList | undefined;
 }
 export interface ListSourceControlByAutomationAccountRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -4387,20 +4394,20 @@ export interface ListSourceControlByAutomationAccountRequest {
   /** The name of the automation account. */
   automationAccountName: string;
   /** The filter to apply on the operation. */
-  _filter?: string;
+  _filter?: string | undefined;
 }
 /** Definition of the source control. */
 export interface SourceControl {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties of the source control. */
-  properties?: SourceControlProperties;
+  properties?: SourceControlProperties | undefined;
 }
 /** The SourceControl items on this page */
 export type SourceControlListResultValueList = Array<SourceControl>;
@@ -4409,7 +4416,7 @@ export interface SourceControlListResult {
   /** The SourceControl items on this page */
   value: SourceControlListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListSourceControlSyncJobByAutomationAccountRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -4421,7 +4428,7 @@ export interface ListSourceControlSyncJobByAutomationAccountRequest {
   /** The name of source control. */
   sourceControlName: string;
   /** The filter to apply on the operation. */
-  _filter?: string;
+  _filter?: string | undefined;
 }
 /** The SourceControlSyncJob items on this page */
 export type SourceControlSyncJobListResultValueList = Array<SourceControlSyncJob>;
@@ -4430,7 +4437,7 @@ export interface SourceControlSyncJobListResult {
   /** The SourceControlSyncJob items on this page */
   value: SourceControlSyncJobListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListSourceControlSyncJobStreamBySyncJobRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -4444,25 +4451,25 @@ export interface ListSourceControlSyncJobStreamBySyncJobRequest {
   /** The source control sync job id. */
   sourceControlSyncJobId: string;
   /** The filter to apply on the operation. */
-  _filter?: string;
+  _filter?: string | undefined;
 }
 /** Definition of source control sync job stream properties. */
 export interface SourceControlSyncJobStreamProperties {
   /** The sync job stream id. */
-  sourceControlSyncJobStreamId?: string;
+  sourceControlSyncJobStreamId?: string | undefined;
   /** The summary of the sync job stream. */
-  summary?: string;
+  summary?: string | undefined;
   /** The time of the sync job stream. */
-  time?: string | null;
+  time?: string | null | undefined;
   /** The type of the sync job stream. */
-  streamType?: StreamType;
+  streamType?: StreamType | undefined;
 }
 /** Definition of the source control sync job stream. */
 export interface SourceControlSyncJobStream {
   /** Resource id. */
-  id?: string;
+  id?: string | undefined;
   /** The properties of the source control sync job stream. */
-  properties?: SourceControlSyncJobStreamProperties;
+  properties?: SourceControlSyncJobStreamProperties | undefined;
 }
 /** The SourceControlSyncJobStream items on this page */
 export type SourceControlSyncJobStreamsListBySyncJobValueList = Array<SourceControlSyncJobStream>;
@@ -4471,7 +4478,7 @@ export interface SourceControlSyncJobStreamsListBySyncJob {
   /** The SourceControlSyncJobStream items on this page */
   value: SourceControlSyncJobStreamsListBySyncJobValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListStatisticsByAutomationAccountRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -4481,28 +4488,28 @@ export interface ListStatisticsByAutomationAccountRequest {
   /** The name of the automation account. */
   automationAccountName: string;
   /** The filter to apply on the operation. */
-  _filter?: string;
+  _filter?: string | undefined;
 }
 /** Definition of the statistic. */
 export interface Statistics {
   /** Gets the property value of the statistic. */
-  counterProperty?: string;
+  counterProperty?: string | undefined;
   /** Gets the value of the statistic. */
-  counterValue?: number;
+  counterValue?: number | undefined;
   /** Gets the startTime of the statistic. */
-  startTime?: string;
+  startTime?: string | undefined;
   /** Gets the endTime of the statistic. */
-  endTime?: string | null;
+  endTime?: string | null | undefined;
   /** Gets the id. */
-  id?: string;
+  id?: string | undefined;
 }
 /** Gets or sets a list of statistics. */
 export type StatisticsListResultValueList = Array<Statistics>;
 /** The response model for the list statistics operation. */
 export interface StatisticsListResult {
   /** Gets or sets a list of statistics. */
-  value?: StatisticsListResultValueList;
-  nextLink?: string;
+  value?: StatisticsListResultValueList | undefined;
+  nextLink?: string | undefined;
 }
 export interface ListTestJobStreamByTestJobRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -4514,7 +4521,7 @@ export interface ListTestJobStreamByTestJobRequest {
   /** The runbook name. */
   runbookName: string;
   /** The filter to apply on the operation. */
-  _filter?: string;
+  _filter?: string | undefined;
 }
 export interface ListUsageByAutomationAccountRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -4527,32 +4534,32 @@ export interface ListUsageByAutomationAccountRequest {
 /** Definition of usage counter name. */
 export interface UsageCounterName {
   /** Gets or sets the usage counter name. */
-  value?: string;
+  value?: string | undefined;
   /** Gets or sets the localized usage counter name. */
-  localizedValue?: string;
+  localizedValue?: string | undefined;
 }
 /** Definition of Usage. */
 export interface Usage {
   /** Gets or sets the id of the resource. */
-  id?: string;
+  id?: string | undefined;
   /** Gets or sets the usage counter name. */
-  name?: UsageCounterName;
+  name?: UsageCounterName | undefined;
   /** Gets or sets the usage unit name. */
-  unit?: string;
+  unit?: string | undefined;
   /** Gets or sets the current usage value. */
-  currentValue?: number;
+  currentValue?: number | undefined;
   /** Gets or sets max limit. -1 for unlimited */
-  limit?: number;
+  limit?: number | undefined;
   /** Gets or sets the throttle status. */
-  throttleStatus?: string;
+  throttleStatus?: string | undefined;
 }
 /** Gets or sets usage. */
 export type UsageListResultValueList = Array<Usage>;
 /** The response model for the get usage operation. */
 export interface UsageListResult {
   /** Gets or sets usage. */
-  value?: UsageListResultValueList;
-  nextLink?: string;
+  value?: UsageListResultValueList | undefined;
+  nextLink?: string | undefined;
 }
 export interface ListVariableByAutomationAccountRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -4565,15 +4572,15 @@ export interface ListVariableByAutomationAccountRequest {
 /** Definition of the variable. */
 export interface Variable {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Gets or sets the properties of the variable. */
-  properties?: VariableProperties;
+  properties?: VariableProperties | undefined;
 }
 /** The Variable items on this page */
 export type VariableListResultValueList = Array<Variable>;
@@ -4582,7 +4589,7 @@ export interface VariableListResult {
   /** The Variable items on this page */
   value: VariableListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListWatcherByAutomationAccountRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -4592,28 +4599,28 @@ export interface ListWatcherByAutomationAccountRequest {
   /** The name of the automation account. */
   automationAccountName: string;
   /** The filter to apply on the operation. */
-  _filter?: string;
+  _filter?: string | undefined;
 }
 /** Resource tags. */
 export type WatcherTagsMap = { [key: string]: string | undefined };
 /** Definition of the watcher type. */
 export interface Watcher {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Gets or sets the watcher properties. */
-  properties?: WatcherProperties;
+  properties?: WatcherProperties | undefined;
   /** Gets or sets the etag of the resource. */
-  etag?: string;
+  etag?: string | undefined;
   /** Resource tags. */
-  tags?: WatcherTagsMap;
+  tags?: WatcherTagsMap | undefined;
   /** The geo-location where the resource lives */
-  location?: string;
+  location?: string | undefined;
 }
 /** The Watcher items on this page */
 export type WatcherListResultValueList = Array<Watcher>;
@@ -4622,7 +4629,7 @@ export interface WatcherListResult {
   /** The Watcher items on this page */
   value: WatcherListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListWebhookByAutomationAccountRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -4632,20 +4639,20 @@ export interface ListWebhookByAutomationAccountRequest {
   /** The name of the automation account. */
   automationAccountName: string;
   /** The filter to apply on the operation. */
-  _filter?: string;
+  _filter?: string | undefined;
 }
 /** Definition of the webhook type. */
 export interface Webhook {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Gets or sets the webhook properties. */
-  properties?: WebhookProperties;
+  properties?: WebhookProperties | undefined;
 }
 /** The Webhook items on this page */
 export type WebhookListResultValueList = Array<Webhook>;
@@ -4654,7 +4661,7 @@ export interface WebhookListResult {
   /** The Webhook items on this page */
   value: WebhookListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 /** The parameters supplied to the create or update module properties. */
 export interface ModuleCreateOrUpdateProperties {
@@ -4675,31 +4682,31 @@ export interface ModuleCreateOrUpdateRequest {
   /** Gets or sets the module create properties. */
   properties: ModuleCreateOrUpdateProperties;
   /** Gets or sets name of the resource. */
-  name?: string;
+  name?: string | undefined;
   /** Gets or sets the location of the resource. */
-  location?: string;
+  location?: string | undefined;
   /** Gets or sets the tags attached to the resource. */
-  tags?: ModuleCreateOrUpdateRequestTagsMap;
+  tags?: ModuleCreateOrUpdateRequestTagsMap | undefined;
 }
 /** Resource tags. */
 export type ModuleCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
 export interface ModuleCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: ModuleCreateOrUpdateResponseTagsMap;
+  tags?: ModuleCreateOrUpdateResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Gets or sets the module properties. */
-  properties?: ModuleProperties;
+  properties?: ModuleProperties | undefined;
   /** Gets or sets the etag of the resource. */
-  etag?: string;
+  etag?: string | undefined;
 }
 export interface MoveHybridRunbookWorkerRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -4736,7 +4743,7 @@ export type PackageCreateOrUpdateRequestAllOfTagsMap = { [key: string]: string |
 /** The resource model definition for an Azure Resource Manager tracked top level resource which has 'tags' and a 'location' */
 export interface PackageCreateOrUpdateRequestAllOf {
   /** Resource tags. */
-  tags?: PackageCreateOrUpdateRequestAllOfTagsMap;
+  tags?: PackageCreateOrUpdateRequestAllOfTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
 }
@@ -4754,25 +4761,25 @@ export interface PackageCreateOrUpdateRequest {
   /** Gets or sets the package create properties. */
   properties: PackageCreateOrUpdateProperties;
   /** The resource model definition for an Azure Resource Manager tracked top level resource which has 'tags' and a 'location' */
-  allOf?: PackageCreateOrUpdateRequestAllOf;
+  allOf?: PackageCreateOrUpdateRequestAllOf | undefined;
 }
 /** Resource tags. */
 export type PackageCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
 export interface PackageCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: PackageCreateOrUpdateResponseTagsMap;
+  tags?: PackageCreateOrUpdateResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Gets or sets the Package properties. */
-  properties?: PackageProperties;
+  properties?: PackageProperties | undefined;
 }
 export interface PatchHybridRunbookWorkerRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -4786,43 +4793,43 @@ export interface PatchHybridRunbookWorkerRequest {
   /** The hybrid runbook worker id */
   hybridRunbookWorkerId: string;
   /** Gets or sets hybrid runbook worker group create or update properties. */
-  properties?: HybridRunbookWorkerCreateOrUpdateParameters;
+  properties?: HybridRunbookWorkerCreateOrUpdateParameters | undefined;
 }
 /** Resource tags. */
 export type PatchHybridRunbookWorkerResponseTagsMap = { [key: string]: string | undefined };
 export interface PatchHybridRunbookWorkerResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: PatchHybridRunbookWorkerResponseTagsMap;
+  tags?: PatchHybridRunbookWorkerResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Gets or sets the hybrid worker group properties. */
-  properties?: HybridRunbookWorkerProperties;
+  properties?: HybridRunbookWorkerProperties | undefined;
 }
 /** Gets the groupIds. */
 export type PrivateEndpointConnectionPropertiesInputGroupIdsList = Array<string>;
 /** Connection State of the Private Endpoint Connection. */
 export interface PrivateLinkServiceConnectionStatePropertyInput {
   /** The private link service connection status. */
-  status?: string;
+  status?: string | undefined;
   /** The private link service connection description. */
-  description?: string;
+  description?: string | undefined;
 }
 /** Properties of a private endpoint connection. */
 export interface PrivateEndpointConnectionPropertiesInput {
   /** Private endpoint which the connection belongs to. */
-  privateEndpoint?: PrivateEndpointProperty;
+  privateEndpoint?: PrivateEndpointProperty | undefined;
   /** Gets the groupIds. */
-  groupIds?: PrivateEndpointConnectionPropertiesInputGroupIdsList;
+  groupIds?: PrivateEndpointConnectionPropertiesInputGroupIdsList | undefined;
   /** Connection State of the Private Endpoint Connection. */
-  privateLinkServiceConnectionState?: PrivateLinkServiceConnectionStatePropertyInput;
+  privateLinkServiceConnectionState?: PrivateLinkServiceConnectionStatePropertyInput | undefined;
 }
 export interface PrivateEndpointConnectionsCreateOrUpdateRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -4834,23 +4841,23 @@ export interface PrivateEndpointConnectionsCreateOrUpdateRequest {
   /** The name of the private endpoint connection. */
   privateEndpointConnectionName: string;
   /** Resource properties. */
-  properties?: PrivateEndpointConnectionPropertiesInput;
+  properties?: PrivateEndpointConnectionPropertiesInput | undefined;
 }
 export interface PrivateEndpointConnectionsCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource properties. */
-  properties?: PrivateEndpointConnectionProperties;
+  properties?: PrivateEndpointConnectionProperties | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface PrivateLinkResourcesAutomationRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -4865,30 +4872,30 @@ export type PrivateLinkResourcePropertiesRequiredMembersList = Array<string>;
 /** Properties of a private link resource. */
 export interface PrivateLinkResourceProperties {
   /** The private link resource group id. */
-  groupId?: string;
+  groupId?: string | undefined;
   /** The private link resource required member names. */
-  requiredMembers?: PrivateLinkResourcePropertiesRequiredMembersList;
+  requiredMembers?: PrivateLinkResourcePropertiesRequiredMembersList | undefined;
 }
 /** A private link resource */
 export interface PrivateLinkResource {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource properties. */
-  properties?: PrivateLinkResourceProperties;
+  properties?: PrivateLinkResourceProperties | undefined;
 }
 /** Array of private link resources */
 export type PrivateLinkResourceListResultValueList = Array<PrivateLinkResource>;
 /** A list of private link resources */
 export interface PrivateLinkResourceListResult {
   /** Array of private link resources */
-  value?: PrivateLinkResourceListResultValueList;
-  nextLink?: string;
+  value?: PrivateLinkResourceListResultValueList | undefined;
+  nextLink?: string | undefined;
 }
 export interface PublishRunbookRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -4902,9 +4909,9 @@ export interface PublishRunbookRequest {
 }
 export interface PublishRunbookResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** The parameters supplied to the create or update module properties. */
 export type PythonPackageCreateProperties = ModuleCreateOrUpdateProperties;
@@ -4922,27 +4929,27 @@ export interface Python2PackageCreateOrUpdateRequest {
   /** Gets or sets the module create properties. */
   properties: ModuleCreateOrUpdateProperties;
   /** Gets or sets the tags attached to the resource. */
-  tags?: Python2PackageCreateOrUpdateRequestTagsMap;
+  tags?: Python2PackageCreateOrUpdateRequestTagsMap | undefined;
 }
 /** Resource tags. */
 export type Python2PackageCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
 export interface Python2PackageCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: Python2PackageCreateOrUpdateResponseTagsMap;
+  tags?: Python2PackageCreateOrUpdateResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Gets or sets the module properties. */
-  properties?: ModuleProperties;
+  properties?: ModuleProperties | undefined;
   /** Gets or sets the etag of the resource. */
-  etag?: string;
+  etag?: string | undefined;
 }
 /** Gets or sets the tags attached to the resource. */
 export type Python3PackageCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
@@ -4958,27 +4965,27 @@ export interface Python3PackageCreateOrUpdateRequest {
   /** Gets or sets the module create properties. */
   properties: ModuleCreateOrUpdateProperties;
   /** Gets or sets the tags attached to the resource. */
-  tags?: Python3PackageCreateOrUpdateRequestTagsMap;
+  tags?: Python3PackageCreateOrUpdateRequestTagsMap | undefined;
 }
 /** Resource tags. */
 export type Python3PackageCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
 export interface Python3PackageCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: Python3PackageCreateOrUpdateResponseTagsMap;
+  tags?: Python3PackageCreateOrUpdateResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Gets or sets the module properties. */
-  properties?: ModuleProperties;
+  properties?: ModuleProperties | undefined;
   /** Gets or sets the etag of the resource. */
-  etag?: string;
+  etag?: string | undefined;
 }
 /** Gets or sets the agent registration key name - primary or secondary. */
 export type AgentRegistrationKeyName = "primary" | "secondary";
@@ -5005,10 +5012,10 @@ export interface ReplaceRunbookDraftContentRequest {
 }
 export interface ReplaceRunbookDraftContentResponse {
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
-  location?: string;
+  azureAsyncOperation?: string | undefined;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface ResumeJobRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -5035,21 +5042,21 @@ export interface ResumeTestJobResponse {}
 /** The parameters supplied to the create or update runbook properties. */
 export interface RunbookCreateOrUpdateProperties {
   /** Gets or sets verbose log option. */
-  logVerbose?: boolean;
+  logVerbose?: boolean | undefined;
   /** Gets or sets progress log option. */
-  logProgress?: boolean;
+  logProgress?: boolean | undefined;
   /** Environment of the runbook. */
-  runtimeEnvironment?: string;
+  runtimeEnvironment?: string | undefined;
   /** Gets or sets the type of the runbook. */
   runbookType: RunbookTypeEnum | (string & {});
   /** Gets or sets the draft runbook properties. */
-  draft?: RunbookDraft;
+  draft?: RunbookDraft | undefined;
   /** Gets or sets the published runbook content link. */
-  publishContentLink?: ContentLink;
+  publishContentLink?: ContentLink | undefined;
   /** Gets or sets the description of the runbook. */
-  description?: string;
+  description?: string | undefined;
   /** Gets or sets the activity-level tracing options of the runbook. */
-  logActivityTrace?: number;
+  logActivityTrace?: number | undefined;
 }
 /** Gets or sets the tags attached to the resource. */
 export type RunbookCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
@@ -5065,48 +5072,48 @@ export interface RunbookCreateOrUpdateRequest {
   /** Gets or sets runbook create or update properties. */
   properties: RunbookCreateOrUpdateProperties;
   /** Gets or sets the name of the resource. */
-  name?: string;
+  name?: string | undefined;
   /** Gets or sets the location of the resource. */
-  location?: string;
+  location?: string | undefined;
   /** Gets or sets the tags attached to the resource. */
-  tags?: RunbookCreateOrUpdateRequestTagsMap;
+  tags?: RunbookCreateOrUpdateRequestTagsMap | undefined;
 }
 /** Resource tags. */
 export type RunbookCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
 export interface RunbookCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: RunbookCreateOrUpdateResponseTagsMap;
+  tags?: RunbookCreateOrUpdateResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Gets or sets the runbook properties. */
-  properties?: RunbookProperties;
+  properties?: RunbookProperties | undefined;
   /** Gets or sets the etag of the resource. */
-  etag?: string;
+  etag?: string | undefined;
 }
 /** The parameters supplied to the create or update schedule operation. */
 export interface ScheduleCreateOrUpdateProperties {
   /** Gets or sets the description of the schedule. */
-  description?: string;
+  description?: string | undefined;
   /** Gets or sets the start time of the schedule. */
   startTime: string;
   /** Gets or sets the end time of the schedule. */
-  expiryTime?: string | null;
+  expiryTime?: string | null | undefined;
   /** Gets or sets the interval of the schedule. */
-  interval?: unknown;
+  interval?: unknown | undefined;
   /** Gets or sets the frequency of the schedule. */
   frequency: ScheduleFrequency | (string & {});
   /** Gets or sets the time zone of the schedule. */
-  timeZone?: string;
+  timeZone?: string | undefined;
   /** Gets or sets the AdvancedSchedule. */
-  advancedSchedule?: AdvancedSchedule;
+  advancedSchedule?: AdvancedSchedule | undefined;
 }
 export interface ScheduleCreateOrUpdateRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -5124,44 +5131,44 @@ export interface ScheduleCreateOrUpdateRequest {
 }
 export interface ScheduleCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Gets or sets the properties of the schedule. */
-  properties?: ScheduleProperties;
+  properties?: ScheduleProperties | undefined;
 }
 /** The token type. Must be either PersonalAccessToken or Oauth. */
 export type TokenType = "PersonalAccessToken" | "Oauth";
 export interface SourceControlSecurityTokenProperties {
   /** The access token. */
-  accessToken?: string | Redacted.Redacted<string>;
+  accessToken?: string | Redacted.Redacted<string> | undefined;
   /** The refresh token. */
-  refreshToken?: string | Redacted.Redacted<string>;
+  refreshToken?: string | Redacted.Redacted<string> | undefined;
   /** The token type. Must be either PersonalAccessToken or Oauth. */
-  tokenType?: TokenType | (string & {});
+  tokenType?: TokenType | (string & {}) | undefined;
 }
 /** The properties of the create source control operation. */
 export interface SourceControlCreateOrUpdateProperties {
   /** The repo url of the source control. */
-  repoUrl?: string;
+  repoUrl?: string | undefined;
   /** The repo branch of the source control. Include branch as empty string for VsoTfvc. */
-  branch?: string;
+  branch?: string | undefined;
   /** The folder path of the source control. Path must be relative. */
-  folderPath?: string;
+  folderPath?: string | undefined;
   /** The auto async of the source control. Default is false. */
-  autoSync?: boolean;
+  autoSync?: boolean | undefined;
   /** The auto publish of the source control. Default is true. */
-  publishRunbook?: boolean;
+  publishRunbook?: boolean | undefined;
   /** The source type. Must be one of VsoGit, VsoTfvc, GitHub, case sensitive. */
-  sourceType?: SourceType | (string & {});
+  sourceType?: SourceType | (string & {}) | undefined;
   /** The authorization token for the repo of the source control. */
-  securityToken?: SourceControlSecurityTokenProperties;
+  securityToken?: SourceControlSecurityTokenProperties | undefined;
   /** The user description of the source control. */
-  description?: string;
+  description?: string | undefined;
 }
 export interface SourceControlCreateOrUpdateRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -5177,15 +5184,15 @@ export interface SourceControlCreateOrUpdateRequest {
 }
 export interface SourceControlCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties of the source control. */
-  properties?: SourceControlProperties;
+  properties?: SourceControlProperties | undefined;
 }
 export interface StartWatcherRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -5256,13 +5263,13 @@ export interface SuspendTestJobResponse {}
 /** The parameters supplied to the update account properties. */
 export interface AutomationAccountUpdateProperties {
   /** Gets or sets account SKU. */
-  sku?: Sku;
+  sku?: Sku | undefined;
   /** Set the encryption properties for the automation account */
-  encryption?: EncryptionProperties;
+  encryption?: EncryptionProperties | undefined;
   /** Indicates whether traffic on the non-ARM endpoint (Webhook/Agent) is allowed from the public internet */
-  publicNetworkAccess?: boolean;
+  publicNetworkAccess?: boolean | undefined;
   /** Indicates whether requests using non-AAD authentication are blocked */
-  disableLocalAuth?: boolean;
+  disableLocalAuth?: boolean | undefined;
 }
 /** Gets or sets the tags attached to the resource. */
 export type UpdateAutomationAccountRequestTagsMap = { [key: string]: string | undefined };
@@ -5274,42 +5281,42 @@ export interface UpdateAutomationAccountRequest {
   /** The name of the automation account. */
   automationAccountName: string;
   /** Gets or sets account update properties. */
-  properties?: AutomationAccountUpdateProperties;
+  properties?: AutomationAccountUpdateProperties | undefined;
   /** Gets or sets the name of the resource. */
-  name?: string;
+  name?: string | undefined;
   /** Gets or sets the location of the resource. */
-  location?: string;
+  location?: string | undefined;
   /** Sets the identity property for automation account */
-  identity?: IdentityInput;
+  identity?: IdentityInput | undefined;
   /** Gets or sets the tags attached to the resource. */
-  tags?: UpdateAutomationAccountRequestTagsMap;
+  tags?: UpdateAutomationAccountRequestTagsMap | undefined;
 }
 /** Resource tags. */
 export type UpdateAutomationAccountResponseTagsMap = { [key: string]: string | undefined };
 export interface UpdateAutomationAccountResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: UpdateAutomationAccountResponseTagsMap;
+  tags?: UpdateAutomationAccountResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Gets or sets the automation account properties. */
-  properties?: AutomationAccountProperties;
+  properties?: AutomationAccountProperties | undefined;
   /** Gets or sets the etag of the resource. */
-  etag?: string;
+  etag?: string | undefined;
   /** Identity for the resource. */
-  identity?: Identity;
+  identity?: Identity | undefined;
 }
 /** The properties of the update certificate operation */
 export interface CertificateUpdateProperties {
   /** Gets or sets the description of the certificate. */
-  description?: string;
+  description?: string | undefined;
 }
 export interface UpdateCertificateRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -5321,21 +5328,21 @@ export interface UpdateCertificateRequest {
   /** The name of certificate. */
   certificateName: string;
   /** Gets or sets the name of the certificate. */
-  name?: string;
+  name?: string | undefined;
   /** Gets or sets the properties of the certificate. */
-  properties?: CertificateUpdateProperties;
+  properties?: CertificateUpdateProperties | undefined;
 }
 export interface UpdateCertificateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Gets or sets the properties of the certificate. */
-  properties?: CertificateProperties;
+  properties?: CertificateProperties | undefined;
 }
 /** Gets or sets the field definition values of the connection. */
 export type ConnectionUpdatePropertiesFieldDefinitionValuesMap = {
@@ -5344,9 +5351,9 @@ export type ConnectionUpdatePropertiesFieldDefinitionValuesMap = {
 /** The properties of the update connection operation. */
 export interface ConnectionUpdateProperties {
   /** Gets or sets the description of the connection. */
-  description?: string;
+  description?: string | undefined;
   /** Gets or sets the field definition values of the connection. */
-  fieldDefinitionValues?: ConnectionUpdatePropertiesFieldDefinitionValuesMap;
+  fieldDefinitionValues?: ConnectionUpdatePropertiesFieldDefinitionValuesMap | undefined;
 }
 export interface UpdateConnectionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -5358,30 +5365,30 @@ export interface UpdateConnectionRequest {
   /** The name of connection. */
   connectionName: string;
   /** Gets or sets the name of the connection. */
-  name?: string;
+  name?: string | undefined;
   /** Gets or sets the properties of the connection. */
-  properties?: ConnectionUpdateProperties;
+  properties?: ConnectionUpdateProperties | undefined;
 }
 export interface UpdateConnectionResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Gets or sets the properties of the connection. */
-  properties?: ConnectionProperties;
+  properties?: ConnectionProperties | undefined;
 }
 /** The properties of the Update credential */
 export interface CredentialUpdateProperties {
   /** Gets or sets the user name of the credential. */
-  userName?: string;
+  userName?: string | undefined;
   /** Gets or sets the password of the credential. */
-  password?: string | Redacted.Redacted<string>;
+  password?: string | Redacted.Redacted<string> | undefined;
   /** Gets or sets the description of the credential. */
-  description?: string;
+  description?: string | undefined;
 }
 export interface UpdateCredentialRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -5393,21 +5400,21 @@ export interface UpdateCredentialRequest {
   /** The name of credential. */
   credentialName: string;
   /** Gets or sets the name of the credential. */
-  name?: string;
+  name?: string | undefined;
   /** Gets or sets the properties of the variable. */
-  properties?: CredentialUpdateProperties;
+  properties?: CredentialUpdateProperties | undefined;
 }
 export interface UpdateCredentialResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Gets or sets the properties of the credential. */
-  properties?: CredentialProperties;
+  properties?: CredentialProperties | undefined;
 }
 /** Gets or sets the tags attached to the resource. */
 export type UpdateDscConfigurationRequestTagsMap = { [key: string]: string | undefined };
@@ -5421,35 +5428,35 @@ export interface UpdateDscConfigurationRequest {
   /** The configuration name. */
   configurationName: string;
   /** Gets or sets configuration create or update properties. */
-  properties?: DscConfigurationCreateOrUpdateProperties;
+  properties?: DscConfigurationCreateOrUpdateProperties | undefined;
   /** Gets or sets name of the resource. */
-  name?: string;
+  name?: string | undefined;
   /** Gets or sets the tags attached to the resource. */
-  tags?: UpdateDscConfigurationRequestTagsMap;
+  tags?: UpdateDscConfigurationRequestTagsMap | undefined;
 }
 /** Resource tags. */
 export type UpdateDscConfigurationResponseTagsMap = { [key: string]: string | undefined };
 export interface UpdateDscConfigurationResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: UpdateDscConfigurationResponseTagsMap;
+  tags?: UpdateDscConfigurationResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Gets or sets the configuration properties. */
-  properties?: DscConfigurationProperties;
+  properties?: DscConfigurationProperties | undefined;
   /** Gets or sets the etag of the resource. */
-  etag?: string;
+  etag?: string | undefined;
 }
 export interface DscNodeUpdateParametersProperties {
   /** Gets or sets the configuration of the node. */
-  nodeConfiguration?: DscNodeConfigurationAssociationProperty;
+  nodeConfiguration?: DscNodeConfigurationAssociationProperty | undefined;
 }
 export interface UpdateDscNodeRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -5460,19 +5467,19 @@ export interface UpdateDscNodeRequest {
   automationAccountName: string;
   /** The node id. */
   nodeId: string;
-  properties?: DscNodeUpdateParametersProperties;
+  properties?: DscNodeUpdateParametersProperties | undefined;
 }
 export interface UpdateDscNodeResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties of a DscNode. */
-  properties?: DscNodeProperties;
+  properties?: DscNodeProperties | undefined;
 }
 export interface UpdateHybridRunbookWorkerGroupRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -5484,32 +5491,32 @@ export interface UpdateHybridRunbookWorkerGroupRequest {
   /** The hybrid runbook worker group name */
   hybridRunbookWorkerGroupName: string;
   /** Gets or sets hybrid runbook worker group create or update properties. */
-  properties?: HybridRunbookWorkerGroupCreateOrUpdateProperties;
+  properties?: HybridRunbookWorkerGroupCreateOrUpdateProperties | undefined;
   /** Gets or sets the name of the resource. */
-  name?: string;
+  name?: string | undefined;
 }
 /** Resource tags. */
 export type UpdateHybridRunbookWorkerGroupResponseTagsMap = { [key: string]: string | undefined };
 export interface UpdateHybridRunbookWorkerGroupResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: UpdateHybridRunbookWorkerGroupResponseTagsMap;
+  tags?: UpdateHybridRunbookWorkerGroupResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Gets or sets the hybrid worker group properties. */
-  properties?: HybridRunbookWorkerGroupProperties;
+  properties?: HybridRunbookWorkerGroupProperties | undefined;
 }
 /** The parameters supplied to the update properties. */
 export interface ModuleUpdateProperties {
   /** Gets or sets the module content link. */
-  contentLink?: ContentLink;
+  contentLink?: ContentLink | undefined;
 }
 /** Gets or sets the tags attached to the resource. */
 export type UpdateModuleRequestTagsMap = { [key: string]: string | undefined };
@@ -5523,41 +5530,41 @@ export interface UpdateModuleRequest {
   /** The module name. */
   moduleName: string;
   /** Gets or sets the module update properties. */
-  properties?: ModuleUpdateProperties;
+  properties?: ModuleUpdateProperties | undefined;
   /** Gets or sets the tags attached to the resource. */
-  tags?: UpdateModuleRequestTagsMap;
+  tags?: UpdateModuleRequestTagsMap | undefined;
 }
 /** Resource tags. */
 export type UpdateModuleResponseTagsMap = { [key: string]: string | undefined };
 export interface UpdateModuleResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: UpdateModuleResponseTagsMap;
+  tags?: UpdateModuleResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Gets or sets the module properties. */
-  properties?: ModuleProperties;
+  properties?: ModuleProperties | undefined;
   /** Gets or sets the etag of the resource. */
-  etag?: string;
+  etag?: string | undefined;
 }
 /** The parameters supplied to the update properties. */
 export interface PackageUpdateProperties {
   /** Gets or sets the package content link. */
-  contentLink?: ContentLink;
+  contentLink?: ContentLink | undefined;
 }
 /** Resource tags. */
 export type UpdatePackageRequestAllOfTagsMap = { [key: string]: string | undefined };
 /** The resource model definition for an Azure Resource Manager tracked top level resource which has 'tags' and a 'location' */
 export interface UpdatePackageRequestAllOf {
   /** Resource tags. */
-  tags?: UpdatePackageRequestAllOfTagsMap;
+  tags?: UpdatePackageRequestAllOfTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
 }
@@ -5573,27 +5580,27 @@ export interface UpdatePackageRequest {
   /** The Package name. */
   packageName: string;
   /** Gets or sets the package update properties. */
-  properties?: PackageUpdateProperties;
+  properties?: PackageUpdateProperties | undefined;
   /** The resource model definition for an Azure Resource Manager tracked top level resource which has 'tags' and a 'location' */
-  allOf?: UpdatePackageRequestAllOf;
+  allOf?: UpdatePackageRequestAllOf | undefined;
 }
 /** Resource tags. */
 export type UpdatePackageResponseTagsMap = { [key: string]: string | undefined };
 export interface UpdatePackageResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: UpdatePackageResponseTagsMap;
+  tags?: UpdatePackageResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Gets or sets the Package properties. */
-  properties?: PackageProperties;
+  properties?: PackageProperties | undefined;
 }
 /** Gets or sets the tags attached to the resource. */
 export type UpdatePython2PackageRequestTagsMap = { [key: string]: string | undefined };
@@ -5607,27 +5614,27 @@ export interface UpdatePython2PackageRequest {
   /** The python package name. */
   packageName: string;
   /** Gets or sets the tags attached to the resource. */
-  tags?: UpdatePython2PackageRequestTagsMap;
+  tags?: UpdatePython2PackageRequestTagsMap | undefined;
 }
 /** Resource tags. */
 export type UpdatePython2PackageResponseTagsMap = { [key: string]: string | undefined };
 export interface UpdatePython2PackageResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: UpdatePython2PackageResponseTagsMap;
+  tags?: UpdatePython2PackageResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Gets or sets the module properties. */
-  properties?: ModuleProperties;
+  properties?: ModuleProperties | undefined;
   /** Gets or sets the etag of the resource. */
-  etag?: string;
+  etag?: string | undefined;
 }
 /** Gets or sets the tags attached to the resource. */
 export type UpdatePython3PackageRequestTagsMap = { [key: string]: string | undefined };
@@ -5641,38 +5648,38 @@ export interface UpdatePython3PackageRequest {
   /** The python package name. */
   packageName: string;
   /** Gets or sets the tags attached to the resource. */
-  tags?: UpdatePython3PackageRequestTagsMap;
+  tags?: UpdatePython3PackageRequestTagsMap | undefined;
 }
 /** Resource tags. */
 export type UpdatePython3PackageResponseTagsMap = { [key: string]: string | undefined };
 export interface UpdatePython3PackageResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: UpdatePython3PackageResponseTagsMap;
+  tags?: UpdatePython3PackageResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Gets or sets the module properties. */
-  properties?: ModuleProperties;
+  properties?: ModuleProperties | undefined;
   /** Gets or sets the etag of the resource. */
-  etag?: string;
+  etag?: string | undefined;
 }
 /** The parameters supplied to the update runbook properties. */
 export interface RunbookUpdateProperties {
   /** Gets or sets the description of the runbook. */
-  description?: string;
+  description?: string | undefined;
   /** Gets or sets verbose log option. */
-  logVerbose?: boolean;
+  logVerbose?: boolean | undefined;
   /** Gets or sets progress log option. */
-  logProgress?: boolean;
+  logProgress?: boolean | undefined;
   /** Gets or sets the activity-level tracing options of the runbook. */
-  logActivityTrace?: number;
+  logActivityTrace?: number | undefined;
 }
 /** Gets or sets the tags attached to the resource. */
 export type UpdateRunbookRequestTagsMap = { [key: string]: string | undefined };
@@ -5686,33 +5693,33 @@ export interface UpdateRunbookRequest {
   /** The runbook name. */
   runbookName: string;
   /** Gets or sets the runbook update properties. */
-  properties?: RunbookUpdateProperties;
+  properties?: RunbookUpdateProperties | undefined;
   /** Gets or sets the name of the resource. */
-  name?: string;
+  name?: string | undefined;
   /** Gets or sets the location of the resource. */
-  location?: string;
+  location?: string | undefined;
   /** Gets or sets the tags attached to the resource. */
-  tags?: UpdateRunbookRequestTagsMap;
+  tags?: UpdateRunbookRequestTagsMap | undefined;
 }
 /** Resource tags. */
 export type UpdateRunbookResponseTagsMap = { [key: string]: string | undefined };
 export interface UpdateRunbookResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: UpdateRunbookResponseTagsMap;
+  tags?: UpdateRunbookResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Gets or sets the runbook properties. */
-  properties?: RunbookProperties;
+  properties?: RunbookProperties | undefined;
   /** Gets or sets the etag of the resource. */
-  etag?: string;
+  etag?: string | undefined;
 }
 /** List of Default packages for Environment */
 export type RuntimeEnvironmentUpdatePropertiesDefaultPackagesMap = {
@@ -5721,7 +5728,7 @@ export type RuntimeEnvironmentUpdatePropertiesDefaultPackagesMap = {
 /** Gets or sets Runtime update properties. */
 export interface RuntimeEnvironmentUpdateProperties {
   /** List of Default packages for Environment */
-  defaultPackages?: RuntimeEnvironmentUpdatePropertiesDefaultPackagesMap;
+  defaultPackages?: RuntimeEnvironmentUpdatePropertiesDefaultPackagesMap | undefined;
 }
 export interface UpdateRuntimeEnvironmentRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -5733,32 +5740,32 @@ export interface UpdateRuntimeEnvironmentRequest {
   /** The name of the Runtime Environment. */
   runtimeEnvironmentName: string;
   /** Gets or sets Runtime update properties. */
-  properties?: RuntimeEnvironmentUpdateProperties;
+  properties?: RuntimeEnvironmentUpdateProperties | undefined;
 }
 /** Resource tags. */
 export type UpdateRuntimeEnvironmentResponseTagsMap = { [key: string]: string | undefined };
 export interface UpdateRuntimeEnvironmentResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: UpdateRuntimeEnvironmentResponseTagsMap;
+  tags?: UpdateRuntimeEnvironmentResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Gets or sets the Runtime Environment properties. */
-  properties?: RuntimeEnvironmentProperties;
+  properties?: RuntimeEnvironmentProperties | undefined;
 }
 /** The parameters supplied to the update schedule operation. */
 export interface ScheduleUpdateProperties {
   /** Gets or sets the description of the schedule. */
-  description?: string;
+  description?: string | undefined;
   /** Gets or sets a value indicating whether this schedule is enabled. */
-  isEnabled?: boolean;
+  isEnabled?: boolean | undefined;
 }
 export interface UpdateScheduleRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -5770,36 +5777,36 @@ export interface UpdateScheduleRequest {
   /** The schedule name. */
   scheduleName: string;
   /** Gets or sets the name of the Schedule. */
-  name?: string;
+  name?: string | undefined;
   /** Gets or sets the list of schedule properties. */
-  properties?: ScheduleUpdateProperties;
+  properties?: ScheduleUpdateProperties | undefined;
 }
 export interface UpdateScheduleResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Gets or sets the properties of the schedule. */
-  properties?: ScheduleProperties;
+  properties?: ScheduleProperties | undefined;
 }
 /** The properties of the update source control */
 export interface SourceControlUpdateProperties {
   /** The repo branch of the source control. */
-  branch?: string;
+  branch?: string | undefined;
   /** The folder path of the source control. Path must be relative. */
-  folderPath?: string;
+  folderPath?: string | undefined;
   /** The auto sync of the source control. Default is false. */
-  autoSync?: boolean;
+  autoSync?: boolean | undefined;
   /** The auto publish of the source control. Default is true. */
-  publishRunbook?: boolean;
+  publishRunbook?: boolean | undefined;
   /** The authorization token for the repo of the source control. */
-  securityToken?: SourceControlSecurityTokenProperties;
+  securityToken?: SourceControlSecurityTokenProperties | undefined;
   /** The user description of the source control. */
-  description?: string;
+  description?: string | undefined;
 }
 export interface UpdateSourceControlRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -5811,26 +5818,26 @@ export interface UpdateSourceControlRequest {
   /** The name of source control. */
   sourceControlName: string;
   /** The value of the source control. */
-  properties?: SourceControlUpdateProperties;
+  properties?: SourceControlUpdateProperties | undefined;
 }
 export interface UpdateSourceControlResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties of the source control. */
-  properties?: SourceControlProperties;
+  properties?: SourceControlProperties | undefined;
 }
 /** The properties of the update variable */
 export interface VariableUpdateProperties {
   /** Gets or sets the value of the variable. */
-  value?: string;
+  value?: string | undefined;
   /** Gets or sets the description of the variable. */
-  description?: string;
+  description?: string | undefined;
 }
 export interface UpdateVariableRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -5842,26 +5849,26 @@ export interface UpdateVariableRequest {
   /** The name of variable. */
   variableName: string;
   /** Gets or sets the name of the variable. */
-  name?: string;
+  name?: string | undefined;
   /** Gets or sets the value of the variable. */
-  properties?: VariableUpdateProperties;
+  properties?: VariableUpdateProperties | undefined;
 }
 export interface UpdateVariableResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Gets or sets the properties of the variable. */
-  properties?: VariableProperties;
+  properties?: VariableProperties | undefined;
 }
 /** The properties of the update watcher operation. */
 export interface WatcherUpdateProperties {
   /** Gets or sets the frequency at which the watcher is invoked. */
-  executionFrequencyInSeconds?: number;
+  executionFrequencyInSeconds?: number | undefined;
 }
 export interface UpdateWatcherRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -5873,42 +5880,42 @@ export interface UpdateWatcherRequest {
   /** The watcher name. */
   watcherName: string;
   /** Gets or sets the watcher update properties. */
-  properties?: WatcherUpdateProperties;
+  properties?: WatcherUpdateProperties | undefined;
   /** Gets or sets the name of the resource. */
-  name?: string;
+  name?: string | undefined;
 }
 /** Resource tags. */
 export type UpdateWatcherResponseTagsMap = { [key: string]: string | undefined };
 export interface UpdateWatcherResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Gets or sets the watcher properties. */
-  properties?: WatcherProperties;
+  properties?: WatcherProperties | undefined;
   /** Gets or sets the etag of the resource. */
-  etag?: string;
+  etag?: string | undefined;
   /** Resource tags. */
-  tags?: UpdateWatcherResponseTagsMap;
+  tags?: UpdateWatcherResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
-  location?: string;
+  location?: string | undefined;
 }
 /** Gets or sets the parameters of the job. */
 export type WebhookUpdatePropertiesParametersMap = { [key: string]: string | undefined };
 /** The properties of the update webhook. */
 export interface WebhookUpdateProperties {
   /** Gets or sets the value of the enabled flag of webhook. */
-  isEnabled?: boolean;
+  isEnabled?: boolean | undefined;
   /** Gets or sets the name of the hybrid worker group the webhook job will run on. */
-  runOn?: string;
+  runOn?: string | undefined;
   /** Gets or sets the parameters of the job. */
-  parameters?: WebhookUpdatePropertiesParametersMap;
+  parameters?: WebhookUpdatePropertiesParametersMap | undefined;
   /** Gets or sets the description of the webhook. */
-  description?: string;
+  description?: string | undefined;
 }
 export interface UpdateWebhookRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -5920,30 +5927,30 @@ export interface UpdateWebhookRequest {
   /** The webhook name. */
   webhookName: string;
   /** Gets or sets the name of the webhook. */
-  name?: string;
+  name?: string | undefined;
   /** Gets or sets the value of the webhook. */
-  properties?: WebhookUpdateProperties;
+  properties?: WebhookUpdateProperties | undefined;
 }
 export interface UpdateWebhookResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Gets or sets the webhook properties. */
-  properties?: WebhookProperties;
+  properties?: WebhookProperties | undefined;
 }
 /** The properties of the create variable operation. */
 export interface VariableCreateOrUpdateProperties {
   /** Gets or sets the value of the variable. */
-  value?: string;
+  value?: string | undefined;
   /** Gets or sets the description of the variable. */
-  description?: string;
+  description?: string | undefined;
   /** Gets or sets the encrypted flag of the variable. */
-  isEncrypted?: boolean;
+  isEncrypted?: boolean | undefined;
 }
 export interface VariableCreateOrUpdateRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -5961,30 +5968,30 @@ export interface VariableCreateOrUpdateRequest {
 }
 export interface VariableCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Gets or sets the properties of the variable. */
-  properties?: VariableProperties;
+  properties?: VariableProperties | undefined;
 }
 /** Gets or sets the parameters of the script. */
 export type WatcherPropertiesInputScriptParametersMap = { [key: string]: string | undefined };
 /** Definition of the watcher properties */
 export interface WatcherPropertiesInput {
   /** Gets or sets the frequency at which the watcher is invoked. */
-  executionFrequencyInSeconds?: number;
+  executionFrequencyInSeconds?: number | undefined;
   /** Gets or sets the name of the script the watcher is attached to, i.e. the name of an existing runbook. */
-  scriptName?: string;
+  scriptName?: string | undefined;
   /** Gets or sets the parameters of the script. */
-  scriptParameters?: WatcherPropertiesInputScriptParametersMap;
+  scriptParameters?: WatcherPropertiesInputScriptParametersMap | undefined;
   /** Gets or sets the name of the hybrid worker group the watcher will run on. */
-  scriptRunOn?: string;
+  scriptRunOn?: string | undefined;
   /** Gets or sets the description. */
-  description?: string;
+  description?: string | undefined;
 }
 /** Resource tags. */
 export type WatcherCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
@@ -5998,50 +6005,50 @@ export interface WatcherCreateOrUpdateRequest {
   /** The watcher name. */
   watcherName: string;
   /** Gets or sets the watcher properties. */
-  properties?: WatcherPropertiesInput;
+  properties?: WatcherPropertiesInput | undefined;
   /** Gets or sets the etag of the resource. */
-  etag?: string;
+  etag?: string | undefined;
   /** Resource tags. */
-  tags?: WatcherCreateOrUpdateRequestTagsMap;
+  tags?: WatcherCreateOrUpdateRequestTagsMap | undefined;
   /** The geo-location where the resource lives */
-  location?: string;
+  location?: string | undefined;
 }
 /** Resource tags. */
 export type WatcherCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
 export interface WatcherCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Gets or sets the watcher properties. */
-  properties?: WatcherProperties;
+  properties?: WatcherProperties | undefined;
   /** Gets or sets the etag of the resource. */
-  etag?: string;
+  etag?: string | undefined;
   /** Resource tags. */
-  tags?: WatcherCreateOrUpdateResponseTagsMap;
+  tags?: WatcherCreateOrUpdateResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
-  location?: string;
+  location?: string | undefined;
 }
 /** Gets or sets the parameters of the job. */
 export type WebhookCreateOrUpdatePropertiesParametersMap = { [key: string]: string | undefined };
 /** The properties of the create webhook operation. */
 export interface WebhookCreateOrUpdateProperties {
   /** Gets or sets the value of the enabled flag of webhook. */
-  isEnabled?: boolean;
+  isEnabled?: boolean | undefined;
   /** Gets or sets the uri. */
-  uri?: string;
+  uri?: string | undefined;
   /** Gets or sets the expiry time. */
-  expiryTime?: string;
+  expiryTime?: string | undefined;
   /** Gets or sets the parameters of the job. */
-  parameters?: WebhookCreateOrUpdatePropertiesParametersMap;
+  parameters?: WebhookCreateOrUpdatePropertiesParametersMap | undefined;
   /** Gets or sets the runbook. */
-  runbook?: RunbookAssociationProperty;
+  runbook?: RunbookAssociationProperty | undefined;
   /** Gets or sets the name of the hybrid worker group the webhook job will run on. */
-  runOn?: string;
+  runOn?: string | undefined;
 }
 export interface WebhookCreateOrUpdateRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -6059,15 +6066,15 @@ export interface WebhookCreateOrUpdateRequest {
 }
 export interface WebhookCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Gets or sets the webhook properties. */
-  properties?: WebhookProperties;
+  properties?: WebhookProperties | undefined;
 }
 export type AutomationAccountCreateOrUpdateError = AzureOpError;
 /** Create or update automation account. */
