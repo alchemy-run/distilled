@@ -9971,7 +9971,7 @@ function __c59(j: number): any {
       return S.suspend(() =>
         S.Struct({
           anthropicBeta: __S(32, __c1, 0).pipe(T.Header("anthropic-beta")),
-          files: __S(1920, __c60, 0),
+          files: __S(1920, __c60, 0).pipe(T.Body("files[]")),
           marketplace_id: S.optional(S.String),
           release_notes: S.optional(S.String),
         }).pipe(
@@ -10054,7 +10054,7 @@ function __c63(j: number): any {
         S.Struct({
           plugin_id: S.String.pipe(T.Label()),
           anthropicBeta: __S(32, __c1, 0).pipe(T.Header("anthropic-beta")),
-          files: __S(1920, __c60, 0),
+          files: __S(1920, __c60, 0).pipe(T.Body("files[]")),
           release_notes: S.optional(S.String),
         }).pipe(
           T.Http({
