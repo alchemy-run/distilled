@@ -1266,6 +1266,10 @@ export type ListTagsError =
   | ResourceNotFoundException
   | ServiceException
   | TooManyRequestsException
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
   | CommonErrors;
 /**
  * Lists the tags associated with a Lambda MicroVM resource.
@@ -1283,6 +1287,10 @@ export const listTags: API.OperationMethod<
     ResourceNotFoundException,
     ServiceException,
     TooManyRequestsException,
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
   ],
   protocol: AwsProtocol,
   retry: Retry,
@@ -1403,6 +1411,10 @@ export type TagResourceError =
   | ResourceNotFoundException
   | ServiceException
   | TooManyRequestsException
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
   | CommonErrors;
 /**
  * Adds tags to a Lambda MicroVM resource.
@@ -1421,6 +1433,10 @@ export const tagResource: API.OperationMethod<
     ResourceNotFoundException,
     ServiceException,
     TooManyRequestsException,
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
   ],
   protocol: AwsProtocol,
   retry: Retry,
@@ -1469,6 +1485,10 @@ export type UntagResourceError =
   | ResourceNotFoundException
   | ServiceException
   | TooManyRequestsException
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
   | CommonErrors;
 /**
  * Removes tags from a Lambda MicroVM resource.
@@ -1487,6 +1507,10 @@ export const untagResource: API.OperationMethod<
     ResourceNotFoundException,
     ServiceException,
     TooManyRequestsException,
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
   ],
   protocol: AwsProtocol,
   retry: Retry,

@@ -41,6 +41,7 @@ import {
   collectOperations,
   collectOpErrorIds,
   ensureNamedIo,
+  inheritServiceErrors,
   modelNamespace,
   type OpEntry,
 } from "./operations.ts";
@@ -532,6 +533,7 @@ export const generateService = (model: any, spec: SdkSpec): GeneratedService => 
   // their string spelling (see boolean-string-enums.ts).
   booleanStringEnums(model);
   const shapes: ShapeMap = model.shapes;
+  inheritServiceErrors(shapes);
   const pure = spec.pure ?? PURE;
   const prelude = spec.prelude ?? JSON_PRELUDE;
   const tsPrelude = spec.tsPrelude ?? TS_JSON_PRELUDE;

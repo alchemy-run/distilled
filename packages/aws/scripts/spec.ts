@@ -211,8 +211,15 @@ export const applyAwsSpecPatches = (
     }
   }
 
+  // Errors the service declares for every operation count too: a patch
+  // that names one reuses the model's shape.
+  const serviceErrorIds = Object.values(shapes).flatMap((s) =>
+    s?.type === "service"
+      ? ((s.errors ?? []) as Array<{ target: string }>).map((e) => e.target)
+      : [],
+  );
   const errorLocalToId = new Map<string, string>();
-  for (const id of collectErrorShapeIds(model).keys()) {
+  for (const id of [...collectErrorShapeIds(model).keys(), ...serviceErrorIds]) {
     const localName = id.split("#")[1] ?? id;
     if (!errorLocalToId.has(localName)) errorLocalToId.set(localName, id);
   }
