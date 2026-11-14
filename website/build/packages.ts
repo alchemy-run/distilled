@@ -206,7 +206,7 @@ export const SEARCH_HINTS: Record<string, string> = {
   npm: "registry packages publish javascript node trusted publishing",
   linear: "issues project management",
   auth0: "auth oidc",
-  clerk: "auth users",
+  clerk: "auth users platform applications",
   workos: "auth sso",
   okta: "auth sso",
   "better-auth": "auth sessions self-hosted",
