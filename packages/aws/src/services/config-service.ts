@@ -2176,8 +2176,17 @@ export interface AzureConnectorConfiguration {
   tenantIdentifier: string;
   clientIdentifier: string;
 }
+export type GcpOrganizationId = string;
+export type GcpServiceAccountEmail = string;
+export type GcpWorkloadIdentityPoolProvider = string;
+export interface GcpConnectorConfiguration {
+  gcpOrganizationId?: string | undefined;
+  serviceAccountEmail: string;
+  workloadIdentityPoolProvider: string;
+}
 export interface ConnectorConfiguration {
   azure?: AzureConnectorConfiguration | undefined;
+  gcp?: GcpConnectorConfiguration | undefined;
 }
 export interface Connector {
   name: string;
@@ -2381,7 +2390,7 @@ export interface ListConfigurationRecordersRequest {
   MaxResults?: number | undefined;
   NextToken?: string | undefined;
 }
-export type Provider = "AZURE" | (string & {});
+export type Provider = "AZURE" | "GCP" | (string & {});
 export interface ConfigurationRecorderSummary {
   arn: string;
   name: string;
@@ -2436,7 +2445,9 @@ export interface ConnectorSummary {
   arn: string;
   name: string;
   provider: Provider;
-  tenantIdentifier: string;
+  tenantIdentifier?: string | undefined;
+  gcpOrganizationId?: string | undefined;
+  serviceAccountEmail?: string | undefined;
   createdTime: Date;
 }
 export type ConnectorSummaries = ConnectorSummary[];
@@ -7093,7 +7104,7 @@ function __c22(j: number): any {
         S.Struct({
           name: S.String,
           arn: S.String,
-          connectorConfiguration: __S(185, __c23, 1),
+          connectorConfiguration: __S(186, __c23, 2),
           createdTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
         }),
       ).annotate({ identifier: "Connector" });
@@ -7110,9 +7121,17 @@ function __c23(j: number): any {
         S.Struct({ tenantIdentifier: S.String, clientIdentifier: S.String }),
       ).annotate({ identifier: "AzureConnectorConfiguration" });
     case 1:
-      return S.suspend(() => S.Struct({ azure: S.optional(__S(184, __c23, 0)) })).annotate({
-        identifier: "ConnectorConfiguration",
-      });
+      return S.suspend(() =>
+        S.Struct({
+          gcpOrganizationId: S.optional(S.String),
+          serviceAccountEmail: S.String,
+          workloadIdentityPoolProvider: S.String,
+        }),
+      ).annotate({ identifier: "GcpConnectorConfiguration" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({ azure: S.optional(__S(184, __c23, 0)), gcp: S.optional(__S(185, __c23, 1)) }),
+      ).annotate({ identifier: "ConnectorConfiguration" });
   }
 }
 function __c24(j: number): any {
@@ -7469,7 +7488,9 @@ function __c38(j: number): any {
           arn: S.String,
           name: S.String,
           provider: S.String,
-          tenantIdentifier: S.String,
+          tenantIdentifier: S.optional(S.String),
+          gcpOrganizationId: S.optional(S.String),
+          serviceAccountEmail: S.optional(S.String),
           createdTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
         }),
       ).annotate({ identifier: "ConnectorSummary" });
@@ -7697,7 +7718,7 @@ function __c49(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          ConnectorConfiguration: __S(185, __c23, 1),
+          ConnectorConfiguration: __S(186, __c23, 2),
           Tags: S.optional(__S(345, __c43, 1)),
         }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "PutConnectorRequest" });

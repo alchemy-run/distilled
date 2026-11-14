@@ -531,6 +531,9 @@ export interface GetStreamSessionOutput {
   ExportFilesMetadata?: ExportFilesMetadata | undefined;
   RoleArn?: string | redacted.Redacted<string> | undefined;
   DisplayConfiguration?: DisplayConfiguration | undefined;
+  ApplicationStartedAt?: Date | undefined;
+  StreamingStartedAt?: Date | undefined;
+  StreamingEndedAt?: Date | undefined;
 }
 export interface GetStreamUrlInput {
   Identifier: string;
@@ -741,6 +744,9 @@ export interface StartStreamSessionOutput {
   ExportFilesMetadata?: ExportFilesMetadata | undefined;
   RoleArn?: string | redacted.Redacted<string> | undefined;
   DisplayConfiguration?: DisplayConfiguration | undefined;
+  ApplicationStartedAt?: Date | undefined;
+  StreamingStartedAt?: Date | undefined;
+  StreamingEndedAt?: Date | undefined;
 }
 export interface TagResourceRequest {
   ResourceArn: string;
@@ -2422,6 +2428,9 @@ function __c20(j: number): any {
           ExportFilesMetadata: S.optional(__S(76, __c19, 0)),
           RoleArn: S.optional(SensitiveString),
           DisplayConfiguration: S.optional(__S(41, __c10, 1)),
+          ApplicationStartedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+          StreamingStartedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+          StreamingEndedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
         }),
       ).annotate({ identifier: "GetStreamSessionOutput" });
   }

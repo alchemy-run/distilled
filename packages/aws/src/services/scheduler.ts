@@ -228,6 +228,16 @@ export interface EventBridgeParameters {
   DetailType: string;
   Source: string;
 }
+export interface EventBridgePutEventsV2Parameters {
+  DetailType: string;
+  Source: string;
+}
+export type EventBridgeMetadataKey = string;
+export type EventBridgeMetadataValue = string;
+export type EventBridgeMetadataMap = { [key: string]: string | undefined };
+export interface EventBridgePutRawEventsParameters {
+  Metadata?: { [key: string]: string | undefined } | undefined;
+}
 export type TargetPartitionKey = string;
 export interface KinesisParameters {
   PartitionKey: string;
@@ -254,6 +264,8 @@ export interface Target {
   Input?: string | undefined;
   EcsParameters?: EcsParameters | undefined;
   EventBridgeParameters?: EventBridgeParameters | undefined;
+  EventBridgePutEventsV2Parameters?: EventBridgePutEventsV2Parameters | undefined;
+  EventBridgePutRawEventsParameters?: EventBridgePutRawEventsParameters | undefined;
   KinesisParameters?: KinesisParameters | undefined;
   SageMakerPipelineParameters?: SageMakerPipelineParameters | undefined;
   SqsParameters?: SqsParameters | undefined;
@@ -497,6 +509,7 @@ export type DeleteScheduleError =
   | ConflictException
   | InternalServerException
   | ResourceNotFoundException
+  | ServiceQuotaExceededException
   | ThrottlingException
   | ValidationException
   | CommonErrors;
@@ -515,6 +528,7 @@ export const deleteSchedule: API.OperationMethod<
     ConflictException,
     InternalServerException,
     ResourceNotFoundException,
+    ServiceQuotaExceededException,
     ThrottlingException,
     ValidationException,
   ],
@@ -533,10 +547,7 @@ export type DeleteScheduleGroupError =
   | ValidationException
   | CommonErrors;
 /**
- * Deletes the specified schedule group. Deleting a schedule group results in EventBridge Scheduler deleting all schedules associated with the group.
- * When you delete a group, it remains in a `DELETING` state until all of its associated schedules are deleted.
- * Schedules associated with the group that are set to run while the schedule group is in the process of being deleted might continue to invoke their targets
- * until the schedule group and its associated schedules are deleted.
+ * Deletes the specified schedule group. Deleting a schedule group results in EventBridge Scheduler deleting all schedules associated with the group. When you delete a group, it remains in a `DELETING` state until all of its associated schedules are deleted. Schedules associated with the group that are set to run while the schedule group is in the process of being deleted might continue to invoke their targets until the schedule group and its associated schedules are deleted.
  *
  * This operation is eventually consistent.
  */
@@ -565,6 +576,7 @@ export const deleteScheduleGroup: API.OperationMethod<
 export type GetScheduleError =
   | InternalServerException
   | ResourceNotFoundException
+  | ServiceQuotaExceededException
   | ThrottlingException
   | ValidationException
   | CommonErrors;
@@ -582,6 +594,7 @@ export const getSchedule: API.OperationMethod<
   errors: [
     InternalServerException,
     ResourceNotFoundException,
+    ServiceQuotaExceededException,
     ThrottlingException,
     ValidationException,
   ],
@@ -788,17 +801,15 @@ export type UpdateScheduleError =
   | ConflictException
   | InternalServerException
   | ResourceNotFoundException
+  | ServiceQuotaExceededException
   | ThrottlingException
   | ValidationException
   | ExecutionRoleNotAssumable
   | CommonErrors;
 /**
- * Updates the specified schedule. When you call `UpdateSchedule`, EventBridge Scheduler uses all values, including empty values, specified in the request and
- * overrides the existing schedule. This is by design. This means that if you do not set an optional field in your request, that field will be set to
- * its system-default value after the update.
+ * Updates the specified schedule. When you call `UpdateSchedule`, EventBridge Scheduler uses all values, including empty values, specified in the request and overrides the existing schedule. This is by design. This means that if you do not set an optional field in your request, that field will be set to its system-default value after the update.
  *
- * Before calling this operation, we recommend that you call the `GetSchedule` API operation and make a note of all optional parameters
- * for your `UpdateSchedule` call.
+ * Before calling this operation, we recommend that you call the `GetSchedule` API operation and make a note of all optional parameters for your `UpdateSchedule` call.
  */
 export const updateSchedule: API.OperationMethod<
   UpdateScheduleInput & RegionInput,
@@ -812,6 +823,7 @@ export const updateSchedule: API.OperationMethod<
     ConflictException,
     InternalServerException,
     ResourceNotFoundException,
+    ServiceQuotaExceededException,
     ThrottlingException,
     ValidationException,
     ExecutionRoleNotAssumable,
@@ -870,8 +882,8 @@ function __c1(j: number): any {
           CreationDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           LastModificationDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           KmsKeyArn: S.optional(S.String),
-          Target: S.optional(__S(403, __c12, 19)),
-          FlexibleTimeWindow: S.optional(__S(404, __c12, 20)),
+          Target: S.optional(__S(404, __c12, 20)),
+          FlexibleTimeWindow: S.optional(__S(405, __c12, 21)),
           ActionAfterCompletion: S.optional(S.String),
         }),
       ).annotate({ identifier: "GetScheduleOutput" });
@@ -1037,8 +1049,8 @@ function __c9(j: number): any {
           ScheduleExpressionTimezone: S.optional(S.String),
           State: S.optional(S.String),
           KmsKeyArn: S.optional(S.String),
-          Target: __S(403, __c12, 19),
-          FlexibleTimeWindow: __S(404, __c12, 20),
+          Target: __S(404, __c12, 20),
+          FlexibleTimeWindow: __S(405, __c12, 21),
           ClientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
           ActionAfterCompletion: S.optional(S.String),
         }).pipe(
@@ -1061,8 +1073,8 @@ function __c10(j: number): any {
           ScheduleExpressionTimezone: S.optional(S.String),
           State: S.optional(S.String),
           KmsKeyArn: S.optional(S.String),
-          Target: __S(403, __c12, 19),
-          FlexibleTimeWindow: __S(404, __c12, 20),
+          Target: __S(404, __c12, 20),
+          FlexibleTimeWindow: __S(405, __c12, 21),
           ClientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
           ActionAfterCompletion: S.optional(S.String),
         }).pipe(
@@ -1152,24 +1164,28 @@ function __c12(j: number): any {
         identifier: "EventBridgeParameters",
       });
     case 14:
+      return S.suspend(() => S.Struct({ Metadata: S.optional(__S(394, __c12, 10)) })).annotate({
+        identifier: "EventBridgePutRawEventsParameters",
+      });
+    case 15:
       return S.suspend(() => S.Struct({ PartitionKey: S.String })).annotate({
         identifier: "KinesisParameters",
       });
-    case 15:
+    case 16:
       return S.suspend(() => S.Struct({ Name: S.String, Value: S.String })).annotate({
         identifier: "SageMakerPipelineParameter",
       });
-    case 16:
-      return S.Array(__S(399, __c12, 15));
     case 17:
-      return S.suspend(() =>
-        S.Struct({ PipelineParameterList: S.optional(__S(400, __c12, 16)) }),
-      ).annotate({ identifier: "SageMakerPipelineParameters" });
+      return S.Array(__S(400, __c12, 16));
     case 18:
+      return S.suspend(() =>
+        S.Struct({ PipelineParameterList: S.optional(__S(401, __c12, 17)) }),
+      ).annotate({ identifier: "SageMakerPipelineParameters" });
+    case 19:
       return S.suspend(() => S.Struct({ MessageGroupId: S.optional(S.String) })).annotate({
         identifier: "SqsParameters",
       });
-    case 19:
+    case 20:
       return S.suspend(() =>
         S.Struct({
           Arn: S.String,
@@ -1179,12 +1195,14 @@ function __c12(j: number): any {
           Input: S.optional(S.String),
           EcsParameters: S.optional(__S(396, __c12, 12)),
           EventBridgeParameters: S.optional(__S(397, __c12, 13)),
-          KinesisParameters: S.optional(__S(398, __c12, 14)),
-          SageMakerPipelineParameters: S.optional(__S(401, __c12, 17)),
-          SqsParameters: S.optional(__S(402, __c12, 18)),
+          EventBridgePutEventsV2Parameters: S.optional(__S(397, __c12, 13)),
+          EventBridgePutRawEventsParameters: S.optional(__S(398, __c12, 14)),
+          KinesisParameters: S.optional(__S(399, __c12, 15)),
+          SageMakerPipelineParameters: S.optional(__S(402, __c12, 18)),
+          SqsParameters: S.optional(__S(403, __c12, 19)),
         }),
       ).annotate({ identifier: "Target" });
-    case 20:
+    case 21:
       return S.suspend(() =>
         S.Struct({ Mode: S.String, MaximumWindowInMinutes: S.optional(S.Number) }),
       ).annotate({ identifier: "FlexibleTimeWindow" });

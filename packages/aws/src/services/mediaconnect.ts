@@ -208,6 +208,7 @@ export type Protocol =
   | "fujitsu-qos"
   | "udp"
   | "ndi-speed-hq"
+  | "rtmp-push"
   | (string & {});
 export interface AddBridgeNetworkOutputRequest {
   IpAddress?: string | undefined;
@@ -441,7 +442,7 @@ export interface DestinationConfigurationRequest {
   Interface?: InterfaceRequest | undefined;
 }
 export type __listOfDestinationConfigurationRequest = DestinationConfigurationRequest[];
-const __listOfDestinationConfigurationRequest = /*@__PURE__*/ __L.at(__c34, 1);
+const __listOfDestinationConfigurationRequest = /*@__PURE__*/ __L.at(__c35, 1);
 export type EncodingName = "jxsv" | "raw" | "smpte291" | "pcm" | (string & {});
 export type EncoderProfile = "main" | "high" | (string & {});
 export interface EncodingParametersRequest {
@@ -455,7 +456,7 @@ export interface MediaStreamOutputConfigurationRequest {
   MediaStreamName?: string | undefined;
 }
 export type __listOfMediaStreamOutputConfigurationRequest = MediaStreamOutputConfigurationRequest[];
-const __listOfMediaStreamOutputConfigurationRequest = /*@__PURE__*/ __L.at(__c34, 3);
+const __listOfMediaStreamOutputConfigurationRequest = /*@__PURE__*/ __L.at(__c35, 3);
 export type OutputStatus = "ENABLED" | "DISABLED" | (string & {});
 export type State = "ENABLED" | "DISABLED" | (string & {});
 export type FlowTransitEncryptionKeyType = "SECRETS_MANAGER" | "AUTOMATIC" | (string & {});
@@ -475,6 +476,18 @@ export interface FlowTransitEncryption {
 }
 export type NdiOutputTimecodeSource = "EMBEDDED_TIMECODE" | "UTC_SYSTEM_TIME" | (string & {});
 export type NdiAudioReferenceLevel = number;
+export type TlsEncryptionType = "PUBLIC" | (string & {});
+export interface PublicTlsEncryptionConfiguration {}
+export type TlsEncryptionConfiguration = { Public: PublicTlsEncryptionConfiguration };
+export interface TlsEncryption {
+  EncryptionType?: TlsEncryptionType | undefined;
+  EncryptionConfiguration: TlsEncryptionConfiguration;
+}
+export interface RtmpPushOutputSettings {
+  ApplicationName?: string | undefined;
+  StreamName?: string | undefined;
+  TlsEncryption?: TlsEncryption | undefined;
+}
 export interface AddOutputRequest {
   CidrAllowList?: string[] | undefined;
   Description?: string | undefined;
@@ -499,9 +512,10 @@ export interface AddOutputRequest {
   RouterIntegrationTransitEncryption?: FlowTransitEncryption | undefined;
   NdiOutputTimecodeSource?: NdiOutputTimecodeSource | undefined;
   NdiAudioReferenceLevel?: number | undefined;
+  RtmpPushSettings?: RtmpPushOutputSettings | undefined;
 }
 export type __listOfAddOutputRequest = AddOutputRequest[];
-const __listOfAddOutputRequest = /*@__PURE__*/ __L.at(__c33, 1);
+const __listOfAddOutputRequest = /*@__PURE__*/ __L.at(__c34, 1);
 export interface AddFlowOutputsRequest {
   FlowArn: string;
   Outputs?: AddOutputRequest[] | undefined;
@@ -516,7 +530,7 @@ export interface DestinationConfiguration {
   OutboundIp?: string | undefined;
 }
 export type __listOfDestinationConfiguration = DestinationConfiguration[];
-const __listOfDestinationConfiguration = /*@__PURE__*/ __L.at(__c36, 2);
+const __listOfDestinationConfiguration = /*@__PURE__*/ __L.at(__c37, 2);
 export interface EncodingParameters {
   CompressionFactor?: number | undefined;
   EncoderProfile?: EncoderProfile | undefined;
@@ -528,10 +542,16 @@ export interface MediaStreamOutputConfiguration {
   MediaStreamName?: string | undefined;
 }
 export type __listOfMediaStreamOutputConfiguration = MediaStreamOutputConfiguration[];
-const __listOfMediaStreamOutputConfiguration = /*@__PURE__*/ __L.at(__c36, 4);
+const __listOfMediaStreamOutputConfiguration = /*@__PURE__*/ __L.at(__c37, 4);
 export interface NdiSourceSettings {
   SourceName?: string | undefined;
   AudioReferenceLevel?: number | undefined;
+}
+export type RtmpPushNamingType = "MANUAL" | "AUTOMATIC" | (string & {});
+export interface RtmpPushSourceSettings {
+  ApplicationName?: string | undefined;
+  StreamName?: string | undefined;
+  NamingType?: RtmpPushNamingType | undefined;
 }
 export interface Transport {
   CidrAllowList?: string[] | undefined;
@@ -552,9 +572,11 @@ export interface Transport {
   NdiSourceSettings?: NdiSourceSettings | undefined;
   NdiOutputTimecodeSource?: NdiOutputTimecodeSource | undefined;
   NdiAudioReferenceLevel?: number | undefined;
+  RtmpPushSourceSettings?: RtmpPushSourceSettings | undefined;
+  RtmpPushOutputSettings?: RtmpPushOutputSettings | undefined;
 }
 export type __listOfInteger = number[];
-const __listOfInteger = /*@__PURE__*/ __L.at(__c36, 5);
+const __listOfInteger = /*@__PURE__*/ __L.at(__c37, 5);
 export interface Output {
   DataTransferSubscriberFeePercent?: number | undefined;
   Description?: string | undefined;
@@ -578,7 +600,7 @@ export interface Output {
   ConnectedRouterInputArn?: string | undefined;
 }
 export type __listOfOutput = Output[];
-const __listOfOutput = /*@__PURE__*/ __L.at(__c35, 0);
+const __listOfOutput = /*@__PURE__*/ __L.at(__c36, 0);
 export interface AddFlowOutputsResponse {
   FlowArn?: string | undefined;
   Outputs?:
@@ -600,7 +622,18 @@ export interface AddFlowOutputsResponse {
             EncoderProfile: EncoderProfile;
           };
         })[];
-        Transport: Transport & { Protocol: Protocol };
+        Transport: Transport & {
+          Protocol: Protocol;
+          RtmpPushSourceSettings: RtmpPushSourceSettings & {
+            ApplicationName: string;
+            StreamName: string;
+            NamingType: RtmpPushNamingType;
+          };
+          RtmpPushOutputSettings: RtmpPushOutputSettings & {
+            ApplicationName: string;
+            StreamName: string;
+          };
+        };
       })[]
     | undefined;
 }
@@ -609,17 +642,28 @@ export interface InputConfigurationRequest {
   Interface?: InterfaceRequest | undefined;
 }
 export type __listOfInputConfigurationRequest = InputConfigurationRequest[];
-const __listOfInputConfigurationRequest = /*@__PURE__*/ __L.at(__c39, 1);
+const __listOfInputConfigurationRequest = /*@__PURE__*/ __L.at(__c41, 1);
 export interface MediaStreamSourceConfigurationRequest {
   EncodingName?: EncodingName | undefined;
   InputConfigurations?: InputConfigurationRequest[] | undefined;
   MediaStreamName?: string | undefined;
 }
 export type __listOfMediaStreamSourceConfigurationRequest = MediaStreamSourceConfigurationRequest[];
-const __listOfMediaStreamSourceConfigurationRequest = /*@__PURE__*/ __L.at(__c39, 3);
+const __listOfMediaStreamSourceConfigurationRequest = /*@__PURE__*/ __L.at(__c41, 3);
 export interface SetGatewayBridgeSourceRequest {
   BridgeArn?: string | undefined;
   VpcInterfaceAttachment?: VpcInterfaceAttachment | undefined;
+}
+export interface ManualRtmpPushNamingConfiguration {
+  ApplicationName: string;
+  StreamName: string;
+}
+export interface AutomaticRtmpPushNamingConfiguration {}
+export type RtmpPushNamingConfiguration =
+  | { Manual: ManualRtmpPushNamingConfiguration; Automatic?: undefined }
+  | { Manual?: undefined; Automatic: AutomaticRtmpPushNamingConfiguration };
+export interface SetRtmpPushSourceSettings {
+  NamingConfiguration?: RtmpPushNamingConfiguration | undefined;
 }
 export interface SetSourceRequest {
   Decryption?: Encryption | undefined;
@@ -645,9 +689,10 @@ export interface SetSourceRequest {
   SourceTags?: { [key: string]: string | undefined } | undefined;
   RouterIntegrationState?: State | undefined;
   RouterIntegrationTransitDecryption?: FlowTransitEncryption | undefined;
+  RtmpPushSettings?: SetRtmpPushSourceSettings | undefined;
 }
 export type __listOfSetSourceRequest = SetSourceRequest[];
-const __listOfSetSourceRequest = /*@__PURE__*/ __L.at(__c38, 1);
+const __listOfSetSourceRequest = /*@__PURE__*/ __L.at(__c40, 1);
 export interface AddFlowSourcesRequest {
   FlowArn: string;
   Sources?: SetSourceRequest[] | undefined;
@@ -658,14 +703,14 @@ export interface InputConfiguration {
   Interface?: Interface | undefined;
 }
 export type __listOfInputConfiguration = InputConfiguration[];
-const __listOfInputConfiguration = /*@__PURE__*/ __L.at(__c41, 2);
+const __listOfInputConfiguration = /*@__PURE__*/ __L.at(__c43, 2);
 export interface MediaStreamSourceConfiguration {
   EncodingName?: EncodingName | undefined;
   InputConfigurations?: InputConfiguration[] | undefined;
   MediaStreamName?: string | undefined;
 }
 export type __listOfMediaStreamSourceConfiguration = MediaStreamSourceConfiguration[];
-const __listOfMediaStreamSourceConfiguration = /*@__PURE__*/ __L.at(__c41, 4);
+const __listOfMediaStreamSourceConfiguration = /*@__PURE__*/ __L.at(__c43, 4);
 export interface GatewayBridgeSource {
   BridgeArn?: string | undefined;
   VpcInterfaceAttachment?: VpcInterfaceAttachment | undefined;
@@ -692,7 +737,7 @@ export interface Source {
   ConnectedRouterOutputArn?: string | undefined;
 }
 export type __listOfSource = Source[];
-const __listOfSource = /*@__PURE__*/ __L.at(__c40, 0);
+const __listOfSource = /*@__PURE__*/ __L.at(__c42, 0);
 export interface AddFlowSourcesResponse {
   FlowArn?: string | undefined;
   Sources?:
@@ -709,7 +754,18 @@ export interface AddFlowSourcesResponse {
             Interface: Interface & { Name: string };
           })[];
         })[];
-        Transport: Transport & { Protocol: Protocol };
+        Transport: Transport & {
+          Protocol: Protocol;
+          RtmpPushSourceSettings: RtmpPushSourceSettings & {
+            ApplicationName: string;
+            StreamName: string;
+            NamingType: RtmpPushNamingType;
+          };
+          RtmpPushOutputSettings: RtmpPushOutputSettings & {
+            ApplicationName: string;
+            StreamName: string;
+          };
+        };
         GatewayBridgeSource: GatewayBridgeSource & { BridgeArn: string };
       })[]
     | undefined;
@@ -724,7 +780,7 @@ export interface VpcInterfaceRequest {
   VpcInterfaceTags?: { [key: string]: string | undefined } | undefined;
 }
 export type __listOfVpcInterfaceRequest = VpcInterfaceRequest[];
-const __listOfVpcInterfaceRequest = /*@__PURE__*/ __L.at(__c43, 1);
+const __listOfVpcInterfaceRequest = /*@__PURE__*/ __L.at(__c45, 1);
 export interface AddFlowVpcInterfacesRequest {
   FlowArn: string;
   VpcInterfaces?: VpcInterfaceRequest[] | undefined;
@@ -738,7 +794,7 @@ export interface VpcInterface {
   SubnetId?: string | undefined;
 }
 export type __listOfVpcInterface = VpcInterface[];
-const __listOfVpcInterface = /*@__PURE__*/ __L.at(__c44, 1);
+const __listOfVpcInterface = /*@__PURE__*/ __L.at(__c46, 1);
 export interface AddFlowVpcInterfacesResponse {
   FlowArn?: string | undefined;
   VpcInterfaces?:
@@ -1002,6 +1058,11 @@ export interface SrtListenerRouterInputConfiguration {
   MinimumLatencyMilliseconds: number;
   DecryptionConfiguration?: SrtDecryptionConfiguration | undefined;
 }
+export interface RtmpPushRouterInputConfiguration {
+  Port: number;
+  NamingType?: RtmpPushNamingType | undefined;
+  NamingConfiguration: RtmpPushNamingConfiguration;
+}
 export interface SrtCallerRouterInputConfiguration {
   SourceAddress: string;
   SourcePort: number;
@@ -1017,28 +1078,45 @@ export type RouterInputProtocolConfiguration =
   | {
       Rist: RistRouterInputConfiguration;
       SrtListener?: undefined;
+      RtmpPush?: undefined;
       SrtCaller?: undefined;
       Rtp?: undefined;
     }
   | {
       Rist?: undefined;
       SrtListener: SrtListenerRouterInputConfiguration;
+      RtmpPush?: undefined;
       SrtCaller?: undefined;
       Rtp?: undefined;
     }
   | {
       Rist?: undefined;
       SrtListener?: undefined;
+      RtmpPush: RtmpPushRouterInputConfiguration;
+      SrtCaller?: undefined;
+      Rtp?: undefined;
+    }
+  | {
+      Rist?: undefined;
+      SrtListener?: undefined;
+      RtmpPush?: undefined;
       SrtCaller: SrtCallerRouterInputConfiguration;
       Rtp?: undefined;
     }
   | {
       Rist?: undefined;
       SrtListener?: undefined;
+      RtmpPush?: undefined;
       SrtCaller?: undefined;
       Rtp: RtpRouterInputConfiguration;
     };
-export type RouterInputProtocol = "RTP" | "RIST" | "SRT_CALLER" | "SRT_LISTENER" | (string & {});
+export type RouterInputProtocol =
+  | "RTP"
+  | "RIST"
+  | "SRT_CALLER"
+  | "SRT_LISTENER"
+  | "RTMP_PUSH"
+  | (string & {});
 export interface StandardRouterInputConfiguration {
   NetworkInterfaceArn: string;
   ProtocolConfiguration: RouterInputProtocolConfiguration;
@@ -1064,24 +1142,35 @@ export type FailoverRouterInputProtocolConfiguration =
   | {
       Rist: RistRouterInputConfiguration;
       SrtListener?: undefined;
+      RtmpPush?: undefined;
       SrtCaller?: undefined;
       Rtp?: undefined;
     }
   | {
       Rist?: undefined;
       SrtListener: SrtListenerRouterInputConfiguration;
+      RtmpPush?: undefined;
       SrtCaller?: undefined;
       Rtp?: undefined;
     }
   | {
       Rist?: undefined;
       SrtListener?: undefined;
+      RtmpPush: RtmpPushRouterInputConfiguration;
+      SrtCaller?: undefined;
+      Rtp?: undefined;
+    }
+  | {
+      Rist?: undefined;
+      SrtListener?: undefined;
+      RtmpPush?: undefined;
       SrtCaller: SrtCallerRouterInputConfiguration;
       Rtp?: undefined;
     }
   | {
       Rist?: undefined;
       SrtListener?: undefined;
+      RtmpPush?: undefined;
       SrtCaller?: undefined;
       Rtp: RtpRouterInputConfiguration;
     };
@@ -1101,8 +1190,30 @@ export interface MediaConnectFlowRouterInputConfiguration {
   SourceTransitDecryption: FlowTransitEncryption;
 }
 export type MergeRouterInputProtocolConfiguration =
-  | { Rtp: RtpRouterInputConfiguration; Rist?: undefined }
-  | { Rtp?: undefined; Rist: RistRouterInputConfiguration };
+  | {
+      Rtp: RtpRouterInputConfiguration;
+      Rist?: undefined;
+      SrtListener?: undefined;
+      SrtCaller?: undefined;
+    }
+  | {
+      Rtp?: undefined;
+      Rist: RistRouterInputConfiguration;
+      SrtListener?: undefined;
+      SrtCaller?: undefined;
+    }
+  | {
+      Rtp?: undefined;
+      Rist?: undefined;
+      SrtListener: SrtListenerRouterInputConfiguration;
+      SrtCaller?: undefined;
+    }
+  | {
+      Rtp?: undefined;
+      Rist?: undefined;
+      SrtListener?: undefined;
+      SrtCaller: SrtCallerRouterInputConfiguration;
+    };
 export type MergeRouterInputProtocolConfigurationList = MergeRouterInputProtocolConfiguration[];
 export interface MergeRouterInputConfiguration {
   NetworkInterfaceArn: string;
@@ -1175,13 +1286,19 @@ export interface RouterInputTransitEncryption {
   EncryptionKeyConfiguration: RouterInputTransitEncryptionKeyConfiguration;
 }
 export interface DestinationEndpointRouterInputStreamDetails {}
+export interface RtmpPushStreamDetails {
+  ApplicationName: string;
+  StreamName: string;
+}
 export interface StandardRouterInputStreamDetails {
   SourceIpAddress?: string | undefined;
+  RtmpPush?: RtmpPushStreamDetails | undefined;
 }
 export interface MediaLiveChannelRouterInputStreamDetails {}
 export interface FailoverRouterInputIndexedStreamDetails {
   SourceIndex: number;
   SourceIpAddress?: string | undefined;
+  RtmpPush?: RtmpPushStreamDetails | undefined;
 }
 export interface FailoverRouterInputStreamDetails {
   SourceIndexZeroStreamDetails: FailoverRouterInputIndexedStreamDetails;
@@ -1426,13 +1543,6 @@ export interface SrtListenerRouterOutputConfiguration {
   MinimumLatencyMilliseconds: number;
   EncryptionConfiguration?: SrtEncryptionConfiguration | undefined;
 }
-export type TlsEncryptionType = "PUBLIC" | (string & {});
-export interface PublicTlsEncryptionConfiguration {}
-export type TlsEncryptionConfiguration = { Public: PublicTlsEncryptionConfiguration };
-export interface TlsEncryption {
-  EncryptionType?: TlsEncryptionType | undefined;
-  EncryptionConfiguration: TlsEncryptionConfiguration;
-}
 export interface RtmpPushRouterOutputConfiguration {
   DestinationAddress: string;
   DestinationPort: number;
@@ -1588,8 +1698,54 @@ export type RouterOutputStreamDetails =
       SourceEndpoint: SourceEndpointRouterOutputStreamDetails;
     };
 export type FabricLatencyMode = "BALANCED" | "LOW_LATENCY" | (string & {});
+export type FabricSwitchingMode = "IMMEDIATE" | "KEY_FRAME" | (string & {});
+export interface ImmediateFabricSwitchingConfiguration {}
+export interface KeyFrameFabricSwitchingConfiguration {
+  KeyFrameWaitMilliseconds?: number | undefined;
+}
+export type FabricSwitchingConfiguration =
+  | { Immediate: ImmediateFabricSwitchingConfiguration; KeyFrame?: undefined }
+  | { Immediate?: undefined; KeyFrame: KeyFrameFabricSwitchingConfiguration };
 export interface FabricConfiguration {
   RecoveryLatencyMode: FabricLatencyMode;
+  SwitchingMode?: FabricSwitchingMode | undefined;
+  SwitchingConfiguration?: FabricSwitchingConfiguration | undefined;
+}
+export type ActionString = string;
+export interface PidMapRule {
+  MatchExpression: string;
+  Action: string;
+}
+export type PidMapRules = PidMapRule[];
+export interface Passthrough {}
+export type TransportStreamIdConfiguration =
+  | { Passthrough: Passthrough; Set?: undefined }
+  | { Passthrough?: undefined; Set: number };
+export type ProgramNumberConfiguration =
+  | { Passthrough: Passthrough; Set?: undefined }
+  | { Passthrough?: undefined; Set: number };
+export type Pid = number;
+export type ProgramMapTablePidConfiguration =
+  | { Passthrough: Passthrough; Set?: undefined }
+  | { Passthrough?: undefined; Set: number };
+export type ProgramClockReferencePidConfiguration =
+  | { Passthrough: Passthrough; Set?: undefined }
+  | { Passthrough?: undefined; Set: number };
+export interface AutoPidMapConfiguration {
+  StartPid: number;
+  PidsPerProgram: number;
+}
+export interface SingleProgramTransportStreamPidMapConfiguration {
+  Rules: PidMapRule[];
+  DefaultAction: string;
+  TransportStreamId?: TransportStreamIdConfiguration | undefined;
+  ProgramNumber?: ProgramNumberConfiguration | undefined;
+  ProgramMapTablePid?: ProgramMapTablePidConfiguration | undefined;
+  ProgramClockReferencePid?: ProgramClockReferencePidConfiguration | undefined;
+  Auto?: AutoPidMapConfiguration | undefined;
+}
+export interface RouterOutputProcessors {
+  SingleProgramTransportStreamPidMap?: SingleProgramTransportStreamPidMapConfiguration | undefined;
 }
 export type SourceEndpointArnList = string[];
 const SourceEndpointArnList = __listOfString as any as S.Schema<SourceEndpointArnList>;
@@ -1618,6 +1774,7 @@ export interface RouterOutput {
   MaintenanceScheduleType?: MaintenanceScheduleType | undefined;
   MaintenanceSchedule?: MaintenanceSchedule | undefined;
   FabricConfiguration?: FabricConfiguration | undefined;
+  Processors?: RouterOutputProcessors | undefined;
   AssociatedSourceEndpointArns?: string[] | undefined;
 }
 export type RouterOutputList = RouterOutput[];
@@ -1829,7 +1986,7 @@ export interface MessageDetail {
   ResourceName?: string | undefined;
 }
 export type __listOfMessageDetail = MessageDetail[];
-const __listOfMessageDetail = /*@__PURE__*/ __L.at(__c65, 1);
+const __listOfMessageDetail = /*@__PURE__*/ __L.at(__c67, 1);
 export type BridgeState =
   | "CREATING"
   | "STANDBY"
@@ -1910,7 +2067,7 @@ export interface GrantEntitlementRequest {
   EntitlementTags?: { [key: string]: string | undefined } | undefined;
 }
 export type __listOfGrantEntitlementRequest = GrantEntitlementRequest[];
-const __listOfGrantEntitlementRequest = /*@__PURE__*/ __L.at(__c74, 1);
+const __listOfGrantEntitlementRequest = /*@__PURE__*/ __L.at(__c76, 1);
 export type MaintenanceDay =
   | "Monday"
   | "Tuesday"
@@ -1933,7 +2090,7 @@ export interface AudioMonitoringSetting {
   SilentAudio?: SilentAudio | undefined;
 }
 export type __listOfAudioMonitoringSetting = AudioMonitoringSetting[];
-const __listOfAudioMonitoringSetting = /*@__PURE__*/ __L.at(__c70, 2);
+const __listOfAudioMonitoringSetting = /*@__PURE__*/ __L.at(__c72, 2);
 export interface BlackFrames {
   State?: State | undefined;
   ThresholdSeconds?: number | undefined;
@@ -1947,7 +2104,7 @@ export interface VideoMonitoringSetting {
   FrozenFrames?: FrozenFrames | undefined;
 }
 export type __listOfVideoMonitoringSetting = VideoMonitoringSetting[];
-const __listOfVideoMonitoringSetting = /*@__PURE__*/ __L.at(__c70, 4);
+const __listOfVideoMonitoringSetting = /*@__PURE__*/ __L.at(__c72, 4);
 export interface MonitoringConfig {
   ThumbnailState?: ThumbnailState | undefined;
   AudioMonitoringSettings?: AudioMonitoringSetting[] | undefined;
@@ -1962,7 +2119,7 @@ export interface NdiDiscoveryServerConfig {
   VpcInterfaceAdapter?: string | undefined;
 }
 export type __listOfNdiDiscoveryServerConfig = NdiDiscoveryServerConfig[];
-const __listOfNdiDiscoveryServerConfig = /*@__PURE__*/ __L.at(__c70, 7);
+const __listOfNdiDiscoveryServerConfig = /*@__PURE__*/ __L.at(__c72, 7);
 export interface NdiConfig {
   NdiState?: NdiState | undefined;
   MachineName?: string | undefined;
@@ -2003,7 +2160,7 @@ export interface Entitlement {
   Subscribers?: string[] | undefined;
 }
 export type __listOfEntitlement = Entitlement[];
-const __listOfEntitlement = /*@__PURE__*/ __L.at(__c71, 0);
+const __listOfEntitlement = /*@__PURE__*/ __L.at(__c73, 0);
 export type Status =
   | "STANDBY"
   | "ACTIVE"
@@ -2069,7 +2226,18 @@ export interface CreateFlowResponse {
               EncoderProfile: EncoderProfile;
             };
           })[];
-          Transport: Transport & { Protocol: Protocol };
+          Transport: Transport & {
+            Protocol: Protocol;
+            RtmpPushSourceSettings: RtmpPushSourceSettings & {
+              ApplicationName: string;
+              StreamName: string;
+              NamingType: RtmpPushNamingType;
+            };
+            RtmpPushOutputSettings: RtmpPushOutputSettings & {
+              ApplicationName: string;
+              StreamName: string;
+            };
+          };
         })[];
         Source: Source & {
           Name: string;
@@ -2084,7 +2252,18 @@ export interface CreateFlowResponse {
               Interface: Interface & { Name: string };
             })[];
           })[];
-          Transport: Transport & { Protocol: Protocol };
+          Transport: Transport & {
+            Protocol: Protocol;
+            RtmpPushSourceSettings: RtmpPushSourceSettings & {
+              ApplicationName: string;
+              StreamName: string;
+              NamingType: RtmpPushNamingType;
+            };
+            RtmpPushOutputSettings: RtmpPushOutputSettings & {
+              ApplicationName: string;
+              StreamName: string;
+            };
+          };
           GatewayBridgeSource: GatewayBridgeSource & { BridgeArn: string };
         };
         Status: Status;
@@ -2108,7 +2287,18 @@ export interface CreateFlowResponse {
               Interface: Interface & { Name: string };
             })[];
           })[];
-          Transport: Transport & { Protocol: Protocol };
+          Transport: Transport & {
+            Protocol: Protocol;
+            RtmpPushSourceSettings: RtmpPushSourceSettings & {
+              ApplicationName: string;
+              StreamName: string;
+              NamingType: RtmpPushNamingType;
+            };
+            RtmpPushOutputSettings: RtmpPushOutputSettings & {
+              ApplicationName: string;
+              StreamName: string;
+            };
+          };
           GatewayBridgeSource: GatewayBridgeSource & { BridgeArn: string };
         })[];
         VpcInterfaces: (VpcInterface & {
@@ -2133,7 +2323,7 @@ export interface GatewayNetwork {
   Name?: string | undefined;
 }
 export type __listOfGatewayNetwork = GatewayNetwork[];
-const __listOfGatewayNetwork = /*@__PURE__*/ __L.at(__c76, 1);
+const __listOfGatewayNetwork = /*@__PURE__*/ __L.at(__c78, 1);
 export interface CreateGatewayRequest {
   EgressCidrBlocks?: string[] | undefined;
   Name?: string | undefined;
@@ -2209,6 +2399,7 @@ export interface CreateRouterOutputRequest {
   Tags?: { [key: string]: string | undefined } | undefined;
   FabricConfiguration?: FabricConfiguration | undefined;
   ClientToken?: string | undefined;
+  Processors?: RouterOutputProcessors | undefined;
 }
 export interface CreateRouterOutputResponse {
   RouterOutput: RouterOutput & { FabricConfiguration: FabricConfiguration };
@@ -2361,7 +2552,18 @@ export interface DescribeFlowResponse {
               EncoderProfile: EncoderProfile;
             };
           })[];
-          Transport: Transport & { Protocol: Protocol };
+          Transport: Transport & {
+            Protocol: Protocol;
+            RtmpPushSourceSettings: RtmpPushSourceSettings & {
+              ApplicationName: string;
+              StreamName: string;
+              NamingType: RtmpPushNamingType;
+            };
+            RtmpPushOutputSettings: RtmpPushOutputSettings & {
+              ApplicationName: string;
+              StreamName: string;
+            };
+          };
         })[];
         Source: Source & {
           Name: string;
@@ -2376,7 +2578,18 @@ export interface DescribeFlowResponse {
               Interface: Interface & { Name: string };
             })[];
           })[];
-          Transport: Transport & { Protocol: Protocol };
+          Transport: Transport & {
+            Protocol: Protocol;
+            RtmpPushSourceSettings: RtmpPushSourceSettings & {
+              ApplicationName: string;
+              StreamName: string;
+              NamingType: RtmpPushNamingType;
+            };
+            RtmpPushOutputSettings: RtmpPushOutputSettings & {
+              ApplicationName: string;
+              StreamName: string;
+            };
+          };
           GatewayBridgeSource: GatewayBridgeSource & { BridgeArn: string };
         };
         Status: Status;
@@ -2400,7 +2613,18 @@ export interface DescribeFlowResponse {
               Interface: Interface & { Name: string };
             })[];
           })[];
-          Transport: Transport & { Protocol: Protocol };
+          Transport: Transport & {
+            Protocol: Protocol;
+            RtmpPushSourceSettings: RtmpPushSourceSettings & {
+              ApplicationName: string;
+              StreamName: string;
+              NamingType: RtmpPushNamingType;
+            };
+            RtmpPushOutputSettings: RtmpPushOutputSettings & {
+              ApplicationName: string;
+              StreamName: string;
+            };
+          };
           GatewayBridgeSource: GatewayBridgeSource & { BridgeArn: string };
         })[];
         VpcInterfaces: (VpcInterface & {
@@ -2488,10 +2712,12 @@ export interface TransportStream {
   Pid?: number | undefined;
   SampleRate?: number | undefined;
   SampleSize?: number | undefined;
+  ScanMode?: ScanMode | undefined;
   StreamType?: string | undefined;
+  Language?: string | undefined;
 }
 export type __listOfTransportStream = TransportStream[];
-const __listOfTransportStream = /*@__PURE__*/ __L.at(__c98, 3);
+const __listOfTransportStream = /*@__PURE__*/ __L.at(__c100, 3);
 export interface TransportStreamProgram {
   PcrPid?: number | undefined;
   ProgramName?: string | undefined;
@@ -2500,7 +2726,7 @@ export interface TransportStreamProgram {
   Streams?: TransportStream[] | undefined;
 }
 export type __listOfTransportStreamProgram = TransportStreamProgram[];
-const __listOfTransportStreamProgram = /*@__PURE__*/ __L.at(__c98, 5);
+const __listOfTransportStreamProgram = /*@__PURE__*/ __L.at(__c100, 5);
 export interface TransportMediaInfo {
   Programs?: TransportStreamProgram[] | undefined;
   TsId?: number | undefined;
@@ -2509,7 +2735,7 @@ export interface NdiSourceInfo {
   SourceName?: string | undefined;
 }
 export type __listOfNdiSourceInfo = NdiSourceInfo[];
-const __listOfNdiSourceInfo = /*@__PURE__*/ __L.at(__c97, 2);
+const __listOfNdiSourceInfo = /*@__PURE__*/ __L.at(__c99, 2);
 export interface NdiMediaStreamInfo {
   StreamType?: string | undefined;
   Codec?: string | undefined;
@@ -2522,7 +2748,7 @@ export interface NdiMediaStreamInfo {
   SampleRate?: number | undefined;
 }
 export type __listOfNdiMediaStreamInfo = NdiMediaStreamInfo[];
-const __listOfNdiMediaStreamInfo = /*@__PURE__*/ __L.at(__c97, 4);
+const __listOfNdiMediaStreamInfo = /*@__PURE__*/ __L.at(__c99, 4);
 export interface NdiMediaInfo {
   Streams?: NdiMediaStreamInfo[] | undefined;
 }
@@ -2531,6 +2757,29 @@ export interface NdiSourceMetadataInfo {
   DiscoveredSources?: NdiSourceInfo[] | undefined;
   MediaInfo?: NdiMediaInfo | undefined;
   Messages?: MessageDetail[] | undefined;
+}
+export type SourceMediaStreamType = "VIDEO" | "AUDIO" | "DATA" | "UNKNOWN" | (string & {});
+export interface RtmpMediaStreamInfo {
+  StreamId?: number | undefined;
+  StreamType?: SourceMediaStreamType | undefined;
+  Codec?: string | undefined;
+  FrameRate?: string | undefined;
+  FrameResolution?: FrameResolution | undefined;
+  ScanMode?: ScanMode | undefined;
+  Color?: ColorInformation | undefined;
+  Channels?: number | undefined;
+  SampleRate?: number | undefined;
+  SampleSize?: number | undefined;
+  Language?: string | undefined;
+}
+export type RtmpMediaStreamInfoList = RtmpMediaStreamInfo[];
+export interface RtmpMediaInfo {
+  Streams?: RtmpMediaStreamInfo[] | undefined;
+}
+export interface RtmpSourceMetadataInfo {
+  ApplicationName?: string | undefined;
+  StreamName?: string | undefined;
+  MediaInfo?: RtmpMediaInfo | undefined;
 }
 export interface DescribeFlowSourceMetadataResponse {
   FlowArn?: string | undefined;
@@ -2563,6 +2812,18 @@ export interface DescribeFlowSourceMetadataResponse {
         };
         Messages: (MessageDetail & { Code: string; Message: string })[];
         ActiveSource: NdiSourceInfo & { SourceName: string };
+      })
+    | undefined;
+  RtmpInfo?:
+    | (RtmpSourceMetadataInfo & {
+        MediaInfo: RtmpMediaInfo & {
+          Streams: (RtmpMediaStreamInfo & {
+            StreamId: number;
+            StreamType: SourceMediaStreamType;
+            Codec: string;
+            FrameResolution: FrameResolution & { FrameHeight: number; FrameWidth: number };
+          })[];
+        };
       })
     | undefined;
 }
@@ -2729,7 +2990,9 @@ export interface GetRouterInputResponse {
 export interface GetRouterInputSourceMetadataRequest {
   Arn: string;
 }
-export type RouterInputMetadata = { TransportStreamMediaInfo: TransportMediaInfo };
+export type RouterInputMetadata =
+  | { TransportStreamMediaInfo: TransportMediaInfo; RtmpInfo?: undefined }
+  | { TransportStreamMediaInfo?: undefined; RtmpInfo: RtmpSourceMetadataInfo };
 export interface RouterInputSourceMetadataDetails {
   SourceMetadataMessages: RouterInputMessage[];
   Timestamp: Date;
@@ -2801,7 +3064,7 @@ export interface ListedBridge {
   PlacementArn?: string | undefined;
 }
 export type __listOfListedBridge = ListedBridge[];
-const __listOfListedBridge = /*@__PURE__*/ __L.at(__c119, 2);
+const __listOfListedBridge = /*@__PURE__*/ __L.at(__c121, 2);
 export interface ListBridgesResponse {
   Bridges?:
     | (ListedBridge & {
@@ -2866,7 +3129,7 @@ export interface ListedEntitlement {
   EntitlementName?: string | undefined;
 }
 export type __listOfListedEntitlement = ListedEntitlement[];
-const __listOfListedEntitlement = /*@__PURE__*/ __L.at(__c122, 2);
+const __listOfListedEntitlement = /*@__PURE__*/ __L.at(__c124, 2);
 export interface ListEntitlementsResponse {
   Entitlements?:
     | (ListedEntitlement & { EntitlementArn: string; EntitlementName: string })[]
@@ -2888,7 +3151,7 @@ export interface ListedFlow {
   Maintenance?: Maintenance | undefined;
 }
 export type __listOfListedFlow = ListedFlow[];
-const __listOfListedFlow = /*@__PURE__*/ __L.at(__c123, 2);
+const __listOfListedFlow = /*@__PURE__*/ __L.at(__c125, 2);
 export interface ListFlowsResponse {
   Flows?:
     | (ListedFlow & {
@@ -2914,7 +3177,7 @@ export interface ListedGatewayInstance {
   InstanceState?: InstanceState | undefined;
 }
 export type __listOfListedGatewayInstance = ListedGatewayInstance[];
-const __listOfListedGatewayInstance = /*@__PURE__*/ __L.at(__c124, 2);
+const __listOfListedGatewayInstance = /*@__PURE__*/ __L.at(__c126, 2);
 export interface ListGatewayInstancesResponse {
   Instances?:
     | (ListedGatewayInstance & {
@@ -2935,7 +3198,7 @@ export interface ListedGateway {
   Name?: string | undefined;
 }
 export type __listOfListedGateway = ListedGateway[];
-const __listOfListedGateway = /*@__PURE__*/ __L.at(__c125, 2);
+const __listOfListedGateway = /*@__PURE__*/ __L.at(__c127, 2);
 export interface ListGatewaysResponse {
   Gateways?:
     | (ListedGateway & { GatewayArn: string; GatewayState: GatewayState; Name: string })[]
@@ -2947,7 +3210,7 @@ export interface ListOfferingsRequest {
   NextToken?: string | undefined;
 }
 export type __listOfOffering = Offering[];
-const __listOfOffering = /*@__PURE__*/ __L.at(__c126, 1);
+const __listOfOffering = /*@__PURE__*/ __L.at(__c128, 1);
 export interface ListOfferingsResponse {
   NextToken?: string | undefined;
   Offerings?:
@@ -2968,7 +3231,7 @@ export interface ListReservationsRequest {
   NextToken?: string | undefined;
 }
 export type __listOfReservation = Reservation[];
-const __listOfReservation = /*@__PURE__*/ __L.at(__c127, 1);
+const __listOfReservation = /*@__PURE__*/ __L.at(__c129, 1);
 export interface ListReservationsResponse {
   NextToken?: string | undefined;
   Reservations?:
@@ -3588,7 +3851,18 @@ export interface UpdateFlowResponse {
               EncoderProfile: EncoderProfile;
             };
           })[];
-          Transport: Transport & { Protocol: Protocol };
+          Transport: Transport & {
+            Protocol: Protocol;
+            RtmpPushSourceSettings: RtmpPushSourceSettings & {
+              ApplicationName: string;
+              StreamName: string;
+              NamingType: RtmpPushNamingType;
+            };
+            RtmpPushOutputSettings: RtmpPushOutputSettings & {
+              ApplicationName: string;
+              StreamName: string;
+            };
+          };
         })[];
         Source: Source & {
           Name: string;
@@ -3603,7 +3877,18 @@ export interface UpdateFlowResponse {
               Interface: Interface & { Name: string };
             })[];
           })[];
-          Transport: Transport & { Protocol: Protocol };
+          Transport: Transport & {
+            Protocol: Protocol;
+            RtmpPushSourceSettings: RtmpPushSourceSettings & {
+              ApplicationName: string;
+              StreamName: string;
+              NamingType: RtmpPushNamingType;
+            };
+            RtmpPushOutputSettings: RtmpPushOutputSettings & {
+              ApplicationName: string;
+              StreamName: string;
+            };
+          };
           GatewayBridgeSource: GatewayBridgeSource & { BridgeArn: string };
         };
         Status: Status;
@@ -3627,7 +3912,18 @@ export interface UpdateFlowResponse {
               Interface: Interface & { Name: string };
             })[];
           })[];
-          Transport: Transport & { Protocol: Protocol };
+          Transport: Transport & {
+            Protocol: Protocol;
+            RtmpPushSourceSettings: RtmpPushSourceSettings & {
+              ApplicationName: string;
+              StreamName: string;
+              NamingType: RtmpPushNamingType;
+            };
+            RtmpPushOutputSettings: RtmpPushOutputSettings & {
+              ApplicationName: string;
+              StreamName: string;
+            };
+          };
           GatewayBridgeSource: GatewayBridgeSource & { BridgeArn: string };
         })[];
         VpcInterfaces: (VpcInterface & {
@@ -3723,6 +4019,7 @@ export interface UpdateFlowOutputRequest {
   RouterIntegrationTransitEncryption?: FlowTransitEncryption | undefined;
   NdiOutputTimecodeSource?: NdiOutputTimecodeSource | undefined;
   NdiAudioReferenceLevel?: number | undefined;
+  RtmpPushSettings?: RtmpPushOutputSettings | undefined;
 }
 export interface UpdateFlowOutputResponse {
   FlowArn?: string | undefined;
@@ -3745,7 +4042,18 @@ export interface UpdateFlowOutputResponse {
             EncoderProfile: EncoderProfile;
           };
         })[];
-        Transport: Transport & { Protocol: Protocol };
+        Transport: Transport & {
+          Protocol: Protocol;
+          RtmpPushSourceSettings: RtmpPushSourceSettings & {
+            ApplicationName: string;
+            StreamName: string;
+            NamingType: RtmpPushNamingType;
+          };
+          RtmpPushOutputSettings: RtmpPushOutputSettings & {
+            ApplicationName: string;
+            StreamName: string;
+          };
+        };
       })
     | undefined;
 }
@@ -3777,6 +4085,7 @@ export interface UpdateFlowSourceRequest {
   NdiSourceSettings?: NdiSourceSettings | undefined;
   RouterIntegrationState?: State | undefined;
   RouterIntegrationTransitDecryption?: FlowTransitEncryption | undefined;
+  RtmpPushSettings?: SetRtmpPushSourceSettings | undefined;
 }
 export interface UpdateFlowSourceResponse {
   FlowArn?: string | undefined;
@@ -3794,7 +4103,18 @@ export interface UpdateFlowSourceResponse {
             Interface: Interface & { Name: string };
           })[];
         })[];
-        Transport: Transport & { Protocol: Protocol };
+        Transport: Transport & {
+          Protocol: Protocol;
+          RtmpPushSourceSettings: RtmpPushSourceSettings & {
+            ApplicationName: string;
+            StreamName: string;
+            NamingType: RtmpPushNamingType;
+          };
+          RtmpPushOutputSettings: RtmpPushOutputSettings & {
+            ApplicationName: string;
+            StreamName: string;
+          };
+        };
         GatewayBridgeSource: GatewayBridgeSource & { BridgeArn: string };
       })
     | undefined;
@@ -3841,6 +4161,7 @@ export interface UpdateRouterOutputRequest {
   Tier?: RouterOutputTier | undefined;
   MaintenanceConfiguration?: MaintenanceConfiguration | undefined;
   FabricConfiguration?: FabricConfiguration | undefined;
+  Processors?: RouterOutputProcessors | undefined;
 }
 export interface UpdateRouterOutputResponse {
   RouterOutput: RouterOutput & { FabricConfiguration: FabricConfiguration };
@@ -4012,8 +4333,8 @@ export const addFlowSources: API.OperationMethod<
   AddFlowSourcesError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1184, __c37, 0) as any as S.Schema<AddFlowSourcesRequest>,
-  output: __S(1185, __c37, 1) as any as S.Schema<AddFlowSourcesResponse>,
+  input: __S(1216, __c38, 0) as any as S.Schema<AddFlowSourcesRequest>,
+  output: __S(1217, __c38, 1) as any as S.Schema<AddFlowSourcesResponse>,
   errors: [
     BadRequestException,
     ForbiddenException,
@@ -4046,8 +4367,8 @@ export const addFlowVpcInterfaces: API.OperationMethod<
   AddFlowVpcInterfacesError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1344, __c42, 0) as any as S.Schema<AddFlowVpcInterfacesRequest>,
-  output: __S(1345, __c42, 1) as any as S.Schema<AddFlowVpcInterfacesResponse>,
+  input: __S(1408, __c44, 0) as any as S.Schema<AddFlowVpcInterfacesRequest>,
+  output: __S(1409, __c44, 1) as any as S.Schema<AddFlowVpcInterfacesResponse>,
   errors: [
     BadRequestException,
     ForbiddenException,
@@ -4079,8 +4400,8 @@ export const batchGetDestinationEndpoint: API.OperationMethod<
   BatchGetDestinationEndpointError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1440, __c45, 0) as any as S.Schema<BatchGetDestinationEndpointRequest>,
-  output: __S(1444, __c45, 4) as any as S.Schema<BatchGetDestinationEndpointResponse>,
+  input: __S(1504, __c47, 0) as any as S.Schema<BatchGetDestinationEndpointRequest>,
+  output: __S(1508, __c47, 4) as any as S.Schema<BatchGetDestinationEndpointResponse>,
   errors: [
     BadRequestException,
     ConflictException,
@@ -4111,8 +4432,8 @@ export const batchGetRouterInput: API.OperationMethod<
   BatchGetRouterInputError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1632, __c51, 0) as any as S.Schema<BatchGetRouterInputRequest>,
-  output: __S(1636, __c51, 4) as any as S.Schema<BatchGetRouterInputResponse>,
+  input: __S(1696, __c53, 0) as any as S.Schema<BatchGetRouterInputRequest>,
+  output: __S(1700, __c53, 4) as any as S.Schema<BatchGetRouterInputResponse>,
   errors: [
     BadRequestException,
     ConflictException,
@@ -4143,8 +4464,8 @@ export const batchGetRouterNetworkInterface: API.OperationMethod<
   BatchGetRouterNetworkInterfaceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1760, __c55, 0) as any as S.Schema<BatchGetRouterNetworkInterfaceRequest>,
-  output: __S(1764, __c55, 4) as any as S.Schema<BatchGetRouterNetworkInterfaceResponse>,
+  input: __S(1824, __c57, 0) as any as S.Schema<BatchGetRouterNetworkInterfaceRequest>,
+  output: __S(1828, __c57, 4) as any as S.Schema<BatchGetRouterNetworkInterfaceResponse>,
   errors: [
     BadRequestException,
     ConflictException,
@@ -4175,8 +4496,8 @@ export const batchGetRouterOutput: API.OperationMethod<
   BatchGetRouterOutputError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1824, __c57, 0) as any as S.Schema<BatchGetRouterOutputRequest>,
-  output: __S(1828, __c57, 4) as any as S.Schema<BatchGetRouterOutputResponse>,
+  input: __S(1888, __c59, 0) as any as S.Schema<BatchGetRouterOutputRequest>,
+  output: __S(1892, __c59, 4) as any as S.Schema<BatchGetRouterOutputResponse>,
   errors: [
     BadRequestException,
     ConflictException,
@@ -4207,8 +4528,8 @@ export const batchGetSourceEndpoint: API.OperationMethod<
   BatchGetSourceEndpointError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1888, __c59, 0) as any as S.Schema<BatchGetSourceEndpointRequest>,
-  output: __S(1892, __c59, 4) as any as S.Schema<BatchGetSourceEndpointResponse>,
+  input: __S(1952, __c61, 0) as any as S.Schema<BatchGetSourceEndpointRequest>,
+  output: __S(1956, __c61, 4) as any as S.Schema<BatchGetSourceEndpointResponse>,
   errors: [
     BadRequestException,
     ConflictException,
@@ -4241,8 +4562,8 @@ export const connectEndpoints: API.OperationMethod<
   ConnectEndpointsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1952, __c61, 0) as any as S.Schema<ConnectEndpointsRequest>,
-  output: __S(1984, __c62, 0) as any as S.Schema<ConnectEndpointsResponse>,
+  input: __S(2016, __c63, 0) as any as S.Schema<ConnectEndpointsRequest>,
+  output: __S(2048, __c64, 0) as any as S.Schema<ConnectEndpointsResponse>,
   errors: [
     BadRequestException,
     ConflictException,
@@ -4277,8 +4598,8 @@ export const createBridge: API.OperationMethod<
   CreateBridgeError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2016, __c63, 0) as any as S.Schema<CreateBridgeRequest>,
-  output: __S(2115, __c66, 3) as any as S.Schema<CreateBridgeResponse>,
+  input: __S(2080, __c65, 0) as any as S.Schema<CreateBridgeRequest>,
+  output: __S(2179, __c68, 3) as any as S.Schema<CreateBridgeResponse>,
   errors: [
     BadRequestException,
     ConflictException,
@@ -4312,8 +4633,8 @@ export const createFlow: API.OperationMethod<
   CreateFlowError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2177, __c68, 1) as any as S.Schema<CreateFlowRequest>,
-  output: __S(2208, __c69, 0) as any as S.Schema<CreateFlowResponse>,
+  input: __S(2241, __c70, 1) as any as S.Schema<CreateFlowRequest>,
+  output: __S(2272, __c71, 0) as any as S.Schema<CreateFlowResponse>,
   errors: [
     BadRequestException,
     CreateFlow420Exception,
@@ -4347,8 +4668,8 @@ export const createGateway: API.OperationMethod<
   CreateGatewayError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2400, __c75, 0) as any as S.Schema<CreateGatewayRequest>,
-  output: __S(2435, __c76, 3) as any as S.Schema<CreateGatewayResponse>,
+  input: __S(2464, __c77, 0) as any as S.Schema<CreateGatewayRequest>,
+  output: __S(2499, __c78, 3) as any as S.Schema<CreateGatewayResponse>,
   errors: [
     BadRequestException,
     ConflictException,
@@ -4383,8 +4704,8 @@ export const createRouterInput: API.OperationMethod<
   CreateRouterInputError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2464, __c77, 0) as any as S.Schema<CreateRouterInputRequest>,
-  output: __S(2496, __c78, 0) as any as S.Schema<CreateRouterInputResponse>,
+  input: __S(2528, __c79, 0) as any as S.Schema<CreateRouterInputRequest>,
+  output: __S(2560, __c80, 0) as any as S.Schema<CreateRouterInputResponse>,
   errors: [
     BadRequestException,
     ConflictException,
@@ -4419,8 +4740,8 @@ export const createRouterNetworkInterface: API.OperationMethod<
   CreateRouterNetworkInterfaceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2528, __c79, 0) as any as S.Schema<CreateRouterNetworkInterfaceRequest>,
-  output: __S(2560, __c80, 0) as any as S.Schema<CreateRouterNetworkInterfaceResponse>,
+  input: __S(2592, __c81, 0) as any as S.Schema<CreateRouterNetworkInterfaceRequest>,
+  output: __S(2624, __c82, 0) as any as S.Schema<CreateRouterNetworkInterfaceResponse>,
   errors: [
     BadRequestException,
     ConflictException,
@@ -4455,8 +4776,8 @@ export const createRouterOutput: API.OperationMethod<
   CreateRouterOutputError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2592, __c81, 0) as any as S.Schema<CreateRouterOutputRequest>,
-  output: __S(2624, __c82, 0) as any as S.Schema<CreateRouterOutputResponse>,
+  input: __S(2656, __c83, 0) as any as S.Schema<CreateRouterOutputRequest>,
+  output: __S(2688, __c84, 0) as any as S.Schema<CreateRouterOutputResponse>,
   errors: [
     BadRequestException,
     ConflictException,
@@ -4491,8 +4812,8 @@ export const deleteBridge: API.OperationMethod<
   DeleteBridgeError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2656, __c83, 0) as any as S.Schema<DeleteBridgeRequest>,
-  output: __S(2657, __c83, 1) as any as S.Schema<DeleteBridgeResponse>,
+  input: __S(2720, __c85, 0) as any as S.Schema<DeleteBridgeRequest>,
+  output: __S(2721, __c85, 1) as any as S.Schema<DeleteBridgeResponse>,
   errors: [
     BadRequestException,
     ConflictException,
@@ -4526,8 +4847,8 @@ export const deleteFlow: API.OperationMethod<
   DeleteFlowError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2688, __c84, 0) as any as S.Schema<DeleteFlowRequest>,
-  output: __S(2720, __c85, 0) as any as S.Schema<DeleteFlowResponse>,
+  input: __S(2752, __c86, 0) as any as S.Schema<DeleteFlowRequest>,
+  output: __S(2784, __c87, 0) as any as S.Schema<DeleteFlowResponse>,
   errors: [
     BadRequestException,
     ForbiddenException,
@@ -4561,8 +4882,8 @@ export const deleteGateway: API.OperationMethod<
   DeleteGatewayError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2752, __c86, 0) as any as S.Schema<DeleteGatewayRequest>,
-  output: __S(2753, __c86, 1) as any as S.Schema<DeleteGatewayResponse>,
+  input: __S(2816, __c88, 0) as any as S.Schema<DeleteGatewayRequest>,
+  output: __S(2817, __c88, 1) as any as S.Schema<DeleteGatewayResponse>,
   errors: [
     BadRequestException,
     ConflictException,
@@ -4597,8 +4918,8 @@ export const deleteRouterInput: API.OperationMethod<
   DeleteRouterInputError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2784, __c87, 0) as any as S.Schema<DeleteRouterInputRequest>,
-  output: __S(2816, __c88, 0) as any as S.Schema<DeleteRouterInputResponse>,
+  input: __S(2848, __c89, 0) as any as S.Schema<DeleteRouterInputRequest>,
+  output: __S(2880, __c90, 0) as any as S.Schema<DeleteRouterInputResponse>,
   errors: [
     BadRequestException,
     ConflictException,
@@ -4633,8 +4954,8 @@ export const deleteRouterNetworkInterface: API.OperationMethod<
   DeleteRouterNetworkInterfaceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2848, __c89, 0) as any as S.Schema<DeleteRouterNetworkInterfaceRequest>,
-  output: __S(2816, __c88, 0) as any as S.Schema<DeleteRouterNetworkInterfaceResponse>,
+  input: __S(2912, __c91, 0) as any as S.Schema<DeleteRouterNetworkInterfaceRequest>,
+  output: __S(2880, __c90, 0) as any as S.Schema<DeleteRouterNetworkInterfaceResponse>,
   errors: [
     BadRequestException,
     ConflictException,
@@ -4669,8 +4990,8 @@ export const deleteRouterOutput: API.OperationMethod<
   DeleteRouterOutputError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2880, __c90, 0) as any as S.Schema<DeleteRouterOutputRequest>,
-  output: __S(2816, __c88, 0) as any as S.Schema<DeleteRouterOutputResponse>,
+  input: __S(2944, __c92, 0) as any as S.Schema<DeleteRouterOutputRequest>,
+  output: __S(2880, __c90, 0) as any as S.Schema<DeleteRouterOutputResponse>,
   errors: [
     BadRequestException,
     ConflictException,
@@ -4705,8 +5026,8 @@ export const deregisterDestinationEndpoint: API.OperationMethod<
   DeregisterDestinationEndpointError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2912, __c91, 0) as any as S.Schema<DeregisterDestinationEndpointRequest>,
-  output: __S(2944, __c92, 0) as any as S.Schema<DeregisterDestinationEndpointResponse>,
+  input: __S(2976, __c93, 0) as any as S.Schema<DeregisterDestinationEndpointRequest>,
+  output: __S(3008, __c94, 0) as any as S.Schema<DeregisterDestinationEndpointResponse>,
   errors: [
     BadRequestException,
     ConflictException,
@@ -4741,8 +5062,8 @@ export const deregisterGatewayInstance: API.OperationMethod<
   DeregisterGatewayInstanceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2976, __c93, 0) as any as S.Schema<DeregisterGatewayInstanceRequest>,
-  output: __S(2977, __c93, 1) as any as S.Schema<DeregisterGatewayInstanceResponse>,
+  input: __S(3040, __c95, 0) as any as S.Schema<DeregisterGatewayInstanceRequest>,
+  output: __S(3041, __c95, 1) as any as S.Schema<DeregisterGatewayInstanceResponse>,
   errors: [
     BadRequestException,
     ConflictException,
@@ -4777,8 +5098,8 @@ export const deregisterSourceEndpoint: API.OperationMethod<
   DeregisterSourceEndpointError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3008, __c94, 0) as any as S.Schema<DeregisterSourceEndpointRequest>,
-  output: __S(2944, __c92, 0) as any as S.Schema<DeregisterSourceEndpointResponse>,
+  input: __S(3072, __c96, 0) as any as S.Schema<DeregisterSourceEndpointRequest>,
+  output: __S(3008, __c94, 0) as any as S.Schema<DeregisterSourceEndpointResponse>,
   errors: [
     BadRequestException,
     ConflictException,
@@ -4813,8 +5134,8 @@ export const describeBridge: API.OperationMethod<
   DescribeBridgeError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3040, __c95, 0) as any as S.Schema<DescribeBridgeRequest>,
-  output: __S(2115, __c66, 3) as any as S.Schema<DescribeBridgeResponse>,
+  input: __S(3104, __c97, 0) as any as S.Schema<DescribeBridgeRequest>,
+  output: __S(2179, __c68, 3) as any as S.Schema<DescribeBridgeResponse>,
   errors: [
     BadRequestException,
     ConflictException,
@@ -4848,8 +5169,8 @@ export const describeFlow: API.OperationMethod<
   DescribeFlowError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3072, __c96, 0) as any as S.Schema<DescribeFlowRequest>,
-  output: __S(3074, __c96, 2) as any as S.Schema<DescribeFlowResponse>,
+  input: __S(3136, __c98, 0) as any as S.Schema<DescribeFlowRequest>,
+  output: __S(3138, __c98, 2) as any as S.Schema<DescribeFlowResponse>,
   errors: [
     BadRequestException,
     ForbiddenException,
@@ -4882,8 +5203,8 @@ export const describeFlowSourceMetadata: API.OperationMethod<
   DescribeFlowSourceMetadataError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3104, __c97, 0) as any as S.Schema<DescribeFlowSourceMetadataRequest>,
-  output: __S(3111, __c97, 7) as any as S.Schema<DescribeFlowSourceMetadataResponse>,
+  input: __S(3168, __c99, 0) as any as S.Schema<DescribeFlowSourceMetadataRequest>,
+  output: __S(3175, __c99, 7) as any as S.Schema<DescribeFlowSourceMetadataResponse>,
   errors: [
     BadRequestException,
     ForbiddenException,
@@ -4916,8 +5237,8 @@ export const describeFlowSourceThumbnail: API.OperationMethod<
   DescribeFlowSourceThumbnailError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3168, __c99, 0) as any as S.Schema<DescribeFlowSourceThumbnailRequest>,
-  output: __S(3170, __c99, 2) as any as S.Schema<DescribeFlowSourceThumbnailResponse>,
+  input: __S(3232, __c101, 0) as any as S.Schema<DescribeFlowSourceThumbnailRequest>,
+  output: __S(3234, __c101, 2) as any as S.Schema<DescribeFlowSourceThumbnailResponse>,
   errors: [
     BadRequestException,
     ForbiddenException,
@@ -4951,8 +5272,8 @@ export const describeGateway: API.OperationMethod<
   DescribeGatewayError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3200, __c100, 0) as any as S.Schema<DescribeGatewayRequest>,
-  output: __S(2435, __c76, 3) as any as S.Schema<DescribeGatewayResponse>,
+  input: __S(3264, __c102, 0) as any as S.Schema<DescribeGatewayRequest>,
+  output: __S(2499, __c78, 3) as any as S.Schema<DescribeGatewayResponse>,
   errors: [
     BadRequestException,
     ConflictException,
@@ -4987,8 +5308,8 @@ export const describeGatewayInstance: API.OperationMethod<
   DescribeGatewayInstanceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3232, __c101, 0) as any as S.Schema<DescribeGatewayInstanceRequest>,
-  output: __S(3234, __c101, 2) as any as S.Schema<DescribeGatewayInstanceResponse>,
+  input: __S(3296, __c103, 0) as any as S.Schema<DescribeGatewayInstanceRequest>,
+  output: __S(3298, __c103, 2) as any as S.Schema<DescribeGatewayInstanceResponse>,
   errors: [
     BadRequestException,
     ConflictException,
@@ -5021,8 +5342,8 @@ export const describeOffering: API.OperationMethod<
   DescribeOfferingError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3264, __c102, 0) as any as S.Schema<DescribeOfferingRequest>,
-  output: __S(3265, __c102, 1) as any as S.Schema<DescribeOfferingResponse>,
+  input: __S(3328, __c104, 0) as any as S.Schema<DescribeOfferingRequest>,
+  output: __S(3329, __c104, 1) as any as S.Schema<DescribeOfferingResponse>,
   errors: [
     BadRequestException,
     InternalServerErrorException,
@@ -5053,8 +5374,8 @@ export const describeReservation: API.OperationMethod<
   DescribeReservationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3360, __c105, 0) as any as S.Schema<DescribeReservationRequest>,
-  output: __S(3424, __c107, 0) as any as S.Schema<DescribeReservationResponse>,
+  input: __S(3424, __c107, 0) as any as S.Schema<DescribeReservationRequest>,
+  output: __S(3488, __c109, 0) as any as S.Schema<DescribeReservationResponse>,
   errors: [
     BadRequestException,
     InternalServerErrorException,
@@ -5087,8 +5408,8 @@ export const disconnectEndpoints: API.OperationMethod<
   DisconnectEndpointsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3456, __c108, 0) as any as S.Schema<DisconnectEndpointsRequest>,
-  output: __S(1984, __c62, 0) as any as S.Schema<DisconnectEndpointsResponse>,
+  input: __S(3520, __c110, 0) as any as S.Schema<DisconnectEndpointsRequest>,
+  output: __S(2048, __c64, 0) as any as S.Schema<DisconnectEndpointsResponse>,
   errors: [
     BadRequestException,
     ConflictException,
@@ -5123,8 +5444,8 @@ export const getDestinationEndpoint: API.OperationMethod<
   GetDestinationEndpointError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3488, __c109, 0) as any as S.Schema<GetDestinationEndpointRequest>,
-  output: __S(3520, __c110, 0) as any as S.Schema<GetDestinationEndpointResponse>,
+  input: __S(3552, __c111, 0) as any as S.Schema<GetDestinationEndpointRequest>,
+  output: __S(3584, __c112, 0) as any as S.Schema<GetDestinationEndpointResponse>,
   errors: [
     BadRequestException,
     ConflictException,
@@ -5159,8 +5480,8 @@ export const getRouterInput: API.OperationMethod<
   GetRouterInputError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3552, __c111, 0) as any as S.Schema<GetRouterInputRequest>,
-  output: __S(2496, __c78, 0) as any as S.Schema<GetRouterInputResponse>,
+  input: __S(3616, __c113, 0) as any as S.Schema<GetRouterInputRequest>,
+  output: __S(2560, __c80, 0) as any as S.Schema<GetRouterInputResponse>,
   errors: [
     BadRequestException,
     ConflictException,
@@ -5194,8 +5515,8 @@ export const getRouterInputSourceMetadata: API.OperationMethod<
   GetRouterInputSourceMetadataError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3584, __c112, 0) as any as S.Schema<GetRouterInputSourceMetadataRequest>,
-  output: __S(3587, __c112, 3) as any as S.Schema<GetRouterInputSourceMetadataResponse>,
+  input: __S(3648, __c114, 0) as any as S.Schema<GetRouterInputSourceMetadataRequest>,
+  output: __S(3651, __c114, 3) as any as S.Schema<GetRouterInputSourceMetadataResponse>,
   errors: [
     BadRequestException,
     ForbiddenException,
@@ -5228,8 +5549,8 @@ export const getRouterInputThumbnail: API.OperationMethod<
   GetRouterInputThumbnailError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3616, __c113, 0) as any as S.Schema<GetRouterInputThumbnailRequest>,
-  output: __S(3618, __c113, 2) as any as S.Schema<GetRouterInputThumbnailResponse>,
+  input: __S(3680, __c115, 0) as any as S.Schema<GetRouterInputThumbnailRequest>,
+  output: __S(3682, __c115, 2) as any as S.Schema<GetRouterInputThumbnailResponse>,
   errors: [
     BadRequestException,
     ForbiddenException,
@@ -5263,8 +5584,8 @@ export const getRouterNetworkInterface: API.OperationMethod<
   GetRouterNetworkInterfaceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3648, __c114, 0) as any as S.Schema<GetRouterNetworkInterfaceRequest>,
-  output: __S(2560, __c80, 0) as any as S.Schema<GetRouterNetworkInterfaceResponse>,
+  input: __S(3712, __c116, 0) as any as S.Schema<GetRouterNetworkInterfaceRequest>,
+  output: __S(2624, __c82, 0) as any as S.Schema<GetRouterNetworkInterfaceResponse>,
   errors: [
     BadRequestException,
     ConflictException,
@@ -5299,8 +5620,8 @@ export const getRouterOutput: API.OperationMethod<
   GetRouterOutputError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3680, __c115, 0) as any as S.Schema<GetRouterOutputRequest>,
-  output: __S(2624, __c82, 0) as any as S.Schema<GetRouterOutputResponse>,
+  input: __S(3744, __c117, 0) as any as S.Schema<GetRouterOutputRequest>,
+  output: __S(2688, __c84, 0) as any as S.Schema<GetRouterOutputResponse>,
   errors: [
     BadRequestException,
     ConflictException,
@@ -5334,8 +5655,8 @@ export const getSourceEndpoint: API.OperationMethod<
   GetSourceEndpointError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3712, __c116, 0) as any as S.Schema<GetSourceEndpointRequest>,
-  output: __S(3744, __c117, 0) as any as S.Schema<GetSourceEndpointResponse>,
+  input: __S(3776, __c118, 0) as any as S.Schema<GetSourceEndpointRequest>,
+  output: __S(3808, __c119, 0) as any as S.Schema<GetSourceEndpointResponse>,
   errors: [
     BadRequestException,
     ForbiddenException,
@@ -5369,8 +5690,8 @@ export const grantFlowEntitlements: API.OperationMethod<
   GrantFlowEntitlementsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3776, __c118, 0) as any as S.Schema<GrantFlowEntitlementsRequest>,
-  output: __S(3777, __c118, 1) as any as S.Schema<GrantFlowEntitlementsResponse>,
+  input: __S(3840, __c120, 0) as any as S.Schema<GrantFlowEntitlementsRequest>,
+  output: __S(3841, __c120, 1) as any as S.Schema<GrantFlowEntitlementsResponse>,
   errors: [
     BadRequestException,
     ForbiddenException,
@@ -5404,8 +5725,8 @@ export const listBridges: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   ListedBridge
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(3808, __c119, 0) as any as S.Schema<ListBridgesRequest>,
-  output: __S(3811, __c119, 3) as any as S.Schema<ListBridgesResponse>,
+  input: __S(3872, __c121, 0) as any as S.Schema<ListBridgesRequest>,
+  output: __S(3875, __c121, 3) as any as S.Schema<ListBridgesResponse>,
   errors: [
     BadRequestException,
     ConflictException,
@@ -5443,8 +5764,8 @@ export const listDestinationEndpoints: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   ListedDestinationEndpoint
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(3842, __c120, 2) as any as S.Schema<ListDestinationEndpointsRequest>,
-  output: __S(3845, __c120, 5) as any as S.Schema<ListDestinationEndpointsResponse>,
+  input: __S(3906, __c122, 2) as any as S.Schema<ListDestinationEndpointsRequest>,
+  output: __S(3909, __c122, 5) as any as S.Schema<ListDestinationEndpointsResponse>,
   errors: [
     BadRequestException,
     ConflictException,
@@ -5481,8 +5802,8 @@ export const listEntitlements: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   ListedEntitlement
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(3904, __c122, 0) as any as S.Schema<ListEntitlementsRequest>,
-  output: __S(3907, __c122, 3) as any as S.Schema<ListEntitlementsResponse>,
+  input: __S(3968, __c124, 0) as any as S.Schema<ListEntitlementsRequest>,
+  output: __S(3971, __c124, 3) as any as S.Schema<ListEntitlementsResponse>,
   errors: [
     BadRequestException,
     InternalServerErrorException,
@@ -5518,8 +5839,8 @@ export const listFlows: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   ListedFlow
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(3936, __c123, 0) as any as S.Schema<ListFlowsRequest>,
-  output: __S(3939, __c123, 3) as any as S.Schema<ListFlowsResponse>,
+  input: __S(4000, __c125, 0) as any as S.Schema<ListFlowsRequest>,
+  output: __S(4003, __c125, 3) as any as S.Schema<ListFlowsResponse>,
   errors: [
     BadRequestException,
     InternalServerErrorException,
@@ -5556,8 +5877,8 @@ export const listGatewayInstances: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   ListedGatewayInstance
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(3968, __c124, 0) as any as S.Schema<ListGatewayInstancesRequest>,
-  output: __S(3971, __c124, 3) as any as S.Schema<ListGatewayInstancesResponse>,
+  input: __S(4032, __c126, 0) as any as S.Schema<ListGatewayInstancesRequest>,
+  output: __S(4035, __c126, 3) as any as S.Schema<ListGatewayInstancesResponse>,
   errors: [
     BadRequestException,
     ConflictException,
@@ -5595,8 +5916,8 @@ export const listGateways: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   ListedGateway
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(4000, __c125, 0) as any as S.Schema<ListGatewaysRequest>,
-  output: __S(4003, __c125, 3) as any as S.Schema<ListGatewaysResponse>,
+  input: __S(4064, __c127, 0) as any as S.Schema<ListGatewaysRequest>,
+  output: __S(4067, __c127, 3) as any as S.Schema<ListGatewaysResponse>,
   errors: [
     BadRequestException,
     ConflictException,
@@ -5633,8 +5954,8 @@ export const listOfferings: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   Offering
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(4032, __c126, 0) as any as S.Schema<ListOfferingsRequest>,
-  output: __S(4034, __c126, 2) as any as S.Schema<ListOfferingsResponse>,
+  input: __S(4096, __c128, 0) as any as S.Schema<ListOfferingsRequest>,
+  output: __S(4098, __c128, 2) as any as S.Schema<ListOfferingsResponse>,
   errors: [
     BadRequestException,
     InternalServerErrorException,
@@ -5670,8 +5991,8 @@ export const listReservations: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   Reservation
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(4064, __c127, 0) as any as S.Schema<ListReservationsRequest>,
-  output: __S(4066, __c127, 2) as any as S.Schema<ListReservationsResponse>,
+  input: __S(4128, __c129, 0) as any as S.Schema<ListReservationsRequest>,
+  output: __S(4130, __c129, 2) as any as S.Schema<ListReservationsResponse>,
   errors: [
     BadRequestException,
     InternalServerErrorException,
@@ -5708,8 +6029,8 @@ export const listRouterInputs: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   ListedRouterInput
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(4098, __c128, 2) as any as S.Schema<ListRouterInputsRequest>,
-  output: __S(4101, __c128, 5) as any as S.Schema<ListRouterInputsResponse>,
+  input: __S(4162, __c130, 2) as any as S.Schema<ListRouterInputsRequest>,
+  output: __S(4165, __c130, 5) as any as S.Schema<ListRouterInputsResponse>,
   errors: [
     BadRequestException,
     ConflictException,
@@ -5747,8 +6068,8 @@ export const listRouterNetworkInterfaces: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   ListedRouterNetworkInterface
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(4130, __c129, 2) as any as S.Schema<ListRouterNetworkInterfacesRequest>,
-  output: __S(4133, __c129, 5) as any as S.Schema<ListRouterNetworkInterfacesResponse>,
+  input: __S(4194, __c131, 2) as any as S.Schema<ListRouterNetworkInterfacesRequest>,
+  output: __S(4197, __c131, 5) as any as S.Schema<ListRouterNetworkInterfacesResponse>,
   errors: [
     BadRequestException,
     ConflictException,
@@ -5786,8 +6107,8 @@ export const listRouterOutputs: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   ListedRouterOutput
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(4162, __c130, 2) as any as S.Schema<ListRouterOutputsRequest>,
-  output: __S(4165, __c130, 5) as any as S.Schema<ListRouterOutputsResponse>,
+  input: __S(4226, __c132, 2) as any as S.Schema<ListRouterOutputsRequest>,
+  output: __S(4229, __c132, 5) as any as S.Schema<ListRouterOutputsResponse>,
   errors: [
     BadRequestException,
     ConflictException,
@@ -5825,8 +6146,8 @@ export const listSourceEndpoints: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   ListedSourceEndpoint
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(4194, __c131, 2) as any as S.Schema<ListSourceEndpointsRequest>,
-  output: __S(4197, __c131, 5) as any as S.Schema<ListSourceEndpointsResponse>,
+  input: __S(4258, __c133, 2) as any as S.Schema<ListSourceEndpointsRequest>,
+  output: __S(4261, __c133, 5) as any as S.Schema<ListSourceEndpointsResponse>,
   errors: [
     BadRequestException,
     ConflictException,
@@ -5861,8 +6182,8 @@ export const listTagsForGlobalResource: API.OperationMethod<
   ListTagsForGlobalResourceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4224, __c132, 0) as any as S.Schema<ListTagsForGlobalResourceRequest>,
-  output: __S(4256, __c133, 0) as any as S.Schema<ListTagsForGlobalResourceResponse>,
+  input: __S(4288, __c134, 0) as any as S.Schema<ListTagsForGlobalResourceRequest>,
+  output: __S(4320, __c135, 0) as any as S.Schema<ListTagsForGlobalResourceResponse>,
   errors: [BadRequestException, InternalServerErrorException, NotFoundException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -5885,8 +6206,8 @@ export const listTagsForResource: API.OperationMethod<
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4288, __c134, 0) as any as S.Schema<ListTagsForResourceRequest>,
-  output: __S(4256, __c133, 0) as any as S.Schema<ListTagsForResourceResponse>,
+  input: __S(4352, __c136, 0) as any as S.Schema<ListTagsForResourceRequest>,
+  output: __S(4320, __c135, 0) as any as S.Schema<ListTagsForResourceResponse>,
   errors: [BadRequestException, InternalServerErrorException, NotFoundException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -5912,8 +6233,8 @@ export const purchaseOffering: API.OperationMethod<
   PurchaseOfferingError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4320, __c135, 0) as any as S.Schema<PurchaseOfferingRequest>,
-  output: __S(3424, __c107, 0) as any as S.Schema<PurchaseOfferingResponse>,
+  input: __S(4384, __c137, 0) as any as S.Schema<PurchaseOfferingRequest>,
+  output: __S(3488, __c109, 0) as any as S.Schema<PurchaseOfferingResponse>,
   errors: [
     BadRequestException,
     ForbiddenException,
@@ -5947,8 +6268,8 @@ export const registerDestinationEndpoint: API.OperationMethod<
   RegisterDestinationEndpointError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4352, __c136, 0) as any as S.Schema<RegisterDestinationEndpointRequest>,
-  output: __S(3520, __c110, 0) as any as S.Schema<RegisterDestinationEndpointResponse>,
+  input: __S(4416, __c138, 0) as any as S.Schema<RegisterDestinationEndpointRequest>,
+  output: __S(3584, __c112, 0) as any as S.Schema<RegisterDestinationEndpointResponse>,
   errors: [
     BadRequestException,
     ConflictException,
@@ -5983,8 +6304,8 @@ export const registerSourceEndpoint: API.OperationMethod<
   RegisterSourceEndpointError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4384, __c137, 0) as any as S.Schema<RegisterSourceEndpointRequest>,
-  output: __S(3744, __c117, 0) as any as S.Schema<RegisterSourceEndpointResponse>,
+  input: __S(4448, __c139, 0) as any as S.Schema<RegisterSourceEndpointRequest>,
+  output: __S(3808, __c119, 0) as any as S.Schema<RegisterSourceEndpointResponse>,
   errors: [
     BadRequestException,
     ConflictException,
@@ -6019,8 +6340,8 @@ export const removeBridgeOutput: API.OperationMethod<
   RemoveBridgeOutputError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4416, __c138, 0) as any as S.Schema<RemoveBridgeOutputRequest>,
-  output: __S(4417, __c138, 1) as any as S.Schema<RemoveBridgeOutputResponse>,
+  input: __S(4480, __c140, 0) as any as S.Schema<RemoveBridgeOutputRequest>,
+  output: __S(4481, __c140, 1) as any as S.Schema<RemoveBridgeOutputResponse>,
   errors: [
     BadRequestException,
     ConflictException,
@@ -6055,8 +6376,8 @@ export const removeBridgeSource: API.OperationMethod<
   RemoveBridgeSourceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4448, __c139, 0) as any as S.Schema<RemoveBridgeSourceRequest>,
-  output: __S(4449, __c139, 1) as any as S.Schema<RemoveBridgeSourceResponse>,
+  input: __S(4512, __c141, 0) as any as S.Schema<RemoveBridgeSourceRequest>,
+  output: __S(4513, __c141, 1) as any as S.Schema<RemoveBridgeSourceResponse>,
   errors: [
     BadRequestException,
     ConflictException,
@@ -6090,8 +6411,8 @@ export const removeFlowMediaStream: API.OperationMethod<
   RemoveFlowMediaStreamError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4480, __c140, 0) as any as S.Schema<RemoveFlowMediaStreamRequest>,
-  output: __S(4481, __c140, 1) as any as S.Schema<RemoveFlowMediaStreamResponse>,
+  input: __S(4544, __c142, 0) as any as S.Schema<RemoveFlowMediaStreamRequest>,
+  output: __S(4545, __c142, 1) as any as S.Schema<RemoveFlowMediaStreamResponse>,
   errors: [
     BadRequestException,
     ForbiddenException,
@@ -6124,8 +6445,8 @@ export const removeFlowOutput: API.OperationMethod<
   RemoveFlowOutputError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4512, __c141, 0) as any as S.Schema<RemoveFlowOutputRequest>,
-  output: __S(4513, __c141, 1) as any as S.Schema<RemoveFlowOutputResponse>,
+  input: __S(4576, __c143, 0) as any as S.Schema<RemoveFlowOutputRequest>,
+  output: __S(4577, __c143, 1) as any as S.Schema<RemoveFlowOutputResponse>,
   errors: [
     BadRequestException,
     ForbiddenException,
@@ -6158,8 +6479,8 @@ export const removeFlowSource: API.OperationMethod<
   RemoveFlowSourceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4544, __c142, 0) as any as S.Schema<RemoveFlowSourceRequest>,
-  output: __S(4545, __c142, 1) as any as S.Schema<RemoveFlowSourceResponse>,
+  input: __S(4608, __c144, 0) as any as S.Schema<RemoveFlowSourceRequest>,
+  output: __S(4609, __c144, 1) as any as S.Schema<RemoveFlowSourceResponse>,
   errors: [
     BadRequestException,
     ForbiddenException,
@@ -6192,8 +6513,8 @@ export const removeFlowVpcInterface: API.OperationMethod<
   RemoveFlowVpcInterfaceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4576, __c143, 0) as any as S.Schema<RemoveFlowVpcInterfaceRequest>,
-  output: __S(4577, __c143, 1) as any as S.Schema<RemoveFlowVpcInterfaceResponse>,
+  input: __S(4640, __c145, 0) as any as S.Schema<RemoveFlowVpcInterfaceRequest>,
+  output: __S(4641, __c145, 1) as any as S.Schema<RemoveFlowVpcInterfaceResponse>,
   errors: [
     BadRequestException,
     ForbiddenException,
@@ -6227,8 +6548,8 @@ export const restartRouterInput: API.OperationMethod<
   RestartRouterInputError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4608, __c144, 0) as any as S.Schema<RestartRouterInputRequest>,
-  output: __S(2816, __c88, 0) as any as S.Schema<RestartRouterInputResponse>,
+  input: __S(4672, __c146, 0) as any as S.Schema<RestartRouterInputRequest>,
+  output: __S(2880, __c90, 0) as any as S.Schema<RestartRouterInputResponse>,
   errors: [
     BadRequestException,
     ConflictException,
@@ -6263,8 +6584,8 @@ export const restartRouterOutput: API.OperationMethod<
   RestartRouterOutputError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4640, __c145, 0) as any as S.Schema<RestartRouterOutputRequest>,
-  output: __S(2816, __c88, 0) as any as S.Schema<RestartRouterOutputResponse>,
+  input: __S(4704, __c147, 0) as any as S.Schema<RestartRouterOutputRequest>,
+  output: __S(2880, __c90, 0) as any as S.Schema<RestartRouterOutputResponse>,
   errors: [
     BadRequestException,
     ConflictException,
@@ -6298,8 +6619,8 @@ export const revokeFlowEntitlement: API.OperationMethod<
   RevokeFlowEntitlementError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4672, __c146, 0) as any as S.Schema<RevokeFlowEntitlementRequest>,
-  output: __S(4673, __c146, 1) as any as S.Schema<RevokeFlowEntitlementResponse>,
+  input: __S(4736, __c148, 0) as any as S.Schema<RevokeFlowEntitlementRequest>,
+  output: __S(4737, __c148, 1) as any as S.Schema<RevokeFlowEntitlementResponse>,
   errors: [
     BadRequestException,
     ForbiddenException,
@@ -6332,8 +6653,8 @@ export const startFlow: API.OperationMethod<
   StartFlowError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4704, __c147, 0) as any as S.Schema<StartFlowRequest>,
-  output: __S(2720, __c85, 0) as any as S.Schema<StartFlowResponse>,
+  input: __S(4768, __c149, 0) as any as S.Schema<StartFlowRequest>,
+  output: __S(2784, __c87, 0) as any as S.Schema<StartFlowResponse>,
   errors: [
     BadRequestException,
     ForbiddenException,
@@ -6367,8 +6688,8 @@ export const startRouterInput: API.OperationMethod<
   StartRouterInputError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4736, __c148, 0) as any as S.Schema<StartRouterInputRequest>,
-  output: __S(4768, __c149, 0) as any as S.Schema<StartRouterInputResponse>,
+  input: __S(4800, __c150, 0) as any as S.Schema<StartRouterInputRequest>,
+  output: __S(4832, __c151, 0) as any as S.Schema<StartRouterInputResponse>,
   errors: [
     BadRequestException,
     ConflictException,
@@ -6403,8 +6724,8 @@ export const startRouterOutput: API.OperationMethod<
   StartRouterOutputError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4800, __c150, 0) as any as S.Schema<StartRouterOutputRequest>,
-  output: __S(4768, __c149, 0) as any as S.Schema<StartRouterOutputResponse>,
+  input: __S(4864, __c152, 0) as any as S.Schema<StartRouterOutputRequest>,
+  output: __S(4832, __c151, 0) as any as S.Schema<StartRouterOutputResponse>,
   errors: [
     BadRequestException,
     ConflictException,
@@ -6438,8 +6759,8 @@ export const stopFlow: API.OperationMethod<
   StopFlowError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4832, __c151, 0) as any as S.Schema<StopFlowRequest>,
-  output: __S(2720, __c85, 0) as any as S.Schema<StopFlowResponse>,
+  input: __S(4896, __c153, 0) as any as S.Schema<StopFlowRequest>,
+  output: __S(2784, __c87, 0) as any as S.Schema<StopFlowResponse>,
   errors: [
     BadRequestException,
     ForbiddenException,
@@ -6473,8 +6794,8 @@ export const stopRouterInput: API.OperationMethod<
   StopRouterInputError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4864, __c152, 0) as any as S.Schema<StopRouterInputRequest>,
-  output: __S(2816, __c88, 0) as any as S.Schema<StopRouterInputResponse>,
+  input: __S(4928, __c154, 0) as any as S.Schema<StopRouterInputRequest>,
+  output: __S(2880, __c90, 0) as any as S.Schema<StopRouterInputResponse>,
   errors: [
     BadRequestException,
     ConflictException,
@@ -6509,8 +6830,8 @@ export const stopRouterOutput: API.OperationMethod<
   StopRouterOutputError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4896, __c153, 0) as any as S.Schema<StopRouterOutputRequest>,
-  output: __S(2816, __c88, 0) as any as S.Schema<StopRouterOutputResponse>,
+  input: __S(4960, __c155, 0) as any as S.Schema<StopRouterOutputRequest>,
+  output: __S(2880, __c90, 0) as any as S.Schema<StopRouterOutputResponse>,
   errors: [
     BadRequestException,
     ConflictException,
@@ -6541,7 +6862,7 @@ export const tagGlobalResource: API.OperationMethod<
   TagGlobalResourceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4928, __c154, 0) as any as S.Schema<TagGlobalResourceRequest>,
+  input: __S(4992, __c156, 0) as any as S.Schema<TagGlobalResourceRequest>,
   output: __S(928, __c29, 0) as any as S.Schema<TagGlobalResourceResponse>,
   errors: [BadRequestException, InternalServerErrorException, NotFoundException],
   protocol: AwsProtocol,
@@ -6565,7 +6886,7 @@ export const tagResource: API.OperationMethod<
   TagResourceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4960, __c155, 0) as any as S.Schema<TagResourceRequest>,
+  input: __S(5024, __c157, 0) as any as S.Schema<TagResourceRequest>,
   output: __S(928, __c29, 0) as any as S.Schema<TagResourceResponse>,
   errors: [BadRequestException, InternalServerErrorException, NotFoundException],
   protocol: AwsProtocol,
@@ -6593,8 +6914,8 @@ export const takeRouterInput: API.OperationMethod<
   TakeRouterInputError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4992, __c156, 0) as any as S.Schema<TakeRouterInputRequest>,
-  output: __S(4993, __c156, 1) as any as S.Schema<TakeRouterInputResponse>,
+  input: __S(5056, __c158, 0) as any as S.Schema<TakeRouterInputRequest>,
+  output: __S(5057, __c158, 1) as any as S.Schema<TakeRouterInputResponse>,
   errors: [
     BadRequestException,
     ConflictException,
@@ -6625,7 +6946,7 @@ export const untagGlobalResource: API.OperationMethod<
   UntagGlobalResourceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5024, __c157, 0) as any as S.Schema<UntagGlobalResourceRequest>,
+  input: __S(5088, __c159, 0) as any as S.Schema<UntagGlobalResourceRequest>,
   output: __S(928, __c29, 0) as any as S.Schema<UntagGlobalResourceResponse>,
   errors: [BadRequestException, InternalServerErrorException, NotFoundException],
   protocol: AwsProtocol,
@@ -6649,7 +6970,7 @@ export const untagResource: API.OperationMethod<
   UntagResourceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5056, __c158, 0) as any as S.Schema<UntagResourceRequest>,
+  input: __S(5120, __c160, 0) as any as S.Schema<UntagResourceRequest>,
   output: __S(928, __c29, 0) as any as S.Schema<UntagResourceResponse>,
   errors: [BadRequestException, InternalServerErrorException, NotFoundException],
   protocol: AwsProtocol,
@@ -6677,8 +6998,8 @@ export const updateBridge: API.OperationMethod<
   UpdateBridgeError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5088, __c159, 0) as any as S.Schema<UpdateBridgeRequest>,
-  output: __S(2115, __c66, 3) as any as S.Schema<UpdateBridgeResponse>,
+  input: __S(5152, __c161, 0) as any as S.Schema<UpdateBridgeRequest>,
+  output: __S(2179, __c68, 3) as any as S.Schema<UpdateBridgeResponse>,
   errors: [
     BadRequestException,
     ConflictException,
@@ -6713,8 +7034,8 @@ export const updateBridgeOutput: API.OperationMethod<
   UpdateBridgeOutputError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5121, __c160, 1) as any as S.Schema<UpdateBridgeOutputRequest>,
-  output: __S(5122, __c160, 2) as any as S.Schema<UpdateBridgeOutputResponse>,
+  input: __S(5185, __c162, 1) as any as S.Schema<UpdateBridgeOutputRequest>,
+  output: __S(5186, __c162, 2) as any as S.Schema<UpdateBridgeOutputResponse>,
   errors: [
     BadRequestException,
     ConflictException,
@@ -6822,7 +7143,7 @@ export const updateDestinationEndpoint: API.OperationMethod<
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(64, __c2, 0) as any as S.Schema<UpdateDestinationEndpointRequest>,
-  output: __S(3520, __c110, 0) as any as S.Schema<UpdateDestinationEndpointResponse>,
+  output: __S(3584, __c112, 0) as any as S.Schema<UpdateDestinationEndpointResponse>,
   errors: [
     BadRequestException,
     ConflictException,
@@ -6871,7 +7192,7 @@ export const updateFlow: API.OperationMethod<
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(97, __c3, 1) as any as S.Schema<UpdateFlowRequest>,
-  output: __S(2208, __c69, 0) as any as S.Schema<UpdateFlowResponse>,
+  output: __S(2272, __c71, 0) as any as S.Schema<UpdateFlowResponse>,
   errors: [
     BadRequestException,
     ForbiddenException,
@@ -7092,7 +7413,7 @@ export const updateRouterInput: API.OperationMethod<
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(288, __c9, 0) as any as S.Schema<UpdateRouterInputRequest>,
-  output: __S(2496, __c78, 0) as any as S.Schema<UpdateRouterInputResponse>,
+  output: __S(2560, __c80, 0) as any as S.Schema<UpdateRouterInputResponse>,
   errors: [
     BadRequestException,
     ConflictException,
@@ -7127,7 +7448,7 @@ export const updateRouterNetworkInterface: API.OperationMethod<
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(320, __c10, 0) as any as S.Schema<UpdateRouterNetworkInterfaceRequest>,
-  output: __S(2560, __c80, 0) as any as S.Schema<UpdateRouterNetworkInterfaceResponse>,
+  output: __S(2624, __c82, 0) as any as S.Schema<UpdateRouterNetworkInterfaceResponse>,
   errors: [
     BadRequestException,
     ConflictException,
@@ -7162,7 +7483,7 @@ export const updateRouterOutput: API.OperationMethod<
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(352, __c11, 0) as any as S.Schema<UpdateRouterOutputRequest>,
-  output: __S(2624, __c82, 0) as any as S.Schema<UpdateRouterOutputResponse>,
+  output: __S(2688, __c84, 0) as any as S.Schema<UpdateRouterOutputResponse>,
   errors: [
     BadRequestException,
     ConflictException,
@@ -7198,7 +7519,7 @@ export const updateSourceEndpoint: API.OperationMethod<
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(384, __c12, 0) as any as S.Schema<UpdateSourceEndpointRequest>,
-  output: __S(3744, __c117, 0) as any as S.Schema<UpdateSourceEndpointResponse>,
+  output: __S(3808, __c119, 0) as any as S.Schema<UpdateSourceEndpointResponse>,
   errors: [
     BadRequestException,
     ConflictException,
@@ -7311,7 +7632,7 @@ function __c2(j: number): any {
         S.Struct({
           Arn: S.String.pipe(T.HttpLabel("Arn")),
           Description: S.optional(S.String),
-          Configuration: S.optional(__S(1609, __c50, 9)),
+          Configuration: S.optional(__S(1673, __c52, 9)),
         })
           .pipe(S.encodeKeys({ Description: "description", Configuration: "configuration" }))
           .pipe(
@@ -7347,12 +7668,12 @@ function __c3(j: number): any {
       return S.suspend(() =>
         S.Struct({
           FlowArn: S.String.pipe(T.HttpLabel("FlowArn")),
-          SourceFailoverConfig: S.optional(__S(2049, __c64, 1)),
+          SourceFailoverConfig: S.optional(__S(2113, __c66, 1)),
           Maintenance: S.optional(__S(96, __c3, 0)),
-          SourceMonitoringConfig: S.optional(__S(2245, __c70, 5)),
-          NdiConfig: S.optional(__S(2248, __c70, 8)),
+          SourceMonitoringConfig: S.optional(__S(2309, __c72, 5)),
+          NdiConfig: S.optional(__S(2312, __c72, 8)),
           FlowSize: S.optional(S.String),
-          EncodingConfig: S.optional(__S(2249, __c70, 9)),
+          EncodingConfig: S.optional(__S(2313, __c72, 9)),
         })
           .pipe(
             S.encodeKeys({
@@ -7383,7 +7704,7 @@ function __c4(j: number): any {
       return S.suspend(() =>
         S.Struct({
           Description: S.optional(S.String),
-          Encryption: S.optional(__S(1024, __c32, 0)),
+          Encryption: S.optional(__S(1056, __c33, 0)),
           EntitlementArn: S.String.pipe(T.HttpLabel("EntitlementArn")),
           EntitlementStatus: S.optional(S.String),
           FlowArn: S.String.pipe(T.HttpLabel("FlowArn")),
@@ -7411,7 +7732,7 @@ function __c4(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          Entitlement: S.optional(__S(2304, __c72, 0)),
+          Entitlement: S.optional(__S(2368, __c74, 0)),
           FlowArn: S.optional(S.String),
         }).pipe(S.encodeKeys({ Entitlement: "entitlement", FlowArn: "flowArn" })),
       ).annotate({ identifier: "UpdateFlowEntitlementResponse" });
@@ -7467,7 +7788,7 @@ function __c6(j: number): any {
           CidrAllowList: S.optional(__listOfString),
           Description: S.optional(S.String),
           Destination: S.optional(S.String),
-          Encryption: S.optional(__S(1024, __c32, 0)),
+          Encryption: S.optional(__S(1056, __c33, 0)),
           FlowArn: S.String.pipe(T.HttpLabel("FlowArn")),
           MaxLatency: S.optional(S.Number),
           MediaStreamOutputConfigurations: S.optional(
@@ -7490,6 +7811,7 @@ function __c6(j: number): any {
           RouterIntegrationTransitEncryption: S.optional(__S(962, __c30, 2)),
           NdiOutputTimecodeSource: S.optional(S.String),
           NdiAudioReferenceLevel: S.optional(S.Number),
+          RtmpPushSettings: S.optional(__S(1025, __c32, 1)),
         })
           .pipe(
             S.encodeKeys({
@@ -7515,6 +7837,7 @@ function __c6(j: number): any {
               RouterIntegrationTransitEncryption: "routerIntegrationTransitEncryption",
               NdiOutputTimecodeSource: "ndiOutputTimecodeSource",
               NdiAudioReferenceLevel: "ndiAudioReferenceLevel",
+              RtmpPushSettings: "rtmpPushSettings",
             }),
           )
           .pipe(
@@ -7530,7 +7853,7 @@ function __c6(j: number): any {
       ).annotate({ identifier: "UpdateFlowOutputRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({ FlowArn: S.optional(S.String), Output: S.optional(__S(1158, __c36, 6)) }).pipe(
+        S.Struct({ FlowArn: S.optional(S.String), Output: S.optional(__S(1190, __c37, 6)) }).pipe(
           S.encodeKeys({ FlowArn: "flowArn", Output: "output" }),
         ),
       ).annotate({ identifier: "UpdateFlowOutputResponse" });
@@ -7541,7 +7864,7 @@ function __c7(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          Decryption: S.optional(__S(1024, __c32, 0)),
+          Decryption: S.optional(__S(1056, __c33, 0)),
           Description: S.optional(S.String),
           EntitlementArn: S.optional(S.String),
           FlowArn: S.String.pipe(T.HttpLabel("FlowArn")),
@@ -7562,10 +7885,11 @@ function __c7(j: number): any {
           StreamId: S.optional(S.String),
           VpcInterfaceName: S.optional(S.String),
           WhitelistCidr: S.optional(S.String),
-          GatewayBridgeSource: S.optional(__S(1312, __c41, 0)),
-          NdiSourceSettings: S.optional(__S(993, __c31, 1)),
+          GatewayBridgeSource: S.optional(__S(1376, __c43, 0)),
+          NdiSourceSettings: S.optional(__S(1026, __c32, 2)),
           RouterIntegrationState: S.optional(S.String),
           RouterIntegrationTransitDecryption: S.optional(__S(962, __c30, 2)),
+          RtmpPushSettings: S.optional(__S(1316, __c41, 4)),
         })
           .pipe(
             S.encodeKeys({
@@ -7590,6 +7914,7 @@ function __c7(j: number): any {
               NdiSourceSettings: "ndiSourceSettings",
               RouterIntegrationState: "routerIntegrationState",
               RouterIntegrationTransitDecryption: "routerIntegrationTransitDecryption",
+              RtmpPushSettings: "rtmpPushSettings",
             }),
           )
           .pipe(
@@ -7605,7 +7930,7 @@ function __c7(j: number): any {
       ).annotate({ identifier: "UpdateFlowSourceRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({ FlowArn: S.optional(S.String), Source: S.optional(__S(1317, __c41, 5)) }).pipe(
+        S.Struct({ FlowArn: S.optional(S.String), Source: S.optional(__S(1381, __c43, 5)) }).pipe(
           S.encodeKeys({ FlowArn: "flowArn", Source: "source" }),
         ),
       ).annotate({ identifier: "UpdateFlowSourceResponse" });
@@ -7652,13 +7977,13 @@ function __c9(j: number): any {
         S.Struct({
           Arn: S.String.pipe(T.HttpLabel("Arn")),
           Name: S.optional(S.String),
-          Configuration: S.optional(__S(1742, __c54, 14)),
+          Configuration: S.optional(__S(1807, __c56, 15)),
           MaximumBitrate: S.optional(S.Number),
           RoutingScope: S.optional(S.String),
           Tier: S.optional(S.String),
           TransitEncryption: S.optional(__S(962, __c30, 2)),
-          MaintenanceConfiguration: S.optional(__S(1666, __c52, 2)),
-          ContentQualityAnalysisConfiguration: S.optional(__S(1749, __c54, 21)),
+          MaintenanceConfiguration: S.optional(__S(1730, __c54, 2)),
+          ContentQualityAnalysisConfiguration: S.optional(__S(1816, __c56, 24)),
         })
           .pipe(
             S.encodeKeys({
@@ -7692,7 +8017,7 @@ function __c10(j: number): any {
         S.Struct({
           Arn: S.String.pipe(T.HttpLabel("Arn")),
           Name: S.optional(S.String),
-          Configuration: S.optional(__S(1793, __c56, 1)),
+          Configuration: S.optional(__S(1857, __c58, 1)),
         })
           .pipe(S.encodeKeys({ Name: "name", Configuration: "configuration" }))
           .pipe(
@@ -7715,12 +8040,13 @@ function __c11(j: number): any {
         S.Struct({
           Arn: S.String.pipe(T.HttpLabel("Arn")),
           Name: S.optional(S.String),
-          Configuration: S.optional(__S(1868, __c58, 12)),
+          Configuration: S.optional(__S(1930, __c60, 10)),
           MaximumBitrate: S.optional(S.Number),
           RoutingScope: S.optional(S.String),
           Tier: S.optional(S.String),
-          MaintenanceConfiguration: S.optional(__S(1666, __c52, 2)),
-          FabricConfiguration: S.optional(__S(1871, __c58, 15)),
+          MaintenanceConfiguration: S.optional(__S(1730, __c54, 2)),
+          FabricConfiguration: S.optional(__S(1935, __c60, 15)),
+          Processors: S.optional(__S(1941, __c60, 21)),
         })
           .pipe(
             S.encodeKeys({
@@ -7731,6 +8057,7 @@ function __c11(j: number): any {
               Tier: "tier",
               MaintenanceConfiguration: "maintenanceConfiguration",
               FabricConfiguration: "fabricConfiguration",
+              Processors: "processors",
             }),
           )
           .pipe(
@@ -7753,7 +8080,7 @@ function __c12(j: number): any {
         S.Struct({
           Arn: S.String.pipe(T.HttpLabel("Arn")),
           Description: S.optional(S.String),
-          Configuration: S.optional(__S(1929, __c60, 9)),
+          Configuration: S.optional(__S(1993, __c62, 9)),
         })
           .pipe(S.encodeKeys({ Description: "description", Configuration: "configuration" }))
           .pipe(
@@ -8179,10 +8506,42 @@ function __c30(j: number): any {
 function __c31(j: number): any {
   switch (j) {
     case 0:
+      return S.Union([/*@__PURE__*/ S.Struct({ Public: __S(928, __c29, 0) })]);
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          EncryptionType: S.optional(S.String),
+          EncryptionConfiguration: __S(992, __c31, 0),
+        }).pipe(
+          S.encodeKeys({
+            EncryptionType: "encryptionType",
+            EncryptionConfiguration: "encryptionConfiguration",
+          }),
+        ),
+      ).annotate({ identifier: "TlsEncryption" });
+  }
+}
+function __c32(j: number): any {
+  switch (j) {
+    case 0:
       return S.suspend(() =>
         S.Struct({ Name: S.optional(S.String) }).pipe(S.encodeKeys({ Name: "name" })),
       ).annotate({ identifier: "InterfaceRequest" });
     case 1:
+      return S.suspend(() =>
+        S.Struct({
+          ApplicationName: S.optional(S.String),
+          StreamName: S.optional(S.String),
+          TlsEncryption: S.optional(__S(993, __c31, 1)),
+        }).pipe(
+          S.encodeKeys({
+            ApplicationName: "applicationName",
+            StreamName: "streamName",
+            TlsEncryption: "tlsEncryption",
+          }),
+        ),
+      ).annotate({ identifier: "RtmpPushOutputSettings" });
+    case 2:
       return S.suspend(() =>
         S.Struct({
           SourceName: S.optional(S.String),
@@ -8191,7 +8550,21 @@ function __c31(j: number): any {
           S.encodeKeys({ SourceName: "sourceName", AudioReferenceLevel: "audioReferenceLevel" }),
         ),
       ).annotate({ identifier: "NdiSourceSettings" });
-    case 2:
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          ApplicationName: S.optional(S.String),
+          StreamName: S.optional(S.String),
+          NamingType: S.optional(S.String),
+        }).pipe(
+          S.encodeKeys({
+            ApplicationName: "applicationName",
+            StreamName: "streamName",
+            NamingType: "namingType",
+          }),
+        ),
+      ).annotate({ identifier: "RtmpPushSourceSettings" });
+    case 4:
       return S.suspend(() =>
         S.Struct({
           CidrAllowList: S.optional(__listOfString),
@@ -8209,9 +8582,11 @@ function __c31(j: number): any {
           StreamId: S.optional(S.String),
           NdiSpeedHqQuality: S.optional(S.Number),
           NdiProgramName: S.optional(S.String),
-          NdiSourceSettings: S.optional(__S(993, __c31, 1)),
+          NdiSourceSettings: S.optional(__S(1026, __c32, 2)),
           NdiOutputTimecodeSource: S.optional(S.String),
           NdiAudioReferenceLevel: S.optional(S.Number),
+          RtmpPushSourceSettings: S.optional(__S(1027, __c32, 3)),
+          RtmpPushOutputSettings: S.optional(__S(1025, __c32, 1)),
         }).pipe(
           S.encodeKeys({
             CidrAllowList: "cidrAllowList",
@@ -8232,12 +8607,14 @@ function __c31(j: number): any {
             NdiSourceSettings: "ndiSourceSettings",
             NdiOutputTimecodeSource: "ndiOutputTimecodeSource",
             NdiAudioReferenceLevel: "ndiAudioReferenceLevel",
+            RtmpPushSourceSettings: "rtmpPushSourceSettings",
+            RtmpPushOutputSettings: "rtmpPushOutputSettings",
           }),
         ),
       ).annotate({ identifier: "Transport" });
   }
 }
-function __c32(j: number): any {
+function __c33(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8267,7 +8644,7 @@ function __c32(j: number): any {
       ).annotate({ identifier: "Encryption" });
   }
 }
-function __c33(j: number): any {
+function __c34(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8275,7 +8652,7 @@ function __c33(j: number): any {
           CidrAllowList: S.optional(__listOfString),
           Description: S.optional(S.String),
           Destination: S.optional(S.String),
-          Encryption: S.optional(__S(1024, __c32, 0)),
+          Encryption: S.optional(__S(1056, __c33, 0)),
           MaxLatency: S.optional(S.Number),
           MediaStreamOutputConfigurations: S.optional(
             __listOfMediaStreamOutputConfigurationRequest,
@@ -8297,6 +8674,7 @@ function __c33(j: number): any {
           RouterIntegrationTransitEncryption: S.optional(__S(962, __c30, 2)),
           NdiOutputTimecodeSource: S.optional(S.String),
           NdiAudioReferenceLevel: S.optional(S.Number),
+          RtmpPushSettings: S.optional(__S(1025, __c32, 1)),
         }).pipe(
           S.encodeKeys({
             CidrAllowList: "cidrAllowList",
@@ -8322,21 +8700,22 @@ function __c33(j: number): any {
             RouterIntegrationTransitEncryption: "routerIntegrationTransitEncryption",
             NdiOutputTimecodeSource: "ndiOutputTimecodeSource",
             NdiAudioReferenceLevel: "ndiAudioReferenceLevel",
+            RtmpPushSettings: "rtmpPushSettings",
           }),
         ),
       ).annotate({ identifier: "AddOutputRequest" });
     case 1:
-      return S.Array(__S(1056, __c33, 0));
+      return S.Array(__S(1088, __c34, 0));
   }
 }
-function __c34(j: number): any {
+function __c35(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           DestinationIp: S.optional(S.String),
           DestinationPort: S.optional(S.Number),
-          Interface: S.optional(__S(992, __c31, 0)),
+          Interface: S.optional(__S(1024, __c32, 0)),
         }).pipe(
           S.encodeKeys({
             DestinationIp: "destinationIp",
@@ -8346,13 +8725,13 @@ function __c34(j: number): any {
         ),
       ).annotate({ identifier: "DestinationConfigurationRequest" });
     case 1:
-      return S.Array(__S(1088, __c34, 0));
+      return S.Array(__S(1120, __c35, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           DestinationConfigurations: S.optional(__listOfDestinationConfigurationRequest),
           EncodingName: S.optional(S.String),
-          EncodingParameters: S.optional(__S(1152, __c36, 0)),
+          EncodingParameters: S.optional(__S(1184, __c37, 0)),
           MediaStreamName: S.optional(S.String),
         }).pipe(
           S.encodeKeys({
@@ -8364,16 +8743,16 @@ function __c34(j: number): any {
         ),
       ).annotate({ identifier: "MediaStreamOutputConfigurationRequest" });
     case 3:
-      return S.Array(__S(1090, __c34, 2));
-  }
-}
-function __c35(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Array(__S(1158, __c36, 6));
+      return S.Array(__S(1122, __c35, 2));
   }
 }
 function __c36(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(__S(1190, __c37, 6));
+  }
+}
+function __c37(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8392,7 +8771,7 @@ function __c36(j: number): any {
         S.Struct({
           DestinationIp: S.optional(S.String),
           DestinationPort: S.optional(S.Number),
-          Interface: S.optional(__S(992, __c31, 0)),
+          Interface: S.optional(__S(1024, __c32, 0)),
           OutboundIp: S.optional(S.String),
         }).pipe(
           S.encodeKeys({
@@ -8404,13 +8783,13 @@ function __c36(j: number): any {
         ),
       ).annotate({ identifier: "DestinationConfiguration" });
     case 2:
-      return S.Array(__S(1153, __c36, 1));
+      return S.Array(__S(1185, __c37, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           DestinationConfigurations: S.optional(__listOfDestinationConfiguration),
           EncodingName: S.optional(S.String),
-          EncodingParameters: S.optional(__S(1152, __c36, 0)),
+          EncodingParameters: S.optional(__S(1184, __c37, 0)),
           MediaStreamName: S.optional(S.String),
         }).pipe(
           S.encodeKeys({
@@ -8422,7 +8801,7 @@ function __c36(j: number): any {
         ),
       ).annotate({ identifier: "MediaStreamOutputConfiguration" });
     case 4:
-      return S.Array(__S(1155, __c36, 3));
+      return S.Array(__S(1187, __c37, 3));
     case 5:
       return S.Array(S.Number);
     case 6:
@@ -8431,7 +8810,7 @@ function __c36(j: number): any {
           DataTransferSubscriberFeePercent: S.optional(S.Number),
           Description: S.optional(S.String),
           Destination: S.optional(S.String),
-          Encryption: S.optional(__S(1024, __c32, 0)),
+          Encryption: S.optional(__S(1056, __c33, 0)),
           EntitlementArn: S.optional(S.String),
           ListenerAddress: S.optional(S.String),
           MediaLiveInputArn: S.optional(S.String),
@@ -8439,7 +8818,7 @@ function __c36(j: number): any {
           Name: S.optional(S.String),
           OutputArn: S.optional(S.String),
           Port: S.optional(S.Number),
-          Transport: S.optional(__S(994, __c31, 2)),
+          Transport: S.optional(__S(1028, __c32, 4)),
           VpcInterfaceAttachment: S.optional(__S(576, __c18, 0)),
           BridgeArn: S.optional(S.String),
           BridgePorts: S.optional(__listOfInteger),
@@ -8475,7 +8854,7 @@ function __c36(j: number): any {
       ).annotate({ identifier: "Output" });
   }
 }
-function __c37(j: number): any {
+function __c38(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8503,12 +8882,27 @@ function __c37(j: number): any {
       ).annotate({ identifier: "AddFlowSourcesResponse" });
   }
 }
-function __c38(j: number): any {
+function __c39(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ ApplicationName: S.String, StreamName: S.String }).pipe(
+          S.encodeKeys({ ApplicationName: "applicationName", StreamName: "streamName" }),
+        ),
+      ).annotate({ identifier: "ManualRtmpPushNamingConfiguration" });
+    case 1:
+      return S.Union([
+        /*@__PURE__*/ S.Struct({ Manual: __S(1248, __c39, 0) }),
+        /*@__PURE__*/ S.Struct({ Automatic: __S(928, __c29, 0) }),
+      ]);
+  }
+}
+function __c40(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          Decryption: S.optional(__S(1024, __c32, 0)),
+          Decryption: S.optional(__S(1056, __c33, 0)),
           Description: S.optional(S.String),
           EntitlementArn: S.optional(S.String),
           IngestPort: S.optional(S.Number),
@@ -8528,11 +8922,12 @@ function __c38(j: number): any {
           StreamId: S.optional(S.String),
           VpcInterfaceName: S.optional(S.String),
           WhitelistCidr: S.optional(S.String),
-          GatewayBridgeSource: S.optional(__S(1312, __c41, 0)),
-          NdiSourceSettings: S.optional(__S(993, __c31, 1)),
+          GatewayBridgeSource: S.optional(__S(1376, __c43, 0)),
+          NdiSourceSettings: S.optional(__S(1026, __c32, 2)),
           SourceTags: S.optional(__mapOfString),
           RouterIntegrationState: S.optional(S.String),
           RouterIntegrationTransitDecryption: S.optional(__S(962, __c30, 2)),
+          RtmpPushSettings: S.optional(__S(1316, __c41, 4)),
         }).pipe(
           S.encodeKeys({
             Decryption: "decryption",
@@ -8558,24 +8953,25 @@ function __c38(j: number): any {
             SourceTags: "sourceTags",
             RouterIntegrationState: "routerIntegrationState",
             RouterIntegrationTransitDecryption: "routerIntegrationTransitDecryption",
+            RtmpPushSettings: "rtmpPushSettings",
           }),
         ),
       ).annotate({ identifier: "SetSourceRequest" });
     case 1:
-      return S.Array(__S(1216, __c38, 0));
+      return S.Array(__S(1280, __c40, 0));
   }
 }
-function __c39(j: number): any {
+function __c41(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           InputPort: S.optional(S.Number),
-          Interface: S.optional(__S(992, __c31, 0)),
+          Interface: S.optional(__S(1024, __c32, 0)),
         }).pipe(S.encodeKeys({ InputPort: "inputPort", Interface: "interface" })),
       ).annotate({ identifier: "InputConfigurationRequest" });
     case 1:
-      return S.Array(__S(1248, __c39, 0));
+      return S.Array(__S(1312, __c41, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -8591,16 +8987,22 @@ function __c39(j: number): any {
         ),
       ).annotate({ identifier: "MediaStreamSourceConfigurationRequest" });
     case 3:
-      return S.Array(__S(1250, __c39, 2));
+      return S.Array(__S(1314, __c41, 2));
+    case 4:
+      return S.suspend(() =>
+        S.Struct({ NamingConfiguration: S.optional(__S(1249, __c39, 1)) }).pipe(
+          S.encodeKeys({ NamingConfiguration: "namingConfiguration" }),
+        ),
+      ).annotate({ identifier: "SetRtmpPushSourceSettings" });
   }
 }
-function __c40(j: number): any {
+function __c42(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(1317, __c41, 5));
+      return S.Array(__S(1381, __c43, 5));
   }
 }
-function __c41(j: number): any {
+function __c43(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8619,13 +9021,13 @@ function __c41(j: number): any {
         S.Struct({
           InputIp: S.optional(S.String),
           InputPort: S.optional(S.Number),
-          Interface: S.optional(__S(992, __c31, 0)),
+          Interface: S.optional(__S(1024, __c32, 0)),
         }).pipe(
           S.encodeKeys({ InputIp: "inputIp", InputPort: "inputPort", Interface: "interface" }),
         ),
       ).annotate({ identifier: "InputConfiguration" });
     case 2:
-      return S.Array(__S(1313, __c41, 1));
+      return S.Array(__S(1377, __c43, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -8641,12 +9043,12 @@ function __c41(j: number): any {
         ),
       ).annotate({ identifier: "MediaStreamSourceConfiguration" });
     case 4:
-      return S.Array(__S(1315, __c41, 3));
+      return S.Array(__S(1379, __c43, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
           DataTransferSubscriberFeePercent: S.optional(S.Number),
-          Decryption: S.optional(__S(1024, __c32, 0)),
+          Decryption: S.optional(__S(1056, __c33, 0)),
           Description: S.optional(S.String),
           EntitlementArn: S.optional(S.String),
           IngestIp: S.optional(S.String),
@@ -8656,10 +9058,10 @@ function __c41(j: number): any {
           SenderControlPort: S.optional(S.Number),
           SenderIpAddress: S.optional(S.String),
           SourceArn: S.optional(S.String),
-          Transport: S.optional(__S(994, __c31, 2)),
+          Transport: S.optional(__S(1028, __c32, 4)),
           VpcInterfaceName: S.optional(S.String),
           WhitelistCidr: S.optional(S.String),
-          GatewayBridgeSource: S.optional(__S(1312, __c41, 0)),
+          GatewayBridgeSource: S.optional(__S(1376, __c43, 0)),
           PeerIpAddress: S.optional(S.String),
           RouterIntegrationState: S.optional(S.String),
           RouterIntegrationTransitDecryption: S.optional(__S(962, __c30, 2)),
@@ -8690,7 +9092,7 @@ function __c41(j: number): any {
       ).annotate({ identifier: "Source" });
   }
 }
-function __c42(j: number): any {
+function __c44(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8719,7 +9121,7 @@ function __c42(j: number): any {
       ).annotate({ identifier: "AddFlowVpcInterfacesResponse" });
   }
 }
-function __c43(j: number): any {
+function __c45(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8742,10 +9144,10 @@ function __c43(j: number): any {
         ),
       ).annotate({ identifier: "VpcInterfaceRequest" });
     case 1:
-      return S.Array(__S(1376, __c43, 0));
+      return S.Array(__S(1440, __c45, 0));
   }
 }
-function __c44(j: number): any {
+function __c46(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8768,10 +9170,10 @@ function __c44(j: number): any {
         ),
       ).annotate({ identifier: "VpcInterface" });
     case 1:
-      return S.Array(__S(1408, __c44, 0));
+      return S.Array(__S(1472, __c46, 0));
   }
 }
-function __c45(j: number): any {
+function __c47(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8787,7 +9189,7 @@ function __c45(j: number): any {
         ),
       ).annotate({ identifier: "BatchGetDestinationEndpointRequest" });
     case 1:
-      return S.Array(__S(1614, __c50, 14));
+      return S.Array(__S(1678, __c52, 14));
     case 2:
       return S.suspend(() =>
         S.Struct({ Arn: S.String, Code: S.String, Message: S.String }).pipe(
@@ -8795,16 +9197,16 @@ function __c45(j: number): any {
         ),
       ).annotate({ identifier: "BatchGetDestinationEndpointError" });
     case 3:
-      return S.Array(__S(1442, __c45, 2));
+      return S.Array(__S(1506, __c47, 2));
     case 4:
       return S.suspend(() =>
-        S.Struct({ DestinationEndpoints: __S(1441, __c45, 1), Errors: __S(1443, __c45, 3) }).pipe(
+        S.Struct({ DestinationEndpoints: __S(1505, __c47, 1), Errors: __S(1507, __c47, 3) }).pipe(
           S.encodeKeys({ DestinationEndpoints: "destinationEndpoints", Errors: "errors" }),
         ),
       ).annotate({ identifier: "BatchGetDestinationEndpointResponse" });
   }
 }
-function __c46(j: number): any {
+function __c48(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8813,10 +9215,10 @@ function __c46(j: number): any {
         ),
       ).annotate({ identifier: "DestinationEndpointMessage" });
     case 1:
-      return S.Array(__S(1472, __c46, 0));
+      return S.Array(__S(1536, __c48, 0));
   }
 }
-function __c47(j: number): any {
+function __c49(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8826,7 +9228,7 @@ function __c47(j: number): any {
       return S.suspend(() =>
         S.Struct({
           EncryptionSecretType: S.optional(S.String),
-          EncryptionSecret: __S(1504, __c47, 0),
+          EncryptionSecret: __S(1568, __c49, 0),
         }).pipe(
           S.encodeKeys({
             EncryptionSecretType: "encryptionSecretType",
@@ -8836,19 +9238,19 @@ function __c47(j: number): any {
       ).annotate({ identifier: "SecretsManagerEndpointEncryptionConfiguration" });
     case 2:
       return S.Union([
-        /*@__PURE__*/ S.Struct({ SecretsManager: __S(1505, __c47, 1) }),
+        /*@__PURE__*/ S.Struct({ SecretsManager: __S(1569, __c49, 1) }),
         /*@__PURE__*/ S.Struct({ Automatic: __S(928, __c29, 0) }),
       ]);
   }
 }
-function __c48(j: number): any {
+function __c50(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({ Cidr: S.String }).pipe(S.encodeKeys({ Cidr: "cidr" })),
       ).annotate({ identifier: "PublicDestinationEndpointNetworkingConfigurationAllowRule" });
     case 1:
-      return S.Array(__S(1536, __c48, 0));
+      return S.Array(__S(1600, __c50, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({ SecurityGroupIds: SecurityGroupIdList, SubnetId: S.String }).pipe(
@@ -8857,7 +9259,7 @@ function __c48(j: number): any {
       ).annotate({ identifier: "VpcDestinationEndpointNetworkingConfiguration" });
   }
 }
-function __c49(j: number): any {
+function __c51(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8871,8 +9273,8 @@ function __c49(j: number): any {
       ).annotate({ identifier: "ConsumedResourceShareDetails" });
     case 2:
       return S.Union([
-        /*@__PURE__*/ S.Struct({ Owned: __S(1568, __c49, 0) }),
-        /*@__PURE__*/ S.Struct({ Consumed: __S(1569, __c49, 1) }),
+        /*@__PURE__*/ S.Struct({ Owned: __S(1632, __c51, 0) }),
+        /*@__PURE__*/ S.Struct({ Consumed: __S(1633, __c51, 1) }),
       ]);
     case 3:
       return S.suspend(() =>
@@ -8880,7 +9282,7 @@ function __c49(j: number): any {
           Name: S.String,
           MaximumBitrate: S.Number,
           State: S.String,
-          Messages: __S(1473, __c46, 1),
+          Messages: __S(1537, __c48, 1),
         }).pipe(
           S.encodeKeys({
             Name: "name",
@@ -8892,18 +9294,18 @@ function __c49(j: number): any {
       ).annotate({ identifier: "RouterInputDestinationEndpointAssociatedResourceDetails" });
   }
 }
-function __c50(j: number): any {
+function __c52(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({ DestinationAllowRules: __S(1537, __c48, 1) }).pipe(
+        S.Struct({ DestinationAllowRules: __S(1601, __c50, 1) }).pipe(
           S.encodeKeys({ DestinationAllowRules: "destinationAllowRules" }),
         ),
       ).annotate({ identifier: "PublicDestinationEndpointNetworkingConfiguration" });
     case 1:
       return S.Union([
-        /*@__PURE__*/ S.Struct({ Public: __S(1600, __c50, 0) }),
-        /*@__PURE__*/ S.Struct({ Vpc: __S(1538, __c48, 2) }),
+        /*@__PURE__*/ S.Struct({ Public: __S(1664, __c52, 0) }),
+        /*@__PURE__*/ S.Struct({ Vpc: __S(1602, __c50, 2) }),
       ]);
     case 2:
       return S.suspend(() =>
@@ -8921,7 +9323,7 @@ function __c50(j: number): any {
           DestinationIngestPort: S.Number,
           MinimumLatencyMilliseconds: S.Number,
           StreamId: S.optional(S.String),
-          EncryptionPassphrase: S.optional(__S(1504, __c47, 0)),
+          EncryptionPassphrase: S.optional(__S(1568, __c49, 0)),
         }).pipe(
           S.encodeKeys({
             DestinationAddress: "destinationAddress",
@@ -8937,7 +9339,7 @@ function __c50(j: number): any {
         S.Struct({
           SourceListenerPort: S.Number,
           MinimumLatencyMilliseconds: S.Number,
-          EncryptionPassphrase: S.optional(__S(1504, __c47, 0)),
+          EncryptionPassphrase: S.optional(__S(1568, __c49, 0)),
         }).pipe(
           S.encodeKeys({
             SourceListenerPort: "sourceListenerPort",
@@ -8962,17 +9364,17 @@ function __c50(j: number): any {
       ).annotate({ identifier: "RtpStandardDestinationEndpointConfiguration" });
     case 6:
       return S.Union([
-        /*@__PURE__*/ S.Struct({ Rist: __S(1602, __c50, 2) }),
-        /*@__PURE__*/ S.Struct({ SrtListener: __S(1603, __c50, 3) }),
-        /*@__PURE__*/ S.Struct({ SrtCaller: __S(1604, __c50, 4) }),
-        /*@__PURE__*/ S.Struct({ Rtp: __S(1605, __c50, 5) }),
+        /*@__PURE__*/ S.Struct({ Rist: __S(1666, __c52, 2) }),
+        /*@__PURE__*/ S.Struct({ SrtListener: __S(1667, __c52, 3) }),
+        /*@__PURE__*/ S.Struct({ SrtCaller: __S(1668, __c52, 4) }),
+        /*@__PURE__*/ S.Struct({ Rtp: __S(1669, __c52, 5) }),
       ]);
     case 7:
       return S.suspend(() =>
         S.Struct({
           Name: S.String,
-          DestinationNetworkingConfiguration: __S(1601, __c50, 1),
-          ProtocolConfiguration: __S(1606, __c50, 6),
+          DestinationNetworkingConfiguration: __S(1665, __c52, 1),
+          ProtocolConfiguration: __S(1670, __c52, 6),
           DestinationNetworkingType: S.optional(S.String),
           Protocol: S.optional(S.String),
         }).pipe(
@@ -8993,8 +9395,8 @@ function __c50(j: number): any {
       ).annotate({ identifier: "RouterInputDestinationEndpointConfiguration" });
     case 9:
       return S.Union([
-        /*@__PURE__*/ S.Struct({ Standard: __S(1607, __c50, 7) }),
-        /*@__PURE__*/ S.Struct({ RouterInput: __S(1608, __c50, 8) }),
+        /*@__PURE__*/ S.Struct({ Standard: __S(1671, __c52, 7) }),
+        /*@__PURE__*/ S.Struct({ RouterInput: __S(1672, __c52, 8) }),
       ]);
     case 10:
       return S.suspend(() =>
@@ -9002,7 +9404,7 @@ function __c50(j: number): any {
           SourceIpAddress: S.optional(S.String),
           SourceListenerPort: S.optional(S.Number),
           SourceEncryptionType: S.optional(S.String),
-          SourceEncryptionConfiguration: S.optional(__S(1506, __c47, 2)),
+          SourceEncryptionConfiguration: S.optional(__S(1570, __c49, 2)),
           SourceEndpointType: S.optional(S.String),
         }).pipe(
           S.encodeKeys({
@@ -9018,7 +9420,7 @@ function __c50(j: number): any {
       return S.suspend(() =>
         S.Struct({
           SourceEncryptionType: S.optional(S.String),
-          SourceEncryptionConfiguration: S.optional(__S(1506, __c47, 2)),
+          SourceEncryptionConfiguration: S.optional(__S(1570, __c49, 2)),
           SourceEndpointType: S.optional(S.String),
         }).pipe(
           S.encodeKeys({
@@ -9030,13 +9432,13 @@ function __c50(j: number): any {
       ).annotate({ identifier: "RouterInputDestinationEndpointConnectionDetails" });
     case 12:
       return S.Union([
-        /*@__PURE__*/ S.Struct({ Standard: __S(1610, __c50, 10) }),
-        /*@__PURE__*/ S.Struct({ RouterInput: __S(1611, __c50, 11) }),
+        /*@__PURE__*/ S.Struct({ Standard: __S(1674, __c52, 10) }),
+        /*@__PURE__*/ S.Struct({ RouterInput: __S(1675, __c52, 11) }),
       ]);
     case 13:
       return S.Union([
         /*@__PURE__*/ S.Struct({ Standard: __S(928, __c29, 0) }),
-        /*@__PURE__*/ S.Struct({ RouterInput: __S(1571, __c49, 3) }),
+        /*@__PURE__*/ S.Struct({ RouterInput: __S(1635, __c51, 3) }),
       ]);
     case 14:
       return S.suspend(() =>
@@ -9051,18 +9453,18 @@ function __c50(j: number): any {
           CreatedAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
           UpdatedAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
           LifecycleManagement: S.String,
-          Messages: __S(1473, __c46, 1),
+          Messages: __S(1537, __c48, 1),
           DestinationType: S.String,
-          Configuration: __S(1609, __c50, 9),
+          Configuration: __S(1673, __c52, 9),
           ResourceShareOwnership: S.String,
-          ResourceShareDetails: __S(1570, __c49, 2),
+          ResourceShareDetails: __S(1634, __c51, 2),
           RegistrationState: S.String,
-          ConnectionDetails: S.optional(__S(1612, __c50, 12)),
+          ConnectionDetails: S.optional(__S(1676, __c52, 12)),
           ConnectionState: S.String,
           ConnectedSource: S.optional(S.String),
           DecryptionType: S.optional(S.String),
-          DecryptionConfiguration: S.optional(__S(1506, __c47, 2)),
-          AssociatedResourceDetails: __S(1613, __c50, 13),
+          DecryptionConfiguration: S.optional(__S(1570, __c49, 2)),
+          AssociatedResourceDetails: __S(1677, __c52, 13),
           Tags: __mapOfString,
         }).pipe(
           S.encodeKeys({
@@ -9094,7 +9496,7 @@ function __c50(j: number): any {
       ).annotate({ identifier: "DestinationEndpoint" });
   }
 }
-function __c51(j: number): any {
+function __c53(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9103,7 +9505,7 @@ function __c51(j: number): any {
         ),
       ).annotate({ identifier: "BatchGetRouterInputRequest" });
     case 1:
-      return S.Array(__S(1750, __c54, 22));
+      return S.Array(__S(1817, __c56, 25));
     case 2:
       return S.suspend(() =>
         S.Struct({ Arn: S.String, Code: S.String, Message: S.String }).pipe(
@@ -9111,16 +9513,16 @@ function __c51(j: number): any {
         ),
       ).annotate({ identifier: "BatchGetRouterInputError" });
     case 3:
-      return S.Array(__S(1634, __c51, 2));
+      return S.Array(__S(1698, __c53, 2));
     case 4:
       return S.suspend(() =>
-        S.Struct({ RouterInputs: __S(1633, __c51, 1), Errors: __S(1635, __c51, 3) }).pipe(
+        S.Struct({ RouterInputs: __S(1697, __c53, 1), Errors: __S(1699, __c53, 3) }).pipe(
           S.encodeKeys({ RouterInputs: "routerInputs", Errors: "errors" }),
         ),
       ).annotate({ identifier: "BatchGetRouterInputResponse" });
   }
 }
-function __c52(j: number): any {
+function __c54(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9136,12 +9538,12 @@ function __c52(j: number): any {
       ).annotate({ identifier: "PreferredDayTimeMaintenanceConfiguration" });
     case 2:
       return S.Union([
-        /*@__PURE__*/ S.Struct({ PreferredDayTime: __S(1665, __c52, 1) }),
+        /*@__PURE__*/ S.Struct({ PreferredDayTime: __S(1729, __c54, 1) }),
         /*@__PURE__*/ S.Struct({ Default: __S(928, __c29, 0) }),
       ]);
   }
 }
-function __c53(j: number): any {
+function __c55(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9152,17 +9554,17 @@ function __c53(j: number): any {
         }).pipe(S.encodeKeys({ Start: "start", End: "end", ScheduledTime: "scheduledTime" })),
       ).annotate({ identifier: "WindowMaintenanceSchedule" });
     case 1:
-      return S.Union([/*@__PURE__*/ S.Struct({ Window: __S(1696, __c53, 0) })]);
+      return S.Union([/*@__PURE__*/ S.Struct({ Window: __S(1760, __c55, 0) })]);
   }
 }
-function __c54(j: number): any {
+function __c56(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           EndpointLifecycleManagement: S.String,
           SourceTransitDecryptionType: S.optional(S.String),
-          SourceTransitDecryption: __S(1506, __c47, 2),
+          SourceTransitDecryption: __S(1570, __c49, 2),
         }).pipe(
           S.encodeKeys({
             EndpointLifecycleManagement: "endpointLifecycleManagement",
@@ -9185,7 +9587,7 @@ function __c54(j: number): any {
         S.Struct({
           Port: S.Number,
           MinimumLatencyMilliseconds: S.Number,
-          DecryptionConfiguration: S.optional(__S(1664, __c52, 0)),
+          DecryptionConfiguration: S.optional(__S(1728, __c54, 0)),
         }).pipe(
           S.encodeKeys({
             Port: "port",
@@ -9197,11 +9599,25 @@ function __c54(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
+          Port: S.Number,
+          NamingType: S.optional(S.String),
+          NamingConfiguration: __S(1249, __c39, 1),
+        }).pipe(
+          S.encodeKeys({
+            Port: "port",
+            NamingType: "namingType",
+            NamingConfiguration: "namingConfiguration",
+          }),
+        ),
+      ).annotate({ identifier: "RtmpPushRouterInputConfiguration" });
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
           SourceAddress: S.String,
           SourcePort: S.Number,
           MinimumLatencyMilliseconds: S.Number,
           StreamId: S.optional(S.String),
-          DecryptionConfiguration: S.optional(__S(1664, __c52, 0)),
+          DecryptionConfiguration: S.optional(__S(1728, __c54, 0)),
         }).pipe(
           S.encodeKeys({
             SourceAddress: "sourceAddress",
@@ -9212,24 +9628,25 @@ function __c54(j: number): any {
           }),
         ),
       ).annotate({ identifier: "SrtCallerRouterInputConfiguration" });
-    case 4:
+    case 5:
       return S.suspend(() =>
         S.Struct({ Port: S.Number, ForwardErrorCorrection: S.optional(S.String) }).pipe(
           S.encodeKeys({ Port: "port", ForwardErrorCorrection: "forwardErrorCorrection" }),
         ),
       ).annotate({ identifier: "RtpRouterInputConfiguration" });
-    case 5:
-      return S.Union([
-        /*@__PURE__*/ S.Struct({ Rist: __S(1729, __c54, 1) }),
-        /*@__PURE__*/ S.Struct({ SrtListener: __S(1730, __c54, 2) }),
-        /*@__PURE__*/ S.Struct({ SrtCaller: __S(1731, __c54, 3) }),
-        /*@__PURE__*/ S.Struct({ Rtp: __S(1732, __c54, 4) }),
-      ]);
     case 6:
+      return S.Union([
+        /*@__PURE__*/ S.Struct({ Rist: __S(1793, __c56, 1) }),
+        /*@__PURE__*/ S.Struct({ SrtListener: __S(1794, __c56, 2) }),
+        /*@__PURE__*/ S.Struct({ RtmpPush: __S(1795, __c56, 3) }),
+        /*@__PURE__*/ S.Struct({ SrtCaller: __S(1796, __c56, 4) }),
+        /*@__PURE__*/ S.Struct({ Rtp: __S(1797, __c56, 5) }),
+      ]);
+    case 7:
       return S.suspend(() =>
         S.Struct({
           NetworkInterfaceArn: S.String,
-          ProtocolConfiguration: __S(1733, __c54, 5),
+          ProtocolConfiguration: __S(1798, __c56, 6),
           Protocol: S.optional(S.String),
         }).pipe(
           S.encodeKeys({
@@ -9239,7 +9656,7 @@ function __c54(j: number): any {
           }),
         ),
       ).annotate({ identifier: "StandardRouterInputConfiguration" });
-    case 7:
+    case 8:
       return S.suspend(() =>
         S.Struct({
           MediaLiveChannelArn: S.optional(S.String),
@@ -9255,13 +9672,13 @@ function __c54(j: number): any {
           }),
         ),
       ).annotate({ identifier: "MediaLiveChannelRouterInputConfiguration" });
-    case 8:
-      return S.Array(__S(1733, __c54, 5));
     case 9:
+      return S.Array(__S(1798, __c56, 6));
+    case 10:
       return S.suspend(() =>
         S.Struct({
           NetworkInterfaceArn: S.String,
-          ProtocolConfigurations: __S(1736, __c54, 8),
+          ProtocolConfigurations: __S(1801, __c56, 9),
           SourcePriorityMode: S.String,
           PrimarySourceIndex: S.optional(S.Number),
         }).pipe(
@@ -9273,7 +9690,7 @@ function __c54(j: number): any {
           }),
         ),
       ).annotate({ identifier: "FailoverRouterInputConfiguration" });
-    case 10:
+    case 11:
       return S.suspend(() =>
         S.Struct({
           FlowArn: S.optional(S.String),
@@ -9287,18 +9704,20 @@ function __c54(j: number): any {
           }),
         ),
       ).annotate({ identifier: "MediaConnectFlowRouterInputConfiguration" });
-    case 11:
-      return S.Union([
-        /*@__PURE__*/ S.Struct({ Rtp: __S(1732, __c54, 4) }),
-        /*@__PURE__*/ S.Struct({ Rist: __S(1729, __c54, 1) }),
-      ]);
     case 12:
-      return S.Array(__S(1739, __c54, 11));
+      return S.Union([
+        /*@__PURE__*/ S.Struct({ Rtp: __S(1797, __c56, 5) }),
+        /*@__PURE__*/ S.Struct({ Rist: __S(1793, __c56, 1) }),
+        /*@__PURE__*/ S.Struct({ SrtListener: __S(1794, __c56, 2) }),
+        /*@__PURE__*/ S.Struct({ SrtCaller: __S(1796, __c56, 4) }),
+      ]);
     case 13:
+      return S.Array(__S(1804, __c56, 12));
+    case 14:
       return S.suspend(() =>
         S.Struct({
           NetworkInterfaceArn: S.String,
-          ProtocolConfigurations: __S(1740, __c54, 12),
+          ProtocolConfigurations: __S(1805, __c56, 13),
           MergeRecoveryWindowMilliseconds: S.Number,
         }).pipe(
           S.encodeKeys({
@@ -9308,32 +9727,41 @@ function __c54(j: number): any {
           }),
         ),
       ).annotate({ identifier: "MergeRouterInputConfiguration" });
-    case 14:
-      return S.Union([
-        /*@__PURE__*/ S.Struct({ DestinationEndpoint: __S(1728, __c54, 0) }),
-        /*@__PURE__*/ S.Struct({ Standard: __S(1734, __c54, 6) }),
-        /*@__PURE__*/ S.Struct({ MediaLiveChannel: __S(1735, __c54, 7) }),
-        /*@__PURE__*/ S.Struct({ Failover: __S(1737, __c54, 9) }),
-        /*@__PURE__*/ S.Struct({ MediaConnectFlow: __S(1738, __c54, 10) }),
-        /*@__PURE__*/ S.Struct({ Merge: __S(1741, __c54, 13) }),
-      ]);
     case 15:
-      return S.suspend(() =>
-        S.Struct({ SourceIpAddress: S.optional(S.String) }).pipe(
-          S.encodeKeys({ SourceIpAddress: "sourceIpAddress" }),
-        ),
-      ).annotate({ identifier: "StandardRouterInputStreamDetails" });
+      return S.Union([
+        /*@__PURE__*/ S.Struct({ DestinationEndpoint: __S(1792, __c56, 0) }),
+        /*@__PURE__*/ S.Struct({ Standard: __S(1799, __c56, 7) }),
+        /*@__PURE__*/ S.Struct({ MediaLiveChannel: __S(1800, __c56, 8) }),
+        /*@__PURE__*/ S.Struct({ Failover: __S(1802, __c56, 10) }),
+        /*@__PURE__*/ S.Struct({ MediaConnectFlow: __S(1803, __c56, 11) }),
+        /*@__PURE__*/ S.Struct({ Merge: __S(1806, __c56, 14) }),
+      ]);
     case 16:
       return S.suspend(() =>
-        S.Struct({ SourceIndex: S.Number, SourceIpAddress: S.optional(S.String) }).pipe(
-          S.encodeKeys({ SourceIndex: "sourceIndex", SourceIpAddress: "sourceIpAddress" }),
-        ),
-      ).annotate({ identifier: "FailoverRouterInputIndexedStreamDetails" });
+        S.Struct({
+          SourceIpAddress: S.optional(S.String),
+          RtmpPush: S.optional(__S(1248, __c39, 0)),
+        }).pipe(S.encodeKeys({ SourceIpAddress: "sourceIpAddress", RtmpPush: "rtmpPush" })),
+      ).annotate({ identifier: "StandardRouterInputStreamDetails" });
     case 17:
       return S.suspend(() =>
         S.Struct({
-          SourceIndexZeroStreamDetails: __S(1744, __c54, 16),
-          SourceIndexOneStreamDetails: __S(1744, __c54, 16),
+          SourceIndex: S.Number,
+          SourceIpAddress: S.optional(S.String),
+          RtmpPush: S.optional(__S(1248, __c39, 0)),
+        }).pipe(
+          S.encodeKeys({
+            SourceIndex: "sourceIndex",
+            SourceIpAddress: "sourceIpAddress",
+            RtmpPush: "rtmpPush",
+          }),
+        ),
+      ).annotate({ identifier: "FailoverRouterInputIndexedStreamDetails" });
+    case 18:
+      return S.suspend(() =>
+        S.Struct({
+          SourceIndexZeroStreamDetails: __S(1809, __c56, 17),
+          SourceIndexOneStreamDetails: __S(1809, __c56, 17),
         }).pipe(
           S.encodeKeys({
             SourceIndexZeroStreamDetails: "sourceIndexZeroStreamDetails",
@@ -9341,27 +9769,45 @@ function __c54(j: number): any {
           }),
         ),
       ).annotate({ identifier: "FailoverRouterInputStreamDetails" });
-    case 18:
+    case 19:
+      return S.suspend(() =>
+        S.Struct({ SourceIndex: S.Number, SourceIpAddress: S.optional(S.String) }).pipe(
+          S.encodeKeys({ SourceIndex: "sourceIndex", SourceIpAddress: "sourceIpAddress" }),
+        ),
+      ).annotate({ identifier: "MergeRouterInputIndexedStreamDetails" });
+    case 20:
+      return S.suspend(() =>
+        S.Struct({
+          SourceIndexZeroStreamDetails: __S(1811, __c56, 19),
+          SourceIndexOneStreamDetails: __S(1811, __c56, 19),
+        }).pipe(
+          S.encodeKeys({
+            SourceIndexZeroStreamDetails: "sourceIndexZeroStreamDetails",
+            SourceIndexOneStreamDetails: "sourceIndexOneStreamDetails",
+          }),
+        ),
+      ).annotate({ identifier: "MergeRouterInputStreamDetails" });
+    case 21:
       return S.Union([
         /*@__PURE__*/ S.Struct({ DestinationEndpoint: __S(928, __c29, 0) }),
-        /*@__PURE__*/ S.Struct({ Standard: __S(1743, __c54, 15) }),
+        /*@__PURE__*/ S.Struct({ Standard: __S(1808, __c56, 16) }),
         /*@__PURE__*/ S.Struct({ MediaLiveChannel: __S(928, __c29, 0) }),
-        /*@__PURE__*/ S.Struct({ Failover: __S(1745, __c54, 17) }),
+        /*@__PURE__*/ S.Struct({ Failover: __S(1810, __c56, 18) }),
         /*@__PURE__*/ S.Struct({ MediaConnectFlow: __S(928, __c29, 0) }),
-        /*@__PURE__*/ S.Struct({ Merge: __S(1745, __c54, 17) }),
+        /*@__PURE__*/ S.Struct({ Merge: __S(1812, __c56, 20) }),
       ]);
-    case 19:
+    case 22:
       return S.suspend(() =>
         S.Struct({ State: S.String, ThresholdSeconds: S.Number }).pipe(
           S.encodeKeys({ State: "state", ThresholdSeconds: "thresholdSeconds" }),
         ),
       ).annotate({ identifier: "BlackFramesConfiguration" });
-    case 20:
+    case 23:
       return S.suspend(() =>
         S.Struct({
-          BlackFrames: S.optional(__S(1747, __c54, 19)),
-          FrozenFrames: S.optional(__S(1747, __c54, 19)),
-          SilentAudio: S.optional(__S(1747, __c54, 19)),
+          BlackFrames: S.optional(__S(1814, __c56, 22)),
+          FrozenFrames: S.optional(__S(1814, __c56, 22)),
+          SilentAudio: S.optional(__S(1814, __c56, 22)),
         }).pipe(
           S.encodeKeys({
             BlackFrames: "blackFrames",
@@ -9370,9 +9816,9 @@ function __c54(j: number): any {
           }),
         ),
       ).annotate({ identifier: "ContentQualityAnalysisFeatureConfiguration" });
-    case 21:
-      return S.Union([/*@__PURE__*/ S.Struct({ ContentLevel: __S(1748, __c54, 20) })]);
-    case 22:
+    case 24:
+      return S.Union([/*@__PURE__*/ S.Struct({ ContentLevel: __S(1815, __c56, 23) })]);
+    case 25:
       return S.suspend(() =>
         S.Struct({
           Name: S.String,
@@ -9380,7 +9826,7 @@ function __c54(j: number): any {
           Id: S.String,
           State: S.String,
           InputType: S.String,
-          Configuration: __S(1742, __c54, 14),
+          Configuration: __S(1807, __c56, 15),
           RoutedOutputs: S.Number,
           MaximumRoutedOutputs: S.optional(S.Number),
           RegionName: S.String,
@@ -9390,17 +9836,17 @@ function __c54(j: number): any {
           RoutingScope: S.String,
           CreatedAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
           UpdatedAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
-          Messages: __S(1473, __c46, 1),
+          Messages: __S(1537, __c48, 1),
           TransitEncryption: __S(962, __c30, 2),
           Tags: __mapOfString,
-          StreamDetails: __S(1746, __c54, 18),
+          StreamDetails: __S(1813, __c56, 21),
           IpAddress: S.optional(S.String),
           MaintenanceType: S.String,
-          MaintenanceConfiguration: __S(1666, __c52, 2),
+          MaintenanceConfiguration: __S(1730, __c54, 2),
           MaintenanceScheduleType: S.optional(S.String),
-          MaintenanceSchedule: S.optional(__S(1697, __c53, 1)),
+          MaintenanceSchedule: S.optional(__S(1761, __c55, 1)),
           ContentQualityAnalysisType: S.optional(S.String),
-          ContentQualityAnalysisConfiguration: S.optional(__S(1749, __c54, 21)),
+          ContentQualityAnalysisConfiguration: S.optional(__S(1816, __c56, 24)),
           AssociatedDestinationEndpointArns: S.optional(DestinationEndpointArnList),
         }).pipe(
           S.encodeKeys({
@@ -9436,7 +9882,7 @@ function __c54(j: number): any {
       ).annotate({ identifier: "RouterInput" });
   }
 }
-function __c55(j: number): any {
+function __c57(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9452,7 +9898,7 @@ function __c55(j: number): any {
         ),
       ).annotate({ identifier: "BatchGetRouterNetworkInterfaceRequest" });
     case 1:
-      return S.Array(__S(1794, __c56, 2));
+      return S.Array(__S(1858, __c58, 2));
     case 2:
       return S.suspend(() =>
         S.Struct({ Arn: S.String, Code: S.String, Message: S.String }).pipe(
@@ -9460,30 +9906,30 @@ function __c55(j: number): any {
         ),
       ).annotate({ identifier: "BatchGetRouterNetworkInterfaceError" });
     case 3:
-      return S.Array(__S(1762, __c55, 2));
+      return S.Array(__S(1826, __c57, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
-          RouterNetworkInterfaces: __S(1761, __c55, 1),
-          Errors: __S(1763, __c55, 3),
+          RouterNetworkInterfaces: __S(1825, __c57, 1),
+          Errors: __S(1827, __c57, 3),
         }).pipe(
           S.encodeKeys({ RouterNetworkInterfaces: "routerNetworkInterfaces", Errors: "errors" }),
         ),
       ).annotate({ identifier: "BatchGetRouterNetworkInterfaceResponse" });
   }
 }
-function __c56(j: number): any {
+function __c58(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({ AllowRules: __S(1537, __c48, 1) }).pipe(
+        S.Struct({ AllowRules: __S(1601, __c50, 1) }).pipe(
           S.encodeKeys({ AllowRules: "allowRules" }),
         ),
       ).annotate({ identifier: "PublicRouterNetworkInterfaceConfiguration" });
     case 1:
       return S.Union([
-        /*@__PURE__*/ S.Struct({ Public: __S(1792, __c56, 0) }),
-        /*@__PURE__*/ S.Struct({ Vpc: __S(1538, __c48, 2) }),
+        /*@__PURE__*/ S.Struct({ Public: __S(1856, __c58, 0) }),
+        /*@__PURE__*/ S.Struct({ Vpc: __S(1602, __c50, 2) }),
       ]);
     case 2:
       return S.suspend(() =>
@@ -9493,7 +9939,7 @@ function __c56(j: number): any {
           Id: S.String,
           State: S.String,
           NetworkInterfaceType: S.String,
-          Configuration: __S(1793, __c56, 1),
+          Configuration: __S(1857, __c58, 1),
           AssociatedOutputCount: S.Number,
           AssociatedInputCount: S.Number,
           RegionName: S.String,
@@ -9519,7 +9965,7 @@ function __c56(j: number): any {
       ).annotate({ identifier: "RouterNetworkInterface" });
   }
 }
-function __c57(j: number): any {
+function __c59(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9528,7 +9974,7 @@ function __c57(j: number): any {
         ),
       ).annotate({ identifier: "BatchGetRouterOutputRequest" });
     case 1:
-      return S.Array(__S(1872, __c58, 16));
+      return S.Array(__S(1942, __c60, 22));
     case 2:
       return S.suspend(() =>
         S.Struct({ Arn: S.String, Code: S.String, Message: S.String }).pipe(
@@ -9536,16 +9982,16 @@ function __c57(j: number): any {
         ),
       ).annotate({ identifier: "BatchGetRouterOutputError" });
     case 3:
-      return S.Array(__S(1826, __c57, 2));
+      return S.Array(__S(1890, __c59, 2));
     case 4:
       return S.suspend(() =>
-        S.Struct({ RouterOutputs: __S(1825, __c57, 1), Errors: __S(1827, __c57, 3) }).pipe(
+        S.Struct({ RouterOutputs: __S(1889, __c59, 1), Errors: __S(1891, __c59, 3) }).pipe(
           S.encodeKeys({ RouterOutputs: "routerOutputs", Errors: "errors" }),
         ),
       ).annotate({ identifier: "BatchGetRouterOutputResponse" });
   }
 }
-function __c58(j: number): any {
+function __c60(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9561,7 +10007,7 @@ function __c58(j: number): any {
         S.Struct({
           Port: S.Number,
           MinimumLatencyMilliseconds: S.Number,
-          EncryptionConfiguration: S.optional(__S(1664, __c52, 0)),
+          EncryptionConfiguration: S.optional(__S(1728, __c54, 0)),
         }).pipe(
           S.encodeKeys({
             Port: "port",
@@ -9571,27 +10017,13 @@ function __c58(j: number): any {
         ),
       ).annotate({ identifier: "SrtListenerRouterOutputConfiguration" });
     case 2:
-      return S.Union([/*@__PURE__*/ S.Struct({ Public: __S(928, __c29, 0) })]);
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          EncryptionType: S.optional(S.String),
-          EncryptionConfiguration: __S(1858, __c58, 2),
-        }).pipe(
-          S.encodeKeys({
-            EncryptionType: "encryptionType",
-            EncryptionConfiguration: "encryptionConfiguration",
-          }),
-        ),
-      ).annotate({ identifier: "TlsEncryption" });
-    case 4:
       return S.suspend(() =>
         S.Struct({
           DestinationAddress: S.String,
           DestinationPort: S.Number,
           ApplicationName: S.String,
           StreamName: S.String,
-          TlsEncryption: S.optional(__S(1859, __c58, 3)),
+          TlsEncryption: S.optional(__S(993, __c31, 1)),
         }).pipe(
           S.encodeKeys({
             DestinationAddress: "destinationAddress",
@@ -9602,14 +10034,14 @@ function __c58(j: number): any {
           }),
         ),
       ).annotate({ identifier: "RtmpPushRouterOutputConfiguration" });
-    case 5:
+    case 3:
       return S.suspend(() =>
         S.Struct({
           DestinationAddress: S.String,
           DestinationPort: S.Number,
           MinimumLatencyMilliseconds: S.Number,
           StreamId: S.optional(S.String),
-          EncryptionConfiguration: S.optional(__S(1664, __c52, 0)),
+          EncryptionConfiguration: S.optional(__S(1728, __c54, 0)),
         }).pipe(
           S.encodeKeys({
             DestinationAddress: "destinationAddress",
@@ -9620,7 +10052,7 @@ function __c58(j: number): any {
           }),
         ),
       ).annotate({ identifier: "SrtCallerRouterOutputConfiguration" });
-    case 6:
+    case 4:
       return S.suspend(() =>
         S.Struct({
           DestinationAddress: S.String,
@@ -9634,19 +10066,19 @@ function __c58(j: number): any {
           }),
         ),
       ).annotate({ identifier: "RtpRouterOutputConfiguration" });
-    case 7:
+    case 5:
       return S.Union([
-        /*@__PURE__*/ S.Struct({ Rist: __S(1856, __c58, 0) }),
-        /*@__PURE__*/ S.Struct({ SrtListener: __S(1857, __c58, 1) }),
-        /*@__PURE__*/ S.Struct({ RtmpPush: __S(1860, __c58, 4) }),
-        /*@__PURE__*/ S.Struct({ SrtCaller: __S(1861, __c58, 5) }),
-        /*@__PURE__*/ S.Struct({ Rtp: __S(1862, __c58, 6) }),
+        /*@__PURE__*/ S.Struct({ Rist: __S(1920, __c60, 0) }),
+        /*@__PURE__*/ S.Struct({ SrtListener: __S(1921, __c60, 1) }),
+        /*@__PURE__*/ S.Struct({ RtmpPush: __S(1922, __c60, 2) }),
+        /*@__PURE__*/ S.Struct({ SrtCaller: __S(1923, __c60, 3) }),
+        /*@__PURE__*/ S.Struct({ Rtp: __S(1924, __c60, 4) }),
       ]);
-    case 8:
+    case 6:
       return S.suspend(() =>
         S.Struct({
           NetworkInterfaceArn: S.String,
-          ProtocolConfiguration: __S(1863, __c58, 7),
+          ProtocolConfiguration: __S(1925, __c60, 5),
           Protocol: S.optional(S.String),
         }).pipe(
           S.encodeKeys({
@@ -9656,7 +10088,7 @@ function __c58(j: number): any {
           }),
         ),
       ).annotate({ identifier: "StandardRouterOutputConfiguration" });
-    case 9:
+    case 7:
       return S.suspend(() =>
         S.Struct({
           FlowArn: S.optional(S.String),
@@ -9670,7 +10102,7 @@ function __c58(j: number): any {
           }),
         ),
       ).annotate({ identifier: "MediaConnectFlowRouterOutputConfiguration" });
-    case 10:
+    case 8:
       return S.suspend(() =>
         S.Struct({
           MediaLiveInputArn: S.optional(S.String),
@@ -9684,12 +10116,12 @@ function __c58(j: number): any {
           }),
         ),
       ).annotate({ identifier: "MediaLiveInputRouterOutputConfiguration" });
-    case 11:
+    case 9:
       return S.suspend(() =>
         S.Struct({
           EndpointLifecycleManagement: S.String,
           DestinationTransitEncryptionType: S.optional(S.String),
-          DestinationTransitEncryption: __S(1506, __c47, 2),
+          DestinationTransitEncryption: __S(1570, __c49, 2),
         }).pipe(
           S.encodeKeys({
             EndpointLifecycleManagement: "endpointLifecycleManagement",
@@ -9698,33 +10130,101 @@ function __c58(j: number): any {
           }),
         ),
       ).annotate({ identifier: "SourceEndpointRouterOutputConfiguration" });
-    case 12:
+    case 10:
       return S.Union([
-        /*@__PURE__*/ S.Struct({ Standard: __S(1864, __c58, 8) }),
-        /*@__PURE__*/ S.Struct({ MediaConnectFlow: __S(1865, __c58, 9) }),
-        /*@__PURE__*/ S.Struct({ MediaLiveInput: __S(1866, __c58, 10) }),
-        /*@__PURE__*/ S.Struct({ SourceEndpoint: __S(1867, __c58, 11) }),
+        /*@__PURE__*/ S.Struct({ Standard: __S(1926, __c60, 6) }),
+        /*@__PURE__*/ S.Struct({ MediaConnectFlow: __S(1927, __c60, 7) }),
+        /*@__PURE__*/ S.Struct({ MediaLiveInput: __S(1928, __c60, 8) }),
+        /*@__PURE__*/ S.Struct({ SourceEndpoint: __S(1929, __c60, 9) }),
       ]);
-    case 13:
+    case 11:
       return S.suspend(() =>
         S.Struct({ DestinationIpAddress: S.optional(S.String) }).pipe(
           S.encodeKeys({ DestinationIpAddress: "destinationIpAddress" }),
         ),
       ).annotate({ identifier: "StandardRouterOutputStreamDetails" });
-    case 14:
+    case 12:
       return S.Union([
-        /*@__PURE__*/ S.Struct({ Standard: __S(1869, __c58, 13) }),
+        /*@__PURE__*/ S.Struct({ Standard: __S(1931, __c60, 11) }),
         /*@__PURE__*/ S.Struct({ MediaConnectFlow: __S(928, __c29, 0) }),
         /*@__PURE__*/ S.Struct({ MediaLiveInput: __S(928, __c29, 0) }),
         /*@__PURE__*/ S.Struct({ SourceEndpoint: __S(928, __c29, 0) }),
       ]);
+    case 13:
+      return S.suspend(() =>
+        S.Struct({ KeyFrameWaitMilliseconds: S.optional(S.Number) }).pipe(
+          S.encodeKeys({ KeyFrameWaitMilliseconds: "keyFrameWaitMilliseconds" }),
+        ),
+      ).annotate({ identifier: "KeyFrameFabricSwitchingConfiguration" });
+    case 14:
+      return S.Union([
+        /*@__PURE__*/ S.Struct({ Immediate: __S(928, __c29, 0) }),
+        /*@__PURE__*/ S.Struct({ KeyFrame: __S(1933, __c60, 13) }),
+      ]);
     case 15:
       return S.suspend(() =>
-        S.Struct({ RecoveryLatencyMode: S.String }).pipe(
-          S.encodeKeys({ RecoveryLatencyMode: "recoveryLatencyMode" }),
+        S.Struct({
+          RecoveryLatencyMode: S.String,
+          SwitchingMode: S.optional(S.String),
+          SwitchingConfiguration: S.optional(__S(1934, __c60, 14)),
+        }).pipe(
+          S.encodeKeys({
+            RecoveryLatencyMode: "recoveryLatencyMode",
+            SwitchingMode: "switchingMode",
+            SwitchingConfiguration: "switchingConfiguration",
+          }),
         ),
       ).annotate({ identifier: "FabricConfiguration" });
     case 16:
+      return S.suspend(() =>
+        S.Struct({ MatchExpression: S.String, Action: S.String }).pipe(
+          S.encodeKeys({ MatchExpression: "matchExpression", Action: "action" }),
+        ),
+      ).annotate({ identifier: "PidMapRule" });
+    case 17:
+      return S.Array(__S(1936, __c60, 16));
+    case 18:
+      return S.Union([
+        /*@__PURE__*/ S.Struct({ Passthrough: __S(928, __c29, 0) }),
+        /*@__PURE__*/ S.Struct({ Set: S.Number }),
+      ]);
+    case 19:
+      return S.suspend(() =>
+        S.Struct({ StartPid: S.Number, PidsPerProgram: S.Number }).pipe(
+          S.encodeKeys({ StartPid: "startPid", PidsPerProgram: "pidsPerProgram" }),
+        ),
+      ).annotate({ identifier: "AutoPidMapConfiguration" });
+    case 20:
+      return S.suspend(() =>
+        S.Struct({
+          Rules: __S(1937, __c60, 17),
+          DefaultAction: S.String,
+          TransportStreamId: S.optional(__S(1938, __c60, 18)),
+          ProgramNumber: S.optional(__S(1938, __c60, 18)),
+          ProgramMapTablePid: S.optional(__S(1938, __c60, 18)),
+          ProgramClockReferencePid: S.optional(__S(1938, __c60, 18)),
+          Auto: S.optional(__S(1939, __c60, 19)),
+        }).pipe(
+          S.encodeKeys({
+            Rules: "rules",
+            DefaultAction: "defaultAction",
+            TransportStreamId: "transportStreamId",
+            ProgramNumber: "programNumber",
+            ProgramMapTablePid: "programMapTablePid",
+            ProgramClockReferencePid: "programClockReferencePid",
+            Auto: "auto",
+          }),
+        ),
+      ).annotate({ identifier: "SingleProgramTransportStreamPidMapConfiguration" });
+    case 21:
+      return S.suspend(() =>
+        S.Struct({ SingleProgramTransportStreamPidMap: S.optional(__S(1940, __c60, 20)) }).pipe(
+          S.encodeKeys({
+            SingleProgramTransportStreamPidMap: "singleProgramTransportStreamPidMap",
+          }),
+        ),
+      ).annotate({ identifier: "RouterOutputProcessors" });
+    case 22:
       return S.suspend(() =>
         S.Struct({
           Name: S.String,
@@ -9732,7 +10232,7 @@ function __c58(j: number): any {
           Id: S.String,
           State: S.String,
           OutputType: S.String,
-          Configuration: __S(1868, __c58, 12),
+          Configuration: __S(1930, __c60, 10),
           RoutedState: S.String,
           RegionName: S.String,
           AvailabilityZone: S.String,
@@ -9741,16 +10241,17 @@ function __c58(j: number): any {
           Tier: S.String,
           CreatedAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
           UpdatedAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
-          Messages: __S(1473, __c46, 1),
+          Messages: __S(1537, __c48, 1),
           Tags: __mapOfString,
-          StreamDetails: __S(1870, __c58, 14),
+          StreamDetails: __S(1932, __c60, 12),
           IpAddress: S.optional(S.String),
           RoutedInputArn: S.optional(S.String),
           MaintenanceType: S.String,
-          MaintenanceConfiguration: __S(1666, __c52, 2),
+          MaintenanceConfiguration: __S(1730, __c54, 2),
           MaintenanceScheduleType: S.optional(S.String),
-          MaintenanceSchedule: S.optional(__S(1697, __c53, 1)),
-          FabricConfiguration: S.optional(__S(1871, __c58, 15)),
+          MaintenanceSchedule: S.optional(__S(1761, __c55, 1)),
+          FabricConfiguration: S.optional(__S(1935, __c60, 15)),
+          Processors: S.optional(__S(1941, __c60, 21)),
           AssociatedSourceEndpointArns: S.optional(SourceEndpointArnList),
         }).pipe(
           S.encodeKeys({
@@ -9778,13 +10279,14 @@ function __c58(j: number): any {
             MaintenanceScheduleType: "maintenanceScheduleType",
             MaintenanceSchedule: "maintenanceSchedule",
             FabricConfiguration: "fabricConfiguration",
+            Processors: "processors",
             AssociatedSourceEndpointArns: "associatedSourceEndpointArns",
           }),
         ),
       ).annotate({ identifier: "RouterOutput" });
   }
 }
-function __c59(j: number): any {
+function __c61(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9800,7 +10302,7 @@ function __c59(j: number): any {
         ),
       ).annotate({ identifier: "BatchGetSourceEndpointRequest" });
     case 1:
-      return S.Array(__S(1934, __c60, 14));
+      return S.Array(__S(1998, __c62, 14));
     case 2:
       return S.suspend(() =>
         S.Struct({ Arn: S.String, Code: S.String, Message: S.String }).pipe(
@@ -9808,27 +10310,27 @@ function __c59(j: number): any {
         ),
       ).annotate({ identifier: "BatchGetSourceEndpointError" });
     case 3:
-      return S.Array(__S(1890, __c59, 2));
+      return S.Array(__S(1954, __c61, 2));
     case 4:
       return S.suspend(() =>
-        S.Struct({ SourceEndpoints: __S(1889, __c59, 1), Errors: __S(1891, __c59, 3) }).pipe(
+        S.Struct({ SourceEndpoints: __S(1953, __c61, 1), Errors: __S(1955, __c61, 3) }).pipe(
           S.encodeKeys({ SourceEndpoints: "sourceEndpoints", Errors: "errors" }),
         ),
       ).annotate({ identifier: "BatchGetSourceEndpointResponse" });
   }
 }
-function __c60(j: number): any {
+function __c62(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({ SourceAllowRules: __S(1537, __c48, 1) }).pipe(
+        S.Struct({ SourceAllowRules: __S(1601, __c50, 1) }).pipe(
           S.encodeKeys({ SourceAllowRules: "sourceAllowRules" }),
         ),
       ).annotate({ identifier: "PublicSourceEndpointNetworkingConfiguration" });
     case 1:
       return S.Union([
-        /*@__PURE__*/ S.Struct({ Public: __S(1920, __c60, 0) }),
-        /*@__PURE__*/ S.Struct({ Vpc: __S(1538, __c48, 2) }),
+        /*@__PURE__*/ S.Struct({ Public: __S(1984, __c62, 0) }),
+        /*@__PURE__*/ S.Struct({ Vpc: __S(1602, __c50, 2) }),
       ]);
     case 2:
       return S.suspend(() =>
@@ -9846,7 +10348,7 @@ function __c60(j: number): any {
           SourceAddress: S.String,
           MinimumLatencyMilliseconds: S.Number,
           StreamId: S.optional(S.String),
-          EncryptionPassphrase: S.optional(__S(1504, __c47, 0)),
+          EncryptionPassphrase: S.optional(__S(1568, __c49, 0)),
         }).pipe(
           S.encodeKeys({
             SourceListenerPort: "sourceListenerPort",
@@ -9862,7 +10364,7 @@ function __c60(j: number): any {
         S.Struct({
           DestinationIngestPort: S.Number,
           MinimumLatencyMilliseconds: S.Number,
-          EncryptionPassphrase: S.optional(__S(1504, __c47, 0)),
+          EncryptionPassphrase: S.optional(__S(1568, __c49, 0)),
         }).pipe(
           S.encodeKeys({
             DestinationIngestPort: "destinationIngestPort",
@@ -9882,17 +10384,17 @@ function __c60(j: number): any {
       ).annotate({ identifier: "RtpStandardSourceEndpointConfiguration" });
     case 6:
       return S.Union([
-        /*@__PURE__*/ S.Struct({ Rist: __S(1922, __c60, 2) }),
-        /*@__PURE__*/ S.Struct({ SrtListener: __S(1923, __c60, 3) }),
-        /*@__PURE__*/ S.Struct({ SrtCaller: __S(1924, __c60, 4) }),
-        /*@__PURE__*/ S.Struct({ Rtp: __S(1925, __c60, 5) }),
+        /*@__PURE__*/ S.Struct({ Rist: __S(1986, __c62, 2) }),
+        /*@__PURE__*/ S.Struct({ SrtListener: __S(1987, __c62, 3) }),
+        /*@__PURE__*/ S.Struct({ SrtCaller: __S(1988, __c62, 4) }),
+        /*@__PURE__*/ S.Struct({ Rtp: __S(1989, __c62, 5) }),
       ]);
     case 7:
       return S.suspend(() =>
         S.Struct({
           Name: S.String,
-          SourceNetworkingConfiguration: __S(1921, __c60, 1),
-          ProtocolConfiguration: __S(1926, __c60, 6),
+          SourceNetworkingConfiguration: __S(1985, __c62, 1),
+          ProtocolConfiguration: __S(1990, __c62, 6),
           SourceNetworkingType: S.optional(S.String),
           Protocol: S.optional(S.String),
         }).pipe(
@@ -9913,8 +10415,8 @@ function __c60(j: number): any {
       ).annotate({ identifier: "RouterOutputSourceEndpointConfiguration" });
     case 9:
       return S.Union([
-        /*@__PURE__*/ S.Struct({ Standard: __S(1927, __c60, 7) }),
-        /*@__PURE__*/ S.Struct({ RouterOutput: __S(1928, __c60, 8) }),
+        /*@__PURE__*/ S.Struct({ Standard: __S(1991, __c62, 7) }),
+        /*@__PURE__*/ S.Struct({ RouterOutput: __S(1992, __c62, 8) }),
       ]);
     case 10:
       return S.suspend(() =>
@@ -9922,7 +10424,7 @@ function __c60(j: number): any {
           DestinationIpAddress: S.optional(S.String),
           DestinationIngestPort: S.optional(S.Number),
           DestinationDecryptionType: S.optional(S.String),
-          DestinationDecryptionConfiguration: S.optional(__S(1506, __c47, 2)),
+          DestinationDecryptionConfiguration: S.optional(__S(1570, __c49, 2)),
           DestinationEndpointType: S.optional(S.String),
         }).pipe(
           S.encodeKeys({
@@ -9938,7 +10440,7 @@ function __c60(j: number): any {
       return S.suspend(() =>
         S.Struct({
           DestinationDecryptionType: S.optional(S.String),
-          DestinationDecryptionConfiguration: S.optional(__S(1506, __c47, 2)),
+          DestinationDecryptionConfiguration: S.optional(__S(1570, __c49, 2)),
           DestinationEndpointType: S.optional(S.String),
         }).pipe(
           S.encodeKeys({
@@ -9950,13 +10452,13 @@ function __c60(j: number): any {
       ).annotate({ identifier: "RouterOutputSourceEndpointConnectionDetails" });
     case 12:
       return S.Union([
-        /*@__PURE__*/ S.Struct({ Standard: __S(1930, __c60, 10) }),
-        /*@__PURE__*/ S.Struct({ RouterOutput: __S(1931, __c60, 11) }),
+        /*@__PURE__*/ S.Struct({ Standard: __S(1994, __c62, 10) }),
+        /*@__PURE__*/ S.Struct({ RouterOutput: __S(1995, __c62, 11) }),
       ]);
     case 13:
       return S.Union([
         /*@__PURE__*/ S.Struct({ Standard: __S(928, __c29, 0) }),
-        /*@__PURE__*/ S.Struct({ RouterOutput: __S(1571, __c49, 3) }),
+        /*@__PURE__*/ S.Struct({ RouterOutput: __S(1635, __c51, 3) }),
       ]);
     case 14:
       return S.suspend(() =>
@@ -9971,18 +10473,18 @@ function __c60(j: number): any {
           CreatedAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
           UpdatedAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
           LifecycleManagement: S.String,
-          Messages: __S(1473, __c46, 1),
+          Messages: __S(1537, __c48, 1),
           SourceType: S.String,
-          Configuration: __S(1929, __c60, 9),
+          Configuration: __S(1993, __c62, 9),
           ResourceShareOwnership: S.String,
-          ResourceShareDetails: __S(1570, __c49, 2),
+          ResourceShareDetails: __S(1634, __c51, 2),
           RegistrationState: S.String,
           ConnectionState: S.String,
-          ConnectionDetails: S.optional(__S(1932, __c60, 12)),
+          ConnectionDetails: S.optional(__S(1996, __c62, 12)),
           ConnectedDestinations: DestinationEndpointArnList,
           EncryptionType: S.optional(S.String),
-          EncryptionConfiguration: S.optional(__S(1506, __c47, 2)),
-          AssociatedResourceDetails: __S(1933, __c60, 13),
+          EncryptionConfiguration: S.optional(__S(1570, __c49, 2)),
+          AssociatedResourceDetails: __S(1997, __c62, 13),
           Tags: __mapOfString,
         }).pipe(
           S.encodeKeys({
@@ -10014,7 +10516,7 @@ function __c60(j: number): any {
       ).annotate({ identifier: "SourceEndpoint" });
   }
 }
-function __c61(j: number): any {
+function __c63(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10036,7 +10538,7 @@ function __c61(j: number): any {
       ).annotate({ identifier: "ConnectEndpointsRequest" });
   }
 }
-function __c62(j: number): any {
+function __c64(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10056,17 +10558,17 @@ function __c62(j: number): any {
       ).annotate({ identifier: "ConnectEndpointsResponse" });
   }
 }
-function __c63(j: number): any {
+function __c65(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          EgressGatewayBridge: S.optional(__S(2144, __c67, 0)),
-          IngressGatewayBridge: S.optional(__S(2145, __c67, 1)),
+          EgressGatewayBridge: S.optional(__S(2208, __c69, 0)),
+          IngressGatewayBridge: S.optional(__S(2209, __c69, 1)),
           Name: S.optional(S.String),
           Outputs: S.optional(__listOfAddBridgeOutputRequest),
           PlacementArn: S.optional(S.String),
-          SourceFailoverConfig: S.optional(__S(2049, __c64, 1)),
+          SourceFailoverConfig: S.optional(__S(2113, __c66, 1)),
           Sources: S.optional(__listOfAddBridgeSourceRequest),
         })
           .pipe(
@@ -10086,7 +10588,7 @@ function __c63(j: number): any {
       ).annotate({ identifier: "CreateBridgeRequest" });
   }
 }
-function __c64(j: number): any {
+function __c66(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10099,7 +10601,7 @@ function __c64(j: number): any {
         S.Struct({
           FailoverMode: S.optional(S.String),
           RecoveryWindow: S.optional(S.Number),
-          SourcePriority: S.optional(__S(2048, __c64, 0)),
+          SourcePriority: S.optional(__S(2112, __c66, 0)),
           State: S.optional(S.String),
         }).pipe(
           S.encodeKeys({
@@ -10112,7 +10614,7 @@ function __c64(j: number): any {
       ).annotate({ identifier: "FailoverConfig" });
   }
 }
-function __c65(j: number): any {
+function __c67(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10123,10 +10625,10 @@ function __c65(j: number): any {
         }).pipe(S.encodeKeys({ Code: "code", Message: "message", ResourceName: "resourceName" })),
       ).annotate({ identifier: "MessageDetail" });
     case 1:
-      return S.Array(__S(2080, __c65, 0));
+      return S.Array(__S(2144, __c67, 0));
   }
 }
-function __c66(j: number): any {
+function __c68(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10154,12 +10656,12 @@ function __c66(j: number): any {
           BridgeArn: S.optional(S.String),
           BridgeMessages: S.optional(__listOfMessageDetail),
           BridgeState: S.optional(S.String),
-          EgressGatewayBridge: S.optional(__S(2112, __c66, 0)),
-          IngressGatewayBridge: S.optional(__S(2113, __c66, 1)),
+          EgressGatewayBridge: S.optional(__S(2176, __c68, 0)),
+          IngressGatewayBridge: S.optional(__S(2177, __c68, 1)),
           Name: S.optional(S.String),
           Outputs: S.optional(__listOfBridgeOutput),
           PlacementArn: S.optional(S.String),
-          SourceFailoverConfig: S.optional(__S(2049, __c64, 1)),
+          SourceFailoverConfig: S.optional(__S(2113, __c66, 1)),
           Sources: S.optional(__listOfBridgeSource),
         }).pipe(
           S.encodeKeys({
@@ -10178,13 +10680,13 @@ function __c66(j: number): any {
       ).annotate({ identifier: "Bridge" });
     case 3:
       return S.suspend(() =>
-        S.Struct({ Bridge: S.optional(__S(2114, __c66, 2)) }).pipe(
+        S.Struct({ Bridge: S.optional(__S(2178, __c68, 2)) }).pipe(
           S.encodeKeys({ Bridge: "bridge" }),
         ),
       ).annotate({ identifier: "CreateBridgeResponse" });
   }
 }
-function __c67(j: number): any {
+function __c69(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10200,7 +10702,7 @@ function __c67(j: number): any {
       ).annotate({ identifier: "AddIngressGatewayBridgeRequest" });
   }
 }
-function __c68(j: number): any {
+function __c70(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10222,15 +10724,15 @@ function __c68(j: number): any {
           MediaStreams: S.optional(__listOfAddMediaStreamRequest),
           Name: S.optional(S.String),
           Outputs: S.optional(__listOfAddOutputRequest),
-          Source: S.optional(__S(1216, __c38, 0)),
-          SourceFailoverConfig: S.optional(__S(2049, __c64, 1)),
+          Source: S.optional(__S(1280, __c40, 0)),
+          SourceFailoverConfig: S.optional(__S(2113, __c66, 1)),
           Sources: S.optional(__listOfSetSourceRequest),
           VpcInterfaces: S.optional(__listOfVpcInterfaceRequest),
-          Maintenance: S.optional(__S(2176, __c68, 0)),
-          SourceMonitoringConfig: S.optional(__S(2245, __c70, 5)),
+          Maintenance: S.optional(__S(2240, __c70, 0)),
+          SourceMonitoringConfig: S.optional(__S(2309, __c72, 5)),
           FlowSize: S.optional(S.String),
-          NdiConfig: S.optional(__S(2248, __c70, 8)),
-          EncodingConfig: S.optional(__S(2249, __c70, 9)),
+          NdiConfig: S.optional(__S(2312, __c72, 8)),
+          EncodingConfig: S.optional(__S(2313, __c72, 9)),
           FlowTags: S.optional(__mapOfString),
         })
           .pipe(
@@ -10256,15 +10758,15 @@ function __c68(j: number): any {
       ).annotate({ identifier: "CreateFlowRequest" });
   }
 }
-function __c69(j: number): any {
+function __c71(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({ Flow: S.optional(__S(2250, __c70, 10)) }).pipe(S.encodeKeys({ Flow: "flow" })),
+        S.Struct({ Flow: S.optional(__S(2314, __c72, 10)) }).pipe(S.encodeKeys({ Flow: "flow" })),
       ).annotate({ identifier: "CreateFlowResponse" });
   }
 }
-function __c70(j: number): any {
+function __c72(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10274,21 +10776,21 @@ function __c70(j: number): any {
       ).annotate({ identifier: "SilentAudio" });
     case 1:
       return S.suspend(() =>
-        S.Struct({ SilentAudio: S.optional(__S(2240, __c70, 0)) }).pipe(
+        S.Struct({ SilentAudio: S.optional(__S(2304, __c72, 0)) }).pipe(
           S.encodeKeys({ SilentAudio: "silentAudio" }),
         ),
       ).annotate({ identifier: "AudioMonitoringSetting" });
     case 2:
-      return S.Array(__S(2241, __c70, 1));
+      return S.Array(__S(2305, __c72, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          BlackFrames: S.optional(__S(2240, __c70, 0)),
-          FrozenFrames: S.optional(__S(2240, __c70, 0)),
+          BlackFrames: S.optional(__S(2304, __c72, 0)),
+          FrozenFrames: S.optional(__S(2304, __c72, 0)),
         }).pipe(S.encodeKeys({ BlackFrames: "blackFrames", FrozenFrames: "frozenFrames" })),
       ).annotate({ identifier: "VideoMonitoringSetting" });
     case 4:
-      return S.Array(__S(2243, __c70, 3));
+      return S.Array(__S(2307, __c72, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
@@ -10320,7 +10822,7 @@ function __c70(j: number): any {
         ),
       ).annotate({ identifier: "NdiDiscoveryServerConfig" });
     case 7:
-      return S.Array(__S(2246, __c70, 6));
+      return S.Array(__S(2310, __c72, 6));
     case 8:
       return S.suspend(() =>
         S.Struct({
@@ -10355,16 +10857,16 @@ function __c70(j: number): any {
           MediaStreams: S.optional(__listOfMediaStream),
           Name: S.optional(S.String),
           Outputs: S.optional(__listOfOutput),
-          Source: S.optional(__S(1317, __c41, 5)),
-          SourceFailoverConfig: S.optional(__S(2049, __c64, 1)),
+          Source: S.optional(__S(1381, __c43, 5)),
+          SourceFailoverConfig: S.optional(__S(2113, __c66, 1)),
           Sources: S.optional(__listOfSource),
           Status: S.optional(S.String),
           VpcInterfaces: S.optional(__listOfVpcInterface),
-          Maintenance: S.optional(__S(2336, __c73, 0)),
-          SourceMonitoringConfig: S.optional(__S(2245, __c70, 5)),
+          Maintenance: S.optional(__S(2400, __c75, 0)),
+          SourceMonitoringConfig: S.optional(__S(2309, __c72, 5)),
           FlowSize: S.optional(S.String),
-          NdiConfig: S.optional(__S(2248, __c70, 8)),
-          EncodingConfig: S.optional(__S(2249, __c70, 9)),
+          NdiConfig: S.optional(__S(2312, __c72, 8)),
+          EncodingConfig: S.optional(__S(2313, __c72, 9)),
         }).pipe(
           S.encodeKeys({
             AvailabilityZone: "availabilityZone",
@@ -10390,20 +10892,20 @@ function __c70(j: number): any {
       ).annotate({ identifier: "Flow" });
   }
 }
-function __c71(j: number): any {
+function __c73(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(2304, __c72, 0));
+      return S.Array(__S(2368, __c74, 0));
   }
 }
-function __c72(j: number): any {
+function __c74(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           DataTransferSubscriberFeePercent: S.optional(S.Number),
           Description: S.optional(S.String),
-          Encryption: S.optional(__S(1024, __c32, 0)),
+          Encryption: S.optional(__S(1056, __c33, 0)),
           EntitlementArn: S.optional(S.String),
           EntitlementStatus: S.optional(S.String),
           Name: S.optional(S.String),
@@ -10422,7 +10924,7 @@ function __c72(j: number): any {
       ).annotate({ identifier: "Entitlement" });
   }
 }
-function __c73(j: number): any {
+function __c75(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10442,14 +10944,14 @@ function __c73(j: number): any {
       ).annotate({ identifier: "Maintenance" });
   }
 }
-function __c74(j: number): any {
+function __c76(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           DataTransferSubscriberFeePercent: S.optional(S.Number),
           Description: S.optional(S.String),
-          Encryption: S.optional(__S(1024, __c32, 0)),
+          Encryption: S.optional(__S(1056, __c33, 0)),
           EntitlementStatus: S.optional(S.String),
           Name: S.optional(S.String),
           Subscribers: S.optional(__listOfString),
@@ -10467,10 +10969,10 @@ function __c74(j: number): any {
         ),
       ).annotate({ identifier: "GrantEntitlementRequest" });
     case 1:
-      return S.Array(__S(2368, __c74, 0));
+      return S.Array(__S(2432, __c76, 0));
   }
 }
-function __c75(j: number): any {
+function __c77(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10492,7 +10994,7 @@ function __c75(j: number): any {
       ).annotate({ identifier: "CreateGatewayRequest" });
   }
 }
-function __c76(j: number): any {
+function __c78(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10501,7 +11003,7 @@ function __c76(j: number): any {
         ),
       ).annotate({ identifier: "GatewayNetwork" });
     case 1:
-      return S.Array(__S(2432, __c76, 0));
+      return S.Array(__S(2496, __c78, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -10524,29 +11026,29 @@ function __c76(j: number): any {
       ).annotate({ identifier: "Gateway" });
     case 3:
       return S.suspend(() =>
-        S.Struct({ Gateway: S.optional(__S(2434, __c76, 2)) }).pipe(
+        S.Struct({ Gateway: S.optional(__S(2498, __c78, 2)) }).pipe(
           S.encodeKeys({ Gateway: "gateway" }),
         ),
       ).annotate({ identifier: "CreateGatewayResponse" });
   }
 }
-function __c77(j: number): any {
+function __c79(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           Name: S.String,
-          Configuration: __S(1742, __c54, 14),
+          Configuration: __S(1807, __c56, 15),
           MaximumBitrate: S.Number,
           RoutingScope: S.String,
           Tier: S.String,
           RegionName: S.optional(S.String),
           AvailabilityZone: S.optional(S.String),
           TransitEncryption: S.optional(__S(962, __c30, 2)),
-          MaintenanceConfiguration: S.optional(__S(1666, __c52, 2)),
+          MaintenanceConfiguration: S.optional(__S(1730, __c54, 2)),
           Tags: S.optional(__mapOfString),
           ClientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
-          ContentQualityAnalysisConfiguration: S.optional(__S(1749, __c54, 21)),
+          ContentQualityAnalysisConfiguration: S.optional(__S(1816, __c56, 24)),
         })
           .pipe(
             S.encodeKeys({
@@ -10570,23 +11072,23 @@ function __c77(j: number): any {
       ).annotate({ identifier: "CreateRouterInputRequest" });
   }
 }
-function __c78(j: number): any {
+function __c80(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({ RouterInput: __S(1750, __c54, 22) }).pipe(
+        S.Struct({ RouterInput: __S(1817, __c56, 25) }).pipe(
           S.encodeKeys({ RouterInput: "routerInput" }),
         ),
       ).annotate({ identifier: "CreateRouterInputResponse" });
   }
 }
-function __c79(j: number): any {
+function __c81(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           Name: S.String,
-          Configuration: __S(1793, __c56, 1),
+          Configuration: __S(1857, __c58, 1),
           RegionName: S.optional(S.String),
           Tags: S.optional(__mapOfString),
           ClientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
@@ -10613,32 +11115,33 @@ function __c79(j: number): any {
       ).annotate({ identifier: "CreateRouterNetworkInterfaceRequest" });
   }
 }
-function __c80(j: number): any {
+function __c82(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({ RouterNetworkInterface: __S(1794, __c56, 2) }).pipe(
+        S.Struct({ RouterNetworkInterface: __S(1858, __c58, 2) }).pipe(
           S.encodeKeys({ RouterNetworkInterface: "routerNetworkInterface" }),
         ),
       ).annotate({ identifier: "CreateRouterNetworkInterfaceResponse" });
   }
 }
-function __c81(j: number): any {
+function __c83(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           Name: S.String,
-          Configuration: __S(1868, __c58, 12),
+          Configuration: __S(1930, __c60, 10),
           MaximumBitrate: S.Number,
           RoutingScope: S.String,
           Tier: S.String,
           RegionName: S.optional(S.String),
           AvailabilityZone: S.optional(S.String),
-          MaintenanceConfiguration: S.optional(__S(1666, __c52, 2)),
+          MaintenanceConfiguration: S.optional(__S(1730, __c54, 2)),
           Tags: S.optional(__mapOfString),
-          FabricConfiguration: S.optional(__S(1871, __c58, 15)),
+          FabricConfiguration: S.optional(__S(1935, __c60, 15)),
           ClientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
+          Processors: S.optional(__S(1941, __c60, 21)),
         })
           .pipe(
             S.encodeKeys({
@@ -10653,6 +11156,7 @@ function __c81(j: number): any {
               Tags: "tags",
               FabricConfiguration: "fabricConfiguration",
               ClientToken: "clientToken",
+              Processors: "processors",
             }),
           )
           .pipe(
@@ -10668,17 +11172,17 @@ function __c81(j: number): any {
       ).annotate({ identifier: "CreateRouterOutputRequest" });
   }
 }
-function __c82(j: number): any {
+function __c84(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({ RouterOutput: __S(1872, __c58, 16) }).pipe(
+        S.Struct({ RouterOutput: __S(1942, __c60, 22) }).pipe(
           S.encodeKeys({ RouterOutput: "routerOutput" }),
         ),
       ).annotate({ identifier: "CreateRouterOutputResponse" });
   }
 }
-function __c83(j: number): any {
+function __c85(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10701,7 +11205,7 @@ function __c83(j: number): any {
       ).annotate({ identifier: "DeleteBridgeResponse" });
   }
 }
-function __c84(j: number): any {
+function __c86(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10718,7 +11222,7 @@ function __c84(j: number): any {
       ).annotate({ identifier: "DeleteFlowRequest" });
   }
 }
-function __c85(j: number): any {
+function __c87(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10728,7 +11232,7 @@ function __c85(j: number): any {
       ).annotate({ identifier: "DeleteFlowResponse" });
   }
 }
-function __c86(j: number): any {
+function __c88(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10751,7 +11255,7 @@ function __c86(j: number): any {
       ).annotate({ identifier: "DeleteGatewayResponse" });
   }
 }
-function __c87(j: number): any {
+function __c89(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10768,7 +11272,7 @@ function __c87(j: number): any {
       ).annotate({ identifier: "DeleteRouterInputRequest" });
   }
 }
-function __c88(j: number): any {
+function __c90(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10778,7 +11282,7 @@ function __c88(j: number): any {
       ).annotate({ identifier: "DeleteRouterInputResponse" });
   }
 }
-function __c89(j: number): any {
+function __c91(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10795,7 +11299,7 @@ function __c89(j: number): any {
       ).annotate({ identifier: "DeleteRouterNetworkInterfaceRequest" });
   }
 }
-function __c90(j: number): any {
+function __c92(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10812,7 +11316,7 @@ function __c90(j: number): any {
       ).annotate({ identifier: "DeleteRouterOutputRequest" });
   }
 }
-function __c91(j: number): any {
+function __c93(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10829,7 +11333,7 @@ function __c91(j: number): any {
       ).annotate({ identifier: "DeregisterDestinationEndpointRequest" });
   }
 }
-function __c92(j: number): any {
+function __c94(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10839,7 +11343,7 @@ function __c92(j: number): any {
       ).annotate({ identifier: "DeregisterDestinationEndpointResponse" });
   }
 }
-function __c93(j: number): any {
+function __c95(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10871,7 +11375,7 @@ function __c93(j: number): any {
       ).annotate({ identifier: "DeregisterGatewayInstanceResponse" });
   }
 }
-function __c94(j: number): any {
+function __c96(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10888,7 +11392,7 @@ function __c94(j: number): any {
       ).annotate({ identifier: "DeregisterSourceEndpointRequest" });
   }
 }
-function __c95(j: number): any {
+function __c97(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10905,7 +11409,7 @@ function __c95(j: number): any {
       ).annotate({ identifier: "DescribeBridgeRequest" });
   }
 }
-function __c96(j: number): any {
+function __c98(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10927,13 +11431,13 @@ function __c96(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          Flow: S.optional(__S(2250, __c70, 10)),
-          Messages: S.optional(__S(3073, __c96, 1)),
+          Flow: S.optional(__S(2314, __c72, 10)),
+          Messages: S.optional(__S(3137, __c98, 1)),
         }).pipe(S.encodeKeys({ Flow: "flow", Messages: "messages" })),
       ).annotate({ identifier: "DescribeFlowResponse" });
   }
 }
-function __c97(j: number): any {
+function __c99(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10955,7 +11459,7 @@ function __c97(j: number): any {
         ),
       ).annotate({ identifier: "NdiSourceInfo" });
     case 2:
-      return S.Array(__S(3105, __c97, 1));
+      return S.Array(__S(3169, __c99, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -10963,8 +11467,8 @@ function __c97(j: number): any {
           Codec: S.optional(S.String),
           StreamId: S.optional(S.Number),
           ScanMode: S.optional(S.String),
-          Color: S.optional(__S(3136, __c98, 0)),
-          FrameResolution: S.optional(__S(3137, __c98, 1)),
+          Color: S.optional(__S(3200, __c100, 0)),
+          FrameResolution: S.optional(__S(3201, __c100, 1)),
           FrameRate: S.optional(S.String),
           Channels: S.optional(S.Number),
           SampleRate: S.optional(S.Number),
@@ -10983,7 +11487,7 @@ function __c97(j: number): any {
         ),
       ).annotate({ identifier: "NdiMediaStreamInfo" });
     case 4:
-      return S.Array(__S(3107, __c97, 3));
+      return S.Array(__S(3171, __c99, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({ Streams: S.optional(__listOfNdiMediaStreamInfo) }).pipe(
@@ -10993,9 +11497,9 @@ function __c97(j: number): any {
     case 6:
       return S.suspend(() =>
         S.Struct({
-          ActiveSource: S.optional(__S(3105, __c97, 1)),
+          ActiveSource: S.optional(__S(3169, __c99, 1)),
           DiscoveredSources: S.optional(__listOfNdiSourceInfo),
-          MediaInfo: S.optional(__S(3109, __c97, 5)),
+          MediaInfo: S.optional(__S(3173, __c99, 5)),
           Messages: S.optional(__listOfMessageDetail),
         }).pipe(
           S.encodeKeys({
@@ -11012,8 +11516,9 @@ function __c97(j: number): any {
           FlowArn: S.optional(S.String),
           Messages: S.optional(__listOfMessageDetail),
           Timestamp: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
-          TransportMediaInfo: S.optional(__S(3142, __c98, 6)),
-          NdiInfo: S.optional(__S(3110, __c97, 6)),
+          TransportMediaInfo: S.optional(__S(3206, __c100, 6)),
+          NdiInfo: S.optional(__S(3174, __c99, 6)),
+          RtmpInfo: S.optional(__S(3210, __c100, 10)),
         }).pipe(
           S.encodeKeys({
             FlowArn: "flowArn",
@@ -11021,12 +11526,13 @@ function __c97(j: number): any {
             Timestamp: "timestamp",
             TransportMediaInfo: "transportMediaInfo",
             NdiInfo: "ndiInfo",
+            RtmpInfo: "rtmpInfo",
           }),
         ),
       ).annotate({ identifier: "DescribeFlowSourceMetadataResponse" });
   }
 }
-function __c98(j: number): any {
+function __c100(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11053,13 +11559,15 @@ function __c98(j: number): any {
         S.Struct({
           Channels: S.optional(S.Number),
           Codec: S.optional(S.String),
-          Color: S.optional(__S(3136, __c98, 0)),
+          Color: S.optional(__S(3200, __c100, 0)),
           FrameRate: S.optional(S.String),
-          FrameResolution: S.optional(__S(3137, __c98, 1)),
+          FrameResolution: S.optional(__S(3201, __c100, 1)),
           Pid: S.optional(S.Number),
           SampleRate: S.optional(S.Number),
           SampleSize: S.optional(S.Number),
+          ScanMode: S.optional(S.String),
           StreamType: S.optional(S.String),
+          Language: S.optional(S.String),
         }).pipe(
           S.encodeKeys({
             Channels: "channels",
@@ -11070,12 +11578,14 @@ function __c98(j: number): any {
             Pid: "pid",
             SampleRate: "sampleRate",
             SampleSize: "sampleSize",
+            ScanMode: "scanMode",
             StreamType: "streamType",
+            Language: "language",
           }),
         ),
       ).annotate({ identifier: "TransportStream" });
     case 3:
-      return S.Array(__S(3138, __c98, 2));
+      return S.Array(__S(3202, __c100, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
@@ -11095,7 +11605,7 @@ function __c98(j: number): any {
         ),
       ).annotate({ identifier: "TransportStreamProgram" });
     case 5:
-      return S.Array(__S(3140, __c98, 4));
+      return S.Array(__S(3204, __c100, 4));
     case 6:
       return S.suspend(() =>
         S.Struct({
@@ -11103,9 +11613,61 @@ function __c98(j: number): any {
           TsId: S.optional(S.Number),
         }).pipe(S.encodeKeys({ Programs: "programs", TsId: "tsId" })),
       ).annotate({ identifier: "TransportMediaInfo" });
+    case 7:
+      return S.suspend(() =>
+        S.Struct({
+          StreamId: S.optional(S.Number),
+          StreamType: S.optional(S.String),
+          Codec: S.optional(S.String),
+          FrameRate: S.optional(S.String),
+          FrameResolution: S.optional(__S(3201, __c100, 1)),
+          ScanMode: S.optional(S.String),
+          Color: S.optional(__S(3200, __c100, 0)),
+          Channels: S.optional(S.Number),
+          SampleRate: S.optional(S.Number),
+          SampleSize: S.optional(S.Number),
+          Language: S.optional(S.String),
+        }).pipe(
+          S.encodeKeys({
+            StreamId: "streamId",
+            StreamType: "streamType",
+            Codec: "codec",
+            FrameRate: "frameRate",
+            FrameResolution: "frameResolution",
+            ScanMode: "scanMode",
+            Color: "color",
+            Channels: "channels",
+            SampleRate: "sampleRate",
+            SampleSize: "sampleSize",
+            Language: "language",
+          }),
+        ),
+      ).annotate({ identifier: "RtmpMediaStreamInfo" });
+    case 8:
+      return S.Array(__S(3207, __c100, 7));
+    case 9:
+      return S.suspend(() =>
+        S.Struct({ Streams: S.optional(__S(3208, __c100, 8)) }).pipe(
+          S.encodeKeys({ Streams: "streams" }),
+        ),
+      ).annotate({ identifier: "RtmpMediaInfo" });
+    case 10:
+      return S.suspend(() =>
+        S.Struct({
+          ApplicationName: S.optional(S.String),
+          StreamName: S.optional(S.String),
+          MediaInfo: S.optional(__S(3209, __c100, 9)),
+        }).pipe(
+          S.encodeKeys({
+            ApplicationName: "applicationName",
+            StreamName: "streamName",
+            MediaInfo: "mediaInfo",
+          }),
+        ),
+      ).annotate({ identifier: "RtmpSourceMetadataInfo" });
   }
 }
-function __c99(j: number): any {
+function __c101(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11140,13 +11702,13 @@ function __c99(j: number): any {
       ).annotate({ identifier: "ThumbnailDetails" });
     case 2:
       return S.suspend(() =>
-        S.Struct({ ThumbnailDetails: S.optional(__S(3169, __c99, 1)) }).pipe(
+        S.Struct({ ThumbnailDetails: S.optional(__S(3233, __c101, 1)) }).pipe(
           S.encodeKeys({ ThumbnailDetails: "thumbnailDetails" }),
         ),
       ).annotate({ identifier: "DescribeFlowSourceThumbnailResponse" });
   }
 }
-function __c100(j: number): any {
+function __c102(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11163,7 +11725,7 @@ function __c100(j: number): any {
       ).annotate({ identifier: "DescribeGatewayRequest" });
   }
 }
-function __c101(j: number): any {
+function __c103(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11204,13 +11766,13 @@ function __c101(j: number): any {
       ).annotate({ identifier: "GatewayInstance" });
     case 2:
       return S.suspend(() =>
-        S.Struct({ GatewayInstance: S.optional(__S(3233, __c101, 1)) }).pipe(
+        S.Struct({ GatewayInstance: S.optional(__S(3297, __c103, 1)) }).pipe(
           S.encodeKeys({ GatewayInstance: "gatewayInstance" }),
         ),
       ).annotate({ identifier: "DescribeGatewayInstanceResponse" });
   }
 }
-function __c102(j: number): any {
+function __c104(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11227,13 +11789,13 @@ function __c102(j: number): any {
       ).annotate({ identifier: "DescribeOfferingRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({ Offering: S.optional(__S(3328, __c104, 0)) }).pipe(
+        S.Struct({ Offering: S.optional(__S(3392, __c106, 0)) }).pipe(
           S.encodeKeys({ Offering: "offering" }),
         ),
       ).annotate({ identifier: "DescribeOfferingResponse" });
   }
 }
-function __c103(j: number): any {
+function __c105(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11244,7 +11806,7 @@ function __c103(j: number): any {
       ).annotate({ identifier: "ResourceSpecification" });
   }
 }
-function __c104(j: number): any {
+function __c106(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11256,7 +11818,7 @@ function __c104(j: number): any {
           OfferingDescription: S.optional(S.String),
           PricePerUnit: S.optional(S.String),
           PriceUnits: S.optional(S.String),
-          ResourceSpecification: S.optional(__S(3296, __c103, 0)),
+          ResourceSpecification: S.optional(__S(3360, __c105, 0)),
         }).pipe(
           S.encodeKeys({
             CurrencyCode: "currencyCode",
@@ -11272,7 +11834,7 @@ function __c104(j: number): any {
       ).annotate({ identifier: "Offering" });
   }
 }
-function __c105(j: number): any {
+function __c107(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11289,7 +11851,7 @@ function __c105(j: number): any {
       ).annotate({ identifier: "DescribeReservationRequest" });
   }
 }
-function __c106(j: number): any {
+function __c108(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11305,7 +11867,7 @@ function __c106(j: number): any {
           ReservationArn: S.optional(S.String),
           ReservationName: S.optional(S.String),
           ReservationState: S.optional(S.String),
-          ResourceSpecification: S.optional(__S(3296, __c103, 0)),
+          ResourceSpecification: S.optional(__S(3360, __c105, 0)),
           Start: S.optional(S.String),
         }).pipe(
           S.encodeKeys({
@@ -11327,17 +11889,17 @@ function __c106(j: number): any {
       ).annotate({ identifier: "Reservation" });
   }
 }
-function __c107(j: number): any {
+function __c109(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({ Reservation: S.optional(__S(3392, __c106, 0)) }).pipe(
+        S.Struct({ Reservation: S.optional(__S(3456, __c108, 0)) }).pipe(
           S.encodeKeys({ Reservation: "reservation" }),
         ),
       ).annotate({ identifier: "DescribeReservationResponse" });
   }
 }
-function __c108(j: number): any {
+function __c110(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11359,7 +11921,7 @@ function __c108(j: number): any {
       ).annotate({ identifier: "DisconnectEndpointsRequest" });
   }
 }
-function __c109(j: number): any {
+function __c111(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11376,17 +11938,17 @@ function __c109(j: number): any {
       ).annotate({ identifier: "GetDestinationEndpointRequest" });
   }
 }
-function __c110(j: number): any {
+function __c112(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({ DestinationEndpoint: __S(1614, __c50, 14) }).pipe(
+        S.Struct({ DestinationEndpoint: __S(1678, __c52, 14) }).pipe(
           S.encodeKeys({ DestinationEndpoint: "destinationEndpoint" }),
         ),
       ).annotate({ identifier: "GetDestinationEndpointResponse" });
   }
 }
-function __c111(j: number): any {
+function __c113(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11403,7 +11965,7 @@ function __c111(j: number): any {
       ).annotate({ identifier: "GetRouterInputRequest" });
   }
 }
-function __c112(j: number): any {
+function __c114(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11419,13 +11981,16 @@ function __c112(j: number): any {
         ),
       ).annotate({ identifier: "GetRouterInputSourceMetadataRequest" });
     case 1:
-      return S.Union([/*@__PURE__*/ S.Struct({ TransportStreamMediaInfo: __S(3142, __c98, 6) })]);
+      return S.Union([
+        /*@__PURE__*/ S.Struct({ TransportStreamMediaInfo: __S(3206, __c100, 6) }),
+        /*@__PURE__*/ S.Struct({ RtmpInfo: __S(3210, __c100, 10) }),
+      ]);
     case 2:
       return S.suspend(() =>
         S.Struct({
-          SourceMetadataMessages: __S(1473, __c46, 1),
+          SourceMetadataMessages: __S(1537, __c48, 1),
           Timestamp: T.DateFromString.pipe(T.TimestampFormat("date-time")),
-          RouterInputMetadata: S.optional(__S(3585, __c112, 1)),
+          RouterInputMetadata: S.optional(__S(3649, __c114, 1)),
         }).pipe(
           S.encodeKeys({
             SourceMetadataMessages: "sourceMetadataMessages",
@@ -11439,7 +12004,7 @@ function __c112(j: number): any {
         S.Struct({
           Arn: S.String,
           Name: S.String,
-          SourceMetadataDetails: __S(3586, __c112, 2),
+          SourceMetadataDetails: __S(3650, __c114, 2),
         }).pipe(
           S.encodeKeys({
             Arn: "arn",
@@ -11450,7 +12015,7 @@ function __c112(j: number): any {
       ).annotate({ identifier: "GetRouterInputSourceMetadataResponse" });
   }
 }
-function __c113(j: number): any {
+function __c115(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11468,7 +12033,7 @@ function __c113(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          ThumbnailMessages: __S(1473, __c46, 1),
+          ThumbnailMessages: __S(1537, __c48, 1),
           Thumbnail: S.optional(T.Blob),
           Timecode: S.optional(S.String),
           Timestamp: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
@@ -11483,13 +12048,13 @@ function __c113(j: number): any {
       ).annotate({ identifier: "RouterInputThumbnailDetails" });
     case 2:
       return S.suspend(() =>
-        S.Struct({ Arn: S.String, Name: S.String, ThumbnailDetails: __S(3617, __c113, 1) }).pipe(
+        S.Struct({ Arn: S.String, Name: S.String, ThumbnailDetails: __S(3681, __c115, 1) }).pipe(
           S.encodeKeys({ Arn: "arn", Name: "name", ThumbnailDetails: "thumbnailDetails" }),
         ),
       ).annotate({ identifier: "GetRouterInputThumbnailResponse" });
   }
 }
-function __c114(j: number): any {
+function __c116(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11506,7 +12071,7 @@ function __c114(j: number): any {
       ).annotate({ identifier: "GetRouterNetworkInterfaceRequest" });
   }
 }
-function __c115(j: number): any {
+function __c117(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11523,7 +12088,7 @@ function __c115(j: number): any {
       ).annotate({ identifier: "GetRouterOutputRequest" });
   }
 }
-function __c116(j: number): any {
+function __c118(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11540,17 +12105,17 @@ function __c116(j: number): any {
       ).annotate({ identifier: "GetSourceEndpointRequest" });
   }
 }
-function __c117(j: number): any {
+function __c119(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({ SourceEndpoint: __S(1934, __c60, 14) }).pipe(
+        S.Struct({ SourceEndpoint: __S(1998, __c62, 14) }).pipe(
           S.encodeKeys({ SourceEndpoint: "sourceEndpoint" }),
         ),
       ).annotate({ identifier: "GetSourceEndpointResponse" });
   }
 }
-function __c118(j: number): any {
+function __c120(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11579,7 +12144,7 @@ function __c118(j: number): any {
       ).annotate({ identifier: "GrantFlowEntitlementsResponse" });
   }
 }
-function __c119(j: number): any {
+function __c121(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11608,7 +12173,7 @@ function __c119(j: number): any {
         ),
       ).annotate({ identifier: "ListedBridge" });
     case 2:
-      return S.Array(__S(3809, __c119, 1));
+      return S.Array(__S(3873, __c121, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -11618,22 +12183,22 @@ function __c119(j: number): any {
       ).annotate({ identifier: "ListBridgesResponse" });
   }
 }
-function __c120(j: number): any {
+function __c122(j: number): any {
   switch (j) {
     case 0:
       return S.Union([
         /*@__PURE__*/ S.Struct({ RegionNames: StringList }),
-        /*@__PURE__*/ S.Struct({ DestinationTypes: __S(3872, __c121, 0) }),
+        /*@__PURE__*/ S.Struct({ DestinationTypes: __S(3936, __c123, 0) }),
         /*@__PURE__*/ S.Struct({ NameContains: StringList }),
       ]);
     case 1:
-      return S.Array(__S(3840, __c120, 0));
+      return S.Array(__S(3904, __c122, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
           NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-          Filters: S.optional(__S(3841, __c120, 1)),
+          Filters: S.optional(__S(3905, __c122, 1)),
         })
           .pipe(S.encodeKeys({ Filters: "filters" }))
           .pipe(
@@ -11692,11 +12257,11 @@ function __c120(j: number): any {
         ),
       ).annotate({ identifier: "ListedDestinationEndpoint" });
     case 4:
-      return S.Array(__S(3843, __c120, 3));
+      return S.Array(__S(3907, __c122, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
-          DestinationEndpoints: __S(3844, __c120, 4),
+          DestinationEndpoints: __S(3908, __c122, 4),
           NextToken: S.optional(S.String),
         }).pipe(
           S.encodeKeys({ DestinationEndpoints: "destinationEndpoints", NextToken: "nextToken" }),
@@ -11704,13 +12269,13 @@ function __c120(j: number): any {
       ).annotate({ identifier: "ListDestinationEndpointsResponse" });
   }
 }
-function __c121(j: number): any {
+function __c123(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
   }
 }
-function __c122(j: number): any {
+function __c124(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11736,7 +12301,7 @@ function __c122(j: number): any {
         ),
       ).annotate({ identifier: "ListedEntitlement" });
     case 2:
-      return S.Array(__S(3905, __c122, 1));
+      return S.Array(__S(3969, __c124, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -11746,7 +12311,7 @@ function __c122(j: number): any {
       ).annotate({ identifier: "ListEntitlementsResponse" });
   }
 }
-function __c123(j: number): any {
+function __c125(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11764,7 +12329,7 @@ function __c123(j: number): any {
           Name: S.optional(S.String),
           SourceType: S.optional(S.String),
           Status: S.optional(S.String),
-          Maintenance: S.optional(__S(2336, __c73, 0)),
+          Maintenance: S.optional(__S(2400, __c75, 0)),
         }).pipe(
           S.encodeKeys({
             AvailabilityZone: "availabilityZone",
@@ -11778,7 +12343,7 @@ function __c123(j: number): any {
         ),
       ).annotate({ identifier: "ListedFlow" });
     case 2:
-      return S.Array(__S(3937, __c123, 1));
+      return S.Array(__S(4001, __c125, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({ Flows: S.optional(__listOfListedFlow), NextToken: S.optional(S.String) }).pipe(
@@ -11787,7 +12352,7 @@ function __c123(j: number): any {
       ).annotate({ identifier: "ListFlowsResponse" });
   }
 }
-function __c124(j: number): any {
+function __c126(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11823,7 +12388,7 @@ function __c124(j: number): any {
         ),
       ).annotate({ identifier: "ListedGatewayInstance" });
     case 2:
-      return S.Array(__S(3969, __c124, 1));
+      return S.Array(__S(4033, __c126, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -11833,7 +12398,7 @@ function __c124(j: number): any {
       ).annotate({ identifier: "ListGatewayInstancesResponse" });
   }
 }
-function __c125(j: number): any {
+function __c127(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11855,7 +12420,7 @@ function __c125(j: number): any {
         ),
       ).annotate({ identifier: "ListedGateway" });
     case 2:
-      return S.Array(__S(4001, __c125, 1));
+      return S.Array(__S(4065, __c127, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -11865,7 +12430,7 @@ function __c125(j: number): any {
       ).annotate({ identifier: "ListGatewaysResponse" });
   }
 }
-function __c126(j: number): any {
+function __c128(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11877,7 +12442,7 @@ function __c126(j: number): any {
         ),
       ).annotate({ identifier: "ListOfferingsRequest" });
     case 1:
-      return S.Array(__S(3328, __c104, 0));
+      return S.Array(__S(3392, __c106, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({ NextToken: S.optional(S.String), Offerings: S.optional(__listOfOffering) }).pipe(
@@ -11886,7 +12451,7 @@ function __c126(j: number): any {
       ).annotate({ identifier: "ListOfferingsResponse" });
   }
 }
-function __c127(j: number): any {
+function __c129(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11898,7 +12463,7 @@ function __c127(j: number): any {
         ),
       ).annotate({ identifier: "ListReservationsRequest" });
     case 1:
-      return S.Array(__S(3392, __c106, 0));
+      return S.Array(__S(3456, __c108, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -11908,24 +12473,24 @@ function __c127(j: number): any {
       ).annotate({ identifier: "ListReservationsResponse" });
   }
 }
-function __c128(j: number): any {
+function __c130(j: number): any {
   switch (j) {
     case 0:
       return S.Union([
         /*@__PURE__*/ S.Struct({ NameContains: StringList }),
         /*@__PURE__*/ S.Struct({ RegionNames: StringList }),
         /*@__PURE__*/ S.Struct({ NetworkInterfaceArns: RouterNetworkInterfaceArnList }),
-        /*@__PURE__*/ S.Struct({ RoutingScopes: __S(3872, __c121, 0) }),
-        /*@__PURE__*/ S.Struct({ InputTypes: __S(3872, __c121, 0) }),
+        /*@__PURE__*/ S.Struct({ RoutingScopes: __S(3936, __c123, 0) }),
+        /*@__PURE__*/ S.Struct({ InputTypes: __S(3936, __c123, 0) }),
       ]);
     case 1:
-      return S.Array(__S(4096, __c128, 0));
+      return S.Array(__S(4160, __c130, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
           NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-          Filters: S.optional(__S(4097, __c128, 1)),
+          Filters: S.optional(__S(4161, __c130, 1)),
         })
           .pipe(S.encodeKeys({ Filters: "filters" }))
           .pipe(
@@ -11957,7 +12522,7 @@ function __c128(j: number): any {
           MessageCount: S.Number,
           NetworkInterfaceArn: S.optional(S.String),
           MaintenanceScheduleType: S.optional(S.String),
-          MaintenanceSchedule: S.optional(__S(1697, __c53, 1)),
+          MaintenanceSchedule: S.optional(__S(1761, __c55, 1)),
         }).pipe(
           S.encodeKeys({
             Name: "name",
@@ -11980,31 +12545,31 @@ function __c128(j: number): any {
         ),
       ).annotate({ identifier: "ListedRouterInput" });
     case 4:
-      return S.Array(__S(4099, __c128, 3));
+      return S.Array(__S(4163, __c130, 3));
     case 5:
       return S.suspend(() =>
-        S.Struct({ RouterInputs: __S(4100, __c128, 4), NextToken: S.optional(S.String) }).pipe(
+        S.Struct({ RouterInputs: __S(4164, __c130, 4), NextToken: S.optional(S.String) }).pipe(
           S.encodeKeys({ RouterInputs: "routerInputs", NextToken: "nextToken" }),
         ),
       ).annotate({ identifier: "ListRouterInputsResponse" });
   }
 }
-function __c129(j: number): any {
+function __c131(j: number): any {
   switch (j) {
     case 0:
       return S.Union([
         /*@__PURE__*/ S.Struct({ RegionNames: StringList }),
-        /*@__PURE__*/ S.Struct({ NetworkInterfaceTypes: __S(3872, __c121, 0) }),
+        /*@__PURE__*/ S.Struct({ NetworkInterfaceTypes: __S(3936, __c123, 0) }),
         /*@__PURE__*/ S.Struct({ NameContains: StringList }),
       ]);
     case 1:
-      return S.Array(__S(4128, __c129, 0));
+      return S.Array(__S(4192, __c131, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
           NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-          Filters: S.optional(__S(4129, __c129, 1)),
+          Filters: S.optional(__S(4193, __c131, 1)),
         })
           .pipe(S.encodeKeys({ Filters: "filters" }))
           .pipe(
@@ -12047,11 +12612,11 @@ function __c129(j: number): any {
         ),
       ).annotate({ identifier: "ListedRouterNetworkInterface" });
     case 4:
-      return S.Array(__S(4131, __c129, 3));
+      return S.Array(__S(4195, __c131, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
-          RouterNetworkInterfaces: __S(4132, __c129, 4),
+          RouterNetworkInterfaces: __S(4196, __c131, 4),
           NextToken: S.optional(S.String),
         }).pipe(
           S.encodeKeys({
@@ -12062,25 +12627,25 @@ function __c129(j: number): any {
       ).annotate({ identifier: "ListRouterNetworkInterfacesResponse" });
   }
 }
-function __c130(j: number): any {
+function __c132(j: number): any {
   switch (j) {
     case 0:
       return S.Union([
         /*@__PURE__*/ S.Struct({ RegionNames: StringList }),
         /*@__PURE__*/ S.Struct({ NetworkInterfaceArns: RouterNetworkInterfaceArnList }),
-        /*@__PURE__*/ S.Struct({ RoutingScopes: __S(3872, __c121, 0) }),
-        /*@__PURE__*/ S.Struct({ OutputTypes: __S(3872, __c121, 0) }),
+        /*@__PURE__*/ S.Struct({ RoutingScopes: __S(3936, __c123, 0) }),
+        /*@__PURE__*/ S.Struct({ OutputTypes: __S(3936, __c123, 0) }),
         /*@__PURE__*/ S.Struct({ RoutedInputArns: RouterInputArnList }),
         /*@__PURE__*/ S.Struct({ NameContains: StringList }),
       ]);
     case 1:
-      return S.Array(__S(4160, __c130, 0));
+      return S.Array(__S(4224, __c132, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
           NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-          Filters: S.optional(__S(4161, __c130, 1)),
+          Filters: S.optional(__S(4225, __c132, 1)),
         })
           .pipe(S.encodeKeys({ Filters: "filters" }))
           .pipe(
@@ -12113,7 +12678,7 @@ function __c130(j: number): any {
           RoutedInputArn: S.optional(S.String),
           NetworkInterfaceArn: S.optional(S.String),
           MaintenanceScheduleType: S.optional(S.String),
-          MaintenanceSchedule: S.optional(__S(1697, __c53, 1)),
+          MaintenanceSchedule: S.optional(__S(1761, __c55, 1)),
         }).pipe(
           S.encodeKeys({
             Name: "name",
@@ -12137,31 +12702,31 @@ function __c130(j: number): any {
         ),
       ).annotate({ identifier: "ListedRouterOutput" });
     case 4:
-      return S.Array(__S(4163, __c130, 3));
+      return S.Array(__S(4227, __c132, 3));
     case 5:
       return S.suspend(() =>
-        S.Struct({ RouterOutputs: __S(4164, __c130, 4), NextToken: S.optional(S.String) }).pipe(
+        S.Struct({ RouterOutputs: __S(4228, __c132, 4), NextToken: S.optional(S.String) }).pipe(
           S.encodeKeys({ RouterOutputs: "routerOutputs", NextToken: "nextToken" }),
         ),
       ).annotate({ identifier: "ListRouterOutputsResponse" });
   }
 }
-function __c131(j: number): any {
+function __c133(j: number): any {
   switch (j) {
     case 0:
       return S.Union([
         /*@__PURE__*/ S.Struct({ RegionNames: StringList }),
-        /*@__PURE__*/ S.Struct({ SourceTypes: __S(3872, __c121, 0) }),
+        /*@__PURE__*/ S.Struct({ SourceTypes: __S(3936, __c123, 0) }),
         /*@__PURE__*/ S.Struct({ NameContains: StringList }),
       ]);
     case 1:
-      return S.Array(__S(4192, __c131, 0));
+      return S.Array(__S(4256, __c133, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
           NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-          Filters: S.optional(__S(4193, __c131, 1)),
+          Filters: S.optional(__S(4257, __c133, 1)),
         })
           .pipe(S.encodeKeys({ Filters: "filters" }))
           .pipe(
@@ -12220,16 +12785,16 @@ function __c131(j: number): any {
         ),
       ).annotate({ identifier: "ListedSourceEndpoint" });
     case 4:
-      return S.Array(__S(4195, __c131, 3));
+      return S.Array(__S(4259, __c133, 3));
     case 5:
       return S.suspend(() =>
-        S.Struct({ SourceEndpoints: __S(4196, __c131, 4), NextToken: S.optional(S.String) }).pipe(
+        S.Struct({ SourceEndpoints: __S(4260, __c133, 4), NextToken: S.optional(S.String) }).pipe(
           S.encodeKeys({ SourceEndpoints: "sourceEndpoints", NextToken: "nextToken" }),
         ),
       ).annotate({ identifier: "ListSourceEndpointsResponse" });
   }
 }
-function __c132(j: number): any {
+function __c134(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12246,7 +12811,7 @@ function __c132(j: number): any {
       ).annotate({ identifier: "ListTagsForGlobalResourceRequest" });
   }
 }
-function __c133(j: number): any {
+function __c135(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12254,7 +12819,7 @@ function __c133(j: number): any {
       ).annotate({ identifier: "ListTagsForGlobalResourceResponse" });
   }
 }
-function __c134(j: number): any {
+function __c136(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12271,7 +12836,7 @@ function __c134(j: number): any {
       ).annotate({ identifier: "ListTagsForResourceRequest" });
   }
 }
-function __c135(j: number): any {
+function __c137(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12294,13 +12859,13 @@ function __c135(j: number): any {
       ).annotate({ identifier: "PurchaseOfferingRequest" });
   }
 }
-function __c136(j: number): any {
+function __c138(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           Description: S.optional(S.String),
-          Configuration: __S(1609, __c50, 9),
+          Configuration: __S(1673, __c52, 9),
           RegionName: S.optional(S.String),
           Tags: S.optional(__mapOfString),
           ClientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
@@ -12327,14 +12892,14 @@ function __c136(j: number): any {
       ).annotate({ identifier: "RegisterDestinationEndpointRequest" });
   }
 }
-function __c137(j: number): any {
+function __c139(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           RegionName: S.optional(S.String),
           Description: S.optional(S.String),
-          Configuration: __S(1929, __c60, 9),
+          Configuration: __S(1993, __c62, 9),
           Tags: S.optional(__mapOfString),
           ClientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
         })
@@ -12360,7 +12925,7 @@ function __c137(j: number): any {
       ).annotate({ identifier: "RegisterSourceEndpointRequest" });
   }
 }
-function __c138(j: number): any {
+function __c140(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12386,7 +12951,7 @@ function __c138(j: number): any {
       ).annotate({ identifier: "RemoveBridgeOutputResponse" });
   }
 }
-function __c139(j: number): any {
+function __c141(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12412,7 +12977,7 @@ function __c139(j: number): any {
       ).annotate({ identifier: "RemoveBridgeSourceResponse" });
   }
 }
-function __c140(j: number): any {
+function __c142(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12438,7 +13003,7 @@ function __c140(j: number): any {
       ).annotate({ identifier: "RemoveFlowMediaStreamResponse" });
   }
 }
-function __c141(j: number): any {
+function __c143(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12464,7 +13029,7 @@ function __c141(j: number): any {
       ).annotate({ identifier: "RemoveFlowOutputResponse" });
   }
 }
-function __c142(j: number): any {
+function __c144(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12490,7 +13055,7 @@ function __c142(j: number): any {
       ).annotate({ identifier: "RemoveFlowSourceResponse" });
   }
 }
-function __c143(j: number): any {
+function __c145(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12527,7 +13092,7 @@ function __c143(j: number): any {
       ).annotate({ identifier: "RemoveFlowVpcInterfaceResponse" });
   }
 }
-function __c144(j: number): any {
+function __c146(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12544,7 +13109,7 @@ function __c144(j: number): any {
       ).annotate({ identifier: "RestartRouterInputRequest" });
   }
 }
-function __c145(j: number): any {
+function __c147(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12561,7 +13126,7 @@ function __c145(j: number): any {
       ).annotate({ identifier: "RestartRouterOutputRequest" });
   }
 }
-function __c146(j: number): any {
+function __c148(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12587,7 +13152,7 @@ function __c146(j: number): any {
       ).annotate({ identifier: "RevokeFlowEntitlementResponse" });
   }
 }
-function __c147(j: number): any {
+function __c149(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12604,7 +13169,7 @@ function __c147(j: number): any {
       ).annotate({ identifier: "StartFlowRequest" });
   }
 }
-function __c148(j: number): any {
+function __c150(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12621,7 +13186,7 @@ function __c148(j: number): any {
       ).annotate({ identifier: "StartRouterInputRequest" });
   }
 }
-function __c149(j: number): any {
+function __c151(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12630,7 +13195,7 @@ function __c149(j: number): any {
           Name: S.String,
           State: S.String,
           MaintenanceScheduleType: S.String,
-          MaintenanceSchedule: __S(1697, __c53, 1),
+          MaintenanceSchedule: __S(1761, __c55, 1),
         }).pipe(
           S.encodeKeys({
             Arn: "arn",
@@ -12643,7 +13208,7 @@ function __c149(j: number): any {
       ).annotate({ identifier: "StartRouterInputResponse" });
   }
 }
-function __c150(j: number): any {
+function __c152(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12660,7 +13225,7 @@ function __c150(j: number): any {
       ).annotate({ identifier: "StartRouterOutputRequest" });
   }
 }
-function __c151(j: number): any {
+function __c153(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12677,7 +13242,7 @@ function __c151(j: number): any {
       ).annotate({ identifier: "StopFlowRequest" });
   }
 }
-function __c152(j: number): any {
+function __c154(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12694,7 +13259,7 @@ function __c152(j: number): any {
       ).annotate({ identifier: "StopRouterInputRequest" });
   }
 }
-function __c153(j: number): any {
+function __c155(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12711,7 +13276,7 @@ function __c153(j: number): any {
       ).annotate({ identifier: "StopRouterOutputRequest" });
   }
 }
-function __c154(j: number): any {
+function __c156(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12733,7 +13298,7 @@ function __c154(j: number): any {
       ).annotate({ identifier: "TagGlobalResourceRequest" });
   }
 }
-function __c155(j: number): any {
+function __c157(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12755,7 +13320,7 @@ function __c155(j: number): any {
       ).annotate({ identifier: "TagResourceRequest" });
   }
 }
-function __c156(j: number): any {
+function __c158(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12795,7 +13360,7 @@ function __c156(j: number): any {
       ).annotate({ identifier: "TakeRouterInputResponse" });
   }
 }
-function __c157(j: number): any {
+function __c159(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12815,7 +13380,7 @@ function __c157(j: number): any {
       ).annotate({ identifier: "UntagGlobalResourceRequest" });
   }
 }
-function __c158(j: number): any {
+function __c160(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12835,15 +13400,15 @@ function __c158(j: number): any {
       ).annotate({ identifier: "UntagResourceRequest" });
   }
 }
-function __c159(j: number): any {
+function __c161(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           BridgeArn: S.String.pipe(T.HttpLabel("BridgeArn")),
-          EgressGatewayBridge: S.optional(__S(2144, __c67, 0)),
-          IngressGatewayBridge: S.optional(__S(2145, __c67, 1)),
-          SourceFailoverConfig: S.optional(__S(2049, __c64, 1)),
+          EgressGatewayBridge: S.optional(__S(2208, __c69, 0)),
+          IngressGatewayBridge: S.optional(__S(2209, __c69, 1)),
+          SourceFailoverConfig: S.optional(__S(2113, __c66, 1)),
         })
           .pipe(
             S.encodeKeys({
@@ -12865,7 +13430,7 @@ function __c159(j: number): any {
       ).annotate({ identifier: "UpdateBridgeRequest" });
   }
 }
-function __c160(j: number): any {
+function __c162(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12889,7 +13454,7 @@ function __c160(j: number): any {
       return S.suspend(() =>
         S.Struct({
           BridgeArn: S.String.pipe(T.HttpLabel("BridgeArn")),
-          NetworkOutput: S.optional(__S(5120, __c160, 0)),
+          NetworkOutput: S.optional(__S(5184, __c162, 0)),
           OutputName: S.String.pipe(T.HttpLabel("OutputName")),
         })
           .pipe(S.encodeKeys({ NetworkOutput: "networkOutput" }))

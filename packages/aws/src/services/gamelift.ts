@@ -1580,6 +1580,16 @@ export interface PriorityConfiguration {
 }
 export type QueueCustomEventData = string | redacted.Redacted<string>;
 export type QueueSnsArnStringModel = string;
+export type LogDeliveryDestinationType = "CLOUDWATCH" | "S3" | "FIREHOSE" | (string & {});
+export type DeliveryDestinationArnStringModel = string;
+export interface LogDeliveryDestination {
+  LogDestination?: LogDeliveryDestinationType | undefined;
+  DestinationArn?: string | undefined;
+}
+export type LogDeliveryDestinationList = LogDeliveryDestination[];
+export interface GameSessionQueueLogConfiguration {
+  DeliveryDestinations?: LogDeliveryDestination[] | undefined;
+}
 export interface CreateGameSessionQueueInput {
   Name?: string | undefined;
   TimeoutInSeconds?: number | undefined;
@@ -1590,6 +1600,7 @@ export interface CreateGameSessionQueueInput {
   CustomEventData?: string | redacted.Redacted<string> | undefined;
   NotificationTarget?: string | undefined;
   Tags?: Tag[] | undefined;
+  LogConfiguration?: GameSessionQueueLogConfiguration | undefined;
 }
 export type GameSessionQueueArn = string;
 export interface GameSessionQueue {
@@ -1602,9 +1613,18 @@ export interface GameSessionQueue {
   PriorityConfiguration?: PriorityConfiguration | undefined;
   CustomEventData?: string | redacted.Redacted<string> | undefined;
   NotificationTarget?: string | undefined;
+  LogConfiguration?: GameSessionQueueLogConfiguration | undefined;
 }
 export interface CreateGameSessionQueueOutput {
-  GameSessionQueue?: GameSessionQueue | undefined;
+  GameSessionQueue?:
+    | (GameSessionQueue & {
+        LogConfiguration: GameSessionQueueLogConfiguration & {
+          DeliveryDestinations: (LogDeliveryDestination & {
+            LogDestination: LogDeliveryDestinationType;
+          })[];
+        };
+      })
+    | undefined;
 }
 export type CustomInputLocationStringModel = string;
 export interface CreateLocationInput {
@@ -2400,7 +2420,15 @@ export interface DescribeGameSessionQueuesInput {
 }
 export type GameSessionQueueList = GameSessionQueue[];
 export interface DescribeGameSessionQueuesOutput {
-  GameSessionQueues?: GameSessionQueue[] | undefined;
+  GameSessionQueues?:
+    | (GameSessionQueue & {
+        LogConfiguration: GameSessionQueueLogConfiguration & {
+          DeliveryDestinations: (LogDeliveryDestination & {
+            LogDestination: LogDeliveryDestinationType;
+          })[];
+        };
+      })[]
+    | undefined;
   NextToken?: string | undefined;
 }
 export interface DescribeGameSessionsInput {
@@ -3361,9 +3389,19 @@ export interface UpdateGameSessionQueueInput {
   PriorityConfiguration?: PriorityConfiguration | undefined;
   CustomEventData?: string | redacted.Redacted<string> | undefined;
   NotificationTarget?: string | undefined;
+  AddLogDeliveryDestinations?: LogDeliveryDestination[] | undefined;
+  RemoveLogDeliveryDestinations?: LogDeliveryDestination[] | undefined;
 }
 export interface UpdateGameSessionQueueOutput {
-  GameSessionQueue?: GameSessionQueue | undefined;
+  GameSessionQueue?:
+    | (GameSessionQueue & {
+        LogConfiguration: GameSessionQueueLogConfiguration & {
+          DeliveryDestinations: (LogDeliveryDestination & {
+            LogDestination: LogDeliveryDestinationType;
+          })[];
+        };
+      })
+    | undefined;
 }
 export interface UpdateMatchmakingConfigurationInput {
   Name?: string | undefined;
@@ -4255,9 +4293,9 @@ export type CreateGameSessionQueueError =
 /**
  * **This API works with the following fleet types:** EC2, Anywhere, Container
  *
- * Creates a placement queue that processes requests for new game sessions. A queue uses
- * FleetIQ algorithms to locate the best available placement locations for a new game
- * session, and then prompts the game server process to start a new game session.
+ * Creates a placement queue that processes requests for new game sessions. A queue
+ * finds the best available game server, then prompts it to start a new game
+ * session.
  *
  * A game session queue is configured with a set of destinations (Amazon GameLift Servers fleets or
  * aliases) that determine where the queue can place new game sessions. These destinations
@@ -4304,6 +4342,14 @@ export type CreateGameSessionQueueError =
  * `Destinations`
  *
  * - `PlayerLatencyPolicies`
+ *
+ * - Create a queue that delivers game session placement insight logs to one or
+ * more log destinations.
+ *
+ * - Required parameters `Name` and
+ * `Destinations`
+ *
+ * - `LogConfiguration`
  *
  * **Results**
  *
@@ -10708,6 +10754,8 @@ function __c33(j: number): any {
           PriorityConfiguration: S.optional(__S(1317, __c82, 5)),
           CustomEventData: S.optional(SensitiveString),
           NotificationTarget: S.optional(S.String),
+          AddLogDeliveryDestinations: S.optional(__S(1319, __c82, 7)),
+          RemoveLogDeliveryDestinations: S.optional(__S(1319, __c82, 7)),
         }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "UpdateGameSessionQueueInput" });
   }
@@ -11576,6 +11624,7 @@ function __c80(j: number): any {
           CustomEventData: S.optional(SensitiveString),
           NotificationTarget: S.optional(S.String),
           Tags: S.optional(__S(737, __c46, 1)),
+          LogConfiguration: S.optional(__S(1320, __c82, 8)),
         }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "CreateGameSessionQueueInput" });
   }
@@ -11584,7 +11633,7 @@ function __c81(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({ GameSessionQueue: S.optional(__S(1318, __c82, 6)) }).pipe(ns),
+        S.Struct({ GameSessionQueue: S.optional(__S(1321, __c82, 9)) }).pipe(ns),
       ).annotate({ identifier: "CreateGameSessionQueueOutput" });
   }
 }
@@ -11618,6 +11667,16 @@ function __c82(j: number): any {
       ).annotate({ identifier: "PriorityConfiguration" });
     case 6:
       return S.suspend(() =>
+        S.Struct({ LogDestination: S.optional(S.String), DestinationArn: S.optional(S.String) }),
+      ).annotate({ identifier: "LogDeliveryDestination" });
+    case 7:
+      return S.Array(__S(1318, __c82, 6));
+    case 8:
+      return S.suspend(() =>
+        S.Struct({ DeliveryDestinations: S.optional(__S(1319, __c82, 7)) }),
+      ).annotate({ identifier: "GameSessionQueueLogConfiguration" });
+    case 9:
+      return S.suspend(() =>
         S.Struct({
           Name: S.optional(S.String),
           GameSessionQueueArn: S.optional(S.String),
@@ -11628,6 +11687,7 @@ function __c82(j: number): any {
           PriorityConfiguration: S.optional(__S(1317, __c82, 5)),
           CustomEventData: S.optional(SensitiveString),
           NotificationTarget: S.optional(S.String),
+          LogConfiguration: S.optional(__S(1320, __c82, 8)),
         }),
       ).annotate({ identifier: "GameSessionQueue" });
   }
@@ -12704,7 +12764,7 @@ function __c149(j: number): any {
         }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "DescribeGameSessionQueuesInput" });
     case 1:
-      return S.Array(__S(1318, __c82, 6));
+      return S.Array(__S(1321, __c82, 9));
     case 2:
       return S.suspend(() =>
         S.Struct({

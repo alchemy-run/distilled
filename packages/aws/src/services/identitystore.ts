@@ -315,8 +315,8 @@ export interface DescribeIdentityStoreRequest {
   IdentityStoreId: string;
 }
 export type IdentityStoreArn = string;
-export type VpcIdType = string;
-export type VpcIdList = string[];
+export type VpcArn = string;
+export type VpcArnList = string[];
 export type IpCidrType = string;
 export type IpCidrList = string[];
 export interface NetworkConfigurationDetails {

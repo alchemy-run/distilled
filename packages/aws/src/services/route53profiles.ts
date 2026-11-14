@@ -104,7 +104,8 @@ export class InternalServiceErrorException
   extends /*@__PURE__*/ S.TaggedError<InternalServiceErrorException>()(
     "InternalServiceErrorException",
     { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
-  ) {}
+    /*@__PURE__*/ T.Retryable(),
+  ).pipe(C.withRetryableError) {}
 export class InvalidNextTokenException
   extends /*@__PURE__*/ S.TaggedError<InvalidNextTokenException>()("InvalidNextTokenException", {
     message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()),
@@ -130,9 +131,11 @@ export class ResourceNotFoundException
     ResourceType: /*@__PURE__*/ S.optional(S.String),
   }) {}
 export class ThrottlingException
-  extends /*@__PURE__*/ S.TaggedError<ThrottlingException>()("ThrottlingException", {
-    message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()),
-  }).pipe(C.withThrottlingError, C.withRetryableError) {}
+  extends /*@__PURE__*/ S.TaggedError<ThrottlingException>()(
+    "ThrottlingException",
+    { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
+    /*@__PURE__*/ T.Retryable({ throttling: true }),
+  ).pipe(C.withRetryableError, C.withThrottlingError) {}
 export class ValidationException
   extends /*@__PURE__*/ S.TaggedError<ValidationException>()("ValidationException", {
     message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()),
@@ -146,11 +149,13 @@ export interface Tag {
   Value: string;
 }
 export type TagList = Tag[];
+export type Priority = number;
 export interface AssociateProfileRequest {
   ProfileId: string;
   ResourceId: string;
   Name: string;
   Tags?: Tag[] | undefined;
+  Priority?: number | undefined;
 }
 export type AccountId = string;
 export type ProfileStatus =
@@ -172,6 +177,7 @@ export interface ProfileAssociation {
   StatusMessage?: string | undefined;
   CreationTime?: Date | undefined;
   ModificationTime?: Date | undefined;
+  Priority?: number | undefined;
 }
 export interface AssociateProfileResponse {
   ProfileAssociation?: ProfileAssociation | undefined;
@@ -276,6 +282,7 @@ export interface ListProfileAssociationsResponse {
 export interface ListProfileResourceAssociationsRequest {
   ProfileId: string;
   ResourceType?: string | undefined;
+  ResourceArn?: string | undefined;
   MaxResults?: number | undefined;
   NextToken?: string | undefined;
 }
@@ -317,6 +324,14 @@ export interface UntagResourceRequest {
   TagKeys: string[];
 }
 export interface UntagResourceResponse {}
+export interface UpdateProfileAssociationRequest {
+  ProfileAssociationId: string;
+  Name?: string | undefined;
+  Priority?: number | undefined;
+}
+export interface UpdateProfileAssociationResponse {
+  ProfileAssociation: ProfileAssociation;
+}
 export interface UpdateProfileResourceAssociationRequest {
   ProfileResourceAssociationId: string;
   Name?: string | undefined;
@@ -337,8 +352,21 @@ export type AssociateProfileError =
   | ValidationException
   | CommonErrors;
 /**
- * Associates a Route 53 Profiles profile with a VPC. A VPC can have only one Profile associated with it, but a Profile can be associated with 1000 of VPCs (and you can request a higher quota).
- * For more information, see https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/DNSLimitations.html#limits-api-entities.
+ * Associates a Route 53 Profiles profile with a VPC. A VPC can have up to two Profile associations. A Profile can be associated with up to 1,000 VPCs, and you can request a higher quota for the number of VPCs. For more information, see Quotas on Route 53 Profiles.
+ *
+ * Route 53 VPC Resolver evaluates the Profile associations for a VPC in priority order, starting with the lowest `Priority` value. If the VPC has no other Profile associations, you can omit `Priority`, and the association gets priority 100. When the VPC already has a Profile association, you must specify a `Priority`, and each Profile association for the VPC must have a unique priority. To change the priority of an existing association, use `UpdateProfileAssociation`.
+ *
+ * The request fails with a `ValidationException` in these cases:
+ *
+ * - You omit `Priority`, and the VPC already has a Profile association.
+ *
+ * - Another Profile association for the VPC already uses the priority that you specify.
+ *
+ * - The priority is outside the range 100-9900.
+ *
+ * - The Profile is already associated with the VPC, and you specify a different `Name` or `Priority`. To change the priority, use UpdateProfileAssociation.
+ *
+ * The request fails with a `LimitExceededException` if the VPC already has the maximum number of Profile associations.
  */
 export const associateProfile: API.OperationMethod<
   AssociateProfileRequest & RegionInput,
@@ -376,7 +404,7 @@ export type AssociateResourceToProfileError =
   | ValidationException
   | CommonErrors;
 /**
- * Associates a DNS reource configuration to a Route 53 Profile.
+ * Associates a DNS resource configuration to a Route 53 Profile.
  */
 export const associateResourceToProfile: API.OperationMethod<
   AssociateResourceToProfileRequest & RegionInput,
@@ -576,7 +604,7 @@ export type GetProfileAssociationError =
   | ValidationException
   | CommonErrors;
 /**
- * Retrieves a Route 53 Profile association for a VPC. A VPC can have only one Profile association, but a Profile can be associated with up to 5000 VPCs.
+ * Retrieves a Route 53 Profile association for a VPC. A VPC can have up to two Profile associations, and a Profile can be associated with up to 1,000 VPCs.
  */
 export const getProfileAssociation: API.OperationMethod<
   GetProfileAssociationRequest & RegionInput,
@@ -846,6 +874,50 @@ export const untagResource: API.OperationMethod<
   span: "UntagResource",
 }));
 
+export type UpdateProfileAssociationError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServiceErrorException
+  | InvalidParameterException
+  | LimitExceededException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
+/**
+ * Updates the name or priority of the specified Route 53 Profile association with a VPC. Route 53 VPC Resolver evaluates the Profile associations for a VPC in priority order, starting with the lowest value. Only the account that created the association can update it.
+ *
+ * When you change the priority, the association status is `UPDATING` until the change propagates, and then `COMPLETE`. While the status is `UPDATING`, Route 53 VPC Resolver might still use the previous priority for some queries. When the status is `COMPLETE`, the new priority applies to all queries from the VPC.
+ *
+ * The request fails with a `ValidationException` if another Profile association for the VPC already uses the priority that you specify, or if the priority is outside the range 100-9900.
+ *
+ * You can update an association whose status is `CREATING`, `UPDATING`, or `COMPLETE`. The request fails with a `ConflictException` if the association status is `DELETING`, `DELETED`, or `FAILED`, or if the account that owns the association is inactive.
+ */
+export const updateProfileAssociation: API.OperationMethod<
+  UpdateProfileAssociationRequest & RegionInput,
+  UpdateProfileAssociationResponse,
+  UpdateProfileAssociationError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(92, __c23, 0) as any as S.Schema<UpdateProfileAssociationRequest>,
+  output: __S(93, __c23, 1) as any as S.Schema<UpdateProfileAssociationResponse>,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServiceErrorException,
+    InvalidParameterException,
+    LimitExceededException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "UpdateProfileAssociation",
+  telemetry: TELEMETRY,
+  span: "UpdateProfileAssociation",
+}));
+
 export type UpdateProfileResourceAssociationError =
   | AccessDeniedException
   | ConflictException
@@ -865,7 +937,7 @@ export const updateProfileResourceAssociation: API.OperationMethod<
   UpdateProfileResourceAssociationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(92, __c23, 0) as any as S.Schema<UpdateProfileResourceAssociationRequest>,
+  input: __S(96, __c24, 0) as any as S.Schema<UpdateProfileResourceAssociationRequest>,
   output: __S(24, __c6, 0) as any as S.Schema<UpdateProfileResourceAssociationResponse>,
   errors: [
     AccessDeniedException,
@@ -894,6 +966,7 @@ function __c0(j: number): any {
           ResourceId: S.String,
           Name: S.String,
           Tags: S.optional(__S(5, __c1, 1)),
+          Priority: S.optional(S.Number),
         }).pipe(
           T.all(
             T.Http({ method: "POST", uri: "/profileassociation" }),
@@ -939,6 +1012,7 @@ function __c3(j: number): any {
           StatusMessage: S.optional(S.String),
           CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           ModificationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+          Priority: S.optional(S.Number),
         }),
       ).annotate({ identifier: "ProfileAssociation" });
   }
@@ -1185,6 +1259,7 @@ function __c16(j: number): any {
         S.Struct({
           ProfileId: S.String.pipe(T.HttpLabel("ProfileId")),
           ResourceType: S.optional(S.String).pipe(T.HttpQuery("resourceType")),
+          ResourceArn: S.optional(S.String).pipe(T.HttpQuery("resourceArn")),
           MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
           NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
         }).pipe(
@@ -1314,6 +1389,31 @@ function __c22(j: number): any {
   }
 }
 function __c23(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          ProfileAssociationId: S.String.pipe(T.HttpLabel("ProfileAssociationId")),
+          Name: S.optional(S.String),
+          Priority: S.optional(S.Number),
+        }).pipe(
+          T.all(
+            T.Http({ method: "PATCH", uri: "/profileassociation/{ProfileAssociationId}" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "UpdateProfileAssociationRequest" });
+    case 1:
+      return S.suspend(() => S.Struct({ ProfileAssociation: __S(12, __c3, 0) })).annotate({
+        identifier: "UpdateProfileAssociationResponse",
+      });
+  }
+}
+function __c24(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>

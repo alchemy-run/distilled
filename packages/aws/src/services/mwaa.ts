@@ -202,6 +202,18 @@ export type Schedulers = number;
 export type EndpointManagement = string;
 export type MinWebservers = number;
 export type MaxWebservers = number;
+export type IdentityCenterStartUrl = string;
+export type IdentityCenterIdentityStoreId = string;
+export interface IdentityCenterConfiguration {
+  StartUrl?: string | undefined;
+  IdentityStoreId?: string | undefined;
+}
+export type TeamNameString = string;
+export interface TeamConfig {
+  SourceBucketArn: string;
+  DagS3Path: string;
+}
+export type TeamMap = { [key: string]: TeamConfig | undefined };
 export interface CreateEnvironmentInput {
   Name: string;
   ExecutionRoleArn: string;
@@ -230,6 +242,8 @@ export interface CreateEnvironmentInput {
   EndpointManagement?: string | undefined;
   MinWebservers?: number | undefined;
   MaxWebservers?: number | undefined;
+  IdentityCenterConfiguration?: IdentityCenterConfiguration | undefined;
+  Teams?: { [key: string]: TeamConfig | undefined } | undefined;
 }
 export type EnvironmentArn = string;
 export interface CreateEnvironmentOutput {
@@ -325,6 +339,8 @@ export interface Environment {
   EndpointManagement?: string | undefined;
   MinWebservers?: number | undefined;
   MaxWebservers?: number | undefined;
+  IdentityCenterConfiguration?: IdentityCenterConfiguration | undefined;
+  Teams?: { [key: string]: TeamConfig | undefined } | undefined;
 }
 export interface GetEnvironmentOutput {
   Environment?: Environment | undefined;
@@ -400,6 +416,11 @@ export interface UntagResourceOutput {}
 export interface UpdateNetworkConfigurationInput {
   SecurityGroupIds: string[];
 }
+export type TeamNameList = string[];
+export interface UpdateTeamsInput {
+  AddOrUpdate?: { [key: string]: TeamConfig | undefined } | undefined;
+  Remove?: string[] | undefined;
+}
 export interface UpdateEnvironmentInput {
   Name: string;
   ExecutionRoleArn?: string | undefined;
@@ -426,6 +447,8 @@ export interface UpdateEnvironmentInput {
   StartupScriptS3ObjectVersion?: string | undefined;
   WebserverAccessMode?: string | undefined;
   WeeklyMaintenanceWindowStart?: string | undefined;
+  IdentityCenterConfiguration?: IdentityCenterConfiguration | undefined;
+  Teams?: UpdateTeamsInput | undefined;
 }
 export interface UpdateEnvironmentOutput {
   Arn?: string | undefined;
@@ -743,7 +766,7 @@ export const updateEnvironment: API.OperationMethod<
   UpdateEnvironmentError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(81, __c10, 1) as any as S.Schema<UpdateEnvironmentInput>,
+  input: __S(82, __c10, 2) as any as S.Schema<UpdateEnvironmentInput>,
   output: __S(138, __c17, 2) as any as S.Schema<UpdateEnvironmentOutput>,
   errors: [
     InternalServerException,
@@ -886,6 +909,8 @@ function __c3(j: number): any {
           EndpointManagement: S.optional(S.String),
           MinWebservers: S.optional(S.Number),
           MaxWebservers: S.optional(S.Number),
+          IdentityCenterConfiguration: S.optional(__S(129, __c16, 1)),
+          Teams: S.optional(__S(131, __c16, 3)),
         }),
       ).annotate({ identifier: "Environment" });
     case 6:
@@ -1049,6 +1074,13 @@ function __c10(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
+          AddOrUpdate: S.optional(__S(131, __c16, 3)),
+          Remove: S.optional(__S(112, __c14, 0)),
+        }),
+      ).annotate({ identifier: "UpdateTeamsInput" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
           Name: S.String.pipe(T.HttpLabel("Name")),
           ExecutionRoleArn: S.optional(S.String),
           AirflowConfigurationOptions: S.optional(__S(128, __c16, 0)),
@@ -1072,6 +1104,8 @@ function __c10(j: number): any {
           StartupScriptS3ObjectVersion: S.optional(S.String),
           WebserverAccessMode: S.optional(S.String),
           WeeklyMaintenanceWindowStart: S.optional(S.String),
+          IdentityCenterConfiguration: S.optional(__S(129, __c16, 1)),
+          Teams: S.optional(__S(81, __c10, 1)),
         }).pipe(
           T.all(
             T.Http({ method: "PATCH", uri: "/environments/{Name}" }),
@@ -1132,6 +1166,8 @@ function __c12(j: number): any {
           EndpointManagement: S.optional(S.String),
           MinWebservers: S.optional(S.Number),
           MaxWebservers: S.optional(S.Number),
+          IdentityCenterConfiguration: S.optional(__S(129, __c16, 1)),
+          Teams: S.optional(__S(131, __c16, 3)),
         }).pipe(
           T.all(
             T.Http({ method: "PUT", uri: "/environments/{Name}" }),
@@ -1172,6 +1208,16 @@ function __c16(j: number): any {
   switch (j) {
     case 0:
       return S.Record(S.String, /*@__PURE__*/ SensitiveString.pipe(S.optional));
+    case 1:
+      return S.suspend(() =>
+        S.Struct({ StartUrl: S.optional(S.String), IdentityStoreId: S.optional(S.String) }),
+      ).annotate({ identifier: "IdentityCenterConfiguration" });
+    case 2:
+      return S.suspend(() => S.Struct({ SourceBucketArn: S.String, DagS3Path: S.String })).annotate(
+        { identifier: "TeamConfig" },
+      );
+    case 3:
+      return S.Record(S.String, /*@__PURE__*/ __S(130, __c16, 2).pipe(S.optional));
   }
 }
 function __c17(j: number): any {

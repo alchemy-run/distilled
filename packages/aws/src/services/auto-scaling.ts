@@ -1217,6 +1217,7 @@ export interface Alarm {
 export type Alarms = Alarm[];
 export type MetricType =
   | "ASGAverageCPUUtilization"
+  | "ASGAverageCPUUtilizationHighResolution"
   | "ASGAverageNetworkIn"
   | "ASGAverageNetworkOut"
   | "ALBRequestCountPerTarget"

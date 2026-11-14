@@ -509,6 +509,9 @@ export interface EndTimeBehavior {
   reasonCode?: EndTimeBehaviorReasonCode | undefined;
   renewalSummary?: RenewalSummary | undefined;
 }
+export interface FreeTrialSummary {
+  trialEndTime?: Date | undefined;
+}
 export interface DescribeAgreementOutput {
   agreementId?: string | undefined;
   acceptor?: Acceptor | undefined;
@@ -522,6 +525,7 @@ export interface DescribeAgreementOutput {
   status?: AgreementStatus | undefined;
   initialAgreementId?: string | undefined;
   endTimeBehavior?: EndTimeBehavior | undefined;
+  freeTrialSummary?: FreeTrialSummary | undefined;
 }
 export interface GetAgreementCancellationRequestInput {
   agreementCancellationRequestId: string;
@@ -1182,6 +1186,7 @@ export interface AgreementViewSummary {
   initialAgreementId?: string | undefined;
   endTimeBehaviorType?: EndTimeBehaviorType | undefined;
   endTimeBehaviorReasonCode?: EndTimeBehaviorReasonCode | undefined;
+  freeTrialEndTime?: Date | undefined;
 }
 export type AgreementViewSummaryList = AgreementViewSummary[];
 export interface SearchAgreementsOutput {
@@ -1632,7 +1637,7 @@ export const describeAgreement: API.OperationMethod<
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(288, __c9, 0) as any as S.Schema<DescribeAgreementInput>,
-  output: __S(292, __c9, 4) as any as S.Schema<DescribeAgreementOutput>,
+  output: __S(293, __c9, 5) as any as S.Schema<DescribeAgreementOutput>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -2483,6 +2488,10 @@ function __c9(j: number): any {
       ).annotate({ identifier: "EndTimeBehavior" });
     case 4:
       return S.suspend(() =>
+        S.Struct({ trialEndTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))) }),
+      ).annotate({ identifier: "FreeTrialSummary" });
+    case 5:
+      return S.suspend(() =>
         S.Struct({
           agreementId: S.optional(S.String),
           acceptor: S.optional(__S(352, __c11, 0)),
@@ -2496,6 +2505,7 @@ function __c9(j: number): any {
           status: S.optional(S.String),
           initialAgreementId: S.optional(S.String),
           endTimeBehavior: S.optional(__S(291, __c9, 3)),
+          freeTrialSummary: S.optional(__S(292, __c9, 4)),
         }),
       ).annotate({ identifier: "DescribeAgreementOutput" });
   }
@@ -3167,6 +3177,7 @@ function __c25(j: number): any {
           initialAgreementId: S.optional(S.String),
           endTimeBehaviorType: S.optional(S.String),
           endTimeBehaviorReasonCode: S.optional(S.String),
+          freeTrialEndTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
         }),
       ).annotate({ identifier: "AgreementViewSummary" });
     case 8:

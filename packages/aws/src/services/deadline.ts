@@ -1466,7 +1466,14 @@ export interface Ec2EbsVolume {
   iops?: number | undefined;
   throughputMiB?: number | undefined;
 }
-export type AcceleratorName = "t4" | "a10g" | "l4" | "l40s" | "rtx-pro-server-6000" | (string & {});
+export type AcceleratorName =
+  | "t4"
+  | "a10g"
+  | "l4"
+  | "l40s"
+  | "rtx-pro-server-6000"
+  | "rtx-pro-4500"
+  | (string & {});
 export type AcceleratorRuntime = string;
 export interface AcceleratorSelection {
   name: AcceleratorName;
