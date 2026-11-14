@@ -539,7 +539,12 @@ export const toEffect = (S: EffectSchemaApi, ast: Node): unknown => {
       case "Objects": {
         const props = n.propertySignatures ?? [];
         const records = (n.indexSignatures ?? []).map((i) =>
-          S.Record(build(i.parameter), build(i.type)),
+          S.Record(
+            build(i.parameter),
+            i.type._tag === "Union" && i.type.context?.isOptional
+              ? S.Union([build(i.type.types![0]!), S.Undefined])
+              : build(i.type),
+          ),
         );
         if (props.length === 0 && records.length === 1) {
           out = records[0];
