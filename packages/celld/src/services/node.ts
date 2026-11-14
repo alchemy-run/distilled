@@ -149,38 +149,38 @@ export interface LibcMallocStats {
 }
 /** Node snapshot. Census detail is implementation-defined JSON. If the actor has stopped, the server instead returns only error="actor_stopped". */
 export interface NodeState {
-  activating?: number;
-  activation_waiting?: number;
-  adopting?: number;
-  capacity_waiting?: number;
-  evicting?: number;
-  handed_off?: number;
-  handoff_failed?: number;
-  occupied?: number;
-  owned_cells?: number;
-  publishes?: number;
-  quiescing?: number;
-  rebalance_failed?: number;
-  rebalanced?: number;
-  releasing?: number;
-  remote_route_refreshes?: number;
-  restoring?: number;
-  stops?: number;
-  cgroup_current_bytes?: number | null;
-  cgroup_working_set_bytes?: number | null;
-  in_use_bytes?: number;
-  rss_bytes?: number;
-  ownership?: string;
-  phases?: DocumentMap;
-  published?: DocumentList;
-  residents?: DocumentList;
-  node_load?: unknown;
-  shedding?: unknown;
-  drainPins?: DocumentList;
-  deployment?: DeploymentState;
-  error?: string;
-  allocator?: AllocatorStats | null;
-  libc_malloc?: LibcMallocStats | null;
+  activating?: number | undefined;
+  activation_waiting?: number | undefined;
+  adopting?: number | undefined;
+  capacity_waiting?: number | undefined;
+  evicting?: number | undefined;
+  handed_off?: number | undefined;
+  handoff_failed?: number | undefined;
+  occupied?: number | undefined;
+  owned_cells?: number | undefined;
+  publishes?: number | undefined;
+  quiescing?: number | undefined;
+  rebalance_failed?: number | undefined;
+  rebalanced?: number | undefined;
+  releasing?: number | undefined;
+  remote_route_refreshes?: number | undefined;
+  restoring?: number | undefined;
+  stops?: number | undefined;
+  cgroup_current_bytes?: number | null | undefined;
+  cgroup_working_set_bytes?: number | null | undefined;
+  in_use_bytes?: number | undefined;
+  rss_bytes?: number | undefined;
+  ownership?: string | undefined;
+  phases?: DocumentMap | undefined;
+  published?: DocumentList | undefined;
+  residents?: DocumentList | undefined;
+  node_load?: unknown | undefined;
+  shedding?: unknown | undefined;
+  drainPins?: DocumentList | undefined;
+  deployment?: DeploymentState | undefined;
+  error?: string | undefined;
+  allocator?: AllocatorStats | null | undefined;
+  libc_malloc?: LibcMallocStats | null | undefined;
 }
 export interface PauseRebalancingRequest {}
 export interface RebalanceResponse {
@@ -192,23 +192,23 @@ export interface ReloadResponse {
   outcome: string;
   generation: number;
   version: string;
-  prefix?: string;
+  prefix?: string | undefined;
 }
 export interface ResumeRebalancingRequest {}
 export interface RouteCellRequest {
   scope: string;
 }
 export interface RouteCellResponse {
-  route?: string;
-  cell?: string;
-  node?: string;
-  addr?: string;
-  epoch?: number;
-  peer_protocol?: number;
+  route?: string | undefined;
+  cell?: string | undefined;
+  node?: string | undefined;
+  addr?: string | undefined;
+  epoch?: number | undefined;
+  peer_protocol?: number | undefined;
 }
 export type ShutdownHandoff = "preserve";
 export interface ShutdownNodeRequest {
-  handoff?: ShutdownHandoff | (string & {});
+  handoff?: ShutdownHandoff | (string & {}) | undefined;
 }
 export type StringList = Array<string>;
 export type ModuleKind = "wasm";
@@ -216,7 +216,7 @@ export interface ModuleRef {
   name: string;
   bytes: number;
   sha256: string;
-  kind?: ModuleKind;
+  kind?: ModuleKind | undefined;
 }
 export type ModuleRefs = Array<ModuleRef>;
 export interface AssetManifestRef {
@@ -230,41 +230,41 @@ export interface QueueConsumerConfig {
   max_batch_size: number;
   max_batch_timeout: number;
   max_retries: number;
-  dead_letter_queue?: string;
-  max_concurrency?: number;
-  retry_delay?: number;
+  dead_letter_queue?: string | undefined;
+  max_concurrency?: number | undefined;
+  retry_delay?: number | undefined;
 }
 export type QueueConsumerConfigs = Array<QueueConsumerConfig>;
 export interface ContainerSpec {
   class_name: string;
   image: string;
-  instance_type?: string;
-  max_instances?: number;
-  runtime?: string;
+  instance_type?: string | undefined;
+  max_instances?: number | undefined;
+  runtime?: string | undefined;
 }
 export type ContainerSpecs = Array<ContainerSpec>;
 /** Deployment manifest stored at deploy/<script>/<version>/manifest.json. This is an object-storage contract, not an HTTP operation. main_module is null for asset-only deployments. */
 export interface Manifest {
-  schema_version?: number;
+  schema_version?: number | undefined;
   version: string;
   script_name: string;
   do_classes: StringList;
   sqlite_classes: StringList;
   modules: ModuleRefs;
-  assets?: AssetManifestRef;
-  crons?: StringList;
-  queue_consumers?: QueueConsumerConfigs;
-  containers?: ContainerSpecs;
-  fence_image?: string;
-  required_features?: StringList;
+  assets?: AssetManifestRef | undefined;
+  crons?: StringList | undefined;
+  queue_consumers?: QueueConsumerConfigs | undefined;
+  containers?: ContainerSpecs | undefined;
+  fence_image?: string | undefined;
+  required_features?: StringList | undefined;
   raw_metadata: unknown;
-  main_module?: string | null;
+  main_module?: string | null | undefined;
 }
 export interface Rollout {
   percent: number;
 }
 export interface DeployPointer {
-  script_name?: string;
+  script_name?: string | undefined;
   version: string;
   prefix: string;
   rollout: Rollout;
@@ -272,19 +272,19 @@ export interface DeployPointer {
 export interface AssetEntry {
   sha256: string;
   bytes: number;
-  content_type?: string;
+  content_type?: string | undefined;
 }
 export type AssetEntries = { [key: string]: AssetEntry | undefined };
 export type RunWorkerFirst = boolean | StringList;
 export interface AssetConfig {
-  binding?: string;
-  html_handling?: string;
-  not_found_handling?: string;
-  run_worker_first?: RunWorkerFirst;
-  headers?: string;
-  redirects?: string;
-  compatibility_date?: string;
-  compatibility_flags?: StringList;
+  binding?: string | undefined;
+  html_handling?: string | undefined;
+  not_found_handling?: string | undefined;
+  run_worker_first?: RunWorkerFirst | undefined;
+  headers?: string | undefined;
+  redirects?: string | undefined;
+  compatibility_date?: string | undefined;
+  compatibility_flags?: StringList | undefined;
 }
 export interface AssetIndex {
   schema_version: number;
@@ -299,7 +299,7 @@ export interface QueueConsumerDeployment {
 export interface QueueConsumerAttachment {
   schema_version: number;
   queue: string;
-  consumer?: QueueConsumerDeployment;
+  consumer?: QueueConsumerDeployment | undefined;
 }
 export type EvictCellError =
   | MalformedScope

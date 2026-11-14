@@ -1,0 +1,338 @@
+{
+  "description": "Keep the SDK's name createContainerApplicationRollout. The docs list a subset of the deployment configuration for target_configuration and for the rollout's configurations; Wrangler uses the full ModifyUserDeploymentConfiguration for all three (https://github.com/cloudflare/workers-sdk/blob/main/packages/containers-shared/src/client/models/CreateApplicationRolloutRequest.ts, ApplicationRollout.ts). The rollout's health is the application health.",
+  "patches": [
+    {
+      "op": "replace",
+      "path": "/shapes/com.cloudflare.containers#ApplicationsRolloutsCreateResponse/members/current_configuration/target",
+      "value": "com.cloudflare.containers#ContainerApplicationConfiguration"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.cloudflare.containers#ApplicationsRolloutsCreateResponse/members/target_configuration/target",
+      "value": "com.cloudflare.containers#ContainerApplicationConfiguration"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.cloudflare.containers#ApplicationsRolloutsCreateResponse/members/health/target",
+      "value": "com.cloudflare.containers#ScheduledApplicationHealth"
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.containers#ApplicationsRolloutsCreate/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.cloudflare.containers#InvalidRoute"
+        },
+        {
+          "target": "com.cloudflare.containers#ContainerApplicationNotFound"
+        }
+      ]
+    },
+    {
+      "op": "move",
+      "from": "/shapes/com.cloudflare.containers#ApplicationsRolloutsCreate",
+      "path": "/shapes/com.cloudflare.containers#CreateContainerApplicationRollout"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.cloudflare.containers#ApplicationsRolloutsCreateRequest/members/strategy/target",
+      "value": "com.cloudflare.containers#CreateContainerApplicationRolloutRequestStrategy"
+    },
+    {
+      "op": "move",
+      "from": "/shapes/com.cloudflare.containers#ApplicationsRolloutsCreateRequestStrategy",
+      "path": "/shapes/com.cloudflare.containers#CreateContainerApplicationRolloutRequestStrategy"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.cloudflare.containers#ApplicationsRolloutsCreateRequest/members/kind/target",
+      "value": "com.cloudflare.containers#CreateContainerApplicationRolloutRequestKind"
+    },
+    {
+      "op": "move",
+      "from": "/shapes/com.cloudflare.containers#ApplicationsRolloutsCreateRequestKind",
+      "path": "/shapes/com.cloudflare.containers#CreateContainerApplicationRolloutRequestKind"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.cloudflare.containers#ApplicationsRolloutsCreateRequest/members/step_percentage/target",
+      "value": "com.cloudflare.containers#CreateContainerApplicationRolloutRequestStepPercentage"
+    },
+    {
+      "op": "move",
+      "from": "/shapes/com.cloudflare.containers#ApplicationsRolloutsCreateRequestStepPercentage",
+      "path": "/shapes/com.cloudflare.containers#CreateContainerApplicationRolloutRequestStepPercentage"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.cloudflare.containers#ApplicationsRolloutsCreateRequestStepsItem/members/step_size/target",
+      "value": "com.cloudflare.containers#CreateContainerApplicationRolloutRequestStepsItemStepSize"
+    },
+    {
+      "op": "move",
+      "from": "/shapes/com.cloudflare.containers#ApplicationsRolloutsCreateRequestStepsItemStepSize",
+      "path": "/shapes/com.cloudflare.containers#CreateContainerApplicationRolloutRequestStepsItemStepSize"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.cloudflare.containers#ApplicationsRolloutsCreateRequestStepsList/member/target",
+      "value": "com.cloudflare.containers#CreateContainerApplicationRolloutRequestStepsItem"
+    },
+    {
+      "op": "move",
+      "from": "/shapes/com.cloudflare.containers#ApplicationsRolloutsCreateRequestStepsItem",
+      "path": "/shapes/com.cloudflare.containers#CreateContainerApplicationRolloutRequestStepsItem"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.cloudflare.containers#ApplicationsRolloutsCreateRequest/members/steps/target",
+      "value": "com.cloudflare.containers#CreateContainerApplicationRolloutRequestStepsList"
+    },
+    {
+      "op": "move",
+      "from": "/shapes/com.cloudflare.containers#ApplicationsRolloutsCreateRequestStepsList",
+      "path": "/shapes/com.cloudflare.containers#CreateContainerApplicationRolloutRequestStepsList"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.cloudflare.containers#CreateContainerApplicationRollout/input/target",
+      "value": "com.cloudflare.containers#CreateContainerApplicationRolloutRequest"
+    },
+    {
+      "op": "move",
+      "from": "/shapes/com.cloudflare.containers#ApplicationsRolloutsCreateRequest",
+      "path": "/shapes/com.cloudflare.containers#CreateContainerApplicationRolloutRequest"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.cloudflare.containers#ApplicationsRolloutsCreateResponse/members/kind/target",
+      "value": "com.cloudflare.containers#CreateContainerApplicationRolloutResponseKind"
+    },
+    {
+      "op": "move",
+      "from": "/shapes/com.cloudflare.containers#ApplicationsRolloutsCreateResponseKind",
+      "path": "/shapes/com.cloudflare.containers#CreateContainerApplicationRolloutResponseKind"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.cloudflare.containers#ApplicationsRolloutsCreateResponse/members/status/target",
+      "value": "com.cloudflare.containers#CreateContainerApplicationRolloutResponseStatus"
+    },
+    {
+      "op": "move",
+      "from": "/shapes/com.cloudflare.containers#ApplicationsRolloutsCreateResponseStatus",
+      "path": "/shapes/com.cloudflare.containers#CreateContainerApplicationRolloutResponseStatus"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.cloudflare.containers#ApplicationsRolloutsCreateResponse/members/strategy/target",
+      "value": "com.cloudflare.containers#CreateContainerApplicationRolloutResponseStrategy"
+    },
+    {
+      "op": "move",
+      "from": "/shapes/com.cloudflare.containers#ApplicationsRolloutsCreateResponseStrategy",
+      "path": "/shapes/com.cloudflare.containers#CreateContainerApplicationRolloutResponseStrategy"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.cloudflare.containers#ApplicationsRolloutsCreateResponseProgress/members/version_distribution/target",
+      "value": "com.cloudflare.containers#CreateContainerApplicationRolloutResponseProgressVersionDistribution"
+    },
+    {
+      "op": "move",
+      "from": "/shapes/com.cloudflare.containers#ApplicationsRolloutsCreateResponseProgressVersionDistribution",
+      "path": "/shapes/com.cloudflare.containers#CreateContainerApplicationRolloutResponseProgressVersionDistribution"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.cloudflare.containers#ApplicationsRolloutsCreateResponse/members/progress/target",
+      "value": "com.cloudflare.containers#CreateContainerApplicationRolloutResponseProgress"
+    },
+    {
+      "op": "move",
+      "from": "/shapes/com.cloudflare.containers#ApplicationsRolloutsCreateResponseProgress",
+      "path": "/shapes/com.cloudflare.containers#CreateContainerApplicationRolloutResponseProgress"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.cloudflare.containers#ApplicationsRolloutsCreateResponseStepsItem/members/status/target",
+      "value": "com.cloudflare.containers#CreateContainerApplicationRolloutResponseStepsItemStatus"
+    },
+    {
+      "op": "move",
+      "from": "/shapes/com.cloudflare.containers#ApplicationsRolloutsCreateResponseStepsItemStatus",
+      "path": "/shapes/com.cloudflare.containers#CreateContainerApplicationRolloutResponseStepsItemStatus"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.cloudflare.containers#ApplicationsRolloutsCreateResponseStepsItem/members/step_size/target",
+      "value": "com.cloudflare.containers#CreateContainerApplicationRolloutResponseStepsItemStepSize"
+    },
+    {
+      "op": "move",
+      "from": "/shapes/com.cloudflare.containers#ApplicationsRolloutsCreateResponseStepsItemStepSize",
+      "path": "/shapes/com.cloudflare.containers#CreateContainerApplicationRolloutResponseStepsItemStepSize"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.cloudflare.containers#ApplicationsRolloutsCreateResponseStepsList/member/target",
+      "value": "com.cloudflare.containers#CreateContainerApplicationRolloutResponseStepsItem"
+    },
+    {
+      "op": "move",
+      "from": "/shapes/com.cloudflare.containers#ApplicationsRolloutsCreateResponseStepsItem",
+      "path": "/shapes/com.cloudflare.containers#CreateContainerApplicationRolloutResponseStepsItem"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.cloudflare.containers#ApplicationsRolloutsCreateResponse/members/steps/target",
+      "value": "com.cloudflare.containers#CreateContainerApplicationRolloutResponseStepsList"
+    },
+    {
+      "op": "move",
+      "from": "/shapes/com.cloudflare.containers#ApplicationsRolloutsCreateResponseStepsList",
+      "path": "/shapes/com.cloudflare.containers#CreateContainerApplicationRolloutResponseStepsList"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.cloudflare.containers#ApplicationsRolloutsCreateResponse/members/version_distribution/target",
+      "value": "com.cloudflare.containers#CreateContainerApplicationRolloutResponseVersionDistribution"
+    },
+    {
+      "op": "move",
+      "from": "/shapes/com.cloudflare.containers#ApplicationsRolloutsCreateResponseVersionDistribution",
+      "path": "/shapes/com.cloudflare.containers#CreateContainerApplicationRolloutResponseVersionDistribution"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.cloudflare.containers#CreateContainerApplicationRollout/output/target",
+      "value": "com.cloudflare.containers#CreateContainerApplicationRolloutResponse"
+    },
+    {
+      "op": "move",
+      "from": "/shapes/com.cloudflare.containers#ApplicationsRolloutsCreateResponse",
+      "path": "/shapes/com.cloudflare.containers#CreateContainerApplicationRolloutResponse"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.cloudflare.containers#ApplicationsRolloutsCreateResponseCurrentConfigurationAuthorizedKeysItem"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.cloudflare.containers#ApplicationsRolloutsCreateResponseCurrentConfigurationAuthorizedKeysList"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.cloudflare.containers#ApplicationsRolloutsCreateResponseCurrentConfigurationCommandList"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.cloudflare.containers#ApplicationsRolloutsCreateResponseCurrentConfigurationEntrypointList"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.cloudflare.containers#ApplicationsRolloutsCreateResponseCurrentConfigurationEnvironmentVariablesItem"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.cloudflare.containers#ApplicationsRolloutsCreateResponseCurrentConfigurationEnvironmentVariablesList"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.cloudflare.containers#ApplicationsRolloutsCreateResponseCurrentConfigurationInstanceType"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.cloudflare.containers#ApplicationsRolloutsCreateResponseCurrentConfigurationObservabilityLogs"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.cloudflare.containers#ApplicationsRolloutsCreateResponseCurrentConfigurationObservability"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.cloudflare.containers#ApplicationsRolloutsCreateResponseCurrentConfiguration"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.cloudflare.containers#ApplicationsRolloutsCreateResponseHealthErrorsItemEventDetailsMap"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.cloudflare.containers#ApplicationsRolloutsCreateResponseHealthErrorsItemEventName"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.cloudflare.containers#ApplicationsRolloutsCreateResponseHealthErrorsItemEventStatusChangeMap"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.cloudflare.containers#ApplicationsRolloutsCreateResponseHealthErrorsItemEventType"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.cloudflare.containers#ApplicationsRolloutsCreateResponseHealthErrorsItemEvent"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.cloudflare.containers#ApplicationsRolloutsCreateResponseHealthErrorsItem"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.cloudflare.containers#ApplicationsRolloutsCreateResponseHealthErrorsList"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.cloudflare.containers#ApplicationsRolloutsCreateResponseHealthInstances"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.cloudflare.containers#ApplicationsRolloutsCreateResponseHealthSummary"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.cloudflare.containers#ApplicationsRolloutsCreateResponseHealth"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.cloudflare.containers#ApplicationsRolloutsCreateResponseTargetConfigurationAuthorizedKeysItem"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.cloudflare.containers#ApplicationsRolloutsCreateResponseTargetConfigurationAuthorizedKeysList"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.cloudflare.containers#ApplicationsRolloutsCreateResponseTargetConfigurationCommandList"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.cloudflare.containers#ApplicationsRolloutsCreateResponseTargetConfigurationEntrypointList"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.cloudflare.containers#ApplicationsRolloutsCreateResponseTargetConfigurationEnvironmentVariablesItem"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.cloudflare.containers#ApplicationsRolloutsCreateResponseTargetConfigurationEnvironmentVariablesList"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.cloudflare.containers#ApplicationsRolloutsCreateResponseTargetConfigurationInstanceType"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.cloudflare.containers#ApplicationsRolloutsCreateResponseTargetConfigurationObservabilityLogs"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.cloudflare.containers#ApplicationsRolloutsCreateResponseTargetConfigurationObservability"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.cloudflare.containers#ApplicationsRolloutsCreateResponseTargetConfiguration"
+    }
+  ]
+}

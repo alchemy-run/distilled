@@ -58,7 +58,7 @@ export type CreateAdConversionValueRuleRequestEventsItemEventName =
   | "custom";
 export interface CreateAdConversionValueRuleRequestEventsItem {
   /** Exact custom event name. Required for custom events; null for standard events. */
-  custom_name?: string | null;
+  custom_name?: string | null | undefined;
   event_name: CreateAdConversionValueRuleRequestEventsItemEventName | (string & {});
 }
 /** Events adjusted on every selected target. Every platform must support every selected event. */
@@ -83,7 +83,7 @@ export type CreateAdConversionValueRuleRequestTargetsItemScope =
 export interface CreateAdConversionValueRuleRequestTargetsItem {
   platform: CreateAdConversionValueRuleRequestTargetsItemPlatform | (string & {});
   /** Campaign, ad group, or ad ID. Null for a business target. */
-  resource_id?: string | null;
+  resource_id?: string | null | undefined;
   scope: CreateAdConversionValueRuleRequestTargetsItemScope | (string & {});
 }
 /** Targets sharing one scope. Every selected event applies to every target. At most 500 target and event combinations. */
@@ -95,18 +95,18 @@ export interface CreateAdConversionValueRuleRequest {
   adjustment_type: CreateAdConversionValueRuleRequestAdjustmentType | (string & {});
   /** Events adjusted on every selected target. Every platform must support every selected event. */
   events: CreateAdConversionValueRuleRequestEventsList;
-  fixed_value?: CreateAdConversionValueRuleRequestFixedValue | null;
-  metadata?: CreateAdConversionValueRuleRequestMetadataMap;
+  fixed_value?: CreateAdConversionValueRuleRequestFixedValue | null | undefined;
+  metadata?: CreateAdConversionValueRuleRequestMetadataMap | undefined;
   /** Signed percent change from negative 100 to 10000. The sent value cannot go below zero. */
-  percentage_change?: number | null;
+  percentage_change?: number | null | undefined;
   /** Exact IDs of active rules whose overlapping selections will be replaced. Other selections keep their values; remaining selections may split into separate rules. Broader rules remain as fallbacks for other items. Stale or incomplete conflict selections fail. */
-  replace_rule_ids?: CreateAdConversionValueRuleRequestReplaceRuleIdsList;
+  replace_rule_ids?: CreateAdConversionValueRuleRequestReplaceRuleIdsList | undefined;
   /** Initial rule status. Defaults to active. */
-  status?: CreateAdConversionValueRuleRequestStatus | (string & {});
+  status?: CreateAdConversionValueRuleRequestStatus | (string & {}) | undefined;
   /** Targets sharing one scope. Every selected event applies to every target. At most 500 target and event combinations. */
   targets: CreateAdConversionValueRuleRequestTargetsList;
   /** A unique key that makes this request safe to retry. See [Idempotent requests](https://docs.whop.com/developer/api/idempotency). */
-  idempotency_key?: string;
+  idempotency_key?: string | undefined;
 }
 /** Set a fixed amount or change the original value by a signed percentage. */
 export type AdConversionValueRuleAdjustmentType = "fixed" | "percentage";
@@ -196,21 +196,21 @@ export type ListAdConversionValueRulesRequestPlatform = "tiktok" | "meta" | "goo
 export type ListAdConversionValueRulesRequestOrder = "created_at";
 export type ListAdConversionValueRulesRequestDirection = "asc" | "desc";
 export interface ListAdConversionValueRulesRequest {
-  account_id?: string;
-  status?: ListAdConversionValueRulesRequestStatus | (string & {});
-  platform?: ListAdConversionValueRulesRequestPlatform | (string & {});
+  account_id?: string | undefined;
+  status?: ListAdConversionValueRulesRequestStatus | (string & {}) | undefined;
+  platform?: ListAdConversionValueRulesRequestPlatform | (string & {}) | undefined;
   /** Campaign, ad group, or ad ID. Return rules covering this item, its ancestors, or its descendants. */
-  resource_id?: string;
+  resource_id?: string | undefined;
   /** Number of results to return from the start of the range. */
-  first?: number;
+  first?: number | undefined;
   /** Return results after this cursor. Use `page_info.end_cursor` from the previous response to fetch the next page. */
-  after?: string;
+  after?: string | undefined;
   /** Number of results to return from the end of the range. */
-  last?: number;
+  last?: number | undefined;
   /** Return results before this cursor. Use `page_info.start_cursor` from the previous response to fetch the previous page. */
-  before?: string;
-  order?: ListAdConversionValueRulesRequestOrder | (string & {});
-  direction?: ListAdConversionValueRulesRequestDirection | (string & {});
+  before?: string | undefined;
+  order?: ListAdConversionValueRulesRequestOrder | (string & {}) | undefined;
+  direction?: ListAdConversionValueRulesRequestDirection | (string & {}) | undefined;
 }
 export type ListAdConversionValueRulesResponseDataList = Array<AdConversionValueRule>;
 export interface ListAdConversionValueRulesResponsePageInfo {
@@ -227,13 +227,13 @@ export interface PauseAdConversionValueRuleRequest {
   /** Conversion value rule ID. */
   id: string;
   /** A unique key that makes this request safe to retry. See [Idempotent requests](https://docs.whop.com/developer/api/idempotency). */
-  idempotency_key?: string;
+  idempotency_key?: string | undefined;
 }
 export interface UnpauseAdConversionValueRuleRequest {
   /** Conversion value rule ID. */
   id: string;
   /** A unique key that makes this request safe to retry. See [Idempotent requests](https://docs.whop.com/developer/api/idempotency). */
-  idempotency_key?: string;
+  idempotency_key?: string | undefined;
 }
 export type UpdateAdConversionValueRuleRequestAdjustmentType = "fixed" | "percentage";
 export type UpdateAdConversionValueRuleRequestEventsItemEventName =
@@ -250,7 +250,7 @@ export type UpdateAdConversionValueRuleRequestEventsItemEventName =
   | "custom";
 export interface UpdateAdConversionValueRuleRequestEventsItem {
   /** Exact custom event name. Required for custom events; null for standard events. */
-  custom_name?: string | null;
+  custom_name?: string | null | undefined;
   event_name: UpdateAdConversionValueRuleRequestEventsItemEventName | (string & {});
 }
 /** Events adjusted on every selected target. Every platform must support every selected event. */
@@ -270,7 +270,7 @@ export type UpdateAdConversionValueRuleRequestTargetsItemScope =
 export interface UpdateAdConversionValueRuleRequestTargetsItem {
   platform: UpdateAdConversionValueRuleRequestTargetsItemPlatform | (string & {});
   /** Campaign, ad group, or ad ID. Null for a business target. */
-  resource_id?: string | null;
+  resource_id?: string | null | undefined;
   scope: UpdateAdConversionValueRuleRequestTargetsItemScope | (string & {});
 }
 /** Targets sharing one scope. Every selected event applies to every target. At most 500 target and event combinations. */
@@ -279,17 +279,17 @@ export type UpdateAdConversionValueRuleRequestTargetsList =
 export interface UpdateAdConversionValueRuleRequest {
   /** Conversion value rule ID. */
   id: string;
-  adjustment_type?: UpdateAdConversionValueRuleRequestAdjustmentType | (string & {});
+  adjustment_type?: UpdateAdConversionValueRuleRequestAdjustmentType | (string & {}) | undefined;
   /** Events adjusted on every selected target. Every platform must support every selected event. */
-  events?: UpdateAdConversionValueRuleRequestEventsList;
-  fixed_value?: CreateAdConversionValueRuleRequestFixedValue | null;
-  metadata?: UpdateAdConversionValueRuleRequestMetadataMap;
+  events?: UpdateAdConversionValueRuleRequestEventsList | undefined;
+  fixed_value?: CreateAdConversionValueRuleRequestFixedValue | null | undefined;
+  metadata?: UpdateAdConversionValueRuleRequestMetadataMap | undefined;
   /** Signed percent change from negative 100 to 10000. The sent value cannot go below zero. */
-  percentage_change?: number | null;
+  percentage_change?: number | null | undefined;
   /** Exact IDs of active rules whose overlapping selections will be replaced. Other selections keep their values; remaining selections may split into separate rules. Broader rules remain as fallbacks for other items. Stale or incomplete conflict selections fail. */
-  replace_rule_ids?: UpdateAdConversionValueRuleRequestReplaceRuleIdsList;
+  replace_rule_ids?: UpdateAdConversionValueRuleRequestReplaceRuleIdsList | undefined;
   /** Targets sharing one scope. Every selected event applies to every target. At most 500 target and event combinations. */
-  targets?: UpdateAdConversionValueRuleRequestTargetsList;
+  targets?: UpdateAdConversionValueRuleRequestTargetsList | undefined;
 }
 export type CreateAdConversionValueRuleError = Forbidden | Conflict | WhopOpError;
 /** Create a conversion value rule Create one rule covering every selected target and event combination. Active rules cannot overlap for the same platform and event. Customer prices and Whop revenue stay unchanged. */

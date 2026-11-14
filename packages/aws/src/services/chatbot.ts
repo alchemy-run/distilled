@@ -329,8 +329,8 @@ export interface CreateChimeWebhookConfigurationRequest {
   SnsTopicArns: string[];
   IamRoleArn: string;
   ConfigurationName: string;
-  LoggingLevel?: string;
-  Tags?: Tag[];
+  LoggingLevel?: string | undefined;
+  Tags?: Tag[] | undefined;
 }
 export type ResourceState = string;
 export interface ChimeWebhookConfiguration {
@@ -338,14 +338,14 @@ export interface ChimeWebhookConfiguration {
   ChatConfigurationArn: string;
   IamRoleArn: string;
   SnsTopicArns: string[];
-  ConfigurationName?: string;
-  LoggingLevel?: string;
-  Tags?: Tag[];
-  State?: string;
-  StateReason?: string;
+  ConfigurationName?: string | undefined;
+  LoggingLevel?: string | undefined;
+  Tags?: Tag[] | undefined;
+  State?: string | undefined;
+  StateReason?: string | undefined;
 }
 export interface CreateChimeWebhookConfigurationResult {
-  WebhookConfiguration?: ChimeWebhookConfiguration;
+  WebhookConfiguration?: ChimeWebhookConfiguration | undefined;
 }
 export interface CustomActionDefinition {
   CommandText: string;
@@ -357,15 +357,15 @@ export type CustomActionAttachmentCriteriaOperator = "HAS_VALUE" | "EQUALS" | (s
 export interface CustomActionAttachmentCriteria {
   Operator: CustomActionAttachmentCriteriaOperator;
   VariableName: string;
-  Value?: string;
+  Value?: string | undefined;
 }
 export type CustomActionAttachmentCriteriaList = CustomActionAttachmentCriteria[];
 export type CustomActionAttachmentVariables = { [key: string]: string | undefined };
 export interface CustomActionAttachment {
   NotificationType: string;
-  ButtonText?: string;
-  Criteria?: CustomActionAttachmentCriteria[];
-  Variables?: { [key: string]: string | undefined };
+  ButtonText?: string | undefined;
+  Criteria?: CustomActionAttachmentCriteria[] | undefined;
+  Variables?: { [key: string]: string | undefined } | undefined;
 }
 export type CustomActionAttachmentList = CustomActionAttachment[];
 export type TagList = Tag[];
@@ -373,10 +373,10 @@ export type ClientToken = string;
 export type CustomActionName = string;
 export interface CreateCustomActionRequest {
   Definition: CustomActionDefinition;
-  AliasName?: string;
-  Attachments?: CustomActionAttachment[];
-  Tags?: Tag[];
-  ClientToken?: string;
+  AliasName?: string | undefined;
+  Attachments?: CustomActionAttachment[] | undefined;
+  Tags?: Tag[] | undefined;
+  ClientToken?: string | undefined;
   ActionName: string;
 }
 export type CustomActionArn = string;
@@ -392,37 +392,37 @@ export type GuardrailPolicyArnList = string[];
 export type BooleanAccountPreference = boolean;
 export interface CreateTeamsChannelConfigurationRequest {
   ChannelId: string;
-  ChannelName?: string | redacted.Redacted<string>;
+  ChannelName?: string | redacted.Redacted<string> | undefined;
   TeamId: string;
-  TeamName?: string | redacted.Redacted<string>;
+  TeamName?: string | redacted.Redacted<string> | undefined;
   TenantId: string;
-  SnsTopicArns?: string[];
+  SnsTopicArns?: string[] | undefined;
   IamRoleArn: string;
   ConfigurationName: string;
-  LoggingLevel?: string;
-  GuardrailPolicyArns?: string[];
-  UserAuthorizationRequired?: boolean;
-  Tags?: Tag[];
+  LoggingLevel?: string | undefined;
+  GuardrailPolicyArns?: string[] | undefined;
+  UserAuthorizationRequired?: boolean | undefined;
+  Tags?: Tag[] | undefined;
 }
 export interface TeamsChannelConfiguration {
   ChannelId: string;
-  ChannelName?: string | redacted.Redacted<string>;
+  ChannelName?: string | redacted.Redacted<string> | undefined;
   TeamId: string;
-  TeamName?: string | redacted.Redacted<string>;
+  TeamName?: string | redacted.Redacted<string> | undefined;
   TenantId: string;
   ChatConfigurationArn: string;
   IamRoleArn: string;
   SnsTopicArns: string[];
-  ConfigurationName?: string;
-  LoggingLevel?: string;
-  GuardrailPolicyArns?: string[];
-  UserAuthorizationRequired?: boolean;
-  Tags?: Tag[];
-  State?: string;
-  StateReason?: string;
+  ConfigurationName?: string | undefined;
+  LoggingLevel?: string | undefined;
+  GuardrailPolicyArns?: string[] | undefined;
+  UserAuthorizationRequired?: boolean | undefined;
+  Tags?: Tag[] | undefined;
+  State?: string | undefined;
+  StateReason?: string | undefined;
 }
 export interface CreateTeamsChannelConfigurationResult {
-  ChannelConfiguration?: TeamsChannelConfiguration;
+  ChannelConfiguration?: TeamsChannelConfiguration | undefined;
 }
 export type SlackTeamId = string;
 export type SlackChannelId = string;
@@ -430,14 +430,14 @@ export type SlackChannelDisplayName = string | redacted.Redacted<string>;
 export interface CreateSlackChannelConfigurationRequest {
   SlackTeamId: string;
   SlackChannelId: string;
-  SlackChannelName?: string | redacted.Redacted<string>;
-  SnsTopicArns?: string[];
+  SlackChannelName?: string | redacted.Redacted<string> | undefined;
+  SnsTopicArns?: string[] | undefined;
   IamRoleArn: string;
   ConfigurationName: string;
-  LoggingLevel?: string;
-  GuardrailPolicyArns?: string[];
-  UserAuthorizationRequired?: boolean;
-  Tags?: Tag[];
+  LoggingLevel?: string | undefined;
+  GuardrailPolicyArns?: string[] | undefined;
+  UserAuthorizationRequired?: boolean | undefined;
+  Tags?: Tag[] | undefined;
 }
 export type SlackTeamName = string;
 export interface SlackChannelConfiguration {
@@ -448,16 +448,16 @@ export interface SlackChannelConfiguration {
   ChatConfigurationArn: string;
   IamRoleArn: string;
   SnsTopicArns: string[];
-  ConfigurationName?: string;
-  LoggingLevel?: string;
-  GuardrailPolicyArns?: string[];
-  UserAuthorizationRequired?: boolean;
-  Tags?: Tag[];
-  State?: string;
-  StateReason?: string;
+  ConfigurationName?: string | undefined;
+  LoggingLevel?: string | undefined;
+  GuardrailPolicyArns?: string[] | undefined;
+  UserAuthorizationRequired?: boolean | undefined;
+  Tags?: Tag[] | undefined;
+  State?: string | undefined;
+  StateReason?: string | undefined;
 }
 export interface CreateSlackChannelConfigurationResult {
-  ChannelConfiguration?: SlackChannelConfiguration;
+  ChannelConfiguration?: SlackChannelConfiguration | undefined;
 }
 export interface DeleteChimeWebhookConfigurationRequest {
   ChatConfigurationArn: string;
@@ -498,29 +498,29 @@ export interface DeleteSlackWorkspaceAuthorizationResult {}
 export type MaxResults = number;
 export type PaginationToken = string;
 export interface DescribeChimeWebhookConfigurationsRequest {
-  MaxResults?: number;
-  NextToken?: string;
-  ChatConfigurationArn?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
+  ChatConfigurationArn?: string | undefined;
 }
 export type ChimeWebhookConfigurationList = ChimeWebhookConfiguration[];
 export interface DescribeChimeWebhookConfigurationsResult {
-  NextToken?: string;
-  WebhookConfigurations?: ChimeWebhookConfiguration[];
+  NextToken?: string | undefined;
+  WebhookConfigurations?: ChimeWebhookConfiguration[] | undefined;
 }
 export interface DescribeSlackChannelConfigurationsRequest {
-  MaxResults?: number;
-  NextToken?: string;
-  ChatConfigurationArn?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
+  ChatConfigurationArn?: string | undefined;
 }
 export type SlackChannelConfigurationList = SlackChannelConfiguration[];
 export interface DescribeSlackChannelConfigurationsResult {
-  NextToken?: string;
-  SlackChannelConfigurations?: SlackChannelConfiguration[];
+  NextToken?: string | undefined;
+  SlackChannelConfigurations?: SlackChannelConfiguration[] | undefined;
 }
 export interface DescribeSlackUserIdentitiesRequest {
-  ChatConfigurationArn?: string;
-  NextToken?: string;
-  MaxResults?: number;
+  ChatConfigurationArn?: string | undefined;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export type AwsUserIdentity = string;
 export interface SlackUserIdentity {
@@ -528,27 +528,27 @@ export interface SlackUserIdentity {
   ChatConfigurationArn: string;
   SlackTeamId: string;
   SlackUserId: string;
-  AwsUserIdentity?: string;
+  AwsUserIdentity?: string | undefined;
 }
 export type SlackUserIdentitiesList = SlackUserIdentity[];
 export interface DescribeSlackUserIdentitiesResult {
-  SlackUserIdentities?: SlackUserIdentity[];
-  NextToken?: string;
+  SlackUserIdentities?: SlackUserIdentity[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface DescribeSlackWorkspacesRequest {
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export interface SlackWorkspace {
   SlackTeamId: string;
   SlackTeamName: string;
-  State?: string;
-  StateReason?: string;
+  State?: string | undefined;
+  StateReason?: string | undefined;
 }
 export type SlackWorkspacesList = SlackWorkspace[];
 export interface DescribeSlackWorkspacesResult {
-  SlackWorkspaces?: SlackWorkspace[];
-  NextToken?: string;
+  SlackWorkspaces?: SlackWorkspace[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface DisassociateFromConfigurationRequest {
   Resource: string;
@@ -557,11 +557,11 @@ export interface DisassociateFromConfigurationRequest {
 export interface DisassociateFromConfigurationResult {}
 export interface GetAccountPreferencesRequest {}
 export interface AccountPreferences {
-  UserAuthorizationRequired?: boolean;
-  TrainingDataCollectionEnabled?: boolean;
+  UserAuthorizationRequired?: boolean | undefined;
+  TrainingDataCollectionEnabled?: boolean | undefined;
 }
 export interface GetAccountPreferencesResult {
-  AccountPreferences?: AccountPreferences;
+  AccountPreferences?: AccountPreferences | undefined;
 }
 export interface GetCustomActionRequest {
   CustomActionArn: string;
@@ -569,23 +569,23 @@ export interface GetCustomActionRequest {
 export interface CustomAction {
   CustomActionArn: string;
   Definition: CustomActionDefinition;
-  AliasName?: string;
-  Attachments?: CustomActionAttachment[];
-  ActionName?: string;
+  AliasName?: string | undefined;
+  Attachments?: CustomActionAttachment[] | undefined;
+  ActionName?: string | undefined;
 }
 export interface GetCustomActionResult {
-  CustomAction?: CustomAction;
+  CustomAction?: CustomAction | undefined;
 }
 export interface GetTeamsChannelConfigurationRequest {
   ChatConfigurationArn: string;
 }
 export interface GetTeamsChannelConfigurationResult {
-  ChannelConfiguration?: TeamsChannelConfiguration;
+  ChannelConfiguration?: TeamsChannelConfiguration | undefined;
 }
 export interface ListAssociationsRequest {
   ChatConfiguration: string;
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export interface AssociationListing {
   Resource: string;
@@ -593,68 +593,68 @@ export interface AssociationListing {
 export type AssociationList = AssociationListing[];
 export interface ListAssociationsResult {
   Associations: AssociationListing[];
-  NextToken?: string;
+  NextToken?: string | undefined;
 }
 export interface ListCustomActionsRequest {
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export type CustomActionArnList = string[];
 export interface ListCustomActionsResult {
   CustomActions: string[];
-  NextToken?: string;
+  NextToken?: string | undefined;
 }
 export interface ListTeamsChannelConfigurationsRequest {
-  MaxResults?: number;
-  NextToken?: string;
-  TeamId?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
+  TeamId?: string | undefined;
 }
 export type TeamChannelConfigurationsList = TeamsChannelConfiguration[];
 export interface ListTeamsChannelConfigurationsResult {
-  NextToken?: string;
-  TeamChannelConfigurations?: TeamsChannelConfiguration[];
+  NextToken?: string | undefined;
+  TeamChannelConfigurations?: TeamsChannelConfiguration[] | undefined;
 }
 export interface ListMicrosoftTeamsConfiguredTeamsRequest {
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export interface ConfiguredTeam {
   TenantId: string;
   TeamId: string;
-  TeamName?: string;
-  State?: string;
-  StateReason?: string;
+  TeamName?: string | undefined;
+  State?: string | undefined;
+  StateReason?: string | undefined;
 }
 export type ConfiguredTeamsList = ConfiguredTeam[];
 export interface ListMicrosoftTeamsConfiguredTeamsResult {
-  ConfiguredTeams?: ConfiguredTeam[];
-  NextToken?: string;
+  ConfiguredTeams?: ConfiguredTeam[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListMicrosoftTeamsUserIdentitiesRequest {
-  ChatConfigurationArn?: string;
-  NextToken?: string;
-  MaxResults?: number;
+  ChatConfigurationArn?: string | undefined;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export interface TeamsUserIdentity {
   IamRoleArn: string;
   ChatConfigurationArn: string;
   TeamId: string;
-  UserId?: string;
-  AwsUserIdentity?: string;
-  TeamsChannelId?: string;
-  TeamsTenantId?: string;
+  UserId?: string | undefined;
+  AwsUserIdentity?: string | undefined;
+  TeamsChannelId?: string | undefined;
+  TeamsTenantId?: string | undefined;
 }
 export type TeamsUserIdentitiesList = TeamsUserIdentity[];
 export interface ListMicrosoftTeamsUserIdentitiesResult {
-  TeamsUserIdentities?: TeamsUserIdentity[];
-  NextToken?: string;
+  TeamsUserIdentities?: TeamsUserIdentity[] | undefined;
+  NextToken?: string | undefined;
 }
 export type AmazonResourceName = string;
 export interface ListTagsForResourceRequest {
   ResourceARN: string;
 }
 export interface ListTagsForResourceResponse {
-  Tags?: Tag[];
+  Tags?: Tag[] | undefined;
 }
 export interface TagResourceRequest {
   ResourceARN: string;
@@ -668,28 +668,28 @@ export interface UntagResourceRequest {
 }
 export interface UntagResourceResponse {}
 export interface UpdateAccountPreferencesRequest {
-  UserAuthorizationRequired?: boolean;
-  TrainingDataCollectionEnabled?: boolean;
+  UserAuthorizationRequired?: boolean | undefined;
+  TrainingDataCollectionEnabled?: boolean | undefined;
 }
 export interface UpdateAccountPreferencesResult {
-  AccountPreferences?: AccountPreferences;
+  AccountPreferences?: AccountPreferences | undefined;
 }
 export interface UpdateChimeWebhookConfigurationRequest {
   ChatConfigurationArn: string;
-  WebhookDescription?: string | redacted.Redacted<string>;
-  WebhookUrl?: string | redacted.Redacted<string>;
-  SnsTopicArns?: string[];
-  IamRoleArn?: string;
-  LoggingLevel?: string;
+  WebhookDescription?: string | redacted.Redacted<string> | undefined;
+  WebhookUrl?: string | redacted.Redacted<string> | undefined;
+  SnsTopicArns?: string[] | undefined;
+  IamRoleArn?: string | undefined;
+  LoggingLevel?: string | undefined;
 }
 export interface UpdateChimeWebhookConfigurationResult {
-  WebhookConfiguration?: ChimeWebhookConfiguration;
+  WebhookConfiguration?: ChimeWebhookConfiguration | undefined;
 }
 export interface UpdateCustomActionRequest {
   CustomActionArn: string;
   Definition: CustomActionDefinition;
-  AliasName?: string;
-  Attachments?: CustomActionAttachment[];
+  AliasName?: string | undefined;
+  Attachments?: CustomActionAttachment[] | undefined;
 }
 export interface UpdateCustomActionResult {
   CustomActionArn: string;
@@ -697,28 +697,28 @@ export interface UpdateCustomActionResult {
 export interface UpdateTeamsChannelConfigurationRequest {
   ChatConfigurationArn: string;
   ChannelId: string;
-  ChannelName?: string | redacted.Redacted<string>;
-  SnsTopicArns?: string[];
-  IamRoleArn?: string;
-  LoggingLevel?: string;
-  GuardrailPolicyArns?: string[];
-  UserAuthorizationRequired?: boolean;
+  ChannelName?: string | redacted.Redacted<string> | undefined;
+  SnsTopicArns?: string[] | undefined;
+  IamRoleArn?: string | undefined;
+  LoggingLevel?: string | undefined;
+  GuardrailPolicyArns?: string[] | undefined;
+  UserAuthorizationRequired?: boolean | undefined;
 }
 export interface UpdateTeamsChannelConfigurationResult {
-  ChannelConfiguration?: TeamsChannelConfiguration;
+  ChannelConfiguration?: TeamsChannelConfiguration | undefined;
 }
 export interface UpdateSlackChannelConfigurationRequest {
   ChatConfigurationArn: string;
   SlackChannelId: string;
-  SlackChannelName?: string | redacted.Redacted<string>;
-  SnsTopicArns?: string[];
-  IamRoleArn?: string;
-  LoggingLevel?: string;
-  GuardrailPolicyArns?: string[];
-  UserAuthorizationRequired?: boolean;
+  SlackChannelName?: string | redacted.Redacted<string> | undefined;
+  SnsTopicArns?: string[] | undefined;
+  IamRoleArn?: string | undefined;
+  LoggingLevel?: string | undefined;
+  GuardrailPolicyArns?: string[] | undefined;
+  UserAuthorizationRequired?: boolean | undefined;
 }
 export interface UpdateSlackChannelConfigurationResult {
-  ChannelConfiguration?: SlackChannelConfiguration;
+  ChannelConfiguration?: SlackChannelConfiguration | undefined;
 }
 export type ErrorMessage = string;
 export type AssociateToConfigurationError =

@@ -202,19 +202,19 @@ export type FirewallRulePriority = number;
 export type DnsQueryType = string;
 export interface BatchCreateFirewallRuleInputItem {
   action: FirewallRuleAction;
-  blockOverrideDnsType?: BlockOverrideDnsQueryType;
-  blockOverrideDomain?: string;
-  blockOverrideTtl?: number;
-  blockResponse?: FirewallBlockResponse;
+  blockOverrideDnsType?: BlockOverrideDnsQueryType | undefined;
+  blockOverrideDomain?: string | undefined;
+  blockOverrideTtl?: number | undefined;
+  blockResponse?: FirewallBlockResponse | undefined;
   clientToken: string;
-  confidenceThreshold?: ConfidenceThreshold;
-  description?: string;
-  dnsAdvancedProtection?: DnsAdvancedProtection;
-  firewallDomainListId?: string;
+  confidenceThreshold?: ConfidenceThreshold | undefined;
+  description?: string | undefined;
+  dnsAdvancedProtection?: DnsAdvancedProtection | undefined;
+  firewallDomainListId?: string | undefined;
   name: string;
-  priority?: number;
+  priority?: number | undefined;
   dnsViewId: string;
-  qType?: string;
+  qType?: string | undefined;
 }
 export type BatchCreateFirewallRuleInputItems = BatchCreateFirewallRuleInputItem[];
 export interface BatchCreateFirewallRuleInput {
@@ -223,29 +223,29 @@ export interface BatchCreateFirewallRuleInput {
 export type CRResourceStatus = "CREATING" | "OPERATIONAL" | "UPDATING" | "DELETING" | (string & {});
 export interface BatchCreateFirewallRuleResult {
   action: FirewallRuleAction;
-  blockOverrideDnsType?: BlockOverrideDnsQueryType;
-  blockOverrideDomain?: string;
-  blockOverrideTtl?: number;
-  blockResponse?: FirewallBlockResponse;
+  blockOverrideDnsType?: BlockOverrideDnsQueryType | undefined;
+  blockOverrideDomain?: string | undefined;
+  blockOverrideTtl?: number | undefined;
+  blockResponse?: FirewallBlockResponse | undefined;
   clientToken: string;
-  confidenceThreshold?: ConfidenceThreshold;
-  createdAt?: Date;
-  description?: string;
-  dnsAdvancedProtection?: DnsAdvancedProtection;
-  firewallDomainListId?: string;
-  id?: string;
-  managedDomainListName?: string;
+  confidenceThreshold?: ConfidenceThreshold | undefined;
+  createdAt?: Date | undefined;
+  description?: string | undefined;
+  dnsAdvancedProtection?: DnsAdvancedProtection | undefined;
+  firewallDomainListId?: string | undefined;
+  id?: string | undefined;
+  managedDomainListName?: string | undefined;
   name: string;
-  priority?: number;
+  priority?: number | undefined;
   dnsViewId: string;
-  queryType?: string;
-  status?: CRResourceStatus;
-  updatedAt?: Date;
+  queryType?: string | undefined;
+  status?: CRResourceStatus | undefined;
+  updatedAt?: Date | undefined;
 }
 export interface BatchCreateFirewallRuleOutputItem {
   firewallRule: BatchCreateFirewallRuleResult;
   code: number;
-  message?: string;
+  message?: string | undefined;
 }
 export type BatchCreateFirewallRuleOutputItems = BatchCreateFirewallRuleOutputItem[];
 export interface BatchCreateFirewallRuleOutput {
@@ -260,15 +260,15 @@ export interface BatchDeleteFirewallRuleInput {
   firewallRules: BatchDeleteFirewallRuleInputItem[];
 }
 export interface BatchDeleteFirewallRuleResult {
-  clientToken?: string;
+  clientToken?: string | undefined;
   id: string;
-  name?: string;
-  status?: CRResourceStatus;
+  name?: string | undefined;
+  status?: CRResourceStatus | undefined;
 }
 export interface BatchDeleteFirewallRuleOutputItem {
   firewallRule: BatchDeleteFirewallRuleResult;
   code: number;
-  message?: string;
+  message?: string | undefined;
 }
 export type BatchDeleteFirewallRuleOutputItems = BatchDeleteFirewallRuleOutputItem[];
 export interface BatchDeleteFirewallRuleOutput {
@@ -276,46 +276,46 @@ export interface BatchDeleteFirewallRuleOutput {
   successes: BatchDeleteFirewallRuleOutputItem[];
 }
 export interface BatchUpdateFirewallRuleInputItem {
-  action?: FirewallRuleAction;
-  blockOverrideDnsType?: BlockOverrideDnsQueryType;
-  blockOverrideDomain?: string;
-  blockOverrideTtl?: number;
-  blockResponse?: FirewallBlockResponse;
-  confidenceThreshold?: ConfidenceThreshold;
-  description?: string;
-  dnsAdvancedProtection?: DnsAdvancedProtection;
+  action?: FirewallRuleAction | undefined;
+  blockOverrideDnsType?: BlockOverrideDnsQueryType | undefined;
+  blockOverrideDomain?: string | undefined;
+  blockOverrideTtl?: number | undefined;
+  blockResponse?: FirewallBlockResponse | undefined;
+  confidenceThreshold?: ConfidenceThreshold | undefined;
+  description?: string | undefined;
+  dnsAdvancedProtection?: DnsAdvancedProtection | undefined;
   firewallRuleId: string;
-  name?: string;
-  priority?: number;
+  name?: string | undefined;
+  priority?: number | undefined;
 }
 export type BatchUpdateFirewallRuleInputItems = BatchUpdateFirewallRuleInputItem[];
 export interface BatchUpdateFirewallRuleInput {
   firewallRules: BatchUpdateFirewallRuleInputItem[];
 }
 export interface BatchUpdateFirewallRuleResult {
-  action?: FirewallRuleAction;
-  blockOverrideDnsType?: BlockOverrideDnsQueryType;
-  blockOverrideDomain?: string;
-  blockOverrideTtl?: number;
-  blockResponse?: FirewallBlockResponse;
-  clientToken?: string;
-  confidenceThreshold?: ConfidenceThreshold;
-  createdAt?: Date;
-  description?: string;
-  dnsAdvancedProtection?: DnsAdvancedProtection;
-  firewallDomainListId?: string;
+  action?: FirewallRuleAction | undefined;
+  blockOverrideDnsType?: BlockOverrideDnsQueryType | undefined;
+  blockOverrideDomain?: string | undefined;
+  blockOverrideTtl?: number | undefined;
+  blockResponse?: FirewallBlockResponse | undefined;
+  clientToken?: string | undefined;
+  confidenceThreshold?: ConfidenceThreshold | undefined;
+  createdAt?: Date | undefined;
+  description?: string | undefined;
+  dnsAdvancedProtection?: DnsAdvancedProtection | undefined;
+  firewallDomainListId?: string | undefined;
   id: string;
-  name?: string;
-  priority?: number;
-  dnsViewId?: string;
-  queryType?: string;
-  status?: CRResourceStatus;
-  updatedAt?: Date;
+  name?: string | undefined;
+  priority?: number | undefined;
+  dnsViewId?: string | undefined;
+  queryType?: string | undefined;
+  status?: CRResourceStatus | undefined;
+  updatedAt?: Date | undefined;
 }
 export interface BatchUpdateFirewallRuleOutputItem {
   firewallRule: BatchUpdateFirewallRuleResult;
   code: number;
-  message?: string;
+  message?: string | undefined;
 }
 export type BatchUpdateFirewallRuleOutputItems = BatchUpdateFirewallRuleOutputItem[];
 export interface BatchUpdateFirewallRuleOutput {
@@ -331,12 +331,12 @@ export type TagValue = string;
 export type Tags = { [key: string]: string | undefined };
 export interface CreateAccessSourceInput {
   cidr: string;
-  clientToken?: string;
-  ipAddressType?: IpAddressType;
-  name?: string;
+  clientToken?: string | undefined;
+  ipAddressType?: IpAddressType | undefined;
+  name?: string | undefined;
   dnsViewId: string;
   protocol: DnsProtocol;
-  tags?: { [key: string]: string | undefined };
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface CreateAccessSourceOutput {
   arn: string;
@@ -344,29 +344,29 @@ export interface CreateAccessSourceOutput {
   createdAt: Date;
   id: string;
   ipAddressType: IpAddressType;
-  name?: string;
+  name?: string | undefined;
   dnsViewId: string;
   protocol: DnsProtocol;
   status: CRResourceStatus;
   updatedAt: Date;
 }
 export interface CreateAccessTokenInput {
-  clientToken?: string;
+  clientToken?: string | undefined;
   dnsViewId: string;
-  expiresAt?: Date;
-  name?: string;
-  tags?: { [key: string]: string | undefined };
+  expiresAt?: Date | undefined;
+  name?: string | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export type TokenStatus = "CREATING" | "OPERATIONAL" | "DELETING" | (string & {});
 export type AccessTokenValue = string | redacted.Redacted<string>;
 export interface CreateAccessTokenOutput {
   id: string;
   arn: string;
-  clientToken?: string;
+  clientToken?: string | undefined;
   createdAt: Date;
   dnsViewId: string;
   expiresAt: Date;
-  name?: string;
+  name?: string | undefined;
   status: TokenStatus;
   value: string | redacted.Redacted<string>;
 }
@@ -375,13 +375,13 @@ export type EdnsClientSubnetType = "ENABLED" | "DISABLED" | (string & {});
 export type FirewallRulesFailOpenType = "ENABLED" | "DISABLED" | (string & {});
 export interface CreateDNSViewInput {
   globalResolverId: string;
-  clientToken?: string;
+  clientToken?: string | undefined;
   name: string;
-  dnssecValidation?: DnsSecValidationType;
-  ednsClientSubnet?: EdnsClientSubnetType;
-  firewallRulesFailOpen?: FirewallRulesFailOpenType;
-  description?: string;
-  tags?: { [key: string]: string | undefined };
+  dnssecValidation?: DnsSecValidationType | undefined;
+  ednsClientSubnet?: EdnsClientSubnetType | undefined;
+  firewallRulesFailOpen?: FirewallRulesFailOpenType | undefined;
+  description?: string | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export type ProfileResourceStatus =
   | "CREATING"
@@ -395,29 +395,29 @@ export type ProfileResourceStatus =
 export interface CreateDNSViewOutput {
   id: string;
   arn: string;
-  clientToken?: string;
+  clientToken?: string | undefined;
   dnssecValidation: DnsSecValidationType;
   ednsClientSubnet: EdnsClientSubnetType;
   firewallRulesFailOpen: FirewallRulesFailOpenType;
   name: string;
-  description?: string;
+  description?: string | undefined;
   globalResolverId: string;
   createdAt: Date;
   updatedAt: Date;
   status: ProfileResourceStatus;
 }
 export interface CreateFirewallDomainListInput {
-  clientToken?: string;
+  clientToken?: string | undefined;
   globalResolverId: string;
-  description?: string;
+  description?: string | undefined;
   name: string;
-  tags?: { [key: string]: string | undefined };
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface CreateFirewallDomainListOutput {
   arn: string;
   globalResolverId: string;
   createdAt: Date;
-  description?: string;
+  description?: string | undefined;
   domainCount: number;
   id: string;
   name: string;
@@ -426,36 +426,36 @@ export interface CreateFirewallDomainListOutput {
 }
 export interface CreateFirewallRuleInput {
   action: FirewallRuleAction;
-  blockOverrideDnsType?: BlockOverrideDnsQueryType;
-  blockOverrideDomain?: string;
-  blockOverrideTtl?: number;
-  blockResponse?: FirewallBlockResponse;
-  clientToken?: string;
-  confidenceThreshold?: ConfidenceThreshold;
-  description?: string;
-  dnsAdvancedProtection?: DnsAdvancedProtection;
-  firewallDomainListId?: string;
+  blockOverrideDnsType?: BlockOverrideDnsQueryType | undefined;
+  blockOverrideDomain?: string | undefined;
+  blockOverrideTtl?: number | undefined;
+  blockResponse?: FirewallBlockResponse | undefined;
+  clientToken?: string | undefined;
+  confidenceThreshold?: ConfidenceThreshold | undefined;
+  description?: string | undefined;
+  dnsAdvancedProtection?: DnsAdvancedProtection | undefined;
+  firewallDomainListId?: string | undefined;
   name: string;
-  priority?: number;
+  priority?: number | undefined;
   dnsViewId: string;
-  qType?: string;
+  qType?: string | undefined;
 }
 export interface CreateFirewallRuleOutput {
   action: FirewallRuleAction;
-  blockOverrideDnsType?: BlockOverrideDnsQueryType;
-  blockOverrideDomain?: string;
-  blockOverrideTtl?: number;
-  blockResponse?: FirewallBlockResponse;
-  confidenceThreshold?: ConfidenceThreshold;
+  blockOverrideDnsType?: BlockOverrideDnsQueryType | undefined;
+  blockOverrideDomain?: string | undefined;
+  blockOverrideTtl?: number | undefined;
+  blockResponse?: FirewallBlockResponse | undefined;
+  confidenceThreshold?: ConfidenceThreshold | undefined;
   createdAt: Date;
-  description?: string;
-  dnsAdvancedProtection?: DnsAdvancedProtection;
-  firewallDomainListId?: string;
+  description?: string | undefined;
+  dnsAdvancedProtection?: DnsAdvancedProtection | undefined;
+  firewallDomainListId?: string | undefined;
   id: string;
   name: string;
   priority: number;
   dnsViewId: string;
-  queryType?: string;
+  queryType?: string | undefined;
   status: CRResourceStatus;
   updatedAt: Date;
 }
@@ -463,13 +463,13 @@ export type GlobalResolverIpAddressType = "IPV4" | "DUAL_STACK" | (string & {});
 export type Region = string;
 export type Regions = string[];
 export interface CreateGlobalResolverInput {
-  clientToken?: string;
-  description?: string;
-  ipAddressType?: GlobalResolverIpAddressType;
+  clientToken?: string | undefined;
+  description?: string | undefined;
+  ipAddressType?: GlobalResolverIpAddressType | undefined;
   name: string;
-  observabilityRegion?: string;
+  observabilityRegion?: string | undefined;
   regions: string[];
-  tags?: { [key: string]: string | undefined };
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export type Sni = string;
 export type IPv4Address = string;
@@ -481,13 +481,13 @@ export interface CreateGlobalResolverOutput {
   arn: string;
   clientToken: string;
   createdAt: Date;
-  description?: string;
+  description?: string | undefined;
   dnsName: string;
-  ipAddressType?: GlobalResolverIpAddressType;
+  ipAddressType?: GlobalResolverIpAddressType | undefined;
   ipv4Addresses: string[];
-  ipv6Addresses?: string[];
+  ipv6Addresses?: string[] | undefined;
   name: string;
-  observabilityRegion?: string;
+  observabilityRegion?: string | undefined;
   regions: string[];
   status: CRResourceStatus;
   updatedAt: Date;
@@ -501,7 +501,7 @@ export interface DeleteAccessSourceOutput {
   createdAt: Date;
   id: string;
   ipAddressType: IpAddressType;
-  name?: string;
+  name?: string | undefined;
   dnsViewId: string;
   protocol: DnsProtocol;
   status: CRResourceStatus;
@@ -521,12 +521,12 @@ export interface DeleteDNSViewInput {
 export interface DeleteDNSViewOutput {
   id: string;
   arn: string;
-  clientToken?: string;
+  clientToken?: string | undefined;
   dnssecValidation: DnsSecValidationType;
   ednsClientSubnet: EdnsClientSubnetType;
   firewallRulesFailOpen: FirewallRulesFailOpenType;
   name: string;
-  description?: string;
+  description?: string | undefined;
   globalResolverId: string;
   createdAt: Date;
   updatedAt: Date;
@@ -546,20 +546,20 @@ export interface DeleteFirewallRuleInput {
 }
 export interface DeleteFirewallRuleOutput {
   action: FirewallRuleAction;
-  blockOverrideDnsType?: BlockOverrideDnsQueryType;
-  blockOverrideDomain?: string;
-  blockOverrideTtl?: number;
-  blockResponse?: FirewallBlockResponse;
-  confidenceThreshold?: ConfidenceThreshold;
+  blockOverrideDnsType?: BlockOverrideDnsQueryType | undefined;
+  blockOverrideDomain?: string | undefined;
+  blockOverrideTtl?: number | undefined;
+  blockResponse?: FirewallBlockResponse | undefined;
+  confidenceThreshold?: ConfidenceThreshold | undefined;
   createdAt: Date;
-  description?: string;
-  dnsAdvancedProtection?: DnsAdvancedProtection;
-  firewallDomainListId?: string;
+  description?: string | undefined;
+  dnsAdvancedProtection?: DnsAdvancedProtection | undefined;
+  firewallDomainListId?: string | undefined;
   id: string;
   name: string;
   priority: number;
   dnsViewId: string;
-  queryType?: string;
+  queryType?: string | undefined;
   status: CRResourceStatus;
   updatedAt: Date;
 }
@@ -571,16 +571,16 @@ export interface DeleteGlobalResolverOutput {
   arn: string;
   clientToken: string;
   dnsName: string;
-  observabilityRegion?: string;
+  observabilityRegion?: string | undefined;
   name: string;
-  description?: string;
+  description?: string | undefined;
   regions: string[];
   createdAt: Date;
   updatedAt: Date;
   status: CRResourceStatus;
   ipv4Addresses: string[];
-  ipv6Addresses?: string[];
-  ipAddressType?: GlobalResolverIpAddressType;
+  ipv6Addresses?: string[] | undefined;
+  ipAddressType?: GlobalResolverIpAddressType | undefined;
 }
 export interface DisableDNSViewInput {
   dnsViewId: string;
@@ -588,12 +588,12 @@ export interface DisableDNSViewInput {
 export interface DisableDNSViewOutput {
   id: string;
   arn: string;
-  clientToken?: string;
+  clientToken?: string | undefined;
   dnssecValidation: DnsSecValidationType;
   ednsClientSubnet: EdnsClientSubnetType;
   firewallRulesFailOpen: FirewallRulesFailOpenType;
   name: string;
-  description?: string;
+  description?: string | undefined;
   globalResolverId: string;
   createdAt: Date;
   updatedAt: Date;
@@ -619,12 +619,12 @@ export interface EnableDNSViewInput {
 export interface EnableDNSViewOutput {
   id: string;
   arn: string;
-  clientToken?: string;
+  clientToken?: string | undefined;
   dnssecValidation: DnsSecValidationType;
   ednsClientSubnet: EdnsClientSubnetType;
   firewallRulesFailOpen: FirewallRulesFailOpenType;
   name: string;
-  description?: string;
+  description?: string | undefined;
   globalResolverId: string;
   createdAt: Date;
   updatedAt: Date;
@@ -639,7 +639,7 @@ export interface GetAccessSourceOutput {
   createdAt: Date;
   id: string;
   ipAddressType: IpAddressType;
-  name?: string;
+  name?: string | undefined;
   dnsViewId: string;
   protocol: DnsProtocol;
   status: CRResourceStatus;
@@ -651,12 +651,12 @@ export interface GetAccessTokenInput {
 export interface GetAccessTokenOutput {
   id: string;
   arn: string;
-  clientToken?: string;
+  clientToken?: string | undefined;
   createdAt: Date;
   dnsViewId: string;
   expiresAt: Date;
   globalResolverId: string;
-  name?: string;
+  name?: string | undefined;
   status: TokenStatus;
   updatedAt: Date;
   value: string | redacted.Redacted<string>;
@@ -667,12 +667,12 @@ export interface GetDNSViewInput {
 export interface GetDNSViewOutput {
   id: string;
   arn: string;
-  clientToken?: string;
+  clientToken?: string | undefined;
   dnssecValidation: DnsSecValidationType;
   ednsClientSubnet: EdnsClientSubnetType;
   firewallRulesFailOpen: FirewallRulesFailOpenType;
   name: string;
-  description?: string;
+  description?: string | undefined;
   globalResolverId: string;
   createdAt: Date;
   updatedAt: Date;
@@ -684,14 +684,14 @@ export interface GetFirewallDomainListInput {
 export interface GetFirewallDomainListOutput {
   arn: string;
   globalResolverId: string;
-  clientToken?: string;
+  clientToken?: string | undefined;
   createdAt: Date;
-  description?: string;
+  description?: string | undefined;
   domainCount: number;
   id: string;
   name: string;
   status: CRResourceStatus;
-  statusMessage?: string;
+  statusMessage?: string | undefined;
   updatedAt: Date;
 }
 export interface GetFirewallRuleInput {
@@ -699,20 +699,20 @@ export interface GetFirewallRuleInput {
 }
 export interface GetFirewallRuleOutput {
   action: FirewallRuleAction;
-  blockOverrideDnsType?: BlockOverrideDnsQueryType;
-  blockOverrideDomain?: string;
-  blockOverrideTtl?: number;
-  blockResponse?: FirewallBlockResponse;
-  confidenceThreshold?: ConfidenceThreshold;
+  blockOverrideDnsType?: BlockOverrideDnsQueryType | undefined;
+  blockOverrideDomain?: string | undefined;
+  blockOverrideTtl?: number | undefined;
+  blockResponse?: FirewallBlockResponse | undefined;
+  confidenceThreshold?: ConfidenceThreshold | undefined;
   createdAt: Date;
-  description?: string;
-  dnsAdvancedProtection?: DnsAdvancedProtection;
-  firewallDomainListId?: string;
+  description?: string | undefined;
+  dnsAdvancedProtection?: DnsAdvancedProtection | undefined;
+  firewallDomainListId?: string | undefined;
   id: string;
   name: string;
   priority: number;
   dnsViewId: string;
-  queryType?: string;
+  queryType?: string | undefined;
   status: CRResourceStatus;
   updatedAt: Date;
 }
@@ -724,16 +724,16 @@ export interface GetGlobalResolverOutput {
   arn: string;
   clientToken: string;
   dnsName: string;
-  observabilityRegion?: string;
+  observabilityRegion?: string | undefined;
   name: string;
-  description?: string;
+  description?: string | undefined;
   regions: string[];
   createdAt: Date;
   updatedAt: Date;
   status: CRResourceStatus;
   ipv4Addresses: string[];
-  ipv6Addresses?: string[];
-  ipAddressType?: GlobalResolverIpAddressType;
+  ipv6Addresses?: string[] | undefined;
+  ipAddressType?: GlobalResolverIpAddressType | undefined;
 }
 export interface GetHostedZoneAssociationInput {
   hostedZoneAssociationId: string;
@@ -752,7 +752,7 @@ export interface GetManagedFirewallDomainListInput {
   managedFirewallDomainListId: string;
 }
 export interface GetManagedFirewallDomainListOutput {
-  description?: string;
+  description?: string | undefined;
   id: string;
   name: string;
   managedListType: string;
@@ -770,9 +770,9 @@ export interface ImportFirewallDomainsOutput {
 export type Strings = string[];
 export type Filters = { [key: string]: string[] | undefined };
 export interface ListAccessSourcesInput {
-  maxResults?: number;
-  nextToken?: string;
-  filters?: { [key: string]: string[] | undefined };
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
+  filters?: { [key: string]: string[] | undefined } | undefined;
 }
 export interface AccessSourcesItem {
   arn: string;
@@ -780,7 +780,7 @@ export interface AccessSourcesItem {
   createdAt: Date;
   id: string;
   ipAddressType: IpAddressType;
-  name?: string;
+  name?: string | undefined;
   dnsViewId: string;
   protocol: DnsProtocol;
   status: CRResourceStatus;
@@ -788,14 +788,14 @@ export interface AccessSourcesItem {
 }
 export type AccessSources = AccessSourcesItem[];
 export interface ListAccessSourcesOutput {
-  nextToken?: string;
+  nextToken?: string | undefined;
   accessSources: AccessSourcesItem[];
 }
 export interface ListAccessTokensInput {
-  maxResults?: number;
-  nextToken?: string;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
   dnsViewId: string;
-  filters?: { [key: string]: string[] | undefined };
+  filters?: { [key: string]: string[] | undefined } | undefined;
 }
 export interface AccessTokenItem {
   id: string;
@@ -804,18 +804,18 @@ export interface AccessTokenItem {
   dnsViewId: string;
   expiresAt: Date;
   globalResolverId: string;
-  name?: string;
+  name?: string | undefined;
   status: TokenStatus;
   updatedAt: Date;
 }
 export type AccessTokens = AccessTokenItem[];
 export interface ListAccessTokensOutput {
-  nextToken?: string;
-  accessTokens?: AccessTokenItem[];
+  nextToken?: string | undefined;
+  accessTokens?: AccessTokenItem[] | undefined;
 }
 export interface ListDNSViewsInput {
-  maxResults?: number;
-  nextToken?: string;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
   globalResolverId: string;
 }
 export interface DNSViewSummary {
@@ -826,7 +826,7 @@ export interface DNSViewSummary {
   ednsClientSubnet: EdnsClientSubnetType;
   firewallRulesFailOpen: FirewallRulesFailOpenType;
   name: string;
-  description?: string;
+  description?: string | undefined;
   globalResolverId: string;
   createdAt: Date;
   updatedAt: Date;
@@ -834,19 +834,19 @@ export interface DNSViewSummary {
 }
 export type DNSViews = DNSViewSummary[];
 export interface ListDNSViewsOutput {
-  nextToken?: string;
+  nextToken?: string | undefined;
   dnsViews: DNSViewSummary[];
 }
 export interface ListFirewallDomainListsInput {
-  maxResults?: number;
-  nextToken?: string;
-  globalResolverId?: string;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
+  globalResolverId?: string | undefined;
 }
 export interface FirewallDomainListsItem {
   arn: string;
   globalResolverId: string;
   createdAt: Date;
-  description?: string;
+  description?: string | undefined;
   id: string;
   name: string;
   status: CRResourceStatus;
@@ -854,78 +854,78 @@ export interface FirewallDomainListsItem {
 }
 export type FirewallDomainLists = FirewallDomainListsItem[];
 export interface ListFirewallDomainListsOutput {
-  nextToken?: string;
+  nextToken?: string | undefined;
   firewallDomainLists: FirewallDomainListsItem[];
 }
 export interface ListFirewallDomainsInput {
-  maxResults?: number;
-  nextToken?: string;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
   firewallDomainListId: string;
 }
 export type Domains = string[];
 export interface ListFirewallDomainsOutput {
-  nextToken?: string;
+  nextToken?: string | undefined;
   domains: string[];
 }
 export interface ListFirewallRulesInput {
-  maxResults?: number;
-  nextToken?: string;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
   dnsViewId: string;
-  filters?: { [key: string]: string[] | undefined };
+  filters?: { [key: string]: string[] | undefined } | undefined;
 }
 export interface FirewallRulesItem {
   action: FirewallRuleAction;
-  blockOverrideDnsType?: BlockOverrideDnsQueryType;
-  blockOverrideDomain?: string;
-  blockOverrideTtl?: number;
-  blockResponse?: FirewallBlockResponse;
-  confidenceThreshold?: ConfidenceThreshold;
+  blockOverrideDnsType?: BlockOverrideDnsQueryType | undefined;
+  blockOverrideDomain?: string | undefined;
+  blockOverrideTtl?: number | undefined;
+  blockResponse?: FirewallBlockResponse | undefined;
+  confidenceThreshold?: ConfidenceThreshold | undefined;
   createdAt: Date;
-  description?: string;
-  dnsAdvancedProtection?: DnsAdvancedProtection;
-  firewallDomainListId?: string;
+  description?: string | undefined;
+  dnsAdvancedProtection?: DnsAdvancedProtection | undefined;
+  firewallDomainListId?: string | undefined;
   id: string;
   name: string;
   priority: number;
   dnsViewId: string;
-  queryType?: string;
+  queryType?: string | undefined;
   status: CRResourceStatus;
   updatedAt: Date;
 }
 export type FirewallRules = FirewallRulesItem[];
 export interface ListFirewallRulesOutput {
-  nextToken?: string;
+  nextToken?: string | undefined;
   firewallRules: FirewallRulesItem[];
 }
 export interface ListGlobalResolversInput {
-  maxResults?: number;
-  nextToken?: string;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export interface GlobalResolversItem {
   id: string;
   arn: string;
   clientToken: string;
   dnsName: string;
-  observabilityRegion?: string;
+  observabilityRegion?: string | undefined;
   name: string;
-  description?: string;
+  description?: string | undefined;
   regions: string[];
   createdAt: Date;
   updatedAt: Date;
   status: CRResourceStatus;
   ipv4Addresses: string[];
-  ipv6Addresses?: string[];
-  ipAddressType?: GlobalResolverIpAddressType;
+  ipv6Addresses?: string[] | undefined;
+  ipAddressType?: GlobalResolverIpAddressType | undefined;
 }
 export type GlobalResolvers = GlobalResolversItem[];
 export interface ListGlobalResolversOutput {
-  nextToken?: string;
+  nextToken?: string | undefined;
   globalResolvers: GlobalResolversItem[];
 }
 export interface ListHostedZoneAssociationsInput {
-  maxResults?: number;
-  nextToken?: string;
-  resourceArn?: string;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
+  resourceArn?: string | undefined;
 }
 export interface HostedZoneAssociationSummary {
   id: string;
@@ -939,28 +939,28 @@ export interface HostedZoneAssociationSummary {
 }
 export type HostedZoneAssociations = HostedZoneAssociationSummary[];
 export interface ListHostedZoneAssociationsOutput {
-  nextToken?: string;
+  nextToken?: string | undefined;
   hostedZoneAssociations: HostedZoneAssociationSummary[];
 }
 export interface ListManagedFirewallDomainListsInput {
-  maxResults?: number;
-  nextToken?: string;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
   managedFirewallDomainListType: string;
 }
 export interface ManagedFirewallDomainListsItem {
-  description?: string;
+  description?: string | undefined;
   id: string;
   name: string;
   managedListType: string;
 }
 export type ManagedFirewallDomainLists = ManagedFirewallDomainListsItem[];
 export interface ListManagedFirewallDomainListsOutput {
-  nextToken?: string;
+  nextToken?: string | undefined;
   managedFirewallDomainLists: ManagedFirewallDomainListsItem[];
 }
 export interface ListSharedDNSViewsInput {
-  maxResults?: number;
-  nextToken?: string;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export type AccountId = string;
 export interface SharedDNSViewSummary {
@@ -971,7 +971,7 @@ export interface SharedDNSViewSummary {
   ednsClientSubnet: EdnsClientSubnetType;
   firewallRulesFailOpen: FirewallRulesFailOpenType;
   name: string;
-  description?: string;
+  description?: string | undefined;
   globalResolverId: string;
   createdAt: Date;
   updatedAt: Date;
@@ -980,14 +980,14 @@ export interface SharedDNSViewSummary {
 }
 export type SharedDNSViews = SharedDNSViewSummary[];
 export interface ListSharedDNSViewsOutput {
-  nextToken?: string;
+  nextToken?: string | undefined;
   dnsViews: SharedDNSViewSummary[];
 }
 export interface ListTagsForResourceRequest {
   resourceArn: string;
 }
 export interface ListTagsForResourceResponse {
-  tags?: { [key: string]: string | undefined };
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface TagResourceRequest {
   resourceArn: string;
@@ -1002,10 +1002,10 @@ export interface UntagResourceRequest {
 export interface UntagResourceResponse {}
 export interface UpdateAccessSourceInput {
   accessSourceId: string;
-  cidr?: string;
-  ipAddressType?: IpAddressType;
-  name?: string;
-  protocol?: DnsProtocol;
+  cidr?: string | undefined;
+  ipAddressType?: IpAddressType | undefined;
+  name?: string | undefined;
+  protocol?: DnsProtocol | undefined;
 }
 export interface UpdateAccessSourceOutput {
   arn: string;
@@ -1013,7 +1013,7 @@ export interface UpdateAccessSourceOutput {
   createdAt: Date;
   id: string;
   ipAddressType: IpAddressType;
-  name?: string;
+  name?: string | undefined;
   dnsViewId: string;
   protocol: DnsProtocol;
   status: CRResourceStatus;
@@ -1029,21 +1029,21 @@ export interface UpdateAccessTokenOutput {
 }
 export interface UpdateDNSViewInput {
   dnsViewId: string;
-  name?: string;
-  description?: string;
-  dnssecValidation?: DnsSecValidationType;
-  ednsClientSubnet?: EdnsClientSubnetType;
-  firewallRulesFailOpen?: FirewallRulesFailOpenType;
+  name?: string | undefined;
+  description?: string | undefined;
+  dnssecValidation?: DnsSecValidationType | undefined;
+  ednsClientSubnet?: EdnsClientSubnetType | undefined;
+  firewallRulesFailOpen?: FirewallRulesFailOpenType | undefined;
 }
 export interface UpdateDNSViewOutput {
   id: string;
   arn: string;
-  clientToken?: string;
+  clientToken?: string | undefined;
   dnssecValidation: DnsSecValidationType;
   ednsClientSubnet: EdnsClientSubnetType;
   firewallRulesFailOpen: FirewallRulesFailOpenType;
   name: string;
-  description?: string;
+  description?: string | undefined;
   globalResolverId: string;
   createdAt: Date;
   updatedAt: Date;
@@ -1060,65 +1060,65 @@ export interface UpdateFirewallDomainsOutput {
   status: CRResourceStatus;
 }
 export interface UpdateFirewallRuleInput {
-  action?: FirewallRuleAction;
-  blockOverrideDnsType?: BlockOverrideDnsQueryType;
-  blockOverrideDomain?: string;
-  blockOverrideTtl?: number;
-  blockResponse?: FirewallBlockResponse;
+  action?: FirewallRuleAction | undefined;
+  blockOverrideDnsType?: BlockOverrideDnsQueryType | undefined;
+  blockOverrideDomain?: string | undefined;
+  blockOverrideTtl?: number | undefined;
+  blockResponse?: FirewallBlockResponse | undefined;
   clientToken: string;
-  confidenceThreshold?: ConfidenceThreshold;
-  description?: string;
-  dnsAdvancedProtection?: DnsAdvancedProtection;
+  confidenceThreshold?: ConfidenceThreshold | undefined;
+  description?: string | undefined;
+  dnsAdvancedProtection?: DnsAdvancedProtection | undefined;
   firewallRuleId: string;
-  name?: string;
-  priority?: number;
+  name?: string | undefined;
+  priority?: number | undefined;
 }
 export interface UpdateFirewallRuleOutput {
   action: FirewallRuleAction;
-  blockOverrideDnsType?: BlockOverrideDnsQueryType;
-  blockOverrideDomain?: string;
-  blockOverrideTtl?: number;
-  blockResponse?: FirewallBlockResponse;
-  confidenceThreshold?: ConfidenceThreshold;
+  blockOverrideDnsType?: BlockOverrideDnsQueryType | undefined;
+  blockOverrideDomain?: string | undefined;
+  blockOverrideTtl?: number | undefined;
+  blockResponse?: FirewallBlockResponse | undefined;
+  confidenceThreshold?: ConfidenceThreshold | undefined;
   createdAt: Date;
-  description?: string;
-  dnsAdvancedProtection?: DnsAdvancedProtection;
-  firewallDomainListId?: string;
+  description?: string | undefined;
+  dnsAdvancedProtection?: DnsAdvancedProtection | undefined;
+  firewallDomainListId?: string | undefined;
   id: string;
   name: string;
   priority: number;
   dnsViewId: string;
-  queryType?: string;
+  queryType?: string | undefined;
   status: CRResourceStatus;
   updatedAt: Date;
 }
 export interface UpdateGlobalResolverInput {
   globalResolverId: string;
-  name?: string;
-  observabilityRegion?: string;
-  description?: string;
-  ipAddressType?: GlobalResolverIpAddressType;
-  regions?: string[];
+  name?: string | undefined;
+  observabilityRegion?: string | undefined;
+  description?: string | undefined;
+  ipAddressType?: GlobalResolverIpAddressType | undefined;
+  regions?: string[] | undefined;
 }
 export interface UpdateGlobalResolverOutput {
   id: string;
   arn: string;
   clientToken: string;
   dnsName: string;
-  observabilityRegion?: string;
+  observabilityRegion?: string | undefined;
   name: string;
-  description?: string;
+  description?: string | undefined;
   regions: string[];
   createdAt: Date;
   updatedAt: Date;
   status: CRResourceStatus;
   ipv4Addresses: string[];
-  ipv6Addresses?: string[];
-  ipAddressType?: GlobalResolverIpAddressType;
+  ipv6Addresses?: string[] | undefined;
+  ipAddressType?: GlobalResolverIpAddressType | undefined;
 }
 export interface UpdateHostedZoneAssociationInput {
   hostedZoneAssociationId: string;
-  name?: string;
+  name?: string | undefined;
 }
 export interface UpdateHostedZoneAssociationOutput {
   id: string;

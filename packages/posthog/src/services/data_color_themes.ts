@@ -54,8 +54,8 @@ export class NotFound
 export interface CreateDataColorThemeRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
-  name?: string;
-  colors?: unknown;
+  name?: string | undefined;
+  colors?: unknown | undefined;
 }
 export type UserBasicHedgehogConfigMap = { [key: string]: unknown | undefined };
 /** * `engineering` - Engineering * `data` - Data * `product` - Product Management * `founder` - Founder * `leadership` - Leadership * `marketing` - Marketing * `sales` - Sales / Success * `student` - Student * `other` - Other */
@@ -72,23 +72,23 @@ export type RoleAtOrganizationEnum =
 export type BlankEnum = "";
 export type UserBasicRoleAtOrganization = RoleAtOrganizationEnum | BlankEnum;
 export interface UserBasic {
-  id?: number;
-  uuid?: string;
-  distinct_id?: string | null;
-  first_name?: string;
-  last_name?: string;
-  email?: string;
-  is_email_verified?: boolean | null;
-  hedgehog_config?: UserBasicHedgehogConfigMap | null;
-  role_at_organization?: UserBasicRoleAtOrganization | null;
+  id?: number | undefined;
+  uuid?: string | undefined;
+  distinct_id?: string | null | undefined;
+  first_name?: string | undefined;
+  last_name?: string | undefined;
+  email?: string | undefined;
+  is_email_verified?: boolean | null | undefined;
+  hedgehog_config?: UserBasicHedgehogConfigMap | null | undefined;
+  role_at_organization?: UserBasicRoleAtOrganization | null | undefined;
 }
 export interface DataColorTheme {
-  id?: number;
-  name?: string;
-  colors?: unknown;
-  is_global?: boolean;
-  created_at?: string | null;
-  created_by?: UserBasic | null;
+  id?: number | undefined;
+  name?: string | undefined;
+  colors?: unknown | undefined;
+  is_global?: boolean | undefined;
+  created_at?: string | null | undefined;
+  created_by?: UserBasic | null | undefined;
 }
 export interface DataColorThemesDestroyRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -106,33 +106,24 @@ export interface GetDataColorThemeRequest {
 export interface ListDataColorThemesRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
-  /** Number of results to return per page. */
-  limit?: number;
-  /** The initial index from which to return the results. */
-  offset?: number;
 }
-export type PaginatedDataColorThemeListResultsList = Array<DataColorTheme>;
-export interface PaginatedDataColorThemeList {
-  count?: number;
-  next?: string | null;
-  previous?: string | null;
-  results?: PaginatedDataColorThemeListResultsList;
-}
+export type ListDataColorThemesResponseBodyList = Array<DataColorTheme>;
+export type ListDataColorThemesResponse = ListDataColorThemesResponseBodyList;
 export interface UpdateDataColorThemeRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** A unique integer value identifying this data color theme. */
   id: number;
-  name?: string;
-  colors?: unknown;
+  name?: string | undefined;
+  colors?: unknown | undefined;
 }
 export interface UpdateDataColorThemesPartialRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** A unique integer value identifying this data color theme. */
   id: number;
-  name?: string;
-  colors?: unknown;
+  name?: string | undefined;
+  colors?: unknown | undefined;
 }
 export type CreateDataColorThemeError = BadRequest | Forbidden | NotFound | PosthogOpError;
 export const createDataColorTheme: API.OperationMethod<
@@ -185,12 +176,12 @@ export const getDataColorTheme: API.OperationMethod<
 export type ListDataColorThemesError = BadRequest | Forbidden | NotFound | PosthogOpError;
 export const listDataColorThemes: API.OperationMethod<
   ListDataColorThemesRequest,
-  PaginatedDataColorThemeList,
+  ListDataColorThemesResponse,
   ListDataColorThemesError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(16, __c4, 0) as any as S.Schema<ListDataColorThemesRequest>,
-  output: __S(18, __c4, 2) as any as S.Schema<PaginatedDataColorThemeList>,
+  output: __S(18, __c4, 2) as any as S.Schema<ListDataColorThemesResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -324,8 +315,6 @@ function __c4(j: number): any {
       return S.suspend(() =>
         S.Struct({
           project_id: S.String.pipe(T.Label()),
-          limit: S.optional(S.Number.pipe(T.Query())),
-          offset: S.optional(S.Number.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -337,14 +326,9 @@ function __c4(j: number): any {
     case 1:
       return S.Array(__S(6, __c1, 2));
     case 2:
-      return S.suspend(() =>
-        S.Struct({
-          count: S.optional(S.Number),
-          next: S.optional(S.NullOr(S.String)),
-          previous: S.optional(S.NullOr(S.String)),
-          results: S.optional(__S(17, __c4, 1)),
-        }),
-      ).annotate({ identifier: "PaginatedDataColorThemeList" });
+      return S.suspend(() => __S(17, __c4, 1).pipe(T.RawResponseRoot())).annotate({
+        identifier: "ListDataColorThemesResponse",
+      });
   }
 }
 function __c5(j: number): any {

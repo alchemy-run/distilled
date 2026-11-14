@@ -38,11 +38,11 @@ export type StorageType = "Standard" | "Premium" | "StandardSSD";
 /** Properties to attach new disk to the Virtual Machine. */
 export interface AttachNewDataDiskOptions {
   /** Size of the disk to be attached in Gibibytes. */
-  diskSizeGiB?: number;
+  diskSizeGiB?: number | undefined;
   /** The name of the disk to be attached. */
-  diskName?: string;
+  diskName?: string | undefined;
   /** The storage type for the disk (i.e. Standard, Premium). */
-  diskType?: StorageType | (string & {});
+  diskType?: StorageType | (string & {}) | undefined;
 }
 /** Caching option for a data disk (i.e. None, ReadOnly, ReadWrite). */
 export type HostCachingOptions = "None" | "ReadOnly" | "ReadWrite";
@@ -56,43 +56,43 @@ export interface AddVirtualMachineDataDiskRequest {
   /** The name of the virtual machine. */
   name: string;
   /** Specifies options to attach a new disk to the virtual machine. */
-  attachNewDataDiskOptions?: AttachNewDataDiskOptions;
+  attachNewDataDiskOptions?: AttachNewDataDiskOptions | undefined;
   /** Specifies the existing lab disk id to attach to virtual machine. */
-  existingLabDiskId?: string;
+  existingLabDiskId?: string | undefined;
   /** Caching option for a data disk (i.e. None, ReadOnly, ReadWrite). */
-  hostCaching?: HostCachingOptions | (string & {});
+  hostCaching?: HostCachingOptions | (string & {}) | undefined;
 }
 export interface AddVirtualMachineDataDiskResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Properties of an artifact parameter. */
 export interface ArtifactParameterProperties {
   /** The name of the artifact parameter. */
-  name?: string;
+  name?: string | undefined;
   /** The value of the artifact parameter. */
-  value?: string;
+  value?: string | undefined;
 }
 /** The parameters of the artifact. */
 export type ArtifactInstallPropertiesParametersList = Array<ArtifactParameterProperties>;
 /** Properties of an artifact. */
 export interface ArtifactInstallProperties {
   /** The artifact's identifier. */
-  artifactId?: string;
+  artifactId?: string | undefined;
   /** The artifact's title. */
-  artifactTitle?: string;
+  artifactTitle?: string | undefined;
   /** The parameters of the artifact. */
-  parameters?: ArtifactInstallPropertiesParametersList;
+  parameters?: ArtifactInstallPropertiesParametersList | undefined;
   /** The status of the artifact. */
-  status?: string;
+  status?: string | undefined;
   /** The status message from the deployment. */
-  deploymentStatusMessage?: string;
+  deploymentStatusMessage?: string | undefined;
   /** The status message from the virtual machine extension. */
-  vmExtensionStatusMessage?: string;
+  vmExtensionStatusMessage?: string | undefined;
   /** The time that the artifact starts to install on the virtual machine. */
-  installTime?: string;
+  installTime?: string | undefined;
 }
 /** The list of artifacts to apply. */
 export type ApplyVirtualMachineArtifactsRequestArtifactsList = Array<ArtifactInstallProperties>;
@@ -106,13 +106,13 @@ export interface ApplyVirtualMachineArtifactsRequest {
   /** The name of the virtual machine. */
   name: string;
   /** The list of artifacts to apply. */
-  artifacts?: ApplyVirtualMachineArtifactsRequestArtifactsList;
+  artifacts?: ApplyVirtualMachineArtifactsRequestArtifactsList | undefined;
 }
 export interface ApplyVirtualMachineArtifactsResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** The artifact source's type. */
 export type SourceControlType = "VsoGit" | "GitHub" | "StorageAccount";
@@ -121,21 +121,21 @@ export type EnableStatus = "Enabled" | "Disabled";
 /** Properties of an artifact source. */
 export interface ArtifactSourcePropertiesInput {
   /** The artifact source's display name. */
-  displayName?: string;
+  displayName?: string | undefined;
   /** The artifact source's URI. */
-  uri?: string;
+  uri?: string | undefined;
   /** The artifact source's type. */
-  sourceType?: SourceControlType | (string & {});
+  sourceType?: SourceControlType | (string & {}) | undefined;
   /** The folder containing artifacts. */
-  folderPath?: string;
+  folderPath?: string | undefined;
   /** The folder containing Azure Resource Manager templates. */
-  armTemplateFolderPath?: string;
+  armTemplateFolderPath?: string | undefined;
   /** The artifact source's branch reference. */
-  branchRef?: string;
+  branchRef?: string | undefined;
   /** The security token to authenticate to the artifact source. */
-  securityToken?: string;
+  securityToken?: string | undefined;
   /** Indicates if the artifact source is enabled (values: Enabled, Disabled). */
-  status?: EnableStatus | (string & {});
+  status?: EnableStatus | (string & {}) | undefined;
 }
 /** Resource tags. */
 export type ArtifactSourcesCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
@@ -151,9 +151,9 @@ export interface ArtifactSourcesCreateOrUpdateRequest {
   /** The properties of the resource. */
   properties: ArtifactSourcePropertiesInput;
   /** Resource tags. */
-  tags?: ArtifactSourcesCreateOrUpdateRequestTagsMap;
+  tags?: ArtifactSourcesCreateOrUpdateRequestTagsMap | undefined;
   /** The geo-location where the resource lives */
-  location?: string;
+  location?: string | undefined;
 }
 /** The type of identity that created the resource. */
 export type SystemDataCreatedByType = "User" | "Application" | "ManagedIdentity" | "Key";
@@ -162,60 +162,60 @@ export type SystemDataLastModifiedByType = "User" | "Application" | "ManagedIden
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface SystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: SystemDataCreatedByType;
+  createdByType?: SystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: SystemDataLastModifiedByType;
+  lastModifiedByType?: SystemDataLastModifiedByType | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 /** Properties of an artifact source. */
 export interface ArtifactSourceProperties {
   /** The artifact source's display name. */
-  displayName?: string;
+  displayName?: string | undefined;
   /** The artifact source's URI. */
-  uri?: string;
+  uri?: string | undefined;
   /** The artifact source's type. */
-  sourceType?: SourceControlType;
+  sourceType?: SourceControlType | undefined;
   /** The folder containing artifacts. */
-  folderPath?: string;
+  folderPath?: string | undefined;
   /** The folder containing Azure Resource Manager templates. */
-  armTemplateFolderPath?: string;
+  armTemplateFolderPath?: string | undefined;
   /** The artifact source's branch reference. */
-  branchRef?: string;
+  branchRef?: string | undefined;
   /** The security token to authenticate to the artifact source. */
-  securityToken?: string;
+  securityToken?: string | undefined;
   /** Indicates if the artifact source is enabled (values: Enabled, Disabled). */
-  status?: EnableStatus;
+  status?: EnableStatus | undefined;
   /** The artifact source's creation date. */
-  createdDate?: string;
+  createdDate?: string | undefined;
   /** The provisioning status of the resource. */
-  provisioningState?: string;
+  provisioningState?: string | undefined;
   /** The unique immutable identifier of a resource (Guid). */
-  uniqueIdentifier?: string;
+  uniqueIdentifier?: string | undefined;
 }
 /** Resource tags. */
 export type ArtifactSourcesCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
 export interface ArtifactSourcesCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties of the resource. */
   properties: ArtifactSourceProperties;
   /** Resource tags. */
-  tags?: ArtifactSourcesCreateOrUpdateResponseTagsMap;
+  tags?: ArtifactSourcesCreateOrUpdateResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
-  location?: string;
+  location?: string | undefined;
 }
 export interface AttachDiskRequest {
   /** The ID of the target subscription. */
@@ -229,13 +229,13 @@ export interface AttachDiskRequest {
   /** The name of the disk. */
   name: string;
   /** The resource ID of the Lab virtual machine to which the disk is attached. */
-  leasedByLabVmId?: string;
+  leasedByLabVmId?: string | undefined;
 }
 export interface AttachDiskResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface ClaimLabAnyVmRequest {
   /** The ID of the target subscription. */
@@ -247,9 +247,9 @@ export interface ClaimLabAnyVmRequest {
 }
 export interface ClaimLabAnyVmResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface ClaimVirtualMachineRequest {
   /** The ID of the target subscription. */
@@ -263,9 +263,9 @@ export interface ClaimVirtualMachineRequest {
 }
 export interface ClaimVirtualMachineResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface ClaimVirtualMachinesUnRequest {
   /** The ID of the target subscription. */
@@ -279,31 +279,31 @@ export interface ClaimVirtualMachinesUnRequest {
 }
 export interface ClaimVirtualMachinesUnResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Target cost status */
 export type TargetCostStatus = "Enabled" | "Disabled";
 /** Properties of a percentage cost threshold. */
 export interface PercentageCostThresholdProperties {
   /** The cost threshold value. */
-  thresholdValue?: number;
+  thresholdValue?: number | undefined;
 }
 /** Indicates whether this threshold will be displayed on cost charts. */
 export type CostThresholdStatus = "Enabled" | "Disabled";
 /** Properties of a cost threshold item. */
 export interface CostThresholdProperties {
   /** The ID of the cost threshold item. */
-  thresholdId?: string;
+  thresholdId?: string | undefined;
   /** The value of the percentage cost threshold. */
-  percentageThreshold?: PercentageCostThresholdProperties;
+  percentageThreshold?: PercentageCostThresholdProperties | undefined;
   /** Indicates whether this threshold will be displayed on cost charts. */
-  displayOnChart?: CostThresholdStatus | (string & {});
+  displayOnChart?: CostThresholdStatus | (string & {}) | undefined;
   /** Indicates whether notifications will be sent when this threshold is exceeded. */
-  sendNotificationWhenExceeded?: CostThresholdStatus | (string & {});
+  sendNotificationWhenExceeded?: CostThresholdStatus | (string & {}) | undefined;
   /** Indicates the datetime when notifications were last sent for this threshold. */
-  notificationSent?: string;
+  notificationSent?: string | undefined;
 }
 /** Cost thresholds. */
 export type TargetCostPropertiesCostThresholdsList = Array<CostThresholdProperties>;
@@ -312,30 +312,30 @@ export type ReportingCycleType = "CalendarMonth" | "Custom";
 /** Properties of a cost target. */
 export interface TargetCostProperties {
   /** Target cost status */
-  status?: TargetCostStatus | (string & {});
+  status?: TargetCostStatus | (string & {}) | undefined;
   /** Lab target cost */
-  target?: number;
+  target?: number | undefined;
   /** Cost thresholds. */
-  costThresholds?: TargetCostPropertiesCostThresholdsList;
+  costThresholds?: TargetCostPropertiesCostThresholdsList | undefined;
   /** Reporting cycle start date. */
-  cycleStartDateTime?: string;
+  cycleStartDateTime?: string | undefined;
   /** Reporting cycle end date. */
-  cycleEndDateTime?: string;
+  cycleEndDateTime?: string | undefined;
   /** Reporting cycle type. */
-  cycleType?: ReportingCycleType | (string & {});
+  cycleType?: ReportingCycleType | (string & {}) | undefined;
 }
 /** Properties of a cost item. */
 export interface LabCostPropertiesInput {
   /** The target cost properties */
-  targetCost?: TargetCostProperties;
+  targetCost?: TargetCostProperties | undefined;
   /** The currency code of the cost. */
-  currencyCode?: string;
+  currencyCode?: string | undefined;
   /** The start time of the cost data. */
-  startDateTime?: string;
+  startDateTime?: string | undefined;
   /** The end time of the cost data. */
-  endDateTime?: string;
+  endDateTime?: string | undefined;
   /** The creation date of the cost. */
-  createdDate?: string;
+  createdDate?: string | undefined;
 }
 /** Resource tags. */
 export type CostsCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
@@ -351,96 +351,96 @@ export interface CostsCreateOrUpdateRequest {
   /** The properties of the resource. */
   properties: LabCostPropertiesInput;
   /** Resource tags. */
-  tags?: CostsCreateOrUpdateRequestTagsMap;
+  tags?: CostsCreateOrUpdateRequestTagsMap | undefined;
   /** The geo-location where the resource lives */
-  location?: string;
+  location?: string | undefined;
 }
 /** The properties of the cost summary. */
 export interface LabCostSummaryProperties {
   /** The cost component of the cost item. */
-  estimatedLabCost?: number;
+  estimatedLabCost?: number | undefined;
 }
 /** The type of the cost. */
 export type CostType = "Unavailable" | "Reported" | "Projected";
 /** The properties of a lab cost item. */
 export interface LabCostDetailsProperties {
   /** The date of the cost item. */
-  date?: string;
+  date?: string | undefined;
   /** The cost component of the cost item. */
-  cost?: number;
+  cost?: number | undefined;
   /** The type of the cost. */
-  costType?: CostType;
+  costType?: CostType | undefined;
 }
 /** The lab cost details component of the cost data. */
 export type LabCostPropertiesLabCostDetailsList = Array<LabCostDetailsProperties>;
 /** The properties of a resource cost item. */
 export interface LabResourceCostProperties {
   /** The name of the resource. */
-  resourcename?: string;
+  resourcename?: string | undefined;
   /** The unique identifier of the resource. */
-  resourceUId?: string;
+  resourceUId?: string | undefined;
   /** The cost component of the resource cost item. */
-  resourceCost?: number;
+  resourceCost?: number | undefined;
   /** The logical resource type (ex. virtualmachine, storageaccount) */
-  resourceType?: string;
+  resourceType?: string | undefined;
   /** The owner of the resource (ex. janedoe@microsoft.com) */
-  resourceOwner?: string;
+  resourceOwner?: string | undefined;
   /** The category of the resource (ex. Premium_LRS, Standard_DS1) */
-  resourcePricingTier?: string;
+  resourcePricingTier?: string | undefined;
   /** The status of the resource (ex. Active) */
-  resourceStatus?: string;
+  resourceStatus?: string | undefined;
   /** The ID of the resource */
-  resourceId?: string;
+  resourceId?: string | undefined;
   /** The ID of the external resource */
-  externalResourceId?: string;
+  externalResourceId?: string | undefined;
 }
 /** The resource cost component of the cost data. */
 export type LabCostPropertiesResourceCostsList = Array<LabResourceCostProperties>;
 /** Properties of a cost item. */
 export interface LabCostProperties {
   /** The target cost properties */
-  targetCost?: TargetCostProperties;
+  targetCost?: TargetCostProperties | undefined;
   /** The lab cost summary component of the cost data. */
-  labCostSummary?: LabCostSummaryProperties;
+  labCostSummary?: LabCostSummaryProperties | undefined;
   /** The lab cost details component of the cost data. */
-  labCostDetails?: LabCostPropertiesLabCostDetailsList;
+  labCostDetails?: LabCostPropertiesLabCostDetailsList | undefined;
   /** The resource cost component of the cost data. */
-  resourceCosts?: LabCostPropertiesResourceCostsList;
+  resourceCosts?: LabCostPropertiesResourceCostsList | undefined;
   /** The currency code of the cost. */
-  currencyCode?: string;
+  currencyCode?: string | undefined;
   /** The start time of the cost data. */
-  startDateTime?: string;
+  startDateTime?: string | undefined;
   /** The end time of the cost data. */
-  endDateTime?: string;
+  endDateTime?: string | undefined;
   /** The creation date of the cost. */
-  createdDate?: string;
+  createdDate?: string | undefined;
   /** The provisioning status of the resource. */
-  provisioningState?: string;
+  provisioningState?: string | undefined;
   /** The unique immutable identifier of a resource (Guid). */
-  uniqueIdentifier?: string;
+  uniqueIdentifier?: string | undefined;
 }
 /** Resource tags. */
 export type CostsCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
 export interface CostsCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties of the resource. */
   properties: LabCostProperties;
   /** Resource tags. */
-  tags?: CostsCreateOrUpdateResponseTagsMap;
+  tags?: CostsCreateOrUpdateResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
-  location?: string;
+  location?: string | undefined;
 }
 /** Parameters for creating multiple virtual machines as a single action. */
 export interface BulkCreationParameters {
   /** The number of virtual machine instances to create. */
-  instanceCount?: number;
+  instanceCount?: number | undefined;
 }
 /** The artifacts to be installed on the virtual machine. */
 export type LabVirtualMachineCreationParameterPropertiesInputArtifactsList =
@@ -448,63 +448,63 @@ export type LabVirtualMachineCreationParameterPropertiesInputArtifactsList =
 /** The reference information for an Azure Marketplace image. */
 export interface GalleryImageReference {
   /** The offer of the gallery image. */
-  offer?: string;
+  offer?: string | undefined;
   /** The publisher of the gallery image. */
-  publisher?: string;
+  publisher?: string | undefined;
   /** The SKU of the gallery image. */
-  sku?: string;
+  sku?: string | undefined;
   /** The OS type of the gallery image. */
-  osType?: string;
+  osType?: string | undefined;
   /** The version of the gallery image. */
-  version?: string;
+  version?: string | undefined;
 }
 /** The transport protocol for the endpoint. */
 export type TransportProtocol = "Tcp" | "Udp";
 /** A rule for NAT - exposing a VM's port (backendPort) on the public IP address using a load balancer. */
 export interface InboundNatRule {
   /** The transport protocol for the endpoint. */
-  transportProtocol?: TransportProtocol | (string & {});
+  transportProtocol?: TransportProtocol | (string & {}) | undefined;
   /** The external endpoint port of the inbound connection. Possible values range between 1 and 65535, inclusive. If unspecified, a value will be allocated automatically. */
-  frontendPort?: number;
+  frontendPort?: number | undefined;
   /** The port to which the external traffic will be redirected. */
-  backendPort?: number;
+  backendPort?: number | undefined;
 }
 /** The incoming NAT rules */
 export type SharedPublicIpAddressConfigurationInboundNatRulesList = Array<InboundNatRule>;
 /** Properties of a virtual machine that determine how it is connected to a load balancer. */
 export interface SharedPublicIpAddressConfiguration {
   /** The incoming NAT rules */
-  inboundNatRules?: SharedPublicIpAddressConfigurationInboundNatRulesList;
+  inboundNatRules?: SharedPublicIpAddressConfigurationInboundNatRulesList | undefined;
 }
 /** Properties of a network interface. */
 export interface NetworkInterfaceProperties {
   /** The resource ID of the virtual network. */
-  virtualNetworkId?: string;
+  virtualNetworkId?: string | undefined;
   /** The resource ID of the sub net. */
-  subnetId?: string;
+  subnetId?: string | undefined;
   /** The resource ID of the public IP address. */
-  publicIpAddressId?: string;
+  publicIpAddressId?: string | undefined;
   /** The public IP address. */
-  publicIpAddress?: string;
+  publicIpAddress?: string | undefined;
   /** The private IP address. */
-  privateIpAddress?: string;
+  privateIpAddress?: string | undefined;
   /** The DNS name. */
-  dnsName?: string;
+  dnsName?: string | undefined;
   /** The RdpAuthority property is a server DNS host name or IP address followed by the service port number for RDP (Remote Desktop Protocol). */
-  rdpAuthority?: string;
+  rdpAuthority?: string | undefined;
   /** The SshAuthority property is a server DNS host name or IP address followed by the service port number for SSH. */
-  sshAuthority?: string;
+  sshAuthority?: string | undefined;
   /** The configuration for sharing a public IP address across multiple virtual machines. */
-  sharedPublicIpAddressConfiguration?: SharedPublicIpAddressConfiguration;
+  sharedPublicIpAddressConfiguration?: SharedPublicIpAddressConfiguration | undefined;
 }
 /** Request body for adding a new or existing data disk to a virtual machine. */
 export interface DataDiskProperties {
   /** Specifies options to attach a new disk to the virtual machine. */
-  attachNewDataDiskOptions?: AttachNewDataDiskOptions;
+  attachNewDataDiskOptions?: AttachNewDataDiskOptions | undefined;
   /** Specifies the existing lab disk id to attach to virtual machine. */
-  existingLabDiskId?: string;
+  existingLabDiskId?: string | undefined;
   /** Caching option for a data disk (i.e. None, ReadOnly, ReadWrite). */
-  hostCaching?: HostCachingOptions | (string & {});
+  hostCaching?: HostCachingOptions | (string & {}) | undefined;
 }
 /** New or existing data disks to attach to the virtual machine after creation */
 export type LabVirtualMachineCreationParameterPropertiesInputDataDiskParametersList =
@@ -516,64 +516,64 @@ export type WeekDetailsWeekdaysList = Array<string>;
 /** Properties of a weekly schedule. */
 export interface WeekDetails {
   /** The days of the week for which the schedule is set (e.g. Sunday, Monday, Tuesday, etc.). */
-  weekdays?: WeekDetailsWeekdaysList;
+  weekdays?: WeekDetailsWeekdaysList | undefined;
   /** The time of the day the schedule will occur. */
-  time?: string;
+  time?: string | undefined;
 }
 /** Properties of a daily schedule. */
 export interface DayDetails {
   /** The time of day the schedule will occur. */
-  time?: string;
+  time?: string | undefined;
 }
 /** Properties of an hourly schedule. */
 export interface HourDetails {
   /** Minutes of the hour the schedule will run. */
-  minute?: number;
+  minute?: number | undefined;
 }
 /** If notifications are enabled for this schedule (i.e. Enabled, Disabled). */
 export type NotificationSettingsStatus = "Enabled" | "Disabled";
 /** Notification settings for a schedule. */
 export interface NotificationSettings {
   /** If notifications are enabled for this schedule (i.e. Enabled, Disabled). */
-  status?: NotificationSettingsStatus | (string & {});
+  status?: NotificationSettingsStatus | (string & {}) | undefined;
   /** Time in minutes before event at which notification will be sent. */
-  timeInMinutes?: number;
+  timeInMinutes?: number | undefined;
   /** The webhook URL to which the notification will be sent. */
-  webhookUrl?: string;
+  webhookUrl?: string | undefined;
   /** The email recipient to send notifications to (can be a list of semi-colon separated email addresses). */
-  emailRecipient?: string;
+  emailRecipient?: string | undefined;
   /** The locale to use when sending a notification (fallback for unsupported languages is EN). */
-  notificationLocale?: string;
+  notificationLocale?: string | undefined;
 }
 /** Properties for schedule creation. */
 export interface ScheduleCreationParameterProperties {
   /** The status of the schedule (i.e. Enabled, Disabled) */
-  status?: ScheduleCreationParameterPropertiesStatus | (string & {});
+  status?: ScheduleCreationParameterPropertiesStatus | (string & {}) | undefined;
   /** The task type of the schedule (e.g. LabVmsShutdownTask, LabVmAutoStart). */
-  taskType?: string;
+  taskType?: string | undefined;
   /** If the schedule will occur only some days of the week, specify the weekly recurrence. */
-  weeklyRecurrence?: WeekDetails;
+  weeklyRecurrence?: WeekDetails | undefined;
   /** If the schedule will occur once each day of the week, specify the daily recurrence. */
-  dailyRecurrence?: DayDetails;
+  dailyRecurrence?: DayDetails | undefined;
   /** If the schedule will occur multiple times a day, specify the hourly recurrence. */
-  hourlyRecurrence?: HourDetails;
+  hourlyRecurrence?: HourDetails | undefined;
   /** The time zone ID (e.g. China Standard Time, Greenland Standard Time, Pacific Standard time, etc.). The possible values for this property can be found in `IReadOnlyCollection<string> TimeZoneConverter.TZConvert.KnownWindowsTimeZoneIds` (https://github.com/mattjohnsonpint/TimeZoneConverter/blob/main/README.md) */
-  timeZoneId?: string;
+  timeZoneId?: string | undefined;
   /** Notification settings. */
-  notificationSettings?: NotificationSettings;
+  notificationSettings?: NotificationSettings | undefined;
   /** The resource ID to which the schedule belongs */
-  targetResourceId?: string;
+  targetResourceId?: string | undefined;
 }
 /** The tags of the resource. */
 export type ScheduleCreationParameterInputTagsMap = { [key: string]: string | undefined };
 /** Properties for creating a schedule. */
 export interface ScheduleCreationParameterInput {
   /** The properties of the schedule. */
-  properties?: ScheduleCreationParameterProperties;
+  properties?: ScheduleCreationParameterProperties | undefined;
   /** The name of the virtual machine or environment */
-  name?: string;
+  name?: string | undefined;
   /** The tags of the resource. */
-  tags?: ScheduleCreationParameterInputTagsMap;
+  tags?: ScheduleCreationParameterInputTagsMap | undefined;
 }
 /** Virtual Machine schedules to be created */
 export type LabVirtualMachineCreationParameterPropertiesInputScheduleParametersList =
@@ -581,53 +581,57 @@ export type LabVirtualMachineCreationParameterPropertiesInputScheduleParametersL
 /** Properties for virtual machine creation. */
 export interface LabVirtualMachineCreationParameterPropertiesInput {
   /** The number of virtual machine instances to create. */
-  bulkCreationParameters?: BulkCreationParameters;
+  bulkCreationParameters?: BulkCreationParameters | undefined;
   /** The notes of the virtual machine. */
-  notes?: string;
+  notes?: string | undefined;
   /** The object identifier of the owner of the virtual machine. */
-  ownerObjectId?: string;
+  ownerObjectId?: string | undefined;
   /** The user principal name of the virtual machine owner. */
-  ownerUserPrincipalName?: string;
+  ownerUserPrincipalName?: string | undefined;
   /** The creation date of the virtual machine. */
-  createdDate?: string;
+  createdDate?: string | undefined;
   /** The custom image identifier of the virtual machine. */
-  customImageId?: string;
+  customImageId?: string | undefined;
   /** The size of the virtual machine. */
-  size?: string;
+  size?: string | undefined;
   /** The user name of the virtual machine. */
-  userName?: string;
+  userName?: string | undefined;
   /** The password of the virtual machine administrator. */
-  password?: string | Redacted.Redacted<string>;
+  password?: string | Redacted.Redacted<string> | undefined;
   /** The SSH key of the virtual machine administrator. */
-  sshKey?: string;
+  sshKey?: string | undefined;
   /** Indicates whether this virtual machine uses an SSH key for authentication. */
-  isAuthenticationWithSshKey?: boolean;
+  isAuthenticationWithSshKey?: boolean | undefined;
   /** The lab subnet name of the virtual machine. */
-  labSubnetName?: string;
+  labSubnetName?: string | undefined;
   /** The lab virtual network identifier of the virtual machine. */
-  labVirtualNetworkId?: string;
+  labVirtualNetworkId?: string | undefined;
   /** Indicates whether the virtual machine is to be created without a public IP address. */
-  disallowPublicIpAddress?: boolean;
+  disallowPublicIpAddress?: boolean | undefined;
   /** The artifacts to be installed on the virtual machine. */
-  artifacts?: LabVirtualMachineCreationParameterPropertiesInputArtifactsList;
+  artifacts?: LabVirtualMachineCreationParameterPropertiesInputArtifactsList | undefined;
   /** The Microsoft Azure Marketplace image reference of the virtual machine. */
-  galleryImageReference?: GalleryImageReference;
+  galleryImageReference?: GalleryImageReference | undefined;
   /** The id of the plan associated with the virtual machine image */
-  planId?: string;
+  planId?: string | undefined;
   /** The network interface properties. */
-  networkInterface?: NetworkInterfaceProperties;
+  networkInterface?: NetworkInterfaceProperties | undefined;
   /** The expiration date for VM. */
-  expirationDate?: string;
+  expirationDate?: string | undefined;
   /** Indicates whether another user can take ownership of the virtual machine */
-  allowClaim?: boolean;
+  allowClaim?: boolean | undefined;
   /** Storage type to use for virtual machine (i.e. Standard, Premium). */
-  storageType?: string;
+  storageType?: string | undefined;
   /** The resource ID of the environment that contains this virtual machine, if any. */
-  environmentId?: string;
+  environmentId?: string | undefined;
   /** New or existing data disks to attach to the virtual machine after creation */
-  dataDiskParameters?: LabVirtualMachineCreationParameterPropertiesInputDataDiskParametersList;
+  dataDiskParameters?:
+    | LabVirtualMachineCreationParameterPropertiesInputDataDiskParametersList
+    | undefined;
   /** Virtual Machine schedules to be created */
-  scheduleParameters?: LabVirtualMachineCreationParameterPropertiesInputScheduleParametersList;
+  scheduleParameters?:
+    | LabVirtualMachineCreationParameterPropertiesInputScheduleParametersList
+    | undefined;
 }
 /** The tags of the resource. */
 export type CreateLabEnvironmentRequestTagsMap = { [key: string]: string | undefined };
@@ -639,90 +643,90 @@ export interface CreateLabEnvironmentRequest {
   /** The name of the lab. */
   name: string;
   /** The properties of the resource. */
-  properties?: LabVirtualMachineCreationParameterPropertiesInput;
+  properties?: LabVirtualMachineCreationParameterPropertiesInput | undefined;
   /** The location of the new virtual machine or environment */
-  location?: string;
+  location?: string | undefined;
   /** The tags of the resource. */
-  tags?: CreateLabEnvironmentRequestTagsMap;
+  tags?: CreateLabEnvironmentRequestTagsMap | undefined;
 }
 export interface CreateLabEnvironmentResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** The state of the Windows OS (i.e. NonSysprepped, SysprepRequested, SysprepApplied). */
 export type WindowsOsState = "NonSysprepped" | "SysprepRequested" | "SysprepApplied";
 /** Information about a Windows OS. */
 export interface WindowsOsInfo {
   /** The state of the Windows OS (i.e. NonSysprepped, SysprepRequested, SysprepApplied). */
-  windowsOsState?: WindowsOsState | (string & {});
+  windowsOsState?: WindowsOsState | (string & {}) | undefined;
 }
 /** The state of the Linux OS (i.e. NonDeprovisioned, DeprovisionRequested, DeprovisionApplied). */
 export type LinuxOsState = "NonDeprovisioned" | "DeprovisionRequested" | "DeprovisionApplied";
 /** Information about a Linux OS. */
 export interface LinuxOsInfo {
   /** The state of the Linux OS (i.e. NonDeprovisioned, DeprovisionRequested, DeprovisionApplied). */
-  linuxOsState?: LinuxOsState | (string & {});
+  linuxOsState?: LinuxOsState | (string & {}) | undefined;
 }
 /** Properties for creating a custom image from a virtual machine. */
 export interface CustomImagePropertiesFromVm {
   /** The source vm identifier. */
-  sourceVmId?: string;
+  sourceVmId?: string | undefined;
   /** The Windows OS information of the VM. */
-  windowsOsInfo?: WindowsOsInfo;
+  windowsOsInfo?: WindowsOsInfo | undefined;
   /** The Linux OS information of the VM. */
-  linuxOsInfo?: LinuxOsInfo;
+  linuxOsInfo?: LinuxOsInfo | undefined;
 }
 /** The OS type of the custom image (i.e. Windows, Linux) */
 export type CustomImageOsType = "Windows" | "Linux" | "None";
 /** Properties for creating a custom image from a VHD. */
 export interface CustomImagePropertiesCustom {
   /** The image name. */
-  imageName?: string;
+  imageName?: string | undefined;
   /** Indicates whether sysprep has been run on the VHD. */
-  sysPrep?: boolean;
+  sysPrep?: boolean | undefined;
   /** The OS type of the custom image (i.e. Windows, Linux) */
   osType: CustomImageOsType | (string & {});
 }
 /** Storage information about the data disks present in the custom image */
 export interface DataDiskStorageTypeInfo {
   /** Disk Lun */
-  lun?: string;
+  lun?: string | undefined;
   /** Disk Storage Type */
-  storageType?: StorageType | (string & {});
+  storageType?: StorageType | (string & {}) | undefined;
 }
 /** Storage information about the data disks present in the custom image */
 export type CustomImagePropertiesInputDataDiskStorageInfoList = Array<DataDiskStorageTypeInfo>;
 /** Properties for plan on a custom image. */
 export interface CustomImagePropertiesFromPlan {
   /** The id of the plan, equivalent to name of the plan */
-  id?: string;
+  id?: string | undefined;
   /** The publisher for the plan from the marketplace image the custom image is derived from */
-  publisher?: string;
+  publisher?: string | undefined;
   /** The offer for the plan from the marketplace image the custom image is derived from */
-  offer?: string;
+  offer?: string | undefined;
 }
 /** Properties of a custom image. */
 export interface CustomImagePropertiesInput {
   /** The virtual machine from which the image is to be created. */
-  vm?: CustomImagePropertiesFromVm;
+  vm?: CustomImagePropertiesFromVm | undefined;
   /** The VHD from which the image is to be created. */
-  vhd?: CustomImagePropertiesCustom;
+  vhd?: CustomImagePropertiesCustom | undefined;
   /** The description of the custom image. */
-  description?: string;
+  description?: string | undefined;
   /** The author of the custom image. */
-  author?: string;
+  author?: string | undefined;
   /** The Managed Image Id backing the custom image. */
-  managedImageId?: string;
+  managedImageId?: string | undefined;
   /** The Managed Snapshot Id backing the custom image. */
-  managedSnapshotId?: string;
+  managedSnapshotId?: string | undefined;
   /** Storage information about the data disks present in the custom image */
-  dataDiskStorageInfo?: CustomImagePropertiesInputDataDiskStorageInfoList;
+  dataDiskStorageInfo?: CustomImagePropertiesInputDataDiskStorageInfoList | undefined;
   /** Storage information about the plan related to this custom image */
-  customImagePlan?: CustomImagePropertiesFromPlan;
+  customImagePlan?: CustomImagePropertiesFromPlan | undefined;
   /** Whether or not the custom images underlying offer/plan has been enabled for programmatic deployment */
-  isPlanAuthorized?: boolean;
+  isPlanAuthorized?: boolean | undefined;
 }
 /** Resource tags. */
 export type CustomImagesCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
@@ -738,60 +742,60 @@ export interface CustomImagesCreateOrUpdateRequest {
   /** The properties of the resource. */
   properties: CustomImagePropertiesInput;
   /** Resource tags. */
-  tags?: CustomImagesCreateOrUpdateRequestTagsMap;
+  tags?: CustomImagesCreateOrUpdateRequestTagsMap | undefined;
   /** The geo-location where the resource lives */
-  location?: string;
+  location?: string | undefined;
 }
 /** Storage information about the data disks present in the custom image */
 export type CustomImagePropertiesDataDiskStorageInfoList = Array<DataDiskStorageTypeInfo>;
 /** Properties of a custom image. */
 export interface CustomImageProperties {
   /** The virtual machine from which the image is to be created. */
-  vm?: CustomImagePropertiesFromVm;
+  vm?: CustomImagePropertiesFromVm | undefined;
   /** The VHD from which the image is to be created. */
-  vhd?: CustomImagePropertiesCustom;
+  vhd?: CustomImagePropertiesCustom | undefined;
   /** The description of the custom image. */
-  description?: string;
+  description?: string | undefined;
   /** The author of the custom image. */
-  author?: string;
+  author?: string | undefined;
   /** The creation date of the custom image. */
-  creationDate?: string;
+  creationDate?: string | undefined;
   /** The Managed Image Id backing the custom image. */
-  managedImageId?: string;
+  managedImageId?: string | undefined;
   /** The Managed Snapshot Id backing the custom image. */
-  managedSnapshotId?: string;
+  managedSnapshotId?: string | undefined;
   /** Storage information about the data disks present in the custom image */
-  dataDiskStorageInfo?: CustomImagePropertiesDataDiskStorageInfoList;
+  dataDiskStorageInfo?: CustomImagePropertiesDataDiskStorageInfoList | undefined;
   /** Storage information about the plan related to this custom image */
-  customImagePlan?: CustomImagePropertiesFromPlan;
+  customImagePlan?: CustomImagePropertiesFromPlan | undefined;
   /** Whether or not the custom images underlying offer/plan has been enabled for programmatic deployment */
-  isPlanAuthorized?: boolean;
+  isPlanAuthorized?: boolean | undefined;
   /** The provisioning status of the resource. */
-  provisioningState?: string;
+  provisioningState?: string | undefined;
   /** The unique immutable identifier of a resource (Guid). */
-  uniqueIdentifier?: string;
+  uniqueIdentifier?: string | undefined;
 }
 /** Resource tags. */
 export type CustomImagesCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
 export interface CustomImagesCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties of the resource. */
   properties: CustomImageProperties;
   /** Resource tags. */
-  tags?: CustomImagesCreateOrUpdateResponseTagsMap;
+  tags?: CustomImagesCreateOrUpdateResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
-  location?: string;
+  location?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  locationHeader?: string;
+  locationHeader?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeleteArtifactSourceRequest {
   /** The ID of the target subscription. */
@@ -816,9 +820,9 @@ export interface DeleteCustomImageRequest {
 }
 export interface DeleteCustomImageResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeleteDiskRequest {
   /** The ID of the target subscription. */
@@ -834,9 +838,9 @@ export interface DeleteDiskRequest {
 }
 export interface DeleteDiskResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeleteEnvironmentRequest {
   /** The ID of the target subscription. */
@@ -852,9 +856,9 @@ export interface DeleteEnvironmentRequest {
 }
 export interface DeleteEnvironmentResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeleteFormulasRequest {
   /** The ID of the target subscription. */
@@ -886,9 +890,9 @@ export interface DeleteLabRequest {
 }
 export interface DeleteLabResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeleteNotificationChannelRequest {
   /** The ID of the target subscription. */
@@ -952,9 +956,9 @@ export interface DeleteServiceFabricRequest {
 }
 export interface DeleteServiceFabricResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeleteServiceFabricScheduleRequest {
   /** The ID of the target subscription. */
@@ -994,9 +998,9 @@ export interface DeleteUserRequest {
 }
 export interface DeleteUserResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeleteVirtualMachineRequest {
   /** The ID of the target subscription. */
@@ -1010,9 +1014,9 @@ export interface DeleteVirtualMachineRequest {
 }
 export interface DeleteVirtualMachineResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeleteVirtualMachineScheduleRequest {
   /** The ID of the target subscription. */
@@ -1039,9 +1043,9 @@ export interface DeleteVirtualNetworkRequest {
 }
 export interface DeleteVirtualNetworkResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DetachDiskRequest {
   /** The ID of the target subscription. */
@@ -1055,13 +1059,13 @@ export interface DetachDiskRequest {
   /** The name of the disk. */
   name: string;
   /** The resource ID of the Lab VM to which the disk is attached. */
-  leasedByLabVmId?: string;
+  leasedByLabVmId?: string | undefined;
 }
 export interface DetachDiskResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DetachVirtualMachineDataDiskRequest {
   /** The ID of the target subscription. */
@@ -1073,32 +1077,32 @@ export interface DetachVirtualMachineDataDiskRequest {
   /** The name of the virtual machine. */
   name: string;
   /** Specifies the disk resource ID to detach from virtual machine. */
-  existingLabDiskId?: string;
+  existingLabDiskId?: string | undefined;
 }
 export interface DetachVirtualMachineDataDiskResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Properties of a disk. */
 export interface DiskPropertiesInput {
   /** The storage type for the disk (i.e. Standard, Premium). */
-  diskType?: StorageType | (string & {});
+  diskType?: StorageType | (string & {}) | undefined;
   /** The size of the disk in Gibibytes. */
-  diskSizeGiB?: number;
+  diskSizeGiB?: number | undefined;
   /** The resource ID of the VM to which this disk is leased. */
-  leasedByLabVmId?: string;
+  leasedByLabVmId?: string | undefined;
   /** When backed by a blob, the name of the VHD blob without extension. */
-  diskBlobName?: string;
+  diskBlobName?: string | undefined;
   /** When backed by a blob, the URI of underlying blob. */
-  diskUri?: string;
+  diskUri?: string | undefined;
   /** When backed by a blob, the storage account where the blob is. */
-  storageAccountId?: string;
+  storageAccountId?: string | undefined;
   /** The host caching policy of the disk (i.e. None, ReadOnly, ReadWrite). */
-  hostCaching?: string;
+  hostCaching?: string | undefined;
   /** When backed by managed disk, this is the ID of the compute disk resource. */
-  managedDiskId?: string;
+  managedDiskId?: string | undefined;
 }
 /** Resource tags. */
 export type DisksCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
@@ -1116,79 +1120,79 @@ export interface DisksCreateOrUpdateRequest {
   /** The properties of the disk. */
   properties: DiskPropertiesInput;
   /** Resource tags. */
-  tags?: DisksCreateOrUpdateRequestTagsMap;
+  tags?: DisksCreateOrUpdateRequestTagsMap | undefined;
   /** The geo-location where the resource lives */
-  location?: string;
+  location?: string | undefined;
 }
 /** Properties of a disk. */
 export interface DiskProperties {
   /** The storage type for the disk (i.e. Standard, Premium). */
-  diskType?: StorageType;
+  diskType?: StorageType | undefined;
   /** The size of the disk in Gibibytes. */
-  diskSizeGiB?: number;
+  diskSizeGiB?: number | undefined;
   /** The resource ID of the VM to which this disk is leased. */
-  leasedByLabVmId?: string;
+  leasedByLabVmId?: string | undefined;
   /** When backed by a blob, the name of the VHD blob without extension. */
-  diskBlobName?: string;
+  diskBlobName?: string | undefined;
   /** When backed by a blob, the URI of underlying blob. */
-  diskUri?: string;
+  diskUri?: string | undefined;
   /** When backed by a blob, the storage account where the blob is. */
-  storageAccountId?: string;
+  storageAccountId?: string | undefined;
   /** The creation date of the disk. */
-  createdDate?: string;
+  createdDate?: string | undefined;
   /** The host caching policy of the disk (i.e. None, ReadOnly, ReadWrite). */
-  hostCaching?: string;
+  hostCaching?: string | undefined;
   /** When backed by managed disk, this is the ID of the compute disk resource. */
-  managedDiskId?: string;
+  managedDiskId?: string | undefined;
   /** The provisioning status of the resource. */
-  provisioningState?: string;
+  provisioningState?: string | undefined;
   /** The unique immutable identifier of a resource (Guid). */
-  uniqueIdentifier?: string;
+  uniqueIdentifier?: string | undefined;
 }
 /** Resource tags. */
 export type DisksCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
 export interface DisksCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties of the disk. */
   properties: DiskProperties;
   /** Resource tags. */
-  tags?: DisksCreateOrUpdateResponseTagsMap;
+  tags?: DisksCreateOrUpdateResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
-  location?: string;
+  location?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  locationHeader?: string;
+  locationHeader?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Properties of an Azure Resource Manager template parameter. */
 export interface ArmTemplateParameterProperties {
   /** The name of the template parameter. */
-  name?: string;
+  name?: string | undefined;
   /** The value of the template parameter. */
-  value?: string;
+  value?: string | undefined;
 }
 /** The parameters of the Azure Resource Manager template. */
 export type EnvironmentDeploymentPropertiesParametersList = Array<ArmTemplateParameterProperties>;
 /** Properties of an environment deployment. */
 export interface EnvironmentDeploymentProperties {
   /** The Azure Resource Manager template's identifier. */
-  armTemplateId?: string;
+  armTemplateId?: string | undefined;
   /** The parameters of the Azure Resource Manager template. */
-  parameters?: EnvironmentDeploymentPropertiesParametersList;
+  parameters?: EnvironmentDeploymentPropertiesParametersList | undefined;
 }
 /** Properties of an environment. */
 export interface EnvironmentPropertiesInput {
   /** The deployment properties of the environment. */
-  deploymentProperties?: EnvironmentDeploymentProperties;
+  deploymentProperties?: EnvironmentDeploymentProperties | undefined;
   /** The display name of the Azure Resource Manager template that produced the environment. */
-  armTemplateDisplayName?: string;
+  armTemplateDisplayName?: string | undefined;
 }
 /** Resource tags. */
 export type EnvironmentsCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
@@ -1206,46 +1210,46 @@ export interface EnvironmentsCreateOrUpdateRequest {
   /** The properties of the environment. */
   properties: EnvironmentPropertiesInput;
   /** Resource tags. */
-  tags?: EnvironmentsCreateOrUpdateRequestTagsMap;
+  tags?: EnvironmentsCreateOrUpdateRequestTagsMap | undefined;
   /** The geo-location where the resource lives */
-  location?: string;
+  location?: string | undefined;
 }
 /** Properties of an environment. */
 export interface EnvironmentProperties {
   /** The deployment properties of the environment. */
-  deploymentProperties?: EnvironmentDeploymentProperties;
+  deploymentProperties?: EnvironmentDeploymentProperties | undefined;
   /** The display name of the Azure Resource Manager template that produced the environment. */
-  armTemplateDisplayName?: string;
+  armTemplateDisplayName?: string | undefined;
   /** The identifier of the resource group containing the environment's resources. */
-  resourceGroupId?: string;
+  resourceGroupId?: string | undefined;
   /** The creator of the environment. */
-  createdByUser?: string;
+  createdByUser?: string | undefined;
   /** The provisioning status of the resource. */
-  provisioningState?: string;
+  provisioningState?: string | undefined;
   /** The unique immutable identifier of a resource (Guid). */
-  uniqueIdentifier?: string;
+  uniqueIdentifier?: string | undefined;
 }
 /** Resource tags. */
 export type EnvironmentsCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
 export interface EnvironmentsCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties of the environment. */
   properties: EnvironmentProperties;
   /** Resource tags. */
-  tags?: EnvironmentsCreateOrUpdateResponseTagsMap;
+  tags?: EnvironmentsCreateOrUpdateResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
-  location?: string;
+  location?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  locationHeader?: string;
+  locationHeader?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface ExecuteGlobalScheduleRequest {
   /** The ID of the target subscription. */
@@ -1257,9 +1261,9 @@ export interface ExecuteGlobalScheduleRequest {
 }
 export interface ExecuteGlobalScheduleResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface ExecuteScheduleRequest {
   /** The ID of the target subscription. */
@@ -1273,9 +1277,9 @@ export interface ExecuteScheduleRequest {
 }
 export interface ExecuteScheduleResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface ExecuteServiceFabricScheduleRequest {
   /** The ID of the target subscription. */
@@ -1293,9 +1297,9 @@ export interface ExecuteServiceFabricScheduleRequest {
 }
 export interface ExecuteServiceFabricScheduleResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface ExecuteVirtualMachineScheduleRequest {
   /** The ID of the target subscription. */
@@ -1311,9 +1315,9 @@ export interface ExecuteVirtualMachineScheduleRequest {
 }
 export interface ExecuteVirtualMachineScheduleResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface ExportLabResourceUsageRequest {
   /** The ID of the target subscription. */
@@ -1323,44 +1327,44 @@ export interface ExportLabResourceUsageRequest {
   /** The name of the lab. */
   name: string;
   /** The blob storage absolute sas uri with write permission to the container which the usage data needs to be uploaded to. */
-  blobStorageAbsoluteSasUri?: string;
+  blobStorageAbsoluteSasUri?: string | undefined;
   /** The start time of the usage. If not provided, usage will be reported since the beginning of data collection. */
-  usageStartDate?: string;
+  usageStartDate?: string | undefined;
 }
 export interface ExportLabResourceUsageResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** The tags of the resource. */
 export type LabVirtualMachineCreationParameterInputTagsMap = { [key: string]: string | undefined };
 /** Properties for creating a virtual machine. */
 export interface LabVirtualMachineCreationParameterInput {
   /** The properties of the resource. */
-  properties?: LabVirtualMachineCreationParameterPropertiesInput;
+  properties?: LabVirtualMachineCreationParameterPropertiesInput | undefined;
   /** The name of the virtual machine or environment */
-  name?: string;
+  name?: string | undefined;
   /** The location of the new virtual machine or environment */
-  location?: string;
+  location?: string | undefined;
   /** The tags of the resource. */
-  tags?: LabVirtualMachineCreationParameterInputTagsMap;
+  tags?: LabVirtualMachineCreationParameterInputTagsMap | undefined;
 }
 /** Information about a VM from which a formula is to be created. */
 export interface FormulaPropertiesFromVm {
   /** The identifier of the VM from which a formula is to be created. */
-  labVmId?: string;
+  labVmId?: string | undefined;
 }
 /** Properties of a formula. */
 export interface FormulaPropertiesInput {
   /** The description of the formula. */
-  description?: string;
+  description?: string | undefined;
   /** The OS type of the formula. */
-  osType?: string;
+  osType?: string | undefined;
   /** The content of the formula. */
-  formulaContent?: LabVirtualMachineCreationParameterInput;
+  formulaContent?: LabVirtualMachineCreationParameterInput | undefined;
   /** Information about a VM from which a formula is to be created. */
-  vm?: FormulaPropertiesFromVm;
+  vm?: FormulaPropertiesFromVm | undefined;
 }
 /** Resource tags. */
 export type FormulasCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
@@ -1376,9 +1380,9 @@ export interface FormulasCreateOrUpdateRequest {
   /** The properties of the formula. */
   properties: FormulaPropertiesInput;
   /** Resource tags. */
-  tags?: FormulasCreateOrUpdateRequestTagsMap;
+  tags?: FormulasCreateOrUpdateRequestTagsMap | undefined;
   /** The geo-location where the resource lives */
-  location?: string;
+  location?: string | undefined;
 }
 /** The artifacts to be installed on the virtual machine. */
 export type LabVirtualMachineCreationParameterPropertiesArtifactsList =
@@ -1391,13 +1395,13 @@ export type ScheduleCreationParameterTagsMap = { [key: string]: string | undefin
 /** Properties for creating a schedule. */
 export interface ScheduleCreationParameter {
   /** The properties of the schedule. */
-  properties?: ScheduleCreationParameterProperties;
+  properties?: ScheduleCreationParameterProperties | undefined;
   /** The name of the virtual machine or environment */
-  name?: string;
+  name?: string | undefined;
   /** The location of the new virtual machine or environment */
-  location?: string;
+  location?: string | undefined;
   /** The tags of the resource. */
-  tags?: ScheduleCreationParameterTagsMap;
+  tags?: ScheduleCreationParameterTagsMap | undefined;
 }
 /** Virtual Machine schedules to be created */
 export type LabVirtualMachineCreationParameterPropertiesScheduleParametersList =
@@ -1405,107 +1409,115 @@ export type LabVirtualMachineCreationParameterPropertiesScheduleParametersList =
 /** Properties for virtual machine creation. */
 export interface LabVirtualMachineCreationParameterProperties {
   /** The number of virtual machine instances to create. */
-  bulkCreationParameters?: BulkCreationParameters;
+  bulkCreationParameters?: BulkCreationParameters | undefined;
   /** The notes of the virtual machine. */
-  notes?: string;
+  notes?: string | undefined;
   /** The object identifier of the owner of the virtual machine. */
-  ownerObjectId?: string;
+  ownerObjectId?: string | undefined;
   /** The user principal name of the virtual machine owner. */
-  ownerUserPrincipalName?: string;
+  ownerUserPrincipalName?: string | undefined;
   /** The creation date of the virtual machine. */
-  createdDate?: string;
+  createdDate?: string | undefined;
   /** The custom image identifier of the virtual machine. */
-  customImageId?: string;
+  customImageId?: string | undefined;
   /** The size of the virtual machine. */
-  size?: string;
+  size?: string | undefined;
   /** The user name of the virtual machine. */
-  userName?: string;
+  userName?: string | undefined;
   /** The password of the virtual machine administrator. */
-  password?: string | Redacted.Redacted<string>;
+  password?: string | Redacted.Redacted<string> | undefined;
   /** The SSH key of the virtual machine administrator. */
-  sshKey?: string;
+  sshKey?: string | undefined;
   /** Indicates whether this virtual machine uses an SSH key for authentication. */
-  isAuthenticationWithSshKey?: boolean;
+  isAuthenticationWithSshKey?: boolean | undefined;
   /** The lab subnet name of the virtual machine. */
-  labSubnetName?: string;
+  labSubnetName?: string | undefined;
   /** The lab virtual network identifier of the virtual machine. */
-  labVirtualNetworkId?: string;
+  labVirtualNetworkId?: string | undefined;
   /** Indicates whether the virtual machine is to be created without a public IP address. */
-  disallowPublicIpAddress?: boolean;
+  disallowPublicIpAddress?: boolean | undefined;
   /** The artifacts to be installed on the virtual machine. */
-  artifacts?: LabVirtualMachineCreationParameterPropertiesArtifactsList;
+  artifacts?: LabVirtualMachineCreationParameterPropertiesArtifactsList | undefined;
   /** The Microsoft Azure Marketplace image reference of the virtual machine. */
-  galleryImageReference?: GalleryImageReference;
+  galleryImageReference?: GalleryImageReference | undefined;
   /** The id of the plan associated with the virtual machine image */
-  planId?: string;
+  planId?: string | undefined;
   /** The network interface properties. */
-  networkInterface?: NetworkInterfaceProperties;
+  networkInterface?: NetworkInterfaceProperties | undefined;
   /** The expiration date for VM. */
-  expirationDate?: string;
+  expirationDate?: string | undefined;
   /** Indicates whether another user can take ownership of the virtual machine */
-  allowClaim?: boolean;
+  allowClaim?: boolean | undefined;
   /** Storage type to use for virtual machine (i.e. Standard, Premium). */
-  storageType?: string;
+  storageType?: string | undefined;
   /** The resource ID of the environment that contains this virtual machine, if any. */
-  environmentId?: string;
+  environmentId?: string | undefined;
   /** New or existing data disks to attach to the virtual machine after creation */
-  dataDiskParameters?: LabVirtualMachineCreationParameterPropertiesDataDiskParametersList;
+  dataDiskParameters?:
+    | LabVirtualMachineCreationParameterPropertiesDataDiskParametersList
+    | undefined;
   /** Virtual Machine schedules to be created */
-  scheduleParameters?: LabVirtualMachineCreationParameterPropertiesScheduleParametersList;
+  scheduleParameters?:
+    | LabVirtualMachineCreationParameterPropertiesScheduleParametersList
+    | undefined;
 }
 /** The tags of the resource. */
 export type LabVirtualMachineCreationParameterTagsMap = { [key: string]: string | undefined };
 /** Properties for creating a virtual machine. */
 export interface LabVirtualMachineCreationParameter {
   /** The properties of the resource. */
-  properties?: LabVirtualMachineCreationParameterProperties;
+  properties?: LabVirtualMachineCreationParameterProperties | undefined;
   /** The name of the virtual machine or environment */
-  name?: string;
+  name?: string | undefined;
   /** The location of the new virtual machine or environment */
-  location?: string;
+  location?: string | undefined;
   /** The tags of the resource. */
-  tags?: LabVirtualMachineCreationParameterTagsMap;
+  tags?: LabVirtualMachineCreationParameterTagsMap | undefined;
 }
+/** The configured credential state of a formula. */
+export type FormulaCredentialState = "NotConfigured" | "PasswordConfigured" | "SshKeyConfigured";
 /** Properties of a formula. */
 export interface FormulaProperties {
   /** The description of the formula. */
-  description?: string;
+  description?: string | undefined;
   /** The author of the formula. */
-  author?: string;
+  author?: string | undefined;
   /** The OS type of the formula. */
-  osType?: string;
+  osType?: string | undefined;
   /** The creation date of the formula. */
-  creationDate?: string;
+  creationDate?: string | undefined;
   /** The content of the formula. */
-  formulaContent?: LabVirtualMachineCreationParameter;
+  formulaContent?: LabVirtualMachineCreationParameter | undefined;
+  /** The configured credential state of the formula. This property does not expose the credential value or storage mechanism. */
+  credentialState?: FormulaCredentialState | undefined;
   /** Information about a VM from which a formula is to be created. */
-  vm?: FormulaPropertiesFromVm;
+  vm?: FormulaPropertiesFromVm | undefined;
   /** The provisioning status of the resource. */
-  provisioningState?: string;
+  provisioningState?: string | undefined;
   /** The unique immutable identifier of a resource (Guid). */
-  uniqueIdentifier?: string;
+  uniqueIdentifier?: string | undefined;
 }
 /** Resource tags. */
 export type FormulasCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
 export interface FormulasCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties of the formula. */
   properties: FormulaProperties;
   /** Resource tags. */
-  tags?: FormulasCreateOrUpdateResponseTagsMap;
+  tags?: FormulasCreateOrUpdateResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
-  location?: string;
+  location?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  locationHeader?: string;
+  locationHeader?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Information about an artifact's parameter. */
 export type ParameterInfo = ArtifactParameterProperties;
@@ -1525,13 +1537,13 @@ export interface GenerateArtifactArmTemplateRequest {
   /** The name of the artifact. */
   name: string;
   /** The resource name of the virtual machine. */
-  virtualMachineName?: string;
+  virtualMachineName?: string | undefined;
   /** The parameters of the ARM template. */
-  parameters?: GenerateArtifactArmTemplateRequestParametersList;
+  parameters?: GenerateArtifactArmTemplateRequestParametersList | undefined;
   /** The location of the virtual machine. */
-  location?: string;
+  location?: string | undefined;
   /** Options for uploading the files for the artifact. UploadFilesAndGenerateSasTokens is the default value. */
-  fileUploadOptions?: FileUploadOptions | (string & {});
+  fileUploadOptions?: FileUploadOptions | (string & {}) | undefined;
 }
 /** The template's contents. */
 export type ArmTemplateInfoTemplateMap = { [key: string]: unknown | undefined };
@@ -1540,9 +1552,9 @@ export type ArmTemplateInfoParametersMap = { [key: string]: unknown | undefined 
 /** Information about a generated ARM template. */
 export interface ArmTemplateInfo {
   /** The template's contents. */
-  template?: ArmTemplateInfoTemplateMap;
+  template?: ArmTemplateInfoTemplateMap | undefined;
   /** The parameters of the ARM template. */
-  parameters?: ArmTemplateInfoParametersMap;
+  parameters?: ArmTemplateInfoParametersMap | undefined;
 }
 export interface GetArmTemplateRequest {
   /** The ID of the target subscription. */
@@ -1556,7 +1568,7 @@ export interface GetArmTemplateRequest {
   /** The name of the azure resource manager template. */
   name: string;
   /** Specify the $expand query. Example: 'properties($select=displayName)' */
-  _expand?: string;
+  _expand?: string | undefined;
 }
 /** The contents of the ARM template. */
 export type ArmTemplatePropertiesContentsMap = { [key: string]: unknown | undefined };
@@ -1565,48 +1577,48 @@ export type ParametersValueFileInfoParametersValueInfoMap = { [key: string]: unk
 /** A file containing a set of parameter values for an ARM template. */
 export interface ParametersValueFileInfo {
   /** File name. */
-  fileName?: string;
+  fileName?: string | undefined;
   /** Contents of the file. */
-  parametersValueInfo?: ParametersValueFileInfoParametersValueInfoMap;
+  parametersValueInfo?: ParametersValueFileInfoParametersValueInfoMap | undefined;
 }
 /** File name and parameter values information from all azuredeploy.*.parameters.json for the ARM template. */
 export type ArmTemplatePropertiesParametersValueFilesInfoList = Array<ParametersValueFileInfo>;
 /** Properties of an Azure Resource Manager template. */
 export interface ArmTemplateProperties {
   /** The display name of the ARM template. */
-  displayName?: string;
+  displayName?: string | undefined;
   /** The description of the ARM template. */
-  description?: string;
+  description?: string | undefined;
   /** The publisher of the ARM template. */
-  publisher?: string;
+  publisher?: string | undefined;
   /** The URI to the icon of the ARM template. */
-  icon?: string;
+  icon?: string | undefined;
   /** The contents of the ARM template. */
-  contents?: ArmTemplatePropertiesContentsMap;
+  contents?: ArmTemplatePropertiesContentsMap | undefined;
   /** The creation date of the armTemplate. */
-  createdDate?: string;
+  createdDate?: string | undefined;
   /** File name and parameter values information from all azuredeploy.*.parameters.json for the ARM template. */
-  parametersValueFilesInfo?: ArmTemplatePropertiesParametersValueFilesInfoList;
+  parametersValueFilesInfo?: ArmTemplatePropertiesParametersValueFilesInfoList | undefined;
   /** Whether or not ARM template is enabled for use by lab user. */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
 }
 /** Resource tags. */
 export type GetArmTemplateResponseTagsMap = { [key: string]: string | undefined };
 export interface GetArmTemplateResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties of the resource. */
   properties: ArmTemplateProperties;
   /** Resource tags. */
-  tags?: GetArmTemplateResponseTagsMap;
+  tags?: GetArmTemplateResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
-  location?: string;
+  location?: string | undefined;
 }
 export interface GetArtifactRequest {
   /** The ID of the target subscription. */
@@ -1620,46 +1632,46 @@ export interface GetArtifactRequest {
   /** The name of the artifact. */
   name: string;
   /** Specify the $expand query. Example: 'properties($select=title)' */
-  _expand?: string;
+  _expand?: string | undefined;
 }
 /** The artifact's parameters. */
 export type ArtifactPropertiesParametersMap = { [key: string]: unknown | undefined };
 /** Properties of an artifact. */
 export interface ArtifactProperties {
   /** The artifact's title. */
-  title?: string;
+  title?: string | undefined;
   /** The artifact's description. */
-  description?: string;
+  description?: string | undefined;
   /** The artifact's publisher. */
-  publisher?: string;
+  publisher?: string | undefined;
   /** The file path to the artifact. */
-  filePath?: string;
+  filePath?: string | undefined;
   /** The URI to the artifact icon. */
-  icon?: string;
+  icon?: string | undefined;
   /** The artifact's target OS. */
-  targetOsType?: string;
+  targetOsType?: string | undefined;
   /** The artifact's parameters. */
-  parameters?: ArtifactPropertiesParametersMap;
+  parameters?: ArtifactPropertiesParametersMap | undefined;
   /** The artifact's creation date. */
-  createdDate?: string;
+  createdDate?: string | undefined;
 }
 /** Resource tags. */
 export type GetArtifactResponseTagsMap = { [key: string]: string | undefined };
 export interface GetArtifactResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties of the resource. */
   properties: ArtifactProperties;
   /** Resource tags. */
-  tags?: GetArtifactResponseTagsMap;
+  tags?: GetArtifactResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
-  location?: string;
+  location?: string | undefined;
 }
 export interface GetArtifactSourceRequest {
   /** The ID of the target subscription. */
@@ -1671,25 +1683,25 @@ export interface GetArtifactSourceRequest {
   /** The name of the artifact source. */
   name: string;
   /** Specify the $expand query. Example: 'properties($select=displayName)' */
-  _expand?: string;
+  _expand?: string | undefined;
 }
 /** Resource tags. */
 export type GetArtifactSourceResponseTagsMap = { [key: string]: string | undefined };
 export interface GetArtifactSourceResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties of the resource. */
   properties: ArtifactSourceProperties;
   /** Resource tags. */
-  tags?: GetArtifactSourceResponseTagsMap;
+  tags?: GetArtifactSourceResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
-  location?: string;
+  location?: string | undefined;
 }
 export interface GetCostRequest {
   /** The ID of the target subscription. */
@@ -1701,25 +1713,25 @@ export interface GetCostRequest {
   /** The name of the cost. */
   name: string;
   /** Specify the $expand query. Example: 'properties($expand=labCostDetails)' */
-  _expand?: string;
+  _expand?: string | undefined;
 }
 /** Resource tags. */
 export type GetCostResponseTagsMap = { [key: string]: string | undefined };
 export interface GetCostResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties of the resource. */
   properties: LabCostProperties;
   /** Resource tags. */
-  tags?: GetCostResponseTagsMap;
+  tags?: GetCostResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
-  location?: string;
+  location?: string | undefined;
 }
 export interface GetCustomImageRequest {
   /** The ID of the target subscription. */
@@ -1731,25 +1743,25 @@ export interface GetCustomImageRequest {
   /** The name of the CustomImage */
   name: string;
   /** Specify the $expand query. Example: 'properties($select=vm)' */
-  _expand?: string;
+  _expand?: string | undefined;
 }
 /** Resource tags. */
 export type GetCustomImageResponseTagsMap = { [key: string]: string | undefined };
 export interface GetCustomImageResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties of the resource. */
   properties: CustomImageProperties;
   /** Resource tags. */
-  tags?: GetCustomImageResponseTagsMap;
+  tags?: GetCustomImageResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
-  location?: string;
+  location?: string | undefined;
 }
 export interface GetDiskRequest {
   /** The ID of the target subscription. */
@@ -1763,25 +1775,25 @@ export interface GetDiskRequest {
   /** The name of the disk. */
   name: string;
   /** Specify the $expand query. Example: 'properties($select=diskType)' */
-  _expand?: string;
+  _expand?: string | undefined;
 }
 /** Resource tags. */
 export type GetDiskResponseTagsMap = { [key: string]: string | undefined };
 export interface GetDiskResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties of the disk. */
   properties: DiskProperties;
   /** Resource tags. */
-  tags?: GetDiskResponseTagsMap;
+  tags?: GetDiskResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
-  location?: string;
+  location?: string | undefined;
 }
 export interface GetEnvironmentRequest {
   /** The ID of the target subscription. */
@@ -1795,25 +1807,25 @@ export interface GetEnvironmentRequest {
   /** The name of the environment. */
   name: string;
   /** Specify the $expand query. Example: 'properties($select=deploymentProperties)' */
-  _expand?: string;
+  _expand?: string | undefined;
 }
 /** Resource tags. */
 export type GetEnvironmentResponseTagsMap = { [key: string]: string | undefined };
 export interface GetEnvironmentResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties of the environment. */
   properties: EnvironmentProperties;
   /** Resource tags. */
-  tags?: GetEnvironmentResponseTagsMap;
+  tags?: GetEnvironmentResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
-  location?: string;
+  location?: string | undefined;
 }
 export interface GetFormulasRequest {
   /** The ID of the target subscription. */
@@ -1825,25 +1837,25 @@ export interface GetFormulasRequest {
   /** The name of the formula. */
   name: string;
   /** Specify the $expand query. Example: 'properties($select=description)' */
-  _expand?: string;
+  _expand?: string | undefined;
 }
 /** Resource tags. */
 export type GetFormulasResponseTagsMap = { [key: string]: string | undefined };
 export interface GetFormulasResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties of the formula. */
   properties: FormulaProperties;
   /** Resource tags. */
-  tags?: GetFormulasResponseTagsMap;
+  tags?: GetFormulasResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
-  location?: string;
+  location?: string | undefined;
 }
 export interface GetGlobalScheduleRequest {
   /** The ID of the target subscription. */
@@ -1853,52 +1865,52 @@ export interface GetGlobalScheduleRequest {
   /** The name of the Schedule */
   name: string;
   /** Specify the $expand query. Example: 'properties($select=status)' */
-  _expand?: string;
+  _expand?: string | undefined;
 }
 /** The status of the schedule (i.e. Enabled, Disabled) */
 export type SchedulePropertiesStatus = "Enabled" | "Disabled";
 /** Properties of a schedule. */
 export interface ScheduleProperties {
   /** The status of the schedule (i.e. Enabled, Disabled) */
-  status?: SchedulePropertiesStatus;
+  status?: SchedulePropertiesStatus | undefined;
   /** The task type of the schedule (e.g. LabVmsShutdownTask, LabVmAutoStart). */
-  taskType?: string;
+  taskType?: string | undefined;
   /** If the schedule will occur only some days of the week, specify the weekly recurrence. */
-  weeklyRecurrence?: WeekDetails;
+  weeklyRecurrence?: WeekDetails | undefined;
   /** If the schedule will occur once each day of the week, specify the daily recurrence. */
-  dailyRecurrence?: DayDetails;
+  dailyRecurrence?: DayDetails | undefined;
   /** If the schedule will occur multiple times a day, specify the hourly recurrence. */
-  hourlyRecurrence?: HourDetails;
+  hourlyRecurrence?: HourDetails | undefined;
   /** The time zone ID (e.g. China Standard Time, Greenland Standard Time, Pacific Standard time, etc.). The possible values for this property can be found in `IReadOnlyCollection<string> TimeZoneConverter.TZConvert.KnownWindowsTimeZoneIds` (https://github.com/mattjohnsonpint/TimeZoneConverter/blob/main/README.md) */
-  timeZoneId?: string;
+  timeZoneId?: string | undefined;
   /** Notification settings. */
-  notificationSettings?: NotificationSettings;
+  notificationSettings?: NotificationSettings | undefined;
   /** The creation date of the schedule. */
-  createdDate?: string;
+  createdDate?: string | undefined;
   /** The resource ID to which the schedule belongs */
-  targetResourceId?: string;
+  targetResourceId?: string | undefined;
   /** The provisioning status of the resource. */
-  provisioningState?: string;
+  provisioningState?: string | undefined;
   /** The unique immutable identifier of a resource (Guid). */
-  uniqueIdentifier?: string;
+  uniqueIdentifier?: string | undefined;
 }
 /** Resource tags. */
 export type GetGlobalScheduleResponseTagsMap = { [key: string]: string | undefined };
 export interface GetGlobalScheduleResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties of the resource. */
   properties: ScheduleProperties;
   /** Resource tags. */
-  tags?: GetGlobalScheduleResponseTagsMap;
+  tags?: GetGlobalScheduleResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
-  location?: string;
+  location?: string | undefined;
 }
 export interface GetLabRequest {
   /** The ID of the target subscription. */
@@ -1908,7 +1920,7 @@ export interface GetLabRequest {
   /** The name of the lab. */
   name: string;
   /** Specify the $expand query. Example: 'properties($select=defaultStorageAccount)' */
-  _expand?: string;
+  _expand?: string | undefined;
 }
 /** Type of storage used by the lab. It can be either Premium or Standard. Default is Premium. */
 export type LabPropertiesLabStorageType = "Standard" | "Premium" | "StandardSSD";
@@ -1923,89 +1935,93 @@ export type EnvironmentPermission = "Reader" | "Contributor";
 /** Properties of a lab's announcement banner */
 export interface LabAnnouncementProperties {
   /** The plain text title for the lab announcement */
-  title?: string;
+  title?: string | undefined;
   /** The markdown text (if any) that this lab displays in the UI. If left empty/null, nothing will be shown. */
-  markdown?: string;
+  markdown?: string | undefined;
   /** Is the lab announcement active/enabled at this time? */
-  enabled?: EnableStatus;
+  enabled?: EnableStatus | undefined;
   /** The time at which the announcement expires (null for never) */
-  expirationDate?: string;
+  expirationDate?: string | undefined;
   /** Has this announcement expired? */
-  expired?: boolean;
+  expired?: boolean | undefined;
   /** The provisioning status of the resource. */
-  provisioningState?: string;
+  provisioningState?: string | undefined;
   /** The unique immutable identifier of a resource (Guid). */
-  uniqueIdentifier?: string;
+  uniqueIdentifier?: string | undefined;
 }
 /** Properties of a lab's support banner */
 export interface LabSupportProperties {
   /** Is the lab support banner active/enabled at this time? */
-  enabled?: EnableStatus | (string & {});
+  enabled?: EnableStatus | (string & {}) | undefined;
   /** The markdown text (if any) that this lab displays in the UI. If left empty/null, nothing will be shown. */
-  markdown?: string;
+  markdown?: string | undefined;
 }
 /** Extended properties of the lab used for experimental features */
 export type LabPropertiesExtendedPropertiesMap = { [key: string]: string | undefined };
 /** Properties of a lab. */
 export interface LabProperties {
   /** The lab's default storage account. */
-  defaultStorageAccount?: string;
+  defaultStorageAccount?: string | undefined;
   /** The lab's default premium storage account. */
-  defaultPremiumStorageAccount?: string;
+  defaultPremiumStorageAccount?: string | undefined;
   /** The lab's artifact storage account. */
-  artifactsStorageAccount?: string;
+  artifactsStorageAccount?: string | undefined;
   /** The lab's premium data disk storage account. */
-  premiumDataDiskStorageAccount?: string;
+  premiumDataDiskStorageAccount?: string | undefined;
   /** The lab's Key vault. */
-  vaultName?: string;
+  vaultName?: string | undefined;
   /** Type of storage used by the lab. It can be either Premium or Standard. Default is Premium. */
-  labStorageType?: LabPropertiesLabStorageType;
+  labStorageType?: LabPropertiesLabStorageType | undefined;
   /** The ordered list of artifact resource IDs that should be applied on all Linux VM creations by default, prior to the artifacts specified by the user. */
-  mandatoryArtifactsResourceIdsLinux?: LabPropertiesMandatoryArtifactsResourceIdsLinuxList;
+  mandatoryArtifactsResourceIdsLinux?:
+    | LabPropertiesMandatoryArtifactsResourceIdsLinuxList
+    | undefined;
   /** The ordered list of artifact resource IDs that should be applied on all Windows VM creations by default, prior to the artifacts specified by the user. */
-  mandatoryArtifactsResourceIdsWindows?: LabPropertiesMandatoryArtifactsResourceIdsWindowsList;
+  mandatoryArtifactsResourceIdsWindows?:
+    | LabPropertiesMandatoryArtifactsResourceIdsWindowsList
+    | undefined;
   /** The creation date of the lab. */
-  createdDate?: string;
+  createdDate?: string | undefined;
   /** The setting to enable usage of premium data disks. When its value is 'Enabled', creation of standard or premium data disks is allowed. When its value is 'Disabled', only creation of standard data disks is allowed. */
-  premiumDataDisks?: PremiumDataDisk;
+  premiumDataDisks?: PremiumDataDisk | undefined;
   /** The access rights to be granted to the user when provisioning an environment */
-  environmentPermission?: EnvironmentPermission;
+  environmentPermission?: EnvironmentPermission | undefined;
   /** The properties of any lab announcement associated with this lab */
-  announcement?: LabAnnouncementProperties;
+  announcement?: LabAnnouncementProperties | undefined;
   /** The properties of any lab support message associated with this lab */
-  support?: LabSupportProperties;
+  support?: LabSupportProperties | undefined;
   /** The resource group in which all new lab virtual machines will be created. To let DevTest Labs manage resource group creation, set this value to null. */
-  vmCreationResourceGroup?: string;
+  vmCreationResourceGroup?: string | undefined;
   /** The public IP address for the lab's load balancer. */
-  publicIpId?: string;
+  publicIpId?: string | undefined;
   /** The load balancer used to for lab VMs that use shared IP address. */
-  loadBalancerId?: string;
+  loadBalancerId?: string | undefined;
   /** The Network Security Group attached to the lab VMs Network interfaces to restrict open ports. */
-  networkSecurityGroupId?: string;
+  networkSecurityGroupId?: string | undefined;
   /** Extended properties of the lab used for experimental features */
-  extendedProperties?: LabPropertiesExtendedPropertiesMap;
+  extendedProperties?: LabPropertiesExtendedPropertiesMap | undefined;
   /** The provisioning status of the resource. */
-  provisioningState?: string;
+  provisioningState?: string | undefined;
   /** The unique immutable identifier of a resource (Guid). */
-  uniqueIdentifier?: string;
+  uniqueIdentifier?: string | undefined;
 }
 /** Resource tags. */
 export type GetLabResponseTagsMap = { [key: string]: string | undefined };
 export interface GetLabResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties of the resource. */
   properties: LabProperties;
   /** Resource tags. */
-  tags?: GetLabResponseTagsMap;
+  tags?: GetLabResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
-  location?: string;
+  location?: string | undefined;
 }
 export interface GetNotificationChannelRequest {
   /** The ID of the target subscription. */
@@ -2017,53 +2033,53 @@ export interface GetNotificationChannelRequest {
   /** The name of the notification channel. */
   name: string;
   /** Specify the $expand query. Example: 'properties($select=webHookUrl)' */
-  _expand?: string;
+  _expand?: string | undefined;
 }
 /** The event type for which this notification is enabled (i.e. AutoShutdown, Cost) */
 export type NotificationChannelEventType = "AutoShutdown" | "Cost";
 /** An event to be notified for. */
 export interface Event {
   /** The event type for which this notification is enabled (i.e. AutoShutdown, Cost) */
-  eventName?: NotificationChannelEventType | (string & {});
+  eventName?: NotificationChannelEventType | (string & {}) | undefined;
 }
 /** The list of event for which this notification is enabled. */
 export type NotificationChannelPropertiesEventsList = Array<Event>;
 /** Properties of a schedule. */
 export interface NotificationChannelProperties {
   /** The webhook URL to send notifications to. */
-  webHookUrl?: string;
+  webHookUrl?: string | undefined;
   /** The email recipient to send notifications to (can be a list of semi-colon separated email addresses). */
-  emailRecipient?: string;
+  emailRecipient?: string | undefined;
   /** The locale to use when sending a notification (fallback for unsupported languages is EN). */
-  notificationLocale?: string;
+  notificationLocale?: string | undefined;
   /** Description of notification. */
-  description?: string;
+  description?: string | undefined;
   /** The list of event for which this notification is enabled. */
-  events?: NotificationChannelPropertiesEventsList;
+  events?: NotificationChannelPropertiesEventsList | undefined;
   /** The creation date of the notification channel. */
-  createdDate?: string;
+  createdDate?: string | undefined;
   /** The provisioning status of the resource. */
-  provisioningState?: string;
+  provisioningState?: string | undefined;
   /** The unique immutable identifier of a resource (Guid). */
-  uniqueIdentifier?: string;
+  uniqueIdentifier?: string | undefined;
 }
 /** Resource tags. */
 export type GetNotificationChannelResponseTagsMap = { [key: string]: string | undefined };
 export interface GetNotificationChannelResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties of the resource. */
   properties: NotificationChannelProperties;
   /** Resource tags. */
-  tags?: GetNotificationChannelResponseTagsMap;
+  tags?: GetNotificationChannelResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
-  location?: string;
+  location?: string | undefined;
 }
 export interface GetOperationRequest {
   /** The ID of the target subscription. */
@@ -2125,18 +2141,18 @@ export type HttpStatusCode =
 /** Error details for the operation in case of a failure. */
 export interface OperationError {
   /** The error code of the operation error. */
-  code?: string;
+  code?: string | undefined;
   /** The error message of the operation error. */
-  message?: string;
+  message?: string | undefined;
 }
 /** An Operation Result */
 export interface OperationResult {
   /** The operation status. */
-  status?: string;
+  status?: string | undefined;
   /** The status code for the operation. */
-  statusCode?: HttpStatusCode;
+  statusCode?: HttpStatusCode | undefined;
   /** Error details for the operation in case of a failure. */
-  error?: OperationError;
+  error?: OperationError | undefined;
 }
 export interface GetPolicyRequest {
   /** The ID of the target subscription. */
@@ -2150,7 +2166,7 @@ export interface GetPolicyRequest {
   /** The name of the Policy */
   name: string;
   /** Specify the $expand query. Example: 'properties($select=description)' */
-  _expand?: string;
+  _expand?: string | undefined;
 }
 /** The status of the policy. */
 export type PolicyStatus = "Enabled" | "Disabled";
@@ -2171,41 +2187,41 @@ export type PolicyEvaluatorType = "AllowedValuesPolicy" | "MaxValuePolicy";
 /** Properties of a Policy. */
 export interface PolicyProperties {
   /** The description of the policy. */
-  description?: string;
+  description?: string | undefined;
   /** The status of the policy. */
-  status?: PolicyStatus;
+  status?: PolicyStatus | undefined;
   /** The fact name of the policy (e.g. LabVmCount, LabVmSize, MaxVmsAllowedPerLab, etc. */
-  factName?: PolicyFactName;
+  factName?: PolicyFactName | undefined;
   /** The fact data of the policy. */
-  factData?: string;
+  factData?: string | undefined;
   /** The threshold of the policy (i.e. a number for MaxValuePolicy, and a JSON array of values for AllowedValuesPolicy). */
-  threshold?: string;
+  threshold?: string | undefined;
   /** The evaluator type of the policy (i.e. AllowedValuesPolicy, MaxValuePolicy). */
-  evaluatorType?: PolicyEvaluatorType;
+  evaluatorType?: PolicyEvaluatorType | undefined;
   /** The creation date of the policy. */
-  createdDate?: string;
+  createdDate?: string | undefined;
   /** The provisioning status of the resource. */
-  provisioningState?: string;
+  provisioningState?: string | undefined;
   /** The unique immutable identifier of a resource (Guid). */
-  uniqueIdentifier?: string;
+  uniqueIdentifier?: string | undefined;
 }
 /** The tags of the resource. */
 export type GetPolicyResponseTagsMap = { [key: string]: string | undefined };
 export interface GetPolicyResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties of the resource. */
   properties: PolicyProperties;
   /** The tags of the resource. */
-  tags?: GetPolicyResponseTagsMap;
+  tags?: GetPolicyResponseTagsMap | undefined;
   /** The location of the resource. */
-  location?: string;
+  location?: string | undefined;
 }
 export interface GetScheduleRequest {
   /** The ID of the target subscription. */
@@ -2217,25 +2233,25 @@ export interface GetScheduleRequest {
   /** The name of the Schedule */
   name: string;
   /** Specify the $expand query. Example: 'properties($select=status)' */
-  _expand?: string;
+  _expand?: string | undefined;
 }
 /** Resource tags. */
 export type GetScheduleResponseTagsMap = { [key: string]: string | undefined };
 export interface GetScheduleResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties of the resource. */
   properties: ScheduleProperties;
   /** Resource tags. */
-  tags?: GetScheduleResponseTagsMap;
+  tags?: GetScheduleResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
-  location?: string;
+  location?: string | undefined;
 }
 export interface GetSecretRequest {
   /** The ID of the target subscription. */
@@ -2249,34 +2265,34 @@ export interface GetSecretRequest {
   /** The name of the secret. */
   name: string;
   /** Specify the $expand query. Example: 'properties($select=value)' */
-  _expand?: string;
+  _expand?: string | undefined;
 }
 /** Properties of a secret. */
 export interface SecretProperties {
   /** The value of the secret for secret creation. */
-  value?: string;
+  value?: string | undefined;
   /** The provisioning status of the resource. */
-  provisioningState?: string;
+  provisioningState?: string | undefined;
   /** The unique immutable identifier of a resource (Guid). */
-  uniqueIdentifier?: string;
+  uniqueIdentifier?: string | undefined;
 }
 /** Resource tags. */
 export type GetSecretResponseTagsMap = { [key: string]: string | undefined };
 export interface GetSecretResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties of the resource. */
   properties: SecretProperties;
   /** Resource tags. */
-  tags?: GetSecretResponseTagsMap;
+  tags?: GetSecretResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
-  location?: string;
+  location?: string | undefined;
 }
 export interface GetServiceFabricRequest {
   /** The ID of the target subscription. */
@@ -2290,7 +2306,7 @@ export interface GetServiceFabricRequest {
   /** The name of the service fabric. */
   name: string;
   /** Specify the $expand query. Example: 'properties($expand=applicableSchedule)' */
-  _expand?: string;
+  _expand?: string | undefined;
 }
 /** The tags of the resource. */
 export type ApplicableScheduleTagsMap = { [key: string]: string | undefined };
@@ -2299,74 +2315,74 @@ export type ScheduleTagsMap = { [key: string]: string | undefined };
 /** A schedule. */
 export interface Schedule {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties of the resource. */
   properties: ScheduleProperties;
   /** Resource tags. */
-  tags?: ScheduleTagsMap;
+  tags?: ScheduleTagsMap | undefined;
   /** The geo-location where the resource lives */
-  location?: string;
+  location?: string | undefined;
 }
 /** Properties of a schedules applicable to a virtual machine. */
 export interface ApplicableScheduleProperties {
   /** The auto-shutdown schedule, if one has been set at the lab or lab resource level. */
-  labVmsShutdown?: Schedule;
+  labVmsShutdown?: Schedule | undefined;
   /** The auto-startup schedule, if one has been set at the lab or lab resource level. */
-  labVmsStartup?: Schedule;
+  labVmsStartup?: Schedule | undefined;
 }
 /** Schedules applicable to a virtual machine. The schedules may have been defined on a VM or on lab level. */
 export interface ApplicableSchedule {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The location of the resource. */
-  location?: string;
+  location?: string | undefined;
   /** The tags of the resource. */
-  tags?: ApplicableScheduleTagsMap;
+  tags?: ApplicableScheduleTagsMap | undefined;
   /** The properties of the resource. */
   properties: ApplicableScheduleProperties;
 }
 /** Properties of a service fabric. */
 export interface ServiceFabricProperties {
   /** The backing service fabric resource's id */
-  externalServiceFabricId?: string;
+  externalServiceFabricId?: string | undefined;
   /** The resource id of the environment under which the service fabric resource is present */
-  environmentId?: string;
+  environmentId?: string | undefined;
   /** The applicable schedule for the virtual machine. */
-  applicableSchedule?: ApplicableSchedule;
+  applicableSchedule?: ApplicableSchedule | undefined;
   /** The provisioning status of the resource. */
-  provisioningState?: string;
+  provisioningState?: string | undefined;
   /** The unique immutable identifier of a resource (Guid). */
-  uniqueIdentifier?: string;
+  uniqueIdentifier?: string | undefined;
 }
 /** Resource tags. */
 export type GetServiceFabricResponseTagsMap = { [key: string]: string | undefined };
 export interface GetServiceFabricResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties of the resource. */
   properties: ServiceFabricProperties;
   /** Resource tags. */
-  tags?: GetServiceFabricResponseTagsMap;
+  tags?: GetServiceFabricResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
-  location?: string;
+  location?: string | undefined;
 }
 export interface GetServiceFabricScheduleRequest {
   /** The ID of the target subscription. */
@@ -2382,25 +2398,25 @@ export interface GetServiceFabricScheduleRequest {
   /** The name of the Schedule */
   name: string;
   /** Specify the $expand query. Example: 'properties($select=status)' */
-  _expand?: string;
+  _expand?: string | undefined;
 }
 /** Resource tags. */
 export type GetServiceFabricScheduleResponseTagsMap = { [key: string]: string | undefined };
 export interface GetServiceFabricScheduleResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties of the resource. */
   properties: ScheduleProperties;
   /** Resource tags. */
-  tags?: GetServiceFabricScheduleResponseTagsMap;
+  tags?: GetServiceFabricScheduleResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
-  location?: string;
+  location?: string | undefined;
 }
 export interface GetServiceRunnerRequest {
   /** The ID of the target subscription. */
@@ -2423,9 +2439,9 @@ export type ManagedIdentityType =
 /** A user-assigned identity attached to the resource. */
 export interface UserAssignedIdentityValue {
   /** Principal ID of the user-assigned identity. */
-  principalId?: string;
+  principalId?: string | undefined;
   /** Client ID of the user-assigned identity. */
-  clientId?: string;
+  clientId?: string | undefined;
 }
 /** User-assigned identities, keyed by ARM resource ID. */
 export type IdentityPropertiesUserAssignedIdentitiesMap = {
@@ -2434,31 +2450,31 @@ export type IdentityPropertiesUserAssignedIdentitiesMap = {
 /** Properties of a managed identity */
 export interface IdentityProperties {
   /** Managed identity. */
-  type?: ManagedIdentityType | (string & {});
+  type?: ManagedIdentityType | (string & {}) | undefined;
   /** The principal id of resource identity. */
-  principalId?: string;
+  principalId?: string | undefined;
   /** The tenant identifier of resource. */
-  tenantId?: string;
+  tenantId?: string | undefined;
   /** The client secret URL of the identity. */
-  clientSecretUrl?: string;
+  clientSecretUrl?: string | undefined;
   /** User-assigned identities, keyed by ARM resource ID. */
-  userAssignedIdentities?: IdentityPropertiesUserAssignedIdentitiesMap;
+  userAssignedIdentities?: IdentityPropertiesUserAssignedIdentitiesMap | undefined;
 }
 export interface GetServiceRunnerResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: GetServiceRunnerResponseTagsMap;
+  tags?: GetServiceRunnerResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
-  location?: string;
+  location?: string | undefined;
   /** The identity of the resource. */
-  identity?: IdentityProperties;
+  identity?: IdentityProperties | undefined;
 }
 export interface GetUserRequest {
   /** The ID of the target subscription. */
@@ -2470,58 +2486,58 @@ export interface GetUserRequest {
   /** The name of the user profile. */
   name: string;
   /** Specify the $expand query. Example: 'properties($select=identity)' */
-  _expand?: string;
+  _expand?: string | undefined;
 }
 /** Identity attributes of a lab user. */
 export interface UserIdentity {
   /** Set to the principal name / UPN of the client JWT making the request. */
-  principalName?: string;
+  principalName?: string | undefined;
   /** Set to the principal Id of the client JWT making the request. Service principal will not have the principal Id. */
-  principalId?: string;
+  principalId?: string | undefined;
   /** Set to the tenant ID of the client JWT making the request. */
-  tenantId?: string;
+  tenantId?: string | undefined;
   /** Set to the object Id of the client JWT making the request. Not all users have object Id. For CSP (reseller) scenarios for example, object Id is not available. */
-  objectId?: string;
+  objectId?: string | undefined;
   /** Set to the app Id of the client JWT making the request. */
-  appId?: string;
+  appId?: string | undefined;
 }
 /** Properties of a user's secret store. */
 export interface UserSecretStore {
   /** The URI of the user's Key vault. */
-  keyVaultUri?: string;
+  keyVaultUri?: string | undefined;
   /** The ID of the user's Key vault. */
-  keyVaultId?: string;
+  keyVaultId?: string | undefined;
 }
 /** Properties of a lab user profile. */
 export interface UserProperties {
   /** The identity of the user. */
-  identity?: UserIdentity;
+  identity?: UserIdentity | undefined;
   /** The secret store of the user. */
-  secretStore?: UserSecretStore;
+  secretStore?: UserSecretStore | undefined;
   /** The creation date of the user profile. */
-  createdDate?: string;
+  createdDate?: string | undefined;
   /** The provisioning status of the resource. */
-  provisioningState?: string;
+  provisioningState?: string | undefined;
   /** The unique immutable identifier of a resource (Guid). */
-  uniqueIdentifier?: string;
+  uniqueIdentifier?: string | undefined;
 }
 /** Resource tags. */
 export type GetUserResponseTagsMap = { [key: string]: string | undefined };
 export interface GetUserResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties of the resource. */
   properties: UserProperties;
   /** Resource tags. */
-  tags?: GetUserResponseTagsMap;
+  tags?: GetUserResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
-  location?: string;
+  location?: string | undefined;
 }
 export interface GetVirtualMachineRequest {
   /** The ID of the target subscription. */
@@ -2533,27 +2549,27 @@ export interface GetVirtualMachineRequest {
   /** The name of the virtual machine. */
   name: string;
   /** Specify the $expand query. Example: 'properties($expand=artifacts,computeVm,networkInterface,applicableSchedule)' */
-  _expand?: string;
+  _expand?: string | undefined;
 }
 /** The artifacts to be installed on the virtual machine. */
 export type LabVirtualMachinePropertiesArtifactsList = Array<ArtifactInstallProperties>;
 /** Properties of an artifact deployment. */
 export interface ArtifactDeploymentStatusProperties {
   /** The deployment status of the artifact. */
-  deploymentStatus?: string;
+  deploymentStatus?: string | undefined;
   /** The total count of the artifacts that were successfully applied. */
-  artifactsApplied?: number;
+  artifactsApplied?: number | undefined;
   /** The total count of the artifacts that were tentatively applied. */
-  totalArtifacts?: number;
+  totalArtifacts?: number | undefined;
 }
 /** Status information about a virtual machine. */
 export interface ComputeVmInstanceViewStatus {
   /** Gets the status Code. */
-  code?: string;
+  code?: string | undefined;
   /** Gets the short localizable label for the status. */
-  displayStatus?: string;
+  displayStatus?: string | undefined;
   /** Gets the message associated with the status. */
-  message?: string;
+  message?: string | undefined;
 }
 /** Gets the statuses of the virtual machine. */
 export type ComputeVmPropertiesStatusesList = Array<ComputeVmInstanceViewStatus>;
@@ -2562,32 +2578,32 @@ export type ComputeVmPropertiesDataDiskIdsList = Array<string>;
 /** A data disks attached to a virtual machine. */
 export interface ComputeDataDisk {
   /** Gets data disk name. */
-  name?: string;
+  name?: string | undefined;
   /** When backed by a blob, the URI of underlying blob. */
-  diskUri?: string;
+  diskUri?: string | undefined;
   /** When backed by managed disk, this is the ID of the compute disk resource. */
-  managedDiskId?: string;
+  managedDiskId?: string | undefined;
   /** Gets data disk size in GiB. */
-  diskSizeGiB?: number;
+  diskSizeGiB?: number | undefined;
 }
 /** Gets all data disks attached to the virtual machine. */
 export type ComputeVmPropertiesDataDisksList = Array<ComputeDataDisk>;
 /** Properties of a virtual machine returned by the Microsoft.Compute API. */
 export interface ComputeVmProperties {
   /** Gets the statuses of the virtual machine. */
-  statuses?: ComputeVmPropertiesStatusesList;
+  statuses?: ComputeVmPropertiesStatusesList | undefined;
   /** Gets the OS type of the virtual machine. */
-  osType?: string;
+  osType?: string | undefined;
   /** Gets the size of the virtual machine. */
-  vmSize?: string;
+  vmSize?: string | undefined;
   /** Gets the network interface ID of the virtual machine. */
-  networkInterfaceId?: string;
+  networkInterfaceId?: string | undefined;
   /** Gets OS disk blob uri for the virtual machine. */
-  osDiskId?: string;
+  osDiskId?: string | undefined;
   /** Gets data disks blob uri for the virtual machine. */
-  dataDiskIds?: ComputeVmPropertiesDataDiskIdsList;
+  dataDiskIds?: ComputeVmPropertiesDataDiskIdsList | undefined;
   /** Gets all data disks attached to the virtual machine. */
-  dataDisks?: ComputeVmPropertiesDataDisksList;
+  dataDisks?: ComputeVmPropertiesDataDisksList | undefined;
 }
 /** Tells source of creation of lab virtual machine. Output property only. */
 export type VirtualMachineCreationSource =
@@ -2601,93 +2617,93 @@ export type LabVirtualMachinePropertiesScheduleParametersList = Array<ScheduleCr
 /** Properties of a virtual machine. */
 export interface LabVirtualMachineProperties {
   /** The notes of the virtual machine. */
-  notes?: string;
+  notes?: string | undefined;
   /** The object identifier of the owner of the virtual machine. */
-  ownerObjectId?: string;
+  ownerObjectId?: string | undefined;
   /** The user principal name of the virtual machine owner. */
-  ownerUserPrincipalName?: string;
+  ownerUserPrincipalName?: string | undefined;
   /** The object identifier of the creator of the virtual machine. */
-  createdByUserId?: string;
+  createdByUserId?: string | undefined;
   /** The email address of creator of the virtual machine. */
-  createdByUser?: string;
+  createdByUser?: string | undefined;
   /** The creation date of the virtual machine. */
-  createdDate?: string;
+  createdDate?: string | undefined;
   /** The resource identifier (Microsoft.Compute) of the virtual machine. */
-  computeId?: string;
+  computeId?: string | undefined;
   /** The custom image identifier of the virtual machine. */
-  customImageId?: string;
+  customImageId?: string | undefined;
   /** The OS type of the virtual machine. */
-  osType?: string;
+  osType?: string | undefined;
   /** The size of the virtual machine. */
-  size?: string;
+  size?: string | undefined;
   /** The user name of the virtual machine. */
-  userName?: string;
+  userName?: string | undefined;
   /** The password of the virtual machine administrator. */
-  password?: string | Redacted.Redacted<string>;
+  password?: string | Redacted.Redacted<string> | undefined;
   /** The SSH key of the virtual machine administrator. */
-  sshKey?: string;
+  sshKey?: string | undefined;
   /** Indicates whether this virtual machine uses an SSH key for authentication. */
-  isAuthenticationWithSshKey?: boolean;
+  isAuthenticationWithSshKey?: boolean | undefined;
   /** The fully-qualified domain name of the virtual machine. */
-  fqdn?: string;
+  fqdn?: string | undefined;
   /** The lab subnet name of the virtual machine. */
-  labSubnetName?: string;
+  labSubnetName?: string | undefined;
   /** The lab virtual network identifier of the virtual machine. */
-  labVirtualNetworkId?: string;
+  labVirtualNetworkId?: string | undefined;
   /** Indicates whether the virtual machine is to be created without a public IP address. */
-  disallowPublicIpAddress?: boolean;
+  disallowPublicIpAddress?: boolean | undefined;
   /** The artifacts to be installed on the virtual machine. */
-  artifacts?: LabVirtualMachinePropertiesArtifactsList;
+  artifacts?: LabVirtualMachinePropertiesArtifactsList | undefined;
   /** The artifact deployment status for the virtual machine. */
-  artifactDeploymentStatus?: ArtifactDeploymentStatusProperties;
+  artifactDeploymentStatus?: ArtifactDeploymentStatusProperties | undefined;
   /** The Microsoft Azure Marketplace image reference of the virtual machine. */
-  galleryImageReference?: GalleryImageReference;
+  galleryImageReference?: GalleryImageReference | undefined;
   /** The id of the plan associated with the virtual machine image */
-  planId?: string;
+  planId?: string | undefined;
   /** The compute virtual machine properties. */
-  computeVm?: ComputeVmProperties;
+  computeVm?: ComputeVmProperties | undefined;
   /** The network interface properties. */
-  networkInterface?: NetworkInterfaceProperties;
+  networkInterface?: NetworkInterfaceProperties | undefined;
   /** The applicable schedule for the virtual machine. */
-  applicableSchedule?: ApplicableSchedule;
+  applicableSchedule?: ApplicableSchedule | undefined;
   /** The expiration date for VM. */
-  expirationDate?: string;
+  expirationDate?: string | undefined;
   /** Indicates whether another user can take ownership of the virtual machine */
-  allowClaim?: boolean;
+  allowClaim?: boolean | undefined;
   /** Storage type to use for virtual machine (i.e. Standard, Premium). */
-  storageType?: string;
+  storageType?: string | undefined;
   /** Tells source of creation of lab virtual machine. Output property only. */
-  virtualMachineCreationSource?: VirtualMachineCreationSource;
+  virtualMachineCreationSource?: VirtualMachineCreationSource | undefined;
   /** The resource ID of the environment that contains this virtual machine, if any. */
-  environmentId?: string;
+  environmentId?: string | undefined;
   /** New or existing data disks to attach to the virtual machine after creation */
-  dataDiskParameters?: LabVirtualMachinePropertiesDataDiskParametersList;
+  dataDiskParameters?: LabVirtualMachinePropertiesDataDiskParametersList | undefined;
   /** Virtual Machine schedules to be created */
-  scheduleParameters?: LabVirtualMachinePropertiesScheduleParametersList;
+  scheduleParameters?: LabVirtualMachinePropertiesScheduleParametersList | undefined;
   /** Last known compute power state captured in DTL */
-  lastKnownPowerState?: string;
+  lastKnownPowerState?: string | undefined;
   /** The provisioning status of the resource. */
-  provisioningState?: string;
+  provisioningState?: string | undefined;
   /** The unique immutable identifier of a resource (Guid). */
-  uniqueIdentifier?: string;
+  uniqueIdentifier?: string | undefined;
 }
 /** Resource tags. */
 export type GetVirtualMachineResponseTagsMap = { [key: string]: string | undefined };
 export interface GetVirtualMachineResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties of the resource. */
   properties: LabVirtualMachineProperties;
   /** Resource tags. */
-  tags?: GetVirtualMachineResponseTagsMap;
+  tags?: GetVirtualMachineResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
-  location?: string;
+  location?: string | undefined;
 }
 export interface GetVirtualMachineRdpFileContentsRequest {
   /** The ID of the target subscription. */
@@ -2702,7 +2718,7 @@ export interface GetVirtualMachineRdpFileContentsRequest {
 /** Represents a .rdp file */
 export interface RdpConnection {
   /** The contents of the .rdp file */
-  contents?: string;
+  contents?: string | undefined;
 }
 export interface GetVirtualMachineScheduleRequest {
   /** The ID of the target subscription. */
@@ -2716,25 +2732,25 @@ export interface GetVirtualMachineScheduleRequest {
   /** The name of the Schedule */
   name: string;
   /** Specify the $expand query. Example: 'properties($select=status)' */
-  _expand?: string;
+  _expand?: string | undefined;
 }
 /** Resource tags. */
 export type GetVirtualMachineScheduleResponseTagsMap = { [key: string]: string | undefined };
 export interface GetVirtualMachineScheduleResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties of the resource. */
   properties: ScheduleProperties;
   /** Resource tags. */
-  tags?: GetVirtualMachineScheduleResponseTagsMap;
+  tags?: GetVirtualMachineScheduleResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
-  location?: string;
+  location?: string | undefined;
 }
 export interface GetVirtualNetworkRequest {
   /** The ID of the target subscription. */
@@ -2746,118 +2762,118 @@ export interface GetVirtualNetworkRequest {
   /** The name of the virtual network. */
   name: string;
   /** Specify the $expand query. Example: 'properties($expand=externalSubnets)' */
-  _expand?: string;
+  _expand?: string | undefined;
 }
 /** The permission policy of the subnet for allowing public IP addresses (i.e. Allow, Deny)). */
 export type UsagePermissionType = "Default" | "Deny" | "Allow";
 /** Subnet information. */
 export interface Subnet {
   /** The resource ID of the subnet. */
-  resourceId?: string;
+  resourceId?: string | undefined;
   /** The name of the subnet as seen in the lab. */
-  labSubnetName?: string;
+  labSubnetName?: string | undefined;
   /** The permission policy of the subnet for allowing public IP addresses (i.e. Allow, Deny)). */
-  allowPublicIp?: UsagePermissionType | (string & {});
+  allowPublicIp?: UsagePermissionType | (string & {}) | undefined;
 }
 /** The allowed subnets of the virtual network. */
 export type VirtualNetworkPropertiesAllowedSubnetsList = Array<Subnet>;
 /** Subnet information as returned by the Microsoft.Network API. */
 export interface ExternalSubnet {
   /** Gets or sets the identifier. */
-  id?: string;
+  id?: string | undefined;
   /** Gets or sets the name. */
-  name?: string;
+  name?: string | undefined;
 }
 /** The external subnet properties. */
 export type VirtualNetworkPropertiesExternalSubnetsList = Array<ExternalSubnet>;
 /** Properties of a network port. */
 export interface Port {
   /** Protocol type of the port. */
-  transportProtocol?: TransportProtocol | (string & {});
+  transportProtocol?: TransportProtocol | (string & {}) | undefined;
   /** Backend port of the target virtual machine. */
-  backendPort?: number;
+  backendPort?: number | undefined;
 }
 /** Backend ports that virtual machines on this subnet are allowed to expose */
 export type SubnetSharedPublicIpAddressConfigurationAllowedPortsList = Array<Port>;
 /** Configuration for public IP address sharing. */
 export interface SubnetSharedPublicIpAddressConfiguration {
   /** Backend ports that virtual machines on this subnet are allowed to expose */
-  allowedPorts?: SubnetSharedPublicIpAddressConfigurationAllowedPortsList;
+  allowedPorts?: SubnetSharedPublicIpAddressConfigurationAllowedPortsList | undefined;
 }
 /** Property overrides on a subnet of a virtual network. */
 export interface SubnetOverride {
   /** The resource ID of the subnet. */
-  resourceId?: string;
+  resourceId?: string | undefined;
   /** The name given to the subnet within the lab. */
-  labSubnetName?: string;
+  labSubnetName?: string | undefined;
   /** Indicates whether this subnet can be used during virtual machine creation (i.e. Allow, Deny). */
-  useInVmCreationPermission?: UsagePermissionType | (string & {});
+  useInVmCreationPermission?: UsagePermissionType | (string & {}) | undefined;
   /** Indicates whether public IP addresses can be assigned to virtual machines on this subnet (i.e. Allow, Deny). */
-  usePublicIpAddressPermission?: UsagePermissionType | (string & {});
+  usePublicIpAddressPermission?: UsagePermissionType | (string & {}) | undefined;
   /** Properties that virtual machines on this subnet will share. */
-  sharedPublicIpAddressConfiguration?: SubnetSharedPublicIpAddressConfiguration;
+  sharedPublicIpAddressConfiguration?: SubnetSharedPublicIpAddressConfiguration | undefined;
   /** The virtual network pool associated with this subnet. */
-  virtualNetworkPoolName?: string;
+  virtualNetworkPoolName?: string | undefined;
 }
 /** The subnet overrides of the virtual network. */
 export type VirtualNetworkPropertiesSubnetOverridesList = Array<SubnetOverride>;
 /** Properties of a virtual network. */
 export interface VirtualNetworkProperties {
   /** The allowed subnets of the virtual network. */
-  allowedSubnets?: VirtualNetworkPropertiesAllowedSubnetsList;
+  allowedSubnets?: VirtualNetworkPropertiesAllowedSubnetsList | undefined;
   /** The description of the virtual network. */
-  description?: string;
+  description?: string | undefined;
   /** The Microsoft.Network resource identifier of the virtual network. */
-  externalProviderResourceId?: string;
+  externalProviderResourceId?: string | undefined;
   /** The external subnet properties. */
-  externalSubnets?: VirtualNetworkPropertiesExternalSubnetsList;
+  externalSubnets?: VirtualNetworkPropertiesExternalSubnetsList | undefined;
   /** The subnet overrides of the virtual network. */
-  subnetOverrides?: VirtualNetworkPropertiesSubnetOverridesList;
+  subnetOverrides?: VirtualNetworkPropertiesSubnetOverridesList | undefined;
   /** The creation date of the virtual network. */
-  createdDate?: string;
+  createdDate?: string | undefined;
   /** The provisioning status of the resource. */
-  provisioningState?: string;
+  provisioningState?: string | undefined;
   /** The unique immutable identifier of a resource (Guid). */
-  uniqueIdentifier?: string;
+  uniqueIdentifier?: string | undefined;
 }
 /** Resource tags. */
 export type GetVirtualNetworkResponseTagsMap = { [key: string]: string | undefined };
 export interface GetVirtualNetworkResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties of the resource. */
   properties: VirtualNetworkProperties;
   /** Resource tags. */
-  tags?: GetVirtualNetworkResponseTagsMap;
+  tags?: GetVirtualNetworkResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
-  location?: string;
+  location?: string | undefined;
 }
 /** The status of the schedule (i.e. Enabled, Disabled) */
 export type SchedulePropertiesInputStatus = "Enabled" | "Disabled";
 /** Properties of a schedule. */
 export interface SchedulePropertiesInput {
   /** The status of the schedule (i.e. Enabled, Disabled) */
-  status?: SchedulePropertiesInputStatus | (string & {});
+  status?: SchedulePropertiesInputStatus | (string & {}) | undefined;
   /** The task type of the schedule (e.g. LabVmsShutdownTask, LabVmAutoStart). */
-  taskType?: string;
+  taskType?: string | undefined;
   /** If the schedule will occur only some days of the week, specify the weekly recurrence. */
-  weeklyRecurrence?: WeekDetails;
+  weeklyRecurrence?: WeekDetails | undefined;
   /** If the schedule will occur once each day of the week, specify the daily recurrence. */
-  dailyRecurrence?: DayDetails;
+  dailyRecurrence?: DayDetails | undefined;
   /** If the schedule will occur multiple times a day, specify the hourly recurrence. */
-  hourlyRecurrence?: HourDetails;
+  hourlyRecurrence?: HourDetails | undefined;
   /** The time zone ID (e.g. China Standard Time, Greenland Standard Time, Pacific Standard time, etc.). The possible values for this property can be found in `IReadOnlyCollection<string> TimeZoneConverter.TZConvert.KnownWindowsTimeZoneIds` (https://github.com/mattjohnsonpint/TimeZoneConverter/blob/main/README.md) */
-  timeZoneId?: string;
+  timeZoneId?: string | undefined;
   /** Notification settings. */
-  notificationSettings?: NotificationSettings;
+  notificationSettings?: NotificationSettings | undefined;
   /** The resource ID to which the schedule belongs */
-  targetResourceId?: string;
+  targetResourceId?: string | undefined;
 }
 /** Resource tags. */
 export type GlobalSchedulesCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
@@ -2871,27 +2887,27 @@ export interface GlobalSchedulesCreateOrUpdateRequest {
   /** The properties of the resource. */
   properties: SchedulePropertiesInput;
   /** Resource tags. */
-  tags?: GlobalSchedulesCreateOrUpdateRequestTagsMap;
+  tags?: GlobalSchedulesCreateOrUpdateRequestTagsMap | undefined;
   /** The geo-location where the resource lives */
-  location?: string;
+  location?: string | undefined;
 }
 /** Resource tags. */
 export type GlobalSchedulesCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
 export interface GlobalSchedulesCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties of the resource. */
   properties: ScheduleProperties;
   /** Resource tags. */
-  tags?: GlobalSchedulesCreateOrUpdateResponseTagsMap;
+  tags?: GlobalSchedulesCreateOrUpdateResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
-  location?: string;
+  location?: string | undefined;
 }
 export interface GlobalSchedulesRetargetRequest {
   /** The ID of the target subscription. */
@@ -2901,15 +2917,15 @@ export interface GlobalSchedulesRetargetRequest {
   /** The name of the Schedule */
   name: string;
   /** The resource Id of the virtual machine on which the schedule operates */
-  currentResourceId?: string;
+  currentResourceId?: string | undefined;
   /** The resource Id of the virtual machine that the schedule should be retargeted to */
-  targetResourceId?: string;
+  targetResourceId?: string | undefined;
 }
 export interface GlobalSchedulesRetargetResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface ImportLabVirtualMachineRequest {
   /** The ID of the target subscription. */
@@ -2919,15 +2935,15 @@ export interface ImportLabVirtualMachineRequest {
   /** The name of the lab. */
   name: string;
   /** The full resource ID of the virtual machine to be imported. */
-  sourceVirtualMachineResourceId?: string;
+  sourceVirtualMachineResourceId?: string | undefined;
   /** The name of the virtual machine in the destination lab */
-  destinationVirtualMachineName?: string;
+  destinationVirtualMachineName?: string | undefined;
 }
 export interface ImportLabVirtualMachineResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Type of storage used by the lab. It can be either Premium or Standard. Default is Premium. */
 export type LabPropertiesInputLabStorageType = "Standard" | "Premium" | "StandardSSD";
@@ -2938,36 +2954,40 @@ export type LabPropertiesInputMandatoryArtifactsResourceIdsWindowsList = Array<s
 /** Properties of a lab's announcement banner */
 export interface LabAnnouncementPropertiesInput {
   /** The plain text title for the lab announcement */
-  title?: string;
+  title?: string | undefined;
   /** The markdown text (if any) that this lab displays in the UI. If left empty/null, nothing will be shown. */
-  markdown?: string;
+  markdown?: string | undefined;
   /** Is the lab announcement active/enabled at this time? */
-  enabled?: EnableStatus | (string & {});
+  enabled?: EnableStatus | (string & {}) | undefined;
   /** The time at which the announcement expires (null for never) */
-  expirationDate?: string;
+  expirationDate?: string | undefined;
   /** Has this announcement expired? */
-  expired?: boolean;
+  expired?: boolean | undefined;
 }
 /** Extended properties of the lab used for experimental features */
 export type LabPropertiesInputExtendedPropertiesMap = { [key: string]: string | undefined };
 /** Properties of a lab. */
 export interface LabPropertiesInput {
   /** Type of storage used by the lab. It can be either Premium or Standard. Default is Premium. */
-  labStorageType?: LabPropertiesInputLabStorageType | (string & {});
+  labStorageType?: LabPropertiesInputLabStorageType | (string & {}) | undefined;
   /** The ordered list of artifact resource IDs that should be applied on all Linux VM creations by default, prior to the artifacts specified by the user. */
-  mandatoryArtifactsResourceIdsLinux?: LabPropertiesInputMandatoryArtifactsResourceIdsLinuxList;
+  mandatoryArtifactsResourceIdsLinux?:
+    | LabPropertiesInputMandatoryArtifactsResourceIdsLinuxList
+    | undefined;
   /** The ordered list of artifact resource IDs that should be applied on all Windows VM creations by default, prior to the artifacts specified by the user. */
-  mandatoryArtifactsResourceIdsWindows?: LabPropertiesInputMandatoryArtifactsResourceIdsWindowsList;
+  mandatoryArtifactsResourceIdsWindows?:
+    | LabPropertiesInputMandatoryArtifactsResourceIdsWindowsList
+    | undefined;
   /** The setting to enable usage of premium data disks. When its value is 'Enabled', creation of standard or premium data disks is allowed. When its value is 'Disabled', only creation of standard data disks is allowed. */
-  premiumDataDisks?: PremiumDataDisk | (string & {});
+  premiumDataDisks?: PremiumDataDisk | (string & {}) | undefined;
   /** The access rights to be granted to the user when provisioning an environment */
-  environmentPermission?: EnvironmentPermission | (string & {});
+  environmentPermission?: EnvironmentPermission | (string & {}) | undefined;
   /** The properties of any lab announcement associated with this lab */
-  announcement?: LabAnnouncementPropertiesInput;
+  announcement?: LabAnnouncementPropertiesInput | undefined;
   /** The properties of any lab support message associated with this lab */
-  support?: LabSupportProperties;
+  support?: LabSupportProperties | undefined;
   /** Extended properties of the lab used for experimental features */
-  extendedProperties?: LabPropertiesInputExtendedPropertiesMap;
+  extendedProperties?: LabPropertiesInputExtendedPropertiesMap | undefined;
 }
 /** Resource tags. */
 export type LabsCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
@@ -2981,31 +3001,31 @@ export interface LabsCreateOrUpdateRequest {
   /** The properties of the resource. */
   properties: LabPropertiesInput;
   /** Resource tags. */
-  tags?: LabsCreateOrUpdateRequestTagsMap;
+  tags?: LabsCreateOrUpdateRequestTagsMap | undefined;
   /** The geo-location where the resource lives */
-  location?: string;
+  location?: string | undefined;
 }
 /** Resource tags. */
 export type LabsCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
 export interface LabsCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties of the resource. */
   properties: LabProperties;
   /** Resource tags. */
-  tags?: LabsCreateOrUpdateResponseTagsMap;
+  tags?: LabsCreateOrUpdateResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
-  location?: string;
+  location?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  locationHeader?: string;
+  locationHeader?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface LabsGenerateUploadUriRequest {
   /** The ID of the target subscription. */
@@ -3015,12 +3035,12 @@ export interface LabsGenerateUploadUriRequest {
   /** The name of the lab. */
   name: string;
   /** The blob name of the upload URI. */
-  blobName?: string;
+  blobName?: string | undefined;
 }
 /** Response body for generating an upload URI. */
 export interface GenerateUploadUriResponse {
   /** The upload URI for the VHD. */
-  uploadUri?: string;
+  uploadUri?: string | undefined;
 }
 export interface ListArmTemplatesRequest {
   /** The ID of the target subscription. */
@@ -3032,32 +3052,32 @@ export interface ListArmTemplatesRequest {
   /** The name of the artifact source. */
   artifactSourceName: string;
   /** Specify the $expand query. Example: 'properties($select=displayName)' */
-  _expand?: string;
+  _expand?: string | undefined;
   /** The filter to apply to the operation. Example: '$filter=contains(name,'myName') */
-  _filter?: string;
+  _filter?: string | undefined;
   /** The maximum number of resources to return from the operation. Example: '$top=10' */
-  _top?: number;
+  _top?: number | undefined;
   /** The ordering expression for the results, using OData notation. Example: '$orderby=name desc' */
-  _orderby?: string;
+  _orderby?: string | undefined;
 }
 /** Resource tags. */
 export type ArmTemplateTagsMap = { [key: string]: string | undefined };
 /** An Azure Resource Manager template. */
 export interface ArmTemplate {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties of the resource. */
   properties: ArmTemplateProperties;
   /** Resource tags. */
-  tags?: ArmTemplateTagsMap;
+  tags?: ArmTemplateTagsMap | undefined;
   /** The geo-location where the resource lives */
-  location?: string;
+  location?: string | undefined;
 }
 /** The ArmTemplate items on this page */
 export type ArmTemplateListValueList = Array<ArmTemplate>;
@@ -3066,7 +3086,7 @@ export interface ArmTemplateList {
   /** The ArmTemplate items on this page */
   value: ArmTemplateListValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListArtifactsRequest {
   /** The ID of the target subscription. */
@@ -3078,32 +3098,32 @@ export interface ListArtifactsRequest {
   /** The name of the artifact source. */
   artifactSourceName: string;
   /** Specify the $expand query. Example: 'properties($select=title)' */
-  _expand?: string;
+  _expand?: string | undefined;
   /** The filter to apply to the operation. Example: '$filter=contains(name,'myName') */
-  _filter?: string;
+  _filter?: string | undefined;
   /** The maximum number of resources to return from the operation. Example: '$top=10' */
-  _top?: number;
+  _top?: number | undefined;
   /** The ordering expression for the results, using OData notation. Example: '$orderby=name desc' */
-  _orderby?: string;
+  _orderby?: string | undefined;
 }
 /** Resource tags. */
 export type ArtifactTagsMap = { [key: string]: string | undefined };
 /** An artifact. */
 export interface Artifact {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties of the resource. */
   properties: ArtifactProperties;
   /** Resource tags. */
-  tags?: ArtifactTagsMap;
+  tags?: ArtifactTagsMap | undefined;
   /** The geo-location where the resource lives */
-  location?: string;
+  location?: string | undefined;
 }
 /** The Artifact items on this page */
 export type ArtifactListValueList = Array<Artifact>;
@@ -3112,7 +3132,7 @@ export interface ArtifactList {
   /** The Artifact items on this page */
   value: ArtifactListValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListArtifactSourcesRequest {
   /** The ID of the target subscription. */
@@ -3122,32 +3142,32 @@ export interface ListArtifactSourcesRequest {
   /** The name of the lab. */
   labName: string;
   /** Specify the $expand query. Example: 'properties($select=displayName)' */
-  _expand?: string;
+  _expand?: string | undefined;
   /** The filter to apply to the operation. Example: '$filter=contains(name,'myName') */
-  _filter?: string;
+  _filter?: string | undefined;
   /** The maximum number of resources to return from the operation. Example: '$top=10' */
-  _top?: number;
+  _top?: number | undefined;
   /** The ordering expression for the results, using OData notation. Example: '$orderby=name desc' */
-  _orderby?: string;
+  _orderby?: string | undefined;
 }
 /** Resource tags. */
 export type ArtifactSourceTagsMap = { [key: string]: string | undefined };
 /** Properties of an artifact source. */
 export interface ArtifactSource {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties of the resource. */
   properties: ArtifactSourceProperties;
   /** Resource tags. */
-  tags?: ArtifactSourceTagsMap;
+  tags?: ArtifactSourceTagsMap | undefined;
   /** The geo-location where the resource lives */
-  location?: string;
+  location?: string | undefined;
 }
 /** The ArtifactSource items on this page */
 export type ArtifactSourceListValueList = Array<ArtifactSource>;
@@ -3156,7 +3176,7 @@ export interface ArtifactSourceList {
   /** The ArtifactSource items on this page */
   value: ArtifactSourceListValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListCustomImagesRequest {
   /** The ID of the target subscription. */
@@ -3166,32 +3186,32 @@ export interface ListCustomImagesRequest {
   /** The name of the lab. */
   labName: string;
   /** Specify the $expand query. Example: 'properties($select=vm)' */
-  _expand?: string;
+  _expand?: string | undefined;
   /** The filter to apply to the operation. Example: '$filter=contains(name,'myName') */
-  _filter?: string;
+  _filter?: string | undefined;
   /** The maximum number of resources to return from the operation. Example: '$top=10' */
-  _top?: number;
+  _top?: number | undefined;
   /** The ordering expression for the results, using OData notation. Example: '$orderby=name desc' */
-  _orderby?: string;
+  _orderby?: string | undefined;
 }
 /** Resource tags. */
 export type CustomImageTagsMap = { [key: string]: string | undefined };
 /** A custom image. */
 export interface CustomImage {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties of the resource. */
   properties: CustomImageProperties;
   /** Resource tags. */
-  tags?: CustomImageTagsMap;
+  tags?: CustomImageTagsMap | undefined;
   /** The geo-location where the resource lives */
-  location?: string;
+  location?: string | undefined;
 }
 /** The CustomImage items on this page */
 export type CustomImageListValueList = Array<CustomImage>;
@@ -3200,7 +3220,7 @@ export interface CustomImageList {
   /** The CustomImage items on this page */
   value: CustomImageListValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListDisksRequest {
   /** The ID of the target subscription. */
@@ -3212,32 +3232,32 @@ export interface ListDisksRequest {
   /** The name of the user profile. */
   userName: string;
   /** Specify the $expand query. Example: 'properties($select=diskType)' */
-  _expand?: string;
+  _expand?: string | undefined;
   /** The filter to apply to the operation. Example: '$filter=contains(name,'myName') */
-  _filter?: string;
+  _filter?: string | undefined;
   /** The maximum number of resources to return from the operation. Example: '$top=10' */
-  _top?: number;
+  _top?: number | undefined;
   /** The ordering expression for the results, using OData notation. Example: '$orderby=name desc' */
-  _orderby?: string;
+  _orderby?: string | undefined;
 }
 /** Resource tags. */
 export type DiskTagsMap = { [key: string]: string | undefined };
 /** A Disk. */
 export interface Disk {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties of the disk. */
   properties: DiskProperties;
   /** Resource tags. */
-  tags?: DiskTagsMap;
+  tags?: DiskTagsMap | undefined;
   /** The geo-location where the resource lives */
-  location?: string;
+  location?: string | undefined;
 }
 /** The Disk items on this page */
 export type DiskListValueList = Array<Disk>;
@@ -3246,7 +3266,7 @@ export interface DiskList {
   /** The Disk items on this page */
   value: DiskListValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListEnvironmentsRequest {
   /** The ID of the target subscription. */
@@ -3258,32 +3278,32 @@ export interface ListEnvironmentsRequest {
   /** The name of the user profile. */
   userName: string;
   /** Specify the $expand query. Example: 'properties($select=deploymentProperties)' */
-  _expand?: string;
+  _expand?: string | undefined;
   /** The filter to apply to the operation. Example: '$filter=contains(name,'myName') */
-  _filter?: string;
+  _filter?: string | undefined;
   /** The maximum number of resources to return from the operation. Example: '$top=10' */
-  _top?: number;
+  _top?: number | undefined;
   /** The ordering expression for the results, using OData notation. Example: '$orderby=name desc' */
-  _orderby?: string;
+  _orderby?: string | undefined;
 }
 /** Resource tags. */
 export type DtlEnvironmentTagsMap = { [key: string]: string | undefined };
 /** An environment, which is essentially an ARM template deployment. */
 export interface DtlEnvironment {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties of the environment. */
   properties: EnvironmentProperties;
   /** Resource tags. */
-  tags?: DtlEnvironmentTagsMap;
+  tags?: DtlEnvironmentTagsMap | undefined;
   /** The geo-location where the resource lives */
-  location?: string;
+  location?: string | undefined;
 }
 /** The DtlEnvironment items on this page */
 export type DtlEnvironmentListValueList = Array<DtlEnvironment>;
@@ -3292,7 +3312,7 @@ export interface DtlEnvironmentList {
   /** The DtlEnvironment items on this page */
   value: DtlEnvironmentListValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListFormulasRequest {
   /** The ID of the target subscription. */
@@ -3302,32 +3322,32 @@ export interface ListFormulasRequest {
   /** The name of the lab. */
   labName: string;
   /** Specify the $expand query. Example: 'properties($select=description)' */
-  _expand?: string;
+  _expand?: string | undefined;
   /** The filter to apply to the operation. Example: '$filter=contains(name,'myName') */
-  _filter?: string;
+  _filter?: string | undefined;
   /** The maximum number of resources to return from the operation. Example: '$top=10' */
-  _top?: number;
+  _top?: number | undefined;
   /** The ordering expression for the results, using OData notation. Example: '$orderby=name desc' */
-  _orderby?: string;
+  _orderby?: string | undefined;
 }
 /** Resource tags. */
 export type FormulaTagsMap = { [key: string]: string | undefined };
 /** A formula for creating a VM, specifying an image base and other parameters */
 export interface Formula {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties of the formula. */
   properties: FormulaProperties;
   /** Resource tags. */
-  tags?: FormulaTagsMap;
+  tags?: FormulaTagsMap | undefined;
   /** The geo-location where the resource lives */
-  location?: string;
+  location?: string | undefined;
 }
 /** The Formula items on this page */
 export type FormulaListValueList = Array<Formula>;
@@ -3336,7 +3356,7 @@ export interface FormulaList {
   /** The Formula items on this page */
   value: FormulaListValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListGalleryImagesRequest {
   /** The ID of the target subscription. */
@@ -3346,51 +3366,51 @@ export interface ListGalleryImagesRequest {
   /** The name of the lab. */
   labName: string;
   /** Specify the $expand query. Example: 'properties($select=displayName)' */
-  _expand?: string;
+  _expand?: string | undefined;
   /** The filter to apply to the operation. Example: '$filter=contains(name,'myName') */
-  _filter?: string;
+  _filter?: string | undefined;
   /** The maximum number of resources to return from the operation. Example: '$top=10' */
-  _top?: number;
+  _top?: number | undefined;
   /** The ordering expression for the results, using OData notation. Example: '$orderby=name desc' */
-  _orderby?: string;
+  _orderby?: string | undefined;
 }
 /** Properties of a gallery image. */
 export interface GalleryImageProperties {
   /** The author of the gallery image. */
-  author?: string;
+  author?: string | undefined;
   /** The creation date of the gallery image. */
-  createdDate?: string;
+  createdDate?: string | undefined;
   /** The description of the gallery image. */
-  description?: string;
+  description?: string | undefined;
   /** The image reference of the gallery image. */
-  imageReference?: GalleryImageReference;
+  imageReference?: GalleryImageReference | undefined;
   /** The icon of the gallery image. */
-  icon?: string;
+  icon?: string | undefined;
   /** Indicates whether this gallery image is enabled. */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** The third party plan that applies to this image */
-  planId?: string;
+  planId?: string | undefined;
   /** Indicates if the plan has been authorized for programmatic deployment. */
-  isPlanAuthorized?: boolean;
+  isPlanAuthorized?: boolean | undefined;
 }
 /** Resource tags. */
 export type GalleryImageTagsMap = { [key: string]: string | undefined };
 /** A gallery image. */
 export interface GalleryImage {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties of the gallery image. */
   properties: GalleryImageProperties;
   /** Resource tags. */
-  tags?: GalleryImageTagsMap;
+  tags?: GalleryImageTagsMap | undefined;
   /** The geo-location where the resource lives */
-  location?: string;
+  location?: string | undefined;
 }
 /** The GalleryImage items on this page */
 export type GalleryImageListValueList = Array<GalleryImage>;
@@ -3399,7 +3419,7 @@ export interface GalleryImageList {
   /** The GalleryImage items on this page */
   value: GalleryImageListValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListGlobalScheduleByResourceGroupRequest {
   /** The ID of the target subscription. */
@@ -3407,13 +3427,13 @@ export interface ListGlobalScheduleByResourceGroupRequest {
   /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
   /** Specify the $expand query. Example: 'properties($select=status)' */
-  _expand?: string;
+  _expand?: string | undefined;
   /** The filter to apply to the operation. Example: '$filter=contains(name,'myName') */
-  _filter?: string;
+  _filter?: string | undefined;
   /** The maximum number of resources to return from the operation. Example: '$top=10' */
-  _top?: number;
+  _top?: number | undefined;
   /** The ordering expression for the results, using OData notation. Example: '$orderby=name desc' */
-  _orderby?: string;
+  _orderby?: string | undefined;
 }
 /** The Schedule items on this page */
 export type ScheduleListValueList = Array<Schedule>;
@@ -3422,19 +3442,19 @@ export interface ScheduleList {
   /** The Schedule items on this page */
   value: ScheduleListValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListGlobalScheduleBySubscriptionRequest {
   /** The ID of the target subscription. */
   subscriptionId: string;
   /** Specify the $expand query. Example: 'properties($select=status)' */
-  _expand?: string;
+  _expand?: string | undefined;
   /** The filter to apply to the operation. Example: '$filter=contains(name,'myName') */
-  _filter?: string;
+  _filter?: string | undefined;
   /** The maximum number of resources to return from the operation. Example: '$top=10' */
-  _top?: number;
+  _top?: number | undefined;
   /** The ordering expression for the results, using OData notation. Example: '$orderby=name desc' */
-  _orderby?: string;
+  _orderby?: string | undefined;
 }
 export interface ListLabByResourceGroupRequest {
   /** The ID of the target subscription. */
@@ -3442,32 +3462,32 @@ export interface ListLabByResourceGroupRequest {
   /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
   /** Specify the $expand query. Example: 'properties($select=defaultStorageAccount)' */
-  _expand?: string;
+  _expand?: string | undefined;
   /** The filter to apply to the operation. Example: '$filter=contains(name,'myName') */
-  _filter?: string;
+  _filter?: string | undefined;
   /** The maximum number of resources to return from the operation. Example: '$top=10' */
-  _top?: number;
+  _top?: number | undefined;
   /** The ordering expression for the results, using OData notation. Example: '$orderby=name desc' */
-  _orderby?: string;
+  _orderby?: string | undefined;
 }
 /** Resource tags. */
 export type LabTagsMap = { [key: string]: string | undefined };
 /** A lab. */
 export interface Lab {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties of the resource. */
   properties: LabProperties;
   /** Resource tags. */
-  tags?: LabTagsMap;
+  tags?: LabTagsMap | undefined;
   /** The geo-location where the resource lives */
-  location?: string;
+  location?: string | undefined;
 }
 /** The Lab items on this page */
 export type LabListValueList = Array<Lab>;
@@ -3476,19 +3496,19 @@ export interface LabList {
   /** The Lab items on this page */
   value: LabListValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListLabBySubscriptionRequest {
   /** The ID of the target subscription. */
   subscriptionId: string;
   /** Specify the $expand query. Example: 'properties($select=defaultStorageAccount)' */
-  _expand?: string;
+  _expand?: string | undefined;
   /** The filter to apply to the operation. Example: '$filter=contains(name,'myName') */
-  _filter?: string;
+  _filter?: string | undefined;
   /** The maximum number of resources to return from the operation. Example: '$top=10' */
-  _top?: number;
+  _top?: number | undefined;
   /** The ordering expression for the results, using OData notation. Example: '$orderby=name desc' */
-  _orderby?: string;
+  _orderby?: string | undefined;
 }
 export interface ListLabVhdsRequest {
   /** The ID of the target subscription. */
@@ -3501,7 +3521,7 @@ export interface ListLabVhdsRequest {
 /** Properties of a VHD in the lab. */
 export interface LabVhd {
   /** The URI to the VHD. */
-  id?: string;
+  id?: string | undefined;
 }
 /** The LabVhd items on this page */
 export type LabVhdListValueList = Array<LabVhd>;
@@ -3510,7 +3530,7 @@ export interface LabVhdList {
   /** The LabVhd items on this page */
   value: LabVhdListValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListNotificationChannelsRequest {
   /** The ID of the target subscription. */
@@ -3520,32 +3540,32 @@ export interface ListNotificationChannelsRequest {
   /** The name of the lab. */
   labName: string;
   /** Specify the $expand query. Example: 'properties($select=webHookUrl)' */
-  _expand?: string;
+  _expand?: string | undefined;
   /** The filter to apply to the operation. Example: '$filter=contains(name,'myName') */
-  _filter?: string;
+  _filter?: string | undefined;
   /** The maximum number of resources to return from the operation. Example: '$top=10' */
-  _top?: number;
+  _top?: number | undefined;
   /** The ordering expression for the results, using OData notation. Example: '$orderby=name desc' */
-  _orderby?: string;
+  _orderby?: string | undefined;
 }
 /** Resource tags. */
 export type NotificationChannelTagsMap = { [key: string]: string | undefined };
 /** A notification. */
 export interface NotificationChannel {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties of the resource. */
   properties: NotificationChannelProperties;
   /** Resource tags. */
-  tags?: NotificationChannelTagsMap;
+  tags?: NotificationChannelTagsMap | undefined;
   /** The geo-location where the resource lives */
-  location?: string;
+  location?: string | undefined;
 }
 /** The NotificationChannel items on this page */
 export type NotificationChannelListValueList = Array<NotificationChannel>;
@@ -3554,7 +3574,7 @@ export interface NotificationChannelList {
   /** The NotificationChannel items on this page */
   value: NotificationChannelListValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListPoliciesRequest {
   /** The ID of the target subscription. */
@@ -3566,32 +3586,32 @@ export interface ListPoliciesRequest {
   /** policysets */
   policySetName: string;
   /** Specify the $expand query. Example: 'properties($select=description)' */
-  _expand?: string;
+  _expand?: string | undefined;
   /** The filter to apply to the operation. Example: '$filter=contains(name,'myName') */
-  _filter?: string;
+  _filter?: string | undefined;
   /** The maximum number of resources to return from the operation. Example: '$top=10' */
-  _top?: number;
+  _top?: number | undefined;
   /** The ordering expression for the results, using OData notation. Example: '$orderby=name desc' */
-  _orderby?: string;
+  _orderby?: string | undefined;
 }
 /** The tags of the resource. */
 export type PolicyTagsMap = { [key: string]: string | undefined };
 /** A Policy. */
 export interface Policy {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties of the resource. */
   properties: PolicyProperties;
   /** The tags of the resource. */
-  tags?: PolicyTagsMap;
+  tags?: PolicyTagsMap | undefined;
   /** The location of the resource. */
-  location?: string;
+  location?: string | undefined;
 }
 /** The Policy items on this page */
 export type PolicyListValueList = Array<Policy>;
@@ -3600,19 +3620,19 @@ export interface PolicyList {
   /** The Policy items on this page */
   value: PolicyListValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListProviderOperationsRequest {}
 /** Localized display information for this particular operation. */
 export interface OperationDisplay {
   /** The localized friendly form of the resource provider name, e.g. "Microsoft Monitoring Insights" or "Microsoft Compute". */
-  provider?: string;
+  provider?: string | undefined;
   /** The localized friendly name of the resource type related to this operation. E.g. "Virtual Machines" or "Job Schedule Collections". */
-  resource?: string;
+  resource?: string | undefined;
   /** The concise, localized friendly name for the operation; suitable for dropdowns. E.g. "Create or Update Virtual Machine", "Restart Virtual Machine". */
-  operation?: string;
+  operation?: string | undefined;
   /** The short, localized friendly description of the operation; suitable for tool tips and detailed views. */
-  description?: string;
+  description?: string | undefined;
 }
 /** The intended executor of the operation; as in Resource Based Access Control (RBAC) and audit logs UX. Default value is "user,system" */
 export type OperationOrigin = "user" | "system" | "user,system";
@@ -3621,23 +3641,23 @@ export type OperationActionType = "Internal";
 /** Details of a REST API operation, returned from the Resource Provider Operations API */
 export interface Operation {
   /** The name of the operation, as per Resource-Based Access Control (RBAC). Examples: "Microsoft.Compute/virtualMachines/write", "Microsoft.Compute/virtualMachines/capture/action" */
-  name?: string;
+  name?: string | undefined;
   /** Whether the operation applies to data-plane. This is "true" for data-plane operations and "false" for ARM/control-plane operations. */
-  isDataAction?: boolean;
+  isDataAction?: boolean | undefined;
   /** Localized display information for this particular operation. */
-  display?: OperationDisplay;
+  display?: OperationDisplay | undefined;
   /** The intended executor of the operation; as in Resource Based Access Control (RBAC) and audit logs UX. Default value is "user,system" */
-  origin?: OperationOrigin;
+  origin?: OperationOrigin | undefined;
   /** Enum. Indicates the action type. "Internal" refers to actions that are for internal only APIs. */
-  actionType?: OperationActionType;
+  actionType?: OperationActionType | undefined;
 }
 /** List of operations supported by the resource provider */
 export type ListProviderOperationsResponseValueList = Array<Operation>;
 export interface ListProviderOperationsResponse {
   /** List of operations supported by the resource provider */
-  value?: ListProviderOperationsResponseValueList;
+  value?: ListProviderOperationsResponseValueList | undefined;
   /** URL to get the next set of operation list results (if there are any). */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListScheduleApplicableRequest {
   /** The ID of the target subscription. */
@@ -3657,13 +3677,13 @@ export interface ListSchedulesRequest {
   /** labs */
   labName: string;
   /** Specify the $expand query. Example: 'properties($select=status)' */
-  _expand?: string;
+  _expand?: string | undefined;
   /** The filter to apply to the operation. Example: '$filter=contains(name,'myName') */
-  _filter?: string;
+  _filter?: string | undefined;
   /** The maximum number of resources to return from the operation. Example: '$top=10' */
-  _top?: number;
+  _top?: number | undefined;
   /** The ordering expression for the results, using OData notation. Example: '$orderby=name desc' */
-  _orderby?: string;
+  _orderby?: string | undefined;
 }
 export interface ListSecretsRequest {
   /** The ID of the target subscription. */
@@ -3675,32 +3695,32 @@ export interface ListSecretsRequest {
   /** The name of the user profile. */
   userName: string;
   /** Specify the $expand query. Example: 'properties($select=value)' */
-  _expand?: string;
+  _expand?: string | undefined;
   /** The filter to apply to the operation. Example: '$filter=contains(name,'myName') */
-  _filter?: string;
+  _filter?: string | undefined;
   /** The maximum number of resources to return from the operation. Example: '$top=10' */
-  _top?: number;
+  _top?: number | undefined;
   /** The ordering expression for the results, using OData notation. Example: '$orderby=name desc' */
-  _orderby?: string;
+  _orderby?: string | undefined;
 }
 /** Resource tags. */
 export type SecretTagsMap = { [key: string]: string | undefined };
 /** A secret. */
 export interface Secret {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties of the resource. */
   properties: SecretProperties;
   /** Resource tags. */
-  tags?: SecretTagsMap;
+  tags?: SecretTagsMap | undefined;
   /** The geo-location where the resource lives */
-  location?: string;
+  location?: string | undefined;
 }
 /** The Secret items on this page */
 export type SecretListValueList = Array<Secret>;
@@ -3709,7 +3729,7 @@ export interface SecretList {
   /** The Secret items on this page */
   value: SecretListValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListServiceFabricApplicableSchedulesRequest {
   /** The ID of the target subscription. */
@@ -3729,17 +3749,17 @@ export type ListServiceFabricApplicableSchedulesResponseTagsMap = {
 };
 export interface ListServiceFabricApplicableSchedulesResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The location of the resource. */
-  location?: string;
+  location?: string | undefined;
   /** The tags of the resource. */
-  tags?: ListServiceFabricApplicableSchedulesResponseTagsMap;
+  tags?: ListServiceFabricApplicableSchedulesResponseTagsMap | undefined;
   /** The properties of the resource. */
   properties: ApplicableScheduleProperties;
 }
@@ -3753,32 +3773,32 @@ export interface ListServiceFabricsRequest {
   /** The name of the user profile. */
   userName: string;
   /** Specify the $expand query. Example: 'properties($expand=applicableSchedule)' */
-  _expand?: string;
+  _expand?: string | undefined;
   /** The filter to apply to the operation. Example: '$filter=contains(name,'myName') */
-  _filter?: string;
+  _filter?: string | undefined;
   /** The maximum number of resources to return from the operation. Example: '$top=10' */
-  _top?: number;
+  _top?: number | undefined;
   /** The ordering expression for the results, using OData notation. Example: '$orderby=name desc' */
-  _orderby?: string;
+  _orderby?: string | undefined;
 }
 /** Resource tags. */
 export type ServiceFabricTagsMap = { [key: string]: string | undefined };
 /** A Service Fabric. */
 export interface ServiceFabric {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties of the resource. */
   properties: ServiceFabricProperties;
   /** Resource tags. */
-  tags?: ServiceFabricTagsMap;
+  tags?: ServiceFabricTagsMap | undefined;
   /** The geo-location where the resource lives */
-  location?: string;
+  location?: string | undefined;
 }
 /** The ServiceFabric items on this page */
 export type ServiceFabricListValueList = Array<ServiceFabric>;
@@ -3787,7 +3807,7 @@ export interface ServiceFabricList {
   /** The ServiceFabric items on this page */
   value: ServiceFabricListValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListServiceFabricSchedulesRequest {
   /** The ID of the target subscription. */
@@ -3801,13 +3821,13 @@ export interface ListServiceFabricSchedulesRequest {
   /** servicefabrics */
   serviceFabricName: string;
   /** Specify the $expand query. Example: 'properties($select=status)' */
-  _expand?: string;
+  _expand?: string | undefined;
   /** The filter to apply to the operation. Example: '$filter=contains(name,'myName') */
-  _filter?: string;
+  _filter?: string | undefined;
   /** The maximum number of resources to return from the operation. Example: '$top=10' */
-  _top?: number;
+  _top?: number | undefined;
   /** The ordering expression for the results, using OData notation. Example: '$orderby=name desc' */
-  _orderby?: string;
+  _orderby?: string | undefined;
 }
 export interface ListUsersRequest {
   /** The ID of the target subscription. */
@@ -3817,32 +3837,32 @@ export interface ListUsersRequest {
   /** The name of the lab. */
   labName: string;
   /** Specify the $expand query. Example: 'properties($select=identity)' */
-  _expand?: string;
+  _expand?: string | undefined;
   /** The filter to apply to the operation. Example: '$filter=contains(name,'myName') */
-  _filter?: string;
+  _filter?: string | undefined;
   /** The maximum number of resources to return from the operation. Example: '$top=10' */
-  _top?: number;
+  _top?: number | undefined;
   /** The ordering expression for the results, using OData notation. Example: '$orderby=name desc' */
-  _orderby?: string;
+  _orderby?: string | undefined;
 }
 /** Resource tags. */
 export type UserTagsMap = { [key: string]: string | undefined };
 /** A user profile. */
 export interface User {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties of the resource. */
   properties: UserProperties;
   /** Resource tags. */
-  tags?: UserTagsMap;
+  tags?: UserTagsMap | undefined;
   /** The geo-location where the resource lives */
-  location?: string;
+  location?: string | undefined;
 }
 /** The User items on this page */
 export type UserListValueList = Array<User>;
@@ -3851,7 +3871,7 @@ export interface UserList {
   /** The User items on this page */
   value: UserListValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListVirtualMachineApplicableSchedulesRequest {
   /** The ID of the target subscription. */
@@ -3869,17 +3889,17 @@ export type ListVirtualMachineApplicableSchedulesResponseTagsMap = {
 };
 export interface ListVirtualMachineApplicableSchedulesResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The location of the resource. */
-  location?: string;
+  location?: string | undefined;
   /** The tags of the resource. */
-  tags?: ListVirtualMachineApplicableSchedulesResponseTagsMap;
+  tags?: ListVirtualMachineApplicableSchedulesResponseTagsMap | undefined;
   /** The properties of the resource. */
   properties: ApplicableScheduleProperties;
 }
@@ -3891,32 +3911,32 @@ export interface ListVirtualMachinesRequest {
   /** The name of the lab. */
   labName: string;
   /** Specify the $expand query. Example: 'properties($expand=artifacts,computeVm,networkInterface,applicableSchedule)' */
-  _expand?: string;
+  _expand?: string | undefined;
   /** The filter to apply to the operation. Example: '$filter=contains(name,'myName') */
-  _filter?: string;
+  _filter?: string | undefined;
   /** The maximum number of resources to return from the operation. Example: '$top=10' */
-  _top?: number;
+  _top?: number | undefined;
   /** The ordering expression for the results, using OData notation. Example: '$orderby=name desc' */
-  _orderby?: string;
+  _orderby?: string | undefined;
 }
 /** Resource tags. */
 export type LabVirtualMachineTagsMap = { [key: string]: string | undefined };
 /** A virtual machine. */
 export interface LabVirtualMachine {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties of the resource. */
   properties: LabVirtualMachineProperties;
   /** Resource tags. */
-  tags?: LabVirtualMachineTagsMap;
+  tags?: LabVirtualMachineTagsMap | undefined;
   /** The geo-location where the resource lives */
-  location?: string;
+  location?: string | undefined;
 }
 /** The LabVirtualMachine items on this page */
 export type LabVirtualMachineListValueList = Array<LabVirtualMachine>;
@@ -3925,7 +3945,7 @@ export interface LabVirtualMachineList {
   /** The LabVirtualMachine items on this page */
   value: LabVirtualMachineListValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListVirtualMachineSchedulesRequest {
   /** The ID of the target subscription. */
@@ -3937,13 +3957,13 @@ export interface ListVirtualMachineSchedulesRequest {
   /** virtualmachines */
   virtualMachineName: string;
   /** Specify the $expand query. Example: 'properties($select=status)' */
-  _expand?: string;
+  _expand?: string | undefined;
   /** The filter to apply to the operation. Example: '$filter=contains(name,'myName') */
-  _filter?: string;
+  _filter?: string | undefined;
   /** The maximum number of resources to return from the operation. Example: '$top=10' */
-  _top?: number;
+  _top?: number | undefined;
   /** The ordering expression for the results, using OData notation. Example: '$orderby=name desc' */
-  _orderby?: string;
+  _orderby?: string | undefined;
 }
 export interface ListVirtualNetworksRequest {
   /** The ID of the target subscription. */
@@ -3953,32 +3973,32 @@ export interface ListVirtualNetworksRequest {
   /** The name of the lab. */
   labName: string;
   /** Specify the $expand query. Example: 'properties($expand=externalSubnets)' */
-  _expand?: string;
+  _expand?: string | undefined;
   /** The filter to apply to the operation. Example: '$filter=contains(name,'myName') */
-  _filter?: string;
+  _filter?: string | undefined;
   /** The maximum number of resources to return from the operation. Example: '$top=10' */
-  _top?: number;
+  _top?: number | undefined;
   /** The ordering expression for the results, using OData notation. Example: '$orderby=name desc' */
-  _orderby?: string;
+  _orderby?: string | undefined;
 }
 /** Resource tags. */
 export type VirtualNetworkTagsMap = { [key: string]: string | undefined };
 /** A virtual network. */
 export interface VirtualNetwork {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties of the resource. */
   properties: VirtualNetworkProperties;
   /** Resource tags. */
-  tags?: VirtualNetworkTagsMap;
+  tags?: VirtualNetworkTagsMap | undefined;
   /** The geo-location where the resource lives */
-  location?: string;
+  location?: string | undefined;
 }
 /** The VirtualNetwork items on this page */
 export type VirtualNetworkListValueList = Array<VirtualNetwork>;
@@ -3987,22 +4007,22 @@ export interface VirtualNetworkList {
   /** The VirtualNetwork items on this page */
   value: VirtualNetworkListValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 /** The list of event for which this notification is enabled. */
 export type NotificationChannelPropertiesInputEventsList = Array<Event>;
 /** Properties of a schedule. */
 export interface NotificationChannelPropertiesInput {
   /** The webhook URL to send notifications to. */
-  webHookUrl?: string;
+  webHookUrl?: string | undefined;
   /** The email recipient to send notifications to (can be a list of semi-colon separated email addresses). */
-  emailRecipient?: string;
+  emailRecipient?: string | undefined;
   /** The locale to use when sending a notification (fallback for unsupported languages is EN). */
-  notificationLocale?: string;
+  notificationLocale?: string | undefined;
   /** Description of notification. */
-  description?: string;
+  description?: string | undefined;
   /** The list of event for which this notification is enabled. */
-  events?: NotificationChannelPropertiesInputEventsList;
+  events?: NotificationChannelPropertiesInputEventsList | undefined;
 }
 /** Resource tags. */
 export type NotificationChannelsCreateOrUpdateRequestTagsMap = {
@@ -4020,9 +4040,9 @@ export interface NotificationChannelsCreateOrUpdateRequest {
   /** The properties of the resource. */
   properties: NotificationChannelPropertiesInput;
   /** Resource tags. */
-  tags?: NotificationChannelsCreateOrUpdateRequestTagsMap;
+  tags?: NotificationChannelsCreateOrUpdateRequestTagsMap | undefined;
   /** The geo-location where the resource lives */
-  location?: string;
+  location?: string | undefined;
 }
 /** Resource tags. */
 export type NotificationChannelsCreateOrUpdateResponseTagsMap = {
@@ -4030,19 +4050,19 @@ export type NotificationChannelsCreateOrUpdateResponseTagsMap = {
 };
 export interface NotificationChannelsCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties of the resource. */
   properties: NotificationChannelProperties;
   /** Resource tags. */
-  tags?: NotificationChannelsCreateOrUpdateResponseTagsMap;
+  tags?: NotificationChannelsCreateOrUpdateResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
-  location?: string;
+  location?: string | undefined;
 }
 export interface NotifyNotificationChannelRequest {
   /** The ID of the target subscription. */
@@ -4054,25 +4074,25 @@ export interface NotifyNotificationChannelRequest {
   /** The name of the notification channel. */
   name: string;
   /** The type of event (i.e. AutoShutdown, Cost) */
-  eventName?: NotificationChannelEventType | (string & {});
+  eventName?: NotificationChannelEventType | (string & {}) | undefined;
   /** Properties for the notification in json format. */
-  jsonPayload?: string;
+  jsonPayload?: string | undefined;
 }
 export interface NotifyNotificationChannelResponse {}
 /** Properties of a Policy. */
 export interface PolicyPropertiesInput {
   /** The description of the policy. */
-  description?: string;
+  description?: string | undefined;
   /** The status of the policy. */
-  status?: PolicyStatus | (string & {});
+  status?: PolicyStatus | (string & {}) | undefined;
   /** The fact name of the policy (e.g. LabVmCount, LabVmSize, MaxVmsAllowedPerLab, etc. */
-  factName?: PolicyFactName | (string & {});
+  factName?: PolicyFactName | (string & {}) | undefined;
   /** The fact data of the policy. */
-  factData?: string;
+  factData?: string | undefined;
   /** The threshold of the policy (i.e. a number for MaxValuePolicy, and a JSON array of values for AllowedValuesPolicy). */
-  threshold?: string;
+  threshold?: string | undefined;
   /** The evaluator type of the policy (i.e. AllowedValuesPolicy, MaxValuePolicy). */
-  evaluatorType?: PolicyEvaluatorType | (string & {});
+  evaluatorType?: PolicyEvaluatorType | (string & {}) | undefined;
 }
 /** The tags of the resource. */
 export type PoliciesCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
@@ -4090,38 +4110,38 @@ export interface PoliciesCreateOrUpdateRequest {
   /** The properties of the resource. */
   properties: PolicyPropertiesInput;
   /** The tags of the resource. */
-  tags?: PoliciesCreateOrUpdateRequestTagsMap;
+  tags?: PoliciesCreateOrUpdateRequestTagsMap | undefined;
   /** The location of the resource. */
-  location?: string;
+  location?: string | undefined;
 }
 /** The tags of the resource. */
 export type PoliciesCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
 export interface PoliciesCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties of the resource. */
   properties: PolicyProperties;
   /** The tags of the resource. */
-  tags?: PoliciesCreateOrUpdateResponseTagsMap;
+  tags?: PoliciesCreateOrUpdateResponseTagsMap | undefined;
   /** The location of the resource. */
-  location?: string;
+  location?: string | undefined;
 }
 /** Properties for evaluating a policy set. */
 export interface EvaluatePoliciesProperties {
   /** The fact name. */
-  factName?: string;
+  factName?: string | undefined;
   /** The fact data. */
-  factData?: string;
+  factData?: string | undefined;
   /** The value offset. */
-  valueOffset?: string;
+  valueOffset?: string | undefined;
   /** The user for which policies will be evaluated */
-  userObjectId?: string;
+  userObjectId?: string | undefined;
 }
 /** Policies to evaluate. */
 export type PolicySetsEvaluatePoliciesRequestPoliciesList = Array<EvaluatePoliciesProperties>;
@@ -4135,30 +4155,30 @@ export interface PolicySetsEvaluatePoliciesRequest {
   /** The name of the PolicySet */
   name: string;
   /** Policies to evaluate. */
-  policies?: PolicySetsEvaluatePoliciesRequestPoliciesList;
+  policies?: PolicySetsEvaluatePoliciesRequestPoliciesList | undefined;
 }
 /** Policy violation. */
 export interface PolicyViolation {
   /** The code of the policy violation. */
-  code?: string;
+  code?: string | undefined;
   /** The message of the policy violation. */
-  message?: string;
+  message?: string | undefined;
 }
 /** The list of policy violations. */
 export type PolicySetResultPolicyViolationsList = Array<PolicyViolation>;
 /** Result of a policy set evaluation. */
 export interface PolicySetResult {
   /** A value indicating whether this policy set evaluation has discovered violations. */
-  hasError?: boolean;
+  hasError?: boolean | undefined;
   /** The list of policy violations. */
-  policyViolations?: PolicySetResultPolicyViolationsList;
+  policyViolations?: PolicySetResultPolicyViolationsList | undefined;
 }
 /** Results of evaluating a policy set. */
 export type EvaluatePoliciesResponseResultsList = Array<PolicySetResult>;
 /** Response body for evaluating a policy set. */
 export interface EvaluatePoliciesResponse {
   /** Results of evaluating a policy set. */
-  results?: EvaluatePoliciesResponseResultsList;
+  results?: EvaluatePoliciesResponseResultsList | undefined;
 }
 export interface RedeployVirtualMachineRequest {
   /** The ID of the target subscription. */
@@ -4172,9 +4192,9 @@ export interface RedeployVirtualMachineRequest {
 }
 export interface RedeployVirtualMachineResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface ResizeVirtualMachineRequest {
   /** The ID of the target subscription. */
@@ -4186,13 +4206,13 @@ export interface ResizeVirtualMachineRequest {
   /** The name of the virtual machine. */
   name: string;
   /** Specifies the size of the virtual machine. */
-  size?: string;
+  size?: string | undefined;
 }
 export interface ResizeVirtualMachineResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface RestartVirtualMachineRequest {
   /** The ID of the target subscription. */
@@ -4206,9 +4226,9 @@ export interface RestartVirtualMachineRequest {
 }
 export interface RestartVirtualMachineResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Resource tags. */
 export type SchedulesCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
@@ -4224,32 +4244,32 @@ export interface SchedulesCreateOrUpdateRequest {
   /** The properties of the resource. */
   properties: SchedulePropertiesInput;
   /** Resource tags. */
-  tags?: SchedulesCreateOrUpdateRequestTagsMap;
+  tags?: SchedulesCreateOrUpdateRequestTagsMap | undefined;
   /** The geo-location where the resource lives */
-  location?: string;
+  location?: string | undefined;
 }
 /** Resource tags. */
 export type SchedulesCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
 export interface SchedulesCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties of the resource. */
   properties: ScheduleProperties;
   /** Resource tags. */
-  tags?: SchedulesCreateOrUpdateResponseTagsMap;
+  tags?: SchedulesCreateOrUpdateResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
-  location?: string;
+  location?: string | undefined;
 }
 /** Properties of a secret. */
 export interface SecretPropertiesInput {
   /** The value of the secret for secret creation. */
-  value?: string;
+  value?: string | undefined;
 }
 /** Resource tags. */
 export type SecretsCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
@@ -4267,31 +4287,31 @@ export interface SecretsCreateOrUpdateRequest {
   /** The properties of the resource. */
   properties: SecretPropertiesInput;
   /** Resource tags. */
-  tags?: SecretsCreateOrUpdateRequestTagsMap;
+  tags?: SecretsCreateOrUpdateRequestTagsMap | undefined;
   /** The geo-location where the resource lives */
-  location?: string;
+  location?: string | undefined;
 }
 /** Resource tags. */
 export type SecretsCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
 export interface SecretsCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties of the resource. */
   properties: SecretProperties;
   /** Resource tags. */
-  tags?: SecretsCreateOrUpdateResponseTagsMap;
+  tags?: SecretsCreateOrUpdateResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
-  location?: string;
+  location?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  locationHeader?: string;
+  locationHeader?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Resource tags. */
 export type ServiceFabricSchedulesCreateOrUpdateRequestTagsMap = {
@@ -4313,9 +4333,9 @@ export interface ServiceFabricSchedulesCreateOrUpdateRequest {
   /** The properties of the resource. */
   properties: SchedulePropertiesInput;
   /** Resource tags. */
-  tags?: ServiceFabricSchedulesCreateOrUpdateRequestTagsMap;
+  tags?: ServiceFabricSchedulesCreateOrUpdateRequestTagsMap | undefined;
   /** The geo-location where the resource lives */
-  location?: string;
+  location?: string | undefined;
 }
 /** Resource tags. */
 export type ServiceFabricSchedulesCreateOrUpdateResponseTagsMap = {
@@ -4323,26 +4343,26 @@ export type ServiceFabricSchedulesCreateOrUpdateResponseTagsMap = {
 };
 export interface ServiceFabricSchedulesCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties of the resource. */
   properties: ScheduleProperties;
   /** Resource tags. */
-  tags?: ServiceFabricSchedulesCreateOrUpdateResponseTagsMap;
+  tags?: ServiceFabricSchedulesCreateOrUpdateResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
-  location?: string;
+  location?: string | undefined;
 }
 /** Properties of a service fabric. */
 export interface ServiceFabricPropertiesInput {
   /** The backing service fabric resource's id */
-  externalServiceFabricId?: string;
+  externalServiceFabricId?: string | undefined;
   /** The resource id of the environment under which the service fabric resource is present */
-  environmentId?: string;
+  environmentId?: string | undefined;
 }
 /** Resource tags. */
 export type ServiceFabricsCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
@@ -4360,38 +4380,38 @@ export interface ServiceFabricsCreateOrUpdateRequest {
   /** The properties of the resource. */
   properties: ServiceFabricPropertiesInput;
   /** Resource tags. */
-  tags?: ServiceFabricsCreateOrUpdateRequestTagsMap;
+  tags?: ServiceFabricsCreateOrUpdateRequestTagsMap | undefined;
   /** The geo-location where the resource lives */
-  location?: string;
+  location?: string | undefined;
 }
 /** Resource tags. */
 export type ServiceFabricsCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
 export interface ServiceFabricsCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties of the resource. */
   properties: ServiceFabricProperties;
   /** Resource tags. */
-  tags?: ServiceFabricsCreateOrUpdateResponseTagsMap;
+  tags?: ServiceFabricsCreateOrUpdateResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
-  location?: string;
+  location?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  locationHeader?: string;
+  locationHeader?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Resource tags. */
 export type ServiceRunnersCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
 /** Properties of a service runner. */
 export interface ServiceRunnerProperties {
   /** What the runner's identity is used for: `Environment` or `VirtualMachine`. */
-  identityUsageType?: string;
+  identityUsageType?: string | undefined;
 }
 export interface ServiceRunnersCreateOrUpdateRequest {
   /** The ID of the target subscription. */
@@ -4403,31 +4423,31 @@ export interface ServiceRunnersCreateOrUpdateRequest {
   /** The name of the service runner. */
   name: string;
   /** Resource tags. */
-  tags?: ServiceRunnersCreateOrUpdateRequestTagsMap;
+  tags?: ServiceRunnersCreateOrUpdateRequestTagsMap | undefined;
   /** The geo-location where the resource lives */
-  location?: string;
+  location?: string | undefined;
   /** The identity of the resource. */
-  identity?: IdentityProperties;
+  identity?: IdentityProperties | undefined;
   /** Properties of the service runner. */
-  properties?: ServiceRunnerProperties;
+  properties?: ServiceRunnerProperties | undefined;
 }
 /** Resource tags. */
 export type ServiceRunnersCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
 export interface ServiceRunnersCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: ServiceRunnersCreateOrUpdateResponseTagsMap;
+  tags?: ServiceRunnersCreateOrUpdateResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
-  location?: string;
+  location?: string | undefined;
   /** The identity of the resource. */
-  identity?: IdentityProperties;
+  identity?: IdentityProperties | undefined;
 }
 export interface StartServiceFabricRequest {
   /** The ID of the target subscription. */
@@ -4443,9 +4463,9 @@ export interface StartServiceFabricRequest {
 }
 export interface StartServiceFabricResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface StartVirtualMachineRequest {
   /** The ID of the target subscription. */
@@ -4459,9 +4479,9 @@ export interface StartVirtualMachineRequest {
 }
 export interface StartVirtualMachineResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface StopServiceFabricRequest {
   /** The ID of the target subscription. */
@@ -4477,9 +4497,9 @@ export interface StopServiceFabricRequest {
 }
 export interface StopServiceFabricResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface StopVirtualMachineRequest {
   /** The ID of the target subscription. */
@@ -4493,9 +4513,9 @@ export interface StopVirtualMachineRequest {
 }
 export interface StopVirtualMachineResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface TransferVirtualMachineDisksRequest {
   /** The ID of the target subscription. */
@@ -4509,9 +4529,9 @@ export interface TransferVirtualMachineDisksRequest {
 }
 export interface TransferVirtualMachineDisksResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** The tags of the resource. */
 export type UpdateArtifactSourceRequestTagsMap = { [key: string]: string | undefined };
@@ -4525,25 +4545,25 @@ export interface UpdateArtifactSourceRequest {
   /** The name of the artifact source. */
   name: string;
   /** The tags of the resource. */
-  tags?: UpdateArtifactSourceRequestTagsMap;
+  tags?: UpdateArtifactSourceRequestTagsMap | undefined;
 }
 /** Resource tags. */
 export type UpdateArtifactSourceResponseTagsMap = { [key: string]: string | undefined };
 export interface UpdateArtifactSourceResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties of the resource. */
   properties: ArtifactSourceProperties;
   /** Resource tags. */
-  tags?: UpdateArtifactSourceResponseTagsMap;
+  tags?: UpdateArtifactSourceResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
-  location?: string;
+  location?: string | undefined;
 }
 /** The tags of the resource. */
 export type UpdateCustomImageRequestTagsMap = { [key: string]: string | undefined };
@@ -4557,25 +4577,25 @@ export interface UpdateCustomImageRequest {
   /** The name of the CustomImage */
   name: string;
   /** The tags of the resource. */
-  tags?: UpdateCustomImageRequestTagsMap;
+  tags?: UpdateCustomImageRequestTagsMap | undefined;
 }
 /** Resource tags. */
 export type UpdateCustomImageResponseTagsMap = { [key: string]: string | undefined };
 export interface UpdateCustomImageResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties of the resource. */
   properties: CustomImageProperties;
   /** Resource tags. */
-  tags?: UpdateCustomImageResponseTagsMap;
+  tags?: UpdateCustomImageResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
-  location?: string;
+  location?: string | undefined;
 }
 /** The tags of the resource. */
 export type UpdateDiskRequestTagsMap = { [key: string]: string | undefined };
@@ -4591,25 +4611,25 @@ export interface UpdateDiskRequest {
   /** The name of the disk. */
   name: string;
   /** The tags of the resource. */
-  tags?: UpdateDiskRequestTagsMap;
+  tags?: UpdateDiskRequestTagsMap | undefined;
 }
 /** Resource tags. */
 export type UpdateDiskResponseTagsMap = { [key: string]: string | undefined };
 export interface UpdateDiskResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties of the disk. */
   properties: DiskProperties;
   /** Resource tags. */
-  tags?: UpdateDiskResponseTagsMap;
+  tags?: UpdateDiskResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
-  location?: string;
+  location?: string | undefined;
 }
 /** The tags of the resource. */
 export type UpdateEnvironmentRequestTagsMap = { [key: string]: string | undefined };
@@ -4625,25 +4645,25 @@ export interface UpdateEnvironmentRequest {
   /** The name of the environment. */
   name: string;
   /** The tags of the resource. */
-  tags?: UpdateEnvironmentRequestTagsMap;
+  tags?: UpdateEnvironmentRequestTagsMap | undefined;
 }
 /** Resource tags. */
 export type UpdateEnvironmentResponseTagsMap = { [key: string]: string | undefined };
 export interface UpdateEnvironmentResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties of the environment. */
   properties: EnvironmentProperties;
   /** Resource tags. */
-  tags?: UpdateEnvironmentResponseTagsMap;
+  tags?: UpdateEnvironmentResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
-  location?: string;
+  location?: string | undefined;
 }
 /** The tags of the resource. */
 export type UpdateFormulasRequestTagsMap = { [key: string]: string | undefined };
@@ -4657,25 +4677,25 @@ export interface UpdateFormulasRequest {
   /** The name of the formula. */
   name: string;
   /** The tags of the resource. */
-  tags?: UpdateFormulasRequestTagsMap;
+  tags?: UpdateFormulasRequestTagsMap | undefined;
 }
 /** Resource tags. */
 export type UpdateFormulasResponseTagsMap = { [key: string]: string | undefined };
 export interface UpdateFormulasResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties of the formula. */
   properties: FormulaProperties;
   /** Resource tags. */
-  tags?: UpdateFormulasResponseTagsMap;
+  tags?: UpdateFormulasResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
-  location?: string;
+  location?: string | undefined;
 }
 /** The tags of the resource. */
 export type UpdateGlobalScheduleRequestTagsMap = { [key: string]: string | undefined };
@@ -4687,25 +4707,25 @@ export interface UpdateGlobalScheduleRequest {
   /** The name of the Schedule */
   name: string;
   /** The tags of the resource. */
-  tags?: UpdateGlobalScheduleRequestTagsMap;
+  tags?: UpdateGlobalScheduleRequestTagsMap | undefined;
 }
 /** Resource tags. */
 export type UpdateGlobalScheduleResponseTagsMap = { [key: string]: string | undefined };
 export interface UpdateGlobalScheduleResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties of the resource. */
   properties: ScheduleProperties;
   /** Resource tags. */
-  tags?: UpdateGlobalScheduleResponseTagsMap;
+  tags?: UpdateGlobalScheduleResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
-  location?: string;
+  location?: string | undefined;
 }
 /** The tags of the resource. */
 export type UpdateLabRequestTagsMap = { [key: string]: string | undefined };
@@ -4717,25 +4737,25 @@ export interface UpdateLabRequest {
   /** The name of the lab. */
   name: string;
   /** The tags of the resource. */
-  tags?: UpdateLabRequestTagsMap;
+  tags?: UpdateLabRequestTagsMap | undefined;
 }
 /** Resource tags. */
 export type UpdateLabResponseTagsMap = { [key: string]: string | undefined };
 export interface UpdateLabResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties of the resource. */
   properties: LabProperties;
   /** Resource tags. */
-  tags?: UpdateLabResponseTagsMap;
+  tags?: UpdateLabResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
-  location?: string;
+  location?: string | undefined;
 }
 /** The tags of the resource. */
 export type UpdateNotificationChannelRequestTagsMap = { [key: string]: string | undefined };
@@ -4749,25 +4769,25 @@ export interface UpdateNotificationChannelRequest {
   /** The name of the notification channel. */
   name: string;
   /** The tags of the resource. */
-  tags?: UpdateNotificationChannelRequestTagsMap;
+  tags?: UpdateNotificationChannelRequestTagsMap | undefined;
 }
 /** Resource tags. */
 export type UpdateNotificationChannelResponseTagsMap = { [key: string]: string | undefined };
 export interface UpdateNotificationChannelResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties of the resource. */
   properties: NotificationChannelProperties;
   /** Resource tags. */
-  tags?: UpdateNotificationChannelResponseTagsMap;
+  tags?: UpdateNotificationChannelResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
-  location?: string;
+  location?: string | undefined;
 }
 /** The tags of the resource. */
 export type UpdatePolicyRequestTagsMap = { [key: string]: string | undefined };
@@ -4783,25 +4803,25 @@ export interface UpdatePolicyRequest {
   /** The name of the Policy */
   name: string;
   /** The tags of the resource. */
-  tags?: UpdatePolicyRequestTagsMap;
+  tags?: UpdatePolicyRequestTagsMap | undefined;
 }
 /** The tags of the resource. */
 export type UpdatePolicyResponseTagsMap = { [key: string]: string | undefined };
 export interface UpdatePolicyResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties of the resource. */
   properties: PolicyProperties;
   /** The tags of the resource. */
-  tags?: UpdatePolicyResponseTagsMap;
+  tags?: UpdatePolicyResponseTagsMap | undefined;
   /** The location of the resource. */
-  location?: string;
+  location?: string | undefined;
 }
 /** The tags of the resource. */
 export type UpdateScheduleRequestTagsMap = { [key: string]: string | undefined };
@@ -4815,25 +4835,25 @@ export interface UpdateScheduleRequest {
   /** The name of the Schedule */
   name: string;
   /** The tags of the resource. */
-  tags?: UpdateScheduleRequestTagsMap;
+  tags?: UpdateScheduleRequestTagsMap | undefined;
 }
 /** Resource tags. */
 export type UpdateScheduleResponseTagsMap = { [key: string]: string | undefined };
 export interface UpdateScheduleResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties of the resource. */
   properties: ScheduleProperties;
   /** Resource tags. */
-  tags?: UpdateScheduleResponseTagsMap;
+  tags?: UpdateScheduleResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
-  location?: string;
+  location?: string | undefined;
 }
 /** The tags of the resource. */
 export type UpdateSecretRequestTagsMap = { [key: string]: string | undefined };
@@ -4849,25 +4869,25 @@ export interface UpdateSecretRequest {
   /** The name of the secret. */
   name: string;
   /** The tags of the resource. */
-  tags?: UpdateSecretRequestTagsMap;
+  tags?: UpdateSecretRequestTagsMap | undefined;
 }
 /** Resource tags. */
 export type UpdateSecretResponseTagsMap = { [key: string]: string | undefined };
 export interface UpdateSecretResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties of the resource. */
   properties: SecretProperties;
   /** Resource tags. */
-  tags?: UpdateSecretResponseTagsMap;
+  tags?: UpdateSecretResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
-  location?: string;
+  location?: string | undefined;
 }
 /** The tags of the resource. */
 export type UpdateServiceFabricRequestTagsMap = { [key: string]: string | undefined };
@@ -4883,25 +4903,25 @@ export interface UpdateServiceFabricRequest {
   /** The name of the service fabric. */
   name: string;
   /** The tags of the resource. */
-  tags?: UpdateServiceFabricRequestTagsMap;
+  tags?: UpdateServiceFabricRequestTagsMap | undefined;
 }
 /** Resource tags. */
 export type UpdateServiceFabricResponseTagsMap = { [key: string]: string | undefined };
 export interface UpdateServiceFabricResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties of the resource. */
   properties: ServiceFabricProperties;
   /** Resource tags. */
-  tags?: UpdateServiceFabricResponseTagsMap;
+  tags?: UpdateServiceFabricResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
-  location?: string;
+  location?: string | undefined;
 }
 /** The tags of the resource. */
 export type UpdateServiceFabricScheduleRequestTagsMap = { [key: string]: string | undefined };
@@ -4919,25 +4939,25 @@ export interface UpdateServiceFabricScheduleRequest {
   /** The name of the Schedule */
   name: string;
   /** The tags of the resource. */
-  tags?: UpdateServiceFabricScheduleRequestTagsMap;
+  tags?: UpdateServiceFabricScheduleRequestTagsMap | undefined;
 }
 /** Resource tags. */
 export type UpdateServiceFabricScheduleResponseTagsMap = { [key: string]: string | undefined };
 export interface UpdateServiceFabricScheduleResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties of the resource. */
   properties: ScheduleProperties;
   /** Resource tags. */
-  tags?: UpdateServiceFabricScheduleResponseTagsMap;
+  tags?: UpdateServiceFabricScheduleResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
-  location?: string;
+  location?: string | undefined;
 }
 /** The tags of the resource. */
 export type UpdateUserRequestTagsMap = { [key: string]: string | undefined };
@@ -4951,25 +4971,25 @@ export interface UpdateUserRequest {
   /** The name of the user profile. */
   name: string;
   /** The tags of the resource. */
-  tags?: UpdateUserRequestTagsMap;
+  tags?: UpdateUserRequestTagsMap | undefined;
 }
 /** Resource tags. */
 export type UpdateUserResponseTagsMap = { [key: string]: string | undefined };
 export interface UpdateUserResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties of the resource. */
   properties: UserProperties;
   /** Resource tags. */
-  tags?: UpdateUserResponseTagsMap;
+  tags?: UpdateUserResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
-  location?: string;
+  location?: string | undefined;
 }
 /** The tags of the resource. */
 export type UpdateVirtualMachineRequestTagsMap = { [key: string]: string | undefined };
@@ -4983,25 +5003,25 @@ export interface UpdateVirtualMachineRequest {
   /** The name of the virtual machine. */
   name: string;
   /** The tags of the resource. */
-  tags?: UpdateVirtualMachineRequestTagsMap;
+  tags?: UpdateVirtualMachineRequestTagsMap | undefined;
 }
 /** Resource tags. */
 export type UpdateVirtualMachineResponseTagsMap = { [key: string]: string | undefined };
 export interface UpdateVirtualMachineResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties of the resource. */
   properties: LabVirtualMachineProperties;
   /** Resource tags. */
-  tags?: UpdateVirtualMachineResponseTagsMap;
+  tags?: UpdateVirtualMachineResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
-  location?: string;
+  location?: string | undefined;
 }
 /** The tags of the resource. */
 export type UpdateVirtualMachineScheduleRequestTagsMap = { [key: string]: string | undefined };
@@ -5017,25 +5037,25 @@ export interface UpdateVirtualMachineScheduleRequest {
   /** The name of the Schedule */
   name: string;
   /** The tags of the resource. */
-  tags?: UpdateVirtualMachineScheduleRequestTagsMap;
+  tags?: UpdateVirtualMachineScheduleRequestTagsMap | undefined;
 }
 /** Resource tags. */
 export type UpdateVirtualMachineScheduleResponseTagsMap = { [key: string]: string | undefined };
 export interface UpdateVirtualMachineScheduleResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties of the resource. */
   properties: ScheduleProperties;
   /** Resource tags. */
-  tags?: UpdateVirtualMachineScheduleResponseTagsMap;
+  tags?: UpdateVirtualMachineScheduleResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
-  location?: string;
+  location?: string | undefined;
 }
 /** The tags of the resource. */
 export type UpdateVirtualNetworkRequestTagsMap = { [key: string]: string | undefined };
@@ -5049,32 +5069,32 @@ export interface UpdateVirtualNetworkRequest {
   /** The name of the virtual network. */
   name: string;
   /** The tags of the resource. */
-  tags?: UpdateVirtualNetworkRequestTagsMap;
+  tags?: UpdateVirtualNetworkRequestTagsMap | undefined;
 }
 /** Resource tags. */
 export type UpdateVirtualNetworkResponseTagsMap = { [key: string]: string | undefined };
 export interface UpdateVirtualNetworkResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties of the resource. */
   properties: VirtualNetworkProperties;
   /** Resource tags. */
-  tags?: UpdateVirtualNetworkResponseTagsMap;
+  tags?: UpdateVirtualNetworkResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
-  location?: string;
+  location?: string | undefined;
 }
 /** Properties of a lab user profile. */
 export interface UserPropertiesInput {
   /** The identity of the user. */
-  identity?: UserIdentity;
+  identity?: UserIdentity | undefined;
   /** The secret store of the user. */
-  secretStore?: UserSecretStore;
+  secretStore?: UserSecretStore | undefined;
 }
 /** Resource tags. */
 export type UsersCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
@@ -5090,31 +5110,31 @@ export interface UsersCreateOrUpdateRequest {
   /** The properties of the resource. */
   properties: UserPropertiesInput;
   /** Resource tags. */
-  tags?: UsersCreateOrUpdateRequestTagsMap;
+  tags?: UsersCreateOrUpdateRequestTagsMap | undefined;
   /** The geo-location where the resource lives */
-  location?: string;
+  location?: string | undefined;
 }
 /** Resource tags. */
 export type UsersCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
 export interface UsersCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties of the resource. */
   properties: UserProperties;
   /** Resource tags. */
-  tags?: UsersCreateOrUpdateResponseTagsMap;
+  tags?: UsersCreateOrUpdateResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
-  location?: string;
+  location?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  locationHeader?: string;
+  locationHeader?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Resource tags. */
 export type VirtualMachineSchedulesCreateOrUpdateRequestTagsMap = {
@@ -5134,9 +5154,9 @@ export interface VirtualMachineSchedulesCreateOrUpdateRequest {
   /** The properties of the resource. */
   properties: SchedulePropertiesInput;
   /** Resource tags. */
-  tags?: VirtualMachineSchedulesCreateOrUpdateRequestTagsMap;
+  tags?: VirtualMachineSchedulesCreateOrUpdateRequestTagsMap | undefined;
   /** The geo-location where the resource lives */
-  location?: string;
+  location?: string | undefined;
 }
 /** Resource tags. */
 export type VirtualMachineSchedulesCreateOrUpdateResponseTagsMap = {
@@ -5144,19 +5164,19 @@ export type VirtualMachineSchedulesCreateOrUpdateResponseTagsMap = {
 };
 export interface VirtualMachineSchedulesCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties of the resource. */
   properties: ScheduleProperties;
   /** Resource tags. */
-  tags?: VirtualMachineSchedulesCreateOrUpdateResponseTagsMap;
+  tags?: VirtualMachineSchedulesCreateOrUpdateResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
-  location?: string;
+  location?: string | undefined;
 }
 /** The artifacts to be installed on the virtual machine. */
 export type LabVirtualMachinePropertiesInputArtifactsList = Array<ArtifactInstallProperties>;
@@ -5168,51 +5188,51 @@ export type LabVirtualMachinePropertiesInputScheduleParametersList =
 /** Properties of a virtual machine. */
 export interface LabVirtualMachinePropertiesInput {
   /** The notes of the virtual machine. */
-  notes?: string;
+  notes?: string | undefined;
   /** The object identifier of the owner of the virtual machine. */
-  ownerObjectId?: string;
+  ownerObjectId?: string | undefined;
   /** The user principal name of the virtual machine owner. */
-  ownerUserPrincipalName?: string;
+  ownerUserPrincipalName?: string | undefined;
   /** The creation date of the virtual machine. */
-  createdDate?: string;
+  createdDate?: string | undefined;
   /** The custom image identifier of the virtual machine. */
-  customImageId?: string;
+  customImageId?: string | undefined;
   /** The size of the virtual machine. */
-  size?: string;
+  size?: string | undefined;
   /** The user name of the virtual machine. */
-  userName?: string;
+  userName?: string | undefined;
   /** The password of the virtual machine administrator. */
-  password?: string | Redacted.Redacted<string>;
+  password?: string | Redacted.Redacted<string> | undefined;
   /** The SSH key of the virtual machine administrator. */
-  sshKey?: string;
+  sshKey?: string | undefined;
   /** Indicates whether this virtual machine uses an SSH key for authentication. */
-  isAuthenticationWithSshKey?: boolean;
+  isAuthenticationWithSshKey?: boolean | undefined;
   /** The lab subnet name of the virtual machine. */
-  labSubnetName?: string;
+  labSubnetName?: string | undefined;
   /** The lab virtual network identifier of the virtual machine. */
-  labVirtualNetworkId?: string;
+  labVirtualNetworkId?: string | undefined;
   /** Indicates whether the virtual machine is to be created without a public IP address. */
-  disallowPublicIpAddress?: boolean;
+  disallowPublicIpAddress?: boolean | undefined;
   /** The artifacts to be installed on the virtual machine. */
-  artifacts?: LabVirtualMachinePropertiesInputArtifactsList;
+  artifacts?: LabVirtualMachinePropertiesInputArtifactsList | undefined;
   /** The Microsoft Azure Marketplace image reference of the virtual machine. */
-  galleryImageReference?: GalleryImageReference;
+  galleryImageReference?: GalleryImageReference | undefined;
   /** The id of the plan associated with the virtual machine image */
-  planId?: string;
+  planId?: string | undefined;
   /** The network interface properties. */
-  networkInterface?: NetworkInterfaceProperties;
+  networkInterface?: NetworkInterfaceProperties | undefined;
   /** The expiration date for VM. */
-  expirationDate?: string;
+  expirationDate?: string | undefined;
   /** Indicates whether another user can take ownership of the virtual machine */
-  allowClaim?: boolean;
+  allowClaim?: boolean | undefined;
   /** Storage type to use for virtual machine (i.e. Standard, Premium). */
-  storageType?: string;
+  storageType?: string | undefined;
   /** The resource ID of the environment that contains this virtual machine, if any. */
-  environmentId?: string;
+  environmentId?: string | undefined;
   /** New or existing data disks to attach to the virtual machine after creation */
-  dataDiskParameters?: LabVirtualMachinePropertiesInputDataDiskParametersList;
+  dataDiskParameters?: LabVirtualMachinePropertiesInputDataDiskParametersList | undefined;
   /** Virtual Machine schedules to be created */
-  scheduleParameters?: LabVirtualMachinePropertiesInputScheduleParametersList;
+  scheduleParameters?: LabVirtualMachinePropertiesInputScheduleParametersList | undefined;
 }
 /** Resource tags. */
 export type VirtualMachinesCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
@@ -5228,31 +5248,31 @@ export interface VirtualMachinesCreateOrUpdateRequest {
   /** The properties of the resource. */
   properties: LabVirtualMachinePropertiesInput;
   /** Resource tags. */
-  tags?: VirtualMachinesCreateOrUpdateRequestTagsMap;
+  tags?: VirtualMachinesCreateOrUpdateRequestTagsMap | undefined;
   /** The geo-location where the resource lives */
-  location?: string;
+  location?: string | undefined;
 }
 /** Resource tags. */
 export type VirtualMachinesCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
 export interface VirtualMachinesCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties of the resource. */
   properties: LabVirtualMachineProperties;
   /** Resource tags. */
-  tags?: VirtualMachinesCreateOrUpdateResponseTagsMap;
+  tags?: VirtualMachinesCreateOrUpdateResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
-  location?: string;
+  location?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  locationHeader?: string;
+  locationHeader?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** The allowed subnets of the virtual network. */
 export type VirtualNetworkPropertiesInputAllowedSubnetsList = Array<Subnet>;
@@ -5261,13 +5281,13 @@ export type VirtualNetworkPropertiesInputSubnetOverridesList = Array<SubnetOverr
 /** Properties of a virtual network. */
 export interface VirtualNetworkPropertiesInput {
   /** The allowed subnets of the virtual network. */
-  allowedSubnets?: VirtualNetworkPropertiesInputAllowedSubnetsList;
+  allowedSubnets?: VirtualNetworkPropertiesInputAllowedSubnetsList | undefined;
   /** The description of the virtual network. */
-  description?: string;
+  description?: string | undefined;
   /** The Microsoft.Network resource identifier of the virtual network. */
-  externalProviderResourceId?: string;
+  externalProviderResourceId?: string | undefined;
   /** The subnet overrides of the virtual network. */
-  subnetOverrides?: VirtualNetworkPropertiesInputSubnetOverridesList;
+  subnetOverrides?: VirtualNetworkPropertiesInputSubnetOverridesList | undefined;
 }
 /** Resource tags. */
 export type VirtualNetworksCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
@@ -5283,31 +5303,31 @@ export interface VirtualNetworksCreateOrUpdateRequest {
   /** The properties of the resource. */
   properties: VirtualNetworkPropertiesInput;
   /** Resource tags. */
-  tags?: VirtualNetworksCreateOrUpdateRequestTagsMap;
+  tags?: VirtualNetworksCreateOrUpdateRequestTagsMap | undefined;
   /** The geo-location where the resource lives */
-  location?: string;
+  location?: string | undefined;
 }
 /** Resource tags. */
 export type VirtualNetworksCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
 export interface VirtualNetworksCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties of the resource. */
   properties: VirtualNetworkProperties;
   /** Resource tags. */
-  tags?: VirtualNetworksCreateOrUpdateResponseTagsMap;
+  tags?: VirtualNetworksCreateOrUpdateResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
-  location?: string;
+  location?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  locationHeader?: string;
+  locationHeader?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export type AddVirtualMachineDataDiskError = AzureOpError;
 /** Attach a new or existing data disk to virtual machine. This operation can take a while to complete. */
@@ -9374,6 +9394,7 @@ function __c75(j: number): any {
           osType: S.optional(S.String),
           creationDate: S.optional(S.String),
           formulaContent: S.optional(__S(1202, __c75, 2)),
+          credentialState: S.optional(S.String),
           vm: S.optional(__S(1200, __c75, 0)),
           provisioningState: S.optional(S.String),
           uniqueIdentifier: S.optional(S.String),

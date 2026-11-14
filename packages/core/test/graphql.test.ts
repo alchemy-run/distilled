@@ -21,6 +21,7 @@ import {
   rootLeaf,
   rootList,
   scalarField,
+  type FieldWithArgs,
   type GraphQLResponse,
   type TypeMeta,
 } from "../src/graphql.ts";
@@ -160,6 +161,63 @@ describe("Query.fn", () => {
     const result = await Effect.runPromise(program.pipe(Effect.provide(layer)));
     expect(result).toEqual({ name: "engine", services: ["web", "db"] });
   });
+  test("object and scalar fields with arguments bind them as variables", async () => {
+    type Account = {
+      name: string;
+      avatarUrl: FieldWithArgs<string, { readonly size?: number | null | undefined }, false>;
+    };
+    type AccountQuery = {
+      byId: FieldWithArgs<Account, { readonly accountId: string }>;
+      agreed: FieldWithArgs<boolean | null, { readonly providerName: string }>;
+    };
+    const Account: TypeMeta = { name: "Account", fields: {} };
+    Object.assign(Account.fields, {
+      name: scalarField("name"),
+      avatarUrl: scalarField("avatarUrl", { argTypes: { size: "Int" } }),
+    });
+    const AccountQuery: TypeMeta = { name: "AccountQuery", fields: {} };
+    Object.assign(AccountQuery.fields, {
+      byId: objectField("byId", Account, { accountId: "String!" }),
+      agreed: scalarField("agreed", { argTypes: { providerName: "String!" } }),
+    });
+    let sent: { document: string; variables: Record<string, unknown> } | undefined;
+    const layer = Layer.succeed(GqlTransport, {
+      execute: (request) =>
+        Effect.sync(() => {
+          sent = { document: request.document, variables: request.variables };
+          return {
+            data: {
+              account: {
+                byId: { name: "acme", avatarUrl: "https://a/64", avatarUrl_0: "https://a" },
+                agreed: true,
+              },
+            },
+          };
+        }),
+    });
+    const program = Query.fn(() => {
+      const account = root<AccountQuery>("query", "account", AccountQuery);
+      const byId = account.byId({ accountId: "a1" });
+      return {
+        name: byId.name,
+        small: byId.avatarUrl({ size: 64 }),
+        avatar: byId.avatarUrl,
+        agreed: account.agreed({ providerName: "tigris" }),
+      };
+    })();
+    const result = await Effect.runPromise(program.pipe(Effect.provide(layer)));
+    expect(result).toEqual({
+      name: "acme",
+      small: "https://a/64",
+      avatar: "https://a",
+      agreed: true,
+    });
+    expect(sent!.document).toMatch(/byId\(accountId: \$v\d+\)/);
+    expect(sent!.document).toMatch(/avatarUrl\(size: \$v\d+\)/);
+    expect(sent!.document).toMatch(/agreed\(providerName: \$v\d+\)/);
+    expect(Object.values(sent!.variables).sort()).toEqual([64, "a1", "tigris"].sort());
+  });
+
   test("Query.map on an object selects its fields and keeps null", async () => {
     const Deployment: TypeMeta = { name: "Deployment", fields: {} };
     Object.assign(Deployment.fields, {
@@ -333,6 +391,26 @@ describe("sensitive fields", () => {
     );
     expect(requests).toHaveLength(3);
     expect(Array.from(items, (secret) => Redacted.value(secret))).toEqual(["secret-a", "secret-b"]);
+  });
+
+  test("a marked JSON scalar decodes whole as Redacted", async () => {
+    type AddOnRow = { name: string; environment: Redacted.Redacted<unknown> | null };
+    const AddOn: TypeMeta = { name: "AddOn", fields: {} };
+    Object.assign(AddOn.fields, {
+      name: scalarField("name"),
+      environment: scalarField("environment", { sensitive: true }),
+    });
+    const environment = { AWS_SECRET_ACCESS_KEY: "secret-value" };
+    const program = Query.fn(() => {
+      const addOn = root<AddOnRow>("query", "addOn", AddOn);
+      return { name: addOn.name, environment: addOn.environment };
+    })();
+    const result = await Effect.runPromise(
+      program.pipe(Effect.provide(respond({ data: { addOn: { name: "bucket", environment } } }))),
+    );
+    expect(Redacted.isRedacted(result.environment)).toBe(true);
+    expect(Redacted.value(result.environment!)).toEqual(environment);
+    expect(JSON.stringify(result)).not.toContain("secret-value");
   });
 
   test("a marked leaf root decodes each string as Redacted and keeps null", async () => {

@@ -40,22 +40,22 @@ export type PrivateEndpointServiceConnectionStatus = "Pending" | "Approved" | "R
 /** A collection of information about the state of the connection between service consumer and provider. */
 export interface PrivateEndpointConnectionPropertiesInputPrivateLinkServiceConnectionState {
   /** Indicates whether the connection has been Approved/Rejected/Removed by the owner of the service. */
-  status?: PrivateEndpointServiceConnectionStatus | (string & {});
+  status?: PrivateEndpointServiceConnectionStatus | (string & {}) | undefined;
   /** The reason for approval/rejection of the connection. */
-  description?: string;
+  description?: string | undefined;
   /** A message indicating if changes on the service provider require any updates on the consumer. */
-  actionsRequired?: string;
+  actionsRequired?: string | undefined;
 }
 /** The private endpoint connection group ids. */
 export type PrivateEndpointConnectionPropertiesInputGroupIdsList = Array<string>;
 /** Properties of the PrivateEndpointConnectProperties. */
 export interface PrivateEndpointConnectionPropertiesInput {
   /** The Private Endpoint resource. */
-  privateEndpoint?: PrivateEndpointConnectionPropertiesInputPrivateEndpoint;
+  privateEndpoint?: PrivateEndpointConnectionPropertiesInputPrivateEndpoint | undefined;
   /** A collection of information about the state of the connection between service consumer and provider. */
   privateLinkServiceConnectionState: PrivateEndpointConnectionPropertiesInputPrivateLinkServiceConnectionState;
   /** The private endpoint connection group ids. */
-  groupIds?: PrivateEndpointConnectionPropertiesInputGroupIdsList;
+  groupIds?: PrivateEndpointConnectionPropertiesInputGroupIdsList | undefined;
 }
 export interface ApprovePrivateEndpointConnectionRequest {
   /** The ID of the target subscription. */
@@ -67,7 +67,7 @@ export interface ApprovePrivateEndpointConnectionRequest {
   /** The private endpoint connection name of Azure Managed Grafana. */
   privateEndpointConnectionName: string;
   /** Resource properties. */
-  properties?: PrivateEndpointConnectionPropertiesInput;
+  properties?: PrivateEndpointConnectionPropertiesInput | undefined;
 }
 /** The type of identity that created the resource. */
 export type SystemDataCreatedByType = "User" | "Application" | "ManagedIdentity" | "Key";
@@ -76,31 +76,31 @@ export type SystemDataLastModifiedByType = "User" | "Application" | "ManagedIden
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface SystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: SystemDataCreatedByType;
+  createdByType?: SystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: SystemDataLastModifiedByType;
+  lastModifiedByType?: SystemDataLastModifiedByType | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 /** The Private Endpoint resource. */
 export interface PrivateEndpointConnectionPropertiesPrivateEndpoint {
   /** The ARM identifier for Private Endpoint */
-  id?: string;
+  id?: string | undefined;
 }
 /** A collection of information about the state of the connection between service consumer and provider. */
 export interface PrivateEndpointConnectionPropertiesPrivateLinkServiceConnectionState {
   /** Indicates whether the connection has been Approved/Rejected/Removed by the owner of the service. */
-  status?: PrivateEndpointServiceConnectionStatus;
+  status?: PrivateEndpointServiceConnectionStatus | undefined;
   /** The reason for approval/rejection of the connection. */
-  description?: string;
+  description?: string | undefined;
   /** A message indicating if changes on the service provider require any updates on the consumer. */
-  actionsRequired?: string;
+  actionsRequired?: string | undefined;
 }
 /** The private endpoint connection group ids. */
 export type PrivateEndpointConnectionPropertiesGroupIdsList = Array<string>;
@@ -113,29 +113,29 @@ export type PrivateEndpointConnectionPropertiesProvisioningState =
 /** Properties of the PrivateEndpointConnectProperties. */
 export interface PrivateEndpointConnectionProperties {
   /** The Private Endpoint resource. */
-  privateEndpoint?: PrivateEndpointConnectionPropertiesPrivateEndpoint;
+  privateEndpoint?: PrivateEndpointConnectionPropertiesPrivateEndpoint | undefined;
   /** A collection of information about the state of the connection between service consumer and provider. */
   privateLinkServiceConnectionState: PrivateEndpointConnectionPropertiesPrivateLinkServiceConnectionState;
   /** The private endpoint connection group ids. */
-  groupIds?: PrivateEndpointConnectionPropertiesGroupIdsList;
+  groupIds?: PrivateEndpointConnectionPropertiesGroupIdsList | undefined;
   /** The current provisioning state. */
-  provisioningState?: PrivateEndpointConnectionPropertiesProvisioningState;
+  provisioningState?: PrivateEndpointConnectionPropertiesProvisioningState | undefined;
 }
 export interface ApprovePrivateEndpointConnectionResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource properties. */
-  properties?: PrivateEndpointConnectionProperties;
+  properties?: PrivateEndpointConnectionProperties | undefined;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface CheckGrafanaEnterpriseDetailsRequest {
   /** The ID of the target subscription. */
@@ -148,42 +148,42 @@ export interface CheckGrafanaEnterpriseDetailsRequest {
 /** The current billing term of the SaaS Subscription. */
 export interface SubscriptionTerm {
   /** The unit of the billing term. */
-  termUnit?: string;
+  termUnit?: string | undefined;
   /** The date and time in UTC of when the billing term starts. */
-  startDate?: string;
+  startDate?: string | undefined;
   /** The date and time in UTC of when the billing term ends. */
-  endDate?: string;
+  endDate?: string | undefined;
 }
 /** SaaS subscription details of a Grafana instance */
 export interface SaasSubscriptionDetails {
   /** The plan Id of the SaaS subscription. */
-  planId?: string;
+  planId?: string | undefined;
   /** The offer Id of the SaaS subscription. */
-  offerId?: string;
+  offerId?: string | undefined;
   /** The publisher Id of the SaaS subscription. */
-  publisherId?: string;
+  publisherId?: string | undefined;
   /** The billing term of the SaaS Subscription. */
-  term?: SubscriptionTerm;
+  term?: SubscriptionTerm | undefined;
 }
 /** Available enterprise promotion for the subscription */
 export type MarketplaceTrialQuotaAvailablePromotion = "None" | "FreeTrial";
 /** The allocation details of the per subscription free trial slot of the subscription. */
 export interface MarketplaceTrialQuota {
   /** Available enterprise promotion for the subscription */
-  availablePromotion?: MarketplaceTrialQuotaAvailablePromotion;
+  availablePromotion?: MarketplaceTrialQuotaAvailablePromotion | undefined;
   /** Resource Id of the Grafana resource which is doing the trial. */
-  grafanaResourceId?: string;
+  grafanaResourceId?: string | undefined;
   /** The date and time in UTC of when the trial starts. */
-  trialStartAt?: string;
+  trialStartAt?: string | undefined;
   /** The date and time in UTC of when the trial ends. */
-  trialEndAt?: string;
+  trialEndAt?: string | undefined;
 }
 /** Enterprise details of a Grafana instance */
 export interface EnterpriseDetails {
   /** SaaS subscription details of a Grafana instance */
-  saasSubscriptionDetails?: SaasSubscriptionDetails;
+  saasSubscriptionDetails?: SaasSubscriptionDetails | undefined;
   /** The allocation details of the per subscription free trial slot of the subscription. */
-  marketplaceTrialQuota?: MarketplaceTrialQuota;
+  marketplaceTrialQuota?: MarketplaceTrialQuota | undefined;
 }
 /** Indicate the state for enable or disable traffic over the public interface. */
 export type ManagedGrafanaPropertiesInputPublicNetworkAccess = "Enabled" | "Disabled";
@@ -200,78 +200,80 @@ export type AutoGeneratedDomainNameLabelScope = "TenantReuse";
 /** Integrations for Azure Monitor Workspace. */
 export interface AzureMonitorWorkspaceIntegration {
   /** The resource Id of the connected Azure Monitor Workspace. */
-  azureMonitorWorkspaceResourceId?: string;
+  azureMonitorWorkspaceResourceId?: string | undefined;
 }
 export type GrafanaIntegrationsAzureMonitorWorkspaceIntegrationsList =
   Array<AzureMonitorWorkspaceIntegration>;
 /** GrafanaIntegrations is a bundled observability experience (e.g. pre-configured data source, tailored Grafana dashboards, alerting defaults) for common monitoring scenarios. */
 export interface GrafanaIntegrations {
-  azureMonitorWorkspaceIntegrations?: GrafanaIntegrationsAzureMonitorWorkspaceIntegrationsList;
+  azureMonitorWorkspaceIntegrations?:
+    | GrafanaIntegrationsAzureMonitorWorkspaceIntegrationsList
+    | undefined;
 }
 /** The AutoRenew setting of the Enterprise subscription */
 export type MarketplaceAutoRenew = "Disabled" | "Enabled";
 /** Enterprise settings of a Grafana instance */
 export interface EnterpriseConfigurations {
   /** The Plan Id of the Azure Marketplace subscription for the Enterprise plugins */
-  marketplacePlanId?: string;
+  marketplacePlanId?: string | undefined;
   /** The AutoRenew setting of the Enterprise subscription */
-  marketplaceAutoRenew?: MarketplaceAutoRenew | (string & {});
+  marketplaceAutoRenew?: MarketplaceAutoRenew | (string & {}) | undefined;
 }
 /** The StartTLSPolicy setting of the SMTP configuration https://pkg.go.dev/github.com/go-mail/mail#StartTLSPolicy */
 export type StartTLSPolicy = "OpportunisticStartTLS" | "MandatoryStartTLS" | "NoStartTLS";
 /** Email server settings. https://grafana.com/docs/grafana/v9.0/setup-grafana/configure-grafana/#smtp */
 export interface Smtp {
   /** Enable this to allow Grafana to send email. Default is false */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** SMTP server hostname with port, e.g. test.email.net:587 */
-  host?: string;
+  host?: string | undefined;
   /** User of SMTP auth */
-  user?: string;
+  user?: string | undefined;
   /** Password of SMTP auth. If the password contains # or ;, then you have to wrap it with triple quotes */
-  password?: string | Redacted.Redacted<string>;
+  password?: string | Redacted.Redacted<string> | undefined;
   /** Address used when sending out emails https://pkg.go.dev/net/mail#Address */
-  fromAddress?: string;
+  fromAddress?: string | undefined;
   /** Name to be used when sending out emails. Default is "Azure Managed Grafana Notification" https://pkg.go.dev/net/mail#Address */
-  fromName?: string;
+  fromName?: string | undefined;
   /** The StartTLSPolicy setting of the SMTP configuration https://pkg.go.dev/github.com/go-mail/mail#StartTLSPolicy */
-  startTLSPolicy?: StartTLSPolicy | (string & {});
+  startTLSPolicy?: StartTLSPolicy | (string & {}) | undefined;
   /** Verify SSL for SMTP server. Default is false https://pkg.go.dev/crypto/tls#Config */
-  skipVerify?: boolean;
+  skipVerify?: boolean | undefined;
 }
 /** Grafana Snapshots settings */
 export interface Snapshots {
   /** Set to false to disable external snapshot publish endpoint */
-  externalEnabled?: boolean;
+  externalEnabled?: boolean | undefined;
 }
 /** Grafana users settings */
 export interface Users {
   /** Set to true so viewers can access and use explore and perform temporary edits on panels in dashboards they have access to. They cannot save their changes. */
-  viewersCanEdit?: boolean;
+  viewersCanEdit?: boolean | undefined;
   /** Set to true so editors can administrate dashboards, folders and teams they create. */
-  editorsCanAdmin?: boolean;
+  editorsCanAdmin?: boolean | undefined;
 }
 /** Grafana security settings */
 export interface Security {
   /** Set to true to execute the CSRF check even if the login cookie is not in a request (default false). */
-  csrfAlwaysCheck?: boolean;
+  csrfAlwaysCheck?: boolean | undefined;
 }
 /** Grafana Unified Alerting Screenshots settings */
 export interface UnifiedAlertingScreenshots {
   /** Set to false to disable capture screenshot in Unified Alert due to performance issue. */
-  captureEnabled?: boolean;
+  captureEnabled?: boolean | undefined;
 }
 /** Server configurations of a Grafana instance */
 export interface GrafanaConfigurations {
   /** Email server settings. https://grafana.com/docs/grafana/v9.0/setup-grafana/configure-grafana/#smtp */
-  smtp?: Smtp;
+  smtp?: Smtp | undefined;
   /** Grafana Snapshots settings */
-  snapshots?: Snapshots;
+  snapshots?: Snapshots | undefined;
   /** Grafana users settings */
-  users?: Users;
+  users?: Users | undefined;
   /** Grafana security settings */
-  security?: Security;
+  security?: Security | undefined;
   /** Grafana Unified Alerting Screenshots settings */
-  unifiedAlertingScreenshots?: UnifiedAlertingScreenshots;
+  unifiedAlertingScreenshots?: UnifiedAlertingScreenshots | undefined;
 }
 /** Plugin of Grafana */
 export type GrafanaPluginInput = PrivateEndpointConnectionPropertiesInputPrivateEndpoint;
@@ -282,27 +284,33 @@ export type ManagedGrafanaPropertiesInputGrafanaPluginsMap = {
 /** Properties specific to the grafana resource. */
 export interface ManagedGrafanaPropertiesInput {
   /** Indicate the state for enable or disable traffic over the public interface. */
-  publicNetworkAccess?: ManagedGrafanaPropertiesInputPublicNetworkAccess | (string & {});
+  publicNetworkAccess?:
+    | ManagedGrafanaPropertiesInputPublicNetworkAccess
+    | (string & {})
+    | undefined;
   /** The zone redundancy setting of the Grafana instance. */
-  zoneRedundancy?: ManagedGrafanaPropertiesInputZoneRedundancy | (string & {});
+  zoneRedundancy?: ManagedGrafanaPropertiesInputZoneRedundancy | (string & {}) | undefined;
   /** The api key setting of the Grafana instance. */
-  apiKey?: ManagedGrafanaPropertiesInputApiKey | (string & {});
+  apiKey?: ManagedGrafanaPropertiesInputApiKey | (string & {}) | undefined;
   /** The creator will have admin access for the Grafana instance. */
-  creatorCanAdmin?: CreatorCanAdmin | (string & {});
+  creatorCanAdmin?: CreatorCanAdmin | (string & {}) | undefined;
   /** Whether a Grafana instance uses deterministic outbound IPs. */
-  deterministicOutboundIP?: ManagedGrafanaPropertiesInputDeterministicOutboundIP | (string & {});
+  deterministicOutboundIP?:
+    | ManagedGrafanaPropertiesInputDeterministicOutboundIP
+    | (string & {})
+    | undefined;
   /** Scope for dns deterministic name hash calculation. */
-  autoGeneratedDomainNameLabelScope?: AutoGeneratedDomainNameLabelScope | (string & {});
+  autoGeneratedDomainNameLabelScope?: AutoGeneratedDomainNameLabelScope | (string & {}) | undefined;
   /** GrafanaIntegrations is a bundled observability experience (e.g. pre-configured data source, tailored Grafana dashboards, alerting defaults) for common monitoring scenarios. */
-  grafanaIntegrations?: GrafanaIntegrations;
+  grafanaIntegrations?: GrafanaIntegrations | undefined;
   /** Enterprise settings of a Grafana instance */
-  enterpriseConfigurations?: EnterpriseConfigurations;
+  enterpriseConfigurations?: EnterpriseConfigurations | undefined;
   /** Server configurations of a Grafana instance */
-  grafanaConfigurations?: GrafanaConfigurations;
+  grafanaConfigurations?: GrafanaConfigurations | undefined;
   /** Installed plugin list of the Grafana instance. Key is plugin id, value is plugin definition. */
-  grafanaPlugins?: ManagedGrafanaPropertiesInputGrafanaPluginsMap;
+  grafanaPlugins?: ManagedGrafanaPropertiesInputGrafanaPluginsMap | undefined;
   /** The major Grafana software version to target. */
-  grafanaMajorVersion?: string;
+  grafanaMajorVersion?: string | undefined;
 }
 /** Specifies the capacity tier of the Grafana instance. */
 export type Size = "X1" | "X2";
@@ -311,7 +319,7 @@ export interface ResourceSku {
   /** The name of the SKU. */
   name: string;
   /** Specifies the capacity tier of the Grafana instance. */
-  size?: Size | (string & {});
+  size?: Size | (string & {}) | undefined;
 }
 /** Resource tags. */
 export type CreateGrafanaRequestTagsMap = { [key: string]: string | undefined };
@@ -330,7 +338,7 @@ export type UserAssignedIdentitiesInput = {
 /** Managed service identity (system assigned and/or user assigned identities) */
 export interface CreateGrafanaRequestIdentity {
   type: ManagedServiceIdentityType | (string & {});
-  userAssignedIdentities?: UserAssignedIdentitiesInput | null;
+  userAssignedIdentities?: UserAssignedIdentitiesInput | null | undefined;
 }
 export interface CreateGrafanaRequest {
   /** The ID of the target subscription. */
@@ -340,15 +348,15 @@ export interface CreateGrafanaRequest {
   /** The workspace name of Azure Managed Grafana. */
   workspaceName: string;
   /** Properties specific to the grafana resource. */
-  properties?: ManagedGrafanaPropertiesInput;
+  properties?: ManagedGrafanaPropertiesInput | undefined;
   /** The Sku of the grafana resource. */
-  sku?: ResourceSku;
+  sku?: ResourceSku | undefined;
   /** Resource tags. */
-  tags?: CreateGrafanaRequestTagsMap;
+  tags?: CreateGrafanaRequestTagsMap | undefined;
   /** The geo-location where the resource lives */
-  location?: string;
+  location?: string | undefined;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: CreateGrafanaRequestIdentity;
+  identity?: CreateGrafanaRequestIdentity | undefined;
 }
 export type ProvisioningState =
   | "Accepted"
@@ -373,15 +381,15 @@ export type ManagedGrafanaPropertiesOutboundIPsList = Array<string>;
 /** The Private Endpoint Connection resource. */
 export interface PrivateEndpointConnection {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource properties. */
-  properties?: PrivateEndpointConnectionProperties;
+  properties?: PrivateEndpointConnectionProperties | undefined;
 }
 /** The private endpoint connections of the Grafana instance. */
 export type ManagedGrafanaPropertiesPrivateEndpointConnectionsList =
@@ -389,7 +397,7 @@ export type ManagedGrafanaPropertiesPrivateEndpointConnectionsList =
 /** Plugin of Grafana */
 export interface GrafanaPlugin {
   /** Grafana plugin id */
-  pluginId?: string;
+  pluginId?: string | undefined;
 }
 /** Installed plugin list of the Grafana instance. Key is plugin id, value is plugin definition. */
 export type ManagedGrafanaPropertiesGrafanaPluginsMap = {
@@ -398,81 +406,81 @@ export type ManagedGrafanaPropertiesGrafanaPluginsMap = {
 /** Properties specific to the grafana resource. */
 export interface ManagedGrafanaProperties {
   /** Provisioning state of the resource. */
-  provisioningState?: ProvisioningState;
+  provisioningState?: ProvisioningState | undefined;
   /** The Grafana software version. */
-  grafanaVersion?: string;
+  grafanaVersion?: string | undefined;
   /** The endpoint of the Grafana instance. */
-  endpoint?: string;
+  endpoint?: string | undefined;
   /** Indicate the state for enable or disable traffic over the public interface. */
-  publicNetworkAccess?: ManagedGrafanaPropertiesPublicNetworkAccess;
+  publicNetworkAccess?: ManagedGrafanaPropertiesPublicNetworkAccess | undefined;
   /** The zone redundancy setting of the Grafana instance. */
-  zoneRedundancy?: ManagedGrafanaPropertiesZoneRedundancy;
+  zoneRedundancy?: ManagedGrafanaPropertiesZoneRedundancy | undefined;
   /** The api key setting of the Grafana instance. */
-  apiKey?: ManagedGrafanaPropertiesApiKey;
+  apiKey?: ManagedGrafanaPropertiesApiKey | undefined;
   /** The creator will have admin access for the Grafana instance. */
-  creatorCanAdmin?: CreatorCanAdmin;
+  creatorCanAdmin?: CreatorCanAdmin | undefined;
   /** Whether a Grafana instance uses deterministic outbound IPs. */
-  deterministicOutboundIP?: ManagedGrafanaPropertiesDeterministicOutboundIP;
+  deterministicOutboundIP?: ManagedGrafanaPropertiesDeterministicOutboundIP | undefined;
   /** List of outbound IPs if deterministicOutboundIP is enabled. */
-  outboundIPs?: ManagedGrafanaPropertiesOutboundIPsList;
+  outboundIPs?: ManagedGrafanaPropertiesOutboundIPsList | undefined;
   /** The private endpoint connections of the Grafana instance. */
-  privateEndpointConnections?: ManagedGrafanaPropertiesPrivateEndpointConnectionsList;
+  privateEndpointConnections?: ManagedGrafanaPropertiesPrivateEndpointConnectionsList | undefined;
   /** Scope for dns deterministic name hash calculation. */
-  autoGeneratedDomainNameLabelScope?: AutoGeneratedDomainNameLabelScope;
+  autoGeneratedDomainNameLabelScope?: AutoGeneratedDomainNameLabelScope | undefined;
   /** GrafanaIntegrations is a bundled observability experience (e.g. pre-configured data source, tailored Grafana dashboards, alerting defaults) for common monitoring scenarios. */
-  grafanaIntegrations?: GrafanaIntegrations;
+  grafanaIntegrations?: GrafanaIntegrations | undefined;
   /** Enterprise settings of a Grafana instance */
-  enterpriseConfigurations?: EnterpriseConfigurations;
+  enterpriseConfigurations?: EnterpriseConfigurations | undefined;
   /** Server configurations of a Grafana instance */
-  grafanaConfigurations?: GrafanaConfigurations;
+  grafanaConfigurations?: GrafanaConfigurations | undefined;
   /** Installed plugin list of the Grafana instance. Key is plugin id, value is plugin definition. */
-  grafanaPlugins?: ManagedGrafanaPropertiesGrafanaPluginsMap;
+  grafanaPlugins?: ManagedGrafanaPropertiesGrafanaPluginsMap | undefined;
   /** The major Grafana software version to target. */
-  grafanaMajorVersion?: string;
+  grafanaMajorVersion?: string | undefined;
 }
 /** Resource tags. */
 export type CreateGrafanaResponseTagsMap = { [key: string]: string | undefined };
 /** User assigned identity properties */
 export interface UserAssignedIdentity {
   /** The principal ID of the assigned identity. */
-  principalId?: string;
+  principalId?: string | undefined;
   /** The client ID of the assigned identity. */
-  clientId?: string;
+  clientId?: string | undefined;
 }
 /** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
 export type UserAssignedIdentities = { [key: string]: UserAssignedIdentity | undefined };
 /** Managed service identity (system assigned and/or user assigned identities) */
 export interface CreateGrafanaResponseIdentity {
   /** The service principal ID of the system assigned identity. This property will only be provided for a system assigned identity. */
-  principalId?: string;
+  principalId?: string | undefined;
   /** The tenant ID of the system assigned identity. This property will only be provided for a system assigned identity. */
-  tenantId?: string;
+  tenantId?: string | undefined;
   type: ManagedServiceIdentityType;
-  userAssignedIdentities?: UserAssignedIdentities | null;
+  userAssignedIdentities?: UserAssignedIdentities | null | undefined;
 }
 export interface CreateGrafanaResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Properties specific to the grafana resource. */
-  properties?: ManagedGrafanaProperties;
+  properties?: ManagedGrafanaProperties | undefined;
   /** The Sku of the grafana resource. */
-  sku?: ResourceSku;
+  sku?: ResourceSku | undefined;
   /** Resource tags. */
-  tags?: CreateGrafanaResponseTagsMap;
+  tags?: CreateGrafanaResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
-  location?: string;
+  location?: string | undefined;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: CreateGrafanaResponseIdentity;
+  identity?: CreateGrafanaResponseIdentity | undefined;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Resource tags. */
 export type CreateIntegrationFabricRequestTagsMap = { [key: string]: string | undefined };
@@ -480,11 +488,11 @@ export type CreateIntegrationFabricRequestTagsMap = { [key: string]: string | un
 export type IntegrationFabricPropertiesInputScenariosList = Array<string>;
 export interface IntegrationFabricPropertiesInput {
   /** The resource Id of the Azure resource being integrated with Azure Managed Grafana. E.g., an Azure Kubernetes Service cluster. */
-  targetResourceId?: string;
+  targetResourceId?: string | undefined;
   /** The resource Id of the Azure resource which is used to configure Grafana data source. E.g., an Azure Monitor Workspace, an Azure Data Explorer cluster, etc. */
-  dataSourceResourceId?: string;
+  dataSourceResourceId?: string | undefined;
   /** A list of integration scenarios covered by this integration fabric */
-  scenarios?: IntegrationFabricPropertiesInputScenariosList;
+  scenarios?: IntegrationFabricPropertiesInputScenariosList | undefined;
 }
 export interface CreateIntegrationFabricRequest {
   /** The ID of the target subscription. */
@@ -496,10 +504,10 @@ export interface CreateIntegrationFabricRequest {
   /** The integration fabric name of Azure Managed Grafana. */
   integrationFabricName: string;
   /** Resource tags. */
-  tags?: CreateIntegrationFabricRequestTagsMap;
+  tags?: CreateIntegrationFabricRequestTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
-  properties?: IntegrationFabricPropertiesInput;
+  properties?: IntegrationFabricPropertiesInput | undefined;
 }
 /** Resource tags. */
 export type CreateIntegrationFabricResponseTagsMap = { [key: string]: string | undefined };
@@ -507,32 +515,32 @@ export type CreateIntegrationFabricResponseTagsMap = { [key: string]: string | u
 export type IntegrationFabricPropertiesScenariosList = Array<string>;
 export interface IntegrationFabricProperties {
   /** Provisioning state of the resource. */
-  provisioningState?: ProvisioningState;
+  provisioningState?: ProvisioningState | undefined;
   /** The resource Id of the Azure resource being integrated with Azure Managed Grafana. E.g., an Azure Kubernetes Service cluster. */
-  targetResourceId?: string;
+  targetResourceId?: string | undefined;
   /** The resource Id of the Azure resource which is used to configure Grafana data source. E.g., an Azure Monitor Workspace, an Azure Data Explorer cluster, etc. */
-  dataSourceResourceId?: string;
+  dataSourceResourceId?: string | undefined;
   /** A list of integration scenarios covered by this integration fabric */
-  scenarios?: IntegrationFabricPropertiesScenariosList;
+  scenarios?: IntegrationFabricPropertiesScenariosList | undefined;
 }
 export interface CreateIntegrationFabricResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: CreateIntegrationFabricResponseTagsMap;
+  tags?: CreateIntegrationFabricResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
-  properties?: IntegrationFabricProperties;
+  properties?: IntegrationFabricProperties | undefined;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Resource tags. */
 export type CreateManagedDashboardRequestTagsMap = { [key: string]: string | undefined };
@@ -547,38 +555,38 @@ export interface CreateManagedDashboardRequest {
   /** The name of the Azure Managed Dashboard. */
   dashboardName: string;
   /** Resource tags. */
-  tags?: CreateManagedDashboardRequestTagsMap;
+  tags?: CreateManagedDashboardRequestTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Properties specific to the managed dashboard resource. */
-  properties?: PrivateEndpointConnectionPropertiesInputPrivateEndpoint;
+  properties?: PrivateEndpointConnectionPropertiesInputPrivateEndpoint | undefined;
 }
 /** Resource tags. */
 export type CreateManagedDashboardResponseTagsMap = { [key: string]: string | undefined };
 /** Properties specific to the grafana resource. */
 export interface ManagedDashboardProperties {
   /** Provisioning state of the resource. */
-  provisioningState?: ProvisioningState;
+  provisioningState?: ProvisioningState | undefined;
 }
 export interface CreateManagedDashboardResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: CreateManagedDashboardResponseTagsMap;
+  tags?: CreateManagedDashboardResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Properties specific to the managed dashboard resource. */
-  properties?: ManagedDashboardProperties;
+  properties?: ManagedDashboardProperties | undefined;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Resource tags. */
 export type CreateManagedPrivateEndpointRequestTagsMap = { [key: string]: string | undefined };
@@ -587,15 +595,15 @@ export type ManagedPrivateEndpointModelPropertiesInputGroupIdsList = Array<strin
 /** Properties specific to the managed private endpoint. */
 export interface ManagedPrivateEndpointModelPropertiesInput {
   /** The ARM resource ID of the resource for which the managed private endpoint is pointing to. */
-  privateLinkResourceId?: string;
+  privateLinkResourceId?: string | undefined;
   /** The region of the resource to which the managed private endpoint is pointing to. */
-  privateLinkResourceRegion?: string;
+  privateLinkResourceRegion?: string | undefined;
   /** The group Ids of the managed private endpoint. */
-  groupIds?: ManagedPrivateEndpointModelPropertiesInputGroupIdsList;
+  groupIds?: ManagedPrivateEndpointModelPropertiesInputGroupIdsList | undefined;
   /** User input request message of the managed private endpoint. */
-  requestMessage?: string;
+  requestMessage?: string | undefined;
   /** The URL of the data store behind the private link service. It would be the URL in the Grafana data source configuration page without the protocol and port. */
-  privateLinkServiceUrl?: string;
+  privateLinkServiceUrl?: string | undefined;
 }
 export interface CreateManagedPrivateEndpointRequest {
   /** The ID of the target subscription. */
@@ -607,11 +615,11 @@ export interface CreateManagedPrivateEndpointRequest {
   /** The managed private endpoint name of Azure Managed Grafana. */
   managedPrivateEndpointName: string;
   /** Resource tags. */
-  tags?: CreateManagedPrivateEndpointRequestTagsMap;
+  tags?: CreateManagedPrivateEndpointRequestTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Resource properties. */
-  properties?: ManagedPrivateEndpointModelPropertiesInput;
+  properties?: ManagedPrivateEndpointModelPropertiesInput | undefined;
 }
 /** Resource tags. */
 export type CreateManagedPrivateEndpointResponseTagsMap = { [key: string]: string | undefined };
@@ -626,48 +634,48 @@ export type ManagedPrivateEndpointConnectionStatus =
 /** The state of managed private endpoint connection. */
 export interface ManagedPrivateEndpointConnectionState {
   /** The approval/rejection status of managed private endpoint connection. */
-  status?: ManagedPrivateEndpointConnectionStatus;
+  status?: ManagedPrivateEndpointConnectionStatus | undefined;
   /** Gets or sets the reason for approval/rejection of the connection. */
-  description?: string;
+  description?: string | undefined;
 }
 /** Properties specific to the managed private endpoint. */
 export interface ManagedPrivateEndpointModelProperties {
   /** Provisioning state of the resource. */
-  provisioningState?: ProvisioningState;
+  provisioningState?: ProvisioningState | undefined;
   /** The ARM resource ID of the resource for which the managed private endpoint is pointing to. */
-  privateLinkResourceId?: string;
+  privateLinkResourceId?: string | undefined;
   /** The region of the resource to which the managed private endpoint is pointing to. */
-  privateLinkResourceRegion?: string;
+  privateLinkResourceRegion?: string | undefined;
   /** The group Ids of the managed private endpoint. */
-  groupIds?: ManagedPrivateEndpointModelPropertiesGroupIdsList;
+  groupIds?: ManagedPrivateEndpointModelPropertiesGroupIdsList | undefined;
   /** User input request message of the managed private endpoint. */
-  requestMessage?: string;
+  requestMessage?: string | undefined;
   /** The state of managed private endpoint connection. */
-  connectionState?: ManagedPrivateEndpointConnectionState;
+  connectionState?: ManagedPrivateEndpointConnectionState | undefined;
   /** The URL of the data store behind the private link service. It would be the URL in the Grafana data source configuration page without the protocol and port. */
-  privateLinkServiceUrl?: string;
+  privateLinkServiceUrl?: string | undefined;
   /** The private IP of private endpoint after approval. This property is empty before connection is approved. */
-  privateLinkServicePrivateIP?: string;
+  privateLinkServicePrivateIP?: string | undefined;
 }
 export interface CreateManagedPrivateEndpointResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: CreateManagedPrivateEndpointResponseTagsMap;
+  tags?: CreateManagedPrivateEndpointResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Resource properties. */
-  properties?: ManagedPrivateEndpointModelProperties;
+  properties?: ManagedPrivateEndpointModelProperties | undefined;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeleteGrafanaRequest {
   /** The ID of the target subscription. */
@@ -679,9 +687,9 @@ export interface DeleteGrafanaRequest {
 }
 export interface DeleteGrafanaResponse {
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeleteIntegrationFabricRequest {
   /** The ID of the target subscription. */
@@ -695,11 +703,11 @@ export interface DeleteIntegrationFabricRequest {
 }
 export interface DeleteIntegrationFabricResponse {
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
 }
 export interface DeleteManagedDashboardRequest {
   /** The ID of the target subscription. */
@@ -722,9 +730,9 @@ export interface DeleteManagedPrivateEndpointRequest {
 }
 export interface DeleteManagedPrivateEndpointResponse {
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeletePrivateEndpointConnectionRequest {
   /** The ID of the target subscription. */
@@ -738,9 +746,9 @@ export interface DeletePrivateEndpointConnectionRequest {
 }
 export interface DeletePrivateEndpointConnectionResponse {
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface FetchGrafanaAvailablePluginsRequest {
   /** The ID of the target subscription. */
@@ -753,18 +761,18 @@ export interface FetchGrafanaAvailablePluginsRequest {
 /** Available plugins of grafana */
 export interface GrafanaAvailablePlugin {
   /** Grafana plugin id */
-  pluginId?: string;
+  pluginId?: string | undefined;
   /** Grafana plugin display name */
-  name?: string;
+  name?: string | undefined;
   /** Grafana plugin type */
-  type?: string;
+  type?: string | undefined;
   /** Grafana plugin author/publisher name */
-  author?: string;
+  author?: string | undefined;
 }
 export type GrafanaAvailablePluginListResponseValueList = Array<GrafanaAvailablePlugin>;
 export interface GrafanaAvailablePluginListResponse {
-  value?: GrafanaAvailablePluginListResponseValueList;
-  nextLink?: string;
+  value?: GrafanaAvailablePluginListResponseValueList | undefined;
+  nextLink?: string | undefined;
 }
 export interface GetDashboardRequest {
   /** The ID of the target subscription. */
@@ -778,19 +786,19 @@ export interface GetDashboardRequest {
 export type GetDashboardResponseTagsMap = { [key: string]: string | undefined };
 export interface GetDashboardResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: GetDashboardResponseTagsMap;
+  tags?: GetDashboardResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Properties specific to the managed dashboard resource. */
-  properties?: ManagedDashboardProperties;
+  properties?: ManagedDashboardProperties | undefined;
 }
 export interface GetGrafanaRequest {
   /** The ID of the target subscription. */
@@ -806,23 +814,23 @@ export type GetGrafanaResponseTagsMap = { [key: string]: string | undefined };
 export type GetGrafanaResponseIdentity = CreateGrafanaResponseIdentity;
 export interface GetGrafanaResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Properties specific to the grafana resource. */
-  properties?: ManagedGrafanaProperties;
+  properties?: ManagedGrafanaProperties | undefined;
   /** The Sku of the grafana resource. */
-  sku?: ResourceSku;
+  sku?: ResourceSku | undefined;
   /** Resource tags. */
-  tags?: GetGrafanaResponseTagsMap;
+  tags?: GetGrafanaResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
-  location?: string;
+  location?: string | undefined;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: CreateGrafanaResponseIdentity;
+  identity?: CreateGrafanaResponseIdentity | undefined;
 }
 export interface GetIntegrationFabricRequest {
   /** The ID of the target subscription. */
@@ -838,18 +846,18 @@ export interface GetIntegrationFabricRequest {
 export type GetIntegrationFabricResponseTagsMap = { [key: string]: string | undefined };
 export interface GetIntegrationFabricResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: GetIntegrationFabricResponseTagsMap;
+  tags?: GetIntegrationFabricResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
-  properties?: IntegrationFabricProperties;
+  properties?: IntegrationFabricProperties | undefined;
 }
 export interface GetManagedPrivateEndpointRequest {
   /** The ID of the target subscription. */
@@ -865,19 +873,19 @@ export interface GetManagedPrivateEndpointRequest {
 export type GetManagedPrivateEndpointResponseTagsMap = { [key: string]: string | undefined };
 export interface GetManagedPrivateEndpointResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: GetManagedPrivateEndpointResponseTagsMap;
+  tags?: GetManagedPrivateEndpointResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Resource properties. */
-  properties?: ManagedPrivateEndpointModelProperties;
+  properties?: ManagedPrivateEndpointModelProperties | undefined;
 }
 export interface GetPrivateEndpointConnectionRequest {
   /** The ID of the target subscription. */
@@ -891,15 +899,15 @@ export interface GetPrivateEndpointConnectionRequest {
 }
 export interface GetPrivateEndpointConnectionResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource properties. */
-  properties?: PrivateEndpointConnectionProperties;
+  properties?: PrivateEndpointConnectionProperties | undefined;
 }
 export interface GetPrivateLinkResourceRequest {
   /** The ID of the target subscription. */
@@ -917,25 +925,25 @@ export type PrivateLinkResourcePropertiesRequiredZoneNamesList = Array<string>;
 /** Properties of a private link resource. */
 export interface PrivateLinkResourceProperties {
   /** Provisioning state of the resource. */
-  provisioningState?: ProvisioningState;
+  provisioningState?: ProvisioningState | undefined;
   /** The private link resource group id. */
-  groupId?: string;
+  groupId?: string | undefined;
   /** The private link resource required member names. */
-  requiredMembers?: PrivateLinkResourcePropertiesRequiredMembersList;
+  requiredMembers?: PrivateLinkResourcePropertiesRequiredMembersList | undefined;
   /** The private link resource Private link DNS zone name. */
-  requiredZoneNames?: PrivateLinkResourcePropertiesRequiredZoneNamesList;
+  requiredZoneNames?: PrivateLinkResourcePropertiesRequiredZoneNamesList | undefined;
 }
 export interface GetPrivateLinkResourceResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource properties. */
-  properties?: PrivateLinkResourceProperties;
+  properties?: PrivateLinkResourceProperties | undefined;
 }
 export interface ListDashboardBySubscriptionRequest {
   /** The ID of the target subscription. */
@@ -946,19 +954,19 @@ export type ManagedDashboardTagsMap = { [key: string]: string | undefined };
 /** The managed dashboard resource type. */
 export interface ManagedDashboard {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: ManagedDashboardTagsMap;
+  tags?: ManagedDashboardTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Properties specific to the managed dashboard resource. */
-  properties?: ManagedDashboardProperties;
+  properties?: ManagedDashboardProperties | undefined;
 }
 /** The ManagedDashboard items on this page */
 export type ManagedDashboardListResponseValueList = Array<ManagedDashboard>;
@@ -967,7 +975,7 @@ export interface ManagedDashboardListResponse {
   /** The ManagedDashboard items on this page */
   value: ManagedDashboardListResponseValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListDashboardsRequest {
   /** The ID of the target subscription. */
@@ -986,23 +994,23 @@ export type ManagedGrafanaIdentity = CreateGrafanaResponseIdentity;
 /** The grafana resource type. */
 export interface ManagedGrafana {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Properties specific to the grafana resource. */
-  properties?: ManagedGrafanaProperties;
+  properties?: ManagedGrafanaProperties | undefined;
   /** The Sku of the grafana resource. */
-  sku?: ResourceSku;
+  sku?: ResourceSku | undefined;
   /** Resource tags. */
-  tags?: ManagedGrafanaTagsMap;
+  tags?: ManagedGrafanaTagsMap | undefined;
   /** The geo-location where the resource lives */
-  location?: string;
+  location?: string | undefined;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: CreateGrafanaResponseIdentity;
+  identity?: CreateGrafanaResponseIdentity | undefined;
 }
 /** The ManagedGrafana items on this page */
 export type ManagedGrafanaListResponseValueList = Array<ManagedGrafana>;
@@ -1011,7 +1019,7 @@ export interface ManagedGrafanaListResponse {
   /** The ManagedGrafana items on this page */
   value: ManagedGrafanaListResponseValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListGrafanaByResourceGroupRequest {
   /** The ID of the target subscription. */
@@ -1032,18 +1040,18 @@ export type IntegrationFabricTagsMap = { [key: string]: string | undefined };
 /** The integration fabric resource type. */
 export interface IntegrationFabric {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: IntegrationFabricTagsMap;
+  tags?: IntegrationFabricTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
-  properties?: IntegrationFabricProperties;
+  properties?: IntegrationFabricProperties | undefined;
 }
 /** The IntegrationFabric items on this page */
 export type IntegrationFabricListResponseValueList = Array<IntegrationFabric>;
@@ -1052,7 +1060,7 @@ export interface IntegrationFabricListResponse {
   /** The IntegrationFabric items on this page */
   value: IntegrationFabricListResponseValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListManagedPrivateEndpointsRequest {
   /** The ID of the target subscription. */
@@ -1067,19 +1075,19 @@ export type ManagedPrivateEndpointModelTagsMap = { [key: string]: string | undef
 /** The managed private endpoint resource type. */
 export interface ManagedPrivateEndpointModel {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: ManagedPrivateEndpointModelTagsMap;
+  tags?: ManagedPrivateEndpointModelTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Resource properties. */
-  properties?: ManagedPrivateEndpointModelProperties;
+  properties?: ManagedPrivateEndpointModelProperties | undefined;
 }
 /** The ManagedPrivateEndpointModel items on this page */
 export type ManagedPrivateEndpointModelListResponseValueList = Array<ManagedPrivateEndpointModel>;
@@ -1088,19 +1096,19 @@ export interface ManagedPrivateEndpointModelListResponse {
   /** The ManagedPrivateEndpointModel items on this page */
   value: ManagedPrivateEndpointModelListResponseValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListOperationsRequest {}
 /** Localized display information for this particular operation. */
 export interface OperationDisplay {
   /** The localized friendly form of the resource provider name, e.g. "Microsoft Monitoring Insights" or "Microsoft Compute". */
-  provider?: string;
+  provider?: string | undefined;
   /** The localized friendly name of the resource type related to this operation. E.g. "Virtual Machines" or "Job Schedule Collections". */
-  resource?: string;
+  resource?: string | undefined;
   /** The concise, localized friendly name for the operation; suitable for dropdowns. E.g. "Create or Update Virtual Machine", "Restart Virtual Machine". */
-  operation?: string;
+  operation?: string | undefined;
   /** The short, localized friendly description of the operation; suitable for tool tips and detailed views. */
-  description?: string;
+  description?: string | undefined;
 }
 /** The intended executor of the operation; as in Resource Based Access Control (RBAC) and audit logs UX. Default value is "user,system" */
 export type OperationOrigin = "user" | "system" | "user,system";
@@ -1109,23 +1117,23 @@ export type OperationActionType = "Internal";
 /** Details of a REST API operation, returned from the Resource Provider Operations API */
 export interface Operation {
   /** The name of the operation, as per Resource-Based Access Control (RBAC). Examples: "Microsoft.Compute/virtualMachines/write", "Microsoft.Compute/virtualMachines/capture/action" */
-  name?: string;
+  name?: string | undefined;
   /** Whether the operation applies to data-plane. This is "true" for data-plane operations and "false" for ARM/control-plane operations. */
-  isDataAction?: boolean;
+  isDataAction?: boolean | undefined;
   /** Localized display information for this particular operation. */
-  display?: OperationDisplay;
+  display?: OperationDisplay | undefined;
   /** The intended executor of the operation; as in Resource Based Access Control (RBAC) and audit logs UX. Default value is "user,system" */
-  origin?: OperationOrigin;
+  origin?: OperationOrigin | undefined;
   /** Enum. Indicates the action type. "Internal" refers to actions that are for internal only APIs. */
-  actionType?: OperationActionType;
+  actionType?: OperationActionType | undefined;
 }
 /** List of operations supported by the resource provider */
 export type ListOperationsResponseValueList = Array<Operation>;
 export interface ListOperationsResponse {
   /** List of operations supported by the resource provider */
-  value?: ListOperationsResponseValueList;
+  value?: ListOperationsResponseValueList | undefined;
   /** URL to get the next set of operation list results (if there are any). */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListPrivateEndpointConnectionsRequest {
   /** The ID of the target subscription. */
@@ -1142,7 +1150,7 @@ export interface PrivateEndpointConnectionListResult {
   /** The PrivateEndpointConnection items on this page */
   value: PrivateEndpointConnectionListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListPrivateLinkResourcesRequest {
   /** The ID of the target subscription. */
@@ -1155,15 +1163,15 @@ export interface ListPrivateLinkResourcesRequest {
 /** A private link resource */
 export interface PrivateLinkResource {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource properties. */
-  properties?: PrivateLinkResourceProperties;
+  properties?: PrivateLinkResourceProperties | undefined;
 }
 /** The PrivateLinkResource items on this page */
 export type PrivateLinkResourceListResultValueList = Array<PrivateLinkResource>;
@@ -1172,7 +1180,7 @@ export interface PrivateLinkResourceListResult {
   /** The PrivateLinkResource items on this page */
   value: PrivateLinkResourceListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface RefreshManagedPrivateEndpointRequest {
   /** The ID of the target subscription. */
@@ -1184,9 +1192,9 @@ export interface RefreshManagedPrivateEndpointRequest {
 }
 export interface RefreshManagedPrivateEndpointResponse {
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Managed service identity (system assigned and/or user assigned identities) */
 export type UpdateGrafanaRequestIdentity = CreateGrafanaRequestIdentity;
@@ -1211,29 +1219,34 @@ export type ManagedGrafanaPropertiesUpdateParametersInputGrafanaPluginsMap = {
 /** The properties parameters for a PATCH request to a grafana resource. */
 export interface ManagedGrafanaPropertiesUpdateParametersInput {
   /** The zone redundancy setting of the Grafana instance. */
-  zoneRedundancy?: ManagedGrafanaPropertiesUpdateParametersInputZoneRedundancy | (string & {});
+  zoneRedundancy?:
+    | ManagedGrafanaPropertiesUpdateParametersInputZoneRedundancy
+    | (string & {})
+    | undefined;
   /** The api key setting of the Grafana instance. */
-  apiKey?: ManagedGrafanaPropertiesUpdateParametersInputApiKey | (string & {});
+  apiKey?: ManagedGrafanaPropertiesUpdateParametersInputApiKey | (string & {}) | undefined;
   /** The creator will have admin access for the Grafana instance. */
-  creatorCanAdmin?: CreatorCanAdmin | (string & {});
+  creatorCanAdmin?: CreatorCanAdmin | (string & {}) | undefined;
   /** Whether a Grafana instance uses deterministic outbound IPs. */
   deterministicOutboundIP?:
     | ManagedGrafanaPropertiesUpdateParametersInputDeterministicOutboundIP
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** Indicate the state for enable or disable traffic over the public interface. */
   publicNetworkAccess?:
     | ManagedGrafanaPropertiesUpdateParametersInputPublicNetworkAccess
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** GrafanaIntegrations is a bundled observability experience (e.g. pre-configured data source, tailored Grafana dashboards, alerting defaults) for common monitoring scenarios. */
-  grafanaIntegrations?: GrafanaIntegrations;
+  grafanaIntegrations?: GrafanaIntegrations | undefined;
   /** Enterprise settings of a Grafana instance */
-  enterpriseConfigurations?: EnterpriseConfigurations;
+  enterpriseConfigurations?: EnterpriseConfigurations | undefined;
   /** Server configurations of a Grafana instance */
-  grafanaConfigurations?: GrafanaConfigurations;
+  grafanaConfigurations?: GrafanaConfigurations | undefined;
   /** Update of Grafana plugin. Key is plugin id, value is plugin definition. If plugin definition is null, plugin with given plugin id will be removed. Otherwise, given plugin will be installed. */
-  grafanaPlugins?: ManagedGrafanaPropertiesUpdateParametersInputGrafanaPluginsMap;
+  grafanaPlugins?: ManagedGrafanaPropertiesUpdateParametersInputGrafanaPluginsMap | undefined;
   /** The major Grafana software version to target. */
-  grafanaMajorVersion?: string;
+  grafanaMajorVersion?: string | undefined;
 }
 export interface UpdateGrafanaRequest {
   /** The ID of the target subscription. */
@@ -1242,13 +1255,13 @@ export interface UpdateGrafanaRequest {
   resourceGroupName: string;
   /** The workspace name of Azure Managed Grafana. */
   workspaceName: string;
-  sku?: ResourceSku;
+  sku?: ResourceSku | undefined;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: CreateGrafanaRequestIdentity;
+  identity?: CreateGrafanaRequestIdentity | undefined;
   /** The new tags of the grafana resource. */
-  tags?: UpdateGrafanaRequestTagsMap;
+  tags?: UpdateGrafanaRequestTagsMap | undefined;
   /** Properties specific to the managed grafana resource. */
-  properties?: ManagedGrafanaPropertiesUpdateParametersInput;
+  properties?: ManagedGrafanaPropertiesUpdateParametersInput | undefined;
 }
 /** Resource tags. */
 export type UpdateGrafanaResponseTagsMap = { [key: string]: string | undefined };
@@ -1256,27 +1269,27 @@ export type UpdateGrafanaResponseTagsMap = { [key: string]: string | undefined }
 export type UpdateGrafanaResponseIdentity = CreateGrafanaResponseIdentity;
 export interface UpdateGrafanaResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Properties specific to the grafana resource. */
-  properties?: ManagedGrafanaProperties;
+  properties?: ManagedGrafanaProperties | undefined;
   /** The Sku of the grafana resource. */
-  sku?: ResourceSku;
+  sku?: ResourceSku | undefined;
   /** Resource tags. */
-  tags?: UpdateGrafanaResponseTagsMap;
+  tags?: UpdateGrafanaResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
-  location?: string;
+  location?: string | undefined;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: CreateGrafanaResponseIdentity;
+  identity?: CreateGrafanaResponseIdentity | undefined;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** The new tags of the Integration Fabric resource. */
 export type UpdateIntegrationFabricRequestTagsMap = { [key: string]: string | undefined };
@@ -1284,7 +1297,7 @@ export type UpdateIntegrationFabricRequestTagsMap = { [key: string]: string | un
 export type IntegrationFabricPropertiesUpdateParametersScenariosList = Array<string>;
 export interface IntegrationFabricPropertiesUpdateParameters {
   /** The new integration scenarios covered by this integration fabric. */
-  scenarios?: IntegrationFabricPropertiesUpdateParametersScenariosList;
+  scenarios?: IntegrationFabricPropertiesUpdateParametersScenariosList | undefined;
 }
 export interface UpdateIntegrationFabricRequest {
   /** The ID of the target subscription. */
@@ -1296,32 +1309,32 @@ export interface UpdateIntegrationFabricRequest {
   /** The integration fabric name of Azure Managed Grafana. */
   integrationFabricName: string;
   /** The new tags of the Integration Fabric resource. */
-  tags?: UpdateIntegrationFabricRequestTagsMap;
+  tags?: UpdateIntegrationFabricRequestTagsMap | undefined;
   /** The new properties of this Integration Fabric resource */
-  properties?: IntegrationFabricPropertiesUpdateParameters;
+  properties?: IntegrationFabricPropertiesUpdateParameters | undefined;
 }
 /** Resource tags. */
 export type UpdateIntegrationFabricResponseTagsMap = { [key: string]: string | undefined };
 export interface UpdateIntegrationFabricResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: UpdateIntegrationFabricResponseTagsMap;
+  tags?: UpdateIntegrationFabricResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
-  properties?: IntegrationFabricProperties;
+  properties?: IntegrationFabricProperties | undefined;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  locationHeader?: string;
+  locationHeader?: string | undefined;
 }
 /** The new tags of the managed dashboard resource. */
 export type UpdateManagedDashboardRequestTagsMap = { [key: string]: string | undefined };
@@ -1333,25 +1346,25 @@ export interface UpdateManagedDashboardRequest {
   /** The name of the Azure Managed Dashboard. */
   dashboardName: string;
   /** The new tags of the managed dashboard resource. */
-  tags?: UpdateManagedDashboardRequestTagsMap;
+  tags?: UpdateManagedDashboardRequestTagsMap | undefined;
 }
 /** Resource tags. */
 export type UpdateManagedDashboardResponseTagsMap = { [key: string]: string | undefined };
 export interface UpdateManagedDashboardResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: UpdateManagedDashboardResponseTagsMap;
+  tags?: UpdateManagedDashboardResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Properties specific to the managed dashboard resource. */
-  properties?: ManagedDashboardProperties;
+  properties?: ManagedDashboardProperties | undefined;
 }
 /** The new tags of the managed private endpoint. */
 export type UpdateManagedPrivateEndpointRequestTagsMap = { [key: string]: string | undefined };
@@ -1365,29 +1378,29 @@ export interface UpdateManagedPrivateEndpointRequest {
   /** The managed private endpoint name of Azure Managed Grafana. */
   managedPrivateEndpointName: string;
   /** The new tags of the managed private endpoint. */
-  tags?: UpdateManagedPrivateEndpointRequestTagsMap;
+  tags?: UpdateManagedPrivateEndpointRequestTagsMap | undefined;
 }
 /** Resource tags. */
 export type UpdateManagedPrivateEndpointResponseTagsMap = { [key: string]: string | undefined };
 export interface UpdateManagedPrivateEndpointResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: UpdateManagedPrivateEndpointResponseTagsMap;
+  tags?: UpdateManagedPrivateEndpointResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Resource properties. */
-  properties?: ManagedPrivateEndpointModelProperties;
+  properties?: ManagedPrivateEndpointModelProperties | undefined;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export type ApprovePrivateEndpointConnectionError = AzureOpError;
 /** Manual approve private endpoint connection */

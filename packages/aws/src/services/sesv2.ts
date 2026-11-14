@@ -229,7 +229,7 @@ export type EmailAddress = string;
 export type CertificateArn = string;
 export interface AssociateEmailIdentityCertificateRequest {
   EmailIdentity: string;
-  FromAddress?: string;
+  FromAddress?: string | undefined;
   CertificateArn: string;
 }
 export interface AssociateEmailIdentityCertificateResponse {}
@@ -254,12 +254,12 @@ export type MetricDimensionName =
   | "TENANT_NAME"
   | (string & {});
 export type MetricDimensionValue = string;
-export type Dimensions = { [key in MetricDimensionName]?: string };
+export type Dimensions = { [key in MetricDimensionName]?: string | undefined };
 export interface BatchGetMetricDataQuery {
   Id: string;
   Namespace: MetricNamespace;
   Metric: Metric;
-  Dimensions?: { [key: string]: string | undefined };
+  Dimensions?: { [key: string]: string | undefined } | undefined;
   StartDate: Date;
   EndDate: Date;
 }
@@ -271,22 +271,22 @@ export type TimestampList = Date[];
 export type Counter = number;
 export type MetricValueList = number[];
 export interface MetricDataResult {
-  Id?: string;
-  Timestamps?: Date[];
-  Values?: number[];
+  Id?: string | undefined;
+  Timestamps?: Date[] | undefined;
+  Values?: number[] | undefined;
 }
 export type MetricDataResultList = MetricDataResult[];
 export type QueryErrorCode = "INTERNAL_FAILURE" | "ACCESS_DENIED" | (string & {});
 export type QueryErrorMessage = string;
 export interface MetricDataError {
-  Id?: string;
-  Code?: QueryErrorCode;
-  Message?: string;
+  Id?: string | undefined;
+  Code?: QueryErrorCode | undefined;
+  Message?: string | undefined;
 }
 export type MetricDataErrorList = MetricDataError[];
 export interface BatchGetMetricDataResponse {
-  Results?: MetricDataResult[];
-  Errors?: MetricDataError[];
+  Results?: MetricDataResult[] | undefined;
+  Errors?: MetricDataError[] | undefined;
 }
 export type JobId = string;
 export interface CancelExportJobRequest {
@@ -298,24 +298,24 @@ export type CustomRedirectDomain = string;
 export type HttpsPolicy = "REQUIRE" | "REQUIRE_OPEN_ONLY" | "OPTIONAL" | (string & {});
 export interface TrackingOptions {
   CustomRedirectDomain: string;
-  HttpsPolicy?: HttpsPolicy;
+  HttpsPolicy?: HttpsPolicy | undefined;
 }
 export type TlsPolicy = "REQUIRE" | "OPTIONAL" | (string & {});
 export type PoolName = string;
 export type MaxDeliverySeconds = number;
 export interface DeliveryOptions {
-  TlsPolicy?: TlsPolicy;
-  SendingPoolName?: string;
-  MaxDeliverySeconds?: number;
+  TlsPolicy?: TlsPolicy | undefined;
+  SendingPoolName?: string | undefined;
+  MaxDeliverySeconds?: number | undefined;
 }
 export type Enabled = boolean;
 export type LastFreshStart = Date;
 export interface ReputationOptions {
-  ReputationMetricsEnabled?: boolean;
-  LastFreshStart?: Date;
+  ReputationMetricsEnabled?: boolean | undefined;
+  LastFreshStart?: Date | undefined;
 }
 export interface SendingOptions {
-  SendingEnabled?: boolean;
+  SendingEnabled?: boolean | undefined;
 }
 export type TagKey = string;
 export type TagValue = string;
@@ -334,52 +334,52 @@ export interface SuppressionConfidenceThreshold {
 }
 export interface SuppressionConditionThreshold {
   ConditionThresholdEnabled: FeatureStatus;
-  OverallConfidenceThreshold?: SuppressionConfidenceThreshold;
+  OverallConfidenceThreshold?: SuppressionConfidenceThreshold | undefined;
 }
 export interface SuppressionValidationOptions {
   ConditionThreshold: SuppressionConditionThreshold;
 }
 export interface SuppressionOptions {
-  SuppressedReasons?: SuppressionListReason[];
-  SuppressionScope?: SuppressionListScope;
-  ValidationOptions?: SuppressionValidationOptions;
+  SuppressedReasons?: SuppressionListReason[] | undefined;
+  SuppressionScope?: SuppressionListScope | undefined;
+  ValidationOptions?: SuppressionValidationOptions | undefined;
 }
 export interface DashboardOptions {
-  EngagementMetrics?: FeatureStatus;
+  EngagementMetrics?: FeatureStatus | undefined;
 }
 export interface GuardianOptions {
-  OptimizedSharedDelivery?: FeatureStatus;
+  OptimizedSharedDelivery?: FeatureStatus | undefined;
 }
 export interface VdmOptions {
-  DashboardOptions?: DashboardOptions;
-  GuardianOptions?: GuardianOptions;
+  DashboardOptions?: DashboardOptions | undefined;
+  GuardianOptions?: GuardianOptions | undefined;
 }
 export type ArchiveArn = string;
 export interface ArchivingOptions {
-  ArchiveArn?: string;
+  ArchiveArn?: string | undefined;
 }
 export interface DefaultSigningScheme {}
 export type SignatureFormat = "DETACHED" | (string & {});
 export interface SmimeSigningScheme {
-  SignatureFormat?: SignatureFormat;
+  SignatureFormat?: SignatureFormat | undefined;
 }
 export type SigningScheme =
-  | { DefaultScheme: DefaultSigningScheme; SmimeScheme?: never }
-  | { DefaultScheme?: never; SmimeScheme: SmimeSigningScheme };
+  | { DefaultScheme: DefaultSigningScheme; SmimeScheme?: undefined }
+  | { DefaultScheme?: undefined; SmimeScheme: SmimeSigningScheme };
 export interface MessageSecurityOptions {
-  SigningScheme?: SigningScheme;
+  SigningScheme?: SigningScheme | undefined;
 }
 export interface CreateConfigurationSetRequest {
   ConfigurationSetName: string;
-  TrackingOptions?: TrackingOptions;
-  DeliveryOptions?: DeliveryOptions;
-  ReputationOptions?: ReputationOptions;
-  SendingOptions?: SendingOptions;
-  Tags?: Tag[];
-  SuppressionOptions?: SuppressionOptions;
-  VdmOptions?: VdmOptions;
-  ArchivingOptions?: ArchivingOptions;
-  MessageSecurityOptions?: MessageSecurityOptions;
+  TrackingOptions?: TrackingOptions | undefined;
+  DeliveryOptions?: DeliveryOptions | undefined;
+  ReputationOptions?: ReputationOptions | undefined;
+  SendingOptions?: SendingOptions | undefined;
+  Tags?: Tag[] | undefined;
+  SuppressionOptions?: SuppressionOptions | undefined;
+  VdmOptions?: VdmOptions | undefined;
+  ArchivingOptions?: ArchivingOptions | undefined;
+  MessageSecurityOptions?: MessageSecurityOptions | undefined;
 }
 export interface CreateConfigurationSetResponse {}
 export type EventDestinationName = string;
@@ -420,16 +420,16 @@ export interface EventBridgeDestination {
   EventBusArn: string;
 }
 export interface PinpointDestination {
-  ApplicationArn?: string;
+  ApplicationArn?: string | undefined;
 }
 export interface EventDestinationDefinition {
-  Enabled?: boolean;
-  MatchingEventTypes?: EventType[];
-  KinesisFirehoseDestination?: KinesisFirehoseDestination;
-  CloudWatchDestination?: CloudWatchDestination;
-  SnsDestination?: SnsDestination;
-  EventBridgeDestination?: EventBridgeDestination;
-  PinpointDestination?: PinpointDestination;
+  Enabled?: boolean | undefined;
+  MatchingEventTypes?: EventType[] | undefined;
+  KinesisFirehoseDestination?: KinesisFirehoseDestination | undefined;
+  CloudWatchDestination?: CloudWatchDestination | undefined;
+  SnsDestination?: SnsDestination | undefined;
+  EventBridgeDestination?: EventBridgeDestination | undefined;
+  PinpointDestination?: PinpointDestination | undefined;
 }
 export interface CreateConfigurationSetEventDestinationRequest {
   ConfigurationSetName: string;
@@ -450,9 +450,9 @@ export type AttributesData = string;
 export interface CreateContactRequest {
   ContactListName: string;
   EmailAddress: string;
-  TopicPreferences?: TopicPreference[];
-  UnsubscribeAll?: boolean;
-  AttributesData?: string;
+  TopicPreferences?: TopicPreference[] | undefined;
+  UnsubscribeAll?: boolean | undefined;
+  AttributesData?: string | undefined;
 }
 export interface CreateContactResponse {}
 export type DisplayName = string;
@@ -460,15 +460,15 @@ export type Description = string;
 export interface Topic {
   TopicName: string;
   DisplayName: string;
-  Description?: string;
+  Description?: string | undefined;
   DefaultSubscriptionStatus: SubscriptionStatus;
 }
 export type Topics = Topic[];
 export interface CreateContactListRequest {
   ContactListName: string;
-  Topics?: Topic[];
-  Description?: string;
-  Tags?: Tag[];
+  Topics?: Topic[] | undefined;
+  Description?: string | undefined;
+  Tags?: Tag[] | undefined;
 }
 export interface CreateContactListResponse {}
 export type EmailTemplateName = string;
@@ -481,7 +481,7 @@ export interface CreateCustomVerificationEmailTemplateRequest {
   FromEmailAddress: string;
   TemplateSubject: string;
   TemplateContent: string;
-  Tags?: Tag[];
+  Tags?: Tag[] | undefined;
   SuccessRedirectionURL: string;
   FailureRedirectionURL: string;
 }
@@ -489,8 +489,8 @@ export interface CreateCustomVerificationEmailTemplateResponse {}
 export type ScalingMode = "STANDARD" | "MANAGED" | (string & {});
 export interface CreateDedicatedIpPoolRequest {
   PoolName: string;
-  Tags?: Tag[];
-  ScalingMode?: ScalingMode;
+  Tags?: Tag[] | undefined;
+  ScalingMode?: ScalingMode | undefined;
 }
 export interface CreateDedicatedIpPoolResponse {}
 export type ReportName = string;
@@ -498,11 +498,11 @@ export type MessageData = string;
 export type Charset = string;
 export interface Content {
   Data: string;
-  Charset?: string;
+  Charset?: string | undefined;
 }
 export interface Body {
-  Text?: Content;
-  Html?: Content;
+  Text?: Content | undefined;
+  Html?: Content | undefined;
 }
 export type MessageHeaderName = string;
 export type MessageHeaderValue = string;
@@ -524,19 +524,19 @@ export type AttachmentContentTransferEncoding =
 export type AttachmentContentType = string;
 export interface Attachment {
   RawContent: Uint8Array;
-  ContentDisposition?: AttachmentContentDisposition;
+  ContentDisposition?: AttachmentContentDisposition | undefined;
   FileName: string;
-  ContentDescription?: string;
-  ContentId?: string;
-  ContentTransferEncoding?: AttachmentContentTransferEncoding;
-  ContentType?: string;
+  ContentDescription?: string | undefined;
+  ContentId?: string | undefined;
+  ContentTransferEncoding?: AttachmentContentTransferEncoding | undefined;
+  ContentType?: string | undefined;
 }
 export type AttachmentList = Attachment[];
 export interface Message {
   Subject: Content;
   Body: Body;
-  Headers?: MessageHeader[];
-  Attachments?: Attachment[];
+  Headers?: MessageHeader[] | undefined;
+  Attachments?: Attachment[] | undefined;
 }
 export type RawMessageData = Uint8Array;
 export interface RawMessage {
@@ -545,29 +545,29 @@ export interface RawMessage {
 export type EmailTemplateText = string;
 export type EmailTemplateHtml = string;
 export interface EmailTemplateContent {
-  Subject?: string;
-  Text?: string;
-  Html?: string;
+  Subject?: string | undefined;
+  Text?: string | undefined;
+  Html?: string | undefined;
 }
 export type EmailTemplateData = string;
 export interface Template {
-  TemplateName?: string;
-  TemplateArn?: string;
-  TemplateContent?: EmailTemplateContent;
-  TemplateData?: string;
-  Headers?: MessageHeader[];
-  Attachments?: Attachment[];
+  TemplateName?: string | undefined;
+  TemplateArn?: string | undefined;
+  TemplateContent?: EmailTemplateContent | undefined;
+  TemplateData?: string | undefined;
+  Headers?: MessageHeader[] | undefined;
+  Attachments?: Attachment[] | undefined;
 }
 export interface EmailContent {
-  Simple?: Message;
-  Raw?: RawMessage;
-  Template?: Template;
+  Simple?: Message | undefined;
+  Raw?: RawMessage | undefined;
+  Template?: Template | undefined;
 }
 export interface CreateDeliverabilityTestReportRequest {
-  ReportName?: string;
+  ReportName?: string | undefined;
   FromEmailAddress: string;
   Content: EmailContent;
-  Tags?: Tag[];
+  Tags?: Tag[] | undefined;
 }
 export type ReportId = string;
 export type DeliverabilityTestStatus = "IN_PROGRESS" | "COMPLETED" | (string & {});
@@ -612,16 +612,16 @@ export type DkimSigningAttributesOrigin =
   | "AWS_SES_US_GOV_WEST_1"
   | (string & {});
 export interface DkimSigningAttributes {
-  DomainSigningSelector?: string;
-  DomainSigningPrivateKey?: string | redacted.Redacted<string>;
-  NextSigningKeyLength?: DkimSigningKeyLength;
-  DomainSigningAttributesOrigin?: DkimSigningAttributesOrigin;
+  DomainSigningSelector?: string | undefined;
+  DomainSigningPrivateKey?: string | redacted.Redacted<string> | undefined;
+  NextSigningKeyLength?: DkimSigningKeyLength | undefined;
+  DomainSigningAttributesOrigin?: DkimSigningAttributesOrigin | undefined;
 }
 export interface CreateEmailIdentityRequest {
   EmailIdentity: string;
-  Tags?: Tag[];
-  DkimSigningAttributes?: DkimSigningAttributes;
-  ConfigurationSetName?: string;
+  Tags?: Tag[] | undefined;
+  DkimSigningAttributes?: DkimSigningAttributes | undefined;
+  ConfigurationSetName?: string | undefined;
 }
 export type IdentityType = "EMAIL_ADDRESS" | "DOMAIN" | "MANAGED_DOMAIN" | (string & {});
 export type DkimStatus =
@@ -635,19 +635,19 @@ export type DnsToken = string;
 export type DnsTokenList = string[];
 export type HostedZone = string;
 export interface DkimAttributes {
-  SigningEnabled?: boolean;
-  Status?: DkimStatus;
-  Tokens?: string[];
-  SigningHostedZone?: string;
-  SigningAttributesOrigin?: DkimSigningAttributesOrigin;
-  NextSigningKeyLength?: DkimSigningKeyLength;
-  CurrentSigningKeyLength?: DkimSigningKeyLength;
-  LastKeyGenerationTimestamp?: Date;
+  SigningEnabled?: boolean | undefined;
+  Status?: DkimStatus | undefined;
+  Tokens?: string[] | undefined;
+  SigningHostedZone?: string | undefined;
+  SigningAttributesOrigin?: DkimSigningAttributesOrigin | undefined;
+  NextSigningKeyLength?: DkimSigningKeyLength | undefined;
+  CurrentSigningKeyLength?: DkimSigningKeyLength | undefined;
+  LastKeyGenerationTimestamp?: Date | undefined;
 }
 export interface CreateEmailIdentityResponse {
-  IdentityType?: IdentityType;
-  VerifiedForSendingStatus?: boolean;
-  DkimAttributes?: DkimAttributes;
+  IdentityType?: IdentityType | undefined;
+  VerifiedForSendingStatus?: boolean | undefined;
+  DkimAttributes?: DkimAttributes | undefined;
 }
 export type PolicyName = string;
 export type Policy = string;
@@ -660,15 +660,15 @@ export interface CreateEmailIdentityPolicyResponse {}
 export interface CreateEmailTemplateRequest {
   TemplateName: string;
   TemplateContent: EmailTemplateContent;
-  Tags?: Tag[];
+  Tags?: Tag[] | undefined;
 }
 export interface CreateEmailTemplateResponse {}
 export type ExportDimensionValue = string[];
-export type ExportDimensions = { [key in MetricDimensionName]?: string[] };
+export type ExportDimensions = { [key in MetricDimensionName]?: string[] | undefined };
 export type MetricAggregation = "RATE" | "VOLUME" | (string & {});
 export interface ExportMetric {
-  Name?: Metric;
-  Aggregation?: MetricAggregation;
+  Name?: Metric | undefined;
+  Aggregation?: MetricAggregation | undefined;
 }
 export type ExportMetrics = ExportMetric[];
 export interface MetricsDataSource {
@@ -698,38 +698,38 @@ export type LastDeliveryEventList = DeliveryEventType[];
 export type EngagementEventType = "OPEN" | "CLICK" | (string & {});
 export type LastEngagementEventList = EngagementEventType[];
 export interface MessageInsightsFilters {
-  FromEmailAddress?: (string | redacted.Redacted<string>)[];
-  Destination?: (string | redacted.Redacted<string>)[];
-  Subject?: (string | redacted.Redacted<string>)[];
-  Isp?: string[];
-  TenantName?: string[];
-  LastDeliveryEvent?: DeliveryEventType[];
-  LastEngagementEvent?: EngagementEventType[];
+  FromEmailAddress?: (string | redacted.Redacted<string>)[] | undefined;
+  Destination?: (string | redacted.Redacted<string>)[] | undefined;
+  Subject?: (string | redacted.Redacted<string>)[] | undefined;
+  Isp?: string[] | undefined;
+  TenantName?: string[] | undefined;
+  LastDeliveryEvent?: DeliveryEventType[] | undefined;
+  LastEngagementEvent?: EngagementEventType[] | undefined;
 }
 export type MessageInsightsExportMaxResults = number;
 export interface MessageInsightsDataSource {
   StartDate: Date;
   EndDate: Date;
-  Include?: MessageInsightsFilters;
-  Exclude?: MessageInsightsFilters;
-  MaxResults?: number;
+  Include?: MessageInsightsFilters | undefined;
+  Exclude?: MessageInsightsFilters | undefined;
+  MaxResults?: number | undefined;
 }
 export interface ExportDataSource {
-  MetricsDataSource?: MetricsDataSource;
-  MessageInsightsDataSource?: MessageInsightsDataSource;
+  MetricsDataSource?: MetricsDataSource | undefined;
+  MessageInsightsDataSource?: MessageInsightsDataSource | undefined;
 }
 export type DataFormat = "CSV" | "JSON" | (string & {});
 export type S3Url = string;
 export interface ExportDestination {
   DataFormat: DataFormat;
-  S3Url?: string;
+  S3Url?: string | undefined;
 }
 export interface CreateExportJobRequest {
   ExportDataSource: ExportDataSource;
   ExportDestination: ExportDestination;
 }
 export interface CreateExportJobResponse {
-  JobId?: string;
+  JobId?: string | undefined;
 }
 export type SuppressionListImportAction = "DELETE" | "PUT" | (string & {});
 export interface SuppressionListDestination {
@@ -741,8 +741,8 @@ export interface ContactListDestination {
   ContactListImportAction: ContactListImportAction;
 }
 export interface ImportDestination {
-  SuppressionListDestination?: SuppressionListDestination;
-  ContactListDestination?: ContactListDestination;
+  SuppressionListDestination?: SuppressionListDestination | undefined;
+  ContactListDestination?: ContactListDestination | undefined;
 }
 export interface ImportDataSource {
   S3Url: string;
@@ -753,7 +753,7 @@ export interface CreateImportJobRequest {
   ImportDataSource: ImportDataSource;
 }
 export interface CreateImportJobResponse {
-  JobId?: string;
+  JobId?: string | undefined;
 }
 export type EndpointName = string;
 export type Region = string;
@@ -767,33 +767,33 @@ export interface Details {
 export interface CreateMultiRegionEndpointRequest {
   EndpointName: string;
   Details: Details;
-  Tags?: Tag[];
+  Tags?: Tag[] | undefined;
 }
 export type Status = "CREATING" | "READY" | "FAILED" | "DELETING" | (string & {});
 export type EndpointId = string;
 export interface CreateMultiRegionEndpointResponse {
-  Status?: Status;
-  EndpointId?: string;
+  Status?: Status | undefined;
+  EndpointId?: string | undefined;
 }
 export interface TenantSuppressionAttributes {
-  SuppressedReasons?: SuppressionListReason[];
-  SuppressionScope?: SuppressionListScope;
+  SuppressedReasons?: SuppressionListReason[] | undefined;
+  SuppressionScope?: SuppressionListScope | undefined;
 }
 export interface CreateTenantRequest {
   TenantName: string;
-  Tags?: Tag[];
-  SuppressionAttributes?: TenantSuppressionAttributes;
+  Tags?: Tag[] | undefined;
+  SuppressionAttributes?: TenantSuppressionAttributes | undefined;
 }
 export type TenantId = string;
 export type SendingStatus = "ENABLED" | "REINSTATED" | "DISABLED" | (string & {});
 export interface CreateTenantResponse {
-  TenantName?: string;
-  TenantId?: string;
-  TenantArn?: string;
-  CreatedTimestamp?: Date;
-  Tags?: Tag[];
-  SendingStatus?: SendingStatus;
-  SuppressionAttributes?: TenantSuppressionAttributes;
+  TenantName?: string | undefined;
+  TenantId?: string | undefined;
+  TenantArn?: string | undefined;
+  CreatedTimestamp?: Date | undefined;
+  Tags?: Tag[] | undefined;
+  SendingStatus?: SendingStatus | undefined;
+  SuppressionAttributes?: TenantSuppressionAttributes | undefined;
 }
 export interface CreateTenantResourceAssociationRequest {
   TenantName: string;
@@ -843,11 +843,11 @@ export interface DeleteMultiRegionEndpointRequest {
   EndpointName: string;
 }
 export interface DeleteMultiRegionEndpointResponse {
-  Status?: Status;
+  Status?: Status | undefined;
 }
 export interface DeleteSuppressedDestinationRequest {
   EmailAddress: string;
-  TenantName?: string;
+  TenantName?: string | undefined;
 }
 export interface DeleteSuppressedDestinationResponse {}
 export interface DeleteTenantRequest {
@@ -861,7 +861,7 @@ export interface DeleteTenantResourceAssociationRequest {
 export interface DeleteTenantResourceAssociationResponse {}
 export interface DisassociateEmailIdentityCertificateRequest {
   EmailIdentity: string;
-  FromAddress?: string;
+  FromAddress?: string | undefined;
 }
 export interface DisassociateEmailIdentityCertificateResponse {}
 export interface GetAccountRequest {}
@@ -870,16 +870,16 @@ export type Max24HourSend = number;
 export type MaxSendRate = number;
 export type SentLast24Hours = number;
 export interface SendQuota {
-  Max24HourSend?: number;
-  MaxSendRate?: number;
-  SentLast24Hours?: number;
+  Max24HourSend?: number | undefined;
+  MaxSendRate?: number | undefined;
+  SentLast24Hours?: number | undefined;
 }
 export interface SuppressionValidationAttributes {
   ConditionThreshold: SuppressionConditionThreshold;
 }
 export interface SuppressionAttributes {
-  SuppressedReasons?: SuppressionListReason[];
-  ValidationAttributes?: SuppressionValidationAttributes;
+  SuppressedReasons?: SuppressionListReason[] | undefined;
+  ValidationAttributes?: SuppressionValidationAttributes | undefined;
 }
 export type MailType = "MARKETING" | "TRANSACTIONAL" | (string & {});
 export type WebsiteURL = string | redacted.Redacted<string>;
@@ -890,43 +890,43 @@ export type AdditionalContactEmailAddresses = (string | redacted.Redacted<string
 export type ReviewStatus = "PENDING" | "FAILED" | "GRANTED" | "DENIED" | (string & {});
 export type CaseId = string;
 export interface ReviewDetails {
-  Status?: ReviewStatus;
-  CaseId?: string;
+  Status?: ReviewStatus | undefined;
+  CaseId?: string | undefined;
 }
 export interface AccountDetails {
-  MailType?: MailType;
-  WebsiteURL?: string | redacted.Redacted<string>;
-  ContactLanguage?: ContactLanguage;
-  UseCaseDescription?: string | redacted.Redacted<string>;
-  AdditionalContactEmailAddresses?: (string | redacted.Redacted<string>)[];
-  ReviewDetails?: ReviewDetails;
+  MailType?: MailType | undefined;
+  WebsiteURL?: string | redacted.Redacted<string> | undefined;
+  ContactLanguage?: ContactLanguage | undefined;
+  UseCaseDescription?: string | redacted.Redacted<string> | undefined;
+  AdditionalContactEmailAddresses?: (string | redacted.Redacted<string>)[] | undefined;
+  ReviewDetails?: ReviewDetails | undefined;
 }
 export interface DashboardAttributes {
-  EngagementMetrics?: FeatureStatus;
+  EngagementMetrics?: FeatureStatus | undefined;
 }
 export interface GuardianAttributes {
-  OptimizedSharedDelivery?: FeatureStatus;
+  OptimizedSharedDelivery?: FeatureStatus | undefined;
 }
 export interface VdmAttributes {
   VdmEnabled: FeatureStatus;
-  DashboardAttributes?: DashboardAttributes;
-  GuardianAttributes?: GuardianAttributes;
+  DashboardAttributes?: DashboardAttributes | undefined;
+  GuardianAttributes?: GuardianAttributes | undefined;
 }
 export type PricingPlan = "NONE" | "ESSENTIALS" | "PRO" | "ENTERPRISE" | (string & {});
 export interface PricingAttributes {
-  CurrentPlan?: PricingPlan;
-  NextPlan?: PricingPlan;
+  CurrentPlan?: PricingPlan | undefined;
+  NextPlan?: PricingPlan | undefined;
 }
 export interface GetAccountResponse {
-  DedicatedIpAutoWarmupEnabled?: boolean;
-  EnforcementStatus?: string;
-  ProductionAccessEnabled?: boolean;
-  SendQuota?: SendQuota;
-  SendingEnabled?: boolean;
-  SuppressionAttributes?: SuppressionAttributes;
-  Details?: AccountDetails;
-  VdmAttributes?: VdmAttributes;
-  PricingAttributes?: PricingAttributes;
+  DedicatedIpAutoWarmupEnabled?: boolean | undefined;
+  EnforcementStatus?: string | undefined;
+  ProductionAccessEnabled?: boolean | undefined;
+  SendQuota?: SendQuota | undefined;
+  SendingEnabled?: boolean | undefined;
+  SuppressionAttributes?: SuppressionAttributes | undefined;
+  Details?: AccountDetails | undefined;
+  VdmAttributes?: VdmAttributes | undefined;
+  PricingAttributes?: PricingAttributes | undefined;
 }
 export type BlacklistItemName = string;
 export type BlacklistItemNames = string[];
@@ -936,9 +936,9 @@ export interface GetBlacklistReportsRequest {
 export type RblName = string;
 export type BlacklistingDescription = string;
 export interface BlacklistEntry {
-  RblName?: string;
-  ListingTime?: Date;
-  Description?: string;
+  RblName?: string | undefined;
+  ListingTime?: Date | undefined;
+  Description?: string | undefined;
 }
 export type BlacklistEntries = BlacklistEntry[];
 export type BlacklistReport = { [key: string]: BlacklistEntry[] | undefined };
@@ -949,70 +949,70 @@ export interface GetConfigurationSetRequest {
   ConfigurationSetName: string;
 }
 export interface GetConfigurationSetResponse {
-  ConfigurationSetName?: string;
-  TrackingOptions?: TrackingOptions;
-  DeliveryOptions?: DeliveryOptions;
-  ReputationOptions?: ReputationOptions;
-  SendingOptions?: SendingOptions;
-  Tags?: Tag[];
-  SuppressionOptions?: SuppressionOptions;
-  VdmOptions?: VdmOptions;
-  ArchivingOptions?: ArchivingOptions;
-  MessageSecurityOptions?: MessageSecurityOptions;
+  ConfigurationSetName?: string | undefined;
+  TrackingOptions?: TrackingOptions | undefined;
+  DeliveryOptions?: DeliveryOptions | undefined;
+  ReputationOptions?: ReputationOptions | undefined;
+  SendingOptions?: SendingOptions | undefined;
+  Tags?: Tag[] | undefined;
+  SuppressionOptions?: SuppressionOptions | undefined;
+  VdmOptions?: VdmOptions | undefined;
+  ArchivingOptions?: ArchivingOptions | undefined;
+  MessageSecurityOptions?: MessageSecurityOptions | undefined;
 }
 export interface GetConfigurationSetEventDestinationsRequest {
   ConfigurationSetName: string;
 }
 export interface EventDestination {
   Name: string;
-  Enabled?: boolean;
+  Enabled?: boolean | undefined;
   MatchingEventTypes: EventType[];
-  KinesisFirehoseDestination?: KinesisFirehoseDestination;
-  CloudWatchDestination?: CloudWatchDestination;
-  SnsDestination?: SnsDestination;
-  EventBridgeDestination?: EventBridgeDestination;
-  PinpointDestination?: PinpointDestination;
+  KinesisFirehoseDestination?: KinesisFirehoseDestination | undefined;
+  CloudWatchDestination?: CloudWatchDestination | undefined;
+  SnsDestination?: SnsDestination | undefined;
+  EventBridgeDestination?: EventBridgeDestination | undefined;
+  PinpointDestination?: PinpointDestination | undefined;
 }
 export type EventDestinations = EventDestination[];
 export interface GetConfigurationSetEventDestinationsResponse {
-  EventDestinations?: EventDestination[];
+  EventDestinations?: EventDestination[] | undefined;
 }
 export interface GetContactRequest {
   ContactListName: string;
   EmailAddress: string;
 }
 export interface GetContactResponse {
-  ContactListName?: string;
-  EmailAddress?: string;
-  TopicPreferences?: TopicPreference[];
-  TopicDefaultPreferences?: TopicPreference[];
-  UnsubscribeAll?: boolean;
-  AttributesData?: string;
-  CreatedTimestamp?: Date;
-  LastUpdatedTimestamp?: Date;
+  ContactListName?: string | undefined;
+  EmailAddress?: string | undefined;
+  TopicPreferences?: TopicPreference[] | undefined;
+  TopicDefaultPreferences?: TopicPreference[] | undefined;
+  UnsubscribeAll?: boolean | undefined;
+  AttributesData?: string | undefined;
+  CreatedTimestamp?: Date | undefined;
+  LastUpdatedTimestamp?: Date | undefined;
 }
 export interface GetContactListRequest {
   ContactListName: string;
 }
 export interface GetContactListResponse {
-  ContactListName?: string;
-  Topics?: Topic[];
-  Description?: string;
-  CreatedTimestamp?: Date;
-  LastUpdatedTimestamp?: Date;
-  Tags?: Tag[];
+  ContactListName?: string | undefined;
+  Topics?: Topic[] | undefined;
+  Description?: string | undefined;
+  CreatedTimestamp?: Date | undefined;
+  LastUpdatedTimestamp?: Date | undefined;
+  Tags?: Tag[] | undefined;
 }
 export interface GetCustomVerificationEmailTemplateRequest {
   TemplateName: string;
 }
 export interface GetCustomVerificationEmailTemplateResponse {
-  TemplateName?: string;
-  FromEmailAddress?: string;
-  TemplateSubject?: string;
-  TemplateContent?: string;
-  Tags?: Tag[];
-  SuccessRedirectionURL?: string;
-  FailureRedirectionURL?: string;
+  TemplateName?: string | undefined;
+  FromEmailAddress?: string | undefined;
+  TemplateSubject?: string | undefined;
+  TemplateContent?: string | undefined;
+  Tags?: Tag[] | undefined;
+  SuccessRedirectionURL?: string | undefined;
+  FailureRedirectionURL?: string | undefined;
 }
 export type Ip = string;
 export interface GetDedicatedIpRequest {
@@ -1024,10 +1024,10 @@ export interface DedicatedIp {
   Ip: string;
   WarmupStatus: WarmupStatus;
   WarmupPercentage: number;
-  PoolName?: string;
+  PoolName?: string | undefined;
 }
 export interface GetDedicatedIpResponse {
-  DedicatedIp?: DedicatedIp;
+  DedicatedIp?: DedicatedIp | undefined;
 }
 export interface GetDedicatedIpPoolRequest {
   PoolName: string;
@@ -1037,19 +1037,19 @@ export interface DedicatedIpPool {
   ScalingMode: ScalingMode;
 }
 export interface GetDedicatedIpPoolResponse {
-  DedicatedIpPool?: DedicatedIpPool;
+  DedicatedIpPool?: DedicatedIpPool | undefined;
 }
 export type NextToken = string;
 export type MaxItems = number;
 export interface GetDedicatedIpsRequest {
-  PoolName?: string;
-  NextToken?: string;
-  PageSize?: number;
+  PoolName?: string | undefined;
+  NextToken?: string | undefined;
+  PageSize?: number | undefined;
 }
 export type DedicatedIpList = DedicatedIp[];
 export interface GetDedicatedIpsResponse {
-  DedicatedIps?: DedicatedIp[];
-  NextToken?: string;
+  DedicatedIps?: DedicatedIp[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface GetDeliverabilityDashboardOptionsRequest {}
 export type DeliverabilityDashboardAccountStatus =
@@ -1061,45 +1061,45 @@ export type Domain = string;
 export type IspName = string;
 export type IspNameList = string[];
 export interface InboxPlacementTrackingOption {
-  Global?: boolean;
-  TrackedIsps?: string[];
+  Global?: boolean | undefined;
+  TrackedIsps?: string[] | undefined;
 }
 export interface DomainDeliverabilityTrackingOption {
-  Domain?: string;
-  SubscriptionStartDate?: Date;
-  InboxPlacementTrackingOption?: InboxPlacementTrackingOption;
+  Domain?: string | undefined;
+  SubscriptionStartDate?: Date | undefined;
+  InboxPlacementTrackingOption?: InboxPlacementTrackingOption | undefined;
 }
 export type DomainDeliverabilityTrackingOptions = DomainDeliverabilityTrackingOption[];
 export interface GetDeliverabilityDashboardOptionsResponse {
   DashboardEnabled: boolean;
-  SubscriptionExpiryDate?: Date;
-  AccountStatus?: DeliverabilityDashboardAccountStatus;
-  ActiveSubscribedDomains?: DomainDeliverabilityTrackingOption[];
-  PendingExpirationSubscribedDomains?: DomainDeliverabilityTrackingOption[];
+  SubscriptionExpiryDate?: Date | undefined;
+  AccountStatus?: DeliverabilityDashboardAccountStatus | undefined;
+  ActiveSubscribedDomains?: DomainDeliverabilityTrackingOption[] | undefined;
+  PendingExpirationSubscribedDomains?: DomainDeliverabilityTrackingOption[] | undefined;
 }
 export interface GetDeliverabilityTestReportRequest {
   ReportId: string;
 }
 export type DeliverabilityTestSubject = string;
 export interface DeliverabilityTestReport {
-  ReportId?: string;
-  ReportName?: string;
-  Subject?: string;
-  FromEmailAddress?: string;
-  CreateDate?: Date;
-  DeliverabilityTestStatus?: DeliverabilityTestStatus;
+  ReportId?: string | undefined;
+  ReportName?: string | undefined;
+  Subject?: string | undefined;
+  FromEmailAddress?: string | undefined;
+  CreateDate?: Date | undefined;
+  DeliverabilityTestStatus?: DeliverabilityTestStatus | undefined;
 }
 export type Percentage = number;
 export interface PlacementStatistics {
-  InboxPercentage?: number;
-  SpamPercentage?: number;
-  MissingPercentage?: number;
-  SpfPercentage?: number;
-  DkimPercentage?: number;
+  InboxPercentage?: number | undefined;
+  SpamPercentage?: number | undefined;
+  MissingPercentage?: number | undefined;
+  SpfPercentage?: number | undefined;
+  DkimPercentage?: number | undefined;
 }
 export interface IspPlacement {
-  IspName?: string;
-  PlacementStatistics?: PlacementStatistics;
+  IspName?: string | undefined;
+  PlacementStatistics?: PlacementStatistics | undefined;
 }
 export type IspPlacements = IspPlacement[];
 export type MessageContent = string;
@@ -1107,8 +1107,8 @@ export interface GetDeliverabilityTestReportResponse {
   DeliverabilityTestReport: DeliverabilityTestReport;
   OverallPlacement: PlacementStatistics;
   IspPlacements: IspPlacement[];
-  Message?: string;
-  Tags?: Tag[];
+  Message?: string | undefined;
+  Tags?: Tag[] | undefined;
 }
 export type CampaignId = string;
 export interface GetDomainDeliverabilityCampaignRequest {
@@ -1121,20 +1121,20 @@ export type Volume = number;
 export type Esp = string;
 export type Esps = string[];
 export interface DomainDeliverabilityCampaign {
-  CampaignId?: string;
-  ImageUrl?: string;
-  Subject?: string;
-  FromAddress?: string;
-  SendingIps?: string[];
-  FirstSeenDateTime?: Date;
-  LastSeenDateTime?: Date;
-  InboxCount?: number;
-  SpamCount?: number;
-  ReadRate?: number;
-  DeleteRate?: number;
-  ReadDeleteRate?: number;
-  ProjectedVolume?: number;
-  Esps?: string[];
+  CampaignId?: string | undefined;
+  ImageUrl?: string | undefined;
+  Subject?: string | undefined;
+  FromAddress?: string | undefined;
+  SendingIps?: string[] | undefined;
+  FirstSeenDateTime?: Date | undefined;
+  LastSeenDateTime?: Date | undefined;
+  InboxCount?: number | undefined;
+  SpamCount?: number | undefined;
+  ReadRate?: number | undefined;
+  DeleteRate?: number | undefined;
+  ReadDeleteRate?: number | undefined;
+  ProjectedVolume?: number | undefined;
+  Esps?: string[] | undefined;
 }
 export interface GetDomainDeliverabilityCampaignResponse {
   DomainDeliverabilityCampaign: DomainDeliverabilityCampaign;
@@ -1145,28 +1145,28 @@ export interface GetDomainStatisticsReportRequest {
   EndDate: Date;
 }
 export interface VolumeStatistics {
-  InboxRawCount?: number;
-  SpamRawCount?: number;
-  ProjectedInbox?: number;
-  ProjectedSpam?: number;
+  InboxRawCount?: number | undefined;
+  SpamRawCount?: number | undefined;
+  ProjectedInbox?: number | undefined;
+  ProjectedSpam?: number | undefined;
 }
 export interface DomainIspPlacement {
-  IspName?: string;
-  InboxRawCount?: number;
-  SpamRawCount?: number;
-  InboxPercentage?: number;
-  SpamPercentage?: number;
+  IspName?: string | undefined;
+  InboxRawCount?: number | undefined;
+  SpamRawCount?: number | undefined;
+  InboxPercentage?: number | undefined;
+  SpamPercentage?: number | undefined;
 }
 export type DomainIspPlacements = DomainIspPlacement[];
 export interface OverallVolume {
-  VolumeStatistics?: VolumeStatistics;
-  ReadRatePercent?: number;
-  DomainIspPlacements?: DomainIspPlacement[];
+  VolumeStatistics?: VolumeStatistics | undefined;
+  ReadRatePercent?: number | undefined;
+  DomainIspPlacements?: DomainIspPlacement[] | undefined;
 }
 export interface DailyVolume {
-  StartDate?: Date;
-  VolumeStatistics?: VolumeStatistics;
-  DomainIspPlacements?: DomainIspPlacement[];
+  StartDate?: Date | undefined;
+  VolumeStatistics?: VolumeStatistics | undefined;
+  DomainIspPlacements?: DomainIspPlacement[] | undefined;
 }
 export type DailyVolumes = DailyVolume[];
 export interface GetDomainStatisticsReportResponse {
@@ -1178,22 +1178,22 @@ export interface GetEmailAddressInsightsRequest {
 }
 export type EmailAddressInsightsConfidenceVerdict = "LOW" | "MEDIUM" | "HIGH" | (string & {});
 export interface EmailAddressInsightsVerdict {
-  ConfidenceVerdict?: EmailAddressInsightsConfidenceVerdict;
+  ConfidenceVerdict?: EmailAddressInsightsConfidenceVerdict | undefined;
 }
 export interface EmailAddressInsightsMailboxEvaluations {
-  HasValidSyntax?: EmailAddressInsightsVerdict;
-  HasValidDnsRecords?: EmailAddressInsightsVerdict;
-  MailboxExists?: EmailAddressInsightsVerdict;
-  IsRoleAddress?: EmailAddressInsightsVerdict;
-  IsDisposable?: EmailAddressInsightsVerdict;
-  IsRandomInput?: EmailAddressInsightsVerdict;
+  HasValidSyntax?: EmailAddressInsightsVerdict | undefined;
+  HasValidDnsRecords?: EmailAddressInsightsVerdict | undefined;
+  MailboxExists?: EmailAddressInsightsVerdict | undefined;
+  IsRoleAddress?: EmailAddressInsightsVerdict | undefined;
+  IsDisposable?: EmailAddressInsightsVerdict | undefined;
+  IsRandomInput?: EmailAddressInsightsVerdict | undefined;
 }
 export interface MailboxValidation {
-  IsValid?: EmailAddressInsightsVerdict;
-  Evaluations?: EmailAddressInsightsMailboxEvaluations;
+  IsValid?: EmailAddressInsightsVerdict | undefined;
+  Evaluations?: EmailAddressInsightsMailboxEvaluations | undefined;
 }
 export interface GetEmailAddressInsightsResponse {
-  MailboxValidation?: MailboxValidation;
+  MailboxValidation?: MailboxValidation | undefined;
 }
 export interface GetEmailIdentityRequest {
   EmailIdentity: string;
@@ -1207,9 +1207,9 @@ export type MailFromDomainStatus =
   | (string & {});
 export type BehaviorOnMxFailure = "USE_DEFAULT_VALUE" | "REJECT_MESSAGE" | (string & {});
 export interface MailFromAttributes {
-  MailFromDomain?: string;
-  MailFromDomainStatus?: MailFromDomainStatus;
-  BehaviorOnMxFailure?: BehaviorOnMxFailure;
+  MailFromDomain?: string | undefined;
+  MailFromDomainStatus?: MailFromDomainStatus | undefined;
+  BehaviorOnMxFailure?: BehaviorOnMxFailure | undefined;
 }
 export type PolicyMap = { [key: string]: string | undefined };
 export type VerificationStatus =
@@ -1235,33 +1235,33 @@ export type PrimaryNameServer = string;
 export type AdminEmail = string;
 export type SerialNumber = number;
 export interface SOARecord {
-  PrimaryNameServer?: string;
-  AdminEmail?: string;
-  SerialNumber?: number;
+  PrimaryNameServer?: string | undefined;
+  AdminEmail?: string | undefined;
+  SerialNumber?: number | undefined;
 }
 export interface VerificationInfo {
-  LastCheckedTimestamp?: Date;
-  LastSuccessTimestamp?: Date;
-  ErrorType?: VerificationError;
-  SOARecord?: SOARecord;
+  LastCheckedTimestamp?: Date | undefined;
+  LastSuccessTimestamp?: Date | undefined;
+  ErrorType?: VerificationError | undefined;
+  SOARecord?: SOARecord | undefined;
 }
 export interface GetEmailIdentityResponse {
-  IdentityType?: IdentityType;
-  FeedbackForwardingStatus?: boolean;
-  VerifiedForSendingStatus?: boolean;
-  DkimAttributes?: DkimAttributes;
-  MailFromAttributes?: MailFromAttributes;
-  Policies?: { [key: string]: string | undefined };
-  Tags?: Tag[];
-  ConfigurationSetName?: string;
-  VerificationStatus?: VerificationStatus;
-  VerificationInfo?: VerificationInfo;
+  IdentityType?: IdentityType | undefined;
+  FeedbackForwardingStatus?: boolean | undefined;
+  VerifiedForSendingStatus?: boolean | undefined;
+  DkimAttributes?: DkimAttributes | undefined;
+  MailFromAttributes?: MailFromAttributes | undefined;
+  Policies?: { [key: string]: string | undefined } | undefined;
+  Tags?: Tag[] | undefined;
+  ConfigurationSetName?: string | undefined;
+  VerificationStatus?: VerificationStatus | undefined;
+  VerificationInfo?: VerificationInfo | undefined;
 }
 export interface GetEmailIdentityPoliciesRequest {
   EmailIdentity: string;
 }
 export interface GetEmailIdentityPoliciesResponse {
-  Policies?: { [key: string]: string | undefined };
+  Policies?: { [key: string]: string | undefined } | undefined;
 }
 export interface GetEmailTemplateRequest {
   TemplateName: string;
@@ -1269,7 +1269,7 @@ export interface GetEmailTemplateRequest {
 export interface GetEmailTemplateResponse {
   TemplateName: string;
   TemplateContent: EmailTemplateContent;
-  Tags?: Tag[];
+  Tags?: Tag[] | undefined;
 }
 export interface GetExportJobRequest {
   JobId: string;
@@ -1285,40 +1285,40 @@ export type JobStatus =
 export type FailedRecordsS3Url = string;
 export type ErrorMessage = string;
 export interface FailureInfo {
-  FailedRecordsS3Url?: string;
-  ErrorMessage?: string;
+  FailedRecordsS3Url?: string | undefined;
+  ErrorMessage?: string | undefined;
 }
 export type ProcessedRecordsCount = number;
 export type ExportedRecordsCount = number;
 export interface ExportStatistics {
-  ProcessedRecordsCount?: number;
-  ExportedRecordsCount?: number;
+  ProcessedRecordsCount?: number | undefined;
+  ExportedRecordsCount?: number | undefined;
 }
 export interface GetExportJobResponse {
-  JobId?: string;
-  ExportSourceType?: ExportSourceType;
-  JobStatus?: JobStatus;
-  ExportDestination?: ExportDestination;
-  ExportDataSource?: ExportDataSource;
-  CreatedTimestamp?: Date;
-  CompletedTimestamp?: Date;
-  FailureInfo?: FailureInfo;
-  Statistics?: ExportStatistics;
+  JobId?: string | undefined;
+  ExportSourceType?: ExportSourceType | undefined;
+  JobStatus?: JobStatus | undefined;
+  ExportDestination?: ExportDestination | undefined;
+  ExportDataSource?: ExportDataSource | undefined;
+  CreatedTimestamp?: Date | undefined;
+  CompletedTimestamp?: Date | undefined;
+  FailureInfo?: FailureInfo | undefined;
+  Statistics?: ExportStatistics | undefined;
 }
 export interface GetImportJobRequest {
   JobId: string;
 }
 export type FailedRecordsCount = number;
 export interface GetImportJobResponse {
-  JobId?: string;
-  ImportDestination?: ImportDestination;
-  ImportDataSource?: ImportDataSource;
-  FailureInfo?: FailureInfo;
-  JobStatus?: JobStatus;
-  CreatedTimestamp?: Date;
-  CompletedTimestamp?: Date;
-  ProcessedRecordsCount?: number;
-  FailedRecordsCount?: number;
+  JobId?: string | undefined;
+  ImportDestination?: ImportDestination | undefined;
+  ImportDataSource?: ImportDataSource | undefined;
+  FailureInfo?: FailureInfo | undefined;
+  JobStatus?: JobStatus | undefined;
+  CreatedTimestamp?: Date | undefined;
+  CompletedTimestamp?: Date | undefined;
+  ProcessedRecordsCount?: number | undefined;
+  FailedRecordsCount?: number | undefined;
 }
 export type OutboundMessageId = string;
 export interface GetMessageInsightsRequest {
@@ -1335,38 +1335,38 @@ export type BounceType = "UNDETERMINED" | "TRANSIENT" | "PERMANENT" | (string & 
 export type BounceSubType = string;
 export type DiagnosticCode = string;
 export interface Bounce {
-  BounceType?: BounceType;
-  BounceSubType?: string;
-  DiagnosticCode?: string;
+  BounceType?: BounceType | undefined;
+  BounceSubType?: string | undefined;
+  DiagnosticCode?: string | undefined;
 }
 export type ComplaintSubType = string;
 export type ComplaintFeedbackType = string;
 export interface Complaint {
-  ComplaintSubType?: string;
-  ComplaintFeedbackType?: string;
+  ComplaintSubType?: string | undefined;
+  ComplaintFeedbackType?: string | undefined;
 }
 export interface EventDetails {
-  Bounce?: Bounce;
-  Complaint?: Complaint;
+  Bounce?: Bounce | undefined;
+  Complaint?: Complaint | undefined;
 }
 export interface InsightsEvent {
-  Timestamp?: Date;
-  Type?: EventType;
-  Details?: EventDetails;
+  Timestamp?: Date | undefined;
+  Type?: EventType | undefined;
+  Details?: EventDetails | undefined;
 }
 export type InsightsEvents = InsightsEvent[];
 export interface EmailInsights {
-  Destination?: string | redacted.Redacted<string>;
-  Isp?: string;
-  Events?: InsightsEvent[];
+  Destination?: string | redacted.Redacted<string> | undefined;
+  Isp?: string | undefined;
+  Events?: InsightsEvent[] | undefined;
 }
 export type EmailInsightsList = EmailInsights[];
 export interface GetMessageInsightsResponse {
-  MessageId?: string;
-  FromEmailAddress?: string | redacted.Redacted<string>;
-  Subject?: string | redacted.Redacted<string>;
-  EmailTags?: MessageTag[];
-  Insights?: EmailInsights[];
+  MessageId?: string | undefined;
+  FromEmailAddress?: string | redacted.Redacted<string> | undefined;
+  Subject?: string | redacted.Redacted<string> | undefined;
+  EmailTags?: MessageTag[] | undefined;
+  Insights?: EmailInsights[] | undefined;
 }
 export interface GetMultiRegionEndpointRequest {
   EndpointName: string;
@@ -1376,12 +1376,12 @@ export interface Route {
 }
 export type Routes = Route[];
 export interface GetMultiRegionEndpointResponse {
-  EndpointName?: string;
-  EndpointId?: string;
-  Routes?: Route[];
-  Status?: Status;
-  CreatedTimestamp?: Date;
-  LastUpdatedTimestamp?: Date;
+  EndpointName?: string | undefined;
+  EndpointId?: string | undefined;
+  Routes?: Route[] | undefined;
+  Status?: Status | undefined;
+  CreatedTimestamp?: Date | undefined;
+  LastUpdatedTimestamp?: Date | undefined;
 }
 export type ReputationEntityReference = string;
 export type ReputationEntityType = "RESOURCE" | (string & {});
@@ -1391,38 +1391,38 @@ export interface GetReputationEntityRequest {
 }
 export type StatusCause = string;
 export interface StatusRecord {
-  Status?: SendingStatus;
-  Cause?: string;
-  LastUpdatedTimestamp?: Date;
+  Status?: SendingStatus | undefined;
+  Cause?: string | undefined;
+  LastUpdatedTimestamp?: Date | undefined;
 }
 export type RecommendationImpact = "LOW" | "HIGH" | (string & {});
 export interface ReputationEntity {
-  ReputationEntityReference?: string;
-  ReputationEntityType?: ReputationEntityType;
-  ReputationManagementPolicy?: string;
-  CustomerManagedStatus?: StatusRecord;
-  AwsSesManagedStatus?: StatusRecord;
-  SendingStatusAggregate?: SendingStatus;
-  ReputationImpact?: RecommendationImpact;
+  ReputationEntityReference?: string | undefined;
+  ReputationEntityType?: ReputationEntityType | undefined;
+  ReputationManagementPolicy?: string | undefined;
+  CustomerManagedStatus?: StatusRecord | undefined;
+  AwsSesManagedStatus?: StatusRecord | undefined;
+  SendingStatusAggregate?: SendingStatus | undefined;
+  ReputationImpact?: RecommendationImpact | undefined;
 }
 export interface GetReputationEntityResponse {
-  ReputationEntity?: ReputationEntity;
+  ReputationEntity?: ReputationEntity | undefined;
 }
 export interface GetSuppressedDestinationRequest {
   EmailAddress: string;
-  TenantName?: string;
+  TenantName?: string | undefined;
 }
 export type FeedbackId = string;
 export interface SuppressedDestinationAttributes {
-  MessageId?: string;
-  FeedbackId?: string;
+  MessageId?: string | undefined;
+  FeedbackId?: string | undefined;
 }
 export interface SuppressedDestination {
   EmailAddress: string;
   Reason: SuppressionListReason;
   LastUpdateTime: Date;
-  Attributes?: SuppressedDestinationAttributes;
-  TenantName?: string;
+  Attributes?: SuppressedDestinationAttributes | undefined;
+  TenantName?: string | undefined;
 }
 export interface GetSuppressedDestinationResponse {
   SuppressedDestination: SuppressedDestination;
@@ -1431,115 +1431,115 @@ export interface GetTenantRequest {
   TenantName: string;
 }
 export interface Tenant {
-  TenantName?: string;
-  TenantId?: string;
-  TenantArn?: string;
-  CreatedTimestamp?: Date;
-  Tags?: Tag[];
-  SendingStatus?: SendingStatus;
-  SuppressionAttributes?: TenantSuppressionAttributes;
+  TenantName?: string | undefined;
+  TenantId?: string | undefined;
+  TenantArn?: string | undefined;
+  CreatedTimestamp?: Date | undefined;
+  Tags?: Tag[] | undefined;
+  SendingStatus?: SendingStatus | undefined;
+  SuppressionAttributes?: TenantSuppressionAttributes | undefined;
 }
 export interface GetTenantResponse {
-  Tenant?: Tenant;
+  Tenant?: Tenant | undefined;
 }
 export type ConfigurationSetFilterKey = "CONFIGURATION_SET_NAME_CONTAINS" | (string & {});
 export type ConfigurationSetFilterValue = string;
-export type ConfigurationSetFilter = { [key in ConfigurationSetFilterKey]?: string };
+export type ConfigurationSetFilter = { [key in ConfigurationSetFilterKey]?: string | undefined };
 export interface ListConfigurationSetsRequest {
-  Filter?: { [key: string]: string | undefined };
-  NextToken?: string;
-  PageSize?: number;
+  Filter?: { [key: string]: string | undefined } | undefined;
+  NextToken?: string | undefined;
+  PageSize?: number | undefined;
 }
 export type ConfigurationSetNameList = string[];
 export interface ListConfigurationSetsResponse {
-  ConfigurationSets?: string[];
-  NextToken?: string;
+  ConfigurationSets?: string[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListContactListsRequest {
-  PageSize?: number;
-  NextToken?: string;
+  PageSize?: number | undefined;
+  NextToken?: string | undefined;
 }
 export interface ContactList {
-  ContactListName?: string;
-  LastUpdatedTimestamp?: Date;
+  ContactListName?: string | undefined;
+  LastUpdatedTimestamp?: Date | undefined;
 }
 export type ListOfContactLists = ContactList[];
 export interface ListContactListsResponse {
-  ContactLists?: ContactList[];
-  NextToken?: string;
+  ContactLists?: ContactList[] | undefined;
+  NextToken?: string | undefined;
 }
 export type UseDefaultIfPreferenceUnavailable = boolean;
 export interface TopicFilter {
-  TopicName?: string;
-  UseDefaultIfPreferenceUnavailable?: boolean;
+  TopicName?: string | undefined;
+  UseDefaultIfPreferenceUnavailable?: boolean | undefined;
 }
 export interface ListContactsFilter {
-  FilteredStatus?: SubscriptionStatus;
-  TopicFilter?: TopicFilter;
+  FilteredStatus?: SubscriptionStatus | undefined;
+  TopicFilter?: TopicFilter | undefined;
 }
 export interface ListContactsRequest {
   ContactListName: string;
-  Filter?: ListContactsFilter;
-  PageSize?: number;
-  NextToken?: string;
+  Filter?: ListContactsFilter | undefined;
+  PageSize?: number | undefined;
+  NextToken?: string | undefined;
 }
 export interface Contact {
-  EmailAddress?: string;
-  TopicPreferences?: TopicPreference[];
-  TopicDefaultPreferences?: TopicPreference[];
-  UnsubscribeAll?: boolean;
-  LastUpdatedTimestamp?: Date;
+  EmailAddress?: string | undefined;
+  TopicPreferences?: TopicPreference[] | undefined;
+  TopicDefaultPreferences?: TopicPreference[] | undefined;
+  UnsubscribeAll?: boolean | undefined;
+  LastUpdatedTimestamp?: Date | undefined;
 }
 export type ListOfContacts = Contact[];
 export interface ListContactsResponse {
-  Contacts?: Contact[];
-  NextToken?: string;
+  Contacts?: Contact[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListCustomVerificationEmailTemplatesRequest {
-  NextToken?: string;
-  PageSize?: number;
+  NextToken?: string | undefined;
+  PageSize?: number | undefined;
 }
 export interface CustomVerificationEmailTemplateMetadata {
-  TemplateName?: string;
-  FromEmailAddress?: string;
-  TemplateSubject?: string;
-  SuccessRedirectionURL?: string;
-  FailureRedirectionURL?: string;
+  TemplateName?: string | undefined;
+  FromEmailAddress?: string | undefined;
+  TemplateSubject?: string | undefined;
+  SuccessRedirectionURL?: string | undefined;
+  FailureRedirectionURL?: string | undefined;
 }
 export type CustomVerificationEmailTemplatesList = CustomVerificationEmailTemplateMetadata[];
 export interface ListCustomVerificationEmailTemplatesResponse {
-  CustomVerificationEmailTemplates?: CustomVerificationEmailTemplateMetadata[];
-  NextToken?: string;
+  CustomVerificationEmailTemplates?: CustomVerificationEmailTemplateMetadata[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListDedicatedIpPoolsRequest {
-  NextToken?: string;
-  PageSize?: number;
+  NextToken?: string | undefined;
+  PageSize?: number | undefined;
 }
 export type ListOfDedicatedIpPools = string[];
 export interface ListDedicatedIpPoolsResponse {
-  DedicatedIpPools?: string[];
-  NextToken?: string;
+  DedicatedIpPools?: string[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListDeliverabilityTestReportsRequest {
-  NextToken?: string;
-  PageSize?: number;
+  NextToken?: string | undefined;
+  PageSize?: number | undefined;
 }
 export type DeliverabilityTestReports = DeliverabilityTestReport[];
 export interface ListDeliverabilityTestReportsResponse {
   DeliverabilityTestReports: DeliverabilityTestReport[];
-  NextToken?: string;
+  NextToken?: string | undefined;
 }
 export interface ListDomainDeliverabilityCampaignsRequest {
   StartDate: Date;
   EndDate: Date;
   SubscribedDomain: string;
-  NextToken?: string;
-  PageSize?: number;
+  NextToken?: string | undefined;
+  PageSize?: number | undefined;
 }
 export type DomainDeliverabilityCampaignList = DomainDeliverabilityCampaign[];
 export interface ListDomainDeliverabilityCampaignsResponse {
   DomainDeliverabilityCampaigns: DomainDeliverabilityCampaign[];
-  NextToken?: string;
+  NextToken?: string | undefined;
 }
 export type IdentityFilterKey =
   | "IDENTITY_NAME_CONTAINS"
@@ -1547,27 +1547,27 @@ export type IdentityFilterKey =
   | "VERIFICATION_STATUS"
   | (string & {});
 export type IdentityFilterValue = string;
-export type IdentityFilter = { [key in IdentityFilterKey]?: string };
+export type IdentityFilter = { [key in IdentityFilterKey]?: string | undefined };
 export interface ListEmailIdentitiesRequest {
-  Filter?: { [key: string]: string | undefined };
-  NextToken?: string;
-  PageSize?: number;
+  Filter?: { [key: string]: string | undefined } | undefined;
+  NextToken?: string | undefined;
+  PageSize?: number | undefined;
 }
 export interface IdentityInfo {
-  IdentityType?: IdentityType;
-  IdentityName?: string;
-  SendingEnabled?: boolean;
-  VerificationStatus?: VerificationStatus;
+  IdentityType?: IdentityType | undefined;
+  IdentityName?: string | undefined;
+  SendingEnabled?: boolean | undefined;
+  VerificationStatus?: VerificationStatus | undefined;
 }
 export type IdentityInfoList = IdentityInfo[];
 export interface ListEmailIdentitiesResponse {
-  EmailIdentities?: IdentityInfo[];
-  NextToken?: string;
+  EmailIdentities?: IdentityInfo[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListEmailIdentityCertificatesRequest {
   EmailIdentity: string;
-  NextToken?: string;
-  PageSize?: number;
+  NextToken?: string | undefined;
+  PageSize?: number | undefined;
 }
 export type IdentityCertificateStatus =
   | "PROVISIONING"
@@ -1577,85 +1577,85 @@ export type IdentityCertificateStatus =
   | "FAILED"
   | (string & {});
 export interface IdentityCertificate {
-  FromAddress?: string;
-  Status?: IdentityCertificateStatus;
-  CertificateArn?: string;
-  CertificateExpiryTime?: Date;
+  FromAddress?: string | undefined;
+  Status?: IdentityCertificateStatus | undefined;
+  CertificateArn?: string | undefined;
+  CertificateExpiryTime?: Date | undefined;
 }
 export type IdentityCertificateList = IdentityCertificate[];
 export interface ListEmailIdentityCertificatesResponse {
-  Certificates?: IdentityCertificate[];
-  NextToken?: string;
+  Certificates?: IdentityCertificate[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListEmailTemplatesRequest {
-  NextToken?: string;
-  PageSize?: number;
+  NextToken?: string | undefined;
+  PageSize?: number | undefined;
 }
 export interface EmailTemplateMetadata {
-  TemplateName?: string;
-  CreatedTimestamp?: Date;
+  TemplateName?: string | undefined;
+  CreatedTimestamp?: Date | undefined;
 }
 export type EmailTemplateMetadataList = EmailTemplateMetadata[];
 export interface ListEmailTemplatesResponse {
-  TemplatesMetadata?: EmailTemplateMetadata[];
-  NextToken?: string;
+  TemplatesMetadata?: EmailTemplateMetadata[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListExportJobsRequest {
-  NextToken?: string;
-  PageSize?: number;
-  ExportSourceType?: ExportSourceType;
-  JobStatus?: JobStatus;
+  NextToken?: string | undefined;
+  PageSize?: number | undefined;
+  ExportSourceType?: ExportSourceType | undefined;
+  JobStatus?: JobStatus | undefined;
 }
 export interface ExportJobSummary {
-  JobId?: string;
-  ExportSourceType?: ExportSourceType;
-  JobStatus?: JobStatus;
-  CreatedTimestamp?: Date;
-  CompletedTimestamp?: Date;
+  JobId?: string | undefined;
+  ExportSourceType?: ExportSourceType | undefined;
+  JobStatus?: JobStatus | undefined;
+  CreatedTimestamp?: Date | undefined;
+  CompletedTimestamp?: Date | undefined;
 }
 export type ExportJobSummaryList = ExportJobSummary[];
 export interface ListExportJobsResponse {
-  ExportJobs?: ExportJobSummary[];
-  NextToken?: string;
+  ExportJobs?: ExportJobSummary[] | undefined;
+  NextToken?: string | undefined;
 }
 export type ImportDestinationType = "SUPPRESSION_LIST" | "CONTACT_LIST" | (string & {});
 export interface ListImportJobsRequest {
-  ImportDestinationType?: ImportDestinationType;
-  NextToken?: string;
-  PageSize?: number;
+  ImportDestinationType?: ImportDestinationType | undefined;
+  NextToken?: string | undefined;
+  PageSize?: number | undefined;
 }
 export interface ImportJobSummary {
-  JobId?: string;
-  ImportDestination?: ImportDestination;
-  JobStatus?: JobStatus;
-  CreatedTimestamp?: Date;
-  ProcessedRecordsCount?: number;
-  FailedRecordsCount?: number;
+  JobId?: string | undefined;
+  ImportDestination?: ImportDestination | undefined;
+  JobStatus?: JobStatus | undefined;
+  CreatedTimestamp?: Date | undefined;
+  ProcessedRecordsCount?: number | undefined;
+  FailedRecordsCount?: number | undefined;
 }
 export type ImportJobSummaryList = ImportJobSummary[];
 export interface ListImportJobsResponse {
-  ImportJobs?: ImportJobSummary[];
-  NextToken?: string;
+  ImportJobs?: ImportJobSummary[] | undefined;
+  NextToken?: string | undefined;
 }
 export type NextTokenV2 = string;
 export type PageSizeV2 = number;
 export interface ListMultiRegionEndpointsRequest {
-  NextToken?: string;
-  PageSize?: number;
+  NextToken?: string | undefined;
+  PageSize?: number | undefined;
 }
 export type Regions = string[];
 export interface MultiRegionEndpoint {
-  EndpointName?: string;
-  Status?: Status;
-  EndpointId?: string;
-  Regions?: string[];
-  CreatedTimestamp?: Date;
-  LastUpdatedTimestamp?: Date;
+  EndpointName?: string | undefined;
+  Status?: Status | undefined;
+  EndpointId?: string | undefined;
+  Regions?: string[] | undefined;
+  CreatedTimestamp?: Date | undefined;
+  LastUpdatedTimestamp?: Date | undefined;
 }
 export type MultiRegionEndpoints = MultiRegionEndpoint[];
 export interface ListMultiRegionEndpointsResponse {
-  MultiRegionEndpoints?: MultiRegionEndpoint[];
-  NextToken?: string;
+  MultiRegionEndpoints?: MultiRegionEndpoint[] | undefined;
+  NextToken?: string | undefined;
 }
 export type ListRecommendationsFilterKey =
   | "TYPE"
@@ -1664,11 +1664,13 @@ export type ListRecommendationsFilterKey =
   | "RESOURCE_ARN"
   | (string & {});
 export type ListRecommendationFilterValue = string;
-export type ListRecommendationsFilter = { [key in ListRecommendationsFilterKey]?: string };
+export type ListRecommendationsFilter = {
+  [key in ListRecommendationsFilterKey]?: string | undefined;
+};
 export interface ListRecommendationsRequest {
-  Filter?: { [key: string]: string | undefined };
-  NextToken?: string;
-  PageSize?: number;
+  Filter?: { [key: string]: string | undefined } | undefined;
+  NextToken?: string | undefined;
+  PageSize?: number | undefined;
 }
 export type RecommendationType =
   | "DKIM"
@@ -1683,18 +1685,18 @@ export type RecommendationType =
 export type RecommendationDescription = string;
 export type RecommendationStatus = "OPEN" | "FIXED" | (string & {});
 export interface Recommendation {
-  ResourceArn?: string;
-  Type?: RecommendationType;
-  Description?: string;
-  Status?: RecommendationStatus;
-  CreatedTimestamp?: Date;
-  LastUpdatedTimestamp?: Date;
-  Impact?: RecommendationImpact;
+  ResourceArn?: string | undefined;
+  Type?: RecommendationType | undefined;
+  Description?: string | undefined;
+  Status?: RecommendationStatus | undefined;
+  CreatedTimestamp?: Date | undefined;
+  LastUpdatedTimestamp?: Date | undefined;
+  Impact?: RecommendationImpact | undefined;
 }
 export type RecommendationsList = Recommendation[];
 export interface ListRecommendationsResponse {
-  Recommendations?: Recommendation[];
-  NextToken?: string;
+  Recommendations?: Recommendation[] | undefined;
+  NextToken?: string | undefined;
 }
 export type ReputationEntityFilterKey =
   | "ENTITY_TYPE"
@@ -1703,40 +1705,40 @@ export type ReputationEntityFilterKey =
   | "ENTITY_REFERENCE_PREFIX"
   | (string & {});
 export type ReputationEntityFilterValue = string;
-export type ReputationEntityFilter = { [key in ReputationEntityFilterKey]?: string };
+export type ReputationEntityFilter = { [key in ReputationEntityFilterKey]?: string | undefined };
 export interface ListReputationEntitiesRequest {
-  Filter?: { [key: string]: string | undefined };
-  NextToken?: string;
-  PageSize?: number;
+  Filter?: { [key: string]: string | undefined } | undefined;
+  NextToken?: string | undefined;
+  PageSize?: number | undefined;
 }
 export type ReputationEntitiesList = ReputationEntity[];
 export interface ListReputationEntitiesResponse {
-  ReputationEntities?: ReputationEntity[];
-  NextToken?: string;
+  ReputationEntities?: ReputationEntity[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListResourceTenantsRequest {
   ResourceArn: string;
-  PageSize?: number;
-  NextToken?: string;
+  PageSize?: number | undefined;
+  NextToken?: string | undefined;
 }
 export interface ResourceTenantMetadata {
-  TenantName?: string;
-  TenantId?: string;
-  ResourceArn?: string;
-  AssociatedTimestamp?: Date;
+  TenantName?: string | undefined;
+  TenantId?: string | undefined;
+  ResourceArn?: string | undefined;
+  AssociatedTimestamp?: Date | undefined;
 }
 export type ResourceTenantMetadataList = ResourceTenantMetadata[];
 export interface ListResourceTenantsResponse {
-  ResourceTenants?: ResourceTenantMetadata[];
-  NextToken?: string;
+  ResourceTenants?: ResourceTenantMetadata[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListSuppressedDestinationsRequest {
-  TenantName?: string;
-  Reasons?: SuppressionListReason[];
-  StartDate?: Date;
-  EndDate?: Date;
-  NextToken?: string;
-  PageSize?: number;
+  TenantName?: string | undefined;
+  Reasons?: SuppressionListReason[] | undefined;
+  StartDate?: Date | undefined;
+  EndDate?: Date | undefined;
+  NextToken?: string | undefined;
+  PageSize?: number | undefined;
 }
 export interface SuppressedDestinationSummary {
   EmailAddress: string;
@@ -1745,8 +1747,8 @@ export interface SuppressedDestinationSummary {
 }
 export type SuppressedDestinationSummaries = SuppressedDestinationSummary[];
 export interface ListSuppressedDestinationsResponse {
-  SuppressedDestinationSummaries?: SuppressedDestinationSummary[];
-  NextToken?: string;
+  SuppressedDestinationSummaries?: SuppressedDestinationSummary[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListTagsForResourceRequest {
   ResourceArn: string;
@@ -1756,12 +1758,14 @@ export interface ListTagsForResourceResponse {
 }
 export type ListTenantResourcesFilterKey = "RESOURCE_TYPE" | (string & {});
 export type ListTenantResourcesFilterValue = string;
-export type ListTenantResourcesFilter = { [key in ListTenantResourcesFilterKey]?: string };
+export type ListTenantResourcesFilter = {
+  [key in ListTenantResourcesFilterKey]?: string | undefined;
+};
 export interface ListTenantResourcesRequest {
   TenantName: string;
-  Filter?: { [key: string]: string | undefined };
-  PageSize?: number;
-  NextToken?: string;
+  Filter?: { [key: string]: string | undefined } | undefined;
+  PageSize?: number | undefined;
+  NextToken?: string | undefined;
 }
 export type ResourceType =
   | "EMAIL_IDENTITY"
@@ -1769,46 +1773,46 @@ export type ResourceType =
   | "EMAIL_TEMPLATE"
   | (string & {});
 export interface TenantResource {
-  ResourceType?: ResourceType;
-  ResourceArn?: string;
+  ResourceType?: ResourceType | undefined;
+  ResourceArn?: string | undefined;
 }
 export type TenantResourceList = TenantResource[];
 export interface ListTenantResourcesResponse {
-  TenantResources?: TenantResource[];
-  NextToken?: string;
+  TenantResources?: TenantResource[] | undefined;
+  NextToken?: string | undefined;
 }
 export type ListTenantsFilterKey = "TENANT_NAME_CONTAINS" | "SENDING_STATUS" | (string & {});
 export type ListTenantsFilterValue = string;
-export type ListTenantsFilter = { [key in ListTenantsFilterKey]?: string };
+export type ListTenantsFilter = { [key in ListTenantsFilterKey]?: string | undefined };
 export interface ListTenantsRequest {
-  Filter?: { [key: string]: string | undefined };
-  NextToken?: string;
-  PageSize?: number;
+  Filter?: { [key: string]: string | undefined } | undefined;
+  NextToken?: string | undefined;
+  PageSize?: number | undefined;
 }
 export interface TenantInfo {
-  TenantName?: string;
-  TenantId?: string;
-  TenantArn?: string;
-  CreatedTimestamp?: Date;
-  SendingStatus?: SendingStatus;
+  TenantName?: string | undefined;
+  TenantId?: string | undefined;
+  TenantArn?: string | undefined;
+  CreatedTimestamp?: Date | undefined;
+  SendingStatus?: SendingStatus | undefined;
 }
 export type TenantInfoList = TenantInfo[];
 export interface ListTenantsResponse {
-  Tenants?: TenantInfo[];
-  NextToken?: string;
+  Tenants?: TenantInfo[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface PutAccountDedicatedIpWarmupAttributesRequest {
-  AutoWarmupEnabled?: boolean;
+  AutoWarmupEnabled?: boolean | undefined;
 }
 export interface PutAccountDedicatedIpWarmupAttributesResponse {}
 export type EnabledWrapper = boolean;
 export interface PutAccountDetailsRequest {
   MailType: MailType;
   WebsiteURL: string | redacted.Redacted<string>;
-  ContactLanguage?: ContactLanguage;
-  UseCaseDescription?: string | redacted.Redacted<string>;
-  AdditionalContactEmailAddresses?: (string | redacted.Redacted<string>)[];
-  ProductionAccessEnabled?: boolean;
+  ContactLanguage?: ContactLanguage | undefined;
+  UseCaseDescription?: string | redacted.Redacted<string> | undefined;
+  AdditionalContactEmailAddresses?: (string | redacted.Redacted<string>)[] | undefined;
+  ProductionAccessEnabled?: boolean | undefined;
 }
 export interface PutAccountDetailsResponse {}
 export interface PutAccountPricingAttributesRequest {
@@ -1816,12 +1820,12 @@ export interface PutAccountPricingAttributesRequest {
 }
 export interface PutAccountPricingAttributesResponse {}
 export interface PutAccountSendingAttributesRequest {
-  SendingEnabled?: boolean;
+  SendingEnabled?: boolean | undefined;
 }
 export interface PutAccountSendingAttributesResponse {}
 export interface PutAccountSuppressionAttributesRequest {
-  SuppressedReasons?: SuppressionListReason[];
-  ValidationAttributes?: SuppressionValidationAttributes;
+  SuppressedReasons?: SuppressionListReason[] | undefined;
+  ValidationAttributes?: SuppressionValidationAttributes | undefined;
 }
 export interface PutAccountSuppressionAttributesResponse {}
 export interface PutAccountVdmAttributesRequest {
@@ -1830,43 +1834,43 @@ export interface PutAccountVdmAttributesRequest {
 export interface PutAccountVdmAttributesResponse {}
 export interface PutConfigurationSetArchivingOptionsRequest {
   ConfigurationSetName: string;
-  ArchiveArn?: string;
+  ArchiveArn?: string | undefined;
 }
 export interface PutConfigurationSetArchivingOptionsResponse {}
 export type SendingPoolName = string;
 export interface PutConfigurationSetDeliveryOptionsRequest {
   ConfigurationSetName: string;
-  TlsPolicy?: TlsPolicy;
-  SendingPoolName?: string;
-  MaxDeliverySeconds?: number;
+  TlsPolicy?: TlsPolicy | undefined;
+  SendingPoolName?: string | undefined;
+  MaxDeliverySeconds?: number | undefined;
 }
 export interface PutConfigurationSetDeliveryOptionsResponse {}
 export interface PutConfigurationSetReputationOptionsRequest {
   ConfigurationSetName: string;
-  ReputationMetricsEnabled?: boolean;
+  ReputationMetricsEnabled?: boolean | undefined;
 }
 export interface PutConfigurationSetReputationOptionsResponse {}
 export interface PutConfigurationSetSendingOptionsRequest {
   ConfigurationSetName: string;
-  SendingEnabled?: boolean;
+  SendingEnabled?: boolean | undefined;
 }
 export interface PutConfigurationSetSendingOptionsResponse {}
 export interface PutConfigurationSetSuppressionOptionsRequest {
   ConfigurationSetName: string;
-  SuppressionScope?: SuppressionListScope;
-  SuppressedReasons?: SuppressionListReason[];
-  ValidationOptions?: SuppressionValidationOptions;
+  SuppressionScope?: SuppressionListScope | undefined;
+  SuppressedReasons?: SuppressionListReason[] | undefined;
+  ValidationOptions?: SuppressionValidationOptions | undefined;
 }
 export interface PutConfigurationSetSuppressionOptionsResponse {}
 export interface PutConfigurationSetTrackingOptionsRequest {
   ConfigurationSetName: string;
-  CustomRedirectDomain?: string;
-  HttpsPolicy?: HttpsPolicy;
+  CustomRedirectDomain?: string | undefined;
+  HttpsPolicy?: HttpsPolicy | undefined;
 }
 export interface PutConfigurationSetTrackingOptionsResponse {}
 export interface PutConfigurationSetVdmOptionsRequest {
   ConfigurationSetName: string;
-  VdmOptions?: VdmOptions;
+  VdmOptions?: VdmOptions | undefined;
 }
 export interface PutConfigurationSetVdmOptionsResponse {}
 export interface PutDedicatedIpInPoolRequest {
@@ -1886,94 +1890,94 @@ export interface PutDedicatedIpWarmupAttributesRequest {
 export interface PutDedicatedIpWarmupAttributesResponse {}
 export interface PutDeliverabilityDashboardOptionRequest {
   DashboardEnabled: boolean;
-  SubscribedDomains?: DomainDeliverabilityTrackingOption[];
+  SubscribedDomains?: DomainDeliverabilityTrackingOption[] | undefined;
 }
 export interface PutDeliverabilityDashboardOptionResponse {}
 export interface PutEmailIdentityConfigurationSetAttributesRequest {
   EmailIdentity: string;
-  ConfigurationSetName?: string;
+  ConfigurationSetName?: string | undefined;
 }
 export interface PutEmailIdentityConfigurationSetAttributesResponse {}
 export interface PutEmailIdentityDkimAttributesRequest {
   EmailIdentity: string;
-  SigningEnabled?: boolean;
+  SigningEnabled?: boolean | undefined;
 }
 export interface PutEmailIdentityDkimAttributesResponse {}
 export interface PutEmailIdentityDkimSigningAttributesRequest {
   EmailIdentity: string;
   SigningAttributesOrigin: DkimSigningAttributesOrigin;
-  SigningAttributes?: DkimSigningAttributes;
+  SigningAttributes?: DkimSigningAttributes | undefined;
 }
 export interface PutEmailIdentityDkimSigningAttributesResponse {
-  DkimStatus?: DkimStatus;
-  DkimTokens?: string[];
-  SigningHostedZone?: string;
+  DkimStatus?: DkimStatus | undefined;
+  DkimTokens?: string[] | undefined;
+  SigningHostedZone?: string | undefined;
 }
 export interface PutEmailIdentityFeedbackAttributesRequest {
   EmailIdentity: string;
-  EmailForwardingEnabled?: boolean;
+  EmailForwardingEnabled?: boolean | undefined;
 }
 export interface PutEmailIdentityFeedbackAttributesResponse {}
 export interface PutEmailIdentityMailFromAttributesRequest {
   EmailIdentity: string;
-  MailFromDomain?: string;
-  BehaviorOnMxFailure?: BehaviorOnMxFailure;
+  MailFromDomain?: string | undefined;
+  BehaviorOnMxFailure?: BehaviorOnMxFailure | undefined;
 }
 export interface PutEmailIdentityMailFromAttributesResponse {}
 export interface PutSuppressedDestinationRequest {
   EmailAddress: string;
   Reason: SuppressionListReason;
-  TenantName?: string;
+  TenantName?: string | undefined;
 }
 export interface PutSuppressedDestinationResponse {}
 export interface PutTenantSuppressionAttributesRequest {
   TenantName: string;
-  SuppressedReasons?: SuppressionListReason[];
-  SuppressionScope?: SuppressionListScope;
+  SuppressedReasons?: SuppressionListReason[] | undefined;
+  SuppressionScope?: SuppressionListScope | undefined;
 }
 export interface PutTenantSuppressionAttributesResponse {}
 export type EmailAddressList = string[];
 export interface BulkEmailContent {
-  Template?: Template;
+  Template?: Template | undefined;
 }
 export interface Destination {
-  ToAddresses?: string[];
-  CcAddresses?: string[];
-  BccAddresses?: string[];
+  ToAddresses?: string[] | undefined;
+  CcAddresses?: string[] | undefined;
+  BccAddresses?: string[] | undefined;
 }
 export interface ReplacementTemplate {
-  ReplacementTemplateData?: string;
+  ReplacementTemplateData?: string | undefined;
 }
 export interface ReplacementEmailContent {
-  ReplacementTemplate?: ReplacementTemplate;
+  ReplacementTemplate?: ReplacementTemplate | undefined;
 }
 export interface BulkEmailEntry {
   Destination: Destination;
-  ReplacementTags?: MessageTag[];
-  ReplacementEmailContent?: ReplacementEmailContent;
-  ReplacementHeaders?: MessageHeader[];
+  ReplacementTags?: MessageTag[] | undefined;
+  ReplacementEmailContent?: ReplacementEmailContent | undefined;
+  ReplacementHeaders?: MessageHeader[] | undefined;
 }
 export type BulkEmailEntryList = BulkEmailEntry[];
 export interface TrackingConfigurationOverrides {
-  OpenTrackingEnabled?: FeatureStatus;
-  ClickTrackingEnabled?: FeatureStatus;
+  OpenTrackingEnabled?: FeatureStatus | undefined;
+  ClickTrackingEnabled?: FeatureStatus | undefined;
 }
 export interface ConfigurationOverrides {
-  Tracking?: TrackingConfigurationOverrides;
+  Tracking?: TrackingConfigurationOverrides | undefined;
 }
 export interface SendBulkEmailRequest {
-  FromEmailAddress?: string;
-  FromEmailAddressIdentityArn?: string;
-  ReplyToAddresses?: string[];
-  FeedbackForwardingEmailAddress?: string;
-  FeedbackForwardingEmailAddressIdentityArn?: string;
-  DefaultEmailTags?: MessageTag[];
+  FromEmailAddress?: string | undefined;
+  FromEmailAddressIdentityArn?: string | undefined;
+  ReplyToAddresses?: string[] | undefined;
+  FeedbackForwardingEmailAddress?: string | undefined;
+  FeedbackForwardingEmailAddressIdentityArn?: string | undefined;
+  DefaultEmailTags?: MessageTag[] | undefined;
   DefaultContent: BulkEmailContent;
   BulkEmailEntries: BulkEmailEntry[];
-  ConfigurationSetName?: string;
-  EndpointId?: string;
-  TenantName?: string;
-  ConfigurationOverrides?: ConfigurationOverrides;
+  ConfigurationSetName?: string | undefined;
+  EndpointId?: string | undefined;
+  TenantName?: string | undefined;
+  ConfigurationOverrides?: ConfigurationOverrides | undefined;
 }
 export type BulkEmailStatus =
   | "SUCCESS"
@@ -1992,9 +1996,9 @@ export type BulkEmailStatus =
   | "FAILED"
   | (string & {});
 export interface BulkEmailEntryResult {
-  Status?: BulkEmailStatus;
-  Error?: string;
-  MessageId?: string;
+  Status?: BulkEmailStatus | undefined;
+  Error?: string | undefined;
+  MessageId?: string | undefined;
 }
 export type BulkEmailEntryResultList = BulkEmailEntryResult[];
 export interface SendBulkEmailResponse {
@@ -2003,32 +2007,32 @@ export interface SendBulkEmailResponse {
 export interface SendCustomVerificationEmailRequest {
   EmailAddress: string;
   TemplateName: string;
-  ConfigurationSetName?: string;
+  ConfigurationSetName?: string | undefined;
 }
 export interface SendCustomVerificationEmailResponse {
-  MessageId?: string;
+  MessageId?: string | undefined;
 }
 export interface ListManagementOptions {
   ContactListName: string;
-  TopicName?: string;
+  TopicName?: string | undefined;
 }
 export interface SendEmailRequest {
-  FromEmailAddress?: string;
-  FromEmailAddressIdentityArn?: string;
-  Destination?: Destination;
-  ReplyToAddresses?: string[];
-  FeedbackForwardingEmailAddress?: string;
-  FeedbackForwardingEmailAddressIdentityArn?: string;
+  FromEmailAddress?: string | undefined;
+  FromEmailAddressIdentityArn?: string | undefined;
+  Destination?: Destination | undefined;
+  ReplyToAddresses?: string[] | undefined;
+  FeedbackForwardingEmailAddress?: string | undefined;
+  FeedbackForwardingEmailAddressIdentityArn?: string | undefined;
   Content: EmailContent;
-  EmailTags?: MessageTag[];
-  ConfigurationSetName?: string;
-  EndpointId?: string;
-  TenantName?: string;
-  ListManagementOptions?: ListManagementOptions;
-  ConfigurationOverrides?: ConfigurationOverrides;
+  EmailTags?: MessageTag[] | undefined;
+  ConfigurationSetName?: string | undefined;
+  EndpointId?: string | undefined;
+  TenantName?: string | undefined;
+  ListManagementOptions?: ListManagementOptions | undefined;
+  ConfigurationOverrides?: ConfigurationOverrides | undefined;
 }
 export interface SendEmailResponse {
-  MessageId?: string;
+  MessageId?: string | undefined;
 }
 export interface TagResourceRequest {
   ResourceArn: string;
@@ -2051,7 +2055,7 @@ export interface UntagResourceRequest {
 export interface UntagResourceResponse {}
 export interface UpdateConfigurationSetRequest {
   ConfigurationSetName: string;
-  MessageSecurityOptions?: MessageSecurityOptions;
+  MessageSecurityOptions?: MessageSecurityOptions | undefined;
 }
 export interface UpdateConfigurationSetResponse {}
 export interface UpdateConfigurationSetEventDestinationRequest {
@@ -2063,15 +2067,15 @@ export interface UpdateConfigurationSetEventDestinationResponse {}
 export interface UpdateContactRequest {
   ContactListName: string;
   EmailAddress: string;
-  TopicPreferences?: TopicPreference[];
-  UnsubscribeAll?: boolean;
-  AttributesData?: string;
+  TopicPreferences?: TopicPreference[] | undefined;
+  UnsubscribeAll?: boolean | undefined;
+  AttributesData?: string | undefined;
 }
 export interface UpdateContactResponse {}
 export interface UpdateContactListRequest {
   ContactListName: string;
-  Topics?: Topic[];
-  Description?: string;
+  Topics?: Topic[] | undefined;
+  Description?: string | undefined;
 }
 export interface UpdateContactListResponse {}
 export interface UpdateCustomVerificationEmailTemplateRequest {
@@ -2614,6 +2618,14 @@ export type CreateExportJobError =
   | CommonErrors;
 /**
  * Creates an export job for a data source and destination.
+ *
+ * Export jobs run asynchronously. This operation returns a `JobId`. Call
+ * `GetExportJob` with that ID until `JobStatus` is
+ * `COMPLETED`, `FAILED`, or `CANCELLED`. When the
+ * status is `COMPLETED`, download the export file from the pre-signed URL in
+ * `ExportDestination.S3Url`. When the status is `FAILED`, see
+ * `FailureInfo`. To store a copy in your own bucket, upload the downloaded
+ * file to your bucket. Do not include `S3Url` in the request.
  *
  * You can execute this operation no more than once per second.
  */
@@ -3682,6 +3694,10 @@ export type GetExportJobError =
   | CommonErrors;
 /**
  * Provides information about an export job.
+ *
+ * When the job status is `COMPLETED`, the response includes a pre-signed
+ * URL in `ExportDestination.S3Url` that you use to download the export
+ * file.
  */
 export const getExportJob: API.OperationMethod<
   GetExportJobRequest & RegionInput,

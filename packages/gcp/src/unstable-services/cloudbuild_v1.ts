@@ -86,95 +86,89 @@ export class NotFound
 export type ApprovalResultDecisionEnum = "DECISION_UNSPECIFIED" | "APPROVED" | "REJECTED";
 /** ApprovalResult describes the decision and associated metadata of a manual approval of a build. */
 export interface ApprovalResult {
-  /** Output only. Email of the user that called the ApproveBuild API to approve or reject a build at the time that the API was called. */
-  approverAccount?: string;
-  /** Optional. An optional comment for this manual approval result. */
-  comment?: string;
-  /** Optional. An optional URL tied to this manual approval result. This field is essentially the same as comment, except that it will be rendered by the UI differently. An example use case is a link to an external job that approved this Build. */
-  url?: string;
   /** Required. The decision of this manual approval. */
-  decision?: ApprovalResultDecisionEnum | (string & {});
+  decision?: ApprovalResultDecisionEnum | (string & {}) | undefined;
+  /** Output only. Email of the user that called the ApproveBuild API to approve or reject a build at the time that the API was called. */
+  approverAccount?: string | undefined;
+  /** Optional. An optional URL tied to this manual approval result. This field is essentially the same as comment, except that it will be rendered by the UI differently. An example use case is a link to an external job that approved this Build. */
+  url?: string | undefined;
+  /** Optional. An optional comment for this manual approval result. */
+  comment?: string | undefined;
   /** Output only. The time when the approval decision was made. */
-  approvalTime?: string;
+  approvalTime?: string | undefined;
 }
 /** Request to approve or reject a pending build. */
 export interface ApproveBuildRequest {
   /** Approval decision and metadata. */
-  approvalResult?: ApprovalResult;
+  approvalResult?: ApprovalResult | undefined;
 }
-export interface ApproveProjectsBuildsRequest {
+export interface ApproveProjectsBuildsRequest extends ApproveBuildRequest {
   /** Required. Name of the target build. For example: "projects/{$project_id}/builds/{$build_id}" */
   name: string;
-  /** Request body */
-  body?: ApproveBuildRequest;
 }
 export type DocumentMap = { [key: string]: unknown | undefined };
 export type DocumentMapList = Array<DocumentMap>;
 /** The `Status` type defines a logical error model that is suitable for different programming environments, including REST APIs and RPC APIs. It is used by [gRPC](https://github.com/grpc). Each `Status` message contains three pieces of data: error code, error message, and error details. You can find out more about this error model and how to work with it in the [API Design Guide](https://cloud.google.com/apis/design/errors). */
 export interface Status {
-  /** The status code, which should be an enum value of google.rpc.Code. */
-  code?: number;
-  /** A developer-facing error message, which should be in English. Any user-facing error message should be localized and sent in the google.rpc.Status.details field, or localized by the client. */
-  message?: string;
   /** A list of messages that carry the error details. There is a common set of message types for APIs to use. */
-  details?: DocumentMapList;
+  details?: DocumentMapList | undefined;
+  /** The status code, which should be an enum value of google.rpc.Code. */
+  code?: number | undefined;
+  /** A developer-facing error message, which should be in English. Any user-facing error message should be localized and sent in the google.rpc.Status.details field, or localized by the client. */
+  message?: string | undefined;
 }
 /** This resource represents a long-running operation that is the result of a network API call. */
 export interface Operation {
-  /** The normal, successful response of the operation. If the original method returns no data on success, such as `Delete`, the response is `google.protobuf.Empty`. If the original method is standard `Get`/`Create`/`Update`, the response should be the resource. For other methods, the response should have the type `XxxResponse`, where `Xxx` is the original method name. For example, if the original method name is `TakeSnapshot()`, the inferred response type is `TakeSnapshotResponse`. */
-  response?: DocumentMap;
   /** If the value is `false`, it means the operation is still in progress. If `true`, the operation is completed, and either `error` or `response` is available. */
-  done?: boolean;
-  /** The server-assigned name, which is only unique within the same service that originally returns it. If you use the default HTTP mapping, the `name` should be a resource name ending with `operations/{unique_id}`. */
-  name?: string;
+  done?: boolean | undefined;
+  /** The normal, successful response of the operation. If the original method returns no data on success, such as `Delete`, the response is `google.protobuf.Empty`. If the original method is standard `Get`/`Create`/`Update`, the response should be the resource. For other methods, the response should have the type `XxxResponse`, where `Xxx` is the original method name. For example, if the original method name is `TakeSnapshot()`, the inferred response type is `TakeSnapshotResponse`. */
+  response?: DocumentMap | undefined;
   /** The error result of the operation in case of failure or cancellation. */
-  error?: Status;
+  error?: Status | undefined;
+  /** The server-assigned name, which is only unique within the same service that originally returns it. If you use the default HTTP mapping, the `name` should be a resource name ending with `operations/{unique_id}`. */
+  name?: string | undefined;
   /** Service-specific metadata associated with the operation. It typically contains progress information and common metadata such as create time. Some services might not provide such metadata. Any method that returns a long-running operation should document the metadata type, if any. */
-  metadata?: DocumentMap;
+  metadata?: DocumentMap | undefined;
 }
-export interface ApproveProjectsLocationsBuildsRequest {
+export interface ApproveProjectsLocationsBuildsRequest extends ApproveBuildRequest {
   /** Required. Name of the target build. For example: "projects/{$project_id}/builds/{$build_id}" */
   name: string;
-  /** Request body */
-  body?: ApproveBuildRequest;
 }
 /** BitbucketServerRepositoryId identifies a specific repository hosted on a Bitbucket Server. */
 export interface BitbucketServerRepositoryId {
   /** Required. Identifier for the project storing the repository. */
-  projectKey?: string;
-  /** Output only. The ID of the webhook that was created for receiving events from this repo. We only create and manage a single webhook for each repo. */
-  webhookId?: number;
+  projectKey?: string | undefined;
   /** Required. Identifier for the repository. */
-  repoSlug?: string;
+  repoSlug?: string | undefined;
+  /** Output only. The ID of the webhook that was created for receiving events from this repo. We only create and manage a single webhook for each repo. */
+  webhookId?: number | undefined;
 }
 /** / BitbucketServerConnectedRepository represents a connected Bitbucket Server / repository. */
 export interface BitbucketServerConnectedRepository {
-  /** The Bitbucket Server repositories to connect. */
-  repo?: BitbucketServerRepositoryId;
   /** The name of the `BitbucketServerConfig` that added connected repository. Format: `projects/{project}/locations/{location}/bitbucketServerConfigs/{config}` */
-  parent?: string;
+  parent?: string | undefined;
+  /** The Bitbucket Server repositories to connect. */
+  repo?: BitbucketServerRepositoryId | undefined;
   /** Output only. The status of the repo connection request. */
-  status?: Status;
+  status?: Status | undefined;
 }
 /** Request to connect a repository from a connected Bitbucket Server host. */
 export interface CreateBitbucketServerConnectedRepositoryRequest {
   /** Required. The Bitbucket Server repository to connect. */
-  bitbucketServerConnectedRepository?: BitbucketServerConnectedRepository;
+  bitbucketServerConnectedRepository?: BitbucketServerConnectedRepository | undefined;
   /** Required. The name of the `BitbucketServerConfig` that added connected repository. Format: `projects/{project}/locations/{location}/bitbucketServerConfigs/{config}` */
-  parent?: string;
+  parent?: string | undefined;
 }
 export type CreateBitbucketServerConnectedRepositoryRequestList =
   Array<CreateBitbucketServerConnectedRepositoryRequest>;
 /** RPC request object accepted by BatchCreateBitbucketServerConnectedRepositories RPC method. */
 export interface BatchCreateBitbucketServerConnectedRepositoriesRequest {
   /** Required. Requests to connect Bitbucket Server repositories. */
-  requests?: CreateBitbucketServerConnectedRepositoryRequestList;
+  requests?: CreateBitbucketServerConnectedRepositoryRequestList | undefined;
 }
-export interface BatchCreateProjectsLocationsBitbucketServerConfigsConnectedRepositoriesRequest {
+export interface BatchCreateProjectsLocationsBitbucketServerConfigsConnectedRepositoriesRequest extends BatchCreateBitbucketServerConnectedRepositoriesRequest {
   /** The name of the `BitbucketServerConfig` that added connected repository. Format: `projects/{project}/locations/{location}/bitbucketServerConfigs/{config}` */
   parent: string;
-  /** Request body */
-  body?: BatchCreateBitbucketServerConnectedRepositoriesRequest;
 }
 /** The request message for Operations.CancelOperation. */
 export interface CancelOperationRequest {}
@@ -182,272 +176,45 @@ export interface CancelOperationsRequest {
   /** The name of the operation resource to be cancelled. */
   name: string;
   /** Request body */
-  body?: CancelOperationRequest;
+  body?: CancelOperationRequest | undefined;
 }
 /** A generic empty message that you can re-use to avoid defining duplicated empty messages in your APIs. A typical example is to use it as the request or the response type of an API method. For instance: service Foo { rpc Bar(google.protobuf.Empty) returns (google.protobuf.Empty); } */
 export interface Empty {}
 /** Request to cancel an ongoing build. */
 export interface CancelBuildRequest {
-  /** The name of the `Build` to cancel. Format: `projects/{project}/locations/{location}/builds/{build}` */
-  name?: string;
   /** Required. ID of the project. */
-  projectId?: string;
+  projectId?: string | undefined;
+  /** The name of the `Build` to cancel. Format: `projects/{project}/locations/{location}/builds/{build}` */
+  name?: string | undefined;
   /** Required. ID of the build. */
-  id?: string;
+  id?: string | undefined;
 }
-export interface CancelProjectsBuildsRequest {
+export interface CancelProjectsBuildsRequest extends Omit<CancelBuildRequest, "projectId" | "id"> {
   /** Required. ID of the project. */
   projectId: string;
   /** Required. ID of the build. */
   id: string;
-  /** Request body */
-  body?: CancelBuildRequest;
 }
-export type StringMap = { [key: string]: string | undefined };
-/** Represents a generic artifact as a build dependency. */
-export interface GenericArtifactDependency {
-  /** Required. The location to download the artifact files from. Ex: projects/p1/locations/us/repositories/r1/packages/p1/versions/v1 */
-  resource?: string;
-  /** Required. Where the artifact files should be placed on the worker. */
-  destPath?: string;
+export type WarningPriorityEnum = "PRIORITY_UNSPECIFIED" | "INFO" | "WARNING" | "ALERT";
+/** A non-fatal problem encountered during the execution of the build. */
+export interface Warning {
+  /** Explanation of the warning generated. */
+  text?: string | undefined;
+  /** The priority for this warning. */
+  priority?: WarningPriorityEnum | (string & {}) | undefined;
 }
-/** A repository for a git source. */
-export interface GitSourceRepository {
-  /** The Developer Connect Git repository link formatted as `projects/*\/locations/*\/connections/*\/gitRepositoryLink/*` */
-  developerConnect?: string;
-  /** Location of the Git repository. */
-  url?: string;
+export type WarningList = Array<Warning>;
+/** HttpConfig is a configuration for HTTP related git operations. */
+export interface HttpConfig {
+  /** SecretVersion resource of the HTTP proxy URL. The Service Account used in the build (either the default Service Account or user-specified Service Account) should have `secretmanager.versions.access` permissions on this secret. The proxy URL should be in format `protocol://@]proxyhost[:port]`. */
+  proxySecretVersionName?: string | undefined;
 }
-/** Represents a git repository as a build dependency. */
-export interface GitSourceDependency {
-  /** Optional. True if remote tags should be fetched too (default false). Note: when depth is 1 (default), git fetch only retrieves tags pointing to commits within the shallow boundary. Set depth to -1 to fetch all historical tags. */
-  fetchTags?: boolean;
-  /** Optional. How much history should be fetched for the build (default 1, -1 for all history). */
-  depth?: string;
-  /** Optional. True if submodules should be fetched too (default false). */
-  recurseSubmodules?: boolean;
-  /** Required. The revision that we will fetch the repo at. */
-  revision?: string;
-  /** Required. The kind of repo (url or dev connect). */
-  repository?: GitSourceRepository;
-  /** Required. Where should the files be placed on the worker. */
-  destPath?: string;
+/** GitConfig is a configuration for git operations. */
+export interface GitConfig {
+  /** Configuration for HTTP related git operations. */
+  http?: HttpConfig | undefined;
 }
-/** A dependency that the Cloud Build worker will fetch before executing user steps. */
-export interface Dependency {
-  /** If set to true disable all dependency fetching (ignoring the default source as well). */
-  empty?: boolean;
-  /** Represents a generic artifact as a build dependency. */
-  genericArtifact?: GenericArtifactDependency;
-  /** Represents a git repository as a build dependency. */
-  gitSource?: GitSourceDependency;
-}
-export type DependencyList = Array<Dependency>;
 export type StringList = Array<string>;
-export type IntegerList = Array<number>;
-/** Start and end times for a build execution phase. */
-export interface TimeSpan {
-  /** End of time span. */
-  endTime?: string;
-  /** Start of time span. */
-  startTime?: string;
-}
-export type BuildStepStatusEnum =
-  | "STATUS_UNKNOWN"
-  | "PENDING"
-  | "QUEUED"
-  | "WORKING"
-  | "SUCCESS"
-  | "FAILURE"
-  | "INTERNAL_ERROR"
-  | "TIMEOUT"
-  | "CANCELLED"
-  | "EXPIRED";
-/** Volume describes a Docker container volume which is mounted into build steps in order to persist files across build step execution. */
-export interface Volume {
-  /** Name of the volume to mount. Volume names must be unique per build step and must be valid names for Docker volumes. Each named volume must be used by at least two build steps. */
-  name?: string;
-  /** Path at which to mount the volume. Paths must be absolute and cannot conflict with other volume paths on the same build step or with certain reserved volume paths. */
-  path?: string;
-}
-export type VolumeList = Array<Volume>;
-/** StepResult is the declaration of a result for a build step. */
-export interface StepResult {
-  /** Optional. The type of attestation to be generated. */
-  attestationType?: string;
-  /** Required. The name of the result. */
-  name?: string;
-  /** Optional. The content of the attestation to be generated. */
-  attestationContent?: string;
-}
-export type StepResultList = Array<StepResult>;
-/** A step in the build pipeline. */
-export interface BuildStep {
-  /** Required. The name of the container image that will run this particular build step. If the image is available in the host's Docker daemon's cache, it will be run directly. If not, the host will attempt to pull the image first, using the builder service account's credentials if necessary. The Docker daemon's cache will already have the latest versions of all of the officially supported build steps ([https://github.com/GoogleCloudPlatform/cloud-builders](https://github.com/GoogleCloudPlatform/cloud-builders)). The Docker daemon will also have cached many of the layers for some popular images, like "ubuntu", "debian", but they will be refreshed at the time you attempt to use them. If you built an image in a previous build step, it will be stored in the host's Docker daemon's cache and is available to use as the name for a later build step. */
-  name?: string;
-  /** The ID(s) of the step(s) that this build step depends on. This build step will not start until all the build steps in `wait_for` have completed successfully. If `wait_for` is empty, this build step will start when all previous build steps in the `Build.Steps` list have completed successfully. */
-  waitFor?: StringList;
-  /** Allow this build step to fail without failing the entire build if and only if the exit code is one of the specified codes. If allow_failure is also specified, this field will take precedence. */
-  allowExitCodes?: IntegerList;
-  /** Time limit for executing this build step. If not defined, the step has no time limit and will be allowed to continue to run until either it completes or the build itself times out. */
-  timeout?: string;
-  /** A list of arguments that will be presented to the step when it is started. If the image used to run the step's container has an entrypoint, the `args` are used as arguments to that entrypoint. If the image does not define an entrypoint, the first element in args is used as the entrypoint, and the remainder will be used as arguments. */
-  args?: StringList;
-  /** Output only. Stores timing information for pulling this build step's builder image only. */
-  pullTiming?: TimeSpan;
-  /** A shell script to be executed in the step. When script is provided, the user cannot specify the entrypoint or args. */
-  script?: string;
-  /** Output only. Status of the build step. At this time, build step status is only updated on build completion; step status is not updated in real-time as the build progresses. */
-  status?: BuildStepStatusEnum | (string & {});
-  /** A list of environment variables which are encrypted using a Cloud Key Management Service crypto key. These values must be specified in the build's `Secret`. */
-  secretEnv?: StringList;
-  /** Option to include built-in and custom substitutions as env variables for this build step. This option will override the global option in BuildOption. */
-  automapSubstitutions?: boolean;
-  /** Output only. Stores timing information for executing this build step. */
-  timing?: TimeSpan;
-  /** Entrypoint to be used instead of the build step image's default entrypoint. If unset, the image's default entrypoint is used. */
-  entrypoint?: string;
-  /** List of volumes to mount into the build step. Each volume is created as an empty volume prior to execution of the build step. Upon completion of the build, volumes and their contents are discarded. Using a named volume in only one step is not valid as it is indicative of a build request with an incorrect configuration. */
-  volumes?: VolumeList;
-  /** Allow this build step to fail without failing the entire build. If false, the entire build will fail if this step fails. Otherwise, the build will succeed, but this step will still have a failure status. Error information will be reported in the failure_detail field. */
-  allowFailure?: boolean;
-  /** A list of environment variable definitions to be used when running a step. The elements are of the form "KEY=VALUE" for the environment variable "KEY" being given the value "VALUE". */
-  env?: StringList;
-  /** Output only. Return code from running the step. */
-  exitCode?: number;
-  /** Unique identifier for this build step, used in `wait_for` to reference this build step as a dependency. */
-  id?: string;
-  /** Working directory to use when running this step's container. If this value is a relative path, it is relative to the build's working directory. If this value is absolute, it may be outside the build's working directory, in which case the contents of the path may not be persisted across build step executions, unless a `volume` for that path is specified. If the build specifies a `RepoSource` with `dir` and a step with a `dir`, which specifies an absolute path, the `RepoSource` `dir` is ignored for the step's execution. */
-  dir?: string;
-  /** Declaration of results for this build step. */
-  results?: StepResultList;
-}
-export type BuildStepList = Array<BuildStep>;
-/** Python package to upload to Artifact Registry upon successful completion of all build steps. A package can encapsulate multiple objects to be uploaded to a single repository. */
-export interface PythonPackage {
-  /** Artifact Registry repository, in the form "https://$REGION-python.pkg.dev/$PROJECT/$REPOSITORY" Files in the workspace matching any path pattern will be uploaded to Artifact Registry with this location as a prefix. */
-  repository?: string;
-  /** Path globs used to match files in the build's workspace. For Python/ Twine, this is usually `dist/*`, and sometimes additionally an `.asc` file. */
-  paths?: StringList;
-}
-export type PythonPackageList = Array<PythonPackage>;
-/** Files in the workspace to upload to Cloud Storage upon successful completion of all build steps. */
-export interface ArtifactObjects {
-  /** Path globs used to match files in the build's workspace. */
-  paths?: StringList;
-  /** Output only. Stores timing information for pushing all artifact objects. */
-  timing?: TimeSpan;
-  /** Cloud Storage bucket and optional object path, in the form "gs://bucket/path/to/somewhere/". (see [Bucket Name Requirements](https://cloud.google.com/storage/docs/bucket-naming#requirements)). Files in the workspace matching any path pattern will be uploaded to Cloud Storage with this location as a prefix. */
-  location?: string;
-}
-/** Npm package to upload to Artifact Registry upon successful completion of all build steps. */
-export interface NpmPackage {
-  /** Artifact Registry repository, in the form "https://$REGION-npm.pkg.dev/$PROJECT/$REPOSITORY" Npm package in the workspace specified by path will be zipped and uploaded to Artifact Registry with this location as a prefix. */
-  repository?: string;
-  /** Optional. Path to the package.json. e.g. workspace/path/to/package Only one of `archive` or `package_path` can be specified. */
-  packagePath?: string;
-}
-export type NpmPackageList = Array<NpmPackage>;
-/** Go module to upload to Artifact Registry upon successful completion of all build steps. A module refers to all dependencies in a go.mod file. */
-export interface GoModule {
-  /** Optional. Project ID of the Artifact Registry repository. Defaults to the build project. */
-  repositoryProjectId?: string;
-  /** Optional. Location of the Artifact Registry repository. i.e. us-east1 Defaults to the build's location. */
-  repositoryLocation?: string;
-  /** Optional. Source path of the go.mod file in the build's workspace. If not specified, this will default to the current directory. e.g. ~/code/go/mypackage */
-  sourcePath?: string;
-  /** Optional. The Go module's "module path". e.g. example.com/foo/v2 */
-  modulePath?: string;
-  /** Optional. The Go module's semantic version in the form vX.Y.Z. e.g. v0.1.1 Pre-release identifiers can also be added by appending a dash and dot separated ASCII alphanumeric characters and hyphens. e.g. v0.2.3-alpha.x.12m.5 */
-  moduleVersion?: string;
-  /** Optional. Artifact Registry repository name. Specified Go modules will be zipped and uploaded to Artifact Registry with this location as a prefix. e.g. my-go-repo */
-  repositoryName?: string;
-}
-export type GoModuleList = Array<GoModule>;
-/** OCI image to upload to Artifact Registry upon successful completion of all build steps. */
-export interface Oci {
-  /** Required. Path on the local file system where to find the container to upload. e.g. /workspace/my-image.tar */
-  file?: string;
-  /** Optional. Tags to apply to the uploaded image. e.g. latest, 1.0.0 */
-  tags?: StringList;
-  /** Required. Registry path to upload the container to. e.g. us-east1-docker.pkg.dev/my-project/my-repo/my-image */
-  registryPath?: string;
-}
-export type OciList = Array<Oci>;
-/** A Maven artifact to upload to Artifact Registry upon successful completion of all build steps. */
-export interface MavenArtifact {
-  /** Optional. Path to a folder containing the files to upload to Artifact Registry. This can be either an absolute path, e.g. `/workspace/my-app/target/`, or a relative path from /workspace, e.g. `my-app/target/`. This field is mutually exclusive with the `path` field. */
-  deployFolder?: string;
-  /** Maven `version` value used when uploading the artifact to Artifact Registry. */
-  version?: string;
-  /** Optional. Path to an artifact in the build's workspace to be uploaded to Artifact Registry. This can be either an absolute path, e.g. /workspace/my-app/target/my-app-1.0.SNAPSHOT.jar or a relative path from /workspace, e.g. my-app/target/my-app-1.0.SNAPSHOT.jar. */
-  path?: string;
-  /** Maven `groupId` value used when uploading the artifact to Artifact Registry. */
-  groupId?: string;
-  /** Maven `artifactId` value used when uploading the artifact to Artifact Registry. */
-  artifactId?: string;
-  /** Artifact Registry repository, in the form "https://$REGION-maven.pkg.dev/$PROJECT/$REPOSITORY" Artifact in the workspace specified by path will be uploaded to Artifact Registry with this location as a prefix. */
-  repository?: string;
-}
-export type MavenArtifactList = Array<MavenArtifact>;
-/** Generic artifact to upload to Artifact Registry upon successful completion of all build steps. */
-export interface GenericArtifact {
-  /** Required. Path to the generic artifact in the build's workspace to be uploaded to Artifact Registry. */
-  folder?: string;
-  /** Required. Registry path to upload the generic artifact to, in the form projects/$PROJECT/locations/$LOCATION/repositories/$REPO/packages/$PACKAGE/versions/$VERSION */
-  registryPath?: string;
-}
-export type GenericArtifactList = Array<GenericArtifact>;
-/** Artifacts produced by a build that should be uploaded upon successful completion of all build steps. */
-export interface Artifacts {
-  /** A list of Python packages to be uploaded to Artifact Registry upon successful completion of all build steps. The build service account credentials will be used to perform the upload. If any objects fail to be pushed, the build is marked FAILURE. */
-  pythonPackages?: PythonPackageList;
-  /** A list of objects to be uploaded to Cloud Storage upon successful completion of all build steps. Files in the workspace matching specified paths globs will be uploaded to the specified Cloud Storage location using the builder service account's credentials. The location and generation of the uploaded objects will be stored in the Build resource's results field. If any objects fail to be pushed, the build is marked FAILURE. */
-  objects?: ArtifactObjects;
-  /** A list of images to be pushed upon the successful completion of all build steps. The images will be pushed using the builder service account's credentials. The digests of the pushed images will be stored in the Build resource's results field. If any of the images fail to be pushed, the build is marked FAILURE. */
-  images?: StringList;
-  /** A list of npm packages to be uploaded to Artifact Registry upon successful completion of all build steps. Npm packages in the specified paths will be uploaded to the specified Artifact Registry repository using the builder service account's credentials. If any packages fail to be pushed, the build is marked FAILURE. */
-  npmPackages?: NpmPackageList;
-  /** Optional. A list of Go modules to be uploaded to Artifact Registry upon successful completion of all build steps. If any objects fail to be pushed, the build is marked FAILURE. */
-  goModules?: GoModuleList;
-  /** Optional. A list of OCI images to be uploaded to Artifact Registry upon successful completion of all build steps. OCI images in the specified paths will be uploaded to the specified Artifact Registry repository using the builder service account's credentials. If any images fail to be pushed, the build is marked FAILURE. */
-  oci?: OciList;
-  /** A list of Maven artifacts to be uploaded to Artifact Registry upon successful completion of all build steps. Artifacts in the workspace matching specified paths globs will be uploaded to the specified Artifact Registry repository using the builder service account's credentials. If any artifacts fail to be pushed, the build is marked FAILURE. */
-  mavenArtifacts?: MavenArtifactList;
-  /** Optional. A list of generic artifacts to be uploaded to Artifact Registry upon successful completion of all build steps. If any artifacts fail to be pushed, the build is marked FAILURE. */
-  genericArtifacts?: GenericArtifactList;
-}
-/** Pairs a set of secret environment variables containing encrypted values with the Cloud KMS key to use to decrypt the value. Note: Use `kmsKeyName` with `available_secrets` instead of using `kmsKeyName` with `secret`. For instructions see: https://cloud.google.com/cloud-build/docs/securing-builds/use-encrypted-credentials. */
-export interface Secret {
-  /** Map of environment variable name to its encrypted value. Secret environment variables must be unique across all of a build's secrets, and must be used by at least one build step. Values can be at most 64 KB in size. There can be at most 100 secret values across all of a build's secrets. */
-  secretEnv?: StringMap;
-  /** Cloud KMS key name to use to decrypt these envs. */
-  kmsKeyName?: string;
-}
-export type SecretList = Array<Secret>;
-/** Pairs a set of secret environment variables mapped to encrypted values with the Cloud KMS key to use to decrypt the value. */
-export interface InlineSecret {
-  /** Resource name of Cloud KMS crypto key to decrypt the encrypted value. In format: projects/*\/locations/*\/keyRings/*\/cryptoKeys/* */
-  kmsKeyName?: string;
-  /** Map of environment variable name to its encrypted value. Secret environment variables must be unique across all of a build's secrets, and must be used by at least one build step. Values can be at most 64 KB in size. There can be at most 100 secret values across all of a build's secrets. */
-  envMap?: StringMap;
-}
-export type InlineSecretList = Array<InlineSecret>;
-/** Pairs a secret environment variable with a SecretVersion in Secret Manager. */
-export interface SecretManagerSecret {
-  /** Resource name of the SecretVersion. In format: projects/*\/secrets/*\/versions/* */
-  versionName?: string;
-  /** Environment variable name to associate with the secret. Secret environment variables must be unique across all of a build's secrets, and must be used by at least one build step. */
-  env?: string;
-}
-export type SecretManagerSecretList = Array<SecretManagerSecret>;
-/** Secrets and secret environment variables. */
-export interface Secrets {
-  /** Secrets encrypted with KMS key and the associated secret environment variable. */
-  inline?: InlineSecretList;
-  /** Secrets in Secret Manager and associated secret environment variable. */
-  secretManager?: SecretManagerSecretList;
-}
 export type BuildApprovalStateEnum =
   | "STATE_UNSPECIFIED"
   | "PENDING"
@@ -457,114 +224,41 @@ export type BuildApprovalStateEnum =
 /** ApprovalConfig describes configuration for manual approval of a build. */
 export interface ApprovalConfig {
   /** Whether or not approval is needed. If this is set on a build, it will become pending when created, and will need to be explicitly approved to start. */
-  approvalRequired?: boolean;
+  approvalRequired?: boolean | undefined;
 }
 /** BuildApproval describes a build's approval configuration, state, and result. */
 export interface BuildApproval {
   /** Output only. The state of this build's approval. */
-  state?: BuildApprovalStateEnum | (string & {});
+  state?: BuildApprovalStateEnum | (string & {}) | undefined;
   /** Output only. Configuration for manual approval of this build. */
-  config?: ApprovalConfig;
+  config?: ApprovalConfig | undefined;
   /** Output only. Result of manual approval for this Build. */
-  result?: ApprovalResult;
+  result?: ApprovalResult | undefined;
 }
-/** Location of the source in a 2nd-gen Google Cloud Build repository resource. */
-export interface ConnectedRepository {
-  /** Required. Name of the Google Cloud Build repository, formatted as `projects/*\/locations/*\/connections/*\/repositories/*`. */
-  repository?: string;
-  /** Optional. Directory, relative to the source root, in which to run the build. */
-  dir?: string;
-  /** Required. The revision to fetch from the Git repository such as a branch, a tag, a commit SHA, or any Git ref. */
-  revision?: string;
+/** Start and end times for a build execution phase. */
+export interface TimeSpan {
+  /** Start of time span. */
+  startTime?: string | undefined;
+  /** End of time span. */
+  endTime?: string | undefined;
 }
-export type StorageSourceSourceFetcherEnum =
-  | "SOURCE_FETCHER_UNSPECIFIED"
-  | "GSUTIL"
-  | "GCS_FETCHER";
-/** Location of the source in an archive file in Cloud Storage. */
-export interface StorageSource {
-  /** Optional. Cloud Storage generation for the object. If the generation is omitted, the latest generation will be used. */
-  generation?: string;
-  /** Optional. Option to specify the tool to fetch the source file for the build. */
-  sourceFetcher?: StorageSourceSourceFetcherEnum | (string & {});
-  /** Cloud Storage bucket containing the source (see [Bucket Name Requirements](https://cloud.google.com/storage/docs/bucket-naming#requirements)). */
-  bucket?: string;
-  /** Required. Cloud Storage object containing the source. This object must be a zipped (`.zip`) or gzipped archive file (`.tar.gz`) containing source to build. */
-  object?: string;
-}
-/** Location of the source in any accessible Git repository. */
-export interface GitSource {
-  /** Required. Location of the Git repo to build. This will be used as a `git remote`, see https://git-scm.com/docs/git-remote. */
-  url?: string;
-  /** Optional. Directory, relative to the source root, in which to run the build. This must be a relative path. If a step's `dir` is specified and is an absolute path, this value is ignored for that step's execution. */
-  dir?: string;
-  /** Optional. The revision to fetch from the Git repository such as a branch, a tag, a commit SHA, or any Git ref. Cloud Build uses `git fetch` to fetch the revision from the Git repository; therefore make sure that the string you provide for `revision` is parsable by the command. For information on string values accepted by `git fetch`, see https://git-scm.com/docs/gitrevisions#_specifying_revisions. For information on `git fetch`, see https://git-scm.com/docs/git-fetch. */
-  revision?: string;
-}
-/** This config defines the location of a source through Developer Connect. */
-export interface DeveloperConnectConfig {
-  /** Required. Directory, relative to the source root, in which to run the build. */
-  dir?: string;
-  /** Required. The Developer Connect Git repository link, formatted as `projects/*\/locations/*\/connections/*\/gitRepositoryLink/*`. */
-  gitRepositoryLink?: string;
-  /** Required. The revision to fetch from the Git repository such as a branch, a tag, a commit SHA, or any Git ref. */
-  revision?: string;
-}
-/** Location of the source manifest in Cloud Storage. This feature is in Preview; see description [here](https://github.com/GoogleCloudPlatform/cloud-builders/tree/master/gcs-fetcher). */
-export interface StorageSourceManifest {
-  /** Required. Cloud Storage bucket containing the source manifest (see [Bucket Name Requirements](https://cloud.google.com/storage/docs/bucket-naming#requirements)). */
-  bucket?: string;
-  /** Required. Cloud Storage object containing the source manifest. This object must be a JSON file. */
-  object?: string;
-  /** Cloud Storage generation for the object. If the generation is omitted, the latest generation will be used. */
-  generation?: string;
-}
-/** Location of the source in a Google Cloud Source Repository. */
-export interface RepoSource {
-  /** Optional. Only trigger a build if the revision regex does NOT match the revision regex. */
-  invertRegex?: boolean;
-  /** Optional. ID of the project that owns the Cloud Source Repository. If omitted, the project ID requesting the build is assumed. */
-  projectId?: string;
-  /** Required. Name of the Cloud Source Repository. */
-  repoName?: string;
-  /** Optional. Substitutions to use in a triggered build. Should only be used with RunBuildTrigger */
-  substitutions?: StringMap;
-  /** Regex matching branches to build. The syntax of the regular expressions accepted is the syntax accepted by RE2 and described at https://github.com/google/re2/wiki/Syntax */
-  branchName?: string;
-  /** Regex matching tags to build. The syntax of the regular expressions accepted is the syntax accepted by RE2 and described at https://github.com/google/re2/wiki/Syntax */
-  tagName?: string;
-  /** Optional. Directory, relative to the source root, in which to run the build. This must be a relative path. If a step's `dir` is specified and is an absolute path, this value is ignored for that step's execution. */
-  dir?: string;
-  /** Explicit commit SHA to build. */
-  commitSha?: string;
-}
-/** Location of the source in a supported storage service. */
-export interface Source {
-  /** Optional. If provided, get the source from this 2nd-gen Google Cloud Build repository resource. */
-  connectedRepository?: ConnectedRepository;
-  /** If provided, get the source from this location in Cloud Storage. */
-  storageSource?: StorageSource;
-  /** If provided, get the source from this Git repository. */
-  gitSource?: GitSource;
-  /** If provided, get the source from this Developer Connect config. */
-  developerConnectConfig?: DeveloperConnectConfig;
-  /** If provided, get the source from this manifest in Cloud Storage. This feature is in Preview; see description [here](https://github.com/GoogleCloudPlatform/cloud-builders/tree/master/gcs-fetcher). */
-  storageSourceManifest?: StorageSourceManifest;
-  /** If provided, get the source from this location in a Cloud Source Repository. */
-  repoSource?: RepoSource;
-}
-/** HttpConfig is a configuration for HTTP related git operations. */
-export interface HttpConfig {
-  /** SecretVersion resource of the HTTP proxy URL. The Service Account used in the build (either the default Service Account or user-specified Service Account) should have `secretmanager.versions.access` permissions on this secret. The proxy URL should be in format `protocol://@]proxyhost[:port]`. */
-  proxySecretVersionName?: string;
-}
-/** GitConfig is a configuration for git operations. */
-export interface GitConfig {
-  /** Configuration for HTTP related git operations. */
-  http?: HttpConfig;
-}
-export type BuildOptionsRequestedVerifyOptionEnum = "NOT_VERIFIED" | "VERIFIED";
+export type TimeSpanMap = { [key: string]: TimeSpan | undefined };
+export type BuildOptionsLoggingEnum =
+  | "LOGGING_UNSPECIFIED"
+  | "LEGACY"
+  | "GCS_ONLY"
+  | "STACKDRIVER_ONLY"
+  | "CLOUD_LOGGING_ONLY"
+  | "NONE";
 export type BuildOptionsLogStreamingOptionEnum = "STREAM_DEFAULT" | "STREAM_ON" | "STREAM_OFF";
+export type BuildOptionsMachineTypeEnum =
+  | "UNSPECIFIED"
+  | "N1_HIGHCPU_8"
+  | "N1_HIGHCPU_32"
+  | "E2_HIGHCPU_8"
+  | "E2_HIGHCPU_32"
+  | "E2_MEDIUM"
+  | "E2_STANDARD_2";
 export type BuildOptionsSourceProvenanceHashItemEnum =
   | "NONE"
   | "SHA256"
@@ -575,14 +269,15 @@ export type BuildOptionsSourceProvenanceHashItemEnum =
 export type BuildOptionsSourceProvenanceHashItemEnumList = Array<
   BuildOptionsSourceProvenanceHashItemEnum | (string & {})
 >;
-export type BuildOptionsSubstitutionOptionEnum = "MUST_MATCH" | "ALLOW_LOOSE";
-export type BuildOptionsLoggingEnum =
-  | "LOGGING_UNSPECIFIED"
-  | "LEGACY"
-  | "GCS_ONLY"
-  | "STACKDRIVER_ONLY"
-  | "CLOUD_LOGGING_ONLY"
-  | "NONE";
+export type BuildOptionsRankedMachineSeriesItemEnum =
+  | "MACHINE_SERIES_UNSPECIFIED"
+  | "MACHINE_SERIES_E"
+  | "MACHINE_SERIES_N"
+  | "MACHINE_SERIES_C";
+export type BuildOptionsRankedMachineSeriesItemEnumList = Array<
+  BuildOptionsRankedMachineSeriesItemEnum | (string & {})
+>;
+export type BuildOptionsRequestedVerifyOptionEnum = "NOT_VERIFIED" | "VERIFIED" | "BEST_EFFORT";
 export type BuildOptionsDefaultLogsBucketBehaviorEnum =
   | "DEFAULT_LOGS_BUCKET_BEHAVIOR_UNSPECIFIED"
   | "REGIONAL_USER_OWNED_BUCKET"
@@ -590,85 +285,337 @@ export type BuildOptionsDefaultLogsBucketBehaviorEnum =
 /** Details about how a build should be executed on a `WorkerPool`. See [running builds in a private pool](https://cloud.google.com/build/docs/private-pools/run-builds-in-private-pool) for more information. */
 export interface PoolOption {
   /** Output only. OUTPUT_ONLY. The release or release channel used to run the Build. This is set to the same value as `PrivatePoolV1Config.WorkerConfig.worker_release` for the UI to easily access. */
-  workerRelease?: string;
-  /** Output only. OUTPUT_ONLY. Worker release resolved from the release channel. */
-  resolvedWorkerRelease?: string;
+  workerRelease?: string | undefined;
   /** The `WorkerPool` resource to execute the build on. You must have `cloudbuild.workerpools.use` on the project hosting the WorkerPool. Format projects/{project}/locations/{location}/workerPools/{workerPoolId} */
-  name?: string;
+  name?: string | undefined;
+  /** Output only. OUTPUT_ONLY. Worker release resolved from the release channel. */
+  resolvedWorkerRelease?: string | undefined;
 }
-export type BuildOptionsMachineTypeEnum =
-  | "UNSPECIFIED"
-  | "N1_HIGHCPU_8"
-  | "N1_HIGHCPU_32"
-  | "E2_HIGHCPU_8"
-  | "E2_HIGHCPU_32"
-  | "E2_MEDIUM"
-  | "E2_STANDARD_2";
+export type BuildOptionsSubstitutionOptionEnum = "MUST_MATCH" | "ALLOW_LOOSE";
+/** Volume describes a Docker container volume which is mounted into build steps in order to persist files across build step execution. */
+export interface Volume {
+  /** Path at which to mount the volume. Paths must be absolute and cannot conflict with other volume paths on the same build step or with certain reserved volume paths. */
+  path?: string | undefined;
+  /** Name of the volume to mount. Volume names must be unique per build step and must be valid names for Docker volumes. Each named volume must be used by at least two build steps. */
+  name?: string | undefined;
+}
+export type VolumeList = Array<Volume>;
 /** Optional arguments to enable specific features of builds. */
 export interface BuildOptions {
-  /** A list of global environment variable definitions that will exist for all build steps in this build. If a variable is defined in both globally and in a build step, the variable will use the build step value. The elements are of the form "KEY=VALUE" for the environment variable "KEY" being given the value "VALUE". */
-  env?: StringList;
-  /** Optional. Option to specify the Pub/Sub topic to receive build status updates. */
-  pubsubTopic?: string;
-  /** Requested verifiability options. */
-  requestedVerifyOption?: BuildOptionsRequestedVerifyOptionEnum | (string & {});
-  /** This field deprecated; please use `pool.name` instead. */
-  workerPool?: string;
-  /** Global list of volumes to mount for ALL build steps Each volume is created as an empty volume prior to starting the build process. Upon completion of the build, volumes and their contents are discarded. Global volume names and paths cannot conflict with the volumes defined a build step. Using a global volume in a build with only one step is not valid as it is indicative of a build request with an incorrect configuration. */
-  volumes?: VolumeList;
-  /** Output only. Worker release resolved from the release channel. */
-  resolvedWorkerRelease?: string;
-  /** Option to define build log streaming behavior to Cloud Storage. */
-  logStreamingOption?: BuildOptionsLogStreamingOptionEnum | (string & {});
-  /** Option to specify whether or not to apply bash style string operations to the substitutions. NOTE: this is always enabled for triggered builds and cannot be overridden in the build configuration file. */
-  dynamicSubstitutions?: boolean;
-  /** Optional. Option to specify which release or release channel (rapid|regular|stable) to use to run this build. */
-  workerRelease?: string;
-  /** Requested hash for SourceProvenance. */
-  sourceProvenanceHash?: BuildOptionsSourceProvenanceHashItemEnumList;
-  /** Option to specify behavior when there is an error in the substitution checks. NOTE: this is always set to ALLOW_LOOSE for triggered builds and cannot be overridden in the build configuration file. */
-  substitutionOption?: BuildOptionsSubstitutionOptionEnum | (string & {});
   /** Requested disk size for the VM that runs the build. Note that this is *NOT* "disk free"; some of the space will be used by the operating system and build utilities. Also note that this is the minimum disk size that will be allocated for the build -- the build may run with a larger disk than requested. At present, the maximum disk size is 4000GB; builds that request more than the maximum are rejected with an error. */
-  diskSizeGb?: string;
+  diskSizeGb?: string | undefined;
   /** Option to specify the logging mode, which determines if and where build logs are stored. */
-  logging?: BuildOptionsLoggingEnum | (string & {});
-  /** Optional. Option to specify how default logs buckets are setup. */
-  defaultLogsBucketBehavior?: BuildOptionsDefaultLogsBucketBehaviorEnum | (string & {});
-  /** Optional. Option to specify whether structured logging is enabled. If true, JSON-formatted logs are parsed as structured logs. */
-  enableStructuredLogging?: boolean;
-  /** A list of global environment variables, which are encrypted using a Cloud Key Management Service crypto key. These values must be specified in the build's `Secret`. These variables will be available to all build steps in this build. */
-  secretEnv?: StringList;
-  /** Optional. Specification for execution on a `WorkerPool`. See [running builds in a private pool](https://cloud.google.com/build/docs/private-pools/run-builds-in-private-pool) for more information. */
-  pool?: PoolOption;
+  logging?: BuildOptionsLoggingEnum | (string & {}) | undefined;
+  /** Option to define build log streaming behavior to Cloud Storage. */
+  logStreamingOption?: BuildOptionsLogStreamingOptionEnum | (string & {}) | undefined;
   /** Compute Engine machine type on which to run the build. */
-  machineType?: BuildOptionsMachineTypeEnum | (string & {});
+  machineType?: BuildOptionsMachineTypeEnum | (string & {}) | undefined;
+  /** Requested hash for SourceProvenance. */
+  sourceProvenanceHash?: BuildOptionsSourceProvenanceHashItemEnumList | undefined;
+  /** Optional. Ranked list (earlier items have higher priority) of Machine Series to consider when provisioning Worker VMs. A concrete machine type will be selected based on machine availability in the given region. This field must be empty for the Build to be eligible to be paired with a pre-provisioned worker VM. */
+  rankedMachineSeries?: BuildOptionsRankedMachineSeriesItemEnumList | undefined;
+  /** Requested verifiability options. */
+  requestedVerifyOption?: BuildOptionsRequestedVerifyOptionEnum | (string & {}) | undefined;
   /** Option to include built-in and custom substitutions as env variables for all build steps. */
-  automapSubstitutions?: boolean;
+  automapSubstitutions?: boolean | undefined;
+  /** Optional. Option to specify the Pub/Sub topic to receive build status updates. */
+  pubsubTopic?: string | undefined;
+  /** Optional. Option to specify how default logs buckets are setup. */
+  defaultLogsBucketBehavior?: BuildOptionsDefaultLogsBucketBehaviorEnum | (string & {}) | undefined;
+  /** Optional. Option to specify which release or release channel (rapid|regular|stable) to use to run this build. */
+  workerRelease?: string | undefined;
+  /** Optional. Specification for execution on a `WorkerPool`. See [running builds in a private pool](https://cloud.google.com/build/docs/private-pools/run-builds-in-private-pool) for more information. */
+  pool?: PoolOption | undefined;
+  /** A list of global environment variable definitions that will exist for all build steps in this build. If a variable is defined in both globally and in a build step, the variable will use the build step value. The elements are of the form "KEY=VALUE" for the environment variable "KEY" being given the value "VALUE". */
+  env?: StringList | undefined;
+  /** Option to specify behavior when there is an error in the substitution checks. NOTE: this is always set to ALLOW_LOOSE for triggered builds and cannot be overridden in the build configuration file. */
+  substitutionOption?: BuildOptionsSubstitutionOptionEnum | (string & {}) | undefined;
+  /** Global list of volumes to mount for ALL build steps Each volume is created as an empty volume prior to starting the build process. Upon completion of the build, volumes and their contents are discarded. Global volume names and paths cannot conflict with the volumes defined a build step. Using a global volume in a build with only one step is not valid as it is indicative of a build request with an incorrect configuration. */
+  volumes?: VolumeList | undefined;
+  /** A list of global environment variables, which are encrypted using a Cloud Key Management Service crypto key. These values must be specified in the build's `Secret`. These variables will be available to all build steps in this build. */
+  secretEnv?: StringList | undefined;
+  /** Output only. Worker release resolved from the release channel. */
+  resolvedWorkerRelease?: string | undefined;
+  /** Option to specify whether or not to apply bash style string operations to the substitutions. NOTE: this is always enabled for triggered builds and cannot be overridden in the build configuration file. */
+  dynamicSubstitutions?: boolean | undefined;
+  /** Optional. Option to specify whether structured logging is enabled. If true, JSON-formatted logs are parsed as structured logs. */
+  enableStructuredLogging?: boolean | undefined;
+  /** This field deprecated; please use `pool.name` instead. */
+  workerPool?: string | undefined;
 }
 export type HashTypeEnum = "NONE" | "SHA256" | "MD5" | "GO_MODULE_H1" | "SHA512" | "DIRSUM_SHA256";
 /** Container message for hash values. */
 export interface Hash {
   /** The hash value. */
-  value?: string;
+  value?: string | undefined;
   /** The type of hash that was performed. */
-  type?: HashTypeEnum | (string & {});
+  type?: HashTypeEnum | (string & {}) | undefined;
 }
 export type HashList = Array<Hash>;
 /** Container message for hashes of byte content of files, used in SourceProvenance messages to verify integrity of source input to the build. */
 export interface FileHashes {
   /** Collection of file hashes. */
-  fileHash?: HashList;
+  fileHash?: HashList | undefined;
+}
+export type FileHashesMap = { [key: string]: FileHashes | undefined };
+/** Location of the source in any accessible Git repository. */
+export interface GitSource {
+  /** Optional. Directory, relative to the source root, in which to run the build. This must be a relative path. If a step's `dir` is specified and is an absolute path, this value is ignored for that step's execution. */
+  dir?: string | undefined;
+  /** Optional. The revision to fetch from the Git repository such as a branch, a tag, a commit SHA, or any Git ref. Cloud Build uses `git fetch` to fetch the revision from the Git repository; therefore make sure that the string you provide for `revision` is parsable by the command. For information on string values accepted by `git fetch`, see https://git-scm.com/docs/gitrevisions#_specifying_revisions. For information on `git fetch`, see https://git-scm.com/docs/git-fetch. */
+  revision?: string | undefined;
+  /** Required. Location of the Git repo to build. This will be used as a `git remote`, see https://git-scm.com/docs/git-remote. */
+  url?: string | undefined;
+}
+/** Location of the source in a 2nd-gen Google Cloud Build repository resource. */
+export interface ConnectedRepository {
+  /** Required. The revision to fetch from the Git repository such as a branch, a tag, a commit SHA, or any Git ref. */
+  revision?: string | undefined;
+  /** Required. Name of the Google Cloud Build repository, formatted as `projects/*\/locations/*\/connections/*\/repositories/*`. */
+  repository?: string | undefined;
+  /** Optional. Directory, relative to the source root, in which to run the build. */
+  dir?: string | undefined;
+}
+export type StringMap = { [key: string]: string | undefined };
+/** Location of the source in a Google Cloud Source Repository. */
+export interface RepoSource {
+  /** Regex matching branches to build. The syntax of the regular expressions accepted is the syntax accepted by RE2 and described at https://github.com/google/re2/wiki/Syntax */
+  branchName?: string | undefined;
+  /** Optional. ID of the project that owns the Cloud Source Repository. If omitted, the project ID requesting the build is assumed. */
+  projectId?: string | undefined;
+  /** Optional. Substitutions to use in a triggered build. Should only be used with RunBuildTrigger */
+  substitutions?: StringMap | undefined;
+  /** Regex matching tags to build. The syntax of the regular expressions accepted is the syntax accepted by RE2 and described at https://github.com/google/re2/wiki/Syntax */
+  tagName?: string | undefined;
+  /** Required. Name of the Cloud Source Repository. */
+  repoName?: string | undefined;
+  /** Optional. Only trigger a build if the revision regex does NOT match the revision regex. */
+  invertRegex?: boolean | undefined;
+  /** Optional. Directory, relative to the source root, in which to run the build. This must be a relative path. If a step's `dir` is specified and is an absolute path, this value is ignored for that step's execution. */
+  dir?: string | undefined;
+  /** Explicit commit SHA to build. */
+  commitSha?: string | undefined;
+}
+/** Location of the source manifest in Cloud Storage. This feature is in Preview; see description [here](https://github.com/GoogleCloudPlatform/cloud-builders/tree/master/gcs-fetcher). */
+export interface StorageSourceManifest {
+  /** Required. Cloud Storage bucket containing the source manifest (see [Bucket Name Requirements](https://cloud.google.com/storage/docs/bucket-naming#requirements)). */
+  bucket?: string | undefined;
+  /** Cloud Storage generation for the object. If the generation is omitted, the latest generation will be used. */
+  generation?: string | undefined;
+  /** Required. Cloud Storage object containing the source manifest. This object must be a JSON file. */
+  object?: string | undefined;
+}
+export type StorageSourceSourceFetcherEnum =
+  | "SOURCE_FETCHER_UNSPECIFIED"
+  | "GSUTIL"
+  | "GCS_FETCHER";
+/** Location of the source in an archive file in Cloud Storage. */
+export interface StorageSource {
+  /** Cloud Storage bucket containing the source (see [Bucket Name Requirements](https://cloud.google.com/storage/docs/bucket-naming#requirements)). */
+  bucket?: string | undefined;
+  /** Optional. Option to specify the tool to fetch the source file for the build. */
+  sourceFetcher?: StorageSourceSourceFetcherEnum | (string & {}) | undefined;
+  /** Required. Cloud Storage object containing the source. This object must be a zipped (`.zip`) or gzipped archive file (`.tar.gz`) containing source to build. */
+  object?: string | undefined;
+  /** Optional. Cloud Storage generation for the object. If the generation is omitted, the latest generation will be used. */
+  generation?: string | undefined;
+}
+/** Provenance of the source. Ways to find the original source, or verify that some source was used for this build. */
+export interface SourceProvenance {
+  /** Output only. Hash(es) of the build source, which can be used to verify that the original source integrity was maintained in the build. Note that `FileHashes` will only be populated if `BuildOptions` has requested a `SourceProvenanceHash`. The keys to this map are file paths used as build source and the values contain the hash values for those files. If the build source came in a single package such as a gzipped tarfile (`.tar.gz`), the `FileHash` will be for the single path to that file. */
+  fileHashes?: FileHashesMap | undefined;
+  /** Output only. A copy of the build's `source.git_source`, if exists, with any revisions resolved. */
+  resolvedGitSource?: GitSource | undefined;
+  /** Output only. A copy of the build's `source.connected_repository`, if exists, with any revisions resolved. */
+  resolvedConnectedRepository?: ConnectedRepository | undefined;
+  /** A copy of the build's `source.repo_source`, if exists, with any revisions resolved. */
+  resolvedRepoSource?: RepoSource | undefined;
+  /** A copy of the build's `source.storage_source_manifest`, if exists, with any revisions resolved. This feature is in Preview. */
+  resolvedStorageSourceManifest?: StorageSourceManifest | undefined;
+  /** A copy of the build's `source.storage_source`, if exists, with any generations resolved. */
+  resolvedStorageSource?: StorageSource | undefined;
+}
+/** Pairs a set of secret environment variables containing encrypted values with the Cloud KMS key to use to decrypt the value. Note: Use `kmsKeyName` with `available_secrets` instead of using `kmsKeyName` with `secret`. For instructions see: https://cloud.google.com/cloud-build/docs/securing-builds/use-encrypted-credentials. */
+export interface Secret {
+  /** Map of environment variable name to its encrypted value. Secret environment variables must be unique across all of a build's secrets, and must be used by at least one build step. Values can be at most 64 KB in size. There can be at most 100 secret values across all of a build's secrets. */
+  secretEnv?: StringMap | undefined;
+  /** Cloud KMS key name to use to decrypt these envs. */
+  kmsKeyName?: string | undefined;
+}
+export type SecretList = Array<Secret>;
+/** Generic artifact to upload to Artifact Registry upon successful completion of all build steps. */
+export interface GenericArtifact {
+  /** Required. Path to the generic artifact in the build's workspace to be uploaded to Artifact Registry. */
+  folder?: string | undefined;
+  /** Required. Registry path to upload the generic artifact to, in the form projects/$PROJECT/locations/$LOCATION/repositories/$REPO/packages/$PACKAGE/versions/$VERSION */
+  registryPath?: string | undefined;
+}
+export type GenericArtifactList = Array<GenericArtifact>;
+/** Files in the workspace to upload to Cloud Storage upon successful completion of all build steps. */
+export interface ArtifactObjects {
+  /** Output only. Stores timing information for pushing all artifact objects. */
+  timing?: TimeSpan | undefined;
+  /** Cloud Storage bucket and optional object path, in the form "gs://bucket/path/to/somewhere/". (see [Bucket Name Requirements](https://cloud.google.com/storage/docs/bucket-naming#requirements)). Files in the workspace matching any path pattern will be uploaded to Cloud Storage with this location as a prefix. */
+  location?: string | undefined;
+  /** Path globs used to match files in the build's workspace. */
+  paths?: StringList | undefined;
+}
+/** Npm package to upload to Artifact Registry upon successful completion of all build steps. */
+export interface NpmPackage {
+  /** Optional. Path to the package.json. e.g. workspace/path/to/package Only one of `archive` or `package_path` can be specified. */
+  packagePath?: string | undefined;
+  /** Artifact Registry repository, in the form "https://$REGION-npm.pkg.dev/$PROJECT/$REPOSITORY" Npm package in the workspace specified by path will be zipped and uploaded to Artifact Registry with this location as a prefix. */
+  repository?: string | undefined;
+}
+export type NpmPackageList = Array<NpmPackage>;
+/** A Maven artifact to upload to Artifact Registry upon successful completion of all build steps. */
+export interface MavenArtifact {
+  /** Artifact Registry repository, in the form "https://$REGION-maven.pkg.dev/$PROJECT/$REPOSITORY" Artifact in the workspace specified by path will be uploaded to Artifact Registry with this location as a prefix. */
+  repository?: string | undefined;
+  /** Maven `artifactId` value used when uploading the artifact to Artifact Registry. */
+  artifactId?: string | undefined;
+  /** Optional. Path to a folder containing the files to upload to Artifact Registry. This can be either an absolute path, e.g. `/workspace/my-app/target/`, or a relative path from /workspace, e.g. `my-app/target/`. This field is mutually exclusive with the `path` field. */
+  deployFolder?: string | undefined;
+  /** Optional. Path to an artifact in the build's workspace to be uploaded to Artifact Registry. This can be either an absolute path, e.g. /workspace/my-app/target/my-app-1.0.SNAPSHOT.jar or a relative path from /workspace, e.g. my-app/target/my-app-1.0.SNAPSHOT.jar. */
+  path?: string | undefined;
+  /** Maven `version` value used when uploading the artifact to Artifact Registry. */
+  version?: string | undefined;
+  /** Maven `groupId` value used when uploading the artifact to Artifact Registry. */
+  groupId?: string | undefined;
+}
+export type MavenArtifactList = Array<MavenArtifact>;
+/** OCI image to upload to Artifact Registry upon successful completion of all build steps. */
+export interface Oci {
+  /** Required. Path on the local file system where to find the container to upload. e.g. /workspace/my-image.tar */
+  file?: string | undefined;
+  /** Optional. Tags to apply to the uploaded image. e.g. latest, 1.0.0 */
+  tags?: StringList | undefined;
+  /** Required. Registry path to upload the container to. e.g. us-east1-docker.pkg.dev/my-project/my-repo/my-image */
+  registryPath?: string | undefined;
+}
+export type OciList = Array<Oci>;
+/** Python package to upload to Artifact Registry upon successful completion of all build steps. A package can encapsulate multiple objects to be uploaded to a single repository. */
+export interface PythonPackage {
+  /** Artifact Registry repository, in the form "https://$REGION-python.pkg.dev/$PROJECT/$REPOSITORY" Files in the workspace matching any path pattern will be uploaded to Artifact Registry with this location as a prefix. */
+  repository?: string | undefined;
+  /** Path globs used to match files in the build's workspace. For Python/ Twine, this is usually `dist/*`, and sometimes additionally an `.asc` file. */
+  paths?: StringList | undefined;
+}
+export type PythonPackageList = Array<PythonPackage>;
+/** Go module to upload to Artifact Registry upon successful completion of all build steps. A module refers to all dependencies in a go.mod file. */
+export interface GoModule {
+  /** Optional. Artifact Registry repository name. Specified Go modules will be zipped and uploaded to Artifact Registry with this location as a prefix. e.g. my-go-repo */
+  repositoryName?: string | undefined;
+  /** Optional. Source path of the go.mod file in the build's workspace. If not specified, this will default to the current directory. e.g. ~/code/go/mypackage */
+  sourcePath?: string | undefined;
+  /** Optional. The Go module's "module path". e.g. example.com/foo/v2 */
+  modulePath?: string | undefined;
+  /** Optional. Project ID of the Artifact Registry repository. Defaults to the build project. */
+  repositoryProjectId?: string | undefined;
+  /** Optional. Location of the Artifact Registry repository. i.e. us-east1 Defaults to the build's location. */
+  repositoryLocation?: string | undefined;
+  /** Optional. The Go module's semantic version in the form vX.Y.Z. e.g. v0.1.1 Pre-release identifiers can also be added by appending a dash and dot separated ASCII alphanumeric characters and hyphens. e.g. v0.2.3-alpha.x.12m.5 */
+  moduleVersion?: string | undefined;
+}
+export type GoModuleList = Array<GoModule>;
+/** Artifacts produced by a build that should be uploaded upon successful completion of all build steps. */
+export interface Artifacts {
+  /** Optional. A list of generic artifacts to be uploaded to Artifact Registry upon successful completion of all build steps. If any artifacts fail to be pushed, the build is marked FAILURE. */
+  genericArtifacts?: GenericArtifactList | undefined;
+  /** A list of objects to be uploaded to Cloud Storage upon successful completion of all build steps. Files in the workspace matching specified paths globs will be uploaded to the specified Cloud Storage location using the builder service account's credentials. The location and generation of the uploaded objects will be stored in the Build resource's results field. If any objects fail to be pushed, the build is marked FAILURE. */
+  objects?: ArtifactObjects | undefined;
+  /** A list of npm packages to be uploaded to Artifact Registry upon successful completion of all build steps. Npm packages in the specified paths will be uploaded to the specified Artifact Registry repository using the builder service account's credentials. If any packages fail to be pushed, the build is marked FAILURE. */
+  npmPackages?: NpmPackageList | undefined;
+  /** A list of Maven artifacts to be uploaded to Artifact Registry upon successful completion of all build steps. Artifacts in the workspace matching specified paths globs will be uploaded to the specified Artifact Registry repository using the builder service account's credentials. If any artifacts fail to be pushed, the build is marked FAILURE. */
+  mavenArtifacts?: MavenArtifactList | undefined;
+  /** A list of images to be pushed upon the successful completion of all build steps. The images will be pushed using the builder service account's credentials. The digests of the pushed images will be stored in the Build resource's results field. If any of the images fail to be pushed, the build is marked FAILURE. */
+  images?: StringList | undefined;
+  /** Optional. A list of OCI images to be uploaded to Artifact Registry upon successful completion of all build steps. OCI images in the specified paths will be uploaded to the specified Artifact Registry repository using the builder service account's credentials. If any images fail to be pushed, the build is marked FAILURE. */
+  oci?: OciList | undefined;
+  /** A list of Python packages to be uploaded to Artifact Registry upon successful completion of all build steps. The build service account credentials will be used to perform the upload. If any objects fail to be pushed, the build is marked FAILURE. */
+  pythonPackages?: PythonPackageList | undefined;
+  /** Optional. A list of Go modules to be uploaded to Artifact Registry upon successful completion of all build steps. If any objects fail to be pushed, the build is marked FAILURE. */
+  goModules?: GoModuleList | undefined;
+}
+/** Results for a build step. */
+export interface BuildStepResults {
+  /** Results for a build step. */
+  results?: StringMap | undefined;
+}
+export type BuildStepResultsMap = { [key: string]: BuildStepResults | undefined };
+/** A generic artifact uploaded to Artifact Registry using the GenericArtifact directive. */
+export interface UploadedGenericArtifact {
+  /** Output only. Path to the artifact in Artifact Registry. */
+  artifactRegistryPackage?: string | undefined;
+  /** Output only. The file hashes that make up the generic artifact. */
+  fileHashes?: FileHashesMap | undefined;
+  /** Output only. Stores timing information for pushing the specified artifact. */
+  pushTiming?: TimeSpan | undefined;
+  /** Output only. The hash of the whole artifact. */
+  artifactFingerprint?: FileHashes | undefined;
+  /** Output only. URI of the uploaded artifact. Ex: projects/p1/locations/us/repositories/r1/packages/p1/versions/v1 */
+  uri?: string | undefined;
+}
+export type UploadedGenericArtifactList = Array<UploadedGenericArtifact>;
+/** Artifact uploaded using the PythonPackage directive. */
+export interface UploadedPythonPackage {
+  /** URI of the uploaded artifact. */
+  uri?: string | undefined;
+  /** Hash types and values of the Python Artifact. */
+  fileHashes?: FileHashes | undefined;
+  /** Output only. Path to the artifact in Artifact Registry. */
+  artifactRegistryPackage?: string | undefined;
+  /** Output only. Stores timing information for pushing the specified artifact. */
+  pushTiming?: TimeSpan | undefined;
+}
+export type UploadedPythonPackageList = Array<UploadedPythonPackage>;
+/** A Go module artifact uploaded to Artifact Registry using the GoModule directive. */
+export interface UploadedGoModule {
+  /** Hash types and values of the Go Module Artifact. */
+  fileHashes?: FileHashes | undefined;
+  /** Output only. Stores timing information for pushing the specified artifact. */
+  pushTiming?: TimeSpan | undefined;
+  /** Output only. Path to the artifact in Artifact Registry. */
+  artifactRegistryPackage?: string | undefined;
+  /** URI of the uploaded artifact. */
+  uri?: string | undefined;
+}
+export type UploadedGoModuleList = Array<UploadedGoModule>;
+/** An npm package uploaded to Artifact Registry using the NpmPackage directive. */
+export interface UploadedNpmPackage {
+  /** URI of the uploaded npm package. */
+  uri?: string | undefined;
+  /** Output only. Stores timing information for pushing the specified artifact. */
+  pushTiming?: TimeSpan | undefined;
+  /** Output only. Path to the artifact in Artifact Registry. */
+  artifactRegistryPackage?: string | undefined;
+  /** Hash types and values of the npm package. */
+  fileHashes?: FileHashes | undefined;
+}
+export type UploadedNpmPackageList = Array<UploadedNpmPackage>;
+/** Aggregated/summary metrics over the entire build lifecycle. */
+export interface BuildResourceUsage {
+  /** Output only. The average CPU utilization ratio across all vCPUs over the duration of the build, expressed as a fraction in the range [0.0, 1.0]. */
+  averageCpuUtilization?: number | undefined;
+  /** Output only. The highest memory utilization ratio observed over the duration of the build, expressed as a fraction in the range [0.0, 1.0]. */
+  peakMemoryUtilization?: number | undefined;
+  /** Output only. The highest CPU utilization ratio across all vCPUs observed over the duration of the build, expressed as a fraction in the range [0.0, 1.0]. */
+  peakCpuUtilization?: number | undefined;
+  /** Output only. The average memory utilization ratio over the duration of the build, expressed as a fraction in the range [0.0, 1.0]. */
+  averageMemoryUtilization?: number | undefined;
+  /** Output only. Total CPU execution time consumed across all cores during build execution. */
+  totalCpuDuration?: string | undefined;
 }
 /** A Maven artifact uploaded using the MavenArtifact directive. */
 export interface UploadedMavenArtifact {
-  /** Hash types and values of the Maven Artifact. */
-  fileHashes?: FileHashes;
   /** Output only. Path to the artifact in Artifact Registry. */
-  artifactRegistryPackage?: string;
+  artifactRegistryPackage?: string | undefined;
+  /** Hash types and values of the Maven Artifact. */
+  fileHashes?: FileHashes | undefined;
   /** Output only. Stores timing information for pushing the specified artifact. */
-  pushTiming?: TimeSpan;
+  pushTiming?: TimeSpan | undefined;
   /** URI of the uploaded artifact. */
-  uri?: string;
+  uri?: string | undefined;
 }
 export type UploadedMavenArtifactList = Array<UploadedMavenArtifact>;
 export type BuiltImageOciMediaTypeEnum =
@@ -677,101 +624,46 @@ export type BuiltImageOciMediaTypeEnum =
   | "IMAGE_INDEX";
 /** An image built by the pipeline. */
 export interface BuiltImage {
-  /** Output only. The OCI media type of the artifact. Non-OCI images, such as Docker images, will have an unspecified value. */
-  ociMediaType?: BuiltImageOciMediaTypeEnum | (string & {});
   /** Output only. Stores timing information for pushing the specified image. */
-  pushTiming?: TimeSpan;
-  /** Name used to push the container image to Google Container Registry, as presented to `docker push`. */
-  name?: string;
+  pushTiming?: TimeSpan | undefined;
   /** Output only. Path to the artifact in Artifact Registry. */
-  artifactRegistryPackage?: string;
+  artifactRegistryPackage?: string | undefined;
+  /** Name used to push the container image to Google Container Registry, as presented to `docker push`. */
+  name?: string | undefined;
   /** Docker Registry 2.0 digest. */
-  digest?: string;
+  digest?: string | undefined;
+  /** Output only. The OCI media type of the artifact. Non-OCI images, such as Docker images, will have an unspecified value. */
+  ociMediaType?: BuiltImageOciMediaTypeEnum | (string & {}) | undefined;
 }
 export type BuiltImageList = Array<BuiltImage>;
-/** A Go module artifact uploaded to Artifact Registry using the GoModule directive. */
-export interface UploadedGoModule {
-  /** Hash types and values of the Go Module Artifact. */
-  fileHashes?: FileHashes;
-  /** Output only. Path to the artifact in Artifact Registry. */
-  artifactRegistryPackage?: string;
-  /** Output only. Stores timing information for pushing the specified artifact. */
-  pushTiming?: TimeSpan;
-  /** URI of the uploaded artifact. */
-  uri?: string;
-}
-export type UploadedGoModuleList = Array<UploadedGoModule>;
-/** Results for a build step. */
-export interface BuildStepResults {
-  /** Results for a build step. */
-  results?: StringMap;
-}
-export type BuildStepResultsMap = { [key: string]: BuildStepResults | undefined };
-/** An npm package uploaded to Artifact Registry using the NpmPackage directive. */
-export interface UploadedNpmPackage {
-  /** URI of the uploaded npm package. */
-  uri?: string;
-  /** Output only. Path to the artifact in Artifact Registry. */
-  artifactRegistryPackage?: string;
-  /** Output only. Stores timing information for pushing the specified artifact. */
-  pushTiming?: TimeSpan;
-  /** Hash types and values of the npm package. */
-  fileHashes?: FileHashes;
-}
-export type UploadedNpmPackageList = Array<UploadedNpmPackage>;
-/** Artifact uploaded using the PythonPackage directive. */
-export interface UploadedPythonPackage {
-  /** Hash types and values of the Python Artifact. */
-  fileHashes?: FileHashes;
-  /** URI of the uploaded artifact. */
-  uri?: string;
-  /** Output only. Stores timing information for pushing the specified artifact. */
-  pushTiming?: TimeSpan;
-  /** Output only. Path to the artifact in Artifact Registry. */
-  artifactRegistryPackage?: string;
-}
-export type UploadedPythonPackageList = Array<UploadedPythonPackage>;
-export type FileHashesMap = { [key: string]: FileHashes | undefined };
-/** A generic artifact uploaded to Artifact Registry using the GenericArtifact directive. */
-export interface UploadedGenericArtifact {
-  /** Output only. The hash of the whole artifact. */
-  artifactFingerprint?: FileHashes;
-  /** Output only. The file hashes that make up the generic artifact. */
-  fileHashes?: FileHashesMap;
-  /** Output only. Stores timing information for pushing the specified artifact. */
-  pushTiming?: TimeSpan;
-  /** Output only. URI of the uploaded artifact. Ex: projects/p1/locations/us/repositories/r1/packages/p1/versions/v1 */
-  uri?: string;
-  /** Output only. Path to the artifact in Artifact Registry. */
-  artifactRegistryPackage?: string;
-}
-export type UploadedGenericArtifactList = Array<UploadedGenericArtifact>;
 /** Artifacts created by the build pipeline. */
 export interface Results {
-  /** Time to push all non-container artifacts to Cloud Storage. */
-  artifactTiming?: TimeSpan;
-  /** Maven artifacts uploaded to Artifact Registry at the end of the build. */
-  mavenArtifacts?: UploadedMavenArtifactList;
-  /** Path to the artifact manifest for non-container artifacts uploaded to Cloud Storage. Only populated when artifacts are uploaded to Cloud Storage. */
-  artifactManifest?: string;
-  /** List of build step digests, in the order corresponding to build step indices. */
-  buildStepImages?: StringList;
-  /** Number of non-container artifacts uploaded to Cloud Storage. Only populated when artifacts are uploaded to Cloud Storage. */
-  numArtifacts?: string;
-  /** Container images that were built as a part of the build. */
-  images?: BuiltImageList;
-  /** List of build step outputs, produced by builder images, in the order corresponding to build step indices. [Cloud Builders](https://cloud.google.com/cloud-build/docs/cloud-builders) can produce this output by writing to `$BUILDER_OUTPUT/output`. Only the first 50KB of data is stored. Note that the `$BUILDER_OUTPUT` variable is read-only and can't be substituted. */
-  buildStepOutputs?: StringList;
-  /** Optional. Go module artifacts uploaded to Artifact Registry at the end of the build. */
-  goModules?: UploadedGoModuleList;
   /** Results for build steps. step_id -> */
-  buildStepResults?: BuildStepResultsMap;
-  /** Npm packages uploaded to Artifact Registry at the end of the build. */
-  npmPackages?: UploadedNpmPackageList;
-  /** Python artifacts uploaded to Artifact Registry at the end of the build. */
-  pythonPackages?: UploadedPythonPackageList;
+  buildStepResults?: BuildStepResultsMap | undefined;
+  /** Number of non-container artifacts uploaded to Cloud Storage. Only populated when artifacts are uploaded to Cloud Storage. */
+  numArtifacts?: string | undefined;
   /** Output only. Generic artifacts uploaded to Artifact Registry at the end of the build. */
-  genericArtifacts?: UploadedGenericArtifactList;
+  genericArtifacts?: UploadedGenericArtifactList | undefined;
+  /** Path to the artifact manifest for non-container artifacts uploaded to Cloud Storage. Only populated when artifacts are uploaded to Cloud Storage. */
+  artifactManifest?: string | undefined;
+  /** List of build step outputs, produced by builder images, in the order corresponding to build step indices. [Cloud Builders](https://cloud.google.com/cloud-build/docs/cloud-builders) can produce this output by writing to `$BUILDER_OUTPUT/output`. Only the first 50KB of data is stored. Note that the `$BUILDER_OUTPUT` variable is read-only and can't be substituted. */
+  buildStepOutputs?: StringList | undefined;
+  /** Python artifacts uploaded to Artifact Registry at the end of the build. */
+  pythonPackages?: UploadedPythonPackageList | undefined;
+  /** Optional. Go module artifacts uploaded to Artifact Registry at the end of the build. */
+  goModules?: UploadedGoModuleList | undefined;
+  /** Npm packages uploaded to Artifact Registry at the end of the build. */
+  npmPackages?: UploadedNpmPackageList | undefined;
+  /** Time to push all non-container artifacts to Cloud Storage. */
+  artifactTiming?: TimeSpan | undefined;
+  /** Output only. Aggregated metrics for the build. */
+  resourceUsage?: BuildResourceUsage | undefined;
+  /** Maven artifacts uploaded to Artifact Registry at the end of the build. */
+  mavenArtifacts?: UploadedMavenArtifactList | undefined;
+  /** Container images that were built as a part of the build. */
+  images?: BuiltImageList | undefined;
+  /** List of build step digests, in the order corresponding to build step indices. */
+  buildStepImages?: StringList | undefined;
 }
 export type FailureInfoTypeEnum =
   | "FAILURE_TYPE_UNSPECIFIED"
@@ -783,25 +675,10 @@ export type FailureInfoTypeEnum =
   | "FETCH_SOURCE_FAILED";
 /** A fatal problem encountered during the execution of the build. */
 export interface FailureInfo {
-  /** The name of the failure. */
-  type?: FailureInfoTypeEnum | (string & {});
   /** Explains the failure issue in more detail using hard-coded text. */
-  detail?: string;
-}
-/** Provenance of the source. Ways to find the original source, or verify that some source was used for this build. */
-export interface SourceProvenance {
-  /** Output only. A copy of the build's `source.connected_repository`, if exists, with any revisions resolved. */
-  resolvedConnectedRepository?: ConnectedRepository;
-  /** A copy of the build's `source.storage_source`, if exists, with any generations resolved. */
-  resolvedStorageSource?: StorageSource;
-  /** A copy of the build's `source.repo_source`, if exists, with any revisions resolved. */
-  resolvedRepoSource?: RepoSource;
-  /** Output only. Hash(es) of the build source, which can be used to verify that the original source integrity was maintained in the build. Note that `FileHashes` will only be populated if `BuildOptions` has requested a `SourceProvenanceHash`. The keys to this map are file paths used as build source and the values contain the hash values for those files. If the build source came in a single package such as a gzipped tarfile (`.tar.gz`), the `FileHash` will be for the single path to that file. */
-  fileHashes?: FileHashesMap;
-  /** A copy of the build's `source.storage_source_manifest`, if exists, with any revisions resolved. This feature is in Preview. */
-  resolvedStorageSourceManifest?: StorageSourceManifest;
-  /** Output only. A copy of the build's `source.git_source`, if exists, with any revisions resolved. */
-  resolvedGitSource?: GitSource;
+  detail?: string | undefined;
+  /** The name of the failure. */
+  type?: FailureInfoTypeEnum | (string & {}) | undefined;
 }
 export type BuildStatusEnum =
   | "STATUS_UNKNOWN"
@@ -814,299 +691,343 @@ export type BuildStatusEnum =
   | "TIMEOUT"
   | "CANCELLED"
   | "EXPIRED";
-export type WarningPriorityEnum = "PRIORITY_UNSPECIFIED" | "INFO" | "WARNING" | "ALERT";
-/** A non-fatal problem encountered during the execution of the build. */
-export interface Warning {
-  /** Explanation of the warning generated. */
-  text?: string;
-  /** The priority for this warning. */
-  priority?: WarningPriorityEnum | (string & {});
+export type IntegerList = Array<number>;
+export type BuildStepStatusEnum =
+  | "STATUS_UNKNOWN"
+  | "PENDING"
+  | "QUEUED"
+  | "WORKING"
+  | "SUCCESS"
+  | "FAILURE"
+  | "INTERNAL_ERROR"
+  | "TIMEOUT"
+  | "CANCELLED"
+  | "EXPIRED";
+/** StepResult is the declaration of a result for a build step. */
+export interface StepResult {
+  /** Required. The name of the result. */
+  name?: string | undefined;
+  /** Optional. The type of attestation to be generated. */
+  attestationType?: string | undefined;
+  /** Optional. The content of the attestation to be generated. */
+  attestationContent?: string | undefined;
 }
-export type WarningList = Array<Warning>;
-export type TimeSpanMap = { [key: string]: TimeSpan | undefined };
+export type StepResultList = Array<StepResult>;
+/** A step in the build pipeline. */
+export interface BuildStep {
+  /** Allow this build step to fail without failing the entire build if and only if the exit code is one of the specified codes. If allow_failure is also specified, this field will take precedence. */
+  allowExitCodes?: IntegerList | undefined;
+  /** Output only. Return code from running the step. */
+  exitCode?: number | undefined;
+  /** The ID(s) of the step(s) that this build step depends on. This build step will not start until all the build steps in `wait_for` have completed successfully. If `wait_for` is empty, this build step will start when all previous build steps in the `Build.Steps` list have completed successfully. */
+  waitFor?: StringList | undefined;
+  /** Unique identifier for this build step, used in `wait_for` to reference this build step as a dependency. */
+  id?: string | undefined;
+  /** Time limit for executing this build step. If not defined, the step has no time limit and will be allowed to continue to run until either it completes or the build itself times out. */
+  timeout?: string | undefined;
+  /** Output only. Status of the build step. At this time, build step status is only updated on build completion; step status is not updated in real-time as the build progresses. */
+  status?: BuildStepStatusEnum | (string & {}) | undefined;
+  /** Required. The name of the container image that will run this particular build step. If the image is available in the host's Docker daemon's cache, it will be run directly. If not, the host will attempt to pull the image first, using the builder service account's credentials if necessary. The Docker daemon's cache will already have the latest versions of all of the officially supported build steps ([https://github.com/GoogleCloudPlatform/cloud-builders](https://github.com/GoogleCloudPlatform/cloud-builders)). The Docker daemon will also have cached many of the layers for some popular images, like "ubuntu", "debian", but they will be refreshed at the time you attempt to use them. If you built an image in a previous build step, it will be stored in the host's Docker daemon's cache and is available to use as the name for a later build step. */
+  name?: string | undefined;
+  /** Allow this build step to fail without failing the entire build. If false, the entire build will fail if this step fails. Otherwise, the build will succeed, but this step will still have a failure status. Error information will be reported in the failure_detail field. */
+  allowFailure?: boolean | undefined;
+  /** Working directory to use when running this step's container. If this value is a relative path, it is relative to the build's working directory. If this value is absolute, it may be outside the build's working directory, in which case the contents of the path may not be persisted across build step executions, unless a `volume` for that path is specified. If the build specifies a `RepoSource` with `dir` and a step with a `dir`, which specifies an absolute path, the `RepoSource` `dir` is ignored for the step's execution. */
+  dir?: string | undefined;
+  /** A list of environment variables which are encrypted using a Cloud Key Management Service crypto key. These values must be specified in the build's `Secret`. */
+  secretEnv?: StringList | undefined;
+  /** Option to include built-in and custom substitutions as env variables for this build step. This option will override the global option in BuildOption. */
+  automapSubstitutions?: boolean | undefined;
+  /** A list of environment variable definitions to be used when running a step. The elements are of the form "KEY=VALUE" for the environment variable "KEY" being given the value "VALUE". */
+  env?: StringList | undefined;
+  /** Entrypoint to be used instead of the build step image's default entrypoint. If unset, the image's default entrypoint is used. */
+  entrypoint?: string | undefined;
+  /** A shell script to be executed in the step. When script is provided, the user cannot specify the entrypoint or args. */
+  script?: string | undefined;
+  /** Output only. Stores timing information for executing this build step. */
+  timing?: TimeSpan | undefined;
+  /** A list of arguments that will be presented to the step when it is started. If the image used to run the step's container has an entrypoint, the `args` are used as arguments to that entrypoint. If the image does not define an entrypoint, the first element in args is used as the entrypoint, and the remainder will be used as arguments. */
+  args?: StringList | undefined;
+  /** List of volumes to mount into the build step. Each volume is created as an empty volume prior to execution of the build step. Upon completion of the build, volumes and their contents are discarded. Using a named volume in only one step is not valid as it is indicative of a build request with an incorrect configuration. */
+  volumes?: VolumeList | undefined;
+  /** Declaration of results for this build step. */
+  results?: StepResultList | undefined;
+  /** Output only. Stores timing information for pulling this build step's builder image only. */
+  pullTiming?: TimeSpan | undefined;
+}
+export type BuildStepList = Array<BuildStep>;
+/** A repository for a git source. */
+export interface GitSourceRepository {
+  /** The Developer Connect Git repository link formatted as `projects/*\/locations/*\/connections/*\/gitRepositoryLink/*` */
+  developerConnect?: string | undefined;
+  /** Location of the Git repository. */
+  url?: string | undefined;
+}
+/** Represents a git repository as a build dependency. */
+export interface GitSourceDependency {
+  /** Required. The kind of repo (url or dev connect). */
+  repository?: GitSourceRepository | undefined;
+  /** Required. The revision that we will fetch the repo at. */
+  revision?: string | undefined;
+  /** Optional. How much history should be fetched for the build (default 1, -1 for all history). */
+  depth?: string | undefined;
+  /** Required. Where should the files be placed on the worker. */
+  destPath?: string | undefined;
+  /** Optional. True if submodules should be fetched too (default false). */
+  recurseSubmodules?: boolean | undefined;
+  /** Optional. True if remote tags should be fetched too (default false). Note: when depth is 1 (default), git fetch only retrieves tags pointing to commits within the shallow boundary. Set depth to -1 to fetch all historical tags. */
+  fetchTags?: boolean | undefined;
+}
+/** Represents a generic artifact as a build dependency. */
+export interface GenericArtifactDependency {
+  /** Required. The location to download the artifact files from. Ex: projects/p1/locations/us/repositories/r1/packages/p1/versions/v1 */
+  resource?: string | undefined;
+  /** Optional. Where the artifact files should be placed on the worker. Required when specified in `Build.dependencies`. */
+  destPath?: string | undefined;
+}
+/** A dependency that the Cloud Build worker will fetch before executing user steps. */
+export interface Dependency {
+  /** If set to true disable all dependency fetching (ignoring the default source as well). */
+  empty?: boolean | undefined;
+  /** Represents a git repository as a build dependency. */
+  gitSource?: GitSourceDependency | undefined;
+  /** Represents a generic artifact as a build dependency. */
+  genericArtifact?: GenericArtifactDependency | undefined;
+}
+export type DependencyList = Array<Dependency>;
+/** This config defines the location of a source through Developer Connect. */
+export interface DeveloperConnectConfig {
+  /** Required. The Developer Connect Git repository link, formatted as `projects/*\/locations/*\/connections/*\/gitRepositoryLink/*`. */
+  gitRepositoryLink?: string | undefined;
+  /** Required. Directory, relative to the source root, in which to run the build. */
+  dir?: string | undefined;
+  /** Required. The revision to fetch from the Git repository such as a branch, a tag, a commit SHA, or any Git ref. */
+  revision?: string | undefined;
+}
+/** Location of the source in a supported storage service. */
+export interface Source {
+  /** If provided, get the source from this location in a Cloud Source Repository. */
+  repoSource?: RepoSource | undefined;
+  /** If provided, get the source from this manifest in Cloud Storage. This feature is in Preview; see description [here](https://github.com/GoogleCloudPlatform/cloud-builders/tree/master/gcs-fetcher). */
+  storageSourceManifest?: StorageSourceManifest | undefined;
+  /** If provided, get the source from this Git repository. */
+  gitSource?: GitSource | undefined;
+  /** Optional. If provided, get the source from this 2nd-gen Google Cloud Build repository resource. */
+  connectedRepository?: ConnectedRepository | undefined;
+  /** If provided, get the source from this location in Cloud Storage. */
+  storageSource?: StorageSource | undefined;
+  /** If provided, get the source from this Developer Connect config. */
+  developerConnectConfig?: DeveloperConnectConfig | undefined;
+}
+/** Pairs a secret environment variable with a SecretVersion in Secret Manager. */
+export interface SecretManagerSecret {
+  /** Resource name of the SecretVersion. In format: projects/*\/secrets/*\/versions/* */
+  versionName?: string | undefined;
+  /** Environment variable name to associate with the secret. Secret environment variables must be unique across all of a build's secrets, and must be used by at least one build step. */
+  env?: string | undefined;
+}
+export type SecretManagerSecretList = Array<SecretManagerSecret>;
+/** Pairs a set of secret environment variables mapped to encrypted values with the Cloud KMS key to use to decrypt the value. */
+export interface InlineSecret {
+  /** Map of environment variable name to its encrypted value. Secret environment variables must be unique across all of a build's secrets, and must be used by at least one build step. Values can be at most 64 KB in size. There can be at most 100 secret values across all of a build's secrets. */
+  envMap?: StringMap | undefined;
+  /** Resource name of Cloud KMS crypto key to decrypt the encrypted value. In format: projects/*\/locations/*\/keyRings/*\/cryptoKeys/* */
+  kmsKeyName?: string | undefined;
+}
+export type InlineSecretList = Array<InlineSecret>;
+/** Secrets and secret environment variables. */
+export interface Secrets {
+  /** Secrets in Secret Manager and associated secret environment variable. */
+  secretManager?: SecretManagerSecretList | undefined;
+  /** Secrets encrypted with KMS key and the associated secret environment variable. */
+  inline?: InlineSecretList | undefined;
+}
 /** A build resource in the Cloud Build API. At a high level, a `Build` describes where to find source code, how to build it (for example, the builder image to run on the source), and where to store the built artifacts. Fields can include the following variables, which will be expanded when the build is created: - $PROJECT_ID: the project ID of the build. - $PROJECT_NUMBER: the project number of the build. - $LOCATION: the location/region of the build. - $BUILD_ID: the autogenerated ID of the build. - $REPO_NAME: the source repository name specified by RepoSource. - $BRANCH_NAME: the branch name specified by RepoSource. - $TAG_NAME: the tag name specified by RepoSource. - $REVISION_ID or $COMMIT_SHA: the commit SHA specified by RepoSource or resolved from the specified branch or tag. - $SHORT_SHA: first 7 characters of $REVISION_ID or $COMMIT_SHA. */
 export interface Build {
-  /** Substitutions data for `Build` resource. */
-  substitutions?: StringMap;
-  /** Cloud Storage bucket where logs should be written (see [Bucket Name Requirements](https://cloud.google.com/storage/docs/bucket-naming#requirements)). Logs file names will be of the format `${logs_bucket}/log-${build_id}.txt`. */
-  logsBucket?: string;
-  /** Optional. Dependencies that the Cloud Build worker will fetch before executing user steps. */
-  dependencies?: DependencyList;
-  /** Output only. Time at which the request to create the build was received. */
-  createTime?: string;
-  /** Output only. The 'Build' name with format: `projects/{project}/locations/{location}/builds/{build}`, where {build} is a unique identifier generated by the service. */
-  name?: string;
-  /** Required. The operations to be performed on the workspace. */
-  steps?: BuildStepList;
-  /** Artifacts produced by the build that should be uploaded upon successful completion of all build steps. */
-  artifacts?: Artifacts;
-  /** Output only. URL to logs for this build in Google Cloud Console. */
-  logUrl?: string;
-  /** Output only. Time at which execution of the build was started. */
-  startTime?: string;
-  /** Output only. Customer-readable message about the current status. */
-  statusDetail?: string;
-  /** Secrets to decrypt using Cloud Key Management Service. Note: Secret Manager is the recommended technique for managing sensitive data with Cloud Build. Use `available_secrets` to configure builds to access secrets from Secret Manager. For instructions, see: https://cloud.google.com/cloud-build/docs/securing-builds/use-secrets */
-  secrets?: SecretList;
-  /** Secrets and secret environment variables. */
-  availableSecrets?: Secrets;
-  /** IAM service account whose credentials will be used at build runtime. Must be of the format `projects/{PROJECT_ID}/serviceAccounts/{ACCOUNT}`. ACCOUNT can be email address or uniqueId of the service account. */
-  serviceAccount?: string;
-  /** TTL in queue for this build. If provided and the build is enqueued longer than this value, the build will expire and the build status will be `EXPIRED`. The TTL starts ticking from create_time. */
-  queueTtl?: string;
-  /** Output only. Describes this build's approval configuration, status, and result. */
-  approval?: BuildApproval;
-  /** Optional. The location of the source files to build. */
-  source?: Source;
-  /** Optional. Configuration for git operations. */
-  gitConfig?: GitConfig;
-  /** Amount of time that this build should be allowed to run, to second granularity. If this amount of time elapses, work on the build will cease and the build status will be `TIMEOUT`. `timeout` starts ticking from `startTime`. Default time is 60 minutes. */
-  timeout?: string;
-  /** Special options for this build. */
-  options?: BuildOptions;
-  /** Output only. ID of the project. */
-  projectId?: string;
-  /** Output only. Time at which execution of the build was finished. The difference between finish_time and start_time is the duration of the build's execution. */
-  finishTime?: string;
-  /** A list of images to be pushed upon the successful completion of all build steps. The images are pushed using the builder service account's credentials. The digests of the pushed images will be stored in the `Build` resource's results field. If any of the images fail to be pushed, the build status is marked `FAILURE`. */
-  images?: StringList;
-  /** Output only. Results of the build. */
-  results?: Results;
-  /** Tags for annotation of a `Build`. These are not docker tags. */
-  tags?: StringList;
-  /** Output only. Contains information about the build when status=FAILURE. */
-  failureInfo?: FailureInfo;
-  /** Output only. A permanent fixed identifier for source. */
-  sourceProvenance?: SourceProvenance;
-  /** Output only. The ID of the `BuildTrigger` that triggered this build, if it was triggered automatically. */
-  buildTriggerId?: string;
-  /** Output only. Status of the build. */
-  status?: BuildStatusEnum | (string & {});
-  /** Output only. Non-fatal problems encountered during the execution of the build. */
-  warnings?: WarningList;
-  /** Output only. Stores timing information for phases of the build. Valid keys are: * BUILD: time to execute all build steps. * PUSH: time to push all artifacts including docker images and non docker artifacts. * FETCHSOURCE: time to fetch source. * SETUPBUILD: time to set up build. If the build does not specify source or images, these keys will not be included. */
-  timing?: TimeSpanMap;
   /** Output only. Unique identifier of the build. */
-  id?: string;
+  id?: string | undefined;
+  /** Amount of time that this build should be allowed to run, to second granularity. If this amount of time elapses, work on the build will cease and the build status will be `TIMEOUT`. `timeout` starts ticking from `startTime`. Default time is 60 minutes. */
+  timeout?: string | undefined;
+  /** Output only. The ID of the `BuildTrigger` that triggered this build, if it was triggered automatically. */
+  buildTriggerId?: string | undefined;
+  /** Output only. ID of the project. */
+  projectId?: string | undefined;
+  /** Output only. Customer-readable message about the current status. */
+  statusDetail?: string | undefined;
+  /** Output only. Non-fatal problems encountered during the execution of the build. */
+  warnings?: WarningList | undefined;
+  /** Optional. Configuration for git operations. */
+  gitConfig?: GitConfig | undefined;
+  /** Output only. URL to logs for this build in Google Cloud Console. */
+  logUrl?: string | undefined;
+  /** A list of images to be pushed upon the successful completion of all build steps. The images are pushed using the builder service account's credentials. The digests of the pushed images will be stored in the `Build` resource's results field. If any of the images fail to be pushed, the build status is marked `FAILURE`. */
+  images?: StringList | undefined;
+  /** Tags for annotation of a `Build`. These are not docker tags. */
+  tags?: StringList | undefined;
+  /** Output only. Describes this build's approval configuration, status, and result. */
+  approval?: BuildApproval | undefined;
+  /** Output only. Stores timing information for phases of the build. Valid keys are: * BUILD: time to execute all build steps. * PUSH: time to push all artifacts including docker images and non docker artifacts. * FETCHSOURCE: time to fetch source. * SETUPBUILD: time to set up build. If the build does not specify source or images, these keys will not be included. */
+  timing?: TimeSpanMap | undefined;
+  /** Special options for this build. */
+  options?: BuildOptions | undefined;
+  /** Output only. A permanent fixed identifier for source. */
+  sourceProvenance?: SourceProvenance | undefined;
+  /** Secrets to decrypt using Cloud Key Management Service. Note: Secret Manager is the recommended technique for managing sensitive data with Cloud Build. Use `available_secrets` to configure builds to access secrets from Secret Manager. For instructions, see: https://cloud.google.com/cloud-build/docs/securing-builds/use-secrets */
+  secrets?: SecretList | undefined;
+  /** Artifacts produced by the build that should be uploaded upon successful completion of all build steps. */
+  artifacts?: Artifacts | undefined;
+  /** Output only. Time at which execution of the build was finished. The difference between finish_time and start_time is the duration of the build's execution. */
+  finishTime?: string | undefined;
+  /** Output only. Results of the build. */
+  results?: Results | undefined;
+  /** Cloud Storage bucket where logs should be written (see [Bucket Name Requirements](https://cloud.google.com/storage/docs/bucket-naming#requirements)). Logs file names will be of the format `${logs_bucket}/log-${build_id}.txt`. */
+  logsBucket?: string | undefined;
+  /** Output only. Contains information about the build when status=FAILURE. */
+  failureInfo?: FailureInfo | undefined;
+  /** Output only. Time at which execution of the build was started. */
+  startTime?: string | undefined;
+  /** Output only. Status of the build. */
+  status?: BuildStatusEnum | (string & {}) | undefined;
+  /** Substitutions data for `Build` resource. */
+  substitutions?: StringMap | undefined;
+  /** IAM service account whose credentials will be used at build runtime. Must be of the format `projects/{PROJECT_ID}/serviceAccounts/{ACCOUNT}`. ACCOUNT can be email address or uniqueId of the service account. */
+  serviceAccount?: string | undefined;
+  /** Required. The operations to be performed on the workspace. */
+  steps?: BuildStepList | undefined;
+  /** Output only. The 'Build' name with format: `projects/{project}/locations/{location}/builds/{build}`, where {build} is a unique identifier generated by the service. */
+  name?: string | undefined;
+  /** Output only. Time at which the request to create the build was received. */
+  createTime?: string | undefined;
+  /** Optional. Dependencies that the Cloud Build worker will fetch before executing user steps. */
+  dependencies?: DependencyList | undefined;
+  /** Optional. The location of the source files to build. */
+  source?: Source | undefined;
+  /** Secrets and secret environment variables. */
+  availableSecrets?: Secrets | undefined;
+  /** TTL in queue for this build. If provided and the build is enqueued longer than this value, the build will expire and the build status will be `EXPIRED`. The TTL starts ticking from create_time. */
+  queueTtl?: string | undefined;
 }
-export interface CancelProjectsLocationsBuildsRequest {
+export interface CancelProjectsLocationsBuildsRequest extends Omit<CancelBuildRequest, "name"> {
   /** The name of the `Build` to cancel. Format: `projects/{project}/locations/{location}/builds/{build}` */
   name: string;
-  /** Request body */
-  body?: CancelBuildRequest;
 }
 export interface CancelProjectsLocationsOperationsRequest {
   /** The name of the operation resource to be cancelled. */
   name: string;
   /** Request body */
-  body?: CancelOperationRequest;
+  body?: CancelOperationRequest | undefined;
 }
-export interface CreateProjectsBuildsRequest {
+export interface CreateProjectsBuildsRequest extends Omit<Build, "projectId"> {
+  /** The parent resource where this build will be created. Format: `projects/{project}/locations/{location}` */
+  parent?: string | undefined;
   /** Required. ID of the project. */
   projectId: string;
-  /** The parent resource where this build will be created. Format: `projects/{project}/locations/{location}` */
-  parent?: string;
-  /** Request body */
-  body?: Build;
 }
 /** GitHubEnterpriseSecrets represents the names of all necessary secrets in Secret Manager for a GitHub Enterprise server. Format is: projects//secrets/. */
 export interface GitHubEnterpriseSecrets {
-  /** The resource name for the OAuth secret in Secret Manager. */
-  oauthSecretName?: string;
-  /** The resource name for the private key secret version. */
-  privateKeyVersionName?: string;
-  /** The resource name for the OAuth secret secret version in Secret Manager. */
-  oauthSecretVersionName?: string;
-  /** The resource name for the webhook secret in Secret Manager. */
-  webhookSecretName?: string;
   /** The resource name for the webhook secret secret version in Secret Manager. */
-  webhookSecretVersionName?: string;
-  /** The resource name for the private key secret. */
-  privateKeyName?: string;
-  /** The resource name for the OAuth client ID secret in Secret Manager. */
-  oauthClientIdName?: string;
+  webhookSecretVersionName?: string | undefined;
   /** The resource name for the OAuth client ID secret version in Secret Manager. */
-  oauthClientIdVersionName?: string;
+  oauthClientIdVersionName?: string | undefined;
+  /** The resource name for the OAuth secret secret version in Secret Manager. */
+  oauthSecretVersionName?: string | undefined;
+  /** The resource name for the private key secret. */
+  privateKeyName?: string | undefined;
+  /** The resource name for the webhook secret in Secret Manager. */
+  webhookSecretName?: string | undefined;
+  /** The resource name for the OAuth secret in Secret Manager. */
+  oauthSecretName?: string | undefined;
+  /** The resource name for the OAuth client ID secret in Secret Manager. */
+  oauthClientIdName?: string | undefined;
+  /** The resource name for the private key secret version. */
+  privateKeyVersionName?: string | undefined;
 }
 /** GitHubEnterpriseConfig represents a configuration for a GitHub Enterprise server. */
 export interface GitHubEnterpriseConfig {
-  /** Optional. Names of secrets in Secret Manager. */
-  secrets?: GitHubEnterpriseSecrets;
   /** Optional. Name to display for this config. */
-  displayName?: string;
-  /** Identifier. The full resource name for the GitHubEnterpriseConfig For example: "projects/{$project_id}/locations/{$location_id}/githubEnterpriseConfigs/{$config_id}" */
-  name?: string;
-  /** Output only. Time when the installation was associated with the project. */
-  createTime?: string;
-  /** Optional. SSL certificate to use for requests to GitHub Enterprise. */
-  sslCa?: string;
-  /** Optional. The network to be used when reaching out to the GitHub Enterprise server. The VPC network must be enabled for private service connection. This should be set if the GitHub Enterprise server is hosted on-premises and not reachable by public internet. If this field is left empty, no network peering will occur and calls to the GitHub Enterprise server will be made over the public internet. Must be in the format `projects/{project}/global/networks/{network}`, where {project} is a project number or id and {network} is the name of a VPC network in the project. */
-  peeredNetwork?: string;
+  displayName?: string | undefined;
   /** The URL of the github enterprise host the configuration is for. */
-  hostUrl?: string;
-  /** The key that should be attached to webhook calls to the ReceiveWebhook endpoint. */
-  webhookKey?: string;
+  hostUrl?: string | undefined;
   /** Required. The GitHub app id of the Cloud Build app on the GitHub Enterprise server. */
-  appId?: string;
+  appId?: string | undefined;
+  /** Output only. Time when the installation was associated with the project. */
+  createTime?: string | undefined;
+  /** The key that should be attached to webhook calls to the ReceiveWebhook endpoint. */
+  webhookKey?: string | undefined;
+  /** Optional. Names of secrets in Secret Manager. */
+  secrets?: GitHubEnterpriseSecrets | undefined;
+  /** Identifier. The full resource name for the GitHubEnterpriseConfig For example: "projects/{$project_id}/locations/{$location_id}/githubEnterpriseConfigs/{$config_id}" */
+  name?: string | undefined;
+  /** Optional. SSL certificate to use for requests to GitHub Enterprise. */
+  sslCa?: string | undefined;
+  /** Optional. The network to be used when reaching out to the GitHub Enterprise server. The VPC network must be enabled for private service connection. This should be set if the GitHub Enterprise server is hosted on-premises and not reachable by public internet. If this field is left empty, no network peering will occur and calls to the GitHub Enterprise server will be made over the public internet. Must be in the format `projects/{project}/global/networks/{network}`, where {project} is a project number or id and {network} is the name of a VPC network in the project. */
+  peeredNetwork?: string | undefined;
 }
-export interface CreateProjectsGithubEnterpriseConfigsRequest {
-  /** Optional. The ID to use for the GithubEnterpriseConfig, which will become the final component of the GithubEnterpriseConfig's resource name. ghe_config_id must meet the following requirements: + They must contain only alphanumeric characters and dashes. + They can be 1-64 characters long. + They must begin and end with an alphanumeric character */
-  gheConfigId?: string;
-  /** ID of the project. */
-  projectId?: string;
+export interface CreateProjectsGithubEnterpriseConfigsRequest extends GitHubEnterpriseConfig {
   /** Name of the parent project. For example: projects/{$project_number} or projects/{$project_id} */
   parent: string;
-  /** Request body */
-  body?: GitHubEnterpriseConfig;
+  /** Optional. The ID to use for the GithubEnterpriseConfig, which will become the final component of the GithubEnterpriseConfig's resource name. ghe_config_id must meet the following requirements: + They must contain only alphanumeric characters and dashes. + They can be 1-64 characters long. + They must begin and end with an alphanumeric character */
+  gheConfigId?: string | undefined;
+  /** ID of the project. */
+  projectId?: string | undefined;
 }
 /** BitbucketServerSecrets represents the secrets in Secret Manager for a Bitbucket Server. */
 export interface BitbucketServerSecrets {
-  /** Required. The resource name for the read access token's secret version. */
-  readAccessTokenVersionName?: string;
   /** Required. Immutable. The resource name for the webhook secret's secret version. Once this field has been set, it cannot be changed. If you need to change it, please create another BitbucketServerConfig. */
-  webhookSecretVersionName?: string;
+  webhookSecretVersionName?: string | undefined;
   /** Required. The resource name for the admin access token's secret version. */
-  adminAccessTokenVersionName?: string;
+  adminAccessTokenVersionName?: string | undefined;
+  /** Required. The resource name for the read access token's secret version. */
+  readAccessTokenVersionName?: string | undefined;
 }
 export type BitbucketServerRepositoryIdList = Array<BitbucketServerRepositoryId>;
 /** BitbucketServerConfig represents the configuration for a Bitbucket Server. */
 export interface BitbucketServerConfig {
-  /** Optional. SSL certificate to use for requests to Bitbucket Server. The format should be PEM format but the extension can be one of .pem, .cer, or .crt. */
-  sslCa?: string;
-  /** Time when the config was created. */
-  createTime?: string;
-  /** Required. Immutable. The URI of the Bitbucket Server host. Once this field has been set, it cannot be changed. If you need to change it, please create another BitbucketServerConfig. */
-  hostUri?: string;
-  /** Optional. The network to be used when reaching out to the Bitbucket Server instance. The VPC network must be enabled for private service connection. This should be set if the Bitbucket Server instance is hosted on-premises and not reachable by public internet. If this field is left empty, no network peering will occur and calls to the Bitbucket Server instance will be made over the public internet. Must be in the format `projects/{project}/global/networks/{network}`, where {project} is a project number or id and {network} is the name of a VPC network in the project. */
-  peeredNetwork?: string;
   /** Username of the account Cloud Build will use on Bitbucket Server. */
-  username?: string;
-  /** Required. Secret Manager secrets needed by the config. */
-  secrets?: BitbucketServerSecrets;
-  /** Identifier. The resource name for the config. */
-  name?: string;
+  username?: string | undefined;
   /** Required. Immutable. API Key that will be attached to webhook. Once this field has been set, it cannot be changed. If you need to change it, please create another BitbucketServerConfig. */
-  apiKey?: string;
-  /** Output only. UUID included in webhook requests. The UUID is used to look up the corresponding config. */
-  webhookKey?: string;
+  apiKey?: string | undefined;
+  /** Identifier. The resource name for the config. */
+  name?: string | undefined;
+  /** Optional. The network to be used when reaching out to the Bitbucket Server instance. The VPC network must be enabled for private service connection. This should be set if the Bitbucket Server instance is hosted on-premises and not reachable by public internet. If this field is left empty, no network peering will occur and calls to the Bitbucket Server instance will be made over the public internet. Must be in the format `projects/{project}/global/networks/{network}`, where {project} is a project number or id and {network} is the name of a VPC network in the project. */
+  peeredNetwork?: string | undefined;
+  /** Optional. SSL certificate to use for requests to Bitbucket Server. The format should be PEM format but the extension can be one of .pem, .cer, or .crt. */
+  sslCa?: string | undefined;
+  /** Required. Immutable. The URI of the Bitbucket Server host. Once this field has been set, it cannot be changed. If you need to change it, please create another BitbucketServerConfig. */
+  hostUri?: string | undefined;
+  /** Required. Secret Manager secrets needed by the config. */
+  secrets?: BitbucketServerSecrets | undefined;
+  /** Time when the config was created. */
+  createTime?: string | undefined;
   /** Output only. Connected Bitbucket Server repositories for this config. */
-  connectedRepositories?: BitbucketServerRepositoryIdList;
+  connectedRepositories?: BitbucketServerRepositoryIdList | undefined;
+  /** Output only. UUID included in webhook requests. The UUID is used to look up the corresponding config. */
+  webhookKey?: string | undefined;
   /** Immutable. IP range within the peered network. This is specified in CIDR notation with a slash and the subnet prefix size. You can optionally specify an IP address before the subnet prefix value. e.g. `192.168.0.0/29` would specify an IP range starting at 192.168.0.0 with a 29 bit prefix size. `/16` would specify a prefix size of 16 bits, with an automatically determined IP within the peered VPC. If unspecified, a value of `/24` will be used. The field only has an effect if peered_network is set. */
-  peeredNetworkIpRange?: string;
+  peeredNetworkIpRange?: string | undefined;
 }
-export interface CreateProjectsLocationsBitbucketServerConfigsRequest {
+export interface CreateProjectsLocationsBitbucketServerConfigsRequest extends BitbucketServerConfig {
+  /** Optional. The ID to use for the BitbucketServerConfig, which will become the final component of the BitbucketServerConfig's resource name. bitbucket_server_config_id must meet the following requirements: + They must contain only alphanumeric characters and dashes. + They can be 1-64 characters long. + They must begin and end with an alphanumeric character. */
+  bitbucketServerConfigId?: string | undefined;
   /** Required. Name of the parent resource. */
   parent: string;
-  /** Optional. The ID to use for the BitbucketServerConfig, which will become the final component of the BitbucketServerConfig's resource name. bitbucket_server_config_id must meet the following requirements: + They must contain only alphanumeric characters and dashes. + They can be 1-64 characters long. + They must begin and end with an alphanumeric character. */
-  bitbucketServerConfigId?: string;
-  /** Request body */
-  body?: BitbucketServerConfig;
 }
-export interface CreateProjectsLocationsBuildsRequest {
+export interface CreateProjectsLocationsBuildsRequest extends Omit<Build, "projectId"> {
+  /** Required. ID of the project. */
+  projectId?: string | undefined;
   /** The parent resource where this build will be created. Format: `projects/{project}/locations/{location}` */
   parent: string;
-  /** Required. ID of the project. */
-  projectId?: string;
-  /** Request body */
-  body?: Build;
 }
-export interface CreateProjectsLocationsGithubEnterpriseConfigsRequest {
+export interface CreateProjectsLocationsGithubEnterpriseConfigsRequest extends GitHubEnterpriseConfig {
+  /** Optional. The ID to use for the GithubEnterpriseConfig, which will become the final component of the GithubEnterpriseConfig's resource name. ghe_config_id must meet the following requirements: + They must contain only alphanumeric characters and dashes. + They can be 1-64 characters long. + They must begin and end with an alphanumeric character */
+  gheConfigId?: string | undefined;
   /** Name of the parent project. For example: projects/{$project_number} or projects/{$project_id} */
   parent: string;
-  /** Optional. The ID to use for the GithubEnterpriseConfig, which will become the final component of the GithubEnterpriseConfig's resource name. ghe_config_id must meet the following requirements: + They must contain only alphanumeric characters and dashes. + They can be 1-64 characters long. + They must begin and end with an alphanumeric character */
-  gheConfigId?: string;
   /** ID of the project. */
-  projectId?: string;
-  /** Request body */
-  body?: GitHubEnterpriseConfig;
+  projectId?: string | undefined;
 }
 export type BuildTriggerIncludeBuildLogsEnum =
   | "INCLUDE_BUILD_LOGS_UNSPECIFIED"
   | "INCLUDE_BUILD_LOGS_WITH_STATUS";
-/** Push contains filter properties for matching GitHub git pushes. */
-export interface PushFilter {
-  /** Regexes matching branches to build. The syntax of the regular expressions accepted is the syntax accepted by RE2 and described at https://github.com/google/re2/wiki/Syntax */
-  branch?: string;
-  /** When true, only trigger a build if the revision regex does NOT match the git_ref regex. */
-  invertRegex?: boolean;
-  /** Regexes matching tags to build. The syntax of the regular expressions accepted is the syntax accepted by RE2 and described at https://github.com/google/re2/wiki/Syntax */
-  tag?: string;
-}
-export type DeveloperConnectEventConfigGitRepositoryLinkTypeEnum =
-  | "GIT_REPOSITORY_LINK_TYPE_UNSPECIFIED"
-  | "GITHUB"
-  | "GITHUB_ENTERPRISE"
-  | "GITLAB"
-  | "GITLAB_ENTERPRISE"
-  | "BITBUCKET_DATA_CENTER"
-  | "BITBUCKET_CLOUD";
-export type PullRequestFilterCommentControlEnum =
-  | "COMMENTS_DISABLED"
-  | "COMMENTS_ENABLED"
-  | "COMMENTS_ENABLED_FOR_EXTERNAL_CONTRIBUTORS_ONLY";
-/** PullRequestFilter contains filter properties for matching GitHub Pull Requests. */
-export interface PullRequestFilter {
-  /** If CommentControl is enabled, depending on the setting, builds may not fire until a repository writer comments `/gcbrun` on a pull request or `/gcbrun` is in the pull request description. Only PR comments that contain `/gcbrun` will trigger builds. If CommentControl is set to disabled, comments with `/gcbrun` from a user with repository write permission or above will still trigger builds to run. */
-  commentControl?: PullRequestFilterCommentControlEnum | (string & {});
-  /** If true, branches that do NOT match the git_ref will trigger a build. */
-  invertRegex?: boolean;
-  /** Regex of branches to match. The syntax of the regular expressions accepted is the syntax accepted by RE2 and described at https://github.com/google/re2/wiki/Syntax */
-  branch?: string;
-}
-/** The configuration of a trigger that creates a build whenever an event from the DeveloperConnect API is received. */
-export interface DeveloperConnectEventConfig {
-  /** Required. The Developer Connect Git repository link, formatted as `projects/*\/locations/*\/connections/*\/gitRepositoryLink/*`. */
-  gitRepositoryLink?: string;
-  /** Filter to match changes in refs like branches and tags. */
-  push?: PushFilter;
-  /** Output only. The type of DeveloperConnect GitRepositoryLink. */
-  gitRepositoryLinkType?: DeveloperConnectEventConfigGitRepositoryLinkTypeEnum | (string & {});
-  /** Filter to match changes in pull requests. */
-  pullRequest?: PullRequestFilter;
-}
-export type PubsubConfigStateEnum =
-  | "STATE_UNSPECIFIED"
-  | "OK"
-  | "SUBSCRIPTION_DELETED"
-  | "TOPIC_DELETED"
-  | "SUBSCRIPTION_MISCONFIGURED";
-/** PubsubConfig describes the configuration of a trigger that creates a build whenever a Pub/Sub message is published. */
-export interface PubsubConfig {
-  /** Potential issues with the underlying Pub/Sub subscription configuration. Only populated on get requests. */
-  state?: PubsubConfigStateEnum | (string & {});
-  /** Output only. Name of the subscription. Format is `projects/{project}/subscriptions/{subscription}`. */
-  subscription?: string;
-  /** Optional. The name of the topic from which this subscription is receiving messages. Format is `projects/{project}/topics/{topic}`. */
-  topic?: string;
-  /** Service account that will make the push request. */
-  serviceAccountEmail?: string;
-}
-export type RepositoryEventConfigRepositoryTypeEnum =
-  | "REPOSITORY_TYPE_UNSPECIFIED"
-  | "GITHUB"
-  | "GITHUB_ENTERPRISE"
-  | "GITLAB_ENTERPRISE"
-  | "BITBUCKET_DATA_CENTER"
-  | "BITBUCKET_CLOUD";
-/** The configuration of a trigger that creates a build whenever an event from Repo API is received. */
-export interface RepositoryEventConfig {
-  /** Output only. The type of the SCM vendor the repository points to. */
-  repositoryType?: RepositoryEventConfigRepositoryTypeEnum | (string & {});
-  /** Filter to match changes in refs like branches, tags. */
-  push?: PushFilter;
-  /** The resource name of the Repo API resource. */
-  repository?: string;
-  /** Filter to match changes in pull requests. */
-  pullRequest?: PullRequestFilter;
-}
-export type WebhookConfigStateEnum = "STATE_UNSPECIFIED" | "OK" | "SECRET_DELETED";
-/** WebhookConfig describes the configuration of a trigger that creates a build whenever a webhook is sent to a trigger's webhook URL. */
-export interface WebhookConfig {
-  /** Required. Resource name for the secret required as a URL parameter. */
-  secret?: string;
-  /** Potential issues with the underlying Pub/Sub subscription configuration. Only populated on get requests. */
-  state?: WebhookConfigStateEnum | (string & {});
-}
 export type BuildTriggerEventTypeEnum =
   | "EVENT_TYPE_UNSPECIFIED"
   | "REPO"
@@ -1122,18 +1043,55 @@ export type GitRepoSourceRepoTypeEnum =
   | "BITBUCKET_CLOUD";
 /** GitRepoSource describes a repo and ref of a code repository. */
 export interface GitRepoSource {
-  /** The branch or tag to use. Must start with "refs/" (required). */
-  ref?: string;
-  /** The full resource name of the bitbucket server config. Format: `projects/{project}/locations/{location}/bitbucketServerConfigs/{id}`. */
-  bitbucketServerConfig?: string;
-  /** The connected repository resource name, in the format `projects/*\/locations/*\/connections/*\/repositories/*`. Either `uri` or `repository` can be specified and is required. */
-  repository?: string;
-  /** See RepoType below. */
-  repoType?: GitRepoSourceRepoTypeEnum | (string & {});
   /** The full resource name of the github enterprise config. Format: `projects/{project}/locations/{location}/githubEnterpriseConfigs/{id}`. `projects/{project}/githubEnterpriseConfigs/{id}`. */
-  githubEnterpriseConfig?: string;
+  githubEnterpriseConfig?: string | undefined;
+  /** The connected repository resource name, in the format `projects/*\/locations/*\/connections/*\/repositories/*`. Either `uri` or `repository` can be specified and is required. */
+  repository?: string | undefined;
   /** The URI of the repo (e.g. https://github.com/user/repo.git). Either `uri` or `repository` can be specified and is required. */
-  uri?: string;
+  uri?: string | undefined;
+  /** The branch or tag to use. Must start with "refs/" (required). */
+  ref?: string | undefined;
+  /** The full resource name of the bitbucket server config. Format: `projects/{project}/locations/{location}/bitbucketServerConfigs/{id}`. */
+  bitbucketServerConfig?: string | undefined;
+  /** See RepoType below. */
+  repoType?: GitRepoSourceRepoTypeEnum | (string & {}) | undefined;
+}
+export type PullRequestFilterCommentControlEnum =
+  | "COMMENTS_DISABLED"
+  | "COMMENTS_ENABLED"
+  | "COMMENTS_ENABLED_FOR_EXTERNAL_CONTRIBUTORS_ONLY";
+/** PullRequestFilter contains filter properties for matching GitHub Pull Requests. */
+export interface PullRequestFilter {
+  /** If true, branches that do NOT match the git_ref will trigger a build. */
+  invertRegex?: boolean | undefined;
+  /** If CommentControl is enabled, depending on the setting, builds may not fire until a repository writer comments `/gcbrun` on a pull request or `/gcbrun` is in the pull request description. Only PR comments that contain `/gcbrun` will trigger builds. If CommentControl is set to disabled, comments with `/gcbrun` from a user with repository write permission or above will still trigger builds to run. */
+  commentControl?: PullRequestFilterCommentControlEnum | (string & {}) | undefined;
+  /** Regex of branches to match. The syntax of the regular expressions accepted is the syntax accepted by RE2 and described at https://github.com/google/re2/wiki/Syntax */
+  branch?: string | undefined;
+}
+/** Push contains filter properties for matching GitHub git pushes. */
+export interface PushFilter {
+  /** Regexes matching tags to build. The syntax of the regular expressions accepted is the syntax accepted by RE2 and described at https://github.com/google/re2/wiki/Syntax */
+  tag?: string | undefined;
+  /** When true, only trigger a build if the revision regex does NOT match the git_ref regex. */
+  invertRegex?: boolean | undefined;
+  /** Regexes matching branches to build. The syntax of the regular expressions accepted is the syntax accepted by RE2 and described at https://github.com/google/re2/wiki/Syntax */
+  branch?: string | undefined;
+}
+/** GitHubEventsConfig describes the configuration of a trigger that creates a build whenever a GitHub event is received. */
+export interface GitHubEventsConfig {
+  /** The resource name of the github enterprise config that should be applied to this installation. For example: "projects/{$project_id}/locations/{$location_id}/githubEnterpriseConfigs/{$config_id}" */
+  enterpriseConfigResourceName?: string | undefined;
+  /** filter to match changes in pull requests. */
+  pullRequest?: PullRequestFilter | undefined;
+  /** Name of the repository. For example: The name for https://github.com/googlecloudplatform/cloud-builders is "cloud-builders". */
+  name?: string | undefined;
+  /** Owner of the repository. For example: The owner for https://github.com/googlecloudplatform/cloud-builders is "googlecloudplatform". */
+  owner?: string | undefined;
+  /** The installationID that emits the GitHub event. */
+  installationId?: string | undefined;
+  /** filter to match changes in refs like branches, tags. */
+  push?: PushFilter | undefined;
 }
 export type GitFileSourceRepoTypeEnum =
   | "UNKNOWN"
@@ -1144,115 +1102,163 @@ export type GitFileSourceRepoTypeEnum =
   | "BITBUCKET_CLOUD";
 /** GitFileSource describes a file within a (possibly remote) code repository. */
 export interface GitFileSource {
-  /** The full resource name of the github enterprise config. Format: `projects/{project}/locations/{location}/githubEnterpriseConfigs/{id}`. `projects/{project}/githubEnterpriseConfigs/{id}`. */
-  githubEnterpriseConfig?: string;
   /** The fully qualified resource name of the Repos API repository. Either URI or repository can be specified. If unspecified, the repo from which the trigger invocation originated is assumed to be the repo from which to read the specified path. */
-  repository?: string;
-  /** The path of the file, with the repo root as the root of the path. */
-  path?: string;
-  /** The URI of the repo. Either uri or repository can be specified. If unspecified, the repo from which the trigger invocation originated is assumed to be the repo from which to read the specified path. */
-  uri?: string;
-  /** See RepoType above. */
-  repoType?: GitFileSourceRepoTypeEnum | (string & {});
+  repository?: string | undefined;
+  /** The full resource name of the github enterprise config. Format: `projects/{project}/locations/{location}/githubEnterpriseConfigs/{id}`. `projects/{project}/githubEnterpriseConfigs/{id}`. */
+  githubEnterpriseConfig?: string | undefined;
   /** The full resource name of the bitbucket server config. Format: `projects/{project}/locations/{location}/bitbucketServerConfigs/{id}`. */
-  bitbucketServerConfig?: string;
+  bitbucketServerConfig?: string | undefined;
+  /** See RepoType above. */
+  repoType?: GitFileSourceRepoTypeEnum | (string & {}) | undefined;
+  /** The path of the file, with the repo root as the root of the path. */
+  path?: string | undefined;
+  /** The URI of the repo. Either uri or repository can be specified. If unspecified, the repo from which the trigger invocation originated is assumed to be the repo from which to read the specified path. */
+  uri?: string | undefined;
   /** The branch, tag, arbitrary ref, or SHA version of the repo to use when resolving the filename (optional). This field respects the same syntax/resolution as described here: https://git-scm.com/docs/gitrevisions If unspecified, the revision from which the trigger invocation originated is assumed to be the revision from which to read the specified path. */
-  revision?: string;
+  revision?: string | undefined;
+}
+export type RepositoryEventConfigRepositoryTypeEnum =
+  | "REPOSITORY_TYPE_UNSPECIFIED"
+  | "GITHUB"
+  | "GITHUB_ENTERPRISE"
+  | "GITLAB_ENTERPRISE"
+  | "BITBUCKET_DATA_CENTER"
+  | "BITBUCKET_CLOUD";
+/** The configuration of a trigger that creates a build whenever an event from Repo API is received. */
+export interface RepositoryEventConfig {
+  /** Filter to match changes in refs like branches, tags. */
+  push?: PushFilter | undefined;
+  /** Filter to match changes in pull requests. */
+  pullRequest?: PullRequestFilter | undefined;
+  /** The resource name of the Repo API resource. */
+  repository?: string | undefined;
+  /** Output only. The type of the SCM vendor the repository points to. */
+  repositoryType?: RepositoryEventConfigRepositoryTypeEnum | (string & {}) | undefined;
+}
+export type WebhookConfigStateEnum = "STATE_UNSPECIFIED" | "OK" | "SECRET_DELETED";
+/** WebhookConfig describes the configuration of a trigger that creates a build whenever a webhook is sent to a trigger's webhook URL. */
+export interface WebhookConfig {
+  /** Potential issues with the underlying Pub/Sub subscription configuration. Only populated on get requests. */
+  state?: WebhookConfigStateEnum | (string & {}) | undefined;
+  /** Required. Resource name for the secret required as a URL parameter. */
+  secret?: string | undefined;
+}
+export type PubsubConfigStateEnum =
+  | "STATE_UNSPECIFIED"
+  | "OK"
+  | "SUBSCRIPTION_DELETED"
+  | "TOPIC_DELETED"
+  | "SUBSCRIPTION_MISCONFIGURED";
+/** PubsubConfig describes the configuration of a trigger that creates a build whenever a Pub/Sub message is published. */
+export interface PubsubConfig {
+  /** Potential issues with the underlying Pub/Sub subscription configuration. Only populated on get requests. */
+  state?: PubsubConfigStateEnum | (string & {}) | undefined;
+  /** Service account that will make the push request. */
+  serviceAccountEmail?: string | undefined;
+  /** Output only. Name of the subscription. Format is `projects/{project}/subscriptions/{subscription}`. */
+  subscription?: string | undefined;
+  /** Optional. The name of the topic from which this subscription is receiving messages. Format is `projects/{project}/topics/{topic}`. */
+  topic?: string | undefined;
 }
 /** BitbucketServerTriggerConfig describes the configuration of a trigger that creates a build whenever a Bitbucket Server event is received. */
 export interface BitbucketServerTriggerConfig {
   /** Filter to match changes in pull requests. */
-  pullRequest?: PullRequestFilter;
-  /** Output only. The BitbucketServerConfig specified in the bitbucket_server_config_resource field. */
-  bitbucketServerConfig?: BitbucketServerConfig;
+  pullRequest?: PullRequestFilter | undefined;
   /** Required. Key of the project that the repo is in. For example: The key for https://mybitbucket.server/projects/TEST/repos/test-repo is "TEST". */
-  projectKey?: string;
+  projectKey?: string | undefined;
   /** Required. Slug of the repository. A repository slug is a URL-friendly version of a repository name, automatically generated by Bitbucket for use in the URL. For example, if the repository name is 'test repo', in the URL it would become 'test-repo' as in https://mybitbucket.server/projects/TEST/repos/test-repo. */
-  repoSlug?: string;
+  repoSlug?: string | undefined;
+  /** Output only. The BitbucketServerConfig specified in the bitbucket_server_config_resource field. */
+  bitbucketServerConfig?: BitbucketServerConfig | undefined;
   /** Required. The Bitbucket server config resource that this trigger config maps to. */
-  bitbucketServerConfigResource?: string;
+  bitbucketServerConfigResource?: string | undefined;
   /** Filter to match changes in refs like branches, tags. */
-  push?: PushFilter;
+  push?: PushFilter | undefined;
 }
-/** GitHubEventsConfig describes the configuration of a trigger that creates a build whenever a GitHub event is received. */
-export interface GitHubEventsConfig {
-  /** The resource name of the github enterprise config that should be applied to this installation. For example: "projects/{$project_id}/locations/{$location_id}/githubEnterpriseConfigs/{$config_id}" */
-  enterpriseConfigResourceName?: string;
-  /** The installationID that emits the GitHub event. */
-  installationId?: string;
-  /** Owner of the repository. For example: The owner for https://github.com/googlecloudplatform/cloud-builders is "googlecloudplatform". */
-  owner?: string;
-  /** filter to match changes in pull requests. */
-  pullRequest?: PullRequestFilter;
-  /** filter to match changes in refs like branches, tags. */
-  push?: PushFilter;
-  /** Name of the repository. For example: The name for https://github.com/googlecloudplatform/cloud-builders is "cloud-builders". */
-  name?: string;
+export type DeveloperConnectEventConfigGitRepositoryLinkTypeEnum =
+  | "GIT_REPOSITORY_LINK_TYPE_UNSPECIFIED"
+  | "GITHUB"
+  | "GITHUB_ENTERPRISE"
+  | "GITLAB"
+  | "GITLAB_ENTERPRISE"
+  | "BITBUCKET_DATA_CENTER"
+  | "BITBUCKET_CLOUD";
+/** The configuration of a trigger that creates a build whenever an event from the DeveloperConnect API is received. */
+export interface DeveloperConnectEventConfig {
+  /** Filter to match changes in pull requests. */
+  pullRequest?: PullRequestFilter | undefined;
+  /** Required. The Developer Connect Git repository link, formatted as `projects/*\/locations/*\/connections/*\/gitRepositoryLink/*`. */
+  gitRepositoryLink?: string | undefined;
+  /** Filter to match changes in refs like branches and tags. */
+  push?: PushFilter | undefined;
+  /** Output only. The type of DeveloperConnect GitRepositoryLink. */
+  gitRepositoryLinkType?:
+    | DeveloperConnectEventConfigGitRepositoryLinkTypeEnum
+    | (string & {})
+    | undefined;
 }
 /** Configuration for an automated build in response to source repository changes. */
 export interface BuildTrigger {
-  /** Path, from the source root, to the build configuration file (i.e. cloudbuild.yaml). */
-  filename?: string;
-  /** Human-readable description of this trigger. */
-  description?: string;
-  /** If set to INCLUDE_BUILD_LOGS_WITH_STATUS, log url will be shown on GitHub page when build status is final. Setting this field to INCLUDE_BUILD_LOGS_WITH_STATUS for non GitHub triggers results in INVALID_ARGUMENT error. */
-  includeBuildLogs?: BuildTriggerIncludeBuildLogsEnum | (string & {});
-  /** Autodetect build configuration. The following precedence is used (case insensitive): 1. cloudbuild.yaml 2. cloudbuild.yml 3. cloudbuild.json 4. Dockerfile Currently only available for GitHub App Triggers. */
-  autodetect?: boolean;
-  /** Output only. Unique identifier of the trigger. */
-  id?: string;
-  /** Optional. The configuration of a trigger that creates a build whenever an event from the DeveloperConnect API is received. */
-  developerConnectEventConfig?: DeveloperConnectEventConfig;
-  /** Output only. Time when the trigger was created. */
-  createTime?: string;
-  /** PubsubConfig describes the configuration of a trigger that creates a build whenever a Pub/Sub message is published. */
-  pubsubConfig?: PubsubConfig;
-  /** Tags for annotation of a `BuildTrigger` */
-  tags?: StringList;
   /** A Common Expression Language string. */
-  filter?: string;
-  /** The configuration of a trigger that creates a build whenever an event from Repo API is received. */
-  repositoryEventConfig?: RepositoryEventConfig;
-  /** Contents of the build template. */
-  build?: Build;
-  /** Configuration for manual approval to start a build invocation of this BuildTrigger. */
-  approvalConfig?: ApprovalConfig;
-  /** WebhookConfig describes the configuration of a trigger that creates a build whenever a webhook is sent to a trigger's webhook URL. */
-  webhookConfig?: WebhookConfig;
+  filter?: string | undefined;
+  /** If set to INCLUDE_BUILD_LOGS_WITH_STATUS, log url will be shown on GitHub page when build status is final. Setting this field to INCLUDE_BUILD_LOGS_WITH_STATUS for non GitHub triggers results in INVALID_ARGUMENT error. */
+  includeBuildLogs?: BuildTriggerIncludeBuildLogsEnum | (string & {}) | undefined;
+  /** Output only. Time when the trigger was created. */
+  createTime?: string | undefined;
   /** EventType allows the user to explicitly set the type of event to which this BuildTrigger should respond. This field will be validated against the rest of the configuration if it is set. */
-  eventType?: BuildTriggerEventTypeEnum | (string & {});
-  /** The repo and ref of the repository from which to build. This field is used only for those triggers that do not respond to SCM events. Triggers that respond to such events build source at whatever commit caused the event. This field is currently only used by Webhook, Pub/Sub, Manual, and Cron triggers. */
-  sourceToBuild?: GitRepoSource;
-  /** Template describing the types of source changes to trigger a build. Branch and tag names in trigger templates are interpreted as regular expressions. Any branch or tag change that matches that regular expression will trigger a build. Mutually exclusive with `github`. */
-  triggerTemplate?: RepoSource;
-  /** If any of the files altered in the commit pass the ignored_files filter and included_files is empty, then as far as this filter is concerned, we should trigger the build. If any of the files altered in the commit pass the ignored_files filter and included_files is not empty, then we make sure that at least one of those files matches a included_files glob. If not, then we do not trigger a build. */
-  includedFiles?: StringList;
+  eventType?: BuildTriggerEventTypeEnum | (string & {}) | undefined;
   /** User-assigned name of the trigger. Must be unique within the project. Trigger names must meet the following requirements: + They must contain only alphanumeric characters and dashes. + They can be 1-64 characters long. + They must begin and end with an alphanumeric character. */
-  name?: string;
-  /** If true, the trigger will never automatically execute a build. */
-  disabled?: boolean;
+  name?: string | undefined;
   /** The service account used for all user-controlled operations including UpdateBuildTrigger, RunBuildTrigger, CreateBuild, and CancelBuild. If no service account is set and the legacy Cloud Build service account ([PROJECT_NUM]@cloudbuild.gserviceaccount.com) is the default for the project then it will be used instead. Format: `projects/{PROJECT_ID}/serviceAccounts/{ACCOUNT_ID_OR_EMAIL}` */
-  serviceAccount?: string;
-  /** The file source describing the local or remote Build template. */
-  gitFileSource?: GitFileSource;
-  /** ignored_files and included_files are file glob matches using https://golang.org/pkg/path/filepath/#Match extended with support for "**". If ignored_files and changed files are both empty, then they are not used to determine whether or not to trigger a build. If ignored_files is not empty, then we ignore any files that match any of the ignored_file globs. If the change has no files that are outside of the ignored_files globs, then we do not trigger a build. */
-  ignoredFiles?: StringList;
+  serviceAccount?: string | undefined;
   /** The `Trigger` name with format: `projects/{project}/locations/{location}/triggers/{trigger}`, where {trigger} is a unique identifier generated by the service. */
-  resourceName?: string;
-  /** BitbucketServerTriggerConfig describes the configuration of a trigger that creates a build whenever a Bitbucket Server event is received. */
-  bitbucketServerTriggerConfig?: BitbucketServerTriggerConfig;
-  /** Substitutions for Build resource. The keys must match the following regular expression: `^_[A-Z0-9_]+$`. */
-  substitutions?: StringMap;
+  resourceName?: string | undefined;
+  /** Configuration for manual approval to start a build invocation of this BuildTrigger. */
+  approvalConfig?: ApprovalConfig | undefined;
+  /** Human-readable description of this trigger. */
+  description?: string | undefined;
+  /** Contents of the build template. */
+  build?: Build | undefined;
+  /** The repo and ref of the repository from which to build. This field is used only for those triggers that do not respond to SCM events. Triggers that respond to such events build source at whatever commit caused the event. This field is currently only used by Webhook, Pub/Sub, Manual, and Cron triggers. */
+  sourceToBuild?: GitRepoSource | undefined;
+  /** ignored_files and included_files are file glob matches using https://golang.org/pkg/path/filepath/#Match extended with support for "**". If ignored_files and changed files are both empty, then they are not used to determine whether or not to trigger a build. If ignored_files is not empty, then we ignore any files that match any of the ignored_file globs. If the change has no files that are outside of the ignored_files globs, then we do not trigger a build. */
+  ignoredFiles?: StringList | undefined;
   /** GitHubEventsConfig describes the configuration of a trigger that creates a build whenever a GitHub event is received. Mutually exclusive with `trigger_template`. */
-  github?: GitHubEventsConfig;
+  github?: GitHubEventsConfig | undefined;
+  /** If true, the trigger will never automatically execute a build. */
+  disabled?: boolean | undefined;
+  /** Substitutions for Build resource. The keys must match the following regular expression: `^_[A-Z0-9_]+$`. */
+  substitutions?: StringMap | undefined;
+  /** The file source describing the local or remote Build template. */
+  gitFileSource?: GitFileSource | undefined;
+  /** Output only. Unique identifier of the trigger. */
+  id?: string | undefined;
+  /** The configuration of a trigger that creates a build whenever an event from Repo API is received. */
+  repositoryEventConfig?: RepositoryEventConfig | undefined;
+  /** Tags for annotation of a `BuildTrigger` */
+  tags?: StringList | undefined;
+  /** WebhookConfig describes the configuration of a trigger that creates a build whenever a webhook is sent to a trigger's webhook URL. */
+  webhookConfig?: WebhookConfig | undefined;
+  /** If any of the files altered in the commit pass the ignored_files filter and included_files is empty, then as far as this filter is concerned, we should trigger the build. If any of the files altered in the commit pass the ignored_files filter and included_files is not empty, then we make sure that at least one of those files matches a included_files glob. If not, then we do not trigger a build. */
+  includedFiles?: StringList | undefined;
+  /** Path, from the source root, to the build configuration file (i.e. cloudbuild.yaml). */
+  filename?: string | undefined;
+  /** PubsubConfig describes the configuration of a trigger that creates a build whenever a Pub/Sub message is published. */
+  pubsubConfig?: PubsubConfig | undefined;
+  /** Autodetect build configuration. The following precedence is used (case insensitive): 1. cloudbuild.yaml 2. cloudbuild.yml 3. cloudbuild.json 4. Dockerfile Currently only available for GitHub App Triggers. */
+  autodetect?: boolean | undefined;
+  /** BitbucketServerTriggerConfig describes the configuration of a trigger that creates a build whenever a Bitbucket Server event is received. */
+  bitbucketServerTriggerConfig?: BitbucketServerTriggerConfig | undefined;
+  /** Template describing the types of source changes to trigger a build. Branch and tag names in trigger templates are interpreted as regular expressions. Any branch or tag change that matches that regular expression will trigger a build. Mutually exclusive with `github`. */
+  triggerTemplate?: RepoSource | undefined;
+  /** Optional. The configuration of a trigger that creates a build whenever an event from the DeveloperConnect API is received. */
+  developerConnectEventConfig?: DeveloperConnectEventConfig | undefined;
 }
-export interface CreateProjectsLocationsTriggersRequest {
+export interface CreateProjectsLocationsTriggersRequest extends BuildTrigger {
+  /** Required. ID of the project for which to configure automatic builds. */
+  projectId?: string | undefined;
   /** The parent resource where this trigger will be created. Format: `projects/{project}/locations/{location}` */
   parent: string;
-  /** Required. ID of the project for which to configure automatic builds. */
-  projectId?: string;
-  /** Request body */
-  body?: BuildTrigger;
 }
 export type WorkerPoolStateEnum =
   | "STATE_UNSPECIFIED"
@@ -1263,23 +1269,33 @@ export type WorkerPoolStateEnum =
   | "UPDATING";
 /** Defines the Private Service Connect network configuration for the pool. */
 export interface PrivateServiceConnect {
-  /** Required. Immutable. The network attachment that the worker network interface is peered to. Must be in the format `projects/{project}/regions/{region}/networkAttachments/{networkAttachment}`. The region of network attachment must be the same as the worker pool. See [Network Attachments](https://cloud.google.com/vpc/docs/about-network-attachments) */
-  networkAttachment?: string;
-  /** Immutable. Route all traffic through PSC interface. Enable this if you want full control of traffic in the private pool. Configure Cloud NAT for the subnet of network attachment if you need to access public Internet. If false, Only route RFC 1918 (10.0.0.0/8, 172.16.0.0/12, and 192.168.0.0/16) and RFC 6598 (100.64.0.0/10) through PSC interface. */
-  routeAllTraffic?: boolean;
   /** Required. Immutable. Disable public IP on the primary network interface. If true, workers are created without any public address, which prevents network egress to public IPs unless a network proxy is configured. If false, workers are created with a public address which allows for public internet egress. The public address only applies to traffic through the primary network interface. If `route_all_traffic` is set to true, all traffic will go through the non-primary network interface, this boolean has no effect. */
-  publicIpAddressDisabled?: boolean;
+  publicIpAddressDisabled?: boolean | undefined;
+  /** Immutable. Route all traffic through PSC interface. Enable this if you want full control of traffic in the private pool. Configure Cloud NAT for the subnet of network attachment if you need to access public Internet. If false, Only route RFC 1918 (10.0.0.0/8, 172.16.0.0/12, and 192.168.0.0/16) and RFC 6598 (100.64.0.0/10) through PSC interface. */
+  routeAllTraffic?: boolean | undefined;
+  /** Required. Immutable. The network attachment that the worker network interface is peered to. Must be in the format `projects/{project}/regions/{region}/networkAttachments/{networkAttachment}`. The region of network attachment must be the same as the worker pool. See [Network Attachments](https://cloud.google.com/vpc/docs/about-network-attachments) */
+  networkAttachment?: string | undefined;
 }
+export type WorkerConfigRankedMachineSeriesItemEnum =
+  | "MACHINE_SERIES_UNSPECIFIED"
+  | "MACHINE_SERIES_E"
+  | "MACHINE_SERIES_N"
+  | "MACHINE_SERIES_C";
+export type WorkerConfigRankedMachineSeriesItemEnumList = Array<
+  WorkerConfigRankedMachineSeriesItemEnum | (string & {})
+>;
 /** Defines the configuration to be used for creating workers in the pool. */
 export interface WorkerConfig {
-  /** Optional. Machine type of a worker, such as `e2-medium`. See [Worker pool config file](https://cloud.google.com/build/docs/private-pools/worker-pool-config-file-schema). If left blank, Cloud Build will use a sensible default. */
-  machineType?: string;
-  /** Optional. Enable nested virtualization on the worker, if supported by the machine type. By default, nested virtualization is disabled. */
-  enableNestedVirtualization?: boolean;
   /** Optional. Option to specify which release or release channel (rapid|regular|stable) to use to run this build. */
-  workerRelease?: string;
+  workerRelease?: string | undefined;
+  /** Optional. Ranked list (earlier items have higher priority) of Machine Series to consider when provisioning Worker VMs. A concrete machine type will be selected based on machine availability in the given region. */
+  rankedMachineSeries?: WorkerConfigRankedMachineSeriesItemEnumList | undefined;
+  /** Optional. Enable nested virtualization on the worker, if supported by the machine type. By default, nested virtualization is disabled. */
+  enableNestedVirtualization?: boolean | undefined;
   /** Size of the disk attached to the worker, in GB. See [Worker pool config file](https://cloud.google.com/build/docs/private-pools/worker-pool-config-file-schema). Specify a value of up to 4000. If `0` is specified, Cloud Build will use a standard disk size. */
-  diskSizeGb?: string;
+  diskSizeGb?: string | undefined;
+  /** Optional. Machine type of a worker, such as `e2-medium`. See [Worker pool config file](https://cloud.google.com/build/docs/private-pools/worker-pool-config-file-schema). If left blank, Cloud Build will use a sensible default. */
+  machineType?: string | undefined;
 }
 export type NetworkConfigEgressOptionEnum =
   | "EGRESS_OPTION_UNSPECIFIED"
@@ -1288,107 +1304,103 @@ export type NetworkConfigEgressOptionEnum =
 /** Defines the network configuration for the pool. */
 export interface NetworkConfig {
   /** Option to configure network egress for the workers. */
-  egressOption?: NetworkConfigEgressOptionEnum | (string & {});
-  /** Immutable. Subnet IP range within the peered network. This is specified in CIDR notation with a slash and the subnet prefix size. You can optionally specify an IP address before the subnet prefix value. e.g. `192.168.0.0/29` would specify an IP range starting at 192.168.0.0 with a prefix size of 29 bits. `/16` would specify a prefix size of 16 bits, with an automatically determined IP within the peered VPC. If unspecified, a value of `/24` will be used. */
-  peeredNetworkIpRange?: string;
+  egressOption?: NetworkConfigEgressOptionEnum | (string & {}) | undefined;
   /** Required. Immutable. The network definition that the workers are peered to. If this section is left empty, the workers will be peered to `WorkerPool.project_id` on the service producer network. Must be in the format `projects/{project}/global/networks/{network}`, where `{project}` is a project number, such as `12345`, and `{network}` is the name of a VPC network in the project. See [Understanding network configuration options](https://cloud.google.com/build/docs/private-pools/set-up-private-pool-environment) */
-  peeredNetwork?: string;
+  peeredNetwork?: string | undefined;
+  /** Immutable. Subnet IP range within the peered network. This is specified in CIDR notation with a slash and the subnet prefix size. You can optionally specify an IP address before the subnet prefix value. e.g. `192.168.0.0/29` would specify an IP range starting at 192.168.0.0 with a prefix size of 29 bits. `/16` would specify a prefix size of 16 bits, with an automatically determined IP within the peered VPC. If unspecified, a value of `/24` will be used. */
+  peeredNetworkIpRange?: string | undefined;
 }
 /** Configuration for a V1 `PrivatePool`. */
 export interface PrivatePoolV1Config {
   /** Immutable. Private Service Connect(PSC) Network configuration for the pool. */
-  privateServiceConnect?: PrivateServiceConnect;
+  privateServiceConnect?: PrivateServiceConnect | undefined;
   /** Machine configuration for the workers in the pool. */
-  workerConfig?: WorkerConfig;
+  workerConfig?: WorkerConfig | undefined;
   /** Network configuration for the pool. */
-  networkConfig?: NetworkConfig;
+  networkConfig?: NetworkConfig | undefined;
 }
 /** Configuration for a `WorkerPool`. Cloud Build owns and maintains a pool of workers for general use and have no access to a project's private network. By default, builds submitted to Cloud Build will use a worker from this pool. If your build needs access to resources on a private network, create and use a `WorkerPool` to run your builds. Private `WorkerPool`s give your builds access to any single VPC network that you administer, including any on-prem resources connected to that VPC network. For an overview of private pools, see [Private pools overview](https://cloud.google.com/build/docs/private-pools/private-pools-overview). */
 export interface WorkerPool {
-  /** Output only. Time at which the request to update the `WorkerPool` was received. */
-  updateTime?: string;
-  /** User specified annotations. See https://google.aip.dev/128#annotations for more details such as format and size limitations. */
-  annotations?: StringMap;
-  /** Output only. The resource name of the `WorkerPool`, with format `projects/{project}/locations/{location}/workerPools/{worker_pool}`. The value of `{worker_pool}` is provided by `worker_pool_id` in `CreateWorkerPool` request and the value of `{location}` is determined by the endpoint accessed. */
-  name?: string;
-  /** Output only. A unique identifier for the `WorkerPool`. */
-  uid?: string;
-  /** Output only. `WorkerPool` state. */
-  state?: WorkerPoolStateEnum | (string & {});
-  /** Output only. Time at which the request to delete the `WorkerPool` was received. */
-  deleteTime?: string;
-  /** Output only. Time at which the request to create the `WorkerPool` was received. */
-  createTime?: string;
   /** Output only. Checksum computed by the server. May be sent on update and delete requests to ensure that the client has an up-to-date value before proceeding. */
-  etag?: string;
-  /** Private Pool configuration. */
-  privatePoolV1Config?: PrivatePoolV1Config;
+  etag?: string | undefined;
+  /** Output only. Time at which the request to update the `WorkerPool` was received. */
+  updateTime?: string | undefined;
+  /** Output only. The resource name of the `WorkerPool`, with format `projects/{project}/locations/{location}/workerPools/{worker_pool}`. The value of `{worker_pool}` is provided by `worker_pool_id` in `CreateWorkerPool` request and the value of `{location}` is determined by the endpoint accessed. */
+  name?: string | undefined;
+  /** Output only. `WorkerPool` state. */
+  state?: WorkerPoolStateEnum | (string & {}) | undefined;
+  /** Output only. Time at which the request to delete the `WorkerPool` was received. */
+  deleteTime?: string | undefined;
   /** A user-specified, human-readable name for the `WorkerPool`. If provided, this value must be 1-63 characters. */
-  displayName?: string;
+  displayName?: string | undefined;
+  /** User specified annotations. See https://google.aip.dev/128#annotations for more details such as format and size limitations. */
+  annotations?: StringMap | undefined;
+  /** Private Pool configuration. */
+  privatePoolV1Config?: PrivatePoolV1Config | undefined;
+  /** Output only. A unique identifier for the `WorkerPool`. */
+  uid?: string | undefined;
+  /** Output only. Time at which the request to create the `WorkerPool` was received. */
+  createTime?: string | undefined;
 }
-export interface CreateProjectsLocationsWorkerPoolsRequest {
+export interface CreateProjectsLocationsWorkerPoolsRequest extends WorkerPool {
   /** Required. The parent resource where this worker pool will be created. Format: `projects/{project}/locations/{location}`. */
   parent: string;
   /** Required. Immutable. The ID to use for the `WorkerPool`, which will become the final component of the resource name. This value should be 1-63 characters, and valid characters are /a-z-/. */
-  workerPoolId?: string;
+  workerPoolId?: string | undefined;
   /** If set, validate the request and preview the response, but do not actually post it. */
-  validateOnly?: boolean;
-  /** Request body */
-  body?: WorkerPool;
+  validateOnly?: boolean | undefined;
 }
-export interface CreateProjectsTriggersRequest {
+export interface CreateProjectsTriggersRequest extends BuildTrigger {
   /** Required. ID of the project for which to configure automatic builds. */
   projectId: string;
   /** The parent resource where this trigger will be created. Format: `projects/{project}/locations/{location}` */
-  parent?: string;
-  /** Request body */
-  body?: BuildTrigger;
+  parent?: string | undefined;
 }
 export interface DeleteProjectsGithubEnterpriseConfigsRequest {
   /** ID of the project */
-  projectId?: string;
-  /** Unique identifier of the `GitHubEnterpriseConfig` */
-  configId?: string;
+  projectId?: string | undefined;
   /** This field should contain the name of the enterprise config resource. For example: "projects/{$project_id}/locations/{$location_id}/githubEnterpriseConfigs/{$config_id}" */
   name: string;
+  /** Unique identifier of the `GitHubEnterpriseConfig` */
+  configId?: string | undefined;
 }
 export interface DeleteProjectsLocationsBitbucketServerConfigsRequest {
   /** Required. The config resource name. */
   name: string;
 }
 export interface DeleteProjectsLocationsGithubEnterpriseConfigsRequest {
+  /** ID of the project */
+  projectId?: string | undefined;
+  /** Unique identifier of the `GitHubEnterpriseConfig` */
+  configId?: string | undefined;
   /** This field should contain the name of the enterprise config resource. For example: "projects/{$project_id}/locations/{$location_id}/githubEnterpriseConfigs/{$config_id}" */
   name: string;
-  /** ID of the project */
-  projectId?: string;
-  /** Unique identifier of the `GitHubEnterpriseConfig` */
-  configId?: string;
 }
 export interface DeleteProjectsLocationsTriggersRequest {
+  /** Required. ID of the project that owns the trigger. */
+  projectId?: string | undefined;
   /** Required. ID of the `BuildTrigger` to delete. */
-  triggerId?: string;
+  triggerId?: string | undefined;
   /** The name of the `Trigger` to delete. Format: `projects/{project}/locations/{location}/triggers/{trigger}` */
   name: string;
-  /** Required. ID of the project that owns the trigger. */
-  projectId?: string;
 }
 export interface DeleteProjectsLocationsWorkerPoolsRequest {
+  /** Optional. If provided, it must match the server's etag on the workerpool for the request to be processed. */
+  etag?: string | undefined;
   /** If set to true, and the `WorkerPool` is not found, the request will succeed but no action will be taken on the server. */
-  allowMissing?: boolean;
+  allowMissing?: boolean | undefined;
+  /** If set, validate the request and preview the response, but do not actually post it. */
+  validateOnly?: boolean | undefined;
   /** Required. The name of the `WorkerPool` to delete. Format: `projects/{project}/locations/{location}/workerPools/{workerPool}`. */
   name: string;
-  /** Optional. If provided, it must match the server's etag on the workerpool for the request to be processed. */
-  etag?: string;
-  /** If set, validate the request and preview the response, but do not actually post it. */
-  validateOnly?: boolean;
 }
 export interface DeleteProjectsTriggersRequest {
-  /** The name of the `Trigger` to delete. Format: `projects/{project}/locations/{location}/triggers/{trigger}` */
-  name?: string;
   /** Required. ID of the `BuildTrigger` to delete. */
   triggerId: string;
   /** Required. ID of the project that owns the trigger. */
   projectId: string;
+  /** The name of the `Trigger` to delete. Format: `projects/{project}/locations/{location}/triggers/{trigger}` */
+  name?: string | undefined;
 }
 export interface GetDefaultServiceAccountProjectsLocationsRequest {
   /** Required. The name of the `DefaultServiceAccount` to retrieve. Format: `projects/{project}/locations/{location}/defaultServiceAccount` */
@@ -1397,27 +1409,27 @@ export interface GetDefaultServiceAccountProjectsLocationsRequest {
 /** The default service account used for `Builds`. */
 export interface DefaultServiceAccount {
   /** Identifier. Format: `projects/{project}/locations/{location}/defaultServiceAccount`. */
-  name?: string;
+  name?: string | undefined;
   /** Output only. The email address of the service account identity that will be used for a build by default. This is returned in the format `projects/{project}/serviceAccounts/{service_account}` where `{service_account}` could be the legacy Cloud Build SA, in the format [PROJECT_NUMBER]@cloudbuild.gserviceaccount.com or the Compute SA, in the format [PROJECT_NUMBER]-compute@developer.gserviceaccount.com. If no service account will be used by default, this will be empty. */
-  serviceAccountEmail?: string;
+  serviceAccountEmail?: string | undefined;
 }
 export interface GetOperationsRequest {
   /** The name of the operation resource. */
   name: string;
 }
 export interface GetProjectsBuildsRequest {
+  /** Required. ID of the project. */
+  projectId: string;
   /** Required. ID of the build. */
   id: string;
   /** The name of the `Build` to retrieve. Format: `projects/{project}/locations/{location}/builds/{build}` */
-  name?: string;
-  /** Required. ID of the project. */
-  projectId: string;
+  name?: string | undefined;
 }
 export interface GetProjectsGithubEnterpriseConfigsRequest {
-  /** Unique identifier of the `GitHubEnterpriseConfig` */
-  configId?: string;
   /** ID of the project */
-  projectId?: string;
+  projectId?: string | undefined;
+  /** Unique identifier of the `GitHubEnterpriseConfig` */
+  configId?: string | undefined;
   /** This field should contain the name of the enterprise config resource. For example: "projects/{$project_id}/locations/{$location_id}/githubEnterpriseConfigs/{$config_id}" */
   name: string;
 }
@@ -1426,32 +1438,32 @@ export interface GetProjectsLocationsBitbucketServerConfigsRequest {
   name: string;
 }
 export interface GetProjectsLocationsBuildsRequest {
-  /** Required. ID of the build. */
-  id?: string;
   /** The name of the `Build` to retrieve. Format: `projects/{project}/locations/{location}/builds/{build}` */
   name: string;
   /** Required. ID of the project. */
-  projectId?: string;
+  projectId?: string | undefined;
+  /** Required. ID of the build. */
+  id?: string | undefined;
 }
 export interface GetProjectsLocationsGithubEnterpriseConfigsRequest {
-  /** ID of the project */
-  projectId?: string;
   /** This field should contain the name of the enterprise config resource. For example: "projects/{$project_id}/locations/{$location_id}/githubEnterpriseConfigs/{$config_id}" */
   name: string;
   /** Unique identifier of the `GitHubEnterpriseConfig` */
-  configId?: string;
+  configId?: string | undefined;
+  /** ID of the project */
+  projectId?: string | undefined;
 }
 export interface GetProjectsLocationsOperationsRequest {
   /** The name of the operation resource. */
   name: string;
 }
 export interface GetProjectsLocationsTriggersRequest {
+  /** Required. ID of the project that owns the trigger. */
+  projectId?: string | undefined;
+  /** Required. Identifier (`id` or `name`) of the `BuildTrigger` to get. */
+  triggerId?: string | undefined;
   /** The name of the `Trigger` to retrieve. Format: `projects/{project}/locations/{location}/triggers/{trigger}` */
   name: string;
-  /** Required. Identifier (`id` or `name`) of the `BuildTrigger` to get. */
-  triggerId?: string;
-  /** Required. ID of the project that owns the trigger. */
-  projectId?: string;
 }
 export interface GetProjectsLocationsWorkerPoolsRequest {
   /** Required. The name of the `WorkerPool` to retrieve. Format: `projects/{project}/locations/{location}/workerPools/{workerPool}`. */
@@ -1459,35 +1471,35 @@ export interface GetProjectsLocationsWorkerPoolsRequest {
 }
 export interface GetProjectsTriggersRequest {
   /** The name of the `Trigger` to retrieve. Format: `projects/{project}/locations/{location}/triggers/{trigger}` */
-  name?: string;
-  /** Required. ID of the project that owns the trigger. */
-  projectId: string;
+  name?: string | undefined;
   /** Required. Identifier (`id` or `name`) of the `BuildTrigger` to get. */
   triggerId: string;
+  /** Required. ID of the project that owns the trigger. */
+  projectId: string;
 }
 export interface ListProjectsBuildsRequest {
-  /** Number of results to return in the list. */
-  pageSize?: number;
-  /** The parent of the collection of `Builds`. Format: `projects/{project}/locations/{location}` */
-  parent?: string;
+  /** The page token for the next page of Builds. If unspecified, the first page of results is returned. If the token is rejected for any reason, INVALID_ARGUMENT will be thrown. In this case, the token should be discarded, and pagination should be restarted from the first page of results. See https://google.aip.dev/158 for more. */
+  pageToken?: string | undefined;
   /** The raw filter text to constrain the results. */
-  filter?: string;
+  filter?: string | undefined;
+  /** Number of results to return in the list. */
+  pageSize?: number | undefined;
+  /** The parent of the collection of `Builds`. Format: `projects/{project}/locations/{location}` */
+  parent?: string | undefined;
   /** Required. ID of the project. */
   projectId: string;
-  /** The page token for the next page of Builds. If unspecified, the first page of results is returned. If the token is rejected for any reason, INVALID_ARGUMENT will be thrown. In this case, the token should be discarded, and pagination should be restarted from the first page of results. See https://google.aip.dev/158 for more. */
-  pageToken?: string;
 }
 export type BuildList = Array<Build>;
 /** Response including listed builds. */
 export interface ListBuildsResponse {
-  /** Builds will be sorted by `create_time`, descending. */
-  builds?: BuildList;
   /** Token to receive the next page of results. This will be absent if the end of the response list has been reached. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
+  /** Builds will be sorted by `create_time`, descending. */
+  builds?: BuildList | undefined;
 }
 export interface ListProjectsGithubEnterpriseConfigsRequest {
   /** ID of the project */
-  projectId?: string;
+  projectId?: string | undefined;
   /** Name of the parent project. For example: projects/{$project_number} or projects/{$project_id} */
   parent: string;
 }
@@ -1495,287 +1507,264 @@ export type GitHubEnterpriseConfigList = Array<GitHubEnterpriseConfig>;
 /** RPC response object returned by ListGithubEnterpriseConfigs RPC method. */
 export interface ListGithubEnterpriseConfigsResponse {
   /** A list of GitHubEnterpriseConfigs */
-  configs?: GitHubEnterpriseConfigList;
+  configs?: GitHubEnterpriseConfigList | undefined;
 }
 export interface ListProjectsLocationsBitbucketServerConfigsRequest {
   /** Required. Name of the parent resource. */
   parent: string;
   /** The maximum number of configs to return. The service may return fewer than this value. If unspecified, at most 50 configs will be returned. The maximum value is 1000; values above 1000 will be coerced to 1000. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** A page token, received from a previous `ListBitbucketServerConfigsRequest` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListBitbucketServerConfigsRequest` must match the call that provided the page token. */
-  pageToken?: string;
+  pageToken?: string | undefined;
 }
 export type BitbucketServerConfigList = Array<BitbucketServerConfig>;
 /** RPC response object returned by ListBitbucketServerConfigs RPC method. */
 export interface ListBitbucketServerConfigsResponse {
-  /** A token that can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
-  nextPageToken?: string;
   /** A list of BitbucketServerConfigs */
-  bitbucketServerConfigs?: BitbucketServerConfigList;
+  bitbucketServerConfigs?: BitbucketServerConfigList | undefined;
+  /** A token that can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
+  nextPageToken?: string | undefined;
 }
 export interface ListProjectsLocationsBitbucketServerConfigsReposRequest {
-  /** A page token, received from a previous `ListBitbucketServerRepositoriesRequest` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListBitbucketServerConfigsRequest` must match the call that provided the page token. */
-  pageToken?: string;
   /** The maximum number of configs to return. The service may return fewer than this value. The maximum value is 1000; values above 1000 will be coerced to 1000. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Required. Name of the parent resource. */
   parent: string;
+  /** A page token, received from a previous `ListBitbucketServerRepositoriesRequest` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListBitbucketServerConfigsRequest` must match the call that provided the page token. */
+  pageToken?: string | undefined;
 }
 /** BitbucketServerRepository represents a repository hosted on a Bitbucket Server. */
 export interface BitbucketServerRepository {
-  /** Identifier for a repository hosted on a Bitbucket Server. */
-  repoId?: BitbucketServerRepositoryId;
-  /** Display name of the repository. */
-  displayName?: string;
-  /** Link to the browse repo page on the Bitbucket Server instance. */
-  browseUri?: string;
   /** Description of the repository. */
-  description?: string;
+  description?: string | undefined;
   /** The resource name of the repository. */
-  name?: string;
+  name?: string | undefined;
+  /** Identifier for a repository hosted on a Bitbucket Server. */
+  repoId?: BitbucketServerRepositoryId | undefined;
+  /** Display name of the repository. */
+  displayName?: string | undefined;
+  /** Link to the browse repo page on the Bitbucket Server instance. */
+  browseUri?: string | undefined;
 }
 export type BitbucketServerRepositoryList = Array<BitbucketServerRepository>;
 /** RPC response object returned by the ListBitbucketServerRepositories RPC method. */
 export interface ListBitbucketServerRepositoriesResponse {
   /** A token that can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
   /** List of Bitbucket Server repositories. */
-  bitbucketServerRepositories?: BitbucketServerRepositoryList;
+  bitbucketServerRepositories?: BitbucketServerRepositoryList | undefined;
 }
 export interface ListProjectsLocationsBuildsRequest {
   /** The page token for the next page of Builds. If unspecified, the first page of results is returned. If the token is rejected for any reason, INVALID_ARGUMENT will be thrown. In this case, the token should be discarded, and pagination should be restarted from the first page of results. See https://google.aip.dev/158 for more. */
-  pageToken?: string;
+  pageToken?: string | undefined;
+  /** The raw filter text to constrain the results. */
+  filter?: string | undefined;
+  /** Number of results to return in the list. */
+  pageSize?: number | undefined;
+  /** Required. ID of the project. */
+  projectId?: string | undefined;
   /** The parent of the collection of `Builds`. Format: `projects/{project}/locations/{location}` */
   parent: string;
-  /** Required. ID of the project. */
-  projectId?: string;
-  /** The raw filter text to constrain the results. */
-  filter?: string;
-  /** Number of results to return in the list. */
-  pageSize?: number;
 }
 export interface ListProjectsLocationsGithubEnterpriseConfigsRequest {
-  /** ID of the project */
-  projectId?: string;
   /** Name of the parent project. For example: projects/{$project_number} or projects/{$project_id} */
   parent: string;
+  /** ID of the project */
+  projectId?: string | undefined;
 }
 export interface ListProjectsLocationsTriggersRequest {
-  /** Required. ID of the project for which to list BuildTriggers. */
-  projectId?: string;
-  /** Number of results to return in the list. */
-  pageSize?: number;
   /** The parent of the collection of `Triggers`. Format: `projects/{project}/locations/{location}` */
   parent: string;
   /** Token to provide to skip to a particular spot in the list. */
-  pageToken?: string;
+  pageToken?: string | undefined;
+  /** Number of results to return in the list. */
+  pageSize?: number | undefined;
+  /** Required. ID of the project for which to list BuildTriggers. */
+  projectId?: string | undefined;
 }
 export type BuildTriggerList = Array<BuildTrigger>;
 /** Response containing existing `BuildTriggers`. */
 export interface ListBuildTriggersResponse {
   /** `BuildTriggers` for the project, sorted by `create_time` descending. */
-  triggers?: BuildTriggerList;
+  triggers?: BuildTriggerList | undefined;
   /** Token to receive the next page of results. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
 }
 export interface ListProjectsLocationsWorkerPoolsRequest {
-  /** The maximum number of `WorkerPool`s to return. The service may return fewer than this value. If omitted, the server will use a sensible default. */
-  pageSize?: number;
   /** Required. The parent of the collection of `WorkerPools`. Format: `projects/{project}/locations/{location}`. */
   parent: string;
+  /** The maximum number of `WorkerPool`s to return. The service may return fewer than this value. If omitted, the server will use a sensible default. */
+  pageSize?: number | undefined;
   /** A page token, received from a previous `ListWorkerPools` call. Provide this to retrieve the subsequent page. */
-  pageToken?: string;
+  pageToken?: string | undefined;
 }
 export type WorkerPoolList = Array<WorkerPool>;
 /** Response containing existing `WorkerPools`. */
 export interface ListWorkerPoolsResponse {
-  /** Continuation token used to page through large result sets. Provide this value in a subsequent ListWorkerPoolsRequest to return the next page of results. */
-  nextPageToken?: string;
   /** `WorkerPools` for the specified project. */
-  workerPools?: WorkerPoolList;
+  workerPools?: WorkerPoolList | undefined;
+  /** Continuation token used to page through large result sets. Provide this value in a subsequent ListWorkerPoolsRequest to return the next page of results. */
+  nextPageToken?: string | undefined;
 }
 export interface ListProjectsTriggersRequest {
   /** Token to provide to skip to a particular spot in the list. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** Number of results to return in the list. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** The parent of the collection of `Triggers`. Format: `projects/{project}/locations/{location}` */
-  parent?: string;
+  parent?: string | undefined;
   /** Required. ID of the project for which to list BuildTriggers. */
   projectId: string;
 }
-export interface PatchProjectsGithubEnterpriseConfigsRequest {
-  /** Update mask for the resource. If this is set, the server will only update the fields specified in the field mask. Otherwise, a full update of the mutable resource fields will be performed. */
-  updateMask?: string;
+export interface PatchProjectsGithubEnterpriseConfigsRequest extends Omit<
+  GitHubEnterpriseConfig,
+  "name"
+> {
   /** Identifier. The full resource name for the GitHubEnterpriseConfig For example: "projects/{$project_id}/locations/{$location_id}/githubEnterpriseConfigs/{$config_id}" */
   name: string;
-  /** Request body */
-  body?: GitHubEnterpriseConfig;
+  /** Update mask for the resource. If this is set, the server will only update the fields specified in the field mask. Otherwise, a full update of the mutable resource fields will be performed. */
+  updateMask?: string | undefined;
 }
-export interface PatchProjectsLocationsBitbucketServerConfigsRequest {
+export interface PatchProjectsLocationsBitbucketServerConfigsRequest extends Omit<
+  BitbucketServerConfig,
+  "name"
+> {
   /** Identifier. The resource name for the config. */
   name: string;
   /** Update mask for the resource. If this is set, the server will only update the fields specified in the field mask. Otherwise, a full update of the mutable resource fields will be performed. */
-  updateMask?: string;
-  /** Request body */
-  body?: BitbucketServerConfig;
+  updateMask?: string | undefined;
 }
-export interface PatchProjectsLocationsGithubEnterpriseConfigsRequest {
-  /** Update mask for the resource. If this is set, the server will only update the fields specified in the field mask. Otherwise, a full update of the mutable resource fields will be performed. */
-  updateMask?: string;
+export interface PatchProjectsLocationsGithubEnterpriseConfigsRequest extends Omit<
+  GitHubEnterpriseConfig,
+  "name"
+> {
   /** Identifier. The full resource name for the GitHubEnterpriseConfig For example: "projects/{$project_id}/locations/{$location_id}/githubEnterpriseConfigs/{$config_id}" */
   name: string;
-  /** Request body */
-  body?: GitHubEnterpriseConfig;
-}
-export interface PatchProjectsLocationsTriggersRequest {
   /** Update mask for the resource. If this is set, the server will only update the fields specified in the field mask. Otherwise, a full update of the mutable resource fields will be performed. */
-  updateMask?: string;
-  /** Required. ID of the `BuildTrigger` to update. */
-  triggerId?: string;
-  /** Required. ID of the project that owns the trigger. */
-  projectId?: string;
+  updateMask?: string | undefined;
+}
+export interface PatchProjectsLocationsTriggersRequest extends Omit<BuildTrigger, "resourceName"> {
   /** The `Trigger` name with format: `projects/{project}/locations/{location}/triggers/{trigger}`, where {trigger} is a unique identifier generated by the service. */
   resourceName: string;
-  /** Request body */
-  body?: BuildTrigger;
+  /** Required. ID of the project that owns the trigger. */
+  projectId?: string | undefined;
+  /** Update mask for the resource. If this is set, the server will only update the fields specified in the field mask. Otherwise, a full update of the mutable resource fields will be performed. */
+  updateMask?: string | undefined;
+  /** Required. ID of the `BuildTrigger` to update. */
+  triggerId?: string | undefined;
 }
-export interface PatchProjectsLocationsWorkerPoolsRequest {
+export interface PatchProjectsLocationsWorkerPoolsRequest extends Omit<WorkerPool, "name"> {
   /** If set, validate the request and preview the response, but do not actually post it. */
-  validateOnly?: boolean;
+  validateOnly?: boolean | undefined;
   /** Output only. The resource name of the `WorkerPool`, with format `projects/{project}/locations/{location}/workerPools/{worker_pool}`. The value of `{worker_pool}` is provided by `worker_pool_id` in `CreateWorkerPool` request and the value of `{location}` is determined by the endpoint accessed. */
   name: string;
   /** Optional. A mask specifying which fields in `worker_pool` to update. */
-  updateMask?: string;
-  /** Request body */
-  body?: WorkerPool;
+  updateMask?: string | undefined;
 }
-export interface PatchProjectsTriggersRequest {
-  /** Required. ID of the `BuildTrigger` to update. */
-  triggerId: string;
-  /** Update mask for the resource. If this is set, the server will only update the fields specified in the field mask. Otherwise, a full update of the mutable resource fields will be performed. */
-  updateMask?: string;
+export interface PatchProjectsTriggersRequest extends BuildTrigger {
   /** Required. ID of the project that owns the trigger. */
   projectId: string;
-  /** Request body */
-  body?: BuildTrigger;
+  /** Update mask for the resource. If this is set, the server will only update the fields specified in the field mask. Otherwise, a full update of the mutable resource fields will be performed. */
+  updateMask?: string | undefined;
+  /** Required. ID of the `BuildTrigger` to update. */
+  triggerId: string;
 }
 /** Message that represents an arbitrary HTTP body. It should only be used for payload formats that can't be represented as JSON, such as raw binary or an HTML page. This message can be used both in streaming and non-streaming API methods in the request as well as the response. It can be used as a top-level request field, which is convenient if one wants to extract parameters from either the URL or HTTP template into the request fields and also want access to the raw HTTP body. Example: message GetResourceRequest { // A unique request id. string request_id = 1; // The raw HTTP body is bound to this field. google.api.HttpBody http_body = 2; } service ResourceService { rpc GetResource(GetResourceRequest) returns (google.api.HttpBody); rpc UpdateResource(google.api.HttpBody) returns (google.protobuf.Empty); } Example with streaming methods: service CaldavService { rpc GetCalendar(stream google.api.HttpBody) returns (stream google.api.HttpBody); rpc UpdateCalendar(stream google.api.HttpBody) returns (stream google.api.HttpBody); } Use of this type only changes how the request and response bodies are handled, all other features will continue to work unchanged. */
 export interface HttpBody {
-  /** The HTTP request/response body as raw binary. */
-  data?: string;
   /** Application specific response metadata. Must be set in the first response for streaming APIs. */
-  extensions?: DocumentMapList;
+  extensions?: DocumentMapList | undefined;
   /** The HTTP Content-Type header value specifying the content type of the body. */
-  contentType?: string;
+  contentType?: string | undefined;
+  /** The HTTP request/response body as raw binary. */
+  data?: string | undefined;
 }
-export interface ReceiveGithubDotComWebhookRequest {
+export interface ReceiveGithubDotComWebhookRequest extends HttpBody {
   /** For GitHub Enterprise webhooks, this key is used to associate the webhook request with the GitHubEnterpriseConfig to use for validation. */
-  webhookKey?: string;
-  /** Request body */
-  body?: HttpBody;
+  webhookKey?: string | undefined;
 }
-export interface RegionalWebhookLocationsRequest {
+export interface RegionalWebhookLocationsRequest extends HttpBody {
+  /** For GitHub Enterprise webhooks, this key is used to associate the webhook request with the GitHubEnterpriseConfig to use for validation. */
+  webhookKey?: string | undefined;
   /** Required. The location where the webhook should be sent. */
   location: string;
-  /** For GitHub Enterprise webhooks, this key is used to associate the webhook request with the GitHubEnterpriseConfig to use for validation. */
-  webhookKey?: string;
-  /** Request body */
-  body?: HttpBody;
 }
 /** RPC request object accepted by RemoveBitbucketServerConnectedRepository RPC method. */
 export interface RemoveBitbucketServerConnectedRepositoryRequest {
   /** The connected repository to remove. */
-  connectedRepository?: BitbucketServerRepositoryId;
+  connectedRepository?: BitbucketServerRepositoryId | undefined;
 }
-export interface RemoveBitbucketServerConnectedRepositoryProjectsLocationsBitbucketServerConfigsRequest {
+export interface RemoveBitbucketServerConnectedRepositoryProjectsLocationsBitbucketServerConfigsRequest extends RemoveBitbucketServerConnectedRepositoryRequest {
   /** Required. The name of the `BitbucketServerConfig` to remove a connected repository. Format: `projects/{project}/locations/{location}/bitbucketServerConfigs/{config}` */
   config: string;
-  /** Request body */
-  body?: RemoveBitbucketServerConnectedRepositoryRequest;
 }
 /** Specifies a build to retry. */
 export interface RetryBuildRequest {
   /** The name of the `Build` to retry. Format: `projects/{project}/locations/{location}/builds/{build}` */
-  name?: string;
-  /** Required. Build ID of the original build. */
-  id?: string;
+  name?: string | undefined;
   /** Required. ID of the project. */
-  projectId?: string;
+  projectId?: string | undefined;
+  /** Required. Build ID of the original build. */
+  id?: string | undefined;
 }
-export interface RetryProjectsBuildsRequest {
+export interface RetryProjectsBuildsRequest extends Omit<RetryBuildRequest, "projectId" | "id"> {
   /** Required. Build ID of the original build. */
   id: string;
   /** Required. ID of the project. */
   projectId: string;
-  /** Request body */
-  body?: RetryBuildRequest;
 }
-export interface RetryProjectsLocationsBuildsRequest {
+export interface RetryProjectsLocationsBuildsRequest extends Omit<RetryBuildRequest, "name"> {
   /** The name of the `Build` to retry. Format: `projects/{project}/locations/{location}/builds/{build}` */
   name: string;
-  /** Request body */
-  body?: RetryBuildRequest;
 }
 /** Specifies a build trigger to run and the source to use. */
 export interface RunBuildTriggerRequest {
-  /** Required. ID of the trigger. */
-  triggerId?: string;
   /** Source to build against this trigger. Branch and tag names cannot consist of regular expressions. */
-  source?: RepoSource;
+  source?: RepoSource | undefined;
   /** Required. ID of the project. */
-  projectId?: string;
+  projectId?: string | undefined;
+  /** Required. ID of the trigger. */
+  triggerId?: string | undefined;
 }
-export interface RunProjectsLocationsTriggersRequest {
+export interface RunProjectsLocationsTriggersRequest extends RunBuildTriggerRequest {
   /** The name of the `Trigger` to run. Format: `projects/{project}/locations/{location}/triggers/{trigger}` */
   name: string;
-  /** Request body */
-  body?: RunBuildTriggerRequest;
 }
-export interface RunProjectsTriggersRequest {
+export interface RunProjectsTriggersRequest extends Omit<RepoSource, "projectId"> {
+  /** The name of the `Trigger` to run. Format: `projects/{project}/locations/{location}/triggers/{trigger}` */
+  name?: string | undefined;
   /** Required. ID of the project. */
   projectId: string;
   /** Required. ID of the trigger. */
   triggerId: string;
-  /** The name of the `Trigger` to run. Format: `projects/{project}/locations/{location}/triggers/{trigger}` */
-  name?: string;
-  /** Request body */
-  body?: RepoSource;
 }
-export interface WebhookProjectsLocationsTriggersRequest {
+export interface WebhookProjectsLocationsTriggersRequest extends HttpBody {
+  /** Secret token used for authorization if an OAuth token isn't provided. */
+  secret?: string | undefined;
+  /** Project in which the specified trigger lives */
+  projectId?: string | undefined;
+  /** Name of the trigger to run the payload against */
+  trigger?: string | undefined;
   /** The name of the `ReceiveTriggerWebhook` to retrieve. Format: `projects/{project}/locations/{location}/triggers/{trigger}` */
   name: string;
-  /** Project in which the specified trigger lives */
-  projectId?: string;
-  /** Secret token used for authorization if an OAuth token isn't provided. */
-  secret?: string;
-  /** Name of the trigger to run the payload against */
-  trigger?: string;
-  /** Request body */
-  body?: HttpBody;
 }
 /** ReceiveTriggerWebhookResponse [Experimental] is the response object for the ReceiveTriggerWebhook method. */
 export interface ReceiveTriggerWebhookResponse {}
-export interface WebhookProjectsTriggersRequest {
-  /** Secret token used for authorization if an OAuth token isn't provided. */
-  secret?: string;
-  /** The name of the `ReceiveTriggerWebhook` to retrieve. Format: `projects/{project}/locations/{location}/triggers/{trigger}` */
-  name?: string;
-  /** Name of the trigger to run the payload against */
-  trigger: string;
+export interface WebhookProjectsTriggersRequest extends HttpBody {
   /** Project in which the specified trigger lives */
   projectId: string;
-  /** Request body */
-  body?: HttpBody;
+  /** Name of the trigger to run the payload against */
+  trigger: string;
+  /** The name of the `ReceiveTriggerWebhook` to retrieve. Format: `projects/{project}/locations/{location}/triggers/{trigger}` */
+  name?: string | undefined;
+  /** Secret token used for authorization if an OAuth token isn't provided. */
+  secret?: string | undefined;
 }
-export interface WebhookV1Request {
+export interface WebhookV1Request extends HttpBody {
   /** For GitHub Enterprise webhooks, this key is used to associate the webhook request with the GitHubEnterpriseConfig to use for validation. */
-  webhookKey?: string;
-  /** Request body */
-  body?: HttpBody;
+  webhookKey?: string | undefined;
 }
 export type ApproveProjectsBuildsError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
-/** Approves or rejects a pending build. If approved, the returned long-running operation (LRO) will be analogous to the LRO returned from a CreateBuild call. If rejected, the returned LRO will be immediately done. */
+/** Approves or rejects a pending build. If approved, the returned long-running operation (LRO) will be analogous to the LRO returned from a CreateBuild call. If rejected, the returned LRO will be immediately done. Note: This method only approves or rejects builds in the "global" region when using the legacy resource path projects/{project_id}/builds/{id}:approve. For all regions, use the regional resource path: `projects/{project_id}/locations/{location}/builds/{id}:approve`. */
 export const approveProjectsBuilds: API.OperationMethod<
   ApproveProjectsBuildsRequest,
   Operation,
@@ -1797,7 +1786,7 @@ export type ApproveProjectsLocationsBuildsError =
   | BadRequest
   | Conflict
   | GcpOpError;
-/** Approves or rejects a pending build. If approved, the returned long-running operation (LRO) will be analogous to the LRO returned from a CreateBuild call. If rejected, the returned LRO will be immediately done. */
+/** Approves or rejects a pending build. If approved, the returned long-running operation (LRO) will be analogous to the LRO returned from a CreateBuild call. If rejected, the returned LRO will be immediately done. Note: This method only approves or rejects builds in the "global" region when using the legacy resource path projects/{project_id}/builds/{id}:approve. For all regions, use the regional resource path: `projects/{project_id}/locations/{location}/builds/{id}:approve`. */
 export const approveProjectsLocationsBuilds: API.OperationMethod<
   ApproveProjectsLocationsBuildsRequest,
   Operation,
@@ -1865,7 +1854,7 @@ export const cancelProjectsBuilds: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2240, __c70, 0) as any as S.Schema<CancelProjectsBuildsRequest>,
-  output: __S(2406, __c75, 6) as any as S.Schema<Build>,
+  output: __S(2440, __c76, 8) as any as S.Schema<Build>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1886,8 +1875,8 @@ export const cancelProjectsLocationsBuilds: API.OperationMethod<
   CancelProjectsLocationsBuildsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2464, __c77, 0) as any as S.Schema<CancelProjectsLocationsBuildsRequest>,
-  output: __S(2406, __c75, 6) as any as S.Schema<Build>,
+  input: __S(2496, __c78, 0) as any as S.Schema<CancelProjectsLocationsBuildsRequest>,
+  output: __S(2440, __c76, 8) as any as S.Schema<Build>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2032,7 +2021,7 @@ export type CreateProjectsLocationsTriggersError =
   | BadRequest
   | Conflict
   | GcpOpError;
-/** Creates a new `BuildTrigger`. */
+/** Creates a new `BuildTrigger`. Note: This method only creates triggers in the "global" region when using the legacy resource path projects/{project_id}/triggers. For all regions, use the regional resource path: `projects/{project_id}/locations/{location}/triggers`. */
 export const createProjectsLocationsTriggers: API.OperationMethod<
   CreateProjectsLocationsTriggersRequest,
   BuildTrigger,
@@ -2071,7 +2060,7 @@ export const createProjectsLocationsWorkerPools: API.OperationMethod<
 }));
 
 export type CreateProjectsTriggersError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
-/** Creates a new `BuildTrigger`. */
+/** Creates a new `BuildTrigger`. Note: This method only creates triggers in the "global" region when using the legacy resource path projects/{project_id}/triggers. For all regions, use the regional resource path: `projects/{project_id}/locations/{location}/triggers`. */
 export const createProjectsTriggers: API.OperationMethod<
   CreateProjectsTriggersRequest,
   BuildTrigger,
@@ -2167,7 +2156,7 @@ export type DeleteProjectsLocationsTriggersError =
   | BadRequest
   | Conflict
   | GcpOpError;
-/** Deletes a `BuildTrigger` by its project ID and trigger ID. */
+/** Deletes a `BuildTrigger` by its project ID and trigger ID. Note: This method only deletes triggers in the "global" region when using the legacy resource path projects/{project_id}/triggers/{trigger_id}. For all regions, use the regional resource path: `projects/{project_id}/locations/{location}/triggers/{trigger_id}`. */
 export const deleteProjectsLocationsTriggers: API.OperationMethod<
   DeleteProjectsLocationsTriggersRequest,
   Empty,
@@ -2206,7 +2195,7 @@ export const deleteProjectsLocationsWorkerPools: API.OperationMethod<
 }));
 
 export type DeleteProjectsTriggersError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
-/** Deletes a `BuildTrigger` by its project ID and trigger ID. */
+/** Deletes a `BuildTrigger` by its project ID and trigger ID. Note: This method only deletes triggers in the "global" region when using the legacy resource path projects/{project_id}/triggers/{trigger_id}. For all regions, use the regional resource path: `projects/{project_id}/locations/{location}/triggers/{trigger_id}`. */
 export const deleteProjectsTriggers: API.OperationMethod<
   DeleteProjectsTriggersRequest,
   Empty,
@@ -2265,7 +2254,7 @@ export const getProjectsBuilds: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(672, __c21, 0) as any as S.Schema<GetProjectsBuildsRequest>,
-  output: __S(2406, __c75, 6) as any as S.Schema<Build>,
+  output: __S(2440, __c76, 8) as any as S.Schema<Build>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2316,7 +2305,7 @@ export const getProjectsLocationsBuilds: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(768, __c24, 0) as any as S.Schema<GetProjectsLocationsBuildsRequest>,
-  output: __S(2406, __c75, 6) as any as S.Schema<Build>,
+  output: __S(2440, __c76, 8) as any as S.Schema<Build>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2359,7 +2348,7 @@ export const getProjectsLocationsOperations: API.OperationMethod<
 }));
 
 export type GetProjectsLocationsTriggersError = NotFound | Forbidden | GcpOpError;
-/** Returns information about a `BuildTrigger`. */
+/** Returns information about a `BuildTrigger`. Note: This method only gets triggers in the "global" region when using the legacy resource path projects/{project_id}/triggers/{trigger_id}. For all regions, use the regional resource path: `projects/{project_id}/locations/{location}/triggers/{trigger_id}`. */
 export const getProjectsLocationsTriggers: API.OperationMethod<
   GetProjectsLocationsTriggersRequest,
   BuildTrigger,
@@ -2393,7 +2382,7 @@ export const getProjectsLocationsWorkerPools: API.OperationMethod<
 }));
 
 export type GetProjectsTriggersError = NotFound | Forbidden | GcpOpError;
-/** Returns information about a `BuildTrigger`. */
+/** Returns information about a `BuildTrigger`. Note: This method only gets triggers in the "global" region when using the legacy resource path projects/{project_id}/triggers/{trigger_id}. For all regions, use the regional resource path: `projects/{project_id}/locations/{location}/triggers/{trigger_id}`. */
 export const getProjectsTriggers: API.OperationMethod<
   GetProjectsTriggersRequest,
   BuildTrigger,
@@ -2531,7 +2520,7 @@ export const listProjectsLocationsGithubEnterpriseConfigs: API.OperationMethod<
 }));
 
 export type ListProjectsLocationsTriggersError = NotFound | Forbidden | GcpOpError;
-/** Lists existing `BuildTrigger`s. */
+/** Lists existing `BuildTrigger`s. Note: This method only lists triggers in the "global" region when using the legacy resource path projects/{project_id}/triggers. For all regions, use the regional resource path: `projects/{project_id}/locations/{location}/triggers`. */
 export const listProjectsLocationsTriggers: API.PaginatedOperationMethod<
   ListProjectsLocationsTriggersRequest,
   ListBuildTriggersResponse,
@@ -2569,7 +2558,7 @@ export const listProjectsLocationsWorkerPools: API.PaginatedOperationMethod<
 })) as any;
 
 export type ListProjectsTriggersError = NotFound | Forbidden | GcpOpError;
-/** Lists existing `BuildTrigger`s. */
+/** Lists existing `BuildTrigger`s. Note: This method only lists triggers in the "global" region when using the legacy resource path projects/{project_id}/triggers. For all regions, use the regional resource path: `projects/{project_id}/locations/{location}/triggers`. */
 export const listProjectsTriggers: API.PaginatedOperationMethod<
   ListProjectsTriggersRequest,
   ListBuildTriggersResponse,
@@ -2667,7 +2656,7 @@ export type PatchProjectsLocationsTriggersError =
   | BadRequest
   | Conflict
   | GcpOpError;
-/** Updates a `BuildTrigger` by its project ID and trigger ID. */
+/** Updates a `BuildTrigger` by its project ID and trigger ID. Note: This method only updates triggers in the "global" region when using the legacy resource path projects/{project_id}/triggers/{trigger_id}. For all regions, use the regional resource path: `projects/{project_id}/locations/{location}/triggers/{trigger_id}`. */
 export const patchProjectsLocationsTriggers: API.OperationMethod<
   PatchProjectsLocationsTriggersRequest,
   BuildTrigger,
@@ -2706,7 +2695,7 @@ export const patchProjectsLocationsWorkerPools: API.OperationMethod<
 }));
 
 export type PatchProjectsTriggersError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
-/** Updates a `BuildTrigger` by its project ID and trigger ID. */
+/** Updates a `BuildTrigger` by its project ID and trigger ID. Note: This method only updates triggers in the "global" region when using the legacy resource path projects/{project_id}/triggers/{trigger_id}. For all regions, use the regional resource path: `projects/{project_id}/locations/{location}/triggers/{trigger_id}`. */
 export const patchProjectsTriggers: API.OperationMethod<
   PatchProjectsTriggersRequest,
   BuildTrigger,
@@ -2949,11 +2938,13 @@ function __c1(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          projectId: S.String.pipe(T.Label()),
-          parent: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(2406, __c75, 6).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2440, __c76, 8),
+          S.Struct({
+            parent: S.optional(S.String.pipe(T.Query())),
+            projectId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/projects/{projectId}/builds",
@@ -2967,12 +2958,14 @@ function __c2(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          gheConfigId: S.optional(S.String.pipe(T.Query())),
-          projectId: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(97, __c3, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(97, __c3, 1),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            gheConfigId: S.optional(S.String.pipe(T.Query())),
+            projectId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/githubEnterpriseConfigs",
@@ -2987,28 +2980,28 @@ function __c3(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          oauthSecretName: S.optional(S.String),
-          privateKeyVersionName: S.optional(S.String),
-          oauthSecretVersionName: S.optional(S.String),
-          webhookSecretName: S.optional(S.String),
           webhookSecretVersionName: S.optional(S.String),
-          privateKeyName: S.optional(S.String),
-          oauthClientIdName: S.optional(S.String),
           oauthClientIdVersionName: S.optional(S.String),
+          oauthSecretVersionName: S.optional(S.String),
+          privateKeyName: S.optional(S.String),
+          webhookSecretName: S.optional(S.String),
+          oauthSecretName: S.optional(S.String),
+          oauthClientIdName: S.optional(S.String),
+          privateKeyVersionName: S.optional(S.String),
         }),
       ).annotate({ identifier: "GitHubEnterpriseSecrets" });
     case 1:
       return S.suspend(() =>
         S.Struct({
-          secrets: S.optional(__S(96, __c3, 0)),
           displayName: S.optional(S.String),
-          name: S.optional(S.String),
+          hostUrl: S.optional(S.String),
+          appId: S.optional(S.String),
           createTime: S.optional(S.String),
+          webhookKey: S.optional(S.String),
+          secrets: S.optional(__S(96, __c3, 0)),
+          name: S.optional(S.String),
           sslCa: S.optional(S.String),
           peeredNetwork: S.optional(S.String),
-          hostUrl: S.optional(S.String),
-          webhookKey: S.optional(S.String),
-          appId: S.optional(S.String),
         }),
       ).annotate({ identifier: "GitHubEnterpriseConfig" });
   }
@@ -3017,11 +3010,13 @@ function __c4(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          bitbucketServerConfigId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(162, __c5, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(162, __c5, 2),
+          S.Struct({
+            bitbucketServerConfigId: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/bitbucketServerConfigs",
@@ -3036,9 +3031,9 @@ function __c5(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          readAccessTokenVersionName: S.optional(S.String),
           webhookSecretVersionName: S.optional(S.String),
           adminAccessTokenVersionName: S.optional(S.String),
+          readAccessTokenVersionName: S.optional(S.String),
         }),
       ).annotate({ identifier: "BitbucketServerSecrets" });
     case 1:
@@ -3046,16 +3041,16 @@ function __c5(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          sslCa: S.optional(S.String),
-          createTime: S.optional(S.String),
-          hostUri: S.optional(S.String),
-          peeredNetwork: S.optional(S.String),
           username: S.optional(S.String),
-          secrets: S.optional(__S(160, __c5, 0)),
-          name: S.optional(S.String),
           apiKey: S.optional(S.String),
-          webhookKey: S.optional(S.String),
+          name: S.optional(S.String),
+          peeredNetwork: S.optional(S.String),
+          sslCa: S.optional(S.String),
+          hostUri: S.optional(S.String),
+          secrets: S.optional(__S(160, __c5, 0)),
+          createTime: S.optional(S.String),
           connectedRepositories: S.optional(__S(161, __c5, 1)),
+          webhookKey: S.optional(S.String),
           peeredNetworkIpRange: S.optional(S.String),
         }),
       ).annotate({ identifier: "BitbucketServerConfig" });
@@ -3065,11 +3060,13 @@ function __c6(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          projectId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(2406, __c75, 6).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2440, __c76, 8),
+          S.Struct({
+            projectId: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/builds",
@@ -3083,12 +3080,14 @@ function __c7(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          gheConfigId: S.optional(S.String.pipe(T.Query())),
-          projectId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(97, __c3, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(97, __c3, 1),
+          S.Struct({
+            gheConfigId: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+            projectId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/githubEnterpriseConfigs",
@@ -3102,11 +3101,13 @@ function __c8(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          projectId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(298, __c9, 10).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(298, __c9, 10),
+          S.Struct({
+            projectId: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/triggers",
@@ -3121,128 +3122,128 @@ function __c9(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          branch: S.optional(S.String),
-          invertRegex: S.optional(S.Boolean),
-          tag: S.optional(S.String),
+          githubEnterpriseConfig: S.optional(S.String),
+          repository: S.optional(S.String),
+          uri: S.optional(S.String),
+          ref: S.optional(S.String),
+          bitbucketServerConfig: S.optional(S.String),
+          repoType: S.optional(S.String),
         }),
-      ).annotate({ identifier: "PushFilter" });
+      ).annotate({ identifier: "GitRepoSource" });
     case 1:
       return S.suspend(() =>
         S.Struct({
-          commentControl: S.optional(S.String),
           invertRegex: S.optional(S.Boolean),
+          commentControl: S.optional(S.String),
           branch: S.optional(S.String),
         }),
       ).annotate({ identifier: "PullRequestFilter" });
     case 2:
       return S.suspend(() =>
         S.Struct({
-          gitRepositoryLink: S.optional(S.String),
-          push: S.optional(__S(288, __c9, 0)),
-          gitRepositoryLinkType: S.optional(S.String),
-          pullRequest: S.optional(__S(289, __c9, 1)),
+          tag: S.optional(S.String),
+          invertRegex: S.optional(S.Boolean),
+          branch: S.optional(S.String),
         }),
-      ).annotate({ identifier: "DeveloperConnectEventConfig" });
+      ).annotate({ identifier: "PushFilter" });
     case 3:
       return S.suspend(() =>
         S.Struct({
-          state: S.optional(S.String),
-          subscription: S.optional(S.String),
-          topic: S.optional(S.String),
-          serviceAccountEmail: S.optional(S.String),
+          enterpriseConfigResourceName: S.optional(S.String),
+          pullRequest: S.optional(__S(289, __c9, 1)),
+          name: S.optional(S.String),
+          owner: S.optional(S.String),
+          installationId: S.optional(S.String),
+          push: S.optional(__S(290, __c9, 2)),
         }),
-      ).annotate({ identifier: "PubsubConfig" });
+      ).annotate({ identifier: "GitHubEventsConfig" });
     case 4:
       return S.suspend(() =>
         S.Struct({
-          repositoryType: S.optional(S.String),
-          push: S.optional(__S(288, __c9, 0)),
           repository: S.optional(S.String),
-          pullRequest: S.optional(__S(289, __c9, 1)),
-        }),
-      ).annotate({ identifier: "RepositoryEventConfig" });
-    case 5:
-      return S.suspend(() =>
-        S.Struct({
-          secret: S.optional(S.String),
-          state: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "WebhookConfig" });
-    case 6:
-      return S.suspend(() =>
-        S.Struct({
-          ref: S.optional(S.String),
+          githubEnterpriseConfig: S.optional(S.String),
           bitbucketServerConfig: S.optional(S.String),
-          repository: S.optional(S.String),
           repoType: S.optional(S.String),
-          githubEnterpriseConfig: S.optional(S.String),
-          uri: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "GitRepoSource" });
-    case 7:
-      return S.suspend(() =>
-        S.Struct({
-          githubEnterpriseConfig: S.optional(S.String),
-          repository: S.optional(S.String),
           path: S.optional(S.String),
           uri: S.optional(S.String),
-          repoType: S.optional(S.String),
-          bitbucketServerConfig: S.optional(S.String),
           revision: S.optional(S.String),
         }),
       ).annotate({ identifier: "GitFileSource" });
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          push: S.optional(__S(290, __c9, 2)),
+          pullRequest: S.optional(__S(289, __c9, 1)),
+          repository: S.optional(S.String),
+          repositoryType: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "RepositoryEventConfig" });
+    case 6:
+      return S.suspend(() =>
+        S.Struct({
+          state: S.optional(S.String),
+          secret: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "WebhookConfig" });
+    case 7:
+      return S.suspend(() =>
+        S.Struct({
+          state: S.optional(S.String),
+          serviceAccountEmail: S.optional(S.String),
+          subscription: S.optional(S.String),
+          topic: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "PubsubConfig" });
     case 8:
       return S.suspend(() =>
         S.Struct({
           pullRequest: S.optional(__S(289, __c9, 1)),
-          bitbucketServerConfig: S.optional(__S(162, __c5, 2)),
           projectKey: S.optional(S.String),
           repoSlug: S.optional(S.String),
+          bitbucketServerConfig: S.optional(__S(162, __c5, 2)),
           bitbucketServerConfigResource: S.optional(S.String),
-          push: S.optional(__S(288, __c9, 0)),
+          push: S.optional(__S(290, __c9, 2)),
         }),
       ).annotate({ identifier: "BitbucketServerTriggerConfig" });
     case 9:
       return S.suspend(() =>
         S.Struct({
-          enterpriseConfigResourceName: S.optional(S.String),
-          installationId: S.optional(S.String),
-          owner: S.optional(S.String),
           pullRequest: S.optional(__S(289, __c9, 1)),
-          push: S.optional(__S(288, __c9, 0)),
-          name: S.optional(S.String),
+          gitRepositoryLink: S.optional(S.String),
+          push: S.optional(__S(290, __c9, 2)),
+          gitRepositoryLinkType: S.optional(S.String),
         }),
-      ).annotate({ identifier: "GitHubEventsConfig" });
+      ).annotate({ identifier: "DeveloperConnectEventConfig" });
     case 10:
       return S.suspend(() =>
         S.Struct({
-          filename: S.optional(S.String),
-          description: S.optional(S.String),
-          includeBuildLogs: S.optional(S.String),
-          autodetect: S.optional(S.Boolean),
-          id: S.optional(S.String),
-          developerConnectEventConfig: S.optional(__S(290, __c9, 2)),
-          createTime: S.optional(S.String),
-          pubsubConfig: S.optional(__S(291, __c9, 3)),
-          tags: S.optional(__S(2341, __c73, 5)),
           filter: S.optional(S.String),
-          repositoryEventConfig: S.optional(__S(292, __c9, 4)),
-          build: S.optional(__S(2406, __c75, 6)),
-          approvalConfig: S.optional(__S(2371, __c74, 3)),
-          webhookConfig: S.optional(__S(293, __c9, 5)),
+          includeBuildLogs: S.optional(S.String),
+          createTime: S.optional(S.String),
           eventType: S.optional(S.String),
-          sourceToBuild: S.optional(__S(294, __c9, 6)),
-          triggerTemplate: S.optional(__S(2432, __c76, 0)),
-          includedFiles: S.optional(__S(2341, __c73, 5)),
           name: S.optional(S.String),
-          disabled: S.optional(S.Boolean),
           serviceAccount: S.optional(S.String),
-          gitFileSource: S.optional(__S(295, __c9, 7)),
-          ignoredFiles: S.optional(__S(2341, __c73, 5)),
           resourceName: S.optional(S.String),
+          approvalConfig: S.optional(__S(2373, __c74, 5)),
+          description: S.optional(S.String),
+          build: S.optional(__S(2440, __c76, 8)),
+          sourceToBuild: S.optional(__S(288, __c9, 0)),
+          ignoredFiles: S.optional(__S(2372, __c74, 4)),
+          github: S.optional(__S(291, __c9, 3)),
+          disabled: S.optional(S.Boolean),
+          substitutions: S.optional(__S(2336, __c73, 0)),
+          gitFileSource: S.optional(__S(292, __c9, 4)),
+          id: S.optional(S.String),
+          repositoryEventConfig: S.optional(__S(293, __c9, 5)),
+          tags: S.optional(__S(2372, __c74, 4)),
+          webhookConfig: S.optional(__S(294, __c9, 6)),
+          includedFiles: S.optional(__S(2372, __c74, 4)),
+          filename: S.optional(S.String),
+          pubsubConfig: S.optional(__S(295, __c9, 7)),
+          autodetect: S.optional(S.Boolean),
           bitbucketServerTriggerConfig: S.optional(__S(296, __c9, 8)),
-          substitutions: S.optional(__S(2304, __c72, 0)),
-          github: S.optional(__S(297, __c9, 9)),
+          triggerTemplate: S.optional(__S(2464, __c77, 0)),
+          developerConnectEventConfig: S.optional(__S(297, __c9, 9)),
         }),
       ).annotate({ identifier: "BuildTrigger" });
   }
@@ -3251,12 +3252,14 @@ function __c10(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          workerPoolId: S.optional(S.String.pipe(T.Query())),
-          validateOnly: S.optional(S.Boolean.pipe(T.Query())),
-          body: S.optional(__S(356, __c11, 4).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(356, __c11, 4),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            workerPoolId: S.optional(S.String.pipe(T.Query())),
+            validateOnly: S.optional(S.Boolean.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/workerPools",
@@ -3271,26 +3274,27 @@ function __c11(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          networkAttachment: S.optional(S.String),
-          routeAllTraffic: S.optional(S.Boolean),
           publicIpAddressDisabled: S.optional(S.Boolean),
+          routeAllTraffic: S.optional(S.Boolean),
+          networkAttachment: S.optional(S.String),
         }),
       ).annotate({ identifier: "PrivateServiceConnect" });
     case 1:
       return S.suspend(() =>
         S.Struct({
-          machineType: S.optional(S.String),
-          enableNestedVirtualization: S.optional(S.Boolean),
           workerRelease: S.optional(S.String),
+          rankedMachineSeries: S.optional(__S(2304, __c72, 0)),
+          enableNestedVirtualization: S.optional(S.Boolean),
           diskSizeGb: S.optional(S.String),
+          machineType: S.optional(S.String),
         }),
       ).annotate({ identifier: "WorkerConfig" });
     case 2:
       return S.suspend(() =>
         S.Struct({
           egressOption: S.optional(S.String),
-          peeredNetworkIpRange: S.optional(S.String),
           peeredNetwork: S.optional(S.String),
+          peeredNetworkIpRange: S.optional(S.String),
         }),
       ).annotate({ identifier: "NetworkConfig" });
     case 3:
@@ -3304,16 +3308,16 @@ function __c11(j: number): any {
     case 4:
       return S.suspend(() =>
         S.Struct({
+          etag: S.optional(S.String),
           updateTime: S.optional(S.String),
-          annotations: S.optional(__S(2304, __c72, 0)),
           name: S.optional(S.String),
-          uid: S.optional(S.String),
           state: S.optional(S.String),
           deleteTime: S.optional(S.String),
-          createTime: S.optional(S.String),
-          etag: S.optional(S.String),
-          privatePoolV1Config: S.optional(__S(355, __c11, 3)),
           displayName: S.optional(S.String),
+          annotations: S.optional(__S(2336, __c73, 0)),
+          privatePoolV1Config: S.optional(__S(355, __c11, 3)),
+          uid: S.optional(S.String),
+          createTime: S.optional(S.String),
         }),
       ).annotate({ identifier: "WorkerPool" });
   }
@@ -3322,11 +3326,13 @@ function __c12(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          projectId: S.String.pipe(T.Label()),
-          parent: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(298, __c9, 10).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(298, __c9, 10),
+          S.Struct({
+            projectId: S.String.pipe(T.Label()),
+            parent: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/projects/{projectId}/triggers",
@@ -3342,8 +3348,8 @@ function __c13(j: number): any {
       return S.suspend(() =>
         S.Struct({
           projectId: S.optional(S.String.pipe(T.Query())),
-          configId: S.optional(S.String.pipe(T.Query())),
           name: S.String.pipe(T.Label()),
+          configId: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "DELETE",
@@ -3375,9 +3381,9 @@ function __c15(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          name: S.String.pipe(T.Label()),
           projectId: S.optional(S.String.pipe(T.Query())),
           configId: S.optional(S.String.pipe(T.Query())),
+          name: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
             method: "DELETE",
@@ -3393,9 +3399,9 @@ function __c16(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          projectId: S.optional(S.String.pipe(T.Query())),
           triggerId: S.optional(S.String.pipe(T.Query())),
           name: S.String.pipe(T.Label()),
-          projectId: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "DELETE",
@@ -3411,10 +3417,10 @@ function __c17(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          allowMissing: S.optional(S.Boolean.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
           etag: S.optional(S.String.pipe(T.Query())),
+          allowMissing: S.optional(S.Boolean.pipe(T.Query())),
           validateOnly: S.optional(S.Boolean.pipe(T.Query())),
+          name: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
             method: "DELETE",
@@ -3430,9 +3436,9 @@ function __c18(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          name: S.optional(S.String.pipe(T.Query())),
           triggerId: S.String.pipe(T.Label()),
           projectId: S.String.pipe(T.Label()),
+          name: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "DELETE",
@@ -3487,9 +3493,9 @@ function __c21(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          projectId: S.String.pipe(T.Label()),
           id: S.String.pipe(T.Label()),
           name: S.optional(S.String.pipe(T.Query())),
-          projectId: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
             method: "GET",
@@ -3505,8 +3511,8 @@ function __c22(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          configId: S.optional(S.String.pipe(T.Query())),
           projectId: S.optional(S.String.pipe(T.Query())),
+          configId: S.optional(S.String.pipe(T.Query())),
           name: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
@@ -3539,9 +3545,9 @@ function __c24(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          id: S.optional(S.String.pipe(T.Query())),
           name: S.String.pipe(T.Label()),
           projectId: S.optional(S.String.pipe(T.Query())),
+          id: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -3557,9 +3563,9 @@ function __c25(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          projectId: S.optional(S.String.pipe(T.Query())),
           name: S.String.pipe(T.Label()),
           configId: S.optional(S.String.pipe(T.Query())),
+          projectId: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -3591,9 +3597,9 @@ function __c27(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          name: S.String.pipe(T.Label()),
-          triggerId: S.optional(S.String.pipe(T.Query())),
           projectId: S.optional(S.String.pipe(T.Query())),
+          triggerId: S.optional(S.String.pipe(T.Query())),
+          name: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
             method: "GET",
@@ -3626,8 +3632,8 @@ function __c29(j: number): any {
       return S.suspend(() =>
         S.Struct({
           name: S.optional(S.String.pipe(T.Query())),
-          projectId: S.String.pipe(T.Label()),
           triggerId: S.String.pipe(T.Label()),
+          projectId: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
             method: "GET",
@@ -3643,11 +3649,11 @@ function __c30(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          pageToken: S.optional(S.String.pipe(T.Query())),
+          filter: S.optional(S.String.pipe(T.Query())),
           pageSize: S.optional(S.Number.pipe(T.Query())),
           parent: S.optional(S.String.pipe(T.Query())),
-          filter: S.optional(S.String.pipe(T.Query())),
           projectId: S.String.pipe(T.Label()),
-          pageToken: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -3661,12 +3667,12 @@ function __c30(j: number): any {
 function __c31(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(2406, __c75, 6));
+      return S.Array(__S(2440, __c76, 8));
     case 1:
       return S.suspend(() =>
         S.Struct({
-          builds: S.optional(__S(992, __c31, 0)),
           nextPageToken: S.optional(S.String),
+          builds: S.optional(__S(992, __c31, 0)),
         }),
       ).annotate({ identifier: "ListBuildsResponse" });
   }
@@ -3721,8 +3727,8 @@ function __c34(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          nextPageToken: S.optional(S.String),
           bitbucketServerConfigs: S.optional(__S(1089, __c34, 1)),
+          nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListBitbucketServerConfigsResponse" });
   }
@@ -3732,9 +3738,9 @@ function __c35(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          pageToken: S.optional(S.String.pipe(T.Query())),
           pageSize: S.optional(S.Number.pipe(T.Query())),
           parent: S.String.pipe(T.Label()),
+          pageToken: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -3746,11 +3752,11 @@ function __c35(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
+          description: S.optional(S.String),
+          name: S.optional(S.String),
           repoId: S.optional(__S(2112, __c66, 0)),
           displayName: S.optional(S.String),
           browseUri: S.optional(S.String),
-          description: S.optional(S.String),
-          name: S.optional(S.String),
         }),
       ).annotate({ identifier: "BitbucketServerRepository" });
     case 2:
@@ -3768,10 +3774,12 @@ function __c36(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(1184, __c37, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1184, __c37, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+name}:approve",
@@ -3804,18 +3812,18 @@ function __c39(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          details: S.optional(__S(1217, __c38, 1)),
           code: S.optional(S.Number),
           message: S.optional(S.String),
-          details: S.optional(__S(1217, __c38, 1)),
         }),
       ).annotate({ identifier: "Status" });
     case 1:
       return S.suspend(() =>
         S.Struct({
-          response: S.optional(__S(1216, __c38, 0)),
           done: S.optional(S.Boolean),
-          name: S.optional(S.String),
+          response: S.optional(__S(1216, __c38, 0)),
           error: S.optional(__S(1248, __c39, 0)),
+          name: S.optional(S.String),
           metadata: S.optional(__S(1216, __c38, 0)),
         }),
       ).annotate({ identifier: "Operation" });
@@ -3826,10 +3834,10 @@ function __c40(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          approverAccount: S.optional(S.String),
-          comment: S.optional(S.String),
-          url: S.optional(S.String),
           decision: S.optional(S.String),
+          approverAccount: S.optional(S.String),
+          url: S.optional(S.String),
+          comment: S.optional(S.String),
           approvalTime: S.optional(S.String),
         }),
       ).annotate({ identifier: "ApprovalResult" });
@@ -3841,10 +3849,10 @@ function __c41(j: number): any {
       return S.suspend(() =>
         S.Struct({
           pageToken: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          projectId: S.optional(S.String.pipe(T.Query())),
           filter: S.optional(S.String.pipe(T.Query())),
           pageSize: S.optional(S.Number.pipe(T.Query())),
+          projectId: S.optional(S.String.pipe(T.Query())),
+          parent: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
             method: "GET",
@@ -3860,8 +3868,8 @@ function __c42(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          projectId: S.optional(S.String.pipe(T.Query())),
           parent: S.String.pipe(T.Label()),
+          projectId: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -3877,10 +3885,10 @@ function __c43(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          projectId: S.optional(S.String.pipe(T.Query())),
-          pageSize: S.optional(S.Number.pipe(T.Query())),
           parent: S.String.pipe(T.Label()),
           pageToken: S.optional(S.String.pipe(T.Query())),
+          pageSize: S.optional(S.Number.pipe(T.Query())),
+          projectId: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -3909,8 +3917,8 @@ function __c45(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          pageSize: S.optional(S.Number.pipe(T.Query())),
           parent: S.String.pipe(T.Label()),
+          pageSize: S.optional(S.Number.pipe(T.Query())),
           pageToken: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
@@ -3925,8 +3933,8 @@ function __c45(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          nextPageToken: S.optional(S.String),
           workerPools: S.optional(__S(1441, __c45, 1)),
+          nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListWorkerPoolsResponse" });
   }
@@ -3954,11 +3962,13 @@ function __c47(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(97, __c3, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(97, __c3, 1),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -3972,11 +3982,13 @@ function __c48(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(162, __c5, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(162, __c5, 2),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -3990,11 +4002,13 @@ function __c49(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(97, __c3, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(97, __c3, 1),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -4008,13 +4022,15 @@ function __c50(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          triggerId: S.optional(S.String.pipe(T.Query())),
-          projectId: S.optional(S.String.pipe(T.Query())),
-          resourceName: S.String.pipe(T.Label()),
-          body: S.optional(__S(298, __c9, 10).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(298, __c9, 10),
+          S.Struct({
+            resourceName: S.String.pipe(T.Label()),
+            projectId: S.optional(S.String.pipe(T.Query())),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            triggerId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+resourceName}",
@@ -4028,12 +4044,14 @@ function __c51(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          validateOnly: S.optional(S.Boolean.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(356, __c11, 4).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(356, __c11, 4),
+          S.Struct({
+            validateOnly: S.optional(S.Boolean.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/{+name}",
@@ -4047,10 +4065,12 @@ function __c52(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(1184, __c37, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1184, __c37, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+name}:approve",
@@ -4064,12 +4084,14 @@ function __c53(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          triggerId: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          projectId: S.String.pipe(T.Label()),
-          body: S.optional(__S(298, __c9, 10).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(298, __c9, 10),
+          S.Struct({
+            projectId: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            triggerId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1/projects/{projectId}/triggers/{triggerId}",
@@ -4083,10 +4105,12 @@ function __c54(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          webhookKey: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(1760, __c55, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1760, __c55, 0),
+          S.Struct({
+            webhookKey: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/githubDotComWebhook:receive",
@@ -4101,9 +4125,9 @@ function __c55(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          data: S.optional(S.String),
           extensions: S.optional(__S(1217, __c38, 1)),
           contentType: S.optional(S.String),
+          data: S.optional(S.String),
         }),
       ).annotate({ identifier: "HttpBody" });
   }
@@ -4112,11 +4136,13 @@ function __c56(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          location: S.String.pipe(T.Label()),
-          webhookKey: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(1760, __c55, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1760, __c55, 0),
+          S.Struct({
+            webhookKey: S.optional(S.String.pipe(T.Query())),
+            location: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+location}/regionalWebhook",
@@ -4136,10 +4162,12 @@ function __c57(j: number): any {
       ).annotate({ identifier: "RemoveBitbucketServerConnectedRepositoryRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          config: S.String.pipe(T.Label()),
-          body: S.optional(__S(1824, __c57, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1824, __c57, 0),
+          S.Struct({
+            config: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+config}:removeBitbucketServerConnectedRepository",
@@ -4156,11 +4184,13 @@ function __c58(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          id: S.String.pipe(T.Label()),
-          projectId: S.String.pipe(T.Label()),
-          body: S.optional(__S(1888, __c59, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1888, __c59, 0),
+          S.Struct({
+            id: S.String.pipe(T.Label()),
+            projectId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/projects/{projectId}/builds/{id}:retry",
@@ -4176,8 +4206,8 @@ function __c59(j: number): any {
       return S.suspend(() =>
         S.Struct({
           name: S.optional(S.String),
-          id: S.optional(S.String),
           projectId: S.optional(S.String),
+          id: S.optional(S.String),
         }),
       ).annotate({ identifier: "RetryBuildRequest" });
   }
@@ -4186,10 +4216,12 @@ function __c60(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(1888, __c59, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1888, __c59, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+name}:retry",
@@ -4204,17 +4236,19 @@ function __c61(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          triggerId: S.optional(S.String),
-          source: S.optional(__S(2432, __c76, 0)),
+          source: S.optional(__S(2464, __c77, 0)),
           projectId: S.optional(S.String),
+          triggerId: S.optional(S.String),
         }),
       ).annotate({ identifier: "RunBuildTriggerRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(1952, __c61, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1952, __c61, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+name}:run",
@@ -4228,12 +4262,14 @@ function __c62(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          projectId: S.String.pipe(T.Label()),
-          triggerId: S.String.pipe(T.Label()),
-          name: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(2432, __c76, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2464, __c77, 0),
+          S.Struct({
+            name: S.optional(S.String.pipe(T.Query())),
+            projectId: S.String.pipe(T.Label()),
+            triggerId: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/projects/{projectId}/triggers/{triggerId}:run",
@@ -4247,13 +4283,15 @@ function __c63(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          projectId: S.optional(S.String.pipe(T.Query())),
-          secret: S.optional(S.String.pipe(T.Query())),
-          trigger: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(1760, __c55, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1760, __c55, 0),
+          S.Struct({
+            secret: S.optional(S.String.pipe(T.Query())),
+            projectId: S.optional(S.String.pipe(T.Query())),
+            trigger: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+name}:webhook",
@@ -4267,13 +4305,15 @@ function __c64(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          secret: S.optional(S.String.pipe(T.Query())),
-          name: S.optional(S.String.pipe(T.Query())),
-          trigger: S.String.pipe(T.Label()),
-          projectId: S.String.pipe(T.Label()),
-          body: S.optional(__S(1760, __c55, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1760, __c55, 0),
+          S.Struct({
+            projectId: S.String.pipe(T.Label()),
+            trigger: S.String.pipe(T.Label()),
+            name: S.optional(S.String.pipe(T.Query())),
+            secret: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/projects/{projectId}/triggers/{trigger}:webhook",
@@ -4288,8 +4328,8 @@ function __c65(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          repo: S.optional(__S(2112, __c66, 0)),
           parent: S.optional(S.String),
+          repo: S.optional(__S(2112, __c66, 0)),
           status: S.optional(__S(1248, __c39, 0)),
         }),
       ).annotate({ identifier: "BitbucketServerConnectedRepository" });
@@ -4310,10 +4350,12 @@ function __c65(j: number): any {
       ).annotate({ identifier: "BatchCreateBitbucketServerConnectedRepositoriesRequest" });
     case 4:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(2083, __c65, 3).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2083, __c65, 3),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+parent}/connectedRepositories:batchCreate",
@@ -4332,8 +4374,8 @@ function __c66(j: number): any {
       return S.suspend(() =>
         S.Struct({
           projectKey: S.optional(S.String),
-          webhookId: S.optional(S.Number),
           repoSlug: S.optional(S.String),
+          webhookId: S.optional(S.Number),
         }),
       ).annotate({ identifier: "BitbucketServerRepositoryId" });
   }
@@ -4342,10 +4384,12 @@ function __c67(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          webhookKey: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(1760, __c55, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1760, __c55, 0),
+          S.Struct({
+            webhookKey: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/webhook",
@@ -4382,11 +4426,13 @@ function __c70(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          projectId: S.String.pipe(T.Label()),
-          id: S.String.pipe(T.Label()),
-          body: S.optional(__S(2272, __c71, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2272, __c71, 0),
+          S.Struct({
+            projectId: S.String.pipe(T.Label()),
+            id: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/projects/{projectId}/builds/{id}:cancel",
@@ -4401,8 +4447,8 @@ function __c71(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          name: S.optional(S.String),
           projectId: S.optional(S.String),
+          name: S.optional(S.String),
           id: S.optional(S.String),
         }),
       ).annotate({ identifier: "CancelBuildRequest" });
@@ -4411,204 +4457,13 @@ function __c71(j: number): any {
 function __c72(j: number): any {
   switch (j) {
     case 0:
-      return S.Record(S.String, S.String);
+      return S.Array(S.String);
   }
 }
 function __c73(j: number): any {
   switch (j) {
     case 0:
-      return S.suspend(() =>
-        S.Struct({
-          resource: S.optional(S.String),
-          destPath: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "GenericArtifactDependency" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          developerConnect: S.optional(S.String),
-          url: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "GitSourceRepository" });
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          fetchTags: S.optional(S.Boolean),
-          depth: S.optional(S.String),
-          recurseSubmodules: S.optional(S.Boolean),
-          revision: S.optional(S.String),
-          repository: S.optional(__S(2337, __c73, 1)),
-          destPath: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "GitSourceDependency" });
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          empty: S.optional(S.Boolean),
-          genericArtifact: S.optional(__S(2336, __c73, 0)),
-          gitSource: S.optional(__S(2338, __c73, 2)),
-        }),
-      ).annotate({ identifier: "Dependency" });
-    case 4:
-      return S.Array(__S(2339, __c73, 3));
-    case 5:
-      return S.Array(S.String);
-    case 6:
-      return S.Array(S.Number);
-    case 7:
-      return S.suspend(() =>
-        S.Struct({
-          endTime: S.optional(S.String),
-          startTime: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "TimeSpan" });
-    case 8:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.optional(S.String),
-          path: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "Volume" });
-    case 9:
-      return S.Array(__S(2344, __c73, 8));
-    case 10:
-      return S.suspend(() =>
-        S.Struct({
-          attestationType: S.optional(S.String),
-          name: S.optional(S.String),
-          attestationContent: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "StepResult" });
-    case 11:
-      return S.Array(__S(2346, __c73, 10));
-    case 12:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.optional(S.String),
-          waitFor: S.optional(__S(2341, __c73, 5)),
-          allowExitCodes: S.optional(__S(2342, __c73, 6)),
-          timeout: S.optional(S.String),
-          args: S.optional(__S(2341, __c73, 5)),
-          pullTiming: S.optional(__S(2343, __c73, 7)),
-          script: S.optional(S.String),
-          status: S.optional(S.String),
-          secretEnv: S.optional(__S(2341, __c73, 5)),
-          automapSubstitutions: S.optional(S.Boolean),
-          timing: S.optional(__S(2343, __c73, 7)),
-          entrypoint: S.optional(S.String),
-          volumes: S.optional(__S(2345, __c73, 9)),
-          allowFailure: S.optional(S.Boolean),
-          env: S.optional(__S(2341, __c73, 5)),
-          exitCode: S.optional(S.Number),
-          id: S.optional(S.String),
-          dir: S.optional(S.String),
-          results: S.optional(__S(2347, __c73, 11)),
-        }),
-      ).annotate({ identifier: "BuildStep" });
-    case 13:
-      return S.Array(__S(2348, __c73, 12));
-    case 14:
-      return S.suspend(() =>
-        S.Struct({
-          repository: S.optional(S.String),
-          paths: S.optional(__S(2341, __c73, 5)),
-        }),
-      ).annotate({ identifier: "PythonPackage" });
-    case 15:
-      return S.Array(__S(2350, __c73, 14));
-    case 16:
-      return S.suspend(() =>
-        S.Struct({
-          paths: S.optional(__S(2341, __c73, 5)),
-          timing: S.optional(__S(2343, __c73, 7)),
-          location: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "ArtifactObjects" });
-    case 17:
-      return S.suspend(() =>
-        S.Struct({
-          repository: S.optional(S.String),
-          packagePath: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "NpmPackage" });
-    case 18:
-      return S.Array(__S(2353, __c73, 17));
-    case 19:
-      return S.suspend(() =>
-        S.Struct({
-          repositoryProjectId: S.optional(S.String),
-          repositoryLocation: S.optional(S.String),
-          sourcePath: S.optional(S.String),
-          modulePath: S.optional(S.String),
-          moduleVersion: S.optional(S.String),
-          repositoryName: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "GoModule" });
-    case 20:
-      return S.Array(__S(2355, __c73, 19));
-    case 21:
-      return S.suspend(() =>
-        S.Struct({
-          file: S.optional(S.String),
-          tags: S.optional(__S(2341, __c73, 5)),
-          registryPath: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "Oci" });
-    case 22:
-      return S.Array(__S(2357, __c73, 21));
-    case 23:
-      return S.suspend(() =>
-        S.Struct({
-          deployFolder: S.optional(S.String),
-          version: S.optional(S.String),
-          path: S.optional(S.String),
-          groupId: S.optional(S.String),
-          artifactId: S.optional(S.String),
-          repository: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "MavenArtifact" });
-    case 24:
-      return S.Array(__S(2359, __c73, 23));
-    case 25:
-      return S.suspend(() =>
-        S.Struct({
-          folder: S.optional(S.String),
-          registryPath: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "GenericArtifact" });
-    case 26:
-      return S.Array(__S(2361, __c73, 25));
-    case 27:
-      return S.suspend(() =>
-        S.Struct({
-          pythonPackages: S.optional(__S(2351, __c73, 15)),
-          objects: S.optional(__S(2352, __c73, 16)),
-          images: S.optional(__S(2341, __c73, 5)),
-          npmPackages: S.optional(__S(2354, __c73, 18)),
-          goModules: S.optional(__S(2356, __c73, 20)),
-          oci: S.optional(__S(2358, __c73, 22)),
-          mavenArtifacts: S.optional(__S(2360, __c73, 24)),
-          genericArtifacts: S.optional(__S(2362, __c73, 26)),
-        }),
-      ).annotate({ identifier: "Artifacts" });
-    case 28:
-      return S.suspend(() =>
-        S.Struct({
-          secretEnv: S.optional(__S(2304, __c72, 0)),
-          kmsKeyName: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "Secret" });
-    case 29:
-      return S.Array(__S(2364, __c73, 28));
-    case 30:
-      return S.suspend(() =>
-        S.Struct({
-          kmsKeyName: S.optional(S.String),
-          envMap: S.optional(__S(2304, __c72, 0)),
-        }),
-      ).annotate({ identifier: "InlineSecret" });
-    case 31:
-      return S.Array(__S(2366, __c73, 30));
+      return S.Record(S.String, S.String);
   }
 }
 function __c74(j: number): any {
@@ -4616,316 +4471,517 @@ function __c74(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          versionName: S.optional(S.String),
-          env: S.optional(S.String),
+          text: S.optional(S.String),
+          priority: S.optional(S.String),
         }),
-      ).annotate({ identifier: "SecretManagerSecret" });
+      ).annotate({ identifier: "Warning" });
     case 1:
       return S.Array(__S(2368, __c74, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          inline: S.optional(__S(2367, __c73, 31)),
-          secretManager: S.optional(__S(2369, __c74, 1)),
+          proxySecretVersionName: S.optional(S.String),
         }),
-      ).annotate({ identifier: "Secrets" });
+      ).annotate({ identifier: "HttpConfig" });
     case 3:
+      return S.suspend(() =>
+        S.Struct({
+          http: S.optional(__S(2370, __c74, 2)),
+        }),
+      ).annotate({ identifier: "GitConfig" });
+    case 4:
+      return S.Array(S.String);
+    case 5:
       return S.suspend(() =>
         S.Struct({
           approvalRequired: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "ApprovalConfig" });
-    case 4:
-      return S.suspend(() =>
-        S.Struct({
-          state: S.optional(S.String),
-          config: S.optional(__S(2371, __c74, 3)),
-          result: S.optional(__S(1280, __c40, 0)),
-        }),
-      ).annotate({ identifier: "BuildApproval" });
-    case 5:
-      return S.suspend(() =>
-        S.Struct({
-          repository: S.optional(S.String),
-          dir: S.optional(S.String),
-          revision: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "ConnectedRepository" });
     case 6:
       return S.suspend(() =>
         S.Struct({
-          generation: S.optional(S.String),
-          sourceFetcher: S.optional(S.String),
-          bucket: S.optional(S.String),
-          object: S.optional(S.String),
+          state: S.optional(S.String),
+          config: S.optional(__S(2373, __c74, 5)),
+          result: S.optional(__S(1280, __c40, 0)),
         }),
-      ).annotate({ identifier: "StorageSource" });
+      ).annotate({ identifier: "BuildApproval" });
     case 7:
       return S.suspend(() =>
         S.Struct({
-          url: S.optional(S.String),
-          dir: S.optional(S.String),
-          revision: S.optional(S.String),
+          startTime: S.optional(S.String),
+          endTime: S.optional(S.String),
         }),
-      ).annotate({ identifier: "GitSource" });
+      ).annotate({ identifier: "TimeSpan" });
     case 8:
-      return S.suspend(() =>
-        S.Struct({
-          dir: S.optional(S.String),
-          gitRepositoryLink: S.optional(S.String),
-          revision: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "DeveloperConnectConfig" });
+      return S.Record(S.String, __S(2375, __c74, 7));
     case 9:
       return S.suspend(() =>
         S.Struct({
-          bucket: S.optional(S.String),
-          object: S.optional(S.String),
-          generation: S.optional(S.String),
+          workerRelease: S.optional(S.String),
+          name: S.optional(S.String),
+          resolvedWorkerRelease: S.optional(S.String),
         }),
-      ).annotate({ identifier: "StorageSourceManifest" });
+      ).annotate({ identifier: "PoolOption" });
     case 10:
       return S.suspend(() =>
         S.Struct({
-          connectedRepository: S.optional(__S(2373, __c74, 5)),
-          storageSource: S.optional(__S(2374, __c74, 6)),
-          gitSource: S.optional(__S(2375, __c74, 7)),
-          developerConnectConfig: S.optional(__S(2376, __c74, 8)),
-          storageSourceManifest: S.optional(__S(2377, __c74, 9)),
-          repoSource: S.optional(__S(2432, __c76, 0)),
+          path: S.optional(S.String),
+          name: S.optional(S.String),
         }),
-      ).annotate({ identifier: "Source" });
+      ).annotate({ identifier: "Volume" });
     case 11:
-      return S.suspend(() =>
-        S.Struct({
-          proxySecretVersionName: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "HttpConfig" });
+      return S.Array(__S(2378, __c74, 10));
     case 12:
       return S.suspend(() =>
         S.Struct({
-          http: S.optional(__S(2379, __c74, 11)),
-        }),
-      ).annotate({ identifier: "GitConfig" });
-    case 13:
-      return S.Array(S.String);
-    case 14:
-      return S.suspend(() =>
-        S.Struct({
-          workerRelease: S.optional(S.String),
-          resolvedWorkerRelease: S.optional(S.String),
-          name: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "PoolOption" });
-    case 15:
-      return S.suspend(() =>
-        S.Struct({
-          env: S.optional(__S(2341, __c73, 5)),
-          pubsubTopic: S.optional(S.String),
-          requestedVerifyOption: S.optional(S.String),
-          workerPool: S.optional(S.String),
-          volumes: S.optional(__S(2345, __c73, 9)),
-          resolvedWorkerRelease: S.optional(S.String),
-          logStreamingOption: S.optional(S.String),
-          dynamicSubstitutions: S.optional(S.Boolean),
-          workerRelease: S.optional(S.String),
-          sourceProvenanceHash: S.optional(__S(2381, __c74, 13)),
-          substitutionOption: S.optional(S.String),
           diskSizeGb: S.optional(S.String),
           logging: S.optional(S.String),
-          defaultLogsBucketBehavior: S.optional(S.String),
-          enableStructuredLogging: S.optional(S.Boolean),
-          secretEnv: S.optional(__S(2341, __c73, 5)),
-          pool: S.optional(__S(2382, __c74, 14)),
+          logStreamingOption: S.optional(S.String),
           machineType: S.optional(S.String),
+          sourceProvenanceHash: S.optional(__S(2304, __c72, 0)),
+          rankedMachineSeries: S.optional(__S(2304, __c72, 0)),
+          requestedVerifyOption: S.optional(S.String),
           automapSubstitutions: S.optional(S.Boolean),
+          pubsubTopic: S.optional(S.String),
+          defaultLogsBucketBehavior: S.optional(S.String),
+          workerRelease: S.optional(S.String),
+          pool: S.optional(__S(2377, __c74, 9)),
+          env: S.optional(__S(2372, __c74, 4)),
+          substitutionOption: S.optional(S.String),
+          volumes: S.optional(__S(2379, __c74, 11)),
+          secretEnv: S.optional(__S(2372, __c74, 4)),
+          resolvedWorkerRelease: S.optional(S.String),
+          dynamicSubstitutions: S.optional(S.Boolean),
+          enableStructuredLogging: S.optional(S.Boolean),
+          workerPool: S.optional(S.String),
         }),
       ).annotate({ identifier: "BuildOptions" });
-    case 16:
+    case 13:
       return S.suspend(() =>
         S.Struct({
           value: S.optional(S.String),
           type: S.optional(S.String),
         }),
       ).annotate({ identifier: "Hash" });
+    case 14:
+      return S.Array(__S(2381, __c74, 13));
+    case 15:
+      return S.suspend(() =>
+        S.Struct({
+          fileHash: S.optional(__S(2382, __c74, 14)),
+        }),
+      ).annotate({ identifier: "FileHashes" });
+    case 16:
+      return S.Record(S.String, __S(2383, __c74, 15));
     case 17:
-      return S.Array(__S(2384, __c74, 16));
+      return S.suspend(() =>
+        S.Struct({
+          dir: S.optional(S.String),
+          revision: S.optional(S.String),
+          url: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "GitSource" });
     case 18:
       return S.suspend(() =>
         S.Struct({
-          fileHash: S.optional(__S(2385, __c74, 17)),
+          revision: S.optional(S.String),
+          repository: S.optional(S.String),
+          dir: S.optional(S.String),
         }),
-      ).annotate({ identifier: "FileHashes" });
+      ).annotate({ identifier: "ConnectedRepository" });
     case 19:
       return S.suspend(() =>
         S.Struct({
-          fileHashes: S.optional(__S(2386, __c74, 18)),
-          artifactRegistryPackage: S.optional(S.String),
-          pushTiming: S.optional(__S(2343, __c73, 7)),
-          uri: S.optional(S.String),
+          bucket: S.optional(S.String),
+          generation: S.optional(S.String),
+          object: S.optional(S.String),
         }),
-      ).annotate({ identifier: "UploadedMavenArtifact" });
+      ).annotate({ identifier: "StorageSourceManifest" });
     case 20:
-      return S.Array(__S(2387, __c74, 19));
+      return S.suspend(() =>
+        S.Struct({
+          bucket: S.optional(S.String),
+          sourceFetcher: S.optional(S.String),
+          object: S.optional(S.String),
+          generation: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "StorageSource" });
     case 21:
       return S.suspend(() =>
         S.Struct({
-          ociMediaType: S.optional(S.String),
-          pushTiming: S.optional(__S(2343, __c73, 7)),
-          name: S.optional(S.String),
-          artifactRegistryPackage: S.optional(S.String),
-          digest: S.optional(S.String),
+          fileHashes: S.optional(__S(2384, __c74, 16)),
+          resolvedGitSource: S.optional(__S(2385, __c74, 17)),
+          resolvedConnectedRepository: S.optional(__S(2386, __c74, 18)),
+          resolvedRepoSource: S.optional(__S(2464, __c77, 0)),
+          resolvedStorageSourceManifest: S.optional(__S(2387, __c74, 19)),
+          resolvedStorageSource: S.optional(__S(2388, __c74, 20)),
         }),
-      ).annotate({ identifier: "BuiltImage" });
+      ).annotate({ identifier: "SourceProvenance" });
     case 22:
-      return S.Array(__S(2389, __c74, 21));
+      return S.suspend(() =>
+        S.Struct({
+          secretEnv: S.optional(__S(2336, __c73, 0)),
+          kmsKeyName: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "Secret" });
     case 23:
-      return S.suspend(() =>
-        S.Struct({
-          results: S.optional(__S(2304, __c72, 0)),
-        }),
-      ).annotate({ identifier: "BuildStepResults" });
+      return S.Array(__S(2390, __c74, 22));
     case 24:
-      return S.Record(S.String, __S(2391, __c74, 23));
-    case 25:
       return S.suspend(() =>
         S.Struct({
-          uri: S.optional(S.String),
-          artifactRegistryPackage: S.optional(S.String),
-          pushTiming: S.optional(__S(2343, __c73, 7)),
-          fileHashes: S.optional(__S(2386, __c74, 18)),
+          folder: S.optional(S.String),
+          registryPath: S.optional(S.String),
         }),
-      ).annotate({ identifier: "UploadedNpmPackage" });
+      ).annotate({ identifier: "GenericArtifact" });
+    case 25:
+      return S.Array(__S(2392, __c74, 24));
     case 26:
-      return S.Array(__S(2393, __c74, 25));
+      return S.suspend(() =>
+        S.Struct({
+          timing: S.optional(__S(2375, __c74, 7)),
+          location: S.optional(S.String),
+          paths: S.optional(__S(2372, __c74, 4)),
+        }),
+      ).annotate({ identifier: "ArtifactObjects" });
     case 27:
       return S.suspend(() =>
         S.Struct({
-          fileHashes: S.optional(__S(2386, __c74, 18)),
-          uri: S.optional(S.String),
-          pushTiming: S.optional(__S(2343, __c73, 7)),
-          artifactRegistryPackage: S.optional(S.String),
+          packagePath: S.optional(S.String),
+          repository: S.optional(S.String),
         }),
-      ).annotate({ identifier: "UploadedPythonPackage" });
+      ).annotate({ identifier: "NpmPackage" });
     case 28:
       return S.Array(__S(2395, __c74, 27));
     case 29:
-      return S.Record(S.String, __S(2386, __c74, 18));
-    case 30:
       return S.suspend(() =>
         S.Struct({
-          artifactFingerprint: S.optional(__S(2386, __c74, 18)),
-          fileHashes: S.optional(__S(2397, __c74, 29)),
-          pushTiming: S.optional(__S(2343, __c73, 7)),
-          uri: S.optional(S.String),
-          artifactRegistryPackage: S.optional(S.String),
+          repository: S.optional(S.String),
+          artifactId: S.optional(S.String),
+          deployFolder: S.optional(S.String),
+          path: S.optional(S.String),
+          version: S.optional(S.String),
+          groupId: S.optional(S.String),
         }),
-      ).annotate({ identifier: "UploadedGenericArtifact" });
+      ).annotate({ identifier: "MavenArtifact" });
+    case 30:
+      return S.Array(__S(2397, __c74, 29));
     case 31:
-      return S.Array(__S(2398, __c74, 30));
+      return S.suspend(() =>
+        S.Struct({
+          file: S.optional(S.String),
+          tags: S.optional(__S(2372, __c74, 4)),
+          registryPath: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "Oci" });
   }
 }
 function __c75(j: number): any {
   switch (j) {
     case 0:
-      return S.suspend(() =>
-        S.Struct({
-          artifactTiming: S.optional(__S(2343, __c73, 7)),
-          mavenArtifacts: S.optional(__S(2388, __c74, 20)),
-          artifactManifest: S.optional(S.String),
-          buildStepImages: S.optional(__S(2341, __c73, 5)),
-          numArtifacts: S.optional(S.String),
-          images: S.optional(__S(2390, __c74, 22)),
-          buildStepOutputs: S.optional(__S(2341, __c73, 5)),
-          goModules: S.optional(__S(2388, __c74, 20)),
-          buildStepResults: S.optional(__S(2392, __c74, 24)),
-          npmPackages: S.optional(__S(2394, __c74, 26)),
-          pythonPackages: S.optional(__S(2396, __c74, 28)),
-          genericArtifacts: S.optional(__S(2399, __c74, 31)),
-        }),
-      ).annotate({ identifier: "Results" });
+      return S.Array(__S(2399, __c74, 31));
     case 1:
       return S.suspend(() =>
         S.Struct({
-          type: S.optional(S.String),
-          detail: S.optional(S.String),
+          repository: S.optional(S.String),
+          paths: S.optional(__S(2372, __c74, 4)),
         }),
-      ).annotate({ identifier: "FailureInfo" });
+      ).annotate({ identifier: "PythonPackage" });
     case 2:
-      return S.suspend(() =>
-        S.Struct({
-          resolvedConnectedRepository: S.optional(__S(2373, __c74, 5)),
-          resolvedStorageSource: S.optional(__S(2374, __c74, 6)),
-          resolvedRepoSource: S.optional(__S(2432, __c76, 0)),
-          fileHashes: S.optional(__S(2397, __c74, 29)),
-          resolvedStorageSourceManifest: S.optional(__S(2377, __c74, 9)),
-          resolvedGitSource: S.optional(__S(2375, __c74, 7)),
-        }),
-      ).annotate({ identifier: "SourceProvenance" });
+      return S.Array(__S(2401, __c75, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          text: S.optional(S.String),
-          priority: S.optional(S.String),
+          repositoryName: S.optional(S.String),
+          sourcePath: S.optional(S.String),
+          modulePath: S.optional(S.String),
+          repositoryProjectId: S.optional(S.String),
+          repositoryLocation: S.optional(S.String),
+          moduleVersion: S.optional(S.String),
         }),
-      ).annotate({ identifier: "Warning" });
+      ).annotate({ identifier: "GoModule" });
     case 4:
       return S.Array(__S(2403, __c75, 3));
     case 5:
-      return S.Record(S.String, __S(2343, __c73, 7));
+      return S.suspend(() =>
+        S.Struct({
+          genericArtifacts: S.optional(__S(2393, __c74, 25)),
+          objects: S.optional(__S(2394, __c74, 26)),
+          npmPackages: S.optional(__S(2396, __c74, 28)),
+          mavenArtifacts: S.optional(__S(2398, __c74, 30)),
+          images: S.optional(__S(2372, __c74, 4)),
+          oci: S.optional(__S(2400, __c75, 0)),
+          pythonPackages: S.optional(__S(2402, __c75, 2)),
+          goModules: S.optional(__S(2404, __c75, 4)),
+        }),
+      ).annotate({ identifier: "Artifacts" });
     case 6:
       return S.suspend(() =>
         S.Struct({
-          substitutions: S.optional(__S(2304, __c72, 0)),
-          logsBucket: S.optional(S.String),
-          dependencies: S.optional(__S(2340, __c73, 4)),
-          createTime: S.optional(S.String),
-          name: S.optional(S.String),
-          steps: S.optional(__S(2349, __c73, 13)),
-          artifacts: S.optional(__S(2363, __c73, 27)),
-          logUrl: S.optional(S.String),
-          startTime: S.optional(S.String),
-          statusDetail: S.optional(S.String),
-          secrets: S.optional(__S(2365, __c73, 29)),
-          availableSecrets: S.optional(__S(2370, __c74, 2)),
-          serviceAccount: S.optional(S.String),
-          queueTtl: S.optional(S.String),
-          approval: S.optional(__S(2372, __c74, 4)),
-          source: S.optional(__S(2378, __c74, 10)),
-          gitConfig: S.optional(__S(2380, __c74, 12)),
-          timeout: S.optional(S.String),
-          options: S.optional(__S(2383, __c74, 15)),
-          projectId: S.optional(S.String),
-          finishTime: S.optional(S.String),
-          images: S.optional(__S(2341, __c73, 5)),
-          results: S.optional(__S(2400, __c75, 0)),
-          tags: S.optional(__S(2341, __c73, 5)),
-          failureInfo: S.optional(__S(2401, __c75, 1)),
-          sourceProvenance: S.optional(__S(2402, __c75, 2)),
-          buildTriggerId: S.optional(S.String),
-          status: S.optional(S.String),
-          warnings: S.optional(__S(2404, __c75, 4)),
-          timing: S.optional(__S(2405, __c75, 5)),
-          id: S.optional(S.String),
+          results: S.optional(__S(2336, __c73, 0)),
         }),
-      ).annotate({ identifier: "Build" });
+      ).annotate({ identifier: "BuildStepResults" });
+    case 7:
+      return S.Record(S.String, __S(2406, __c75, 6));
+    case 8:
+      return S.suspend(() =>
+        S.Struct({
+          artifactRegistryPackage: S.optional(S.String),
+          fileHashes: S.optional(__S(2384, __c74, 16)),
+          pushTiming: S.optional(__S(2375, __c74, 7)),
+          artifactFingerprint: S.optional(__S(2383, __c74, 15)),
+          uri: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "UploadedGenericArtifact" });
+    case 9:
+      return S.Array(__S(2408, __c75, 8));
+    case 10:
+      return S.suspend(() =>
+        S.Struct({
+          uri: S.optional(S.String),
+          fileHashes: S.optional(__S(2383, __c74, 15)),
+          artifactRegistryPackage: S.optional(S.String),
+          pushTiming: S.optional(__S(2375, __c74, 7)),
+        }),
+      ).annotate({ identifier: "UploadedPythonPackage" });
+    case 11:
+      return S.Array(__S(2410, __c75, 10));
+    case 12:
+      return S.suspend(() =>
+        S.Struct({
+          fileHashes: S.optional(__S(2383, __c74, 15)),
+          pushTiming: S.optional(__S(2375, __c74, 7)),
+          artifactRegistryPackage: S.optional(S.String),
+          uri: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "UploadedGoModule" });
+    case 13:
+      return S.Array(__S(2412, __c75, 12));
+    case 14:
+      return S.suspend(() =>
+        S.Struct({
+          uri: S.optional(S.String),
+          pushTiming: S.optional(__S(2375, __c74, 7)),
+          artifactRegistryPackage: S.optional(S.String),
+          fileHashes: S.optional(__S(2383, __c74, 15)),
+        }),
+      ).annotate({ identifier: "UploadedNpmPackage" });
+    case 15:
+      return S.Array(__S(2414, __c75, 14));
+    case 16:
+      return S.suspend(() =>
+        S.Struct({
+          averageCpuUtilization: S.optional(S.Number),
+          peakMemoryUtilization: S.optional(S.Number),
+          peakCpuUtilization: S.optional(S.Number),
+          averageMemoryUtilization: S.optional(S.Number),
+          totalCpuDuration: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "BuildResourceUsage" });
+    case 17:
+      return S.suspend(() =>
+        S.Struct({
+          artifactRegistryPackage: S.optional(S.String),
+          fileHashes: S.optional(__S(2383, __c74, 15)),
+          pushTiming: S.optional(__S(2375, __c74, 7)),
+          uri: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "UploadedMavenArtifact" });
+    case 18:
+      return S.Array(__S(2417, __c75, 17));
+    case 19:
+      return S.suspend(() =>
+        S.Struct({
+          pushTiming: S.optional(__S(2375, __c74, 7)),
+          artifactRegistryPackage: S.optional(S.String),
+          name: S.optional(S.String),
+          digest: S.optional(S.String),
+          ociMediaType: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "BuiltImage" });
+    case 20:
+      return S.Array(__S(2419, __c75, 19));
+    case 21:
+      return S.suspend(() =>
+        S.Struct({
+          buildStepResults: S.optional(__S(2407, __c75, 7)),
+          numArtifacts: S.optional(S.String),
+          genericArtifacts: S.optional(__S(2409, __c75, 9)),
+          artifactManifest: S.optional(S.String),
+          buildStepOutputs: S.optional(__S(2372, __c74, 4)),
+          pythonPackages: S.optional(__S(2411, __c75, 11)),
+          goModules: S.optional(__S(2413, __c75, 13)),
+          npmPackages: S.optional(__S(2415, __c75, 15)),
+          artifactTiming: S.optional(__S(2375, __c74, 7)),
+          resourceUsage: S.optional(__S(2416, __c75, 16)),
+          mavenArtifacts: S.optional(__S(2418, __c75, 18)),
+          images: S.optional(__S(2420, __c75, 20)),
+          buildStepImages: S.optional(__S(2372, __c74, 4)),
+        }),
+      ).annotate({ identifier: "Results" });
+    case 22:
+      return S.suspend(() =>
+        S.Struct({
+          detail: S.optional(S.String),
+          type: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "FailureInfo" });
+    case 23:
+      return S.Array(S.Number);
+    case 24:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.optional(S.String),
+          attestationType: S.optional(S.String),
+          attestationContent: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "StepResult" });
+    case 25:
+      return S.Array(__S(2424, __c75, 24));
+    case 26:
+      return S.suspend(() =>
+        S.Struct({
+          allowExitCodes: S.optional(__S(2423, __c75, 23)),
+          exitCode: S.optional(S.Number),
+          waitFor: S.optional(__S(2372, __c74, 4)),
+          id: S.optional(S.String),
+          timeout: S.optional(S.String),
+          status: S.optional(S.String),
+          name: S.optional(S.String),
+          allowFailure: S.optional(S.Boolean),
+          dir: S.optional(S.String),
+          secretEnv: S.optional(__S(2372, __c74, 4)),
+          automapSubstitutions: S.optional(S.Boolean),
+          env: S.optional(__S(2372, __c74, 4)),
+          entrypoint: S.optional(S.String),
+          script: S.optional(S.String),
+          timing: S.optional(__S(2375, __c74, 7)),
+          args: S.optional(__S(2372, __c74, 4)),
+          volumes: S.optional(__S(2379, __c74, 11)),
+          results: S.optional(__S(2425, __c75, 25)),
+          pullTiming: S.optional(__S(2375, __c74, 7)),
+        }),
+      ).annotate({ identifier: "BuildStep" });
+    case 27:
+      return S.Array(__S(2426, __c75, 26));
+    case 28:
+      return S.suspend(() =>
+        S.Struct({
+          developerConnect: S.optional(S.String),
+          url: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "GitSourceRepository" });
+    case 29:
+      return S.suspend(() =>
+        S.Struct({
+          repository: S.optional(__S(2428, __c75, 28)),
+          revision: S.optional(S.String),
+          depth: S.optional(S.String),
+          destPath: S.optional(S.String),
+          recurseSubmodules: S.optional(S.Boolean),
+          fetchTags: S.optional(S.Boolean),
+        }),
+      ).annotate({ identifier: "GitSourceDependency" });
+    case 30:
+      return S.suspend(() =>
+        S.Struct({
+          resource: S.optional(S.String),
+          destPath: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "GenericArtifactDependency" });
+    case 31:
+      return S.suspend(() =>
+        S.Struct({
+          empty: S.optional(S.Boolean),
+          gitSource: S.optional(__S(2429, __c75, 29)),
+          genericArtifact: S.optional(__S(2430, __c75, 30)),
+        }),
+      ).annotate({ identifier: "Dependency" });
   }
 }
 function __c76(j: number): any {
   switch (j) {
     case 0:
+      return S.Array(__S(2431, __c75, 31));
+    case 1:
       return S.suspend(() =>
         S.Struct({
-          invertRegex: S.optional(S.Boolean),
-          projectId: S.optional(S.String),
-          repoName: S.optional(S.String),
-          substitutions: S.optional(__S(2304, __c72, 0)),
-          branchName: S.optional(S.String),
-          tagName: S.optional(S.String),
+          gitRepositoryLink: S.optional(S.String),
           dir: S.optional(S.String),
-          commitSha: S.optional(S.String),
+          revision: S.optional(S.String),
         }),
-      ).annotate({ identifier: "RepoSource" });
+      ).annotate({ identifier: "DeveloperConnectConfig" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          repoSource: S.optional(__S(2464, __c77, 0)),
+          storageSourceManifest: S.optional(__S(2387, __c74, 19)),
+          gitSource: S.optional(__S(2385, __c74, 17)),
+          connectedRepository: S.optional(__S(2386, __c74, 18)),
+          storageSource: S.optional(__S(2388, __c74, 20)),
+          developerConnectConfig: S.optional(__S(2433, __c76, 1)),
+        }),
+      ).annotate({ identifier: "Source" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          versionName: S.optional(S.String),
+          env: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "SecretManagerSecret" });
+    case 4:
+      return S.Array(__S(2435, __c76, 3));
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          envMap: S.optional(__S(2336, __c73, 0)),
+          kmsKeyName: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "InlineSecret" });
+    case 6:
+      return S.Array(__S(2437, __c76, 5));
+    case 7:
+      return S.suspend(() =>
+        S.Struct({
+          secretManager: S.optional(__S(2436, __c76, 4)),
+          inline: S.optional(__S(2438, __c76, 6)),
+        }),
+      ).annotate({ identifier: "Secrets" });
+    case 8:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.optional(S.String),
+          timeout: S.optional(S.String),
+          buildTriggerId: S.optional(S.String),
+          projectId: S.optional(S.String),
+          statusDetail: S.optional(S.String),
+          warnings: S.optional(__S(2369, __c74, 1)),
+          gitConfig: S.optional(__S(2371, __c74, 3)),
+          logUrl: S.optional(S.String),
+          images: S.optional(__S(2372, __c74, 4)),
+          tags: S.optional(__S(2372, __c74, 4)),
+          approval: S.optional(__S(2374, __c74, 6)),
+          timing: S.optional(__S(2376, __c74, 8)),
+          options: S.optional(__S(2380, __c74, 12)),
+          sourceProvenance: S.optional(__S(2389, __c74, 21)),
+          secrets: S.optional(__S(2391, __c74, 23)),
+          artifacts: S.optional(__S(2405, __c75, 5)),
+          finishTime: S.optional(S.String),
+          results: S.optional(__S(2421, __c75, 21)),
+          logsBucket: S.optional(S.String),
+          failureInfo: S.optional(__S(2422, __c75, 22)),
+          startTime: S.optional(S.String),
+          status: S.optional(S.String),
+          substitutions: S.optional(__S(2336, __c73, 0)),
+          serviceAccount: S.optional(S.String),
+          steps: S.optional(__S(2427, __c75, 27)),
+          name: S.optional(S.String),
+          createTime: S.optional(S.String),
+          dependencies: S.optional(__S(2432, __c76, 0)),
+          source: S.optional(__S(2434, __c76, 2)),
+          availableSecrets: S.optional(__S(2439, __c76, 7)),
+          queueTtl: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "Build" });
   }
 }
 function __c77(j: number): any {
@@ -4933,9 +4989,28 @@ function __c77(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(2272, __c71, 0).pipe(T.HttpBody())),
-        }).pipe(
+          branchName: S.optional(S.String),
+          projectId: S.optional(S.String),
+          substitutions: S.optional(__S(2336, __c73, 0)),
+          tagName: S.optional(S.String),
+          repoName: S.optional(S.String),
+          invertRegex: S.optional(S.Boolean),
+          dir: S.optional(S.String),
+          commitSha: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "RepoSource" });
+  }
+}
+function __c78(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Extend(
+          __S(2272, __c71, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1/{+name}:cancel",

@@ -214,15 +214,15 @@ export interface Tag {
 export type TagList = Tag[];
 export type HostArn = string;
 export interface CreateConnectionInput {
-  ProviderType?: ProviderType;
+  ProviderType?: ProviderType | undefined;
   ConnectionName: string;
-  Tags?: Tag[];
-  HostArn?: string;
+  Tags?: Tag[] | undefined;
+  HostArn?: string | undefined;
 }
 export type ConnectionArn = string;
 export interface CreateConnectionOutput {
   ConnectionArn: string;
-  Tags?: Tag[];
+  Tags?: Tag[] | undefined;
 }
 export type HostName = string;
 export type Url = string;
@@ -236,18 +236,18 @@ export interface VpcConfiguration {
   VpcId: string;
   SubnetIds: string[];
   SecurityGroupIds: string[];
-  TlsCertificate?: string;
+  TlsCertificate?: string | undefined;
 }
 export interface CreateHostInput {
   Name: string;
   ProviderType: ProviderType;
   ProviderEndpoint: string;
-  VpcConfiguration?: VpcConfiguration;
-  Tags?: Tag[];
+  VpcConfiguration?: VpcConfiguration | undefined;
+  Tags?: Tag[] | undefined;
 }
 export interface CreateHostOutput {
-  HostArn?: string;
-  Tags?: Tag[];
+  HostArn?: string | undefined;
+  Tags?: Tag[] | undefined;
 }
 export type OwnerId = string;
 export type RepositoryName = string;
@@ -256,14 +256,14 @@ export interface CreateRepositoryLinkInput {
   ConnectionArn: string;
   OwnerId: string;
   RepositoryName: string;
-  EncryptionKeyArn?: string;
-  Tags?: Tag[];
+  EncryptionKeyArn?: string | undefined;
+  Tags?: Tag[] | undefined;
 }
 export type RepositoryLinkArn = string;
 export type RepositoryLinkId = string;
 export interface RepositoryLinkInfo {
   ConnectionArn: string;
-  EncryptionKeyArn?: string;
+  EncryptionKeyArn?: string | undefined;
   OwnerId: string;
   ProviderType: ProviderType;
   RepositoryLinkArn: string;
@@ -287,12 +287,12 @@ export interface CreateSyncConfigurationInput {
   ResourceName: string;
   RoleArn: string;
   SyncType: SyncConfigurationType;
-  PublishDeploymentStatus?: PublishDeploymentStatus;
-  TriggerResourceUpdateOn?: TriggerResourceUpdateOn;
+  PublishDeploymentStatus?: PublishDeploymentStatus | undefined;
+  TriggerResourceUpdateOn?: TriggerResourceUpdateOn | undefined;
 }
 export interface SyncConfiguration {
   Branch: string;
-  ConfigFile?: string;
+  ConfigFile?: string | undefined;
   OwnerId: string;
   ProviderType: ProviderType;
   RepositoryLinkId: string;
@@ -300,8 +300,8 @@ export interface SyncConfiguration {
   ResourceName: string;
   RoleArn: string;
   SyncType: SyncConfigurationType;
-  PublishDeploymentStatus?: PublishDeploymentStatus;
-  TriggerResourceUpdateOn?: TriggerResourceUpdateOn;
+  PublishDeploymentStatus?: PublishDeploymentStatus | undefined;
+  TriggerResourceUpdateOn?: TriggerResourceUpdateOn | undefined;
 }
 export interface CreateSyncConfigurationOutput {
   SyncConfiguration: SyncConfiguration;
@@ -329,26 +329,26 @@ export interface GetConnectionInput {
 export type AccountId = string;
 export type ConnectionStatus = "PENDING" | "AVAILABLE" | "ERROR" | (string & {});
 export interface Connection {
-  ConnectionName?: string;
-  ConnectionArn?: string;
-  ProviderType?: ProviderType;
-  OwnerAccountId?: string;
-  ConnectionStatus?: ConnectionStatus;
-  HostArn?: string;
+  ConnectionName?: string | undefined;
+  ConnectionArn?: string | undefined;
+  ProviderType?: ProviderType | undefined;
+  OwnerAccountId?: string | undefined;
+  ConnectionStatus?: ConnectionStatus | undefined;
+  HostArn?: string | undefined;
 }
 export interface GetConnectionOutput {
-  Connection?: Connection;
+  Connection?: Connection | undefined;
 }
 export interface GetHostInput {
   HostArn: string;
 }
 export type HostStatus = string;
 export interface GetHostOutput {
-  Name?: string;
-  Status?: string;
-  ProviderType?: ProviderType;
-  ProviderEndpoint?: string;
-  VpcConfiguration?: VpcConfiguration;
+  Name?: string | undefined;
+  Status?: string | undefined;
+  ProviderType?: ProviderType | undefined;
+  ProviderEndpoint?: string | undefined;
+  VpcConfiguration?: VpcConfiguration | undefined;
 }
 export interface GetRepositoryLinkInput {
   RepositoryLinkId: string;
@@ -373,7 +373,7 @@ export type ExternalId = string;
 export type Type = string;
 export interface RepositorySyncEvent {
   Event: string;
-  ExternalId?: string;
+  ExternalId?: string | undefined;
   Time: Date;
   Type: string;
 }
@@ -402,7 +402,7 @@ export interface Revision {
 }
 export interface ResourceSyncEvent {
   Event: string;
-  ExternalId?: string;
+  ExternalId?: string | undefined;
   Time: Date;
   Type: string;
 }
@@ -423,8 +423,8 @@ export interface ResourceSyncAttempt {
   Target: string;
 }
 export interface GetResourceSyncStatusOutput {
-  DesiredState?: Revision;
-  LatestSuccessfulSync?: ResourceSyncAttempt;
+  DesiredState?: Revision | undefined;
+  LatestSuccessfulSync?: ResourceSyncAttempt | undefined;
   LatestSync: ResourceSyncAttempt;
 }
 export interface GetSyncBlockerSummaryInput {
@@ -449,15 +449,15 @@ export interface SyncBlocker {
   Status: BlockerStatus;
   CreatedReason: string;
   CreatedAt: Date;
-  Contexts?: SyncBlockerContext[];
-  ResolvedReason?: string;
-  ResolvedAt?: Date;
+  Contexts?: SyncBlockerContext[] | undefined;
+  ResolvedReason?: string | undefined;
+  ResolvedAt?: Date | undefined;
 }
 export type LatestSyncBlockerList = SyncBlocker[];
 export interface SyncBlockerSummary {
   ResourceName: string;
-  ParentResourceName?: string;
-  LatestBlockers?: SyncBlocker[];
+  ParentResourceName?: string | undefined;
+  LatestBlockers?: SyncBlocker[] | undefined;
 }
 export interface GetSyncBlockerSummaryOutput {
   SyncBlockerSummary: SyncBlockerSummary;
@@ -472,44 +472,44 @@ export interface GetSyncConfigurationOutput {
 export type MaxResults = number;
 export type NextToken = string;
 export interface ListConnectionsInput {
-  ProviderTypeFilter?: ProviderType;
-  HostArnFilter?: string;
-  MaxResults?: number;
-  NextToken?: string;
+  ProviderTypeFilter?: ProviderType | undefined;
+  HostArnFilter?: string | undefined;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export type ConnectionList = Connection[];
 export interface ListConnectionsOutput {
-  Connections?: Connection[];
-  NextToken?: string;
+  Connections?: Connection[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListHostsInput {
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export type HostStatusMessage = string;
 export interface Host {
-  Name?: string;
-  HostArn?: string;
-  ProviderType?: ProviderType;
-  ProviderEndpoint?: string;
-  VpcConfiguration?: VpcConfiguration;
-  Status?: string;
-  StatusMessage?: string;
+  Name?: string | undefined;
+  HostArn?: string | undefined;
+  ProviderType?: ProviderType | undefined;
+  ProviderEndpoint?: string | undefined;
+  VpcConfiguration?: VpcConfiguration | undefined;
+  Status?: string | undefined;
+  StatusMessage?: string | undefined;
 }
 export type HostList = Host[];
 export interface ListHostsOutput {
-  Hosts?: Host[];
-  NextToken?: string;
+  Hosts?: Host[] | undefined;
+  NextToken?: string | undefined;
 }
 export type SharpNextToken = string;
 export interface ListRepositoryLinksInput {
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export type RepositoryLinkList = RepositoryLinkInfo[];
 export interface ListRepositoryLinksOutput {
   RepositoryLinks: RepositoryLinkInfo[];
-  NextToken?: string;
+  NextToken?: string | undefined;
 }
 export interface ListRepositorySyncDefinitionsInput {
   RepositoryLinkId: string;
@@ -525,25 +525,25 @@ export interface RepositorySyncDefinition {
 export type RepositorySyncDefinitionList = RepositorySyncDefinition[];
 export interface ListRepositorySyncDefinitionsOutput {
   RepositorySyncDefinitions: RepositorySyncDefinition[];
-  NextToken?: string;
+  NextToken?: string | undefined;
 }
 export interface ListSyncConfigurationsInput {
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
   RepositoryLinkId: string;
   SyncType: SyncConfigurationType;
 }
 export type SyncConfigurationList = SyncConfiguration[];
 export interface ListSyncConfigurationsOutput {
   SyncConfigurations: SyncConfiguration[];
-  NextToken?: string;
+  NextToken?: string | undefined;
 }
 export type AmazonResourceName = string;
 export interface ListTagsForResourceInput {
   ResourceArn: string;
 }
 export interface ListTagsForResourceOutput {
-  Tags?: Tag[];
+  Tags?: Tag[] | undefined;
 }
 export interface TagResourceInput {
   ResourceArn: string;
@@ -558,13 +558,13 @@ export interface UntagResourceInput {
 export interface UntagResourceOutput {}
 export interface UpdateHostInput {
   HostArn: string;
-  ProviderEndpoint?: string;
-  VpcConfiguration?: VpcConfiguration;
+  ProviderEndpoint?: string | undefined;
+  VpcConfiguration?: VpcConfiguration | undefined;
 }
 export interface UpdateHostOutput {}
 export interface UpdateRepositoryLinkInput {
-  ConnectionArn?: string;
-  EncryptionKeyArn?: string;
+  ConnectionArn?: string | undefined;
+  EncryptionKeyArn?: string | undefined;
   RepositoryLinkId: string;
 }
 export interface UpdateRepositoryLinkOutput {
@@ -578,18 +578,18 @@ export interface UpdateSyncBlockerInput {
 }
 export interface UpdateSyncBlockerOutput {
   ResourceName: string;
-  ParentResourceName?: string;
+  ParentResourceName?: string | undefined;
   SyncBlocker: SyncBlocker;
 }
 export interface UpdateSyncConfigurationInput {
-  Branch?: string;
-  ConfigFile?: string;
-  RepositoryLinkId?: string;
+  Branch?: string | undefined;
+  ConfigFile?: string | undefined;
+  RepositoryLinkId?: string | undefined;
   ResourceName: string;
-  RoleArn?: string;
+  RoleArn?: string | undefined;
   SyncType: SyncConfigurationType;
-  PublishDeploymentStatus?: PublishDeploymentStatus;
-  TriggerResourceUpdateOn?: TriggerResourceUpdateOn;
+  PublishDeploymentStatus?: PublishDeploymentStatus | undefined;
+  TriggerResourceUpdateOn?: TriggerResourceUpdateOn | undefined;
 }
 export interface UpdateSyncConfigurationOutput {
   SyncConfiguration: SyncConfiguration;

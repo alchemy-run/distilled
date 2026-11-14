@@ -25,38 +25,38 @@ const TELEMETRY = {
 export interface GetGeneralAPISettingsRequest {}
 /** GeneralAPISettings contains global api settings exposed by it */
 export interface GeneralAPISettings {
-  default_git_trees_per_page?: number;
-  default_max_blob_size?: number;
-  default_paging_num?: number;
-  max_response_items?: number;
+  default_git_trees_per_page?: number | undefined;
+  default_max_blob_size?: number | undefined;
+  default_paging_num?: number | undefined;
+  max_response_items?: number | undefined;
 }
 export interface GetGeneralAttachmentSettingsRequest {}
 /** GeneralAttachmentSettings contains global Attachment settings exposed by API */
 export interface GeneralAttachmentSettings {
-  allowed_types?: string;
-  enabled?: boolean;
-  max_files?: number;
-  max_size?: number;
+  allowed_types?: string | undefined;
+  enabled?: boolean | undefined;
+  max_files?: number | undefined;
+  max_size?: number | undefined;
 }
 export interface GetGeneralRepositorySettingsRequest {}
 /** GeneralRepoSettings contains global repository settings exposed by API */
 export interface GeneralRepoSettings {
-  forks_disabled?: boolean;
-  http_git_disabled?: boolean;
-  lfs_disabled?: boolean;
-  migrations_disabled?: boolean;
-  mirrors_disabled?: boolean;
-  stars_disabled?: boolean;
-  time_tracking_disabled?: boolean;
+  forks_disabled?: boolean | undefined;
+  http_git_disabled?: boolean | undefined;
+  lfs_disabled?: boolean | undefined;
+  migrations_disabled?: boolean | undefined;
+  mirrors_disabled?: boolean | undefined;
+  stars_disabled?: boolean | undefined;
+  time_tracking_disabled?: boolean | undefined;
 }
 export interface GetGeneralUISettingsRequest {}
 export type GeneralUISettingsAllowedReactionsList = Array<string>;
 export type GeneralUISettingsCustomEmojisList = Array<string>;
 /** GeneralUISettings contains global ui settings exposed by API */
 export interface GeneralUISettings {
-  allowed_reactions?: GeneralUISettingsAllowedReactionsList;
-  custom_emojis?: GeneralUISettingsCustomEmojisList;
-  default_theme?: string;
+  allowed_reactions?: GeneralUISettingsAllowedReactionsList | undefined;
+  custom_emojis?: GeneralUISettingsCustomEmojisList | undefined;
+  default_theme?: string | undefined;
 }
 export type GetGeneralAPISettingsError = ForgejoOpError;
 /** Get instance's global settings for api */

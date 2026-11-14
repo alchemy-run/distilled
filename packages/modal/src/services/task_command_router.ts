@@ -26,77 +26,75 @@ const TELEMETRY = {
 export type StringList = Array<string>;
 export type StringMap = { [key: string]: string | undefined };
 export interface VolumeMount {
-  volumeId?: string;
-  mountPath?: string;
-  allowBackgroundCommits?: boolean;
-  readOnly?: boolean;
-  subPath?: string;
+  volumeId?: string | undefined;
+  mountPath?: string | undefined;
+  allowBackgroundCommits?: boolean | undefined;
+  readOnly?: boolean | undefined;
+  subPath?: string | undefined;
 }
 export type VolumeMountList = Array<VolumeMount>;
 export type NetworkAccessNetworkAccessType = "UNSPECIFIED" | "OPEN" | "BLOCKED" | "ALLOWLIST";
 export interface NetworkAccess {
-  networkAccessType?: NetworkAccessNetworkAccessType | (string & {});
-  allowedCidrs?: StringList;
-  allowedDomains?: StringList;
+  networkAccessType?: NetworkAccessNetworkAccessType | (string & {}) | undefined;
+  allowedCidrs?: StringList | undefined;
+  allowedDomains?: StringList | undefined;
 }
 export type PTYInfoPTYType = "PTY_TYPE_UNSPECIFIED" | "PTY_TYPE_FUNCTION" | "PTY_TYPE_SHELL";
 export interface PTYInfo {
-  enabled?: boolean;
   /** Soon deprecated */
-  winszRows?: number;
-  winszCols?: number;
-  envTerm?: string;
-  envColorterm?: string;
-  envTermProgram?: string;
-  /** Replace function with shell */
-  ptyType?: PTYInfoPTYType | (string & {});
-  noTerminateOnIdleStdin?: boolean;
+  enabled?: boolean | undefined;
+  winszRows?: number | undefined;
+  winszCols?: number | undefined;
+  envTerm?: string | undefined;
+  envColorterm?: string | undefined;
+  envTermProgram?: string | undefined;
+  ptyType?: PTYInfoPTYType | (string & {}) | undefined;
+  noTerminateOnIdleStdin?: boolean | undefined;
 }
 export interface StringMap2 {
-  contents?: StringMap;
+  contents?: StringMap | undefined;
 }
 /** One source of environment variables for a Sandbox container or exec. */
 export interface SecretSource {
   /** Server-side Secret, resolved on the worker. */
-  secretId?: string;
+  secretId?: string | undefined;
   /** Plaintext values sent directly to the worker. Must not be persisted. */
-  env?: StringMap2;
+  env?: StringMap2 | undefined;
 }
 export type SecretSourceList = Array<SecretSource>;
 export interface CreateTaskContainerRequest {
-  taskId?: string;
+  taskId?: string | undefined;
   /** Logical container name. */
-  containerName?: string;
-  imageId?: string;
-  args?: StringList;
-  env?: StringMap;
-  workdir?: string;
+  containerName?: string | undefined;
+  imageId?: string | undefined;
+  args?: StringList | undefined;
+  env?: StringMap | undefined;
+  workdir?: string | undefined;
   /** Secret IDs to inject into the container as environment variables. */
-  secretIds?: StringList;
+  secretIds?: StringList | undefined;
   /** Volumes to mount into the container. */
-  volumeMounts?: VolumeMountList;
+  volumeMounts?: VolumeMountList | undefined;
   /** Outbound network policy for the sidecar, independent of the main container. When unset, defaults to open network access. BLOCKED is not accepted: a blocked sidecar has no IP and cannot reach the main container. */
-  networkAccess?: NetworkAccess;
+  networkAccess?: NetworkAccess | undefined;
   /** Optional PTY info for sidecar. */
-  ptyInfo?: PTYInfo;
+  ptyInfo?: PTYInfo | undefined;
   /** Memory, in MiB, the sidecar consumes from the sandbox's sidecar memory reserve (experimental option vm_sidecar_memory_reserve_mib); unset consumes whatever is left of it. Ignored without a reserve. */
-  memoryReserveConsumeMib?: number;
+  memoryReserveConsumeMib?: number | undefined;
   /** Applied in order. Cannot be combined with secret_ids or env. */
-  secretSources?: SecretSourceList;
+  secretSources?: SecretSourceList | undefined;
 }
 export interface CreateTaskContainerResponse {
   /** Fully qualified container ID (for example, ctr-<ulid>). */
-  containerId?: string;
+  containerId: string;
   /** Logical container name associated with this container. */
-  containerName?: string;
+  containerName: string;
 }
 export interface GetTaskContainerRequest {
-  taskId?: string;
-  containerName?: string;
+  taskId?: string | undefined;
+  containerName?: string | undefined;
   /** Include the latest terminated container if the name is no longer active. */
-  includeTerminated?: boolean;
+  includeTerminated?: boolean | undefined;
 }
-/** Used for both tasks and function outputs */
 export type GenericResultGenericStatus =
   | "GENERIC_STATUS_UNSPECIFIED"
   | "GENERIC_STATUS_SUCCESS"
@@ -106,70 +104,90 @@ export type GenericResultGenericStatus =
   | "GENERIC_STATUS_INIT_FAILURE"
   | "GENERIC_STATUS_INTERNAL_FAILURE"
   | "GENERIC_STATUS_IDLE_TIMEOUT"
-  | "GENERIC_STATUS_MEMORY_MANAGER_EVICTION";
-/** sub-type for generic types like lists */
+  | "GENERIC_STATUS_MEMORY_MANAGER_EVICTION"
+  | "GENERIC_STATUS_MEMORY_THRASHING_EVICTION"
+  | "GENERIC_STATUS_KERNEL_OOM_KILL";
+/** Used for both tasks and function outputs */
 export interface GenericResult {
-  status?: GenericResultGenericStatus;
   /** Status of the task or function output. */
-  exception?: string;
+  status: GenericResultGenericStatus;
   /** Exception message for failures, if available. */
-  exitcode?: number;
+  exception: string;
   /** Status code of the container entrypoint or builder process if it terminates unexpectedly. */
-  traceback?: string;
+  exitcode: number;
   /** String value of the Python traceback. */
-  serializedTb?: string;
+  traceback: string;
   /** Pickled traceback object. */
-  tbLineCache?: string;
+  serializedTb: string;
   /** Pickled line cache for traceback object. */
-  data?: string;
+  tbLineCache: string;
   /** Inline data of the result. */
-  dataBlobId?: string;
+  data?: string | undefined;
   /** Blob ID for large data. */
-  propagationReason?: string;
+  dataBlobId?: string | undefined;
+  /** (?) */
+  propagationReason: string;
 }
 export interface TaskContainerInfo {
-  containerId?: string;
-  containerName?: string;
-  status?: string;
-  result?: GenericResult;
+  containerId: string;
+  containerName: string;
+  status: string;
+  result?: GenericResult | undefined;
 }
 export interface GetTaskContainerResponse {
-  container?: TaskContainerInfo;
+  container?: TaskContainerInfo | undefined;
 }
 export interface ListTaskContainerRequest {
-  taskId?: string;
+  taskId?: string | undefined;
   /** Include all tracked terminated containers in addition to active ones. */
-  includeTerminated?: boolean;
+  includeTerminated?: boolean | undefined;
 }
 export type TaskContainerInfoList = Array<TaskContainerInfo>;
 export interface ListTaskContainerResponse {
-  containers?: TaskContainerInfoList;
+  containers: TaskContainerInfoList;
 }
 export interface SandboxStdinWriteV2Request {
-  taskId?: string;
-  offset?: string;
-  data?: string;
-  eof?: boolean;
+  taskId?: string | undefined;
+  offset?: string | undefined;
+  data?: string | undefined;
+  eof?: boolean | undefined;
 }
 export interface SandboxStdinWriteV2Response {}
+export type SandboxStdioFileDescriptor =
+  | "SANDBOX_STDIO_FILE_DESCRIPTOR_STDOUT"
+  | "SANDBOX_STDIO_FILE_DESCRIPTOR_STDERR";
+export interface SandboxStdioReadV2Request {
+  taskId?: string | undefined;
+  offset?: string | undefined;
+  fileDescriptor?: SandboxStdioFileDescriptor | (string & {}) | undefined;
+}
+export interface SandboxStdioReadV2Response {
+  data: string;
+  startingOffset: string;
+}
+export type SandboxStdioReadV2ResponseList = Array<SandboxStdioReadV2Response>;
+export interface SandboxStdioReadV2Stream {
+  /** Every message of the server stream, in order. The stream ends when the server ends it (bound it with the request's timeout). */
+  items: SandboxStdioReadV2ResponseList;
+}
 export interface SandboxWaitUntilReadyRequest {
-  taskId?: string;
-  timeout?: number;
+  taskId?: string | undefined;
+  timeout?: number | undefined;
 }
 export interface SandboxWaitUntilReadyResponse {
-  readyAt?: number;
+  readyAt: number;
 }
 export interface TaskExecPollRequest {
   /** The ID of the task running the exec'd command. */
-  taskId?: string;
+  taskId?: string | undefined;
   /** The execution ID of the command to wait on. */
-  execId?: string;
+  execId?: string | undefined;
 }
 export interface TaskExecPollResponse {
   /** The exit code of the command. */
-  code?: number;
+  code?: number | undefined;
   /** The signal that terminated the command. */
-  signal?: number;
+  signal?: number | undefined;
 }
 export type TaskExecStdoutConfig =
   | "TASK_EXEC_STDOUT_CONFIG_DEVNULL"
@@ -180,166 +198,189 @@ export type TaskExecStderrConfig =
   | "TASK_EXEC_STDERR_CONFIG_STDOUT";
 export interface TaskExecStartRequest {
   /** The ID of the task to execute the command in. */
-  taskId?: string;
+  taskId?: string | undefined;
   /** Execution ID. This ID will be used to identify the execution for other requests and ensure exec commands are idempotent. */
-  execId?: string;
+  execId?: string | undefined;
   /** Command arguments to execute. */
-  commandArgs?: StringList;
+  commandArgs?: StringList | undefined;
   /** Configures how the stdout of the command will be handled. */
-  stdoutConfig?: TaskExecStdoutConfig | (string & {});
+  stdoutConfig?: TaskExecStdoutConfig | (string & {}) | undefined;
   /** Configures how the stderr of the command will be handled. */
-  stderrConfig?: TaskExecStderrConfig | (string & {});
+  stderrConfig?: TaskExecStderrConfig | (string & {}) | undefined;
   /** Timeout in seconds for the exec'd command to exit. If the command does not exit within this duration, the command will be killed. This is NOT the timeout for the ExecStartRequest RPC to complete. */
-  timeoutSecs?: number;
+  timeoutSecs?: number | undefined;
   /** Working directory for the command. */
-  workdir?: string;
+  workdir?: string | undefined;
   /** Secret IDs to mount into the task. */
-  secretIds?: StringList;
+  secretIds?: StringList | undefined;
   /** PTY info for the command. */
-  ptyInfo?: PTYInfo;
+  ptyInfo?: PTYInfo | undefined;
   /** Enable debugging capabilities on the container runtime. Used only for internal debugging. */
-  runtimeDebug?: boolean;
+  runtimeDebug?: boolean | undefined;
   /** Fully qualified target container ID. Empty targets the main container. */
-  containerId?: string;
+  containerId?: string | undefined;
   /** Environment variables to set directly for the exec'd command. */
-  env?: StringMap;
+  env?: StringMap | undefined;
   /** Applied in order. Cannot be combined with secret_ids or env. */
-  secretSources?: SecretSourceList;
+  secretSources?: SecretSourceList | undefined;
 }
 export interface TaskExecStartResponse {}
 export interface TaskExecStdinStatusRequest {
   /** The ID of the task running the exec'd command. */
-  taskId?: string;
+  taskId?: string | undefined;
   /** The execution ID of the command to query. */
-  execId?: string;
+  execId?: string | undefined;
 }
 export interface TaskExecStdinStatusResponse {
   /** Number of bytes the server has accepted for this exec so far. A streaming client that lost its connection should resume sending at this offset. */
-  numBytesWritten?: string;
+  numBytesWritten: string;
   /** True if stdin has already been closed (EOF sent) for this exec. */
-  closed?: boolean;
+  closed: boolean;
 }
 export interface TaskExecStdinWriteRequest {
   /** The ID of the task running the exec'd command. */
-  taskId?: string;
+  taskId?: string | undefined;
   /** The execution ID of the command to write to. */
-  execId?: string;
+  execId?: string | undefined;
   /** The offset to start writing to. This is used to resume writing from the last write position if the connection is closed and reopened. */
-  offset?: string;
-  data?: string;
+  offset?: string | undefined;
+  data?: string | undefined;
   /** If true, close the stdin stream after writing any provided data. This signals EOF to the exec'd process. */
-  eof?: boolean;
+  eof?: boolean | undefined;
 }
 export interface TaskExecStdinWriteResponse {}
+export type TaskExecStdioFileDescriptor =
+  | "TASK_EXEC_STDIO_FILE_DESCRIPTOR_STDOUT"
+  | "TASK_EXEC_STDIO_FILE_DESCRIPTOR_STDERR";
+export interface TaskExecStdioReadRequest {
+  /** The ID of the task running the exec'd command. */
+  taskId?: string | undefined;
+  /** The execution ID of the command to read from. */
+  execId?: string | undefined;
+  /** The offset to start reading from. This is used to resume reading from the last read position if the connection is closed and reopened. */
+  offset?: string | undefined;
+  /** Which file descriptor to read from. */
+  fileDescriptor?: TaskExecStdioFileDescriptor | (string & {}) | undefined;
+}
+export interface TaskExecStdioReadResponse {
+  /** The data read from the file descriptor. */
+  data: string;
+}
+export type TaskExecStdioReadResponseList = Array<TaskExecStdioReadResponse>;
+export interface TaskExecStdioReadStream {
+  /** Every message of the server stream, in order. The stream ends when the server ends it (bound it with the request's timeout). */
+  items: TaskExecStdioReadResponseList;
+}
 export interface TaskExecWaitRequest {
   /** The ID of the task running the exec'd command. */
-  taskId?: string;
+  taskId?: string | undefined;
   /** The execution ID of the command to wait on. */
-  execId?: string;
+  execId?: string | undefined;
 }
 export interface TaskExecWaitResponse {
   /** The exit code of the command. */
-  code?: number;
+  code?: number | undefined;
   /** The signal that terminated the command. */
-  signal?: number;
+  signal?: number | undefined;
 }
 export interface TaskMountDirectoryRequest {
-  taskId?: string;
-  path?: string;
-  imageId?: string;
+  taskId?: string | undefined;
+  path?: string | undefined;
+  imageId?: string | undefined;
   /** Customer-supplied encryption key used to decrypt CSEK-encrypted image metadata keys. This key is not persisted by Modal. */
-  customerSuppliedEncryptionKey?: string;
+  customerSuppliedEncryptionKey?: string | undefined;
   /** Fully qualified target container ID. Empty targets the main container. */
-  containerId?: string;
+  containerId?: string | undefined;
 }
 export interface TaskMountDirectoryResponse {}
 export interface TaskReloadVolumesRequest {
-  taskId?: string;
+  taskId?: string | undefined;
   /** Fully qualified target container ID. Empty targets the main container. */
-  containerId?: string;
+  containerId?: string | undefined;
 }
 export interface TaskReloadVolumesResponse {}
 export interface TaskSetNetworkAccessRequest {
-  taskId?: string;
+  taskId?: string | undefined;
   /** Replaces the task's network access policy. Only ALLOWLIST is currently supported; open access is expressed as an allow-all allowlist. */
-  networkAccess?: NetworkAccess;
+  networkAccess?: NetworkAccess | undefined;
 }
 export interface TaskSetNetworkAccessResponse {}
-export interface OutboundPolicyHeaderReplacement {
+export interface ExperimentalOutboundPolicyHeaderReplacement {
   /** Domain that the header replacements are scoped to. Supports wildcards in subdomain positions. */
-  domain?: string;
+  domain?: string | undefined;
   /** Reference to a secret usable in the header value templates. Can be empty if no secret value is used. */
-  secretId?: string;
+  secretId?: string | undefined;
   /** Header name -> header value. Values support templating with keys in the stanza's secret_id: a $-prefixed key name in the secret will be replaced with the secret value. Literal $ characters can be represented by two dollars: `$$`. */
-  headers?: StringMap;
+  headers?: StringMap | undefined;
 }
-export type OutboundPolicyHeaderReplacementList = Array<OutboundPolicyHeaderReplacement>;
-/** Policy for outbound traffic from a sandbox. */
-export interface OutboundPolicy {
+export type ExperimentalOutboundPolicyHeaderReplacementList =
+  Array<ExperimentalOutboundPolicyHeaderReplacement>;
+/** Experimental policy for outbound traffic from a sandbox: header replacements. */
+export interface ExperimentalOutboundPolicy {
   /** Replace headers in outbound HTTPS requests, potentially with secret values. */
-  headerReplacements?: OutboundPolicyHeaderReplacementList;
+  headerReplacements?: ExperimentalOutboundPolicyHeaderReplacementList | undefined;
 }
 export interface TaskSetOutboundPolicyRequest {
-  taskId?: string;
-  /** Replaces the task's outbound policy. */
-  outboundPolicy?: OutboundPolicy;
+  taskId?: string | undefined;
+  /** Replaces the task's experimental outbound policy. */
+  experimentalOutboundPolicy?: ExperimentalOutboundPolicy | undefined;
 }
 export interface TaskSetOutboundPolicyResponse {}
 export interface TaskSnapshotDirectoryRequest {
-  taskId?: string;
-  path?: string;
+  taskId?: string | undefined;
+  path?: string | undefined;
   /** A unique ID to ensure idempotency of directory snapshot requests. */
-  snapshotId?: string;
+  snapshotId?: string | undefined;
   /** Lifetime for the resulting image, in seconds. When set, the image's expires_at is a hard cutoff: it is fixed at creation time and is not extended on use. When unset, the resulting image gets the legacy retention policy: a 30-day TTL that is bumped forward by 30 days on every use, so active images effectively never expire. Sentinel: -1 means "no expiry" (the image never expires). 0 and other negative values are invalid and rejected by the server. */
-  ttlSeconds?: string;
+  ttlSeconds?: string | undefined;
   /** Customer-supplied encryption key used to encrypt the resulting image's data and tree metadata keys. This key is not persisted by Modal. */
-  customerSuppliedEncryptionKey?: string;
+  customerSuppliedEncryptionKey?: string | undefined;
   /** Fully qualified target container ID. Empty targets the main container. */
-  containerId?: string;
+  containerId?: string | undefined;
 }
 export interface TaskSnapshotDirectoryResponse {
-  imageId?: string;
+  imageId: string;
 }
 export interface TaskSnapshotFilesystemRequest {
-  taskId?: string;
+  taskId?: string | undefined;
   /** A unique ID to ensure idempotency of filesystem snapshot requests. */
-  snapshotId?: string;
+  snapshotId?: string | undefined;
   /** Lifetime for the resulting image, in seconds. Must be set. When positive, the image expiry is a hard cutoff: it is fixed at creation time and is not extended on use. Sentinel: -1 means "no expiry" (the image never expires). 0 and other negative values are invalid and rejected by the server. */
-  ttlSeconds?: string;
+  ttlSeconds?: string | undefined;
   /** Customer-supplied encryption key used to encrypt the resulting image's data and tree metadata keys. This key is not persisted by Modal. */
-  customerSuppliedEncryptionKey?: string;
+  customerSuppliedEncryptionKey?: string | undefined;
   /** Fully qualified target container ID. Empty targets the main container. */
-  containerId?: string;
+  containerId?: string | undefined;
 }
 export interface TaskSnapshotFilesystemResponse {
-  imageId?: string;
+  imageId: string;
 }
 export interface TaskSnapshotMemoryRequest {
-  taskId?: string;
-  idempotencyKey?: string;
+  taskId?: string | undefined;
+  idempotencyKey?: string | undefined;
 }
 export interface TaskSnapshotMemoryResponse {
-  snapshotId?: string;
+  snapshotId: string;
 }
 export interface TaskUnmountDirectoryRequest {
-  taskId?: string;
-  path?: string;
+  taskId?: string | undefined;
+  path?: string | undefined;
   /** Fully qualified target container ID. Empty targets the main container. */
-  containerId?: string;
+  containerId?: string | undefined;
 }
 export interface TaskUnmountDirectoryResponse {}
 export interface TerminateTaskContainerRequest {
-  taskId?: string;
-  containerId?: string;
+  taskId?: string | undefined;
+  containerId?: string | undefined;
 }
 export interface TerminateTaskContainerResponse {}
 export interface WaitTaskContainerRequest {
-  taskId?: string;
-  containerId?: string;
-  timeout?: number;
+  taskId?: string | undefined;
+  containerId?: string | undefined;
+  timeout?: number | undefined;
 }
 export interface WaitTaskContainerResponse {
-  result?: GenericResult;
+  result?: GenericResult | undefined;
 }
 export type CreateTaskContainerError = ModalOpError;
 /** Create an additional container for a task. */
@@ -399,13 +440,29 @@ export const sandboxStdinWriteV2: API.OperationMethod<
   SandboxStdinWriteV2Error,
   ModalOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(80, __c20, 0) as any as S.Schema<SandboxStdinWriteV2Request>,
-  output: __S(84, __c21, 0) as any as S.Schema<SandboxStdinWriteV2Response>,
+  input: __S(88, __c22, 0) as any as S.Schema<SandboxStdinWriteV2Request>,
+  output: __S(92, __c23, 0) as any as S.Schema<SandboxStdinWriteV2Response>,
   errors: [UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "SandboxStdinWriteV2",
+}));
+
+export type SandboxStdioReadV2Error = ModalOpError;
+export const sandboxStdioReadV2: API.StreamingOperationMethod<
+  SandboxStdioReadV2Request,
+  SandboxStdioReadV2Stream,
+  SandboxStdioReadV2Error,
+  ModalOpContext
+> = /*@__PURE__*/ API.makeStreaming(() => ({
+  input: __S(96, __c24, 0) as any as S.Schema<SandboxStdioReadV2Request>,
+  output: __S(99, __c24, 3) as any as S.Schema<SandboxStdioReadV2Stream>,
+  errors: [UnknownModalError],
+  protocol: ModalProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SandboxStdioReadV2",
 }));
 
 export type SandboxWaitUntilReadyError = ModalOpError;
@@ -415,8 +472,8 @@ export const sandboxWaitUntilReady: API.OperationMethod<
   SandboxWaitUntilReadyError,
   ModalOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(88, __c22, 0) as any as S.Schema<SandboxWaitUntilReadyRequest>,
-  output: __S(89, __c22, 1) as any as S.Schema<SandboxWaitUntilReadyResponse>,
+  input: __S(100, __c25, 0) as any as S.Schema<SandboxWaitUntilReadyRequest>,
+  output: __S(101, __c25, 1) as any as S.Schema<SandboxWaitUntilReadyResponse>,
   errors: [UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
@@ -432,8 +489,8 @@ export const taskExecPoll: API.OperationMethod<
   TaskExecPollError,
   ModalOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(92, __c23, 0) as any as S.Schema<TaskExecPollRequest>,
-  output: __S(96, __c24, 0) as any as S.Schema<TaskExecPollResponse>,
+  input: __S(104, __c26, 0) as any as S.Schema<TaskExecPollRequest>,
+  output: __S(108, __c27, 0) as any as S.Schema<TaskExecPollResponse>,
   errors: [UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
@@ -449,8 +506,8 @@ export const taskExecStart: API.OperationMethod<
   TaskExecStartError,
   ModalOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(100, __c25, 0) as any as S.Schema<TaskExecStartRequest>,
-  output: __S(84, __c21, 0) as any as S.Schema<TaskExecStartResponse>,
+  input: __S(112, __c28, 0) as any as S.Schema<TaskExecStartRequest>,
+  output: __S(92, __c23, 0) as any as S.Schema<TaskExecStartResponse>,
   errors: [UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
@@ -466,8 +523,8 @@ export const taskExecStdinStatus: API.OperationMethod<
   TaskExecStdinStatusError,
   ModalOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(104, __c26, 0) as any as S.Schema<TaskExecStdinStatusRequest>,
-  output: __S(105, __c26, 1) as any as S.Schema<TaskExecStdinStatusResponse>,
+  input: __S(116, __c29, 0) as any as S.Schema<TaskExecStdinStatusRequest>,
+  output: __S(117, __c29, 1) as any as S.Schema<TaskExecStdinStatusResponse>,
   errors: [UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
@@ -483,13 +540,30 @@ export const taskExecStdinWrite: API.OperationMethod<
   TaskExecStdinWriteError,
   ModalOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(108, __c27, 0) as any as S.Schema<TaskExecStdinWriteRequest>,
-  output: __S(84, __c21, 0) as any as S.Schema<TaskExecStdinWriteResponse>,
+  input: __S(120, __c30, 0) as any as S.Schema<TaskExecStdinWriteRequest>,
+  output: __S(92, __c23, 0) as any as S.Schema<TaskExecStdinWriteResponse>,
   errors: [UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "TaskExecStdinWrite",
+}));
+
+export type TaskExecStdioReadError = ModalOpError;
+/** Get a stream of output from the stdout or stderr stream of an exec'd command. */
+export const taskExecStdioRead: API.StreamingOperationMethod<
+  TaskExecStdioReadRequest,
+  TaskExecStdioReadStream,
+  TaskExecStdioReadError,
+  ModalOpContext
+> = /*@__PURE__*/ API.makeStreaming(() => ({
+  input: __S(32, __c8, 0) as any as S.Schema<TaskExecStdioReadRequest>,
+  output: __S(35, __c8, 3) as any as S.Schema<TaskExecStdioReadStream>,
+  errors: [UnknownModalError],
+  protocol: ModalProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "TaskExecStdioRead",
 }));
 
 export type TaskExecWaitError = ModalOpError;
@@ -500,8 +574,8 @@ export const taskExecWait: API.OperationMethod<
   TaskExecWaitError,
   ModalOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(112, __c28, 0) as any as S.Schema<TaskExecWaitRequest>,
-  output: __S(96, __c24, 0) as any as S.Schema<TaskExecWaitResponse>,
+  input: __S(36, __c9, 0) as any as S.Schema<TaskExecWaitRequest>,
+  output: __S(108, __c27, 0) as any as S.Schema<TaskExecWaitResponse>,
   errors: [UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
@@ -517,8 +591,8 @@ export const taskMountDirectory: API.OperationMethod<
   TaskMountDirectoryError,
   ModalOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(32, __c8, 0) as any as S.Schema<TaskMountDirectoryRequest>,
-  output: __S(84, __c21, 0) as any as S.Schema<TaskMountDirectoryResponse>,
+  input: __S(40, __c10, 0) as any as S.Schema<TaskMountDirectoryRequest>,
+  output: __S(92, __c23, 0) as any as S.Schema<TaskMountDirectoryResponse>,
   errors: [UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
@@ -534,8 +608,8 @@ export const taskReloadVolumes: API.OperationMethod<
   TaskReloadVolumesError,
   ModalOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(36, __c9, 0) as any as S.Schema<TaskReloadVolumesRequest>,
-  output: __S(84, __c21, 0) as any as S.Schema<TaskReloadVolumesResponse>,
+  input: __S(44, __c11, 0) as any as S.Schema<TaskReloadVolumesRequest>,
+  output: __S(92, __c23, 0) as any as S.Schema<TaskReloadVolumesResponse>,
   errors: [UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
@@ -551,8 +625,8 @@ export const taskSetNetworkAccess: API.OperationMethod<
   TaskSetNetworkAccessError,
   ModalOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(40, __c10, 0) as any as S.Schema<TaskSetNetworkAccessRequest>,
-  output: __S(84, __c21, 0) as any as S.Schema<TaskSetNetworkAccessResponse>,
+  input: __S(48, __c12, 0) as any as S.Schema<TaskSetNetworkAccessRequest>,
+  output: __S(92, __c23, 0) as any as S.Schema<TaskSetNetworkAccessResponse>,
   errors: [UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
@@ -561,15 +635,15 @@ export const taskSetNetworkAccess: API.OperationMethod<
 }));
 
 export type TaskSetOutboundPolicyError = ModalOpError;
-/** Replace the task's outbound policy. */
+/** Replace the task's experimental outbound policy. The method keeps its original name because gRPC sends method names on the wire. */
 export const taskSetOutboundPolicy: API.OperationMethod<
   TaskSetOutboundPolicyRequest,
   TaskSetOutboundPolicyResponse,
   TaskSetOutboundPolicyError,
   ModalOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(47, __c11, 3) as any as S.Schema<TaskSetOutboundPolicyRequest>,
-  output: __S(84, __c21, 0) as any as S.Schema<TaskSetOutboundPolicyResponse>,
+  input: __S(55, __c13, 3) as any as S.Schema<TaskSetOutboundPolicyRequest>,
+  output: __S(92, __c23, 0) as any as S.Schema<TaskSetOutboundPolicyResponse>,
   errors: [UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
@@ -585,8 +659,8 @@ export const taskSnapshotDirectory: API.OperationMethod<
   TaskSnapshotDirectoryError,
   ModalOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(48, __c12, 0) as any as S.Schema<TaskSnapshotDirectoryRequest>,
-  output: __S(52, __c13, 0) as any as S.Schema<TaskSnapshotDirectoryResponse>,
+  input: __S(56, __c14, 0) as any as S.Schema<TaskSnapshotDirectoryRequest>,
+  output: __S(60, __c15, 0) as any as S.Schema<TaskSnapshotDirectoryResponse>,
   errors: [UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
@@ -602,8 +676,8 @@ export const taskSnapshotFilesystem: API.OperationMethod<
   TaskSnapshotFilesystemError,
   ModalOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(56, __c14, 0) as any as S.Schema<TaskSnapshotFilesystemRequest>,
-  output: __S(52, __c13, 0) as any as S.Schema<TaskSnapshotFilesystemResponse>,
+  input: __S(64, __c16, 0) as any as S.Schema<TaskSnapshotFilesystemRequest>,
+  output: __S(60, __c15, 0) as any as S.Schema<TaskSnapshotFilesystemResponse>,
   errors: [UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
@@ -619,8 +693,8 @@ export const taskSnapshotMemory: API.OperationMethod<
   TaskSnapshotMemoryError,
   ModalOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(60, __c15, 0) as any as S.Schema<TaskSnapshotMemoryRequest>,
-  output: __S(61, __c15, 1) as any as S.Schema<TaskSnapshotMemoryResponse>,
+  input: __S(68, __c17, 0) as any as S.Schema<TaskSnapshotMemoryRequest>,
+  output: __S(69, __c17, 1) as any as S.Schema<TaskSnapshotMemoryResponse>,
   errors: [UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
@@ -636,8 +710,8 @@ export const taskUnmountDirectory: API.OperationMethod<
   TaskUnmountDirectoryError,
   ModalOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(64, __c16, 0) as any as S.Schema<TaskUnmountDirectoryRequest>,
-  output: __S(84, __c21, 0) as any as S.Schema<TaskUnmountDirectoryResponse>,
+  input: __S(72, __c18, 0) as any as S.Schema<TaskUnmountDirectoryRequest>,
+  output: __S(92, __c23, 0) as any as S.Schema<TaskUnmountDirectoryResponse>,
   errors: [UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
@@ -653,8 +727,8 @@ export const terminateTaskContainer: API.OperationMethod<
   TerminateTaskContainerError,
   ModalOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(68, __c17, 0) as any as S.Schema<TerminateTaskContainerRequest>,
-  output: __S(84, __c21, 0) as any as S.Schema<TerminateTaskContainerResponse>,
+  input: __S(80, __c20, 0) as any as S.Schema<TerminateTaskContainerRequest>,
+  output: __S(92, __c23, 0) as any as S.Schema<TerminateTaskContainerResponse>,
   errors: [UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
@@ -670,8 +744,8 @@ export const waitTaskContainer: API.OperationMethod<
   WaitTaskContainerError,
   ModalOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(72, __c18, 0) as any as S.Schema<WaitTaskContainerRequest>,
-  output: __S(73, __c18, 1) as any as S.Schema<WaitTaskContainerResponse>,
+  input: __S(84, __c21, 0) as any as S.Schema<WaitTaskContainerRequest>,
+  output: __S(85, __c21, 1) as any as S.Schema<WaitTaskContainerResponse>,
   errors: [UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
@@ -720,8 +794,8 @@ function __c0(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          containerId: S.optional(S.String),
-          containerName: S.optional(S.String),
+          containerId: S.String,
+          containerName: S.String,
         }),
       ).annotate({ identifier: "CreateTaskContainerResponse" });
   }
@@ -811,9 +885,9 @@ function __c6(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          containerId: S.optional(S.String),
-          containerName: S.optional(S.String),
-          status: S.optional(S.String),
+          containerId: S.String,
+          containerName: S.String,
+          status: S.String,
           result: S.optional(__S(28, __c7, 0)),
         }),
       ).annotate({ identifier: "TaskContainerInfo" });
@@ -824,20 +898,70 @@ function __c7(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          status: S.optional(S.String),
-          exception: S.optional(S.String),
-          exitcode: S.optional(S.Number),
-          traceback: S.optional(S.String),
-          serializedTb: S.optional(S.String),
-          tbLineCache: S.optional(S.String),
+          status: S.String,
+          exception: S.String,
+          exitcode: S.Number,
+          traceback: S.String,
+          serializedTb: S.String,
+          tbLineCache: S.String,
           data: S.optional(S.String),
           dataBlobId: S.optional(S.String),
-          propagationReason: S.optional(S.String),
+          propagationReason: S.String,
         }),
       ).annotate({ identifier: "GenericResult" });
   }
 }
 function __c8(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          taskId: S.optional(S.String),
+          execId: S.optional(S.String),
+          offset: S.optional(S.String),
+          fileDescriptor: S.optional(S.String),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/modal.task_command_router.TaskCommandRouter/TaskExecStdioRead",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "TaskExecStdioReadRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          data: S.String,
+        }),
+      ).annotate({ identifier: "TaskExecStdioReadResponse" });
+    case 2:
+      return S.Array(__S(33, __c8, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          items: __S(34, __c8, 2),
+        }),
+      ).annotate({ identifier: "TaskExecStdioReadStream" });
+  }
+}
+function __c9(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          taskId: S.optional(S.String),
+          execId: S.optional(S.String),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/modal.task_command_router.TaskCommandRouter/TaskExecWait",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "TaskExecWaitRequest" });
+  }
+}
+function __c10(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -857,7 +981,7 @@ function __c8(j: number): any {
       ).annotate({ identifier: "TaskMountDirectoryRequest" });
   }
 }
-function __c9(j: number): any {
+function __c11(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -874,7 +998,7 @@ function __c9(j: number): any {
       ).annotate({ identifier: "TaskReloadVolumesRequest" });
   }
 }
-function __c10(j: number): any {
+function __c12(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -891,7 +1015,7 @@ function __c10(j: number): any {
       ).annotate({ identifier: "TaskSetNetworkAccessRequest" });
   }
 }
-function __c11(j: number): any {
+function __c13(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -900,20 +1024,20 @@ function __c11(j: number): any {
           secretId: S.optional(S.String),
           headers: S.optional(__S(16, __c4, 0)),
         }),
-      ).annotate({ identifier: "OutboundPolicyHeaderReplacement" });
+      ).annotate({ identifier: "ExperimentalOutboundPolicyHeaderReplacement" });
     case 1:
-      return S.Array(__S(44, __c11, 0));
+      return S.Array(__S(52, __c13, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          headerReplacements: S.optional(__S(45, __c11, 1)),
+          headerReplacements: S.optional(__S(53, __c13, 1)),
         }),
-      ).annotate({ identifier: "OutboundPolicy" });
+      ).annotate({ identifier: "ExperimentalOutboundPolicy" });
     case 3:
       return S.suspend(() =>
         S.Struct({
           taskId: S.optional(S.String),
-          outboundPolicy: S.optional(__S(46, __c11, 2)),
+          experimentalOutboundPolicy: S.optional(__S(54, __c13, 2)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -924,7 +1048,7 @@ function __c11(j: number): any {
       ).annotate({ identifier: "TaskSetOutboundPolicyRequest" });
   }
 }
-function __c12(j: number): any {
+function __c14(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -945,17 +1069,17 @@ function __c12(j: number): any {
       ).annotate({ identifier: "TaskSnapshotDirectoryRequest" });
   }
 }
-function __c13(j: number): any {
+function __c15(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          imageId: S.optional(S.String),
+          imageId: S.String,
         }),
       ).annotate({ identifier: "TaskSnapshotDirectoryResponse" });
   }
 }
-function __c14(j: number): any {
+function __c16(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -975,7 +1099,7 @@ function __c14(j: number): any {
       ).annotate({ identifier: "TaskSnapshotFilesystemRequest" });
   }
 }
-function __c15(j: number): any {
+function __c17(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -993,12 +1117,12 @@ function __c15(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          snapshotId: S.optional(S.String),
+          snapshotId: S.String,
         }),
       ).annotate({ identifier: "TaskSnapshotMemoryResponse" });
   }
 }
-function __c16(j: number): any {
+function __c18(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1016,7 +1140,32 @@ function __c16(j: number): any {
       ).annotate({ identifier: "TaskUnmountDirectoryRequest" });
   }
 }
-function __c17(j: number): any {
+function __c19(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          taskId: S.optional(S.String),
+          includeTerminated: S.optional(S.Boolean),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/modal.task_command_router.TaskCommandRouter/TaskContainerList",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "ListTaskContainerRequest" });
+    case 1:
+      return S.Array(__S(24, __c6, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          containers: __S(77, __c19, 1),
+        }),
+      ).annotate({ identifier: "ListTaskContainerResponse" });
+  }
+}
+function __c20(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1033,7 +1182,7 @@ function __c17(j: number): any {
       ).annotate({ identifier: "TerminateTaskContainerRequest" });
   }
 }
-function __c18(j: number): any {
+function __c21(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1057,32 +1206,7 @@ function __c18(j: number): any {
       ).annotate({ identifier: "WaitTaskContainerResponse" });
   }
 }
-function __c19(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          taskId: S.optional(S.String),
-          includeTerminated: S.optional(S.Boolean),
-        }).pipe(
-          T.Http({
-            method: "POST",
-            uri: "/modal.task_command_router.TaskCommandRouter/TaskContainerList",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "ListTaskContainerRequest" });
-    case 1:
-      return S.Array(__S(24, __c6, 0));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          containers: S.optional(__S(77, __c19, 1)),
-        }),
-      ).annotate({ identifier: "ListTaskContainerResponse" });
-  }
-}
-function __c20(j: number): any {
+function __c22(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1101,13 +1225,46 @@ function __c20(j: number): any {
       ).annotate({ identifier: "SandboxStdinWriteV2Request" });
   }
 }
-function __c21(j: number): any {
+function __c23(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({})).annotate({ identifier: "SandboxStdinWriteV2Response" });
   }
 }
-function __c22(j: number): any {
+function __c24(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          taskId: S.optional(S.String),
+          offset: S.optional(S.String),
+          fileDescriptor: S.optional(S.String),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/modal.task_command_router.TaskCommandRouter/SandboxStdioReadV2",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "SandboxStdioReadV2Request" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          data: S.String,
+          startingOffset: S.String,
+        }),
+      ).annotate({ identifier: "SandboxStdioReadV2Response" });
+    case 2:
+      return S.Array(__S(97, __c24, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          items: __S(98, __c24, 2),
+        }),
+      ).annotate({ identifier: "SandboxStdioReadV2Stream" });
+  }
+}
+function __c25(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1125,12 +1282,12 @@ function __c22(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          readyAt: S.optional(S.Number),
+          readyAt: S.Number,
         }),
       ).annotate({ identifier: "SandboxWaitUntilReadyResponse" });
   }
 }
-function __c23(j: number): any {
+function __c26(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1147,7 +1304,7 @@ function __c23(j: number): any {
       ).annotate({ identifier: "TaskExecPollRequest" });
   }
 }
-function __c24(j: number): any {
+function __c27(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1158,7 +1315,7 @@ function __c24(j: number): any {
       ).annotate({ identifier: "TaskExecPollResponse" });
   }
 }
-function __c25(j: number): any {
+function __c28(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1186,7 +1343,7 @@ function __c25(j: number): any {
       ).annotate({ identifier: "TaskExecStartRequest" });
   }
 }
-function __c26(j: number): any {
+function __c29(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1204,13 +1361,13 @@ function __c26(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          numBytesWritten: S.optional(S.String),
-          closed: S.optional(S.Boolean),
+          numBytesWritten: S.String,
+          closed: S.Boolean,
         }),
       ).annotate({ identifier: "TaskExecStdinStatusResponse" });
   }
 }
-function __c27(j: number): any {
+function __c30(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1228,23 +1385,6 @@ function __c27(j: number): any {
           }),
         ),
       ).annotate({ identifier: "TaskExecStdinWriteRequest" });
-  }
-}
-function __c28(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          taskId: S.optional(S.String),
-          execId: S.optional(S.String),
-        }).pipe(
-          T.Http({
-            method: "POST",
-            uri: "/modal.task_command_router.TaskCommandRouter/TaskExecWait",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "TaskExecWaitRequest" });
   }
 }
 // Schema table: entry i is schema j of builder f, made on first reach.

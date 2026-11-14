@@ -26,6 +26,7 @@ export {
 export type { DefaultErrors } from "@distilled.cloud/core/errors";
 
 import * as Category from "@distilled.cloud/core/category";
+import { UnknownErrorFields } from "@distilled.cloud/core/errors";
 import * as Schema from "@distilled.cloud/core/schema-lite-typed";
 
 /**
@@ -86,6 +87,12 @@ export class InvalidRequestError
     param: /*@__PURE__*/ Schema.optional(Schema.String),
     doc_url: /*@__PURE__*/ Schema.optional(Schema.String),
     request_log_url: /*@__PURE__*/ Schema.optional(Schema.String),
+    /**
+     * HTTP status of the response. Some endpoints (billing alerts, tax
+     * registrations) answer a missing object with a 404 that has no
+     * `resource_missing` code, so the status is the only sign it is missing.
+     */
+    status: /*@__PURE__*/ Schema.optional(Schema.Number),
   }).pipe(Category.withBadRequestError) {}
 
 /**
@@ -123,12 +130,10 @@ export const STRIPE_HTTP_STATUS_MAP = {
 // Unknown Stripe error -- returned when an error type is not recognized
 export class UnknownStripeError
   extends /*@__PURE__*/ Schema.TaggedError<UnknownStripeError>()("UnknownStripeError", {
+    ...UnknownErrorFields,
     type: /*@__PURE__*/ Schema.optional(Schema.String),
-    code: /*@__PURE__*/ Schema.optional(Schema.String),
-    message: /*@__PURE__*/ Schema.optional(Schema.String),
     param: /*@__PURE__*/ Schema.optional(Schema.String),
-    body: Schema.Unknown,
-  }).pipe(Category.withServerError) {}
+  }) {}
 
 // Schema parse error wrapper
 export class StripeParseError

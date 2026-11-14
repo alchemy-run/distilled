@@ -79,15 +79,15 @@ export interface CreatePropertyAccessControlRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** The existing property definition ID. Provide this or ai_property. */
-  property_definition_id?: string;
+  property_definition_id?: string | undefined;
   /** A built-in AI event property. Creates its definition if missing. Provide this or property_definition_id. * `$ai_trace_id` - $ai_trace_id * `$ai_session_id` - $ai_session_id * `$ai_parent_id` - $ai_parent_id * `$ai_span_id` - $ai_span_id * `$ai_span_type` - $ai_span_type * `$ai_generation_id` - $ai_generation_id * `$ai_experiment_id` - $ai_experiment_id * `$ai_span_name` - $ai_span_name * `$ai_trace_name` - $ai_trace_name * `$ai_prompt_name` - $ai_prompt_name * `$ai_model` - $ai_model * `$ai_provider` - $ai_provider * `$ai_framework` - $ai_framework * `$ai_total_tokens` - $ai_total_tokens * `$ai_input_tokens` - $ai_input_tokens * `$ai_output_tokens` - $ai_output_tokens * `$ai_text_input_tokens` - $ai_text_input_tokens * `$ai_text_output_tokens` - $ai_text_output_tokens * `$ai_image_input_tokens` - $ai_image_input_tokens * `$ai_image_output_tokens` - $ai_image_output_tokens * `$ai_audio_input_tokens` - $ai_audio_input_tokens * `$ai_audio_output_tokens` - $ai_audio_output_tokens * `$ai_video_input_tokens` - $ai_video_input_tokens * `$ai_video_output_tokens` - $ai_video_output_tokens * `$ai_reasoning_tokens` - $ai_reasoning_tokens * `$ai_cache_read_input_tokens` - $ai_cache_read_input_tokens * `$ai_cache_creation_input_tokens` - $ai_cache_creation_input_tokens * `$ai_web_search_count` - $ai_web_search_count * `$ai_input_cost_usd` - $ai_input_cost_usd * `$ai_output_cost_usd` - $ai_output_cost_usd * `$ai_total_cost_usd` - $ai_total_cost_usd * `$ai_request_cost_usd` - $ai_request_cost_usd * `$ai_web_search_cost_usd` - $ai_web_search_cost_usd * `$ai_audio_cost_usd` - $ai_audio_cost_usd * `$ai_image_cost_usd` - $ai_image_cost_usd * `$ai_video_cost_usd` - $ai_video_cost_usd * `$ai_latency` - $ai_latency * `$ai_time_to_first_token` - $ai_time_to_first_token * `$ai_is_error` - $ai_is_error * `$ai_error` - $ai_error * `$ai_error_type` - $ai_error_type * `$ai_error_normalized` - $ai_error_normalized * `$ai_input` - $ai_input * `$ai_output` - $ai_output * `$ai_output_choices` - $ai_output_choices * `$ai_input_state` - $ai_input_state * `$ai_output_state` - $ai_output_state * `$ai_tools` - $ai_tools */
-  ai_property?: AIEventPropertyEnum | (string & {});
+  ai_property?: AIEventPropertyEnum | (string & {}) | undefined;
   /** The access level to set for this rule. * `read_write` - read_write * `read` - read * `none` - none */
   access_level: AccessLevelEnum | (string & {});
   /** The organization member UUID to set an override for. */
-  organization_member?: string | null;
+  organization_member?: string | null | undefined;
   /** The role UUID to set an override for. */
-  role?: string | null;
+  role?: string | null | undefined;
 }
 /** Serializes a single access control rule DTO. */
 export interface PropertyAccessControlRule {
@@ -125,11 +125,11 @@ export interface PropertyAccessControlsDestroyRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** The organization member UUID whose override should be deleted. */
-  organization_member?: string;
+  organization_member?: string | undefined;
   /** The property definition ID the rule applies to. */
   property_definition_id: string;
   /** The role UUID whose override should be deleted. */
-  role?: string;
+  role?: string | undefined;
 }
 export interface PropertyAccessControlsDestroyResponse {}
 export type CreatePropertyAccessControlError = PosthogOpError;

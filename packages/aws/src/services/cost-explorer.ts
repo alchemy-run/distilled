@@ -363,6 +363,7 @@ export type Dimension =
   | "INVOICING_ENTITY"
   | "ANOMALY_TOTAL_IMPACT_ABSOLUTE"
   | "ANOMALY_TOTAL_IMPACT_PERCENTAGE"
+  | "PRODUCT_ATTRIBUTE"
   | (string & {});
 export type Value = string;
 export type Values = string[];
@@ -378,41 +379,49 @@ export type MatchOption =
   | (string & {});
 export type MatchOptions = MatchOption[];
 export interface DimensionValues {
-  Key?: Dimension;
-  Values?: string[];
-  MatchOptions?: MatchOption[];
+  Key?: Dimension | undefined;
+  Values?: string[] | undefined;
+  MatchOptions?: MatchOption[] | undefined;
 }
 export type TagKey = string;
 export interface TagValues {
-  Key?: string;
-  Values?: string[];
-  MatchOptions?: MatchOption[];
+  Key?: string | undefined;
+  Values?: string[] | undefined;
+  MatchOptions?: MatchOption[] | undefined;
 }
 export type CostCategoryName = string;
 export interface CostCategoryValues {
-  Key?: string;
-  Values?: string[];
-  MatchOptions?: MatchOption[];
+  Key?: string | undefined;
+  Values?: string[] | undefined;
+  MatchOptions?: MatchOption[] | undefined;
+}
+export type ProductAttributeName = string;
+export type ProductAttributeValueList = string[];
+export interface ProductAttributeValues {
+  Key: string;
+  Values?: string[] | undefined;
+  MatchOptions?: MatchOption[] | undefined;
 }
 export interface Expression {
-  Or?: Expression[];
-  And?: Expression[];
-  Not?: Expression;
-  Dimensions?: DimensionValues;
-  Tags?: TagValues;
-  CostCategories?: CostCategoryValues;
+  Or?: Expression[] | undefined;
+  And?: Expression[] | undefined;
+  Not?: Expression | undefined;
+  Dimensions?: DimensionValues | undefined;
+  Tags?: TagValues | undefined;
+  CostCategories?: CostCategoryValues | undefined;
+  ProductAttributes?: ProductAttributeValues | undefined;
 }
 export type NonNegativeInteger = number;
 export interface AnomalyMonitor {
-  MonitorArn?: string;
+  MonitorArn?: string | undefined;
   MonitorName: string;
-  CreationDate?: string;
-  LastUpdatedDate?: string;
-  LastEvaluatedDate?: string;
+  CreationDate?: string | undefined;
+  LastUpdatedDate?: string | undefined;
+  LastEvaluatedDate?: string | undefined;
   MonitorType: MonitorType;
-  MonitorDimension?: MonitorDimension;
-  MonitorSpecification?: Expression;
-  DimensionalValueCount?: number;
+  MonitorDimension?: MonitorDimension | undefined;
+  MonitorSpecification?: Expression | undefined;
+  DimensionalValueCount?: number | undefined;
 }
 export type ResourceTagKey = string;
 export type ResourceTagValue = string;
@@ -423,7 +432,7 @@ export interface ResourceTag {
 export type ResourceTagList = ResourceTag[];
 export interface CreateAnomalyMonitorRequest {
   AnomalyMonitor: AnomalyMonitor;
-  ResourceTags?: ResourceTag[];
+  ResourceTags?: ResourceTag[] | undefined;
 }
 export interface CreateAnomalyMonitorResponse {
   MonitorArn: string;
@@ -434,26 +443,26 @@ export type SubscriberAddress = string;
 export type SubscriberType = "EMAIL" | "SNS" | (string & {});
 export type SubscriberStatus = "CONFIRMED" | "DECLINED" | (string & {});
 export interface Subscriber {
-  Address?: string;
-  Type?: SubscriberType;
-  Status?: SubscriberStatus;
+  Address?: string | undefined;
+  Type?: SubscriberType | undefined;
+  Status?: SubscriberStatus | undefined;
 }
 export type Subscribers = Subscriber[];
 export type NullableNonNegativeDouble = number;
 export type AnomalySubscriptionFrequency = "DAILY" | "IMMEDIATE" | "WEEKLY" | (string & {});
 export interface AnomalySubscription {
-  SubscriptionArn?: string;
-  AccountId?: string;
+  SubscriptionArn?: string | undefined;
+  AccountId?: string | undefined;
   MonitorArnList: string[];
   Subscribers: Subscriber[];
-  Threshold?: number;
+  Threshold?: number | undefined;
   Frequency: AnomalySubscriptionFrequency;
   SubscriptionName: string;
-  ThresholdExpression?: Expression;
+  ThresholdExpression?: Expression | undefined;
 }
 export interface CreateAnomalySubscriptionRequest {
   AnomalySubscription: AnomalySubscription;
-  ResourceTags?: ResourceTag[];
+  ResourceTags?: ResourceTag[] | undefined;
 }
 export interface CreateAnomalySubscriptionResponse {
   SubscriptionArn: string;
@@ -463,15 +472,15 @@ export type CostCategoryRuleVersion = "CostCategoryExpression.v1" | (string & {}
 export type CostCategoryValue = string;
 export type CostCategoryInheritedValueDimensionName = "LINKED_ACCOUNT_NAME" | "TAG" | (string & {});
 export interface CostCategoryInheritedValueDimension {
-  DimensionName?: CostCategoryInheritedValueDimensionName;
-  DimensionKey?: string;
+  DimensionName?: CostCategoryInheritedValueDimensionName | undefined;
+  DimensionKey?: string | undefined;
 }
 export type CostCategoryRuleType = "REGULAR" | "INHERITED_VALUE" | (string & {});
 export interface CostCategoryRule {
-  Value?: string;
-  Rule?: Expression;
-  InheritedValue?: CostCategoryInheritedValueDimension;
-  Type?: CostCategoryRuleType;
+  Value?: string | undefined;
+  Rule?: Expression | undefined;
+  InheritedValue?: CostCategoryInheritedValueDimension | undefined;
+  Type?: CostCategoryRuleType | undefined;
 }
 export type CostCategoryRulesList = CostCategoryRule[];
 export type CostCategorySplitChargeRuleTargetsList = string[];
@@ -487,21 +496,21 @@ export interface CostCategorySplitChargeRule {
   Source: string;
   Targets: string[];
   Method: CostCategorySplitChargeMethod;
-  Parameters?: CostCategorySplitChargeRuleParameter[];
+  Parameters?: CostCategorySplitChargeRuleParameter[] | undefined;
 }
 export type CostCategorySplitChargeRulesList = CostCategorySplitChargeRule[];
 export interface CreateCostCategoryDefinitionRequest {
   Name: string;
-  EffectiveStart?: string;
+  EffectiveStart?: string | undefined;
   RuleVersion: CostCategoryRuleVersion;
   Rules: CostCategoryRule[];
-  DefaultValue?: string;
-  SplitChargeRules?: CostCategorySplitChargeRule[];
-  ResourceTags?: ResourceTag[];
+  DefaultValue?: string | undefined;
+  SplitChargeRules?: CostCategorySplitChargeRule[] | undefined;
+  ResourceTags?: ResourceTag[] | undefined;
 }
 export interface CreateCostCategoryDefinitionResponse {
-  CostCategoryArn?: string;
-  EffectiveStart?: string;
+  CostCategoryArn?: string | undefined;
+  EffectiveStart?: string | undefined;
 }
 export interface DeleteAnomalyMonitorRequest {
   MonitorArn: string;
@@ -515,37 +524,37 @@ export interface DeleteCostCategoryDefinitionRequest {
   CostCategoryArn: string;
 }
 export interface DeleteCostCategoryDefinitionResponse {
-  CostCategoryArn?: string;
-  EffectiveEnd?: string;
+  CostCategoryArn?: string | undefined;
+  EffectiveEnd?: string | undefined;
 }
 export interface DescribeCostCategoryDefinitionRequest {
   CostCategoryArn: string;
-  EffectiveOn?: string;
+  EffectiveOn?: string | undefined;
 }
 export type CostCategoryStatusComponent = "COST_EXPLORER" | (string & {});
 export type CostCategoryStatus = "PROCESSING" | "APPLIED" | (string & {});
 export interface CostCategoryProcessingStatus {
-  Component?: CostCategoryStatusComponent;
-  Status?: CostCategoryStatus;
+  Component?: CostCategoryStatusComponent | undefined;
+  Status?: CostCategoryStatus | undefined;
 }
 export type CostCategoryProcessingStatusList = CostCategoryProcessingStatus[];
 export interface CostCategory {
   CostCategoryArn: string;
   EffectiveStart: string;
-  EffectiveEnd?: string;
+  EffectiveEnd?: string | undefined;
   Name: string;
   RuleVersion: CostCategoryRuleVersion;
   Rules: CostCategoryRule[];
-  SplitChargeRules?: CostCategorySplitChargeRule[];
-  ProcessingStatus?: CostCategoryProcessingStatus[];
-  DefaultValue?: string;
+  SplitChargeRules?: CostCategorySplitChargeRule[] | undefined;
+  ProcessingStatus?: CostCategoryProcessingStatus[] | undefined;
+  DefaultValue?: string | undefined;
 }
 export interface DescribeCostCategoryDefinitionResponse {
-  CostCategory?: CostCategory;
+  CostCategory?: CostCategory | undefined;
 }
 export interface AnomalyDateInterval {
   StartDate: string;
-  EndDate?: string;
+  EndDate?: string | undefined;
 }
 export type AnomalyFeedbackType = "YES" | "NO" | "PLANNED_ACTIVITY" | (string & {});
 export type NumericOperator =
@@ -559,28 +568,28 @@ export type NumericOperator =
 export interface TotalImpactFilter {
   NumericOperator: NumericOperator;
   StartValue: number;
-  EndValue?: number;
+  EndValue?: number | undefined;
 }
 export type NextPageToken = string;
 export type PageSize = number;
 export interface GetAnomaliesRequest {
-  MonitorArn?: string;
+  MonitorArn?: string | undefined;
   DateInterval: AnomalyDateInterval;
-  Feedback?: AnomalyFeedbackType;
-  TotalImpact?: TotalImpactFilter;
-  NextPageToken?: string;
-  MaxResults?: number;
+  Feedback?: AnomalyFeedbackType | undefined;
+  TotalImpact?: TotalImpactFilter | undefined;
+  NextPageToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export interface RootCauseImpact {
   Contribution: number;
 }
 export interface RootCause {
-  Service?: string;
-  Region?: string;
-  LinkedAccount?: string;
-  LinkedAccountName?: string;
-  UsageType?: string;
-  Impact?: RootCauseImpact;
+  Service?: string | undefined;
+  Region?: string | undefined;
+  LinkedAccount?: string | undefined;
+  LinkedAccountName?: string | undefined;
+  UsageType?: string | undefined;
+  Impact?: RootCauseImpact | undefined;
 }
 export type RootCauses = RootCause[];
 export interface AnomalyScore {
@@ -589,54 +598,54 @@ export interface AnomalyScore {
 }
 export interface Impact {
   MaxImpact: number;
-  TotalImpact?: number;
-  TotalActualSpend?: number;
-  TotalExpectedSpend?: number;
-  TotalImpactPercentage?: number;
+  TotalImpact?: number | undefined;
+  TotalActualSpend?: number | undefined;
+  TotalExpectedSpend?: number | undefined;
+  TotalImpactPercentage?: number | undefined;
 }
 export interface Anomaly {
   AnomalyId: string;
-  AnomalyStartDate?: string;
-  AnomalyEndDate?: string;
-  DimensionValue?: string;
-  RootCauses?: RootCause[];
+  AnomalyStartDate?: string | undefined;
+  AnomalyEndDate?: string | undefined;
+  DimensionValue?: string | undefined;
+  RootCauses?: RootCause[] | undefined;
   AnomalyScore: AnomalyScore;
   Impact: Impact;
   MonitorArn: string;
-  Feedback?: AnomalyFeedbackType;
+  Feedback?: AnomalyFeedbackType | undefined;
 }
 export type Anomalies = Anomaly[];
 export interface GetAnomaliesResponse {
   Anomalies: Anomaly[];
-  NextPageToken?: string;
+  NextPageToken?: string | undefined;
 }
 export interface GetAnomalyMonitorsRequest {
-  MonitorArnList?: string[];
-  NextPageToken?: string;
-  MaxResults?: number;
+  MonitorArnList?: string[] | undefined;
+  NextPageToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export type AnomalyMonitors = AnomalyMonitor[];
 export interface GetAnomalyMonitorsResponse {
   AnomalyMonitors: AnomalyMonitor[];
-  NextPageToken?: string;
+  NextPageToken?: string | undefined;
 }
 export interface GetAnomalySubscriptionsRequest {
-  SubscriptionArnList?: string[];
-  MonitorArn?: string;
-  NextPageToken?: string;
-  MaxResults?: number;
+  SubscriptionArnList?: string[] | undefined;
+  MonitorArn?: string | undefined;
+  NextPageToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export type AnomalySubscriptions = AnomalySubscription[];
 export interface GetAnomalySubscriptionsResponse {
   AnomalySubscriptions: AnomalySubscription[];
-  NextPageToken?: string;
+  NextPageToken?: string | undefined;
 }
 export type Granularity = "DAILY" | "MONTHLY" | "HOURLY" | (string & {});
 export type UsageServices = string[];
 export type ApproximationDimension = "SERVICE" | "RESOURCE" | (string & {});
 export interface GetApproximateUsageRecordsRequest {
   Granularity: Granularity;
-  Services?: string[];
+  Services?: string[] | undefined;
   ApproximationDimension: ApproximationDimension;
 }
 export type NonNegativeLong = number;
@@ -646,9 +655,9 @@ export interface DateInterval {
   End: string;
 }
 export interface GetApproximateUsageRecordsResponse {
-  Services?: { [key: string]: number | undefined };
-  TotalRecords?: number;
-  LookbackPeriod?: DateInterval;
+  Services?: { [key: string]: number | undefined } | undefined;
+  TotalRecords?: number | undefined;
+  LookbackPeriod?: DateInterval | undefined;
 }
 export type AnalysisId = string;
 export interface GetCommitmentPurchaseAnalysisRequest {
@@ -663,39 +672,39 @@ export type ErrorCode =
   | "INVALID_ACCOUNT_ID"
   | (string & {});
 export interface RecommendationDetailHourlyMetrics {
-  StartTime?: string;
-  EstimatedOnDemandCost?: string;
-  CurrentCoverage?: string;
-  EstimatedCoverage?: string;
-  EstimatedNewCommitmentUtilization?: string;
+  StartTime?: string | undefined;
+  EstimatedOnDemandCost?: string | undefined;
+  CurrentCoverage?: string | undefined;
+  EstimatedCoverage?: string | undefined;
+  EstimatedNewCommitmentUtilization?: string | undefined;
 }
 export type MetricsOverLookbackPeriod = RecommendationDetailHourlyMetrics[];
 export interface SavingsPlansPurchaseAnalysisDetails {
-  CurrencyCode?: string;
-  LookbackPeriodInHours?: string;
-  CurrentAverageCoverage?: string;
-  CurrentAverageHourlyOnDemandSpend?: string;
-  CurrentMaximumHourlyOnDemandSpend?: string;
-  CurrentMinimumHourlyOnDemandSpend?: string;
-  CurrentOnDemandSpend?: string;
-  ExistingHourlyCommitment?: string;
-  HourlyCommitmentToPurchase?: string;
-  EstimatedAverageCoverage?: string;
-  EstimatedAverageUtilization?: string;
-  EstimatedMonthlySavingsAmount?: string;
-  EstimatedOnDemandCost?: string;
-  EstimatedOnDemandCostWithCurrentCommitment?: string;
-  EstimatedROI?: string;
-  EstimatedSavingsAmount?: string;
-  EstimatedSavingsPercentage?: string;
-  EstimatedCommitmentCost?: string;
-  LatestUsageTimestamp?: string;
-  UpfrontCost?: string;
-  AdditionalMetadata?: string;
-  MetricsOverLookbackPeriod?: RecommendationDetailHourlyMetrics[];
+  CurrencyCode?: string | undefined;
+  LookbackPeriodInHours?: string | undefined;
+  CurrentAverageCoverage?: string | undefined;
+  CurrentAverageHourlyOnDemandSpend?: string | undefined;
+  CurrentMaximumHourlyOnDemandSpend?: string | undefined;
+  CurrentMinimumHourlyOnDemandSpend?: string | undefined;
+  CurrentOnDemandSpend?: string | undefined;
+  ExistingHourlyCommitment?: string | undefined;
+  HourlyCommitmentToPurchase?: string | undefined;
+  EstimatedAverageCoverage?: string | undefined;
+  EstimatedAverageUtilization?: string | undefined;
+  EstimatedMonthlySavingsAmount?: string | undefined;
+  EstimatedOnDemandCost?: string | undefined;
+  EstimatedOnDemandCostWithCurrentCommitment?: string | undefined;
+  EstimatedROI?: string | undefined;
+  EstimatedSavingsAmount?: string | undefined;
+  EstimatedSavingsPercentage?: string | undefined;
+  EstimatedCommitmentCost?: string | undefined;
+  LatestUsageTimestamp?: string | undefined;
+  UpfrontCost?: string | undefined;
+  AdditionalMetadata?: string | undefined;
+  MetricsOverLookbackPeriod?: RecommendationDetailHourlyMetrics[] | undefined;
 }
 export interface AnalysisDetails {
-  SavingsPlansPurchaseAnalysisDetails?: SavingsPlansPurchaseAnalysisDetails;
+  SavingsPlansPurchaseAnalysisDetails?: SavingsPlansPurchaseAnalysisDetails | undefined;
 }
 export type AccountScope = "PAYER" | "LINKED" | (string & {});
 export type AccountId = string;
@@ -721,192 +730,197 @@ export type SupportedSavingsPlansType =
 export type TermInYears = "ONE_YEAR" | "THREE_YEARS" | (string & {});
 export type SavingsPlansCommitment = number;
 export interface SavingsPlans {
-  PaymentOption?: PaymentOption;
-  SavingsPlansType?: SupportedSavingsPlansType;
-  Region?: string;
-  InstanceFamily?: string;
-  TermInYears?: TermInYears;
-  SavingsPlansCommitment?: number;
-  OfferingId?: string;
+  PaymentOption?: PaymentOption | undefined;
+  SavingsPlansType?: SupportedSavingsPlansType | undefined;
+  Region?: string | undefined;
+  InstanceFamily?: string | undefined;
+  TermInYears?: TermInYears | undefined;
+  SavingsPlansCommitment?: number | undefined;
+  OfferingId?: string | undefined;
 }
 export type SavingsPlansToAdd = SavingsPlans[];
 export type SavingsPlansId = string;
 export type SavingsPlansToExclude = string[];
 export type SavingsPlansTargetCoverage = number;
 export interface SavingsPlansPurchaseAnalysisConfiguration {
-  AccountScope?: AccountScope;
-  AccountId?: string;
+  AccountScope?: AccountScope | undefined;
+  AccountId?: string | undefined;
   AnalysisType: AnalysisType;
   SavingsPlansToAdd: SavingsPlans[];
-  SavingsPlansToExclude?: string[];
+  SavingsPlansToExclude?: string[] | undefined;
   LookBackTimePeriod: DateInterval;
-  SavingsPlansTargetCoverage?: number;
+  SavingsPlansTargetCoverage?: number | undefined;
 }
 export interface CommitmentPurchaseAnalysisConfiguration {
-  SavingsPlansPurchaseAnalysisConfiguration?: SavingsPlansPurchaseAnalysisConfiguration;
+  SavingsPlansPurchaseAnalysisConfiguration?: SavingsPlansPurchaseAnalysisConfiguration | undefined;
 }
 export interface GetCommitmentPurchaseAnalysisResponse {
   EstimatedCompletionTime: string;
-  AnalysisCompletionTime?: string;
+  AnalysisCompletionTime?: string | undefined;
   AnalysisStartedTime: string;
   AnalysisId: string;
   AnalysisStatus: AnalysisStatus;
-  ErrorCode?: ErrorCode;
-  AnalysisDetails?: AnalysisDetails;
+  ErrorCode?: ErrorCode | undefined;
+  AnalysisDetails?: AnalysisDetails | undefined;
   CommitmentPurchaseAnalysisConfiguration: CommitmentPurchaseAnalysisConfiguration;
 }
 export type MetricName = string;
 export type MetricNames = string[];
-export type GroupDefinitionType = "DIMENSION" | "TAG" | "COST_CATEGORY" | (string & {});
+export type GroupDefinitionType =
+  | "DIMENSION"
+  | "TAG"
+  | "COST_CATEGORY"
+  | "PRODUCT_ATTRIBUTE"
+  | (string & {});
 export type GroupDefinitionKey = string;
 export interface GroupDefinition {
-  Type?: GroupDefinitionType;
-  Key?: string;
+  Type?: GroupDefinitionType | undefined;
+  Key?: string | undefined;
 }
 export type GroupDefinitions = GroupDefinition[];
 export type BillingViewArn = string;
 export interface GetCostAndUsageRequest {
   TimePeriod: DateInterval;
   Granularity: Granularity;
-  Filter?: Expression;
+  Filter?: Expression | undefined;
   Metrics: string[];
-  GroupBy?: GroupDefinition[];
-  BillingViewArn?: string;
-  NextPageToken?: string;
+  GroupBy?: GroupDefinition[] | undefined;
+  BillingViewArn?: string | undefined;
+  NextPageToken?: string | undefined;
 }
 export type MetricAmount = string;
 export type MetricUnit = string;
 export interface MetricValue {
-  Amount?: string;
-  Unit?: string;
+  Amount?: string | undefined;
+  Unit?: string | undefined;
 }
 export type Metrics = { [key: string]: MetricValue | undefined };
 export type Key = string;
 export type Keys = string[];
 export interface Group {
-  Keys?: string[];
-  Metrics?: { [key: string]: MetricValue | undefined };
+  Keys?: string[] | undefined;
+  Metrics?: { [key: string]: MetricValue | undefined } | undefined;
 }
 export type Groups = Group[];
 export type Estimated = boolean;
 export interface ResultByTime {
-  TimePeriod?: DateInterval;
-  Total?: { [key: string]: MetricValue | undefined };
-  Groups?: Group[];
-  Estimated?: boolean;
+  TimePeriod?: DateInterval | undefined;
+  Total?: { [key: string]: MetricValue | undefined } | undefined;
+  Groups?: Group[] | undefined;
+  Estimated?: boolean | undefined;
 }
 export type ResultsByTime = ResultByTime[];
 export type AttributeType = string;
 export type AttributeValue = string;
 export type Attributes = { [key: string]: string | undefined };
 export interface DimensionValuesWithAttributes {
-  Value?: string;
-  Attributes?: { [key: string]: string | undefined };
+  Value?: string | undefined;
+  Attributes?: { [key: string]: string | undefined } | undefined;
 }
 export type DimensionValuesWithAttributesList = DimensionValuesWithAttributes[];
 export interface GetCostAndUsageResponse {
-  NextPageToken?: string;
-  GroupDefinitions?: GroupDefinition[];
-  ResultsByTime?: ResultByTime[];
-  DimensionValueAttributes?: DimensionValuesWithAttributes[];
+  NextPageToken?: string | undefined;
+  GroupDefinitions?: GroupDefinition[] | undefined;
+  ResultsByTime?: ResultByTime[] | undefined;
+  DimensionValueAttributes?: DimensionValuesWithAttributes[] | undefined;
 }
 export type CostAndUsageComparisonsMaxResults = number;
 export interface GetCostAndUsageComparisonsRequest {
-  BillingViewArn?: string;
+  BillingViewArn?: string | undefined;
   BaselineTimePeriod: DateInterval;
   ComparisonTimePeriod: DateInterval;
   MetricForComparison: string;
-  Filter?: Expression;
-  GroupBy?: GroupDefinition[];
-  MaxResults?: number;
-  NextPageToken?: string;
+  Filter?: Expression | undefined;
+  GroupBy?: GroupDefinition[] | undefined;
+  MaxResults?: number | undefined;
+  NextPageToken?: string | undefined;
 }
 export interface ComparisonMetricValue {
-  BaselineTimePeriodAmount?: string;
-  ComparisonTimePeriodAmount?: string;
-  Difference?: string;
-  Unit?: string;
+  BaselineTimePeriodAmount?: string | undefined;
+  ComparisonTimePeriodAmount?: string | undefined;
+  Difference?: string | undefined;
+  Unit?: string | undefined;
 }
 export type ComparisonMetrics = { [key: string]: ComparisonMetricValue | undefined };
 export interface CostAndUsageComparison {
-  CostAndUsageSelector?: Expression;
-  Metrics?: { [key: string]: ComparisonMetricValue | undefined };
+  CostAndUsageSelector?: Expression | undefined;
+  Metrics?: { [key: string]: ComparisonMetricValue | undefined } | undefined;
 }
 export type CostAndUsageComparisons = CostAndUsageComparison[];
 export interface GetCostAndUsageComparisonsResponse {
-  CostAndUsageComparisons?: CostAndUsageComparison[];
-  TotalCostAndUsage?: { [key: string]: ComparisonMetricValue | undefined };
-  NextPageToken?: string;
+  CostAndUsageComparisons?: CostAndUsageComparison[] | undefined;
+  TotalCostAndUsage?: { [key: string]: ComparisonMetricValue | undefined } | undefined;
+  NextPageToken?: string | undefined;
 }
 export interface GetCostAndUsageWithResourcesRequest {
   TimePeriod: DateInterval;
   Granularity: Granularity;
   Filter: Expression;
-  Metrics?: string[];
-  GroupBy?: GroupDefinition[];
-  BillingViewArn?: string;
-  NextPageToken?: string;
+  Metrics?: string[] | undefined;
+  GroupBy?: GroupDefinition[] | undefined;
+  BillingViewArn?: string | undefined;
+  NextPageToken?: string | undefined;
 }
 export interface GetCostAndUsageWithResourcesResponse {
-  NextPageToken?: string;
-  GroupDefinitions?: GroupDefinition[];
-  ResultsByTime?: ResultByTime[];
-  DimensionValueAttributes?: DimensionValuesWithAttributes[];
+  NextPageToken?: string | undefined;
+  GroupDefinitions?: GroupDefinition[] | undefined;
+  ResultsByTime?: ResultByTime[] | undefined;
+  DimensionValueAttributes?: DimensionValuesWithAttributes[] | undefined;
 }
 export type SearchString = string;
 export type SortDefinitionKey = string;
 export type SortOrder = "ASCENDING" | "DESCENDING" | (string & {});
 export interface SortDefinition {
   Key: string;
-  SortOrder?: SortOrder;
+  SortOrder?: SortOrder | undefined;
 }
 export type SortDefinitions = SortDefinition[];
 export type MaxResults = number;
 export interface GetCostCategoriesRequest {
-  SearchString?: string;
+  SearchString?: string | undefined;
   TimePeriod: DateInterval;
-  CostCategoryName?: string;
-  Filter?: Expression;
-  SortBy?: SortDefinition[];
-  BillingViewArn?: string;
-  MaxResults?: number;
-  NextPageToken?: string;
+  CostCategoryName?: string | undefined;
+  Filter?: Expression | undefined;
+  SortBy?: SortDefinition[] | undefined;
+  BillingViewArn?: string | undefined;
+  MaxResults?: number | undefined;
+  NextPageToken?: string | undefined;
 }
 export type CostCategoryNamesList = string[];
 export type CostCategoryValuesList = string[];
 export interface GetCostCategoriesResponse {
-  NextPageToken?: string;
-  CostCategoryNames?: string[];
-  CostCategoryValues?: string[];
+  NextPageToken?: string | undefined;
+  CostCategoryNames?: string[] | undefined;
+  CostCategoryValues?: string[] | undefined;
   ReturnSize: number;
   TotalSize: number;
 }
 export type CostComparisonDriversMaxResults = number;
 export interface GetCostComparisonDriversRequest {
-  BillingViewArn?: string;
+  BillingViewArn?: string | undefined;
   BaselineTimePeriod: DateInterval;
   ComparisonTimePeriod: DateInterval;
   MetricForComparison: string;
-  Filter?: Expression;
-  GroupBy?: GroupDefinition[];
-  MaxResults?: number;
-  NextPageToken?: string;
+  Filter?: Expression | undefined;
+  GroupBy?: GroupDefinition[] | undefined;
+  MaxResults?: number | undefined;
+  NextPageToken?: string | undefined;
 }
 export interface CostDriver {
-  Type?: string;
-  Name?: string;
-  Metrics?: { [key: string]: ComparisonMetricValue | undefined };
+  Type?: string | undefined;
+  Name?: string | undefined;
+  Metrics?: { [key: string]: ComparisonMetricValue | undefined } | undefined;
 }
 export type CostDrivers = CostDriver[];
 export interface CostComparisonDriver {
-  CostSelector?: Expression;
-  Metrics?: { [key: string]: ComparisonMetricValue | undefined };
-  CostDrivers?: CostDriver[];
+  CostSelector?: Expression | undefined;
+  Metrics?: { [key: string]: ComparisonMetricValue | undefined } | undefined;
+  CostDrivers?: CostDriver[] | undefined;
 }
 export type CostComparisonDrivers = CostComparisonDriver[];
 export interface GetCostComparisonDriversResponse {
-  CostComparisonDrivers?: CostComparisonDriver[];
-  NextPageToken?: string;
+  CostComparisonDrivers?: CostComparisonDriver[] | undefined;
+  NextPageToken?: string | undefined;
 }
 export type Metric =
   | "BLENDED_COST"
@@ -922,241 +936,243 @@ export interface GetCostForecastRequest {
   TimePeriod: DateInterval;
   Metric: Metric;
   Granularity: Granularity;
-  Filter?: Expression;
-  BillingViewArn?: string;
-  PredictionIntervalLevel?: number;
+  Filter?: Expression | undefined;
+  BillingViewArn?: string | undefined;
+  PredictionIntervalLevel?: number | undefined;
 }
 export interface ForecastResult {
-  TimePeriod?: DateInterval;
-  MeanValue?: string;
-  PredictionIntervalLowerBound?: string;
-  PredictionIntervalUpperBound?: string;
+  TimePeriod?: DateInterval | undefined;
+  MeanValue?: string | undefined;
+  PredictionIntervalLowerBound?: string | undefined;
+  PredictionIntervalUpperBound?: string | undefined;
 }
 export type ForecastResultsByTime = ForecastResult[];
 export interface GetCostForecastResponse {
-  Total?: MetricValue;
-  ForecastResultsByTime?: ForecastResult[];
+  Total?: MetricValue | undefined;
+  ForecastResultsByTime?: ForecastResult[] | undefined;
 }
+export type DimensionKey = string;
 export type Context = "COST_AND_USAGE" | "RESERVATIONS" | "SAVINGS_PLANS" | (string & {});
 export interface GetDimensionValuesRequest {
-  SearchString?: string;
+  SearchString?: string | undefined;
   TimePeriod: DateInterval;
   Dimension: Dimension;
-  Context?: Context;
-  Filter?: Expression;
-  SortBy?: SortDefinition[];
-  BillingViewArn?: string;
-  MaxResults?: number;
-  NextPageToken?: string;
+  DimensionKey?: string | undefined;
+  Context?: Context | undefined;
+  Filter?: Expression | undefined;
+  SortBy?: SortDefinition[] | undefined;
+  BillingViewArn?: string | undefined;
+  MaxResults?: number | undefined;
+  NextPageToken?: string | undefined;
 }
 export interface GetDimensionValuesResponse {
   DimensionValues: DimensionValuesWithAttributes[];
   ReturnSize: number;
   TotalSize: number;
-  NextPageToken?: string;
+  NextPageToken?: string | undefined;
 }
 export interface GetReservationCoverageRequest {
   TimePeriod: DateInterval;
-  GroupBy?: GroupDefinition[];
-  Granularity?: Granularity;
-  Filter?: Expression;
-  Metrics?: string[];
-  NextPageToken?: string;
-  SortBy?: SortDefinition;
-  MaxResults?: number;
+  GroupBy?: GroupDefinition[] | undefined;
+  Granularity?: Granularity | undefined;
+  Filter?: Expression | undefined;
+  Metrics?: string[] | undefined;
+  NextPageToken?: string | undefined;
+  SortBy?: SortDefinition | undefined;
+  MaxResults?: number | undefined;
 }
 export type OnDemandHours = string;
 export type ReservedHours = string;
 export type TotalRunningHours = string;
 export type CoverageHoursPercentage = string;
 export interface CoverageHours {
-  OnDemandHours?: string;
-  ReservedHours?: string;
-  TotalRunningHours?: string;
-  CoverageHoursPercentage?: string;
+  OnDemandHours?: string | undefined;
+  ReservedHours?: string | undefined;
+  TotalRunningHours?: string | undefined;
+  CoverageHoursPercentage?: string | undefined;
 }
 export type OnDemandNormalizedUnits = string;
 export type ReservedNormalizedUnits = string;
 export type TotalRunningNormalizedUnits = string;
 export type CoverageNormalizedUnitsPercentage = string;
 export interface CoverageNormalizedUnits {
-  OnDemandNormalizedUnits?: string;
-  ReservedNormalizedUnits?: string;
-  TotalRunningNormalizedUnits?: string;
-  CoverageNormalizedUnitsPercentage?: string;
+  OnDemandNormalizedUnits?: string | undefined;
+  ReservedNormalizedUnits?: string | undefined;
+  TotalRunningNormalizedUnits?: string | undefined;
+  CoverageNormalizedUnitsPercentage?: string | undefined;
 }
 export type OnDemandCost = string;
 export interface CoverageCost {
-  OnDemandCost?: string;
+  OnDemandCost?: string | undefined;
 }
 export interface Coverage {
-  CoverageHours?: CoverageHours;
-  CoverageNormalizedUnits?: CoverageNormalizedUnits;
-  CoverageCost?: CoverageCost;
+  CoverageHours?: CoverageHours | undefined;
+  CoverageNormalizedUnits?: CoverageNormalizedUnits | undefined;
+  CoverageCost?: CoverageCost | undefined;
 }
 export interface ReservationCoverageGroup {
-  Attributes?: { [key: string]: string | undefined };
-  Coverage?: Coverage;
+  Attributes?: { [key: string]: string | undefined } | undefined;
+  Coverage?: Coverage | undefined;
 }
 export type ReservationCoverageGroups = ReservationCoverageGroup[];
 export interface CoverageByTime {
-  TimePeriod?: DateInterval;
-  Groups?: ReservationCoverageGroup[];
-  Total?: Coverage;
+  TimePeriod?: DateInterval | undefined;
+  Groups?: ReservationCoverageGroup[] | undefined;
+  Total?: Coverage | undefined;
 }
 export type CoveragesByTime = CoverageByTime[];
 export interface GetReservationCoverageResponse {
   CoveragesByTime: CoverageByTime[];
-  Total?: Coverage;
-  NextPageToken?: string;
+  Total?: Coverage | undefined;
+  NextPageToken?: string | undefined;
 }
 export type LookbackPeriodInDays = "SEVEN_DAYS" | "THIRTY_DAYS" | "SIXTY_DAYS" | (string & {});
 export type OfferingClass = "STANDARD" | "CONVERTIBLE" | (string & {});
 export interface EC2Specification {
-  OfferingClass?: OfferingClass;
+  OfferingClass?: OfferingClass | undefined;
 }
 export interface ServiceSpecification {
-  EC2Specification?: EC2Specification;
+  EC2Specification?: EC2Specification | undefined;
 }
 export type RecommendationsPageSize = number;
 export interface GetReservationPurchaseRecommendationRequest {
-  AccountId?: string;
+  AccountId?: string | undefined;
   Service: string;
-  Filter?: Expression;
-  AccountScope?: AccountScope;
-  LookbackPeriodInDays?: LookbackPeriodInDays;
-  TermInYears?: TermInYears;
-  PaymentOption?: PaymentOption;
-  ServiceSpecification?: ServiceSpecification;
-  PageSize?: number;
-  NextPageToken?: string;
+  Filter?: Expression | undefined;
+  AccountScope?: AccountScope | undefined;
+  LookbackPeriodInDays?: LookbackPeriodInDays | undefined;
+  TermInYears?: TermInYears | undefined;
+  PaymentOption?: PaymentOption | undefined;
+  ServiceSpecification?: ServiceSpecification | undefined;
+  PageSize?: number | undefined;
+  NextPageToken?: string | undefined;
 }
 export interface ReservationPurchaseRecommendationMetadata {
-  RecommendationId?: string;
-  GenerationTimestamp?: string;
-  AdditionalMetadata?: string;
+  RecommendationId?: string | undefined;
+  GenerationTimestamp?: string | undefined;
+  AdditionalMetadata?: string | undefined;
 }
 export interface EC2InstanceDetails {
-  Family?: string;
-  InstanceType?: string;
-  Region?: string;
-  AvailabilityZone?: string;
-  Platform?: string;
-  Tenancy?: string;
-  CurrentGeneration?: boolean;
-  SizeFlexEligible?: boolean;
+  Family?: string | undefined;
+  InstanceType?: string | undefined;
+  Region?: string | undefined;
+  AvailabilityZone?: string | undefined;
+  Platform?: string | undefined;
+  Tenancy?: string | undefined;
+  CurrentGeneration?: boolean | undefined;
+  SizeFlexEligible?: boolean | undefined;
 }
 export interface RDSInstanceDetails {
-  Family?: string;
-  InstanceType?: string;
-  Region?: string;
-  DatabaseEngine?: string;
-  DatabaseEdition?: string;
-  DeploymentOption?: string;
-  LicenseModel?: string;
-  CurrentGeneration?: boolean;
-  SizeFlexEligible?: boolean;
-  DeploymentModel?: string;
+  Family?: string | undefined;
+  InstanceType?: string | undefined;
+  Region?: string | undefined;
+  DatabaseEngine?: string | undefined;
+  DatabaseEdition?: string | undefined;
+  DeploymentOption?: string | undefined;
+  LicenseModel?: string | undefined;
+  CurrentGeneration?: boolean | undefined;
+  SizeFlexEligible?: boolean | undefined;
+  DeploymentModel?: string | undefined;
 }
 export interface RedshiftInstanceDetails {
-  Family?: string;
-  NodeType?: string;
-  Region?: string;
-  CurrentGeneration?: boolean;
-  SizeFlexEligible?: boolean;
+  Family?: string | undefined;
+  NodeType?: string | undefined;
+  Region?: string | undefined;
+  CurrentGeneration?: boolean | undefined;
+  SizeFlexEligible?: boolean | undefined;
 }
 export interface ElastiCacheInstanceDetails {
-  Family?: string;
-  NodeType?: string;
-  Region?: string;
-  ProductDescription?: string;
-  CurrentGeneration?: boolean;
-  SizeFlexEligible?: boolean;
+  Family?: string | undefined;
+  NodeType?: string | undefined;
+  Region?: string | undefined;
+  ProductDescription?: string | undefined;
+  CurrentGeneration?: boolean | undefined;
+  SizeFlexEligible?: boolean | undefined;
 }
 export interface ESInstanceDetails {
-  InstanceClass?: string;
-  InstanceSize?: string;
-  Region?: string;
-  CurrentGeneration?: boolean;
-  SizeFlexEligible?: boolean;
+  InstanceClass?: string | undefined;
+  InstanceSize?: string | undefined;
+  Region?: string | undefined;
+  CurrentGeneration?: boolean | undefined;
+  SizeFlexEligible?: boolean | undefined;
 }
 export interface MemoryDBInstanceDetails {
-  Family?: string;
-  NodeType?: string;
-  Region?: string;
-  CurrentGeneration?: boolean;
-  SizeFlexEligible?: boolean;
+  Family?: string | undefined;
+  NodeType?: string | undefined;
+  Region?: string | undefined;
+  CurrentGeneration?: boolean | undefined;
+  SizeFlexEligible?: boolean | undefined;
 }
 export interface InstanceDetails {
-  EC2InstanceDetails?: EC2InstanceDetails;
-  RDSInstanceDetails?: RDSInstanceDetails;
-  RedshiftInstanceDetails?: RedshiftInstanceDetails;
-  ElastiCacheInstanceDetails?: ElastiCacheInstanceDetails;
-  ESInstanceDetails?: ESInstanceDetails;
-  MemoryDBInstanceDetails?: MemoryDBInstanceDetails;
+  EC2InstanceDetails?: EC2InstanceDetails | undefined;
+  RDSInstanceDetails?: RDSInstanceDetails | undefined;
+  RedshiftInstanceDetails?: RedshiftInstanceDetails | undefined;
+  ElastiCacheInstanceDetails?: ElastiCacheInstanceDetails | undefined;
+  ESInstanceDetails?: ESInstanceDetails | undefined;
+  MemoryDBInstanceDetails?: MemoryDBInstanceDetails | undefined;
 }
 export interface DynamoDBCapacityDetails {
-  CapacityUnits?: string;
-  Region?: string;
+  CapacityUnits?: string | undefined;
+  Region?: string | undefined;
 }
 export interface ReservedCapacityDetails {
-  DynamoDBCapacityDetails?: DynamoDBCapacityDetails;
+  DynamoDBCapacityDetails?: DynamoDBCapacityDetails | undefined;
 }
 export interface ReservationPurchaseRecommendationDetail {
-  AccountId?: string;
-  InstanceDetails?: InstanceDetails;
-  RecommendedNumberOfInstancesToPurchase?: string;
-  RecommendedNormalizedUnitsToPurchase?: string;
-  MinimumNumberOfInstancesUsedPerHour?: string;
-  MinimumNormalizedUnitsUsedPerHour?: string;
-  MaximumNumberOfInstancesUsedPerHour?: string;
-  MaximumNormalizedUnitsUsedPerHour?: string;
-  AverageNumberOfInstancesUsedPerHour?: string;
-  AverageNormalizedUnitsUsedPerHour?: string;
-  AverageUtilization?: string;
-  EstimatedBreakEvenInMonths?: string;
-  CurrencyCode?: string;
-  EstimatedMonthlySavingsAmount?: string;
-  EstimatedMonthlySavingsPercentage?: string;
-  EstimatedMonthlyOnDemandCost?: string;
-  EstimatedReservationCostForLookbackPeriod?: string;
-  UpfrontCost?: string;
-  RecurringStandardMonthlyCost?: string;
-  ReservedCapacityDetails?: ReservedCapacityDetails;
-  RecommendedNumberOfCapacityUnitsToPurchase?: string;
-  MinimumNumberOfCapacityUnitsUsedPerHour?: string;
-  MaximumNumberOfCapacityUnitsUsedPerHour?: string;
-  AverageNumberOfCapacityUnitsUsedPerHour?: string;
+  AccountId?: string | undefined;
+  InstanceDetails?: InstanceDetails | undefined;
+  RecommendedNumberOfInstancesToPurchase?: string | undefined;
+  RecommendedNormalizedUnitsToPurchase?: string | undefined;
+  MinimumNumberOfInstancesUsedPerHour?: string | undefined;
+  MinimumNormalizedUnitsUsedPerHour?: string | undefined;
+  MaximumNumberOfInstancesUsedPerHour?: string | undefined;
+  MaximumNormalizedUnitsUsedPerHour?: string | undefined;
+  AverageNumberOfInstancesUsedPerHour?: string | undefined;
+  AverageNormalizedUnitsUsedPerHour?: string | undefined;
+  AverageUtilization?: string | undefined;
+  EstimatedBreakEvenInMonths?: string | undefined;
+  CurrencyCode?: string | undefined;
+  EstimatedMonthlySavingsAmount?: string | undefined;
+  EstimatedMonthlySavingsPercentage?: string | undefined;
+  EstimatedMonthlyOnDemandCost?: string | undefined;
+  EstimatedReservationCostForLookbackPeriod?: string | undefined;
+  UpfrontCost?: string | undefined;
+  RecurringStandardMonthlyCost?: string | undefined;
+  ReservedCapacityDetails?: ReservedCapacityDetails | undefined;
+  RecommendedNumberOfCapacityUnitsToPurchase?: string | undefined;
+  MinimumNumberOfCapacityUnitsUsedPerHour?: string | undefined;
+  MaximumNumberOfCapacityUnitsUsedPerHour?: string | undefined;
+  AverageNumberOfCapacityUnitsUsedPerHour?: string | undefined;
 }
 export type ReservationPurchaseRecommendationDetails = ReservationPurchaseRecommendationDetail[];
 export interface ReservationPurchaseRecommendationSummary {
-  TotalEstimatedMonthlySavingsAmount?: string;
-  TotalEstimatedMonthlySavingsPercentage?: string;
-  CurrencyCode?: string;
+  TotalEstimatedMonthlySavingsAmount?: string | undefined;
+  TotalEstimatedMonthlySavingsPercentage?: string | undefined;
+  CurrencyCode?: string | undefined;
 }
 export interface ReservationPurchaseRecommendation {
-  AccountScope?: AccountScope;
-  LookbackPeriodInDays?: LookbackPeriodInDays;
-  TermInYears?: TermInYears;
-  PaymentOption?: PaymentOption;
-  ServiceSpecification?: ServiceSpecification;
-  RecommendationDetails?: ReservationPurchaseRecommendationDetail[];
-  RecommendationSummary?: ReservationPurchaseRecommendationSummary;
+  AccountScope?: AccountScope | undefined;
+  LookbackPeriodInDays?: LookbackPeriodInDays | undefined;
+  TermInYears?: TermInYears | undefined;
+  PaymentOption?: PaymentOption | undefined;
+  ServiceSpecification?: ServiceSpecification | undefined;
+  RecommendationDetails?: ReservationPurchaseRecommendationDetail[] | undefined;
+  RecommendationSummary?: ReservationPurchaseRecommendationSummary | undefined;
 }
 export type ReservationPurchaseRecommendations = ReservationPurchaseRecommendation[];
 export interface GetReservationPurchaseRecommendationResponse {
-  Metadata?: ReservationPurchaseRecommendationMetadata;
-  Recommendations?: ReservationPurchaseRecommendation[];
-  NextPageToken?: string;
+  Metadata?: ReservationPurchaseRecommendationMetadata | undefined;
+  Recommendations?: ReservationPurchaseRecommendation[] | undefined;
+  NextPageToken?: string | undefined;
 }
 export interface GetReservationUtilizationRequest {
   TimePeriod: DateInterval;
-  GroupBy?: GroupDefinition[];
-  Granularity?: Granularity;
-  Filter?: Expression;
-  SortBy?: SortDefinition;
-  NextPageToken?: string;
-  MaxResults?: number;
+  GroupBy?: GroupDefinition[] | undefined;
+  Granularity?: Granularity | undefined;
+  Filter?: Expression | undefined;
+  SortBy?: SortDefinition | undefined;
+  NextPageToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export type ReservationGroupKey = string;
 export type ReservationGroupValue = string;
@@ -1178,41 +1194,41 @@ export type RICostForUnusedHours = string;
 export type RealizedSavings = string;
 export type UnrealizedSavings = string;
 export interface ReservationAggregates {
-  UtilizationPercentage?: string;
-  UtilizationPercentageInUnits?: string;
-  PurchasedHours?: string;
-  PurchasedUnits?: string;
-  TotalActualHours?: string;
-  TotalActualUnits?: string;
-  UnusedHours?: string;
-  UnusedUnits?: string;
-  OnDemandCostOfRIHoursUsed?: string;
-  NetRISavings?: string;
-  TotalPotentialRISavings?: string;
-  AmortizedUpfrontFee?: string;
-  AmortizedRecurringFee?: string;
-  TotalAmortizedFee?: string;
-  RICostForUnusedHours?: string;
-  RealizedSavings?: string;
-  UnrealizedSavings?: string;
+  UtilizationPercentage?: string | undefined;
+  UtilizationPercentageInUnits?: string | undefined;
+  PurchasedHours?: string | undefined;
+  PurchasedUnits?: string | undefined;
+  TotalActualHours?: string | undefined;
+  TotalActualUnits?: string | undefined;
+  UnusedHours?: string | undefined;
+  UnusedUnits?: string | undefined;
+  OnDemandCostOfRIHoursUsed?: string | undefined;
+  NetRISavings?: string | undefined;
+  TotalPotentialRISavings?: string | undefined;
+  AmortizedUpfrontFee?: string | undefined;
+  AmortizedRecurringFee?: string | undefined;
+  TotalAmortizedFee?: string | undefined;
+  RICostForUnusedHours?: string | undefined;
+  RealizedSavings?: string | undefined;
+  UnrealizedSavings?: string | undefined;
 }
 export interface ReservationUtilizationGroup {
-  Key?: string;
-  Value?: string;
-  Attributes?: { [key: string]: string | undefined };
-  Utilization?: ReservationAggregates;
+  Key?: string | undefined;
+  Value?: string | undefined;
+  Attributes?: { [key: string]: string | undefined } | undefined;
+  Utilization?: ReservationAggregates | undefined;
 }
 export type ReservationUtilizationGroups = ReservationUtilizationGroup[];
 export interface UtilizationByTime {
-  TimePeriod?: DateInterval;
-  Groups?: ReservationUtilizationGroup[];
-  Total?: ReservationAggregates;
+  TimePeriod?: DateInterval | undefined;
+  Groups?: ReservationUtilizationGroup[] | undefined;
+  Total?: ReservationAggregates | undefined;
 }
 export type UtilizationsByTime = UtilizationByTime[];
 export interface GetReservationUtilizationResponse {
   UtilizationsByTime: UtilizationByTime[];
-  Total?: ReservationAggregates;
-  NextPageToken?: string;
+  Total?: ReservationAggregates | undefined;
+  NextPageToken?: string | undefined;
 }
 export type RecommendationTarget = "SAME_INSTANCE_FAMILY" | "CROSS_INSTANCE_FAMILY" | (string & {});
 export interface RightsizingRecommendationConfiguration {
@@ -1220,80 +1236,80 @@ export interface RightsizingRecommendationConfiguration {
   BenefitsConsidered: boolean;
 }
 export interface GetRightsizingRecommendationRequest {
-  Filter?: Expression;
-  Configuration?: RightsizingRecommendationConfiguration;
+  Filter?: Expression | undefined;
+  Configuration?: RightsizingRecommendationConfiguration | undefined;
   Service: string;
-  PageSize?: number;
-  NextPageToken?: string;
+  PageSize?: number | undefined;
+  NextPageToken?: string | undefined;
 }
 export interface RightsizingRecommendationMetadata {
-  RecommendationId?: string;
-  GenerationTimestamp?: string;
-  LookbackPeriodInDays?: LookbackPeriodInDays;
-  AdditionalMetadata?: string;
+  RecommendationId?: string | undefined;
+  GenerationTimestamp?: string | undefined;
+  LookbackPeriodInDays?: LookbackPeriodInDays | undefined;
+  AdditionalMetadata?: string | undefined;
 }
 export interface RightsizingRecommendationSummary {
-  TotalRecommendationCount?: string;
-  EstimatedTotalMonthlySavingsAmount?: string;
-  SavingsCurrencyCode?: string;
-  SavingsPercentage?: string;
+  TotalRecommendationCount?: string | undefined;
+  EstimatedTotalMonthlySavingsAmount?: string | undefined;
+  SavingsCurrencyCode?: string | undefined;
+  SavingsPercentage?: string | undefined;
 }
 export type TagValuesList = TagValues[];
 export interface EC2ResourceDetails {
-  HourlyOnDemandRate?: string;
-  InstanceType?: string;
-  Platform?: string;
-  Region?: string;
-  Sku?: string;
-  Memory?: string;
-  NetworkPerformance?: string;
-  Storage?: string;
-  Vcpu?: string;
+  HourlyOnDemandRate?: string | undefined;
+  InstanceType?: string | undefined;
+  Platform?: string | undefined;
+  Region?: string | undefined;
+  Sku?: string | undefined;
+  Memory?: string | undefined;
+  NetworkPerformance?: string | undefined;
+  Storage?: string | undefined;
+  Vcpu?: string | undefined;
 }
 export interface ResourceDetails {
-  EC2ResourceDetails?: EC2ResourceDetails;
+  EC2ResourceDetails?: EC2ResourceDetails | undefined;
 }
 export interface EBSResourceUtilization {
-  EbsReadOpsPerSecond?: string;
-  EbsWriteOpsPerSecond?: string;
-  EbsReadBytesPerSecond?: string;
-  EbsWriteBytesPerSecond?: string;
+  EbsReadOpsPerSecond?: string | undefined;
+  EbsWriteOpsPerSecond?: string | undefined;
+  EbsReadBytesPerSecond?: string | undefined;
+  EbsWriteBytesPerSecond?: string | undefined;
 }
 export interface DiskResourceUtilization {
-  DiskReadOpsPerSecond?: string;
-  DiskWriteOpsPerSecond?: string;
-  DiskReadBytesPerSecond?: string;
-  DiskWriteBytesPerSecond?: string;
+  DiskReadOpsPerSecond?: string | undefined;
+  DiskWriteOpsPerSecond?: string | undefined;
+  DiskReadBytesPerSecond?: string | undefined;
+  DiskWriteBytesPerSecond?: string | undefined;
 }
 export interface NetworkResourceUtilization {
-  NetworkInBytesPerSecond?: string;
-  NetworkOutBytesPerSecond?: string;
-  NetworkPacketsInPerSecond?: string;
-  NetworkPacketsOutPerSecond?: string;
+  NetworkInBytesPerSecond?: string | undefined;
+  NetworkOutBytesPerSecond?: string | undefined;
+  NetworkPacketsInPerSecond?: string | undefined;
+  NetworkPacketsOutPerSecond?: string | undefined;
 }
 export interface EC2ResourceUtilization {
-  MaxCpuUtilizationPercentage?: string;
-  MaxMemoryUtilizationPercentage?: string;
-  MaxStorageUtilizationPercentage?: string;
-  EBSResourceUtilization?: EBSResourceUtilization;
-  DiskResourceUtilization?: DiskResourceUtilization;
-  NetworkResourceUtilization?: NetworkResourceUtilization;
+  MaxCpuUtilizationPercentage?: string | undefined;
+  MaxMemoryUtilizationPercentage?: string | undefined;
+  MaxStorageUtilizationPercentage?: string | undefined;
+  EBSResourceUtilization?: EBSResourceUtilization | undefined;
+  DiskResourceUtilization?: DiskResourceUtilization | undefined;
+  NetworkResourceUtilization?: NetworkResourceUtilization | undefined;
 }
 export interface ResourceUtilization {
-  EC2ResourceUtilization?: EC2ResourceUtilization;
+  EC2ResourceUtilization?: EC2ResourceUtilization | undefined;
 }
 export interface CurrentInstance {
-  ResourceId?: string;
-  InstanceName?: string;
-  Tags?: TagValues[];
-  ResourceDetails?: ResourceDetails;
-  ResourceUtilization?: ResourceUtilization;
-  ReservationCoveredHoursInLookbackPeriod?: string;
-  SavingsPlansCoveredHoursInLookbackPeriod?: string;
-  OnDemandHoursInLookbackPeriod?: string;
-  TotalRunningHoursInLookbackPeriod?: string;
-  MonthlyCost?: string;
-  CurrencyCode?: string;
+  ResourceId?: string | undefined;
+  InstanceName?: string | undefined;
+  Tags?: TagValues[] | undefined;
+  ResourceDetails?: ResourceDetails | undefined;
+  ResourceUtilization?: ResourceUtilization | undefined;
+  ReservationCoveredHoursInLookbackPeriod?: string | undefined;
+  SavingsPlansCoveredHoursInLookbackPeriod?: string | undefined;
+  OnDemandHoursInLookbackPeriod?: string | undefined;
+  TotalRunningHoursInLookbackPeriod?: string | undefined;
+  MonthlyCost?: string | undefined;
+  CurrencyCode?: string | undefined;
 }
 export type RightsizingType = "TERMINATE" | "MODIFY" | (string & {});
 export type PlatformDifference =
@@ -1305,21 +1321,21 @@ export type PlatformDifference =
   | (string & {});
 export type PlatformDifferences = PlatformDifference[];
 export interface TargetInstance {
-  EstimatedMonthlyCost?: string;
-  EstimatedMonthlySavings?: string;
-  CurrencyCode?: string;
-  DefaultTargetInstance?: boolean;
-  ResourceDetails?: ResourceDetails;
-  ExpectedResourceUtilization?: ResourceUtilization;
-  PlatformDifferences?: PlatformDifference[];
+  EstimatedMonthlyCost?: string | undefined;
+  EstimatedMonthlySavings?: string | undefined;
+  CurrencyCode?: string | undefined;
+  DefaultTargetInstance?: boolean | undefined;
+  ResourceDetails?: ResourceDetails | undefined;
+  ExpectedResourceUtilization?: ResourceUtilization | undefined;
+  PlatformDifferences?: PlatformDifference[] | undefined;
 }
 export type TargetInstancesList = TargetInstance[];
 export interface ModifyRecommendationDetail {
-  TargetInstances?: TargetInstance[];
+  TargetInstances?: TargetInstance[] | undefined;
 }
 export interface TerminateRecommendationDetail {
-  EstimatedMonthlySavings?: string;
-  CurrencyCode?: string;
+  EstimatedMonthlySavings?: string | undefined;
+  CurrencyCode?: string | undefined;
 }
 export type FindingReasonCode =
   | "CPU_OVER_PROVISIONED"
@@ -1341,189 +1357,191 @@ export type FindingReasonCode =
   | (string & {});
 export type FindingReasonCodes = FindingReasonCode[];
 export interface RightsizingRecommendation {
-  AccountId?: string;
-  CurrentInstance?: CurrentInstance;
-  RightsizingType?: RightsizingType;
-  ModifyRecommendationDetail?: ModifyRecommendationDetail;
-  TerminateRecommendationDetail?: TerminateRecommendationDetail;
-  FindingReasonCodes?: FindingReasonCode[];
+  AccountId?: string | undefined;
+  CurrentInstance?: CurrentInstance | undefined;
+  RightsizingType?: RightsizingType | undefined;
+  ModifyRecommendationDetail?: ModifyRecommendationDetail | undefined;
+  TerminateRecommendationDetail?: TerminateRecommendationDetail | undefined;
+  FindingReasonCodes?: FindingReasonCode[] | undefined;
 }
 export type RightsizingRecommendationList = RightsizingRecommendation[];
 export interface GetRightsizingRecommendationResponse {
-  Metadata?: RightsizingRecommendationMetadata;
-  Summary?: RightsizingRecommendationSummary;
-  RightsizingRecommendations?: RightsizingRecommendation[];
-  NextPageToken?: string;
-  Configuration?: RightsizingRecommendationConfiguration;
+  Metadata?: RightsizingRecommendationMetadata | undefined;
+  Summary?: RightsizingRecommendationSummary | undefined;
+  RightsizingRecommendations?: RightsizingRecommendation[] | undefined;
+  NextPageToken?: string | undefined;
+  Configuration?: RightsizingRecommendationConfiguration | undefined;
 }
 export type RecommendationDetailId = string;
 export interface GetSavingsPlanPurchaseRecommendationDetailsRequest {
   RecommendationDetailId: string;
 }
 export interface RecommendationDetailData {
-  AccountScope?: AccountScope;
-  LookbackPeriodInDays?: LookbackPeriodInDays;
-  SavingsPlansType?: SupportedSavingsPlansType;
-  TermInYears?: TermInYears;
-  PaymentOption?: PaymentOption;
-  AccountId?: string;
-  CurrencyCode?: string;
-  InstanceFamily?: string;
-  Region?: string;
-  OfferingId?: string;
-  GenerationTimestamp?: string;
-  LatestUsageTimestamp?: string;
-  CurrentAverageHourlyOnDemandSpend?: string;
-  CurrentMaximumHourlyOnDemandSpend?: string;
-  CurrentMinimumHourlyOnDemandSpend?: string;
-  EstimatedAverageUtilization?: string;
-  EstimatedMonthlySavingsAmount?: string;
-  EstimatedOnDemandCost?: string;
-  EstimatedOnDemandCostWithCurrentCommitment?: string;
-  EstimatedROI?: string;
-  EstimatedSPCost?: string;
-  EstimatedSavingsAmount?: string;
-  EstimatedSavingsPercentage?: string;
-  ExistingHourlyCommitment?: string;
-  HourlyCommitmentToPurchase?: string;
-  UpfrontCost?: string;
-  CurrentAverageCoverage?: string;
-  EstimatedAverageCoverage?: string;
-  MetricsOverLookbackPeriod?: RecommendationDetailHourlyMetrics[];
+  AccountScope?: AccountScope | undefined;
+  LookbackPeriodInDays?: LookbackPeriodInDays | undefined;
+  SavingsPlansType?: SupportedSavingsPlansType | undefined;
+  TermInYears?: TermInYears | undefined;
+  PaymentOption?: PaymentOption | undefined;
+  AccountId?: string | undefined;
+  CurrencyCode?: string | undefined;
+  InstanceFamily?: string | undefined;
+  Region?: string | undefined;
+  OfferingId?: string | undefined;
+  GenerationTimestamp?: string | undefined;
+  LatestUsageTimestamp?: string | undefined;
+  CurrentAverageHourlyOnDemandSpend?: string | undefined;
+  CurrentMaximumHourlyOnDemandSpend?: string | undefined;
+  CurrentMinimumHourlyOnDemandSpend?: string | undefined;
+  EstimatedAverageUtilization?: string | undefined;
+  EstimatedMonthlySavingsAmount?: string | undefined;
+  EstimatedOnDemandCost?: string | undefined;
+  EstimatedOnDemandCostWithCurrentCommitment?: string | undefined;
+  EstimatedROI?: string | undefined;
+  EstimatedSPCost?: string | undefined;
+  EstimatedSavingsAmount?: string | undefined;
+  EstimatedSavingsPercentage?: string | undefined;
+  ExistingHourlyCommitment?: string | undefined;
+  HourlyCommitmentToPurchase?: string | undefined;
+  UpfrontCost?: string | undefined;
+  CurrentAverageCoverage?: string | undefined;
+  EstimatedAverageCoverage?: string | undefined;
+  MetricsOverLookbackPeriod?: RecommendationDetailHourlyMetrics[] | undefined;
 }
 export interface GetSavingsPlanPurchaseRecommendationDetailsResponse {
-  RecommendationDetailId?: string;
-  RecommendationDetailData?: RecommendationDetailData;
+  RecommendationDetailId?: string | undefined;
+  RecommendationDetailData?: RecommendationDetailData | undefined;
 }
 export interface GetSavingsPlansCoverageRequest {
   TimePeriod: DateInterval;
-  GroupBy?: GroupDefinition[];
-  Granularity?: Granularity;
-  Filter?: Expression;
-  Metrics?: string[];
-  NextToken?: string;
-  MaxResults?: number;
-  SortBy?: SortDefinition;
+  GroupBy?: GroupDefinition[] | undefined;
+  Granularity?: Granularity | undefined;
+  Filter?: Expression | undefined;
+  Metrics?: string[] | undefined;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
+  SortBy?: SortDefinition | undefined;
 }
 export interface SavingsPlansCoverageData {
-  SpendCoveredBySavingsPlans?: string;
-  OnDemandCost?: string;
-  TotalCost?: string;
-  CoveragePercentage?: string;
+  SpendCoveredBySavingsPlans?: string | undefined;
+  OnDemandCost?: string | undefined;
+  TotalCost?: string | undefined;
+  CoveragePercentage?: string | undefined;
 }
 export interface SavingsPlansCoverage {
-  Attributes?: { [key: string]: string | undefined };
-  Coverage?: SavingsPlansCoverageData;
-  TimePeriod?: DateInterval;
+  Attributes?: { [key: string]: string | undefined } | undefined;
+  Coverage?: SavingsPlansCoverageData | undefined;
+  TimePeriod?: DateInterval | undefined;
 }
 export type SavingsPlansCoverages = SavingsPlansCoverage[];
 export interface GetSavingsPlansCoverageResponse {
   SavingsPlansCoverages: SavingsPlansCoverage[];
-  NextToken?: string;
+  NextToken?: string | undefined;
 }
 export interface GetSavingsPlansPurchaseRecommendationRequest {
   SavingsPlansType: SupportedSavingsPlansType;
   TermInYears: TermInYears;
   PaymentOption: PaymentOption;
-  AccountScope?: AccountScope;
-  NextPageToken?: string;
-  PageSize?: number;
+  AccountScope?: AccountScope | undefined;
+  NextPageToken?: string | undefined;
+  PageSize?: number | undefined;
   LookbackPeriodInDays: LookbackPeriodInDays;
-  Filter?: Expression;
+  Filter?: Expression | undefined;
 }
 export interface SavingsPlansPurchaseRecommendationMetadata {
-  RecommendationId?: string;
-  GenerationTimestamp?: string;
-  AdditionalMetadata?: string;
+  RecommendationId?: string | undefined;
+  GenerationTimestamp?: string | undefined;
+  AdditionalMetadata?: string | undefined;
 }
 export interface SavingsPlansDetails {
-  Region?: string;
-  InstanceFamily?: string;
-  OfferingId?: string;
+  Region?: string | undefined;
+  InstanceFamily?: string | undefined;
+  OfferingId?: string | undefined;
 }
 export interface SavingsPlansPurchaseRecommendationDetail {
-  SavingsPlansDetails?: SavingsPlansDetails;
-  AccountId?: string;
-  UpfrontCost?: string;
-  EstimatedROI?: string;
-  CurrencyCode?: string;
-  EstimatedSPCost?: string;
-  EstimatedOnDemandCost?: string;
-  EstimatedOnDemandCostWithCurrentCommitment?: string;
-  EstimatedSavingsAmount?: string;
-  EstimatedSavingsPercentage?: string;
-  HourlyCommitmentToPurchase?: string;
-  EstimatedAverageUtilization?: string;
-  EstimatedMonthlySavingsAmount?: string;
-  CurrentMinimumHourlyOnDemandSpend?: string;
-  CurrentMaximumHourlyOnDemandSpend?: string;
-  CurrentAverageHourlyOnDemandSpend?: string;
-  RecommendationDetailId?: string;
+  SavingsPlansDetails?: SavingsPlansDetails | undefined;
+  AccountId?: string | undefined;
+  UpfrontCost?: string | undefined;
+  EstimatedROI?: string | undefined;
+  CurrencyCode?: string | undefined;
+  EstimatedSPCost?: string | undefined;
+  EstimatedOnDemandCost?: string | undefined;
+  EstimatedOnDemandCostWithCurrentCommitment?: string | undefined;
+  EstimatedSavingsAmount?: string | undefined;
+  EstimatedSavingsPercentage?: string | undefined;
+  HourlyCommitmentToPurchase?: string | undefined;
+  EstimatedAverageUtilization?: string | undefined;
+  EstimatedMonthlySavingsAmount?: string | undefined;
+  CurrentMinimumHourlyOnDemandSpend?: string | undefined;
+  CurrentMaximumHourlyOnDemandSpend?: string | undefined;
+  CurrentAverageHourlyOnDemandSpend?: string | undefined;
+  RecommendationDetailId?: string | undefined;
 }
 export type SavingsPlansPurchaseRecommendationDetailList =
   SavingsPlansPurchaseRecommendationDetail[];
 export interface SavingsPlansPurchaseRecommendationSummary {
-  EstimatedROI?: string;
-  CurrencyCode?: string;
-  EstimatedTotalCost?: string;
-  CurrentOnDemandSpend?: string;
-  EstimatedSavingsAmount?: string;
-  TotalRecommendationCount?: string;
-  DailyCommitmentToPurchase?: string;
-  HourlyCommitmentToPurchase?: string;
-  EstimatedSavingsPercentage?: string;
-  EstimatedMonthlySavingsAmount?: string;
-  EstimatedOnDemandCostWithCurrentCommitment?: string;
+  EstimatedROI?: string | undefined;
+  CurrencyCode?: string | undefined;
+  EstimatedTotalCost?: string | undefined;
+  CurrentOnDemandSpend?: string | undefined;
+  EstimatedSavingsAmount?: string | undefined;
+  TotalRecommendationCount?: string | undefined;
+  DailyCommitmentToPurchase?: string | undefined;
+  HourlyCommitmentToPurchase?: string | undefined;
+  EstimatedSavingsPercentage?: string | undefined;
+  EstimatedMonthlySavingsAmount?: string | undefined;
+  EstimatedOnDemandCostWithCurrentCommitment?: string | undefined;
 }
 export interface SavingsPlansPurchaseRecommendation {
-  AccountScope?: AccountScope;
-  SavingsPlansType?: SupportedSavingsPlansType;
-  TermInYears?: TermInYears;
-  PaymentOption?: PaymentOption;
-  LookbackPeriodInDays?: LookbackPeriodInDays;
-  SavingsPlansPurchaseRecommendationDetails?: SavingsPlansPurchaseRecommendationDetail[];
-  SavingsPlansPurchaseRecommendationSummary?: SavingsPlansPurchaseRecommendationSummary;
+  AccountScope?: AccountScope | undefined;
+  SavingsPlansType?: SupportedSavingsPlansType | undefined;
+  TermInYears?: TermInYears | undefined;
+  PaymentOption?: PaymentOption | undefined;
+  LookbackPeriodInDays?: LookbackPeriodInDays | undefined;
+  SavingsPlansPurchaseRecommendationDetails?:
+    | SavingsPlansPurchaseRecommendationDetail[]
+    | undefined;
+  SavingsPlansPurchaseRecommendationSummary?: SavingsPlansPurchaseRecommendationSummary | undefined;
 }
 export interface GetSavingsPlansPurchaseRecommendationResponse {
-  Metadata?: SavingsPlansPurchaseRecommendationMetadata;
-  SavingsPlansPurchaseRecommendation?: SavingsPlansPurchaseRecommendation;
-  NextPageToken?: string;
+  Metadata?: SavingsPlansPurchaseRecommendationMetadata | undefined;
+  SavingsPlansPurchaseRecommendation?: SavingsPlansPurchaseRecommendation | undefined;
+  NextPageToken?: string | undefined;
 }
 export interface GetSavingsPlansUtilizationRequest {
   TimePeriod: DateInterval;
-  Granularity?: Granularity;
-  Filter?: Expression;
-  SortBy?: SortDefinition;
+  Granularity?: Granularity | undefined;
+  Filter?: Expression | undefined;
+  SortBy?: SortDefinition | undefined;
 }
 export interface SavingsPlansUtilization {
-  TotalCommitment?: string;
-  UsedCommitment?: string;
-  UnusedCommitment?: string;
-  UtilizationPercentage?: string;
+  TotalCommitment?: string | undefined;
+  UsedCommitment?: string | undefined;
+  UnusedCommitment?: string | undefined;
+  UtilizationPercentage?: string | undefined;
 }
 export interface SavingsPlansSavings {
-  NetSavings?: string;
-  OnDemandCostEquivalent?: string;
+  NetSavings?: string | undefined;
+  OnDemandCostEquivalent?: string | undefined;
 }
 export interface SavingsPlansAmortizedCommitment {
-  AmortizedRecurringCommitment?: string;
-  AmortizedUpfrontCommitment?: string;
-  TotalAmortizedCommitment?: string;
+  AmortizedRecurringCommitment?: string | undefined;
+  AmortizedUpfrontCommitment?: string | undefined;
+  TotalAmortizedCommitment?: string | undefined;
 }
 export interface SavingsPlansUtilizationByTime {
   TimePeriod: DateInterval;
   Utilization: SavingsPlansUtilization;
-  Savings?: SavingsPlansSavings;
-  AmortizedCommitment?: SavingsPlansAmortizedCommitment;
+  Savings?: SavingsPlansSavings | undefined;
+  AmortizedCommitment?: SavingsPlansAmortizedCommitment | undefined;
 }
 export type SavingsPlansUtilizationsByTime = SavingsPlansUtilizationByTime[];
 export interface SavingsPlansUtilizationAggregates {
   Utilization: SavingsPlansUtilization;
-  Savings?: SavingsPlansSavings;
-  AmortizedCommitment?: SavingsPlansAmortizedCommitment;
+  Savings?: SavingsPlansSavings | undefined;
+  AmortizedCommitment?: SavingsPlansAmortizedCommitment | undefined;
 }
 export interface GetSavingsPlansUtilizationResponse {
-  SavingsPlansUtilizationsByTime?: SavingsPlansUtilizationByTime[];
+  SavingsPlansUtilizationsByTime?: SavingsPlansUtilizationByTime[] | undefined;
   Total: SavingsPlansUtilizationAggregates;
 }
 export type SavingsPlansDataType =
@@ -1535,41 +1553,41 @@ export type SavingsPlansDataType =
 export type SavingsPlansDataTypes = SavingsPlansDataType[];
 export interface GetSavingsPlansUtilizationDetailsRequest {
   TimePeriod: DateInterval;
-  Filter?: Expression;
-  DataType?: SavingsPlansDataType[];
-  NextToken?: string;
-  MaxResults?: number;
-  SortBy?: SortDefinition;
+  Filter?: Expression | undefined;
+  DataType?: SavingsPlansDataType[] | undefined;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
+  SortBy?: SortDefinition | undefined;
 }
 export type SavingsPlanArn = string;
 export interface SavingsPlansUtilizationDetail {
-  SavingsPlanArn?: string;
-  Attributes?: { [key: string]: string | undefined };
-  Utilization?: SavingsPlansUtilization;
-  Savings?: SavingsPlansSavings;
-  AmortizedCommitment?: SavingsPlansAmortizedCommitment;
+  SavingsPlanArn?: string | undefined;
+  Attributes?: { [key: string]: string | undefined } | undefined;
+  Utilization?: SavingsPlansUtilization | undefined;
+  Savings?: SavingsPlansSavings | undefined;
+  AmortizedCommitment?: SavingsPlansAmortizedCommitment | undefined;
 }
 export type SavingsPlansUtilizationDetails = SavingsPlansUtilizationDetail[];
 export interface GetSavingsPlansUtilizationDetailsResponse {
   SavingsPlansUtilizationDetails: SavingsPlansUtilizationDetail[];
-  Total?: SavingsPlansUtilizationAggregates;
+  Total?: SavingsPlansUtilizationAggregates | undefined;
   TimePeriod: DateInterval;
-  NextToken?: string;
+  NextToken?: string | undefined;
 }
 export interface GetTagsRequest {
-  SearchString?: string;
+  SearchString?: string | undefined;
   TimePeriod: DateInterval;
-  TagKey?: string;
-  Filter?: Expression;
-  SortBy?: SortDefinition[];
-  BillingViewArn?: string;
-  MaxResults?: number;
-  NextPageToken?: string;
+  TagKey?: string | undefined;
+  Filter?: Expression | undefined;
+  SortBy?: SortDefinition[] | undefined;
+  BillingViewArn?: string | undefined;
+  MaxResults?: number | undefined;
+  NextPageToken?: string | undefined;
 }
 export type Entity = string;
 export type TagList = string[];
 export interface GetTagsResponse {
-  NextPageToken?: string;
+  NextPageToken?: string | undefined;
   Tags: string[];
   ReturnSize: number;
   TotalSize: number;
@@ -1578,144 +1596,144 @@ export interface GetUsageForecastRequest {
   TimePeriod: DateInterval;
   Metric: Metric;
   Granularity: Granularity;
-  Filter?: Expression;
-  BillingViewArn?: string;
-  PredictionIntervalLevel?: number;
+  Filter?: Expression | undefined;
+  BillingViewArn?: string | undefined;
+  PredictionIntervalLevel?: number | undefined;
 }
 export interface GetUsageForecastResponse {
-  Total?: MetricValue;
-  ForecastResultsByTime?: ForecastResult[];
+  Total?: MetricValue | undefined;
+  ForecastResultsByTime?: ForecastResult[] | undefined;
 }
 export type AnalysesPageSize = number;
 export type AnalysisIds = string[];
 export interface ListCommitmentPurchaseAnalysesRequest {
-  AnalysisStatus?: AnalysisStatus;
-  NextPageToken?: string;
-  PageSize?: number;
-  AnalysisIds?: string[];
+  AnalysisStatus?: AnalysisStatus | undefined;
+  NextPageToken?: string | undefined;
+  PageSize?: number | undefined;
+  AnalysisIds?: string[] | undefined;
 }
 export interface AnalysisSummary {
-  EstimatedCompletionTime?: string;
-  AnalysisCompletionTime?: string;
-  AnalysisStartedTime?: string;
-  AnalysisStatus?: AnalysisStatus;
-  ErrorCode?: ErrorCode;
-  AnalysisId?: string;
-  CommitmentPurchaseAnalysisConfiguration?: CommitmentPurchaseAnalysisConfiguration;
+  EstimatedCompletionTime?: string | undefined;
+  AnalysisCompletionTime?: string | undefined;
+  AnalysisStartedTime?: string | undefined;
+  AnalysisStatus?: AnalysisStatus | undefined;
+  ErrorCode?: ErrorCode | undefined;
+  AnalysisId?: string | undefined;
+  CommitmentPurchaseAnalysisConfiguration?: CommitmentPurchaseAnalysisConfiguration | undefined;
 }
 export type AnalysisSummaryList = AnalysisSummary[];
 export interface ListCommitmentPurchaseAnalysesResponse {
-  AnalysisSummaryList?: AnalysisSummary[];
-  NextPageToken?: string;
+  AnalysisSummaryList?: AnalysisSummary[] | undefined;
+  NextPageToken?: string | undefined;
 }
 export type CostAllocationTagsMaxResults = number;
 export interface ListCostAllocationTagBackfillHistoryRequest {
-  NextToken?: string;
-  MaxResults?: number;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export type CostAllocationTagBackfillStatus = "SUCCEEDED" | "PROCESSING" | "FAILED" | (string & {});
 export interface CostAllocationTagBackfillRequest {
-  BackfillFrom?: string;
-  RequestedAt?: string;
-  CompletedAt?: string;
-  BackfillStatus?: CostAllocationTagBackfillStatus;
-  LastUpdatedAt?: string;
+  BackfillFrom?: string | undefined;
+  RequestedAt?: string | undefined;
+  CompletedAt?: string | undefined;
+  BackfillStatus?: CostAllocationTagBackfillStatus | undefined;
+  LastUpdatedAt?: string | undefined;
 }
 export type CostAllocationTagBackfillRequestList = CostAllocationTagBackfillRequest[];
 export interface ListCostAllocationTagBackfillHistoryResponse {
-  BackfillRequests?: CostAllocationTagBackfillRequest[];
-  NextToken?: string;
+  BackfillRequests?: CostAllocationTagBackfillRequest[] | undefined;
+  NextToken?: string | undefined;
 }
 export type CostAllocationTagStatus = "Active" | "Inactive" | (string & {});
 export type CostAllocationTagKeyList = string[];
 export type CostAllocationTagType = "AWSGenerated" | "UserDefined" | (string & {});
 export interface ListCostAllocationTagsRequest {
-  Status?: CostAllocationTagStatus;
-  TagKeys?: string[];
-  Type?: CostAllocationTagType;
-  NextToken?: string;
-  MaxResults?: number;
+  Status?: CostAllocationTagStatus | undefined;
+  TagKeys?: string[] | undefined;
+  Type?: CostAllocationTagType | undefined;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export interface CostAllocationTag {
   TagKey: string;
   Type: CostAllocationTagType;
   Status: CostAllocationTagStatus;
-  LastUpdatedDate?: string;
-  LastUsedDate?: string;
+  LastUpdatedDate?: string | undefined;
+  LastUsedDate?: string | undefined;
 }
 export type CostAllocationTagList = CostAllocationTag[];
 export interface ListCostAllocationTagsResponse {
-  CostAllocationTags?: CostAllocationTag[];
-  NextToken?: string;
+  CostAllocationTags?: CostAllocationTag[] | undefined;
+  NextToken?: string | undefined;
 }
 export type CostCategoryMaxResults = number;
 export type ResourceType = string;
 export type ResourceTypesFilterInput = string[];
 export interface ListCostCategoryDefinitionsRequest {
-  EffectiveOn?: string;
-  NextToken?: string;
-  MaxResults?: number;
-  SupportedResourceTypes?: string[];
+  EffectiveOn?: string | undefined;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
+  SupportedResourceTypes?: string[] | undefined;
 }
 export type ResourceTypes = string[];
 export interface CostCategoryReference {
-  CostCategoryArn?: string;
-  Name?: string;
-  EffectiveStart?: string;
-  EffectiveEnd?: string;
-  NumberOfRules?: number;
-  ProcessingStatus?: CostCategoryProcessingStatus[];
-  Values?: string[];
-  DefaultValue?: string;
-  SupportedResourceTypes?: string[];
+  CostCategoryArn?: string | undefined;
+  Name?: string | undefined;
+  EffectiveStart?: string | undefined;
+  EffectiveEnd?: string | undefined;
+  NumberOfRules?: number | undefined;
+  ProcessingStatus?: CostCategoryProcessingStatus[] | undefined;
+  Values?: string[] | undefined;
+  DefaultValue?: string | undefined;
+  SupportedResourceTypes?: string[] | undefined;
 }
 export type CostCategoryReferencesList = CostCategoryReference[];
 export interface ListCostCategoryDefinitionsResponse {
-  CostCategoryReferences?: CostCategoryReference[];
-  NextToken?: string;
+  CostCategoryReferences?: CostCategoryReference[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListCostCategoryResourceAssociationsRequest {
-  CostCategoryArn?: string;
-  NextToken?: string;
-  MaxResults?: number;
+  CostCategoryArn?: string | undefined;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export type GenericArn = string;
 export interface CostCategoryResourceAssociation {
-  ResourceArn?: string;
-  CostCategoryName?: string;
-  CostCategoryArn?: string;
+  ResourceArn?: string | undefined;
+  CostCategoryName?: string | undefined;
+  CostCategoryArn?: string | undefined;
 }
 export type CostCategoryResourceAssociations = CostCategoryResourceAssociation[];
 export interface ListCostCategoryResourceAssociationsResponse {
-  CostCategoryResourceAssociations?: CostCategoryResourceAssociation[];
-  NextToken?: string;
+  CostCategoryResourceAssociations?: CostCategoryResourceAssociation[] | undefined;
+  NextToken?: string | undefined;
 }
 export type GenerationStatus = "SUCCEEDED" | "PROCESSING" | "FAILED" | (string & {});
 export type RecommendationId = string;
 export type RecommendationIdList = string[];
 export interface ListSavingsPlansPurchaseRecommendationGenerationRequest {
-  GenerationStatus?: GenerationStatus;
-  RecommendationIds?: string[];
-  PageSize?: number;
-  NextPageToken?: string;
+  GenerationStatus?: GenerationStatus | undefined;
+  RecommendationIds?: string[] | undefined;
+  PageSize?: number | undefined;
+  NextPageToken?: string | undefined;
 }
 export interface GenerationSummary {
-  RecommendationId?: string;
-  GenerationStatus?: GenerationStatus;
-  GenerationStartedTime?: string;
-  GenerationCompletionTime?: string;
-  EstimatedCompletionTime?: string;
+  RecommendationId?: string | undefined;
+  GenerationStatus?: GenerationStatus | undefined;
+  GenerationStartedTime?: string | undefined;
+  GenerationCompletionTime?: string | undefined;
+  EstimatedCompletionTime?: string | undefined;
 }
 export type GenerationSummaryList = GenerationSummary[];
 export interface ListSavingsPlansPurchaseRecommendationGenerationResponse {
-  GenerationSummaryList?: GenerationSummary[];
-  NextPageToken?: string;
+  GenerationSummaryList?: GenerationSummary[] | undefined;
+  NextPageToken?: string | undefined;
 }
 export interface ListTagsForResourceRequest {
   ResourceArn: string;
 }
 export interface ListTagsForResourceResponse {
-  ResourceTags?: ResourceTag[];
+  ResourceTags?: ResourceTag[] | undefined;
 }
 export interface ProvideAnomalyFeedbackRequest {
   AnomalyId: string;
@@ -1736,13 +1754,13 @@ export interface StartCostAllocationTagBackfillRequest {
   BackfillFrom: string;
 }
 export interface StartCostAllocationTagBackfillResponse {
-  BackfillRequest?: CostAllocationTagBackfillRequest;
+  BackfillRequest?: CostAllocationTagBackfillRequest | undefined;
 }
 export interface StartSavingsPlansPurchaseRecommendationGenerationRequest {}
 export interface StartSavingsPlansPurchaseRecommendationGenerationResponse {
-  RecommendationId?: string;
-  GenerationStartedTime?: string;
-  EstimatedCompletionTime?: string;
+  RecommendationId?: string | undefined;
+  GenerationStartedTime?: string | undefined;
+  EstimatedCompletionTime?: string | undefined;
 }
 export interface TagResourceRequest {
   ResourceArn: string;
@@ -1757,19 +1775,19 @@ export interface UntagResourceRequest {
 export interface UntagResourceResponse {}
 export interface UpdateAnomalyMonitorRequest {
   MonitorArn: string;
-  MonitorName?: string;
+  MonitorName?: string | undefined;
 }
 export interface UpdateAnomalyMonitorResponse {
   MonitorArn: string;
 }
 export interface UpdateAnomalySubscriptionRequest {
   SubscriptionArn: string;
-  Threshold?: number;
-  Frequency?: AnomalySubscriptionFrequency;
-  MonitorArnList?: string[];
-  Subscribers?: Subscriber[];
-  SubscriptionName?: string;
-  ThresholdExpression?: Expression;
+  Threshold?: number | undefined;
+  Frequency?: AnomalySubscriptionFrequency | undefined;
+  MonitorArnList?: string[] | undefined;
+  Subscribers?: Subscriber[] | undefined;
+  SubscriptionName?: string | undefined;
+  ThresholdExpression?: Expression | undefined;
 }
 export interface UpdateAnomalySubscriptionResponse {
   SubscriptionArn: string;
@@ -1784,25 +1802,25 @@ export interface UpdateCostAllocationTagsStatusRequest {
 }
 export type ErrorMessage = string;
 export interface UpdateCostAllocationTagsStatusError_ {
-  TagKey?: string;
-  Code?: string;
-  Message?: string;
+  TagKey?: string | undefined;
+  Code?: string | undefined;
+  Message?: string | undefined;
 }
 export type UpdateCostAllocationTagsStatusErrors = UpdateCostAllocationTagsStatusError_[];
 export interface UpdateCostAllocationTagsStatusResponse {
-  Errors?: UpdateCostAllocationTagsStatusError_[];
+  Errors?: UpdateCostAllocationTagsStatusError_[] | undefined;
 }
 export interface UpdateCostCategoryDefinitionRequest {
   CostCategoryArn: string;
-  EffectiveStart?: string;
+  EffectiveStart?: string | undefined;
   RuleVersion: CostCategoryRuleVersion;
   Rules: CostCategoryRule[];
-  DefaultValue?: string;
-  SplitChargeRules?: CostCategorySplitChargeRule[];
+  DefaultValue?: string | undefined;
+  SplitChargeRules?: CostCategorySplitChargeRule[] | undefined;
 }
 export interface UpdateCostCategoryDefinitionResponse {
-  CostCategoryArn?: string;
-  EffectiveStart?: string;
+  CostCategoryArn?: string | undefined;
+  EffectiveStart?: string | undefined;
 }
 export type CreateAnomalyMonitorError =
   | LimitExceededException
@@ -3319,7 +3337,7 @@ function __c2(j: number): any {
   switch (j) {
     case 0:
       return S.Array(
-        /*@__PURE__*/ S.suspend((): S.Schema<Expression> => __S(68, __c2, 4)).annotate({
+        /*@__PURE__*/ S.suspend((): S.Schema<Expression> => __S(69, __c2, 5)).annotate({
           identifier: "Expression",
         }),
       );
@@ -3344,18 +3362,27 @@ function __c2(j: number): any {
     case 4:
       return S.suspend(() =>
         S.Struct({
+          Key: S.String,
+          Values: S.optional(__S(32, __c1, 0)),
+          MatchOptions: S.optional(__S(65, __c2, 1)),
+        }),
+      ).annotate({ identifier: "ProductAttributeValues" });
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
           Or: S.optional(S.suspend(() => __S(64, __c2, 0)).annotate({ identifier: "Expressions" })),
           And: S.optional(
             S.suspend(() => __S(64, __c2, 0)).annotate({ identifier: "Expressions" }),
           ),
           Not: S.optional(
-            S.suspend((): S.Schema<Expression> => __S(68, __c2, 4)).annotate({
+            S.suspend((): S.Schema<Expression> => __S(69, __c2, 5)).annotate({
               identifier: "Expression",
             }),
           ),
           Dimensions: S.optional(__S(66, __c2, 2)),
           Tags: S.optional(__S(67, __c2, 3)),
           CostCategories: S.optional(__S(67, __c2, 3)),
+          ProductAttributes: S.optional(__S(68, __c2, 4)),
         }),
       ).annotate({ identifier: "Expression" });
   }
@@ -3382,7 +3409,7 @@ function __c4(j: number): any {
           LastEvaluatedDate: S.optional(S.String),
           MonitorType: S.String,
           MonitorDimension: S.optional(S.String),
-          MonitorSpecification: S.optional(__S(68, __c2, 4)),
+          MonitorSpecification: S.optional(__S(69, __c2, 5)),
           DimensionalValueCount: S.optional(S.Number),
         }),
       ).annotate({ identifier: "AnomalyMonitor" });
@@ -3419,7 +3446,7 @@ function __c7(j: number): any {
           Threshold: S.optional(S.Number),
           Frequency: S.String,
           SubscriptionName: S.String,
-          ThresholdExpression: S.optional(__S(68, __c2, 4)),
+          ThresholdExpression: S.optional(__S(69, __c2, 5)),
         }),
       ).annotate({ identifier: "AnomalySubscription" });
   }
@@ -3472,7 +3499,7 @@ function __c11(j: number): any {
       return S.suspend(() =>
         S.Struct({
           Value: S.optional(S.String),
-          Rule: S.optional(__S(68, __c2, 4)),
+          Rule: S.optional(__S(69, __c2, 5)),
           InheritedValue: S.optional(__S(352, __c11, 0)),
           Type: S.optional(S.String),
         }),
@@ -3840,7 +3867,7 @@ function __c27(j: number): any {
         S.Struct({
           TimePeriod: __S(736, __c23, 0),
           Granularity: S.String,
-          Filter: S.optional(__S(68, __c2, 4)),
+          Filter: S.optional(__S(69, __c2, 5)),
           Metrics: __S(32, __c1, 0),
           GroupBy: S.optional(__S(897, __c28, 1)),
           BillingViewArn: S.optional(S.String),
@@ -3924,7 +3951,7 @@ function __c33(j: number): any {
           BaselineTimePeriod: __S(736, __c23, 0),
           ComparisonTimePeriod: __S(736, __c23, 0),
           MetricForComparison: S.String,
-          Filter: S.optional(__S(68, __c2, 4)),
+          Filter: S.optional(__S(69, __c2, 5)),
           GroupBy: S.optional(__S(897, __c28, 1)),
           MaxResults: S.optional(S.Number),
           NextPageToken: S.optional(S.String),
@@ -3933,7 +3960,7 @@ function __c33(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          CostAndUsageSelector: S.optional(__S(68, __c2, 4)),
+          CostAndUsageSelector: S.optional(__S(69, __c2, 5)),
           Metrics: S.optional(__S(1089, __c34, 1)),
         }),
       ).annotate({ identifier: "CostAndUsageComparison" });
@@ -3971,7 +3998,7 @@ function __c35(j: number): any {
         S.Struct({
           TimePeriod: __S(736, __c23, 0),
           Granularity: S.String,
-          Filter: __S(68, __c2, 4),
+          Filter: __S(69, __c2, 5),
           Metrics: S.optional(__S(32, __c1, 0)),
           GroupBy: S.optional(__S(897, __c28, 1)),
           BillingViewArn: S.optional(S.String),
@@ -3988,7 +4015,7 @@ function __c36(j: number): any {
           SearchString: S.optional(S.String),
           TimePeriod: __S(736, __c23, 0),
           CostCategoryName: S.optional(S.String),
-          Filter: S.optional(__S(68, __c2, 4)),
+          Filter: S.optional(__S(69, __c2, 5)),
           SortBy: S.optional(__S(1216, __c38, 0)),
           BillingViewArn: S.optional(S.String),
           MaxResults: S.optional(S.Number),
@@ -4030,7 +4057,7 @@ function __c39(j: number): any {
           BaselineTimePeriod: __S(736, __c23, 0),
           ComparisonTimePeriod: __S(736, __c23, 0),
           MetricForComparison: S.String,
-          Filter: S.optional(__S(68, __c2, 4)),
+          Filter: S.optional(__S(69, __c2, 5)),
           GroupBy: S.optional(__S(897, __c28, 1)),
           MaxResults: S.optional(S.Number),
           NextPageToken: S.optional(S.String),
@@ -4049,7 +4076,7 @@ function __c39(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          CostSelector: S.optional(__S(68, __c2, 4)),
+          CostSelector: S.optional(__S(69, __c2, 5)),
           Metrics: S.optional(__S(1089, __c34, 1)),
           CostDrivers: S.optional(__S(1250, __c39, 2)),
         }),
@@ -4073,7 +4100,7 @@ function __c40(j: number): any {
           TimePeriod: __S(736, __c23, 0),
           Metric: S.String,
           Granularity: S.String,
-          Filter: S.optional(__S(68, __c2, 4)),
+          Filter: S.optional(__S(69, __c2, 5)),
           BillingViewArn: S.optional(S.String),
           PredictionIntervalLevel: S.optional(S.Number),
         }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
@@ -4110,8 +4137,9 @@ function __c42(j: number): any {
           SearchString: S.optional(S.String),
           TimePeriod: __S(736, __c23, 0),
           Dimension: S.String,
+          DimensionKey: S.optional(S.String),
           Context: S.optional(S.String),
-          Filter: S.optional(__S(68, __c2, 4)),
+          Filter: S.optional(__S(69, __c2, 5)),
           SortBy: S.optional(__S(1216, __c38, 0)),
           BillingViewArn: S.optional(S.String),
           MaxResults: S.optional(S.Number),
@@ -4137,7 +4165,7 @@ function __c43(j: number): any {
           TimePeriod: __S(736, __c23, 0),
           GroupBy: S.optional(__S(897, __c28, 1)),
           Granularity: S.optional(S.String),
-          Filter: S.optional(__S(68, __c2, 4)),
+          Filter: S.optional(__S(69, __c2, 5)),
           Metrics: S.optional(__S(32, __c1, 0)),
           NextPageToken: S.optional(S.String),
           SortBy: S.optional(__S(1184, __c37, 0)),
@@ -4218,7 +4246,7 @@ function __c44(j: number): any {
         S.Struct({
           AccountId: S.optional(S.String),
           Service: S.String,
-          Filter: S.optional(__S(68, __c2, 4)),
+          Filter: S.optional(__S(69, __c2, 5)),
           AccountScope: S.optional(S.String),
           LookbackPeriodInDays: S.optional(S.String),
           TermInYears: S.optional(S.String),
@@ -4389,7 +4417,7 @@ function __c46(j: number): any {
           TimePeriod: __S(736, __c23, 0),
           GroupBy: S.optional(__S(897, __c28, 1)),
           Granularity: S.optional(S.String),
-          Filter: S.optional(__S(68, __c2, 4)),
+          Filter: S.optional(__S(69, __c2, 5)),
           SortBy: S.optional(__S(1184, __c37, 0)),
           NextPageToken: S.optional(S.String),
           MaxResults: S.optional(S.Number),
@@ -4457,7 +4485,7 @@ function __c47(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          Filter: S.optional(__S(68, __c2, 4)),
+          Filter: S.optional(__S(69, __c2, 5)),
           Configuration: S.optional(__S(1504, __c47, 0)),
           Service: S.String,
           PageSize: S.optional(S.Number),
@@ -4669,7 +4697,7 @@ function __c49(j: number): any {
           TimePeriod: __S(736, __c23, 0),
           GroupBy: S.optional(__S(897, __c28, 1)),
           Granularity: S.optional(S.String),
-          Filter: S.optional(__S(68, __c2, 4)),
+          Filter: S.optional(__S(69, __c2, 5)),
           Metrics: S.optional(__S(32, __c1, 0)),
           NextToken: S.optional(S.String),
           MaxResults: S.optional(S.Number),
@@ -4713,7 +4741,7 @@ function __c50(j: number): any {
           NextPageToken: S.optional(S.String),
           PageSize: S.optional(S.Number),
           LookbackPeriodInDays: S.String,
-          Filter: S.optional(__S(68, __c2, 4)),
+          Filter: S.optional(__S(69, __c2, 5)),
         }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "GetSavingsPlansPurchaseRecommendationRequest" });
     case 1:
@@ -4793,7 +4821,7 @@ function __c51(j: number): any {
         S.Struct({
           TimePeriod: __S(736, __c23, 0),
           Granularity: S.optional(S.String),
-          Filter: S.optional(__S(68, __c2, 4)),
+          Filter: S.optional(__S(69, __c2, 5)),
           SortBy: S.optional(__S(1184, __c37, 0)),
         }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "GetSavingsPlansUtilizationRequest" });
@@ -4859,7 +4887,7 @@ function __c53(j: number): any {
       return S.suspend(() =>
         S.Struct({
           TimePeriod: __S(736, __c23, 0),
-          Filter: S.optional(__S(68, __c2, 4)),
+          Filter: S.optional(__S(69, __c2, 5)),
           DataType: S.optional(__S(65, __c2, 1)),
           NextToken: S.optional(S.String),
           MaxResults: S.optional(S.Number),
@@ -4897,7 +4925,7 @@ function __c54(j: number): any {
           SearchString: S.optional(S.String),
           TimePeriod: __S(736, __c23, 0),
           TagKey: S.optional(S.String),
-          Filter: S.optional(__S(68, __c2, 4)),
+          Filter: S.optional(__S(69, __c2, 5)),
           SortBy: S.optional(__S(1216, __c38, 0)),
           BillingViewArn: S.optional(S.String),
           MaxResults: S.optional(S.Number),
@@ -4923,7 +4951,7 @@ function __c55(j: number): any {
           TimePeriod: __S(736, __c23, 0),
           Metric: S.String,
           Granularity: S.String,
-          Filter: S.optional(__S(68, __c2, 4)),
+          Filter: S.optional(__S(69, __c2, 5)),
           BillingViewArn: S.optional(S.String),
           PredictionIntervalLevel: S.optional(S.Number),
         }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
@@ -5246,7 +5274,7 @@ function __c71(j: number): any {
           MonitorArnList: S.optional(__S(32, __c1, 0)),
           Subscribers: S.optional(__S(257, __c8, 1)),
           SubscriptionName: S.optional(S.String),
-          ThresholdExpression: S.optional(__S(68, __c2, 4)),
+          ThresholdExpression: S.optional(__S(69, __c2, 5)),
         }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "UpdateAnomalySubscriptionRequest" });
   }

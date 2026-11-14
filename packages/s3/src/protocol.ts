@@ -1,5 +1,6 @@
 import * as API from "@distilled.cloud/core/api";
 import type { InvalidInput } from "@distilled.cloud/core/protocol-http";
+import { SdkError } from "@distilled.cloud/core/sdk-error";
 import * as Telemetry from "@distilled.cloud/core/telemetry";
 /**
  * AwsProtocol -- AWS's implementation of `@distilled.cloud/core`'s Protocol
@@ -46,7 +47,13 @@ import * as Layer from "effect/Layer";
 import * as Redacted from "effect/Redacted";
 import * as Stream from "effect/Stream";
 import type { Operation } from "./client/operation.ts";
-import { loadHandler, type LazyHandler, type ProtocolHandler } from "./client/protocol.ts";
+import { type PresignSettings, Presigning } from "./client/presigning.ts";
+import {
+  loadHandler,
+  serializeFailure,
+  type LazyHandler,
+  type ProtocolHandler,
+} from "./client/protocol.ts";
 import { makeRequestBuilder } from "./client/request-builder.ts";
 import type { Request } from "./client/request.ts";
 import { type Decoded, makeResponseParser, makeSuccessDecoder } from "./client/response-parser.ts";
@@ -199,9 +206,10 @@ const withAwsContext = (
 
 /**
  * Turn a serialized request into the signed HTTP request: endpoint
- * resolution, host prefix, query string and signing. Synchronous unless the
- * request needs an effect (SigV2, a payload digest, asynchronous crypto) or
- * fails, in which case the effect is returned instead.
+ * resolution, host prefix, query string and signing (into the query string
+ * when `presign` is set). Synchronous unless the request needs an effect
+ * (SigV2, a payload digest, asynchronous crypto) or fails, in which case the
+ * effect is returned instead.
  */
 const toHttpRequest = (
   prepared: Prepared,
@@ -211,6 +219,7 @@ const toHttpRequest = (
   region: string,
   customEndpoint: string | undefined,
   fiber: Fiber,
+  presign: PresignSettings | undefined,
 ):
   | HttpClientRequest.HttpClientRequest
   | Effect.Effect<HttpClientRequest.HttpClientRequest, any, any> => {
@@ -308,6 +317,23 @@ const toHttpRequest = (
     .join("&");
 
   const fullPath = queryString ? `${resolvedRequest.path}?${queryString}` : resolvedRequest.path;
+
+  if (presign !== undefined) {
+    return presign.presign(
+      {
+        operation: prepared.operationName,
+        method: resolvedRequest.method,
+        url: `${endpoint}${fullPath}`,
+        headers: resolvedRequest.headers,
+        body: resolvedRequest.body,
+        signer: signingRegionSet !== undefined ? "SigV4A" : sigv2 ? "SigV2" : undefined,
+        service: signingServiceName,
+        region: signingRegion,
+        credentials,
+      },
+      fiber,
+    );
+  }
 
   if (sigv2) {
     // The SigV2 signer parses this URL synchronously; fail an unparseable
@@ -419,7 +445,8 @@ const httpRequestOf = (
   const contentType = signedHeaders["content-type"];
 
   // Build HttpBody based on body type
-  // We must pass the content type to avoid HttpBody overriding the signed Content-Type header
+  // We must pass the content type to avoid HttpBody overriding the signed Content-Type header,
+  // and a stream's content length, or setBody removes Content-Length and the body goes out chunked
   let httpBody: HttpBody.HttpBody;
   if (isStreamingBody) {
     // Convert ReadableStream to Effect Stream for HttpClient
@@ -428,7 +455,12 @@ const httpRequestOf = (
       onError: (error) =>
         error instanceof Error ? error : new Error(String(error), { cause: error }),
     });
-    httpBody = HttpBody.stream(effectStream, contentType);
+    const contentLength = signedHeaders["content-length"];
+    httpBody = HttpBody.stream(
+      effectStream,
+      contentType,
+      contentLength === undefined ? undefined : Number(contentLength),
+    );
   } else if (body === undefined) {
     httpBody = HttpBody.empty;
   } else if (typeof body === "string") {
@@ -497,7 +529,10 @@ interface Plan {
 const planOf = (prepared: Prepared): Effect.Effect<Plan> => {
   if (prepared.plan !== undefined) return Effect.succeed(prepared.plan);
   const handler = prepared.handler;
-  if (handler === undefined) return Effect.die(new Error("No protocol found on input schema"));
+  if (handler === undefined)
+    return Effect.fail(
+      new SdkError({ message: "No protocol found on input schema" }),
+    ) as Effect.Effect<never>;
   return Effect.map(loadHandler(handler), (protocol) => {
     const decodeSuccess = makeSuccessDecoder(prepared.op, {
       service: prepared.serviceSdkId,
@@ -522,13 +557,14 @@ const planOf = (prepared: Prepared): Effect.Effect<Plan> => {
   });
 };
 
-/** The signed HTTP request for `input`, on the calling fiber. */
+/** The signed (or, given `presign`, presigned) HTTP request for `input`, on the calling fiber. */
 const encodeWith = <A>(
   prepared: Prepared,
   plan: Plan,
   fiber: Fiber,
   input: unknown,
   f: (request: HttpClientRequest.HttpClientRequest) => Effect.Effect<A, any, any>,
+  presign?: PresignSettings,
 ): Effect.Effect<A, any, any> => {
   const context = fiber.context as Context.Context<any>;
   const traceDebug = Telemetry.isDebug(context);
@@ -540,7 +576,7 @@ const encodeWith = <A>(
       Telemetry.annotate(context, "cloud.region", region);
       if (!traceDebug) {
         return thenSend(
-          toHttpRequest(prepared, input, request, credentials, region, custom, fiber),
+          toHttpRequest(prepared, input, request, credentials, region, custom, fiber, presign),
           f,
         );
       }
@@ -550,7 +586,16 @@ const encodeWith = <A>(
           context,
           "aws.endpoint_and_sign",
           Effect.suspend(() => {
-            const r = toHttpRequest(prepared, input, request, credentials, region, custom, fiber);
+            const r = toHttpRequest(
+              prepared,
+              input,
+              request,
+              credentials,
+              region,
+              custom,
+              fiber,
+              presign,
+            );
             return HttpClientRequest.isHttpClientRequest(r) ? Effect.succeed(r) : r;
           }),
           { "aws.signing.name": prepared.sigv4?.name },
@@ -570,7 +615,7 @@ const encodeWith = <A>(
             const r = plan.build(input);
             return Effect.isEffect(r) ? r : Effect.succeed(r);
           } catch (e) {
-            return e instanceof ParseError ? Effect.fail(e) : Effect.die(e);
+            return serializeFailure(prepared.operationName, e);
           }
         }),
       ),
@@ -581,7 +626,7 @@ const encodeWith = <A>(
   try {
     request = plan.build(input);
   } catch (e) {
-    return e instanceof ParseError ? Effect.fail(e) : Effect.die(e);
+    return serializeFailure(prepared.operationName, e);
   }
   return Effect.isEffect(request) ? Effect.flatMap(request, sendSigned) : sendSigned(request);
 };
@@ -677,8 +722,10 @@ export const AwsProtocol: Layer.Layer<API.Protocol> = /*@__PURE__*/ Layer.succee
     encode: ({ input, config }) =>
       Effect.withFiber((fiber) => {
         const prepared = prepare(config);
+        // `Presign.presignRequest` sets `Presigning` to sign into the query string.
+        const presign = Context.getOrUndefined(fiber.context, Presigning);
         return Effect.flatMap(planOf(prepared), (plan) =>
-          encodeWith(prepared, plan, fiber as unknown as Fiber, input, Effect.succeed),
+          encodeWith(prepared, plan, fiber as unknown as Fiber, input, Effect.succeed, presign),
         );
       }) as Effect.Effect<HttpClientRequest.HttpClientRequest>,
     decode: ({ response, config }) =>

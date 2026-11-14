@@ -1,0 +1,271 @@
+{
+  "description": "Monitoring alert policy, log sink and destination, reserved IPv6, VPC peering, VPC NAT gateway, registry subscription, snapshot, NFS share and autoscale pool responses always carry their envelope member and these identity and state fields; the spec marks every readOnly property optional. Evidence: the response examples in DigitalOcean's API reference, and the live responses the alchemy DigitalOcean suite decodes.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.digitalocean.api#MonitoringGetAlertPolicyResponse/members/policy/traits",
+      "value": {
+        "smithy.api#required": {}
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.digitalocean.api#MonitoringCreateAlertPolicyResponse/members/policy/traits",
+      "value": {
+        "smithy.api#required": {}
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.digitalocean.api#MonitoringUpdateAlertPolicyResponse/members/policy/traits",
+      "value": {
+        "smithy.api#required": {}
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.digitalocean.api#MonitoringGetSinkResponse/members/sink/traits",
+      "value": {
+        "smithy.api#required": {}
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.digitalocean.api#MonitoringGetDestinationResponse/members/destination/traits",
+      "value": {
+        "smithy.api#required": {}
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.digitalocean.api#MonitoringCreateDestinationResponse/members/destination/traits",
+      "value": {
+        "smithy.api#required": {}
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.digitalocean.api#ReservedIPv6GetResponse/members/reserved_ipv6/traits",
+      "value": {
+        "smithy.api#required": {}
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.digitalocean.api#ReservedIPv6CreateResponse/members/reserved_ipv6/traits",
+      "value": {
+        "smithy.api#required": {}
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.digitalocean.api#ReservedIPv6ActionsPostResponse/members/action/traits",
+      "value": {
+        "smithy.api#required": {}
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.digitalocean.api#VpcPeeringsGetResponse/members/vpc_peering/traits",
+      "value": {
+        "smithy.api#required": {}
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.digitalocean.api#VpcPeeringsCreateResponse/members/vpc_peering/traits",
+      "value": {
+        "smithy.api#required": {}
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.digitalocean.api#VpcPeeringsPatchResponse/members/vpc_peering/traits",
+      "value": {
+        "smithy.api#required": {}
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.digitalocean.api#VpcnatgatewaysGetResponse/members/vpc_nat_gateway/traits",
+      "value": {
+        "smithy.api#required": {}
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.digitalocean.api#VpcnatgatewaysCreateResponse/members/vpc_nat_gateway/traits",
+      "value": {
+        "smithy.api#required": {}
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.digitalocean.api#VpcnatgatewaysUpdateResponse/members/vpc_nat_gateway/traits",
+      "value": {
+        "smithy.api#required": {}
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.digitalocean.api#RegistriesGetSubscriptionResponse/members/subscription/traits",
+      "value": {
+        "smithy.api#required": {}
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.digitalocean.api#SnapshotsGetResponse/members/snapshot/traits",
+      "value": {
+        "smithy.api#required": {}
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.digitalocean.api#NfsGetResponse/members/share/traits",
+      "value": {
+        "smithy.api#required": {}
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.digitalocean.api#NfsCreateResponse/members/share/traits",
+      "value": {
+        "smithy.api#required": {}
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.digitalocean.api#AutoscalepoolsGetResponse/members/autoscale_pool/traits",
+      "value": {
+        "smithy.api#required": {}
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.digitalocean.api#AutoscalepoolsCreateResponse/members/autoscale_pool/traits",
+      "value": {
+        "smithy.api#required": {}
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.digitalocean.api#AutoscalepoolsUpdateResponse/members/autoscale_pool/traits",
+      "value": {
+        "smithy.api#required": {}
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.digitalocean.api#ReservedIpv6/members/ip/traits/smithy.api#required",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.digitalocean.api#ReservedIpv6/members/region_slug/traits/smithy.api#required",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.digitalocean.api#ReservedIpv6/members/reserved_at/traits/smithy.api#required",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.digitalocean.api#ReservedIPv6CreateResponseReservedIpv6/members/ip/traits/smithy.api#required",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.digitalocean.api#ReservedIPv6CreateResponseReservedIpv6/members/region_slug/traits/smithy.api#required",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.digitalocean.api#VpcPeering/members/id/traits/smithy.api#required",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.digitalocean.api#VpcPeering/members/created_at/traits/smithy.api#required",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.digitalocean.api#VpcPeering/members/status/traits/smithy.api#required",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.digitalocean.api#VpcPeering/members/vpc_ids/traits/smithy.api#required",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.digitalocean.api#VpcPeering/members/name/traits/smithy.api#required",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.digitalocean.api#VpcNatGatewayGet/members/id/traits/smithy.api#required",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.digitalocean.api#VpcNatGatewayGet/members/name/traits/smithy.api#required",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.digitalocean.api#VpcNatGatewayGet/members/type/traits/smithy.api#required",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.digitalocean.api#VpcNatGatewayGet/members/state/traits/smithy.api#required",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.digitalocean.api#VpcNatGatewayGet/members/region/traits/smithy.api#required",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.digitalocean.api#VpcNatGatewayGet/members/size/traits/smithy.api#required",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.digitalocean.api#VpcNatGatewayGet/members/vpcs/traits/smithy.api#required",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.digitalocean.api#VpcNatGatewayGet/members/created_at/traits/smithy.api#required",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.digitalocean.api#DestinationOmitCredentials/members/id/traits/smithy.api#required",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.digitalocean.api#DestinationOmitCredentials/members/name/traits/smithy.api#required",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.digitalocean.api#DestinationOmitCredentials/members/type/traits/smithy.api#required",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.digitalocean.api#Subscription/members/tier/traits",
+      "value": {
+        "smithy.api#required": {}
+      }
+    }
+  ]
+}

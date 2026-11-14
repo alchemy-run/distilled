@@ -143,27 +143,27 @@ export type CreatedArtifactName = string;
 export type CreatedArtifactDescription = string;
 export interface CreatedArtifact {
   Name: string;
-  Description?: string;
+  Description?: string | undefined;
 }
 export type DryRun = boolean;
 export interface AssociateCreatedArtifactRequest {
   ProgressUpdateStream: string;
   MigrationTaskName: string;
   CreatedArtifact: CreatedArtifact;
-  DryRun?: boolean;
+  DryRun?: boolean | undefined;
 }
 export interface AssociateCreatedArtifactResult {}
 export type ConfigurationId = string;
 export type DiscoveredResourceDescription = string;
 export interface DiscoveredResource {
   ConfigurationId: string;
-  Description?: string;
+  Description?: string | undefined;
 }
 export interface AssociateDiscoveredResourceRequest {
   ProgressUpdateStream: string;
   MigrationTaskName: string;
   DiscoveredResource: DiscoveredResource;
-  DryRun?: boolean;
+  DryRun?: boolean | undefined;
 }
 export interface AssociateDiscoveredResourceResult {}
 export type SourceResourceName = string;
@@ -171,24 +171,24 @@ export type SourceResourceDescription = string;
 export type StatusDetail = string;
 export interface SourceResource {
   Name: string;
-  Description?: string;
-  StatusDetail?: string;
+  Description?: string | undefined;
+  StatusDetail?: string | undefined;
 }
 export interface AssociateSourceResourceRequest {
   ProgressUpdateStream: string;
   MigrationTaskName: string;
   SourceResource: SourceResource;
-  DryRun?: boolean;
+  DryRun?: boolean | undefined;
 }
 export interface AssociateSourceResourceResult {}
 export interface CreateProgressUpdateStreamRequest {
   ProgressUpdateStreamName: string;
-  DryRun?: boolean;
+  DryRun?: boolean | undefined;
 }
 export interface CreateProgressUpdateStreamResult {}
 export interface DeleteProgressUpdateStreamRequest {
   ProgressUpdateStreamName: string;
-  DryRun?: boolean;
+  DryRun?: boolean | undefined;
 }
 export interface DeleteProgressUpdateStreamResult {}
 export type ApplicationId = string;
@@ -198,8 +198,8 @@ export interface DescribeApplicationStateRequest {
 export type ApplicationStatus = "NOT_STARTED" | "IN_PROGRESS" | "COMPLETED" | (string & {});
 export type UpdateDateTime = Date;
 export interface DescribeApplicationStateResult {
-  ApplicationStatus?: ApplicationStatus;
-  LastUpdatedTime?: Date;
+  ApplicationStatus?: ApplicationStatus | undefined;
+  LastUpdatedTime?: Date | undefined;
 }
 export interface DescribeMigrationTaskRequest {
   ProgressUpdateStream: string;
@@ -209,8 +209,8 @@ export type Status = "NOT_STARTED" | "IN_PROGRESS" | "FAILED" | "COMPLETED" | (s
 export type ProgressPercent = number;
 export interface Task {
   Status: Status;
-  StatusDetail?: string;
-  ProgressPercent?: number;
+  StatusDetail?: string | undefined;
+  ProgressPercent?: number | undefined;
 }
 export type ResourceAttributeType =
   | "IPV4_ADDRESS"
@@ -231,149 +231,149 @@ export interface ResourceAttribute {
 }
 export type LatestResourceAttributeList = ResourceAttribute[];
 export interface MigrationTask {
-  ProgressUpdateStream?: string;
-  MigrationTaskName?: string;
-  Task?: Task;
-  UpdateDateTime?: Date;
-  ResourceAttributeList?: ResourceAttribute[];
+  ProgressUpdateStream?: string | undefined;
+  MigrationTaskName?: string | undefined;
+  Task?: Task | undefined;
+  UpdateDateTime?: Date | undefined;
+  ResourceAttributeList?: ResourceAttribute[] | undefined;
 }
 export interface DescribeMigrationTaskResult {
-  MigrationTask?: MigrationTask;
+  MigrationTask?: MigrationTask | undefined;
 }
 export interface DisassociateCreatedArtifactRequest {
   ProgressUpdateStream: string;
   MigrationTaskName: string;
   CreatedArtifactName: string;
-  DryRun?: boolean;
+  DryRun?: boolean | undefined;
 }
 export interface DisassociateCreatedArtifactResult {}
 export interface DisassociateDiscoveredResourceRequest {
   ProgressUpdateStream: string;
   MigrationTaskName: string;
   ConfigurationId: string;
-  DryRun?: boolean;
+  DryRun?: boolean | undefined;
 }
 export interface DisassociateDiscoveredResourceResult {}
 export interface DisassociateSourceResourceRequest {
   ProgressUpdateStream: string;
   MigrationTaskName: string;
   SourceResourceName: string;
-  DryRun?: boolean;
+  DryRun?: boolean | undefined;
 }
 export interface DisassociateSourceResourceResult {}
 export interface ImportMigrationTaskRequest {
   ProgressUpdateStream: string;
   MigrationTaskName: string;
-  DryRun?: boolean;
+  DryRun?: boolean | undefined;
 }
 export interface ImportMigrationTaskResult {}
 export type ApplicationIds = string[];
 export type Token = string;
 export type MaxResults = number;
 export interface ListApplicationStatesRequest {
-  ApplicationIds?: string[];
-  NextToken?: string;
-  MaxResults?: number;
+  ApplicationIds?: string[] | undefined;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export interface ApplicationState {
-  ApplicationId?: string;
-  ApplicationStatus?: ApplicationStatus;
-  LastUpdatedTime?: Date;
+  ApplicationId?: string | undefined;
+  ApplicationStatus?: ApplicationStatus | undefined;
+  LastUpdatedTime?: Date | undefined;
 }
 export type ApplicationStateList = ApplicationState[];
 export interface ListApplicationStatesResult {
-  ApplicationStateList?: ApplicationState[];
-  NextToken?: string;
+  ApplicationStateList?: ApplicationState[] | undefined;
+  NextToken?: string | undefined;
 }
 export type MaxResultsCreatedArtifacts = number;
 export interface ListCreatedArtifactsRequest {
   ProgressUpdateStream: string;
   MigrationTaskName: string;
-  NextToken?: string;
-  MaxResults?: number;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export type CreatedArtifactList = CreatedArtifact[];
 export interface ListCreatedArtifactsResult {
-  NextToken?: string;
-  CreatedArtifactList?: CreatedArtifact[];
+  NextToken?: string | undefined;
+  CreatedArtifactList?: CreatedArtifact[] | undefined;
 }
 export type MaxResultsResources = number;
 export interface ListDiscoveredResourcesRequest {
   ProgressUpdateStream: string;
   MigrationTaskName: string;
-  NextToken?: string;
-  MaxResults?: number;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export type DiscoveredResourceList = DiscoveredResource[];
 export interface ListDiscoveredResourcesResult {
-  NextToken?: string;
-  DiscoveredResourceList?: DiscoveredResource[];
+  NextToken?: string | undefined;
+  DiscoveredResourceList?: DiscoveredResource[] | undefined;
 }
 export type ResourceName = string;
 export interface ListMigrationTasksRequest {
-  NextToken?: string;
-  MaxResults?: number;
-  ResourceName?: string;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
+  ResourceName?: string | undefined;
 }
 export interface MigrationTaskSummary {
-  ProgressUpdateStream?: string;
-  MigrationTaskName?: string;
-  Status?: Status;
-  ProgressPercent?: number;
-  StatusDetail?: string;
-  UpdateDateTime?: Date;
+  ProgressUpdateStream?: string | undefined;
+  MigrationTaskName?: string | undefined;
+  Status?: Status | undefined;
+  ProgressPercent?: number | undefined;
+  StatusDetail?: string | undefined;
+  UpdateDateTime?: Date | undefined;
 }
 export type MigrationTaskSummaryList = MigrationTaskSummary[];
 export interface ListMigrationTasksResult {
-  NextToken?: string;
-  MigrationTaskSummaryList?: MigrationTaskSummary[];
+  NextToken?: string | undefined;
+  MigrationTaskSummaryList?: MigrationTaskSummary[] | undefined;
 }
 export interface ListMigrationTaskUpdatesRequest {
   ProgressUpdateStream: string;
   MigrationTaskName: string;
-  NextToken?: string;
-  MaxResults?: number;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export type UpdateType = "MIGRATION_TASK_STATE_UPDATED" | (string & {});
 export interface MigrationTaskUpdate {
-  UpdateDateTime?: Date;
-  UpdateType?: UpdateType;
-  MigrationTaskState?: Task;
+  UpdateDateTime?: Date | undefined;
+  UpdateType?: UpdateType | undefined;
+  MigrationTaskState?: Task | undefined;
 }
 export type MigrationTaskUpdateList = MigrationTaskUpdate[];
 export interface ListMigrationTaskUpdatesResult {
-  NextToken?: string;
-  MigrationTaskUpdateList?: MigrationTaskUpdate[];
+  NextToken?: string | undefined;
+  MigrationTaskUpdateList?: MigrationTaskUpdate[] | undefined;
 }
 export interface ListProgressUpdateStreamsRequest {
-  NextToken?: string;
-  MaxResults?: number;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export interface ProgressUpdateStreamSummary {
-  ProgressUpdateStreamName?: string;
+  ProgressUpdateStreamName?: string | undefined;
 }
 export type ProgressUpdateStreamSummaryList = ProgressUpdateStreamSummary[];
 export interface ListProgressUpdateStreamsResult {
-  ProgressUpdateStreamSummaryList?: ProgressUpdateStreamSummary[];
-  NextToken?: string;
+  ProgressUpdateStreamSummaryList?: ProgressUpdateStreamSummary[] | undefined;
+  NextToken?: string | undefined;
 }
 export type MaxResultsSourceResources = number;
 export interface ListSourceResourcesRequest {
   ProgressUpdateStream: string;
   MigrationTaskName: string;
-  NextToken?: string;
-  MaxResults?: number;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export type SourceResourceList = SourceResource[];
 export interface ListSourceResourcesResult {
-  NextToken?: string;
-  SourceResourceList?: SourceResource[];
+  NextToken?: string | undefined;
+  SourceResourceList?: SourceResource[] | undefined;
 }
 export interface NotifyApplicationStateRequest {
   ApplicationId: string;
   Status: ApplicationStatus;
-  UpdateDateTime?: Date;
-  DryRun?: boolean;
+  UpdateDateTime?: Date | undefined;
+  DryRun?: boolean | undefined;
 }
 export interface NotifyApplicationStateResult {}
 export type NextUpdateSeconds = number;
@@ -383,7 +383,7 @@ export interface NotifyMigrationTaskStateRequest {
   Task: Task;
   UpdateDateTime: Date;
   NextUpdateSeconds: number;
-  DryRun?: boolean;
+  DryRun?: boolean | undefined;
 }
 export interface NotifyMigrationTaskStateResult {}
 export type ResourceAttributeList = ResourceAttribute[];
@@ -391,7 +391,7 @@ export interface PutResourceAttributesRequest {
   ProgressUpdateStream: string;
   MigrationTaskName: string;
   ResourceAttributeList: ResourceAttribute[];
-  DryRun?: boolean;
+  DryRun?: boolean | undefined;
 }
 export interface PutResourceAttributesResult {}
 export type ErrorMessage = string;

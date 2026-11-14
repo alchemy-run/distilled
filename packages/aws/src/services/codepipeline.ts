@@ -299,7 +299,7 @@ export type JobStatus =
   | "Failed"
   | (string & {});
 export interface AcknowledgeJobOutput {
-  status?: JobStatus;
+  status?: JobStatus | undefined;
 }
 export type ThirdPartyJobId = string;
 export type ClientToken = string;
@@ -309,7 +309,7 @@ export interface AcknowledgeThirdPartyJobInput {
   clientToken: string;
 }
 export interface AcknowledgeThirdPartyJobOutput {
-  status?: JobStatus;
+  status?: JobStatus | undefined;
 }
 export type ActionCategory =
   | "Source"
@@ -325,10 +325,10 @@ export type Version = string;
 export type Url = string;
 export type UrlTemplate = string;
 export interface ActionTypeSettings {
-  thirdPartyConfigurationUrl?: string;
-  entityUrlTemplate?: string;
-  executionUrlTemplate?: string;
-  revisionUrlTemplate?: string;
+  thirdPartyConfigurationUrl?: string | undefined;
+  entityUrlTemplate?: string | undefined;
+  executionUrlTemplate?: string | undefined;
+  revisionUrlTemplate?: string | undefined;
 }
 export type ActionConfigurationKey = string;
 export type Description = string;
@@ -338,9 +338,9 @@ export interface ActionConfigurationProperty {
   required: boolean;
   key: boolean;
   secret: boolean;
-  queryable?: boolean;
-  description?: string;
-  type?: ActionConfigurationPropertyType;
+  queryable?: boolean | undefined;
+  description?: string | undefined;
+  type?: ActionConfigurationPropertyType | undefined;
 }
 export type ActionConfigurationPropertyList = ActionConfigurationProperty[];
 export type MinimumArtifactCount = number;
@@ -360,11 +360,11 @@ export interface CreateCustomActionTypeInput {
   category: ActionCategory;
   provider: string;
   version: string;
-  settings?: ActionTypeSettings;
-  configurationProperties?: ActionConfigurationProperty[];
+  settings?: ActionTypeSettings | undefined;
+  configurationProperties?: ActionConfigurationProperty[] | undefined;
   inputArtifactDetails: ArtifactDetails;
   outputArtifactDetails: ArtifactDetails;
-  tags?: Tag[];
+  tags?: Tag[] | undefined;
 }
 export type ActionOwner = "AWS" | "ThirdParty" | "Custom" | (string & {});
 export interface ActionTypeId {
@@ -375,14 +375,14 @@ export interface ActionTypeId {
 }
 export interface ActionType {
   id: ActionTypeId;
-  settings?: ActionTypeSettings;
-  actionConfigurationProperties?: ActionConfigurationProperty[];
+  settings?: ActionTypeSettings | undefined;
+  actionConfigurationProperties?: ActionConfigurationProperty[] | undefined;
   inputArtifactDetails: ArtifactDetails;
   outputArtifactDetails: ArtifactDetails;
 }
 export interface CreateCustomActionTypeOutput {
   actionType: ActionType;
-  tags?: Tag[];
+  tags?: Tag[] | undefined;
 }
 export type PipelineName = string;
 export type RoleArn = string;
@@ -397,7 +397,7 @@ export interface EncryptionKey {
 export interface ArtifactStore {
   type: ArtifactStoreType;
   location: string;
-  encryptionKey?: EncryptionKey;
+  encryptionKey?: EncryptionKey | undefined;
 }
 export type AWSRegionName = string;
 export type ArtifactStoreMap = { [key: string]: ArtifactStore | undefined };
@@ -420,7 +420,7 @@ export type FilePath = string;
 export type FilePathList = string[];
 export interface OutputArtifact {
   name: string;
-  files?: string[];
+  files?: string[] | undefined;
 }
 export type OutputArtifactList = OutputArtifact[];
 export interface InputArtifact {
@@ -437,29 +437,29 @@ export type EnvironmentVariableType = "PLAINTEXT" | "SECRETS_MANAGER" | (string 
 export interface EnvironmentVariable {
   name: string;
   value: string;
-  type?: EnvironmentVariableType;
+  type?: EnvironmentVariableType | undefined;
 }
 export type EnvironmentVariableList = EnvironmentVariable[];
 export interface ActionDeclaration {
   name: string;
   actionTypeId: ActionTypeId;
-  runOrder?: number;
-  configuration?: { [key: string]: string | undefined };
-  commands?: string[];
-  outputArtifacts?: OutputArtifact[];
-  inputArtifacts?: InputArtifact[];
-  outputVariables?: string[];
-  roleArn?: string;
-  region?: string;
-  namespace?: string;
-  timeoutInMinutes?: number;
-  environmentVariables?: EnvironmentVariable[];
+  runOrder?: number | undefined;
+  configuration?: { [key: string]: string | undefined } | undefined;
+  commands?: string[] | undefined;
+  outputArtifacts?: OutputArtifact[] | undefined;
+  inputArtifacts?: InputArtifact[] | undefined;
+  outputVariables?: string[] | undefined;
+  roleArn?: string | undefined;
+  region?: string | undefined;
+  namespace?: string | undefined;
+  timeoutInMinutes?: number | undefined;
+  environmentVariables?: EnvironmentVariable[] | undefined;
 }
 export type StageActionDeclarationList = ActionDeclaration[];
 export type Result = "ROLLBACK" | "FAIL" | "RETRY" | "SKIP" | (string & {});
 export type StageRetryMode = "FAILED_ACTIONS" | "ALL_ACTIONS" | (string & {});
 export interface RetryConfiguration {
-  retryMode?: StageRetryMode;
+  retryMode?: StageRetryMode | undefined;
 }
 export type RuleName = string;
 export type RuleCategory = "Rule" | (string & {});
@@ -467,9 +467,9 @@ export type RuleOwner = "AWS" | (string & {});
 export type RuleProvider = string;
 export interface RuleTypeId {
   category: RuleCategory;
-  owner?: RuleOwner;
+  owner?: RuleOwner | undefined;
   provider: string;
-  version?: string;
+  version?: string | undefined;
 }
 export type RuleConfigurationKey = string;
 export type RuleConfigurationValue = string;
@@ -478,23 +478,23 @@ export type RuleTimeout = number;
 export interface RuleDeclaration {
   name: string;
   ruleTypeId: RuleTypeId;
-  configuration?: { [key: string]: string | undefined };
-  commands?: string[];
-  inputArtifacts?: InputArtifact[];
-  roleArn?: string;
-  region?: string;
-  timeoutInMinutes?: number;
+  configuration?: { [key: string]: string | undefined } | undefined;
+  commands?: string[] | undefined;
+  inputArtifacts?: InputArtifact[] | undefined;
+  roleArn?: string | undefined;
+  region?: string | undefined;
+  timeoutInMinutes?: number | undefined;
 }
 export type RuleDeclarationList = RuleDeclaration[];
 export interface Condition {
-  result?: Result;
-  rules?: RuleDeclaration[];
+  result?: Result | undefined;
+  rules?: RuleDeclaration[] | undefined;
 }
 export type ConditionList = Condition[];
 export interface FailureConditions {
-  result?: Result;
-  retryConfiguration?: RetryConfiguration;
-  conditions?: Condition[];
+  result?: Result | undefined;
+  retryConfiguration?: RetryConfiguration | undefined;
+  conditions?: Condition[] | undefined;
 }
 export interface SuccessConditions {
   conditions: Condition[];
@@ -504,11 +504,11 @@ export interface BeforeEntryConditions {
 }
 export interface StageDeclaration {
   name: string;
-  blockers?: BlockerDeclaration[];
+  blockers?: BlockerDeclaration[] | undefined;
   actions: ActionDeclaration[];
-  onFailure?: FailureConditions;
-  onSuccess?: SuccessConditions;
-  beforeEntry?: BeforeEntryConditions;
+  onFailure?: FailureConditions | undefined;
+  onSuccess?: SuccessConditions | undefined;
+  beforeEntry?: BeforeEntryConditions | undefined;
 }
 export type PipelineStageDeclarationList = StageDeclaration[];
 export type PipelineVersion = number;
@@ -519,47 +519,47 @@ export type PipelineVariableValue = string;
 export type PipelineVariableDescription = string;
 export interface PipelineVariableDeclaration {
   name: string;
-  defaultValue?: string;
-  description?: string;
+  defaultValue?: string | undefined;
+  description?: string | undefined;
 }
 export type PipelineVariableDeclarationList = PipelineVariableDeclaration[];
 export type PipelineTriggerProviderType = "CodeStarSourceConnection" | (string & {});
 export type GitTagNamePattern = string;
 export type GitTagPatternList = string[];
 export interface GitTagFilterCriteria {
-  includes?: string[];
-  excludes?: string[];
+  includes?: string[] | undefined;
+  excludes?: string[] | undefined;
 }
 export type GitBranchNamePattern = string;
 export type GitBranchPatternList = string[];
 export interface GitBranchFilterCriteria {
-  includes?: string[];
-  excludes?: string[];
+  includes?: string[] | undefined;
+  excludes?: string[] | undefined;
 }
 export type GitFilePathPattern = string;
 export type GitFilePathPatternList = string[];
 export interface GitFilePathFilterCriteria {
-  includes?: string[];
-  excludes?: string[];
+  includes?: string[] | undefined;
+  excludes?: string[] | undefined;
 }
 export interface GitPushFilter {
-  tags?: GitTagFilterCriteria;
-  branches?: GitBranchFilterCriteria;
-  filePaths?: GitFilePathFilterCriteria;
+  tags?: GitTagFilterCriteria | undefined;
+  branches?: GitBranchFilterCriteria | undefined;
+  filePaths?: GitFilePathFilterCriteria | undefined;
 }
 export type GitPushFilterList = GitPushFilter[];
 export type GitPullRequestEventType = "OPEN" | "UPDATED" | "CLOSED" | (string & {});
 export type GitPullRequestEventTypeList = GitPullRequestEventType[];
 export interface GitPullRequestFilter {
-  events?: GitPullRequestEventType[];
-  branches?: GitBranchFilterCriteria;
-  filePaths?: GitFilePathFilterCriteria;
+  events?: GitPullRequestEventType[] | undefined;
+  branches?: GitBranchFilterCriteria | undefined;
+  filePaths?: GitFilePathFilterCriteria | undefined;
 }
 export type GitPullRequestFilterList = GitPullRequestFilter[];
 export interface GitConfiguration {
   sourceActionName: string;
-  push?: GitPushFilter[];
-  pullRequest?: GitPullRequestFilter[];
+  push?: GitPushFilter[] | undefined;
+  pullRequest?: GitPullRequestFilter[] | undefined;
 }
 export interface PipelineTriggerDeclaration {
   providerType: PipelineTriggerProviderType;
@@ -569,22 +569,22 @@ export type PipelineTriggerDeclarationList = PipelineTriggerDeclaration[];
 export interface PipelineDeclaration {
   name: string;
   roleArn: string;
-  artifactStore?: ArtifactStore;
-  artifactStores?: { [key: string]: ArtifactStore | undefined };
+  artifactStore?: ArtifactStore | undefined;
+  artifactStores?: { [key: string]: ArtifactStore | undefined } | undefined;
   stages: StageDeclaration[];
-  version?: number;
-  executionMode?: ExecutionMode;
-  pipelineType?: PipelineType;
-  variables?: PipelineVariableDeclaration[];
-  triggers?: PipelineTriggerDeclaration[];
+  version?: number | undefined;
+  executionMode?: ExecutionMode | undefined;
+  pipelineType?: PipelineType | undefined;
+  variables?: PipelineVariableDeclaration[] | undefined;
+  triggers?: PipelineTriggerDeclaration[] | undefined;
 }
 export interface CreatePipelineInput {
   pipeline: PipelineDeclaration;
-  tags?: Tag[];
+  tags?: Tag[] | undefined;
 }
 export interface CreatePipelineOutput {
-  pipeline?: PipelineDeclaration;
-  tags?: Tag[];
+  pipeline?: PipelineDeclaration | undefined;
+  tags?: Tag[] | undefined;
 }
 export interface DeleteCustomActionTypeInput {
   category: ActionCategory;
@@ -602,7 +602,7 @@ export interface DeleteWebhookInput {
 }
 export interface DeleteWebhookOutput {}
 export interface DeregisterWebhookWithThirdPartyInput {
-  webhookName?: string;
+  webhookName?: string | undefined;
 }
 export interface DeregisterWebhookWithThirdPartyOutput {}
 export type StageTransitionType = "Inbound" | "Outbound" | (string & {});
@@ -637,12 +637,12 @@ export type PollingAccountList = string[];
 export type ServicePrincipal = string;
 export type PollingServicePrincipalList = string[];
 export interface JobWorkerExecutorConfiguration {
-  pollingAccounts?: string[];
-  pollingServicePrincipals?: string[];
+  pollingAccounts?: string[] | undefined;
+  pollingServicePrincipals?: string[] | undefined;
 }
 export interface ExecutorConfiguration {
-  lambdaExecutorConfiguration?: LambdaExecutorConfiguration;
-  jobWorkerExecutorConfiguration?: JobWorkerExecutorConfiguration;
+  lambdaExecutorConfiguration?: LambdaExecutorConfiguration | undefined;
+  jobWorkerExecutorConfiguration?: JobWorkerExecutorConfiguration | undefined;
 }
 export type ExecutorType = "JobWorker" | "Lambda" | (string & {});
 export type PolicyStatementsTemplate = string;
@@ -650,8 +650,8 @@ export type JobTimeout = number;
 export interface ActionTypeExecutor {
   configuration: ExecutorConfiguration;
   type: ExecutorType;
-  policyStatementsTemplate?: string;
-  jobTimeout?: number;
+  policyStatementsTemplate?: string | undefined;
+  jobTimeout?: number | undefined;
 }
 export interface ActionTypeIdentifier {
   category: ActionCategory;
@@ -676,51 +676,51 @@ export interface ActionTypeProperty {
   optional: boolean;
   key: boolean;
   noEcho: boolean;
-  queryable?: boolean;
-  description?: string;
+  queryable?: boolean | undefined;
+  description?: string | undefined;
 }
 export type ActionTypeProperties = ActionTypeProperty[];
 export interface ActionTypeUrls {
-  configurationUrl?: string;
-  entityUrlTemplate?: string;
-  executionUrlTemplate?: string;
-  revisionUrlTemplate?: string;
+  configurationUrl?: string | undefined;
+  entityUrlTemplate?: string | undefined;
+  executionUrlTemplate?: string | undefined;
+  revisionUrlTemplate?: string | undefined;
 }
 export interface ActionTypeDeclaration {
-  description?: string;
+  description?: string | undefined;
   executor: ActionTypeExecutor;
   id: ActionTypeIdentifier;
   inputArtifactDetails: ActionTypeArtifactDetails;
   outputArtifactDetails: ActionTypeArtifactDetails;
-  permissions?: ActionTypePermissions;
-  properties?: ActionTypeProperty[];
-  urls?: ActionTypeUrls;
+  permissions?: ActionTypePermissions | undefined;
+  properties?: ActionTypeProperty[] | undefined;
+  urls?: ActionTypeUrls | undefined;
 }
 export interface GetActionTypeOutput {
-  actionType?: ActionTypeDeclaration;
+  actionType?: ActionTypeDeclaration | undefined;
 }
 export interface GetJobDetailsInput {
   jobId: string;
 }
 export interface ActionConfiguration {
-  configuration?: { [key: string]: string | undefined };
+  configuration?: { [key: string]: string | undefined } | undefined;
 }
 export interface StageContext {
-  name?: string;
+  name?: string | undefined;
 }
 export type ActionExecutionId = string;
 export interface ActionContext {
-  name?: string;
-  actionExecutionId?: string;
+  name?: string | undefined;
+  actionExecutionId?: string | undefined;
 }
 export type PipelineArn = string;
 export type PipelineExecutionId = string;
 export interface PipelineContext {
-  pipelineName?: string;
-  stage?: StageContext;
-  action?: ActionContext;
-  pipelineArn?: string;
-  pipelineExecutionId?: string;
+  pipelineName?: string | undefined;
+  stage?: StageContext | undefined;
+  action?: ActionContext | undefined;
+  pipelineArn?: string | undefined;
+  pipelineExecutionId?: string | undefined;
 }
 export type Revision = string;
 export type ArtifactLocationType = "S3" | (string & {});
@@ -731,13 +731,13 @@ export interface S3ArtifactLocation {
   objectKey: string;
 }
 export interface ArtifactLocation {
-  type?: ArtifactLocationType;
-  s3Location?: S3ArtifactLocation;
+  type?: ArtifactLocationType | undefined;
+  s3Location?: S3ArtifactLocation | undefined;
 }
 export interface Artifact {
-  name?: string;
-  revision?: string;
-  location?: ArtifactLocation;
+  name?: string | undefined;
+  revision?: string | undefined;
+  location?: ArtifactLocation | undefined;
 }
 export type ArtifactList = Artifact[];
 export type AccessKeyId = string | redacted.Redacted<string>;
@@ -750,36 +750,36 @@ export interface AWSSessionCredentials {
 }
 export type ContinuationToken = string;
 export interface JobData {
-  actionTypeId?: ActionTypeId;
-  actionConfiguration?: ActionConfiguration;
-  pipelineContext?: PipelineContext;
-  inputArtifacts?: Artifact[];
-  outputArtifacts?: Artifact[];
-  artifactCredentials?: AWSSessionCredentials;
-  continuationToken?: string;
-  encryptionKey?: EncryptionKey;
+  actionTypeId?: ActionTypeId | undefined;
+  actionConfiguration?: ActionConfiguration | undefined;
+  pipelineContext?: PipelineContext | undefined;
+  inputArtifacts?: Artifact[] | undefined;
+  outputArtifacts?: Artifact[] | undefined;
+  artifactCredentials?: AWSSessionCredentials | undefined;
+  continuationToken?: string | undefined;
+  encryptionKey?: EncryptionKey | undefined;
 }
 export interface JobDetails {
-  id?: string;
-  data?: JobData;
-  accountId?: string;
+  id?: string | undefined;
+  data?: JobData | undefined;
+  accountId?: string | undefined;
 }
 export interface GetJobDetailsOutput {
-  jobDetails?: JobDetails;
+  jobDetails?: JobDetails | undefined;
 }
 export interface GetPipelineInput {
   name: string;
-  version?: number;
+  version?: number | undefined;
 }
 export interface PipelineMetadata {
-  pipelineArn?: string;
-  created?: Date;
-  updated?: Date;
-  pollingDisabledAt?: Date;
+  pipelineArn?: string | undefined;
+  created?: Date | undefined;
+  updated?: Date | undefined;
+  pollingDisabledAt?: Date | undefined;
 }
 export interface GetPipelineOutput {
-  pipeline?: PipelineDeclaration;
-  metadata?: PipelineMetadata;
+  pipeline?: PipelineDeclaration | undefined;
+  metadata?: PipelineMetadata | undefined;
 }
 export interface GetPipelineExecutionInput {
   pipelineName: string;
@@ -798,17 +798,17 @@ export type PipelineExecutionStatusSummary = string;
 export type RevisionChangeIdentifier = string;
 export type RevisionSummary = string;
 export interface ArtifactRevision {
-  name?: string;
-  revisionId?: string;
-  revisionChangeIdentifier?: string;
-  revisionSummary?: string;
-  created?: Date;
-  revisionUrl?: string;
+  name?: string | undefined;
+  revisionId?: string | undefined;
+  revisionChangeIdentifier?: string | undefined;
+  revisionSummary?: string | undefined;
+  created?: Date | undefined;
+  revisionUrl?: string | undefined;
 }
 export type ArtifactRevisionList = ArtifactRevision[];
 export interface ResolvedPipelineVariable {
-  name?: string;
-  resolvedValue?: string;
+  name?: string | undefined;
+  resolvedValue?: string | undefined;
 }
 export type ResolvedPipelineVariableList = ResolvedPipelineVariable[];
 export type TriggerType =
@@ -824,28 +824,28 @@ export type TriggerType =
   | (string & {});
 export type TriggerDetail = string;
 export interface ExecutionTrigger {
-  triggerType?: TriggerType;
-  triggerDetail?: string;
+  triggerType?: TriggerType | undefined;
+  triggerDetail?: string | undefined;
 }
 export type ExecutionType = "STANDARD" | "ROLLBACK" | (string & {});
 export interface PipelineRollbackMetadata {
-  rollbackTargetPipelineExecutionId?: string;
+  rollbackTargetPipelineExecutionId?: string | undefined;
 }
 export interface PipelineExecution {
-  pipelineName?: string;
-  pipelineVersion?: number;
-  pipelineExecutionId?: string;
-  status?: PipelineExecutionStatus;
-  statusSummary?: string;
-  artifactRevisions?: ArtifactRevision[];
-  variables?: ResolvedPipelineVariable[];
-  trigger?: ExecutionTrigger;
-  executionMode?: ExecutionMode;
-  executionType?: ExecutionType;
-  rollbackMetadata?: PipelineRollbackMetadata;
+  pipelineName?: string | undefined;
+  pipelineVersion?: number | undefined;
+  pipelineExecutionId?: string | undefined;
+  status?: PipelineExecutionStatus | undefined;
+  statusSummary?: string | undefined;
+  artifactRevisions?: ArtifactRevision[] | undefined;
+  variables?: ResolvedPipelineVariable[] | undefined;
+  trigger?: ExecutionTrigger | undefined;
+  executionMode?: ExecutionMode | undefined;
+  executionType?: ExecutionType | undefined;
+  rollbackMetadata?: PipelineRollbackMetadata | undefined;
 }
 export interface GetPipelineExecutionOutput {
-  pipelineExecution?: PipelineExecution;
+  pipelineExecution?: PipelineExecution | undefined;
 }
 export interface GetPipelineStateInput {
   name: string;
@@ -862,22 +862,22 @@ export type StageExecutionStatus =
 export interface StageExecution {
   pipelineExecutionId: string;
   status: StageExecutionStatus;
-  type?: ExecutionType;
+  type?: ExecutionType | undefined;
 }
 export type StageExecutionList = StageExecution[];
 export type Enabled = boolean;
 export type LastChangedBy = string;
 export type LastChangedAt = Date;
 export interface TransitionState {
-  enabled?: boolean;
-  lastChangedBy?: string;
-  lastChangedAt?: Date;
-  disabledReason?: string;
+  enabled?: boolean | undefined;
+  lastChangedBy?: string | undefined;
+  lastChangedAt?: Date | undefined;
+  disabledReason?: string | undefined;
 }
 export interface ActionRevision {
   revisionId: string;
-  revisionChangeId?: string;
-  created?: Date;
+  revisionChangeId?: string | undefined;
+  created?: Date | undefined;
 }
 export type ActionExecutionStatus =
   | "InProgress"
@@ -893,29 +893,29 @@ export type Percentage = number;
 export type Code = string;
 export type Message = string;
 export interface ErrorDetails {
-  code?: string;
-  message?: string;
+  code?: string | undefined;
+  message?: string | undefined;
 }
 export type LogStreamARN = string;
 export interface ActionExecution {
-  actionExecutionId?: string;
-  status?: ActionExecutionStatus;
-  summary?: string;
-  lastStatusChange?: Date;
-  token?: string;
-  lastUpdatedBy?: string;
-  externalExecutionId?: string;
-  externalExecutionUrl?: string;
-  percentComplete?: number;
-  errorDetails?: ErrorDetails;
-  logStreamARN?: string;
+  actionExecutionId?: string | undefined;
+  status?: ActionExecutionStatus | undefined;
+  summary?: string | undefined;
+  lastStatusChange?: Date | undefined;
+  token?: string | undefined;
+  lastUpdatedBy?: string | undefined;
+  externalExecutionId?: string | undefined;
+  externalExecutionUrl?: string | undefined;
+  percentComplete?: number | undefined;
+  errorDetails?: ErrorDetails | undefined;
+  logStreamARN?: string | undefined;
 }
 export interface ActionState {
-  actionName?: string;
-  currentRevision?: ActionRevision;
-  latestExecution?: ActionExecution;
-  entityUrl?: string;
-  revisionUrl?: string;
+  actionName?: string | undefined;
+  currentRevision?: ActionRevision | undefined;
+  latestExecution?: ActionExecution | undefined;
+  entityUrl?: string | undefined;
+  revisionUrl?: string | undefined;
 }
 export type ActionStateList = ActionState[];
 export type ConditionExecutionStatus =
@@ -928,18 +928,18 @@ export type ConditionExecutionStatus =
   | "Overridden"
   | (string & {});
 export interface StageConditionsExecution {
-  status?: ConditionExecutionStatus;
-  summary?: string;
+  status?: ConditionExecutionStatus | undefined;
+  summary?: string | undefined;
 }
 export interface ConditionExecution {
-  status?: ConditionExecutionStatus;
-  summary?: string;
-  lastStatusChange?: Date;
+  status?: ConditionExecutionStatus | undefined;
+  summary?: string | undefined;
+  lastStatusChange?: Date | undefined;
 }
 export interface RuleRevision {
   revisionId: string;
-  revisionChangeId?: string;
-  created?: Date;
+  revisionChangeId?: string | undefined;
+  created?: Date | undefined;
 }
 export type RuleExecutionId = string;
 export type RuleExecutionStatus =
@@ -950,81 +950,81 @@ export type RuleExecutionStatus =
   | (string & {});
 export type RuleExecutionToken = string;
 export interface RuleExecution {
-  ruleExecutionId?: string;
-  status?: RuleExecutionStatus;
-  summary?: string;
-  lastStatusChange?: Date;
-  token?: string;
-  lastUpdatedBy?: string;
-  externalExecutionId?: string;
-  externalExecutionUrl?: string;
-  errorDetails?: ErrorDetails;
+  ruleExecutionId?: string | undefined;
+  status?: RuleExecutionStatus | undefined;
+  summary?: string | undefined;
+  lastStatusChange?: Date | undefined;
+  token?: string | undefined;
+  lastUpdatedBy?: string | undefined;
+  externalExecutionId?: string | undefined;
+  externalExecutionUrl?: string | undefined;
+  errorDetails?: ErrorDetails | undefined;
 }
 export interface RuleState {
-  ruleName?: string;
-  currentRevision?: RuleRevision;
-  latestExecution?: RuleExecution;
-  entityUrl?: string;
-  revisionUrl?: string;
+  ruleName?: string | undefined;
+  currentRevision?: RuleRevision | undefined;
+  latestExecution?: RuleExecution | undefined;
+  entityUrl?: string | undefined;
+  revisionUrl?: string | undefined;
 }
 export type RuleStateList = RuleState[];
 export interface ConditionState {
-  latestExecution?: ConditionExecution;
-  ruleStates?: RuleState[];
+  latestExecution?: ConditionExecution | undefined;
+  ruleStates?: RuleState[] | undefined;
 }
 export type ConditionStateList = ConditionState[];
 export interface StageConditionState {
-  latestExecution?: StageConditionsExecution;
-  conditionStates?: ConditionState[];
+  latestExecution?: StageConditionsExecution | undefined;
+  conditionStates?: ConditionState[] | undefined;
 }
 export type RetryAttempt = number;
 export type RetryTrigger = "AutomatedStageRetry" | "ManualStageRetry" | (string & {});
 export interface RetryStageMetadata {
-  autoStageRetryAttempt?: number;
-  manualStageRetryAttempt?: number;
-  latestRetryTrigger?: RetryTrigger;
+  autoStageRetryAttempt?: number | undefined;
+  manualStageRetryAttempt?: number | undefined;
+  latestRetryTrigger?: RetryTrigger | undefined;
 }
 export interface StageState {
-  stageName?: string;
-  inboundExecution?: StageExecution;
-  inboundExecutions?: StageExecution[];
-  inboundTransitionState?: TransitionState;
-  actionStates?: ActionState[];
-  latestExecution?: StageExecution;
-  beforeEntryConditionState?: StageConditionState;
-  onSuccessConditionState?: StageConditionState;
-  onFailureConditionState?: StageConditionState;
-  retryStageMetadata?: RetryStageMetadata;
+  stageName?: string | undefined;
+  inboundExecution?: StageExecution | undefined;
+  inboundExecutions?: StageExecution[] | undefined;
+  inboundTransitionState?: TransitionState | undefined;
+  actionStates?: ActionState[] | undefined;
+  latestExecution?: StageExecution | undefined;
+  beforeEntryConditionState?: StageConditionState | undefined;
+  onSuccessConditionState?: StageConditionState | undefined;
+  onFailureConditionState?: StageConditionState | undefined;
+  retryStageMetadata?: RetryStageMetadata | undefined;
 }
 export type StageStateList = StageState[];
 export interface GetPipelineStateOutput {
-  pipelineName?: string;
-  pipelineVersion?: number;
-  stageStates?: StageState[];
-  created?: Date;
-  updated?: Date;
+  pipelineName?: string | undefined;
+  pipelineVersion?: number | undefined;
+  stageStates?: StageState[] | undefined;
+  created?: Date | undefined;
+  updated?: Date | undefined;
 }
 export interface GetThirdPartyJobDetailsInput {
   jobId: string;
   clientToken: string;
 }
 export interface ThirdPartyJobData {
-  actionTypeId?: ActionTypeId;
-  actionConfiguration?: ActionConfiguration;
-  pipelineContext?: PipelineContext;
-  inputArtifacts?: Artifact[];
-  outputArtifacts?: Artifact[];
-  artifactCredentials?: AWSSessionCredentials;
-  continuationToken?: string;
-  encryptionKey?: EncryptionKey;
+  actionTypeId?: ActionTypeId | undefined;
+  actionConfiguration?: ActionConfiguration | undefined;
+  pipelineContext?: PipelineContext | undefined;
+  inputArtifacts?: Artifact[] | undefined;
+  outputArtifacts?: Artifact[] | undefined;
+  artifactCredentials?: AWSSessionCredentials | undefined;
+  continuationToken?: string | undefined;
+  encryptionKey?: EncryptionKey | undefined;
 }
 export interface ThirdPartyJobDetails {
-  id?: string;
-  data?: ThirdPartyJobData;
-  nonce?: string;
+  id?: string | undefined;
+  data?: ThirdPartyJobData | undefined;
+  nonce?: string | undefined;
 }
 export interface GetThirdPartyJobDetailsOutput {
-  jobDetails?: ThirdPartyJobDetails;
+  jobDetails?: ThirdPartyJobDetails | undefined;
 }
 export type StartTimeRange = "Latest" | "All" | (string & {});
 export interface LatestInPipelineExecutionFilter {
@@ -1032,237 +1032,237 @@ export interface LatestInPipelineExecutionFilter {
   startTimeRange: StartTimeRange;
 }
 export interface ActionExecutionFilter {
-  pipelineExecutionId?: string;
-  latestInPipelineExecution?: LatestInPipelineExecutionFilter;
+  pipelineExecutionId?: string | undefined;
+  latestInPipelineExecution?: LatestInPipelineExecutionFilter | undefined;
 }
 export type MaxResults = number;
 export type NextToken = string;
 export interface ListActionExecutionsInput {
   pipelineName: string;
-  filter?: ActionExecutionFilter;
-  maxResults?: number;
-  nextToken?: string;
+  filter?: ActionExecutionFilter | undefined;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export type ResolvedActionConfigurationMap = { [key: string]: string | undefined };
 export type S3Bucket = string;
 export type S3Key = string;
 export interface S3Location {
-  bucket?: string;
-  key?: string;
+  bucket?: string | undefined;
+  key?: string | undefined;
 }
 export interface ArtifactDetail {
-  name?: string;
-  s3location?: S3Location;
+  name?: string | undefined;
+  s3location?: S3Location | undefined;
 }
 export type ArtifactDetailList = ArtifactDetail[];
 export interface ActionExecutionInput {
-  actionTypeId?: ActionTypeId;
-  configuration?: { [key: string]: string | undefined };
-  resolvedConfiguration?: { [key: string]: string | undefined };
-  roleArn?: string;
-  region?: string;
-  inputArtifacts?: ArtifactDetail[];
-  namespace?: string;
+  actionTypeId?: ActionTypeId | undefined;
+  configuration?: { [key: string]: string | undefined } | undefined;
+  resolvedConfiguration?: { [key: string]: string | undefined } | undefined;
+  roleArn?: string | undefined;
+  region?: string | undefined;
+  inputArtifacts?: ArtifactDetail[] | undefined;
+  namespace?: string | undefined;
 }
 export type ExternalExecutionId = string;
 export type ExternalExecutionSummary = string;
 export interface ActionExecutionResult {
-  externalExecutionId?: string;
-  externalExecutionSummary?: string;
-  externalExecutionUrl?: string;
-  errorDetails?: ErrorDetails;
-  logStreamARN?: string;
+  externalExecutionId?: string | undefined;
+  externalExecutionSummary?: string | undefined;
+  externalExecutionUrl?: string | undefined;
+  errorDetails?: ErrorDetails | undefined;
+  logStreamARN?: string | undefined;
 }
 export type OutputVariablesKey = string;
 export type OutputVariablesValue = string;
 export type OutputVariablesMap = { [key: string]: string | undefined };
 export interface ActionExecutionOutput {
-  outputArtifacts?: ArtifactDetail[];
-  executionResult?: ActionExecutionResult;
-  outputVariables?: { [key: string]: string | undefined };
+  outputArtifacts?: ArtifactDetail[] | undefined;
+  executionResult?: ActionExecutionResult | undefined;
+  outputVariables?: { [key: string]: string | undefined } | undefined;
 }
 export interface ActionExecutionDetail {
-  pipelineExecutionId?: string;
-  actionExecutionId?: string;
-  pipelineVersion?: number;
-  stageName?: string;
-  actionName?: string;
-  startTime?: Date;
-  lastUpdateTime?: Date;
-  updatedBy?: string;
-  status?: ActionExecutionStatus;
-  input?: ActionExecutionInput;
-  output?: ActionExecutionOutput;
+  pipelineExecutionId?: string | undefined;
+  actionExecutionId?: string | undefined;
+  pipelineVersion?: number | undefined;
+  stageName?: string | undefined;
+  actionName?: string | undefined;
+  startTime?: Date | undefined;
+  lastUpdateTime?: Date | undefined;
+  updatedBy?: string | undefined;
+  status?: ActionExecutionStatus | undefined;
+  input?: ActionExecutionInput | undefined;
+  output?: ActionExecutionOutput | undefined;
 }
 export type ActionExecutionDetailList = ActionExecutionDetail[];
 export interface ListActionExecutionsOutput {
-  actionExecutionDetails?: ActionExecutionDetail[];
-  nextToken?: string;
+  actionExecutionDetails?: ActionExecutionDetail[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface ListActionTypesInput {
-  actionOwnerFilter?: ActionOwner;
-  nextToken?: string;
-  regionFilter?: string;
+  actionOwnerFilter?: ActionOwner | undefined;
+  nextToken?: string | undefined;
+  regionFilter?: string | undefined;
 }
 export type ActionTypeList = ActionType[];
 export interface ListActionTypesOutput {
   actionTypes: ActionType[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export type TargetFilterName = "TARGET_STATUS" | (string & {});
 export type TargetFilterValue = string;
 export type TargetFilterValueList = string[];
 export interface TargetFilter {
-  name?: TargetFilterName;
-  values?: string[];
+  name?: TargetFilterName | undefined;
+  values?: string[] | undefined;
 }
 export type TargetFilterList = TargetFilter[];
 export interface ListDeployActionExecutionTargetsInput {
-  pipelineName?: string;
+  pipelineName?: string | undefined;
   actionExecutionId: string;
-  filters?: TargetFilter[];
-  maxResults?: number;
-  nextToken?: string;
+  filters?: TargetFilter[] | undefined;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export interface DeployTargetEventContext {
-  ssmCommandId?: string;
-  message?: string;
+  ssmCommandId?: string | undefined;
+  message?: string | undefined;
 }
 export interface DeployTargetEvent {
-  name?: string;
-  status?: string;
-  startTime?: Date;
-  endTime?: Date;
-  context?: DeployTargetEventContext;
+  name?: string | undefined;
+  status?: string | undefined;
+  startTime?: Date | undefined;
+  endTime?: Date | undefined;
+  context?: DeployTargetEventContext | undefined;
 }
 export type DeployTargetEventList = DeployTargetEvent[];
 export interface DeployActionExecutionTarget {
-  targetId?: string;
-  targetType?: string;
-  status?: string;
-  startTime?: Date;
-  endTime?: Date;
-  events?: DeployTargetEvent[];
+  targetId?: string | undefined;
+  targetType?: string | undefined;
+  status?: string | undefined;
+  startTime?: Date | undefined;
+  endTime?: Date | undefined;
+  events?: DeployTargetEvent[] | undefined;
 }
 export type DeployActionExecutionTargetList = DeployActionExecutionTarget[];
 export interface ListDeployActionExecutionTargetsOutput {
-  targets?: DeployActionExecutionTarget[];
-  nextToken?: string;
+  targets?: DeployActionExecutionTarget[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface SucceededInStageFilter {
-  stageName?: string;
+  stageName?: string | undefined;
 }
 export interface PipelineExecutionFilter {
-  succeededInStage?: SucceededInStageFilter;
+  succeededInStage?: SucceededInStageFilter | undefined;
 }
 export interface ListPipelineExecutionsInput {
   pipelineName: string;
-  maxResults?: number;
-  filter?: PipelineExecutionFilter;
-  nextToken?: string;
+  maxResults?: number | undefined;
+  filter?: PipelineExecutionFilter | undefined;
+  nextToken?: string | undefined;
 }
 export interface SourceRevision {
   actionName: string;
-  revisionId?: string;
-  revisionSummary?: string;
-  revisionUrl?: string;
+  revisionId?: string | undefined;
+  revisionSummary?: string | undefined;
+  revisionUrl?: string | undefined;
 }
 export type SourceRevisionList = SourceRevision[];
 export type StopPipelineExecutionReason = string;
 export interface StopExecutionTrigger {
-  reason?: string;
+  reason?: string | undefined;
 }
 export interface PipelineExecutionSummary {
-  pipelineExecutionId?: string;
-  status?: PipelineExecutionStatus;
-  statusSummary?: string;
-  startTime?: Date;
-  lastUpdateTime?: Date;
-  sourceRevisions?: SourceRevision[];
-  trigger?: ExecutionTrigger;
-  stopTrigger?: StopExecutionTrigger;
-  executionMode?: ExecutionMode;
-  executionType?: ExecutionType;
-  rollbackMetadata?: PipelineRollbackMetadata;
+  pipelineExecutionId?: string | undefined;
+  status?: PipelineExecutionStatus | undefined;
+  statusSummary?: string | undefined;
+  startTime?: Date | undefined;
+  lastUpdateTime?: Date | undefined;
+  sourceRevisions?: SourceRevision[] | undefined;
+  trigger?: ExecutionTrigger | undefined;
+  stopTrigger?: StopExecutionTrigger | undefined;
+  executionMode?: ExecutionMode | undefined;
+  executionType?: ExecutionType | undefined;
+  rollbackMetadata?: PipelineRollbackMetadata | undefined;
 }
 export type PipelineExecutionSummaryList = PipelineExecutionSummary[];
 export interface ListPipelineExecutionsOutput {
-  pipelineExecutionSummaries?: PipelineExecutionSummary[];
-  nextToken?: string;
+  pipelineExecutionSummaries?: PipelineExecutionSummary[] | undefined;
+  nextToken?: string | undefined;
 }
 export type MaxPipelines = number;
 export interface ListPipelinesInput {
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export interface PipelineSummary {
-  name?: string;
-  version?: number;
-  pipelineType?: PipelineType;
-  executionMode?: ExecutionMode;
-  created?: Date;
-  updated?: Date;
+  name?: string | undefined;
+  version?: number | undefined;
+  pipelineType?: PipelineType | undefined;
+  executionMode?: ExecutionMode | undefined;
+  created?: Date | undefined;
+  updated?: Date | undefined;
 }
 export type PipelineList = PipelineSummary[];
 export interface ListPipelinesOutput {
-  pipelines?: PipelineSummary[];
-  nextToken?: string;
+  pipelines?: PipelineSummary[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface RuleExecutionFilter {
-  pipelineExecutionId?: string;
-  latestInPipelineExecution?: LatestInPipelineExecutionFilter;
+  pipelineExecutionId?: string | undefined;
+  latestInPipelineExecution?: LatestInPipelineExecutionFilter | undefined;
 }
 export interface ListRuleExecutionsInput {
   pipelineName: string;
-  filter?: RuleExecutionFilter;
-  maxResults?: number;
-  nextToken?: string;
+  filter?: RuleExecutionFilter | undefined;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export type ResolvedRuleConfigurationMap = { [key: string]: string | undefined };
 export interface RuleExecutionInput {
-  ruleTypeId?: RuleTypeId;
-  configuration?: { [key: string]: string | undefined };
-  resolvedConfiguration?: { [key: string]: string | undefined };
-  roleArn?: string;
-  region?: string;
-  inputArtifacts?: ArtifactDetail[];
+  ruleTypeId?: RuleTypeId | undefined;
+  configuration?: { [key: string]: string | undefined } | undefined;
+  resolvedConfiguration?: { [key: string]: string | undefined } | undefined;
+  roleArn?: string | undefined;
+  region?: string | undefined;
+  inputArtifacts?: ArtifactDetail[] | undefined;
 }
 export interface RuleExecutionResult {
-  externalExecutionId?: string;
-  externalExecutionSummary?: string;
-  externalExecutionUrl?: string;
-  errorDetails?: ErrorDetails;
+  externalExecutionId?: string | undefined;
+  externalExecutionSummary?: string | undefined;
+  externalExecutionUrl?: string | undefined;
+  errorDetails?: ErrorDetails | undefined;
 }
 export interface RuleExecutionOutput {
-  executionResult?: RuleExecutionResult;
+  executionResult?: RuleExecutionResult | undefined;
 }
 export interface RuleExecutionDetail {
-  pipelineExecutionId?: string;
-  ruleExecutionId?: string;
-  pipelineVersion?: number;
-  stageName?: string;
-  ruleName?: string;
-  startTime?: Date;
-  lastUpdateTime?: Date;
-  updatedBy?: string;
-  status?: RuleExecutionStatus;
-  input?: RuleExecutionInput;
-  output?: RuleExecutionOutput;
+  pipelineExecutionId?: string | undefined;
+  ruleExecutionId?: string | undefined;
+  pipelineVersion?: number | undefined;
+  stageName?: string | undefined;
+  ruleName?: string | undefined;
+  startTime?: Date | undefined;
+  lastUpdateTime?: Date | undefined;
+  updatedBy?: string | undefined;
+  status?: RuleExecutionStatus | undefined;
+  input?: RuleExecutionInput | undefined;
+  output?: RuleExecutionOutput | undefined;
 }
 export type RuleExecutionDetailList = RuleExecutionDetail[];
 export interface ListRuleExecutionsOutput {
-  ruleExecutionDetails?: RuleExecutionDetail[];
-  nextToken?: string;
+  ruleExecutionDetails?: RuleExecutionDetail[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface ListRuleTypesInput {
-  ruleOwnerFilter?: RuleOwner;
-  regionFilter?: string;
+  ruleOwnerFilter?: RuleOwner | undefined;
+  regionFilter?: string | undefined;
 }
 export interface RuleTypeSettings {
-  thirdPartyConfigurationUrl?: string;
-  entityUrlTemplate?: string;
-  executionUrlTemplate?: string;
-  revisionUrlTemplate?: string;
+  thirdPartyConfigurationUrl?: string | undefined;
+  entityUrlTemplate?: string | undefined;
+  executionUrlTemplate?: string | undefined;
+  revisionUrlTemplate?: string | undefined;
 }
 export type RuleConfigurationPropertyType = "String" | "Number" | "Boolean" | (string & {});
 export interface RuleConfigurationProperty {
@@ -1270,15 +1270,15 @@ export interface RuleConfigurationProperty {
   required: boolean;
   key: boolean;
   secret: boolean;
-  queryable?: boolean;
-  description?: string;
-  type?: RuleConfigurationPropertyType;
+  queryable?: boolean | undefined;
+  description?: string | undefined;
+  type?: RuleConfigurationPropertyType | undefined;
 }
 export type RuleConfigurationPropertyList = RuleConfigurationProperty[];
 export interface RuleType {
   id: RuleTypeId;
-  settings?: RuleTypeSettings;
-  ruleConfigurationProperties?: RuleConfigurationProperty[];
+  settings?: RuleTypeSettings | undefined;
+  ruleConfigurationProperties?: RuleConfigurationProperty[] | undefined;
   inputArtifactDetails: ArtifactDetails;
 }
 export type RuleTypeList = RuleType[];
@@ -1288,30 +1288,30 @@ export interface ListRuleTypesOutput {
 export type ResourceArn = string;
 export interface ListTagsForResourceInput {
   resourceArn: string;
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export interface ListTagsForResourceOutput {
-  tags?: Tag[];
-  nextToken?: string;
+  tags?: Tag[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface ListWebhooksInput {
-  NextToken?: string;
-  MaxResults?: number;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export type JsonPath = string;
 export type MatchEquals = string;
 export interface WebhookFilterRule {
   jsonPath: string;
-  matchEquals?: string;
+  matchEquals?: string | undefined;
 }
 export type WebhookFilters = WebhookFilterRule[];
 export type WebhookAuthenticationType = "GITHUB_HMAC" | "IP" | "UNAUTHENTICATED" | (string & {});
 export type WebhookAuthConfigurationAllowedIPRange = string;
 export type WebhookAuthConfigurationSecretToken = string;
 export interface WebhookAuthConfiguration {
-  AllowedIPRange?: string;
-  SecretToken?: string | redacted.Redacted<string>;
+  AllowedIPRange?: string | undefined;
+  SecretToken?: string | redacted.Redacted<string> | undefined;
 }
 export interface WebhookDefinition {
   name: string;
@@ -1329,16 +1329,16 @@ export type WebhookArn = string;
 export interface ListWebhookItem {
   definition: WebhookDefinition;
   url: string;
-  errorMessage?: string;
-  errorCode?: string;
-  lastTriggered?: Date;
-  arn?: string;
-  tags?: Tag[];
+  errorMessage?: string | undefined;
+  errorCode?: string | undefined;
+  lastTriggered?: Date | undefined;
+  arn?: string | undefined;
+  tags?: Tag[] | undefined;
 }
 export type WebhookList = ListWebhookItem[];
 export interface ListWebhooksOutput {
-  webhooks?: ListWebhookItem[];
-  NextToken?: string;
+  webhooks?: ListWebhookItem[] | undefined;
+  NextToken?: string | undefined;
 }
 export type ConditionType = "BEFORE_ENTRY" | "ON_SUCCESS" | (string & {});
 export interface OverrideStageConditionInput {
@@ -1353,31 +1353,31 @@ export type ActionConfigurationQueryableValue = string;
 export type QueryParamMap = { [key: string]: string | undefined };
 export interface PollForJobsInput {
   actionTypeId: ActionTypeId;
-  maxBatchSize?: number;
-  queryParam?: { [key: string]: string | undefined };
+  maxBatchSize?: number | undefined;
+  queryParam?: { [key: string]: string | undefined } | undefined;
 }
 export interface Job {
-  id?: string;
-  data?: JobData;
-  nonce?: string;
-  accountId?: string;
+  id?: string | undefined;
+  data?: JobData | undefined;
+  nonce?: string | undefined;
+  accountId?: string | undefined;
 }
 export type JobList = Job[];
 export interface PollForJobsOutput {
-  jobs?: Job[];
+  jobs?: Job[] | undefined;
 }
 export interface PollForThirdPartyJobsInput {
   actionTypeId: ActionTypeId;
-  maxBatchSize?: number;
+  maxBatchSize?: number | undefined;
 }
 export type ClientId = string;
 export interface ThirdPartyJob {
-  clientId?: string;
-  jobId?: string;
+  clientId?: string | undefined;
+  jobId?: string | undefined;
 }
 export type ThirdPartyJobList = ThirdPartyJob[];
 export interface PollForThirdPartyJobsOutput {
-  jobs?: ThirdPartyJob[];
+  jobs?: ThirdPartyJob[] | undefined;
 }
 export interface PutActionRevisionInput {
   pipelineName: string;
@@ -1386,8 +1386,8 @@ export interface PutActionRevisionInput {
   actionRevision: ActionRevision;
 }
 export interface PutActionRevisionOutput {
-  newRevision?: boolean;
-  pipelineExecutionId?: string;
+  newRevision?: boolean | undefined;
+  pipelineExecutionId?: string | undefined;
 }
 export type ApprovalSummary = string;
 export type ApprovalStatus = "Approved" | "Rejected" | (string & {});
@@ -1404,7 +1404,7 @@ export interface PutApprovalResultInput {
   token: string;
 }
 export interface PutApprovalResultOutput {
-  approvedAt?: Date;
+  approvedAt?: Date | undefined;
 }
 export type FailureType =
   | "JobFailed"
@@ -1417,7 +1417,7 @@ export type FailureType =
 export interface FailureDetails {
   type: FailureType;
   message: string;
-  externalExecutionId?: string;
+  externalExecutionId?: string | undefined;
 }
 export interface PutJobFailureResultInput {
   jobId: string;
@@ -1427,20 +1427,20 @@ export interface PutJobFailureResultResponse {}
 export interface CurrentRevision {
   revision: string;
   changeIdentifier: string;
-  created?: Date;
-  revisionSummary?: string;
+  created?: Date | undefined;
+  revisionSummary?: string | undefined;
 }
 export interface ExecutionDetails {
-  summary?: string;
-  externalExecutionId?: string;
-  percentComplete?: number;
+  summary?: string | undefined;
+  externalExecutionId?: string | undefined;
+  percentComplete?: number | undefined;
 }
 export interface PutJobSuccessResultInput {
   jobId: string;
-  currentRevision?: CurrentRevision;
-  continuationToken?: string;
-  executionDetails?: ExecutionDetails;
-  outputVariables?: { [key: string]: string | undefined };
+  currentRevision?: CurrentRevision | undefined;
+  continuationToken?: string | undefined;
+  executionDetails?: ExecutionDetails | undefined;
+  outputVariables?: { [key: string]: string | undefined } | undefined;
 }
 export interface PutJobSuccessResultResponse {}
 export interface PutThirdPartyJobFailureResultInput {
@@ -1452,20 +1452,20 @@ export interface PutThirdPartyJobFailureResultResponse {}
 export interface PutThirdPartyJobSuccessResultInput {
   jobId: string;
   clientToken: string;
-  currentRevision?: CurrentRevision;
-  continuationToken?: string;
-  executionDetails?: ExecutionDetails;
+  currentRevision?: CurrentRevision | undefined;
+  continuationToken?: string | undefined;
+  executionDetails?: ExecutionDetails | undefined;
 }
 export interface PutThirdPartyJobSuccessResultResponse {}
 export interface PutWebhookInput {
   webhook: WebhookDefinition;
-  tags?: Tag[];
+  tags?: Tag[] | undefined;
 }
 export interface PutWebhookOutput {
-  webhook?: ListWebhookItem;
+  webhook?: ListWebhookItem | undefined;
 }
 export interface RegisterWebhookWithThirdPartyInput {
-  webhookName?: string;
+  webhookName?: string | undefined;
 }
 export interface RegisterWebhookWithThirdPartyOutput {}
 export interface RetryStageExecutionInput {
@@ -1475,7 +1475,7 @@ export interface RetryStageExecutionInput {
   retryMode: StageRetryMode;
 }
 export interface RetryStageExecutionOutput {
-  pipelineExecutionId?: string;
+  pipelineExecutionId?: string | undefined;
 }
 export interface RollbackStageInput {
   pipelineName: string;
@@ -1505,21 +1505,21 @@ export interface SourceRevisionOverride {
 export type SourceRevisionOverrideList = SourceRevisionOverride[];
 export interface StartPipelineExecutionInput {
   name: string;
-  variables?: PipelineVariable[];
-  clientRequestToken?: string;
-  sourceRevisions?: SourceRevisionOverride[];
+  variables?: PipelineVariable[] | undefined;
+  clientRequestToken?: string | undefined;
+  sourceRevisions?: SourceRevisionOverride[] | undefined;
 }
 export interface StartPipelineExecutionOutput {
-  pipelineExecutionId?: string;
+  pipelineExecutionId?: string | undefined;
 }
 export interface StopPipelineExecutionInput {
   pipelineName: string;
   pipelineExecutionId: string;
-  abandon?: boolean;
-  reason?: string;
+  abandon?: boolean | undefined;
+  reason?: string | undefined;
 }
 export interface StopPipelineExecutionOutput {
-  pipelineExecutionId?: string;
+  pipelineExecutionId?: string | undefined;
 }
 export interface TagResourceInput {
   resourceArn: string;
@@ -1540,7 +1540,7 @@ export interface UpdatePipelineInput {
   pipeline: PipelineDeclaration;
 }
 export interface UpdatePipelineOutput {
-  pipeline?: PipelineDeclaration;
+  pipeline?: PipelineDeclaration | undefined;
 }
 export type AcknowledgeJobError =
   | InvalidNonceException
@@ -2192,7 +2192,8 @@ export type ListRuleTypesError = InvalidNextTokenException | ValidationException
 /**
  * Lists the rules for the condition. For more information about conditions, see Stage
  * conditions and How do
- * stage conditions work?.For more information about rules, see the CodePipeline rule reference.
+ * stage conditions work?.For more information about rules, see the
+ * CodePipeline rule reference.
  */
 export const listRuleTypes: API.OperationMethod<
   ListRuleTypesInput & RegionInput,

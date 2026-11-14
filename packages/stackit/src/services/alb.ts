@@ -66,108 +66,108 @@ export interface CreateCredentialsRequest {
   projectId: string;
   region: string;
   /** Credential name */
-  displayName?: string;
+  displayName?: string | undefined;
   /** A valid password used for an existing STACKIT Observability instance, which is used during basic auth. */
-  password?: string | Redacted.Redacted<string>;
+  password?: string | Redacted.Redacted<string> | undefined;
   /** A valid username used for an existing STACKIT Observability instance, which is used during basic auth. */
-  username?: string;
+  username?: string | undefined;
 }
 export interface CredentialsResponse {
   /** The credentials reference can be used for observability of the Application Load Balancer. */
-  credentialsRef?: string;
+  credentialsRef?: string | undefined;
   /** Credential name */
-  displayName?: string;
+  displayName?: string | undefined;
   /** Region of the Credential */
-  region?: string;
+  region?: string | undefined;
   /** The username used for the STACKIT Observability instance */
-  username?: string;
+  username?: string | undefined;
 }
 export interface CreateCredentialsResponse {
-  credential?: CredentialsResponse;
+  credential?: CredentialsResponse | undefined;
 }
 /** Labels represent user-defined metadata as key-value pairs. Label count should not exceed 64 per ALB. **Key Formatting Rules:** Length: 1-63 characters. Characters: Must begin and end with [a-zA-Z0-9]. May contain dashes (-), underscores (_), dots (.), and alphanumerics in between. Keys starting with 'stackit-' are system-reserved; users MUST NOT manage them. **Value Formatting Rules:** Length: 0-63 characters (empty string explicitly allowed). Characters (for non-empty values): Must begin and end with [a-zA-Z0-9]. May contain dashes (-), underscores (_), dots (.), and alphanumerics in between. */
 export type CreateLoadBalancerRequestLabelsMap = { [key: string]: string | undefined };
 /** CookiePersistence contains the cookie-based session persistence configuration. */
 export interface CookiePersistence {
   /** Cookie is the name of the cookie to use. */
-  name?: string;
+  name?: string | undefined;
   /** TTL specifies the time-to-live for the cookie. The default value is 0s, and it acts as a session cookie, expiring when the client session ends. */
-  ttl?: string;
+  ttl?: string | undefined;
 }
 export interface HttpHeader {
   /** Exact match for the header value. */
-  exactMatch?: string;
+  exactMatch?: string | undefined;
   /** Header name. */
-  name?: string;
+  name?: string | undefined;
 }
 /** Headers for the rule. */
 export type RuleHeadersList = Array<HttpHeader>;
 /** Path match. Optional. Contains either an exact or prefix match. If not set, defaults to root path '/' of prefix type. Cannot be set if 'path_prefix' is used. Prefer using this field over 'path_prefix'. */
 export interface Path {
   /** Exact path match. Only a request path exactly equal to the value will match, e.g. '/foo' matches only '/foo', not '/foo/bar' or '/foobar'. */
-  exactMatch?: string;
+  exactMatch?: string | undefined;
   /** Prefix path match. Only matches on full segment boundaries, e.g. '/foo' matches '/foo' and '/foo/bar' but NOT '/foobar'. */
-  prefix?: string;
+  prefix?: string | undefined;
 }
 export interface QueryParameter {
   /** Exact match for the parameter value. */
-  exactMatch?: string;
+  exactMatch?: string | undefined;
   /** Parameter name. */
-  name?: string;
+  name?: string | undefined;
 }
 /** Query parameters for the rule. */
 export type RuleQueryParametersList = Array<QueryParameter>;
 export interface Rule {
-  cookiePersistence?: CookiePersistence;
+  cookiePersistence?: CookiePersistence | undefined;
   /** Headers for the rule. */
-  headers?: RuleHeadersList;
-  path?: Path;
+  headers?: RuleHeadersList | undefined;
+  path?: Path | undefined;
   /** Query parameters for the rule. */
-  queryParameters?: RuleQueryParametersList;
+  queryParameters?: RuleQueryParametersList | undefined;
   /** Reference target pool by target pool name. */
-  targetPool?: string;
+  targetPool?: string | undefined;
   /** If enabled, when client sends an HTTP request with and Upgrade header, indicating the desire to establish a Websocket connection, if backend server supports WebSocket, it responds with HTTP 101 status code, switching protocols from HTTP to WebSocket. Hence the client and the server can exchange data in real-time using one long-lived TCP connection. */
-  webSocket?: boolean;
+  webSocket?: boolean | undefined;
 }
 /** Routing rules under the specified host, matched by path prefix. */
 export type HostConfigRulesList = Array<Rule>;
 export interface HostConfig {
   /** Hostname to match. Supports wildcards (e.g. *.example.com). */
-  host?: string;
+  host?: string | undefined;
   /** Routing rules under the specified host, matched by path prefix. */
-  rules?: HostConfigRulesList;
+  rules?: HostConfigRulesList | undefined;
 }
 /** Defines routing rules grouped by hostname. */
 export type ProtocolOptionsHTTPHostsList = Array<HostConfig>;
 /** Configuration for handling HTTP traffic on this listener. */
 export interface ProtocolOptionsHTTP {
   /** Defines routing rules grouped by hostname. */
-  hosts?: ProtocolOptionsHTTPHostsList;
+  hosts?: ProtocolOptionsHTTPHostsList | undefined;
 }
 /** Certificate IDs for TLS termination. */
 export type CertificateConfigCertificateIdsList = Array<string>;
 /** TLS termination certificate configuration. */
 export interface CertificateConfig {
   /** Certificate IDs for TLS termination. */
-  certificateIds?: CertificateConfigCertificateIdsList;
+  certificateIds?: CertificateConfigCertificateIdsList | undefined;
 }
 /** Configuration for handling HTTPS traffic on this listener. */
 export interface ProtocolOptionsHTTPS {
-  certificateConfig?: CertificateConfig;
+  certificateConfig?: CertificateConfig | undefined;
 }
 /** Protocol is the highest network protocol we understand to load balance. Currently PROTOCOL_HTTP and PROTOCOL_HTTPS are supported. */
 export type ListenerProtocol = "PROTOCOL_UNSPECIFIED" | "PROTOCOL_HTTP" | "PROTOCOL_HTTPS";
 export interface Listener {
-  http?: ProtocolOptionsHTTP;
-  https?: ProtocolOptionsHTTPS;
+  http?: ProtocolOptionsHTTP | undefined;
+  https?: ProtocolOptionsHTTPS | undefined;
   /** A unique listener name. */
-  name?: string;
+  name?: string | undefined;
   /** Port number on which the listener receives incoming traffic. */
-  port?: number;
+  port?: number | undefined;
   /** Protocol is the highest network protocol we understand to load balance. Currently PROTOCOL_HTTP and PROTOCOL_HTTPS are supported. */
-  protocol?: ListenerProtocol | (string & {});
+  protocol?: ListenerProtocol | (string & {}) | undefined;
   /** Enable Web Application Firewall (WAF), referenced by name. See "Application Load Balancer - Web Application Firewall API" for more information. */
-  wafConfigName?: string;
+  wafConfigName?: string | undefined;
 }
 /** There is a maximum listener count of 20. */
 export type CreateLoadBalancerRequestListenersList = Array<Listener>;
@@ -179,9 +179,9 @@ export type NetworkRole =
   | "ROLE_TARGETS";
 export interface Network {
   /** STACKIT network ID the Application Load Balancer and/or targets are in. */
-  networkId?: string;
+  networkId?: string | undefined;
   /** The role defines how the Application Load Balancer is using the network. Currently only ROLE_LISTENERS_AND_TARGETS is supported. */
-  role?: NetworkRole | (string & {});
+  role?: NetworkRole | (string & {}) | undefined;
 }
 /** List of networks that listeners and targets reside in. Currently limited to one. Not changeable after creation. */
 export type CreateLoadBalancerRequestNetworksList = Array<Network>;
@@ -190,90 +190,92 @@ export type LoadbalancerOptionAccessControlAllowedSourceRangesList = Array<strin
 /** Use this option to limit the IP ranges that can use the Application Load Balancer. `allowed_source_ranges` and `ip_block_list_name` may be set together. When both are set, `allowed_source_ranges` is evaluated first, then `ip_block_list_name` is evaluated. */
 export interface LoadbalancerOptionAccessControl {
   /** Application Load Balancer is accessible only from an IP address in this range. May be combined with `ipBlockListName`; `allowedSourceRanges` is evaluated first, then `ipBlockListName`. */
-  allowedSourceRanges?: LoadbalancerOptionAccessControlAllowedSourceRangesList;
+  allowedSourceRanges?: LoadbalancerOptionAccessControlAllowedSourceRangesList | undefined;
   /** Reference to an IP block list by name. Traffic originating from any IP in the referenced list is denied access to the Application Load Balancer. See "IP Lists API" for how to manage IP block lists. May be combined with `allowedSourceRanges`; `allowedSourceRanges` is evaluated first, then `ipBlockListName`. */
-  ipBlockListName?: string;
+  ipBlockListName?: string | undefined;
 }
 /** Observability logs configuration. */
 export interface LoadbalancerOptionLogs {
   /** Credentials reference for logging. This reference is created via the observability create endpoint and the credential needs to contain the basic auth username and password for the logging solution the push URL points to. Then this enables monitoring via remote write for the Application Load Balancer. */
-  credentialsRef?: string;
+  credentialsRef?: string | undefined;
   /** The Observability(Logs)/Loki remote write Push URL you want the logs to be shipped to. */
-  pushUrl?: string;
+  pushUrl?: string | undefined;
 }
 /** Observability metrics configuration. */
 export interface LoadbalancerOptionMetrics {
   /** Credentials reference for metrics. This reference is created via the observability create endpoint and the credential needs to contain the basic auth username and password for the metrics solution the push URL points to. Then this enables monitoring via remote write for the Application Load Balancer. */
-  credentialsRef?: string;
+  credentialsRef?: string | undefined;
   /** The Observability(Metrics)/Prometheus remote write push URL you want the metrics to be shipped to. */
-  pushUrl?: string;
+  pushUrl?: string | undefined;
 }
 /** We offer Load Balancer observability via STACKIT Observability or external solutions. */
 export interface LoadbalancerOptionObservability {
-  logs?: LoadbalancerOptionLogs;
-  metrics?: LoadbalancerOptionMetrics;
+  logs?: LoadbalancerOptionLogs | undefined;
+  metrics?: LoadbalancerOptionMetrics | undefined;
 }
 /** Defines any optional functionality you want to have enabled on your Application Load Balancer. */
 export interface LoadBalancerOptions {
-  accessControl?: LoadbalancerOptionAccessControl;
+  accessControl?: LoadbalancerOptionAccessControl | undefined;
+  /** Enable per-request access logs on the Application Load Balancer. Defaults to false. Enable only when the Application Load Balancer's expected traffic volume can be sustained by the downstream logging pipeline, as access-log volume scales linearly with request rate. Requires a STACKIT Telemetry Router to be set up for the logs to be viewable. */
+  accessLogs?: boolean | undefined;
   /** This option automates the handling of the external IP address for an Application Load Balancer. If set to true a new IP address will be automatically created. It will also be automatically deleted when the Load Balancer is deleted. */
-  ephemeralAddress?: boolean;
-  observability?: LoadbalancerOptionObservability;
+  ephemeralAddress?: boolean | undefined;
+  observability?: LoadbalancerOptionObservability | undefined;
   /** Application Load Balancer is accessible only via a private network ip address. Not changeable after creation. */
-  privateNetworkOnly?: boolean;
+  privateNetworkOnly?: boolean | undefined;
 }
 /** List of HTTP status codes that indicate a healthy response */
 export type HttpHealthChecksOkStatusesList = Array<string>;
 /** Set this to configure TLS settings. */
 export interface TlsConfig {
   /** Specifies a custom Certificate Authority (CA). When provided, the target pool will trust certificates signed by this CA, in addition to any system-trusted CAs. This is useful for scenarios where the target pool needs to communicate with servers using self-signed or internally-issued certificates. Enabled needs to be set to true and skip validation to false for this option. */
-  customCa?: string;
+  customCa?: string | undefined;
   /** Enable TLS (Transport Layer Security) bridging for the connection between Application Load Balancer and targets in this pool. When enabled, public CAs are trusted. Can be used in tandem with the options either custom CA or skip validation or alone. */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** Bypass certificate validation for TLS bridging in this target pool. This option is insecure and can only be used with public CAs by setting enabled true. Meant to be used for testing purposes only! */
-  skipCertificateValidation?: boolean;
+  skipCertificateValidation?: boolean | undefined;
 }
 /** Options for the HTTP health checking. */
 export interface HttpHealthChecks {
   /** List of HTTP status codes that indicate a healthy response */
-  okStatuses?: HttpHealthChecksOkStatusesList;
+  okStatuses?: HttpHealthChecksOkStatusesList | undefined;
   /** Path to send the health check request to */
-  path?: string;
-  tls?: TlsConfig;
+  path?: string | undefined;
+  tls?: TlsConfig | undefined;
 }
 /** Set this to customize active health checks for targets in this pool. */
 export interface ActiveHealthCheck {
   /** Overrides the default port used for health check probes. */
-  altPort?: number;
+  altPort?: number | undefined;
   /** Healthy threshold of the health checking */
-  healthyThreshold?: number;
-  httpHealthChecks?: HttpHealthChecks;
+  healthyThreshold?: number | undefined;
+  httpHealthChecks?: HttpHealthChecks | undefined;
   /** Interval duration of health checking in seconds */
-  interval?: string;
+  interval?: string | undefined;
   /** Interval duration threshold of the health checking in seconds */
-  intervalJitter?: string;
+  intervalJitter?: string | undefined;
   /** Active health checking timeout duration in seconds */
-  timeout?: string;
+  timeout?: string | undefined;
   /** Unhealthy threshold of the health checking */
-  unhealthyThreshold?: number;
+  unhealthyThreshold?: number | undefined;
 }
 export interface Target {
   /** Target display name. */
-  displayName?: string;
+  displayName?: string | undefined;
   /** Private target IP, which must by unique within a target pool. */
-  ip?: string;
+  ip?: string | undefined;
 }
 /** List of all targets which will be used in the pool. Limited to 250. */
 export type TargetPoolTargetsList = Array<Target>;
 export interface TargetPool {
-  activeHealthCheck?: ActiveHealthCheck;
+  activeHealthCheck?: ActiveHealthCheck | undefined;
   /** Target pool name */
-  name?: string;
+  name?: string | undefined;
   /** The number identifying the port where each target listens for traffic. */
-  targetPort?: number;
+  targetPort?: number | undefined;
   /** List of all targets which will be used in the pool. Limited to 250. */
-  targets?: TargetPoolTargetsList;
-  tlsConfig?: TlsConfig;
+  targets?: TargetPoolTargetsList | undefined;
+  tlsConfig?: TlsConfig | undefined;
 }
 /** List of all target pools which will be used in the Application Load Balancer. Limited to 20. */
 export type CreateLoadBalancerRequestTargetPoolsList = Array<TargetPool>;
@@ -281,22 +283,22 @@ export interface CreateLoadBalancerRequest {
   projectId: string;
   region: string;
   /** Disable target security group assignemt to allow targets outside of the given network. Connectivity to targets need to be ensured by the customer, including routing and Security Groups (targetSecurityGroup can be assigned). Not changeable after creation. */
-  disableTargetSecurityGroupAssignment?: boolean;
+  disableTargetSecurityGroupAssignment?: boolean | undefined;
   /** The external IP address where this Application Load Balancer is exposed. Not changeable after creation. */
-  externalAddress?: string;
+  externalAddress?: string | undefined;
   /** Labels represent user-defined metadata as key-value pairs. Label count should not exceed 64 per ALB. **Key Formatting Rules:** Length: 1-63 characters. Characters: Must begin and end with [a-zA-Z0-9]. May contain dashes (-), underscores (_), dots (.), and alphanumerics in between. Keys starting with 'stackit-' are system-reserved; users MUST NOT manage them. **Value Formatting Rules:** Length: 0-63 characters (empty string explicitly allowed). Characters (for non-empty values): Must begin and end with [a-zA-Z0-9]. May contain dashes (-), underscores (_), dots (.), and alphanumerics in between. */
-  labels?: CreateLoadBalancerRequestLabelsMap;
+  labels?: CreateLoadBalancerRequestLabelsMap | undefined;
   /** There is a maximum listener count of 20. */
-  listeners?: CreateLoadBalancerRequestListenersList;
+  listeners?: CreateLoadBalancerRequestListenersList | undefined;
   /** Application Load Balancer name. Not changeable after creation. */
-  name?: string;
+  name?: string | undefined;
   /** List of networks that listeners and targets reside in. Currently limited to one. Not changeable after creation. */
-  networks?: CreateLoadBalancerRequestNetworksList;
-  options?: LoadBalancerOptions;
+  networks?: CreateLoadBalancerRequestNetworksList | undefined;
+  options?: LoadBalancerOptions | undefined;
   /** Service Plan configures the size of the Application Load Balancer. Currently supported plan is p10. This list can change in the future where plan ids will be removed and new plans by added. That is the reason this is not an enum. */
-  planId?: string;
+  planId?: string | undefined;
   /** List of all target pools which will be used in the Application Load Balancer. Limited to 20. */
-  targetPools?: CreateLoadBalancerRequestTargetPoolsList;
+  targetPools?: CreateLoadBalancerRequestTargetPoolsList | undefined;
 }
 /** The error type specifies which part of the Application Load Balancer encountered the error. I.e. the API will not check if a provided public IP is actually available in the project. Instead the Application Load Balancer with try to use the provided IP and if not available reports TYPE_FIP_NOT_CONFIGURED error. */
 export type LoadBalancerErrorType =
@@ -315,9 +317,9 @@ export type LoadBalancerErrorType =
   | "TYPE_VM_PORT_NOT_CONFIGURED";
 export interface LoadBalancerError {
   /** The error description contains additional helpful user information to fix the error state of the Application Load Balancer. For example the IP 45.135.247.139 does not exist in the project, then the description will report: Floating IP "45.135.247.139" could not be found. */
-  description?: string;
+  description?: string | undefined;
   /** The error type specifies which part of the Application Load Balancer encountered the error. I.e. the API will not check if a provided public IP is actually available in the project. Instead the Application Load Balancer with try to use the provided IP and if not available reports TYPE_FIP_NOT_CONFIGURED error. */
-  type?: LoadBalancerErrorType;
+  type?: LoadBalancerErrorType | undefined;
 }
 /** Reports all errors a Application Load Balancer has. */
 export type LoadBalancerErrorsList = Array<LoadBalancerError>;
@@ -327,9 +329,9 @@ export type LoadBalancerLabelsMap = { [key: string]: string | undefined };
 export type LoadBalancerListenersList = Array<Listener>;
 export interface SecurityGroup {
   /** ID of the security Group */
-  id?: string;
+  id?: string | undefined;
   /** Name of the security Group */
-  name?: string;
+  name?: string | undefined;
 }
 /** List of networks that listeners and targets reside in. Currently limited to one. Not changeable after creation. */
 export type LoadBalancerNetworksList = Array<Network>;
@@ -343,35 +345,35 @@ export type LoadBalancerStatus =
 export type LoadBalancerTargetPoolsList = Array<TargetPool>;
 export interface LoadBalancer {
   /** Disable target security group assignemt to allow targets outside of the given network. Connectivity to targets need to be ensured by the customer, including routing and Security Groups (targetSecurityGroup can be assigned). Not changeable after creation. */
-  disableTargetSecurityGroupAssignment?: boolean;
+  disableTargetSecurityGroupAssignment?: boolean | undefined;
   /** Reports all errors a Application Load Balancer has. */
-  errors?: LoadBalancerErrorsList;
+  errors?: LoadBalancerErrorsList | undefined;
   /** The external IP address where this Application Load Balancer is exposed. Not changeable after creation. */
-  externalAddress?: string;
+  externalAddress?: string | undefined;
   /** Labels represent user-defined metadata as key-value pairs. Label count should not exceed 64 per ALB. **Key Formatting Rules:** Length: 1-63 characters. Characters: Must begin and end with [a-zA-Z0-9]. May contain dashes (-), underscores (_), dots (.), and alphanumerics in between. Keys starting with 'stackit-' are system-reserved; users MUST NOT manage them. **Value Formatting Rules:** Length: 0-63 characters (empty string explicitly allowed). Characters (for non-empty values): Must begin and end with [a-zA-Z0-9]. May contain dashes (-), underscores (_), dots (.), and alphanumerics in between. */
-  labels?: LoadBalancerLabelsMap;
+  labels?: LoadBalancerLabelsMap | undefined;
   /** There is a maximum listener count of 20. */
-  listeners?: LoadBalancerListenersList;
+  listeners?: LoadBalancerListenersList | undefined;
   /** Security Group permitting network traffic from the LoadBalancer to the targets. Useful when disableTargetSecurityGroupAssignment=true to manually assign target security groups to targets. */
-  loadBalancerSecurityGroup?: SecurityGroup;
+  loadBalancerSecurityGroup?: SecurityGroup | undefined;
   /** Application Load Balancer name. Not changeable after creation. */
-  name?: string;
+  name?: string | undefined;
   /** List of networks that listeners and targets reside in. Currently limited to one. Not changeable after creation. */
-  networks?: LoadBalancerNetworksList;
-  options?: LoadBalancerOptions;
+  networks?: LoadBalancerNetworksList | undefined;
+  options?: LoadBalancerOptions | undefined;
   /** Service Plan configures the size of the Application Load Balancer. Currently supported plan is p10. This list can change in the future where plan ids will be removed and new plans by added. That is the reason this is not an enum. */
-  planId?: string;
+  planId?: string | undefined;
   /** Transient private Application Load Balancer IP address that can change any time. */
-  privateAddress?: string;
+  privateAddress?: string | undefined;
   /** Region of the LoadBalancer. */
-  region?: string;
-  status?: LoadBalancerStatus;
+  region?: string | undefined;
+  status?: LoadBalancerStatus | undefined;
   /** List of all target pools which will be used in the Application Load Balancer. Limited to 20. */
-  targetPools?: LoadBalancerTargetPoolsList;
+  targetPools?: LoadBalancerTargetPoolsList | undefined;
   /** Security Group that allows the targets to receive traffic from the LoadBalancer. Useful when disableTargetSecurityGroupAssignment=true to manually assign target security groups to targets. */
-  targetSecurityGroup?: SecurityGroup;
+  targetSecurityGroup?: SecurityGroup | undefined;
   /** Application Load Balancer resource version. Must be empty or unset for creating Application Load Balancers, non-empty for updating. Semantics: While retrieving, this is the current version of this Application Load Balancer resource that changes during updates. On updates this field specified the Application Load Balancer version you calculated your update for instead of the future version to enable concurrency safe updates. Update calls will then report the new version in their result as you would see with a Application Load Balancer retrieval call later. There exist no total order of the version, so you can only compare it for equality, but not for less/greater than another version. Since the creation of Application Load Balancer is always intended to create the first version of it, there should be no existing version. That's why this field must by empty of not present in that case. */
-  version?: string;
+  version?: string | undefined;
 }
 export interface DeleteCredentialsRequest {
   projectId: string;
@@ -391,7 +393,7 @@ export interface GetCredentialsRequest {
   credentialsRef: string;
 }
 export interface GetCredentialsResponse {
-  credential?: CredentialsResponse;
+  credential?: CredentialsResponse | undefined;
 }
 export interface GetLoadBalancerRequest {
   projectId: string;
@@ -404,17 +406,17 @@ export interface GetQuotaRequest {
 }
 export interface GetQuotaResponse {
   /** The maximum number of observability credentials that can be stored in this project. */
-  maxCredentials?: number;
+  maxCredentials?: number | undefined;
   /** The maximum number of load balancing servers in this project. */
-  maxLoadBalancers?: number;
+  maxLoadBalancers?: number | undefined;
   /** Project identifier */
-  projectId?: string;
+  projectId?: string | undefined;
   /** Region */
-  region?: string;
+  region?: string | undefined;
   /** The number of observability credentials that are currently existing in this project. */
-  usedCredentials?: number;
+  usedCredentials?: number | undefined;
   /** The number of load balancing servers that are currently existing in this project. */
-  usedLoadBalancers?: number;
+  usedLoadBalancers?: number | undefined;
 }
 export interface ListCredentialsRequest {
   projectId: string;
@@ -422,58 +424,58 @@ export interface ListCredentialsRequest {
 }
 export type ListCredentialsResponseCredentialsList = Array<CredentialsResponse>;
 export interface ListCredentialsResponse {
-  credentials?: ListCredentialsResponseCredentialsList;
+  credentials?: ListCredentialsResponseCredentialsList | undefined;
 }
 export interface ListLoadBalancersRequest {
   projectId: string;
   region: string;
   /** page_size specifies how many Application Load Balancers should be returned on this page. Must be a positive number <= 1000 */
-  pageSize?: string;
+  pageSize?: string | undefined;
   /** page_id is a page identifier returned by the previous response and is used to request the next page */
-  pageId?: string;
+  pageId?: string | undefined;
 }
 export type ListLoadBalancersResponseLoadBalancersList = Array<LoadBalancer>;
 export interface ListLoadBalancersResponse {
-  loadBalancers?: ListLoadBalancersResponseLoadBalancersList;
+  loadBalancers?: ListLoadBalancersResponseLoadBalancersList | undefined;
   /** Continue token from the ListLoadBalancerResponse with Limit option */
-  nextPageId?: string;
+  nextPageId?: string | undefined;
 }
 export interface ListPlansRequest {
   region: string;
 }
 export interface PlanDetails {
   /** Description */
-  description?: string;
+  description?: string | undefined;
   /** Flavor Name */
-  flavorName?: string;
+  flavorName?: string | undefined;
   /** Maximum number of concurrent connections per Application Load Balancer VM instance. */
-  maxConnections?: number;
+  maxConnections?: number | undefined;
   /** Service Plan Name */
-  name?: string;
+  name?: string | undefined;
   /** Service Plan Identifier */
-  planId?: string;
+  planId?: string | undefined;
   /** Region this Plan is available in */
-  region?: string;
+  region?: string | undefined;
 }
 /** List of available service plans. */
 export type ListPlansResponseValidPlansList = Array<PlanDetails>;
 export interface ListPlansResponse {
   /** List of available service plans. */
-  validPlans?: ListPlansResponseValidPlansList;
+  validPlans?: ListPlansResponseValidPlansList | undefined;
 }
 export interface UpdateCredentialsRequest {
   projectId: string;
   region: string;
   credentialsRef: string;
   /** Credential name */
-  displayName?: string;
+  displayName?: string | undefined;
   /** A valid password used for an existing STACKIT Observability instance, which is used during basic auth. */
-  password?: string | Redacted.Redacted<string>;
+  password?: string | Redacted.Redacted<string> | undefined;
   /** A valid username used for an existing STACKIT Observability instance, which is used during basic auth. */
-  username?: string;
+  username?: string | undefined;
 }
 export interface UpdateCredentialsResponse {
-  credential?: CredentialsResponse;
+  credential?: CredentialsResponse | undefined;
 }
 /** Labels represent user-defined metadata as key-value pairs. Label count should not exceed 64 per ALB. **Key Formatting Rules:** Length: 1-63 characters. Characters: Must begin and end with [a-zA-Z0-9]. May contain dashes (-), underscores (_), dots (.), and alphanumerics in between. Keys starting with 'stackit-' are system-reserved; users MUST NOT manage them. **Value Formatting Rules:** Length: 0-63 characters (empty string explicitly allowed). Characters (for non-empty values): Must begin and end with [a-zA-Z0-9]. May contain dashes (-), underscores (_), dots (.), and alphanumerics in between. */
 export type UpdateLoadBalancerRequestLabelsMap = { [key: string]: string | undefined };
@@ -488,22 +490,22 @@ export interface UpdateLoadBalancerRequest {
   region: string;
   name: string;
   /** Disable target security group assignemt to allow targets outside of the given network. Connectivity to targets need to be ensured by the customer, including routing and Security Groups (targetSecurityGroup can be assigned). Not changeable after creation. */
-  disableTargetSecurityGroupAssignment?: boolean;
+  disableTargetSecurityGroupAssignment?: boolean | undefined;
   /** The external IP address where this Application Load Balancer is exposed. Not changeable after creation. */
-  externalAddress?: string;
+  externalAddress?: string | undefined;
   /** Labels represent user-defined metadata as key-value pairs. Label count should not exceed 64 per ALB. **Key Formatting Rules:** Length: 1-63 characters. Characters: Must begin and end with [a-zA-Z0-9]. May contain dashes (-), underscores (_), dots (.), and alphanumerics in between. Keys starting with 'stackit-' are system-reserved; users MUST NOT manage them. **Value Formatting Rules:** Length: 0-63 characters (empty string explicitly allowed). Characters (for non-empty values): Must begin and end with [a-zA-Z0-9]. May contain dashes (-), underscores (_), dots (.), and alphanumerics in between. */
-  labels?: UpdateLoadBalancerRequestLabelsMap;
+  labels?: UpdateLoadBalancerRequestLabelsMap | undefined;
   /** There is a maximum listener count of 20. */
-  listeners?: UpdateLoadBalancerRequestListenersList;
+  listeners?: UpdateLoadBalancerRequestListenersList | undefined;
   /** List of networks that listeners and targets reside in. Currently limited to one. Not changeable after creation. */
-  networks?: UpdateLoadBalancerRequestNetworksList;
-  options?: LoadBalancerOptions;
+  networks?: UpdateLoadBalancerRequestNetworksList | undefined;
+  options?: LoadBalancerOptions | undefined;
   /** Service Plan configures the size of the Application Load Balancer. Currently supported plan is p10. This list can change in the future where plan ids will be removed and new plans by added. That is the reason this is not an enum. */
-  planId?: string;
+  planId?: string | undefined;
   /** List of all target pools which will be used in the Application Load Balancer. Limited to 20. */
-  targetPools?: UpdateLoadBalancerRequestTargetPoolsList;
+  targetPools?: UpdateLoadBalancerRequestTargetPoolsList | undefined;
   /** Application Load Balancer resource version. Must be empty or unset for creating Application Load Balancers, non-empty for updating. Semantics: While retrieving, this is the current version of this Application Load Balancer resource that changes during updates. On updates this field specified the Application Load Balancer version you calculated your update for instead of the future version to enable concurrency safe updates. Update calls will then report the new version in their result as you would see with a Application Load Balancer retrieval call later. There exist no total order of the version, so you can only compare it for equality, but not for less/greater than another version. Since the creation of Application Load Balancer is always intended to create the first version of it, there should be no existing version. That's why this field must by empty of not present in that case. */
-  version?: string;
+  version?: string | undefined;
 }
 /** List of all targets which will be used in the pool. Limited to 250. */
 export type UpdateTargetPoolRequestTargetsList = Array<Target>;
@@ -512,12 +514,12 @@ export interface UpdateTargetPoolRequest {
   region: string;
   name: string;
   targetPoolName: string;
-  activeHealthCheck?: ActiveHealthCheck;
+  activeHealthCheck?: ActiveHealthCheck | undefined;
   /** The number identifying the port where each target listens for traffic. */
-  targetPort?: number;
+  targetPort?: number | undefined;
   /** List of all targets which will be used in the pool. Limited to 250. */
-  targets?: UpdateTargetPoolRequestTargetsList;
-  tlsConfig?: TlsConfig;
+  targets?: UpdateTargetPoolRequestTargetsList | undefined;
+  tlsConfig?: TlsConfig | undefined;
 }
 export type CreateCredentialsError = BadRequest | Forbidden | StackitOpError;
 /** Create credentials for observability of the Application Load Balancer Created credentials can be stored and used for the load balancer observability. For example, when using STACKIT Observability, credentials first must be created for that STACKIT Observability instance (by using their API or the STACKIT Portal) and then can be provided to the load balancer by storing them with this endpoint. */
@@ -1120,6 +1122,7 @@ function __c11(j: number): any {
       return S.suspend(() =>
         S.Struct({
           accessControl: S.optional(__S(368, __c11, 16)),
+          accessLogs: S.optional(S.Boolean),
           ephemeralAddress: S.optional(S.Boolean),
           observability: S.optional(__S(370, __c11, 18)),
           privateNetworkOnly: S.optional(S.Boolean),

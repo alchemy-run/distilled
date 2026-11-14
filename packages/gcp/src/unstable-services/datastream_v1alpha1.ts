@@ -89,148 +89,139 @@ export interface CancelProjectsLocationsOperationsRequest {
   /** The name of the operation resource to be cancelled. */
   name: string;
   /** Request body */
-  body?: CancelOperationRequest;
+  body?: CancelOperationRequest | undefined;
 }
 /** A generic empty message that you can re-use to avoid defining duplicated empty messages in your APIs. A typical example is to use it as the request or the response type of an API method. For instance: service Foo { rpc Bar(google.protobuf.Empty) returns (google.protobuf.Empty); } */
 export interface Empty {}
 export type StringMap = { [key: string]: string | undefined };
-/** Oracle database profile. */
-export interface OracleProfile {
-  /** Port for the Oracle connection, default value is 1521. */
-  port?: number;
-  /** Required. Password for the Oracle connection. */
-  password?: string;
-  /** Required. Username for the Oracle connection. */
-  username?: string;
-  /** Required. Database for the Oracle connection. */
-  databaseService?: string;
-  /** Connection string attributes */
-  connectionAttributes?: StringMap;
-  /** Required. Hostname for the Oracle connection. */
-  hostname?: string;
-}
-/** Private Connectivity */
-export interface PrivateConnectivity {
-  privateConnectionName?: string;
+/** No connectivity settings. */
+export type NoConnectivitySettings = CancelOperationRequest;
+/** Cloud Storage bucket profile. */
+export interface GcsProfile {
+  /** Required. The full project and resource path for Cloud Storage bucket including the name. */
+  bucketName?: string | undefined;
+  /** The root path inside the Cloud Storage bucket. */
+  rootPath?: string | undefined;
 }
 /** Static IP address connectivity. */
 export type StaticServiceIpConnectivity = CancelOperationRequest;
-/** Cloud Storage bucket profile. */
-export interface GcsProfile {
-  /** The root path inside the Cloud Storage bucket. */
-  rootPath?: string;
-  /** Required. The full project and resource path for Cloud Storage bucket including the name. */
-  bucketName?: string;
-}
 /** Forward SSH Tunnel connectivity. */
 export interface ForwardSshTunnelConnectivity {
-  /** Required. Username for the SSH tunnel. */
-  username?: string;
-  /** Required. Hostname for the SSH tunnel. */
-  hostname?: string;
-  /** Input only. SSH private key. */
-  privateKey?: string;
   /** Port for the SSH tunnel, default value is 22. */
-  port?: number;
+  port?: number | undefined;
+  /** Input only. SSH private key. */
+  privateKey?: string | undefined;
+  /** Required. Hostname for the SSH tunnel. */
+  hostname?: string | undefined;
+  /** Required. Username for the SSH tunnel. */
+  username?: string | undefined;
   /** Input only. SSH password. */
-  password?: string;
+  password?: string | undefined;
 }
-/** No connectivity settings. */
-export type NoConnectivitySettings = CancelOperationRequest;
 /** MySQL SSL configuration information. */
 export interface MysqlSslConfig {
   /** Input only. PEM-encoded certificate of the CA that signed the source database server's certificate. */
-  caCertificate?: string;
-  /** Input only. PEM-encoded private key associated with the Client Certificate. If this field is used then the 'client_certificate' and the 'ca_certificate' fields are mandatory. */
-  clientKey?: string;
-  /** Output only. Indicates whether the ca_certificate field is set. */
-  caCertificateSet?: boolean;
-  /** Output only. Indicates whether the client_key field is set. */
-  clientKeySet?: boolean;
-  /** Output only. Indicates whether the client_certificate field is set. */
-  clientCertificateSet?: boolean;
+  caCertificate?: string | undefined;
   /** Input only. PEM-encoded certificate that will be used by the replica to authenticate against the source database server. If this field is used then the 'client_key' and the 'ca_certificate' fields are mandatory. */
-  clientCertificate?: string;
+  clientCertificate?: string | undefined;
+  /** Output only. Indicates whether the ca_certificate field is set. */
+  caCertificateSet?: boolean | undefined;
+  /** Input only. PEM-encoded private key associated with the Client Certificate. If this field is used then the 'client_certificate' and the 'ca_certificate' fields are mandatory. */
+  clientKey?: string | undefined;
+  /** Output only. Indicates whether the client_certificate field is set. */
+  clientCertificateSet?: boolean | undefined;
+  /** Output only. Indicates whether the client_key field is set. */
+  clientKeySet?: boolean | undefined;
 }
 /** MySQL database profile. */
 export interface MysqlProfile {
-  /** Required. Input only. Password for the MySQL connection. */
-  password?: string;
-  /** SSL configuration for the MySQL connection. */
-  sslConfig?: MysqlSslConfig;
   /** Required. Hostname for the MySQL connection. */
-  hostname?: string;
-  /** Port for the MySQL connection, default value is 3306. */
-  port?: number;
+  hostname?: string | undefined;
+  /** SSL configuration for the MySQL connection. */
+  sslConfig?: MysqlSslConfig | undefined;
+  /** Required. Input only. Password for the MySQL connection. */
+  password?: string | undefined;
   /** Required. Username for the MySQL connection. */
-  username?: string;
+  username?: string | undefined;
+  /** Port for the MySQL connection, default value is 3306. */
+  port?: number | undefined;
+}
+/** Oracle database profile. */
+export interface OracleProfile {
+  /** Connection string attributes */
+  connectionAttributes?: StringMap | undefined;
+  /** Required. Hostname for the Oracle connection. */
+  hostname?: string | undefined;
+  /** Required. Username for the Oracle connection. */
+  username?: string | undefined;
+  /** Port for the Oracle connection, default value is 1521. */
+  port?: number | undefined;
+  /** Required. Password for the Oracle connection. */
+  password?: string | undefined;
+  /** Required. Database for the Oracle connection. */
+  databaseService?: string | undefined;
+}
+/** Private Connectivity */
+export interface PrivateConnectivity {
+  privateConnectionName?: string | undefined;
 }
 export interface ConnectionProfile {
-  /** Output only. The create time of the resource. */
-  createTime?: string;
-  /** Required. Display name. */
-  displayName?: string;
-  /** Output only. The update time of the resource. */
-  updateTime?: string;
-  /** Oracle ConnectionProfile configuration. */
-  oracleProfile?: OracleProfile;
-  /** Private connectivity. */
-  privateConnectivity?: PrivateConnectivity;
-  /** Output only. The resource's name. */
-  name?: string;
-  /** Static Service IP connectivity. */
-  staticServiceIpConnectivity?: CancelOperationRequest;
-  /** Cloud Storage ConnectionProfile configuration. */
-  gcsProfile?: GcsProfile;
-  /** Forward SSH tunnel connectivity. */
-  forwardSshConnectivity?: ForwardSshTunnelConnectivity;
   /** Labels. */
-  labels?: StringMap;
+  labels?: StringMap | undefined;
   /** No connectivity option chosen. */
-  noConnectivity?: CancelOperationRequest;
+  noConnectivity?: CancelOperationRequest | undefined;
+  /** Cloud Storage ConnectionProfile configuration. */
+  gcsProfile?: GcsProfile | undefined;
+  /** Output only. The update time of the resource. */
+  updateTime?: string | undefined;
+  /** Required. Display name. */
+  displayName?: string | undefined;
+  /** Output only. The resource's name. */
+  name?: string | undefined;
+  /** Static Service IP connectivity. */
+  staticServiceIpConnectivity?: CancelOperationRequest | undefined;
+  /** Forward SSH tunnel connectivity. */
+  forwardSshConnectivity?: ForwardSshTunnelConnectivity | undefined;
   /** MySQL ConnectionProfile configuration. */
-  mysqlProfile?: MysqlProfile;
+  mysqlProfile?: MysqlProfile | undefined;
+  /** Output only. The create time of the resource. */
+  createTime?: string | undefined;
+  /** Oracle ConnectionProfile configuration. */
+  oracleProfile?: OracleProfile | undefined;
+  /** Private connectivity. */
+  privateConnectivity?: PrivateConnectivity | undefined;
 }
-export interface CreateProjectsLocationsConnectionProfilesRequest {
-  /** Optional. A request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string;
+export interface CreateProjectsLocationsConnectionProfilesRequest extends ConnectionProfile {
   /** Required. The parent that owns the collection of ConnectionProfiles. */
   parent: string;
   /** Required. The connection profile identifier. */
-  connectionProfileId?: string;
-  /** Request body */
-  body?: ConnectionProfile;
+  connectionProfileId?: string | undefined;
+  /** Optional. A request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
+  requestId?: string | undefined;
 }
 export type DocumentMap = { [key: string]: unknown | undefined };
 export type DocumentMapList = Array<DocumentMap>;
 /** The `Status` type defines a logical error model that is suitable for different programming environments, including REST APIs and RPC APIs. It is used by [gRPC](https://github.com/grpc). Each `Status` message contains three pieces of data: error code, error message, and error details. You can find out more about this error model and how to work with it in the [API Design Guide](https://cloud.google.com/apis/design/errors). */
 export interface Status {
-  /** A list of messages that carry the error details. There is a common set of message types for APIs to use. */
-  details?: DocumentMapList;
-  /** A developer-facing error message, which should be in English. Any user-facing error message should be localized and sent in the google.rpc.Status.details field, or localized by the client. */
-  message?: string;
   /** The status code, which should be an enum value of google.rpc.Code. */
-  code?: number;
+  code?: number | undefined;
+  /** A developer-facing error message, which should be in English. Any user-facing error message should be localized and sent in the google.rpc.Status.details field, or localized by the client. */
+  message?: string | undefined;
+  /** A list of messages that carry the error details. There is a common set of message types for APIs to use. */
+  details?: DocumentMapList | undefined;
 }
 /** This resource represents a long-running operation that is the result of a network API call. */
 export interface Operation {
   /** The server-assigned name, which is only unique within the same service that originally returns it. If you use the default HTTP mapping, the `name` should be a resource name ending with `operations/{unique_id}`. */
-  name?: string;
-  /** If the value is `false`, it means the operation is still in progress. If `true`, the operation is completed, and either `error` or `response` is available. */
-  done?: boolean;
+  name?: string | undefined;
   /** The normal, successful response of the operation. If the original method returns no data on success, such as `Delete`, the response is `google.protobuf.Empty`. If the original method is standard `Get`/`Create`/`Update`, the response should be the resource. For other methods, the response should have the type `XxxResponse`, where `Xxx` is the original method name. For example, if the original method name is `TakeSnapshot()`, the inferred response type is `TakeSnapshotResponse`. */
-  response?: DocumentMap;
-  /** The error result of the operation in case of failure or cancellation. */
-  error?: Status;
+  response?: DocumentMap | undefined;
+  /** If the value is `false`, it means the operation is still in progress. If `true`, the operation is completed, and either `error` or `response` is available. */
+  done?: boolean | undefined;
   /** Service-specific metadata associated with the operation. It typically contains progress information and common metadata such as create time. Some services might not provide such metadata. Any method that returns a long-running operation should document the metadata type, if any. */
-  metadata?: DocumentMap;
-}
-/** The VPC Peering configuration is used to create VPC peering between Datastream and the consumer's VPC. */
-export interface VpcPeeringConfig {
-  /** Required. fully qualified name of the VPC Datastream will peer to. */
-  vpcName?: string;
-  /** Required. A free subnet for peering. (CIDR of /29) */
-  subnet?: string;
+  metadata?: DocumentMap | undefined;
+  /** The error result of the operation in case of failure or cancellation. */
+  error?: Status | undefined;
 }
 export type PrivateConnectionStateEnum =
   | "STATE_UNSPECIFIED"
@@ -241,202 +232,189 @@ export type PrivateConnectionStateEnum =
   | "FAILED_TO_DELETE";
 /** Represent a user-facing Error. */
 export interface Datastream_Error {
-  /** A unique identifier for this specific error, allowing it to be traced throughout the system in logs and API responses. */
-  errorUuid?: string;
-  /** A title that explains the reason for the error. */
-  reason?: string;
   /** A message containing more information about the error that occurred. */
-  message?: string;
-  /** The time when the error occurred. */
-  errorTime?: string;
+  message?: string | undefined;
   /** Additional information about the error. */
-  details?: StringMap;
+  details?: StringMap | undefined;
+  /** The time when the error occurred. */
+  errorTime?: string | undefined;
+  /** A title that explains the reason for the error. */
+  reason?: string | undefined;
+  /** A unique identifier for this specific error, allowing it to be traced throughout the system in logs and API responses. */
+  errorUuid?: string | undefined;
+}
+/** The VPC Peering configuration is used to create VPC peering between Datastream and the consumer's VPC. */
+export interface VpcPeeringConfig {
+  /** Required. A free subnet for peering. (CIDR of /29) */
+  subnet?: string | undefined;
+  /** Required. fully qualified name of the VPC Datastream will peer to. */
+  vpcName?: string | undefined;
 }
 /** The PrivateConnection resource is used to establish private connectivity between Datastream and a customer's network. */
 export interface PrivateConnection {
   /** Labels. */
-  labels?: StringMap;
-  /** VPC Peering Config */
-  vpcPeeringConfig?: VpcPeeringConfig;
+  labels?: StringMap | undefined;
   /** Output only. The state of the Private Connection. */
-  state?: PrivateConnectionStateEnum | (string & {});
-  /** Required. Display name. */
-  displayName?: string;
-  /** Output only. In case of error, the details of the error in a user-friendly format. */
-  error?: Datastream_Error;
-  /** Output only. The update time of the resource. */
-  updateTime?: string;
+  state?: PrivateConnectionStateEnum | (string & {}) | undefined;
   /** Output only. The resource's name. */
-  name?: string;
+  name?: string | undefined;
+  /** Output only. In case of error, the details of the error in a user-friendly format. */
+  error?: Datastream_Error | undefined;
+  /** Required. Display name. */
+  displayName?: string | undefined;
+  /** VPC Peering Config */
+  vpcPeeringConfig?: VpcPeeringConfig | undefined;
   /** Output only. The create time of the resource. */
-  createTime?: string;
+  createTime?: string | undefined;
+  /** Output only. The update time of the resource. */
+  updateTime?: string | undefined;
 }
-export interface CreateProjectsLocationsPrivateConnectionsRequest {
-  /** Required. The private connectivity identifier. */
-  privateConnectionId?: string;
+export interface CreateProjectsLocationsPrivateConnectionsRequest extends PrivateConnection {
   /** Required. The parent that owns the collection of PrivateConnections. */
   parent: string;
+  /** Required. The private connectivity identifier. */
+  privateConnectionId?: string | undefined;
   /** Optional. A request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string;
-  /** Request body */
-  body?: PrivateConnection;
+  requestId?: string | undefined;
 }
 /** The Route resource is the child of the PrivateConnection resource. It used to define a route for a PrivateConnection setup. */
 export interface Route {
   /** Required. Display name. */
-  displayName?: string;
-  /** Destination port for connection */
-  destinationPort?: number;
-  /** Output only. The create time of the resource. */
-  createTime?: string;
-  /** Output only. The resource's name. */
-  name?: string;
+  displayName?: string | undefined;
   /** Labels. */
-  labels?: StringMap;
+  labels?: StringMap | undefined;
+  /** Output only. The create time of the resource. */
+  createTime?: string | undefined;
   /** Output only. The update time of the resource. */
-  updateTime?: string;
+  updateTime?: string | undefined;
+  /** Destination port for connection */
+  destinationPort?: number | undefined;
+  /** Output only. The resource's name. */
+  name?: string | undefined;
   /** Required. Destination address for connection */
-  destinationAddress?: string;
+  destinationAddress?: string | undefined;
 }
-export interface CreateProjectsLocationsPrivateConnectionsRoutesRequest {
+export interface CreateProjectsLocationsPrivateConnectionsRoutesRequest extends Route {
+  /** Optional. A request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
+  requestId?: string | undefined;
   /** Required. The parent that owns the collection of Routes. */
   parent: string;
-  /** Optional. A request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string;
   /** Required. The Route identifier. */
-  routeId?: string;
-  /** Request body */
-  body?: Route;
+  routeId?: string | undefined;
 }
 /** Configuration to drop large object values. */
 export type DropLargeObjects = CancelOperationRequest;
 /** Oracle Column. */
 export interface OracleColumn {
-  /** The ordinal position of the column in the table. */
-  ordinalPosition?: number;
-  /** Whether or not the column represents a primary key. */
-  primaryKey?: boolean;
-  /** Column precision. */
-  precision?: number;
-  /** Column length. */
-  length?: number;
-  /** Whether or not the column can accept a null value. */
-  nullable?: boolean;
   /** Column scale. */
-  scale?: number;
-  /** Column name. */
-  columnName?: string;
+  scale?: number | undefined;
   /** The Oracle data type. */
-  dataType?: string;
+  dataType?: string | undefined;
   /** Column encoding. */
-  encoding?: string;
+  encoding?: string | undefined;
+  /** Whether or not the column represents a primary key. */
+  primaryKey?: boolean | undefined;
+  /** Whether or not the column can accept a null value. */
+  nullable?: boolean | undefined;
+  /** Column precision. */
+  precision?: number | undefined;
+  /** Column name. */
+  columnName?: string | undefined;
+  /** Column length. */
+  length?: number | undefined;
+  /** The ordinal position of the column in the table. */
+  ordinalPosition?: number | undefined;
 }
 export type OracleColumnList = Array<OracleColumn>;
 /** Oracle table. */
 export interface OracleTable {
   /** Table name. */
-  tableName?: string;
+  tableName?: string | undefined;
   /** Oracle columns in the schema. When unspecified as part of inclue/exclude lists, includes/excludes everything. */
-  oracleColumns?: OracleColumnList;
+  oracleColumns?: OracleColumnList | undefined;
 }
 export type OracleTableList = Array<OracleTable>;
 /** Oracle schema. */
 export interface OracleSchema {
   /** Schema name. */
-  schemaName?: string;
+  schemaName?: string | undefined;
   /** Tables in the schema. */
-  oracleTables?: OracleTableList;
+  oracleTables?: OracleTableList | undefined;
 }
 export type OracleSchemaList = Array<OracleSchema>;
 /** Oracle database structure. */
 export interface OracleRdbms {
   /** Oracle schemas/databases in the database server. */
-  oracleSchemas?: OracleSchemaList;
+  oracleSchemas?: OracleSchemaList | undefined;
 }
 /** Oracle data source configuration */
 export interface OracleSourceConfig {
   /** Drop large object values. */
-  dropLargeObjects?: CancelOperationRequest;
+  dropLargeObjects?: CancelOperationRequest | undefined;
   /** Oracle objects to exclude from the stream. */
-  rejectlist?: OracleRdbms;
+  rejectlist?: OracleRdbms | undefined;
   /** Oracle objects to include in the stream. */
-  allowlist?: OracleRdbms;
+  allowlist?: OracleRdbms | undefined;
 }
 /** MySQL Column. */
 export interface MysqlColumn {
-  /** The MySQL data type. Full data types list can be found here: https://dev.mysql.com/doc/refman/8.0/en/data-types.html */
-  dataType?: string;
   /** Column collation. */
-  collation?: string;
-  /** Column length. */
-  length?: number;
-  /** Column name. */
-  columnName?: string;
-  /** Whether or not the column can accept a null value. */
-  nullable?: boolean;
-  /** The ordinal position of the column in the table. */
-  ordinalPosition?: number;
+  collation?: string | undefined;
   /** Whether or not the column represents a primary key. */
-  primaryKey?: boolean;
+  primaryKey?: boolean | undefined;
+  /** The MySQL data type. Full data types list can be found here: https://dev.mysql.com/doc/refman/8.0/en/data-types.html */
+  dataType?: string | undefined;
+  /** Whether or not the column can accept a null value. */
+  nullable?: boolean | undefined;
+  /** Column name. */
+  columnName?: string | undefined;
+  /** Column length. */
+  length?: number | undefined;
+  /** The ordinal position of the column in the table. */
+  ordinalPosition?: number | undefined;
 }
 export type MysqlColumnList = Array<MysqlColumn>;
 /** MySQL table. */
 export interface MysqlTable {
   /** MySQL columns in the database. When unspecified as part of include/exclude lists, includes/excludes everything. */
-  mysqlColumns?: MysqlColumnList;
+  mysqlColumns?: MysqlColumnList | undefined;
   /** Table name. */
-  tableName?: string;
+  tableName?: string | undefined;
 }
 export type MysqlTableList = Array<MysqlTable>;
 /** MySQL database. */
 export interface MysqlDatabase {
-  /** Tables in the database. */
-  mysqlTables?: MysqlTableList;
   /** Database name. */
-  databaseName?: string;
+  databaseName?: string | undefined;
+  /** Tables in the database. */
+  mysqlTables?: MysqlTableList | undefined;
 }
 export type MysqlDatabaseList = Array<MysqlDatabase>;
 /** MySQL database structure */
 export interface MysqlRdbms {
   /** Mysql databases on the server */
-  mysqlDatabases?: MysqlDatabaseList;
+  mysqlDatabases?: MysqlDatabaseList | undefined;
 }
 /** MySQL source configuration */
 export interface MysqlSourceConfig {
   /** MySQL objects to retrieve from the source. */
-  allowlist?: MysqlRdbms;
+  allowlist?: MysqlRdbms | undefined;
   /** MySQL objects to exclude from the stream. */
-  rejectlist?: MysqlRdbms;
+  rejectlist?: MysqlRdbms | undefined;
 }
 /** The configuration of the stream source. */
 export interface SourceConfig {
   /** Oracle data source configuration */
-  oracleSourceConfig?: OracleSourceConfig;
-  /** MySQL data source configuration */
-  mysqlSourceConfig?: MysqlSourceConfig;
+  oracleSourceConfig?: OracleSourceConfig | undefined;
   /** Required. Source connection profile identifier. */
-  sourceConnectionProfileName?: string;
+  sourceConnectionProfileName?: string | undefined;
+  /** MySQL data source configuration */
+  mysqlSourceConfig?: MysqlSourceConfig | undefined;
 }
-export type Datastream_ErrorList = Array<Datastream_Error>;
-export type StreamStateEnum =
-  | "STATE_UNSPECIFIED"
-  | "CREATED"
-  | "RUNNING"
-  | "PAUSED"
-  | "MAINTENANCE"
-  | "FAILED"
-  | "FAILED_PERMANENTLY"
-  | "STARTING"
-  | "DRAINING";
 /** Backfill strategy to disable automatic backfill for the Stream's objects. */
 export type BackfillNoneStrategy = CancelOperationRequest;
-/** Backfill strategy to automatically backfill the Stream's objects. Specific objects can be excluded. */
-export interface BackfillAllStrategy {
-  /** Oracle data source objects to avoid backfilling. */
-  oracleExcludedObjects?: OracleRdbms;
-  /** MySQL data source objects to avoid backfilling. */
-  mysqlExcludedObjects?: MysqlRdbms;
-}
+export type Datastream_ErrorList = Array<Datastream_Error>;
+export type GcsDestinationConfigGcsFileFormatEnum = "GCS_FILE_FORMAT_UNSPECIFIED" | "AVRO";
 export type JsonFileFormatSchemaFileFormatEnum =
   | "SCHEMA_FILE_FORMAT_UNSPECIFIED"
   | "NO_SCHEMA_FILE"
@@ -448,131 +426,143 @@ export type JsonFileFormatCompressionEnum =
 /** JSON file format configuration. */
 export interface JsonFileFormat {
   /** The schema file format along JSON data files. */
-  schemaFileFormat?: JsonFileFormatSchemaFileFormatEnum | (string & {});
+  schemaFileFormat?: JsonFileFormatSchemaFileFormatEnum | (string & {}) | undefined;
   /** Compression of the loaded JSON file. */
-  compression?: JsonFileFormatCompressionEnum | (string & {});
+  compression?: JsonFileFormatCompressionEnum | (string & {}) | undefined;
 }
-export type GcsDestinationConfigGcsFileFormatEnum = "GCS_FILE_FORMAT_UNSPECIFIED" | "AVRO";
 /** AVRO file format configuration. */
 export type AvroFileFormat = CancelOperationRequest;
 /** Google Cloud Storage destination configuration */
 export interface GcsDestinationConfig {
-  /** JSON file format configuration. */
-  jsonFileFormat?: JsonFileFormat;
-  /** Path inside the Cloud Storage bucket to write data to. */
-  path?: string;
-  /** The maximum file size to be saved in the bucket. */
-  fileRotationMb?: number;
   /** File format that data should be written in. Deprecated field (b/169501737) - use file_format instead. */
-  gcsFileFormat?: GcsDestinationConfigGcsFileFormatEnum | (string & {});
-  /** The maximum duration for which new events are added before a file is closed and a new file is created. */
-  fileRotationInterval?: string;
+  gcsFileFormat?: GcsDestinationConfigGcsFileFormatEnum | (string & {}) | undefined;
+  /** The maximum file size to be saved in the bucket. */
+  fileRotationMb?: number | undefined;
+  /** JSON file format configuration. */
+  jsonFileFormat?: JsonFileFormat | undefined;
   /** AVRO file format configuration. */
-  avroFileFormat?: CancelOperationRequest;
+  avroFileFormat?: CancelOperationRequest | undefined;
+  /** The maximum duration for which new events are added before a file is closed and a new file is created. */
+  fileRotationInterval?: string | undefined;
+  /** Path inside the Cloud Storage bucket to write data to. */
+  path?: string | undefined;
 }
 /** The configuration of the stream destination. */
 export interface DestinationConfig {
-  /** GCS destination configuration. */
-  gcsDestinationConfig?: GcsDestinationConfig;
   /** Required. Destination connection profile identifier. */
-  destinationConnectionProfileName?: string;
+  destinationConnectionProfileName?: string | undefined;
+  /** GCS destination configuration. */
+  gcsDestinationConfig?: GcsDestinationConfig | undefined;
 }
+/** Backfill strategy to automatically backfill the Stream's objects. Specific objects can be excluded. */
+export interface BackfillAllStrategy {
+  /** MySQL data source objects to avoid backfilling. */
+  mysqlExcludedObjects?: MysqlRdbms | undefined;
+  /** Oracle data source objects to avoid backfilling. */
+  oracleExcludedObjects?: OracleRdbms | undefined;
+}
+export type StreamStateEnum =
+  | "STATE_UNSPECIFIED"
+  | "CREATED"
+  | "RUNNING"
+  | "PAUSED"
+  | "MAINTENANCE"
+  | "FAILED"
+  | "FAILED_PERMANENTLY"
+  | "STARTING"
+  | "DRAINING";
 export interface Stream {
   /** Required. Source connection profile configuration. */
-  sourceConfig?: SourceConfig;
-  /** Output only. The last update time of the stream. */
-  updateTime?: string;
+  sourceConfig?: SourceConfig | undefined;
   /** Required. Display name. */
-  displayName?: string;
-  /** Output only. Errors on the Stream. */
-  errors?: Datastream_ErrorList;
-  /** Output only. The creation time of the stream. */
-  createTime?: string;
-  /** The state of the stream. */
-  state?: StreamStateEnum | (string & {});
-  /** Do not automatically backfill any objects. */
-  backfillNone?: CancelOperationRequest;
-  /** Output only. The stream's name. */
-  name?: string;
-  /** Automatically backfill objects included in the stream source configuration. Specific objects can be excluded. */
-  backfillAll?: BackfillAllStrategy;
-  /** Required. Destination connection profile configuration. */
-  destinationConfig?: DestinationConfig;
+  displayName?: string | undefined;
   /** Immutable. A reference to a KMS encryption key. If provided, it will be used to encrypt the data. If left blank, data will be encrypted using an internal Stream-specific encryption key provisioned through KMS. */
-  customerManagedEncryptionKey?: string;
+  customerManagedEncryptionKey?: string | undefined;
+  /** Do not automatically backfill any objects. */
+  backfillNone?: CancelOperationRequest | undefined;
+  /** Output only. The creation time of the stream. */
+  createTime?: string | undefined;
+  /** Output only. Errors on the Stream. */
+  errors?: Datastream_ErrorList | undefined;
+  /** Output only. The stream's name. */
+  name?: string | undefined;
+  /** Required. Destination connection profile configuration. */
+  destinationConfig?: DestinationConfig | undefined;
+  /** Automatically backfill objects included in the stream source configuration. Specific objects can be excluded. */
+  backfillAll?: BackfillAllStrategy | undefined;
+  /** Output only. The last update time of the stream. */
+  updateTime?: string | undefined;
   /** Labels. */
-  labels?: StringMap;
+  labels?: StringMap | undefined;
+  /** The state of the stream. */
+  state?: StreamStateEnum | (string & {}) | undefined;
 }
-export interface CreateProjectsLocationsStreamsRequest {
+export interface CreateProjectsLocationsStreamsRequest extends Stream {
   /** Optional. Only validate the stream, but do not create any resources. The default is false. */
-  validateOnly?: boolean;
-  /** Optional. A request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string;
+  validateOnly?: boolean | undefined;
+  /** Required. The stream identifier. */
+  streamId?: string | undefined;
+  /** Optional. Create the stream without validating it. */
+  force?: boolean | undefined;
   /** Required. The parent that owns the collection of streams. */
   parent: string;
-  /** Required. The stream identifier. */
-  streamId?: string;
-  /** Optional. Create the stream without validating it. */
-  force?: boolean;
-  /** Request body */
-  body?: Stream;
+  /** Optional. A request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
+  requestId?: string | undefined;
 }
 export interface DeleteProjectsLocationsConnectionProfilesRequest {
-  /** Optional. A request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes after the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string;
   /** Required. The name of the connection profile resource to delete. */
   name: string;
+  /** Optional. A request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes after the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
+  requestId?: string | undefined;
 }
 export interface DeleteProjectsLocationsOperationsRequest {
   /** The name of the operation resource to be deleted. */
   name: string;
 }
 export interface DeleteProjectsLocationsPrivateConnectionsRequest {
-  /** Optional. A request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes after the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string;
+  /** Optional. If set to true, any child routes that belong to this PrivateConnection will also be deleted. */
+  force?: boolean | undefined;
   /** Required. The name of the private connectivity configuration to delete. */
   name: string;
-  /** Optional. If set to true, any child routes that belong to this PrivateConnection will also be deleted. */
-  force?: boolean;
+  /** Optional. A request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes after the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
+  requestId?: string | undefined;
 }
 export interface DeleteProjectsLocationsPrivateConnectionsRoutesRequest {
+  /** Optional. A request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes after the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
+  requestId?: string | undefined;
   /** Required. The name of the Route resource to delete. */
   name: string;
-  /** Optional. A request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes after the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string;
 }
 export interface DeleteProjectsLocationsStreamsRequest {
   /** Required. The name of the stream resource to delete. */
   name: string;
   /** Optional. A request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes after the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string;
+  requestId?: string | undefined;
 }
 /** Request message for 'discover' ConnectionProfile request. */
 export interface DiscoverConnectionProfileRequest {
   /** MySQL RDBMS to enrich with child data objects and metadata. */
-  mysqlRdbms?: MysqlRdbms;
-  /** A reference to an existing ConnectionProfile. */
-  connectionProfileName?: string;
+  mysqlRdbms?: MysqlRdbms | undefined;
   /** Oracle RDBMS to enrich with child data objects and metadata. */
-  oracleRdbms?: OracleRdbms;
+  oracleRdbms?: OracleRdbms | undefined;
   /** An ad-hoc ConnectionProfile configuration. */
-  connectionProfile?: ConnectionProfile;
-  /** Whether to retrieve the full hierarchy of data objects (TRUE) or only the current level (FALSE). */
-  recursive?: boolean;
+  connectionProfile?: ConnectionProfile | undefined;
   /** The number of hierarchy levels below the current level to be retrieved. */
-  recursionDepth?: number;
+  recursionDepth?: number | undefined;
+  /** Whether to retrieve the full hierarchy of data objects (TRUE) or only the current level (FALSE). */
+  recursive?: boolean | undefined;
+  /** A reference to an existing ConnectionProfile. */
+  connectionProfileName?: string | undefined;
 }
-export interface DiscoverProjectsLocationsConnectionProfilesRequest {
+export interface DiscoverProjectsLocationsConnectionProfilesRequest extends DiscoverConnectionProfileRequest {
   /** Required. The parent resource of the ConnectionProfile type. Must be in the format `projects/*\/locations/*`. */
   parent: string;
-  /** Request body */
-  body?: DiscoverConnectionProfileRequest;
 }
 export interface DiscoverConnectionProfileResponse {
   /** Enriched MySQL RDBMS object. */
-  mysqlRdbms?: MysqlRdbms;
+  mysqlRdbms?: MysqlRdbms | undefined;
   /** Enriched Oracle RDBMS object. */
-  oracleRdbms?: OracleRdbms;
+  oracleRdbms?: OracleRdbms | undefined;
 }
 /** Request message for 'FetchErrors' request. */
 export type FetchErrorsRequest = CancelOperationRequest;
@@ -580,23 +570,23 @@ export interface FetchErrorsProjectsLocationsStreamsRequest {
   /** Name of the Stream resource for which to fetch any errors. */
   stream: string;
   /** Request body */
-  body?: CancelOperationRequest;
+  body?: CancelOperationRequest | undefined;
 }
 export interface FetchStaticIpsProjectsLocationsRequest {
   /** Maximum number of Ips to return, will likely not be specified. */
-  pageSize?: number;
+  pageSize?: number | undefined;
+  /** A page token, received from a previous `ListStaticIps` call. will likely not be specified. */
+  pageToken?: string | undefined;
   /** Required. The name resource of the Response type. Must be in the format `projects/*\/locations/*`. */
   name: string;
-  /** A page token, received from a previous `ListStaticIps` call. will likely not be specified. */
-  pageToken?: string;
 }
 export type StringList = Array<string>;
 /** Response message for a 'FetchStaticIps' response. */
 export interface FetchStaticIpsResponse {
   /** A token that can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
   /** list of static ips by account */
-  staticIps?: StringList;
+  staticIps?: StringList | undefined;
 }
 export interface GetProjectsLocationsRequest {
   /** Resource name for the location. */
@@ -604,16 +594,16 @@ export interface GetProjectsLocationsRequest {
 }
 /** A resource that represents a Google Cloud location. */
 export interface Location {
-  /** Service-specific metadata. For example the available capacity at the given location. */
-  metadata?: DocumentMap;
-  /** The friendly name for this location, typically a nearby city name. For example, "Tokyo". */
-  displayName?: string;
-  /** The canonical id for this location. For example: `"us-east1"`. */
-  locationId?: string;
-  /** Resource name for the location, which may vary between implementations. For example: `"projects/example-project/locations/us-east1"` */
-  name?: string;
   /** Cross-service attributes for the location. For example {"cloud.googleapis.com/region": "us-east1"} */
-  labels?: StringMap;
+  labels?: StringMap | undefined;
+  /** Service-specific metadata. For example the available capacity at the given location. */
+  metadata?: DocumentMap | undefined;
+  /** Resource name for the location, which may vary between implementations. For example: `"projects/example-project/locations/us-east1"` */
+  name?: string | undefined;
+  /** The canonical id for this location. For example: `"us-east1"`. */
+  locationId?: string | undefined;
+  /** The friendly name for this location, typically a nearby city name. For example, "Tokyo". */
+  displayName?: string | undefined;
 }
 export interface GetProjectsLocationsConnectionProfilesRequest {
   /** Required. The name of the connection profile resource to get. */
@@ -639,27 +629,6 @@ export interface GetProjectsLocationsStreamsObjectsRequest {
   /** Required. The name of the stream object resource to get. */
   name: string;
 }
-/** Mysql data source object identifier. */
-export interface MysqlObjectIdentifier {
-  /** Required. The database name. */
-  database?: string;
-  /** Required. The table name. */
-  table?: string;
-}
-/** Oracle data source object identifier. */
-export interface OracleObjectIdentifier {
-  /** Required. The table name. */
-  table?: string;
-  /** Required. The schema name. */
-  schema?: string;
-}
-/** Represents an identifier of an object in the data source. */
-export interface SourceObjectIdentifier {
-  /** Mysql data source object identifier. */
-  mysqlIdentifier?: MysqlObjectIdentifier;
-  /** Oracle data source object identifier. */
-  oracleIdentifier?: OracleObjectIdentifier;
-}
 export type BackfillJobStateEnum =
   | "STATE_UNSPECIFIED"
   | "NOT_STARTED"
@@ -673,201 +642,221 @@ export type BackfillJobTriggerEnum = "TRIGGER_UNSPECIFIED" | "AUTOMATIC" | "MANU
 /** Represents a backfill job on a specific stream object. */
 export interface BackfillJob {
   /** Output only. Backfill job's start time. */
-  lastStartTime?: string;
-  /** Backfill job state. */
-  state?: BackfillJobStateEnum;
-  /** Backfill job's triggering reason. */
-  trigger?: BackfillJobTriggerEnum;
-  /** Output only. Errors which caused the backfill job to fail. */
-  errors?: Datastream_ErrorList;
+  lastStartTime?: string | undefined;
   /** Output only. Backfill job's end time. */
-  lastEndTime?: string;
+  lastEndTime?: string | undefined;
+  /** Output only. Errors which caused the backfill job to fail. */
+  errors?: Datastream_ErrorList | undefined;
+  /** Backfill job state. */
+  state?: BackfillJobStateEnum | undefined;
+  /** Backfill job's triggering reason. */
+  trigger?: BackfillJobTriggerEnum | undefined;
+}
+/** Mysql data source object identifier. */
+export interface MysqlObjectIdentifier {
+  /** Required. The table name. */
+  table?: string | undefined;
+  /** Required. The database name. */
+  database?: string | undefined;
+}
+/** Oracle data source object identifier. */
+export interface OracleObjectIdentifier {
+  /** Required. The schema name. */
+  schema?: string | undefined;
+  /** Required. The table name. */
+  table?: string | undefined;
+}
+/** Represents an identifier of an object in the data source. */
+export interface SourceObjectIdentifier {
+  /** Mysql data source object identifier. */
+  mysqlIdentifier?: MysqlObjectIdentifier | undefined;
+  /** Oracle data source object identifier. */
+  oracleIdentifier?: OracleObjectIdentifier | undefined;
 }
 /** A specific stream object (e.g a specific DB table). */
 export interface StreamObject {
-  /** Required. Display name. */
-  displayName?: string;
-  /** The object identifier in the data source. */
-  sourceObject?: SourceObjectIdentifier;
   /** The latest backfill job that was initiated for the stream object. */
-  backfillJob?: BackfillJob;
-  /** Output only. The creation time of the object. */
-  createTime?: string;
-  /** Output only. Active errors on the object. */
-  errors?: Datastream_ErrorList;
+  backfillJob?: BackfillJob | undefined;
+  /** The object identifier in the data source. */
+  sourceObject?: SourceObjectIdentifier | undefined;
   /** Output only. The object's name. */
-  name?: string;
+  name?: string | undefined;
+  /** Output only. Active errors on the object. */
+  errors?: Datastream_ErrorList | undefined;
+  /** Output only. The creation time of the object. */
+  createTime?: string | undefined;
   /** Output only. The last update time of the object. */
-  updateTime?: string;
+  updateTime?: string | undefined;
+  /** Required. Display name. */
+  displayName?: string | undefined;
 }
 export interface ListProjectsLocationsRequest {
-  /** A page token received from the `next_page_token` field in the response. Send that page token to receive the subsequent page. */
-  pageToken?: string;
-  /** Optional. Do not use this field unless explicitly documented otherwise. This is primarily for internal usage. */
-  extraLocationTypes?: StringList;
-  /** A filter to narrow down results to a preferred subset. The filtering language accepts strings like `"displayName=tokyo"`, and is documented in more detail in [AIP-160](https://google.aip.dev/160). */
-  filter?: string;
   /** The maximum number of results to return. If not set, the service selects a default. */
-  pageSize?: number;
+  pageSize?: number | undefined;
+  /** Optional. Do not use this field unless explicitly documented otherwise. This is primarily for internal usage. */
+  extraLocationTypes?: StringList | undefined;
+  /** A filter to narrow down results to a preferred subset. The filtering language accepts strings like `"displayName=tokyo"`, and is documented in more detail in [AIP-160](https://google.aip.dev/160). */
+  filter?: string | undefined;
   /** The resource that owns the locations collection, if applicable. */
   name: string;
+  /** A page token received from the `next_page_token` field in the response. Send that page token to receive the subsequent page. */
+  pageToken?: string | undefined;
 }
 export type LocationList = Array<Location>;
 /** The response message for Locations.ListLocations. */
 export interface ListLocationsResponse {
   /** A list of locations that matches the specified filter in the request. */
-  locations?: LocationList;
+  locations?: LocationList | undefined;
   /** The standard List next-page token. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
 }
 export interface ListProjectsLocationsConnectionProfilesRequest {
-  /** Filter request. */
-  filter?: string;
   /** Page token received from a previous `ListConnectionProfiles` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListConnectionProfiles` must match the call that provided the page token. */
-  pageToken?: string;
-  /** Maximum number of connection profiles to return. If unspecified, at most 50 connection profiles will be returned. The maximum value is 1000; values above 1000 will be coerced to 1000. */
-  pageSize?: number;
+  pageToken?: string | undefined;
+  /** Order by fields for the result. */
+  orderBy?: string | undefined;
+  /** Filter request. */
+  filter?: string | undefined;
   /** Required. The parent that owns the collection of connection profiles. */
   parent: string;
-  /** Order by fields for the result. */
-  orderBy?: string;
+  /** Maximum number of connection profiles to return. If unspecified, at most 50 connection profiles will be returned. The maximum value is 1000; values above 1000 will be coerced to 1000. */
+  pageSize?: number | undefined;
 }
 export type ConnectionProfileList = Array<ConnectionProfile>;
 export interface ListConnectionProfilesResponse {
-  /** List of connection profiles. */
-  connectionProfiles?: ConnectionProfileList;
   /** A token, which can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
   /** Locations that could not be reached. */
-  unreachable?: StringList;
+  unreachable?: StringList | undefined;
+  /** List of connection profiles. */
+  connectionProfiles?: ConnectionProfileList | undefined;
 }
 export interface ListProjectsLocationsOperationsRequest {
-  /** When set to `true`, operations that are reachable are returned as normal, and those that are unreachable are returned in the ListOperationsResponse.unreachable field. This can only be `true` when reading across collections. For example, when `parent` is set to `"projects/example/locations/-"`. This field is not supported by default and will result in an `UNIMPLEMENTED` error if set unless explicitly documented otherwise in service or product specific documentation. */
-  returnPartialSuccess?: boolean;
-  /** The standard list filter. */
-  filter?: string;
-  /** The standard list page size. */
-  pageSize?: number;
   /** The name of the operation's parent resource. */
   name: string;
+  /** The standard list page size. */
+  pageSize?: number | undefined;
   /** The standard list page token. */
-  pageToken?: string;
+  pageToken?: string | undefined;
+  /** When set to `true`, operations that are reachable are returned as normal, and those that are unreachable are returned in the ListOperationsResponse.unreachable field. This can only be `true` when reading across collections. For example, when `parent` is set to `"projects/example/locations/-"`. This field is not supported by default and will result in an `UNIMPLEMENTED` error if set unless explicitly documented otherwise in service or product specific documentation. */
+  returnPartialSuccess?: boolean | undefined;
+  /** The standard list filter. */
+  filter?: string | undefined;
 }
 export type OperationList = Array<Operation>;
 /** The response message for Operations.ListOperations. */
 export interface ListOperationsResponse {
   /** A list of operations that matches the specified filter in the request. */
-  operations?: OperationList;
-  /** The standard List next-page token. */
-  nextPageToken?: string;
+  operations?: OperationList | undefined;
   /** Unordered list. Unreachable resources. Populated when the request sets `ListOperationsRequest.return_partial_success` and reads across collections. For example, when attempting to list all resources across all supported locations. */
-  unreachable?: StringList;
+  unreachable?: StringList | undefined;
+  /** The standard List next-page token. */
+  nextPageToken?: string | undefined;
 }
 export interface ListProjectsLocationsPrivateConnectionsRequest {
   /** Filter request. */
-  filter?: string;
+  filter?: string | undefined;
+  /** Order by fields for the result. */
+  orderBy?: string | undefined;
+  /** Page token received from a previous `ListPrivateConnections` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListPrivateConnections` must match the call that provided the page token. */
+  pageToken?: string | undefined;
+  /** Maximum number of private connectivity configurations to return. If unspecified, at most 50 private connectivity configurations that will be returned. The maximum value is 1000; values above 1000 will be coerced to 1000. */
+  pageSize?: number | undefined;
   /** Required. The parent that owns the collection of private connectivity configurations. */
   parent: string;
-  /** Page token received from a previous `ListPrivateConnections` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListPrivateConnections` must match the call that provided the page token. */
-  pageToken?: string;
-  /** Order by fields for the result. */
-  orderBy?: string;
-  /** Maximum number of private connectivity configurations to return. If unspecified, at most 50 private connectivity configurations that will be returned. The maximum value is 1000; values above 1000 will be coerced to 1000. */
-  pageSize?: number;
 }
 export type PrivateConnectionList = Array<PrivateConnection>;
 export interface ListPrivateConnectionsResponse {
-  /** Locations that could not be reached. */
-  unreachable?: StringList;
-  /** List of private connectivity configurations. */
-  privateConnections?: PrivateConnectionList;
   /** A token, which can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
+  /** Locations that could not be reached. */
+  unreachable?: StringList | undefined;
+  /** List of private connectivity configurations. */
+  privateConnections?: PrivateConnectionList | undefined;
 }
 export interface ListProjectsLocationsPrivateConnectionsRoutesRequest {
+  /** Order by fields for the result. */
+  orderBy?: string | undefined;
+  /** Filter request. */
+  filter?: string | undefined;
+  /** Maximum number of Routes to return. The service may return fewer than this value. If unspecified, at most 50 Routes will be returned. The maximum value is 1000; values above 1000 will be coerced to 1000. */
+  pageSize?: number | undefined;
   /** Required. The parent that owns the collection of Routess. */
   parent: string;
-  /** Maximum number of Routes to return. The service may return fewer than this value. If unspecified, at most 50 Routes will be returned. The maximum value is 1000; values above 1000 will be coerced to 1000. */
-  pageSize?: number;
   /** Page token received from a previous `ListRoutes` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListRoutes` must match the call that provided the page token. */
-  pageToken?: string;
-  /** Order by fields for the result. */
-  orderBy?: string;
-  /** Filter request. */
-  filter?: string;
+  pageToken?: string | undefined;
 }
 export type RouteList = Array<Route>;
 /** route list response */
 export interface ListRoutesResponse {
-  /** Locations that could not be reached. */
-  unreachable?: StringList;
-  /** A token, which can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
-  nextPageToken?: string;
   /** List of Routes. */
-  routes?: RouteList;
+  routes?: RouteList | undefined;
+  /** Locations that could not be reached. */
+  unreachable?: StringList | undefined;
+  /** A token, which can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
+  nextPageToken?: string | undefined;
 }
 export interface ListProjectsLocationsStreamsRequest {
+  /** Maximum number of streams to return. If unspecified, at most 50 streams will be returned. The maximum value is 1000; values above 1000 will be coerced to 1000. */
+  pageSize?: number | undefined;
   /** Required. The parent that owns the collection of streams. */
   parent: string;
-  /** Order by fields for the result. */
-  orderBy?: string;
-  /** Maximum number of streams to return. If unspecified, at most 50 streams will be returned. The maximum value is 1000; values above 1000 will be coerced to 1000. */
-  pageSize?: number;
   /** Filter request. */
-  filter?: string;
+  filter?: string | undefined;
+  /** Order by fields for the result. */
+  orderBy?: string | undefined;
   /** Page token received from a previous `ListStreams` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListStreams` must match the call that provided the page token. */
-  pageToken?: string;
+  pageToken?: string | undefined;
 }
 export type StreamList = Array<Stream>;
 export interface ListStreamsResponse {
-  /** Locations that could not be reached. */
-  unreachable?: StringList;
-  /** A token, which can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
-  nextPageToken?: string;
   /** List of streams */
-  streams?: StreamList;
+  streams?: StreamList | undefined;
+  /** Locations that could not be reached. */
+  unreachable?: StringList | undefined;
+  /** A token, which can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
+  nextPageToken?: string | undefined;
 }
 export interface ListProjectsLocationsStreamsObjectsRequest {
-  /** Page token received from a previous `ListStreamObjectsRequest` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListStreamObjectsRequest` must match the call that provided the page token. */
-  pageToken?: string;
   /** Required. The parent stream that owns the collection of objects. */
   parent: string;
   /** Maximum number of objects to return. Default is 50. The maximum value is 1000; values above 1000 will be coerced to 1000. */
-  pageSize?: number;
+  pageSize?: number | undefined;
+  /** Page token received from a previous `ListStreamObjectsRequest` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListStreamObjectsRequest` must match the call that provided the page token. */
+  pageToken?: string | undefined;
 }
 export type StreamObjectList = Array<StreamObject>;
 /** Response containing the objects for a stream. */
 export interface ListStreamObjectsResponse {
   /** List of stream objects. */
-  streamObjects?: StreamObjectList;
+  streamObjects?: StreamObjectList | undefined;
   /** A token, which can be sent as `page_token` to retrieve the next page. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
 }
-export interface PatchProjectsLocationsConnectionProfilesRequest {
-  /** Optional. Only validate the connection profile, but do not update any resources. The default is false. */
-  validateOnly?: boolean;
+export interface PatchProjectsLocationsConnectionProfilesRequest extends Omit<
+  ConnectionProfile,
+  "name"
+> {
+  /** Optional. A request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
+  requestId?: string | undefined;
   /** Optional. Field mask is used to specify the fields to be overwritten in the ConnectionProfile resource by the update. The fields specified in the update_mask are relative to the resource, not the full request. A field will be overwritten if it is in the mask. If the user does not provide a mask then all fields will be overwritten. */
-  updateMask?: string;
+  updateMask?: string | undefined;
   /** Output only. The resource's name. */
   name: string;
-  /** Optional. A request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string;
-  /** Request body */
-  body?: ConnectionProfile;
+  /** Optional. Only validate the connection profile, but do not update any resources. The default is false. */
+  validateOnly?: boolean | undefined;
 }
-export interface PatchProjectsLocationsStreamsRequest {
-  /** Optional. Execute the update without validating it. */
-  force?: boolean;
-  /** Optional. A request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string;
+export interface PatchProjectsLocationsStreamsRequest extends Omit<Stream, "name"> {
   /** Optional. Field mask is used to specify the fields to be overwritten in the stream resource by the update. The fields specified in the update_mask are relative to the resource, not the full request. A field will be overwritten if it is in the mask. If the user does not provide a mask then all fields will be overwritten. */
-  updateMask?: string;
-  /** Optional. Only validate the stream with the changes, without actually updating it. The default is false. */
-  validateOnly?: boolean;
+  updateMask?: string | undefined;
+  /** Optional. A request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
+  requestId?: string | undefined;
+  /** Optional. Execute the update without validating it. */
+  force?: boolean | undefined;
   /** Output only. The stream's name. */
   name: string;
-  /** Request body */
-  body?: Stream;
+  /** Optional. Only validate the stream with the changes, without actually updating it. The default is false. */
+  validateOnly?: boolean | undefined;
 }
 export interface StartBackfillJobProjectsLocationsStreamsObjectsRequest {
   /** Required. The name of the stream object resource to start a backfill job for. */
@@ -876,7 +865,7 @@ export interface StartBackfillJobProjectsLocationsStreamsObjectsRequest {
 /** Response for manually initiating a backfill job for a specific stream object. */
 export interface StartBackfillJobResponse {
   /** The stream object resource a backfill job was started for. */
-  object?: StreamObject;
+  object?: StreamObject | undefined;
 }
 export interface StopBackfillJobProjectsLocationsStreamsObjectsRequest {
   /** Required. The name of the stream object resource to stop the backfill job for. */
@@ -885,7 +874,7 @@ export interface StopBackfillJobProjectsLocationsStreamsObjectsRequest {
 /** Response for manually stop a backfill job for a specific stream object. */
 export interface StopBackfillJobResponse {
   /** The stream object resource the backfill job was stopped for. */
-  object?: StreamObject;
+  object?: StreamObject | undefined;
 }
 export type CancelProjectsLocationsOperationsError =
   | NotFound
@@ -1552,9 +1541,9 @@ function __c1(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          requestId: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
           force: S.optional(S.Boolean.pipe(T.Query())),
+          name: S.String.pipe(T.Label()),
+          requestId: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "DELETE",
@@ -1570,8 +1559,8 @@ function __c2(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          name: S.String.pipe(T.Label()),
           requestId: S.optional(S.String.pipe(T.Query())),
+          name: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
             method: "DELETE",
@@ -1605,19 +1594,21 @@ function __c4(j: number): any {
       return S.suspend(() =>
         S.Struct({
           mysqlRdbms: S.optional(__S(685, __c42, 13)),
-          connectionProfileName: S.optional(S.String),
           oracleRdbms: S.optional(__S(678, __c42, 6)),
           connectionProfile: S.optional(__S(518, __c32, 6)),
-          recursive: S.optional(S.Boolean),
           recursionDepth: S.optional(S.Number),
+          recursive: S.optional(S.Boolean),
+          connectionProfileName: S.optional(S.String),
         }),
       ).annotate({ identifier: "DiscoverConnectionProfileRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(64, __c4, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(64, __c4, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1alpha1/{+parent}/connectionProfiles:discover",
@@ -1657,8 +1648,8 @@ function __c6(j: number): any {
       return S.suspend(() =>
         S.Struct({
           pageSize: S.optional(S.Number.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
           pageToken: S.optional(S.String.pipe(T.Query())),
+          name: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
             method: "GET",
@@ -1703,11 +1694,11 @@ function __c9(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          metadata: S.optional(__S(544, __c34, 0)),
-          displayName: S.optional(S.String),
-          locationId: S.optional(S.String),
-          name: S.optional(S.String),
           labels: S.optional(__S(528, __c33, 0)),
+          metadata: S.optional(__S(544, __c34, 0)),
+          name: S.optional(S.String),
+          locationId: S.optional(S.String),
+          displayName: S.optional(S.String),
         }),
       ).annotate({ identifier: "Location" });
   }
@@ -1813,44 +1804,44 @@ function __c16(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          database: S.optional(S.String),
-          table: S.optional(S.String),
+          lastStartTime: S.optional(S.String),
+          lastEndTime: S.optional(S.String),
+          errors: S.optional(__S(688, __c43, 0)),
+          state: S.optional(S.String),
+          trigger: S.optional(S.String),
         }),
-      ).annotate({ identifier: "MysqlObjectIdentifier" });
+      ).annotate({ identifier: "BackfillJob" });
     case 1:
       return S.suspend(() =>
         S.Struct({
           table: S.optional(S.String),
-          schema: S.optional(S.String),
+          database: S.optional(S.String),
         }),
-      ).annotate({ identifier: "OracleObjectIdentifier" });
+      ).annotate({ identifier: "MysqlObjectIdentifier" });
     case 2:
       return S.suspend(() =>
         S.Struct({
-          mysqlIdentifier: S.optional(__S(256, __c16, 0)),
-          oracleIdentifier: S.optional(__S(257, __c16, 1)),
+          schema: S.optional(S.String),
+          table: S.optional(S.String),
         }),
-      ).annotate({ identifier: "SourceObjectIdentifier" });
+      ).annotate({ identifier: "OracleObjectIdentifier" });
     case 3:
       return S.suspend(() =>
         S.Struct({
-          lastStartTime: S.optional(S.String),
-          state: S.optional(S.String),
-          trigger: S.optional(S.String),
-          errors: S.optional(__S(688, __c43, 0)),
-          lastEndTime: S.optional(S.String),
+          mysqlIdentifier: S.optional(__S(257, __c16, 1)),
+          oracleIdentifier: S.optional(__S(258, __c16, 2)),
         }),
-      ).annotate({ identifier: "BackfillJob" });
+      ).annotate({ identifier: "SourceObjectIdentifier" });
     case 4:
       return S.suspend(() =>
         S.Struct({
-          displayName: S.optional(S.String),
-          sourceObject: S.optional(__S(258, __c16, 2)),
-          backfillJob: S.optional(__S(259, __c16, 3)),
-          createTime: S.optional(S.String),
-          errors: S.optional(__S(688, __c43, 0)),
+          backfillJob: S.optional(__S(256, __c16, 0)),
+          sourceObject: S.optional(__S(259, __c16, 3)),
           name: S.optional(S.String),
+          errors: S.optional(__S(688, __c43, 0)),
+          createTime: S.optional(S.String),
           updateTime: S.optional(S.String),
+          displayName: S.optional(S.String),
         }),
       ).annotate({ identifier: "StreamObject" });
   }
@@ -1860,11 +1851,11 @@ function __c17(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          pageToken: S.optional(S.String.pipe(T.Query())),
+          pageSize: S.optional(S.Number.pipe(T.Query())),
           extraLocationTypes: S.optional(__S(112, __c7, 0).pipe(T.Query())),
           filter: S.optional(S.String.pipe(T.Query())),
-          pageSize: S.optional(S.Number.pipe(T.Query())),
           name: S.String.pipe(T.Label()),
+          pageToken: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -1889,11 +1880,11 @@ function __c18(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          filter: S.optional(S.String.pipe(T.Query())),
           pageToken: S.optional(S.String.pipe(T.Query())),
-          pageSize: S.optional(S.Number.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
           orderBy: S.optional(S.String.pipe(T.Query())),
+          filter: S.optional(S.String.pipe(T.Query())),
+          parent: S.String.pipe(T.Label()),
+          pageSize: S.optional(S.Number.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -1907,9 +1898,9 @@ function __c18(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          connectionProfiles: S.optional(__S(289, __c18, 1)),
           nextPageToken: S.optional(S.String),
           unreachable: S.optional(__S(112, __c7, 0)),
+          connectionProfiles: S.optional(__S(289, __c18, 1)),
         }),
       ).annotate({ identifier: "ListConnectionProfilesResponse" });
   }
@@ -1919,11 +1910,11 @@ function __c19(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          name: S.String.pipe(T.Label()),
+          pageSize: S.optional(S.Number.pipe(T.Query())),
+          pageToken: S.optional(S.String.pipe(T.Query())),
           returnPartialSuccess: S.optional(S.Boolean.pipe(T.Query())),
           filter: S.optional(S.String.pipe(T.Query())),
-          pageSize: S.optional(S.Number.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          pageToken: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -1938,8 +1929,8 @@ function __c19(j: number): any {
       return S.suspend(() =>
         S.Struct({
           operations: S.optional(__S(305, __c19, 1)),
-          nextPageToken: S.optional(S.String),
           unreachable: S.optional(__S(112, __c7, 0)),
+          nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListOperationsResponse" });
   }
@@ -1950,10 +1941,10 @@ function __c20(j: number): any {
       return S.suspend(() =>
         S.Struct({
           filter: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          pageToken: S.optional(S.String.pipe(T.Query())),
           orderBy: S.optional(S.String.pipe(T.Query())),
+          pageToken: S.optional(S.String.pipe(T.Query())),
           pageSize: S.optional(S.Number.pipe(T.Query())),
+          parent: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
             method: "GET",
@@ -1967,9 +1958,9 @@ function __c20(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
+          nextPageToken: S.optional(S.String),
           unreachable: S.optional(__S(112, __c7, 0)),
           privateConnections: S.optional(__S(321, __c20, 1)),
-          nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListPrivateConnectionsResponse" });
   }
@@ -1979,11 +1970,11 @@ function __c21(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          parent: S.String.pipe(T.Label()),
-          pageSize: S.optional(S.Number.pipe(T.Query())),
-          pageToken: S.optional(S.String.pipe(T.Query())),
           orderBy: S.optional(S.String.pipe(T.Query())),
           filter: S.optional(S.String.pipe(T.Query())),
+          pageSize: S.optional(S.Number.pipe(T.Query())),
+          parent: S.String.pipe(T.Label()),
+          pageToken: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -1997,9 +1988,9 @@ function __c21(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
+          routes: S.optional(__S(337, __c21, 1)),
           unreachable: S.optional(__S(112, __c7, 0)),
           nextPageToken: S.optional(S.String),
-          routes: S.optional(__S(337, __c21, 1)),
         }),
       ).annotate({ identifier: "ListRoutesResponse" });
   }
@@ -2009,10 +2000,10 @@ function __c22(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          parent: S.String.pipe(T.Label()),
-          orderBy: S.optional(S.String.pipe(T.Query())),
           pageSize: S.optional(S.Number.pipe(T.Query())),
+          parent: S.String.pipe(T.Label()),
           filter: S.optional(S.String.pipe(T.Query())),
+          orderBy: S.optional(S.String.pipe(T.Query())),
           pageToken: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
@@ -2027,9 +2018,9 @@ function __c22(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
+          streams: S.optional(__S(353, __c22, 1)),
           unreachable: S.optional(__S(112, __c7, 0)),
           nextPageToken: S.optional(S.String),
-          streams: S.optional(__S(353, __c22, 1)),
         }),
       ).annotate({ identifier: "ListStreamsResponse" });
   }
@@ -2039,9 +2030,9 @@ function __c23(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          pageToken: S.optional(S.String.pipe(T.Query())),
           parent: S.String.pipe(T.Label()),
           pageSize: S.optional(S.Number.pipe(T.Query())),
+          pageToken: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -2065,13 +2056,15 @@ function __c24(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          validateOnly: S.optional(S.Boolean.pipe(T.Query())),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(518, __c32, 6).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(518, __c32, 6),
+          S.Struct({
+            requestId: S.optional(S.String.pipe(T.Query())),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+            validateOnly: S.optional(S.Boolean.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1alpha1/{+name}",
@@ -2085,14 +2078,16 @@ function __c25(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          force: S.optional(S.Boolean.pipe(T.Query())),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          validateOnly: S.optional(S.Boolean.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(711, __c44, 7).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(711, __c44, 7),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            requestId: S.optional(S.String.pipe(T.Query())),
+            force: S.optional(S.Boolean.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+            validateOnly: S.optional(S.Boolean.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v1alpha1/{+name}",
@@ -2171,12 +2166,14 @@ function __c31(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          requestId: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          connectionProfileId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(518, __c32, 6).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(518, __c32, 6),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            connectionProfileId: S.optional(S.String.pipe(T.Query())),
+            requestId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1alpha1/{+parent}/connectionProfiles",
@@ -2191,73 +2188,73 @@ function __c32(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          bucketName: S.optional(S.String),
+          rootPath: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "GcsProfile" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
           port: S.optional(S.Number),
+          privateKey: S.optional(S.String),
+          hostname: S.optional(S.String),
+          username: S.optional(S.String),
+          password: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ForwardSshTunnelConnectivity" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          caCertificate: S.optional(S.String),
+          clientCertificate: S.optional(S.String),
+          caCertificateSet: S.optional(S.Boolean),
+          clientKey: S.optional(S.String),
+          clientCertificateSet: S.optional(S.Boolean),
+          clientKeySet: S.optional(S.Boolean),
+        }),
+      ).annotate({ identifier: "MysqlSslConfig" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          hostname: S.optional(S.String),
+          sslConfig: S.optional(__S(514, __c32, 2)),
           password: S.optional(S.String),
           username: S.optional(S.String),
-          databaseService: S.optional(S.String),
+          port: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "MysqlProfile" });
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
           connectionAttributes: S.optional(__S(528, __c33, 0)),
           hostname: S.optional(S.String),
+          username: S.optional(S.String),
+          port: S.optional(S.Number),
+          password: S.optional(S.String),
+          databaseService: S.optional(S.String),
         }),
       ).annotate({ identifier: "OracleProfile" });
-    case 1:
+    case 5:
       return S.suspend(() =>
         S.Struct({
           privateConnectionName: S.optional(S.String),
         }),
       ).annotate({ identifier: "PrivateConnectivity" });
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          rootPath: S.optional(S.String),
-          bucketName: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "GcsProfile" });
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          username: S.optional(S.String),
-          hostname: S.optional(S.String),
-          privateKey: S.optional(S.String),
-          port: S.optional(S.Number),
-          password: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "ForwardSshTunnelConnectivity" });
-    case 4:
-      return S.suspend(() =>
-        S.Struct({
-          caCertificate: S.optional(S.String),
-          clientKey: S.optional(S.String),
-          caCertificateSet: S.optional(S.Boolean),
-          clientKeySet: S.optional(S.Boolean),
-          clientCertificateSet: S.optional(S.Boolean),
-          clientCertificate: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "MysqlSslConfig" });
-    case 5:
-      return S.suspend(() =>
-        S.Struct({
-          password: S.optional(S.String),
-          sslConfig: S.optional(__S(516, __c32, 4)),
-          hostname: S.optional(S.String),
-          port: S.optional(S.Number),
-          username: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "MysqlProfile" });
     case 6:
       return S.suspend(() =>
         S.Struct({
-          createTime: S.optional(S.String),
-          displayName: S.optional(S.String),
-          updateTime: S.optional(S.String),
-          oracleProfile: S.optional(__S(512, __c32, 0)),
-          privateConnectivity: S.optional(__S(513, __c32, 1)),
-          name: S.optional(S.String),
-          staticServiceIpConnectivity: S.optional(__S(480, __c30, 0)),
-          gcsProfile: S.optional(__S(514, __c32, 2)),
-          forwardSshConnectivity: S.optional(__S(515, __c32, 3)),
           labels: S.optional(__S(528, __c33, 0)),
           noConnectivity: S.optional(__S(480, __c30, 0)),
-          mysqlProfile: S.optional(__S(517, __c32, 5)),
+          gcsProfile: S.optional(__S(512, __c32, 0)),
+          updateTime: S.optional(S.String),
+          displayName: S.optional(S.String),
+          name: S.optional(S.String),
+          staticServiceIpConnectivity: S.optional(__S(480, __c30, 0)),
+          forwardSshConnectivity: S.optional(__S(513, __c32, 1)),
+          mysqlProfile: S.optional(__S(515, __c32, 3)),
+          createTime: S.optional(S.String),
+          oracleProfile: S.optional(__S(516, __c32, 4)),
+          privateConnectivity: S.optional(__S(517, __c32, 5)),
         }),
       ).annotate({ identifier: "ConnectionProfile" });
   }
@@ -2281,19 +2278,19 @@ function __c35(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          details: S.optional(__S(560, __c35, 0)),
-          message: S.optional(S.String),
           code: S.optional(S.Number),
+          message: S.optional(S.String),
+          details: S.optional(__S(560, __c35, 0)),
         }),
       ).annotate({ identifier: "Status" });
     case 2:
       return S.suspend(() =>
         S.Struct({
           name: S.optional(S.String),
-          done: S.optional(S.Boolean),
           response: S.optional(__S(544, __c34, 0)),
-          error: S.optional(__S(561, __c35, 1)),
+          done: S.optional(S.Boolean),
           metadata: S.optional(__S(544, __c34, 0)),
+          error: S.optional(__S(561, __c35, 1)),
         }),
       ).annotate({ identifier: "Operation" });
   }
@@ -2302,12 +2299,14 @@ function __c36(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          privateConnectionId: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(593, __c37, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(593, __c37, 1),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            privateConnectionId: S.optional(S.String.pipe(T.Query())),
+            requestId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1alpha1/{+parent}/privateConnections",
@@ -2322,21 +2321,21 @@ function __c37(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          vpcName: S.optional(S.String),
           subnet: S.optional(S.String),
+          vpcName: S.optional(S.String),
         }),
       ).annotate({ identifier: "VpcPeeringConfig" });
     case 1:
       return S.suspend(() =>
         S.Struct({
           labels: S.optional(__S(528, __c33, 0)),
-          vpcPeeringConfig: S.optional(__S(592, __c37, 0)),
           state: S.optional(S.String),
-          displayName: S.optional(S.String),
-          error: S.optional(__S(608, __c38, 0)),
-          updateTime: S.optional(S.String),
           name: S.optional(S.String),
+          error: S.optional(__S(608, __c38, 0)),
+          displayName: S.optional(S.String),
+          vpcPeeringConfig: S.optional(__S(592, __c37, 0)),
           createTime: S.optional(S.String),
+          updateTime: S.optional(S.String),
         }),
       ).annotate({ identifier: "PrivateConnection" });
   }
@@ -2346,11 +2345,11 @@ function __c38(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          errorUuid: S.optional(S.String),
-          reason: S.optional(S.String),
           message: S.optional(S.String),
-          errorTime: S.optional(S.String),
           details: S.optional(__S(528, __c33, 0)),
+          errorTime: S.optional(S.String),
+          reason: S.optional(S.String),
+          errorUuid: S.optional(S.String),
         }),
       ).annotate({ identifier: "Datastream_Error" });
   }
@@ -2359,12 +2358,14 @@ function __c39(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          routeId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(640, __c40, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(640, __c40, 0),
+          S.Struct({
+            requestId: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+            routeId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1alpha1/{+parent}/routes",
@@ -2380,11 +2381,11 @@ function __c40(j: number): any {
       return S.suspend(() =>
         S.Struct({
           displayName: S.optional(S.String),
-          destinationPort: S.optional(S.Number),
-          createTime: S.optional(S.String),
-          name: S.optional(S.String),
           labels: S.optional(__S(528, __c33, 0)),
+          createTime: S.optional(S.String),
           updateTime: S.optional(S.String),
+          destinationPort: S.optional(S.Number),
+          name: S.optional(S.String),
           destinationAddress: S.optional(S.String),
         }),
       ).annotate({ identifier: "Route" });
@@ -2394,14 +2395,16 @@ function __c41(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          validateOnly: S.optional(S.Boolean.pipe(T.Query())),
-          requestId: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          streamId: S.optional(S.String.pipe(T.Query())),
-          force: S.optional(S.Boolean.pipe(T.Query())),
-          body: S.optional(__S(711, __c44, 7).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(711, __c44, 7),
+          S.Struct({
+            validateOnly: S.optional(S.Boolean.pipe(T.Query())),
+            streamId: S.optional(S.String.pipe(T.Query())),
+            force: S.optional(S.Boolean.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+            requestId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v1alpha1/{+parent}/streams",
@@ -2416,15 +2419,15 @@ function __c42(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          ordinalPosition: S.optional(S.Number),
-          primaryKey: S.optional(S.Boolean),
-          precision: S.optional(S.Number),
-          length: S.optional(S.Number),
-          nullable: S.optional(S.Boolean),
           scale: S.optional(S.Number),
-          columnName: S.optional(S.String),
           dataType: S.optional(S.String),
           encoding: S.optional(S.String),
+          primaryKey: S.optional(S.Boolean),
+          nullable: S.optional(S.Boolean),
+          precision: S.optional(S.Number),
+          columnName: S.optional(S.String),
+          length: S.optional(S.Number),
+          ordinalPosition: S.optional(S.Number),
         }),
       ).annotate({ identifier: "OracleColumn" });
     case 1:
@@ -2456,13 +2459,13 @@ function __c42(j: number): any {
     case 7:
       return S.suspend(() =>
         S.Struct({
-          dataType: S.optional(S.String),
           collation: S.optional(S.String),
-          length: S.optional(S.Number),
-          columnName: S.optional(S.String),
-          nullable: S.optional(S.Boolean),
-          ordinalPosition: S.optional(S.Number),
           primaryKey: S.optional(S.Boolean),
+          dataType: S.optional(S.String),
+          nullable: S.optional(S.Boolean),
+          columnName: S.optional(S.String),
+          length: S.optional(S.Number),
+          ordinalPosition: S.optional(S.Number),
         }),
       ).annotate({ identifier: "MysqlColumn" });
     case 8:
@@ -2479,8 +2482,8 @@ function __c42(j: number): any {
     case 11:
       return S.suspend(() =>
         S.Struct({
-          mysqlTables: S.optional(__S(682, __c42, 10)),
           databaseName: S.optional(S.String),
+          mysqlTables: S.optional(__S(682, __c42, 10)),
         }),
       ).annotate({ identifier: "MysqlDatabase" });
     case 12:
@@ -2520,57 +2523,57 @@ function __c44(j: number): any {
       return S.suspend(() =>
         S.Struct({
           oracleSourceConfig: S.optional(__S(704, __c44, 0)),
-          mysqlSourceConfig: S.optional(__S(705, __c44, 1)),
           sourceConnectionProfileName: S.optional(S.String),
+          mysqlSourceConfig: S.optional(__S(705, __c44, 1)),
         }),
       ).annotate({ identifier: "SourceConfig" });
     case 3:
-      return S.suspend(() =>
-        S.Struct({
-          oracleExcludedObjects: S.optional(__S(678, __c42, 6)),
-          mysqlExcludedObjects: S.optional(__S(685, __c42, 13)),
-        }),
-      ).annotate({ identifier: "BackfillAllStrategy" });
-    case 4:
       return S.suspend(() =>
         S.Struct({
           schemaFileFormat: S.optional(S.String),
           compression: S.optional(S.String),
         }),
       ).annotate({ identifier: "JsonFileFormat" });
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          gcsFileFormat: S.optional(S.String),
+          fileRotationMb: S.optional(S.Number),
+          jsonFileFormat: S.optional(__S(707, __c44, 3)),
+          avroFileFormat: S.optional(__S(480, __c30, 0)),
+          fileRotationInterval: S.optional(S.String),
+          path: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "GcsDestinationConfig" });
     case 5:
       return S.suspend(() =>
         S.Struct({
-          jsonFileFormat: S.optional(__S(708, __c44, 4)),
-          path: S.optional(S.String),
-          fileRotationMb: S.optional(S.Number),
-          gcsFileFormat: S.optional(S.String),
-          fileRotationInterval: S.optional(S.String),
-          avroFileFormat: S.optional(__S(480, __c30, 0)),
+          destinationConnectionProfileName: S.optional(S.String),
+          gcsDestinationConfig: S.optional(__S(708, __c44, 4)),
         }),
-      ).annotate({ identifier: "GcsDestinationConfig" });
+      ).annotate({ identifier: "DestinationConfig" });
     case 6:
       return S.suspend(() =>
         S.Struct({
-          gcsDestinationConfig: S.optional(__S(709, __c44, 5)),
-          destinationConnectionProfileName: S.optional(S.String),
+          mysqlExcludedObjects: S.optional(__S(685, __c42, 13)),
+          oracleExcludedObjects: S.optional(__S(678, __c42, 6)),
         }),
-      ).annotate({ identifier: "DestinationConfig" });
+      ).annotate({ identifier: "BackfillAllStrategy" });
     case 7:
       return S.suspend(() =>
         S.Struct({
           sourceConfig: S.optional(__S(706, __c44, 2)),
-          updateTime: S.optional(S.String),
           displayName: S.optional(S.String),
-          errors: S.optional(__S(688, __c43, 0)),
-          createTime: S.optional(S.String),
-          state: S.optional(S.String),
-          backfillNone: S.optional(__S(480, __c30, 0)),
-          name: S.optional(S.String),
-          backfillAll: S.optional(__S(707, __c44, 3)),
-          destinationConfig: S.optional(__S(710, __c44, 6)),
           customerManagedEncryptionKey: S.optional(S.String),
+          backfillNone: S.optional(__S(480, __c30, 0)),
+          createTime: S.optional(S.String),
+          errors: S.optional(__S(688, __c43, 0)),
+          name: S.optional(S.String),
+          destinationConfig: S.optional(__S(709, __c44, 5)),
+          backfillAll: S.optional(__S(710, __c44, 6)),
+          updateTime: S.optional(S.String),
           labels: S.optional(__S(528, __c33, 0)),
+          state: S.optional(S.String),
         }),
       ).annotate({ identifier: "Stream" });
   }
@@ -2580,8 +2583,8 @@ function __c45(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          requestId: S.optional(S.String.pipe(T.Query())),
           name: S.String.pipe(T.Label()),
+          requestId: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "DELETE",

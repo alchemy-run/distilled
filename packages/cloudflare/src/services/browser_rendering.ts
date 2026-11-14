@@ -74,26 +74,26 @@ export interface ConnectDevtoolBrowserRequest {
   /** Browser session ID to connect to. */
   sessionId: string;
   /** Keep-alive time in ms (only valid when acquiring new session). */
-  keepAlive?: number;
+  keepAlive?: number | undefined;
   /** Use experimental browser. */
-  lab?: boolean;
-  recording?: boolean;
+  lab?: boolean | undefined;
+  recording?: boolean | undefined;
   /** Optional base64url-encoded JSON connection guardrails (mode) */
-  cfBrapiGuardrails?: string;
+  cfBrapiGuardrails?: string | undefined;
 }
 export interface ConnectDevtoolBrowserResponse {}
 export type CreateAccessibilityTreeRequestBrowser = "kitesurf";
 export interface CreateAccessibilityTreeRequestAddScriptTagItem {
-  id?: string;
-  content?: string;
-  type?: string;
-  url?: string;
+  id?: string | undefined;
+  content?: string | undefined;
+  type?: string | undefined;
+  url?: string | undefined;
 }
 export type CreateAccessibilityTreeRequestAddScriptTagList =
   Array<CreateAccessibilityTreeRequestAddScriptTagItem>;
 export interface CreateAccessibilityTreeRequestAddStyleTagItem {
-  content?: string;
-  url?: string;
+  content?: string | undefined;
+  url?: string | undefined;
 }
 export type CreateAccessibilityTreeRequestAddStyleTagList =
   Array<CreateAccessibilityTreeRequestAddStyleTagItem>;
@@ -134,18 +134,18 @@ export interface CreateAccessibilityTreeRequestCookiesItem {
   /** Cookie name. */
   name: string;
   value: string;
-  domain?: string;
-  expires?: number;
-  httpOnly?: boolean;
-  partitionKey?: string;
-  path?: string;
-  priority?: CreateAccessibilityTreeRequestCookiesItemPriority | (string & {});
-  sameParty?: boolean;
-  sameSite?: CreateAccessibilityTreeRequestCookiesItemSameSite | (string & {});
-  secure?: boolean;
-  sourcePort?: number;
-  sourceScheme?: CreateAccessibilityTreeRequestCookiesItemSourceScheme | (string & {});
-  url?: string;
+  domain?: string | undefined;
+  expires?: number | undefined;
+  httpOnly?: boolean | undefined;
+  partitionKey?: string | undefined;
+  path?: string | undefined;
+  priority?: CreateAccessibilityTreeRequestCookiesItemPriority | (string & {}) | undefined;
+  sameParty?: boolean | undefined;
+  sameSite?: CreateAccessibilityTreeRequestCookiesItemSameSite | (string & {}) | undefined;
+  secure?: boolean | undefined;
+  sourcePort?: number | undefined;
+  sourceScheme?: CreateAccessibilityTreeRequestCookiesItemSourceScheme | (string & {}) | undefined;
+  url?: string | undefined;
 }
 export type CreateAccessibilityTreeRequestCookiesList =
   Array<CreateAccessibilityTreeRequestCookiesItem>;
@@ -167,10 +167,10 @@ export type CreateAccessibilityTreeRequestGotoOptionsWaitUntil =
   | (string & {})
   | CreateAccessibilityTreeRequestGotoOptionsWaitUntilCase1List;
 export interface CreateAccessibilityTreeRequestGotoOptions {
-  referer?: string;
-  referrerPolicy?: string;
-  timeout?: number;
-  waitUntil?: CreateAccessibilityTreeRequestGotoOptionsWaitUntil;
+  referer?: string | undefined;
+  referrerPolicy?: string | undefined;
+  timeout?: number | undefined;
+  waitUntil?: CreateAccessibilityTreeRequestGotoOptionsWaitUntil | undefined;
 }
 export type CreateAccessibilityTreeRequestRejectRequestPatternList = Array<string>;
 export type CreateAccessibilityTreeRequestRejectResourceTypesItem =
@@ -201,60 +201,60 @@ export type CreateAccessibilityTreeRequestSetExtraHTTPHeadersMap = {
 export interface CreateAccessibilityTreeRequestViewport {
   height: number;
   width: number;
-  deviceScaleFactor?: number;
-  hasTouch?: boolean;
-  isLandscape?: boolean;
-  isMobile?: boolean;
+  deviceScaleFactor?: number | undefined;
+  hasTouch?: boolean | undefined;
+  isLandscape?: boolean | undefined;
+  isMobile?: boolean | undefined;
 }
 export interface CreateAccessibilityTreeRequestWaitForSelector {
   selector: string;
-  hidden?: boolean;
-  timeout?: number;
-  visible?: boolean;
+  hidden?: boolean | undefined;
+  timeout?: number | undefined;
+  visible?: boolean | undefined;
 }
 export interface CreateAccessibilityTreeRequest {
   /** Account ID. */
   accountId: string;
   /** Rendering backend. Set to `kitesurf` to use Kitesurf (beta). */
-  browser?: CreateAccessibilityTreeRequestBrowser | (string & {});
+  browser?: CreateAccessibilityTreeRequestBrowser | (string & {}) | undefined;
   /** Cache TTL default is 5s. Set to 0 to disable. */
-  cacheTTL?: number;
-  url?: string;
+  cacheTTL?: number | undefined;
+  url?: string | undefined;
   /** The maximum duration allowed for the browser action to complete after the page has loaded (such as taking screenshots, extracting content, or generating PDFs). If this time limit is exceeded, the action stops and returns a timeout error. */
-  actionTimeout?: number;
+  actionTimeout?: number | undefined;
   /** Adds a script element into the page with the desired URL or content. */
-  addScriptTag?: CreateAccessibilityTreeRequestAddScriptTagList;
+  addScriptTag?: CreateAccessibilityTreeRequestAddScriptTagList | undefined;
   /** Adds a `&lt;link rel="stylesheet"&gt;` tag into the page with the desired URL or a `&lt;style type="text/css"&gt;` tag with the content. */
-  addStyleTag?: CreateAccessibilityTreeRequestAddStyleTagList;
+  addStyleTag?: CreateAccessibilityTreeRequestAddStyleTagList | undefined;
   /** Only allow requests that match the provided regex patterns, eg. '/^.*.(css)'. Reject rules are applied first. */
-  allowRequestPattern?: CreateAccessibilityTreeRequestAllowRequestPatternList;
+  allowRequestPattern?: CreateAccessibilityTreeRequestAllowRequestPatternList | undefined;
   /** Only allow requests that match the provided resource types, eg. 'image' or 'script'. Reject rules are applied first. */
-  allowResourceTypes?: CreateAccessibilityTreeRequestAllowResourceTypesList;
+  allowResourceTypes?: CreateAccessibilityTreeRequestAllowResourceTypesList | undefined;
   /** Provide credentials for HTTP authentication. */
-  authenticate?: CreateAccessibilityTreeRequestAuthenticate;
+  authenticate?: CreateAccessibilityTreeRequestAuthenticate | undefined;
   /** Attempt to proceed when 'awaited' events fail or timeout. */
-  bestAttempt?: boolean;
+  bestAttempt?: boolean | undefined;
   /** Check [options](https://pptr.dev/api/puppeteer.page.setcookie). */
-  cookies?: CreateAccessibilityTreeRequestCookiesList;
-  emulateMediaType?: string;
+  cookies?: CreateAccessibilityTreeRequestCookiesList | undefined;
+  emulateMediaType?: string | undefined;
   /** Check [options](https://pptr.dev/api/puppeteer.gotooptions). */
-  gotoOptions?: CreateAccessibilityTreeRequestGotoOptions;
-  html?: string;
-  interestingOnly?: boolean;
+  gotoOptions?: CreateAccessibilityTreeRequestGotoOptions | undefined;
+  html?: string | undefined;
+  interestingOnly?: boolean | undefined;
   /** Block undesired requests that match the provided regex patterns, eg. '/^.*.(css)'. */
-  rejectRequestPattern?: CreateAccessibilityTreeRequestRejectRequestPatternList;
+  rejectRequestPattern?: CreateAccessibilityTreeRequestRejectRequestPatternList | undefined;
   /** Block undesired requests that match the provided resource types, eg. 'image' or 'script'. */
-  rejectResourceTypes?: CreateAccessibilityTreeRequestRejectResourceTypesList;
-  root?: string;
-  setExtraHTTPHeaders?: CreateAccessibilityTreeRequestSetExtraHTTPHeadersMap;
-  setJavaScriptEnabled?: boolean;
-  userAgent?: string;
+  rejectResourceTypes?: CreateAccessibilityTreeRequestRejectResourceTypesList | undefined;
+  root?: string | undefined;
+  setExtraHTTPHeaders?: CreateAccessibilityTreeRequestSetExtraHTTPHeadersMap | undefined;
+  setJavaScriptEnabled?: boolean | undefined;
+  userAgent?: string | undefined;
   /** Check [options](https://pptr.dev/api/puppeteer.page.setviewport). */
-  viewport?: CreateAccessibilityTreeRequestViewport;
+  viewport?: CreateAccessibilityTreeRequestViewport | undefined;
   /** Wait for the selector to appear in page. Check [options](https://pptr.dev/api/puppeteer.page.waitforselector). */
-  waitForSelector?: CreateAccessibilityTreeRequestWaitForSelector;
+  waitForSelector?: CreateAccessibilityTreeRequestWaitForSelector | undefined;
   /** Waits for a specified timeout before continuing. */
-  waitForTimeout?: number;
+  waitForTimeout?: number | undefined;
 }
 export type CreateAccessibilityTreeResponseAccessibilityTreeChecked = "mixed";
 export type CreateAccessibilityTreeResponseAccessibilityTreeChecked2 =
@@ -268,31 +268,31 @@ export type CreateAccessibilityTreeResponseAccessibilityTreePressed2 =
 export type CreateAccessibilityTreeResponseAccessibilityTreeValue = string | number;
 export interface CreateAccessibilityTreeResponseAccessibilityTree {
   role: string;
-  autocomplete?: string | null;
-  checked?: CreateAccessibilityTreeResponseAccessibilityTreeChecked2 | null;
-  children?: CreateAccessibilityTreeResponseAccessibilityTreeChildrenList | null;
-  description?: string | null;
-  disabled?: boolean | null;
-  expanded?: boolean | null;
-  focused?: boolean | null;
-  haspopup?: string | null;
-  invalid?: string | null;
-  keyshortcuts?: string | null;
-  level?: number | null;
-  modal?: boolean | null;
-  multiline?: boolean | null;
-  multiselectable?: boolean | null;
-  name?: string | null;
-  orientation?: string | null;
-  pressed?: CreateAccessibilityTreeResponseAccessibilityTreePressed2 | null;
-  readonly?: boolean | null;
-  required?: boolean | null;
-  roledescription?: string | null;
-  selected?: boolean | null;
-  value?: CreateAccessibilityTreeResponseAccessibilityTreeValue | null;
-  valuemax?: number | null;
-  valuemin?: number | null;
-  valuetext?: string | null;
+  autocomplete?: string | null | undefined;
+  checked?: CreateAccessibilityTreeResponseAccessibilityTreeChecked2 | null | undefined;
+  children?: CreateAccessibilityTreeResponseAccessibilityTreeChildrenList | null | undefined;
+  description?: string | null | undefined;
+  disabled?: boolean | null | undefined;
+  expanded?: boolean | null | undefined;
+  focused?: boolean | null | undefined;
+  haspopup?: string | null | undefined;
+  invalid?: string | null | undefined;
+  keyshortcuts?: string | null | undefined;
+  level?: number | null | undefined;
+  modal?: boolean | null | undefined;
+  multiline?: boolean | null | undefined;
+  multiselectable?: boolean | null | undefined;
+  name?: string | null | undefined;
+  orientation?: string | null | undefined;
+  pressed?: CreateAccessibilityTreeResponseAccessibilityTreePressed2 | null | undefined;
+  readonly?: boolean | null | undefined;
+  required?: boolean | null | undefined;
+  roledescription?: string | null | undefined;
+  selected?: boolean | null | undefined;
+  value?: CreateAccessibilityTreeResponseAccessibilityTreeValue | null | undefined;
+  valuemax?: number | null | undefined;
+  valuemin?: number | null | undefined;
+  valuetext?: string | null | undefined;
 }
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface CreateAccessibilityTreeResponse {
@@ -337,18 +337,18 @@ export interface ContentCreateRequestCookiesItem {
   /** Cookie name. */
   name: string;
   value: string;
-  domain?: string;
-  expires?: number;
-  httpOnly?: boolean;
-  partitionKey?: string;
-  path?: string;
-  priority?: ContentCreateRequestCookiesItemPriority | (string & {});
-  sameParty?: boolean;
-  sameSite?: ContentCreateRequestCookiesItemSameSite | (string & {});
-  secure?: boolean;
-  sourcePort?: number;
-  sourceScheme?: ContentCreateRequestCookiesItemSourceScheme | (string & {});
-  url?: string;
+  domain?: string | undefined;
+  expires?: number | undefined;
+  httpOnly?: boolean | undefined;
+  partitionKey?: string | undefined;
+  path?: string | undefined;
+  priority?: ContentCreateRequestCookiesItemPriority | (string & {}) | undefined;
+  sameParty?: boolean | undefined;
+  sameSite?: ContentCreateRequestCookiesItemSameSite | (string & {}) | undefined;
+  secure?: boolean | undefined;
+  sourcePort?: number | undefined;
+  sourceScheme?: ContentCreateRequestCookiesItemSourceScheme | (string & {}) | undefined;
+  url?: string | undefined;
 }
 export type ContentCreateRequestCookiesList = Array<ContentCreateRequestCookiesItem>;
 export type ContentCreateRequestGotoOptionsWaitUntilCase0 =
@@ -369,10 +369,10 @@ export type ContentCreateRequestGotoOptionsWaitUntil =
   | (string & {})
   | ContentCreateRequestGotoOptionsWaitUntilCase1List;
 export interface ContentCreateRequestGotoOptions {
-  referer?: string;
-  referrerPolicy?: string;
-  timeout?: number;
-  waitUntil?: ContentCreateRequestGotoOptionsWaitUntil;
+  referer?: string | undefined;
+  referrerPolicy?: string | undefined;
+  timeout?: number | undefined;
+  waitUntil?: ContentCreateRequestGotoOptionsWaitUntil | undefined;
 }
 export type ContentCreateRequestRejectRequestPatternList = Array<string>;
 export type ContentCreateRequestRejectResourceTypesItem =
@@ -404,43 +404,43 @@ export interface CreateContentRequest {
   /** Account ID. */
   accountId: string;
   /** Rendering backend. Set to `kitesurf` to use Kitesurf (beta). */
-  browser?: ContentCreateRequestBrowser | (string & {});
+  browser?: ContentCreateRequestBrowser | (string & {}) | undefined;
   /** Cache TTL default is 5s. Set to 0 to disable. */
-  cacheTTL?: number;
-  url?: string;
+  cacheTTL?: number | undefined;
+  url?: string | undefined;
   /** The maximum duration allowed for the browser action to complete after the page has loaded (such as taking screenshots, extracting content, or generating PDFs). If this time limit is exceeded, the action stops and returns a timeout error. */
-  actionTimeout?: number;
+  actionTimeout?: number | undefined;
   /** Adds a script element into the page with the desired URL or content. */
-  addScriptTag?: ContentCreateRequestAddScriptTagList;
+  addScriptTag?: ContentCreateRequestAddScriptTagList | undefined;
   /** Adds a `&lt;link rel="stylesheet"&gt;` tag into the page with the desired URL or a `&lt;style type="text/css"&gt;` tag with the content. */
-  addStyleTag?: ContentCreateRequestAddStyleTagList;
+  addStyleTag?: ContentCreateRequestAddStyleTagList | undefined;
   /** Only allow requests that match the provided regex patterns, eg. '/^.*.(css)'. Reject rules are applied first. */
-  allowRequestPattern?: ContentCreateRequestAllowRequestPatternList;
+  allowRequestPattern?: ContentCreateRequestAllowRequestPatternList | undefined;
   /** Only allow requests that match the provided resource types, eg. 'image' or 'script'. Reject rules are applied first. */
-  allowResourceTypes?: ContentCreateRequestAllowResourceTypesList;
+  allowResourceTypes?: ContentCreateRequestAllowResourceTypesList | undefined;
   /** Provide credentials for HTTP authentication. */
-  authenticate?: CreateAccessibilityTreeRequestAuthenticate;
+  authenticate?: CreateAccessibilityTreeRequestAuthenticate | undefined;
   /** Attempt to proceed when 'awaited' events fail or timeout. */
-  bestAttempt?: boolean;
+  bestAttempt?: boolean | undefined;
   /** Check [options](https://pptr.dev/api/puppeteer.page.setcookie). */
-  cookies?: ContentCreateRequestCookiesList;
-  emulateMediaType?: string;
+  cookies?: ContentCreateRequestCookiesList | undefined;
+  emulateMediaType?: string | undefined;
   /** Check [options](https://pptr.dev/api/puppeteer.gotooptions). */
-  gotoOptions?: ContentCreateRequestGotoOptions;
-  html?: string;
+  gotoOptions?: ContentCreateRequestGotoOptions | undefined;
+  html?: string | undefined;
   /** Block undesired requests that match the provided regex patterns, eg. '/^.*.(css)'. */
-  rejectRequestPattern?: ContentCreateRequestRejectRequestPatternList;
+  rejectRequestPattern?: ContentCreateRequestRejectRequestPatternList | undefined;
   /** Block undesired requests that match the provided resource types, eg. 'image' or 'script'. */
-  rejectResourceTypes?: ContentCreateRequestRejectResourceTypesList;
-  setExtraHTTPHeaders?: ContentCreateRequestSetExtraHTTPHeadersMap;
-  setJavaScriptEnabled?: boolean;
-  userAgent?: string;
+  rejectResourceTypes?: ContentCreateRequestRejectResourceTypesList | undefined;
+  setExtraHTTPHeaders?: ContentCreateRequestSetExtraHTTPHeadersMap | undefined;
+  setJavaScriptEnabled?: boolean | undefined;
+  userAgent?: string | undefined;
   /** Check [options](https://pptr.dev/api/puppeteer.page.setviewport). */
-  viewport?: CreateAccessibilityTreeRequestViewport;
+  viewport?: CreateAccessibilityTreeRequestViewport | undefined;
   /** Wait for the selector to appear in page. Check [options](https://pptr.dev/api/puppeteer.page.waitforselector). */
-  waitForSelector?: CreateAccessibilityTreeRequestWaitForSelector;
+  waitForSelector?: CreateAccessibilityTreeRequestWaitForSelector | undefined;
   /** Waits for a specified timeout before continuing. */
-  waitForTimeout?: number;
+  waitForTimeout?: number | undefined;
 }
 export type CreateContentResponse = string;
 export type CrawlCreateRequestAddScriptTagItem = CreateAccessibilityTreeRequestAddScriptTagItem;
@@ -482,18 +482,18 @@ export interface CrawlCreateRequestCookiesItem {
   /** Cookie name. */
   name: string;
   value: string;
-  domain?: string;
-  expires?: number;
-  httpOnly?: boolean;
-  partitionKey?: string;
-  path?: string;
-  priority?: CrawlCreateRequestCookiesItemPriority | (string & {});
-  sameParty?: boolean;
-  sameSite?: CrawlCreateRequestCookiesItemSameSite | (string & {});
-  secure?: boolean;
-  sourcePort?: number;
-  sourceScheme?: CrawlCreateRequestCookiesItemSourceScheme | (string & {});
-  url?: string;
+  domain?: string | undefined;
+  expires?: number | undefined;
+  httpOnly?: boolean | undefined;
+  partitionKey?: string | undefined;
+  path?: string | undefined;
+  priority?: CrawlCreateRequestCookiesItemPriority | (string & {}) | undefined;
+  sameParty?: boolean | undefined;
+  sameSite?: CrawlCreateRequestCookiesItemSameSite | (string & {}) | undefined;
+  secure?: boolean | undefined;
+  sourcePort?: number | undefined;
+  sourceScheme?: CrawlCreateRequestCookiesItemSourceScheme | (string & {}) | undefined;
+  url?: string | undefined;
 }
 export type CrawlCreateRequestCookiesList = Array<CrawlCreateRequestCookiesItem>;
 export type CrawlCreateRequestCrawlPurposesItem = "search" | "ai-input" | "ai-train";
@@ -520,16 +520,16 @@ export type CrawlCreateRequestGotoOptionsWaitUntil =
   | (string & {})
   | CrawlCreateRequestGotoOptionsWaitUntilCase1List;
 export interface CrawlCreateRequestGotoOptions {
-  referer?: string;
-  referrerPolicy?: string;
-  timeout?: number;
-  waitUntil?: CrawlCreateRequestGotoOptionsWaitUntil;
+  referer?: string | undefined;
+  referrerPolicy?: string | undefined;
+  timeout?: number | undefined;
+  waitUntil?: CrawlCreateRequestGotoOptionsWaitUntil | undefined;
 }
 export interface CrawlCreateRequestJsonOptionsCustomAiItem {
   /** AI model to use for the request. Must be formed as `&lt;provider&gt;/&lt;model_name&gt;`, e.g. `workers-ai/@cf/meta/llama-3.3-70b-instruct-fp8-fast`. */
   model: string;
   /** Authorization token for the AI model: `Bearer &lt;token&gt;`. Not needed for workers-ai models. */
-  authorization?: string;
+  authorization?: string | undefined;
 }
 export type CrawlCreateRequestJsonOptionsCustomAiList =
   Array<CrawlCreateRequestJsonOptionsCustomAiItem>;
@@ -539,25 +539,25 @@ export type CrawlCreateRequestJsonOptionsResponseFormatJsonSchemaMap = {
 export interface CrawlCreateRequestJsonOptionsResponseFormat {
   type: string;
   /** Schema for the response format. More information here: https://developers.cloudflare.com/workers-ai/json-mode/ */
-  jsonSchema?: CrawlCreateRequestJsonOptionsResponseFormatJsonSchemaMap;
+  jsonSchema?: CrawlCreateRequestJsonOptionsResponseFormatJsonSchemaMap | undefined;
 }
 export interface CrawlCreateRequestJsonOptions {
   /** Optional list of custom AI models to use for the request. The models will be tried in the order provided, and in case a model returns an error, the next one will be used as fallback. */
-  customAi?: CrawlCreateRequestJsonOptionsCustomAiList;
-  prompt?: string;
-  responseFormat?: CrawlCreateRequestJsonOptionsResponseFormat;
+  customAi?: CrawlCreateRequestJsonOptionsCustomAiList | undefined;
+  prompt?: string | undefined;
+  responseFormat?: CrawlCreateRequestJsonOptionsResponseFormat | undefined;
 }
 export type CrawlCreateRequestOptionsExcludePatternsList = Array<string>;
 export type CrawlCreateRequestOptionsIncludePatternsList = Array<string>;
 export interface CrawlCreateRequestOptions {
   /** Exclude links matching the provided wildcard patterns in the crawl job. Example: 'https://example.com/privacy/**'. */
-  excludePatterns?: CrawlCreateRequestOptionsExcludePatternsList;
+  excludePatterns?: CrawlCreateRequestOptionsExcludePatternsList | undefined;
   /** Include external links in the crawl job. If set to true, includeSubdomains is ignored. */
-  includeExternalLinks?: boolean;
+  includeExternalLinks?: boolean | undefined;
   /** Include only links matching the provided wildcard patterns in the crawl job. Include patterns are evaluated before exclude patterns. URLs that match any of the specified include patterns will be included in the crawl job. Example: 'https://example.com/blog/**'. */
-  includePatterns?: CrawlCreateRequestOptionsIncludePatternsList;
+  includePatterns?: CrawlCreateRequestOptionsIncludePatternsList | undefined;
   /** Include links to subdomains in the crawl job. This option is ignored if includeExternalLinks is true. */
-  includeSubdomains?: boolean;
+  includeSubdomains?: boolean | undefined;
 }
 export type CrawlCreateRequestRejectRequestPatternList = Array<string>;
 export type CrawlCreateRequestRejectResourceTypesItem =
@@ -590,94 +590,94 @@ export interface CreateCrawlRequest {
   /** Account ID. */
   accountId: string;
   /** Cache TTL default is 5s. Set to 0 to disable. */
-  cacheTTL?: number;
+  cacheTTL?: number | undefined;
   /** URL to navigate to, eg. `https://example.com`. */
   url: string;
   /** The maximum duration allowed for the browser action to complete after the page has loaded (such as taking screenshots, extracting content, or generating PDFs). If this time limit is exceeded, the action stops and returns a timeout error. */
-  actionTimeout?: number;
+  actionTimeout?: number | undefined;
   /** Adds a script element into the page with the desired URL or content. */
-  addScriptTag?: CrawlCreateRequestAddScriptTagList;
+  addScriptTag?: CrawlCreateRequestAddScriptTagList | undefined;
   /** Adds a `&lt;link rel="stylesheet"&gt;` tag into the page with the desired URL or a `&lt;style type="text/css"&gt;` tag with the content. */
-  addStyleTag?: CrawlCreateRequestAddStyleTagList;
+  addStyleTag?: CrawlCreateRequestAddStyleTagList | undefined;
   /** Only allow requests that match the provided regex patterns, eg. '/^.*.(css)'. Reject rules are applied first. */
-  allowRequestPattern?: CrawlCreateRequestAllowRequestPatternList;
+  allowRequestPattern?: CrawlCreateRequestAllowRequestPatternList | undefined;
   /** Only allow requests that match the provided resource types, eg. 'image' or 'script'. Reject rules are applied first. */
-  allowResourceTypes?: CrawlCreateRequestAllowResourceTypesList;
+  allowResourceTypes?: CrawlCreateRequestAllowResourceTypesList | undefined;
   /** Provide credentials for HTTP authentication. */
-  authenticate?: CreateAccessibilityTreeRequestAuthenticate;
+  authenticate?: CreateAccessibilityTreeRequestAuthenticate | undefined;
   /** Attempt to proceed when 'awaited' events fail or timeout. */
-  bestAttempt?: boolean;
+  bestAttempt?: boolean | undefined;
   /** Rendering backend for this crawl. Set to `kitesurf` to render pages with Kitesurf (beta). Only valid when `render` is `true`. */
-  browser?: CrawlCreateRequestBrowser | (string & {});
+  browser?: CrawlCreateRequestBrowser | (string & {}) | undefined;
   /** Intended content use level to respect the `use` Content-Signal directive in robots.txt. Levels (least to most permissive): 'reference', 'full'. A URL is disallowed when the publisher's declared `use` level is lower than this intent. Learn more: https://contentsignals.org/. Default: 'full'. */
-  contentUse?: CrawlCreateRequestContentUse | (string & {});
+  contentUse?: CrawlCreateRequestContentUse | (string & {}) | undefined;
   /** Check [options](https://pptr.dev/api/puppeteer.page.setcookie). */
-  cookies?: CrawlCreateRequestCookiesList;
+  cookies?: CrawlCreateRequestCookiesList | undefined;
   /** List of crawl purposes to respect Content-Signal directives in robots.txt. Allowed values: 'search', 'ai-input', 'ai-train'. Learn more: https://contentsignals.org/. Default: ['search', 'ai-input', 'ai-train']. */
-  crawlPurposes?: CrawlCreateRequestCrawlPurposesList;
+  crawlPurposes?: CrawlCreateRequestCrawlPurposesList | undefined;
   /** Maximum number of levels deep the crawler will traverse from the starting URL. */
-  depth?: number;
-  emulateMediaType?: string;
+  depth?: number | undefined;
+  emulateMediaType?: string | undefined;
   /** Formats to return. Default is `html`. */
-  formats?: CrawlCreateRequestFormatsList;
+  formats?: CrawlCreateRequestFormatsList | undefined;
   /** Check [options](https://pptr.dev/api/puppeteer.gotooptions). */
-  gotoOptions?: CrawlCreateRequestGotoOptions;
+  gotoOptions?: CrawlCreateRequestGotoOptions | undefined;
   /** Options for JSON extraction. */
-  jsonOptions?: CrawlCreateRequestJsonOptions;
+  jsonOptions?: CrawlCreateRequestJsonOptions | undefined;
   /** Maximum number of URLs to crawl. */
-  limit?: number;
+  limit?: number | undefined;
   /** Maximum age of a resource that can be returned from cache in seconds. Default is 1 day. */
-  maxAge?: number;
+  maxAge?: number | undefined;
   /** Unix timestamp (seconds since epoch) indicating to only crawl pages that were modified since this time. For sitemap URLs with a lastmod field, this is compared directly. For other URLs, the crawler will use If-Modified-Since header when fetching. URLs without modification information (no lastmod in sitemap and no Last-Modified header support) will be crawled. Note: This works in conjunction with maxAge - both filters must pass for a cached resource to be used. Must be within the last year and not in the future. */
-  modifiedSince?: number;
+  modifiedSince?: number | undefined;
   /** Additional options for the crawler. */
-  options?: CrawlCreateRequestOptions;
+  options?: CrawlCreateRequestOptions | undefined;
   /** Block undesired requests that match the provided regex patterns, eg. '/^.*.(css)'. */
-  rejectRequestPattern?: CrawlCreateRequestRejectRequestPatternList;
+  rejectRequestPattern?: CrawlCreateRequestRejectRequestPatternList | undefined;
   /** Block undesired requests that match the provided resource types, eg. 'image' or 'script'. */
-  rejectResourceTypes?: CrawlCreateRequestRejectResourceTypesList;
+  rejectResourceTypes?: CrawlCreateRequestRejectResourceTypesList | undefined;
   /** Whether to render the page or fetch static content. True by default. */
-  render?: boolean;
-  setExtraHTTPHeaders?: CrawlCreateRequestSetExtraHTTPHeadersMap;
-  setJavaScriptEnabled?: boolean;
+  render?: boolean | undefined;
+  setExtraHTTPHeaders?: CrawlCreateRequestSetExtraHTTPHeadersMap | undefined;
+  setJavaScriptEnabled?: boolean | undefined;
   /** Source of links to crawl. 'sitemaps' - only crawl URLs from sitemaps, 'links' - only crawl URLs scraped from pages, 'all' - crawl both sitemap and scraped links (default). */
-  source?: CrawlCreateRequestSource | (string & {});
+  source?: CrawlCreateRequestSource | (string & {}) | undefined;
   /** Check [options](https://pptr.dev/api/puppeteer.page.setviewport). */
-  viewport?: CreateAccessibilityTreeRequestViewport;
+  viewport?: CreateAccessibilityTreeRequestViewport | undefined;
   /** Wait for the selector to appear in page. Check [options](https://pptr.dev/api/puppeteer.page.waitforselector). */
-  waitForSelector?: CreateAccessibilityTreeRequestWaitForSelector;
+  waitForSelector?: CreateAccessibilityTreeRequestWaitForSelector | undefined;
   /** Waits for a specified timeout before continuing. */
-  waitForTimeout?: number;
+  waitForTimeout?: number | undefined;
 }
 export type CreateCrawlResponse = string;
 export type DevtoolsBrowserCreateRequestGuardrailsAllowedDomainsList = Array<string>;
 export type DevtoolsBrowserCreateRequestGuardrailsAllowedDomainSetsList = Array<string>;
 export interface DevtoolsBrowserCreateRequestGuardrails {
   /** Hostname patterns, max 50. Supports exact hosts (example.com) or a single * wildcard anywhere. Prefer *.example.com (subdomain wildcard) over *example.com (prefix wildcard) to avoid matching overbroad lookalikes like evilexample.com. */
-  allowedDomains?: DevtoolsBrowserCreateRequestGuardrailsAllowedDomainsList;
+  allowedDomains?: DevtoolsBrowserCreateRequestGuardrailsAllowedDomainsList | undefined;
   /** Max 4 entries: curated preset names (common-cdns) and/or https URLs of newline-separated hostname lists. */
-  allowedDomainSets?: DevtoolsBrowserCreateRequestGuardrailsAllowedDomainSetsList;
+  allowedDomainSets?: DevtoolsBrowserCreateRequestGuardrailsAllowedDomainSetsList | undefined;
 }
 export interface CreateDevtoolBrowserRequest {
   /** Account ID. */
   accountId: string;
   /** Keep-alive time in milliseconds. */
-  keepAlive?: number;
+  keepAlive?: number | undefined;
   /** Use experimental browser. */
-  lab?: boolean;
+  lab?: boolean | undefined;
   /** How long the live view URL remains valid, in milliseconds (max 60 minutes). Only used when targets is true. */
-  liveViewUrlExpiresInMs?: number;
-  recording?: boolean;
+  liveViewUrlExpiresInMs?: number | undefined;
+  recording?: boolean | undefined;
   /** Include browser targets in response. */
-  targets?: boolean;
-  guardrails?: DevtoolsBrowserCreateRequestGuardrails;
+  targets?: boolean | undefined;
+  guardrails?: DevtoolsBrowserCreateRequestGuardrails | undefined;
 }
 /** Raw response payload (operation does not use the standard v4 result envelope). */
 export interface CreateDevtoolBrowserResponse {
   /** Browser session ID. */
   sessionId: string;
   /** WebSocket URL for the session. */
-  webSocketDebuggerUrl?: string | null;
+  webSocketDebuggerUrl?: string | null | undefined;
 }
 export interface CreateDevtoolBrowserTargetRequest {
   /** Account ID. */
@@ -685,8 +685,8 @@ export interface CreateDevtoolBrowserTargetRequest {
   /** Browser session ID. */
   sessionId: string;
   /** How long the live view URL remains valid, in milliseconds (max 60 minutes) */
-  liveViewUrlExpiresInMs?: number;
-  url?: string;
+  liveViewUrlExpiresInMs?: number | undefined;
+  url?: string | undefined;
 }
 /** Raw response payload (operation does not use the standard v4 result envelope). */
 export interface CreateDevtoolBrowserTargetResponse {
@@ -697,13 +697,13 @@ export interface CreateDevtoolBrowserTargetResponse {
   /** URL of the target. */
   url: string;
   /** Target description. */
-  description?: string | null;
+  description?: string | null | undefined;
   /** DevTools frontend URL. */
-  devtoolsFrontendUrl?: string | null;
+  devtoolsFrontendUrl?: string | null | undefined;
   /** Title of the target. */
-  title?: string | null;
+  title?: string | null | undefined;
   /** WebSocket URL for debugging this target. */
-  webSocketDebuggerUrl?: string | null;
+  webSocketDebuggerUrl?: string | null | undefined;
 }
 export type CreateDevtoolsBrowserLiveViewRequestGuardrailsMode = "readonly";
 export interface CreateDevtoolsBrowserLiveViewRequestGuardrails {
@@ -716,13 +716,13 @@ export interface CreateDevtoolsBrowserLiveViewRequest {
   /** Browser session ID */
   sessionId: string;
   /** How long the live view URLs remain valid, in milliseconds. Default: 5 minutes. Max: 60 minutes. */
-  expiresInMs?: number;
+  expiresInMs?: number | undefined;
   /** Connection guardrails. Use `{ mode: 'readonly' }` to generate a view-only link. */
-  guardrails?: CreateDevtoolsBrowserLiveViewRequestGuardrails;
+  guardrails?: CreateDevtoolsBrowserLiveViewRequestGuardrails | undefined;
   /** UI mode: 'devtools' (Chrome DevTools), 'tab' (single tab view), 'full' (multi-tab browser) */
-  mode?: CreateDevtoolsBrowserLiveViewRequestMode | (string & {});
+  mode?: CreateDevtoolsBrowserLiveViewRequestMode | (string & {}) | undefined;
   /** Target ID (page) to connect to. If omitted, auto-resolves to the first active page. */
-  targetId?: string;
+  targetId?: string | undefined;
 }
 export type CreateDevtoolsBrowserLiveViewResponseOptionsMode = "devtools" | "tab" | "full";
 export type CreateDevtoolsBrowserLiveViewResponseOptionsGuardrailsMode = "readonly";
@@ -733,7 +733,7 @@ export interface CreateDevtoolsBrowserLiveViewResponseOptions {
   /** UI mode for the live view */
   mode: CreateDevtoolsBrowserLiveViewResponseOptionsMode;
   /** Connection guardrails applied to this link */
-  guardrails?: CreateDevtoolsBrowserLiveViewResponseOptionsGuardrails | null;
+  guardrails?: CreateDevtoolsBrowserLiveViewResponseOptionsGuardrails | null | undefined;
 }
 /** Raw response payload (operation does not use the standard v4 result envelope). */
 export interface CreateDevtoolsBrowserLiveViewResponse {
@@ -782,18 +782,18 @@ export interface JsonCreateRequestCookiesItem {
   /** Cookie name. */
   name: string;
   value: string;
-  domain?: string;
-  expires?: number;
-  httpOnly?: boolean;
-  partitionKey?: string;
-  path?: string;
-  priority?: JsonCreateRequestCookiesItemPriority | (string & {});
-  sameParty?: boolean;
-  sameSite?: JsonCreateRequestCookiesItemSameSite | (string & {});
-  secure?: boolean;
-  sourcePort?: number;
-  sourceScheme?: JsonCreateRequestCookiesItemSourceScheme | (string & {});
-  url?: string;
+  domain?: string | undefined;
+  expires?: number | undefined;
+  httpOnly?: boolean | undefined;
+  partitionKey?: string | undefined;
+  path?: string | undefined;
+  priority?: JsonCreateRequestCookiesItemPriority | (string & {}) | undefined;
+  sameParty?: boolean | undefined;
+  sameSite?: JsonCreateRequestCookiesItemSameSite | (string & {}) | undefined;
+  secure?: boolean | undefined;
+  sourcePort?: number | undefined;
+  sourceScheme?: JsonCreateRequestCookiesItemSourceScheme | (string & {}) | undefined;
+  url?: string | undefined;
 }
 export type JsonCreateRequestCookiesList = Array<JsonCreateRequestCookiesItem>;
 export type JsonCreateRequestCustomAiItem = CrawlCreateRequestJsonOptionsCustomAiItem;
@@ -816,10 +816,10 @@ export type JsonCreateRequestGotoOptionsWaitUntil =
   | (string & {})
   | JsonCreateRequestGotoOptionsWaitUntilCase1List;
 export interface JsonCreateRequestGotoOptions {
-  referer?: string;
-  referrerPolicy?: string;
-  timeout?: number;
-  waitUntil?: JsonCreateRequestGotoOptionsWaitUntil;
+  referer?: string | undefined;
+  referrerPolicy?: string | undefined;
+  timeout?: number | undefined;
+  waitUntil?: JsonCreateRequestGotoOptionsWaitUntil | undefined;
 }
 export type JsonCreateRequestRejectRequestPatternList = Array<string>;
 export type JsonCreateRequestRejectResourceTypesItem =
@@ -848,7 +848,7 @@ export type JsonCreateRequestResponseFormatJsonSchemaMap = { [key: string]: unkn
 export interface JsonCreateRequestResponseFormat {
   type: string;
   /** Schema for the response format. More information here: https://developers.cloudflare.com/workers-ai/json-mode/ */
-  jsonSchema?: JsonCreateRequestResponseFormatJsonSchemaMap;
+  jsonSchema?: JsonCreateRequestResponseFormatJsonSchemaMap | undefined;
 }
 export type JsonCreateRequestSetExtraHTTPHeadersMap = { [key: string]: string | undefined };
 export type JsonCreateRequestViewport = CreateAccessibilityTreeRequestViewport;
@@ -857,47 +857,47 @@ export interface CreateJsonRequest {
   /** Account ID. */
   accountId: string;
   /** Rendering backend. Set to `kitesurf` to use Kitesurf (beta). */
-  browser?: JsonCreateRequestBrowser | (string & {});
+  browser?: JsonCreateRequestBrowser | (string & {}) | undefined;
   /** Cache TTL default is 5s. Set to 0 to disable. */
-  cacheTTL?: number;
-  url?: string;
+  cacheTTL?: number | undefined;
+  url?: string | undefined;
   /** The maximum duration allowed for the browser action to complete after the page has loaded (such as taking screenshots, extracting content, or generating PDFs). If this time limit is exceeded, the action stops and returns a timeout error. */
-  actionTimeout?: number;
+  actionTimeout?: number | undefined;
   /** Adds a script element into the page with the desired URL or content. */
-  addScriptTag?: JsonCreateRequestAddScriptTagList;
+  addScriptTag?: JsonCreateRequestAddScriptTagList | undefined;
   /** Adds a `&lt;link rel="stylesheet"&gt;` tag into the page with the desired URL or a `&lt;style type="text/css"&gt;` tag with the content. */
-  addStyleTag?: JsonCreateRequestAddStyleTagList;
+  addStyleTag?: JsonCreateRequestAddStyleTagList | undefined;
   /** Only allow requests that match the provided regex patterns, eg. '/^.*.(css)'. Reject rules are applied first. */
-  allowRequestPattern?: JsonCreateRequestAllowRequestPatternList;
+  allowRequestPattern?: JsonCreateRequestAllowRequestPatternList | undefined;
   /** Only allow requests that match the provided resource types, eg. 'image' or 'script'. Reject rules are applied first. */
-  allowResourceTypes?: JsonCreateRequestAllowResourceTypesList;
+  allowResourceTypes?: JsonCreateRequestAllowResourceTypesList | undefined;
   /** Provide credentials for HTTP authentication. */
-  authenticate?: CreateAccessibilityTreeRequestAuthenticate;
+  authenticate?: CreateAccessibilityTreeRequestAuthenticate | undefined;
   /** Attempt to proceed when 'awaited' events fail or timeout. */
-  bestAttempt?: boolean;
+  bestAttempt?: boolean | undefined;
   /** Check [options](https://pptr.dev/api/puppeteer.page.setcookie). */
-  cookies?: JsonCreateRequestCookiesList;
+  cookies?: JsonCreateRequestCookiesList | undefined;
   /** Optional list of custom AI models to use for the request. The models will be tried in the order provided, and in case a model returns an error, the next one will be used as fallback. */
-  customAi?: JsonCreateRequestCustomAiList;
-  emulateMediaType?: string;
+  customAi?: JsonCreateRequestCustomAiList | undefined;
+  emulateMediaType?: string | undefined;
   /** Check [options](https://pptr.dev/api/puppeteer.gotooptions). */
-  gotoOptions?: JsonCreateRequestGotoOptions;
-  html?: string;
-  prompt?: string;
+  gotoOptions?: JsonCreateRequestGotoOptions | undefined;
+  html?: string | undefined;
+  prompt?: string | undefined;
   /** Block undesired requests that match the provided regex patterns, eg. '/^.*.(css)'. */
-  rejectRequestPattern?: JsonCreateRequestRejectRequestPatternList;
+  rejectRequestPattern?: JsonCreateRequestRejectRequestPatternList | undefined;
   /** Block undesired requests that match the provided resource types, eg. 'image' or 'script'. */
-  rejectResourceTypes?: JsonCreateRequestRejectResourceTypesList;
-  responseFormat?: JsonCreateRequestResponseFormat;
-  setExtraHTTPHeaders?: JsonCreateRequestSetExtraHTTPHeadersMap;
-  setJavaScriptEnabled?: boolean;
-  userAgent?: string;
+  rejectResourceTypes?: JsonCreateRequestRejectResourceTypesList | undefined;
+  responseFormat?: JsonCreateRequestResponseFormat | undefined;
+  setExtraHTTPHeaders?: JsonCreateRequestSetExtraHTTPHeadersMap | undefined;
+  setJavaScriptEnabled?: boolean | undefined;
+  userAgent?: string | undefined;
   /** Check [options](https://pptr.dev/api/puppeteer.page.setviewport). */
-  viewport?: CreateAccessibilityTreeRequestViewport;
+  viewport?: CreateAccessibilityTreeRequestViewport | undefined;
   /** Wait for the selector to appear in page. Check [options](https://pptr.dev/api/puppeteer.page.waitforselector). */
-  waitForSelector?: CreateAccessibilityTreeRequestWaitForSelector;
+  waitForSelector?: CreateAccessibilityTreeRequestWaitForSelector | undefined;
   /** Waits for a specified timeout before continuing. */
-  waitForTimeout?: number;
+  waitForTimeout?: number | undefined;
 }
 export type JsonCreateResultMap = { [key: string]: unknown | undefined };
 export type CreateJsonResponse = JsonCreateResultMap;
@@ -939,18 +939,18 @@ export interface LinksCreateRequestCookiesItem {
   /** Cookie name. */
   name: string;
   value: string;
-  domain?: string;
-  expires?: number;
-  httpOnly?: boolean;
-  partitionKey?: string;
-  path?: string;
-  priority?: LinksCreateRequestCookiesItemPriority | (string & {});
-  sameParty?: boolean;
-  sameSite?: LinksCreateRequestCookiesItemSameSite | (string & {});
-  secure?: boolean;
-  sourcePort?: number;
-  sourceScheme?: LinksCreateRequestCookiesItemSourceScheme | (string & {});
-  url?: string;
+  domain?: string | undefined;
+  expires?: number | undefined;
+  httpOnly?: boolean | undefined;
+  partitionKey?: string | undefined;
+  path?: string | undefined;
+  priority?: LinksCreateRequestCookiesItemPriority | (string & {}) | undefined;
+  sameParty?: boolean | undefined;
+  sameSite?: LinksCreateRequestCookiesItemSameSite | (string & {}) | undefined;
+  secure?: boolean | undefined;
+  sourcePort?: number | undefined;
+  sourceScheme?: LinksCreateRequestCookiesItemSourceScheme | (string & {}) | undefined;
+  url?: string | undefined;
 }
 export type LinksCreateRequestCookiesList = Array<LinksCreateRequestCookiesItem>;
 export type LinksCreateRequestGotoOptionsWaitUntilCase0 =
@@ -971,10 +971,10 @@ export type LinksCreateRequestGotoOptionsWaitUntil =
   | (string & {})
   | LinksCreateRequestGotoOptionsWaitUntilCase1List;
 export interface LinksCreateRequestGotoOptions {
-  referer?: string;
-  referrerPolicy?: string;
-  timeout?: number;
-  waitUntil?: LinksCreateRequestGotoOptionsWaitUntil;
+  referer?: string | undefined;
+  referrerPolicy?: string | undefined;
+  timeout?: number | undefined;
+  waitUntil?: LinksCreateRequestGotoOptionsWaitUntil | undefined;
 }
 export type LinksCreateRequestRejectRequestPatternList = Array<string>;
 export type LinksCreateRequestRejectResourceTypesItem =
@@ -1006,45 +1006,45 @@ export interface CreateLinkRequest {
   /** Account ID. */
   accountId: string;
   /** Rendering backend. Set to `kitesurf` to use Kitesurf (beta). */
-  browser?: LinksCreateRequestBrowser | (string & {});
+  browser?: LinksCreateRequestBrowser | (string & {}) | undefined;
   /** Cache TTL default is 5s. Set to 0 to disable. */
-  cacheTTL?: number;
-  url?: string;
+  cacheTTL?: number | undefined;
+  url?: string | undefined;
   /** The maximum duration allowed for the browser action to complete after the page has loaded (such as taking screenshots, extracting content, or generating PDFs). If this time limit is exceeded, the action stops and returns a timeout error. */
-  actionTimeout?: number;
+  actionTimeout?: number | undefined;
   /** Adds a script element into the page with the desired URL or content. */
-  addScriptTag?: LinksCreateRequestAddScriptTagList;
+  addScriptTag?: LinksCreateRequestAddScriptTagList | undefined;
   /** Adds a `&lt;link rel="stylesheet"&gt;` tag into the page with the desired URL or a `&lt;style type="text/css"&gt;` tag with the content. */
-  addStyleTag?: LinksCreateRequestAddStyleTagList;
+  addStyleTag?: LinksCreateRequestAddStyleTagList | undefined;
   /** Only allow requests that match the provided regex patterns, eg. '/^.*.(css)'. Reject rules are applied first. */
-  allowRequestPattern?: LinksCreateRequestAllowRequestPatternList;
+  allowRequestPattern?: LinksCreateRequestAllowRequestPatternList | undefined;
   /** Only allow requests that match the provided resource types, eg. 'image' or 'script'. Reject rules are applied first. */
-  allowResourceTypes?: LinksCreateRequestAllowResourceTypesList;
+  allowResourceTypes?: LinksCreateRequestAllowResourceTypesList | undefined;
   /** Provide credentials for HTTP authentication. */
-  authenticate?: CreateAccessibilityTreeRequestAuthenticate;
+  authenticate?: CreateAccessibilityTreeRequestAuthenticate | undefined;
   /** Attempt to proceed when 'awaited' events fail or timeout. */
-  bestAttempt?: boolean;
+  bestAttempt?: boolean | undefined;
   /** Check [options](https://pptr.dev/api/puppeteer.page.setcookie). */
-  cookies?: LinksCreateRequestCookiesList;
-  emulateMediaType?: string;
-  excludeExternalLinks?: boolean;
+  cookies?: LinksCreateRequestCookiesList | undefined;
+  emulateMediaType?: string | undefined;
+  excludeExternalLinks?: boolean | undefined;
   /** Check [options](https://pptr.dev/api/puppeteer.gotooptions). */
-  gotoOptions?: LinksCreateRequestGotoOptions;
-  html?: string;
+  gotoOptions?: LinksCreateRequestGotoOptions | undefined;
+  html?: string | undefined;
   /** Block undesired requests that match the provided regex patterns, eg. '/^.*.(css)'. */
-  rejectRequestPattern?: LinksCreateRequestRejectRequestPatternList;
+  rejectRequestPattern?: LinksCreateRequestRejectRequestPatternList | undefined;
   /** Block undesired requests that match the provided resource types, eg. 'image' or 'script'. */
-  rejectResourceTypes?: LinksCreateRequestRejectResourceTypesList;
-  setExtraHTTPHeaders?: LinksCreateRequestSetExtraHTTPHeadersMap;
-  setJavaScriptEnabled?: boolean;
-  userAgent?: string;
+  rejectResourceTypes?: LinksCreateRequestRejectResourceTypesList | undefined;
+  setExtraHTTPHeaders?: LinksCreateRequestSetExtraHTTPHeadersMap | undefined;
+  setJavaScriptEnabled?: boolean | undefined;
+  userAgent?: string | undefined;
   /** Check [options](https://pptr.dev/api/puppeteer.page.setviewport). */
-  viewport?: CreateAccessibilityTreeRequestViewport;
-  visibleLinksOnly?: boolean;
+  viewport?: CreateAccessibilityTreeRequestViewport | undefined;
+  visibleLinksOnly?: boolean | undefined;
   /** Wait for the selector to appear in page. Check [options](https://pptr.dev/api/puppeteer.page.waitforselector). */
-  waitForSelector?: CreateAccessibilityTreeRequestWaitForSelector;
+  waitForSelector?: CreateAccessibilityTreeRequestWaitForSelector | undefined;
   /** Waits for a specified timeout before continuing. */
-  waitForTimeout?: number;
+  waitForTimeout?: number | undefined;
 }
 export type LinksCreateResultList = Array<string>;
 export type CreateLinkResponse = LinksCreateResultList;
@@ -1086,18 +1086,18 @@ export interface MarkdownCreateRequestCookiesItem {
   /** Cookie name. */
   name: string;
   value: string;
-  domain?: string;
-  expires?: number;
-  httpOnly?: boolean;
-  partitionKey?: string;
-  path?: string;
-  priority?: MarkdownCreateRequestCookiesItemPriority | (string & {});
-  sameParty?: boolean;
-  sameSite?: MarkdownCreateRequestCookiesItemSameSite | (string & {});
-  secure?: boolean;
-  sourcePort?: number;
-  sourceScheme?: MarkdownCreateRequestCookiesItemSourceScheme | (string & {});
-  url?: string;
+  domain?: string | undefined;
+  expires?: number | undefined;
+  httpOnly?: boolean | undefined;
+  partitionKey?: string | undefined;
+  path?: string | undefined;
+  priority?: MarkdownCreateRequestCookiesItemPriority | (string & {}) | undefined;
+  sameParty?: boolean | undefined;
+  sameSite?: MarkdownCreateRequestCookiesItemSameSite | (string & {}) | undefined;
+  secure?: boolean | undefined;
+  sourcePort?: number | undefined;
+  sourceScheme?: MarkdownCreateRequestCookiesItemSourceScheme | (string & {}) | undefined;
+  url?: string | undefined;
 }
 export type MarkdownCreateRequestCookiesList = Array<MarkdownCreateRequestCookiesItem>;
 export type MarkdownCreateRequestGotoOptionsWaitUntilCase0 =
@@ -1118,10 +1118,10 @@ export type MarkdownCreateRequestGotoOptionsWaitUntil =
   | (string & {})
   | MarkdownCreateRequestGotoOptionsWaitUntilCase1List;
 export interface MarkdownCreateRequestGotoOptions {
-  referer?: string;
-  referrerPolicy?: string;
-  timeout?: number;
-  waitUntil?: MarkdownCreateRequestGotoOptionsWaitUntil;
+  referer?: string | undefined;
+  referrerPolicy?: string | undefined;
+  timeout?: number | undefined;
+  waitUntil?: MarkdownCreateRequestGotoOptionsWaitUntil | undefined;
 }
 export type MarkdownCreateRequestRejectRequestPatternList = Array<string>;
 export type MarkdownCreateRequestRejectResourceTypesItem =
@@ -1153,43 +1153,43 @@ export interface CreateMarkdownRequest {
   /** Account ID. */
   accountId: string;
   /** Rendering backend. Set to `kitesurf` to use Kitesurf (beta). */
-  browser?: MarkdownCreateRequestBrowser | (string & {});
+  browser?: MarkdownCreateRequestBrowser | (string & {}) | undefined;
   /** Cache TTL default is 5s. Set to 0 to disable. */
-  cacheTTL?: number;
-  url?: string;
+  cacheTTL?: number | undefined;
+  url?: string | undefined;
   /** The maximum duration allowed for the browser action to complete after the page has loaded (such as taking screenshots, extracting content, or generating PDFs). If this time limit is exceeded, the action stops and returns a timeout error. */
-  actionTimeout?: number;
+  actionTimeout?: number | undefined;
   /** Adds a script element into the page with the desired URL or content. */
-  addScriptTag?: MarkdownCreateRequestAddScriptTagList;
+  addScriptTag?: MarkdownCreateRequestAddScriptTagList | undefined;
   /** Adds a `&lt;link rel="stylesheet"&gt;` tag into the page with the desired URL or a `&lt;style type="text/css"&gt;` tag with the content. */
-  addStyleTag?: MarkdownCreateRequestAddStyleTagList;
+  addStyleTag?: MarkdownCreateRequestAddStyleTagList | undefined;
   /** Only allow requests that match the provided regex patterns, eg. '/^.*.(css)'. Reject rules are applied first. */
-  allowRequestPattern?: MarkdownCreateRequestAllowRequestPatternList;
+  allowRequestPattern?: MarkdownCreateRequestAllowRequestPatternList | undefined;
   /** Only allow requests that match the provided resource types, eg. 'image' or 'script'. Reject rules are applied first. */
-  allowResourceTypes?: MarkdownCreateRequestAllowResourceTypesList;
+  allowResourceTypes?: MarkdownCreateRequestAllowResourceTypesList | undefined;
   /** Provide credentials for HTTP authentication. */
-  authenticate?: CreateAccessibilityTreeRequestAuthenticate;
+  authenticate?: CreateAccessibilityTreeRequestAuthenticate | undefined;
   /** Attempt to proceed when 'awaited' events fail or timeout. */
-  bestAttempt?: boolean;
+  bestAttempt?: boolean | undefined;
   /** Check [options](https://pptr.dev/api/puppeteer.page.setcookie). */
-  cookies?: MarkdownCreateRequestCookiesList;
-  emulateMediaType?: string;
+  cookies?: MarkdownCreateRequestCookiesList | undefined;
+  emulateMediaType?: string | undefined;
   /** Check [options](https://pptr.dev/api/puppeteer.gotooptions). */
-  gotoOptions?: MarkdownCreateRequestGotoOptions;
-  html?: string;
+  gotoOptions?: MarkdownCreateRequestGotoOptions | undefined;
+  html?: string | undefined;
   /** Block undesired requests that match the provided regex patterns, eg. '/^.*.(css)'. */
-  rejectRequestPattern?: MarkdownCreateRequestRejectRequestPatternList;
+  rejectRequestPattern?: MarkdownCreateRequestRejectRequestPatternList | undefined;
   /** Block undesired requests that match the provided resource types, eg. 'image' or 'script'. */
-  rejectResourceTypes?: MarkdownCreateRequestRejectResourceTypesList;
-  setExtraHTTPHeaders?: MarkdownCreateRequestSetExtraHTTPHeadersMap;
-  setJavaScriptEnabled?: boolean;
-  userAgent?: string;
+  rejectResourceTypes?: MarkdownCreateRequestRejectResourceTypesList | undefined;
+  setExtraHTTPHeaders?: MarkdownCreateRequestSetExtraHTTPHeadersMap | undefined;
+  setJavaScriptEnabled?: boolean | undefined;
+  userAgent?: string | undefined;
   /** Check [options](https://pptr.dev/api/puppeteer.page.setviewport). */
-  viewport?: CreateAccessibilityTreeRequestViewport;
+  viewport?: CreateAccessibilityTreeRequestViewport | undefined;
   /** Wait for the selector to appear in page. Check [options](https://pptr.dev/api/puppeteer.page.waitforselector). */
-  waitForSelector?: CreateAccessibilityTreeRequestWaitForSelector;
+  waitForSelector?: CreateAccessibilityTreeRequestWaitForSelector | undefined;
   /** Waits for a specified timeout before continuing. */
-  waitForTimeout?: number;
+  waitForTimeout?: number | undefined;
 }
 export type CreateMarkdownResponse = string;
 export type PdfCreateRequestBrowser = "kitesurf";
@@ -1229,18 +1229,18 @@ export interface PdfCreateRequestCookiesItem {
   /** Cookie name. */
   name: string;
   value: string;
-  domain?: string;
-  expires?: number;
-  httpOnly?: boolean;
-  partitionKey?: string;
-  path?: string;
-  priority?: PdfCreateRequestCookiesItemPriority | (string & {});
-  sameParty?: boolean;
-  sameSite?: PdfCreateRequestCookiesItemSameSite | (string & {});
-  secure?: boolean;
-  sourcePort?: number;
-  sourceScheme?: PdfCreateRequestCookiesItemSourceScheme | (string & {});
-  url?: string;
+  domain?: string | undefined;
+  expires?: number | undefined;
+  httpOnly?: boolean | undefined;
+  partitionKey?: string | undefined;
+  path?: string | undefined;
+  priority?: PdfCreateRequestCookiesItemPriority | (string & {}) | undefined;
+  sameParty?: boolean | undefined;
+  sameSite?: PdfCreateRequestCookiesItemSameSite | (string & {}) | undefined;
+  secure?: boolean | undefined;
+  sourcePort?: number | undefined;
+  sourceScheme?: PdfCreateRequestCookiesItemSourceScheme | (string & {}) | undefined;
+  url?: string | undefined;
 }
 export type PdfCreateRequestCookiesList = Array<PdfCreateRequestCookiesItem>;
 export type PdfCreateRequestGotoOptionsWaitUntilCase0 =
@@ -1261,10 +1261,10 @@ export type PdfCreateRequestGotoOptionsWaitUntil =
   | (string & {})
   | PdfCreateRequestGotoOptionsWaitUntilCase1List;
 export interface PdfCreateRequestGotoOptions {
-  referer?: string;
-  referrerPolicy?: string;
-  timeout?: number;
-  waitUntil?: PdfCreateRequestGotoOptionsWaitUntil;
+  referer?: string | undefined;
+  referrerPolicy?: string | undefined;
+  timeout?: number | undefined;
+  waitUntil?: PdfCreateRequestGotoOptionsWaitUntil | undefined;
 }
 export type PdfCreateRequestPdfOptionsFormat =
   | "letter"
@@ -1284,45 +1284,45 @@ export type PdfCreateRequestPdfOptionsMarginLeft = string | number;
 export type PdfCreateRequestPdfOptionsMarginRight = string | number;
 export type PdfCreateRequestPdfOptionsMarginTop = string | number;
 export interface PdfCreateRequestPdfOptionsMargin {
-  bottom?: PdfCreateRequestPdfOptionsMarginBottom;
-  left?: PdfCreateRequestPdfOptionsMarginLeft;
-  right?: PdfCreateRequestPdfOptionsMarginRight;
-  top?: PdfCreateRequestPdfOptionsMarginTop;
+  bottom?: PdfCreateRequestPdfOptionsMarginBottom | undefined;
+  left?: PdfCreateRequestPdfOptionsMarginLeft | undefined;
+  right?: PdfCreateRequestPdfOptionsMarginRight | undefined;
+  top?: PdfCreateRequestPdfOptionsMarginTop | undefined;
 }
 export type PdfCreateRequestPdfOptionsWidth = string | number;
 export interface PdfCreateRequestPdfOptions {
   /** Whether to show the header and footer. */
-  displayHeaderFooter?: boolean;
+  displayHeaderFooter?: boolean | undefined;
   /** HTML template for the print footer. */
-  footerTemplate?: string;
+  footerTemplate?: string | undefined;
   /** Paper format. Takes priority over width and height if set. */
-  format?: PdfCreateRequestPdfOptionsFormat | (string & {});
+  format?: PdfCreateRequestPdfOptionsFormat | (string & {}) | undefined;
   /** HTML template for the print header. */
-  headerTemplate?: string;
+  headerTemplate?: string | undefined;
   /** Sets the height of paper. Can be a number or string with unit. */
-  height?: PdfCreateRequestPdfOptionsHeight;
+  height?: PdfCreateRequestPdfOptionsHeight | undefined;
   /** Whether to print in landscape orientation. */
-  landscape?: boolean;
+  landscape?: boolean | undefined;
   /** Set the PDF margins. Useful when setting header and footer. */
-  margin?: PdfCreateRequestPdfOptionsMargin;
+  margin?: PdfCreateRequestPdfOptionsMargin | undefined;
   /** Hides default white background and allows generating pdfs with transparency. */
-  omitBackground?: boolean;
+  omitBackground?: boolean | undefined;
   /** Generate document outline. */
-  outline?: boolean;
+  outline?: boolean | undefined;
   /** Paper ranges to print, e.g. '1-5, 8, 11-13'. */
-  pageRanges?: string;
+  pageRanges?: string | undefined;
   /** Give CSS @page size priority over other size declarations. */
-  preferCSSPageSize?: boolean;
+  preferCSSPageSize?: boolean | undefined;
   /** Set to true to print background graphics. */
-  printBackground?: boolean;
+  printBackground?: boolean | undefined;
   /** Scales the rendering of the web page. Amount must be between 0.1 and 2. */
-  scale?: number;
+  scale?: number | undefined;
   /** Generate tagged (accessible) PDF. */
-  tagged?: boolean;
+  tagged?: boolean | undefined;
   /** Timeout in milliseconds. */
-  timeout?: number;
+  timeout?: number | undefined;
   /** Sets the width of paper. Can be a number or string with unit. */
-  width?: PdfCreateRequestPdfOptionsWidth;
+  width?: PdfCreateRequestPdfOptionsWidth | undefined;
 }
 export type PdfCreateRequestRejectRequestPatternList = Array<string>;
 export type PdfCreateRequestRejectResourceTypesItem =
@@ -1354,45 +1354,45 @@ export interface CreatePdfRequest {
   /** Account ID. */
   accountId: string;
   /** Rendering backend. Set to `kitesurf` to use Kitesurf (beta). */
-  browser?: PdfCreateRequestBrowser | (string & {});
+  browser?: PdfCreateRequestBrowser | (string & {}) | undefined;
   /** Cache TTL default is 5s. Set to 0 to disable. */
-  cacheTTL?: number;
-  url?: string;
+  cacheTTL?: number | undefined;
+  url?: string | undefined;
   /** The maximum duration allowed for the browser action to complete after the page has loaded (such as taking screenshots, extracting content, or generating PDFs). If this time limit is exceeded, the action stops and returns a timeout error. */
-  actionTimeout?: number;
+  actionTimeout?: number | undefined;
   /** Adds a script element into the page with the desired URL or content. */
-  addScriptTag?: PdfCreateRequestAddScriptTagList;
+  addScriptTag?: PdfCreateRequestAddScriptTagList | undefined;
   /** Adds a `&lt;link rel="stylesheet"&gt;` tag into the page with the desired URL or a `&lt;style type="text/css"&gt;` tag with the content. */
-  addStyleTag?: PdfCreateRequestAddStyleTagList;
+  addStyleTag?: PdfCreateRequestAddStyleTagList | undefined;
   /** Only allow requests that match the provided regex patterns, eg. '/^.*.(css)'. Reject rules are applied first. */
-  allowRequestPattern?: PdfCreateRequestAllowRequestPatternList;
+  allowRequestPattern?: PdfCreateRequestAllowRequestPatternList | undefined;
   /** Only allow requests that match the provided resource types, eg. 'image' or 'script'. Reject rules are applied first. */
-  allowResourceTypes?: PdfCreateRequestAllowResourceTypesList;
+  allowResourceTypes?: PdfCreateRequestAllowResourceTypesList | undefined;
   /** Provide credentials for HTTP authentication. */
-  authenticate?: CreateAccessibilityTreeRequestAuthenticate;
+  authenticate?: CreateAccessibilityTreeRequestAuthenticate | undefined;
   /** Attempt to proceed when 'awaited' events fail or timeout. */
-  bestAttempt?: boolean;
+  bestAttempt?: boolean | undefined;
   /** Check [options](https://pptr.dev/api/puppeteer.page.setcookie). */
-  cookies?: PdfCreateRequestCookiesList;
-  emulateMediaType?: string;
+  cookies?: PdfCreateRequestCookiesList | undefined;
+  emulateMediaType?: string | undefined;
   /** Check [options](https://pptr.dev/api/puppeteer.gotooptions). */
-  gotoOptions?: PdfCreateRequestGotoOptions;
-  html?: string;
+  gotoOptions?: PdfCreateRequestGotoOptions | undefined;
+  html?: string | undefined;
   /** Check [options](https://pptr.dev/api/puppeteer.pdfoptions). */
-  pdfOptions?: PdfCreateRequestPdfOptions;
+  pdfOptions?: PdfCreateRequestPdfOptions | undefined;
   /** Block undesired requests that match the provided regex patterns, eg. '/^.*.(css)'. */
-  rejectRequestPattern?: PdfCreateRequestRejectRequestPatternList;
+  rejectRequestPattern?: PdfCreateRequestRejectRequestPatternList | undefined;
   /** Block undesired requests that match the provided resource types, eg. 'image' or 'script'. */
-  rejectResourceTypes?: PdfCreateRequestRejectResourceTypesList;
-  setExtraHTTPHeaders?: PdfCreateRequestSetExtraHTTPHeadersMap;
-  setJavaScriptEnabled?: boolean;
-  userAgent?: string;
+  rejectResourceTypes?: PdfCreateRequestRejectResourceTypesList | undefined;
+  setExtraHTTPHeaders?: PdfCreateRequestSetExtraHTTPHeadersMap | undefined;
+  setJavaScriptEnabled?: boolean | undefined;
+  userAgent?: string | undefined;
   /** Check [options](https://pptr.dev/api/puppeteer.page.setviewport). */
-  viewport?: CreateAccessibilityTreeRequestViewport;
+  viewport?: CreateAccessibilityTreeRequestViewport | undefined;
   /** Wait for the selector to appear in page. Check [options](https://pptr.dev/api/puppeteer.page.waitforselector). */
-  waitForSelector?: CreateAccessibilityTreeRequestWaitForSelector;
+  waitForSelector?: CreateAccessibilityTreeRequestWaitForSelector | undefined;
   /** Waits for a specified timeout before continuing. */
-  waitForTimeout?: number;
+  waitForTimeout?: number | undefined;
 }
 export interface CreatePdfResponse {}
 export type ScrapeCreateRequestBrowser = "kitesurf";
@@ -1433,18 +1433,18 @@ export interface ScrapeCreateRequestCookiesItem {
   /** Cookie name. */
   name: string;
   value: string;
-  domain?: string;
-  expires?: number;
-  httpOnly?: boolean;
-  partitionKey?: string;
-  path?: string;
-  priority?: ScrapeCreateRequestCookiesItemPriority | (string & {});
-  sameParty?: boolean;
-  sameSite?: ScrapeCreateRequestCookiesItemSameSite | (string & {});
-  secure?: boolean;
-  sourcePort?: number;
-  sourceScheme?: ScrapeCreateRequestCookiesItemSourceScheme | (string & {});
-  url?: string;
+  domain?: string | undefined;
+  expires?: number | undefined;
+  httpOnly?: boolean | undefined;
+  partitionKey?: string | undefined;
+  path?: string | undefined;
+  priority?: ScrapeCreateRequestCookiesItemPriority | (string & {}) | undefined;
+  sameParty?: boolean | undefined;
+  sameSite?: ScrapeCreateRequestCookiesItemSameSite | (string & {}) | undefined;
+  secure?: boolean | undefined;
+  sourcePort?: number | undefined;
+  sourceScheme?: ScrapeCreateRequestCookiesItemSourceScheme | (string & {}) | undefined;
+  url?: string | undefined;
 }
 export type ScrapeCreateRequestCookiesList = Array<ScrapeCreateRequestCookiesItem>;
 export interface ScrapeCreateRequestElementsItem {
@@ -1469,10 +1469,10 @@ export type ScrapeCreateRequestGotoOptionsWaitUntil =
   | (string & {})
   | ScrapeCreateRequestGotoOptionsWaitUntilCase1List;
 export interface ScrapeCreateRequestGotoOptions {
-  referer?: string;
-  referrerPolicy?: string;
-  timeout?: number;
-  waitUntil?: ScrapeCreateRequestGotoOptionsWaitUntil;
+  referer?: string | undefined;
+  referrerPolicy?: string | undefined;
+  timeout?: number | undefined;
+  waitUntil?: ScrapeCreateRequestGotoOptionsWaitUntil | undefined;
 }
 export type ScrapeCreateRequestRejectRequestPatternList = Array<string>;
 export type ScrapeCreateRequestRejectResourceTypesItem =
@@ -1504,44 +1504,44 @@ export interface CreateScrapeRequest {
   /** Account ID. */
   accountId: string;
   /** Rendering backend. Set to `kitesurf` to use Kitesurf (beta). */
-  browser?: ScrapeCreateRequestBrowser | (string & {});
+  browser?: ScrapeCreateRequestBrowser | (string & {}) | undefined;
   /** Cache TTL default is 5s. Set to 0 to disable. */
-  cacheTTL?: number;
-  url?: string;
+  cacheTTL?: number | undefined;
+  url?: string | undefined;
   /** The maximum duration allowed for the browser action to complete after the page has loaded (such as taking screenshots, extracting content, or generating PDFs). If this time limit is exceeded, the action stops and returns a timeout error. */
-  actionTimeout?: number;
+  actionTimeout?: number | undefined;
   /** Adds a script element into the page with the desired URL or content. */
-  addScriptTag?: ScrapeCreateRequestAddScriptTagList;
+  addScriptTag?: ScrapeCreateRequestAddScriptTagList | undefined;
   /** Adds a `&lt;link rel="stylesheet"&gt;` tag into the page with the desired URL or a `&lt;style type="text/css"&gt;` tag with the content. */
-  addStyleTag?: ScrapeCreateRequestAddStyleTagList;
+  addStyleTag?: ScrapeCreateRequestAddStyleTagList | undefined;
   /** Only allow requests that match the provided regex patterns, eg. '/^.*.(css)'. Reject rules are applied first. */
-  allowRequestPattern?: ScrapeCreateRequestAllowRequestPatternList;
+  allowRequestPattern?: ScrapeCreateRequestAllowRequestPatternList | undefined;
   /** Only allow requests that match the provided resource types, eg. 'image' or 'script'. Reject rules are applied first. */
-  allowResourceTypes?: ScrapeCreateRequestAllowResourceTypesList;
+  allowResourceTypes?: ScrapeCreateRequestAllowResourceTypesList | undefined;
   /** Provide credentials for HTTP authentication. */
-  authenticate?: CreateAccessibilityTreeRequestAuthenticate;
+  authenticate?: CreateAccessibilityTreeRequestAuthenticate | undefined;
   /** Attempt to proceed when 'awaited' events fail or timeout. */
-  bestAttempt?: boolean;
+  bestAttempt?: boolean | undefined;
   /** Check [options](https://pptr.dev/api/puppeteer.page.setcookie). */
-  cookies?: ScrapeCreateRequestCookiesList;
-  elements?: ScrapeCreateRequestElementsList;
-  emulateMediaType?: string;
+  cookies?: ScrapeCreateRequestCookiesList | undefined;
+  elements?: ScrapeCreateRequestElementsList | undefined;
+  emulateMediaType?: string | undefined;
   /** Check [options](https://pptr.dev/api/puppeteer.gotooptions). */
-  gotoOptions?: ScrapeCreateRequestGotoOptions;
-  html?: string;
+  gotoOptions?: ScrapeCreateRequestGotoOptions | undefined;
+  html?: string | undefined;
   /** Block undesired requests that match the provided regex patterns, eg. '/^.*.(css)'. */
-  rejectRequestPattern?: ScrapeCreateRequestRejectRequestPatternList;
+  rejectRequestPattern?: ScrapeCreateRequestRejectRequestPatternList | undefined;
   /** Block undesired requests that match the provided resource types, eg. 'image' or 'script'. */
-  rejectResourceTypes?: ScrapeCreateRequestRejectResourceTypesList;
-  setExtraHTTPHeaders?: ScrapeCreateRequestSetExtraHTTPHeadersMap;
-  setJavaScriptEnabled?: boolean;
-  userAgent?: string;
+  rejectResourceTypes?: ScrapeCreateRequestRejectResourceTypesList | undefined;
+  setExtraHTTPHeaders?: ScrapeCreateRequestSetExtraHTTPHeadersMap | undefined;
+  setJavaScriptEnabled?: boolean | undefined;
+  userAgent?: string | undefined;
   /** Check [options](https://pptr.dev/api/puppeteer.page.setviewport). */
-  viewport?: CreateAccessibilityTreeRequestViewport;
+  viewport?: CreateAccessibilityTreeRequestViewport | undefined;
   /** Wait for the selector to appear in page. Check [options](https://pptr.dev/api/puppeteer.page.waitforselector). */
-  waitForSelector?: CreateAccessibilityTreeRequestWaitForSelector;
+  waitForSelector?: CreateAccessibilityTreeRequestWaitForSelector | undefined;
   /** Waits for a specified timeout before continuing. */
-  waitForTimeout?: number;
+  waitForTimeout?: number | undefined;
 }
 export interface ScrapeCreateResultItemResultsAttributesItem {
   /** Attribute name. */
@@ -1612,18 +1612,18 @@ export interface ScreenshotCreateRequestCookiesItem {
   /** Cookie name. */
   name: string;
   value: string;
-  domain?: string;
-  expires?: number;
-  httpOnly?: boolean;
-  partitionKey?: string;
-  path?: string;
-  priority?: ScreenshotCreateRequestCookiesItemPriority | (string & {});
-  sameParty?: boolean;
-  sameSite?: ScreenshotCreateRequestCookiesItemSameSite | (string & {});
-  secure?: boolean;
-  sourcePort?: number;
-  sourceScheme?: ScreenshotCreateRequestCookiesItemSourceScheme | (string & {});
-  url?: string;
+  domain?: string | undefined;
+  expires?: number | undefined;
+  httpOnly?: boolean | undefined;
+  partitionKey?: string | undefined;
+  path?: string | undefined;
+  priority?: ScreenshotCreateRequestCookiesItemPriority | (string & {}) | undefined;
+  sameParty?: boolean | undefined;
+  sameSite?: ScreenshotCreateRequestCookiesItemSameSite | (string & {}) | undefined;
+  secure?: boolean | undefined;
+  sourcePort?: number | undefined;
+  sourceScheme?: ScreenshotCreateRequestCookiesItemSourceScheme | (string & {}) | undefined;
+  url?: string | undefined;
 }
 export type ScreenshotCreateRequestCookiesList = Array<ScreenshotCreateRequestCookiesItem>;
 export type ScreenshotCreateRequestGotoOptionsWaitUntilCase0 =
@@ -1644,10 +1644,10 @@ export type ScreenshotCreateRequestGotoOptionsWaitUntil =
   | (string & {})
   | ScreenshotCreateRequestGotoOptionsWaitUntilCase1List;
 export interface ScreenshotCreateRequestGotoOptions {
-  referer?: string;
-  referrerPolicy?: string;
-  timeout?: number;
-  waitUntil?: ScreenshotCreateRequestGotoOptionsWaitUntil;
+  referer?: string | undefined;
+  referrerPolicy?: string | undefined;
+  timeout?: number | undefined;
+  waitUntil?: ScreenshotCreateRequestGotoOptionsWaitUntil | undefined;
 }
 export type ScreenshotCreateRequestRejectRequestPatternList = Array<string>;
 export type ScreenshotCreateRequestRejectResourceTypesItem =
@@ -1677,20 +1677,20 @@ export interface ScreenshotCreateRequestScreenshotOptionsClip {
   width: number;
   x: number;
   y: number;
-  scale?: number;
+  scale?: number | undefined;
 }
 export type ScreenshotCreateRequestScreenshotOptionsEncoding = "binary" | "base64";
 export type ScreenshotCreateRequestScreenshotOptionsType = "png" | "jpeg" | "webp";
 export interface ScreenshotCreateRequestScreenshotOptions {
-  captureBeyondViewport?: boolean;
-  clip?: ScreenshotCreateRequestScreenshotOptionsClip;
-  encoding?: ScreenshotCreateRequestScreenshotOptionsEncoding | (string & {});
-  fromSurface?: boolean;
-  fullPage?: boolean;
-  omitBackground?: boolean;
-  optimizeForSpeed?: boolean;
-  quality?: number;
-  type?: ScreenshotCreateRequestScreenshotOptionsType | (string & {});
+  captureBeyondViewport?: boolean | undefined;
+  clip?: ScreenshotCreateRequestScreenshotOptionsClip | undefined;
+  encoding?: ScreenshotCreateRequestScreenshotOptionsEncoding | (string & {}) | undefined;
+  fromSurface?: boolean | undefined;
+  fullPage?: boolean | undefined;
+  omitBackground?: boolean | undefined;
+  optimizeForSpeed?: boolean | undefined;
+  quality?: number | undefined;
+  type?: ScreenshotCreateRequestScreenshotOptionsType | (string & {}) | undefined;
 }
 export type ScreenshotCreateRequestSetExtraHTTPHeadersMap = { [key: string]: string | undefined };
 export type ScreenshotCreateRequestViewport = CreateAccessibilityTreeRequestViewport;
@@ -1699,47 +1699,47 @@ export interface CreateScreenshotRequest {
   /** Account ID. */
   accountId: string;
   /** Rendering backend. Set to `kitesurf` to use Kitesurf (beta). */
-  browser?: ScreenshotCreateRequestBrowser | (string & {});
+  browser?: ScreenshotCreateRequestBrowser | (string & {}) | undefined;
   /** Cache TTL default is 5s. Set to 0 to disable. */
-  cacheTTL?: number;
-  url?: string;
+  cacheTTL?: number | undefined;
+  url?: string | undefined;
   /** The maximum duration allowed for the browser action to complete after the page has loaded (such as taking screenshots, extracting content, or generating PDFs). If this time limit is exceeded, the action stops and returns a timeout error. */
-  actionTimeout?: number;
+  actionTimeout?: number | undefined;
   /** Adds a script element into the page with the desired URL or content. */
-  addScriptTag?: ScreenshotCreateRequestAddScriptTagList;
+  addScriptTag?: ScreenshotCreateRequestAddScriptTagList | undefined;
   /** Adds a `&lt;link rel="stylesheet"&gt;` tag into the page with the desired URL or a `&lt;style type="text/css"&gt;` tag with the content. */
-  addStyleTag?: ScreenshotCreateRequestAddStyleTagList;
+  addStyleTag?: ScreenshotCreateRequestAddStyleTagList | undefined;
   /** Only allow requests that match the provided regex patterns, eg. '/^.*.(css)'. Reject rules are applied first. */
-  allowRequestPattern?: ScreenshotCreateRequestAllowRequestPatternList;
+  allowRequestPattern?: ScreenshotCreateRequestAllowRequestPatternList | undefined;
   /** Only allow requests that match the provided resource types, eg. 'image' or 'script'. Reject rules are applied first. */
-  allowResourceTypes?: ScreenshotCreateRequestAllowResourceTypesList;
+  allowResourceTypes?: ScreenshotCreateRequestAllowResourceTypesList | undefined;
   /** Provide credentials for HTTP authentication. */
-  authenticate?: CreateAccessibilityTreeRequestAuthenticate;
+  authenticate?: CreateAccessibilityTreeRequestAuthenticate | undefined;
   /** Attempt to proceed when 'awaited' events fail or timeout. */
-  bestAttempt?: boolean;
+  bestAttempt?: boolean | undefined;
   /** Check [options](https://pptr.dev/api/puppeteer.page.setcookie). */
-  cookies?: ScreenshotCreateRequestCookiesList;
-  emulateMediaType?: string;
+  cookies?: ScreenshotCreateRequestCookiesList | undefined;
+  emulateMediaType?: string | undefined;
   /** Check [options](https://pptr.dev/api/puppeteer.gotooptions). */
-  gotoOptions?: ScreenshotCreateRequestGotoOptions;
-  html?: string;
+  gotoOptions?: ScreenshotCreateRequestGotoOptions | undefined;
+  html?: string | undefined;
   /** Block undesired requests that match the provided regex patterns, eg. '/^.*.(css)'. */
-  rejectRequestPattern?: ScreenshotCreateRequestRejectRequestPatternList;
+  rejectRequestPattern?: ScreenshotCreateRequestRejectRequestPatternList | undefined;
   /** Block undesired requests that match the provided resource types, eg. 'image' or 'script'. */
-  rejectResourceTypes?: ScreenshotCreateRequestRejectResourceTypesList;
+  rejectResourceTypes?: ScreenshotCreateRequestRejectResourceTypesList | undefined;
   /** Check [options](https://pptr.dev/api/puppeteer.screenshotoptions). */
-  screenshotOptions?: ScreenshotCreateRequestScreenshotOptions;
-  scrollPage?: boolean;
-  selector?: string;
-  setExtraHTTPHeaders?: ScreenshotCreateRequestSetExtraHTTPHeadersMap;
-  setJavaScriptEnabled?: boolean;
-  userAgent?: string;
+  screenshotOptions?: ScreenshotCreateRequestScreenshotOptions | undefined;
+  scrollPage?: boolean | undefined;
+  selector?: string | undefined;
+  setExtraHTTPHeaders?: ScreenshotCreateRequestSetExtraHTTPHeadersMap | undefined;
+  setJavaScriptEnabled?: boolean | undefined;
+  userAgent?: string | undefined;
   /** Check [options](https://pptr.dev/api/puppeteer.page.setviewport). */
-  viewport?: CreateAccessibilityTreeRequestViewport;
+  viewport?: CreateAccessibilityTreeRequestViewport | undefined;
   /** Wait for the selector to appear in page. Check [options](https://pptr.dev/api/puppeteer.page.waitforselector). */
-  waitForSelector?: CreateAccessibilityTreeRequestWaitForSelector;
+  waitForSelector?: CreateAccessibilityTreeRequestWaitForSelector | undefined;
   /** Waits for a specified timeout before continuing. */
-  waitForTimeout?: number;
+  waitForTimeout?: number | undefined;
 }
 export interface CreateScreenshotResponse {}
 export type SnapshotCreateRequestBrowser = "kitesurf";
@@ -1780,18 +1780,18 @@ export interface SnapshotCreateRequestCookiesItem {
   /** Cookie name. */
   name: string;
   value: string;
-  domain?: string;
-  expires?: number;
-  httpOnly?: boolean;
-  partitionKey?: string;
-  path?: string;
-  priority?: SnapshotCreateRequestCookiesItemPriority | (string & {});
-  sameParty?: boolean;
-  sameSite?: SnapshotCreateRequestCookiesItemSameSite | (string & {});
-  secure?: boolean;
-  sourcePort?: number;
-  sourceScheme?: SnapshotCreateRequestCookiesItemSourceScheme | (string & {});
-  url?: string;
+  domain?: string | undefined;
+  expires?: number | undefined;
+  httpOnly?: boolean | undefined;
+  partitionKey?: string | undefined;
+  path?: string | undefined;
+  priority?: SnapshotCreateRequestCookiesItemPriority | (string & {}) | undefined;
+  sameParty?: boolean | undefined;
+  sameSite?: SnapshotCreateRequestCookiesItemSameSite | (string & {}) | undefined;
+  secure?: boolean | undefined;
+  sourcePort?: number | undefined;
+  sourceScheme?: SnapshotCreateRequestCookiesItemSourceScheme | (string & {}) | undefined;
+  url?: string | undefined;
 }
 export type SnapshotCreateRequestCookiesList = Array<SnapshotCreateRequestCookiesItem>;
 export type SnapshotCreateRequestFormatsItem =
@@ -1820,10 +1820,10 @@ export type SnapshotCreateRequestGotoOptionsWaitUntil =
   | (string & {})
   | SnapshotCreateRequestGotoOptionsWaitUntilCase1List;
 export interface SnapshotCreateRequestGotoOptions {
-  referer?: string;
-  referrerPolicy?: string;
-  timeout?: number;
-  waitUntil?: SnapshotCreateRequestGotoOptionsWaitUntil;
+  referer?: string | undefined;
+  referrerPolicy?: string | undefined;
+  timeout?: number | undefined;
+  waitUntil?: SnapshotCreateRequestGotoOptionsWaitUntil | undefined;
 }
 export type SnapshotCreateRequestRejectRequestPatternList = Array<string>;
 export type SnapshotCreateRequestRejectResourceTypesItem =
@@ -1852,14 +1852,14 @@ export type SnapshotCreateRequestScreenshotOptionsClip =
   ScreenshotCreateRequestScreenshotOptionsClip;
 export type SnapshotCreateRequestScreenshotOptionsType = "png" | "jpeg" | "webp";
 export interface SnapshotCreateRequestScreenshotOptions {
-  captureBeyondViewport?: boolean;
-  clip?: ScreenshotCreateRequestScreenshotOptionsClip;
-  fromSurface?: boolean;
-  fullPage?: boolean;
-  omitBackground?: boolean;
-  optimizeForSpeed?: boolean;
-  quality?: number;
-  type?: SnapshotCreateRequestScreenshotOptionsType | (string & {});
+  captureBeyondViewport?: boolean | undefined;
+  clip?: ScreenshotCreateRequestScreenshotOptionsClip | undefined;
+  fromSurface?: boolean | undefined;
+  fullPage?: boolean | undefined;
+  omitBackground?: boolean | undefined;
+  optimizeForSpeed?: boolean | undefined;
+  quality?: number | undefined;
+  type?: SnapshotCreateRequestScreenshotOptionsType | (string & {}) | undefined;
 }
 export type SnapshotCreateRequestSetExtraHTTPHeadersMap = { [key: string]: string | undefined };
 export type SnapshotCreateRequestViewport = CreateAccessibilityTreeRequestViewport;
@@ -1868,45 +1868,45 @@ export interface CreateSnapshotRequest {
   /** Account ID. */
   accountId: string;
   /** Rendering backend. Set to `kitesurf` to use Kitesurf (beta). */
-  browser?: SnapshotCreateRequestBrowser | (string & {});
+  browser?: SnapshotCreateRequestBrowser | (string & {}) | undefined;
   /** Cache TTL default is 5s. Set to 0 to disable. */
-  cacheTTL?: number;
-  url?: string;
+  cacheTTL?: number | undefined;
+  url?: string | undefined;
   /** The maximum duration allowed for the browser action to complete after the page has loaded (such as taking screenshots, extracting content, or generating PDFs). If this time limit is exceeded, the action stops and returns a timeout error. */
-  actionTimeout?: number;
+  actionTimeout?: number | undefined;
   /** Adds a script element into the page with the desired URL or content. */
-  addScriptTag?: SnapshotCreateRequestAddScriptTagList;
+  addScriptTag?: SnapshotCreateRequestAddScriptTagList | undefined;
   /** Adds a `&lt;link rel="stylesheet"&gt;` tag into the page with the desired URL or a `&lt;style type="text/css"&gt;` tag with the content. */
-  addStyleTag?: SnapshotCreateRequestAddStyleTagList;
+  addStyleTag?: SnapshotCreateRequestAddStyleTagList | undefined;
   /** Only allow requests that match the provided regex patterns, eg. '/^.*.(css)'. Reject rules are applied first. */
-  allowRequestPattern?: SnapshotCreateRequestAllowRequestPatternList;
+  allowRequestPattern?: SnapshotCreateRequestAllowRequestPatternList | undefined;
   /** Only allow requests that match the provided resource types, eg. 'image' or 'script'. Reject rules are applied first. */
-  allowResourceTypes?: SnapshotCreateRequestAllowResourceTypesList;
+  allowResourceTypes?: SnapshotCreateRequestAllowResourceTypesList | undefined;
   /** Provide credentials for HTTP authentication. */
-  authenticate?: CreateAccessibilityTreeRequestAuthenticate;
+  authenticate?: CreateAccessibilityTreeRequestAuthenticate | undefined;
   /** Attempt to proceed when 'awaited' events fail or timeout. */
-  bestAttempt?: boolean;
+  bestAttempt?: boolean | undefined;
   /** Check [options](https://pptr.dev/api/puppeteer.page.setcookie). */
-  cookies?: SnapshotCreateRequestCookiesList;
-  emulateMediaType?: string;
-  formats?: SnapshotCreateRequestFormatsList;
+  cookies?: SnapshotCreateRequestCookiesList | undefined;
+  emulateMediaType?: string | undefined;
+  formats?: SnapshotCreateRequestFormatsList | undefined;
   /** Check [options](https://pptr.dev/api/puppeteer.gotooptions). */
-  gotoOptions?: SnapshotCreateRequestGotoOptions;
-  html?: string;
+  gotoOptions?: SnapshotCreateRequestGotoOptions | undefined;
+  html?: string | undefined;
   /** Block undesired requests that match the provided regex patterns, eg. '/^.*.(css)'. */
-  rejectRequestPattern?: SnapshotCreateRequestRejectRequestPatternList;
+  rejectRequestPattern?: SnapshotCreateRequestRejectRequestPatternList | undefined;
   /** Block undesired requests that match the provided resource types, eg. 'image' or 'script'. */
-  rejectResourceTypes?: SnapshotCreateRequestRejectResourceTypesList;
-  screenshotOptions?: SnapshotCreateRequestScreenshotOptions;
-  setExtraHTTPHeaders?: SnapshotCreateRequestSetExtraHTTPHeadersMap;
-  setJavaScriptEnabled?: boolean;
-  userAgent?: string;
+  rejectResourceTypes?: SnapshotCreateRequestRejectResourceTypesList | undefined;
+  screenshotOptions?: SnapshotCreateRequestScreenshotOptions | undefined;
+  setExtraHTTPHeaders?: SnapshotCreateRequestSetExtraHTTPHeadersMap | undefined;
+  setJavaScriptEnabled?: boolean | undefined;
+  userAgent?: string | undefined;
   /** Check [options](https://pptr.dev/api/puppeteer.page.setviewport). */
-  viewport?: CreateAccessibilityTreeRequestViewport;
+  viewport?: CreateAccessibilityTreeRequestViewport | undefined;
   /** Wait for the selector to appear in page. Check [options](https://pptr.dev/api/puppeteer.page.waitforselector). */
-  waitForSelector?: CreateAccessibilityTreeRequestWaitForSelector;
+  waitForSelector?: CreateAccessibilityTreeRequestWaitForSelector | undefined;
   /** Waits for a specified timeout before continuing. */
-  waitForTimeout?: number;
+  waitForTimeout?: number | undefined;
 }
 export type SnapshotCreateResponseAccessibilityTreeChecked = "mixed";
 export type SnapshotCreateResponseAccessibilityTreeChecked2 =
@@ -1920,42 +1920,42 @@ export type SnapshotCreateResponseAccessibilityTreePressed2 =
 export type SnapshotCreateResponseAccessibilityTreeValue = string | number;
 export interface SnapshotCreateResponseAccessibilityTree {
   role: string;
-  autocomplete?: string | null;
-  checked?: SnapshotCreateResponseAccessibilityTreeChecked2 | null;
-  children?: SnapshotCreateResponseAccessibilityTreeChildrenList | null;
-  description?: string | null;
-  disabled?: boolean | null;
-  expanded?: boolean | null;
-  focused?: boolean | null;
-  haspopup?: string | null;
-  invalid?: string | null;
-  keyshortcuts?: string | null;
-  level?: number | null;
-  modal?: boolean | null;
-  multiline?: boolean | null;
-  multiselectable?: boolean | null;
-  name?: string | null;
-  orientation?: string | null;
-  pressed?: SnapshotCreateResponseAccessibilityTreePressed2 | null;
-  readonly?: boolean | null;
-  required?: boolean | null;
-  roledescription?: string | null;
-  selected?: boolean | null;
-  value?: SnapshotCreateResponseAccessibilityTreeValue | null;
-  valuemax?: number | null;
-  valuemin?: number | null;
-  valuetext?: string | null;
+  autocomplete?: string | null | undefined;
+  checked?: SnapshotCreateResponseAccessibilityTreeChecked2 | null | undefined;
+  children?: SnapshotCreateResponseAccessibilityTreeChildrenList | null | undefined;
+  description?: string | null | undefined;
+  disabled?: boolean | null | undefined;
+  expanded?: boolean | null | undefined;
+  focused?: boolean | null | undefined;
+  haspopup?: string | null | undefined;
+  invalid?: string | null | undefined;
+  keyshortcuts?: string | null | undefined;
+  level?: number | null | undefined;
+  modal?: boolean | null | undefined;
+  multiline?: boolean | null | undefined;
+  multiselectable?: boolean | null | undefined;
+  name?: string | null | undefined;
+  orientation?: string | null | undefined;
+  pressed?: SnapshotCreateResponseAccessibilityTreePressed2 | null | undefined;
+  readonly?: boolean | null | undefined;
+  required?: boolean | null | undefined;
+  roledescription?: string | null | undefined;
+  selected?: boolean | null | undefined;
+  value?: SnapshotCreateResponseAccessibilityTreeValue | null | undefined;
+  valuemax?: number | null | undefined;
+  valuemin?: number | null | undefined;
+  valuetext?: string | null | undefined;
 }
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface CreateSnapshotResponse {
   /** Accessibility tree node */
-  accessibilityTree?: SnapshotCreateResponseAccessibilityTree | null;
+  accessibilityTree?: SnapshotCreateResponseAccessibilityTree | null | undefined;
   /** HTML content. */
-  content?: string | null;
+  content?: string | null | undefined;
   /** Markdown content. Prefixed with YAML frontmatter (e.g. `title`) when the page provides that metadata. */
-  markdown?: string | null;
+  markdown?: string | null | undefined;
   /** Base64 encoded image. */
-  screenshot?: string | null;
+  screenshot?: string | null | undefined;
 }
 export interface DeleteCrawlRequest {
   /** Account ID. */
@@ -1994,13 +1994,13 @@ export interface GetCrawlRequest {
   /** Crawl job ID. */
   jobId: string;
   /** Cache TTL default is 5s. Set to 0 to disable. */
-  cacheTTL?: number;
+  cacheTTL?: number | undefined;
   /** Cursor for pagination. */
-  cursor?: number;
+  cursor?: number | undefined;
   /** Limit for pagination. */
-  limit?: number;
+  limit?: number | undefined;
   /** Filter by URL status. */
-  status?: CrawlGetRequestStatus | (string & {});
+  status?: CrawlGetRequestStatus | (string & {}) | undefined;
 }
 export type CrawlGetResponseRecordsItemStatus =
   | "queued"
@@ -2016,19 +2016,19 @@ export interface CrawlGetResponseRecordsItemMetadata {
   /** Final URL of the crawled page. */
   url: string;
   /** Value of the Last-Modified response header, when provided by the origin. */
-  lastModified?: string | null;
+  lastModified?: string | null | undefined;
   /** Open Graph description of the crawled page. */
-  ogDescription?: string | null;
+  ogDescription?: string | null | undefined;
   /** Open Graph image of the crawled page. */
-  ogImage?: string | null;
+  ogImage?: string | null | undefined;
   /** Open Graph site name of the crawled page. */
-  ogSiteName?: string | null;
+  ogSiteName?: string | null | undefined;
   /** Open Graph title of the crawled page. */
-  ogTitle?: string | null;
+  ogTitle?: string | null | undefined;
   /** Open Graph type of the crawled page. */
-  ogType?: string | null;
+  ogType?: string | null | undefined;
   /** Title of the crawled page. */
-  title?: string | null;
+  title?: string | null | undefined;
 }
 export type CrawlGetResponseRecordsItemOutcome =
   | "success"
@@ -2049,15 +2049,15 @@ export interface CrawlGetResponseRecordsItem {
   /** Crawled URL. */
   url: string;
   /** HTML content of the crawled URL. */
-  html?: string | null;
+  html?: string | null | undefined;
   /** JSON of the content of the crawled URL. */
-  json?: CrawlGetResponseRecordsItemJsonMap | null;
+  json?: CrawlGetResponseRecordsItemJsonMap | null | undefined;
   /** Markdown of the content of the crawled URL. */
-  markdown?: string | null;
+  markdown?: string | null | undefined;
   /** Absent for urls that never reached a fetch. */
-  metadata?: CrawlGetResponseRecordsItemMetadata | null;
+  metadata?: CrawlGetResponseRecordsItemMetadata | null | undefined;
   /** Result of processing the URL. Absent for older records. */
-  outcome?: CrawlGetResponseRecordsItemOutcome | null;
+  outcome?: CrawlGetResponseRecordsItemOutcome | null | undefined;
 }
 export type CrawlGetResponseRecordsList = Array<CrawlGetResponseRecordsItem>;
 export type CrawlGetResponseRobotsItemState = "available" | "absent" | "fetch_failed";
@@ -2067,7 +2067,7 @@ export interface CrawlGetResponseRobotsItem {
   /** Whether usable robots.txt rules were available. */
   state: CrawlGetResponseRobotsItemState;
   /** HTTP status that established the current robots.txt state. Absent when no HTTP response was received. */
-  status?: number | null;
+  status?: number | null | undefined;
 }
 export type CrawlGetResponseRobotsList = Array<CrawlGetResponseRobotsItem>;
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
@@ -2089,7 +2089,7 @@ export interface GetCrawlResponse {
   /** Total current number of URLs in the crawl job. */
   total: number;
   /** Cursor for pagination. */
-  cursor?: number | null;
+  cursor?: number | null | undefined;
 }
 export interface GetDevtoolBrowserPageRequest {
   /** Account ID. */
@@ -2099,7 +2099,7 @@ export interface GetDevtoolBrowserPageRequest {
   /** Target ID, e.g. page ID. */
   targetId: string;
   /** Optional base64url-encoded JSON connection guardrails (mode) */
-  cfBrapiGuardrails?: string;
+  cfBrapiGuardrails?: string | undefined;
 }
 export interface GetDevtoolBrowserPageResponse {}
 export interface GetDevtoolBrowserTargetRequest {
@@ -2119,13 +2119,13 @@ export interface GetDevtoolBrowserTargetResponse {
   /** URL of the target. */
   url: string;
   /** Target description. */
-  description?: string | null;
+  description?: string | null | undefined;
   /** DevTools frontend URL. */
-  devtoolsFrontendUrl?: string | null;
+  devtoolsFrontendUrl?: string | null | undefined;
   /** Title of the target. */
-  title?: string | null;
+  title?: string | null | undefined;
   /** WebSocket URL for debugging this target. */
-  webSocketDebuggerUrl?: string | null;
+  webSocketDebuggerUrl?: string | null | undefined;
 }
 export interface GetDevtoolSessionRequest {
   /** Account ID. */
@@ -2138,36 +2138,36 @@ export interface GetDevtoolSessionResponse {
   /** Session ID. */
   sessionId: string;
   /** Reason code for session closure. */
-  closeReason?: number | null;
+  closeReason?: number | null | undefined;
   /** Human-readable close reason. */
-  closeReasonText?: string | null;
+  closeReasonText?: string | null | undefined;
   /** Connection end time. */
-  connectionEndTime?: number | null;
+  connectionEndTime?: number | null | undefined;
   /** Connection ID. */
-  connectionId?: string | null;
+  connectionId?: string | null | undefined;
   /** Connection start time. */
-  connectionStartTime?: number | null;
+  connectionStartTime?: number | null | undefined;
   /** DevTools frontend URL. */
-  devtoolsFrontendUrl?: string | null;
+  devtoolsFrontendUrl?: string | null | undefined;
   /** Session end time. */
-  endTime?: number | null;
+  endTime?: number | null | undefined;
   /** Last updated timestamp. */
-  lastUpdated?: number | null;
+  lastUpdated?: number | null | undefined;
   /** Session start time. */
-  startTime?: number | null;
+  startTime?: number | null | undefined;
   /** WebSocket URL for debugging this target. */
-  webSocketDebuggerUrl?: string | null;
+  webSocketDebuggerUrl?: string | null | undefined;
 }
 export interface LaunchDevtoolBrowserRequest {
   /** Account ID. */
   accountId: string;
   /** Keep-alive time in ms (only valid when acquiring new session). */
-  keepAlive?: number;
+  keepAlive?: number | undefined;
   /** Use experimental browser. */
-  lab?: boolean;
-  recording?: boolean;
+  lab?: boolean | undefined;
+  recording?: boolean | undefined;
   /** Optional base64url-encoded JSON session guardrails (allowedDomains and allowedDomainSets) */
-  cfBrapiGuardrails?: string;
+  cfBrapiGuardrails?: string | undefined;
 }
 export interface LaunchDevtoolBrowserResponse {}
 export interface ListDevtoolBrowserTargetsRequest {
@@ -2176,7 +2176,7 @@ export interface ListDevtoolBrowserTargetsRequest {
   /** Browser session ID. */
   sessionId: string;
   /** How long the live view URLs remain valid, in milliseconds (max 60 minutes) */
-  liveViewUrlExpiresInMs?: number;
+  liveViewUrlExpiresInMs?: number | undefined;
 }
 /** Raw response payload (operation does not use the standard v4 result envelope). */
 export interface ListDevtoolBrowserTargetsResponse {
@@ -2187,44 +2187,44 @@ export interface ListDevtoolBrowserTargetsResponse {
   /** URL of the target. */
   url: string;
   /** Target description. */
-  description?: string | null;
+  description?: string | null | undefined;
   /** DevTools frontend URL. */
-  devtoolsFrontendUrl?: string | null;
+  devtoolsFrontendUrl?: string | null | undefined;
   /** Title of the target. */
-  title?: string | null;
+  title?: string | null | undefined;
   /** WebSocket URL for debugging this target. */
-  webSocketDebuggerUrl?: string | null;
+  webSocketDebuggerUrl?: string | null | undefined;
 }
 export interface ListDevtoolSessionsRequest {
   /** Account ID. */
   accountId: string;
-  limit?: number;
-  offset?: number;
+  limit?: number | undefined;
+  offset?: number | undefined;
 }
 /** Raw response payload (operation does not use the standard v4 result envelope). */
 export interface ListDevtoolSessionsResponse {
   /** Session ID. */
   sessionId: string;
   /** Reason code for session closure. */
-  closeReason?: number | null;
+  closeReason?: number | null | undefined;
   /** Human-readable close reason. */
-  closeReasonText?: string | null;
+  closeReasonText?: string | null | undefined;
   /** Connection end time. */
-  connectionEndTime?: number | null;
+  connectionEndTime?: number | null | undefined;
   /** Connection ID. */
-  connectionId?: string | null;
+  connectionId?: string | null | undefined;
   /** Connection start time. */
-  connectionStartTime?: number | null;
+  connectionStartTime?: number | null | undefined;
   /** DevTools frontend URL. */
-  devtoolsFrontendUrl?: string | null;
+  devtoolsFrontendUrl?: string | null | undefined;
   /** Session end time. */
-  endTime?: number | null;
+  endTime?: number | null | undefined;
   /** Last updated timestamp. */
-  lastUpdated?: number | null;
+  lastUpdated?: number | null | undefined;
   /** Session start time. */
-  startTime?: number | null;
+  startTime?: number | null | undefined;
   /** WebSocket URL for debugging this target. */
-  webSocketDebuggerUrl?: string | null;
+  webSocketDebuggerUrl?: string | null | undefined;
 }
 export interface ProtocolDevtoolBrowserRequest {
   /** Account ID. */
@@ -2252,15 +2252,15 @@ export interface DevtoolsBrowserProtocolResponseDomainsItem {
   /** Domain name. */
   domain: string;
   /** Available commands. */
-  commands?: DevtoolsBrowserProtocolResponseDomainsItemCommandsList | null;
+  commands?: DevtoolsBrowserProtocolResponseDomainsItemCommandsList | null | undefined;
   /** Domain dependencies. */
-  dependencies?: DevtoolsBrowserProtocolResponseDomainsItemDependenciesList | null;
+  dependencies?: DevtoolsBrowserProtocolResponseDomainsItemDependenciesList | null | undefined;
   /** Available events. */
-  events?: DevtoolsBrowserProtocolResponseDomainsItemEventsList | null;
+  events?: DevtoolsBrowserProtocolResponseDomainsItemEventsList | null | undefined;
   /** Whether this domain is experimental. */
-  experimental?: boolean | null;
+  experimental?: boolean | null | undefined;
   /** Type definitions. */
-  types?: DevtoolsBrowserProtocolResponseDomainsItemTypesList | null;
+  types?: DevtoolsBrowserProtocolResponseDomainsItemTypesList | null | undefined;
 }
 export type DevtoolsBrowserProtocolResponseDomainsList =
   Array<DevtoolsBrowserProtocolResponseDomainsItem>;
@@ -2275,7 +2275,7 @@ export interface ProtocolDevtoolBrowserResponse {
   /** List of protocol domains. */
   domains: DevtoolsBrowserProtocolResponseDomainsList;
   /** Protocol version. */
-  version?: DevtoolsBrowserProtocolResponseVersion | null;
+  version?: DevtoolsBrowserProtocolResponseVersion | null | undefined;
 }
 export interface VersionDevtoolBrowserRequest {
   /** Account ID. */

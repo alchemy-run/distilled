@@ -64,16 +64,16 @@ export class NotFound
 
 export interface BasicAuth {
   /** The password or token */
-  password?: string | Redacted.Redacted<string>;
+  password?: string | Redacted.Redacted<string> | undefined;
   /** Type of authentication */
-  type?: string;
+  type?: string | undefined;
   /** The username */
-  username?: string;
+  username?: string | undefined;
 }
 /** No authentication required */
 export interface NoAuth {
   /** Type of authentication */
-  type?: string;
+  type?: string | undefined;
 }
 /** Authentication for Git repositories */
 export type GitAuth = BasicAuth | NoAuth;
@@ -87,9 +87,9 @@ export interface GitDagBundle {
   /** Unique name for this bundle within the instance. Must be a valid DNS label (lowercase alphanumeric and hyphens, starting with a letter, max 63 characters). */
   name: string;
   /** How often (in seconds) to check for new commits. Defaults to 60. */
-  refreshInterval?: number;
+  refreshInterval?: number | undefined;
   /** Subdirectory within the repository containing DAG files. Defaults to root. Leading and trailing slashes are stripped automatically -- the following four forms are all equivalent and stored as `dags/production`: `/dags/production/`, `dags/production/`, `/dags/production`, `dags/production`. */
-  subdir?: string;
+  subdir?: string | undefined;
   /** Bundle type identifier. */
   type: GitDagBundleType;
   /** The URL of the Git repository. */
@@ -115,13 +115,13 @@ export interface S3DagBundle {
   /** The S3 bucket name containing DAG files. */
   bucketName: string;
   /** S3-compatible endpoint URL. Defaults to https://object.storage.eu01.onstackit.cloud */
-  endpoint?: string;
+  endpoint?: string | undefined;
   /** Unique name for this bundle within the instance. Must be a valid DNS label (lowercase alphanumeric and hyphens, starting with a letter, max 63 characters). */
   name: string;
   /** Key prefix (folder path) within the bucket. Defaults to root. */
-  prefix?: string;
+  prefix?: string | undefined;
   /** How often (in seconds) to check for new objects. Defaults to 60. */
-  refreshInterval?: number;
+  refreshInterval?: number | undefined;
   s3Auth: S3Auth;
   /** Bundle type identifier. */
   type: S3DagBundleType;
@@ -140,9 +140,9 @@ export interface CreateDagBundleRequest {
 /** Basic authentication as returned in API responses. The password field is always masked ("**********") and never contains the real value. */
 export interface BasicAuthResponseOutput {
   /** Type of authentication */
-  type?: string;
+  type?: string | undefined;
   /** The username */
-  username?: string;
+  username?: string | undefined;
 }
 /** Authentication configuration as returned in API responses. Credentials (passwords) are always masked and never returned in plain text. */
 export type GitAuthResponseOutput = BasicAuthResponseOutput | NoAuth;
@@ -156,9 +156,9 @@ export interface GitDagBundleResponseOutput {
   /** Unique name for this bundle within the instance. */
   name: string;
   /** How often (in seconds) to check for new commits. */
-  refreshInterval?: number;
+  refreshInterval?: number | undefined;
   /** Subdirectory within the repository containing DAG files. Leading and trailing slashes are stripped automatically. Absent when set to root. */
-  subdir?: string;
+  subdir?: string | undefined;
   /** Bundle type identifier. */
   type: GitDagBundleResponseOutputType;
   /** The URL of the Git repository. */
@@ -171,7 +171,7 @@ export interface S3AccessKeyAuthResponse {
   /** The S3 access key ID. */
   accessKeyId: string | Redacted.Redacted<string>;
   /** Always returned as "**********". The actual secret access key is never exposed in API responses. */
-  secretAccessKey?: string | Redacted.Redacted<string>;
+  secretAccessKey?: string | Redacted.Redacted<string> | undefined;
   /** Type of authentication */
   type: S3AccessKeyAuthResponseType;
 }
@@ -184,13 +184,13 @@ export interface S3DagBundleResponse {
   /** The S3 bucket name containing DAG files. */
   bucketName: string;
   /** S3-compatible endpoint URL. */
-  endpoint?: string;
+  endpoint?: string | undefined;
   /** Unique name for this bundle within the instance. */
   name: string;
   /** Key prefix (folder path) within the bucket. */
-  prefix?: string;
+  prefix?: string | undefined;
   /** How often (in seconds) to check for new objects. */
-  refreshInterval?: number;
+  refreshInterval?: number | undefined;
   s3Auth: S3AuthResponse;
   /** Bundle type identifier. */
   type: S3DagBundleResponseType;
@@ -220,7 +220,7 @@ export type OAuth2IdentityProviderType = "oauth2";
 /** Configuration for the custom OAuth2 identity provider used. */
 export interface OAuth2IdentityProvider {
   /** Expected audience(s) for API token validation when using the session endpoint for token exchange. */
-  apiAudience?: OAuth2IdentityProviderApiAudienceList;
+  apiAudience?: OAuth2IdentityProviderApiAudienceList | undefined;
   /** The client id of the STACKIT Workflows application in the identity provider. */
   clientId: string;
   /** The client secret of the STACKIT Workflows application in the identity provider. */
@@ -230,9 +230,9 @@ export interface OAuth2IdentityProvider {
   /** The name of the OAuth2 identity provider that will show in STACKIT Workflows instance. The following special values modify the way a token is parsed. If any of the following IdPs is used, please specify the corresponding value: `azure`, `okta`, `aws_cognito`, `keycloak` */
   name: string;
   /** RFC 8707 Resource Indicators for OAuth 2.0. Optional resource parameter to indicate which resource the token is intended for. */
-  resource?: string;
+  resource?: string | undefined;
   /** Dot-separated path to extract roles from JWT claims (e.g., "realm_access.roles" or "resource_access.my_client.roles"). If not specified, provider-specific defaults are used. */
-  rolesClaim?: string;
+  rolesClaim?: string | undefined;
   /** Scopes to request for Authorization Code Flows. (UI login) */
   scope: string;
   type: OAuth2IdentityProviderType;
@@ -240,7 +240,7 @@ export interface OAuth2IdentityProvider {
 /** Configuration for the identity provider used. */
 export type IdentityProvider = StackITIdentityProvider | OAuth2IdentityProvider;
 export interface Network {
-  id?: string;
+  id?: string | undefined;
 }
 export interface CreateInstanceRequest {
   /** The STACKIT portal project UUID the STACKIT Workflows instance is part of. */
@@ -248,20 +248,20 @@ export interface CreateInstanceRequest {
   /** The STACKIT region the STACKIT Workflows instance is part of. */
   regionId: string;
   /** List of DAG bundles to configure. Supports Git and S3 sources. If provided, this takes precedence over dagsRepository. At least one bundle must be specified. Maximum 10 bundles. Only supported for Airflow 3 versions. */
-  dagBundles?: CreateInstanceRequestDagBundlesList;
-  dagsRepository?: GitRepository;
+  dagBundles?: CreateInstanceRequestDagBundlesList | undefined;
+  dagsRepository?: GitRepository | undefined;
   /** A user chosen description to distinguish multiple STACKIT Workflows instances. */
-  description?: string;
+  description?: string | undefined;
   /** The displayed name to distinguish multiple STACKIT Workflows instances. */
   displayName: string;
   /** Whether to enable the Airflow built-in example DAGs in this instance. Maps to airflow.config.core.load_examples in the Helm chart. Only supported for Airflow 3 instances. Defaults to false. */
-  enableAirflowExampleDags?: boolean;
+  enableAirflowExampleDags?: boolean | undefined;
   /** Whether to include the STACKIT sample DAGs in this instance. Only supported for Airflow 3 instances. Defaults to false. */
-  enableStackitExampleDags?: boolean;
-  identityProvider?: IdentityProvider;
-  network?: Network;
+  enableStackitExampleDags?: boolean | undefined;
+  identityProvider?: IdentityProvider | undefined;
+  network?: Network | undefined;
   /** Unique identifier of the customer's observability instance. */
-  observabilityId?: string;
+  observabilityId?: string | undefined;
   /** The version of the STACKIT Workflows to use. For valid versions please take a look at [provider-options](#tag/provider-options/operation/get-provider-options) */
   version: string;
 }
@@ -280,23 +280,23 @@ export interface Instance {
   /** The date and time the creation of the STACKIT Workflows instance was triggered. */
   createdAt: string;
   /** All configured DAG bundles. This is the canonical source of truth for DAG sources. Available for Airflow 3 instances. */
-  dagBundles?: InstanceDagBundlesList;
-  dagsRepository?: GitRepository;
+  dagBundles?: InstanceDagBundlesList | undefined;
+  dagsRepository?: GitRepository | undefined;
   /** A user chosen description to distinguish multiple STACKIT Workflows instances. */
-  description?: string;
+  description?: string | undefined;
   /** The displayed name of the STACKIT Workflows instance. */
   displayName: string;
   /** Whether the Airflow built-in example DAGs are enabled in this instance. Only supported for Airflow 3 instances. */
-  enableAirflowExampleDags?: boolean;
+  enableAirflowExampleDags?: boolean | undefined;
   /** Whether the STACKIT sample DAGs are included in this instance. Only supported for Airflow 3 instances. */
-  enableStackitExampleDags?: boolean;
+  enableStackitExampleDags?: boolean | undefined;
   endpoints: Endpoints;
   /** A auto generated unique id which identifies the STACKIT Workflows instance. */
   id: string;
   identityProvider: IdentityProvider;
-  network?: Network;
+  network?: Network | undefined;
   /** Unique identifier of the customer's observability instance. */
-  observabilityId?: string;
+  observabilityId?: string | undefined;
   /** The STACKIT portal project UUID the STACKIT Workflows instance is part of. */
   projectId: string;
   /** The STACKIT region the STACKIT Workflows instance is part of. */
@@ -304,7 +304,7 @@ export interface Instance {
   /** The current status of the STACKIT Workflows instance. */
   status: InstanceStatus;
   /** A message related to the current status. */
-  statusMessage?: string;
+  statusMessage?: string | undefined;
   /** The currently configured STACKIT Workflows instance version. */
   version: string;
 }
@@ -352,7 +352,7 @@ export interface GetProviderOptionsRequest {
   regionId: string;
 }
 export interface SupportedVersion {
-  expirationDate?: string;
+  expirationDate?: string | undefined;
   state: string;
   version: string;
 }
@@ -388,31 +388,31 @@ export interface ListInstancesResponse {
 export type UpdateGitDagBundlePayloadType = "git";
 /** Partial update payload for a Git DAG bundle. All fields except "type" are optional; only the provided fields will be updated. */
 export interface UpdateGitDagBundlePayload {
-  auth?: GitAuth;
+  auth?: GitAuth | undefined;
   /** Updated branch/tag/ref to track. */
-  branch?: string;
+  branch?: string | undefined;
   /** Updated refresh interval in seconds. */
-  refreshInterval?: number;
+  refreshInterval?: number | undefined;
   /** Updated subdirectory within the repository. Set to empty string or "/" to clear an existing subdir. */
-  subdir?: string;
+  subdir?: string | undefined;
   /** Bundle type identifier -- must match the existing bundle's type. */
   type: UpdateGitDagBundlePayloadType;
   /** Updated Git repository URL. If changed, auth must also be provided. */
-  url?: string;
+  url?: string | undefined;
 }
 /** Bundle type identifier -- must match the existing bundle's type. */
 export type UpdateS3DagBundlePayloadType = "s3";
 /** Partial update payload for an S3 DAG bundle. All fields except "type" are optional; only the provided fields will be updated. */
 export interface UpdateS3DagBundlePayload {
   /** Updated S3 bucket name. If changed, s3Auth must also be provided. */
-  bucketName?: string;
+  bucketName?: string | undefined;
   /** Updated S3-compatible endpoint URL. If changed, s3Auth must also be provided. */
-  endpoint?: string;
+  endpoint?: string | undefined;
   /** Updated key prefix within the bucket. */
-  prefix?: string;
+  prefix?: string | undefined;
   /** Updated refresh interval in seconds. */
-  refreshInterval?: number;
-  s3Auth?: S3Auth;
+  refreshInterval?: number | undefined;
+  s3Auth?: S3Auth | undefined;
   /** Bundle type identifier -- must match the existing bundle's type. */
   type: UpdateS3DagBundlePayloadType;
 }
@@ -437,32 +437,32 @@ export interface UpdateDagsRepositoryRequest {
   regionId: string;
   /** The STACKIT Workflows instance UUID. */
   instanceId: string;
-  auth?: GitAuth;
+  auth?: GitAuth | undefined;
   /** The branch in the repository to use */
-  branch?: string;
+  branch?: string | undefined;
   /** The URL of the Git repository. */
-  url?: string;
+  url?: string | undefined;
 }
 /** Updated expected audience(s) for API token validation. Set to empty array to disable audience validation. */
 export type OAuth2IdentityProviderPatchApiAudienceList = Array<string>;
 /** Request to update an OAuth2 identity provider configuration */
 export interface OAuth2IdentityProviderPatch {
   /** Updated expected audience(s) for API token validation. Set to empty array to disable audience validation. */
-  apiAudience?: OAuth2IdentityProviderPatchApiAudienceList;
+  apiAudience?: OAuth2IdentityProviderPatchApiAudienceList | undefined;
   /** Updated client id of the STACKIT Workflows application in the identity provider. If changed, requires to also set the client secret. */
-  clientId?: string;
+  clientId?: string | undefined;
   /** Updated client secret of the STACKIT Workflows application in the identity provider. */
-  clientSecret?: string | Redacted.Redacted<string>;
+  clientSecret?: string | Redacted.Redacted<string> | undefined;
   /** Updated discovery endpoint of the OAuth2 identity provider. If changed, requires to also set the client id and client secret. */
-  discoveryEndpoint?: string;
+  discoveryEndpoint?: string | undefined;
   /** Updated name of the OAuth2 identity provider. */
-  name?: string;
+  name?: string | undefined;
   /** Updated RFC 8707 resource parameter. Set to empty string to remove the resource parameter. */
-  resource?: string;
+  resource?: string | undefined;
   /** Updated dot-separated path to extract roles from JWT claims. Set to empty string to use provider-specific defaults. */
-  rolesClaim?: string;
+  rolesClaim?: string | undefined;
   /** Updated scopes to request for Authorization Code Flows. (UI login) */
-  scope?: string;
+  scope?: string | undefined;
 }
 /** Request to update an identity provider configuration */
 export type UpdateIdentityProviderPayload = StackITIdentityProvider | OAuth2IdentityProviderPatch;
@@ -483,15 +483,15 @@ export interface UpdateInstanceRequest {
   /** The STACKIT Workflows instance UUID. */
   instanceId: string;
   /** A user chosen description to distinguish multiple STACKIT Workflows instances. If not provided, the description won't be updated. Set to empty string to remove the description. */
-  description?: string;
+  description?: string | undefined;
   /** The displayed name to distinguish multiple STACKIT Workflows instances. If not provided, the display name won't be updated. */
-  displayName?: string;
+  displayName?: string | undefined;
   /** Whether to enable the Airflow built-in example DAGs in this instance. Maps to airflow.config.core.load_examples in the Helm chart. Only supported for Airflow 3 instances. If not provided, the setting won't be updated. */
-  enableAirflowExampleDags?: boolean;
+  enableAirflowExampleDags?: boolean | undefined;
   /** Whether to include the STACKIT sample DAGs in this instance. Only supported for Airflow 3 instances. If not provided, the setting won't be updated. */
-  enableStackitExampleDags?: boolean;
+  enableStackitExampleDags?: boolean | undefined;
   /** The STACKIT Workflows version to use. For valid versions please take a look at [provider-options](#tag/provider-options/operation/get-provider-options) If not provided, the version won't be updated. */
-  version?: string;
+  version?: string | undefined;
 }
 export interface UpdateObservabilityRequest {
   /** The STACKIT portal project UUID the STACKIT Workflows instance is part of. */
@@ -501,7 +501,7 @@ export interface UpdateObservabilityRequest {
   /** The STACKIT Workflows instance UUID. */
   instanceId: string;
   /** Unique identifier of the customer's observability instance. */
-  observabilityId?: string;
+  observabilityId?: string | undefined;
 }
 export type CreateDagBundleError = BadRequest | Forbidden | NotFound | Conflict | StackitOpError;
 /** Adds a new DAG bundle to this STACKIT Workflows instance. Only supported for Airflow 3 instances. Maximum 10 bundles per instance. */

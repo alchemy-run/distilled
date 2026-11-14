@@ -65,7 +65,7 @@ export interface AcceptPartnerReferralRequestRequest {
   /** Partner referral request ID, prefixed `prfr_`. */
   id: string;
   /** A unique key that makes this request safe to retry. See [Idempotent requests](https://docs.whop.com/developer/api/idempotency). */
-  idempotency_key?: string;
+  idempotency_key?: string | undefined;
 }
 export interface AccountSummary {
   /** Account ID, prefixed `biz_`. */
@@ -147,7 +147,7 @@ export interface CancelPartnerReferralRequestRequest {
   /** Partner referral request ID, prefixed `prfr_`. */
   id: string;
   /** A unique key that makes this request safe to retry. See [Idempotent requests](https://docs.whop.com/developer/api/idempotency). */
-  idempotency_key?: string;
+  idempotency_key?: string | undefined;
 }
 export interface CreatePartnerReferralRequestRequestBodyCase0 {
   /** Business to request attribution for, prefixed `biz_`. */
@@ -170,11 +170,11 @@ export type CreatePartnerReferralRequestRequestBodyCase4RequestType = "link";
 /** Create your own referral link with an optional custom code and redemption limit. Without configuration, returns your oldest saved link or creates one with a random code. Only authorized staff can configure rewards or select another partner. */
 export interface CreatePartnerReferralRequestRequestBodyCase4 {
   /** Case-insensitive referral code containing letters, numbers, and single hyphens. New codes are stored in lowercase. Omit to generate six random letters, or reuse a saved link when no configuration is supplied. */
-  code?: string;
+  code?: string | undefined;
   /** Maximum permitted redemptions, or null for no configured limit. */
-  max_redemptions?: number | null;
+  max_redemptions?: number | null | undefined;
   /** Optional authenticated partner ID, prefixed `user_`. Ordinary credentials cannot select another partner. Staff must supply the enrolled, non-suspended partner receiving attribution. */
-  partner_id?: string;
+  partner_id?: string | undefined;
   /** Create or retrieve a reusable referral link without requesting attribution for an existing business. */
   request_type: CreatePartnerReferralRequestRequestBodyCase4RequestType;
 }
@@ -187,13 +187,13 @@ export type CreatePartnerReferralRequestRequestBody =
 export interface CreatePartnerReferralRequestRequest {
   body: CreatePartnerReferralRequestRequestBody;
   /** A unique key that makes this request safe to retry. See [Idempotent requests](https://docs.whop.com/developer/api/idempotency). */
-  idempotency_key?: string;
+  idempotency_key?: string | undefined;
 }
 export interface DeclinePartnerReferralRequestRequest {
   /** Partner referral request ID, prefixed `prfr_`. */
   id: string;
   /** A unique key that makes this request safe to retry. See [Idempotent requests](https://docs.whop.com/developer/api/idempotency). */
-  idempotency_key?: string;
+  idempotency_key?: string | undefined;
 }
 export interface GetPartnerReferralRequestRequest {
   /** Partner referral request ID, prefixed `prfr_`. */
@@ -212,27 +212,27 @@ export type ListPartnerReferralRequestsRequestOrder = "created_at";
 export type ListPartnerReferralRequestsRequestDirection = "asc" | "desc";
 export interface ListPartnerReferralRequestsRequest {
   /** Only requests for this business ID, prefixed `biz_`. */
-  account_id?: string;
+  account_id?: string | undefined;
   /** Only requests received by this user ID, prefixed `user_`. */
-  target_user_id?: string;
+  target_user_id?: string | undefined;
   /** Only requests sent by this partner's user ID, prefixed `user_`. */
-  partner_id?: string;
+  partner_id?: string | undefined;
   /** Only requests with this approval status. */
-  status?: ListPartnerReferralRequestsRequestStatus | (string & {});
+  status?: ListPartnerReferralRequestsRequestStatus | (string & {}) | undefined;
   /** Only requests initiated in this way. */
-  request_type?: ListPartnerReferralRequestsRequestRequestType | (string & {});
+  request_type?: ListPartnerReferralRequestsRequestRequestType | (string & {}) | undefined;
   /** Field used to sort requests. */
-  order?: ListPartnerReferralRequestsRequestOrder | (string & {});
+  order?: ListPartnerReferralRequestsRequestOrder | (string & {}) | undefined;
   /** Sort direction. */
-  direction?: ListPartnerReferralRequestsRequestDirection | (string & {});
+  direction?: ListPartnerReferralRequestsRequestDirection | (string & {}) | undefined;
   /** Number of results to return from the start of the range. */
-  first?: number;
+  first?: number | undefined;
   /** Return results after this cursor. Use `page_info.end_cursor` from the previous response to fetch the next page. */
-  after?: string;
+  after?: string | undefined;
   /** Number of results to return from the end of the range. */
-  last?: number;
+  last?: number | undefined;
   /** Return results before this cursor. Use `page_info.start_cursor` from the previous response to fetch the previous page. */
-  before?: string;
+  before?: string | undefined;
 }
 export type ListPartnerReferralRequestsResponseDataList = Array<PartnerReferralRequest>;
 export interface ListPartnerReferralRequestsResponsePageInfo {

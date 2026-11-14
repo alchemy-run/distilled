@@ -29,14 +29,14 @@ export interface GetMcpRegistryServerRequest {
   id: string;
 }
 export interface MCPRegistryServerDetailRemotesItem {
-  type?: string;
-  url?: string;
+  type?: string | undefined;
+  url?: string | undefined;
 }
 /** All hosted remotes: [{type, url}]. */
 export type MCPRegistryServerDetailRemotesList = Array<MCPRegistryServerDetailRemotesItem>;
 export interface MCPRegistryServerDetailPackagesItem {
-  registry_type?: string;
-  identifier?: string;
+  registry_type?: string | undefined;
+  identifier?: string | undefined;
 }
 /** Published packages: [{registry_type, identifier}]. */
 export type MCPRegistryServerDetailPackagesList = Array<MCPRegistryServerDetailPackagesItem>;
@@ -96,9 +96,9 @@ export interface GetMcpRegistryServersCompareRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** Rows per arm (default 20, max 100). */
-  limit?: number;
+  limit?: number | undefined;
   /** Optional text filter applied to every arm. */
-  search?: string;
+  search?: string | undefined;
   /** Comma-separated ranking versions to compare (2+). */
   versions: string;
 }
@@ -110,18 +110,18 @@ export interface GetMcpRegistryServersDiscoverRequest {
   /** What the agent is trying to do, in natural language. */
   intent: string;
   /** Candidates to return (default 5, max 20). */
-  limit?: number;
+  limit?: number | undefined;
   /** Ranking version to rank candidates by. */
-  version?: string;
+  version?: string | undefined;
 }
 /** Score breakdown so an agent can explain its choice: fit, liveness, trust, and whether real usage signal contributed. */
 export type MCPDiscoverCandidateWhyMap = { [key: string]: unknown | undefined };
 /** Real MCP Analytics aggregates when the server is measured, otherwise null: calls, sessions, error_rate_pct, intent_coverage_pct, harness_count. */
 export type MCPDiscoverCandidateMeasuredMap = { [key: string]: unknown | undefined };
 export interface MCPDiscoverCandidateMatchedToolsItem {
-  name?: string;
-  description?: string;
-  source?: string;
+  name?: string | undefined;
+  description?: string | undefined;
+  source?: string | undefined;
 }
 /** Tools that matched the intent: [{name, description, source}]. Empty when only the server description matched. */
 export type MCPDiscoverCandidateMatchedToolsList = Array<MCPDiscoverCandidateMatchedToolsItem>;
@@ -173,15 +173,15 @@ export interface ListMcpRegistryServersRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** Number of results to return per page. */
-  limit?: number;
+  limit?: number | undefined;
   /** Only servers with real MCP Analytics signal. */
-  measured_only?: boolean;
+  measured_only?: boolean | undefined;
   /** The initial index from which to return the results. */
-  offset?: number;
+  offset?: number | undefined;
   /** Free-text query matched against server names, descriptions, and tool names. */
-  search?: string;
+  search?: string | undefined;
   /** Ranking version ordering the results; defaults to the current default version. */
-  version?: string;
+  version?: string | undefined;
 }
 export interface MCPRegistryServerList {
   /** Registry server id. */
@@ -208,8 +208,8 @@ export interface MCPRegistryServerList {
 export type PaginatedMCPRegistryServerListListResultsList = Array<MCPRegistryServerList>;
 export interface PaginatedMCPRegistryServerListList {
   count: number;
-  next?: string | null;
-  previous?: string | null;
+  next?: string | null | undefined;
+  previous?: string | null | undefined;
   results: PaginatedMCPRegistryServerListListResultsList;
 }
 export interface ListMcpRegistryServersMeasuredProjectsRequest {

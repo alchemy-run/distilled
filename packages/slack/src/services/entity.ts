@@ -30,9 +30,9 @@ export interface AcknowledgeCommentActionRequest {
   /** A reference to the original user action that initiated the comment mutation */
   trigger_id: string;
   /** The full comment data. Required for edit and post actions. See the [comment schema](/messaging/work-objects-comments#entity-present-comments-method) for the full list of properties. */
-  comment?: AcknowledgeCommentActionRequestCommentMap;
+  comment?: AcknowledgeCommentActionRequestCommentMap | undefined;
   /** Error message if the action failed in the app. When present, signals that the mutation could not be completed. */
-  error?: string;
+  error?: string | undefined;
 }
 export interface AcknowledgeCommentActionResponse {
   /** Always `true` (a failed call raises a typed error instead). */
@@ -45,42 +45,42 @@ export interface PresentCommentsRequest {
   /** Array of comments to present to the user. See the [comment schema](/messaging/work-objects-comments#entity-present-comments-method) for the full list of properties. */
   comments: PresentCommentsRequestCommentsList;
   /** App supplied cursor used for pagination, will be sent in the next request for comments */
-  cursor?: string;
+  cursor?: string | undefined;
   /** Indicates whether the user has permissions to post comments */
-  can_post_comment?: boolean;
+  can_post_comment?: boolean | undefined;
   /** A reference to the original user action that initiated the request */
   trigger_id: string;
   /** The block action id that will be sent when a delete request is initiated for a comment. */
-  delete_action_id?: string;
+  delete_action_id?: string | undefined;
   /** Set to true (or 1) to indicate that the user must authenticate to see the comments data. */
-  user_auth_required?: boolean;
+  user_auth_required?: boolean | undefined;
   /** A custom URL to which users are directed for authentication if required. */
-  user_auth_url?: string;
-  error?: string;
+  user_auth_url?: string | undefined;
+  error?: string | undefined;
 }
 /** Pagination metadata. An empty `next_cursor` means the last page. */
 export interface PresentCommentsResponseResponseMetadata {
   /** Cursor for the next page -- pass as `cursor` on the next call. */
-  next_cursor?: string;
+  next_cursor?: string | undefined;
 }
 export interface PresentCommentsResponse {
   /** Always `true` (a failed call raises a typed error instead). */
   ok: boolean;
   /** Pagination metadata. An empty `next_cursor` means the last page. */
-  response_metadata?: PresentCommentsResponseResponseMetadata;
+  response_metadata?: PresentCommentsResponseResponseMetadata | undefined;
 }
 /** URL-encoded JSON object containing flexpane metadata from the app that will be conformed to a Work Object metadata schema, keyed by entity ID. */
 export type PresentDetailsRequestMetadataMap = { [key: string]: unknown | undefined };
 export interface PresentDetailsRequest {
   /** URL-encoded JSON object containing flexpane metadata from the app that will be conformed to a Work Object metadata schema, keyed by entity ID. */
-  metadata?: PresentDetailsRequestMetadataMap;
+  metadata?: PresentDetailsRequestMetadataMap | undefined;
   /** A reference to the original user action that initiated the request. */
   trigger_id: string;
   /** Set to true (or 1) to indicate that the user must authenticate to view full flexpane data. */
-  user_auth_required?: boolean;
+  user_auth_required?: boolean | undefined;
   /** A custom URL to which users are directed for authentication if required. */
-  user_auth_url?: string;
-  error?: string;
+  user_auth_url?: string | undefined;
+  error?: string | undefined;
 }
 export interface PresentDetailsResponse {
   /** Always `true` (a failed call raises a typed error instead). */

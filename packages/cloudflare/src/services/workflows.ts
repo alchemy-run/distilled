@@ -137,9 +137,9 @@ export type InstancesBulkRequestBodyItemInstanceRetentionErrorRetention = string
 export type InstancesBulkRequestBodyItemInstanceRetentionSuccessRetention = string | number;
 export interface InstancesBulkRequestBodyItemInstanceRetention {
   /** Specifies the duration in milliseconds or as a string like '5 minutes'. */
-  errorRetention?: InstancesBulkRequestBodyItemInstanceRetentionErrorRetention;
+  errorRetention?: InstancesBulkRequestBodyItemInstanceRetentionErrorRetention | undefined;
   /** Specifies the duration in milliseconds or as a string like '5 minutes'. */
-  successRetention?: InstancesBulkRequestBodyItemInstanceRetentionSuccessRetention;
+  successRetention?: InstancesBulkRequestBodyItemInstanceRetentionSuccessRetention | undefined;
 }
 export type InstancesBulkRequestBodyItemLocationHint =
   | "wnam"
@@ -155,11 +155,11 @@ export type InstancesBulkRequestBodyItemLocationHint =
   | "me";
 export interface InstancesBulkRequestBodyItem {
   /** The system reserves IDs that consist of the `cf_` prefix and exactly 64 lowercase hexadecimal characters. */
-  instanceId?: string;
-  instanceRetention?: InstancesBulkRequestBodyItemInstanceRetention;
-  locationHint?: InstancesBulkRequestBodyItemLocationHint | (string & {});
+  instanceId?: string | undefined;
+  instanceRetention?: InstancesBulkRequestBodyItemInstanceRetention | undefined;
+  locationHint?: InstancesBulkRequestBodyItemLocationHint | (string & {}) | undefined;
   /** JSON-encoded event payload passed into the new instance. */
-  params?: unknown;
+  params?: unknown | undefined;
 }
 export type InstancesBulkRequestBodyList = Array<InstancesBulkRequestBodyItem>;
 export interface BulkInstanceRequest {
@@ -183,22 +183,22 @@ export interface InstancesBulkResultItem {
   status: InstancesBulkResultItemStatus;
   versionId: string;
   workflowId: string;
-  triggerSource?: InstancesBulkResultItemTriggerSource | null;
+  triggerSource?: InstancesBulkResultItemTriggerSource | null | undefined;
 }
 export type InstancesBulkResultList = Array<InstancesBulkResultItem>;
 export interface BulkInstanceResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: InstancesBulkResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export type InstancesCreateRequestInstanceRetentionErrorRetention = string | number;
 export type InstancesCreateRequestInstanceRetentionSuccessRetention = string | number;
 export interface InstancesCreateRequestInstanceRetention {
   /** Specifies the duration in milliseconds or as a string like '5 minutes'. */
-  errorRetention?: InstancesCreateRequestInstanceRetentionErrorRetention;
+  errorRetention?: InstancesCreateRequestInstanceRetentionErrorRetention | undefined;
   /** Specifies the duration in milliseconds or as a string like '5 minutes'. */
-  successRetention?: InstancesCreateRequestInstanceRetentionSuccessRetention;
+  successRetention?: InstancesCreateRequestInstanceRetentionSuccessRetention | undefined;
 }
 export type InstancesCreateRequestLocationHint =
   | "wnam"
@@ -216,11 +216,11 @@ export interface CreateInstanceRequest {
   accountId: string;
   workflowName: string;
   /** The system reserves IDs that consist of the `cf_` prefix and exactly 64 lowercase hexadecimal characters. */
-  instanceId?: string;
-  instanceRetention?: InstancesCreateRequestInstanceRetention;
-  locationHint?: InstancesCreateRequestLocationHint | (string & {});
+  instanceId?: string | undefined;
+  instanceRetention?: InstancesCreateRequestInstanceRetention | undefined;
+  locationHint?: InstancesCreateRequestLocationHint | (string & {}) | undefined;
   /** JSON-encoded event payload passed into the new instance. */
-  params?: unknown;
+  params?: unknown | undefined;
 }
 export type InstancesCreateResponseStatus =
   | "queued"
@@ -239,7 +239,7 @@ export interface CreateInstanceResponse {
   status: InstancesCreateResponseStatus;
   versionId: string;
   workflowId: string;
-  triggerSource?: InstancesCreateResponseTriggerSource | null;
+  triggerSource?: InstancesCreateResponseTriggerSource | null | undefined;
 }
 export interface CreateInstanceEventRequest {
   accountId: string;
@@ -269,9 +269,9 @@ export interface GetInstanceRequest {
   workflowName: string;
   instanceId: string;
   /** Step ordering: "asc" (default, oldest first) or "desc" (newest first). */
-  order?: InstancesGetRequestOrder | (string & {});
+  order?: InstancesGetRequestOrder | (string & {}) | undefined;
   /** When true, omits step details and returns only metadata with step_count. */
-  simple?: boolean;
+  simple?: boolean | undefined;
 }
 export interface InstancesGetResponseError {
   message: string;
@@ -312,7 +312,7 @@ export interface InstancesGetResponseStepsItemCase0ConfigRetries {
   /** Specifies the delay duration. The value '[dynamic]' means that a user-supplied function computes the delay. */
   delay: InstancesGetResponseStepsItemCase0ConfigRetriesDelay;
   limit: number;
-  backoff?: InstancesGetResponseStepsItemCase0ConfigRetriesBackoff | null;
+  backoff?: InstancesGetResponseStepsItemCase0ConfigRetriesBackoff | null | undefined;
 }
 export type InstancesGetResponseStepsItemCase0ConfigTimeout = string | number;
 export type InstancesGetResponseStepsItemCase0ConfigSensitive = "output";
@@ -321,7 +321,7 @@ export interface InstancesGetResponseStepsItemCase0Config {
   /** Specifies the timeout duration. */
   timeout: InstancesGetResponseStepsItemCase0ConfigTimeout;
   /** When set to 'output', step output is redacted from log and step output responses. */
-  sensitive?: InstancesGetResponseStepsItemCase0ConfigSensitive | null;
+  sensitive?: InstancesGetResponseStepsItemCase0ConfigSensitive | null | undefined;
 }
 export type InstancesGetResponseStepsItemCase0Type = "step" | "rollback";
 export interface InstancesGetResponseStepsItemCase0 {
@@ -361,8 +361,8 @@ export interface InstancesGetResponseStepsItemCase3 {
   name: string;
   start: string;
   type: InstancesGetResponseStepsItemCase3Type;
-  eventType?: string | null;
-  output?: string | null;
+  eventType?: string | null | undefined;
+  output?: string | null | undefined;
 }
 export type InstancesGetResponseStepsItem =
   | InstancesGetResponseStepsItemCase0
@@ -393,7 +393,7 @@ export interface GetInstanceResponse {
   success: boolean;
   trigger: InstancesGetResponseTrigger;
   versionId: string;
-  schedule?: InstancesGetResponseSchedule | null;
+  schedule?: InstancesGetResponseSchedule | null | undefined;
 }
 export interface GetVersionRequest {
   accountId: string;
@@ -403,16 +403,16 @@ export interface GetVersionRequest {
 export type VersionsGetResponseLanguage = "javascript" | "python";
 export interface VersionsGetResponseConcurrency {
   /** Maximum number of instances of this workflow that can run concurrently. Additional instances are queued and started as running instances complete. Must not exceed the account concurrency limit. */
-  limit?: number | null;
+  limit?: number | null | undefined;
 }
 export interface VersionsGetResponseDefaultRetention {
   /** Default error retention in milliseconds. */
-  errorRetention?: number | null;
+  errorRetention?: number | null | undefined;
   /** Default success retention in milliseconds. */
-  successRetention?: number | null;
+  successRetention?: number | null | undefined;
 }
 export interface VersionsGetResponseLimits {
-  steps?: number | null;
+  steps?: number | null | undefined;
 }
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface GetVersionResponse {
@@ -424,9 +424,9 @@ export interface GetVersionResponse {
   language: VersionsGetResponseLanguage;
   modifiedOn: string;
   workflowId: string;
-  concurrency?: VersionsGetResponseConcurrency | null;
-  defaultRetention?: VersionsGetResponseDefaultRetention | null;
-  limits?: VersionsGetResponseLimits | null;
+  concurrency?: VersionsGetResponseConcurrency | null | undefined;
+  defaultRetention?: VersionsGetResponseDefaultRetention | null | undefined;
+  limits?: VersionsGetResponseLimits | null | undefined;
 }
 export interface GetWorkflowRequest {
   accountId: string;
@@ -450,10 +450,10 @@ export interface GetWorkflowResponse {
   scriptName: string;
   triggeredOn: string;
   /** Jurisdiction where instances of this workflow run and store data. Set when the workflow is created and cannot be changed. */
-  jurisdiction?: WorkflowJurisdiction | null;
-  schedules?: GetResponseSchedulesList | null;
+  jurisdiction?: WorkflowJurisdiction | null | undefined;
+  schedules?: GetResponseSchedulesList | null | undefined;
   /** Whether the bound Worker was deleted, leaving this Workflow inactive. */
-  scriptDeleted?: boolean | null;
+  scriptDeleted?: boolean | null | undefined;
 }
 export interface GraphVersionRequest {
   accountId: string;
@@ -478,8 +478,8 @@ export interface VersionsGraphResponseGraphWorkflowNodesItemCase0 {
   duration: VersionsGraphResponseGraphWorkflowNodesItemCase0Duration;
   name: string;
   type: VersionsGraphResponseGraphWorkflowNodesItemCase0Type;
-  resolves?: number | null;
-  starts?: number | null;
+  resolves?: number | null | undefined;
+  starts?: number | null | undefined;
 }
 export type VersionsGraphResponseGraphWorkflowNodesItemCase1ConfigRetriesBackoff =
   | "constant"
@@ -509,8 +509,8 @@ export interface VersionsGraphResponseGraphWorkflowNodesItemCase1 {
   /** Child nodes (recursive). */
   nodes: VersionsGraphResponseGraphWorkflowNodesItemCase1NodesList;
   type: VersionsGraphResponseGraphWorkflowNodesItemCase1Type;
-  resolves?: number | null;
-  starts?: number | null;
+  resolves?: number | null | undefined;
+  starts?: number | null | undefined;
 }
 export type VersionsGraphResponseGraphWorkflowNodesItemCase2OptionsTimeout = string | number;
 export interface VersionsGraphResponseGraphWorkflowNodesItemCase2Options {
@@ -541,17 +541,17 @@ export interface VersionsGraphResponseGraphWorkflowNodesItemCase2 {
   options: VersionsGraphResponseGraphWorkflowNodesItemCase2Options;
   type: VersionsGraphResponseGraphWorkflowNodesItemCase2Type;
   /** Shape descriptor for JSON payloads. */
-  payload?: VersionsGraphResponseGraphWorkflowNodesItemCase2Payload | null;
-  resolves?: number | null;
-  starts?: number | null;
+  payload?: VersionsGraphResponseGraphWorkflowNodesItemCase2Payload | null | undefined;
+  resolves?: number | null | undefined;
+  starts?: number | null | undefined;
 }
 export type VersionsGraphResponseGraphWorkflowNodesItemCase3Type = "step_sleep_until";
 export interface VersionsGraphResponseGraphWorkflowNodesItemCase3 {
   name: string;
   timestamp: string;
   type: VersionsGraphResponseGraphWorkflowNodesItemCase3Type;
-  resolves?: number | null;
-  starts?: number | null;
+  resolves?: number | null | undefined;
+  starts?: number | null | undefined;
 }
 export type VersionsGraphResponseGraphWorkflowNodesItemCase4NodesList = Array<unknown>;
 export type VersionsGraphResponseGraphWorkflowNodesItemCase4Type = "loop";
@@ -673,14 +673,14 @@ export interface VersionsGraphResponseGraphWorkflowNodesItemCase10 {
   nodes: VersionsGraphResponseGraphWorkflowNodesItemCase10NodesList;
   type: VersionsGraphResponseGraphWorkflowNodesItemCase10Type;
   /** Shape descriptor for JSON payloads. */
-  payload?: VersionsGraphResponseGraphWorkflowNodesItemCase10Payload | null;
+  payload?: VersionsGraphResponseGraphWorkflowNodesItemCase10Payload | null | undefined;
 }
 export type VersionsGraphResponseGraphWorkflowNodesItemCase11Type = "function_call";
 export interface VersionsGraphResponseGraphWorkflowNodesItemCase11 {
   name: string;
   type: VersionsGraphResponseGraphWorkflowNodesItemCase11Type;
-  resolves?: number | null;
-  starts?: number | null;
+  resolves?: number | null | undefined;
+  starts?: number | null | undefined;
 }
 export type VersionsGraphResponseGraphWorkflowNodesItemCase12NodesList = Array<unknown>;
 export type VersionsGraphResponseGraphWorkflowNodesItemCase12Type = "function_def";
@@ -735,7 +735,7 @@ export interface VersionsGraphResponseGraphWorkflow {
   functions: VersionsGraphResponseGraphWorkflowFunctionsMap;
   nodes: VersionsGraphResponseGraphWorkflowNodesList;
   /** Shape descriptor for JSON payloads. */
-  payload?: VersionsGraphResponseGraphWorkflowPayload | null;
+  payload?: VersionsGraphResponseGraphWorkflowPayload | null | undefined;
 }
 export interface VersionsGraphResponseGraph {
   version: number;
@@ -767,17 +767,17 @@ export interface ListInstancesRequest {
   accountId: string;
   workflowName: string;
   /** Opaque token for cursor-based pagination. Mutually exclusive with `page`. */
-  cursor?: string;
+  cursor?: string | undefined;
   /** Accepts ISO 8601 with no timezone offsets and in UTC. */
-  dateEnd?: string;
+  dateEnd?: string | undefined;
   /** Accepts ISO 8601 with no timezone offsets and in UTC. */
-  dateStart?: string;
+  dateStart?: string | undefined;
   /** Defines the direction for cursor-based pagination. */
-  direction?: InstancesListRequestDirection | (string & {});
+  direction?: InstancesListRequestDirection | (string & {}) | undefined;
   /** Deprecated: use `cursor` for pagination instead. */
-  page?: number;
-  perPage?: number;
-  status?: InstancesListRequestStatus | (string & {});
+  page?: number | undefined;
+  perPage?: number | undefined;
+  status?: InstancesListRequestStatus | (string & {}) | undefined;
 }
 export type InstancesListResultItemStatus =
   | "queued"
@@ -799,20 +799,20 @@ export interface InstancesListResultItem {
   status: InstancesListResultItemStatus;
   versionId: string;
   workflowId: string;
-  triggerSource?: InstancesListResultItemTriggerSource | null;
+  triggerSource?: InstancesListResultItemTriggerSource | null | undefined;
 }
 export type InstancesListResultList = Array<InstancesListResultItem>;
 export interface ListInstancesResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: InstancesListResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export interface ListVersionsRequest {
   accountId: string;
   workflowName: string;
-  page?: number;
-  perPage?: number;
+  page?: number | undefined;
+  perPage?: number | undefined;
 }
 export type VersionsListResultItemLanguage = "javascript" | "python";
 export type VersionsListResultItemConcurrency = VersionsGetResponseConcurrency;
@@ -827,23 +827,23 @@ export interface VersionsListResultItem {
   language: VersionsListResultItemLanguage;
   modifiedOn: string;
   workflowId: string;
-  concurrency?: VersionsGetResponseConcurrency | null;
-  defaultRetention?: VersionsGetResponseDefaultRetention | null;
-  limits?: VersionsGetResponseLimits | null;
+  concurrency?: VersionsGetResponseConcurrency | null | undefined;
+  defaultRetention?: VersionsGetResponseDefaultRetention | null | undefined;
+  limits?: VersionsGetResponseLimits | null | undefined;
 }
 export type VersionsListResultList = Array<VersionsListResultItem>;
 export interface ListVersionsResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: VersionsListResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export interface ListWorkflowsRequest {
   accountId: string;
-  page?: number;
-  perPage?: number;
+  page?: number | undefined;
+  perPage?: number | undefined;
   /** Allows filtering workflows` name. */
-  search?: string;
+  search?: string | undefined;
 }
 export type ListResultItemInstancesMap = { [key: string]: number | undefined };
 export type ListResultItemSchedulesItem = GetResponseSchedulesItem;
@@ -858,25 +858,25 @@ export interface ListResultItem {
   scriptName: string;
   triggeredOn: string;
   /** Jurisdiction where instances of this workflow run and store data. Set when the workflow is created and cannot be changed. */
-  jurisdiction?: WorkflowJurisdiction | null;
-  schedules?: ListResultItemSchedulesList | null;
+  jurisdiction?: WorkflowJurisdiction | null | undefined;
+  schedules?: ListResultItemSchedulesList | null | undefined;
   /** Whether the bound Worker was deleted, leaving this Workflow inactive. */
-  scriptDeleted?: boolean | null;
+  scriptDeleted?: boolean | null | undefined;
 }
 export type ListResultList = Array<ListResultItem>;
 export interface ListWorkflowsResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: ListResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export type InstancesStatusEditRequestStatus = "pause" | "resume" | "terminate" | "restart";
 export type InstancesStatusEditRequestFromType = "do" | "sleep" | "waitForEvent";
 export interface InstancesStatusEditRequestFrom {
   name: string;
   /** exclusiveMinimum */
-  count?: number;
-  type?: InstancesStatusEditRequestFromType | (string & {});
+  count?: number | undefined;
+  type?: InstancesStatusEditRequestFromType | (string & {}) | undefined;
 }
 export interface PatchInstanceStatusRequest {
   accountId: string;
@@ -884,9 +884,9 @@ export interface PatchInstanceStatusRequest {
   instanceId: string;
   status: InstancesStatusEditRequestStatus | (string & {});
   /** Run rollback before terminating. */
-  rollback?: boolean;
+  rollback?: boolean | undefined;
   /** Step to restart from. */
-  from?: InstancesStatusEditRequestFrom;
+  from?: InstancesStatusEditRequestFrom | undefined;
 }
 export type InstancesStatusEditResponseStatus =
   | "queued"
@@ -906,18 +906,18 @@ export interface PatchInstanceStatusResponse {
 }
 export interface UpdateRequestConcurrency {
   /** Maximum number of instances of this workflow that can run concurrently. Additional instances are queued and started as running instances complete. Must not exceed the account concurrency limit. */
-  limit?: number;
+  limit?: number | undefined;
 }
 export type UpdateRequestDefaultRetentionErrorRetention = string | number;
 export type UpdateRequestDefaultRetentionSuccessRetention = string | number;
 export interface UpdateRequestDefaultRetention {
   /** Specifies the duration in milliseconds or as a string like '5 minutes'. */
-  errorRetention?: UpdateRequestDefaultRetentionErrorRetention;
+  errorRetention?: UpdateRequestDefaultRetentionErrorRetention | undefined;
   /** Specifies the duration in milliseconds or as a string like '5 minutes'. */
-  successRetention?: UpdateRequestDefaultRetentionSuccessRetention;
+  successRetention?: UpdateRequestDefaultRetentionSuccessRetention | undefined;
 }
 export interface UpdateRequestLimits {
-  steps?: number;
+  steps?: number | undefined;
 }
 export interface UpdateRequestSchedulesItem {
   cron: string;
@@ -928,13 +928,13 @@ export interface PutWorkflowRequest {
   workflowName: string;
   className: string;
   scriptName: string;
-  concurrency?: UpdateRequestConcurrency;
+  concurrency?: UpdateRequestConcurrency | undefined;
   /** Default retention applied to instances of this version when they do not set their own retention. */
-  defaultRetention?: UpdateRequestDefaultRetention;
+  defaultRetention?: UpdateRequestDefaultRetention | undefined;
   /** Jurisdiction where instances of this workflow run and store data. Can only be set when the workflow is created and cannot be changed afterwards; omit it to keep the existing jurisdiction. */
-  jurisdiction?: WorkflowJurisdiction | (string & {});
-  limits?: UpdateRequestLimits;
-  schedules?: UpdateRequestSchedulesList;
+  jurisdiction?: WorkflowJurisdiction | (string & {}) | undefined;
+  limits?: UpdateRequestLimits | undefined;
+  schedules?: UpdateRequestSchedulesList | undefined;
 }
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface PutWorkflowResponse {
@@ -949,7 +949,7 @@ export interface PutWorkflowResponse {
   triggeredOn: string;
   versionId: string;
   /** Jurisdiction where instances of this workflow run and store data. Set when the workflow is created and cannot be changed. */
-  jurisdiction?: WorkflowJurisdiction | null;
+  jurisdiction?: WorkflowJurisdiction | null | undefined;
 }
 export type InstancesStepRequestType = "step" | "waitForEvent";
 export interface StepInstanceRequest {
@@ -961,7 +961,7 @@ export interface StepInstanceRequest {
   /** Step type to disambiguate step.do and waitForEvent entries that share the same name. */
   type: InstancesStepRequestType | (string & {});
   /** Specific attempt number to retrieve output or error for. */
-  attempt?: number;
+  attempt?: number | undefined;
 }
 export type InstancesStepResponseError = InstancesGetResponseError;
 export type InstancesStepResponseStatus =
@@ -980,9 +980,9 @@ export interface StepInstanceResponse {
   error: InstancesGetResponseError;
   status: InstancesStepResponseStatus;
   /** The event type the step is waiting on, as supplied to step.waitForEvent. Only present when type='waitForEvent'. */
-  eventType?: string | null;
+  eventType?: string | null | undefined;
   /** Contains the full step output or waitForEvent payload without truncation. Uses '[REDACTED]' for sensitive outputs. Contains a value when status='complete'. May contain a ReadableStream when step.do returns one; the response serves stream outputs as application/octet-stream rather than JSON. */
-  output?: unknown | null;
+  output?: unknown | null | undefined;
 }
 export type BulkInstanceError =
   | WorkflowNotFound

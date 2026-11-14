@@ -209,13 +209,13 @@ export interface IdentityProfile {
 /** The kind of identity profile (individual vs business). */
 export type IdentityProfileKinds = "individual" | "business";
 export interface ListIdentityProfileRequest {
-  after?: string;
-  before?: string;
-  first?: number;
-  last?: number;
-  profile_type?: IdentityProfileKinds | (string & {});
-  status?: IdentityProfileStatuses | (string & {});
-  account_id?: string;
+  after?: string | undefined;
+  before?: string | undefined;
+  first?: number | undefined;
+  last?: number | undefined;
+  profile_type?: IdentityProfileKinds | (string & {}) | undefined;
+  status?: IdentityProfileStatuses | (string & {}) | undefined;
+  account_id?: string | undefined;
 }
 /** Registered business address reported by the identity provider. Present on `business` profiles. */
 export type IdentityProfileListItemBusinessAddress = IdentityProfileBusinessAddress;
@@ -292,10 +292,10 @@ export interface ListIdentityProfileResponse {
 export interface ListVerificationsIdentityProfileRequest {
   /** The unique identifier of the identity profile (idpf_xxx). */
   id: string;
-  after?: string;
-  before?: string;
-  first?: number;
-  last?: number;
+  after?: string | undefined;
+  before?: string | undefined;
+  first?: number | undefined;
+  last?: number | undefined;
 }
 /** An identity verification session used to confirm a person or entity's identity for payout account eligibility. */
 export type ListVerificationsIdentityProfileResponseDataItem = IdentityProfileVerificationsItem;

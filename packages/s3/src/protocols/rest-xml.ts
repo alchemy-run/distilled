@@ -61,7 +61,6 @@ import {
   parseXml,
   parseXmlSync,
   readXml,
-  XmlParseError,
   unwrapArrayValue,
   wrapTag,
 } from "../util/xml.ts";
@@ -241,9 +240,9 @@ export const restXmlProtocol: ProtocolImpl = (operation: Operation): ProtocolHan
           if (!text) return {};
           try {
             return parseXmlSync(text);
-          } catch (error) {
-            if (error instanceof XmlParseError) return { payload: text };
-            throw error;
+          } catch {
+            // Not XML: the event carries the text as is.
+            return { payload: text };
           }
         };
         result[outputPayloadProp.name] = eventStreamWith(outputPayloadProp.eventSchema, (codec) =>

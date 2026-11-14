@@ -78,7 +78,9 @@ const CORE_GROUPS: Record<string, string[]> = {
     "config",
     "pagination",
     "retry",
+    "sdk-error",
     "trait",
+    "unknown-error",
     "response-validation",
     "response-validation-strict",
     "schema-lite-impl",
@@ -97,6 +99,8 @@ const CORE_GROUPS: Record<string, string[]> = {
   aws: ["schema", "chunks", "crypto"],
   xml: ["xml"],
   graphql: ["graphql", "query", "graphql.types"],
+  // gRPC SDKs; the platform transports stay entries of their own.
+  grpc: ["protobuf", "grpc-transport", "protocol-grpc"],
 };
 const SDK_GROUP = "sdk";
 const VIRTUAL = "distilled-bundle:";

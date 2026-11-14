@@ -215,7 +215,7 @@ export interface BulkPublishRequest {
   IdentityPoolId: string;
 }
 export interface BulkPublishResponse {
-  IdentityPoolId?: string;
+  IdentityPoolId?: string | undefined;
 }
 export type IdentityId = string;
 export type DatasetName = string;
@@ -225,16 +225,16 @@ export interface DeleteDatasetRequest {
   DatasetName: string;
 }
 export interface Dataset {
-  IdentityId?: string;
-  DatasetName?: string;
-  CreationDate?: Date;
-  LastModifiedDate?: Date;
-  LastModifiedBy?: string;
-  DataStorage?: number;
-  NumRecords?: number;
+  IdentityId?: string | undefined;
+  DatasetName?: string | undefined;
+  CreationDate?: Date | undefined;
+  LastModifiedDate?: Date | undefined;
+  LastModifiedBy?: string | undefined;
+  DataStorage?: number | undefined;
+  NumRecords?: number | undefined;
 }
 export interface DeleteDatasetResponse {
-  Dataset?: Dataset;
+  Dataset?: Dataset | undefined;
 }
 export interface DescribeDatasetRequest {
   IdentityPoolId: string;
@@ -242,33 +242,33 @@ export interface DescribeDatasetRequest {
   DatasetName: string;
 }
 export interface DescribeDatasetResponse {
-  Dataset?: Dataset;
+  Dataset?: Dataset | undefined;
 }
 export interface DescribeIdentityPoolUsageRequest {
   IdentityPoolId: string;
 }
 export interface IdentityPoolUsage {
-  IdentityPoolId?: string;
-  SyncSessionsCount?: number;
-  DataStorage?: number;
-  LastModifiedDate?: Date;
+  IdentityPoolId?: string | undefined;
+  SyncSessionsCount?: number | undefined;
+  DataStorage?: number | undefined;
+  LastModifiedDate?: Date | undefined;
 }
 export interface DescribeIdentityPoolUsageResponse {
-  IdentityPoolUsage?: IdentityPoolUsage;
+  IdentityPoolUsage?: IdentityPoolUsage | undefined;
 }
 export interface DescribeIdentityUsageRequest {
   IdentityPoolId: string;
   IdentityId: string;
 }
 export interface IdentityUsage {
-  IdentityId?: string;
-  IdentityPoolId?: string;
-  LastModifiedDate?: Date;
-  DatasetCount?: number;
-  DataStorage?: number;
+  IdentityId?: string | undefined;
+  IdentityPoolId?: string | undefined;
+  LastModifiedDate?: Date | undefined;
+  DatasetCount?: number | undefined;
+  DataStorage?: number | undefined;
 }
 export interface DescribeIdentityUsageResponse {
-  IdentityUsage?: IdentityUsage;
+  IdentityUsage?: IdentityUsage | undefined;
 }
 export interface GetBulkPublishDetailsRequest {
   IdentityPoolId: string;
@@ -280,11 +280,11 @@ export type BulkPublishStatus =
   | "SUCCEEDED"
   | (string & {});
 export interface GetBulkPublishDetailsResponse {
-  IdentityPoolId?: string;
-  BulkPublishStartTime?: Date;
-  BulkPublishCompleteTime?: Date;
-  BulkPublishStatus?: BulkPublishStatus;
-  FailureMessage?: string;
+  IdentityPoolId?: string | undefined;
+  BulkPublishStartTime?: Date | undefined;
+  BulkPublishCompleteTime?: Date | undefined;
+  BulkPublishStatus?: BulkPublishStatus | undefined;
+  FailureMessage?: string | undefined;
 }
 export interface GetCognitoEventsRequest {
   IdentityPoolId: string;
@@ -293,7 +293,7 @@ export type CognitoEventType = string;
 export type LambdaFunctionArn = string;
 export type Events = { [key: string]: string | undefined };
 export interface GetCognitoEventsResponse {
-  Events?: { [key: string]: string | undefined };
+  Events?: { [key: string]: string | undefined } | undefined;
 }
 export interface GetIdentityPoolConfigurationRequest {
   IdentityPoolId: string;
@@ -302,77 +302,77 @@ export type ApplicationArn = string;
 export type ApplicationArnList = string[];
 export type AssumeRoleArn = string;
 export interface PushSync {
-  ApplicationArns?: string[];
-  RoleArn?: string;
+  ApplicationArns?: string[] | undefined;
+  RoleArn?: string | undefined;
 }
 export type StreamName = string;
 export type StreamingStatus = "ENABLED" | "DISABLED" | (string & {});
 export interface CognitoStreams {
-  StreamName?: string;
-  RoleArn?: string;
-  StreamingStatus?: StreamingStatus;
+  StreamName?: string | undefined;
+  RoleArn?: string | undefined;
+  StreamingStatus?: StreamingStatus | undefined;
 }
 export interface GetIdentityPoolConfigurationResponse {
-  IdentityPoolId?: string;
-  PushSync?: PushSync;
-  CognitoStreams?: CognitoStreams;
+  IdentityPoolId?: string | undefined;
+  PushSync?: PushSync | undefined;
+  CognitoStreams?: CognitoStreams | undefined;
 }
 export type IntegerString = number;
 export interface ListDatasetsRequest {
   IdentityPoolId: string;
   IdentityId: string;
-  NextToken?: string;
-  MaxResults?: number;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export type DatasetList = Dataset[];
 export interface ListDatasetsResponse {
-  Datasets?: Dataset[];
-  Count?: number;
-  NextToken?: string;
+  Datasets?: Dataset[] | undefined;
+  Count?: number | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListIdentityPoolUsageRequest {
-  NextToken?: string;
-  MaxResults?: number;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export type IdentityPoolUsageList = IdentityPoolUsage[];
 export interface ListIdentityPoolUsageResponse {
-  IdentityPoolUsages?: IdentityPoolUsage[];
-  MaxResults?: number;
-  Count?: number;
-  NextToken?: string;
+  IdentityPoolUsages?: IdentityPoolUsage[] | undefined;
+  MaxResults?: number | undefined;
+  Count?: number | undefined;
+  NextToken?: string | undefined;
 }
 export type SyncSessionToken = string;
 export interface ListRecordsRequest {
   IdentityPoolId: string;
   IdentityId: string;
   DatasetName: string;
-  LastSyncCount?: number;
-  NextToken?: string;
-  MaxResults?: number;
-  SyncSessionToken?: string;
+  LastSyncCount?: number | undefined;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
+  SyncSessionToken?: string | undefined;
 }
 export type RecordKey = string;
 export type RecordValue = string;
 export interface Record {
-  Key?: string;
-  Value?: string;
-  SyncCount?: number;
-  LastModifiedDate?: Date;
-  LastModifiedBy?: string;
-  DeviceLastModifiedDate?: Date;
+  Key?: string | undefined;
+  Value?: string | undefined;
+  SyncCount?: number | undefined;
+  LastModifiedDate?: Date | undefined;
+  LastModifiedBy?: string | undefined;
+  DeviceLastModifiedDate?: Date | undefined;
 }
 export type RecordList = Record[];
 export type MergedDatasetNameList = string[];
 export interface ListRecordsResponse {
-  Records?: Record[];
-  NextToken?: string;
-  Count?: number;
-  DatasetSyncCount?: number;
-  LastModifiedBy?: string;
-  MergedDatasetNames?: string[];
-  DatasetExists?: boolean;
-  DatasetDeletedAfterRequestedSyncCount?: boolean;
-  SyncSessionToken?: string;
+  Records?: Record[] | undefined;
+  NextToken?: string | undefined;
+  Count?: number | undefined;
+  DatasetSyncCount?: number | undefined;
+  LastModifiedBy?: string | undefined;
+  MergedDatasetNames?: string[] | undefined;
+  DatasetExists?: boolean | undefined;
+  DatasetDeletedAfterRequestedSyncCount?: boolean | undefined;
+  SyncSessionToken?: string | undefined;
 }
 export type Platform = "APNS" | "APNS_SANDBOX" | "GCM" | "ADM" | (string & {});
 export type PushToken = string;
@@ -384,7 +384,7 @@ export interface RegisterDeviceRequest {
 }
 export type DeviceId = string;
 export interface RegisterDeviceResponse {
-  DeviceId?: string;
+  DeviceId?: string | undefined;
 }
 export interface SetCognitoEventsRequest {
   IdentityPoolId: string;
@@ -393,13 +393,13 @@ export interface SetCognitoEventsRequest {
 export interface SetCognitoEventsResponse {}
 export interface SetIdentityPoolConfigurationRequest {
   IdentityPoolId: string;
-  PushSync?: PushSync;
-  CognitoStreams?: CognitoStreams;
+  PushSync?: PushSync | undefined;
+  CognitoStreams?: CognitoStreams | undefined;
 }
 export interface SetIdentityPoolConfigurationResponse {
-  IdentityPoolId?: string;
-  PushSync?: PushSync;
-  CognitoStreams?: CognitoStreams;
+  IdentityPoolId?: string | undefined;
+  PushSync?: PushSync | undefined;
+  CognitoStreams?: CognitoStreams | undefined;
 }
 export interface SubscribeToDatasetRequest {
   IdentityPoolId: string;
@@ -419,9 +419,9 @@ export type Operation = "replace" | "remove" | (string & {});
 export interface RecordPatch {
   Op: Operation;
   Key: string;
-  Value?: string;
+  Value?: string | undefined;
   SyncCount: number;
-  DeviceLastModifiedDate?: Date;
+  DeviceLastModifiedDate?: Date | undefined;
 }
 export type RecordPatchList = RecordPatch[];
 export type ClientContext = string;
@@ -429,13 +429,13 @@ export interface UpdateRecordsRequest {
   IdentityPoolId: string;
   IdentityId: string;
   DatasetName: string;
-  DeviceId?: string;
-  RecordPatches?: RecordPatch[];
+  DeviceId?: string | undefined;
+  RecordPatches?: RecordPatch[] | undefined;
   SyncSessionToken: string;
-  ClientContext?: string;
+  ClientContext?: string | undefined;
 }
 export interface UpdateRecordsResponse {
-  Records?: Record[];
+  Records?: Record[] | undefined;
 }
 export type ExceptionMessage = string;
 export type BulkPublishError =

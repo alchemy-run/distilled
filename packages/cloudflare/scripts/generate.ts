@@ -15,6 +15,7 @@
 import { runGeneratorCli } from "@distilled.cloud/dev/codegen/cli";
 import { type SdkSpec } from "@distilled.cloud/dev/codegen/generator";
 import { camel, lowerFirst } from "@distilled.cloud/dev/codegen/naming";
+import { defaultStrategyFields } from "@distilled.cloud/dev/codegen/pagination";
 
 const ENVELOPE_PAYLOAD_TRAIT = "com.cloudflare.protocols#envelopePayload";
 const NULLABLE_TRAIT = "com.cloudflare.protocols#nullable";
@@ -134,13 +135,15 @@ const makeCfSpec = (
     envelope: {
       protocol: "CloudflarePaginatedProtocol",
       strategy: "cloudflarePaginate",
+      // Page mode stops on an empty page or `result_info`; it needs no outputToken.
+      requires: (t) => (t.mode === "page" ? ["inputToken"] : defaultStrategyFields(t)),
       itemsFallback: "result",
       syntheticOutputs: ["resultInfo"],
       injectOutputMember: {
         tsName: "resultInfo",
         interfaceLines: [
           `  /** Pagination info from the envelope's \`result_info\`. */`,
-          `  resultInfo?: ResultInfo | null;`,
+          `  resultInfo?: ResultInfo | null | undefined;`,
         ],
         structLine: `  "resultInfo": S.optional(S.NullOr(ResultInfo).pipe(T.ResultInfo())),`,
         imports: ["ResultInfo"],

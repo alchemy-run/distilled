@@ -21,6 +21,25 @@ describe("privatizeSchemas", () => {
     );
   });
 
+  test("keeps paginated and streaming operations and the schemas they use", () => {
+    const code = [
+      `export const In = S.Struct({});`,
+      `export const Page = S.Struct({});`,
+      `export const Items = S.Struct({});`,
+      `export const list = API.makePaginated(() => ({ input: In, output: Page }));`,
+      `export const follow = API.makeStreaming(() => ({ input: In, output: Items }));`,
+    ].join("\n");
+    expect(run(code)).toBe(
+      [
+        `const In = S.Struct({});`,
+        `const Page = S.Struct({});`,
+        `const Items = S.Struct({});`,
+        `export const list = API.makePaginated(() => ({ input: In, output: Page }));`,
+        `export const follow = API.makeStreaming(() => ({ input: In, output: Items }));`,
+      ].join("\n"),
+    );
+  });
+
   test("removes schemas nothing reaches, with their doc comment", () => {
     const code = [
       `export const Used = S.String;`,

@@ -64,32 +64,35 @@ export interface CustomerManagedKeyEncryptionPropertiesKeyEncryptionKeyIdentity 
   /** Values can be SystemAssigned or UserAssigned */
   identityType?:
     | CustomerManagedKeyEncryptionPropertiesKeyEncryptionKeyIdentityIdentityType
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** user assigned identity to use for accessing key encryption key Url. Ex: /subscriptions/fa5fc227-a624-475e-b696-cdd604c735bc/resourceGroups/<resource group>/providers/Microsoft.ManagedIdentity/userAssignedIdentities/myId. Mutually exclusive with identityType systemAssignedIdentity. */
-  userAssignedIdentityResourceId?: string;
+  userAssignedIdentityResourceId?: string | undefined;
 }
 /** All Customer-managed key encryption properties for the resource. */
 export interface CustomerManagedKeyEncryptionProperties {
   /** All identity configuration for Customer-managed key settings defining which identity should be used to auth to Key Vault. */
-  keyEncryptionKeyIdentity?: CustomerManagedKeyEncryptionPropertiesKeyEncryptionKeyIdentity;
+  keyEncryptionKeyIdentity?:
+    | CustomerManagedKeyEncryptionPropertiesKeyEncryptionKeyIdentity
+    | undefined;
   /** key encryption key Url, with or without a version. Ex: https://contosovault.vault.azure.net/keys/contosokek/562a4bb76b524a1493a6afe8e536ee78 or https://contosovault.vault.azure.net/keys/contosokek. Key auto rotation is enabled by providing a key uri without version. Otherwise, customer is responsible for rotating the key. The keyEncryptionKeyIdentity(either SystemAssigned or UserAssigned) should have permission to access this key url. */
-  keyEncryptionKeyUrl?: string;
+  keyEncryptionKeyUrl?: string | undefined;
 }
 /** All encryption configuration for a resource. */
 export interface EncryptionProperties {
   /** All Customer-managed key encryption properties for the resource. */
-  customerManagedKeyEncryption?: CustomerManagedKeyEncryptionProperties;
+  customerManagedKeyEncryption?: CustomerManagedKeyEncryptionProperties | undefined;
 }
 /** Sku of the storage associated with the resource */
 export type FluidRelayServerPropertiesInputStoragesku = "standard" | "basic";
 /** The properties of a Fluid Relay Service resource. */
 export interface FluidRelayServerPropertiesInput {
   /** Provision states for FluidRelay RP */
-  provisioningState?: FluidRelayServerPropertiesInputProvisioningState | (string & {});
+  provisioningState?: FluidRelayServerPropertiesInputProvisioningState | (string & {}) | undefined;
   /** All encryption configuration for a resource. */
-  encryption?: EncryptionProperties;
+  encryption?: EncryptionProperties | undefined;
   /** Sku of the storage associated with the resource */
-  storagesku?: FluidRelayServerPropertiesInputStoragesku | (string & {});
+  storagesku?: FluidRelayServerPropertiesInputStoragesku | (string & {}) | undefined;
 }
 /** The identity type. */
 export type IdentityInputType =
@@ -105,9 +108,9 @@ export type IdentityInputUserAssignedIdentitiesMap = {
 /** Identity for the resource. */
 export interface IdentityInput {
   /** The identity type. */
-  type?: IdentityInputType | (string & {});
+  type?: IdentityInputType | (string & {}) | undefined;
   /** The list of user identities associated with the resource. */
-  userAssignedIdentities?: IdentityInputUserAssignedIdentitiesMap;
+  userAssignedIdentities?: IdentityInputUserAssignedIdentitiesMap | undefined;
 }
 export interface FluidRelayServersCreateOrUpdateRequest {
   /** The subscription id (GUID) for this resource. */
@@ -117,13 +120,13 @@ export interface FluidRelayServersCreateOrUpdateRequest {
   /** The Fluid Relay server resource name. */
   fluidRelayServerName: string;
   /** Resource tags. */
-  tags?: FluidRelayServersCreateOrUpdateRequestTagsMap;
+  tags?: FluidRelayServersCreateOrUpdateRequestTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: FluidRelayServerPropertiesInput;
+  properties?: FluidRelayServerPropertiesInput | undefined;
   /** The type of identity used for the resource. */
-  identity?: IdentityInput;
+  identity?: IdentityInput | undefined;
 }
 /** Resource tags. */
 export type FluidRelayServersCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
@@ -136,11 +139,11 @@ export type FluidRelayEndpointsServiceEndpointsList = Array<string>;
 /** The Fluid Relay endpoints for this server */
 export interface FluidRelayEndpoints {
   /** The Fluid Relay Orderer endpoints. */
-  ordererEndpoints?: FluidRelayEndpointsOrdererEndpointsList;
+  ordererEndpoints?: FluidRelayEndpointsOrdererEndpointsList | undefined;
   /** The Fluid Relay storage endpoints. */
-  storageEndpoints?: FluidRelayEndpointsStorageEndpointsList;
+  storageEndpoints?: FluidRelayEndpointsStorageEndpointsList | undefined;
   /** The Fluid Relay service endpoints. */
-  serviceEndpoints?: FluidRelayEndpointsServiceEndpointsList;
+  serviceEndpoints?: FluidRelayEndpointsServiceEndpointsList | undefined;
 }
 /** Provision states for FluidRelay RP */
 export type FluidRelayServerPropertiesProvisioningState = "Succeeded" | "Failed" | "Canceled";
@@ -149,15 +152,15 @@ export type FluidRelayServerPropertiesStoragesku = "standard" | "basic";
 /** The properties of a Fluid Relay Service resource. */
 export interface FluidRelayServerProperties {
   /** The Fluid tenantId for this server */
-  frsTenantId?: string;
+  frsTenantId?: string | undefined;
   /** The Fluid Relay Service endpoints for this server. */
-  fluidRelayEndpoints?: FluidRelayEndpoints;
+  fluidRelayEndpoints?: FluidRelayEndpoints | undefined;
   /** Provision states for FluidRelay RP */
-  provisioningState?: FluidRelayServerPropertiesProvisioningState;
+  provisioningState?: FluidRelayServerPropertiesProvisioningState | undefined;
   /** All encryption configuration for a resource. */
-  encryption?: EncryptionProperties;
+  encryption?: EncryptionProperties | undefined;
   /** Sku of the storage associated with the resource */
-  storagesku?: FluidRelayServerPropertiesStoragesku;
+  storagesku?: FluidRelayServerPropertiesStoragesku | undefined;
 }
 /** The type of identity that created the resource. */
 export type FluidRelayServersCreateOrUpdateResponseSystemDataCreatedByType =
@@ -174,17 +177,19 @@ export type FluidRelayServersCreateOrUpdateResponseSystemDataLastModifiedByType 
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface FluidRelayServersCreateOrUpdateResponseSystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: FluidRelayServersCreateOrUpdateResponseSystemDataCreatedByType;
+  createdByType?: FluidRelayServersCreateOrUpdateResponseSystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: FluidRelayServersCreateOrUpdateResponseSystemDataLastModifiedByType;
+  lastModifiedByType?:
+    | FluidRelayServersCreateOrUpdateResponseSystemDataLastModifiedByType
+    | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 /** The identity type. */
 export type IdentityType =
@@ -194,9 +199,9 @@ export type IdentityType =
   | "None";
 export interface IdentityUserAssignedIdentitiesValue {
   /** The principal id of user assigned identity. */
-  principalId?: string;
+  principalId?: string | undefined;
   /** The client id of user assigned identity. */
-  clientId?: string;
+  clientId?: string | undefined;
 }
 /** The list of user identities associated with the resource. */
 export type IdentityUserAssignedIdentitiesMap = {
@@ -205,31 +210,31 @@ export type IdentityUserAssignedIdentitiesMap = {
 /** Identity for the resource. */
 export interface Identity {
   /** The principal ID of resource identity. */
-  principalId?: string;
+  principalId?: string | undefined;
   /** The tenant ID of resource. */
-  tenantId?: string;
+  tenantId?: string | undefined;
   /** The identity type. */
-  type?: IdentityType;
+  type?: IdentityType | undefined;
   /** The list of user identities associated with the resource. */
-  userAssignedIdentities?: IdentityUserAssignedIdentitiesMap;
+  userAssignedIdentities?: IdentityUserAssignedIdentitiesMap | undefined;
 }
 export interface FluidRelayServersCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Resource tags. */
-  tags?: FluidRelayServersCreateOrUpdateResponseTagsMap;
+  tags?: FluidRelayServersCreateOrUpdateResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: FluidRelayServerProperties;
+  properties?: FluidRelayServerProperties | undefined;
   /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: FluidRelayServersCreateOrUpdateResponseSystemData;
+  systemData?: FluidRelayServersCreateOrUpdateResponseSystemData | undefined;
   /** The type of identity used for the resource. */
-  identity?: Identity;
+  identity?: Identity | undefined;
 }
 export interface GetFluidRelayContainerRequest {
   /** The subscription id (GUID) for this resource. */
@@ -246,15 +251,15 @@ export type FluidRelayContainerPropertiesProvisioningState = "Succeeded" | "Fail
 /** The properties of a Fluid Relay Container resource. */
 export interface FluidRelayContainerProperties {
   /** The Fluid tenantId for this container */
-  frsTenantId?: string;
+  frsTenantId?: string | undefined;
   /** The frsContainerId for this container */
-  frsContainerId?: string;
+  frsContainerId?: string | undefined;
   /** Provision states for FluidRelay RP */
-  provisioningState?: FluidRelayContainerPropertiesProvisioningState;
+  provisioningState?: FluidRelayContainerPropertiesProvisioningState | undefined;
   /** The creation time of this resource */
-  creationTime?: string;
+  creationTime?: string | undefined;
   /** Last time when user access this resource */
-  lastAccessTime?: string;
+  lastAccessTime?: string | undefined;
 }
 /** The type of identity that created the resource. */
 export type GetFluidRelayContainerResponseSystemDataCreatedByType =
@@ -271,29 +276,29 @@ export type GetFluidRelayContainerResponseSystemDataLastModifiedByType =
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface GetFluidRelayContainerResponseSystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: GetFluidRelayContainerResponseSystemDataCreatedByType;
+  createdByType?: GetFluidRelayContainerResponseSystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: GetFluidRelayContainerResponseSystemDataLastModifiedByType;
+  lastModifiedByType?: GetFluidRelayContainerResponseSystemDataLastModifiedByType | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 export interface GetFluidRelayContainerResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: FluidRelayContainerProperties;
+  properties?: FluidRelayContainerProperties | undefined;
   /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: GetFluidRelayContainerResponseSystemData;
+  systemData?: GetFluidRelayContainerResponseSystemData | undefined;
 }
 export interface GetFluidRelayServerRequest {
   /** The subscription id (GUID) for this resource. */
@@ -320,35 +325,35 @@ export type GetFluidRelayServerResponseSystemDataLastModifiedByType =
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface GetFluidRelayServerResponseSystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: GetFluidRelayServerResponseSystemDataCreatedByType;
+  createdByType?: GetFluidRelayServerResponseSystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: GetFluidRelayServerResponseSystemDataLastModifiedByType;
+  lastModifiedByType?: GetFluidRelayServerResponseSystemDataLastModifiedByType | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 export interface GetFluidRelayServerResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Resource tags. */
-  tags?: GetFluidRelayServerResponseTagsMap;
+  tags?: GetFluidRelayServerResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: FluidRelayServerProperties;
+  properties?: FluidRelayServerProperties | undefined;
   /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: GetFluidRelayServerResponseSystemData;
+  systemData?: GetFluidRelayServerResponseSystemData | undefined;
   /** The type of identity used for the resource. */
-  identity?: Identity;
+  identity?: Identity | undefined;
 }
 export interface ListFluidRelayContainerByFluidRelayServersRequest {
   /** The subscription id (GUID) for this resource. */
@@ -373,69 +378,69 @@ export type FluidRelayContainerSystemDataLastModifiedByType =
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface FluidRelayContainerSystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: FluidRelayContainerSystemDataCreatedByType;
+  createdByType?: FluidRelayContainerSystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: FluidRelayContainerSystemDataLastModifiedByType;
+  lastModifiedByType?: FluidRelayContainerSystemDataLastModifiedByType | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 /** A FluidRelay Container. */
 export interface FluidRelayContainer {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: FluidRelayContainerProperties;
+  properties?: FluidRelayContainerProperties | undefined;
   /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: FluidRelayContainerSystemData;
+  systemData?: FluidRelayContainerSystemData | undefined;
 }
 /** A sequence of FluidRelay containers. */
 export type FluidRelayContainerListValueList = Array<FluidRelayContainer>;
 /** Paged response */
 export interface FluidRelayContainerList {
   /** A sequence of FluidRelay containers. */
-  value?: FluidRelayContainerListValueList;
+  value?: FluidRelayContainerListValueList | undefined;
   /** A link to the next page of results, if any. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListFluidRelayOperationsRequest {}
 /** The object that represents the operation. */
 export interface OperationDisplay {
   /** Service provider: Microsoft.FluidRelay */
-  provider?: string;
+  provider?: string | undefined;
   /** Type on which the operation is performed, e.g., 'servers'. */
-  resource?: string;
+  resource?: string | undefined;
   /** Operation type, e.g., read, write, delete, etc. */
-  operation?: string;
+  operation?: string | undefined;
   /** Description of the operation, e.g., 'Write confluent'. */
-  description?: string;
+  description?: string | undefined;
 }
 /** A FluidRelay REST API operation. */
 export interface OperationResult {
   /** Operation name: {provider}/{resource}/{operation} */
-  name?: string;
+  name?: string | undefined;
   /** The object that represents the operation. */
-  display?: OperationDisplay;
+  display?: OperationDisplay | undefined;
   /** Indicates whether the operation is a data action */
-  isDataAction?: boolean;
+  isDataAction?: boolean | undefined;
 }
 /** List of FluidRelay operations supported by the Microsoft.FluidRelay provider. */
 export type OperationListResultValueList = Array<OperationResult>;
 /** Result of GET request to list FluidRelay operations. */
 export interface OperationListResult {
   /** List of FluidRelay operations supported by the Microsoft.FluidRelay provider. */
-  value?: OperationListResultValueList;
+  value?: OperationListResultValueList | undefined;
   /** URL to get the next set of operation list results if there are any. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListFluidRelayServerByResourceGroupRequest {
   /** The subscription id (GUID) for this resource. */
@@ -460,36 +465,36 @@ export type FluidRelayServerSystemDataLastModifiedByType =
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface FluidRelayServerSystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: FluidRelayServerSystemDataCreatedByType;
+  createdByType?: FluidRelayServerSystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: FluidRelayServerSystemDataLastModifiedByType;
+  lastModifiedByType?: FluidRelayServerSystemDataLastModifiedByType | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 /** A FluidRelay Server. */
 export interface FluidRelayServer {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Resource tags. */
-  tags?: FluidRelayServerTagsMap;
+  tags?: FluidRelayServerTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: FluidRelayServerProperties;
+  properties?: FluidRelayServerProperties | undefined;
   /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: FluidRelayServerSystemData;
+  systemData?: FluidRelayServerSystemData | undefined;
   /** The type of identity used for the resource. */
-  identity?: Identity;
+  identity?: Identity | undefined;
 }
 /** A sequence of FluidRelay servers. */
 export type FluidRelayServerListValueList = Array<FluidRelayServer>;
@@ -498,7 +503,7 @@ export interface FluidRelayServerList {
   /** A sequence of FluidRelay servers. */
   value: FluidRelayServerListValueList;
   /** A link to the next page of results, if any. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListFluidRelayServerBySubscriptionRequest {
   /** The subscription id (GUID) for this resource. */
@@ -515,9 +520,9 @@ export interface ListFluidRelayServerKeysRequest {
 /** The set of available keys for this server. */
 export interface FluidRelayServerKeys {
   /** The primary key for this server */
-  key1?: string;
+  key1?: string | undefined;
   /** The secondary key for this server */
-  key2?: string;
+  key2?: string | undefined;
 }
 /** The key to regenerate. */
 export type RegenerateFluidRelayServerKeyRequestKeyName = "key1" | "key2";
@@ -534,7 +539,7 @@ export interface RegenerateFluidRelayServerKeyRequest {
 /** The properties that can be provided when updating FluidRelayServer resource */
 export interface FluidRelayServerUpdateProperties {
   /** All encryption configuration for a resource. */
-  encryption?: EncryptionProperties;
+  encryption?: EncryptionProperties | undefined;
 }
 /** Resource tags. */
 export type UpdateFluidRelayServerRequestTagsMap = { [key: string]: string | undefined };
@@ -546,13 +551,13 @@ export interface UpdateFluidRelayServerRequest {
   /** The Fluid Relay server resource name. */
   fluidRelayServerName: string;
   /** The resource-specific properties that can be updated for this resource. */
-  properties?: FluidRelayServerUpdateProperties;
+  properties?: FluidRelayServerUpdateProperties | undefined;
   /** Resource tags. */
-  tags?: UpdateFluidRelayServerRequestTagsMap;
+  tags?: UpdateFluidRelayServerRequestTagsMap | undefined;
   /** The type of identity used for the resource. */
-  identity?: IdentityInput;
+  identity?: IdentityInput | undefined;
   /** The geo-location where the resource lives */
-  location?: string;
+  location?: string | undefined;
 }
 /** Resource tags. */
 export type UpdateFluidRelayServerResponseTagsMap = { [key: string]: string | undefined };
@@ -571,35 +576,35 @@ export type UpdateFluidRelayServerResponseSystemDataLastModifiedByType =
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface UpdateFluidRelayServerResponseSystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: UpdateFluidRelayServerResponseSystemDataCreatedByType;
+  createdByType?: UpdateFluidRelayServerResponseSystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: UpdateFluidRelayServerResponseSystemDataLastModifiedByType;
+  lastModifiedByType?: UpdateFluidRelayServerResponseSystemDataLastModifiedByType | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 export interface UpdateFluidRelayServerResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Resource tags. */
-  tags?: UpdateFluidRelayServerResponseTagsMap;
+  tags?: UpdateFluidRelayServerResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: FluidRelayServerProperties;
+  properties?: FluidRelayServerProperties | undefined;
   /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: UpdateFluidRelayServerResponseSystemData;
+  systemData?: UpdateFluidRelayServerResponseSystemData | undefined;
   /** The type of identity used for the resource. */
-  identity?: Identity;
+  identity?: Identity | undefined;
 }
 export type DeleteFluidRelayContainerError = AzureOpError;
 /** Delete a Fluid Relay container. */

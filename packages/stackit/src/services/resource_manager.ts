@@ -61,7 +61,7 @@ export class NotFound
     [{ status: 404 }],
   ) {}
 
-/** Key-value string pairs attached to an existing resource container. Certain labels may be enforced via organizational policies. * **Key:** Must be between 1 and 63 characters long (excluding an optional domain prefix). Must start and end with an alphanumeric character `[a-zA-Z0-9]` and can contain alphanumerics, dashes (-), underscores (_), and dots (.). May include an optional domain prefix up to 250 characters (a lowercase DNS subdomain containing `[a-z0-9]`, `-`, and `.`) followed by a slash (/). Total maximum key length is 314 characters. * **Value:** Must be 63 characters or less. May be empty (""). If non-empty, must start and end with an alphanumeric character `[a-zA-Z0-9]` and can contain alphanumerics, dashes (-), underscores (_), and dots (.). > Note: Additional naming restrictions may apply depending on your specific organization.* */
+/** Key-value string pairs attached to an existing resource container. Certain labels may be enforced via organizational policies. * **Key:** Must be between 1 and 63 characters long (excluding an optional domain prefix). Must start and end with an alphanumeric character `[a-zA-Z0-9]` and can contain alphanumerics, dashes (-), underscores (_), and dots (.). May include an optional domain prefix up to 250 characters (a lowercase DNS subdomain containing `[a-z0-9]`, `-`, and `.`) followed by a slash (/). Total maximum key length is 314 characters. * **Value:** Must be 63 characters or less. May be empty (""). If non-empty, must start and end with an alphanumeric character `[a-zA-Z0-9]` and can contain alphanumerics, dashes (-), underscores (_), and dots (.). Can be set to null to delete the label. > Note: Additional naming restrictions may apply depending on your specific organization.* */
 export type Labels = { [key: string]: string | undefined };
 export interface Member {
   /** A valid role defined for the resource. */
@@ -69,15 +69,15 @@ export interface Member {
   /** Unique identifier of the user, service account or client. */
   subject: string;
 }
-/** The initial members assigned to the project. At least one subject needs to be a user, and not a client or service account. */
+/** The initial members assigned to the folder. */
 export type CreateFolderRequestMembersList = Array<Member>;
 export interface CreateFolderRequest {
-  /** Identifier of the parent resource container - containerId as well as UUID identifier is supported. */
+  /** Identifier of the parent resource container */
   containerParentId: string;
-  labels?: Labels;
-  /** The initial members assigned to the project. At least one subject needs to be a user, and not a client or service account. */
-  members?: CreateFolderRequestMembersList;
-  /** The name of the folder matching the regex `^[a-zA-ZäüöÄÜÖ0-9]( ?[a-zA-ZäüöÄÜÖß0-9_+&-]){0,39}$`. */
+  labels?: Labels | undefined;
+  /** The initial members assigned to the folder. */
+  members?: CreateFolderRequestMembersList | undefined;
+  /** Folder name matching the regex `^[a-zA-ZäüöÄÜÖ0-9]( ?[a-zA-ZäüöÄÜÖß0-9_+&-]){1,40}$`. */
   name: string;
 }
 /** Container type of parent container. */
@@ -98,7 +98,7 @@ export interface FolderResponse {
   creationTime: string;
   /** Globally unique folder identifier. */
   folderId: string;
-  labels?: Labels;
+  labels?: Labels | undefined;
   /** Folder name. */
   name: string;
   parent: Parent;
@@ -112,10 +112,10 @@ export type CreateProjectRequestMembersList = Array<Member>;
 export interface CreateProjectRequest {
   /** Identifier of the parent resource container - containerId as well as UUID identifier is supported. */
   containerParentId: string;
-  labels?: CreateProjectLabels;
+  labels?: CreateProjectLabels | undefined;
   /** The initial members assigned to the project. At least one subject needs to be a user, and not a client or service account. */
-  members: CreateProjectRequestMembersList;
-  /** Project name matching the regex `^[a-zA-ZäüöÄÜÖ0-9]( ?[a-zA-ZäüöÄÜÖß0-9_+&-]){0,39}$`. */
+  members?: CreateProjectRequestMembersList | undefined;
+  /** Project name matching the regex `^[a-zA-ZäüöÄÜÖ0-9]( ?[a-zA-ZäüöÄÜÖß0-9_+&-]){1,40}$`. */
   name: string;
 }
 /** Lifecycle state of the resource container. | LIFECYCLE STATE | DESCRIPTION | |----------|--------------------| | CREATING | The creation process has been triggered. The state remains until resource manager gets notified about successful process completion. | | ACTIVE | Resource container can be fully used. | | INACTIVE | Resource container usage has been disabled. | | DELETING | The deletion process has been triggered. The state remains until resource manager gets notified about successful process completion. Afterwards, the record will be deleted. | */
@@ -125,7 +125,7 @@ export interface Project {
   containerId: string;
   /** Timestamp at which the project was created. */
   creationTime: string;
-  labels?: Labels;
+  labels?: Labels | undefined;
   lifecycleState: LifecycleState;
   /** Project name. */
   name: string;
@@ -139,7 +139,7 @@ export interface DeleteFolderRequest {
   /** Folder identifier - containerId as well as UUID identifier is supported. */
   containerId: string;
   /** If true, all nested, empty folders are deleted recursively - if no project is attached! */
-  force?: boolean;
+  force?: boolean | undefined;
 }
 export interface DeleteFolderResponse {}
 export type DeleteFolderLabelsRequestKeysList = Array<string>;
@@ -147,7 +147,7 @@ export interface DeleteFolderLabelsRequest {
   /** Folder identifier - containerId as well as UUID identifier is supported. */
   containerId: string;
   /** Label name. */
-  keys?: DeleteFolderLabelsRequestKeysList;
+  keys?: DeleteFolderLabelsRequestKeysList | undefined;
 }
 export interface DeleteFolderLabelsResponse {}
 export type DeleteOrganizationLabelsRequestKeysList = Array<string>;
@@ -155,7 +155,7 @@ export interface DeleteOrganizationLabelsRequest {
   /** Organization identifier - containerId as well as UUID identifier is supported. */
   containerId: string;
   /** Label name. */
-  keys?: DeleteOrganizationLabelsRequestKeysList;
+  keys?: DeleteOrganizationLabelsRequestKeysList | undefined;
 }
 export interface DeleteOrganizationLabelsResponse {}
 export interface DeleteProjectRequest {
@@ -168,13 +168,13 @@ export interface DeleteProjectLabelsRequest {
   /** Project identifier - containerId as well as UUID identifier is supported. */
   containerId: string;
   /** Label name. */
-  keys?: DeleteProjectLabelsRequestKeysList;
+  keys?: DeleteProjectLabelsRequestKeysList | undefined;
 }
 export interface DeleteProjectLabelsResponse {}
 export interface GetFolderDetailsRequest {
   /** Folder identifier - containerId as well as UUID identifier is supported. */
   containerId: string;
-  includeParents?: boolean;
+  includeParents?: boolean | undefined;
 }
 /** Parent container type. */
 export type ParentListItemType = "FOLDER" | "ORGANIZATION";
@@ -182,13 +182,13 @@ export interface ParentListItem {
   /** User-friendly identifier of either organization or folder (will replace id). */
   containerId: string;
   /** User-friendly parent identifier of either organization or folder (will replace parentId). */
-  containerParentId?: string;
+  containerParentId?: string | undefined;
   /** Identifier. */
   id: string;
   /** Parent container name. */
   name: string;
   /** Identifier of the parent resource container. */
-  parentId?: string;
+  parentId?: string | undefined;
   /** Parent container type. */
   type: ParentListItemType;
 }
@@ -200,11 +200,11 @@ export interface GetFolderDetailsResponse {
   creationTime: string;
   /** Globally unique folder identifier. */
   folderId: string;
-  labels?: Labels;
+  labels?: Labels | undefined;
   /** Folder name. */
   name: string;
   parent: Parent;
-  parents?: ParentList;
+  parents?: ParentList | undefined;
   /** Timestamp at which the folder was last modified. */
   updateTime: string;
 }
@@ -217,7 +217,7 @@ export interface OrganizationResponse {
   containerId: string;
   /** Timestamp at which the organization was created. */
   creationTime: string;
-  labels?: Labels;
+  labels?: Labels | undefined;
   lifecycleState: LifecycleState;
   /** Organization name. */
   name: string;
@@ -229,19 +229,19 @@ export interface OrganizationResponse {
 export interface GetProjectRequest {
   /** Project identifier - containerId as well as UUID identifier is supported. */
   id: string;
-  includeParents?: boolean;
+  includeParents?: boolean | undefined;
 }
 export interface GetProjectResponse {
   /** Globally unique identifier. */
   containerId: string;
   /** Timestamp at which the project was created. */
   creationTime: string;
-  labels?: Labels;
+  labels?: Labels | undefined;
   lifecycleState: LifecycleState;
   /** Project name. */
   name: string;
   parent: Parent;
-  parents?: ParentList;
+  parents?: ParentList | undefined;
   /** Globally unique identifier. */
   projectId: string;
   /** Timestamp at which the project was last modified. */
@@ -250,17 +250,17 @@ export interface GetProjectResponse {
 export type ListFoldersRequestContainerIdsList = Array<string>;
 export interface ListFoldersRequest {
   /** Identifier of the parent resource container - containerId as well as UUID identifier is supported. */
-  containerParentId?: string;
+  containerParentId?: string | undefined;
   /** List of container identifiers - containerId as well as UUID identifier is supported. */
-  containerIds?: ListFoldersRequestContainerIdsList;
+  containerIds?: ListFoldersRequestContainerIdsList | undefined;
   /** E-Mail address of the user for whom the visible resource containers should be filtered. */
-  member?: string;
+  member?: string | undefined;
   /** The maximum number of projects to return in the response. If not present, an appropriate default will be used. If maximum is exceeded, maximum is used. */
-  limit?: number;
+  limit?: number | undefined;
   /** The offset of the first item in the collection to return. */
-  offset?: number;
+  offset?: number | undefined;
   /** A timestamp to specify the beginning of the creationTime from which entries should be returned. If not given, defaults to the beginning of time. */
-  creation_time_start?: string;
+  creation_time_start?: string | undefined;
 }
 export interface ListFoldersResponseItemsItem {
   /** Globally unique folder identifier. */
@@ -269,7 +269,7 @@ export interface ListFoldersResponseItemsItem {
   creationTime: string;
   /** Globally unique folder identifier. */
   folderId: string;
-  labels?: Labels;
+  labels?: Labels | undefined;
   /** Name of the folder. */
   name: string;
   parent: Parent;
@@ -285,22 +285,22 @@ export interface ListFoldersResponse {
 export type ListOrganizationsRequestContainerIdsList = Array<string>;
 export interface ListOrganizationsRequest {
   /** Organization identifiers - containerId as well as UUID identifier is supported. A combination of both is not allowed. */
-  containerIds?: ListOrganizationsRequestContainerIdsList;
+  containerIds?: ListOrganizationsRequestContainerIdsList | undefined;
   /** E-Mail address of the user for whom the visible resource containers should be filtered. */
-  member?: string;
+  member?: string | undefined;
   /** The maximum number of projects to return in the response. If not present, an appropriate default will be used. If maximum is exceeded, maximum is used. */
-  limit?: number;
+  limit?: number | undefined;
   /** The offset of the first item in the collection to return. */
-  offset?: number;
+  offset?: number | undefined;
   /** A timestamp to specify the beginning of the creationTime from which entries should be returned. If not given, defaults to the beginning of time. */
-  creation_time_start?: string;
+  creation_time_start?: string | undefined;
 }
 export interface ListOrganizationsResponseItemsItem {
   /** Globally unique, user-friendly identifier. */
   containerId: string;
   /** Timestamp at which the organization was created. */
   creationTime: string;
-  labels?: Labels;
+  labels?: Labels | undefined;
   lifecycleState: LifecycleState;
   /** Name of the organization. */
   name: string;
@@ -318,17 +318,17 @@ export interface ListOrganizationsResponse {
 export type ListProjectsRequestContainerIdsList = Array<string>;
 export interface ListProjectsRequest {
   /** Identifier of the parent resource container - containerId as well as UUID identifier is supported. */
-  containerParentId?: string;
+  containerParentId?: string | undefined;
   /** List of container identifiers - containerId as well as UUID identifier is supported. */
-  containerIds?: ListProjectsRequestContainerIdsList;
+  containerIds?: ListProjectsRequestContainerIdsList | undefined;
   /** E-Mail address of the user for whom the visible resource containers should be filtered. */
-  member?: string;
+  member?: string | undefined;
   /** The offset of the first item in the collection to return. */
-  offset?: number;
+  offset?: number | undefined;
   /** The maximum number of projects to return in the response. If not present, an appropriate default will be used. If maximum is exceeded, maximum is used. */
-  limit?: number;
+  limit?: number | undefined;
   /** A timestamp to specify the beginning of the creationTime from which entries should be returned. If not given, defaults to the beginning of time. */
-  creation_time_start?: string;
+  creation_time_start?: string | undefined;
 }
 export type ListProjectsResponseItemsList = Array<Project>;
 export interface ListProjectsResponse {
@@ -336,32 +336,32 @@ export interface ListProjectsResponse {
   limit: number;
   offset: number;
 }
-/** Key-value string pairs attached to an existing resource container. Certain labels may be enforced via organizational policies. Setting an individual label's value to `null` removes/deletes that label from the resource. * **Key:** Must be between 1 and 63 characters long (excluding an optional domain prefix). Must start and end with an alphanumeric character `[a-zA-Z0-9]` and can contain alphanumerics, dashes (-), underscores (_), and dots (.). May include an optional domain prefix up to 250 characters (a lowercase DNS subdomain containing `[a-z0-9]`, `-`, and `.`) followed by a slash (/). Total maximum key length is 314 characters. * **Value:** Must be 63 characters or less. May be empty (""). If non-empty, must start and end with an alphanumeric character `[a-zA-Z0-9]` and can contain alphanumerics, dashes (-), underscores (_), and dots (.). > Note: Additional naming restrictions may apply depending on your specific organization.* */
+/** Key-value string pairs attached to an existing resource container. Certain labels may be enforced via organizational policies. Setting an individual label's value to `null` removes/deletes that label from the resource. * **Key:** Must be between 1 and 63 characters long (excluding an optional domain prefix). Must start and end with an alphanumeric character `[a-zA-Z0-9]` and can contain alphanumerics, dashes (-), underscores (_), and dots (.). May include an optional domain prefix up to 250 characters (a lowercase DNS subdomain containing `[a-z0-9]`, `-`, and `.`) followed by a slash (/). Total maximum key length is 314 characters. * **Value:** Must be 63 characters or less. May be empty (""). If non-empty, must start and end with an alphanumeric character `[a-zA-Z0-9]` and can contain alphanumerics, dashes (-), underscores (_), and dots (.). Can be set to null to delete the label. > Note: Additional naming restrictions may apply depending on your specific organization.* */
 export type UpdateLabels = { [key: string]: string | null | undefined };
 export interface PartialUpdateFolderRequest {
   /** Folder identifier - containerId as well as UUID identifier is supported. */
   containerId: string;
   /** New parent identifier for the resource container - containerId as well as UUID identifier is supported. */
-  containerParentId?: string;
-  labels?: UpdateLabels;
-  /** New name for the resource container matching the regex `^[a-zA-ZäüöÄÜÖ0-9]( ?[a-zA-ZäüöÄÜÖß0-9_+&-]){0,39}$`. */
-  name?: string;
+  containerParentId?: string | undefined;
+  labels?: UpdateLabels | undefined;
+  /** New name for the resource container matching the regex `^[a-zA-ZäüöÄÜÖ0-9]( ?[a-zA-ZäüöÄÜÖß0-9_+&-]){1,40}$`. */
+  name?: string | undefined;
 }
 export interface PartialUpdateOrganizationRequest {
   /** Organization identifier - containerId as well as UUID identifier is supported. */
   id: string;
-  labels?: UpdateLabels;
-  /** The new name of the organization matching the regex `^[a-zA-ZäüöÄÜÖ0-9]( ?[a-zA-ZäüöÄÜÖß0-9_+&-]){0,39}$`. */
-  name?: string;
+  labels?: UpdateLabels | undefined;
+  /** The new name of the organization matching the regex `^[a-zA-ZäüöÄÜÖ0-9]( ?[a-zA-ZäüöÄÜÖß0-9_+&-]){1,40}$`. */
+  name?: string | undefined;
 }
 export interface PartialUpdateProjectRequest {
   /** Project identifier - containerId as well as UUID identifier is supported. */
   id: string;
   /** New parent identifier for the resource container - containerId as well as UUID identifier is supported. */
-  containerParentId?: string;
-  labels?: UpdateLabels;
-  /** New name for the resource container matching the regex `^[a-zA-ZäüöÄÜÖ0-9]( ?[a-zA-ZäüöÄÜÖß0-9_+&-]){0,39}$`. */
-  name?: string;
+  containerParentId?: string | undefined;
+  labels?: UpdateLabels | undefined;
+  /** New name for the resource container matching the regex `^[a-zA-ZäüöÄÜÖ0-9]( ?[a-zA-ZäüöÄÜÖß0-9_+&-]){1,40}$`. */
+  name?: string | undefined;
 }
 export type CreateFolderError = BadRequest | Forbidden | Conflict | StackitOpError;
 /** Create Folder Creates a new folder within a parent organization or folder. Authorization & Permissions: - Evaluated on Target Parent Container: resource-manager.folder.create (required permission on the target parent organization or folder to create a folder). */
@@ -1001,7 +1001,7 @@ function __c18(j: number): any {
         S.Struct({
           containerParentId: S.String,
           labels: S.optional(__S(64, __c16, 0)),
-          members: __S(61, __c15, 1),
+          members: S.optional(__S(61, __c15, 1)),
           name: S.String,
         }).pipe(
           T.Http({

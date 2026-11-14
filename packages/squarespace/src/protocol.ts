@@ -1,6 +1,11 @@
 import type * as API from "@distilled.cloud/core/api";
 import type { API_ERRORS, ConfigError, InvalidInput } from "@distilled.cloud/core/errors";
-import { makeRestProtocol, type RestErrorEnvelope } from "@distilled.cloud/core/protocol-rest";
+import {
+  makeRestProtocol,
+  type RestErrorEnvelope,
+  unknownErrorProps,
+} from "@distilled.cloud/core/protocol-rest";
+import type { SdkError } from "@distilled.cloud/core/sdk-error";
 /**
  * SquarespaceProtocol -- hand-written.
  *
@@ -37,7 +42,8 @@ export type SquarespaceOpError =
   | ConfigError
   | HttpClientError.HttpClientError
   | SquarespaceParseError
-  | InvalidInput;
+  | InvalidInput
+  | SdkError;
 
 /** Context (requirements) shared by every generated Squarespace operation. */
 export type SquarespaceOpContext = Credentials | HttpClient.HttpClient;
@@ -72,11 +78,6 @@ export const SquarespaceProtocol: Layer.Layer<API.Protocol> =
       "User-Agent": creds.userAgent,
     }),
     errorEnvelope,
-    unknownError: ({ code, message, body }) =>
-      new UnknownSquarespaceError({
-        code: typeof code === "string" ? code : code !== undefined ? String(code) : undefined,
-        message,
-        body,
-      }),
+    unknownError: (info) => new UnknownSquarespaceError(unknownErrorProps(info)),
     parseError: ({ body, cause }) => new SquarespaceParseError({ body, cause }),
   });

@@ -1,6 +1,11 @@
 import type * as API from "@distilled.cloud/core/api";
 import type { API_ERRORS, ConfigError, InvalidInput } from "@distilled.cloud/core/errors";
-import { makeRestProtocol, type RestErrorEnvelope } from "@distilled.cloud/core/protocol-rest";
+import {
+  makeRestProtocol,
+  type RestErrorEnvelope,
+  unknownErrorProps,
+} from "@distilled.cloud/core/protocol-rest";
+import type { SdkError } from "@distilled.cloud/core/sdk-error";
 /**
  * AxiomProtocol -- hand-written.
  *
@@ -43,7 +48,8 @@ export type AxiomOpError =
   | ConfigError
   | HttpClientError.HttpClientError
   | AxiomParseError
-  | InvalidInput;
+  | InvalidInput
+  | SdkError;
 
 /** Context (requirements) shared by every generated Axiom operation. */
 export type AxiomOpContext = Credentials | HttpClient.HttpClient;
@@ -96,11 +102,6 @@ export const AxiomProtocol: Layer.Layer<API.Protocol> = /*@__PURE__*/ makeRestPr
   }),
   errorEnvelope,
   transformResponse: stripNulls,
-  unknownError: ({ code, message, body }) =>
-    new UnknownAxiomError({
-      code: typeof code === "number" ? String(code) : code,
-      message,
-      body,
-    }),
+  unknownError: (info) => new UnknownAxiomError(unknownErrorProps(info)),
   parseError: ({ body, cause }) => new AxiomParseError({ body, cause }),
 });

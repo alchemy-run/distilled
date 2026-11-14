@@ -1,6 +1,6 @@
 {
   "name": "@distilled.cloud/github",
-  "version": "1.0.0-rc.18",
+  "version": "1.0.0-rc.20",
   "license": "Apache-2.0",
   "repository": {
     "type": "git",
@@ -28,11 +28,23 @@
       "worker": "./src/credentials.ts",
       "default": "./lib/credentials.js"
     },
+    "./App": {
+      "types": "./lib/app.d.ts",
+      "bun": "./src/app.ts",
+      "worker": "./src/app.ts",
+      "default": "./lib/app.js"
+    },
     "./Errors": {
       "types": "./lib/errors.d.ts",
       "bun": "./src/errors.ts",
       "worker": "./src/errors.ts",
       "default": "./lib/errors.js"
+    },
+    "./OAuth": {
+      "types": "./lib/oauth.d.ts",
+      "bun": "./src/oauth.ts",
+      "worker": "./src/oauth.ts",
+      "default": "./lib/oauth.js"
     },
     "./Protocol": {
       "types": "./lib/protocol.d.ts",
@@ -91,7 +103,7 @@
     "effect": "catalog:"
   },
   "distilled": {
-    "generatedAt": "2026-10-27",
-    "specUpdatedAt": "2026-10-04"
+    "generatedAt": "2026-11-13",
+    "specUpdatedAt": "2026-11-07"
   }
 }

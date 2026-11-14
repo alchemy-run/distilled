@@ -128,188 +128,177 @@ export class TableNotReady
     ],
   ) {}
 
-/** Checks that all writes before the consistency token was generated in the same cluster are readable by Databoost. */
-export interface DataBoostReadLocalWrites {}
 /** Checks that all writes before the consistency token was generated are replicated in every cluster and readable. */
-export type StandardReadRemoteWrites = DataBoostReadLocalWrites;
+export interface StandardReadRemoteWrites {}
+/** Checks that all writes before the consistency token was generated in the same cluster are readable by Databoost. */
+export type DataBoostReadLocalWrites = StandardReadRemoteWrites;
 /** Request message for google.bigtable.admin.v2.BigtableTableAdmin.CheckConsistency */
 export interface CheckConsistencyRequest {
-  /** Checks that reads using an app profile with `DataBoostIsolationReadOnly` can see all writes committed before the token was created, but only if the read and write target the same cluster. */
-  dataBoostReadLocalWrites?: DataBoostReadLocalWrites;
   /** Required. The token created using GenerateConsistencyToken for the Table. */
-  consistencyToken?: string;
+  consistencyToken?: string | undefined;
   /** Checks that reads using an app profile with `StandardIsolation` can see all writes committed before the token was created, even if the read and write target different clusters. */
-  standardReadRemoteWrites?: DataBoostReadLocalWrites;
+  standardReadRemoteWrites?: StandardReadRemoteWrites | undefined;
+  /** Checks that reads using an app profile with `DataBoostIsolationReadOnly` can see all writes committed before the token was created, but only if the read and write target the same cluster. */
+  dataBoostReadLocalWrites?: StandardReadRemoteWrites | undefined;
 }
-export interface CheckConsistencyProjectsInstancesTablesRequest {
+export interface CheckConsistencyProjectsInstancesTablesRequest extends CheckConsistencyRequest {
   /** Required. The unique name of the Table for which to check replication consistency. Values are of the form `projects/{project}/instances/{instance}/tables/{table}`. */
   name: string;
-  /** Request body */
-  body?: CheckConsistencyRequest;
 }
 /** Response message for google.bigtable.admin.v2.BigtableTableAdmin.CheckConsistency */
 export interface CheckConsistencyResponse {
   /** True only if the token is consistent. A token is consistent if replication has caught up with the restrictions specified in the request. */
-  consistent?: boolean;
+  consistent?: boolean | undefined;
 }
 /** The request for CopyBackup. */
 export interface CopyBackupRequest {
-  /** Required. The source backup to be copied from. The source backup needs to be in READY state for it to be copied. Copying a copied backup is not allowed. Once CopyBackup is in progress, the source backup cannot be deleted or cleaned up on expiration until CopyBackup is finished. Values are of the form: `projects//instances//clusters//backups/`. */
-  sourceBackup?: string;
   /** Required. Required. The expiration time of the copied backup with microsecond granularity that must be at least 6 hours and at most 30 days from the time the request is received. Once the `expire_time` has passed, Cloud Bigtable will delete the backup and free the resources used by the backup. */
-  expireTime?: string;
+  expireTime?: string | undefined;
   /** Required. The id of the new backup. The `backup_id` along with `parent` are combined as {parent}/backups/{backup_id} to create the full backup name, of the form: `projects/{project}/instances/{instance}/clusters/{cluster}/backups/{backup_id}`. This string must be between 1 and 50 characters in length and match the regex _a-zA-Z0-9*. */
-  backupId?: string;
+  backupId?: string | undefined;
+  /** Required. The source backup to be copied from. The source backup needs to be in READY state for it to be copied. Copying a copied backup is not allowed. Once CopyBackup is in progress, the source backup cannot be deleted or cleaned up on expiration until CopyBackup is finished. Values are of the form: `projects//instances//clusters//backups/`. */
+  sourceBackup?: string | undefined;
 }
-export interface CopyProjectsInstancesClustersBackupsRequest {
+export interface CopyProjectsInstancesClustersBackupsRequest extends CopyBackupRequest {
   /** Required. The name of the destination cluster that will contain the backup copy. The cluster must already exist. Values are of the form: `projects/{project}/instances/{instance}/clusters/{cluster}`. */
   parent: string;
-  /** Request body */
-  body?: CopyBackupRequest;
 }
 export type DocumentMap = { [key: string]: unknown | undefined };
 export type DocumentMapList = Array<DocumentMap>;
 /** The `Status` type defines a logical error model that is suitable for different programming environments, including REST APIs and RPC APIs. It is used by [gRPC](https://github.com/grpc). Each `Status` message contains three pieces of data: error code, error message, and error details. You can find out more about this error model and how to work with it in the [API Design Guide](https://cloud.google.com/apis/design/errors). */
 export interface Status {
-  /** A list of messages that carry the error details. There is a common set of message types for APIs to use. */
-  details?: DocumentMapList;
-  /** The status code, which should be an enum value of google.rpc.Code. */
-  code?: number;
   /** A developer-facing error message, which should be in English. Any user-facing error message should be localized and sent in the google.rpc.Status.details field, or localized by the client. */
-  message?: string;
+  message?: string | undefined;
+  /** A list of messages that carry the error details. There is a common set of message types for APIs to use. */
+  details?: DocumentMapList | undefined;
+  /** The status code, which should be an enum value of google.rpc.Code. */
+  code?: number | undefined;
 }
 /** This resource represents a long-running operation that is the result of a network API call. */
 export interface Operation {
-  /** Service-specific metadata associated with the operation. It typically contains progress information and common metadata such as create time. Some services might not provide such metadata. Any method that returns a long-running operation should document the metadata type, if any. */
-  metadata?: DocumentMap;
-  /** The error result of the operation in case of failure or cancellation. */
-  error?: Status;
-  /** The server-assigned name, which is only unique within the same service that originally returns it. If you use the default HTTP mapping, the `name` should be a resource name ending with `operations/{unique_id}`. */
-  name?: string;
-  /** If the value is `false`, it means the operation is still in progress. If `true`, the operation is completed, and either `error` or `response` is available. */
-  done?: boolean;
   /** The normal, successful response of the operation. If the original method returns no data on success, such as `Delete`, the response is `google.protobuf.Empty`. If the original method is standard `Get`/`Create`/`Update`, the response should be the resource. For other methods, the response should have the type `XxxResponse`, where `Xxx` is the original method name. For example, if the original method name is `TakeSnapshot()`, the inferred response type is `TakeSnapshotResponse`. */
-  response?: DocumentMap;
+  response?: DocumentMap | undefined;
+  /** The server-assigned name, which is only unique within the same service that originally returns it. If you use the default HTTP mapping, the `name` should be a resource name ending with `operations/{unique_id}`. */
+  name?: string | undefined;
+  /** Service-specific metadata associated with the operation. It typically contains progress information and common metadata such as create time. Some services might not provide such metadata. Any method that returns a long-running operation should document the metadata type, if any. */
+  metadata?: DocumentMap | undefined;
+  /** The error result of the operation in case of failure or cancellation. */
+  error?: Status | undefined;
+  /** If the value is `false`, it means the operation is still in progress. If `true`, the operation is completed, and either `error` or `response` is available. */
+  done?: boolean | undefined;
 }
-export type ClusterNodeScalingFactorEnum =
-  | "NODE_SCALING_FACTOR_UNSPECIFIED"
-  | "NODE_SCALING_FACTOR_1X"
-  | "NODE_SCALING_FACTOR_2X";
-/** Cloud Key Management Service (Cloud KMS) settings for a CMEK-protected cluster. */
-export interface EncryptionConfig {
-  /** Describes the Cloud KMS encryption key that will be used to protect the destination Bigtable cluster. The requirements for this key are: 1) The Cloud Bigtable service account associated with the project that contains this cluster must be granted the `cloudkms.cryptoKeyEncrypterDecrypter` role on the CMEK key. 2) Only regional keys can be used and the region of the CMEK key must match the region of the cluster. Values are of the form `projects/{project}/locations/{location}/keyRings/{keyring}/cryptoKeys/{key}` */
-  kmsKeyName?: string;
-}
-export type ClusterStateEnum = "STATE_NOT_KNOWN" | "READY" | "CREATING" | "RESIZING" | "DISABLED";
 export type ClusterDefaultStorageTypeEnum = "STORAGE_TYPE_UNSPECIFIED" | "SSD" | "HDD";
+/** The Autoscaling targets for a Cluster. These determine the recommended nodes. */
+export interface AutoscalingTargets {
+  /** The cpu utilization that the Autoscaler should be trying to achieve. This number is on a scale from 0 (no utilization) to 100 (total utilization), and is limited between 10 and 80, otherwise it will return INVALID_ARGUMENT error. */
+  cpuUtilizationPercent?: number | undefined;
+  /** The storage utilization that the Autoscaler should be trying to achieve. This number is limited between 2560 (2.5TiB) and 5120 (5TiB) for a SSD cluster and between 8192 (8TiB) and 16384 (16TiB) for an HDD cluster, otherwise it will return INVALID_ARGUMENT error. If this value is set to 0, it will be treated as if it were set to the default value: 2560 for SSD, 8192 for HDD. */
+  storageUtilizationGibPerNode?: number | undefined;
+}
 /** Limits for the number of nodes a Cluster can autoscale up/down to. */
 export interface AutoscalingLimits {
   /** Required. Minimum number of nodes to scale down to. */
-  minServeNodes?: number;
+  minServeNodes?: number | undefined;
   /** Required. Maximum number of nodes to scale up to. */
-  maxServeNodes?: number;
-}
-/** The Autoscaling targets for a Cluster. These determine the recommended nodes. */
-export interface AutoscalingTargets {
-  /** The storage utilization that the Autoscaler should be trying to achieve. This number is limited between 2560 (2.5TiB) and 5120 (5TiB) for a SSD cluster and between 8192 (8TiB) and 16384 (16TiB) for an HDD cluster, otherwise it will return INVALID_ARGUMENT error. If this value is set to 0, it will be treated as if it were set to the default value: 2560 for SSD, 8192 for HDD. */
-  storageUtilizationGibPerNode?: number;
-  /** The cpu utilization that the Autoscaler should be trying to achieve. This number is on a scale from 0 (no utilization) to 100 (total utilization), and is limited between 10 and 80, otherwise it will return INVALID_ARGUMENT error. */
-  cpuUtilizationPercent?: number;
+  maxServeNodes?: number | undefined;
 }
 /** Autoscaling config for a cluster. */
 export interface ClusterAutoscalingConfig {
-  /** Required. Autoscaling limits for this cluster. */
-  autoscalingLimits?: AutoscalingLimits;
   /** Required. Autoscaling targets for this cluster. */
-  autoscalingTargets?: AutoscalingTargets;
+  autoscalingTargets?: AutoscalingTargets | undefined;
+  /** Required. Autoscaling limits for this cluster. */
+  autoscalingLimits?: AutoscalingLimits | undefined;
 }
 /** Configuration for a cluster. */
 export interface ClusterConfig {
   /** Autoscaling configuration for this cluster. */
-  clusterAutoscalingConfig?: ClusterAutoscalingConfig;
+  clusterAutoscalingConfig?: ClusterAutoscalingConfig | undefined;
 }
+/** Cloud Key Management Service (Cloud KMS) settings for a CMEK-protected cluster. */
+export interface EncryptionConfig {
+  /** Describes the Cloud KMS encryption key that will be used to protect the destination Bigtable cluster. The requirements for this key are: 1) The Cloud Bigtable service account associated with the project that contains this cluster must be granted the `cloudkms.cryptoKeyEncrypterDecrypter` role on the CMEK key. 2) Only regional keys can be used and the region of the CMEK key must match the region of the cluster. Values are of the form `projects/{project}/locations/{location}/keyRings/{keyring}/cryptoKeys/{key}` */
+  kmsKeyName?: string | undefined;
+}
+export type ClusterStateEnum = "STATE_NOT_KNOWN" | "READY" | "CREATING" | "RESIZING" | "DISABLED";
+export type ClusterNodeScalingFactorEnum =
+  | "NODE_SCALING_FACTOR_UNSPECIFIED"
+  | "NODE_SCALING_FACTOR_1X"
+  | "NODE_SCALING_FACTOR_2X";
 /** A resizable group of nodes in a particular cloud location, capable of serving all Tables in the parent Instance. */
 export interface Cluster {
-  /** Immutable. The node scaling factor of this cluster. */
-  nodeScalingFactor?: ClusterNodeScalingFactorEnum | (string & {});
-  /** Immutable. The encryption configuration for CMEK-protected clusters. */
-  encryptionConfig?: EncryptionConfig;
-  /** The unique name of the cluster. Values are of the form `projects/{project}/instances/{instance}/clusters/a-z*`. */
-  name?: string;
   /** The number of nodes in the cluster. If no value is set, Cloud Bigtable automatically allocates nodes based on your data footprint and optimized for 50% storage utilization. */
-  serveNodes?: number;
-  /** Output only. The current state of the cluster. */
-  state?: ClusterStateEnum | (string & {});
+  serveNodes?: number | undefined;
   /** Immutable. The type of storage used by this cluster to serve its parent instance's tables, unless explicitly overridden. */
-  defaultStorageType?: ClusterDefaultStorageTypeEnum | (string & {});
+  defaultStorageType?: ClusterDefaultStorageTypeEnum | (string & {}) | undefined;
   /** Configuration for this cluster. */
-  clusterConfig?: ClusterConfig;
+  clusterConfig?: ClusterConfig | undefined;
+  /** Immutable. The encryption configuration for CMEK-protected clusters. */
+  encryptionConfig?: EncryptionConfig | undefined;
+  /** Output only. The current state of the cluster. */
+  state?: ClusterStateEnum | (string & {}) | undefined;
+  /** The unique name of the cluster. Values are of the form `projects/{project}/instances/{instance}/clusters/a-z*`. */
+  name?: string | undefined;
   /** Immutable. The location where this cluster's nodes and storage reside. For best performance, clients should be located as close as possible to this cluster. Currently only zones are supported, so values should be of the form `projects/{project}/locations/{zone}`. */
-  location?: string;
+  location?: string | undefined;
+  /** Immutable. The node scaling factor of this cluster. */
+  nodeScalingFactor?: ClusterNodeScalingFactorEnum | (string & {}) | undefined;
 }
 export type ClusterMap = { [key: string]: Cluster | undefined };
-export type InstanceTypeEnum = "TYPE_UNSPECIFIED" | "PRODUCTION" | "DEVELOPMENT";
 export type StringMap = { [key: string]: string | undefined };
 export type InstanceEditionEnum = "EDITION_UNSPECIFIED" | "ENTERPRISE" | "ENTERPRISE_PLUS";
+export type InstanceTypeEnum = "TYPE_UNSPECIFIED" | "PRODUCTION" | "DEVELOPMENT";
 export type InstanceStateEnum = "STATE_NOT_KNOWN" | "READY" | "CREATING";
 /** A collection of Bigtable Tables and the resources that serve them. All tables in an instance are served from all Clusters in the instance. */
 export interface Instance {
-  /** Output only. Reserved for future use. */
-  satisfiesPzs?: boolean;
-  /** The type of the instance. Defaults to `PRODUCTION`. */
-  type?: InstanceTypeEnum | (string & {});
-  /** Labels are a flexible and lightweight mechanism for organizing cloud resources into groups that reflect a customer's organizational needs and deployment strategies. They can be used to filter resources and aggregate metrics. * Label keys must be between 1 and 63 characters long and must conform to the regular expression: `\p{Ll}\p{Lo}{0,62}`. * Label values must be between 0 and 63 characters long and must conform to the regular expression: `[\p{Ll}\p{Lo}\p{N}_-]{0,63}`. * No more than 64 labels can be associated with a given resource. * Keys and values must both be under 128 bytes. Labels and Tags (below) are both used to bind metadata to resources, with different use-cases. See https://cloud.google.com/resource-manager/docs/tags/tags-overview for an in-depth overview on the difference between tags and labels. */
-  labels?: StringMap;
-  /** Optional. The edition of the instance. See Edition for details. */
-  edition?: InstanceEditionEnum | (string & {});
-  /** Output only. A commit timestamp representing when this Instance was created. For instances created before this field was added (August 2021), this value is `seconds: 0, nanos: 1`. */
-  createTime?: string;
-  /** The unique name of the instance. Values are of the form `projects/{project}/instances/a-z+[a-z0-9]`. */
-  name?: string;
-  /** Output only. The current state of the instance. */
-  state?: InstanceStateEnum | (string & {});
   /** Output only. The region where Knowledge Catalog data is synced to and stored, including user-created aspects. */
-  knowledgeCatalogRegion?: string;
-  /** Required. The descriptive name for this instance as it appears in UIs. Can be changed at any time, but should be kept globally unique to avoid confusion. */
-  displayName?: string;
+  knowledgeCatalogRegion?: string | undefined;
   /** Optional. Input only. Immutable. Tag keys/values directly bound to this resource. For example: - "123/environment": "production", - "123/costCenter": "marketing" Tags and Labels (above) are both used to bind metadata to resources, with different use-cases. See https://cloud.google.com/resource-manager/docs/tags/tags-overview for an in-depth overview on the difference between tags and labels. */
-  tags?: StringMap;
+  tags?: StringMap | undefined;
+  /** Required. The descriptive name for this instance as it appears in UIs. Can be changed at any time, but should be kept globally unique to avoid confusion. */
+  displayName?: string | undefined;
+  /** Output only. A commit timestamp representing when this Instance was created. For instances created before this field was added (August 2021), this value is `seconds: 0, nanos: 1`. */
+  createTime?: string | undefined;
+  /** Optional. The edition of the instance. See Edition for details. */
+  edition?: InstanceEditionEnum | (string & {}) | undefined;
+  /** The type of the instance. Defaults to `PRODUCTION`. */
+  type?: InstanceTypeEnum | (string & {}) | undefined;
   /** Output only. Reserved for future use. */
-  satisfiesPzi?: boolean;
+  satisfiesPzs?: boolean | undefined;
+  /** Output only. Reserved for future use. */
+  satisfiesPzi?: boolean | undefined;
+  /** Labels are a flexible and lightweight mechanism for organizing cloud resources into groups that reflect a customer's organizational needs and deployment strategies. They can be used to filter resources and aggregate metrics. * Label keys must be between 1 and 63 characters long and must conform to the regular expression: `\p{Ll}\p{Lo}{0,62}`. * Label values must be between 0 and 63 characters long and must conform to the regular expression: `[\p{Ll}\p{Lo}\p{N}_-]{0,63}`. * No more than 64 labels can be associated with a given resource. * Keys and values must both be under 128 bytes. Labels and Tags (below) are both used to bind metadata to resources, with different use-cases. See https://cloud.google.com/resource-manager/docs/tags/tags-overview for an in-depth overview on the difference between tags and labels. */
+  labels?: StringMap | undefined;
+  /** The unique name of the instance. Values are of the form `projects/{project}/instances/a-z+[a-z0-9]`. */
+  name?: string | undefined;
+  /** Output only. The current state of the instance. */
+  state?: InstanceStateEnum | (string & {}) | undefined;
 }
 /** Request message for BigtableInstanceAdmin.CreateInstance. */
 export interface CreateInstanceRequest {
-  /** Required. The ID to be used when referring to the new instance within its project, e.g., just `myinstance` rather than `projects/myproject/instances/myinstance`. */
-  instanceId?: string;
-  /** Required. The clusters to be created within the instance, mapped by desired cluster ID, e.g., just `mycluster` rather than `projects/myproject/instances/myinstance/clusters/mycluster`. Fields marked `OutputOnly` must be left blank. */
-  clusters?: ClusterMap;
-  /** Required. The instance to create. Fields marked `OutputOnly` must be left blank. */
-  instance?: Instance;
   /** Required. The unique name of the project in which to create the new instance. Values are of the form `projects/{project}`. */
-  parent?: string;
+  parent?: string | undefined;
+  /** Required. The clusters to be created within the instance, mapped by desired cluster ID, e.g., just `mycluster` rather than `projects/myproject/instances/myinstance/clusters/mycluster`. Fields marked `OutputOnly` must be left blank. */
+  clusters?: ClusterMap | undefined;
+  /** Required. The ID to be used when referring to the new instance within its project, e.g., just `myinstance` rather than `projects/myproject/instances/myinstance`. */
+  instanceId?: string | undefined;
+  /** Required. The instance to create. Fields marked `OutputOnly` must be left blank. */
+  instance?: Instance | undefined;
 }
-export interface CreateProjectsInstancesRequest {
+export interface CreateProjectsInstancesRequest extends Omit<CreateInstanceRequest, "parent"> {
   /** Required. The unique name of the project in which to create the new instance. Values are of the form `projects/{project}`. */
   parent: string;
-  /** Request body */
-  body?: CreateInstanceRequest;
 }
+export type AppProfilePriorityEnum =
+  | "PRIORITY_UNSPECIFIED"
+  | "PRIORITY_LOW"
+  | "PRIORITY_MEDIUM"
+  | "PRIORITY_HIGH";
 /** Unconditionally routes all read/write requests to a specific cluster. This option preserves read-your-writes consistency but does not improve availability. */
 export interface SingleClusterRouting {
-  /** The cluster to which read/write requests should be routed. */
-  clusterId?: string;
   /** Whether or not `CheckAndMutateRow` and `ReadModifyWriteRow` requests are allowed by this app profile. It is unsafe to send these requests to the same table/row/column in multiple clusters. */
-  allowTransactionalWrites?: boolean;
-}
-export type StringList = Array<string>;
-/** If enabled, Bigtable will route the request based on the row key of the request, rather than randomly. Instead, each row key will be assigned to a cluster, and will stick to that cluster. If clusters are added or removed, then this may affect which row keys stick to which clusters. To avoid this, users can use a cluster group to specify which clusters are to be used. In this case, new clusters that are not a part of the cluster group will not be routed to, and routing will be unaffected by the new cluster. Moreover, clusters specified in the cluster group cannot be deleted unless removed from the cluster group. */
-export type RowAffinity = DataBoostReadLocalWrites;
-/** Read/write requests are routed to the nearest cluster in the instance, and will fail over to the nearest cluster that is available in the event of transient errors or delays. Clusters in a region are considered equidistant. Choosing this option sacrifices read-your-writes consistency to improve availability. */
-export interface MultiClusterRoutingUseAny {
-  /** The set of clusters to route to. The order is ignored; clusters will be tried in order of distance. If left empty, all clusters are eligible. */
-  clusterIds?: StringList;
-  /** Row affinity sticky routing based on the row key of the request. Requests that span multiple rows are routed non-deterministically. */
-  rowAffinity?: DataBoostReadLocalWrites;
+  allowTransactionalWrites?: boolean | undefined;
+  /** The cluster to which read/write requests should be routed. */
+  clusterId?: string | undefined;
 }
 export type DataBoostIsolationReadOnlyComputeBillingOwnerEnum =
   | "COMPUTE_BILLING_OWNER_UNSPECIFIED"
@@ -317,65 +306,68 @@ export type DataBoostIsolationReadOnlyComputeBillingOwnerEnum =
 /** Data Boost is a serverless compute capability that lets you run high-throughput read jobs and queries on your Bigtable data, without impacting the performance of the clusters that handle your application traffic. Data Boost supports read-only use cases with single-cluster routing. */
 export interface DataBoostIsolationReadOnly {
   /** The Compute Billing Owner for this Data Boost App Profile. */
-  computeBillingOwner?: DataBoostIsolationReadOnlyComputeBillingOwnerEnum | (string & {});
+  computeBillingOwner?:
+    | DataBoostIsolationReadOnlyComputeBillingOwnerEnum
+    | (string & {})
+    | undefined;
 }
-/** If set, eligible single-row requests (currently limited to ReadRows) using this app profile will be routed to the memory layer. All eligible writes populate the memory layer. MemoryConfig can only be set if the AppProfile uses single cluster routing and the configured cluster has a memory layer enabled. */
-export type MemoryConfig = DataBoostReadLocalWrites;
+export type StringList = Array<string>;
+/** If enabled, Bigtable will route the request based on the row key of the request, rather than randomly. Instead, each row key will be assigned to a cluster, and will stick to that cluster. If clusters are added or removed, then this may affect which row keys stick to which clusters. To avoid this, users can use a cluster group to specify which clusters are to be used. In this case, new clusters that are not a part of the cluster group will not be routed to, and routing will be unaffected by the new cluster. Moreover, clusters specified in the cluster group cannot be deleted unless removed from the cluster group. */
+export type RowAffinity = StandardReadRemoteWrites;
+/** Read/write requests are routed to the nearest cluster in the instance, and will fail over to the nearest cluster that is available in the event of transient errors or delays. Clusters in a region are considered equidistant. Choosing this option sacrifices read-your-writes consistency to improve availability. */
+export interface MultiClusterRoutingUseAny {
+  /** The set of clusters to route to. The order is ignored; clusters will be tried in order of distance. If left empty, all clusters are eligible. */
+  clusterIds?: StringList | undefined;
+  /** Row affinity sticky routing based on the row key of the request. Requests that span multiple rows are routed non-deterministically. */
+  rowAffinity?: StandardReadRemoteWrites | undefined;
+}
 export type StandardIsolationPriorityEnum =
   | "PRIORITY_UNSPECIFIED"
   | "PRIORITY_LOW"
   | "PRIORITY_MEDIUM"
   | "PRIORITY_HIGH";
+/** If set, eligible single-row requests (currently limited to ReadRows) using this app profile will be routed to the memory layer. All eligible writes populate the memory layer. MemoryConfig can only be set if the AppProfile uses single cluster routing and the configured cluster has a memory layer enabled. */
+export type MemoryConfig = StandardReadRemoteWrites;
 /** Standard options for isolating this app profile's traffic from other use cases. */
 export interface StandardIsolation {
-  /** Optional. The memory config to use for requests sent using this app profile. */
-  memoryConfig?: DataBoostReadLocalWrites;
   /** The priority of requests sent using this app profile. */
-  priority?: StandardIsolationPriorityEnum | (string & {});
+  priority?: StandardIsolationPriorityEnum | (string & {}) | undefined;
+  /** Optional. The memory config to use for requests sent using this app profile. */
+  memoryConfig?: StandardReadRemoteWrites | undefined;
 }
-export type AppProfilePriorityEnum =
-  | "PRIORITY_UNSPECIFIED"
-  | "PRIORITY_LOW"
-  | "PRIORITY_MEDIUM"
-  | "PRIORITY_HIGH";
 /** A configuration object describing how Cloud Bigtable should treat traffic from a particular end user application. */
 export interface AppProfile {
-  /** Strongly validated etag for optimistic concurrency control. Preserve the value returned from `GetAppProfile` when calling `UpdateAppProfile` to fail the request if there has been a modification in the meantime. The `update_mask` of the request need not include `etag` for this protection to apply. See [Wikipedia](https://en.wikipedia.org/wiki/HTTP_ETag) and [RFC 7232](https://tools.ietf.org/html/rfc7232#section-2.3) for more details. */
-  etag?: string;
-  /** Use a single-cluster routing policy. */
-  singleClusterRouting?: SingleClusterRouting;
-  /** The unique name of the app profile, up to 50 characters long. Values are of the form `projects/{project}/instances/{instance}/appProfiles/_a-zA-Z0-9*`. */
-  name?: string;
-  /** Use a multi-cluster routing policy. */
-  multiClusterRoutingUseAny?: MultiClusterRoutingUseAny;
-  /** Specifies that this app profile is intended for read-only usage via the Data Boost feature. */
-  dataBoostIsolationReadOnly?: DataBoostIsolationReadOnly;
-  /** The standard options used for isolating this app profile's traffic from other use cases. */
-  standardIsolation?: StandardIsolation;
   /** This field has been deprecated in favor of `standard_isolation.priority`. If you set this field, `standard_isolation.priority` will be set instead. The priority of requests sent using this app profile. */
-  priority?: AppProfilePriorityEnum | (string & {});
+  priority?: AppProfilePriorityEnum | (string & {}) | undefined;
+  /** Use a single-cluster routing policy. */
+  singleClusterRouting?: SingleClusterRouting | undefined;
+  /** The unique name of the app profile, up to 50 characters long. Values are of the form `projects/{project}/instances/{instance}/appProfiles/_a-zA-Z0-9*`. */
+  name?: string | undefined;
+  /** Specifies that this app profile is intended for read-only usage via the Data Boost feature. */
+  dataBoostIsolationReadOnly?: DataBoostIsolationReadOnly | undefined;
   /** Long form description of the use case for this AppProfile. */
-  description?: string;
+  description?: string | undefined;
+  /** Strongly validated etag for optimistic concurrency control. Preserve the value returned from `GetAppProfile` when calling `UpdateAppProfile` to fail the request if there has been a modification in the meantime. The `update_mask` of the request need not include `etag` for this protection to apply. See [Wikipedia](https://en.wikipedia.org/wiki/HTTP_ETag) and [RFC 7232](https://tools.ietf.org/html/rfc7232#section-2.3) for more details. */
+  etag?: string | undefined;
+  /** Use a multi-cluster routing policy. */
+  multiClusterRoutingUseAny?: MultiClusterRoutingUseAny | undefined;
+  /** The standard options used for isolating this app profile's traffic from other use cases. */
+  standardIsolation?: StandardIsolation | undefined;
 }
-export interface CreateProjectsInstancesAppProfilesRequest {
+export interface CreateProjectsInstancesAppProfilesRequest extends AppProfile {
   /** Required. The ID to be used when referring to the new app profile within its instance, e.g., just `myprofile` rather than `projects/myproject/instances/myinstance/appProfiles/myprofile`. */
-  appProfileId?: string;
-  /** If true, ignore safety checks when creating the app profile. */
-  ignoreWarnings?: boolean;
+  appProfileId?: string | undefined;
   /** Required. The unique name of the instance in which to create the new app profile. Values are of the form `projects/{project}/instances/{instance}`. */
   parent: string;
-  /** Request body */
-  body?: AppProfile;
+  /** If true, ignore safety checks when creating the app profile. */
+  ignoreWarnings?: boolean | undefined;
 }
-export interface CreateProjectsInstancesClustersRequest {
-  /** Required. The ID to be used when referring to the new cluster within its instance, e.g., just `mycluster` rather than `projects/myproject/instances/myinstance/clusters/mycluster`. */
-  clusterId?: string;
+export interface CreateProjectsInstancesClustersRequest extends Cluster {
   /** Required. The unique name of the instance in which to create the new cluster. Values are of the form `projects/{project}/instances/{instance}`. */
   parent: string;
-  /** Request body */
-  body?: Cluster;
+  /** Required. The ID to be used when referring to the new cluster within its instance, e.g., just `mycluster` rather than `projects/myproject/instances/myinstance/clusters/mycluster`. */
+  clusterId?: string | undefined;
 }
-export type BackupStateEnum = "STATE_UNSPECIFIED" | "CREATING" | "READY";
 export type BackupBackupTypeEnum = "BACKUP_TYPE_UNSPECIFIED" | "STANDARD" | "HOT";
 export type EncryptionInfoEncryptionTypeEnum =
   | "ENCRYPTION_TYPE_UNSPECIFIED"
@@ -383,64 +375,61 @@ export type EncryptionInfoEncryptionTypeEnum =
   | "CUSTOMER_MANAGED_ENCRYPTION";
 /** Encryption information for a given resource. If this resource is protected with customer managed encryption, the in-use Cloud Key Management Service (Cloud KMS) key version is specified along with its status. */
 export interface EncryptionInfo {
-  /** Output only. The status of encrypt/decrypt calls on underlying data for this resource. Regardless of status, the existing data is always encrypted at rest. */
-  encryptionStatus?: Status;
-  /** Output only. The type of encryption used to protect this resource. */
-  encryptionType?: EncryptionInfoEncryptionTypeEnum | (string & {});
   /** Output only. The version of the Cloud KMS key specified in the parent cluster that is in use for the data underlying this table. */
-  kmsKeyVersion?: string;
+  kmsKeyVersion?: string | undefined;
+  /** Output only. The status of encrypt/decrypt calls on underlying data for this resource. Regardless of status, the existing data is always encrypted at rest. */
+  encryptionStatus?: Status | undefined;
+  /** Output only. The type of encryption used to protect this resource. */
+  encryptionType?: EncryptionInfoEncryptionTypeEnum | (string & {}) | undefined;
 }
+export type BackupStateEnum = "STATE_UNSPECIFIED" | "CREATING" | "READY";
 /** A backup of a Cloud Bigtable table. */
 export interface Backup {
-  /** Output only. `end_time` is the time that the backup was finished. The row data in the backup will be no newer than this timestamp. */
-  endTime?: string;
-  /** The time at which the hot backup will be converted to a standard backup. Once the `hot_to_standard_time` has passed, Cloud Bigtable will convert the hot backup to a standard backup. This value must be greater than the backup creation time by: - At least 24 hours This field only applies for hot backups. When creating or updating a standard backup, attempting to set this field will fail the request. */
-  hotToStandardTime?: string;
   /** Output only. Name of the backup from which this backup was copied. If a backup is not created by copying a backup, this field will be empty. Values are of the form: projects//instances//clusters//backups/ */
-  sourceBackup?: string;
-  /** A globally unique identifier for the backup which cannot be changed. Values are of the form `projects/{project}/instances/{instance}/clusters/{cluster}/ backups/_a-zA-Z0-9*` The final segment of the name must be between 1 and 50 characters in length. The backup is stored in the cluster identified by the prefix of the backup name of the form `projects/{project}/instances/{instance}/clusters/{cluster}`. */
-  name?: string;
-  /** Required. The expiration time of the backup. When creating a backup or updating its `expire_time`, the value must be greater than the backup creation time by: - At least 6 hours - At most 90 days Once the `expire_time` has passed, Cloud Bigtable will delete the backup. */
-  expireTime?: string;
-  /** Output only. The current state of the backup. */
-  state?: BackupStateEnum | (string & {});
+  sourceBackup?: string | undefined;
+  /** The time at which the hot backup will be converted to a standard backup. Once the `hot_to_standard_time` has passed, Cloud Bigtable will convert the hot backup to a standard backup. This value must be greater than the backup creation time by: - At least 24 hours This field only applies for hot backups. When creating or updating a standard backup, attempting to set this field will fail the request. */
+  hotToStandardTime?: string | undefined;
+  /** Output only. `end_time` is the time that the backup was finished. The row data in the backup will be no newer than this timestamp. */
+  endTime?: string | undefined;
   /** Indicates the backup type of the backup. */
-  backupType?: BackupBackupTypeEnum | (string & {});
-  /** Required. Immutable. Name of the table from which this backup was created. This needs to be in the same instance as the backup. Values are of the form `projects/{project}/instances/{instance}/tables/{source_table}`. */
-  sourceTable?: string;
-  /** Output only. `start_time` is the time that the backup was started (i.e. approximately the time the CreateBackup request is received). The row data in this backup will be no older than this timestamp. */
-  startTime?: string;
-  /** Output only. Size of the backup in bytes. */
-  sizeBytes?: string;
+  backupType?: BackupBackupTypeEnum | (string & {}) | undefined;
+  /** A globally unique identifier for the backup which cannot be changed. Values are of the form `projects/{project}/instances/{instance}/clusters/{cluster}/ backups/_a-zA-Z0-9*` The final segment of the name must be between 1 and 50 characters in length. The backup is stored in the cluster identified by the prefix of the backup name of the form `projects/{project}/instances/{instance}/clusters/{cluster}`. */
+  name?: string | undefined;
   /** Output only. The encryption information for the backup. */
-  encryptionInfo?: EncryptionInfo;
+  encryptionInfo?: EncryptionInfo | undefined;
+  /** Output only. The current state of the backup. */
+  state?: BackupStateEnum | (string & {}) | undefined;
+  /** Output only. `start_time` is the time that the backup was started (i.e. approximately the time the CreateBackup request is received). The row data in this backup will be no older than this timestamp. */
+  startTime?: string | undefined;
+  /** Required. The expiration time of the backup. When creating a backup or updating its `expire_time`, the value must be greater than the backup creation time by: - At least 6 hours - At most 90 days Once the `expire_time` has passed, Cloud Bigtable will delete the backup. */
+  expireTime?: string | undefined;
+  /** Required. Immutable. Name of the table from which this backup was created. This needs to be in the same instance as the backup. Values are of the form `projects/{project}/instances/{instance}/tables/{source_table}`. */
+  sourceTable?: string | undefined;
+  /** Output only. Size of the backup in bytes. */
+  sizeBytes?: string | undefined;
 }
-export interface CreateProjectsInstancesClustersBackupsRequest {
+export interface CreateProjectsInstancesClustersBackupsRequest extends Backup {
   /** Required. This must be one of the clusters in the instance in which this table is located. The backup will be stored in this cluster. Values are of the form `projects/{project}/instances/{instance}/clusters/{cluster}`. */
   parent: string;
   /** Required. The id of the backup to be created. The `backup_id` along with the parent `parent` are combined as {parent}/backups/{backup_id} to create the full backup name, of the form: `projects/{project}/instances/{instance}/clusters/{cluster}/backups/{backup_id}`. This string must be between 1 and 50 characters in length and match the regex _a-zA-Z0-9*. */
-  backupId?: string;
-  /** Request body */
-  body?: Backup;
+  backupId?: string | undefined;
 }
 /** A SQL logical view object that can be referenced in SQL queries. */
 export interface LogicalView {
-  /** Identifier. The unique name of the logical view. Format: `projects/{project}/instances/{instance}/logicalViews/{logical_view}` */
-  name?: string;
-  /** Required. The logical view's select query. */
-  query?: string;
   /** Optional. The etag for this logical view. This may be sent on update requests to ensure that the client has an up-to-date value before proceeding. The server returns an ABORTED error on a mismatched etag. */
-  etag?: string;
+  etag?: string | undefined;
   /** Optional. Set to true to make the LogicalView protected against deletion. */
-  deletionProtection?: boolean;
+  deletionProtection?: boolean | undefined;
+  /** Identifier. The unique name of the logical view. Format: `projects/{project}/instances/{instance}/logicalViews/{logical_view}` */
+  name?: string | undefined;
+  /** Required. The logical view's select query. */
+  query?: string | undefined;
 }
-export interface CreateProjectsInstancesLogicalViewsRequest {
+export interface CreateProjectsInstancesLogicalViewsRequest extends LogicalView {
   /** Required. The ID to use for the logical view, which will become the final component of the logical view's resource name. */
-  logicalViewId?: string;
+  logicalViewId?: string | undefined;
   /** Required. The parent instance where this logical view will be created. Format: `projects/{project}/instances/{instance}`. */
   parent: string;
-  /** Request body */
-  body?: LogicalView;
 }
 export type GoogleBigtableAdminV2MaterializedViewClusterStateReplicationStateEnum =
   | "STATE_NOT_KNOWN"
@@ -451,319 +440,351 @@ export interface GoogleBigtableAdminV2MaterializedViewClusterState {
   /** Output only. The state of the materialized view in this cluster. */
   replicationState?:
     | GoogleBigtableAdminV2MaterializedViewClusterStateReplicationStateEnum
-    | (string & {});
+    | (string & {})
+    | undefined;
 }
 export type GoogleBigtableAdminV2MaterializedViewClusterStateMap = {
   [key: string]: GoogleBigtableAdminV2MaterializedViewClusterState | undefined;
 };
 /** A materialized view object that can be referenced in SQL queries. */
 export interface MaterializedView {
-  /** Identifier. The unique name of the materialized view. Format: `projects/{project}/instances/{instance}/materializedViews/{materialized_view}` Views: `SCHEMA_VIEW`, `REPLICATION_VIEW`, `FULL`. */
-  name?: string;
-  /** Required. Immutable. The materialized view's select query. Views: `SCHEMA_VIEW`, `FULL`. */
-  query?: string;
-  /** Output only. Map from cluster ID to per-cluster materialized view state. If it could not be determined whether or not the materialized view has data in a particular cluster (for example, if its zone is unavailable), then there will be an entry for the cluster with `STATE_NOT_KNOWN` state. Views: `REPLICATION_VIEW`, `FULL`. */
-  clusterStates?: GoogleBigtableAdminV2MaterializedViewClusterStateMap;
-  /** Set to true to make the MaterializedView protected against deletion. Views: `SCHEMA_VIEW`, `REPLICATION_VIEW`, `FULL`. */
-  deletionProtection?: boolean;
   /** Optional. The etag for this materialized view. This may be sent on update requests to ensure that the client has an up-to-date value before proceeding. The server returns an ABORTED error on a mismatched etag. Views: `SCHEMA_VIEW`, `REPLICATION_VIEW`, `FULL`. */
-  etag?: string;
+  etag?: string | undefined;
+  /** Identifier. The unique name of the materialized view. Format: `projects/{project}/instances/{instance}/materializedViews/{materialized_view}` Views: `SCHEMA_VIEW`, `REPLICATION_VIEW`, `FULL`. */
+  name?: string | undefined;
+  /** Set to true to make the MaterializedView protected against deletion. Views: `SCHEMA_VIEW`, `REPLICATION_VIEW`, `FULL`. */
+  deletionProtection?: boolean | undefined;
+  /** Output only. Map from cluster ID to per-cluster materialized view state. If it could not be determined whether or not the materialized view has data in a particular cluster (for example, if its zone is unavailable), then there will be an entry for the cluster with `STATE_NOT_KNOWN` state. Views: `REPLICATION_VIEW`, `FULL`. */
+  clusterStates?: GoogleBigtableAdminV2MaterializedViewClusterStateMap | undefined;
+  /** Required. Immutable. The materialized view's select query. Views: `SCHEMA_VIEW`, `FULL`. */
+  query?: string | undefined;
 }
-export interface CreateProjectsInstancesMaterializedViewsRequest {
+export interface CreateProjectsInstancesMaterializedViewsRequest extends MaterializedView {
   /** Required. The parent instance where this materialized view will be created. Format: `projects/{project}/instances/{instance}`. */
   parent: string;
-  /** Required. The ID to use for the materialized view, which will become the final component of the materialized view's resource name. */
-  materializedViewId?: string;
   /** Optional. If true, ignore optional safety checks when creating the materialized view. */
-  ignoreWarnings?: boolean;
-  /** Request body */
-  body?: MaterializedView;
-}
-/** An initial split point for a newly created table. */
-export interface Split {
-  /** Row key to use as an initial tablet boundary. */
-  key?: string;
-}
-export type SplitList = Array<Split>;
-/** Approximate statistics related to a table. These statistics are calculated infrequently, while simultaneously, data in the table can change rapidly. Thus the values reported here (e.g. row count) are very likely out-of date, even the instant they are received in this API. Thus, only treat these values as approximate. IMPORTANT: Everything below is approximate, unless otherwise specified. */
-export interface TableStats {
-  /** This is roughly how many bytes would be needed to read the entire table (e.g. by streaming all contents out). */
-  logicalDataBytes?: string;
-  /** How many (column family, column qualifier) combinations are present per row in the table, averaged over all rows in the table. e.g. A table with 2 rows: * A row with cells in "family:col" and "other:col" (2 distinct columns) * A row with cells in "family:col", "family:other_col", and "other:data" (3 distinct columns) would report (2 + 3)/2 = 2.5 in this field. */
-  averageColumnsPerRow?: number;
-  /** How many rows are in the table. */
-  rowCount?: string;
-  /** How many cells are present per column (column family, column qualifier) combinations, averaged over all columns in all rows in the table. e.g. A table with 2 rows: * A row with 3 cells in "family:col" and 1 cell in "other:col" (4 cells / 2 columns) * A row with 1 cell in "family:col", 7 cells in "family:other_col", and 7 cells in "other:data" (15 cells / 3 columns) would report (4 + 15)/(2 + 3) = 3.8 in this field. */
-  averageCellsPerColumn?: number;
-}
-/** Approximate statistics related to a single column family within a table. This information may change rapidly, interpreting these values at a point in time may already preset out-of-date information. Everything below is approximate, unless otherwise specified. */
-export interface ColumnFamilyStats {
-  /** Output only. The logical data bytes of the column family stored on HDD. */
-  logicalDataHddBytes?: string;
-  /** Output only. The logical data bytes of the column family stored on SSD. */
-  logicalDataSsdBytes?: string;
-  /** How many column qualifiers are present in this column family, averaged over all rows in the table. e.g. For column family "family" in a table with 3 rows: * A row with cells in "family:col" and "other:col" (1 column in "family") * A row with cells in "family:col", "family:other_col", and "other:data" (2 columns in "family") * A row with cells in "other:col" (0 columns in "family", "family" not present) would report (1 + 2 + 0)/3 = 1.5 in this field. */
-  averageColumnsPerRow?: number;
-  /** How much space the data in the column family occupies. This is roughly how many bytes would be needed to read the contents of the entire column family (e.g. by streaming all contents out). */
-  logicalDataBytes?: string;
-  /** How many cells are present per column qualifier in this column family, averaged over all rows containing any column in the column family. e.g. For column family "family" in a table with 3 rows: * A row with 3 cells in "family:col" and 1 cell in "other:col" (3 cells / 1 column in "family") * A row with 1 cell in "family:col", 7 cells in "family:other_col", and 7 cells in "other:data" (8 cells / 2 columns in "family") * A row with 3 cells in "other:col" (0 columns in "family", "family" not present) would report (3 + 8 + 0)/(1 + 2 + 0) = 3.66 in this field. */
-  averageCellsPerColumn?: number;
-}
-/** A mapping of keys to values of a given type. Values of type `Map` are stored in a `Value.array_value` where each entry is another `Value.array_value` with two elements (the key and the value, in that order). Normally encoded Map values won't have repeated keys, however, clients are expected to handle the case in which they do. If the same key appears multiple times, the _last_ value takes precedence. */
-export interface GoogleBigtableAdminV2TypeMap {
-  /** The type of a map key. Only `Bytes`, `String`, and `Int64` are allowed as key types. */
-  keyType?: Type;
-  /** The type of the values in a map. */
-  valueType?: Type;
-}
-/** Float64 Values of type `Float64` are stored in `Value.float_value`. */
-export type GoogleBigtableAdminV2TypeFloat64 = DataBoostReadLocalWrites;
-/** A protobuf enum type. Values of type `Enum` are stored in `Value.int_value`. */
-export interface GoogleBigtableAdminV2TypeEnum {
-  /** The ID of the schema bundle that this enum is defined in. */
-  schemaBundleId?: string;
-  /** The fully qualified name of the protobuf enum message, including package. In the format of "foo.bar.EnumMessage". */
-  enumName?: string;
+  ignoreWarnings?: boolean | undefined;
+  /** Required. The ID to use for the materialized view, which will become the final component of the materialized view's resource name. */
+  materializedViewId?: string | undefined;
 }
 /** Defines rules used to convert to or from lower level types. */
-export type GoogleBigtableAdminV2TypeBoolEncoding = DataBoostReadLocalWrites;
+export type GoogleBigtableAdminV2TypeBoolEncoding = StandardReadRemoteWrites;
 /** bool Values of type `Bool` are stored in `Value.bool_value`. */
 export interface GoogleBigtableAdminV2TypeBool {
   /** Specifies the encoding to use when converting to or from lower level types. */
-  encoding?: DataBoostReadLocalWrites;
+  encoding?: StandardReadRemoteWrites | undefined;
 }
-/** A protobuf message type. Values of type `Proto` are stored in `Value.bytes_value`. */
-export interface GoogleBigtableAdminV2TypeProto {
-  /** The fully qualified name of the protobuf message, including package. In the format of "foo.bar.Message". */
-  messageName?: string;
-  /** The ID of the schema bundle that this proto is defined in. */
-  schemaBundleId?: string;
+/** A protobuf enum type. Values of type `Enum` are stored in `Value.int_value`. */
+export interface GoogleBigtableAdminV2TypeEnum {
+  /** The ID of the schema bundle that this enum is defined in. */
+  schemaBundleId?: string | undefined;
+  /** The fully qualified name of the protobuf enum message, including package. In the format of "foo.bar.EnumMessage". */
+  enumName?: string | undefined;
 }
-/** Leaves the value as-is. Sorted mode: all values are supported. Distinct mode: all values are supported. */
-export interface GoogleBigtableAdminV2TypeBytesEncodingRaw {
-  /** If set, allows NULL values to be encoded as the empty string "". The actual empty string, or any value which only contains the null byte `0x00`, has one more null byte appended. */
-  escapeNulls?: boolean;
+/** An ordered list of elements of a given type. Values of type `Array` are stored in `Value.array_value`. */
+export interface GoogleBigtableAdminV2TypeArray {
+  /** The type of the elements in the array. This must not be `Array`. */
+  elementType?: Type | undefined;
 }
+/** Encodes the value in a variable length binary format of up to 5 bytes. Values that are closer to zero use fewer bytes. Sorted mode: all values are supported. Distinct mode: all values are supported. */
+export type GoogleBigtableAdminV2TypeInt32EncodingOrderedCodeBytes = StandardReadRemoteWrites;
+/** Encodes the value as a 4-byte big-endian two's complement value. Sorted mode: non-negative values are supported. Distinct mode: all values are supported. Compatible with: - BigQuery `BINARY` encoding - HBase `Bytes.toBytes` - Java `ByteBuffer.putInt()` with `ByteOrder.BIG_ENDIAN` */
+export type GoogleBigtableAdminV2TypeInt32EncodingBigEndianBytes = StandardReadRemoteWrites;
 /** Rules used to convert to or from lower level types. */
-export interface GoogleBigtableAdminV2TypeBytesEncoding {
-  /** Use `Raw` encoding. */
-  raw?: GoogleBigtableAdminV2TypeBytesEncodingRaw;
+export interface GoogleBigtableAdminV2TypeInt32Encoding {
+  /** Use `OrderedCodeBytes` encoding. */
+  orderedCodeBytes?: StandardReadRemoteWrites | undefined;
+  /** Use `BigEndianBytes` encoding. */
+  bigEndianBytes?: StandardReadRemoteWrites | undefined;
 }
-/** Bytes Values of type `Bytes` are stored in `Value.bytes_value`. */
-export interface GoogleBigtableAdminV2TypeBytes {
+/** Int32 Values of type `Int32` are stored in `Value.int_value`. */
+export interface GoogleBigtableAdminV2TypeInt32 {
   /** The encoding to use when converting to or from lower level types. */
-  encoding?: GoogleBigtableAdminV2TypeBytesEncoding;
+  encoding?: GoogleBigtableAdminV2TypeInt32Encoding | undefined;
 }
-/** Computes an approximate unique count over the input values. When using raw data as input, be careful to use a consistent encoding. Otherwise the same value encoded differently could count more than once, or two distinct values could count as identical. Input: Any, or omit for Raw State: TBD Special state conversions: `Int64` (the unique count estimate) */
-export type GoogleBigtableAdminV2TypeAggregateHyperLogLogPlusPlusUniqueCount =
-  DataBoostReadLocalWrites;
-/** Computes the max of the input values. Allowed input: `Int64` State: same as input */
-export type GoogleBigtableAdminV2TypeAggregateMax = DataBoostReadLocalWrites;
-/** Computes the min of the input values. Allowed input: `Int64` State: same as input */
-export type GoogleBigtableAdminV2TypeAggregateMin = DataBoostReadLocalWrites;
-/** Computes the sum of the input values. Allowed input: `Int64` State: same as input */
-export type GoogleBigtableAdminV2TypeAggregateSum = DataBoostReadLocalWrites;
-/** A value that combines incremental updates into a summarized value. Data is never directly written or read using type `Aggregate`. Writes provide either the `input_type` or `state_type`, and reads always return the `state_type` . */
-export interface GoogleBigtableAdminV2TypeAggregate {
-  /** HyperLogLogPlusPlusUniqueCount aggregator. */
-  hllppUniqueCount?: DataBoostReadLocalWrites;
-  /** Max aggregator. */
-  max?: DataBoostReadLocalWrites;
-  /** Min aggregator. */
-  min?: DataBoostReadLocalWrites;
-  /** Type of the inputs that are accumulated by this `Aggregate`. Use `AddInput` mutations to accumulate new inputs. */
-  inputType?: Type;
-  /** Output only. Type that holds the internal accumulator state for the `Aggregate`. This is a function of the `input_type` and `aggregator` chosen. */
-  stateType?: Type;
-  /** Sum aggregator. */
-  sum?: DataBoostReadLocalWrites;
-}
-/** Float32 Values of type `Float32` are stored in `Value.float_value`. */
-export type GoogleBigtableAdminV2TypeFloat32 = DataBoostReadLocalWrites;
-/** Deprecated: prefer the equivalent `Utf8Bytes`. */
-export type GoogleBigtableAdminV2TypeStringEncodingUtf8Raw = DataBoostReadLocalWrites;
-/** UTF-8 encoding. Sorted mode: - All values are supported. - Code point order is preserved. Distinct mode: all values are supported. Compatible with: - BigQuery `TEXT` encoding - HBase `Bytes.toBytes` - Java `String#getBytes(StandardCharsets.UTF_8)` */
-export interface GoogleBigtableAdminV2TypeStringEncodingUtf8Bytes {
-  /** Single-character escape sequence used to support NULL values. If set, allows NULL values to be encoded as the empty string "". The actual empty string, or any value where every character equals `null_escape_char`, has one more `null_escape_char` appended. If `null_escape_char` is set and does not equal the ASCII null character `0x00`, then the encoding will not support sorted mode. . */
-  nullEscapeChar?: string;
-}
-/** Rules used to convert to or from lower level types. */
-export interface GoogleBigtableAdminV2TypeStringEncoding {
-  /** Deprecated: if set, converts to an empty `utf8_bytes`. */
-  utf8Raw?: DataBoostReadLocalWrites;
-  /** Use `Utf8Bytes` encoding. */
-  utf8Bytes?: GoogleBigtableAdminV2TypeStringEncodingUtf8Bytes;
-}
-/** String Values of type `String` are stored in `Value.string_value`. */
-export interface GoogleBigtableAdminV2TypeString {
-  /** The encoding to use when converting to or from lower level types. */
-  encoding?: GoogleBigtableAdminV2TypeStringEncoding;
-}
-/** A geography type, representing a point or region on Earth. The value is stored in `Value.bytes_value` as Well-Known Binary (WKB) bytes. */
-export type GoogleBigtableAdminV2TypeGeography = DataBoostReadLocalWrites;
-/** Fields are encoded independently, then escaped and delimited by appling the following rules in order: - While the last remaining field is `ASC` or `UNSPECIFIED`, and encodes to the empty string "", remove it. - In each remaining field, replace all null bytes `0x00` with the fixed byte pair `{0x00, 0xFF}`. - If any remaining field encodes to the empty string "", replace it with the fixed byte pair `{0x00, 0x00}`. - Append the fixed byte pair `{0x00, 0x01}` to each remaining field, except for the last remaining field if it is `ASC`. - Bitwise negate all `DESC` fields. - Concatenate the results, or emit the fixed byte pair `{0x00, 0x00}` if there are no remaining fields to concatenate. Examples: ``` - STRUCT() -> "\00\00" - STRUCT("") -> "\00\00" - STRUCT("", "") -> "\00\00" - STRUCT("", "B") -> "\00\00" + "\00\01" + "B" - STRUCT("A", "") -> "A" - STRUCT("", "B", "") -> "\00\00" + "\00\01" + "B" - STRUCT("A", "", "C") -> "A" + "\00\01" + "\00\00" + "\00\01" + "C" ``` Examples for struct with `DESC` fields: ``` - STRUCT("" DESC) -> "\xFF\xFF" + "\xFF\xFE" - STRUCT("" DESC, "") -> "\xFF\xFF" + "\xFF\xFE" - STRUCT("" DESC, "", "") -> "\xFF\xFF" + "\xFF\xFE" - STRUCT("" DESC, "A") -> "\xFF\xFF" + "\xFF\xFE" + "A" - STRUCT("A", "" DESC, "") -> "A" + "\00\01" + "\xFF\xFF" + "\xFF\xFE" - STRUCT("", "A" DESC) -> "\x00\x00" + "\x00\x01" + "\xBE" + "\xFF\xFE" ``` Since null bytes are always escaped, this encoding can cause size blowup for encodings like `Int64.BigEndianBytes` that are likely to produce many such bytes. Sorted mode: - Fields are encoded in sorted mode. - All values supported by the field encodings are allowed. - Fields with unset or `UNSPECIFIED` order are treated as `ASC`. - Element-wise order is preserved: `A < B` if `A[0] < B[0]`, or if `A[0] == B[0] && A[1] < B[1]`, etc. Strict prefixes sort first. Distinct mode: - Fields are encoded in distinct mode. - All values supported by the field encodings are allowed. */
-export type GoogleBigtableAdminV2TypeStructEncodingOrderedCodeBytes = DataBoostReadLocalWrites;
 /** Uses the encoding of `fields[0].type` as-is. Only valid if `fields.size == 1`. This encoding does not support `DESC` field ordering. */
-export type GoogleBigtableAdminV2TypeStructEncodingSingleton = DataBoostReadLocalWrites;
+export type GoogleBigtableAdminV2TypeStructEncodingSingleton = StandardReadRemoteWrites;
+/** Fields are encoded independently, then escaped and delimited by appling the following rules in order: - While the last remaining field is `ASC` or `UNSPECIFIED`, and encodes to the empty string "", remove it. - In each remaining field, replace all null bytes `0x00` with the fixed byte pair `{0x00, 0xFF}`. - If any remaining field encodes to the empty string "", replace it with the fixed byte pair `{0x00, 0x00}`. - Append the fixed byte pair `{0x00, 0x01}` to each remaining field, except for the last remaining field if it is `ASC`. - Bitwise negate all `DESC` fields. - Concatenate the results, or emit the fixed byte pair `{0x00, 0x00}` if there are no remaining fields to concatenate. Examples: ``` - STRUCT() -> "\00\00" - STRUCT("") -> "\00\00" - STRUCT("", "") -> "\00\00" - STRUCT("", "B") -> "\00\00" + "\00\01" + "B" - STRUCT("A", "") -> "A" - STRUCT("", "B", "") -> "\00\00" + "\00\01" + "B" - STRUCT("A", "", "C") -> "A" + "\00\01" + "\00\00" + "\00\01" + "C" ``` Examples for struct with `DESC` fields: ``` - STRUCT("" DESC) -> "\xFF\xFF" + "\xFF\xFE" - STRUCT("" DESC, "") -> "\xFF\xFF" + "\xFF\xFE" - STRUCT("" DESC, "", "") -> "\xFF\xFF" + "\xFF\xFE" - STRUCT("" DESC, "A") -> "\xFF\xFF" + "\xFF\xFE" + "A" - STRUCT("A", "" DESC, "") -> "A" + "\00\01" + "\xFF\xFF" + "\xFF\xFE" - STRUCT("", "A" DESC) -> "\x00\x00" + "\x00\x01" + "\xBE" + "\xFF\xFE" ``` Since null bytes are always escaped, this encoding can cause size blowup for encodings like `Int64.BigEndianBytes` that are likely to produce many such bytes. Sorted mode: - Fields are encoded in sorted mode. - All values supported by the field encodings are allowed. - Fields with unset or `UNSPECIFIED` order are treated as `ASC`. - Element-wise order is preserved: `A < B` if `A[0] < B[0]`, or if `A[0] == B[0] && A[1] < B[1]`, etc. Strict prefixes sort first. Distinct mode: - Fields are encoded in distinct mode. - All values supported by the field encodings are allowed. */
+export type GoogleBigtableAdminV2TypeStructEncodingOrderedCodeBytes = StandardReadRemoteWrites;
 /** Fields are encoded independently and concatenated with a configurable `delimiter` in between. A struct with no fields defined is encoded as a single `delimiter`. Sorted mode: - Fields are encoded in sorted mode. - Encoded field values must not contain any bytes <= `delimiter[0]` - Element-wise order is preserved: `A < B` if `A[0] < B[0]`, or if `A[0] == B[0] && A[1] < B[1]`, etc. Strict prefixes sort first. - This encoding does not support `DESC` field ordering. Distinct mode: - Fields are encoded in distinct mode. - Encoded field values must not contain `delimiter[0]`. */
 export interface GoogleBigtableAdminV2TypeStructEncodingDelimitedBytes {
   /** Byte sequence used to delimit concatenated fields. The delimiter must contain at least 1 character and at most 50 characters. */
-  delimiter?: string;
+  delimiter?: string | undefined;
 }
 /** Rules used to convert to or from lower level types. */
 export interface GoogleBigtableAdminV2TypeStructEncoding {
-  /** User `OrderedCodeBytes` encoding. */
-  orderedCodeBytes?: DataBoostReadLocalWrites;
   /** Use `Singleton` encoding. */
-  singleton?: DataBoostReadLocalWrites;
+  singleton?: StandardReadRemoteWrites | undefined;
+  /** User `OrderedCodeBytes` encoding. */
+  orderedCodeBytes?: StandardReadRemoteWrites | undefined;
   /** Use `DelimitedBytes` encoding. */
-  delimitedBytes?: GoogleBigtableAdminV2TypeStructEncodingDelimitedBytes;
+  delimitedBytes?: GoogleBigtableAdminV2TypeStructEncodingDelimitedBytes | undefined;
 }
 /** A struct field and its type. */
 export interface GoogleBigtableAdminV2TypeStructField {
   /** The field name (optional). Fields without a `field_name` are considered anonymous and cannot be referenced by name. */
-  fieldName?: string;
+  fieldName?: string | undefined;
   /** The type of values in this field. */
-  type?: Type;
+  type?: Type | undefined;
 }
 export type GoogleBigtableAdminV2TypeStructFieldList = Array<GoogleBigtableAdminV2TypeStructField>;
 /** A structured data value, consisting of fields which map to dynamically typed values. Values of type `Struct` are stored in `Value.array_value` where entries are in the same order and number as `field_types`. */
 export interface GoogleBigtableAdminV2TypeStruct {
   /** The encoding to use when converting to or from lower level types. */
-  encoding?: GoogleBigtableAdminV2TypeStructEncoding;
+  encoding?: GoogleBigtableAdminV2TypeStructEncoding | undefined;
   /** The names and types of the fields in this struct. */
-  fields?: GoogleBigtableAdminV2TypeStructFieldList;
+  fields?: GoogleBigtableAdminV2TypeStructFieldList | undefined;
+}
+/** Encodes the value in a variable length binary format of up to 10 bytes. Values that are closer to zero use fewer bytes. Sorted mode: all values are supported. Distinct mode: all values are supported. */
+export type GoogleBigtableAdminV2TypeInt64EncodingOrderedCodeBytes = StandardReadRemoteWrites;
+/** Leaves the value as-is. Sorted mode: all values are supported. Distinct mode: all values are supported. */
+export interface GoogleBigtableAdminV2TypeBytesEncodingRaw {
+  /** If set, allows NULL values to be encoded as the empty string "". The actual empty string, or any value which only contains the null byte `0x00`, has one more null byte appended. */
+  escapeNulls?: boolean | undefined;
+}
+/** Rules used to convert to or from lower level types. */
+export interface GoogleBigtableAdminV2TypeBytesEncoding {
+  /** Use `Raw` encoding. */
+  raw?: GoogleBigtableAdminV2TypeBytesEncodingRaw | undefined;
+}
+/** Bytes Values of type `Bytes` are stored in `Value.bytes_value`. */
+export interface GoogleBigtableAdminV2TypeBytes {
+  /** The encoding to use when converting to or from lower level types. */
+  encoding?: GoogleBigtableAdminV2TypeBytesEncoding | undefined;
 }
 /** Encodes the value as an 8-byte big-endian two's complement value. Sorted mode: non-negative values are supported. Distinct mode: all values are supported. Compatible with: - BigQuery `BINARY` encoding - HBase `Bytes.toBytes` - Java `ByteBuffer.putLong()` with `ByteOrder.BIG_ENDIAN` */
 export interface GoogleBigtableAdminV2TypeInt64EncodingBigEndianBytes {
   /** Deprecated: ignored if set. */
-  bytesType?: GoogleBigtableAdminV2TypeBytes;
+  bytesType?: GoogleBigtableAdminV2TypeBytes | undefined;
 }
-/** Encodes the value in a variable length binary format of up to 10 bytes. Values that are closer to zero use fewer bytes. Sorted mode: all values are supported. Distinct mode: all values are supported. */
-export type GoogleBigtableAdminV2TypeInt64EncodingOrderedCodeBytes = DataBoostReadLocalWrites;
 /** Rules used to convert to or from lower level types. */
 export interface GoogleBigtableAdminV2TypeInt64Encoding {
-  /** Use `BigEndianBytes` encoding. */
-  bigEndianBytes?: GoogleBigtableAdminV2TypeInt64EncodingBigEndianBytes;
   /** Use `OrderedCodeBytes` encoding. */
-  orderedCodeBytes?: DataBoostReadLocalWrites;
+  orderedCodeBytes?: StandardReadRemoteWrites | undefined;
+  /** Use `BigEndianBytes` encoding. */
+  bigEndianBytes?: GoogleBigtableAdminV2TypeInt64EncodingBigEndianBytes | undefined;
 }
 /** Rules used to convert to or from lower level types. */
 export interface GoogleBigtableAdminV2TypeTimestampEncoding {
   /** Encodes the number of microseconds since the Unix epoch using the given `Int64` encoding. Values must be microsecond-aligned. Compatible with: - Java `Instant.truncatedTo()` with `ChronoUnit.MICROS` */
-  unixMicrosInt64?: GoogleBigtableAdminV2TypeInt64Encoding;
+  unixMicrosInt64?: GoogleBigtableAdminV2TypeInt64Encoding | undefined;
 }
 /** Timestamp Values of type `Timestamp` are stored in `Value.timestamp_value`. */
 export interface GoogleBigtableAdminV2TypeTimestamp {
   /** The encoding to use when converting to or from lower level types. */
-  encoding?: GoogleBigtableAdminV2TypeTimestampEncoding;
+  encoding?: GoogleBigtableAdminV2TypeTimestampEncoding | undefined;
+}
+/** A protobuf message type. Values of type `Proto` are stored in `Value.bytes_value`. */
+export interface GoogleBigtableAdminV2TypeProto {
+  /** The fully qualified name of the protobuf message, including package. In the format of "foo.bar.Message". */
+  messageName?: string | undefined;
+  /** The ID of the schema bundle that this proto is defined in. */
+  schemaBundleId?: string | undefined;
+}
+/** Float64 Values of type `Float64` are stored in `Value.float_value`. */
+export type GoogleBigtableAdminV2TypeFloat64 = StandardReadRemoteWrites;
+/** A mapping of keys to values of a given type. Values of type `Map` are stored in a `Value.array_value` where each entry is another `Value.array_value` with two elements (the key and the value, in that order). Normally encoded Map values won't have repeated keys, however, clients are expected to handle the case in which they do. If the same key appears multiple times, the _last_ value takes precedence. */
+export interface GoogleBigtableAdminV2TypeMap {
+  /** The type of the values in a map. */
+  valueType?: Type | undefined;
+  /** The type of a map key. Only `Bytes`, `String`, and `Int64` are allowed as key types. */
+  keyType?: Type | undefined;
 }
 /** Date Values of type `Date` are stored in `Value.date_value`. */
-export type GoogleBigtableAdminV2TypeDate = DataBoostReadLocalWrites;
-/** An ordered list of elements of a given type. Values of type `Array` are stored in `Value.array_value`. */
-export interface GoogleBigtableAdminV2TypeArray {
-  /** The type of the elements in the array. This must not be `Array`. */
-  elementType?: Type;
-}
+export type GoogleBigtableAdminV2TypeDate = StandardReadRemoteWrites;
+/** A geography type, representing a point or region on Earth. The value is stored in `Value.bytes_value` as Well-Known Binary (WKB) bytes. */
+export type GoogleBigtableAdminV2TypeGeography = StandardReadRemoteWrites;
 /** Int64 Values of type `Int64` are stored in `Value.int_value`. */
 export interface GoogleBigtableAdminV2TypeInt64 {
   /** The encoding to use when converting to or from lower level types. */
-  encoding?: GoogleBigtableAdminV2TypeInt64Encoding;
+  encoding?: GoogleBigtableAdminV2TypeInt64Encoding | undefined;
 }
-/** Encodes the value in a variable length binary format of up to 5 bytes. Values that are closer to zero use fewer bytes. Sorted mode: all values are supported. Distinct mode: all values are supported. */
-export type GoogleBigtableAdminV2TypeInt32EncodingOrderedCodeBytes = DataBoostReadLocalWrites;
-/** Encodes the value as a 4-byte big-endian two's complement value. Sorted mode: non-negative values are supported. Distinct mode: all values are supported. Compatible with: - BigQuery `BINARY` encoding - HBase `Bytes.toBytes` - Java `ByteBuffer.putInt()` with `ByteOrder.BIG_ENDIAN` */
-export type GoogleBigtableAdminV2TypeInt32EncodingBigEndianBytes = DataBoostReadLocalWrites;
+/** Computes an approximate unique count over the input values. When using raw data as input, be careful to use a consistent encoding. Otherwise the same value encoded differently could count more than once, or two distinct values could count as identical. Input: Any, or omit for Raw State: TBD Special state conversions: `Int64` (the unique count estimate) */
+export type GoogleBigtableAdminV2TypeAggregateHyperLogLogPlusPlusUniqueCount =
+  StandardReadRemoteWrites;
+/** Computes the max of the input values. Allowed input: `Int64` State: same as input */
+export type GoogleBigtableAdminV2TypeAggregateMax = StandardReadRemoteWrites;
+/** Computes the min of the input values. Allowed input: `Int64` State: same as input */
+export type GoogleBigtableAdminV2TypeAggregateMin = StandardReadRemoteWrites;
+/** Computes the sum of the input values. Allowed input: `Int64` State: same as input */
+export type GoogleBigtableAdminV2TypeAggregateSum = StandardReadRemoteWrites;
+/** A value that combines incremental updates into a summarized value. Data is never directly written or read using type `Aggregate`. Writes provide either the `input_type` or `state_type`, and reads always return the `state_type` . */
+export interface GoogleBigtableAdminV2TypeAggregate {
+  /** HyperLogLogPlusPlusUniqueCount aggregator. */
+  hllppUniqueCount?: StandardReadRemoteWrites | undefined;
+  /** Max aggregator. */
+  max?: StandardReadRemoteWrites | undefined;
+  /** Min aggregator. */
+  min?: StandardReadRemoteWrites | undefined;
+  /** Type of the inputs that are accumulated by this `Aggregate`. Use `AddInput` mutations to accumulate new inputs. */
+  inputType?: Type | undefined;
+  /** Output only. Type that holds the internal accumulator state for the `Aggregate`. This is a function of the `input_type` and `aggregator` chosen. */
+  stateType?: Type | undefined;
+  /** Sum aggregator. */
+  sum?: StandardReadRemoteWrites | undefined;
+}
+/** Deprecated: prefer the equivalent `Utf8Bytes`. */
+export type GoogleBigtableAdminV2TypeStringEncodingUtf8Raw = StandardReadRemoteWrites;
+/** UTF-8 encoding. Sorted mode: - All values are supported. - Code point order is preserved. Distinct mode: all values are supported. Compatible with: - BigQuery `TEXT` encoding - HBase `Bytes.toBytes` - Java `String#getBytes(StandardCharsets.UTF_8)` */
+export interface GoogleBigtableAdminV2TypeStringEncodingUtf8Bytes {
+  /** Single-character escape sequence used to support NULL values. If set, allows NULL values to be encoded as the empty string "". The actual empty string, or any value where every character equals `null_escape_char`, has one more `null_escape_char` appended. If `null_escape_char` is set and does not equal the ASCII null character `0x00`, then the encoding will not support sorted mode. . */
+  nullEscapeChar?: string | undefined;
+}
 /** Rules used to convert to or from lower level types. */
-export interface GoogleBigtableAdminV2TypeInt32Encoding {
-  /** Use `OrderedCodeBytes` encoding. */
-  orderedCodeBytes?: DataBoostReadLocalWrites;
-  /** Use `BigEndianBytes` encoding. */
-  bigEndianBytes?: DataBoostReadLocalWrites;
+export interface GoogleBigtableAdminV2TypeStringEncoding {
+  /** Deprecated: if set, converts to an empty `utf8_bytes`. */
+  utf8Raw?: StandardReadRemoteWrites | undefined;
+  /** Use `Utf8Bytes` encoding. */
+  utf8Bytes?: GoogleBigtableAdminV2TypeStringEncodingUtf8Bytes | undefined;
 }
-/** Int32 Values of type `Int32` are stored in `Value.int_value`. */
-export interface GoogleBigtableAdminV2TypeInt32 {
+/** String Values of type `String` are stored in `Value.string_value`. */
+export interface GoogleBigtableAdminV2TypeString {
   /** The encoding to use when converting to or from lower level types. */
-  encoding?: GoogleBigtableAdminV2TypeInt32Encoding;
+  encoding?: GoogleBigtableAdminV2TypeStringEncoding | undefined;
 }
+/** Float32 Values of type `Float32` are stored in `Value.float_value`. */
+export type GoogleBigtableAdminV2TypeFloat32 = StandardReadRemoteWrites;
 /** `Type` represents the type of data that is written to, read from, or stored in Bigtable. It is heavily based on the GoogleSQL standard to help maintain familiarity and consistency across products and features. For compatibility with Bigtable's existing untyped APIs, each `Type` includes an `Encoding` which describes how to convert to or from the underlying data. Each encoding can operate in one of two modes: - Sorted: In this mode, Bigtable guarantees that `Encode(X) <= Encode(Y)` if and only if `X <= Y`. This is useful anywhere sort order is important, for example when encoding keys. - Distinct: In this mode, Bigtable guarantees that if `X != Y` then `Encode(X) != Encode(Y)`. However, the converse is not guaranteed. For example, both `{'foo': '1', 'bar': '2'}` and `{'bar': '2', 'foo': '1'}` are valid encodings of the same JSON value. The API clearly documents which mode is used wherever an encoding can be configured. Each encoding also documents which values are supported in which modes. For example, when encoding INT64 as a numeric STRING, negative numbers cannot be encoded in sorted mode. This is because `INT64(1) > INT64(-1)`, but `STRING("-00001") > STRING("00001")`. */
 export interface Type {
-  /** Map */
-  mapType?: GoogleBigtableAdminV2TypeMap;
-  /** Float64 */
-  float64Type?: DataBoostReadLocalWrites;
-  /** Enum */
-  enumType?: GoogleBigtableAdminV2TypeEnum;
   /** Bool */
-  boolType?: GoogleBigtableAdminV2TypeBool;
-  /** Proto */
-  protoType?: GoogleBigtableAdminV2TypeProto;
-  /** Bytes */
-  bytesType?: GoogleBigtableAdminV2TypeBytes;
-  /** Aggregate */
-  aggregateType?: GoogleBigtableAdminV2TypeAggregate;
-  /** Float32 */
-  float32Type?: DataBoostReadLocalWrites;
-  /** String */
-  stringType?: GoogleBigtableAdminV2TypeString;
-  /** Geography */
-  geographyType?: DataBoostReadLocalWrites;
-  /** Struct */
-  structType?: GoogleBigtableAdminV2TypeStruct;
-  /** Timestamp */
-  timestampType?: GoogleBigtableAdminV2TypeTimestamp;
-  /** Date */
-  dateType?: DataBoostReadLocalWrites;
+  boolType?: GoogleBigtableAdminV2TypeBool | undefined;
+  /** Enum */
+  enumType?: GoogleBigtableAdminV2TypeEnum | undefined;
   /** Array */
-  arrayType?: GoogleBigtableAdminV2TypeArray;
-  /** Int64 */
-  int64Type?: GoogleBigtableAdminV2TypeInt64;
+  arrayType?: GoogleBigtableAdminV2TypeArray | undefined;
   /** Int32 */
-  int32Type?: GoogleBigtableAdminV2TypeInt32;
+  int32Type?: GoogleBigtableAdminV2TypeInt32 | undefined;
+  /** Struct */
+  structType?: GoogleBigtableAdminV2TypeStruct | undefined;
+  /** Timestamp */
+  timestampType?: GoogleBigtableAdminV2TypeTimestamp | undefined;
+  /** Proto */
+  protoType?: GoogleBigtableAdminV2TypeProto | undefined;
+  /** Float64 */
+  float64Type?: StandardReadRemoteWrites | undefined;
+  /** Map */
+  mapType?: GoogleBigtableAdminV2TypeMap | undefined;
+  /** Date */
+  dateType?: StandardReadRemoteWrites | undefined;
+  /** Geography */
+  geographyType?: StandardReadRemoteWrites | undefined;
+  /** Int64 */
+  int64Type?: GoogleBigtableAdminV2TypeInt64 | undefined;
+  /** Aggregate */
+  aggregateType?: GoogleBigtableAdminV2TypeAggregate | undefined;
+  /** String */
+  stringType?: GoogleBigtableAdminV2TypeString | undefined;
+  /** Float32 */
+  float32Type?: StandardReadRemoteWrites | undefined;
+  /** Bytes */
+  bytesType?: GoogleBigtableAdminV2TypeBytes | undefined;
+}
+/** Approximate statistics related to a single column family within a table. This information may change rapidly, interpreting these values at a point in time may already preset out-of-date information. Everything below is approximate, unless otherwise specified. */
+export interface ColumnFamilyStats {
+  /** Output only. The logical data bytes of the column family stored on HDD. */
+  logicalDataHddBytes?: string | undefined;
+  /** How many column qualifiers are present in this column family, averaged over all rows in the table. e.g. For column family "family" in a table with 3 rows: * A row with cells in "family:col" and "other:col" (1 column in "family") * A row with cells in "family:col", "family:other_col", and "other:data" (2 columns in "family") * A row with cells in "other:col" (0 columns in "family", "family" not present) would report (1 + 2 + 0)/3 = 1.5 in this field. */
+  averageColumnsPerRow?: number | undefined;
+  /** Output only. The logical data bytes of the column family stored on SSD. */
+  logicalDataSsdBytes?: string | undefined;
+  /** How much space the data in the column family occupies. This is roughly how many bytes would be needed to read the contents of the entire column family (e.g. by streaming all contents out). */
+  logicalDataBytes?: string | undefined;
+  /** How many cells are present per column qualifier in this column family, averaged over all rows containing any column in the column family. e.g. For column family "family" in a table with 3 rows: * A row with 3 cells in "family:col" and 1 cell in "other:col" (3 cells / 1 column in "family") * A row with 1 cell in "family:col", 7 cells in "family:other_col", and 7 cells in "other:data" (8 cells / 2 columns in "family") * A row with 3 cells in "other:col" (0 columns in "family", "family" not present) would report (3 + 8 + 0)/(1 + 2 + 0) = 3.66 in this field. */
+  averageCellsPerColumn?: number | undefined;
 }
 export type GcRuleList = Array<GcRule>;
 /** A GcRule which deletes cells matching all of the given rules. */
 export interface Intersection {
   /** Only delete cells which would be deleted by every element of `rules`. */
-  rules?: GcRuleList;
+  rules?: GcRuleList | undefined;
 }
 /** A GcRule which deletes cells matching any of the given rules. */
 export interface Union {
   /** Delete cells which would be deleted by any element of `rules`. */
-  rules?: GcRuleList;
+  rules?: GcRuleList | undefined;
 }
 /** Rule for determining which cells to delete during garbage collection. */
 export interface GcRule {
-  /** Delete cells that would be deleted by every nested rule. */
-  intersection?: Intersection;
-  /** Delete all cells in a column except the most recent N. */
-  maxNumVersions?: number;
-  /** Delete cells that would be deleted by any nested rule. */
-  union?: Union;
   /** Delete cells in a column older than the given age. Values must be at least one millisecond, and will be truncated to microsecond granularity. */
-  maxAge?: string;
+  maxAge?: string | undefined;
+  /** Delete cells that would be deleted by every nested rule. */
+  intersection?: Intersection | undefined;
+  /** Delete cells that would be deleted by any nested rule. */
+  union?: Union | undefined;
+  /** Delete all cells in a column except the most recent N. */
+  maxNumVersions?: number | undefined;
 }
 /** A set of columns within a table which share a common configuration. */
 export interface ColumnFamily {
-  /** Output only. Only available with STATS_VIEW, this includes summary statistics about column family contents. For statistics over an entire table, see TableStats above. */
-  stats?: ColumnFamilyStats;
   /** The type of data stored in each of this family's cell values, including its full encoding. If omitted, the family only serves raw untyped bytes. For now, only the `Aggregate` type is supported. `Aggregate` can only be set at family creation and is immutable afterwards. This field is mutually exclusive with `sql_type`. If `value_type` is `Aggregate`, written data must be compatible with: * `value_type.input_type` for `AddInput` mutations */
-  valueType?: Type;
+  valueType?: Type | undefined;
+  /** Output only. Only available with STATS_VIEW, this includes summary statistics about column family contents. For statistics over an entire table, see TableStats above. */
+  stats?: ColumnFamilyStats | undefined;
   /** Garbage collection rule specified as a protobuf. Must serialize to at most 500 bytes. NOTE: Garbage collection executes opportunistically in the background, and so it's possible for reads to return a cell even if it matches the active GC expression for its family. */
-  gcRule?: GcRule;
+  gcRule?: GcRule | undefined;
 }
 export type ColumnFamilyMap = { [key: string]: ColumnFamily | undefined };
+/** Defines an automated backup policy for a table */
+export interface AutomatedBackupPolicy {
+  /** Optional. If `true`, automated backups are explicitly disabled on this table. This allows users to opt out of default enablement. */
+  disabled?: boolean | undefined;
+  /** Required. How long the automated backups should be retained. Values must be at least 3 days and at most 90 days. */
+  retentionPeriod?: string | undefined;
+  /** Optional. The amount of time that the automated backups remain hot. If specified, the backups created by this policy are `HOT` backups. If not specified, the backups are `STANDARD` backups. The value must be at least 24 hours and at most 10 days, and can't exceed the policy's `retention_period`. Only SSD instances support `HOT` automated backups. */
+  keepHotDuration?: string | undefined;
+  /** How frequently automated backups should occur. The only supported value at this time is 24 hours. An undefined frequency is treated as 24 hours. */
+  frequency?: string | undefined;
+  /** Optional. A list of Cloud Bigtable zones where automated backups are allowed to be created. If empty, automated backups will be created in all zones of the instance. Locations are in the format `projects/{project}/locations/{zone}`. You can set this field only for tables in Enterprise Plus instances. */
+  locations?: StringList | undefined;
+}
 /** Rule to specify what data is stored in a storage tier. */
 export interface TieredStorageRule {
   /** Include cells older than the given age. For the infrequent access tier, this value must be at least 30 days. */
-  includeIfOlderThan?: string;
+  includeIfOlderThan?: string | undefined;
 }
 /** Config for tiered storage. A valid config must have a valid TieredStorageRule. Otherwise the whole TieredStorageConfig must be unset. By default all data is stored in the SSD tier (only SSD instances can configure tiered storage). */
 export interface TieredStorageConfig {
   /** Rule to specify what data is stored in the infrequent access(IA) tier. The IA tier allows storing more data per node with reduced performance. */
-  infrequentAccess?: TieredStorageRule;
+  infrequentAccess?: TieredStorageRule | undefined;
 }
-export type EncryptionInfoList = Array<EncryptionInfo>;
+export type RestoreInfoSourceTypeEnum = "RESTORE_SOURCE_TYPE_UNSPECIFIED" | "BACKUP";
+/** Information about a backup. */
+export interface BackupInfo {
+  /** Output only. The time that the backup was started. Row data in the backup will be no older than this timestamp. */
+  startTime?: string | undefined;
+  /** Output only. Name of the backup. */
+  backup?: string | undefined;
+  /** Output only. Name of the table the backup was created from. */
+  sourceTable?: string | undefined;
+  /** Output only. This time that the backup was finished. Row data in the backup will be no newer than this timestamp. */
+  endTime?: string | undefined;
+  /** Output only. Name of the backup from which this backup was copied. If a backup is not created by copying a backup, this field will be empty. Values are of the form: projects//instances//clusters//backups/ */
+  sourceBackup?: string | undefined;
+}
+/** Information about a table restore. */
+export interface RestoreInfo {
+  /** The type of the restore source. */
+  sourceType?: RestoreInfoSourceTypeEnum | (string & {}) | undefined;
+  /** Information about the backup used to restore the table. The backup may no longer exist. */
+  backupInfo?: BackupInfo | undefined;
+}
+/** Change stream configuration. */
+export interface ChangeStreamConfig {
+  /** How long the change stream should be retained. Change stream data older than the retention period will not be returned when reading the change stream from the table. Values must be at least 1 day and at most 7 days, and will be truncated to microsecond granularity. */
+  retentionPeriod?: string | undefined;
+}
+/** Approximate statistics related to a table. These statistics are calculated infrequently, while simultaneously, data in the table can change rapidly. Thus the values reported here (e.g. row count) are very likely out-of date, even the instant they are received in this API. Thus, only treat these values as approximate. IMPORTANT: Everything below is approximate, unless otherwise specified. */
+export interface TableStats {
+  /** How many (column family, column qualifier) combinations are present per row in the table, averaged over all rows in the table. e.g. A table with 2 rows: * A row with cells in "family:col" and "other:col" (2 distinct columns) * A row with cells in "family:col", "family:other_col", and "other:data" (3 distinct columns) would report (2 + 3)/2 = 2.5 in this field. */
+  averageColumnsPerRow?: number | undefined;
+  /** How many cells are present per column (column family, column qualifier) combinations, averaged over all columns in all rows in the table. e.g. A table with 2 rows: * A row with 3 cells in "family:col" and 1 cell in "other:col" (4 cells / 2 columns) * A row with 1 cell in "family:col", 7 cells in "family:other_col", and 7 cells in "other:data" (15 cells / 3 columns) would report (4 + 15)/(2 + 3) = 3.8 in this field. */
+  averageCellsPerColumn?: number | undefined;
+  /** How many rows are in the table. */
+  rowCount?: string | undefined;
+  /** This is roughly how many bytes would be needed to read the entire table (e.g. by streaming all contents out). */
+  logicalDataBytes?: string | undefined;
+}
+export type TableGranularityEnum = "TIMESTAMP_GRANULARITY_UNSPECIFIED" | "MILLIS" | "MICROS";
 export type ClusterStateReplicationStateEnum =
   | "STATE_NOT_KNOWN"
   | "INITIALIZING"
@@ -771,96 +792,67 @@ export type ClusterStateReplicationStateEnum =
   | "UNPLANNED_MAINTENANCE"
   | "READY"
   | "READY_OPTIMIZING";
+export type EncryptionInfoList = Array<EncryptionInfo>;
 /** The state of a table's data in a particular cluster. */
 export interface ClusterState {
-  /** Output only. The encryption information for the table in this cluster. If the encryption key protecting this resource is customer managed, then its version can be rotated in Cloud Key Management Service (Cloud KMS). The primary version of the key and its status will be reflected here when changes propagate from Cloud KMS. */
-  encryptionInfo?: EncryptionInfoList;
   /** Output only. The state of replication for the table in this cluster. */
-  replicationState?: ClusterStateReplicationStateEnum | (string & {});
+  replicationState?: ClusterStateReplicationStateEnum | (string & {}) | undefined;
+  /** Output only. The encryption information for the table in this cluster. If the encryption key protecting this resource is customer managed, then its version can be rotated in Cloud Key Management Service (Cloud KMS). The primary version of the key and its status will be reflected here when changes propagate from Cloud KMS. */
+  encryptionInfo?: EncryptionInfoList | undefined;
 }
 export type ClusterStateMap = { [key: string]: ClusterState | undefined };
-/** Defines an automated backup policy for a table */
-export interface AutomatedBackupPolicy {
-  /** How frequently automated backups should occur. The only supported value at this time is 24 hours. An undefined frequency is treated as 24 hours. */
-  frequency?: string;
-  /** Required. How long the automated backups should be retained. Values must be at least 3 days and at most 90 days. */
-  retentionPeriod?: string;
-  /** Optional. A list of Cloud Bigtable zones where automated backups are allowed to be created. If empty, automated backups will be created in all zones of the instance. Locations are in the format `projects/{project}/locations/{zone}`. You can set this field only for tables in Enterprise Plus instances. */
-  locations?: StringList;
-}
-/** Information about a backup. */
-export interface BackupInfo {
-  /** Output only. Name of the backup. */
-  backup?: string;
-  /** Output only. This time that the backup was finished. Row data in the backup will be no newer than this timestamp. */
-  endTime?: string;
-  /** Output only. Name of the backup from which this backup was copied. If a backup is not created by copying a backup, this field will be empty. Values are of the form: projects//instances//clusters//backups/ */
-  sourceBackup?: string;
-  /** Output only. The time that the backup was started. Row data in the backup will be no older than this timestamp. */
-  startTime?: string;
-  /** Output only. Name of the table the backup was created from. */
-  sourceTable?: string;
-}
-export type RestoreInfoSourceTypeEnum = "RESTORE_SOURCE_TYPE_UNSPECIFIED" | "BACKUP";
-/** Information about a table restore. */
-export interface RestoreInfo {
-  /** Information about the backup used to restore the table. The backup may no longer exist. */
-  backupInfo?: BackupInfo;
-  /** The type of the restore source. */
-  sourceType?: RestoreInfoSourceTypeEnum | (string & {});
-}
-/** Change stream configuration. */
-export interface ChangeStreamConfig {
-  /** How long the change stream should be retained. Change stream data older than the retention period will not be returned when reading the change stream from the table. Values must be at least 1 day and at most 7 days, and will be truncated to microsecond granularity. */
-  retentionPeriod?: string;
-}
-export type TableGranularityEnum = "TIMESTAMP_GRANULARITY_UNSPECIFIED" | "MILLIS" | "MICROS";
 /** A collection of user data indexed by row, column, and timestamp. Each table is served using the resources of its parent cluster. */
 export interface Table {
-  /** Output only. Only available with STATS_VIEW, this includes summary statistics about the entire table contents. For statistics about a specific column family, see ColumnFamilyStats in the mapped ColumnFamily collection above. */
-  stats?: TableStats;
   /** The column families configured for this table, mapped by column family ID. Views: `SCHEMA_VIEW`, `STATS_VIEW`, `FULL` */
-  columnFamilies?: ColumnFamilyMap;
-  /** The unique name of the table. Values are of the form `projects/{project}/instances/{instance}/tables/_a-zA-Z0-9*`. Views: `NAME_ONLY`, `SCHEMA_VIEW`, `REPLICATION_VIEW`, `STATS_VIEW`, `FULL` */
-  name?: string;
-  /** Rules to specify what data is stored in each storage tier. Different tiers store data differently, providing different trade-offs between cost and performance. Different parts of a table can be stored separately on different tiers. If a config is specified, tiered storage is enabled for this table. Otherwise, tiered storage is disabled. Only SSD instances can configure tiered storage. */
-  tieredStorageConfig?: TieredStorageConfig;
-  /** The row key schema for this table. The schema is used to decode the raw row key bytes into a structured format. The order of field declarations in this schema is important, as it reflects how the raw row key bytes are structured. Currently, this only affects how the key is read via a GoogleSQL query from the ExecuteQuery API. For a SQL query, the _key column is still read as raw bytes. But queries can reference the key fields by name, which will be decoded from _key using provided type and encoding. Queries that reference key fields will fail if they encounter an invalid row key. For example, if _key = "some_id#2024-04-30#\x00\x13\x00\xf3" with the following schema: { fields { field_name: "id" type { string { encoding: utf8_bytes {} } } } fields { field_name: "date" type { string { encoding: utf8_bytes {} } } } fields { field_name: "product_code" type { int64 { encoding: big_endian_bytes {} } } } encoding { delimited_bytes { delimiter: "#" } } } The decoded key parts would be: id = "some_id", date = "2024-04-30", product_code = 1245427 The query "SELECT _key, product_code FROM table" will return two columns: /------------------------------------------------------\ | _key | product_code | | --------------------------------------|--------------| | "some_id#2024-04-30#\x00\x13\x00\xf3" | 1245427 | \------------------------------------------------------/ The schema has the following invariants: (1) The decoded field values are order-preserved. For read, the field values will be decoded in sorted mode from the raw bytes. (2) Every field in the schema must specify a non-empty name. (3) Every field must specify a type with an associated encoding. The type is limited to scalar types only: Array, Map, Aggregate, and Struct are not allowed. (4) The field names must not collide with existing column family names and reserved keywords "_key" and "_timestamp". The following update operations are allowed for row_key_schema: - Update from an empty schema to a new schema. - Remove the existing schema. This operation requires setting the `ignore_warnings` flag to `true`, since it might be a backward incompatible change. Without the flag, the update request will fail with an INVALID_ARGUMENT error. Any other row key schema update operation (e.g. update existing schema columns names or types) is currently unsupported. */
-  rowKeySchema?: GoogleBigtableAdminV2TypeStruct;
-  /** Output only. Map from cluster ID to per-cluster table state. If it could not be determined whether or not the table has data in a particular cluster (for example, if its zone is unavailable), then there will be an entry for the cluster with UNKNOWN `replication_status`. Views: `REPLICATION_VIEW`, `ENCRYPTION_VIEW`, `FULL` */
-  clusterStates?: ClusterStateMap;
+  columnFamilies?: ColumnFamilyMap | undefined;
   /** If specified, automated backups are enabled for this table. Otherwise, automated backups are disabled. */
-  automatedBackupPolicy?: AutomatedBackupPolicy;
+  automatedBackupPolicy?: AutomatedBackupPolicy | undefined;
+  /** Rules to specify what data is stored in each storage tier. Different tiers store data differently, providing different trade-offs between cost and performance. Different parts of a table can be stored separately on different tiers. If a config is specified, tiered storage is enabled for this table. Otherwise, tiered storage is disabled. Only SSD instances can configure tiered storage. */
+  tieredStorageConfig?: TieredStorageConfig | undefined;
   /** Output only. If this table was restored from another data source (e.g. a backup), this field will be populated with information about the restore. */
-  restoreInfo?: RestoreInfo;
-  /** Set to true to make the table protected against data loss. i.e. deleting the following resources through Admin APIs are prohibited: * The table. * The column families in the table. * The instance containing the table. Note one can still delete the data stored in the table through Data APIs. */
-  deletionProtection?: boolean;
+  restoreInfo?: RestoreInfo | undefined;
   /** If specified, enable the change stream on this table. Otherwise, the change stream is disabled and the change stream is not retained. */
-  changeStreamConfig?: ChangeStreamConfig;
+  changeStreamConfig?: ChangeStreamConfig | undefined;
+  /** Output only. Only available with STATS_VIEW, this includes summary statistics about the entire table contents. For statistics about a specific column family, see ColumnFamilyStats in the mapped ColumnFamily collection above. */
+  stats?: TableStats | undefined;
   /** Immutable. The granularity at which timestamps are stored in this table. Timestamps not matching the granularity will be rejected. If unspecified at creation time, the value will be set to `MILLIS`. Views: `SCHEMA_VIEW`, `FULL`. */
-  granularity?: TableGranularityEnum | (string & {});
+  granularity?: TableGranularityEnum | (string & {}) | undefined;
+  /** The row key schema for this table. The schema is used to decode the raw row key bytes into a structured format. The order of field declarations in this schema is important, as it reflects how the raw row key bytes are structured. Currently, this only affects how the key is read via a GoogleSQL query from the ExecuteQuery API. For a SQL query, the _key column is still read as raw bytes. But queries can reference the key fields by name, which will be decoded from _key using provided type and encoding. Queries that reference key fields will fail if they encounter an invalid row key. For example, if _key = "some_id#2024-04-30#\x00\x13\x00\xf3" with the following schema: { fields { field_name: "id" type { string { encoding: utf8_bytes {} } } } fields { field_name: "date" type { string { encoding: utf8_bytes {} } } } fields { field_name: "product_code" type { int64 { encoding: big_endian_bytes {} } } } encoding { delimited_bytes { delimiter: "#" } } } The decoded key parts would be: id = "some_id", date = "2024-04-30", product_code = 1245427 The query "SELECT _key, product_code FROM table" will return two columns: /------------------------------------------------------\ | _key | product_code | | --------------------------------------|--------------| | "some_id#2024-04-30#\x00\x13\x00\xf3" | 1245427 | \------------------------------------------------------/ The schema has the following invariants: (1) The decoded field values are order-preserved. For read, the field values will be decoded in sorted mode from the raw bytes. (2) Every field in the schema must specify a non-empty name. (3) Every field must specify a type with an associated encoding. The type is limited to scalar types only: Array, Map, Aggregate, and Struct are not allowed. (4) The field names must not collide with existing column family names and reserved keywords "_key" and "_timestamp". The following update operations are allowed for row_key_schema: - Update from an empty schema to a new schema. - Remove the existing schema. This operation requires setting the `ignore_warnings` flag to `true`, since it might be a backward incompatible change. Without the flag, the update request will fail with an INVALID_ARGUMENT error. Any other row key schema update operation (e.g. update existing schema columns names or types) is currently unsupported. */
+  rowKeySchema?: GoogleBigtableAdminV2TypeStruct | undefined;
+  /** The unique name of the table. Values are of the form `projects/{project}/instances/{instance}/tables/_a-zA-Z0-9*`. Views: `NAME_ONLY`, `SCHEMA_VIEW`, `REPLICATION_VIEW`, `STATS_VIEW`, `FULL` */
+  name?: string | undefined;
+  /** Set to true to make the table protected against data loss. i.e. deleting the following resources through Admin APIs are prohibited: * The table. * The column families in the table. * The instance containing the table. Note one can still delete the data stored in the table through Data APIs. */
+  deletionProtection?: boolean | undefined;
+  /** Output only. The effective automated backup policy applied to the table. This represents the policy actually in effect, which may be a system-default policy if the user has not explicitly configured one. Views: `SCHEMA_VIEW`, `FULL`. */
+  effectiveAutomatedBackupPolicy?: AutomatedBackupPolicy | undefined;
+  /** Output only. Map from cluster ID to per-cluster table state. If it could not be determined whether or not the table has data in a particular cluster (for example, if its zone is unavailable), then there will be an entry for the cluster with UNKNOWN `replication_status`. Views: `REPLICATION_VIEW`, `ENCRYPTION_VIEW`, `FULL` */
+  clusterStates?: ClusterStateMap | undefined;
 }
+/** An initial split point for a newly created table. */
+export interface Split {
+  /** Row key to use as an initial tablet boundary. */
+  key?: string | undefined;
+}
+export type SplitList = Array<Split>;
 /** Request message for google.bigtable.admin.v2.BigtableTableAdmin.CreateTable */
 export interface CreateTableRequest {
-  /** The optional list of row keys that will be used to initially split the table into several tablets (tablets are similar to HBase regions). Given two split keys, `s1` and `s2`, three tablets will be created, spanning the key ranges: `[, s1), [s1, s2), [s2, )`. Example: * Row keys := `["a", "apple", "custom", "customer_1", "customer_2",` `"other", "zz"]` * initial_split_keys := `["apple", "customer_1", "customer_2", "other"]` * Key assignment: - Tablet 1 `[, apple) => {"a"}.` - Tablet 2 `[apple, customer_1) => {"apple", "custom"}.` - Tablet 3 `[customer_1, customer_2) => {"customer_1"}.` - Tablet 4 `[customer_2, other) => {"customer_2"}.` - Tablet 5 `[other, ) => {"other", "zz"}.` */
-  initialSplits?: SplitList;
-  /** Required. The name by which the new table should be referred to within the parent instance, e.g., `foobar` rather than `{parent}/tables/foobar`. Maximum 50 characters. */
-  tableId?: string;
   /** Required. The Table to create. */
-  table?: Table;
+  table?: Table | undefined;
+  /** The optional list of row keys that will be used to initially split the table into several tablets (tablets are similar to HBase regions). Given two split keys, `s1` and `s2`, three tablets will be created, spanning the key ranges: `[, s1), [s1, s2), [s2, )`. Example: * Row keys := `["a", "apple", "custom", "customer_1", "customer_2",` `"other", "zz"]` * initial_split_keys := `["apple", "customer_1", "customer_2", "other"]` * Key assignment: - Tablet 1 `[, apple) => {"a"}.` - Tablet 2 `[apple, customer_1) => {"apple", "custom"}.` - Tablet 3 `[customer_1, customer_2) => {"customer_1"}.` - Tablet 4 `[customer_2, other) => {"customer_2"}.` - Tablet 5 `[other, ) => {"other", "zz"}.` */
+  initialSplits?: SplitList | undefined;
+  /** Required. The name by which the new table should be referred to within the parent instance, e.g., `foobar` rather than `{parent}/tables/foobar`. Maximum 50 characters. */
+  tableId?: string | undefined;
 }
-export interface CreateProjectsInstancesTablesRequest {
+export interface CreateProjectsInstancesTablesRequest extends CreateTableRequest {
   /** Required. The unique name of the instance in which to create the table. Values are of the form `projects/{project}/instances/{instance}`. */
   parent: string;
-  /** Request body */
-  body?: CreateTableRequest;
 }
 /** Subsets of a column family that are included in this AuthorizedView. */
 export interface GoogleBigtableAdminV2AuthorizedViewFamilySubsets {
   /** Individual exact column qualifiers to be included in the AuthorizedView. */
-  qualifiers?: StringList;
+  qualifiers?: StringList | undefined;
   /** Prefixes for qualifiers to be included in the AuthorizedView. Every qualifier starting with one of these prefixes is included in the AuthorizedView. To provide access to all qualifiers, include the empty string as a prefix (""). */
-  qualifierPrefixes?: StringList;
+  qualifierPrefixes?: StringList | undefined;
 }
 export type GoogleBigtableAdminV2AuthorizedViewFamilySubsetsMap = {
   [key: string]: GoogleBigtableAdminV2AuthorizedViewFamilySubsets | undefined;
@@ -868,57 +860,53 @@ export type GoogleBigtableAdminV2AuthorizedViewFamilySubsetsMap = {
 /** Defines a simple AuthorizedView that is a subset of the underlying Table. */
 export interface GoogleBigtableAdminV2AuthorizedViewSubsetView {
   /** Row prefixes to be included in the AuthorizedView. To provide access to all rows, include the empty string as a prefix (""). */
-  rowPrefixes?: StringList;
+  rowPrefixes?: StringList | undefined;
   /** Map from column family name to the columns in this family to be included in the AuthorizedView. */
-  familySubsets?: GoogleBigtableAdminV2AuthorizedViewFamilySubsetsMap;
+  familySubsets?: GoogleBigtableAdminV2AuthorizedViewFamilySubsetsMap | undefined;
 }
 /** An Authorized View of a Cloud Bigtable Table. */
 export interface AuthorizedView {
-  /** The etag for this AuthorizedView. If this is provided on update, it must match the server's etag. The server returns ABORTED error on a mismatched etag. */
-  etag?: string;
   /** Set to true to make the AuthorizedView protected against deletion. The parent Table and containing Instance cannot be deleted if an AuthorizedView has this bit set. */
-  deletionProtection?: boolean;
-  /** Identifier. The name of this AuthorizedView. Values are of the form `projects/{project}/instances/{instance}/tables/{table}/authorizedViews/{authorized_view}` */
-  name?: string;
+  deletionProtection?: boolean | undefined;
+  /** The etag for this AuthorizedView. If this is provided on update, it must match the server's etag. The server returns ABORTED error on a mismatched etag. */
+  etag?: string | undefined;
   /** An AuthorizedView permitting access to an explicit subset of a Table. */
-  subsetView?: GoogleBigtableAdminV2AuthorizedViewSubsetView;
+  subsetView?: GoogleBigtableAdminV2AuthorizedViewSubsetView | undefined;
+  /** Identifier. The name of this AuthorizedView. Values are of the form `projects/{project}/instances/{instance}/tables/{table}/authorizedViews/{authorized_view}` */
+  name?: string | undefined;
 }
-export interface CreateProjectsInstancesTablesAuthorizedViewsRequest {
-  /** Required. The id of the AuthorizedView to create. This AuthorizedView must not already exist. The `authorized_view_id` appended to `parent` forms the full AuthorizedView name of the form `projects/{project}/instances/{instance}/tables/{table}/authorizedView/{authorized_view}`. */
-  authorizedViewId?: string;
+export interface CreateProjectsInstancesTablesAuthorizedViewsRequest extends AuthorizedView {
   /** Required. This is the name of the table the AuthorizedView belongs to. Values are of the form `projects/{project}/instances/{instance}/tables/{table}`. */
   parent: string;
-  /** Request body */
-  body?: AuthorizedView;
-}
-/** Represents a collection of protobuf schemas. */
-export interface ProtoSchema {
-  /** Required. Contains a protobuf-serialized [google.protobuf.FileDescriptorSet](https://github.com/protocolbuffers/protobuf/blob/main/src/google/protobuf/descriptor.proto), which could include multiple proto files. To generate it, [install](https://grpc.io/docs/protoc-installation/) and run `protoc` with `--include_imports` and `--descriptor_set_out`. For example, to generate for moon/shot/app.proto, run ``` $protoc --proto_path=/app_path --proto_path=/lib_path \ --include_imports \ --descriptor_set_out=descriptors.pb \ moon/shot/app.proto ``` For more details, see protobuffer [self description](https://developers.google.com/protocol-buffers/docs/techniques#self-description). */
-  protoDescriptors?: string;
+  /** Required. The id of the AuthorizedView to create. This AuthorizedView must not already exist. The `authorized_view_id` appended to `parent` forms the full AuthorizedView name of the form `projects/{project}/instances/{instance}/tables/{table}/authorizedView/{authorized_view}`. */
+  authorizedViewId?: string | undefined;
 }
 /** Represents a collection of Avro schemas. */
 export interface AvroSchema {
   /** Required. The Avro schemas in JSON format. Each element must be the content of a valid, self-contained Avro schema file (.avsc), as described in https://avro.apache.org/docs/1.8.1/spec.html. Use repeated elements to include multiple Avro schema files in a single bundle. */
-  jsonSchemas?: StringList;
+  jsonSchemas?: StringList | undefined;
+}
+/** Represents a collection of protobuf schemas. */
+export interface ProtoSchema {
+  /** Required. Contains a protobuf-serialized [google.protobuf.FileDescriptorSet](https://github.com/protocolbuffers/protobuf/blob/main/src/google/protobuf/descriptor.proto), which could include multiple proto files. To generate it, [install](https://grpc.io/docs/protoc-installation/) and run `protoc` with `--include_imports` and `--descriptor_set_out`. For example, to generate for moon/shot/app.proto, run ``` $protoc --proto_path=/app_path --proto_path=/lib_path \ --include_imports \ --descriptor_set_out=descriptors.pb \ moon/shot/app.proto ``` For more details, see protobuffer [self description](https://developers.google.com/protocol-buffers/docs/techniques#self-description). */
+  protoDescriptors?: string | undefined;
 }
 /** A named collection of related schemas. */
 export interface SchemaBundle {
-  /** Identifier. The unique name identifying this schema bundle. Values are of the form `projects/{project}/instances/{instance}/tables/{table}/schemaBundles/{schema_bundle}` */
-  name?: string;
-  /** Schema for Protobufs. */
-  protoSchema?: ProtoSchema;
   /** Optional. The etag for this schema bundle. This may be sent on update and delete requests to ensure the client has an up-to-date value before proceeding. The server returns an ABORTED error on a mismatched etag. */
-  etag?: string;
+  etag?: string | undefined;
+  /** Identifier. The unique name identifying this schema bundle. Values are of the form `projects/{project}/instances/{instance}/tables/{table}/schemaBundles/{schema_bundle}` */
+  name?: string | undefined;
   /** Optional. Schema for Avros. */
-  avroSchema?: AvroSchema;
+  avroSchema?: AvroSchema | undefined;
+  /** Schema for Protobufs. */
+  protoSchema?: ProtoSchema | undefined;
 }
-export interface CreateProjectsInstancesTablesSchemaBundlesRequest {
-  /** Required. The unique ID to use for the schema bundle, which will become the final component of the schema bundle's resource name. */
-  schemaBundleId?: string;
+export interface CreateProjectsInstancesTablesSchemaBundlesRequest extends SchemaBundle {
   /** Required. The parent resource where this schema bundle will be created. Values are of the form `projects/{project}/instances/{instance}/tables/{table}`. */
   parent: string;
-  /** Request body */
-  body?: SchemaBundle;
+  /** Required. The unique ID to use for the schema bundle, which will become the final component of the schema bundle's resource name. */
+  schemaBundleId?: string | undefined;
 }
 export interface DeleteProjectsInstancesRequest {
   /** Required. The unique name of the instance to be deleted. Values are of the form `projects/{project}/instances/{instance}`. */
@@ -927,10 +915,10 @@ export interface DeleteProjectsInstancesRequest {
 /** A generic empty message that you can re-use to avoid defining duplicated empty messages in your APIs. A typical example is to use it as the request or the response type of an API method. For instance: service Foo { rpc Bar(google.protobuf.Empty) returns (google.protobuf.Empty); } */
 export interface Empty {}
 export interface DeleteProjectsInstancesAppProfilesRequest {
+  /** Required. If true, ignore safety checks when deleting the app profile. */
+  ignoreWarnings?: boolean | undefined;
   /** Required. The unique name of the app profile to be deleted. Values are of the form `projects/{project}/instances/{instance}/appProfiles/{app_profile}`. */
   name: string;
-  /** Required. If true, ignore safety checks when deleting the app profile. */
-  ignoreWarnings?: boolean;
 }
 export interface DeleteProjectsInstancesClustersRequest {
   /** Required. The unique name of the cluster to be deleted. Values are of the form `projects/{project}/instances/{instance}/clusters/{cluster}`. */
@@ -941,16 +929,16 @@ export interface DeleteProjectsInstancesClustersBackupsRequest {
   name: string;
 }
 export interface DeleteProjectsInstancesLogicalViewsRequest {
-  /** Optional. The current etag of the logical view. If an etag is provided and does not match the current etag of the logical view, deletion will be blocked and an ABORTED error will be returned. */
-  etag?: string;
   /** Required. The unique name of the logical view to be deleted. Format: `projects/{project}/instances/{instance}/logicalViews/{logical_view}`. */
   name: string;
+  /** Optional. The current etag of the logical view. If an etag is provided and does not match the current etag of the logical view, deletion will be blocked and an ABORTED error will be returned. */
+  etag?: string | undefined;
 }
 export interface DeleteProjectsInstancesMaterializedViewsRequest {
   /** Required. The unique name of the materialized view to be deleted. Format: `projects/{project}/instances/{instance}/materializedViews/{materialized_view}`. */
   name: string;
   /** Optional. The current etag of the materialized view. If an etag is provided and does not match the current etag of the materialized view, deletion will be blocked and an ABORTED error will be returned. */
-  etag?: string;
+  etag?: string | undefined;
 }
 export interface DeleteProjectsInstancesTablesRequest {
   /** Required. The unique name of the table to be deleted. Values are of the form `projects/{project}/instances/{instance}/tables/{table}`. */
@@ -960,77 +948,52 @@ export interface DeleteProjectsInstancesTablesAuthorizedViewsRequest {
   /** Required. The unique name of the AuthorizedView to be deleted. Values are of the form `projects/{project}/instances/{instance}/tables/{table}/authorizedViews/{authorized_view}`. */
   name: string;
   /** Optional. The current etag of the AuthorizedView. If an etag is provided and does not match the current etag of the AuthorizedView, deletion will be blocked and an ABORTED error will be returned. */
-  etag?: string;
+  etag?: string | undefined;
 }
 export interface DeleteProjectsInstancesTablesSchemaBundlesRequest {
   /** Required. The unique name of the schema bundle to delete. Values are of the form `projects/{project}/instances/{instance}/tables/{table}/schemaBundles/{schema_bundle}` */
   name: string;
   /** Optional. The etag of the schema bundle. If this is provided, it must match the server's etag. The server returns an ABORTED error on a mismatched etag. */
-  etag?: string;
+  etag?: string | undefined;
 }
 /** Request message for google.bigtable.admin.v2.BigtableTableAdmin.DropRowRange */
 export interface DropRowRangeRequest {
   /** Delete all rows that start with this row key prefix. Prefix cannot be zero length. */
-  rowKeyPrefix?: string;
+  rowKeyPrefix?: string | undefined;
   /** Delete all rows in the table. Setting this to false is a no-op. */
-  deleteAllDataFromTable?: boolean;
+  deleteAllDataFromTable?: boolean | undefined;
 }
-export interface DropRowRangeProjectsInstancesTablesRequest {
+export interface DropRowRangeProjectsInstancesTablesRequest extends DropRowRangeRequest {
   /** Required. The unique name of the table on which to drop a range of rows. Values are of the form `projects/{project}/instances/{instance}/tables/{table}`. */
   name: string;
-  /** Request body */
-  body?: DropRowRangeRequest;
 }
 /** Request message for google.bigtable.admin.v2.BigtableTableAdmin.GenerateConsistencyToken */
-export type GenerateConsistencyTokenRequest = DataBoostReadLocalWrites;
+export type GenerateConsistencyTokenRequest = StandardReadRemoteWrites;
 export interface GenerateConsistencyTokenProjectsInstancesTablesRequest {
   /** Required. The unique name of the Table for which to create a consistency token. Values are of the form `projects/{project}/instances/{instance}/tables/{table}`. */
   name: string;
   /** Request body */
-  body?: DataBoostReadLocalWrites;
+  body?: StandardReadRemoteWrites | undefined;
 }
 /** Response message for google.bigtable.admin.v2.BigtableTableAdmin.GenerateConsistencyToken */
 export interface GenerateConsistencyTokenResponse {
   /** The generated consistency token. */
-  consistencyToken?: string;
+  consistencyToken?: string | undefined;
 }
 /** Encapsulates settings provided to GetIamPolicy. */
 export interface GetPolicyOptions {
   /** Optional. The maximum policy version that will be used to format the policy. Valid values are 0, 1, and 3. Requests specifying an invalid value will be rejected. Requests for policies with any conditional role bindings must specify version 3. Policies with no conditional role bindings may specify any valid value or leave the field unset. The policy in the response might use the policy version that you specified, or it might use a lower policy version. For example, if you specify version 3, but the policy has no conditional role bindings, the response uses version 1. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). */
-  requestedPolicyVersion?: number;
+  requestedPolicyVersion?: number | undefined;
 }
 /** Request message for `GetIamPolicy` method. */
 export interface GetIamPolicyRequest {
   /** OPTIONAL: A `GetPolicyOptions` object for specifying options to `GetIamPolicy`. */
-  options?: GetPolicyOptions;
+  options?: GetPolicyOptions | undefined;
 }
-export interface GetIamPolicyProjectsInstancesRequest {
+export interface GetIamPolicyProjectsInstancesRequest extends GetIamPolicyRequest {
   /** REQUIRED: The resource for which the policy is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: GetIamPolicyRequest;
 }
-/** Represents a textual expression in the Common Expression Language (CEL) syntax. CEL is a C-like expression language. The syntax and semantics of CEL are documented at https://github.com/google/cel-spec. Example (Comparison): title: "Summary size limit" description: "Determines if a summary is less than 100 chars" expression: "document.summary.size() < 100" Example (Equality): title: "Requestor is owner" description: "Determines if requestor is the document owner" expression: "document.owner == request.auth.claims.email" Example (Logic): title: "Public documents" description: "Determine whether the document should be publicly visible" expression: "document.type != 'private' && document.type != 'internal'" Example (Data Manipulation): title: "Notification string" description: "Create a notification string with a timestamp." expression: "'New message received at ' + string(document.create_time)" The exact variables and functions that may be referenced within an expression are determined by the service that evaluates it. See the service documentation for additional information. */
-export interface Expr {
-  /** Optional. String indicating the location of the expression for error reporting, e.g. a file name and a position in the file. */
-  location?: string;
-  /** Textual representation of an expression in Common Expression Language syntax. */
-  expression?: string;
-  /** Optional. Title for the expression, i.e. a short string describing its purpose. This can be used e.g. in UIs which allow to enter the expression. */
-  title?: string;
-  /** Optional. Description of the expression. This is a longer text which describes the expression, e.g. when hovered over it in a UI. */
-  description?: string;
-}
-/** Associates `members`, or principals, with a `role`. */
-export interface Binding {
-  /** Specifies the principals requesting access for a Google Cloud resource. `members` can have the following values: * `allUsers`: A special identifier that represents anyone who is on the internet; with or without a Google account. * `allAuthenticatedUsers`: A special identifier that represents anyone who is authenticated with a Google account or a service account. Does not include identities that come from external identity providers (IdPs) through identity federation. * `user:{emailid}`: An email address that represents a specific Google account. For example, `alice@example.com` . * `serviceAccount:{emailid}`: An email address that represents a Google service account. For example, `my-other-app@appspot.gserviceaccount.com`. * `serviceAccount:{projectid}.svc.id.goog[{namespace}/{kubernetes-sa}]`: An identifier for a [Kubernetes service account](https://cloud.google.com/kubernetes-engine/docs/how-to/kubernetes-service-accounts). For example, `my-project.svc.id.goog[my-namespace/my-kubernetes-sa]`. * `group:{emailid}`: An email address that represents a Google group. For example, `admins@example.com`. * `domain:{domain}`: The G Suite domain (primary) that represents all the users of that domain. For example, `google.com` or `example.com`. * `principal://iam.googleapis.com/locations/global/workforcePools/{pool_id}/subject/{subject_attribute_value}`: A single identity in a workforce identity pool. * `principalSet://iam.googleapis.com/locations/global/workforcePools/{pool_id}/group/{group_id}`: All workforce identities in a group. * `principalSet://iam.googleapis.com/locations/global/workforcePools/{pool_id}/attribute.{attribute_name}/{attribute_value}`: All workforce identities with a specific attribute value. * `principalSet://iam.googleapis.com/locations/global/workforcePools/{pool_id}/*`: All identities in a workforce identity pool. * `principal://iam.googleapis.com/projects/{project_number}/locations/global/workloadIdentityPools/{pool_id}/subject/{subject_attribute_value}`: A single identity in a workload identity pool. * `principalSet://iam.googleapis.com/projects/{project_number}/locations/global/workloadIdentityPools/{pool_id}/group/{group_id}`: A workload identity pool group. * `principalSet://iam.googleapis.com/projects/{project_number}/locations/global/workloadIdentityPools/{pool_id}/attribute.{attribute_name}/{attribute_value}`: All identities in a workload identity pool with a certain attribute. * `principalSet://iam.googleapis.com/projects/{project_number}/locations/global/workloadIdentityPools/{pool_id}/*`: All identities in a workload identity pool. * `deleted:user:{emailid}?uid={uniqueid}`: An email address (plus unique identifier) representing a user that has been recently deleted. For example, `alice@example.com?uid=123456789012345678901`. If the user is recovered, this value reverts to `user:{emailid}` and the recovered user retains the role in the binding. * `deleted:serviceAccount:{emailid}?uid={uniqueid}`: An email address (plus unique identifier) representing a service account that has been recently deleted. For example, `my-other-app@appspot.gserviceaccount.com?uid=123456789012345678901`. If the service account is undeleted, this value reverts to `serviceAccount:{emailid}` and the undeleted service account retains the role in the binding. * `deleted:group:{emailid}?uid={uniqueid}`: An email address (plus unique identifier) representing a Google group that has been recently deleted. For example, `admins@example.com?uid=123456789012345678901`. If the group is recovered, this value reverts to `group:{emailid}` and the recovered group retains the role in the binding. * `deleted:principal://iam.googleapis.com/locations/global/workforcePools/{pool_id}/subject/{subject_attribute_value}`: Deleted single identity in a workforce identity pool. For example, `deleted:principal://iam.googleapis.com/locations/global/workforcePools/my-pool-id/subject/my-subject-attribute-value`. */
-  members?: StringList;
-  /** The condition that is associated with this binding. If the condition evaluates to `true`, then this binding applies to the current request. If the condition evaluates to `false`, then this binding does not apply to the current request. However, a different role binding might grant the same role to one or more of the principals in this binding. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). */
-  condition?: Expr;
-  /** Role that is assigned to the list of `members`, or principals. For example, `roles/viewer`, `roles/editor`, or `roles/owner`. For an overview of the IAM roles and permissions, see the [IAM documentation](https://cloud.google.com/iam/docs/roles-overview). For a list of the available pre-defined roles, see [here](https://cloud.google.com/iam/docs/understanding-roles). */
-  role?: string;
-}
-export type BindingList = Array<Binding>;
 export type AuditLogConfigLogTypeEnum =
   | "LOG_TYPE_UNSPECIFIED"
   | "ADMIN_READ"
@@ -1038,66 +1001,75 @@ export type AuditLogConfigLogTypeEnum =
   | "DATA_READ";
 /** Provides the configuration for logging a type of permissions. Example: { "audit_log_configs": [ { "log_type": "DATA_READ", "exempted_members": [ "user:jose@example.com" ] }, { "log_type": "DATA_WRITE" } ] } This enables 'DATA_READ' and 'DATA_WRITE' logging, while exempting jose@example.com from DATA_READ logging. */
 export interface AuditLogConfig {
-  /** Specifies the identities that do not cause logging for this type of permission. Follows the same format of Binding.members. */
-  exemptedMembers?: StringList;
   /** The log type that this config enables. */
-  logType?: AuditLogConfigLogTypeEnum | (string & {});
+  logType?: AuditLogConfigLogTypeEnum | (string & {}) | undefined;
+  /** Specifies the identities that do not cause logging for this type of permission. Follows the same format of Binding.members. */
+  exemptedMembers?: StringList | undefined;
 }
 export type AuditLogConfigList = Array<AuditLogConfig>;
 /** Specifies the audit configuration for a service. The configuration determines which permission types are logged, and what identities, if any, are exempted from logging. An AuditConfig must have one or more AuditLogConfigs. If there are AuditConfigs for both `allServices` and a specific service, the union of the two AuditConfigs is used for that service: the log_types specified in each AuditConfig are enabled, and the exempted_members in each AuditLogConfig are exempted. Example Policy with multiple AuditConfigs: { "audit_configs": [ { "service": "allServices", "audit_log_configs": [ { "log_type": "DATA_READ", "exempted_members": [ "user:jose@example.com" ] }, { "log_type": "DATA_WRITE" }, { "log_type": "ADMIN_READ" } ] }, { "service": "sampleservice.googleapis.com", "audit_log_configs": [ { "log_type": "DATA_READ" }, { "log_type": "DATA_WRITE", "exempted_members": [ "user:aliya@example.com" ] } ] } ] } For sampleservice, this policy enables DATA_READ, DATA_WRITE and ADMIN_READ logging. It also exempts `jose@example.com` from DATA_READ logging, and `aliya@example.com` from DATA_WRITE logging. */
 export interface AuditConfig {
   /** Specifies a service that will be enabled for audit logging. For example, `storage.googleapis.com`, `cloudsql.googleapis.com`. `allServices` is a special value that covers all services. */
-  service?: string;
+  service?: string | undefined;
   /** The configuration for logging of each type of permission. */
-  auditLogConfigs?: AuditLogConfigList;
+  auditLogConfigs?: AuditLogConfigList | undefined;
 }
 export type AuditConfigList = Array<AuditConfig>;
+/** Represents a textual expression in the Common Expression Language (CEL) syntax. CEL is a C-like expression language. The syntax and semantics of CEL are documented at https://github.com/google/cel-spec. Example (Comparison): title: "Summary size limit" description: "Determines if a summary is less than 100 chars" expression: "document.summary.size() < 100" Example (Equality): title: "Requestor is owner" description: "Determines if requestor is the document owner" expression: "document.owner == request.auth.claims.email" Example (Logic): title: "Public documents" description: "Determine whether the document should be publicly visible" expression: "document.type != 'private' && document.type != 'internal'" Example (Data Manipulation): title: "Notification string" description: "Create a notification string with a timestamp." expression: "'New message received at ' + string(document.create_time)" The exact variables and functions that may be referenced within an expression are determined by the service that evaluates it. See the service documentation for additional information. */
+export interface Expr {
+  /** Textual representation of an expression in Common Expression Language syntax. */
+  expression?: string | undefined;
+  /** Optional. Description of the expression. This is a longer text which describes the expression, e.g. when hovered over it in a UI. */
+  description?: string | undefined;
+  /** Optional. Title for the expression, i.e. a short string describing its purpose. This can be used e.g. in UIs which allow to enter the expression. */
+  title?: string | undefined;
+  /** Optional. String indicating the location of the expression for error reporting, e.g. a file name and a position in the file. */
+  location?: string | undefined;
+}
+/** Associates `members`, or principals, with a `role`. */
+export interface Binding {
+  /** The condition that is associated with this binding. If the condition evaluates to `true`, then this binding applies to the current request. If the condition evaluates to `false`, then this binding does not apply to the current request. However, a different role binding might grant the same role to one or more of the principals in this binding. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). */
+  condition?: Expr | undefined;
+  /** Role that is assigned to the list of `members`, or principals. For example, `roles/viewer`, `roles/editor`, or `roles/owner`. For an overview of the IAM roles and permissions, see the [IAM documentation](https://cloud.google.com/iam/docs/roles-overview). For a list of the available pre-defined roles, see [here](https://cloud.google.com/iam/docs/understanding-roles). */
+  role?: string | undefined;
+  /** Specifies the principals requesting access for a Google Cloud resource. `members` can have the following values: * `allUsers`: A special identifier that represents anyone who is on the internet; with or without a Google account. * `allAuthenticatedUsers`: A special identifier that represents anyone who is authenticated with a Google account or a service account. Does not include identities that come from external identity providers (IdPs) through identity federation. * `user:{emailid}`: An email address that represents a specific Google account. For example, `alice@example.com` . * `serviceAccount:{emailid}`: An email address that represents a Google service account. For example, `my-other-app@appspot.gserviceaccount.com`. * `serviceAccount:{projectid}.svc.id.goog[{namespace}/{kubernetes-sa}]`: An identifier for a [Kubernetes service account](https://cloud.google.com/kubernetes-engine/docs/how-to/kubernetes-service-accounts). For example, `my-project.svc.id.goog[my-namespace/my-kubernetes-sa]`. * `group:{emailid}`: An email address that represents a Google group. For example, `admins@example.com`. * `domain:{domain}`: The G Suite domain (primary) that represents all the users of that domain. For example, `google.com` or `example.com`. * `principal://iam.googleapis.com/locations/global/workforcePools/{pool_id}/subject/{subject_attribute_value}`: A single identity in a workforce identity pool. * `principalSet://iam.googleapis.com/locations/global/workforcePools/{pool_id}/group/{group_id}`: All workforce identities in a group. * `principalSet://iam.googleapis.com/locations/global/workforcePools/{pool_id}/attribute.{attribute_name}/{attribute_value}`: All workforce identities with a specific attribute value. * `principalSet://iam.googleapis.com/locations/global/workforcePools/{pool_id}/*`: All identities in a workforce identity pool. * `principal://iam.googleapis.com/projects/{project_number}/locations/global/workloadIdentityPools/{pool_id}/subject/{subject_attribute_value}`: A single identity in a workload identity pool. * `principalSet://iam.googleapis.com/projects/{project_number}/locations/global/workloadIdentityPools/{pool_id}/group/{group_id}`: A workload identity pool group. * `principalSet://iam.googleapis.com/projects/{project_number}/locations/global/workloadIdentityPools/{pool_id}/attribute.{attribute_name}/{attribute_value}`: All identities in a workload identity pool with a certain attribute. * `principalSet://iam.googleapis.com/projects/{project_number}/locations/global/workloadIdentityPools/{pool_id}/*`: All identities in a workload identity pool. * `deleted:user:{emailid}?uid={uniqueid}`: An email address (plus unique identifier) representing a user that has been recently deleted. For example, `alice@example.com?uid=123456789012345678901`. If the user is recovered, this value reverts to `user:{emailid}` and the recovered user retains the role in the binding. * `deleted:serviceAccount:{emailid}?uid={uniqueid}`: An email address (plus unique identifier) representing a service account that has been recently deleted. For example, `my-other-app@appspot.gserviceaccount.com?uid=123456789012345678901`. If the service account is undeleted, this value reverts to `serviceAccount:{emailid}` and the undeleted service account retains the role in the binding. * `deleted:group:{emailid}?uid={uniqueid}`: An email address (plus unique identifier) representing a Google group that has been recently deleted. For example, `admins@example.com?uid=123456789012345678901`. If the group is recovered, this value reverts to `group:{emailid}` and the recovered group retains the role in the binding. * `deleted:principal://iam.googleapis.com/locations/global/workforcePools/{pool_id}/subject/{subject_attribute_value}`: Deleted single identity in a workforce identity pool. For example, `deleted:principal://iam.googleapis.com/locations/global/workforcePools/my-pool-id/subject/my-subject-attribute-value`. */
+  members?: StringList | undefined;
+}
+export type BindingList = Array<Binding>;
 /** An Identity and Access Management (IAM) policy, which specifies access controls for Google Cloud resources. A `Policy` is a collection of `bindings`. A `binding` binds one or more `members`, or principals, to a single `role`. Principals can be user accounts, service accounts, Google groups, and domains (such as G Suite). A `role` is a named list of permissions; each `role` can be an IAM predefined role or a user-created custom role. For some types of Google Cloud resources, a `binding` can also specify a `condition`, which is a logical expression that allows access to a resource only if the expression evaluates to `true`. A condition can add constraints based on attributes of the request, the resource, or both. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). **JSON example:** ``` { "bindings": [ { "role": "roles/resourcemanager.organizationAdmin", "members": [ "user:mike@example.com", "group:admins@example.com", "domain:google.com", "serviceAccount:my-project-id@appspot.gserviceaccount.com" ] }, { "role": "roles/resourcemanager.organizationViewer", "members": [ "user:eve@example.com" ], "condition": { "title": "expirable access", "description": "Does not grant access after Sep 2020", "expression": "request.time < timestamp('2020-10-01T00:00:00.000Z')", } } ], "etag": "BwWWja0YfJA=", "version": 3 } ``` **YAML example:** ``` bindings: - members: - user:mike@example.com - group:admins@example.com - domain:google.com - serviceAccount:my-project-id@appspot.gserviceaccount.com role: roles/resourcemanager.organizationAdmin - members: - user:eve@example.com role: roles/resourcemanager.organizationViewer condition: title: expirable access description: Does not grant access after Sep 2020 expression: request.time < timestamp('2020-10-01T00:00:00.000Z') etag: BwWWja0YfJA= version: 3 ``` For a description of IAM and its features, see the [IAM documentation](https://cloud.google.com/iam/docs/). */
 export interface Policy {
-  /** Associates a list of `members`, or principals, with a `role`. Optionally, may specify a `condition` that determines how and when the `bindings` are applied. Each of the `bindings` must contain at least one principal. The `bindings` in a `Policy` can refer to up to 1,500 principals; up to 250 of these principals can be Google groups. Each occurrence of a principal counts towards these limits. For example, if the `bindings` grant 50 different roles to `user:alice@example.com`, and not to any other principal, then you can add another 1,450 principals to the `bindings` in the `Policy`. */
-  bindings?: BindingList;
   /** Specifies the format of the policy. Valid values are `0`, `1`, and `3`. Requests that specify an invalid value are rejected. Any operation that affects conditional role bindings must specify version `3`. This requirement applies to the following operations: * Getting a policy that includes a conditional role binding * Adding a conditional role binding to a policy * Changing a conditional role binding in a policy * Removing any role binding, with or without a condition, from a policy that includes conditions **Important:** If you use IAM Conditions, you must include the `etag` field whenever you call `setIamPolicy`. If you omit this field, then IAM allows you to overwrite a version `3` policy with a version `1` policy, and all of the conditions in the version `3` policy are lost. If a policy does not include any conditions, operations on that policy may specify any valid version or leave the field unset. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). */
-  version?: number;
-  /** `etag` is used for optimistic concurrency control as a way to help prevent simultaneous updates of a policy from overwriting each other. It is strongly suggested that systems make use of the `etag` in the read-modify-write cycle to perform policy updates in order to avoid race conditions: An `etag` is returned in the response to `getIamPolicy`, and systems are expected to put that etag in the request to `setIamPolicy` to ensure that their change will be applied to the same version of the policy. **Important:** If you use IAM Conditions, you must include the `etag` field whenever you call `setIamPolicy`. If you omit this field, then IAM allows you to overwrite a version `3` policy with a version `1` policy, and all of the conditions in the version `3` policy are lost. */
-  etag?: string;
+  version?: number | undefined;
   /** Specifies cloud audit logging configuration for this policy. */
-  auditConfigs?: AuditConfigList;
+  auditConfigs?: AuditConfigList | undefined;
+  /** Associates a list of `members`, or principals, with a `role`. Optionally, may specify a `condition` that determines how and when the `bindings` are applied. Each of the `bindings` must contain at least one principal. The `bindings` in a `Policy` can refer to up to 1,500 principals; up to 250 of these principals can be Google groups. Each occurrence of a principal counts towards these limits. For example, if the `bindings` grant 50 different roles to `user:alice@example.com`, and not to any other principal, then you can add another 1,450 principals to the `bindings` in the `Policy`. */
+  bindings?: BindingList | undefined;
+  /** `etag` is used for optimistic concurrency control as a way to help prevent simultaneous updates of a policy from overwriting each other. It is strongly suggested that systems make use of the `etag` in the read-modify-write cycle to perform policy updates in order to avoid race conditions: An `etag` is returned in the response to `getIamPolicy`, and systems are expected to put that etag in the request to `setIamPolicy` to ensure that their change will be applied to the same version of the policy. **Important:** If you use IAM Conditions, you must include the `etag` field whenever you call `setIamPolicy`. If you omit this field, then IAM allows you to overwrite a version `3` policy with a version `1` policy, and all of the conditions in the version `3` policy are lost. */
+  etag?: string | undefined;
 }
-export interface GetIamPolicyProjectsInstancesClustersBackupsRequest {
+export interface GetIamPolicyProjectsInstancesClustersBackupsRequest extends GetIamPolicyRequest {
   /** REQUIRED: The resource for which the policy is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: GetIamPolicyRequest;
 }
-export interface GetIamPolicyProjectsInstancesLogicalViewsRequest {
+export interface GetIamPolicyProjectsInstancesLogicalViewsRequest extends GetIamPolicyRequest {
   /** REQUIRED: The resource for which the policy is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: GetIamPolicyRequest;
 }
-export interface GetIamPolicyProjectsInstancesMaterializedViewsRequest {
+export interface GetIamPolicyProjectsInstancesMaterializedViewsRequest extends GetIamPolicyRequest {
   /** REQUIRED: The resource for which the policy is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: GetIamPolicyRequest;
 }
-export interface GetIamPolicyProjectsInstancesTablesRequest {
+export interface GetIamPolicyProjectsInstancesTablesRequest extends GetIamPolicyRequest {
   /** REQUIRED: The resource for which the policy is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: GetIamPolicyRequest;
 }
-export interface GetIamPolicyProjectsInstancesTablesAuthorizedViewsRequest {
+export interface GetIamPolicyProjectsInstancesTablesAuthorizedViewsRequest extends GetIamPolicyRequest {
   /** REQUIRED: The resource for which the policy is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: GetIamPolicyRequest;
 }
-export interface GetIamPolicyProjectsInstancesTablesSchemaBundlesRequest {
+export interface GetIamPolicyProjectsInstancesTablesSchemaBundlesRequest extends GetIamPolicyRequest {
   /** REQUIRED: The resource for which the policy is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: GetIamPolicyRequest;
 }
 export interface GetMemoryLayerProjectsInstancesClustersRequest {
   /** Required. The unique name of the requested cluster's memory layer. Values are of the form `projects/{project}/instances/{instance}/clusters/{cluster}/memoryLayer`. */
@@ -1106,7 +1078,7 @@ export interface GetMemoryLayerProjectsInstancesClustersRequest {
 /** Configuration of a memory layer. */
 export interface GoogleBigtableAdminV2MemoryLayerMemoryConfig {
   /** Output only. Reporting the current size of the memory layer in GiB. */
-  storageSizeGib?: number;
+  storageSizeGib?: number | undefined;
 }
 export type MemoryLayerStateEnum =
   | "STATE_NOT_KNOWN"
@@ -1116,14 +1088,14 @@ export type MemoryLayerStateEnum =
   | "DISABLED";
 /** The memory layer of a cluster. A memory layer serves reads from memory without hitting the backing persistent data store. */
 export interface MemoryLayer {
-  /** Optional. The etag for this memory layer. This may be sent on update requests to ensure that the client has an up-to-date value before proceeding. The server returns an ABORTED error on a mismatched etag. */
-  etag?: string;
-  /** Identifier. Name of the memory layer. This is always: "projects/{project}/instances/{instance}/clusters/{cluster}/memoryLayer". */
-  name?: string;
   /** The configuration of this memory layer. Set an empty `memory_config` to enable the memory layer. Unset this to disable the memory layer. */
-  memoryConfig?: GoogleBigtableAdminV2MemoryLayerMemoryConfig;
+  memoryConfig?: GoogleBigtableAdminV2MemoryLayerMemoryConfig | undefined;
+  /** Optional. The etag for this memory layer. This may be sent on update requests to ensure that the client has an up-to-date value before proceeding. The server returns an ABORTED error on a mismatched etag. */
+  etag?: string | undefined;
+  /** Identifier. Name of the memory layer. This is always: "projects/{project}/instances/{instance}/clusters/{cluster}/memoryLayer". */
+  name?: string | undefined;
   /** Output only. The current state of the memory layer. */
-  state?: MemoryLayerStateEnum | (string & {});
+  state?: MemoryLayerStateEnum | (string & {}) | undefined;
 }
 export interface GetOperationsRequest {
   /** The name of the operation resource. */
@@ -1158,7 +1130,7 @@ export interface GetProjectsInstancesMaterializedViewsRequest {
   /** Required. The unique name of the requested materialized view. Values are of the form `projects/{project}/instances/{instance}/materializedViews/{materialized_view}`. */
   name: string;
   /** Optional. Describes which of the materialized view's fields should be populated in the response. Defaults to SCHEMA_VIEW. */
-  view?: GetProjectsInstancesMaterializedViewsViewEnum | (string & {});
+  view?: GetProjectsInstancesMaterializedViewsViewEnum | (string & {}) | undefined;
 }
 export type GetProjectsInstancesTablesViewEnum =
   | "VIEW_UNSPECIFIED"
@@ -1172,7 +1144,7 @@ export interface GetProjectsInstancesTablesRequest {
   /** Required. The unique name of the requested table. Values are of the form `projects/{project}/instances/{instance}/tables/{table}`. */
   name: string;
   /** The view to be applied to the returned table's fields. Defaults to `SCHEMA_VIEW` if unspecified. */
-  view?: GetProjectsInstancesTablesViewEnum | (string & {});
+  view?: GetProjectsInstancesTablesViewEnum | (string & {}) | undefined;
 }
 export type GetProjectsInstancesTablesAuthorizedViewsViewEnum =
   | "RESPONSE_VIEW_UNSPECIFIED"
@@ -1183,174 +1155,174 @@ export interface GetProjectsInstancesTablesAuthorizedViewsRequest {
   /** Required. The unique name of the requested AuthorizedView. Values are of the form `projects/{project}/instances/{instance}/tables/{table}/authorizedViews/{authorized_view}`. */
   name: string;
   /** Optional. The resource_view to be applied to the returned AuthorizedView's fields. Default to BASIC. */
-  view?: GetProjectsInstancesTablesAuthorizedViewsViewEnum | (string & {});
+  view?: GetProjectsInstancesTablesAuthorizedViewsViewEnum | (string & {}) | undefined;
 }
 export interface GetProjectsInstancesTablesSchemaBundlesRequest {
   /** Required. The unique name of the schema bundle to retrieve. Values are of the form `projects/{project}/instances/{instance}/tables/{table}/schemaBundles/{schema_bundle}` */
   name: string;
 }
 export interface ListOperationsProjectsOperationsRequest {
-  /** The standard list filter. */
-  filter?: string;
-  /** When set to `true`, operations that are reachable are returned as normal, and those that are unreachable are returned in the ListOperationsResponse.unreachable field. This can only be `true` when reading across collections. For example, when `parent` is set to `"projects/example/locations/-"`. This field is not supported by default and will result in an `UNIMPLEMENTED` error if set unless explicitly documented otherwise in service or product specific documentation. */
-  returnPartialSuccess?: boolean;
+  /** The standard list page token. */
+  pageToken?: string | undefined;
+  /** The standard list page size. */
+  pageSize?: number | undefined;
   /** The name of the operation's parent resource. */
   name: string;
-  /** The standard list page token. */
-  pageToken?: string;
-  /** The standard list page size. */
-  pageSize?: number;
+  /** The standard list filter. */
+  filter?: string | undefined;
+  /** When set to `true`, operations that are reachable are returned as normal, and those that are unreachable are returned in the ListOperationsResponse.unreachable field. This can only be `true` when reading across collections. For example, when `parent` is set to `"projects/example/locations/-"`. This field is not supported by default and will result in an `UNIMPLEMENTED` error if set unless explicitly documented otherwise in service or product specific documentation. */
+  returnPartialSuccess?: boolean | undefined;
 }
 export type OperationList = Array<Operation>;
 /** The response message for Operations.ListOperations. */
 export interface ListOperationsResponse {
-  /** Unordered list. Unreachable resources. Populated when the request sets `ListOperationsRequest.return_partial_success` and reads across collections. For example, when attempting to list all resources across all supported locations. */
-  unreachable?: StringList;
   /** A list of operations that matches the specified filter in the request. */
-  operations?: OperationList;
+  operations?: OperationList | undefined;
   /** The standard List next-page token. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
+  /** Unordered list. Unreachable resources. Populated when the request sets `ListOperationsRequest.return_partial_success` and reads across collections. For example, when attempting to list all resources across all supported locations. */
+  unreachable?: StringList | undefined;
 }
 export interface ListProjectsInstancesRequest {
   /** Required. The unique name of the project for which a list of instances is requested. Values are of the form `projects/{project}`. */
   parent: string;
   /** DEPRECATED: This field is unused and ignored. */
-  pageToken?: string;
+  pageToken?: string | undefined;
 }
 export type InstanceList = Array<Instance>;
 /** Response message for BigtableInstanceAdmin.ListInstances. */
 export interface ListInstancesResponse {
-  /** DEPRECATED: This field is unused and ignored. */
-  nextPageToken?: string;
-  /** The list of requested instances. */
-  instances?: InstanceList;
   /** Locations from which Instance information could not be retrieved, due to an outage or some other transient condition. Instances whose Clusters are all in one of the failed locations may be missing from `instances`, and Instances with at least one Cluster in a failed location may only have partial information returned. Values are of the form `projects//locations/` */
-  failedLocations?: StringList;
+  failedLocations?: StringList | undefined;
+  /** The list of requested instances. */
+  instances?: InstanceList | undefined;
+  /** DEPRECATED: This field is unused and ignored. */
+  nextPageToken?: string | undefined;
 }
 export interface ListProjectsInstancesAppProfilesRequest {
   /** The value of `next_page_token` returned by a previous call. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** Maximum number of results per page. A page_size of zero lets the server choose the number of items to return. A page_size which is strictly positive will return at most that many items. A negative page_size will cause an error. Following the first request, subsequent paginated calls are not required to pass a page_size. If a page_size is set in subsequent calls, it must match the page_size given in the first request. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Required. The unique name of the instance for which a list of app profiles is requested. Values are of the form `projects/{project}/instances/{instance}`. Use `{instance} = '-'` to list AppProfiles for all Instances in a project, e.g., `projects/myproject/instances/-`. */
   parent: string;
 }
 export type AppProfileList = Array<AppProfile>;
 /** Response message for BigtableInstanceAdmin.ListAppProfiles. */
 export interface ListAppProfilesResponse {
-  /** Set if not all app profiles could be returned in a single response. Pass this value to `page_token` in another request to get the next page of results. */
-  nextPageToken?: string;
   /** The list of requested app profiles. */
-  appProfiles?: AppProfileList;
+  appProfiles?: AppProfileList | undefined;
+  /** Set if not all app profiles could be returned in a single response. Pass this value to `page_token` in another request to get the next page of results. */
+  nextPageToken?: string | undefined;
   /** Locations from which AppProfile information could not be retrieved, due to an outage or some other transient condition. AppProfiles from these locations may be missing from `app_profiles`. Values are of the form `projects//locations/` */
-  failedLocations?: StringList;
+  failedLocations?: StringList | undefined;
 }
 export interface ListProjectsInstancesClustersRequest {
+  /** DEPRECATED: This field is unused and ignored. */
+  pageToken?: string | undefined;
   /** Required. The unique name of the instance for which a list of clusters is requested. Values are of the form `projects/{project}/instances/{instance}`. Use `{instance} = '-'` to list Clusters for all Instances in a project, e.g., `projects/myproject/instances/-`. */
   parent: string;
-  /** DEPRECATED: This field is unused and ignored. */
-  pageToken?: string;
 }
 export type ClusterList = Array<Cluster>;
 /** Response message for BigtableInstanceAdmin.ListClusters. */
 export interface ListClustersResponse {
   /** DEPRECATED: This field is unused and ignored. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
   /** The list of requested clusters. */
-  clusters?: ClusterList;
+  clusters?: ClusterList | undefined;
   /** Locations from which Cluster information could not be retrieved, due to an outage or some other transient condition. Clusters from these locations may be missing from `clusters`, or may only have partial information returned. Values are of the form `projects//locations/` */
-  failedLocations?: StringList;
+  failedLocations?: StringList | undefined;
 }
 export interface ListProjectsInstancesClustersBackupsRequest {
-  /** Number of backups to be returned in the response. If 0 or less, defaults to the server's maximum allowed page size. */
-  pageSize?: number;
   /** Required. The cluster to list backups from. Values are of the form `projects/{project}/instances/{instance}/clusters/{cluster}`. Use `{cluster} = '-'` to list backups for all clusters in an instance, e.g., `projects/{project}/instances/{instance}/clusters/-`. */
   parent: string;
-  /** If non-empty, `page_token` should contain a next_page_token from a previous ListBackupsResponse to the same `parent` and with the same `filter`. */
-  pageToken?: string;
   /** A filter expression that filters backups listed in the response. The expression must specify the field name, a comparison operator, and the value that you want to use for filtering. The value must be a string, a number, or a boolean. The comparison operator must be <, >, <=, >=, !=, =, or :. Colon ':' represents a HAS operator which is roughly synonymous with equality. Filter rules are case insensitive. The fields eligible for filtering are: * `name` * `source_table` * `state` * `start_time` (and values are of the format YYYY-MM-DDTHH:MM:SSZ) * `end_time` (and values are of the format YYYY-MM-DDTHH:MM:SSZ) * `expire_time` (and values are of the format YYYY-MM-DDTHH:MM:SSZ) * `size_bytes` To filter on multiple expressions, provide each separate expression within parentheses. By default, each expression is an AND expression. However, you can include AND, OR, and NOT expressions explicitly. Some examples of using filters are: * `name:"exact"` --> The backup's name is the string "exact". * `name:howl` --> The backup's name contains the string "howl". * `source_table:prod` --> The source_table's name contains the string "prod". * `state:CREATING` --> The backup is pending creation. * `state:READY` --> The backup is fully created and ready for use. * `(name:howl) AND (start_time < \"2018-03-28T14:50:00Z\")` --> The backup name contains the string "howl" and start_time of the backup is before 2018-03-28T14:50:00Z. * `size_bytes > 10000000000` --> The backup's size is greater than 10GB */
-  filter?: string;
+  filter?: string | undefined;
+  /** If non-empty, `page_token` should contain a next_page_token from a previous ListBackupsResponse to the same `parent` and with the same `filter`. */
+  pageToken?: string | undefined;
+  /** Number of backups to be returned in the response. If 0 or less, defaults to the server's maximum allowed page size. */
+  pageSize?: number | undefined;
   /** An expression for specifying the sort order of the results of the request. The string value should specify one or more fields in Backup. The full syntax is described at https://aip.dev/132#ordering. Fields supported are: * name * source_table * expire_time * start_time * end_time * size_bytes * state For example, "start_time". The default sorting order is ascending. To specify descending order for the field, a suffix " desc" should be appended to the field name. For example, "start_time desc". Redundant space characters in the syntax are insigificant. If order_by is empty, results will be sorted by `start_time` in descending order starting from the most recently created backup. */
-  orderBy?: string;
+  orderBy?: string | undefined;
 }
 export type BackupList = Array<Backup>;
 /** The response for ListBackups. */
 export interface ListBackupsResponse {
   /** `next_page_token` can be sent in a subsequent ListBackups call to fetch more of the matching backups. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
   /** The list of matching backups. */
-  backups?: BackupList;
+  backups?: BackupList | undefined;
 }
 export interface ListProjectsInstancesClustersHotTabletsRequest {
   /** The value of `next_page_token` returned by a previous call. */
-  pageToken?: string;
+  pageToken?: string | undefined;
+  /** The end time to list hot tablets. */
+  endTime?: string | undefined;
   /** The start time to list hot tablets. The hot tablets in the response will have start times between the requested start time and end time. Start time defaults to Now if it is unset, and end time defaults to Now - 24 hours if it is unset. The start time should be less than the end time, and the maximum allowed time range between start time and end time is 48 hours. Start time and end time should have values between Now and Now - 14 days. */
-  startTime?: string;
+  startTime?: string | undefined;
   /** Required. The cluster name to list hot tablets. Value is in the following form: `projects/{project}/instances/{instance}/clusters/{cluster}`. */
   parent: string;
   /** Maximum number of results per page. A page_size that is empty or zero lets the server choose the number of items to return. A page_size which is strictly positive will return at most that many items. A negative page_size will cause an error. Following the first request, subsequent paginated calls do not need a page_size field. If a page_size is set in subsequent calls, it must match the page_size given in the first request. */
-  pageSize?: number;
-  /** The end time to list hot tablets. */
-  endTime?: string;
+  pageSize?: number | undefined;
 }
 /** A tablet is a defined by a start and end key and is explained in https://cloud.google.com/bigtable/docs/overview#architecture and https://cloud.google.com/bigtable/docs/performance#optimization. A Hot tablet is a tablet that exhibits high average cpu usage during the time interval from start time to end time. */
 export interface HotTablet {
   /** Name of the table that contains the tablet. Values are of the form `projects/{project}/instances/{instance}/tables/_a-zA-Z0-9*`. */
-  tableName?: string;
-  /** Output only. The average CPU usage spent by a node on this tablet over the start_time to end_time time range. The percentage is the amount of CPU used by the node to serve the tablet, from 0% (tablet was not interacted with) to 100% (the node spent all cycles serving the hot tablet). */
-  nodeCpuUsagePercent?: number;
+  tableName?: string | undefined;
   /** Tablet Start Key (inclusive). */
-  startKey?: string;
-  /** Output only. The start time of the hot tablet. */
-  startTime?: string;
-  /** The unique name of the hot tablet. Values are of the form `projects/{project}/instances/{instance}/clusters/{cluster}/hotTablets/[a-zA-Z0-9_-]*`. */
-  name?: string;
-  /** Output only. The end time of the hot tablet. */
-  endTime?: string;
+  startKey?: string | undefined;
   /** Tablet End Key (inclusive). */
-  endKey?: string;
+  endKey?: string | undefined;
+  /** The unique name of the hot tablet. Values are of the form `projects/{project}/instances/{instance}/clusters/{cluster}/hotTablets/[a-zA-Z0-9_-]*`. */
+  name?: string | undefined;
+  /** Output only. The start time of the hot tablet. */
+  startTime?: string | undefined;
+  /** Output only. The end time of the hot tablet. */
+  endTime?: string | undefined;
+  /** Output only. The average CPU usage spent by a node on this tablet over the start_time to end_time time range. The percentage is the amount of CPU used by the node to serve the tablet, from 0% (tablet was not interacted with) to 100% (the node spent all cycles serving the hot tablet). */
+  nodeCpuUsagePercent?: number | undefined;
 }
 export type HotTabletList = Array<HotTablet>;
 /** Response message for BigtableInstanceAdmin.ListHotTablets. */
 export interface ListHotTabletsResponse {
-  /** List of hot tablets in the tables of the requested cluster that fall within the requested time range. Hot tablets are ordered by node cpu usage percent. If there are multiple hot tablets that correspond to the same tablet within a 15-minute interval, only the hot tablet with the highest node cpu usage will be included in the response. */
-  hotTablets?: HotTabletList;
   /** Set if not all hot tablets could be returned in a single response. Pass this value to `page_token` in another request to get the next page of results. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
+  /** List of hot tablets in the tables of the requested cluster that fall within the requested time range. Hot tablets are ordered by node cpu usage percent. If there are multiple hot tablets that correspond to the same tablet within a 15-minute interval, only the hot tablet with the highest node cpu usage will be included in the response. */
+  hotTablets?: HotTabletList | undefined;
 }
 export interface ListProjectsInstancesClustersMemoryLayersRequest {
-  /** Optional. The maximum number of memory layers to return. The service may return fewer than this value. */
-  pageSize?: number;
-  /** Optional. A page token, received from a previous `ListMemoryLayers` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListMemoryLayers` must match the call that provided the page token. */
-  pageToken?: string;
   /** Required. The unique name of the cluster for which a list of memory layers is requested. Values are of the form `projects/{project}/instances/{instance}/clusters/{cluster}`. Use `{cluster} = '-'` to list MemoryLayers for all Clusters in an instance, e.g., `projects/myproject/instances/myinstance/clusters/-`. */
   parent: string;
+  /** Optional. A page token, received from a previous `ListMemoryLayers` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListMemoryLayers` must match the call that provided the page token. */
+  pageToken?: string | undefined;
+  /** Optional. The maximum number of memory layers to return. The service may return fewer than this value. */
+  pageSize?: number | undefined;
 }
 export type MemoryLayerList = Array<MemoryLayer>;
 /** Response message for BigtableInstanceAdmin.ListMemoryLayers. */
 export interface ListMemoryLayersResponse {
   /** A token, which can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
   /** The list of requested memory layers. */
-  memoryLayers?: MemoryLayerList;
+  memoryLayers?: MemoryLayerList | undefined;
   /** Locations from which MemoryLayer information could not be retrieved, due to an outage or some other transient condition. MemoryLayers from these locations may be missing from `memory_layers`, or may only have partial information returned. Values are of the form `projects//locations/` */
-  failedLocations?: StringList;
+  failedLocations?: StringList | undefined;
 }
 export interface ListProjectsInstancesLogicalViewsRequest {
+  /** Optional. The maximum number of logical views to return. The service may return fewer than this value */
+  pageSize?: number | undefined;
   /** Required. The unique name of the instance for which the list of logical views is requested. Values are of the form `projects/{project}/instances/{instance}`. */
   parent: string;
   /** Optional. A page token, received from a previous `ListLogicalViews` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListLogicalViews` must match the call that provided the page token. */
-  pageToken?: string;
-  /** Optional. The maximum number of logical views to return. The service may return fewer than this value */
-  pageSize?: number;
+  pageToken?: string | undefined;
 }
 export type LogicalViewList = Array<LogicalView>;
 /** Response message for BigtableInstanceAdmin.ListLogicalViews. */
 export interface ListLogicalViewsResponse {
-  /** A token, which can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
-  nextPageToken?: string;
   /** The list of requested logical views. */
-  logicalViews?: LogicalViewList;
+  logicalViews?: LogicalViewList | undefined;
+  /** A token, which can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
+  nextPageToken?: string | undefined;
 }
 export type ListProjectsInstancesMaterializedViewsViewEnum =
   | "VIEW_UNSPECIFIED"
@@ -1358,22 +1330,22 @@ export type ListProjectsInstancesMaterializedViewsViewEnum =
   | "REPLICATION_VIEW"
   | "FULL";
 export interface ListProjectsInstancesMaterializedViewsRequest {
+  /** Optional. The maximum number of materialized views to return. The service may return fewer than this value */
+  pageSize?: number | undefined;
+  /** Optional. Describes which of the materialized view's fields should be populated in the response. For now, only the default value SCHEMA_VIEW is supported. */
+  view?: ListProjectsInstancesMaterializedViewsViewEnum | (string & {}) | undefined;
+  /** Optional. A page token, received from a previous `ListMaterializedViews` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListMaterializedViews` must match the call that provided the page token. */
+  pageToken?: string | undefined;
   /** Required. The unique name of the instance for which the list of materialized views is requested. Values are of the form `projects/{project}/instances/{instance}`. */
   parent: string;
-  /** Optional. A page token, received from a previous `ListMaterializedViews` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListMaterializedViews` must match the call that provided the page token. */
-  pageToken?: string;
-  /** Optional. The maximum number of materialized views to return. The service may return fewer than this value */
-  pageSize?: number;
-  /** Optional. Describes which of the materialized view's fields should be populated in the response. For now, only the default value SCHEMA_VIEW is supported. */
-  view?: ListProjectsInstancesMaterializedViewsViewEnum | (string & {});
 }
 export type MaterializedViewList = Array<MaterializedView>;
 /** Response message for BigtableInstanceAdmin.ListMaterializedViews. */
 export interface ListMaterializedViewsResponse {
-  /** The list of requested materialized views. */
-  materializedViews?: MaterializedViewList;
   /** A token, which can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
+  /** The list of requested materialized views. */
+  materializedViews?: MaterializedViewList | undefined;
 }
 export type ListProjectsInstancesTablesViewEnum =
   | "VIEW_UNSPECIFIED"
@@ -1384,22 +1356,22 @@ export type ListProjectsInstancesTablesViewEnum =
   | "STATS_VIEW"
   | "FULL";
 export interface ListProjectsInstancesTablesRequest {
-  /** The view to be applied to the returned tables' fields. Only NAME_ONLY view (default), REPLICATION_VIEW and ENCRYPTION_VIEW are supported. */
-  view?: ListProjectsInstancesTablesViewEnum | (string & {});
+  /** Maximum number of results per page. A page_size of zero lets the server choose the number of items to return. A page_size which is strictly positive will return at most that many items. A negative page_size will cause an error. Following the first request, subsequent paginated calls are not required to pass a page_size. If a page_size is set in subsequent calls, it must match the page_size given in the first request. */
+  pageSize?: number | undefined;
   /** The value of `next_page_token` returned by a previous call. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** Required. The unique name of the instance for which tables should be listed. Values are of the form `projects/{project}/instances/{instance}`. */
   parent: string;
-  /** Maximum number of results per page. A page_size of zero lets the server choose the number of items to return. A page_size which is strictly positive will return at most that many items. A negative page_size will cause an error. Following the first request, subsequent paginated calls are not required to pass a page_size. If a page_size is set in subsequent calls, it must match the page_size given in the first request. */
-  pageSize?: number;
+  /** The view to be applied to the returned tables' fields. Only NAME_ONLY view (default), REPLICATION_VIEW and ENCRYPTION_VIEW are supported. */
+  view?: ListProjectsInstancesTablesViewEnum | (string & {}) | undefined;
 }
 export type TableList = Array<Table>;
 /** Response message for google.bigtable.admin.v2.BigtableTableAdmin.ListTables */
 export interface ListTablesResponse {
   /** The tables present in the requested instance. */
-  tables?: TableList;
+  tables?: TableList | undefined;
   /** Set if not all tables could be returned in a single response. Pass this value to `page_token` in another request to get the next page of results. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
 }
 export type ListProjectsInstancesTablesAuthorizedViewsViewEnum =
   | "RESPONSE_VIEW_UNSPECIFIED"
@@ -1408,21 +1380,21 @@ export type ListProjectsInstancesTablesAuthorizedViewsViewEnum =
   | "FULL";
 export interface ListProjectsInstancesTablesAuthorizedViewsRequest {
   /** Optional. The resource_view to be applied to the returned AuthorizedViews' fields. Default to NAME_ONLY. */
-  view?: ListProjectsInstancesTablesAuthorizedViewsViewEnum | (string & {});
-  /** Optional. Maximum number of results per page. A page_size of zero lets the server choose the number of items to return. A page_size which is strictly positive will return at most that many items. A negative page_size will cause an error. Following the first request, subsequent paginated calls are not required to pass a page_size. If a page_size is set in subsequent calls, it must match the page_size given in the first request. */
-  pageSize?: number;
-  /** Optional. The value of `next_page_token` returned by a previous call. */
-  pageToken?: string;
+  view?: ListProjectsInstancesTablesAuthorizedViewsViewEnum | (string & {}) | undefined;
   /** Required. The unique name of the table for which AuthorizedViews should be listed. Values are of the form `projects/{project}/instances/{instance}/tables/{table}`. */
   parent: string;
+  /** Optional. The value of `next_page_token` returned by a previous call. */
+  pageToken?: string | undefined;
+  /** Optional. Maximum number of results per page. A page_size of zero lets the server choose the number of items to return. A page_size which is strictly positive will return at most that many items. A negative page_size will cause an error. Following the first request, subsequent paginated calls are not required to pass a page_size. If a page_size is set in subsequent calls, it must match the page_size given in the first request. */
+  pageSize?: number | undefined;
 }
 export type AuthorizedViewList = Array<AuthorizedView>;
 /** Response message for google.bigtable.admin.v2.BigtableTableAdmin.ListAuthorizedViews */
 export interface ListAuthorizedViewsResponse {
   /** Set if not all tables could be returned in a single response. Pass this value to `page_token` in another request to get the next page of results. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
   /** The AuthorizedViews present in the requested table. */
-  authorizedViews?: AuthorizedViewList;
+  authorizedViews?: AuthorizedViewList | undefined;
 }
 export type ListProjectsInstancesTablesSchemaBundlesViewEnum =
   | "SCHEMA_BUNDLE_VIEW_UNSPECIFIED"
@@ -1430,304 +1402,263 @@ export type ListProjectsInstancesTablesSchemaBundlesViewEnum =
   | "BASIC"
   | "FULL";
 export interface ListProjectsInstancesTablesSchemaBundlesRequest {
-  /** Optional. The resource_view to be applied to the returned SchemaBundles' fields. Defaults to NAME_ONLY. */
-  view?: ListProjectsInstancesTablesSchemaBundlesViewEnum | (string & {});
-  /** A page token, received from a previous `ListSchemaBundles` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListSchemaBundles` must match the call that provided the page token. */
-  pageToken?: string;
-  /** The maximum number of schema bundles to return. If the value is positive, the server may return at most this value. If unspecified, the server will return the maximum allowed page size. */
-  pageSize?: number;
   /** Required. The parent, which owns this collection of schema bundles. Values are of the form `projects/{project}/instances/{instance}/tables/{table}`. */
   parent: string;
+  /** Optional. The resource_view to be applied to the returned SchemaBundles' fields. Defaults to NAME_ONLY. */
+  view?: ListProjectsInstancesTablesSchemaBundlesViewEnum | (string & {}) | undefined;
+  /** The maximum number of schema bundles to return. If the value is positive, the server may return at most this value. If unspecified, the server will return the maximum allowed page size. */
+  pageSize?: number | undefined;
+  /** A page token, received from a previous `ListSchemaBundles` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListSchemaBundles` must match the call that provided the page token. */
+  pageToken?: string | undefined;
 }
 export type SchemaBundleList = Array<SchemaBundle>;
 /** The response for ListSchemaBundles. */
 export interface ListSchemaBundlesResponse {
   /** The schema bundles from the specified table. */
-  schemaBundles?: SchemaBundleList;
+  schemaBundles?: SchemaBundleList | undefined;
   /** A token, which can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
 }
 export interface ListProjectsLocationsRequest {
   /** A filter to narrow down results to a preferred subset. The filtering language accepts strings like `"displayName=tokyo"`, and is documented in more detail in [AIP-160](https://google.aip.dev/160). */
-  filter?: string;
+  filter?: string | undefined;
   /** The resource that owns the locations collection, if applicable. */
   name: string;
   /** A page token received from the `next_page_token` field in the response. Send that page token to receive the subsequent page. */
-  pageToken?: string;
-  /** Optional. Do not use this field unless explicitly documented otherwise. This is primarily for internal usage. */
-  extraLocationTypes?: StringList;
+  pageToken?: string | undefined;
   /** The maximum number of results to return. If not set, the service selects a default. */
-  pageSize?: number;
+  pageSize?: number | undefined;
+  /** Optional. Do not use this field unless explicitly documented otherwise. This is primarily for internal usage. */
+  extraLocationTypes?: StringList | undefined;
 }
 /** A resource that represents a Google Cloud location. */
 export interface Location {
-  /** Service-specific metadata. For example the available capacity at the given location. */
-  metadata?: DocumentMap;
   /** The canonical id for this location. For example: `"us-east1"`. */
-  locationId?: string;
-  /** Cross-service attributes for the location. For example {"cloud.googleapis.com/region": "us-east1"} */
-  labels?: StringMap;
-  /** Resource name for the location, which may vary between implementations. For example: `"projects/example-project/locations/us-east1"` */
-  name?: string;
+  locationId?: string | undefined;
   /** The friendly name for this location, typically a nearby city name. For example, "Tokyo". */
-  displayName?: string;
+  displayName?: string | undefined;
+  /** Cross-service attributes for the location. For example {"cloud.googleapis.com/region": "us-east1"} */
+  labels?: StringMap | undefined;
+  /** Service-specific metadata. For example the available capacity at the given location. */
+  metadata?: DocumentMap | undefined;
+  /** Resource name for the location, which may vary between implementations. For example: `"projects/example-project/locations/us-east1"` */
+  name?: string | undefined;
 }
 export type LocationList = Array<Location>;
 /** The response message for Locations.ListLocations. */
 export interface ListLocationsResponse {
-  /** A list of locations that matches the specified filter in the request. */
-  locations?: LocationList;
   /** The standard List next-page token. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
+  /** A list of locations that matches the specified filter in the request. */
+  locations?: LocationList | undefined;
 }
 /** A create, update, or delete of a particular column family. */
 export interface Modification {
-  /** Optional. A mask specifying which fields (e.g. `gc_rule`) in the `update` mod should be updated, ignored for other modification types. If unset or empty, we treat it as updating `gc_rule` to be backward compatible. */
-  updateMask?: string;
-  /** The ID of the column family to be modified. */
-  id?: string;
   /** Drop (delete) the column family with the given ID, or fail if no such family exists. */
-  drop?: boolean;
-  /** Create a new column family with the specified schema, or fail if one already exists with the given ID. */
-  create?: ColumnFamily;
+  drop?: boolean | undefined;
   /** Update an existing column family to the specified schema, or fail if no column family exists with the given ID. */
-  update?: ColumnFamily;
+  update?: ColumnFamily | undefined;
+  /** Create a new column family with the specified schema, or fail if one already exists with the given ID. */
+  create?: ColumnFamily | undefined;
+  /** Optional. A mask specifying which fields (e.g. `gc_rule`) in the `update` mod should be updated, ignored for other modification types. If unset or empty, we treat it as updating `gc_rule` to be backward compatible. */
+  updateMask?: string | undefined;
+  /** The ID of the column family to be modified. */
+  id?: string | undefined;
 }
 export type ModificationList = Array<Modification>;
 /** Request message for google.bigtable.admin.v2.BigtableTableAdmin.ModifyColumnFamilies */
 export interface ModifyColumnFamiliesRequest {
   /** Required. Modifications to be atomically applied to the specified table's families. Entries are applied in order, meaning that earlier modifications can be masked by later ones (in the case of repeated updates to the same family, for example). */
-  modifications?: ModificationList;
+  modifications?: ModificationList | undefined;
   /** Optional. If true, ignore safety checks when modifying the column families. */
-  ignoreWarnings?: boolean;
+  ignoreWarnings?: boolean | undefined;
 }
-export interface ModifyColumnFamiliesProjectsInstancesTablesRequest {
+export interface ModifyColumnFamiliesProjectsInstancesTablesRequest extends ModifyColumnFamiliesRequest {
   /** Required. The unique name of the table whose families should be modified. Values are of the form `projects/{project}/instances/{instance}/tables/{table}`. */
   name: string;
-  /** Request body */
-  body?: ModifyColumnFamiliesRequest;
 }
-export interface PartialUpdateClusterProjectsInstancesClustersRequest {
+export interface PartialUpdateClusterProjectsInstancesClustersRequest extends Omit<
+  Cluster,
+  "name"
+> {
   /** The unique name of the cluster. Values are of the form `projects/{project}/instances/{instance}/clusters/a-z*`. */
   name: string;
   /** Required. The subset of Cluster fields which should be replaced. */
-  updateMask?: string;
-  /** Request body */
-  body?: Cluster;
+  updateMask?: string | undefined;
 }
-export interface PartialUpdateInstanceProjectsInstancesRequest {
+export interface PartialUpdateInstanceProjectsInstancesRequest extends Omit<Instance, "name"> {
   /** The unique name of the instance. Values are of the form `projects/{project}/instances/a-z+[a-z0-9]`. */
   name: string;
   /** Required. The subset of Instance fields which should be replaced. Must be explicitly set. */
-  updateMask?: string;
-  /** Request body */
-  body?: Instance;
+  updateMask?: string | undefined;
 }
-export interface PatchProjectsInstancesAppProfilesRequest {
-  /** Required. The subset of app profile fields which should be replaced. If unset, all fields will be replaced. */
-  updateMask?: string;
-  /** If true, ignore safety checks when updating the app profile. */
-  ignoreWarnings?: boolean;
+export interface PatchProjectsInstancesAppProfilesRequest extends Omit<AppProfile, "name"> {
   /** The unique name of the app profile, up to 50 characters long. Values are of the form `projects/{project}/instances/{instance}/appProfiles/_a-zA-Z0-9*`. */
   name: string;
-  /** Request body */
-  body?: AppProfile;
+  /** Required. The subset of app profile fields which should be replaced. If unset, all fields will be replaced. */
+  updateMask?: string | undefined;
+  /** If true, ignore safety checks when updating the app profile. */
+  ignoreWarnings?: boolean | undefined;
 }
-export interface PatchProjectsInstancesClustersBackupsRequest {
+export interface PatchProjectsInstancesClustersBackupsRequest extends Omit<Backup, "name"> {
   /** A globally unique identifier for the backup which cannot be changed. Values are of the form `projects/{project}/instances/{instance}/clusters/{cluster}/ backups/_a-zA-Z0-9*` The final segment of the name must be between 1 and 50 characters in length. The backup is stored in the cluster identified by the prefix of the backup name of the form `projects/{project}/instances/{instance}/clusters/{cluster}`. */
   name: string;
   /** Required. A mask specifying which fields (e.g. `expire_time`) in the Backup resource should be updated. This mask is relative to the Backup resource, not to the request message. The field mask must always be specified; this prevents any future fields from being erased accidentally by clients that do not know about them. */
-  updateMask?: string;
-  /** Request body */
-  body?: Backup;
+  updateMask?: string | undefined;
 }
-export interface PatchProjectsInstancesLogicalViewsRequest {
+export interface PatchProjectsInstancesLogicalViewsRequest extends Omit<LogicalView, "name"> {
   /** Optional. The list of fields to update. */
-  updateMask?: string;
+  updateMask?: string | undefined;
   /** Identifier. The unique name of the logical view. Format: `projects/{project}/instances/{instance}/logicalViews/{logical_view}` */
   name: string;
-  /** Request body */
-  body?: LogicalView;
 }
-export interface PatchProjectsInstancesMaterializedViewsRequest {
+export interface PatchProjectsInstancesMaterializedViewsRequest extends Omit<
+  MaterializedView,
+  "name"
+> {
   /** Identifier. The unique name of the materialized view. Format: `projects/{project}/instances/{instance}/materializedViews/{materialized_view}` Views: `SCHEMA_VIEW`, `REPLICATION_VIEW`, `FULL`. */
   name: string;
   /** Optional. The list of fields to update. */
-  updateMask?: string;
-  /** Request body */
-  body?: MaterializedView;
+  updateMask?: string | undefined;
 }
-export interface PatchProjectsInstancesTablesRequest {
-  /** Required. The list of fields to update. A mask specifying which fields (e.g. `change_stream_config`) in the `table` field should be updated. This mask is relative to the `table` field, not to the request message. The wildcard (*) path is currently not supported. Currently UpdateTable is only supported for the following fields: * `change_stream_config` * `change_stream_config.retention_period` * `deletion_protection` * `automated_backup_policy` * `automated_backup_policy.retention_period` * `automated_backup_policy.frequency` * `automated_backup_policy.locations` * `row_key_schema` If `column_families` is set in `update_mask`, it will return an UNIMPLEMENTED error. */
-  updateMask?: string;
-  /** Optional. If true, ignore safety checks when updating the table. */
-  ignoreWarnings?: boolean;
+export interface PatchProjectsInstancesTablesRequest extends Omit<Table, "name"> {
   /** The unique name of the table. Values are of the form `projects/{project}/instances/{instance}/tables/_a-zA-Z0-9*`. Views: `NAME_ONLY`, `SCHEMA_VIEW`, `REPLICATION_VIEW`, `STATS_VIEW`, `FULL` */
   name: string;
-  /** Request body */
-  body?: Table;
+  /** Optional. If true, ignore safety checks when updating the table. */
+  ignoreWarnings?: boolean | undefined;
+  /** Required. The list of fields to update. A mask specifying which fields (e.g. `change_stream_config`) in the `table` field should be updated. This mask is relative to the `table` field, not to the request message. The wildcard (*) path is currently not supported. Currently UpdateTable is only supported for the following fields: * `change_stream_config` * `change_stream_config.retention_period` * `deletion_protection` * `automated_backup_policy` * `automated_backup_policy.retention_period` * `automated_backup_policy.frequency` * `automated_backup_policy.locations` * `row_key_schema` If `column_families` is set in `update_mask`, it will return an UNIMPLEMENTED error. */
+  updateMask?: string | undefined;
 }
-export interface PatchProjectsInstancesTablesAuthorizedViewsRequest {
+export interface PatchProjectsInstancesTablesAuthorizedViewsRequest extends Omit<
+  AuthorizedView,
+  "name"
+> {
+  /** Optional. If true, ignore the safety checks when updating the AuthorizedView. */
+  ignoreWarnings?: boolean | undefined;
+  /** Optional. The list of fields to update. A mask specifying which fields in the AuthorizedView resource should be updated. This mask is relative to the AuthorizedView resource, not to the request message. A field will be overwritten if it is in the mask. If empty, all fields set in the request will be overwritten. A special value `*` means to overwrite all fields (including fields not set in the request). */
+  updateMask?: string | undefined;
   /** Identifier. The name of this AuthorizedView. Values are of the form `projects/{project}/instances/{instance}/tables/{table}/authorizedViews/{authorized_view}` */
   name: string;
-  /** Optional. The list of fields to update. A mask specifying which fields in the AuthorizedView resource should be updated. This mask is relative to the AuthorizedView resource, not to the request message. A field will be overwritten if it is in the mask. If empty, all fields set in the request will be overwritten. A special value `*` means to overwrite all fields (including fields not set in the request). */
-  updateMask?: string;
-  /** Optional. If true, ignore the safety checks when updating the AuthorizedView. */
-  ignoreWarnings?: boolean;
-  /** Request body */
-  body?: AuthorizedView;
 }
-export interface PatchProjectsInstancesTablesSchemaBundlesRequest {
+export interface PatchProjectsInstancesTablesSchemaBundlesRequest extends Omit<
+  SchemaBundle,
+  "name"
+> {
+  /** Optional. If set, ignore the safety checks when updating the Schema Bundle. The safety checks are: - The new Schema Bundle is backwards compatible with the existing Schema Bundle. */
+  ignoreWarnings?: boolean | undefined;
   /** Identifier. The unique name identifying this schema bundle. Values are of the form `projects/{project}/instances/{instance}/tables/{table}/schemaBundles/{schema_bundle}` */
   name: string;
-  /** Optional. If set, ignore the safety checks when updating the Schema Bundle. The safety checks are: - The new Schema Bundle is backwards compatible with the existing Schema Bundle. */
-  ignoreWarnings?: boolean;
   /** Optional. The list of fields to update. */
-  updateMask?: string;
-  /** Request body */
-  body?: SchemaBundle;
+  updateMask?: string | undefined;
 }
 /** The request for RestoreTable. */
 export interface RestoreTableRequest {
-  /** Required. The id of the table to create and restore to. This table must not already exist. The `table_id` appended to `parent` forms the full table name of the form `projects//instances//tables/`. */
-  tableId?: string;
   /** Name of the backup from which to restore. Values are of the form `projects//instances//clusters//backups/`. */
-  backup?: string;
+  backup?: string | undefined;
+  /** Required. The id of the table to create and restore to. This table must not already exist. The `table_id` appended to `parent` forms the full table name of the form `projects//instances//tables/`. */
+  tableId?: string | undefined;
 }
-export interface RestoreProjectsInstancesTablesRequest {
+export interface RestoreProjectsInstancesTablesRequest extends RestoreTableRequest {
   /** Required. The name of the instance in which to create the restored table. Values are of the form `projects//instances/`. */
   parent: string;
-  /** Request body */
-  body?: RestoreTableRequest;
 }
 /** Request message for `SetIamPolicy` method. */
 export interface SetIamPolicyRequest {
   /** REQUIRED: The complete policy to be applied to the `resource`. The size of the policy is limited to a few 10s of KB. An empty policy is a valid policy but certain Google Cloud services (such as Projects) might reject them. */
-  policy?: Policy;
+  policy?: Policy | undefined;
   /** OPTIONAL: A FieldMask specifying which fields of the policy to modify. Only the fields in the mask will be modified. If no mask is provided, the following default mask is used: `paths: "bindings, etag"` */
-  updateMask?: string;
+  updateMask?: string | undefined;
 }
-export interface SetIamPolicyProjectsInstancesRequest {
+export interface SetIamPolicyProjectsInstancesRequest extends SetIamPolicyRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: SetIamPolicyRequest;
 }
-export interface SetIamPolicyProjectsInstancesClustersBackupsRequest {
+export interface SetIamPolicyProjectsInstancesClustersBackupsRequest extends SetIamPolicyRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: SetIamPolicyRequest;
 }
-export interface SetIamPolicyProjectsInstancesLogicalViewsRequest {
+export interface SetIamPolicyProjectsInstancesLogicalViewsRequest extends SetIamPolicyRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: SetIamPolicyRequest;
 }
-export interface SetIamPolicyProjectsInstancesMaterializedViewsRequest {
+export interface SetIamPolicyProjectsInstancesMaterializedViewsRequest extends SetIamPolicyRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: SetIamPolicyRequest;
 }
-export interface SetIamPolicyProjectsInstancesTablesRequest {
+export interface SetIamPolicyProjectsInstancesTablesRequest extends SetIamPolicyRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: SetIamPolicyRequest;
 }
-export interface SetIamPolicyProjectsInstancesTablesAuthorizedViewsRequest {
+export interface SetIamPolicyProjectsInstancesTablesAuthorizedViewsRequest extends SetIamPolicyRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: SetIamPolicyRequest;
 }
-export interface SetIamPolicyProjectsInstancesTablesSchemaBundlesRequest {
+export interface SetIamPolicyProjectsInstancesTablesSchemaBundlesRequest extends SetIamPolicyRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: SetIamPolicyRequest;
 }
 /** Request message for `TestIamPermissions` method. */
 export interface TestIamPermissionsRequest {
   /** The set of permissions to check for the `resource`. Permissions with wildcards (such as `*` or `storage.*`) are not allowed. For more information see [IAM Overview](https://cloud.google.com/iam/docs/overview#permissions). */
-  permissions?: StringList;
+  permissions?: StringList | undefined;
 }
-export interface TestIamPermissionsProjectsInstancesRequest {
+export interface TestIamPermissionsProjectsInstancesRequest extends TestIamPermissionsRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: TestIamPermissionsRequest;
 }
 /** Response message for `TestIamPermissions` method. */
 export interface TestIamPermissionsResponse {
   /** A subset of `TestPermissionsRequest.permissions` that the caller is allowed. */
-  permissions?: StringList;
+  permissions?: StringList | undefined;
 }
-export interface TestIamPermissionsProjectsInstancesClustersBackupsRequest {
+export interface TestIamPermissionsProjectsInstancesClustersBackupsRequest extends TestIamPermissionsRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: TestIamPermissionsRequest;
 }
-export interface TestIamPermissionsProjectsInstancesLogicalViewsRequest {
+export interface TestIamPermissionsProjectsInstancesLogicalViewsRequest extends TestIamPermissionsRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: TestIamPermissionsRequest;
 }
-export interface TestIamPermissionsProjectsInstancesMaterializedViewsRequest {
+export interface TestIamPermissionsProjectsInstancesMaterializedViewsRequest extends TestIamPermissionsRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: TestIamPermissionsRequest;
 }
-export interface TestIamPermissionsProjectsInstancesTablesRequest {
+export interface TestIamPermissionsProjectsInstancesTablesRequest extends TestIamPermissionsRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: TestIamPermissionsRequest;
 }
-export interface TestIamPermissionsProjectsInstancesTablesAuthorizedViewsRequest {
+export interface TestIamPermissionsProjectsInstancesTablesAuthorizedViewsRequest extends TestIamPermissionsRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: TestIamPermissionsRequest;
 }
-export interface TestIamPermissionsProjectsInstancesTablesSchemaBundlesRequest {
+export interface TestIamPermissionsProjectsInstancesTablesSchemaBundlesRequest extends TestIamPermissionsRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
-  /** Request body */
-  body?: TestIamPermissionsRequest;
 }
 /** Request message for google.bigtable.admin.v2.BigtableTableAdmin.UndeleteTable */
-export type UndeleteTableRequest = DataBoostReadLocalWrites;
+export type UndeleteTableRequest = StandardReadRemoteWrites;
 export interface UndeleteProjectsInstancesTablesRequest {
   /** Required. The unique name of the table to be restored. Values are of the form `projects/{project}/instances/{instance}/tables/{table}`. */
   name: string;
   /** Request body */
-  body?: DataBoostReadLocalWrites;
+  body?: StandardReadRemoteWrites | undefined;
 }
-export interface UpdateMemoryLayerProjectsInstancesClustersRequest {
+export interface UpdateMemoryLayerProjectsInstancesClustersRequest extends Omit<
+  MemoryLayer,
+  "name"
+> {
+  /** Optional. The list of fields to update. */
+  updateMask?: string | undefined;
   /** Identifier. Name of the memory layer. This is always: "projects/{project}/instances/{instance}/clusters/{cluster}/memoryLayer". */
   name: string;
-  /** Optional. The list of fields to update. */
-  updateMask?: string;
-  /** Request body */
-  body?: MemoryLayer;
 }
-export interface UpdateProjectsInstancesRequest {
+export interface UpdateProjectsInstancesRequest extends Omit<Instance, "name"> {
   /** The unique name of the instance. Values are of the form `projects/{project}/instances/a-z+[a-z0-9]`. */
   name: string;
-  /** Request body */
-  body?: Instance;
 }
-export interface UpdateProjectsInstancesClustersRequest {
+export interface UpdateProjectsInstancesClustersRequest extends Omit<Cluster, "name"> {
   /** The unique name of the cluster. Values are of the form `projects/{project}/instances/{instance}/clusters/a-z*`. */
   name: string;
-  /** Request body */
-  body?: Cluster;
 }
 export type CheckConsistencyProjectsInstancesTablesError =
   | NotFound
@@ -3509,12 +3440,14 @@ function __c0(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          appProfileId: S.optional(S.String.pipe(T.Query())),
-          ignoreWarnings: S.optional(S.Boolean.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(68, __c2, 4).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(68, __c2, 4),
+          S.Struct({
+            appProfileId: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+            ignoreWarnings: S.optional(S.Boolean.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+parent}/appProfiles",
@@ -3535,41 +3468,41 @@ function __c2(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          clusterId: S.optional(S.String),
           allowTransactionalWrites: S.optional(S.Boolean),
+          clusterId: S.optional(S.String),
         }),
       ).annotate({ identifier: "SingleClusterRouting" });
     case 1:
+      return S.suspend(() =>
+        S.Struct({
+          computeBillingOwner: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "DataBoostIsolationReadOnly" });
+    case 2:
       return S.suspend(() =>
         S.Struct({
           clusterIds: S.optional(__S(32, __c1, 0)),
           rowAffinity: S.optional(__S(2368, __c74, 0)),
         }),
       ).annotate({ identifier: "MultiClusterRoutingUseAny" });
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          computeBillingOwner: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "DataBoostIsolationReadOnly" });
     case 3:
       return S.suspend(() =>
         S.Struct({
-          memoryConfig: S.optional(__S(2368, __c74, 0)),
           priority: S.optional(S.String),
+          memoryConfig: S.optional(__S(2368, __c74, 0)),
         }),
       ).annotate({ identifier: "StandardIsolation" });
     case 4:
       return S.suspend(() =>
         S.Struct({
-          etag: S.optional(S.String),
+          priority: S.optional(S.String),
           singleClusterRouting: S.optional(__S(64, __c2, 0)),
           name: S.optional(S.String),
-          multiClusterRoutingUseAny: S.optional(__S(65, __c2, 1)),
-          dataBoostIsolationReadOnly: S.optional(__S(66, __c2, 2)),
-          standardIsolation: S.optional(__S(67, __c2, 3)),
-          priority: S.optional(S.String),
+          dataBoostIsolationReadOnly: S.optional(__S(65, __c2, 1)),
           description: S.optional(S.String),
+          etag: S.optional(S.String),
+          multiClusterRoutingUseAny: S.optional(__S(66, __c2, 2)),
+          standardIsolation: S.optional(__S(67, __c2, 3)),
         }),
       ).annotate({ identifier: "AppProfile" });
   }
@@ -3578,11 +3511,13 @@ function __c3(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          clusterId: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(3237, __c101, 5).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(3237, __c101, 5),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            clusterId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+parent}/clusters",
@@ -3596,11 +3531,13 @@ function __c4(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          backupId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(192, __c6, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(192, __c6, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            backupId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+parent}/backups",
@@ -3615,9 +3552,9 @@ function __c5(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          kmsKeyVersion: S.optional(S.String),
           encryptionStatus: S.optional(__S(2849, __c89, 1)),
           encryptionType: S.optional(S.String),
-          kmsKeyVersion: S.optional(S.String),
         }),
       ).annotate({ identifier: "EncryptionInfo" });
   }
@@ -3627,17 +3564,17 @@ function __c6(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          endTime: S.optional(S.String),
-          hotToStandardTime: S.optional(S.String),
           sourceBackup: S.optional(S.String),
-          name: S.optional(S.String),
-          expireTime: S.optional(S.String),
-          state: S.optional(S.String),
+          hotToStandardTime: S.optional(S.String),
+          endTime: S.optional(S.String),
           backupType: S.optional(S.String),
-          sourceTable: S.optional(S.String),
-          startTime: S.optional(S.String),
-          sizeBytes: S.optional(S.String),
+          name: S.optional(S.String),
           encryptionInfo: S.optional(__S(160, __c5, 0)),
+          state: S.optional(S.String),
+          startTime: S.optional(S.String),
+          expireTime: S.optional(S.String),
+          sourceTable: S.optional(S.String),
+          sizeBytes: S.optional(S.String),
         }),
       ).annotate({ identifier: "Backup" });
   }
@@ -3646,11 +3583,13 @@ function __c7(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          logicalViewId: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(256, __c8, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(256, __c8, 0),
+          S.Struct({
+            logicalViewId: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+parent}/logicalViews",
@@ -3665,10 +3604,10 @@ function __c8(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          name: S.optional(S.String),
-          query: S.optional(S.String),
           etag: S.optional(S.String),
           deletionProtection: S.optional(S.Boolean),
+          name: S.optional(S.String),
+          query: S.optional(S.String),
         }),
       ).annotate({ identifier: "LogicalView" });
   }
@@ -3677,12 +3616,14 @@ function __c9(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          materializedViewId: S.optional(S.String.pipe(T.Query())),
-          ignoreWarnings: S.optional(S.Boolean.pipe(T.Query())),
-          body: S.optional(__S(322, __c10, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(322, __c10, 2),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            ignoreWarnings: S.optional(S.Boolean.pipe(T.Query())),
+            materializedViewId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+parent}/materializedViews",
@@ -3705,11 +3646,11 @@ function __c10(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          name: S.optional(S.String),
-          query: S.optional(S.String),
-          clusterStates: S.optional(__S(321, __c10, 1)),
-          deletionProtection: S.optional(S.Boolean),
           etag: S.optional(S.String),
+          name: S.optional(S.String),
+          deletionProtection: S.optional(S.Boolean),
+          clusterStates: S.optional(__S(321, __c10, 1)),
+          query: S.optional(S.String),
         }),
       ).annotate({ identifier: "MaterializedView" });
   }
@@ -3727,17 +3668,19 @@ function __c11(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
+          table: S.optional(__S(425, __c13, 9)),
           initialSplits: S.optional(__S(353, __c11, 1)),
           tableId: S.optional(S.String),
-          table: S.optional(__S(425, __c13, 9)),
         }),
       ).annotate({ identifier: "CreateTableRequest" });
     case 3:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(354, __c11, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(354, __c11, 2),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+parent}/tables",
@@ -3752,225 +3695,226 @@ function __c12(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          logicalDataBytes: S.optional(S.String),
-          averageColumnsPerRow: S.optional(S.Number),
-          rowCount: S.optional(S.String),
-          averageCellsPerColumn: S.optional(S.Number),
+          encoding: S.optional(__S(2368, __c74, 0)),
         }),
-      ).annotate({ identifier: "TableStats" });
+      ).annotate({ identifier: "GoogleBigtableAdminV2TypeBool" });
     case 1:
-      return S.suspend(() =>
-        S.Struct({
-          logicalDataHddBytes: S.optional(S.String),
-          logicalDataSsdBytes: S.optional(S.String),
-          averageColumnsPerRow: S.optional(S.Number),
-          logicalDataBytes: S.optional(S.String),
-          averageCellsPerColumn: S.optional(S.Number),
-        }),
-      ).annotate({ identifier: "ColumnFamilyStats" });
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          keyType: S.optional(S.suspend(() => __S(410, __c12, 26))),
-          valueType: S.optional(S.suspend(() => __S(410, __c12, 26))),
-        }),
-      ).annotate({ identifier: "GoogleBigtableAdminV2TypeMap" });
-    case 3:
       return S.suspend(() =>
         S.Struct({
           schemaBundleId: S.optional(S.String),
           enumName: S.optional(S.String),
         }),
       ).annotate({ identifier: "GoogleBigtableAdminV2TypeEnum" });
-    case 4:
+    case 2:
       return S.suspend(() =>
         S.Struct({
-          encoding: S.optional(__S(2368, __c74, 0)),
-        }),
-      ).annotate({ identifier: "GoogleBigtableAdminV2TypeBool" });
-    case 5:
-      return S.suspend(() =>
-        S.Struct({
-          messageName: S.optional(S.String),
-          schemaBundleId: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "GoogleBigtableAdminV2TypeProto" });
-    case 6:
-      return S.suspend(() =>
-        S.Struct({
-          escapeNulls: S.optional(S.Boolean),
-        }),
-      ).annotate({ identifier: "GoogleBigtableAdminV2TypeBytesEncodingRaw" });
-    case 7:
-      return S.suspend(() =>
-        S.Struct({
-          raw: S.optional(__S(390, __c12, 6)),
-        }),
-      ).annotate({ identifier: "GoogleBigtableAdminV2TypeBytesEncoding" });
-    case 8:
-      return S.suspend(() =>
-        S.Struct({
-          encoding: S.optional(__S(391, __c12, 7)),
-        }),
-      ).annotate({ identifier: "GoogleBigtableAdminV2TypeBytes" });
-    case 9:
-      return S.suspend(() =>
-        S.Struct({
-          hllppUniqueCount: S.optional(__S(2368, __c74, 0)),
-          max: S.optional(__S(2368, __c74, 0)),
-          min: S.optional(__S(2368, __c74, 0)),
-          inputType: S.optional(S.suspend(() => __S(410, __c12, 26))),
-          stateType: S.optional(S.suspend(() => __S(410, __c12, 26))),
-          sum: S.optional(__S(2368, __c74, 0)),
-        }),
-      ).annotate({ identifier: "GoogleBigtableAdminV2TypeAggregate" });
-    case 10:
-      return S.suspend(() =>
-        S.Struct({
-          nullEscapeChar: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "GoogleBigtableAdminV2TypeStringEncodingUtf8Bytes" });
-    case 11:
-      return S.suspend(() =>
-        S.Struct({
-          utf8Raw: S.optional(__S(2368, __c74, 0)),
-          utf8Bytes: S.optional(__S(394, __c12, 10)),
-        }),
-      ).annotate({ identifier: "GoogleBigtableAdminV2TypeStringEncoding" });
-    case 12:
-      return S.suspend(() =>
-        S.Struct({
-          encoding: S.optional(__S(395, __c12, 11)),
-        }),
-      ).annotate({ identifier: "GoogleBigtableAdminV2TypeString" });
-    case 13:
-      return S.suspend(() =>
-        S.Struct({
-          delimiter: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "GoogleBigtableAdminV2TypeStructEncodingDelimitedBytes" });
-    case 14:
-      return S.suspend(() =>
-        S.Struct({
-          orderedCodeBytes: S.optional(__S(2368, __c74, 0)),
-          singleton: S.optional(__S(2368, __c74, 0)),
-          delimitedBytes: S.optional(__S(397, __c12, 13)),
-        }),
-      ).annotate({ identifier: "GoogleBigtableAdminV2TypeStructEncoding" });
-    case 15:
-      return S.suspend(() =>
-        S.Struct({
-          fieldName: S.optional(S.String),
-          type: S.optional(S.suspend(() => __S(410, __c12, 26))),
-        }),
-      ).annotate({ identifier: "GoogleBigtableAdminV2TypeStructField" });
-    case 16:
-      return S.Array(__S(399, __c12, 15));
-    case 17:
-      return S.suspend(() =>
-        S.Struct({
-          encoding: S.optional(__S(398, __c12, 14)),
-          fields: S.optional(__S(400, __c12, 16)),
-        }),
-      ).annotate({ identifier: "GoogleBigtableAdminV2TypeStruct" });
-    case 18:
-      return S.suspend(() =>
-        S.Struct({
-          bytesType: S.optional(__S(392, __c12, 8)),
-        }),
-      ).annotate({ identifier: "GoogleBigtableAdminV2TypeInt64EncodingBigEndianBytes" });
-    case 19:
-      return S.suspend(() =>
-        S.Struct({
-          bigEndianBytes: S.optional(__S(402, __c12, 18)),
-          orderedCodeBytes: S.optional(__S(2368, __c74, 0)),
-        }),
-      ).annotate({ identifier: "GoogleBigtableAdminV2TypeInt64Encoding" });
-    case 20:
-      return S.suspend(() =>
-        S.Struct({
-          unixMicrosInt64: S.optional(__S(403, __c12, 19)),
-        }),
-      ).annotate({ identifier: "GoogleBigtableAdminV2TypeTimestampEncoding" });
-    case 21:
-      return S.suspend(() =>
-        S.Struct({
-          encoding: S.optional(__S(404, __c12, 20)),
-        }),
-      ).annotate({ identifier: "GoogleBigtableAdminV2TypeTimestamp" });
-    case 22:
-      return S.suspend(() =>
-        S.Struct({
-          elementType: S.optional(S.suspend(() => __S(410, __c12, 26))),
+          elementType: S.optional(S.suspend(() => __S(408, __c12, 24))),
         }),
       ).annotate({ identifier: "GoogleBigtableAdminV2TypeArray" });
-    case 23:
-      return S.suspend(() =>
-        S.Struct({
-          encoding: S.optional(__S(403, __c12, 19)),
-        }),
-      ).annotate({ identifier: "GoogleBigtableAdminV2TypeInt64" });
-    case 24:
+    case 3:
       return S.suspend(() =>
         S.Struct({
           orderedCodeBytes: S.optional(__S(2368, __c74, 0)),
           bigEndianBytes: S.optional(__S(2368, __c74, 0)),
         }),
       ).annotate({ identifier: "GoogleBigtableAdminV2TypeInt32Encoding" });
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          encoding: S.optional(__S(387, __c12, 3)),
+        }),
+      ).annotate({ identifier: "GoogleBigtableAdminV2TypeInt32" });
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          delimiter: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "GoogleBigtableAdminV2TypeStructEncodingDelimitedBytes" });
+    case 6:
+      return S.suspend(() =>
+        S.Struct({
+          singleton: S.optional(__S(2368, __c74, 0)),
+          orderedCodeBytes: S.optional(__S(2368, __c74, 0)),
+          delimitedBytes: S.optional(__S(389, __c12, 5)),
+        }),
+      ).annotate({ identifier: "GoogleBigtableAdminV2TypeStructEncoding" });
+    case 7:
+      return S.suspend(() =>
+        S.Struct({
+          fieldName: S.optional(S.String),
+          type: S.optional(S.suspend(() => __S(408, __c12, 24))),
+        }),
+      ).annotate({ identifier: "GoogleBigtableAdminV2TypeStructField" });
+    case 8:
+      return S.Array(__S(391, __c12, 7));
+    case 9:
+      return S.suspend(() =>
+        S.Struct({
+          encoding: S.optional(__S(390, __c12, 6)),
+          fields: S.optional(__S(392, __c12, 8)),
+        }),
+      ).annotate({ identifier: "GoogleBigtableAdminV2TypeStruct" });
+    case 10:
+      return S.suspend(() =>
+        S.Struct({
+          escapeNulls: S.optional(S.Boolean),
+        }),
+      ).annotate({ identifier: "GoogleBigtableAdminV2TypeBytesEncodingRaw" });
+    case 11:
+      return S.suspend(() =>
+        S.Struct({
+          raw: S.optional(__S(394, __c12, 10)),
+        }),
+      ).annotate({ identifier: "GoogleBigtableAdminV2TypeBytesEncoding" });
+    case 12:
+      return S.suspend(() =>
+        S.Struct({
+          encoding: S.optional(__S(395, __c12, 11)),
+        }),
+      ).annotate({ identifier: "GoogleBigtableAdminV2TypeBytes" });
+    case 13:
+      return S.suspend(() =>
+        S.Struct({
+          bytesType: S.optional(__S(396, __c12, 12)),
+        }),
+      ).annotate({ identifier: "GoogleBigtableAdminV2TypeInt64EncodingBigEndianBytes" });
+    case 14:
+      return S.suspend(() =>
+        S.Struct({
+          orderedCodeBytes: S.optional(__S(2368, __c74, 0)),
+          bigEndianBytes: S.optional(__S(397, __c12, 13)),
+        }),
+      ).annotate({ identifier: "GoogleBigtableAdminV2TypeInt64Encoding" });
+    case 15:
+      return S.suspend(() =>
+        S.Struct({
+          unixMicrosInt64: S.optional(__S(398, __c12, 14)),
+        }),
+      ).annotate({ identifier: "GoogleBigtableAdminV2TypeTimestampEncoding" });
+    case 16:
+      return S.suspend(() =>
+        S.Struct({
+          encoding: S.optional(__S(399, __c12, 15)),
+        }),
+      ).annotate({ identifier: "GoogleBigtableAdminV2TypeTimestamp" });
+    case 17:
+      return S.suspend(() =>
+        S.Struct({
+          messageName: S.optional(S.String),
+          schemaBundleId: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "GoogleBigtableAdminV2TypeProto" });
+    case 18:
+      return S.suspend(() =>
+        S.Struct({
+          valueType: S.optional(S.suspend(() => __S(408, __c12, 24))),
+          keyType: S.optional(S.suspend(() => __S(408, __c12, 24))),
+        }),
+      ).annotate({ identifier: "GoogleBigtableAdminV2TypeMap" });
+    case 19:
+      return S.suspend(() =>
+        S.Struct({
+          encoding: S.optional(__S(398, __c12, 14)),
+        }),
+      ).annotate({ identifier: "GoogleBigtableAdminV2TypeInt64" });
+    case 20:
+      return S.suspend(() =>
+        S.Struct({
+          hllppUniqueCount: S.optional(__S(2368, __c74, 0)),
+          max: S.optional(__S(2368, __c74, 0)),
+          min: S.optional(__S(2368, __c74, 0)),
+          inputType: S.optional(S.suspend(() => __S(408, __c12, 24))),
+          stateType: S.optional(S.suspend(() => __S(408, __c12, 24))),
+          sum: S.optional(__S(2368, __c74, 0)),
+        }),
+      ).annotate({ identifier: "GoogleBigtableAdminV2TypeAggregate" });
+    case 21:
+      return S.suspend(() =>
+        S.Struct({
+          nullEscapeChar: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "GoogleBigtableAdminV2TypeStringEncodingUtf8Bytes" });
+    case 22:
+      return S.suspend(() =>
+        S.Struct({
+          utf8Raw: S.optional(__S(2368, __c74, 0)),
+          utf8Bytes: S.optional(__S(405, __c12, 21)),
+        }),
+      ).annotate({ identifier: "GoogleBigtableAdminV2TypeStringEncoding" });
+    case 23:
+      return S.suspend(() =>
+        S.Struct({
+          encoding: S.optional(__S(406, __c12, 22)),
+        }),
+      ).annotate({ identifier: "GoogleBigtableAdminV2TypeString" });
+    case 24:
+      return S.suspend(() =>
+        S.Struct({
+          boolType: S.optional(__S(384, __c12, 0)),
+          enumType: S.optional(__S(385, __c12, 1)),
+          arrayType: S.optional(__S(386, __c12, 2)),
+          int32Type: S.optional(__S(388, __c12, 4)),
+          structType: S.optional(__S(393, __c12, 9)),
+          timestampType: S.optional(__S(400, __c12, 16)),
+          protoType: S.optional(__S(401, __c12, 17)),
+          float64Type: S.optional(__S(2368, __c74, 0)),
+          mapType: S.optional(__S(402, __c12, 18)),
+          dateType: S.optional(__S(2368, __c74, 0)),
+          geographyType: S.optional(__S(2368, __c74, 0)),
+          int64Type: S.optional(__S(403, __c12, 19)),
+          aggregateType: S.optional(__S(404, __c12, 20)),
+          stringType: S.optional(__S(407, __c12, 23)),
+          float32Type: S.optional(__S(2368, __c74, 0)),
+          bytesType: S.optional(__S(396, __c12, 12)),
+        }),
+      ).annotate({ identifier: "Type" });
     case 25:
       return S.suspend(() =>
         S.Struct({
-          encoding: S.optional(__S(408, __c12, 24)),
+          logicalDataHddBytes: S.optional(S.String),
+          averageColumnsPerRow: S.optional(S.Number),
+          logicalDataSsdBytes: S.optional(S.String),
+          logicalDataBytes: S.optional(S.String),
+          averageCellsPerColumn: S.optional(S.Number),
         }),
-      ).annotate({ identifier: "GoogleBigtableAdminV2TypeInt32" });
+      ).annotate({ identifier: "ColumnFamilyStats" });
     case 26:
+      return S.Array(/*@__PURE__*/ S.suspend(() => __S(412, __c12, 28)));
+    case 27:
       return S.suspend(() =>
         S.Struct({
-          mapType: S.optional(__S(386, __c12, 2)),
-          float64Type: S.optional(__S(2368, __c74, 0)),
-          enumType: S.optional(__S(387, __c12, 3)),
-          boolType: S.optional(__S(388, __c12, 4)),
-          protoType: S.optional(__S(389, __c12, 5)),
-          bytesType: S.optional(__S(392, __c12, 8)),
-          aggregateType: S.optional(__S(393, __c12, 9)),
-          float32Type: S.optional(__S(2368, __c74, 0)),
-          stringType: S.optional(__S(396, __c12, 12)),
-          geographyType: S.optional(__S(2368, __c74, 0)),
-          structType: S.optional(__S(401, __c12, 17)),
-          timestampType: S.optional(__S(405, __c12, 21)),
-          dateType: S.optional(__S(2368, __c74, 0)),
-          arrayType: S.optional(__S(406, __c12, 22)),
-          int64Type: S.optional(__S(407, __c12, 23)),
-          int32Type: S.optional(__S(409, __c12, 25)),
+          rules: S.optional(__S(410, __c12, 26)),
         }),
-      ).annotate({ identifier: "Type" });
-    case 27:
-      return S.Array(/*@__PURE__*/ S.suspend(() => __S(413, __c12, 29)));
+      ).annotate({ identifier: "Intersection" });
     case 28:
       return S.suspend(() =>
         S.Struct({
-          rules: S.optional(__S(411, __c12, 27)),
+          maxAge: S.optional(S.String),
+          intersection: S.optional(__S(411, __c12, 27)),
+          union: S.optional(__S(411, __c12, 27)),
+          maxNumVersions: S.optional(S.Number),
         }),
-      ).annotate({ identifier: "Intersection" });
+      ).annotate({ identifier: "GcRule" });
     case 29:
       return S.suspend(() =>
         S.Struct({
-          intersection: S.optional(__S(412, __c12, 28)),
-          maxNumVersions: S.optional(S.Number),
-          union: S.optional(__S(412, __c12, 28)),
-          maxAge: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "GcRule" });
-    case 30:
-      return S.suspend(() =>
-        S.Struct({
-          stats: S.optional(__S(385, __c12, 1)),
-          valueType: S.optional(__S(410, __c12, 26)),
-          gcRule: S.optional(__S(413, __c12, 29)),
+          valueType: S.optional(__S(408, __c12, 24)),
+          stats: S.optional(__S(409, __c12, 25)),
+          gcRule: S.optional(__S(412, __c12, 28)),
         }),
       ).annotate({ identifier: "ColumnFamily" });
+    case 30:
+      return S.Record(S.String, __S(413, __c12, 29));
     case 31:
-      return S.Record(S.String, __S(414, __c12, 30));
+      return S.suspend(() =>
+        S.Struct({
+          disabled: S.optional(S.Boolean),
+          retentionPeriod: S.optional(S.String),
+          keepHotDuration: S.optional(S.String),
+          frequency: S.optional(S.String),
+          locations: S.optional(__S(32, __c1, 0)),
+        }),
+      ).annotate({ identifier: "AutomatedBackupPolicy" });
   }
 }
 function __c13(j: number): any {
@@ -3988,61 +3932,63 @@ function __c13(j: number): any {
         }),
       ).annotate({ identifier: "TieredStorageConfig" });
     case 2:
-      return S.Array(__S(160, __c5, 0));
+      return S.suspend(() =>
+        S.Struct({
+          startTime: S.optional(S.String),
+          backup: S.optional(S.String),
+          sourceTable: S.optional(S.String),
+          endTime: S.optional(S.String),
+          sourceBackup: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "BackupInfo" });
     case 3:
       return S.suspend(() =>
         S.Struct({
-          encryptionInfo: S.optional(__S(418, __c13, 2)),
-          replicationState: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "ClusterState" });
-    case 4:
-      return S.Record(S.String, __S(419, __c13, 3));
-    case 5:
-      return S.suspend(() =>
-        S.Struct({
-          frequency: S.optional(S.String),
-          retentionPeriod: S.optional(S.String),
-          locations: S.optional(__S(32, __c1, 0)),
-        }),
-      ).annotate({ identifier: "AutomatedBackupPolicy" });
-    case 6:
-      return S.suspend(() =>
-        S.Struct({
-          backup: S.optional(S.String),
-          endTime: S.optional(S.String),
-          sourceBackup: S.optional(S.String),
-          startTime: S.optional(S.String),
-          sourceTable: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "BackupInfo" });
-    case 7:
-      return S.suspend(() =>
-        S.Struct({
-          backupInfo: S.optional(__S(422, __c13, 6)),
           sourceType: S.optional(S.String),
+          backupInfo: S.optional(__S(418, __c13, 2)),
         }),
       ).annotate({ identifier: "RestoreInfo" });
-    case 8:
+    case 4:
       return S.suspend(() =>
         S.Struct({
           retentionPeriod: S.optional(S.String),
         }),
       ).annotate({ identifier: "ChangeStreamConfig" });
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          averageColumnsPerRow: S.optional(S.Number),
+          averageCellsPerColumn: S.optional(S.Number),
+          rowCount: S.optional(S.String),
+          logicalDataBytes: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "TableStats" });
+    case 6:
+      return S.Array(__S(160, __c5, 0));
+    case 7:
+      return S.suspend(() =>
+        S.Struct({
+          replicationState: S.optional(S.String),
+          encryptionInfo: S.optional(__S(422, __c13, 6)),
+        }),
+      ).annotate({ identifier: "ClusterState" });
+    case 8:
+      return S.Record(S.String, __S(423, __c13, 7));
     case 9:
       return S.suspend(() =>
         S.Struct({
-          stats: S.optional(__S(384, __c12, 0)),
-          columnFamilies: S.optional(__S(415, __c12, 31)),
-          name: S.optional(S.String),
+          columnFamilies: S.optional(__S(414, __c12, 30)),
+          automatedBackupPolicy: S.optional(__S(415, __c12, 31)),
           tieredStorageConfig: S.optional(__S(417, __c13, 1)),
-          rowKeySchema: S.optional(__S(401, __c12, 17)),
-          clusterStates: S.optional(__S(420, __c13, 4)),
-          automatedBackupPolicy: S.optional(__S(421, __c13, 5)),
-          restoreInfo: S.optional(__S(423, __c13, 7)),
-          deletionProtection: S.optional(S.Boolean),
-          changeStreamConfig: S.optional(__S(424, __c13, 8)),
+          restoreInfo: S.optional(__S(419, __c13, 3)),
+          changeStreamConfig: S.optional(__S(420, __c13, 4)),
+          stats: S.optional(__S(421, __c13, 5)),
           granularity: S.optional(S.String),
+          rowKeySchema: S.optional(__S(393, __c12, 9)),
+          name: S.optional(S.String),
+          deletionProtection: S.optional(S.Boolean),
+          effectiveAutomatedBackupPolicy: S.optional(__S(415, __c12, 31)),
+          clusterStates: S.optional(__S(424, __c13, 8)),
         }),
       ).annotate({ identifier: "Table" });
   }
@@ -4051,11 +3997,13 @@ function __c14(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          authorizedViewId: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(483, __c15, 3).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(483, __c15, 3),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            authorizedViewId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+parent}/authorizedViews",
@@ -4086,10 +4034,10 @@ function __c15(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          etag: S.optional(S.String),
           deletionProtection: S.optional(S.Boolean),
-          name: S.optional(S.String),
+          etag: S.optional(S.String),
           subsetView: S.optional(__S(482, __c15, 2)),
+          name: S.optional(S.String),
         }),
       ).annotate({ identifier: "AuthorizedView" });
   }
@@ -4098,11 +4046,13 @@ function __c16(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          schemaBundleId: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(546, __c17, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(546, __c17, 2),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            schemaBundleId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+parent}/schemaBundles",
@@ -4117,22 +4067,22 @@ function __c17(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          protoDescriptors: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "ProtoSchema" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
           jsonSchemas: S.optional(__S(32, __c1, 0)),
         }),
       ).annotate({ identifier: "AvroSchema" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          protoDescriptors: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ProtoSchema" });
     case 2:
       return S.suspend(() =>
         S.Struct({
-          name: S.optional(S.String),
-          protoSchema: S.optional(__S(544, __c17, 0)),
           etag: S.optional(S.String),
-          avroSchema: S.optional(__S(545, __c17, 1)),
+          name: S.optional(S.String),
+          avroSchema: S.optional(__S(544, __c17, 0)),
+          protoSchema: S.optional(__S(545, __c17, 1)),
         }),
       ).annotate({ identifier: "SchemaBundle" });
   }
@@ -4158,8 +4108,8 @@ function __c19(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          name: S.String.pipe(T.Label()),
           ignoreWarnings: S.optional(S.Boolean.pipe(T.Query())),
+          name: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
             method: "DELETE",
@@ -4207,8 +4157,8 @@ function __c22(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          etag: S.optional(S.String.pipe(T.Query())),
           name: S.String.pipe(T.Label()),
+          etag: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "DELETE",
@@ -4297,10 +4247,12 @@ function __c27(j: number): any {
       ).annotate({ identifier: "DropRowRangeRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(864, __c27, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(864, __c27, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+name}:dropRowRange",
@@ -4337,10 +4289,12 @@ function __c29(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(961, __c30, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(961, __c30, 1),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+resource}:getIamPolicy",
@@ -4371,47 +4325,47 @@ function __c31(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          location: S.optional(S.String),
-          expression: S.optional(S.String),
-          title: S.optional(S.String),
-          description: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "Expr" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          members: S.optional(__S(32, __c1, 0)),
-          condition: S.optional(__S(992, __c31, 0)),
-          role: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "Binding" });
-    case 2:
-      return S.Array(__S(993, __c31, 1));
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          exemptedMembers: S.optional(__S(32, __c1, 0)),
           logType: S.optional(S.String),
+          exemptedMembers: S.optional(__S(32, __c1, 0)),
         }),
       ).annotate({ identifier: "AuditLogConfig" });
-    case 4:
-      return S.Array(__S(995, __c31, 3));
-    case 5:
+    case 1:
+      return S.Array(__S(992, __c31, 0));
+    case 2:
       return S.suspend(() =>
         S.Struct({
           service: S.optional(S.String),
-          auditLogConfigs: S.optional(__S(996, __c31, 4)),
+          auditLogConfigs: S.optional(__S(993, __c31, 1)),
         }),
       ).annotate({ identifier: "AuditConfig" });
+    case 3:
+      return S.Array(__S(994, __c31, 2));
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          expression: S.optional(S.String),
+          description: S.optional(S.String),
+          title: S.optional(S.String),
+          location: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "Expr" });
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          condition: S.optional(__S(996, __c31, 4)),
+          role: S.optional(S.String),
+          members: S.optional(__S(32, __c1, 0)),
+        }),
+      ).annotate({ identifier: "Binding" });
     case 6:
       return S.Array(__S(997, __c31, 5));
     case 7:
       return S.suspend(() =>
         S.Struct({
-          bindings: S.optional(__S(994, __c31, 2)),
           version: S.optional(S.Number),
+          auditConfigs: S.optional(__S(995, __c31, 3)),
+          bindings: S.optional(__S(998, __c31, 6)),
           etag: S.optional(S.String),
-          auditConfigs: S.optional(__S(998, __c31, 6)),
         }),
       ).annotate({ identifier: "Policy" });
   }
@@ -4420,10 +4374,12 @@ function __c32(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(961, __c30, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(961, __c30, 1),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+resource}:getIamPolicy",
@@ -4437,10 +4393,12 @@ function __c33(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(961, __c30, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(961, __c30, 1),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+resource}:getIamPolicy",
@@ -4454,10 +4412,12 @@ function __c34(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(961, __c30, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(961, __c30, 1),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+resource}:getIamPolicy",
@@ -4471,10 +4431,12 @@ function __c35(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(961, __c30, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(961, __c30, 1),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+resource}:getIamPolicy",
@@ -4488,10 +4450,12 @@ function __c36(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(961, __c30, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(961, __c30, 1),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+resource}:getIamPolicy",
@@ -4505,10 +4469,12 @@ function __c37(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(961, __c30, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(961, __c30, 1),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+resource}:getIamPolicy",
@@ -4545,9 +4511,9 @@ function __c39(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
+          memoryConfig: S.optional(__S(1248, __c39, 0)),
           etag: S.optional(S.String),
           name: S.optional(S.String),
-          memoryConfig: S.optional(__S(1248, __c39, 0)),
           state: S.optional(S.String),
         }),
       ).annotate({ identifier: "MemoryLayer" });
@@ -4721,11 +4687,11 @@ function __c50(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          filter: S.optional(S.String.pipe(T.Query())),
-          returnPartialSuccess: S.optional(S.Boolean.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
           pageToken: S.optional(S.String.pipe(T.Query())),
           pageSize: S.optional(S.Number.pipe(T.Query())),
+          name: S.String.pipe(T.Label()),
+          filter: S.optional(S.String.pipe(T.Query())),
+          returnPartialSuccess: S.optional(S.Boolean.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -4739,9 +4705,9 @@ function __c50(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          unreachable: S.optional(__S(32, __c1, 0)),
           operations: S.optional(__S(1601, __c50, 1)),
           nextPageToken: S.optional(S.String),
+          unreachable: S.optional(__S(32, __c1, 0)),
         }),
       ).annotate({ identifier: "ListOperationsResponse" });
   }
@@ -4766,9 +4732,9 @@ function __c51(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          nextPageToken: S.optional(S.String),
-          instances: S.optional(__S(1633, __c51, 1)),
           failedLocations: S.optional(__S(32, __c1, 0)),
+          instances: S.optional(__S(1633, __c51, 1)),
+          nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListInstancesResponse" });
   }
@@ -4794,8 +4760,8 @@ function __c52(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          nextPageToken: S.optional(S.String),
           appProfiles: S.optional(__S(1665, __c52, 1)),
+          nextPageToken: S.optional(S.String),
           failedLocations: S.optional(__S(32, __c1, 0)),
         }),
       ).annotate({ identifier: "ListAppProfilesResponse" });
@@ -4806,8 +4772,8 @@ function __c53(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          parent: S.String.pipe(T.Label()),
           pageToken: S.optional(S.String.pipe(T.Query())),
+          parent: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
             method: "GET",
@@ -4833,10 +4799,10 @@ function __c54(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          pageSize: S.optional(S.Number.pipe(T.Query())),
           parent: S.String.pipe(T.Label()),
-          pageToken: S.optional(S.String.pipe(T.Query())),
           filter: S.optional(S.String.pipe(T.Query())),
+          pageToken: S.optional(S.String.pipe(T.Query())),
+          pageSize: S.optional(S.Number.pipe(T.Query())),
           orderBy: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
@@ -4863,10 +4829,10 @@ function __c55(j: number): any {
       return S.suspend(() =>
         S.Struct({
           pageToken: S.optional(S.String.pipe(T.Query())),
+          endTime: S.optional(S.String.pipe(T.Query())),
           startTime: S.optional(S.String.pipe(T.Query())),
           parent: S.String.pipe(T.Label()),
           pageSize: S.optional(S.Number.pipe(T.Query())),
-          endTime: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -4879,12 +4845,12 @@ function __c55(j: number): any {
       return S.suspend(() =>
         S.Struct({
           tableName: S.optional(S.String),
-          nodeCpuUsagePercent: S.optional(S.Number),
           startKey: S.optional(S.String),
-          startTime: S.optional(S.String),
-          name: S.optional(S.String),
-          endTime: S.optional(S.String),
           endKey: S.optional(S.String),
+          name: S.optional(S.String),
+          startTime: S.optional(S.String),
+          endTime: S.optional(S.String),
+          nodeCpuUsagePercent: S.optional(S.Number),
         }),
       ).annotate({ identifier: "HotTablet" });
     case 2:
@@ -4892,8 +4858,8 @@ function __c55(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          hotTablets: S.optional(__S(1762, __c55, 2)),
           nextPageToken: S.optional(S.String),
+          hotTablets: S.optional(__S(1762, __c55, 2)),
         }),
       ).annotate({ identifier: "ListHotTabletsResponse" });
   }
@@ -4903,9 +4869,9 @@ function __c56(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          pageSize: S.optional(S.Number.pipe(T.Query())),
-          pageToken: S.optional(S.String.pipe(T.Query())),
           parent: S.String.pipe(T.Label()),
+          pageToken: S.optional(S.String.pipe(T.Query())),
+          pageSize: S.optional(S.Number.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -4931,9 +4897,9 @@ function __c57(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          pageSize: S.optional(S.Number.pipe(T.Query())),
           parent: S.String.pipe(T.Label()),
           pageToken: S.optional(S.String.pipe(T.Query())),
-          pageSize: S.optional(S.Number.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -4947,8 +4913,8 @@ function __c57(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          nextPageToken: S.optional(S.String),
           logicalViews: S.optional(__S(1825, __c57, 1)),
+          nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListLogicalViewsResponse" });
   }
@@ -4958,10 +4924,10 @@ function __c58(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          parent: S.String.pipe(T.Label()),
-          pageToken: S.optional(S.String.pipe(T.Query())),
           pageSize: S.optional(S.Number.pipe(T.Query())),
           view: S.optional(S.String.pipe(T.Query())),
+          pageToken: S.optional(S.String.pipe(T.Query())),
+          parent: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
             method: "GET",
@@ -4975,8 +4941,8 @@ function __c58(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          materializedViews: S.optional(__S(1857, __c58, 1)),
           nextPageToken: S.optional(S.String),
+          materializedViews: S.optional(__S(1857, __c58, 1)),
         }),
       ).annotate({ identifier: "ListMaterializedViewsResponse" });
   }
@@ -4986,10 +4952,10 @@ function __c59(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          view: S.optional(S.String.pipe(T.Query())),
+          pageSize: S.optional(S.Number.pipe(T.Query())),
           pageToken: S.optional(S.String.pipe(T.Query())),
           parent: S.String.pipe(T.Label()),
-          pageSize: S.optional(S.Number.pipe(T.Query())),
+          view: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -5015,9 +4981,9 @@ function __c60(j: number): any {
       return S.suspend(() =>
         S.Struct({
           view: S.optional(S.String.pipe(T.Query())),
-          pageSize: S.optional(S.Number.pipe(T.Query())),
-          pageToken: S.optional(S.String.pipe(T.Query())),
           parent: S.String.pipe(T.Label()),
+          pageToken: S.optional(S.String.pipe(T.Query())),
+          pageSize: S.optional(S.Number.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -5042,10 +5008,10 @@ function __c61(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          view: S.optional(S.String.pipe(T.Query())),
-          pageToken: S.optional(S.String.pipe(T.Query())),
-          pageSize: S.optional(S.Number.pipe(T.Query())),
           parent: S.String.pipe(T.Label()),
+          view: S.optional(S.String.pipe(T.Query())),
+          pageSize: S.optional(S.Number.pipe(T.Query())),
+          pageToken: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -5073,8 +5039,8 @@ function __c62(j: number): any {
           filter: S.optional(S.String.pipe(T.Query())),
           name: S.String.pipe(T.Label()),
           pageToken: S.optional(S.String.pipe(T.Query())),
-          extraLocationTypes: S.optional(__S(32, __c1, 0).pipe(T.Query())),
           pageSize: S.optional(S.Number.pipe(T.Query())),
+          extraLocationTypes: S.optional(__S(32, __c1, 0).pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -5086,11 +5052,11 @@ function __c62(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          metadata: S.optional(__S(2816, __c88, 0)),
           locationId: S.optional(S.String),
-          labels: S.optional(__S(3264, __c102, 0)),
-          name: S.optional(S.String),
           displayName: S.optional(S.String),
+          labels: S.optional(__S(3264, __c102, 0)),
+          metadata: S.optional(__S(2816, __c88, 0)),
+          name: S.optional(S.String),
         }),
       ).annotate({ identifier: "Location" });
     case 2:
@@ -5098,8 +5064,8 @@ function __c62(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          locations: S.optional(__S(1986, __c62, 2)),
           nextPageToken: S.optional(S.String),
+          locations: S.optional(__S(1986, __c62, 2)),
         }),
       ).annotate({ identifier: "ListLocationsResponse" });
   }
@@ -5109,11 +5075,11 @@ function __c63(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          drop: S.optional(S.Boolean),
+          update: S.optional(__S(413, __c12, 29)),
+          create: S.optional(__S(413, __c12, 29)),
           updateMask: S.optional(S.String),
           id: S.optional(S.String),
-          drop: S.optional(S.Boolean),
-          create: S.optional(__S(414, __c12, 30)),
-          update: S.optional(__S(414, __c12, 30)),
         }),
       ).annotate({ identifier: "Modification" });
     case 1:
@@ -5127,10 +5093,12 @@ function __c63(j: number): any {
       ).annotate({ identifier: "ModifyColumnFamiliesRequest" });
     case 3:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(2018, __c63, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2018, __c63, 2),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+name}:modifyColumnFamilies",
@@ -5144,11 +5112,13 @@ function __c64(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(3237, __c101, 5).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(3237, __c101, 5),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v2/{+name}",
@@ -5162,11 +5132,13 @@ function __c65(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(3296, __c103, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(3296, __c103, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v2/{+name}",
@@ -5180,12 +5152,14 @@ function __c66(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          ignoreWarnings: S.optional(S.Boolean.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(68, __c2, 4).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(68, __c2, 4),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            ignoreWarnings: S.optional(S.Boolean.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v2/{+name}",
@@ -5199,11 +5173,13 @@ function __c67(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(192, __c6, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(192, __c6, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v2/{+name}",
@@ -5217,11 +5193,13 @@ function __c68(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(256, __c8, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(256, __c8, 0),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v2/{+name}",
@@ -5235,11 +5213,13 @@ function __c69(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(322, __c10, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(322, __c10, 2),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v2/{+name}",
@@ -5253,12 +5233,14 @@ function __c70(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          ignoreWarnings: S.optional(S.Boolean.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(425, __c13, 9).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(425, __c13, 9),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+            ignoreWarnings: S.optional(S.Boolean.pipe(T.Query())),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v2/{+name}",
@@ -5272,12 +5254,14 @@ function __c71(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          ignoreWarnings: S.optional(S.Boolean.pipe(T.Query())),
-          body: S.optional(__S(483, __c15, 3).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(483, __c15, 3),
+          S.Struct({
+            ignoreWarnings: S.optional(S.Boolean.pipe(T.Query())),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v2/{+name}",
@@ -5291,12 +5275,14 @@ function __c72(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          ignoreWarnings: S.optional(S.Boolean.pipe(T.Query())),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(546, __c17, 2).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(546, __c17, 2),
+          S.Struct({
+            ignoreWarnings: S.optional(S.Boolean.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v2/{+name}",
@@ -5311,17 +5297,19 @@ function __c73(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          dataBoostReadLocalWrites: S.optional(__S(2368, __c74, 0)),
           consistencyToken: S.optional(S.String),
           standardReadRemoteWrites: S.optional(__S(2368, __c74, 0)),
+          dataBoostReadLocalWrites: S.optional(__S(2368, __c74, 0)),
         }),
       ).annotate({ identifier: "CheckConsistencyRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(2336, __c73, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2336, __c73, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+name}:checkConsistency",
@@ -5340,7 +5328,7 @@ function __c73(j: number): any {
 function __c74(j: number): any {
   switch (j) {
     case 0:
-      return S.suspend(() => S.Struct({})).annotate({ identifier: "DataBoostReadLocalWrites" });
+      return S.suspend(() => S.Struct({})).annotate({ identifier: "StandardReadRemoteWrites" });
   }
 }
 function __c75(j: number): any {
@@ -5348,16 +5336,18 @@ function __c75(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          tableId: S.optional(S.String),
           backup: S.optional(S.String),
+          tableId: S.optional(S.String),
         }),
       ).annotate({ identifier: "RestoreTableRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(2400, __c75, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2400, __c75, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+parent}/tables:restore",
@@ -5371,10 +5361,12 @@ function __c76(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(2464, __c77, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2464, __c77, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+resource}:setIamPolicy",
@@ -5399,10 +5391,12 @@ function __c78(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(2464, __c77, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2464, __c77, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+resource}:setIamPolicy",
@@ -5416,10 +5410,12 @@ function __c79(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(2464, __c77, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2464, __c77, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+resource}:setIamPolicy",
@@ -5433,10 +5429,12 @@ function __c80(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(2464, __c77, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2464, __c77, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+resource}:setIamPolicy",
@@ -5450,10 +5448,12 @@ function __c81(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(2464, __c77, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2464, __c77, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+resource}:setIamPolicy",
@@ -5467,10 +5467,12 @@ function __c82(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(2464, __c77, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2464, __c77, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+resource}:setIamPolicy",
@@ -5484,10 +5486,12 @@ function __c83(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(2464, __c77, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2464, __c77, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+resource}:setIamPolicy",
@@ -5501,10 +5505,12 @@ function __c84(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(2720, __c85, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2720, __c85, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+resource}:testIamPermissions",
@@ -5528,10 +5534,12 @@ function __c86(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(2720, __c85, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2720, __c85, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+resource}:testIamPermissions",
@@ -5546,17 +5554,19 @@ function __c87(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          sourceBackup: S.optional(S.String),
           expireTime: S.optional(S.String),
           backupId: S.optional(S.String),
+          sourceBackup: S.optional(S.String),
         }),
       ).annotate({ identifier: "CopyBackupRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(2784, __c87, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2784, __c87, 0),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+parent}/backups:copy",
@@ -5579,9 +5589,9 @@ function __c89(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
+          message: S.optional(S.String),
           details: S.optional(__S(2848, __c89, 0)),
           code: S.optional(S.Number),
-          message: S.optional(S.String),
         }),
       ).annotate({ identifier: "Status" });
   }
@@ -5591,11 +5601,11 @@ function __c90(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          response: S.optional(__S(2816, __c88, 0)),
+          name: S.optional(S.String),
           metadata: S.optional(__S(2816, __c88, 0)),
           error: S.optional(__S(2849, __c89, 1)),
-          name: S.optional(S.String),
           done: S.optional(S.Boolean),
-          response: S.optional(__S(2816, __c88, 0)),
         }),
       ).annotate({ identifier: "Operation" });
   }
@@ -5604,10 +5614,12 @@ function __c91(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(2720, __c85, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2720, __c85, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+resource}:testIamPermissions",
@@ -5621,10 +5633,12 @@ function __c92(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(2720, __c85, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2720, __c85, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+resource}:testIamPermissions",
@@ -5638,10 +5652,12 @@ function __c93(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(2720, __c85, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2720, __c85, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+resource}:testIamPermissions",
@@ -5655,10 +5671,12 @@ function __c94(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(2720, __c85, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2720, __c85, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+resource}:testIamPermissions",
@@ -5672,10 +5690,12 @@ function __c95(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          resource: S.String.pipe(T.Label()),
-          body: S.optional(__S(2720, __c85, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(2720, __c85, 0),
+          S.Struct({
+            resource: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+resource}:testIamPermissions",
@@ -5706,11 +5726,13 @@ function __c97(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(1249, __c39, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(1249, __c39, 1),
+          S.Struct({
+            updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PATCH",
             uri: "v2/{+name}",
@@ -5724,10 +5746,12 @@ function __c98(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(3296, __c103, 0).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(3296, __c103, 0),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PUT",
             uri: "v2/{+name}",
@@ -5741,10 +5765,12 @@ function __c99(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(3237, __c101, 5).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(3237, __c101, 5),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "PUT",
             uri: "v2/{+name}",
@@ -5761,18 +5787,20 @@ function __c100(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          instanceId: S.optional(S.String),
-          clusters: S.optional(__S(3200, __c100, 0)),
-          instance: S.optional(__S(3296, __c103, 0)),
           parent: S.optional(S.String),
+          clusters: S.optional(__S(3200, __c100, 0)),
+          instanceId: S.optional(S.String),
+          instance: S.optional(__S(3296, __c103, 0)),
         }),
       ).annotate({ identifier: "CreateInstanceRequest" });
     case 2:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          body: S.optional(__S(3201, __c100, 1).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(3201, __c100, 1),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({
             method: "POST",
             uri: "v2/{+parent}/instances",
@@ -5787,9 +5815,10 @@ function __c101(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          kmsKeyName: S.optional(S.String),
+          cpuUtilizationPercent: S.optional(S.Number),
+          storageUtilizationGibPerNode: S.optional(S.Number),
         }),
-      ).annotate({ identifier: "EncryptionConfig" });
+      ).annotate({ identifier: "AutoscalingTargets" });
     case 1:
       return S.suspend(() =>
         S.Struct({
@@ -5800,34 +5829,33 @@ function __c101(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          storageUtilizationGibPerNode: S.optional(S.Number),
-          cpuUtilizationPercent: S.optional(S.Number),
+          autoscalingTargets: S.optional(__S(3232, __c101, 0)),
+          autoscalingLimits: S.optional(__S(3233, __c101, 1)),
         }),
-      ).annotate({ identifier: "AutoscalingTargets" });
+      ).annotate({ identifier: "ClusterAutoscalingConfig" });
     case 3:
       return S.suspend(() =>
         S.Struct({
-          autoscalingLimits: S.optional(__S(3233, __c101, 1)),
-          autoscalingTargets: S.optional(__S(3234, __c101, 2)),
+          clusterAutoscalingConfig: S.optional(__S(3234, __c101, 2)),
         }),
-      ).annotate({ identifier: "ClusterAutoscalingConfig" });
+      ).annotate({ identifier: "ClusterConfig" });
     case 4:
       return S.suspend(() =>
         S.Struct({
-          clusterAutoscalingConfig: S.optional(__S(3235, __c101, 3)),
+          kmsKeyName: S.optional(S.String),
         }),
-      ).annotate({ identifier: "ClusterConfig" });
+      ).annotate({ identifier: "EncryptionConfig" });
     case 5:
       return S.suspend(() =>
         S.Struct({
-          nodeScalingFactor: S.optional(S.String),
-          encryptionConfig: S.optional(__S(3232, __c101, 0)),
-          name: S.optional(S.String),
           serveNodes: S.optional(S.Number),
-          state: S.optional(S.String),
           defaultStorageType: S.optional(S.String),
-          clusterConfig: S.optional(__S(3236, __c101, 4)),
+          clusterConfig: S.optional(__S(3235, __c101, 3)),
+          encryptionConfig: S.optional(__S(3236, __c101, 4)),
+          state: S.optional(S.String),
+          name: S.optional(S.String),
           location: S.optional(S.String),
+          nodeScalingFactor: S.optional(S.String),
         }),
       ).annotate({ identifier: "Cluster" });
   }
@@ -5843,17 +5871,17 @@ function __c103(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          satisfiesPzs: S.optional(S.Boolean),
-          type: S.optional(S.String),
-          labels: S.optional(__S(3264, __c102, 0)),
-          edition: S.optional(S.String),
+          knowledgeCatalogRegion: S.optional(S.String),
+          tags: S.optional(__S(3264, __c102, 0)),
+          displayName: S.optional(S.String),
           createTime: S.optional(S.String),
+          edition: S.optional(S.String),
+          type: S.optional(S.String),
+          satisfiesPzs: S.optional(S.Boolean),
+          satisfiesPzi: S.optional(S.Boolean),
+          labels: S.optional(__S(3264, __c102, 0)),
           name: S.optional(S.String),
           state: S.optional(S.String),
-          knowledgeCatalogRegion: S.optional(S.String),
-          displayName: S.optional(S.String),
-          tags: S.optional(__S(3264, __c102, 0)),
-          satisfiesPzi: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "Instance" });
   }

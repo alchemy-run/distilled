@@ -34,20 +34,14 @@ export interface DeleteFileRequest {
   /** File or directory path to delete */
   path: string;
   /** Enable recursive deletion for directories */
-  recursive?: boolean;
+  recursive?: boolean | undefined;
 }
 export interface DeleteFileResponse {}
 export interface DownloadFileRequest {
   /** File path to download */
   path: string;
 }
-export type DownloadFileResponse = unknown;
-export type DownloadFilesRequestPathsList = Array<string>;
-export interface DownloadFilesRequest {
-  paths: DownloadFilesRequestPathsList;
-}
-export type GinH = { [key: string]: unknown | undefined };
-export type DownloadFilesResponse = GinH;
+export type DownloadFileResponse = Uint8Array;
 export interface FindInFilesRequest {
   /** Directory path to search in */
   path: string;
@@ -75,15 +69,15 @@ export interface FileInfo {
   name: string;
   owner: string;
   /** Full path of the entry */
-  path?: string;
+  path?: string | undefined;
   permissions: string;
   size: number;
 }
 export interface ListFilesRequest {
   /** Directory path to list (defaults to working directory) */
-  path?: string;
+  path?: string | undefined;
   /** How many levels deep to list (default: 1, must be >= 1) */
-  depth?: number;
+  depth?: number | undefined;
 }
 export type ListFilesResponseBodyList = Array<FileInfo>;
 export type ListFilesResponse = ListFilesResponseBodyList;
@@ -101,9 +95,9 @@ export interface ReplaceInFilesRequest {
   pattern: string;
 }
 export interface ReplaceResult {
-  error?: string;
-  file?: string;
-  success?: boolean;
+  error?: string | undefined;
+  file?: string | undefined;
+  success?: boolean | undefined;
 }
 export type ReplaceInFilesResponseBodyList = Array<ReplaceResult>;
 export type ReplaceInFilesResponse = ReplaceInFilesResponseBodyList;
@@ -121,24 +115,24 @@ export interface SetFilePermissionsRequest {
   /** File or directory path */
   path: string;
   /** Owner (username or UID) */
-  owner?: string;
+  owner?: string | undefined;
   /** Group (group name or GID) */
-  group?: string;
+  group?: string | undefined;
   /** File mode in octal format (e.g., 0755) */
-  mode?: string;
+  mode?: string | undefined;
 }
 export interface SetFilePermissionsResponse {}
 export interface UploadFileRequest {
   /** Destination path for the uploaded file */
   path: string;
+  /** File contents, sent verbatim as the request body. */
+  body: string | Uint8Array;
 }
 export interface UploadedFile {
   name: string;
   path: string;
   type: string;
 }
-export interface UploadFilesRequest {}
-export interface UploadFilesResponse {}
 export type CreateFolderError = DaytonaOpError;
 /** Create a folder Create a folder with the specified path and optional permissions */
 export const createFolder: API.OperationMethod<
@@ -181,30 +175,13 @@ export const downloadFile: API.OperationMethod<
   DownloadFileError,
   DaytonaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(24, __c6, 0) as any as S.Schema<DownloadFileRequest>,
-  output: __S(25, __c6, 1) as any as S.Schema<DownloadFileResponse>,
+  input: __S(16, __c4, 0) as any as S.Schema<DownloadFileRequest>,
+  output: __S(17, __c4, 1) as any as S.Codec<DownloadFileResponse>,
   errors: [UnknownDaytonaError],
   protocol: DaytonaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DownloadFile",
-}));
-
-export type DownloadFilesError = DaytonaOpError;
-/** Download multiple files Download multiple files by providing their paths. Successful files are returned as multipart parts named `file`. Per-file failures are returned as multipart parts named `error` with JSON payloads shaped like ErrorResponse. */
-export const downloadFiles: API.OperationMethod<
-  DownloadFilesRequest,
-  DownloadFilesResponse,
-  DownloadFilesError,
-  DaytonaOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(28, __c7, 0) as any as S.Schema<DownloadFilesRequest>,
-  output: __S(30, __c7, 2) as any as S.Schema<DownloadFilesResponse>,
-  errors: [UnknownDaytonaError],
-  protocol: DaytonaProtocol,
-  retry: Retry.Retry,
-  telemetry: TELEMETRY,
-  span: "DownloadFiles",
 }));
 
 export type FindInFilesError = DaytonaOpError;
@@ -215,8 +192,8 @@ export const findInFiles: API.OperationMethod<
   FindInFilesError,
   DaytonaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(36, __c9, 0) as any as S.Schema<FindInFilesRequest>,
-  output: __S(39, __c9, 3) as any as S.Schema<FindInFilesResponse>,
+  input: __S(20, __c5, 0) as any as S.Schema<FindInFilesRequest>,
+  output: __S(23, __c5, 3) as any as S.Schema<FindInFilesResponse>,
   errors: [UnknownDaytonaError],
   protocol: DaytonaProtocol,
   retry: Retry.Retry,
@@ -232,8 +209,8 @@ export const getFileInfo: API.OperationMethod<
   GetFileInfoError,
   DaytonaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(40, __c10, 0) as any as S.Schema<GetFileInfoRequest>,
-  output: __S(44, __c11, 0) as any as S.Schema<FileInfo>,
+  input: __S(24, __c6, 0) as any as S.Schema<GetFileInfoRequest>,
+  output: __S(28, __c7, 0) as any as S.Schema<FileInfo>,
   errors: [UnknownDaytonaError],
   protocol: DaytonaProtocol,
   retry: Retry.Retry,
@@ -249,8 +226,8 @@ export const listFiles: API.OperationMethod<
   ListFilesError,
   DaytonaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(48, __c12, 0) as any as S.Schema<ListFilesRequest>,
-  output: __S(50, __c12, 2) as any as S.Schema<ListFilesResponse>,
+  input: __S(32, __c8, 0) as any as S.Schema<ListFilesRequest>,
+  output: __S(34, __c8, 2) as any as S.Schema<ListFilesResponse>,
   errors: [UnknownDaytonaError],
   protocol: DaytonaProtocol,
   retry: Retry.Retry,
@@ -266,7 +243,7 @@ export const moveFile: API.OperationMethod<
   MoveFileError,
   DaytonaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(52, __c13, 0) as any as S.Schema<MoveFileRequest>,
+  input: __S(36, __c9, 0) as any as S.Schema<MoveFileRequest>,
   output: __S(4, __c1, 0) as any as S.Schema<MoveFileResponse>,
   errors: [UnknownDaytonaError],
   protocol: DaytonaProtocol,
@@ -283,8 +260,8 @@ export const replaceInFiles: API.OperationMethod<
   ReplaceInFilesError,
   DaytonaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(56, __c14, 0) as any as S.Schema<ReplaceInFilesRequest>,
-  output: __S(59, __c14, 3) as any as S.Schema<ReplaceInFilesResponse>,
+  input: __S(40, __c10, 0) as any as S.Schema<ReplaceInFilesRequest>,
+  output: __S(43, __c10, 3) as any as S.Schema<ReplaceInFilesResponse>,
   errors: [UnknownDaytonaError],
   protocol: DaytonaProtocol,
   retry: Retry.Retry,
@@ -300,8 +277,8 @@ export const searchFiles: API.OperationMethod<
   SearchFilesError,
   DaytonaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(60, __c15, 0) as any as S.Schema<SearchFilesRequest>,
-  output: __S(61, __c15, 1) as any as S.Schema<SearchFilesResponse>,
+  input: __S(48, __c12, 0) as any as S.Schema<SearchFilesRequest>,
+  output: __S(49, __c12, 1) as any as S.Schema<SearchFilesResponse>,
   errors: [UnknownDaytonaError],
   protocol: DaytonaProtocol,
   retry: Retry.Retry,
@@ -317,7 +294,7 @@ export const setFilePermissions: API.OperationMethod<
   SetFilePermissionsError,
   DaytonaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(12, __c3, 0) as any as S.Schema<SetFilePermissionsRequest>,
+  input: __S(52, __c13, 0) as any as S.Schema<SetFilePermissionsRequest>,
   output: __S(4, __c1, 0) as any as S.Schema<SetFilePermissionsResponse>,
   errors: [UnknownDaytonaError],
   protocol: DaytonaProtocol,
@@ -334,30 +311,13 @@ export const uploadFile: API.OperationMethod<
   UploadFileError,
   DaytonaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(16, __c4, 0) as any as S.Schema<UploadFileRequest>,
-  output: __S(17, __c4, 1) as any as S.Schema<UploadedFile>,
+  input: __S(12, __c3, 0) as any as S.Schema<UploadFileRequest>,
+  output: __S(13, __c3, 1) as any as S.Schema<UploadedFile>,
   errors: [UnknownDaytonaError],
   protocol: DaytonaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "UploadFile",
-}));
-
-export type UploadFilesError = DaytonaOpError;
-/** Upload multiple files Upload multiple files with their destination paths */
-export const uploadFiles: API.OperationMethod<
-  UploadFilesRequest,
-  UploadFilesResponse,
-  UploadFilesError,
-  DaytonaOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(20, __c5, 0) as any as S.Schema<UploadFilesRequest>,
-  output: __S(4, __c1, 0) as any as S.Schema<UploadFilesResponse>,
-  errors: [UnknownDaytonaError],
-  protocol: DaytonaProtocol,
-  retry: Retry.Retry,
-  telemetry: TELEMETRY,
-  span: "UploadFiles",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.
@@ -395,20 +355,15 @@ function __c3(j: number): any {
       return S.suspend(() =>
         S.Struct({
           path: S.String.pipe(T.Query()),
-          owner: S.optional(S.String.pipe(T.Query())),
-          group: S.optional(S.String.pipe(T.Query())),
-          mode: S.optional(S.String.pipe(T.Query())),
-        }).pipe(T.Http({ method: "POST", uri: "/files/permissions", code: 200 })),
-      ).annotate({ identifier: "SetFilePermissionsRequest" });
-  }
-}
-function __c4(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          path: S.String.pipe(T.Query()),
-        }).pipe(T.Http({ method: "POST", uri: "/files/upload-v2", code: 200 })),
+          body: S.Union([S.String, S.instanceOf(Uint8Array)]).pipe(T.HttpBody()),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/files/upload-v2",
+            code: 200,
+            bodyMediaType: "application/octet-stream",
+          }),
+        ),
       ).annotate({ identifier: "UploadFileRequest" });
     case 1:
       return S.suspend(() =>
@@ -420,15 +375,7 @@ function __c4(j: number): any {
       ).annotate({ identifier: "UploadedFile" });
   }
 }
-function __c5(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({}).pipe(T.Http({ method: "POST", uri: "/files/bulk-upload", code: 200 })),
-      ).annotate({ identifier: "UploadFilesRequest" });
-  }
-}
-function __c6(j: number): any {
+function __c4(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -437,34 +384,10 @@ function __c6(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/files/download", code: 200 })),
       ).annotate({ identifier: "DownloadFileRequest" });
     case 1:
-      return S.suspend(() => S.Unknown.pipe(T.RawResponseRoot())).annotate({
-        identifier: "DownloadFileResponse",
-      });
+      return S.instanceOf(Uint8Array).pipe(/*@__PURE__*/ T.BinaryResponse());
   }
 }
-function __c7(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          paths: __S(32, __c8, 0),
-        }).pipe(T.Http({ method: "POST", uri: "/files/bulk-download", code: 200 })),
-      ).annotate({ identifier: "DownloadFilesRequest" });
-    case 1:
-      return S.Record(S.String, S.Unknown);
-    case 2:
-      return S.suspend(() => __S(29, __c7, 1).pipe(T.RawResponseRoot())).annotate({
-        identifier: "DownloadFilesResponse",
-      });
-  }
-}
-function __c8(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Array(S.String);
-  }
-}
-function __c9(j: number): any {
+function __c5(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -482,14 +405,14 @@ function __c9(j: number): any {
         }),
       ).annotate({ identifier: "Match" });
     case 2:
-      return S.Array(__S(37, __c9, 1));
+      return S.Array(__S(21, __c5, 1));
     case 3:
-      return S.suspend(() => __S(38, __c9, 2).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(22, __c5, 2).pipe(T.RawResponseRoot())).annotate({
         identifier: "FindInFilesResponse",
       });
   }
 }
-function __c10(j: number): any {
+function __c6(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -499,7 +422,7 @@ function __c10(j: number): any {
       ).annotate({ identifier: "GetFileInfoRequest" });
   }
 }
-function __c11(j: number): any {
+function __c7(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -518,7 +441,7 @@ function __c11(j: number): any {
       ).annotate({ identifier: "FileInfo" });
   }
 }
-function __c12(j: number): any {
+function __c8(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -528,14 +451,14 @@ function __c12(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/files", code: 200 })),
       ).annotate({ identifier: "ListFilesRequest" });
     case 1:
-      return S.Array(__S(44, __c11, 0));
+      return S.Array(__S(28, __c7, 0));
     case 2:
-      return S.suspend(() => __S(49, __c12, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(33, __c8, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListFilesResponse",
       });
   }
 }
-function __c13(j: number): any {
+function __c9(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -546,12 +469,12 @@ function __c13(j: number): any {
       ).annotate({ identifier: "MoveFileRequest" });
   }
 }
-function __c14(j: number): any {
+function __c10(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          files: __S(32, __c8, 0),
+          files: __S(44, __c11, 0),
           newValue: S.String,
           pattern: S.String,
         }).pipe(T.Http({ method: "POST", uri: "/files/replace", code: 200 })),
@@ -565,14 +488,20 @@ function __c14(j: number): any {
         }),
       ).annotate({ identifier: "ReplaceResult" });
     case 2:
-      return S.Array(__S(57, __c14, 1));
+      return S.Array(__S(41, __c10, 1));
     case 3:
-      return S.suspend(() => __S(58, __c14, 2).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(42, __c10, 2).pipe(T.RawResponseRoot())).annotate({
         identifier: "ReplaceInFilesResponse",
       });
   }
 }
-function __c15(j: number): any {
+function __c11(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(S.String);
+  }
+}
+function __c12(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -584,9 +513,22 @@ function __c15(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          files: __S(32, __c8, 0),
+          files: __S(44, __c11, 0),
         }),
       ).annotate({ identifier: "SearchFilesResponse" });
+  }
+}
+function __c13(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          path: S.String.pipe(T.Query()),
+          owner: S.optional(S.String.pipe(T.Query())),
+          group: S.optional(S.String.pipe(T.Query())),
+          mode: S.optional(S.String.pipe(T.Query())),
+        }).pipe(T.Http({ method: "POST", uri: "/files/permissions", code: 200 })),
+      ).annotate({ identifier: "SetFilePermissionsRequest" });
   }
 }
 // Schema table: entry i is schema j of builder f, made on first reach.

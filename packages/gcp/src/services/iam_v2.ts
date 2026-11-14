@@ -83,100 +83,98 @@ export class NotFound
     [{ status: 404 }],
   ) {}
 
-export type StringMap = { [key: string]: string | undefined };
 export type StringList = Array<string>;
 /** Represents a textual expression in the Common Expression Language (CEL) syntax. CEL is a C-like expression language. The syntax and semantics of CEL are documented at https://github.com/google/cel-spec. Example (Comparison): title: "Summary size limit" description: "Determines if a summary is less than 100 chars" expression: "document.summary.size() < 100" Example (Equality): title: "Requestor is owner" description: "Determines if requestor is the document owner" expression: "document.owner == request.auth.claims.email" Example (Logic): title: "Public documents" description: "Determine whether the document should be publicly visible" expression: "document.type != 'private' && document.type != 'internal'" Example (Data Manipulation): title: "Notification string" description: "Create a notification string with a timestamp." expression: "'New message received at ' + string(document.create_time)" The exact variables and functions that may be referenced within an expression are determined by the service that evaluates it. See the service documentation for additional information. */
 export interface GoogleTypeExpr {
-  /** Textual representation of an expression in Common Expression Language syntax. */
-  expression?: string;
-  /** Optional. String indicating the location of the expression for error reporting, e.g. a file name and a position in the file. */
-  location?: string;
-  /** Optional. Description of the expression. This is a longer text which describes the expression, e.g. when hovered over it in a UI. */
-  description?: string;
   /** Optional. Title for the expression, i.e. a short string describing its purpose. This can be used e.g. in UIs which allow to enter the expression. */
-  title?: string;
+  title?: string | undefined;
+  /** Optional. String indicating the location of the expression for error reporting, e.g. a file name and a position in the file. */
+  location?: string | undefined;
+  /** Textual representation of an expression in Common Expression Language syntax. */
+  expression?: string | undefined;
+  /** Optional. Description of the expression. This is a longer text which describes the expression, e.g. when hovered over it in a UI. */
+  description?: string | undefined;
 }
 /** A deny rule in an IAM deny policy. */
 export interface GoogleIamV2DenyRule {
-  /** The identities that are excluded from the deny rule, even if they are listed in the `denied_principals`. For example, you could add a Google group to the `denied_principals`, then exclude specific users who belong to that group. This field can contain the same values as the `denied_principals` field, excluding `principalSet://goog/public:all`, which represents all users on the internet. */
-  exceptionPrincipals?: StringList;
-  /** The condition that determines whether this deny rule applies to a request. If the condition expression evaluates to `true`, then the deny rule is applied; otherwise, the deny rule is not applied. Each deny rule is evaluated independently. If this deny rule does not apply to a request, other deny rules might still apply. The condition can use CEL functions that evaluate [resource tags](https://cloud.google.com/iam/help/conditions/resource-tags). Other functions and operators are not supported. */
-  denialCondition?: GoogleTypeExpr;
-  /** The permissions that are explicitly denied by this rule. Each permission uses the format `{service_fqdn}/{resource}.{verb}`, where `{service_fqdn}` is the fully qualified domain name for the service. For example, `iam.googleapis.com/roles.list`. */
-  deniedPermissions?: StringList;
-  /** The identities that are prevented from using one or more permissions on Google Cloud resources. This field can contain the following values: * `principal://goog/subject/{email_id}`: A specific Google Account. Includes Gmail, Cloud Identity, and Google Workspace user accounts. For example, `principal://goog/subject/alice@example.com`. * `principal://iam.googleapis.com/projects/-/serviceAccounts/{service_account_id}`: A Google Cloud service account. For example, `principal://iam.googleapis.com/projects/-/serviceAccounts/my-service-account@iam.gserviceaccount.com`. * `principalSet://goog/group/{group_id}`: A Google group. For example, `principalSet://goog/group/admins@example.com`. * `principalSet://goog/public:all`: A special identifier that represents any principal that is on the internet, even if they do not have a Google Account or are not logged in. * `principalSet://goog/cloudIdentityCustomerId/{customer_id}`: All of the principals associated with the specified Google Workspace or Cloud Identity customer ID. For example, `principalSet://goog/cloudIdentityCustomerId/C01Abc35`. * `principal://iam.googleapis.com/locations/global/workforcePools/{pool_id}/subject/{subject_attribute_value}`: A single identity in a workforce identity pool. * `principalSet://iam.googleapis.com/locations/global/workforcePools/{pool_id}/group/{group_id}`: All workforce identities in a group. * `principalSet://iam.googleapis.com/locations/global/workforcePools/{pool_id}/attribute.{attribute_name}/{attribute_value}`: All workforce identities with a specific attribute value. * `principalSet://iam.googleapis.com/locations/global/workforcePools/{pool_id}/*`: All identities in a workforce identity pool. * `principal://iam.googleapis.com/projects/{project_number}/locations/global/workloadIdentityPools/{pool_id}/subject/{subject_attribute_value}`: A single identity in a workload identity pool. * `principalSet://iam.googleapis.com/projects/{project_number}/locations/global/workloadIdentityPools/{pool_id}/group/{group_id}`: A workload identity pool group. * `principalSet://iam.googleapis.com/projects/{project_number}/locations/global/workloadIdentityPools/{pool_id}/attribute.{attribute_name}/{attribute_value}`: All identities in a workload identity pool with a certain attribute. * `principalSet://iam.googleapis.com/projects/{project_number}/locations/global/workloadIdentityPools/{pool_id}/*`: All identities in a workload identity pool. * `principalSet://cloudresourcemanager.googleapis.com/[projects|folders|organizations]/{project_number|folder_number|org_number}/type/ServiceAccount`: All service accounts grouped under a resource (project, folder, or organization). * `principalSet://cloudresourcemanager.googleapis.com/[projects|folders|organizations]/{project_number|folder_number|org_number}/type/ServiceAgent`: All service agents grouped under a resource (project, folder, or organization). * `deleted:principal://goog/subject/{email_id}?uid={uid}`: A specific Google Account that was deleted recently. For example, `deleted:principal://goog/subject/alice@example.com?uid=1234567890`. If the Google Account is recovered, this identifier reverts to the standard identifier for a Google Account. * `deleted:principalSet://goog/group/{group_id}?uid={uid}`: A Google group that was deleted recently. For example, `deleted:principalSet://goog/group/admins@example.com?uid=1234567890`. If the Google group is restored, this identifier reverts to the standard identifier for a Google group. * `deleted:principal://iam.googleapis.com/projects/-/serviceAccounts/{service_account_id}?uid={uid}`: A Google Cloud service account that was deleted recently. For example, `deleted:principal://iam.googleapis.com/projects/-/serviceAccounts/my-service-account@iam.gserviceaccount.com?uid=1234567890`. If the service account is undeleted, this identifier reverts to the standard identifier for a service account. * `deleted:principal://iam.googleapis.com/locations/global/workforcePools/{pool_id}/subject/{subject_attribute_value}`: Deleted single identity in a workforce identity pool. For example, `deleted:principal://iam.googleapis.com/locations/global/workforcePools/my-pool-id/subject/my-subject-attribute-value`. */
-  deniedPrincipals?: StringList;
   /** Specifies the permissions that this rule excludes from the set of denied permissions given by `denied_permissions`. If a permission appears in `denied_permissions` _and_ in `exception_permissions` then it will _not_ be denied. The excluded permissions can be specified using the same syntax as `denied_permissions`. */
-  exceptionPermissions?: StringList;
+  exceptionPermissions?: StringList | undefined;
+  /** The condition that determines whether this deny rule applies to a request. If the condition expression evaluates to `true`, then the deny rule is applied; otherwise, the deny rule is not applied. Each deny rule is evaluated independently. If this deny rule does not apply to a request, other deny rules might still apply. The condition can use CEL functions that evaluate [resource tags](https://cloud.google.com/iam/help/conditions/resource-tags). Other functions and operators are not supported. */
+  denialCondition?: GoogleTypeExpr | undefined;
+  /** The identities that are prevented from using one or more permissions on Google Cloud resources. This field can contain the following values: * `principal://goog/subject/{email_id}`: A specific Google Account. Includes Gmail, Cloud Identity, and Google Workspace user accounts. For example, `principal://goog/subject/alice@example.com`. * `principal://iam.googleapis.com/projects/-/serviceAccounts/{service_account_id}`: A Google Cloud service account. For example, `principal://iam.googleapis.com/projects/-/serviceAccounts/my-service-account@iam.gserviceaccount.com`. * `principalSet://goog/group/{group_id}`: A Google group. For example, `principalSet://goog/group/admins@example.com`. * `principalSet://goog/public:all`: A special identifier that represents any principal that is on the internet, even if they do not have a Google Account or are not logged in. * `principalSet://goog/cloudIdentityCustomerId/{customer_id}`: All of the principals associated with the specified Google Workspace or Cloud Identity customer ID. For example, `principalSet://goog/cloudIdentityCustomerId/C01Abc35`. * `principal://iam.googleapis.com/locations/global/workforcePools/{pool_id}/subject/{subject_attribute_value}`: A single identity in a workforce identity pool. * `principalSet://iam.googleapis.com/locations/global/workforcePools/{pool_id}/group/{group_id}`: All workforce identities in a group. * `principalSet://iam.googleapis.com/locations/global/workforcePools/{pool_id}/attribute.{attribute_name}/{attribute_value}`: All workforce identities with a specific attribute value. * `principalSet://iam.googleapis.com/locations/global/workforcePools/{pool_id}/*`: All identities in a workforce identity pool. * `principal://iam.googleapis.com/projects/{project_number}/locations/global/workloadIdentityPools/{pool_id}/subject/{subject_attribute_value}`: A single identity in a workload identity pool. * `principalSet://iam.googleapis.com/projects/{project_number}/locations/global/workloadIdentityPools/{pool_id}/group/{group_id}`: A workload identity pool group. * `principalSet://iam.googleapis.com/projects/{project_number}/locations/global/workloadIdentityPools/{pool_id}/attribute.{attribute_name}/{attribute_value}`: All identities in a workload identity pool with a certain attribute. * `principalSet://iam.googleapis.com/projects/{project_number}/locations/global/workloadIdentityPools/{pool_id}/*`: All identities in a workload identity pool. * `principalSet://cloudresourcemanager.googleapis.com/[projects|folders|organizations]/{project_number|folder_number|org_number}/type/ServiceAccount`: All service accounts grouped under a resource (project, folder, or organization). * `principalSet://cloudresourcemanager.googleapis.com/[projects|folders|organizations]/{project_number|folder_number|org_number}/type/ServiceAgent`: All service agents grouped under a resource (project, folder, or organization). * `deleted:principal://goog/subject/{email_id}?uid={uid}`: A specific Google Account that was deleted recently. For example, `deleted:principal://goog/subject/alice@example.com?uid=1234567890`. If the Google Account is recovered, this identifier reverts to the standard identifier for a Google Account. * `deleted:principalSet://goog/group/{group_id}?uid={uid}`: A Google group that was deleted recently. For example, `deleted:principalSet://goog/group/admins@example.com?uid=1234567890`. If the Google group is restored, this identifier reverts to the standard identifier for a Google group. * `deleted:principal://iam.googleapis.com/projects/-/serviceAccounts/{service_account_id}?uid={uid}`: A Google Cloud service account that was deleted recently. For example, `deleted:principal://iam.googleapis.com/projects/-/serviceAccounts/my-service-account@iam.gserviceaccount.com?uid=1234567890`. If the service account is undeleted, this identifier reverts to the standard identifier for a service account. * `deleted:principal://iam.googleapis.com/locations/global/workforcePools/{pool_id}/subject/{subject_attribute_value}`: Deleted single identity in a workforce identity pool. For example, `deleted:principal://iam.googleapis.com/locations/global/workforcePools/my-pool-id/subject/my-subject-attribute-value`. */
+  deniedPrincipals?: StringList | undefined;
+  /** The permissions that are explicitly denied by this rule. Each permission uses the format `{service_fqdn}/{resource}.{verb}`, where `{service_fqdn}` is the fully qualified domain name for the service. For example, `iam.googleapis.com/roles.list`. */
+  deniedPermissions?: StringList | undefined;
+  /** The identities that are excluded from the deny rule, even if they are listed in the `denied_principals`. For example, you could add a Google group to the `denied_principals`, then exclude specific users who belong to that group. This field can contain the same values as the `denied_principals` field, excluding `principalSet://goog/public:all`, which represents all users on the internet. */
+  exceptionPrincipals?: StringList | undefined;
 }
 /** A single rule in a `Policy`. */
 export interface GoogleIamV2PolicyRule {
   /** A user-specified description of the rule. This value can be up to 256 characters. */
-  description?: string;
+  description?: string | undefined;
   /** A rule for a deny policy. */
-  denyRule?: GoogleIamV2DenyRule;
+  denyRule?: GoogleIamV2DenyRule | undefined;
 }
 export type GoogleIamV2PolicyRuleList = Array<GoogleIamV2PolicyRule>;
+export type StringMap = { [key: string]: string | undefined };
 /** Data for an IAM policy. */
 export interface GoogleIamV2Policy {
-  /** A user-specified description of the `Policy`. This value can be up to 63 characters. */
-  displayName?: string;
-  /** Output only. The kind of the `Policy`. Always contains the value `DenyPolicy`. */
-  kind?: string;
   /** An opaque tag that identifies the current version of the `Policy`. IAM uses this value to help manage concurrent updates, so they do not cause one update to be overwritten by another. If this field is present in a CreatePolicyRequest, the value is ignored. */
-  etag?: string;
-  /** A key-value map to store arbitrary metadata for the `Policy`. Keys can be up to 63 characters. Values can be up to 255 characters. */
-  annotations?: StringMap;
-  /** Output only. The time when the `Policy` was created. */
-  createTime?: string;
-  /** Output only. The time when the `Policy` was last updated. */
-  updateTime?: string;
-  /** Immutable. The globally unique ID of the `Policy`. Assigned automatically when the `Policy` is created. */
-  uid?: string;
+  etag?: string | undefined;
   /** A list of rules that specify the behavior of the `Policy`. All of the rules should be of the `kind` specified in the `Policy`. */
-  rules?: GoogleIamV2PolicyRuleList;
+  rules?: GoogleIamV2PolicyRuleList | undefined;
+  /** Output only. The kind of the `Policy`. Always contains the value `DenyPolicy`. */
+  kind?: string | undefined;
   /** Output only. The time when the `Policy` was deleted. Empty if the policy is not deleted. */
-  deleteTime?: string;
+  deleteTime?: string | undefined;
+  /** Output only. The time when the `Policy` was last updated. */
+  updateTime?: string | undefined;
+  /** A user-specified description of the `Policy`. This value can be up to 63 characters. */
+  displayName?: string | undefined;
+  /** Output only. The time when the `Policy` was created. */
+  createTime?: string | undefined;
   /** Immutable. The resource name of the `Policy`, which must be unique. Format: `policies/{attachment_point}/denypolicies/{policy_id}` The attachment point is identified by its URL-encoded full resource name, which means that the forward-slash character, `/`, must be written as `%2F`. For example, `policies/cloudresourcemanager.googleapis.com%2Fprojects%2Fmy-project/denypolicies/my-deny-policy`. For organizations and folders, use the numeric ID in the full resource name. For projects, requests can use the alphanumeric or the numeric ID. Responses always contain the numeric ID. */
-  name?: string;
+  name?: string | undefined;
+  /** Immutable. The globally unique ID of the `Policy`. Assigned automatically when the `Policy` is created. */
+  uid?: string | undefined;
+  /** A key-value map to store arbitrary metadata for the `Policy`. Keys can be up to 63 characters. Values can be up to 255 characters. */
+  annotations?: StringMap | undefined;
 }
-export interface CreatePolicyPoliciesRequest {
+export interface CreatePolicyPoliciesRequest extends GoogleIamV2Policy {
   /** Required. The resource that the policy is attached to, along with the kind of policy to create. Format: `policies/{attachment_point}/denypolicies` The attachment point is identified by its URL-encoded full resource name, which means that the forward-slash character, `/`, must be written as `%2F`. For example, `policies/cloudresourcemanager.googleapis.com%2Fprojects%2Fmy-project/denypolicies`. For organizations and folders, use the numeric ID in the full resource name. For projects, you can use the alphanumeric or the numeric ID. */
   parent: string;
   /** The ID to use for this policy, which will become the final component of the policy's resource name. The ID must contain 3 to 63 characters. It can contain lowercase letters and numbers, as well as dashes (`-`) and periods (`.`). The first character must be a lowercase letter. */
-  policyId?: string;
-  /** Request body */
-  body?: GoogleIamV2Policy;
+  policyId?: string | undefined;
 }
 export type DocumentMap = { [key: string]: unknown | undefined };
 export type DocumentMapList = Array<DocumentMap>;
 /** The `Status` type defines a logical error model that is suitable for different programming environments, including REST APIs and RPC APIs. It is used by [gRPC](https://github.com/grpc). Each `Status` message contains three pieces of data: error code, error message, and error details. You can find out more about this error model and how to work with it in the [API Design Guide](https://cloud.google.com/apis/design/errors). */
 export interface GoogleRpcStatus {
-  /** The status code, which should be an enum value of google.rpc.Code. */
-  code?: number;
-  /** A developer-facing error message, which should be in English. Any user-facing error message should be localized and sent in the google.rpc.Status.details field, or localized by the client. */
-  message?: string;
   /** A list of messages that carry the error details. There is a common set of message types for APIs to use. */
-  details?: DocumentMapList;
+  details?: DocumentMapList | undefined;
+  /** A developer-facing error message, which should be in English. Any user-facing error message should be localized and sent in the google.rpc.Status.details field, or localized by the client. */
+  message?: string | undefined;
+  /** The status code, which should be an enum value of google.rpc.Code. */
+  code?: number | undefined;
 }
 /** This resource represents a long-running operation that is the result of a network API call. */
 export interface GoogleLongrunningOperation {
-  /** Service-specific metadata associated with the operation. It typically contains progress information and common metadata such as create time. Some services might not provide such metadata. Any method that returns a long-running operation should document the metadata type, if any. */
-  metadata?: DocumentMap;
-  /** If the value is `false`, it means the operation is still in progress. If `true`, the operation is completed, and either `error` or `response` is available. */
-  done?: boolean;
-  /** The normal, successful response of the operation. If the original method returns no data on success, such as `Delete`, the response is `google.protobuf.Empty`. If the original method is standard `Get`/`Create`/`Update`, the response should be the resource. For other methods, the response should have the type `XxxResponse`, where `Xxx` is the original method name. For example, if the original method name is `TakeSnapshot()`, the inferred response type is `TakeSnapshotResponse`. */
-  response?: DocumentMap;
-  /** The server-assigned name, which is only unique within the same service that originally returns it. If you use the default HTTP mapping, the `name` should be a resource name ending with `operations/{unique_id}`. */
-  name?: string;
   /** The error result of the operation in case of failure or cancellation. */
-  error?: GoogleRpcStatus;
+  error?: GoogleRpcStatus | undefined;
+  /** The normal, successful response of the operation. If the original method returns no data on success, such as `Delete`, the response is `google.protobuf.Empty`. If the original method is standard `Get`/`Create`/`Update`, the response should be the resource. For other methods, the response should have the type `XxxResponse`, where `Xxx` is the original method name. For example, if the original method name is `TakeSnapshot()`, the inferred response type is `TakeSnapshotResponse`. */
+  response?: DocumentMap | undefined;
+  /** Service-specific metadata associated with the operation. It typically contains progress information and common metadata such as create time. Some services might not provide such metadata. Any method that returns a long-running operation should document the metadata type, if any. */
+  metadata?: DocumentMap | undefined;
+  /** The server-assigned name, which is only unique within the same service that originally returns it. If you use the default HTTP mapping, the `name` should be a resource name ending with `operations/{unique_id}`. */
+  name?: string | undefined;
+  /** If the value is `false`, it means the operation is still in progress. If `true`, the operation is completed, and either `error` or `response` is available. */
+  done?: boolean | undefined;
 }
 export interface DeletePoliciesRequest {
+  /** Optional. The expected `etag` of the policy to delete. If the value does not match the value that is stored in IAM, the request fails with a `409` error code and `ABORTED` status. If you omit this field, the policy is deleted regardless of its current `etag`. */
+  etag?: string | undefined;
   /** Required. The resource name of the policy to delete. Format: `policies/{attachment_point}/denypolicies/{policy_id}` Use the URL-encoded full resource name, which means that the forward-slash character, `/`, must be written as `%2F`. For example, `policies/cloudresourcemanager.googleapis.com%2Fprojects%2Fmy-project/denypolicies/my-policy`. For organizations and folders, use the numeric ID in the full resource name. For projects, you can use the alphanumeric or the numeric ID. */
   name: string;
-  /** Optional. The expected `etag` of the policy to delete. If the value does not match the value that is stored in IAM, the request fails with a `409` error code and `ABORTED` status. If you omit this field, the policy is deleted regardless of its current `etag`. */
-  etag?: string;
 }
 export interface GetPoliciesRequest {
   /** Required. The resource name of the policy to retrieve. Format: `policies/{attachment_point}/denypolicies/{policy_id}` Use the URL-encoded full resource name, which means that the forward-slash character, `/`, must be written as `%2F`. For example, `policies/cloudresourcemanager.googleapis.com%2Fprojects%2Fmy-project/denypolicies/my-policy`. For organizations and folders, use the numeric ID in the full resource name. For projects, you can use the alphanumeric or the numeric ID. */
@@ -187,26 +185,24 @@ export interface GetPoliciesOperationsRequest {
   name: string;
 }
 export interface ListPoliciesPoliciesRequest {
-  /** The maximum number of policies to return. IAM ignores this value and uses the value 1000. */
-  pageSize?: number;
-  /** A page token received in a ListPoliciesResponse. Provide this token to retrieve the next page. */
-  pageToken?: string;
   /** Required. The resource that the policy is attached to, along with the kind of policy to list. Format: `policies/{attachment_point}/denypolicies` The attachment point is identified by its URL-encoded full resource name, which means that the forward-slash character, `/`, must be written as `%2F`. For example, `policies/cloudresourcemanager.googleapis.com%2Fprojects%2Fmy-project/denypolicies`. For organizations and folders, use the numeric ID in the full resource name. For projects, you can use the alphanumeric or the numeric ID. */
   parent: string;
+  /** A page token received in a ListPoliciesResponse. Provide this token to retrieve the next page. */
+  pageToken?: string | undefined;
+  /** The maximum number of policies to return. IAM ignores this value and uses the value 1000. */
+  pageSize?: number | undefined;
 }
 export type GoogleIamV2PolicyList = Array<GoogleIamV2Policy>;
 /** Response message for `ListPolicies`. */
 export interface GoogleIamV2ListPoliciesResponse {
-  /** A page token that you can use in a ListPoliciesRequest to retrieve the next page. If this field is omitted, there are no additional pages. */
-  nextPageToken?: string;
   /** Metadata for the policies that are attached to the resource. */
-  policies?: GoogleIamV2PolicyList;
+  policies?: GoogleIamV2PolicyList | undefined;
+  /** A page token that you can use in a ListPoliciesRequest to retrieve the next page. If this field is omitted, there are no additional pages. */
+  nextPageToken?: string | undefined;
 }
-export interface UpdatePoliciesRequest {
+export interface UpdatePoliciesRequest extends Omit<GoogleIamV2Policy, "name"> {
   /** Immutable. The resource name of the `Policy`, which must be unique. Format: `policies/{attachment_point}/denypolicies/{policy_id}` The attachment point is identified by its URL-encoded full resource name, which means that the forward-slash character, `/`, must be written as `%2F`. For example, `policies/cloudresourcemanager.googleapis.com%2Fprojects%2Fmy-project/denypolicies/my-deny-policy`. For organizations and folders, use the numeric ID in the full resource name. For projects, requests can use the alphanumeric or the numeric ID. Responses always contain the numeric ID. */
   name: string;
-  /** Request body */
-  body?: GoogleIamV2Policy;
 }
 export type CreatePolicyPoliciesError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
 /** Creates a policy. */
@@ -317,11 +313,13 @@ function __c0(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          parent: S.String.pipe(T.Label()),
-          policyId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(22, __c2, 6).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(22, __c2, 6),
+          S.Struct({
+            parent: S.String.pipe(T.Label()),
+            policyId: S.optional(S.String.pipe(T.Query())),
+          }),
+        ).pipe(
           T.Http({ method: "POST", uri: "v2/{+parent}", baseUrl: "https://iam.googleapis.com/" }),
         ),
       ).annotate({ identifier: "CreatePolicyPoliciesRequest" });
@@ -336,19 +334,19 @@ function __c1(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          code: S.optional(S.Number),
-          message: S.optional(S.String),
           details: S.optional(__S(9, __c1, 1)),
+          message: S.optional(S.String),
+          code: S.optional(S.Number),
         }),
       ).annotate({ identifier: "GoogleRpcStatus" });
     case 3:
       return S.suspend(() =>
         S.Struct({
-          metadata: S.optional(__S(8, __c1, 0)),
-          done: S.optional(S.Boolean),
-          response: S.optional(__S(8, __c1, 0)),
-          name: S.optional(S.String),
           error: S.optional(__S(10, __c1, 2)),
+          response: S.optional(__S(8, __c1, 0)),
+          metadata: S.optional(__S(8, __c1, 0)),
+          name: S.optional(S.String),
+          done: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "GoogleLongrunningOperation" });
   }
@@ -356,50 +354,50 @@ function __c1(j: number): any {
 function __c2(j: number): any {
   switch (j) {
     case 0:
-      return S.Record(S.String, S.String);
-    case 1:
       return S.Array(S.String);
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          title: S.optional(S.String),
+          location: S.optional(S.String),
+          expression: S.optional(S.String),
+          description: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "GoogleTypeExpr" });
     case 2:
       return S.suspend(() =>
         S.Struct({
-          expression: S.optional(S.String),
-          location: S.optional(S.String),
-          description: S.optional(S.String),
-          title: S.optional(S.String),
+          exceptionPermissions: S.optional(__S(16, __c2, 0)),
+          denialCondition: S.optional(__S(17, __c2, 1)),
+          deniedPrincipals: S.optional(__S(16, __c2, 0)),
+          deniedPermissions: S.optional(__S(16, __c2, 0)),
+          exceptionPrincipals: S.optional(__S(16, __c2, 0)),
         }),
-      ).annotate({ identifier: "GoogleTypeExpr" });
+      ).annotate({ identifier: "GoogleIamV2DenyRule" });
     case 3:
       return S.suspend(() =>
         S.Struct({
-          exceptionPrincipals: S.optional(__S(17, __c2, 1)),
-          denialCondition: S.optional(__S(18, __c2, 2)),
-          deniedPermissions: S.optional(__S(17, __c2, 1)),
-          deniedPrincipals: S.optional(__S(17, __c2, 1)),
-          exceptionPermissions: S.optional(__S(17, __c2, 1)),
-        }),
-      ).annotate({ identifier: "GoogleIamV2DenyRule" });
-    case 4:
-      return S.suspend(() =>
-        S.Struct({
           description: S.optional(S.String),
-          denyRule: S.optional(__S(19, __c2, 3)),
+          denyRule: S.optional(__S(18, __c2, 2)),
         }),
       ).annotate({ identifier: "GoogleIamV2PolicyRule" });
+    case 4:
+      return S.Array(__S(19, __c2, 3));
     case 5:
-      return S.Array(__S(20, __c2, 4));
+      return S.Record(S.String, S.String);
     case 6:
       return S.suspend(() =>
         S.Struct({
-          displayName: S.optional(S.String),
-          kind: S.optional(S.String),
           etag: S.optional(S.String),
-          annotations: S.optional(__S(16, __c2, 0)),
-          createTime: S.optional(S.String),
-          updateTime: S.optional(S.String),
-          uid: S.optional(S.String),
-          rules: S.optional(__S(21, __c2, 5)),
+          rules: S.optional(__S(20, __c2, 4)),
+          kind: S.optional(S.String),
           deleteTime: S.optional(S.String),
+          updateTime: S.optional(S.String),
+          displayName: S.optional(S.String),
+          createTime: S.optional(S.String),
           name: S.optional(S.String),
+          uid: S.optional(S.String),
+          annotations: S.optional(__S(21, __c2, 5)),
         }),
       ).annotate({ identifier: "GoogleIamV2Policy" });
   }
@@ -409,8 +407,8 @@ function __c3(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          name: S.String.pipe(T.Label()),
           etag: S.optional(S.String.pipe(T.Query())),
+          name: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({ method: "DELETE", uri: "v2/{+name}", baseUrl: "https://iam.googleapis.com/" }),
         ),
@@ -446,9 +444,9 @@ function __c6(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          pageSize: S.optional(S.Number.pipe(T.Query())),
-          pageToken: S.optional(S.String.pipe(T.Query())),
           parent: S.String.pipe(T.Label()),
+          pageToken: S.optional(S.String.pipe(T.Query())),
+          pageSize: S.optional(S.Number.pipe(T.Query())),
         }).pipe(
           T.Http({ method: "GET", uri: "v2/{+parent}", baseUrl: "https://iam.googleapis.com/" }),
         ),
@@ -458,8 +456,8 @@ function __c6(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          nextPageToken: S.optional(S.String),
           policies: S.optional(__S(49, __c6, 1)),
+          nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "GoogleIamV2ListPoliciesResponse" });
   }
@@ -468,10 +466,12 @@ function __c7(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          body: S.optional(__S(22, __c2, 6).pipe(T.HttpBody())),
-        }).pipe(
+        S.Extend(
+          __S(22, __c2, 6),
+          S.Struct({
+            name: S.String.pipe(T.Label()),
+          }),
+        ).pipe(
           T.Http({ method: "PUT", uri: "v2/{+name}", baseUrl: "https://iam.googleapis.com/" }),
         ),
       ).annotate({ identifier: "UpdatePoliciesRequest" });

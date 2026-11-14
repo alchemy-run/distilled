@@ -173,36 +173,36 @@ export type TagMap = { [key: string]: string | undefined };
 export type MaxCityNetworksToMonitor = number;
 export type LogDeliveryStatus = string;
 export interface S3Config {
-  BucketName?: string;
-  BucketPrefix?: string;
-  LogDeliveryStatus?: string;
+  BucketName?: string | undefined;
+  BucketPrefix?: string | undefined;
+  LogDeliveryStatus?: string | undefined;
 }
 export interface InternetMeasurementsLogDelivery {
-  S3Config?: S3Config;
+  S3Config?: S3Config | undefined;
 }
 export type TrafficPercentageToMonitor = number;
 export type Percentage = number;
 export type LocalHealthEventsConfigStatus = string;
 export interface LocalHealthEventsConfig {
-  Status?: string;
-  HealthScoreThreshold?: number;
-  MinTrafficImpact?: number;
+  Status?: string | undefined;
+  HealthScoreThreshold?: number | undefined;
+  MinTrafficImpact?: number | undefined;
 }
 export interface HealthEventsConfig {
-  AvailabilityScoreThreshold?: number;
-  PerformanceScoreThreshold?: number;
-  AvailabilityLocalHealthEventsConfig?: LocalHealthEventsConfig;
-  PerformanceLocalHealthEventsConfig?: LocalHealthEventsConfig;
+  AvailabilityScoreThreshold?: number | undefined;
+  PerformanceScoreThreshold?: number | undefined;
+  AvailabilityLocalHealthEventsConfig?: LocalHealthEventsConfig | undefined;
+  PerformanceLocalHealthEventsConfig?: LocalHealthEventsConfig | undefined;
 }
 export interface CreateMonitorInput {
   MonitorName: string;
-  Resources?: string[];
-  ClientToken?: string;
-  Tags?: { [key: string]: string | undefined };
-  MaxCityNetworksToMonitor?: number;
-  InternetMeasurementsLogDelivery?: InternetMeasurementsLogDelivery;
-  TrafficPercentageToMonitor?: number;
-  HealthEventsConfig?: HealthEventsConfig;
+  Resources?: string[] | undefined;
+  ClientToken?: string | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
+  MaxCityNetworksToMonitor?: number | undefined;
+  InternetMeasurementsLogDelivery?: InternetMeasurementsLogDelivery | undefined;
+  TrafficPercentageToMonitor?: number | undefined;
+  HealthEventsConfig?: HealthEventsConfig | undefined;
 }
 export type MonitorArn = string;
 export type MonitorConfigState = string;
@@ -219,7 +219,7 @@ export type AccountId = string;
 export interface GetHealthEventInput {
   MonitorName: string;
   EventId: string;
-  LinkedAccountId?: string;
+  LinkedAccountId?: string | undefined;
 }
 export type HealthEventStatus = string;
 export interface Network {
@@ -234,42 +234,42 @@ export interface NetworkImpairment {
   NetworkEventType: string;
 }
 export interface AvailabilityMeasurement {
-  ExperienceScore?: number;
-  PercentOfTotalTrafficImpacted?: number;
-  PercentOfClientLocationImpacted?: number;
+  ExperienceScore?: number | undefined;
+  PercentOfTotalTrafficImpacted?: number | undefined;
+  PercentOfClientLocationImpacted?: number | undefined;
 }
 export interface RoundTripTime {
-  P50?: number;
-  P90?: number;
-  P95?: number;
+  P50?: number | undefined;
+  P90?: number | undefined;
+  P95?: number | undefined;
 }
 export interface PerformanceMeasurement {
-  ExperienceScore?: number;
-  PercentOfTotalTrafficImpacted?: number;
-  PercentOfClientLocationImpacted?: number;
-  RoundTripTime?: RoundTripTime;
+  ExperienceScore?: number | undefined;
+  PercentOfTotalTrafficImpacted?: number | undefined;
+  PercentOfClientLocationImpacted?: number | undefined;
+  RoundTripTime?: RoundTripTime | undefined;
 }
 export interface InternetHealth {
-  Availability?: AvailabilityMeasurement;
-  Performance?: PerformanceMeasurement;
+  Availability?: AvailabilityMeasurement | undefined;
+  Performance?: PerformanceMeasurement | undefined;
 }
 export type Ipv4PrefixList = string[];
 export interface ImpactedLocation {
   ASName: string;
   ASNumber: number;
   Country: string;
-  Subdivision?: string;
-  Metro?: string;
-  City?: string;
-  Latitude?: number;
-  Longitude?: number;
-  CountryCode?: string;
-  SubdivisionCode?: string;
-  ServiceLocation?: string;
+  Subdivision?: string | undefined;
+  Metro?: string | undefined;
+  City?: string | undefined;
+  Latitude?: number | undefined;
+  Longitude?: number | undefined;
+  CountryCode?: string | undefined;
+  SubdivisionCode?: string | undefined;
+  ServiceLocation?: string | undefined;
   Status: string;
-  CausedBy?: NetworkImpairment;
-  InternetHealth?: InternetHealth;
-  Ipv4Prefixes?: string[];
+  CausedBy?: NetworkImpairment | undefined;
+  InternetHealth?: InternetHealth | undefined;
+  Ipv4Prefixes?: string[] | undefined;
 }
 export type ImpactedLocationsList = ImpactedLocation[];
 export type HealthEventImpactType = string;
@@ -277,14 +277,14 @@ export interface GetHealthEventOutput {
   EventArn: string;
   EventId: string;
   StartedAt: Date;
-  EndedAt?: Date;
-  CreatedAt?: Date;
+  EndedAt?: Date | undefined;
+  CreatedAt?: Date | undefined;
   LastUpdatedAt: Date;
   ImpactedLocations: ImpactedLocation[];
   Status: string;
-  PercentOfTotalTrafficImpacted?: number;
+  PercentOfTotalTrafficImpacted?: number | undefined;
   ImpactType: string;
-  HealthScoreThreshold?: number;
+  HealthScoreThreshold?: number | undefined;
 }
 export type InternetEventId = string;
 export interface GetInternetEventInput {
@@ -294,8 +294,8 @@ export interface ClientLocation {
   ASName: string;
   ASNumber: number;
   Country: string;
-  Subdivision?: string;
-  Metro?: string;
+  Subdivision?: string | undefined;
+  Metro?: string | undefined;
   City: string;
   Latitude: number;
   Longitude: number;
@@ -306,14 +306,14 @@ export interface GetInternetEventOutput {
   EventId: string;
   EventArn: string;
   StartedAt: Date;
-  EndedAt?: Date;
+  EndedAt?: Date | undefined;
   ClientLocation: ClientLocation;
   EventType: string;
   EventStatus: string;
 }
 export interface GetMonitorInput {
   MonitorName: string;
-  LinkedAccountId?: string;
+  LinkedAccountId?: string | undefined;
 }
 export type MonitorProcessingStatusCode = string;
 export interface GetMonitorOutput {
@@ -323,32 +323,32 @@ export interface GetMonitorOutput {
   Status: string;
   CreatedAt: Date;
   ModifiedAt: Date;
-  ProcessingStatus?: string;
-  ProcessingStatusInfo?: string;
-  Tags?: { [key: string]: string | undefined };
-  MaxCityNetworksToMonitor?: number;
-  InternetMeasurementsLogDelivery?: InternetMeasurementsLogDelivery;
-  TrafficPercentageToMonitor?: number;
-  HealthEventsConfig?: HealthEventsConfig;
+  ProcessingStatus?: string | undefined;
+  ProcessingStatusInfo?: string | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
+  MaxCityNetworksToMonitor?: number | undefined;
+  InternetMeasurementsLogDelivery?: InternetMeasurementsLogDelivery | undefined;
+  TrafficPercentageToMonitor?: number | undefined;
+  HealthEventsConfig?: HealthEventsConfig | undefined;
 }
 export type QueryMaxResults = number;
 export interface GetQueryResultsInput {
   MonitorName: string;
   QueryId: string;
-  NextToken?: string;
-  MaxResults?: number;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export interface QueryField {
-  Name?: string;
-  Type?: string;
+  Name?: string | undefined;
+  Type?: string | undefined;
 }
 export type QueryFields = QueryField[];
 export type QueryRow = string[];
 export type QueryData = string[][];
 export interface GetQueryResultsOutput {
   Fields: QueryField[];
-  Data?: string[][];
-  NextToken?: string;
+  Data?: string[][] | undefined;
+  NextToken?: string | undefined;
 }
 export interface GetQueryStatusInput {
   MonitorName: string;
@@ -361,45 +361,45 @@ export interface GetQueryStatusOutput {
 export type MaxResults = number;
 export interface ListHealthEventsInput {
   MonitorName: string;
-  StartTime?: Date;
-  EndTime?: Date;
-  NextToken?: string;
-  MaxResults?: number;
-  EventStatus?: string;
-  LinkedAccountId?: string;
+  StartTime?: Date | undefined;
+  EndTime?: Date | undefined;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
+  EventStatus?: string | undefined;
+  LinkedAccountId?: string | undefined;
 }
 export interface HealthEvent {
   EventArn: string;
   EventId: string;
   StartedAt: Date;
-  EndedAt?: Date;
-  CreatedAt?: Date;
+  EndedAt?: Date | undefined;
+  CreatedAt?: Date | undefined;
   LastUpdatedAt: Date;
   ImpactedLocations: ImpactedLocation[];
   Status: string;
-  PercentOfTotalTrafficImpacted?: number;
+  PercentOfTotalTrafficImpacted?: number | undefined;
   ImpactType: string;
-  HealthScoreThreshold?: number;
+  HealthScoreThreshold?: number | undefined;
 }
 export type HealthEventList = HealthEvent[];
 export interface ListHealthEventsOutput {
   HealthEvents: HealthEvent[];
-  NextToken?: string;
+  NextToken?: string | undefined;
 }
 export type InternetEventMaxResults = number;
 export interface ListInternetEventsInput {
-  NextToken?: string;
-  MaxResults?: number;
-  StartTime?: Date;
-  EndTime?: Date;
-  EventStatus?: string;
-  EventType?: string;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
+  StartTime?: Date | undefined;
+  EndTime?: Date | undefined;
+  EventStatus?: string | undefined;
+  EventType?: string | undefined;
 }
 export interface InternetEventSummary {
   EventId: string;
   EventArn: string;
   StartedAt: Date;
-  EndedAt?: Date;
+  EndedAt?: Date | undefined;
   ClientLocation: ClientLocation;
   EventType: string;
   EventStatus: string;
@@ -407,38 +407,38 @@ export interface InternetEventSummary {
 export type InternetEventsList = InternetEventSummary[];
 export interface ListInternetEventsOutput {
   InternetEvents: InternetEventSummary[];
-  NextToken?: string;
+  NextToken?: string | undefined;
 }
 export interface ListMonitorsInput {
-  NextToken?: string;
-  MaxResults?: number;
-  MonitorStatus?: string;
-  IncludeLinkedAccounts?: boolean;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
+  MonitorStatus?: string | undefined;
+  IncludeLinkedAccounts?: boolean | undefined;
 }
 export interface Monitor {
   MonitorName: string;
   MonitorArn: string;
   Status: string;
-  ProcessingStatus?: string;
+  ProcessingStatus?: string | undefined;
 }
 export type MonitorList = Monitor[];
 export interface ListMonitorsOutput {
   Monitors: Monitor[];
-  NextToken?: string;
+  NextToken?: string | undefined;
 }
 export interface ListTagsForResourceInput {
   ResourceArn: string;
 }
 export interface ListTagsForResourceOutput {
-  Tags?: { [key: string]: string | undefined };
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export type QueryType = string;
 export type Operator = string;
 export type FilterList = string[];
 export interface FilterParameter {
-  Field?: string;
-  Operator?: string;
-  Values?: string[];
+  Field?: string | undefined;
+  Operator?: string | undefined;
+  Values?: string[] | undefined;
 }
 export type FilterParameters = FilterParameter[];
 export interface StartQueryInput {
@@ -446,8 +446,8 @@ export interface StartQueryInput {
   StartTime: Date;
   EndTime: Date;
   QueryType: string;
-  FilterParameters?: FilterParameter[];
-  LinkedAccountId?: string;
+  FilterParameters?: FilterParameter[] | undefined;
+  LinkedAccountId?: string | undefined;
 }
 export interface StartQueryOutput {
   QueryId: string;
@@ -470,14 +470,14 @@ export interface UntagResourceInput {
 export interface UntagResourceOutput {}
 export interface UpdateMonitorInput {
   MonitorName: string;
-  ResourcesToAdd?: string[];
-  ResourcesToRemove?: string[];
-  Status?: string;
-  ClientToken?: string;
-  MaxCityNetworksToMonitor?: number;
-  InternetMeasurementsLogDelivery?: InternetMeasurementsLogDelivery;
-  TrafficPercentageToMonitor?: number;
-  HealthEventsConfig?: HealthEventsConfig;
+  ResourcesToAdd?: string[] | undefined;
+  ResourcesToRemove?: string[] | undefined;
+  Status?: string | undefined;
+  ClientToken?: string | undefined;
+  MaxCityNetworksToMonitor?: number | undefined;
+  InternetMeasurementsLogDelivery?: InternetMeasurementsLogDelivery | undefined;
+  TrafficPercentageToMonitor?: number | undefined;
+  HealthEventsConfig?: HealthEventsConfig | undefined;
 }
 export interface UpdateMonitorOutput {
   MonitorArn: string;

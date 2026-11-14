@@ -4,6 +4,8 @@ A git mirror of DigitalOcean's [public OpenAPI spec](https://api-engineering.nyc
 
 See [DigitalOcean API reference](https://docs.digitalocean.com/reference/api/digitalocean/) and [digitalocean/openapi](https://github.com/digitalocean/openapi).
 
+It also mirrors the [Apache OpenWhisk API spec](https://github.com/apache/openwhisk/blob/master/core/controller/src/main/resources/apiv1swagger.json) as `specs/openwhisk.json`. DigitalOcean Functions run on OpenWhisk, and each Functions namespace serves this API at its own `api_host`.
+
 The mirror is updated every 24 hours and is designed to be used as a stable git submodule.
 
 ## Usage as a submodule

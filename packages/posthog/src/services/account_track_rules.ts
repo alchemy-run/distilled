@@ -40,14 +40,14 @@ export type AccountTrackRuleFieldFieldEnum =
   | "zendesk_id";
 export interface AccountTrackRuleField {
   kind: AccountTrackRuleFieldKindEnum | (string & {});
-  field?: AccountTrackRuleFieldFieldEnum | (string & {}) | null;
-  definition_id?: string | null;
+  field?: AccountTrackRuleFieldFieldEnum | (string & {}) | null | undefined;
+  definition_id?: string | null | undefined;
 }
 export type AccountTrackRuleConditionValuesList = Array<unknown>;
 export interface AccountTrackRuleCondition {
   field: AccountTrackRuleField;
   operator: string;
-  values?: AccountTrackRuleConditionValuesList;
+  values?: AccountTrackRuleConditionValuesList | undefined;
 }
 export type AccountTrackRuleGroupConditionsList = Array<AccountTrackRuleCondition>;
 export interface AccountTrackRuleGroup {
@@ -82,7 +82,7 @@ export interface AccountTrackRulePreview {
   restored: number;
   tracked_samples: AccountTrackRulePreviewTrackedSamplesList;
   ignored_samples: AccountTrackRulePreviewIgnoredSamplesList;
-  validation_errors?: AccountTrackRulePreviewValidationErrorsList;
+  validation_errors?: AccountTrackRulePreviewValidationErrorsList | undefined;
 }
 export interface CreateAccountTrackRulesRunRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -106,9 +106,9 @@ export interface ListAccountTrackRulesRunsRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** Number of results to return per page. */
-  limit?: number;
+  limit?: number | undefined;
   /** The initial index from which to return the results. */
-  offset?: number;
+  offset?: number | undefined;
 }
 export interface AccountTrackRuleRunView {
   id: string;
@@ -130,8 +130,8 @@ export interface AccountTrackRuleRunView {
 export type PaginatedAccountTrackRuleRunViewListResultsList = Array<AccountTrackRuleRunView>;
 export interface PaginatedAccountTrackRuleRunViewList {
   count: number;
-  next?: string | null;
-  previous?: string | null;
+  next?: string | null | undefined;
+  previous?: string | null | undefined;
   results: PaginatedAccountTrackRuleRunViewListResultsList;
 }
 export type UpdateAccountTrackRuleRequestGroupsList = Array<AccountTrackRuleGroup>;

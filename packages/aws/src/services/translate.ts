@@ -201,8 +201,8 @@ export type Description = string;
 export type S3Uri = string;
 export type ParallelDataFormat = "TSV" | "CSV" | "TMX" | (string & {});
 export interface ParallelDataConfig {
-  S3Uri?: string;
-  Format?: ParallelDataFormat;
+  S3Uri?: string | undefined;
+  Format?: ParallelDataFormat | undefined;
 }
 export type EncryptionKeyType = "KMS" | (string & {});
 export type EncryptionKeyID = string;
@@ -220,11 +220,11 @@ export interface Tag {
 export type TagList = Tag[];
 export interface CreateParallelDataRequest {
   Name: string;
-  Description?: string;
+  Description?: string | undefined;
   ParallelDataConfig: ParallelDataConfig;
-  EncryptionKey?: EncryptionKey;
+  EncryptionKey?: EncryptionKey | undefined;
   ClientToken: string;
-  Tags?: Tag[];
+  Tags?: Tag[] | undefined;
 }
 export type ParallelDataStatus =
   | "CREATING"
@@ -234,15 +234,15 @@ export type ParallelDataStatus =
   | "FAILED"
   | (string & {});
 export interface CreateParallelDataResponse {
-  Name?: string;
-  Status?: ParallelDataStatus;
+  Name?: string | undefined;
+  Status?: ParallelDataStatus | undefined;
 }
 export interface DeleteParallelDataRequest {
   Name: string;
 }
 export interface DeleteParallelDataResponse {
-  Name?: string;
-  Status?: ParallelDataStatus;
+  Name?: string | undefined;
+  Status?: ParallelDataStatus | undefined;
 }
 export interface DeleteTerminologyRequest {
   Name: string;
@@ -263,9 +263,9 @@ export type JobStatus =
   | "STOPPED"
   | (string & {});
 export interface JobDetails {
-  TranslatedDocumentsCount?: number;
-  DocumentsWithErrorsCount?: number;
-  InputDocumentsCount?: number;
+  TranslatedDocumentsCount?: number | undefined;
+  DocumentsWithErrorsCount?: number | undefined;
+  InputDocumentsCount?: number | undefined;
 }
 export type LanguageCodeString = string;
 export type TargetLanguageCodeStringList = string[];
@@ -278,36 +278,36 @@ export interface InputDataConfig {
 }
 export interface OutputDataConfig {
   S3Uri: string;
-  EncryptionKey?: EncryptionKey;
+  EncryptionKey?: EncryptionKey | undefined;
 }
 export type IamRoleArn = string;
 export type Formality = "FORMAL" | "INFORMAL" | (string & {});
 export type Profanity = "MASK" | (string & {});
 export type Brevity = "ON" | (string & {});
 export interface TranslationSettings {
-  Formality?: Formality;
-  Profanity?: Profanity;
-  Brevity?: Brevity;
+  Formality?: Formality | undefined;
+  Profanity?: Profanity | undefined;
+  Brevity?: Brevity | undefined;
 }
 export interface TextTranslationJobProperties {
-  JobId?: string;
-  JobName?: string;
-  JobStatus?: JobStatus;
-  JobDetails?: JobDetails;
-  SourceLanguageCode?: string;
-  TargetLanguageCodes?: string[];
-  TerminologyNames?: string[];
-  ParallelDataNames?: string[];
-  Message?: string;
-  SubmittedTime?: Date;
-  EndTime?: Date;
-  InputDataConfig?: InputDataConfig;
-  OutputDataConfig?: OutputDataConfig;
-  DataAccessRoleArn?: string;
-  Settings?: TranslationSettings;
+  JobId?: string | undefined;
+  JobName?: string | undefined;
+  JobStatus?: JobStatus | undefined;
+  JobDetails?: JobDetails | undefined;
+  SourceLanguageCode?: string | undefined;
+  TargetLanguageCodes?: string[] | undefined;
+  TerminologyNames?: string[] | undefined;
+  ParallelDataNames?: string[] | undefined;
+  Message?: string | undefined;
+  SubmittedTime?: Date | undefined;
+  EndTime?: Date | undefined;
+  InputDataConfig?: InputDataConfig | undefined;
+  OutputDataConfig?: OutputDataConfig | undefined;
+  DataAccessRoleArn?: string | undefined;
+  Settings?: TranslationSettings | undefined;
 }
 export interface DescribeTextTranslationJobResponse {
-  TextTranslationJobProperties?: TextTranslationJobProperties;
+  TextTranslationJobProperties?: TextTranslationJobProperties | undefined;
 }
 export interface GetParallelDataRequest {
   Name: string;
@@ -315,84 +315,84 @@ export interface GetParallelDataRequest {
 export type ParallelDataArn = string;
 export type LanguageCodeStringList = string[];
 export interface ParallelDataProperties {
-  Name?: string;
-  Arn?: string;
-  Description?: string;
-  Status?: ParallelDataStatus;
-  SourceLanguageCode?: string;
-  TargetLanguageCodes?: string[];
-  ParallelDataConfig?: ParallelDataConfig;
-  Message?: string;
-  ImportedDataSize?: number;
-  ImportedRecordCount?: number;
-  FailedRecordCount?: number;
-  SkippedRecordCount?: number;
-  EncryptionKey?: EncryptionKey;
-  CreatedAt?: Date;
-  LastUpdatedAt?: Date;
-  LatestUpdateAttemptStatus?: ParallelDataStatus;
-  LatestUpdateAttemptAt?: Date;
+  Name?: string | undefined;
+  Arn?: string | undefined;
+  Description?: string | undefined;
+  Status?: ParallelDataStatus | undefined;
+  SourceLanguageCode?: string | undefined;
+  TargetLanguageCodes?: string[] | undefined;
+  ParallelDataConfig?: ParallelDataConfig | undefined;
+  Message?: string | undefined;
+  ImportedDataSize?: number | undefined;
+  ImportedRecordCount?: number | undefined;
+  FailedRecordCount?: number | undefined;
+  SkippedRecordCount?: number | undefined;
+  EncryptionKey?: EncryptionKey | undefined;
+  CreatedAt?: Date | undefined;
+  LastUpdatedAt?: Date | undefined;
+  LatestUpdateAttemptStatus?: ParallelDataStatus | undefined;
+  LatestUpdateAttemptAt?: Date | undefined;
 }
 export interface ParallelDataDataLocation {
   RepositoryType: string;
   Location: string;
 }
 export interface GetParallelDataResponse {
-  ParallelDataProperties?: ParallelDataProperties;
-  DataLocation?: ParallelDataDataLocation;
-  AuxiliaryDataLocation?: ParallelDataDataLocation;
-  LatestUpdateAttemptAuxiliaryDataLocation?: ParallelDataDataLocation;
+  ParallelDataProperties?: ParallelDataProperties | undefined;
+  DataLocation?: ParallelDataDataLocation | undefined;
+  AuxiliaryDataLocation?: ParallelDataDataLocation | undefined;
+  LatestUpdateAttemptAuxiliaryDataLocation?: ParallelDataDataLocation | undefined;
 }
 export type TerminologyDataFormat = "CSV" | "TMX" | "TSV" | (string & {});
 export interface GetTerminologyRequest {
   Name: string;
-  TerminologyDataFormat?: TerminologyDataFormat;
+  TerminologyDataFormat?: TerminologyDataFormat | undefined;
 }
 export type TerminologyArn = string;
 export type Directionality = "UNI" | "MULTI" | (string & {});
 export interface TerminologyProperties {
-  Name?: string;
-  Description?: string;
-  Arn?: string;
-  SourceLanguageCode?: string;
-  TargetLanguageCodes?: string[];
-  EncryptionKey?: EncryptionKey;
-  SizeBytes?: number;
-  TermCount?: number;
-  CreatedAt?: Date;
-  LastUpdatedAt?: Date;
-  Directionality?: Directionality;
-  Message?: string;
-  SkippedTermCount?: number;
-  Format?: TerminologyDataFormat;
+  Name?: string | undefined;
+  Description?: string | undefined;
+  Arn?: string | undefined;
+  SourceLanguageCode?: string | undefined;
+  TargetLanguageCodes?: string[] | undefined;
+  EncryptionKey?: EncryptionKey | undefined;
+  SizeBytes?: number | undefined;
+  TermCount?: number | undefined;
+  CreatedAt?: Date | undefined;
+  LastUpdatedAt?: Date | undefined;
+  Directionality?: Directionality | undefined;
+  Message?: string | undefined;
+  SkippedTermCount?: number | undefined;
+  Format?: TerminologyDataFormat | undefined;
 }
 export interface TerminologyDataLocation {
   RepositoryType: string;
   Location: string;
 }
 export interface GetTerminologyResponse {
-  TerminologyProperties?: TerminologyProperties;
-  TerminologyDataLocation?: TerminologyDataLocation;
-  AuxiliaryDataLocation?: TerminologyDataLocation;
+  TerminologyProperties?: TerminologyProperties | undefined;
+  TerminologyDataLocation?: TerminologyDataLocation | undefined;
+  AuxiliaryDataLocation?: TerminologyDataLocation | undefined;
 }
 export type MergeStrategy = "OVERWRITE" | (string & {});
 export type TerminologyFile = Uint8Array | redacted.Redacted<Uint8Array>;
 export interface TerminologyData {
   File: Uint8Array | redacted.Redacted<Uint8Array>;
   Format: TerminologyDataFormat;
-  Directionality?: Directionality;
+  Directionality?: Directionality | undefined;
 }
 export interface ImportTerminologyRequest {
   Name: string;
   MergeStrategy: MergeStrategy;
-  Description?: string;
+  Description?: string | undefined;
   TerminologyData: TerminologyData;
-  EncryptionKey?: EncryptionKey;
-  Tags?: Tag[];
+  EncryptionKey?: EncryptionKey | undefined;
+  Tags?: Tag[] | undefined;
 }
 export interface ImportTerminologyResponse {
-  TerminologyProperties?: TerminologyProperties;
-  AuxiliaryDataLocation?: TerminologyDataLocation;
+  TerminologyProperties?: TerminologyProperties | undefined;
+  AuxiliaryDataLocation?: TerminologyDataLocation | undefined;
 }
 export type DisplayLanguageCode =
   | "de"
@@ -409,9 +409,9 @@ export type DisplayLanguageCode =
 export type NextToken = string;
 export type MaxResultsInteger = number;
 export interface ListLanguagesRequest {
-  DisplayLanguageCode?: DisplayLanguageCode;
-  NextToken?: string;
-  MaxResults?: number;
+  DisplayLanguageCode?: DisplayLanguageCode | undefined;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export type LocalizedNameString = string;
 export interface Language {
@@ -420,73 +420,73 @@ export interface Language {
 }
 export type LanguagesList = Language[];
 export interface ListLanguagesResponse {
-  Languages?: Language[];
-  DisplayLanguageCode?: DisplayLanguageCode;
-  NextToken?: string;
+  Languages?: Language[] | undefined;
+  DisplayLanguageCode?: DisplayLanguageCode | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListParallelDataRequest {
-  NextToken?: string;
-  MaxResults?: number;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export type ParallelDataPropertiesList = ParallelDataProperties[];
 export interface ListParallelDataResponse {
-  ParallelDataPropertiesList?: ParallelDataProperties[];
-  NextToken?: string;
+  ParallelDataPropertiesList?: ParallelDataProperties[] | undefined;
+  NextToken?: string | undefined;
 }
 export type ResourceArn = string;
 export interface ListTagsForResourceRequest {
   ResourceArn: string;
 }
 export interface ListTagsForResourceResponse {
-  Tags?: Tag[];
+  Tags?: Tag[] | undefined;
 }
 export interface ListTerminologiesRequest {
-  NextToken?: string;
-  MaxResults?: number;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export type TerminologyPropertiesList = TerminologyProperties[];
 export interface ListTerminologiesResponse {
-  TerminologyPropertiesList?: TerminologyProperties[];
-  NextToken?: string;
+  TerminologyPropertiesList?: TerminologyProperties[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface TextTranslationJobFilter {
-  JobName?: string;
-  JobStatus?: JobStatus;
-  SubmittedBeforeTime?: Date;
-  SubmittedAfterTime?: Date;
+  JobName?: string | undefined;
+  JobStatus?: JobStatus | undefined;
+  SubmittedBeforeTime?: Date | undefined;
+  SubmittedAfterTime?: Date | undefined;
 }
 export interface ListTextTranslationJobsRequest {
-  Filter?: TextTranslationJobFilter;
-  NextToken?: string;
-  MaxResults?: number;
+  Filter?: TextTranslationJobFilter | undefined;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export type TextTranslationJobPropertiesList = TextTranslationJobProperties[];
 export interface ListTextTranslationJobsResponse {
-  TextTranslationJobPropertiesList?: TextTranslationJobProperties[];
-  NextToken?: string;
+  TextTranslationJobPropertiesList?: TextTranslationJobProperties[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface StartTextTranslationJobRequest {
-  JobName?: string;
+  JobName?: string | undefined;
   InputDataConfig: InputDataConfig;
   OutputDataConfig: OutputDataConfig;
   DataAccessRoleArn: string;
   SourceLanguageCode: string;
   TargetLanguageCodes: string[];
-  TerminologyNames?: string[];
-  ParallelDataNames?: string[];
+  TerminologyNames?: string[] | undefined;
+  ParallelDataNames?: string[] | undefined;
   ClientToken: string;
-  Settings?: TranslationSettings;
+  Settings?: TranslationSettings | undefined;
 }
 export interface StartTextTranslationJobResponse {
-  JobId?: string;
-  JobStatus?: JobStatus;
+  JobId?: string | undefined;
+  JobStatus?: JobStatus | undefined;
 }
 export interface StopTextTranslationJobRequest {
   JobId: string;
 }
 export interface StopTextTranslationJobResponse {
-  JobId?: string;
-  JobStatus?: JobStatus;
+  JobId?: string | undefined;
+  JobStatus?: JobStatus | undefined;
 }
 export interface TagResourceRequest {
   ResourceArn: string;
@@ -500,47 +500,47 @@ export interface Document {
 }
 export interface TranslateDocumentRequest {
   Document: Document;
-  TerminologyNames?: string[];
+  TerminologyNames?: string[] | undefined;
   SourceLanguageCode: string;
   TargetLanguageCode: string;
-  Settings?: TranslationSettings;
+  Settings?: TranslationSettings | undefined;
 }
 export type TranslatedDocumentContent = Uint8Array | redacted.Redacted<Uint8Array>;
 export interface TranslatedDocument {
   Content: Uint8Array | redacted.Redacted<Uint8Array>;
 }
 export interface Term {
-  SourceText?: string;
-  TargetText?: string;
+  SourceText?: string | undefined;
+  TargetText?: string | undefined;
 }
 export type TermList = Term[];
 export interface AppliedTerminology {
-  Name?: string;
-  Terms?: Term[];
+  Name?: string | undefined;
+  Terms?: Term[] | undefined;
 }
 export type AppliedTerminologyList = AppliedTerminology[];
 export interface TranslateDocumentResponse {
   TranslatedDocument: TranslatedDocument;
   SourceLanguageCode: string;
   TargetLanguageCode: string;
-  AppliedTerminologies?: AppliedTerminology[];
-  AppliedSettings?: TranslationSettings;
+  AppliedTerminologies?: AppliedTerminology[] | undefined;
+  AppliedSettings?: TranslationSettings | undefined;
 }
 export type BoundedLengthString = string;
 export interface TranslateTextRequest {
   Text: string;
-  TerminologyNames?: string[];
+  TerminologyNames?: string[] | undefined;
   SourceLanguageCode: string;
   TargetLanguageCode: string;
-  Settings?: TranslationSettings;
+  Settings?: TranslationSettings | undefined;
 }
 export type TranslatedTextString = string;
 export interface TranslateTextResponse {
   TranslatedText: string;
   SourceLanguageCode: string;
   TargetLanguageCode: string;
-  AppliedTerminologies?: AppliedTerminology[];
-  AppliedSettings?: TranslationSettings;
+  AppliedTerminologies?: AppliedTerminology[] | undefined;
+  AppliedSettings?: TranslationSettings | undefined;
 }
 export type TagKeyList = string[];
 export interface UntagResourceRequest {
@@ -550,15 +550,15 @@ export interface UntagResourceRequest {
 export interface UntagResourceResponse {}
 export interface UpdateParallelDataRequest {
   Name: string;
-  Description?: string;
+  Description?: string | undefined;
   ParallelDataConfig: ParallelDataConfig;
   ClientToken: string;
 }
 export interface UpdateParallelDataResponse {
-  Name?: string;
-  Status?: ParallelDataStatus;
-  LatestUpdateAttemptStatus?: ParallelDataStatus;
-  LatestUpdateAttemptAt?: Date;
+  Name?: string | undefined;
+  Status?: ParallelDataStatus | undefined;
+  LatestUpdateAttemptStatus?: ParallelDataStatus | undefined;
+  LatestUpdateAttemptAt?: Date | undefined;
 }
 export type CreateParallelDataError =
   | ConcurrentModificationException

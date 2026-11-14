@@ -42,3 +42,6 @@ export {
   rawResponseSymbol,
   rawResponseRootSymbol,
 } from "@distilled.cloud/core/protocol-rest";
+
+/** The body framing of server-streaming operations (attachCommand). */
+export { ndjson } from "@distilled.cloud/core/ndjson";

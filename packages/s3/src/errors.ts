@@ -1,5 +1,7 @@
 import type { InvalidInput } from "@distilled.cloud/core/protocol-http";
 import * as S from "@distilled.cloud/core/schema-lite-typed";
+import type { SdkError } from "@distilled.cloud/core/sdk-error";
+import { UnknownErrorFields } from "@distilled.cloud/core/unknown-error";
 import type * as HttpClientError from "effect/http/HttpClientError";
 import * as Category from "./category.ts";
 import type * as Credentials from "./credentials.ts";
@@ -118,10 +120,14 @@ export class OperationAborted
     message: ErrorMessage,
   }).pipe(Category.withAbortedError) {}
 
+/**
+ * An error the operation does not declare. `code` is the wire error code
+ * (e.g. "DryRunOperation"), `body` the parsed error body, `status` the
+ * HTTP status.
+ */
 export class UnknownAwsError
   extends /*@__PURE__*/ S.TaggedError<UnknownAwsError>()("UnknownAwsError", {
-    errorTag: S.String,
-    errorData: S.Any,
+    ...UnknownErrorFields,
     /** The AWS service SDK ID (e.g., "S3", "DynamoDB") */
     service: /*@__PURE__*/ S.optional(S.String),
     /** The operation name (e.g., "createBucket", "putObject") */
@@ -248,6 +254,7 @@ export type CommonErrors =
   | UnknownAwsError
   | ParseError
   | InvalidInput
+  | SdkError
   | CommonAwsError
   | EndpointError
   | NoMatchingRuleError

@@ -194,9 +194,9 @@ export type Tier =
   | (string & {});
 export type ComponentConfiguration = string;
 export interface WorkloadConfiguration {
-  WorkloadName?: string;
-  Tier?: Tier;
-  Configuration?: string;
+  WorkloadName?: string | undefined;
+  Tier?: Tier | undefined;
+  Configuration?: string | undefined;
 }
 export interface AddWorkloadRequest {
   ResourceGroupName: string;
@@ -205,8 +205,8 @@ export interface AddWorkloadRequest {
 }
 export type WorkloadId = string;
 export interface AddWorkloadResponse {
-  WorkloadId?: string;
-  WorkloadConfiguration?: WorkloadConfiguration;
+  WorkloadId?: string | undefined;
+  WorkloadConfiguration?: WorkloadConfiguration | undefined;
 }
 export type OpsCenterEnabled = boolean;
 export type CWEMonitorEnabled = boolean;
@@ -224,36 +224,36 @@ export type AutoCreate = boolean;
 export type GroupingType = "ACCOUNT_BASED" | (string & {});
 export type AttachMissingPermission = boolean;
 export interface CreateApplicationRequest {
-  ResourceGroupName?: string;
-  OpsCenterEnabled?: boolean;
-  CWEMonitorEnabled?: boolean;
-  OpsItemSNSTopicArn?: string;
-  SNSNotificationArn?: string;
-  Tags?: Tag[];
-  AutoConfigEnabled?: boolean;
-  AutoCreate?: boolean;
-  GroupingType?: GroupingType;
-  AttachMissingPermission?: boolean;
+  ResourceGroupName?: string | undefined;
+  OpsCenterEnabled?: boolean | undefined;
+  CWEMonitorEnabled?: boolean | undefined;
+  OpsItemSNSTopicArn?: string | undefined;
+  SNSNotificationArn?: string | undefined;
+  Tags?: Tag[] | undefined;
+  AutoConfigEnabled?: boolean | undefined;
+  AutoCreate?: boolean | undefined;
+  GroupingType?: GroupingType | undefined;
+  AttachMissingPermission?: boolean | undefined;
 }
 export type AccountId = string;
 export type LifeCycle = string;
 export type Remarks = string;
 export type DiscoveryType = "RESOURCE_GROUP_BASED" | "ACCOUNT_BASED" | (string & {});
 export interface ApplicationInfo {
-  AccountId?: string;
-  ResourceGroupName?: string;
-  LifeCycle?: string;
-  OpsItemSNSTopicArn?: string;
-  SNSNotificationArn?: string;
-  OpsCenterEnabled?: boolean;
-  CWEMonitorEnabled?: boolean;
-  Remarks?: string;
-  AutoConfigEnabled?: boolean;
-  DiscoveryType?: DiscoveryType;
-  AttachMissingPermission?: boolean;
+  AccountId?: string | undefined;
+  ResourceGroupName?: string | undefined;
+  LifeCycle?: string | undefined;
+  OpsItemSNSTopicArn?: string | undefined;
+  SNSNotificationArn?: string | undefined;
+  OpsCenterEnabled?: boolean | undefined;
+  CWEMonitorEnabled?: boolean | undefined;
+  Remarks?: string | undefined;
+  AutoConfigEnabled?: boolean | undefined;
+  DiscoveryType?: DiscoveryType | undefined;
+  AttachMissingPermission?: boolean | undefined;
 }
 export interface CreateApplicationResponse {
-  ApplicationInfo?: ApplicationInfo;
+  ApplicationInfo?: ApplicationInfo | undefined;
 }
 export type CustomComponentName = string;
 export type ResourceARN = string;
@@ -276,14 +276,14 @@ export interface CreateLogPatternRequest {
   Rank: number;
 }
 export interface LogPattern {
-  PatternSetName?: string;
-  PatternName?: string;
-  Pattern?: string;
-  Rank?: number;
+  PatternSetName?: string | undefined;
+  PatternName?: string | undefined;
+  Pattern?: string | undefined;
+  Rank?: number | undefined;
 }
 export interface CreateLogPatternResponse {
-  LogPattern?: LogPattern;
-  ResourceGroupName?: string;
+  LogPattern?: LogPattern | undefined;
+  ResourceGroupName?: string | undefined;
 }
 export interface DeleteApplicationRequest {
   ResourceGroupName: string;
@@ -302,15 +302,15 @@ export interface DeleteLogPatternRequest {
 export interface DeleteLogPatternResponse {}
 export interface DescribeApplicationRequest {
   ResourceGroupName: string;
-  AccountId?: string;
+  AccountId?: string | undefined;
 }
 export interface DescribeApplicationResponse {
-  ApplicationInfo?: ApplicationInfo;
+  ApplicationInfo?: ApplicationInfo | undefined;
 }
 export interface DescribeComponentRequest {
   ResourceGroupName: string;
   ComponentName: string;
-  AccountId?: string;
+  AccountId?: string | undefined;
 }
 export type ResourceType = string;
 export type OsType = "WINDOWS" | "LINUX" | (string & {});
@@ -318,56 +318,60 @@ export type Monitor = boolean;
 export type MetaDataKey = string;
 export type MetaDataValue = string;
 export type WorkloadMetaData = { [key: string]: string | undefined };
-export type DetectedWorkload = { [key in Tier]?: { [key: string]: string | undefined } };
+export type DetectedWorkload = {
+  [key in Tier]?: { [key: string]: string | undefined } | undefined;
+};
 export interface ApplicationComponent {
-  ComponentName?: string;
-  ComponentRemarks?: string;
-  ResourceType?: string;
-  OsType?: OsType;
-  Tier?: Tier;
-  Monitor?: boolean;
-  DetectedWorkload?: { [key: string]: { [key: string]: string | undefined } | undefined };
+  ComponentName?: string | undefined;
+  ComponentRemarks?: string | undefined;
+  ResourceType?: string | undefined;
+  OsType?: OsType | undefined;
+  Tier?: Tier | undefined;
+  Monitor?: boolean | undefined;
+  DetectedWorkload?:
+    | { [key: string]: { [key: string]: string | undefined } | undefined }
+    | undefined;
 }
 export interface DescribeComponentResponse {
-  ApplicationComponent?: ApplicationComponent;
-  ResourceList?: string[];
+  ApplicationComponent?: ApplicationComponent | undefined;
+  ResourceList?: string[] | undefined;
 }
 export interface DescribeComponentConfigurationRequest {
   ResourceGroupName: string;
   ComponentName: string;
-  AccountId?: string;
+  AccountId?: string | undefined;
 }
 export interface DescribeComponentConfigurationResponse {
-  Monitor?: boolean;
-  Tier?: Tier;
-  ComponentConfiguration?: string;
+  Monitor?: boolean | undefined;
+  Tier?: Tier | undefined;
+  ComponentConfiguration?: string | undefined;
 }
 export type RecommendationType = "INFRA_ONLY" | "WORKLOAD_ONLY" | "ALL" | (string & {});
 export interface DescribeComponentConfigurationRecommendationRequest {
   ResourceGroupName: string;
   ComponentName: string;
   Tier: Tier;
-  WorkloadName?: string;
-  RecommendationType?: RecommendationType;
+  WorkloadName?: string | undefined;
+  RecommendationType?: RecommendationType | undefined;
 }
 export interface DescribeComponentConfigurationRecommendationResponse {
-  ComponentConfiguration?: string;
+  ComponentConfiguration?: string | undefined;
 }
 export interface DescribeLogPatternRequest {
   ResourceGroupName: string;
   PatternSetName: string;
   PatternName: string;
-  AccountId?: string;
+  AccountId?: string | undefined;
 }
 export interface DescribeLogPatternResponse {
-  ResourceGroupName?: string;
-  AccountId?: string;
-  LogPattern?: LogPattern;
+  ResourceGroupName?: string | undefined;
+  AccountId?: string | undefined;
+  LogPattern?: LogPattern | undefined;
 }
 export type ObservationId = string;
 export interface DescribeObservationRequest {
   ObservationId: string;
-  AccountId?: string;
+  AccountId?: string | undefined;
 }
 export type StartTime = Date;
 export type EndTime = Date;
@@ -414,59 +418,59 @@ export type XRayRequestAverageLatency = number;
 export type XRayNodeName = string;
 export type XRayNodeType = string;
 export interface Observation {
-  Id?: string;
-  StartTime?: Date;
-  EndTime?: Date;
-  SourceType?: string;
-  SourceARN?: string;
-  LogGroup?: string;
-  LineTime?: Date;
-  LogText?: string;
-  LogFilter?: LogFilter;
-  MetricNamespace?: string;
-  MetricName?: string;
-  Unit?: string;
-  Value?: number;
-  CloudWatchEventId?: string;
-  CloudWatchEventSource?: CloudWatchEventSource;
-  CloudWatchEventDetailType?: string;
-  HealthEventArn?: string;
-  HealthService?: string;
-  HealthEventTypeCode?: string;
-  HealthEventTypeCategory?: string;
-  HealthEventDescription?: string;
-  CodeDeployDeploymentId?: string;
-  CodeDeployDeploymentGroup?: string;
-  CodeDeployState?: string;
-  CodeDeployApplication?: string;
-  CodeDeployInstanceGroupId?: string;
-  Ec2State?: string;
-  RdsEventCategories?: string;
-  RdsEventMessage?: string;
-  S3EventName?: string;
-  StatesExecutionArn?: string;
-  StatesArn?: string;
-  StatesStatus?: string;
-  StatesInput?: string;
-  EbsEvent?: string;
-  EbsResult?: string;
-  EbsCause?: string;
-  EbsRequestId?: string;
-  XRayFaultPercent?: number;
-  XRayThrottlePercent?: number;
-  XRayErrorPercent?: number;
-  XRayRequestCount?: number;
-  XRayRequestAverageLatency?: number;
-  XRayNodeName?: string;
-  XRayNodeType?: string;
+  Id?: string | undefined;
+  StartTime?: Date | undefined;
+  EndTime?: Date | undefined;
+  SourceType?: string | undefined;
+  SourceARN?: string | undefined;
+  LogGroup?: string | undefined;
+  LineTime?: Date | undefined;
+  LogText?: string | undefined;
+  LogFilter?: LogFilter | undefined;
+  MetricNamespace?: string | undefined;
+  MetricName?: string | undefined;
+  Unit?: string | undefined;
+  Value?: number | undefined;
+  CloudWatchEventId?: string | undefined;
+  CloudWatchEventSource?: CloudWatchEventSource | undefined;
+  CloudWatchEventDetailType?: string | undefined;
+  HealthEventArn?: string | undefined;
+  HealthService?: string | undefined;
+  HealthEventTypeCode?: string | undefined;
+  HealthEventTypeCategory?: string | undefined;
+  HealthEventDescription?: string | undefined;
+  CodeDeployDeploymentId?: string | undefined;
+  CodeDeployDeploymentGroup?: string | undefined;
+  CodeDeployState?: string | undefined;
+  CodeDeployApplication?: string | undefined;
+  CodeDeployInstanceGroupId?: string | undefined;
+  Ec2State?: string | undefined;
+  RdsEventCategories?: string | undefined;
+  RdsEventMessage?: string | undefined;
+  S3EventName?: string | undefined;
+  StatesExecutionArn?: string | undefined;
+  StatesArn?: string | undefined;
+  StatesStatus?: string | undefined;
+  StatesInput?: string | undefined;
+  EbsEvent?: string | undefined;
+  EbsResult?: string | undefined;
+  EbsCause?: string | undefined;
+  EbsRequestId?: string | undefined;
+  XRayFaultPercent?: number | undefined;
+  XRayThrottlePercent?: number | undefined;
+  XRayErrorPercent?: number | undefined;
+  XRayRequestCount?: number | undefined;
+  XRayRequestAverageLatency?: number | undefined;
+  XRayNodeName?: string | undefined;
+  XRayNodeType?: string | undefined;
 }
 export interface DescribeObservationResponse {
-  Observation?: Observation;
+  Observation?: Observation | undefined;
 }
 export type ProblemId = string;
 export interface DescribeProblemRequest {
   ProblemId: string;
-  AccountId?: string;
+  AccountId?: string | undefined;
 }
 export type Title = string;
 export type ShortName = string;
@@ -476,87 +480,87 @@ export type AffectedResource = string;
 export type SeverityLevel = "Informative" | "Low" | "Medium" | "High" | (string & {});
 export type FeedbackKey = "INSIGHTS_FEEDBACK" | (string & {});
 export type FeedbackValue = "NOT_SPECIFIED" | "USEFUL" | "NOT_USEFUL" | (string & {});
-export type Feedback = { [key in FeedbackKey]?: FeedbackValue };
+export type Feedback = { [key in FeedbackKey]?: FeedbackValue | undefined };
 export type RecurringCount = number;
 export type LastRecurrenceTime = Date;
 export type Visibility = "IGNORED" | "VISIBLE" | (string & {});
 export type ResolutionMethod = "MANUAL" | "AUTOMATIC" | "UNRESOLVED" | (string & {});
 export interface Problem {
-  Id?: string;
-  Title?: string;
-  ShortName?: string;
-  Insights?: string;
-  Status?: Status;
-  AffectedResource?: string;
-  StartTime?: Date;
-  EndTime?: Date;
-  SeverityLevel?: SeverityLevel;
-  AccountId?: string;
-  ResourceGroupName?: string;
-  Feedback?: { [key: string]: FeedbackValue | undefined };
-  RecurringCount?: number;
-  LastRecurrenceTime?: Date;
-  Visibility?: Visibility;
-  ResolutionMethod?: ResolutionMethod;
+  Id?: string | undefined;
+  Title?: string | undefined;
+  ShortName?: string | undefined;
+  Insights?: string | undefined;
+  Status?: Status | undefined;
+  AffectedResource?: string | undefined;
+  StartTime?: Date | undefined;
+  EndTime?: Date | undefined;
+  SeverityLevel?: SeverityLevel | undefined;
+  AccountId?: string | undefined;
+  ResourceGroupName?: string | undefined;
+  Feedback?: { [key: string]: FeedbackValue | undefined } | undefined;
+  RecurringCount?: number | undefined;
+  LastRecurrenceTime?: Date | undefined;
+  Visibility?: Visibility | undefined;
+  ResolutionMethod?: ResolutionMethod | undefined;
 }
 export interface DescribeProblemResponse {
-  Problem?: Problem;
-  SNSNotificationArn?: string;
+  Problem?: Problem | undefined;
+  SNSNotificationArn?: string | undefined;
 }
 export interface DescribeProblemObservationsRequest {
   ProblemId: string;
-  AccountId?: string;
+  AccountId?: string | undefined;
 }
 export type ObservationList = Observation[];
 export interface RelatedObservations {
-  ObservationList?: Observation[];
+  ObservationList?: Observation[] | undefined;
 }
 export interface DescribeProblemObservationsResponse {
-  RelatedObservations?: RelatedObservations;
+  RelatedObservations?: RelatedObservations | undefined;
 }
 export interface DescribeWorkloadRequest {
   ResourceGroupName: string;
   ComponentName: string;
   WorkloadId: string;
-  AccountId?: string;
+  AccountId?: string | undefined;
 }
 export interface DescribeWorkloadResponse {
-  WorkloadId?: string;
-  WorkloadRemarks?: string;
-  WorkloadConfiguration?: WorkloadConfiguration;
+  WorkloadId?: string | undefined;
+  WorkloadRemarks?: string | undefined;
+  WorkloadConfiguration?: WorkloadConfiguration | undefined;
 }
 export type MaxEntities = number;
 export type PaginationToken = string;
 export interface ListApplicationsRequest {
-  MaxResults?: number;
-  NextToken?: string;
-  AccountId?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
+  AccountId?: string | undefined;
 }
 export type ApplicationInfoList = ApplicationInfo[];
 export interface ListApplicationsResponse {
-  ApplicationInfoList?: ApplicationInfo[];
-  NextToken?: string;
+  ApplicationInfoList?: ApplicationInfo[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListComponentsRequest {
   ResourceGroupName: string;
-  MaxResults?: number;
-  NextToken?: string;
-  AccountId?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
+  AccountId?: string | undefined;
 }
 export type ApplicationComponentList = ApplicationComponent[];
 export interface ListComponentsResponse {
-  ApplicationComponentList?: ApplicationComponent[];
-  NextToken?: string;
+  ApplicationComponentList?: ApplicationComponent[] | undefined;
+  NextToken?: string | undefined;
 }
 export type ConfigurationEventStatus = "INFO" | "WARN" | "ERROR" | (string & {});
 export interface ListConfigurationHistoryRequest {
-  ResourceGroupName?: string;
-  StartTime?: Date;
-  EndTime?: Date;
-  EventStatus?: ConfigurationEventStatus;
-  MaxResults?: number;
-  NextToken?: string;
-  AccountId?: string;
+  ResourceGroupName?: string | undefined;
+  StartTime?: Date | undefined;
+  EndTime?: Date | undefined;
+  EventStatus?: ConfigurationEventStatus | undefined;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
+  AccountId?: string | undefined;
 }
 export type ConfigurationEventMonitoredResourceARN = string;
 export type ConfigurationEventResourceType =
@@ -569,91 +573,91 @@ export type ConfigurationEventTime = Date;
 export type ConfigurationEventDetail = string;
 export type ConfigurationEventResourceName = string;
 export interface ConfigurationEvent {
-  ResourceGroupName?: string;
-  AccountId?: string;
-  MonitoredResourceARN?: string;
-  EventStatus?: ConfigurationEventStatus;
-  EventResourceType?: ConfigurationEventResourceType;
-  EventTime?: Date;
-  EventDetail?: string;
-  EventResourceName?: string;
+  ResourceGroupName?: string | undefined;
+  AccountId?: string | undefined;
+  MonitoredResourceARN?: string | undefined;
+  EventStatus?: ConfigurationEventStatus | undefined;
+  EventResourceType?: ConfigurationEventResourceType | undefined;
+  EventTime?: Date | undefined;
+  EventDetail?: string | undefined;
+  EventResourceName?: string | undefined;
 }
 export type ConfigurationEventList = ConfigurationEvent[];
 export interface ListConfigurationHistoryResponse {
-  EventList?: ConfigurationEvent[];
-  NextToken?: string;
+  EventList?: ConfigurationEvent[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListLogPatternsRequest {
   ResourceGroupName: string;
-  PatternSetName?: string;
-  MaxResults?: number;
-  NextToken?: string;
-  AccountId?: string;
+  PatternSetName?: string | undefined;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
+  AccountId?: string | undefined;
 }
 export type LogPatternList = LogPattern[];
 export interface ListLogPatternsResponse {
-  ResourceGroupName?: string;
-  AccountId?: string;
-  LogPatterns?: LogPattern[];
-  NextToken?: string;
+  ResourceGroupName?: string | undefined;
+  AccountId?: string | undefined;
+  LogPatterns?: LogPattern[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListLogPatternSetsRequest {
   ResourceGroupName: string;
-  MaxResults?: number;
-  NextToken?: string;
-  AccountId?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
+  AccountId?: string | undefined;
 }
 export type LogPatternSetList = string[];
 export interface ListLogPatternSetsResponse {
-  ResourceGroupName?: string;
-  AccountId?: string;
-  LogPatternSets?: string[];
-  NextToken?: string;
+  ResourceGroupName?: string | undefined;
+  AccountId?: string | undefined;
+  LogPatternSets?: string[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListProblemsRequest {
-  AccountId?: string;
-  ResourceGroupName?: string;
-  StartTime?: Date;
-  EndTime?: Date;
-  MaxResults?: number;
-  NextToken?: string;
-  ComponentName?: string;
-  Visibility?: Visibility;
+  AccountId?: string | undefined;
+  ResourceGroupName?: string | undefined;
+  StartTime?: Date | undefined;
+  EndTime?: Date | undefined;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
+  ComponentName?: string | undefined;
+  Visibility?: Visibility | undefined;
 }
 export type ProblemList = Problem[];
 export interface ListProblemsResponse {
-  ProblemList?: Problem[];
-  NextToken?: string;
-  ResourceGroupName?: string;
-  AccountId?: string;
+  ProblemList?: Problem[] | undefined;
+  NextToken?: string | undefined;
+  ResourceGroupName?: string | undefined;
+  AccountId?: string | undefined;
 }
 export type AmazonResourceName = string;
 export interface ListTagsForResourceRequest {
   ResourceARN: string;
 }
 export interface ListTagsForResourceResponse {
-  Tags?: Tag[];
+  Tags?: Tag[] | undefined;
 }
 export interface ListWorkloadsRequest {
   ResourceGroupName: string;
   ComponentName: string;
-  MaxResults?: number;
-  NextToken?: string;
-  AccountId?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
+  AccountId?: string | undefined;
 }
 export type MissingWorkloadConfig = boolean;
 export interface Workload {
-  WorkloadId?: string;
-  ComponentName?: string;
-  WorkloadName?: string;
-  Tier?: Tier;
-  WorkloadRemarks?: string;
-  MissingWorkloadConfig?: boolean;
+  WorkloadId?: string | undefined;
+  ComponentName?: string | undefined;
+  WorkloadName?: string | undefined;
+  Tier?: Tier | undefined;
+  WorkloadRemarks?: string | undefined;
+  MissingWorkloadConfig?: boolean | undefined;
 }
 export type WorkloadList = Workload[];
 export interface ListWorkloadsResponse {
-  WorkloadList?: Workload[];
-  NextToken?: string;
+  WorkloadList?: Workload[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface RemoveWorkloadRequest {
   ResourceGroupName: string;
@@ -675,60 +679,60 @@ export interface UntagResourceResponse {}
 export type RemoveSNSTopic = boolean;
 export interface UpdateApplicationRequest {
   ResourceGroupName: string;
-  OpsCenterEnabled?: boolean;
-  CWEMonitorEnabled?: boolean;
-  OpsItemSNSTopicArn?: string;
-  SNSNotificationArn?: string;
-  RemoveSNSTopic?: boolean;
-  AutoConfigEnabled?: boolean;
-  AttachMissingPermission?: boolean;
+  OpsCenterEnabled?: boolean | undefined;
+  CWEMonitorEnabled?: boolean | undefined;
+  OpsItemSNSTopicArn?: string | undefined;
+  SNSNotificationArn?: string | undefined;
+  RemoveSNSTopic?: boolean | undefined;
+  AutoConfigEnabled?: boolean | undefined;
+  AttachMissingPermission?: boolean | undefined;
 }
 export interface UpdateApplicationResponse {
-  ApplicationInfo?: ApplicationInfo;
+  ApplicationInfo?: ApplicationInfo | undefined;
 }
 export interface UpdateComponentRequest {
   ResourceGroupName: string;
   ComponentName: string;
-  NewComponentName?: string;
-  ResourceList?: string[];
+  NewComponentName?: string | undefined;
+  ResourceList?: string[] | undefined;
 }
 export interface UpdateComponentResponse {}
 export interface UpdateComponentConfigurationRequest {
   ResourceGroupName: string;
   ComponentName: string;
-  Monitor?: boolean;
-  Tier?: Tier;
-  ComponentConfiguration?: string;
-  AutoConfigEnabled?: boolean;
+  Monitor?: boolean | undefined;
+  Tier?: Tier | undefined;
+  ComponentConfiguration?: string | undefined;
+  AutoConfigEnabled?: boolean | undefined;
 }
 export interface UpdateComponentConfigurationResponse {}
 export interface UpdateLogPatternRequest {
   ResourceGroupName: string;
   PatternSetName: string;
   PatternName: string;
-  Pattern?: string;
-  Rank?: number;
+  Pattern?: string | undefined;
+  Rank?: number | undefined;
 }
 export interface UpdateLogPatternResponse {
-  ResourceGroupName?: string;
-  LogPattern?: LogPattern;
+  ResourceGroupName?: string | undefined;
+  LogPattern?: LogPattern | undefined;
 }
 export type UpdateStatus = "RESOLVED" | (string & {});
 export interface UpdateProblemRequest {
   ProblemId: string;
-  UpdateStatus?: UpdateStatus;
-  Visibility?: Visibility;
+  UpdateStatus?: UpdateStatus | undefined;
+  Visibility?: Visibility | undefined;
 }
 export interface UpdateProblemResponse {}
 export interface UpdateWorkloadRequest {
   ResourceGroupName: string;
   ComponentName: string;
-  WorkloadId?: string;
+  WorkloadId?: string | undefined;
   WorkloadConfiguration: WorkloadConfiguration;
 }
 export interface UpdateWorkloadResponse {
-  WorkloadId?: string;
-  WorkloadConfiguration?: WorkloadConfiguration;
+  WorkloadId?: string | undefined;
+  WorkloadConfiguration?: WorkloadConfiguration | undefined;
 }
 export type ErrorMsg = string;
 export type ExceptionMessage = string;

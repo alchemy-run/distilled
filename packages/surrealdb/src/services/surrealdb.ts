@@ -26,9 +26,9 @@ const TELEMETRY = {
 
 export interface CreateSqlRequest {
   /** Sets the selected Namespace for queries */
-  nS?: string;
+  nS?: string | undefined;
   /** Sets the selected Database for queries */
-  dB?: string;
+  dB?: string | undefined;
   body: string;
 }
 export interface CreateSqlResponse {}
@@ -36,9 +36,9 @@ export interface DeleteKeyRequest {
   /** The table of the records to delete */
   table: string;
   /** Sets the selected Namespace for queries */
-  nS?: string;
+  nS?: string | undefined;
   /** Sets the selected Database for queries */
-  dB?: string;
+  dB?: string | undefined;
 }
 export interface DeleteKeyResponse {}
 export interface DeleteKeyByIdRequest {
@@ -47,16 +47,16 @@ export interface DeleteKeyByIdRequest {
   /** The id of the record to delete */
   id: string;
   /** Sets the selected Namespace for queries */
-  nS?: string;
+  nS?: string | undefined;
   /** Sets the selected Database for queries */
-  dB?: string;
+  dB?: string | undefined;
 }
 export interface DeleteKeyByIdResponse {}
 export interface GetExportRequest {
   /** Sets the selected Namespace for queries */
-  nS?: string;
+  nS?: string | undefined;
   /** Sets the selected Database for queries */
-  dB?: string;
+  dB?: string | undefined;
 }
 export interface GetExportResponse {}
 export interface GetHealthRequest {}
@@ -65,15 +65,15 @@ export interface GetKeyRequest {
   /** The table of the records to select */
   table: string;
   /** The number of record results to fetch */
-  limit?: number;
+  limit?: number | undefined;
   /** The number of record results to skip */
-  start?: number;
+  start?: number | undefined;
   /** A comma-separated list of specific fields to retrieve for each record */
-  fields?: string;
+  fields?: string | undefined;
   /** Sets the selected Namespace for queries */
-  nS?: string;
+  nS?: string | undefined;
   /** Sets the selected Database for queries */
-  dB?: string;
+  dB?: string | undefined;
 }
 export interface GetKeyResponse {}
 export interface GetKeyByIdRequest {
@@ -82,19 +82,19 @@ export interface GetKeyByIdRequest {
   /** The id of the record to select */
   id: string;
   /** Sets the selected Namespace for queries */
-  nS?: string;
+  nS?: string | undefined;
   /** Sets the selected Database for queries */
-  dB?: string;
+  dB?: string | undefined;
 }
 export interface GetKeyByIdResponseBodyItemResultItem {
-  id?: string;
-  some?: boolean;
+  id?: string | undefined;
+  some?: boolean | undefined;
 }
 export type GetKeyByIdResponseBodyItemResultList = Array<GetKeyByIdResponseBodyItemResultItem>;
 export interface GetKeyByIdResponseBodyItem {
-  result?: GetKeyByIdResponseBodyItemResultList;
-  status?: string;
-  time?: string;
+  result?: GetKeyByIdResponseBodyItemResultList | undefined;
+  status?: string | undefined;
+  time?: string | undefined;
 }
 export type GetKeyByIdResponseBodyList = Array<GetKeyByIdResponseBodyItem>;
 export type GetKeyByIdResponse = GetKeyByIdResponseBodyList;
@@ -104,9 +104,9 @@ export interface GetVersionRequest {}
 export interface GetVersionResponse {}
 export interface ImportRequest {
   /** Sets the selected Namespace for queries */
-  nS?: string;
+  nS?: string | undefined;
   /** Sets the selected Database for queries */
-  dB?: string;
+  dB?: string | undefined;
   body: string;
 }
 export interface ImportResponse {}
@@ -116,9 +116,9 @@ export interface PutKeyRequest {
   /** The table of the records to update */
   table: string;
   /** Sets the selected Namespace for queries */
-  nS?: string;
+  nS?: string | undefined;
   /** Sets the selected Database for queries */
-  dB?: string;
+  dB?: string | undefined;
   body: PutKeyRequestBodyMap;
 }
 export interface PutKeyResponse {}
@@ -129,11 +129,11 @@ export interface PutKeyByIdRequest {
   table: string;
   /** The id of the record to update */
   id: string;
-  tags?: string;
+  tags?: string | undefined;
   /** Sets the selected Namespace for queries */
-  nS?: string;
+  nS?: string | undefined;
   /** Sets the selected Database for queries */
-  dB?: string;
+  dB?: string | undefined;
   body: PutKeyByIdRequestBodyMap;
 }
 export interface PutKeyByIdResponse {}
@@ -143,9 +143,9 @@ export interface UpdateKeyRequest {
   /** The table of the record to create */
   table: string;
   /** Sets the selected Namespace for queries */
-  nS?: string;
+  nS?: string | undefined;
   /** Sets the selected Database for queries */
-  dB?: string;
+  dB?: string | undefined;
   body: UpdateKeyRequestBodyMap;
 }
 export interface UpdateKeyResponse {}
@@ -157,9 +157,9 @@ export interface UpdateKeyByIdRequest {
   /** The id of the record to create */
   id: string;
   /** Sets the selected Namespace for queries */
-  nS?: string;
+  nS?: string | undefined;
   /** Sets the selected Database for queries */
-  dB?: string;
+  dB?: string | undefined;
   body: UpdateKeyByIdRequestBodyMap;
 }
 export interface UpdateKeyByIdResponse {}
@@ -171,9 +171,9 @@ export interface UpdateKeyByIdRequest2 {
   /** The id of the record to update */
   id: string;
   /** Sets the selected Namespace for queries */
-  nS?: string;
+  nS?: string | undefined;
   /** Sets the selected Database for queries */
-  dB?: string;
+  dB?: string | undefined;
   body: UpdateKeyByIdRequestBodyMap2;
 }
 export interface UpdateKeyById2Response {}
@@ -183,9 +183,9 @@ export interface UpdateKeyByTableRequest {
   /** The table of the records to update */
   table: string;
   /** Sets the selected Namespace for queries */
-  nS?: string;
+  nS?: string | undefined;
   /** Sets the selected Database for queries */
-  dB?: string;
+  dB?: string | undefined;
   body: UpdateKeyByTableRequestBodyMap;
 }
 export interface UpdateKeyByTableResponse {}

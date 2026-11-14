@@ -1,6 +1,6 @@
 {
   "name": "@distilled.cloud/supabase",
-  "version": "1.0.0-rc.18",
+  "version": "1.0.0-rc.20",
   "license": "Apache-2.0",
   "repository": {
     "type": "git",
@@ -86,7 +86,7 @@
     "effect": "catalog:"
   },
   "distilled": {
-    "generatedAt": "2026-10-25",
-    "specUpdatedAt": "2026-09-26"
+    "generatedAt": "2026-11-10",
+    "specUpdatedAt": "2026-11-07"
   }
 }

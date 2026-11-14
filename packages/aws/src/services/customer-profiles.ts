@@ -133,8 +133,8 @@ export interface AddProfileKeyRequest {
   DomainName: string;
 }
 export interface AddProfileKeyResponse {
-  KeyName?: string;
-  Values?: string[];
+  KeyName?: string | undefined;
+  Values?: string[] | undefined;
 }
 export type DestinationArnString = string;
 export type DestinationRoleArn = string;
@@ -151,17 +151,17 @@ export type End = number;
 export type RangeUnit = "DAYS" | (string & {});
 export interface RangeOverride {
   Start: number;
-  End?: number;
+  End?: number | undefined;
   Unit: RangeUnit;
 }
 export interface ConditionOverrides {
-  Range?: RangeOverride;
+  Range?: RangeOverride | undefined;
 }
 export interface BatchGetCalculatedAttributeForProfileRequest {
   CalculatedAttributeName: string;
   DomainName: string;
   ProfileIds: string[];
-  ConditionOverrides?: ConditionOverrides;
+  ConditionOverrides?: ConditionOverrides | undefined;
 }
 export type String1To1000 = string;
 export interface BatchGetCalculatedAttributeForProfileError_ {
@@ -173,18 +173,18 @@ export type BatchGetCalculatedAttributeForProfileErrorList =
   BatchGetCalculatedAttributeForProfileError_[];
 export type DisplayName = string;
 export interface CalculatedAttributeValue {
-  CalculatedAttributeName?: string;
-  DisplayName?: string;
-  IsDataPartial?: string;
-  ProfileId?: string;
-  Value?: string;
-  LastObjectTimestamp?: Date;
+  CalculatedAttributeName?: string | undefined;
+  DisplayName?: string | undefined;
+  IsDataPartial?: string | undefined;
+  ProfileId?: string | undefined;
+  Value?: string | undefined;
+  LastObjectTimestamp?: Date | undefined;
 }
 export type CalculatedAttributeValueList = CalculatedAttributeValue[];
 export interface BatchGetCalculatedAttributeForProfileResponse {
-  Errors?: BatchGetCalculatedAttributeForProfileError_[];
-  CalculatedAttributeValues?: CalculatedAttributeValue[];
-  ConditionOverrides?: ConditionOverrides;
+  Errors?: BatchGetCalculatedAttributeForProfileError_[] | undefined;
+  CalculatedAttributeValues?: CalculatedAttributeValue[] | undefined;
+  ConditionOverrides?: ConditionOverrides | undefined;
 }
 export type BatchGetProfileIdList = string[];
 export interface BatchGetProfileRequest {
@@ -202,21 +202,21 @@ export type SensitiveString1To1000 = string | redacted.Redacted<string>;
 export type PartyType = "INDIVIDUAL" | "BUSINESS" | "OTHER" | (string & {});
 export type Gender = "MALE" | "FEMALE" | "UNSPECIFIED" | (string & {});
 export interface Address {
-  Address1?: string;
-  Address2?: string;
-  Address3?: string;
-  Address4?: string;
-  City?: string;
-  County?: string;
-  State?: string;
-  Province?: string;
-  Country?: string;
-  PostalCode?: string;
+  Address1?: string | undefined;
+  Address2?: string | undefined;
+  Address3?: string | undefined;
+  Address4?: string | undefined;
+  City?: string | undefined;
+  County?: string | undefined;
+  State?: string | undefined;
+  Province?: string | undefined;
+  Country?: string | undefined;
+  PostalCode?: string | undefined;
 }
 export type Attributes = { [key: string]: string | undefined };
 export interface FoundByKeyValue {
-  KeyName?: string;
-  Values?: string[];
+  KeyName?: string | undefined;
+  Values?: string[] | undefined;
 }
 export type FoundByList = FoundByKeyValue[];
 export type ProfileType = "ACCOUNT_PROFILE" | "PROFILE" | (string & {});
@@ -230,50 +230,50 @@ export type ContactType =
   | "BusinessEmailAddress"
   | (string & {});
 export interface ContactPreference {
-  KeyName?: string;
-  KeyValue?: string;
-  ProfileId?: string;
-  ContactType?: ContactType;
+  KeyName?: string | undefined;
+  KeyValue?: string | undefined;
+  ProfileId?: string | undefined;
+  ContactType?: ContactType | undefined;
 }
 export type PhonePreferenceList = ContactPreference[];
 export type EmailPreferenceList = ContactPreference[];
 export interface EngagementPreferences {
-  Phone?: ContactPreference[];
-  Email?: ContactPreference[];
+  Phone?: ContactPreference[] | undefined;
+  Email?: ContactPreference[] | undefined;
 }
 export interface Profile {
-  ProfileId?: string;
-  AccountNumber?: string | redacted.Redacted<string>;
-  AdditionalInformation?: string | redacted.Redacted<string>;
-  PartyType?: PartyType;
-  BusinessName?: string | redacted.Redacted<string>;
-  FirstName?: string | redacted.Redacted<string>;
-  MiddleName?: string | redacted.Redacted<string>;
-  LastName?: string | redacted.Redacted<string>;
-  BirthDate?: string | redacted.Redacted<string>;
-  Gender?: Gender;
-  PhoneNumber?: string | redacted.Redacted<string>;
-  MobilePhoneNumber?: string | redacted.Redacted<string>;
-  HomePhoneNumber?: string | redacted.Redacted<string>;
-  BusinessPhoneNumber?: string | redacted.Redacted<string>;
-  EmailAddress?: string | redacted.Redacted<string>;
-  PersonalEmailAddress?: string | redacted.Redacted<string>;
-  BusinessEmailAddress?: string | redacted.Redacted<string>;
-  Address?: Address;
-  ShippingAddress?: Address;
-  MailingAddress?: Address;
-  BillingAddress?: Address;
-  Attributes?: { [key: string]: string | undefined };
-  FoundByItems?: FoundByKeyValue[];
-  PartyTypeString?: string | redacted.Redacted<string>;
-  GenderString?: string | redacted.Redacted<string>;
-  ProfileType?: ProfileType;
-  EngagementPreferences?: EngagementPreferences;
+  ProfileId?: string | undefined;
+  AccountNumber?: string | redacted.Redacted<string> | undefined;
+  AdditionalInformation?: string | redacted.Redacted<string> | undefined;
+  PartyType?: PartyType | undefined;
+  BusinessName?: string | redacted.Redacted<string> | undefined;
+  FirstName?: string | redacted.Redacted<string> | undefined;
+  MiddleName?: string | redacted.Redacted<string> | undefined;
+  LastName?: string | redacted.Redacted<string> | undefined;
+  BirthDate?: string | redacted.Redacted<string> | undefined;
+  Gender?: Gender | undefined;
+  PhoneNumber?: string | redacted.Redacted<string> | undefined;
+  MobilePhoneNumber?: string | redacted.Redacted<string> | undefined;
+  HomePhoneNumber?: string | redacted.Redacted<string> | undefined;
+  BusinessPhoneNumber?: string | redacted.Redacted<string> | undefined;
+  EmailAddress?: string | redacted.Redacted<string> | undefined;
+  PersonalEmailAddress?: string | redacted.Redacted<string> | undefined;
+  BusinessEmailAddress?: string | redacted.Redacted<string> | undefined;
+  Address?: Address | undefined;
+  ShippingAddress?: Address | undefined;
+  MailingAddress?: Address | undefined;
+  BillingAddress?: Address | undefined;
+  Attributes?: { [key: string]: string | undefined } | undefined;
+  FoundByItems?: FoundByKeyValue[] | undefined;
+  PartyTypeString?: string | redacted.Redacted<string> | undefined;
+  GenderString?: string | redacted.Redacted<string> | undefined;
+  ProfileType?: ProfileType | undefined;
+  EngagementPreferences?: EngagementPreferences | undefined;
 }
 export type ProfileList = Profile[];
 export interface BatchGetProfileResponse {
-  Errors?: BatchGetProfileError_[];
-  Profiles?: Profile[];
+  Errors?: BatchGetProfileError_[] | undefined;
+  Profiles?: Profile[] | undefined;
 }
 export type StringifiedJson = string | redacted.Redacted<string>;
 export interface BatchPutProfileObjectRequestItem {
@@ -296,12 +296,12 @@ export type Text = string;
 export interface BatchPutProfileObjectErrorItem {
   Id: string;
   Code: number;
-  Message?: string;
+  Message?: string | undefined;
 }
 export type BatchPutProfileObjectErrorList = BatchPutProfileObjectErrorItem[];
 export interface BatchPutProfileObjectResponse {
-  Successful?: BatchPutProfileObjectResponseItem[];
-  Failed?: BatchPutProfileObjectErrorItem[];
+  Successful?: BatchPutProfileObjectResponseItem[] | undefined;
+  Failed?: BatchPutProfileObjectErrorItem[] | undefined;
 }
 export type SensitiveText = string | redacted.Redacted<string>;
 export type AttributeName = string;
@@ -322,11 +322,11 @@ export interface ValueRange {
   End: number;
 }
 export interface Range {
-  Value?: number;
-  Unit?: Unit;
-  ValueRange?: ValueRange;
-  TimestampSource?: string;
-  TimestampFormat?: string;
+  Value?: number | undefined;
+  Unit?: Unit | undefined;
+  ValueRange?: ValueRange | undefined;
+  TimestampSource?: string | undefined;
+  TimestampFormat?: string | undefined;
 }
 export type ObjectCount = number;
 export type Operator = "EQUAL_TO" | "GREATER_THAN" | "LESS_THAN" | "NOT_EQUAL_TO" | (string & {});
@@ -335,9 +335,9 @@ export interface Threshold {
   Operator: Operator;
 }
 export interface Conditions {
-  Range?: Range;
-  ObjectCount?: number;
-  Threshold?: Threshold;
+  Range?: Range | undefined;
+  ObjectCount?: number | undefined;
+  Threshold?: Threshold | undefined;
 }
 export type Include = "ALL" | "ANY" | "NONE" | (string & {});
 export type Type = "ALL" | "ANY" | "NONE" | (string & {});
@@ -395,35 +395,35 @@ export type TagMap = { [key: string]: string | undefined };
 export interface CreateCalculatedAttributeDefinitionRequest {
   DomainName: string;
   CalculatedAttributeName: string;
-  DisplayName?: string;
-  Description?: string | redacted.Redacted<string>;
+  DisplayName?: string | undefined;
+  Description?: string | redacted.Redacted<string> | undefined;
   AttributeDetails: AttributeDetails;
-  Conditions?: Conditions;
-  Filter?: Filter;
+  Conditions?: Conditions | undefined;
+  Filter?: Filter | undefined;
   Statistic: Statistic;
-  UseHistoricalData?: boolean;
-  Tags?: { [key: string]: string | undefined };
+  UseHistoricalData?: boolean | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export type ReadinessStatus = "PREPARING" | "IN_PROGRESS" | "COMPLETED" | "FAILED" | (string & {});
 export type PercentageInteger = number;
 export interface Readiness {
-  ProgressPercentage?: number;
-  Message?: string;
+  ProgressPercentage?: number | undefined;
+  Message?: string | undefined;
 }
 export interface CreateCalculatedAttributeDefinitionResponse {
-  CalculatedAttributeName?: string;
-  DisplayName?: string;
-  Description?: string | redacted.Redacted<string>;
-  AttributeDetails?: AttributeDetails;
-  Conditions?: Conditions;
-  Filter?: Filter;
-  Statistic?: Statistic;
-  CreatedAt?: Date;
-  LastUpdatedAt?: Date;
-  UseHistoricalData?: boolean;
-  Status?: ReadinessStatus;
-  Readiness?: Readiness;
-  Tags?: { [key: string]: string | undefined };
+  CalculatedAttributeName?: string | undefined;
+  DisplayName?: string | undefined;
+  Description?: string | redacted.Redacted<string> | undefined;
+  AttributeDetails?: AttributeDetails | undefined;
+  Conditions?: Conditions | undefined;
+  Filter?: Filter | undefined;
+  Statistic?: Statistic | undefined;
+  CreatedAt?: Date | undefined;
+  LastUpdatedAt?: Date | undefined;
+  UseHistoricalData?: boolean | undefined;
+  Status?: ReadinessStatus | undefined;
+  Readiness?: Readiness | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export type ExpirationDaysInteger = number;
 export type EncryptionKey = string;
@@ -450,29 +450,29 @@ export interface Consolidation {
 export type ConflictResolvingModel = "RECENCY" | "SOURCE" | (string & {});
 export interface ConflictResolution {
   ConflictResolvingModel: ConflictResolvingModel;
-  SourceName?: string;
+  SourceName?: string | undefined;
 }
 export type Double0To1 = number;
 export interface AutoMerging {
   Enabled: boolean;
-  Consolidation?: Consolidation;
-  ConflictResolution?: ConflictResolution;
-  MinAllowedConfidenceScoreForMerging?: number;
+  Consolidation?: Consolidation | undefined;
+  ConflictResolution?: ConflictResolution | undefined;
+  MinAllowedConfidenceScoreForMerging?: number | undefined;
 }
 export type S3BucketName = string;
 export type S3KeyNameCustomerOutputConfig = string;
 export interface S3ExportingConfig {
   S3BucketName: string;
-  S3KeyName?: string;
+  S3KeyName?: string | undefined;
 }
 export interface ExportingConfig {
-  S3Exporting?: S3ExportingConfig;
+  S3Exporting?: S3ExportingConfig | undefined;
 }
 export interface MatchingRequest {
   Enabled: boolean;
-  JobSchedule?: JobSchedule;
-  AutoMerging?: AutoMerging;
-  ExportingConfig?: ExportingConfig;
+  JobSchedule?: JobSchedule | undefined;
+  AutoMerging?: AutoMerging | undefined;
+  ExportingConfig?: ExportingConfig | undefined;
 }
 export type MatchingRuleAttributeList = string[];
 export interface MatchingRule {
@@ -487,64 +487,64 @@ export type PhoneNumberList = string[];
 export type EmailList = string[];
 export interface AttributeTypesSelector {
   AttributeMatchingModel: AttributeMatchingModel;
-  Address?: string[];
-  PhoneNumber?: string[];
-  EmailAddress?: string[];
+  Address?: string[] | undefined;
+  PhoneNumber?: string[] | undefined;
+  EmailAddress?: string[] | undefined;
 }
 export interface RuleBasedMatchingRequest {
   Enabled: boolean;
-  MatchingRules?: MatchingRule[];
-  MaxAllowedRuleLevelForMerging?: number;
-  MaxAllowedRuleLevelForMatching?: number;
-  AttributeTypesSelector?: AttributeTypesSelector;
-  ConflictResolution?: ConflictResolution;
-  ExportingConfig?: ExportingConfig;
+  MatchingRules?: MatchingRule[] | undefined;
+  MaxAllowedRuleLevelForMerging?: number | undefined;
+  MaxAllowedRuleLevelForMatching?: number | undefined;
+  AttributeTypesSelector?: AttributeTypesSelector | undefined;
+  ConflictResolution?: ConflictResolution | undefined;
+  ExportingConfig?: ExportingConfig | undefined;
 }
 export interface DataStoreRequest {
-  Enabled?: boolean;
+  Enabled?: boolean | undefined;
 }
 export interface CreateDomainRequest {
   DomainName: string;
   DefaultExpirationDays: number;
-  DefaultEncryptionKey?: string;
-  DeadLetterQueueUrl?: string;
-  Matching?: MatchingRequest;
-  RuleBasedMatching?: RuleBasedMatchingRequest;
-  DataStore?: DataStoreRequest;
-  Tags?: { [key: string]: string | undefined };
+  DefaultEncryptionKey?: string | undefined;
+  DeadLetterQueueUrl?: string | undefined;
+  Matching?: MatchingRequest | undefined;
+  RuleBasedMatching?: RuleBasedMatchingRequest | undefined;
+  DataStore?: DataStoreRequest | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface MatchingResponse {
-  Enabled?: boolean;
-  JobSchedule?: JobSchedule;
-  AutoMerging?: AutoMerging;
-  ExportingConfig?: ExportingConfig;
+  Enabled?: boolean | undefined;
+  JobSchedule?: JobSchedule | undefined;
+  AutoMerging?: AutoMerging | undefined;
+  ExportingConfig?: ExportingConfig | undefined;
 }
 export type RuleBasedMatchingStatus = "PENDING" | "IN_PROGRESS" | "ACTIVE" | (string & {});
 export interface RuleBasedMatchingResponse {
-  Enabled?: boolean;
-  MatchingRules?: MatchingRule[];
-  Status?: RuleBasedMatchingStatus;
-  MaxAllowedRuleLevelForMerging?: number;
-  MaxAllowedRuleLevelForMatching?: number;
-  AttributeTypesSelector?: AttributeTypesSelector;
-  ConflictResolution?: ConflictResolution;
-  ExportingConfig?: ExportingConfig;
+  Enabled?: boolean | undefined;
+  MatchingRules?: MatchingRule[] | undefined;
+  Status?: RuleBasedMatchingStatus | undefined;
+  MaxAllowedRuleLevelForMerging?: number | undefined;
+  MaxAllowedRuleLevelForMatching?: number | undefined;
+  AttributeTypesSelector?: AttributeTypesSelector | undefined;
+  ConflictResolution?: ConflictResolution | undefined;
+  ExportingConfig?: ExportingConfig | undefined;
 }
 export interface DataStoreResponse {
-  Enabled?: boolean;
-  Readiness?: Readiness;
+  Enabled?: boolean | undefined;
+  Readiness?: Readiness | undefined;
 }
 export interface CreateDomainResponse {
   DomainName: string;
   DefaultExpirationDays: number;
-  DefaultEncryptionKey?: string;
-  DeadLetterQueueUrl?: string;
-  Matching?: MatchingResponse;
-  RuleBasedMatching?: RuleBasedMatchingResponse;
-  DataStore?: DataStoreResponse;
+  DefaultEncryptionKey?: string | undefined;
+  DeadLetterQueueUrl?: string | undefined;
+  Matching?: MatchingResponse | undefined;
+  RuleBasedMatching?: RuleBasedMatchingResponse | undefined;
+  DataStore?: DataStoreResponse | undefined;
   CreatedAt: Date;
   LastUpdatedAt: Date;
-  Tags?: { [key: string]: string | undefined };
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export type LayoutType = "PROFILE_EXPLORER" | (string & {});
 export type SensitiveString1To2000000 = string | redacted.Redacted<string>;
@@ -553,32 +553,32 @@ export interface CreateDomainLayoutRequest {
   LayoutDefinitionName: string;
   Description: string | redacted.Redacted<string>;
   DisplayName: string;
-  IsDefault?: boolean;
+  IsDefault?: boolean | undefined;
   LayoutType: LayoutType;
   Layout: string | redacted.Redacted<string>;
-  Tags?: { [key: string]: string | undefined };
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface CreateDomainLayoutResponse {
   LayoutDefinitionName: string;
   Description: string | redacted.Redacted<string>;
   DisplayName: string;
-  IsDefault?: boolean;
+  IsDefault?: boolean | undefined;
   LayoutType: LayoutType;
   Layout: string | redacted.Redacted<string>;
   Version: string;
-  Tags?: { [key: string]: string | undefined };
+  Tags?: { [key: string]: string | undefined } | undefined;
   CreatedAt: Date;
-  LastUpdatedAt?: Date;
+  LastUpdatedAt?: Date | undefined;
 }
 export interface CreateEventStreamRequest {
   DomainName: string;
   Uri: string;
   EventStreamName: string;
-  Tags?: { [key: string]: string | undefined };
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface CreateEventStreamResponse {
   EventStreamArn: string;
-  Tags?: { [key: string]: string | undefined };
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export type FieldName = string;
 export type ComparisonOperator =
@@ -600,8 +600,8 @@ export type ComparisonOperator =
   | (string & {});
 export type EventTriggerValues = string[];
 export interface ObjectAttribute {
-  Source?: string;
-  FieldName?: string;
+  Source?: string | undefined;
+  FieldName?: string | undefined;
   ComparisonOperator: ComparisonOperator;
   Values: string[];
 }
@@ -623,34 +623,34 @@ export type MaxSize1000 = number;
 export interface Period {
   Unit: PeriodUnit;
   Value: number;
-  MaxInvocationsPerProfile?: number;
-  Unlimited?: boolean;
+  MaxInvocationsPerProfile?: number | undefined;
+  Unlimited?: boolean | undefined;
 }
 export type Periods = Period[];
 export interface EventTriggerLimits {
-  EventExpiration?: number;
-  Periods?: Period[];
+  EventExpiration?: number | undefined;
+  Periods?: Period[] | undefined;
 }
 export interface CreateEventTriggerRequest {
   DomainName: string;
   EventTriggerName: string;
   ObjectTypeName: string;
-  Description?: string | redacted.Redacted<string>;
+  Description?: string | redacted.Redacted<string> | undefined;
   EventTriggerConditions: EventTriggerCondition[];
-  SegmentFilter?: string;
-  EventTriggerLimits?: EventTriggerLimits;
-  Tags?: { [key: string]: string | undefined };
+  SegmentFilter?: string | undefined;
+  EventTriggerLimits?: EventTriggerLimits | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface CreateEventTriggerResponse {
-  EventTriggerName?: string;
-  ObjectTypeName?: string;
-  Description?: string | redacted.Redacted<string>;
-  EventTriggerConditions?: EventTriggerCondition[];
-  SegmentFilter?: string;
-  EventTriggerLimits?: EventTriggerLimits;
-  CreatedAt?: Date;
-  LastUpdatedAt?: Date;
-  Tags?: { [key: string]: string | undefined };
+  EventTriggerName?: string | undefined;
+  ObjectTypeName?: string | undefined;
+  Description?: string | redacted.Redacted<string> | undefined;
+  EventTriggerConditions?: EventTriggerCondition[] | undefined;
+  SegmentFilter?: string | undefined;
+  EventTriggerLimits?: EventTriggerLimits | undefined;
+  CreatedAt?: Date | undefined;
+  LastUpdatedAt?: Date | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export type WorkflowType = "APPFLOW_INTEGRATION" | (string & {});
 export type FlowDescription = string;
@@ -666,7 +666,7 @@ export type SourceConnectorType =
   | (string & {});
 export type DatetimeTypeFieldName = string;
 export interface IncrementalPullConfig {
-  DatetimeTypeFieldName?: string;
+  DatetimeTypeFieldName?: string | undefined;
 }
 export interface MarketoSourceProperties {
   Object: string;
@@ -675,12 +675,12 @@ export type BucketName = string;
 export type BucketPrefix = string;
 export interface S3SourceProperties {
   BucketName: string;
-  BucketPrefix?: string;
+  BucketPrefix?: string | undefined;
 }
 export interface SalesforceSourceProperties {
   Object: string;
-  EnableDynamicFieldUpdate?: boolean;
-  IncludeDeletedRecords?: boolean;
+  EnableDynamicFieldUpdate?: boolean | undefined;
+  IncludeDeletedRecords?: boolean | undefined;
 }
 export interface ServiceNowSourceProperties {
   Object: string;
@@ -689,16 +689,16 @@ export interface ZendeskSourceProperties {
   Object: string;
 }
 export interface SourceConnectorProperties {
-  Marketo?: MarketoSourceProperties;
-  S3?: S3SourceProperties;
-  Salesforce?: SalesforceSourceProperties;
-  ServiceNow?: ServiceNowSourceProperties;
-  Zendesk?: ZendeskSourceProperties;
+  Marketo?: MarketoSourceProperties | undefined;
+  S3?: S3SourceProperties | undefined;
+  Salesforce?: SalesforceSourceProperties | undefined;
+  ServiceNow?: ServiceNowSourceProperties | undefined;
+  Zendesk?: ZendeskSourceProperties | undefined;
 }
 export interface SourceFlowConfig {
-  ConnectorProfileName?: string;
+  ConnectorProfileName?: string | undefined;
   ConnectorType: SourceConnectorType;
-  IncrementalPullConfig?: IncrementalPullConfig;
+  IncrementalPullConfig?: IncrementalPullConfig | undefined;
   SourceConnectorProperties: SourceConnectorProperties;
 }
 export type MarketoConnectorOperator =
@@ -804,11 +804,11 @@ export type ZendeskConnectorOperator =
   | "NO_OP"
   | (string & {});
 export interface ConnectorOperator {
-  Marketo?: MarketoConnectorOperator;
-  S3?: S3ConnectorOperator;
-  Salesforce?: SalesforceConnectorOperator;
-  ServiceNow?: ServiceNowConnectorOperator;
-  Zendesk?: ZendeskConnectorOperator;
+  Marketo?: MarketoConnectorOperator | undefined;
+  S3?: S3ConnectorOperator | undefined;
+  Salesforce?: SalesforceConnectorOperator | undefined;
+  ServiceNow?: ServiceNowConnectorOperator | undefined;
+  Zendesk?: ZendeskConnectorOperator | undefined;
 }
 export type DestinationField = string;
 export type StringTo2048 = string;
@@ -830,7 +830,7 @@ export type OperatorPropertiesKeys =
   | "SUBFIELD_CATEGORY_MAP"
   | (string & {});
 export type Property = string;
-export type TaskPropertiesMap = { [key in OperatorPropertiesKeys]?: string };
+export type TaskPropertiesMap = { [key in OperatorPropertiesKeys]?: string | undefined };
 export type TaskType =
   | "Arithmetic"
   | "Filter"
@@ -841,10 +841,10 @@ export type TaskType =
   | "Validate"
   | (string & {});
 export interface Task {
-  ConnectorOperator?: ConnectorOperator;
-  DestinationField?: string;
+  ConnectorOperator?: ConnectorOperator | undefined;
+  DestinationField?: string | undefined;
   SourceFields: string[];
-  TaskProperties?: { [key: string]: string | undefined };
+  TaskProperties?: { [key: string]: string | undefined } | undefined;
   TaskType: TaskType;
 }
 export type Tasks = Task[];
@@ -855,22 +855,22 @@ export type Timezone = string;
 export type ScheduleOffset = number;
 export interface ScheduledTriggerProperties {
   ScheduleExpression: string;
-  DataPullMode?: DataPullMode;
-  ScheduleStartTime?: Date;
-  ScheduleEndTime?: Date;
-  Timezone?: string;
-  ScheduleOffset?: number;
-  FirstExecutionFrom?: Date;
+  DataPullMode?: DataPullMode | undefined;
+  ScheduleStartTime?: Date | undefined;
+  ScheduleEndTime?: Date | undefined;
+  Timezone?: string | undefined;
+  ScheduleOffset?: number | undefined;
+  FirstExecutionFrom?: Date | undefined;
 }
 export interface TriggerProperties {
-  Scheduled?: ScheduledTriggerProperties;
+  Scheduled?: ScheduledTriggerProperties | undefined;
 }
 export interface TriggerConfig {
   TriggerType: TriggerType;
-  TriggerProperties?: TriggerProperties;
+  TriggerProperties?: TriggerProperties | undefined;
 }
 export interface FlowDefinition {
-  Description?: string;
+  Description?: string | undefined;
   FlowName: string;
   KmsArn: string;
   SourceFlowConfig: SourceFlowConfig;
@@ -884,10 +884,10 @@ export interface Batch {
 export type Batches = Batch[];
 export interface AppflowIntegration {
   FlowDefinition: FlowDefinition;
-  Batches?: Batch[];
+  Batches?: Batch[] | undefined;
 }
 export interface IntegrationConfig {
-  AppflowIntegration?: AppflowIntegration;
+  AppflowIntegration?: AppflowIntegration | undefined;
 }
 export type RoleArn = string;
 export interface CreateIntegrationWorkflowRequest {
@@ -896,7 +896,7 @@ export interface CreateIntegrationWorkflowRequest {
   IntegrationConfig: IntegrationConfig;
   ObjectTypeName: string;
   RoleArn: string;
-  Tags?: { [key: string]: string | undefined };
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface CreateIntegrationWorkflowResponse {
   WorkflowId: string;
@@ -904,31 +904,31 @@ export interface CreateIntegrationWorkflowResponse {
 }
 export interface CreateProfileRequest {
   DomainName: string;
-  AccountNumber?: string | redacted.Redacted<string>;
-  AdditionalInformation?: string | redacted.Redacted<string>;
-  PartyType?: PartyType;
-  BusinessName?: string | redacted.Redacted<string>;
-  FirstName?: string | redacted.Redacted<string>;
-  MiddleName?: string | redacted.Redacted<string>;
-  LastName?: string | redacted.Redacted<string>;
-  BirthDate?: string | redacted.Redacted<string>;
-  Gender?: Gender;
-  PhoneNumber?: string | redacted.Redacted<string>;
-  MobilePhoneNumber?: string | redacted.Redacted<string>;
-  HomePhoneNumber?: string | redacted.Redacted<string>;
-  BusinessPhoneNumber?: string | redacted.Redacted<string>;
-  EmailAddress?: string | redacted.Redacted<string>;
-  PersonalEmailAddress?: string | redacted.Redacted<string>;
-  BusinessEmailAddress?: string | redacted.Redacted<string>;
-  Address?: Address;
-  ShippingAddress?: Address;
-  MailingAddress?: Address;
-  BillingAddress?: Address;
-  Attributes?: { [key: string]: string | undefined };
-  PartyTypeString?: string | redacted.Redacted<string>;
-  GenderString?: string | redacted.Redacted<string>;
-  ProfileType?: ProfileType;
-  EngagementPreferences?: EngagementPreferences;
+  AccountNumber?: string | redacted.Redacted<string> | undefined;
+  AdditionalInformation?: string | redacted.Redacted<string> | undefined;
+  PartyType?: PartyType | undefined;
+  BusinessName?: string | redacted.Redacted<string> | undefined;
+  FirstName?: string | redacted.Redacted<string> | undefined;
+  MiddleName?: string | redacted.Redacted<string> | undefined;
+  LastName?: string | redacted.Redacted<string> | undefined;
+  BirthDate?: string | redacted.Redacted<string> | undefined;
+  Gender?: Gender | undefined;
+  PhoneNumber?: string | redacted.Redacted<string> | undefined;
+  MobilePhoneNumber?: string | redacted.Redacted<string> | undefined;
+  HomePhoneNumber?: string | redacted.Redacted<string> | undefined;
+  BusinessPhoneNumber?: string | redacted.Redacted<string> | undefined;
+  EmailAddress?: string | redacted.Redacted<string> | undefined;
+  PersonalEmailAddress?: string | redacted.Redacted<string> | undefined;
+  BusinessEmailAddress?: string | redacted.Redacted<string> | undefined;
+  Address?: Address | undefined;
+  ShippingAddress?: Address | undefined;
+  MailingAddress?: Address | undefined;
+  BillingAddress?: Address | undefined;
+  Attributes?: { [key: string]: string | undefined } | undefined;
+  PartyTypeString?: string | redacted.Redacted<string> | undefined;
+  GenderString?: string | redacted.Redacted<string> | undefined;
+  ProfileType?: ProfileType | undefined;
+  EngagementPreferences?: EngagementPreferences | undefined;
 }
 export interface CreateProfileResponse {
   ProfileId: string;
@@ -945,8 +945,8 @@ export type EventParametersEventTypeString = string;
 export type EventParametersEventWeightDouble = number;
 export interface EventParameters {
   EventType: string;
-  EventValueThreshold?: number;
-  EventWeight?: number;
+  EventValueThreshold?: number | undefined;
+  EventWeight?: number | undefined;
 }
 export type EventParametersList = EventParameters[];
 export interface EventsConfig {
@@ -955,7 +955,7 @@ export interface EventsConfig {
 export type RecommenderConfigTrainingFrequencyInteger = number;
 export type InferenceConfigMinProvisionedTPSInteger = number;
 export interface InferenceConfig {
-  MinProvisionedTPS?: number;
+  MinProvisionedTPS?: number | undefined;
 }
 export type ColumnNamesList = string[];
 export type IncludedColumns = { [key: string]: string[] | undefined };
@@ -968,29 +968,29 @@ export interface DiversityColumn {
 }
 export type DiversityColumnsList = DiversityColumn[];
 export interface DiversityConfig {
-  DiversityColumns?: DiversityColumn[];
+  DiversityColumns?: DiversityColumn[] | undefined;
 }
 export interface RecommenderConfig {
-  EventsConfig?: EventsConfig;
-  TrainingFrequency?: number;
-  InferenceConfig?: InferenceConfig;
-  IncludedColumns?: { [key: string]: string[] | undefined };
-  ExcludedColumns?: { [key: string]: string[] | undefined };
-  DiversityConfig?: DiversityConfig;
+  EventsConfig?: EventsConfig | undefined;
+  TrainingFrequency?: number | undefined;
+  InferenceConfig?: InferenceConfig | undefined;
+  IncludedColumns?: { [key: string]: string[] | undefined } | undefined;
+  ExcludedColumns?: { [key: string]: string[] | undefined } | undefined;
+  DiversityConfig?: DiversityConfig | undefined;
 }
 export interface CreateRecommenderRequest {
   DomainName: string;
   RecommenderName: string;
   RecommenderRecipeName: RecommenderRecipeName;
-  RecommenderConfig?: RecommenderConfig;
-  Description?: string | redacted.Redacted<string>;
-  RecommenderSchemaName?: string;
-  Tags?: { [key: string]: string | undefined };
+  RecommenderConfig?: RecommenderConfig | undefined;
+  Description?: string | redacted.Redacted<string> | undefined;
+  RecommenderSchemaName?: string | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export type Arn = string;
 export interface CreateRecommenderResponse {
   RecommenderArn: string;
-  Tags?: { [key: string]: string | undefined };
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export type RecommenderFilterName = string;
 export type RecommenderFilterExpression = string | redacted.Redacted<string>;
@@ -998,20 +998,20 @@ export interface CreateRecommenderFilterRequest {
   DomainName: string;
   RecommenderFilterName: string;
   RecommenderFilterExpression: string | redacted.Redacted<string>;
-  RecommenderSchemaName?: string;
-  Description?: string | redacted.Redacted<string>;
-  Tags?: { [key: string]: string | undefined };
+  RecommenderSchemaName?: string | undefined;
+  Description?: string | redacted.Redacted<string> | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface CreateRecommenderFilterResponse {
   RecommenderFilterArn: string;
-  Tags?: { [key: string]: string | undefined };
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export type ContentType = "STRING" | "NUMBER" | (string & {});
 export type FeatureType = "TEXTUAL" | "CATEGORICAL" | (string & {});
 export interface RecommenderSchemaField {
   TargetFieldName: string;
-  ContentType?: ContentType;
-  FeatureType?: FeatureType;
+  ContentType?: ContentType | undefined;
+  FeatureType?: FeatureType | undefined;
 }
 export type RecommenderSchemaFieldList = RecommenderSchemaField[];
 export type RecommenderSchemaFields = { [key: string]: RecommenderSchemaField[] | undefined };
@@ -1019,7 +1019,7 @@ export interface CreateRecommenderSchemaRequest {
   DomainName: string;
   RecommenderSchemaName: string;
   Fields: { [key: string]: RecommenderSchemaField[] | undefined };
-  Tags?: { [key: string]: string | undefined };
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export type RecommenderSchemaStatus = "ACTIVE" | "DELETING" | (string & {});
 export interface CreateRecommenderSchemaResponse {
@@ -1028,7 +1028,7 @@ export interface CreateRecommenderSchemaResponse {
   Fields: { [key: string]: RecommenderSchemaField[] | undefined };
   CreatedAt: Date;
   Status: RecommenderSchemaStatus;
-  Tags?: { [key: string]: string | undefined };
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export type SensitiveString1To4000 = string | redacted.Redacted<string>;
 export type StringDimensionType =
@@ -1061,12 +1061,12 @@ export interface DateDimension {
   Values: string[];
 }
 export interface AddressDimension {
-  City?: ProfileDimension;
-  Country?: ProfileDimension;
-  County?: ProfileDimension;
-  PostalCode?: ProfileDimension;
-  Province?: ProfileDimension;
-  State?: ProfileDimension;
+  City?: ProfileDimension | undefined;
+  Country?: ProfileDimension | undefined;
+  County?: ProfileDimension | undefined;
+  PostalCode?: ProfileDimension | undefined;
+  Province?: ProfileDimension | undefined;
+  State?: ProfileDimension | undefined;
 }
 export type AttributeDimensionType =
   | "INCLUSIVE"
@@ -1099,59 +1099,59 @@ export interface ProfileTypeDimension {
   Values: ProfileType[];
 }
 export interface ProfileAttributes {
-  AccountNumber?: ProfileDimension;
-  AdditionalInformation?: ExtraLengthValueProfileDimension;
-  FirstName?: ProfileDimension;
-  LastName?: ProfileDimension;
-  MiddleName?: ProfileDimension;
-  GenderString?: ProfileDimension;
-  PartyTypeString?: ProfileDimension;
-  BirthDate?: DateDimension;
-  PhoneNumber?: ProfileDimension;
-  BusinessName?: ProfileDimension;
-  BusinessPhoneNumber?: ProfileDimension;
-  HomePhoneNumber?: ProfileDimension;
-  MobilePhoneNumber?: ProfileDimension;
-  EmailAddress?: ProfileDimension;
-  PersonalEmailAddress?: ProfileDimension;
-  BusinessEmailAddress?: ProfileDimension;
-  Address?: AddressDimension;
-  ShippingAddress?: AddressDimension;
-  MailingAddress?: AddressDimension;
-  BillingAddress?: AddressDimension;
-  Attributes?: { [key: string]: AttributeDimension | undefined };
-  ProfileType?: ProfileTypeDimension;
+  AccountNumber?: ProfileDimension | undefined;
+  AdditionalInformation?: ExtraLengthValueProfileDimension | undefined;
+  FirstName?: ProfileDimension | undefined;
+  LastName?: ProfileDimension | undefined;
+  MiddleName?: ProfileDimension | undefined;
+  GenderString?: ProfileDimension | undefined;
+  PartyTypeString?: ProfileDimension | undefined;
+  BirthDate?: DateDimension | undefined;
+  PhoneNumber?: ProfileDimension | undefined;
+  BusinessName?: ProfileDimension | undefined;
+  BusinessPhoneNumber?: ProfileDimension | undefined;
+  HomePhoneNumber?: ProfileDimension | undefined;
+  MobilePhoneNumber?: ProfileDimension | undefined;
+  EmailAddress?: ProfileDimension | undefined;
+  PersonalEmailAddress?: ProfileDimension | undefined;
+  BusinessEmailAddress?: ProfileDimension | undefined;
+  Address?: AddressDimension | undefined;
+  ShippingAddress?: AddressDimension | undefined;
+  MailingAddress?: AddressDimension | undefined;
+  BillingAddress?: AddressDimension | undefined;
+  Attributes?: { [key: string]: AttributeDimension | undefined } | undefined;
+  ProfileType?: ProfileTypeDimension | undefined;
 }
 export interface CalculatedAttributeDimension {
   DimensionType: AttributeDimensionType;
   Values: string[];
-  ConditionOverrides?: ConditionOverrides;
+  ConditionOverrides?: ConditionOverrides | undefined;
 }
 export type CalculatedCustomAttributes = {
   [key: string]: CalculatedAttributeDimension | undefined;
 };
 export type Dimension =
-  | { ProfileAttributes: ProfileAttributes; CalculatedAttributes?: never }
+  | { ProfileAttributes: ProfileAttributes; CalculatedAttributes?: undefined }
   | {
-      ProfileAttributes?: never;
+      ProfileAttributes?: undefined;
       CalculatedAttributes: { [key: string]: CalculatedAttributeDimension | undefined };
     };
 export type DimensionList = Dimension[];
 export interface SourceSegment {
-  SegmentDefinitionName?: string;
+  SegmentDefinitionName?: string | undefined;
 }
 export type SourceSegmentList = SourceSegment[];
 export type IncludeOptions = "ALL" | "ANY" | "NONE" | (string & {});
 export interface Group {
-  Dimensions?: Dimension[];
-  SourceSegments?: SourceSegment[];
-  SourceType?: IncludeOptions;
-  Type?: IncludeOptions;
+  Dimensions?: Dimension[] | undefined;
+  SourceSegments?: SourceSegment[] | undefined;
+  SourceType?: IncludeOptions | undefined;
+  Type?: IncludeOptions | undefined;
 }
 export type SegmentGroupList = Group[];
 export interface SegmentGroup {
-  Groups?: Group[];
-  Include?: IncludeOptions;
+  Groups?: Group[] | undefined;
+  Include?: IncludeOptions | undefined;
 }
 export type SensitiveString1To50000 = string | redacted.Redacted<string>;
 export type SegmentSortDataType = "STRING" | "NUMBER" | "DATE" | (string & {});
@@ -1159,9 +1159,9 @@ export type SegmentSortOrder = "ASC" | "DESC" | (string & {});
 export type SortAttributeType = "PROFILE" | "CALCULATED" | (string & {});
 export interface SortAttribute {
   Name: string;
-  DataType?: SegmentSortDataType;
+  DataType?: SegmentSortDataType | undefined;
   Order: SegmentSortOrder;
-  Type?: SortAttributeType;
+  Type?: SortAttributeType | undefined;
 }
 export type SortAttributeList = SortAttribute[];
 export interface SegmentSort {
@@ -1171,44 +1171,44 @@ export interface CreateSegmentDefinitionRequest {
   DomainName: string;
   SegmentDefinitionName: string;
   DisplayName: string;
-  Description?: string | redacted.Redacted<string>;
-  SegmentGroups?: SegmentGroup;
-  SegmentSqlQuery?: string | redacted.Redacted<string>;
-  SegmentSort?: SegmentSort;
-  Tags?: { [key: string]: string | undefined };
+  Description?: string | redacted.Redacted<string> | undefined;
+  SegmentGroups?: SegmentGroup | undefined;
+  SegmentSqlQuery?: string | redacted.Redacted<string> | undefined;
+  SegmentSort?: SegmentSort | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export type SegmentDefinitionArn = string;
 export interface CreateSegmentDefinitionResponse {
   SegmentDefinitionName: string;
-  DisplayName?: string;
-  Description?: string | redacted.Redacted<string>;
-  CreatedAt?: Date;
-  SegmentDefinitionArn?: string;
-  Tags?: { [key: string]: string | undefined };
+  DisplayName?: string | undefined;
+  Description?: string | redacted.Redacted<string> | undefined;
+  CreatedAt?: Date | undefined;
+  SegmentDefinitionArn?: string | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface SegmentGroupStructure {
-  Groups?: Group[];
-  Include?: IncludeOptions;
+  Groups?: Group[] | undefined;
+  Include?: IncludeOptions | undefined;
 }
 export interface CreateSegmentEstimateRequest {
   DomainName: string;
-  SegmentQuery?: SegmentGroupStructure;
-  SegmentSqlQuery?: string | redacted.Redacted<string>;
+  SegmentQuery?: SegmentGroupStructure | undefined;
+  SegmentSqlQuery?: string | redacted.Redacted<string> | undefined;
 }
 export type StatusCode = number;
 export interface CreateSegmentEstimateResponse {
-  DomainName?: string;
-  EstimateId?: string;
-  StatusCode?: number;
+  DomainName?: string | undefined;
+  EstimateId?: string | undefined;
+  StatusCode?: number | undefined;
 }
 export type DataFormat = "CSV" | "JSONL" | "ORC" | (string & {});
 export interface CreateSegmentSnapshotRequest {
   DomainName: string;
   SegmentDefinitionName: string;
   DataFormat: DataFormat;
-  EncryptionKey?: string;
-  RoleArn?: string;
-  DestinationUri?: string;
+  EncryptionKey?: string | undefined;
+  RoleArn?: string | undefined;
+  DestinationUri?: string | undefined;
 }
 export interface CreateSegmentSnapshotResponse {
   SnapshotId: string;
@@ -1221,9 +1221,9 @@ export type FieldContentType =
   | "NAME"
   | (string & {});
 export interface ObjectTypeField {
-  Source?: string;
-  Target?: string;
-  ContentType?: FieldContentType;
+  Source?: string | undefined;
+  Target?: string | undefined;
+  ContentType?: FieldContentType | undefined;
 }
 export type FieldMap = { [key: string]: ObjectTypeField | undefined };
 export interface CreateUploadJobRequest {
@@ -1231,7 +1231,7 @@ export interface CreateUploadJobRequest {
   DisplayName: string;
   Fields: { [key: string]: ObjectTypeField | undefined };
   UniqueKey: string;
-  DataExpiry?: number;
+  DataExpiry?: number | undefined;
 }
 export interface CreateUploadJobResponse {
   JobId: string;
@@ -1284,7 +1284,7 @@ export interface DeleteProfileRequest {
   DomainName: string;
 }
 export interface DeleteProfileResponse {
-  Message?: string;
+  Message?: string | undefined;
 }
 export interface DeleteProfileKeyRequest {
   ProfileId: string;
@@ -1293,7 +1293,7 @@ export interface DeleteProfileKeyRequest {
   DomainName: string;
 }
 export interface DeleteProfileKeyResponse {
-  Message?: string;
+  Message?: string | undefined;
 }
 export interface DeleteProfileObjectRequest {
   ProfileId: string;
@@ -1302,7 +1302,7 @@ export interface DeleteProfileObjectRequest {
   DomainName: string;
 }
 export interface DeleteProfileObjectResponse {
-  Message?: string;
+  Message?: string | undefined;
 }
 export interface DeleteProfileObjectTypeRequest {
   DomainName: string;
@@ -1333,14 +1333,14 @@ export interface DeleteSegmentDefinitionRequest {
   SegmentDefinitionName: string;
 }
 export interface DeleteSegmentDefinitionResponse {
-  Message?: string;
+  Message?: string | undefined;
 }
 export interface DeleteSegmentSubscriptionRequest {
   DomainName: string;
   SegmentDefinitionName: string;
 }
 export interface DeleteSegmentSubscriptionResponse {
-  Message?: string;
+  Message?: string | undefined;
 }
 export interface DeleteWorkflowRequest {
   DomainName: string;
@@ -1377,56 +1377,56 @@ export type StandardIdentifier =
 export type StandardIdentifierList = StandardIdentifier[];
 export type FieldNameList = string[];
 export interface ObjectTypeKey {
-  StandardIdentifiers?: StandardIdentifier[];
-  FieldNames?: string[];
+  StandardIdentifiers?: StandardIdentifier[] | undefined;
+  FieldNames?: string[] | undefined;
 }
 export type ObjectTypeKeyList = ObjectTypeKey[];
 export type KeyMap = { [key: string]: ObjectTypeKey[] | undefined };
 export interface DetectedProfileObjectType {
-  SourceLastUpdatedTimestampFormat?: string;
-  Fields?: { [key: string]: ObjectTypeField | undefined };
-  Keys?: { [key: string]: ObjectTypeKey[] | undefined };
+  SourceLastUpdatedTimestampFormat?: string | undefined;
+  Fields?: { [key: string]: ObjectTypeField | undefined } | undefined;
+  Keys?: { [key: string]: ObjectTypeKey[] | undefined } | undefined;
 }
 export type DetectedProfileObjectTypes = DetectedProfileObjectType[];
 export interface DetectProfileObjectTypeResponse {
-  DetectedProfileObjectTypes?: DetectedProfileObjectType[];
+  DetectedProfileObjectTypes?: DetectedProfileObjectType[] | undefined;
 }
 export interface DisassociateStreamForSegmentsRequest {
   DomainName: string;
 }
 export interface DisassociateStreamForSegmentsResponse {
-  Message?: string;
+  Message?: string | undefined;
 }
 export interface GetAutoMergingPreviewRequest {
   DomainName: string;
   Consolidation: Consolidation;
   ConflictResolution: ConflictResolution;
-  MinAllowedConfidenceScoreForMerging?: number;
+  MinAllowedConfidenceScoreForMerging?: number | undefined;
 }
 export interface GetAutoMergingPreviewResponse {
   DomainName: string;
-  NumberOfMatchesInSample?: number;
-  NumberOfProfilesInSample?: number;
-  NumberOfProfilesWillBeMerged?: number;
+  NumberOfMatchesInSample?: number | undefined;
+  NumberOfProfilesInSample?: number | undefined;
+  NumberOfProfilesWillBeMerged?: number | undefined;
 }
 export interface GetCalculatedAttributeDefinitionRequest {
   DomainName: string;
   CalculatedAttributeName: string;
 }
 export interface GetCalculatedAttributeDefinitionResponse {
-  CalculatedAttributeName?: string;
-  DisplayName?: string;
-  Description?: string | redacted.Redacted<string>;
-  CreatedAt?: Date;
-  LastUpdatedAt?: Date;
-  Statistic?: Statistic;
-  Filter?: Filter;
-  Conditions?: Conditions;
-  AttributeDetails?: AttributeDetails;
-  UseHistoricalData?: boolean;
-  Status?: ReadinessStatus;
-  Readiness?: Readiness;
-  Tags?: { [key: string]: string | undefined };
+  CalculatedAttributeName?: string | undefined;
+  DisplayName?: string | undefined;
+  Description?: string | redacted.Redacted<string> | undefined;
+  CreatedAt?: Date | undefined;
+  LastUpdatedAt?: Date | undefined;
+  Statistic?: Statistic | undefined;
+  Filter?: Filter | undefined;
+  Conditions?: Conditions | undefined;
+  AttributeDetails?: AttributeDetails | undefined;
+  UseHistoricalData?: boolean | undefined;
+  Status?: ReadinessStatus | undefined;
+  Readiness?: Readiness | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface GetCalculatedAttributeForProfileRequest {
   DomainName: string;
@@ -1434,33 +1434,33 @@ export interface GetCalculatedAttributeForProfileRequest {
   CalculatedAttributeName: string;
 }
 export interface GetCalculatedAttributeForProfileResponse {
-  CalculatedAttributeName?: string;
-  DisplayName?: string;
-  IsDataPartial?: string;
-  Value?: string;
-  LastObjectTimestamp?: Date;
+  CalculatedAttributeName?: string | undefined;
+  DisplayName?: string | undefined;
+  IsDataPartial?: string | undefined;
+  Value?: string | undefined;
+  LastObjectTimestamp?: Date | undefined;
 }
 export interface GetDomainRequest {
   DomainName: string;
 }
 export interface DomainStats {
-  ProfileCount?: number;
-  MeteringProfileCount?: number;
-  ObjectCount?: number;
-  TotalSize?: number;
+  ProfileCount?: number | undefined;
+  MeteringProfileCount?: number | undefined;
+  ObjectCount?: number | undefined;
+  TotalSize?: number | undefined;
 }
 export interface GetDomainResponse {
   DomainName: string;
-  DefaultExpirationDays?: number;
-  DefaultEncryptionKey?: string;
-  DeadLetterQueueUrl?: string;
-  Stats?: DomainStats;
-  Matching?: MatchingResponse;
-  RuleBasedMatching?: RuleBasedMatchingResponse;
-  DataStore?: DataStoreResponse;
+  DefaultExpirationDays?: number | undefined;
+  DefaultEncryptionKey?: string | undefined;
+  DeadLetterQueueUrl?: string | undefined;
+  Stats?: DomainStats | undefined;
+  Matching?: MatchingResponse | undefined;
+  RuleBasedMatching?: RuleBasedMatchingResponse | undefined;
+  DataStore?: DataStoreResponse | undefined;
   CreatedAt: Date;
   LastUpdatedAt: Date;
-  Tags?: { [key: string]: string | undefined };
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface GetDomainLayoutRequest {
   DomainName: string;
@@ -1470,13 +1470,13 @@ export interface GetDomainLayoutResponse {
   LayoutDefinitionName: string;
   Description: string | redacted.Redacted<string>;
   DisplayName: string;
-  IsDefault?: boolean;
+  IsDefault?: boolean | undefined;
   LayoutType: LayoutType;
   Layout: string | redacted.Redacted<string>;
   Version: string;
   CreatedAt: Date;
   LastUpdatedAt: Date;
-  Tags?: { [key: string]: string | undefined };
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface GetDomainObjectTypeRequest {
   DomainName: string;
@@ -1487,18 +1487,18 @@ export type DomainObjectTypeFieldName = string;
 export interface DomainObjectTypeField {
   Source: string;
   Target: string;
-  ContentType?: ContentType;
-  FeatureType?: FeatureType;
+  ContentType?: ContentType | undefined;
+  FeatureType?: FeatureType | undefined;
 }
 export type DomainObjectTypeFields = { [key: string]: DomainObjectTypeField | undefined };
 export interface GetDomainObjectTypeResponse {
   ObjectTypeName: string;
-  Description?: string | redacted.Redacted<string>;
-  EncryptionKey?: string;
-  Fields?: { [key: string]: DomainObjectTypeField | undefined };
-  CreatedAt?: Date;
-  LastUpdatedAt?: Date;
-  Tags?: { [key: string]: string | undefined };
+  Description?: string | redacted.Redacted<string> | undefined;
+  EncryptionKey?: string | undefined;
+  Fields?: { [key: string]: DomainObjectTypeField | undefined } | undefined;
+  CreatedAt?: Date | undefined;
+  LastUpdatedAt?: Date | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface GetEventStreamRequest {
   DomainName: string;
@@ -1509,32 +1509,32 @@ export type EventStreamDestinationStatus = "HEALTHY" | "UNHEALTHY" | (string & {
 export interface EventStreamDestinationDetails {
   Uri: string;
   Status: EventStreamDestinationStatus;
-  UnhealthySince?: Date;
-  Message?: string;
+  UnhealthySince?: Date | undefined;
+  Message?: string | undefined;
 }
 export interface GetEventStreamResponse {
   DomainName: string;
   EventStreamArn: string;
   CreatedAt: Date;
   State: EventStreamState;
-  StoppedSince?: Date;
+  StoppedSince?: Date | undefined;
   DestinationDetails: EventStreamDestinationDetails;
-  Tags?: { [key: string]: string | undefined };
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface GetEventTriggerRequest {
   DomainName: string;
   EventTriggerName: string;
 }
 export interface GetEventTriggerResponse {
-  EventTriggerName?: string;
-  ObjectTypeName?: string;
-  Description?: string | redacted.Redacted<string>;
-  EventTriggerConditions?: EventTriggerCondition[];
-  SegmentFilter?: string;
-  EventTriggerLimits?: EventTriggerLimits;
-  CreatedAt?: Date;
-  LastUpdatedAt?: Date;
-  Tags?: { [key: string]: string | undefined };
+  EventTriggerName?: string | undefined;
+  ObjectTypeName?: string | undefined;
+  Description?: string | redacted.Redacted<string> | undefined;
+  EventTriggerConditions?: EventTriggerCondition[] | undefined;
+  SegmentFilter?: string | undefined;
+  EventTriggerLimits?: EventTriggerLimits | undefined;
+  CreatedAt?: Date | undefined;
+  LastUpdatedAt?: Date | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface GetIdentityResolutionJobRequest {
   DomainName: string;
@@ -1551,29 +1551,29 @@ export type IdentityResolutionJobStatus =
   | (string & {});
 export type S3KeyName = string;
 export interface S3ExportingLocation {
-  S3BucketName?: string;
-  S3KeyName?: string;
+  S3BucketName?: string | undefined;
+  S3KeyName?: string | undefined;
 }
 export interface ExportingLocation {
-  S3Exporting?: S3ExportingLocation;
+  S3Exporting?: S3ExportingLocation | undefined;
 }
 export interface JobStats {
-  NumberOfProfilesReviewed?: number;
-  NumberOfMatchesFound?: number;
-  NumberOfMergesDone?: number;
+  NumberOfProfilesReviewed?: number | undefined;
+  NumberOfMatchesFound?: number | undefined;
+  NumberOfMergesDone?: number | undefined;
 }
 export interface GetIdentityResolutionJobResponse {
-  DomainName?: string;
-  JobId?: string;
-  Status?: IdentityResolutionJobStatus;
-  Message?: string;
-  JobStartTime?: Date;
-  JobEndTime?: Date;
-  LastUpdatedAt?: Date;
-  JobExpirationTime?: Date;
-  AutoMerging?: AutoMerging;
-  ExportingLocation?: ExportingLocation;
-  JobStats?: JobStats;
+  DomainName?: string | undefined;
+  JobId?: string | undefined;
+  Status?: IdentityResolutionJobStatus | undefined;
+  Message?: string | undefined;
+  JobStartTime?: Date | undefined;
+  JobEndTime?: Date | undefined;
+  LastUpdatedAt?: Date | undefined;
+  JobExpirationTime?: Date | undefined;
+  AutoMerging?: AutoMerging | undefined;
+  ExportingLocation?: ExportingLocation | undefined;
+  JobStats?: JobStats | undefined;
 }
 export interface GetIntegrationRequest {
   DomainName: string;
@@ -1585,37 +1585,37 @@ export type Scope = "PROFILE" | "DOMAIN" | (string & {});
 export interface GetIntegrationResponse {
   DomainName: string;
   Uri: string;
-  ObjectTypeName?: string;
+  ObjectTypeName?: string | undefined;
   CreatedAt: Date;
   LastUpdatedAt: Date;
-  Tags?: { [key: string]: string | undefined };
-  ObjectTypeNames?: { [key: string]: string | undefined };
-  WorkflowId?: string;
-  IsUnstructured?: boolean;
-  RoleArn?: string;
-  EventTriggerNames?: string[];
-  Scope?: Scope;
+  Tags?: { [key: string]: string | undefined } | undefined;
+  ObjectTypeNames?: { [key: string]: string | undefined } | undefined;
+  WorkflowId?: string | undefined;
+  IsUnstructured?: boolean | undefined;
+  RoleArn?: string | undefined;
+  EventTriggerNames?: string[] | undefined;
+  Scope?: Scope | undefined;
 }
 export type Token = string;
 export type MaxSize100 = number;
 export interface GetMatchesRequest {
-  NextToken?: string;
-  MaxResults?: number;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
   DomainName: string;
 }
 export type MatchesNumber = number;
 export type ProfileIdList = string[];
 export interface MatchItem {
-  MatchId?: string;
-  ProfileIds?: string[];
-  ConfidenceScore?: number;
+  MatchId?: string | undefined;
+  ProfileIds?: string[] | undefined;
+  ConfidenceScore?: number | undefined;
 }
 export type MatchesList = MatchItem[];
 export interface GetMatchesResponse {
-  NextToken?: string;
-  MatchGenerationDate?: Date;
-  PotentialMatches?: number;
-  Matches?: MatchItem[];
+  NextToken?: string | undefined;
+  MatchGenerationDate?: Date | undefined;
+  PotentialMatches?: number | undefined;
+  Matches?: MatchItem[] | undefined;
 }
 export interface GetObjectTypeAttributeStatisticsRequest {
   DomainName: string;
@@ -1660,11 +1660,11 @@ export interface GetProfileHistoryRecordResponse {
   Id: string;
   ObjectTypeName: string;
   CreatedAt: Date;
-  LastUpdatedAt?: Date;
+  LastUpdatedAt?: Date | undefined;
   ActionType: ActionType;
-  ProfileObjectUniqueKey?: string;
-  Content?: string | redacted.Redacted<string>;
-  PerformedBy?: string;
+  ProfileObjectUniqueKey?: string | undefined;
+  Content?: string | redacted.Redacted<string> | undefined;
+  PerformedBy?: string | undefined;
 }
 export interface GetProfileObjectTypeRequest {
   DomainName: string;
@@ -1675,31 +1675,34 @@ export type MinSize1 = number;
 export interface GetProfileObjectTypeResponse {
   ObjectTypeName: string;
   Description: string | redacted.Redacted<string>;
-  TemplateId?: string;
-  ExpirationDays?: number;
-  EncryptionKey?: string;
-  AllowProfileCreation?: boolean;
-  SourceLastUpdatedTimestampFormat?: string;
-  MaxAvailableProfileObjectCount?: number;
-  MaxProfileObjectCount?: number;
-  SourcePriority?: number;
-  Fields?: { [key: string]: ObjectTypeField | undefined };
-  Keys?: { [key: string]: ObjectTypeKey[] | undefined };
-  CreatedAt?: Date;
-  LastUpdatedAt?: Date;
-  Tags?: { [key: string]: string | undefined };
+  TemplateId?: string | undefined;
+  ExpirationDays?: number | undefined;
+  EncryptionKey?: string | undefined;
+  AllowProfileCreation?: boolean | undefined;
+  SourceLastUpdatedTimestampFormat?: string | undefined;
+  MaxAvailableProfileObjectCount?: number | undefined;
+  MaxProfileObjectCount?: number | undefined;
+  SourcePriority?: number | undefined;
+  Fields?: { [key: string]: ObjectTypeField | undefined } | undefined;
+  Keys?: { [key: string]: ObjectTypeKey[] | undefined } | undefined;
+  CreatedAt?: Date | undefined;
+  LastUpdatedAt?: Date | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface GetProfileObjectTypeTemplateRequest {
   TemplateId: string;
 }
 export interface GetProfileObjectTypeTemplateResponse {
-  TemplateId?: string;
-  SourceName?: string;
-  SourceObject?: string;
-  AllowProfileCreation?: boolean;
-  SourceLastUpdatedTimestampFormat?: string;
-  Fields?: { [key: string]: ObjectTypeField | undefined };
-  Keys?: { [key: string]: ObjectTypeKey[] | undefined };
+  TemplateId?: string | undefined;
+  SourceName?: string | undefined;
+  SourceObject?: string | undefined;
+  DefaultMaxProfileObjectCount?: number | undefined;
+  DefaultMaxProfileObjectCountEffectiveAfter?: Date | undefined;
+  StoreOnly?: boolean | undefined;
+  AllowProfileCreation?: boolean | undefined;
+  SourceLastUpdatedTimestampFormat?: string | undefined;
+  Fields?: { [key: string]: ObjectTypeField | undefined } | undefined;
+  Keys?: { [key: string]: ObjectTypeKey[] | undefined } | undefined;
 }
 export type ContextKey = string;
 export type RecommenderContext = { [key: string]: string | undefined };
@@ -1709,16 +1712,16 @@ export type RecommenderFilterValues = {
   [key: string]: string | redacted.Redacted<string> | undefined;
 };
 export interface RecommenderFilter {
-  Name?: string;
-  Values?: { [key: string]: string | redacted.Redacted<string> | undefined };
+  Name?: string | undefined;
+  Values?: { [key: string]: string | redacted.Redacted<string> | undefined } | undefined;
 }
 export type RecommenderFilters = RecommenderFilter[];
 export type PercentPromotedItems = number;
 export interface RecommenderPromotionalFilter {
-  Name?: string;
-  Values?: { [key: string]: string | redacted.Redacted<string> | undefined };
-  PromotionName?: string;
-  PercentPromotedItems?: number;
+  Name?: string | undefined;
+  Values?: { [key: string]: string | redacted.Redacted<string> | undefined } | undefined;
+  PromotionName?: string | undefined;
+  PercentPromotedItems?: number | undefined;
 }
 export type RecommenderPromotionalFilters = RecommenderPromotionalFilter[];
 export type CandidateIdList = string[];
@@ -1726,55 +1729,55 @@ export type MaxSize500 = number;
 export type MetadataColumnName = string;
 export type MetadataColumnsList = string[];
 export interface MetadataConfig {
-  MetadataColumns?: string[];
+  MetadataColumns?: string[] | undefined;
 }
 export type DiversityPlaceholderName = string;
 export type DiversityCapValue = number;
 export type DiversityValuesMap = { [key: string]: number | undefined };
 export interface RecommendationDiversityConfig {
   Enabled: boolean;
-  Values?: { [key: string]: number | undefined };
+  Values?: { [key: string]: number | undefined } | undefined;
 }
 export interface GetProfileRecommendationsRequest {
   DomainName: string;
   ProfileId: string;
   RecommenderName: string;
-  Context?: { [key: string]: string | undefined };
-  RecommenderFilters?: RecommenderFilter[];
-  RecommenderPromotionalFilters?: RecommenderPromotionalFilter[];
-  CandidateIds?: string[];
-  MaxResults?: number;
-  MetadataConfig?: MetadataConfig;
-  DiversityConfig?: RecommendationDiversityConfig;
+  Context?: { [key: string]: string | undefined } | undefined;
+  RecommenderFilters?: RecommenderFilter[] | undefined;
+  RecommenderPromotionalFilters?: RecommenderPromotionalFilter[] | undefined;
+  CandidateIds?: string[] | undefined;
+  MaxResults?: number | undefined;
+  MetadataConfig?: MetadataConfig | undefined;
+  DiversityConfig?: RecommendationDiversityConfig | undefined;
 }
 export interface CatalogItem {
-  Id?: string | redacted.Redacted<string>;
-  Name?: string | redacted.Redacted<string>;
-  Code?: string | redacted.Redacted<string>;
-  Type?: string | redacted.Redacted<string>;
-  Category?: string | redacted.Redacted<string>;
-  Description?: string | redacted.Redacted<string>;
-  AdditionalInformation?: string | redacted.Redacted<string>;
-  ImageLink?: string | redacted.Redacted<string>;
-  Link?: string | redacted.Redacted<string>;
-  CreatedAt?: Date;
-  UpdatedAt?: Date;
-  Price?: string | redacted.Redacted<string>;
-  Attributes?: { [key: string]: string | undefined };
+  Id?: string | redacted.Redacted<string> | undefined;
+  Name?: string | redacted.Redacted<string> | undefined;
+  Code?: string | redacted.Redacted<string> | undefined;
+  Type?: string | redacted.Redacted<string> | undefined;
+  Category?: string | redacted.Redacted<string> | undefined;
+  Description?: string | redacted.Redacted<string> | undefined;
+  AdditionalInformation?: string | redacted.Redacted<string> | undefined;
+  ImageLink?: string | redacted.Redacted<string> | undefined;
+  Link?: string | redacted.Redacted<string> | undefined;
+  CreatedAt?: Date | undefined;
+  UpdatedAt?: Date | undefined;
+  Price?: string | redacted.Redacted<string> | undefined;
+  Attributes?: { [key: string]: string | undefined } | undefined;
 }
 export interface Recommendation {
-  CatalogItem?: CatalogItem;
-  Score?: number;
+  CatalogItem?: CatalogItem | undefined;
+  Score?: number | undefined;
 }
 export type Recommendations = Recommendation[];
 export interface GetProfileRecommendationsResponse {
-  Recommendations?: Recommendation[];
+  Recommendations?: Recommendation[] | undefined;
 }
 export type GetRecommenderRequestTrainingMetricsCountInteger = number;
 export interface GetRecommenderRequest {
   DomainName: string;
   RecommenderName: string;
-  TrainingMetricsCount?: number;
+  TrainingMetricsCount?: number | undefined;
 }
 export type RecommenderStatus =
   | "PENDING"
@@ -1788,12 +1791,12 @@ export type RecommenderStatus =
   | (string & {});
 export type RecommenderVersionName = string;
 export interface RecommenderUpdate {
-  RecommenderConfig?: RecommenderConfig;
-  Status?: RecommenderStatus;
-  CreatedAt?: Date;
-  LastUpdatedAt?: Date;
-  FailureReason?: string;
-  RecommenderVersionName?: string;
+  RecommenderConfig?: RecommenderConfig | undefined;
+  Status?: RecommenderStatus | undefined;
+  CreatedAt?: Date | undefined;
+  LastUpdatedAt?: Date | undefined;
+  FailureReason?: string | undefined;
+  RecommenderVersionName?: string | undefined;
 }
 export type TrainingMetricName =
   | "hit"
@@ -1810,27 +1813,27 @@ export type TrainingMetricName =
   | "precision_at_10"
   | "precision_at_25"
   | (string & {});
-export type Metrics = { [key in TrainingMetricName]?: number };
+export type Metrics = { [key in TrainingMetricName]?: number | undefined };
 export interface TrainingMetrics {
-  Time?: Date;
-  Metrics?: { [key: string]: number | undefined };
-  RecommenderVersionName?: string;
+  Time?: Date | undefined;
+  Metrics?: { [key: string]: number | undefined } | undefined;
+  RecommenderVersionName?: string | undefined;
 }
 export type TrainingMetricsList = TrainingMetrics[];
 export interface GetRecommenderResponse {
   RecommenderName: string;
   RecommenderRecipeName: RecommenderRecipeName;
-  RecommenderSchemaName?: string;
-  RecommenderConfig?: RecommenderConfig;
-  Description?: string | redacted.Redacted<string>;
-  Status?: RecommenderStatus;
-  LastUpdatedAt?: Date;
-  CreatedAt?: Date;
-  FailureReason?: string;
-  LatestRecommenderUpdate?: RecommenderUpdate;
-  ActiveRecommenderVersionName?: string;
-  TrainingMetrics?: TrainingMetrics[];
-  Tags?: { [key: string]: string | undefined };
+  RecommenderSchemaName?: string | undefined;
+  RecommenderConfig?: RecommenderConfig | undefined;
+  Description?: string | redacted.Redacted<string> | undefined;
+  Status?: RecommenderStatus | undefined;
+  LastUpdatedAt?: Date | undefined;
+  CreatedAt?: Date | undefined;
+  FailureReason?: string | undefined;
+  LatestRecommenderUpdate?: RecommenderUpdate | undefined;
+  ActiveRecommenderVersionName?: string | undefined;
+  TrainingMetrics?: TrainingMetrics[] | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface GetRecommenderFilterRequest {
   DomainName: string;
@@ -1846,11 +1849,11 @@ export type RecommenderFilterStatus =
 export interface GetRecommenderFilterResponse {
   RecommenderFilterName: string;
   RecommenderFilterExpression: string | redacted.Redacted<string>;
-  RecommenderSchemaName?: string;
+  RecommenderSchemaName?: string | undefined;
   CreatedAt: Date;
   Status: RecommenderFilterStatus;
-  Description?: string | redacted.Redacted<string>;
-  FailureReason?: string;
+  Description?: string | redacted.Redacted<string> | undefined;
+  FailureReason?: string | undefined;
   Tags: { [key: string]: string | undefined };
 }
 export interface GetRecommenderSchemaRequest {
@@ -1869,16 +1872,16 @@ export interface GetSegmentDefinitionRequest {
 }
 export type SegmentType = "CLASSIC" | "ENHANCED" | (string & {});
 export interface GetSegmentDefinitionResponse {
-  SegmentDefinitionName?: string;
-  DisplayName?: string;
-  Description?: string | redacted.Redacted<string>;
-  SegmentGroups?: SegmentGroup;
-  SegmentSort?: SegmentSort;
+  SegmentDefinitionName?: string | undefined;
+  DisplayName?: string | undefined;
+  Description?: string | redacted.Redacted<string> | undefined;
+  SegmentGroups?: SegmentGroup | undefined;
+  SegmentSort?: SegmentSort | undefined;
   SegmentDefinitionArn: string;
-  CreatedAt?: Date;
-  Tags?: { [key: string]: string | undefined };
-  SegmentSqlQuery?: string | redacted.Redacted<string>;
-  SegmentType?: SegmentType;
+  CreatedAt?: Date | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
+  SegmentSqlQuery?: string | redacted.Redacted<string> | undefined;
+  SegmentType?: SegmentType | undefined;
 }
 export interface GetSegmentEstimateRequest {
   DomainName: string;
@@ -1886,12 +1889,12 @@ export interface GetSegmentEstimateRequest {
 }
 export type EstimateStatus = "RUNNING" | "SUCCEEDED" | "FAILED" | (string & {});
 export interface GetSegmentEstimateResponse {
-  DomainName?: string;
-  EstimateId?: string;
-  Status?: EstimateStatus;
-  Estimate?: string;
-  Message?: string;
-  StatusCode?: number;
+  DomainName?: string | undefined;
+  EstimateId?: string | undefined;
+  Status?: EstimateStatus | undefined;
+  Estimate?: string | undefined;
+  Message?: string | undefined;
+  StatusCode?: number | undefined;
 }
 export type ProfileIds = string[];
 export interface GetSegmentMembershipRequest {
@@ -1904,7 +1907,7 @@ export type QueryResult = "PRESENT" | "ABSENT" | (string & {});
 export interface ProfileQueryResult {
   ProfileId: string;
   QueryResult: QueryResult;
-  Profile?: Profile;
+  Profile?: Profile | undefined;
 }
 export type Profiles = ProfileQueryResult[];
 export type GetSegmentMembershipMessage = string;
@@ -1912,14 +1915,14 @@ export type GetSegmentMembershipStatus = number;
 export interface ProfileQueryFailures {
   ProfileId: string;
   Message: string;
-  Status?: number;
+  Status?: number | undefined;
 }
 export type Failures = ProfileQueryFailures[];
 export interface GetSegmentMembershipResponse {
-  SegmentDefinitionName?: string;
-  Profiles?: ProfileQueryResult[];
-  Failures?: ProfileQueryFailures[];
-  LastComputedAt?: Date;
+  SegmentDefinitionName?: string | undefined;
+  Profiles?: ProfileQueryResult[] | undefined;
+  Failures?: ProfileQueryFailures[] | undefined;
+  LastComputedAt?: Date | undefined;
 }
 export interface GetSegmentSnapshotRequest {
   DomainName: string;
@@ -1930,11 +1933,11 @@ export type SegmentSnapshotStatus = "COMPLETED" | "IN_PROGRESS" | "FAILED" | (st
 export interface GetSegmentSnapshotResponse {
   SnapshotId: string;
   Status: SegmentSnapshotStatus;
-  StatusMessage?: string;
+  StatusMessage?: string | undefined;
   DataFormat: DataFormat;
-  EncryptionKey?: string;
-  RoleArn?: string;
-  DestinationUri?: string;
+  EncryptionKey?: string | undefined;
+  RoleArn?: string | undefined;
+  DestinationUri?: string | undefined;
 }
 export interface GetSegmentSubscriptionRequest {
   DomainName: string;
@@ -1950,24 +1953,24 @@ export type IntervalValue = number;
 export type ScheduleConfigurationUnit = "HOURLY" | (string & {});
 export interface ScheduleConfiguration {
   Interval: number;
-  Unit?: ScheduleConfigurationUnit;
+  Unit?: ScheduleConfigurationUnit | undefined;
 }
 export interface ScheduledExecutions {
-  NextExecutedAt?: Date;
-  LastExecutedAt?: Date;
+  NextExecutedAt?: Date | undefined;
+  LastExecutedAt?: Date | undefined;
 }
 export interface GetSegmentSubscriptionResponse {
-  Status?: SegmentSubscriptionStatus;
-  Message?: string;
-  ScheduleConfiguration?: ScheduleConfiguration;
-  ScheduledExecutions?: ScheduledExecutions;
-  StartedAt?: Date;
-  LastUpdatedAt?: Date;
+  Status?: SegmentSubscriptionStatus | undefined;
+  Message?: string | undefined;
+  ScheduleConfiguration?: ScheduleConfiguration | undefined;
+  ScheduledExecutions?: ScheduledExecutions | undefined;
+  StartedAt?: Date | undefined;
+  LastUpdatedAt?: Date | undefined;
 }
 export type MatchType = "RULE_BASED_MATCHING" | "ML_BASED_MATCHING" | (string & {});
 export interface GetSimilarProfilesRequest {
-  NextToken?: string;
-  MaxResults?: number;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
   DomainName: string;
   MatchType: MatchType;
   SearchKey: string;
@@ -1975,12 +1978,12 @@ export interface GetSimilarProfilesRequest {
 }
 export type RuleLevel = number;
 export interface GetSimilarProfilesResponse {
-  ProfileIds?: string[];
-  MatchId?: string;
-  MatchType?: MatchType;
-  RuleLevel?: number;
-  ConfidenceScore?: number;
-  NextToken?: string;
+  ProfileIds?: string[] | undefined;
+  MatchId?: string | undefined;
+  MatchType?: MatchType | undefined;
+  RuleLevel?: number | undefined;
+  ConfidenceScore?: number | undefined;
+  NextToken?: string | undefined;
 }
 export interface GetStreamForSegmentsRequest {
   DomainName: string;
@@ -1992,21 +1995,21 @@ export type EventSubscriptionSegmentStatus =
   | "FAILED"
   | (string & {});
 export interface AssociatedSegment {
-  SegmentName?: string;
-  Status?: EventSubscriptionSegmentStatus;
-  Message?: string;
+  SegmentName?: string | undefined;
+  Status?: EventSubscriptionSegmentStatus | undefined;
+  Message?: string | undefined;
 }
 export type AssociatedSegmentsList = AssociatedSegment[];
 export type EventSubscriptionState = "RUNNING" | "UNHEALTHY" | "STOPPED" | (string & {});
 export interface GetStreamForSegmentsResponse {
-  AssociatedAt?: Date;
-  AssociatedSegments?: AssociatedSegment[];
-  DomainName?: string;
-  DestinationArn?: string;
-  DestinationRoleArn?: string;
-  State?: EventSubscriptionState;
-  DisassociatedAt?: Date;
-  FailureReason?: string;
+  AssociatedAt?: Date | undefined;
+  AssociatedSegments?: AssociatedSegment[] | undefined;
+  DomainName?: string | undefined;
+  DestinationArn?: string | undefined;
+  DestinationRoleArn?: string | undefined;
+  State?: EventSubscriptionState | undefined;
+  DisassociatedAt?: Date | undefined;
+  FailureReason?: string | undefined;
 }
 export interface GetUploadJobRequest {
   DomainName: string;
@@ -2022,21 +2025,21 @@ export type UploadJobStatus =
   | (string & {});
 export type StatusReason = "VALIDATION_FAILURE" | "INTERNAL_FAILURE" | (string & {});
 export interface ResultsSummary {
-  UpdatedRecords?: number;
-  CreatedRecords?: number;
-  FailedRecords?: number;
+  UpdatedRecords?: number | undefined;
+  CreatedRecords?: number | undefined;
+  FailedRecords?: number | undefined;
 }
 export interface GetUploadJobResponse {
-  JobId?: string;
-  DisplayName?: string;
-  Status?: UploadJobStatus;
-  StatusReason?: StatusReason;
-  CreatedAt?: Date;
-  CompletedAt?: Date;
-  Fields?: { [key: string]: ObjectTypeField | undefined };
-  UniqueKey?: string;
-  ResultsSummary?: ResultsSummary;
-  DataExpiry?: number;
+  JobId?: string | undefined;
+  DisplayName?: string | undefined;
+  Status?: UploadJobStatus | undefined;
+  StatusReason?: StatusReason | undefined;
+  CreatedAt?: Date | undefined;
+  CompletedAt?: Date | undefined;
+  Fields?: { [key: string]: ObjectTypeField | undefined } | undefined;
+  UniqueKey?: string | undefined;
+  ResultsSummary?: ResultsSummary | undefined;
+  DataExpiry?: number | undefined;
 }
 export interface GetUploadJobPathRequest {
   DomainName: string;
@@ -2044,8 +2047,8 @@ export interface GetUploadJobPathRequest {
 }
 export interface GetUploadJobPathResponse {
   Url: string;
-  ClientToken?: string;
-  ValidUntil?: Date;
+  ClientToken?: string | undefined;
+  ValidUntil?: Date | undefined;
 }
 export interface GetWorkflowRequest {
   DomainName: string;
@@ -2063,10 +2066,10 @@ export type Status =
 export interface AppflowIntegrationWorkflowAttributes {
   SourceConnectorType: SourceConnectorType;
   ConnectorProfileName: string;
-  RoleArn?: string;
+  RoleArn?: string | undefined;
 }
 export interface WorkflowAttributes {
-  AppflowIntegration?: AppflowIntegrationWorkflowAttributes;
+  AppflowIntegration?: AppflowIntegrationWorkflowAttributes | undefined;
 }
 export interface AppflowIntegrationWorkflowMetrics {
   RecordsProcessed: number;
@@ -2074,23 +2077,23 @@ export interface AppflowIntegrationWorkflowMetrics {
   TotalSteps: number;
 }
 export interface WorkflowMetrics {
-  AppflowIntegration?: AppflowIntegrationWorkflowMetrics;
+  AppflowIntegration?: AppflowIntegrationWorkflowMetrics | undefined;
 }
 export interface GetWorkflowResponse {
-  WorkflowId?: string;
-  WorkflowType?: WorkflowType;
-  Status?: Status;
-  ErrorDescription?: string;
-  StartDate?: Date;
-  LastUpdatedAt?: Date;
-  Attributes?: WorkflowAttributes;
-  Metrics?: WorkflowMetrics;
+  WorkflowId?: string | undefined;
+  WorkflowType?: WorkflowType | undefined;
+  Status?: Status | undefined;
+  ErrorDescription?: string | undefined;
+  StartDate?: Date | undefined;
+  LastUpdatedAt?: Date | undefined;
+  Attributes?: WorkflowAttributes | undefined;
+  Metrics?: WorkflowMetrics | undefined;
 }
 export interface GetWorkflowStepsRequest {
   DomainName: string;
   WorkflowId: string;
-  NextToken?: string;
-  MaxResults?: number;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export interface AppflowIntegrationWorkflowStep {
   FlowName: string;
@@ -2103,205 +2106,205 @@ export interface AppflowIntegrationWorkflowStep {
   LastUpdatedAt: Date;
 }
 export interface WorkflowStepItem {
-  AppflowIntegration?: AppflowIntegrationWorkflowStep;
+  AppflowIntegration?: AppflowIntegrationWorkflowStep | undefined;
 }
 export type WorkflowStepsList = WorkflowStepItem[];
 export interface GetWorkflowStepsResponse {
-  WorkflowId?: string;
-  WorkflowType?: WorkflowType;
-  Items?: WorkflowStepItem[];
-  NextToken?: string;
+  WorkflowId?: string | undefined;
+  WorkflowType?: WorkflowType | undefined;
+  Items?: WorkflowStepItem[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListAccountIntegrationsRequest {
   Uri: string;
-  NextToken?: string;
-  MaxResults?: number;
-  IncludeHidden?: boolean;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
+  IncludeHidden?: boolean | undefined;
 }
 export interface ListIntegrationItem {
   DomainName: string;
   Uri: string;
-  ObjectTypeName?: string;
+  ObjectTypeName?: string | undefined;
   CreatedAt: Date;
   LastUpdatedAt: Date;
-  Tags?: { [key: string]: string | undefined };
-  ObjectTypeNames?: { [key: string]: string | undefined };
-  WorkflowId?: string;
-  IsUnstructured?: boolean;
-  RoleArn?: string;
-  EventTriggerNames?: string[];
-  Scope?: Scope;
+  Tags?: { [key: string]: string | undefined } | undefined;
+  ObjectTypeNames?: { [key: string]: string | undefined } | undefined;
+  WorkflowId?: string | undefined;
+  IsUnstructured?: boolean | undefined;
+  RoleArn?: string | undefined;
+  EventTriggerNames?: string[] | undefined;
+  Scope?: Scope | undefined;
 }
 export type IntegrationList = ListIntegrationItem[];
 export interface ListAccountIntegrationsResponse {
-  Items?: ListIntegrationItem[];
-  NextToken?: string;
+  Items?: ListIntegrationItem[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListCalculatedAttributeDefinitionsRequest {
   DomainName: string;
-  NextToken?: string;
-  MaxResults?: number;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export interface ListCalculatedAttributeDefinitionItem {
-  CalculatedAttributeName?: string;
-  DisplayName?: string;
-  Description?: string | redacted.Redacted<string>;
-  CreatedAt?: Date;
-  LastUpdatedAt?: Date;
-  UseHistoricalData?: boolean;
-  Status?: ReadinessStatus;
-  Tags?: { [key: string]: string | undefined };
+  CalculatedAttributeName?: string | undefined;
+  DisplayName?: string | undefined;
+  Description?: string | redacted.Redacted<string> | undefined;
+  CreatedAt?: Date | undefined;
+  LastUpdatedAt?: Date | undefined;
+  UseHistoricalData?: boolean | undefined;
+  Status?: ReadinessStatus | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export type CalculatedAttributeDefinitionsList = ListCalculatedAttributeDefinitionItem[];
 export interface ListCalculatedAttributeDefinitionsResponse {
-  Items?: ListCalculatedAttributeDefinitionItem[];
-  NextToken?: string;
+  Items?: ListCalculatedAttributeDefinitionItem[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListCalculatedAttributesForProfileRequest {
-  NextToken?: string;
-  MaxResults?: number;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
   DomainName: string;
   ProfileId: string;
 }
 export interface ListCalculatedAttributeForProfileItem {
-  CalculatedAttributeName?: string;
-  DisplayName?: string;
-  IsDataPartial?: string;
-  Value?: string;
-  LastObjectTimestamp?: Date;
+  CalculatedAttributeName?: string | undefined;
+  DisplayName?: string | undefined;
+  IsDataPartial?: string | undefined;
+  Value?: string | undefined;
+  LastObjectTimestamp?: Date | undefined;
 }
 export type CalculatedAttributesForProfileList = ListCalculatedAttributeForProfileItem[];
 export interface ListCalculatedAttributesForProfileResponse {
-  Items?: ListCalculatedAttributeForProfileItem[];
-  NextToken?: string;
+  Items?: ListCalculatedAttributeForProfileItem[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListDomainLayoutsRequest {
   DomainName: string;
-  NextToken?: string;
-  MaxResults?: number;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export interface LayoutItem {
   LayoutDefinitionName: string;
   Description: string | redacted.Redacted<string>;
   DisplayName: string;
-  IsDefault?: boolean;
+  IsDefault?: boolean | undefined;
   LayoutType: LayoutType;
-  Tags?: { [key: string]: string | undefined };
+  Tags?: { [key: string]: string | undefined } | undefined;
   CreatedAt: Date;
   LastUpdatedAt: Date;
 }
 export type LayoutList = LayoutItem[];
 export interface ListDomainLayoutsResponse {
-  Items?: LayoutItem[];
-  NextToken?: string;
+  Items?: LayoutItem[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListDomainObjectTypesRequest {
   DomainName: string;
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export interface DomainObjectTypesListItem {
   ObjectTypeName: string;
-  Description?: string | redacted.Redacted<string>;
-  CreatedAt?: Date;
-  LastUpdatedAt?: Date;
-  Tags?: { [key: string]: string | undefined };
+  Description?: string | redacted.Redacted<string> | undefined;
+  CreatedAt?: Date | undefined;
+  LastUpdatedAt?: Date | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export type DomainObjectTypesList = DomainObjectTypesListItem[];
 export interface ListDomainObjectTypesResponse {
-  Items?: DomainObjectTypesListItem[];
-  NextToken?: string;
+  Items?: DomainObjectTypesListItem[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListDomainsRequest {
-  NextToken?: string;
-  MaxResults?: number;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export interface ListDomainItem {
   DomainName: string;
   CreatedAt: Date;
   LastUpdatedAt: Date;
-  Tags?: { [key: string]: string | undefined };
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export type DomainList = ListDomainItem[];
 export interface ListDomainsResponse {
-  Items?: ListDomainItem[];
-  NextToken?: string;
+  Items?: ListDomainItem[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListEventStreamsRequest {
   DomainName: string;
-  NextToken?: string;
-  MaxResults?: number;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export interface DestinationSummary {
   Uri: string;
   Status: EventStreamDestinationStatus;
-  UnhealthySince?: Date;
+  UnhealthySince?: Date | undefined;
 }
 export interface EventStreamSummary {
   DomainName: string;
   EventStreamName: string;
   EventStreamArn: string;
   State: EventStreamState;
-  StoppedSince?: Date;
-  DestinationSummary?: DestinationSummary;
-  Tags?: { [key: string]: string | undefined };
+  StoppedSince?: Date | undefined;
+  DestinationSummary?: DestinationSummary | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export type EventStreamSummaryList = EventStreamSummary[];
 export interface ListEventStreamsResponse {
-  Items?: EventStreamSummary[];
-  NextToken?: string;
+  Items?: EventStreamSummary[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListEventTriggersRequest {
   DomainName: string;
-  NextToken?: string;
-  MaxResults?: number;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export interface EventTriggerSummaryItem {
-  ObjectTypeName?: string;
-  EventTriggerName?: string;
-  Description?: string;
-  CreatedAt?: Date;
-  LastUpdatedAt?: Date;
-  Tags?: { [key: string]: string | undefined };
+  ObjectTypeName?: string | undefined;
+  EventTriggerName?: string | undefined;
+  Description?: string | undefined;
+  CreatedAt?: Date | undefined;
+  LastUpdatedAt?: Date | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export type EventTriggerSummaryList = EventTriggerSummaryItem[];
 export interface ListEventTriggersResponse {
-  Items?: EventTriggerSummaryItem[];
-  NextToken?: string;
+  Items?: EventTriggerSummaryItem[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListIdentityResolutionJobsRequest {
   DomainName: string;
-  NextToken?: string;
-  MaxResults?: number;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export interface IdentityResolutionJob {
-  DomainName?: string;
-  JobId?: string;
-  Status?: IdentityResolutionJobStatus;
-  JobStartTime?: Date;
-  JobEndTime?: Date;
-  JobStats?: JobStats;
-  ExportingLocation?: ExportingLocation;
-  Message?: string;
+  DomainName?: string | undefined;
+  JobId?: string | undefined;
+  Status?: IdentityResolutionJobStatus | undefined;
+  JobStartTime?: Date | undefined;
+  JobEndTime?: Date | undefined;
+  JobStats?: JobStats | undefined;
+  ExportingLocation?: ExportingLocation | undefined;
+  Message?: string | undefined;
 }
 export type IdentityResolutionJobsList = IdentityResolutionJob[];
 export interface ListIdentityResolutionJobsResponse {
-  IdentityResolutionJobsList?: IdentityResolutionJob[];
-  NextToken?: string;
+  IdentityResolutionJobsList?: IdentityResolutionJob[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListIntegrationsRequest {
   DomainName: string;
-  NextToken?: string;
-  MaxResults?: number;
-  IncludeHidden?: boolean;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
+  IncludeHidden?: boolean | undefined;
 }
 export interface ListIntegrationsResponse {
-  Items?: ListIntegrationItem[];
-  NextToken?: string;
+  Items?: ListIntegrationItem[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListObjectTypeAttributesRequest {
-  NextToken?: string;
-  MaxResults?: number;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
   DomainName: string;
   ObjectTypeName: string;
 }
@@ -2311,12 +2314,12 @@ export interface ListObjectTypeAttributeItem {
 }
 export type ListObjectTypeAttributesList = ListObjectTypeAttributeItem[];
 export interface ListObjectTypeAttributesResponse {
-  Items?: ListObjectTypeAttributeItem[];
-  NextToken?: string;
+  Items?: ListObjectTypeAttributeItem[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListObjectTypeAttributeValuesRequest {
-  NextToken?: string;
-  MaxResults?: number;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
   DomainName: string;
   ObjectTypeName: string;
   AttributeName: string;
@@ -2327,164 +2330,164 @@ export interface ListObjectTypeAttributeValuesItem {
 }
 export type ListObjectTypeAttributeValuesList = ListObjectTypeAttributeValuesItem[];
 export interface ListObjectTypeAttributeValuesResponse {
-  Items?: ListObjectTypeAttributeValuesItem[];
-  NextToken?: string;
+  Items?: ListObjectTypeAttributeValuesItem[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ProfileAttributeValuesRequest {
   DomainName: string;
   AttributeName: string;
 }
 export interface AttributeValueItem {
-  Value?: string;
+  Value?: string | undefined;
 }
 export type AttributeValueItemList = AttributeValueItem[];
 export interface ProfileAttributeValuesResponse {
-  DomainName?: string;
-  AttributeName?: string;
-  Items?: AttributeValueItem[];
-  StatusCode?: number;
+  DomainName?: string | undefined;
+  AttributeName?: string | undefined;
+  Items?: AttributeValueItem[] | undefined;
+  StatusCode?: number | undefined;
 }
 export interface ListProfileHistoryRecordsRequest {
   DomainName: string;
   ProfileId: string;
-  ObjectTypeName?: string;
-  NextToken?: string;
-  MaxResults?: number;
-  ActionType?: ActionType;
-  PerformedBy?: string;
+  ObjectTypeName?: string | undefined;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
+  ActionType?: ActionType | undefined;
+  PerformedBy?: string | undefined;
 }
 export interface ProfileHistoryRecord {
   Id: string;
   ObjectTypeName: string;
   CreatedAt: Date;
-  LastUpdatedAt?: Date;
+  LastUpdatedAt?: Date | undefined;
   ActionType: ActionType;
-  ProfileObjectUniqueKey?: string;
-  PerformedBy?: string;
+  ProfileObjectUniqueKey?: string | undefined;
+  PerformedBy?: string | undefined;
 }
 export type ProfileHistoryRecords = ProfileHistoryRecord[];
 export interface ListProfileHistoryRecordsResponse {
-  ProfileHistoryRecords?: ProfileHistoryRecord[];
-  NextToken?: string;
+  ProfileHistoryRecords?: ProfileHistoryRecord[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ObjectFilter {
   KeyName: string;
   Values: string[];
 }
 export interface ListProfileObjectsRequest {
-  NextToken?: string;
-  MaxResults?: number;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
   DomainName: string;
   ObjectTypeName: string;
   ProfileId: string;
-  ObjectFilter?: ObjectFilter;
+  ObjectFilter?: ObjectFilter | undefined;
 }
 export interface ListProfileObjectsItem {
-  ObjectTypeName?: string;
-  ProfileObjectUniqueKey?: string;
-  Object?: string | redacted.Redacted<string>;
+  ObjectTypeName?: string | undefined;
+  ProfileObjectUniqueKey?: string | undefined;
+  Object?: string | redacted.Redacted<string> | undefined;
 }
 export type ProfileObjectList = ListProfileObjectsItem[];
 export interface ListProfileObjectsResponse {
-  Items?: ListProfileObjectsItem[];
-  NextToken?: string;
+  Items?: ListProfileObjectsItem[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListProfileObjectTypesRequest {
   DomainName: string;
-  NextToken?: string;
-  MaxResults?: number;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export interface ListProfileObjectTypeItem {
   ObjectTypeName: string;
   Description: string;
-  CreatedAt?: Date;
-  LastUpdatedAt?: Date;
-  MaxProfileObjectCount?: number;
-  MaxAvailableProfileObjectCount?: number;
-  SourcePriority?: number;
-  Tags?: { [key: string]: string | undefined };
+  CreatedAt?: Date | undefined;
+  LastUpdatedAt?: Date | undefined;
+  MaxProfileObjectCount?: number | undefined;
+  MaxAvailableProfileObjectCount?: number | undefined;
+  SourcePriority?: number | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export type ProfileObjectTypeList = ListProfileObjectTypeItem[];
 export interface ListProfileObjectTypesResponse {
-  Items?: ListProfileObjectTypeItem[];
-  NextToken?: string;
+  Items?: ListProfileObjectTypeItem[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListProfileObjectTypeTemplatesRequest {
-  NextToken?: string;
-  MaxResults?: number;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export interface ListProfileObjectTypeTemplateItem {
-  TemplateId?: string;
-  SourceName?: string;
-  SourceObject?: string;
+  TemplateId?: string | undefined;
+  SourceName?: string | undefined;
+  SourceObject?: string | undefined;
 }
 export type ProfileObjectTypeTemplateList = ListProfileObjectTypeTemplateItem[];
 export interface ListProfileObjectTypeTemplatesResponse {
-  Items?: ListProfileObjectTypeTemplateItem[];
-  NextToken?: string;
+  Items?: ListProfileObjectTypeTemplateItem[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListRecommenderFiltersRequest {
   DomainName: string;
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export interface RecommenderFilterSummary {
-  RecommenderFilterName?: string;
-  RecommenderSchemaName?: string;
-  RecommenderFilterExpression?: string | redacted.Redacted<string>;
-  CreatedAt?: Date;
-  Description?: string | redacted.Redacted<string>;
-  Status?: RecommenderFilterStatus;
-  FailureReason?: string;
-  Tags?: { [key: string]: string | undefined };
+  RecommenderFilterName?: string | undefined;
+  RecommenderSchemaName?: string | undefined;
+  RecommenderFilterExpression?: string | redacted.Redacted<string> | undefined;
+  CreatedAt?: Date | undefined;
+  Description?: string | redacted.Redacted<string> | undefined;
+  Status?: RecommenderFilterStatus | undefined;
+  FailureReason?: string | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export type RecommenderFilterSummaryList = RecommenderFilterSummary[];
 export interface ListRecommenderFiltersResponse {
-  NextToken?: string;
-  RecommenderFilters?: RecommenderFilterSummary[];
+  NextToken?: string | undefined;
+  RecommenderFilters?: RecommenderFilterSummary[] | undefined;
 }
 export type ListRecommenderRecipesRequestMaxResultsInteger = number;
 export interface ListRecommenderRecipesRequest {
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export interface RecommenderRecipe {
-  name?: RecommenderRecipeName;
-  description?: string;
+  name?: RecommenderRecipeName | undefined;
+  description?: string | undefined;
 }
 export type RecommenderRecipesList = RecommenderRecipe[];
 export interface ListRecommenderRecipesResponse {
-  NextToken?: string;
-  RecommenderRecipes?: RecommenderRecipe[];
+  NextToken?: string | undefined;
+  RecommenderRecipes?: RecommenderRecipe[] | undefined;
 }
 export type ListRecommendersRequestMaxResultsInteger = number;
 export interface ListRecommendersRequest {
   DomainName: string;
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export interface RecommenderSummary {
-  RecommenderName?: string;
-  RecipeName?: RecommenderRecipeName;
-  RecommenderSchemaName?: string;
-  RecommenderConfig?: RecommenderConfig;
-  CreatedAt?: Date;
-  Description?: string | redacted.Redacted<string>;
-  Status?: RecommenderStatus;
-  LastUpdatedAt?: Date;
-  Tags?: { [key: string]: string | undefined };
-  FailureReason?: string;
-  LatestRecommenderUpdate?: RecommenderUpdate;
+  RecommenderName?: string | undefined;
+  RecipeName?: RecommenderRecipeName | undefined;
+  RecommenderSchemaName?: string | undefined;
+  RecommenderConfig?: RecommenderConfig | undefined;
+  CreatedAt?: Date | undefined;
+  Description?: string | redacted.Redacted<string> | undefined;
+  Status?: RecommenderStatus | undefined;
+  LastUpdatedAt?: Date | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
+  FailureReason?: string | undefined;
+  LatestRecommenderUpdate?: RecommenderUpdate | undefined;
 }
 export type RecommenderSummaryList = RecommenderSummary[];
 export interface ListRecommendersResponse {
-  NextToken?: string;
-  Recommenders?: RecommenderSummary[];
+  NextToken?: string | undefined;
+  Recommenders?: RecommenderSummary[] | undefined;
 }
 export interface ListRecommenderSchemasRequest {
   DomainName: string;
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export interface RecommenderSchemaSummary {
   RecommenderSchemaName: string;
@@ -2494,91 +2497,91 @@ export interface RecommenderSchemaSummary {
 }
 export type RecommenderSchemaSummaryList = RecommenderSchemaSummary[];
 export interface ListRecommenderSchemasResponse {
-  NextToken?: string;
-  RecommenderSchemas?: RecommenderSchemaSummary[];
+  NextToken?: string | undefined;
+  RecommenderSchemas?: RecommenderSchemaSummary[] | undefined;
 }
 export interface ListRuleBasedMatchesRequest {
-  NextToken?: string;
-  MaxResults?: number;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
   DomainName: string;
 }
 export type MatchIdList = string[];
 export interface ListRuleBasedMatchesResponse {
-  MatchIds?: string[];
-  NextToken?: string;
+  MatchIds?: string[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListSegmentDefinitionsRequest {
   DomainName: string;
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export interface SegmentDefinitionItem {
-  SegmentDefinitionName?: string;
-  DisplayName?: string;
-  Description?: string | redacted.Redacted<string>;
-  SegmentDefinitionArn?: string;
-  CreatedAt?: Date;
-  Tags?: { [key: string]: string | undefined };
-  SegmentType?: SegmentType;
+  SegmentDefinitionName?: string | undefined;
+  DisplayName?: string | undefined;
+  Description?: string | redacted.Redacted<string> | undefined;
+  SegmentDefinitionArn?: string | undefined;
+  CreatedAt?: Date | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
+  SegmentType?: SegmentType | undefined;
 }
 export type SegmentDefinitionsList = SegmentDefinitionItem[];
 export interface ListSegmentDefinitionsResponse {
-  NextToken?: string;
-  Items?: SegmentDefinitionItem[];
+  NextToken?: string | undefined;
+  Items?: SegmentDefinitionItem[] | undefined;
 }
 export interface ListSegmentSubscriptionEventsRequest {
   DomainName: string;
   SegmentDefinitionName: string;
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export type SubscriptionEventType = "LIVE" | "SCHEDULE" | (string & {});
 export type SubscriptionEvent = "JOINED" | "LEFT" | (string & {});
 export interface SubscriptionEventItem {
-  ProfileId?: string;
-  UpdatedAt?: Date;
-  EventType?: SubscriptionEventType;
-  Event?: SubscriptionEvent;
+  ProfileId?: string | undefined;
+  UpdatedAt?: Date | undefined;
+  EventType?: SubscriptionEventType | undefined;
+  Event?: SubscriptionEvent | undefined;
 }
 export type SubscriptionEventsList = SubscriptionEventItem[];
 export interface ListSegmentSubscriptionEventsResponse {
-  Events?: SubscriptionEventItem[];
-  NextToken?: string;
+  Events?: SubscriptionEventItem[] | undefined;
+  NextToken?: string | undefined;
 }
 export type TagArn = string;
 export interface ListTagsForResourceRequest {
   resourceArn: string;
 }
 export interface ListTagsForResourceResponse {
-  tags?: { [key: string]: string | undefined };
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface ListUploadJobsRequest {
   DomainName: string;
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export interface UploadJobItem {
-  JobId?: string;
-  DisplayName?: string;
-  Status?: UploadJobStatus;
-  StatusReason?: StatusReason;
-  CreatedAt?: Date;
-  CompletedAt?: Date;
-  DataExpiry?: number;
+  JobId?: string | undefined;
+  DisplayName?: string | undefined;
+  Status?: UploadJobStatus | undefined;
+  StatusReason?: StatusReason | undefined;
+  CreatedAt?: Date | undefined;
+  CompletedAt?: Date | undefined;
+  DataExpiry?: number | undefined;
 }
 export type UploadJobsList = UploadJobItem[];
 export interface ListUploadJobsResponse {
-  NextToken?: string;
-  Items?: UploadJobItem[];
+  NextToken?: string | undefined;
+  Items?: UploadJobItem[] | undefined;
 }
 export interface ListWorkflowsRequest {
   DomainName: string;
-  WorkflowType?: WorkflowType;
-  Status?: Status;
-  QueryStartDate?: Date;
-  QueryEndDate?: Date;
-  NextToken?: string;
-  MaxResults?: number;
+  WorkflowType?: WorkflowType | undefined;
+  Status?: Status | undefined;
+  QueryStartDate?: Date | undefined;
+  QueryEndDate?: Date | undefined;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export interface ListWorkflowsItem {
   WorkflowType: WorkflowType;
@@ -2590,86 +2593,86 @@ export interface ListWorkflowsItem {
 }
 export type WorkflowList = ListWorkflowsItem[];
 export interface ListWorkflowsResponse {
-  Items?: ListWorkflowsItem[];
-  NextToken?: string;
+  Items?: ListWorkflowsItem[] | undefined;
+  NextToken?: string | undefined;
 }
 export type ProfileIdToBeMergedList = string[];
 export type AttributeSourceIdMap = { [key: string]: string | undefined };
 export interface FieldSourceProfileIds {
-  AccountNumber?: string;
-  AdditionalInformation?: string;
-  PartyType?: string;
-  BusinessName?: string;
-  FirstName?: string;
-  MiddleName?: string;
-  LastName?: string;
-  BirthDate?: string;
-  Gender?: string;
-  PhoneNumber?: string;
-  MobilePhoneNumber?: string;
-  HomePhoneNumber?: string;
-  BusinessPhoneNumber?: string;
-  EmailAddress?: string;
-  PersonalEmailAddress?: string;
-  BusinessEmailAddress?: string;
-  Address?: string;
-  ShippingAddress?: string;
-  MailingAddress?: string;
-  BillingAddress?: string;
-  Attributes?: { [key: string]: string | undefined };
-  ProfileType?: string;
-  EngagementPreferences?: string;
+  AccountNumber?: string | undefined;
+  AdditionalInformation?: string | undefined;
+  PartyType?: string | undefined;
+  BusinessName?: string | undefined;
+  FirstName?: string | undefined;
+  MiddleName?: string | undefined;
+  LastName?: string | undefined;
+  BirthDate?: string | undefined;
+  Gender?: string | undefined;
+  PhoneNumber?: string | undefined;
+  MobilePhoneNumber?: string | undefined;
+  HomePhoneNumber?: string | undefined;
+  BusinessPhoneNumber?: string | undefined;
+  EmailAddress?: string | undefined;
+  PersonalEmailAddress?: string | undefined;
+  BusinessEmailAddress?: string | undefined;
+  Address?: string | undefined;
+  ShippingAddress?: string | undefined;
+  MailingAddress?: string | undefined;
+  BillingAddress?: string | undefined;
+  Attributes?: { [key: string]: string | undefined } | undefined;
+  ProfileType?: string | undefined;
+  EngagementPreferences?: string | undefined;
 }
 export interface MergeProfilesRequest {
   DomainName: string;
   MainProfileId: string;
   ProfileIdsToBeMerged: string[];
-  FieldSourceProfileIds?: FieldSourceProfileIds;
+  FieldSourceProfileIds?: FieldSourceProfileIds | undefined;
 }
 export interface MergeProfilesResponse {
-  Message?: string;
+  Message?: string | undefined;
 }
 export interface PutDomainObjectTypeRequest {
   DomainName: string;
   ObjectTypeName: string;
-  Description?: string | redacted.Redacted<string>;
-  EncryptionKey?: string;
+  Description?: string | redacted.Redacted<string> | undefined;
+  EncryptionKey?: string | undefined;
   Fields: { [key: string]: DomainObjectTypeField | undefined };
-  Tags?: { [key: string]: string | undefined };
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface PutDomainObjectTypeResponse {
-  ObjectTypeName?: string;
-  Description?: string | redacted.Redacted<string>;
-  EncryptionKey?: string;
-  Fields?: { [key: string]: DomainObjectTypeField | undefined };
-  CreatedAt?: Date;
-  LastUpdatedAt?: Date;
-  Tags?: { [key: string]: string | undefined };
+  ObjectTypeName?: string | undefined;
+  Description?: string | redacted.Redacted<string> | undefined;
+  EncryptionKey?: string | undefined;
+  Fields?: { [key: string]: DomainObjectTypeField | undefined } | undefined;
+  CreatedAt?: Date | undefined;
+  LastUpdatedAt?: Date | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface PutIntegrationRequest {
   DomainName: string;
-  Uri?: string;
-  ObjectTypeName?: string;
-  ObjectTypeNames?: { [key: string]: string | undefined };
-  Tags?: { [key: string]: string | undefined };
-  FlowDefinition?: FlowDefinition;
-  RoleArn?: string;
-  EventTriggerNames?: string[];
-  Scope?: Scope;
+  Uri?: string | undefined;
+  ObjectTypeName?: string | undefined;
+  ObjectTypeNames?: { [key: string]: string | undefined } | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
+  FlowDefinition?: FlowDefinition | undefined;
+  RoleArn?: string | undefined;
+  EventTriggerNames?: string[] | undefined;
+  Scope?: Scope | undefined;
 }
 export interface PutIntegrationResponse {
   DomainName: string;
   Uri: string;
-  ObjectTypeName?: string;
+  ObjectTypeName?: string | undefined;
   CreatedAt: Date;
   LastUpdatedAt: Date;
-  Tags?: { [key: string]: string | undefined };
-  ObjectTypeNames?: { [key: string]: string | undefined };
-  WorkflowId?: string;
-  IsUnstructured?: boolean;
-  RoleArn?: string;
-  EventTriggerNames?: string[];
-  Scope?: Scope;
+  Tags?: { [key: string]: string | undefined } | undefined;
+  ObjectTypeNames?: { [key: string]: string | undefined } | undefined;
+  WorkflowId?: string | undefined;
+  IsUnstructured?: boolean | undefined;
+  RoleArn?: string | undefined;
+  EventTriggerNames?: string[] | undefined;
+  Scope?: Scope | undefined;
 }
 export interface PutProfileObjectRequest {
   ObjectTypeName: string;
@@ -2677,49 +2680,49 @@ export interface PutProfileObjectRequest {
   DomainName: string;
 }
 export interface PutProfileObjectResponse {
-  ProfileObjectUniqueKey?: string;
+  ProfileObjectUniqueKey?: string | undefined;
 }
 export interface PutProfileObjectTypeRequest {
   DomainName: string;
   ObjectTypeName: string;
   Description: string | redacted.Redacted<string>;
-  TemplateId?: string;
-  ExpirationDays?: number;
-  EncryptionKey?: string;
-  AllowProfileCreation?: boolean;
-  SourceLastUpdatedTimestampFormat?: string;
-  MaxProfileObjectCount?: number;
-  SourcePriority?: number;
-  Fields?: { [key: string]: ObjectTypeField | undefined };
-  Keys?: { [key: string]: ObjectTypeKey[] | undefined };
-  Tags?: { [key: string]: string | undefined };
+  TemplateId?: string | undefined;
+  ExpirationDays?: number | undefined;
+  EncryptionKey?: string | undefined;
+  AllowProfileCreation?: boolean | undefined;
+  SourceLastUpdatedTimestampFormat?: string | undefined;
+  MaxProfileObjectCount?: number | undefined;
+  SourcePriority?: number | undefined;
+  Fields?: { [key: string]: ObjectTypeField | undefined } | undefined;
+  Keys?: { [key: string]: ObjectTypeKey[] | undefined } | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface PutProfileObjectTypeResponse {
   ObjectTypeName: string;
   Description: string | redacted.Redacted<string>;
-  TemplateId?: string;
-  ExpirationDays?: number;
-  EncryptionKey?: string;
-  AllowProfileCreation?: boolean;
-  SourceLastUpdatedTimestampFormat?: string;
-  MaxProfileObjectCount?: number;
-  MaxAvailableProfileObjectCount?: number;
-  SourcePriority?: number;
-  Fields?: { [key: string]: ObjectTypeField | undefined };
-  Keys?: { [key: string]: ObjectTypeKey[] | undefined };
-  CreatedAt?: Date;
-  LastUpdatedAt?: Date;
-  Tags?: { [key: string]: string | undefined };
+  TemplateId?: string | undefined;
+  ExpirationDays?: number | undefined;
+  EncryptionKey?: string | undefined;
+  AllowProfileCreation?: boolean | undefined;
+  SourceLastUpdatedTimestampFormat?: string | undefined;
+  MaxProfileObjectCount?: number | undefined;
+  MaxAvailableProfileObjectCount?: number | undefined;
+  SourcePriority?: number | undefined;
+  Fields?: { [key: string]: ObjectTypeField | undefined } | undefined;
+  Keys?: { [key: string]: ObjectTypeKey[] | undefined } | undefined;
+  CreatedAt?: Date | undefined;
+  LastUpdatedAt?: Date | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface PutSegmentSubscriptionRequest {
   DomainName: string;
   SegmentDefinitionName: string;
-  ScheduleConfiguration?: ScheduleConfiguration;
+  ScheduleConfiguration?: ScheduleConfiguration | undefined;
 }
 export interface PutSegmentSubscriptionResponse {
-  Status?: SegmentSubscriptionStatus;
-  ScheduleConfiguration?: ScheduleConfiguration;
-  StartedAt?: Date;
+  Status?: SegmentSubscriptionStatus | undefined;
+  ScheduleConfiguration?: ScheduleConfiguration | undefined;
+  StartedAt?: Date | undefined;
 }
 export interface AdditionalSearchKey {
   KeyName: string;
@@ -2728,41 +2731,41 @@ export interface AdditionalSearchKey {
 export type AdditionalSearchKeysList = AdditionalSearchKey[];
 export type LogicalOperator = "AND" | "OR" | (string & {});
 export interface SearchProfilesRequest {
-  NextToken?: string;
-  MaxResults?: number;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
   DomainName: string;
   KeyName: string;
   Values: string[];
-  AdditionalSearchKeys?: AdditionalSearchKey[];
-  LogicalOperator?: LogicalOperator;
+  AdditionalSearchKeys?: AdditionalSearchKey[] | undefined;
+  LogicalOperator?: LogicalOperator | undefined;
 }
 export interface SearchProfilesResponse {
-  Items?: Profile[];
-  NextToken?: string;
+  Items?: Profile[] | undefined;
+  NextToken?: string | undefined;
 }
 export type KeyValuesList = string[];
 export interface Recommender {
   Name: string;
-  Filters?: RecommenderFilter[];
-  PromotionalFilters?: RecommenderPromotionalFilter[];
+  Filters?: RecommenderFilter[] | undefined;
+  PromotionalFilters?: RecommenderPromotionalFilter[] | undefined;
 }
 export interface RecommendationMetadata {
-  Columns?: string[];
+  Columns?: string[] | undefined;
 }
 export interface SearchRecommendationsRequest {
   DomainName: string;
   KeyName: string;
   KeyValues: string[];
   Recommender: Recommender;
-  CandidateIds?: string[];
-  Context?: { [key: string]: string | undefined };
-  Diversity?: RecommendationDiversityConfig;
-  Metadata?: RecommendationMetadata;
-  MaxRecommendations?: number;
+  CandidateIds?: string[] | undefined;
+  Context?: { [key: string]: string | undefined } | undefined;
+  Diversity?: RecommendationDiversityConfig | undefined;
+  Metadata?: RecommendationMetadata | undefined;
+  MaxRecommendations?: number | undefined;
 }
 export interface SearchRecommendationsResponse {
-  ProfileId?: string;
-  Recommendations?: Recommendation[];
+  ProfileId?: string | undefined;
+  Recommendations?: Recommendation[] | undefined;
 }
 export interface StartRecommenderRequest {
   DomainName: string;
@@ -2798,131 +2801,131 @@ export interface UntagResourceResponse {}
 export interface UpdateCalculatedAttributeDefinitionRequest {
   DomainName: string;
   CalculatedAttributeName: string;
-  DisplayName?: string;
-  Description?: string | redacted.Redacted<string>;
-  Conditions?: Conditions;
+  DisplayName?: string | undefined;
+  Description?: string | redacted.Redacted<string> | undefined;
+  Conditions?: Conditions | undefined;
 }
 export interface UpdateCalculatedAttributeDefinitionResponse {
-  CalculatedAttributeName?: string;
-  DisplayName?: string;
-  Description?: string | redacted.Redacted<string>;
-  CreatedAt?: Date;
-  LastUpdatedAt?: Date;
-  Statistic?: Statistic;
-  Conditions?: Conditions;
-  AttributeDetails?: AttributeDetails;
-  UseHistoricalData?: boolean;
-  Status?: ReadinessStatus;
-  Readiness?: Readiness;
-  Tags?: { [key: string]: string | undefined };
+  CalculatedAttributeName?: string | undefined;
+  DisplayName?: string | undefined;
+  Description?: string | redacted.Redacted<string> | undefined;
+  CreatedAt?: Date | undefined;
+  LastUpdatedAt?: Date | undefined;
+  Statistic?: Statistic | undefined;
+  Conditions?: Conditions | undefined;
+  AttributeDetails?: AttributeDetails | undefined;
+  UseHistoricalData?: boolean | undefined;
+  Status?: ReadinessStatus | undefined;
+  Readiness?: Readiness | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface UpdateDomainRequest {
   DomainName: string;
-  DefaultExpirationDays?: number;
-  DefaultEncryptionKey?: string;
-  DeadLetterQueueUrl?: string;
-  Matching?: MatchingRequest;
-  RuleBasedMatching?: RuleBasedMatchingRequest;
-  DataStore?: DataStoreRequest;
-  Tags?: { [key: string]: string | undefined };
+  DefaultExpirationDays?: number | undefined;
+  DefaultEncryptionKey?: string | undefined;
+  DeadLetterQueueUrl?: string | undefined;
+  Matching?: MatchingRequest | undefined;
+  RuleBasedMatching?: RuleBasedMatchingRequest | undefined;
+  DataStore?: DataStoreRequest | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface UpdateDomainResponse {
   DomainName: string;
-  DefaultExpirationDays?: number;
-  DefaultEncryptionKey?: string;
-  DeadLetterQueueUrl?: string;
-  Matching?: MatchingResponse;
-  RuleBasedMatching?: RuleBasedMatchingResponse;
-  DataStore?: DataStoreResponse;
+  DefaultExpirationDays?: number | undefined;
+  DefaultEncryptionKey?: string | undefined;
+  DeadLetterQueueUrl?: string | undefined;
+  Matching?: MatchingResponse | undefined;
+  RuleBasedMatching?: RuleBasedMatchingResponse | undefined;
+  DataStore?: DataStoreResponse | undefined;
   CreatedAt: Date;
   LastUpdatedAt: Date;
-  Tags?: { [key: string]: string | undefined };
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface UpdateDomainLayoutRequest {
   DomainName: string;
   LayoutDefinitionName: string;
-  Description?: string | redacted.Redacted<string>;
-  DisplayName?: string;
-  IsDefault?: boolean;
-  LayoutType?: LayoutType;
-  Layout?: string | redacted.Redacted<string>;
+  Description?: string | redacted.Redacted<string> | undefined;
+  DisplayName?: string | undefined;
+  IsDefault?: boolean | undefined;
+  LayoutType?: LayoutType | undefined;
+  Layout?: string | redacted.Redacted<string> | undefined;
 }
 export interface UpdateDomainLayoutResponse {
-  LayoutDefinitionName?: string;
-  Description?: string | redacted.Redacted<string>;
-  DisplayName?: string;
-  IsDefault?: boolean;
-  LayoutType?: LayoutType;
-  Layout?: string | redacted.Redacted<string>;
-  Version?: string;
-  CreatedAt?: Date;
-  LastUpdatedAt?: Date;
-  Tags?: { [key: string]: string | undefined };
+  LayoutDefinitionName?: string | undefined;
+  Description?: string | redacted.Redacted<string> | undefined;
+  DisplayName?: string | undefined;
+  IsDefault?: boolean | undefined;
+  LayoutType?: LayoutType | undefined;
+  Layout?: string | redacted.Redacted<string> | undefined;
+  Version?: string | undefined;
+  CreatedAt?: Date | undefined;
+  LastUpdatedAt?: Date | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface UpdateEventTriggerRequest {
   DomainName: string;
   EventTriggerName: string;
-  ObjectTypeName?: string;
-  Description?: string | redacted.Redacted<string>;
-  EventTriggerConditions?: EventTriggerCondition[];
-  SegmentFilter?: string;
-  EventTriggerLimits?: EventTriggerLimits;
+  ObjectTypeName?: string | undefined;
+  Description?: string | redacted.Redacted<string> | undefined;
+  EventTriggerConditions?: EventTriggerCondition[] | undefined;
+  SegmentFilter?: string | undefined;
+  EventTriggerLimits?: EventTriggerLimits | undefined;
 }
 export interface UpdateEventTriggerResponse {
-  EventTriggerName?: string;
-  ObjectTypeName?: string;
-  Description?: string | redacted.Redacted<string>;
-  EventTriggerConditions?: EventTriggerCondition[];
-  SegmentFilter?: string;
-  EventTriggerLimits?: EventTriggerLimits;
-  CreatedAt?: Date;
-  LastUpdatedAt?: Date;
-  Tags?: { [key: string]: string | undefined };
+  EventTriggerName?: string | undefined;
+  ObjectTypeName?: string | undefined;
+  Description?: string | redacted.Redacted<string> | undefined;
+  EventTriggerConditions?: EventTriggerCondition[] | undefined;
+  SegmentFilter?: string | undefined;
+  EventTriggerLimits?: EventTriggerLimits | undefined;
+  CreatedAt?: Date | undefined;
+  LastUpdatedAt?: Date | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export type SensitiveString0To1000 = string | redacted.Redacted<string>;
 export type SensitiveString0To255 = string | redacted.Redacted<string>;
 export type String0To255 = string;
 export interface UpdateAddress {
-  Address1?: string;
-  Address2?: string;
-  Address3?: string;
-  Address4?: string;
-  City?: string;
-  County?: string;
-  State?: string;
-  Province?: string;
-  Country?: string;
-  PostalCode?: string;
+  Address1?: string | undefined;
+  Address2?: string | undefined;
+  Address3?: string | undefined;
+  Address4?: string | undefined;
+  City?: string | undefined;
+  County?: string | undefined;
+  State?: string | undefined;
+  Province?: string | undefined;
+  Country?: string | undefined;
+  PostalCode?: string | undefined;
 }
 export type UpdateAttributes = { [key: string]: string | undefined };
 export interface UpdateProfileRequest {
   DomainName: string;
   ProfileId: string;
-  AdditionalInformation?: string | redacted.Redacted<string>;
-  AccountNumber?: string | redacted.Redacted<string>;
-  PartyType?: PartyType;
-  BusinessName?: string | redacted.Redacted<string>;
-  FirstName?: string | redacted.Redacted<string>;
-  MiddleName?: string | redacted.Redacted<string>;
-  LastName?: string | redacted.Redacted<string>;
-  BirthDate?: string | redacted.Redacted<string>;
-  Gender?: Gender;
-  PhoneNumber?: string | redacted.Redacted<string>;
-  MobilePhoneNumber?: string | redacted.Redacted<string>;
-  HomePhoneNumber?: string | redacted.Redacted<string>;
-  BusinessPhoneNumber?: string | redacted.Redacted<string>;
-  EmailAddress?: string | redacted.Redacted<string>;
-  PersonalEmailAddress?: string | redacted.Redacted<string>;
-  BusinessEmailAddress?: string | redacted.Redacted<string>;
-  Address?: UpdateAddress;
-  ShippingAddress?: UpdateAddress;
-  MailingAddress?: UpdateAddress;
-  BillingAddress?: UpdateAddress;
-  Attributes?: { [key: string]: string | undefined };
-  PartyTypeString?: string | redacted.Redacted<string>;
-  GenderString?: string | redacted.Redacted<string>;
-  ProfileType?: ProfileType;
-  EngagementPreferences?: EngagementPreferences;
+  AdditionalInformation?: string | redacted.Redacted<string> | undefined;
+  AccountNumber?: string | redacted.Redacted<string> | undefined;
+  PartyType?: PartyType | undefined;
+  BusinessName?: string | redacted.Redacted<string> | undefined;
+  FirstName?: string | redacted.Redacted<string> | undefined;
+  MiddleName?: string | redacted.Redacted<string> | undefined;
+  LastName?: string | redacted.Redacted<string> | undefined;
+  BirthDate?: string | redacted.Redacted<string> | undefined;
+  Gender?: Gender | undefined;
+  PhoneNumber?: string | redacted.Redacted<string> | undefined;
+  MobilePhoneNumber?: string | redacted.Redacted<string> | undefined;
+  HomePhoneNumber?: string | redacted.Redacted<string> | undefined;
+  BusinessPhoneNumber?: string | redacted.Redacted<string> | undefined;
+  EmailAddress?: string | redacted.Redacted<string> | undefined;
+  PersonalEmailAddress?: string | redacted.Redacted<string> | undefined;
+  BusinessEmailAddress?: string | redacted.Redacted<string> | undefined;
+  Address?: UpdateAddress | undefined;
+  ShippingAddress?: UpdateAddress | undefined;
+  MailingAddress?: UpdateAddress | undefined;
+  BillingAddress?: UpdateAddress | undefined;
+  Attributes?: { [key: string]: string | undefined } | undefined;
+  PartyTypeString?: string | redacted.Redacted<string> | undefined;
+  GenderString?: string | redacted.Redacted<string> | undefined;
+  ProfileType?: ProfileType | undefined;
+  EngagementPreferences?: EngagementPreferences | undefined;
 }
 export interface UpdateProfileResponse {
   ProfileId: string;
@@ -2930,9 +2933,9 @@ export interface UpdateProfileResponse {
 export interface UpdateRecommenderRequest {
   DomainName: string;
   RecommenderName: string;
-  Description?: string | redacted.Redacted<string>;
-  RecommenderConfig?: RecommenderConfig;
-  RecommenderVersionName?: string;
+  Description?: string | redacted.Redacted<string> | undefined;
+  RecommenderConfig?: RecommenderConfig | undefined;
+  RecommenderVersionName?: string | undefined;
 }
 export interface UpdateRecommenderResponse {
   RecommenderName: string;
@@ -9716,6 +9719,11 @@ function __c94(j: number): any {
           TemplateId: S.optional(S.String),
           SourceName: S.optional(S.String),
           SourceObject: S.optional(S.String),
+          DefaultMaxProfileObjectCount: S.optional(S.Number),
+          DefaultMaxProfileObjectCountEffectiveAfter: S.optional(
+            S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+          ),
+          StoreOnly: S.optional(S.Boolean),
           AllowProfileCreation: S.optional(S.Boolean),
           SourceLastUpdatedTimestampFormat: S.optional(S.String),
           Fields: S.optional(__S(801, __c50, 1)),

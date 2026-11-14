@@ -1,0 +1,30 @@
+{
+  "description": "POST /api/v1/namespaces/{namespace}/actions/{actionName} takes the action's input parameters as the JSON body and, with blocking=true, answers 200 with the activation record. Apache's docs/rest_api.md invokes `hello?blocking=true` with `-d '{\"name\":\"John\"}'` and shows the activation (`activationId`, `response.result`, ...) as the reply. The spec's body parameter is a bare `{ type: object }`, which the converter drops, and its 200 response has no schema. Type the body as a parameter map and the response as Activation.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.digitalocean.functions#InvokeActionRequestParams",
+      "value": {
+        "type": "map",
+        "key": { "target": "smithy.api#String" },
+        "value": { "target": "smithy.api#Document" }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.digitalocean.functions#InvokeActionRequest/members/params",
+      "value": {
+        "target": "com.digitalocean.functions#InvokeActionRequestParams",
+        "traits": {
+          "smithy.api#httpPayload": {},
+          "smithy.api#documentation": "The action's input parameters, sent as the JSON body."
+        }
+      }
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.digitalocean.functions#InvokeAction/output",
+      "value": { "target": "com.digitalocean.functions#Activation" }
+    }
+  ]
+}

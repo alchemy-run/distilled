@@ -75,19 +75,19 @@ export type CreateAiChatRequestMessageAttachmentsList =
 export type AiChatMessageSourceTypes = "manual" | "suggestion" | "link";
 export interface CreateAiChatRequest {
   /** The AI agent that handles the chat. Defaults to `support`. */
-  agent_identifier?: AiChatAgentIdentifiers | (string & {}) | null;
+  agent_identifier?: AiChatAgentIdentifiers | (string & {}) | null | undefined;
   /** The unique identifier of the account to set as context for the AI chat (e.g., "biz_XXXXX"). */
-  current_account_id?: string | null;
+  current_account_id?: string | null | undefined;
   /** A list of previously uploaded file attachments to include with the first message. */
-  message_attachments?: CreateAiChatRequestMessageAttachmentsList | null;
+  message_attachments?: CreateAiChatRequestMessageAttachmentsList | null | undefined;
   /** The source of the message. */
-  message_source?: AiChatMessageSourceTypes | (string & {}) | null;
+  message_source?: AiChatMessageSourceTypes | (string & {}) | null | undefined;
   /** The text content of the first message to send to the AI agent. */
   message_text: string;
   /** The type of suggestion prompt that was clicked, when message_source is 'suggestion'. */
-  suggestion_type?: string | null;
+  suggestion_type?: string | null | undefined;
   /** An optional display title for the AI chat thread (e.g., "Help with billing"). */
-  title?: string | null;
+  title?: string | null | undefined;
 }
 /** The notification preference for an AI chat */
 export type AiChatNotificationPreferences = "all" | "none";
@@ -129,12 +129,12 @@ export interface GetAiChatRequest {
   id: string;
 }
 export interface ListAiChatRequest {
-  after?: string;
-  before?: string;
-  first?: number;
-  last?: number;
-  agent_identifier?: AiChatAgentIdentifiers | (string & {});
-  only_active_crons?: boolean;
+  after?: string | undefined;
+  before?: string | undefined;
+  first?: number | undefined;
+  last?: number | undefined;
+  agent_identifier?: AiChatAgentIdentifiers | (string & {}) | undefined;
+  only_active_crons?: boolean | undefined;
 }
 /** The user who owns this AI chat conversation. */
 export type AiChatListItemUser = AiChatUser;
@@ -184,11 +184,11 @@ export interface UpdateAiChatRequest {
   /** The unique identifier of the AI chat to update (e.g., "ai_chat_XXXXX"). */
   id: string;
   /** The unique identifier of the account to set as context for the AI chat (e.g., "biz_XXXXX"). */
-  current_account_id?: string | null;
+  current_account_id?: string | null | undefined;
   /** The notification preference for the AI chat. */
-  notification_preference?: AiChatNotificationPreferences | (string & {}) | null;
+  notification_preference?: AiChatNotificationPreferences | (string & {}) | null | undefined;
   /** The new display title for the AI chat thread (e.g., "Help with billing"). */
-  title?: string | null;
+  title?: string | null | undefined;
 }
 export type CreateAiChatError =
   | BadRequest

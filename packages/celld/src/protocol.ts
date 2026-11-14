@@ -1,6 +1,7 @@
 import type * as API from "@distilled.cloud/core/api";
 import type { API_ERRORS, InvalidInput } from "@distilled.cloud/core/errors";
-import { makeRestProtocol } from "@distilled.cloud/core/protocol-rest";
+import { makeRestProtocol, unknownErrorProps } from "@distilled.cloud/core/protocol-rest";
+import type { SdkError } from "@distilled.cloud/core/sdk-error";
 import type * as HttpClient from "effect/http/HttpClient";
 import type * as HttpClientError from "effect/http/HttpClientError";
 import type * as Layer from "effect/Layer";
@@ -14,7 +15,8 @@ export type CelldOpError =
   | UnknownCelldError
   | CelldParseError
   | HttpClientError.HttpClientError
-  | InvalidInput;
+  | InvalidInput
+  | SdkError;
 
 /** Standard REST encoding; signed runtime headers are explicit modeled inputs. */
 export const CelldProtocol: Layer.Layer<API.Protocol> = /*@__PURE__*/ makeRestProtocol({
@@ -41,6 +43,6 @@ export const CelldProtocol: Layer.Layer<API.Protocol> = /*@__PURE__*/ makeRestPr
             : undefined,
     };
   },
-  unknownError: ({ status, message }) => new UnknownCelldError({ status, message }),
+  unknownError: (info) => new UnknownCelldError(unknownErrorProps(info)),
   parseError: ({ body, cause }) => new CelldParseError({ body, cause }),
 });

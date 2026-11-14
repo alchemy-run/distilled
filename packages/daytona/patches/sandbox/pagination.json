@@ -1,0 +1,38 @@
+{
+  "description": "listSandboxes pages by cursor (`cursor` in, `nextCursor` out, `items`); the sandbox telemetry log and trace lists page by number (`page`, `limit`, `totalPages`). The spec declares the parameters but no paginated trait, so the SDK exposed only the first page.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.daytona.sandbox#ListSandboxes/traits/smithy.api#paginated",
+      "value": {
+        "mode": "cursor",
+        "inputToken": "cursor",
+        "outputToken": "nextCursor",
+        "items": "items",
+        "pageSize": "limit"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.daytona.sandbox#GetSandboxLogs/traits/smithy.api#paginated",
+      "value": {
+        "mode": "page",
+        "inputToken": "page",
+        "outputToken": "page",
+        "items": "items",
+        "pageSize": "limit"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.daytona.sandbox#GetSandboxTraces/traits/smithy.api#paginated",
+      "value": {
+        "mode": "page",
+        "inputToken": "page",
+        "outputToken": "page",
+        "items": "items",
+        "pageSize": "limit"
+      }
+    }
+  ]
+}

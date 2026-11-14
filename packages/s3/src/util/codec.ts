@@ -321,12 +321,13 @@ export const decode = (n: Node, v: unknown, exact: Exactness = false): unknown =
 const decodeCodec = (codec: CodecKind, n: Node, v: unknown, exact: Exactness): unknown => {
   if (codec === "sensitive") return Redacted.make(decode(innerOf(n), v, exact));
   if (codec === "blob") {
-    if (typeof v === "string") {
-      try {
-        return Uint8Array.from(atob(v), (c) => c.charCodeAt(0));
-      } catch {}
+    if (typeof v !== "string") return exact ? fail("a base64 string", v) : v;
+    try {
+      return Uint8Array.from(atob(v), (c) => c.charCodeAt(0));
+    } catch {
+      // Not base64: the same failure as a non-string.
+      return exact ? fail("a base64 string", v) : v;
     }
-    return exact ? fail("a base64 string", v) : v;
   }
   const date =
     codec === "epoch-seconds"
