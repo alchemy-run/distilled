@@ -228,6 +228,8 @@ export interface AdsInteractionLog {
 export type ManifestServicePublishOptInEventType =
   | "PRE_SESSION_INIT_HOOK_SUMMARY"
   | "PRE_SESSION_INIT_FUNCTION_COMPLETED"
+  | "POST_ORIGIN_RESPONSE_HOOK_SUMMARY"
+  | "POST_ORIGIN_RESPONSE_FUNCTION_COMPLETED"
   | (string & {});
 export type __manifestServicePublishOptInEventTypesList = ManifestServicePublishOptInEventType[];
 export type ManifestServiceExcludeEventType =
@@ -265,6 +267,8 @@ export type ManifestServiceExcludeEventType =
   | "ERROR_BUMPER_END_INTERPOLATION"
   | "PRE_SESSION_INIT_HOOK_ERROR"
   | "PRE_SESSION_INIT_FUNCTION_ERROR"
+  | "POST_ORIGIN_RESPONSE_HOOK_ERROR"
+  | "POST_ORIGIN_RESPONSE_FUNCTION_ERROR"
   | (string & {});
 export type __manifestServiceExcludeEventTypesList = ManifestServiceExcludeEventType[];
 export interface ManifestServiceInteractionLog {
@@ -772,6 +776,7 @@ export type FunctionType =
   | "CONCURRENT_EXECUTOR"
   | "SEQUENTIAL_EXECUTOR"
   | "VAST_REQUEST"
+  | "HLS_TAG_PROCESSOR"
   | (string & {});
 export type RuntimeType = "JSONATA" | (string & {});
 export type MethodType = "GET" | "POST" | (string & {});
@@ -838,6 +843,14 @@ export interface VastRequestConfiguration {
   Headers?: { [key: string]: string | undefined } | undefined;
   Cache?: HttpRequestCacheConfiguration | undefined;
 }
+export type HlsTagName = "EXT-X-DATERANGE" | (string & {});
+export type TagFilterList = HlsTagName[];
+export interface HlsTagProcessorConfiguration {
+  Runtime: RuntimeType;
+  Output?: { [key: string]: string | undefined } | undefined;
+  TagFilter: HlsTagName[];
+  RunCondition?: string | undefined;
+}
 export interface GetFunctionResponse {
   FunctionId: string;
   FunctionType: FunctionType;
@@ -848,6 +861,7 @@ export interface GetFunctionResponse {
   ConcurrentExecutorConfiguration?: ConcurrentExecutorConfiguration | undefined;
   SequentialExecutorConfiguration?: SequentialExecutorConfiguration | undefined;
   VastRequestConfiguration?: VastRequestConfiguration | undefined;
+  HlsTagProcessorConfiguration?: HlsTagProcessorConfiguration | undefined;
   Tags?: { [key: string]: string | undefined } | undefined;
   Arn?: string | undefined;
 }
@@ -950,6 +964,7 @@ export type EventName =
   | "PRE_ADS_REQUEST"
   | "POST_ADS_RESPONSE"
   | "PRE_MANIFEST_INSERTION"
+  | "POST_ORIGIN_RESPONSE"
   | (string & {});
 export type FunctionMapping = { [key in EventName]?: string | undefined };
 export interface AdsPersonalizationTimeouts {
@@ -1083,6 +1098,7 @@ export interface Function {
   ConcurrentExecutorConfiguration?: ConcurrentExecutorConfiguration | undefined;
   SequentialExecutorConfiguration?: SequentialExecutorConfiguration | undefined;
   VastRequestConfiguration?: VastRequestConfiguration | undefined;
+  HlsTagProcessorConfiguration?: HlsTagProcessorConfiguration | undefined;
   Tags?: { [key: string]: string | undefined } | undefined;
   Arn?: string | undefined;
 }
@@ -1249,6 +1265,7 @@ export interface PutFunctionRequest {
   ConcurrentExecutorConfiguration?: ConcurrentExecutorConfiguration | undefined;
   SequentialExecutorConfiguration?: SequentialExecutorConfiguration | undefined;
   VastRequestConfiguration?: VastRequestConfiguration | undefined;
+  HlsTagProcessorConfiguration?: HlsTagProcessorConfiguration | undefined;
   Tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface PutFunctionResponse {
@@ -1261,6 +1278,7 @@ export interface PutFunctionResponse {
   ConcurrentExecutorConfiguration?: ConcurrentExecutorConfiguration | undefined;
   SequentialExecutorConfiguration?: SequentialExecutorConfiguration | undefined;
   VastRequestConfiguration?: VastRequestConfiguration | undefined;
+  HlsTagProcessorConfiguration?: HlsTagProcessorConfiguration | undefined;
   Tags?: { [key: string]: string | undefined } | undefined;
   Arn?: string | undefined;
 }
@@ -1951,7 +1969,7 @@ export const getFunction: API.OperationMethod<
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(832, __c26, 0) as any as S.Schema<GetFunctionRequest>,
-  output: __S(872, __c27, 8) as any as S.Schema<GetFunctionResponse>,
+  output: __S(873, __c27, 9) as any as S.Schema<GetFunctionResponse>,
   errors: [],
   protocol: AwsProtocol,
   retry: Retry,
@@ -2273,7 +2291,7 @@ export const putFunction: API.OperationMethod<
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1312, __c41, 0) as any as S.Schema<PutFunctionRequest>,
-  output: __S(872, __c27, 8) as any as S.Schema<PutFunctionResponse>,
+  output: __S(873, __c27, 9) as any as S.Schema<PutFunctionResponse>,
   errors: [],
   protocol: AwsProtocol,
   retry: Retry,
@@ -3242,6 +3260,15 @@ function __c27(j: number): any {
     case 8:
       return S.suspend(() =>
         S.Struct({
+          Runtime: S.String,
+          Output: S.optional(__mapOf__string),
+          TagFilter: __S(1600, __c50, 0),
+          RunCondition: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "HlsTagProcessorConfiguration" });
+    case 9:
+      return S.suspend(() =>
+        S.Struct({
           FunctionId: S.String,
           FunctionType: S.String,
           Description: S.optional(S.String),
@@ -3251,6 +3278,7 @@ function __c27(j: number): any {
           ConcurrentExecutorConfiguration: S.optional(__S(870, __c27, 6)),
           SequentialExecutorConfiguration: S.optional(__S(871, __c27, 7)),
           VastRequestConfiguration: S.optional(__S(865, __c27, 1)),
+          HlsTagProcessorConfiguration: S.optional(__S(872, __c27, 8)),
           Tags: S.optional(__mapOf__string),
           Arn: S.optional(S.String),
         }).pipe(S.encodeKeys({ Tags: "tags" })),
@@ -3548,7 +3576,7 @@ function __c33(j: number): any {
         }).pipe(T.all(T.Http({ method: "GET", uri: "/functions" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "ListFunctionsRequest" });
     case 1:
-      return S.Array(__S(872, __c27, 8));
+      return S.Array(__S(873, __c27, 9));
     case 2:
       return S.suspend(() =>
         S.Struct({ Items: S.optional(__listOfFunctionsResponse), NextToken: S.optional(S.String) }),
@@ -3790,6 +3818,7 @@ function __c41(j: number): any {
           ConcurrentExecutorConfiguration: S.optional(__S(870, __c27, 6)),
           SequentialExecutorConfiguration: S.optional(__S(871, __c27, 7)),
           VastRequestConfiguration: S.optional(__S(865, __c27, 1)),
+          HlsTagProcessorConfiguration: S.optional(__S(872, __c27, 8)),
           Tags: S.optional(__mapOf__string),
         })
           .pipe(S.encodeKeys({ Tags: "tags" }))

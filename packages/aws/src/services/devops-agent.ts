@@ -276,10 +276,15 @@ export interface MSTeamsTransmissionTarget {
   opsOncallTarget?: MSTeamsChannel | undefined;
   opsSRETarget?: MSTeamsChannel | undefined;
 }
+export interface MSTeamsBidirectionalConfiguration {
+  roleArn: string;
+  enabled?: boolean | undefined;
+}
 export interface MSTeamsConfiguration {
   teamId: string;
   teamName: string;
   transmissionTarget: MSTeamsTransmissionTarget;
+  bidirectional?: MSTeamsBidirectionalConfiguration | undefined;
 }
 export type DisplayName = string;
 export type PrivateConnectionName = string;
@@ -5116,7 +5121,12 @@ function __c4(j: number): any {
       ).annotate({ identifier: "MSTeamsTransmissionTarget" });
     case 21:
       return S.suspend(() =>
-        S.Struct({ teamId: S.String, teamName: S.String, transmissionTarget: __S(148, __c4, 20) }),
+        S.Struct({
+          teamId: S.String,
+          teamName: S.String,
+          transmissionTarget: __S(148, __c4, 20),
+          bidirectional: S.optional(__S(133, __c4, 5)),
+        }),
       ).annotate({ identifier: "MSTeamsConfiguration" });
     case 22:
       return S.suspend(() =>

@@ -518,6 +518,7 @@ export interface DashDvbSettings {
   ErrorMetrics?: DashDvbMetricsReporting[] | undefined;
 }
 export type DashCompactness = "STANDARD" | "NONE" | (string & {});
+export type DashBandwidthReportingMode = "AVERAGE" | "MAX" | (string & {});
 export type DashAudioTimelinePattern = "NONE" | "PATTERNED" | (string & {});
 export type DashTtmlProfile = "IMSC_1" | "EBU_TT_D_101" | (string & {});
 export interface DashTtmlConfiguration {
@@ -544,6 +545,7 @@ export interface CreateDashManifestConfiguration {
   ProgramInformation?: DashProgramInformation | undefined;
   DvbSettings?: DashDvbSettings | undefined;
   Compactness?: DashCompactness | undefined;
+  BandwidthReportingMode?: DashBandwidthReportingMode | undefined;
   AudioTimelinePattern?: DashAudioTimelinePattern | undefined;
   SubtitleConfiguration?: DashSubtitleConfiguration | undefined;
   UriPathType?: UriPathType | undefined;
@@ -632,6 +634,7 @@ export interface GetDashManifestConfiguration {
   ProgramInformation?: DashProgramInformation | undefined;
   DvbSettings?: DashDvbSettings | undefined;
   Compactness?: DashCompactness | undefined;
+  BandwidthReportingMode?: DashBandwidthReportingMode | undefined;
   AudioTimelinePattern?: DashAudioTimelinePattern | undefined;
   SubtitleConfiguration?: DashSubtitleConfiguration | undefined;
   UriPathType?: UriPathType | undefined;
@@ -2556,6 +2559,7 @@ function __c5(j: number): any {
           ProgramInformation: S.optional(__S(175, __c5, 15)),
           DvbSettings: S.optional(__S(179, __c5, 19)),
           Compactness: S.optional(S.String),
+          BandwidthReportingMode: S.optional(S.String),
           AudioTimelinePattern: S.optional(S.String),
           SubtitleConfiguration: S.optional(__S(181, __c5, 21)),
           UriPathType: S.optional(S.String),
@@ -2615,6 +2619,7 @@ function __c6(j: number): any {
           ProgramInformation: S.optional(__S(175, __c5, 15)),
           DvbSettings: S.optional(__S(179, __c5, 19)),
           Compactness: S.optional(S.String),
+          BandwidthReportingMode: S.optional(S.String),
           AudioTimelinePattern: S.optional(S.String),
           SubtitleConfiguration: S.optional(__S(181, __c5, 21)),
           UriPathType: S.optional(S.String),

@@ -500,8 +500,10 @@ export interface ApplicationCodeConfiguration {
   CodeContent?: CodeContent | undefined;
   CodeContentType: CodeContentType;
 }
+export type SnapshotMode = "APPLICATION_SNAPSHOTS_LEGACY" | "ENHANCED_SNAPSHOTS" | (string & {});
 export interface ApplicationSnapshotConfiguration {
   SnapshotsEnabled: boolean;
+  SnapshotMode?: SnapshotMode | undefined;
 }
 export interface ApplicationSystemRollbackConfiguration {
   RollbackEnabled: boolean;
@@ -623,9 +625,11 @@ export type ApplicationRestoreType =
   | "RESTORE_FROM_CUSTOM_SNAPSHOT"
   | (string & {});
 export type SnapshotName = string;
+export type SnapshotArn = string;
 export interface ApplicationRestoreConfiguration {
   ApplicationRestoreType: ApplicationRestoreType;
   SnapshotName?: string | undefined;
+  SnapshotArn?: string | undefined;
 }
 export interface FlinkRunConfiguration {
   AllowNonRestoredState?: boolean | undefined;
@@ -664,6 +668,7 @@ export interface EnvironmentPropertyDescriptions {
 }
 export interface ApplicationSnapshotConfigurationDescription {
   SnapshotsEnabled: boolean;
+  SnapshotMode?: SnapshotMode | undefined;
 }
 export interface ApplicationSystemRollbackConfigurationDescription {
   RollbackEnabled: boolean;
@@ -770,6 +775,28 @@ export interface CreateApplicationSnapshotRequest {
   SnapshotName: string;
 }
 export interface CreateApplicationSnapshotResponse {}
+export type SnapshotV2Name = string;
+export type SnapshotV2Description = string;
+export interface CreateSnapshotRequest {
+  ApplicationName: string;
+  SnapshotName: string;
+  SnapshotDescription?: string | undefined;
+  Tags?: Tag[] | undefined;
+}
+export type SnapshotStatus = "CREATING" | "READY" | "DELETING" | "FAILED" | (string & {});
+export type SnapshotOperationId = string;
+export type SnapshotOperationStatus =
+  | "IN_PROGRESS"
+  | "SUCCESSFUL"
+  | "FAILED"
+  | "CANCELLED"
+  | (string & {});
+export interface CreateSnapshotResponse {
+  SnapshotArn: string;
+  SnapshotStatus: SnapshotStatus;
+  SnapshotOperationId: string;
+  SnapshotOperationStatus: SnapshotOperationStatus;
+}
 export interface DeleteApplicationRequest {
   ApplicationName: string;
   CreateTimestamp: Date;
@@ -831,6 +858,16 @@ export interface DeleteApplicationVpcConfigurationResponse {
   ApplicationVersionId?: number | undefined;
   OperationId?: string | undefined;
 }
+export interface DeleteSnapshotRequest {
+  SnapshotName: string;
+  SnapshotCreationTimestamp: Date;
+}
+export interface DeleteSnapshotResponse {
+  SnapshotArn: string;
+  SnapshotStatus: SnapshotStatus;
+  SnapshotOperationId: string;
+  SnapshotOperationStatus: SnapshotOperationStatus;
+}
 export interface DescribeApplicationRequest {
   ApplicationName: string;
   IncludeAdditionalDetails?: boolean | undefined;
@@ -871,7 +908,6 @@ export interface DescribeApplicationSnapshotRequest {
   ApplicationName: string;
   SnapshotName: string;
 }
-export type SnapshotStatus = "CREATING" | "READY" | "DELETING" | "FAILED" | (string & {});
 export interface SnapshotDetails {
   SnapshotName: string;
   SnapshotStatus: SnapshotStatus;
@@ -891,6 +927,106 @@ export interface DescribeApplicationVersionRequest {
 }
 export interface DescribeApplicationVersionResponse {
   ApplicationVersionDetail?: ApplicationDetail | undefined;
+}
+export interface DescribeSnapshotRequest {
+  SnapshotName: string;
+}
+export type SnapshotSizeInBytes = number;
+export interface SnapshotEncryptionConfiguration {
+  KeyId?: string | undefined;
+  KeyType: KeyType;
+}
+export type SnapshotInitiator = "USER" | "SYSTEM" | (string & {});
+export type SnapshotInitiatorOperation =
+  | "CreateSnapshot"
+  | "ImportSnapshot"
+  | "SystemCreateSnapshot"
+  | (string & {});
+export type KeyPrefix = string;
+export interface S3PrefixLocation {
+  BucketARN: string;
+  KeyPrefix: string;
+}
+export interface SourceApplicationDescription {
+  ApplicationName: string;
+  ApplicationCreationTimestamp: Date;
+  ApplicationVersionId: number;
+}
+export interface SnapshotSourceDescription {
+  S3PrefixLocation?: S3PrefixLocation | undefined;
+  SourceApplicationDescription?: SourceApplicationDescription | undefined;
+}
+export type SnapshotFormat = "CANONICAL" | (string & {});
+export interface SnapshotInfoDetails {
+  SnapshotName: string;
+  SnapshotArn: string;
+  SnapshotDescription?: string | undefined;
+  SnapshotStatus: SnapshotStatus;
+  SnapshotCreationTimestamp: Date;
+  RuntimeEnvironment?: RuntimeEnvironment | undefined;
+  SnapshotSizeInBytes?: number | undefined;
+  SnapshotEncryptionConfigurationDescription?: SnapshotEncryptionConfiguration | undefined;
+  SnapshotInitiator: SnapshotInitiator;
+  SnapshotInitiatorOperation: SnapshotInitiatorOperation;
+  SnapshotSourceDescription: SnapshotSourceDescription;
+  SnapshotFormat: SnapshotFormat;
+}
+export interface DescribeSnapshotResponse {
+  SnapshotInfoDetails: SnapshotInfoDetails;
+}
+export interface DescribeSnapshotOperationRequest {
+  SnapshotName: string;
+  SnapshotOperationId: string;
+}
+export type SnapshotOperation =
+  | "CreateSnapshot"
+  | "DeleteSnapshot"
+  | "ImportSnapshot"
+  | "ExportSnapshot"
+  | "SystemCreateSnapshot"
+  | (string & {});
+export interface EncryptionConfigurationDescription {
+  KeyId?: string | undefined;
+  KeyType: KeyType;
+}
+export type StorageLocationType = "S3" | (string & {});
+export interface SnapshotOperationS3PrefixLocation {
+  BucketARN: string;
+  KeyPrefix: string;
+  ExportedPrefix?: string | undefined;
+}
+export interface SnapshotOperationLocationDescription {
+  LocationType: StorageLocationType;
+  S3PrefixLocation: SnapshotOperationS3PrefixLocation;
+}
+export interface ApplicationOperationDescription {
+  ApplicationOperationId?: string | undefined;
+  ApplicationName?: string | undefined;
+}
+export type SnapshotOperationErrorCode = string;
+export interface SnapshotErrorInfo {
+  ErrorCode?: string | undefined;
+  ErrorString?: string | undefined;
+}
+export interface SnapshotOperationFailureDetails {
+  ErrorInfo?: SnapshotErrorInfo | undefined;
+}
+export interface SnapshotOperationInfoDetails {
+  SnapshotOperationId: string;
+  SnapshotOperation: SnapshotOperation;
+  SnapshotOperationStatus: SnapshotOperationStatus;
+  SnapshotArn: string;
+  SourceEncryptionConfigurationDescription?: EncryptionConfigurationDescription | undefined;
+  DestinationEncryptionConfigurationDescription?: EncryptionConfigurationDescription | undefined;
+  SnapshotSourceLocationDescription?: SnapshotOperationLocationDescription | undefined;
+  SnapshotDestinationLocationDescription?: SnapshotOperationLocationDescription | undefined;
+  ApplicationOperationDescription?: ApplicationOperationDescription | undefined;
+  StartTime?: Date | undefined;
+  EndTime?: Date | undefined;
+  SnapshotOperationFailureDetails?: SnapshotOperationFailureDetails | undefined;
+}
+export interface DescribeSnapshotOperationResponse {
+  SnapshotOperationInfoDetails: SnapshotOperationInfoDetails;
 }
 export interface S3Configuration {
   BucketARN: string;
@@ -915,6 +1051,40 @@ export interface DiscoverInputSchemaResponse {
   ParsedInputRecords?: string[][] | undefined;
   ProcessedInputRecords?: string[] | undefined;
   RawInputRecords?: string[] | undefined;
+}
+export interface ExportDestinationConfiguration {
+  DestinationType: StorageLocationType;
+  ExportRoleArn: string;
+  DestinationEncryptionConfiguration?: SnapshotEncryptionConfiguration | undefined;
+  DestinationS3PrefixLocation: S3PrefixLocation;
+}
+export interface ExportSnapshotRequest {
+  SnapshotName: string;
+  ExportDestinationConfiguration: ExportDestinationConfiguration;
+}
+export interface ExportSnapshotResponse {
+  SnapshotOperationId: string;
+  SnapshotOperationStatus: SnapshotOperationStatus;
+}
+export interface ImportSourceConfiguration {
+  SourceType: StorageLocationType;
+  ImportRoleArn: string;
+  SourceEncryptionConfiguration?: SnapshotEncryptionConfiguration | undefined;
+  SourceS3PrefixLocation: S3PrefixLocation;
+}
+export interface ImportSnapshotRequest {
+  SnapshotName: string;
+  ImportSourceConfiguration: ImportSourceConfiguration;
+  DestinationEncryptionConfiguration?: SnapshotEncryptionConfiguration | undefined;
+  SnapshotDescription?: string | undefined;
+  SnapshotFormat?: SnapshotFormat | undefined;
+  Tags?: Tag[] | undefined;
+}
+export interface ImportSnapshotResponse {
+  SnapshotArn: string;
+  SnapshotStatus: SnapshotStatus;
+  SnapshotOperationId: string;
+  SnapshotOperationStatus: SnapshotOperationStatus;
 }
 export type ListApplicationOperationsInputLimit = number;
 export type NextToken = string;
@@ -979,6 +1149,50 @@ export interface ApplicationVersionSummary {
 export type ApplicationVersionSummaries = ApplicationVersionSummary[];
 export interface ListApplicationVersionsResponse {
   ApplicationVersionSummaries?: ApplicationVersionSummary[] | undefined;
+  NextToken?: string | undefined;
+}
+export type ListSnapshotOperationsLimit = number;
+export interface ListSnapshotOperationsRequest {
+  SnapshotName: string;
+  SnapshotOperation?: SnapshotOperation | undefined;
+  SnapshotOperationStatus?: SnapshotOperationStatus | undefined;
+  Limit?: number | undefined;
+  NextToken?: string | undefined;
+}
+export interface SnapshotOperationInfo {
+  SnapshotOperationId: string;
+  SnapshotOperation: SnapshotOperation;
+  SnapshotOperationStatus: SnapshotOperationStatus;
+  StartTime?: Date | undefined;
+  EndTime?: Date | undefined;
+}
+export type SnapshotOperationInfoList = SnapshotOperationInfo[];
+export interface ListSnapshotOperationsResponse {
+  SnapshotOperationInfoList: SnapshotOperationInfo[];
+  NextToken?: string | undefined;
+}
+export type ListSnapshotsLimit = number;
+export interface ListSnapshotsRequest {
+  SourceApplicationName?: string | undefined;
+  SnapshotInitiator?: SnapshotInitiator | undefined;
+  SnapshotInitiatorOperation?: SnapshotInitiatorOperation | undefined;
+  SnapshotStatus?: SnapshotStatus | undefined;
+  Limit?: number | undefined;
+  NextToken?: string | undefined;
+}
+export interface SnapshotInfo {
+  SnapshotName: string;
+  SnapshotArn: string;
+  SnapshotStatus: SnapshotStatus;
+  SnapshotCreationTimestamp: Date;
+  SnapshotInitiator: SnapshotInitiator;
+  SnapshotInitiatorOperation: SnapshotInitiatorOperation;
+  SourceApplicationName?: string | undefined;
+  SnapshotFormat: SnapshotFormat;
+}
+export type SnapshotInfoList = SnapshotInfo[];
+export interface ListSnapshotsResponse {
+  SnapshotInfoList: SnapshotInfo[];
   NextToken?: string | undefined;
 }
 export type KinesisAnalyticsARN = string;
@@ -1136,6 +1350,7 @@ export interface EnvironmentPropertyUpdates {
 }
 export interface ApplicationSnapshotConfigurationUpdate {
   SnapshotsEnabledUpdate: boolean;
+  SnapshotModeUpdate?: SnapshotMode | undefined;
 }
 export interface ApplicationSystemRollbackConfigurationUpdate {
   RollbackEnabledUpdate: boolean;
@@ -1479,7 +1694,7 @@ export const createApplication: API.OperationMethod<
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(785, __c24, 17) as any as S.Schema<CreateApplicationRequest>,
-  output: __S(800, __c25, 0) as any as S.Schema<CreateApplicationResponse>,
+  output: __S(832, __c26, 0) as any as S.Schema<CreateApplicationResponse>,
   errors: [
     CodeValidationException,
     ConcurrentModificationException,
@@ -1570,6 +1785,46 @@ export const createApplicationSnapshot: API.OperationMethod<
   span: "CreateApplicationSnapshot",
 }));
 
+export type CreateSnapshotError =
+  | ConcurrentModificationException
+  | InvalidApplicationConfigurationException
+  | InvalidArgumentException
+  | LimitExceededException
+  | ResourceInUseException
+  | TooManyTagsException
+  | UnsupportedOperationException
+  | CommonErrors;
+/**
+ * Creates an enhanced snapshot of the state data of a running Managed Service for Apache Flink application. The application must be in the `RUNNING` status, use Apache Flink version 1.20 or later, and use the `ENHANCED_SNAPSHOTS` snapshot mode.
+ *
+ * This operation is asynchronous. The response returns the snapshot ARN with the `CREATING` status. To check the status of the snapshot, use `DescribeSnapshot`. To track the progress of the operation, use `DescribeSnapshotOperation`.
+ *
+ * An application can have only one `CreateSnapshot` operation in progress at a time. For information about limits, see Managed Service for Apache Flink Quotas. For more information about snapshots, see Enhanced Snapshots.
+ */
+export const createSnapshot: API.OperationMethod<
+  CreateSnapshotRequest & RegionInput,
+  CreateSnapshotResponse,
+  CreateSnapshotError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(1120, __c35, 0) as any as S.Schema<CreateSnapshotRequest>,
+  output: __S(1152, __c36, 0) as any as S.Schema<CreateSnapshotResponse>,
+  errors: [
+    ConcurrentModificationException,
+    InvalidApplicationConfigurationException,
+    InvalidArgumentException,
+    LimitExceededException,
+    ResourceInUseException,
+    TooManyTagsException,
+    UnsupportedOperationException,
+  ],
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "CreateSnapshot",
+  telemetry: TELEMETRY,
+  span: "CreateSnapshot",
+}));
+
 export type DeleteApplicationError =
   | ConcurrentModificationException
   | InvalidApplicationConfigurationException
@@ -1587,7 +1842,7 @@ export const deleteApplication: API.OperationMethod<
   DeleteApplicationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1120, __c35, 0) as any as S.Schema<DeleteApplicationRequest>,
+  input: __S(1184, __c37, 0) as any as S.Schema<DeleteApplicationRequest>,
   output: __S(1088, __c34, 0) as any as S.Schema<DeleteApplicationResponse>,
   errors: [
     ConcurrentModificationException,
@@ -1621,7 +1876,7 @@ export const deleteApplicationCloudWatchLoggingOption: API.OperationMethod<
   DeleteApplicationCloudWatchLoggingOptionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1152, __c36, 0) as any as S.Schema<DeleteApplicationCloudWatchLoggingOptionRequest>,
+  input: __S(1216, __c38, 0) as any as S.Schema<DeleteApplicationCloudWatchLoggingOptionRequest>,
   output: __S(128, __c4, 0) as any as S.Schema<DeleteApplicationCloudWatchLoggingOptionResponse>,
   errors: [
     ConcurrentModificationException,
@@ -1655,13 +1910,13 @@ export const deleteApplicationInputProcessingConfiguration: API.OperationMethod<
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    1184,
-    __c37,
+    1248,
+    __c39,
     0,
   ) as any as S.Schema<DeleteApplicationInputProcessingConfigurationRequest>,
   output: __S(
-    1216,
-    __c38,
+    1280,
+    __c40,
     0,
   ) as any as S.Schema<DeleteApplicationInputProcessingConfigurationResponse>,
   errors: [
@@ -1696,8 +1951,8 @@ export const deleteApplicationOutput: API.OperationMethod<
   DeleteApplicationOutputError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1248, __c39, 0) as any as S.Schema<DeleteApplicationOutputRequest>,
-  output: __S(1216, __c38, 0) as any as S.Schema<DeleteApplicationOutputResponse>,
+  input: __S(1312, __c41, 0) as any as S.Schema<DeleteApplicationOutputRequest>,
+  output: __S(1280, __c40, 0) as any as S.Schema<DeleteApplicationOutputResponse>,
   errors: [
     ConcurrentModificationException,
     InvalidArgumentException,
@@ -1731,8 +1986,8 @@ export const deleteApplicationReferenceDataSource: API.OperationMethod<
   DeleteApplicationReferenceDataSourceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1280, __c40, 0) as any as S.Schema<DeleteApplicationReferenceDataSourceRequest>,
-  output: __S(1216, __c38, 0) as any as S.Schema<DeleteApplicationReferenceDataSourceResponse>,
+  input: __S(1344, __c42, 0) as any as S.Schema<DeleteApplicationReferenceDataSourceRequest>,
+  output: __S(1280, __c40, 0) as any as S.Schema<DeleteApplicationReferenceDataSourceResponse>,
   errors: [
     ConcurrentModificationException,
     InvalidArgumentException,
@@ -1764,7 +2019,7 @@ export const deleteApplicationSnapshot: API.OperationMethod<
   DeleteApplicationSnapshotError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1312, __c41, 0) as any as S.Schema<DeleteApplicationSnapshotRequest>,
+  input: __S(1376, __c43, 0) as any as S.Schema<DeleteApplicationSnapshotRequest>,
   output: __S(1088, __c34, 0) as any as S.Schema<DeleteApplicationSnapshotResponse>,
   errors: [
     ConcurrentModificationException,
@@ -1797,8 +2052,8 @@ export const deleteApplicationVpcConfiguration: API.OperationMethod<
   DeleteApplicationVpcConfigurationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1344, __c42, 0) as any as S.Schema<DeleteApplicationVpcConfigurationRequest>,
-  output: __S(1345, __c42, 1) as any as S.Schema<DeleteApplicationVpcConfigurationResponse>,
+  input: __S(1408, __c44, 0) as any as S.Schema<DeleteApplicationVpcConfigurationRequest>,
+  output: __S(1409, __c44, 1) as any as S.Schema<DeleteApplicationVpcConfigurationResponse>,
   errors: [
     ConcurrentModificationException,
     InvalidApplicationConfigurationException,
@@ -1811,6 +2066,42 @@ export const deleteApplicationVpcConfiguration: API.OperationMethod<
   operationName: "DeleteApplicationVpcConfiguration",
   telemetry: TELEMETRY,
   span: "DeleteApplicationVpcConfiguration",
+}));
+
+export type DeleteSnapshotError =
+  | ConcurrentModificationException
+  | InvalidArgumentException
+  | ResourceInUseException
+  | ResourceNotFoundException
+  | UnsupportedOperationException
+  | CommonErrors;
+/**
+ * Deletes an enhanced snapshot. Snapshots are not scoped to an application, so you can delete a snapshot independently of the application that it was created from.
+ *
+ * This operation is asynchronous. The response returns the snapshot ARN with the `DELETING` status. To track the progress of the operation, use `DescribeSnapshotOperation`.
+ *
+ * You can delete a snapshot in the `READY` or `FAILED` status. If a snapshot operation, such as an export, uses the snapshot, Managed Service for Apache Flink waits for that operation to finish before it deletes the snapshot. For a snapshot in any other status, `ResourceInUseException` is returned.
+ */
+export const deleteSnapshot: API.OperationMethod<
+  DeleteSnapshotRequest & RegionInput,
+  DeleteSnapshotResponse,
+  DeleteSnapshotError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(1440, __c45, 0) as any as S.Schema<DeleteSnapshotRequest>,
+  output: __S(1152, __c36, 0) as any as S.Schema<DeleteSnapshotResponse>,
+  errors: [
+    ConcurrentModificationException,
+    InvalidArgumentException,
+    ResourceInUseException,
+    ResourceNotFoundException,
+    UnsupportedOperationException,
+  ],
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "DeleteSnapshot",
+  telemetry: TELEMETRY,
+  span: "DeleteSnapshot",
 }));
 
 export type DescribeApplicationError =
@@ -1830,8 +2121,8 @@ export const describeApplication: API.OperationMethod<
   DescribeApplicationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1376, __c43, 0) as any as S.Schema<DescribeApplicationRequest>,
-  output: __S(800, __c25, 0) as any as S.Schema<DescribeApplicationResponse>,
+  input: __S(1472, __c46, 0) as any as S.Schema<DescribeApplicationRequest>,
+  output: __S(832, __c26, 0) as any as S.Schema<DescribeApplicationResponse>,
   errors: [InvalidArgumentException, InvalidRequestException, ResourceNotFoundException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -1856,8 +2147,8 @@ export const describeApplicationOperation: API.OperationMethod<
   DescribeApplicationOperationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1408, __c44, 0) as any as S.Schema<DescribeApplicationOperationRequest>,
-  output: __S(1413, __c44, 5) as any as S.Schema<DescribeApplicationOperationResponse>,
+  input: __S(1504, __c47, 0) as any as S.Schema<DescribeApplicationOperationRequest>,
+  output: __S(1509, __c47, 5) as any as S.Schema<DescribeApplicationOperationResponse>,
   errors: [InvalidArgumentException, ResourceNotFoundException, UnsupportedOperationException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -1880,8 +2171,8 @@ export const describeApplicationSnapshot: API.OperationMethod<
   DescribeApplicationSnapshotError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1440, __c45, 0) as any as S.Schema<DescribeApplicationSnapshotRequest>,
-  output: __S(1441, __c45, 1) as any as S.Schema<DescribeApplicationSnapshotResponse>,
+  input: __S(1536, __c48, 0) as any as S.Schema<DescribeApplicationSnapshotRequest>,
+  output: __S(1537, __c48, 1) as any as S.Schema<DescribeApplicationSnapshotResponse>,
   errors: [InvalidArgumentException, ResourceNotFoundException, UnsupportedOperationException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -1906,14 +2197,64 @@ export const describeApplicationVersion: API.OperationMethod<
   DescribeApplicationVersionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1504, __c47, 0) as any as S.Schema<DescribeApplicationVersionRequest>,
-  output: __S(1505, __c47, 1) as any as S.Schema<DescribeApplicationVersionResponse>,
+  input: __S(1600, __c50, 0) as any as S.Schema<DescribeApplicationVersionRequest>,
+  output: __S(1601, __c50, 1) as any as S.Schema<DescribeApplicationVersionResponse>,
   errors: [InvalidArgumentException, ResourceNotFoundException, UnsupportedOperationException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeApplicationVersion",
   telemetry: TELEMETRY,
   span: "DescribeApplicationVersion",
+}));
+
+export type DescribeSnapshotError =
+  | InvalidArgumentException
+  | ResourceNotFoundException
+  | UnsupportedOperationException
+  | CommonErrors;
+/**
+ * Returns information about an enhanced snapshot. To see a list of the snapshots in your account, use `ListSnapshots`.
+ */
+export const describeSnapshot: API.OperationMethod<
+  DescribeSnapshotRequest & RegionInput,
+  DescribeSnapshotResponse,
+  DescribeSnapshotError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(1632, __c51, 0) as any as S.Schema<DescribeSnapshotRequest>,
+  output: __S(1636, __c51, 4) as any as S.Schema<DescribeSnapshotResponse>,
+  errors: [InvalidArgumentException, ResourceNotFoundException, UnsupportedOperationException],
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "DescribeSnapshot",
+  telemetry: TELEMETRY,
+  span: "DescribeSnapshot",
+}));
+
+export type DescribeSnapshotOperationError =
+  | InvalidArgumentException
+  | ResourceNotFoundException
+  | UnsupportedOperationException
+  | CommonErrors;
+/**
+ * Provides a detailed description of a specified operation that was performed on an enhanced snapshot. To see a list of the operations of a snapshot, use `ListSnapshotOperations`.
+ *
+ * Snapshot operations are available for 90 days after they are created.
+ */
+export const describeSnapshotOperation: API.OperationMethod<
+  DescribeSnapshotOperationRequest & RegionInput,
+  DescribeSnapshotOperationResponse,
+  DescribeSnapshotOperationError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(1696, __c53, 0) as any as S.Schema<DescribeSnapshotOperationRequest>,
+  output: __S(1703, __c53, 7) as any as S.Schema<DescribeSnapshotOperationResponse>,
+  errors: [InvalidArgumentException, ResourceNotFoundException, UnsupportedOperationException],
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "DescribeSnapshotOperation",
+  telemetry: TELEMETRY,
+  span: "DescribeSnapshotOperation",
 }));
 
 export type DiscoverInputSchemaError =
@@ -1940,8 +2281,8 @@ export const discoverInputSchema: API.OperationMethod<
   DiscoverInputSchemaError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1537, __c48, 1) as any as S.Schema<DiscoverInputSchemaRequest>,
-  output: __S(1539, __c48, 3) as any as S.Schema<DiscoverInputSchemaResponse>,
+  input: __S(1729, __c54, 1) as any as S.Schema<DiscoverInputSchemaRequest>,
+  output: __S(1731, __c54, 3) as any as S.Schema<DiscoverInputSchemaResponse>,
   errors: [
     InvalidArgumentException,
     InvalidRequestException,
@@ -1955,6 +2296,84 @@ export const discoverInputSchema: API.OperationMethod<
   operationName: "DiscoverInputSchema",
   telemetry: TELEMETRY,
   span: "DiscoverInputSchema",
+}));
+
+export type ExportSnapshotError =
+  | ConcurrentModificationException
+  | InvalidArgumentException
+  | LimitExceededException
+  | ResourceInUseException
+  | ResourceNotFoundException
+  | UnsupportedOperationException
+  | CommonErrors;
+/**
+ * Exports the data of an enhanced snapshot to an Amazon S3 location. Managed Service for Apache Flink assumes the IAM role that you specify in `ExportDestinationConfiguration` to write the snapshot data. The snapshot must be in the `READY` status.
+ *
+ * This operation is asynchronous. To track the progress of the export, use `DescribeSnapshotOperation`.
+ *
+ * A snapshot can have only one export in progress at a time. If an export of the snapshot is already in progress, `LimitExceededException` is returned.
+ *
+ * For more information, see Import and export.
+ */
+export const exportSnapshot: API.OperationMethod<
+  ExportSnapshotRequest & RegionInput,
+  ExportSnapshotResponse,
+  ExportSnapshotError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(1761, __c55, 1) as any as S.Schema<ExportSnapshotRequest>,
+  output: __S(1762, __c55, 2) as any as S.Schema<ExportSnapshotResponse>,
+  errors: [
+    ConcurrentModificationException,
+    InvalidArgumentException,
+    LimitExceededException,
+    ResourceInUseException,
+    ResourceNotFoundException,
+    UnsupportedOperationException,
+  ],
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "ExportSnapshot",
+  telemetry: TELEMETRY,
+  span: "ExportSnapshot",
+}));
+
+export type ImportSnapshotError =
+  | ConcurrentModificationException
+  | InvalidArgumentException
+  | LimitExceededException
+  | ResourceInUseException
+  | TooManyTagsException
+  | UnsupportedOperationException
+  | CommonErrors;
+/**
+ * Imports an Apache Flink savepoint from an Amazon S3 location as an enhanced snapshot. Managed Service for Apache Flink assumes the IAM role that you specify in `ImportSourceConfiguration` to read the savepoint data.
+ *
+ * This operation is asynchronous. The response returns the snapshot ARN with the `CREATING` status. To track the progress of the import, use `DescribeSnapshotOperation`.
+ *
+ * For more information, see Import and export.
+ */
+export const importSnapshot: API.OperationMethod<
+  ImportSnapshotRequest & RegionInput,
+  ImportSnapshotResponse,
+  ImportSnapshotError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(1793, __c56, 1) as any as S.Schema<ImportSnapshotRequest>,
+  output: __S(1152, __c36, 0) as any as S.Schema<ImportSnapshotResponse>,
+  errors: [
+    ConcurrentModificationException,
+    InvalidArgumentException,
+    LimitExceededException,
+    ResourceInUseException,
+    TooManyTagsException,
+    UnsupportedOperationException,
+  ],
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "ImportSnapshot",
+  telemetry: TELEMETRY,
+  span: "ImportSnapshot",
 }));
 
 export type ListApplicationOperationsError =
@@ -1977,8 +2396,8 @@ export const listApplicationOperations: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   ApplicationOperationInfo
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(1568, __c49, 0) as any as S.Schema<ListApplicationOperationsRequest>,
-  output: __S(1571, __c49, 3) as any as S.Schema<ListApplicationOperationsResponse>,
+  input: __S(1824, __c57, 0) as any as S.Schema<ListApplicationOperationsRequest>,
+  output: __S(1827, __c57, 3) as any as S.Schema<ListApplicationOperationsResponse>,
   errors: [InvalidArgumentException, ResourceNotFoundException, UnsupportedOperationException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -2009,8 +2428,8 @@ export const listApplications: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   ApplicationSummary
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(1600, __c50, 0) as any as S.Schema<ListApplicationsRequest>,
-  output: __S(1603, __c50, 3) as any as S.Schema<ListApplicationsResponse>,
+  input: __S(1856, __c58, 0) as any as S.Schema<ListApplicationsRequest>,
+  output: __S(1859, __c58, 3) as any as S.Schema<ListApplicationsResponse>,
   errors: [InvalidRequestException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -2039,8 +2458,8 @@ export const listApplicationSnapshots: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   SnapshotDetails
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(1632, __c51, 0) as any as S.Schema<ListApplicationSnapshotsRequest>,
-  output: __S(1634, __c51, 2) as any as S.Schema<ListApplicationSnapshotsResponse>,
+  input: __S(1888, __c59, 0) as any as S.Schema<ListApplicationSnapshotsRequest>,
+  output: __S(1890, __c59, 2) as any as S.Schema<ListApplicationSnapshotsResponse>,
   errors: [InvalidArgumentException, UnsupportedOperationException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -2075,8 +2494,8 @@ export const listApplicationVersions: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   ApplicationVersionSummary
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(1664, __c52, 0) as any as S.Schema<ListApplicationVersionsRequest>,
-  output: __S(1667, __c52, 3) as any as S.Schema<ListApplicationVersionsResponse>,
+  input: __S(1920, __c60, 0) as any as S.Schema<ListApplicationVersionsRequest>,
+  output: __S(1923, __c60, 3) as any as S.Schema<ListApplicationVersionsResponse>,
   errors: [InvalidArgumentException, ResourceNotFoundException, UnsupportedOperationException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -2089,6 +2508,75 @@ export const listApplicationVersions: API.PaginatedOperationMethod<
   } as const,
   telemetry: TELEMETRY,
   span: "ListApplicationVersions",
+})) as any;
+
+export type ListSnapshotOperationsError =
+  | InvalidArgumentException
+  | ResourceNotFoundException
+  | UnsupportedOperationException
+  | CommonErrors;
+/**
+ * Lists the operations that were performed on the specified enhanced snapshot, such as `CreateSnapshot`, `ImportSnapshot`, and `ExportSnapshot`. The response includes a summary of each operation.
+ *
+ * You can specify only one of the `SnapshotOperation` or `SnapshotOperationStatus` filters in a request. If you specify both, `InvalidArgumentException` is returned.
+ *
+ * To get the complete description of a specific operation, use `DescribeSnapshotOperation`. Snapshot operations are available for 90 days after they are created.
+ */
+export const listSnapshotOperations: API.PaginatedOperationMethod<
+  ListSnapshotOperationsRequest & RegionInput,
+  ListSnapshotOperationsResponse,
+  ListSnapshotOperationsError,
+  Credentials | HttpClient.HttpClient,
+  SnapshotOperationInfo
+> = /*@__PURE__*/ API.makePaginated(() => ({
+  input: __S(1952, __c61, 0) as any as S.Schema<ListSnapshotOperationsRequest>,
+  output: __S(1955, __c61, 3) as any as S.Schema<ListSnapshotOperationsResponse>,
+  errors: [InvalidArgumentException, ResourceNotFoundException, UnsupportedOperationException],
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "ListSnapshotOperations",
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "SnapshotOperationInfoList",
+    pageSize: "Limit",
+  } as const,
+  telemetry: TELEMETRY,
+  span: "ListSnapshotOperations",
+})) as any;
+
+export type ListSnapshotsError =
+  | InvalidArgumentException
+  | UnsupportedOperationException
+  | CommonErrors;
+/**
+ * Lists the enhanced snapshots in your account. Snapshots are not scoped to an application. To list the snapshots that were created from a specific application, use the `SourceApplicationName` parameter.
+ *
+ * You can specify only one of the following filters in a request: `SourceApplicationName`, `SnapshotInitiator`, `SnapshotInitiatorOperation`, or `SnapshotStatus`. If you specify more than one filter, `InvalidArgumentException` is returned.
+ *
+ * The results are sorted in descending order of snapshot creation timestamp. To get detailed information about a specific snapshot, use `DescribeSnapshot`.
+ */
+export const listSnapshots: API.PaginatedOperationMethod<
+  ListSnapshotsRequest & RegionInput,
+  ListSnapshotsResponse,
+  ListSnapshotsError,
+  Credentials | HttpClient.HttpClient,
+  SnapshotInfo
+> = /*@__PURE__*/ API.makePaginated(() => ({
+  input: __S(1984, __c62, 0) as any as S.Schema<ListSnapshotsRequest>,
+  output: __S(1987, __c62, 3) as any as S.Schema<ListSnapshotsResponse>,
+  errors: [InvalidArgumentException, UnsupportedOperationException],
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "ListSnapshots",
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "SnapshotInfoList",
+    pageSize: "Limit",
+  } as const,
+  telemetry: TELEMETRY,
+  span: "ListSnapshots",
 })) as any;
 
 export type ListTagsForResourceError =
@@ -2106,8 +2594,8 @@ export const listTagsForResource: API.OperationMethod<
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1696, __c53, 0) as any as S.Schema<ListTagsForResourceRequest>,
-  output: __S(1697, __c53, 1) as any as S.Schema<ListTagsForResourceResponse>,
+  input: __S(2016, __c63, 0) as any as S.Schema<ListTagsForResourceRequest>,
+  output: __S(2017, __c63, 1) as any as S.Schema<ListTagsForResourceResponse>,
   errors: [ConcurrentModificationException, InvalidArgumentException, ResourceNotFoundException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -2140,8 +2628,8 @@ export const rollbackApplication: API.OperationMethod<
   RollbackApplicationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1728, __c54, 0) as any as S.Schema<RollbackApplicationRequest>,
-  output: __S(1760, __c55, 0) as any as S.Schema<RollbackApplicationResponse>,
+  input: __S(2048, __c64, 0) as any as S.Schema<RollbackApplicationRequest>,
+  output: __S(2080, __c65, 0) as any as S.Schema<RollbackApplicationResponse>,
   errors: [
     ConcurrentModificationException,
     InvalidArgumentException,
@@ -2163,6 +2651,7 @@ export type StartApplicationError =
   | InvalidRequestException
   | ResourceInUseException
   | ResourceNotFoundException
+  | UnsupportedOperationException
   | CommonErrors;
 /**
  * Starts the specified Managed Service for Apache Flink application. After creating an application, you must exclusively call this operation to
@@ -2174,14 +2663,15 @@ export const startApplication: API.OperationMethod<
   StartApplicationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1795, __c56, 3) as any as S.Schema<StartApplicationRequest>,
-  output: __S(1824, __c57, 0) as any as S.Schema<StartApplicationResponse>,
+  input: __S(2115, __c66, 3) as any as S.Schema<StartApplicationRequest>,
+  output: __S(2144, __c67, 0) as any as S.Schema<StartApplicationResponse>,
   errors: [
     InvalidApplicationConfigurationException,
     InvalidArgumentException,
     InvalidRequestException,
     ResourceInUseException,
     ResourceNotFoundException,
+    UnsupportedOperationException,
   ],
   protocol: AwsProtocol,
   retry: Retry,
@@ -2214,8 +2704,8 @@ export const stopApplication: API.OperationMethod<
   StopApplicationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1856, __c58, 0) as any as S.Schema<StopApplicationRequest>,
-  output: __S(1824, __c57, 0) as any as S.Schema<StopApplicationResponse>,
+  input: __S(2176, __c68, 0) as any as S.Schema<StopApplicationRequest>,
+  output: __S(2144, __c67, 0) as any as S.Schema<StopApplicationResponse>,
   errors: [
     ConcurrentModificationException,
     InvalidApplicationConfigurationException,
@@ -2249,7 +2739,7 @@ export const tagResource: API.OperationMethod<
   TagResourceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1888, __c59, 0) as any as S.Schema<TagResourceRequest>,
+  input: __S(2208, __c69, 0) as any as S.Schema<TagResourceRequest>,
   output: __S(1088, __c34, 0) as any as S.Schema<TagResourceResponse>,
   errors: [
     ConcurrentModificationException,
@@ -2282,7 +2772,7 @@ export const untagResource: API.OperationMethod<
   UntagResourceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1920, __c60, 0) as any as S.Schema<UntagResourceRequest>,
+  input: __S(2240, __c70, 0) as any as S.Schema<UntagResourceRequest>,
   output: __S(1088, __c34, 0) as any as S.Schema<UntagResourceResponse>,
   errors: [
     ConcurrentModificationException,
@@ -2307,6 +2797,7 @@ export type UpdateApplicationError =
   | LimitExceededException
   | ResourceInUseException
   | ResourceNotFoundException
+  | UnsupportedOperationException
   | CommonErrors;
 /**
  * Updates an existing Managed Service for Apache Flink application. Using this operation, you
@@ -2321,8 +2812,8 @@ export const updateApplication: API.OperationMethod<
   UpdateApplicationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1986, __c62, 2) as any as S.Schema<UpdateApplicationRequest>,
-  output: __S(1760, __c55, 0) as any as S.Schema<UpdateApplicationResponse>,
+  input: __S(2306, __c72, 2) as any as S.Schema<UpdateApplicationRequest>,
+  output: __S(2080, __c65, 0) as any as S.Schema<UpdateApplicationResponse>,
   errors: [
     CodeValidationException,
     ConcurrentModificationException,
@@ -2332,6 +2823,7 @@ export const updateApplication: API.OperationMethod<
     LimitExceededException,
     ResourceInUseException,
     ResourceNotFoundException,
+    UnsupportedOperationException,
   ],
   protocol: AwsProtocol,
   retry: Retry,
@@ -2373,8 +2865,8 @@ export const updateApplicationMaintenanceConfiguration: API.OperationMethod<
   UpdateApplicationMaintenanceConfigurationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2017, __c63, 1) as any as S.Schema<UpdateApplicationMaintenanceConfigurationRequest>,
-  output: __S(2018, __c63, 2) as any as S.Schema<UpdateApplicationMaintenanceConfigurationResponse>,
+  input: __S(2337, __c73, 1) as any as S.Schema<UpdateApplicationMaintenanceConfigurationRequest>,
+  output: __S(2338, __c73, 2) as any as S.Schema<UpdateApplicationMaintenanceConfigurationResponse>,
   errors: [
     ConcurrentModificationException,
     InvalidArgumentException,
@@ -2814,7 +3306,7 @@ function __c24(j: number): any {
         S.Struct({
           TextContent: S.optional(S.String),
           ZipFileContent: S.optional(T.Blob),
-          S3ContentLocation: S.optional(__S(899, __c28, 3)),
+          S3ContentLocation: S.optional(__S(931, __c29, 3)),
         }),
       ).annotate({ identifier: "CodeContent" });
     case 9:
@@ -2829,10 +3321,10 @@ function __c24(j: number): any {
       });
     case 12:
       return S.suspend(() =>
-        S.Struct({ GlueDataCatalogConfiguration: __S(902, __c28, 6) }),
+        S.Struct({ GlueDataCatalogConfiguration: __S(934, __c29, 6) }),
       ).annotate({ identifier: "CatalogConfiguration" });
     case 13:
-      return S.suspend(() => S.Struct({ S3ContentLocation: __S(903, __c28, 7) })).annotate({
+      return S.suspend(() => S.Struct({ S3ContentLocation: __S(935, __c29, 7) })).annotate({
         identifier: "DeployAsApplicationConfiguration",
       });
     case 14:
@@ -2851,11 +3343,11 @@ function __c24(j: number): any {
           FlinkApplicationConfiguration: S.optional(__S(775, __c24, 7)),
           EnvironmentProperties: S.optional(__S(992, __c31, 0)),
           ApplicationCodeConfiguration: S.optional(__S(777, __c24, 9)),
-          ApplicationSnapshotConfiguration: S.optional(__S(900, __c28, 4)),
-          ApplicationSystemRollbackConfiguration: S.optional(__S(901, __c28, 5)),
+          ApplicationSnapshotConfiguration: S.optional(__S(932, __c29, 4)),
+          ApplicationSystemRollbackConfiguration: S.optional(__S(933, __c29, 5)),
           VpcConfigurations: S.optional(__S(778, __c24, 10)),
           ZeppelinApplicationConfiguration: S.optional(__S(782, __c24, 14)),
-          ApplicationEncryptionConfiguration: S.optional(__S(832, __c26, 0)),
+          ApplicationEncryptionConfiguration: S.optional(__S(864, __c27, 0)),
         }),
       ).annotate({ identifier: "ApplicationConfiguration" });
     case 16:
@@ -2869,7 +3361,7 @@ function __c24(j: number): any {
           ServiceExecutionRole: S.String,
           ApplicationConfiguration: S.optional(__S(783, __c24, 15)),
           CloudWatchLoggingOptions: S.optional(__S(784, __c24, 16)),
-          Tags: S.optional(__S(961, __c30, 1)),
+          Tags: S.optional(__S(801, __c25, 1)),
           ApplicationMode: S.optional(S.String),
         }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "CreateApplicationRequest" });
@@ -2878,12 +3370,22 @@ function __c24(j: number): any {
 function __c25(j: number): any {
   switch (j) {
     case 0:
-      return S.suspend(() =>
-        S.Struct({ ApplicationDetail: __S(922, __c28, 26) }).pipe(ns),
-      ).annotate({ identifier: "CreateApplicationResponse" });
+      return S.suspend(() => S.Struct({ Key: S.String, Value: S.optional(S.String) })).annotate({
+        identifier: "Tag",
+      });
+    case 1:
+      return S.Array(__S(800, __c25, 0));
   }
 }
 function __c26(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ ApplicationDetail: __S(954, __c29, 26) }).pipe(ns),
+      ).annotate({ identifier: "CreateApplicationResponse" });
+  }
+}
+function __c27(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({ KeyId: S.optional(S.String), KeyType: S.String })).annotate(
@@ -2891,11 +3393,15 @@ function __c26(j: number): any {
       );
   }
 }
-function __c27(j: number): any {
+function __c28(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({ ApplicationRestoreType: S.String, SnapshotName: S.optional(S.String) }),
+        S.Struct({
+          ApplicationRestoreType: S.String,
+          SnapshotName: S.optional(S.String),
+          SnapshotArn: S.optional(S.String),
+        }),
       ).annotate({ identifier: "ApplicationRestoreConfiguration" });
     case 1:
       return S.suspend(() => S.Struct({ AllowNonRestoredState: S.optional(S.Boolean) })).annotate({
@@ -2903,24 +3409,24 @@ function __c27(j: number): any {
       });
   }
 }
-function __c28(j: number): any {
+function __c29(j: number): any {
   switch (j) {
     case 0:
       return S.Record(S.String, /*@__PURE__*/ S.String.pipe(S.optional));
     case 1:
       return S.suspend(() =>
-        S.Struct({ PropertyGroupId: S.String, PropertyMap: __S(896, __c28, 0) }),
+        S.Struct({ PropertyGroupId: S.String, PropertyMap: __S(928, __c29, 0) }),
       ).annotate({ identifier: "PropertyGroup" });
     case 2:
-      return S.Array(__S(897, __c28, 1));
+      return S.Array(__S(929, __c29, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({ BucketARN: S.String, FileKey: S.String, ObjectVersion: S.optional(S.String) }),
       ).annotate({ identifier: "S3ContentLocation" });
     case 4:
-      return S.suspend(() => S.Struct({ SnapshotsEnabled: S.Boolean })).annotate({
-        identifier: "ApplicationSnapshotConfiguration",
-      });
+      return S.suspend(() =>
+        S.Struct({ SnapshotsEnabled: S.Boolean, SnapshotMode: S.optional(S.String) }),
+      ).annotate({ identifier: "ApplicationSnapshotConfiguration" });
     case 5:
       return S.suspend(() => S.Struct({ RollbackEnabled: S.Boolean })).annotate({
         identifier: "ApplicationSystemRollbackConfiguration",
@@ -2951,21 +3457,21 @@ function __c28(j: number): any {
           TextContent: S.optional(S.String),
           CodeMD5: S.optional(S.String),
           CodeSize: S.optional(S.Number),
-          S3ApplicationCodeLocationDescription: S.optional(__S(899, __c28, 3)),
+          S3ApplicationCodeLocationDescription: S.optional(__S(931, __c29, 3)),
         }),
       ).annotate({ identifier: "CodeContentDescription" });
     case 11:
       return S.suspend(() =>
         S.Struct({
           CodeContentType: S.String,
-          CodeContentDescription: S.optional(__S(906, __c28, 10)),
+          CodeContentDescription: S.optional(__S(938, __c29, 10)),
         }),
       ).annotate({ identifier: "ApplicationCodeConfigurationDescription" });
     case 12:
       return S.suspend(() =>
         S.Struct({
-          ApplicationRestoreConfigurationDescription: S.optional(__S(864, __c27, 0)),
-          FlinkRunConfigurationDescription: S.optional(__S(865, __c27, 1)),
+          ApplicationRestoreConfigurationDescription: S.optional(__S(896, __c28, 0)),
+          FlinkRunConfigurationDescription: S.optional(__S(897, __c28, 1)),
         }),
       ).annotate({ identifier: "RunConfigurationDescription" });
     case 13:
@@ -2998,15 +3504,15 @@ function __c28(j: number): any {
     case 16:
       return S.suspend(() =>
         S.Struct({
-          CheckpointConfigurationDescription: S.optional(__S(909, __c28, 13)),
-          MonitoringConfigurationDescription: S.optional(__S(910, __c28, 14)),
-          ParallelismConfigurationDescription: S.optional(__S(911, __c28, 15)),
+          CheckpointConfigurationDescription: S.optional(__S(941, __c29, 13)),
+          MonitoringConfigurationDescription: S.optional(__S(942, __c29, 14)),
+          ParallelismConfigurationDescription: S.optional(__S(943, __c29, 15)),
           JobPlanDescription: S.optional(S.String),
         }),
       ).annotate({ identifier: "FlinkApplicationConfigurationDescription" });
     case 17:
       return S.suspend(() =>
-        S.Struct({ PropertyGroupDescriptions: S.optional(__S(898, __c28, 2)) }),
+        S.Struct({ PropertyGroupDescriptions: S.optional(__S(930, __c29, 2)) }),
       ).annotate({ identifier: "EnvironmentPropertyDescriptions" });
     case 18:
       return S.Array(__S(736, __c23, 0));
@@ -3016,44 +3522,44 @@ function __c28(j: number): any {
       });
     case 20:
       return S.suspend(() =>
-        S.Struct({ GlueDataCatalogConfigurationDescription: __S(902, __c28, 6) }),
+        S.Struct({ GlueDataCatalogConfigurationDescription: __S(934, __c29, 6) }),
       ).annotate({ identifier: "CatalogConfigurationDescription" });
     case 21:
       return S.suspend(() =>
-        S.Struct({ S3ContentLocationDescription: __S(903, __c28, 7) }),
+        S.Struct({ S3ContentLocationDescription: __S(935, __c29, 7) }),
       ).annotate({ identifier: "DeployAsApplicationConfigurationDescription" });
     case 22:
       return S.suspend(() =>
         S.Struct({
           ArtifactType: S.optional(S.String),
-          S3ContentLocationDescription: S.optional(__S(899, __c28, 3)),
-          MavenReferenceDescription: S.optional(__S(904, __c28, 8)),
+          S3ContentLocationDescription: S.optional(__S(931, __c29, 3)),
+          MavenReferenceDescription: S.optional(__S(936, __c29, 8)),
         }),
       ).annotate({ identifier: "CustomArtifactConfigurationDescription" });
     case 23:
-      return S.Array(__S(918, __c28, 22));
+      return S.Array(__S(950, __c29, 22));
     case 24:
       return S.suspend(() =>
         S.Struct({
-          MonitoringConfigurationDescription: __S(915, __c28, 19),
-          CatalogConfigurationDescription: S.optional(__S(916, __c28, 20)),
-          DeployAsApplicationConfigurationDescription: S.optional(__S(917, __c28, 21)),
-          CustomArtifactsConfigurationDescription: S.optional(__S(919, __c28, 23)),
+          MonitoringConfigurationDescription: __S(947, __c29, 19),
+          CatalogConfigurationDescription: S.optional(__S(948, __c29, 20)),
+          DeployAsApplicationConfigurationDescription: S.optional(__S(949, __c29, 21)),
+          CustomArtifactsConfigurationDescription: S.optional(__S(951, __c29, 23)),
         }),
       ).annotate({ identifier: "ZeppelinApplicationConfigurationDescription" });
     case 25:
       return S.suspend(() =>
         S.Struct({
-          SqlApplicationConfigurationDescription: S.optional(__S(905, __c28, 9)),
-          ApplicationCodeConfigurationDescription: S.optional(__S(907, __c28, 11)),
-          RunConfigurationDescription: S.optional(__S(908, __c28, 12)),
-          FlinkApplicationConfigurationDescription: S.optional(__S(912, __c28, 16)),
-          EnvironmentPropertyDescriptions: S.optional(__S(913, __c28, 17)),
-          ApplicationSnapshotConfigurationDescription: S.optional(__S(900, __c28, 4)),
-          ApplicationSystemRollbackConfigurationDescription: S.optional(__S(901, __c28, 5)),
-          VpcConfigurationDescriptions: S.optional(__S(914, __c28, 18)),
-          ZeppelinApplicationConfigurationDescription: S.optional(__S(920, __c28, 24)),
-          ApplicationEncryptionConfigurationDescription: S.optional(__S(832, __c26, 0)),
+          SqlApplicationConfigurationDescription: S.optional(__S(937, __c29, 9)),
+          ApplicationCodeConfigurationDescription: S.optional(__S(939, __c29, 11)),
+          RunConfigurationDescription: S.optional(__S(940, __c29, 12)),
+          FlinkApplicationConfigurationDescription: S.optional(__S(944, __c29, 16)),
+          EnvironmentPropertyDescriptions: S.optional(__S(945, __c29, 17)),
+          ApplicationSnapshotConfigurationDescription: S.optional(__S(932, __c29, 4)),
+          ApplicationSystemRollbackConfigurationDescription: S.optional(__S(933, __c29, 5)),
+          VpcConfigurationDescriptions: S.optional(__S(946, __c29, 18)),
+          ZeppelinApplicationConfigurationDescription: S.optional(__S(952, __c29, 24)),
+          ApplicationEncryptionConfigurationDescription: S.optional(__S(864, __c27, 0)),
         }),
       ).annotate({ identifier: "ApplicationConfigurationDescription" });
     case 26:
@@ -3068,9 +3574,9 @@ function __c28(j: number): any {
           ApplicationVersionId: S.Number,
           CreateTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           LastUpdateTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-          ApplicationConfigurationDescription: S.optional(__S(921, __c28, 25)),
+          ApplicationConfigurationDescription: S.optional(__S(953, __c29, 25)),
           CloudWatchLoggingOptionDescriptions: S.optional(__S(97, __c3, 1)),
-          ApplicationMaintenanceConfigurationDescription: S.optional(__S(928, __c29, 0)),
+          ApplicationMaintenanceConfigurationDescription: S.optional(__S(960, __c30, 0)),
           ApplicationVersionUpdatedFrom: S.optional(S.Number),
           ApplicationVersionRolledBackFrom: S.optional(S.Number),
           ApplicationVersionCreateTimestamp: S.optional(
@@ -3083,7 +3589,7 @@ function __c28(j: number): any {
       ).annotate({ identifier: "ApplicationDetail" });
   }
 }
-function __c29(j: number): any {
+function __c30(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3094,28 +3600,18 @@ function __c29(j: number): any {
       ).annotate({ identifier: "ApplicationMaintenanceConfigurationDescription" });
   }
 }
-function __c30(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() => S.Struct({ Key: S.String, Value: S.optional(S.String) })).annotate({
-        identifier: "Tag",
-      });
-    case 1:
-      return S.Array(__S(960, __c30, 0));
-  }
-}
 function __c31(j: number): any {
   switch (j) {
     case 0:
-      return S.suspend(() => S.Struct({ PropertyGroups: __S(898, __c28, 2) })).annotate({
+      return S.suspend(() => S.Struct({ PropertyGroups: __S(930, __c29, 2) })).annotate({
         identifier: "EnvironmentProperties",
       });
     case 1:
       return S.suspend(() =>
         S.Struct({
           ArtifactType: S.String,
-          S3ContentLocation: S.optional(__S(899, __c28, 3)),
-          MavenReference: S.optional(__S(904, __c28, 8)),
+          S3ContentLocation: S.optional(__S(931, __c29, 3)),
+          MavenReference: S.optional(__S(936, __c29, 8)),
         }),
       ).annotate({ identifier: "CustomArtifactConfiguration" });
     case 2:
@@ -3162,12 +3658,38 @@ function __c35(j: number): any {
       return S.suspend(() =>
         S.Struct({
           ApplicationName: S.String,
+          SnapshotName: S.String,
+          SnapshotDescription: S.optional(S.String),
+          Tags: S.optional(__S(801, __c25, 1)),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "CreateSnapshotRequest" });
+  }
+}
+function __c36(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          SnapshotArn: S.String,
+          SnapshotStatus: S.String,
+          SnapshotOperationId: S.String,
+          SnapshotOperationStatus: S.String,
+        }).pipe(ns),
+      ).annotate({ identifier: "CreateSnapshotResponse" });
+  }
+}
+function __c37(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          ApplicationName: S.String,
           CreateTimestamp: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
         }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "DeleteApplicationRequest" });
   }
 }
-function __c36(j: number): any {
+function __c38(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3180,7 +3702,7 @@ function __c36(j: number): any {
       ).annotate({ identifier: "DeleteApplicationCloudWatchLoggingOptionRequest" });
   }
 }
-function __c37(j: number): any {
+function __c39(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3192,7 +3714,7 @@ function __c37(j: number): any {
       ).annotate({ identifier: "DeleteApplicationInputProcessingConfigurationRequest" });
   }
 }
-function __c38(j: number): any {
+function __c40(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3203,7 +3725,7 @@ function __c38(j: number): any {
       ).annotate({ identifier: "DeleteApplicationInputProcessingConfigurationResponse" });
   }
 }
-function __c39(j: number): any {
+function __c41(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3215,7 +3737,7 @@ function __c39(j: number): any {
       ).annotate({ identifier: "DeleteApplicationOutputRequest" });
   }
 }
-function __c40(j: number): any {
+function __c42(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3227,7 +3749,7 @@ function __c40(j: number): any {
       ).annotate({ identifier: "DeleteApplicationReferenceDataSourceRequest" });
   }
 }
-function __c41(j: number): any {
+function __c43(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3239,7 +3761,7 @@ function __c41(j: number): any {
       ).annotate({ identifier: "DeleteApplicationSnapshotRequest" });
   }
 }
-function __c42(j: number): any {
+function __c44(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3260,7 +3782,18 @@ function __c42(j: number): any {
       ).annotate({ identifier: "DeleteApplicationVpcConfigurationResponse" });
   }
 }
-function __c43(j: number): any {
+function __c45(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          SnapshotName: S.String,
+          SnapshotCreationTimestamp: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "DeleteSnapshotRequest" });
+  }
+}
+function __c46(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3271,7 +3804,7 @@ function __c43(j: number): any {
       ).annotate({ identifier: "DescribeApplicationRequest" });
   }
 }
-function __c44(j: number): any {
+function __c47(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3294,7 +3827,7 @@ function __c44(j: number): any {
       return S.suspend(() =>
         S.Struct({
           RollbackOperationId: S.optional(S.String),
-          ErrorInfo: S.optional(__S(1410, __c44, 2)),
+          ErrorInfo: S.optional(__S(1506, __c47, 2)),
         }),
       ).annotate({ identifier: "OperationFailureDetails" });
     case 4:
@@ -3304,17 +3837,17 @@ function __c44(j: number): any {
           StartTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
           EndTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
           OperationStatus: S.String,
-          ApplicationVersionChangeDetails: S.optional(__S(1409, __c44, 1)),
-          OperationFailureDetails: S.optional(__S(1411, __c44, 3)),
+          ApplicationVersionChangeDetails: S.optional(__S(1505, __c47, 1)),
+          OperationFailureDetails: S.optional(__S(1507, __c47, 3)),
         }),
       ).annotate({ identifier: "ApplicationOperationInfoDetails" });
     case 5:
       return S.suspend(() =>
-        S.Struct({ ApplicationOperationInfoDetails: S.optional(__S(1412, __c44, 4)) }).pipe(ns),
+        S.Struct({ ApplicationOperationInfoDetails: S.optional(__S(1508, __c47, 4)) }).pipe(ns),
       ).annotate({ identifier: "DescribeApplicationOperationResponse" });
   }
 }
-function __c45(j: number): any {
+function __c48(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3323,12 +3856,12 @@ function __c45(j: number): any {
         ),
       ).annotate({ identifier: "DescribeApplicationSnapshotRequest" });
     case 1:
-      return S.suspend(() => S.Struct({ SnapshotDetails: __S(1472, __c46, 0) }).pipe(ns)).annotate({
+      return S.suspend(() => S.Struct({ SnapshotDetails: __S(1568, __c49, 0) }).pipe(ns)).annotate({
         identifier: "DescribeApplicationSnapshotResponse",
       });
   }
 }
-function __c46(j: number): any {
+function __c49(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3338,12 +3871,12 @@ function __c46(j: number): any {
           ApplicationVersionId: S.Number,
           SnapshotCreationTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           RuntimeEnvironment: S.optional(S.String),
-          ApplicationEncryptionConfigurationDescription: S.optional(__S(832, __c26, 0)),
+          ApplicationEncryptionConfigurationDescription: S.optional(__S(864, __c27, 0)),
         }),
       ).annotate({ identifier: "SnapshotDetails" });
   }
 }
-function __c47(j: number): any {
+function __c50(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3353,11 +3886,123 @@ function __c47(j: number): any {
       ).annotate({ identifier: "DescribeApplicationVersionRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({ ApplicationVersionDetail: S.optional(__S(922, __c28, 26)) }).pipe(ns),
+        S.Struct({ ApplicationVersionDetail: S.optional(__S(954, __c29, 26)) }).pipe(ns),
       ).annotate({ identifier: "DescribeApplicationVersionResponse" });
   }
 }
-function __c48(j: number): any {
+function __c51(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ SnapshotName: S.String }).pipe(
+          T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "DescribeSnapshotRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          ApplicationName: S.String,
+          ApplicationCreationTimestamp: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+          ApplicationVersionId: S.Number,
+        }),
+      ).annotate({ identifier: "SourceApplicationDescription" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          S3PrefixLocation: S.optional(__S(1664, __c52, 0)),
+          SourceApplicationDescription: S.optional(__S(1633, __c51, 1)),
+        }),
+      ).annotate({ identifier: "SnapshotSourceDescription" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          SnapshotName: S.String,
+          SnapshotArn: S.String,
+          SnapshotDescription: S.optional(S.String),
+          SnapshotStatus: S.String,
+          SnapshotCreationTimestamp: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+          RuntimeEnvironment: S.optional(S.String),
+          SnapshotSizeInBytes: S.optional(S.Number),
+          SnapshotEncryptionConfigurationDescription: S.optional(__S(864, __c27, 0)),
+          SnapshotInitiator: S.String,
+          SnapshotInitiatorOperation: S.String,
+          SnapshotSourceDescription: __S(1634, __c51, 2),
+          SnapshotFormat: S.String,
+        }),
+      ).annotate({ identifier: "SnapshotInfoDetails" });
+    case 4:
+      return S.suspend(() =>
+        S.Struct({ SnapshotInfoDetails: __S(1635, __c51, 3) }).pipe(ns),
+      ).annotate({ identifier: "DescribeSnapshotResponse" });
+  }
+}
+function __c52(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() => S.Struct({ BucketARN: S.String, KeyPrefix: S.String })).annotate({
+        identifier: "S3PrefixLocation",
+      });
+  }
+}
+function __c53(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ SnapshotName: S.String, SnapshotOperationId: S.String }).pipe(
+          T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "DescribeSnapshotOperationRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          BucketARN: S.String,
+          KeyPrefix: S.String,
+          ExportedPrefix: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "SnapshotOperationS3PrefixLocation" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({ LocationType: S.String, S3PrefixLocation: __S(1697, __c53, 1) }),
+      ).annotate({ identifier: "SnapshotOperationLocationDescription" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          ApplicationOperationId: S.optional(S.String),
+          ApplicationName: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ApplicationOperationDescription" });
+    case 4:
+      return S.suspend(() =>
+        S.Struct({ ErrorCode: S.optional(S.String), ErrorString: S.optional(S.String) }),
+      ).annotate({ identifier: "SnapshotErrorInfo" });
+    case 5:
+      return S.suspend(() => S.Struct({ ErrorInfo: S.optional(__S(1700, __c53, 4)) })).annotate({
+        identifier: "SnapshotOperationFailureDetails",
+      });
+    case 6:
+      return S.suspend(() =>
+        S.Struct({
+          SnapshotOperationId: S.String,
+          SnapshotOperation: S.String,
+          SnapshotOperationStatus: S.String,
+          SnapshotArn: S.String,
+          SourceEncryptionConfigurationDescription: S.optional(__S(864, __c27, 0)),
+          DestinationEncryptionConfigurationDescription: S.optional(__S(864, __c27, 0)),
+          SnapshotSourceLocationDescription: S.optional(__S(1698, __c53, 2)),
+          SnapshotDestinationLocationDescription: S.optional(__S(1698, __c53, 2)),
+          ApplicationOperationDescription: S.optional(__S(1699, __c53, 3)),
+          StartTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+          EndTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+          SnapshotOperationFailureDetails: S.optional(__S(1701, __c53, 5)),
+        }),
+      ).annotate({ identifier: "SnapshotOperationInfoDetails" });
+    case 7:
+      return S.suspend(() =>
+        S.Struct({ SnapshotOperationInfoDetails: __S(1702, __c53, 6) }).pipe(ns),
+      ).annotate({ identifier: "DescribeSnapshotOperationResponse" });
+  }
+}
+function __c54(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({ BucketARN: S.String, FileKey: S.String })).annotate({
@@ -3369,7 +4014,7 @@ function __c48(j: number): any {
           ResourceARN: S.optional(S.String),
           ServiceExecutionRole: S.String,
           InputStartingPositionConfiguration: S.optional(__S(384, __c12, 0)),
-          S3Configuration: S.optional(__S(1536, __c48, 0)),
+          S3Configuration: S.optional(__S(1728, __c54, 0)),
           InputProcessingConfiguration: S.optional(__S(288, __c9, 0)),
         }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "DiscoverInputSchemaRequest" });
@@ -3379,14 +4024,62 @@ function __c48(j: number): any {
       return S.suspend(() =>
         S.Struct({
           InputSchema: S.optional(__S(326, __c10, 6)),
-          ParsedInputRecords: S.optional(__S(1538, __c48, 2)),
+          ParsedInputRecords: S.optional(__S(1730, __c54, 2)),
           ProcessedInputRecords: S.optional(__S(0, __c0, 0)),
           RawInputRecords: S.optional(__S(0, __c0, 0)),
         }).pipe(ns),
       ).annotate({ identifier: "DiscoverInputSchemaResponse" });
   }
 }
-function __c49(j: number): any {
+function __c55(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          DestinationType: S.String,
+          ExportRoleArn: S.String,
+          DestinationEncryptionConfiguration: S.optional(__S(864, __c27, 0)),
+          DestinationS3PrefixLocation: __S(1664, __c52, 0),
+        }),
+      ).annotate({ identifier: "ExportDestinationConfiguration" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          SnapshotName: S.String,
+          ExportDestinationConfiguration: __S(1760, __c55, 0),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "ExportSnapshotRequest" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({ SnapshotOperationId: S.String, SnapshotOperationStatus: S.String }).pipe(ns),
+      ).annotate({ identifier: "ExportSnapshotResponse" });
+  }
+}
+function __c56(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          SourceType: S.String,
+          ImportRoleArn: S.String,
+          SourceEncryptionConfiguration: S.optional(__S(864, __c27, 0)),
+          SourceS3PrefixLocation: __S(1664, __c52, 0),
+        }),
+      ).annotate({ identifier: "ImportSourceConfiguration" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          SnapshotName: S.String,
+          ImportSourceConfiguration: __S(1792, __c56, 0),
+          DestinationEncryptionConfiguration: S.optional(__S(864, __c27, 0)),
+          SnapshotDescription: S.optional(S.String),
+          SnapshotFormat: S.optional(S.String),
+          Tags: S.optional(__S(801, __c25, 1)),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "ImportSnapshotRequest" });
+  }
+}
+function __c57(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3409,17 +4102,17 @@ function __c49(j: number): any {
         }),
       ).annotate({ identifier: "ApplicationOperationInfo" });
     case 2:
-      return S.Array(__S(1569, __c49, 1));
+      return S.Array(__S(1825, __c57, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          ApplicationOperationInfoList: S.optional(__S(1570, __c49, 2)),
+          ApplicationOperationInfoList: S.optional(__S(1826, __c57, 2)),
           NextToken: S.optional(S.String),
         }).pipe(ns),
       ).annotate({ identifier: "ListApplicationOperationsResponse" });
   }
 }
-function __c50(j: number): any {
+function __c58(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3439,17 +4132,17 @@ function __c50(j: number): any {
         }),
       ).annotate({ identifier: "ApplicationSummary" });
     case 2:
-      return S.Array(__S(1601, __c50, 1));
+      return S.Array(__S(1857, __c58, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          ApplicationSummaries: __S(1602, __c50, 2),
+          ApplicationSummaries: __S(1858, __c58, 2),
           NextToken: S.optional(S.String),
         }).pipe(ns),
       ).annotate({ identifier: "ListApplicationsResponse" });
   }
 }
-function __c51(j: number): any {
+function __c59(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3460,17 +4153,17 @@ function __c51(j: number): any {
         }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "ListApplicationSnapshotsRequest" });
     case 1:
-      return S.Array(__S(1472, __c46, 0));
+      return S.Array(__S(1568, __c49, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          SnapshotSummaries: S.optional(__S(1633, __c51, 1)),
+          SnapshotSummaries: S.optional(__S(1889, __c59, 1)),
           NextToken: S.optional(S.String),
         }).pipe(ns),
       ).annotate({ identifier: "ListApplicationSnapshotsResponse" });
   }
 }
-function __c52(j: number): any {
+function __c60(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3485,17 +4178,86 @@ function __c52(j: number): any {
         S.Struct({ ApplicationVersionId: S.Number, ApplicationStatus: S.String }),
       ).annotate({ identifier: "ApplicationVersionSummary" });
     case 2:
-      return S.Array(__S(1665, __c52, 1));
+      return S.Array(__S(1921, __c60, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          ApplicationVersionSummaries: S.optional(__S(1666, __c52, 2)),
+          ApplicationVersionSummaries: S.optional(__S(1922, __c60, 2)),
           NextToken: S.optional(S.String),
         }).pipe(ns),
       ).annotate({ identifier: "ListApplicationVersionsResponse" });
   }
 }
-function __c53(j: number): any {
+function __c61(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          SnapshotName: S.String,
+          SnapshotOperation: S.optional(S.String),
+          SnapshotOperationStatus: S.optional(S.String),
+          Limit: S.optional(S.Number),
+          NextToken: S.optional(S.String),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "ListSnapshotOperationsRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          SnapshotOperationId: S.String,
+          SnapshotOperation: S.String,
+          SnapshotOperationStatus: S.String,
+          StartTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+          EndTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+        }),
+      ).annotate({ identifier: "SnapshotOperationInfo" });
+    case 2:
+      return S.Array(__S(1953, __c61, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          SnapshotOperationInfoList: __S(1954, __c61, 2),
+          NextToken: S.optional(S.String),
+        }).pipe(ns),
+      ).annotate({ identifier: "ListSnapshotOperationsResponse" });
+  }
+}
+function __c62(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          SourceApplicationName: S.optional(S.String),
+          SnapshotInitiator: S.optional(S.String),
+          SnapshotInitiatorOperation: S.optional(S.String),
+          SnapshotStatus: S.optional(S.String),
+          Limit: S.optional(S.Number),
+          NextToken: S.optional(S.String),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "ListSnapshotsRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          SnapshotName: S.String,
+          SnapshotArn: S.String,
+          SnapshotStatus: S.String,
+          SnapshotCreationTimestamp: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+          SnapshotInitiator: S.String,
+          SnapshotInitiatorOperation: S.String,
+          SourceApplicationName: S.optional(S.String),
+          SnapshotFormat: S.String,
+        }),
+      ).annotate({ identifier: "SnapshotInfo" });
+    case 2:
+      return S.Array(__S(1985, __c62, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({ SnapshotInfoList: __S(1986, __c62, 2), NextToken: S.optional(S.String) }).pipe(
+          ns,
+        ),
+      ).annotate({ identifier: "ListSnapshotsResponse" });
+  }
+}
+function __c63(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3504,12 +4266,12 @@ function __c53(j: number): any {
         ),
       ).annotate({ identifier: "ListTagsForResourceRequest" });
     case 1:
-      return S.suspend(() => S.Struct({ Tags: S.optional(__S(961, __c30, 1)) }).pipe(ns)).annotate({
+      return S.suspend(() => S.Struct({ Tags: S.optional(__S(801, __c25, 1)) }).pipe(ns)).annotate({
         identifier: "ListTagsForResourceResponse",
       });
   }
 }
-function __c54(j: number): any {
+function __c64(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3519,43 +4281,43 @@ function __c54(j: number): any {
       ).annotate({ identifier: "RollbackApplicationRequest" });
   }
 }
-function __c55(j: number): any {
+function __c65(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          ApplicationDetail: __S(922, __c28, 26),
+          ApplicationDetail: __S(954, __c29, 26),
           OperationId: S.optional(S.String),
         }).pipe(ns),
       ).annotate({ identifier: "RollbackApplicationResponse" });
   }
 }
-function __c56(j: number): any {
+function __c66(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({ InputId: S.String, InputStartingPositionConfiguration: __S(384, __c12, 0) }),
       ).annotate({ identifier: "SqlRunConfiguration" });
     case 1:
-      return S.Array(__S(1792, __c56, 0));
+      return S.Array(__S(2112, __c66, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          FlinkRunConfiguration: S.optional(__S(865, __c27, 1)),
-          SqlRunConfigurations: S.optional(__S(1793, __c56, 1)),
-          ApplicationRestoreConfiguration: S.optional(__S(864, __c27, 0)),
+          FlinkRunConfiguration: S.optional(__S(897, __c28, 1)),
+          SqlRunConfigurations: S.optional(__S(2113, __c66, 1)),
+          ApplicationRestoreConfiguration: S.optional(__S(896, __c28, 0)),
         }),
       ).annotate({ identifier: "RunConfiguration" });
     case 3:
       return S.suspend(() =>
         S.Struct({
           ApplicationName: S.String,
-          RunConfiguration: S.optional(__S(1794, __c56, 2)),
+          RunConfiguration: S.optional(__S(2114, __c66, 2)),
         }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "StartApplicationRequest" });
   }
 }
-function __c57(j: number): any {
+function __c67(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({ OperationId: S.optional(S.String) }).pipe(ns)).annotate({
@@ -3563,7 +4325,7 @@ function __c57(j: number): any {
       });
   }
 }
-function __c58(j: number): any {
+function __c68(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3573,17 +4335,17 @@ function __c58(j: number): any {
       ).annotate({ identifier: "StopApplicationRequest" });
   }
 }
-function __c59(j: number): any {
+function __c69(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({ ResourceARN: S.String, Tags: __S(961, __c30, 1) }).pipe(
+        S.Struct({ ResourceARN: S.String, Tags: __S(801, __c25, 1) }).pipe(
           T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
         ),
       ).annotate({ identifier: "TagResourceRequest" });
   }
 }
-function __c60(j: number): any {
+function __c70(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3593,7 +4355,7 @@ function __c60(j: number): any {
       ).annotate({ identifier: "UntagResourceRequest" });
   }
 }
-function __c61(j: number): any {
+function __c71(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({ ResourceARNUpdate: S.String })).annotate({
@@ -3601,7 +4363,7 @@ function __c61(j: number): any {
       });
     case 1:
       return S.suspend(() =>
-        S.Struct({ InputLambdaProcessorUpdate: __S(1952, __c61, 0) }),
+        S.Struct({ InputLambdaProcessorUpdate: __S(2272, __c71, 0) }),
       ).annotate({ identifier: "InputProcessingConfigurationUpdate" });
     case 2:
       return S.suspend(() =>
@@ -3620,28 +4382,28 @@ function __c61(j: number): any {
         S.Struct({
           InputId: S.String,
           NamePrefixUpdate: S.optional(S.String),
-          InputProcessingConfigurationUpdate: S.optional(__S(1953, __c61, 1)),
-          KinesisStreamsInputUpdate: S.optional(__S(1952, __c61, 0)),
-          KinesisFirehoseInputUpdate: S.optional(__S(1952, __c61, 0)),
-          InputSchemaUpdate: S.optional(__S(1954, __c61, 2)),
-          InputParallelismUpdate: S.optional(__S(1955, __c61, 3)),
+          InputProcessingConfigurationUpdate: S.optional(__S(2273, __c71, 1)),
+          KinesisStreamsInputUpdate: S.optional(__S(2272, __c71, 0)),
+          KinesisFirehoseInputUpdate: S.optional(__S(2272, __c71, 0)),
+          InputSchemaUpdate: S.optional(__S(2274, __c71, 2)),
+          InputParallelismUpdate: S.optional(__S(2275, __c71, 3)),
         }),
       ).annotate({ identifier: "InputUpdate" });
     case 5:
-      return S.Array(__S(1956, __c61, 4));
+      return S.Array(__S(2276, __c71, 4));
     case 6:
       return S.suspend(() =>
         S.Struct({
           OutputId: S.String,
           NameUpdate: S.optional(S.String),
-          KinesisStreamsOutputUpdate: S.optional(__S(1952, __c61, 0)),
-          KinesisFirehoseOutputUpdate: S.optional(__S(1952, __c61, 0)),
-          LambdaOutputUpdate: S.optional(__S(1952, __c61, 0)),
+          KinesisStreamsOutputUpdate: S.optional(__S(2272, __c71, 0)),
+          KinesisFirehoseOutputUpdate: S.optional(__S(2272, __c71, 0)),
+          LambdaOutputUpdate: S.optional(__S(2272, __c71, 0)),
           DestinationSchemaUpdate: S.optional(__S(544, __c17, 0)),
         }),
       ).annotate({ identifier: "OutputUpdate" });
     case 7:
-      return S.Array(__S(1958, __c61, 6));
+      return S.Array(__S(2278, __c71, 6));
     case 8:
       return S.suspend(() =>
         S.Struct({ BucketARNUpdate: S.optional(S.String), FileKeyUpdate: S.optional(S.String) }),
@@ -3651,18 +4413,18 @@ function __c61(j: number): any {
         S.Struct({
           ReferenceId: S.String,
           TableNameUpdate: S.optional(S.String),
-          S3ReferenceDataSourceUpdate: S.optional(__S(1960, __c61, 8)),
+          S3ReferenceDataSourceUpdate: S.optional(__S(2280, __c71, 8)),
           ReferenceSchemaUpdate: S.optional(__S(326, __c10, 6)),
         }),
       ).annotate({ identifier: "ReferenceDataSourceUpdate" });
     case 10:
-      return S.Array(__S(1961, __c61, 9));
+      return S.Array(__S(2281, __c71, 9));
     case 11:
       return S.suspend(() =>
         S.Struct({
-          InputUpdates: S.optional(__S(1957, __c61, 5)),
-          OutputUpdates: S.optional(__S(1959, __c61, 7)),
-          ReferenceDataSourceUpdates: S.optional(__S(1962, __c61, 10)),
+          InputUpdates: S.optional(__S(2277, __c71, 5)),
+          OutputUpdates: S.optional(__S(2279, __c71, 7)),
+          ReferenceDataSourceUpdates: S.optional(__S(2282, __c71, 10)),
         }),
       ).annotate({ identifier: "SqlApplicationConfigurationUpdate" });
     case 12:
@@ -3678,14 +4440,14 @@ function __c61(j: number): any {
         S.Struct({
           TextContentUpdate: S.optional(S.String),
           ZipFileContentUpdate: S.optional(T.Blob),
-          S3ContentLocationUpdate: S.optional(__S(1964, __c61, 12)),
+          S3ContentLocationUpdate: S.optional(__S(2284, __c71, 12)),
         }),
       ).annotate({ identifier: "CodeContentUpdate" });
     case 14:
       return S.suspend(() =>
         S.Struct({
           CodeContentTypeUpdate: S.optional(S.String),
-          CodeContentUpdate: S.optional(__S(1965, __c61, 13)),
+          CodeContentUpdate: S.optional(__S(2285, __c71, 13)),
         }),
       ).annotate({ identifier: "ApplicationCodeConfigurationUpdate" });
     case 15:
@@ -3717,15 +4479,15 @@ function __c61(j: number): any {
     case 18:
       return S.suspend(() =>
         S.Struct({
-          CheckpointConfigurationUpdate: S.optional(__S(1967, __c61, 15)),
-          MonitoringConfigurationUpdate: S.optional(__S(1968, __c61, 16)),
-          ParallelismConfigurationUpdate: S.optional(__S(1969, __c61, 17)),
+          CheckpointConfigurationUpdate: S.optional(__S(2287, __c71, 15)),
+          MonitoringConfigurationUpdate: S.optional(__S(2288, __c71, 16)),
+          ParallelismConfigurationUpdate: S.optional(__S(2289, __c71, 17)),
         }),
       ).annotate({ identifier: "FlinkApplicationConfigurationUpdate" });
     case 19:
-      return S.suspend(() => S.Struct({ SnapshotsEnabledUpdate: S.Boolean })).annotate({
-        identifier: "ApplicationSnapshotConfigurationUpdate",
-      });
+      return S.suspend(() =>
+        S.Struct({ SnapshotsEnabledUpdate: S.Boolean, SnapshotModeUpdate: S.optional(S.String) }),
+      ).annotate({ identifier: "ApplicationSnapshotConfigurationUpdate" });
     case 20:
       return S.suspend(() => S.Struct({ RollbackEnabledUpdate: S.Boolean })).annotate({
         identifier: "ApplicationSystemRollbackConfigurationUpdate",
@@ -3739,7 +4501,7 @@ function __c61(j: number): any {
         }),
       ).annotate({ identifier: "VpcConfigurationUpdate" });
     case 22:
-      return S.Array(__S(1973, __c61, 21));
+      return S.Array(__S(2293, __c71, 21));
     case 23:
       return S.suspend(() => S.Struct({ LogLevelUpdate: S.String })).annotate({
         identifier: "ZeppelinMonitoringConfigurationUpdate",
@@ -3750,7 +4512,7 @@ function __c61(j: number): any {
       });
     case 25:
       return S.suspend(() =>
-        S.Struct({ GlueDataCatalogConfigurationUpdate: __S(1976, __c61, 24) }),
+        S.Struct({ GlueDataCatalogConfigurationUpdate: __S(2296, __c71, 24) }),
       ).annotate({ identifier: "CatalogConfigurationUpdate" });
     case 26:
       return S.suspend(() =>
@@ -3758,14 +4520,14 @@ function __c61(j: number): any {
       ).annotate({ identifier: "S3ContentBaseLocationUpdate" });
     case 27:
       return S.suspend(() =>
-        S.Struct({ S3ContentLocationUpdate: S.optional(__S(1978, __c61, 26)) }),
+        S.Struct({ S3ContentLocationUpdate: S.optional(__S(2298, __c71, 26)) }),
       ).annotate({ identifier: "DeployAsApplicationConfigurationUpdate" });
     case 28:
       return S.suspend(() =>
         S.Struct({
-          MonitoringConfigurationUpdate: S.optional(__S(1975, __c61, 23)),
-          CatalogConfigurationUpdate: S.optional(__S(1977, __c61, 25)),
-          DeployAsApplicationConfigurationUpdate: S.optional(__S(1979, __c61, 27)),
+          MonitoringConfigurationUpdate: S.optional(__S(2295, __c71, 23)),
+          CatalogConfigurationUpdate: S.optional(__S(2297, __c71, 25)),
+          DeployAsApplicationConfigurationUpdate: S.optional(__S(2299, __c71, 27)),
           CustomArtifactsConfigurationUpdate: S.optional(__S(994, __c31, 2)),
         }),
       ).annotate({ identifier: "ZeppelinApplicationConfigurationUpdate" });
@@ -3776,50 +4538,50 @@ function __c61(j: number): any {
     case 30:
       return S.suspend(() =>
         S.Struct({
-          SqlApplicationConfigurationUpdate: S.optional(__S(1963, __c61, 11)),
-          ApplicationCodeConfigurationUpdate: S.optional(__S(1966, __c61, 14)),
-          FlinkApplicationConfigurationUpdate: S.optional(__S(1970, __c61, 18)),
+          SqlApplicationConfigurationUpdate: S.optional(__S(2283, __c71, 11)),
+          ApplicationCodeConfigurationUpdate: S.optional(__S(2286, __c71, 14)),
+          FlinkApplicationConfigurationUpdate: S.optional(__S(2290, __c71, 18)),
           EnvironmentPropertyUpdates: S.optional(__S(992, __c31, 0)),
-          ApplicationSnapshotConfigurationUpdate: S.optional(__S(1971, __c61, 19)),
-          ApplicationSystemRollbackConfigurationUpdate: S.optional(__S(1972, __c61, 20)),
-          VpcConfigurationUpdates: S.optional(__S(1974, __c61, 22)),
-          ZeppelinApplicationConfigurationUpdate: S.optional(__S(1980, __c61, 28)),
-          ApplicationEncryptionConfigurationUpdate: S.optional(__S(1981, __c61, 29)),
+          ApplicationSnapshotConfigurationUpdate: S.optional(__S(2291, __c71, 19)),
+          ApplicationSystemRollbackConfigurationUpdate: S.optional(__S(2292, __c71, 20)),
+          VpcConfigurationUpdates: S.optional(__S(2294, __c71, 22)),
+          ZeppelinApplicationConfigurationUpdate: S.optional(__S(2300, __c71, 28)),
+          ApplicationEncryptionConfigurationUpdate: S.optional(__S(2301, __c71, 29)),
         }),
       ).annotate({ identifier: "ApplicationConfigurationUpdate" });
     case 31:
       return S.suspend(() =>
         S.Struct({
-          FlinkRunConfiguration: S.optional(__S(865, __c27, 1)),
-          ApplicationRestoreConfiguration: S.optional(__S(864, __c27, 0)),
+          FlinkRunConfiguration: S.optional(__S(897, __c28, 1)),
+          ApplicationRestoreConfiguration: S.optional(__S(896, __c28, 0)),
         }),
       ).annotate({ identifier: "RunConfigurationUpdate" });
   }
 }
-function __c62(j: number): any {
+function __c72(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({ CloudWatchLoggingOptionId: S.String, LogStreamARNUpdate: S.optional(S.String) }),
       ).annotate({ identifier: "CloudWatchLoggingOptionUpdate" });
     case 1:
-      return S.Array(__S(1984, __c62, 0));
+      return S.Array(__S(2304, __c72, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           ApplicationName: S.String,
           CurrentApplicationVersionId: S.optional(S.Number),
-          ApplicationConfigurationUpdate: S.optional(__S(1982, __c61, 30)),
+          ApplicationConfigurationUpdate: S.optional(__S(2302, __c71, 30)),
           ServiceExecutionRoleUpdate: S.optional(S.String),
-          RunConfigurationUpdate: S.optional(__S(1983, __c61, 31)),
-          CloudWatchLoggingOptionUpdates: S.optional(__S(1985, __c62, 1)),
+          RunConfigurationUpdate: S.optional(__S(2303, __c71, 31)),
+          CloudWatchLoggingOptionUpdates: S.optional(__S(2305, __c72, 1)),
           ConditionalToken: S.optional(S.String),
           RuntimeEnvironmentUpdate: S.optional(S.String),
         }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "UpdateApplicationRequest" });
   }
 }
-function __c63(j: number): any {
+function __c73(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3829,14 +4591,14 @@ function __c63(j: number): any {
       return S.suspend(() =>
         S.Struct({
           ApplicationName: S.String,
-          ApplicationMaintenanceConfigurationUpdate: __S(2016, __c63, 0),
+          ApplicationMaintenanceConfigurationUpdate: __S(2336, __c73, 0),
         }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "UpdateApplicationMaintenanceConfigurationRequest" });
     case 2:
       return S.suspend(() =>
         S.Struct({
           ApplicationARN: S.optional(S.String),
-          ApplicationMaintenanceConfigurationDescription: S.optional(__S(928, __c29, 0)),
+          ApplicationMaintenanceConfigurationDescription: S.optional(__S(960, __c30, 0)),
         }).pipe(ns),
       ).annotate({ identifier: "UpdateApplicationMaintenanceConfigurationResponse" });
   }

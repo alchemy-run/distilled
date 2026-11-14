@@ -1095,6 +1095,33 @@ export interface AgentAttributes {
 }
 export type MessageTemplateAttributeKey = string;
 export type CustomAttributes = { [key: string]: string | redacted.Redacted<string> | undefined };
+export type ProfileRecommendationScore = number;
+export type ProfileCatalogItemAttributes = {
+  [key: string]: string | redacted.Redacted<string> | undefined;
+};
+export interface ProfileCatalogItem {
+  id?: string | redacted.Redacted<string> | undefined;
+  name?: string | redacted.Redacted<string> | undefined;
+  code?: string | redacted.Redacted<string> | undefined;
+  type?: string | redacted.Redacted<string> | undefined;
+  category?: string | redacted.Redacted<string> | undefined;
+  description?: string | redacted.Redacted<string> | undefined;
+  additionalInformation?: string | redacted.Redacted<string> | undefined;
+  imageLink?: string | redacted.Redacted<string> | undefined;
+  link?: string | redacted.Redacted<string> | undefined;
+  createdAt?: string | redacted.Redacted<string> | undefined;
+  updatedAt?: string | redacted.Redacted<string> | undefined;
+  price?: string | redacted.Redacted<string> | undefined;
+  attributes?: { [key: string]: string | redacted.Redacted<string> | undefined } | undefined;
+}
+export interface ProfileRecommendation {
+  score?: number | undefined;
+  catalogItem?: ProfileCatalogItem | undefined;
+}
+export type ProfileRecommendations = ProfileRecommendation[];
+export type CalculatedAttributes = {
+  [key: string]: string | redacted.Redacted<string> | undefined;
+};
 export interface CustomerProfileAttributes {
   profileId?: string | redacted.Redacted<string> | undefined;
   profileARN?: string | redacted.Redacted<string> | undefined;
@@ -1154,12 +1181,18 @@ export interface CustomerProfileAttributes {
   billingProvince?: string | redacted.Redacted<string> | undefined;
   billingState?: string | redacted.Redacted<string> | undefined;
   custom?: { [key: string]: string | redacted.Redacted<string> | undefined } | undefined;
+  recommendations?: ProfileRecommendation[] | undefined;
+  calculatedAttributes?:
+    | { [key: string]: string | redacted.Redacted<string> | undefined }
+    | undefined;
 }
+export type CaseAttributes = { [key: string]: string | redacted.Redacted<string> | undefined };
 export interface MessageTemplateAttributes {
   systemAttributes?: SystemAttributes | undefined;
   agentAttributes?: AgentAttributes | undefined;
   customerProfileAttributes?: CustomerProfileAttributes | undefined;
   customAttributes?: { [key: string]: string | redacted.Redacted<string> | undefined } | undefined;
+  caseAttributes?: { [key: string]: string | redacted.Redacted<string> | undefined } | undefined;
 }
 export type GroupingCriteria = string | redacted.Redacted<string>;
 export type GroupingValue = string | redacted.Redacted<string>;
@@ -6486,7 +6519,7 @@ function __c3(j: number): any {
           content: S.optional(__S(1706, __c53, 10)),
           language: S.optional(S.String),
           sourceConfiguration: S.optional(__S(1761, __c55, 1)),
-          defaultAttributes: S.optional(__S(1712, __c53, 16)),
+          defaultAttributes: S.optional(__S(1715, __c53, 19)),
         }).pipe(
           T.all(
             T.Http({
@@ -7731,7 +7764,7 @@ function __c49(j: number): any {
           channelSubtype: S.String,
           language: S.optional(S.String),
           sourceConfiguration: S.optional(__S(1761, __c55, 1)),
-          defaultAttributes: S.optional(__S(1712, __c53, 16)),
+          defaultAttributes: S.optional(__S(1715, __c53, 19)),
           groupingConfiguration: S.optional(__S(1664, __c52, 0)),
           clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
           tags: S.optional(__S(352, __c11, 0)),
@@ -7768,7 +7801,7 @@ function __c50(j: number): any {
           language: S.optional(S.String),
           sourceConfigurationSummary: S.optional(__S(1729, __c54, 1)),
           groupingConfiguration: S.optional(__S(1664, __c52, 0)),
-          defaultAttributes: S.optional(__S(1712, __c53, 16)),
+          defaultAttributes: S.optional(__S(1715, __c53, 19)),
           attributeTypes: S.optional(__S(416, __c13, 0)),
           messageTemplateContentSha256: S.String,
           tags: S.optional(__S(352, __c11, 0)),
@@ -7892,6 +7925,30 @@ function __c53(j: number): any {
     case 15:
       return S.suspend(() =>
         S.Struct({
+          id: S.optional(SensitiveString),
+          name: S.optional(SensitiveString),
+          code: S.optional(SensitiveString),
+          type: S.optional(SensitiveString),
+          category: S.optional(SensitiveString),
+          description: S.optional(SensitiveString),
+          additionalInformation: S.optional(SensitiveString),
+          imageLink: S.optional(SensitiveString),
+          link: S.optional(SensitiveString),
+          createdAt: S.optional(SensitiveString),
+          updatedAt: S.optional(SensitiveString),
+          price: S.optional(SensitiveString),
+          attributes: S.optional(__S(1710, __c53, 14)),
+        }),
+      ).annotate({ identifier: "ProfileCatalogItem" });
+    case 16:
+      return S.suspend(() =>
+        S.Struct({ score: S.optional(S.Number), catalogItem: S.optional(__S(1711, __c53, 15)) }),
+      ).annotate({ identifier: "ProfileRecommendation" });
+    case 17:
+      return S.Array(__S(1712, __c53, 16));
+    case 18:
+      return S.suspend(() =>
+        S.Struct({
           profileId: S.optional(SensitiveString),
           profileARN: S.optional(SensitiveString),
           firstName: S.optional(SensitiveString),
@@ -7950,15 +8007,18 @@ function __c53(j: number): any {
           billingProvince: S.optional(SensitiveString),
           billingState: S.optional(SensitiveString),
           custom: S.optional(__S(1710, __c53, 14)),
+          recommendations: S.optional(__S(1713, __c53, 17)),
+          calculatedAttributes: S.optional(__S(1710, __c53, 14)),
         }),
       ).annotate({ identifier: "CustomerProfileAttributes" });
-    case 16:
+    case 19:
       return S.suspend(() =>
         S.Struct({
           systemAttributes: S.optional(__S(1708, __c53, 12)),
           agentAttributes: S.optional(__S(1709, __c53, 13)),
-          customerProfileAttributes: S.optional(__S(1711, __c53, 15)),
+          customerProfileAttributes: S.optional(__S(1714, __c53, 18)),
           customAttributes: S.optional(__S(1710, __c53, 14)),
+          caseAttributes: S.optional(__S(1710, __c53, 14)),
         }),
       ).annotate({ identifier: "MessageTemplateAttributes" });
   }
@@ -8085,7 +8145,7 @@ function __c59(j: number): any {
           language: S.optional(S.String),
           sourceConfigurationSummary: S.optional(__S(1729, __c54, 1)),
           groupingConfiguration: S.optional(__S(1664, __c52, 0)),
-          defaultAttributes: S.optional(__S(1712, __c53, 16)),
+          defaultAttributes: S.optional(__S(1715, __c53, 19)),
           attributeTypes: S.optional(__S(416, __c13, 0)),
           attachments: S.optional(__S(1920, __c60, 0)),
           isActive: S.optional(S.Boolean),
@@ -10421,7 +10481,7 @@ function __c137(j: number): any {
         S.Struct({
           knowledgeBaseId: S.String.pipe(T.HttpLabel("knowledgeBaseId")),
           messageTemplateId: S.String.pipe(T.HttpLabel("messageTemplateId")),
-          attributes: __S(1712, __c53, 16),
+          attributes: __S(1715, __c53, 19),
         }).pipe(
           T.all(
             T.Http({

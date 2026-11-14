@@ -1652,6 +1652,102 @@ export type EvaluationFormLanguageCode =
   | "ko-KR"
   | "zh-CN"
   | "ms-MY"
+  | "af-ZA"
+  | "sq-AL"
+  | "am-ET"
+  | "ar-AE"
+  | "ar-SA"
+  | "hy-AM"
+  | "eu-ES"
+  | "be-BY"
+  | "bs-BA"
+  | "bg-BG"
+  | "ca-ES"
+  | "ckb-IR"
+  | "ckb-IQ"
+  | "zh-TW"
+  | "hr-HR"
+  | "cs-CZ"
+  | "da-DK"
+  | "nl-BE"
+  | "nl-NL"
+  | "en-AU"
+  | "en-IN"
+  | "en-IE"
+  | "en-NZ"
+  | "en-AB"
+  | "en-SG"
+  | "en-ZA"
+  | "en-GB"
+  | "en-WL"
+  | "fa-IR"
+  | "fa-AF"
+  | "fi-FI"
+  | "fr-BE"
+  | "fr-CA"
+  | "ga-IE"
+  | "gl-ES"
+  | "ka-GE"
+  | "de-AT"
+  | "de-CH"
+  | "el-GR"
+  | "gu-IN"
+  | "ht-HT"
+  | "he-IL"
+  | "hi-IN"
+  | "hu-HU"
+  | "is-IS"
+  | "id-ID"
+  | "jv-ID"
+  | "km-KH"
+  | "kn-IN"
+  | "kk-KZ"
+  | "lo-LA"
+  | "lv-LV"
+  | "lt-LT"
+  | "mk-MK"
+  | "ml-IN"
+  | "mr-IN"
+  | "ne-NP"
+  | "no-NO"
+  | "or-IN"
+  | "ps-AF"
+  | "pl-PL"
+  | "pt-PT"
+  | "pa-IN"
+  | "ro-RO"
+  | "ru-RU"
+  | "sr-RS"
+  | "si-LK"
+  | "sk-SK"
+  | "sl-SI"
+  | "es-MX"
+  | "es-US"
+  | "su-ID"
+  | "sw-BI"
+  | "sw-KE"
+  | "sw-RW"
+  | "sw-TZ"
+  | "sw-UG"
+  | "sv-SE"
+  | "tl-PH"
+  | "ta-IN"
+  | "te-IN"
+  | "th-TH"
+  | "tr-TR"
+  | "uk-UA"
+  | "uz-UZ"
+  | "vi-VN"
+  | "zu-ZA"
+  | "my-MM"
+  | "so-SO"
+  | "yue-HK"
+  | "et-EE"
+  | "hmn"
+  | "lg-UG"
+  | "cy-GB"
+  | "xh-ZA"
+  | "bn-BD"
   | (string & {});
 export interface EvaluationFormLanguageConfiguration {
   FormLanguage?: EvaluationFormLanguageCode | undefined;
@@ -3424,6 +3520,46 @@ export interface GlobalResiliencyMetadata {
   OriginRegion?: string | undefined;
   TrafficDistributionGroupId?: string | undefined;
 }
+export type LanguageLocale = string;
+export type LanguageLocales = string[];
+export type ContactLensAnalyticsModeList = string[];
+export interface ContactLensChannelConfiguration {
+  AnalyticsModes?: string[] | undefined;
+}
+export type ContactLensRedactionEntitiesList = string[];
+export interface ContactLensRedactionConfiguration {
+  Behavior?: string | undefined;
+  Policy?: string | undefined;
+  Entities?: string[] | undefined;
+  MaskMode?: string | undefined;
+}
+export type ContactLensSummaryModeList = string[];
+export interface ContactLensSummaryConfiguration {
+  SummaryModes?: string[] | undefined;
+}
+export interface ContactLensSentimentConfiguration {
+  Behavior?: string | undefined;
+}
+export interface ConversationalAnalyticsConfiguration {
+  Enabled?: boolean | undefined;
+  LanguageLocale?: string | undefined;
+  LanguageLocales?: string[] | undefined;
+  ChannelConfiguration?: ContactLensChannelConfiguration | undefined;
+  RedactionConfiguration?: ContactLensRedactionConfiguration | undefined;
+  SummaryConfiguration?: ContactLensSummaryConfiguration | undefined;
+  SentimentConfiguration?: ContactLensSentimentConfiguration | undefined;
+}
+export interface ContactAnalysisReferenceState {
+  Status?: string | undefined;
+  StatusReason?: string | undefined;
+}
+export interface ConversationalAnalytics {
+  Configuration?: ConversationalAnalyticsConfiguration | undefined;
+  ContactAnalysisReferenceState?: ContactAnalysisReferenceState | undefined;
+}
+export interface ContactLens {
+  ConversationalAnalytics?: ConversationalAnalytics | undefined;
+}
 export interface Contact {
   Arn?: string | undefined;
   Id?: string | undefined;
@@ -3474,6 +3610,7 @@ export interface Contact {
   Attributes?: { [key: string]: string | undefined } | undefined;
   NextContacts?: NextContactEntry[] | undefined;
   GlobalResiliencyMetadata?: GlobalResiliencyMetadata | undefined;
+  ContactLens?: ContactLens | undefined;
 }
 export interface DescribeContactResponse {
   Contact?: Contact | undefined;
@@ -6207,6 +6344,8 @@ export interface IntegrationAssociationSummary {
   SourceApplicationUrl?: string | undefined;
   SourceApplicationName?: string | undefined;
   SourceType?: SourceType | undefined;
+  LastModifiedTime?: Date | undefined;
+  LastModifiedRegion?: string | undefined;
 }
 export type IntegrationAssociationSummaryList = IntegrationAssociationSummary[];
 export interface ListIntegrationAssociationsResponse {
@@ -8555,7 +8694,6 @@ export interface StartChatContactResponse {
   StreamingId?: string | undefined;
 }
 export type AnalyticsModes = AnalyticsMode[];
-export type LanguageLocale = string;
 export interface LanguageConfiguration {
   LanguageLocale?: string | undefined;
 }
@@ -14226,7 +14364,7 @@ export const describeContact: API.OperationMethod<
   Creds | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1792, __c56, 0) as any as S.Schema<DescribeContactRequest>,
-  output: __S(1828, __c57, 4) as any as S.Schema<DescribeContactResponse>,
+  output: __S(1836, __c57, 12) as any as S.Schema<DescribeContactResponse>,
   errors: [
     InternalServiceException,
     InvalidParameterException,
@@ -19913,7 +20051,7 @@ export type PauseContactError =
   | ThrottlingException
   | CommonErrors;
 /**
- * Allows pausing an ongoing task contact.
+ * Pauses an ongoing task or email contact.
  */
 export const pauseContact: API.OperationMethod<
   PauseContactRequest & RegionInput,
@@ -20089,7 +20227,7 @@ export type ResumeContactError =
   | ThrottlingException
   | CommonErrors;
 /**
- * Allows resuming a task contact in a paused state.
+ * Resumes a task or email contact in a paused state.
  */
 export const resumeContact: API.OperationMethod<
   ResumeContactRequest & RegionInput,
@@ -26739,6 +26877,54 @@ function __c57(j: number): any {
       return S.Array(__S(1825, __c57, 1));
     case 3:
       return S.suspend(() =>
+        S.Struct({ AnalyticsModes: S.optional(__S(13376, __c418, 0)) }),
+      ).annotate({ identifier: "ContactLensChannelConfiguration" });
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          Behavior: S.optional(S.String),
+          Policy: S.optional(S.String),
+          Entities: S.optional(__S(13376, __c418, 0)),
+          MaskMode: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ContactLensRedactionConfiguration" });
+    case 5:
+      return S.suspend(() =>
+        S.Struct({ SummaryModes: S.optional(__S(13376, __c418, 0)) }),
+      ).annotate({ identifier: "ContactLensSummaryConfiguration" });
+    case 6:
+      return S.suspend(() => S.Struct({ Behavior: S.optional(S.String) })).annotate({
+        identifier: "ContactLensSentimentConfiguration",
+      });
+    case 7:
+      return S.suspend(() =>
+        S.Struct({
+          Enabled: S.optional(S.Boolean),
+          LanguageLocale: S.optional(S.String),
+          LanguageLocales: S.optional(__S(13376, __c418, 0)),
+          ChannelConfiguration: S.optional(__S(1827, __c57, 3)),
+          RedactionConfiguration: S.optional(__S(1828, __c57, 4)),
+          SummaryConfiguration: S.optional(__S(1829, __c57, 5)),
+          SentimentConfiguration: S.optional(__S(1830, __c57, 6)),
+        }),
+      ).annotate({ identifier: "ConversationalAnalyticsConfiguration" });
+    case 8:
+      return S.suspend(() =>
+        S.Struct({ Status: S.optional(S.String), StatusReason: S.optional(S.String) }),
+      ).annotate({ identifier: "ContactAnalysisReferenceState" });
+    case 9:
+      return S.suspend(() =>
+        S.Struct({
+          Configuration: S.optional(__S(1831, __c57, 7)),
+          ContactAnalysisReferenceState: S.optional(__S(1832, __c57, 8)),
+        }),
+      ).annotate({ identifier: "ConversationalAnalytics" });
+    case 10:
+      return S.suspend(() =>
+        S.Struct({ ConversationalAnalytics: S.optional(__S(1833, __c57, 9)) }),
+      ).annotate({ identifier: "ContactLens" });
+    case 11:
+      return S.suspend(() =>
         S.Struct({
           Arn: S.optional(S.String),
           Id: S.optional(S.String),
@@ -26789,10 +26975,11 @@ function __c57(j: number): any {
           Attributes: S.optional(__S(14400, __c450, 0)),
           NextContacts: S.optional(__S(1826, __c57, 2)),
           GlobalResiliencyMetadata: S.optional(__S(1861, __c58, 5)),
+          ContactLens: S.optional(__S(1834, __c57, 10)),
         }),
       ).annotate({ identifier: "Contact" });
-    case 4:
-      return S.suspend(() => S.Struct({ Contact: S.optional(__S(1827, __c57, 3)) })).annotate({
+    case 12:
+      return S.suspend(() => S.Struct({ Contact: S.optional(__S(1835, __c57, 11)) })).annotate({
         identifier: "DescribeContactResponse",
       });
   }
@@ -31207,6 +31394,8 @@ function __c192(j: number): any {
           SourceApplicationUrl: S.optional(S.String),
           SourceApplicationName: S.optional(S.String),
           SourceType: S.optional(S.String),
+          LastModifiedTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+          LastModifiedRegion: S.optional(S.String),
         }),
       ).annotate({ identifier: "IntegrationAssociationSummary" });
     case 2:

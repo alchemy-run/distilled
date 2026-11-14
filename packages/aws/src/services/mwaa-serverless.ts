@@ -166,13 +166,28 @@ export class ValidationException
         identifier: "ValidationExceptionReason",
       }),
       FieldList: /*@__PURE__*/ S.optional(
-        /*@__PURE__*/ S.suspend(() => __S(129, __c16, 1)).annotate({
+        /*@__PURE__*/ S.suspend(() => __S(137, __c17, 1)).annotate({
           identifier: "ValidationExceptionFields",
         }),
       ),
     },
     /*@__PURE__*/ T.HttpError(400),
   ).pipe(C.withBadRequestError) {}
+export type ExpiresInSecondsInteger = number;
+export type SessionDurationInSecondsInteger = number;
+export interface CreateAirflowUiUrlRequest {
+  ExpiresInSeconds?: number | undefined;
+  SessionDurationInSeconds?: number | undefined;
+}
+export type AuthorizedUrlString = string | redacted.Redacted<string>;
+export type SessionIdString = string | redacted.Redacted<string>;
+export type TimestampValue = Date;
+export interface CreateAirflowUiUrlResponse {
+  AuthorizedUrl: string | redacted.Redacted<string>;
+  SessionId: string | redacted.Redacted<string>;
+  UrlExpiresAt: Date;
+  SessionExpiresAt: Date;
+}
 export type NameString = string;
 export type IdempotencyTokenString = string;
 export interface DefinitionS3Location {
@@ -232,7 +247,6 @@ export interface CreateWorkflowRequest {
   TriggerMode?: string | undefined;
 }
 export type WorkflowArn = string;
-export type TimestampValue = Date;
 export type WorkflowStatus = "READY" | "DELETING" | (string & {});
 export type WorkflowVersion = string;
 export type IsLatestVersion = boolean;
@@ -514,6 +528,44 @@ export interface ValidationExceptionField {
   Message: string;
 }
 export type ValidationExceptionFields = ValidationExceptionField[];
+export type CreateAirflowUiUrlError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | OperationTimeoutException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
+/**
+ * Creates a launch URL that opens the Apache Airflow UI for your workflows in Amazon Managed Workflows for Apache Airflow Serverless. The UI shows the workflows in your account in the current AWS Region. To start a UI session, open the URL in a browser before it expires.
+ *
+ * The UI runs with the permissions of the IAM identity that you use to call this operation. You see only the workflows, workflow runs, and logs that the identity can read, and you can start a workflow run only if the identity has permission to start one.
+ *
+ * The UI session uses the caller's permissions. The session works only from the network address that opened the URL. It ends at `SessionExpiresAt` or when you sign out from the UI.
+ */
+export const createAirflowUiUrl: API.OperationMethod<
+  CreateAirflowUiUrlRequest & RegionInput,
+  CreateAirflowUiUrlResponse,
+  CreateAirflowUiUrlError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(144, __c18, 0) as any as S.Schema<CreateAirflowUiUrlRequest>,
+  output: __S(145, __c18, 1) as any as S.Schema<CreateAirflowUiUrlResponse>,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    OperationTimeoutException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "CreateAirflowUiUrl",
+  telemetry: TELEMETRY,
+  span: "CreateAirflowUiUrl",
+}));
+
 export type CreateWorkflowError =
   | AccessDeniedException
   | ConflictException
@@ -532,8 +584,8 @@ export const createWorkflow: API.OperationMethod<
   CreateWorkflowError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(136, __c17, 0) as any as S.Schema<CreateWorkflowRequest>,
-  output: __S(137, __c17, 1) as any as S.Schema<CreateWorkflowResponse>,
+  input: __S(152, __c19, 0) as any as S.Schema<CreateWorkflowRequest>,
+  output: __S(153, __c19, 1) as any as S.Schema<CreateWorkflowResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -567,8 +619,8 @@ export const deleteWorkflow: API.OperationMethod<
   DeleteWorkflowError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(184, __c23, 0) as any as S.Schema<DeleteWorkflowRequest>,
-  output: __S(185, __c23, 1) as any as S.Schema<DeleteWorkflowResponse>,
+  input: __S(0, __c0, 0) as any as S.Schema<DeleteWorkflowRequest>,
+  output: __S(1, __c0, 1) as any as S.Schema<DeleteWorkflowResponse>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -601,8 +653,8 @@ export const getTaskInstance: API.OperationMethod<
   GetTaskInstanceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(0, __c0, 0) as any as S.Schema<GetTaskInstanceRequest>,
-  output: __S(1, __c0, 1) as any as S.Schema<GetTaskInstanceResponse>,
+  input: __S(8, __c1, 0) as any as S.Schema<GetTaskInstanceRequest>,
+  output: __S(9, __c1, 1) as any as S.Schema<GetTaskInstanceResponse>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -635,8 +687,8 @@ export const getWorkflow: API.OperationMethod<
   GetWorkflowError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8, __c1, 0) as any as S.Schema<GetWorkflowRequest>,
-  output: __S(9, __c1, 1) as any as S.Schema<GetWorkflowResponse>,
+  input: __S(16, __c2, 0) as any as S.Schema<GetWorkflowRequest>,
+  output: __S(17, __c2, 1) as any as S.Schema<GetWorkflowResponse>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -669,8 +721,8 @@ export const getWorkflowRun: API.OperationMethod<
   GetWorkflowRunError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(24, __c3, 0) as any as S.Schema<GetWorkflowRunRequest>,
-  output: __S(26, __c3, 2) as any as S.Schema<GetWorkflowRunResponse>,
+  input: __S(32, __c4, 0) as any as S.Schema<GetWorkflowRunRequest>,
+  output: __S(34, __c4, 2) as any as S.Schema<GetWorkflowRunResponse>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -703,8 +755,8 @@ export const listTagsForResource: API.OperationMethod<
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(40, __c5, 0) as any as S.Schema<ListTagsForResourceRequest>,
-  output: __S(41, __c5, 1) as any as S.Schema<ListTagsForResourceResponse>,
+  input: __S(48, __c6, 0) as any as S.Schema<ListTagsForResourceRequest>,
+  output: __S(49, __c6, 1) as any as S.Schema<ListTagsForResourceResponse>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -737,8 +789,8 @@ export const listTaskInstances: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   TaskInstanceSummary
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(48, __c6, 0) as any as S.Schema<ListTaskInstancesRequest>,
-  output: __S(51, __c6, 3) as any as S.Schema<ListTaskInstancesResponse>,
+  input: __S(56, __c7, 0) as any as S.Schema<ListTaskInstancesRequest>,
+  output: __S(59, __c7, 3) as any as S.Schema<ListTaskInstancesResponse>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -776,8 +828,8 @@ export const listWorkflowRuns: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   WorkflowRunSummary
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(56, __c7, 0) as any as S.Schema<ListWorkflowRunsRequest>,
-  output: __S(60, __c7, 4) as any as S.Schema<ListWorkflowRunsResponse>,
+  input: __S(64, __c8, 0) as any as S.Schema<ListWorkflowRunsRequest>,
+  output: __S(68, __c8, 4) as any as S.Schema<ListWorkflowRunsResponse>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -815,8 +867,8 @@ export const listWorkflows: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   WorkflowSummary
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(64, __c8, 0) as any as S.Schema<ListWorkflowsRequest>,
-  output: __S(67, __c8, 3) as any as S.Schema<ListWorkflowsResponse>,
+  input: __S(72, __c9, 0) as any as S.Schema<ListWorkflowsRequest>,
+  output: __S(75, __c9, 3) as any as S.Schema<ListWorkflowsResponse>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -854,8 +906,8 @@ export const listWorkflowVersions: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   WorkflowVersionSummary
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(72, __c9, 0) as any as S.Schema<ListWorkflowVersionsRequest>,
-  output: __S(75, __c9, 3) as any as S.Schema<ListWorkflowVersionsResponse>,
+  input: __S(80, __c10, 0) as any as S.Schema<ListWorkflowVersionsRequest>,
+  output: __S(83, __c10, 3) as any as S.Schema<ListWorkflowVersionsResponse>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -895,8 +947,8 @@ export const startWorkflowRun: API.OperationMethod<
   StartWorkflowRunError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(80, __c10, 0) as any as S.Schema<StartWorkflowRunRequest>,
-  output: __S(81, __c10, 1) as any as S.Schema<StartWorkflowRunResponse>,
+  input: __S(88, __c11, 0) as any as S.Schema<StartWorkflowRunRequest>,
+  output: __S(89, __c11, 1) as any as S.Schema<StartWorkflowRunResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -931,8 +983,8 @@ export const stopWorkflowRun: API.OperationMethod<
   StopWorkflowRunError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(88, __c11, 0) as any as S.Schema<StopWorkflowRunRequest>,
-  output: __S(89, __c11, 1) as any as S.Schema<StopWorkflowRunResponse>,
+  input: __S(96, __c12, 0) as any as S.Schema<StopWorkflowRunRequest>,
+  output: __S(97, __c12, 1) as any as S.Schema<StopWorkflowRunResponse>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -965,8 +1017,8 @@ export const tagResource: API.OperationMethod<
   TagResourceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(96, __c12, 0) as any as S.Schema<TagResourceRequest>,
-  output: __S(104, __c13, 0) as any as S.Schema<TagResourceResponse>,
+  input: __S(104, __c13, 0) as any as S.Schema<TagResourceRequest>,
+  output: __S(112, __c14, 0) as any as S.Schema<TagResourceResponse>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -999,8 +1051,8 @@ export const untagResource: API.OperationMethod<
   UntagResourceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(112, __c14, 0) as any as S.Schema<UntagResourceRequest>,
-  output: __S(104, __c13, 0) as any as S.Schema<UntagResourceResponse>,
+  input: __S(120, __c15, 0) as any as S.Schema<UntagResourceRequest>,
+  output: __S(112, __c14, 0) as any as S.Schema<UntagResourceResponse>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -1035,8 +1087,8 @@ export const updateWorkflow: API.OperationMethod<
   UpdateWorkflowError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(120, __c15, 0) as any as S.Schema<UpdateWorkflowRequest>,
-  output: __S(121, __c15, 1) as any as S.Schema<UpdateWorkflowResponse>,
+  input: __S(128, __c16, 0) as any as S.Schema<UpdateWorkflowRequest>,
+  output: __S(129, __c16, 1) as any as S.Schema<UpdateWorkflowResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -1056,6 +1108,30 @@ export const updateWorkflow: API.OperationMethod<
 
 // Schema builders: each runs one schema initializer, on that schema's first use.
 function __c0(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          WorkflowArn: S.String.pipe(T.HttpLabel("WorkflowArn")),
+          WorkflowVersion: S.optional(S.String).pipe(T.HttpQuery("workflowVersion")),
+        }).pipe(
+          T.all(
+            T.Http({ method: "DELETE", uri: "/workflows/{WorkflowArn}" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "DeleteWorkflowRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({ WorkflowArn: S.String, WorkflowVersion: S.optional(S.String) }),
+      ).annotate({ identifier: "DeleteWorkflowResponse" });
+  }
+}
+function __c1(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1094,12 +1170,12 @@ function __c0(j: number): any {
           ErrorMessage: S.optional(S.String),
           TaskId: S.optional(S.String),
           LogStream: S.optional(S.String),
-          Xcom: S.optional(__S(144, __c18, 0)),
+          Xcom: S.optional(__S(160, __c20, 0)),
         }),
       ).annotate({ identifier: "GetTaskInstanceResponse" });
   }
 }
-function __c1(j: number): any {
+function __c2(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1126,24 +1202,24 @@ function __c1(j: number): any {
           Description: S.optional(S.String),
           CreatedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
           ModifiedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
-          EncryptionConfiguration: S.optional(__S(152, __c19, 0)),
-          LoggingConfiguration: S.optional(__S(177, __c22, 1)),
+          EncryptionConfiguration: S.optional(__S(168, __c21, 0)),
+          LoggingConfiguration: S.optional(__S(193, __c24, 1)),
           EngineVersion: S.optional(S.Number),
           WorkflowStatus: S.optional(S.String),
-          DefinitionS3Location: S.optional(__S(168, __c21, 0)),
-          Code: S.optional(__S(176, __c22, 0)),
+          DefinitionS3Location: S.optional(__S(184, __c23, 0)),
+          Code: S.optional(__S(192, __c24, 0)),
           CodeSnapshottedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
-          ScheduleConfiguration: S.optional(__S(16, __c2, 0)),
+          ScheduleConfiguration: S.optional(__S(24, __c3, 0)),
           RoleArn: S.optional(S.String),
-          NetworkConfiguration: S.optional(__S(178, __c22, 2)),
-          Environment: S.optional(__S(180, __c22, 4)),
+          NetworkConfiguration: S.optional(__S(194, __c24, 2)),
+          Environment: S.optional(__S(196, __c24, 4)),
           TriggerMode: S.optional(S.String),
           WorkflowDefinition: S.optional(S.String),
         }),
       ).annotate({ identifier: "GetWorkflowResponse" });
   }
 }
-function __c2(j: number): any {
+function __c3(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({ CronExpression: S.optional(S.String) })).annotate({
@@ -1151,7 +1227,7 @@ function __c2(j: number): any {
       });
   }
 }
-function __c3(j: number): any {
+function __c4(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1182,7 +1258,7 @@ function __c3(j: number): any {
           ModifiedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
           Duration: S.optional(S.Number),
           ErrorMessage: S.optional(S.String),
-          TaskInstances: S.optional(__S(160, __c20, 0)),
+          TaskInstances: S.optional(__S(176, __c22, 0)),
           RunState: S.optional(S.String),
         }),
       ).annotate({ identifier: "WorkflowRunDetail" });
@@ -1193,19 +1269,19 @@ function __c3(j: number): any {
           WorkflowVersion: S.optional(S.String),
           RunId: S.optional(S.String),
           RunType: S.optional(S.String),
-          OverrideParameters: S.optional(__S(32, __c4, 0)),
-          RunDetail: S.optional(__S(25, __c3, 1)),
+          OverrideParameters: S.optional(__S(40, __c5, 0)),
+          RunDetail: S.optional(__S(33, __c4, 1)),
         }),
       ).annotate({ identifier: "GetWorkflowRunResponse" });
   }
 }
-function __c4(j: number): any {
+function __c5(j: number): any {
   switch (j) {
     case 0:
       return S.Record(S.String, /*@__PURE__*/ S.Any.pipe(S.optional));
   }
 }
-function __c5(j: number): any {
+function __c6(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1221,12 +1297,12 @@ function __c5(j: number): any {
         ),
       ).annotate({ identifier: "ListTagsForResourceRequest" });
     case 1:
-      return S.suspend(() => S.Struct({ Tags: S.optional(__S(144, __c18, 0)) })).annotate({
+      return S.suspend(() => S.Struct({ Tags: S.optional(__S(160, __c20, 0)) })).annotate({
         identifier: "ListTagsForResourceResponse",
       });
   }
 }
-function __c6(j: number): any {
+function __c7(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1259,14 +1335,14 @@ function __c6(j: number): any {
         }),
       ).annotate({ identifier: "TaskInstanceSummary" });
     case 2:
-      return S.Array(__S(49, __c6, 1));
+      return S.Array(__S(57, __c7, 1));
     case 3:
       return S.suspend(() =>
-        S.Struct({ TaskInstances: S.optional(__S(50, __c6, 2)), NextToken: S.optional(S.String) }),
+        S.Struct({ TaskInstances: S.optional(__S(58, __c7, 2)), NextToken: S.optional(S.String) }),
       ).annotate({ identifier: "ListTaskInstancesResponse" });
   }
 }
-function __c7(j: number): any {
+function __c8(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1302,18 +1378,18 @@ function __c7(j: number): any {
           WorkflowArn: S.optional(S.String),
           WorkflowVersion: S.optional(S.String),
           RunType: S.optional(S.String),
-          RunDetailSummary: S.optional(__S(57, __c7, 1)),
+          RunDetailSummary: S.optional(__S(65, __c8, 1)),
         }),
       ).annotate({ identifier: "WorkflowRunSummary" });
     case 3:
-      return S.Array(__S(58, __c7, 2));
+      return S.Array(__S(66, __c8, 2));
     case 4:
       return S.suspend(() =>
-        S.Struct({ WorkflowRuns: S.optional(__S(59, __c7, 3)), NextToken: S.optional(S.String) }),
+        S.Struct({ WorkflowRuns: S.optional(__S(67, __c8, 3)), NextToken: S.optional(S.String) }),
       ).annotate({ identifier: "ListWorkflowRunsResponse" });
   }
 }
-function __c8(j: number): any {
+function __c9(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1336,14 +1412,14 @@ function __c8(j: number): any {
         }),
       ).annotate({ identifier: "WorkflowSummary" });
     case 2:
-      return S.Array(__S(65, __c8, 1));
+      return S.Array(__S(73, __c9, 1));
     case 3:
       return S.suspend(() =>
-        S.Struct({ Workflows: __S(66, __c8, 2), NextToken: S.optional(S.String) }),
+        S.Struct({ Workflows: __S(74, __c9, 2), NextToken: S.optional(S.String) }),
       ).annotate({ identifier: "ListWorkflowsResponse" });
   }
 }
-function __c9(j: number): any {
+function __c10(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1370,30 +1446,30 @@ function __c9(j: number): any {
           IsLatestVersion: S.optional(S.Boolean),
           CreatedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
           ModifiedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
-          DefinitionS3Location: S.optional(__S(168, __c21, 0)),
-          ScheduleConfiguration: S.optional(__S(16, __c2, 0)),
+          DefinitionS3Location: S.optional(__S(184, __c23, 0)),
+          ScheduleConfiguration: S.optional(__S(24, __c3, 0)),
           TriggerMode: S.optional(S.String),
         }),
       ).annotate({ identifier: "WorkflowVersionSummary" });
     case 2:
-      return S.Array(__S(73, __c9, 1));
+      return S.Array(__S(81, __c10, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          WorkflowVersions: S.optional(__S(74, __c9, 2)),
+          WorkflowVersions: S.optional(__S(82, __c10, 2)),
           NextToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListWorkflowVersionsResponse" });
   }
 }
-function __c10(j: number): any {
+function __c11(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           WorkflowArn: S.String.pipe(T.HttpLabel("WorkflowArn")),
           ClientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
-          OverrideParameters: S.optional(__S(32, __c4, 0)),
+          OverrideParameters: S.optional(__S(40, __c5, 0)),
           WorkflowVersion: S.optional(S.String),
         }).pipe(
           T.all(
@@ -1416,7 +1492,7 @@ function __c10(j: number): any {
       ).annotate({ identifier: "StartWorkflowRunResponse" });
   }
 }
-function __c11(j: number): any {
+function __c12(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1445,13 +1521,13 @@ function __c11(j: number): any {
       ).annotate({ identifier: "StopWorkflowRunResponse" });
   }
 }
-function __c12(j: number): any {
+function __c13(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           ResourceArn: S.String.pipe(T.HttpLabel("ResourceArn")),
-          Tags: __S(144, __c18, 0),
+          Tags: __S(160, __c20, 0),
         }).pipe(
           T.all(
             T.Http({ method: "POST", uri: "/tags/{ResourceArn}" }),
@@ -1465,19 +1541,19 @@ function __c12(j: number): any {
       ).annotate({ identifier: "TagResourceRequest" });
   }
 }
-function __c13(j: number): any {
+function __c14(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({})).annotate({ identifier: "TagResourceResponse" });
   }
 }
-function __c14(j: number): any {
+function __c15(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           ResourceArn: S.String.pipe(T.HttpLabel("ResourceArn")),
-          TagKeys: __S(160, __c20, 0).pipe(T.HttpQuery("tagKeys")),
+          TagKeys: __S(176, __c22, 0).pipe(T.HttpQuery("tagKeys")),
         }).pipe(
           T.all(
             T.Http({ method: "DELETE", uri: "/tags/{ResourceArn}" }),
@@ -1491,20 +1567,20 @@ function __c14(j: number): any {
       ).annotate({ identifier: "UntagResourceRequest" });
   }
 }
-function __c15(j: number): any {
+function __c16(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           WorkflowArn: S.String.pipe(T.HttpLabel("WorkflowArn")),
-          DefinitionS3Location: __S(168, __c21, 0),
-          Code: S.optional(__S(176, __c22, 0)),
+          DefinitionS3Location: __S(184, __c23, 0),
+          Code: S.optional(__S(192, __c24, 0)),
           RoleArn: S.String,
           Description: S.optional(S.String),
-          LoggingConfiguration: S.optional(__S(177, __c22, 1)),
+          LoggingConfiguration: S.optional(__S(193, __c24, 1)),
           EngineVersion: S.optional(S.Number),
-          NetworkConfiguration: S.optional(__S(178, __c22, 2)),
-          Environment: S.optional(__S(180, __c22, 4)),
+          NetworkConfiguration: S.optional(__S(194, __c24, 2)),
+          Environment: S.optional(__S(196, __c24, 4)),
           TriggerMode: S.optional(S.String),
         }).pipe(
           T.all(
@@ -1523,38 +1599,60 @@ function __c15(j: number): any {
           WorkflowArn: S.String,
           ModifiedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
           WorkflowVersion: S.optional(S.String),
-          Warnings: S.optional(__S(160, __c20, 0)),
+          Warnings: S.optional(__S(176, __c22, 0)),
         }),
       ).annotate({ identifier: "UpdateWorkflowResponse" });
   }
 }
-function __c16(j: number): any {
+function __c17(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({ Name: S.String, Message: S.String })).annotate({
         identifier: "ValidationExceptionField",
       });
     case 1:
-      return S.Array(__S(128, __c16, 0));
+      return S.Array(__S(136, __c17, 0));
   }
 }
-function __c17(j: number): any {
+function __c18(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          ExpiresInSeconds: S.optional(S.Number),
+          SessionDurationInSeconds: S.optional(S.Number),
+        }).pipe(
+          T.all(T.Http({ method: "POST", uri: "/airflow-ui-url" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "CreateAirflowUiUrlRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          AuthorizedUrl: SensitiveString,
+          SessionId: SensitiveString,
+          UrlExpiresAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
+          SessionExpiresAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
+        }),
+      ).annotate({ identifier: "CreateAirflowUiUrlResponse" });
+  }
+}
+function __c19(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           Name: S.String,
           ClientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
-          DefinitionS3Location: __S(168, __c21, 0),
-          Code: S.optional(__S(176, __c22, 0)),
+          DefinitionS3Location: __S(184, __c23, 0),
+          Code: S.optional(__S(192, __c24, 0)),
           RoleArn: S.String,
           Description: S.optional(S.String),
-          EncryptionConfiguration: S.optional(__S(152, __c19, 0)),
-          LoggingConfiguration: S.optional(__S(177, __c22, 1)),
+          EncryptionConfiguration: S.optional(__S(168, __c21, 0)),
+          LoggingConfiguration: S.optional(__S(193, __c24, 1)),
           EngineVersion: S.optional(S.Number),
-          NetworkConfiguration: S.optional(__S(178, __c22, 2)),
-          Environment: S.optional(__S(180, __c22, 4)),
-          Tags: S.optional(__S(144, __c18, 0)),
+          NetworkConfiguration: S.optional(__S(194, __c24, 2)),
+          Environment: S.optional(__S(196, __c24, 4)),
+          Tags: S.optional(__S(160, __c20, 0)),
           TriggerMode: S.optional(S.String),
         }).pipe(T.all(T.Http({ method: "POST", uri: "/workflows" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "CreateWorkflowRequest" });
@@ -1567,18 +1665,18 @@ function __c17(j: number): any {
           WorkflowStatus: S.optional(S.String),
           WorkflowVersion: S.optional(S.String),
           IsLatestVersion: S.optional(S.Boolean),
-          Warnings: S.optional(__S(160, __c20, 0)),
+          Warnings: S.optional(__S(176, __c22, 0)),
         }),
       ).annotate({ identifier: "CreateWorkflowResponse" });
   }
 }
-function __c18(j: number): any {
+function __c20(j: number): any {
   switch (j) {
     case 0:
       return S.Record(S.String, /*@__PURE__*/ S.String.pipe(S.optional));
   }
 }
-function __c19(j: number): any {
+function __c21(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({ Type: S.String, KmsKeyId: S.optional(S.String) })).annotate(
@@ -1586,13 +1684,13 @@ function __c19(j: number): any {
       );
   }
 }
-function __c20(j: number): any {
+function __c22(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
   }
 }
-function __c21(j: number): any {
+function __c23(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1600,10 +1698,10 @@ function __c21(j: number): any {
       ).annotate({ identifier: "DefinitionS3Location" });
   }
 }
-function __c22(j: number): any {
+function __c24(j: number): any {
   switch (j) {
     case 0:
-      return S.Union([/*@__PURE__*/ S.Struct({ S3Location: __S(168, __c21, 0) })]);
+      return S.Union([/*@__PURE__*/ S.Struct({ S3Location: __S(184, __c23, 0) })]);
     case 1:
       return S.suspend(() => S.Struct({ LogGroupName: S.String })).annotate({
         identifier: "LoggingConfiguration",
@@ -1611,40 +1709,16 @@ function __c22(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          SecurityGroupIds: S.optional(__S(160, __c20, 0)),
-          SubnetIds: S.optional(__S(160, __c20, 0)),
+          SecurityGroupIds: S.optional(__S(176, __c22, 0)),
+          SubnetIds: S.optional(__S(176, __c22, 0)),
         }),
       ).annotate({ identifier: "NetworkConfiguration" });
     case 3:
       return S.Record(S.String, /*@__PURE__*/ SensitiveString.pipe(S.optional));
     case 4:
-      return S.suspend(() => S.Struct({ Variables: S.optional(__S(179, __c22, 3)) })).annotate({
+      return S.suspend(() => S.Struct({ Variables: S.optional(__S(195, __c24, 3)) })).annotate({
         identifier: "Environment",
       });
-  }
-}
-function __c23(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          WorkflowArn: S.String.pipe(T.HttpLabel("WorkflowArn")),
-          WorkflowVersion: S.optional(S.String).pipe(T.HttpQuery("workflowVersion")),
-        }).pipe(
-          T.all(
-            T.Http({ method: "DELETE", uri: "/workflows/{WorkflowArn}" }),
-            svc,
-            auth,
-            proto,
-            ver,
-            rules,
-          ),
-        ),
-      ).annotate({ identifier: "DeleteWorkflowRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({ WorkflowArn: S.String, WorkflowVersion: S.optional(S.String) }),
-      ).annotate({ identifier: "DeleteWorkflowResponse" });
   }
 }
 // Schema table: entry i is schema j of builder f, made on first reach.

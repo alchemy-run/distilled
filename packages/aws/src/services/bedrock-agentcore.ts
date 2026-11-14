@@ -2367,9 +2367,17 @@ export type HarnessRemoteMcpUrl = string | redacted.Redacted<string>;
 export type HttpHeaderKey = string;
 export type HttpHeaderValue = string;
 export type HttpHeadersMap = { [key: string]: string | undefined };
+export interface IamCredentialProvider {
+  service: string;
+  region?: string | undefined;
+}
+export type HarnessRemoteMcpOutboundAuth =
+  | { awsIam: IamCredentialProvider; none?: undefined }
+  | { awsIam?: undefined; none: Record<string, never> };
 export interface HarnessRemoteMcpConfig {
   url: string | redacted.Redacted<string>;
   headers?: { [key: string]: string | undefined } | undefined;
+  outboundAuth?: HarnessRemoteMcpOutboundAuth | undefined;
 }
 export type HarnessBrowserArn = string;
 export interface HarnessAgentCoreBrowserConfig {
@@ -4874,8 +4882,8 @@ export const invokeHarness: API.OperationMethod<
   InvokeHarnessError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2176, __c68, 0) as any as S.Schema<InvokeHarnessRequest>,
-  output: __S(2194, __c68, 18) as any as S.Schema<InvokeHarnessResponse>,
+  input: __S(2178, __c68, 2) as any as S.Schema<InvokeHarnessRequest>,
+  output: __S(2196, __c68, 20) as any as S.Schema<InvokeHarnessResponse>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -8555,13 +8563,26 @@ function __c67(j: number): any {
       return S.Array(__S(160, __c5, 0));
     case 16:
       return S.suspend(() =>
-        S.Struct({ url: SensitiveString, headers: S.optional(__S(384, __c12, 0)) }),
-      ).annotate({ identifier: "HarnessRemoteMcpConfig" });
+        S.Struct({ service: S.String, region: S.optional(S.String) }),
+      ).annotate({ identifier: "IamCredentialProvider" });
     case 17:
+      return S.Union([
+        /*@__PURE__*/ S.Struct({ awsIam: __S(2160, __c67, 16) }),
+        /*@__PURE__*/ S.Struct({ none: /*@__PURE__*/ S.Struct({}) }),
+      ]);
+    case 18:
+      return S.suspend(() =>
+        S.Struct({
+          url: SensitiveString,
+          headers: S.optional(__S(384, __c12, 0)),
+          outboundAuth: S.optional(__S(2161, __c67, 17)),
+        }),
+      ).annotate({ identifier: "HarnessRemoteMcpConfig" });
+    case 19:
       return S.suspend(() => S.Struct({ browserArn: S.optional(S.String) })).annotate({
         identifier: "HarnessAgentCoreBrowserConfig",
       });
-    case 18:
+    case 20:
       return S.suspend(() =>
         S.Struct({
           providerArn: S.String,
@@ -8571,76 +8592,76 @@ function __c67(j: number): any {
           defaultReturnUrl: S.optional(S.String),
         }),
       ).annotate({ identifier: "OAuthCredentialProvider" });
-    case 19:
+    case 21:
       return S.Union([
         /*@__PURE__*/ S.Struct({ awsIam: /*@__PURE__*/ S.Struct({}) }),
         /*@__PURE__*/ S.Struct({ none: /*@__PURE__*/ S.Struct({}) }),
-        /*@__PURE__*/ S.Struct({ oauth: __S(2162, __c67, 18) }),
+        /*@__PURE__*/ S.Struct({ oauth: __S(2164, __c67, 20) }),
       ]);
-    case 20:
+    case 22:
       return S.suspend(() =>
-        S.Struct({ gatewayArn: S.String, outboundAuth: S.optional(__S(2163, __c67, 19)) }),
+        S.Struct({ gatewayArn: S.String, outboundAuth: S.optional(__S(2165, __c67, 21)) }),
       ).annotate({ identifier: "HarnessAgentCoreGatewayConfig" });
-    case 21:
+    case 23:
       return S.suspend(() =>
         S.Struct({ description: SensitiveString, inputSchema: S.Any }),
       ).annotate({ identifier: "HarnessInlineFunctionConfig" });
-    case 22:
+    case 24:
       return S.suspend(() => S.Struct({ codeInterpreterArn: S.optional(S.String) })).annotate({
         identifier: "HarnessAgentCoreCodeInterpreterConfig",
       });
-    case 23:
+    case 25:
       return S.Union([
-        /*@__PURE__*/ S.Struct({ remoteMcp: __S(2160, __c67, 16) }),
-        /*@__PURE__*/ S.Struct({ agentCoreBrowser: __S(2161, __c67, 17) }),
-        /*@__PURE__*/ S.Struct({ agentCoreGateway: __S(2164, __c67, 20) }),
-        /*@__PURE__*/ S.Struct({ inlineFunction: __S(2165, __c67, 21) }),
-        /*@__PURE__*/ S.Struct({ agentCoreCodeInterpreter: __S(2166, __c67, 22) }),
+        /*@__PURE__*/ S.Struct({ remoteMcp: __S(2162, __c67, 18) }),
+        /*@__PURE__*/ S.Struct({ agentCoreBrowser: __S(2163, __c67, 19) }),
+        /*@__PURE__*/ S.Struct({ agentCoreGateway: __S(2166, __c67, 22) }),
+        /*@__PURE__*/ S.Struct({ inlineFunction: __S(2167, __c67, 23) }),
+        /*@__PURE__*/ S.Struct({ agentCoreCodeInterpreter: __S(2168, __c67, 24) }),
       ]);
-    case 24:
+    case 26:
       return S.suspend(() =>
         S.Struct({
           type: S.String,
           name: S.optional(S.String),
-          config: S.optional(__S(2167, __c67, 23)),
+          config: S.optional(__S(2169, __c67, 25)),
         }),
       ).annotate({ identifier: "HarnessTool" });
-    case 25:
-      return S.Array(__S(2168, __c67, 24));
-    case 26:
+    case 27:
+      return S.Array(__S(2170, __c67, 26));
+    case 28:
       return S.suspend(() => S.Struct({ uri: S.String })).annotate({
         identifier: "HarnessSkillS3Source",
       });
-    case 27:
+    case 29:
       return S.suspend(() =>
         S.Struct({ credentialArn: S.String, username: S.optional(S.String) }),
       ).annotate({ identifier: "HarnessSkillGitAuth" });
-    case 28:
+    case 30:
       return S.suspend(() =>
         S.Struct({
           url: S.String,
           path: S.optional(S.String),
-          auth: S.optional(__S(2171, __c67, 27)),
+          auth: S.optional(__S(2173, __c67, 29)),
         }),
       ).annotate({ identifier: "HarnessSkillGitSource" });
-    case 29:
+    case 31:
       return S.suspend(() => S.Struct({ paths: S.optional(__S(128, __c4, 0)) })).annotate({
         identifier: "HarnessSkillAwsSkillsSource",
       });
-    case 30:
-      return S.Union([
-        /*@__PURE__*/ S.Struct({ path: S.String }),
-        /*@__PURE__*/ S.Struct({ s3: __S(2170, __c67, 26) }),
-        /*@__PURE__*/ S.Struct({ git: __S(2172, __c67, 28) }),
-        /*@__PURE__*/ S.Struct({ awsSkills: __S(2173, __c67, 29) }),
-      ]);
-    case 31:
-      return S.Array(__S(2174, __c67, 30));
   }
 }
 function __c68(j: number): any {
   switch (j) {
     case 0:
+      return S.Union([
+        /*@__PURE__*/ S.Struct({ path: S.String }),
+        /*@__PURE__*/ S.Struct({ s3: __S(2172, __c67, 28) }),
+        /*@__PURE__*/ S.Struct({ git: __S(2174, __c67, 30) }),
+        /*@__PURE__*/ S.Struct({ awsSkills: __S(2175, __c67, 31) }),
+      ]);
+    case 1:
+      return S.Array(__S(2176, __c68, 0));
+    case 2:
       return S.suspend(() =>
         S.Struct({
           harnessArn: S.String.pipe(T.HttpQuery("harnessArn")),
@@ -8658,8 +8679,8 @@ function __c68(j: number): any {
           messages: __S(2153, __c67, 9),
           model: S.optional(__S(2158, __c67, 14)),
           systemPrompt: S.optional(__S(2159, __c67, 15)),
-          tools: S.optional(__S(2169, __c67, 25)),
-          skills: S.optional(__S(2175, __c67, 31)),
+          tools: S.optional(__S(2171, __c67, 27)),
+          skills: S.optional(__S(2177, __c68, 1)),
           allowedTools: S.optional(__S(128, __c4, 0)),
           maxIterations: S.optional(S.Number),
           maxTokens: S.optional(S.Number),
@@ -8669,11 +8690,11 @@ function __c68(j: number): any {
           T.all(T.Http({ method: "POST", uri: "/harnesses/invoke" }), svc, auth, proto, ver, rules),
         ),
       ).annotate({ identifier: "InvokeHarnessRequest" });
-    case 1:
+    case 3:
       return S.suspend(() => S.Struct({ role: S.String })).annotate({
         identifier: "HarnessMessageStartEvent",
       });
-    case 2:
+    case 4:
       return S.suspend(() =>
         S.Struct({
           toolUseId: S.String,
@@ -8682,54 +8703,54 @@ function __c68(j: number): any {
           serverName: S.optional(S.String),
         }),
       ).annotate({ identifier: "HarnessToolUseBlockStart" });
-    case 3:
+    case 5:
       return S.suspend(() =>
         S.Struct({ toolUseId: S.String, status: S.optional(S.String) }),
       ).annotate({ identifier: "HarnessToolResultBlockStart" });
-    case 4:
-      return S.Union([
-        /*@__PURE__*/ S.Struct({ toolUse: __S(2178, __c68, 2) }),
-        /*@__PURE__*/ S.Struct({ toolResult: __S(2179, __c68, 3) }),
-      ]);
-    case 5:
-      return S.suspend(() =>
-        S.Struct({ contentBlockIndex: S.Number, start: __S(2180, __c68, 4) }),
-      ).annotate({ identifier: "HarnessContentBlockStartEvent" });
     case 6:
+      return S.Union([
+        /*@__PURE__*/ S.Struct({ toolUse: __S(2180, __c68, 4) }),
+        /*@__PURE__*/ S.Struct({ toolResult: __S(2181, __c68, 5) }),
+      ]);
+    case 7:
+      return S.suspend(() =>
+        S.Struct({ contentBlockIndex: S.Number, start: __S(2182, __c68, 6) }),
+      ).annotate({ identifier: "HarnessContentBlockStartEvent" });
+    case 8:
       return S.suspend(() => S.Struct({ input: SensitiveString })).annotate({
         identifier: "HarnessToolUseBlockDelta",
       });
-    case 7:
+    case 9:
       return S.Union([
         /*@__PURE__*/ S.Struct({ text: S.String }),
         /*@__PURE__*/ S.Struct({ redactedContent: SensitiveBlob }),
         /*@__PURE__*/ S.Struct({ signature: S.String }),
       ]);
-    case 8:
+    case 10:
       return S.suspend(() => S.Struct({ metadata: SensitiveString })).annotate({
         identifier: "HarnessToolResultMetadataBlockDelta",
       });
-    case 9:
+    case 11:
       return S.Union([
         /*@__PURE__*/ S.Struct({ text: SensitiveString }),
-        /*@__PURE__*/ S.Struct({ toolUse: __S(2182, __c68, 6) }),
+        /*@__PURE__*/ S.Struct({ toolUse: __S(2184, __c68, 8) }),
         /*@__PURE__*/ S.Struct({ toolResult: __S(2146, __c67, 2) }),
-        /*@__PURE__*/ S.Struct({ reasoningContent: __S(2183, __c68, 7) }),
-        /*@__PURE__*/ S.Struct({ toolResultMetadata: __S(2184, __c68, 8) }),
+        /*@__PURE__*/ S.Struct({ reasoningContent: __S(2185, __c68, 9) }),
+        /*@__PURE__*/ S.Struct({ toolResultMetadata: __S(2186, __c68, 10) }),
       ]);
-    case 10:
+    case 12:
       return S.suspend(() =>
-        S.Struct({ contentBlockIndex: S.Number, delta: __S(2185, __c68, 9) }),
+        S.Struct({ contentBlockIndex: S.Number, delta: __S(2187, __c68, 11) }),
       ).annotate({ identifier: "HarnessContentBlockDeltaEvent" });
-    case 11:
+    case 13:
       return S.suspend(() => S.Struct({ contentBlockIndex: S.Number })).annotate({
         identifier: "HarnessContentBlockStopEvent",
       });
-    case 12:
+    case 14:
       return S.suspend(() => S.Struct({ stopReason: S.String })).annotate({
         identifier: "HarnessMessageStopEvent",
       });
-    case 13:
+    case 15:
       return S.suspend(() =>
         S.Struct({
           inputTokens: S.Number,
@@ -8739,15 +8760,15 @@ function __c68(j: number): any {
           cacheWriteInputTokens: S.optional(S.Number),
         }),
       ).annotate({ identifier: "HarnessTokenUsage" });
-    case 14:
+    case 16:
       return S.suspend(() => S.Struct({ latencyMs: S.Number })).annotate({
         identifier: "HarnessStreamMetrics",
       });
-    case 15:
+    case 17:
       return S.suspend(() =>
-        S.Struct({ usage: __S(2189, __c68, 13), metrics: __S(2190, __c68, 14) }),
+        S.Struct({ usage: __S(2191, __c68, 15), metrics: __S(2192, __c68, 16) }),
       ).annotate({ identifier: "HarnessMetadataEvent" });
-    case 16:
+    case 18:
       return S.suspend(() =>
         S.Struct({
           hookEventId: S.String,
@@ -8757,15 +8778,15 @@ function __c68(j: number): any {
           reason: S.optional(S.String),
         }),
       ).annotate({ identifier: "HarnessHookEvent" });
-    case 17:
+    case 19:
       return T.EventStream(
         /*@__PURE__*/ S.Union([
-          /*@__PURE__*/ S.Struct({ messageStart: __S(2177, __c68, 1) }),
-          /*@__PURE__*/ S.Struct({ contentBlockStart: __S(2181, __c68, 5) }),
-          /*@__PURE__*/ S.Struct({ contentBlockDelta: __S(2186, __c68, 10) }),
-          /*@__PURE__*/ S.Struct({ contentBlockStop: __S(2187, __c68, 11) }),
-          /*@__PURE__*/ S.Struct({ messageStop: __S(2188, __c68, 12) }),
-          /*@__PURE__*/ S.Struct({ metadata: __S(2191, __c68, 15) }),
+          /*@__PURE__*/ S.Struct({ messageStart: __S(2179, __c68, 3) }),
+          /*@__PURE__*/ S.Struct({ contentBlockStart: __S(2183, __c68, 7) }),
+          /*@__PURE__*/ S.Struct({ contentBlockDelta: __S(2188, __c68, 12) }),
+          /*@__PURE__*/ S.Struct({ contentBlockStop: __S(2189, __c68, 13) }),
+          /*@__PURE__*/ S.Struct({ messageStop: __S(2190, __c68, 14) }),
+          /*@__PURE__*/ S.Struct({ metadata: __S(2193, __c68, 17) }),
           /*@__PURE__*/ S.Struct({
             internalServerException: /*@__PURE__*/ S.suspend(
               () => InternalServerException,
@@ -8781,12 +8802,12 @@ function __c68(j: number): any {
               identifier: "RuntimeClientError",
             }),
           }),
-          /*@__PURE__*/ S.Struct({ hookEvent: __S(2192, __c68, 16) }),
+          /*@__PURE__*/ S.Struct({ hookEvent: __S(2194, __c68, 18) }),
         ]),
       );
-    case 18:
+    case 20:
       return S.suspend(() =>
-        S.Struct({ stream: __S(2193, __c68, 17).pipe(T.HttpPayload()) }),
+        S.Struct({ stream: __S(2195, __c68, 19).pipe(T.HttpPayload()) }),
       ).annotate({ identifier: "InvokeHarnessResponse" });
   }
 }

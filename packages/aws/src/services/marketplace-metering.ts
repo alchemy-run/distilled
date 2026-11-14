@@ -224,7 +224,9 @@ export class TimestampOutOfBoundsException
 export type CustomerIdentifier = string;
 export type UsageDimension = string;
 export type UsageQuantity = number;
+export type UsageQuantityAsDecimalString = string;
 export type AllocatedUsageQuantity = number;
+export type AllocatedUsageQuantityAsDecimalString = string;
 export type TagKey = string;
 export type TagValue = string;
 export interface Tag {
@@ -233,7 +235,8 @@ export interface Tag {
 }
 export type TagList = Tag[];
 export interface UsageAllocation {
-  AllocatedUsageQuantity: number;
+  AllocatedUsageQuantity?: number | undefined;
+  AllocatedUsageQuantityAsDecimal?: string | undefined;
   Tags?: Tag[] | undefined;
 }
 export type UsageAllocations = UsageAllocation[];
@@ -244,6 +247,7 @@ export interface UsageRecord {
   CustomerIdentifier?: string | undefined;
   Dimension: string;
   Quantity?: number | undefined;
+  QuantityAsDecimal?: string | undefined;
   UsageAllocations?: UsageAllocation[] | undefined;
   CustomerAWSAccountId?: string | undefined;
   LicenseArn?: string | undefined;
@@ -275,6 +279,7 @@ export interface MeterUsageRequest {
   Timestamp: Date;
   UsageDimension: string;
   UsageQuantity?: number | undefined;
+  UsageQuantityAsDecimal?: string | undefined;
   DryRun?: boolean | undefined;
   UsageAllocations?: UsageAllocation[] | undefined;
   ClientToken?: string | undefined;
@@ -363,6 +368,9 @@ export type BatchMeterUsageError =
  * Cost Management console. For more information, see Vendor-metered tagging and BatchMeterUsage with usage allocation tagging code example in the
  * *Amazon Web Services Marketplace Seller Guide*.
  *
+ * To report fractional usage, use `QuantityAsDecimal` instead of
+ * `Quantity` in each `UsageRecord`.
+ *
  * `BatchMeterUsage` returns a list of
  * `UsageRecordResult` objects, which have each
  * `UsageRecord`. It also returns a list of
@@ -450,6 +458,9 @@ export type MeterUsageError =
  * `ClientToken` is unique.
  *
  * If you submit records more than six hours after events occur, the records won't be accepted. The timestamp in your request determines when an event is recorded.
+ *
+ * To report fractional usage, use `UsageQuantityAsDecimal` instead of
+ * `UsageQuantity`.
  *
  * You can optionally include multiple usage allocations, to provide customers with usage data split into buckets by tags that you define or allow the customer to define.
  *
@@ -618,6 +629,7 @@ function __c0(j: number): any {
           CustomerIdentifier: S.optional(S.String),
           Dimension: S.String,
           Quantity: S.optional(S.Number),
+          QuantityAsDecimal: S.optional(S.String),
           UsageAllocations: S.optional(__S(11, __c1, 3)),
           CustomerAWSAccountId: S.optional(S.String),
           LicenseArn: S.optional(S.String),
@@ -660,7 +672,11 @@ function __c1(j: number): any {
       return S.Array(__S(8, __c1, 0));
     case 2:
       return S.suspend(() =>
-        S.Struct({ AllocatedUsageQuantity: S.Number, Tags: S.optional(__S(9, __c1, 1)) }),
+        S.Struct({
+          AllocatedUsageQuantity: S.optional(S.Number),
+          AllocatedUsageQuantityAsDecimal: S.optional(S.String),
+          Tags: S.optional(__S(9, __c1, 1)),
+        }),
       ).annotate({ identifier: "UsageAllocation" });
     case 3:
       return S.Array(__S(10, __c1, 2));
@@ -675,6 +691,7 @@ function __c2(j: number): any {
           Timestamp: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
           UsageDimension: S.String,
           UsageQuantity: S.optional(S.Number),
+          UsageQuantityAsDecimal: S.optional(S.String),
           DryRun: S.optional(S.Boolean),
           UsageAllocations: S.optional(__S(11, __c1, 3)),
           ClientToken: S.optional(S.String).pipe(T.IdempotencyToken()),

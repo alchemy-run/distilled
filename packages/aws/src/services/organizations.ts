@@ -630,6 +630,7 @@ export type PolicyType =
   | "CHATBOT_POLICY"
   | "DECLARATIVE_POLICY_EC2"
   | "SECURITYHUB_POLICY"
+  | "SECURITYHUB_CSPM_POLICY"
   | "INSPECTOR_POLICY"
   | "UPGRADE_ROLLOUT_POLICY"
   | "BEDROCK_POLICY"
@@ -766,6 +767,7 @@ export type EffectivePolicyType =
   | "CHATBOT_POLICY"
   | "DECLARATIVE_POLICY_EC2"
   | "SECURITYHUB_POLICY"
+  | "SECURITYHUB_CSPM_POLICY"
   | "INSPECTOR_POLICY"
   | "UPGRADE_ROLLOUT_POLICY"
   | "BEDROCK_POLICY"
@@ -1487,6 +1489,8 @@ export type AttachPolicyError =
  * - NETWORK_SECURITY_DIRECTOR_POLICY
  *
  * - GUARDDUTY_POLICY
+ *
+ * - SECURITYHUB_CSPM_POLICY
  *
  * You can only call this operation from the management account or a member account that is a delegated administrator.
  */

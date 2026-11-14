@@ -507,7 +507,12 @@ export interface BatchGetConfigurationPolicyAssociationsRequest {
 }
 export type TargetType = "ACCOUNT" | "ORGANIZATIONAL_UNIT" | "ROOT" | (string & {});
 export type AssociationType = "INHERITED" | "APPLIED" | (string & {});
-export type ConfigurationPolicyAssociationStatus = "PENDING" | "SUCCESS" | "FAILED" | (string & {});
+export type ConfigurationPolicyAssociationStatus =
+  | "PENDING"
+  | "SUCCESS"
+  | "FAILED"
+  | "DISABLED"
+  | (string & {});
 export interface ConfigurationPolicyAssociationSummary {
   ConfigurationPolicyId?: string | undefined;
   TargetId?: string | undefined;
@@ -6056,7 +6061,12 @@ export interface DescribeHubResponse {
 export interface DescribeOrganizationConfigurationRequest {}
 export type AutoEnableStandards = "NONE" | "DEFAULT" | (string & {});
 export type OrganizationConfigurationConfigurationType = "CENTRAL" | "LOCAL" | (string & {});
-export type OrganizationConfigurationStatus = "PENDING" | "ENABLED" | "FAILED" | (string & {});
+export type OrganizationConfigurationStatus =
+  | "PENDING"
+  | "ENABLED"
+  | "FAILED"
+  | "DISABLED"
+  | (string & {});
 export interface OrganizationConfiguration {
   ConfigurationType?: OrganizationConfigurationConfigurationType | undefined;
   Status?: OrganizationConfigurationStatus | undefined;
@@ -11375,9 +11385,11 @@ export type GetSoftwareResourcesV2Error =
 /**
  * Returns a list of resources that contain a specific software package. You identify the package with `PackageName` and `PackageType`. To narrow the results to one version of the package, include `PackageVersion`.
  *
- * You can use the `Scopes` parameter to define the data boundary for the query. Currently, `Scopes` supports `AwsOrganizations`, which lets you retrieve resources from your entire organization or from specific organizational units. Only the delegated administrator account can use `Scopes`.
+ * You can use the `Scopes` parameter to define the data boundary for the query. Currently, `Scopes` supports `AwsOrganizations`. With `AwsOrganizations`, you can retrieve resources from your entire organization or from specific organizational units. Only the delegated administrator account can use `Scopes`.
  *
  * You can use the `Filters` parameter to further refine results based on resource attributes, such as `ResourceType` or `Region`.
+ *
+ * This operation returns paginated results. To retrieve additional results, use the `NextToken` value from the previous response.
  */
 export const getSoftwareResourcesV2: API.PaginatedOperationMethod<
   GetSoftwareResourcesV2Request & RegionInput,
@@ -11426,7 +11438,7 @@ export type GetSoftwareStatisticsV2Error =
  *
  * Each count is the number of package-to-resource pairs that match the grouping value. A package installed on three resources contributes three to the count.
  *
- * You can use the `Scopes` parameter to define the data boundary for the query. Currently, `Scopes` supports `AwsOrganizations`, which lets you aggregate software from your entire organization or from specific organizational units. Only the delegated administrator account can use `Scopes`.
+ * You can use the `Scopes` parameter to define the data boundary for the query. Currently, `Scopes` supports `AwsOrganizations`. With `AwsOrganizations`, you can aggregate software from your entire organization or from specific organizational units. Only the delegated administrator account can use `Scopes`.
  *
  * This operation doesn't paginate. Use `MaxStatisticResults` to control how many grouping values are returned.
  */
@@ -11468,11 +11480,13 @@ export type GetSoftwareV2Error =
 /**
  * Returns a list of software packages installed on your resources. Each result identifies a package by name, version, and type, and includes the number of resources that contain that package.
  *
- * You can use the `Scopes` parameter to define the data boundary for the query. Currently, `Scopes` supports `AwsOrganizations`, which lets you retrieve software from your entire organization or from specific organizational units. Only the delegated administrator account can use `Scopes`.
+ * You can use the `Scopes` parameter to define the data boundary for the query. Currently, `Scopes` supports `AwsOrganizations`. With `AwsOrganizations`, you can retrieve software from your entire organization or from specific organizational units. Only the delegated administrator account can use `Scopes`.
  *
  * You can use the `Filters` parameter to refine results based on package and resource attributes. You can use `Scopes` and `Filters` independently or together. When both are provided, `Scopes` narrows the data set first, and then `Filters` refines results within that scoped data set.
  *
  * To list the resources that contain a specific package, use `GetSoftwareResourcesV2`. To get counts of software grouped by a field, use `GetSoftwareStatisticsV2`.
+ *
+ * This operation returns paginated results. To retrieve additional results, use the `NextToken` value from the previous response.
  */
 export const getSoftwareV2: API.PaginatedOperationMethod<
   GetSoftwareV2Request & RegionInput,

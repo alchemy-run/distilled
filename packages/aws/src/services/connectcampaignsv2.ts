@@ -479,6 +479,7 @@ export interface Campaign {
   entryLimitsConfig?: EntryLimitsConfig | undefined;
   communicationTimeConfig?: CommunicationTimeConfig | undefined;
   communicationLimitsOverride?: CommunicationLimitsConfig | undefined;
+  lastModifiedTime?: Date | undefined;
   tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface DescribeCampaignResponse {
@@ -578,6 +579,7 @@ export interface CampaignSummary {
   schedule?: Schedule | undefined;
   entryLimitsConfig?: EntryLimitsConfig | undefined;
   connectCampaignFlowArn?: string | undefined;
+  lastModifiedTime?: Date | undefined;
 }
 export type CampaignSummaryList = CampaignSummary[];
 export interface ListCampaignsResponse {
@@ -2282,6 +2284,7 @@ function __c9(j: number): any {
           entryLimitsConfig: S.optional(__S(736, __c46, 0)),
           communicationTimeConfig: S.optional(__S(841, __c52, 9)),
           communicationLimitsOverride: S.optional(__S(816, __c51, 0)),
+          lastModifiedTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
           tags: S.optional(__S(768, __c48, 0)),
         }),
       ).annotate({ identifier: "Campaign" });
@@ -2493,6 +2496,7 @@ function __c18(j: number): any {
           schedule: S.optional(__S(752, __c47, 0)),
           entryLimitsConfig: S.optional(__S(736, __c46, 0)),
           connectCampaignFlowArn: S.optional(S.String),
+          lastModifiedTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
         }),
       ).annotate({ identifier: "CampaignSummary" });
     case 4:

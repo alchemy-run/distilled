@@ -1893,9 +1893,13 @@ export type ProtectedJobOutput =
 export interface ProtectedJobResult {
   output: ProtectedJobOutput;
 }
+export interface RetryInfo {
+  retryable?: boolean | undefined;
+}
 export interface ProtectedJobError {
   message: string;
   code: string;
+  retry?: RetryInfo | undefined;
 }
 export type ProtectedJobWorkerComputeType = "CR.1X" | "CR.4X" | (string & {});
 export type SparkPropertyKey = string;
@@ -2008,6 +2012,7 @@ export interface ProtectedQueryResult {
 export interface ProtectedQueryError {
   message: string;
   code: string;
+  retry?: RetryInfo | undefined;
 }
 export type DifferentialPrivacyAggregationType =
   | "AVG"
@@ -8806,9 +8811,13 @@ function __c86(j: number): any {
     case 4:
       return S.Array(__S(2752, __c86, 0));
     case 5:
-      return S.suspend(() => S.Struct({ message: S.String, code: S.String })).annotate({
-        identifier: "ProtectedJobError",
+      return S.suspend(() => S.Struct({ retryable: S.optional(S.Boolean) })).annotate({
+        identifier: "RetryInfo",
       });
+    case 6:
+      return S.suspend(() =>
+        S.Struct({ message: S.String, code: S.String, retry: S.optional(__S(2757, __c86, 5)) }),
+      ).annotate({ identifier: "ProtectedJobError" });
   }
 }
 function __c87(j: number): any {
@@ -8853,7 +8862,7 @@ function __c87(j: number): any {
           resultConfiguration: S.optional(__S(2786, __c87, 2)),
           statistics: S.optional(__S(2754, __c86, 2)),
           result: S.optional(__S(2788, __c87, 4)),
-          error: S.optional(__S(2757, __c86, 5)),
+          error: S.optional(__S(2758, __c86, 6)),
           computeConfiguration: S.optional(__S(2790, __c87, 6)),
           jobComputePayerAccountId: S.optional(S.String),
         }),
@@ -8986,7 +8995,7 @@ function __c91(j: number): any {
           resultConfiguration: S.optional(__S(2917, __c91, 5)),
           statistics: S.optional(__S(2754, __c86, 2)),
           result: S.optional(__S(2920, __c91, 8)),
-          error: S.optional(__S(2757, __c86, 5)),
+          error: S.optional(__S(2758, __c86, 6)),
           differentialPrivacy: S.optional(__S(2923, __c91, 11)),
           computeConfiguration: S.optional(__S(2924, __c91, 12)),
           queryComputePayerAccountId: S.optional(S.String),

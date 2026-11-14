@@ -1422,14 +1422,33 @@ export interface AzureConfiguration {
   ApplicationDisplayName?: string | undefined;
   Targets?: ConfigurationTargets | undefined;
 }
-export type CloudConnectorConfiguration = { AzureConfiguration: AzureConfiguration };
+export type GcpOrganizationId = string;
+export type GcpWorkloadIdentityPoolProvider = string;
+export type GcpServiceAccountEmail = string;
+export type GcpProjectId = string;
+export type GcpProjectDisplayName = string;
+export interface GcpProject {
+  ProjectId: string;
+  ProjectDisplayName?: string | undefined;
+}
+export type GcpProjectList = GcpProject[];
+export type GcpConfigurationTargets = { Projects: GcpProject[] };
+export interface GcpConfiguration {
+  OrganizationId?: string | undefined;
+  WorkloadIdentityPoolProvider: string;
+  ServiceAccountEmail: string;
+  Targets?: GcpConfigurationTargets | undefined;
+}
+export type CloudConnectorConfiguration =
+  | { AzureConfiguration: AzureConfiguration; GcpConfiguration?: undefined }
+  | { AzureConfiguration?: undefined; GcpConfiguration: GcpConfiguration };
 export type ConfigConnectorArn = string;
 export interface CreateCloudConnectorRequest {
   DisplayName: string;
   RoleArn: string;
   Description?: string | undefined;
   Configuration: CloudConnectorConfiguration;
-  ConfigConnectorArn: string;
+  ConfigConnectorArn?: string | undefined;
   Tags?: Tag[] | undefined;
 }
 export type CloudConnectorId = string;
@@ -2485,6 +2504,7 @@ export type SourceType =
   | "AWS::IoT::Thing"
   | "AWS::SSM::ManagedInstance"
   | "Microsoft.Compute/virtualMachines"
+  | "compute.googleapis.com/Instance"
   | (string & {});
 export type SourceLocation = string;
 export interface InstanceInformation {
@@ -3301,6 +3321,13 @@ export interface ProgressCounters {
   CancelledSteps?: number | undefined;
   TimedOutSteps?: number | undefined;
 }
+export interface TargetsSummary {
+  TotalCount?: number | undefined;
+  StartedCount?: number | undefined;
+  CompletedCount?: number | undefined;
+  SuccessfulCount?: number | undefined;
+  FailedCount?: number | undefined;
+}
 export interface AutomationExecution {
   AutomationExecutionId?: string | undefined;
   DocumentName?: string | undefined;
@@ -3338,6 +3365,7 @@ export interface AutomationExecution {
   AssociationId?: string | undefined;
   ChangeRequestName?: string | undefined;
   Variables?: { [key: string]: string[] | undefined } | undefined;
+  TargetsSummary?: TargetsSummary | undefined;
 }
 export interface GetAutomationExecutionResult {
   AutomationExecution?: AutomationExecution | undefined;
@@ -4093,7 +4121,12 @@ export interface ListAssociationVersionsResult {
   NextToken?: string | undefined;
 }
 export type CloudConnectorMaxResults = number;
-export type CloudConnectorFilterKey = "SubscriptionId" | "TenantId" | (string & {});
+export type CloudConnectorFilterKey =
+  | "SubscriptionId"
+  | "TenantId"
+  | "ProjectId"
+  | "OrganizationId"
+  | (string & {});
 export type CloudConnectorFilterValue = string;
 export type CloudConnectorFilterValues = string[];
 export interface CloudConnectorFilter {
@@ -4106,6 +4139,7 @@ export interface ListCloudConnectorsRequest {
   NextToken?: string | undefined;
   Filters?: CloudConnectorFilter[] | undefined;
 }
+export type Provider = "Azure" | "GCP" | (string & {});
 export interface CloudConnectorSummary {
   CloudConnectorId?: string | undefined;
   DisplayName?: string | undefined;
@@ -4113,6 +4147,8 @@ export interface CloudConnectorSummary {
   RoleArn?: string | undefined;
   CreatedAt?: Date | undefined;
   UpdatedAt?: Date | undefined;
+  Provider?: Provider | undefined;
+  ConfigConnectorArn?: string | undefined;
 }
 export type CloudConnectorSummaryList = CloudConnectorSummary[];
 export interface ListCloudConnectorsResult {
@@ -5283,6 +5319,8 @@ export type ValidationFindingType = "INFO" | "WARN" | "ERROR" | (string & {});
 export type ValidationFindingCode =
   | "TargetInaccessible"
   | "TargetUnusable"
+  | "TargetMissingPermissions"
+  | "TargetApiDisabled"
   | "TargetStateWarning"
   | "AwsRoleAssumptionFailed"
   | "WebIdentityTokenFailed"
@@ -5291,7 +5329,12 @@ export type ValidationFindingCode =
   | "TenantSummary"
   | "SubscriptionAccessible"
   | (string & {});
-export type ValidationFindingScopeType = "azure:tenant" | "azure:subscription" | (string & {});
+export type ValidationFindingScopeType =
+  | "azure:tenant"
+  | "azure:subscription"
+  | "gcp:organization"
+  | "gcp:project"
+  | (string & {});
 export interface ValidationFindingScope {
   Type?: ValidationFindingScopeType | undefined;
   Id?: string | undefined;
@@ -7587,7 +7630,7 @@ export const getAutomationExecution: API.OperationMethod<
   Creds | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1904, __c119, 0) as any as S.Schema<GetAutomationExecutionRequest>,
-  output: __S(1907, __c119, 3) as any as S.Schema<GetAutomationExecutionResult>,
+  output: __S(1908, __c119, 4) as any as S.Schema<GetAutomationExecutionResult>,
   errors: [AutomationExecutionNotFoundException, InternalServerError],
   protocol: AwsProtocol,
   retry: Retry,
@@ -10149,6 +10192,7 @@ export type UpdateCloudConnectorError =
   | ConflictException
   | InternalServerError
   | ResourceNotFoundException
+  | ServiceQuotaExceededException
   | CommonErrors;
 /**
  * Updates an existing cloud connector with new configuration details.
@@ -10161,7 +10205,12 @@ export const updateCloudConnector: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3360, __c210, 0) as any as S.Schema<UpdateCloudConnectorRequest>,
   output: __S(352, __c22, 0) as any as S.Schema<UpdateCloudConnectorResult>,
-  errors: [ConflictException, InternalServerError, ResourceNotFoundException],
+  errors: [
+    ConflictException,
+    InternalServerError,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+  ],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateCloudConnector",
@@ -10995,8 +11044,8 @@ function __c21(j: number): any {
           DisplayName: S.String,
           RoleArn: S.String,
           Description: S.optional(S.String),
-          Configuration: __S(372, __c23, 4),
-          ConfigConnectorArn: S.String,
+          Configuration: __S(376, __c23, 8),
+          ConfigConnectorArn: S.optional(S.String),
           Tags: S.optional(__S(33, __c2, 1)),
         }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "CreateCloudConnectorRequest" });
@@ -11031,7 +11080,27 @@ function __c23(j: number): any {
         }),
       ).annotate({ identifier: "AzureConfiguration" });
     case 4:
-      return S.Union([/*@__PURE__*/ S.Struct({ AzureConfiguration: __S(371, __c23, 3) })]);
+      return S.suspend(() =>
+        S.Struct({ ProjectId: S.String, ProjectDisplayName: S.optional(S.String) }),
+      ).annotate({ identifier: "GcpProject" });
+    case 5:
+      return S.Array(__S(372, __c23, 4));
+    case 6:
+      return S.Union([/*@__PURE__*/ S.Struct({ Projects: __S(373, __c23, 5) })]);
+    case 7:
+      return S.suspend(() =>
+        S.Struct({
+          OrganizationId: S.optional(S.String),
+          WorkloadIdentityPoolProvider: S.String,
+          ServiceAccountEmail: S.String,
+          Targets: S.optional(__S(374, __c23, 6)),
+        }),
+      ).annotate({ identifier: "GcpConfiguration" });
+    case 8:
+      return S.Union([
+        /*@__PURE__*/ S.Struct({ AzureConfiguration: __S(371, __c23, 3) }),
+        /*@__PURE__*/ S.Struct({ GcpConfiguration: __S(375, __c23, 7) }),
+      ]);
   }
 }
 function __c24(j: number): any {
@@ -13198,6 +13267,16 @@ function __c119(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
+          TotalCount: S.optional(S.Number),
+          StartedCount: S.optional(S.Number),
+          CompletedCount: S.optional(S.Number),
+          SuccessfulCount: S.optional(S.Number),
+          FailedCount: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "TargetsSummary" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
           AutomationExecutionId: S.optional(S.String),
           DocumentName: S.optional(S.String),
           DocumentVersion: S.optional(S.String),
@@ -13234,11 +13313,12 @@ function __c119(j: number): any {
           AssociationId: S.optional(S.String),
           ChangeRequestName: S.optional(S.String),
           Variables: S.optional(__S(176, __c11, 0)),
+          TargetsSummary: S.optional(__S(1906, __c119, 2)),
         }),
       ).annotate({ identifier: "AutomationExecution" });
-    case 3:
+    case 4:
       return S.suspend(() =>
-        S.Struct({ AutomationExecution: S.optional(__S(1906, __c119, 2)) }).pipe(ns),
+        S.Struct({ AutomationExecution: S.optional(__S(1907, __c119, 3)) }).pipe(ns),
       ).annotate({ identifier: "GetAutomationExecutionResult" });
   }
 }
@@ -13275,7 +13355,7 @@ function __c121(j: number): any {
           DisplayName: S.optional(S.String),
           Description: S.optional(S.String),
           RoleArn: S.optional(S.String),
-          Configuration: S.optional(__S(372, __c23, 4)),
+          Configuration: S.optional(__S(376, __c23, 8)),
           ConfigConnectorArn: S.optional(S.String),
           CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           UpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
@@ -14325,6 +14405,8 @@ function __c159(j: number): any {
           RoleArn: S.optional(S.String),
           CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           UpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+          Provider: S.optional(S.String),
+          ConfigConnectorArn: S.optional(S.String),
         }),
       ).annotate({ identifier: "CloudConnectorSummary" });
     case 2:
@@ -15572,7 +15654,7 @@ function __c210(j: number): any {
         S.Struct({
           CloudConnectorId: S.String,
           DisplayName: S.optional(S.String),
-          Configuration: S.optional(__S(372, __c23, 4)),
+          Configuration: S.optional(__S(376, __c23, 8)),
           Description: S.optional(S.String),
         }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "UpdateCloudConnectorRequest" });
