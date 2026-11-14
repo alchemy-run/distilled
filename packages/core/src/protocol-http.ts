@@ -813,33 +813,36 @@ const requestOrInvalid = ({
   const bodied = !BODYLESS.has(http.method);
   if (http.contentType === "multipart") {
     // Multipart upload: each body member is a form part (objects
-    // JSON-encoded under their wire name), each file appends under its own
-    // filename. A whole-body member (T.HttpBody) that is a record of files
-    // becomes one part per entry (e.g. asset upload: { <hash>: File }).
-    // Files and byte buffers become binary parts; objects become JSON parts.
+    // JSON-encoded under their wire name). Files and byte buffers become
+    // binary parts under the member's wire name, with a File's own filename
+    // (the wire name for a nameless Blob or a byte buffer); a list of them is
+    // one such part per element, the repeated-field form multipart APIs read
+    // (`-F documents=@a.pdf -F documents=@b.txt`). `FormDataFile()` members
+    // append under each file's own filename instead (below). A whole-body
+    // member (T.HttpBody) that is a record of files becomes one part per
+    // entry (e.g. asset upload: { <hash>: File }).
     const form = new FormData();
     const parts =
       rawBody !== undefined && typeof rawBody === "object"
         ? (rawBody as Record<string, unknown>)
         : body;
-    const isFileOrBlob = (v: unknown): v is Blob => v instanceof Blob || v instanceof File;
-    for (const [key, value] of Object.entries(parts)) {
-      if (value === undefined || value === null) continue;
-      if (isFileOrBlob(value)) {
+    const isBinary = (v: unknown): v is Blob | Uint8Array | ArrayBuffer =>
+      v instanceof Blob || v instanceof Uint8Array || v instanceof ArrayBuffer;
+    const appendBinary = (key: string, value: Blob | Uint8Array | ArrayBuffer) => {
+      if (value instanceof Blob) {
         form.append(key, value, value instanceof File ? value.name : key);
-      } else if (value instanceof Uint8Array || value instanceof ArrayBuffer) {
+      } else {
+        // Copy a Uint8Array view's own bytes (a subarray shares a larger buffer).
         const bytes = value instanceof Uint8Array ? new Uint8Array(value).buffer : value;
         form.append(key, new Blob([bytes]), key);
-      } else if (Array.isArray(value) && value.length > 0 && isFileOrBlob(value[0])) {
-        for (const file of value as Blob[]) {
-          if (isFileOrBlob(file)) {
-            form.append(
-              file instanceof File ? file.name : key,
-              file,
-              file instanceof File ? file.name : undefined,
-            );
-          }
-        }
+      }
+    };
+    for (const [key, value] of Object.entries(parts)) {
+      if (value === undefined || value === null) continue;
+      if (isBinary(value)) {
+        appendBinary(key, value);
+      } else if (Array.isArray(value) && value.length > 0 && value.every(isBinary)) {
+        for (const element of value) appendBinary(key, element);
       } else if (typeof value === "object") {
         form.append(key, JSON.stringify(value));
       } else {
