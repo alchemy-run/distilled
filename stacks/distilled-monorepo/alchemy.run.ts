@@ -197,7 +197,8 @@ export default Alchemy.Stack(
     });
 
     // main's merge queue. Adopted: the ruleset was created in the GitHub UI,
-    // and every value except `requiredStatusChecks` mirrors it as it was.
+    // and every value except `requiredStatusChecks` and `maxEntriesToBuild`
+    // mirrors it as it was.
     // Without required checks the queue merged a PR about a minute after it
     // was queued, whatever its CI said: on 2026-11-13 it merged #1167 while
     // its Test job still ran, and Test then failed on main.
@@ -218,7 +219,10 @@ export default Alchemy.Stack(
       mergeQueue: {
         mergeMethod: "SQUASH",
         groupingStrategy: "ALLGREEN",
-        maxEntriesToBuild: 1,
+        // At 1 the queue built a stack's bottom PR alone. Its squash commit
+        // then conflicted with the next PR, and the queue ejected the rest of
+        // the stack (stack 1155, 2026-11-14). A stack must fit in one build.
+        maxEntriesToBuild: 20,
         minEntriesToMerge: 1,
         maxEntriesToMerge: 8,
         minEntriesToMergeWaitMinutes: 5,
