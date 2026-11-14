@@ -273,20 +273,118 @@ export interface GetSummaryRequest {
   /** The Firmware analysis summary name describing the type of summary. */
   summaryType: GetSummaryRequestSummaryType | (string & {});
 }
-/** Describes the type of summary. */
-export type SummaryType =
-  | "Firmware"
-  | "CommonVulnerabilitiesAndExposures"
-  | "BinaryHardening"
-  | "CryptoCertificate"
-  | "CryptoKey";
-/** Properties of an analysis summary. */
-export interface SummaryResourceProperties {
+/** The type of summary. */
+export type BinaryHardeningSummaryResourceSummaryType = "BinaryHardening";
+/** Properties for a binary hardening analysis summary. */
+export interface BinaryHardeningSummaryResource {
   /** The type of summary. */
-  summaryType: SummaryType;
+  summaryType: BinaryHardeningSummaryResourceSummaryType;
   /** The status of the last operation. */
   provisioningState?: ProvisioningState | undefined;
+  /** Total number of binaries that were analyzed */
+  totalFiles?: number | undefined;
+  /** Total number of analyzed files that were found to have a nonexecutable stack */
+  notExecutableStackCount?: number | undefined;
+  /** Total number of analyzed files that were compiled to be a position independent executable */
+  positionIndependentExecutableCount?: number | undefined;
+  /** Total number of analyzed files that have enabled relocation read-only protections */
+  relocationReadOnlyCount?: number | undefined;
+  /** Total number of analyzed files that have stack canaries enabled */
+  stackCanaryCount?: number | undefined;
+  /** Total number of analyzed files that have debug symbols stripped */
+  strippedBinaryCount?: number | undefined;
 }
+/** The type of summary. */
+export type CryptoCertificateSummaryResourceSummaryType = "CryptoCertificate";
+/** Properties for cryptographic certificate summary. */
+export interface CryptoCertificateSummaryResource {
+  /** The type of summary. */
+  summaryType: CryptoCertificateSummaryResourceSummaryType;
+  /** The status of the last operation. */
+  provisioningState?: ProvisioningState | undefined;
+  /** Total number of certificates found. */
+  totalCertificateCount?: number | undefined;
+  /** Total number of paired private keys found for the certificates. */
+  pairedKeyCount?: number | undefined;
+  /** Total number of expired certificates found. */
+  expiredCertificateCount?: number | undefined;
+  /** Total number of nearly expired certificates found. */
+  expiringSoonCertificateCount?: number | undefined;
+  /** Total number of certificates found using a weak signature algorithm. */
+  weakSignatureCount?: number | undefined;
+  /** Total number of certificates found that are self-signed. */
+  selfSignedCertificateCount?: number | undefined;
+  /** Total number of certificates found that have an insecure key size for the key algorithm. */
+  shortKeySizeCount?: number | undefined;
+}
+/** The type of summary. */
+export type CryptoKeySummaryResourceSummaryType = "CryptoKey";
+/** Properties for cryptographic key summary. */
+export interface CryptoKeySummaryResource {
+  /** The type of summary. */
+  summaryType: CryptoKeySummaryResourceSummaryType;
+  /** The status of the last operation. */
+  provisioningState?: ProvisioningState | undefined;
+  /** Total number of cryptographic keys found. */
+  totalKeyCount?: number | undefined;
+  /** Total number of (non-certificate) public keys found. */
+  publicKeyCount?: number | undefined;
+  /** Total number of private keys found. */
+  privateKeyCount?: number | undefined;
+  /** Total number of keys found that have a matching paired key or certificate. */
+  pairedKeyCount?: number | undefined;
+  /** Total number of keys found that have an insecure key size for the algorithm. */
+  shortKeySizeCount?: number | undefined;
+}
+/** The type of summary. */
+export type CveSummarySummaryType = "CommonVulnerabilitiesAndExposures";
+/** Properties for a CVE (Common Vulnerabilities and Exposures) analysis summary (deprecated). */
+export interface CveSummary {
+  /** The type of summary. */
+  summaryType: CveSummarySummaryType;
+  /** The status of the last operation. */
+  provisioningState?: ProvisioningState | undefined;
+  /** The total number of critical severity CVEs detected */
+  criticalCveCount?: number | undefined;
+  /** The total number of high severity CVEs detected */
+  highCveCount?: number | undefined;
+  /** The total number of medium severity CVEs detected */
+  mediumCveCount?: number | undefined;
+  /** The total number of low severity CVEs detected */
+  lowCveCount?: number | undefined;
+  /** The total number of unknown severity CVEs detected */
+  unknownCveCount?: number | undefined;
+}
+/** The type of summary. */
+export type FirmwareSummarySummaryType = "Firmware";
+/** Properties for high level summary of firmware analysis results. */
+export interface FirmwareSummary {
+  /** The type of summary. */
+  summaryType: FirmwareSummarySummaryType;
+  /** The status of the last operation. */
+  provisioningState?: ProvisioningState | undefined;
+  /** Total extracted size of the firmware in bytes. */
+  extractedSize?: number | undefined;
+  /** Firmware file size in bytes. */
+  fileSize?: number | undefined;
+  /** Extracted file count. */
+  extractedFileCount?: number | undefined;
+  /** Components count. */
+  componentCount?: number | undefined;
+  /** Binary count */
+  binaryCount?: number | undefined;
+  /** Time used for analysis */
+  analysisTimeSeconds?: number | undefined;
+  /** The number of root file systems found. */
+  rootFileSystems?: number | undefined;
+}
+/** Properties of an analysis summary. */
+export type SummaryResourceProperties =
+  | BinaryHardeningSummaryResource
+  | CryptoCertificateSummaryResource
+  | CryptoKeySummaryResource
+  | CveSummary
+  | FirmwareSummary;
 export interface GetSummaryResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
   id?: string | undefined;
@@ -1159,7 +1257,7 @@ export const GetSummary: API.OperationMethod<
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(384, __c24, 0) as any as S.Schema<GetSummaryRequest>,
-  output: __S(401, __c25, 1) as any as S.Schema<GetSummaryResponse>,
+  output: __S(406, __c25, 6) as any as S.Schema<GetSummaryResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -1943,7 +2041,7 @@ function __c13(j: number): any {
         ),
       ).annotate({ identifier: "ListSummaryByFirmwareRequest" });
     case 1:
-      return S.Array(__S(401, __c25, 1));
+      return S.Array(__S(406, __c25, 6));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -2201,16 +2299,82 @@ function __c25(j: number): any {
         S.Struct({
           summaryType: S.String,
           provisioningState: S.optional(S.String),
+          totalFiles: S.optional(S.Number),
+          notExecutableStackCount: S.optional(S.Number),
+          positionIndependentExecutableCount: S.optional(S.Number),
+          relocationReadOnlyCount: S.optional(S.Number),
+          stackCanaryCount: S.optional(S.Number),
+          strippedBinaryCount: S.optional(S.Number),
         }),
-      ).annotate({ identifier: "SummaryResourceProperties" });
+      ).annotate({ identifier: "BinaryHardeningSummaryResource" });
     case 1:
+      return S.suspend(() =>
+        S.Struct({
+          summaryType: S.String,
+          provisioningState: S.optional(S.String),
+          totalCertificateCount: S.optional(S.Number),
+          pairedKeyCount: S.optional(S.Number),
+          expiredCertificateCount: S.optional(S.Number),
+          expiringSoonCertificateCount: S.optional(S.Number),
+          weakSignatureCount: S.optional(S.Number),
+          selfSignedCertificateCount: S.optional(S.Number),
+          shortKeySizeCount: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "CryptoCertificateSummaryResource" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          summaryType: S.String,
+          provisioningState: S.optional(S.String),
+          totalKeyCount: S.optional(S.Number),
+          publicKeyCount: S.optional(S.Number),
+          privateKeyCount: S.optional(S.Number),
+          pairedKeyCount: S.optional(S.Number),
+          shortKeySizeCount: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "CryptoKeySummaryResource" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          summaryType: S.String,
+          provisioningState: S.optional(S.String),
+          criticalCveCount: S.optional(S.Number),
+          highCveCount: S.optional(S.Number),
+          mediumCveCount: S.optional(S.Number),
+          lowCveCount: S.optional(S.Number),
+          unknownCveCount: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "CveSummary" });
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          summaryType: S.String,
+          provisioningState: S.optional(S.String),
+          extractedSize: S.optional(S.Number),
+          fileSize: S.optional(S.Number),
+          extractedFileCount: S.optional(S.Number),
+          componentCount: S.optional(S.Number),
+          binaryCount: S.optional(S.Number),
+          analysisTimeSeconds: S.optional(S.Number),
+          rootFileSystems: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "FirmwareSummary" });
+    case 5:
+      return S.Union([
+        __S(400, __c25, 0),
+        __S(401, __c25, 1),
+        __S(402, __c25, 2),
+        __S(403, __c25, 3),
+        __S(404, __c25, 4),
+      ]);
+    case 6:
       return S.suspend(() =>
         S.Struct({
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
           systemData: S.optional(__S(16, __c1, 0)),
-          properties: S.optional(__S(400, __c25, 0)),
+          properties: S.optional(__S(405, __c25, 5)),
         }),
       ).annotate({ identifier: "GetSummaryResponse" });
   }

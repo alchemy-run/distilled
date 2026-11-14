@@ -1119,18 +1119,39 @@ export interface ImageInformation {
 /** Image information for the product system. */
 export type ConfigurationPropertiesImageInformationList = Array<ImageInformation>;
 /** Represents billing type. */
-export type BillingType = "Pav2" | "Purchase";
+export type Pav2MeterDetailsBillingType = "Pav2";
 /** Charging type. */
 export type ChargingType = "PerOrder" | "PerDevice";
-/** Holds details about billing type and its meter guids. */
-export interface MeterDetails {
+/** Billing type PAV2 meter details. */
+export interface Pav2MeterDetails {
   /** Represents billing type. */
-  billingType: BillingType;
+  billingType: Pav2MeterDetailsBillingType;
   /** Billing unit applicable for Pav2 billing. */
   multiplier?: number | undefined;
   /** Charging type. */
   chargingType?: ChargingType | undefined;
+  /** Validation status of requested data center and transport. */
+  meterGuid?: string | undefined;
 }
+/** Represents billing type. */
+export type PurchaseMeterDetailsBillingType = "Purchase";
+/** Billing type Purchase meter details. */
+export interface PurchaseMeterDetails {
+  /** Represents billing type. */
+  billingType: PurchaseMeterDetailsBillingType;
+  /** Billing unit applicable for Pav2 billing. */
+  multiplier?: number | undefined;
+  /** Charging type. */
+  chargingType?: ChargingType | undefined;
+  /** Product Id. */
+  productId?: string | undefined;
+  /** Sku Id. */
+  skuId?: string | undefined;
+  /** Term Id. */
+  termId?: string | undefined;
+}
+/** Holds details about billing type and its meter guids. */
+export type MeterDetails = Pav2MeterDetails | PurchaseMeterDetails;
 /** Represents Metering type (eg one-time or recurrent). */
 export type MeteringType = "OneTime" | "Recurring" | "Adhoc";
 /** Holds details about term type and duration. */
@@ -2335,7 +2356,7 @@ function __c16(j: number): any {
     case 4:
       return S.suspend(() =>
         S.Struct({
-          value: __S(602, __c18, 26),
+          value: __S(604, __c18, 28),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "Configurations" });
@@ -2410,35 +2431,49 @@ function __c18(j: number): any {
           billingType: S.String,
           multiplier: S.optional(S.Number),
           chargingType: S.optional(S.String),
+          meterGuid: S.optional(S.String),
         }),
-      ).annotate({ identifier: "MeterDetails" });
+      ).annotate({ identifier: "Pav2MeterDetails" });
     case 9:
+      return S.suspend(() =>
+        S.Struct({
+          billingType: S.String,
+          multiplier: S.optional(S.Number),
+          chargingType: S.optional(S.String),
+          productId: S.optional(S.String),
+          skuId: S.optional(S.String),
+          termId: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "PurchaseMeterDetails" });
+    case 10:
+      return S.Union([__S(584, __c18, 8), __S(585, __c18, 9)]);
+    case 11:
       return S.suspend(() =>
         S.Struct({
           termType: S.String,
           termTypeDuration: S.String,
         }),
       ).annotate({ identifier: "TermTypeDetails" });
-    case 10:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.optional(S.String),
-          meterDetails: S.optional(__S(584, __c18, 8)),
-          meteringType: S.optional(S.String),
-          frequency: S.optional(S.String),
-          termTypeDetails: S.optional(__S(585, __c18, 9)),
-        }),
-      ).annotate({ identifier: "BillingMeterDetails" });
-    case 11:
-      return S.Array(__S(586, __c18, 10));
     case 12:
       return S.suspend(() =>
         S.Struct({
-          billingMeterDetails: S.optional(__S(587, __c18, 11)),
+          name: S.optional(S.String),
+          meterDetails: S.optional(__S(586, __c18, 10)),
+          meteringType: S.optional(S.String),
+          frequency: S.optional(S.String),
+          termTypeDetails: S.optional(__S(587, __c18, 11)),
+        }),
+      ).annotate({ identifier: "BillingMeterDetails" });
+    case 13:
+      return S.Array(__S(588, __c18, 12));
+    case 14:
+      return S.suspend(() =>
+        S.Struct({
+          billingMeterDetails: S.optional(__S(589, __c18, 13)),
           billingInfoUrl: S.optional(S.String),
         }),
       ).annotate({ identifier: "CostInformation" });
-    case 13:
+    case 15:
       return S.suspend(() =>
         S.Struct({
           availabilityStage: S.optional(S.String),
@@ -2446,16 +2481,16 @@ function __c18(j: number): any {
           disabledReasonMessage: S.optional(S.String),
         }),
       ).annotate({ identifier: "AvailabilityInformation" });
-    case 14:
+    case 16:
       return S.suspend(() =>
         S.Struct({
           name: S.optional(S.String),
           value: S.optional(S.String),
         }),
       ).annotate({ identifier: "Specification" });
-    case 15:
-      return S.Array(__S(590, __c18, 14));
-    case 16:
+    case 17:
+      return S.Array(__S(592, __c18, 16));
+    case 18:
       return S.suspend(() =>
         S.Struct({
           length: S.optional(S.Number),
@@ -2467,7 +2502,7 @@ function __c18(j: number): any {
           weightUnit: S.optional(S.String),
         }),
       ).annotate({ identifier: "Dimensions" });
-    case 17:
+    case 19:
       return S.suspend(() =>
         S.Struct({
           categoryName: S.optional(S.String),
@@ -2476,75 +2511,75 @@ function __c18(j: number): any {
           links: S.optional(__S(580, __c18, 4)),
         }),
       ).annotate({ identifier: "CategoryInformation" });
-    case 18:
-      return S.Array(/*@__PURE__*/ S.suspend(() => __S(598, __c18, 22)));
-    case 19:
+    case 20:
+      return S.Array(/*@__PURE__*/ S.suspend(() => __S(600, __c18, 24)));
+    case 21:
       return S.suspend(() =>
         S.Struct({
           childConfigurationType: S.optional(S.String),
           isPartOfBaseConfiguration: S.optional(S.Boolean),
           minimumQuantity: S.optional(S.Number),
           maximumQuantity: S.optional(S.Number),
-          specifications: S.optional(__S(591, __c18, 15)),
-          dimensions: S.optional(__S(592, __c18, 16)),
+          specifications: S.optional(__S(593, __c18, 17)),
+          dimensions: S.optional(__S(594, __c18, 18)),
           provisioningSupport: S.optional(S.String),
           childConfigurationTypes: S.optional(__S(578, __c18, 2)),
-          groupedChildConfigurations: S.optional(__S(594, __c18, 18)),
+          groupedChildConfigurations: S.optional(__S(596, __c18, 20)),
           supportedTermCommitmentDurations: S.optional(__S(160, __c5, 0)),
           filterableProperties: S.optional(__S(577, __c18, 1)),
           displayName: S.optional(S.String),
           description: S.optional(__S(581, __c18, 5)),
           imageInformation: S.optional(__S(583, __c18, 7)),
-          costInformation: S.optional(__S(588, __c18, 12)),
-          availabilityInformation: S.optional(__S(589, __c18, 13)),
+          costInformation: S.optional(__S(590, __c18, 14)),
+          availabilityInformation: S.optional(__S(591, __c18, 15)),
           hierarchyInformation: S.optional(__S(864, __c27, 0)),
           fulfilledBy: S.optional(S.String),
         }),
       ).annotate({ identifier: "ChildConfigurationProperties" });
-    case 20:
-      return S.suspend(() =>
-        S.Struct({
-          properties: S.optional(__S(595, __c18, 19)),
-        }),
-      ).annotate({ identifier: "ChildConfiguration" });
-    case 21:
-      return S.Array(__S(596, __c18, 20));
     case 22:
       return S.suspend(() =>
         S.Struct({
-          categoryInformation: S.optional(__S(593, __c18, 17)),
-          childConfigurations: S.optional(__S(597, __c18, 21)),
+          properties: S.optional(__S(597, __c18, 21)),
         }),
-      ).annotate({ identifier: "GroupedChildConfigurations" });
+      ).annotate({ identifier: "ChildConfiguration" });
     case 23:
       return S.Array(__S(598, __c18, 22));
     case 24:
       return S.suspend(() =>
         S.Struct({
+          categoryInformation: S.optional(__S(595, __c18, 19)),
+          childConfigurations: S.optional(__S(599, __c18, 23)),
+        }),
+      ).annotate({ identifier: "GroupedChildConfigurations" });
+    case 25:
+      return S.Array(__S(600, __c18, 24));
+    case 26:
+      return S.suspend(() =>
+        S.Struct({
           displayName: S.optional(S.String),
           description: S.optional(__S(581, __c18, 5)),
           imageInformation: S.optional(__S(583, __c18, 7)),
-          costInformation: S.optional(__S(588, __c18, 12)),
-          availabilityInformation: S.optional(__S(589, __c18, 13)),
+          costInformation: S.optional(__S(590, __c18, 14)),
+          availabilityInformation: S.optional(__S(591, __c18, 15)),
           hierarchyInformation: S.optional(__S(864, __c27, 0)),
           fulfilledBy: S.optional(S.String),
           filterableProperties: S.optional(__S(577, __c18, 1)),
-          specifications: S.optional(__S(591, __c18, 15)),
-          dimensions: S.optional(__S(592, __c18, 16)),
+          specifications: S.optional(__S(593, __c18, 17)),
+          dimensions: S.optional(__S(594, __c18, 18)),
           provisioningSupport: S.optional(S.String),
           childConfigurationTypes: S.optional(__S(578, __c18, 2)),
-          groupedChildConfigurations: S.optional(__S(599, __c18, 23)),
+          groupedChildConfigurations: S.optional(__S(601, __c18, 25)),
           supportedTermCommitmentDurations: S.optional(__S(160, __c5, 0)),
         }),
       ).annotate({ identifier: "ConfigurationProperties" });
-    case 25:
+    case 27:
       return S.suspend(() =>
         S.Struct({
-          properties: S.optional(__S(600, __c18, 24)),
+          properties: S.optional(__S(602, __c18, 26)),
         }),
       ).annotate({ identifier: "Configuration" });
-    case 26:
-      return S.Array(__S(601, __c18, 25));
+    case 28:
+      return S.Array(__S(603, __c18, 27));
   }
 }
 function __c19(j: number): any {
@@ -2578,12 +2613,12 @@ function __c20(j: number): any {
           displayName: S.optional(S.String),
           description: S.optional(__S(581, __c18, 5)),
           imageInformation: S.optional(__S(583, __c18, 7)),
-          costInformation: S.optional(__S(588, __c18, 12)),
-          availabilityInformation: S.optional(__S(589, __c18, 13)),
+          costInformation: S.optional(__S(590, __c18, 14)),
+          availabilityInformation: S.optional(__S(591, __c18, 15)),
           hierarchyInformation: S.optional(__S(864, __c27, 0)),
           fulfilledBy: S.optional(S.String),
           filterableProperties: S.optional(__S(577, __c18, 1)),
-          configurations: S.optional(__S(602, __c18, 26)),
+          configurations: S.optional(__S(604, __c18, 28)),
         }),
       ).annotate({ identifier: "ProductProperties" });
     case 1:
@@ -2600,8 +2635,8 @@ function __c20(j: number): any {
           displayName: S.optional(S.String),
           description: S.optional(__S(581, __c18, 5)),
           imageInformation: S.optional(__S(583, __c18, 7)),
-          costInformation: S.optional(__S(588, __c18, 12)),
-          availabilityInformation: S.optional(__S(589, __c18, 13)),
+          costInformation: S.optional(__S(590, __c18, 14)),
+          availabilityInformation: S.optional(__S(591, __c18, 15)),
           hierarchyInformation: S.optional(__S(864, __c27, 0)),
           fulfilledBy: S.optional(S.String),
           filterableProperties: S.optional(__S(577, __c18, 1)),
@@ -2622,8 +2657,8 @@ function __c20(j: number): any {
           displayName: S.optional(S.String),
           description: S.optional(__S(581, __c18, 5)),
           imageInformation: S.optional(__S(583, __c18, 7)),
-          costInformation: S.optional(__S(588, __c18, 12)),
-          availabilityInformation: S.optional(__S(589, __c18, 13)),
+          costInformation: S.optional(__S(590, __c18, 14)),
+          availabilityInformation: S.optional(__S(591, __c18, 15)),
           hierarchyInformation: S.optional(__S(864, __c27, 0)),
           fulfilledBy: S.optional(S.String),
           filterableProperties: S.optional(__S(577, __c18, 1)),

@@ -935,38 +935,93 @@ export interface AgentProperties {
   cpu?: number | undefined;
 }
 /** The type of the step. */
-export type TaskStepPropertiesInputType = "Docker" | "FileTask" | "EncodedTask";
-/** Base properties for any task step. */
-export interface TaskStepPropertiesInput {
+export type DockerBuildStepInputType = "Docker";
+/** The fully qualified image names including the repository and tag. */
+export type DockerBuildStepInputImageNamesList = Array<string>;
+/** The properties of a run argument. */
+export interface Argument {
+  /** The name of the argument. */
+  name: string;
+  /** The value of the argument. */
+  value: string;
+  /** Flag to indicate whether the argument represents a secret and want to be removed from build logs. */
+  isSecret?: boolean | undefined;
+}
+/** The collection of override arguments to be used when executing this build step. */
+export type DockerBuildStepInputArgumentsList = Array<Argument>;
+/** The Docker build step. */
+export interface DockerBuildStepInput {
   /** The type of the step. */
-  type: TaskStepPropertiesInputType | (string & {});
+  type: DockerBuildStepInputType;
   /** The URL(absolute or relative) of the source context for the task step. */
   contextPath?: string | undefined;
   /** The token (git PAT or SAS token of storage account blob) associated with the context for a step. */
   contextAccessToken?: string | undefined;
-  /** Docker step: Docker file path relative to the source context. */
-  dockerFilePath?: string | undefined;
-  /** Docker step: fully qualified image names including the repository and tag. */
-  imageNames?: unknown | undefined;
-  /** Docker step: whether the image built should be pushed to the registry. */
+  /** The fully qualified image names including the repository and tag. */
+  imageNames?: DockerBuildStepInputImageNamesList | undefined;
+  /** The value of this property indicates whether the image built should be pushed to the registry or not. */
   isPushEnabled?: boolean | undefined;
-  /** Docker step: whether the image cache is disabled. */
+  /** The value of this property indicates whether the image cache is enabled or not. */
   noCache?: boolean | undefined;
-  /** Docker step: the name of the target build stage. */
+  /** The Docker file path relative to the source context. */
+  dockerFilePath: string;
+  /** The name of the target build stage for the docker build. */
   target?: string | undefined;
-  /** Docker step: build arguments ({ name, value, isSecret }[]). */
-  arguments?: unknown | undefined;
-  /** FileTask step: task template/definition file path relative to the source context. */
-  taskFilePath?: string | undefined;
-  /** FileTask step: task values/parameters file path relative to the source context. */
-  valuesFilePath?: string | undefined;
-  /** EncodedTask step: base64 encoded value of the template/definition file content. */
-  encodedTaskContent?: string | undefined;
-  /** EncodedTask step: base64 encoded value of the parameters/values file content. */
-  encodedValuesContent?: string | undefined;
-  /** FileTask/EncodedTask step: values to override ({ name, value, isSecret }[]). */
-  values?: unknown | undefined;
+  /** The collection of override arguments to be used when executing this build step. */
+  arguments?: DockerBuildStepInputArgumentsList | undefined;
 }
+/** The type of the step. */
+export type FileTaskStepInputType = "FileTask";
+/** The properties of a overridable value that can be passed to a task template. */
+export interface SetValue {
+  /** The name of the overridable value. */
+  name: string;
+  /** The overridable value. */
+  value: string;
+  /** Flag to indicate whether the value represents a secret or not. */
+  isSecret?: boolean | undefined;
+}
+/** The collection of overridable values that can be passed when running a task. */
+export type FileTaskStepInputValuesList = Array<SetValue>;
+/** The properties of a task step. */
+export interface FileTaskStepInput {
+  /** The type of the step. */
+  type: FileTaskStepInputType;
+  /** The URL(absolute or relative) of the source context for the task step. */
+  contextPath?: string | undefined;
+  /** The token (git PAT or SAS token of storage account blob) associated with the context for a step. */
+  contextAccessToken?: string | undefined;
+  /** The task template/definition file path relative to the source context. */
+  taskFilePath: string;
+  /** The task values/parameters file path relative to the source context. */
+  valuesFilePath?: string | undefined;
+  /** The collection of overridable values that can be passed when running a task. */
+  values?: FileTaskStepInputValuesList | undefined;
+}
+/** The type of the step. */
+export type EncodedTaskStepInputType = "EncodedTask";
+/** The collection of overridable values that can be passed when running a task. */
+export type EncodedTaskStepInputValuesList = Array<SetValue>;
+/** The properties of a encoded task step. */
+export interface EncodedTaskStepInput {
+  /** The type of the step. */
+  type: EncodedTaskStepInputType;
+  /** The URL(absolute or relative) of the source context for the task step. */
+  contextPath?: string | undefined;
+  /** The token (git PAT or SAS token of storage account blob) associated with the context for a step. */
+  contextAccessToken?: string | undefined;
+  /** Base64 encoded value of the template/definition file content. */
+  encodedTaskContent: string;
+  /** Base64 encoded value of the parameters/values file content. */
+  encodedValuesContent?: string | undefined;
+  /** The collection of overridable values that can be passed when running a task. */
+  values?: EncodedTaskStepInputValuesList | undefined;
+}
+/** Base properties for any task step. */
+export type TaskStepPropertiesInput =
+  | DockerBuildStepInput
+  | FileTaskStepInput
+  | EncodedTaskStepInput;
 /** The current status of trigger. */
 export type TimerTriggerStatus = "Disabled" | "Enabled";
 /** The properties of a timer trigger. */
@@ -1134,7 +1189,7 @@ export type TaskPropertiesProvisioningState =
 /** The current status of task. */
 export type TaskPropertiesStatus = "Disabled" | "Enabled";
 /** The type of the step. */
-export type TaskStepPropertiesType = "Docker" | "FileTask" | "EncodedTask";
+export type DockerBuildStepType = "Docker";
 /** The type of the base image dependency. */
 export type BaseImageDependencyType = "BuildTime" | "RunTime";
 /** Properties that describe a base image dependency. */
@@ -1151,40 +1206,82 @@ export interface BaseImageDependency {
   digest?: string | undefined;
 }
 /** List of base image dependencies for a step. */
-export type TaskStepPropertiesBaseImageDependenciesList = Array<BaseImageDependency>;
-/** Base properties for any task step. */
-export interface TaskStepProperties {
+export type DockerBuildStepBaseImageDependenciesList = Array<BaseImageDependency>;
+/** The fully qualified image names including the repository and tag. */
+export type DockerBuildStepImageNamesList = Array<string>;
+/** The collection of override arguments to be used when executing this build step. */
+export type DockerBuildStepArgumentsList = Array<Argument>;
+/** The Docker build step. */
+export interface DockerBuildStep {
   /** The type of the step. */
-  type: TaskStepPropertiesType;
+  type: DockerBuildStepType;
   /** List of base image dependencies for a step. */
-  baseImageDependencies?: TaskStepPropertiesBaseImageDependenciesList | undefined;
+  baseImageDependencies?: DockerBuildStepBaseImageDependenciesList | undefined;
   /** The URL(absolute or relative) of the source context for the task step. */
   contextPath?: string | undefined;
   /** The token (git PAT or SAS token of storage account blob) associated with the context for a step. */
   contextAccessToken?: string | undefined;
-  /** Docker step: Docker file path relative to the source context. */
-  dockerFilePath?: string | undefined;
-  /** Docker step: fully qualified image names including the repository and tag. */
-  imageNames?: unknown | undefined;
-  /** Docker step: whether the image built should be pushed to the registry. */
+  /** The fully qualified image names including the repository and tag. */
+  imageNames?: DockerBuildStepImageNamesList | undefined;
+  /** The value of this property indicates whether the image built should be pushed to the registry or not. */
   isPushEnabled?: boolean | undefined;
-  /** Docker step: whether the image cache is disabled. */
+  /** The value of this property indicates whether the image cache is enabled or not. */
   noCache?: boolean | undefined;
-  /** Docker step: the name of the target build stage. */
+  /** The Docker file path relative to the source context. */
+  dockerFilePath: string;
+  /** The name of the target build stage for the docker build. */
   target?: string | undefined;
-  /** Docker step: build arguments ({ name, value, isSecret }[]). */
-  arguments?: unknown | undefined;
-  /** FileTask step: task template/definition file path relative to the source context. */
-  taskFilePath?: string | undefined;
-  /** FileTask step: task values/parameters file path relative to the source context. */
-  valuesFilePath?: string | undefined;
-  /** EncodedTask step: base64 encoded value of the template/definition file content. */
-  encodedTaskContent?: string | undefined;
-  /** EncodedTask step: base64 encoded value of the parameters/values file content. */
-  encodedValuesContent?: string | undefined;
-  /** FileTask/EncodedTask step: values to override ({ name, value, isSecret }[]). */
-  values?: unknown | undefined;
+  /** The collection of override arguments to be used when executing this build step. */
+  arguments?: DockerBuildStepArgumentsList | undefined;
 }
+/** The type of the step. */
+export type FileTaskStepType = "FileTask";
+/** List of base image dependencies for a step. */
+export type FileTaskStepBaseImageDependenciesList = Array<BaseImageDependency>;
+/** The collection of overridable values that can be passed when running a task. */
+export type FileTaskStepValuesList = Array<SetValue>;
+/** The properties of a task step. */
+export interface FileTaskStep {
+  /** The type of the step. */
+  type: FileTaskStepType;
+  /** List of base image dependencies for a step. */
+  baseImageDependencies?: FileTaskStepBaseImageDependenciesList | undefined;
+  /** The URL(absolute or relative) of the source context for the task step. */
+  contextPath?: string | undefined;
+  /** The token (git PAT or SAS token of storage account blob) associated with the context for a step. */
+  contextAccessToken?: string | undefined;
+  /** The task template/definition file path relative to the source context. */
+  taskFilePath: string;
+  /** The task values/parameters file path relative to the source context. */
+  valuesFilePath?: string | undefined;
+  /** The collection of overridable values that can be passed when running a task. */
+  values?: FileTaskStepValuesList | undefined;
+}
+/** The type of the step. */
+export type EncodedTaskStepType = "EncodedTask";
+/** List of base image dependencies for a step. */
+export type EncodedTaskStepBaseImageDependenciesList = Array<BaseImageDependency>;
+/** The collection of overridable values that can be passed when running a task. */
+export type EncodedTaskStepValuesList = Array<SetValue>;
+/** The properties of a encoded task step. */
+export interface EncodedTaskStep {
+  /** The type of the step. */
+  type: EncodedTaskStepType;
+  /** List of base image dependencies for a step. */
+  baseImageDependencies?: EncodedTaskStepBaseImageDependenciesList | undefined;
+  /** The URL(absolute or relative) of the source context for the task step. */
+  contextPath?: string | undefined;
+  /** The token (git PAT or SAS token of storage account blob) associated with the context for a step. */
+  contextAccessToken?: string | undefined;
+  /** Base64 encoded value of the template/definition file content. */
+  encodedTaskContent: string;
+  /** Base64 encoded value of the parameters/values file content. */
+  encodedValuesContent?: string | undefined;
+  /** The collection of overridable values that can be passed when running a task. */
+  values?: EncodedTaskStepValuesList | undefined;
+}
+/** Base properties for any task step. */
+export type TaskStepProperties = DockerBuildStep | FileTaskStep | EncodedTaskStep;
 /** The properties of a task. */
 export interface TaskProperties {
   /** The provisioning state of the task. */
@@ -2815,6 +2912,116 @@ export interface SourceUploadDefinition {
   /** The relative path to the source. This is used to submit the subsequent queue build request. */
   relativePath?: string | undefined;
 }
+/** The type of the run request. */
+export type DockerBuildRequestType = "DockerBuildRequest";
+/** The fully qualified image names including the repository and tag. */
+export type DockerBuildRequestImageNamesList = Array<string>;
+/** The collection of override arguments to be used when executing the run. */
+export type DockerBuildRequestArgumentsList = Array<Argument>;
+/** The parameters for a docker quick build. */
+export interface DockerBuildRequest {
+  /** The type of the run request. */
+  type: DockerBuildRequestType;
+  /** The value that indicates whether archiving is enabled for the run or not. */
+  isArchiveEnabled?: boolean | undefined;
+  /** The fully qualified image names including the repository and tag. */
+  imageNames?: DockerBuildRequestImageNamesList | undefined;
+  /** The value of this property indicates whether the image built should be pushed to the registry or not. */
+  isPushEnabled?: boolean | undefined;
+  /** The value of this property indicates whether the image cache is enabled or not. */
+  noCache?: boolean | undefined;
+  /** The Docker file path relative to the source location. */
+  dockerFilePath: string;
+  /** The name of the target build stage for the docker build. */
+  target?: string | undefined;
+  /** The collection of override arguments to be used when executing the run. */
+  arguments?: DockerBuildRequestArgumentsList | undefined;
+  /** Run timeout in seconds. */
+  timeout?: number | undefined;
+  /** The platform properties against which the run has to happen. */
+  platform: PlatformProperties;
+  /** The machine configuration of the run agent. */
+  agentConfiguration?: AgentProperties | undefined;
+  /** The URL(absolute or relative) of the source context. It can be an URL to a tar or git repository. If it is relative URL, the relative path should be obtained from calling listBuildSourceUploadUrl API. */
+  sourceLocation?: string | undefined;
+  /** The properties that describes a set of credentials that will be used when this run is invoked. */
+  credentials?: Credentials | undefined;
+}
+/** The type of the run request. */
+export type FileTaskRunRequestType = "FileTaskRunRequest";
+/** The collection of overridable values that can be passed when running a task. */
+export type FileTaskRunRequestValuesList = Array<SetValue>;
+/** The request parameters for a scheduling run against a task file. */
+export interface FileTaskRunRequest {
+  /** The type of the run request. */
+  type: FileTaskRunRequestType;
+  /** The value that indicates whether archiving is enabled for the run or not. */
+  isArchiveEnabled?: boolean | undefined;
+  /** The template/definition file path relative to the source. */
+  taskFilePath: string;
+  /** The values/parameters file path relative to the source. */
+  valuesFilePath?: string | undefined;
+  /** The collection of overridable values that can be passed when running a task. */
+  values?: FileTaskRunRequestValuesList | undefined;
+  /** Run timeout in seconds. */
+  timeout?: number | undefined;
+  /** The platform properties against which the run has to happen. */
+  platform: PlatformProperties;
+  /** The machine configuration of the run agent. */
+  agentConfiguration?: AgentProperties | undefined;
+  /** The URL(absolute or relative) of the source context. It can be an URL to a tar or git repository. If it is relative URL, the relative path should be obtained from calling listBuildSourceUploadUrl API. */
+  sourceLocation?: string | undefined;
+  /** The properties that describes a set of credentials that will be used when this run is invoked. */
+  credentials?: Credentials | undefined;
+}
+/** The type of the run request. */
+export type TaskRunRequestType = "TaskRunRequest";
+/** The collection of overridable values that can be passed when running a task. */
+export type TaskRunRequestValuesList = Array<SetValue>;
+/** The parameters for a task run request. */
+export interface TaskRunRequest {
+  /** The type of the run request. */
+  type: TaskRunRequestType;
+  /** The value that indicates whether archiving is enabled for the run or not. */
+  isArchiveEnabled?: boolean | undefined;
+  /** The name of task against which run has to be queued. */
+  taskName: string;
+  /** The collection of overridable values that can be passed when running a task. */
+  values?: TaskRunRequestValuesList | undefined;
+}
+/** The type of the run request. */
+export type EncodedTaskRunRequestType = "EncodedTaskRunRequest";
+/** The collection of overridable values that can be passed when running a task. */
+export type EncodedTaskRunRequestValuesList = Array<SetValue>;
+/** The parameters for a quick task run request. */
+export interface EncodedTaskRunRequest {
+  /** The type of the run request. */
+  type: EncodedTaskRunRequestType;
+  /** The value that indicates whether archiving is enabled for the run or not. */
+  isArchiveEnabled?: boolean | undefined;
+  /** Base64 encoded value of the template/definition file content. */
+  encodedTaskContent: string;
+  /** Base64 encoded value of the parameters/values file content. */
+  encodedValuesContent?: string | undefined;
+  /** The collection of overridable values that can be passed when running a task. */
+  values?: EncodedTaskRunRequestValuesList | undefined;
+  /** Run timeout in seconds. */
+  timeout?: number | undefined;
+  /** The platform properties against which the run has to happen. */
+  platform: PlatformProperties;
+  /** The machine configuration of the run agent. */
+  agentConfiguration?: AgentProperties | undefined;
+  /** The URL(absolute or relative) of the source context. It can be an URL to a tar or git repository. If it is relative URL, the relative path should be obtained from calling listBuildSourceUploadUrl API. */
+  sourceLocation?: string | undefined;
+  /** The properties that describes a set of credentials that will be used when this run is invoked. */
+  credentials?: Credentials | undefined;
+}
+/** The request parameters for scheduling a run. */
+export type RunRequest =
+  | DockerBuildRequest
+  | FileTaskRunRequest
+  | TaskRunRequest
+  | EncodedTaskRunRequest;
 export interface RunRegistriesScheduleRequest {
   /** The Microsoft Azure subscription ID. */
   subscriptionId: string;
@@ -2822,10 +3029,7 @@ export interface RunRegistriesScheduleRequest {
   resourceGroupName: string;
   /** The name of the container registry. */
   registryName: string;
-  /** The type of the run request. */
-  type: string;
-  /** The value that indicates whether archiving is enabled for the run or not. */
-  isArchiveEnabled?: boolean | undefined;
+  body: RunRequest;
 }
 export interface RunRegistriesScheduleResponse {
   /** The resource ID. */
@@ -3160,38 +3364,75 @@ export interface PlatformUpdateParameters {
   variant?: PlatformUpdateParametersVariant | (string & {}) | undefined;
 }
 /** The type of the step. */
-export type TaskStepUpdateParametersType = "Docker" | "FileTask" | "EncodedTask";
-/** Base properties for updating any task step. */
-export interface TaskStepUpdateParameters {
+export type DockerBuildStepUpdateParametersType = "Docker";
+/** The fully qualified image names including the repository and tag. */
+export type DockerBuildStepUpdateParametersImageNamesList = Array<string>;
+/** The collection of override arguments to be used when executing this build step. */
+export type DockerBuildStepUpdateParametersArgumentsList = Array<Argument>;
+/** The properties for updating a docker build step. */
+export interface DockerBuildStepUpdateParameters {
   /** The type of the step. */
-  type: TaskStepUpdateParametersType | (string & {});
+  type: DockerBuildStepUpdateParametersType;
   /** The URL(absolute or relative) of the source context for the task step. */
   contextPath?: string | undefined;
   /** The token (git PAT or SAS token of storage account blob) associated with the context for a step. */
   contextAccessToken?: string | undefined;
-  /** Docker step: Docker file path relative to the source context. */
-  dockerFilePath?: string | undefined;
-  /** Docker step: fully qualified image names including the repository and tag. */
-  imageNames?: unknown | undefined;
-  /** Docker step: whether the image built should be pushed to the registry. */
+  /** The fully qualified image names including the repository and tag. */
+  imageNames?: DockerBuildStepUpdateParametersImageNamesList | undefined;
+  /** The value of this property indicates whether the image built should be pushed to the registry or not. */
   isPushEnabled?: boolean | undefined;
-  /** Docker step: whether the image cache is disabled. */
+  /** The value of this property indicates whether the image cache is enabled or not. */
   noCache?: boolean | undefined;
-  /** Docker step: the name of the target build stage. */
+  /** The Docker file path relative to the source context. */
+  dockerFilePath?: string | undefined;
+  /** The collection of override arguments to be used when executing this build step. */
+  arguments?: DockerBuildStepUpdateParametersArgumentsList | undefined;
+  /** The name of the target build stage for the docker build. */
   target?: string | undefined;
-  /** Docker step: build arguments ({ name, value, isSecret }[]). */
-  arguments?: unknown | undefined;
-  /** FileTask step: task template/definition file path relative to the source context. */
-  taskFilePath?: string | undefined;
-  /** FileTask step: task values/parameters file path relative to the source context. */
-  valuesFilePath?: string | undefined;
-  /** EncodedTask step: base64 encoded value of the template/definition file content. */
-  encodedTaskContent?: string | undefined;
-  /** EncodedTask step: base64 encoded value of the parameters/values file content. */
-  encodedValuesContent?: string | undefined;
-  /** FileTask/EncodedTask step: values to override ({ name, value, isSecret }[]). */
-  values?: unknown | undefined;
 }
+/** The type of the step. */
+export type FileTaskStepUpdateParametersType = "FileTask";
+/** The collection of overridable values that can be passed when running a task. */
+export type FileTaskStepUpdateParametersValuesList = Array<SetValue>;
+/** The properties of updating a task step. */
+export interface FileTaskStepUpdateParameters {
+  /** The type of the step. */
+  type: FileTaskStepUpdateParametersType;
+  /** The URL(absolute or relative) of the source context for the task step. */
+  contextPath?: string | undefined;
+  /** The token (git PAT or SAS token of storage account blob) associated with the context for a step. */
+  contextAccessToken?: string | undefined;
+  /** The task template/definition file path relative to the source context. */
+  taskFilePath?: string | undefined;
+  /** The values/parameters file path relative to the source context. */
+  valuesFilePath?: string | undefined;
+  /** The collection of overridable values that can be passed when running a task. */
+  values?: FileTaskStepUpdateParametersValuesList | undefined;
+}
+/** The type of the step. */
+export type EncodedTaskStepUpdateParametersType = "EncodedTask";
+/** The collection of overridable values that can be passed when running a task. */
+export type EncodedTaskStepUpdateParametersValuesList = Array<SetValue>;
+/** The properties for updating encoded task step. */
+export interface EncodedTaskStepUpdateParameters {
+  /** The type of the step. */
+  type: EncodedTaskStepUpdateParametersType;
+  /** The URL(absolute or relative) of the source context for the task step. */
+  contextPath?: string | undefined;
+  /** The token (git PAT or SAS token of storage account blob) associated with the context for a step. */
+  contextAccessToken?: string | undefined;
+  /** Base64 encoded value of the template/definition file content. */
+  encodedTaskContent?: string | undefined;
+  /** Base64 encoded value of the parameters/values file content. */
+  encodedValuesContent?: string | undefined;
+  /** The collection of overridable values that can be passed when running a task. */
+  values?: EncodedTaskStepUpdateParametersValuesList | undefined;
+}
+/** Base properties for updating any task step. */
+export type TaskStepUpdateParameters =
+  | DockerBuildStepUpdateParameters
+  | FileTaskStepUpdateParameters
+  | EncodedTaskStepUpdateParameters;
 /** The current status of trigger. */
 export type TimerTriggerUpdateParametersStatus = "Disabled" | "Enabled";
 /** The properties for updating a timer trigger. */
@@ -3434,7 +3675,7 @@ export const CancelRun: API.OperationMethod<
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(0, __c0, 0) as any as S.Schema<CancelRunRequest>,
-  output: __S(32, __c1, 0) as any as S.Schema<CancelRunResponse>,
+  output: __S(16, __c1, 0) as any as S.Schema<CancelRunResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -3450,8 +3691,8 @@ export const CheckRegistryNameAvailability: API.OperationMethod<
   CheckRegistryNameAvailabilityError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(64, __c2, 0) as any as S.Schema<CheckRegistryNameAvailabilityRequest>,
-  output: __S(65, __c2, 1) as any as S.Schema<RegistryNameStatus>,
+  input: __S(32, __c2, 0) as any as S.Schema<CheckRegistryNameAvailabilityRequest>,
+  output: __S(33, __c2, 1) as any as S.Schema<RegistryNameStatus>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -3467,8 +3708,8 @@ export const CreateCacheRule: API.OperationMethod<
   CreateCacheRuleError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(513, __c16, 1) as any as S.Schema<CreateCacheRuleRequest>,
-  output: __S(608, __c19, 0) as any as S.Schema<CreateCacheRuleResponse>,
+  input: __S(257, __c16, 1) as any as S.Schema<CreateCacheRuleRequest>,
+  output: __S(304, __c19, 0) as any as S.Schema<CreateCacheRuleResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -3484,8 +3725,8 @@ export const CreateConnectedRegistry: API.OperationMethod<
   CreateConnectedRegistryError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1155, __c36, 3) as any as S.Schema<CreateConnectedRegistryRequest>,
-  output: __S(1280, __c40, 0) as any as S.Schema<CreateConnectedRegistryResponse>,
+  input: __S(579, __c36, 3) as any as S.Schema<CreateConnectedRegistryRequest>,
+  output: __S(640, __c40, 0) as any as S.Schema<CreateConnectedRegistryResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -3501,8 +3742,8 @@ export const CreateCredentialSet: API.OperationMethod<
   CreateCredentialSetError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1761, __c55, 1) as any as S.Schema<CreateCredentialSetRequest>,
-  output: __S(1888, __c59, 0) as any as S.Schema<CreateCredentialSetResponse>,
+  input: __S(881, __c55, 1) as any as S.Schema<CreateCredentialSetRequest>,
+  output: __S(944, __c59, 0) as any as S.Schema<CreateCredentialSetResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -3518,8 +3759,8 @@ export const CreateRegistry: API.OperationMethod<
   CreateRegistryError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2305, __c72, 1) as any as S.Schema<CreateRegistryRequest>,
-  output: __S(2564, __c80, 4) as any as S.Schema<CreateRegistryResponse>,
+  input: __S(1153, __c72, 1) as any as S.Schema<CreateRegistryRequest>,
+  output: __S(1284, __c80, 4) as any as S.Schema<CreateRegistryResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -3535,8 +3776,8 @@ export const CreateReplication: API.OperationMethod<
   CreateReplicationError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2913, __c91, 1) as any as S.Schema<CreateReplicationRequest>,
-  output: __S(2976, __c93, 0) as any as S.Schema<CreateReplicationResponse>,
+  input: __S(1457, __c91, 1) as any as S.Schema<CreateReplicationRequest>,
+  output: __S(1488, __c93, 0) as any as S.Schema<CreateReplicationResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -3552,8 +3793,8 @@ export const CreateScopeMap: API.OperationMethod<
   CreateScopeMapError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3329, __c104, 1) as any as S.Schema<CreateScopeMapRequest>,
-  output: __S(3392, __c106, 0) as any as S.Schema<CreateScopeMapResponse>,
+  input: __S(1665, __c104, 1) as any as S.Schema<CreateScopeMapRequest>,
+  output: __S(1696, __c106, 0) as any as S.Schema<CreateScopeMapResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -3569,8 +3810,8 @@ export const CreateTask: API.OperationMethod<
   CreateTaskError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3457, __c108, 1) as any as S.Schema<CreateTaskRequest>,
-  output: __S(3569, __c111, 17) as any as S.Schema<CreateTaskResponse>,
+  input: __S(1733, __c108, 5) as any as S.Schema<CreateTaskRequest>,
+  output: __S(1807, __c112, 15) as any as S.Schema<CreateTaskResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -3586,8 +3827,8 @@ export const CreateToken: API.OperationMethod<
   CreateTokenError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3617, __c113, 1) as any as S.Schema<CreateTokenRequest>,
-  output: __S(3715, __c116, 3) as any as S.Schema<CreateTokenResponse>,
+  input: __S(1809, __c113, 1) as any as S.Schema<CreateTokenRequest>,
+  output: __S(1859, __c116, 3) as any as S.Schema<CreateTokenResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -3603,8 +3844,8 @@ export const CreateWebhook: API.OperationMethod<
   CreateWebhookError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(97, __c3, 1) as any as S.Schema<CreateWebhookRequest>,
-  output: __S(160, __c5, 0) as any as S.Schema<CreateWebhookResponse>,
+  input: __S(49, __c3, 1) as any as S.Schema<CreateWebhookRequest>,
+  output: __S(80, __c5, 0) as any as S.Schema<CreateWebhookResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -3620,8 +3861,8 @@ export const DeactivateConnectedRegistry: API.OperationMethod<
   DeactivateConnectedRegistryError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(192, __c6, 0) as any as S.Schema<DeactivateConnectedRegistryRequest>,
-  output: __S(224, __c7, 0) as any as S.Schema<DeactivateConnectedRegistryResponse>,
+  input: __S(96, __c6, 0) as any as S.Schema<DeactivateConnectedRegistryRequest>,
+  output: __S(112, __c7, 0) as any as S.Schema<DeactivateConnectedRegistryResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -3637,8 +3878,8 @@ export const DeleteCacheRule: API.OperationMethod<
   DeleteCacheRuleError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(256, __c8, 0) as any as S.Schema<DeleteCacheRuleRequest>,
-  output: __S(224, __c7, 0) as any as S.Schema<DeleteCacheRuleResponse>,
+  input: __S(128, __c8, 0) as any as S.Schema<DeleteCacheRuleRequest>,
+  output: __S(112, __c7, 0) as any as S.Schema<DeleteCacheRuleResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -3654,8 +3895,8 @@ export const DeleteConnectedRegistry: API.OperationMethod<
   DeleteConnectedRegistryError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(288, __c9, 0) as any as S.Schema<DeleteConnectedRegistryRequest>,
-  output: __S(224, __c7, 0) as any as S.Schema<DeleteConnectedRegistryResponse>,
+  input: __S(144, __c9, 0) as any as S.Schema<DeleteConnectedRegistryRequest>,
+  output: __S(112, __c7, 0) as any as S.Schema<DeleteConnectedRegistryResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -3671,8 +3912,8 @@ export const DeleteCredentialSet: API.OperationMethod<
   DeleteCredentialSetError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(320, __c10, 0) as any as S.Schema<DeleteCredentialSetRequest>,
-  output: __S(224, __c7, 0) as any as S.Schema<DeleteCredentialSetResponse>,
+  input: __S(160, __c10, 0) as any as S.Schema<DeleteCredentialSetRequest>,
+  output: __S(112, __c7, 0) as any as S.Schema<DeleteCredentialSetResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -3688,8 +3929,8 @@ export const DeletePrivateEndpointConnection: API.OperationMethod<
   DeletePrivateEndpointConnectionError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(352, __c11, 0) as any as S.Schema<DeletePrivateEndpointConnectionRequest>,
-  output: __S(224, __c7, 0) as any as S.Schema<DeletePrivateEndpointConnectionResponse>,
+  input: __S(176, __c11, 0) as any as S.Schema<DeletePrivateEndpointConnectionRequest>,
+  output: __S(112, __c7, 0) as any as S.Schema<DeletePrivateEndpointConnectionResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -3705,8 +3946,8 @@ export const DeleteRegistry: API.OperationMethod<
   DeleteRegistryError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(384, __c12, 0) as any as S.Schema<DeleteRegistryRequest>,
-  output: __S(224, __c7, 0) as any as S.Schema<DeleteRegistryResponse>,
+  input: __S(192, __c12, 0) as any as S.Schema<DeleteRegistryRequest>,
+  output: __S(112, __c7, 0) as any as S.Schema<DeleteRegistryResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -3722,8 +3963,8 @@ export const DeleteReplication: API.OperationMethod<
   DeleteReplicationError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(416, __c13, 0) as any as S.Schema<DeleteReplicationRequest>,
-  output: __S(224, __c7, 0) as any as S.Schema<DeleteReplicationResponse>,
+  input: __S(208, __c13, 0) as any as S.Schema<DeleteReplicationRequest>,
+  output: __S(112, __c7, 0) as any as S.Schema<DeleteReplicationResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -3739,8 +3980,8 @@ export const DeleteScopeMap: API.OperationMethod<
   DeleteScopeMapError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(448, __c14, 0) as any as S.Schema<DeleteScopeMapRequest>,
-  output: __S(224, __c7, 0) as any as S.Schema<DeleteScopeMapResponse>,
+  input: __S(224, __c14, 0) as any as S.Schema<DeleteScopeMapRequest>,
+  output: __S(112, __c7, 0) as any as S.Schema<DeleteScopeMapResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -3756,8 +3997,8 @@ export const DeleteTask: API.OperationMethod<
   DeleteTaskError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(480, __c15, 0) as any as S.Schema<DeleteTaskRequest>,
-  output: __S(32, __c1, 0) as any as S.Schema<DeleteTaskResponse>,
+  input: __S(240, __c15, 0) as any as S.Schema<DeleteTaskRequest>,
+  output: __S(16, __c1, 0) as any as S.Schema<DeleteTaskResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -3773,8 +4014,8 @@ export const DeleteToken: API.OperationMethod<
   DeleteTokenError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(640, __c20, 0) as any as S.Schema<DeleteTokenRequest>,
-  output: __S(224, __c7, 0) as any as S.Schema<DeleteTokenResponse>,
+  input: __S(320, __c20, 0) as any as S.Schema<DeleteTokenRequest>,
+  output: __S(112, __c7, 0) as any as S.Schema<DeleteTokenResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -3790,8 +4031,8 @@ export const DeleteWebhook: API.OperationMethod<
   DeleteWebhookError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(672, __c21, 0) as any as S.Schema<DeleteWebhookRequest>,
-  output: __S(224, __c7, 0) as any as S.Schema<DeleteWebhookResponse>,
+  input: __S(336, __c21, 0) as any as S.Schema<DeleteWebhookRequest>,
+  output: __S(112, __c7, 0) as any as S.Schema<DeleteWebhookResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -3807,8 +4048,8 @@ export const GenerateRegistryCredentials: API.OperationMethod<
   GenerateRegistryCredentialsError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(704, __c22, 0) as any as S.Schema<GenerateRegistryCredentialsRequest>,
-  output: __S(705, __c22, 1) as any as S.Schema<GenerateCredentialsResult>,
+  input: __S(352, __c22, 0) as any as S.Schema<GenerateRegistryCredentialsRequest>,
+  output: __S(353, __c22, 1) as any as S.Schema<GenerateCredentialsResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -3824,8 +4065,8 @@ export const GetCacheRule: API.OperationMethod<
   GetCacheRuleError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(736, __c23, 0) as any as S.Schema<GetCacheRuleRequest>,
-  output: __S(768, __c24, 0) as any as S.Schema<GetCacheRuleResponse>,
+  input: __S(368, __c23, 0) as any as S.Schema<GetCacheRuleRequest>,
+  output: __S(384, __c24, 0) as any as S.Schema<GetCacheRuleResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -3841,8 +4082,8 @@ export const GetConnectedRegistry: API.OperationMethod<
   GetConnectedRegistryError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(800, __c25, 0) as any as S.Schema<GetConnectedRegistryRequest>,
-  output: __S(832, __c26, 0) as any as S.Schema<GetConnectedRegistryResponse>,
+  input: __S(400, __c25, 0) as any as S.Schema<GetConnectedRegistryRequest>,
+  output: __S(416, __c26, 0) as any as S.Schema<GetConnectedRegistryResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -3858,8 +4099,8 @@ export const GetCredentialSet: API.OperationMethod<
   GetCredentialSetError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(864, __c27, 0) as any as S.Schema<GetCredentialSetRequest>,
-  output: __S(896, __c28, 0) as any as S.Schema<GetCredentialSetResponse>,
+  input: __S(432, __c27, 0) as any as S.Schema<GetCredentialSetRequest>,
+  output: __S(448, __c28, 0) as any as S.Schema<GetCredentialSetResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -3875,8 +4116,8 @@ export const GetPrivateEndpointConnection: API.OperationMethod<
   GetPrivateEndpointConnectionError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(928, __c29, 0) as any as S.Schema<GetPrivateEndpointConnectionRequest>,
-  output: __S(2400, __c75, 0) as any as S.Schema<GetPrivateEndpointConnectionResponse>,
+  input: __S(464, __c29, 0) as any as S.Schema<GetPrivateEndpointConnectionRequest>,
+  output: __S(1200, __c75, 0) as any as S.Schema<GetPrivateEndpointConnectionResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -3892,8 +4133,8 @@ export const GetRegistry: API.OperationMethod<
   GetRegistryError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(960, __c30, 0) as any as S.Schema<GetRegistryRequest>,
-  output: __S(992, __c31, 0) as any as S.Schema<GetRegistryResponse>,
+  input: __S(480, __c30, 0) as any as S.Schema<GetRegistryRequest>,
+  output: __S(496, __c31, 0) as any as S.Schema<GetRegistryResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -3909,8 +4150,8 @@ export const GetRegistryPrivateLinkResource: API.OperationMethod<
   GetRegistryPrivateLinkResourceError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1024, __c32, 0) as any as S.Schema<GetRegistryPrivateLinkResourceRequest>,
-  output: __S(1057, __c33, 1) as any as S.Schema<GetRegistryPrivateLinkResourceResponse>,
+  input: __S(512, __c32, 0) as any as S.Schema<GetRegistryPrivateLinkResourceRequest>,
+  output: __S(529, __c33, 1) as any as S.Schema<GetRegistryPrivateLinkResourceResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -3926,8 +4167,8 @@ export const GetReplication: API.OperationMethod<
   GetReplicationError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1088, __c34, 0) as any as S.Schema<GetReplicationRequest>,
-  output: __S(1120, __c35, 0) as any as S.Schema<GetReplicationResponse>,
+  input: __S(544, __c34, 0) as any as S.Schema<GetReplicationRequest>,
+  output: __S(560, __c35, 0) as any as S.Schema<GetReplicationResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -3943,8 +4184,8 @@ export const GetRun: API.OperationMethod<
   GetRunError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1312, __c41, 0) as any as S.Schema<GetRunRequest>,
-  output: __S(1350, __c42, 6) as any as S.Schema<GetRunResponse>,
+  input: __S(656, __c41, 0) as any as S.Schema<GetRunRequest>,
+  output: __S(678, __c42, 6) as any as S.Schema<GetRunResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -3960,8 +4201,8 @@ export const GetRunLogSasUrl: API.OperationMethod<
   GetRunLogSasUrlError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1376, __c43, 0) as any as S.Schema<GetRunLogSasUrlRequest>,
-  output: __S(1377, __c43, 1) as any as S.Schema<RunGetLogResult>,
+  input: __S(688, __c43, 0) as any as S.Schema<GetRunLogSasUrlRequest>,
+  output: __S(689, __c43, 1) as any as S.Schema<RunGetLogResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -3977,8 +4218,8 @@ export const GetScopeMap: API.OperationMethod<
   GetScopeMapError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1408, __c44, 0) as any as S.Schema<GetScopeMapRequest>,
-  output: __S(1440, __c45, 0) as any as S.Schema<GetScopeMapResponse>,
+  input: __S(704, __c44, 0) as any as S.Schema<GetScopeMapRequest>,
+  output: __S(720, __c45, 0) as any as S.Schema<GetScopeMapResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -3994,8 +4235,8 @@ export const GetTask: API.OperationMethod<
   GetTaskError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1472, __c46, 0) as any as S.Schema<GetTaskRequest>,
-  output: __S(3569, __c111, 17) as any as S.Schema<GetTaskResponse>,
+  input: __S(736, __c46, 0) as any as S.Schema<GetTaskRequest>,
+  output: __S(1807, __c112, 15) as any as S.Schema<GetTaskResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -4011,8 +4252,8 @@ export const GetTaskDetails: API.OperationMethod<
   GetTaskDetailsError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1504, __c47, 0) as any as S.Schema<GetTaskDetailsRequest>,
-  output: __S(3569, __c111, 17) as any as S.Schema<GetTaskDetailsResponse>,
+  input: __S(752, __c47, 0) as any as S.Schema<GetTaskDetailsRequest>,
+  output: __S(1807, __c112, 15) as any as S.Schema<GetTaskDetailsResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -4028,8 +4269,8 @@ export const GetToken: API.OperationMethod<
   GetTokenError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1536, __c48, 0) as any as S.Schema<GetTokenRequest>,
-  output: __S(1568, __c49, 0) as any as S.Schema<GetTokenResponse>,
+  input: __S(768, __c48, 0) as any as S.Schema<GetTokenRequest>,
+  output: __S(784, __c49, 0) as any as S.Schema<GetTokenResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -4045,8 +4286,8 @@ export const GetWebhook: API.OperationMethod<
   GetWebhookError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1600, __c50, 0) as any as S.Schema<GetWebhookRequest>,
-  output: __S(1632, __c51, 0) as any as S.Schema<GetWebhookResponse>,
+  input: __S(800, __c50, 0) as any as S.Schema<GetWebhookRequest>,
+  output: __S(816, __c51, 0) as any as S.Schema<GetWebhookResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -4062,8 +4303,8 @@ export const GetWebhookCallbackConfig: API.OperationMethod<
   GetWebhookCallbackConfigError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1664, __c52, 0) as any as S.Schema<GetWebhookCallbackConfigRequest>,
-  output: __S(1665, __c52, 1) as any as S.Schema<CallbackConfig>,
+  input: __S(832, __c52, 0) as any as S.Schema<GetWebhookCallbackConfigRequest>,
+  output: __S(833, __c52, 1) as any as S.Schema<CallbackConfig>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -4079,8 +4320,8 @@ export const ImportRegistryImage: API.OperationMethod<
   ImportRegistryImageError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1698, __c53, 2) as any as S.Schema<ImportRegistryImageRequest>,
-  output: __S(224, __c7, 0) as any as S.Schema<ImportRegistryImageResponse>,
+  input: __S(850, __c53, 2) as any as S.Schema<ImportRegistryImageRequest>,
+  output: __S(112, __c7, 0) as any as S.Schema<ImportRegistryImageResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -4096,8 +4337,8 @@ export const ListCacheRules: API.OperationMethod<
   ListCacheRulesError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1728, __c54, 0) as any as S.Schema<ListCacheRulesRequest>,
-  output: __S(1730, __c54, 2) as any as S.Schema<CacheRulesListResult>,
+  input: __S(864, __c54, 0) as any as S.Schema<ListCacheRulesRequest>,
+  output: __S(866, __c54, 2) as any as S.Schema<CacheRulesListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -4113,8 +4354,8 @@ export const ListConnectedRegistries: API.OperationMethod<
   ListConnectedRegistriesError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1920, __c60, 0) as any as S.Schema<ListConnectedRegistriesRequest>,
-  output: __S(1922, __c60, 2) as any as S.Schema<ConnectedRegistryListResult>,
+  input: __S(960, __c60, 0) as any as S.Schema<ListConnectedRegistriesRequest>,
+  output: __S(962, __c60, 2) as any as S.Schema<ConnectedRegistryListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -4130,8 +4371,8 @@ export const ListCredentialSets: API.OperationMethod<
   ListCredentialSetsError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1952, __c61, 0) as any as S.Schema<ListCredentialSetsRequest>,
-  output: __S(1954, __c61, 2) as any as S.Schema<CredentialSetListResult>,
+  input: __S(976, __c61, 0) as any as S.Schema<ListCredentialSetsRequest>,
+  output: __S(978, __c61, 2) as any as S.Schema<CredentialSetListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -4147,8 +4388,8 @@ export const ListOperations: API.OperationMethod<
   ListOperationsError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1984, __c62, 0) as any as S.Schema<ListOperationsRequest>,
-  output: __S(1994, __c62, 10) as any as S.Schema<OperationListResult>,
+  input: __S(992, __c62, 0) as any as S.Schema<ListOperationsRequest>,
+  output: __S(1002, __c62, 10) as any as S.Schema<OperationListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -4164,8 +4405,8 @@ export const ListPrivateEndpointConnections: API.OperationMethod<
   ListPrivateEndpointConnectionsError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2016, __c63, 0) as any as S.Schema<ListPrivateEndpointConnectionsRequest>,
-  output: __S(2017, __c63, 1) as any as S.Schema<PrivateEndpointConnectionListResult>,
+  input: __S(1008, __c63, 0) as any as S.Schema<ListPrivateEndpointConnectionsRequest>,
+  output: __S(1009, __c63, 1) as any as S.Schema<PrivateEndpointConnectionListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -4181,8 +4422,8 @@ export const ListRegistries: API.OperationMethod<
   ListRegistriesError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2048, __c64, 0) as any as S.Schema<ListRegistriesRequest>,
-  output: __S(2081, __c65, 1) as any as S.Schema<RegistryListResult>,
+  input: __S(1024, __c64, 0) as any as S.Schema<ListRegistriesRequest>,
+  output: __S(1041, __c65, 1) as any as S.Schema<RegistryListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -4198,8 +4439,8 @@ export const ListRegistryByResourceGroup: API.OperationMethod<
   ListRegistryByResourceGroupError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2112, __c66, 0) as any as S.Schema<ListRegistryByResourceGroupRequest>,
-  output: __S(2081, __c65, 1) as any as S.Schema<RegistryListResult>,
+  input: __S(1056, __c66, 0) as any as S.Schema<ListRegistryByResourceGroupRequest>,
+  output: __S(1041, __c65, 1) as any as S.Schema<RegistryListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -4215,8 +4456,8 @@ export const ListRegistryCredentials: API.OperationMethod<
   ListRegistryCredentialsError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2144, __c67, 0) as any as S.Schema<ListRegistryCredentialsRequest>,
-  output: __S(2178, __c68, 2) as any as S.Schema<RegistryListCredentialsResult>,
+  input: __S(1072, __c67, 0) as any as S.Schema<ListRegistryCredentialsRequest>,
+  output: __S(1090, __c68, 2) as any as S.Schema<RegistryListCredentialsResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -4232,8 +4473,8 @@ export const ListRegistryPrivateLinkResources: API.OperationMethod<
   ListRegistryPrivateLinkResourcesError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2208, __c69, 0) as any as S.Schema<ListRegistryPrivateLinkResourcesRequest>,
-  output: __S(2210, __c69, 2) as any as S.Schema<PrivateLinkResourceListResult>,
+  input: __S(1104, __c69, 0) as any as S.Schema<ListRegistryPrivateLinkResourcesRequest>,
+  output: __S(1106, __c69, 2) as any as S.Schema<PrivateLinkResourceListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -4249,8 +4490,8 @@ export const ListRegistryUsages: API.OperationMethod<
   ListRegistryUsagesError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2240, __c70, 0) as any as S.Schema<ListRegistryUsagesRequest>,
-  output: __S(2243, __c70, 3) as any as S.Schema<RegistryUsageListResult>,
+  input: __S(1120, __c70, 0) as any as S.Schema<ListRegistryUsagesRequest>,
+  output: __S(1123, __c70, 3) as any as S.Schema<RegistryUsageListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -4266,8 +4507,8 @@ export const ListReplications: API.OperationMethod<
   ListReplicationsError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2272, __c71, 0) as any as S.Schema<ListReplicationsRequest>,
-  output: __S(2274, __c71, 2) as any as S.Schema<ReplicationListResult>,
+  input: __S(1136, __c71, 0) as any as S.Schema<ListReplicationsRequest>,
+  output: __S(1138, __c71, 2) as any as S.Schema<ReplicationListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -4283,8 +4524,8 @@ export const ListRuns: API.OperationMethod<
   ListRunsError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2592, __c81, 0) as any as S.Schema<ListRunsRequest>,
-  output: __S(2594, __c81, 2) as any as S.Schema<RunListResult>,
+  input: __S(1296, __c81, 0) as any as S.Schema<ListRunsRequest>,
+  output: __S(1298, __c81, 2) as any as S.Schema<RunListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -4300,8 +4541,8 @@ export const ListScopeMaps: API.OperationMethod<
   ListScopeMapsError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2624, __c82, 0) as any as S.Schema<ListScopeMapsRequest>,
-  output: __S(2626, __c82, 2) as any as S.Schema<ScopeMapListResult>,
+  input: __S(1312, __c82, 0) as any as S.Schema<ListScopeMapsRequest>,
+  output: __S(1314, __c82, 2) as any as S.Schema<ScopeMapListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -4317,8 +4558,8 @@ export const ListTasks: API.OperationMethod<
   ListTasksError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2656, __c83, 0) as any as S.Schema<ListTasksRequest>,
-  output: __S(2658, __c83, 2) as any as S.Schema<TaskListResult>,
+  input: __S(1328, __c83, 0) as any as S.Schema<ListTasksRequest>,
+  output: __S(1330, __c83, 2) as any as S.Schema<TaskListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -4334,8 +4575,8 @@ export const ListTokens: API.OperationMethod<
   ListTokensError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2688, __c84, 0) as any as S.Schema<ListTokensRequest>,
-  output: __S(2690, __c84, 2) as any as S.Schema<TokenListResult>,
+  input: __S(1344, __c84, 0) as any as S.Schema<ListTokensRequest>,
+  output: __S(1346, __c84, 2) as any as S.Schema<TokenListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -4351,8 +4592,8 @@ export const ListWebhookEvents: API.OperationMethod<
   ListWebhookEventsError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2720, __c85, 0) as any as S.Schema<ListWebhookEventsRequest>,
-  output: __S(2730, __c85, 10) as any as S.Schema<EventListResult>,
+  input: __S(1360, __c85, 0) as any as S.Schema<ListWebhookEventsRequest>,
+  output: __S(1370, __c85, 10) as any as S.Schema<EventListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -4368,8 +4609,8 @@ export const ListWebhooks: API.OperationMethod<
   ListWebhooksError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2752, __c86, 0) as any as S.Schema<ListWebhooksRequest>,
-  output: __S(2754, __c86, 2) as any as S.Schema<WebhookListResult>,
+  input: __S(1376, __c86, 0) as any as S.Schema<ListWebhooksRequest>,
+  output: __S(1378, __c86, 2) as any as S.Schema<WebhookListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -4385,8 +4626,8 @@ export const PingWebhook: API.OperationMethod<
   PingWebhookError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2784, __c87, 0) as any as S.Schema<PingWebhookRequest>,
-  output: __S(2336, __c73, 0) as any as S.Schema<EventInfo>,
+  input: __S(1392, __c87, 0) as any as S.Schema<PingWebhookRequest>,
+  output: __S(1168, __c73, 0) as any as S.Schema<EventInfo>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -4402,8 +4643,8 @@ export const PrivateEndpointConnectionsCreateOrUpdate: API.OperationMethod<
   PrivateEndpointConnectionsCreateOrUpdateError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2816, __c88, 0) as any as S.Schema<PrivateEndpointConnectionsCreateOrUpdateRequest>,
-  output: __S(2817, __c88, 1) as any as S.Schema<PrivateEndpointConnectionsCreateOrUpdateResponse>,
+  input: __S(1408, __c88, 0) as any as S.Schema<PrivateEndpointConnectionsCreateOrUpdateRequest>,
+  output: __S(1409, __c88, 1) as any as S.Schema<PrivateEndpointConnectionsCreateOrUpdateResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -4419,8 +4660,8 @@ export const RegenerateRegistryCredential: API.OperationMethod<
   RegenerateRegistryCredentialError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2848, __c89, 0) as any as S.Schema<RegenerateRegistryCredentialRequest>,
-  output: __S(2178, __c68, 2) as any as S.Schema<RegistryListCredentialsResult>,
+  input: __S(1424, __c89, 0) as any as S.Schema<RegenerateRegistryCredentialRequest>,
+  output: __S(1090, __c68, 2) as any as S.Schema<RegistryListCredentialsResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -4436,8 +4677,8 @@ export const RegistriesGetBuildSourceUploadUrl: API.OperationMethod<
   RegistriesGetBuildSourceUploadUrlError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2880, __c90, 0) as any as S.Schema<RegistriesGetBuildSourceUploadUrlRequest>,
-  output: __S(2881, __c90, 1) as any as S.Schema<SourceUploadDefinition>,
+  input: __S(1440, __c90, 0) as any as S.Schema<RegistriesGetBuildSourceUploadUrlRequest>,
+  output: __S(1441, __c90, 1) as any as S.Schema<SourceUploadDefinition>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -4453,8 +4694,8 @@ export const RunRegistriesSchedule: API.OperationMethod<
   RunRegistriesScheduleError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3008, __c94, 0) as any as S.Schema<RunRegistriesScheduleRequest>,
-  output: __S(1350, __c42, 6) as any as S.Schema<RunRegistriesScheduleResponse>,
+  input: __S(1509, __c94, 5) as any as S.Schema<RunRegistriesScheduleRequest>,
+  output: __S(678, __c42, 6) as any as S.Schema<RunRegistriesScheduleResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -4470,8 +4711,8 @@ export const UpdateCacheRule: API.OperationMethod<
   UpdateCacheRuleError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3041, __c95, 1) as any as S.Schema<UpdateCacheRuleRequest>,
-  output: __S(608, __c19, 0) as any as S.Schema<UpdateCacheRuleResponse>,
+  input: __S(1521, __c95, 1) as any as S.Schema<UpdateCacheRuleRequest>,
+  output: __S(304, __c19, 0) as any as S.Schema<UpdateCacheRuleResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -4487,8 +4728,8 @@ export const UpdateConnectedRegistry: API.OperationMethod<
   UpdateConnectedRegistryError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3074, __c96, 2) as any as S.Schema<UpdateConnectedRegistryRequest>,
-  output: __S(1280, __c40, 0) as any as S.Schema<UpdateConnectedRegistryResponse>,
+  input: __S(1538, __c96, 2) as any as S.Schema<UpdateConnectedRegistryRequest>,
+  output: __S(640, __c40, 0) as any as S.Schema<UpdateConnectedRegistryResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -4504,8 +4745,8 @@ export const UpdateCredentialSet: API.OperationMethod<
   UpdateCredentialSetError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3105, __c97, 1) as any as S.Schema<UpdateCredentialSetRequest>,
-  output: __S(1888, __c59, 0) as any as S.Schema<UpdateCredentialSetResponse>,
+  input: __S(1553, __c97, 1) as any as S.Schema<UpdateCredentialSetRequest>,
+  output: __S(944, __c59, 0) as any as S.Schema<UpdateCredentialSetResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -4521,8 +4762,8 @@ export const UpdateRegistry: API.OperationMethod<
   UpdateRegistryError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3137, __c98, 1) as any as S.Schema<UpdateRegistryRequest>,
-  output: __S(2564, __c80, 4) as any as S.Schema<UpdateRegistryResponse>,
+  input: __S(1569, __c98, 1) as any as S.Schema<UpdateRegistryRequest>,
+  output: __S(1284, __c80, 4) as any as S.Schema<UpdateRegistryResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -4538,8 +4779,8 @@ export const UpdateReplication: API.OperationMethod<
   UpdateReplicationError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3169, __c99, 1) as any as S.Schema<UpdateReplicationRequest>,
-  output: __S(2976, __c93, 0) as any as S.Schema<UpdateReplicationResponse>,
+  input: __S(1585, __c99, 1) as any as S.Schema<UpdateReplicationRequest>,
+  output: __S(1488, __c93, 0) as any as S.Schema<UpdateReplicationResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -4555,8 +4796,8 @@ export const UpdateRun: API.OperationMethod<
   UpdateRunError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3200, __c100, 0) as any as S.Schema<UpdateRunRequest>,
-  output: __S(1350, __c42, 6) as any as S.Schema<UpdateRunResponse>,
+  input: __S(1600, __c100, 0) as any as S.Schema<UpdateRunRequest>,
+  output: __S(678, __c42, 6) as any as S.Schema<UpdateRunResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -4572,8 +4813,8 @@ export const UpdateScopeMap: API.OperationMethod<
   UpdateScopeMapError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3233, __c101, 1) as any as S.Schema<UpdateScopeMapRequest>,
-  output: __S(3392, __c106, 0) as any as S.Schema<UpdateScopeMapResponse>,
+  input: __S(1617, __c101, 1) as any as S.Schema<UpdateScopeMapRequest>,
+  output: __S(1696, __c106, 0) as any as S.Schema<UpdateScopeMapResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -4589,8 +4830,8 @@ export const UpdateTask: API.OperationMethod<
   UpdateTaskError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3274, __c102, 10) as any as S.Schema<UpdateTaskRequest>,
-  output: __S(3569, __c111, 17) as any as S.Schema<UpdateTaskResponse>,
+  input: __S(1646, __c102, 14) as any as S.Schema<UpdateTaskRequest>,
+  output: __S(1807, __c112, 15) as any as S.Schema<UpdateTaskResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -4606,8 +4847,8 @@ export const UpdateToken: API.OperationMethod<
   UpdateTokenError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3297, __c103, 1) as any as S.Schema<UpdateTokenRequest>,
-  output: __S(3715, __c116, 3) as any as S.Schema<UpdateTokenResponse>,
+  input: __S(1649, __c103, 1) as any as S.Schema<UpdateTokenRequest>,
+  output: __S(1859, __c116, 3) as any as S.Schema<UpdateTokenResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -4623,8 +4864,8 @@ export const UpdateWebhook: API.OperationMethod<
   UpdateWebhookError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3425, __c107, 1) as any as S.Schema<UpdateWebhookRequest>,
-  output: __S(160, __c5, 0) as any as S.Schema<UpdateWebhookResponse>,
+  input: __S(1713, __c107, 1) as any as S.Schema<UpdateWebhookRequest>,
+  output: __S(80, __c5, 0) as any as S.Schema<UpdateWebhookResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -4692,10 +4933,10 @@ function __c3(j: number): any {
       return S.suspend(() =>
         S.Struct({
           serviceUri: S.String,
-          customHeaders: S.optional(__S(2528, __c79, 0)),
+          customHeaders: S.optional(__S(1264, __c79, 0)),
           status: S.optional(S.String),
           scope: S.optional(S.String),
-          actions: __S(3488, __c109, 0),
+          actions: __S(1744, __c109, 0),
         }),
       ).annotate({ identifier: "WebhookPropertiesCreateParameters" });
     case 1:
@@ -4705,9 +4946,9 @@ function __c3(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           registryName: S.String.pipe(T.Label()),
           webhookName: S.String.pipe(T.Label()),
-          tags: S.optional(__S(2528, __c79, 0)),
+          tags: S.optional(__S(1264, __c79, 0)),
           location: S.String,
-          properties: S.optional(__S(96, __c3, 0)),
+          properties: S.optional(__S(48, __c3, 0)),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -4726,7 +4967,7 @@ function __c4(j: number): any {
         S.Struct({
           status: S.optional(S.String),
           scope: S.optional(S.String),
-          actions: __S(3488, __c109, 0),
+          actions: __S(1744, __c109, 0),
           provisioningState: S.optional(S.String),
         }),
       ).annotate({ identifier: "WebhookProperties" });
@@ -4740,10 +4981,10 @@ function __c5(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          systemData: S.optional(__S(576, __c18, 0)),
-          tags: S.optional(__S(2528, __c79, 0)),
+          systemData: S.optional(__S(288, __c18, 0)),
+          tags: S.optional(__S(1264, __c79, 0)),
           location: S.String,
-          properties: S.optional(__S(128, __c4, 0)),
+          properties: S.optional(__S(64, __c4, 0)),
           azureAsyncOperation: S.optional(S.String.pipe(T.Header("Azure-AsyncOperation"))),
           retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
         }),
@@ -4957,7 +5198,7 @@ function __c16(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           registryName: S.String.pipe(T.Label()),
           cacheRuleName: S.String.pipe(T.Label()),
-          properties: S.optional(__S(512, __c16, 0)),
+          properties: S.optional(__S(256, __c16, 0)),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -5006,8 +5247,8 @@ function __c19(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          systemData: S.optional(__S(576, __c18, 0)),
-          properties: S.optional(__S(544, __c17, 0)),
+          systemData: S.optional(__S(288, __c18, 0)),
+          properties: S.optional(__S(272, __c17, 0)),
           azureAsyncOperation: S.optional(S.String.pipe(T.Header("Azure-AsyncOperation"))),
           retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
         }),
@@ -5078,7 +5319,7 @@ function __c22(j: number): any {
       return S.suspend(() =>
         S.Struct({
           username: S.optional(S.String),
-          passwords: S.optional(__S(3649, __c114, 1)),
+          passwords: S.optional(__S(1825, __c114, 1)),
           location: S.optional(S.String.pipe(T.Header("Location"))),
           retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
         }),
@@ -5113,8 +5354,8 @@ function __c24(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          systemData: S.optional(__S(576, __c18, 0)),
-          properties: S.optional(__S(544, __c17, 0)),
+          systemData: S.optional(__S(288, __c18, 0)),
+          properties: S.optional(__S(272, __c17, 0)),
         }),
       ).annotate({ identifier: "GetCacheRuleResponse" });
   }
@@ -5147,8 +5388,8 @@ function __c26(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          systemData: S.optional(__S(576, __c18, 0)),
-          properties: S.optional(__S(1193, __c37, 9)),
+          systemData: S.optional(__S(288, __c18, 0)),
+          properties: S.optional(__S(601, __c37, 9)),
         }),
       ).annotate({ identifier: "GetConnectedRegistryResponse" });
   }
@@ -5181,9 +5422,9 @@ function __c28(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          systemData: S.optional(__S(576, __c18, 0)),
-          properties: S.optional(__S(1795, __c56, 3)),
-          identity: S.optional(__S(1858, __c58, 2)),
+          systemData: S.optional(__S(288, __c18, 0)),
+          properties: S.optional(__S(899, __c56, 3)),
+          identity: S.optional(__S(930, __c58, 2)),
         }),
       ).annotate({ identifier: "GetCredentialSetResponse" });
   }
@@ -5235,12 +5476,12 @@ function __c31(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          systemData: S.optional(__S(576, __c18, 0)),
-          tags: S.optional(__S(2528, __c79, 0)),
+          systemData: S.optional(__S(288, __c18, 0)),
+          tags: S.optional(__S(1264, __c79, 0)),
           location: S.String,
-          properties: S.optional(__S(2473, __c77, 9)),
-          sku: __S(2468, __c77, 4),
-          identity: S.optional(__S(1858, __c58, 2)),
+          properties: S.optional(__S(1241, __c77, 9)),
+          sku: __S(1236, __c77, 4),
+          identity: S.optional(__S(930, __c58, 2)),
         }),
       ).annotate({ identifier: "GetRegistryResponse" });
   }
@@ -5271,8 +5512,8 @@ function __c33(j: number): any {
       return S.suspend(() =>
         S.Struct({
           groupId: S.optional(S.String),
-          requiredMembers: S.optional(__S(1248, __c39, 0)),
-          requiredZoneNames: S.optional(__S(1248, __c39, 0)),
+          requiredMembers: S.optional(__S(624, __c39, 0)),
+          requiredZoneNames: S.optional(__S(624, __c39, 0)),
         }),
       ).annotate({ identifier: "PrivateLinkResourceProperties" });
     case 1:
@@ -5281,8 +5522,8 @@ function __c33(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          systemData: S.optional(__S(576, __c18, 0)),
-          properties: S.optional(__S(1056, __c33, 0)),
+          systemData: S.optional(__S(288, __c18, 0)),
+          properties: S.optional(__S(528, __c33, 0)),
         }),
       ).annotate({ identifier: "GetRegistryPrivateLinkResourceResponse" });
   }
@@ -5315,10 +5556,10 @@ function __c35(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          systemData: S.optional(__S(576, __c18, 0)),
-          tags: S.optional(__S(2528, __c79, 0)),
+          systemData: S.optional(__S(288, __c18, 0)),
+          tags: S.optional(__S(1264, __c79, 0)),
           location: S.String,
-          properties: S.optional(__S(2944, __c92, 0)),
+          properties: S.optional(__S(1472, __c92, 0)),
         }),
       ).annotate({ identifier: "GetReplicationResponse" });
   }
@@ -5338,19 +5579,19 @@ function __c36(j: number): any {
       return S.suspend(() =>
         S.Struct({
           id: S.optional(S.String),
-          syncProperties: __S(1152, __c36, 0),
+          syncProperties: __S(576, __c36, 0),
         }),
       ).annotate({ identifier: "ParentPropertiesInput" });
     case 2:
       return S.suspend(() =>
         S.Struct({
           mode: S.String,
-          parent: __S(1153, __c36, 1),
-          clientTokenIds: S.optional(__S(1248, __c39, 0)),
-          loginServer: S.optional(__S(32, __c1, 0)),
-          logging: S.optional(__S(1184, __c37, 0)),
-          notificationsList: S.optional(__S(1248, __c39, 0)),
-          garbageCollection: S.optional(__S(1185, __c37, 1)),
+          parent: __S(577, __c36, 1),
+          clientTokenIds: S.optional(__S(624, __c39, 0)),
+          loginServer: S.optional(__S(16, __c1, 0)),
+          logging: S.optional(__S(592, __c37, 0)),
+          notificationsList: S.optional(__S(624, __c39, 0)),
+          garbageCollection: S.optional(__S(593, __c37, 1)),
         }),
       ).annotate({ identifier: "ConnectedRegistryPropertiesInput" });
     case 3:
@@ -5360,7 +5601,7 @@ function __c36(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           registryName: S.String.pipe(T.Label()),
           connectedRegistryName: S.String.pipe(T.Label()),
-          properties: S.optional(__S(1154, __c36, 2)),
+          properties: S.optional(__S(578, __c36, 2)),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -5403,7 +5644,7 @@ function __c37(j: number): any {
       return S.suspend(() =>
         S.Struct({
           id: S.optional(S.String),
-          syncProperties: __S(1186, __c37, 2),
+          syncProperties: __S(594, __c37, 2),
         }),
       ).annotate({ identifier: "ParentProperties" });
     case 4:
@@ -5417,14 +5658,14 @@ function __c37(j: number): any {
       return S.suspend(() =>
         S.Struct({
           status: S.optional(S.String),
-          certificate: S.optional(__S(1188, __c37, 4)),
+          certificate: S.optional(__S(596, __c37, 4)),
         }),
       ).annotate({ identifier: "TlsProperties" });
     case 6:
       return S.suspend(() =>
         S.Struct({
           host: S.optional(S.String),
-          tls: S.optional(__S(1189, __c37, 5)),
+          tls: S.optional(__S(597, __c37, 5)),
         }),
       ).annotate({ identifier: "LoginServerProperties" });
     case 7:
@@ -5438,7 +5679,7 @@ function __c37(j: number): any {
         }),
       ).annotate({ identifier: "StatusDetailProperties" });
     case 8:
-      return S.Array(__S(1191, __c37, 7));
+      return S.Array(__S(599, __c37, 7));
     case 9:
       return S.suspend(() =>
         S.Struct({
@@ -5447,14 +5688,14 @@ function __c37(j: number): any {
           version: S.optional(S.String),
           connectionState: S.optional(S.String),
           lastActivityTime: S.optional(S.String),
-          activation: S.optional(__S(1216, __c38, 0)),
-          parent: __S(1187, __c37, 3),
-          clientTokenIds: S.optional(__S(1248, __c39, 0)),
-          loginServer: S.optional(__S(1190, __c37, 6)),
-          logging: S.optional(__S(1184, __c37, 0)),
-          statusDetails: S.optional(__S(1192, __c37, 8)),
-          notificationsList: S.optional(__S(1248, __c39, 0)),
-          garbageCollection: S.optional(__S(1185, __c37, 1)),
+          activation: S.optional(__S(608, __c38, 0)),
+          parent: __S(595, __c37, 3),
+          clientTokenIds: S.optional(__S(624, __c39, 0)),
+          loginServer: S.optional(__S(598, __c37, 6)),
+          logging: S.optional(__S(592, __c37, 0)),
+          statusDetails: S.optional(__S(600, __c37, 8)),
+          notificationsList: S.optional(__S(624, __c39, 0)),
+          garbageCollection: S.optional(__S(593, __c37, 1)),
         }),
       ).annotate({ identifier: "ConnectedRegistryProperties" });
   }
@@ -5483,8 +5724,8 @@ function __c40(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          systemData: S.optional(__S(576, __c18, 0)),
-          properties: S.optional(__S(1193, __c37, 9)),
+          systemData: S.optional(__S(288, __c18, 0)),
+          properties: S.optional(__S(601, __c37, 9)),
           azureAsyncOperation: S.optional(S.String.pipe(T.Header("Azure-AsyncOperation"))),
           retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
         }),
@@ -5523,13 +5764,13 @@ function __c42(j: number): any {
         }),
       ).annotate({ identifier: "ImageDescriptor" });
     case 1:
-      return S.Array(__S(1344, __c42, 0));
+      return S.Array(__S(672, __c42, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           id: S.optional(S.String),
           timestamp: S.optional(S.String),
-          images: S.optional(__S(1345, __c42, 1)),
+          images: S.optional(__S(673, __c42, 1)),
         }),
       ).annotate({ identifier: "ImageUpdateTrigger" });
     case 3:
@@ -5561,18 +5802,18 @@ function __c42(j: number): any {
           createTime: S.optional(S.String),
           startTime: S.optional(S.String),
           finishTime: S.optional(S.String),
-          outputImages: S.optional(__S(1345, __c42, 1)),
+          outputImages: S.optional(__S(673, __c42, 1)),
           task: S.optional(S.String),
-          imageUpdateTrigger: S.optional(__S(1346, __c42, 2)),
-          sourceTrigger: S.optional(__S(1347, __c42, 3)),
-          platform: S.optional(__S(3520, __c110, 0)),
-          agentConfiguration: S.optional(__S(3521, __c110, 1)),
+          imageUpdateTrigger: S.optional(__S(674, __c42, 2)),
+          sourceTrigger: S.optional(__S(675, __c42, 3)),
+          platform: S.optional(__S(1760, __c110, 0)),
+          agentConfiguration: S.optional(__S(1761, __c110, 1)),
           sourceRegistryAuth: S.optional(S.String),
-          customRegistries: S.optional(__S(1248, __c39, 0)),
+          customRegistries: S.optional(__S(624, __c39, 0)),
           runErrorMessage: S.optional(S.String),
           provisioningState: S.optional(S.String),
           isArchiveEnabled: S.optional(S.Boolean),
-          timerTrigger: S.optional(__S(1348, __c42, 4)),
+          timerTrigger: S.optional(__S(676, __c42, 4)),
         }),
       ).annotate({ identifier: "RunProperties" });
     case 6:
@@ -5581,7 +5822,7 @@ function __c42(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          properties: S.optional(__S(1349, __c42, 5)),
+          properties: S.optional(__S(677, __c42, 5)),
         }),
       ).annotate({ identifier: "GetRunResponse" });
   }
@@ -5640,8 +5881,8 @@ function __c45(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          systemData: S.optional(__S(576, __c18, 0)),
-          properties: S.optional(__S(3360, __c105, 0)),
+          systemData: S.optional(__S(288, __c18, 0)),
+          properties: S.optional(__S(1680, __c105, 0)),
         }),
       ).annotate({ identifier: "GetScopeMapResponse" });
   }
@@ -5714,8 +5955,8 @@ function __c49(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          systemData: S.optional(__S(576, __c18, 0)),
-          properties: S.optional(__S(3683, __c115, 3)),
+          systemData: S.optional(__S(288, __c18, 0)),
+          properties: S.optional(__S(1843, __c115, 3)),
         }),
       ).annotate({ identifier: "GetTokenResponse" });
   }
@@ -5748,10 +5989,10 @@ function __c51(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          systemData: S.optional(__S(576, __c18, 0)),
-          tags: S.optional(__S(2528, __c79, 0)),
+          systemData: S.optional(__S(288, __c18, 0)),
+          tags: S.optional(__S(1264, __c79, 0)),
           location: S.String,
-          properties: S.optional(__S(128, __c4, 0)),
+          properties: S.optional(__S(64, __c4, 0)),
         }),
       ).annotate({ identifier: "GetWebhookResponse" });
   }
@@ -5778,7 +6019,7 @@ function __c52(j: number): any {
       return S.suspend(() =>
         S.Struct({
           serviceUri: S.String,
-          customHeaders: S.optional(__S(2528, __c79, 0)),
+          customHeaders: S.optional(__S(1264, __c79, 0)),
         }),
       ).annotate({ identifier: "CallbackConfig" });
   }
@@ -5797,7 +6038,7 @@ function __c53(j: number): any {
         S.Struct({
           resourceId: S.optional(S.String),
           registryUri: S.optional(S.String),
-          credentials: S.optional(__S(1696, __c53, 0)),
+          credentials: S.optional(__S(848, __c53, 0)),
           sourceImage: S.String,
         }),
       ).annotate({ identifier: "ImportSource" });
@@ -5807,9 +6048,9 @@ function __c53(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           registryName: S.String.pipe(T.Label()),
-          source: __S(1697, __c53, 1),
-          targetTags: S.optional(__S(1248, __c39, 0)),
-          untaggedTargetRepositories: S.optional(__S(1248, __c39, 0)),
+          source: __S(849, __c53, 1),
+          targetTags: S.optional(__S(624, __c39, 0)),
+          untaggedTargetRepositories: S.optional(__S(624, __c39, 0)),
           mode: S.optional(S.String),
         }).pipe(
           T.Http({
@@ -5840,11 +6081,11 @@ function __c54(j: number): any {
         ),
       ).annotate({ identifier: "ListCacheRulesRequest" });
     case 1:
-      return S.Array(__S(768, __c24, 0));
+      return S.Array(__S(384, __c24, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(1729, __c54, 1)),
+          value: S.optional(__S(865, __c54, 1)),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "CacheRulesListResult" });
@@ -5856,7 +6097,7 @@ function __c55(j: number): any {
       return S.suspend(() =>
         S.Struct({
           loginServer: S.optional(S.String),
-          authCredentials: S.optional(__S(1794, __c56, 2)),
+          authCredentials: S.optional(__S(898, __c56, 2)),
         }),
       ).annotate({ identifier: "CredentialSetPropertiesInput" });
     case 1:
@@ -5866,8 +6107,8 @@ function __c55(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           registryName: S.String.pipe(T.Label()),
           credentialSetName: S.String.pipe(T.Label()),
-          properties: S.optional(__S(1760, __c55, 0)),
-          identity: S.optional(__S(1825, __c57, 1)),
+          properties: S.optional(__S(880, __c55, 0)),
+          identity: S.optional(__S(913, __c57, 1)),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -5895,16 +6136,16 @@ function __c56(j: number): any {
           name: S.optional(S.String),
           usernameSecretIdentifier: S.optional(S.String),
           passwordSecretIdentifier: S.optional(S.String.pipe(T.SensitiveValue({}))),
-          credentialHealth: S.optional(__S(1792, __c56, 0)),
+          credentialHealth: S.optional(__S(896, __c56, 0)),
         }),
       ).annotate({ identifier: "AuthCredential" });
     case 2:
-      return S.Array(__S(1793, __c56, 1));
+      return S.Array(__S(897, __c56, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           loginServer: S.optional(S.String),
-          authCredentials: S.optional(__S(1794, __c56, 2)),
+          authCredentials: S.optional(__S(898, __c56, 2)),
           creationDate: S.optional(S.String),
           provisioningState: S.optional(S.String),
         }),
@@ -5914,12 +6155,12 @@ function __c56(j: number): any {
 function __c57(j: number): any {
   switch (j) {
     case 0:
-      return S.Record(S.String, __S(32, __c1, 0));
+      return S.Record(S.String, __S(16, __c1, 0));
     case 1:
       return S.suspend(() =>
         S.Struct({
           type: S.optional(S.String),
-          userAssignedIdentities: S.optional(__S(1824, __c57, 0)),
+          userAssignedIdentities: S.optional(__S(912, __c57, 0)),
         }),
       ).annotate({ identifier: "IdentityPropertiesInput" });
   }
@@ -5934,14 +6175,14 @@ function __c58(j: number): any {
         }),
       ).annotate({ identifier: "UserIdentityProperties" });
     case 1:
-      return S.Record(S.String, __S(1856, __c58, 0));
+      return S.Record(S.String, __S(928, __c58, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           principalId: S.optional(S.String),
           tenantId: S.optional(S.String),
           type: S.optional(S.String),
-          userAssignedIdentities: S.optional(__S(1857, __c58, 1)),
+          userAssignedIdentities: S.optional(__S(929, __c58, 1)),
         }),
       ).annotate({ identifier: "IdentityProperties" });
   }
@@ -5954,9 +6195,9 @@ function __c59(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          systemData: S.optional(__S(576, __c18, 0)),
-          properties: S.optional(__S(1795, __c56, 3)),
-          identity: S.optional(__S(1858, __c58, 2)),
+          systemData: S.optional(__S(288, __c18, 0)),
+          properties: S.optional(__S(899, __c56, 3)),
+          identity: S.optional(__S(930, __c58, 2)),
           azureAsyncOperation: S.optional(S.String.pipe(T.Header("Azure-AsyncOperation"))),
           retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
         }),
@@ -5982,11 +6223,11 @@ function __c60(j: number): any {
         ),
       ).annotate({ identifier: "ListConnectedRegistriesRequest" });
     case 1:
-      return S.Array(__S(832, __c26, 0));
+      return S.Array(__S(416, __c26, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(1921, __c60, 1)),
+          value: S.optional(__S(961, __c60, 1)),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "ConnectedRegistryListResult" });
@@ -6010,11 +6251,11 @@ function __c61(j: number): any {
         ),
       ).annotate({ identifier: "ListCredentialSetsRequest" });
     case 1:
-      return S.Array(__S(896, __c28, 0));
+      return S.Array(__S(448, __c28, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(1953, __c61, 1)),
+          value: S.optional(__S(977, __c61, 1)),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "CredentialSetListResult" });
@@ -6054,7 +6295,7 @@ function __c62(j: number): any {
         }),
       ).annotate({ identifier: "OperationMetricSpecificationDefinition" });
     case 3:
-      return S.Array(__S(1986, __c62, 2));
+      return S.Array(__S(994, __c62, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
@@ -6064,18 +6305,18 @@ function __c62(j: number): any {
         }),
       ).annotate({ identifier: "OperationLogSpecificationDefinition" });
     case 5:
-      return S.Array(__S(1988, __c62, 4));
+      return S.Array(__S(996, __c62, 4));
     case 6:
       return S.suspend(() =>
         S.Struct({
-          metricSpecifications: S.optional(__S(1987, __c62, 3)),
-          logSpecifications: S.optional(__S(1989, __c62, 5)),
+          metricSpecifications: S.optional(__S(995, __c62, 3)),
+          logSpecifications: S.optional(__S(997, __c62, 5)),
         }),
       ).annotate({ identifier: "OperationServiceSpecificationDefinition" });
     case 7:
       return S.suspend(() =>
         S.Struct({
-          serviceSpecification: S.optional(__S(1990, __c62, 6)),
+          serviceSpecification: S.optional(__S(998, __c62, 6)),
         }),
       ).annotate({ identifier: "OperationPropertiesDefinition" });
     case 8:
@@ -6083,17 +6324,17 @@ function __c62(j: number): any {
         S.Struct({
           origin: S.optional(S.String),
           name: S.optional(S.String),
-          display: S.optional(__S(1985, __c62, 1)),
-          properties: S.optional(__S(1991, __c62, 7)),
+          display: S.optional(__S(993, __c62, 1)),
+          properties: S.optional(__S(999, __c62, 7)),
           isDataAction: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "OperationDefinition" });
     case 9:
-      return S.Array(__S(1992, __c62, 8));
+      return S.Array(__S(1000, __c62, 8));
     case 10:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(1993, __c62, 9)),
+          value: S.optional(__S(1001, __c62, 9)),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "OperationListResult" });
@@ -6119,7 +6360,7 @@ function __c63(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(2432, __c76, 0)),
+          value: S.optional(__S(1216, __c76, 0)),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "PrivateEndpointConnectionListResult" });
@@ -6145,11 +6386,11 @@ function __c64(j: number): any {
 function __c65(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(992, __c31, 0));
+      return S.Array(__S(496, __c31, 0));
     case 1:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(2080, __c65, 0)),
+          value: S.optional(__S(1040, __c65, 0)),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "RegistryListResult" });
@@ -6202,12 +6443,12 @@ function __c68(j: number): any {
         }),
       ).annotate({ identifier: "RegistryPassword" });
     case 1:
-      return S.Array(__S(2176, __c68, 0));
+      return S.Array(__S(1088, __c68, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           username: S.optional(S.String),
-          passwords: S.optional(__S(2177, __c68, 1)),
+          passwords: S.optional(__S(1089, __c68, 1)),
         }),
       ).annotate({ identifier: "RegistryListCredentialsResult" });
   }
@@ -6230,11 +6471,11 @@ function __c69(j: number): any {
         ),
       ).annotate({ identifier: "ListRegistryPrivateLinkResourcesRequest" });
     case 1:
-      return S.Array(__S(1057, __c33, 1));
+      return S.Array(__S(529, __c33, 1));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(2209, __c69, 1)),
+          value: S.optional(__S(1105, __c69, 1)),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "PrivateLinkResourceListResult" });
@@ -6267,11 +6508,11 @@ function __c70(j: number): any {
         }),
       ).annotate({ identifier: "RegistryUsage" });
     case 2:
-      return S.Array(__S(2241, __c70, 1));
+      return S.Array(__S(1121, __c70, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(2242, __c70, 2)),
+          value: S.optional(__S(1122, __c70, 2)),
         }),
       ).annotate({ identifier: "RegistryUsageListResult" });
   }
@@ -6294,11 +6535,11 @@ function __c71(j: number): any {
         ),
       ).annotate({ identifier: "ListReplicationsRequest" });
     case 1:
-      return S.Array(__S(1120, __c35, 0));
+      return S.Array(__S(560, __c35, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(2273, __c71, 1)),
+          value: S.optional(__S(1137, __c71, 1)),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "ReplicationListResult" });
@@ -6310,9 +6551,9 @@ function __c72(j: number): any {
       return S.suspend(() =>
         S.Struct({
           adminUserEnabled: S.optional(S.Boolean),
-          networkRuleSet: S.optional(__S(2466, __c77, 2)),
-          policies: S.optional(__S(2561, __c80, 1)),
-          encryption: S.optional(__S(2563, __c80, 3)),
+          networkRuleSet: S.optional(__S(1234, __c77, 2)),
+          policies: S.optional(__S(1281, __c80, 1)),
+          encryption: S.optional(__S(1283, __c80, 3)),
           dataEndpointEnabled: S.optional(S.Boolean),
           publicNetworkAccess: S.optional(S.String),
           networkRuleBypassOptions: S.optional(S.String),
@@ -6328,11 +6569,11 @@ function __c72(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           registryName: S.String.pipe(T.Label()),
-          tags: S.optional(__S(2528, __c79, 0)),
+          tags: S.optional(__S(1264, __c79, 0)),
           location: S.String,
-          properties: S.optional(__S(2304, __c72, 0)),
-          sku: __S(2468, __c77, 4),
-          identity: S.optional(__S(1825, __c57, 1)),
+          properties: S.optional(__S(1152, __c72, 0)),
+          sku: __S(1236, __c77, 4),
+          identity: S.optional(__S(913, __c57, 1)),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -6367,8 +6608,8 @@ function __c74(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          privateEndpoint: S.optional(__S(2336, __c73, 0)),
-          privateLinkServiceConnectionState: S.optional(__S(2368, __c74, 0)),
+          privateEndpoint: S.optional(__S(1168, __c73, 0)),
+          privateLinkServiceConnectionState: S.optional(__S(1184, __c74, 0)),
           provisioningState: S.optional(S.String),
         }),
       ).annotate({ identifier: "PrivateEndpointConnectionProperties" });
@@ -6382,8 +6623,8 @@ function __c75(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          systemData: S.optional(__S(576, __c18, 0)),
-          properties: S.optional(__S(2369, __c74, 1)),
+          systemData: S.optional(__S(288, __c18, 0)),
+          properties: S.optional(__S(1185, __c74, 1)),
         }),
       ).annotate({ identifier: "PrivateEndpointConnection" });
   }
@@ -6391,7 +6632,7 @@ function __c75(j: number): any {
 function __c76(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(2400, __c75, 0));
+      return S.Array(__S(1200, __c75, 0));
   }
 }
 function __c77(j: number): any {
@@ -6404,12 +6645,12 @@ function __c77(j: number): any {
         }),
       ).annotate({ identifier: "IPRule" });
     case 1:
-      return S.Array(__S(2464, __c77, 0));
+      return S.Array(__S(1232, __c77, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           defaultAction: S.String,
-          ipRules: S.optional(__S(2465, __c77, 1)),
+          ipRules: S.optional(__S(1233, __c77, 1)),
         }),
       ).annotate({ identifier: "NetworkRuleSet" });
     case 3:
@@ -6437,11 +6678,11 @@ function __c77(j: number): any {
     case 6:
       return S.suspend(() =>
         S.Struct({
-          quarantinePolicy: S.optional(__S(1216, __c38, 0)),
-          trustPolicy: S.optional(__S(2467, __c77, 3)),
-          retentionPolicy: S.optional(__S(2469, __c77, 5)),
-          exportPolicy: S.optional(__S(1216, __c38, 0)),
-          azureADAuthenticationAsArmPolicy: S.optional(__S(1216, __c38, 0)),
+          quarantinePolicy: S.optional(__S(608, __c38, 0)),
+          trustPolicy: S.optional(__S(1235, __c77, 3)),
+          retentionPolicy: S.optional(__S(1237, __c77, 5)),
+          exportPolicy: S.optional(__S(608, __c38, 0)),
+          azureADAuthenticationAsArmPolicy: S.optional(__S(608, __c38, 0)),
         }),
       ).annotate({ identifier: "Policies" });
     case 7:
@@ -6458,7 +6699,7 @@ function __c77(j: number): any {
       return S.suspend(() =>
         S.Struct({
           status: S.optional(S.String),
-          keyVaultProperties: S.optional(__S(2471, __c77, 7)),
+          keyVaultProperties: S.optional(__S(1239, __c77, 7)),
         }),
       ).annotate({ identifier: "EncryptionProperty" });
     case 9:
@@ -6467,14 +6708,14 @@ function __c77(j: number): any {
           loginServer: S.optional(S.String),
           creationDate: S.optional(S.String),
           provisioningState: S.optional(S.String),
-          status: S.optional(__S(2496, __c78, 0)),
+          status: S.optional(__S(1248, __c78, 0)),
           adminUserEnabled: S.optional(S.Boolean),
-          networkRuleSet: S.optional(__S(2466, __c77, 2)),
-          policies: S.optional(__S(2470, __c77, 6)),
-          encryption: S.optional(__S(2472, __c77, 8)),
+          networkRuleSet: S.optional(__S(1234, __c77, 2)),
+          policies: S.optional(__S(1238, __c77, 6)),
+          encryption: S.optional(__S(1240, __c77, 8)),
           dataEndpointEnabled: S.optional(S.Boolean),
-          dataEndpointHostNames: S.optional(__S(1248, __c39, 0)),
-          privateEndpointConnections: S.optional(__S(2432, __c76, 0)),
+          dataEndpointHostNames: S.optional(__S(624, __c39, 0)),
+          privateEndpointConnections: S.optional(__S(1216, __c76, 0)),
           publicNetworkAccess: S.optional(S.String),
           networkRuleBypassOptions: S.optional(S.String),
           networkRuleBypassAllowedForTasks: S.optional(S.Boolean),
@@ -6515,11 +6756,11 @@ function __c80(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          quarantinePolicy: S.optional(__S(1216, __c38, 0)),
-          trustPolicy: S.optional(__S(2467, __c77, 3)),
-          retentionPolicy: S.optional(__S(2560, __c80, 0)),
-          exportPolicy: S.optional(__S(1216, __c38, 0)),
-          azureADAuthenticationAsArmPolicy: S.optional(__S(1216, __c38, 0)),
+          quarantinePolicy: S.optional(__S(608, __c38, 0)),
+          trustPolicy: S.optional(__S(1235, __c77, 3)),
+          retentionPolicy: S.optional(__S(1280, __c80, 0)),
+          exportPolicy: S.optional(__S(608, __c38, 0)),
+          azureADAuthenticationAsArmPolicy: S.optional(__S(608, __c38, 0)),
         }),
       ).annotate({ identifier: "PoliciesInput" });
     case 2:
@@ -6533,7 +6774,7 @@ function __c80(j: number): any {
       return S.suspend(() =>
         S.Struct({
           status: S.optional(S.String),
-          keyVaultProperties: S.optional(__S(2562, __c80, 2)),
+          keyVaultProperties: S.optional(__S(1282, __c80, 2)),
         }),
       ).annotate({ identifier: "EncryptionPropertyInput" });
     case 4:
@@ -6542,12 +6783,12 @@ function __c80(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          systemData: S.optional(__S(576, __c18, 0)),
-          tags: S.optional(__S(2528, __c79, 0)),
+          systemData: S.optional(__S(288, __c18, 0)),
+          tags: S.optional(__S(1264, __c79, 0)),
           location: S.String,
-          properties: S.optional(__S(2473, __c77, 9)),
-          sku: __S(2468, __c77, 4),
-          identity: S.optional(__S(1858, __c58, 2)),
+          properties: S.optional(__S(1241, __c77, 9)),
+          sku: __S(1236, __c77, 4),
+          identity: S.optional(__S(930, __c58, 2)),
           azureAsyncOperation: S.optional(S.String.pipe(T.Header("Azure-AsyncOperation"))),
           retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
         }),
@@ -6574,11 +6815,11 @@ function __c81(j: number): any {
         ),
       ).annotate({ identifier: "ListRunsRequest" });
     case 1:
-      return S.Array(__S(1350, __c42, 6));
+      return S.Array(__S(678, __c42, 6));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(2593, __c81, 1)),
+          value: S.optional(__S(1297, __c81, 1)),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "RunListResult" });
@@ -6602,11 +6843,11 @@ function __c82(j: number): any {
         ),
       ).annotate({ identifier: "ListScopeMapsRequest" });
     case 1:
-      return S.Array(__S(1440, __c45, 0));
+      return S.Array(__S(720, __c45, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(2625, __c82, 1)),
+          value: S.optional(__S(1313, __c82, 1)),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "ScopeMapListResult" });
@@ -6630,11 +6871,11 @@ function __c83(j: number): any {
         ),
       ).annotate({ identifier: "ListTasksRequest" });
     case 1:
-      return S.Array(__S(3569, __c111, 17));
+      return S.Array(__S(1807, __c112, 15));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(2657, __c83, 1)),
+          value: S.optional(__S(1329, __c83, 1)),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "TaskListResult" });
@@ -6658,11 +6899,11 @@ function __c84(j: number): any {
         ),
       ).annotate({ identifier: "ListTokensRequest" });
     case 1:
-      return S.Array(__S(1568, __c49, 0));
+      return S.Array(__S(784, __c49, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(2689, __c84, 1)),
+          value: S.optional(__S(1345, __c84, 1)),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "TokenListResult" });
@@ -6729,17 +6970,17 @@ function __c85(j: number): any {
           id: S.optional(S.String),
           timestamp: S.optional(S.String),
           action: S.optional(S.String),
-          target: S.optional(__S(2721, __c85, 1)),
-          request: S.optional(__S(2722, __c85, 2)),
-          actor: S.optional(__S(2723, __c85, 3)),
-          source: S.optional(__S(2724, __c85, 4)),
+          target: S.optional(__S(1361, __c85, 1)),
+          request: S.optional(__S(1362, __c85, 2)),
+          actor: S.optional(__S(1363, __c85, 3)),
+          source: S.optional(__S(1364, __c85, 4)),
         }),
       ).annotate({ identifier: "EventContent" });
     case 6:
       return S.suspend(() =>
         S.Struct({
-          content: S.optional(__S(2725, __c85, 5)),
-          headers: S.optional(__S(2528, __c79, 0)),
+          content: S.optional(__S(1365, __c85, 5)),
+          headers: S.optional(__S(1264, __c79, 0)),
           method: S.optional(S.String),
           requestUri: S.optional(S.String),
           version: S.optional(S.String),
@@ -6749,7 +6990,7 @@ function __c85(j: number): any {
       return S.suspend(() =>
         S.Struct({
           content: S.optional(S.String),
-          headers: S.optional(__S(2528, __c79, 0)),
+          headers: S.optional(__S(1264, __c79, 0)),
           reasonPhrase: S.optional(S.String),
           statusCode: S.optional(S.String),
           version: S.optional(S.String),
@@ -6759,16 +7000,16 @@ function __c85(j: number): any {
       return S.suspend(() =>
         S.Struct({
           id: S.optional(S.String),
-          eventRequestMessage: S.optional(__S(2726, __c85, 6)),
-          eventResponseMessage: S.optional(__S(2727, __c85, 7)),
+          eventRequestMessage: S.optional(__S(1366, __c85, 6)),
+          eventResponseMessage: S.optional(__S(1367, __c85, 7)),
         }),
       ).annotate({ identifier: "Event" });
     case 9:
-      return S.Array(__S(2728, __c85, 8));
+      return S.Array(__S(1368, __c85, 8));
     case 10:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(2729, __c85, 9)),
+          value: S.optional(__S(1369, __c85, 9)),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "EventListResult" });
@@ -6792,11 +7033,11 @@ function __c86(j: number): any {
         ),
       ).annotate({ identifier: "ListWebhooksRequest" });
     case 1:
-      return S.Array(__S(1632, __c51, 0));
+      return S.Array(__S(816, __c51, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(2753, __c86, 1)),
+          value: S.optional(__S(1377, __c86, 1)),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "WebhookListResult" });
@@ -6831,7 +7072,7 @@ function __c88(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           registryName: S.String.pipe(T.Label()),
           privateEndpointConnectionName: S.String.pipe(T.Label()),
-          properties: S.optional(__S(2369, __c74, 1)),
+          properties: S.optional(__S(1185, __c74, 1)),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -6847,8 +7088,8 @@ function __c88(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          systemData: S.optional(__S(576, __c18, 0)),
-          properties: S.optional(__S(2369, __c74, 1)),
+          systemData: S.optional(__S(288, __c18, 0)),
+          properties: S.optional(__S(1185, __c74, 1)),
           azureAsyncOperation: S.optional(S.String.pipe(T.Header("Azure-AsyncOperation"))),
           retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
         }),
@@ -6917,9 +7158,9 @@ function __c91(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           registryName: S.String.pipe(T.Label()),
           replicationName: S.String.pipe(T.Label()),
-          tags: S.optional(__S(2528, __c79, 0)),
+          tags: S.optional(__S(1264, __c79, 0)),
           location: S.String,
-          properties: S.optional(__S(2912, __c91, 0)),
+          properties: S.optional(__S(1456, __c91, 0)),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -6937,7 +7178,7 @@ function __c92(j: number): any {
       return S.suspend(() =>
         S.Struct({
           provisioningState: S.optional(S.String),
-          status: S.optional(__S(2496, __c78, 0)),
+          status: S.optional(__S(1248, __c78, 0)),
           regionEndpointEnabled: S.optional(S.Boolean),
           zoneRedundancy: S.optional(S.String),
         }),
@@ -6952,10 +7193,10 @@ function __c93(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          systemData: S.optional(__S(576, __c18, 0)),
-          tags: S.optional(__S(2528, __c79, 0)),
+          systemData: S.optional(__S(288, __c18, 0)),
+          tags: S.optional(__S(1264, __c79, 0)),
           location: S.String,
-          properties: S.optional(__S(2944, __c92, 0)),
+          properties: S.optional(__S(1472, __c92, 0)),
           azureAsyncOperation: S.optional(S.String.pipe(T.Header("Azure-AsyncOperation"))),
           retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
         }),
@@ -6967,11 +7208,74 @@ function __c94(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          type: S.String,
+          isArchiveEnabled: S.optional(S.Boolean),
+          imageNames: S.optional(__S(624, __c39, 0)),
+          isPushEnabled: S.optional(S.Boolean),
+          noCache: S.optional(S.Boolean),
+          dockerFilePath: S.String,
+          target: S.optional(S.String),
+          arguments: S.optional(__S(1777, __c111, 1)),
+          timeout: S.optional(S.Number),
+          platform: __S(1760, __c110, 0),
+          agentConfiguration: S.optional(__S(1761, __c110, 1)),
+          sourceLocation: S.optional(S.String),
+          credentials: S.optional(__S(1782, __c111, 6)),
+        }),
+      ).annotate({ identifier: "DockerBuildRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          type: S.String,
+          isArchiveEnabled: S.optional(S.Boolean),
+          taskFilePath: S.String,
+          valuesFilePath: S.optional(S.String),
+          values: S.optional(__S(1777, __c111, 1)),
+          timeout: S.optional(S.Number),
+          platform: __S(1760, __c110, 0),
+          agentConfiguration: S.optional(__S(1761, __c110, 1)),
+          sourceLocation: S.optional(S.String),
+          credentials: S.optional(__S(1782, __c111, 6)),
+        }),
+      ).annotate({ identifier: "FileTaskRunRequest" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          type: S.String,
+          isArchiveEnabled: S.optional(S.Boolean),
+          taskName: S.String,
+          values: S.optional(__S(1777, __c111, 1)),
+        }),
+      ).annotate({ identifier: "TaskRunRequest" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          type: S.String,
+          isArchiveEnabled: S.optional(S.Boolean),
+          encodedTaskContent: S.String,
+          encodedValuesContent: S.optional(S.String),
+          values: S.optional(__S(1777, __c111, 1)),
+          timeout: S.optional(S.Number),
+          platform: __S(1760, __c110, 0),
+          agentConfiguration: S.optional(__S(1761, __c110, 1)),
+          sourceLocation: S.optional(S.String),
+          credentials: S.optional(__S(1782, __c111, 6)),
+        }),
+      ).annotate({ identifier: "EncodedTaskRunRequest" });
+    case 4:
+      return S.Union([
+        __S(1504, __c94, 0),
+        __S(1505, __c94, 1),
+        __S(1506, __c94, 2),
+        __S(1507, __c94, 3),
+      ]);
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           registryName: S.String.pipe(T.Label()),
-          type: S.String,
-          isArchiveEnabled: S.optional(S.Boolean),
+          body: __S(1508, __c94, 4).pipe(T.HttpBody()),
         }).pipe(
           T.Http({
             method: "POST",
@@ -6998,7 +7302,7 @@ function __c95(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           registryName: S.String.pipe(T.Label()),
           cacheRuleName: S.String.pipe(T.Label()),
-          properties: S.optional(__S(3040, __c95, 0)),
+          properties: S.optional(__S(1520, __c95, 0)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -7023,11 +7327,11 @@ function __c96(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          syncProperties: S.optional(__S(3072, __c96, 0)),
-          logging: S.optional(__S(1184, __c37, 0)),
-          clientTokenIds: S.optional(__S(1248, __c39, 0)),
-          notificationsList: S.optional(__S(1248, __c39, 0)),
-          garbageCollection: S.optional(__S(1185, __c37, 1)),
+          syncProperties: S.optional(__S(1536, __c96, 0)),
+          logging: S.optional(__S(592, __c37, 0)),
+          clientTokenIds: S.optional(__S(624, __c39, 0)),
+          notificationsList: S.optional(__S(624, __c39, 0)),
+          garbageCollection: S.optional(__S(593, __c37, 1)),
         }),
       ).annotate({ identifier: "ConnectedRegistryUpdateProperties" });
     case 2:
@@ -7037,7 +7341,7 @@ function __c96(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           registryName: S.String.pipe(T.Label()),
           connectedRegistryName: S.String.pipe(T.Label()),
-          properties: S.optional(__S(3073, __c96, 1)),
+          properties: S.optional(__S(1537, __c96, 1)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -7054,7 +7358,7 @@ function __c97(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          authCredentials: S.optional(__S(1794, __c56, 2)),
+          authCredentials: S.optional(__S(898, __c56, 2)),
         }),
       ).annotate({ identifier: "CredentialSetUpdateProperties" });
     case 1:
@@ -7064,8 +7368,8 @@ function __c97(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           registryName: S.String.pipe(T.Label()),
           credentialSetName: S.String.pipe(T.Label()),
-          properties: S.optional(__S(3104, __c97, 0)),
-          identity: S.optional(__S(1825, __c57, 1)),
+          properties: S.optional(__S(1552, __c97, 0)),
+          identity: S.optional(__S(913, __c57, 1)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -7083,9 +7387,9 @@ function __c98(j: number): any {
       return S.suspend(() =>
         S.Struct({
           adminUserEnabled: S.optional(S.Boolean),
-          networkRuleSet: S.optional(__S(2466, __c77, 2)),
-          policies: S.optional(__S(2561, __c80, 1)),
-          encryption: S.optional(__S(2563, __c80, 3)),
+          networkRuleSet: S.optional(__S(1234, __c77, 2)),
+          policies: S.optional(__S(1281, __c80, 1)),
+          encryption: S.optional(__S(1283, __c80, 3)),
           dataEndpointEnabled: S.optional(S.Boolean),
           publicNetworkAccess: S.optional(S.String),
           networkRuleBypassOptions: S.optional(S.String),
@@ -7100,10 +7404,10 @@ function __c98(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           registryName: S.String.pipe(T.Label()),
-          identity: S.optional(__S(1825, __c57, 1)),
-          tags: S.optional(__S(2528, __c79, 0)),
-          sku: S.optional(__S(2468, __c77, 4)),
-          properties: S.optional(__S(3136, __c98, 0)),
+          identity: S.optional(__S(913, __c57, 1)),
+          tags: S.optional(__S(1264, __c79, 0)),
+          sku: S.optional(__S(1236, __c77, 4)),
+          properties: S.optional(__S(1568, __c98, 0)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -7130,8 +7434,8 @@ function __c99(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           registryName: S.String.pipe(T.Label()),
           replicationName: S.String.pipe(T.Label()),
-          tags: S.optional(__S(2528, __c79, 0)),
-          properties: S.optional(__S(3168, __c99, 0)),
+          tags: S.optional(__S(1264, __c79, 0)),
+          properties: S.optional(__S(1584, __c99, 0)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -7170,7 +7474,7 @@ function __c101(j: number): any {
       return S.suspend(() =>
         S.Struct({
           description: S.optional(S.String),
-          actions: S.optional(__S(1248, __c39, 0)),
+          actions: S.optional(__S(624, __c39, 0)),
         }),
       ).annotate({ identifier: "ScopeMapPropertiesUpdateParameters" });
     case 1:
@@ -7180,7 +7484,7 @@ function __c101(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           registryName: S.String.pipe(T.Label()),
           scopeMapName: S.String.pipe(T.Label()),
-          properties: S.optional(__S(3232, __c101, 0)),
+          properties: S.optional(__S(1616, __c101, 0)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -7205,14 +7509,52 @@ function __c102(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
+          type: S.String,
+          contextPath: S.optional(S.String),
+          contextAccessToken: S.optional(S.String),
+          imageNames: S.optional(__S(624, __c39, 0)),
+          isPushEnabled: S.optional(S.Boolean),
+          noCache: S.optional(S.Boolean),
+          dockerFilePath: S.optional(S.String),
+          arguments: S.optional(__S(1777, __c111, 1)),
+          target: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "DockerBuildStepUpdateParameters" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          type: S.String,
+          contextPath: S.optional(S.String),
+          contextAccessToken: S.optional(S.String),
+          taskFilePath: S.optional(S.String),
+          valuesFilePath: S.optional(S.String),
+          values: S.optional(__S(1777, __c111, 1)),
+        }),
+      ).annotate({ identifier: "FileTaskStepUpdateParameters" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          type: S.String,
+          contextPath: S.optional(S.String),
+          contextAccessToken: S.optional(S.String),
+          encodedTaskContent: S.optional(S.String),
+          encodedValuesContent: S.optional(S.String),
+          values: S.optional(__S(1777, __c111, 1)),
+        }),
+      ).annotate({ identifier: "EncodedTaskStepUpdateParameters" });
+    case 4:
+      return S.Union([__S(1633, __c102, 1), __S(1634, __c102, 2), __S(1635, __c102, 3)]);
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
           schedule: S.optional(S.String),
           status: S.optional(S.String),
           name: S.String,
         }),
       ).annotate({ identifier: "TimerTriggerUpdateParameters" });
-    case 2:
-      return S.Array(__S(3265, __c102, 1));
-    case 3:
+    case 6:
+      return S.Array(__S(1637, __c102, 5));
+    case 7:
       return S.suspend(() =>
         S.Struct({
           tokenType: S.optional(S.String),
@@ -7222,27 +7564,27 @@ function __c102(j: number): any {
           expiresIn: S.optional(S.Number),
         }),
       ).annotate({ identifier: "AuthInfoUpdateParameters" });
-    case 4:
+    case 8:
       return S.suspend(() =>
         S.Struct({
           sourceControlType: S.optional(S.String),
           repositoryUrl: S.optional(S.String),
           branch: S.optional(S.String),
-          sourceControlAuthProperties: S.optional(__S(3267, __c102, 3)),
+          sourceControlAuthProperties: S.optional(__S(1639, __c102, 7)),
         }),
       ).annotate({ identifier: "SourceUpdateParameters" });
-    case 5:
+    case 9:
       return S.suspend(() =>
         S.Struct({
-          sourceRepository: S.optional(__S(3268, __c102, 4)),
-          sourceTriggerEvents: S.optional(__S(3488, __c109, 0)),
+          sourceRepository: S.optional(__S(1640, __c102, 8)),
+          sourceTriggerEvents: S.optional(__S(1744, __c109, 0)),
           status: S.optional(S.String),
           name: S.String,
         }),
       ).annotate({ identifier: "SourceTriggerUpdateParameters" });
-    case 6:
-      return S.Array(__S(3269, __c102, 5));
-    case 7:
+    case 10:
+      return S.Array(__S(1641, __c102, 9));
+    case 11:
       return S.suspend(() =>
         S.Struct({
           baseImageTriggerType: S.optional(S.String),
@@ -7250,36 +7592,36 @@ function __c102(j: number): any {
           name: S.String,
         }),
       ).annotate({ identifier: "BaseImageTriggerUpdateParameters" });
-    case 8:
+    case 12:
       return S.suspend(() =>
         S.Struct({
-          timerTriggers: S.optional(__S(3266, __c102, 2)),
-          sourceTriggers: S.optional(__S(3270, __c102, 6)),
-          baseImageTrigger: S.optional(__S(3271, __c102, 7)),
+          timerTriggers: S.optional(__S(1638, __c102, 6)),
+          sourceTriggers: S.optional(__S(1642, __c102, 10)),
+          baseImageTrigger: S.optional(__S(1643, __c102, 11)),
         }),
       ).annotate({ identifier: "TriggerUpdateParameters" });
-    case 9:
+    case 13:
       return S.suspend(() =>
         S.Struct({
           status: S.optional(S.String),
-          platform: S.optional(__S(3264, __c102, 0)),
-          agentConfiguration: S.optional(__S(3521, __c110, 1)),
+          platform: S.optional(__S(1632, __c102, 0)),
+          agentConfiguration: S.optional(__S(1761, __c110, 1)),
           timeout: S.optional(S.Number),
-          step: S.optional(__S(3584, __c112, 0)),
-          trigger: S.optional(__S(3272, __c102, 8)),
-          credentials: S.optional(__S(3564, __c111, 12)),
+          step: S.optional(__S(1636, __c102, 4)),
+          trigger: S.optional(__S(1644, __c102, 12)),
+          credentials: S.optional(__S(1782, __c111, 6)),
         }),
       ).annotate({ identifier: "TaskPropertiesUpdateParameters" });
-    case 10:
+    case 14:
       return S.suspend(() =>
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           registryName: S.String.pipe(T.Label()),
           taskName: S.String.pipe(T.Label()),
-          identity: S.optional(__S(1858, __c58, 2)),
-          properties: S.optional(__S(3273, __c102, 9)),
-          tags: S.optional(__S(2528, __c79, 0)),
+          identity: S.optional(__S(930, __c58, 2)),
+          properties: S.optional(__S(1645, __c102, 13)),
+          tags: S.optional(__S(1264, __c79, 0)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -7298,7 +7640,7 @@ function __c103(j: number): any {
         S.Struct({
           scopeMapId: S.optional(S.String),
           status: S.optional(S.String),
-          credentials: S.optional(__S(3714, __c116, 2)),
+          credentials: S.optional(__S(1858, __c116, 2)),
         }),
       ).annotate({ identifier: "TokenUpdatePropertiesInput" });
     case 1:
@@ -7308,7 +7650,7 @@ function __c103(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           registryName: S.String.pipe(T.Label()),
           tokenName: S.String.pipe(T.Label()),
-          properties: S.optional(__S(3296, __c103, 0)),
+          properties: S.optional(__S(1648, __c103, 0)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -7326,7 +7668,7 @@ function __c104(j: number): any {
       return S.suspend(() =>
         S.Struct({
           description: S.optional(S.String),
-          actions: __S(1248, __c39, 0),
+          actions: __S(624, __c39, 0),
         }),
       ).annotate({ identifier: "ScopeMapPropertiesInput" });
     case 1:
@@ -7336,7 +7678,7 @@ function __c104(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           registryName: S.String.pipe(T.Label()),
           scopeMapName: S.String.pipe(T.Label()),
-          properties: S.optional(__S(3328, __c104, 0)),
+          properties: S.optional(__S(1664, __c104, 0)),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -7357,7 +7699,7 @@ function __c105(j: number): any {
           type: S.optional(S.String),
           creationDate: S.optional(S.String),
           provisioningState: S.optional(S.String),
-          actions: __S(1248, __c39, 0),
+          actions: __S(624, __c39, 0),
         }),
       ).annotate({ identifier: "ScopeMapProperties" });
   }
@@ -7370,8 +7712,8 @@ function __c106(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          systemData: S.optional(__S(576, __c18, 0)),
-          properties: S.optional(__S(3360, __c105, 0)),
+          systemData: S.optional(__S(288, __c18, 0)),
+          properties: S.optional(__S(1680, __c105, 0)),
           azureAsyncOperation: S.optional(S.String.pipe(T.Header("Azure-AsyncOperation"))),
           retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
         }),
@@ -7384,10 +7726,10 @@ function __c107(j: number): any {
       return S.suspend(() =>
         S.Struct({
           serviceUri: S.optional(S.String),
-          customHeaders: S.optional(__S(2528, __c79, 0)),
+          customHeaders: S.optional(__S(1264, __c79, 0)),
           status: S.optional(S.String),
           scope: S.optional(S.String),
-          actions: S.optional(__S(3488, __c109, 0)),
+          actions: S.optional(__S(1744, __c109, 0)),
         }),
       ).annotate({ identifier: "WebhookPropertiesUpdateParameters" });
     case 1:
@@ -7397,8 +7739,8 @@ function __c107(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           registryName: S.String.pipe(T.Label()),
           webhookName: S.String.pipe(T.Label()),
-          tags: S.optional(__S(2528, __c79, 0)),
-          properties: S.optional(__S(3424, __c107, 0)),
+          tags: S.optional(__S(1264, __c79, 0)),
+          properties: S.optional(__S(1712, __c107, 0)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -7415,16 +7757,54 @@ function __c108(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          type: S.String,
+          contextPath: S.optional(S.String),
+          contextAccessToken: S.optional(S.String),
+          imageNames: S.optional(__S(624, __c39, 0)),
+          isPushEnabled: S.optional(S.Boolean),
+          noCache: S.optional(S.Boolean),
+          dockerFilePath: S.String,
+          target: S.optional(S.String),
+          arguments: S.optional(__S(1777, __c111, 1)),
+        }),
+      ).annotate({ identifier: "DockerBuildStepInput" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          type: S.String,
+          contextPath: S.optional(S.String),
+          contextAccessToken: S.optional(S.String),
+          taskFilePath: S.String,
+          valuesFilePath: S.optional(S.String),
+          values: S.optional(__S(1777, __c111, 1)),
+        }),
+      ).annotate({ identifier: "FileTaskStepInput" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          type: S.String,
+          contextPath: S.optional(S.String),
+          contextAccessToken: S.optional(S.String),
+          encodedTaskContent: S.String,
+          encodedValuesContent: S.optional(S.String),
+          values: S.optional(__S(1777, __c111, 1)),
+        }),
+      ).annotate({ identifier: "EncodedTaskStepInput" });
+    case 3:
+      return S.Union([__S(1728, __c108, 0), __S(1729, __c108, 1), __S(1730, __c108, 2)]);
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
           status: S.optional(S.String),
-          platform: __S(3520, __c110, 0),
-          agentConfiguration: S.optional(__S(3521, __c110, 1)),
+          platform: __S(1760, __c110, 0),
+          agentConfiguration: S.optional(__S(1761, __c110, 1)),
           timeout: S.optional(S.Number),
-          step: __S(3584, __c112, 0),
-          trigger: S.optional(__S(3559, __c111, 7)),
-          credentials: S.optional(__S(3564, __c111, 12)),
+          step: __S(1731, __c108, 3),
+          trigger: S.optional(__S(1799, __c112, 7)),
+          credentials: S.optional(__S(1782, __c111, 6)),
         }),
       ).annotate({ identifier: "TaskPropertiesInput" });
-    case 1:
+    case 5:
       return S.suspend(() =>
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
@@ -7432,9 +7812,9 @@ function __c108(j: number): any {
           registryName: S.String.pipe(T.Label()),
           taskName: S.String.pipe(T.Label()),
           location: S.String,
-          tags: S.optional(__S(2528, __c79, 0)),
-          identity: S.optional(__S(1858, __c58, 2)),
-          properties: S.optional(__S(3456, __c108, 0)),
+          tags: S.optional(__S(1264, __c79, 0)),
+          identity: S.optional(__S(930, __c58, 2)),
+          properties: S.optional(__S(1732, __c108, 4)),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -7475,13 +7855,57 @@ function __c111(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          name: S.String,
+          value: S.String,
+          isSecret: S.optional(S.Boolean),
+        }),
+      ).annotate({ identifier: "Argument" });
+    case 1:
+      return S.Array(__S(1776, __c111, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          loginMode: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "SourceRegistryCredentials" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          value: S.optional(S.String),
+          type: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "SecretObject" });
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          userName: S.optional(__S(1779, __c111, 3)),
+          password: S.optional(__S(1779, __c111, 3)),
+          identity: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "CustomRegistryCredentials" });
+    case 5:
+      return S.Record(S.String, __S(1780, __c111, 4));
+    case 6:
+      return S.suspend(() =>
+        S.Struct({
+          sourceRegistry: S.optional(__S(1778, __c111, 2)),
+          customRegistries: S.optional(__S(1781, __c111, 5)),
+        }),
+      ).annotate({ identifier: "Credentials" });
+  }
+}
+function __c112(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
           schedule: S.String,
           status: S.optional(S.String),
           name: S.String,
         }),
       ).annotate({ identifier: "TimerTrigger" });
     case 1:
-      return S.Array(__S(3552, __c111, 0));
+      return S.Array(__S(1792, __c112, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -7498,20 +7922,20 @@ function __c111(j: number): any {
           sourceControlType: S.String,
           repositoryUrl: S.String,
           branch: S.optional(S.String),
-          sourceControlAuthProperties: S.optional(__S(3554, __c111, 2)),
+          sourceControlAuthProperties: S.optional(__S(1794, __c112, 2)),
         }),
       ).annotate({ identifier: "SourceProperties" });
     case 4:
       return S.suspend(() =>
         S.Struct({
-          sourceRepository: __S(3555, __c111, 3),
-          sourceTriggerEvents: __S(3488, __c109, 0),
+          sourceRepository: __S(1795, __c112, 3),
+          sourceTriggerEvents: __S(1744, __c109, 0),
           status: S.optional(S.String),
           name: S.String,
         }),
       ).annotate({ identifier: "SourceTrigger" });
     case 5:
-      return S.Array(__S(3556, __c111, 4));
+      return S.Array(__S(1796, __c112, 4));
     case 6:
       return S.suspend(() =>
         S.Struct({
@@ -7523,42 +7947,12 @@ function __c111(j: number): any {
     case 7:
       return S.suspend(() =>
         S.Struct({
-          timerTriggers: S.optional(__S(3553, __c111, 1)),
-          sourceTriggers: S.optional(__S(3557, __c111, 5)),
-          baseImageTrigger: S.optional(__S(3558, __c111, 6)),
+          timerTriggers: S.optional(__S(1793, __c112, 1)),
+          sourceTriggers: S.optional(__S(1797, __c112, 5)),
+          baseImageTrigger: S.optional(__S(1798, __c112, 6)),
         }),
       ).annotate({ identifier: "TriggerProperties" });
     case 8:
-      return S.suspend(() =>
-        S.Struct({
-          loginMode: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "SourceRegistryCredentials" });
-    case 9:
-      return S.suspend(() =>
-        S.Struct({
-          value: S.optional(S.String),
-          type: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "SecretObject" });
-    case 10:
-      return S.suspend(() =>
-        S.Struct({
-          userName: S.optional(__S(3561, __c111, 9)),
-          password: S.optional(__S(3561, __c111, 9)),
-          identity: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "CustomRegistryCredentials" });
-    case 11:
-      return S.Record(S.String, __S(3562, __c111, 10));
-    case 12:
-      return S.suspend(() =>
-        S.Struct({
-          sourceRegistry: S.optional(__S(3560, __c111, 8)),
-          customRegistries: S.optional(__S(3563, __c111, 11)),
-        }),
-      ).annotate({ identifier: "Credentials" });
-    case 13:
       return S.suspend(() =>
         S.Struct({
           type: S.optional(S.String),
@@ -7568,77 +7962,75 @@ function __c111(j: number): any {
           digest: S.optional(S.String),
         }),
       ).annotate({ identifier: "BaseImageDependency" });
-    case 14:
-      return S.Array(__S(3565, __c111, 13));
-    case 15:
+    case 9:
+      return S.Array(__S(1800, __c112, 8));
+    case 10:
       return S.suspend(() =>
         S.Struct({
           type: S.String,
-          baseImageDependencies: S.optional(__S(3566, __c111, 14)),
+          baseImageDependencies: S.optional(__S(1801, __c112, 9)),
           contextPath: S.optional(S.String),
           contextAccessToken: S.optional(S.String),
-          dockerFilePath: S.optional(S.String),
-          imageNames: S.optional(S.Unknown),
+          imageNames: S.optional(__S(624, __c39, 0)),
           isPushEnabled: S.optional(S.Boolean),
           noCache: S.optional(S.Boolean),
+          dockerFilePath: S.String,
           target: S.optional(S.String),
-          arguments: S.optional(S.Unknown),
-          taskFilePath: S.optional(S.String),
-          valuesFilePath: S.optional(S.String),
-          encodedTaskContent: S.optional(S.String),
-          encodedValuesContent: S.optional(S.String),
-          values: S.optional(S.Unknown),
+          arguments: S.optional(__S(1777, __c111, 1)),
         }),
-      ).annotate({ identifier: "TaskStepProperties" });
-    case 16:
+      ).annotate({ identifier: "DockerBuildStep" });
+    case 11:
+      return S.suspend(() =>
+        S.Struct({
+          type: S.String,
+          baseImageDependencies: S.optional(__S(1801, __c112, 9)),
+          contextPath: S.optional(S.String),
+          contextAccessToken: S.optional(S.String),
+          taskFilePath: S.String,
+          valuesFilePath: S.optional(S.String),
+          values: S.optional(__S(1777, __c111, 1)),
+        }),
+      ).annotate({ identifier: "FileTaskStep" });
+    case 12:
+      return S.suspend(() =>
+        S.Struct({
+          type: S.String,
+          baseImageDependencies: S.optional(__S(1801, __c112, 9)),
+          contextPath: S.optional(S.String),
+          contextAccessToken: S.optional(S.String),
+          encodedTaskContent: S.String,
+          encodedValuesContent: S.optional(S.String),
+          values: S.optional(__S(1777, __c111, 1)),
+        }),
+      ).annotate({ identifier: "EncodedTaskStep" });
+    case 13:
+      return S.Union([__S(1802, __c112, 10), __S(1803, __c112, 11), __S(1804, __c112, 12)]);
+    case 14:
       return S.suspend(() =>
         S.Struct({
           provisioningState: S.optional(S.String),
           creationDate: S.optional(S.String),
           status: S.optional(S.String),
-          platform: __S(3520, __c110, 0),
-          agentConfiguration: S.optional(__S(3521, __c110, 1)),
+          platform: __S(1760, __c110, 0),
+          agentConfiguration: S.optional(__S(1761, __c110, 1)),
           timeout: S.optional(S.Number),
-          step: __S(3567, __c111, 15),
-          trigger: S.optional(__S(3559, __c111, 7)),
-          credentials: S.optional(__S(3564, __c111, 12)),
+          step: __S(1805, __c112, 13),
+          trigger: S.optional(__S(1799, __c112, 7)),
+          credentials: S.optional(__S(1782, __c111, 6)),
         }),
       ).annotate({ identifier: "TaskProperties" });
-    case 17:
+    case 15:
       return S.suspend(() =>
         S.Struct({
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
           location: S.String,
-          tags: S.optional(__S(2528, __c79, 0)),
-          identity: S.optional(__S(1858, __c58, 2)),
-          properties: S.optional(__S(3568, __c111, 16)),
+          tags: S.optional(__S(1264, __c79, 0)),
+          identity: S.optional(__S(930, __c58, 2)),
+          properties: S.optional(__S(1806, __c112, 14)),
         }),
       ).annotate({ identifier: "CreateTaskResponse" });
-  }
-}
-function __c112(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          type: S.String,
-          contextPath: S.optional(S.String),
-          contextAccessToken: S.optional(S.String),
-          dockerFilePath: S.optional(S.String),
-          imageNames: S.optional(S.Unknown),
-          isPushEnabled: S.optional(S.Boolean),
-          noCache: S.optional(S.Boolean),
-          target: S.optional(S.String),
-          arguments: S.optional(S.Unknown),
-          taskFilePath: S.optional(S.String),
-          valuesFilePath: S.optional(S.String),
-          encodedTaskContent: S.optional(S.String),
-          encodedValuesContent: S.optional(S.String),
-          values: S.optional(S.Unknown),
-        }),
-      ).annotate({ identifier: "TaskStepPropertiesInput" });
   }
 }
 function __c113(j: number): any {
@@ -7647,7 +8039,7 @@ function __c113(j: number): any {
       return S.suspend(() =>
         S.Struct({
           scopeMapId: S.optional(S.String),
-          credentials: S.optional(__S(3714, __c116, 2)),
+          credentials: S.optional(__S(1858, __c116, 2)),
           status: S.optional(S.String),
         }),
       ).annotate({ identifier: "TokenPropertiesInput" });
@@ -7658,7 +8050,7 @@ function __c113(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           registryName: S.String.pipe(T.Label()),
           tokenName: S.String.pipe(T.Label()),
-          properties: S.optional(__S(3616, __c113, 0)),
+          properties: S.optional(__S(1808, __c113, 0)),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -7682,7 +8074,7 @@ function __c114(j: number): any {
         }),
       ).annotate({ identifier: "TokenPassword" });
     case 1:
-      return S.Array(__S(3648, __c114, 0));
+      return S.Array(__S(1824, __c114, 0));
   }
 }
 function __c115(j: number): any {
@@ -7697,12 +8089,12 @@ function __c115(j: number): any {
         }),
       ).annotate({ identifier: "TokenCertificate" });
     case 1:
-      return S.Array(__S(3680, __c115, 0));
+      return S.Array(__S(1840, __c115, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          certificates: S.optional(__S(3681, __c115, 1)),
-          passwords: S.optional(__S(3649, __c114, 1)),
+          certificates: S.optional(__S(1841, __c115, 1)),
+          passwords: S.optional(__S(1825, __c114, 1)),
         }),
       ).annotate({ identifier: "TokenCredentialsProperties" });
     case 3:
@@ -7711,7 +8103,7 @@ function __c115(j: number): any {
           creationDate: S.optional(S.String),
           provisioningState: S.optional(S.String),
           scopeMapId: S.optional(S.String),
-          credentials: S.optional(__S(3682, __c115, 2)),
+          credentials: S.optional(__S(1842, __c115, 2)),
           status: S.optional(S.String),
         }),
       ).annotate({ identifier: "TokenProperties" });
@@ -7728,12 +8120,12 @@ function __c116(j: number): any {
         }),
       ).annotate({ identifier: "TokenPasswordInput" });
     case 1:
-      return S.Array(__S(3712, __c116, 0));
+      return S.Array(__S(1856, __c116, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          certificates: S.optional(__S(3681, __c115, 1)),
-          passwords: S.optional(__S(3713, __c116, 1)),
+          certificates: S.optional(__S(1841, __c115, 1)),
+          passwords: S.optional(__S(1857, __c116, 1)),
         }),
       ).annotate({ identifier: "TokenCredentialsPropertiesInput" });
     case 3:
@@ -7742,8 +8134,8 @@ function __c116(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          systemData: S.optional(__S(576, __c18, 0)),
-          properties: S.optional(__S(3683, __c115, 3)),
+          systemData: S.optional(__S(288, __c18, 0)),
+          properties: S.optional(__S(1843, __c115, 3)),
           azureAsyncOperation: S.optional(S.String.pipe(T.Header("Azure-AsyncOperation"))),
           retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
         }),

@@ -238,12 +238,31 @@ export interface AssignedIdentityInput {
   subject?: string | null | undefined;
 }
 /** Authorization scheme type. */
-export type BuiltInAuthorizationScheme = "Default" | "OrganizationScope" | "Channels" | "Custom";
+export type ChannelsBuiltInAuthorizationPolicyType = "Channels";
 /** Represents a policy for authorizing applications based on specified authentication and authorization schemes. */
-export interface ApplicationAuthorizationPolicy {
+export interface ChannelsBuiltInAuthorizationPolicy {
   /** Authorization scheme type. */
-  type: BuiltInAuthorizationScheme | (string & {});
+  type: ChannelsBuiltInAuthorizationPolicyType;
 }
+/** Authorization scheme type. */
+export type OrganizationSharedBuiltInAuthorizationPolicyType = "OrganizationScope";
+/** Represents a policy for authorizing applications based on specified authentication and authorization schemes. */
+export interface OrganizationSharedBuiltInAuthorizationPolicy {
+  /** Authorization scheme type. */
+  type: OrganizationSharedBuiltInAuthorizationPolicyType;
+}
+/** Authorization scheme type. */
+export type RoleBasedBuiltInAuthorizationPolicyType = "Default";
+/** Represents a policy for authorizing applications based on specified authentication and authorization schemes. */
+export interface RoleBasedBuiltInAuthorizationPolicy {
+  /** Authorization scheme type. */
+  type: RoleBasedBuiltInAuthorizationPolicyType;
+}
+/** Represents a policy for authorizing applications based on specified authentication and authorization schemes. */
+export type ApplicationAuthorizationPolicy =
+  | ChannelsBuiltInAuthorizationPolicy
+  | OrganizationSharedBuiltInAuthorizationPolicy
+  | RoleBasedBuiltInAuthorizationPolicy;
 /** Traffic routing protocol, used to distribute an application's inbound traffic to its deployments. */
 export type TrafficRoutingProtocol = "FixedRatio";
 /** Represents a rule for routing traffic to a specific deployment. */
@@ -380,7 +399,7 @@ export interface AgentApplicationsCreateOrUpdateResponse {
   location?: string | undefined;
 }
 /** Tag dictionary. Tags can be added, removed, and updated. */
-export type AgentDeploymentPropertiesInputTagsMap = { [key: string]: string | undefined };
+export type HostedAgentDeploymentInputTagsMap = { [key: string]: string | undefined };
 /** Current operational state of the agentic functionality represented by this deployment. */
 export type AgentDeploymentState =
   | "Starting"
@@ -401,7 +420,7 @@ export interface AgentProtocolVersion {
   version?: string | null | undefined;
 }
 /** Gets or sets the supported protocol types and versions exposed by this deployment. */
-export type AgentDeploymentPropertiesInputProtocolsList = Array<AgentProtocolVersion>;
+export type HostedAgentDeploymentInputProtocolsList = Array<AgentProtocolVersion>;
 /** Type modeling a reference to a version of an agent definition. */
 export interface VersionedAgentReference {
   /** Gets the agent's unique identifier within the organization (subscription). */
@@ -412,15 +431,15 @@ export interface VersionedAgentReference {
   agentVersion?: string | null | undefined;
 }
 /** Returns a flat list of agent:version deployed in this deployment. */
-export type AgentDeploymentPropertiesInputAgentsList = Array<VersionedAgentReference>;
-/** Specifies the type of deployment for an agent, indicating how the underlying compute and network infrastructure is managed. */
-export type AgentDeploymentType = "Managed" | "Hosted" | "Custom";
-/** Type representing an agent deployment as a management construct. */
-export interface AgentDeploymentPropertiesInput {
+export type HostedAgentDeploymentInputAgentsList = Array<VersionedAgentReference>;
+/** Gets or sets the type of deployment for the agent. */
+export type HostedAgentDeploymentInputDeploymentType = "Hosted";
+/** Represents a hosted agent deployment where the underlying infrastructure is owned by the platform. */
+export interface HostedAgentDeploymentInput {
   /** The asset description text. */
   description?: string | null | undefined;
   /** Tag dictionary. Tags can be added, removed, and updated. */
-  tags?: AgentDeploymentPropertiesInputTagsMap | null | undefined;
+  tags?: HostedAgentDeploymentInputTagsMap | null | undefined;
   /** Gets or sets the display name of the deployment. */
   displayName?: string | null | undefined;
   /** Gets or sets the unique identifier of the deployment. */
@@ -428,12 +447,47 @@ export interface AgentDeploymentPropertiesInput {
   /** Gets or sets the current operational state of the deployment (and, intrinsically, of the comprising agents). */
   state?: AgentDeploymentState | (string & {}) | null | undefined;
   /** Gets or sets the supported protocol types and versions exposed by this deployment. */
-  protocols?: AgentDeploymentPropertiesInputProtocolsList | null | undefined;
+  protocols?: HostedAgentDeploymentInputProtocolsList | null | undefined;
   /** Returns a flat list of agent:version deployed in this deployment. */
-  agents?: AgentDeploymentPropertiesInputAgentsList | null | undefined;
+  agents?: HostedAgentDeploymentInputAgentsList | null | undefined;
   /** Gets or sets the type of deployment for the agent. */
-  deploymentType: AgentDeploymentType | (string & {});
+  deploymentType: HostedAgentDeploymentInputDeploymentType;
+  /** Gets or sets the minimum number of replicas for this hosted deployment. */
+  minReplicas?: number | undefined;
+  /** Gets or sets the maximum number of replicas for this hosted deployment. */
+  maxReplicas?: number | undefined;
 }
+/** Tag dictionary. Tags can be added, removed, and updated. */
+export type ManagedAgentDeploymentInputTagsMap = { [key: string]: string | undefined };
+/** Gets or sets the supported protocol types and versions exposed by this deployment. */
+export type ManagedAgentDeploymentInputProtocolsList = Array<AgentProtocolVersion>;
+/** Returns a flat list of agent:version deployed in this deployment. */
+export type ManagedAgentDeploymentInputAgentsList = Array<VersionedAgentReference>;
+/** Gets or sets the type of deployment for the agent. */
+export type ManagedAgentDeploymentInputDeploymentType = "Managed";
+/** Type representing an agent deployment as a management construct. */
+export interface ManagedAgentDeploymentInput {
+  /** The asset description text. */
+  description?: string | null | undefined;
+  /** Tag dictionary. Tags can be added, removed, and updated. */
+  tags?: ManagedAgentDeploymentInputTagsMap | null | undefined;
+  /** Gets or sets the display name of the deployment. */
+  displayName?: string | null | undefined;
+  /** Gets or sets the unique identifier of the deployment. */
+  deploymentId?: string | null | undefined;
+  /** Gets or sets the current operational state of the deployment (and, intrinsically, of the comprising agents). */
+  state?: AgentDeploymentState | (string & {}) | null | undefined;
+  /** Gets or sets the supported protocol types and versions exposed by this deployment. */
+  protocols?: ManagedAgentDeploymentInputProtocolsList | null | undefined;
+  /** Returns a flat list of agent:version deployed in this deployment. */
+  agents?: ManagedAgentDeploymentInputAgentsList | null | undefined;
+  /** Gets or sets the type of deployment for the agent. */
+  deploymentType: ManagedAgentDeploymentInputDeploymentType;
+}
+/** Type representing an agent deployment as a management construct. */
+export type AgentDeploymentPropertiesInput =
+  | HostedAgentDeploymentInput
+  | ManagedAgentDeploymentInput;
 export interface AgentDeploymentsCreateOrUpdateRequest {
   /** The ID of the target subscription. */
   subscriptionId: string;
@@ -451,11 +505,13 @@ export interface AgentDeploymentsCreateOrUpdateRequest {
   properties: AgentDeploymentPropertiesInput;
 }
 /** Tag dictionary. Tags can be added, removed, and updated. */
-export type AgentDeploymentPropertiesTagsMap = { [key: string]: string | undefined };
+export type HostedAgentDeploymentTagsMap = { [key: string]: string | undefined };
 /** Gets or sets the supported protocol types and versions exposed by this deployment. */
-export type AgentDeploymentPropertiesProtocolsList = Array<AgentProtocolVersion>;
+export type HostedAgentDeploymentProtocolsList = Array<AgentProtocolVersion>;
 /** Returns a flat list of agent:version deployed in this deployment. */
-export type AgentDeploymentPropertiesAgentsList = Array<VersionedAgentReference>;
+export type HostedAgentDeploymentAgentsList = Array<VersionedAgentReference>;
+/** Gets or sets the type of deployment for the agent. */
+export type HostedAgentDeploymentDeploymentType = "Hosted";
 /** Provisioning state of an agentic deployment, as an Azure resource. */
 export type AgentDeploymentProvisioningState =
   | "Succeeded"
@@ -464,12 +520,12 @@ export type AgentDeploymentProvisioningState =
   | "Creating"
   | "Updating"
   | "Deleting";
-/** Type representing an agent deployment as a management construct. */
-export interface AgentDeploymentProperties {
+/** Represents a hosted agent deployment where the underlying infrastructure is owned by the platform. */
+export interface HostedAgentDeployment {
   /** The asset description text. */
   description?: string | null | undefined;
   /** Tag dictionary. Tags can be added, removed, and updated. */
-  tags?: AgentDeploymentPropertiesTagsMap | null | undefined;
+  tags?: HostedAgentDeploymentTagsMap | null | undefined;
   /** Gets or sets the display name of the deployment. */
   displayName?: string | null | undefined;
   /** Gets or sets the unique identifier of the deployment. */
@@ -477,14 +533,49 @@ export interface AgentDeploymentProperties {
   /** Gets or sets the current operational state of the deployment (and, intrinsically, of the comprising agents). */
   state?: AgentDeploymentState | null | undefined;
   /** Gets or sets the supported protocol types and versions exposed by this deployment. */
-  protocols?: AgentDeploymentPropertiesProtocolsList | null | undefined;
+  protocols?: HostedAgentDeploymentProtocolsList | null | undefined;
   /** Returns a flat list of agent:version deployed in this deployment. */
-  agents?: AgentDeploymentPropertiesAgentsList | null | undefined;
+  agents?: HostedAgentDeploymentAgentsList | null | undefined;
   /** Gets or sets the type of deployment for the agent. */
-  deploymentType: AgentDeploymentType;
+  deploymentType: HostedAgentDeploymentDeploymentType;
+  /** Gets or sets the provisioning state of the agent deployment. */
+  provisioningState?: AgentDeploymentProvisioningState | undefined;
+  /** Gets or sets the minimum number of replicas for this hosted deployment. */
+  minReplicas?: number | undefined;
+  /** Gets or sets the maximum number of replicas for this hosted deployment. */
+  maxReplicas?: number | undefined;
+}
+/** Tag dictionary. Tags can be added, removed, and updated. */
+export type ManagedAgentDeploymentTagsMap = { [key: string]: string | undefined };
+/** Gets or sets the supported protocol types and versions exposed by this deployment. */
+export type ManagedAgentDeploymentProtocolsList = Array<AgentProtocolVersion>;
+/** Returns a flat list of agent:version deployed in this deployment. */
+export type ManagedAgentDeploymentAgentsList = Array<VersionedAgentReference>;
+/** Gets or sets the type of deployment for the agent. */
+export type ManagedAgentDeploymentDeploymentType = "Managed";
+/** Type representing an agent deployment as a management construct. */
+export interface ManagedAgentDeployment {
+  /** The asset description text. */
+  description?: string | null | undefined;
+  /** Tag dictionary. Tags can be added, removed, and updated. */
+  tags?: ManagedAgentDeploymentTagsMap | null | undefined;
+  /** Gets or sets the display name of the deployment. */
+  displayName?: string | null | undefined;
+  /** Gets or sets the unique identifier of the deployment. */
+  deploymentId?: string | null | undefined;
+  /** Gets or sets the current operational state of the deployment (and, intrinsically, of the comprising agents). */
+  state?: AgentDeploymentState | null | undefined;
+  /** Gets or sets the supported protocol types and versions exposed by this deployment. */
+  protocols?: ManagedAgentDeploymentProtocolsList | null | undefined;
+  /** Returns a flat list of agent:version deployed in this deployment. */
+  agents?: ManagedAgentDeploymentAgentsList | null | undefined;
+  /** Gets or sets the type of deployment for the agent. */
+  deploymentType: ManagedAgentDeploymentDeploymentType;
   /** Gets or sets the provisioning state of the agent deployment. */
   provisioningState?: AgentDeploymentProvisioningState | undefined;
 }
+/** Type representing an agent deployment as a management construct. */
+export type AgentDeploymentProperties = HostedAgentDeployment | ManagedAgentDeployment;
 export interface AgentDeploymentsCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
   id?: string | undefined;
@@ -1324,26 +1415,7 @@ export interface CreateAccountResponse {
   locationHeader?: string | undefined;
 }
 /** Authentication type of the connection target */
-export type ConnectionAuthType =
-  | "PAT"
-  | "ManagedIdentity"
-  | "UsernamePassword"
-  | "None"
-  | "SAS"
-  | "AccountKey"
-  | "ServicePrincipal"
-  | "AccessKey"
-  | "ApiKey"
-  | "CustomKeys"
-  | "OAuth2"
-  | "AAD"
-  | "DelegatedSAS"
-  | "ProjectManagedIdentity"
-  | "AccountManagedIdentity"
-  | "UserEntraToken"
-  | "AgentUserImpersonation"
-  | "AgenticIdentityToken"
-  | "AgenticUser";
+export type AADAuthTypeConnectionPropertiesInputAuthType = "AAD";
 /** Category of the connection */
 export type ConnectionCategory =
   | "PythonFeed"
@@ -1467,14 +1539,14 @@ export type ConnectionCategory =
   | "PowerPlatformEnvironment"
   | "RemoteA2A";
 /** Store user metadata for this connection */
-export type ConnectionPropertiesV2InputMetadataMap = { [key: string]: string | undefined };
+export type AADAuthTypeConnectionPropertiesInputMetadataMap = { [key: string]: string | undefined };
 export type ManagedPERequirement = "Required" | "NotRequired" | "NotApplicable";
 export type ManagedPEStatus = "Inactive" | "Active" | "NotApplicable";
-export type ConnectionPropertiesV2InputSharedUserListList = Array<string>;
+export type AADAuthTypeConnectionPropertiesInputSharedUserListList = Array<string>;
 /** Connection property base schema. */
-export interface ConnectionPropertiesV2Input {
+export interface AADAuthTypeConnectionPropertiesInput {
   /** Authentication type of the connection target */
-  authType: ConnectionAuthType | (string & {});
+  authType: AADAuthTypeConnectionPropertiesInputAuthType;
   /** Category of the connection */
   category?: ConnectionCategory | (string & {}) | undefined;
   /** Provides the error message if the connection fails */
@@ -1482,18 +1554,399 @@ export interface ConnectionPropertiesV2Input {
   expiryTime?: string | undefined;
   isSharedToAll?: boolean | undefined;
   /** Store user metadata for this connection */
-  metadata?: ConnectionPropertiesV2InputMetadataMap | undefined;
+  metadata?: AADAuthTypeConnectionPropertiesInputMetadataMap | undefined;
   /** Specifies how private endpoints are used with this connection: 'Required', 'NotRequired', or 'NotApplicable'. */
   peRequirement?: ManagedPERequirement | (string & {}) | undefined;
   /** Specifies the status of private endpoints for this connection: 'Inactive', 'Active', or 'NotApplicable'. */
   peStatus?: ManagedPEStatus | (string & {}) | undefined;
-  sharedUserList?: ConnectionPropertiesV2InputSharedUserListList | undefined;
+  sharedUserList?: AADAuthTypeConnectionPropertiesInputSharedUserListList | undefined;
   /** The connection URL to be used. */
   target?: string | undefined;
   useWorkspaceManagedIdentity?: boolean | undefined;
-  /** Auth-type-specific credentials (polymorphic on `authType`), e.g. `{ key }` for ApiKey or `{ keys: {...} }` for CustomKeys. Write-only. */
-  credentials?: unknown | undefined;
 }
+/** Authentication type of the connection target */
+export type AccessKeyAuthTypeConnectionPropertiesInputAuthType = "AccessKey";
+/** Store user metadata for this connection */
+export type AccessKeyAuthTypeConnectionPropertiesInputMetadataMap = {
+  [key: string]: string | undefined;
+};
+export type AccessKeyAuthTypeConnectionPropertiesInputSharedUserListList = Array<string>;
+export interface ConnectionAccessKey {
+  accessKeyId?: string | Redacted.Redacted<string> | undefined;
+  secretAccessKey?: string | Redacted.Redacted<string> | undefined;
+}
+/** Connection property base schema. */
+export interface AccessKeyAuthTypeConnectionPropertiesInput {
+  /** Authentication type of the connection target */
+  authType: AccessKeyAuthTypeConnectionPropertiesInputAuthType;
+  /** Category of the connection */
+  category?: ConnectionCategory | (string & {}) | undefined;
+  /** Provides the error message if the connection fails */
+  error?: string | undefined;
+  expiryTime?: string | undefined;
+  isSharedToAll?: boolean | undefined;
+  /** Store user metadata for this connection */
+  metadata?: AccessKeyAuthTypeConnectionPropertiesInputMetadataMap | undefined;
+  /** Specifies how private endpoints are used with this connection: 'Required', 'NotRequired', or 'NotApplicable'. */
+  peRequirement?: ManagedPERequirement | (string & {}) | undefined;
+  /** Specifies the status of private endpoints for this connection: 'Inactive', 'Active', or 'NotApplicable'. */
+  peStatus?: ManagedPEStatus | (string & {}) | undefined;
+  sharedUserList?: AccessKeyAuthTypeConnectionPropertiesInputSharedUserListList | undefined;
+  /** The connection URL to be used. */
+  target?: string | undefined;
+  useWorkspaceManagedIdentity?: boolean | undefined;
+  credentials?: ConnectionAccessKey | undefined;
+}
+/** Authentication type of the connection target */
+export type AccountKeyAuthTypeConnectionPropertiesInputAuthType = "AccountKey";
+/** Store user metadata for this connection */
+export type AccountKeyAuthTypeConnectionPropertiesInputMetadataMap = {
+  [key: string]: string | undefined;
+};
+export type AccountKeyAuthTypeConnectionPropertiesInputSharedUserListList = Array<string>;
+/** Account key object for connection credential. */
+export interface ConnectionAccountKey {
+  key?: string | undefined;
+}
+/** This connection type covers the account key connection for Azure storage */
+export interface AccountKeyAuthTypeConnectionPropertiesInput {
+  /** Authentication type of the connection target */
+  authType: AccountKeyAuthTypeConnectionPropertiesInputAuthType;
+  /** Category of the connection */
+  category?: ConnectionCategory | (string & {}) | undefined;
+  /** Provides the error message if the connection fails */
+  error?: string | undefined;
+  expiryTime?: string | undefined;
+  isSharedToAll?: boolean | undefined;
+  /** Store user metadata for this connection */
+  metadata?: AccountKeyAuthTypeConnectionPropertiesInputMetadataMap | undefined;
+  /** Specifies how private endpoints are used with this connection: 'Required', 'NotRequired', or 'NotApplicable'. */
+  peRequirement?: ManagedPERequirement | (string & {}) | undefined;
+  /** Specifies the status of private endpoints for this connection: 'Inactive', 'Active', or 'NotApplicable'. */
+  peStatus?: ManagedPEStatus | (string & {}) | undefined;
+  sharedUserList?: AccountKeyAuthTypeConnectionPropertiesInputSharedUserListList | undefined;
+  /** The connection URL to be used. */
+  target?: string | undefined;
+  useWorkspaceManagedIdentity?: boolean | undefined;
+  /** Account key object for connection credential. */
+  credentials?: ConnectionAccountKey | undefined;
+}
+/** Authentication type of the connection target */
+export type ApiKeyAuthConnectionPropertiesInputAuthType = "ApiKey";
+/** Store user metadata for this connection */
+export type ApiKeyAuthConnectionPropertiesInputMetadataMap = { [key: string]: string | undefined };
+export type ApiKeyAuthConnectionPropertiesInputSharedUserListList = Array<string>;
+/** Api key object for connection credential. */
+export type ConnectionApiKey = ConnectionAccountKey;
+/** This connection type covers the generic ApiKey auth connection categories, for examples: AzureOpenAI: Category:= AzureOpenAI AuthType:= ApiKey (as type discriminator) Credentials:= {ApiKey} as .ApiKey Target:= {ApiBase} CognitiveService: Category:= CognitiveService AuthType:= ApiKey (as type discriminator) Credentials:= {SubscriptionKey} as ApiKey Target:= ServiceRegion={serviceRegion} CognitiveSearch: Category:= CognitiveSearch AuthType:= ApiKey (as type discriminator) Credentials:= {Key} as ApiKey Target:= {Endpoint} Use Metadata property bag for ApiType, ApiVersion, Kind and other metadata fields */
+export interface ApiKeyAuthConnectionPropertiesInput {
+  /** Authentication type of the connection target */
+  authType: ApiKeyAuthConnectionPropertiesInputAuthType;
+  /** Category of the connection */
+  category?: ConnectionCategory | (string & {}) | undefined;
+  /** Provides the error message if the connection fails */
+  error?: string | undefined;
+  expiryTime?: string | undefined;
+  isSharedToAll?: boolean | undefined;
+  /** Store user metadata for this connection */
+  metadata?: ApiKeyAuthConnectionPropertiesInputMetadataMap | undefined;
+  /** Specifies how private endpoints are used with this connection: 'Required', 'NotRequired', or 'NotApplicable'. */
+  peRequirement?: ManagedPERequirement | (string & {}) | undefined;
+  /** Specifies the status of private endpoints for this connection: 'Inactive', 'Active', or 'NotApplicable'. */
+  peStatus?: ManagedPEStatus | (string & {}) | undefined;
+  sharedUserList?: ApiKeyAuthConnectionPropertiesInputSharedUserListList | undefined;
+  /** The connection URL to be used. */
+  target?: string | undefined;
+  useWorkspaceManagedIdentity?: boolean | undefined;
+  /** Api key object for connection credential. */
+  credentials?: ConnectionAccountKey | undefined;
+}
+/** Authentication type of the connection target */
+export type CustomKeysConnectionPropertiesInputAuthType = "CustomKeys";
+/** Store user metadata for this connection */
+export type CustomKeysConnectionPropertiesInputMetadataMap = { [key: string]: string | undefined };
+export type CustomKeysConnectionPropertiesInputSharedUserListList = Array<string>;
+/** Dictionary of <string> */
+export type CustomKeysKeysMap = { [key: string]: string | undefined };
+/** Custom Keys credential object */
+export interface CustomKeys {
+  /** Dictionary of <string> */
+  keys?: CustomKeysKeysMap | undefined;
+}
+/** Category:= CustomKeys AuthType:= CustomKeys (as type discriminator) Credentials:= {CustomKeys} as CustomKeys Target:= {any value} Use Metadata property bag for ApiVersion and other metadata fields */
+export interface CustomKeysConnectionPropertiesInput {
+  /** Authentication type of the connection target */
+  authType: CustomKeysConnectionPropertiesInputAuthType;
+  /** Category of the connection */
+  category?: ConnectionCategory | (string & {}) | undefined;
+  /** Provides the error message if the connection fails */
+  error?: string | undefined;
+  expiryTime?: string | undefined;
+  isSharedToAll?: boolean | undefined;
+  /** Store user metadata for this connection */
+  metadata?: CustomKeysConnectionPropertiesInputMetadataMap | undefined;
+  /** Specifies how private endpoints are used with this connection: 'Required', 'NotRequired', or 'NotApplicable'. */
+  peRequirement?: ManagedPERequirement | (string & {}) | undefined;
+  /** Specifies the status of private endpoints for this connection: 'Inactive', 'Active', or 'NotApplicable'. */
+  peStatus?: ManagedPEStatus | (string & {}) | undefined;
+  sharedUserList?: CustomKeysConnectionPropertiesInputSharedUserListList | undefined;
+  /** The connection URL to be used. */
+  target?: string | undefined;
+  useWorkspaceManagedIdentity?: boolean | undefined;
+  /** Custom Keys credential object */
+  credentials?: CustomKeys | undefined;
+}
+/** Authentication type of the connection target */
+export type ManagedIdentityAuthTypeConnectionPropertiesInputAuthType = "ManagedIdentity";
+/** Store user metadata for this connection */
+export type ManagedIdentityAuthTypeConnectionPropertiesInputMetadataMap = {
+  [key: string]: string | undefined;
+};
+export type ManagedIdentityAuthTypeConnectionPropertiesInputSharedUserListList = Array<string>;
+export interface ConnectionManagedIdentity {
+  clientId?: string | undefined;
+  resourceId?: string | undefined;
+}
+/** Connection property base schema. */
+export interface ManagedIdentityAuthTypeConnectionPropertiesInput {
+  /** Authentication type of the connection target */
+  authType: ManagedIdentityAuthTypeConnectionPropertiesInputAuthType;
+  /** Category of the connection */
+  category?: ConnectionCategory | (string & {}) | undefined;
+  /** Provides the error message if the connection fails */
+  error?: string | undefined;
+  expiryTime?: string | undefined;
+  isSharedToAll?: boolean | undefined;
+  /** Store user metadata for this connection */
+  metadata?: ManagedIdentityAuthTypeConnectionPropertiesInputMetadataMap | undefined;
+  /** Specifies how private endpoints are used with this connection: 'Required', 'NotRequired', or 'NotApplicable'. */
+  peRequirement?: ManagedPERequirement | (string & {}) | undefined;
+  /** Specifies the status of private endpoints for this connection: 'Inactive', 'Active', or 'NotApplicable'. */
+  peStatus?: ManagedPEStatus | (string & {}) | undefined;
+  sharedUserList?: ManagedIdentityAuthTypeConnectionPropertiesInputSharedUserListList | undefined;
+  /** The connection URL to be used. */
+  target?: string | undefined;
+  useWorkspaceManagedIdentity?: boolean | undefined;
+  credentials?: ConnectionManagedIdentity | undefined;
+}
+/** Authentication type of the connection target */
+export type NoneAuthTypeConnectionPropertiesInputAuthType = "None";
+/** Store user metadata for this connection */
+export type NoneAuthTypeConnectionPropertiesInputMetadataMap = {
+  [key: string]: string | undefined;
+};
+export type NoneAuthTypeConnectionPropertiesInputSharedUserListList = Array<string>;
+/** Connection property base schema. */
+export interface NoneAuthTypeConnectionPropertiesInput {
+  /** Authentication type of the connection target */
+  authType: NoneAuthTypeConnectionPropertiesInputAuthType;
+  /** Category of the connection */
+  category?: ConnectionCategory | (string & {}) | undefined;
+  /** Provides the error message if the connection fails */
+  error?: string | undefined;
+  expiryTime?: string | undefined;
+  isSharedToAll?: boolean | undefined;
+  /** Store user metadata for this connection */
+  metadata?: NoneAuthTypeConnectionPropertiesInputMetadataMap | undefined;
+  /** Specifies how private endpoints are used with this connection: 'Required', 'NotRequired', or 'NotApplicable'. */
+  peRequirement?: ManagedPERequirement | (string & {}) | undefined;
+  /** Specifies the status of private endpoints for this connection: 'Inactive', 'Active', or 'NotApplicable'. */
+  peStatus?: ManagedPEStatus | (string & {}) | undefined;
+  sharedUserList?: NoneAuthTypeConnectionPropertiesInputSharedUserListList | undefined;
+  /** The connection URL to be used. */
+  target?: string | undefined;
+  useWorkspaceManagedIdentity?: boolean | undefined;
+}
+/** Authentication type of the connection target */
+export type OAuth2AuthTypeConnectionPropertiesInputAuthType = "OAuth2";
+/** Store user metadata for this connection */
+export type OAuth2AuthTypeConnectionPropertiesInputMetadataMap = {
+  [key: string]: string | undefined;
+};
+export type OAuth2AuthTypeConnectionPropertiesInputSharedUserListList = Array<string>;
+/** ClientId and ClientSecret are required. Other properties are optional depending on each OAuth2 provider's implementation. */
+export interface ConnectionOAuth2 {
+  /** Required by Concur connection category */
+  authUrl?: string | undefined;
+  /** Client id in the format of UUID */
+  clientId?: string | undefined;
+  clientSecret?: string | Redacted.Redacted<string> | undefined;
+  /** Required by GoogleAdWords connection category */
+  developerToken?: string | undefined;
+  password?: string | Redacted.Redacted<string> | undefined;
+  /** Required by GoogleBigQuery, GoogleAdWords, Hubspot, QuickBooks, Square, Xero, Zoho where user needs to get RefreshToken offline */
+  refreshToken?: string | Redacted.Redacted<string> | undefined;
+  /** Required by QuickBooks and Xero connection categories */
+  tenantId?: string | undefined;
+  /** Concur, ServiceNow auth server AccessToken grant type is 'Password' which requires UsernamePassword */
+  username?: string | undefined;
+}
+/** Connection property base schema. */
+export interface OAuth2AuthTypeConnectionPropertiesInput {
+  /** Authentication type of the connection target */
+  authType: OAuth2AuthTypeConnectionPropertiesInputAuthType;
+  /** Category of the connection */
+  category?: ConnectionCategory | (string & {}) | undefined;
+  /** Provides the error message if the connection fails */
+  error?: string | undefined;
+  expiryTime?: string | undefined;
+  isSharedToAll?: boolean | undefined;
+  /** Store user metadata for this connection */
+  metadata?: OAuth2AuthTypeConnectionPropertiesInputMetadataMap | undefined;
+  /** Specifies how private endpoints are used with this connection: 'Required', 'NotRequired', or 'NotApplicable'. */
+  peRequirement?: ManagedPERequirement | (string & {}) | undefined;
+  /** Specifies the status of private endpoints for this connection: 'Inactive', 'Active', or 'NotApplicable'. */
+  peStatus?: ManagedPEStatus | (string & {}) | undefined;
+  sharedUserList?: OAuth2AuthTypeConnectionPropertiesInputSharedUserListList | undefined;
+  /** The connection URL to be used. */
+  target?: string | undefined;
+  useWorkspaceManagedIdentity?: boolean | undefined;
+  /** ClientId and ClientSecret are required. Other properties are optional depending on each OAuth2 provider's implementation. */
+  credentials?: ConnectionOAuth2 | undefined;
+}
+/** Authentication type of the connection target */
+export type PATAuthTypeConnectionPropertiesInputAuthType = "PAT";
+/** Store user metadata for this connection */
+export type PATAuthTypeConnectionPropertiesInputMetadataMap = { [key: string]: string | undefined };
+export type PATAuthTypeConnectionPropertiesInputSharedUserListList = Array<string>;
+export interface ConnectionPersonalAccessToken {
+  pat?: string | undefined;
+}
+/** Connection property base schema. */
+export interface PATAuthTypeConnectionPropertiesInput {
+  /** Authentication type of the connection target */
+  authType: PATAuthTypeConnectionPropertiesInputAuthType;
+  /** Category of the connection */
+  category?: ConnectionCategory | (string & {}) | undefined;
+  /** Provides the error message if the connection fails */
+  error?: string | undefined;
+  expiryTime?: string | undefined;
+  isSharedToAll?: boolean | undefined;
+  /** Store user metadata for this connection */
+  metadata?: PATAuthTypeConnectionPropertiesInputMetadataMap | undefined;
+  /** Specifies how private endpoints are used with this connection: 'Required', 'NotRequired', or 'NotApplicable'. */
+  peRequirement?: ManagedPERequirement | (string & {}) | undefined;
+  /** Specifies the status of private endpoints for this connection: 'Inactive', 'Active', or 'NotApplicable'. */
+  peStatus?: ManagedPEStatus | (string & {}) | undefined;
+  sharedUserList?: PATAuthTypeConnectionPropertiesInputSharedUserListList | undefined;
+  /** The connection URL to be used. */
+  target?: string | undefined;
+  useWorkspaceManagedIdentity?: boolean | undefined;
+  credentials?: ConnectionPersonalAccessToken | undefined;
+}
+/** Authentication type of the connection target */
+export type SASAuthTypeConnectionPropertiesInputAuthType = "SAS";
+/** Store user metadata for this connection */
+export type SASAuthTypeConnectionPropertiesInputMetadataMap = { [key: string]: string | undefined };
+export type SASAuthTypeConnectionPropertiesInputSharedUserListList = Array<string>;
+export interface ConnectionSharedAccessSignature {
+  sas?: string | undefined;
+}
+/** Connection property base schema. */
+export interface SASAuthTypeConnectionPropertiesInput {
+  /** Authentication type of the connection target */
+  authType: SASAuthTypeConnectionPropertiesInputAuthType;
+  /** Category of the connection */
+  category?: ConnectionCategory | (string & {}) | undefined;
+  /** Provides the error message if the connection fails */
+  error?: string | undefined;
+  expiryTime?: string | undefined;
+  isSharedToAll?: boolean | undefined;
+  /** Store user metadata for this connection */
+  metadata?: SASAuthTypeConnectionPropertiesInputMetadataMap | undefined;
+  /** Specifies how private endpoints are used with this connection: 'Required', 'NotRequired', or 'NotApplicable'. */
+  peRequirement?: ManagedPERequirement | (string & {}) | undefined;
+  /** Specifies the status of private endpoints for this connection: 'Inactive', 'Active', or 'NotApplicable'. */
+  peStatus?: ManagedPEStatus | (string & {}) | undefined;
+  sharedUserList?: SASAuthTypeConnectionPropertiesInputSharedUserListList | undefined;
+  /** The connection URL to be used. */
+  target?: string | undefined;
+  useWorkspaceManagedIdentity?: boolean | undefined;
+  credentials?: ConnectionSharedAccessSignature | undefined;
+}
+/** Authentication type of the connection target */
+export type ServicePrincipalAuthTypeConnectionPropertiesInputAuthType = "ServicePrincipal";
+/** Store user metadata for this connection */
+export type ServicePrincipalAuthTypeConnectionPropertiesInputMetadataMap = {
+  [key: string]: string | undefined;
+};
+export type ServicePrincipalAuthTypeConnectionPropertiesInputSharedUserListList = Array<string>;
+export interface ConnectionServicePrincipal {
+  clientId?: string | undefined;
+  clientSecret?: string | Redacted.Redacted<string> | undefined;
+  tenantId?: string | undefined;
+}
+/** Connection property base schema. */
+export interface ServicePrincipalAuthTypeConnectionPropertiesInput {
+  /** Authentication type of the connection target */
+  authType: ServicePrincipalAuthTypeConnectionPropertiesInputAuthType;
+  /** Category of the connection */
+  category?: ConnectionCategory | (string & {}) | undefined;
+  /** Provides the error message if the connection fails */
+  error?: string | undefined;
+  expiryTime?: string | undefined;
+  isSharedToAll?: boolean | undefined;
+  /** Store user metadata for this connection */
+  metadata?: ServicePrincipalAuthTypeConnectionPropertiesInputMetadataMap | undefined;
+  /** Specifies how private endpoints are used with this connection: 'Required', 'NotRequired', or 'NotApplicable'. */
+  peRequirement?: ManagedPERequirement | (string & {}) | undefined;
+  /** Specifies the status of private endpoints for this connection: 'Inactive', 'Active', or 'NotApplicable'. */
+  peStatus?: ManagedPEStatus | (string & {}) | undefined;
+  sharedUserList?: ServicePrincipalAuthTypeConnectionPropertiesInputSharedUserListList | undefined;
+  /** The connection URL to be used. */
+  target?: string | undefined;
+  useWorkspaceManagedIdentity?: boolean | undefined;
+  credentials?: ConnectionServicePrincipal | undefined;
+}
+/** Authentication type of the connection target */
+export type UsernamePasswordAuthTypeConnectionPropertiesInputAuthType = "UsernamePassword";
+/** Store user metadata for this connection */
+export type UsernamePasswordAuthTypeConnectionPropertiesInputMetadataMap = {
+  [key: string]: string | undefined;
+};
+export type UsernamePasswordAuthTypeConnectionPropertiesInputSharedUserListList = Array<string>;
+export interface ConnectionUsernamePassword {
+  password?: string | Redacted.Redacted<string> | undefined;
+  /** Optional, required by connections like SalesForce for extra security in addition to UsernamePassword */
+  securityToken?: string | undefined;
+  username?: string | undefined;
+}
+/** Connection property base schema. */
+export interface UsernamePasswordAuthTypeConnectionPropertiesInput {
+  /** Authentication type of the connection target */
+  authType: UsernamePasswordAuthTypeConnectionPropertiesInputAuthType;
+  /** Category of the connection */
+  category?: ConnectionCategory | (string & {}) | undefined;
+  /** Provides the error message if the connection fails */
+  error?: string | undefined;
+  expiryTime?: string | undefined;
+  isSharedToAll?: boolean | undefined;
+  /** Store user metadata for this connection */
+  metadata?: UsernamePasswordAuthTypeConnectionPropertiesInputMetadataMap | undefined;
+  /** Specifies how private endpoints are used with this connection: 'Required', 'NotRequired', or 'NotApplicable'. */
+  peRequirement?: ManagedPERequirement | (string & {}) | undefined;
+  /** Specifies the status of private endpoints for this connection: 'Inactive', 'Active', or 'NotApplicable'. */
+  peStatus?: ManagedPEStatus | (string & {}) | undefined;
+  sharedUserList?: UsernamePasswordAuthTypeConnectionPropertiesInputSharedUserListList | undefined;
+  /** The connection URL to be used. */
+  target?: string | undefined;
+  useWorkspaceManagedIdentity?: boolean | undefined;
+  credentials?: ConnectionUsernamePassword | undefined;
+}
+/** Connection property base schema. */
+export type ConnectionPropertiesV2Input =
+  | AADAuthTypeConnectionPropertiesInput
+  | AccessKeyAuthTypeConnectionPropertiesInput
+  | AccountKeyAuthTypeConnectionPropertiesInput
+  | ApiKeyAuthConnectionPropertiesInput
+  | CustomKeysConnectionPropertiesInput
+  | ManagedIdentityAuthTypeConnectionPropertiesInput
+  | NoneAuthTypeConnectionPropertiesInput
+  | OAuth2AuthTypeConnectionPropertiesInput
+  | PATAuthTypeConnectionPropertiesInput
+  | SASAuthTypeConnectionPropertiesInput
+  | ServicePrincipalAuthTypeConnectionPropertiesInput
+  | UsernamePasswordAuthTypeConnectionPropertiesInput;
 export interface CreateAccountConnectionRequest {
   /** The ID of the target subscription. */
   subscriptionId: string;
@@ -1506,6 +1959,8 @@ export interface CreateAccountConnectionRequest {
   /** Connection property base schema. */
   properties: ConnectionPropertiesV2Input;
 }
+/** Authentication type of the connection target */
+export type AADAuthTypeConnectionPropertiesAuthType = "AAD";
 /** Group based on connection category */
 export type ConnectionGroup =
   | "Azure"
@@ -1516,12 +1971,12 @@ export type ConnectionGroup =
   | "GenericProtocol"
   | "ServicesAndApps";
 /** Store user metadata for this connection */
-export type ConnectionPropertiesV2MetadataMap = { [key: string]: string | undefined };
-export type ConnectionPropertiesV2SharedUserListList = Array<string>;
+export type AADAuthTypeConnectionPropertiesMetadataMap = { [key: string]: string | undefined };
+export type AADAuthTypeConnectionPropertiesSharedUserListList = Array<string>;
 /** Connection property base schema. */
-export interface ConnectionPropertiesV2 {
+export interface AADAuthTypeConnectionProperties {
   /** Authentication type of the connection target */
-  authType: ConnectionAuthType;
+  authType: AADAuthTypeConnectionPropertiesAuthType;
   /** Category of the connection */
   category?: ConnectionCategory | undefined;
   /** A type definition that refers the id to an Azure Resource Manager resource. */
@@ -1533,16 +1988,384 @@ export interface ConnectionPropertiesV2 {
   group?: ConnectionGroup | undefined;
   isSharedToAll?: boolean | undefined;
   /** Store user metadata for this connection */
-  metadata?: ConnectionPropertiesV2MetadataMap | undefined;
+  metadata?: AADAuthTypeConnectionPropertiesMetadataMap | undefined;
   /** Specifies how private endpoints are used with this connection: 'Required', 'NotRequired', or 'NotApplicable'. */
   peRequirement?: ManagedPERequirement | undefined;
   /** Specifies the status of private endpoints for this connection: 'Inactive', 'Active', or 'NotApplicable'. */
   peStatus?: ManagedPEStatus | undefined;
-  sharedUserList?: ConnectionPropertiesV2SharedUserListList | undefined;
+  sharedUserList?: AADAuthTypeConnectionPropertiesSharedUserListList | undefined;
   /** The connection URL to be used. */
   target?: string | undefined;
   useWorkspaceManagedIdentity?: boolean | undefined;
 }
+/** Authentication type of the connection target */
+export type AccessKeyAuthTypeConnectionPropertiesAuthType = "AccessKey";
+/** Store user metadata for this connection */
+export type AccessKeyAuthTypeConnectionPropertiesMetadataMap = {
+  [key: string]: string | undefined;
+};
+export type AccessKeyAuthTypeConnectionPropertiesSharedUserListList = Array<string>;
+/** Connection property base schema. */
+export interface AccessKeyAuthTypeConnectionProperties {
+  /** Authentication type of the connection target */
+  authType: AccessKeyAuthTypeConnectionPropertiesAuthType;
+  /** Category of the connection */
+  category?: ConnectionCategory | undefined;
+  /** A type definition that refers the id to an Azure Resource Manager resource. */
+  createdByWorkspaceArmId?: string | undefined;
+  /** Provides the error message if the connection fails */
+  error?: string | undefined;
+  expiryTime?: string | undefined;
+  /** Group based on connection category */
+  group?: ConnectionGroup | undefined;
+  isSharedToAll?: boolean | undefined;
+  /** Store user metadata for this connection */
+  metadata?: AccessKeyAuthTypeConnectionPropertiesMetadataMap | undefined;
+  /** Specifies how private endpoints are used with this connection: 'Required', 'NotRequired', or 'NotApplicable'. */
+  peRequirement?: ManagedPERequirement | undefined;
+  /** Specifies the status of private endpoints for this connection: 'Inactive', 'Active', or 'NotApplicable'. */
+  peStatus?: ManagedPEStatus | undefined;
+  sharedUserList?: AccessKeyAuthTypeConnectionPropertiesSharedUserListList | undefined;
+  /** The connection URL to be used. */
+  target?: string | undefined;
+  useWorkspaceManagedIdentity?: boolean | undefined;
+  credentials?: ConnectionAccessKey | undefined;
+}
+/** Authentication type of the connection target */
+export type AccountKeyAuthTypeConnectionPropertiesAuthType = "AccountKey";
+/** Store user metadata for this connection */
+export type AccountKeyAuthTypeConnectionPropertiesMetadataMap = {
+  [key: string]: string | undefined;
+};
+export type AccountKeyAuthTypeConnectionPropertiesSharedUserListList = Array<string>;
+/** This connection type covers the account key connection for Azure storage */
+export interface AccountKeyAuthTypeConnectionProperties {
+  /** Authentication type of the connection target */
+  authType: AccountKeyAuthTypeConnectionPropertiesAuthType;
+  /** Category of the connection */
+  category?: ConnectionCategory | undefined;
+  /** A type definition that refers the id to an Azure Resource Manager resource. */
+  createdByWorkspaceArmId?: string | undefined;
+  /** Provides the error message if the connection fails */
+  error?: string | undefined;
+  expiryTime?: string | undefined;
+  /** Group based on connection category */
+  group?: ConnectionGroup | undefined;
+  isSharedToAll?: boolean | undefined;
+  /** Store user metadata for this connection */
+  metadata?: AccountKeyAuthTypeConnectionPropertiesMetadataMap | undefined;
+  /** Specifies how private endpoints are used with this connection: 'Required', 'NotRequired', or 'NotApplicable'. */
+  peRequirement?: ManagedPERequirement | undefined;
+  /** Specifies the status of private endpoints for this connection: 'Inactive', 'Active', or 'NotApplicable'. */
+  peStatus?: ManagedPEStatus | undefined;
+  sharedUserList?: AccountKeyAuthTypeConnectionPropertiesSharedUserListList | undefined;
+  /** The connection URL to be used. */
+  target?: string | undefined;
+  useWorkspaceManagedIdentity?: boolean | undefined;
+  /** Account key object for connection credential. */
+  credentials?: ConnectionAccountKey | undefined;
+}
+/** Authentication type of the connection target */
+export type ApiKeyAuthConnectionPropertiesAuthType = "ApiKey";
+/** Store user metadata for this connection */
+export type ApiKeyAuthConnectionPropertiesMetadataMap = { [key: string]: string | undefined };
+export type ApiKeyAuthConnectionPropertiesSharedUserListList = Array<string>;
+/** This connection type covers the generic ApiKey auth connection categories, for examples: AzureOpenAI: Category:= AzureOpenAI AuthType:= ApiKey (as type discriminator) Credentials:= {ApiKey} as .ApiKey Target:= {ApiBase} CognitiveService: Category:= CognitiveService AuthType:= ApiKey (as type discriminator) Credentials:= {SubscriptionKey} as ApiKey Target:= ServiceRegion={serviceRegion} CognitiveSearch: Category:= CognitiveSearch AuthType:= ApiKey (as type discriminator) Credentials:= {Key} as ApiKey Target:= {Endpoint} Use Metadata property bag for ApiType, ApiVersion, Kind and other metadata fields */
+export interface ApiKeyAuthConnectionProperties {
+  /** Authentication type of the connection target */
+  authType: ApiKeyAuthConnectionPropertiesAuthType;
+  /** Category of the connection */
+  category?: ConnectionCategory | undefined;
+  /** A type definition that refers the id to an Azure Resource Manager resource. */
+  createdByWorkspaceArmId?: string | undefined;
+  /** Provides the error message if the connection fails */
+  error?: string | undefined;
+  expiryTime?: string | undefined;
+  /** Group based on connection category */
+  group?: ConnectionGroup | undefined;
+  isSharedToAll?: boolean | undefined;
+  /** Store user metadata for this connection */
+  metadata?: ApiKeyAuthConnectionPropertiesMetadataMap | undefined;
+  /** Specifies how private endpoints are used with this connection: 'Required', 'NotRequired', or 'NotApplicable'. */
+  peRequirement?: ManagedPERequirement | undefined;
+  /** Specifies the status of private endpoints for this connection: 'Inactive', 'Active', or 'NotApplicable'. */
+  peStatus?: ManagedPEStatus | undefined;
+  sharedUserList?: ApiKeyAuthConnectionPropertiesSharedUserListList | undefined;
+  /** The connection URL to be used. */
+  target?: string | undefined;
+  useWorkspaceManagedIdentity?: boolean | undefined;
+  /** Api key object for connection credential. */
+  credentials?: ConnectionAccountKey | undefined;
+}
+/** Authentication type of the connection target */
+export type CustomKeysConnectionPropertiesAuthType = "CustomKeys";
+/** Store user metadata for this connection */
+export type CustomKeysConnectionPropertiesMetadataMap = { [key: string]: string | undefined };
+export type CustomKeysConnectionPropertiesSharedUserListList = Array<string>;
+/** Category:= CustomKeys AuthType:= CustomKeys (as type discriminator) Credentials:= {CustomKeys} as CustomKeys Target:= {any value} Use Metadata property bag for ApiVersion and other metadata fields */
+export interface CustomKeysConnectionProperties {
+  /** Authentication type of the connection target */
+  authType: CustomKeysConnectionPropertiesAuthType;
+  /** Category of the connection */
+  category?: ConnectionCategory | undefined;
+  /** A type definition that refers the id to an Azure Resource Manager resource. */
+  createdByWorkspaceArmId?: string | undefined;
+  /** Provides the error message if the connection fails */
+  error?: string | undefined;
+  expiryTime?: string | undefined;
+  /** Group based on connection category */
+  group?: ConnectionGroup | undefined;
+  isSharedToAll?: boolean | undefined;
+  /** Store user metadata for this connection */
+  metadata?: CustomKeysConnectionPropertiesMetadataMap | undefined;
+  /** Specifies how private endpoints are used with this connection: 'Required', 'NotRequired', or 'NotApplicable'. */
+  peRequirement?: ManagedPERequirement | undefined;
+  /** Specifies the status of private endpoints for this connection: 'Inactive', 'Active', or 'NotApplicable'. */
+  peStatus?: ManagedPEStatus | undefined;
+  sharedUserList?: CustomKeysConnectionPropertiesSharedUserListList | undefined;
+  /** The connection URL to be used. */
+  target?: string | undefined;
+  useWorkspaceManagedIdentity?: boolean | undefined;
+  /** Custom Keys credential object */
+  credentials?: CustomKeys | undefined;
+}
+/** Authentication type of the connection target */
+export type ManagedIdentityAuthTypeConnectionPropertiesAuthType = "ManagedIdentity";
+/** Store user metadata for this connection */
+export type ManagedIdentityAuthTypeConnectionPropertiesMetadataMap = {
+  [key: string]: string | undefined;
+};
+export type ManagedIdentityAuthTypeConnectionPropertiesSharedUserListList = Array<string>;
+/** Connection property base schema. */
+export interface ManagedIdentityAuthTypeConnectionProperties {
+  /** Authentication type of the connection target */
+  authType: ManagedIdentityAuthTypeConnectionPropertiesAuthType;
+  /** Category of the connection */
+  category?: ConnectionCategory | undefined;
+  /** A type definition that refers the id to an Azure Resource Manager resource. */
+  createdByWorkspaceArmId?: string | undefined;
+  /** Provides the error message if the connection fails */
+  error?: string | undefined;
+  expiryTime?: string | undefined;
+  /** Group based on connection category */
+  group?: ConnectionGroup | undefined;
+  isSharedToAll?: boolean | undefined;
+  /** Store user metadata for this connection */
+  metadata?: ManagedIdentityAuthTypeConnectionPropertiesMetadataMap | undefined;
+  /** Specifies how private endpoints are used with this connection: 'Required', 'NotRequired', or 'NotApplicable'. */
+  peRequirement?: ManagedPERequirement | undefined;
+  /** Specifies the status of private endpoints for this connection: 'Inactive', 'Active', or 'NotApplicable'. */
+  peStatus?: ManagedPEStatus | undefined;
+  sharedUserList?: ManagedIdentityAuthTypeConnectionPropertiesSharedUserListList | undefined;
+  /** The connection URL to be used. */
+  target?: string | undefined;
+  useWorkspaceManagedIdentity?: boolean | undefined;
+  credentials?: ConnectionManagedIdentity | undefined;
+}
+/** Authentication type of the connection target */
+export type NoneAuthTypeConnectionPropertiesAuthType = "None";
+/** Store user metadata for this connection */
+export type NoneAuthTypeConnectionPropertiesMetadataMap = { [key: string]: string | undefined };
+export type NoneAuthTypeConnectionPropertiesSharedUserListList = Array<string>;
+/** Connection property base schema. */
+export interface NoneAuthTypeConnectionProperties {
+  /** Authentication type of the connection target */
+  authType: NoneAuthTypeConnectionPropertiesAuthType;
+  /** Category of the connection */
+  category?: ConnectionCategory | undefined;
+  /** A type definition that refers the id to an Azure Resource Manager resource. */
+  createdByWorkspaceArmId?: string | undefined;
+  /** Provides the error message if the connection fails */
+  error?: string | undefined;
+  expiryTime?: string | undefined;
+  /** Group based on connection category */
+  group?: ConnectionGroup | undefined;
+  isSharedToAll?: boolean | undefined;
+  /** Store user metadata for this connection */
+  metadata?: NoneAuthTypeConnectionPropertiesMetadataMap | undefined;
+  /** Specifies how private endpoints are used with this connection: 'Required', 'NotRequired', or 'NotApplicable'. */
+  peRequirement?: ManagedPERequirement | undefined;
+  /** Specifies the status of private endpoints for this connection: 'Inactive', 'Active', or 'NotApplicable'. */
+  peStatus?: ManagedPEStatus | undefined;
+  sharedUserList?: NoneAuthTypeConnectionPropertiesSharedUserListList | undefined;
+  /** The connection URL to be used. */
+  target?: string | undefined;
+  useWorkspaceManagedIdentity?: boolean | undefined;
+}
+/** Authentication type of the connection target */
+export type OAuth2AuthTypeConnectionPropertiesAuthType = "OAuth2";
+/** Store user metadata for this connection */
+export type OAuth2AuthTypeConnectionPropertiesMetadataMap = { [key: string]: string | undefined };
+export type OAuth2AuthTypeConnectionPropertiesSharedUserListList = Array<string>;
+/** Connection property base schema. */
+export interface OAuth2AuthTypeConnectionProperties {
+  /** Authentication type of the connection target */
+  authType: OAuth2AuthTypeConnectionPropertiesAuthType;
+  /** Category of the connection */
+  category?: ConnectionCategory | undefined;
+  /** A type definition that refers the id to an Azure Resource Manager resource. */
+  createdByWorkspaceArmId?: string | undefined;
+  /** Provides the error message if the connection fails */
+  error?: string | undefined;
+  expiryTime?: string | undefined;
+  /** Group based on connection category */
+  group?: ConnectionGroup | undefined;
+  isSharedToAll?: boolean | undefined;
+  /** Store user metadata for this connection */
+  metadata?: OAuth2AuthTypeConnectionPropertiesMetadataMap | undefined;
+  /** Specifies how private endpoints are used with this connection: 'Required', 'NotRequired', or 'NotApplicable'. */
+  peRequirement?: ManagedPERequirement | undefined;
+  /** Specifies the status of private endpoints for this connection: 'Inactive', 'Active', or 'NotApplicable'. */
+  peStatus?: ManagedPEStatus | undefined;
+  sharedUserList?: OAuth2AuthTypeConnectionPropertiesSharedUserListList | undefined;
+  /** The connection URL to be used. */
+  target?: string | undefined;
+  useWorkspaceManagedIdentity?: boolean | undefined;
+  /** ClientId and ClientSecret are required. Other properties are optional depending on each OAuth2 provider's implementation. */
+  credentials?: ConnectionOAuth2 | undefined;
+}
+/** Authentication type of the connection target */
+export type PATAuthTypeConnectionPropertiesAuthType = "PAT";
+/** Store user metadata for this connection */
+export type PATAuthTypeConnectionPropertiesMetadataMap = { [key: string]: string | undefined };
+export type PATAuthTypeConnectionPropertiesSharedUserListList = Array<string>;
+/** Connection property base schema. */
+export interface PATAuthTypeConnectionProperties {
+  /** Authentication type of the connection target */
+  authType: PATAuthTypeConnectionPropertiesAuthType;
+  /** Category of the connection */
+  category?: ConnectionCategory | undefined;
+  /** A type definition that refers the id to an Azure Resource Manager resource. */
+  createdByWorkspaceArmId?: string | undefined;
+  /** Provides the error message if the connection fails */
+  error?: string | undefined;
+  expiryTime?: string | undefined;
+  /** Group based on connection category */
+  group?: ConnectionGroup | undefined;
+  isSharedToAll?: boolean | undefined;
+  /** Store user metadata for this connection */
+  metadata?: PATAuthTypeConnectionPropertiesMetadataMap | undefined;
+  /** Specifies how private endpoints are used with this connection: 'Required', 'NotRequired', or 'NotApplicable'. */
+  peRequirement?: ManagedPERequirement | undefined;
+  /** Specifies the status of private endpoints for this connection: 'Inactive', 'Active', or 'NotApplicable'. */
+  peStatus?: ManagedPEStatus | undefined;
+  sharedUserList?: PATAuthTypeConnectionPropertiesSharedUserListList | undefined;
+  /** The connection URL to be used. */
+  target?: string | undefined;
+  useWorkspaceManagedIdentity?: boolean | undefined;
+  credentials?: ConnectionPersonalAccessToken | undefined;
+}
+/** Authentication type of the connection target */
+export type SASAuthTypeConnectionPropertiesAuthType = "SAS";
+/** Store user metadata for this connection */
+export type SASAuthTypeConnectionPropertiesMetadataMap = { [key: string]: string | undefined };
+export type SASAuthTypeConnectionPropertiesSharedUserListList = Array<string>;
+/** Connection property base schema. */
+export interface SASAuthTypeConnectionProperties {
+  /** Authentication type of the connection target */
+  authType: SASAuthTypeConnectionPropertiesAuthType;
+  /** Category of the connection */
+  category?: ConnectionCategory | undefined;
+  /** A type definition that refers the id to an Azure Resource Manager resource. */
+  createdByWorkspaceArmId?: string | undefined;
+  /** Provides the error message if the connection fails */
+  error?: string | undefined;
+  expiryTime?: string | undefined;
+  /** Group based on connection category */
+  group?: ConnectionGroup | undefined;
+  isSharedToAll?: boolean | undefined;
+  /** Store user metadata for this connection */
+  metadata?: SASAuthTypeConnectionPropertiesMetadataMap | undefined;
+  /** Specifies how private endpoints are used with this connection: 'Required', 'NotRequired', or 'NotApplicable'. */
+  peRequirement?: ManagedPERequirement | undefined;
+  /** Specifies the status of private endpoints for this connection: 'Inactive', 'Active', or 'NotApplicable'. */
+  peStatus?: ManagedPEStatus | undefined;
+  sharedUserList?: SASAuthTypeConnectionPropertiesSharedUserListList | undefined;
+  /** The connection URL to be used. */
+  target?: string | undefined;
+  useWorkspaceManagedIdentity?: boolean | undefined;
+  credentials?: ConnectionSharedAccessSignature | undefined;
+}
+/** Authentication type of the connection target */
+export type ServicePrincipalAuthTypeConnectionPropertiesAuthType = "ServicePrincipal";
+/** Store user metadata for this connection */
+export type ServicePrincipalAuthTypeConnectionPropertiesMetadataMap = {
+  [key: string]: string | undefined;
+};
+export type ServicePrincipalAuthTypeConnectionPropertiesSharedUserListList = Array<string>;
+/** Connection property base schema. */
+export interface ServicePrincipalAuthTypeConnectionProperties {
+  /** Authentication type of the connection target */
+  authType: ServicePrincipalAuthTypeConnectionPropertiesAuthType;
+  /** Category of the connection */
+  category?: ConnectionCategory | undefined;
+  /** A type definition that refers the id to an Azure Resource Manager resource. */
+  createdByWorkspaceArmId?: string | undefined;
+  /** Provides the error message if the connection fails */
+  error?: string | undefined;
+  expiryTime?: string | undefined;
+  /** Group based on connection category */
+  group?: ConnectionGroup | undefined;
+  isSharedToAll?: boolean | undefined;
+  /** Store user metadata for this connection */
+  metadata?: ServicePrincipalAuthTypeConnectionPropertiesMetadataMap | undefined;
+  /** Specifies how private endpoints are used with this connection: 'Required', 'NotRequired', or 'NotApplicable'. */
+  peRequirement?: ManagedPERequirement | undefined;
+  /** Specifies the status of private endpoints for this connection: 'Inactive', 'Active', or 'NotApplicable'. */
+  peStatus?: ManagedPEStatus | undefined;
+  sharedUserList?: ServicePrincipalAuthTypeConnectionPropertiesSharedUserListList | undefined;
+  /** The connection URL to be used. */
+  target?: string | undefined;
+  useWorkspaceManagedIdentity?: boolean | undefined;
+  credentials?: ConnectionServicePrincipal | undefined;
+}
+/** Authentication type of the connection target */
+export type UsernamePasswordAuthTypeConnectionPropertiesAuthType = "UsernamePassword";
+/** Store user metadata for this connection */
+export type UsernamePasswordAuthTypeConnectionPropertiesMetadataMap = {
+  [key: string]: string | undefined;
+};
+export type UsernamePasswordAuthTypeConnectionPropertiesSharedUserListList = Array<string>;
+/** Connection property base schema. */
+export interface UsernamePasswordAuthTypeConnectionProperties {
+  /** Authentication type of the connection target */
+  authType: UsernamePasswordAuthTypeConnectionPropertiesAuthType;
+  /** Category of the connection */
+  category?: ConnectionCategory | undefined;
+  /** A type definition that refers the id to an Azure Resource Manager resource. */
+  createdByWorkspaceArmId?: string | undefined;
+  /** Provides the error message if the connection fails */
+  error?: string | undefined;
+  expiryTime?: string | undefined;
+  /** Group based on connection category */
+  group?: ConnectionGroup | undefined;
+  isSharedToAll?: boolean | undefined;
+  /** Store user metadata for this connection */
+  metadata?: UsernamePasswordAuthTypeConnectionPropertiesMetadataMap | undefined;
+  /** Specifies how private endpoints are used with this connection: 'Required', 'NotRequired', or 'NotApplicable'. */
+  peRequirement?: ManagedPERequirement | undefined;
+  /** Specifies the status of private endpoints for this connection: 'Inactive', 'Active', or 'NotApplicable'. */
+  peStatus?: ManagedPEStatus | undefined;
+  sharedUserList?: UsernamePasswordAuthTypeConnectionPropertiesSharedUserListList | undefined;
+  /** The connection URL to be used. */
+  target?: string | undefined;
+  useWorkspaceManagedIdentity?: boolean | undefined;
+  credentials?: ConnectionUsernamePassword | undefined;
+}
+/** Connection property base schema. */
+export type ConnectionPropertiesV2 =
+  | AADAuthTypeConnectionProperties
+  | AccessKeyAuthTypeConnectionProperties
+  | AccountKeyAuthTypeConnectionProperties
+  | ApiKeyAuthConnectionProperties
+  | CustomKeysConnectionProperties
+  | ManagedIdentityAuthTypeConnectionProperties
+  | NoneAuthTypeConnectionProperties
+  | OAuth2AuthTypeConnectionProperties
+  | PATAuthTypeConnectionProperties
+  | SASAuthTypeConnectionProperties
+  | ServicePrincipalAuthTypeConnectionProperties
+  | UsernamePasswordAuthTypeConnectionProperties;
 export interface CreateAccountConnectionResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
   id?: string | undefined;
@@ -2687,22 +3510,85 @@ export type RuleCategory = "Required" | "Recommended" | "UserDefined" | "Depende
 /** Type of a managed network Outbound Rule of a cognitive services account. */
 export type RuleStatus = "Inactive" | "Active" | "Provisioning" | "Deleting" | "Failed";
 /** Type of a managed network Outbound Rule of a cognitive services account. */
-export type RuleType = "FQDN" | "PrivateEndpoint" | "ServiceTag";
-export type OutboundRuleParentRuleNamesList = Array<string>;
-/** Outbound Rule for the managed network of a cognitive services account. */
-export interface OutboundRule {
+export type FqdnOutboundRuleType = "FQDN";
+export type FqdnOutboundRuleParentRuleNamesList = Array<string>;
+/** FQDN Outbound Rule for the managed network of a cognitive services account. */
+export interface FqdnOutboundRule {
   /** Category of a managed network Outbound Rule of a cognitive services account. */
   category?: RuleCategory | undefined;
   /** Type of a managed network Outbound Rule of a cognitive services account. */
   status?: RuleStatus | undefined;
   /** Type of a managed network Outbound Rule of a cognitive services account. */
-  type: RuleType;
+  type: FqdnOutboundRuleType;
   /** Error information about an outbound rule of a cognitive services account if RuleStatus is failed. */
   errorInformation?: string | undefined;
-  parentRuleNames?: OutboundRuleParentRuleNamesList | undefined;
-  /** Rule destination (polymorphic on `type`). */
-  destination?: unknown | undefined;
+  parentRuleNames?: FqdnOutboundRuleParentRuleNamesList | undefined;
+  destination?: string | undefined;
 }
+/** Type of a managed network Outbound Rule of a cognitive services account. */
+export type PrivateEndpointOutboundRuleType = "PrivateEndpoint";
+export type PrivateEndpointOutboundRuleParentRuleNamesList = Array<string>;
+/** Private Endpoint destination for an outbound rule. */
+export interface PrivateEndpointOutboundRuleDestination {
+  /** The Azure resource ID of the target private endpoint service. */
+  serviceResourceId?: string | undefined;
+  /** The subresource of the target service to connect to. */
+  subresourceTarget?: string | undefined;
+}
+/** List of FQDNs associated with the private endpoint outbound rule. */
+export type PrivateEndpointOutboundRuleFqdnsList = Array<string>;
+/** Private Endpoint outbound rule for the managed network of a cognitive services account. */
+export interface PrivateEndpointOutboundRule {
+  /** Category of a managed network Outbound Rule of a cognitive services account. */
+  category?: RuleCategory | undefined;
+  /** Type of a managed network Outbound Rule of a cognitive services account. */
+  status?: RuleStatus | undefined;
+  /** Type of a managed network Outbound Rule of a cognitive services account. */
+  type: PrivateEndpointOutboundRuleType;
+  /** Error information about an outbound rule of a cognitive services account if RuleStatus is failed. */
+  errorInformation?: string | undefined;
+  parentRuleNames?: PrivateEndpointOutboundRuleParentRuleNamesList | undefined;
+  /** Private Endpoint destination. */
+  destination?: PrivateEndpointOutboundRuleDestination | undefined;
+  /** List of FQDNs associated with the private endpoint outbound rule. */
+  fqdns?: PrivateEndpointOutboundRuleFqdnsList | undefined;
+}
+/** Type of a managed network Outbound Rule of a cognitive services account. */
+export type ServiceTagOutboundRuleType = "ServiceTag";
+export type ServiceTagOutboundRuleParentRuleNamesList = Array<string>;
+/** The action enum for a managed network outbound rule. */
+export type RuleAction = "Allow" | "Deny";
+/** Optional address prefixes. If provided, the serviceTag property will be ignored. */
+export type ServiceTagOutboundRuleDestinationAddressPrefixesList = Array<string>;
+/** Service Tag destination for an outbound rule. */
+export interface ServiceTagOutboundRuleDestination {
+  /** Name of the Azure service tag to target. */
+  serviceTag?: string | undefined;
+  /** Network protocol used by the service tag rule. */
+  protocol?: string | undefined;
+  /** Destination port ranges. */
+  portRanges?: string | undefined;
+  /** The action for the service tag outbound rule. */
+  action?: RuleAction | (string & {}) | undefined;
+  /** Optional address prefixes. If provided, the serviceTag property will be ignored. */
+  addressPrefixes?: ServiceTagOutboundRuleDestinationAddressPrefixesList | undefined;
+}
+/** Service Tag outbound rule for the managed network of a cognitive services account. */
+export interface ServiceTagOutboundRule {
+  /** Category of a managed network Outbound Rule of a cognitive services account. */
+  category?: RuleCategory | undefined;
+  /** Type of a managed network Outbound Rule of a cognitive services account. */
+  status?: RuleStatus | undefined;
+  /** Type of a managed network Outbound Rule of a cognitive services account. */
+  type: ServiceTagOutboundRuleType;
+  /** Error information about an outbound rule of a cognitive services account if RuleStatus is failed. */
+  errorInformation?: string | undefined;
+  parentRuleNames?: ServiceTagOutboundRuleParentRuleNamesList | undefined;
+  /** Service Tag destination. */
+  destination?: ServiceTagOutboundRuleDestination | undefined;
+}
+/** Outbound Rule for the managed network of a cognitive services account. */
+export type OutboundRule = FqdnOutboundRule | PrivateEndpointOutboundRule | ServiceTagOutboundRule;
 /** Dictionary of <OutboundRule> */
 export type ManagedNetworkSettingsExOutboundRulesMap = { [key: string]: OutboundRule | undefined };
 /** Status for the managed network of a cognitive services account. */
@@ -5048,17 +5934,53 @@ export interface NetworkSecurityPerimeterConfigurationsReconcileResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
   location?: string | undefined;
 }
-/** Outbound Rule for the managed network of a cognitive services account. */
-export interface OutboundRuleInput {
+/** Type of a managed network Outbound Rule of a cognitive services account. */
+export type FqdnOutboundRuleInputType = "FQDN";
+/** FQDN Outbound Rule for the managed network of a cognitive services account. */
+export interface FqdnOutboundRuleInput {
   /** Category of a managed network Outbound Rule of a cognitive services account. */
   category?: RuleCategory | (string & {}) | undefined;
   /** Type of a managed network Outbound Rule of a cognitive services account. */
   status?: RuleStatus | (string & {}) | undefined;
   /** Type of a managed network Outbound Rule of a cognitive services account. */
-  type: RuleType | (string & {});
-  /** Rule destination (polymorphic on `type`): an FQDN string, a `{ serviceResourceId, subresourceTarget }` private endpoint target, or a `{ serviceTag, protocol, portRanges, action }` service tag. */
-  destination?: unknown | undefined;
+  type: FqdnOutboundRuleInputType;
+  destination?: string | undefined;
 }
+/** Type of a managed network Outbound Rule of a cognitive services account. */
+export type PrivateEndpointOutboundRuleInputType = "PrivateEndpoint";
+/** List of FQDNs associated with the private endpoint outbound rule. */
+export type PrivateEndpointOutboundRuleInputFqdnsList = Array<string>;
+/** Private Endpoint outbound rule for the managed network of a cognitive services account. */
+export interface PrivateEndpointOutboundRuleInput {
+  /** Category of a managed network Outbound Rule of a cognitive services account. */
+  category?: RuleCategory | (string & {}) | undefined;
+  /** Type of a managed network Outbound Rule of a cognitive services account. */
+  status?: RuleStatus | (string & {}) | undefined;
+  /** Type of a managed network Outbound Rule of a cognitive services account. */
+  type: PrivateEndpointOutboundRuleInputType;
+  /** Private Endpoint destination. */
+  destination?: PrivateEndpointOutboundRuleDestination | undefined;
+  /** List of FQDNs associated with the private endpoint outbound rule. */
+  fqdns?: PrivateEndpointOutboundRuleInputFqdnsList | undefined;
+}
+/** Type of a managed network Outbound Rule of a cognitive services account. */
+export type ServiceTagOutboundRuleInputType = "ServiceTag";
+/** Service Tag outbound rule for the managed network of a cognitive services account. */
+export interface ServiceTagOutboundRuleInput {
+  /** Category of a managed network Outbound Rule of a cognitive services account. */
+  category?: RuleCategory | (string & {}) | undefined;
+  /** Type of a managed network Outbound Rule of a cognitive services account. */
+  status?: RuleStatus | (string & {}) | undefined;
+  /** Type of a managed network Outbound Rule of a cognitive services account. */
+  type: ServiceTagOutboundRuleInputType;
+  /** Service Tag destination. */
+  destination?: ServiceTagOutboundRuleDestination | undefined;
+}
+/** Outbound Rule for the managed network of a cognitive services account. */
+export type OutboundRuleInput =
+  | FqdnOutboundRuleInput
+  | PrivateEndpointOutboundRuleInput
+  | ServiceTagOutboundRuleInput;
 export interface OutboundRuleCreateOrUpdateRequest {
   /** The ID of the target subscription. */
   subscriptionId: string;
@@ -6106,8 +7028,8 @@ export const AgentDeploymentsCreateOrUpdate: API.OperationMethod<
   AgentDeploymentsCreateOrUpdateError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3169, __c99, 1) as any as S.Schema<AgentDeploymentsCreateOrUpdateRequest>,
-  output: __S(3170, __c99, 2) as any as S.Schema<AgentDeploymentsCreateOrUpdateResponse>,
+  input: __S(3171, __c99, 3) as any as S.Schema<AgentDeploymentsCreateOrUpdateRequest>,
+  output: __S(3172, __c99, 4) as any as S.Schema<AgentDeploymentsCreateOrUpdateResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -6243,7 +7165,7 @@ export const CreateAccountConnection: API.OperationMethod<
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(960, __c30, 0) as any as S.Schema<CreateAccountConnectionRequest>,
-  output: __S(1025, __c32, 1) as any as S.Schema<CreateAccountConnectionResponse>,
+  output: __S(1044, __c32, 20) as any as S.Schema<CreateAccountConnectionResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -6277,7 +7199,7 @@ export const CreateProjectConnection: API.OperationMethod<
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1952, __c61, 0) as any as S.Schema<CreateProjectConnectionRequest>,
-  output: __S(1025, __c32, 1) as any as S.Schema<CreateProjectConnectionResponse>,
+  output: __S(1044, __c32, 20) as any as S.Schema<CreateProjectConnectionResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -6821,7 +7743,7 @@ export const GetAccountConnection: API.OperationMethod<
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3904, __c122, 0) as any as S.Schema<GetAccountConnectionRequest>,
-  output: __S(1025, __c32, 1) as any as S.Schema<GetAccountConnectionResponse>,
+  output: __S(1044, __c32, 20) as any as S.Schema<GetAccountConnectionResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -7093,7 +8015,7 @@ export const GetProjectConnection: API.OperationMethod<
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4928, __c154, 0) as any as S.Schema<GetProjectConnectionRequest>,
-  output: __S(1025, __c32, 1) as any as S.Schema<GetProjectConnectionResponse>,
+  output: __S(1044, __c32, 20) as any as S.Schema<GetProjectConnectionResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -8430,7 +9352,7 @@ export const UpdateAccountConnection: API.OperationMethod<
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2240, __c70, 0) as any as S.Schema<UpdateAccountConnectionRequest>,
-  output: __S(1025, __c32, 1) as any as S.Schema<UpdateAccountConnectionResponse>,
+  output: __S(1044, __c32, 20) as any as S.Schema<UpdateAccountConnectionResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -8515,7 +9437,7 @@ export const UpdateProjectConnection: API.OperationMethod<
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2464, __c77, 0) as any as S.Schema<UpdateProjectConnectionRequest>,
-  output: __S(1025, __c32, 1) as any as S.Schema<UpdateProjectConnectionResponse>,
+  output: __S(1044, __c32, 20) as any as S.Schema<UpdateProjectConnectionResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -9385,7 +10307,7 @@ function __c30(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           accountName: S.String.pipe(T.Label()),
           connectionName: S.String.pipe(T.Label()),
-          properties: __S(992, __c31, 0),
+          properties: __S(1002, __c31, 10),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -9413,14 +10335,248 @@ function __c31(j: number): any {
           sharedUserList: S.optional(__S(128, __c4, 0)),
           target: S.optional(S.String),
           useWorkspaceManagedIdentity: S.optional(S.Boolean),
-          credentials: S.optional(S.Unknown),
         }),
-      ).annotate({ identifier: "ConnectionPropertiesV2Input" });
+      ).annotate({ identifier: "AADAuthTypeConnectionPropertiesInput" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          authType: S.String,
+          category: S.optional(S.String),
+          error: S.optional(S.String),
+          expiryTime: S.optional(S.String),
+          isSharedToAll: S.optional(S.Boolean),
+          metadata: S.optional(__S(64, __c2, 0)),
+          peRequirement: S.optional(S.String),
+          peStatus: S.optional(S.String),
+          sharedUserList: S.optional(__S(128, __c4, 0)),
+          target: S.optional(S.String),
+          useWorkspaceManagedIdentity: S.optional(S.Boolean),
+          credentials: S.optional(__S(1024, __c32, 0)),
+        }),
+      ).annotate({ identifier: "AccessKeyAuthTypeConnectionPropertiesInput" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          authType: S.String,
+          category: S.optional(S.String),
+          error: S.optional(S.String),
+          expiryTime: S.optional(S.String),
+          isSharedToAll: S.optional(S.Boolean),
+          metadata: S.optional(__S(64, __c2, 0)),
+          peRequirement: S.optional(S.String),
+          peStatus: S.optional(S.String),
+          sharedUserList: S.optional(__S(128, __c4, 0)),
+          target: S.optional(S.String),
+          useWorkspaceManagedIdentity: S.optional(S.Boolean),
+          credentials: S.optional(__S(1025, __c32, 1)),
+        }),
+      ).annotate({ identifier: "AccountKeyAuthTypeConnectionPropertiesInput" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          authType: S.String,
+          category: S.optional(S.String),
+          error: S.optional(S.String),
+          expiryTime: S.optional(S.String),
+          isSharedToAll: S.optional(S.Boolean),
+          metadata: S.optional(__S(64, __c2, 0)),
+          peRequirement: S.optional(S.String),
+          peStatus: S.optional(S.String),
+          sharedUserList: S.optional(__S(128, __c4, 0)),
+          target: S.optional(S.String),
+          useWorkspaceManagedIdentity: S.optional(S.Boolean),
+          credentials: S.optional(__S(1026, __c32, 2)),
+        }),
+      ).annotate({ identifier: "CustomKeysConnectionPropertiesInput" });
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          authType: S.String,
+          category: S.optional(S.String),
+          error: S.optional(S.String),
+          expiryTime: S.optional(S.String),
+          isSharedToAll: S.optional(S.Boolean),
+          metadata: S.optional(__S(64, __c2, 0)),
+          peRequirement: S.optional(S.String),
+          peStatus: S.optional(S.String),
+          sharedUserList: S.optional(__S(128, __c4, 0)),
+          target: S.optional(S.String),
+          useWorkspaceManagedIdentity: S.optional(S.Boolean),
+          credentials: S.optional(__S(1027, __c32, 3)),
+        }),
+      ).annotate({ identifier: "ManagedIdentityAuthTypeConnectionPropertiesInput" });
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          authType: S.String,
+          category: S.optional(S.String),
+          error: S.optional(S.String),
+          expiryTime: S.optional(S.String),
+          isSharedToAll: S.optional(S.Boolean),
+          metadata: S.optional(__S(64, __c2, 0)),
+          peRequirement: S.optional(S.String),
+          peStatus: S.optional(S.String),
+          sharedUserList: S.optional(__S(128, __c4, 0)),
+          target: S.optional(S.String),
+          useWorkspaceManagedIdentity: S.optional(S.Boolean),
+          credentials: S.optional(__S(1028, __c32, 4)),
+        }),
+      ).annotate({ identifier: "OAuth2AuthTypeConnectionPropertiesInput" });
+    case 6:
+      return S.suspend(() =>
+        S.Struct({
+          authType: S.String,
+          category: S.optional(S.String),
+          error: S.optional(S.String),
+          expiryTime: S.optional(S.String),
+          isSharedToAll: S.optional(S.Boolean),
+          metadata: S.optional(__S(64, __c2, 0)),
+          peRequirement: S.optional(S.String),
+          peStatus: S.optional(S.String),
+          sharedUserList: S.optional(__S(128, __c4, 0)),
+          target: S.optional(S.String),
+          useWorkspaceManagedIdentity: S.optional(S.Boolean),
+          credentials: S.optional(__S(1029, __c32, 5)),
+        }),
+      ).annotate({ identifier: "PATAuthTypeConnectionPropertiesInput" });
+    case 7:
+      return S.suspend(() =>
+        S.Struct({
+          authType: S.String,
+          category: S.optional(S.String),
+          error: S.optional(S.String),
+          expiryTime: S.optional(S.String),
+          isSharedToAll: S.optional(S.Boolean),
+          metadata: S.optional(__S(64, __c2, 0)),
+          peRequirement: S.optional(S.String),
+          peStatus: S.optional(S.String),
+          sharedUserList: S.optional(__S(128, __c4, 0)),
+          target: S.optional(S.String),
+          useWorkspaceManagedIdentity: S.optional(S.Boolean),
+          credentials: S.optional(__S(1030, __c32, 6)),
+        }),
+      ).annotate({ identifier: "SASAuthTypeConnectionPropertiesInput" });
+    case 8:
+      return S.suspend(() =>
+        S.Struct({
+          authType: S.String,
+          category: S.optional(S.String),
+          error: S.optional(S.String),
+          expiryTime: S.optional(S.String),
+          isSharedToAll: S.optional(S.Boolean),
+          metadata: S.optional(__S(64, __c2, 0)),
+          peRequirement: S.optional(S.String),
+          peStatus: S.optional(S.String),
+          sharedUserList: S.optional(__S(128, __c4, 0)),
+          target: S.optional(S.String),
+          useWorkspaceManagedIdentity: S.optional(S.Boolean),
+          credentials: S.optional(__S(1031, __c32, 7)),
+        }),
+      ).annotate({ identifier: "ServicePrincipalAuthTypeConnectionPropertiesInput" });
+    case 9:
+      return S.suspend(() =>
+        S.Struct({
+          authType: S.String,
+          category: S.optional(S.String),
+          error: S.optional(S.String),
+          expiryTime: S.optional(S.String),
+          isSharedToAll: S.optional(S.Boolean),
+          metadata: S.optional(__S(64, __c2, 0)),
+          peRequirement: S.optional(S.String),
+          peStatus: S.optional(S.String),
+          sharedUserList: S.optional(__S(128, __c4, 0)),
+          target: S.optional(S.String),
+          useWorkspaceManagedIdentity: S.optional(S.Boolean),
+          credentials: S.optional(__S(1032, __c32, 8)),
+        }),
+      ).annotate({ identifier: "UsernamePasswordAuthTypeConnectionPropertiesInput" });
+    case 10:
+      return S.Union([
+        __S(992, __c31, 0),
+        __S(993, __c31, 1),
+        __S(994, __c31, 2),
+        __S(994, __c31, 2),
+        __S(995, __c31, 3),
+        __S(996, __c31, 4),
+        __S(992, __c31, 0),
+        __S(997, __c31, 5),
+        __S(998, __c31, 6),
+        __S(999, __c31, 7),
+        __S(1000, __c31, 8),
+        __S(1001, __c31, 9),
+      ]);
   }
 }
 function __c32(j: number): any {
   switch (j) {
     case 0:
+      return S.suspend(() =>
+        S.Struct({
+          accessKeyId: S.optional(S.String.pipe(T.SensitiveValue({}))),
+          secretAccessKey: S.optional(S.String.pipe(T.SensitiveValue({}))),
+        }),
+      ).annotate({ identifier: "ConnectionAccessKey" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          key: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ConnectionAccountKey" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          keys: S.optional(__S(64, __c2, 0)),
+        }),
+      ).annotate({ identifier: "CustomKeys" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          clientId: S.optional(S.String),
+          resourceId: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ConnectionManagedIdentity" });
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          authUrl: S.optional(S.String),
+          clientId: S.optional(S.String),
+          clientSecret: S.optional(S.String.pipe(T.SensitiveValue({}))),
+          developerToken: S.optional(S.String),
+          password: S.optional(S.String.pipe(T.SensitiveValue({}))),
+          refreshToken: S.optional(S.String.pipe(T.SensitiveValue({}))),
+          tenantId: S.optional(S.String),
+          username: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ConnectionOAuth2" });
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          pat: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ConnectionPersonalAccessToken" });
+    case 6:
+      return S.suspend(() =>
+        S.Struct({
+          sas: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ConnectionSharedAccessSignature" });
+    case 7:
+      return S.suspend(() =>
+        S.Struct({
+          clientId: S.optional(S.String),
+          clientSecret: S.optional(S.String.pipe(T.SensitiveValue({}))),
+          tenantId: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ConnectionServicePrincipal" });
+    case 8:
+      return S.suspend(() =>
+        S.Struct({
+          password: S.optional(S.String.pipe(T.SensitiveValue({}))),
+          securityToken: S.optional(S.String),
+          username: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ConnectionUsernamePassword" });
+    case 9:
       return S.suspend(() =>
         S.Struct({
           authType: S.String,
@@ -9437,15 +10593,201 @@ function __c32(j: number): any {
           target: S.optional(S.String),
           useWorkspaceManagedIdentity: S.optional(S.Boolean),
         }),
-      ).annotate({ identifier: "ConnectionPropertiesV2" });
-    case 1:
+      ).annotate({ identifier: "AADAuthTypeConnectionProperties" });
+    case 10:
+      return S.suspend(() =>
+        S.Struct({
+          authType: S.String,
+          category: S.optional(S.String),
+          createdByWorkspaceArmId: S.optional(S.String),
+          error: S.optional(S.String),
+          expiryTime: S.optional(S.String),
+          group: S.optional(S.String),
+          isSharedToAll: S.optional(S.Boolean),
+          metadata: S.optional(__S(64, __c2, 0)),
+          peRequirement: S.optional(S.String),
+          peStatus: S.optional(S.String),
+          sharedUserList: S.optional(__S(128, __c4, 0)),
+          target: S.optional(S.String),
+          useWorkspaceManagedIdentity: S.optional(S.Boolean),
+          credentials: S.optional(__S(1024, __c32, 0)),
+        }),
+      ).annotate({ identifier: "AccessKeyAuthTypeConnectionProperties" });
+    case 11:
+      return S.suspend(() =>
+        S.Struct({
+          authType: S.String,
+          category: S.optional(S.String),
+          createdByWorkspaceArmId: S.optional(S.String),
+          error: S.optional(S.String),
+          expiryTime: S.optional(S.String),
+          group: S.optional(S.String),
+          isSharedToAll: S.optional(S.Boolean),
+          metadata: S.optional(__S(64, __c2, 0)),
+          peRequirement: S.optional(S.String),
+          peStatus: S.optional(S.String),
+          sharedUserList: S.optional(__S(128, __c4, 0)),
+          target: S.optional(S.String),
+          useWorkspaceManagedIdentity: S.optional(S.Boolean),
+          credentials: S.optional(__S(1025, __c32, 1)),
+        }),
+      ).annotate({ identifier: "AccountKeyAuthTypeConnectionProperties" });
+    case 12:
+      return S.suspend(() =>
+        S.Struct({
+          authType: S.String,
+          category: S.optional(S.String),
+          createdByWorkspaceArmId: S.optional(S.String),
+          error: S.optional(S.String),
+          expiryTime: S.optional(S.String),
+          group: S.optional(S.String),
+          isSharedToAll: S.optional(S.Boolean),
+          metadata: S.optional(__S(64, __c2, 0)),
+          peRequirement: S.optional(S.String),
+          peStatus: S.optional(S.String),
+          sharedUserList: S.optional(__S(128, __c4, 0)),
+          target: S.optional(S.String),
+          useWorkspaceManagedIdentity: S.optional(S.Boolean),
+          credentials: S.optional(__S(1026, __c32, 2)),
+        }),
+      ).annotate({ identifier: "CustomKeysConnectionProperties" });
+    case 13:
+      return S.suspend(() =>
+        S.Struct({
+          authType: S.String,
+          category: S.optional(S.String),
+          createdByWorkspaceArmId: S.optional(S.String),
+          error: S.optional(S.String),
+          expiryTime: S.optional(S.String),
+          group: S.optional(S.String),
+          isSharedToAll: S.optional(S.Boolean),
+          metadata: S.optional(__S(64, __c2, 0)),
+          peRequirement: S.optional(S.String),
+          peStatus: S.optional(S.String),
+          sharedUserList: S.optional(__S(128, __c4, 0)),
+          target: S.optional(S.String),
+          useWorkspaceManagedIdentity: S.optional(S.Boolean),
+          credentials: S.optional(__S(1027, __c32, 3)),
+        }),
+      ).annotate({ identifier: "ManagedIdentityAuthTypeConnectionProperties" });
+    case 14:
+      return S.suspend(() =>
+        S.Struct({
+          authType: S.String,
+          category: S.optional(S.String),
+          createdByWorkspaceArmId: S.optional(S.String),
+          error: S.optional(S.String),
+          expiryTime: S.optional(S.String),
+          group: S.optional(S.String),
+          isSharedToAll: S.optional(S.Boolean),
+          metadata: S.optional(__S(64, __c2, 0)),
+          peRequirement: S.optional(S.String),
+          peStatus: S.optional(S.String),
+          sharedUserList: S.optional(__S(128, __c4, 0)),
+          target: S.optional(S.String),
+          useWorkspaceManagedIdentity: S.optional(S.Boolean),
+          credentials: S.optional(__S(1028, __c32, 4)),
+        }),
+      ).annotate({ identifier: "OAuth2AuthTypeConnectionProperties" });
+    case 15:
+      return S.suspend(() =>
+        S.Struct({
+          authType: S.String,
+          category: S.optional(S.String),
+          createdByWorkspaceArmId: S.optional(S.String),
+          error: S.optional(S.String),
+          expiryTime: S.optional(S.String),
+          group: S.optional(S.String),
+          isSharedToAll: S.optional(S.Boolean),
+          metadata: S.optional(__S(64, __c2, 0)),
+          peRequirement: S.optional(S.String),
+          peStatus: S.optional(S.String),
+          sharedUserList: S.optional(__S(128, __c4, 0)),
+          target: S.optional(S.String),
+          useWorkspaceManagedIdentity: S.optional(S.Boolean),
+          credentials: S.optional(__S(1029, __c32, 5)),
+        }),
+      ).annotate({ identifier: "PATAuthTypeConnectionProperties" });
+    case 16:
+      return S.suspend(() =>
+        S.Struct({
+          authType: S.String,
+          category: S.optional(S.String),
+          createdByWorkspaceArmId: S.optional(S.String),
+          error: S.optional(S.String),
+          expiryTime: S.optional(S.String),
+          group: S.optional(S.String),
+          isSharedToAll: S.optional(S.Boolean),
+          metadata: S.optional(__S(64, __c2, 0)),
+          peRequirement: S.optional(S.String),
+          peStatus: S.optional(S.String),
+          sharedUserList: S.optional(__S(128, __c4, 0)),
+          target: S.optional(S.String),
+          useWorkspaceManagedIdentity: S.optional(S.Boolean),
+          credentials: S.optional(__S(1030, __c32, 6)),
+        }),
+      ).annotate({ identifier: "SASAuthTypeConnectionProperties" });
+    case 17:
+      return S.suspend(() =>
+        S.Struct({
+          authType: S.String,
+          category: S.optional(S.String),
+          createdByWorkspaceArmId: S.optional(S.String),
+          error: S.optional(S.String),
+          expiryTime: S.optional(S.String),
+          group: S.optional(S.String),
+          isSharedToAll: S.optional(S.Boolean),
+          metadata: S.optional(__S(64, __c2, 0)),
+          peRequirement: S.optional(S.String),
+          peStatus: S.optional(S.String),
+          sharedUserList: S.optional(__S(128, __c4, 0)),
+          target: S.optional(S.String),
+          useWorkspaceManagedIdentity: S.optional(S.Boolean),
+          credentials: S.optional(__S(1031, __c32, 7)),
+        }),
+      ).annotate({ identifier: "ServicePrincipalAuthTypeConnectionProperties" });
+    case 18:
+      return S.suspend(() =>
+        S.Struct({
+          authType: S.String,
+          category: S.optional(S.String),
+          createdByWorkspaceArmId: S.optional(S.String),
+          error: S.optional(S.String),
+          expiryTime: S.optional(S.String),
+          group: S.optional(S.String),
+          isSharedToAll: S.optional(S.Boolean),
+          metadata: S.optional(__S(64, __c2, 0)),
+          peRequirement: S.optional(S.String),
+          peStatus: S.optional(S.String),
+          sharedUserList: S.optional(__S(128, __c4, 0)),
+          target: S.optional(S.String),
+          useWorkspaceManagedIdentity: S.optional(S.Boolean),
+          credentials: S.optional(__S(1032, __c32, 8)),
+        }),
+      ).annotate({ identifier: "UsernamePasswordAuthTypeConnectionProperties" });
+    case 19:
+      return S.Union([
+        __S(1033, __c32, 9),
+        __S(1034, __c32, 10),
+        __S(1035, __c32, 11),
+        __S(1035, __c32, 11),
+        __S(1036, __c32, 12),
+        __S(1037, __c32, 13),
+        __S(1033, __c32, 9),
+        __S(1038, __c32, 14),
+        __S(1039, __c32, 15),
+        __S(1040, __c32, 16),
+        __S(1041, __c32, 17),
+        __S(1042, __c32, 18),
+      ]);
+    case 20:
       return S.suspend(() =>
         S.Struct({
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
           systemData: S.optional(__S(32, __c1, 0)),
-          properties: __S(1024, __c32, 0),
+          properties: __S(1043, __c32, 19),
         }),
       ).annotate({ identifier: "CreateAccountConnectionResponse" });
   }
@@ -9622,7 +10964,7 @@ function __c38(j: number): any {
           accountName: S.String.pipe(T.Label()),
           managedNetworkName: S.String.pipe(T.Label()),
           ruleName: S.String.pipe(T.Label()),
-          properties: __S(1248, __c39, 0),
+          properties: __S(1251, __c39, 3),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -9639,7 +10981,7 @@ function __c38(j: number): any {
           name: S.optional(S.String),
           type: S.optional(S.String),
           systemData: S.optional(__S(32, __c1, 0)),
-          properties: __S(4416, __c138, 0),
+          properties: __S(4421, __c138, 5),
           retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
           location: S.optional(S.String.pipe(T.Header())),
         }),
@@ -9654,9 +10996,30 @@ function __c39(j: number): any {
           category: S.optional(S.String),
           status: S.optional(S.String),
           type: S.String,
-          destination: S.optional(S.Unknown),
+          destination: S.optional(S.String),
         }),
-      ).annotate({ identifier: "OutboundRuleInput" });
+      ).annotate({ identifier: "FqdnOutboundRuleInput" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          category: S.optional(S.String),
+          status: S.optional(S.String),
+          type: S.String,
+          destination: S.optional(__S(4417, __c138, 1)),
+          fqdns: S.optional(__S(128, __c4, 0)),
+        }),
+      ).annotate({ identifier: "PrivateEndpointOutboundRuleInput" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          category: S.optional(S.String),
+          status: S.optional(S.String),
+          type: S.String,
+          destination: S.optional(__S(4419, __c138, 3)),
+        }),
+      ).annotate({ identifier: "ServiceTagOutboundRuleInput" });
+    case 3:
+      return S.Union([__S(1248, __c39, 0), __S(1249, __c39, 1), __S(1250, __c39, 2)]);
   }
 }
 function __c40(j: number): any {
@@ -9683,7 +11046,7 @@ function __c40(j: number): any {
 function __c41(j: number): any {
   switch (j) {
     case 0:
-      return S.Record(S.String, __S(1248, __c39, 0));
+      return S.Record(S.String, __S(1251, __c39, 3));
     case 1:
       return S.suspend(() =>
         S.Struct({
@@ -10151,7 +11514,7 @@ function __c61(j: number): any {
           accountName: S.String.pipe(T.Label()),
           projectName: S.String.pipe(T.Label()),
           connectionName: S.String.pipe(T.Label()),
-          properties: __S(992, __c31, 0),
+          properties: __S(1002, __c31, 10),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -10344,7 +11707,7 @@ function __c70(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           accountName: S.String.pipe(T.Label()),
           connectionName: S.String.pipe(T.Label()),
-          properties: S.optional(__S(992, __c31, 0)),
+          properties: S.optional(__S(1002, __c31, 10)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -10546,7 +11909,7 @@ function __c77(j: number): any {
           accountName: S.String.pipe(T.Label()),
           projectName: S.String.pipe(T.Label()),
           connectionName: S.String.pipe(T.Label()),
-          properties: S.optional(__S(992, __c31, 0)),
+          properties: S.optional(__S(1002, __c31, 10)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -10723,8 +12086,8 @@ function __c86(j: number): any {
           agents: S.optional(S.NullOr(__S(2816, __c88, 0))),
           agentIdentityBlueprint: S.optional(S.NullOr(__S(2752, __c86, 0))),
           defaultInstanceIdentity: S.optional(S.NullOr(__S(2752, __c86, 0))),
-          authorizationPolicy: S.optional(S.NullOr(__S(2817, __c88, 1))),
-          trafficRoutingPolicy: S.optional(S.NullOr(__S(2820, __c88, 4))),
+          authorizationPolicy: S.optional(S.NullOr(__S(2818, __c88, 2))),
+          trafficRoutingPolicy: S.optional(S.NullOr(__S(2821, __c88, 5))),
         }),
       ).annotate({ identifier: "AgenticApplicationPropertiesInput" });
     case 2:
@@ -10752,7 +12115,7 @@ function __c86(j: number): any {
           name: S.optional(S.String),
           type: S.optional(S.String),
           systemData: S.optional(__S(32, __c1, 0)),
-          properties: __S(2822, __c88, 6),
+          properties: __S(2823, __c88, 7),
           azureAsyncOperation: S.optional(S.String.pipe(T.Header("Azure-AsyncOperation"))),
           location: S.optional(S.String.pipe(T.Header())),
         }),
@@ -10779,8 +12142,10 @@ function __c88(j: number): any {
         S.Struct({
           type: S.String,
         }),
-      ).annotate({ identifier: "ApplicationAuthorizationPolicy" });
+      ).annotate({ identifier: "ChannelsBuiltInAuthorizationPolicy" });
     case 2:
+      return S.Union([__S(2817, __c88, 1), __S(2817, __c88, 1), __S(2817, __c88, 1)]);
+    case 3:
       return S.suspend(() =>
         S.Struct({
           ruleId: S.optional(S.NullOr(S.String)),
@@ -10789,16 +12154,16 @@ function __c88(j: number): any {
           trafficPercentage: S.optional(S.Number),
         }),
       ).annotate({ identifier: "TrafficRoutingRule" });
-    case 3:
-      return S.Array(__S(2818, __c88, 2));
     case 4:
+      return S.Array(__S(2819, __c88, 3));
+    case 5:
       return S.suspend(() =>
         S.Struct({
           protocol: S.optional(S.String),
-          rules: S.optional(S.NullOr(__S(2819, __c88, 3))),
+          rules: S.optional(S.NullOr(__S(2820, __c88, 4))),
         }),
       ).annotate({ identifier: "ApplicationTrafficRoutingPolicy" });
-    case 5:
+    case 6:
       return S.suspend(() =>
         S.Struct({
           kind: S.String,
@@ -10810,7 +12175,7 @@ function __c88(j: number): any {
           provisioningState: S.optional(S.String),
         }),
       ).annotate({ identifier: "AssignedIdentity" });
-    case 6:
+    case 7:
       return S.suspend(() =>
         S.Struct({
           description: S.optional(S.NullOr(S.String)),
@@ -10818,10 +12183,10 @@ function __c88(j: number): any {
           displayName: S.optional(S.NullOr(S.String)),
           baseUrl: S.optional(S.NullOr(S.String)),
           agents: S.optional(S.NullOr(__S(2816, __c88, 0))),
-          agentIdentityBlueprint: S.optional(S.NullOr(__S(2821, __c88, 5))),
-          defaultInstanceIdentity: S.optional(S.NullOr(__S(2821, __c88, 5))),
-          authorizationPolicy: S.optional(S.NullOr(__S(2817, __c88, 1))),
-          trafficRoutingPolicy: S.optional(S.NullOr(__S(2820, __c88, 4))),
+          agentIdentityBlueprint: S.optional(S.NullOr(__S(2822, __c88, 6))),
+          defaultInstanceIdentity: S.optional(S.NullOr(__S(2822, __c88, 6))),
+          authorizationPolicy: S.optional(S.NullOr(__S(2818, __c88, 2))),
+          trafficRoutingPolicy: S.optional(S.NullOr(__S(2821, __c88, 5))),
           provisioningState: S.optional(S.String),
           isEnabled: S.optional(S.Boolean),
         }),
@@ -11042,9 +12407,26 @@ function __c99(j: number): any {
           protocols: S.optional(S.NullOr(__S(3201, __c100, 1))),
           agents: S.optional(S.NullOr(__S(3203, __c100, 3))),
           deploymentType: S.String,
+          minReplicas: S.optional(S.Number),
+          maxReplicas: S.optional(S.Number),
         }),
-      ).annotate({ identifier: "AgentDeploymentPropertiesInput" });
+      ).annotate({ identifier: "HostedAgentDeploymentInput" });
     case 1:
+      return S.suspend(() =>
+        S.Struct({
+          description: S.optional(S.NullOr(S.String)),
+          tags: S.optional(S.NullOr(__S(64, __c2, 0))),
+          displayName: S.optional(S.NullOr(S.String)),
+          deploymentId: S.optional(S.NullOr(S.String)),
+          state: S.optional(S.NullOr(S.String)),
+          protocols: S.optional(S.NullOr(__S(3201, __c100, 1))),
+          agents: S.optional(S.NullOr(__S(3203, __c100, 3))),
+          deploymentType: S.String,
+        }),
+      ).annotate({ identifier: "ManagedAgentDeploymentInput" });
+    case 2:
+      return S.Union([__S(3168, __c99, 0), __S(3169, __c99, 1)]);
+    case 3:
       return S.suspend(() =>
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
@@ -11053,7 +12435,7 @@ function __c99(j: number): any {
           projectName: S.String.pipe(T.Label()),
           appName: S.String.pipe(T.Label()),
           deploymentName: S.String.pipe(T.Label()),
-          properties: __S(3168, __c99, 0),
+          properties: __S(3170, __c99, 2),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -11063,14 +12445,14 @@ function __c99(j: number): any {
           }),
         ),
       ).annotate({ identifier: "AgentDeploymentsCreateOrUpdateRequest" });
-    case 2:
+    case 4:
       return S.suspend(() =>
         S.Struct({
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
           systemData: S.optional(__S(32, __c1, 0)),
-          properties: __S(3204, __c100, 4),
+          properties: __S(3206, __c100, 6),
           azureAsyncOperation: S.optional(S.String.pipe(T.Header("Azure-AsyncOperation"))),
           location: S.optional(S.String.pipe(T.Header())),
         }),
@@ -11110,8 +12492,26 @@ function __c100(j: number): any {
           agents: S.optional(S.NullOr(__S(3203, __c100, 3))),
           deploymentType: S.String,
           provisioningState: S.optional(S.String),
+          minReplicas: S.optional(S.Number),
+          maxReplicas: S.optional(S.Number),
         }),
-      ).annotate({ identifier: "AgentDeploymentProperties" });
+      ).annotate({ identifier: "HostedAgentDeployment" });
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          description: S.optional(S.NullOr(S.String)),
+          tags: S.optional(S.NullOr(__S(64, __c2, 0))),
+          displayName: S.optional(S.NullOr(S.String)),
+          deploymentId: S.optional(S.NullOr(S.String)),
+          state: S.optional(S.NullOr(S.String)),
+          protocols: S.optional(S.NullOr(__S(3201, __c100, 1))),
+          agents: S.optional(S.NullOr(__S(3203, __c100, 3))),
+          deploymentType: S.String,
+          provisioningState: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ManagedAgentDeployment" });
+    case 6:
+      return S.Union([__S(3204, __c100, 4), __S(3205, __c100, 5)]);
   }
 }
 function __c101(j: number): any {
@@ -11691,7 +13091,7 @@ function __c124(j: number): any {
           name: S.optional(S.String),
           type: S.optional(S.String),
           systemData: S.optional(__S(32, __c1, 0)),
-          properties: __S(2822, __c88, 6),
+          properties: __S(2823, __c88, 7),
         }),
       ).annotate({ identifier: "GetAgentApplicationResponse" });
   }
@@ -11727,7 +13127,7 @@ function __c126(j: number): any {
           name: S.optional(S.String),
           type: S.optional(S.String),
           systemData: S.optional(__S(32, __c1, 0)),
-          properties: __S(3204, __c100, 4),
+          properties: __S(3206, __c100, 6),
         }),
       ).annotate({ identifier: "GetAgentDeploymentResponse" });
   }
@@ -11964,9 +13364,51 @@ function __c138(j: number): any {
           type: S.String,
           errorInformation: S.optional(S.String),
           parentRuleNames: S.optional(__S(128, __c4, 0)),
-          destination: S.optional(S.Unknown),
+          destination: S.optional(S.String),
         }),
-      ).annotate({ identifier: "OutboundRule" });
+      ).annotate({ identifier: "FqdnOutboundRule" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          serviceResourceId: S.optional(S.String),
+          subresourceTarget: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "PrivateEndpointOutboundRuleDestination" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          category: S.optional(S.String),
+          status: S.optional(S.String),
+          type: S.String,
+          errorInformation: S.optional(S.String),
+          parentRuleNames: S.optional(__S(128, __c4, 0)),
+          destination: S.optional(__S(4417, __c138, 1)),
+          fqdns: S.optional(__S(128, __c4, 0)),
+        }),
+      ).annotate({ identifier: "PrivateEndpointOutboundRule" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          serviceTag: S.optional(S.String),
+          protocol: S.optional(S.String),
+          portRanges: S.optional(S.String),
+          action: S.optional(S.String),
+          addressPrefixes: S.optional(__S(128, __c4, 0)),
+        }),
+      ).annotate({ identifier: "ServiceTagOutboundRuleDestination" });
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          category: S.optional(S.String),
+          status: S.optional(S.String),
+          type: S.String,
+          errorInformation: S.optional(S.String),
+          parentRuleNames: S.optional(__S(128, __c4, 0)),
+          destination: S.optional(__S(4419, __c138, 3)),
+        }),
+      ).annotate({ identifier: "ServiceTagOutboundRule" });
+    case 5:
+      return S.Union([__S(4416, __c138, 0), __S(4418, __c138, 2), __S(4420, __c138, 4)]);
   }
 }
 function __c139(j: number): any {
@@ -11996,7 +13438,7 @@ function __c140(j: number): any {
 function __c141(j: number): any {
   switch (j) {
     case 0:
-      return S.Record(S.String, __S(4416, __c138, 0));
+      return S.Record(S.String, __S(4421, __c138, 5));
     case 1:
       return S.Array(S.String);
     case 2:
@@ -12167,7 +13609,7 @@ function __c146(j: number): any {
           name: S.optional(S.String),
           type: S.optional(S.String),
           systemData: S.optional(__S(32, __c1, 0)),
-          properties: __S(4416, __c138, 0),
+          properties: __S(4421, __c138, 5),
         }),
       ).annotate({ identifier: "GetOutboundRuleResponse" });
   }
@@ -13023,7 +14465,7 @@ function __c180(j: number): any {
 function __c181(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(1025, __c32, 1));
+      return S.Array(__S(1044, __c32, 20));
     case 1:
       return S.suspend(() =>
         S.Struct({

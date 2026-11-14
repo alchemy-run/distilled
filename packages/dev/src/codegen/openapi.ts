@@ -42,8 +42,11 @@
  *     `next_token`/`NextToken`/`nextToken`, `next_page` + input alias lists +
  *     first top-level array property) → `smithy.api#paginated` on the op
  *     (with the non-standard `mode` member the core runtime dispatches on)
+ *   • discriminated hierarchies (a base with a `discriminator` and `allOf`
+ *     subtypes) → unions of the subtypes, see `unionizeDiscriminators`
  */
 
+import { unionizeDiscriminators } from "./discriminators.ts";
 import { ADDITIONAL_PROPERTIES_TRAIT } from "./members.ts";
 import {
   isMechanicalOperationId,
@@ -1518,9 +1521,13 @@ const DEFAULT_SUCCESS_STATUSES = ["200", "201", "204"];
 export { RENAME_METADATA_KEY };
 
 export const convertOpenApiToSmithy = (
-  spec: unknown,
+  input: unknown,
   options: OpenApiConvertOptions,
 ): SmithyModel => {
+  const { spec, stats } = unionizeDiscriminators(input);
+  for (const conflict of stats.conflicts) {
+    console.warn(`   ⚠️  ${options.namespace}: discriminator keys disagree for ${conflict}`);
+  }
   const named = convertOnce(spec, options);
   if (!options.deferNaming) return named;
   const upstream = convertOnce(spec, {

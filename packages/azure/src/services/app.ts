@@ -4182,7 +4182,7 @@ export interface GetJavaComponentRequest {
   name: string;
 }
 /** Type of the Java Component. */
-export type JavaComponentType = "SpringBootAdmin" | "SpringCloudEureka" | "SpringCloudConfig";
+export type SpringBootAdminComponentComponentType = "SpringBootAdmin";
 /** Provisioning state of the Java Component. */
 export type JavaComponentProvisioningState =
   | "Succeeded"
@@ -4193,7 +4193,8 @@ export type JavaComponentProvisioningState =
 /** Configuration properties for a Java Component */
 export type JavaComponentConfigurationProperty = DotNetComponentConfigurationProperty;
 /** List of Java Components configuration properties */
-export type JavaComponentPropertiesConfigurationsList = Array<DotNetComponentConfigurationProperty>;
+export type SpringBootAdminComponentConfigurationsList =
+  Array<DotNetComponentConfigurationProperty>;
 /** Java component scaling configurations */
 export interface JavaComponentPropertiesScale {
   /** Optional. Minimum number of Java component replicas. Defaults to 1 if not set */
@@ -4204,20 +4205,74 @@ export interface JavaComponentPropertiesScale {
 /** Configuration to bind a Java Component to another Java Component */
 export type JavaComponentServiceBind = DotNetComponentServiceBind;
 /** List of Java Components that are bound to the Java component */
-export type JavaComponentPropertiesServiceBindsList = Array<DotNetComponentServiceBind>;
-/** Java Component common properties. */
-export interface JavaComponentProperties {
+export type SpringBootAdminComponentServiceBindsList = Array<DotNetComponentServiceBind>;
+/** Container App Ingress configuration. */
+export interface JavaComponentIngress {
+  /** Hostname of the Java Component endpoint */
+  fqdn?: string | undefined;
+}
+/** Spring Boot Admin properties. */
+export interface SpringBootAdminComponent {
   /** Type of the Java Component. */
-  componentType: JavaComponentType | (string & {});
+  componentType: SpringBootAdminComponentComponentType;
   /** Provisioning state of the Java Component. */
-  provisioningState?: JavaComponentProvisioningState | (string & {}) | undefined;
+  provisioningState?: JavaComponentProvisioningState | undefined;
   /** List of Java Components configuration properties */
-  configurations?: JavaComponentPropertiesConfigurationsList | undefined;
+  configurations?: SpringBootAdminComponentConfigurationsList | undefined;
   /** Java component scaling configurations */
   scale?: JavaComponentPropertiesScale | undefined;
   /** List of Java Components that are bound to the Java component */
-  serviceBinds?: JavaComponentPropertiesServiceBindsList | undefined;
+  serviceBinds?: SpringBootAdminComponentServiceBindsList | undefined;
+  /** Java Component Ingress configurations. */
+  ingress?: JavaComponentIngress | undefined;
 }
+/** Type of the Java Component. */
+export type SpringCloudConfigComponentComponentType = "SpringCloudConfig";
+/** List of Java Components configuration properties */
+export type SpringCloudConfigComponentConfigurationsList =
+  Array<DotNetComponentConfigurationProperty>;
+/** List of Java Components that are bound to the Java component */
+export type SpringCloudConfigComponentServiceBindsList = Array<DotNetComponentServiceBind>;
+/** Java Component common properties. */
+export interface SpringCloudConfigComponent {
+  /** Type of the Java Component. */
+  componentType: SpringCloudConfigComponentComponentType;
+  /** Provisioning state of the Java Component. */
+  provisioningState?: JavaComponentProvisioningState | (string & {}) | undefined;
+  /** List of Java Components configuration properties */
+  configurations?: SpringCloudConfigComponentConfigurationsList | undefined;
+  /** Java component scaling configurations */
+  scale?: JavaComponentPropertiesScale | undefined;
+  /** List of Java Components that are bound to the Java component */
+  serviceBinds?: SpringCloudConfigComponentServiceBindsList | undefined;
+}
+/** Type of the Java Component. */
+export type SpringCloudEurekaComponentComponentType = "SpringCloudEureka";
+/** List of Java Components configuration properties */
+export type SpringCloudEurekaComponentConfigurationsList =
+  Array<DotNetComponentConfigurationProperty>;
+/** List of Java Components that are bound to the Java component */
+export type SpringCloudEurekaComponentServiceBindsList = Array<DotNetComponentServiceBind>;
+/** Spring Cloud Eureka properties. */
+export interface SpringCloudEurekaComponent {
+  /** Type of the Java Component. */
+  componentType: SpringCloudEurekaComponentComponentType;
+  /** Provisioning state of the Java Component. */
+  provisioningState?: JavaComponentProvisioningState | undefined;
+  /** List of Java Components configuration properties */
+  configurations?: SpringCloudEurekaComponentConfigurationsList | undefined;
+  /** Java component scaling configurations */
+  scale?: JavaComponentPropertiesScale | undefined;
+  /** List of Java Components that are bound to the Java component */
+  serviceBinds?: SpringCloudEurekaComponentServiceBindsList | undefined;
+  /** Java Component Ingress configurations. */
+  ingress?: JavaComponentIngress | undefined;
+}
+/** Java Component common properties. */
+export type JavaComponentProperties =
+  | SpringBootAdminComponent
+  | SpringCloudConfigComponent
+  | SpringCloudEurekaComponent;
 export interface GetJavaComponentResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
   id?: string | undefined;
@@ -5203,6 +5258,53 @@ export interface InvokeFunctionsExtensionFunctionsHostRequest {
   functionAppName: string;
 }
 export type InvokeFunctionsExtensionFunctionsHostResponse = string;
+/** Type of the Java Component. */
+export type SpringBootAdminComponentInputComponentType = "SpringBootAdmin";
+/** List of Java Components configuration properties */
+export type SpringBootAdminComponentInputConfigurationsList =
+  Array<DotNetComponentConfigurationProperty>;
+/** List of Java Components that are bound to the Java component */
+export type SpringBootAdminComponentInputServiceBindsList = Array<DotNetComponentServiceBind>;
+/** Container App Ingress configuration. */
+export type JavaComponentIngressInput = UserAssignedIdentityInput;
+/** Spring Boot Admin properties. */
+export interface SpringBootAdminComponentInput {
+  /** Type of the Java Component. */
+  componentType: SpringBootAdminComponentInputComponentType;
+  /** List of Java Components configuration properties */
+  configurations?: SpringBootAdminComponentInputConfigurationsList | undefined;
+  /** Java component scaling configurations */
+  scale?: JavaComponentPropertiesScale | undefined;
+  /** List of Java Components that are bound to the Java component */
+  serviceBinds?: SpringBootAdminComponentInputServiceBindsList | undefined;
+  /** Java Component Ingress configurations. */
+  ingress?: UserAssignedIdentityInput | undefined;
+}
+/** Type of the Java Component. */
+export type SpringCloudEurekaComponentInputComponentType = "SpringCloudEureka";
+/** List of Java Components configuration properties */
+export type SpringCloudEurekaComponentInputConfigurationsList =
+  Array<DotNetComponentConfigurationProperty>;
+/** List of Java Components that are bound to the Java component */
+export type SpringCloudEurekaComponentInputServiceBindsList = Array<DotNetComponentServiceBind>;
+/** Spring Cloud Eureka properties. */
+export interface SpringCloudEurekaComponentInput {
+  /** Type of the Java Component. */
+  componentType: SpringCloudEurekaComponentInputComponentType;
+  /** List of Java Components configuration properties */
+  configurations?: SpringCloudEurekaComponentInputConfigurationsList | undefined;
+  /** Java component scaling configurations */
+  scale?: JavaComponentPropertiesScale | undefined;
+  /** List of Java Components that are bound to the Java component */
+  serviceBinds?: SpringCloudEurekaComponentInputServiceBindsList | undefined;
+  /** Java Component Ingress configurations. */
+  ingress?: UserAssignedIdentityInput | undefined;
+}
+/** Java Component common properties. */
+export type JavaComponentPropertiesInput =
+  | SpringBootAdminComponentInput
+  | SpringCloudConfigComponent
+  | SpringCloudEurekaComponentInput;
 export interface JavaComponentsCreateOrUpdateRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
@@ -5213,7 +5315,7 @@ export interface JavaComponentsCreateOrUpdateRequest {
   /** Name of the Java Component. */
   name: string;
   /** Java Component resource specific properties */
-  properties?: JavaComponentProperties | undefined;
+  properties?: JavaComponentPropertiesInput | undefined;
 }
 export interface JavaComponentsCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
@@ -7917,7 +8019,7 @@ export interface UpdateJavaComponentRequest {
   /** Name of the Java Component. */
   name: string;
   /** Java Component resource specific properties */
-  properties?: JavaComponentProperties | undefined;
+  properties?: JavaComponentPropertiesInput | undefined;
 }
 export interface UpdateJavaComponentResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
@@ -9848,8 +9950,8 @@ export const JobExecution2: API.OperationMethod<
   JobExecution2Error,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9280, __c290, 0) as any as S.Schema<JobExecutionRequest>,
-  output: __S(9321, __c291, 9) as any as S.Schema<JobExecutionResponse>,
+  input: __S(9312, __c291, 0) as any as S.Schema<JobExecutionRequest>,
+  output: __S(9353, __c292, 9) as any as S.Schema<JobExecutionResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -9865,8 +9967,8 @@ export const JobsCreateOrUpdate: API.OperationMethod<
   JobsCreateOrUpdateError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9345, __c292, 1) as any as S.Schema<JobsCreateOrUpdateRequest>,
-  output: __S(9346, __c292, 2) as any as S.Schema<JobsCreateOrUpdateResponse>,
+  input: __S(9377, __c293, 1) as any as S.Schema<JobsCreateOrUpdateRequest>,
+  output: __S(9378, __c293, 2) as any as S.Schema<JobsCreateOrUpdateResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -9882,8 +9984,8 @@ export const ListAgentByResourceGroup: API.OperationMethod<
   ListAgentByResourceGroupError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9408, __c294, 0) as any as S.Schema<ListAgentByResourceGroupRequest>,
-  output: __S(9441, __c295, 1) as any as S.Schema<AgentListResult>,
+  input: __S(9440, __c295, 0) as any as S.Schema<ListAgentByResourceGroupRequest>,
+  output: __S(9473, __c296, 1) as any as S.Schema<AgentListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -9899,8 +10001,8 @@ export const ListAgentBySubscription: API.OperationMethod<
   ListAgentBySubscriptionError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9472, __c296, 0) as any as S.Schema<ListAgentBySubscriptionRequest>,
-  output: __S(9441, __c295, 1) as any as S.Schema<AgentListResult>,
+  input: __S(9504, __c297, 0) as any as S.Schema<ListAgentBySubscriptionRequest>,
+  output: __S(9473, __c296, 1) as any as S.Schema<AgentListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -13651,7 +13753,7 @@ function __c79(j: number): any {
 function __c80(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(9321, __c291, 9));
+      return S.Array(__S(9353, __c292, 9));
   }
 }
 function __c81(j: number): any {
@@ -15322,7 +15424,7 @@ function __c142(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           environmentName: S.String.pipe(T.Label()),
           name: S.String.pipe(T.Label()),
-          properties: S.optional(__S(7841, __c245, 1)),
+          properties: S.optional(__S(9281, __c290, 1)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -15339,7 +15441,7 @@ function __c142(j: number): any {
           name: S.optional(S.String),
           type: S.optional(S.String),
           systemData: S.optional(__S(96, __c3, 0)),
-          properties: S.optional(__S(7841, __c245, 1)),
+          properties: S.optional(__S(7844, __c245, 4)),
           location: S.optional(S.String.pipe(T.Header("Location"))),
           retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
         }),
@@ -15353,7 +15455,7 @@ function __c143(j: number): any {
         S.Struct({
           environmentId: S.optional(S.String),
           configuration: S.optional(__S(7942, __c248, 6)),
-          template: S.optional(__S(9376, __c293, 0)),
+          template: S.optional(__S(9408, __c294, 0)),
           outboundIpAddresses: S.optional(__S(4928, __c154, 0)),
           eventStreamEndpoint: S.optional(S.String),
         }),
@@ -17716,7 +17818,7 @@ function __c244(j: number): any {
           name: S.optional(S.String),
           type: S.optional(S.String),
           systemData: S.optional(__S(96, __c3, 0)),
-          properties: S.optional(__S(7841, __c245, 1)),
+          properties: S.optional(__S(7844, __c245, 4)),
         }),
       ).annotate({ identifier: "GetJavaComponentResponse" });
   }
@@ -17733,13 +17835,32 @@ function __c245(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
+          fqdn: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "JavaComponentIngress" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          componentType: S.String,
+          provisioningState: S.optional(S.String),
+          configurations: S.optional(__S(6145, __c192, 1)),
+          scale: S.optional(__S(7840, __c245, 0)),
+          serviceBinds: S.optional(__S(6147, __c192, 3)),
+          ingress: S.optional(__S(7841, __c245, 1)),
+        }),
+      ).annotate({ identifier: "SpringBootAdminComponent" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
           componentType: S.String,
           provisioningState: S.optional(S.String),
           configurations: S.optional(__S(6145, __c192, 1)),
           scale: S.optional(__S(7840, __c245, 0)),
           serviceBinds: S.optional(__S(6147, __c192, 3)),
         }),
-      ).annotate({ identifier: "JavaComponentProperties" });
+      ).annotate({ identifier: "SpringCloudConfigComponent" });
+    case 4:
+      return S.Union([__S(7842, __c245, 2), __S(7843, __c245, 3), __S(7842, __c245, 2)]);
   }
 }
 function __c246(j: number): any {
@@ -18813,7 +18934,7 @@ function __c289(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           environmentName: S.String.pipe(T.Label()),
           name: S.String.pipe(T.Label()),
-          properties: S.optional(__S(7841, __c245, 1)),
+          properties: S.optional(__S(9281, __c290, 1)),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -18830,7 +18951,7 @@ function __c289(j: number): any {
           name: S.optional(S.String),
           type: S.optional(S.String),
           systemData: S.optional(__S(96, __c3, 0)),
-          properties: S.optional(__S(7841, __c245, 1)),
+          properties: S.optional(__S(7844, __c245, 4)),
           azureAsyncOperation: S.optional(S.String.pipe(T.Header("Azure-AsyncOperation"))),
           retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
         }),
@@ -18838,6 +18959,22 @@ function __c289(j: number): any {
   }
 }
 function __c290(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          componentType: S.String,
+          configurations: S.optional(__S(6145, __c192, 1)),
+          scale: S.optional(__S(7840, __c245, 0)),
+          serviceBinds: S.optional(__S(6147, __c192, 3)),
+          ingress: S.optional(__S(32, __c1, 0)),
+        }),
+      ).annotate({ identifier: "SpringBootAdminComponentInput" });
+    case 1:
+      return S.Union([__S(9280, __c290, 0), __S(7843, __c245, 3), __S(9280, __c290, 0)]);
+  }
+}
+function __c291(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18857,7 +18994,7 @@ function __c290(j: number): any {
       ).annotate({ identifier: "JobExecutionRequest" });
   }
 }
-function __c291(j: number): any {
+function __c292(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18871,12 +19008,12 @@ function __c291(j: number): any {
         }),
       ).annotate({ identifier: "JobExecutionContainer" });
     case 1:
-      return S.Array(__S(9312, __c291, 0));
+      return S.Array(__S(9344, __c292, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          containers: S.optional(__S(9313, __c291, 1)),
-          initContainers: S.optional(__S(9313, __c291, 1)),
+          containers: S.optional(__S(9345, __c292, 1)),
+          initContainers: S.optional(__S(9345, __c292, 1)),
         }),
       ).annotate({ identifier: "JobExecutionTemplate" });
     case 3:
@@ -18889,20 +19026,20 @@ function __c291(j: number): any {
         }),
       ).annotate({ identifier: "ContainerExecutionStatus" });
     case 4:
-      return S.Array(__S(9315, __c291, 3));
+      return S.Array(__S(9347, __c292, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
           name: S.optional(S.String),
-          containers: S.optional(__S(9316, __c291, 4)),
+          containers: S.optional(__S(9348, __c292, 4)),
         }),
       ).annotate({ identifier: "ReplicaExecutionStatus" });
     case 6:
-      return S.Array(__S(9317, __c291, 5));
+      return S.Array(__S(9349, __c292, 5));
     case 7:
       return S.suspend(() =>
         S.Struct({
-          replicas: S.optional(__S(9318, __c291, 6)),
+          replicas: S.optional(__S(9350, __c292, 6)),
         }),
       ).annotate({ identifier: "ExecutionStatus" });
     case 8:
@@ -18911,8 +19048,8 @@ function __c291(j: number): any {
           status: S.optional(S.String),
           startTime: S.optional(S.String),
           endTime: S.optional(S.String),
-          template: S.optional(__S(9314, __c291, 2)),
-          detailedStatus: S.optional(__S(9319, __c291, 7)),
+          template: S.optional(__S(9346, __c292, 2)),
+          detailedStatus: S.optional(__S(9351, __c292, 7)),
           reason: S.optional(S.String),
           message: S.optional(S.String),
         }),
@@ -18924,12 +19061,12 @@ function __c291(j: number): any {
           name: S.optional(S.String),
           type: S.optional(S.String),
           systemData: S.optional(__S(96, __c3, 0)),
-          properties: S.optional(__S(9320, __c291, 8)),
+          properties: S.optional(__S(9352, __c292, 8)),
         }),
       ).annotate({ identifier: "JobExecutionResponse" });
   }
 }
-function __c292(j: number): any {
+function __c293(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18937,7 +19074,7 @@ function __c292(j: number): any {
           environmentId: S.optional(S.String),
           workloadProfileName: S.optional(S.String),
           configuration: S.optional(__S(7942, __c248, 6)),
-          template: S.optional(__S(9376, __c293, 0)),
+          template: S.optional(__S(9408, __c294, 0)),
         }),
       ).annotate({ identifier: "JobPropertiesInput" });
     case 1:
@@ -18948,7 +19085,7 @@ function __c292(j: number): any {
           jobName: S.String.pipe(T.Label()),
           tags: S.optional(__S(4896, __c153, 0)),
           location: S.String,
-          properties: S.optional(__S(9344, __c292, 0)),
+          properties: S.optional(__S(9376, __c293, 0)),
           identity: S.optional(__S(4865, __c152, 1)),
         }).pipe(
           T.Http({
@@ -18976,7 +19113,7 @@ function __c292(j: number): any {
       ).annotate({ identifier: "JobsCreateOrUpdateResponse" });
   }
 }
-function __c293(j: number): any {
+function __c294(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18988,7 +19125,7 @@ function __c293(j: number): any {
       ).annotate({ identifier: "JobTemplateInput" });
   }
 }
-function __c294(j: number): any {
+function __c295(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19006,20 +19143,20 @@ function __c294(j: number): any {
       ).annotate({ identifier: "ListAgentByResourceGroupRequest" });
   }
 }
-function __c295(j: number): any {
+function __c296(j: number): any {
   switch (j) {
     case 0:
       return S.Array(__S(6208, __c194, 0));
     case 1:
       return S.suspend(() =>
         S.Struct({
-          value: __S(9440, __c295, 0),
+          value: __S(9472, __c296, 0),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "AgentListResult" });
   }
 }
-function __c296(j: number): any {
+function __c297(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>

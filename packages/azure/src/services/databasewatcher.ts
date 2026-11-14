@@ -330,6 +330,8 @@ export interface GetTargetRequest {
   /** The target resource name. */
   targetName: string;
 }
+/** Discriminator property for TargetProperties. */
+export type SqlDbElasticPoolTargetPropertiesTargetType = "SqlEp";
 /** The type of authentication to use when connecting to a target. */
 export type TargetAuthenticationType = "Aad" | "Sql";
 /** The vault specific details required if using SQL authentication to connect to a target. */
@@ -341,10 +343,10 @@ export interface VaultSecret {
   /** The path to the Key Vault secret storing the password for authentication to a target. */
   akvTargetPassword?: string | Redacted.Redacted<string> | undefined;
 }
-/** The generic properties of a target. */
-export interface TargetProperties {
+/** The properties specific to an elastic pool in Azure SQL Database. */
+export interface SqlDbElasticPoolTargetProperties {
   /** Discriminator property for TargetProperties. */
-  targetType: string;
+  targetType: SqlDbElasticPoolTargetPropertiesTargetType;
   /** The type of authentication to use when connecting to a target. */
   targetAuthenticationType: TargetAuthenticationType;
   /** To use SQL authentication when connecting to targets, specify the vault where the login name and password secrets are stored. */
@@ -353,19 +355,58 @@ export interface TargetProperties {
   connectionServerName: string;
   /** The provisioning state of the resource. */
   provisioningState?: AzureResourceManagerResourceProvisioningState | undefined;
-  /** The Azure resource ID of an Azure SQL DB database target (targetType SqlDb). */
-  sqlDbResourceId?: string | undefined;
-  /** The Azure resource ID of an Azure SQL DB elastic pool target (targetType SqlEp). */
-  sqlEpResourceId?: string | undefined;
-  /** The Azure resource ID of the anchor database used to connect to an elastic pool (targetType SqlEp). */
-  anchorDatabaseResourceId?: string | undefined;
-  /** The Azure resource ID of an Azure SQL Managed Instance target (targetType SqlMi). */
-  sqlMiResourceId?: string | undefined;
-  /** The TCP port number to optionally use in the connection string when connecting to an Azure SQL Managed Instance target (targetType SqlMi). */
-  connectionTcpPort?: number | undefined;
-  /** Set to true to monitor a high availability replica of the specified target, if any (targetType SqlDb / SqlMi). */
+  /** The Azure resource ID of an Azure SQL DB elastic pool target. */
+  sqlEpResourceId: string;
+  /** The Azure resource ID of the anchor database used to connect to an elastic pool. */
+  anchorDatabaseResourceId: string;
+  /** Set to true to monitor a high availability replica of specified target, if any. */
   readIntent?: boolean | undefined;
 }
+/** Discriminator property for TargetProperties. */
+export type SqlDbSingleDatabaseTargetPropertiesTargetType = "SqlDb";
+/** The properties specific to a database in Azure SQL Database. */
+export interface SqlDbSingleDatabaseTargetProperties {
+  /** Discriminator property for TargetProperties. */
+  targetType: SqlDbSingleDatabaseTargetPropertiesTargetType;
+  /** The type of authentication to use when connecting to a target. */
+  targetAuthenticationType: TargetAuthenticationType;
+  /** To use SQL authentication when connecting to targets, specify the vault where the login name and password secrets are stored. */
+  targetVault?: VaultSecret | undefined;
+  /** The FQDN host name of the server to use in the connection string when connecting to a target. For example, for an Azure SQL logical server in the Azure commercial cloud, the value might be 'sql-logical-server-22092780.database.windows.net'; for an Azure SQL managed instance in the Azure commercial cloud, the value might be 'sql-mi-39441134.767d5869f605.database.windows.net'. Port number and instance name must be specified separately. */
+  connectionServerName: string;
+  /** The provisioning state of the resource. */
+  provisioningState?: AzureResourceManagerResourceProvisioningState | undefined;
+  /** The Azure resource ID of an Azure SQL DB database target. */
+  sqlDbResourceId: string;
+  /** Set to true to monitor a high availability replica of specified target, if any. */
+  readIntent?: boolean | undefined;
+}
+/** Discriminator property for TargetProperties. */
+export type SqlMiTargetPropertiesTargetType = "SqlMi";
+/** The properties specific to Azure SQL Managed Instance targets. */
+export interface SqlMiTargetProperties {
+  /** Discriminator property for TargetProperties. */
+  targetType: SqlMiTargetPropertiesTargetType;
+  /** The type of authentication to use when connecting to a target. */
+  targetAuthenticationType: TargetAuthenticationType;
+  /** To use SQL authentication when connecting to targets, specify the vault where the login name and password secrets are stored. */
+  targetVault?: VaultSecret | undefined;
+  /** The FQDN host name of the server to use in the connection string when connecting to a target. For example, for an Azure SQL logical server in the Azure commercial cloud, the value might be 'sql-logical-server-22092780.database.windows.net'; for an Azure SQL managed instance in the Azure commercial cloud, the value might be 'sql-mi-39441134.767d5869f605.database.windows.net'. Port number and instance name must be specified separately. */
+  connectionServerName: string;
+  /** The provisioning state of the resource. */
+  provisioningState?: AzureResourceManagerResourceProvisioningState | undefined;
+  /** The Azure resource ID of an Azure SQL Managed Instance target. */
+  sqlMiResourceId: string;
+  /** The TCP port number to optionally use in the connection string when connecting to an Azure SQL Managed Instance target. */
+  connectionTcpPort?: number | undefined;
+  /** Set to true to monitor a high availability replica of specified target, if any. */
+  readIntent?: boolean | undefined;
+}
+/** The generic properties of a target. */
+export type TargetProperties =
+  | SqlDbElasticPoolTargetProperties
+  | SqlDbSingleDatabaseTargetProperties
+  | SqlMiTargetProperties;
 export interface GetTargetResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
   id?: string | undefined;
@@ -761,29 +802,66 @@ export interface StopWatcherResponse {
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
   retryAfter?: number | undefined;
 }
-/** The generic properties of a target. */
-export interface TargetPropertiesInput {
+/** Discriminator property for TargetProperties. */
+export type SqlDbElasticPoolTargetPropertiesInputTargetType = "SqlEp";
+/** The properties specific to an elastic pool in Azure SQL Database. */
+export interface SqlDbElasticPoolTargetPropertiesInput {
   /** Discriminator property for TargetProperties. */
-  targetType: string;
+  targetType: SqlDbElasticPoolTargetPropertiesInputTargetType;
   /** The type of authentication to use when connecting to a target. */
   targetAuthenticationType: TargetAuthenticationType | (string & {});
   /** To use SQL authentication when connecting to targets, specify the vault where the login name and password secrets are stored. */
   targetVault?: VaultSecret | undefined;
   /** The FQDN host name of the server to use in the connection string when connecting to a target. For example, for an Azure SQL logical server in the Azure commercial cloud, the value might be 'sql-logical-server-22092780.database.windows.net'; for an Azure SQL managed instance in the Azure commercial cloud, the value might be 'sql-mi-39441134.767d5869f605.database.windows.net'. Port number and instance name must be specified separately. */
   connectionServerName: string;
-  /** The Azure resource ID of an Azure SQL DB database target (targetType SqlDb). */
-  sqlDbResourceId?: string | undefined;
-  /** The Azure resource ID of an Azure SQL DB elastic pool target (targetType SqlEp). */
-  sqlEpResourceId?: string | undefined;
-  /** The Azure resource ID of the anchor database used to connect to an elastic pool (targetType SqlEp). */
-  anchorDatabaseResourceId?: string | undefined;
-  /** The Azure resource ID of an Azure SQL Managed Instance target (targetType SqlMi). */
-  sqlMiResourceId?: string | undefined;
-  /** The TCP port number to optionally use in the connection string when connecting to an Azure SQL Managed Instance target (targetType SqlMi). */
-  connectionTcpPort?: number | undefined;
-  /** Set to true to monitor a high availability replica of the specified target, if any (targetType SqlDb / SqlMi). */
+  /** The Azure resource ID of an Azure SQL DB elastic pool target. */
+  sqlEpResourceId: string;
+  /** The Azure resource ID of the anchor database used to connect to an elastic pool. */
+  anchorDatabaseResourceId: string;
+  /** Set to true to monitor a high availability replica of specified target, if any. */
   readIntent?: boolean | undefined;
 }
+/** Discriminator property for TargetProperties. */
+export type SqlDbSingleDatabaseTargetPropertiesInputTargetType = "SqlDb";
+/** The properties specific to a database in Azure SQL Database. */
+export interface SqlDbSingleDatabaseTargetPropertiesInput {
+  /** Discriminator property for TargetProperties. */
+  targetType: SqlDbSingleDatabaseTargetPropertiesInputTargetType;
+  /** The type of authentication to use when connecting to a target. */
+  targetAuthenticationType: TargetAuthenticationType | (string & {});
+  /** To use SQL authentication when connecting to targets, specify the vault where the login name and password secrets are stored. */
+  targetVault?: VaultSecret | undefined;
+  /** The FQDN host name of the server to use in the connection string when connecting to a target. For example, for an Azure SQL logical server in the Azure commercial cloud, the value might be 'sql-logical-server-22092780.database.windows.net'; for an Azure SQL managed instance in the Azure commercial cloud, the value might be 'sql-mi-39441134.767d5869f605.database.windows.net'. Port number and instance name must be specified separately. */
+  connectionServerName: string;
+  /** The Azure resource ID of an Azure SQL DB database target. */
+  sqlDbResourceId: string;
+  /** Set to true to monitor a high availability replica of specified target, if any. */
+  readIntent?: boolean | undefined;
+}
+/** Discriminator property for TargetProperties. */
+export type SqlMiTargetPropertiesInputTargetType = "SqlMi";
+/** The properties specific to Azure SQL Managed Instance targets. */
+export interface SqlMiTargetPropertiesInput {
+  /** Discriminator property for TargetProperties. */
+  targetType: SqlMiTargetPropertiesInputTargetType;
+  /** The type of authentication to use when connecting to a target. */
+  targetAuthenticationType: TargetAuthenticationType | (string & {});
+  /** To use SQL authentication when connecting to targets, specify the vault where the login name and password secrets are stored. */
+  targetVault?: VaultSecret | undefined;
+  /** The FQDN host name of the server to use in the connection string when connecting to a target. For example, for an Azure SQL logical server in the Azure commercial cloud, the value might be 'sql-logical-server-22092780.database.windows.net'; for an Azure SQL managed instance in the Azure commercial cloud, the value might be 'sql-mi-39441134.767d5869f605.database.windows.net'. Port number and instance name must be specified separately. */
+  connectionServerName: string;
+  /** The Azure resource ID of an Azure SQL Managed Instance target. */
+  sqlMiResourceId: string;
+  /** The TCP port number to optionally use in the connection string when connecting to an Azure SQL Managed Instance target. */
+  connectionTcpPort?: number | undefined;
+  /** Set to true to monitor a high availability replica of specified target, if any. */
+  readIntent?: boolean | undefined;
+}
+/** The generic properties of a target. */
+export type TargetPropertiesInput =
+  | SqlDbElasticPoolTargetPropertiesInput
+  | SqlDbSingleDatabaseTargetPropertiesInput
+  | SqlMiTargetPropertiesInput;
 export interface TargetsCreateOrUpdateRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
@@ -1096,7 +1174,7 @@ export const GetTarget: API.OperationMethod<
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(288, __c36, 0) as any as S.Schema<GetTargetRequest>,
-  output: __S(298, __c37, 2) as any as S.Schema<GetTargetResponse>,
+  output: __S(301, __c37, 5) as any as S.Schema<GetTargetResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -1299,8 +1377,8 @@ export const TargetsCreateOrUpdate: API.OperationMethod<
   TargetsCreateOrUpdateError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(177, __c22, 1) as any as S.Schema<TargetsCreateOrUpdateRequest>,
-  output: __S(298, __c37, 2) as any as S.Schema<TargetsCreateOrUpdateResponse>,
+  input: __S(180, __c22, 4) as any as S.Schema<TargetsCreateOrUpdateRequest>,
+  output: __S(301, __c37, 5) as any as S.Schema<TargetsCreateOrUpdateResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -1696,7 +1774,7 @@ function __c12(j: number): any {
         ),
       ).annotate({ identifier: "ListTargetByWatcherRequest" });
     case 1:
-      return S.Array(__S(298, __c37, 2));
+      return S.Array(__S(301, __c37, 5));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -1881,22 +1959,44 @@ function __c22(j: number): any {
           targetAuthenticationType: S.String,
           targetVault: S.optional(__S(296, __c37, 0)),
           connectionServerName: S.String,
-          sqlDbResourceId: S.optional(S.String),
-          sqlEpResourceId: S.optional(S.String),
-          anchorDatabaseResourceId: S.optional(S.String),
-          sqlMiResourceId: S.optional(S.String),
+          sqlEpResourceId: S.String,
+          anchorDatabaseResourceId: S.String,
+          readIntent: S.optional(S.Boolean),
+        }),
+      ).annotate({ identifier: "SqlDbElasticPoolTargetPropertiesInput" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          targetType: S.String,
+          targetAuthenticationType: S.String,
+          targetVault: S.optional(__S(296, __c37, 0)),
+          connectionServerName: S.String,
+          sqlDbResourceId: S.String,
+          readIntent: S.optional(S.Boolean),
+        }),
+      ).annotate({ identifier: "SqlDbSingleDatabaseTargetPropertiesInput" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          targetType: S.String,
+          targetAuthenticationType: S.String,
+          targetVault: S.optional(__S(296, __c37, 0)),
+          connectionServerName: S.String,
+          sqlMiResourceId: S.String,
           connectionTcpPort: S.optional(S.Number),
           readIntent: S.optional(S.Boolean),
         }),
-      ).annotate({ identifier: "TargetPropertiesInput" });
-    case 1:
+      ).annotate({ identifier: "SqlMiTargetPropertiesInput" });
+    case 3:
+      return S.Union([__S(176, __c22, 0), __S(177, __c22, 1), __S(178, __c22, 2)]);
+    case 4:
       return S.suspend(() =>
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           watcherName: S.String.pipe(T.Label()),
           targetName: S.String.pipe(T.Label()),
-          properties: S.optional(__S(176, __c22, 0)),
+          properties: S.optional(__S(179, __c22, 3)),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -2245,22 +2345,46 @@ function __c37(j: number): any {
           targetVault: S.optional(__S(296, __c37, 0)),
           connectionServerName: S.String,
           provisioningState: S.optional(S.String),
-          sqlDbResourceId: S.optional(S.String),
-          sqlEpResourceId: S.optional(S.String),
-          anchorDatabaseResourceId: S.optional(S.String),
-          sqlMiResourceId: S.optional(S.String),
+          sqlEpResourceId: S.String,
+          anchorDatabaseResourceId: S.String,
+          readIntent: S.optional(S.Boolean),
+        }),
+      ).annotate({ identifier: "SqlDbElasticPoolTargetProperties" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          targetType: S.String,
+          targetAuthenticationType: S.String,
+          targetVault: S.optional(__S(296, __c37, 0)),
+          connectionServerName: S.String,
+          provisioningState: S.optional(S.String),
+          sqlDbResourceId: S.String,
+          readIntent: S.optional(S.Boolean),
+        }),
+      ).annotate({ identifier: "SqlDbSingleDatabaseTargetProperties" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          targetType: S.String,
+          targetAuthenticationType: S.String,
+          targetVault: S.optional(__S(296, __c37, 0)),
+          connectionServerName: S.String,
+          provisioningState: S.optional(S.String),
+          sqlMiResourceId: S.String,
           connectionTcpPort: S.optional(S.Number),
           readIntent: S.optional(S.Boolean),
         }),
-      ).annotate({ identifier: "TargetProperties" });
-    case 2:
+      ).annotate({ identifier: "SqlMiTargetProperties" });
+    case 4:
+      return S.Union([__S(297, __c37, 1), __S(298, __c37, 2), __S(299, __c37, 3)]);
+    case 5:
       return S.suspend(() =>
         S.Struct({
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
           systemData: S.optional(__S(8, __c1, 0)),
-          properties: S.optional(__S(297, __c37, 1)),
+          properties: S.optional(__S(300, __c37, 4)),
         }),
       ).annotate({ identifier: "GetTargetResponse" });
   }

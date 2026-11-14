@@ -308,22 +308,24 @@ export interface GetQuotaRequest {
   resourceName: string;
 }
 /** The limit object type. */
-export type LimitType = "LimitValue";
-/** LimitJson abstract class. */
-export interface LimitJsonObject {
+export type LimitObjectLimitObjectType = "LimitValue";
+/** The quota or usages limit types. */
+export type QuotaLimitTypes = "Independent" | "Shared";
+/** The resource quota limit value. */
+export interface LimitObject {
   /** The limit object type. */
-  limitObjectType: LimitType | (string & {});
-  /** The quota limit value (`LimitValue` subtype). */
-  value?: number | undefined;
-  /** The quota limit type, e.g. `Independent` or `Shared` (`LimitValue` subtype). */
-  limitType?: string | undefined;
+  limitObjectType: LimitObjectLimitObjectType | (string & {});
+  /** The quota/limit value */
+  value: number;
+  /** The quota or usages limit types. */
+  limitType?: QuotaLimitTypes | (string & {}) | undefined;
 }
 /** Name of the resource provided by the resource Provider. When requesting quota, use this property name. */
 export type ResourceName = GroupQuotaRequestBasePropertiesName;
 /** Quota properties for the specified resource. */
 export interface QuotaProperties {
   /** Resource quota limit properties. */
-  limit?: LimitJsonObject | undefined;
+  limit?: LimitObject | undefined;
   /** The quota units, such as Count and Bytes. When requesting quota, use the **unit** value returned in the GET response in the request body of your PUT operation. */
   unit?: string | undefined;
   /** Resource name provided by the resource provider. Use this property name when requesting quota. */
@@ -379,7 +381,7 @@ export interface SubRequest {
   /** Quota request ID. */
   subRequestId?: string | undefined;
   /** Resource quota limit properties. */
-  limit?: LimitJsonObject | undefined;
+  limit?: LimitObject | undefined;
 }
 /** Quota request details. */
 export type QuotaRequestPropertiesValueList = Array<SubRequest>;
@@ -968,7 +970,7 @@ export interface ResourceNameInput {
 /** Quota properties for the specified resource. */
 export interface QuotaPropertiesInput {
   /** Resource quota limit properties. */
-  limit?: LimitJsonObject | undefined;
+  limit?: LimitObject | undefined;
   /** Resource name provided by the resource provider. Use this property name when requesting quota. */
   name?: ResourceNameInput | undefined;
   /** The name of the resource type. Optional field. */
@@ -3080,10 +3082,10 @@ function __c52(j: number): any {
       return S.suspend(() =>
         S.Struct({
           limitObjectType: S.String,
-          value: S.optional(S.Number),
+          value: S.Number,
           limitType: S.optional(S.String),
         }),
-      ).annotate({ identifier: "LimitJsonObject" });
+      ).annotate({ identifier: "LimitObject" });
   }
 }
 function __c53(j: number): any {

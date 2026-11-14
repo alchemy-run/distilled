@@ -224,14 +224,260 @@ export interface ConnectorInfoBase {
   /** Connector Status */
   connectorState?: ConnectorStatus | (string & {}) | undefined;
 }
+/** The connector service type. */
+export type AzureBlobStorageSinkConnectorServiceInfoConnectorServiceType =
+  "AzureBlobStorageSinkConnector";
+/** The authentication info when auth_type is azureBlobStorageSinkConnector */
+export interface AzureBlobStorageSinkConnectorServiceInfo {
+  /** The connector service type. */
+  connectorServiceType: AzureBlobStorageSinkConnectorServiceInfoConnectorServiceType;
+  /** Azure Blob Storage Account Name */
+  storageAccountName?: string | undefined;
+  /** Azure Blob Storage Account Key */
+  storageAccountKey?: string | undefined;
+  /** Azure Blob Storage Account Container Name */
+  storageContainerName?: string | undefined;
+}
+/** The connector service type. */
+export type AzureBlobStorageSourceConnectorServiceInfoConnectorServiceType =
+  "AzureBlobStorageSourceConnector";
+/** The connector service type is AzureBlobStorageSourceConnector */
+export interface AzureBlobStorageSourceConnectorServiceInfo {
+  /** The connector service type. */
+  connectorServiceType: AzureBlobStorageSourceConnectorServiceInfoConnectorServiceType;
+  /** Azure Blob Storage Account Name */
+  storageAccountName?: string | undefined;
+  /** Azure Blob Storage Account Key */
+  storageAccountKey?: string | undefined;
+  /** Azure Blob Storage Account Container Name */
+  storageContainerName?: string | undefined;
+}
+/** The connector service type. */
+export type AzureCosmosDBSinkConnectorServiceInfoConnectorServiceType =
+  "AzureCosmosDBSinkConnector";
+/** The authentication info when auth_type is AzureCosmosDBSinkConnector */
+export interface AzureCosmosDBSinkConnectorServiceInfo {
+  /** The connector service type. */
+  connectorServiceType: AzureCosmosDBSinkConnectorServiceInfoConnectorServiceType;
+  /** Azure Cosmos Database Name */
+  cosmosDatabaseName?: string | undefined;
+  /** Azure Cosmos Database Master Key */
+  cosmosMasterKey?: string | undefined;
+  /** Azure Cosmos Database Connection Endpoint */
+  cosmosConnectionEndpoint?: string | undefined;
+  /** Azure Cosmos Database Containers Topic Mapping */
+  cosmosContainersTopicMapping?: string | undefined;
+  /** Azure Cosmos Database Id Strategy */
+  cosmosIdStrategy?: string | undefined;
+}
+/** The connector service type. */
+export type AzureCosmosDBSourceConnectorServiceInfoConnectorServiceType =
+  "AzureCosmosDBSourceConnector";
+/** The authentication info when auth_type is AzureCosmosDBSourceConnector */
+export interface AzureCosmosDBSourceConnectorServiceInfo {
+  /** The connector service type. */
+  connectorServiceType: AzureCosmosDBSourceConnectorServiceInfoConnectorServiceType;
+  /** Azure Cosmos Database Name */
+  cosmosDatabaseName?: string | undefined;
+  /** Azure Cosmos Database Master Key */
+  cosmosMasterKey?: string | undefined;
+  /** Azure Cosmos Database Connection Endpoint */
+  cosmosConnectionEndpoint?: string | undefined;
+  /** Azure Cosmos Database Containers Topic Mapping */
+  cosmosContainersTopicMapping?: string | undefined;
+  /** Azure Cosmos Database Message Key Enabled */
+  cosmosMessageKeyEnabled?: boolean | undefined;
+  /** Azure Cosmos Database Message Key Field */
+  cosmosMessageKeyField?: string | undefined;
+}
+/** The connector service type. */
+export type AzureSynapseAnalyticsSinkConnectorServiceInfoConnectorServiceType =
+  "AzureSynapseAnalyticsSinkConnector";
+/** The authentication info when auth_type is AzureSynapseAnalyticsSinkConnector */
+export interface AzureSynapseAnalyticsSinkConnectorServiceInfo {
+  /** The connector service type. */
+  connectorServiceType: AzureSynapseAnalyticsSinkConnectorServiceInfoConnectorServiceType;
+  /** Azure Synapse Analytics SQL Server Name */
+  synapseSqlServerName?: string | undefined;
+  /** Azure Synapse SQL login details */
+  synapseSqlUser?: string | undefined;
+  /** Azure Synapse SQL login details */
+  synapseSqlPassword?: string | Redacted.Redacted<string> | undefined;
+  /** Azure Synapse Dedicated SQL Pool Database Name */
+  synapseSqlDatabaseName?: string | undefined;
+}
+/** The connector service type info */
+export type ConnectorServiceTypeInfoBase =
+  | AzureBlobStorageSinkConnectorServiceInfo
+  | AzureBlobStorageSourceConnectorServiceInfo
+  | AzureCosmosDBSinkConnectorServiceInfo
+  | AzureCosmosDBSourceConnectorServiceInfo
+  | AzureSynapseAnalyticsSinkConnectorServiceInfo;
+/** The partner connector type. */
+export type KafkaAzureBlobStorageSinkConnectorInfoPartnerConnectorType =
+  "KafkaAzureBlobStorageSink";
+/** Kafka Connector Auth Type */
+export type AuthType = "SERVICE_ACCOUNT" | "KAFKA_API_KEY";
+/** Data Format Type */
+export type DataFormatType = "AVRO" | "JSON" | "STRING" | "BYTES" | "PROTOBUF";
+/** Kafka topics list */
+export type KafkaAzureBlobStorageSinkConnectorInfoTopicsList = Array<string>;
+/** The partner connector type is KafkaAzureBlobStorageSink */
+export interface KafkaAzureBlobStorageSinkConnectorInfo {
+  /** The partner connector type. */
+  partnerConnectorType: KafkaAzureBlobStorageSinkConnectorInfoPartnerConnectorType;
+  /** Kafka Auth Type */
+  authType?: AuthType | (string & {}) | undefined;
+  /** Kafka Input Data Format Type */
+  inputFormat?: DataFormatType | (string & {}) | undefined;
+  /** Kafka Output Data Format Type */
+  outputFormat?: DataFormatType | (string & {}) | undefined;
+  /** Kafka API Key */
+  apiKey?: string | Redacted.Redacted<string> | undefined;
+  /** Kafka API Key Secret */
+  apiSecret?: string | undefined;
+  /** Kafka Service Account Id */
+  serviceAccountId?: string | undefined;
+  /** Kafka topics list */
+  topics?: KafkaAzureBlobStorageSinkConnectorInfoTopicsList | undefined;
+  /** Kafka topics directory */
+  topicsDir?: string | undefined;
+  /** Flush size */
+  flushSize?: string | undefined;
+  /** Maximum Tasks */
+  maxTasks?: string | undefined;
+  /** Time Interval */
+  timeInterval?: string | undefined;
+}
+/** The partner connector type. */
+export type KafkaAzureBlobStorageSourceConnectorInfoPartnerConnectorType =
+  "KafkaAzureBlobStorageSource";
+/** The partner connector type is KafkaAzureBlobStorageSource */
+export interface KafkaAzureBlobStorageSourceConnectorInfo {
+  /** The partner connector type. */
+  partnerConnectorType: KafkaAzureBlobStorageSourceConnectorInfoPartnerConnectorType;
+  /** Kafka Auth Type */
+  authType?: AuthType | (string & {}) | undefined;
+  /** Kafka Input Data Format Type */
+  inputFormat?: DataFormatType | (string & {}) | undefined;
+  /** Kafka Output Data Format Type */
+  outputFormat?: DataFormatType | (string & {}) | undefined;
+  /** Kafka API Key */
+  apiKey?: string | Redacted.Redacted<string> | undefined;
+  /** Kafka API Secret */
+  apiSecret?: string | undefined;
+  /** Kafka Service Account Id */
+  serviceAccountId?: string | undefined;
+  /** Kafka topics Regex pattern */
+  topicRegex?: string | undefined;
+  /** Kafka topics directory */
+  topicsDir?: string | undefined;
+  /** Maximum Tasks */
+  maxTasks?: string | undefined;
+}
+/** The partner connector type. */
+export type KafkaAzureCosmosDBSinkConnectorInfoPartnerConnectorType = "KafkaAzureCosmosDBSink";
+/** Kafka topics list */
+export type KafkaAzureCosmosDBSinkConnectorInfoTopicsList = Array<string>;
+/** The partner connector type is KafkaAzureCosmosDBSink */
+export interface KafkaAzureCosmosDBSinkConnectorInfo {
+  /** The partner connector type. */
+  partnerConnectorType: KafkaAzureCosmosDBSinkConnectorInfoPartnerConnectorType;
+  /** Kafka Auth Type */
+  authType?: AuthType | (string & {}) | undefined;
+  /** Kafka Input Data Format Type */
+  inputFormat?: DataFormatType | (string & {}) | undefined;
+  /** Kafka Output Data Format Type */
+  outputFormat?: DataFormatType | (string & {}) | undefined;
+  /** Kafka API Key */
+  apiKey?: string | Redacted.Redacted<string> | undefined;
+  /** Kafka API Key Secret */
+  apiSecret?: string | undefined;
+  /** Kafka Service Account Id */
+  serviceAccountId?: string | undefined;
+  /** Kafka topics list */
+  topics?: KafkaAzureCosmosDBSinkConnectorInfoTopicsList | undefined;
+  /** Kafka topics directory */
+  topicsDir?: string | undefined;
+  /** Flush size */
+  flushSize?: string | undefined;
+  /** Maximum Tasks */
+  maxTasks?: string | undefined;
+  /** Time Interval */
+  timeInterval?: string | undefined;
+}
+/** The partner connector type. */
+export type KafkaAzureCosmosDBSourceConnectorInfoPartnerConnectorType = "KafkaAzureCosmosDBSource";
+/** The partner connector type is KafkaAzureCosmosDBSource */
+export interface KafkaAzureCosmosDBSourceConnectorInfo {
+  /** The partner connector type. */
+  partnerConnectorType: KafkaAzureCosmosDBSourceConnectorInfoPartnerConnectorType;
+  /** Kafka Auth Type */
+  authType?: AuthType | (string & {}) | undefined;
+  /** Kafka Input Data Format Type */
+  inputFormat?: DataFormatType | (string & {}) | undefined;
+  /** Kafka Output Data Format Type */
+  outputFormat?: DataFormatType | (string & {}) | undefined;
+  /** Kafka API Key */
+  apiKey?: string | Redacted.Redacted<string> | undefined;
+  /** Kafka API Secret */
+  apiSecret?: string | undefined;
+  /** Kafka Service Account Id */
+  serviceAccountId?: string | undefined;
+  /** Kafka topics Regex pattern */
+  topicRegex?: string | undefined;
+  /** Kafka topics directory */
+  topicsDir?: string | undefined;
+  /** Maximum Tasks */
+  maxTasks?: string | undefined;
+}
+/** The partner connector type. */
+export type KafkaAzureSynapseAnalyticsSinkConnectorInfoPartnerConnectorType =
+  "KafkaAzureSynapseAnalyticsSink";
+/** Kafka topics list */
+export type KafkaAzureSynapseAnalyticsSinkConnectorInfoTopicsList = Array<string>;
+/** The partner connector type is KafkaAzureSynapseAnalyticsSink */
+export interface KafkaAzureSynapseAnalyticsSinkConnectorInfo {
+  /** The partner connector type. */
+  partnerConnectorType: KafkaAzureSynapseAnalyticsSinkConnectorInfoPartnerConnectorType;
+  /** Kafka Auth Type */
+  authType?: AuthType | (string & {}) | undefined;
+  /** Kafka Input Data Format Type */
+  inputFormat?: DataFormatType | (string & {}) | undefined;
+  /** Kafka Output Data Format Type */
+  outputFormat?: DataFormatType | (string & {}) | undefined;
+  /** Kafka API Key */
+  apiKey?: string | Redacted.Redacted<string> | undefined;
+  /** Kafka API Key Secret */
+  apiSecret?: string | undefined;
+  /** Kafka Service Account Id */
+  serviceAccountId?: string | undefined;
+  /** Kafka topics list */
+  topics?: KafkaAzureSynapseAnalyticsSinkConnectorInfoTopicsList | undefined;
+  /** Kafka topics directory */
+  topicsDir?: string | undefined;
+  /** Flush size */
+  flushSize?: string | undefined;
+  /** Maximum Tasks */
+  maxTasks?: string | undefined;
+  /** Time Interval */
+  timeInterval?: string | undefined;
+}
+/** The partner info base */
+export type PartnerInfoBase =
+  | KafkaAzureBlobStorageSinkConnectorInfo
+  | KafkaAzureBlobStorageSourceConnectorInfo
+  | KafkaAzureCosmosDBSinkConnectorInfo
+  | KafkaAzureCosmosDBSourceConnectorInfo
+  | KafkaAzureSynapseAnalyticsSinkConnectorInfo;
 /** The resource properties of the Connector */
 export interface ConnectorResourceProperties {
   /** Connector Info Base */
   connectorBasicInfo?: ConnectorInfoBase | undefined;
   /** Connector Service type info base properties. */
-  connectorServiceTypeInfo?: unknown | undefined;
+  connectorServiceTypeInfo?: ConnectorServiceTypeInfoBase | undefined;
   /** The connection information consumed by applications. */
-  partnerConnectorInfo?: unknown | undefined;
+  partnerConnectorInfo?: PartnerInfoBase | undefined;
 }
 export interface ConnectorCreateOrUpdateRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1693,8 +1939,8 @@ export const ClusterCreateOrUpdate: API.OperationMethod<
   ClusterCreateOrUpdateError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(32, __c4, 0) as any as S.Schema<ClusterCreateOrUpdateRequest>,
-  output: __S(59, __c7, 3) as any as S.Schema<ClusterCreateOrUpdateResponse>,
+  input: __S(64, __c4, 0) as any as S.Schema<ClusterCreateOrUpdateRequest>,
+  output: __S(115, __c7, 3) as any as S.Schema<ClusterCreateOrUpdateResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -1710,8 +1956,8 @@ export const ConnectorCreateOrUpdate: API.OperationMethod<
   ConnectorCreateOrUpdateError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(176, __c22, 0) as any as S.Schema<ConnectorCreateOrUpdateRequest>,
-  output: __S(186, __c23, 2) as any as S.Schema<ConnectorCreateOrUpdateResponse>,
+  input: __S(352, __c22, 0) as any as S.Schema<ConnectorCreateOrUpdateRequest>,
+  output: __S(378, __c23, 10) as any as S.Schema<ConnectorCreateOrUpdateResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -1727,8 +1973,8 @@ export const CreateAccessRoleBinding: API.OperationMethod<
   CreateAccessRoleBindingError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(288, __c36, 0) as any as S.Schema<CreateAccessRoleBindingRequest>,
-  output: __S(304, __c38, 0) as any as S.Schema<RoleBindingRecord>,
+  input: __S(576, __c36, 0) as any as S.Schema<CreateAccessRoleBindingRequest>,
+  output: __S(608, __c38, 0) as any as S.Schema<RoleBindingRecord>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -1744,8 +1990,8 @@ export const CreateMarketplaceAgreement: API.OperationMethod<
   CreateMarketplaceAgreementError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(400, __c50, 0) as any as S.Schema<CreateMarketplaceAgreementRequest>,
-  output: __S(409, __c51, 1) as any as S.Schema<ConfluentAgreementResource>,
+  input: __S(800, __c50, 0) as any as S.Schema<CreateMarketplaceAgreementRequest>,
+  output: __S(817, __c51, 1) as any as S.Schema<ConfluentAgreementResource>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -1761,8 +2007,8 @@ export const CreateOrganization: API.OperationMethod<
   CreateOrganizationError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(440, __c55, 0) as any as S.Schema<CreateOrganizationRequest>,
-  output: __S(441, __c55, 1) as any as S.Schema<CreateOrganizationResponse>,
+  input: __S(880, __c55, 0) as any as S.Schema<CreateOrganizationRequest>,
+  output: __S(881, __c55, 1) as any as S.Schema<CreateOrganizationResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -1778,8 +2024,8 @@ export const CreateOrganizationAPIKey: API.OperationMethod<
   CreateOrganizationAPIKeyError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(472, __c59, 0) as any as S.Schema<CreateOrganizationAPIKeyRequest>,
-  output: __S(484, __c60, 4) as any as S.Schema<APIKeyRecord>,
+  input: __S(944, __c59, 0) as any as S.Schema<CreateOrganizationAPIKeyRequest>,
+  output: __S(964, __c60, 4) as any as S.Schema<APIKeyRecord>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -1795,8 +2041,8 @@ export const CreateTopic: API.OperationMethod<
   CreateTopicError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(488, __c61, 0) as any as S.Schema<CreateTopicRequest>,
-  output: __S(501, __c62, 5) as any as S.Schema<CreateTopicResponse>,
+  input: __S(976, __c61, 0) as any as S.Schema<CreateTopicRequest>,
+  output: __S(997, __c62, 5) as any as S.Schema<CreateTopicResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -1812,8 +2058,8 @@ export const DeleteAccessRoleBinding: API.OperationMethod<
   DeleteAccessRoleBindingError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(504, __c63, 0) as any as S.Schema<DeleteAccessRoleBindingRequest>,
-  output: __S(512, __c64, 0) as any as S.Schema<DeleteAccessRoleBindingResponse>,
+  input: __S(1008, __c63, 0) as any as S.Schema<DeleteAccessRoleBindingRequest>,
+  output: __S(1024, __c64, 0) as any as S.Schema<DeleteAccessRoleBindingResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -1829,8 +2075,8 @@ export const DeleteCluster: API.OperationMethod<
   DeleteClusterError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(520, __c65, 0) as any as S.Schema<DeleteClusterRequest>,
-  output: __S(528, __c66, 0) as any as S.Schema<DeleteClusterResponse>,
+  input: __S(1040, __c65, 0) as any as S.Schema<DeleteClusterRequest>,
+  output: __S(1056, __c66, 0) as any as S.Schema<DeleteClusterResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -1846,8 +2092,8 @@ export const DeleteConnector: API.OperationMethod<
   DeleteConnectorError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(80, __c10, 0) as any as S.Schema<DeleteConnectorRequest>,
-  output: __S(528, __c66, 0) as any as S.Schema<DeleteConnectorResponse>,
+  input: __S(160, __c10, 0) as any as S.Schema<DeleteConnectorRequest>,
+  output: __S(1056, __c66, 0) as any as S.Schema<DeleteConnectorResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -1863,8 +2109,8 @@ export const DeleteEnvironment: API.OperationMethod<
   DeleteEnvironmentError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(88, __c11, 0) as any as S.Schema<DeleteEnvironmentRequest>,
-  output: __S(528, __c66, 0) as any as S.Schema<DeleteEnvironmentResponse>,
+  input: __S(176, __c11, 0) as any as S.Schema<DeleteEnvironmentRequest>,
+  output: __S(1056, __c66, 0) as any as S.Schema<DeleteEnvironmentResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -1880,8 +2126,8 @@ export const DeleteOrganization: API.OperationMethod<
   DeleteOrganizationError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(96, __c12, 0) as any as S.Schema<DeleteOrganizationRequest>,
-  output: __S(528, __c66, 0) as any as S.Schema<DeleteOrganizationResponse>,
+  input: __S(192, __c12, 0) as any as S.Schema<DeleteOrganizationRequest>,
+  output: __S(1056, __c66, 0) as any as S.Schema<DeleteOrganizationResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -1897,8 +2143,8 @@ export const DeleteOrganizationClusterAPIKey: API.OperationMethod<
   DeleteOrganizationClusterAPIKeyError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(104, __c13, 0) as any as S.Schema<DeleteOrganizationClusterAPIKeyRequest>,
-  output: __S(512, __c64, 0) as any as S.Schema<DeleteOrganizationClusterAPIKeyResponse>,
+  input: __S(208, __c13, 0) as any as S.Schema<DeleteOrganizationClusterAPIKeyRequest>,
+  output: __S(1024, __c64, 0) as any as S.Schema<DeleteOrganizationClusterAPIKeyResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -1914,8 +2160,8 @@ export const DeleteTopic: API.OperationMethod<
   DeleteTopicError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(112, __c14, 0) as any as S.Schema<DeleteTopicRequest>,
-  output: __S(528, __c66, 0) as any as S.Schema<DeleteTopicResponse>,
+  input: __S(224, __c14, 0) as any as S.Schema<DeleteTopicRequest>,
+  output: __S(1056, __c66, 0) as any as S.Schema<DeleteTopicResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -1931,8 +2177,8 @@ export const EnvironmentCreateOrUpdate: API.OperationMethod<
   EnvironmentCreateOrUpdateError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(120, __c15, 0) as any as S.Schema<EnvironmentCreateOrUpdateRequest>,
-  output: __S(130, __c16, 2) as any as S.Schema<EnvironmentCreateOrUpdateResponse>,
+  input: __S(240, __c15, 0) as any as S.Schema<EnvironmentCreateOrUpdateRequest>,
+  output: __S(258, __c16, 2) as any as S.Schema<EnvironmentCreateOrUpdateResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -1948,8 +2194,8 @@ export const GetConnector: API.OperationMethod<
   GetConnectorError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(136, __c17, 0) as any as S.Schema<GetConnectorRequest>,
-  output: __S(186, __c23, 2) as any as S.Schema<GetConnectorResponse>,
+  input: __S(272, __c17, 0) as any as S.Schema<GetConnectorRequest>,
+  output: __S(378, __c23, 10) as any as S.Schema<GetConnectorResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -1965,8 +2211,8 @@ export const GetOrganization: API.OperationMethod<
   GetOrganizationError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(144, __c18, 0) as any as S.Schema<GetOrganizationRequest>,
-  output: __S(152, __c19, 0) as any as S.Schema<GetOrganizationResponse>,
+  input: __S(288, __c18, 0) as any as S.Schema<GetOrganizationRequest>,
+  output: __S(304, __c19, 0) as any as S.Schema<GetOrganizationResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -1982,8 +2228,8 @@ export const GetOrganizationClusterAPIKey: API.OperationMethod<
   GetOrganizationClusterAPIKeyError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(160, __c20, 0) as any as S.Schema<GetOrganizationClusterAPIKeyRequest>,
-  output: __S(484, __c60, 4) as any as S.Schema<APIKeyRecord>,
+  input: __S(320, __c20, 0) as any as S.Schema<GetOrganizationClusterAPIKeyRequest>,
+  output: __S(964, __c60, 4) as any as S.Schema<APIKeyRecord>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -1999,8 +2245,8 @@ export const GetOrganizationClusterById: API.OperationMethod<
   GetOrganizationClusterByIdError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(168, __c21, 0) as any as S.Schema<GetOrganizationClusterByIdRequest>,
-  output: __S(59, __c7, 3) as any as S.Schema<GetOrganizationClusterByIdResponse>,
+  input: __S(336, __c21, 0) as any as S.Schema<GetOrganizationClusterByIdRequest>,
+  output: __S(115, __c7, 3) as any as S.Schema<GetOrganizationClusterByIdResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -2016,8 +2262,8 @@ export const GetOrganizationEnvironmentById: API.OperationMethod<
   GetOrganizationEnvironmentByIdError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(192, __c24, 0) as any as S.Schema<GetOrganizationEnvironmentByIdRequest>,
-  output: __S(130, __c16, 2) as any as S.Schema<GetOrganizationEnvironmentByIdResponse>,
+  input: __S(384, __c24, 0) as any as S.Schema<GetOrganizationEnvironmentByIdRequest>,
+  output: __S(258, __c16, 2) as any as S.Schema<GetOrganizationEnvironmentByIdResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -2033,8 +2279,8 @@ export const GetOrganizationSchemaRegistryClusterById: API.OperationMethod<
   GetOrganizationSchemaRegistryClusterByIdError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(200, __c25, 0) as any as S.Schema<GetOrganizationSchemaRegistryClusterByIdRequest>,
-  output: __S(211, __c26, 3) as any as S.Schema<SchemaRegistryClusterRecord>,
+  input: __S(400, __c25, 0) as any as S.Schema<GetOrganizationSchemaRegistryClusterByIdRequest>,
+  output: __S(419, __c26, 3) as any as S.Schema<SchemaRegistryClusterRecord>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -2050,8 +2296,8 @@ export const GetTopic: API.OperationMethod<
   GetTopicError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(216, __c27, 0) as any as S.Schema<GetTopicRequest>,
-  output: __S(501, __c62, 5) as any as S.Schema<GetTopicResponse>,
+  input: __S(432, __c27, 0) as any as S.Schema<GetTopicRequest>,
+  output: __S(997, __c62, 5) as any as S.Schema<GetTopicResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -2067,8 +2313,8 @@ export const InviteAccessUser: API.OperationMethod<
   InviteAccessUserError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(225, __c28, 1) as any as S.Schema<InviteAccessUserRequest>,
-  output: __S(232, __c29, 0) as any as S.Schema<InvitationRecord>,
+  input: __S(449, __c28, 1) as any as S.Schema<InviteAccessUserRequest>,
+  output: __S(464, __c29, 0) as any as S.Schema<InvitationRecord>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -2084,8 +2330,8 @@ export const ListAccessClusters: API.OperationMethod<
   ListAccessClustersError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(240, __c30, 0) as any as S.Schema<ListAccessClustersRequest>,
-  output: __S(246, __c30, 6) as any as S.Schema<AccessListClusterSuccessResponse>,
+  input: __S(480, __c30, 0) as any as S.Schema<ListAccessClustersRequest>,
+  output: __S(486, __c30, 6) as any as S.Schema<AccessListClusterSuccessResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -2101,8 +2347,8 @@ export const ListAccessEnvironments: API.OperationMethod<
   ListAccessEnvironmentsError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(248, __c31, 0) as any as S.Schema<ListAccessEnvironmentsRequest>,
-  output: __S(251, __c31, 3) as any as S.Schema<AccessListEnvironmentsSuccessResponse>,
+  input: __S(496, __c31, 0) as any as S.Schema<ListAccessEnvironmentsRequest>,
+  output: __S(499, __c31, 3) as any as S.Schema<AccessListEnvironmentsSuccessResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -2118,8 +2364,8 @@ export const ListAccessInvitations: API.OperationMethod<
   ListAccessInvitationsError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(256, __c32, 0) as any as S.Schema<ListAccessInvitationsRequest>,
-  output: __S(258, __c32, 2) as any as S.Schema<AccessListInvitationsSuccessResponse>,
+  input: __S(512, __c32, 0) as any as S.Schema<ListAccessInvitationsRequest>,
+  output: __S(514, __c32, 2) as any as S.Schema<AccessListInvitationsSuccessResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -2135,8 +2381,8 @@ export const ListAccessRoleBindings: API.OperationMethod<
   ListAccessRoleBindingsError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(264, __c33, 0) as any as S.Schema<ListAccessRoleBindingsRequest>,
-  output: __S(266, __c33, 2) as any as S.Schema<AccessListRoleBindingsSuccessResponse>,
+  input: __S(528, __c33, 0) as any as S.Schema<ListAccessRoleBindingsRequest>,
+  output: __S(530, __c33, 2) as any as S.Schema<AccessListRoleBindingsSuccessResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -2152,8 +2398,8 @@ export const ListAccessServiceAccounts: API.OperationMethod<
   ListAccessServiceAccountsError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(272, __c34, 0) as any as S.Schema<ListAccessServiceAccountsRequest>,
-  output: __S(275, __c34, 3) as any as S.Schema<AccessListServiceAccountsSuccessResponse>,
+  input: __S(544, __c34, 0) as any as S.Schema<ListAccessServiceAccountsRequest>,
+  output: __S(547, __c34, 3) as any as S.Schema<AccessListServiceAccountsSuccessResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -2169,8 +2415,8 @@ export const ListAccessUsers: API.OperationMethod<
   ListAccessUsersError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(280, __c35, 0) as any as S.Schema<ListAccessUsersRequest>,
-  output: __S(283, __c35, 3) as any as S.Schema<AccessListUsersSuccessResponse>,
+  input: __S(560, __c35, 0) as any as S.Schema<ListAccessUsersRequest>,
+  output: __S(563, __c35, 3) as any as S.Schema<AccessListUsersSuccessResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -2186,8 +2432,8 @@ export const ListConnector: API.OperationMethod<
   ListConnectorError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(312, __c39, 0) as any as S.Schema<ListConnectorRequest>,
-  output: __S(314, __c39, 2) as any as S.Schema<ListConnectorsSuccessResponse>,
+  input: __S(624, __c39, 0) as any as S.Schema<ListConnectorRequest>,
+  output: __S(626, __c39, 2) as any as S.Schema<ListConnectorsSuccessResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -2203,8 +2449,8 @@ export const ListMarketplaceAgreements: API.OperationMethod<
   ListMarketplaceAgreementsError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(320, __c40, 0) as any as S.Schema<ListMarketplaceAgreementsRequest>,
-  output: __S(322, __c40, 2) as any as S.Schema<ConfluentAgreementResourceListResponse>,
+  input: __S(640, __c40, 0) as any as S.Schema<ListMarketplaceAgreementsRequest>,
+  output: __S(642, __c40, 2) as any as S.Schema<ConfluentAgreementResourceListResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -2220,8 +2466,8 @@ export const ListOrganizationByResourceGroup: API.OperationMethod<
   ListOrganizationByResourceGroupError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(328, __c41, 0) as any as S.Schema<ListOrganizationByResourceGroupRequest>,
-  output: __S(337, __c42, 1) as any as S.Schema<OrganizationResourceListResult>,
+  input: __S(656, __c41, 0) as any as S.Schema<ListOrganizationByResourceGroupRequest>,
+  output: __S(673, __c42, 1) as any as S.Schema<OrganizationResourceListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -2237,8 +2483,8 @@ export const ListOrganizationBySubscription: API.OperationMethod<
   ListOrganizationBySubscriptionError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(344, __c43, 0) as any as S.Schema<ListOrganizationBySubscriptionRequest>,
-  output: __S(337, __c42, 1) as any as S.Schema<OrganizationResourceListResult>,
+  input: __S(688, __c43, 0) as any as S.Schema<ListOrganizationBySubscriptionRequest>,
+  output: __S(673, __c42, 1) as any as S.Schema<OrganizationResourceListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -2254,8 +2500,8 @@ export const ListOrganizationClusters: API.OperationMethod<
   ListOrganizationClustersError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(352, __c44, 0) as any as S.Schema<ListOrganizationClustersRequest>,
-  output: __S(354, __c44, 2) as any as S.Schema<ListClustersSuccessResponse>,
+  input: __S(704, __c44, 0) as any as S.Schema<ListOrganizationClustersRequest>,
+  output: __S(706, __c44, 2) as any as S.Schema<ListClustersSuccessResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -2271,8 +2517,8 @@ export const ListOrganizationEnvironments: API.OperationMethod<
   ListOrganizationEnvironmentsError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(360, __c45, 0) as any as S.Schema<ListOrganizationEnvironmentsRequest>,
-  output: __S(362, __c45, 2) as any as S.Schema<GetEnvironmentsResponse>,
+  input: __S(720, __c45, 0) as any as S.Schema<ListOrganizationEnvironmentsRequest>,
+  output: __S(722, __c45, 2) as any as S.Schema<GetEnvironmentsResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -2288,8 +2534,8 @@ export const ListOrganizationOperations: API.OperationMethod<
   ListOrganizationOperationsError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(368, __c46, 0) as any as S.Schema<ListOrganizationOperationsRequest>,
-  output: __S(372, __c46, 4) as any as S.Schema<OperationListResult>,
+  input: __S(736, __c46, 0) as any as S.Schema<ListOrganizationOperationsRequest>,
+  output: __S(740, __c46, 4) as any as S.Schema<OperationListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -2305,8 +2551,8 @@ export const ListOrganizationRegions: API.OperationMethod<
   ListOrganizationRegionsError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(376, __c47, 0) as any as S.Schema<ListOrganizationRegionsRequest>,
-  output: __S(381, __c47, 5) as any as S.Schema<ListRegionsSuccessResponse>,
+  input: __S(752, __c47, 0) as any as S.Schema<ListOrganizationRegionsRequest>,
+  output: __S(757, __c47, 5) as any as S.Schema<ListRegionsSuccessResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -2322,8 +2568,8 @@ export const ListOrganizationSchemaRegistryClusters: API.OperationMethod<
   ListOrganizationSchemaRegistryClustersError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(384, __c48, 0) as any as S.Schema<ListOrganizationSchemaRegistryClustersRequest>,
-  output: __S(386, __c48, 2) as any as S.Schema<ListSchemaRegistryClustersResponse>,
+  input: __S(768, __c48, 0) as any as S.Schema<ListOrganizationSchemaRegistryClustersRequest>,
+  output: __S(770, __c48, 2) as any as S.Schema<ListSchemaRegistryClustersResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -2339,8 +2585,8 @@ export const ListTopics: API.OperationMethod<
   ListTopicsError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(392, __c49, 0) as any as S.Schema<ListTopicsRequest>,
-  output: __S(394, __c49, 2) as any as S.Schema<ListTopicsSuccessResponse>,
+  input: __S(784, __c49, 0) as any as S.Schema<ListTopicsRequest>,
+  output: __S(786, __c49, 2) as any as S.Schema<ListTopicsSuccessResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -2356,8 +2602,8 @@ export const UpdateOrganization: API.OperationMethod<
   UpdateOrganizationError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(416, __c52, 0) as any as S.Schema<UpdateOrganizationRequest>,
-  output: __S(152, __c19, 0) as any as S.Schema<UpdateOrganizationResponse>,
+  input: __S(832, __c52, 0) as any as S.Schema<UpdateOrganizationRequest>,
+  output: __S(304, __c19, 0) as any as S.Schema<UpdateOrganizationResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -2373,8 +2619,8 @@ export const ValidateValidationOrganization: API.OperationMethod<
   ValidateValidationOrganizationError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(424, __c53, 0) as any as S.Schema<ValidateValidationOrganizationRequest>,
-  output: __S(152, __c19, 0) as any as S.Schema<ValidateValidationOrganizationResponse>,
+  input: __S(848, __c53, 0) as any as S.Schema<ValidateValidationOrganizationRequest>,
+  output: __S(304, __c19, 0) as any as S.Schema<ValidateValidationOrganizationResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -2390,8 +2636,8 @@ export const ValidateValidationOrganizationV2: API.OperationMethod<
   ValidateValidationOrganizationV2Error,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(432, __c54, 0) as any as S.Schema<ValidateValidationOrganizationV2Request>,
-  output: __S(433, __c54, 1) as any as S.Schema<ValidationResponse>,
+  input: __S(864, __c54, 0) as any as S.Schema<ValidateValidationOrganizationV2Request>,
+  output: __S(865, __c54, 1) as any as S.Schema<ValidationResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -2408,7 +2654,7 @@ function __c0(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           organizationName: S.String.pipe(T.Label()),
-          searchFilters: S.optional(__S(16, __c2, 0)),
+          searchFilters: S.optional(__S(48, __c3, 0)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -2422,13 +2668,19 @@ function __c0(j: number): any {
       return S.suspend(() =>
         S.Struct({
           kind: S.optional(S.String),
-          metadata: S.optional(__S(8, __c1, 0)),
-          data: S.optional(__S(24, __c3, 0)),
+          metadata: S.optional(__S(32, __c2, 0)),
+          data: S.optional(__S(16, __c1, 0)),
         }),
       ).annotate({ identifier: "AccessRoleBindingNameListSuccessResponse" });
   }
 }
 function __c1(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(S.String);
+  }
+}
+function __c2(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2442,16 +2694,10 @@ function __c1(j: number): any {
       ).annotate({ identifier: "ConfluentListMetadata" });
   }
 }
-function __c2(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Record(S.String, S.String);
-  }
-}
 function __c3(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(S.String);
+      return S.Record(S.String, S.String);
   }
 }
 function __c4(j: number): any {
@@ -2465,7 +2711,7 @@ function __c4(j: number): any {
           environmentId: S.String.pipe(T.Label()),
           clusterId: S.String.pipe(T.Label()),
           kind: S.optional(S.String),
-          properties: S.optional(__S(58, __c7, 2)),
+          properties: S.optional(__S(114, __c7, 2)),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -2529,18 +2775,18 @@ function __c7(j: number): any {
           kafkaBootstrapEndpoint: S.optional(S.String),
           httpEndpoint: S.optional(S.String),
           apiEndpoint: S.optional(S.String),
-          config: S.optional(__S(48, __c6, 0)),
-          environment: S.optional(__S(56, __c7, 0)),
-          network: S.optional(__S(56, __c7, 0)),
-          byok: S.optional(__S(40, __c5, 0)),
+          config: S.optional(__S(96, __c6, 0)),
+          environment: S.optional(__S(112, __c7, 0)),
+          network: S.optional(__S(112, __c7, 0)),
+          byok: S.optional(__S(80, __c5, 0)),
         }),
       ).annotate({ identifier: "SCClusterSpecEntity" });
     case 2:
       return S.suspend(() =>
         S.Struct({
-          metadata: S.optional(__S(72, __c9, 0)),
-          spec: S.optional(__S(57, __c7, 1)),
-          status: S.optional(__S(49, __c6, 1)),
+          metadata: S.optional(__S(144, __c9, 0)),
+          spec: S.optional(__S(113, __c7, 1)),
+          status: S.optional(__S(97, __c6, 1)),
         }),
       ).annotate({ identifier: "ClusterProperties" });
     case 3:
@@ -2549,9 +2795,9 @@ function __c7(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          systemData: S.optional(__S(64, __c8, 0)),
+          systemData: S.optional(__S(128, __c8, 0)),
           kind: S.optional(S.String),
-          properties: S.optional(__S(58, __c7, 2)),
+          properties: S.optional(__S(114, __c7, 2)),
         }),
       ).annotate({ identifier: "ClusterCreateOrUpdateResponse" });
   }
@@ -2698,7 +2944,7 @@ function __c15(j: number): any {
           organizationName: S.String.pipe(T.Label()),
           environmentId: S.String.pipe(T.Label()),
           kind: S.optional(S.String),
-          properties: S.optional(__S(129, __c16, 1)),
+          properties: S.optional(__S(257, __c16, 1)),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -2721,8 +2967,8 @@ function __c16(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          streamGovernanceConfig: S.optional(__S(128, __c16, 0)),
-          metadata: S.optional(__S(72, __c9, 0)),
+          streamGovernanceConfig: S.optional(__S(256, __c16, 0)),
+          metadata: S.optional(__S(144, __c9, 0)),
         }),
       ).annotate({ identifier: "EnvironmentProperties" });
     case 2:
@@ -2731,9 +2977,9 @@ function __c16(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          systemData: S.optional(__S(64, __c8, 0)),
+          systemData: S.optional(__S(128, __c8, 0)),
           kind: S.optional(S.String),
-          properties: S.optional(__S(129, __c16, 1)),
+          properties: S.optional(__S(257, __c16, 1)),
         }),
       ).annotate({ identifier: "EnvironmentCreateOrUpdateResponse" });
   }
@@ -2787,10 +3033,10 @@ function __c19(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          systemData: S.optional(__S(64, __c8, 0)),
-          tags: S.optional(__S(16, __c2, 0)),
+          systemData: S.optional(__S(128, __c8, 0)),
+          tags: S.optional(__S(48, __c3, 0)),
           location: S.String,
-          properties: __S(449, __c56, 1),
+          properties: __S(897, __c56, 1),
         }),
       ).annotate({ identifier: "GetOrganizationResponse" });
   }
@@ -2847,7 +3093,7 @@ function __c22(j: number): any {
           environmentId: S.String.pipe(T.Label()),
           clusterId: S.String.pipe(T.Label()),
           connectorName: S.String.pipe(T.Label()),
-          properties: __S(185, __c23, 1),
+          properties: __S(377, __c23, 9),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -2874,19 +3120,109 @@ function __c23(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          connectorBasicInfo: S.optional(__S(184, __c23, 0)),
-          connectorServiceTypeInfo: S.optional(S.Unknown),
-          partnerConnectorInfo: S.optional(S.Unknown),
+          connectorServiceType: S.String,
+          storageAccountName: S.optional(S.String),
+          storageAccountKey: S.optional(S.String),
+          storageContainerName: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "AzureBlobStorageSinkConnectorServiceInfo" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          connectorServiceType: S.String,
+          cosmosDatabaseName: S.optional(S.String),
+          cosmosMasterKey: S.optional(S.String),
+          cosmosConnectionEndpoint: S.optional(S.String),
+          cosmosContainersTopicMapping: S.optional(S.String),
+          cosmosIdStrategy: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "AzureCosmosDBSinkConnectorServiceInfo" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          connectorServiceType: S.String,
+          cosmosDatabaseName: S.optional(S.String),
+          cosmosMasterKey: S.optional(S.String),
+          cosmosConnectionEndpoint: S.optional(S.String),
+          cosmosContainersTopicMapping: S.optional(S.String),
+          cosmosMessageKeyEnabled: S.optional(S.Boolean),
+          cosmosMessageKeyField: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "AzureCosmosDBSourceConnectorServiceInfo" });
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          connectorServiceType: S.String,
+          synapseSqlServerName: S.optional(S.String),
+          synapseSqlUser: S.optional(S.String),
+          synapseSqlPassword: S.optional(S.String.pipe(T.SensitiveValue({}))),
+          synapseSqlDatabaseName: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "AzureSynapseAnalyticsSinkConnectorServiceInfo" });
+    case 5:
+      return S.Union([
+        __S(369, __c23, 1),
+        __S(369, __c23, 1),
+        __S(370, __c23, 2),
+        __S(371, __c23, 3),
+        __S(372, __c23, 4),
+      ]);
+    case 6:
+      return S.suspend(() =>
+        S.Struct({
+          partnerConnectorType: S.String,
+          authType: S.optional(S.String),
+          inputFormat: S.optional(S.String),
+          outputFormat: S.optional(S.String),
+          apiKey: S.optional(S.String.pipe(T.SensitiveValue({}))),
+          apiSecret: S.optional(S.String),
+          serviceAccountId: S.optional(S.String),
+          topics: S.optional(__S(16, __c1, 0)),
+          topicsDir: S.optional(S.String),
+          flushSize: S.optional(S.String),
+          maxTasks: S.optional(S.String),
+          timeInterval: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "KafkaAzureBlobStorageSinkConnectorInfo" });
+    case 7:
+      return S.suspend(() =>
+        S.Struct({
+          partnerConnectorType: S.String,
+          authType: S.optional(S.String),
+          inputFormat: S.optional(S.String),
+          outputFormat: S.optional(S.String),
+          apiKey: S.optional(S.String.pipe(T.SensitiveValue({}))),
+          apiSecret: S.optional(S.String),
+          serviceAccountId: S.optional(S.String),
+          topicRegex: S.optional(S.String),
+          topicsDir: S.optional(S.String),
+          maxTasks: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "KafkaAzureBlobStorageSourceConnectorInfo" });
+    case 8:
+      return S.Union([
+        __S(374, __c23, 6),
+        __S(375, __c23, 7),
+        __S(374, __c23, 6),
+        __S(375, __c23, 7),
+        __S(374, __c23, 6),
+      ]);
+    case 9:
+      return S.suspend(() =>
+        S.Struct({
+          connectorBasicInfo: S.optional(__S(368, __c23, 0)),
+          connectorServiceTypeInfo: S.optional(__S(373, __c23, 5)),
+          partnerConnectorInfo: S.optional(__S(376, __c23, 8)),
         }),
       ).annotate({ identifier: "ConnectorResourceProperties" });
-    case 2:
+    case 10:
       return S.suspend(() =>
         S.Struct({
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          systemData: S.optional(__S(64, __c8, 0)),
-          properties: __S(185, __c23, 1),
+          systemData: S.optional(__S(128, __c8, 0)),
+          properties: __S(377, __c23, 9),
         }),
       ).annotate({ identifier: "ConnectorCreateOrUpdateResponse" });
   }
@@ -2940,8 +3276,8 @@ function __c26(j: number): any {
           name: S.optional(S.String),
           httpEndpoint: S.optional(S.String),
           package: S.optional(S.String),
-          region: S.optional(__S(40, __c5, 0)),
-          environment: S.optional(__S(40, __c5, 0)),
+          region: S.optional(__S(80, __c5, 0)),
+          environment: S.optional(__S(80, __c5, 0)),
           cloud: S.optional(S.String),
         }),
       ).annotate({ identifier: "SchemaRegistryClusterSpecEntity" });
@@ -2954,9 +3290,9 @@ function __c26(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          metadata: S.optional(__S(72, __c9, 0)),
-          spec: S.optional(__S(208, __c26, 0)),
-          status: S.optional(__S(209, __c26, 1)),
+          metadata: S.optional(__S(144, __c9, 0)),
+          spec: S.optional(__S(416, __c26, 0)),
+          status: S.optional(__S(417, __c26, 1)),
         }),
       ).annotate({ identifier: "SchemaRegistryClusterProperties" });
     case 3:
@@ -2964,7 +3300,7 @@ function __c26(j: number): any {
         S.Struct({
           kind: S.optional(S.String),
           id: S.optional(S.String),
-          properties: S.optional(__S(210, __c26, 2)),
+          properties: S.optional(__S(418, __c26, 2)),
         }),
       ).annotate({ identifier: "SchemaRegistryClusterRecord" });
   }
@@ -3009,7 +3345,7 @@ function __c28(j: number): any {
           organizationId: S.optional(S.String),
           email: S.optional(S.String),
           upn: S.optional(S.String),
-          invitedUserDetails: S.optional(__S(224, __c28, 0)),
+          invitedUserDetails: S.optional(__S(448, __c28, 0)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -3028,7 +3364,7 @@ function __c29(j: number): any {
         S.Struct({
           kind: S.optional(S.String),
           id: S.optional(S.String),
-          metadata: S.optional(__S(296, __c37, 0)),
+          metadata: S.optional(__S(592, __c37, 0)),
           email: S.optional(S.String),
           auth_type: S.optional(S.String),
           status: S.optional(S.String),
@@ -3046,7 +3382,7 @@ function __c30(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           organizationName: S.String.pipe(T.Label()),
-          searchFilters: S.optional(__S(16, __c2, 0)),
+          searchFilters: S.optional(__S(48, __c3, 0)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -3084,10 +3420,10 @@ function __c30(j: number): any {
           kafka_bootstrap_endpoint: S.optional(S.String),
           http_endpoint: S.optional(S.String),
           api_endpoint: S.optional(S.String),
-          config: S.optional(__S(48, __c6, 0)),
-          environment: S.optional(__S(241, __c30, 1)),
-          network: S.optional(__S(241, __c30, 1)),
-          byok: S.optional(__S(242, __c30, 2)),
+          config: S.optional(__S(96, __c6, 0)),
+          environment: S.optional(__S(481, __c30, 1)),
+          network: S.optional(__S(481, __c30, 1)),
+          byok: S.optional(__S(482, __c30, 2)),
         }),
       ).annotate({ identifier: "ClusterSpecEntity" });
     case 4:
@@ -3095,20 +3431,20 @@ function __c30(j: number): any {
         S.Struct({
           kind: S.optional(S.String),
           id: S.optional(S.String),
-          metadata: S.optional(__S(296, __c37, 0)),
+          metadata: S.optional(__S(592, __c37, 0)),
           display_name: S.optional(S.String),
-          spec: S.optional(__S(243, __c30, 3)),
-          status: S.optional(__S(49, __c6, 1)),
+          spec: S.optional(__S(483, __c30, 3)),
+          status: S.optional(__S(97, __c6, 1)),
         }),
       ).annotate({ identifier: "ClusterRecord" });
     case 5:
-      return S.Array(__S(244, __c30, 4));
+      return S.Array(__S(484, __c30, 4));
     case 6:
       return S.suspend(() =>
         S.Struct({
           kind: S.optional(S.String),
-          metadata: S.optional(__S(8, __c1, 0)),
-          data: S.optional(__S(245, __c30, 5)),
+          metadata: S.optional(__S(32, __c2, 0)),
+          data: S.optional(__S(485, __c30, 5)),
         }),
       ).annotate({ identifier: "AccessListClusterSuccessResponse" });
   }
@@ -3121,7 +3457,7 @@ function __c31(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           organizationName: S.String.pipe(T.Label()),
-          searchFilters: S.optional(__S(16, __c2, 0)),
+          searchFilters: S.optional(__S(48, __c3, 0)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -3136,18 +3472,18 @@ function __c31(j: number): any {
         S.Struct({
           kind: S.optional(S.String),
           id: S.optional(S.String),
-          metadata: S.optional(__S(296, __c37, 0)),
+          metadata: S.optional(__S(592, __c37, 0)),
           display_name: S.optional(S.String),
         }),
       ).annotate({ identifier: "EnvironmentRecord" });
     case 2:
-      return S.Array(__S(249, __c31, 1));
+      return S.Array(__S(497, __c31, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           kind: S.optional(S.String),
-          metadata: S.optional(__S(8, __c1, 0)),
-          data: S.optional(__S(250, __c31, 2)),
+          metadata: S.optional(__S(32, __c2, 0)),
+          data: S.optional(__S(498, __c31, 2)),
         }),
       ).annotate({ identifier: "AccessListEnvironmentsSuccessResponse" });
   }
@@ -3160,7 +3496,7 @@ function __c32(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           organizationName: S.String.pipe(T.Label()),
-          searchFilters: S.optional(__S(16, __c2, 0)),
+          searchFilters: S.optional(__S(48, __c3, 0)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -3171,13 +3507,13 @@ function __c32(j: number): any {
         ),
       ).annotate({ identifier: "ListAccessInvitationsRequest" });
     case 1:
-      return S.Array(__S(232, __c29, 0));
+      return S.Array(__S(464, __c29, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           kind: S.optional(S.String),
-          metadata: S.optional(__S(8, __c1, 0)),
-          data: S.optional(__S(257, __c32, 1)),
+          metadata: S.optional(__S(32, __c2, 0)),
+          data: S.optional(__S(513, __c32, 1)),
         }),
       ).annotate({ identifier: "AccessListInvitationsSuccessResponse" });
   }
@@ -3190,7 +3526,7 @@ function __c33(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           organizationName: S.String.pipe(T.Label()),
-          searchFilters: S.optional(__S(16, __c2, 0)),
+          searchFilters: S.optional(__S(48, __c3, 0)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -3201,13 +3537,13 @@ function __c33(j: number): any {
         ),
       ).annotate({ identifier: "ListAccessRoleBindingsRequest" });
     case 1:
-      return S.Array(__S(304, __c38, 0));
+      return S.Array(__S(608, __c38, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           kind: S.optional(S.String),
-          metadata: S.optional(__S(8, __c1, 0)),
-          data: S.optional(__S(265, __c33, 1)),
+          metadata: S.optional(__S(32, __c2, 0)),
+          data: S.optional(__S(529, __c33, 1)),
         }),
       ).annotate({ identifier: "AccessListRoleBindingsSuccessResponse" });
   }
@@ -3220,7 +3556,7 @@ function __c34(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           organizationName: S.String.pipe(T.Label()),
-          searchFilters: S.optional(__S(16, __c2, 0)),
+          searchFilters: S.optional(__S(48, __c3, 0)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -3235,19 +3571,19 @@ function __c34(j: number): any {
         S.Struct({
           kind: S.optional(S.String),
           id: S.optional(S.String),
-          metadata: S.optional(__S(296, __c37, 0)),
+          metadata: S.optional(__S(592, __c37, 0)),
           display_name: S.optional(S.String),
           description: S.optional(S.String),
         }),
       ).annotate({ identifier: "ServiceAccountRecord" });
     case 2:
-      return S.Array(__S(273, __c34, 1));
+      return S.Array(__S(545, __c34, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           kind: S.optional(S.String),
-          metadata: S.optional(__S(8, __c1, 0)),
-          data: S.optional(__S(274, __c34, 2)),
+          metadata: S.optional(__S(32, __c2, 0)),
+          data: S.optional(__S(546, __c34, 2)),
         }),
       ).annotate({ identifier: "AccessListServiceAccountsSuccessResponse" });
   }
@@ -3260,7 +3596,7 @@ function __c35(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           organizationName: S.String.pipe(T.Label()),
-          searchFilters: S.optional(__S(16, __c2, 0)),
+          searchFilters: S.optional(__S(48, __c3, 0)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -3275,20 +3611,20 @@ function __c35(j: number): any {
         S.Struct({
           kind: S.optional(S.String),
           id: S.optional(S.String),
-          metadata: S.optional(__S(296, __c37, 0)),
+          metadata: S.optional(__S(592, __c37, 0)),
           email: S.optional(S.String),
           full_name: S.optional(S.String),
           auth_type: S.optional(S.String),
         }),
       ).annotate({ identifier: "UserRecord" });
     case 2:
-      return S.Array(__S(281, __c35, 1));
+      return S.Array(__S(561, __c35, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           kind: S.optional(S.String),
-          metadata: S.optional(__S(8, __c1, 0)),
-          data: S.optional(__S(282, __c35, 2)),
+          metadata: S.optional(__S(32, __c2, 0)),
+          data: S.optional(__S(562, __c35, 2)),
         }),
       ).annotate({ identifier: "AccessListUsersSuccessResponse" });
   }
@@ -3336,7 +3672,7 @@ function __c38(j: number): any {
         S.Struct({
           kind: S.optional(S.String),
           id: S.optional(S.String),
-          metadata: S.optional(__S(296, __c37, 0)),
+          metadata: S.optional(__S(592, __c37, 0)),
           principal: S.optional(S.String),
           role_name: S.optional(S.String),
           crn_pattern: S.optional(S.String),
@@ -3366,11 +3702,11 @@ function __c39(j: number): any {
         ),
       ).annotate({ identifier: "ListConnectorRequest" });
     case 1:
-      return S.Array(__S(186, __c23, 2));
+      return S.Array(__S(378, __c23, 10));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: __S(313, __c39, 1),
+          value: __S(625, __c39, 1),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListConnectorsSuccessResponse" });
@@ -3392,11 +3728,11 @@ function __c40(j: number): any {
         ),
       ).annotate({ identifier: "ListMarketplaceAgreementsRequest" });
     case 1:
-      return S.Array(__S(409, __c51, 1));
+      return S.Array(__S(817, __c51, 1));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: __S(321, __c40, 1),
+          value: __S(641, __c40, 1),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "ConfluentAgreementResourceListResponse" });
@@ -3423,11 +3759,11 @@ function __c41(j: number): any {
 function __c42(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(152, __c19, 0));
+      return S.Array(__S(304, __c19, 0));
     case 1:
       return S.suspend(() =>
         S.Struct({
-          value: __S(336, __c42, 0),
+          value: __S(672, __c42, 0),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "OrganizationResourceListResult" });
@@ -3471,11 +3807,11 @@ function __c44(j: number): any {
         ),
       ).annotate({ identifier: "ListOrganizationClustersRequest" });
     case 1:
-      return S.Array(__S(59, __c7, 3));
+      return S.Array(__S(115, __c7, 3));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: __S(353, __c44, 1),
+          value: __S(705, __c44, 1),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListClustersSuccessResponse" });
@@ -3501,11 +3837,11 @@ function __c45(j: number): any {
         ),
       ).annotate({ identifier: "ListOrganizationEnvironmentsRequest" });
     case 1:
-      return S.Array(__S(130, __c16, 2));
+      return S.Array(__S(258, __c16, 2));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: __S(361, __c45, 1),
+          value: __S(721, __c45, 1),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "GetEnvironmentsResponse" });
@@ -3537,16 +3873,16 @@ function __c46(j: number): any {
       return S.suspend(() =>
         S.Struct({
           name: S.optional(S.String),
-          display: S.optional(__S(369, __c46, 1)),
+          display: S.optional(__S(737, __c46, 1)),
           isDataAction: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "OperationResult" });
     case 3:
-      return S.Array(__S(370, __c46, 2));
+      return S.Array(__S(738, __c46, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
-          value: __S(371, __c46, 3),
+          value: __S(739, __c46, 3),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "OperationListResult" });
@@ -3560,7 +3896,7 @@ function __c47(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           organizationName: S.String.pipe(T.Label()),
-          searchFilters: S.optional(__S(16, __c2, 0)),
+          searchFilters: S.optional(__S(48, __c3, 0)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -3576,14 +3912,14 @@ function __c47(j: number): any {
           name: S.optional(S.String),
           cloud: S.optional(S.String),
           regionName: S.optional(S.String),
-          packages: S.optional(__S(24, __c3, 0)),
+          packages: S.optional(__S(16, __c1, 0)),
         }),
       ).annotate({ identifier: "RegionSpecEntity" });
     case 2:
       return S.suspend(() =>
         S.Struct({
-          metadata: S.optional(__S(72, __c9, 0)),
-          spec: S.optional(__S(377, __c47, 1)),
+          metadata: S.optional(__S(144, __c9, 0)),
+          spec: S.optional(__S(753, __c47, 1)),
         }),
       ).annotate({ identifier: "RegionProperties" });
     case 3:
@@ -3591,15 +3927,15 @@ function __c47(j: number): any {
         S.Struct({
           kind: S.optional(S.String),
           id: S.optional(S.String),
-          properties: S.optional(__S(378, __c47, 2)),
+          properties: S.optional(__S(754, __c47, 2)),
         }),
       ).annotate({ identifier: "RegionRecord" });
     case 4:
-      return S.Array(__S(379, __c47, 3));
+      return S.Array(__S(755, __c47, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
-          data: S.optional(__S(380, __c47, 4)),
+          data: S.optional(__S(756, __c47, 4)),
         }),
       ).annotate({ identifier: "ListRegionsSuccessResponse" });
   }
@@ -3625,11 +3961,11 @@ function __c48(j: number): any {
         ),
       ).annotate({ identifier: "ListOrganizationSchemaRegistryClustersRequest" });
     case 1:
-      return S.Array(__S(211, __c26, 3));
+      return S.Array(__S(419, __c26, 3));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: __S(385, __c48, 1),
+          value: __S(769, __c48, 1),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListSchemaRegistryClustersResponse" });
@@ -3657,11 +3993,11 @@ function __c49(j: number): any {
         ),
       ).annotate({ identifier: "ListTopicsRequest" });
     case 1:
-      return S.Array(__S(501, __c62, 5));
+      return S.Array(__S(997, __c62, 5));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: __S(393, __c49, 1),
+          value: __S(785, __c49, 1),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListTopicsSuccessResponse" });
@@ -3673,7 +4009,7 @@ function __c50(j: number): any {
       return S.suspend(() =>
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
-          properties: S.optional(__S(408, __c51, 0)),
+          properties: S.optional(__S(816, __c51, 0)),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -3706,8 +4042,8 @@ function __c51(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          systemData: S.optional(__S(64, __c8, 0)),
-          properties: S.optional(__S(408, __c51, 0)),
+          systemData: S.optional(__S(128, __c8, 0)),
+          properties: S.optional(__S(816, __c51, 0)),
         }),
       ).annotate({ identifier: "ConfluentAgreementResource" });
   }
@@ -3720,7 +4056,7 @@ function __c52(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           organizationName: S.String.pipe(T.Label()),
-          tags: S.optional(__S(16, __c2, 0)),
+          tags: S.optional(__S(48, __c3, 0)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -3740,9 +4076,9 @@ function __c53(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           organizationName: S.String.pipe(T.Label()),
-          tags: S.optional(__S(16, __c2, 0)),
+          tags: S.optional(__S(48, __c3, 0)),
           location: S.String,
-          properties: __S(465, __c58, 1),
+          properties: __S(929, __c58, 1),
         }).pipe(
           T.Http({
             method: "POST",
@@ -3762,9 +4098,9 @@ function __c54(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           organizationName: S.String.pipe(T.Label()),
-          tags: S.optional(__S(16, __c2, 0)),
+          tags: S.optional(__S(48, __c3, 0)),
           location: S.String,
-          properties: __S(465, __c58, 1),
+          properties: __S(929, __c58, 1),
         }).pipe(
           T.Http({
             method: "POST",
@@ -3777,7 +4113,7 @@ function __c54(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          info: S.optional(__S(16, __c2, 0)),
+          info: S.optional(__S(48, __c3, 0)),
         }),
       ).annotate({ identifier: "ValidationResponse" });
   }
@@ -3790,9 +4126,9 @@ function __c55(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           organizationName: S.String.pipe(T.Label()),
-          tags: S.optional(__S(16, __c2, 0)),
+          tags: S.optional(__S(48, __c3, 0)),
           location: S.String,
-          properties: __S(465, __c58, 1),
+          properties: __S(929, __c58, 1),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -3808,10 +4144,10 @@ function __c55(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          systemData: S.optional(__S(64, __c8, 0)),
-          tags: S.optional(__S(16, __c2, 0)),
+          systemData: S.optional(__S(128, __c8, 0)),
+          tags: S.optional(__S(48, __c3, 0)),
           location: S.String,
-          properties: __S(449, __c56, 1),
+          properties: __S(897, __c56, 1),
           azureAsyncOperation: S.optional(S.String.pipe(T.Header("Azure-AsyncOperation"))),
           retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
         }),
@@ -3830,7 +4166,7 @@ function __c56(j: number): any {
           termUnit: S.String,
           termId: S.optional(S.String),
           privateOfferId: S.optional(S.String),
-          privateOfferIds: S.optional(__S(24, __c3, 0)),
+          privateOfferIds: S.optional(__S(16, __c1, 0)),
           status: S.optional(S.String),
         }),
       ).annotate({ identifier: "OfferDetail" });
@@ -3841,9 +4177,9 @@ function __c56(j: number): any {
           provisioningState: S.optional(S.String),
           organizationId: S.optional(S.String),
           ssoUrl: S.optional(S.String),
-          offerDetail: __S(448, __c56, 0),
-          userDetail: __S(456, __c57, 0),
-          linkOrganization: S.optional(__S(457, __c57, 1)),
+          offerDetail: __S(896, __c56, 0),
+          userDetail: __S(912, __c57, 0),
+          linkOrganization: S.optional(__S(913, __c57, 1)),
         }),
       ).annotate({ identifier: "OrganizationResourceProperties" });
   }
@@ -3880,15 +4216,15 @@ function __c58(j: number): any {
           termUnit: S.String,
           termId: S.optional(S.String),
           privateOfferId: S.optional(S.String),
-          privateOfferIds: S.optional(__S(24, __c3, 0)),
+          privateOfferIds: S.optional(__S(16, __c1, 0)),
         }),
       ).annotate({ identifier: "OfferDetailInput" });
     case 1:
       return S.suspend(() =>
         S.Struct({
-          offerDetail: __S(464, __c58, 0),
-          userDetail: __S(456, __c57, 0),
-          linkOrganization: S.optional(__S(457, __c57, 1)),
+          offerDetail: __S(928, __c58, 0),
+          userDetail: __S(912, __c57, 0),
+          linkOrganization: S.optional(__S(913, __c57, 1)),
         }),
       ).annotate({ identifier: "OrganizationResourcePropertiesInput" });
   }
@@ -3943,15 +4279,15 @@ function __c60(j: number): any {
           description: S.optional(S.String),
           name: S.optional(S.String),
           secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
-          resource: S.optional(__S(480, __c60, 0)),
-          owner: S.optional(__S(481, __c60, 1)),
+          resource: S.optional(__S(960, __c60, 0)),
+          owner: S.optional(__S(961, __c60, 1)),
         }),
       ).annotate({ identifier: "APIKeySpecEntity" });
     case 3:
       return S.suspend(() =>
         S.Struct({
-          metadata: S.optional(__S(72, __c9, 0)),
-          spec: S.optional(__S(482, __c60, 2)),
+          metadata: S.optional(__S(144, __c9, 0)),
+          spec: S.optional(__S(962, __c60, 2)),
         }),
       ).annotate({ identifier: "APIKeyProperties" });
     case 4:
@@ -3959,7 +4295,7 @@ function __c60(j: number): any {
         S.Struct({
           kind: S.optional(S.String),
           id: S.optional(S.String),
-          properties: S.optional(__S(483, __c60, 3)),
+          properties: S.optional(__S(963, __c60, 3)),
         }),
       ).annotate({ identifier: "APIKeyRecord" });
   }
@@ -3975,7 +4311,7 @@ function __c61(j: number): any {
           environmentId: S.String.pipe(T.Label()),
           clusterId: S.String.pipe(T.Label()),
           topicName: S.String.pipe(T.Label()),
-          properties: S.optional(__S(500, __c62, 4)),
+          properties: S.optional(__S(996, __c62, 4)),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -4010,17 +4346,17 @@ function __c62(j: number): any {
         }),
       ).annotate({ identifier: "TopicsInputConfig" });
     case 3:
-      return S.Array(__S(498, __c62, 2));
+      return S.Array(__S(994, __c62, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
           kind: S.optional(S.String),
           topicId: S.optional(S.String),
-          metadata: S.optional(__S(496, __c62, 0)),
-          partitions: S.optional(__S(497, __c62, 1)),
-          configs: S.optional(__S(497, __c62, 1)),
-          inputConfigs: S.optional(__S(499, __c62, 3)),
-          partitionsReassignments: S.optional(__S(497, __c62, 1)),
+          metadata: S.optional(__S(992, __c62, 0)),
+          partitions: S.optional(__S(993, __c62, 1)),
+          configs: S.optional(__S(993, __c62, 1)),
+          inputConfigs: S.optional(__S(995, __c62, 3)),
+          partitionsReassignments: S.optional(__S(993, __c62, 1)),
           partitionsCount: S.optional(S.String),
           replicationFactor: S.optional(S.String),
         }),
@@ -4031,8 +4367,8 @@ function __c62(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          systemData: S.optional(__S(64, __c8, 0)),
-          properties: S.optional(__S(500, __c62, 4)),
+          systemData: S.optional(__S(128, __c8, 0)),
+          properties: S.optional(__S(996, __c62, 4)),
         }),
       ).annotate({ identifier: "CreateTopicResponse" });
   }

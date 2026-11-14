@@ -307,13 +307,34 @@ export interface Background {
   /** The background details */
   details?: BackgroundDetailsList | undefined;
 }
-/** The type of update that triggers a notification */
-export type UpdateType = "IssueCreation" | "TimeBased" | "OnChange";
+/** The type of update that triggers the notification */
+export type IssueCreationNotificationTypeUpdateType = "IssueCreation";
 /** Base properties for an issue notification type */
-export interface IssueNotificationType {
+export interface IssueCreationNotificationType {
   /** The type of update that triggers the notification */
-  updateType: UpdateType | (string & {});
+  updateType: IssueCreationNotificationTypeUpdateType;
 }
+/** The type of update that triggers the notification */
+export type OnChangeNotificationTypeUpdateType = "OnChange";
+/** Base properties for an issue notification type */
+export interface OnChangeNotificationType {
+  /** The type of update that triggers the notification */
+  updateType: OnChangeNotificationTypeUpdateType;
+}
+/** The type of update that triggers the notification */
+export type TimeBasedUpdatesNotificationTypeUpdateType = "TimeBased";
+/** Notification type for time-based updates */
+export interface TimeBasedUpdatesNotificationType {
+  /** The type of update that triggers the notification */
+  updateType: TimeBasedUpdatesNotificationTypeUpdateType;
+  /** The interval between time-based updates */
+  updateInterval: string;
+}
+/** Base properties for an issue notification type */
+export type IssueNotificationType =
+  | IssueCreationNotificationType
+  | OnChangeNotificationType
+  | TimeBasedUpdatesNotificationType;
 /** The types of updates that trigger notifications */
 export type NotificationsUpdateTypesList = Array<IssueNotificationType>;
 /** The action group IDs to notify */
@@ -1532,7 +1553,7 @@ export const CreateIssue: API.OperationMethod<
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(865, __c27, 1) as any as S.Schema<CreateIssueRequest>,
-  output: __S(905, __c28, 9) as any as S.Schema<CreateIssueResponse>,
+  output: __S(907, __c28, 11) as any as S.Schema<CreateIssueResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -1651,7 +1672,7 @@ export const GetIssue: API.OperationMethod<
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1472, __c46, 0) as any as S.Schema<GetIssueRequest>,
-  output: __S(905, __c28, 9) as any as S.Schema<GetIssueResponse>,
+  output: __S(907, __c28, 11) as any as S.Schema<GetIssueResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -1957,7 +1978,7 @@ export const UpdateIssue: API.OperationMethod<
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1185, __c37, 1) as any as S.Schema<UpdateIssueRequest>,
-  output: __S(905, __c28, 9) as any as S.Schema<UpdateIssueResponse>,
+  output: __S(907, __c28, 11) as any as S.Schema<UpdateIssueResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -2641,7 +2662,7 @@ function __c22(j: number): any {
         ),
       ).annotate({ identifier: "ListIssueRequest" });
     case 1:
-      return S.Array(__S(905, __c28, 9));
+      return S.Array(__S(907, __c28, 11));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -2742,7 +2763,7 @@ function __c27(j: number): any {
           severity: S.String,
           impactTime: S.String,
           background: S.optional(__S(898, __c28, 2)),
-          notifications: S.optional(__S(901, __c28, 5)),
+          notifications: S.optional(__S(903, __c28, 7)),
         }),
       ).annotate({ identifier: "IssuePropertiesInput" });
     case 1:
@@ -2789,48 +2810,57 @@ function __c28(j: number): any {
         S.Struct({
           updateType: S.String,
         }),
-      ).annotate({ identifier: "IssueNotificationType" });
+      ).annotate({ identifier: "IssueCreationNotificationType" });
     case 4:
-      return S.Array(__S(899, __c28, 3));
-    case 5:
       return S.suspend(() =>
         S.Struct({
-          updateTypes: S.optional(__S(900, __c28, 4)),
+          updateType: S.String,
+          updateInterval: S.String,
+        }),
+      ).annotate({ identifier: "TimeBasedUpdatesNotificationType" });
+    case 5:
+      return S.Union([__S(899, __c28, 3), __S(899, __c28, 3), __S(900, __c28, 4)]);
+    case 6:
+      return S.Array(__S(901, __c28, 5));
+    case 7:
+      return S.suspend(() =>
+        S.Struct({
+          updateTypes: S.optional(__S(902, __c28, 6)),
           actionGroupIds: S.optional(__S(160, __c5, 0)),
           excludeDefaultActionGroups: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "Notifications" });
-    case 6:
+    case 8:
       return S.suspend(() =>
         S.Struct({
           id: S.String,
           createdAt: S.String,
         }),
       ).annotate({ identifier: "InvestigationMetadata" });
-    case 7:
-      return S.Array(__S(902, __c28, 6));
-    case 8:
+    case 9:
+      return S.Array(__S(904, __c28, 8));
+    case 10:
       return S.suspend(() =>
         S.Struct({
           title: S.String,
           status: S.String,
           severity: S.String,
-          investigations: __S(903, __c28, 7),
+          investigations: __S(905, __c28, 9),
           impactTime: S.String,
           investigationsCount: S.Number,
           background: S.optional(__S(898, __c28, 2)),
-          notifications: S.optional(__S(901, __c28, 5)),
+          notifications: S.optional(__S(903, __c28, 7)),
           provisioningState: S.optional(S.String),
         }),
       ).annotate({ identifier: "IssueProperties" });
-    case 9:
+    case 11:
       return S.suspend(() =>
         S.Struct({
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
           systemData: S.optional(__S(128, __c4, 0)),
-          properties: S.optional(__S(904, __c28, 8)),
+          properties: S.optional(__S(906, __c28, 10)),
         }),
       ).annotate({ identifier: "CreateIssueResponse" });
   }
@@ -3056,7 +3086,7 @@ function __c37(j: number): any {
           severity: S.optional(S.String),
           impactTime: S.optional(S.String),
           background: S.optional(__S(898, __c28, 2)),
-          notifications: S.optional(__S(901, __c28, 5)),
+          notifications: S.optional(__S(903, __c28, 7)),
         }),
       ).annotate({ identifier: "IssuePropertiesUpdate" });
     case 1:

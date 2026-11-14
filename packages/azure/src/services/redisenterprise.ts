@@ -798,7 +798,7 @@ export interface GetMigrationRequest {
   clusterName: string;
 }
 /** Describes the source of the migration operation. */
-export type SourceType = "AzureCacheForRedis";
+export type AzureCacheForRedisMigrationPropertiesSourceType = "AzureCacheForRedis";
 /** Current provisioning status */
 export type MigrationProvisioningState =
   | "Accepted"
@@ -812,10 +812,10 @@ export type MigrationProvisioningState =
   | "Unlinking"
   | "Unlinked"
   | "UnlinkFailed";
-/** Properties for Redis Enterprise migration operation. */
-export interface MigrationProperties {
+/** Properties for Redis Enterprise migration operation for Azure Cache for Redis. */
+export interface AzureCacheForRedisMigrationProperties {
   /** Describes the source of the migration operation. */
-  sourceType: SourceType;
+  sourceType: AzureCacheForRedisMigrationPropertiesSourceType;
   /** The Azure resource ID of the Azure Managed Redis destination cache to migrate. */
   targetResourceId?: string | undefined;
   /** Current provisioning status of the migration */
@@ -828,6 +828,14 @@ export interface MigrationProperties {
   lastModifiedTime?: string | undefined;
   /** The timestamp until which a successful migration remains eligible to be undone (rolled back) to the source cache. This property is only returned while the migration is in the Succeeded state, and is calculated from the time the migration succeeded plus the rollback window. After this time the source cache is released and the migration can no longer be undone. */
   rollbackEligibleUntil?: string | undefined;
+  /** The source resource ID to migrate from. This is the resource ID of the Azure Cache for Redis. */
+  sourceResourceId: string;
+  /** Sets whether the DNS is switched automatically after the data is transferred from the source cache to the target cache. This property must be true during the preview. */
+  switchDns: boolean;
+  /** Sets whether the data is migrated from source to target or not. Set this property to true to skip data migration. */
+  skipDataMigration: boolean;
+  /** Sets whether to ignore warnings when performing validation of the migration request. If this property is true, warning-level disparities between the source and target resources will be ignored, and the request will only fail validation if there are error-level disparities. The default value is false. */
+  forceMigrate?: boolean | undefined;
 }
 export interface GetMigrationResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
@@ -839,7 +847,7 @@ export interface GetMigrationResponse {
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
   systemData?: SystemData | undefined;
   /** Properties of the migration operation. */
-  properties?: MigrationProperties | undefined;
+  properties?: AzureCacheForRedisMigrationProperties | undefined;
 }
 export interface GetOperationsStatusRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1073,7 +1081,7 @@ export interface Migration {
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
   systemData?: SystemData | undefined;
   /** Properties of the migration operation. */
-  properties?: MigrationProperties | undefined;
+  properties?: AzureCacheForRedisMigrationProperties | undefined;
 }
 /** The Migration items on this page */
 export type MigrationListValueList = Array<Migration>;
@@ -1346,10 +1354,20 @@ export interface RegenerateDatabaseKeyResponse {
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
   retryAfter?: number | undefined;
 }
-/** Properties for Redis Enterprise migration operation. */
-export interface MigrationPropertiesInput {
+/** Describes the source of the migration operation. */
+export type AzureCacheForRedisMigrationPropertiesInputSourceType = "AzureCacheForRedis";
+/** Properties for Redis Enterprise migration operation for Azure Cache for Redis. */
+export interface AzureCacheForRedisMigrationPropertiesInput {
   /** Describes the source of the migration operation. */
-  sourceType: SourceType | (string & {});
+  sourceType: AzureCacheForRedisMigrationPropertiesInputSourceType | (string & {});
+  /** The source resource ID to migrate from. This is the resource ID of the Azure Cache for Redis. */
+  sourceResourceId: string;
+  /** Sets whether the DNS is switched automatically after the data is transferred from the source cache to the target cache. This property must be true during the preview. */
+  switchDns: boolean;
+  /** Sets whether the data is migrated from source to target or not. Set this property to true to skip data migration. */
+  skipDataMigration: boolean;
+  /** Sets whether to ignore warnings when performing validation of the migration request. If this property is true, warning-level disparities between the source and target resources will be ignored, and the request will only fail validation if there are error-level disparities. The default value is false. */
+  forceMigrate?: boolean | undefined;
 }
 export interface StartMigrationRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1359,7 +1377,7 @@ export interface StartMigrationRequest {
   /** The name of the Redis Enterprise cluster. Name must be 1-60 characters long. Allowed characters(A-Z, a-z, 0-9) and hyphen(-). There can be no leading nor trailing nor consecutive hyphens */
   clusterName: string;
   /** Properties of the migration operation. */
-  properties?: MigrationPropertiesInput | undefined;
+  properties?: AzureCacheForRedisMigrationPropertiesInput | undefined;
 }
 export interface StartMigrationResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
@@ -1371,7 +1389,7 @@ export interface StartMigrationResponse {
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
   systemData?: SystemData | undefined;
   /** Properties of the migration operation. */
-  properties?: MigrationProperties | undefined;
+  properties?: AzureCacheForRedisMigrationProperties | undefined;
   /** A link to the status monitor */
   azureAsyncOperation?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
@@ -2570,8 +2588,12 @@ function __c14(j: number): any {
           creationTime: S.optional(S.String),
           lastModifiedTime: S.optional(S.String),
           rollbackEligibleUntil: S.optional(S.String),
+          sourceResourceId: S.String,
+          switchDns: S.Boolean,
+          skipDataMigration: S.Boolean,
+          forceMigrate: S.optional(S.Boolean),
         }),
-      ).annotate({ identifier: "MigrationProperties" });
+      ).annotate({ identifier: "AzureCacheForRedisMigrationProperties" });
   }
 }
 function __c15(j: number): any {
@@ -3368,8 +3390,12 @@ function __c44(j: number): any {
       return S.suspend(() =>
         S.Struct({
           sourceType: S.String,
+          sourceResourceId: S.String,
+          switchDns: S.Boolean,
+          skipDataMigration: S.Boolean,
+          forceMigrate: S.optional(S.Boolean),
         }),
-      ).annotate({ identifier: "MigrationPropertiesInput" });
+      ).annotate({ identifier: "AzureCacheForRedisMigrationPropertiesInput" });
     case 1:
       return S.suspend(() =>
         S.Struct({
