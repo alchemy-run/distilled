@@ -585,6 +585,8 @@
     {
       "path": "./packages/opencode/tsconfig.scripts.json"
     },
+    { "path": "./packages/opensearch/tsconfig.json" },
+    { "path": "./packages/opensearch/tsconfig.scripts.json" },
     {
       "path": "./packages/growthbook/tsconfig.json"
     },
