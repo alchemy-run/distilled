@@ -563,3 +563,8 @@ shallow = true
 	url = https://github.com/distilled-mirror/spec-mirror-clickhouse-cloud.git
 	ignore = dirty
 	shallow = true
+[submodule "packages/microsoft-graph/specs/spec-mirror-microsoft-graph"]
+	path = packages/microsoft-graph/specs/spec-mirror-microsoft-graph
+	url = https://github.com/distilled-mirror/spec-mirror-microsoft-graph.git
+	ignore = dirty
+	shallow = true
