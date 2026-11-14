@@ -1,0 +1,655 @@
+{
+  "description": "Match response shapes to what Resend sends. Live responses (2026-10-29) and resend-node, the maintained official SDK, disagree with the spec: createApiKey, createDomain, getBroadcast and sendBroadcast also return `object`, and createSegment returns `object` and the new segment's `name`. deleteContact returns the contact id as `contact`, not `id`. Adding a contact to a segment returns `{ id, audienceId }` and removing one returns `{ object, id, audienceId, deleted }`, where `id` is the contact and `audienceId` (camelCase on the wire) the segment; the spec's `contact_id` and `segment_id` never appear. listContactTopics items carry `created_at`, and updateContactTopics answers `{ object, id }` with the contact id. getEmail and listEmails always carry `scheduled_at`, and getEmail also returns `tags` and `topic_id`. updateEmail and cancelEmail return `{ object, id }`, not the request options or the full email. A permissive batch returns the rejected items in `errors`. getEmailMetrics rows carry each requested metric beside the dimension columns, as resend-node's `EmailMetricsDataRow` types them. getReceivingEmail adds `html_format`, `authentication` (SPF, DKIM, DMARC results) and `raw` (a signed download link), live with a verified domain. Responses keep the deprecated `audience_id`, which older records still carry.\n\nA webhook's `status` is `enabled` or `disabled`. updateWebhook's request already takes that enum, but getWebhook and listWebhooks return `status` as a bare string. Live getWebhook and listWebhooks responses (2026-10-29) returned `enabled`, and `disabled` after an updateWebhook with `status: \"disabled\"`. Both responses now use the WebhookStatus enum.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#CreateApiKeyResponse/members/object",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#documentation": "The object type, `api_key`."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#GetBroadcastResponseSuccess/members/object",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#documentation": "The object type, `broadcast`.",
+          "smithy.api#required": {}
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#SendBroadcastResponseSuccess/members/object",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#documentation": "The object type, `broadcast`.",
+          "smithy.api#required": {}
+        }
+      }
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.resend.api#RemoveContactResponseSuccess/members/id"
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#RemoveContactResponseSuccess/members/contact",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#documentation": "The ID of the deleted contact."
+        }
+      }
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.resend.api#AddContactToSegmentResponseSuccess/members/contact_id"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.resend.api#AddContactToSegmentResponseSuccess/members/segment_id"
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#AddContactToSegmentResponseSuccess/members/id",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#documentation": "The ID of the contact."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#AddContactToSegmentResponseSuccess/members/audienceId",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#documentation": "The ID of the segment (still named for audiences on the wire)."
+        }
+      }
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.resend.api#RemoveContactFromSegmentResponseSuccess/members/contact_id"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.resend.api#RemoveContactFromSegmentResponseSuccess/members/segment_id"
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#RemoveContactFromSegmentResponseSuccess/members/id",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#documentation": "The ID of the contact."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#RemoveContactFromSegmentResponseSuccess/members/audienceId",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#documentation": "The ID of the segment (still named for audiences on the wire)."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#GetContactTopicsResponseSuccessDataItem/members/created_at",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#documentation": "When the topic was created."
+        }
+      }
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.resend.api#UpdateContactTopicsResponseSuccess/members/contact_id"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.resend.api#UpdateContactTopicsResponseSuccess/members/topics"
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#UpdateContactTopicsResponseSuccess/members/id",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#documentation": "The ID of the contact.",
+          "smithy.api#required": {}
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#CreateDomainResponse/members/object",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#documentation": "The object type, `domain`.",
+          "smithy.api#required": {}
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#EmailMetricsDataRow/members/received",
+      "value": {
+        "target": "smithy.api#Double",
+        "traits": {
+          "smithy.api#documentation": "The `received` metric for this row. Present when it is among the requested metrics."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#EmailMetricsDataRow/members/delivered",
+      "value": {
+        "target": "smithy.api#Double",
+        "traits": {
+          "smithy.api#documentation": "The `delivered` metric for this row. Present when it is among the requested metrics."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#EmailMetricsDataRow/members/complained",
+      "value": {
+        "target": "smithy.api#Double",
+        "traits": {
+          "smithy.api#documentation": "The `complained` metric for this row. Present when it is among the requested metrics."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#EmailMetricsDataRow/members/suppressed",
+      "value": {
+        "target": "smithy.api#Double",
+        "traits": {
+          "smithy.api#documentation": "The `suppressed` metric for this row. Present when it is among the requested metrics."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#EmailMetricsDataRow/members/bounced",
+      "value": {
+        "target": "smithy.api#Double",
+        "traits": {
+          "smithy.api#documentation": "The `bounced` metric for this row. Present when it is among the requested metrics."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#EmailMetricsDataRow/members/bounced_transient",
+      "value": {
+        "target": "smithy.api#Double",
+        "traits": {
+          "smithy.api#documentation": "The `bounced_transient` metric for this row. Present when it is among the requested metrics."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#EmailMetricsDataRow/members/bounced_permanent",
+      "value": {
+        "target": "smithy.api#Double",
+        "traits": {
+          "smithy.api#documentation": "The `bounced_permanent` metric for this row. Present when it is among the requested metrics."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#EmailMetricsDataRow/members/bounced_undetermined",
+      "value": {
+        "target": "smithy.api#Double",
+        "traits": {
+          "smithy.api#documentation": "The `bounced_undetermined` metric for this row. Present when it is among the requested metrics."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#EmailMetricsDataRow/members/opened",
+      "value": {
+        "target": "smithy.api#Double",
+        "traits": {
+          "smithy.api#documentation": "The `opened` metric for this row. Present when it is among the requested metrics."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#EmailMetricsDataRow/members/clicked",
+      "value": {
+        "target": "smithy.api#Double",
+        "traits": {
+          "smithy.api#documentation": "The `clicked` metric for this row. Present when it is among the requested metrics."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#EmailMetricsDataRow/members/unsubscribed",
+      "value": {
+        "target": "smithy.api#Double",
+        "traits": {
+          "smithy.api#documentation": "The `unsubscribed` metric for this row. Present when it is among the requested metrics."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#EmailMetricsDataRow/members/delivery_delayed",
+      "value": {
+        "target": "smithy.api#Double",
+        "traits": {
+          "smithy.api#documentation": "The `delivery_delayed` metric for this row. Present when it is among the requested metrics."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#EmailMetricsDataRow/members/failed",
+      "value": {
+        "target": "smithy.api#Double",
+        "traits": {
+          "smithy.api#documentation": "The `failed` metric for this row. Present when it is among the requested metrics."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#EmailMetricsDataRow/members/sent",
+      "value": {
+        "target": "smithy.api#Double",
+        "traits": {
+          "smithy.api#documentation": "The `sent` metric for this row. Present when it is among the requested metrics."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#EmailMetricsDataRow/members/unique_opened",
+      "value": {
+        "target": "smithy.api#Double",
+        "traits": {
+          "smithy.api#documentation": "The `unique_opened` metric for this row. Present when it is among the requested metrics."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#EmailMetricsDataRow/members/unique_clicked",
+      "value": {
+        "target": "smithy.api#Double",
+        "traits": {
+          "smithy.api#documentation": "The `unique_clicked` metric for this row. Present when it is among the requested metrics."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#EmailMetricsDataRow/members/delivery_rate",
+      "value": {
+        "target": "smithy.api#Double",
+        "traits": {
+          "smithy.api#documentation": "The `delivery_rate` metric for this row. Present when it is among the requested metrics."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#EmailMetricsDataRow/members/open_rate",
+      "value": {
+        "target": "smithy.api#Double",
+        "traits": {
+          "smithy.api#documentation": "The `open_rate` metric for this row. Present when it is among the requested metrics."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#EmailMetricsDataRow/members/click_rate",
+      "value": {
+        "target": "smithy.api#Double",
+        "traits": {
+          "smithy.api#documentation": "The `click_rate` metric for this row. Present when it is among the requested metrics."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#EmailMetricsDataRow/members/bounce_rate",
+      "value": {
+        "target": "smithy.api#Double",
+        "traits": {
+          "smithy.api#documentation": "The `bounce_rate` metric for this row. Present when it is among the requested metrics."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#EmailMetricsDataRow/members/complaint_rate",
+      "value": {
+        "target": "smithy.api#Double",
+        "traits": {
+          "smithy.api#documentation": "The `complaint_rate` metric for this row. Present when it is among the requested metrics."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#EmailMetricsDataRow/members/unsubscribe_rate",
+      "value": {
+        "target": "smithy.api#Double",
+        "traits": {
+          "smithy.api#documentation": "The `unsubscribe_rate` metric for this row. Present when it is among the requested metrics."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#Email/members/scheduled_at",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#documentation": "When the email is scheduled to be sent, or null when it was sent immediately.",
+          "com.distilled.openapi#nullable": {}
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#Email/members/topic_id",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#documentation": "The topic the email was sent under, if any.",
+          "com.distilled.openapi#nullable": {}
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#EmailTag",
+      "value": {
+        "type": "structure",
+        "members": {
+          "name": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#documentation": "The tag name.",
+              "smithy.api#required": {}
+            }
+          },
+          "value": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#documentation": "The tag value.",
+              "smithy.api#required": {}
+            }
+          }
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#EmailTagsList",
+      "value": {
+        "type": "list",
+        "member": {
+          "target": "com.resend.api#EmailTag"
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#Email/members/tags",
+      "value": {
+        "target": "com.resend.api#EmailTagsList",
+        "traits": {
+          "smithy.api#documentation": "Tags attached when the email was sent. Returned by getEmail, not by listEmails."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#UpdateEmailResponseSuccess",
+      "value": {
+        "type": "structure",
+        "members": {
+          "object": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#documentation": "The object type, `email`."
+            }
+          },
+          "id": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#documentation": "The ID of the updated email."
+            }
+          }
+        }
+      }
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.resend.api#EmailsUpdate/output/target",
+      "value": "com.resend.api#UpdateEmailResponseSuccess"
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#CreateBatchEmailsResponseError",
+      "value": {
+        "type": "structure",
+        "members": {
+          "index": {
+            "target": "smithy.api#Integer",
+            "traits": {
+              "smithy.api#documentation": "The position of the rejected email in the request.",
+              "smithy.api#required": {}
+            }
+          },
+          "message": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#documentation": "Why it was rejected.",
+              "smithy.api#required": {}
+            }
+          }
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#CreateBatchEmailsResponseErrorsList",
+      "value": {
+        "type": "list",
+        "member": {
+          "target": "com.resend.api#CreateBatchEmailsResponseError"
+        }
+      }
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.resend.api#EmailsCancel/output/target",
+      "value": "com.resend.api#UpdateEmailResponseSuccess"
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#ReceivedEmailHtmlFormat",
+      "value": {
+        "type": "enum",
+        "members": {
+          "DATA_URI": {
+            "target": "smithy.api#Unit",
+            "traits": {
+              "smithy.api#enumValue": "data_uri"
+            }
+          },
+          "CID": {
+            "target": "smithy.api#Unit",
+            "traits": {
+              "smithy.api#enumValue": "cid"
+            }
+          }
+        },
+        "traits": {
+          "smithy.api#documentation": "How inline images appear in `html`: as base64 `data:` URIs, or as the original `cid:` references."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#ReceivedEmailAuthentication",
+      "value": {
+        "type": "structure",
+        "members": {
+          "spf": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#documentation": "The SPF result, such as `pass`.",
+              "smithy.api#required": {}
+            }
+          },
+          "dkim": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#documentation": "The DKIM result, such as `pass`.",
+              "smithy.api#required": {}
+            }
+          },
+          "dmarc": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#documentation": "The DMARC result, such as `pass`.",
+              "smithy.api#required": {}
+            }
+          }
+        },
+        "traits": {
+          "smithy.api#documentation": "The sender authentication results Resend recorded on receipt."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#ReceivedEmailRaw",
+      "value": {
+        "type": "structure",
+        "members": {
+          "download_url": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#documentation": "A signed link to the raw message (.eml).",
+              "smithy.api#required": {}
+            }
+          },
+          "expires_at": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#documentation": "When the link expires.",
+              "smithy.api#required": {}
+            }
+          }
+        },
+        "traits": {
+          "smithy.api#documentation": "Where to download the raw message."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#GetReceivedEmailResponse/members/html_format",
+      "value": {
+        "target": "com.resend.api#ReceivedEmailHtmlFormat",
+        "traits": {
+          "smithy.api#documentation": "How inline images appear in `html`."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#GetReceivedEmailResponse/members/authentication",
+      "value": {
+        "target": "com.resend.api#ReceivedEmailAuthentication",
+        "traits": {
+          "smithy.api#documentation": "The SPF, DKIM and DMARC results.",
+          "com.distilled.openapi#nullable": {}
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#GetReceivedEmailResponse/members/raw",
+      "value": {
+        "target": "com.resend.api#ReceivedEmailRaw",
+        "traits": {
+          "smithy.api#documentation": "Where to download the raw message.",
+          "com.distilled.openapi#nullable": {}
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#CreateSegmentResponseSuccess/members/name",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#documentation": "The name of the segment."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#WebhookStatus",
+      "value": {
+        "type": "enum",
+        "members": {
+          "ENABLED": {
+            "target": "smithy.api#Unit",
+            "traits": {
+              "smithy.api#enumValue": "enabled"
+            }
+          },
+          "DISABLED": {
+            "target": "smithy.api#Unit",
+            "traits": {
+              "smithy.api#enumValue": "disabled"
+            }
+          }
+        },
+        "traits": {
+          "smithy.api#documentation": "The status of the webhook."
+        }
+      }
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.resend.api#GetWebhookResponse/members/status/target",
+      "value": "com.resend.api#WebhookStatus"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.resend.api#ListWebhooksResponseDataItem/members/status/target",
+      "value": "com.resend.api#WebhookStatus"
+    }
+  ]
+}
